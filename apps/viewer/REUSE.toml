@@ -1,0 +1,120 @@
+# SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+version = 1
+SPDX-PackageName = "viewer"
+SPDX-PackageSupplier = "2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-PackageDownloadLocation = "https://github.com/nextcloud/viewer"
+
+[[annotations]]
+path = ["package.json", "package-lock.json", ".github/ISSUE_TEMPLATE/bug_report.md", ".github/ISSUE_TEMPLATE/feature_request.md", ".github/ISSUE_TEMPLATE/mime_request.md", ".tx/config", "src/assets/menu-sidebar-white.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["cypress/fixtures/image.gif", "cypress/fixtures/image.ico", "cypress/fixtures/image.svg", "cypress/fixtures/image-small.png", "cypress/fixtures/image-apng.png"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Nextcloud GmbH"
+SPDX-License-Identifier = "LicenseRef-NextcloudTrademarks"
+
+[[annotations]]
+path = ["composer.json", "composer.lock"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2020 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["psalm.xml", "tsconfig.json", "tests/psalm-baseline.xml", "cypress/tsconfig.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2022 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["renovate.json", ".github/CODEOWNERS", ".github/ISSUE_TEMPLATE/config.yml", "img/blank.mp4"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2023 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = [".eslintrc.json", "cypress/.eslintrc.json", "cypress/snapshots/base/cypress/e2e/visual-regression.cy.ts/image.png", "cypress/snapshots/base/cypress/e2e/visual-regression.cy.ts/image2.png", "cypress/snapshots/base/cypress/e2e/visual-regression.cy.ts/non-dav.png", "cypress/snapshots/base/cypress/e2e/visual-regression.cy.ts/video.png"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = "css/**.css"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = "composer/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Nils Adermann, Jordi Boggiano"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["l10n/**.js", "l10n/**.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Nextcloud translators <https://www.transifex.com/nextcloud/>"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["cypress/fixtures/image1.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Stephen Leonardi <https://unsplash.com/@leo_visions_> <https://unsplash.com/photos/rock-formation-with-lava-during-daytime-eSNjFDbw_i4>"
+SPDX-License-Identifier = "LicenseRef-Unsplash"
+
+[[annotations]]
+path = ["cypress/fixtures/image2.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Tom Gainor <https://unsplash.com/@its_tgain> <https://unsplash.com/photos/mountain-cliff-under-starry-night-KidY3t8O4PE>"
+SPDX-License-Identifier = "LicenseRef-Unsplash"
+
+[[annotations]]
+path = ["cypress/fixtures/image4.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Vincent Riszdorfer <https://unsplash.com/@theguywithacamera> <https://unsplash.com/photos/person-about-to-claim-mountain-Q6X1ifPIfjs>"
+SPDX-License-Identifier = "LicenseRef-Unsplash"
+
+[[annotations]]
+path = ["cypress/fixtures/video.mkv", "cypress/fixtures/video.ogv", "cypress/fixtures/video.webm", "cypress/fixtures/video1.mp4", "cypress/fixtures/video2.mp4"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2012 AnRo0002 <https://commons.wikimedia.org/wiki/User:AnRo0002>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["cypress/fixtures/test-card.mp4", "cypress/fixtures/test-card.png"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2023 Bulgarian National Television <https://commons.wikimedia.org/wiki/File:Bulgarian_colour_testcard.png>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["cypress/fixtures/audio.mp3", "cypress/fixtures/audio.ogg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2022 AC Krah <https://commons.wikimedia.org/wiki/User:AC_Krah>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["cypress/fixtures/image3.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2013 Wilfredor <https://commons.wikimedia.org/wiki/User:Wilfredor>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["cypress/fixtures/image.bmp", "cypress/fixtures/image.png", "cypress/fixtures/image.webp"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 Master Unknown <https://unsplash.com/@exp00>"
+SPDX-License-Identifier = "LicenseRef-Unsplash"
+
+[[annotations]]
+path = ["cypress/fixtures/image.heic"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 HEIC Digital <https://heic.digital/download-sample/soundboard.heic>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["img/app.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2018-2024 Google LLC"
+SPDX-License-Identifier = "Apache-2.0"
