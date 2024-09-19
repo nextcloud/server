@@ -7,13 +7,13 @@ declare(strict_types=1);
  */
 namespace OCP\BackgroundJob;
 
-use OCP\ILogger;
-
 /**
  * Simple base class to extend to run periodic background jobs.
  * Call setInterval with your desired interval in seconds from the constructor.
  *
  * @since 15.0.0
+ * @since 25.0.0 deprecated `execute()` method in favor of `start()`
+ * @since 31.0.0 removed deprecated `execute()` method
  */
 abstract class TimedJob extends Job {
 	protected int $interval = 0;
@@ -58,19 +58,6 @@ abstract class TimedJob extends Job {
 		}
 
 		$this->timeSensitivity = $sensitivity;
-	}
-
-	/**
-	 * Run the job if the last run is more than the interval ago
-	 *
-	 * @param IJobList $jobList
-	 * @param ILogger|null $logger
-	 *
-	 * @since 15.0.0
-	 * @deprecated since 25.0.0 Use start() instead
-	 */
-	final public function execute(IJobList $jobList, ?ILogger $logger = null) {
-		$this->start($jobList);
 	}
 
 	/**
