@@ -2720,6 +2720,7 @@ class ManagerTest extends \Test\TestCase {
 	 * deleted (as they are evaluated). but share 8 should still be there.
 	 */
 	public function testGetSharesByExpiredLinkShares(): void {
+		/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 		$manager = $this->createManagerMock()
 			->setMethods(['deleteShare'])
 			->getMock();

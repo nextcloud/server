@@ -161,6 +161,20 @@ interface IManager {
 	public function getDeletedSharedWith($userId, $shareType, $node = null, $limit = 50, $offset = 0);
 
 	/**
+	 * Get expired shares created by $user.
+	 * Filter by $node if provided
+	 *
+	 * @param string $userId
+	 * @param int $shareType
+	 * @param Node|null $path
+	 * @param int $limit The maximum number of shares returned, -1 for all
+	 * @param int $offset
+	 * @return IShare[]
+	 * @since 31.0.0
+	 */
+	public function getExpiredShares($userId, $shareType, ?Node $path = null, $limit = 50, $offset = 0);
+
+	/**
 	 * Retrieve a share by the share id.
 	 * If the recipient is set make sure to retrieve the file for that user.
 	 * This makes sure that if a user has moved/deleted a group share this

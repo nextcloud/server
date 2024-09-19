@@ -9,8 +9,10 @@ namespace OCA\Files_Sharing\Tests;
 use OCA\Files_Sharing\ExpireSharesJob;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Constants;
+use OCP\IAppConfig;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class ExpireSharesJobTest
@@ -49,7 +51,14 @@ class ExpireSharesJobTest extends \Test\TestCase {
 
 		\OC::registerShareHooks(\OC::$server->getSystemConfig());
 
-		$this->job = new ExpireSharesJob(\OC::$server->get(ITimeFactory::class), \OC::$server->get(IManager::class), $this->connection);
+		$this->job = new ExpireSharesJob(
+			\OC::$server->get(ITimeFactory::class),
+			\OC::$server->get(IManager::class),
+			$this->connection,
+			\OC::$server->get(IAppConfig::class),
+			\OC::$server->get(LoggerInterface::class),
+		
+		);
 	}
 
 	protected function tearDown(): void {
