@@ -11,6 +11,7 @@ use OC\Files\Cache\Cache;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Search\ISearchComparison;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -148,7 +149,7 @@ class CacheTest extends \Test\TestCase {
 		}
 		$file2 = $folder . '/bar';
 		$file3 = $folder . '/foo';
-		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
+		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE];
 		$fileData = [];
 		$fileData['bar'] = ['size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file'];
 		$fileData['foo'] = ['size' => 20, 'mtime' => 25, 'mimetype' => 'foo/file'];
@@ -188,7 +189,7 @@ class CacheTest extends \Test\TestCase {
 	}
 
 	public function testRemoveRecursive() {
-		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
+		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE];
 		$fileData = ['size' => 1000, 'mtime' => 20, 'mimetype' => 'text/plain'];
 		$folders = ['folder', 'folder/subfolder', 'folder/sub2', 'folder/sub2/sub3'];
 		$files = ['folder/foo.txt', 'folder/bar.txt', 'folder/subfolder/asd.txt', 'folder/sub2/qwerty.txt', 'folder/sub2/sub3/foo.txt'];
@@ -224,7 +225,7 @@ class CacheTest extends \Test\TestCase {
 		$file1 = 'folder';
 		$file2 = 'folder/bar';
 		$file3 = 'folder/foo';
-		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
+		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE];
 		$fileData = [];
 		$fileData['bar'] = ['size' => 1000, 'encrypted' => 1, 'mtime' => 20, 'mimetype' => 'foo/file'];
 		$fileData['foo'] = ['size' => 20, 'encrypted' => 1, 'mtime' => 25, 'mimetype' => 'foo/file'];
@@ -267,11 +268,10 @@ class CacheTest extends \Test\TestCase {
 		$dir1 = 'knownsize';
 		$dir2 = 'unknownsize';
 		$fileData = [];
-		$fileData[''] = ['size' => -1, 'mtime' => 20, 'mimetype' => 'httpd/unix-directory'];
-		$fileData[$dir1] = ['size' => 1000, 'mtime' => 20, 'mimetype' => 'httpd/unix-directory'];
-		$fileData[$dir2] = ['size' => -1, 'mtime' => 25, 'mimetype' => 'httpd/unix-directory'];
+		$fileData[''] = ['size' => -1, 'mtime' => 20, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE];
+		$fileData[$dir1] = ['size' => 1000, 'mtime' => 20, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE];
+		$fileData[$dir2] = ['size' => -1, 'mtime' => 25, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE];
 
-		$this->cache->put('', $fileData['']);
 		$this->cache->put($dir1, $fileData[$dir1]);
 		$this->cache->put($dir2, $fileData[$dir2]);
 
@@ -338,7 +338,6 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals(1, count($this->cache->search('foo')));
 		$this->assertEquals(1, count($this->cache->search('%folder%')));
 		$this->assertEquals(1, count($this->cache->search('folder%')));
-		$this->assertEquals(3, count($this->cache->search('%')));
 
 		// case insensitive search should match the same files
 		$this->assertEquals(2, count($this->cache->search('%Foo%')));
@@ -450,7 +449,7 @@ class CacheTest extends \Test\TestCase {
 	 */
 	public function testMove($sourceFolder, $targetFolder, $children) {
 		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/bar'];
-		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
+		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE];
 
 		// create folders
 		foreach ([$sourceFolder, $targetFolder] as $current) {
@@ -485,7 +484,7 @@ class CacheTest extends \Test\TestCase {
 
 	public function testMoveFromCache() {
 		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/bar'];
-		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
+		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE];
 
 		$this->cache2->put('folder', $folderData);
 		$this->cache2->put('folder/sub', $data);
@@ -554,6 +553,7 @@ class CacheTest extends \Test\TestCase {
 	public function testLongId() {
 		$storage = new LongId([]);
 		$cache = $storage->getCache();
+		$cache->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
 		$storageId = $storage->getId();
 		$data = ['size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file'];
 		$id = $cache->put('foo', $data);
@@ -582,7 +582,7 @@ class CacheTest extends \Test\TestCase {
 			->method('normalize')
 			->willReturnArgument(0);
 
-		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
+		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE];
 
 		// put root folder
 		$this->assertFalse($cacheMock->get('folder'));
@@ -621,7 +621,7 @@ class CacheTest extends \Test\TestCase {
 		// folder name "Schön" with U+0308 (un-normalized)
 		$folderWith0308 = "\x53\x63\x68\x6f\xcc\x88\x6e";
 
-		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
+		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE];
 
 		// put root folder
 		$this->assertFalse($this->cache->get('folder'));
@@ -660,12 +660,8 @@ class CacheTest extends \Test\TestCase {
 	 * @dataProvider bogusPathNamesProvider
 	 */
 	public function testBogusPaths($bogusPath, $fixedBogusPath) {
-		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
-
-		// put root folder
-		$this->assertFalse($this->cache->get(''));
-		$parentId = $this->cache->put('', $data);
-		$this->assertGreaterThan(0, $parentId);
+		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE];
+		$parentId = $this->cache->getId('');
 
 		$this->assertGreaterThan(0, $this->cache->put($bogusPath, $data));
 
@@ -719,7 +715,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertTrue($this->cache->inCache($name . 'asd'));
 		$this->cache->remove($name . 'asd');
 		$this->assertFalse($this->cache->inCache($name . 'asd'));
-		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
+		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE];
 		$this->cache->put($name, $folderData);
 		$this->cache->put('other', $folderData);
 		$childs = ['asd', 'bar', 'foo', 'sub/folder'];
@@ -743,8 +739,7 @@ class CacheTest extends \Test\TestCase {
 	}
 
 	public function testExtended() {
-		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
-		$this->cache->put("", $folderData);
+		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE];
 
 		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain', 'creation_time' => 20];
 		$id1 = $this->cache->put("foo1", $data);
@@ -827,5 +822,7 @@ class CacheTest extends \Test\TestCase {
 		$this->storage2 = new \OC\Files\Storage\Temporary([]);
 		$this->cache = new \OC\Files\Cache\Cache($this->storage);
 		$this->cache2 = new \OC\Files\Cache\Cache($this->storage2);
+		$this->cache->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
+		$this->cache2->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
 	}
 }

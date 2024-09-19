@@ -353,7 +353,8 @@ class ShareControllerTest extends \Test\TestCase {
 			'note' => $note,
 			'hideDownload' => false,
 			'showgridview' => false,
-			'label' => ''
+			'label' => '',
+			'filename' => $filename,
 		];
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
