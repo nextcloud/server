@@ -11,9 +11,10 @@ use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCP\IServerContainer;
 use OCP\LDAP\IDeletionFlagSupport;
 use OCP\LDAP\ILDAPProvider;
+use Psr\Log\LoggerInterface;
 
 /**
- * LDAP provider for pulic access to the LDAP backend.
+ * LDAP provider for public access to the LDAP backend.
  */
 class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	private $userBackend;
@@ -30,7 +31,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 * @throws \Exception if user_ldap app was not enabled
 	 */
 	public function __construct(IServerContainer $serverContainer, Helper $helper, DeletedUsersIndex $deletedUsersIndex) {
-		$this->logger = $serverContainer->getLogger();
+		$this->logger = $serverContainer->get(LoggerInterface::class);
 		$this->helper = $helper;
 		$this->deletedUsersIndex = $deletedUsersIndex;
 		$userBackendFound = false;

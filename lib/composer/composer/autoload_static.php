@@ -964,7 +964,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\AppFramework\\Http\\Output' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Output.php',
         'OC\\AppFramework\\Http\\Request' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Request.php',
         'OC\\AppFramework\\Http\\RequestId' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/RequestId.php',
-        'OC\\AppFramework\\Logger' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Logger.php',
         'OC\\AppFramework\\Middleware\\AdditionalScriptsMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/AdditionalScriptsMiddleware.php',
         'OC\\AppFramework\\Middleware\\CompressionMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/CompressionMiddleware.php',
         'OC\\AppFramework\\Middleware\\MiddlewareDispatcher' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/MiddlewareDispatcher.php',
