@@ -2066,11 +2066,6 @@
       <code><![CDATA[remove]]></code>
     </UndefinedMethod>
   </file>
-  <file src="lib/private/Files/ObjectStore/ObjectStoreStorage.php">
-    <InvalidScalarArgument>
-      <code><![CDATA[$source]]></code>
-    </InvalidScalarArgument>
-  </file>
   <file src="lib/private/Files/ObjectStore/S3ConnectionTrait.php">
     <InternalClass>
       <code><![CDATA[ClientResolver::_default_signature_provider()]]></code>
@@ -2164,16 +2159,6 @@
       <code><![CDATA[$lastChunkPos]]></code>
       <code><![CDATA[$size]]></code>
     </InvalidScalarArgument>
-  </file>
-  <file src="lib/private/Files/Storage/Wrapper/Jail.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$this->getWrapperStorage()->filetype($this->getUnjailedPath($path))]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType/>
-  </file>
-  <file src="lib/private/Files/Storage/Wrapper/Wrapper.php">
-    <InvalidReturnStatement/>
-    <InvalidReturnType/>
   </file>
   <file src="lib/private/Files/Stream/SeekableHttpStream.php">
     <InvalidReturnType>
