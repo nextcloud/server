@@ -271,6 +271,30 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		);
 	}
 
+	/**
+	 * Filter methods
+	 *
+	 * Returns all methods of the given class,
+	 * that are public or abstract and not in the ignoreMethods list,
+	 * to be able to fill onlyMethods() with an inverted list.
+	 *
+	 * @param string $className
+	 * @param string[] $filterMethods
+	 * @return string[]
+	 */
+	public function filterClassMethods(string $className, array $filterMethods): array {
+		$class = new \ReflectionClass($className);
+
+		$methods = [];
+		foreach ($class->getMethods() as $method) {
+			if (($method->isPublic() || $method->isAbstract()) && !in_array($method->getName(), $filterMethods, true)) {
+				$methods[] = $method->getName();
+			}
+		}
+
+		return $methods;
+	}
+
 	public static function tearDownAfterClass(): void {
 		if (!self::$wasDatabaseAllowed && self::$realDatabase !== null) {
 			// in case an error is thrown in a test, PHPUnit jumps straight to tearDownAfterClass,
