@@ -500,13 +500,18 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	public function testSet(): void {
+		$expectedCalls = [
+			['theming', 'MySetting', 'MyValue'],
+			['theming', 'cachebuster', 16],
+		];
+		$i = 0;
 		$this->config
 			->expects($this->exactly(2))
 			->method('setAppValue')
-			->withConsecutive(
-				['theming', 'MySetting', 'MyValue'],
-				['theming', 'cachebuster', 16],
-			);
+			->willReturnCallback(function () use ($expectedCalls, &$i) {
+				$this->assertEquals($expectedCalls[$i], func_get_args());
+				$i++;
+			});
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -515,11 +520,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->cacheFactory
 			->expects($this->exactly(2))
 			->method('createDistributed')
-			->withConsecutive(
-				['theming-'],
-				['imagePath'],
-			)
-			->willReturn($this->cache);
+			->willReturnMap([
+				['theming-', $this->cache],
+				['imagePath', $this->cache],
+			]);
 		$this->cache
 			->expects($this->any())
 			->method('clear')
@@ -535,13 +539,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'cachebuster', '0'],
-				['theming', 'name', 'Nextcloud'],
-			)->willReturnOnConsecutiveCalls(
-				'15',
-				'Nextcloud',
-			);
+			->willReturnMap([
+				['theming', 'cachebuster', '0', '15'],
+				['theming', 'name', 'Nextcloud', 'Nextcloud'],
+			]);
 		$this->config
 			->expects($this->once())
 			->method('setAppValue')
@@ -558,13 +559,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'cachebuster', '0'],
-				['theming', 'url', $this->defaults->getBaseUrl()],
-			)->willReturnOnConsecutiveCalls(
-				'15',
-				$this->defaults->getBaseUrl(),
-			);
+			->willReturnMap([
+				['theming', 'cachebuster', '0', '15'],
+				['theming', 'url', $this->defaults->getBaseUrl(), $this->defaults->getBaseUrl()],
+			]);
 		$this->config
 			->expects($this->once())
 			->method('setAppValue')
@@ -581,13 +579,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'cachebuster', '0'],
-				['theming', 'slogan', $this->defaults->getSlogan()],
-			)->willReturnOnConsecutiveCalls(
-				'15',
-				$this->defaults->getSlogan(),
-			);
+			->willReturnMap([
+				['theming', 'cachebuster', '0', '15'],
+				['theming', 'slogan', $this->defaults->getSlogan(), $this->defaults->getSlogan()],
+			]);
 		$this->config
 			->expects($this->once())
 			->method('setAppValue')
@@ -649,13 +644,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'logoMime'],
-				['theming', 'cachebuster', '0'],
-			)->willReturnOnConsecutiveCalls(
-				'',
-				'0'
-			);
+			->willReturnMap([
+				['theming', 'logoMime', '', ''],
+				['theming', 'cachebuster', '0', '0'],
+			]);
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')
 			->with('core', $withName)
@@ -675,13 +667,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'logoMime', false],
-				['theming', 'cachebuster', '0'],
-			)->willReturnOnConsecutiveCalls(
-				'image/svg+xml',
-				'0',
-			);
+			->willReturnMap([
+				['theming', 'logoMime', '', 'image/svg+xml'],
+				['theming', 'cachebuster', '0', '0'],
+			]);
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('theming.Theming.getImage')
@@ -710,7 +699,7 @@ class ThemingDefaultsTest extends TestCase {
 				['theming', 'logoheaderMime', '', 'jpeg'],
 				['theming', 'faviconMime', '', 'jpeg'],
 			]);
-		
+
 		$this->appConfig
 			->expects(self::atLeastOnce())
 			->method('getValueString')

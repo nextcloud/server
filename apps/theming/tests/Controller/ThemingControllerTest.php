@@ -715,13 +715,10 @@ class ThemingControllerTest extends TestCase {
 		$this->urlGenerator
 			->expects($this->exactly(2))
 			->method('linkToRoute')
-			->withConsecutive(
-				['theming.Icon.getTouchIcon', ['app' => 'core']],
-				['theming.Icon.getFavicon', ['app' => 'core']],
-			)->willReturnOnConsecutiveCalls(
-				'touchicon',
-				'favicon',
-			);
+			->willReturnMap([
+				['theming.Icon.getTouchIcon', ['app' => 'core'], 'touchicon'],
+				['theming.Icon.getFavicon', ['app' => 'core'], 'favicon'],
+			]);
 		$response = new Http\JSONResponse([
 			'name' => 'Nextcloud',
 			'start_url' => 'localhost',

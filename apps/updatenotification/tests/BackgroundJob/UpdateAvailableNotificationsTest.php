@@ -93,14 +93,10 @@ class UpdateAvailableNotificationsTest extends TestCase {
 
 		$this->config->expects($this->exactly(2))
 			->method('getSystemValueBool')
-			->withConsecutive(
-				['has_internet_connection', true],
-				['debug', false],
-			)
-			->willReturnOnConsecutiveCalls(
-				true,
-				true,
-			);
+			->willReturnMap([
+				['has_internet_connection', true, true],
+				['debug', false, true],
+			]);
 
 		self::invokePrivate($job, 'run', [null]);
 	}
@@ -224,7 +220,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 					['app2', '1.9.2'],
 				],
 				[
-					['app2', '1.9.2'],
+					['app2', '1.9.2', ''],
 				],
 			],
 		];
@@ -251,9 +247,14 @@ class UpdateAvailableNotificationsTest extends TestCase {
 			->method('isUpdateAvailable')
 			->willReturnMap($isUpdateAvailable);
 
-		$mockedMethod = $job->expects($this->exactly(\count($notifications)))
-			->method('createNotifications');
-		\call_user_func_array([$mockedMethod, 'withConsecutive'], $notifications);
+		$i = 0;
+		$job->expects($this->exactly(\count($notifications)))
+			->method('createNotifications')
+			->willReturnCallback(function () use ($notifications, &$i) {
+				$this->assertEquals($notifications[$i], func_get_args());
+				$i++;
+			});
+
 
 		self::invokePrivate($job, 'checkAppUpdates');
 	}
@@ -331,10 +332,9 @@ class UpdateAvailableNotificationsTest extends TestCase {
 				->willReturnSelf();
 
 			if ($userNotifications !== null) {
-				$mockedMethod = $notification->expects($this->exactly(\count($userNotifications)))
+				$notification->expects($this->exactly(\count($userNotifications)))
 					->method('setUser')
 					->willReturnSelf();
-				\call_user_func_array([$mockedMethod, 'withConsecutive'], $userNotifications);
 
 				$this->notificationManager->expects($this->exactly(\count($userNotifications)))
 					->method('notify');
