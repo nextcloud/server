@@ -1143,7 +1143,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritdoc
 	 */
-	public function getSharesBy($userId, $shareType, $path = null, $reshares = false, $limit = 50, $offset = 0, $expired = false) {
+	public function getSharesBy($userId, $shareType, $path = null, $reshares = false, $limit = 50, $offset = 0, $allowExpired = false) {
 		if ($path !== null &&
 			!($path instanceof \OCP\Files\File) &&
 			!($path instanceof \OCP\Files\Folder)) {
@@ -1158,18 +1158,17 @@ class Manager implements IManager {
 
 		$shares = $provider->getSharesBy($userId, $shareType, $path, $reshares, $limit, $offset);
 
-		/*
+		/**
 		 * Work around so we don't return expired shares but still follow
 		 * proper pagination.
 		 */
-
 		$shares2 = [];
 
 		while (true) {
 			$added = 0;
 			foreach ($shares as $share) {
 				try {
-					$this->checkShare($share, $expired);
+					$this->checkShare($share, $allowExpired);
 				} catch (ShareNotFound $e) {
 					// Ignore since this basically means the share is deleted
 					continue;
@@ -1216,7 +1215,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritdoc
 	 */
-	public function getSharedWith($userId, $shareType, $node = null, $limit = 50, $offset = 0, $expired = false) {
+	public function getSharedWith($userId, $shareType, $node = null, $limit = 50, $offset = 0, $allowExpired = false) {
 		try {
 			$provider = $this->factory->getProviderForType($shareType);
 		} catch (ProviderException $e) {
@@ -1228,7 +1227,7 @@ class Manager implements IManager {
 		// remove all shares which are already expired
 		foreach ($shares as $key => $share) {
 			try {
-				$this->checkShare($share, $expired);
+				$this->checkShare($share, $allowExpired);
 			} catch (ShareNotFound $e) {
 				unset($shares[$key]);
 			}
@@ -1270,7 +1269,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritdoc
 	 */
-	public function getShareById($id, $recipient = null, $expired = false) {
+	public function getShareById($id, $recipient = null, $allowExpired = false) {
 		if ($id === null) {
 			throw new ShareNotFound();
 		}
@@ -1285,7 +1284,7 @@ class Manager implements IManager {
 
 		$share = $provider->getShareById($id, $recipient);
 
-		$this->checkShare($share, $expired);
+		$this->checkShare($share, $allowExpired);
 
 		return $share;
 	}
@@ -1311,7 +1310,7 @@ class Manager implements IManager {
 	 *
 	 * @throws ShareNotFound
 	 */
-	public function getShareByToken($token, $expired = false) {
+	public function getShareByToken($token, $allowExpired = false) {
 		// tokens cannot be valid local user names
 		if ($this->userManager->userExists($token)) {
 			throw new ShareNotFound();
@@ -1369,7 +1368,7 @@ class Manager implements IManager {
 			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 		}
 
-		$this->checkShare($share, $expired);
+		$this->checkShare($share, $allowExpired);
 
 		/*
 		 * Reduce the permissions for link or email shares if public upload is not enabled
@@ -1385,6 +1384,8 @@ class Manager implements IManager {
 	/**
 	 * Check expire date and disabled owner
 	 *
+	 * @param IShare $share
+	 * @param bool $allowExpired will throw if share is expired and $allowExpired is false
 	 * @throws ShareNotFound
 	 */
 	protected function checkShare(IShare $share, $allowExpired = false): void {

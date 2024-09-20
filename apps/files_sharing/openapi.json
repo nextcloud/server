@@ -244,105 +244,6 @@
                     }
                 }
             },
-            "DeletedShare": {
-                "type": "object",
-                "required": [
-                    "id",
-                    "share_type",
-                    "uid_owner",
-                    "displayname_owner",
-                    "permissions",
-                    "stime",
-                    "uid_file_owner",
-                    "displayname_file_owner",
-                    "path",
-                    "item_type",
-                    "mimetype",
-                    "storage",
-                    "item_source",
-                    "file_source",
-                    "file_parent",
-                    "file_target",
-                    "expiration",
-                    "share_with",
-                    "share_with_displayname",
-                    "share_with_link"
-                ],
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "share_type": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "uid_owner": {
-                        "type": "string"
-                    },
-                    "displayname_owner": {
-                        "type": "string"
-                    },
-                    "permissions": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "stime": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "uid_file_owner": {
-                        "type": "string"
-                    },
-                    "displayname_file_owner": {
-                        "type": "string"
-                    },
-                    "path": {
-                        "type": "string"
-                    },
-                    "item_type": {
-                        "type": "string"
-                    },
-                    "mimetype": {
-                        "type": "string"
-                    },
-                    "storage": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "item_source": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "file_source": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "file_parent": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "file_target": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "expiration": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "share_with": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "share_with_displayname": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "share_with_link": {
-                        "type": "string",
-                        "nullable": true
-                    }
-                }
-            },
             "Lookup": {
                 "type": "object",
                 "required": [
@@ -2891,7 +2792,7 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/components/schemas/DeletedShare"
+                                                        "$ref": "#/components/schemas/Share"
                                                     }
                                                 }
                                             }
@@ -2990,6 +2891,70 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/files_sharing/api/v1/expiredshares": {
+            "get": {
+                "operationId": "expired_shareapi-index",
+                "summary": "Get a list of all expired shares",
+                "tags": [
+                    "expired_shareapi"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted shares returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Share"
+                                                    }
+                                                }
                                             }
                                         }
                                     }

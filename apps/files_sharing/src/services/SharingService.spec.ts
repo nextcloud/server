@@ -46,7 +46,7 @@ describe('SharingService methods definitions', () => {
 	})
 
 	test('Shared with you', async () => {
-		await getContents(true, false, false, false, [])
+		await getContents(true, false, false, false, false, [])
 
 		expect(axios.get).toHaveBeenCalledTimes(2)
 		expect(axios.get).toHaveBeenNthCalledWith(1, 'http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares', {
@@ -69,7 +69,7 @@ describe('SharingService methods definitions', () => {
 	})
 
 	test('Shared with others', async () => {
-		await getContents(false, true, false, false, [])
+		await getContents(false, true, false, false, false, [])
 
 		expect(axios.get).toHaveBeenCalledTimes(1)
 		expect(axios.get).toHaveBeenCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares', {
@@ -84,7 +84,7 @@ describe('SharingService methods definitions', () => {
 	})
 
 	test('Pending shares', async () => {
-		await getContents(false, false, true, false, [])
+		await getContents(false, false, true, false, false, [])
 
 		expect(axios.get).toHaveBeenCalledTimes(2)
 		expect(axios.get).toHaveBeenNthCalledWith(1, 'http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares/pending', {
@@ -106,7 +106,7 @@ describe('SharingService methods definitions', () => {
 	})
 
 	test('Deleted shares', async () => {
-		await getContents(false, true, false, false, [])
+		await getContents(false, true, false, false, false, [])
 
 		expect(axios.get).toHaveBeenCalledTimes(1)
 		expect(axios.get).toHaveBeenCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares', {
@@ -120,9 +120,23 @@ describe('SharingService methods definitions', () => {
 		})
 	})
 
+	test('Expired shares', async () => {
+		await getContents(false, false, false, false, true, [])
+
+		expect(axios.get).toHaveBeenCalledTimes(1)
+		expect(axios.get).toHaveBeenCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/expiredshares', {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			params: {
+				include_tags: true,
+			},
+		})
+	})
+
 	test('Unknown owner', async () => {
 		vi.spyOn(auth, 'getCurrentUser').mockReturnValue(null)
-		const results = await getContents(false, true, false, false, [])
+		const results = await getContents(false, true, false, false, false, [])
 
 		expect(results.folder.owner).toEqual(null)
 	})
@@ -170,7 +184,7 @@ describe('SharingService filtering', () => {
 	})
 
 	test('Shared with others filtering', async () => {
-		const shares = await getContents(false, true, false, false, [ShareType.User])
+		const shares = await getContents(false, true, false, false, false, [ShareType.User])
 
 		expect(axios.get).toHaveBeenCalledTimes(1)
 		expect(shares.contents).toHaveLength(1)
@@ -179,7 +193,7 @@ describe('SharingService filtering', () => {
 	})
 
 	test('Shared with others filtering empty', async () => {
-		const shares = await getContents(false, true, false, false, [ShareType.Link])
+		const shares = await getContents(false, true, false, false, false, [ShareType.Link])
 
 		expect(axios.get).toHaveBeenCalledTimes(1)
 		expect(shares.contents).toHaveLength(0)

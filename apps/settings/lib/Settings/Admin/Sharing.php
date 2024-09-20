@@ -83,10 +83,10 @@ class Sharing implements IDelegatedSettings {
 	}
 
 	/**
-	 * Helper function to retrive boolean values from human readable strings ('yes' / 'no')
+	 * Helper function to retrieve boolean values from human readable strings ('yes' / 'no')
 	 */
 	private function getHumanBooleanConfig(string $app, string $key, bool $default = false): bool {
-		return $this->config->getAppValue($app, $key, $default ? 'yes' : 'no') === 'yes';
+		return $this->config->getAppValue($app, $key, $default ? 'yes' : 'no') !== 'no';
 	}
 
 	/**

@@ -127,10 +127,12 @@ interface IManager {
 	 * @param bool $reshares
 	 * @param int $limit The maximum number of returned results, -1 for all results
 	 * @param int $offset
+	 * @param bool $allowExpired also return expired shares
 	 * @return IShare[]
 	 * @since 9.0.0
+	 * @since 31.0.0 Added $allowExpired parameter
 	 */
-	public function getSharesBy($userId, $shareType, $path = null, $reshares = false, $limit = 50, $offset = 0);
+	public function getSharesBy($userId, $shareType, $path = null, $reshares = false, $limit = 50, $offset = 0, $allowExpired = false);
 
 	/**
 	 * Get shares shared with $user.

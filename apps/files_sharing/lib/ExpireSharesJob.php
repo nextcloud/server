@@ -24,8 +24,9 @@ class ExpireSharesJob extends TimedJob {
 		ITimeFactory $time,
 		private IManager $shareManager,
 		private IDBConnection $db,
-		private IAppConfig $config,
-		private LoggerInterface $logger) {
+		private IAppConfig $appConfig,
+		private LoggerInterface $logger,
+	) {
 
 		parent::__construct($time);
 
@@ -41,7 +42,7 @@ class ExpireSharesJob extends TimedJob {
 	 * @param array $argument unused argument
 	 */
 	public function run($argument) {
-		if ($this->config->getValueString('core', 'shareapi_delete_on_expire', 'yes') === 'no') {
+		if ($this->appConfig->getValueString('core', 'shareapi_delete_on_expire', 'yes') === 'no') {
 			$this->logger->info('Share deletion on expiration is disabled');
 			return;
 		}

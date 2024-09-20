@@ -2951,13 +2951,13 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testGetShareByTokenExpired(): void {
 		$this->expectException(\OCP\Share\Exceptions\ShareNotFound::class);
-		$this->expectExceptionMessage('The requested share does not exist anymore');
+		$this->expectExceptionMessage('The requested share has expired');
 
 		$this->config
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getAppValue')
-			->with('core', 'shareapi_allow_links', 'yes')
-			->willReturn('yes');
+			->withConsecutive(['core', 'shareapi_allow_links', 'yes'], ['core', 'shareapi_delete_on_expire', 'yes'])
+			->willReturnOnConsecutiveCalls('yes', 'yes');
 
 		$this->l->expects($this->once())
 			->method('t')

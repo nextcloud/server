@@ -13,151 +13,63 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\OCSController;
-use OCP\AppFramework\QueryException;
 use OCP\Files\IRootFolder;
-use OCP\Files\NotFoundException;
+use OCP\IDateTimeZone;
 use OCP\IGroupManager;
+use OCP\IL10N;
+use OCP\IPreview;
 use OCP\IRequest;
-use OCP\IServerContainer;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Share\IManager as ShareManager;
 use OCP\Share\IShare;
+use OCP\UserStatus\IManager as UserStatusManager;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 /**
- * @psalm-import-type Files_SharingDeletedShare from ResponseDefinitions
+ * @psalm-import-type Files_SharingShare from ResponseDefinitions
  */
-class ExpiredShareAPIController extends OCSController {
+class ExpiredShareAPIController extends ShareApiControllerFactory {
 
-	/** @var ShareManager */
-	private $shareManager;
-
-	/** @var string */
-	private $userId;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var IServerContainer */
-	private $serverContainer;
-
-	public function __construct(string $appName,
+	public function __construct(
 		IRequest $request,
 		ShareManager $shareManager,
-		string $UserId,
+		?string $userId,
 		IUserManager $userManager,
 		IGroupManager $groupManager,
 		IRootFolder $rootFolder,
 		IAppManager $appManager,
-		IServerContainer $serverContainer) {
-		parent::__construct($appName, $request);
-
-		$this->shareManager = $shareManager;
-		$this->userId = $UserId;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->rootFolder = $rootFolder;
-		$this->appManager = $appManager;
-		$this->serverContainer = $serverContainer;
-	}
-
-	/**
-	 * @suppress PhanUndeclaredClassMethod
-	 *
-	 * @return Files_SharingDeletedShare
-	 */
-	private function formatShare(IShare $share): array {
-		$result = [
-			'id' => $share->getFullId(),
-			'share_type' => $share->getShareType(),
-			'uid_owner' => $share->getSharedBy(),
-			'displayname_owner' => $this->userManager->get($share->getSharedBy())->getDisplayName(),
-			'permissions' => 0,
-			'stime' => $share->getShareTime()->getTimestamp(),
-			'parent' => null,
-			'expiration' => null,
-			'token' => null,
-			'uid_file_owner' => $share->getShareOwner(),
-			'displayname_file_owner' => $this->userManager->get($share->getShareOwner())->getDisplayName(),
-			'path' => $share->getTarget(),
-		];
-		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
-		$node = $userFolder->getFirstNodeById($share->getNodeId());
-		if (!$node) {
-			// fallback to guessing the path
-			$node = $userFolder->get($share->getTarget());
-			if ($node === null || $share->getTarget() === '') {
-				throw new NotFoundException();
-			}
-		}
-
-		$result['path'] = $userFolder->getRelativePath($node->getPath());
-		if ($node instanceof \OCP\Files\Folder) {
-			$result['item_type'] = 'folder';
-		} else {
-			$result['item_type'] = 'file';
-		}
-		$result['mimetype'] = $node->getMimetype();
-		$result['storage_id'] = $node->getStorage()->getId();
-		$result['storage'] = $node->getStorage()->getCache()->getNumericStorageId();
-		$result['item_source'] = $node->getId();
-		$result['file_source'] = $node->getId();
-		$result['file_parent'] = $node->getParent()->getId();
-		$result['file_target'] = $share->getTarget();
-		$result['item_size'] = $node->getSize();
-		$result['item_mtime'] = $node->getMTime();
-
-		$expiration = $share->getExpirationDate();
-		if ($expiration !== null) {
-			$result['expiration'] = $expiration->format('Y-m-d 00:00:00');
-		}
-
-		if ($share->getShareType() === IShare::TYPE_GROUP) {
-			$group = $this->groupManager->get($share->getSharedWith());
-			$result['share_with'] = $share->getSharedWith();
-			$result['share_with_displayname'] = $group !== null ? $group->getDisplayName() : $share->getSharedWith();
-		} elseif ($share->getShareType() === IShare::TYPE_ROOM) {
-			$result['share_with'] = $share->getSharedWith();
-			$result['share_with_displayname'] = '';
-
-			try {
-				$result = array_merge($result, $this->getRoomShareHelper()->formatShare($share));
-			} catch (QueryException $e) {
-			}
-		} elseif ($share->getShareType() === IShare::TYPE_DECK) {
-			$result['share_with'] = $share->getSharedWith();
-			$result['share_with_displayname'] = '';
-
-			try {
-				$result = array_merge($result, $this->getDeckShareHelper()->formatShare($share));
-			} catch (QueryException $e) {
-			}
-		} elseif ($share->getShareType() === IShare::TYPE_SCIENCEMESH) {
-			$result['share_with'] = $share->getSharedWith();
-			$result['share_with_displayname'] = '';
-
-			try {
-				$result = array_merge($result, $this->getSciencemeshShareHelper()->formatShare($share));
-			} catch (QueryException $e) {
-			}
-		}
-
-		return $result;
+		ContainerInterface $serverContainer,
+		UserStatusManager $userStatusManager,
+		IPreview $previewManager,
+		IDateTimeZone $dateTimeZone,
+		IURLGenerator $urlGenerator,
+		IL10N $l,
+		LoggerInterface $logger,
+	) {
+		parent::__construct(
+			$request,
+			$shareManager,
+			$userId,
+			$userManager,
+			$groupManager,
+			$rootFolder,
+			$appManager,
+			$serverContainer,
+			$userStatusManager,
+			$previewManager,
+			$dateTimeZone,
+			$urlGenerator,
+			$l,
+			$logger,
+		);
 	}
 
 	/**
 	 * Get a list of all expired shares
 	 *
-	 * @return DataResponse<Http::STATUS_OK, Files_SharingDeletedShare[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare[], array{}>
 	 *
 	 * 200: Deleted shares returned
 	 */
@@ -180,56 +92,5 @@ class ExpiredShareAPIController extends OCSController {
 		}, $shares);
 
 		return new DataResponse($shares);
-	}
-
-	/**
-	 * Returns the helper of DeletedShareAPIController for room shares.
-	 *
-	 * If the Talk application is not enabled or the helper is not available
-	 * a QueryException is thrown instead.
-	 *
-	 * @return \OCA\Talk\Share\Helper\DeletedShareAPIController
-	 * @throws QueryException
-	 */
-	private function getRoomShareHelper() {
-		if (!$this->appManager->isEnabledForUser('spreed')) {
-			throw new QueryException();
-		}
-
-		return $this->serverContainer->get('\OCA\Talk\Share\Helper\DeletedShareAPIController');
-	}
-
-	/**
-	 * Returns the helper of DeletedShareAPIHelper for deck shares.
-	 *
-	 * If the Deck application is not enabled or the helper is not available
-	 * a QueryException is thrown instead.
-	 *
-	 * @return \OCA\Deck\Sharing\ShareAPIHelper
-	 * @throws QueryException
-	 */
-	private function getDeckShareHelper() {
-		if (!$this->appManager->isEnabledForUser('deck')) {
-			throw new QueryException();
-		}
-
-		return $this->serverContainer->get('\OCA\Deck\Sharing\ShareAPIHelper');
-	}
-
-	/**
-	 * Returns the helper of DeletedShareAPIHelper for sciencemesh shares.
-	 *
-	 * If the sciencemesh application is not enabled or the helper is not available
-	 * a QueryException is thrown instead.
-	 *
-	 * @return \OCA\Deck\Sharing\ShareAPIHelper
-	 * @throws QueryException
-	 */
-	private function getSciencemeshShareHelper() {
-		if (!$this->appManager->isEnabledForUser('sciencemesh')) {
-			throw new QueryException();
-		}
-
-		return $this->serverContainer->get('\OCA\ScienceMesh\Sharing\ShareAPIHelper');
 	}
 }
