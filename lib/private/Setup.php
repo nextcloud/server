@@ -32,6 +32,7 @@ use OCP\L10N\IFactory as IL10NFactory;
 use OCP\Migration\IOutput;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
+use OCP\ServerVersion;
 use Psr\Log\LoggerInterface;
 
 class Setup {
@@ -380,7 +381,7 @@ class Setup {
 			unlink(\OC::$configDir . '/CAN_INSTALL');
 		}
 
-		$bootstrapCoordinator = \OCP\Server::get(\OC\AppFramework\Bootstrap\Coordinator::class);
+		$bootstrapCoordinator = Server::get(\OC\AppFramework\Bootstrap\Coordinator::class);
 		$bootstrapCoordinator->runInitialRegistration();
 
 		// Create a session token for the newly created user
@@ -561,7 +562,7 @@ class Setup {
 	}
 
 	public function shouldRemoveCanInstallFile(): bool {
-		return \OC_Util::getChannel() !== 'git' && is_file(\OC::$configDir . '/CAN_INSTALL');
+		return Server::get(ServerVersion::class)->getChannel() !== 'git' && is_file(\OC::$configDir . '/CAN_INSTALL');
 	}
 
 	public function canInstallFileExists(): bool {

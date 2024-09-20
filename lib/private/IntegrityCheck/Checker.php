@@ -21,6 +21,7 @@ use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\ServerVersion;
 use phpseclib\Crypt\RSA;
 use phpseclib\File\X509;
 
@@ -40,6 +41,7 @@ class Checker {
 	private ICache $cache;
 
 	public function __construct(
+		private ServerVersion $serverVersion,
 		private EnvironmentHelper $environmentHelper,
 		private FileAccessHelper $fileAccessHelper,
 		private AppLocator $appLocator,
@@ -59,7 +61,7 @@ class Checker {
 	 */
 	public function isCodeCheckEnforced(): bool {
 		$notSignedChannels = [ '', 'git'];
-		if (\in_array($this->environmentHelper->getChannel(), $notSignedChannels, true)) {
+		if (\in_array($this->serverVersion->getChannel(), $notSignedChannels, true)) {
 			return false;
 		}
 

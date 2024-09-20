@@ -20,10 +20,12 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
+use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UpdateAvailableNotificationsTest extends TestCase {
+	private ServerVersion $serverVersion;
 	private IConfig|MockObject $config;
 	private IManager|MockObject $notificationManager;
 	private IGroupManager|MockObject $groupManager;
@@ -36,6 +38,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->serverVersion = $this->createMock(ServerVersion::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->notificationManager = $this->createMock(IManager::class);
@@ -54,6 +57,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		if (empty($methods)) {
 			return new UpdateAvailableNotifications(
 				$this->timeFactory,
+				$this->serverVersion,
 				$this->config,
 				$this->appConfig,
 				$this->notificationManager,
@@ -67,6 +71,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 			return $this->getMockBuilder(UpdateAvailableNotifications::class)
 				->setConstructorArgs([
 					$this->timeFactory,
+					$this->serverVersion,
 					$this->config,
 					$this->appConfig,
 					$this->notificationManager,
@@ -158,13 +163,12 @@ class UpdateAvailableNotificationsTest extends TestCase {
 	 */
 	public function testCheckCoreUpdate(string $channel, $versionCheck, $version, $readableVersion, $errorDays): void {
 		$job = $this->getJob([
-			'getChannel',
 			'createNotifications',
 			'clearErrorNotifications',
 			'sendErrorNotifications',
 		]);
 
-		$job->expects($this->once())
+		$this->serverVersion->expects($this->once())
 			->method('getChannel')
 			->willReturn($channel);
 

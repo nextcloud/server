@@ -23,13 +23,4 @@ class EnvironmentHelper {
 	public function getServerRoot(): string {
 		return rtrim(\OC::$SERVERROOT, '/');
 	}
-
-	/**
-	 * Provides \OC_Util::getChannel()
-	 *
-	 * @return string
-	 */
-	public function getChannel(): string {
-		return \OC_Util::getChannel();
-	}
 }

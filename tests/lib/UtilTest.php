@@ -24,16 +24,6 @@ class UtilTest extends \Test\TestCase {
 		}
 	}
 
-	public function testGetVersionString(): void {
-		$version = \OC_Util::getVersionString();
-		$this->assertTrue(is_string($version));
-	}
-
-	public function testGetEditionString(): void {
-		$edition = \OC_Util::getEditionString();
-		$this->assertTrue(is_string($edition));
-	}
-
 	public function testSanitizeHTML(): void {
 		$badArray = [
 			'While it is unusual to pass an array',

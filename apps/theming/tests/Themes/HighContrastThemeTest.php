@@ -18,6 +18,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class HighContrastThemeTest extends AccessibleThemeTestCase {
@@ -49,6 +50,7 @@ class HighContrastThemeTest extends AccessibleThemeTestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 
 		$this->util = new Util(
+			$this->createMock(ServerVersion::class),
 			$this->config,
 			$this->appManager,
 			$this->createMock(IAppData::class),

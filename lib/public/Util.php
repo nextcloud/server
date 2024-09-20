@@ -35,9 +35,10 @@ class Util {
 	 * get the current installed version of Nextcloud
 	 * @return array
 	 * @since 4.0.0
+	 * @deprecated 31.0.0 Use \OCP\ServerVersion::getVersion
 	 */
 	public static function getVersion() {
-		return \OC_Util::getVersion();
+		return Server::get(ServerVersion::class)->getVersion();
 	}
 
 	/**
@@ -46,7 +47,7 @@ class Util {
 	public static function hasExtendedSupport(): bool {
 		try {
 			/** @var \OCP\Support\Subscription\IRegistry */
-			$subscriptionRegistry = \OCP\Server::get(\OCP\Support\Subscription\IRegistry::class);
+			$subscriptionRegistry = Server::get(\OCP\Support\Subscription\IRegistry::class);
 			return $subscriptionRegistry->delegateHasExtendedSupport();
 		} catch (ContainerExceptionInterface $e) {
 		}
@@ -66,9 +67,10 @@ class Util {
 	 * Get current update channel
 	 * @return string
 	 * @since 8.1.0
+	 * @deprecated 31.0.0 Use \OCP\ServerVersion::getChannel
 	 */
 	public static function getChannel() {
-		return \OC_Util::getChannel();
+		return \OCP\Server::get(ServerVersion::class)->getChannel();
 	}
 
 	/**
@@ -567,7 +569,7 @@ class Util {
 		if (!function_exists($functionName)) {
 			return false;
 		}
-		$ini = \OCP\Server::get(IniGetWrapper::class);
+		$ini = Server::get(IniGetWrapper::class);
 		$disabled = explode(',', $ini->get('disable_functions') ?: '');
 		$disabled = array_map('trim', $disabled);
 		if (in_array($functionName, $disabled)) {

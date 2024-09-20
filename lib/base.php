@@ -292,10 +292,12 @@ class OC {
 			http_response_code(503);
 			header('Retry-After: 120');
 
+			$serverVersion = \OCP\Server::get(\OCP\ServerVersion::class);
+
 			// render error page
 			$template = new OC_Template('', 'update.use-cli', 'guest');
 			$template->assign('productName', 'nextcloud'); // for now
-			$template->assign('version', OC_Util::getVersionString());
+			$template->assign('version', $serverVersion->getVersionString());
 			$template->assign('tooBig', $tooBig);
 			$template->assign('cliUpgradeLink', $cliUpgradeLink);
 
@@ -321,7 +323,7 @@ class OC {
 		$appManager = Server::get(\OCP\App\IAppManager::class);
 
 		$tmpl = new OC_Template('', 'update.admin', 'guest');
-		$tmpl->assign('version', OC_Util::getVersionString());
+		$tmpl->assign('version', \OCP\Server::get(\OCP\ServerVersion::class)->getVersionString());
 		$tmpl->assign('isAppsOnlyUpgrade', $isAppsOnlyUpgrade);
 
 		// get third party apps
@@ -663,7 +665,7 @@ class OC {
 		if (!function_exists('simplexml_load_file')) {
 			throw new \OCP\HintException('The PHP SimpleXML/PHP-XML extension is not installed.', 'Install the extension or make sure it is enabled.');
 		}
-		
+
 		OC_App::loadApps(['session']);
 		if (!self::$CLI) {
 			self::initSession();

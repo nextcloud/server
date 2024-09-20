@@ -25,6 +25,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\ServerVersion;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
 
@@ -218,6 +219,7 @@ class TemplateLayout extends \OC_Template {
 			// this is on purpose outside of the if statement below so that the initial state is prefilled (done in the getConfig() call)
 			// see https://github.com/nextcloud/server/pull/22636 for details
 			$jsConfigHelper = new JSConfigHelper(
+				\OCP\Server::get(ServerVersion::class),
 				\OCP\Util::getL10N('lib'),
 				\OCP\Server::get(Defaults::class),
 				\OC::$server->getAppManager(),

@@ -688,6 +688,7 @@ return array(
     'OCP\\Security\\VerificationToken\\IVerificationToken' => $baseDir . '/lib/public/Security/VerificationToken/IVerificationToken.php',
     'OCP\\Security\\VerificationToken\\InvalidTokenException' => $baseDir . '/lib/public/Security/VerificationToken/InvalidTokenException.php',
     'OCP\\Server' => $baseDir . '/lib/public/Server.php',
+    'OCP\\ServerVersion' => $baseDir . '/lib/public/ServerVersion.php',
     'OCP\\Session\\Exceptions\\SessionNotAvailableException' => $baseDir . '/lib/public/Session/Exceptions/SessionNotAvailableException.php',
     'OCP\\Settings\\DeclarativeSettingsTypes' => $baseDir . '/lib/public/Settings/DeclarativeSettingsTypes.php',
     'OCP\\Settings\\Events\\DeclarativeSettingsGetValueEvent' => $baseDir . '/lib/public/Settings/Events/DeclarativeSettingsGetValueEvent.php',
