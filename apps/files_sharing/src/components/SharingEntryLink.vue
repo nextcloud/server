@@ -150,8 +150,8 @@
 					:share="share" />
 
 				<!-- external legacy sharing via url (social...) -->
-				<NcActionLink v-for="({ icon, url, name }, index) in externalLegacyLinkActions"
-					:key="index"
+				<NcActionLink v-for="({ icon, url, name }, actionIndex) in externalLegacyLinkActions"
+					:key="actionIndex"
 					:href="url(shareLink)"
 					:icon="icon"
 					target="_blank">
@@ -207,11 +207,12 @@
 
 <script>
 import { emit } from '@nextcloud/event-bus'
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, getBaseUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { Type as ShareTypes } from '@nextcloud/sharing'
-import Vue from 'vue'
+import { ShareType } from '@nextcloud/sharing'
 import VueQrcode from '@chenfengyuan/vue-qrcode'
+import moment from '@nextcloud/moment'
+import Vue from 'vue'
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
@@ -508,7 +509,7 @@ export default {
 		 * @return {string}
 		 */
 		shareLink() {
-			return window.location.protocol + '//' + window.location.host + generateUrl('/s/') + this.share.token
+			return generateUrl('/s/{toen}', { token: this.share.token }, { baseURL: getBaseUrl() })
 		},
 
 		/**
@@ -551,7 +552,7 @@ export default {
 		 * @return {Array}
 		 */
 		externalLinkActions() {
-			const filterValidAction = (action) => (action.shareType.includes(ShareTypes.SHARE_TYPE_LINK) || action.shareType.includes(ShareTypes.SHARE_TYPE_EMAIL)) && !action.advanced
+			const filterValidAction = (action) => (action.shareType.includes(ShareType.Link) || action.shareType.includes(ShareType.Email)) && !action.advanced
 			// filter only the registered actions for said link
 			return this.ExternalShareActions.actions
 				.filter(filterValidAction)
@@ -583,7 +584,7 @@ export default {
 			}
 
 			const shareDefaults = {
-				share_type: ShareTypes.SHARE_TYPE_LINK,
+				share_type: ShareType.Link,
 			}
 			if (this.config.isDefaultExpireDateEnforced) {
 				// default is empty string if not set
@@ -669,7 +670,7 @@ export default {
 				const path = (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
 				const options = {
 					path,
-					shareType: ShareTypes.SHARE_TYPE_LINK,
+					shareType: ShareType.Link,
 					password: share.password,
 					expireDate: share.expireDate,
 					attributes: JSON.stringify(this.fileInfo.shareAttributes),

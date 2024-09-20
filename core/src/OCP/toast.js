@@ -10,6 +10,8 @@ import {
 	showWarning,
 } from '@nextcloud/dialogs'
 
+/** @typedef {import('toastify-js')} Toast */
+
 export default {
 	/**
 	 * @deprecated 19.0.0 use `showSuccess` from the `@nextcloud/dialogs` package instead
