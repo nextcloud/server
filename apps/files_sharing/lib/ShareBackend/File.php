@@ -65,17 +65,11 @@ class File implements \OCP\Share_Backend_File_Dependent {
 	 *
 	 * @param string $itemSource
 	 * @param string $shareWith
-	 * @param array $exclude (optional)
 	 * @return string
 	 */
-	public function generateTarget($itemSource, $shareWith, $exclude = null) {
+	public function generateTarget($itemSource, $shareWith) {
 		$shareFolder = \OCA\Files_Sharing\Helper::getShareFolder();
 		$target = \OC\Files\Filesystem::normalizePath($shareFolder . '/' . basename($itemSource));
-
-		// for group shares we return the target right away
-		if ($shareWith === false) {
-			return $target;
-		}
 
 		\OC\Files\Filesystem::initMountPoints($shareWith);
 		$view = new \OC\Files\View('/' . $shareWith . '/files');
@@ -91,9 +85,7 @@ class File implements \OCP\Share_Backend_File_Dependent {
 			}
 		}
 
-		$excludeList = is_array($exclude) ? $exclude : [];
-
-		return \OCA\Files_Sharing\Helper::generateUniqueTarget($target, $excludeList, $view);
+		return \OCA\Files_Sharing\Helper::generateUniqueTarget($target, $view);
 	}
 
 	public function formatItems($items, $format, $parameters = null) {

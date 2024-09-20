@@ -22,17 +22,16 @@ class Helper {
 	 * check if file name already exists and generate unique target
 	 *
 	 * @param string $path
-	 * @param array $excludeList
 	 * @param View $view
 	 * @return string $path
 	 */
-	public static function generateUniqueTarget($path, $excludeList, $view) {
+	public static function generateUniqueTarget($path, $view) {
 		$pathinfo = pathinfo($path);
 		$ext = isset($pathinfo['extension']) ? '.' . $pathinfo['extension'] : '';
 		$name = $pathinfo['filename'];
 		$dir = $pathinfo['dirname'];
 		$i = 2;
-		while ($view->file_exists($path) || in_array($path, $excludeList)) {
+		while ($view->file_exists($path)) {
 			$path = Filesystem::normalizePath($dir . '/' . $name . ' (' . $i . ')' . $ext);
 			$i++;
 		}

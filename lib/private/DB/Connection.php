@@ -282,7 +282,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * Gets the QueryBuilder for the connection.
 	 *
 	 * @return \Doctrine\DBAL\Query\QueryBuilder
-	 * @deprecated please use $this->getQueryBuilder() instead
+	 * @deprecated 8.0.0 please use $this->getQueryBuilder() instead
 	 */
 	public function createQueryBuilder() {
 		$backtrace = $this->getCallerBacktrace();
@@ -295,7 +295,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * Gets the ExpressionBuilder for the connection.
 	 *
 	 * @return \Doctrine\DBAL\Query\Expression\ExpressionBuilder
-	 * @deprecated please use $this->getQueryBuilder()->expr() instead
+	 * @deprecated 8.0.0 please use $this->getQueryBuilder()->expr() instead
 	 */
 	public function getExpressionBuilder() {
 		$backtrace = $this->getCallerBacktrace();

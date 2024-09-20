@@ -1295,7 +1295,7 @@ class AppConfig implements IAppConfig {
 	 * @param string $default = null, default value if the key does not exist
 	 *
 	 * @return string the value or $default
-	 * @deprecated - use getValue*()
+	 * @deprecated 29.0.0 use getValue*()
 	 *
 	 * This function gets a value from the appconfig table. If the key does
 	 * not exist the default value will be returned
@@ -1316,7 +1316,7 @@ class AppConfig implements IAppConfig {
 	 * @return bool True if the value was inserted or updated, false if the value was the same
 	 * @throws AppConfigTypeConflictException
 	 * @throws AppConfigUnknownKeyException
-	 * @deprecated
+	 * @deprecated 29.0.0
 	 */
 	public function setValue($app, $key, $value) {
 		/**
@@ -1422,7 +1422,7 @@ class AppConfig implements IAppConfig {
 	 * @param string $app
 	 *
 	 * @return string[]
-	 * @deprecated data sensitivity should be set when calling setValue*()
+	 * @deprecated 29.0.0 data sensitivity should be set when calling setValue*()
 	 */
 	private function getSensitiveKeys(string $app): array {
 		$sensitiveValues = [
@@ -1533,7 +1533,7 @@ class AppConfig implements IAppConfig {
 	 * Clear all the cached app config values
 	 * New cache will be generated next time a config value is retrieved
 	 *
-	 * @deprecated use {@see clearCache()}
+	 * @deprecated 29.0.0 use {@see clearCache()}
 	 */
 	public function clearCachedConfig(): void {
 		$this->clearCache();
