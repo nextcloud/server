@@ -2124,11 +2124,6 @@
       <code><![CDATA[\Aws\serialize($command)]]></code>
     </UndefinedFunction>
   </file>
-  <file src="lib/private/Files/ObjectStore/StorageObjectStore.php">
-    <InvalidReturnType>
-      <code><![CDATA[string]]></code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/private/Files/Storage/Common.php">
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[string|false]]></code>
