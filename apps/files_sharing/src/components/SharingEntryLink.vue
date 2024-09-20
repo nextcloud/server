@@ -509,7 +509,7 @@ export default {
 		 * @return {string}
 		 */
 		shareLink() {
-			return generateUrl('/s/{toen}', { token: this.share.token }, { baseURL: getBaseUrl() })
+			return generateUrl('/s/{token}', { token: this.share.token }, { baseURL: getBaseUrl() })
 		},
 
 		/**
