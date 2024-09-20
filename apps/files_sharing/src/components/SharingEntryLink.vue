@@ -26,8 +26,9 @@
 
 			<!-- clipboard -->
 			<NcActions v-if="share && (!isEmailShareType || isFileRequest) && share.token" ref="copyButton" class="sharing-entry__copy">
-				<NcActionButton :title="copyLinkTooltip"
-					:aria-label="copyLinkTooltip"
+				<NcActionButton :aria-label="copyLinkTooltip"
+					:title="copyLinkTooltip"
+					:href="shareLink"
 					@click.prevent="copyLink">
 					<template #icon>
 						<CheckIcon v-if="copied && copySuccess"
@@ -509,7 +510,7 @@ export default {
 		 * @return {string}
 		 */
 		shareLink() {
-			return generateUrl('/s/{toen}', { token: this.share.token }, { baseURL: getBaseUrl() })
+			return generateUrl('/s/{token}', { token: this.share.token }, { baseURL: getBaseUrl() })
 		},
 
 		/**
