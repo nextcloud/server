@@ -629,6 +629,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 				$this->moveFromStorage($sourceStorage, $child->getPath(), $targetInternalPath . '/' . $child->getName());
 			}
 			$sourceStorage->rmdir($sourceInternalPath);
+			$sourceStorage->getCache()->remove($sourceInternalPath);
 		} else {
 			$sourceStream = $sourceStorage->fopen($sourceInternalPath, 'r');
 			if (!$sourceStream) {
