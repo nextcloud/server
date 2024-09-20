@@ -124,6 +124,7 @@
     "Headline" : "Наслов",
     "Organisation" : "Организација",
     "Role" : "Улога",
+    "Pronouns" : "Заменице",
     "Unknown account" : "Непознати налог",
     "Additional settings" : "Додатне поставке",
     "Enter the database Login and name for %s" : "Унесите име за пријаву на базу података и назив за %s",
