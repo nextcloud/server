@@ -56,6 +56,7 @@ use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Events\BeforeUserCreatedEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\UserInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Manager
@@ -98,7 +99,8 @@ class Manager extends PublicEmitter implements IUserManager {
 
 	public function __construct(IConfig $config,
 		ICacheFactory $cacheFactory,
-		IEventDispatcher $eventDispatcher) {
+		IEventDispatcher $eventDispatcher,
+		private LoggerInterface $logger) {
 		$this->config = $config;
 		$this->cache = new WithLocalCache($cacheFactory->createDistributed('user_backend_map'));
 		$cachedUsers = &$this->cachedUsers;
@@ -353,11 +355,16 @@ class Manager extends PublicEmitter implements IUserManager {
 		if ($search !== '') {
 			$users = array_filter(
 				$users,
-				fn (IUser $user): bool =>
-					mb_stripos($user->getUID(), $search) !== false ||
-					mb_stripos($user->getDisplayName(), $search) !== false ||
-					mb_stripos($user->getEMailAddress() ?? '', $search) !== false,
-			);
+				function (IUser $user) use ($search): bool {
+					try {
+						return mb_stripos($user->getUID(), $search) !== false ||
+						mb_stripos($user->getDisplayName(), $search) !== false ||
+						mb_stripos($user->getEMailAddress() ?? '', $search) !== false;
+					} catch (NoUserException $ex) {
+						$this->logger->error('Error while filtering disabled users', ['exception' => $ex, 'userUID' => $user->getUID()]);
+						return false;
+					}
+				});
 		}
 
 		$tempLimit = ($limit === null ? null : $limit + $offset);
