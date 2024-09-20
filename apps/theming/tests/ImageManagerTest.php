@@ -92,13 +92,10 @@ class ImageManagerTest extends TestCase {
 				->willReturn(file_get_contents(__DIR__ . '/../../../tests/data/testimage.png'));
 			$folder->expects($this->exactly(2))
 				->method('fileExists')
-				->withConsecutive(
-					['logo'],
-					['logo.png'],
-				)->willReturnOnConsecutiveCalls(
-					true,
-					false,
-				);
+				->willReturnMap([
+					['logo', true],
+					['logo.png', false],
+				]);
 			$folder->expects($this->once())
 				->method('getFile')
 				->with('logo')
@@ -119,14 +116,12 @@ class ImageManagerTest extends TestCase {
 
 	public function testGetImageUrl(): void {
 		$this->checkImagick();
-		$file = $this->createMock(ISimpleFile::class);
 		$this->config->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'cachebuster', '0'],
-				['theming', 'logoMime', '']
-			)
-			->willReturn(0);
+			->willReturnMap([
+				['theming', 'cachebuster', '0', '0'],
+				['theming', 'logoMime', '', '0'],
+			]);
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->willReturn('url-to-image');
@@ -136,11 +131,10 @@ class ImageManagerTest extends TestCase {
 	public function testGetImageUrlDefault(): void {
 		$this->config->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'cachebuster', '0'],
-				['theming', 'logoMime', '']
-			)
-			->willReturnOnConsecutiveCalls(0, '');
+			->willReturnMap([
+				['theming', 'cachebuster', '0', '0'],
+				['theming', 'logoMime', '', ''],
+			]);
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')
 			->with('core', 'logo/logo.png')
@@ -150,14 +144,12 @@ class ImageManagerTest extends TestCase {
 
 	public function testGetImageUrlAbsolute(): void {
 		$this->checkImagick();
-		$file = $this->createMock(ISimpleFile::class);
 		$this->config->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'cachebuster', '0'],
-				['theming', 'logoMime', '']
-			)
-			->willReturnOnConsecutiveCalls(0, 0);
+			->willReturnMap([
+				['theming', 'cachebuster', '0', '0'],
+				['theming', 'logoMime', '', ''],
+			]);
 		$this->urlGenerator->expects($this->any())
 			->method('getAbsoluteUrl')
 			->willReturn('url-to-image-absolute?v=0');
