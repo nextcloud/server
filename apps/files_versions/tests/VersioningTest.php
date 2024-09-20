@@ -732,7 +732,7 @@ class VersioningTest extends \Test\TestCase {
 		$eventHandler->expects($this->any())
 			->method('callback')
 			->willReturnCallback(
-				function ($p) use (&$params) {
+				function ($p) use (&$params): void {
 					$params = $p;
 				}
 			);

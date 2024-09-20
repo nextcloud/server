@@ -49,7 +49,7 @@ class FixCalendarSyncCommand extends Command {
 			$this->fixUserCalendars($user);
 		} else {
 			$progress = new ProgressBar($output);
-			$this->userManager->callForSeenUsers(function (IUser $user) use ($progress) {
+			$this->userManager->callForSeenUsers(function (IUser $user) use ($progress): void {
 				$this->fixUserCalendars($user, $progress);
 			});
 			$progress->finish();

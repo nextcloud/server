@@ -865,7 +865,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return void
 	 */
 	public function deleteCalendar($calendarId, bool $forceDeletePermanently = false) {
-		$this->atomic(function () use ($calendarId, $forceDeletePermanently) {
+		$this->atomic(function () use ($calendarId, $forceDeletePermanently): void {
 			// The calendar is deleted right away if this is either enforced by the caller
 			// or the special contacts birthday calendar or when the preference of an empty
 			// retention (0 seconds) is set, which signals a disabled trashbin.
@@ -926,7 +926,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	public function restoreCalendar(int $id): void {
-		$this->atomic(function () use ($id) {
+		$this->atomic(function () use ($id): void {
 			$qb = $this->db->getQueryBuilder();
 			$update = $qb->update('calendars')
 				->set('deleted_at', $qb->createNamedParameter(null))
@@ -1471,7 +1471,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 */
 	public function deleteCalendarObject($calendarId, $objectUri, $calendarType = self::CALENDAR_TYPE_CALENDAR, bool $forceDeletePermanently = false) {
 		$this->cachedObjects = [];
-		$this->atomic(function () use ($calendarId, $objectUri, $calendarType, $forceDeletePermanently) {
+		$this->atomic(function () use ($calendarId, $objectUri, $calendarType, $forceDeletePermanently): void {
 			$data = $this->getCalendarObject($calendarId, $objectUri, $calendarType);
 
 			if ($data === null) {
@@ -1553,7 +1553,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 */
 	public function restoreCalendarObject(array $objectData): void {
 		$this->cachedObjects = [];
-		$this->atomic(function () use ($objectData) {
+		$this->atomic(function () use ($objectData): void {
 			$id = (int)$objectData['id'];
 			$restoreUri = str_replace('-deleted.ics', '.ics', $objectData['uri']);
 			$targetObject = $this->getCalendarObject(
@@ -2697,7 +2697,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return void
 	 */
 	public function deleteSubscription($subscriptionId) {
-		$this->atomic(function () use ($subscriptionId) {
+		$this->atomic(function () use ($subscriptionId): void {
 			$subscriptionRow = $this->getSubscriptionById($subscriptionId);
 
 			$query = $this->db->getQueryBuilder();
@@ -2889,7 +2889,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$this->cachedObjects = [];
 		$table = $calendarType === self::CALENDAR_TYPE_CALENDAR ? 'calendars': 'calendarsubscriptions';
 
-		$this->atomic(function () use ($calendarId, $objectUris, $operation, $calendarType, $table) {
+		$this->atomic(function () use ($calendarId, $objectUris, $operation, $calendarType, $table): void {
 			$query = $this->db->getQueryBuilder();
 			$query->select('synctoken')
 				->from($table)
@@ -2924,7 +2924,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	public function restoreChanges(int $calendarId, int $calendarType = self::CALENDAR_TYPE_CALENDAR): void {
 		$this->cachedObjects = [];
 
-		$this->atomic(function () use ($calendarId, $calendarType) {
+		$this->atomic(function () use ($calendarId, $calendarType): void {
 			$qbAdded = $this->db->getQueryBuilder();
 			$qbAdded->select('uri')
 				->from('calendarobjects')
@@ -3090,7 +3090,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param list<string> $remove
 	 */
 	public function updateShares(IShareable $shareable, array $add, array $remove): void {
-		$this->atomic(function () use ($shareable, $add, $remove) {
+		$this->atomic(function () use ($shareable, $add, $remove): void {
 			$calendarId = $shareable->getResourceId();
 			$calendarRow = $this->getCalendarById($calendarId);
 			if ($calendarRow === null) {
@@ -3188,7 +3188,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 */
 	public function updateProperties($calendarId, $objectUri, $calendarData, $calendarType = self::CALENDAR_TYPE_CALENDAR) {
 		$this->cachedObjects = [];
-		$this->atomic(function () use ($calendarId, $objectUri, $calendarData, $calendarType) {
+		$this->atomic(function () use ($calendarId, $objectUri, $calendarData, $calendarType): void {
 			$objectId = $this->getCalendarObjectId($calendarId, $objectUri, $calendarType);
 
 			try {
@@ -3260,7 +3260,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * deletes all birthday calendars
 	 */
 	public function deleteAllBirthdayCalendars() {
-		$this->atomic(function () {
+		$this->atomic(function (): void {
 			$query = $this->db->getQueryBuilder();
 			$result = $query->select(['id'])->from('calendars')
 				->where($query->expr()->eq('uri', $query->createNamedParameter(BirthdayService::BIRTHDAY_CALENDAR_URI)))
@@ -3280,7 +3280,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param $subscriptionId
 	 */
 	public function purgeAllCachedEventsForSubscription($subscriptionId) {
-		$this->atomic(function () use ($subscriptionId) {
+		$this->atomic(function () use ($subscriptionId): void {
 			$query = $this->db->getQueryBuilder();
 			$query->select('uri')
 				->from('calendarobjects')
@@ -3326,7 +3326,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			return;
 		}
 
-		$this->atomic(function () use ($subscriptionId, $calendarObjectIds, $calendarObjectUris) {
+		$this->atomic(function () use ($subscriptionId, $calendarObjectIds, $calendarObjectUris): void {
 			foreach (array_chunk($calendarObjectIds, 1000) as $chunk) {
 				$query = $this->db->getQueryBuilder();
 				$query->delete($this->dbObjectPropertiesTable)

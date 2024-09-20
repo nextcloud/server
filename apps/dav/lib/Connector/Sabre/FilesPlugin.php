@@ -131,7 +131,7 @@ class FilesPlugin extends ServerPlugin {
 		$this->server->on('afterWriteContent', [$this, 'sendFileIdHeader']);
 		$this->server->on('afterMethod:GET', [$this,'httpGet']);
 		$this->server->on('afterMethod:GET', [$this, 'handleDownloadToken']);
-		$this->server->on('afterResponse', function ($request, ResponseInterface $response) {
+		$this->server->on('afterResponse', function ($request, ResponseInterface $response): void {
 			$body = $response->getBody();
 			if (is_resource($body)) {
 				fclose($body);

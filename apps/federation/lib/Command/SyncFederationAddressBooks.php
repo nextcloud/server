@@ -31,7 +31,7 @@ class SyncFederationAddressBooks extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$progress = new ProgressBar($output);
 		$progress->start();
-		$this->syncService->syncThemAll(function ($url, $ex) use ($progress, $output) {
+		$this->syncService->syncThemAll(function ($url, $ex) use ($progress, $output): void {
 			if ($ex instanceof \Exception) {
 				$output->writeln("Error while syncing $url : " . $ex->getMessage());
 			} else {

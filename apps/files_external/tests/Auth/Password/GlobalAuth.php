@@ -53,7 +53,7 @@ class GlobalAuthTest extends TestCase {
 			});
 		$storageConfig->expects($this->any())
 			->method('setBackendOption')
-			->willReturnCallback(function ($key, $value) use (&$config) {
+			->willReturnCallback(function ($key, $value) use (&$config): void {
 				$config[$key] = $value;
 			});
 

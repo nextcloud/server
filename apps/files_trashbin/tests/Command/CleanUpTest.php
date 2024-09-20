@@ -145,7 +145,7 @@ class CleanUpTest extends TestCase {
 			->getMock();
 		$instance->expects($this->exactly(count($userIds)))
 			->method('removeDeletedFiles')
-			->willReturnCallback(function ($user) use ($userIds) {
+			->willReturnCallback(function ($user) use ($userIds): void {
 				$this->assertTrue(in_array($user, $userIds));
 			});
 		$this->userManager->expects($this->exactly(count($userIds)))
@@ -181,7 +181,7 @@ class CleanUpTest extends TestCase {
 			->willReturn($backendUsers);
 		$instance->expects($this->exactly(count($backendUsers)))
 			->method('removeDeletedFiles')
-			->willReturnCallback(function ($user) use ($backendUsers) {
+			->willReturnCallback(function ($user) use ($backendUsers): void {
 				$this->assertTrue(in_array($user, $backendUsers));
 			});
 		$inputInterface = $this->createMock(InputInterface::class);

@@ -75,10 +75,10 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 	}
 
 	public function boot(IBootContext $context): void {
-		$context->injectFn(function (IMountProviderCollection $mountProviderCollection, ConfigAdapter $configAdapter) {
+		$context->injectFn(function (IMountProviderCollection $mountProviderCollection, ConfigAdapter $configAdapter): void {
 			$mountProviderCollection->registerProvider($configAdapter);
 		});
-		$context->injectFn(function (BackendService $backendService, UserPlaceholderHandler $userConfigHandler) {
+		$context->injectFn(function (BackendService $backendService, UserPlaceholderHandler $userConfigHandler): void {
 			$backendService->registerBackendProvider($this);
 			$backendService->registerAuthMechanismProvider($this);
 			$backendService->registerConfigHandler('user', function () use ($userConfigHandler) {

@@ -39,7 +39,7 @@ class Application extends App implements IBootstrap {
 	public function boot(IBootContext $context): void {
 		\OCP\Util::addScript(self::APP_ID, 'encryption');
 
-		$context->injectFn(function (IManager $encryptionManager) use ($context) {
+		$context->injectFn(function (IManager $encryptionManager) use ($context): void {
 			if (!($encryptionManager instanceof \OC\Encryption\Manager)) {
 				return;
 			}

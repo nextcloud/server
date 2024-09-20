@@ -87,7 +87,7 @@ class BackupCodeStorage {
 		$codes = $this->mapper->getBackupCodes($user);
 		$total = count($codes);
 		$used = 0;
-		array_walk($codes, function (BackupCode $code) use (&$used) {
+		array_walk($codes, function (BackupCode $code) use (&$used): void {
 			if ((int)$code->getUsed() === 1) {
 				$used++;
 			}

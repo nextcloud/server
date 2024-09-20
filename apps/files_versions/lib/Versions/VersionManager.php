@@ -180,7 +180,7 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 			$lockContext = new LockContext($root, ILock::TYPE_APP, $owner);
 			$lockManager = \OC::$server->get(ILockManager::class);
 			$result = null;
-			$lockManager->runInScope($lockContext, function () use ($callback, &$result) {
+			$lockManager->runInScope($lockContext, function () use ($callback, &$result): void {
 				$result = $callback();
 			});
 			return $result;

@@ -508,7 +508,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('setAppValue')
-			->willReturnCallback(function () use ($expectedCalls, &$i) {
+			->willReturnCallback(function () use ($expectedCalls, &$i): void {
 				$this->assertEquals($expectedCalls[$i], func_get_args());
 				$i++;
 			});
