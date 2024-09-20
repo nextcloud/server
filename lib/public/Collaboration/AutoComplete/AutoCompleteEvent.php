@@ -12,7 +12,7 @@ use OCP\EventDispatcher\GenericEvent;
 
 /**
  * @since 16.0.0
- * @deprecated Use {@see AutoCompleteFilterEvent} instead
+ * @deprecated 28.0.0 Use {@see AutoCompleteFilterEvent} instead
  */
 class AutoCompleteEvent extends GenericEvent {
 	/**

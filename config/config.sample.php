@@ -2533,4 +2533,20 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'enable_non-accessible_features' => true,
+
+/**
+ * Directories where nextcloud looks for binaries.
+ * This is used to find external binaries like libreoffice, sendmail, ffmpeg and more.
+ *
+ * Defaults to ``['/usr/local/sbin','/usr/local/bin','/usr/sbin','/usr/bin','/sbin','/bin','/opt/bin']``
+ */
+'binary_search_paths' => [
+	'/usr/local/sbin',
+	'/usr/local/bin',
+	'/usr/sbin',
+	'/usr/bin',
+	'/sbin',
+	'/bin',
+	'/opt/bin',
+],
 ];

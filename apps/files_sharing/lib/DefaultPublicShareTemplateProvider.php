@@ -101,7 +101,6 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		\OCP\Util::addInitScript(Application::APP_ID, 'init');
 		\OCP\Util::addInitScript(Application::APP_ID, 'init-public');
 		\OCP\Util::addScript('files', 'main');
-		\OCP\Util::addStyle('files', 'merged');
 
 		// Add file-request script if needed
 		$attributes = $share->getAttributes();

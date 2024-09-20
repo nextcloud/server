@@ -24,7 +24,7 @@ try {
 		'maintenance' => $maintenance,
 		'needsDbUpgrade' => \OCP\Util::needUpgrade(),
 		'version' => implode('.', \OCP\Util::getVersion()),
-		'versionstring' => OC_Util::getVersionString(),
+		'versionstring' => \OCP\Server::get(\OCP\ServerVersion::class)->getVersionString(),
 		'edition' => '',
 		'productname' => $defaults->getProductName(),
 		'extendedSupport' => \OCP\Util::hasExtendedSupport()

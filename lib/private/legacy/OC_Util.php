@@ -216,76 +216,6 @@ class OC_Util {
 	}
 
 	/**
-	 * get the current installed version of ownCloud
-	 *
-	 * @return array
-	 */
-	public static function getVersion() {
-		OC_Util::loadVersion();
-		return self::$versionCache['OC_Version'];
-	}
-
-	/**
-	 * get the current installed version string of ownCloud
-	 *
-	 * @return string
-	 */
-	public static function getVersionString() {
-		OC_Util::loadVersion();
-		return self::$versionCache['OC_VersionString'];
-	}
-
-	/**
-	 * @deprecated the value is of no use anymore
-	 * @return string
-	 */
-	public static function getEditionString() {
-		return '';
-	}
-
-	/**
-	 * @description get the update channel of the current installed of ownCloud.
-	 * @return string
-	 */
-	public static function getChannel() {
-		OC_Util::loadVersion();
-		return \OC::$server->getConfig()->getSystemValueString('updater.release.channel', self::$versionCache['OC_Channel']);
-	}
-
-	/**
-	 * @description get the build number of the current installed of ownCloud.
-	 * @return string
-	 */
-	public static function getBuild() {
-		OC_Util::loadVersion();
-		return self::$versionCache['OC_Build'];
-	}
-
-	/**
-	 * @description load the version.php into the session as cache
-	 * @suppress PhanUndeclaredVariable
-	 */
-	private static function loadVersion() {
-		if (self::$versionCache !== null) {
-			return;
-		}
-
-		$timestamp = filemtime(OC::$SERVERROOT . '/version.php');
-		require OC::$SERVERROOT . '/version.php';
-		/** @var int $timestamp */
-		self::$versionCache['OC_Version_Timestamp'] = $timestamp;
-		/** @var string $OC_Version */
-		self::$versionCache['OC_Version'] = $OC_Version;
-		/** @var string $OC_VersionString */
-		self::$versionCache['OC_VersionString'] = $OC_VersionString;
-		/** @var string $OC_Build */
-		self::$versionCache['OC_Build'] = $OC_Build;
-
-		/** @var string $OC_Channel */
-		self::$versionCache['OC_Channel'] = $OC_Channel;
-	}
-
-	/**
 	 * generates a path for JS/CSS files. If no application is provided it will create the path for core.
 	 *
 	 * @param string $application application to get the files from
@@ -545,8 +475,7 @@ class OC_Util {
 		// defined = defined
 		// ini = ini_get
 		// If the dependency is not found the missing module name is shown to the EndUser
-		// When adding new checks always verify that they pass on Travis as well
-		// for ini settings, see https://github.com/owncloud/administration/blob/master/travis-ci/custom.ini
+		// When adding new checks always verify that they pass on CI as well
 		$dependencies = [
 			'classes' => [
 				'ZipArchive' => 'zip',
@@ -1020,20 +949,6 @@ class OC_Util {
 		}
 
 		return $normalizedValue;
-	}
-
-	/**
-	 * A human readable string is generated based on version and build number
-	 *
-	 * @return string
-	 */
-	public static function getHumanVersion() {
-		$version = OC_Util::getVersionString();
-		$build = OC_Util::getBuild();
-		if (!empty($build) and OC_Util::getChannel() === 'daily') {
-			$version .= ' Build:' . $build;
-		}
-		return $version;
 	}
 
 	/**

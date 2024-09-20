@@ -19,6 +19,7 @@ use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\ServerVersion;
 
 class WhatsNewController extends OCSController {
 	public function __construct(
@@ -28,12 +29,13 @@ class WhatsNewController extends OCSController {
 		private IUserSession $userSession,
 		IUserManager $userManager,
 		Manager $keyManager,
+		ServerVersion $serverVersion,
 		private IConfig $config,
 		private ChangesCheck $whatsNewService,
 		private IFactory $langFactory,
 		private Defaults $defaults,
 	) {
-		parent::__construct($appName, $request, $capabilitiesManager, $userSession, $userManager, $keyManager);
+		parent::__construct($appName, $request, $capabilitiesManager, $userSession, $userManager, $keyManager, $serverVersion);
 	}
 
 	/**

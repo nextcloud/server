@@ -19,6 +19,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -49,6 +50,7 @@ class DyslexiaFontTest extends TestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 
 		$util = new Util(
+			$this->createMock(ServerVersion::class),
 			$this->config,
 			$this->appManager,
 			$this->createMock(IAppData::class),

@@ -530,7 +530,7 @@ class Share implements IShare {
 	 *
 	 * @param int $parent
 	 * @return IShare
-	 * @deprecated The new shares do not have parents. This is just here for legacy reasons.
+	 * @deprecated 12.0.0 The new shares do not have parents. This is just here for legacy reasons.
 	 */
 	public function setParent($parent) {
 		$this->parent = $parent;
@@ -541,7 +541,7 @@ class Share implements IShare {
 	 * Get the parent of this share.
 	 *
 	 * @return int
-	 * @deprecated The new shares do not have parents. This is just here for legacy reasons.
+	 * @deprecated 12.0.0 The new shares do not have parents. This is just here for legacy reasons.
 	 */
 	public function getParent() {
 		return $this->parent;

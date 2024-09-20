@@ -39,7 +39,7 @@ abstract class Job implements IJob, IParallelAwareJob {
 	 * @return void
 	 *
 	 * @since 15.0.0
-	 * @deprecated since 25.0.0 Use start() instead. This method will be removed
+	 * @deprecated 25.0.0 Use start() instead. This method will be removed
 	 * with the ILogger interface
 	 */
 	public function execute(IJobList $jobList, ?ILogger $logger = null) {

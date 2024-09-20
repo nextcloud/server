@@ -13,6 +13,7 @@ use OCA\Theming\Util;
 use OCP\App\IAppManager;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
+use OCP\ServerVersion;
 use PHPUnit\Framework\Error\Warning;
 use Test\TestCase;
 
@@ -41,7 +42,7 @@ class IconBuilderTest extends TestCase {
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
-		$this->util = new Util($this->config, $this->appManager, $this->appData, $this->imageManager);
+		$this->util = new Util($this->createMock(ServerVersion::class), $this->config, $this->appManager, $this->appData, $this->imageManager);
 		$this->iconBuilder = new IconBuilder($this->themingDefaults, $this->util, $this->imageManager);
 	}
 

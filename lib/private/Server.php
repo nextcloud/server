@@ -216,6 +216,7 @@ use OCP\Security\ISecureRandom;
 use OCP\Security\ITrustedDomainHelper;
 use OCP\Security\RateLimiting\ILimiter;
 use OCP\Security\VerificationToken\IVerificationToken;
+use OCP\ServerVersion;
 use OCP\Settings\IDeclarativeManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use OCP\Share\IProviderFactory;
@@ -593,10 +594,12 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 			/** @var SystemConfig $config */
 			$config = $c->get(SystemConfig::class);
+			/** @var ServerVersion $serverVersion */
+			$serverVersion = $c->get(ServerVersion::class);
 
 			if ($config->getValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				$logQuery = $config->getValue('log_query');
-				$prefixClosure = function () use ($logQuery) {
+				$prefixClosure = function () use ($logQuery, $serverVersion) {
 					if (!$logQuery) {
 						try {
 							$v = \OC_App::getAppVersions();
@@ -613,7 +616,7 @@ class Server extends ServerContainer implements IServerContainer {
 							'log_query' => 'enabled',
 						];
 					}
-					$v['core'] = implode(',', \OC_Util::getVersion());
+					$v['core'] = implode(',', $serverVersion->getVersion());
 					$version = implode(',', $v);
 					$instanceId = \OC_Util::getInstanceId();
 					$path = \OC::$SERVERROOT;
@@ -865,7 +868,8 @@ class Server extends ServerContainer implements IServerContainer {
 			$appManager = $c->get(IAppManager::class);
 
 			return new Checker(
-				new EnvironmentHelper(),
+				$c->get(ServerVersion::class),
+				$c->get(EnvironmentHelper::class),
 				new FileAccessHelper(),
 				new AppLocator(),
 				$config,
@@ -1056,7 +1060,7 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->get(IUserSession::class),
 					$c->get(IURLGenerator::class),
 					$c->get(ICacheFactory::class),
-					new Util($c->get(\OCP\IConfig::class), $this->get(IAppManager::class), $c->getAppDataDir('theming'), $imageManager),
+					new Util($c->get(ServerVersion::class), $c->get(\OCP\IConfig::class), $this->get(IAppManager::class), $c->getAppDataDir('theming'), $imageManager),
 					$imageManager,
 					$c->get(IAppManager::class),
 					$c->get(INavigationManager::class),

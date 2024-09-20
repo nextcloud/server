@@ -12,11 +12,13 @@ use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUserManager;
+use OCP\ServerVersion;
 use OCP\Support\Subscription\IRegistry;
-use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class VersionCheckTest extends \Test\TestCase {
+	/** @var ServerVersion|\PHPUnit\Framework\MockObject\MockObject */
+	private $serverVersion;
 	/** @var IConfig| \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 	/** @var IAppConfig| \PHPUnit\Framework\MockObject\MockObject */
@@ -30,15 +32,12 @@ class VersionCheckTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->appConfig = $this->getMockBuilder(IAppConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$clientService = $this->getMockBuilder(IClientService::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->serverVersion = $this->createMock(ServerVersion::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$clientService = $this->createMock(IClientService::class);
+
+		$this->serverVersion->method('getChannel')->willReturn('git');
 
 		$this->registry = $this->createMock(IRegistry::class);
 		$this->registry
@@ -48,6 +47,7 @@ class VersionCheckTest extends \Test\TestCase {
 		$this->updater = $this->getMockBuilder(VersionCheck::class)
 			->setMethods(['getUrlContent'])
 			->setConstructorArgs([
+				$this->serverVersion,
 				$clientService,
 				$this->config,
 				$this->appConfig,
@@ -63,7 +63,8 @@ class VersionCheckTest extends \Test\TestCase {
 	 * @return string
 	 */
 	private function buildUpdateUrl($baseUrl) {
-		return $baseUrl . '?version=' . implode('x', Util::getVersion()) . 'xinstalledatx' . time() . 'x' . \OC_Util::getChannel() . 'xxx' . PHP_MAJOR_VERSION . 'x' . PHP_MINOR_VERSION . 'x' . PHP_RELEASE_VERSION . 'x0x0';
+		$serverVersion = \OCP\Server::get(ServerVersion::class);
+		return $baseUrl . '?version=' . implode('x', $serverVersion->getVersion()) . 'xinstalledatx' . time() . 'x' . $serverVersion->getChannel() . 'xxx' . PHP_MAJOR_VERSION . 'x' . PHP_MINOR_VERSION . 'x' . PHP_RELEASE_VERSION . 'x0x0';
 	}
 
 	public function testCheckInCache(): void {

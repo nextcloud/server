@@ -1113,7 +1113,7 @@ class Cache implements ICache {
 	 *
 	 * @param int $id
 	 * @return array first element holding the storage id, second the path
-	 * @deprecated use getPathById() instead
+	 * @deprecated 17.0.0 use getPathById() instead
 	 */
 	public static function getById($id) {
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();

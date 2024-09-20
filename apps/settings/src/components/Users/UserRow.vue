@@ -621,8 +621,6 @@ export default {
 
 		/**
 		 * Set user displayName
-		 *
-		 * @param {string} displayName The display name
 		 */
 		async updateDisplayName() {
 			this.loading.displayName = true
@@ -643,8 +641,6 @@ export default {
 
 		/**
 		 * Set user password
-		 *
-		 * @param {string} password The email address
 		 */
 		async updatePassword() {
 			this.loading.password = true
@@ -668,8 +664,6 @@ export default {
 
 		/**
 		 * Set user mailAddress
-		 *
-		 * @param {string} mailAddress The email address
 		 */
 		async updateEmail() {
 			this.loading.mailAddress = true

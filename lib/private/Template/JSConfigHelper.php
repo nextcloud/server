@@ -30,6 +30,7 @@ use OCP\ILogger;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\ServerVersion;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\Share\IManager as IShareManager;
 use OCP\User\Backend\IPasswordConfirmationBackend;
@@ -41,6 +42,7 @@ class JSConfigHelper {
 	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
 
 	public function __construct(
+		protected ServerVersion        $serverVersion,
 		protected IL10N                $l,
 		protected Defaults             $defaults,
 		protected IAppManager          $appManager,
@@ -53,7 +55,7 @@ class JSConfigHelper {
 		protected CapabilitiesManager  $capabilitiesManager,
 		protected IInitialStateService $initialStateService,
 		protected IProvider            $tokenProvider,
-		protected FilenameValidator   $filenameValidator,
+		protected FilenameValidator    $filenameValidator,
 	) {
 	}
 
@@ -154,8 +156,8 @@ class JSConfigHelper {
 			'session_lifetime' => min($this->config->getSystemValue('session_lifetime', $this->iniWrapper->getNumeric('session.gc_maxlifetime')), $this->iniWrapper->getNumeric('session.gc_maxlifetime')),
 			'sharing.maxAutocompleteResults' => max(0, $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT)),
 			'sharing.minSearchStringLength' => $this->config->getSystemValueInt('sharing.minSearchStringLength', 0),
-			'version' => implode('.', Util::getVersion()),
-			'versionstring' => \OC_Util::getVersionString(),
+			'version' => implode('.', $this->serverVersion->getVersion()),
+			'versionstring' => $this->serverVersion->getVersionString(),
 			'enable_non-accessible_features' => $this->config->getSystemValueBool('enable_non-accessible_features', true),
 		];
 

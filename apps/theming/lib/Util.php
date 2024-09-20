@@ -13,19 +13,16 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IUserSession;
+use OCP\ServerVersion;
 
 class Util {
-
-	private IConfig $config;
-	private IAppManager $appManager;
-	private IAppData $appData;
-	private ImageManager $imageManager;
-
-	public function __construct(IConfig $config, IAppManager $appManager, IAppData $appData, ImageManager $imageManager) {
-		$this->config = $config;
-		$this->appManager = $appManager;
-		$this->appData = $appData;
-		$this->imageManager = $imageManager;
+	public function __construct(
+		private ServerVersion $serverVersion,
+		private IConfig $config,
+		private IAppManager $appManager,
+		private IAppData $appData,
+		private ImageManager $imageManager,
+	) {
 	}
 
 	/**
@@ -311,7 +308,7 @@ class Util {
 		if (!is_null($user)) {
 			$userId = $user->getUID();
 		}
-		$serverVersion = \OC_Util::getVersionString();
+		$serverVersion = $this->serverVersion->getVersionString();
 		$themingAppVersion = $this->appManager->getAppVersion('theming');
 		$userCacheBuster = '';
 		if ($userId) {
