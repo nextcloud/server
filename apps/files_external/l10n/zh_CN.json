@@ -124,6 +124,7 @@
     "System" : "系统",
     "No external storage configured or you don't have the permission to configure them" : "未设置外部存储或者没有权限",
     "Open documentation" : "打开文档",
+    "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow people to mount their own external storage services." : "外部存储使您可以将外部存储服务和设备安装为辅助 Nextcloud 存储设备。您还可以允许人们安装自己的外部存储服务。",
     "Folder name" : "目录名称",
     "Authentication" : "认证",
     "Configuration" : "配置",
