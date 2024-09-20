@@ -130,34 +130,34 @@ class Manager implements IManager {
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			// We expect a valid user as sharedWith for user shares
 			if (!$this->userManager->userExists($share->getSharedWith())) {
-				throw new \InvalidArgumentException($this->l->t('SharedWith is not a valid user'));
+				throw new \InvalidArgumentException($this->l->t('Share recipient is not a valid user'));
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			// We expect a valid group as sharedWith for group shares
 			if (!$this->groupManager->groupExists($share->getSharedWith())) {
-				throw new \InvalidArgumentException($this->l->t('SharedWith is not a valid group'));
+				throw new \InvalidArgumentException($this->l->t('Share recipient is not a valid group'));
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
 			// No check for TYPE_EMAIL here as we have a recipient for them
 			if ($share->getSharedWith() !== null) {
-				throw new \InvalidArgumentException($this->l->t('SharedWith should be empty'));
+				throw new \InvalidArgumentException($this->l->t('Share recipient should be empty'));
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_EMAIL) {
 			if ($share->getSharedWith() === null) {
-				throw new \InvalidArgumentException($this->l->t('SharedWith should not be empty'));
+				throw new \InvalidArgumentException($this->l->t('Share recipient should not be empty'));
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_REMOTE) {
 			if ($share->getSharedWith() === null) {
-				throw new \InvalidArgumentException($this->l->t('SharedWith should not be empty'));
+				throw new \InvalidArgumentException($this->l->t('Share recipient should not be empty'));
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_REMOTE_GROUP) {
 			if ($share->getSharedWith() === null) {
-				throw new \InvalidArgumentException($this->l->t('SharedWith should not be empty'));
+				throw new \InvalidArgumentException($this->l->t('Share recipient should not be empty'));
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_CIRCLE) {
 			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($share->getSharedWith());
 			if ($circle === null) {
-				throw new \InvalidArgumentException($this->l->t('SharedWith is not a valid circle'));
+				throw new \InvalidArgumentException($this->l->t('Share recipient is not a valid circle'));
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_ROOM) {
 		} elseif ($share->getShareType() === IShare::TYPE_DECK) {
@@ -169,7 +169,7 @@ class Manager implements IManager {
 
 		// Verify the initiator of the share is set
 		if ($share->getSharedBy() === null) {
-			throw new \InvalidArgumentException($this->l->t('SharedBy should be set'));
+			throw new \InvalidArgumentException($this->l->t('Share initiator must be set'));
 		}
 
 		// Cannot share with yourself
@@ -180,13 +180,13 @@ class Manager implements IManager {
 
 		// The path should be set
 		if ($share->getNode() === null) {
-			throw new \InvalidArgumentException($this->l->t('Path should be set'));
+			throw new \InvalidArgumentException($this->l->t('Shared path must be set'));
 		}
 
 		// And it should be a file or a folder
 		if (!($share->getNode() instanceof \OCP\Files\File) &&
 			!($share->getNode() instanceof \OCP\Files\Folder)) {
-			throw new \InvalidArgumentException($this->l->t('Path should be either a file or a folder'));
+			throw new \InvalidArgumentException($this->l->t('Shared path must be either a file or a folder'));
 		}
 
 		// And you cannot share your rootfolder
@@ -206,7 +206,7 @@ class Manager implements IManager {
 
 		// Permissions should be set
 		if ($share->getPermissions() === null) {
-			throw new \InvalidArgumentException($this->l->t('A share requires permissions'));
+			throw new \InvalidArgumentException($this->l->t('Valid permissions are required for sharing'));
 		}
 
 		$permissions = 0;
@@ -226,7 +226,6 @@ class Manager implements IManager {
 			$path = $userFolder->getRelativePath($share->getNode()->getPath());
 			throw new GenericShareException($this->l->t('Cannot increase permissions of %s', [$path]), code: 404);
 		}
-
 
 		// Check that read permissions are always set
 		// Link shares are allowed to have no read permissions to allow upload to hidden folders
@@ -1072,7 +1071,7 @@ class Manager implements IManager {
 		}
 
 		if ($share->getShareType() === IShare::TYPE_USER && $share->getSharedWith() !== $recipientId) {
-			throw new \InvalidArgumentException($this->l->t('Invalid recipient'));
+			throw new \InvalidArgumentException($this->l->t('Invalid share recipient'));
 		}
 
 		if ($share->getShareType() === IShare::TYPE_GROUP) {
@@ -1082,7 +1081,7 @@ class Manager implements IManager {
 			}
 			$recipient = $this->userManager->get($recipientId);
 			if (!$sharedWith->inGroup($recipient)) {
-				throw new \InvalidArgumentException($this->l->t('Invalid recipient'));
+				throw new \InvalidArgumentException($this->l->t('Invalid share recipient'));
 			}
 		}
 
