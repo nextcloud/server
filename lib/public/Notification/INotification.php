@@ -264,6 +264,18 @@ interface INotification {
 	public function getIcon(): string;
 
 	/**
+	 * @return $this
+	 * @throws InvalidValueException if the app is not allowed to send priority notifications
+	 * @since 31.0.0
+	 */
+	public function setPriorityNotification(bool $priorityNotification): INotification;
+
+	/**
+	 * @since 31.0.0
+	 */
+	public function isPriorityNotification(): bool;
+
+	/**
 	 * @return IAction
 	 * @since 9.0.0
 	 */
