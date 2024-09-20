@@ -11,6 +11,7 @@ use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCP\IConfig;
+use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\ICalendar;
 use Sabre\CalDAV\ICalendarObject;
@@ -45,6 +46,11 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	 */
 	private $config;
 
+	/**
+	 * @var IUserManager
+	 */
+	private $userManager;
+
 	/** @var ITip\Message[] */
 	private $schedulingResponses = [];
 
@@ -59,10 +65,11 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	/**
 	 * @param IConfig $config
 	 */
-	public function __construct(IConfig $config, LoggerInterface $logger, DefaultCalendarValidator $defaultCalendarValidator) {
+	public function __construct(IConfig $config, LoggerInterface $logger, DefaultCalendarValidator $defaultCalendarValidator, IUserManager $userManager) {
 		$this->config = $config;
 		$this->logger = $logger;
 		$this->defaultCalendarValidator = $defaultCalendarValidator;
+		$this->userManager = $userManager;
 	}
 
 	/**
@@ -450,6 +457,9 @@ EOF;
 	 *
 	 * This handler attempts to look at local accounts to deliver the
 	 * scheduling object.
+	 *
+	 * @param ITip\Message $iTipMessage
+	 * @return void
 	 */
 	public function scheduleLocalDeliveryHandler(ITip\Message $iTipMessage)
 	{
@@ -537,14 +547,18 @@ EOF;
 		$oldICalendarData = null;
 		$isNewNode = false;
 
-		$userDefaultReminder = $this->config->getUserValue($this->stripOffMailTo($iTipMessage->recipient), 'calendar', 'defaultReminder', 'none');
-		// If the user hasn't changed the default reminder, it will use the global one
-		if ($userDefaultReminder === 'none') {
-			$userDefaultReminder = $this->config->getAppValue('calendar', 'defaultReminder', 'none');
-		}
-		if ($userDefaultReminder !== 'none') {
-			$userDefaultReminder = intval($userDefaultReminder);
-			$this->createAlarm($iTipMessage, $userDefaultReminder);
+		$result = $this->userManager->getByEmail($this->stripOffMailTo($iTipMessage->recipient));
+		$user = isset($result[0]) ? $result[0] : null;
+		if ($user) {
+			$userDefaultReminder = $this->config->getUserValue($user->getUID(), 'calendar', 'defaultReminder', 'none');
+			// If the user hasn't changed the default reminder, it will use the global one
+			if ($userDefaultReminder === 'none') {
+				$userDefaultReminder = $this->config->getAppValue('calendar', 'defaultReminder', 'none');
+			}
+			if ($userDefaultReminder !== 'none') {
+				$userDefaultReminder = intval($userDefaultReminder);
+				$this->createAlarm($iTipMessage, $userDefaultReminder);
+			}
 		}
 
 		$result = $home->getCalendarObjectByUID($uid);
