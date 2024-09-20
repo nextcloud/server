@@ -124,6 +124,7 @@
     "Headline" : "Título ",
     "Organisation" : "Organização",
     "Role" : "Função",
+    "Pronouns" : "Pronomes",
     "Unknown account" : "Conta desconhecida",
     "Additional settings" : "Configurações adicionais",
     "Enter the database Login and name for %s" : "Insira o login e o nome do banco de dados para %s",
