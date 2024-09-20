@@ -25,7 +25,8 @@ class ExpireSharesJob extends TimedJob {
 		private IManager $shareManager,
 		private IDBConnection $db,
 		private IAppConfig $config,
-		private LoggerInterface $logger) {
+		private LoggerInterface $logger,
+	) {
 
 		parent::__construct($time);
 

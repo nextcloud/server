@@ -50,6 +50,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\Controller\\RemoteController' => __DIR__ . '/..' . '/../lib/Controller/RemoteController.php',
         'OCA\\Files_Sharing\\Controller\\SettingsController' => __DIR__ . '/..' . '/../lib/Controller/SettingsController.php',
         'OCA\\Files_Sharing\\Controller\\ShareAPIController' => __DIR__ . '/..' . '/../lib/Controller/ShareAPIController.php',
+        'OCA\\Files_Sharing\\Controller\\ShareApiControllerFactory' => __DIR__ . '/..' . '/../lib/Controller/ShareApiControllerFactory.php',
         'OCA\\Files_Sharing\\Controller\\ShareController' => __DIR__ . '/..' . '/../lib/Controller/ShareController.php',
         'OCA\\Files_Sharing\\Controller\\ShareInfoController' => __DIR__ . '/..' . '/../lib/Controller/ShareInfoController.php',
         'OCA\\Files_Sharing\\Controller\\ShareesAPIController' => __DIR__ . '/..' . '/../lib/Controller/ShareesAPIController.php',

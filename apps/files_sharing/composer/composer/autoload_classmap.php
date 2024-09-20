@@ -35,6 +35,7 @@ return array(
     'OCA\\Files_Sharing\\Controller\\RemoteController' => $baseDir . '/../lib/Controller/RemoteController.php',
     'OCA\\Files_Sharing\\Controller\\SettingsController' => $baseDir . '/../lib/Controller/SettingsController.php',
     'OCA\\Files_Sharing\\Controller\\ShareAPIController' => $baseDir . '/../lib/Controller/ShareAPIController.php',
+    'OCA\\Files_Sharing\\Controller\\ShareApiControllerFactory' => $baseDir . '/../lib/Controller/ShareApiControllerFactory.php',
     'OCA\\Files_Sharing\\Controller\\ShareController' => $baseDir . '/../lib/Controller/ShareController.php',
     'OCA\\Files_Sharing\\Controller\\ShareInfoController' => $baseDir . '/../lib/Controller/ShareInfoController.php',
     'OCA\\Files_Sharing\\Controller\\ShareesAPIController' => $baseDir . '/../lib/Controller/ShareesAPIController.php',

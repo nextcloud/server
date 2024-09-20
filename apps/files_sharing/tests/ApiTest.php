@@ -104,7 +104,6 @@ class ApiTest extends TestCase {
 		$dateTimeZone->method('getTimeZone')->willReturn(new \DateTimeZone(date_default_timezone_get()));
 
 		return new ShareAPIController(
-			self::APP_NAME,
 			$this->getMockBuilder(IRequest::class)->getMock(),
 			$this->shareManager,
 			\OC::$server->getGroupManager(),

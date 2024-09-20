@@ -103,7 +103,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->mailer = $this->createMock(IMailer::class);
 
 		$this->ocs = new ShareAPIController(
-			$this->appName,
 			$this->request,
 			$this->shareManager,
 			$this->groupManager,
@@ -130,7 +129,6 @@ class ShareAPIControllerTest extends TestCase {
 	private function mockFormatShare() {
 		return $this->getMockBuilder(ShareAPIController::class)
 			->setConstructorArgs([
-				$this->appName,
 				$this->request,
 				$this->shareManager,
 				$this->groupManager,
@@ -747,7 +745,6 @@ class ShareAPIControllerTest extends TestCase {
 		/** @var ShareAPIController|\PHPUnit\Framework\MockObject\MockObject $ocs */
 		$ocs = $this->getMockBuilder(ShareAPIController::class)
 			->setConstructorArgs([
-				$this->appName,
 				$this->request,
 				$this->shareManager,
 				$this->groupManager,
@@ -1381,7 +1378,6 @@ class ShareAPIControllerTest extends TestCase {
 		/** @var \OCA\Files_Sharing\Controller\ShareAPIController $ocs */
 		$ocs = $this->getMockBuilder(ShareAPIController::class)
 			->setConstructorArgs([
-				$this->appName,
 				$this->request,
 				$this->shareManager,
 				$this->groupManager,
@@ -1724,7 +1720,6 @@ class ShareAPIControllerTest extends TestCase {
 		/** @var \OCA\Files_Sharing\Controller\ShareAPIController $ocs */
 		$ocs = $this->getMockBuilder(ShareAPIController::class)
 			->setConstructorArgs([
-				$this->appName,
 				$this->request,
 				$this->shareManager,
 				$this->groupManager,
@@ -1822,7 +1817,6 @@ class ShareAPIControllerTest extends TestCase {
 		/** @var ShareAPIController|\PHPUnit\Framework\MockObject\MockObject $ocs */
 		$ocs = $this->getMockBuilder(ShareAPIController::class)
 			->setConstructorArgs([
-				$this->appName,
 				$this->request,
 				$this->shareManager,
 				$this->groupManager,
@@ -2244,7 +2238,6 @@ class ShareAPIControllerTest extends TestCase {
 		/** @var \OCA\Files_Sharing\Controller\ShareAPIController $ocs */
 		$ocs = $this->getMockBuilder(ShareAPIController::class)
 			->setConstructorArgs([
-				$this->appName,
 				$this->request,
 				$this->shareManager,
 				$this->groupManager,
@@ -2314,7 +2307,6 @@ class ShareAPIControllerTest extends TestCase {
 		/** @var \OCA\Files_Sharing\Controller\ShareAPIController $ocs */
 		$ocs = $this->getMockBuilder(ShareAPIController::class)
 			->setConstructorArgs([
-				$this->appName,
 				$this->request,
 				$this->shareManager,
 				$this->groupManager,
@@ -2557,7 +2549,6 @@ class ShareAPIControllerTest extends TestCase {
 		/** @var ShareAPIController|\PHPUnit\Framework\MockObject\MockObject $ocs */
 		$ocs = $this->getMockBuilder(ShareAPIController::class)
 			->setConstructorArgs([
-				$this->appName,
 				$this->request,
 				$this->shareManager,
 				$this->groupManager,

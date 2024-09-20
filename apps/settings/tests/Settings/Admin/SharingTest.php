@@ -93,6 +93,7 @@ class SharingTest extends TestCase {
 				['core', 'shareapi_enforce_remote_expire_date', 'no', 'no'],
 				['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 				['core', 'shareapi_only_share_with_group_members_exclude_group_list', '', '[]'],
+				['core', 'deleteOnExpire', 'yes', 'yes'],
 			]);
 		$this->shareManager->method('shareWithGroupMembersOnly')
 			->willReturn(false);
@@ -139,6 +140,7 @@ class SharingTest extends TestCase {
 						'onlyShareWithGroupMembersExcludeGroupList' => [],
 						'enforceLinksPasswordExcludedGroups' => [],
 						'enforceLinksPasswordExcludedGroupsEnabled' => false,
+						'deleteOnExpire' => true
 					]
 				],
 			);
@@ -232,6 +234,7 @@ class SharingTest extends TestCase {
 						'onlyShareWithGroupMembersExcludeGroupList' => [],
 						'enforceLinksPasswordExcludedGroups' => [],
 						'enforceLinksPasswordExcludedGroupsEnabled' => false,
+						'deleteOnExpire' => true,
 					]
 				],
 			);
