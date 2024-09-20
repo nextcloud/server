@@ -74,6 +74,14 @@ class Util {
 	}
 
 	/**
+	 * @since 31.0.0
+	 */
+	public static function isEnterprise() {
+		$versionString = Server::get(ServerVersion::class)->getVersionString();
+		return str_contains($versionString, 'Enterprise');
+	}
+
+	/**
 	 * check if sharing is disabled for the current user
 	 *
 	 * @return boolean
