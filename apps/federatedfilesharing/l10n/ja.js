@@ -16,7 +16,7 @@ OC.L10N.register(
     "Could not find share" : "共有が見つかりませんでした",
     "Federated sharing" : "連携共有",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "{user} からリモート共有として {share} を受け取りました。({behalf} の代理として)",
-    "You received {share} as a remote share from {user}" : "{user} から {file} のリモート共有が届いています",
+    "You received {share} as a remote share from {user}" : "{user} から {share} のリモート共有が届いています",
     "Accept" : "承諾",
     "Decline" : "拒否",
     "Federated Cloud Sharing" : "統合されたクラウド共有",
