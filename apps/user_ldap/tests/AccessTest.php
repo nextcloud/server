@@ -665,7 +665,7 @@ class AccessTest extends TestCase {
 		$this->groupMapper->expects($this->never())
 			->method('getNameByDN');
 
-		$this->connection->expects($this->exactly(3))
+		$this->connection->expects($this->exactly(1))
 			->method('writeToCache');
 
 		$groups = $this->access->fetchListOfGroups($filter, $attributes);
