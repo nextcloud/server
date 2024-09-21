@@ -184,7 +184,7 @@
     "tar": "^7.4.3",
     "ts-loader": "^9.5.0",
     "ts-node": "^10.9.1",
-    "tslib": "^2.6.2",
+    "tslib": "^2.7.0",
     "typescript": "^5.5.4",
     "vitest": "^2.0.5",
     "vue-loader": "^15.9.8",
