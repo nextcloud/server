@@ -171,6 +171,8 @@
     "Email test" : "بريد الكتروني تجريبي",
     "Email test was successfully sent" : "تمّ بنجاحٍ إرسال البريد الإلكتروني التجريبي",
     "You have not set or verified your email server configuration, yet. Please head over to the \"Basic settings\" in order to set them. Afterwards, use the \"Send email\" button below the form to verify your settings." : "أنت لم تقم بتعيين أو التحقق من تكوين خادوم بريدك الإلكتروني حتى الآن. يُرجى التوجه إلى \"الإعدادات الأساسية\" لتعيينها. بعد ذلك، استعمِل زِّر \"إرسال بريد إلكتروني\" الموجود أسفل النموذج للتحقق من إعداداتك.",
+    "Transactional File Locking" : "قفل الملف لإجراء المعاملات عليه على التوازي",
+    "Transactional File Locking is disabled. This is not a a supported configuraton. It may lead to difficult to isolate problems including file corruption. Please remove the `'filelocking.enabled' => false` configuration entry from your `config.php` to avoid these problems." : "خاصية قفل الملف لإجراء المعاملات عليه على التوازي مُعطّلة. هذا ليس تكوينًا مدعومًا. وهو قد يؤدي إلى صعوبة عزل المشاكل بما في ذلك تلف الملف. الرجاء إزالة إدخالية التكوين `'filelocking.enabled' => false` من ملف config.php الخاص بك لتجنب هذه المشكلات.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available." : "يتم استخدام قاعدة البيانات في تنفيذ \"قفل الملف أثناء العمل عليه\" Transactional file locking. و لتحسين أدائها، قُم رجاءً بتهيئة \"ذاكرة التخزين المؤقت\" memcache إذا كانت متاحةً.",
     "Forwarded for headers" : "مُعادة التوجيه للترويسات",
     "Your \"trusted_proxies\" setting is not correctly set, it should be an array." : "إعداد \"الوكلاء الموثوقون\"  trusted_proxies لم يتم تعيينه بشكل صحيح؛ إذ يجب أن يكون مصفوفة.",

@@ -157,7 +157,6 @@
     "Sharing is disabled for you" : "Máte zakázáno sdílet",
     "Cannot share with the share owner" : "Nelze sdílet zpět vlastníkovi sdílení",
     "Cannot change share type" : "Nelze změnit typ sdílení",
-    "Invalid recipient" : "Neplatný příjemce",
     "Group \"%s\" does not exist" : "Skupina \"%s\" neexistuje",
     "The requested share does not exist anymore" : "Požadované sdílení už neexistuje",
     "The requested share comes from a disabled user" : "Požadované sdílení pochází od vypnutého uživatelského účtu",

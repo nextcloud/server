@@ -171,6 +171,8 @@
     "Email test" : "Тест и-мејла",
     "Email test was successfully sent" : "Успешно је послат тест и-мејл ",
     "You have not set or verified your email server configuration, yet. Please head over to the \"Basic settings\" in order to set them. Afterwards, use the \"Send email\" button below the form to verify your settings." : "Још увек нисте поставили или потврдили своју конфигурацију е-поште. Молимо вас пређите на „Основна подешавања” да је поставите. Након тога, употребите дугме „Пошаљи имејл” испод форме и потврдите своја подешавања.",
+    "Transactional File Locking" : "Трансакционо закључавање фајла",
+    "Transactional File Locking is disabled. This is not a a supported configuraton. It may lead to difficult to isolate problems including file corruption. Please remove the `'filelocking.enabled' => false` configuration entry from your `config.php` to avoid these problems." : "Трансакционо закључавање фајла је искључено. Ова конфигурација се не подржава. Услед ње може бити отежано изоловање проблема као што је кварење фајла. Да бисте спречили ове проблеме, молимо вас да из свог `config.php` фајла уклоните ставку конфигурације `'filelocking.enabled' => false`.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available." : "База података се користи за трансакционо закључавање фајлова. Да бисте побољшали перформансе, молимо вас да конфигуришете memcache, ако је то могуће.",
     "Forwarded for headers" : "Прослеђено за заглавља",
     "Your \"trusted_proxies\" setting is not correctly set, it should be an array." : "Ваше trusted_proxies” подешавање није исправно постављено, требало би да буде низ.",
