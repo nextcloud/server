@@ -54,6 +54,7 @@
     "Address" : "Adrese",
     "Profile picture" : "Profila attēls",
     "About" : "Par",
+    "Display name" : "Attēlojamais vārds",
     "Additional settings" : "Papildu iestatījumi",
     "Oracle connection could not be established" : "Nevar izveidot savienojumu ar Oracle",
     "Set an admin password." : "Iestatiet administratora paroli.",
