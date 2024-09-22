@@ -10,7 +10,7 @@
 	xmlns="https://getpsalm.org/schema/config"
 	xsi:schemaLocation="https://getpsalm.org/schema/config"
     errorBaseline="build/psalm-baseline.xml"
-	findUnusedBaselineEntry="false"
+	findUnusedBaselineEntry="true"
 	findUnusedCode="false"
 	phpVersion="8.1"
 >
