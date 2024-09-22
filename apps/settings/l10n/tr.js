@@ -173,6 +173,8 @@ OC.L10N.register(
     "Email test" : "E-posta sınaması",
     "Email test was successfully sent" : "E-posta sınaması gönderildi",
     "You have not set or verified your email server configuration, yet. Please head over to the \"Basic settings\" in order to set them. Afterwards, use the \"Send email\" button below the form to verify your settings." : "E-posta sunucusu yapılandırmanızı henüz ayarlamadınız veya doğrulamadınız. Ayarları yapmak için \"Temel ayarlar\" bölümüne gidin. Ardından, ayarlarınızı doğrulamak için formun altındaki \"E-posta gönder\" düğmesine tıklayın.",
+    "Transactional File Locking" : "İşlemsel dosya kilidi",
+    "Transactional File Locking is disabled. This is not a a supported configuraton. It may lead to difficult to isolate problems including file corruption. Please remove the `'filelocking.enabled' => false` configuration entry from your `config.php` to avoid these problems." : "İşlemsel dosya kilidi devre dışı bırakılmış. Bu yapılandırma desteklenmez ve dosyaların bozulması gibi çözülmesi zor sorunlara yol açabilir. Bu sorunları önlemek için lütfen `config.php` dosyanızdan `'filelocking.enabled' => false` yapılandırma kaydını kaldırın.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available." : "Veri tabanı, işlemsel dosya kilitleme için kullanılır. Başarımı yükseltmek için varsa lütfen memcache yapılandırmasını ayarlayın.",
     "Forwarded for headers" : "Üst bilgi yönlendirmesi",
     "Your \"trusted_proxies\" setting is not correctly set, it should be an array." : "\"trusted_proxies\" ayarınız düzgün yapılmamış. Bu bir dizi olmalıdır.",
