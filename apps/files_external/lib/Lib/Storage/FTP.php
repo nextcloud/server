@@ -277,7 +277,7 @@ class FTP extends Common {
 					$tmpFile = \OC::$server->getTempManager()->getTemporaryFile();
 				}
 				$source = fopen($tmpFile, $mode);
-				return CallbackWrapper::wrap($source, null, null, function () use ($tmpFile, $path) {
+				return CallbackWrapper::wrap($source, null, null, function () use ($tmpFile, $path): void {
 					$this->writeStream($path, fopen($tmpFile, 'r'));
 					unlink($tmpFile);
 				});
@@ -287,7 +287,7 @@ class FTP extends Common {
 
 	public function writeStream(string $path, $stream, ?int $size = null): int {
 		if ($size === null) {
-			$stream = CountWrapper::wrap($stream, function ($writtenSize) use (&$size) {
+			$stream = CountWrapper::wrap($stream, function ($writtenSize) use (&$size): void {
 				$size = $writtenSize;
 			});
 		}

@@ -954,7 +954,7 @@ class Access extends LDAPUtility {
 		}, []);
 		$idsByDn = $this->getGroupMapper()->getListOfIdsByDn($listOfDNs);
 
-		array_walk($groupRecords, function (array $record) use ($idsByDn) {
+		array_walk($groupRecords, function (array $record) use ($idsByDn): void {
 			$newlyMapped = false;
 			$gid = $idsByDn[$record['dn'][0]] ?? null;
 			if ($gid === null) {

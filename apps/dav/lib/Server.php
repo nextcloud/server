@@ -231,7 +231,7 @@ class Server {
 		$this->server->addPlugin(new SearchPlugin($lazySearchBackend));
 
 		// wait with registering these until auth is handled and the filesystem is setup
-		$this->server->on('beforeMethod:*', function () use ($root, $lazySearchBackend, $logger) {
+		$this->server->on('beforeMethod:*', function () use ($root, $lazySearchBackend, $logger): void {
 			// Allow view-only plugin for webdav requests
 			$this->server->addPlugin(new ViewOnlyPlugin(
 				\OC::$server->getUserFolder(),

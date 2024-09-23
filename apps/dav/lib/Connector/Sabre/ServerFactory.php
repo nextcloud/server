@@ -105,7 +105,7 @@ class ServerFactory {
 		$server->addPlugin(new ErrorPagePlugin($this->request, $this->config));
 
 		// wait with registering these until auth is handled and the filesystem is setup
-		$server->on('beforeMethod:*', function () use ($server, $objectTree, $viewCallBack) {
+		$server->on('beforeMethod:*', function () use ($server, $objectTree, $viewCallBack): void {
 			// ensure the skeleton is copied
 			$userFolder = \OC::$server->getUserFolder();
 

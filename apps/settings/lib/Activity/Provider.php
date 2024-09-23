@@ -118,7 +118,7 @@ class Provider implements IProvider {
 	/**
 	 * @param IEvent $event
 	 * @return array
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 */
 	protected function getParameters(IEvent $event): array {
 		$subject = $event->getSubject();
@@ -162,12 +162,9 @@ class Provider implements IProvider {
 				];
 		}
 
-		throw new \InvalidArgumentException('Unknown subject');
+		throw new UnknownActivityException('Unknown subject');
 	}
 
-	/**
-	 * @throws \InvalidArgumentException
-	 */
 	protected function setSubjects(IEvent $event, string $subject, array $parameters): void {
 		$event->setRichSubject($subject, $parameters);
 	}

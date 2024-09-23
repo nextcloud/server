@@ -8,8 +8,8 @@ declare(strict_types=1);
  */
 namespace OCA\TwoFactorBackupCodes\Test\Unit\Activity;
 
-use InvalidArgumentException;
 use OCA\TwoFactorBackupCodes\Activity\Provider;
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\IL10N;
@@ -47,7 +47,7 @@ class ProviderTest extends TestCase {
 		$event->expects($this->once())
 			->method('getApp')
 			->willReturn('comments');
-		$this->expectException(InvalidArgumentException::class);
+		$this->expectException(UnknownActivityException::class);
 
 		$this->provider->parse($lang, $event);
 	}
@@ -109,7 +109,7 @@ class ProviderTest extends TestCase {
 			->method('getSubject')
 			->willReturn('unrelated');
 
-		$this->expectException(InvalidArgumentException::class);
+		$this->expectException(UnknownActivityException::class);
 		$this->provider->parse($lang, $event);
 	}
 }

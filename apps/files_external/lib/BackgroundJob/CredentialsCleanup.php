@@ -41,7 +41,7 @@ class CredentialsCleanup extends TimedJob {
 	}
 
 	protected function run($argument) {
-		$this->userManager->callForSeenUsers(function (IUser $user) {
+		$this->userManager->callForSeenUsers(function (IUser $user): void {
 			$storages = $this->userGlobalStoragesService->getAllStoragesForUser($user);
 
 			$usesLoginCredentials = array_reduce($storages, function (bool $uses, StorageConfig $storage) {

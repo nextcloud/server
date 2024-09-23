@@ -612,7 +612,7 @@ class AccessTest extends TestCase {
 		];
 		$expected = $fakeLdapEntries;
 		unset($expected['count']);
-		array_walk($expected, function (&$v) {
+		array_walk($expected, function (&$v): void {
 			$v['dn'] = [$v['dn']];	// dn is translated into an array internally for consistency
 		});
 

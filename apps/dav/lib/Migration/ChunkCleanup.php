@@ -52,7 +52,7 @@ class ChunkCleanup implements IRepairStep {
 
 		$output->startProgress();
 		// Loop over all seen users
-		$this->userManager->callForSeenUsers(function (IUser $user) use ($output) {
+		$this->userManager->callForSeenUsers(function (IUser $user) use ($output): void {
 			try {
 				$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 				$userRoot = $userFolder->getParent();

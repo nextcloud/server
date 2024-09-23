@@ -54,7 +54,7 @@ class Provider implements IProvider {
 			if ($this->activityManager->isFormattingFilteredObject()) {
 				try {
 					return $this->parseShortVersion($event);
-				} catch (\InvalidArgumentException $e) {
+				} catch (UnknownActivityException) {
 					// Ignore and simply use the long version...
 				}
 			}
@@ -66,7 +66,7 @@ class Provider implements IProvider {
 	}
 
 	/**
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 */
 	protected function parseShortVersion(IEvent $event): IEvent {
 		$subjectParameters = $this->getSubjectParameters($event);
@@ -81,14 +81,14 @@ class Provider implements IProvider {
 				]);
 			}
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		return $event;
 	}
 
 	/**
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 */
 	protected function parseLongVersion(IEvent $event): IEvent {
 		$subjectParameters = $this->getSubjectParameters($event);
@@ -113,7 +113,7 @@ class Provider implements IProvider {
 					]);
 			}
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		return $event;

@@ -50,7 +50,7 @@ class ExpireTrash extends TimedJob {
 			return;
 		}
 
-		$this->userManager->callForSeenUsers(function (IUser $user) {
+		$this->userManager->callForSeenUsers(function (IUser $user): void {
 			$uid = $user->getUID();
 			if (!$this->setupFS($uid)) {
 				return;

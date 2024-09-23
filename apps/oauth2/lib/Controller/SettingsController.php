@@ -69,7 +69,7 @@ class SettingsController extends Controller {
 	public function deleteClient(int $id): JSONResponse {
 		$client = $this->clientMapper->getByUid($id);
 
-		$this->userManager->callForSeenUsers(function (IUser $user) use ($client) {
+		$this->userManager->callForSeenUsers(function (IUser $user) use ($client): void {
 			$this->tokenProvider->invalidateTokensOfUser($user->getUID(), $client->getName());
 		});
 

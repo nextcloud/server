@@ -33,19 +33,19 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		$context->injectFn(function (IEventDispatcher $dispatcher) use ($context) {
+		$context->injectFn(function (IEventDispatcher $dispatcher) use ($context): void {
 			/*
 			 * @todo move the OCP events and then move the registration to `register`
 			 */
 			$dispatcher->addListener(
 				LoadAdditionalScriptsEvent::class,
-				function () {
+				function (): void {
 					\OCP\Util::addScript('core', 'systemtags');
 					\OCP\Util::addInitScript(self::APP_ID, 'init');
 				}
 			);
 
-			$managerListener = function (ManagerEvent $event) use ($context) {
+			$managerListener = function (ManagerEvent $event) use ($context): void {
 				/** @var \OCA\SystemTags\Activity\Listener $listener */
 				$listener = $context->getServerContainer()->query(Listener::class);
 				$listener->event($event);
@@ -54,7 +54,7 @@ class Application extends App implements IBootstrap {
 			$dispatcher->addListener(ManagerEvent::EVENT_DELETE, $managerListener);
 			$dispatcher->addListener(ManagerEvent::EVENT_UPDATE, $managerListener);
 
-			$mapperListener = function (MapperEvent $event) use ($context) {
+			$mapperListener = function (MapperEvent $event) use ($context): void {
 				/** @var \OCA\SystemTags\Activity\Listener $listener */
 				$listener = $context->getServerContainer()->query(Listener::class);
 				$listener->mapperEvent($event);

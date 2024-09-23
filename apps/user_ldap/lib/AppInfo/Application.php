@@ -110,7 +110,7 @@ class Application extends App implements IBootstrap {
 			User_Proxy $userBackend,
 			Group_Proxy $groupBackend,
 			Helper $helper,
-		) {
+		): void {
 			$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 			if (count($configPrefixes) > 0) {
 				$userPluginManager = $appContainer->get(UserPluginManager::class);
@@ -140,7 +140,7 @@ class Application extends App implements IBootstrap {
 	private function registerBackendDependents(IAppContainer $appContainer, IEventDispatcher $dispatcher): void {
 		$dispatcher->addListener(
 			'OCA\\Files_External::loadAdditionalBackends',
-			function () use ($appContainer) {
+			function () use ($appContainer): void {
 				$storagesBackendService = $appContainer->get(BackendService::class);
 				$storagesBackendService->registerConfigHandler('home', function () use ($appContainer) {
 					return $appContainer->get(ExtStorageConfigHandler::class);
