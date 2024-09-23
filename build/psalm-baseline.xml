@@ -2216,11 +2216,6 @@
       <code>null</code>
     </NullArgument>
   </file>
-  <file src="lib/private/Files/ObjectStore/StorageObjectStore.php">
-    <InvalidReturnType>
-      <code>string</code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/private/Files/Storage/Common.php">
     <ImplementedReturnTypeMismatch>
       <code>string|false</code>
