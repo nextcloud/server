@@ -13,6 +13,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use Psr\Log\LoggerInterface;
 
 class EncryptionTest extends \Test\TestCase {
 	public const DEFAULT_WRAPPER = '\OC\Files\Stream\Encryption';
@@ -57,7 +58,8 @@ class EncryptionTest extends \Test\TestCase {
 			->setConstructorArgs([new View(), new \OC\User\Manager(
 				$config,
 				$this->createMock(ICacheFactory::class),
-				$this->createMock(IEventDispatcher::class)
+				$this->createMock(IEventDispatcher::class),
+				$this->createMock(LoggerInterface::class),
 			), $groupManager, $config, $arrayCache])
 			->getMock();
 		$util->expects($this->any())
