@@ -6,11 +6,7 @@
  */
 
 function loadDirectory($path): void {
-	if (strpos($path, 'integration')) {
-		return;
-	}
-
-	if (strpos($path, 'Integration')) {
+	if (strpos($path, 'apps/user_ldap/tests/Integration')) {
 		return;
 	}
 

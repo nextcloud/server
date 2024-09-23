@@ -7,7 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\UserStatus\Tests\Integration\BackgroundJob;
+namespace OCA\UserStatus\Tests\Integration\Service;
 
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -154,32 +154,26 @@ class StatusServiceIntegrationTest extends TestCase {
 		);
 		$this->service->setUserStatus(
 			'test123',
-			IUserStatus::AWAY,
-			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			IUserStatus::DND,
+			IUserStatus::MESSAGE_AVAILABILITY,
 			true,
 		);
 		self::assertSame(
-			'meeting',
+			'availability',
 			$this->service->findByUserId('test123')->getMessageId(),
 		);
 
 		$nostatus = $this->service->setUserStatus(
 			'test123',
 			IUserStatus::AWAY,
-			IUserStatus::MESSAGE_AVAILABILITY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
 			true,
 		);
 
 		self::assertNull($nostatus);
 		self::assertSame(
-			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			IUserStatus::MESSAGE_AVAILABILITY,
 			$this->service->findByUserId('test123')->getMessageId(),
 		);
 	}
-
-	public function testCi(): void {
-		// TODO: remove if CI turns red
-		self::assertTrue(false);
-	}
-
 }

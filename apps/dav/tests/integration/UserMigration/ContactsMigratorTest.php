@@ -114,20 +114,30 @@ class ContactsMigratorTest extends TestCase {
 		$exportMetadata = array_filter(['displayName' => $displayName, 'description' => $description]);
 
 		$this->assertEquals($importMetadata, $exportMetadata);
-		$this->assertEquals(count($importCards), count($exportCards));
+		$this->assertSameSize($importCards, $exportCards);
 
-		for ($i = 0; $i < count($importCards); ++$i) {
-			$this->assertNotEqualsCanonicalizing(
-				$this->getPropertiesChangedOnImport($importCards[$i]),
-				$this->getPropertiesChangedOnImport($exportCards[$i]),
-			);
+		$importProperties = [];
+		$exportProperties = [];
+		for ($i = 0, $iMax = count($importCards); $i < $iMax; ++$i) {
+			$importProperties[] = $this->getPropertiesChangedOnImport($importCards[$i]);
+			$exportProperties[] = $this->getPropertiesChangedOnImport($exportCards[$i]);
 		}
 
-		for ($i = 0; $i < count($importCards); ++$i) {
-			$this->assertEqualsCanonicalizing(
-				$this->getProperties($importCards[$i]),
-				$this->getProperties($exportCards[$i]),
-			);
+		$this->assertNotEqualsCanonicalizing(
+			$importProperties,
+			$exportProperties,
+		);
+
+		$importProperties = [];
+		$exportProperties = [];
+		for ($i = 0, $iMax = count($importCards); $i < $iMax; ++$i) {
+			$importProperties[] = $this->getProperties($importCards[$i]);
+			$exportProperties[] = $this->getProperties($exportCards[$i]);
 		}
+
+		$this->assertEqualsCanonicalizing(
+			$importProperties,
+			$exportProperties,
+		);
 	}
 }
