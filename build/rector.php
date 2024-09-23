@@ -9,29 +9,31 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 
+$nextcloudDir = dirname(__DIR__);
+
 $config = RectorConfig::configure()
 	->withPaths([
-		__DIR__ . '/apps',
-		// __DIR__ . '/config',
-		// __DIR__ . '/core',
-		// __DIR__ . '/lib',
-		// __DIR__ . '/ocs',
-		// __DIR__ . '/ocs-provider',
-		// __DIR__ . '/tests',
-		// __DIR__ . '/themes',
+		$nextcloudDir . '/apps',
+		// $nextcloudDir . '/config',
+		// $nextcloudDir . '/core',
+		// $nextcloudDir . '/lib',
+		// $nextcloudDir . '/ocs',
+		// $nextcloudDir . '/ocs-provider',
+		// $nextcloudDir . '/tests',
+		// $nextcloudDir . '/themes',
 	])
 	->withSkip([
-		__DIR__ . '/apps/*/3rdparty/*',
-		__DIR__ . '/apps/*/build/stubs/*',
-		__DIR__ . '/apps/*/composer/*',
-		__DIR__ . '/apps/*/config/*',
+		$nextcloudDir . '/apps/*/3rdparty/*',
+		$nextcloudDir . '/apps/*/build/stubs/*',
+		$nextcloudDir . '/apps/*/composer/*',
+		$nextcloudDir . '/apps/*/config/*',
 	])
 	// uncomment to reach your current PHP version
 	// ->withPhpSets()
 	->withTypeCoverageLevel(0);
 
 
-$ignoredEntries = shell_exec('git status --porcelain --ignored ' . escapeshellarg(__DIR__));
+$ignoredEntries = shell_exec('git status --porcelain --ignored ' . escapeshellarg($nextcloudDir));
 $ignoredEntries = explode("\n", $ignoredEntries);
 $ignoredEntries = array_filter($ignoredEntries, static fn (string $line) => str_starts_with($line, '!! '));
 $ignoredEntries = array_map(static fn (string $line) => substr($line, 3), $ignoredEntries);
