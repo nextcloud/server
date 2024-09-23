@@ -29,6 +29,7 @@ $expectedFiles = [
 	'.eslintignore',
 	'.eslintrc.js',
 	'.git',
+	'.git-blame-ignore-revs',
 	'.gitattributes',
 	'.github',
 	'.gitignore',
