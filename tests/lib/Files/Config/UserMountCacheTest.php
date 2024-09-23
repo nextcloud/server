@@ -62,7 +62,7 @@ class UserMountCacheTest extends TestCase {
 			->expects($this->any())
 			->method('getAppValue')
 			->willReturnArgument(2);
-		$this->userManager = new Manager($config, $this->createMock(ICacheFactory::class), $this->createMock(IEventDispatcher::class));
+		$this->userManager = new Manager($config, $this->createMock(ICacheFactory::class), $this->createMock(IEventDispatcher::class), $this->createMock(LoggerInterface::class));
 		$userBackend = new Dummy();
 		$userBackend->createUser('u1', '');
 		$userBackend->createUser('u2', '');
