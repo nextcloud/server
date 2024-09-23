@@ -8,8 +8,10 @@
 namespace OC\Files\Storage;
 
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Storage\IConstructableStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IStorageFactory;
+use Psr\Log\LoggerInterface;
 
 class StorageFactory implements IStorageFactory {
 	/**
@@ -62,6 +64,9 @@ class StorageFactory implements IStorageFactory {
 	 * @return IStorage
 	 */
 	public function getInstance(IMountPoint $mountPoint, $class, $arguments) {
+		if (!($class instanceof IConstructableStorage)) {
+			\OCP\Server::get(LoggerInterface::class)->warning('Building a storage not implementing IConstructableStorage is deprecated since 31.0.0', ['class' => $class]);
+		}
 		return $this->wrap($mountPoint, new $class($arguments));
 	}
 

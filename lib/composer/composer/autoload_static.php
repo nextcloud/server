@@ -461,6 +461,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\StorageNotAvailableException' => __DIR__ . '/../../..' . '/lib/public/Files/StorageNotAvailableException.php',
         'OCP\\Files\\StorageTimeoutException' => __DIR__ . '/../../..' . '/lib/public/Files/StorageTimeoutException.php',
         'OCP\\Files\\Storage\\IChunkedFileWrite' => __DIR__ . '/../../..' . '/lib/public/Files/Storage/IChunkedFileWrite.php',
+        'OCP\\Files\\Storage\\IConstructableStorage' => __DIR__ . '/../../..' . '/lib/public/Files/Storage/IConstructableStorage.php',
         'OCP\\Files\\Storage\\IDisableEncryptionStorage' => __DIR__ . '/../../..' . '/lib/public/Files/Storage/IDisableEncryptionStorage.php',
         'OCP\\Files\\Storage\\ILockingStorage' => __DIR__ . '/../../..' . '/lib/public/Files/Storage/ILockingStorage.php',
         'OCP\\Files\\Storage\\INotifyStorage' => __DIR__ . '/../../..' . '/lib/public/Files/Storage/INotifyStorage.php',
