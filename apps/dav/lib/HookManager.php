@@ -62,7 +62,7 @@ class HookManager {
 			'post_createUser',
 			$this,
 			'postCreateUser');
-		\OC::$server->getUserManager()->listen('\OC\User', 'assignedUserId', function ($uid) {
+		\OC::$server->getUserManager()->listen('\OC\User', 'assignedUserId', function ($uid): void {
 			$this->postCreateUser(['uid' => $uid]);
 		});
 		Util::connectHook('OC_User',
@@ -74,7 +74,7 @@ class HookManager {
 			'post_deleteUser',
 			$this,
 			'postDeleteUser');
-		\OC::$server->getUserManager()->listen('\OC\User', 'postUnassignedUserId', function ($uid) {
+		\OC::$server->getUserManager()->listen('\OC\User', 'postUnassignedUserId', function ($uid): void {
 			$this->postDeleteUser(['uid' => $uid]);
 		});
 		\OC::$server->getUserManager()->listen('\OC\User', 'postUnassignedUserId', [$this, 'postUnassignedUserId']);

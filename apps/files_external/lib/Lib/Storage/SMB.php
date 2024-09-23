@@ -458,7 +458,7 @@ class SMB extends Common implements INotifyStorage {
 				case 'w':
 				case 'wb':
 					$source = $this->share->write($fullPath);
-					return CallBackWrapper::wrap($source, null, null, function () use ($fullPath) {
+					return CallBackWrapper::wrap($source, null, null, function () use ($fullPath): void {
 						unset($this->statCache[$fullPath]);
 					});
 				case 'a':
@@ -490,7 +490,7 @@ class SMB extends Common implements INotifyStorage {
 					}
 					$source = fopen($tmpFile, $mode);
 					$share = $this->share;
-					return CallbackWrapper::wrap($source, null, null, function () use ($tmpFile, $fullPath, $share) {
+					return CallbackWrapper::wrap($source, null, null, function () use ($tmpFile, $fullPath, $share): void {
 						unset($this->statCache[$fullPath]);
 						$share->put($tmpFile, $fullPath);
 						unlink($tmpFile);

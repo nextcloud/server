@@ -181,7 +181,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager
 			->expects($this->exactly(7))
 			->method('getShareById')
-			->willReturnCallback(function ($id) {
+			->willReturnCallback(function ($id): void {
 				if ($id === 'ocinternal:42' || $id === 'ocRoomShare:42' || $id === 'ocFederatedSharing:42' || $id === 'ocCircleShare:42' || $id === 'ocMailShare:42' || $id === 'deck:42' || $id === 'sciencemesh:42') {
 					throw new \OCP\Share\Exceptions\ShareNotFound();
 				} else {
@@ -2416,7 +2416,7 @@ class ShareAPIControllerTest extends TestCase {
 				~\OCP\Constants::PERMISSION_CREATE,
 				''
 			)->willReturnCallback(
-				function ($share) {
+				function ($share): void {
 					$share->setSharedWith('recipientRoom');
 					$share->setPermissions(
 						\OCP\Constants::PERMISSION_ALL &
@@ -2532,7 +2532,7 @@ class ShareAPIControllerTest extends TestCase {
 				~\OCP\Constants::PERMISSION_CREATE,
 				''
 			)->willReturnCallback(
-				function ($share) {
+				function ($share): void {
 					throw new OCSNotFoundException('Exception thrown by the helper');
 				}
 			);

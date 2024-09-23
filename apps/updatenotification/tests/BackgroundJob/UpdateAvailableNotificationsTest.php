@@ -254,7 +254,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		$i = 0;
 		$job->expects($this->exactly(\count($notifications)))
 			->method('createNotifications')
-			->willReturnCallback(function () use ($notifications, &$i) {
+			->willReturnCallback(function () use ($notifications, &$i): void {
 				$this->assertEquals($notifications[$i], func_get_args());
 				$i++;
 			});

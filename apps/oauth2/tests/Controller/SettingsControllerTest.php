@@ -122,7 +122,7 @@ class SettingsControllerTest extends TestCase {
 		$userManager = \OC::$server->getUserManager();
 		// count other users in the db before adding our own
 		$count = 0;
-		$function = function (IUser $user) use (&$count) {
+		$function = function (IUser $user) use (&$count): void {
 			if ($user->getLastLogin() > 0) {
 				$count++;
 			}

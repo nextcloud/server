@@ -137,7 +137,7 @@ class UpdateGroupsServiceTest extends TestCase {
 		$removedEvents = 0;
 		$this->dispatcher->expects($this->exactly(4))
 			->method('dispatchTyped')
-			->willReturnCallback(function ($event) use (&$addedEvents, &$removedEvents) {
+			->willReturnCallback(function ($event) use (&$addedEvents, &$removedEvents): void {
 				if ($event instanceof UserRemovedEvent) {
 					$removedEvents++;
 				} elseif ($event instanceof UserAddedEvent) {

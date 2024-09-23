@@ -416,7 +416,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return void
 	 */
 	public function deleteAddressBook($addressBookId) {
-		$this->atomic(function () use ($addressBookId) {
+		$this->atomic(function () use ($addressBookId): void {
 			$addressBookId = (int)$addressBookId;
 			$addressBookData = $this->getAddressBookById($addressBookId);
 			$shares = $this->getShares($addressBookId);
@@ -939,7 +939,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return void
 	 */
 	protected function addChange(int $addressBookId, string $objectUri, int $operation): void {
-		$this->atomic(function () use ($addressBookId, $objectUri, $operation) {
+		$this->atomic(function () use ($addressBookId, $objectUri, $operation): void {
 			$query = $this->db->getQueryBuilder();
 			$query->select('synctoken')
 				->from('addressbooks')
@@ -1014,7 +1014,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param list<string> $remove
 	 */
 	public function updateShares(IShareable $shareable, array $add, array $remove): void {
-		$this->atomic(function () use ($shareable, $add, $remove) {
+		$this->atomic(function () use ($shareable, $add, $remove): void {
 			$addressBookId = $shareable->getResourceId();
 			$addressBookData = $this->getAddressBookById($addressBookId);
 			$oldShares = $this->getShares($addressBookId);
@@ -1292,7 +1292,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param string $vCardSerialized
 	 */
 	protected function updateProperties($addressBookId, $cardUri, $vCardSerialized) {
-		$this->atomic(function () use ($addressBookId, $cardUri, $vCardSerialized) {
+		$this->atomic(function () use ($addressBookId, $cardUri, $vCardSerialized): void {
 			$cardId = $this->getCardId($addressBookId, $cardUri);
 			$vCard = $this->readCard($vCardSerialized);
 

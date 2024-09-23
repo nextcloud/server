@@ -111,7 +111,7 @@ class CleanupTest extends TestCase {
 			->getMock();
 		$instance->expects($this->exactly(count($userIds)))
 			->method('deleteVersions')
-			->willReturnCallback(function ($user) use ($userIds) {
+			->willReturnCallback(function ($user) use ($userIds): void {
 				$this->assertTrue(in_array($user, $userIds));
 			});
 
@@ -150,7 +150,7 @@ class CleanupTest extends TestCase {
 
 		$instance->expects($this->exactly(count($backendUsers)))
 			->method('deleteVersions')
-			->willReturnCallback(function ($user) use ($backendUsers) {
+			->willReturnCallback(function ($user) use ($backendUsers): void {
 				$this->assertTrue(in_array($user, $backendUsers));
 			});
 

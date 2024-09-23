@@ -144,7 +144,7 @@ class TrustedServersTest extends TestCase {
 			->willReturn($server);
 		$this->dispatcher->expects($this->once())->method('dispatchTyped')
 			->willReturnCallback(
-				function ($event) {
+				function ($event): void {
 					$this->assertSame(get_class($event), \OCP\Federation\Events\TrustedServerRemovedEvent::class);
 					/** @var \OCP\Federated\Events\TrustedServerRemovedEvent $event */
 					$this->assertSame('url_hash', $event->getUrlHash());
@@ -252,7 +252,7 @@ class TrustedServersTest extends TestCase {
 			->willReturn($this->httpClient);
 
 		$this->httpClient->expects($this->once())->method('get')->with($server . '/status.php')
-			->willReturnCallback(function () {
+			->willReturnCallback(function (): void {
 				throw new \Exception('simulated exception');
 			});
 

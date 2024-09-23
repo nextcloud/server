@@ -202,7 +202,7 @@ class OutOfOfficeListenerTest extends TestCase {
 			->willReturn($calendar);
 		$calendar->expects(self::once())
 			->method('createFile')
-			->willReturnCallback(function ($name, $data) {
+			->willReturnCallback(function ($name, $data): void {
 				$vcalendar = Reader::read($data);
 				if (!($vcalendar instanceof VCalendar)) {
 					throw new InvalidArgumentException('Calendar data should be a VCALENDAR');
@@ -352,7 +352,7 @@ class OutOfOfficeListenerTest extends TestCase {
 			->willThrowException(new NotFound());
 		$calendar->expects(self::once())
 			->method('createFile')
-			->willReturnCallback(function ($name, $data) {
+			->willReturnCallback(function ($name, $data): void {
 				$vcalendar = Reader::read($data);
 				if (!($vcalendar instanceof VCalendar)) {
 					throw new InvalidArgumentException('Calendar data should be a VCALENDAR');
@@ -419,7 +419,7 @@ class OutOfOfficeListenerTest extends TestCase {
 			->willReturn($eventNode);
 		$eventNode->expects(self::once())
 			->method('put')
-			->willReturnCallback(function ($data) {
+			->willReturnCallback(function ($data): void {
 				$vcalendar = Reader::read($data);
 				if (!($vcalendar instanceof VCalendar)) {
 					throw new InvalidArgumentException('Calendar data should be a VCALENDAR');

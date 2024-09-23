@@ -59,7 +59,7 @@ class ExpireVersions extends Command {
 
 		$p = new ProgressBar($output);
 		$p->start();
-		$this->userManager->callForSeenUsers(function (IUser $user) use ($p) {
+		$this->userManager->callForSeenUsers(function (IUser $user) use ($p): void {
 			$p->advance();
 			$this->expireVersionsForUser($user);
 		});

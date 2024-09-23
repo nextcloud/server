@@ -474,7 +474,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile();
 
 				$handle = fopen($tmpFile, 'w');
-				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
+				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile): void {
 					$this->writeBack($tmpFile, $path);
 				});
 			case 'a':
@@ -499,7 +499,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				}
 
 				$handle = fopen($tmpFile, $mode);
-				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
+				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile): void {
 					$this->writeBack($tmpFile, $path);
 				});
 		}
@@ -760,7 +760,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		if ($size === null) {
 			$size = 0;
 			// track the number of bytes read from the input stream to return as the number of written bytes.
-			$stream = CountWrapper::wrap($stream, function (int $writtenSize) use (&$size) {
+			$stream = CountWrapper::wrap($stream, function (int $writtenSize) use (&$size): void {
 				$size = $writtenSize;
 			});
 		}

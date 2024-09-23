@@ -181,19 +181,19 @@ class File extends Node implements IFile {
 			if ($this->request->getHeader('X-HASH') !== '') {
 				$hash = $this->request->getHeader('X-HASH');
 				if ($hash === 'all' || $hash === 'md5') {
-					$data = HashWrapper::wrap($data, 'md5', function ($hash) {
+					$data = HashWrapper::wrap($data, 'md5', function ($hash): void {
 						$this->header('X-Hash-MD5: ' . $hash);
 					});
 				}
 
 				if ($hash === 'all' || $hash === 'sha1') {
-					$data = HashWrapper::wrap($data, 'sha1', function ($hash) {
+					$data = HashWrapper::wrap($data, 'sha1', function ($hash): void {
 						$this->header('X-Hash-SHA1: ' . $hash);
 					});
 				}
 
 				if ($hash === 'all' || $hash === 'sha256') {
-					$data = HashWrapper::wrap($data, 'sha256', function ($hash) {
+					$data = HashWrapper::wrap($data, 'sha256', function ($hash): void {
 						$this->header('X-Hash-SHA256: ' . $hash);
 					});
 				}
@@ -201,7 +201,7 @@ class File extends Node implements IFile {
 
 			if ($partStorage->instanceOfStorage(IWriteStreamStorage::class)) {
 				$isEOF = false;
-				$wrappedData = CallbackWrapper::wrap($data, null, null, null, null, function ($stream) use (&$isEOF) {
+				$wrappedData = CallbackWrapper::wrap($data, null, null, null, null, function ($stream) use (&$isEOF): void {
 					$isEOF = feof($stream);
 				});
 

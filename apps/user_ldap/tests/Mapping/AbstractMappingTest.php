@@ -227,7 +227,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 		$callbackCalls = 0;
 		$test = $this;
 
-		$callback = function (string $id) use ($test, &$callbackCalls) {
+		$callback = function (string $id) use ($test, &$callbackCalls): void {
 			$test->assertTrue(trim($id) !== '');
 			$callbackCalls++;
 		};

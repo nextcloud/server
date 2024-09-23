@@ -204,7 +204,7 @@ class UserHooksTest extends TestCase {
 
 		$this->keyManagerMock->expects($this->exactly(4))
 			->method('setPrivateKey')
-			->willReturnCallback(function ($user, $key) {
+			->willReturnCallback(function ($user, $key): void {
 				$header = substr($key, 0, strlen(Crypt::HEADER_START));
 				$this->assertSame(
 					Crypt::HEADER_START,

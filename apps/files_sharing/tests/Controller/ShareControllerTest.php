@@ -317,7 +317,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$initialState = [];
 		$this->initialState->expects(self::any())
 			->method('provideInitialState')
-			->willReturnCallback(function ($key, $value) use (&$initialState) {
+			->willReturnCallback(function ($key, $value) use (&$initialState): void {
 				$initialState[$key] = $value;
 			});
 		$expectedInitialState = [
@@ -456,7 +456,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$initialState = [];
 		$this->initialState->expects(self::any())
 			->method('provideInitialState')
-			->willReturnCallback(function ($key, $value) use (&$initialState) {
+			->willReturnCallback(function ($key, $value) use (&$initialState): void {
 				$initialState[$key] = $value;
 			});
 		$expectedInitialState = [
