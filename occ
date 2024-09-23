@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2014 ownCloud, Inc.
  * SPDX-FileCopyrightText: 2014 Olivier Paroz
@@ -7,5 +8,17 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-//$argv = $_SERVER['argv'];
-require_once __DIR__ . '/console.php';
+// Drop privileges when run as root
+if (posix_getuid() === 0){
+	$configPath = __DIR__ . '/config/config.php';
+	$fallbackUser = 'www-data';
+	$guessedUser = match (file_exists($configPath)) {
+		true => ($ownerUid = fileowner($configPath)) ? posix_getpwuid($ownerUid)['name'] : $fallbackUser,
+		false => $fallbackUser,
+	};
+	$command = implode (' ', $argv);
+	echo(shell_exec("sudo -u $guessedUser php -f " . $command));
+	exit;
+} else {
+	require_once __DIR__ . '/console.php';
+}
