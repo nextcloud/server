@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\ContactsInteraction\Listeners;
 
+use OCA\ContactsInteraction\AppInfo\Application;
 use OCA\ContactsInteraction\Db\CardSearchDao;
 use OCA\ContactsInteraction\Db\RecentContact;
 use OCA\ContactsInteraction\Db\RecentContactMapper;
@@ -16,6 +17,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Contacts\Events\ContactInteractedWithEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IUserManager;
@@ -35,6 +37,7 @@ class ContactInteractionListener implements IEventListener {
 		private IDBConnection $dbConnection,
 		private ITimeFactory $timeFactory,
 		private IL10N $l10n,
+		private IConfig $config,
 		private LoggerInterface $logger,
 	) {
 	}
@@ -51,6 +54,11 @@ class ContactInteractionListener implements IEventListener {
 
 		if ($event->getUid() !== null && $event->getUid() === $event->getActor()->getUID()) {
 			$this->logger->info('Ignoring contact interaction with self');
+			return;
+		}
+
+		if ($this->config->getUserValue($event->getActor()->getUID(), Application::APP_ID, 'disableContactsInteractionAddressBook', 'no') === 'yes') {
+			$this->logger->debug("Ignoring contact interaction as it's disabled for this user");
 			return;
 		}
 
@@ -75,9 +83,9 @@ class ContactInteractionListener implements IEventListener {
 				$federatedCloudId
 			);
 			if (!empty($existingRecentlyContacted)) {
-				$now = $this->timeFactory->getTime();
+				$now = $this->timeFactory->now();
 				foreach ($existingRecentlyContacted as $c) {
-					$c->setLastContact($now);
+					$c->setLastContact($now->getTimestamp());
 					$this->mapper->update($c);
 				}
 
@@ -95,7 +103,7 @@ class ContactInteractionListener implements IEventListener {
 			if ($federatedCloudId !== null) {
 				$contact->setFederatedCloudId($federatedCloudId);
 			}
-			$contact->setLastContact($this->timeFactory->getTime());
+			$contact->setLastContact($this->timeFactory->now()->getTimestamp());
 			$contact->setCard($this->generateCard($contact));
 
 			$this->mapper->insert($contact);

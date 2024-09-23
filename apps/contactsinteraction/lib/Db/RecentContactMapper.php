@@ -112,4 +112,14 @@ class RecentContactMapper extends QBMapper {
 
 		$delete->executeStatement();
 	}
+
+	public function cleanForUser(string $userId): void {
+		$qb = $this->db->getQueryBuilder();
+
+		$delete = $qb
+			->delete($this->getTableName())
+			->where($qb->expr()->eq('actor_uid', $qb->createNamedParameter($userId)));
+
+		$delete->executeStatement();
+	}
 }
