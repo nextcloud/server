@@ -29,25 +29,13 @@ import LinkSvg from '@mdi/svg/svg/link.svg?raw'
 import CircleSvg from '../../../../core/img/apps/circles.svg?raw'
 
 import { action as sidebarAction } from '../../../files/src/actions/sidebarAction'
-import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
+import { generateAvatarSvg } from '../utils/AccountIcon.ts'
 
 import './sharingStatusAction.scss'
 
-const isDarkMode = window?.matchMedia?.('(prefers-color-scheme: dark)')?.matches === true
-	|| document.querySelector('[data-themes*=dark]') !== null
-
-const generateAvatarSvg = (userId: string, isGuest = false) => {
-	const url = isDarkMode ? '/avatar/{userId}/32/dark' : '/avatar/{userId}/32'
-	const avatarUrl = generateUrl(isGuest ? url : url + '?guestFallback=true', { userId })
-	return `<svg width="32" height="32" viewBox="0 0 32 32"
-		xmlns="http://www.w3.org/2000/svg" class="sharing-status__avatar">
-		<image href="${avatarUrl}" height="32" width="32" />
-	</svg>`
-}
-
 const isExternal = (node: Node) => {
-	return node.attributes.remote_id !== undefined
+	return node.attributes?.['is-federated'] ?? false
 }
 
 export const action = new FileAction({
@@ -110,7 +98,8 @@ export const action = new FileAction({
 
 		const ownerId = node?.attributes?.['owner-id']
 		if (ownerId && (ownerId !== getCurrentUser()?.uid || isExternal(node))) {
-			return generateAvatarSvg(ownerId, isExternal(node))
+			const sanitizeId = (id: string) => id.replace(/[^a-zA-Z0-9._%+@-]+/g, '').replace(/\//g, '')
+			return generateAvatarSvg(sanitizeId(ownerId), isExternal(node))
 		}
 
 		return AccountPlusSvg
