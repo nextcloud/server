@@ -5,8 +5,8 @@
  */
 namespace OCA\Settings\Tests;
 
-use InvalidArgumentException;
 use OCA\Settings\Activity\SecurityProvider;
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\IL10N;
@@ -45,7 +45,7 @@ class SecurityProviderTest extends TestCase {
 		$event->expects($this->once())
 			->method('getType')
 			->willReturn('comments');
-		$this->expectException(InvalidArgumentException::class);
+		$this->expectException(UnknownActivityException::class);
 
 		$this->provider->parse($lang, $event);
 	}
@@ -112,7 +112,7 @@ class SecurityProviderTest extends TestCase {
 			->method('getSubject')
 			->willReturn('unrelated');
 
-		$this->expectException(InvalidArgumentException::class);
+		$this->expectException(UnknownActivityException::class);
 		$this->provider->parse($lang, $event);
 	}
 }
