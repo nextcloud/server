@@ -1589,7 +1589,6 @@ class ViewTest extends \Test\TestCase {
 		foreach ($mountPoints as $mountPoint) {
 			$storage = $this->getMockBuilder(Storage::class)
 				->setMethods([])
-				->setConstructorArgs([[]])
 				->getMock();
 			$storage->method('getId')->willReturn('non-null-id');
 			$storage->method('getStorageCache')->willReturnCallback(function () use ($storage) {
