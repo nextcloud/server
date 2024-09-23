@@ -18,7 +18,7 @@ namespace OCP\Files\Storage;
  */
 interface IConstructableStorage {
 	/**
-	 * $parameters is a free form array with the configuration options needed to construct the storage
+	 * @param array $parameters is a free form array with the configuration options needed to construct the storage
 	 *
 	 * @since 31.0.0
 	 */
