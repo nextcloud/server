@@ -79,7 +79,7 @@ class Router implements IRouter {
 	 *
 	 * @return string[]
 	 */
-	public function getRoutingFiles(): string[] {
+	public function getRoutingFiles(): array {
 		if ($this->routingFiles === null) {
 			$this->routingFiles = [];
 			foreach (\OC_APP::getEnabledApps() as $app) {
