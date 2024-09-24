@@ -108,10 +108,12 @@ class StatusServiceIntegrationTest extends TestCase {
 			$this->service->findByUserId('_test123')->getStatus(),
 		);
 
-		$this->service->revertUserStatus(
+		$revertedStatus = $this->service->revertUserStatus(
 			'test123',
 			'meeting',
 		);
+
+		self::assertNotNull($revertedStatus, 'Status should have been reverted');
 
 		try {
 			$this->service->findByUserId('_test123');
