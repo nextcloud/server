@@ -132,7 +132,7 @@ class AppSettingsController extends Controller {
 	 */
 	public function getAppDiscoverJSON(): JSONResponse {
 		$data = $this->discoverFetcher->get(true);
-		return new JSONResponse($data);
+		return new JSONResponse(array_values($data));
 	}
 
 	/**
