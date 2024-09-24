@@ -527,6 +527,7 @@ class StatusService {
 			/** @var UserStatus $userStatus */
 			$backupUserStatus = $this->mapper->findByUserId($userId, true);
 		} catch (DoesNotExistException $ex) {
+			var_dump('DoesNotExistException');
 			// No user status to revert, do nothing
 			return null;
 		}
@@ -534,6 +535,7 @@ class StatusService {
 		$deleted = $this->mapper->deleteCurrentStatusToRestoreBackup($userId, $messageId);
 		if (!$deleted) {
 			// Another status is set automatically or no status, do nothing
+			var_dump('Delete failed');
 			return null;
 		}
 
