@@ -98,15 +98,27 @@ class StatusServiceIntegrationTest extends TestCase {
 			'meeting',
 			true,
 		);
+
 		self::assertSame(
 			'meeting',
 			$this->service->findByUserId('test123')->getMessageId(),
+		);
+		self::assertSame(
+			IUserStatus::ONLINE,
+			$this->service->findByUserId('_test123')->getStatus(),
 		);
 
 		$this->service->revertUserStatus(
 			'test123',
 			'meeting',
 		);
+
+		try {
+			$this->service->findByUserId('_test123');
+			$this->fail('Expected DoesNotExistException() to be thrown when finding backup status after reverting');
+		} catch (DoesNotExistException) {
+		}
+
 		self::assertSame(
 			IUserStatus::ONLINE,
 			$this->service->findByUserId('test123')->getStatus(),
