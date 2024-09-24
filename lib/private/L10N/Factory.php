@@ -58,6 +58,19 @@ class Factory implements IFactory {
 		'pt_BR', 'pt_PT', 'da', 'fi_FI', 'nb_NO', 'sv', 'tr', 'zh_CN', 'ko'
 	];
 
+	/**
+	 * Keep in sync with `build/translation-checker.php`
+	 */
+	public const RTL_LANGUAGES = [
+		'ar', // Arabic
+		'fa', // Persian
+		'he', // Hebrew
+		'ps', // Pashto,
+		'ug', // 'Uyghurche / Uyghur
+		'ur_PK', // Urdu
+		'uz', // Uzbek Afghan
+	];
+
 	private ICache $cache;
 
 	public function __construct(
@@ -362,6 +375,14 @@ class Factory implements IFactory {
 
 		$languages = $this->findAvailableLanguages($app);
 		return in_array($lang, $languages);
+	}
+
+	public function getLanguageDirection(string $language): string {
+		if (in_array($language, self::RTL_LANGUAGES, true)) {
+			return 'rtl';
+		}
+
+		return 'ltr';
 	}
 
 	public function getLanguageIterator(?IUser $user = null): ILanguageIterator {
