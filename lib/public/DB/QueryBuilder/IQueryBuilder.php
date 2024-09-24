@@ -10,6 +10,7 @@ namespace OCP\DB\QueryBuilder;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Types\Types;
 use OCP\DB\Exception;
 use OCP\DB\IResult;
 use OCP\IDBConnection;
@@ -28,7 +29,7 @@ interface IQueryBuilder {
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_BOOL = ParameterType::BOOLEAN;
+	public const PARAM_BOOL = Types::BOOLEAN;
 	/**
 	 * @since 9.0.0
 	 */
