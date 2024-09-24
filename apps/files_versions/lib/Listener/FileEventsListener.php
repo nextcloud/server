@@ -64,49 +64,20 @@ class FileEventsListener implements IEventListener {
 	}
 
 	public function handle(Event $event): void {
-		if ($event instanceof NodeCreatedEvent) {
-			$this->created($event->getNode());
-		}
-
-		if ($event instanceof BeforeNodeTouchedEvent) {
-			$this->pre_touch_hook($event->getNode());
-		}
-
-		if ($event instanceof NodeTouchedEvent) {
-			$this->touch_hook($event->getNode());
-		}
-
-		if ($event instanceof BeforeNodeWrittenEvent) {
-			$this->write_hook($event->getNode());
-		}
-
-		if ($event instanceof NodeWrittenEvent) {
-			$this->post_write_hook($event->getNode());
-		}
-
-		if ($event instanceof BeforeNodeDeletedEvent) {
-			$this->pre_remove_hook($event->getNode());
-		}
-
-		if ($event instanceof NodeDeletedEvent) {
-			$this->remove_hook($event->getNode());
-		}
-
-		if ($event instanceof NodeRenamedEvent) {
-			$this->rename_hook($event->getSource(), $event->getTarget());
-		}
-
-		if ($event instanceof NodeCopiedEvent) {
-			$this->copy_hook($event->getSource(), $event->getTarget());
-		}
-
-		if ($event instanceof BeforeNodeRenamedEvent) {
-			$this->pre_renameOrCopy_hook($event->getSource(), $event->getTarget());
-		}
-
-		if ($event instanceof BeforeNodeCopiedEvent) {
-			$this->pre_renameOrCopy_hook($event->getSource(), $event->getTarget());
-		}
+		match (true) {
+			$event instanceof NodeCreatedEvent => $this->created($event->getNode()),
+			$event instanceof BeforeNodeTouchedEvent => $this->pre_touch_hook($event->getNode()),
+			$event instanceof NodeTouchedEvent => $this->touch_hook($event->getNode()),
+			$event instanceof BeforeNodeWrittenEvent => $this->write_hook($event->getNode()),
+			$event instanceof NodeWrittenEvent => $this->post_write_hook($event->getNode()),
+			$event instanceof BeforeNodeDeletedEvent => $this->pre_remove_hook($event->getNode()),
+			$event instanceof NodeDeletedEvent => $this->remove_hook($event->getNode()),
+			$event instanceof NodeRenamedEvent => $this->rename_hook($event->getSource(), $event->getTarget()),
+			$event instanceof NodeCopiedEvent => $this->copy_hook($event->getSource(), $event->getTarget()),
+			$event instanceof BeforeNodeRenamedEvent => $this->pre_renameOrCopy_hook($event->getSource(), $event->getTarget()),
+			$event instanceof BeforeNodeCopiedEvent => $this->pre_renameOrCopy_hook($event->getSource(), $event->getTarget()),
+			default => null, // Fallback if no event matches
+		};
 	}
 
 	public function pre_touch_hook(Node $node): void {
@@ -331,7 +302,7 @@ class FileEventsListener implements IEventListener {
 		$manager = Filesystem::getMountManager();
 		$mount = $manager->find($absOldPath);
 		$internalPath = $mount->getInternalPath($absOldPath);
-		if ($internalPath === '' and $mount instanceof MoveableMount) {
+		if ($internalPath === '' && $mount instanceof MoveableMount) {
 			return;
 		}
 
