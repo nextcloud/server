@@ -62,7 +62,7 @@ class APIController extends OCSController {
 	 *
 	 * @param string $newVersion Server version to check updates for
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{missing: UpdateNotificationApp[], available: UpdateNotificationApp[]}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{appstore_disabled: bool, already_on_latest?: bool}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{missing: list<UpdateNotificationApp>, available: list<UpdateNotificationApp>}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{appstore_disabled: bool, already_on_latest?: bool}, array{}>
 	 *
 	 * 200: Apps returned
 	 * 404: New versions not found

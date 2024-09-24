@@ -351,10 +351,10 @@ class ShareAPIController extends OCSController {
 
 
 	/**
-	 * @param array $shares
-	 * @param array|null $updatedDisplayName
+	 * @param list<Files_SharingShare> $shares
+	 * @param array<string, string>|null $updatedDisplayName
 	 *
-	 * @return array
+	 * @return list<Files_SharingShare>
 	 */
 	private function fixMissingDisplayName(array $shares, ?array $updatedDisplayName = null): array {
 		$userIds = $updated = [];
@@ -450,7 +450,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * @param string $id ID of the share
 	 * @param bool $include_tags Include tags in the share
-	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<Files_SharingShare>, array{}>
 	 * @throws OCSNotFoundException Share not found
 	 *
 	 * 200: Share returned
@@ -468,7 +468,7 @@ class ShareAPIController extends OCSController {
 				$share = $this->formatShare($share);
 
 				if ($include_tags) {
-					$share = Helper::populateTags([$share], 'file_source', \OC::$server->getTagManager());
+					$share = Helper::populateTags([$share], \OC::$server->getTagManager());
 				} else {
 					$share = [$share];
 				}
@@ -486,7 +486,7 @@ class ShareAPIController extends OCSController {
 	 * Delete a share
 	 *
 	 * @param string $id ID of the share
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSNotFoundException Share not found
 	 * @throws OCSForbiddenException Missing permissions to delete the share
 	 *
@@ -828,7 +828,7 @@ class ShareAPIController extends OCSController {
 	 * @param null|Node $node
 	 * @param boolean $includeTags
 	 *
-	 * @return Files_SharingShare[]
+	 * @return list<Files_SharingShare>
 	 */
 	private function getSharedWithMe($node, bool $includeTags): array {
 		$userShares = $this->shareManager->getSharedWith($this->userId, IShare::TYPE_USER, $node, -1, 0);
@@ -856,7 +856,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		if ($includeTags) {
-			$formatted = Helper::populateTags($formatted, 'file_source', \OC::$server->getTagManager());
+			$formatted = Helper::populateTags($formatted, \OC::$server->getTagManager());
 		}
 
 		return $formatted;
@@ -865,7 +865,7 @@ class ShareAPIController extends OCSController {
 	/**
 	 * @param Node $folder
 	 *
-	 * @return Files_SharingShare[]
+	 * @return list<Files_SharingShare>
 	 * @throws OCSBadRequestException
 	 * @throws NotFoundException
 	 */
@@ -925,7 +925,7 @@ class ShareAPIController extends OCSController {
 	 * @param string $path Get shares for a specific path
 	 * @param string $include_tags Include tags in the share
 	 *
-	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<Files_SharingShare>, array{}>
 	 * @throws OCSNotFoundException The folder was not found or is inaccessible
 	 *
 	 * 200: Shares returned
@@ -974,7 +974,7 @@ class ShareAPIController extends OCSController {
 	 * @param bool $subFiles
 	 * @param bool $includeTags
 	 *
-	 * @return Files_SharingShare[]
+	 * @return list<Files_SharingShare>
 	 * @throws NotFoundException
 	 * @throws OCSBadRequestException
 	 */
@@ -1045,7 +1045,7 @@ class ShareAPIController extends OCSController {
 
 		if ($includeTags) {
 			$formatted =
-				Helper::populateTags($formatted, 'file_source', \OC::$server->getTagManager());
+				Helper::populateTags($formatted, \OC::$server->getTagManager());
 		}
 
 		return $formatted;
@@ -1057,7 +1057,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * @param string $path Path all shares will be relative to
 	 *
-	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<Files_SharingShare>, array{}>
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws OCSNotFoundException The given path is invalid
@@ -1371,7 +1371,7 @@ class ShareAPIController extends OCSController {
 	/**
 	 * Get all shares that are still pending
 	 *
-	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<Files_SharingShare>, array{}>
 	 *
 	 * 200: Pending shares returned
 	 */
@@ -1394,7 +1394,7 @@ class ShareAPIController extends OCSController {
 			}
 		}
 
-		$result = array_filter(array_map(function (IShare $share) {
+		$result = array_values(array_filter(array_map(function (IShare $share) {
 			$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
 			$node = $userFolder->getFirstNodeById($share->getNodeId());
 			if (!$node) {
@@ -1415,7 +1415,7 @@ class ShareAPIController extends OCSController {
 			}
 		}, $pendingShares), function ($entry) {
 			return $entry !== null;
-		});
+		}));
 
 		return new DataResponse($result);
 	}
@@ -1424,7 +1424,7 @@ class ShareAPIController extends OCSController {
 	 * Accept a share
 	 *
 	 * @param string $id ID of the share
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSNotFoundException Share not found
 	 * @throws OCSException
 	 * @throws OCSBadRequestException Share could not be accepted
@@ -2095,7 +2095,7 @@ class ShareAPIController extends OCSController {
 	 * @throws OCSForbiddenException You are not allowed to send mail notifications
 	 * @throws OCSBadRequestException Invalid request or wrong password
 	 * @throws OCSException Error while sending mail notification
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 *
 	 * 200: The email notification was sent successfully
 	 */

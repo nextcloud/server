@@ -147,9 +147,9 @@ class Tags implements ITags {
 	/**
 	 * Get the list of tags for the given ids.
 	 *
-	 * @param array $objIds array of object ids
-	 * @return array|false of tags id as key to array of tag names
-	 *                     or false if an error occurred
+	 * @param list<int> $objIds array of object ids
+	 * @return array<int, list<string>>|false of tags id as key to array of tag names
+	 *                                        or false if an error occurred
 	 */
 	public function getTagsForObjects(array $objIds) {
 		$entries = [];

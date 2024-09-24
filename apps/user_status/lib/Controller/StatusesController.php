@@ -47,7 +47,7 @@ class StatusesController extends OCSController {
 	 *
 	 * @param int|null $limit Maximum number of statuses to find
 	 * @param int|null $offset Offset for finding statuses
-	 * @return DataResponse<Http::STATUS_OK, UserStatusPublic[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<UserStatusPublic>, array{}>
 	 *
 	 * 200: Statuses returned
 	 */
@@ -56,9 +56,9 @@ class StatusesController extends OCSController {
 	public function findAll(?int $limit = null, ?int $offset = null): DataResponse {
 		$allStatuses = $this->service->findAll($limit, $offset);
 
-		return new DataResponse(array_map(function ($userStatus) {
+		return new DataResponse(array_values(array_map(function ($userStatus) {
 			return $this->formatStatus($userStatus);
-		}, $allStatuses));
+		}, $allStatuses)));
 	}
 
 	/**

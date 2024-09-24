@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCP\Dashboard;
 
+use OCP\Dashboard\Model\WidgetItem;
+
 /**
  * interface IAPIWidget
  *
@@ -16,7 +18,7 @@ namespace OCP\Dashboard;
  */
 interface IAPIWidget extends IWidget {
 	/**
-	 * @return \OCP\Dashboard\Model\WidgetItem[] The widget items
+	 * @return list<WidgetItem> The widget items
 	 * @since 22.0.0
 	 */
 	public function getItems(string $userId, ?string $since = null, int $limit = 7): array;

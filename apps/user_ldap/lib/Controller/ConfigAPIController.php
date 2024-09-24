@@ -74,7 +74,7 @@ class ConfigAPIController extends OCSController {
 	 * Delete a LDAP configuration
 	 *
 	 * @param string $configID ID of the config
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSException
 	 * @throws OCSNotFoundException Config not found
 	 *
@@ -102,7 +102,7 @@ class ConfigAPIController extends OCSController {
 	 *
 	 * @param string $configID ID of the config
 	 * @param array<string, mixed> $configData New config
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSException
 	 * @throws OCSBadRequestException Modifying config is not possible
 	 * @throws OCSNotFoundException Config not found

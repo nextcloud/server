@@ -63,7 +63,7 @@ namespace OC\Core;
  * @psalm-type CoreCollection = array{
  *     id: int,
  *     name: string,
- *     resources: CoreResource[],
+ *     resources: list<CoreResource>,
  * }
  *
  * @psalm-type CoreReference = array{
@@ -78,7 +78,7 @@ namespace OC\Core;
  *     title: string,
  *     icon_url: string,
  *     order: int,
- *     search_providers_ids: ?string[]
+ *     search_providers_ids: ?list<string>,
  * }
  *
  * @psalm-type CoreUnifiedSearchProvider = array{
@@ -87,7 +87,7 @@ namespace OC\Core;
  *     name: string,
  *     icon: string,
  *     order: int,
- *     triggers: string[],
+ *     triggers: list<string>,
  *     filters: array<string, string>,
  *     inAppSearch: bool,
  * }
@@ -99,13 +99,13 @@ namespace OC\Core;
  *     resourceUrl: string,
  *     icon: string,
  *     rounded: bool,
- *     attributes: string[],
+ *     attributes: list<string>,
  * }
  *
  * @psalm-type CoreUnifiedSearchResult = array{
  *     name: string,
  *     isPaginated: bool,
- *     entries: CoreUnifiedSearchResultEntry[],
+ *     entries: list<CoreUnifiedSearchResultEntry>,
  *     cursor: int|string|null,
  * }
  *
@@ -171,16 +171,16 @@ namespace OC\Core;
  * @psalm-type CoreTaskProcessingTaskType = array{
  *     name: string,
  *     description: string,
- *     inputShape: CoreTaskProcessingShape[],
- *     inputShapeEnumValues: array{name: string, value: string}[][],
+ *     inputShape: list<CoreTaskProcessingShape>,
+ *     inputShapeEnumValues: list<list<array{name: string, value: string}>>,
  *     inputShapeDefaults: array<string, numeric|string>,
- *     optionalInputShape: CoreTaskProcessingShape[],
- *     optionalInputShapeEnumValues: array{name: string, value: string}[][],
+ *     optionalInputShape: list<CoreTaskProcessingShape>,
+ *     optionalInputShapeEnumValues: list<list<array{name: string, value: string}>>,
  *     optionalInputShapeDefaults: array<string, numeric|string>,
- *     outputShape: CoreTaskProcessingShape[],
- *     outputShapeEnumValues: array{name: string, value: string}[][],
- *     optionalOutputShape: CoreTaskProcessingShape[],
- *     optionalOutputShapeEnumValues: array{name: string, value: string}[][]}
+ *     outputShape: list<CoreTaskProcessingShape>,
+ *     outputShapeEnumValues: list<list<array{name: string, value: string}>>,
+ *     optionalOutputShape: list<CoreTaskProcessingShape>,
+ *     optionalOutputShapeEnumValues: list<list<array{name: string, value: string}>>,
  * }
  *
  * @psalm-type CoreTaskProcessingIO = array<string, numeric|list<numeric>|string|list<string>>
@@ -196,7 +196,10 @@ namespace OC\Core;
  *     output: null|CoreTaskProcessingIO,
  *     customId: ?string,
  *     completionExpectedAt: ?int,
- *     progress: ?float
+ *     progress: ?float,
+ *     scheduledAt: ?int,
+ *     startedAt: ?int,
+ *     endedAt: ?int,
  * }
  *
  */

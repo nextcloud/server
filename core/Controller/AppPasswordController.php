@@ -102,7 +102,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	/**
 	 * Delete app password
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSForbiddenException Deleting app password is not allowed
 	 *
 	 * 200: App password deleted successfully
@@ -162,7 +162,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param string $password The password of the user
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{lastLogin: int}, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{lastLogin: int}, array{}>|DataResponse<Http::STATUS_FORBIDDEN, list<empty>, array{}>
 	 *
 	 * 200: Password confirmation succeeded
 	 * 403: Password confirmation failed

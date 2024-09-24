@@ -68,30 +68,30 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	#[ApiRoute(verb: 'GET', url: '/tasktypes', root: '/taskprocessing')]
 	public function taskTypes(): DataResponse {
 		$taskTypes = array_map(function (array $tt) {
-			$tt['inputShape'] = array_map(function ($descriptor) {
+			$tt['inputShape'] = array_values(array_map(function ($descriptor) {
 				return $descriptor->jsonSerialize();
-			}, $tt['inputShape']);
-			$tt['outputShape'] = array_map(function ($descriptor) {
+			}, $tt['inputShape']));
+			$tt['outputShape'] = array_values(array_map(function ($descriptor) {
 				return $descriptor->jsonSerialize();
-			}, $tt['outputShape']);
-			$tt['optionalInputShape'] = array_map(function ($descriptor) {
+			}, $tt['outputShape']));
+			$tt['optionalInputShape'] = array_values(array_map(function ($descriptor) {
 				return $descriptor->jsonSerialize();
-			}, $tt['optionalInputShape']);
-			$tt['optionalOutputShape'] = array_map(function ($descriptor) {
+			}, $tt['optionalInputShape']));
+			$tt['optionalOutputShape'] = array_values(array_map(function ($descriptor) {
 				return $descriptor->jsonSerialize();
-			}, $tt['optionalOutputShape']);
-			$tt['inputShapeEnumValues'] = array_map(function (array $enumValues) {
-				return array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues);
-			}, $tt['inputShapeEnumValues']);
-			$tt['optionalInputShapeEnumValues'] = array_map(function (array $enumValues) {
-				return array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues);
-			}, $tt['optionalInputShapeEnumValues']);
-			$tt['outputShapeEnumValues'] = array_map(function (array $enumValues) {
-				return array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues);
-			}, $tt['outputShapeEnumValues']);
-			$tt['optionalOutputShapeEnumValues'] = array_map(function (array $enumValues) {
-				return array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues);
-			}, $tt['optionalOutputShapeEnumValues']);
+			}, $tt['optionalOutputShape']));
+			$tt['inputShapeEnumValues'] = array_values(array_map(function (array $enumValues) {
+				return array_values(array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues));
+			}, $tt['inputShapeEnumValues']));
+			$tt['optionalInputShapeEnumValues'] = array_values(array_map(function (array $enumValues) {
+				return array_values(array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues));
+			}, $tt['optionalInputShapeEnumValues']));
+			$tt['outputShapeEnumValues'] = array_values(array_map(function (array $enumValues) {
+				return array_values(array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues));
+			}, $tt['outputShapeEnumValues']));
+			$tt['optionalOutputShapeEnumValues'] = array_values(array_map(function (array $enumValues) {
+				return array_values(array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues));
+			}, $tt['optionalOutputShapeEnumValues']));
 			return $tt;
 		}, $this->taskProcessingManager->getAvailableTaskTypes());
 		return new DataResponse([
@@ -208,7 +208,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param string $appId ID of the app
 	 * @param string|null $customId An arbitrary identifier for the task
-	 * @return DataResponse<Http::STATUS_OK, array{tasks: CoreTaskProcessingTask[]}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{tasks: list<CoreTaskProcessingTask>}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
 	 * 200: Tasks returned
 	 */
@@ -217,7 +217,6 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	public function listTasksByApp(string $appId, ?string $customId = null): DataResponse {
 		try {
 			$tasks = $this->taskProcessingManager->getUserTasksByApp($this->userId, $appId, $customId);
-			/** @var CoreTaskProcessingTask[] $json */
 			$json = array_map(static function (Task $task) {
 				return $task->jsonSerialize();
 			}, $tasks);
@@ -235,7 +234,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param string|null $taskType The task type to filter by
 	 * @param string|null $customId An arbitrary identifier for the task
-	 * @return DataResponse<Http::STATUS_OK, array{tasks: CoreTaskProcessingTask[]}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{tasks: list<CoreTaskProcessingTask>}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
 	 * 200: Tasks returned
 	 */
@@ -244,7 +243,6 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	public function listTasks(?string $taskType, ?string $customId = null): DataResponse {
 		try {
 			$tasks = $this->taskProcessingManager->getUserTasks($this->userId, $taskType, $customId);
-			/** @var CoreTaskProcessingTask[] $json */
 			$json = array_map(static function (Task $task) {
 				return $task->jsonSerialize();
 			}, $tasks);

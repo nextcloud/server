@@ -104,9 +104,9 @@ class HelperTest extends \Test\TestCase {
 			->willReturn($tagger);
 
 		$data = [
-			['id' => 10],
-			['id' => 22, 'foo' => 'bar'],
-			['id' => 42, 'x' => 'y'],
+			['file_source' => 10],
+			['file_source' => 22, 'foo' => 'bar'],
+			['file_source' => 42, 'x' => 'y'],
 		];
 
 		$tags = [
@@ -118,12 +118,12 @@ class HelperTest extends \Test\TestCase {
 			->with([10, 22, 42])
 			->willReturn($tags);
 
-		$result = Helper::populateTags($data, 'id', $tagManager);
+		$result = Helper::populateTags($data, $tagManager);
 
 		$this->assertSame([
-			['id' => 10, 'tags' => ['tag3']],
-			['id' => 22, 'foo' => 'bar', 'tags' => []],
-			['id' => 42, 'x' => 'y', 'tags' => ['tag1', 'tag2']],
+			['file_source' => 10, 'tags' => ['tag3']],
+			['file_source' => 22, 'foo' => 'bar', 'tags' => []],
+			['file_source' => 42, 'x' => 'y', 'tags' => ['tag1', 'tag2']],
 		], $result);
 	}
 }

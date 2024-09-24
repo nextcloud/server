@@ -16,7 +16,7 @@ use OCP\OCM\IOCMResource;
  */
 class OCMResource implements IOCMResource {
 	private string $name = '';
-	/** @var string[] */
+	/** @var list<string> */
 	private array $shareTypes = [];
 	/** @var array<string, string> */
 	private array $protocols = [];
@@ -40,7 +40,7 @@ class OCMResource implements IOCMResource {
 	}
 
 	/**
-	 * @param string[] $shareTypes
+	 * @param list<string> $shareTypes
 	 *
 	 * @return $this
 	 */
@@ -51,7 +51,7 @@ class OCMResource implements IOCMResource {
 	}
 
 	/**
-	 * @return string[]
+	 * @return list<string>
 	 */
 	public function getShareTypes(): array {
 		return $this->shareTypes;
@@ -92,7 +92,7 @@ class OCMResource implements IOCMResource {
 	/**
 	 * @return array{
 	 *     name: string,
-	 *     shareTypes: string[],
+	 *     shareTypes: list<string>,
 	 *     protocols: array<string, string>
 	 * }
 	 */

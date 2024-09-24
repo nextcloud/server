@@ -155,7 +155,7 @@ class UserStatusController extends OCSController {
 	/**
 	 * Clear the message of the current user
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 *
 	 * 200: Message cleared successfully
 	 */
@@ -171,7 +171,7 @@ class UserStatusController extends OCSController {
 	 *
 	 * @param string $messageId ID of the message to delete
 	 *
-	 * @return DataResponse<Http::STATUS_OK, UserStatusPrivate|array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, UserStatusPrivate|list<empty>, array{}>
 	 *
 	 * 200: Status reverted
 	 */

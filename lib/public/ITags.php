@@ -76,9 +76,9 @@ interface ITags {
 	 * ]
 	 * ```
 	 *
-	 * @param array $objIds item ids
-	 * @return array|false with object id as key and an array
-	 *                     of tag names as value or false if an error occurred
+	 * @param list<int> $objIds item ids
+	 * @return array<int, list<string>>|false with object id as key and an array
+	 *                                        of tag names as value or false if an error occurred
 	 * @since 8.0.0
 	 */
 	public function getTagsForObjects(array $objIds);

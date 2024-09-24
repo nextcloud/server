@@ -192,37 +192,34 @@ class Helper {
 	/**
 	 * Populate the result set with file tags
 	 *
-	 * @param array $fileList
-	 * @param string $fileIdentifier identifier attribute name for values in $fileList
-	 * @param ITagManager $tagManager
-	 * @return array file list populated with tags
+	 * @psalm-template T of array{tags?: list<string>, file_source: int, ...array<string, mixed>}
+	 * @param list<T> $fileList
+	 * @return list<T> file list populated with tags
 	 */
-	public static function populateTags(array $fileList, $fileIdentifier, ITagManager $tagManager) {
-		$ids = [];
-		foreach ($fileList as $fileData) {
-			$ids[] = $fileData[$fileIdentifier];
-		}
+	public static function populateTags(array $fileList, ITagManager $tagManager) {
 		$tagger = $tagManager->load('files');
-		$tags = $tagger->getTagsForObjects($ids);
+		$tags = $tagger->getTagsForObjects(array_map(static fn (array $fileData) => $fileData['file_source'], $fileList));
 
 		if (!is_array($tags)) {
 			throw new \UnexpectedValueException('$tags must be an array');
 		}
 
 		// Set empty tag array
-		foreach ($fileList as $key => $fileData) {
-			$fileList[$key]['tags'] = [];
+		foreach ($fileList as &$fileData) {
+			$fileData['tags'] = [];
 		}
+		unset($fileData);
 
 		if (!empty($tags)) {
 			foreach ($tags as $fileId => $fileTags) {
-				foreach ($fileList as $key => $fileData) {
-					if ($fileId !== $fileData[$fileIdentifier]) {
+				foreach ($fileList as &$fileData) {
+					if ($fileId !== $fileData['file_source']) {
 						continue;
 					}
 
-					$fileList[$key]['tags'] = $fileTags;
+					$fileData['tags'] = $fileTags;
 				}
+				unset($fileData);
 			}
 		}
 

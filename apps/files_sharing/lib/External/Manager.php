@@ -11,6 +11,7 @@ use Doctrine\DBAL\Driver\Exception;
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
 use OCA\Files_Sharing\Helper;
+use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
@@ -30,6 +31,9 @@ use OCP\Share;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @psalm-import-type Files_SharingRemoteShare from ResponseDefinitions
+ */
 class Manager {
 	public const STORAGE = '\OCA\Files_Sharing\External\Storage';
 
@@ -686,7 +690,7 @@ class Manager {
 	/**
 	 * return a list of shares which are not yet accepted by the user
 	 *
-	 * @return array list of open server-to-server shares
+	 * @return list<Files_SharingRemoteShare> list of open server-to-server shares
 	 */
 	public function getOpenShares() {
 		return $this->getShares(false);
@@ -695,7 +699,7 @@ class Manager {
 	/**
 	 * return a list of shares which are accepted by the user
 	 *
-	 * @return array list of accepted server-to-server shares
+	 * @return list<Files_SharingRemoteShare> list of accepted server-to-server shares
 	 */
 	public function getAcceptedShares() {
 		return $this->getShares(true);
@@ -707,7 +711,7 @@ class Manager {
 	 * @param bool|null $accepted True for accepted only,
 	 *                            false for not accepted,
 	 *                            null for all shares of the user
-	 * @return array list of open server-to-server shares
+	 * @return list<Files_SharingRemoteShare> list of open server-to-server shares
 	 */
 	private function getShares($accepted) {
 		$user = $this->userManager->get($this->uid);

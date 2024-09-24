@@ -133,7 +133,7 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDispl
 	 * Get all groups a user belongs to
 	 *
 	 * @param string $uid Name of the user
-	 * @return string[] with group names
+	 * @return list<string> with group names
 	 *
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
