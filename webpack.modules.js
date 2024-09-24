@@ -107,6 +107,7 @@ module.exports = {
 		init: path.join(__dirname, 'apps/updatenotification/src', 'init.ts'),
 		'view-changelog-page': path.join(__dirname, 'apps/updatenotification/src', 'view-changelog-page.ts'),
 		updatenotification: path.join(__dirname, 'apps/updatenotification/src', 'updatenotification.js'),
+		'update-notification-legacy': path.join(__dirname, 'apps/updatenotification/src', 'update-notification-legacy.ts'),
 	},
 	user_status: {
 		menu: path.join(__dirname, 'apps/user_status/src', 'menu.js'),
