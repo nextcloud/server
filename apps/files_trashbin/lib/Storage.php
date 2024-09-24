@@ -29,13 +29,7 @@ class Storage extends Wrapper {
 
 	/**
 	 * Storage constructor.
-	 *
 	 * @param array $parameters
-	 * @param ITrashManager|null $trashManager
-	 * @param IUserManager|null $userManager
-	 * @param LoggerInterface|null $logger
-	 * @param IEventDispatcher|null $eventDispatcher
-	 * @param IRootFolder|null $rootFolder
 	 */
 	public function __construct(
 		$parameters,

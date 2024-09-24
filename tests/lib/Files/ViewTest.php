@@ -16,6 +16,7 @@ use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OC\Share20\ShareDisableChecker;
+use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\Config\IMountProvider;
@@ -26,9 +27,11 @@ use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use OCP\Server;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use OCP\Util;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\HookHelper;
 use Test\TestMoveableMountPoint;
 use Test\Traits\UserTrait;
@@ -1858,10 +1861,13 @@ class ViewTest extends \Test\TestCase {
 	): void {
 		$view = new View('/' . $this->user . '/files/');
 
-		/** @var Temporary|\PHPUnit\Framework\MockObject\MockObject $storage */
+		/** @var Temporary&MockObject $storage */
 		$storage = $this->getMockBuilder(Temporary::class)
 			->setMethods([$operation])
 			->getMock();
+
+		/* Pause trash to avoid the trashbin intercepting rmdir and unlink calls */
+		Server::get(ITrashManager::class)->pauseTrash();
 
 		Filesystem::mount($storage, [], $this->user . '/');
 
@@ -1898,6 +1904,9 @@ class ViewTest extends \Test\TestCase {
 		}
 
 		$this->assertEquals($expectedStrayLock, $this->getFileLockType($view, $lockedPath));
+
+		/* Resume trash to avoid side effects */
+		Server::get(ITrashManager::class)->resumeTrash();
 	}
 
 	/**
@@ -2007,6 +2016,9 @@ class ViewTest extends \Test\TestCase {
 			->setMethods([$operation])
 			->getMock();
 
+		/* Pause trash to avoid the trashbin intercepting rmdir and unlink calls */
+		Server::get(ITrashManager::class)->pauseTrash();
+
 		Filesystem::mount($storage, [], $this->user . '/');
 
 		// work directly on disk because mkdir might be mocked
@@ -2033,6 +2045,9 @@ class ViewTest extends \Test\TestCase {
 		}
 		$this->assertTrue($thrown, 'Exception was rethrown');
 		$this->assertNull($this->getFileLockType($view, $path), 'File got unlocked after exception');
+
+		/* Resume trash to avoid side effects */
+		Server::get(ITrashManager::class)->resumeTrash();
 	}
 
 	public function testLockBasicOperationUnlocksAfterLockException(): void {
