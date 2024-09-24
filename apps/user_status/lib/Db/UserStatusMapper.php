@@ -157,7 +157,11 @@ class UserStatusMapper extends QBMapper {
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)))
 			->andWhere($qb->expr()->eq('message_id', $qb->createNamedParameter($messageId)))
 			->andWhere($qb->expr()->eq('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)));
-		return $qb->executeStatement() > 0;
+		$result = $qb->executeStatement();
+
+		var_dump($result);
+
+		return $result > 0;
 	}
 
 	public function deleteByIds(array $ids): void {
