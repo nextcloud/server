@@ -66,7 +66,7 @@
 			"PHP_CLI_SERVER_WORKERS=${NEXTCLOUD_WORKERS:=4} php -S ${NEXTCLOUD_HOST:=localhost}:${NEXTCLOUD_PORT:=8080} -t ./"
 		],
 		"test": "phpunit --configuration tests/phpunit-autotest.xml",
-		"test:db": "@composer run test -- --group DB,SLOWDB",
+		"test:db": "@composer run test -- apps/user_status/tests/Integration/Service/StatusServiceIntegrationTest.php",
 		"test:files_external": "phpunit --configuration tests/phpunit-autotest-external.xml"
 	},
 	"extra": {
