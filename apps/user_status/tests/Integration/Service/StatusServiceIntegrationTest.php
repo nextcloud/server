@@ -42,17 +42,20 @@ class StatusServiceIntegrationTest extends TestCase {
 	}
 
 	public function testCustomStatusMessageTimestamp(): void {
+		$before = time();
 		$this->service->setCustomMessage(
 			'test123',
 			'🍕',
 			'Lunch',
 			null,
 		);
+		$after = time();
 
 		$status = $this->service->findByUserId('test123');
 
 		self::assertSame('Lunch', $status->getCustomMessage());
-		self::assertGreaterThanOrEqual(time(), $status->getStatusMessageTimestamp());
+		self::assertGreaterThanOrEqual($before, $status->getStatusMessageTimestamp());
+		self::assertLessThanOrEqual($after, $status->getStatusMessageTimestamp());
 	}
 
 	public function testOnlineStatusKeepsMessageTimestamp(): void {
