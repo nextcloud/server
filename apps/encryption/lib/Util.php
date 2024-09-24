@@ -25,11 +25,7 @@ class Util {
 		private IConfig $config,
 		private IUserManager $userManager,
 	) {
-		$this->files = $files;
-		$this->crypt = $crypt;
 		$this->user = $userSession->isLoggedIn() ? $userSession->getUser() : false;
-		$this->config = $config;
-		$this->userManager = $userManager;
 	}
 
 	/**
@@ -140,4 +136,5 @@ class Util {
 	public function getStorage($path) {
 		return $this->files->getMount($path)->getStorage();
 	}
+
 }
