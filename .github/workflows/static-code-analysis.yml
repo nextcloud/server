@@ -64,7 +64,7 @@ jobs:
         run: composer i
 
       - name: Psalm taint analysis
-        run: composer run psalm:ci -- --monochrome --no-progress --output-format=github --report=results.sarif --taint-analysis
+        run: composer run psalm:ci -- --monochrome --no-progress --output-format=github --report=results.sarif --taint-analysis --ignore-baseline
 
       - name: Upload Security Analysis results to GitHub
         if: always()
