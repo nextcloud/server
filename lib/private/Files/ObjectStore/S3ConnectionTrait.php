@@ -156,6 +156,7 @@ trait S3ConnectionTrait {
 				'connect_timeout' => 5
 			],
 			'use_aws_shared_config_files' => false,
+			'suppress_php_deprecation_warning' => true,
 		];
 
 		if ($this->params['s3-accelerate']) {
