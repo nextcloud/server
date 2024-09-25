@@ -42,17 +42,20 @@ class StatusServiceIntegrationTest extends TestCase {
 	}
 
 	public function testCustomStatusMessageTimestamp(): void {
+		$before = time();
 		$this->service->setCustomMessage(
 			'test123',
 			'🍕',
 			'Lunch',
 			null,
 		);
+		$after = time();
 
 		$status = $this->service->findByUserId('test123');
 
 		self::assertSame('Lunch', $status->getCustomMessage());
-		self::assertGreaterThanOrEqual(time(), $status->getStatusMessageTimestamp());
+		self::assertGreaterThanOrEqual($before, $status->getStatusMessageTimestamp());
+		self::assertLessThanOrEqual($after, $status->getStatusMessageTimestamp());
 	}
 
 	public function testOnlineStatusKeepsMessageTimestamp(): void {
@@ -95,15 +98,29 @@ class StatusServiceIntegrationTest extends TestCase {
 			'meeting',
 			true,
 		);
+
 		self::assertSame(
 			'meeting',
 			$this->service->findByUserId('test123')->getMessageId(),
 		);
+		self::assertSame(
+			IUserStatus::ONLINE,
+			$this->service->findByUserId('_test123')->getStatus(),
+		);
 
-		$this->service->revertUserStatus(
+		$revertedStatus = $this->service->revertUserStatus(
 			'test123',
 			'meeting',
 		);
+
+		self::assertNotNull($revertedStatus, 'Status should have been reverted');
+
+		try {
+			$this->service->findByUserId('_test123');
+			$this->fail('Expected DoesNotExistException() to be thrown when finding backup status after reverting');
+		} catch (DoesNotExistException) {
+		}
+
 		self::assertSame(
 			IUserStatus::ONLINE,
 			$this->service->findByUserId('test123')->getStatus(),
