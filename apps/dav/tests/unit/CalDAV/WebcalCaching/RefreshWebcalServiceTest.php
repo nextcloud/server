@@ -252,7 +252,7 @@ class RefreshWebcalServiceTest extends TestCase {
 			->willThrowException($noInstanceException);
 
 		$this->logger->expects(self::once())
-			->method('error')
+			->method('warning')
 			->with('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $noInstanceException, 'subscriptionId' => '42', 'source' => 'webcal://foo.bar/bla2']);
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
@@ -302,7 +302,7 @@ class RefreshWebcalServiceTest extends TestCase {
 			->willThrowException($badRequestException);
 
 		$this->logger->expects(self::once())
-			->method('error')
+			->method('warning')
 			->with('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $badRequestException, 'subscriptionId' => '42', 'source' => 'webcal://foo.bar/bla2']);
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
