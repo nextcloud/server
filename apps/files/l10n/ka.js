@@ -197,7 +197,6 @@ OC.L10N.register(
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 file and {folderCount} folder","1 file and {folderCount} folders"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} file and 1 folder","{fileCount} files and 1 folder"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} files and {folderCount} folders",
-    "List of favorites files and folders." : "List of favorites files and folders.",
     "No favorites yet" : "No favorites yet",
     "Files and folders you mark as favorite will show up here" : "Files and folders you mark as favorite will show up here",
     "All files" : "All files",
@@ -301,6 +300,7 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "You might not have have permissions to view it, ask the sender to share it",
     "The files is locked" : "The files is locked",
     "Create new templates folder" : "Create new templates folder",
+    "List of favorites files and folders." : "List of favorites files and folders.",
     "Toggle %1$s sublist" : "Toggle %1$s sublist",
     "Text file" : "Text file",
     "New text file.txt" : "New text file.txt"

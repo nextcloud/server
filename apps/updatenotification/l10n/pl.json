@@ -1,5 +1,4 @@
 { "translations": {
-    "{version} is available. Get more information on how to update." : "Wersja {version} jest dostępna. Uzyskaj więcej informacji na temat aktualizacji.",
     "Channel updated" : "Zaktualizowano kanał",
     "Web updater is disabled" : "Aktualizator sieciowy jest wyłączony",
     "Update notifications" : "Powiadomienia o aktualizacji",
@@ -42,6 +41,7 @@
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Wersja przedpremierowa tylko do testowania nowych funkcji. Nie jest do środowisk produkcyjnych.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplikacja nie ma kompatybilnej wersji z tą wersją Nextcloud.","<strong>%n</strong> aplikacje nie ma kompatybilnej wersji z tą wersją Nextcloud.","<strong>%n</strong> aplikacji nie ma kompatybilnej wersji z tą wersją Nextcloud.","<strong>%n</strong> aplikacji nie ma kompatybilnej wersji z tą wersją Nextcloud."],
+    "{version} is available. Get more information on how to update." : "Wersja {version} jest dostępna. Uzyskaj więcej informacji na temat aktualizacji.",
     "Update to %1$s is available." : "Dostępna jest aktualizacja do wersji %1$s.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Wyświetla powiadomienia o aktualizacji dla usługi Nextcloud i udostępnia SSO dla aktualizatora.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Należy pamiętać, że aktualizacja sieciowa nie jest zalecana przy więcej niż 100 użytkownikach! Zamiast tego użyj narzędzia do aktualizacji wiersza poleceń!",

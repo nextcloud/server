@@ -1,5 +1,4 @@
 { "translations": {
-    "{version} is available. Get more information on how to update." : "{version} is available. Get more information on how to update.",
     "Channel updated" : "Channel updated",
     "Web updater is disabled" : "Web updater is disabled",
     "App updated" : "App updated",
@@ -55,6 +54,7 @@
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> app has no compatible version for this Nextcloud version available.","<strong>%n</strong> apps have no compatible version for this Nextcloud version available."],
     "Changelog for app {app}" : "Changelog for app {app}",
     "What's new in {app} version {version}" : "What's new in {app} version {version}",
+    "{version} is available. Get more information on how to update." : "{version} is available. Get more information on how to update.",
     "Update to %1$s is available." : "Update to %1$s is available.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Displays update notifications for Nextcloud and provides the SSO for the updater.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!",

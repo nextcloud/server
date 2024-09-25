@@ -1,5 +1,4 @@
 { "translations": {
-    "{version} is available. Get more information on how to update." : "الإصدار {version} متوفر. أحصُل على معلومات عن كيفية التحديث.",
     "Channel updated" : "تمّ تحديث القناة",
     "Web updater is disabled" : "مُحدِّث الوب موقوف",
     "App updated" : "تمّ تحديث التطبيق",
@@ -55,6 +54,7 @@
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> من التطبيقات ليس لها إصدار متوافق مع إصدار نكست كلود المتاح.","<strong>%n</strong>تطبيق  ليس له إصدار متوافق مع إصدار نكست كلود المتاح.","<strong>%n</strong> من التطبيقات ليس لها إصدار متوافق مع إصدار نكست كلود المتاح.","<strong>%n</strong> من التطبيقات ليس لها إصدار متوافق مع إصدار نكست كلود المتاح.","<strong>%n</strong> من التطبيقات ليس لها إصدار متوافق مع إصدار نكست كلود المتاح.","<strong>%n</strong> من التطبيقات ليس لها إصدار متوافق مع إصدار نكست كلود المتاح."],
     "Changelog for app {app}" : "سجل التغييرات للتطبيق {app}",
     "What's new in {app} version {version}" : "ما الجديد في الإصدار {version} من التطبيق {app}",
+    "{version} is available. Get more information on how to update." : "الإصدار {version} متوفر. أحصُل على معلومات عن كيفية التحديث.",
     "Update to %1$s is available." : "التحديثات متوفرة حتى الإصدار %1$s.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "يعرض إشعارات التحديث لـ Nextcloud ويوفر SSO للمُحدِّث.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "لاحظ رجاءً أن مُحدّث الوب لا يُنصح به في حالة كان عدد مستخدميك أكثر من 100 شخص! استخدم المُحدّث عن طريق سطر الأوامر بدلاً عنه!",

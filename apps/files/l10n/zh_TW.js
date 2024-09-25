@@ -276,7 +276,7 @@ OC.L10N.register(
     "\"{segment}\" is a reserved name and not allowed for filenames." : "「{segment}」是保留名稱，不允許用在檔案名稱。",
     "\"{extension}\" is not an allowed filetype." : "「{extension}」是不允許的檔案類型。",
     "Filenames must not end with \"{extension}\"." : "檔案名稱不能以「{extension}」結尾。",
-    "List of favorites files and folders." : "最愛檔案與資料夾的清單。",
+    "List of favorite files and folders." : "最愛檔案與資料夾清單。",
     "No favorites yet" : "尚無最愛",
     "Files and folders you mark as favorite will show up here" : "您標記為最愛的檔案與資料夾將會顯示在這裡",
     "All files" : "所有檔案",
@@ -389,10 +389,14 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "您可能沒有權限檢視它，請要求寄件者分享它",
     "The files is locked" : "檔案已鎖定",
     "Create new templates folder" : "建立新的範本資料夾",
+    "List of favorites files and folders." : "最愛檔案與資料夾的清單。",
     "Toggle %1$s sublist" : "切換 %1$s 子列表",
     "Text file" : "文字檔案",
     "New text file.txt" : "新文字檔案.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "已複製直接連結（僅對有權存取此檔案或資料夾的使用者有用）",
-    "Copy direct link (only works for people who have access to this file/folder)" : "複製直接連結（僅對有權存取此檔案或資料夾的使用者有用）"
+    "Copy direct link (only works for people who have access to this file/folder)" : "複製直接連結（僅對有權存取此檔案或資料夾的使用者有用）",
+    "Favored" : "已加入最愛",
+    "Favor" : "加入最愛",
+    "Not favored" : "未加入最愛"
 },
 "nplurals=1; plural=0;");

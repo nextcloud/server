@@ -1,5 +1,4 @@
 { "translations": {
-    "{version} is available. Get more information on how to update." : "Η έκδοση {version} είναι διαθέσιμη. Δείτε περισσότερες πληροφορίες για το πως να κάνετε την ενημέρωση.",
     "Channel updated" : "Ενημερωμένο κανάλι",
     "Web updater is disabled" : "Η ενημερώσεις μέσω ιστού έχουν απενεργοποιηθεί",
     "Update notifications" : "Ειδοποιήσεις ενημέρωσης",
@@ -36,6 +35,7 @@
     "Beta" : "Δοκιμαστικό",
     "A pre-release version only for testing new features, not for production environments." : "Μια προηγούμενη έκδοση μόνο για τη δοκιμή νέων λειτουργιών, όχι για περιβάλλοντα παραγωγής.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> εφαρμογή δεν έχει διαθέσιμη συμβατή έκδοση για αυτήν την έκδοση Nextcloud.","<strong>%n</strong> εφαρμογές δεν έχουν διαθέσιμη συμβατή έκδοση για αυτήν την έκδοση Nextcloud."],
+    "{version} is available. Get more information on how to update." : "Η έκδοση {version} είναι διαθέσιμη. Δείτε περισσότερες πληροφορίες για το πως να κάνετε την ενημέρωση.",
     "Update to %1$s is available." : "Είναι διαθέσιμη η ενημέρωση σε %1$s.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Εμφανίζει ειδοποιήσεις ενημέρωσης για το Nextcloud και παρέχει το SSO για την εφαρμογή ενημέρωσης.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Παρακαλούμε λάβετε υπόψη ότι ο web updater δεν συνιστάται για περισσότερους από 100 χρήστες! Παρακαλούμε χρησιμοποιήστε αντ' αυτού το πρόγραμμα ενημέρωσης γραμμής εντολών!",

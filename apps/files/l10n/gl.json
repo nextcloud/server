@@ -274,7 +274,7 @@
     "\"{segment}\" is a reserved name and not allowed for filenames." : "«{segment}» é un nome reservado e non está permitido para os nomes de ficheiro.",
     "\"{extension}\" is not an allowed filetype." : "«{extension}» non é un tipo de ficheiro permitido.",
     "Filenames must not end with \"{extension}\"." : "Os nomes de ficheiros non deben rematar con «{extension}».",
-    "List of favorites files and folders." : "Lista de ficheiros e cartafoles favoritos.",
+    "List of favorite files and folders." : "Lista de ficheiros e cartafoles favoritos.",
     "No favorites yet" : "Aínda non hai favoritos",
     "Files and folders you mark as favorite will show up here" : "Os ficheiros e cartafoles que marque como favoritos amosaranse aquí",
     "All files" : "Todos os ficheiros",
@@ -387,10 +387,14 @@
     "You might not have have permissions to view it, ask the sender to share it" : "É posíbel que non teña permisos para velo, pídalle ao remitente que o comparta",
     "The files is locked" : "Os ficheiros están bloqueados",
     "Create new templates folder" : "Crear un novo cartafol de modelos",
+    "List of favorites files and folders." : "Lista de ficheiros e cartafoles favoritos.",
     "Toggle %1$s sublist" : "Alternar %1$s sublista",
     "Text file" : "Ficheiro de texto",
     "New text file.txt" : "Novo ficheiro de texto.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Foi copiada a ligazón directa (só funciona para as persoas que teñen acceso a este ficheiro/cartafol)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Copiar a ligazón directa (só funciona para persoas con acceso a este ficheiro/cartafol)"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Copiar a ligazón directa (só funciona para persoas con acceso a este ficheiro/cartafol)",
+    "Favored" : "Marcado como favorito",
+    "Favor" : "Marcar como favorito",
+    "Not favored" : "Non marcado como favorito"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

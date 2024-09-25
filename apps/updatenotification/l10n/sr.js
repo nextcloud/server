@@ -1,7 +1,6 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "Верзија {version} је доступна. Сазнајте како да ажурирате.",
     "Channel updated" : "Канал ажуриран",
     "Web updater is disabled" : "Веб алат за ажурирање је искључен",
     "App updated" : "Апликација је ажурирана",
@@ -57,6 +56,7 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> апликација нема верзију која је компатибилна са верзијом ове Nextcloud инстанце.","<strong>%n</strong> апликација немају верзију која је компатибилна са верзијом ове Nextcloud инстанце.","<strong>%n</strong> апликација нема верзију која је компатибилна са верзијом ове Nextcloud инстанце."],
     "Changelog for app {app}" : "Дневник измена апликације {app}",
     "What's new in {app} version {version}" : "Шта има ново у {app} верзије {version}",
+    "{version} is available. Get more information on how to update." : "Верзија {version} је доступна. Сазнајте како да ажурирате.",
     "Update to %1$s is available." : "Доступно је ажурирање на %1$s. ",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Приказује обавештавања о ажурирањима за Некстклауд и омогућава јединствену пријаву за програм ажурирања.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Молимо вас да имате на уму да се веб алат за ажурирање не препоручује када постоји више од 100 корисника! Молимо вас да у том случају употребите ажурирање из командне линије!",

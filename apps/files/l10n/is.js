@@ -191,7 +191,6 @@ OC.L10N.register(
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 skrá og {folderCount} mappa","1 skrá og {folderCount} möppur"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} skrá og 1 mappa","{fileCount} skrár og 1 mappa"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} skrár og {folderCount} möppur",
-    "List of favorites files and folders." : "Listi yfir eftirlætisskrár og möppur.",
     "No favorites yet" : "Engin eftirlæti ennþá",
     "Files and folders you mark as favorite will show up here" : "Skrár og möppur sem þú merkir sem eftirlæti birtast hér",
     "All files" : "Allar skrár",
@@ -295,6 +294,7 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "Þú hefur mögulega ekki heimildir til að skoða hana, biddu sendandann um að deila henni",
     "The files is locked" : "Skráin er læst",
     "Create new templates folder" : "Búa til nýja sniðmátamöppu",
+    "List of favorites files and folders." : "Listi yfir eftirlætisskrár og möppur.",
     "Toggle %1$s sublist" : "Víxla %1$s undirlistanum af/á",
     "Text file" : "Textaskrá",
     "New text file.txt" : "Ný textaskrá.txt"
