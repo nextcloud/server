@@ -123,19 +123,21 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 				}
 			} else {
 				// show conflict file popup if we do not allow overwriting
-				const otherNodes = await getContents(destination.path)
-				if (hasConflict([node], otherNodes.contents)) {
-					try {
-						// Let the user choose what to do with the conflicting files
-						const { selected, renamed } = await openConflictPicker(destination.path, [node], otherNodes.contents)
-						// two empty arrays: either only old files or conflict skipped -> no action required
-						if (!selected.length && !renamed.length) {
+				if (!overwrite) {
+					const otherNodes = await getContents(destination.path)
+					if (hasConflict([node], otherNodes.contents)) {
+						try {
+							// Let the user choose what to do with the conflicting files
+							const { selected, renamed } = await openConflictPicker(destination.path, [node], otherNodes.contents)
+							// two empty arrays: either only old files or conflict skipped -> no action required
+							if (!selected.length && !renamed.length) {
+								return
+							}
+						} catch (error) {
+							// User cancelled
+							showError(t('files', 'Move cancelled'))
 							return
 						}
-					} catch (error) {
-						// User cancelled
-						showError(t('files', 'Move cancelled'))
-						return
 					}
 				}
 				// getting here means either no conflict, file was renamed to keep both files
