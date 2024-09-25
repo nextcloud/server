@@ -1,7 +1,6 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "{version} 釋出了。取得更多關於如何更新的資訊。",
     "Channel updated" : "頻道已更新",
     "Web updater is disabled" : "網頁更新程式已停用",
     "App updated" : "已更新應用程式",
@@ -57,6 +56,7 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> 應用程式沒有與此 Nextcloud 版本相容的版本。"],
     "Changelog for app {app}" : "應用程式 {app} 的變更紀錄",
     "What's new in {app} version {version}" : "{app} 版本 {version} 中有什麼新功能",
+    "{version} is available. Get more information on how to update." : "{version} 釋出了。取得更多關於如何更新的資訊。",
     "Update to %1$s is available." : "更新版 %1$s 已經釋出",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "顯示 Nextcloud 的更新通知，並為更新程式提供 SSO。",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "請注意，不建議超過 100 個使用者的站台使用網頁更新程式！請改用命令列更新程式！",

@@ -176,7 +176,6 @@
     "Some files could not be moved" : "برخی از پرونده‌ها قابل انتقال نیستند",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} پوشه","{folderCount} پوشه"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} پرونده","{fileCount} پرونده"],
-    "List of favorites files and folders." : "لیست فایل ها و پوشه های مورد علاقه",
     "No favorites yet" : "هنوز مورد دلخواه وجود ندارد",
     "Files and folders you mark as favorite will show up here" : "فایل‌ها و پوشه‌های انتخاب شده به عنوان برگزیده توسط شما، در اینجا نمایش داده می‌شود",
     "All files" : "تمامی فایل‌ها",
@@ -278,6 +277,7 @@
     "Open the files app settings" : "تنظیمات برنامه فایل ها را باز کنید",
     "You might not have have permissions to view it, ask the sender to share it" : "ممکن است مجوز مشاهده آن را نداشته باشید، از فرستنده بخواهید آن را به اشتراک بگذارد",
     "Create new templates folder" : "پوشه قالب های جدید ایجاد کنید",
+    "List of favorites files and folders." : "لیست فایل ها و پوشه های مورد علاقه",
     "Toggle %1$s sublist" : "تغییر%1$s فهرست فرعی",
     "Text file" : "فایل متنی",
     "New text file.txt" : "پروندهٔ متنی جدید با پسوند txt"

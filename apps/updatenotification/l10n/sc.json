@@ -1,5 +1,4 @@
 { "translations": {
-    "{version} is available. Get more information on how to update." : "{version} est a disponimentu. Otene è àteras informatziones subra comente pònnere in esecutzione s'agiornamentu.",
     "Channel updated" : "Canale agiornadu",
     "Web updater is disabled" : "S'agiornamentu web est disativadu",
     "Update notifications" : "Notìficas de is agiornamentos",
@@ -34,6 +33,7 @@
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Sa versione istàbile prus reghente. Est dèghida pro s'impreu fitianu e at a èssere semper agiornada a s'ùrtima versione printzipale.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Una versione pre-publicatzione isceti pro proare is funtzionalidades noas, non pro ambientes de produtzione.",
+    "{version} is available. Get more information on how to update." : "{version} est a disponimentu. Otene è àteras informatziones subra comente pònnere in esecutzione s'agiornamentu.",
     "Update to %1$s is available." : "Agiornamentu a %1$s a disponimentu.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Visualiza is notìficas de is agiornamentos pro Nextcloud e fruni su SSO pro sa funtzione de agiornamentu.",
     "Please use the command line updater to update." : "Imprea sa funtzione de agiornamentu dae sa lìnia de cumandu pro agiornare.",

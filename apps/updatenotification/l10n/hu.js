@@ -1,7 +1,6 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "Új verzió érhető el: {version}. További információk a frissítéshez.",
     "Channel updated" : "Csatorna frissítve",
     "Web updater is disabled" : "Webes frissítő letiltva",
     "See what's new" : "Újdonságok megtekintése",
@@ -47,6 +46,7 @@ OC.L10N.register(
     "A pre-release version only for testing new features, not for production environments." : "Az előzetes verzió kizárólag az új funkciók tesztelésére szolgál, nem éles környezetekbe való.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz.","<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz."],
     "What's new in {app} version {version}" : "Újdonságok a(z) {app} {version} verziójában",
+    "{version} is available. Get more information on how to update." : "Új verzió érhető el: {version}. További információk a frissítéshez.",
     "Update to %1$s is available." : "%1$s frissítés érhető el.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Megjeleníti a Nextcloud frissítéseiről szóló értesítéseket és SSO hozzáférést nyújt a frissítésekhez.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Vegye figyelembe, hogy a webes frissítő több mint 100 felhasználóval nem ajánlott. Használja helyette a parancssoros frissítőt.",

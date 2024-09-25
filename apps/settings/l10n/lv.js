@@ -18,7 +18,7 @@ OC.L10N.register(
     "You changed your password" : "Tu nomainīji savu paroli",
     "You renamed app password \"{token}\" to \"{newToken}\"" : "Tu pārdēvēji lietotnes paroli \"{token}\" uz \"{newToken}\"",
     "Security" : "Drošība",
-    "You successfully logged in using two-factor authentication (%1$s)" : "Esat veiksmīgi pieteicies, izmantojot divpakāpju autentifikācija (%1$s)",
+    "You successfully logged in using two-factor authentication (%1$s)" : "Veiksmīga pieteikšanās ar divpakāpju autentifikāciju (%1$s)",
     "A login attempt using two-factor authentication failed (%1$s)" : "Pieteikšanās mēģinājums ar divpakāpju autentifikāciju neizdevās (%1$s)",
     "Settings" : "Iestatījumi",
     "Could not update app." : "Lietotni nevarēja atjaunināt.",

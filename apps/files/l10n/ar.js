@@ -276,7 +276,7 @@ OC.L10N.register(
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\" هو اسم محجوز و لا يجوز استعماله كاسم لملف.",
     "\"{extension}\" is not an allowed filetype." : "\"{extension}\" غير مسموح به كنوع لملف.",
     "Filenames must not end with \"{extension}\"." : "أسماء الملفات يجب ألّا تنتهي بـ \"{extension}\".",
-    "List of favorites files and folders." : "قائمة الملفات والمجلدات المفضلة.",
+    "List of favorite files and folders." : "قائمة بالملفات و المجلدات المُفضّلة.",
     "No favorites yet" : "ليست عندك مفضلات بعد",
     "Files and folders you mark as favorite will show up here" : "الملفات والمجلدات التي حددتها كامفضلة سوف تظهر هنا ",
     "All files" : "كل الملفات",
@@ -389,10 +389,14 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "يمكن ألاّ تكون لديك صلاحية لعرضه، أطلب من المُرسل إن يشاركه معك",
     "The files is locked" : "الملفات مقفله",
     "Create new templates folder" : "إنشيْ مجلد جديد للقوالب",
+    "List of favorites files and folders." : "قائمة الملفات والمجلدات المفضلة.",
     "Toggle %1$s sublist" : "تبديل %1$s قائمة فرعية",
     "Text file" : "ملف نصي",
     "New text file.txt" : "ملف نصي جديد fille.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "تم نسخ الرابط المباشر (يعمل فقط للأشخاص الذين لديهم حق الوصول إلى هذا الملف/المجلد)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "نسخ الرابط المباشر (يعمل فقط للأشخاص الذين لديهم حق الوصول إلى هذا الملف/المجلد)"
+    "Copy direct link (only works for people who have access to this file/folder)" : "نسخ الرابط المباشر (يعمل فقط للأشخاص الذين لديهم حق الوصول إلى هذا الملف/المجلد)",
+    "Favored" : "مُفضّلة",
+    "Favor" : "تفضيل",
+    "Not favored" : "غير مُفضّلة"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "{version} está disponible. Obtenga más información sobre cómo actualizar.",
     "Channel updated" : "Canal actualizado",
     "Web updater is disabled" : "El actualizador web está desactivado",
     "Update notifications" : "Actualizar notificaciones",
@@ -38,6 +37,7 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Es la versión preliminar para poder probar nuevas características, no para entornos de producción.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["La app <strong>%n</strong> no tiene una versión disponible compatible con esta versión de Nextcloud.","Las apps 1%n1 no tienen una versión disponible compatible con esta versión de Nextcloud.","Las apps <strong>%n</strong> no tienen una versión compatible con esta versión de Nextcloud."],
+    "{version} is available. Get more information on how to update." : "{version} está disponible. Obtenga más información sobre cómo actualizar.",
     "Update to %1$s is available." : "La actualización a %1$s está disponible. ",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Muestra notificaciones de actualizaciones para Nexcloud y provee el SSO para el actualizador.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Tenga en cuenta que el actualizador web no se recomienda cuando la instancia tiene más de 100 usuarios. Por favor, utilice el actualizador de línea de comandos en su lugar.",
