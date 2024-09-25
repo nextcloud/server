@@ -11,14 +11,19 @@
 			:menu-name="currentWeatherMessage">
 			<template #icon>
 				<NcLoadingIcon v-if="loading" />
-				<img v-else :src="weatherIconUrl" class="weather-image" alt="t('weather_status', 'Weather icon')">
+				<img v-else
+					:src="weatherIconUrl"
+					alt=""
+					class="weather-image">
 			</template>
 			<NcActionText v-if="gotWeather"
 				:aria-hidden="true">
 				<template #icon>
 					<NcLoadingIcon v-if="loading" />
 					<div v-else class="weather-action-image-container">
-						<img :src="futureWeatherIconUrl" class="weather-image" alt="t('weather_status', 'Future weather icon')">
+						<img :src="futureWeatherIconUrl"
+							alt=""
+							class="weather-image">
 					</div>
 				</template>
 				{{ forecastMessage }}
@@ -47,8 +52,7 @@
 				{{ addRemoveFavoriteText }}
 			</NcActionButton>
 			<NcActionSeparator v-if="address && !errorMessage" />
-			<NcActionButton
-				:close-after-click="true"
+			<NcActionButton :close-after-click="true"
 				:aria-hidden="true"
 				@click="onBrowserLocationClick">
 				<template #icon>
@@ -76,7 +80,7 @@
 						<NcIconSvgWrapper name="Star"
 							:svg="starSvg"
 							:size="20"
-							class="favorite-color" />
+							:class="{'favorite-color': address === favorite}" />
 					</template>
 					{{ favorite }}
 				</NcActionButton>
@@ -567,7 +571,7 @@ export default {
 	justify-content: center;
 }
 .weather-image {
-	width: 28px;
+	width: calc(var(--default-clickable-area) - 2 * var(--default-grid-baseline));
 }
 
 // Set color to primary element for current / active favorite address

@@ -227,9 +227,9 @@ Files: core/img/appstore.svg
 Copyright: 2024 Apple Inc.
 License: LicenseRef-AppleAppStoreBadge
 
-Files: apps/weather_status/img/cloud-cloud.svg apps/weather_status/img/cloud-dots.svg apps/weather_status/img/cross.svg apps/weather_status/img/drop.svg apps/weather_status/img/fog.svg apps/weather_status/img/half-sun.svg apps/weather_status/img/heavy-rain.svg apps/weather_status/img/light-rain.svg apps/weather_status/img/moon-cloud-heavy-rain.svg apps/weather_status/img/moon-cloud-light-rain.svg apps/weather_status/img/moon-cloud-rain.svg apps/weather_status/img/moon-cloud.svg apps/weather_status/img/moon-small-cloud.svg apps/weather_status/img/moon.svg apps/weather_status/img/rain.svg apps/weather_status/img/snow.svg apps/weather_status/img/sun-cloud-heavy-rain.svg apps/weather_status/img/sun-cloud-light-rain.svg apps/weather_status/img/sun-cloud-rain.svg apps/weather_status/img/sun-cloud.svg apps/weather_status/img/sun-small-cloud.svg apps/weather_status/img/sun.svg apps/weather_status/img/thunder.svg apps/weather_status/img/umbrella.svg
-Copyright: 2024 Designed by Freepik, titusurya <https://www.freepik.com/author/titusurya> at <https://www.freepik.com/free-vector/coloured-weather-icons-collection_895655.htm>
-License: LicenseRef-freepikLicense
+Files: apps/weather_status/img/met.no.icons/*.svg
+Copyright: 2015-2017 NRK og Meteorologisk institutt <https://github.com/metno/weathericons>
+License: MIT
 
 Files: core/img/f-droid.svg
 Copyright: 2016 Andrew Nayenko <relan@airpost.net>
