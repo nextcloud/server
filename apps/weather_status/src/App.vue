@@ -24,18 +24,25 @@
 				{{ forecastMessage }}
 			</NcActionText>
 			<NcActionLink v-if="gotWeather"
-				icon="icon-address"
 				target="_blank"
 				:aria-hidden="true"
 				:href="weatherLinkTarget"
 				:close-after-click="true">
+				<template #icon>
+					<NcIconSvgWrapper name="MapMarker"
+						:svg="mapMarkerSvg"
+						:size="20" />
+				</template>
 				{{ locationText }}
 			</NcActionLink>
 			<NcActionButton v-if="gotWeather"
 				:aria-hidden="true"
 				@click="onAddRemoveFavoriteClick">
 				<template #icon>
-					<component :is="addRemoveFavoriteIcon" :size="20" class="favorite-color" />
+					<NcIconSvgWrapper name="Star"
+						:svg="addRemoveFavoriteSvg"
+						:size="20"
+						class="favorite-color" />
 				</template>
 				{{ addRemoveFavoriteText }}
 			</NcActionButton>
@@ -45,8 +52,8 @@
 				:aria-hidden="true"
 				@click="onBrowserLocationClick">
 				<template #icon>
-					<NcIconSvgWrapper :name="t('weather_status', 'Detect location')"
-						:svg="crossSvg"
+					<NcIconSvgWrapper name="Crosshairs"
+						:svg="crosshairsSvg"
 						:size="20" />
 				</template>
 				{{ t('weather_status', 'Detect location') }}
@@ -66,7 +73,10 @@
 					:aria-hidden="true"
 					@click="onFavoriteClick($event, favorite)">
 					<template #icon>
-						<IconStar :size="20" :class="{'favorite-color': address === favorite}" />
+						<NcIconSvgWrapper name="Star"
+							:svg="starSvg"
+							:size="20"
+							class="favorite-color" />
 					</template>
 					{{ favorite }}
 				</NcActionButton>
@@ -80,8 +90,6 @@ import { showError } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import { getLocale } from '@nextcloud/l10n'
 import { imagePath } from '@nextcloud/router'
-import IconStar from 'vue-material-design-icons/Star.vue'
-import IconStarOutline from 'vue-material-design-icons/StarOutline.vue'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActionCaption from '@nextcloud/vue/dist/Components/NcActionCaption.js'
@@ -92,7 +100,10 @@ import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import * as network from './services/weatherStatusService.js'
-import crossSvg from '../img/cross.svg?raw'
+import crosshairsSvg from '@mdi/svg/svg/crosshairs.svg?raw'
+import mapMarkerSvg from '@mdi/svg/svg/map-marker.svg?raw'
+import starSvg from '@mdi/svg/svg/star.svg?raw'
+import starOutlineSvg from '@mdi/svg/svg/star-outline.svg?raw'
 
 const MODE_BROWSER_LOCATION = 1
 const MODE_MANUAL_LOCATION = 2
@@ -227,7 +238,6 @@ const weatherOptions = {
 export default {
 	name: 'App',
 	components: {
-		IconStar,
 		NcActions,
 		NcActionButton,
 		NcActionCaption,
@@ -240,7 +250,10 @@ export default {
 	},
 	data() {
 		return {
-			crossSvg,
+			crosshairsSvg,
+			mapMarkerSvg,
+			starSvg,
+			starOutlineSvg,
 			locale: getLocale(),
 			loading: true,
 			errorMessage: '',
@@ -314,10 +327,10 @@ export default {
 		gotWeather() {
 			return this.address && !this.errorMessage
 		},
-		addRemoveFavoriteIcon() {
+		addRemoveFavoriteSvg() {
 			return this.currentAddressIsFavorite
-				? IconStar
-				: IconStarOutline
+				? starSvg
+				: starOutlineSvg
 		},
 		addRemoveFavoriteText() {
 			return this.currentAddressIsFavorite
