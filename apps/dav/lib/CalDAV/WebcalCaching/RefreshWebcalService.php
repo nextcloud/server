@@ -38,6 +38,7 @@ use OCP\Http\Client\LocalServerException;
 use OCP\IAppConfig;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\BadRequest;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\PropPatch;
 use Sabre\VObject\Component;
 use Sabre\VObject\DateTimeParser;
@@ -124,7 +125,7 @@ class RefreshWebcalService {
 				try {
 					$this->calDavBackend->createCalendarObject($subscription['id'], $objectUri, $calendarData, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
 				} catch (NoInstancesException|BadRequest $ex) {
-					$this->logger->error('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $ex, 'subscriptionId' => $subscription['id'], 'source' => $subscription['source']]);
+					$this->logger->warning('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $ex, 'subscriptionId' => $subscription['id'], 'source' => $subscription['source']]);
 				}
 			}
 
