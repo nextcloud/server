@@ -69,6 +69,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	private $logger;
 
 	private bool $handleCopiesAsOwned;
+	private bool $preserveCacheItemsOnDelete = false;
 
 	/** @var bool */
 	protected $validateWrites = true;
@@ -204,7 +205,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			}
 		}
 
-		$this->getCache()->remove($entry->getPath());
+		if (!$this->preserveCacheItemsOnDelete) {
+			$this->getCache()->remove($entry->getPath());
+		}
 
 		return true;
 	}
@@ -236,7 +239,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			}
 			//removing from cache is ok as it does not exist in the objectstore anyway
 		}
-		$this->getCache()->remove($entry->getPath());
+		if (!$this->preserveCacheItemsOnDelete) {
+			$this->getCache()->remove($entry->getPath());
+		}
 		return true;
 	}
 
@@ -769,5 +774,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$cacheEntry = $this->getCache()->get($targetPath);
 		$urn = $this->getURN($cacheEntry->getId());
 		$this->objectStore->abortMultipartUpload($urn, $writeToken);
+	}
+
+	public function setPreserveCacheOnDelete(bool $preserve) {
+		$this->preserveCacheItemsOnDelete = $preserve;
 	}
 }
