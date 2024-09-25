@@ -293,15 +293,19 @@ export default {
 				return t('weather_status', 'Loading weather')
 			} else if (this.errorMessage) {
 				return this.errorMessage
-			} else {
+			} else if (this.gotWeather) {
 				return this.getWeatherMessage(this.weatherCode, this.temperature)
+			} else {
+				return t('weather_status', 'Set location for weather')
 			}
 		},
 		forecastMessage() {
 			if (this.loading) {
 				return t('weather_status', 'Loading weather')
-			} else {
+			} else if (this.gotWeather) {
 				return this.getWeatherMessage(this.futureWeatherCode, this.futureTemperature, true)
+			} else {
+				return t('weather_status', 'Set location for weather')
 			}
 		},
 		weatherLinkTarget() {
@@ -535,7 +539,7 @@ export default {
 					this.temperatureUnit,
 					later,
 				)
-				: t('weather_status', 'Set location for weather')
+				: t('weather_status', 'Unknown weather code')
 		},
 	},
 }
