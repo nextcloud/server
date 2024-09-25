@@ -15,6 +15,7 @@ use OC\Files\Cache\Updater;
 use OC\Files\Cache\Watcher;
 use OC\Files\FilenameValidator;
 use OC\Files\Filesystem;
+use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Files\ForbiddenException;
@@ -630,10 +631,21 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 
 		$result = $this->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, true);
 		if ($result) {
-			if ($sourceStorage->is_dir($sourceInternalPath)) {
-				$result = $sourceStorage->rmdir($sourceInternalPath);
-			} else {
-				$result = $sourceStorage->unlink($sourceInternalPath);
+			if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
+				/** @var ObjectStoreStorage $sourceStorage */
+				$sourceStorage->setPreserveCacheOnDelete(true);
+			}
+			try {
+				if ($sourceStorage->is_dir($sourceInternalPath)) {
+					$result = $sourceStorage->rmdir($sourceInternalPath);
+				} else {
+					$result = $sourceStorage->unlink($sourceInternalPath);
+				}
+			} finally {
+				if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
+					/** @var ObjectStoreStorage $sourceStorage */
+					$sourceStorage->setPreserveCacheOnDelete(false);
+				}
 			}
 		}
 		return $result;
