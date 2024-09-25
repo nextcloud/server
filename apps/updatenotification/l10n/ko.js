@@ -1,7 +1,6 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "{version}을(를) 사용할 수 있습니다. 업데이트하는 방법에 대해서 알아보십시오.",
     "Channel updated" : "채널 업데이트됨",
     "Web updater is disabled" : "웹 업데이트가 비활성화 되었습니다",
     "Update notifications" : "업데이트 알림",
@@ -46,6 +45,7 @@ OC.L10N.register(
     "Beta" : "베타",
     "A pre-release version only for testing new features, not for production environments." : "새로운 기능을 테스트하는 출시 이전 버전이며, 프로덕션 환경에 적합하지 않습니다.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>개의 앱에 이 Nextcloud와 호환되는 버전이 없습니다."],
+    "{version} is available. Get more information on how to update." : "{version}을(를) 사용할 수 있습니다. 업데이트하는 방법에 대해서 알아보십시오.",
     "Update to %1$s is available." : "%1$s(으)로 업데이트할 수 있습니다.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Nextcloud 업데이트 알림을 표시하고 업데이터에 SSO를 지원합니다.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "100명 이상의 사용자 수를 보유하고 있는 경우 웹 업데이터 사용을 권장하지 않습니다. 대신 명령행 업데이터를 사용하십시오. ",

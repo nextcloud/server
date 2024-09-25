@@ -1,7 +1,6 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "La version {version} est disponible. Cliquez ici pour plus d’informations sur comment mettre à jour.",
     "Channel updated" : "Canal de mise à jour modifié",
     "Web updater is disabled" : "La mise à jour par l'interface Web est désactivée ",
     "App updated" : "Application mise à jour",
@@ -57,6 +56,7 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> application n'a pas de version compatible pour cette version de Nextcloud disponible.","<strong>%n</strong> applications n'ont pas de version compatible pour cette version de Nextcloud disponible.","<strong>%n</strong> applications n'ont pas de version compatible avec cette version de Nextcloud disponible."],
     "Changelog for app {app}" : "Journal des modifications pour l'application {app}",
     "What's new in {app} version {version}" : "Quoi de neuf dans {app} version {version}",
+    "{version} is available. Get more information on how to update." : "La version {version} est disponible. Cliquez ici pour plus d’informations sur comment mettre à jour.",
     "Update to %1$s is available." : "Une mise à jour vers %1$s est disponible",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Affiche les notifications de mise à jour pour Nextcloud et fournit l'authentification unique SSO pour le programme de mise à jour.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Veuillez noter que la mise à jour par le navigateur n'est pas recommandée si votre instance comporte plus de 100 utilisateurs ! Veuillez utiliser l'interface en ligne de commandes. ",

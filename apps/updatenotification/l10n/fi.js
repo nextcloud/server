@@ -1,7 +1,6 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "{version} on saatavilla. Tarjolla on lisätietoja päivittämisestä.",
     "Channel updated" : "Päivityskanava päivitetty",
     "Web updater is disabled" : "Päivitys selaimen kautta on poissa käytöstä",
     "App updated" : "Sovellus päivitetty",
@@ -51,6 +50,7 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> sovelluksella on yhteensopiva versio saatavilla tälle Nextcloud-versiolle.","<strong>%n</strong> sovelluksella on yhteensopiva versio saatavilla tälle Nextcloud-versiolle."],
     "Changelog for app {app}" : "Sovelluksen {app} muutosloki",
     "What's new in {app} version {version}" : "Katso mitä uutta sovelluksen {app} versio {version} sisältää",
+    "{version} is available. Get more information on how to update." : "{version} on saatavilla. Tarjolla on lisätietoja päivittämisestä.",
     "Update to %1$s is available." : "Kohteen %1$s päivitys on saatavilla.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Näyttää Nextcloudin päivitysilmoitukset ja tarjoaa SSO:n (Single Sign-On) päivittäjälle.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Huomioi, ettei päivitys selaimen kautta ole suositeltu yli 100 käyttäjän instansseissa! Tee sen sijaan päivitys komentoriviltä.",

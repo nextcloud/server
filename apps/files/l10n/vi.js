@@ -182,7 +182,6 @@ OC.L10N.register(
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 tệp và thư mục {folderCount}"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["tệp {fileCount} và 1 thư mục"],
     "{fileCount} files and {folderCount} folders" : "Tệp {fileCount} và thư mục {folderCount}",
-    "List of favorites files and folders." : "Danh sách các tập tin và thư mục yêu thích.",
     "No favorites yet" : "Chưa có yêu thích nào",
     "Files and folders you mark as favorite will show up here" : "Các tệp và thư mục mà bạn đánh dấu là yêu thích sẽ hiển thị ở đây",
     "All files" : "Tất cả tệp tin",
@@ -286,6 +285,7 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "Bạn có thể không có quyền xem nó, hãy yêu cầu người gửi chia sẻ nó",
     "The files is locked" : "Các tập tin bị khóa",
     "Create new templates folder" : "Tạo thư mục mẫu mới",
+    "List of favorites files and folders." : "Danh sách các tập tin và thư mục yêu thích.",
     "Toggle %1$s sublist" : "Chuyển đổi danh sách phụ %1$s",
     "Text file" : "Tập tin văn bản",
     "New text file.txt" : "Tệp văn bản mới.txt"
