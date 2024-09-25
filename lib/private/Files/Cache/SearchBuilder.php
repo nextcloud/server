@@ -64,7 +64,7 @@ class SearchBuilder {
 		'owner' => 'string',
 	];
 
-	/** @var array<string, int> */
+	/** @var array<string, int|string> */
 	protected static $paramTypeMap = [
 		'string' => IQueryBuilder::PARAM_STR,
 		'integer' => IQueryBuilder::PARAM_INT,
