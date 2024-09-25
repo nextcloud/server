@@ -276,7 +276,7 @@ OC.L10N.register(
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\" är ett reserverat namn och inte tillåtet som filnamn.",
     "\"{extension}\" is not an allowed filetype." : "\"{extension}\" är inte en tillåten filtyp.",
     "Filenames must not end with \"{extension}\"." : "Filnamn får inte sluta med \"{extension}\".",
-    "List of favorites files and folders." : "Lista över favoritfiler och mappar.",
+    "List of favorite files and folders." : "Lista över favoritfiler och mappar.",
     "No favorites yet" : "Inga favoriter ännu",
     "Files and folders you mark as favorite will show up here" : "Filer och mappar markerade som favoriter kommer att visas här",
     "All files" : "Alla filer",
@@ -389,10 +389,14 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "Du kanske inte har behörighet att se den, be avsändaren att dela den",
     "The files is locked" : "Filerna är låsta",
     "Create new templates folder" : "Skapa ny mallmapp",
+    "List of favorites files and folders." : "Lista över favoritfiler och mappar.",
     "Toggle %1$s sublist" : "Växla %1$s sublista",
     "Text file" : "Textfil",
     "New text file.txt" : "Ny textfil.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Direktlänk kopierades (fungerar endast för användare som har tillgång till denna fil/mapp)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Kopiera direktlänk (fungerar endast för användare som har åtkomst till denna fil/mapp)"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Kopiera direktlänk (fungerar endast för användare som har åtkomst till denna fil/mapp)",
+    "Favored" : "Favoriserad",
+    "Favor" : "Favorisera",
+    "Not favored" : "Inte favoriserad"
 },
 "nplurals=2; plural=(n != 1);");

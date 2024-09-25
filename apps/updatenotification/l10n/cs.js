@@ -1,7 +1,6 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "Je k dispozici {version}. Přečtěte si informace o tom, jak aktualizovat.",
     "Channel updated" : "Kanál aktualizován",
     "Web updater is disabled" : "Nástroj pro aktualizaci přes webové rozhraní je vypnutý",
     "Update notifications" : "Upozorňování na aktualizace",
@@ -45,6 +44,7 @@ OC.L10N.register(
     "Beta" : "Vývojové",
     "A pre-release version only for testing new features, not for production environments." : "Předprodukční verze, pouze pro zkoušení nových funkcí, není určeno pro praktické nasazení.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplikace nemá kompatibilní verzi pro tuto verzi Nextcloud serveru.","<strong>%n</strong> aplikace nemají kompatibilní verzi pro tuto verzi Nextcloud serveru.","<strong>%n</strong>aplikací nemá kompatibilní verzi pro tuto verzi Nextcloud serveru.","<strong>%n</strong> aplikace nemají kompatibilní verzi pro tuto verzi Nextcloud serveru."],
+    "{version} is available. Get more information on how to update." : "Je k dispozici {version}. Přečtěte si informace o tom, jak aktualizovat.",
     "Update to %1$s is available." : "Je k dispozici aktualizace na %1$s.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Zobrazí upozornění na aktualizace pro Nextcloud a poskytuje sjednocené přihlašování pro nástroj pro provedení aktualizace.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Prosím mějte na paměti, že pro instance s více než 100 uživateli není doporučeno aktualizovat přes webový nástroj pro aktualizaci! V takovém případě namísto toho proveďte aktualizaci prostřednictvím příkazového řádku!",

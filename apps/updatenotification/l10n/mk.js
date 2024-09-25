@@ -1,7 +1,6 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "Достапна е нова верзија {version}. Видете ги информациите како да ја ажурирате.",
     "Channel updated" : "Каналот е ажуриран",
     "Web updater is disabled" : "Оневозможено е WEB ажурирање",
     "Update notifications" : "Известувања за ажурирање",
@@ -39,6 +38,7 @@ OC.L10N.register(
     "Beta" : "Бета",
     "A pre-release version only for testing new features, not for production environments." : "Неиздадена верзија само за тестирање на новите можности, не е за редовна употреба.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["1 апликација нема компатибилност со оваа веријза","<strong>%n</strong> апликации немаат компатибилност со оваа веријза"],
+    "{version} is available. Get more information on how to update." : "Достапна е нова верзија {version}. Видете ги информациите како да ја ажурирате.",
     "Update to %1$s is available." : "Достапно е аурирање во верзија %1$s.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Прикажува известувања за ажурирање на Nextcloud и овозможува SSO за надградувачот.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Имајте на ум дека веб ажурирачот не го препорачуваат повеќе од 100 корисници! Наместо тоа, користете го ажурирачот на командната линија!",

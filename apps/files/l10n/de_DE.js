@@ -276,7 +276,7 @@ OC.L10N.register(
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\" ist ein reservierter Name und für Dateinamen nicht zulässig.",
     "\"{extension}\" is not an allowed filetype." : "\"{extension}\" ist kein zulässiger Dateityp.",
     "Filenames must not end with \"{extension}\"." : "Dateinamen dürfen nicht mit \"{extension}\" enden.",
-    "List of favorites files and folders." : "Liste der favorisierten Ordner und Dateien.",
+    "List of favorite files and folders." : "Liste der favorisierten Ordner und Dateien.",
     "No favorites yet" : "Noch keine Favoriten vorhanden",
     "Files and folders you mark as favorite will show up here" : "Dateien und Ordner, die Sie als Favoriten kennzeichnen, werden hier erscheinen",
     "All files" : "Alle Dateien",
@@ -389,10 +389,14 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "Möglicherweise haben Sie nicht die Berechtigung zur Anzeige. Bitten Sie den Absender, die Datei freizugeben.",
     "The files is locked" : "Die Datei ist gesperrt",
     "Create new templates folder" : "Neuen Vorlagenordner erstellen",
+    "List of favorites files and folders." : "Liste der favorisierten Ordner und Dateien.",
     "Toggle %1$s sublist" : "Unterliste %1$s umschalten",
     "Text file" : "Textdatei",
     "New text file.txt" : "Neue Textdatei file.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Direktlink wurde kopiert (funktioniert nur für Personen, die Zugriff auf diese Datei/Ordner haben)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Direkten Link kopieren (funktioniert nur für Personen, die Zugriff auf diese Datei bzw. den Ordner haben)"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Direkten Link kopieren (funktioniert nur für Personen, die Zugriff auf diese Datei bzw. den Ordner haben)",
+    "Favored" : "Favorisiert",
+    "Favor" : "Favorisieren",
+    "Not favored" : "Nicht favorisiert"
 },
 "nplurals=2; plural=(n != 1);");

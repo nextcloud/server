@@ -183,7 +183,6 @@ OC.L10N.register(
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 fișier și {folderCount} folder","1 fișier și {folderCount} foldere","1 fișier și {folderCount} foldere"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} fișier și 1 folder","{fileCount} fișiere și 1 folder","{fileCount} fișiere și 1 folder"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} fișiere și {folderCount} dosare",
-    "List of favorites files and folders." : "Lista fișierelor și dosarelor favorite",
     "No favorites yet" : "Nu aveți favorite încă",
     "Files and folders you mark as favorite will show up here" : "FIșierele și directoarele pe care le marchezi ca favorite vor apărea aici",
     "All files" : "Toate fișierele",
@@ -285,6 +284,7 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "S-ar putea să nu aveți permisiunea de a-l vedea, solicitați expeditorului să-l partajeze",
     "The files is locked" : "Fișierul este blocat",
     "Create new templates folder" : "Creează un nou dosar pentru șabloane",
+    "List of favorites files and folders." : "Lista fișierelor și dosarelor favorite",
     "Toggle %1$s sublist" : "Comută %1$s sublistă",
     "Text file" : "Fișier text",
     "New text file.txt" : "Fișier nou.txt"

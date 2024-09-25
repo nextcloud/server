@@ -1,5 +1,4 @@
 { "translations": {
-    "{version} is available. Get more information on how to update." : "{version} is beschikbaar. Meer informatie over het bijwerken.",
     "Channel updated" : "Kanaal bijgewerkt",
     "Web updater is disabled" : "Web-updater is uitgeschakeld",
     "Update notifications" : "Bijwerkmeldingen",
@@ -34,6 +33,7 @@
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "De meest recente stabiele versie. Het is geschikt voor normaal gebruik en werkt altijd bij naar de laatste hoofdversie.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Een vroeg vrijgegeven versie, alleen bedoeld om nieuwe functies te testen. Niet voor productieomgevingen.",
+    "{version} is available. Get more information on how to update." : "{version} is beschikbaar. Meer informatie over het bijwerken.",
     "Update to %1$s is available." : "Update naar %1$s is beschikbaar.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Toont updatemeldingen voor Nextcloud en zorgt voor SSO voor de updater.",
     "Please use the command line updater to update." : "Gebruik de commandoregel updater, om bij te werken.",
