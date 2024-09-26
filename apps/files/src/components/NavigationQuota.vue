@@ -103,7 +103,7 @@ export default {
 		// specific to that situation anyhow. So this covers warning covers
 		// our primary day-to-day concern (individual account quota usage).
 		//
-		if (this.storageStats?.quota > 0 && this.storageStats?.free <= 0) {
+		if (this.storageStats?.quota > 0 && this.storageStats?.free === 0) {
 			this.showStorageFullWarning()
 		}
 	},
@@ -138,7 +138,7 @@ export default {
 
 				// Warn the user if the available account storage changed from > 0 to 0
 				// (unless only because quota was intentionally set to 0 by admin in the interim)
-				if (this.storageStats?.free > 0 && response.data.data?.free <= 0 && response.data.data?.quota > 0) {
+				if (this.storageStats?.free > 0 && response.data.data?.free === 0 && response.data.data?.quota > 0) {
 					this.showStorageFullWarning()
 				}
 
