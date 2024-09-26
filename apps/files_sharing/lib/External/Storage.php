@@ -357,14 +357,21 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 
 	public function getPermissions($path): int {
 		$response = $this->propfind($path);
+		if ($response === false) {
+			return 0;
+		}
+
+		$ocsPermissions = $response['{http://open-collaboration-services.org/ns}share-permissions'] ?? null;
+		$ocmPermissions = $response['{http://open-cloud-mesh.org/ns}share-permissions'] ?? null;
+		$ocPermissions = $response['{http://owncloud.org/ns}permissions'] ?? null;
 		// old federated sharing permissions
-		if (isset($response['{http://open-collaboration-services.org/ns}share-permissions'])) {
-			$permissions = (int)$response['{http://open-collaboration-services.org/ns}share-permissions'];
-		} elseif (isset($response['{http://open-cloud-mesh.org/ns}share-permissions'])) {
+		if ($ocsPermissions !== null) {
+			$permissions = (int)$ocsPermissions;
+		} elseif ($ocmPermissions !== null) {
 			// permissions provided by the OCM API
-			$permissions = $this->ocmPermissions2ncPermissions($response['{http://open-collaboration-services.org/ns}share-permissions'], $path);
-		} elseif (isset($response['{http://owncloud.org/ns}permissions'])) {
-			return $this->parsePermissions($response['{http://owncloud.org/ns}permissions']);
+			$permissions = $this->ocmPermissions2ncPermissions($ocmPermissions, $path);
+		} elseif ($ocPermissions !== null) {
+			return $this->parsePermissions($ocPermissions);
 		} else {
 			// use default permission if remote server doesn't provide the share permissions
 			$permissions = $this->getDefaultPermissions($path);
