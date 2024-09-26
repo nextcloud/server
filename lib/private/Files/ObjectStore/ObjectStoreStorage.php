@@ -628,30 +628,69 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		if (!$sourceCacheEntry) {
 			$sourceCacheEntry = $sourceCache->get($sourceInternalPath);
 		}
-		if ($sourceCacheEntry->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
-			$this->mkdir($targetInternalPath);
-			foreach ($sourceCache->getFolderContents($sourceInternalPath) as $child) {
-				$this->moveFromStorage($sourceStorage, $child->getPath(), $targetInternalPath . '/' . $child->getName());
-			}
+		if (!$sourceCacheEntry) {
+			return false;
+		}
+
+		$this->copyObjects($sourceStorage, $sourceCache, $sourceCacheEntry);
+		if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
+			/** @var ObjectStoreStorage $sourceStorage */
+			$sourceStorage->setPreserveCacheOnDelete(true);
+		}
+		if ($sourceCacheEntry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE) {
 			$sourceStorage->rmdir($sourceInternalPath);
-			$sourceStorage->getCache()->remove($sourceInternalPath);
 		} else {
-			$sourceStream = $sourceStorage->fopen($sourceInternalPath, 'r');
-			if (!$sourceStream) {
-				return false;
-			}
-			// move the cache entry before the contents so that we have the correct fileid/urn for the target
-			$this->getCache()->moveFromCache($sourceCache, $sourceInternalPath, $targetInternalPath);
-			try {
-				$this->writeStream($targetInternalPath, $sourceStream, $sourceCacheEntry->getSize());
-			} catch (\Exception $e) {
-				// restore the cache entry
-				$sourceCache->moveFromCache($this->getCache(), $targetInternalPath, $sourceInternalPath);
-				throw $e;
-			}
 			$sourceStorage->unlink($sourceInternalPath);
 		}
+		if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
+			/** @var ObjectStoreStorage $sourceStorage */
+			$sourceStorage->setPreserveCacheOnDelete(false);
+		}
+		$this->getCache()->moveFromCache($sourceCache, $sourceInternalPath, $targetInternalPath);
+
 		return true;
+	}
+
+	/**
+	 * Copy the object(s) of a file or folder into this storage, without touching the cache
+	 */
+	private function copyObjects(IStorage $sourceStorage, ICache $sourceCache, ICacheEntry $sourceCacheEntry) {
+		$copiedFiles = [];
+		try {
+			foreach ($this->getAllChildObjects($sourceCache, $sourceCacheEntry) as $file) {
+				$sourceStream = $sourceStorage->fopen($file->getPath(), 'r');
+				if (!$sourceStream) {
+					throw new \Exception("Failed to open source file {$file->getPath()} ({$file->getId()})");
+				}
+				$this->objectStore->writeObject($this->getURN($file->getId()), $sourceStream, $file->getMimeType());
+				if (is_resource($sourceStream)) {
+					fclose($sourceStream);
+				}
+				$copiedFiles[] = $file->getId();
+			}
+		} catch (\Exception $e) {
+			foreach ($copiedFiles as $fileId) {
+				try {
+					$this->objectStore->deleteObject($this->getURN($fileId));
+				} catch (\Exception $e) {
+					// ignore
+				}
+			}
+			throw $e;
+		}
+	}
+
+	/**
+	 * @return \Iterator<ICacheEntry>
+	 */
+	private function getAllChildObjects(ICache $cache, ICacheEntry $entry): \Iterator {
+		if ($entry->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
+			foreach ($cache->getFolderContentsById($entry->getId()) as $child) {
+				yield from $this->getAllChildObjects($cache, $child);
+			}
+		} else {
+			yield $entry;
+		}
 	}
 
 	public function copy($source, $target) {
