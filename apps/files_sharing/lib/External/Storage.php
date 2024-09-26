@@ -345,6 +345,10 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 
 	public function getPermissions($path): int {
 		$response = $this->propfind($path);
+		if ($response === false) {
+			return 0;
+		}
+
 		$ocsPermissions = $response['{http://open-collaboration-services.org/ns}share-permissions'] ?? null;
 		$ocmPermissions = $response['{http://open-cloud-mesh.org/ns}share-permissions'] ?? null;
 		$ocPermissions = $response['{http://owncloud.org/ns}permissions'] ?? null;
