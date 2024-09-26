@@ -32,6 +32,7 @@
     "{temperature} {unit} heavy rainfall showers" : "{temperature} {unit} обилни превалявания от дъжд",
     "More weather for {adr}" : "Още за времето за {adr}",
     "Loading weather" : "Зареждане на времето",
+    "Set location for weather" : "Задаване на местоположение за метеорологично време",
     "Remove from favorites" : "Премахни от любимите",
     "Add as favorite" : "Добавяне към любими",
     "You are not logged in." : "Не сте се вписали.",
@@ -42,7 +43,6 @@
     "There was an error setting the location." : "Възникна грешка при задаване на местоположението.",
     "There was an error saving the mode." : "Възникна грешка при запазването на режима.",
     "There was an error using personal address." : "Възникна грешка при използването на личния адрес.",
-    "Set location for weather" : "Задаване на местоположение за метеорологично време",
     "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Метеорологичното състояние, интегрирано в приложението Dashboard.\n    Позицията на потребителя може да се определя автоматично или ръчно. След което се показва прогноза за 6 часа.\n    Това състояние може да бъде интегрирано и на други места като приложението Календар."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

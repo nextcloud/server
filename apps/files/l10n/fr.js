@@ -276,6 +276,7 @@ OC.L10N.register(
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\" est un nom réservé et il n'est pas autorisé dans les noms de fichier.",
     "\"{extension}\" is not an allowed filetype." : "\"{extension}\" est un type de fichier interdit.",
     "Filenames must not end with \"{extension}\"." : "Les noms de fichier ne doivent pas se terminer par \"{extension}\".",
+    "List of favorite files and folders." : "Liste des fichiers et dossiers favoris.",
     "No favorites yet" : "Aucun favori pour l'instant",
     "Files and folders you mark as favorite will show up here" : "Les fichiers et dossiers ajoutés à vos favoris apparaîtront ici",
     "All files" : "Tous les fichiers",
@@ -393,6 +394,9 @@ OC.L10N.register(
     "Text file" : "Fichier texte",
     "New text file.txt" : "Nouveau fichier texte.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Le lien direct a été copié (fonctionne uniquement pour les personnes qui ont accès à ce fichier ou à ce dossier)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Copier le lien direct (fonctionne uniquement pour les personnes pouvant accéder à ce fichier ou à ce dossier)"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Copier le lien direct (fonctionne uniquement pour les personnes pouvant accéder à ce fichier ou à ce dossier)",
+    "Favored" : "Favoris",
+    "Favor" : "Mettre en favoris",
+    "Not favored" : "Non favoris"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

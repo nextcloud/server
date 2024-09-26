@@ -35,6 +35,7 @@ OC.L10N.register(
     "{temperature} {unit} heavy rainfall showers" : "{temperature} {unit} şiddetli sağanak yağışlı",
     "More weather for {adr}" : "{adr} için geniş hava durumu",
     "Loading weather" : "Hava durumu yükleniyor",
+    "Set location for weather" : "Hava durumu için konumu ayarlayın",
     "Remove from favorites" : "Sık kullanılanlardan kaldır",
     "Add as favorite" : "Sık kullanılanlara ekle",
     "You are not logged in." : "Oturum açmamışsınız.",
@@ -45,7 +46,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Konum ayarlanırken bir sorun çıktı.",
     "There was an error saving the mode." : "Kip kaydedilirken bir sorun çıktı.",
     "There was an error using personal address." : "Kişisel adres kullanılırken bir sorun çıktı.",
-    "Set location for weather" : "Hava durumu için konumu ayarlayın",
     "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Pano uygulaması ile bütünleşik hava durumu.\n    Kullanıcının konumu el ile de ayarlanabileceği gibi otomatik olarak da algılanabilir. 6 saatlik tahmin görüntülenir.\n    Hava durumu Takvim gibi diğer uygulamalarla da kullanılabilir."
 },
 "nplurals=2; plural=(n > 1);");

@@ -34,6 +34,7 @@ OC.L10N.register(
     "{temperature} {unit} heavy rainfall showers" : "{temperature} {unit} zware regenbuien",
     "More weather for {adr}" : "Meer weer voor {adr}",
     "Loading weather" : "Weergegevens ophalen",
+    "Set location for weather" : "Stel je locatie voor het weer in.",
     "Remove from favorites" : "Verwijderen uit favorieten",
     "Add as favorite" : "Toevoegen als favoriet",
     "You are not logged in." : "Je bent niet ingelogd.",
@@ -44,7 +45,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Er is een fout opgetreden bij het vastleggen van de locatie.",
     "There was an error saving the mode." : "Er was een fout in het vastleggen van de modus.",
     "There was an error using personal address." : "Er was een fout bij het gebruiken van je persoonlijke adres.",
-    "Set location for weather" : "Stel je locatie voor het weer in.",
     "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Weerbericht is geïntegreerd in de dashboard app\nDe gebruikerslocatie kan automatisch worden bepaald of handmatig worden ingegeven. Een 6 uurs weersverwachting wordt getoond.\nDeze status kan ook op andere plaatsen worden geïntegreerd zoals in de agenda-app."
 },
 "nplurals=2; plural=(n != 1);");

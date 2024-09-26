@@ -23,6 +23,7 @@ OC.L10N.register(
     "{temperature} {unit} light rainfall" : "{temperature} {unit} ασθενείς βροχοπτώσεις",
     "More weather for {adr}" : "Περισσότερος καιρός για {adr}",
     "Loading weather" : "Φόρτωση καιρού",
+    "Set location for weather" : "Ορισμός τοποθεσίας καιρού",
     "Remove from favorites" : "Αφαίρεση από τα αγαπημένα",
     "Add as favorite" : "Προσθήκη ως αγαπημένο",
     "You are not logged in." : "Δεν έχετε συνδεθεί.",
@@ -33,7 +34,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Παρουσιάστηκε σφάλμα κατά τη ρύθμιση της τοποθεσίας.",
     "There was an error saving the mode." : "Παρουσιάστηκε σφάλμα κατά την αποθήκευση της λειτουργίας.",
     "There was an error using personal address." : "Παρουσιάστηκε σφάλμα κατά τη χρήση της προσωπικής διεύθυνσης.",
-    "Set location for weather" : "Ορισμός τοποθεσίας καιρού",
     "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Η κατάσταση του καιρού ενσωματώνεται στην εφαρμογή Πίνακας ελέγχου.\n    Η θέση του χρήστη μπορεί να προσδιοριστεί αυτόματα ή να καθοριστεί χειροκίνητα. Στη συνέχεια εμφανίζεται μια πρόβλεψη 6 ωρών.\n    Αυτή η κατάσταση μπορεί επίσης να ενσωματωθεί σε άλλα μέρη όπως στην εφαρμογή Ημερολόγιο."
 },
 "nplurals=2; plural=(n != 1);");
