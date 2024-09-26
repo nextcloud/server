@@ -35,6 +35,7 @@ OC.L10N.register(
     "{temperature} {unit} heavy rainfall showers" : "{temperature} {unit} och kraftiga regnbyar",
     "More weather for {adr}" : "Mer väder omkring {adr}",
     "Loading weather" : "Hämtar väder",
+    "Set location for weather" : "Ange position för väder",
     "Remove from favorites" : "Ta bort från favoriter",
     "Add as favorite" : "Lägg till som favorit",
     "You are not logged in." : "Du är inte inloggad.",
@@ -45,7 +46,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Ett fel inträffade när platsen angavs.",
     "There was an error saving the mode." : "Det uppstod ett fel vid sparandet av läget.",
     "There was an error using personal address." : "Det uppstod ett fel vid användning av personlig adress.",
-    "Set location for weather" : "Ange position för väder",
     "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Väderuppdatering integrerad i Instrumentpanelappen.\n    Användarens position kan identifieras automatiskt eller anges manuellt. En 6-timmarsprognos visas sedan.\n    Den här väderuppdateringen kan också integreras på andra platser så som i Kalender-appen."
 },
 "nplurals=2; plural=(n != 1);");
