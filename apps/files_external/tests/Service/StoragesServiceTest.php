@@ -98,7 +98,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 
 		// prepare BackendService mock
 		$this->backendService =
-			$this->getMockBuilder('\OCA\Files_External\Service\BackendService')
+			$this->getMockBuilder(\OCA\Files_External\Service\BackendService::class)
 				->disableOriginalConstructor()
 				->getMock();
 
@@ -123,10 +123,10 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$this->backendService->method('getAuthMechanisms')
 			->willReturn($authMechanisms);
 
-		$sftpBackend = $this->getBackendMock('\OCA\Files_External\Lib\Backend\SFTP', '\OCA\Files_External\Lib\Storage\SFTP');
+		$sftpBackend = $this->getBackendMock(\OCA\Files_External\Lib\Backend\SFTP::class, \OCA\Files_External\Lib\Storage\SFTP::class);
 		$backends = [
-			'identifier:\OCA\Files_External\Lib\Backend\DAV' => $this->getBackendMock('\OCA\Files_External\Lib\Backend\DAV', '\OC\Files\Storage\DAV'),
-			'identifier:\OCA\Files_External\Lib\Backend\SMB' => $this->getBackendMock('\OCA\Files_External\Lib\Backend\SMB', '\OCA\Files_External\Lib\Storage\SMB'),
+			'identifier:\OCA\Files_External\Lib\Backend\DAV' => $this->getBackendMock(\OCA\Files_External\Lib\Backend\DAV::class, '\OC\Files\Storage\DAV'),
+			'identifier:\OCA\Files_External\Lib\Backend\SMB' => $this->getBackendMock(\OCA\Files_External\Lib\Backend\SMB::class, \OCA\Files_External\Lib\Storage\SMB::class),
 			'identifier:\OCA\Files_External\Lib\Backend\SFTP' => $sftpBackend,
 			'identifier:sftp_alias' => $sftpBackend,
 		];
@@ -155,7 +155,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$containerMock = $this->createMock(IAppContainer::class);
 		$containerMock->method('query')
 			->willReturnCallback(function ($name) {
-				if ($name === 'OCA\Files_External\Service\BackendService') {
+				if ($name === \OCA\Files_External\Service\BackendService::class) {
 					return $this->backendService;
 				}
 			});
@@ -169,7 +169,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		}
 	}
 
-	protected function getBackendMock($class = '\OCA\Files_External\Lib\Backend\SMB', $storageClass = '\OCA\Files_External\Lib\Storage\SMB') {
+	protected function getBackendMock($class = \OCA\Files_External\Lib\Backend\SMB::class, $storageClass = \OCA\Files_External\Lib\Storage\SMB::class) {
 		$backend = $this->getMockBuilder(Backend::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -180,7 +180,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		return $backend;
 	}
 
-	protected function getAuthMechMock($scheme = 'null', $class = '\OCA\Files_External\Lib\Auth\NullMechanism') {
+	protected function getAuthMechMock($scheme = 'null', $class = \OCA\Files_External\Lib\Auth\NullMechanism::class) {
 		$authMech = $this->getMockBuilder(AuthMechanism::class)
 			->disableOriginalConstructor()
 			->getMock();

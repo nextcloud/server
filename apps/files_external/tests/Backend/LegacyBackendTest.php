@@ -22,11 +22,11 @@ class LegacyBackendTest extends \Test\TestCase {
 	}
 
 	public function testConstructor(): void {
-		$auth = $this->getMockBuilder('\OCA\Files_External\Lib\Auth\Builtin')
+		$auth = $this->getMockBuilder(\OCA\Files_External\Lib\Auth\Builtin::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		$class = '\OCA\Files_External\Tests\Backend\LegacyBackendTest';
+		$class = \OCA\Files_External\Tests\Backend\LegacyBackendTest::class;
 		$definition = [
 			'configuration' => [
 				'textfield' => 'Text field',
@@ -44,7 +44,7 @@ class LegacyBackendTest extends \Test\TestCase {
 
 		$backend = new LegacyBackend($class, $definition, $auth);
 
-		$this->assertEquals('\OCA\Files_External\Tests\Backend\LegacyBackendTest', $backend->getStorageClass());
+		$this->assertEquals(\OCA\Files_External\Tests\Backend\LegacyBackendTest::class, $backend->getStorageClass());
 		$this->assertEquals('Backend text', $backend->getText());
 		$this->assertEquals(123, $backend->getPriority());
 		$this->assertContains('foo/bar.js', $backend->getCustomJs());
@@ -78,11 +78,11 @@ class LegacyBackendTest extends \Test\TestCase {
 	}
 
 	public function testNoDependencies(): void {
-		$auth = $this->getMockBuilder('\OCA\Files_External\Lib\Auth\Builtin')
+		$auth = $this->getMockBuilder(\OCA\Files_External\Lib\Auth\Builtin::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		$class = '\OCA\Files_External\Tests\Backend\LegacyBackendTest';
+		$class = \OCA\Files_External\Tests\Backend\LegacyBackendTest::class;
 		$definition = [
 			'configuration' => [
 			],

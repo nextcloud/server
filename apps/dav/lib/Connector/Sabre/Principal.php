@@ -525,7 +525,7 @@ class Principal implements BackendInterface {
 	 * @return array|null
 	 */
 	protected function circleToPrincipal($circleUniqueId) {
-		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
+		if (!$this->appManager->isEnabledForUser('circles') || !class_exists(\OCA\Circles\Api\v1\Circles::class)) {
 			return null;
 		}
 
@@ -559,7 +559,7 @@ class Principal implements BackendInterface {
 	 * @suppress PhanUndeclaredClassMethod
 	 */
 	public function getCircleMembership($principal):array {
-		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
+		if (!$this->appManager->isEnabledForUser('circles') || !class_exists(\OCA\Circles\Api\v1\Circles::class)) {
 			return [];
 		}
 

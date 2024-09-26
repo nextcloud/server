@@ -28,7 +28,7 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->service = $this->getMockBuilder('\OCA\Files_External\Service\UserStoragesService')
+		$this->service = $this->getMockBuilder(\OCA\Files_External\Service\UserStoragesService::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -88,7 +88,7 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 
 		$response = $this->controller->create(
 			'mount',
-			'\OCA\Files_External\Lib\Storage\SMB',
+			\OCA\Files_External\Lib\Storage\SMB::class,
 			'\Auth\Mechanism',
 			[],
 			[],
@@ -102,7 +102,7 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 		$response = $this->controller->update(
 			1,
 			'mount',
-			'\OCA\Files_External\Lib\Storage\SMB',
+			\OCA\Files_External\Lib\Storage\SMB::class,
 			'\Auth\Mechanism',
 			[],
 			[],

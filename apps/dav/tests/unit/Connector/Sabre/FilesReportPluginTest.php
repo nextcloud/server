@@ -58,7 +58,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->server = $this->getMockBuilder('\Sabre\DAV\Server')
+		$this->server = $this->getMockBuilder(\Sabre\DAV\Server::class)
 			->setConstructorArgs([$this->tree])
 			->onlyMethods(['getRequestUri', 'getBaseUri'])
 			->getMock();
@@ -293,9 +293,9 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$result = $this->plugin->findNodesByFileIds($reportTargetNode, ['111', '222']);
 
 		$this->assertCount(2, $result);
-		$this->assertInstanceOf('\OCA\DAV\Connector\Sabre\Directory', $result[0]);
+		$this->assertInstanceOf(\OCA\DAV\Connector\Sabre\Directory::class, $result[0]);
 		$this->assertEquals('first node', $result[0]->getName());
-		$this->assertInstanceOf('\OCA\DAV\Connector\Sabre\File', $result[1]);
+		$this->assertInstanceOf(\OCA\DAV\Connector\Sabre\File::class, $result[1]);
 		$this->assertEquals('second node', $result[1]->getName());
 	}
 
@@ -346,9 +346,9 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$result = $this->plugin->findNodesByFileIds($reportTargetNode, ['111', '222']);
 
 		$this->assertCount(2, $result);
-		$this->assertInstanceOf('\OCA\DAV\Connector\Sabre\Directory', $result[0]);
+		$this->assertInstanceOf(\OCA\DAV\Connector\Sabre\Directory::class, $result[0]);
 		$this->assertEquals('first node', $result[0]->getName());
-		$this->assertInstanceOf('\OCA\DAV\Connector\Sabre\File', $result[1]);
+		$this->assertInstanceOf(\OCA\DAV\Connector\Sabre\File::class, $result[1]);
 		$this->assertEquals('second node', $result[1]->getName());
 	}
 
@@ -410,14 +410,14 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$props1 = $responses[0]->getResponseProperties();
 		$this->assertEquals('111', $props1[200]['{http://owncloud.org/ns}fileid']);
 		$this->assertNull($props1[404]['{DAV:}getcontentlength']);
-		$this->assertInstanceOf('\Sabre\DAV\Xml\Property\ResourceType', $props1[200]['{DAV:}resourcetype']);
+		$this->assertInstanceOf(\Sabre\DAV\Xml\Property\ResourceType::class, $props1[200]['{DAV:}resourcetype']);
 		$resourceType1 = $props1[200]['{DAV:}resourcetype']->getValue();
 		$this->assertEquals('{DAV:}collection', $resourceType1[0]);
 
 		$props2 = $responses[1]->getResponseProperties();
 		$this->assertEquals('1024', $props2[200]['{DAV:}getcontentlength']);
 		$this->assertEquals('222', $props2[200]['{http://owncloud.org/ns}fileid']);
-		$this->assertInstanceOf('\Sabre\DAV\Xml\Property\ResourceType', $props2[200]['{DAV:}resourcetype']);
+		$this->assertInstanceOf(\Sabre\DAV\Xml\Property\ResourceType::class, $props2[200]['{DAV:}resourcetype']);
 		$this->assertCount(0, $props2[200]['{DAV:}resourcetype']->getValue());
 	}
 

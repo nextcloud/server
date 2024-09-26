@@ -249,7 +249,7 @@ class Notifications {
 			return true;
 		} elseif ($try === 0) {
 			// only add new job on first try
-			$this->jobList->add('OCA\FederatedFileSharing\BackgroundJob\RetryJob',
+			$this->jobList->add(\OCA\FederatedFileSharing\BackgroundJob\RetryJob::class,
 				[
 					'remote' => $remote,
 					'remoteId' => $remoteId,

@@ -352,7 +352,7 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @return array
 	 */
 	private function getCirclesFileIds(array $circlesIds) {
-		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
+		if (!$this->appManager->isEnabledForUser('circles') || !class_exists(\OCA\Circles\Api\v1\Circles::class)) {
 			return [];
 		}
 		return \OCA\Circles\Api\v1\Circles::getFilesForCircles($circlesIds);

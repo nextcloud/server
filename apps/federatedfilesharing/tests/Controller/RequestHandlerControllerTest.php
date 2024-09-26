@@ -86,7 +86,7 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		$this->share = $this->getMockBuilder(IShare::class)->getMock();
-		$this->federatedShareProvider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
+		$this->federatedShareProvider = $this->getMockBuilder(\OCA\FederatedFileSharing\FederatedShareProvider::class)
 			->disableOriginalConstructor()->getMock();
 		$this->federatedShareProvider->expects($this->any())
 			->method('isOutgoingServer2serverShareEnabled')->willReturn(true);
@@ -95,9 +95,9 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$this->federatedShareProvider->expects($this->any())->method('getShareById')
 			->willReturn($this->share);
 
-		$this->notifications = $this->getMockBuilder('OCA\FederatedFileSharing\Notifications')
+		$this->notifications = $this->getMockBuilder(\OCA\FederatedFileSharing\Notifications::class)
 			->disableOriginalConstructor()->getMock();
-		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')
+		$this->addressHandler = $this->getMockBuilder(\OCA\FederatedFileSharing\AddressHandler::class)
 			->disableOriginalConstructor()->getMock();
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
 		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);

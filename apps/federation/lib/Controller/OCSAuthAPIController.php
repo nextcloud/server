@@ -130,7 +130,7 @@ class OCSAuthAPIController extends OCSController {
 		}
 
 		$this->jobList->add(
-			'OCA\Federation\BackgroundJob\GetSharedSecret',
+			\OCA\Federation\BackgroundJob\GetSharedSecret::class,
 			[
 				'url' => $url,
 				'token' => $token,

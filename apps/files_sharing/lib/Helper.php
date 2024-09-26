@@ -12,10 +12,10 @@ use OCA\Files_Sharing\AppInfo\Application;
 
 class Helper {
 	public static function registerHooks() {
-		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', '\OCA\Files_Sharing\Updater', 'renameHook');
-		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', '\OCA\Files_Sharing\Hooks', 'unshareChildren');
+		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', \OCA\Files_Sharing\Updater::class, 'renameHook');
+		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', \OCA\Files_Sharing\Hooks::class, 'unshareChildren');
 
-		\OCP\Util::connectHook('OC_User', 'post_deleteUser', '\OCA\Files_Sharing\Hooks', 'deleteUser');
+		\OCP\Util::connectHook('OC_User', 'post_deleteUser', \OCA\Files_Sharing\Hooks::class, 'deleteUser');
 	}
 
 	/**

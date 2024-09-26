@@ -102,7 +102,7 @@ class ListenerTest extends TestCase {
 			->willReturn($notification);
 		$this->notificationManager->expects($this->exactly(6))
 			->method($notificationMethod)
-			->with($this->isInstanceOf('\OCP\Notification\INotification'));
+			->with($this->isInstanceOf(\OCP\Notification\INotification::class));
 
 		$this->userManager->expects($this->exactly(6))
 			->method('userExists')

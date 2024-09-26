@@ -32,7 +32,7 @@ class InvalidPathTest extends \Test\TestCase {
 EOD;
 
 		$ex = new InvalidPath($message, $retry);
-		$server = $this->getMockBuilder('Sabre\DAV\Server')
+		$server = $this->getMockBuilder(\Sabre\DAV\Server::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$ex->serialize($server, $error);

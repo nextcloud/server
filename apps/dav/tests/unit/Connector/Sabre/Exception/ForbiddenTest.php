@@ -32,7 +32,7 @@ class ForbiddenTest extends \Test\TestCase {
 EOD;
 
 		$ex = new Forbidden($message, $retry);
-		$server = $this->getMockBuilder('Sabre\DAV\Server')
+		$server = $this->getMockBuilder(\Sabre\DAV\Server::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$ex->serialize($server, $error);

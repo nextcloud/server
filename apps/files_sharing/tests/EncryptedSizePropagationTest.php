@@ -18,7 +18,7 @@ class EncryptedSizePropagationTest extends SizePropagationTest {
 	protected function setupUser($name, $password = '') {
 		$this->createUser($name, $password);
 		$tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
-		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);
+		$this->registerMount($name, \OC\Files\Storage\Local::class, '/' . $name, ['datadir' => $tmpFolder]);
 		$this->config->setAppValue('encryption', 'useMasterKey', '0');
 		$this->setupForUser($name, $password);
 		$this->loginWithEncryption($name);

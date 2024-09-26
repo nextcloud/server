@@ -32,7 +32,7 @@ class MultipartRequestParserTest extends TestCase {
 	}
 
 	private function getMultipartParser(array $parts, array $headers = [], string $boundary = 'boundary_azertyuiop'): MultipartRequestParser {
-		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
+		$request = $this->getMockBuilder(\Sabre\HTTP\RequestInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -74,7 +74,7 @@ class MultipartRequestParserTest extends TestCase {
 	 */
 	public function testBodyTypeValidation(): void {
 		$bodyStream = 'I am not a stream, but pretend to be';
-		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
+		$request = $this->getMockBuilder(\Sabre\HTTP\RequestInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$request->expects($this->any())

@@ -74,10 +74,10 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->notifications = $this->getMockBuilder('OCA\FederatedFileSharing\Notifications')
+		$this->notifications = $this->getMockBuilder(\OCA\FederatedFileSharing\Notifications::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->tokenHandler = $this->getMockBuilder('OCA\FederatedFileSharing\TokenHandler')
+		$this->tokenHandler = $this->getMockBuilder(\OCA\FederatedFileSharing\TokenHandler::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->l = $this->getMockBuilder(IL10N::class)->getMock();
@@ -86,11 +86,11 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				return vsprintf($text, $parameters);
 			});
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
+		$this->rootFolder = $this->getMockBuilder(\OCP\Files\IRootFolder::class)->getMock();
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
 		//$this->addressHandler = new AddressHandler(\OC::$server->getURLGenerator(), $this->l);
-		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')->disableOriginalConstructor()->getMock();
+		$this->addressHandler = $this->getMockBuilder(\OCA\FederatedFileSharing\AddressHandler::class)->disableOriginalConstructor()->getMock();
 		$this->contactsManager = $this->createMock(IContactsManager::class);
 		$this->cloudIdManager = new CloudIdManager(
 			$this->contactsManager,
@@ -442,7 +442,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	 * @dataProvider dataTestUpdate
 	 */
 	public function testUpdate($owner, $sharedBy, $expirationDate): void {
-		$this->provider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
+		$this->provider = $this->getMockBuilder(\OCA\FederatedFileSharing\FederatedShareProvider::class)
 			->setConstructorArgs(
 				[
 					$this->connection,

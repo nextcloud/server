@@ -203,13 +203,13 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 	 * @inheritdoc
 	 */
 	public function instanceOfStorage($class): bool {
-		if ($class === '\OC\Files\Storage\Common' || $class == Common::class) {
+		if ($class === \OC\Files\Storage\Common::class || $class == Common::class) {
 			return true;
 		}
 		if (in_array($class, [
 			'\OC\Files\Storage\Home',
 			'\OC\Files\ObjectStore\HomeObjectStoreStorage',
-			'\OCP\Files\IHomeStorage',
+			\OCP\Files\IHomeStorage::class,
 			Home::class,
 			HomeObjectStoreStorage::class,
 			IHomeStorage::class

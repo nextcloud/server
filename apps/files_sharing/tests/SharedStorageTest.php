@@ -417,7 +417,7 @@ class SharedStorageTest extends TestCase {
 		$this->assertTrue($view->file_exists($this->folder));
 
 		[$sharedStorage,] = $view->resolvePath($this->folder);
-		$this->assertTrue($sharedStorage->instanceOfStorage('OCA\Files_Sharing\ISharedStorage'));
+		$this->assertTrue($sharedStorage->instanceOfStorage(\OCA\Files_Sharing\ISharedStorage::class));
 
 		$sourceStorage = new \OC\Files\Storage\Temporary([]);
 		$sourceStorage->file_put_contents('foo.txt', 'asd');
@@ -447,7 +447,7 @@ class SharedStorageTest extends TestCase {
 		$this->assertTrue($view->file_exists($this->folder));
 
 		[$sharedStorage,] = $view->resolvePath($this->folder);
-		$this->assertTrue($sharedStorage->instanceOfStorage('OCA\Files_Sharing\ISharedStorage'));
+		$this->assertTrue($sharedStorage->instanceOfStorage(\OCA\Files_Sharing\ISharedStorage::class));
 
 		$sourceStorage = new \OC\Files\Storage\Temporary([]);
 		$sourceStorage->file_put_contents('foo.txt', 'asd');
@@ -502,7 +502,7 @@ class SharedStorageTest extends TestCase {
 		$this->assertTrue($view2->file_exists('/foo (2)'));
 
 		$mount = $view2->getMount('/foo');
-		$this->assertInstanceOf('\OCA\Files_Sharing\SharedMount', $mount);
+		$this->assertInstanceOf(\OCA\Files_Sharing\SharedMount::class, $mount);
 		/** @var \OCA\Files_Sharing\SharedStorage $storage */
 		$storage = $mount->getStorage();
 

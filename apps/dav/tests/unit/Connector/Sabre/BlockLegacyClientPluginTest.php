@@ -65,7 +65,7 @@ class BlockLegacyClientPluginTest extends TestCase {
 		$this->expectExceptionMessage('This version of the client is unsupported. Upgrade to <a href="https://nextcloud.com/install/#install-clients">version 1.7.0 or later</a>.');
 
 		/** @var RequestInterface|MockObject $request */
-		$request = $this->createMock('\Sabre\HTTP\RequestInterface');
+		$request = $this->createMock(\Sabre\HTTP\RequestInterface::class);
 		$request
 			->expects($this->once())
 			->method('getHeader')
@@ -97,7 +97,7 @@ class BlockLegacyClientPluginTest extends TestCase {
 		$this->expectExceptionMessage('This version of the client is unsupported. Upgrade to <a href="https://example.com&quot;&gt;&lt;script&gt;alter(&quot;hacked&quot;);&lt;/script&gt;">version 1.7.0 &lt;script&gt;alert(&quot;unsafe&quot;)&lt;/script&gt; or later</a>.');
 
 		/** @var RequestInterface|MockObject $request */
-		$request = $this->createMock('\Sabre\HTTP\RequestInterface');
+		$request = $this->createMock(\Sabre\HTTP\RequestInterface::class);
 		$request
 			->expects($this->once())
 			->method('getHeader')

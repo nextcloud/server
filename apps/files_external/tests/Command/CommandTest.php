@@ -20,7 +20,7 @@ abstract class CommandTest extends TestCase {
 	 * @return \OCA\Files_External\Service\GlobalStoragesService|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getGlobalStorageService(array $mounts = []) {
-		$mock = $this->getMockBuilder('OCA\Files_External\Service\GlobalStoragesService')
+		$mock = $this->getMockBuilder(\OCA\Files_External\Service\GlobalStoragesService::class)
 			->disableOriginalConstructor()
 			->getMock();
 

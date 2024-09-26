@@ -45,7 +45,7 @@ class CleanUpTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')
+		$this->rootFolder = $this->getMockBuilder(\OCP\Files\IRootFolder::class)
 			->disableOriginalConstructor()->getMock();
 		$this->userManager = $this->getMockBuilder('OC\User\Manager')
 			->disableOriginalConstructor()->getMock();
@@ -139,7 +139,7 @@ class CleanUpTest extends TestCase {
 	 */
 	public function testExecuteDeleteListOfUsers(): void {
 		$userIds = ['user1', 'user2', 'user3'];
-		$instance = $this->getMockBuilder('OCA\Files_Trashbin\Command\CleanUp')
+		$instance = $this->getMockBuilder(\OCA\Files_Trashbin\Command\CleanUp::class)
 			->setMethods(['removeDeletedFiles'])
 			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->dbConnection])
 			->getMock();
@@ -150,7 +150,7 @@ class CleanUpTest extends TestCase {
 			});
 		$this->userManager->expects($this->exactly(count($userIds)))
 			->method('userExists')->willReturn(true);
-		$inputInterface = $this->getMockBuilder('\Symfony\Component\Console\Input\InputInterface')
+		$inputInterface = $this->getMockBuilder(\Symfony\Component\Console\Input\InputInterface::class)
 			->disableOriginalConstructor()->getMock();
 		$inputInterface->method('getArgument')
 			->with('user_id')
@@ -160,7 +160,7 @@ class CleanUpTest extends TestCase {
 				['all-users', false],
 				['verbose', false],
 			]);
-		$outputInterface = $this->getMockBuilder('\Symfony\Component\Console\Output\OutputInterface')
+		$outputInterface = $this->getMockBuilder(\Symfony\Component\Console\Output\OutputInterface::class)
 			->disableOriginalConstructor()->getMock();
 		$this->invokePrivate($instance, 'execute', [$inputInterface, $outputInterface]);
 	}
@@ -171,7 +171,7 @@ class CleanUpTest extends TestCase {
 	public function testExecuteAllUsers(): void {
 		$userIds = [];
 		$backendUsers = ['user1', 'user2'];
-		$instance = $this->getMockBuilder('OCA\Files_Trashbin\Command\CleanUp')
+		$instance = $this->getMockBuilder(\OCA\Files_Trashbin\Command\CleanUp::class)
 			->setMethods(['removeDeletedFiles'])
 			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->dbConnection])
 			->getMock();

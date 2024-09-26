@@ -625,7 +625,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$owner->method('getDisplayName')->willReturn('ownerDisplay');
 		$owner->method('getUID')->willReturn('ownerUID');
 
-		$file = $this->getMockBuilder('OCP\Files\File')->getMock();
+		$file = $this->getMockBuilder(\OCP\Files\File::class)->getMock();
 		$file->method('getName')->willReturn($filename);
 		$file->method('getMimetype')->willReturn('text/plain');
 		$file->method('getSize')->willReturn(33);

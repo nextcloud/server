@@ -42,7 +42,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 		if ($this->sourceScanner) {
 			return $this->sourceScanner;
 		}
-		if ($this->storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
+		if ($this->storage->instanceOfStorage(\OCA\Files_Sharing\SharedStorage::class)) {
 			/** @var \OC\Files\Storage\Storage $storage */
 			[$storage] = $this->storage->resolvePath('');
 			$this->sourceScanner = $storage->getScanner();

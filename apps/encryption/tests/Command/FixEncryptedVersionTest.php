@@ -52,7 +52,7 @@ class FixEncryptedVersionTest extends TestCase {
 
 		$this->createUser($this->userId, 'foo12345678');
 		$tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
-		$this->registerMount($this->userId, '\OC\Files\Storage\Local', '/' . $this->userId, ['datadir' => $tmpFolder]);
+		$this->registerMount($this->userId, \OC\Files\Storage\Local::class, '/' . $this->userId, ['datadir' => $tmpFolder]);
 		$this->setupForUser($this->userId, 'foo12345678');
 		$this->loginWithEncryption($this->userId);
 

@@ -256,7 +256,7 @@ class RestoreAllFiles extends Base {
 			 * That's why PSALM doesn't know the class GroupTrashItem.
 			 * @psalm-suppress RedundantCondition
 			 */
-			if ($scope === self::SCOPE_GROUPFOLDERS && $trashItemClass !== 'OCA\GroupFolders\Trash\GroupTrashItem') {
+			if ($scope === self::SCOPE_GROUPFOLDERS && $trashItemClass !== \OCA\GroupFolders\Trash\GroupTrashItem::class) {
 				$output->writeln('Skipping <info>' . $trashItem->getName() . '</info> because it is not a groupfolders trash item', OutputInterface::VERBOSITY_VERBOSE);
 				continue;
 			}

@@ -38,10 +38,10 @@ class ChunkingPluginTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->server = $this->getMockBuilder('\Sabre\DAV\Server')
+		$this->server = $this->getMockBuilder(\Sabre\DAV\Server::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->tree = $this->getMockBuilder('\Sabre\DAV\Tree')
+		$this->tree = $this->getMockBuilder(\Sabre\DAV\Tree::class)
 			->disableOriginalConstructor()
 			->getMock();
 

@@ -252,6 +252,6 @@ class ObjectTreeTest extends \Test\TestCase {
 		$tree = new \OCA\DAV\Connector\Sabre\ObjectTree();
 		$tree->init($rootNode, $view, $mountManager);
 
-		$this->assertInstanceOf('\Sabre\DAV\INode', $tree->getNodeForPath($path));
+		$this->assertInstanceOf(\Sabre\DAV\INode::class, $tree->getNodeForPath($path));
 	}
 }

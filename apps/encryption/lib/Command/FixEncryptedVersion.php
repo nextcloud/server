@@ -242,7 +242,7 @@ class FixEncryptedVersion extends Command {
 			return true;
 		}
 
-		if ($storage->instanceOfStorage('OCA\Files_Sharing\ISharedStorage')) {
+		if ($storage->instanceOfStorage(\OCA\Files_Sharing\ISharedStorage::class)) {
 			$output->writeln("<info>The file: \"$path\" is a share. Please also run the script for the owner of the share</info>");
 			return true;
 		}

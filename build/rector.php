@@ -28,8 +28,7 @@ $config = RectorConfig::configure()
 		$nextcloudDir . '/apps/*/composer/*',
 		$nextcloudDir . '/apps/*/config/*',
 	])
-	// uncomment to reach your current PHP version
-	// ->withPhpSets()
+	->withPhpSets(php55: true)
 	->withTypeCoverageLevel(0);
 
 

@@ -17,7 +17,7 @@ use Test\TestCase;
 
 class TemporaryNoLocal extends Temporary {
 	public function instanceOfStorage($className) {
-		if ($className === '\OC\Files\Storage\Local') {
+		if ($className === \OC\Files\Storage\Local::class) {
 			return false;
 		} else {
 			return parent::instanceOfStorage($className);

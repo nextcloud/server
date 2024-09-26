@@ -41,7 +41,7 @@ class CommentsPluginTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->server = $this->getMockBuilder('\Sabre\DAV\Server')
+		$this->server = $this->getMockBuilder(\Sabre\DAV\Server::class)
 			->setConstructorArgs([$this->tree])
 			->setMethods(['getRequestUri'])
 			->getMock();

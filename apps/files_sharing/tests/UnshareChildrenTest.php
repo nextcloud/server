@@ -25,7 +25,7 @@ class UnshareChildrenTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', '\OCA\Files_Sharing\Hooks', 'unshareChildren');
+		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', \OCA\Files_Sharing\Hooks::class, 'unshareChildren');
 
 		$this->folder = self::TEST_FOLDER_NAME;
 		$this->subfolder = '/subfolder_share_api_test';

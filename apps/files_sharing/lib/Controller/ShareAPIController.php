@@ -762,7 +762,7 @@ class ShareAPIController extends OCSController {
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
 		} elseif ($shareType === IShare::TYPE_CIRCLE) {
-			if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists('\OCA\Circles\ShareByCircleProvider')) {
+			if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists(\OCA\Circles\ShareByCircleProvider::class)) {
 				throw new OCSNotFoundException($this->l->t('You cannot share to a Team if the app is not enabled'));
 			}
 
@@ -1775,7 +1775,7 @@ class ShareAPIController extends OCSController {
 			throw new QueryException();
 		}
 
-		return $this->serverContainer->get('\OCA\Talk\Share\Helper\ShareAPIController');
+		return $this->serverContainer->get(\OCA\Talk\Share\Helper\ShareAPIController::class);
 	}
 
 	/**
@@ -1936,7 +1936,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		if ($share->getShareType() === IShare::TYPE_CIRCLE && \OC::$server->getAppManager()->isEnabledForUser('circles')
-			&& class_exists('\OCA\Circles\Api\v1\Circles')) {
+			&& class_exists(\OCA\Circles\Api\v1\Circles::class)) {
 			$hasCircleId = (str_ends_with($share->getSharedWith(), ']'));
 			$shareWithStart = ($hasCircleId ? strrpos($share->getSharedWith(), '[') + 1 : 0);
 			$shareWithLength = ($hasCircleId ? -1 : strpos($share->getSharedWith(), ' '));

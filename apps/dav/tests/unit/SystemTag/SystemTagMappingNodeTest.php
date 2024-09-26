@@ -97,12 +97,12 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 			[
 				// cannot unassign invisible tag
 				new SystemTag(1, 'Original', false, true),
-				'Sabre\DAV\Exception\NotFound',
+				\Sabre\DAV\Exception\NotFound::class,
 			],
 			[
 				// cannot unassign non-assignable tag
 				new SystemTag(1, 'Original', true, false),
-				'Sabre\DAV\Exception\Forbidden',
+				\Sabre\DAV\Exception\Forbidden::class,
 			],
 		];
 	}

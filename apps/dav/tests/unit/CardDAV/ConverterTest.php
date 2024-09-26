@@ -95,7 +95,7 @@ class ConverterTest extends TestCase {
 		$converter = new Converter($accountManager, $this->userManager, $this->urlGenerator, $this->logger);
 		$vCard = $converter->createCardFromUser($user);
 		if ($expectedVCard !== null) {
-			$this->assertInstanceOf('Sabre\VObject\Component\VCard', $vCard);
+			$this->assertInstanceOf(\Sabre\VObject\Component\VCard::class, $vCard);
 			$cardData = $vCard->jsonSerialize();
 			$this->compareData($expectedVCard, $cardData);
 		} else {

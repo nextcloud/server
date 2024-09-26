@@ -65,7 +65,7 @@ abstract class TestCase extends \Test\TestCase {
 		\OC::$server->getGroupManager()->clearBackends();
 
 		// clear share hooks
-		\OC_Hook::clear('OCP\\Share');
+		\OC_Hook::clear(\OCP\Share::class);
 		\OC::registerShareHooks(\OC::$server->getSystemConfig());
 
 		// create users

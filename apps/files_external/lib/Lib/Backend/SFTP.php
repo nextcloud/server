@@ -16,7 +16,7 @@ class SFTP extends Backend {
 		$this
 			->setIdentifier('sftp')
 			->addIdentifierAlias('\OC\Files\Storage\SFTP') // legacy compat
-			->setStorageClass('\OCA\Files_External\Lib\Storage\SFTP')
+			->setStorageClass(\OCA\Files_External\Lib\Storage\SFTP::class)
 			->setText($l->t('SFTP'))
 			->addParameters([
 				new DefinitionParameter('host', $l->t('Host')),

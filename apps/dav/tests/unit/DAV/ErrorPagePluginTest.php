@@ -24,7 +24,7 @@ class ErrorPagePluginTest extends \Test\TestCase {
 		$plugin->expects($this->once())->method('generateBody')->willReturn(':boom:');
 		$plugin->expects($this->once())->method('sendResponse');
 		/** @var \Sabre\DAV\Server | \PHPUnit\Framework\MockObject\MockObject $server */
-		$server = $this->getMockBuilder('Sabre\DAV\Server')->disableOriginalConstructor()->getMock();
+		$server = $this->getMockBuilder(\Sabre\DAV\Server::class)->disableOriginalConstructor()->getMock();
 		$server->expects($this->once())->method('on');
 		$httpResponse = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->getMock();
 		$httpResponse->expects($this->once())->method('addHeaders');

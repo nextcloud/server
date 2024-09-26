@@ -414,7 +414,7 @@ class Storage {
 
 		try {
 			// TODO add a proper way of overwriting a file while maintaining file ids
-			if ($storage1->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage') || $storage2->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage')) {
+			if ($storage1->instanceOfStorage(\OC\Files\ObjectStore\ObjectStoreStorage::class) || $storage2->instanceOfStorage(\OC\Files\ObjectStore\ObjectStoreStorage::class)) {
 				$source = $storage1->fopen($internalPath1, 'r');
 				$target = $storage2->fopen($internalPath2, 'w');
 				[, $result] = \OC_Helper::streamCopy($source, $target);

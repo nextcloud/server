@@ -45,7 +45,7 @@ class TrashbinTest extends \Test\TestCase {
 		\OC_User::useBackend('database');
 
 		// clear share hooks
-		\OC_Hook::clear('OCP\\Share');
+		\OC_Hook::clear(\OCP\Share::class);
 		\OC::registerShareHooks(\OC::$server->getSystemConfig());
 
 		// init files sharing

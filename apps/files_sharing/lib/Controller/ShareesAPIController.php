@@ -163,7 +163,7 @@ class ShareesAPIController extends OCSController {
 		}
 
 		// FIXME: DI
-		if (\OC::$server->getAppManager()->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
+		if (\OC::$server->getAppManager()->isEnabledForUser('circles') && class_exists(\OCA\Circles\ShareByCircleProvider::class)) {
 			$shareTypes[] = IShare::TYPE_CIRCLE;
 		}
 
@@ -336,7 +336,7 @@ class ShareesAPIController extends OCSController {
 		}
 
 		// FIXME: DI
-		if (\OC::$server->getAppManager()->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
+		if (\OC::$server->getAppManager()->isEnabledForUser('circles') && class_exists(\OCA\Circles\ShareByCircleProvider::class)) {
 			$shareTypes[] = IShare::TYPE_CIRCLE;
 		}
 

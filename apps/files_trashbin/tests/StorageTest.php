@@ -503,7 +503,7 @@ class StorageTest extends \Test\TestCase {
 		/**
 		 * @var \OC\Files\Storage\Temporary | \PHPUnit\Framework\MockObject\MockObject $storage
 		 */
-		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
+		$storage = $this->getMockBuilder(\OC\Files\Storage\Temporary::class)
 			->setConstructorArgs([[]])
 			->setMethods(['rename', 'unlink', 'moveFromStorage'])
 			->getMock();
@@ -540,7 +540,7 @@ class StorageTest extends \Test\TestCase {
 		/**
 		 * @var \OC\Files\Storage\Temporary | \PHPUnit\Framework\MockObject\MockObject $storage
 		 */
-		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
+		$storage = $this->getMockBuilder(\OC\Files\Storage\Temporary::class)
 			->setConstructorArgs([[]])
 			->setMethods(['rename', 'unlink', 'rmdir'])
 			->getMock();
@@ -574,7 +574,7 @@ class StorageTest extends \Test\TestCase {
 		$fileID = 1;
 		$cache = $this->createMock(ICache::class);
 		$cache->expects($this->any())->method('getId')->willReturn($fileID);
-		$tmpStorage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
+		$tmpStorage = $this->getMockBuilder(\OC\Files\Storage\Temporary::class)
 			->disableOriginalConstructor()->getMock($cache);
 		$tmpStorage->expects($this->any())->method('getCache')->willReturn($cache);
 		$userManager = $this->getMockBuilder(IUserManager::class)

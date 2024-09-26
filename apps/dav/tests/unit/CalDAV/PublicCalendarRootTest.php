@@ -52,7 +52,7 @@ class PublicCalendarRootTest extends TestCase {
 		parent::setUp();
 
 		$db = \OC::$server->getDatabaseConnection();
-		$this->principal = $this->createMock('OCA\DAV\Connector\Sabre\Principal');
+		$this->principal = $this->createMock(\OCA\DAV\Connector\Sabre\Principal::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->random = \OC::$server->getSecureRandom();

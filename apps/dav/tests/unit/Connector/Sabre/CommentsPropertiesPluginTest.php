@@ -32,7 +32,7 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->server = $this->getMockBuilder('\Sabre\DAV\Server')
+		$this->server = $this->getMockBuilder(\Sabre\DAV\Server::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -42,7 +42,7 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 
 	public function nodeProvider() {
 		$mocks = [];
-		foreach (['\OCA\DAV\Connector\Sabre\File', '\OCA\DAV\Connector\Sabre\Directory', '\Sabre\DAV\INode'] as $class) {
+		foreach ([\OCA\DAV\Connector\Sabre\File::class, \OCA\DAV\Connector\Sabre\Directory::class, \Sabre\DAV\INode::class] as $class) {
 			$mocks[] = $this->getMockBuilder($class)
 				->disableOriginalConstructor()
 				->getMock();

@@ -73,7 +73,7 @@ class BirthdayServiceTest extends TestCase {
 		if ($expectedSummary === null) {
 			$this->assertNull($cal);
 		} else {
-			$this->assertInstanceOf('Sabre\VObject\Component\VCalendar', $cal);
+			$this->assertInstanceOf(\Sabre\VObject\Component\VCalendar::class, $cal);
 			$this->assertEquals('-//IDN nextcloud.com//Birthday calendar//EN', $cal->PRODID->getValue());
 			$this->assertTrue(isset($cal->VEVENT));
 			$this->assertEquals($expectedRrule, $cal->VEVENT->RRULE->getValue());

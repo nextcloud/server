@@ -170,14 +170,14 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('isAdmin')
 			->willReturn(false);
-		$firstGroup = $this->getMockBuilder('OCP\IGroup')
+		$firstGroup = $this->getMockBuilder(\OCP\IGroup::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$firstGroup
 			->expects($this->once())
 			->method('getGID')
 			->willReturn('FirstGroup');
-		$secondGroup = $this->getMockBuilder('OCP\IGroup')
+		$secondGroup = $this->getMockBuilder(\OCP\IGroup::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$secondGroup
@@ -649,7 +649,7 @@ class UsersControllerTest extends TestCase {
 			->method('createUser')
 			->with('NewUser', 'PasswordOfTheNewUser')
 			->willReturn($user);
-		$group = $this->getMockBuilder('OCP\IGroup')
+		$group = $this->getMockBuilder(\OCP\IGroup::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$group
@@ -777,7 +777,7 @@ class UsersControllerTest extends TestCase {
 			->method('isAdmin')
 			->with('regularUser')
 			->willReturn(false);
-		$existingGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
+		$existingGroup = $this->getMockBuilder(\OCP\IGroup::class)->disableOriginalConstructor()->getMock();
 		$this->groupManager
 			->expects($this->once())
 			->method('get')
@@ -842,10 +842,10 @@ class UsersControllerTest extends TestCase {
 			->method('createUser')
 			->with('NewUser', 'PasswordOfTheNewUser')
 			->willReturn($user);
-		$existingGroup1 = $this->getMockBuilder('OCP\IGroup')
+		$existingGroup1 = $this->getMockBuilder(\OCP\IGroup::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$existingGroup2 = $this->getMockBuilder('OCP\IGroup')
+		$existingGroup2 = $this->getMockBuilder(\OCP\IGroup::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$existingGroup1
@@ -2766,12 +2766,12 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getSubAdmin')
 			->willReturn($subAdminManager);
-		$group1 = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
+		$group1 = $this->getMockBuilder(\OCP\IGroup::class)->disableOriginalConstructor()->getMock();
 		$group1
 			->expects($this->any())
 			->method('getGID')
 			->willReturn('Group1');
-		$group2 = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
+		$group2 = $this->getMockBuilder(\OCP\IGroup::class)->disableOriginalConstructor()->getMock();
 		$group2
 			->expects($this->any())
 			->method('getGID')
@@ -3061,7 +3061,7 @@ class UsersControllerTest extends TestCase {
 		$this->expectExceptionCode(103);
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
-		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
+		$targetGroup = $this->getMockBuilder(\OCP\IGroup::class)->disableOriginalConstructor()->getMock();
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -3091,7 +3091,7 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->willReturn('unauthorizedUser');
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
-		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
+		$targetGroup = $this->getMockBuilder(\OCP\IGroup::class)->disableOriginalConstructor()->getMock();
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -3137,7 +3137,7 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getUID')
 			->willReturn('admin');
-		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
+		$targetGroup = $this->getMockBuilder(\OCP\IGroup::class)->disableOriginalConstructor()->getMock();
 		$targetGroup
 			->expects($this->once())
 			->method('getGID')
@@ -3187,7 +3187,7 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getUID')
 			->willReturn('subadmin');
-		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
+		$targetGroup = $this->getMockBuilder(\OCP\IGroup::class)->disableOriginalConstructor()->getMock();
 		$targetGroup
 			->expects($this->any())
 			->method('getGID')
@@ -3238,7 +3238,7 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->willReturn('subadmin');
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
-		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
+		$targetGroup = $this->getMockBuilder(\OCP\IGroup::class)->disableOriginalConstructor()->getMock();
 		$targetGroup
 			->expects($this->any())
 			->method('getGID')
@@ -3295,7 +3295,7 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->willReturn('admin');
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
-		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
+		$targetGroup = $this->getMockBuilder(\OCP\IGroup::class)->disableOriginalConstructor()->getMock();
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -3373,7 +3373,7 @@ class UsersControllerTest extends TestCase {
 		$this->expectExceptionCode(103);
 
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
-		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
+		$targetGroup = $this->getMockBuilder(\OCP\IGroup::class)->disableOriginalConstructor()->getMock();
 		$targetGroup
 			->expects($this->once())
 			->method('getGID')
@@ -3394,7 +3394,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testAddSubAdminTwice(): void {
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
-		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
+		$targetGroup = $this->getMockBuilder(\OCP\IGroup::class)->disableOriginalConstructor()->getMock();
 		$this->userManager
 			->expects($this->once())
 			->method('get')
@@ -3422,7 +3422,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testAddSubAdminSuccessful(): void {
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
-		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
+		$targetGroup = $this->getMockBuilder(\OCP\IGroup::class)->disableOriginalConstructor()->getMock();
 		$this->userManager
 			->expects($this->once())
 			->method('get')
@@ -3496,7 +3496,7 @@ class UsersControllerTest extends TestCase {
 		$this->expectExceptionCode(102);
 
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
-		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
+		$targetGroup = $this->getMockBuilder(\OCP\IGroup::class)->disableOriginalConstructor()->getMock();
 		$this->userManager
 			->expects($this->once())
 			->method('get')
@@ -3524,7 +3524,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testRemoveSubAdminSuccessful(): void {
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
-		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
+		$targetGroup = $this->getMockBuilder(\OCP\IGroup::class)->disableOriginalConstructor()->getMock();
 		$this->userManager
 			->expects($this->once())
 			->method('get')
@@ -3571,7 +3571,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testGetUserSubAdminGroupsWithGroups(): void {
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
-		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
+		$targetGroup = $this->getMockBuilder(\OCP\IGroup::class)->disableOriginalConstructor()->getMock();
 		$targetGroup
 			->expects($this->once())
 			->method('getGID')

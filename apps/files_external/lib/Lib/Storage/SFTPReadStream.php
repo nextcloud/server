@@ -38,7 +38,7 @@ class SFTPReadStream implements File {
 		if (in_array($protocol, stream_get_wrappers(), true)) {
 			return false;
 		}
-		return stream_wrapper_register($protocol, get_called_class());
+		return stream_wrapper_register($protocol, static::class);
 	}
 
 	/**

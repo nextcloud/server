@@ -94,53 +94,53 @@ class FileTest extends TestCase {
 			[
 				// return false
 				null,
-				'\Sabre\Dav\Exception',
+				\Sabre\Dav\Exception::class,
 				false
 			],
 			[
 				new \OCP\Files\NotPermittedException(),
-				'Sabre\DAV\Exception\Forbidden'
+				\Sabre\DAV\Exception\Forbidden::class
 			],
 			[
 				new \OCP\Files\EntityTooLargeException(),
-				'OCA\DAV\Connector\Sabre\Exception\EntityTooLarge'
+				\OCA\DAV\Connector\Sabre\Exception\EntityTooLarge::class
 			],
 			[
 				new \OCP\Files\InvalidContentException(),
-				'OCA\DAV\Connector\Sabre\Exception\UnsupportedMediaType'
+				\OCA\DAV\Connector\Sabre\Exception\UnsupportedMediaType::class
 			],
 			[
 				new \OCP\Files\InvalidPathException(),
-				'Sabre\DAV\Exception\Forbidden'
+				\Sabre\DAV\Exception\Forbidden::class
 			],
 			[
 				new \OCP\Files\ForbiddenException('', true),
-				'OCA\DAV\Connector\Sabre\Exception\Forbidden'
+				\OCA\DAV\Connector\Sabre\Exception\Forbidden::class
 			],
 			[
 				new \OCP\Files\LockNotAcquiredException('/test.txt', 1),
-				'OCA\DAV\Connector\Sabre\Exception\FileLocked'
+				\OCA\DAV\Connector\Sabre\Exception\FileLocked::class
 			],
 			[
 				new \OCP\Lock\LockedException('/test.txt'),
-				'OCA\DAV\Connector\Sabre\Exception\FileLocked'
+				\OCA\DAV\Connector\Sabre\Exception\FileLocked::class
 			],
 			[
 				new \OCP\Encryption\Exceptions\GenericEncryptionException(),
-				'Sabre\DAV\Exception\ServiceUnavailable'
+				\Sabre\DAV\Exception\ServiceUnavailable::class
 			],
 			[
 				new \OCP\Files\StorageNotAvailableException(),
-				'Sabre\DAV\Exception\ServiceUnavailable'
+				\Sabre\DAV\Exception\ServiceUnavailable::class
 			],
 			[
 				new \Sabre\DAV\Exception('Generic sabre exception'),
-				'Sabre\DAV\Exception',
+				\Sabre\DAV\Exception::class,
 				false
 			],
 			[
 				new \Exception('Generic exception'),
-				'Sabre\DAV\Exception'
+				\Sabre\DAV\Exception::class
 			],
 		];
 	}
