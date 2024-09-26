@@ -689,13 +689,25 @@ class Manager implements IManager {
 				$this->linkCreateChecks($share);
 				$this->setLinkParent($share);
 
-				// For now ignore a set token.
-				$share->setToken(
-					$this->secureRandom->generate(
+				for ($i = 0; $i <= 3; $i++) {
+					$token = $this->secureRandom->generate(
 						\OC\Share\Constants::TOKEN_LENGTH,
 						\OCP\Security\ISecureRandom::CHAR_HUMAN_READABLE
-					)
-				);
+					);
+
+					try {
+						$this->getShareByToken($token);
+					} catch (\OCP\Share\Exceptions\ShareNotFound $e) {
+						// Set the unique token
+						$share->setToken($token);
+						break;
+					}
+
+					// Abort after 3 failed attempts
+					if ($i >= 3) {
+						throw new \Exception('Unable to generate a unique share token after 3 attempts.');
+					}
+				}
 
 				// Verify the expiration date
 				$share = $this->validateExpirationDateLink($share);
