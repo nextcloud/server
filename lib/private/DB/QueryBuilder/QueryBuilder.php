@@ -249,6 +249,23 @@ class QueryBuilder implements IQueryBuilder {
 			}
 		}
 
+		$tooLongOutputColumns = [];
+		foreach ($this->getOutputColumns() as $column) {
+			if (strlen($column) > 30) {
+				$tooLongOutputColumns[] = $column;
+			}
+		}
+
+		if (!empty($tooLongOutputColumns)) {
+			$exception = new QueryException('More than 30 characters for an output column name are not allowed on Oracle.');
+			$this->logger->error($exception->getMessage(), [
+				'query' => $this->getSQL(),
+				'columns' => $tooLongOutputColumns,
+				'app' => 'core',
+				'exception' => $exception,
+			]);
+		}
+
 		$numberOfParameters = 0;
 		$hasTooLargeArrayParameter = false;
 		foreach ($this->getParameters() as $parameter) {
