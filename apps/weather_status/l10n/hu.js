@@ -35,6 +35,7 @@ OC.L10N.register(
     "{temperature} {unit} heavy rainfall showers" : "{temperature} {unit} kiadós záporok",
     "More weather for {adr}" : "További időjárás a következőhöz: {adr}",
     "Loading weather" : "Időjárás betöltése",
+    "Set location for weather" : "Tartózkodási hely beállítása az időjáráshoz",
     "Remove from favorites" : "Eltávolítás a kedvencekből",
     "Add as favorite" : "Hozzáadás kedvencként",
     "You are not logged in." : "Nincs bejelentkezve.",
@@ -45,7 +46,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Hiba történt a tartózkodási hely beállítása során.",
     "There was an error saving the mode." : "Hiba történt a mód mentése során.",
     "There was an error using personal address." : "Hiba történt a személyes cím használata során.",
-    "Set location for weather" : "Tartózkodási hely beállítása az időjáráshoz",
     "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Irányítópultba integrált időjárási állapot. A felhasználó helyzete meghatározható automatikusan vagy egyénileg beállítható. Ezután egy 6 órás előrejelzés lesz megjelenítve. Ez az információ máshol is megjeleníthető, például a Naptár alkalmazásban."
 },
 "nplurals=2; plural=(n != 1);");

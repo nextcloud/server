@@ -35,6 +35,7 @@ OC.L10N.register(
     "{temperature} {unit} heavy rainfall showers" : "{temperature} {unit} cithfholcadáin báistí trom",
     "More weather for {adr}" : "Tuilleadh aimsire le haghaidh {adr}",
     "Loading weather" : "Aimsir á lódáil",
+    "Set location for weather" : "Socraigh suíomh don aimsir",
     "Remove from favorites" : "Bain ó cheanáin",
     "Add as favorite" : "Cuir mar is fearr leat",
     "You are not logged in." : "Níl tú logáilte isteach.",
@@ -45,7 +46,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Tharla earráid agus an suíomh á shocrú.",
     "There was an error saving the mode." : "Tharla earráid agus an mód á shábháil.",
     "There was an error using personal address." : "Tharla earráid agus seoladh pearsanta á úsáid.",
-    "Set location for weather" : "Socraigh suíomh don aimsir",
     "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Stádas aimsire comhtháite san aip Deais.\nIs féidir seasamh an úsáideora a chinneadh go huathoibríoch nó a shainiú de láimh. Taispeántar réamhaisnéis 6 huaire ansin.\nIs féidir an stádas seo a chomhtháthú in áiteanna eile ar nós an aip Féilire."
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

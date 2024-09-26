@@ -34,6 +34,7 @@ OC.L10N.register(
     "{temperature} {unit} heavy rainfall showers" : "{temperature} {unit} heavy rainfall showers",
     "More weather for {adr}" : "More weather for {adr}",
     "Loading weather" : "Loading weather",
+    "Set location for weather" : "تنظیم مکان برای آب و هوا",
     "Remove from favorites" : "حذف کردن از برگزیده ها",
     "Add as favorite" : "Add as favorite",
     "You are not logged in." : "You are not logged in.",
@@ -44,7 +45,6 @@ OC.L10N.register(
     "There was an error setting the location." : "There was an error setting the location.",
     "There was an error saving the mode." : "There was an error saving the mode.",
     "There was an error using personal address." : "There was an error using personal address.",
-    "Set location for weather" : "تنظیم مکان برای آب و هوا",
     "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app."
 },
 "nplurals=2; plural=(n > 1);");

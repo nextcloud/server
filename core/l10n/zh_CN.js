@@ -269,7 +269,7 @@ OC.L10N.register(
     "Collaborative tags" : "协作标签",
     "No tags found" : "标签未找到",
     "Personal" : "个人",
-    "Accounts" : "账户",
+    "Accounts" : "账号",
     "Admin" : "管理",
     "Help" : "帮助",
     "Access forbidden" : "访问禁止",
