@@ -13,6 +13,7 @@ use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -99,6 +100,7 @@ class UserStoragesController extends StoragesController {
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	public function create(
 		$mountPoint,
 		$backend,
