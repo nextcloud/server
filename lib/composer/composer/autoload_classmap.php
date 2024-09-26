@@ -2008,7 +2008,6 @@ return array(
     'OC\\User\\User' => $baseDir . '/lib/private/User/User.php',
     'OC_App' => $baseDir . '/lib/private/legacy/OC_App.php',
     'OC_Defaults' => $baseDir . '/lib/private/legacy/OC_Defaults.php',
-    'OC_Files' => $baseDir . '/lib/private/legacy/OC_Files.php',
     'OC_Helper' => $baseDir . '/lib/private/legacy/OC_Helper.php',
     'OC_Hook' => $baseDir . '/lib/private/legacy/OC_Hook.php',
     'OC_JSON' => $baseDir . '/lib/private/legacy/OC_JSON.php',
