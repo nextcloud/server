@@ -40,6 +40,7 @@ class APIController extends OCSController {
 		'suspicious_login' => 25,
 		'twofactor_totp' => 25,
 		'files_downloadlimit' => 29,
+		'twofactor_nextcloud_notification' => 30,
 	];
 
 	public function __construct(
