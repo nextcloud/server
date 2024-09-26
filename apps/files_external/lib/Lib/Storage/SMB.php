@@ -160,6 +160,8 @@ class SMB extends Common implements INotifyStorage {
 	 * @param string $path
 	 * @return IFileInfo
 	 * @throws StorageAuthException
+	 * @throws \OCP\Files\NotFoundException
+	 * @throws \OCP\Files\ForbiddenException
 	 */
 	protected function getFileInfo($path) {
 		try {
@@ -336,7 +338,7 @@ class SMB extends Common implements INotifyStorage {
 	public function stat($path, $retry = true) {
 		try {
 			$result = $this->formatInfo($this->getFileInfo($path));
-		} catch (ForbiddenException $e) {
+		} catch (\OCP\Files\ForbiddenException $e) {
 			return false;
 		} catch (\OCP\Files\NotFoundException $e) {
 			return false;
@@ -557,7 +559,7 @@ class SMB extends Common implements INotifyStorage {
 			$fileInfo = $this->getFileInfo($path);
 		} catch (\OCP\Files\NotFoundException $e) {
 			return null;
-		} catch (ForbiddenException $e) {
+		} catch (\OCP\Files\ForbiddenException $e) {
 			return null;
 		}
 		if (!$fileInfo) {
@@ -633,7 +635,7 @@ class SMB extends Common implements INotifyStorage {
 			return $this->getFileInfo($path)->isDirectory() ? 'dir' : 'file';
 		} catch (\OCP\Files\NotFoundException $e) {
 			return false;
-		} catch (ForbiddenException $e) {
+		} catch (\OCP\Files\ForbiddenException $e) {
 			return false;
 		}
 	}
@@ -668,7 +670,7 @@ class SMB extends Common implements INotifyStorage {
 			return true;
 		} catch (\OCP\Files\NotFoundException $e) {
 			return false;
-		} catch (ForbiddenException $e) {
+		} catch (\OCP\Files\ForbiddenException $e) {
 			return false;
 		} catch (ConnectException $e) {
 			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
@@ -681,7 +683,7 @@ class SMB extends Common implements INotifyStorage {
 			return $this->showHidden || !$info->isHidden();
 		} catch (\OCP\Files\NotFoundException $e) {
 			return false;
-		} catch (ForbiddenException $e) {
+		} catch (\OCP\Files\ForbiddenException $e) {
 			return false;
 		}
 	}
@@ -694,7 +696,7 @@ class SMB extends Common implements INotifyStorage {
 			return ($this->showHidden || !$info->isHidden()) && (!$info->isReadOnly() || $info->isDirectory());
 		} catch (\OCP\Files\NotFoundException $e) {
 			return false;
-		} catch (ForbiddenException $e) {
+		} catch (\OCP\Files\ForbiddenException $e) {
 			return false;
 		}
 	}
@@ -705,7 +707,7 @@ class SMB extends Common implements INotifyStorage {
 			return ($this->showHidden || !$info->isHidden()) && !$info->isReadOnly();
 		} catch (\OCP\Files\NotFoundException $e) {
 			return false;
-		} catch (ForbiddenException $e) {
+		} catch (\OCP\Files\ForbiddenException $e) {
 			return false;
 		}
 	}
