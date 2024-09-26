@@ -34,6 +34,7 @@ OC.L10N.register(
     "{temperature} {unit} heavy rainfall showers" : "{temperature} {unit} intenzivní přeháňky",
     "More weather for {adr}" : "Více o počasí pro {adr}",
     "Loading weather" : "Načítání údajů o počasí",
+    "Set location for weather" : "Nastavit místo pro které předpovídat počasí",
     "Remove from favorites" : "Odebrat z oblíbených",
     "Add as favorite" : "Přidat do oblíbených",
     "You are not logged in." : "Nejste přihlášení.",
@@ -44,7 +45,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Při nastavování umístění došlo k chybě.",
     "There was an error saving the mode." : "Při ukládání režimu došlo k chybě.",
     "There was an error using personal address." : "Při použití vaší osobní adresy došlo k chybě.",
-    "Set location for weather" : "Nastavit místo pro které předpovídat počasí",
     "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Napojení ohledně stavu počasí pro aplikaci Nástěnka.\n    Polohu uživatele je možné zjistit automaticky nebo zadat ručně. Poté je zobrazována předpověď na příštích 6 hodin.\n    Tento stav je také možné začlenit do ostatních míst, jako například Kalendář."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

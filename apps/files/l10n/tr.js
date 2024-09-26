@@ -276,6 +276,7 @@ OC.L10N.register(
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\" ayrılmış bir ad olduğundan dosya adlarında kullanılamaz.",
     "\"{extension}\" is not an allowed filetype." : "\"{extension}\" dosya uzantısına izin verilmiyor.",
     "Filenames must not end with \"{extension}\"." : "Dosya adları \"{extension}\" ile bitemez.",
+    "List of favorite files and folders." : "Sık kullanılan dosya ve klasör listesi.",
     "No favorites yet" : "Henüz sık kullanılan bir öge yok",
     "Files and folders you mark as favorite will show up here" : "Sık kullanılanlara eklediğiniz dosya ve klasörler burada görüntülenir",
     "All files" : "Tüm dosyalar",
@@ -393,6 +394,9 @@ OC.L10N.register(
     "Text file" : "Metin dosyası",
     "New text file.txt" : "Yeni metin dosyası.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Doğrudan bağlantı kopyalandı (yalnızca bu dosya ya da klasöre erişim izni olan kişiler kullanabilir)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Doğrudan bağlantıyı kopyala (yalnızca bu dosya ya da klasöre erişim izni olan kişiler için)"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Doğrudan bağlantıyı kopyala (yalnızca bu dosya ya da klasöre erişim izni olan kişiler için)",
+    "Favored" : "Sık kullanılanlara eklenmiş",
+    "Favor" : "Sık kullanılanlara ekle",
+    "Not favored" : "Sık kullanılanlara eklenmemiş"
 },
 "nplurals=2; plural=(n > 1);");

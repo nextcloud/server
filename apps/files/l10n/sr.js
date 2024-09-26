@@ -276,6 +276,7 @@ OC.L10N.register(
     "\"{segment}\" is a reserved name and not allowed for filenames." : "„{segment}” је резервисано име и не сме се користити као име фајла.",
     "\"{extension}\" is not an allowed filetype." : "„{extension}” није дозвољени тип фајла.",
     "Filenames must not end with \"{extension}\"." : "Имена фајлова не смеју да се завршавају са „{extension}”.",
+    "List of favorite files and folders." : "Листа омиљених фајлова и фолдера.",
     "No favorites yet" : "Још нема омиљених",
     "Files and folders you mark as favorite will show up here" : "Фајлови и фасцикле које обележите као омиљене појавиће се овде",
     "All files" : "Сви фајлови",
@@ -393,6 +394,9 @@ OC.L10N.register(
     "Text file" : "Tекстуални фајл",
     "New text file.txt" : "Нов текстуални фајл.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Копиран је директан линк (функционише само за особе који имају приступ овом фајлу/фолдеру)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Копирај директни линк (ради само за особе које имају приступ овом фајлу/фолдеру)"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Копирај директни линк (ради само за особе које имају приступ овом фајлу/фолдеру)",
+    "Favored" : "Наклоњен",
+    "Favor" : "Наклоност",
+    "Not favored" : "Ненаклоњен"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
