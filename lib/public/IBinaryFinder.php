@@ -11,7 +11,7 @@ namespace OCP;
 /**
  * Service that find the binary path for a program.
  *
- * This interface should be injected via depency injection and must
+ * This interface should be injected via dependency injection and must
  * not be implemented in applications.
  *
  * @since 25.0.0
