@@ -437,6 +437,7 @@ OC.L10N.register(
     "Total rows summary" : "Resum de totes les files",
     "Scroll to load more rows" : "Desplaceu-vos per carregar més files",
     "Avatar" : "Avatar",
+    "Account name" : "Nom de compte",
     "Group admin for" : "Administrador de grup per",
     "Storage location" : "Ubicació de l'emmagatzematge",
     "Last login" : "Darrer inici de sessió",

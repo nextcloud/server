@@ -393,8 +393,8 @@
     "New text file.txt" : "Novo ficheiro de texto.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Foi copiada a ligazón directa (só funciona para as persoas que teñen acceso a este ficheiro/cartafol)",
     "Copy direct link (only works for people who have access to this file/folder)" : "Copiar a ligazón directa (só funciona para persoas con acceso a este ficheiro/cartafol)",
-    "Favored" : "Marcado como favorito",
-    "Favor" : "Marcar como favorito",
-    "Not favored" : "Non marcado como favorito"
+    "Favored" : "Favoritos",
+    "Favor" : "Engadir a favoritos",
+    "Not favored" : "Non está en favoritos"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
