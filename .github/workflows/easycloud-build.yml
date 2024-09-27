@@ -80,6 +80,9 @@ jobs:
           PUPPETEER_SKIP_DOWNLOAD: true
         run: make -f IONOS/Makefile build_dep_user_oidc_app
 
+      - name: Build Custom CSS
+        run: make -f IONOS/Makefile build_dep_theming_app
+
       - name: Install dependencies & build IONOS theme custom elements
         env:
           CYPRESS_INSTALL_BINARY: 0
