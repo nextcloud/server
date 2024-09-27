@@ -283,8 +283,8 @@ class DirectoryTest extends \Test\TestCase {
 		$storage->expects($this->any())
 			->method('instanceOfStorage')
 			->willReturnMap([
-				'\OCA\Files_Sharing\SharedStorage' => false,
-				'\OC\Files\Storage\Wrapper\Quota' => false,
+				['\OCA\Files_Sharing\SharedStorage', false],
+				['\OC\Files\Storage\Wrapper\Quota', false],
 			]);
 
 		$storage->expects($this->once())

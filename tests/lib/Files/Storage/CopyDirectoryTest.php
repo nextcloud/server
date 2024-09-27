@@ -10,7 +10,7 @@ namespace Test\Files\Storage;
 use OC\Files\Storage\Temporary;
 
 class StorageNoRecursiveCopy extends Temporary {
-	public function copy($path1, $path2) {
+	public function copy($path1, $path2): bool {
 		if ($this->is_dir($path1)) {
 			return false;
 		}

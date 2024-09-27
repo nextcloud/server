@@ -106,6 +106,7 @@ class Scanner extends PublicEmitter {
 	 * @param \OC\Files\Mount\MountPoint $mount
 	 */
 	protected function attachListener($mount) {
+		/** @var \OC\Files\Cache\Scanner $scanner */
 		$scanner = $mount->getStorage()->getScanner();
 		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFile', function ($path) use ($mount) {
 			$this->emit('\OC\Files\Utils\Scanner', 'scanFile', [$mount->getMountPoint() . $path]);
@@ -145,6 +146,7 @@ class Scanner extends PublicEmitter {
 					continue;
 				}
 
+				/** @var \OC\Files\Cache\Scanner $scanner */
 				$scanner = $storage->getScanner();
 				$this->attachListener($mount);
 
@@ -221,6 +223,7 @@ class Scanner extends PublicEmitter {
 				continue;
 			}
 			$relativePath = $mount->getInternalPath($dir);
+			/** @var \OC\Files\Cache\Scanner $scanner */
 			$scanner = $storage->getScanner();
 			$scanner->setUseTransactions(false);
 			$this->attachListener($mount);

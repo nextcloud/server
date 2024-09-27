@@ -16,7 +16,7 @@ use OCP\IRequest;
 use Test\TestCase;
 
 class TemporaryNoLocal extends Temporary {
-	public function instanceOfStorage($className) {
+	public function instanceOfStorage($className): bool {
 		if ($className === '\OC\Files\Storage\Local') {
 			return false;
 		} else {

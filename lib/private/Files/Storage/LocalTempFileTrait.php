@@ -32,7 +32,7 @@ trait LocalTempFileTrait {
 	/**
 	 * @param string $path
 	 */
-	protected function removeCachedFile($path) {
+	protected function removeCachedFile($path): void {
 		unset($this->cachedFiles[$path]);
 	}
 

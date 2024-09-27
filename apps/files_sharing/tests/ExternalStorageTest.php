@@ -95,7 +95,8 @@ class ExternalStorageTest extends \Test\TestCase {
 	}
 
 	public function testIfTestReturnsTheValue(): void {
-		$result = $this->getTestStorage('https://remoteserver')->test();
+		$storage = $this->getTestStorage('https://remoteserver');
+		$result = $storage->test();
 		$this->assertSame(true, $result);
 	}
 }
@@ -108,9 +109,9 @@ class TestSharingExternalStorage extends \OCA\Files_Sharing\External\Storage {
 		return $this->createBaseUri();
 	}
 
-	public function stat($path) {
+	public function stat($path): array|false {
 		if ($path === '') {
-			return true;
+			return ['key' => 'value'];
 		}
 		return parent::stat($path);
 	}

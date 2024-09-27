@@ -15,7 +15,7 @@ class Temporary extends Local {
 		parent::__construct(['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]);
 	}
 
-	public function cleanUp() {
+	public function cleanUp(): void {
 		\OC_Helper::rmdirr($this->datadir);
 	}
 
@@ -24,7 +24,7 @@ class Temporary extends Local {
 		$this->cleanUp();
 	}
 
-	public function getDataDir() {
+	public function getDataDir(): array|string {
 		return $this->datadir;
 	}
 }

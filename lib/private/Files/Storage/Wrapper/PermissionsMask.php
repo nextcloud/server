@@ -34,31 +34,31 @@ class PermissionsMask extends Wrapper {
 		$this->mask = $arguments['mask'];
 	}
 
-	private function checkMask($permissions) {
+	private function checkMask($permissions): bool {
 		return ($this->mask & $permissions) === $permissions;
 	}
 
-	public function isUpdatable($path) {
+	public function isUpdatable($path): bool {
 		return $this->checkMask(Constants::PERMISSION_UPDATE) and parent::isUpdatable($path);
 	}
 
-	public function isCreatable($path) {
+	public function isCreatable($path): bool {
 		return $this->checkMask(Constants::PERMISSION_CREATE) and parent::isCreatable($path);
 	}
 
-	public function isDeletable($path) {
+	public function isDeletable($path): bool {
 		return $this->checkMask(Constants::PERMISSION_DELETE) and parent::isDeletable($path);
 	}
 
-	public function isSharable($path) {
+	public function isSharable($path): bool {
 		return $this->checkMask(Constants::PERMISSION_SHARE) and parent::isSharable($path);
 	}
 
-	public function getPermissions($path) {
+	public function getPermissions($path): int {
 		return $this->storage->getPermissions($path) & $this->mask;
 	}
 
-	public function rename($source, $target) {
+	public function rename($source, $target): bool {
 		//This is a rename of the transfer file to the original file
 		if (dirname($source) === dirname($target) && strpos($source, '.ocTransferId') > 0) {
 			return $this->checkMask(Constants::PERMISSION_CREATE) and parent::rename($source, $target);
@@ -66,28 +66,28 @@ class PermissionsMask extends Wrapper {
 		return $this->checkMask(Constants::PERMISSION_UPDATE) and parent::rename($source, $target);
 	}
 
-	public function copy($source, $target) {
+	public function copy($source, $target): bool {
 		return $this->checkMask(Constants::PERMISSION_CREATE) and parent::copy($source, $target);
 	}
 
-	public function touch($path, $mtime = null) {
+	public function touch($path, $mtime = null): bool {
 		$permissions = $this->file_exists($path) ? Constants::PERMISSION_UPDATE : Constants::PERMISSION_CREATE;
 		return $this->checkMask($permissions) and parent::touch($path, $mtime);
 	}
 
-	public function mkdir($path) {
+	public function mkdir($path): bool {
 		return $this->checkMask(Constants::PERMISSION_CREATE) and parent::mkdir($path);
 	}
 
-	public function rmdir($path) {
+	public function rmdir($path): bool {
 		return $this->checkMask(Constants::PERMISSION_DELETE) and parent::rmdir($path);
 	}
 
-	public function unlink($path) {
+	public function unlink($path): bool {
 		return $this->checkMask(Constants::PERMISSION_DELETE) and parent::unlink($path);
 	}
 
-	public function file_put_contents($path, $data) {
+	public function file_put_contents($path, $data): int|float|false {
 		$permissions = $this->file_exists($path) ? Constants::PERMISSION_UPDATE : Constants::PERMISSION_CREATE;
 		return $this->checkMask($permissions) ? parent::file_put_contents($path, $data) : false;
 	}
@@ -101,7 +101,7 @@ class PermissionsMask extends Wrapper {
 		}
 	}
 
-	public function getCache($path = '', $storage = null) {
+	public function getCache($path = '', $storage = null): \OCP\Files\Cache\ICache {
 		if (!$storage) {
 			$storage = $this;
 		}
@@ -109,7 +109,7 @@ class PermissionsMask extends Wrapper {
 		return new CachePermissionsMask($sourceCache, $this->mask);
 	}
 
-	public function getMetaData($path) {
+	public function getMetaData($path): ?array {
 		$data = parent::getMetaData($path);
 
 		if ($data && isset($data['permissions'])) {
@@ -119,7 +119,7 @@ class PermissionsMask extends Wrapper {
 		return $data;
 	}
 
-	public function getScanner($path = '', $storage = null) {
+	public function getScanner($path = '', $storage = null): \OCP\Files\Cache\IScanner {
 		if (!$storage) {
 			$storage = $this->storage;
 		}

@@ -37,23 +37,23 @@ use Test\TestMoveableMountPoint;
 use Test\Traits\UserTrait;
 
 class TemporaryNoTouch extends Temporary {
-	public function touch($path, $mtime = null) {
+	public function touch($path, $mtime = null): bool {
 		return false;
 	}
 }
 
 class TemporaryNoCross extends Temporary {
-	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = null) {
+	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = null): bool {
 		return Common::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime);
 	}
 
-	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath): bool {
 		return Common::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 }
 
 class TemporaryNoLocal extends Temporary {
-	public function instanceOfStorage($className) {
+	public function instanceOfStorage($className): bool {
 		if ($className === '\OC\Files\Storage\Local') {
 			return false;
 		} else {
@@ -1752,6 +1752,8 @@ class ViewTest extends \Test\TestCase {
 				ILockingProvider::LOCK_SHARED,
 				ILockingProvider::LOCK_EXCLUSIVE,
 				ILockingProvider::LOCK_SHARED,
+				null,
+				0,
 			],
 
 			// ---- delete hook ----
@@ -1783,6 +1785,8 @@ class ViewTest extends \Test\TestCase {
 				ILockingProvider::LOCK_SHARED,
 				ILockingProvider::LOCK_SHARED,
 				null,
+				null,
+				false,
 			],
 			[
 				'fopen',
@@ -1809,8 +1813,28 @@ class ViewTest extends \Test\TestCase {
 			// ---- no hooks, no locks ---
 			['is_dir', ['dir'], 'dir', null],
 			['is_file', ['dir'], 'dir', null],
-			['stat', ['dir'], 'dir', null],
-			['filetype', ['dir'], 'dir', null],
+			[
+				'stat',
+				['dir'],
+				'dir',
+				null,
+				ILockingProvider::LOCK_SHARED,
+				ILockingProvider::LOCK_SHARED,
+				ILockingProvider::LOCK_SHARED,
+				null,
+				false,
+			],
+			[
+				'filetype',
+				['dir'],
+				'dir',
+				null,
+				ILockingProvider::LOCK_SHARED,
+				ILockingProvider::LOCK_SHARED,
+				ILockingProvider::LOCK_SHARED,
+				null,
+				false,
+			],
 			[
 				'filesize',
 				['dir'],
@@ -1829,7 +1853,17 @@ class ViewTest extends \Test\TestCase {
 			['isDeletable', ['dir'], 'dir', null],
 			['isSharable', ['dir'], 'dir', null],
 			['file_exists', ['dir'], 'dir', null],
-			['filemtime', ['dir'], 'dir', null],
+			[
+				'filemtime',
+				['dir'],
+				'dir',
+				null,
+				ILockingProvider::LOCK_SHARED,
+				ILockingProvider::LOCK_SHARED,
+				ILockingProvider::LOCK_SHARED,
+				null,
+				false,
+			],
 		];
 	}
 

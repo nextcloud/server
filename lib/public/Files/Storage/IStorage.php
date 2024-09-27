@@ -87,7 +87,7 @@ interface IStorage {
 	 * only the following keys are required in the result: size and mtime
 	 *
 	 * @param string $path
-	 * @return array|bool
+	 * @return array|false
 	 * @since 9.0.0
 	 */
 	public function stat($path);
@@ -96,7 +96,7 @@ interface IStorage {
 	 * see https://www.php.net/manual/en/function.filetype.php
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 * @since 9.0.0
 	 */
 	public function filetype($path);
@@ -106,7 +106,7 @@ interface IStorage {
 	 * The result for filesize when called on a folder is required to be 0
 	 *
 	 * @param string $path
-	 * @return false|int|float
+	 * @return int|float|false
 	 * @since 9.0.0
 	 */
 	public function filesize($path);
@@ -179,7 +179,7 @@ interface IStorage {
 	 * see https://www.php.net/manual/en/function.filemtime.php
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return int|false
 	 * @since 9.0.0
 	 */
 	public function filemtime($path);
@@ -237,7 +237,7 @@ interface IStorage {
 	 *
 	 * @param string $path
 	 * @param string $mode
-	 * @return resource|bool
+	 * @return resource|false
 	 * @since 9.0.0
 	 */
 	public function fopen($path, $mode);
@@ -247,7 +247,7 @@ interface IStorage {
 	 * The mimetype for a folder is required to be "httpd/unix-directory"
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 * @since 9.0.0
 	 */
 	public function getMimeType($path);
@@ -258,16 +258,16 @@ interface IStorage {
 	 * @param string $type
 	 * @param string $path
 	 * @param bool $raw
-	 * @return string|bool
+	 * @return string|false
 	 * @since 9.0.0
 	 */
 	public function hash($type, $path, $raw = false);
 
 	/**
-	 * see https://www.php.net/manual/en/function.free_space.php
+	 * see https://www.php.net/manual/en/function.disk-free-space.php
 	 *
 	 * @param string $path
-	 * @return int|float|bool
+	 * @return int|float|false
 	 * @since 9.0.0
 	 */
 	public function free_space($path);
@@ -345,7 +345,7 @@ interface IStorage {
 	 * For now the returned array can hold the parameter url - in future more attributes might follow.
 	 *
 	 * @param string $path
-	 * @return array|bool
+	 * @return array|false
 	 * @since 9.0.0
 	 */
 	public function getDirectDownload($path);

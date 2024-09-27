@@ -9,15 +9,13 @@ declare(strict_types=1);
 namespace OC\Files\Storage;
 
 use OC\Files\Cache\LocalRootScanner;
+use OCP\Files\Cache\IScanner;
 
 class LocalRootStorage extends Local {
-	public function getScanner($path = '', $storage = null) {
+	public function getScanner($path = '', $storage = null): IScanner {
 		if (!$storage) {
 			$storage = $this;
 		}
-		if (!isset($storage->scanner)) {
-			$storage->scanner = new LocalRootScanner($storage);
-		}
-		return $storage->scanner;
+		return $storage->scanner ?? ($storage->scanner = new LocalRootScanner($storage));
 	}
 }
