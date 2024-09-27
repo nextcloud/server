@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Storage;
 
 use Icewind\SMB\ACL;
@@ -21,7 +22,7 @@ use Icewind\SMB\IFileInfo;
 use Icewind\SMB\Native\NativeServer;
 use Icewind\SMB\Options;
 use Icewind\SMB\ServerFactory;
-use Icewind\SMB\System;
+use Icewind\SMB\Wrapped\Server;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Filesystem;
@@ -92,7 +93,7 @@ class SMB extends Common implements INotifyStorage {
 			}
 			$this->logger = $params['logger'];
 		} else {
-			$this->logger = \OC::$server->get(LoggerInterface::class);
+			$this->logger = \OCP\Server::get(LoggerInterface::class);
 		}
 
 		$options = new Options();
@@ -102,7 +103,8 @@ class SMB extends Common implements INotifyStorage {
 				$options->setTimeout($timeout);
 			}
 		}
-		$serverFactory = new ServerFactory($options);
+		$system = \OCP\Server::get(SystemBridge::class);
+		$serverFactory = new ServerFactory($options, $system);
 		$this->server = $serverFactory->createServer($params['host'], $auth);
 		$this->share = $this->server->getShare(trim($params['share'], '/'));
 
@@ -697,10 +699,8 @@ class SMB extends Common implements INotifyStorage {
 	 * check if smbclient is installed
 	 */
 	public static function checkDependencies(): array|bool {
-		return (
-			(bool)\OC_Helper::findBinaryPath('smbclient')
-			|| NativeServer::available(new System())
-		) ? true : ['smbclient'];
+		$system = \OCP\Server::get(SystemBridge::class);
+		return Server::available($system) || NativeServer::available($system) ?: ['smbclient'];
 	}
 
 	public function test(): bool {
