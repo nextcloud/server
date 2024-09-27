@@ -68,7 +68,6 @@ class Factory implements IFactory {
 		'ps', // Pashto,
 		'ug', // 'Uyghurche / Uyghur
 		'ur_PK', // Urdu
-		'uz', // Uzbek Afghan
 	];
 
 	private ICache $cache;
