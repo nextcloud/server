@@ -14,6 +14,7 @@ use OCP\IGroupManager;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Settings\IDeclarativeManager;
 use OCP\Settings\IManager;
@@ -29,26 +30,17 @@ use Test\TestCase;
  */
 class AdminSettingsControllerTest extends TestCase {
 
-	/** @var AdminSettingsController */
-	private $adminSettingsController;
-	/** @var IRequest|MockObject */
-	private $request;
-	/** @var INavigationManager|MockObject */
-	private $navigationManager;
-	/** @var IManager|MockObject */
-	private $settingsManager;
-	/** @var IUserSession|MockObject */
-	private $userSession;
-	/** @var IGroupManager|MockObject */
-	private $groupManager;
-	/** @var ISubAdmin|MockObject */
-	private $subAdmin;
-	/** @var IDeclarativeManager|MockObject */
-	private $declarativeSettingsManager;
-	/** @var IInitialState|MockObject */
-	private $initialState;
-	/** @var string */
-	private $adminUid = 'lololo';
+	private IRequest&MockObject $request;
+	private INavigationManager&MockObject $navigationManager;
+	private IManager&MockObject $settingsManager;
+	private IUserSession&MockObject $userSession;
+	private IGroupManager&MockObject $groupManager;
+	private ISubAdmin&MockObject $subAdmin;
+	private IDeclarativeManager&MockObject $declarativeSettingsManager;
+	private IInitialState&MockObject $initialState;
+
+	private string $adminUid = 'lololo';
+	private AdminSettingsController $adminSettingsController;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -74,15 +66,17 @@ class AdminSettingsControllerTest extends TestCase {
 			$this->initialState,
 		);
 
-		$user = \OC::$server->getUserManager()->createUser($this->adminUid, 'mylongrandompassword');
+		$user = \OCP\Server::get(IUserManager::class)->createUser($this->adminUid, 'mylongrandompassword');
 		\OC_User::setUserId($user->getUID());
-		\OC::$server->getGroupManager()->createGroup('admin')->addUser($user);
+		\OCP\Server::get(IGroupManager::class)->createGroup('admin')->addUser($user);
 	}
 
 	protected function tearDown(): void {
-		\OC::$server->getUserManager()->get($this->adminUid)->delete();
+		\OCP\Server::get(IUserManager::class)
+			->get($this->adminUid)
+			->delete();
 		\OC_User::setUserId(null);
-		\OC::$server->getUserSession()->setUser(null);
+		\OCP\Server::get(IUserSession::class)->setUser(null);
 
 		parent::tearDown();
 	}
@@ -101,6 +95,12 @@ class AdminSettingsControllerTest extends TestCase {
 			->method('isSubAdmin')
 			->with($user)
 			->willReturn(false);
+
+		$form = new TemplateResponse('settings', 'settings/empty');
+		$setting = $this->createMock(ServerDevNotice::class);
+		$setting->expects(self::any())
+			->method('getForm')
+			->willReturn($form);
 		$this->settingsManager
 			->expects($this->once())
 			->method('getAdminSections')
@@ -113,7 +113,7 @@ class AdminSettingsControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getAllowedAdminSettings')
 			->with('test')
-			->willReturn([5 => $this->createMock(ServerDevNotice::class)]);
+			->willReturn([5 => [$setting]]);
 		$this->declarativeSettingsManager
 			->expects($this->any())
 			->method('getFormIDs')

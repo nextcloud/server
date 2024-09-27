@@ -5,7 +5,6 @@
  */
 namespace OCA\Settings\Controller;
 
-use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
@@ -16,7 +15,6 @@ use OCP\Group\ISubAdmin;
 use OCP\IGroupManager;
 use OCP\INavigationManager;
 use OCP\IRequest;
-use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Settings\IDeclarativeManager;
 use OCP\Settings\IManager as ISettingsManager;
@@ -49,27 +47,14 @@ class AdminSettingsController extends Controller {
 	/**
 	 * @NoSubAdminRequired
 	 * We are checking the permissions in the getSettings method. If there is no allowed
-	 * settings for the given section. The user will be gretted by an error message.
+	 * settings for the given section. The user will be greeted by an error message.
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function index(string $section): TemplateResponse {
-		return $this->getIndexResponse('admin', $section);
-	}
-
-	/**
-	 * @param string $section
-	 * @return array
-	 */
-	protected function getSettings($section) {
-		/** @var IUser $user */
-		$user = $this->userSession->getUser();
-		$settings = $this->settingsManager->getAllowedAdminSettings($section, $user);
-		$declarativeFormIDs = $this->declarativeSettingsManager->getFormIDs($user, 'admin', $section);
-		if (empty($settings) && empty($declarativeFormIDs)) {
-			throw new NotAdminException("Logged in user doesn't have permission to access these settings.");
-		}
-		$formatted = $this->formatSettings($settings);
-		return $formatted;
+		return $this->getIndexResponse(
+			'admin',
+			$section,
+		);
 	}
 }
