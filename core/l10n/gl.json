@@ -82,7 +82,7 @@
     "unknown text" : "texto descoñecido",
     "Hello world!" : "Ola xente!",
     "sunny" : "soleado",
-    "Hello {name}, the weather is {weather}" : "Ola {name}, o tempo é {weather}",
+    "Hello {name}, the weather is {weather}" : "Ola {name}, a situación meteorolóxica é {weather}",
     "Hello {name}" : "Ola {name}",
     "<strong>These are your search results<script>alert(1)</script></strong>" : "<strong>Estes son os resultados da súa busca<script>alert(1)</script></strong>",
     "new" : "novo",

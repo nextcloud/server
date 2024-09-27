@@ -119,6 +119,7 @@ OC.L10N.register(
     "Email already added" : "电子邮箱已添加",
     "Invalid email address" : "无效电子邮箱地址",
     "_1 email address already added_::_{count} email addresses already added_" : ["{count}个电子邮箱地址已添加"],
+    "_1 email address added_::_{count} email addresses added_" : ["{count}电子邮箱地址已添加"],
     "What are you requesting?" : "你正在请求什么？",
     "Request subject" : "请求主题",
     "Add a note to help people understand what you are requesting." : "添加备注以帮助他人了解你的请求。",

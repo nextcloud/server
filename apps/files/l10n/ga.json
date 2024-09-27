@@ -274,6 +274,7 @@
     "\"{segment}\" is a reserved name and not allowed for filenames." : "Is ainm forchoimeádta é \"{segment}\" agus ní cheadaítear é d'ainmneacha comhaid.",
     "\"{extension}\" is not an allowed filetype." : "Ní cineál comhaid ceadaithe é \"{extension}\".",
     "Filenames must not end with \"{extension}\"." : "Níor cheart go gcríochnaíonn comhaid chomhad le \"{extension}\".",
+    "List of favorite files and folders." : "Liosta de na comhaid agus na fillteáin is fearr leat.",
     "No favorites yet" : "Níl aon cheanáin go fóill",
     "Files and folders you mark as favorite will show up here" : "Taispeánfar comhaid agus fillteáin a mharcálann tú mar is fearr leat anseo",
     "All files" : "Gach comhad",
@@ -391,6 +392,9 @@
     "Text file" : "Comhad téacs",
     "New text file.txt" : "Comhad téacs nua.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Cóipeáladh nasc díreach (oibreacha do dhaoine a bhfuil rochtain acu ar an gcomhad/fillteán seo amháin)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Cóipeáil nasc díreach (ní oibríonn ach do dhaoine a bhfuil rochtain acu ar an gcomhad/fillteán seo)"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Cóipeáil nasc díreach (ní oibríonn ach do dhaoine a bhfuil rochtain acu ar an gcomhad/fillteán seo)",
+    "Favored" : "B'fhearr leis",
+    "Favor" : "Fabhar",
+    "Not favored" : "Ní bail ar fónamh orthu"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }
