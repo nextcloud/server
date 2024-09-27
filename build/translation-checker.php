@@ -42,7 +42,6 @@ $rtlLanguages = [
 	'ps', // Pashto,
 	'ug', // 'Uyghurche / Uyghur
 	'ur_PK', // Urdu
-	'uz', // Uzbek Afghan
 ];
 
 $valid = 0;
