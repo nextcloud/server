@@ -112,11 +112,11 @@ This file is generated from multiple sources. Included packages:
 - @vue/devtools-api
 	- version: 6.6.3
 	- license: MIT
-- vue-demi
-	- version: 0.14.10
-	- license: MIT
 - @vueuse/core
 	- version: 10.11.0
+	- license: MIT
+- vue-demi
+	- version: 0.14.10
 	- license: MIT
 - @vueuse/shared
 	- version: 10.11.0
