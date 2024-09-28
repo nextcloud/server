@@ -276,6 +276,7 @@ OC.L10N.register(
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\"は予約名であり、ファイル名には使用できません。",
     "\"{extension}\" is not an allowed filetype." : "\"{extension}\" は許可されたファイルタイプではありません。",
     "Filenames must not end with \"{extension}\"." : "ファイル名は \"{extension}\"で終了できません。",
+    "List of favorite files and folders." : "お気に入りのファイルやフォルダーの一覧",
     "No favorites yet" : "まだお気に入りはありません",
     "Files and folders you mark as favorite will show up here" : "お気に入りに登録されたファイルやフォルダーは、ここに表示されます。",
     "All files" : "すべてのファイル",
@@ -393,6 +394,9 @@ OC.L10N.register(
     "Text file" : "テキストファイル",
     "New text file.txt" : "新規のテキストファイル作成",
     "Direct link was copied (only works for people who have access to this file/folder)" : "ダイレクトリンクがコピーされました（このファイルやフォルダにアクセスできる人にのみ機能します）",
-    "Copy direct link (only works for people who have access to this file/folder)" : "ダイレクトリンクをコピー (このファイル/フォルダにアクセスできる人にのみ機能します)"
+    "Copy direct link (only works for people who have access to this file/folder)" : "ダイレクトリンクをコピー (このファイル/フォルダにアクセスできる人にのみ機能します)",
+    "Favored" : "好評",
+    "Favor" : "好意的",
+    "Not favored" : "好ましくない"
 },
 "nplurals=1; plural=0;");
