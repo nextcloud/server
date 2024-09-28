@@ -1041,6 +1041,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$backgroundService = new BackgroundService(
 					$c->get(IRootFolder::class),
 					$c->getAppDataDir('theming'),
+					$c->get(IAppConfig::class),
 					$c->get(\OCP\IConfig::class),
 					$c->get(ISession::class)->get('user_id'),
 				);
