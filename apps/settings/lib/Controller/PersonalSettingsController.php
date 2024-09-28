@@ -50,16 +50,9 @@ class PersonalSettingsController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function index(string $section): TemplateResponse {
-		return $this->getIndexResponse('personal', $section);
-	}
-
-	/**
-	 * @param string $section
-	 * @return array
-	 */
-	protected function getSettings($section) {
-		$settings = $this->settingsManager->getPersonalSettings($section);
-		$formatted = $this->formatSettings($settings);
-		return $formatted;
+		return $this->getIndexResponse(
+			'personal',
+			$section,
+		);
 	}
 }
