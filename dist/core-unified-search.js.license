@@ -59,6 +59,7 @@ SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Borys Serebrov
 SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 SPDX-FileCopyrightText: Andris Reinman
 SPDX-FileCopyrightText: Andrea Giammarchi
 
@@ -142,11 +143,14 @@ This file is generated from multiple sources. Included packages:
 - @vue/devtools-api
 	- version: 6.6.3
 	- license: MIT
-- @vueuse/core
-	- version: 10.11.0
-	- license: MIT
 - @vueuse/shared
-	- version: 10.11.0
+	- version: 10.11.1
+	- license: MIT
+- vue-demi
+	- version: 0.14.10
+	- license: MIT
+- @vueuse/core
+	- version: 10.11.1
 	- license: MIT
 - assert
 	- version: 2.1.0
