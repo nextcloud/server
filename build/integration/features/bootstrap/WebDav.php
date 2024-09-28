@@ -239,6 +239,33 @@ trait WebDav {
 	}
 
 	/**
+	 * @When Downloading folder :folderName
+	 */
+	public function downloadingFolder(string $folderName) {
+		try {
+			$this->response = $this->makeDavRequest($this->currentUser, 'GET', $folderName, ['Accept' => 'application/zip']);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @When Downloading public folder :folderName
+	 */
+	public function downloadPublicFolder(string $folderName) {
+		$token = $this->lastShareData->data->token;
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/$folderName";
+
+		$client = new GClient();
+		$options = [];
+		$options['headers'] = [
+			'Accept' => 'application/zip'
+		];
+
+		$this->response = $client->request('GET', $fullUrl, $options);
+	}
+
+	/**
 	 * @When Downloading file :fileName
 	 * @param string $fileName
 	 */

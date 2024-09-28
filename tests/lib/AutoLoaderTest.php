@@ -20,8 +20,8 @@ class AutoLoaderTest extends TestCase {
 
 	public function testLegacyPath(): void {
 		$this->assertEquals([
-			\OC::$SERVERROOT . '/lib/private/legacy/files.php',
-		], $this->loader->findClass('OC_Files'));
+			\OC::$SERVERROOT . '/lib/private/legacy/json.php',
+		], $this->loader->findClass('OC_JSON'));
 	}
 
 	public function testLoadTestTestCase(): void {

@@ -92,6 +92,11 @@ class ServerFactory {
 
 		$server->addPlugin(new RequestIdHeaderPlugin(\OC::$server->get(IRequest::class)));
 
+		$server->addPlugin(new ZipFolderPlugin(
+			$objectTree,
+			$this->logger,
+		));
+
 		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
 		// we do not provide locking we emulate it using a fake locking plugin.
 		if ($this->request->isUserAgent([
