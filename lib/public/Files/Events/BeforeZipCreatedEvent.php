@@ -10,23 +10,45 @@ declare(strict_types=1);
 namespace OCP\Files\Events;
 
 use OCP\EventDispatcher\Event;
+use OCP\Files\Folder;
 
 /**
+ * This event is triggered before a archive is created when a user requested
+ * downloading a folder or multiple files.
+ *
+ * By setting `successful` to false the tar creation can be aborted and the download denied.
+ *
  * @since 25.0.0
  */
 class BeforeZipCreatedEvent extends Event {
 	private string $directory;
-	private array $files;
 	private bool $successful = true;
 	private ?string $errorMessage = null;
+	private ?Folder $folder = null;
 
 	/**
+	 * @param list<string> $files
 	 * @since 25.0.0
+	 * @since 31.0.0 support `OCP\Files\Folder` as `$directory` parameter - passing a string is deprecated now
 	 */
-	public function __construct(string $directory, array $files) {
+	public function __construct(
+		string|Folder $directory,
+		private array $files,
+	) {
 		parent::__construct();
-		$this->directory = $directory;
-		$this->files = $files;
+		if ($directory instanceof Folder) {
+			$this->directory = $directory->getPath();
+			$this->folder = $directory;
+		} else {
+			$this->directory = $directory;
+		}
+	}
+
+	/**
+	 * @since 31.0.0
+	 */
+	public function getFolder(): ?Folder {
+		return $this->folder;
 	}
 
 	/**
