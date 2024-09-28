@@ -171,6 +171,8 @@
     "Email test" : "Teste de e-mail",
     "Email test was successfully sent" : "Teste de email enviado com sucesso",
     "You have not set or verified your email server configuration, yet. Please head over to the \"Basic settings\" in order to set them. Afterwards, use the \"Send email\" button below the form to verify your settings." : "Você ainda não definiu ou verificou a configuração do seu servidor de e-mail. Vá para as \"Configurações básicas\" para defini-las. Depois, use o botão “Enviar e-mail” abaixo do formulário para verificar suas configurações.",
+    "Transactional File Locking" : "Bloqueio de Arquivo Transacional",
+    "Transactional File Locking is disabled. This is not a a supported configuraton. It may lead to difficult to isolate problems including file corruption. Please remove the `'filelocking.enabled' => false` configuration entry from your `config.php` to avoid these problems." : "O Bloqueio de Arquivo Transacional está desativado. Esta não é uma configuração suportada. Isso pode dificultar o isolamento de problemas, incluindo corrupção de arquivos. Por favor remova a entrada de configuração `'filelocking.enabled' => false` do seu `config.php` para evitar esses problemas.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available." : "O banco de dados é usado para bloqueio de arquivos transacionais. Para melhorar o desempenho, configure o memcache, se disponível.",
     "Forwarded for headers" : "Encaminhado para cabeçalhos",
     "Your \"trusted_proxies\" setting is not correctly set, it should be an array." : "Sua configuração \"trusted_proxies\" não está definida corretamente, deveria ser uma matriz.",
