@@ -212,8 +212,6 @@
     "Login canceled by app" : "L'aplicació ha cancel·lat l'inici de sessió",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "L'aplicació «%1$s» no es pot instal·lar perquè no es compleixen les dependències següents: %2$s",
     "a safe home for all your data" : "Un lloc segur per a totes les vostres dades",
-    "File is currently busy, please try again later" : "El fitxer està ocupat actualment; torneu-ho a provar més tard",
-    "Cannot download file" : "No es pot baixar el fitxer",
     "Application is not enabled" : "L'aplicació no està habilitada",
     "Authentication error" : "Error d'autenticació",
     "Token expired. Please reload page." : "El testimoni ha caducat. Torneu a carregar la pàgina.",
@@ -294,6 +292,8 @@
     "Username must not consist of dots only" : "El nom d'usuari no pot estar format només per punts",
     "Username is invalid because files already exist for this user" : "El nom d'usuari no és vàlid perquè ja existeixen fitxers per a aquest usuari",
     "User disabled" : "Usuari inhabilitat",
+    "File is currently busy, please try again later" : "El fitxer està ocupat actualment; torneu-ho a provar més tard",
+    "Cannot download file" : "No es pot baixar el fitxer",
     "Your data directory is readable by other users." : "Els altres usuaris poden llegir la carpeta de dades.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Canvieu els permisos a 0770 perquè els altres usuaris no puguin veure el contingut de la carpeta.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Assegureu-vos que hi hagi un fitxer anomenat «.ocdata» en l'arrel de la carpeta de dades."

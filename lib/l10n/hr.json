@@ -177,7 +177,6 @@
     "Login canceled by app" : "Prijava je otkazana putem aplikacije",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Aplikaciju „%1$s” nije moguće instalirati jer nisu ispunjene sljedeće ovisnosti: %2$s",
     "a safe home for all your data" : "siguran dom za sve vaše podatke",
-    "File is currently busy, please try again later" : "Datoteka je trenutno zauzeta, pokušajte ponovo kasnije",
     "Application is not enabled" : "Aplikacija nije omogućena",
     "Authentication error" : "Pogrešna autentifikacija",
     "Token expired. Please reload page." : "Token je istekao. Ponovno učitajte stranicu.",
@@ -227,6 +226,7 @@
     "Username must not consist of dots only" : "Korisničko ime ne smije se sastojati samo od točkica",
     "Username is invalid because files already exist for this user" : "Korisničko ime je nevažeće jer već postoje datoteke za ovog korisnika",
     "User disabled" : "Korisnik je onemogućen",
+    "File is currently busy, please try again later" : "Datoteka je trenutno zauzeta, pokušajte ponovo kasnije",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Promijenite dozvole na 0770 tako da se tim direktorijem ne mogu služiti drugi korisnici.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Provjerite postoji li datoteka pod nazivom „.ocdata” u korijenu podatkovnog direktorija."
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"

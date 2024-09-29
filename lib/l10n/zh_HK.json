@@ -249,8 +249,6 @@
     "Login canceled by app" : "登入已被應用程式取消",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "應用程式 \"%1$s\" 無法被安裝，缺少下列所需元件： %2$s",
     "a safe home for all your data" : "您資料的安全屋",
-    "File is currently busy, please try again later" : "檔案目前忙碌中，請稍候再試",
-    "Cannot download file" : "無法下載檔案",
     "Application is not enabled" : "應用程式未啟用",
     "Authentication error" : "認證錯誤",
     "Token expired. Please reload page." : "Token 過期，請重新整理頁面。",
@@ -407,6 +405,8 @@
     "Username must not consist of dots only" : "用戶名稱不能只包含小數點",
     "Username is invalid because files already exist for this user" : "用戶名稱無效，因為用戶的檔案已經存在",
     "User disabled" : "用戶已停用",
+    "File is currently busy, please try again later" : "檔案目前忙碌中，請稍候再試",
+    "Cannot download file" : "無法下載檔案",
     "Your data directory is readable by other users." : "您的資料目錄可以被其他用戶讀取。",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "請將該目錄權限設定為 0770 ，以免其他用戶讀取目錄列表",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "請確保資料目錄最上層有一個 \"。ocdata\" 檔案"

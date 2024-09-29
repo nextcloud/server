@@ -223,8 +223,6 @@
     "Login canceled by app" : "Aplikazioak saioa bertan behera utzi du",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "\"%1$s\" aplikazioa ezin da instalatu, menpekotasun hauek betetzen ez direlako:%2$s",
     "a safe home for all your data" : "zure datu guztientzako toki segurua",
-    "File is currently busy, please try again later" : "Fitxategia lanpetuta dago, saiatu berriro geroago",
-    "Cannot download file" : "Ezin da fitxategia deskargatu",
     "Application is not enabled" : "Aplikazioa ez dago gaituta",
     "Authentication error" : "Autentifikazio errorea",
     "Token expired. Please reload page." : "Tokena iraungitu da. Mesedez birkargatu orria.",
@@ -381,6 +379,8 @@
     "Username must not consist of dots only" : "Erabiltzaile-izena ezin da puntuz osatuta soilik egon",
     "Username is invalid because files already exist for this user" : "Erabiltzaile-izena ez da baliozkoa erabiltzaile honentzako fitxategiak dagoeneko existitzen direlako",
     "User disabled" : "Erabiltzaile desgaituta",
+    "File is currently busy, please try again later" : "Fitxategia lanpetuta dago, saiatu berriro geroago",
+    "Cannot download file" : "Ezin da fitxategia deskargatu",
     "Your data directory is readable by other users." : "Zure datuen karpeta beste erabiltzaileek irakur dezakete.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Aldatu baimenak 0770ra beste erabiltzaileek karpetan sartu ezin izateko.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Ziurtatu datu direktorioaren erroan \".ocdata\" izeneko fitxategia dagoela."

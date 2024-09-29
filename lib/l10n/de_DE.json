@@ -259,8 +259,6 @@
     "Login canceled by app" : "Anmeldung durch die App abgebrochen",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Die App „%1$s“ kann nicht installiert werden, da die folgenden Abhängigkeiten nicht erfüllt sind: %2$s",
     "a safe home for all your data" : "ein sicherer Ort für all Ihre Daten",
-    "File is currently busy, please try again later" : "Die Datei ist in Benutzung, bitte später erneut versuchen.",
-    "Cannot download file" : "Datei kann nicht heruntergeladen werden",
     "Application is not enabled" : "Die Anwendung ist nicht aktiviert",
     "Authentication error" : "Authentifizierungsfehler",
     "Token expired. Please reload page." : "Token abgelaufen. Bitte laden Sie die Seite neu.",
@@ -417,6 +415,8 @@
     "Username must not consist of dots only" : "Der Benutzername darf nicht nur aus Punkten bestehen",
     "Username is invalid because files already exist for this user" : "Der Benutzer ist ungültig, da bereits Dateien von diesem Benutzer existieren",
     "User disabled" : "Benutzer deaktiviert",
+    "File is currently busy, please try again later" : "Die Datei ist in Benutzung, bitte später erneut versuchen.",
+    "Cannot download file" : "Datei kann nicht heruntergeladen werden",
     "Your data directory is readable by other users." : "Ihr Datenverzeichnis kann von anderen Benutzern gelesen werden.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Bitte ändern Sie die Berechtigungen auf 0770, so dass das Verzeichnis nicht von anderen Benutzern angezeigt werden kann.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Stellen Sie sicher, dass eine Datei \".ocdata\" im Wurzelverzeichnis des Datenverzeichnisses existiert."
