@@ -189,8 +189,6 @@
     "Login canceled by app" : "Најавата е одкажана од апликација",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Апликацијата \"%1$s\" не може да се инсталира затоа што следниве зависности не се исполнети: %2$s",
     "a safe home for all your data" : "безбеден дом за сите ваши податоци",
-    "File is currently busy, please try again later" : "Датотеката моментално е зафатена, обидете се повторно",
-    "Cannot download file" : "Не може да се преземе датотеката",
     "Application is not enabled" : "Апликацијата не е овозможена",
     "Authentication error" : "Грешка во автентикација",
     "Token expired. Please reload page." : "Жетонот е истечен. Ве молам превчитајте ја страницата.",
@@ -260,6 +258,8 @@
     "Username must not consist of dots only" : "Корисничкото име не смее да се состои само од точки",
     "Username is invalid because files already exist for this user" : "Невалидно корисничкото име бидејќи веќе постојат датотеки за овој корисник",
     "User disabled" : "Оневозможен корисник",
+    "File is currently busy, please try again later" : "Датотеката моментално е зафатена, обидете се повторно",
+    "Cannot download file" : "Не може да се преземе датотеката",
     "Your data directory is readable by other users." : "Вашата папка со податоци може да се чита и од други корисници.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Поставете дозвола на папката 0770, за да неможе да се чита од други корисници.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Осигурете се дека има датотека наречена \".ocdata\" во главната папка со податоци."

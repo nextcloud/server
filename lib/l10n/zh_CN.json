@@ -240,8 +240,6 @@
     "Login canceled by app" : "已通过应用取消登录",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "应用 \"%1$s\" 无法安装，因为不能满足以下依赖： %2$s",
     "a safe home for all your data" : "给您所有数据一个安全的家",
-    "File is currently busy, please try again later" : "文件当前正忙，请稍后再试",
-    "Cannot download file" : "无法下载文件",
     "Application is not enabled" : "应用程序未启用",
     "Authentication error" : "认证出错",
     "Token expired. Please reload page." : "Token 过期，请刷新页面。",
@@ -342,6 +340,8 @@
     "Username must not consist of dots only" : "用户名不能仅由点组成",
     "Username is invalid because files already exist for this user" : "用户名无效，因为该用户已经存在文件",
     "User disabled" : "用户已禁用",
+    "File is currently busy, please try again later" : "文件当前正忙，请稍后再试",
+    "Cannot download file" : "无法下载文件",
     "Your data directory is readable by other users." : "您的数据目录可被其他用户读取。",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "请更改权限为 0770 以避免其他用户查看目录。",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "请确定在根目录下有一个名为\".ocdata\"的文件。"

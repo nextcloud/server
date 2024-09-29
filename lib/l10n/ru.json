@@ -248,8 +248,6 @@
     "Login canceled by app" : "Вход отменен приложением",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Приложение «%1$s» не может быть установлено, так как не удовлетворены следующие зависимости: %2$s",
     "a safe home for all your data" : "надёжный дом для всех ваших данных",
-    "File is currently busy, please try again later" : "Файл в данный момент используется, повторите попытку позже.",
-    "Cannot download file" : "Не удалось скачать файл",
     "Application is not enabled" : "Приложение не разрешено",
     "Authentication error" : "Ошибка аутентификации",
     "Token expired. Please reload page." : "Токен просрочен. Перезагрузите страницу.",
@@ -402,6 +400,8 @@
     "Username must not consist of dots only" : "Имя пользователя должно состоять не только из точек",
     "Username is invalid because files already exist for this user" : "Это имя не может быть использовано, файлы этого пользователя уже существуют",
     "User disabled" : "Пользователь отключен",
+    "File is currently busy, please try again later" : "Файл в данный момент используется, повторите попытку позже.",
+    "Cannot download file" : "Не удалось скачать файл",
     "Your data directory is readable by other users." : "Каталог данных доступен для чтения другим пользователям.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Измените права доступа на 0770, чтобы другие пользователи не могли получить список файлов этого каталога.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Убедитесь, что в корне каталога данных присутствует файл «.ocdata»."

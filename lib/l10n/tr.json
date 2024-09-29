@@ -259,8 +259,6 @@
     "Login canceled by app" : "Oturum açma uygulama tarafından iptal edildi",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "\"%1$s\" uygulaması, şu gereklilikler sağlanmadığı için kurulamıyor: %2$s",
     "a safe home for all your data" : "verileriniz için güvenli bir barınak",
-    "File is currently busy, please try again later" : "Dosya şu anda meşgul. Lütfen bir süre sonra yeniden deneyin",
-    "Cannot download file" : "Dosya indirilemedi",
     "Application is not enabled" : "Uygulama etkinleştirilmemiş",
     "Authentication error" : "Kimlik doğrulama sorunu",
     "Token expired. Please reload page." : "Kodun geçerlilik süresi dolmuş. Lütfen sayfayı yenileyin.",
@@ -417,6 +415,8 @@
     "Username must not consist of dots only" : "Kullanıcı adı yalnızca noktalardan oluşamaz",
     "Username is invalid because files already exist for this user" : "Kullanıcı adı geçersiz, bu kullanıcı için zaten bazı dosyalar var",
     "User disabled" : "Kullanıcı devre dışı",
+    "File is currently busy, please try again later" : "Dosya şu anda meşgul. Lütfen bir süre sonra yeniden deneyin",
+    "Cannot download file" : "Dosya indirilemedi",
     "Your data directory is readable by other users." : "Veri klasörünüz diğer kullanıcılar tarafından okunabilir.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Lütfen izinleri 0770 olarak ayarlayarak diğer kullanıcıların klasörü görebilmesini sağlayın.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Veri klasörü kökünde \".ocdata\" adında bir dosya bulunduğundan emin olun."
