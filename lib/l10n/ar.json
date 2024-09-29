@@ -259,8 +259,6 @@
     "Login canceled by app" : "تم إلغاء تسجيل الدخول مِن طرف التطبيق",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "التطبيق \"%1$s\" لا يمكن تنصيبه بسبب أن التبعيّات التالية لم تتحقق: %2$s",
     "a safe home for all your data" : "المكان الآمن لجميع بياناتك",
-    "File is currently busy, please try again later" : "إنّ الملف مشغول الآمن، يرجى إعادة المحاولة لاحقًا",
-    "Cannot download file" : "لا يمكن تنزيل الملف",
     "Application is not enabled" : "التطبيق غير مفعّل",
     "Authentication error" : "لم يتم التأكد من الشخصية بنجاح",
     "Token expired. Please reload page." : "انتهت صلاحية الكلمة , يرجى اعادة تحميل الصفحة",
@@ -417,6 +415,8 @@
     "Username must not consist of dots only" : "اسم المستخدم يجب ألاّ يتكون من نقاطٍ dots فقط",
     "Username is invalid because files already exist for this user" : "اسم المستخدم غير صحيحٍ لأن هنالك ملفات موجودة سلفاً لهذا المستخدم",
     "User disabled" : "تم تعطيل المستخدم",
+    "File is currently busy, please try again later" : "إنّ الملف مشغول الآمن، يرجى إعادة المحاولة لاحقًا",
+    "Cannot download file" : "لا يمكن تنزيل الملف",
     "Your data directory is readable by other users." : "دليل بياناتك data directory يُمكن قراءته من مستخدمين آخرين.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "الرجاء تغيير الصلاحيات إلى 0770 حتى لا يتمكن المستخدمون الآخرون من عرض محتويات المجلد.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "تأكد من وجود ملفٍ باسم \".ocdata\" في جذر دليل البيانات data directory."

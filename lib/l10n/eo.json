@@ -159,7 +159,6 @@
     "Login canceled by app" : "Ensaluto estis nuligita de aplikaĵo",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "La aplikaĵo „%1$s“ ne instaliĝas, ĉar la jenaj dependecoj ne plenumiĝas: %2$s",
     "a safe home for all your data" : "sekura hejmo por ĉiuj viaj datumoj",
-    "File is currently busy, please try again later" : "La dosiero estas nun okupita, bv. reprovi poste",
     "Application is not enabled" : "La aplikaĵo ne estas ŝaltita",
     "Authentication error" : "Aŭtentiga eraro",
     "Token expired. Please reload page." : "Ĵetono eksvalidiĝis. Bonvolu reŝargi la paĝon.",
@@ -207,6 +206,7 @@
     "Username must not consist of dots only" : "Uzantnomo ne povas enhavi nur punktojn",
     "Username is invalid because files already exist for this user" : "La uzantnomo ne estas valida pro dosieroj por la uzanto jam ekzistas",
     "User disabled" : "Uzanto malebligita",
+    "File is currently busy, please try again later" : "La dosiero estas nun okupita, bv. reprovi poste",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Bv. ŝanĝi la permesojn al 0770, tiel la dosierujo ne listigeblas de aliaj uzantoj.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Certigu, ke estas dosiero nomata „.ocdata“ en la radiko de la dosierujo de datumoj."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

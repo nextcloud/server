@@ -40,6 +40,7 @@
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Povolení tohoto nastavení zašifruje všechny soubory uložené v hlavním úložišti, jinak budou šifrovány pouze soubory na externích úložištích.",
     "Enable recovery key" : "Povolit záchranný klíč",
     "Disable recovery key" : "Vypnout záchranný klíč",
+    "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "Záchranný klíč je dodatečný šifrovací klíč sloužící pro šifrování souborů. Slouží k obnovení souborů z účtu, pokud dojde k zapomenutí hesla.",
     "Recovery key password" : "Heslo ke klíči pro obnovu",
     "Repeat recovery key password" : "Zopakovat heslo záchranného klíče",
     "Change recovery key password:" : "Změna hesla klíče pro obnovu:",

@@ -194,8 +194,6 @@
     "Login canceled by app" : "Login annulleret af app",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Appen \"%1$s\" kan ikke installeres, da følgende afhængigheder ikke imødekommes: %2$s",
     "a safe home for all your data" : "et sikkert hjem til alle dine data",
-    "File is currently busy, please try again later" : "Filen er i øjeblikket optaget - forsøg igen senere",
-    "Cannot download file" : "Kan ikke downloade filen",
     "Application is not enabled" : "Programmet er ikke aktiveret",
     "Authentication error" : "Adgangsfejl",
     "Token expired. Please reload page." : "Adgang er udløbet. Genindlæs siden.",
@@ -275,6 +273,8 @@
     "Username must not consist of dots only" : "Brugernavnet må ikke bestå af rene prikker/punktummer",
     "Username is invalid because files already exist for this user" : "Brugernavnet er ugyldigt, da der allerede eksisterer filer for denne bruger",
     "User disabled" : "Bruger deaktiveret",
+    "File is currently busy, please try again later" : "Filen er i øjeblikket optaget - forsøg igen senere",
+    "Cannot download file" : "Kan ikke downloade filen",
     "Your data directory is readable by other users." : "Datamappen kan læses af andre brugere.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Tilpas venligst rettigheder til 0770, så mappen ikke fremvises for andre brugere.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Du bedes sikre at filen \".ocdata\" befinder sig i roden af din datamappe."

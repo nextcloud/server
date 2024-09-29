@@ -259,8 +259,6 @@
     "Login canceled by app" : "Cealaíodh logáil isteach ag an aip",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Ní féidir aip \"%1$s\" a shuiteáil toisc nach bhfuil na spleáchais seo a leanas comhlíonta: %2$s",
     "a safe home for all your data" : "baile sábháilte do do shonraí go léir",
-    "File is currently busy, please try again later" : "Tá an comhad gnóthach faoi láthair, bain triail eile as ar ball le do thoil",
-    "Cannot download file" : "Ní féidir an comhad a íoslódáil",
     "Application is not enabled" : "Níl feidhmchlár cumasaithe",
     "Authentication error" : "Earráid fhíordheimhnithe",
     "Token expired. Please reload page." : "Token imithe in éag. Athlódáil an leathanach le do thoil.",
@@ -417,6 +415,8 @@
     "Username must not consist of dots only" : "Ní ceadmhach poncanna amháin a bheith san ainm úsáideora",
     "Username is invalid because files already exist for this user" : "Tá an t-ainm úsáideora neamhbhailí toisc go bhfuil comhaid ann cheana don úsáideoir seo",
     "User disabled" : "Díchumasaíodh an t-úsáideoir",
+    "File is currently busy, please try again later" : "Tá an comhad gnóthach faoi láthair, bain triail eile as ar ball le do thoil",
+    "Cannot download file" : "Ní féidir an comhad a íoslódáil",
     "Your data directory is readable by other users." : "Tá d'eolaire sonraí inléite ag úsáideoirí eile.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Athraigh na ceadanna go 0770 le do thoil ionas nach féidir le húsáideoirí eile an t-eolaire a liostú.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Cinntigh go bhfuil comhad darb ainm \".ocdata\" i bhfréamh an eolaire sonraí."

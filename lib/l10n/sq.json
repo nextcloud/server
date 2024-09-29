@@ -119,7 +119,6 @@
     "A valid password must be provided" : "Duhet dhënë një fjalëkalim i vlefshëm",
     "Login canceled by app" : "Hyrja u anulua nga aplikacioni",
     "a safe home for all your data" : "Një shtëpi e sigurt për të dhënat e tua",
-    "File is currently busy, please try again later" : "Kartela tani është e zënë, ju lutemi, riprovoni më vonë.",
     "Application is not enabled" : "Aplikacioni s’është aktivizuar",
     "Authentication error" : "Gabim mirëfilltësimi",
     "Token expired. Please reload page." : "Token-i ka skaduar. Ju lutem ringarkoni faqen.",
@@ -157,6 +156,7 @@
     "Username contains whitespace at the beginning or at the end" : "Emri i përdoruesit përmban hapësirë në fillim ose në fund",
     "Username must not consist of dots only" : "Emri i përdoruesit nuk duhet të përbëhet vetëm nga pika",
     "User disabled" : "Përdorues i çaktivizuar",
+    "File is currently busy, please try again later" : "Kartela tani është e zënë, ju lutemi, riprovoni më vonë.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Ju lutemi, kalojani lejet në 0770, që kështu atë drejtori të mos mund ta shfaqin përdorues të tjerë.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Sigurohu që ekziston një skedar i quajtur \".ocdata\" në rrënjën e direktorisë së të dhënave."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
