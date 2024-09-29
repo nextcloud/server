@@ -126,7 +126,6 @@
     "A valid password must be provided" : "Se debe proporcionar una contraseña válida",
     "Login canceled by app" : "Inicio de sesión cancelado por la aplicación",
     "a safe home for all your data" : "un lugar seguro para todos tus datos",
-    "File is currently busy, please try again later" : "El archivo se encuentra actualmente en uso, por favor intentalo más tarde. ",
     "Application is not enabled" : "La aplicación está deshabilitada",
     "Authentication error" : "Error de autenticación",
     "Token expired. Please reload page." : "La ficha ha expirado. Por favor recarga la página.",
@@ -165,6 +164,7 @@
     "Username contains whitespace at the beginning or at the end" : "El usuario contiene un espacio en blanco al inicio o al final",
     "Username must not consist of dots only" : "El usuario no debe consistir de solo puntos. ",
     "User disabled" : "Usuario deshabilitado",
+    "File is currently busy, please try again later" : "El archivo se encuentra actualmente en uso, por favor intentalo más tarde. ",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Por favor cambia los permisos a 0770 para que el directorio no pueda ser enlistado por otros usuarios. ",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Asegurate de que exista una archivo llamado \".ocdata\" en la raíz del directorio de datos. "
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
