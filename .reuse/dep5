@@ -103,7 +103,7 @@ Files: core/img/desktopapp.svg
 Copyright: 2016-2024 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: build/psalm-baseline-ocp.xml build/psalm-baseline.xml build/stubs/xsl.php build/stubs/gd.php build/stubs/imagick.php build/stubs/intl.php build/stubs/IntlChar.php build/stubs/ldap.php build/stubs/memcached.php build/stubs/redis.php build/stubs/redis_cluster.php build/stubs/sftp.php build/stubs/ssh2.php build/stubs/apcu.php
+Files: build/psalm-baseline-ocp.xml build/psalm-baseline-security.xml build/psalm-baseline.xml build/stubs/xsl.php build/stubs/gd.php build/stubs/imagick.php build/stubs/intl.php build/stubs/IntlChar.php build/stubs/ldap.php build/stubs/memcached.php build/stubs/redis.php build/stubs/redis_cluster.php build/stubs/sftp.php build/stubs/ssh2.php build/stubs/apcu.php
 Copyright: 2020 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
