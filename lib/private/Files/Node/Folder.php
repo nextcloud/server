@@ -103,21 +103,10 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}
 	}
 
-	/**
-	 * Get the node at $path
-	 *
-	 * @param string $path
-	 * @return \OC\Files\Node\Node
-	 * @throws \OCP\Files\NotFoundException
-	 */
 	public function get($path) {
 		return $this->root->get($this->getFullPath($path));
 	}
 
-	/**
-	 * @param string $path
-	 * @return bool
-	 */
 	public function nodeExists($path) {
 		try {
 			$this->get($path);
