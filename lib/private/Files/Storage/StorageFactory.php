@@ -52,7 +52,7 @@ class StorageFactory implements IStorageFactory {
 	 * @return IStorage
 	 */
 	public function getInstance(IMountPoint $mountPoint, $class, $arguments): IStorage {
-		if (!($class instanceof IConstructableStorage)) {
+		if (!is_a($class, IConstructableStorage::class, true)) {
 			\OCP\Server::get(LoggerInterface::class)->warning('Building a storage not implementing IConstructableStorage is deprecated since 31.0.0', ['class' => $class]);
 		}
 		return $this->wrap($mountPoint, new $class($arguments));
