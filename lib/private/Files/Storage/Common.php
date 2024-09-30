@@ -750,7 +750,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 		return $count;
 	}
 
-	public function getDirectoryContent($directory): \Traversable|false {
+	public function getDirectoryContent($directory): \Traversable {
 		$dh = $this->opendir($directory);
 
 		if ($dh === false) {
