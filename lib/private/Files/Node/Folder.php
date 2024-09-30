@@ -111,7 +111,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		try {
 			$this->get($path);
 			return true;
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException|NotPermittedException) {
 			return false;
 		}
 	}
