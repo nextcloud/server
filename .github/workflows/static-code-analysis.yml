@@ -38,7 +38,7 @@ jobs:
 
       - name: Show potential changes in Psalm baseline
         if: always()
-        run: git diff -- . ':!lib/composer'
+        run: git diff --exit-code -- . ':!lib/composer'
 
       - name: Upload Analysis results to GitHub
         if: always()
@@ -100,4 +100,4 @@ jobs:
 
       - name: Show potential changes in Psalm baseline
         if: always()
-        run: git diff -- . ':!lib/composer'
+        run: git diff --exit-code -- . ':!lib/composer'
