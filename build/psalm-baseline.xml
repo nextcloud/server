@@ -2764,16 +2764,6 @@
       <code><![CDATA[$appId === null]]></code>
     </TypeDoesNotContainNull>
   </file>
-  <file src="lib/private/legacy/OC_Files.php">
-    <RedundantCondition>
-      <code><![CDATA[$getType === self::ZIP_DIR]]></code>
-      <code><![CDATA[$getType === self::ZIP_DIR]]></code>
-    </RedundantCondition>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[get]]></code>
-      <code><![CDATA[get]]></code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="lib/private/legacy/OC_Helper.php">
     <InvalidArrayOffset>
       <code><![CDATA[$matches[0][$last_match]]]></code>
