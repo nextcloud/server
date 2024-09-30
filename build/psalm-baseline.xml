@@ -109,7 +109,6 @@
   <file src="apps/dav/lib/CalDAV/CalDavBackend.php">
     <InvalidNullableReturnType>
       <code>array</code>
-      <code>array</code>
     </InvalidNullableReturnType>
     <LessSpecificReturnStatement>
       <code>Reader::read($objectData)</code>
@@ -1424,7 +1423,6 @@
   <file src="core/routes.php">
     <InvalidScope>
       <code>$this</code>
-      <code>$this</code>
       <code><![CDATA[$this->create('core_ajax_update', '/core/ajax/update.php')]]></code>
     </InvalidScope>
   </file>
@@ -2102,7 +2100,6 @@
     </MoreSpecificImplementedParamType>
     <MoreSpecificReturnType>
       <code>\OC\Files\Node\Node</code>
-      <code>\OC\Files\Node\Node[]</code>
       <code>\OC\Files\Node\Node[]</code>
     </MoreSpecificReturnType>
   </file>
