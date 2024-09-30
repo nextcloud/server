@@ -36,7 +36,7 @@ class ErrorPagePluginTest extends \Test\TestCase {
 	 */
 	public function test($expectedCode, $exception) {
 		/** @var ErrorPagePlugin | \PHPUnit\Framework\MockObject\MockObject $plugin */
-		$plugin = $this->getMockBuilder(ErrorPagePlugin::class)->setMethods(['sendResponse', 'generateBody'])->getMock();
+		$plugin = $this->getMockBuilder(ErrorPagePlugin::class)->disableOriginalConstructor()->setMethods(['sendResponse', 'generateBody'])->getMock();
 		$plugin->expects($this->once())->method('generateBody')->willReturn(':boom:');
 		$plugin->expects($this->once())->method('sendResponse');
 		/** @var \Sabre\DAV\Server | \PHPUnit\Framework\MockObject\MockObject $server */
