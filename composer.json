@@ -58,8 +58,8 @@
 		"cs:fix": "php-cs-fixer fix",
 		"cs:check": "php-cs-fixer fix --dry-run --diff",
 		"lint": "find . -name \\*.php -not -path './lib/composer/*' -not -path './build/stubs/*' -print0 | xargs -0 -n1 php -l",
-		"psalm": "psalm --no-cache --threads=$(nproc)",
-		"psalm:ci": "psalm --no-cache --threads=1",
+		"psalm": "vendor-bin/psalm/vendor/bin/psalm --no-cache --threads=$(nproc)",
+		"psalm:ci": "vendor-bin/psalm/vendor/bin/psalm --no-cache --threads=1",
 		"psalm:update-baseline": "psalm --no-cache --threads=$(nproc) --update-baseline",
 		"serve": [
 			"Composer\\Config::disableProcessTimeout",
