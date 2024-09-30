@@ -64,7 +64,7 @@ class ConfigAdapter implements IMountProvider {
 	 */
 	private function constructStorage(StorageConfig $storageConfig): IStorage {
 		$class = $storageConfig->getBackend()->getStorageClass();
-		if (!$class instanceof IConstructableStorage) {
+		if (!is_a($class, IConstructableStorage::class, true)) {
 			\OCP\Server::get(LoggerInterface::class)->warning('Building a storage not implementing IConstructableStorage is deprecated since 31.0.0', ['class' => $class]);
 		}
 		$storage = new $class($storageConfig->getBackendOptions());
