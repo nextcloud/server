@@ -266,6 +266,7 @@ final class Task implements \JsonSerializable {
 			'appId' => $this->getAppId(),
 			'input' => $this->getInput(),
 			'output' => $this->getOutput(),
+			'error_message' => $this->getErrorMessage(),
 			'customId' => $this->getCustomId(),
 			'completionExpectedAt' => $this->getCompletionExpectedAt()?->getTimestamp(),
 			'progress' => $this->getProgress(),
