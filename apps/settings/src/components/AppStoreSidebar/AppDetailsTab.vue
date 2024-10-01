@@ -4,63 +4,72 @@
 -->
 
 <template>
-	<NcAppSidebarTab id="details"
-		:name="t('settings', 'Details')"
-		:order="1">
+	<NcAppSidebarTab id="details" :name="t('settings', 'Details')" :order="1">
 		<template #icon>
 			<NcIconSvgWrapper :path="mdiTextBox" />
 		</template>
 		<div class="app-details">
 			<div class="app-details__actions">
-				<div v-if="app.active && canLimitToGroups(app)" class="app-details__actions-groups">
+				<div v-if="app.active && canLimitToGroups(app)"
+					class="app-details__actions-groups"
+				>
 					<input :id="`groups_enable_${app.id}`"
 						v-model="groupCheckedAppsData"
 						type="checkbox"
 						:value="app.id"
 						class="groups-enable__checkbox checkbox"
-						@change="setGroupLimit">
-					<label :for="`groups_enable_${app.id}`">{{ t('settings', 'Limit to groups') }}</label>
+						@change="setGroupLimit"
+					/>
+					<label :for="`groups_enable_${app.id}`">{{
+						t("settings", "Limit to groups")
+					}}</label>
 					<input type="hidden"
 						class="group_select"
 						:title="t('settings', 'All')"
-						value="">
-					<br>
+						value=""
+					/>
+					<br />
 					<label for="limitToGroups">
-						<span>{{ t('settings', 'Limit app usage to groups') }}</span>
+						<span>{{ t("settings", "Limit app usage to groups") }}</span>
 					</label>
 					<NcSelect v-if="isLimitedToGroups(app)"
+						v-model="appGroups"
 						input-id="limitToGroups"
-						:options="groups"
-						:value="appGroups"
+						:options="appGroupsOptions"
 						:limit="5"
 						label="name"
 						:multiple="true"
+						:loading="loadingGroups"
 						:close-on-select="false"
-						@option:selected="addGroupLimitation"
-						@option:deselected="removeGroupLimitation"
-						@search="asyncFindGroup">
-						<span slot="noResult">{{ t('settings', 'No results') }}</span>
+						@search="searchGroup"
+					>
+						<span slot="noResult">{{ t("settings", "No results") }}</span>
 					</NcSelect>
 				</div>
 				<div class="app-details__actions-manage">
 					<input v-if="app.update"
 						class="update primary"
 						type="button"
-						:value="t('settings', 'Update to {version}', { version: app.update })"
+						:value="
+							t('settings', 'Update to {version}', { version: app.update })
+						"
 						:disabled="installing || isLoading"
-						@click="update(app.id)">
+						@click="update(app.id)"
+					/>
 					<input v-if="app.canUnInstall"
 						class="uninstall"
 						type="button"
 						:value="t('settings', 'Remove')"
 						:disabled="installing || isLoading"
-						@click="remove(app.id)">
+						@click="remove(app.id)"
+					/>
 					<input v-if="app.active"
 						class="enable"
 						type="button"
-						:value="t('settings','Disable')"
+						:value="t('settings', 'Disable')"
 						:disabled="installing || isLoading"
-						@click="disable(app.id)">
+						@click="disable(app.id)"
+					/>
 					<input v-if="!app.active && (app.canInstall || app.isCompatible)"
 						:title="enableButtonTooltip"
 						:aria-label="enableButtonTooltip"
@@ -68,7 +77,8 @@
 						type="button"
 						:value="enableButtonText"
 						:disabled="!app.canInstall || installing || isLoading"
-						@click="enable(app.id)">
+						@click="enable(app.id)"
+					/>
 					<input v-else-if="!app.active && !app.canInstall"
 						:title="forceEnableButtonTooltip"
 						:aria-label="forceEnableButtonTooltip"
@@ -76,19 +86,35 @@
 						type="button"
 						:value="forceEnableButtonText"
 						:disabled="installing || isLoading"
-						@click="forceEnable(app.id)">
+						@click="forceEnable(app.id)"
+					/>
 				</div>
 			</div>
 
 			<ul class="app-details__dependencies">
 				<li v-if="app.missingMinOwnCloudVersion">
-					{{ t('settings', 'This app has no minimum Nextcloud version assigned. This will be an error in the future.') }}
+					{{
+						t(
+							"settings",
+							"This app has no minimum Nextcloud version assigned. This will be an error in the future."
+						)
+					}}
 				</li>
 				<li v-if="app.missingMaxOwnCloudVersion">
-					{{ t('settings', 'This app has no maximum Nextcloud version assigned. This will be an error in the future.') }}
+					{{
+						t(
+							"settings",
+							"This app has no maximum Nextcloud version assigned. This will be an error in the future."
+						)
+					}}
 				</li>
 				<li v-if="!app.canInstall">
-					{{ t('settings', 'This app cannot be installed because the following dependencies are not fulfilled:') }}
+					{{
+						t(
+							"settings",
+							"This app cannot be installed because the following dependencies are not fulfilled:"
+						)
+					}}
 					<ul class="missing-dependencies">
 						<li v-for="(dep, index) in app.missingDependencies" :key="index">
 							{{ dep }}
@@ -99,14 +125,14 @@
 
 			<div v-if="lastModified" class="app-details__section">
 				<h4>
-					{{ t('settings', 'Latest updated') }}
+					{{ t("settings", "Latest updated") }}
 				</h4>
 				<NcDateTime :timestamp="lastModified" />
 			</div>
 
 			<div class="app-details__section">
 				<h4>
-					{{ t('settings', 'Author') }}
+					{{ t("settings", "Author") }}
 				</h4>
 				<p class="app-details__authors">
 					{{ appAuthors }}
@@ -115,7 +141,7 @@
 
 			<div class="app-details__section">
 				<h4>
-					{{ t('settings', 'Categories') }}
+					{{ t("settings", "Categories") }}
 				</h4>
 				<p>
 					{{ appCategories }}
@@ -123,13 +149,16 @@
 			</div>
 
 			<div v-if="externalResources.length > 0" class="app-details__section">
-				<h4>{{ t('settings', 'Resources') }}</h4>
-				<ul class="app-details__documentation" :aria-label="t('settings', 'Documentation')">
+				<h4>{{ t("settings", "Resources") }}</h4>
+				<ul class="app-details__documentation"
+					:aria-label="t('settings', 'Documentation')"
+				>
 					<li v-for="resource of externalResources" :key="resource.id">
 						<a class="appslink"
 							:href="resource.href"
 							target="_blank"
-							rel="noreferrer noopener">
+							rel="noreferrer noopener"
+						>
 							{{ resource.label }} ↗
 						</a>
 					</li>
@@ -137,12 +166,13 @@
 			</div>
 
 			<div class="app-details__section">
-				<h4>{{ t('settings', 'Interact') }}</h4>
+				<h4>{{ t("settings", "Interact") }}</h4>
 				<div class="app-details__interact">
 					<NcButton :disabled="!app.bugs"
 						:href="app.bugs ?? '#'"
 						:aria-label="t('settings', 'Report a bug')"
-						:title="t('settings', 'Report a bug')">
+						:title="t('settings', 'Report a bug')"
+					>
 						<template #icon>
 							<NcIconSvgWrapper :path="mdiBug" />
 						</template>
@@ -150,7 +180,8 @@
 					<NcButton :disabled="!app.bugs"
 						:href="app.bugs ?? '#'"
 						:aria-label="t('settings', 'Request feature')"
-						:title="t('settings', 'Request feature')">
+						:title="t('settings', 'Request feature')"
+					>
 						<template #icon>
 							<NcIconSvgWrapper :path="mdiFeatureSearch" />
 						</template>
@@ -158,7 +189,8 @@
 					<NcButton v-if="app.appstoreData?.discussion"
 						:href="app.appstoreData.discussion"
 						:aria-label="t('settings', 'Ask questions or discuss')"
-						:title="t('settings', 'Ask questions or discuss')">
+						:title="t('settings', 'Ask questions or discuss')"
+					>
 						<template #icon>
 							<NcIconSvgWrapper :path="mdiTooltipQuestion" />
 						</template>
@@ -166,7 +198,8 @@
 					<NcButton v-if="!app.internal"
 						:href="rateAppUrl"
 						:aria-label="t('settings', 'Rate the app')"
-						:title="t('settings', 'Rate')">
+						:title="t('settings', 'Rate')"
+					>
 						<template #icon>
 							<NcIconSvgWrapper :path="mdiStar" />
 						</template>
@@ -178,18 +211,29 @@
 </template>
 
 <script>
-import NcAppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcAppSidebarTab from "@nextcloud/vue/dist/Components/NcAppSidebarTab.js";
+import NcButton from "@nextcloud/vue/dist/Components/NcButton.js";
+import NcDateTime from "@nextcloud/vue/dist/Components/NcDateTime.js";
+import NcIconSvgWrapper from "@nextcloud/vue/dist/Components/NcIconSvgWrapper.js";
+import NcSelect from "@nextcloud/vue/dist/Components/NcSelect.js";
 
-import AppManagement from '../../mixins/AppManagement.js'
-import { mdiBug, mdiFeatureSearch, mdiStar, mdiTextBox, mdiTooltipQuestion } from '@mdi/js'
-import { useAppsStore } from '../../store/apps-store'
+import AppManagement from "../../mixins/AppManagement.js";
+import {
+	mdiBug,
+	mdiFeatureSearch,
+	mdiStar,
+	mdiTextBox,
+	mdiTooltipQuestion,
+} from "@mdi/js";
+import { useAppsStore } from "../../store/apps-store";
+import sortedUniq from "lodash/sortedUniq.js";
+import uniq from "lodash/uniq.js";
+import debounce from "lodash/debounce.js";
+import axios from "@nextcloud/axios";
+import { generateOcsUrl } from "@nextcloud/router";
 
 export default {
-	name: 'AppDetailsTab',
+	name: "AppDetailsTab",
 
 	components: {
 		NcAppSidebarTab,
@@ -208,7 +252,7 @@ export default {
 	},
 
 	setup() {
-		const store = useAppsStore()
+		const store = useAppsStore();
 
 		return {
 			store,
@@ -218,122 +262,163 @@ export default {
 			mdiStar,
 			mdiTextBox,
 			mdiTooltipQuestion,
-		}
+		};
 	},
 
 	data() {
 		return {
 			groupCheckedAppsData: false,
-		}
+			groups: [],
+			appGroupsOptions: [],
+			appGroupsSelected: [],
+			loadingGroups: false,
+		};
 	},
 
 	computed: {
 		lastModified() {
-			return (this.app.appstoreData?.releases ?? [])
-				.map(({ lastModified }) => Date.parse(lastModified))
-				.sort()
-				.at(0) ?? null
+			return (
+				(this.app.appstoreData?.releases ?? [])
+					.map(({ lastModified }) => Date.parse(lastModified))
+					.sort()
+					.at(0) ?? null
+			);
 		},
 		/**
 		 * App authors as comma separated string
 		 */
 		appAuthors() {
-			console.warn(this.app)
+			console.warn(this.app);
 			if (!this.app) {
-				return ''
+				return "";
 			}
 
 			const authorName = (xmlNode) => {
-				if (xmlNode['@value']) {
+				if (xmlNode["@value"]) {
 					// Complex node (with email or homepage attribute)
-					return xmlNode['@value']
+					return xmlNode["@value"];
 				}
 				// Simple text node
-				return xmlNode
-			}
+				return xmlNode;
+			};
 
 			const authors = Array.isArray(this.app.author)
 				? this.app.author.map(authorName)
-				: [authorName(this.app.author)]
+				: [authorName(this.app.author)];
 
 			return authors
-				.sort((a, b) => a.split(' ').at(-1).localeCompare(b.split(' ').at(-1)))
-				.join(', ')
+				.sort((a, b) => a.split(" ").at(-1).localeCompare(b.split(" ").at(-1)))
+				.join(", ");
 		},
 
 		appstoreUrl() {
-			return `https://apps.nextcloud.com/apps/${this.app.id}`
+			return `https://apps.nextcloud.com/apps/${this.app.id}`;
 		},
 
 		/**
 		 * Further external resources (e.g. website)
 		 */
 		externalResources() {
-			const resources = []
+			const resources = [];
 			if (!this.app.internal) {
 				resources.push({
-					id: 'appstore',
+					id: "appstore",
 					href: this.appstoreUrl,
-					label: t('settings', 'View in store'),
-				})
+					label: t("settings", "View in store"),
+				});
 			}
 			if (this.app.website) {
 				resources.push({
-					id: 'website',
+					id: "website",
 					href: this.app.website,
-					label: t('settings', 'Visit website'),
-				})
+					label: t("settings", "Visit website"),
+				});
 			}
 			if (this.app.documentation) {
 				if (this.app.documentation.user) {
 					resources.push({
-						id: 'doc-user',
+						id: "doc-user",
 						href: this.app.documentation.user,
-						label: t('settings', 'Usage documentation'),
-					})
+						label: t("settings", "Usage documentation"),
+					});
 				}
 				if (this.app.documentation.admin) {
 					resources.push({
-						id: 'doc-admin',
+						id: "doc-admin",
 						href: this.app.documentation.admin,
-						label: t('settings', 'Admin documentation'),
-					})
+						label: t("settings", "Admin documentation"),
+					});
 				}
 				if (this.app.documentation.developer) {
 					resources.push({
-						id: 'doc-developer',
+						id: "doc-developer",
 						href: this.app.documentation.developer,
-						label: t('settings', 'Developer documentation'),
-					})
+						label: t("settings", "Developer documentation"),
+					});
 				}
 			}
-			return resources
+			return resources;
 		},
 
 		appCategories() {
-			return [this.app.category].flat()
+			return [this.app.category]
+				.flat()
 				.map((id) => this.store.getCategoryById(id)?.displayName ?? id)
-				.join(', ')
+				.join(", ");
 		},
 
 		rateAppUrl() {
-			return `${this.appstoreUrl}#comments`
+			return `${this.appstoreUrl}#comments`;
 		},
-		appGroups() {
-			return this.app.groups.map(group => { return { id: group, name: group } })
-		},
-		groups() {
-			return this.$store.getters.getGroups
-				.filter(group => group.id !== 'disabled')
-				.sort((a, b) => a.name.localeCompare(b.name))
+		appGroups: {
+			get() {
+				return this.appGroupsSelected;
+			},
+			set(val) {
+				this.appGroupsOptions = this.groups.filter(
+					(group) => !val.includes(group)
+				);
+				this.appGroupsSelected = val;
+				this.$store.dispatch("enableApp", { appId: this.app.id, groups: val });
+			},
 		},
 	},
 	mounted() {
 		if (this.app.groups.length > 0) {
-			this.groupCheckedAppsData = true
+			this.groupCheckedAppsData = true;
+			this.appGroupsSelected = this.app.groups;
 		}
+
+		// Populate the groups with a first set so the dropdown is not empty
+		// when opening the page the first time
+		this.searchGroup("");
 	},
-}
+	methods: {
+		searchGroup: debounce(function (query) {
+			this.loadingGroups = true;
+			axios
+				.get(
+					generateOcsUrl("cloud/groups?offset=0&search={query}&limit=20", {
+						query,
+					})
+				)
+				.then((res) => res.data.ocs)
+				.then((ocs) => ocs.data.groups)
+				.then((groups) => {
+					this.groups = sortedUniq(uniq(this.groups.concat(groups)));
+					if (this.appGroupsOptions.length === 0) {
+						this.appGroupsOptions = this.groups.filter(
+							(group) => !this.app.groups.includes(group)
+						);
+					}
+				})
+				.catch((err) => console.error("could not search groups", err))
+				.then(() => {
+					this.loadingGroups = false;
+				});
+		}, 500),
+	},
+};
 </script>
 
 <style scoped lang="scss">
