@@ -438,13 +438,13 @@ class Availability extends Wrapper {
 
 
 
-	public function getDirectoryContent($directory): \Traversable|false {
+	public function getDirectoryContent($directory): \Traversable {
 		$this->checkAvailability();
 		try {
 			return parent::getDirectoryContent($directory);
 		} catch (StorageNotAvailableException $e) {
 			$this->setUnavailable($e);
-			return false;
+			return new \EmptyIterator();
 		}
 	}
 }
