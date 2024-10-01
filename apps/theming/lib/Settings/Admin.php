@@ -20,7 +20,6 @@ use OCP\Settings\IDelegatedSettings;
 use OCP\Util;
 
 class Admin implements IDelegatedSettings {
-
 	public function __construct(
 		private string $appName,
 		private IConfig $config,
