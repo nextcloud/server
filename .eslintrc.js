@@ -14,35 +14,39 @@ module.exports = {
 		oc_userconfig: true,
 		sinon: true,
 	},
-	plugins: [
-		'cypress',
-	],
+	plugins: ["cypress"],
 	extends: [
-		'@nextcloud/eslint-config/typescript',
-		'plugin:cypress/recommended',
+		"@nextcloud/eslint-config/typescript",
+		"plugin:cypress/recommended",
+		"@nextcloud",
+		"prettier",
 	],
 	rules: {
-		'no-tabs': 'warn',
+		"no-tabs": "warn",
 		// TODO: make sure we fix this as this is bad vue coding style.
 		// Use proper sync modifier
-		'vue/no-mutating-props': 'warn',
-		'vue/custom-event-name-casing': ['error', 'kebab-case', {
-			// allows custom xxxx:xxx events formats
-			ignores: ['/^[a-z]+(?:-[a-z]+)*:[a-z]+(?:-[a-z]+)*$/u'],
-		}],
+		"vue/no-mutating-props": "warn",
+		"vue/custom-event-name-casing": [
+			"error",
+			"kebab-case",
+			{
+				// allows custom xxxx:xxx events formats
+				ignores: ["/^[a-z]+(?:-[a-z]+)*:[a-z]+(?:-[a-z]+)*$/u"],
+			},
+		],
 	},
 	settings: {
 		jsdoc: {
-			mode: 'typescript',
+			mode: "typescript",
 		},
 	},
 	overrides: [
 		// Allow any in tests
 		{
-			files: ['**/*.spec.ts'],
+			files: ["**/*.spec.ts"],
 			rules: {
-				'@typescript-eslint/no-explicit-any': 'warn',
+				"@typescript-eslint/no-explicit-any": "warn",
 			},
-		}
+		},
 	],
-}
+};

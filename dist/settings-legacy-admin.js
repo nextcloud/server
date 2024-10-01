@@ -1,2 +1,376 @@
-(()=>{"use strict";var e,s={69129:(e,s,i)=>{var n=i(74692),a=i.n(n);window.addEventListener("DOMContentLoaded",(()=>{a()("#loglevel").change((function(){a().post(OC.generateUrl("/settings/admin/log/level"),{level:a()(this).val()},(()=>{OC.Log.reload()}))})),a()("#mail_smtpauth").change((function(){this.checked?a()("#mail_credentials").removeClass("hidden"):a()("#mail_credentials").addClass("hidden")})),a()("#mail_smtpmode").change((function(){"smtp"!==a()(this).val()?(a()("#setting_smtpauth").addClass("hidden"),a()("#setting_smtphost").addClass("hidden"),a()("#mail_smtpsecure_label").addClass("hidden"),a()("#mail_smtpsecure").addClass("hidden"),a()("#mail_credentials").addClass("hidden"),a()("#mail_sendmailmode_label, #mail_sendmailmode").removeClass("hidden")):(a()("#setting_smtpauth").removeClass("hidden"),a()("#setting_smtphost").removeClass("hidden"),a()("#mail_smtpsecure_label").removeClass("hidden"),a()("#mail_smtpsecure").removeClass("hidden"),a()("#mail_smtpauth").is(":checked")&&a()("#mail_credentials").removeClass("hidden"),a()("#mail_sendmailmode_label, #mail_sendmailmode").addClass("hidden"))}));const e=function(){OC.PasswordConfirmation.requiresPasswordConfirmation()?OC.PasswordConfirmation.requirePasswordConfirmation(e):(OC.msg.startSaving("#mail_settings_msg"),a().ajax({url:OC.generateUrl("/settings/admin/mailsettings"),type:"POST",data:a()("#mail_general_settings_form").serialize(),success:()=>{OC.msg.finishedSuccess("#mail_settings_msg",t("settings","Saved"))},error:e=>{OC.msg.finishedError("#mail_settings_msg",e.responseJSON)}}))},s=function(){OC.PasswordConfirmation.requiresPasswordConfirmation()?OC.PasswordConfirmation.requirePasswordConfirmation(s):(OC.msg.startSaving("#mail_settings_msg"),a().ajax({url:OC.generateUrl("/settings/admin/mailsettings/credentials"),type:"POST",data:a()("#mail_credentials_settings").serialize(),success:()=>{OC.msg.finishedSuccess("#mail_settings_msg",t("settings","Saved"))},error:e=>{OC.msg.finishedError("#mail_settings_msg",e.responseJSON)}}))};a()("#mail_general_settings_form").change(e),a()("#mail_credentials_settings_submit").click(s),a()("#mail_smtppassword").click((()=>{"text"===(void 0).type&&"********"===(void 0).value&&((void 0).type="password",(void 0).value="")})),a()("#sendtestemail").click((e=>{e.preventDefault(),OC.msg.startAction("#sendtestmail_msg",t("settings","Sending…")),a().ajax({url:OC.generateUrl("/settings/admin/mailtest"),type:"POST",success:()=>{OC.msg.finishedSuccess("#sendtestmail_msg",t("settings","Email sent"))},error:e=>{OC.msg.finishedError("#sendtestmail_msg",e.responseJSON)}})})),null!==document.getElementById("security-warning")&&a().when(OC.SetupChecks.checkSetup()).then((e=>{const s=a()("#postsetupchecks");a()("#security-warning-state-loading").addClass("hidden");let i=!1;const t=s.find(".errors"),n=s.find(".warnings"),r=s.find(".info");for(let s=0;s<e.length;s++)switch(e[s].type){case OC.SetupChecks.MESSAGE_TYPE_INFO:r.append("<li>"+e[s].msg+"</li>");break;case OC.SetupChecks.MESSAGE_TYPE_WARNING:n.append("<li>"+e[s].msg+"</li>");break;case OC.SetupChecks.MESSAGE_TYPE_ERROR:default:t.append("<li>"+e[s].msg+"</li>")}t.find("li").length>0&&(t.removeClass("hidden"),i=!0),n.find("li").length>0&&(n.removeClass("hidden"),i=!0),r.find("li").length>0&&(r.removeClass("hidden"),i=!0),i?(a()("#postsetupchecks-hint").removeClass("hidden"),t.find("li").length>0?a()("#security-warning-state-failure").removeClass("hidden"):a()("#security-warning-state-warning").removeClass("hidden")):0===a()("#security-warning").children("ul").children().length?a()("#security-warning-state-ok").removeClass("hidden"):a()("#security-warning-state-failure").removeClass("hidden")}))}))}},i={};function n(e){var t=i[e];if(void 0!==t)return t.exports;var a=i[e]={id:e,loaded:!1,exports:{}};return s[e].call(a.exports,a,a.exports,n),a.loaded=!0,a.exports}n.m=s,e=[],n.O=(s,i,t,a)=>{if(!i){var r=1/0;for(m=0;m<e.length;m++){i=e[m][0],t=e[m][1],a=e[m][2];for(var l=!0,d=0;d<i.length;d++)(!1&a||r>=a)&&Object.keys(n.O).every((e=>n.O[e](i[d])))?i.splice(d--,1):(l=!1,a<r&&(r=a));if(l){e.splice(m--,1);var o=t();void 0!==o&&(s=o)}}return s}a=a||0;for(var m=e.length;m>0&&e[m-1][2]>a;m--)e[m]=e[m-1];e[m]=[i,t,a]},n.n=e=>{var s=e&&e.__esModule?()=>e.default:()=>e;return n.d(s,{a:s}),s},n.d=(e,s)=>{for(var i in s)n.o(s,i)&&!n.o(e,i)&&Object.defineProperty(e,i,{enumerable:!0,get:s[i]})},n.e=()=>Promise.resolve(),n.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(e){if("object"==typeof window)return window}}(),n.o=(e,s)=>Object.prototype.hasOwnProperty.call(e,s),n.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.nmd=e=>(e.paths=[],e.children||(e.children=[]),e),n.j=6010,(()=>{n.b=document.baseURI||self.location.href;var e={6010:0};n.O.j=s=>0===e[s];var s=(s,i)=>{var t,a,r=i[0],l=i[1],d=i[2],o=0;if(r.some((s=>0!==e[s]))){for(t in l)n.o(l,t)&&(n.m[t]=l[t]);if(d)var m=d(n)}for(s&&s(i);o<r.length;o++)a=r[o],n.o(e,a)&&e[a]&&e[a][0](),e[a]=0;return n.O(m)},i=self.webpackChunknextcloud=self.webpackChunknextcloud||[];i.forEach(s.bind(null,0)),i.push=s.bind(null,i.push.bind(i))})(),n.nc=void 0;var a=n.O(void 0,[4208],(()=>n(69129)));a=n.O(a)})();
-//# sourceMappingURL=settings-legacy-admin.js.map?v=2329421ea5c0e635ce6d
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/settings/src/admin.js":
+/*!************************************!*\
+  !*** ./apps/settings/src/admin.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+window.addEventListener('DOMContentLoaded', () => {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#loglevel').change(function () {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().post(OC.generateUrl('/settings/admin/log/level'), {
+      level: jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val()
+    }, () => {
+      OC.Log.reload();
+    });
+  });
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mail_smtpauth').change(function () {
+    if (!this.checked) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mail_credentials').addClass('hidden');
+    } else {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mail_credentials').removeClass('hidden');
+    }
+  });
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mail_smtpmode').change(function () {
+    if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val() !== 'smtp') {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#setting_smtpauth').addClass('hidden');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#setting_smtphost').addClass('hidden');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mail_smtpsecure_label').addClass('hidden');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mail_smtpsecure').addClass('hidden');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mail_credentials').addClass('hidden');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mail_sendmailmode_label, #mail_sendmailmode').removeClass('hidden');
+    } else {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#setting_smtpauth').removeClass('hidden');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#setting_smtphost').removeClass('hidden');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mail_smtpsecure_label').removeClass('hidden');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mail_smtpsecure').removeClass('hidden');
+      if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mail_smtpauth').is(':checked')) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mail_credentials').removeClass('hidden');
+      }
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mail_sendmailmode_label, #mail_sendmailmode').addClass('hidden');
+    }
+  });
+  const changeEmailSettings = function () {
+    if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+      OC.PasswordConfirmation.requirePasswordConfirmation(changeEmailSettings);
+      return;
+    }
+    OC.msg.startSaving('#mail_settings_msg');
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
+      url: OC.generateUrl('/settings/admin/mailsettings'),
+      type: 'POST',
+      data: jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mail_general_settings_form').serialize(),
+      success: () => {
+        OC.msg.finishedSuccess('#mail_settings_msg', t('settings', 'Saved'));
+      },
+      error: xhr => {
+        OC.msg.finishedError('#mail_settings_msg', xhr.responseJSON);
+      }
+    });
+  };
+  const toggleEmailCredentials = function () {
+    if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+      OC.PasswordConfirmation.requirePasswordConfirmation(toggleEmailCredentials);
+      return;
+    }
+    OC.msg.startSaving('#mail_settings_msg');
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
+      url: OC.generateUrl('/settings/admin/mailsettings/credentials'),
+      type: 'POST',
+      data: jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mail_credentials_settings').serialize(),
+      success: () => {
+        OC.msg.finishedSuccess('#mail_settings_msg', t('settings', 'Saved'));
+      },
+      error: xhr => {
+        OC.msg.finishedError('#mail_settings_msg', xhr.responseJSON);
+      }
+    });
+  };
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mail_general_settings_form').change(changeEmailSettings);
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mail_credentials_settings_submit').click(toggleEmailCredentials);
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mail_smtppassword').click(() => {
+    if (undefined.type === 'text' && undefined.value === '********') {
+      undefined.type = 'password';
+      undefined.value = '';
+    }
+  });
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#sendtestemail').click(event => {
+    event.preventDefault();
+    OC.msg.startAction('#sendtestmail_msg', t('settings', 'Sending…'));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
+      url: OC.generateUrl('/settings/admin/mailtest'),
+      type: 'POST',
+      success: () => {
+        OC.msg.finishedSuccess('#sendtestmail_msg', t('settings', 'Email sent'));
+      },
+      error: xhr => {
+        OC.msg.finishedError('#sendtestmail_msg', xhr.responseJSON);
+      }
+    });
+  });
+  const setupChecks = () => {
+    // run setup checks then gather error messages
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().when(OC.SetupChecks.checkSetup()).then(messages => {
+      const $el = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#postsetupchecks');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#security-warning-state-loading').addClass('hidden');
+      let hasMessages = false;
+      const $errorsEl = $el.find('.errors');
+      const $warningsEl = $el.find('.warnings');
+      const $infoEl = $el.find('.info');
+      for (let i = 0; i < messages.length; i++) {
+        switch (messages[i].type) {
+          case OC.SetupChecks.MESSAGE_TYPE_INFO:
+            $infoEl.append('<li>' + messages[i].msg + '</li>');
+            break;
+          case OC.SetupChecks.MESSAGE_TYPE_WARNING:
+            $warningsEl.append('<li>' + messages[i].msg + '</li>');
+            break;
+          case OC.SetupChecks.MESSAGE_TYPE_ERROR:
+          default:
+            $errorsEl.append('<li>' + messages[i].msg + '</li>');
+        }
+      }
+      if ($errorsEl.find('li').length > 0) {
+        $errorsEl.removeClass('hidden');
+        hasMessages = true;
+      }
+      if ($warningsEl.find('li').length > 0) {
+        $warningsEl.removeClass('hidden');
+        hasMessages = true;
+      }
+      if ($infoEl.find('li').length > 0) {
+        $infoEl.removeClass('hidden');
+        hasMessages = true;
+      }
+      if (hasMessages) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#postsetupchecks-hint').removeClass('hidden');
+        if ($errorsEl.find('li').length > 0) {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#security-warning-state-failure').removeClass('hidden');
+        } else {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#security-warning-state-warning').removeClass('hidden');
+        }
+      } else {
+        const securityWarning = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#security-warning');
+        if (securityWarning.children('ul').children().length === 0) {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#security-warning-state-ok').removeClass('hidden');
+        } else {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#security-warning-state-failure').removeClass('hidden');
+        }
+      }
+    });
+  };
+  if (document.getElementById('security-warning') !== null) {
+    setupChecks();
+  }
+});
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		// Since all referenced chunks are already included
+/******/ 		// in this file, this function is empty here.
+/******/ 		__webpack_require__.e = () => (Promise.resolve());
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"settings-legacy-admin": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./apps/settings/src/admin.js")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=settings-legacy-admin.js.map?v=d9c61993bec069dc9640

@@ -1,2 +1,709 @@
-(()=>{"use strict";var e,o={85781:(e,o,n)=>{var s=n(32981),a=n(85471),c=n(56760),r=n(18740),d=n(84237),i=(n(51257),n(96763));const l={name:"PersonalSettings",components:{NcButton:r.A,NcLoadingIcon:d.A},data:()=>({generatingCodes:!1}),computed:{downloadUrl(){return this.codes?"data:text/plain,"+encodeURIComponent(this.codes.reduce(((t,e)=>t+e+"\r\n"),"")):""},downloadFilename:()=>(OC.theme.name||"Nextcloud")+"-backup-codes.txt",enabled(){return this.$store.state.enabled},total(){return this.$store.state.total},used(){return this.$store.state.used},codes(){return this.$store.state.codes},name:()=>OC.theme.name||"Nextcloud",haveCodes(){return this.codes&&this.codes.length>0}},methods:{generateBackupCodes(){(0,c.C)().then((()=>{this.generatingCodes=!0,this.$store.dispatch("generate").then((()=>{this.generatingCodes=!1})).catch((e=>{throw OC.Notification.showTemporary(t("twofactor_backupcodes","An error occurred while generating your backup codes")),this.generatingCodes=!1,e}))})).catch(i.error.bind(this))},getPrintData:t=>t?t.reduce(((t,e)=>t+e+"<br>"),""):"",printCodes(){!function(e){const o=OC.theme.name||"Nextcloud",n=window.open("",t("twofactor_backupcodes","{name} backup codes",{name:o}));n.document.write("<h1>"+t("twofactor_backupcodes","{name} backup codes",{name:o})+"</h1>"),n.document.write("<pre>"+e+"</pre>"),n.print(),n.close()}(this.getPrintData(this.codes))}}};var u=n(85072),p=n.n(u),b=n(97825),f=n.n(b),g=n(77659),h=n.n(g),_=n(55056),v=n.n(_),A=n(10540),m=n.n(A),k=n(41113),C=n.n(k),w=n(40097),y={};y.styleTagTransform=C(),y.setAttributes=v(),y.insert=h().bind(null,"head"),y.domAPI=f(),y.insertStyleElement=m(),p()(w.A,y),w.A&&w.A.locals&&w.A.locals;const x=(0,n(14486).A)(l,(function(){var t=this,e=t._self._c;return e("div",{staticClass:"backupcodes-settings"},[t.enabled?[e("p",{staticClass:"backupcodes-settings__codes"},[t.haveCodes?[t._v("\n\t\t\t\t"+t._s(t.t("twofactor_backupcodes","These are your backup codes. Please save and/or print them as you will not be able to read the codes again later."))+"\n\t\t\t\t"),e("ul",t._l(t.codes,(function(o){return e("li",{key:o,staticClass:"backupcodes-settings__codes__code"},[t._v("\n\t\t\t\t\t\t"+t._s(o)+"\n\t\t\t\t\t")])})),0)]:[t._v("\n\t\t\t\t"+t._s(t.t("twofactor_backupcodes","Backup codes have been generated. {used} of {total} codes have been used.",{used:t.used,total:t.total}))+"\n\t\t\t")]],2),t._v(" "),e("p",{staticClass:"backupcodes-settings__actions"},[t.haveCodes?[e("NcButton",{attrs:{href:t.downloadUrl,download:t.downloadFilename,type:"primary"}},[t._v("\n\t\t\t\t\t"+t._s(t.t("twofactor_backupcodes","Save backup codes"))+"\n\t\t\t\t")]),t._v(" "),e("NcButton",{on:{click:t.printCodes}},[t._v("\n\t\t\t\t\t"+t._s(t.t("twofactor_backupcodes","Print backup codes"))+"\n\t\t\t\t")])]:t._e(),t._v(" "),e("NcButton",{attrs:{id:"generate-backup-codes"},on:{click:t.generateBackupCodes}},[t._v("\n\t\t\t\t"+t._s(t.t("twofactor_backupcodes","Regenerate backup codes"))+"\n\t\t\t")])],2),t._v(" "),e("p",[e("em",[t._v("\n\t\t\t\t"+t._s(t.t("twofactor_backupcodes","If you regenerate backup codes, you automatically invalidate old codes."))+"\n\t\t\t")])])]:e("NcButton",{attrs:{id:"generate-backup-codes",disabled:t.generatingCodes},on:{click:t.generateBackupCodes},scopedSlots:t._u([{key:"icon",fn:function(){return[t.generatingCodes?e("NcLoadingIcon"):t._e()]},proxy:!0}],null,!1,4108280908)},[t._v("\n\t\t"+t._s(t.t("twofactor_backupcodes","Generate backup codes"))+"\n\t")])],2)}),[],!1,null,"70ee3f3c",null).exports;var O=n(95353),B=n(65043),P=n(63814);a.Ay.use(O.Ay);const N={setEnabled(t,e){a.Ay.set(t,"enabled",e)},setTotal(t,e){a.Ay.set(t,"total",e)},setUsed(t,e){a.Ay.set(t,"used",e)},setCodes(t,e){a.Ay.set(t,"codes",e)}},S={generate(t){let{commit:e}=t;return e("setEnabled",!1),function(){const t=(0,P.Jv)("/apps/twofactor_backupcodes/settings/create");return B.Ay.post(t,{}).then((t=>t.data))}().then((t=>{let{codes:o,state:n}=t;return e("setEnabled",n.enabled),e("setTotal",n.total),e("setUsed",n.used),e("setCodes",o),!0}))}},T=new O.il({strict:!1,state:{enabled:!1,total:0,used:0,codes:[]},mutations:N,actions:S});a.Ay.prototype.t=t;const j=(0,s.C)("twofactor_backupcodes","state");T.replaceState(j),new(a.Ay.extend(x))({store:T}).$mount("#twofactor-backupcodes-settings")},40097:(t,e,o)=>{o.d(e,{A:()=>r});var n=o(71354),s=o.n(n),a=o(76314),c=o.n(a)()(s());c.push([t.id,".backupcodes-settings__codes__code[data-v-70ee3f3c]{font-family:monospace;letter-spacing:.02em;font-size:1.2em}.backupcodes-settings__actions[data-v-70ee3f3c]{display:flex;flex-wrap:wrap;align-items:center;gap:var(--default-grid-baseline)}","",{version:3,sources:["webpack://./apps/twofactor_backupcodes/src/views/PersonalSettings.vue"],names:[],mappings:"AAGE,oDACC,qBAAA,CACA,oBAAA,CACA,eAAA,CAIF,gDACC,YAAA,CACA,cAAA,CACA,kBAAA,CACA,gCAAA",sourcesContent:["\n.backupcodes-settings {\n\t&__codes {\n\t\t&__code {\n\t\t\tfont-family: monospace;\n\t\t\tletter-spacing: 0.02em;\n\t\t\tfont-size: 1.2em;\n\t\t}\n\t}\n\n\t&__actions {\n\t\tdisplay: flex;\n\t\tflex-wrap: wrap;\n\t\talign-items: center;\n\t\tgap: var(--default-grid-baseline);\n\t}\n}\n"],sourceRoot:""}]);const r=c}},n={};function s(t){var e=n[t];if(void 0!==e)return e.exports;var a=n[t]={id:t,loaded:!1,exports:{}};return o[t].call(a.exports,a,a.exports,s),a.loaded=!0,a.exports}s.m=o,e=[],s.O=(t,o,n,a)=>{if(!o){var c=1/0;for(l=0;l<e.length;l++){o=e[l][0],n=e[l][1],a=e[l][2];for(var r=!0,d=0;d<o.length;d++)(!1&a||c>=a)&&Object.keys(s.O).every((t=>s.O[t](o[d])))?o.splice(d--,1):(r=!1,a<c&&(c=a));if(r){e.splice(l--,1);var i=n();void 0!==i&&(t=i)}}return t}a=a||0;for(var l=e.length;l>0&&e[l-1][2]>a;l--)e[l]=e[l-1];e[l]=[o,n,a]},s.n=t=>{var e=t&&t.__esModule?()=>t.default:()=>t;return s.d(e,{a:e}),e},s.d=(t,e)=>{for(var o in e)s.o(e,o)&&!s.o(t,o)&&Object.defineProperty(t,o,{enumerable:!0,get:e[o]})},s.e=()=>Promise.resolve(),s.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(t){if("object"==typeof window)return window}}(),s.o=(t,e)=>Object.prototype.hasOwnProperty.call(t,e),s.r=t=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},s.nmd=t=>(t.paths=[],t.children||(t.children=[]),t),s.j=4423,(()=>{s.b=document.baseURI||self.location.href;var t={4423:0};s.O.j=e=>0===t[e];var e=(e,o)=>{var n,a,c=o[0],r=o[1],d=o[2],i=0;if(c.some((e=>0!==t[e]))){for(n in r)s.o(r,n)&&(s.m[n]=r[n]);if(d)var l=d(s)}for(e&&e(o);i<c.length;i++)a=c[i],s.o(t,a)&&t[a]&&t[a][0](),t[a]=0;return s.O(l)},o=self.webpackChunknextcloud=self.webpackChunknextcloud||[];o.forEach(e.bind(null,0)),o.push=e.bind(null,o.push.bind(o))})(),s.nc=void 0;var a=s.O(void 0,[4208],(()=>s(85781)));a=s.O(a)})();
-//# sourceMappingURL=twofactor_backupcodes-settings.js.map?v=ea45701c4a3809f5d4a0
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/twofactor_backupcodes/src/service/BackupCodesService.js":
+/*!**********************************************************************!*\
+  !*** ./apps/twofactor_backupcodes/src/service/BackupCodesService.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   generateCodes: () => (/* binding */ generateCodes)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+/**
+ *
+ */
+function generateCodes() {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateUrl)('/apps/twofactor_backupcodes/settings/create');
+  return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(url, {}).then(resp => resp.data);
+}
+
+/***/ }),
+
+/***/ "./apps/twofactor_backupcodes/src/service/PrintService.js":
+/*!****************************************************************!*\
+  !*** ./apps/twofactor_backupcodes/src/service/PrintService.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   print: () => (/* binding */ print)
+/* harmony export */ });
+/**
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/**
+ * @param {any} data -
+ */
+function print(data) {
+  const name = OC.theme.name || 'Nextcloud';
+  const newTab = window.open('', t('twofactor_backupcodes', '{name} backup codes', {
+    name
+  }));
+  newTab.document.write('<h1>' + t('twofactor_backupcodes', '{name} backup codes', {
+    name
+  }) + '</h1>');
+  newTab.document.write('<pre>' + data + '</pre>');
+  newTab.print();
+  newTab.close();
+}
+
+/***/ }),
+
+/***/ "./apps/twofactor_backupcodes/src/settings.js":
+/*!****************************************************!*\
+  !*** ./apps/twofactor_backupcodes/src/settings.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _views_PersonalSettings_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./views/PersonalSettings.vue */ "./apps/twofactor_backupcodes/src/views/PersonalSettings.vue");
+/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store.js */ "./apps/twofactor_backupcodes/src/store.js");
+/**
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+vue__WEBPACK_IMPORTED_MODULE_3__["default"].prototype.t = t;
+const initialState = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('twofactor_backupcodes', 'state');
+_store_js__WEBPACK_IMPORTED_MODULE_2__["default"].replaceState(initialState);
+const View = vue__WEBPACK_IMPORTED_MODULE_3__["default"].extend(_views_PersonalSettings_vue__WEBPACK_IMPORTED_MODULE_1__["default"]);
+new View({
+  store: _store_js__WEBPACK_IMPORTED_MODULE_2__["default"]
+}).$mount('#twofactor-backupcodes-settings');
+
+/***/ }),
+
+/***/ "./apps/twofactor_backupcodes/src/store.js":
+/*!*************************************************!*\
+  !*** ./apps/twofactor_backupcodes/src/store.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _service_BackupCodesService_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./service/BackupCodesService.js */ "./apps/twofactor_backupcodes/src/service/BackupCodesService.js");
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
+const state = {
+  enabled: false,
+  total: 0,
+  used: 0,
+  codes: []
+};
+const mutations = {
+  setEnabled(state, enabled) {
+    vue__WEBPACK_IMPORTED_MODULE_1__["default"].set(state, 'enabled', enabled);
+  },
+  setTotal(state, total) {
+    vue__WEBPACK_IMPORTED_MODULE_1__["default"].set(state, 'total', total);
+  },
+  setUsed(state, used) {
+    vue__WEBPACK_IMPORTED_MODULE_1__["default"].set(state, 'used', used);
+  },
+  setCodes(state, codes) {
+    vue__WEBPACK_IMPORTED_MODULE_1__["default"].set(state, 'codes', codes);
+  }
+};
+const actions = {
+  generate(_ref) {
+    let {
+      commit
+    } = _ref;
+    commit('setEnabled', false);
+    return (0,_service_BackupCodesService_js__WEBPACK_IMPORTED_MODULE_0__.generateCodes)().then(_ref2 => {
+      let {
+        codes,
+        state
+      } = _ref2;
+      commit('setEnabled', state.enabled);
+      commit('setTotal', state.total);
+      commit('setUsed', state.used);
+      commit('setCodes', codes);
+      return true;
+    });
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_2__.Store({
+  strict: "development" !== 'production',
+  state,
+  mutations,
+  actions
+}));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=script&lang=js":
+/*!***********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=script&lang=js ***!
+  \***********************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/password-confirmation */ "./node_modules/@nextcloud/password-confirmation/dist/index.mjs");
+/* harmony import */ var _service_PrintService_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../service/PrintService.js */ "./apps/twofactor_backupcodes/src/service/PrintService.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcButton.js */ "./node_modules/@nextcloud/vue/dist/Components/NcButton.mjs");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcLoadingIcon_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcLoadingIcon.js */ "./node_modules/@nextcloud/vue/dist/Components/NcLoadingIcon.mjs");
+/* harmony import */ var _nextcloud_password_confirmation_dist_style_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/password-confirmation/dist/style.css */ "./node_modules/@nextcloud/password-confirmation/dist/style.css");
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'PersonalSettings',
+  components: {
+    NcButton: _nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_2__["default"],
+    NcLoadingIcon: _nextcloud_vue_dist_Components_NcLoadingIcon_js__WEBPACK_IMPORTED_MODULE_3__["default"]
+  },
+  data() {
+    return {
+      generatingCodes: false
+    };
+  },
+  computed: {
+    downloadUrl() {
+      if (!this.codes) {
+        return '';
+      }
+      return 'data:text/plain,' + encodeURIComponent(this.codes.reduce((prev, code) => {
+        return prev + code + '\r\n';
+      }, ''));
+    },
+    downloadFilename() {
+      const name = OC.theme.name || 'Nextcloud';
+      return name + '-backup-codes.txt';
+    },
+    enabled() {
+      return this.$store.state.enabled;
+    },
+    total() {
+      return this.$store.state.total;
+    },
+    used() {
+      return this.$store.state.used;
+    },
+    codes() {
+      return this.$store.state.codes;
+    },
+    name() {
+      return OC.theme.name || 'Nextcloud';
+    },
+    haveCodes() {
+      return this.codes && this.codes.length > 0;
+    }
+  },
+  methods: {
+    generateBackupCodes() {
+      (0,_nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_0__.confirmPassword)().then(() => {
+        // Hide old codes
+        this.generatingCodes = true;
+        this.$store.dispatch('generate').then(() => {
+          this.generatingCodes = false;
+        }).catch(err => {
+          OC.Notification.showTemporary(t('twofactor_backupcodes', 'An error occurred while generating your backup codes'));
+          this.generatingCodes = false;
+          throw err;
+        });
+      }).catch(console.error.bind(this));
+    },
+    getPrintData(codes) {
+      if (!codes) {
+        return '';
+      }
+      return codes.reduce((prev, code) => {
+        return prev + code + '<br>';
+      }, '');
+    },
+    printCodes() {
+      (0,_service_PrintService_js__WEBPACK_IMPORTED_MODULE_1__.print)(this.getPrintData(this.codes));
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=template&id=fdbc4006&scoped=true":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=template&id=fdbc4006&scoped=true ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "backupcodes-settings"
+  }, [!_vm.enabled ? _c("NcButton", {
+    attrs: {
+      id: "generate-backup-codes",
+      disabled: _vm.generatingCodes
+    },
+    on: {
+      click: _vm.generateBackupCodes
+    },
+    scopedSlots: _vm._u([{
+      key: "icon",
+      fn: function () {
+        return [_vm.generatingCodes ? _c("NcLoadingIcon") : _vm._e()];
+      },
+      proxy: true
+    }], null, false, 4108280908)
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.t("twofactor_backupcodes", "Generate backup codes")) + "\n\t")]) : [_c("p", {
+    staticClass: "backupcodes-settings__codes"
+  }, [!_vm.haveCodes ? [_vm._v("\n\t\t\t\t" + _vm._s(_vm.t("twofactor_backupcodes", "Backup codes have been generated. {used} of {total} codes have been used.", {
+    used: _vm.used,
+    total: _vm.total
+  })) + "\n\t\t\t")] : [_vm._v("\n\t\t\t\t" + _vm._s(_vm.t("twofactor_backupcodes", "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later.")) + "\n\t\t\t\t"), _c("ul", _vm._l(_vm.codes, function (code) {
+    return _c("li", {
+      key: code,
+      staticClass: "backupcodes-settings__codes__code"
+    }, [_vm._v("\n\t\t\t\t\t\t" + _vm._s(code) + "\n\t\t\t\t\t")]);
+  }), 0)]], 2), _vm._v(" "), _c("p", {
+    staticClass: "backupcodes-settings__actions"
+  }, [_vm.haveCodes ? [_c("NcButton", {
+    attrs: {
+      href: _vm.downloadUrl,
+      download: _vm.downloadFilename,
+      type: "primary"
+    }
+  }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.t("twofactor_backupcodes", "Save backup codes")) + "\n\t\t\t\t")]), _vm._v(" "), _c("NcButton", {
+    on: {
+      click: _vm.printCodes
+    }
+  }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.t("twofactor_backupcodes", "Print backup codes")) + "\n\t\t\t\t")])] : _vm._e(), _vm._v(" "), _c("NcButton", {
+    attrs: {
+      id: "generate-backup-codes"
+    },
+    on: {
+      click: _vm.generateBackupCodes
+    }
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.t("twofactor_backupcodes", "Regenerate backup codes")) + "\n\t\t\t")])], 2), _vm._v(" "), _c("p", [_c("em", [_vm._v("\n\t\t\t\t" + _vm._s(_vm.t("twofactor_backupcodes", "If you regenerate backup codes, you automatically invalidate old codes.")) + "\n\t\t\t")])])]], 2);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=style&index=0&id=fdbc4006&lang=scss&scoped=true":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=style&index=0&id=fdbc4006&lang=scss&scoped=true ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `.backupcodes-settings__codes__code[data-v-fdbc4006] {
+  font-family: monospace;
+  letter-spacing: 0.02em;
+  font-size: 1.2em;
+}
+.backupcodes-settings__actions[data-v-fdbc4006] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--default-grid-baseline);
+}`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=style&index=0&id=fdbc4006&lang=scss&scoped=true":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=style&index=0&id=fdbc4006&lang=scss&scoped=true ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalSettings_vue_vue_type_style_index_0_id_fdbc4006_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./PersonalSettings.vue?vue&type=style&index=0&id=fdbc4006&lang=scss&scoped=true */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=style&index=0&id=fdbc4006&lang=scss&scoped=true");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalSettings_vue_vue_type_style_index_0_id_fdbc4006_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalSettings_vue_vue_type_style_index_0_id_fdbc4006_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalSettings_vue_vue_type_style_index_0_id_fdbc4006_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalSettings_vue_vue_type_style_index_0_id_fdbc4006_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./apps/twofactor_backupcodes/src/views/PersonalSettings.vue":
+/*!*******************************************************************!*\
+  !*** ./apps/twofactor_backupcodes/src/views/PersonalSettings.vue ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _PersonalSettings_vue_vue_type_template_id_fdbc4006_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PersonalSettings.vue?vue&type=template&id=fdbc4006&scoped=true */ "./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=template&id=fdbc4006&scoped=true");
+/* harmony import */ var _PersonalSettings_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PersonalSettings.vue?vue&type=script&lang=js */ "./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=script&lang=js");
+/* harmony import */ var _PersonalSettings_vue_vue_type_style_index_0_id_fdbc4006_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PersonalSettings.vue?vue&type=style&index=0&id=fdbc4006&lang=scss&scoped=true */ "./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=style&index=0&id=fdbc4006&lang=scss&scoped=true");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _PersonalSettings_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PersonalSettings_vue_vue_type_template_id_fdbc4006_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render,
+  _PersonalSettings_vue_vue_type_template_id_fdbc4006_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "fdbc4006",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "apps/twofactor_backupcodes/src/views/PersonalSettings.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=script&lang=js":
+/*!*******************************************************************************************!*\
+  !*** ./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=script&lang=js ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalSettings_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./PersonalSettings.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=script&lang=js");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalSettings_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=template&id=fdbc4006&scoped=true":
+/*!*************************************************************************************************************!*\
+  !*** ./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=template&id=fdbc4006&scoped=true ***!
+  \*************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalSettings_vue_vue_type_template_id_fdbc4006_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalSettings_vue_vue_type_template_id_fdbc4006_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalSettings_vue_vue_type_template_id_fdbc4006_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./PersonalSettings.vue?vue&type=template&id=fdbc4006&scoped=true */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=template&id=fdbc4006&scoped=true");
+
+
+/***/ }),
+
+/***/ "./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=style&index=0&id=fdbc4006&lang=scss&scoped=true":
+/*!****************************************************************************************************************************!*\
+  !*** ./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=style&index=0&id=fdbc4006&lang=scss&scoped=true ***!
+  \****************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalSettings_vue_vue_type_style_index_0_id_fdbc4006_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./PersonalSettings.vue?vue&type=style&index=0&id=fdbc4006&lang=scss&scoped=true */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/twofactor_backupcodes/src/views/PersonalSettings.vue?vue&type=style&index=0&id=fdbc4006&lang=scss&scoped=true");
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		// Since all referenced chunks are already included
+/******/ 		// in this file, this function is empty here.
+/******/ 		__webpack_require__.e = () => (Promise.resolve());
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"twofactor_backupcodes-settings": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./apps/twofactor_backupcodes/src/settings.js")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=twofactor_backupcodes-settings.js.map?v=e6d756e1b61761aa089d

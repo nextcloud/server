@@ -1,2 +1,2459 @@
-(()=>{var e,s,r,i={31755:(e,s,r)=>{"use strict";r.d(s,{P:()=>X});var i=r(85471),o=r(95353),n=r(59097),a=r(87485),d=r(35810),c=r(85168),u=r(63814),p=r(65043),l=r(15916),m=r(56760);r(51257);const h=function(t){return t.replace(/\/$/,"")},g=()=>(0,m.C)(),f=(t,e)=>p.Ay.get(h(t),e),E=(t,e)=>p.Ay.post(h(t),e),A=(t,e)=>p.Ay.put(h(t),e),I=(t,e)=>p.Ay.delete(h(t),{params:e});var b=r(36620),N=r(96763);const y=(0,n.c0)("settings").persist(!0).build(),L={id:"",name:"",usercount:0,disabled:0,canAdd:!0,canRemove:!0},v={users:[],groups:[],orderBy:l.q.UserCount,minPasswordLength:0,usersOffset:0,usersLimit:25,disabledUsersOffset:0,disabledUsersLimit:25,userCount:0,showConfig:{showStoragePath:"true"===y.getItem("account_settings__showStoragePath"),showUserBackend:"true"===y.getItem("account_settings__showUserBackend"),showLastLogin:"true"===y.getItem("account_settings__showLastLogin"),showNewUserForm:"true"===y.getItem("account_settings__showNewUserForm"),showLanguages:"true"===y.getItem("account_settings__showLanguages")}},R={appendUsers(t,e){const s=t.users.map((t=>{let{id:e}=t;return e})),r=Object.values(e).filter((t=>{let{id:e}=t;return!s.includes(e)})),i=t.users.concat(r);t.usersOffset+=t.usersLimit,t.users=i},updateDisabledUsers(t,e){t.disabledUsersOffset+=t.disabledUsersLimit},setPasswordPolicyMinLength(t,e){t.minPasswordLength=""!==e?e:0},initGroups(t,e){let{groups:s,orderBy:r,userCount:i}=e;t.groups=s.map((t=>Object.assign({},L,t))),t.orderBy=r,t.userCount=i},addGroup(t,e){let{gid:s,displayName:r}=e;try{if(void 0!==t.groups.find((t=>t.id===s)))return;const e=Object.assign({},L,{id:s,name:r});t.groups.unshift(e)}catch(t){N.error("Can't create group",t)}},renameGroup(t,e){let{gid:s,displayName:r}=e;const i=t.groups.findIndex((t=>t.id===s));if(i>=0){const e=t.groups[i];e.name=r,t.groups.splice(i,1,e)}},removeGroup(t,e){const s=t.groups.findIndex((t=>t.id===e));s>=0&&t.groups.splice(s,1)},addUserGroup(t,e){let{userid:s,gid:r}=e;const i=t.groups.find((t=>t.id===r)),o=t.users.find((t=>t.id===s));i&&o.enabled&&t.userCount>0&&i.usercount++,o.groups.push(r)},removeUserGroup(t,e){let{userid:s,gid:r}=e;const i=t.groups.find((t=>t.id===r)),o=t.users.find((t=>t.id===s));i&&o.enabled&&t.userCount>0&&i.usercount--;const n=o.groups;n.splice(n.indexOf(r),1)},addUserSubAdmin(t,e){let{userid:s,gid:r}=e;t.users.find((t=>t.id===s)).subadmin.push(r)},removeUserSubAdmin(t,e){let{userid:s,gid:r}=e;const i=t.users.find((t=>t.id===s)).subadmin;i.splice(i.indexOf(r),1)},deleteUser(t,e){const s=t.users.findIndex((t=>t.id===e));this.commit("updateUserCounts",{user:t.users[s],actionType:"remove"}),t.users.splice(s,1)},addUserData(t,e){const s=e.data.ocs.data;t.users.unshift(s),this.commit("updateUserCounts",{user:s,actionType:"create"})},enableDisableUser(t,e){let{userid:s,enabled:r}=e;const i=t.users.find((t=>t.id===s));i.enabled=r,this.commit("updateUserCounts",{user:i,actionType:r?"enable":"disable"})},updateUserCounts(t,e){let{user:s,actionType:r}=e;if(0===t.userCount)return;const i=t.groups.find((t=>"__nc_internal_recent"===t.id)),o=t.groups.find((t=>"disabled"===t.id));switch(r){case"enable":case"disable":o.usercount+=s.enabled?-1:1,i.usercount+=s.enabled?1:-1,t.userCount+=s.enabled?1:-1,s.groups.forEach((e=>{t.groups.find((t=>t.id===e)).disabled+=s.enabled?-1:1}));break;case"create":i.usercount++,t.userCount++,s.groups.forEach((e=>{t.groups.find((t=>t.id===e)).usercount++}));break;case"remove":s.enabled?(i.usercount--,t.userCount--,s.groups.forEach((e=>{const s=t.groups.find((t=>t.id===e));s?s.usercount--:N.warn("User group "+e+" does not exist during user removal")}))):(o.usercount--,s.groups.forEach((e=>{t.groups.find((t=>t.id===e)).disabled--})));break;default:b.A.error(`Unknown action type in updateUserCounts: '${r}'`)}},setUserData(t,e){let{userid:s,key:r,value:i}=e;if("quota"===r){const e=(0,d.lT)(i,!0);t.users.find((t=>t.id===s))[r][r]=null!==e?e:i}else t.users.find((t=>t.id===s))[r]=i},resetUsers(t){t.users=[],t.usersOffset=0,t.disabledUsersOffset=0},setShowConfig(t,e){let{key:s,value:r}=e;y.setItem(`account_settings__${s}`,JSON.stringify(r)),t.showConfig[s]=r},setGroupSorting(e,s){const r=e.orderBy;e.orderBy=s,p.Ay.post((0,u.Jv)("/settings/users/preferences/group.sortBy"),{value:String(s)}).catch((s=>{e.orderBy=r,(0,c.Qg)(t("settings","Could not set group sorting")),b.A.error(s)}))}},w={getUsers:t=>t.users,getGroups:t=>t.groups,getSubadminGroups:t=>t.groups.filter((t=>"admin"!==t.id&&"__nc_internal_recent"!==t.id&&"disabled"!==t.id)),getSortedGroups(t){const e=[...t.groups];return t.orderBy===l.q.UserCount?e.sort(((t,e)=>{const s=t.usercount-t.disabled,r=e.usercount-e.disabled;return s<r?1:r<s?-1:t.name.localeCompare(e.name)})):e.sort(((t,e)=>t.name.localeCompare(e.name)))},getGroupSorting:t=>t.orderBy,getPasswordPolicyMinLength:t=>t.minPasswordLength,getUsersOffset:t=>t.usersOffset,getUsersLimit:t=>t.usersLimit,getDisabledUsersOffset:t=>t.disabledUsersOffset,getDisabledUsersLimit:t=>t.disabledUsersLimit,getUserCount:t=>t.userCount,getShowConfig:t=>t.showConfig},O=p.Ay.CancelToken;let P=null;const _={state:v,mutations:R,getters:w,actions:{searchUsers(t,e){let{offset:s,limit:r,search:i}=e;return i="string"==typeof i?i:"",f((0,u.KT)("cloud/users/details?offset={offset}&limit={limit}&search={search}",{offset:s,limit:r,search:i})).catch((e=>{p.Ay.isCancel(e)||t.commit("API_FAILURE",e)}))},getUser:(t,e)=>f((0,u.KT)(`cloud/users/${e}`)).catch((e=>{p.Ay.isCancel(e)||t.commit("API_FAILURE",e)})),getUsers(t,e){let{offset:s,limit:r,search:i,group:o}=e;return P&&P.cancel("Operation canceled by another search request."),P=O.source(),i="string"==typeof i?i:"",i=i.replace(/in:[^\s]+/g,"").trim(),o="string"==typeof o?o:"",""!==o?f((0,u.KT)("cloud/groups/{group}/users/details?offset={offset}&limit={limit}&search={search}",{group:encodeURIComponent(o),offset:s,limit:r,search:i}),{cancelToken:P.token}).then((e=>{const s=Object.keys(e.data.ocs.data.users).length;return s>0&&t.commit("appendUsers",e.data.ocs.data.users),s})).catch((e=>{p.Ay.isCancel(e)||t.commit("API_FAILURE",e)})):f((0,u.KT)("cloud/users/details?offset={offset}&limit={limit}&search={search}",{offset:s,limit:r,search:i}),{cancelToken:P.token}).then((e=>{const s=Object.keys(e.data.ocs.data.users).length;return s>0&&t.commit("appendUsers",e.data.ocs.data.users),s})).catch((e=>{p.Ay.isCancel(e)||t.commit("API_FAILURE",e)}))},async getRecentUsers(t,e){let{offset:s,limit:r,search:i}=e;const o=(0,u.KT)("cloud/users/recent?offset={offset}&limit={limit}&search={search}",{offset:s,limit:r,search:i});try{const e=await f(o),s=Object.keys(e.data.ocs.data.users).length;return s>0&&t.commit("appendUsers",e.data.ocs.data.users),s}catch(e){t.commit("API_FAILURE",e)}},async getDisabledUsers(t,e){let{offset:s,limit:r,search:i}=e;const o=(0,u.KT)("cloud/users/disabled?offset={offset}&limit={limit}&search={search}",{offset:s,limit:r,search:i});try{const e=await f(o),s=Object.keys(e.data.ocs.data.users).length;return s>0&&(t.commit("appendUsers",e.data.ocs.data.users),t.commit("updateDisabledUsers",e.data.ocs.data.users)),s}catch(e){t.commit("API_FAILURE",e)}},getGroups(t,e){let{offset:s,limit:r,search:i}=e;i="string"==typeof i?i:"";const o=-1===r?"":`&limit=${r}`;return f((0,u.KT)("cloud/groups?offset={offset}&search={search}",{offset:s,search:i})+o).then((e=>Object.keys(e.data.ocs.data.groups).length>0&&(e.data.ocs.data.groups.forEach((function(e){t.commit("addGroup",{gid:e,displayName:e})})),!0))).catch((e=>t.commit("API_FAILURE",e)))},getUsersFromList(t,e){let{offset:s,limit:r,search:i}=e;return i="string"==typeof i?i:"",f((0,u.KT)("cloud/users/details?offset={offset}&limit={limit}&search={search}",{offset:s,limit:r,search:i})).then((e=>Object.keys(e.data.ocs.data.users).length>0&&(t.commit("appendUsers",e.data.ocs.data.users),!0))).catch((e=>t.commit("API_FAILURE",e)))},getUsersFromGroup(t,e){let{groupid:s,offset:r,limit:i}=e;return f((0,u.KT)("cloud/users/{groupId}/details?offset={offset}&limit={limit}",{groupId:encodeURIComponent(s),offset:r,limit:i})).then((e=>t.commit("getUsersFromList",e.data.ocs.data.users))).catch((e=>t.commit("API_FAILURE",e)))},getPasswordPolicyMinLength:t=>!(!(0,a.F)().password_policy||!(0,a.F)().password_policy.minLength)&&(t.commit("setPasswordPolicyMinLength",(0,a.F)().password_policy.minLength),(0,a.F)().password_policy.minLength),addGroup:(t,e)=>g().then((s=>E((0,u.KT)("cloud/groups"),{groupid:e}).then((s=>(t.commit("addGroup",{gid:e,displayName:e}),{gid:e,displayName:e}))).catch((t=>{throw t})))).catch((s=>{throw t.commit("API_FAILURE",{gid:e,error:s}),s})),renameGroup(t,e){let{groupid:s,displayName:r}=e;return g().then((e=>A((0,u.KT)("cloud/groups/{groupId}",{groupId:encodeURIComponent(s)}),{key:"displayname",value:r}).then((e=>(t.commit("renameGroup",{gid:s,displayName:r}),{groupid:s,displayName:r}))).catch((t=>{throw t})))).catch((e=>{throw t.commit("API_FAILURE",{groupid:s,error:e}),e}))},removeGroup:(t,e)=>g().then((s=>I((0,u.KT)("cloud/groups/{groupId}",{groupId:encodeURIComponent(e)})).then((s=>t.commit("removeGroup",e))).catch((t=>{throw t})))).catch((s=>t.commit("API_FAILURE",{gid:e,error:s}))),addUserGroup(t,e){let{userid:s,gid:r}=e;return g().then((e=>E((0,u.KT)("cloud/users/{userid}/groups",{userid:s}),{groupid:r}).then((e=>t.commit("addUserGroup",{userid:s,gid:r}))).catch((t=>{throw t})))).catch((e=>t.commit("API_FAILURE",{userid:s,error:e})))},removeUserGroup(t,e){let{userid:s,gid:r}=e;return g().then((e=>I((0,u.KT)("cloud/users/{userid}/groups",{userid:s}),{groupid:r}).then((e=>t.commit("removeUserGroup",{userid:s,gid:r}))).catch((t=>{throw t})))).catch((e=>{throw t.commit("API_FAILURE",{userid:s,error:e}),e}))},addUserSubAdmin(t,e){let{userid:s,gid:r}=e;return g().then((e=>E((0,u.KT)("cloud/users/{userid}/subadmins",{userid:s}),{groupid:r}).then((e=>t.commit("addUserSubAdmin",{userid:s,gid:r}))).catch((t=>{throw t})))).catch((e=>t.commit("API_FAILURE",{userid:s,error:e})))},removeUserSubAdmin(t,e){let{userid:s,gid:r}=e;return g().then((e=>I((0,u.KT)("cloud/users/{userid}/subadmins",{userid:s}),{groupid:r}).then((e=>t.commit("removeUserSubAdmin",{userid:s,gid:r}))).catch((t=>{throw t})))).catch((e=>t.commit("API_FAILURE",{userid:s,error:e})))},async wipeUserDevices(t,e){try{return await g(),await E((0,u.KT)("cloud/users/{userid}/wipe",{userid:e}))}catch(s){return t.commit("API_FAILURE",{userid:e,error:s}),Promise.reject(new Error("Failed to wipe user devices"))}},deleteUser:(t,e)=>g().then((s=>I((0,u.KT)("cloud/users/{userid}",{userid:e})).then((s=>t.commit("deleteUser",e))).catch((t=>{throw t})))).catch((s=>t.commit("API_FAILURE",{userid:e,error:s}))),addUser(t,e){let{commit:s,dispatch:r}=t,{userid:i,password:o,displayName:n,email:a,groups:d,subadmin:c,quota:p,language:l,manager:m}=e;return g().then((t=>E((0,u.KT)("cloud/users"),{userid:i,password:o,displayName:n,email:a,groups:d,subadmin:c,quota:p,language:l,manager:m}).then((t=>r("addUserData",i||t.data.ocs.data.id))).catch((t=>{throw t})))).catch((t=>{throw s("API_FAILURE",{userid:i,error:t}),t}))},addUserData:(t,e)=>g().then((s=>f((0,u.KT)("cloud/users/{userid}",{userid:e})).then((e=>t.commit("addUserData",e))).catch((t=>{throw t})))).catch((s=>t.commit("API_FAILURE",{userid:e,error:s}))),enableDisableUser(t,e){let{userid:s,enabled:r=!0}=e;const i=r?"enable":"disable";return g().then((e=>A((0,u.KT)("cloud/users/{userid}/{userStatus}",{userid:s,userStatus:i})).then((e=>t.commit("enableDisableUser",{userid:s,enabled:r}))).catch((t=>{throw t})))).catch((e=>t.commit("API_FAILURE",{userid:s,error:e})))},async setUserData(t,e){let{userid:s,key:r,value:i}=e;const o=["email","displayname","manager"];if(-1!==["email","language","quota","displayname","password","manager"].indexOf(r)&&"string"==typeof i&&(-1===o.indexOf(r)&&i.length>0||-1!==o.indexOf(r)))try{return await g(),await A((0,u.KT)("cloud/users/{userid}",{userid:s}),{key:r,value:i}),t.commit("setUserData",{userid:s,key:r,value:i})}catch(e){t.commit("API_FAILURE",{userid:s,error:e})}return Promise.reject(new Error("Invalid request data"))},sendWelcomeMail:(t,e)=>g().then((t=>E((0,u.KT)("cloud/users/{userid}/welcome",{userid:e})).then((t=>!0)).catch((t=>{throw t})))).catch((s=>t.commit("API_FAILURE",{userid:e,error:s})))}};var U=r(32981),T=r(96763);const C={apps:[],bundles:(0,U.C)("settings","appstoreBundles",[]),categories:[],updateCount:(0,U.C)("settings","appstoreUpdateCount",0),loading:{},gettingCategoriesPromise:null},$={APPS_API_FAILURE(e,s){(0,c.Qg)(t("settings","An error occurred during the request. Unable to proceed.")+"<br>"+s.error.response.data.data.message,{isHTML:!0}),T.error(e,s)},initCategories(t,e){let{categories:s,updateCount:r}=e;t.categories=s,t.updateCount=r},updateCategories(t,e){t.gettingCategoriesPromise=e},setUpdateCount(t,e){t.updateCount=e},addCategory(t,e){t.categories.push(e)},appendCategories(t,e){t.categories=e},setAllApps(t,e){t.apps=e},setError(t,e){let{appId:s,error:r}=e;Array.isArray(s)||(s=[s]),s.forEach((e=>{t.apps.find((t=>t.id===e)).error=r}))},clearError(t,e){let{appId:s,error:r}=e;t.apps.find((t=>t.id===s)).error=null},enableApp(t,e){let{appId:s,groups:r}=e;const i=t.apps.find((t=>t.id===s));i.active=!0,i.groups=r},setInstallState(t,e){let{appId:s,canInstall:r}=e;const i=t.apps.find((t=>t.id===s));i&&(i.canInstall=!0===r)},disableApp(t,e){const s=t.apps.find((t=>t.id===e));s.active=!1,s.groups=[],s.removable&&(s.canUnInstall=!0)},uninstallApp(t,e){t.apps.find((t=>t.id===e)).active=!1,t.apps.find((t=>t.id===e)).groups=[],t.apps.find((t=>t.id===e)).needsDownload=!0,t.apps.find((t=>t.id===e)).installed=!1,t.apps.find((t=>t.id===e)).canUnInstall=!1,t.apps.find((t=>t.id===e)).canInstall=!0},updateApp(t,e){const s=t.apps.find((t=>t.id===e)),r=s.update;s.update=null,s.version=r,t.updateCount--},resetApps(t){t.apps=[]},reset(t){t.apps=[],t.categories=[],t.updateCount=0},startLoading(t,e){Array.isArray(e)?e.forEach((e=>{i.Ay.set(t.loading,e,!0)})):i.Ay.set(t.loading,e,!0)},stopLoading(t,e){Array.isArray(e)?e.forEach((e=>{i.Ay.set(t.loading,e,!1)})):i.Ay.set(t.loading,e,!1)}},F={enableApp(e,s){let r,{appId:i,groups:o}=s;return r=Array.isArray(i)?i:[i],g().then((s=>(e.commit("startLoading",r),e.commit("startLoading","install"),E((0,u.Jv)("settings/apps/enable"),{appIds:r,groups:o}).then((s=>(e.commit("stopLoading",r),e.commit("stopLoading","install"),r.forEach((t=>{e.commit("enableApp",{appId:t,groups:o})})),f((0,u.Jv)("apps/files/")).then((()=>{s.data.update_required&&((0,c.cf)(t("settings","The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds."),{onClick:()=>window.location.reload(),close:!1}),setTimeout((function(){location.reload()}),5e3))})).catch((()=>{Array.isArray(i)||((0,c.Qg)(t("settings","Error: This app cannot be enabled because it makes the server unstable")),e.commit("setError",{appId:r,error:t("settings","Error: This app cannot be enabled because it makes the server unstable")}),e.dispatch("disableApp",{appId:i}))}))))).catch((t=>{e.commit("stopLoading",r),e.commit("stopLoading","install"),e.commit("setError",{appId:r,error:t.response.data.data.message}),e.commit("APPS_API_FAILURE",{appId:i,error:t})}))))).catch((t=>e.commit("API_FAILURE",{appId:i,error:t})))},forceEnableApp(t,e){let s,{appId:r,groups:i}=e;return s=Array.isArray(r)?r:[r],g().then((()=>(t.commit("startLoading",s),t.commit("startLoading","install"),E((0,u.Jv)("settings/apps/force"),{appId:r}).then((e=>{t.commit("setInstallState",{appId:r,canInstall:!0})})).catch((e=>{t.commit("stopLoading",s),t.commit("stopLoading","install"),t.commit("setError",{appId:s,error:e.response.data.data.message}),t.commit("APPS_API_FAILURE",{appId:r,error:e})})).finally((()=>{t.commit("stopLoading",s),t.commit("stopLoading","install")}))))).catch((e=>t.commit("API_FAILURE",{appId:r,error:e})))},disableApp(t,e){let s,{appId:r}=e;return s=Array.isArray(r)?r:[r],g().then((e=>(t.commit("startLoading",s),E((0,u.Jv)("settings/apps/disable"),{appIds:s}).then((e=>(t.commit("stopLoading",s),s.forEach((e=>{t.commit("disableApp",e)})),!0))).catch((e=>{t.commit("stopLoading",s),t.commit("APPS_API_FAILURE",{appId:r,error:e})}))))).catch((e=>t.commit("API_FAILURE",{appId:r,error:e})))},uninstallApp(t,e){let{appId:s}=e;return g().then((e=>(t.commit("startLoading",s),f((0,u.Jv)(`settings/apps/uninstall/${s}`)).then((e=>(t.commit("stopLoading",s),t.commit("uninstallApp",s),!0))).catch((e=>{t.commit("stopLoading",s),t.commit("APPS_API_FAILURE",{appId:s,error:e})}))))).catch((e=>t.commit("API_FAILURE",{appId:s,error:e})))},updateApp(t,e){let{appId:s}=e;return g().then((e=>(t.commit("startLoading",s),t.commit("startLoading","install"),f((0,u.Jv)(`settings/apps/update/${s}`)).then((e=>(t.commit("stopLoading","install"),t.commit("stopLoading",s),t.commit("updateApp",s),!0))).catch((e=>{t.commit("stopLoading",s),t.commit("stopLoading","install"),t.commit("APPS_API_FAILURE",{appId:s,error:e})}))))).catch((e=>t.commit("API_FAILURE",{appId:s,error:e})))},getAllApps:t=>(t.commit("startLoading","list"),f((0,u.Jv)("settings/apps/list")).then((e=>(t.commit("setAllApps",e.data.apps),t.commit("stopLoading","list"),!0))).catch((e=>t.commit("API_FAILURE",e)))),async getCategories(t){let{shouldRefetchCategories:e=!1}=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};if(e||!t.state.gettingCategoriesPromise){t.commit("startLoading","categories");try{const e=f((0,u.Jv)("settings/apps/categories"));t.commit("updateCategories",e);const s=await e;return s.data.length>0?(t.commit("appendCategories",s.data),t.commit("stopLoading","categories"),!0):(t.commit("stopLoading","categories"),!1)}catch(e){t.commit("API_FAILURE",e)}}return t.state.gettingCategoriesPromise}},S={state:C,mutations:$,getters:{loading:t=>function(e){return t.loading[e]},getCategories:t=>t.categories,getAllApps:t=>t.apps,getAppBundles:t=>t.bundles,getUpdateCount:t=>t.updateCount,getCategoryById:t=>e=>t.categories.find((t=>t.id===e))},actions:F},x={serverData:(0,U.C)("settings","usersSettings",{})},D={setServerData(t,e){t.serverData=e}},G={state:x,mutations:D,getters:{getServerData:t=>t.serverData},actions:{}},M={state:{},mutations:{},getters:{},actions:{setAppConfig(t,e){let{app:s,key:r,value:i}=e;return g().then((t=>E((0,u.KT)("apps/provisioning_api/api/v1/config/apps/{app}/{key}",{app:s,key:r}),{value:i}).catch((t=>{throw t})))).catch((e=>t.commit("API_FAILURE",{app:s,key:r,value:i,error:e})))}}};var j=r(96763);i.Ay.use(o.Ay);const k={API_FAILURE(e,s){try{const e=s.error.response.data.ocs.meta.message;(0,c.Qg)(t("settings","An error occurred during the request. Unable to proceed.")+"<br>"+e,{isHTML:!0})}catch(e){(0,c.Qg)(t("settings","An error occurred during the request. Unable to proceed."))}j.error(e,s)}};let B=null;const X=()=>(null===B&&(B=new o.il({modules:{users:_,apps:S,settings:G,oc:M},strict:!1,mutations:k})),B)},15916:(t,e,s)=>{"use strict";var r;s.d(e,{q:()=>r}),function(t){t[t.UserCount=1]="UserCount",t[t.GroupName=2]="GroupName"}(r||(r={}))},36620:(t,e,s)=>{"use strict";s.d(e,{A:()=>r});const r=(0,s(35947).YK)().setApp("settings").detectUser().build()},18539:(t,e,s)=>{"use strict";var r=s(85471),i=s(80284),o=s(58723),n=s(53334),a=s(22378);const d=(0,r.pM)({__name:"SettingsApp",setup:t=>({__sfc:!0,NcContent:a.A})}),c=(0,s(14486).A)(d,(function(){var t=this,e=t._self._c;return e(t._self._setupProxy.NcContent,{attrs:{"app-name":"settings"}},[e("router-view",{attrs:{name:"navigation"}}),t._v(" "),e("router-view"),t._v(" "),e("router-view",{attrs:{name:"sidebar"}})],1)}),[],!1,null,null,null).exports;var u=s(40173),p=s(63814);const l=[{name:"users",path:"/:index(index.php/)?settings/users",components:{default:()=>Promise.all([s.e(4208),s.e(9646),s.e(3239)]).then(s.bind(s,74010)),navigation:()=>Promise.all([s.e(4208),s.e(9646),s.e(3239)]).then(s.bind(s,39603))},props:!0,children:[{path:":selectedGroup",name:"group"}]},{path:"/:index(index.php/)?settings/apps",name:"apps",redirect:{name:"apps-category",params:{category:(0,s(32981).C)("settings","appstoreEnabled",!0)?"discover":"installed"}},components:{default:()=>Promise.all([s.e(4208),s.e(9646),s.e(4529)]).then(s.bind(s,91114)),navigation:()=>Promise.all([s.e(4208),s.e(9646),s.e(4529)]).then(s.bind(s,1615)),sidebar:()=>Promise.all([s.e(4208),s.e(9646),s.e(4529)]).then(s.bind(s,36710))},children:[{path:":category",name:"apps-category",children:[{path:":id",name:"apps-details"}]}]}];r.Ay.use(u.Ay);const m=new u.Ay({mode:"history",base:(0,p.Jv)(""),linkActiveClass:"active",routes:l});var h=s(31755),g=s(21777),f=s(65899);r.Ay.use(i.Ay,{defaultHtml:!1});const E=(0,h.P)();(0,o.O)(E,m),s.nc=(0,g.aV)(),r.Ay.prototype.t=n.Tl,r.Ay.prototype.n=n.zw,r.Ay.use(f.R2);const A=(0,f.Ey)();new r.Ay({router:m,store:E,pinia:A,render:t=>t(c),el:"#content"})},58723:(t,e)=>{function s(t,e){var r={name:t.name,path:t.path,hash:t.hash,query:t.query,params:t.params,fullPath:t.fullPath,meta:t.meta};return e&&(r.from=s(e)),Object.freeze(r)}e.O=function(t,e,r){var i=(r||{}).moduleName||"route";t.registerModule(i,{namespaced:!0,state:s(e.currentRoute),mutations:{ROUTE_CHANGED:function(e,r){t.state[i]=s(r.to,r.from)}}});var o,n=!1,a=t.watch((function(t){return t[i]}),(function(t){var s=t.fullPath;s!==o&&(null!=o&&(n=!0,e.push(t)),o=s)}),{sync:!0}),d=e.afterEach((function(e,s){n?n=!1:(o=e.fullPath,t.commit(i+"/ROUTE_CHANGED",{to:e,from:s}))}));return function(){null!=d&&d(),null!=a&&a(),t.unregisterModule(i)}}},35810:(t,e,s)=>{"use strict";s.d(e,{Al:()=>F,H4:()=>C,Q$:()=>$,R3:()=>y,VL:()=>N,lJ:()=>U,lT:()=>G,pt:()=>L,ur:()=>j,v7:()=>D});var r=s(35947),i=s(21777),o=s(43627),n=s(71225),a=s(63814),d=s(36117),c=s(44719),u=s(82680),p=(s(87485),s(53334)),l=s(380),m=s(65606),h=s(96763);const g=(0,r.YK)().setApp("@nextcloud/files").detectUser().build();var f=(t=>(t[t.NONE=0]="NONE",t[t.CREATE=4]="CREATE",t[t.READ=1]="READ",t[t.UPDATE=2]="UPDATE",t[t.DELETE=8]="DELETE",t[t.SHARE=16]="SHARE",t[t.ALL=31]="ALL",t))(f||{});const E=["d:getcontentlength","d:getcontenttype","d:getetag","d:getlastmodified","d:creationdate","d:displayname","d:quota-available-bytes","d:resourcetype","nc:has-preview","nc:is-encrypted","nc:mount-type","oc:comments-unread","oc:favorite","oc:fileid","oc:owner-display-name","oc:owner-id","oc:permissions","oc:size"],A={d:"DAV:",nc:"http://nextcloud.org/ns",oc:"http://owncloud.org/ns",ocs:"http://open-collaboration-services.org/ns"},I=function(){return void 0===window._nc_dav_properties&&(window._nc_dav_properties=[...E]),window._nc_dav_properties.map((t=>`<${t} />`)).join(" ")},b=function(){return void 0===window._nc_dav_namespaces&&(window._nc_dav_namespaces={...A}),Object.keys(window._nc_dav_namespaces).map((t=>`xmlns:${t}="${window._nc_dav_namespaces?.[t]}"`)).join(" ")},N=function(){return`<?xml version="1.0"?>\n\t\t<d:propfind ${b()}>\n\t\t\t<d:prop>\n\t\t\t\t${I()}\n\t\t\t</d:prop>\n\t\t</d:propfind>`},y=function(t){return`<?xml version="1.0" encoding="UTF-8"?>\n<d:searchrequest ${b()}\n\txmlns:ns="https://github.com/icewind1991/SearchDAV/ns">\n\t<d:basicsearch>\n\t\t<d:select>\n\t\t\t<d:prop>\n\t\t\t\t${I()}\n\t\t\t</d:prop>\n\t\t</d:select>\n\t\t<d:from>\n\t\t\t<d:scope>\n\t\t\t\t<d:href>/files/${(0,i.HW)()?.uid}/</d:href>\n\t\t\t\t<d:depth>infinity</d:depth>\n\t\t\t</d:scope>\n\t\t</d:from>\n\t\t<d:where>\n\t\t\t<d:and>\n\t\t\t\t<d:or>\n\t\t\t\t\t<d:not>\n\t\t\t\t\t\t<d:eq>\n\t\t\t\t\t\t\t<d:prop>\n\t\t\t\t\t\t\t\t<d:getcontenttype/>\n\t\t\t\t\t\t\t</d:prop>\n\t\t\t\t\t\t\t<d:literal>httpd/unix-directory</d:literal>\n\t\t\t\t\t\t</d:eq>\n\t\t\t\t\t</d:not>\n\t\t\t\t\t<d:eq>\n\t\t\t\t\t\t<d:prop>\n\t\t\t\t\t\t\t<oc:size/>\n\t\t\t\t\t\t</d:prop>\n\t\t\t\t\t\t<d:literal>0</d:literal>\n\t\t\t\t\t</d:eq>\n\t\t\t\t</d:or>\n\t\t\t\t<d:gt>\n\t\t\t\t\t<d:prop>\n\t\t\t\t\t\t<d:getlastmodified/>\n\t\t\t\t\t</d:prop>\n\t\t\t\t\t<d:literal>${t}</d:literal>\n\t\t\t\t</d:gt>\n\t\t\t</d:and>\n\t\t</d:where>\n\t\t<d:orderby>\n\t\t\t<d:order>\n\t\t\t\t<d:prop>\n\t\t\t\t\t<d:getlastmodified/>\n\t\t\t\t</d:prop>\n\t\t\t\t<d:descending/>\n\t\t\t</d:order>\n\t\t</d:orderby>\n\t\t<d:limit>\n\t\t\t<d:nresults>100</d:nresults>\n\t\t\t<ns:firstresult>0</ns:firstresult>\n\t\t</d:limit>\n\t</d:basicsearch>\n</d:searchrequest>`};var L=(t=>(t.Folder="folder",t.File="file",t))(L||{});const v=function(t,e){return null!==t.match(e)},R=(t,e)=>{if(t.id&&"number"!=typeof t.id)throw new Error("Invalid id type of value");if(!t.source)throw new Error("Missing mandatory source");try{new URL(t.source)}catch(t){throw new Error("Invalid source format, source must be a valid URL")}if(!t.source.startsWith("http"))throw new Error("Invalid source format, only http(s) is supported");if(t.displayname&&"string"!=typeof t.displayname)throw new Error("Invalid displayname type");if(t.mtime&&!(t.mtime instanceof Date))throw new Error("Invalid mtime type");if(t.crtime&&!(t.crtime instanceof Date))throw new Error("Invalid crtime type");if(!t.mime||"string"!=typeof t.mime||!t.mime.match(/^[-\w.]+\/[-+\w.]+$/gi))throw new Error("Missing or invalid mandatory mime");if("size"in t&&"number"!=typeof t.size&&void 0!==t.size)throw new Error("Invalid size type");if("permissions"in t&&void 0!==t.permissions&&!("number"==typeof t.permissions&&t.permissions>=f.NONE&&t.permissions<=f.ALL))throw new Error("Invalid permissions");if(t.owner&&null!==t.owner&&"string"!=typeof t.owner)throw new Error("Invalid owner type");if(t.attributes&&"object"!=typeof t.attributes)throw new Error("Invalid attributes type");if(t.root&&"string"!=typeof t.root)throw new Error("Invalid root type");if(t.root&&!t.root.startsWith("/"))throw new Error("Root must start with a leading slash");if(t.root&&!t.source.includes(t.root))throw new Error("Root must be part of the source");if(t.root&&v(t.source,e)){const s=t.source.match(e)[0];if(!t.source.includes((0,o.join)(s,t.root)))throw new Error("The root must be relative to the service. e.g /files/emma")}if(t.status&&!Object.values(w).includes(t.status))throw new Error("Status must be a valid NodeStatus")};var w=(t=>(t.NEW="new",t.FAILED="failed",t.LOADING="loading",t.LOCKED="locked",t))(w||{});class O{_data;_attributes;_knownDavService=/(remote|public)\.php\/(web)?dav/i;readonlyAttributes=Object.entries(Object.getOwnPropertyDescriptors(O.prototype)).filter((t=>"function"==typeof t[1].get&&"__proto__"!==t[0])).map((t=>t[0]));handler={set:(t,e,s)=>!this.readonlyAttributes.includes(e)&&Reflect.set(t,e,s),deleteProperty:(t,e)=>!this.readonlyAttributes.includes(e)&&Reflect.deleteProperty(t,e),get:(t,e,s)=>this.readonlyAttributes.includes(e)?(g.warn(`Accessing "Node.attributes.${e}" is deprecated, access it directly on the Node instance.`),Reflect.get(this,e)):Reflect.get(t,e,s)};constructor(t,e){R(t,e||this._knownDavService),this._data={displayname:t.attributes?.displayname,...t,attributes:{}},this._attributes=new Proxy(this._data.attributes,this.handler),this.update(t.attributes??{}),e&&(this._knownDavService=e)}get source(){return this._data.source.replace(/\/$/i,"")}get encodedSource(){const{origin:t}=new URL(this.source);return t+(0,n.O0)(this.source.slice(t.length))}get basename(){return(0,o.basename)(this.source)}get displayname(){return this._data.displayname||this.basename}set displayname(t){this._data.displayname=t}get extension(){return(0,o.extname)(this.source)}get dirname(){if(this.root){let t=this.source;this.isDavRessource&&(t=t.split(this._knownDavService).pop());const e=t.indexOf(this.root),s=this.root.replace(/\/$/,"");return(0,o.dirname)(t.slice(e+s.length)||"/")}const t=new URL(this.source);return(0,o.dirname)(t.pathname)}get mime(){return this._data.mime}get mtime(){return this._data.mtime}set mtime(t){this._data.mtime=t}get crtime(){return this._data.crtime}get size(){return this._data.size}set size(t){this.updateMtime(),this._data.size=t}get attributes(){return this._attributes}get permissions(){return null!==this.owner||this.isDavRessource?void 0!==this._data.permissions?this._data.permissions:f.NONE:f.READ}set permissions(t){this.updateMtime(),this._data.permissions=t}get owner(){return this.isDavRessource?this._data.owner:null}get isDavRessource(){return v(this.source,this._knownDavService)}get root(){return this._data.root?this._data.root.replace(/^(.+)\/$/,"$1"):this.isDavRessource&&(0,o.dirname)(this.source).split(this._knownDavService).pop()||null}get path(){if(this.root){let t=this.source;this.isDavRessource&&(t=t.split(this._knownDavService).pop());const e=t.indexOf(this.root),s=this.root.replace(/\/$/,"");return t.slice(e+s.length)||"/"}return(this.dirname+"/"+this.basename).replace(/\/\//g,"/")}get fileid(){return this._data?.id}get status(){return this._data?.status}set status(t){this._data.status=t}move(t){R({...this._data,source:t},this._knownDavService);const e=this.basename;this._data.source=t,this.displayname===e&&this.basename!==e&&(this.displayname=this.basename),this.updateMtime()}rename(t){if(t.includes("/"))throw new Error("Invalid basename");this.move((0,o.dirname)(this.source)+"/"+t)}updateMtime(){this._data.mtime&&(this._data.mtime=new Date)}update(t){for(const[e,s]of Object.entries(t))try{void 0===s?delete this.attributes[e]:this.attributes[e]=s}catch(t){if(t instanceof TypeError)continue;throw t}}}class P extends O{get type(){return L.File}}class _ extends O{constructor(t){super({...t,mime:"httpd/unix-directory"})}get type(){return L.Folder}get extension(){return null}get mime(){return"httpd/unix-directory"}}const U=(0,u.f)()?`/files/${(0,u.G)()}`:`/files/${(0,i.HW)()?.uid}`,T=function(){const t=(0,a.dC)("dav");return(0,u.f)()?t.replace("remote.php","public.php"):t}(),C=function(t=T,e={}){const s=(0,c.UU)(t,{headers:e});function r(t){s.setHeaders({...e,"X-Requested-With":"XMLHttpRequest",requesttoken:t??""})}return(0,i.zo)(r),r((0,i.do)()),(0,c.Gu)().patch("fetch",((t,e)=>{const s=e.headers;return s?.method&&(e.method=s.method,delete s.method),fetch(t,e)})),s},$=(t,e="/",s=U)=>{const r=new AbortController;return new d.CancelablePromise((async(i,o,n)=>{n((()=>r.abort()));try{i((await t.getDirectoryContents(`${s}${e}`,{signal:r.signal,details:!0,data:`<?xml version="1.0"?>\n\t\t<oc:filter-files ${b()}>\n\t\t\t<d:prop>\n\t\t\t\t${I()}\n\t\t\t</d:prop>\n\t\t\t<oc:filter-rules>\n\t\t\t\t<oc:favorite>1</oc:favorite>\n\t\t\t</oc:filter-rules>\n\t\t</oc:filter-files>`,headers:{method:"REPORT"},includeSelf:!0})).data.filter((t=>t.filename!==e)).map((t=>F(t,s))))}catch(t){o(t)}}))},F=function(t,e=U,s=T){let r=(0,i.HW)()?.uid;if((0,u.f)())r=r??"anonymous";else if(!r)throw new Error("No user id found");const o=t.props,n=function(t=""){let e=f.NONE;return t?((t.includes("C")||t.includes("K"))&&(e|=f.CREATE),t.includes("G")&&(e|=f.READ),(t.includes("W")||t.includes("N")||t.includes("V"))&&(e|=f.UPDATE),t.includes("D")&&(e|=f.DELETE),t.includes("R")&&(e|=f.SHARE),e):e}(o?.permissions),a=String(o?.["owner-id"]||r),d=o.fileid||0,c={id:d,source:`${s}${t.filename}`,mtime:new Date(Date.parse(t.lastmod)),mime:t.mime||"application/octet-stream",displayname:void 0!==o.displayname?String(o.displayname):void 0,size:o?.size||Number.parseInt(o.getcontentlength||"0"),status:d<0?w.FAILED:void 0,permissions:n,owner:a,root:e,attributes:{...t,...o,hasPreview:o?.["has-preview"]}};return delete c.attributes?.props,"file"===t.type?new P(c):new _(c)};Error;const S=["B","KB","MB","GB","TB","PB"],x=["B","KiB","MiB","GiB","TiB","PiB"];function D(t,e=!1,s=!1,r=!1){s=s&&!r,"string"==typeof t&&(t=Number(t));let i=t>0?Math.floor(Math.log(t)/Math.log(r?1e3:1024)):0;i=Math.min((s?x.length:S.length)-1,i);const o=s?x[i]:S[i];let n=(t/Math.pow(r?1e3:1024,i)).toFixed(1);return!0===e&&0===i?("0.0"!==n?"< 1 ":"0 ")+(s?x[1]:S[1]):(n=i<2?parseFloat(n).toFixed(0):parseFloat(n).toLocaleString((0,p.lO)()),n+" "+o)}function G(t,e=!1){try{t=`${t}`.toLocaleLowerCase().replaceAll(/\s+/g,"").replaceAll(",",".")}catch(t){return null}const s=t.match(/^([0-9]*(\.[0-9]*)?)([kmgtp]?)(i?)b?$/);if(null===s||"."===s[1]||""===s[1])return null;const r=`${s[1]}`,i="i"===s[4]||e?1024:1e3;return Math.round(Number.parseFloat(r)*i**{"":0,k:1,m:2,g:3,t:4,p:5,e:6}[s[3]])}function M(t){return t instanceof Date?t.toISOString():String(t)}function j(t,e={}){const s={sortingMode:"basename",sortingOrder:"asc",...e};return function(t,e,s){s=s??[];const r=(e=e??[t=>t]).map(((t,e)=>"asc"===(s[e]??"asc")?1:-1)),i=Intl.Collator([(0,p.Z0)(),(0,p.lO)()],{numeric:!0,usage:"sort"});return[...t].sort(((t,s)=>{for(const[o,n]of e.entries()){const e=i.compare(M(n(t)),M(n(s)));if(0!==e)return e*r[o]}return 0}))}(t,[...s.sortFavoritesFirst?[t=>1!==t.attributes?.favorite]:[],...s.sortFoldersFirst?[t=>"folder"!==t.type]:[],..."basename"!==s.sortingMode?[t=>t[s.sortingMode]]:[],t=>{return(e=t.attributes?.displayname||t.basename).lastIndexOf(".")>0?e.slice(0,e.lastIndexOf(".")):e;var e},t=>t.basename],[...s.sortFavoritesFirst?["asc"]:[],...s.sortFoldersFirst?["asc"]:[],..."mtime"===s.sortingMode?["asc"===s.sortingOrder?"desc":"asc"]:[],..."mtime"!==s.sortingMode&&"basename"!==s.sortingMode?[s.sortingOrder]:[],s.sortingOrder,s.sortingOrder])}var k={};!function(t){const e=":A-Za-z_\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD",s="["+e+"]["+e+"\\-.\\d\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*",r=new RegExp("^"+s+"$");t.isExist=function(t){return void 0!==t},t.isEmptyObject=function(t){return 0===Object.keys(t).length},t.merge=function(t,e,s){if(e){const r=Object.keys(e),i=r.length;for(let o=0;o<i;o++)t[r[o]]="strict"===s?[e[r[o]]]:e[r[o]]}},t.getValue=function(e){return t.isExist(e)?e:""},t.isName=function(t){return!(null==r.exec(t))},t.getAllMatches=function(t,e){const s=[];let r=e.exec(t);for(;r;){const i=[];i.startIndex=e.lastIndex-r[0].length;const o=r.length;for(let t=0;t<o;t++)i.push(r[t]);s.push(i),r=e.exec(t)}return s},t.nameRegexp=s}(k);new RegExp("(\\s*)([^\\s=]+)(\\s*=)?(\\s*(['\"])(([\\s\\S])*?)\\5)?","g");var B={};const X={preserveOrder:!1,attributeNamePrefix:"@_",attributesGroupName:!1,textNodeName:"#text",ignoreAttributes:!0,removeNSPrefix:!1,allowBooleanAttributes:!1,parseTagValue:!0,parseAttributeValue:!1,trimValues:!0,cdataPropName:!1,numberParseOptions:{hex:!0,leadingZeros:!0,eNotation:!0},tagValueProcessor:function(t,e){return e},attributeValueProcessor:function(t,e){return e},stopNodes:[],alwaysCreateTextNode:!1,isArray:()=>!1,commentPropName:!1,unpairedTags:[],processEntities:!0,htmlEntities:!1,ignoreDeclaration:!1,ignorePiTags:!1,transformTagName:!1,transformAttributeName:!1,updateTag:function(t,e,s){return t}};B.buildOptions=function(t){return Object.assign({},X,t)},B.defaultOptions=X,!Number.parseInt&&window.parseInt&&(Number.parseInt=window.parseInt),!Number.parseFloat&&window.parseFloat&&(Number.parseFloat=window.parseFloat),new RegExp("([^\\s=]+)\\s*(=\\s*(['\"])([\\s\\S]*?)\\3)?","gm");var V={};function K(t,e,s){let r;const i={};for(let o=0;o<t.length;o++){const n=t[o],a=q(n);let d="";if(d=void 0===s?a:s+"."+a,a===e.textNodeName)void 0===r?r=n[a]:r+=""+n[a];else{if(void 0===a)continue;if(n[a]){let t=K(n[a],e,d);const s=z(t,e);n[":@"]?H(t,n[":@"],d,e):1!==Object.keys(t).length||void 0===t[e.textNodeName]||e.alwaysCreateTextNode?0===Object.keys(t).length&&(e.alwaysCreateTextNode?t[e.textNodeName]="":t=""):t=t[e.textNodeName],void 0!==i[a]&&i.hasOwnProperty(a)?(Array.isArray(i[a])||(i[a]=[i[a]]),i[a].push(t)):e.isArray(a,d,s)?i[a]=[t]:i[a]=t}}}return"string"==typeof r?r.length>0&&(i[e.textNodeName]=r):void 0!==r&&(i[e.textNodeName]=r),i}function q(t){const e=Object.keys(t);for(let t=0;t<e.length;t++){const s=e[t];if(":@"!==s)return s}}function H(t,e,s,r){if(e){const i=Object.keys(e),o=i.length;for(let n=0;n<o;n++){const o=i[n];r.isArray(o,s+"."+o,!0,!0)?t[o]=[e[o]]:t[o]=e[o]}}}function z(t,e){const{textNodeName:s}=e,r=Object.keys(t).length;return 0===r||!(1!==r||!t[s]&&"boolean"!=typeof t[s]&&0!==t[s])}V.prettify=function(t,e){return K(t,e)};const{buildOptions:J}=B,{prettify:W}=V;function Q(t,e,s,r){let i="",o=!1;for(let n=0;n<t.length;n++){const a=t[n],d=Y(a);if(void 0===d)continue;let c="";if(c=0===s.length?d:`${s}.${d}`,d===e.textNodeName){let t=a[d];tt(c,e)||(t=e.tagValueProcessor(d,t),t=et(t,e)),o&&(i+=r),i+=t,o=!1;continue}if(d===e.cdataPropName){o&&(i+=r),i+=`<![CDATA[${a[d][0][e.textNodeName]}]]>`,o=!1;continue}if(d===e.commentPropName){i+=r+`\x3c!--${a[d][0][e.textNodeName]}--\x3e`,o=!0;continue}if("?"===d[0]){const t=Z(a[":@"],e),s="?xml"===d?"":r;let n=a[d][0][e.textNodeName];n=0!==n.length?" "+n:"",i+=s+`<${d}${n}${t}?>`,o=!0;continue}let u=r;""!==u&&(u+=e.indentBy);const p=r+`<${d}${Z(a[":@"],e)}`,l=Q(a[d],e,c,u);-1!==e.unpairedTags.indexOf(d)?e.suppressUnpairedNode?i+=p+">":i+=p+"/>":l&&0!==l.length||!e.suppressEmptyNode?l&&l.endsWith(">")?i+=p+`>${l}${r}</${d}>`:(i+=p+">",l&&""!==r&&(l.includes("/>")||l.includes("</"))?i+=r+e.indentBy+l+r:i+=l,i+=`</${d}>`):i+=p+"/>",o=!0}return i}function Y(t){const e=Object.keys(t);for(let s=0;s<e.length;s++){const r=e[s];if(t.hasOwnProperty(r)&&":@"!==r)return r}}function Z(t,e){let s="";if(t&&!e.ignoreAttributes)for(let r in t){if(!t.hasOwnProperty(r))continue;let i=e.attributeValueProcessor(r,t[r]);i=et(i,e),!0===i&&e.suppressBooleanAttributes?s+=` ${r.substr(e.attributeNamePrefix.length)}`:s+=` ${r.substr(e.attributeNamePrefix.length)}="${i}"`}return s}function tt(t,e){let s=(t=t.substr(0,t.length-e.textNodeName.length-1)).substr(t.lastIndexOf(".")+1);for(let r in e.stopNodes)if(e.stopNodes[r]===t||e.stopNodes[r]==="*."+s)return!0;return!1}function et(t,e){if(t&&t.length>0&&e.processEntities)for(let s=0;s<e.entities.length;s++){const r=e.entities[s];t=t.replace(r.regex,r.val)}return t}const st=function(t,e){let s="";return e.format&&e.indentBy.length>0&&(s="\n"),Q(t,e,"",s)},rt={attributeNamePrefix:"@_",attributesGroupName:!1,textNodeName:"#text",ignoreAttributes:!0,cdataPropName:!1,format:!1,indentBy:"  ",suppressEmptyNode:!1,suppressUnpairedNode:!0,suppressBooleanAttributes:!0,tagValueProcessor:function(t,e){return e},attributeValueProcessor:function(t,e){return e},preserveOrder:!1,commentPropName:!1,unpairedTags:[],entities:[{regex:new RegExp("&","g"),val:"&amp;"},{regex:new RegExp(">","g"),val:"&gt;"},{regex:new RegExp("<","g"),val:"&lt;"},{regex:new RegExp("'","g"),val:"&apos;"},{regex:new RegExp('"',"g"),val:"&quot;"}],processEntities:!0,stopNodes:[],oneListGroup:!1};function it(t){this.options=Object.assign({},rt,t),this.options.ignoreAttributes||this.options.attributesGroupName?this.isAttribute=function(){return!1}:(this.attrPrefixLen=this.options.attributeNamePrefix.length,this.isAttribute=at),this.processTextOrObjNode=ot,this.options.format?(this.indentate=nt,this.tagEndChar=">\n",this.newLine="\n"):(this.indentate=function(){return""},this.tagEndChar=">",this.newLine="")}function ot(t,e,s){const r=this.j2x(t,s+1);return void 0!==t[this.options.textNodeName]&&1===Object.keys(t).length?this.buildTextValNode(t[this.options.textNodeName],e,r.attrStr,s):this.buildObjectNode(r.val,e,r.attrStr,s)}function nt(t){return this.options.indentBy.repeat(t)}function at(t){return!(!t.startsWith(this.options.attributeNamePrefix)||t===this.options.textNodeName)&&t.substr(this.attrPrefixLen)}it.prototype.build=function(t){return this.options.preserveOrder?st(t,this.options):(Array.isArray(t)&&this.options.arrayNodeName&&this.options.arrayNodeName.length>1&&(t={[this.options.arrayNodeName]:t}),this.j2x(t,0).val)},it.prototype.j2x=function(t,e){let s="",r="";for(let i in t)if(Object.prototype.hasOwnProperty.call(t,i))if(void 0===t[i])this.isAttribute(i)&&(r+="");else if(null===t[i])this.isAttribute(i)?r+="":"?"===i[0]?r+=this.indentate(e)+"<"+i+"?"+this.tagEndChar:r+=this.indentate(e)+"<"+i+"/"+this.tagEndChar;else if(t[i]instanceof Date)r+=this.buildTextValNode(t[i],i,"",e);else if("object"!=typeof t[i]){const o=this.isAttribute(i);if(o)s+=this.buildAttrPairStr(o,""+t[i]);else if(i===this.options.textNodeName){let e=this.options.tagValueProcessor(i,""+t[i]);r+=this.replaceEntitiesValue(e)}else r+=this.buildTextValNode(t[i],i,"",e)}else if(Array.isArray(t[i])){const s=t[i].length;let o="",n="";for(let a=0;a<s;a++){const s=t[i][a];if(void 0===s);else if(null===s)"?"===i[0]?r+=this.indentate(e)+"<"+i+"?"+this.tagEndChar:r+=this.indentate(e)+"<"+i+"/"+this.tagEndChar;else if("object"==typeof s)if(this.options.oneListGroup){const t=this.j2x(s,e+1);o+=t.val,this.options.attributesGroupName&&s.hasOwnProperty(this.options.attributesGroupName)&&(n+=t.attrStr)}else o+=this.processTextOrObjNode(s,i,e);else if(this.options.oneListGroup){let t=this.options.tagValueProcessor(i,s);t=this.replaceEntitiesValue(t),o+=t}else o+=this.buildTextValNode(s,i,"",e)}this.options.oneListGroup&&(o=this.buildObjectNode(o,i,n,e)),r+=o}else if(this.options.attributesGroupName&&i===this.options.attributesGroupName){const e=Object.keys(t[i]),r=e.length;for(let o=0;o<r;o++)s+=this.buildAttrPairStr(e[o],""+t[i][e[o]])}else r+=this.processTextOrObjNode(t[i],i,e);return{attrStr:s,val:r}},it.prototype.buildAttrPairStr=function(t,e){return e=this.options.attributeValueProcessor(t,""+e),e=this.replaceEntitiesValue(e),this.options.suppressBooleanAttributes&&"true"===e?" "+t:" "+t+'="'+e+'"'},it.prototype.buildObjectNode=function(t,e,s,r){if(""===t)return"?"===e[0]?this.indentate(r)+"<"+e+s+"?"+this.tagEndChar:this.indentate(r)+"<"+e+s+this.closeTag(e)+this.tagEndChar;{let i="</"+e+this.tagEndChar,o="";return"?"===e[0]&&(o="?",i=""),!s&&""!==s||-1!==t.indexOf("<")?!1!==this.options.commentPropName&&e===this.options.commentPropName&&0===o.length?this.indentate(r)+`\x3c!--${t}--\x3e`+this.newLine:this.indentate(r)+"<"+e+s+o+this.tagEndChar+t+this.indentate(r)+i:this.indentate(r)+"<"+e+s+o+">"+t+i}},it.prototype.closeTag=function(t){let e="";return-1!==this.options.unpairedTags.indexOf(t)?this.options.suppressUnpairedNode||(e="/"):e=this.options.suppressEmptyNode?"/":`></${t}`,e},it.prototype.buildTextValNode=function(t,e,s,r){if(!1!==this.options.cdataPropName&&e===this.options.cdataPropName)return this.indentate(r)+`<![CDATA[${t}]]>`+this.newLine;if(!1!==this.options.commentPropName&&e===this.options.commentPropName)return this.indentate(r)+`\x3c!--${t}--\x3e`+this.newLine;if("?"===e[0])return this.indentate(r)+"<"+e+s+"?"+this.tagEndChar;{let i=this.options.tagValueProcessor(e,t);return i=this.replaceEntitiesValue(i),""===i?this.indentate(r)+"<"+e+s+this.closeTag(e)+this.tagEndChar:this.indentate(r)+"<"+e+s+">"+i+"</"+e+this.tagEndChar}},it.prototype.replaceEntitiesValue=function(t){if(t&&t.length>0&&this.options.processEntities)for(let e=0;e<this.options.entities.length;e++){const s=this.options.entities[e];t=t.replace(s.regex,s.val)}return t};var dt="object"==typeof m&&m.env&&m.env.NODE_DEBUG&&/\bsemver\b/i.test(m.env.NODE_DEBUG)?(...t)=>h.error("SEMVER",...t):()=>{},ct={MAX_LENGTH:256,MAX_SAFE_COMPONENT_LENGTH:16,MAX_SAFE_BUILD_LENGTH:250,MAX_SAFE_INTEGER:Number.MAX_SAFE_INTEGER||9007199254740991,RELEASE_TYPES:["major","premajor","minor","preminor","patch","prepatch","prerelease"],SEMVER_SPEC_VERSION:"2.0.0",FLAG_INCLUDE_PRERELEASE:1,FLAG_LOOSE:2},ut={exports:{}};!function(t,e){const{MAX_SAFE_COMPONENT_LENGTH:s,MAX_SAFE_BUILD_LENGTH:r,MAX_LENGTH:i}=ct,o=dt,n=(e=t.exports={}).re=[],a=e.safeRe=[],d=e.src=[],c=e.t={};let u=0;const p="[a-zA-Z0-9-]",l=[["\\s",1],["\\d",i],[p,r]],m=(t,e,s)=>{const r=(t=>{for(const[e,s]of l)t=t.split(`${e}*`).join(`${e}{0,${s}}`).split(`${e}+`).join(`${e}{1,${s}}`);return t})(e),i=u++;o(t,i,e),c[t]=i,d[i]=e,n[i]=new RegExp(e,s?"g":void 0),a[i]=new RegExp(r,s?"g":void 0)};m("NUMERICIDENTIFIER","0|[1-9]\\d*"),m("NUMERICIDENTIFIERLOOSE","\\d+"),m("NONNUMERICIDENTIFIER",`\\d*[a-zA-Z-]${p}*`),m("MAINVERSION",`(${d[c.NUMERICIDENTIFIER]})\\.(${d[c.NUMERICIDENTIFIER]})\\.(${d[c.NUMERICIDENTIFIER]})`),m("MAINVERSIONLOOSE",`(${d[c.NUMERICIDENTIFIERLOOSE]})\\.(${d[c.NUMERICIDENTIFIERLOOSE]})\\.(${d[c.NUMERICIDENTIFIERLOOSE]})`),m("PRERELEASEIDENTIFIER",`(?:${d[c.NUMERICIDENTIFIER]}|${d[c.NONNUMERICIDENTIFIER]})`),m("PRERELEASEIDENTIFIERLOOSE",`(?:${d[c.NUMERICIDENTIFIERLOOSE]}|${d[c.NONNUMERICIDENTIFIER]})`),m("PRERELEASE",`(?:-(${d[c.PRERELEASEIDENTIFIER]}(?:\\.${d[c.PRERELEASEIDENTIFIER]})*))`),m("PRERELEASELOOSE",`(?:-?(${d[c.PRERELEASEIDENTIFIERLOOSE]}(?:\\.${d[c.PRERELEASEIDENTIFIERLOOSE]})*))`),m("BUILDIDENTIFIER",`${p}+`),m("BUILD",`(?:\\+(${d[c.BUILDIDENTIFIER]}(?:\\.${d[c.BUILDIDENTIFIER]})*))`),m("FULLPLAIN",`v?${d[c.MAINVERSION]}${d[c.PRERELEASE]}?${d[c.BUILD]}?`),m("FULL",`^${d[c.FULLPLAIN]}$`),m("LOOSEPLAIN",`[v=\\s]*${d[c.MAINVERSIONLOOSE]}${d[c.PRERELEASELOOSE]}?${d[c.BUILD]}?`),m("LOOSE",`^${d[c.LOOSEPLAIN]}$`),m("GTLT","((?:<|>)?=?)"),m("XRANGEIDENTIFIERLOOSE",`${d[c.NUMERICIDENTIFIERLOOSE]}|x|X|\\*`),m("XRANGEIDENTIFIER",`${d[c.NUMERICIDENTIFIER]}|x|X|\\*`),m("XRANGEPLAIN",`[v=\\s]*(${d[c.XRANGEIDENTIFIER]})(?:\\.(${d[c.XRANGEIDENTIFIER]})(?:\\.(${d[c.XRANGEIDENTIFIER]})(?:${d[c.PRERELEASE]})?${d[c.BUILD]}?)?)?`),m("XRANGEPLAINLOOSE",`[v=\\s]*(${d[c.XRANGEIDENTIFIERLOOSE]})(?:\\.(${d[c.XRANGEIDENTIFIERLOOSE]})(?:\\.(${d[c.XRANGEIDENTIFIERLOOSE]})(?:${d[c.PRERELEASELOOSE]})?${d[c.BUILD]}?)?)?`),m("XRANGE",`^${d[c.GTLT]}\\s*${d[c.XRANGEPLAIN]}$`),m("XRANGELOOSE",`^${d[c.GTLT]}\\s*${d[c.XRANGEPLAINLOOSE]}$`),m("COERCEPLAIN",`(^|[^\\d])(\\d{1,${s}})(?:\\.(\\d{1,${s}}))?(?:\\.(\\d{1,${s}}))?`),m("COERCE",`${d[c.COERCEPLAIN]}(?:$|[^\\d])`),m("COERCEFULL",d[c.COERCEPLAIN]+`(?:${d[c.PRERELEASE]})?(?:${d[c.BUILD]})?(?:$|[^\\d])`),m("COERCERTL",d[c.COERCE],!0),m("COERCERTLFULL",d[c.COERCEFULL],!0),m("LONETILDE","(?:~>?)"),m("TILDETRIM",`(\\s*)${d[c.LONETILDE]}\\s+`,!0),e.tildeTrimReplace="$1~",m("TILDE",`^${d[c.LONETILDE]}${d[c.XRANGEPLAIN]}$`),m("TILDELOOSE",`^${d[c.LONETILDE]}${d[c.XRANGEPLAINLOOSE]}$`),m("LONECARET","(?:\\^)"),m("CARETTRIM",`(\\s*)${d[c.LONECARET]}\\s+`,!0),e.caretTrimReplace="$1^",m("CARET",`^${d[c.LONECARET]}${d[c.XRANGEPLAIN]}$`),m("CARETLOOSE",`^${d[c.LONECARET]}${d[c.XRANGEPLAINLOOSE]}$`),m("COMPARATORLOOSE",`^${d[c.GTLT]}\\s*(${d[c.LOOSEPLAIN]})$|^$`),m("COMPARATOR",`^${d[c.GTLT]}\\s*(${d[c.FULLPLAIN]})$|^$`),m("COMPARATORTRIM",`(\\s*)${d[c.GTLT]}\\s*(${d[c.LOOSEPLAIN]}|${d[c.XRANGEPLAIN]})`,!0),e.comparatorTrimReplace="$1$2$3",m("HYPHENRANGE",`^\\s*(${d[c.XRANGEPLAIN]})\\s+-\\s+(${d[c.XRANGEPLAIN]})\\s*$`),m("HYPHENRANGELOOSE",`^\\s*(${d[c.XRANGEPLAINLOOSE]})\\s+-\\s+(${d[c.XRANGEPLAINLOOSE]})\\s*$`),m("STAR","(<|>)?=?\\s*\\*"),m("GTE0","^\\s*>=\\s*0\\.0\\.0\\s*$"),m("GTE0PRE","^\\s*>=\\s*0\\.0\\.0-0\\s*$")}(ut,ut.exports);var pt=ut.exports;Object.freeze({loose:!0}),Object.freeze({});const lt=/^[0-9]+$/,mt=(t,e)=>{const s=lt.test(t),r=lt.test(e);return s&&r&&(t=+t,e=+e),t===e?0:s&&!r?-1:r&&!s?1:t<e?-1:1};var ht={compareIdentifiers:mt,rcompareIdentifiers:(t,e)=>mt(e,t)};const{MAX_LENGTH:gt,MAX_SAFE_INTEGER:ft}=ct,{safeRe:Et,t:At}=pt,{compareIdentifiers:It}=ht;l.m}},o={};function n(t){var e=o[t];if(void 0!==e)return e.exports;var s=o[t]={id:t,loaded:!1,exports:{}};return i[t].call(s.exports,s,s.exports,n),s.loaded=!0,s.exports}n.m=i,e=[],n.O=(t,s,r,i)=>{if(!s){var o=1/0;for(u=0;u<e.length;u++){s=e[u][0],r=e[u][1],i=e[u][2];for(var a=!0,d=0;d<s.length;d++)(!1&i||o>=i)&&Object.keys(n.O).every((t=>n.O[t](s[d])))?s.splice(d--,1):(a=!1,i<o&&(o=i));if(a){e.splice(u--,1);var c=r();void 0!==c&&(t=c)}}return t}i=i||0;for(var u=e.length;u>0&&e[u-1][2]>i;u--)e[u]=e[u-1];e[u]=[s,r,i]},n.n=t=>{var e=t&&t.__esModule?()=>t.default:()=>t;return n.d(e,{a:e}),e},n.d=(t,e)=>{for(var s in e)n.o(e,s)&&!n.o(t,s)&&Object.defineProperty(t,s,{enumerable:!0,get:e[s]})},n.f={},n.e=t=>Promise.all(Object.keys(n.f).reduce(((e,s)=>(n.f[s](t,e),e)),[])),n.u=t=>(({3239:"settings-users",4529:"settings-apps-view"}[t]||t)+"-"+t+".js?v="+{802:"eddac441912aee9d7aa8",3239:"e28ccf641ce030adc3fd",4529:"80559dd00b323f234969",4546:"a06fb7f5c8fd8d53c2d3",8737:"6a26621151e51d343a78",9291:"077955af818a227340aa",9646:"739ec338a05e55643381",9972:"b7597ad74d36447b4184"}[t]),n.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(t){if("object"==typeof window)return window}}(),n.o=(t,e)=>Object.prototype.hasOwnProperty.call(t,e),s={},r="nextcloud:",n.l=(t,e,i,o)=>{if(s[t])s[t].push(e);else{var a,d;if(void 0!==i)for(var c=document.getElementsByTagName("script"),u=0;u<c.length;u++){var p=c[u];if(p.getAttribute("src")==t||p.getAttribute("data-webpack")==r+i){a=p;break}}a||(d=!0,(a=document.createElement("script")).charset="utf-8",a.timeout=120,n.nc&&a.setAttribute("nonce",n.nc),a.setAttribute("data-webpack",r+i),a.src=t),s[t]=[e];var l=(e,r)=>{a.onerror=a.onload=null,clearTimeout(m);var i=s[t];if(delete s[t],a.parentNode&&a.parentNode.removeChild(a),i&&i.forEach((t=>t(r))),e)return e(r)},m=setTimeout(l.bind(null,void 0,{type:"timeout",target:a}),12e4);a.onerror=l.bind(null,a.onerror),a.onload=l.bind(null,a.onload),d&&document.head.appendChild(a)}},n.r=t=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.nmd=t=>(t.paths=[],t.children||(t.children=[]),t),n.j=2689,(()=>{var t;n.g.importScripts&&(t=n.g.location+"");var e=n.g.document;if(!t&&e&&(e.currentScript&&"SCRIPT"===e.currentScript.tagName.toUpperCase()&&(t=e.currentScript.src),!t)){var s=e.getElementsByTagName("script");if(s.length)for(var r=s.length-1;r>-1&&(!t||!/^http(s?):/.test(t));)t=s[r--].src}if(!t)throw new Error("Automatic publicPath is not supported in this browser");t=t.replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),n.p=t})(),(()=>{n.b=document.baseURI||self.location.href;var t={2689:0};n.f.j=(e,s)=>{var r=n.o(t,e)?t[e]:void 0;if(0!==r)if(r)s.push(r[2]);else{var i=new Promise(((s,i)=>r=t[e]=[s,i]));s.push(r[2]=i);var o=n.p+n.u(e),a=new Error;n.l(o,(s=>{if(n.o(t,e)&&(0!==(r=t[e])&&(t[e]=void 0),r)){var i=s&&("load"===s.type?"missing":s.type),o=s&&s.target&&s.target.src;a.message="Loading chunk "+e+" failed.\n("+i+": "+o+")",a.name="ChunkLoadError",a.type=i,a.request=o,r[1](a)}}),"chunk-"+e,e)}},n.O.j=e=>0===t[e];var e=(e,s)=>{var r,i,o=s[0],a=s[1],d=s[2],c=0;if(o.some((e=>0!==t[e]))){for(r in a)n.o(a,r)&&(n.m[r]=a[r]);if(d)var u=d(n)}for(e&&e(s);c<o.length;c++)i=o[c],n.o(t,i)&&t[i]&&t[i][0](),t[i]=0;return n.O(u)},s=self.webpackChunknextcloud=self.webpackChunknextcloud||[];s.forEach(e.bind(null,0)),s.push=e.bind(null,s.push.bind(s))})(),n.nc=void 0;var a=n.O(void 0,[4208],(()=>n(18539)));a=n.O(a)})();
-//# sourceMappingURL=settings-vue-settings-apps-users-management.js.map?v=d0dfa6ec94596aeb2cf3
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/settings/src/store/api.js":
+/*!****************************************!*\
+  !*** ./apps/settings/src/store/api.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/password-confirmation */ "./node_modules/@nextcloud/password-confirmation/dist/index.mjs");
+/* harmony import */ var _nextcloud_password_confirmation_dist_style_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/password-confirmation/dist/style.css */ "./node_modules/@nextcloud/password-confirmation/dist/style.css");
+/**
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+const sanitize = function (url) {
+  return url.replace(/\/$/, ''); // Remove last url slash
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  /**
+   * This Promise is used to chain a request that require an admin password confirmation
+   * Since chaining Promise have a very precise behavior concerning catch and then,
+   * you'll need to be careful when using it.
+   * e.g
+   * // store
+   * action(context) {
+   *   return api.requireAdmin().then((response) => {
+   *     return api.get('url')
+   *       .then((response) => {API success})
+   *       .catch((error) => {API failure});
+   *   }).catch((error) => {requireAdmin failure});
+   * }
+   * // vue
+   * this.$store.dispatch('action').then(() => {always executed})
+   *
+   * Since Promise.then().catch().then() will always execute the last then
+   * this.$store.dispatch('action').then will always be executed
+   *
+   * If you want requireAdmin failure to also catch the API request failure
+   * you will need to throw a new error in the api.get.catch()
+   *
+   * e.g
+   * api.requireAdmin().then((response) => {
+   *   api.get('url')
+   *     .then((response) => {API success})
+   *     .catch((error) => {throw error;});
+   * }).catch((error) => {requireAdmin OR API failure});
+   *
+   * @return {Promise}
+   */
+  requireAdmin() {
+    return (0,_nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_1__.confirmPassword)();
+  },
+  get(url, options) {
+    return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].get(sanitize(url), options);
+  },
+  post(url, data) {
+    return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(sanitize(url), data);
+  },
+  patch(url, data) {
+    return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].patch(sanitize(url), data);
+  },
+  put(url, data) {
+    return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].put(sanitize(url), data);
+  },
+  delete(url, data) {
+    return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].delete(sanitize(url), {
+      params: data
+    });
+  }
+});
+
+/***/ }),
+
+/***/ "./apps/settings/src/store/apps.js":
+/*!*****************************************!*\
+  !*** ./apps/settings/src/store/apps.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./api.js */ "./apps/settings/src/store/api.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.mjs");
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+/**
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+const state = {
+  apps: [],
+  bundles: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__.loadState)('settings', 'appstoreBundles', []),
+  categories: [],
+  updateCount: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__.loadState)('settings', 'appstoreUpdateCount', 0),
+  loading: {},
+  gettingCategoriesPromise: null
+};
+const mutations = {
+  APPS_API_FAILURE(state, error) {
+    (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showError)(t('settings', 'An error occurred during the request. Unable to proceed.') + '<br>' + error.error.response.data.data.message, {
+      isHTML: true
+    });
+    console.error(state, error);
+  },
+  initCategories(state, _ref) {
+    let {
+      categories,
+      updateCount
+    } = _ref;
+    state.categories = categories;
+    state.updateCount = updateCount;
+  },
+  updateCategories(state, categoriesPromise) {
+    state.gettingCategoriesPromise = categoriesPromise;
+  },
+  setUpdateCount(state, updateCount) {
+    state.updateCount = updateCount;
+  },
+  addCategory(state, category) {
+    state.categories.push(category);
+  },
+  appendCategories(state, categoriesArray) {
+    // convert obj to array
+    state.categories = categoriesArray;
+  },
+  setAllApps(state, apps) {
+    state.apps = apps;
+  },
+  setError(state, _ref2) {
+    let {
+      appId,
+      error
+    } = _ref2;
+    if (!Array.isArray(appId)) {
+      appId = [appId];
+    }
+    appId.forEach(_id => {
+      const app = state.apps.find(app => app.id === _id);
+      app.error = error;
+    });
+  },
+  clearError(state, _ref3) {
+    let {
+      appId,
+      error
+    } = _ref3;
+    const app = state.apps.find(app => app.id === appId);
+    app.error = null;
+  },
+  enableApp(state, _ref4) {
+    let {
+      appId,
+      groups
+    } = _ref4;
+    const app = state.apps.find(app => app.id === appId);
+    app.active = true;
+    app.groups = groups;
+  },
+  setInstallState(state, _ref5) {
+    let {
+      appId,
+      canInstall
+    } = _ref5;
+    const app = state.apps.find(app => app.id === appId);
+    if (app) {
+      app.canInstall = canInstall === true;
+    }
+  },
+  disableApp(state, appId) {
+    const app = state.apps.find(app => app.id === appId);
+    app.active = false;
+    app.groups = [];
+    if (app.removable) {
+      app.canUnInstall = true;
+    }
+  },
+  uninstallApp(state, appId) {
+    state.apps.find(app => app.id === appId).active = false;
+    state.apps.find(app => app.id === appId).groups = [];
+    state.apps.find(app => app.id === appId).needsDownload = true;
+    state.apps.find(app => app.id === appId).installed = false;
+    state.apps.find(app => app.id === appId).canUnInstall = false;
+    state.apps.find(app => app.id === appId).canInstall = true;
+  },
+  updateApp(state, appId) {
+    const app = state.apps.find(app => app.id === appId);
+    const version = app.update;
+    app.update = null;
+    app.version = version;
+    state.updateCount--;
+  },
+  resetApps(state) {
+    state.apps = [];
+  },
+  reset(state) {
+    state.apps = [];
+    state.categories = [];
+    state.updateCount = 0;
+  },
+  startLoading(state, id) {
+    if (Array.isArray(id)) {
+      id.forEach(_id => {
+        vue__WEBPACK_IMPORTED_MODULE_4__["default"].set(state.loading, _id, true);
+      });
+    } else {
+      vue__WEBPACK_IMPORTED_MODULE_4__["default"].set(state.loading, id, true);
+    }
+  },
+  stopLoading(state, id) {
+    if (Array.isArray(id)) {
+      id.forEach(_id => {
+        vue__WEBPACK_IMPORTED_MODULE_4__["default"].set(state.loading, _id, false);
+      });
+    } else {
+      vue__WEBPACK_IMPORTED_MODULE_4__["default"].set(state.loading, id, false);
+    }
+  }
+};
+const getters = {
+  loading(state) {
+    return function (id) {
+      return state.loading[id];
+    };
+  },
+  getCategories(state) {
+    return state.categories;
+  },
+  getAllApps(state) {
+    return state.apps;
+  },
+  getAppBundles(state) {
+    return state.bundles;
+  },
+  getUpdateCount(state) {
+    return state.updateCount;
+  },
+  getCategoryById: state => selectedCategoryId => {
+    return state.categories.find(category => category.id === selectedCategoryId);
+  }
+};
+const actions = {
+  enableApp(context, _ref6) {
+    let {
+      appId,
+      groups
+    } = _ref6;
+    let apps;
+    if (Array.isArray(appId)) {
+      apps = appId;
+    } else {
+      apps = [appId];
+    }
+    return _api_js__WEBPACK_IMPORTED_MODULE_0__["default"].requireAdmin().then(response => {
+      context.commit('startLoading', apps);
+      context.commit('startLoading', 'install');
+      return _api_js__WEBPACK_IMPORTED_MODULE_0__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateUrl)('settings/apps/enable'), {
+        appIds: apps,
+        groups
+      }).then(response => {
+        context.commit('stopLoading', apps);
+        context.commit('stopLoading', 'install');
+        apps.forEach(_appId => {
+          context.commit('enableApp', {
+            appId: _appId,
+            groups
+          });
+        });
+
+        // check for server health
+        return _api_js__WEBPACK_IMPORTED_MODULE_0__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateUrl)('apps/files/')).then(() => {
+          if (response.data.update_required) {
+            (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showInfo)(t('settings', 'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.'), {
+              onClick: () => window.location.reload(),
+              close: false
+            });
+            setTimeout(function () {
+              location.reload();
+            }, 5000);
+          }
+        }).catch(() => {
+          if (!Array.isArray(appId)) {
+            (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showError)(t('settings', 'Error: This app cannot be enabled because it makes the server unstable'));
+            context.commit('setError', {
+              appId: apps,
+              error: t('settings', 'Error: This app cannot be enabled because it makes the server unstable')
+            });
+            context.dispatch('disableApp', {
+              appId
+            });
+          }
+        });
+      }).catch(error => {
+        context.commit('stopLoading', apps);
+        context.commit('stopLoading', 'install');
+        context.commit('setError', {
+          appId: apps,
+          error: error.response.data.data.message
+        });
+        context.commit('APPS_API_FAILURE', {
+          appId,
+          error
+        });
+      });
+    }).catch(error => context.commit('API_FAILURE', {
+      appId,
+      error
+    }));
+  },
+  forceEnableApp(context, _ref7) {
+    let {
+      appId,
+      groups
+    } = _ref7;
+    let apps;
+    if (Array.isArray(appId)) {
+      apps = appId;
+    } else {
+      apps = [appId];
+    }
+    return _api_js__WEBPACK_IMPORTED_MODULE_0__["default"].requireAdmin().then(() => {
+      context.commit('startLoading', apps);
+      context.commit('startLoading', 'install');
+      return _api_js__WEBPACK_IMPORTED_MODULE_0__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateUrl)('settings/apps/force'), {
+        appId
+      }).then(response => {
+        context.commit('setInstallState', {
+          appId,
+          canInstall: true
+        });
+      }).catch(error => {
+        context.commit('stopLoading', apps);
+        context.commit('stopLoading', 'install');
+        context.commit('setError', {
+          appId: apps,
+          error: error.response.data.data.message
+        });
+        context.commit('APPS_API_FAILURE', {
+          appId,
+          error
+        });
+      }).finally(() => {
+        context.commit('stopLoading', apps);
+        context.commit('stopLoading', 'install');
+      });
+    }).catch(error => context.commit('API_FAILURE', {
+      appId,
+      error
+    }));
+  },
+  disableApp(context, _ref8) {
+    let {
+      appId
+    } = _ref8;
+    let apps;
+    if (Array.isArray(appId)) {
+      apps = appId;
+    } else {
+      apps = [appId];
+    }
+    return _api_js__WEBPACK_IMPORTED_MODULE_0__["default"].requireAdmin().then(response => {
+      context.commit('startLoading', apps);
+      return _api_js__WEBPACK_IMPORTED_MODULE_0__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateUrl)('settings/apps/disable'), {
+        appIds: apps
+      }).then(response => {
+        context.commit('stopLoading', apps);
+        apps.forEach(_appId => {
+          context.commit('disableApp', _appId);
+        });
+        return true;
+      }).catch(error => {
+        context.commit('stopLoading', apps);
+        context.commit('APPS_API_FAILURE', {
+          appId,
+          error
+        });
+      });
+    }).catch(error => context.commit('API_FAILURE', {
+      appId,
+      error
+    }));
+  },
+  uninstallApp(context, _ref9) {
+    let {
+      appId
+    } = _ref9;
+    return _api_js__WEBPACK_IMPORTED_MODULE_0__["default"].requireAdmin().then(response => {
+      context.commit('startLoading', appId);
+      return _api_js__WEBPACK_IMPORTED_MODULE_0__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateUrl)(`settings/apps/uninstall/${appId}`)).then(response => {
+        context.commit('stopLoading', appId);
+        context.commit('uninstallApp', appId);
+        return true;
+      }).catch(error => {
+        context.commit('stopLoading', appId);
+        context.commit('APPS_API_FAILURE', {
+          appId,
+          error
+        });
+      });
+    }).catch(error => context.commit('API_FAILURE', {
+      appId,
+      error
+    }));
+  },
+  updateApp(context, _ref10) {
+    let {
+      appId
+    } = _ref10;
+    return _api_js__WEBPACK_IMPORTED_MODULE_0__["default"].requireAdmin().then(response => {
+      context.commit('startLoading', appId);
+      context.commit('startLoading', 'install');
+      return _api_js__WEBPACK_IMPORTED_MODULE_0__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateUrl)(`settings/apps/update/${appId}`)).then(response => {
+        context.commit('stopLoading', 'install');
+        context.commit('stopLoading', appId);
+        context.commit('updateApp', appId);
+        return true;
+      }).catch(error => {
+        context.commit('stopLoading', appId);
+        context.commit('stopLoading', 'install');
+        context.commit('APPS_API_FAILURE', {
+          appId,
+          error
+        });
+      });
+    }).catch(error => context.commit('API_FAILURE', {
+      appId,
+      error
+    }));
+  },
+  getAllApps(context) {
+    context.commit('startLoading', 'list');
+    return _api_js__WEBPACK_IMPORTED_MODULE_0__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateUrl)('settings/apps/list')).then(response => {
+      context.commit('setAllApps', response.data.apps);
+      context.commit('stopLoading', 'list');
+      return true;
+    }).catch(error => context.commit('API_FAILURE', error));
+  },
+  async getCategories(context) {
+    let {
+      shouldRefetchCategories = false
+    } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    if (shouldRefetchCategories || !context.state.gettingCategoriesPromise) {
+      context.commit('startLoading', 'categories');
+      try {
+        const categoriesPromise = _api_js__WEBPACK_IMPORTED_MODULE_0__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateUrl)('settings/apps/categories'));
+        context.commit('updateCategories', categoriesPromise);
+        const categoriesPromiseResponse = await categoriesPromise;
+        if (categoriesPromiseResponse.data.length > 0) {
+          context.commit('appendCategories', categoriesPromiseResponse.data);
+          context.commit('stopLoading', 'categories');
+          return true;
+        }
+        context.commit('stopLoading', 'categories');
+        return false;
+      } catch (error) {
+        context.commit('API_FAILURE', error);
+      }
+    }
+    return context.state.gettingCategoriesPromise;
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  state,
+  mutations,
+  getters,
+  actions
+});
+
+/***/ }),
+
+/***/ "./apps/settings/src/store/index.js":
+/*!******************************************!*\
+  !*** ./apps/settings/src/store/index.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useStore: () => (/* binding */ useStore)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _users_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./users.js */ "./apps/settings/src/store/users.js");
+/* harmony import */ var _apps_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./apps.js */ "./apps/settings/src/store/apps.js");
+/* harmony import */ var _users_settings_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./users-settings.js */ "./apps/settings/src/store/users-settings.js");
+/* harmony import */ var _oc_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./oc.js */ "./apps/settings/src/store/oc.js");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+/**
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+vue__WEBPACK_IMPORTED_MODULE_5__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_6__["default"]);
+const debug = "development" !== 'production';
+const mutations = {
+  API_FAILURE(state, error) {
+    try {
+      const message = error.error.response.data.ocs.meta.message;
+      (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__.showError)(t('settings', 'An error occurred during the request. Unable to proceed.') + '<br>' + message, {
+        isHTML: true
+      });
+    } catch (e) {
+      (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__.showError)(t('settings', 'An error occurred during the request. Unable to proceed.'));
+    }
+    console.error(state, error);
+  }
+};
+let store = null;
+const useStore = () => {
+  if (store === null) {
+    store = new vuex__WEBPACK_IMPORTED_MODULE_6__.Store({
+      modules: {
+        users: _users_js__WEBPACK_IMPORTED_MODULE_0__["default"],
+        apps: _apps_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+        settings: _users_settings_js__WEBPACK_IMPORTED_MODULE_2__["default"],
+        oc: _oc_js__WEBPACK_IMPORTED_MODULE_3__["default"]
+      },
+      strict: debug,
+      mutations
+    });
+  }
+  return store;
+};
+
+/***/ }),
+
+/***/ "./apps/settings/src/store/oc.js":
+/*!***************************************!*\
+  !*** ./apps/settings/src/store/oc.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./api.js */ "./apps/settings/src/store/api.js");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+const state = {};
+const mutations = {};
+const getters = {};
+const actions = {
+  /**
+   * Set application config in database
+   *
+   * @param {object} context store context
+   * @param {object} options destructuring object
+   * @param {string} options.app Application name
+   * @param {boolean} options.key Config key
+   * @param {boolean} options.value Value to set
+   * @return {Promise}
+   */
+  setAppConfig(context, _ref) {
+    let {
+      app,
+      key,
+      value
+    } = _ref;
+    return _api_js__WEBPACK_IMPORTED_MODULE_0__["default"].requireAdmin().then(response => {
+      return _api_js__WEBPACK_IMPORTED_MODULE_0__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateOcsUrl)('apps/provisioning_api/api/v1/config/apps/{app}/{key}', {
+        app,
+        key
+      }), {
+        value
+      }).catch(error => {
+        throw error;
+      });
+    }).catch(error => context.commit('API_FAILURE', {
+      app,
+      key,
+      value,
+      error
+    }));
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  state,
+  mutations,
+  getters,
+  actions
+});
+
+/***/ }),
+
+/***/ "./apps/settings/src/store/users-settings.js":
+/*!***************************************************!*\
+  !*** ./apps/settings/src/store/users-settings.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+const state = {
+  serverData: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('settings', 'usersSettings', {})
+};
+const mutations = {
+  setServerData(state, data) {
+    state.serverData = data;
+  }
+};
+const getters = {
+  getServerData(state) {
+    return state.serverData;
+  }
+};
+const actions = {};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  state,
+  mutations,
+  getters,
+  actions
+});
+
+/***/ }),
+
+/***/ "./apps/settings/src/store/users.js":
+/*!******************************************!*\
+  !*** ./apps/settings/src/store/users.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_browser_storage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/browser-storage */ "./node_modules/@nextcloud/browser-storage/dist/index.js");
+/* harmony import */ var _nextcloud_capabilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/capabilities */ "./node_modules/@nextcloud/capabilities/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _constants_GroupManagement_ts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../constants/GroupManagement.ts */ "./apps/settings/src/constants/GroupManagement.ts");
+/* harmony import */ var _api_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./api.js */ "./apps/settings/src/store/api.js");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../logger.ts */ "./apps/settings/src/logger.ts");
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+/**
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+
+
+const localStorage = (0,_nextcloud_browser_storage__WEBPACK_IMPORTED_MODULE_0__.getBuilder)('settings').persist(true).build();
+const defaults = {
+  group: {
+    id: '',
+    name: '',
+    usercount: 0,
+    disabled: 0,
+    canAdd: true,
+    canRemove: true
+  }
+};
+const state = {
+  users: [],
+  groups: [],
+  orderBy: _constants_GroupManagement_ts__WEBPACK_IMPORTED_MODULE_6__.GroupSorting.UserCount,
+  minPasswordLength: 0,
+  usersOffset: 0,
+  usersLimit: 25,
+  disabledUsersOffset: 0,
+  disabledUsersLimit: 25,
+  userCount: 0,
+  showConfig: {
+    showStoragePath: localStorage.getItem('account_settings__showStoragePath') === 'true',
+    showUserBackend: localStorage.getItem('account_settings__showUserBackend') === 'true',
+    showLastLogin: localStorage.getItem('account_settings__showLastLogin') === 'true',
+    showNewUserForm: localStorage.getItem('account_settings__showNewUserForm') === 'true',
+    showLanguages: localStorage.getItem('account_settings__showLanguages') === 'true'
+  }
+};
+const mutations = {
+  appendUsers(state, usersObj) {
+    const existingUsers = state.users.map(_ref => {
+      let {
+        id
+      } = _ref;
+      return id;
+    });
+    const newUsers = Object.values(usersObj).filter(_ref2 => {
+      let {
+        id
+      } = _ref2;
+      return !existingUsers.includes(id);
+    });
+    const users = state.users.concat(newUsers);
+    state.usersOffset += state.usersLimit;
+    state.users = users;
+  },
+  updateDisabledUsers(state, _usersObj) {
+    state.disabledUsersOffset += state.disabledUsersLimit;
+  },
+  setPasswordPolicyMinLength(state, length) {
+    state.minPasswordLength = length !== '' ? length : 0;
+  },
+  initGroups(state, _ref3) {
+    let {
+      groups,
+      orderBy,
+      userCount
+    } = _ref3;
+    state.groups = groups.map(group => Object.assign({}, defaults.group, group));
+    state.orderBy = orderBy;
+    state.userCount = userCount;
+  },
+  addGroup(state, _ref4) {
+    let {
+      gid,
+      displayName
+    } = _ref4;
+    try {
+      if (typeof state.groups.find(group => group.id === gid) !== 'undefined') {
+        return;
+      }
+      // extend group to default values
+      const group = Object.assign({}, defaults.group, {
+        id: gid,
+        name: displayName
+      });
+      state.groups.unshift(group);
+    } catch (e) {
+      console.error('Can\'t create group', e);
+    }
+  },
+  renameGroup(state, _ref5) {
+    let {
+      gid,
+      displayName
+    } = _ref5;
+    const groupIndex = state.groups.findIndex(groupSearch => groupSearch.id === gid);
+    if (groupIndex >= 0) {
+      const updatedGroup = state.groups[groupIndex];
+      updatedGroup.name = displayName;
+      state.groups.splice(groupIndex, 1, updatedGroup);
+    }
+  },
+  removeGroup(state, gid) {
+    const groupIndex = state.groups.findIndex(groupSearch => groupSearch.id === gid);
+    if (groupIndex >= 0) {
+      state.groups.splice(groupIndex, 1);
+    }
+  },
+  addUserGroup(state, _ref6) {
+    let {
+      userid,
+      gid
+    } = _ref6;
+    const group = state.groups.find(groupSearch => groupSearch.id === gid);
+    const user = state.users.find(user => user.id === userid);
+    // increase count if user is enabled
+    if (group && user.enabled && state.userCount > 0) {
+      group.usercount++;
+    }
+    const groups = user.groups;
+    groups.push(gid);
+  },
+  removeUserGroup(state, _ref7) {
+    let {
+      userid,
+      gid
+    } = _ref7;
+    const group = state.groups.find(groupSearch => groupSearch.id === gid);
+    const user = state.users.find(user => user.id === userid);
+    // lower count if user is enabled
+    if (group && user.enabled && state.userCount > 0) {
+      group.usercount--;
+    }
+    const groups = user.groups;
+    groups.splice(groups.indexOf(gid), 1);
+  },
+  addUserSubAdmin(state, _ref8) {
+    let {
+      userid,
+      gid
+    } = _ref8;
+    const groups = state.users.find(user => user.id === userid).subadmin;
+    groups.push(gid);
+  },
+  removeUserSubAdmin(state, _ref9) {
+    let {
+      userid,
+      gid
+    } = _ref9;
+    const groups = state.users.find(user => user.id === userid).subadmin;
+    groups.splice(groups.indexOf(gid), 1);
+  },
+  deleteUser(state, userid) {
+    const userIndex = state.users.findIndex(user => user.id === userid);
+    this.commit('updateUserCounts', {
+      user: state.users[userIndex],
+      actionType: 'remove'
+    });
+    state.users.splice(userIndex, 1);
+  },
+  addUserData(state, response) {
+    const user = response.data.ocs.data;
+    state.users.unshift(user);
+    this.commit('updateUserCounts', {
+      user,
+      actionType: 'create'
+    });
+  },
+  enableDisableUser(state, _ref10) {
+    let {
+      userid,
+      enabled
+    } = _ref10;
+    const user = state.users.find(user => user.id === userid);
+    user.enabled = enabled;
+    this.commit('updateUserCounts', {
+      user,
+      actionType: enabled ? 'enable' : 'disable'
+    });
+  },
+  // update active/disabled counts, groups counts
+  updateUserCounts(state, _ref11) {
+    let {
+      user,
+      actionType
+    } = _ref11;
+    // 0 is a special value
+    if (state.userCount === 0) {
+      return;
+    }
+    const recentGroup = state.groups.find(group => group.id === '__nc_internal_recent');
+    const disabledGroup = state.groups.find(group => group.id === 'disabled');
+    switch (actionType) {
+      case 'enable':
+      case 'disable':
+        disabledGroup.usercount += user.enabled ? -1 : 1; // update Disabled Users count
+        recentGroup.usercount += user.enabled ? 1 : -1;
+        state.userCount += user.enabled ? 1 : -1; // update Active Users count
+        user.groups.forEach(userGroup => {
+          const group = state.groups.find(groupSearch => groupSearch.id === userGroup);
+          group.disabled += user.enabled ? -1 : 1; // update group disabled count
+        });
+        break;
+      case 'create':
+        recentGroup.usercount++;
+        state.userCount++; // increment Active Users count
+
+        user.groups.forEach(userGroup => {
+          state.groups.find(groupSearch => groupSearch.id === userGroup).usercount++; // increment group total count
+        });
+        break;
+      case 'remove':
+        if (user.enabled) {
+          recentGroup.usercount--;
+          state.userCount--; // decrement Active Users count
+          user.groups.forEach(userGroup => {
+            const group = state.groups.find(groupSearch => groupSearch.id === userGroup);
+            if (!group) {
+              console.warn('User group ' + userGroup + ' does not exist during user removal');
+              return;
+            }
+            group.usercount--; // decrement group total count
+          });
+        } else {
+          disabledGroup.usercount--; // decrement Disabled Users count
+          user.groups.forEach(userGroup => {
+            const group = state.groups.find(groupSearch => groupSearch.id === userGroup);
+            group.disabled--; // decrement group disabled count
+          });
+        }
+        break;
+      default:
+        _logger_ts__WEBPACK_IMPORTED_MODULE_8__["default"].error(`Unknown action type in updateUserCounts: '${actionType}'`);
+      // not throwing error to interrupt execution as this is not fatal
+    }
+  },
+  setUserData(state, _ref12) {
+    let {
+      userid,
+      key,
+      value
+    } = _ref12;
+    if (key === 'quota') {
+      const humanValue = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.parseFileSize)(value, true);
+      state.users.find(user => user.id === userid)[key][key] = humanValue !== null ? humanValue : value;
+    } else {
+      state.users.find(user => user.id === userid)[key] = value;
+    }
+  },
+  /**
+   * Reset users list
+   *
+   * @param {object} state the store state
+   */
+  resetUsers(state) {
+    state.users = [];
+    state.usersOffset = 0;
+    state.disabledUsersOffset = 0;
+  },
+  setShowConfig(state, _ref13) {
+    let {
+      key,
+      value
+    } = _ref13;
+    localStorage.setItem(`account_settings__${key}`, JSON.stringify(value));
+    state.showConfig[key] = value;
+  },
+  setGroupSorting(state, sorting) {
+    const oldValue = state.orderBy;
+    state.orderBy = sorting;
+
+    // Persist the value on the server
+    _nextcloud_axios__WEBPACK_IMPORTED_MODULE_5__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateUrl)('/settings/users/preferences/group.sortBy'), {
+      value: String(sorting)
+    }).catch(error => {
+      state.orderBy = oldValue;
+      (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_3__.showError)(t('settings', 'Could not set group sorting'));
+      _logger_ts__WEBPACK_IMPORTED_MODULE_8__["default"].error(error);
+    });
+  }
+};
+const getters = {
+  getUsers(state) {
+    return state.users;
+  },
+  getGroups(state) {
+    return state.groups;
+  },
+  getSubadminGroups(state) {
+    // Can't be subadmin of admin, recent, or disabled
+    return state.groups.filter(group => group.id !== 'admin' && group.id !== '__nc_internal_recent' && group.id !== 'disabled');
+  },
+  getSortedGroups(state) {
+    const groups = [...state.groups];
+    if (state.orderBy === _constants_GroupManagement_ts__WEBPACK_IMPORTED_MODULE_6__.GroupSorting.UserCount) {
+      return groups.sort((a, b) => {
+        const numA = a.usercount - a.disabled;
+        const numB = b.usercount - b.disabled;
+        return numA < numB ? 1 : numB < numA ? -1 : a.name.localeCompare(b.name);
+      });
+    } else {
+      return groups.sort((a, b) => a.name.localeCompare(b.name));
+    }
+  },
+  getGroupSorting(state) {
+    return state.orderBy;
+  },
+  getPasswordPolicyMinLength(state) {
+    return state.minPasswordLength;
+  },
+  getUsersOffset(state) {
+    return state.usersOffset;
+  },
+  getUsersLimit(state) {
+    return state.usersLimit;
+  },
+  getDisabledUsersOffset(state) {
+    return state.disabledUsersOffset;
+  },
+  getDisabledUsersLimit(state) {
+    return state.disabledUsersLimit;
+  },
+  getUserCount(state) {
+    return state.userCount;
+  },
+  getShowConfig(state) {
+    return state.showConfig;
+  }
+};
+const CancelToken = _nextcloud_axios__WEBPACK_IMPORTED_MODULE_5__["default"].CancelToken;
+let searchRequestCancelSource = null;
+const actions = {
+  /**
+   * search users
+   *
+   * @param {object} context store context
+   * @param {object} options destructuring object
+   * @param {number} options.offset List offset to request
+   * @param {number} options.limit List number to return from offset
+   * @param {string} options.search Search amongst users
+   * @return {Promise}
+   */
+  searchUsers(context, _ref14) {
+    let {
+      offset,
+      limit,
+      search
+    } = _ref14;
+    search = typeof search === 'string' ? search : '';
+    return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/users/details?offset={offset}&limit={limit}&search={search}', {
+      offset,
+      limit,
+      search
+    })).catch(error => {
+      if (!_nextcloud_axios__WEBPACK_IMPORTED_MODULE_5__["default"].isCancel(error)) {
+        context.commit('API_FAILURE', error);
+      }
+    });
+  },
+  /**
+   * Get user details
+   *
+   * @param {object} context store context
+   * @param {string} userId user id
+   * @return {Promise}
+   */
+  getUser(context, userId) {
+    return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)(`cloud/users/${userId}`)).catch(error => {
+      if (!_nextcloud_axios__WEBPACK_IMPORTED_MODULE_5__["default"].isCancel(error)) {
+        context.commit('API_FAILURE', error);
+      }
+    });
+  },
+  /**
+   * Get all users with full details
+   *
+   * @param {object} context store context
+   * @param {object} options destructuring object
+   * @param {number} options.offset List offset to request
+   * @param {number} options.limit List number to return from offset
+   * @param {string} options.search Search amongst users
+   * @param {string} options.group Get users from group
+   * @return {Promise}
+   */
+  getUsers(context, _ref15) {
+    let {
+      offset,
+      limit,
+      search,
+      group
+    } = _ref15;
+    if (searchRequestCancelSource) {
+      searchRequestCancelSource.cancel('Operation canceled by another search request.');
+    }
+    searchRequestCancelSource = CancelToken.source();
+    search = typeof search === 'string' ? search : '';
+
+    /**
+     * Adding filters in the search bar such as in:files, in:users, etc.
+     * collides with this particular search, so we need to remove them
+     * here and leave only the original search query
+     */
+    search = search.replace(/in:[^\s]+/g, '').trim();
+    group = typeof group === 'string' ? group : '';
+    if (group !== '') {
+      return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/groups/{group}/users/details?offset={offset}&limit={limit}&search={search}', {
+        group: encodeURIComponent(group),
+        offset,
+        limit,
+        search
+      }), {
+        cancelToken: searchRequestCancelSource.token
+      }).then(response => {
+        const usersCount = Object.keys(response.data.ocs.data.users).length;
+        if (usersCount > 0) {
+          context.commit('appendUsers', response.data.ocs.data.users);
+        }
+        return usersCount;
+      }).catch(error => {
+        if (!_nextcloud_axios__WEBPACK_IMPORTED_MODULE_5__["default"].isCancel(error)) {
+          context.commit('API_FAILURE', error);
+        }
+      });
+    }
+    return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/users/details?offset={offset}&limit={limit}&search={search}', {
+      offset,
+      limit,
+      search
+    }), {
+      cancelToken: searchRequestCancelSource.token
+    }).then(response => {
+      const usersCount = Object.keys(response.data.ocs.data.users).length;
+      if (usersCount > 0) {
+        context.commit('appendUsers', response.data.ocs.data.users);
+      }
+      return usersCount;
+    }).catch(error => {
+      if (!_nextcloud_axios__WEBPACK_IMPORTED_MODULE_5__["default"].isCancel(error)) {
+        context.commit('API_FAILURE', error);
+      }
+    });
+  },
+  /**
+   * Get recent users with full details
+   *
+   * @param {object} context store context
+   * @param {object} options destructuring object
+   * @param {number} options.offset List offset to request
+   * @param {number} options.limit List number to return from offset
+   * @param {string} options.search Search query
+   * @return {Promise<number>}
+   */
+  async getRecentUsers(context, _ref16) {
+    let {
+      offset,
+      limit,
+      search
+    } = _ref16;
+    const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/users/recent?offset={offset}&limit={limit}&search={search}', {
+      offset,
+      limit,
+      search
+    });
+    try {
+      const response = await _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].get(url);
+      const usersCount = Object.keys(response.data.ocs.data.users).length;
+      if (usersCount > 0) {
+        context.commit('appendUsers', response.data.ocs.data.users);
+      }
+      return usersCount;
+    } catch (error) {
+      context.commit('API_FAILURE', error);
+    }
+  },
+  /**
+   * Get disabled users with full details
+   *
+   * @param {object} context store context
+   * @param {object} options destructuring object
+   * @param {number} options.offset List offset to request
+   * @param {number} options.limit List number to return from offset
+   * @param options.search
+   * @return {Promise<number>}
+   */
+  async getDisabledUsers(context, _ref17) {
+    let {
+      offset,
+      limit,
+      search
+    } = _ref17;
+    const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/users/disabled?offset={offset}&limit={limit}&search={search}', {
+      offset,
+      limit,
+      search
+    });
+    try {
+      const response = await _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].get(url);
+      const usersCount = Object.keys(response.data.ocs.data.users).length;
+      if (usersCount > 0) {
+        context.commit('appendUsers', response.data.ocs.data.users);
+        context.commit('updateDisabledUsers', response.data.ocs.data.users);
+      }
+      return usersCount;
+    } catch (error) {
+      context.commit('API_FAILURE', error);
+    }
+  },
+  getGroups(context, _ref18) {
+    let {
+      offset,
+      limit,
+      search
+    } = _ref18;
+    search = typeof search === 'string' ? search : '';
+    const limitParam = limit === -1 ? '' : `&limit=${limit}`;
+    return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/groups?offset={offset}&search={search}', {
+      offset,
+      search
+    }) + limitParam).then(response => {
+      if (Object.keys(response.data.ocs.data.groups).length > 0) {
+        response.data.ocs.data.groups.forEach(function (group) {
+          context.commit('addGroup', {
+            gid: group,
+            displayName: group
+          });
+        });
+        return true;
+      }
+      return false;
+    }).catch(error => context.commit('API_FAILURE', error));
+  },
+  /**
+   * Get all users with full details
+   *
+   * @param {object} context store context
+   * @param {object} options destructuring object
+   * @param {number} options.offset List offset to request
+   * @param {number} options.limit List number to return from offset
+   * @param {string} options.search -
+   * @return {Promise}
+   */
+  getUsersFromList(context, _ref19) {
+    let {
+      offset,
+      limit,
+      search
+    } = _ref19;
+    search = typeof search === 'string' ? search : '';
+    return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/users/details?offset={offset}&limit={limit}&search={search}', {
+      offset,
+      limit,
+      search
+    })).then(response => {
+      if (Object.keys(response.data.ocs.data.users).length > 0) {
+        context.commit('appendUsers', response.data.ocs.data.users);
+        return true;
+      }
+      return false;
+    }).catch(error => context.commit('API_FAILURE', error));
+  },
+  /**
+   * Get all users with full details from a groupid
+   *
+   * @param {object} context store context
+   * @param {object} options destructuring object
+   * @param {number} options.offset List offset to request
+   * @param {number} options.limit List number to return from offset
+   * @param {string} options.groupid -
+   * @return {Promise}
+   */
+  getUsersFromGroup(context, _ref20) {
+    let {
+      groupid,
+      offset,
+      limit
+    } = _ref20;
+    return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/users/{groupId}/details?offset={offset}&limit={limit}', {
+      groupId: encodeURIComponent(groupid),
+      offset,
+      limit
+    })).then(response => context.commit('getUsersFromList', response.data.ocs.data.users)).catch(error => context.commit('API_FAILURE', error));
+  },
+  getPasswordPolicyMinLength(context) {
+    if ((0,_nextcloud_capabilities__WEBPACK_IMPORTED_MODULE_1__.getCapabilities)().password_policy && (0,_nextcloud_capabilities__WEBPACK_IMPORTED_MODULE_1__.getCapabilities)().password_policy.minLength) {
+      context.commit('setPasswordPolicyMinLength', (0,_nextcloud_capabilities__WEBPACK_IMPORTED_MODULE_1__.getCapabilities)().password_policy.minLength);
+      return (0,_nextcloud_capabilities__WEBPACK_IMPORTED_MODULE_1__.getCapabilities)().password_policy.minLength;
+    }
+    return false;
+  },
+  /**
+   * Add group
+   *
+   * @param {object} context store context
+   * @param {string} gid Group id
+   * @return {Promise}
+   */
+  addGroup(context, gid) {
+    return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].requireAdmin().then(response => {
+      return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/groups'), {
+        groupid: gid
+      }).then(response => {
+        context.commit('addGroup', {
+          gid,
+          displayName: gid
+        });
+        return {
+          gid,
+          displayName: gid
+        };
+      }).catch(error => {
+        throw error;
+      });
+    }).catch(error => {
+      context.commit('API_FAILURE', {
+        gid,
+        error
+      });
+      // let's throw one more time to prevent the view
+      // from adding the user to a group that doesn't exists
+      throw error;
+    });
+  },
+  /**
+   * Rename group
+   *
+   * @param {object} context store context
+   * @param {string} groupid Group id
+   * @param {string} displayName Group display name
+   * @return {Promise}
+   */
+  renameGroup(context, _ref21) {
+    let {
+      groupid,
+      displayName
+    } = _ref21;
+    return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].requireAdmin().then(response => {
+      return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].put((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/groups/{groupId}', {
+        groupId: encodeURIComponent(groupid)
+      }), {
+        key: 'displayname',
+        value: displayName
+      }).then(response => {
+        context.commit('renameGroup', {
+          gid: groupid,
+          displayName
+        });
+        return {
+          groupid,
+          displayName
+        };
+      }).catch(error => {
+        throw error;
+      });
+    }).catch(error => {
+      context.commit('API_FAILURE', {
+        groupid,
+        error
+      });
+      // let's throw one more time to prevent the view
+      // from renaming the group
+      throw error;
+    });
+  },
+  /**
+   * Remove group
+   *
+   * @param {object} context store context
+   * @param {string} gid Group id
+   * @return {Promise}
+   */
+  removeGroup(context, gid) {
+    return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].requireAdmin().then(response => {
+      return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].delete((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/groups/{groupId}', {
+        groupId: encodeURIComponent(gid)
+      })).then(response => context.commit('removeGroup', gid)).catch(error => {
+        throw error;
+      });
+    }).catch(error => context.commit('API_FAILURE', {
+      gid,
+      error
+    }));
+  },
+  /**
+   * Add user to group
+   *
+   * @param {object} context store context
+   * @param {object} options destructuring object
+   * @param {string} options.userid User id
+   * @param {string} options.gid Group id
+   * @return {Promise}
+   */
+  addUserGroup(context, _ref22) {
+    let {
+      userid,
+      gid
+    } = _ref22;
+    return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].requireAdmin().then(response => {
+      return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/users/{userid}/groups', {
+        userid
+      }), {
+        groupid: gid
+      }).then(response => context.commit('addUserGroup', {
+        userid,
+        gid
+      })).catch(error => {
+        throw error;
+      });
+    }).catch(error => context.commit('API_FAILURE', {
+      userid,
+      error
+    }));
+  },
+  /**
+   * Remove user from group
+   *
+   * @param {object} context store context
+   * @param {object} options destructuring object
+   * @param {string} options.userid User id
+   * @param {string} options.gid Group id
+   * @return {Promise}
+   */
+  removeUserGroup(context, _ref23) {
+    let {
+      userid,
+      gid
+    } = _ref23;
+    return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].requireAdmin().then(response => {
+      return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].delete((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/users/{userid}/groups', {
+        userid
+      }), {
+        groupid: gid
+      }).then(response => context.commit('removeUserGroup', {
+        userid,
+        gid
+      })).catch(error => {
+        throw error;
+      });
+    }).catch(error => {
+      context.commit('API_FAILURE', {
+        userid,
+        error
+      });
+      // let's throw one more time to prevent
+      // the view from removing the user row on failure
+      throw error;
+    });
+  },
+  /**
+   * Add user to group admin
+   *
+   * @param {object} context store context
+   * @param {object} options destructuring object
+   * @param {string} options.userid User id
+   * @param {string} options.gid Group id
+   * @return {Promise}
+   */
+  addUserSubAdmin(context, _ref24) {
+    let {
+      userid,
+      gid
+    } = _ref24;
+    return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].requireAdmin().then(response => {
+      return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/users/{userid}/subadmins', {
+        userid
+      }), {
+        groupid: gid
+      }).then(response => context.commit('addUserSubAdmin', {
+        userid,
+        gid
+      })).catch(error => {
+        throw error;
+      });
+    }).catch(error => context.commit('API_FAILURE', {
+      userid,
+      error
+    }));
+  },
+  /**
+   * Remove user from group admin
+   *
+   * @param {object} context store context
+   * @param {object} options destructuring object
+   * @param {string} options.userid User id
+   * @param {string} options.gid Group id
+   * @return {Promise}
+   */
+  removeUserSubAdmin(context, _ref25) {
+    let {
+      userid,
+      gid
+    } = _ref25;
+    return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].requireAdmin().then(response => {
+      return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].delete((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/users/{userid}/subadmins', {
+        userid
+      }), {
+        groupid: gid
+      }).then(response => context.commit('removeUserSubAdmin', {
+        userid,
+        gid
+      })).catch(error => {
+        throw error;
+      });
+    }).catch(error => context.commit('API_FAILURE', {
+      userid,
+      error
+    }));
+  },
+  /**
+   * Mark all user devices for remote wipe
+   *
+   * @param {object} context store context
+   * @param {string} userid User id
+   * @return {Promise}
+   */
+  async wipeUserDevices(context, userid) {
+    try {
+      await _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].requireAdmin();
+      return await _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/users/{userid}/wipe', {
+        userid
+      }));
+    } catch (error) {
+      context.commit('API_FAILURE', {
+        userid,
+        error
+      });
+      return Promise.reject(new Error('Failed to wipe user devices'));
+    }
+  },
+  /**
+   * Delete a user
+   *
+   * @param {object} context store context
+   * @param {string} userid User id
+   * @return {Promise}
+   */
+  deleteUser(context, userid) {
+    return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].requireAdmin().then(response => {
+      return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].delete((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/users/{userid}', {
+        userid
+      })).then(response => context.commit('deleteUser', userid)).catch(error => {
+        throw error;
+      });
+    }).catch(error => context.commit('API_FAILURE', {
+      userid,
+      error
+    }));
+  },
+  /**
+   * Add a user
+   *
+   * @param {object} context store context
+   * @param {Function} context.commit -
+   * @param {Function} context.dispatch -
+   * @param {object} options destructuring object
+   * @param {string} options.userid User id
+   * @param {string} options.password User password
+   * @param {string} options.displayName User display name
+   * @param {string} options.email User email
+   * @param {string} options.groups User groups
+   * @param {string} options.subadmin User subadmin groups
+   * @param {string} options.quota User email
+   * @param {string} options.language User language
+   * @param {string} options.manager User manager
+   * @return {Promise}
+   */
+  addUser(_ref26, _ref27) {
+    let {
+      commit,
+      dispatch
+    } = _ref26;
+    let {
+      userid,
+      password,
+      displayName,
+      email,
+      groups,
+      subadmin,
+      quota,
+      language,
+      manager
+    } = _ref27;
+    return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].requireAdmin().then(response => {
+      return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/users'), {
+        userid,
+        password,
+        displayName,
+        email,
+        groups,
+        subadmin,
+        quota,
+        language,
+        manager
+      }).then(response => dispatch('addUserData', userid || response.data.ocs.data.id)).catch(error => {
+        throw error;
+      });
+    }).catch(error => {
+      commit('API_FAILURE', {
+        userid,
+        error
+      });
+      throw error;
+    });
+  },
+  /**
+   * Get user data and commit addition
+   *
+   * @param {object} context store context
+   * @param {string} userid User id
+   * @return {Promise}
+   */
+  addUserData(context, userid) {
+    return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].requireAdmin().then(response => {
+      return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/users/{userid}', {
+        userid
+      })).then(response => context.commit('addUserData', response)).catch(error => {
+        throw error;
+      });
+    }).catch(error => context.commit('API_FAILURE', {
+      userid,
+      error
+    }));
+  },
+  /**
+   * Enable or disable user
+   *
+   * @param {object} context store context
+   * @param {object} options destructuring object
+   * @param {string} options.userid User id
+   * @param {boolean} options.enabled User enablement status
+   * @return {Promise}
+   */
+  enableDisableUser(context, _ref28) {
+    let {
+      userid,
+      enabled = true
+    } = _ref28;
+    const userStatus = enabled ? 'enable' : 'disable';
+    return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].requireAdmin().then(response => {
+      return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].put((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/users/{userid}/{userStatus}', {
+        userid,
+        userStatus
+      })).then(response => context.commit('enableDisableUser', {
+        userid,
+        enabled
+      })).catch(error => {
+        throw error;
+      });
+    }).catch(error => context.commit('API_FAILURE', {
+      userid,
+      error
+    }));
+  },
+  /**
+   * Edit user data
+   *
+   * @param {object} context store context
+   * @param {object} options destructuring object
+   * @param {string} options.userid User id
+   * @param {string} options.key User field to edit
+   * @param {string} options.value Value of the change
+   * @return {Promise}
+   */
+  async setUserData(context, _ref29) {
+    let {
+      userid,
+      key,
+      value
+    } = _ref29;
+    const allowedEmpty = ['email', 'displayname', 'manager'];
+    if (['email', 'language', 'quota', 'displayname', 'password', 'manager'].indexOf(key) !== -1) {
+      // We allow empty email or displayname
+      if (typeof value === 'string' && (allowedEmpty.indexOf(key) === -1 && value.length > 0 || allowedEmpty.indexOf(key) !== -1)) {
+        try {
+          await _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].requireAdmin();
+          await _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].put((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/users/{userid}', {
+            userid
+          }), {
+            key,
+            value
+          });
+          return context.commit('setUserData', {
+            userid,
+            key,
+            value
+          });
+        } catch (error) {
+          context.commit('API_FAILURE', {
+            userid,
+            error
+          });
+        }
+      }
+    }
+    return Promise.reject(new Error('Invalid request data'));
+  },
+  /**
+   * Send welcome mail
+   *
+   * @param {object} context store context
+   * @param {string} userid User id
+   * @return {Promise}
+   */
+  sendWelcomeMail(context, userid) {
+    return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].requireAdmin().then(response => {
+      return _api_js__WEBPACK_IMPORTED_MODULE_7__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateOcsUrl)('cloud/users/{userid}/welcome', {
+        userid
+      })).then(response => true).catch(error => {
+        throw error;
+      });
+    }).catch(error => context.commit('API_FAILURE', {
+      userid,
+      error
+    }));
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  state,
+  mutations,
+  getters,
+  actions
+});
+
+/***/ }),
+
+/***/ "./apps/settings/src/constants/GroupManagement.ts":
+/*!********************************************************!*\
+  !*** ./apps/settings/src/constants/GroupManagement.ts ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   GroupSorting: () => (/* binding */ GroupSorting)
+/* harmony export */ });
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+/**
+ * https://github.com/nextcloud/server/blob/208e38e84e1a07a49699aa90dc5b7272d24489f0/lib/private/Group/MetaData.php#L34
+ */
+var GroupSorting;
+(function (GroupSorting) {
+  GroupSorting[GroupSorting["UserCount"] = 1] = "UserCount";
+  GroupSorting[GroupSorting["GroupName"] = 2] = "GroupName";
+})(GroupSorting || (GroupSorting = {}));
+
+/***/ }),
+
+/***/ "./apps/settings/src/logger.ts":
+/*!*************************************!*\
+  !*** ./apps/settings/src/logger.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__.getLoggerBuilder)().setApp('settings').detectUser().build());
+
+/***/ }),
+
+/***/ "./apps/settings/src/main-apps-users-management.ts":
+/*!*********************************************************!*\
+  !*** ./apps/settings/src/main-apps-users-management.ts ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var v_tooltip__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! v-tooltip */ "./node_modules/v-tooltip/dist/v-tooltip.esm.js");
+/* harmony import */ var vuex_router_sync__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex-router-sync */ "./node_modules/vuex-router-sync/index.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _views_SettingsApp_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./views/SettingsApp.vue */ "./apps/settings/src/views/SettingsApp.vue");
+/* harmony import */ var _router_index_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./router/index.ts */ "./apps/settings/src/router/index.ts");
+/* harmony import */ var _store_index_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store/index.js */ "./apps/settings/src/store/index.js");
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.mjs");
+/**
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+
+vue__WEBPACK_IMPORTED_MODULE_7__["default"].use(v_tooltip__WEBPACK_IMPORTED_MODULE_0__["default"], {
+  defaultHtml: false
+});
+const store = (0,_store_index_js__WEBPACK_IMPORTED_MODULE_5__.useStore)();
+(0,vuex_router_sync__WEBPACK_IMPORTED_MODULE_1__.sync)(store, _router_index_ts__WEBPACK_IMPORTED_MODULE_4__["default"]);
+// CSP config for webpack dynamic chunk loading
+// eslint-disable-next-line camelcase
+__webpack_require__.nc = (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_6__.getCSPNonce)();
+// bind to window
+vue__WEBPACK_IMPORTED_MODULE_7__["default"].prototype.t = _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate;
+vue__WEBPACK_IMPORTED_MODULE_7__["default"].prototype.n = _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translatePlural;
+vue__WEBPACK_IMPORTED_MODULE_7__["default"].use(pinia__WEBPACK_IMPORTED_MODULE_8__.PiniaVuePlugin);
+const pinia = (0,pinia__WEBPACK_IMPORTED_MODULE_8__.createPinia)();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vue__WEBPACK_IMPORTED_MODULE_7__["default"]({
+  router: _router_index_ts__WEBPACK_IMPORTED_MODULE_4__["default"],
+  store,
+  pinia,
+  render: h => h(_views_SettingsApp_vue__WEBPACK_IMPORTED_MODULE_3__["default"]),
+  el: '#content'
+}));
+
+/***/ }),
+
+/***/ "./apps/settings/src/router/index.ts":
+/*!*******************************************!*\
+  !*** ./apps/settings/src/router/index.ts ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _routes_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./routes.ts */ "./apps/settings/src/router/routes.ts");
+/**
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+vue__WEBPACK_IMPORTED_MODULE_2__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_3__["default"]);
+const router = new vue_router__WEBPACK_IMPORTED_MODULE_3__["default"]({
+  mode: 'history',
+  // if index.php is in the url AND we got this far, then it's working:
+  // let's keep using index.php in the url
+  base: (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateUrl)(''),
+  linkActiveClass: 'active',
+  routes: _routes_ts__WEBPACK_IMPORTED_MODULE_1__["default"]
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
+
+/***/ }),
+
+/***/ "./apps/settings/src/router/routes.ts":
+/*!********************************************!*\
+  !*** ./apps/settings/src/router/routes.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.mjs");
+
+const appstoreEnabled = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('settings', 'appstoreEnabled', true);
+// Dynamic loading
+const AppStore = () => Promise.all(/*! import() | settings-apps-view */[__webpack_require__.e("core-common"), __webpack_require__.e("settings-apps-view")]).then(__webpack_require__.bind(__webpack_require__, /*! ../views/AppStore.vue */ "./apps/settings/src/views/AppStore.vue"));
+const AppStoreNavigation = () => Promise.all(/*! import() | settings-apps-view */[__webpack_require__.e("core-common"), __webpack_require__.e("settings-apps-view")]).then(__webpack_require__.bind(__webpack_require__, /*! ../views/AppStoreNavigation.vue */ "./apps/settings/src/views/AppStoreNavigation.vue"));
+const AppStoreSidebar = () => Promise.all(/*! import() | settings-apps-view */[__webpack_require__.e("core-common"), __webpack_require__.e("settings-apps-view")]).then(__webpack_require__.bind(__webpack_require__, /*! ../views/AppStoreSidebar.vue */ "./apps/settings/src/views/AppStoreSidebar.vue"));
+const UserManagement = () => Promise.all(/*! import() | settings-users */[__webpack_require__.e("core-common"), __webpack_require__.e("settings-users")]).then(__webpack_require__.bind(__webpack_require__, /*! ../views/UserManagement.vue */ "./apps/settings/src/views/UserManagement.vue"));
+const UserManagementNavigation = () => Promise.all(/*! import() | settings-users */[__webpack_require__.e("core-common"), __webpack_require__.e("settings-users")]).then(__webpack_require__.bind(__webpack_require__, /*! ../views/UserManagementNavigation.vue */ "./apps/settings/src/views/UserManagementNavigation.vue"));
+const routes = [{
+  name: 'users',
+  path: '/:index(index.php/)?settings/users',
+  components: {
+    default: UserManagement,
+    navigation: UserManagementNavigation
+  },
+  props: true,
+  children: [{
+    path: ':selectedGroup',
+    name: 'group'
+  }]
+}, {
+  path: '/:index(index.php/)?settings/apps',
+  name: 'apps',
+  redirect: {
+    name: 'apps-category',
+    params: {
+      category: appstoreEnabled ? 'discover' : 'installed'
+    }
+  },
+  components: {
+    default: AppStore,
+    navigation: AppStoreNavigation,
+    sidebar: AppStoreSidebar
+  },
+  children: [{
+    path: ':category',
+    name: 'apps-category',
+    children: [{
+      path: ':id',
+      name: 'apps-details'
+    }]
+  }]
+}];
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/views/SettingsApp.vue?vue&type=script&setup=true&lang=ts":
+/*!**************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/views/SettingsApp.vue?vue&type=script&setup=true&lang=ts ***!
+  \**************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcContent_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcContent.js */ "./node_modules/@nextcloud/vue/dist/Components/NcContent.mjs");
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_1__.defineComponent)({
+  __name: 'SettingsApp',
+  setup(__props) {
+    return {
+      __sfc: true,
+      NcContent: _nextcloud_vue_dist_Components_NcContent_js__WEBPACK_IMPORTED_MODULE_0__["default"]
+    };
+  }
+}));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/views/SettingsApp.vue?vue&type=template&id=21177c05":
+/*!****************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/views/SettingsApp.vue?vue&type=template&id=21177c05 ***!
+  \****************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c(_setup.NcContent, {
+    attrs: {
+      "app-name": "settings"
+    }
+  }, [_c("router-view", {
+    attrs: {
+      name: "navigation"
+    }
+  }), _vm._v(" "), _c("router-view"), _vm._v(" "), _c("router-view", {
+    attrs: {
+      name: "sidebar"
+    }
+  })], 1);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./apps/settings/src/views/SettingsApp.vue":
+/*!*************************************************!*\
+  !*** ./apps/settings/src/views/SettingsApp.vue ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _SettingsApp_vue_vue_type_template_id_21177c05__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SettingsApp.vue?vue&type=template&id=21177c05 */ "./apps/settings/src/views/SettingsApp.vue?vue&type=template&id=21177c05");
+/* harmony import */ var _SettingsApp_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SettingsApp.vue?vue&type=script&setup=true&lang=ts */ "./apps/settings/src/views/SettingsApp.vue?vue&type=script&setup=true&lang=ts");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _SettingsApp_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SettingsApp_vue_vue_type_template_id_21177c05__WEBPACK_IMPORTED_MODULE_0__.render,
+  _SettingsApp_vue_vue_type_template_id_21177c05__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "apps/settings/src/views/SettingsApp.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/settings/src/views/SettingsApp.vue?vue&type=script&setup=true&lang=ts":
+/*!************************************************************************************!*\
+  !*** ./apps/settings/src/views/SettingsApp.vue?vue&type=script&setup=true&lang=ts ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsApp_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SettingsApp.vue?vue&type=script&setup=true&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/views/SettingsApp.vue?vue&type=script&setup=true&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsApp_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/settings/src/views/SettingsApp.vue?vue&type=template&id=21177c05":
+/*!*******************************************************************************!*\
+  !*** ./apps/settings/src/views/SettingsApp.vue?vue&type=template&id=21177c05 ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsApp_vue_vue_type_template_id_21177c05__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsApp_vue_vue_type_template_id_21177c05__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SettingsApp_vue_vue_type_template_id_21177c05__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SettingsApp.vue?vue&type=template&id=21177c05 */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/views/SettingsApp.vue?vue&type=template&id=21177c05");
+
+
+/***/ }),
+
+/***/ "./node_modules/vuex-router-sync/index.js":
+/*!************************************************!*\
+  !*** ./node_modules/vuex-router-sync/index.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+exports.sync = function (store, router, options) {
+  var moduleName = (options || {}).moduleName || 'route'
+
+  store.registerModule(moduleName, {
+    namespaced: true,
+    state: cloneRoute(router.currentRoute),
+    mutations: {
+      'ROUTE_CHANGED': function ROUTE_CHANGED (state, transition) {
+        store.state[moduleName] = cloneRoute(transition.to, transition.from)
+      }
+    }
+  })
+
+  var isTimeTraveling = false
+  var currentPath
+
+  // sync router on store change
+  var storeUnwatch = store.watch(
+    function (state) { return state[moduleName]; },
+    function (route) {
+      var fullPath = route.fullPath;
+      if (fullPath === currentPath) {
+        return
+      }
+      if (currentPath != null) {
+        isTimeTraveling = true
+        router.push(route)
+      }
+      currentPath = fullPath
+    },
+    { sync: true }
+  )
+
+  // sync store on router navigation
+  var afterEachUnHook = router.afterEach(function (to, from) {
+    if (isTimeTraveling) {
+      isTimeTraveling = false
+      return
+    }
+    currentPath = to.fullPath
+    store.commit(moduleName + '/ROUTE_CHANGED', { to: to, from: from })
+  })
+
+  return function unsync () {
+    // On unsync, remove router hook
+    if (afterEachUnHook != null) {
+      afterEachUnHook()
+    }
+
+    // On unsync, remove store watch
+    if (storeUnwatch != null) {
+      storeUnwatch()
+    }
+
+    // On unsync, unregister Module with store
+    store.unregisterModule(moduleName)
+  }
+}
+
+function cloneRoute (to, from) {
+  var clone = {
+    name: to.name,
+    path: to.path,
+    hash: to.hash,
+    query: to.query,
+    params: to.params,
+    fullPath: to.fullPath,
+    meta: to.meta
+  }
+  if (from) {
+    clone.from = cloneRoute(from)
+  }
+  return Object.freeze(clone)
+}
+
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		__webpack_require__.f = {};
+/******/ 		// This file contains only the entry chunk.
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		__webpack_require__.e = (chunkId) => {
+/******/ 			return Promise.all(Object.keys(__webpack_require__.f).reduce((promises, key) => {
+/******/ 				__webpack_require__.f[key](chunkId, promises);
+/******/ 				return promises;
+/******/ 			}, []));
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/get javascript chunk filename */
+/******/ 	(() => {
+/******/ 		// This function allow to reference async chunks
+/******/ 		__webpack_require__.u = (chunkId) => {
+/******/ 			// return url for filenames based on template
+/******/ 			return "" + chunkId + "-" + chunkId + ".js?v=" + {"node_modules_nextcloud_dialogs_dist_chunks_index-CWnkpNim_mjs":"4b496e25fdc85bcc8255","settings-apps-view":"e89ccd021e8a356b16b0","settings-users":"ed362ffb20601684adef","data_image_svg_xml_3c_21--_20-_20SPDX-FileCopyrightText_202020_20Google_20Inc_20-_20SPDX-Lice-019035":"f005f04e196c41e04984","apps_settings_src_components_AppStoreDiscover_PostType_vue":"4b4538092cf4dac11191","apps_settings_src_components_AppStoreDiscover_CarouselType_vue":"40b24cde092fe8bbeb1b","apps_settings_src_components_AppStoreDiscover_ShowcaseType_vue":"39984e1818665a822c9f"}[chunkId] + "";
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/load script */
+/******/ 	(() => {
+/******/ 		var inProgress = {};
+/******/ 		var dataWebpackPrefix = "nextcloud:";
+/******/ 		// loadScript function to load a script via script tag
+/******/ 		__webpack_require__.l = (url, done, key, chunkId) => {
+/******/ 			if(inProgress[url]) { inProgress[url].push(done); return; }
+/******/ 			var script, needAttach;
+/******/ 			if(key !== undefined) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				for(var i = 0; i < scripts.length; i++) {
+/******/ 					var s = scripts[i];
+/******/ 					if(s.getAttribute("src") == url || s.getAttribute("data-webpack") == dataWebpackPrefix + key) { script = s; break; }
+/******/ 				}
+/******/ 			}
+/******/ 			if(!script) {
+/******/ 				needAttach = true;
+/******/ 				script = document.createElement('script');
+/******/ 		
+/******/ 				script.charset = 'utf-8';
+/******/ 				script.timeout = 120;
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.setAttribute("data-webpack", dataWebpackPrefix + key);
+/******/ 		
+/******/ 				script.src = url;
+/******/ 			}
+/******/ 			inProgress[url] = [done];
+/******/ 			var onScriptComplete = (prev, event) => {
+/******/ 				// avoid mem leaks in IE.
+/******/ 				script.onerror = script.onload = null;
+/******/ 				clearTimeout(timeout);
+/******/ 				var doneFns = inProgress[url];
+/******/ 				delete inProgress[url];
+/******/ 				script.parentNode && script.parentNode.removeChild(script);
+/******/ 				doneFns && doneFns.forEach((fn) => (fn(event)));
+/******/ 				if(prev) return prev(event);
+/******/ 			}
+/******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
+/******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
+/******/ 			script.onload = onScriptComplete.bind(null, script.onload);
+/******/ 			needAttach && document.head.appendChild(script);
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT')
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && (!scriptUrl || !/^http(s?):/.test(scriptUrl))) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"settings-vue-settings-apps-users-management": 0
+/******/ 		};
+/******/ 		
+/******/ 		__webpack_require__.f.j = (chunkId, promises) => {
+/******/ 				// JSONP chunk loading for javascript
+/******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
+/******/ 				if(installedChunkData !== 0) { // 0 means "already installed".
+/******/ 		
+/******/ 					// a Promise means "currently loading".
+/******/ 					if(installedChunkData) {
+/******/ 						promises.push(installedChunkData[2]);
+/******/ 					} else {
+/******/ 						if(true) { // all chunks have JS
+/******/ 							// setup Promise in chunk cache
+/******/ 							var promise = new Promise((resolve, reject) => (installedChunkData = installedChunks[chunkId] = [resolve, reject]));
+/******/ 							promises.push(installedChunkData[2] = promise);
+/******/ 		
+/******/ 							// start chunk loading
+/******/ 							var url = __webpack_require__.p + __webpack_require__.u(chunkId);
+/******/ 							// create error before stack unwound to get useful stacktrace later
+/******/ 							var error = new Error();
+/******/ 							var loadingEnded = (event) => {
+/******/ 								if(__webpack_require__.o(installedChunks, chunkId)) {
+/******/ 									installedChunkData = installedChunks[chunkId];
+/******/ 									if(installedChunkData !== 0) installedChunks[chunkId] = undefined;
+/******/ 									if(installedChunkData) {
+/******/ 										var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 										var realSrc = event && event.target && event.target.src;
+/******/ 										error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 										error.name = 'ChunkLoadError';
+/******/ 										error.type = errorType;
+/******/ 										error.request = realSrc;
+/******/ 										installedChunkData[1](error);
+/******/ 									}
+/******/ 								}
+/******/ 							};
+/******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
+/******/ 						}
+/******/ 					}
+/******/ 				}
+/******/ 		};
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./apps/settings/src/main-apps-users-management.ts")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=settings-vue-settings-apps-users-management.js.map?v=d61e17f77d6059e9e03e

@@ -1,2 +1,12188 @@
-(()=>{var a,n,e,r={29499:(a,n,e)=>{"use strict";var r=e(85471),s=e(53334),i=e(88837),o=e(21777),d=e(85168),l=e(32981),c=e(63814),f=e(77905);function A(t){return`${t.getFullYear()}-${(t.getMonth()+1).toString().padStart(2,"0")}-${t.getDate().toString().padStart(2,"0")}`}var u=e(65043),m=e(17334),p=e.n(m),T=e(35947);const S=(0,T.YK)().setApp("dav").detectUser().build();var h=e(18740),g=e(82182),v=e(42740),y=e(67607),E=e(31126),C=e(96763);const b={name:"AbsenceForm",components:{NcButton:h.A,NcTextField:g.A,NcTextArea:v.A,NcDateTimePickerNative:E.A,NcSelect:y.A},data(){const{firstDay:t,lastDay:a,status:n,message:e,replacementUserId:r,replacementUserDisplayName:s}=(0,l.C)("dav","absence",{});return{loading:!1,status:n??"",message:e??"",firstDay:t?new Date(t):new Date,lastDay:a?new Date(a):null,replacementUserId:r,replacementUser:r?{user:r,displayName:s}:null,searchLoading:!1,options:[]}},computed:{valid(){const t=new Date(this.firstDay?.getTime()),a=new Date(this.lastDay?.getTime());return t?.setHours(0,0,0,0),a?.setHours(0,0,0,0),!!this.firstDay&&!!this.lastDay&&!!this.status&&!!this.message&&a>=t}},methods:{resetForm(){this.status="",this.message="",this.firstDay=new Date,this.lastDay=null},formatForMultiselect:t=>({user:t.uuid||t.value.shareWith,displayName:t.name||t.label,subtitle:""|t.dsc}),async asyncFind(t){this.searchLoading=!0,await this.debounceGetSuggestions(t.trim())},async getSuggestions(t){const a=[f.I.SHARE_TYPE_USER];let n=null;try{n=await u.Ay.get((0,c.KT)("apps/files_sharing/api/v1/sharees"),{params:{format:"json",itemType:"file",search:t,shareType:a}})}catch(t){return void C.error("Error fetching suggestions",t)}const e=n.data.ocs.data,r=n.data.ocs.data.exact;e.exact=[];const s=r.users,i=e.users;C.info("rawExactSuggestions",s),C.info("rawSuggestions",i);const o=s.map((t=>this.formatForMultiselect(t))),d=i.map((t=>this.formatForMultiselect(t))),l=o.concat(d),A=l.reduce(((t,a)=>a.displayName?(t[a.displayName]||(t[a.displayName]=0),t[a.displayName]++,t):t),{});this.options=l.map((t=>A[t.displayName]>1&&!t.desc?{...t,desc:t.shareWithDisplayNameUnique}:t)),this.searchLoading=!1,C.info("suggestions",this.options)},debounceGetSuggestions:p()((function(){this.getSuggestions(...arguments)}),300),async saveForm(){if(this.valid){this.loading=!0;try{await u.Ay.post((0,c.KT)("/apps/dav/api/v1/outOfOffice/{userId}",{userId:(0,o.HW)().uid}),{firstDay:A(this.firstDay),lastDay:A(this.lastDay),status:this.status,message:this.message,replacementUserId:this.replacementUser?.user??null,replacementUserDisplayName:this.replacementUser?.displayName??null}),(0,d.Te)(this.$t("dav","Absence saved"))}catch(t){(0,d.Qg)(this.$t("dav","Failed to save your absence settings")),S.error("Could not save absence",{error:t})}finally{this.loading=!1}}},async clearAbsence(){this.loading=!0;try{await u.Ay.delete((0,c.KT)("/apps/dav/api/v1/outOfOffice/{userId}",{userId:(0,o.HW)().uid})),this.resetForm(),(0,d.Te)(this.$t("dav","Absence cleared"))}catch(t){(0,d.Qg)(this.$t("dav","Failed to clear your absence settings")),S.error("Could not clear absence",{error:t})}finally{this.loading=!1}}}};var U=e(85072),x=e.n(U),_=e(97825),D=e.n(_),k=e(77659),B=e.n(k),w=e(55056),M=e.n(w),W=e(10540),P=e.n(W),I=e(41113),N=e.n(I),R=e(48521),O={};O.styleTagTransform=N(),O.setAttributes=M(),O.insert=B().bind(null,"head"),O.domAPI=D(),O.insertStyleElement=P(),x()(R.A,O),R.A&&R.A.locals&&R.A.locals;var F=e(14486);const G=(0,F.A)(b,(function(){var t=this,a=t._self._c;return a("form",{staticClass:"absence",on:{submit:function(a){return a.preventDefault(),t.saveForm.apply(null,arguments)}}},[a("div",{staticClass:"absence__dates"},[a("NcDateTimePickerNative",{staticClass:"absence__dates__picker",attrs:{id:"absence-first-day",label:t.$t("dav","First day"),required:!0},model:{value:t.firstDay,callback:function(a){t.firstDay=a},expression:"firstDay"}}),t._v(" "),a("NcDateTimePickerNative",{staticClass:"absence__dates__picker",attrs:{id:"absence-last-day",label:t.$t("dav","Last day (inclusive)"),required:!0},model:{value:t.lastDay,callback:function(a){t.lastDay=a},expression:"lastDay"}})],1),t._v(" "),a("label",{attrs:{for:"replacement-search-input"}},[t._v(t._s(t.$t("dav","Out of office replacement (optional)")))]),t._v(" "),a("NcSelect",{ref:"select",attrs:{"input-id":"replacement-search-input",loading:t.searchLoading,placeholder:t.$t("dav","Name of the replacement"),"clear-search-on-blur":()=>!1,"user-select":!0,options:t.options},on:{search:t.asyncFind},scopedSlots:t._u([{key:"no-options",fn:function(a){let{search:n}=a;return[t._v("\n\t\t\t"+t._s(n?t.$t("dav","No results."):t.$t("dav","Start typing."))+"\n\t\t")]}}]),model:{value:t.replacementUser,callback:function(a){t.replacementUser=a},expression:"replacementUser"}}),t._v(" "),a("NcTextField",{attrs:{value:t.status,label:t.$t("dav","Short absence status"),required:!0},on:{"update:value":function(a){t.status=a}}}),t._v(" "),a("NcTextArea",{attrs:{value:t.message,label:t.$t("dav","Long absence Message"),required:!0},on:{"update:value":function(a){t.message=a}}}),t._v(" "),a("div",{staticClass:"absence__buttons"},[a("NcButton",{attrs:{disabled:t.loading||!t.valid,type:"primary","native-type":"submit"}},[t._v("\n\t\t\t"+t._s(t.$t("dav","Save"))+"\n\t\t")]),t._v(" "),a("NcButton",{attrs:{disabled:t.loading||!t.valid,type:"error"},on:{click:t.clearAbsence}},[t._v("\n\t\t\t"+t._s(t.$t("dav","Disable absence"))+"\n\t\t")])],1)],1)}),[],!1,null,"23bf0848",null).exports;var j=e(89491),z={};z.styleTagTransform=N(),z.setAttributes=M(),z.insert=B().bind(null,"head"),z.domAPI=D(),z.insertStyleElement=P(),x()(j.A,z),j.A&&j.A.locals&&j.A.locals;var K=e(11037),L=e(27577),$=e(46447),q=e(47300);const H={randomUUID:"undefined"!=typeof crypto&&crypto.randomUUID&&crypto.randomUUID.bind(crypto)};let V;const Y=new Uint8Array(16);function Z(){if(!V&&(V="undefined"!=typeof crypto&&crypto.getRandomValues&&crypto.getRandomValues.bind(crypto),!V))throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");return V(Y)}const J=[];for(let t=0;t<256;++t)J.push((t+256).toString(16).slice(1));const Q=function(t,a,n){if(H.randomUUID&&!a&&!t)return H.randomUUID();const e=(t=t||{}).random||(t.rng||Z)();if(e[6]=15&e[6]|64,e[8]=63&e[8]|128,a){n=n||0;for(let t=0;t<16;++t)a[n+t]=e[t];return a}return function(t,a=0){return J[t[a+0]]+J[t[a+1]]+J[t[a+2]]+J[t[a+3]]+"-"+J[t[a+4]]+J[t[a+5]]+"-"+J[t[a+6]]+J[t[a+7]]+"-"+J[t[a+8]]+J[t[a+9]]+"-"+J[t[a+10]]+J[t[a+11]]+J[t[a+12]]+J[t[a+13]]+J[t[a+14]]+J[t[a+15]]}(e)};function X(t,a,n,e,r,s,i,o){var d,l="function"==typeof t?t.options:t;if(a&&(l.render=a,l.staticRenderFns=n,l._compiled=!0),e&&(l.functional=!0),s&&(l._scopeId="data-v-"+s),i?(d=function(t){(t=t||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext)||"undefined"==typeof __VUE_SSR_CONTEXT__||(t=__VUE_SSR_CONTEXT__),r&&r.call(this,t),t&&t._registeredComponents&&t._registeredComponents.add(i)},l._ssrRegister=d):r&&(d=o?function(){r.call(this,(l.functional?this.parent:this).$root.$options.shadowRoot)}:r),d)if(l.functional){l._injectStyles=d;var c=l.render;l.render=function(t,a){return d.call(a),c(t,a)}}else{var f=l.beforeCreate;l.beforeCreate=f?[].concat(f,d):[d]}return{exports:t,options:l}}const tt=X({name:"CalendarAvailability",components:{NcDateTimePickerNative:E.A,NcButton:h.A,IconAdd:L.A,IconDelete:K.A},props:{slots:{type:Object,required:!0},loading:{type:Boolean,default:!1},l10nTo:{type:String,required:!0},l10nDeleteSlot:{type:String,required:!0},l10nEmptyDay:{type:String,required:!0},l10nAddSlot:{type:String,required:!0},l10nWeekDayListLabel:{type:String,default:"Weekdays"},l10nMonday:{type:String,required:!0},l10nTuesday:{type:String,required:!0},l10nWednesday:{type:String,required:!0},l10nThursday:{type:String,required:!0},l10nFriday:{type:String,required:!0},l10nSaturday:{type:String,required:!0},l10nSunday:{type:String,required:!0},l10nStartPickerLabel:{type:Function,default:t=>"Pick a start time for ".concat(t)},l10nEndPickerLabel:{type:Function,default:t=>"Pick a end time for ".concat(t)}},data(){return{internalSlots:this.slotsToInternalData(this.slots)}},watch:{slots(){this.internalSlots=this.slotsToInternalData(this.slots)}},methods:{timeStampSlotsToDateObjectSlots:t=>t.map((t=>({start:new Date(1e3*t.start),end:new Date(1e3*t.end)}))),slotsToInternalData(){const t=[{id:"MO",displayName:this.l10nMonday,slots:this.timeStampSlotsToDateObjectSlots(this.slots.MO)},{id:"TU",displayName:this.l10nTuesday,slots:this.timeStampSlotsToDateObjectSlots(this.slots.TU)},{id:"WE",displayName:this.l10nWednesday,slots:this.timeStampSlotsToDateObjectSlots(this.slots.WE)},{id:"TH",displayName:this.l10nThursday,slots:this.timeStampSlotsToDateObjectSlots(this.slots.TH)},{id:"FR",displayName:this.l10nFriday,slots:this.timeStampSlotsToDateObjectSlots(this.slots.FR)},{id:"SA",displayName:this.l10nSaturday,slots:this.timeStampSlotsToDateObjectSlots(this.slots.SA)}],a={id:"SU",displayName:this.l10nSunday,slots:this.timeStampSlotsToDateObjectSlots(this.slots.SU)};return 1===(0,s.JN)()?[...t,a]:[a,...t]},internalDataToSlots(){const t={};return this.internalSlots.forEach((({id:a,slots:n})=>{t[a]=n.map((t=>({start:Math.round(t.start.getTime()/1e3),end:Math.round(t.end.getTime()/1e3)})))})),t},addSlot(t){const a=new Date;a.setHours(9,0,0,0);const n=new Date;n.setHours(17,0,0,0),t.slots.push({start:a,end:n}),this.onChangeSlots()},removeSlot(t,a){t.slots.splice(a,1),this.onChangeSlots()},onChangeSlots(){this.$emit("update:slots",this.internalDataToSlots())}}},(function(){var t=this,a=t._self._c;return a("ul",{staticClass:"week-day-container",attrs:{"aria-label":t.l10nWeekDayListLabel}},[t._l(t.internalSlots,(function(n){return[a("li",{key:"day-label-".concat(n.id),staticClass:"day-container"},[a("div",{staticClass:"label-weekday"},[a("span",{attrs:{id:n.displayName+"-label"}},[t._v(t._s(n.displayName))])]),a("div",{key:"day-slots-".concat(n.id),staticClass:"availability-slots"},[a("div",{staticClass:"availability-slot-group"},[t._l(n.slots,(function(e,r){var s,i;return[a("div",{key:"slot-".concat(n.id,"-").concat(r),staticClass:"availability-slot"},[a("NcDateTimePickerNative",{staticClass:"start-date",attrs:{id:"start-".concat(n.id,"-").concat(r),type:"time",label:null==(s=t.l10nStartPickerLabel)?void 0:s.call(t,n.displayName),"hide-label":!0},on:{change:t.onChangeSlots},model:{value:e.start,callback:function(a){t.$set(e,"start",a)},expression:"slot.start"}}),a("span",{staticClass:"to-text"},[t._v(" "+t._s(t.l10nTo)+" ")]),a("NcDateTimePickerNative",{staticClass:"end-date",attrs:{id:"end-".concat(n.id,"-").concat(r),type:"time",label:null==(i=t.l10nEndPickerLabel)?void 0:i.call(t,n.displayName),"hide-label":!0},on:{change:t.onChangeSlots},model:{value:e.end,callback:function(a){t.$set(e,"end",a)},expression:"slot.end"}}),a("NcButton",{key:"slot-".concat(n.id,"-").concat(r,"-btn"),staticClass:"button",attrs:{type:"tertiary","aria-label":t.l10nDeleteSlot,title:t.l10nDeleteSlot},on:{click:function(a){return t.removeSlot(n,r)}},scopedSlots:t._u([{key:"icon",fn:function(){return[a("IconDelete",{attrs:{size:20}})]},proxy:!0}],null,!0)})],1)]}))],2),0===n.slots.length?a("span",{staticClass:"empty-content"},[t._v(" "+t._s(t.l10nEmptyDay)+" ")]):t._e()]),a("NcButton",{key:"add-slot-".concat(n.id),staticClass:"add-another button",attrs:{disabled:t.loading,title:t.l10nAddSlot,"aria-label":t.l10nAddSlot},on:{click:function(a){return t.addSlot(n)}},scopedSlots:t._u([{key:"icon",fn:function(){return[a("IconAdd",{attrs:{size:20}})]},proxy:!0}],null,!0)})],1)]}))],2)}),[],!1,null,"ac7f4eb9",null,null).exports,at=(0,T.YK)().detectUser().setApp("@nextcloud/calendar-availability-vue").build();var nt=e(60669),et=e(33455);const rt=e.n(et)()((t=>{const a=(0,c.dC)(`dav/${t}/${(0,o.HW)().uid}`),n=(0,nt.UU)(a),e=t=>{n.setHeaders({"X-Requested-With":"XMLHttpRequest",requesttoken:t??""})};return(0,o.zo)(e),e((0,o.do)()),n}));var st=e(32073),it=e(50211),ot=e(96763);const dt={name:"AvailabilityForm",components:{NcButton:h.A,NcCheckboxRadioSwitch:st.A,CalendarAvailability:tt,NcTimezonePicker:it.N},data:()=>({loading:!0,saving:!1,timezone:(new Intl.DateTimeFormat)?.resolvedOptions()?.timeZone??"UTC",slots:{MO:[],TU:[],WE:[],TH:[],FR:[],SA:[],SU:[]},automated:"yes"===(0,l.C)("dav","user_status_automation")}),computed:{timeZonePickerId:()=>`tz-${(Math.random()+1).toString(36).substring(7)}`},async mounted(){try{const t=await async function(){const t=rt("calendars"),a=await t.customRequest("inbox",{method:"PROPFIND",data:'<?xml version="1.0"?>\n\t\t\t<x0:propfind xmlns:x0="DAV:">\n\t\t\t  <x0:prop>\n\t\t\t\t<x1:calendar-availability xmlns:x1="urn:ietf:params:xml:ns:caldav"/>\n\t\t\t  </x0:prop>\n\t\t\t</x0:propfind>'}),n=await(0,nt.h4)(await a.text());if(!n)return;const e=n?.multistatus?.response[0]?.propstat?.prop["calendar-availability"];return e?function(t){const a=q.A.parse(t),n=new q.A.Component(a),e=n.getFirstSubcomponent("vavailability");let r;const s=n.getFirstSubcomponent("vtimezone");s&&(r=s.getFirstProperty("tzid").getFirstValue());const i=e.getAllSubcomponents("available"),o={MO:[],TU:[],WE:[],TH:[],FR:[],SA:[],SU:[]};return i.forEach((t=>{const a=t.getFirstProperty("dtstart").getFirstValue().toJSDate(),n=t.getFirstProperty("dtend").getFirstValue().toJSDate(),e=t.getFirstProperty("rrule");"WEEKLY"===e.getFirstValue().freq?e.getFirstValue().getComponent("BYDAY").forEach((t=>{o[t].push({start:a.getTime()/1e3,end:n.getTime()/1e3})})):at.warn("rrule not supported",{rrule:e.toICALString()})})),{slots:o,timezoneId:r}}(e):void 0}();if(t){const{slots:a,timezoneId:n}=t;this.slots=a,n&&(this.timezone=n),ot.info("availability loaded",this.slots,this.timezoneId)}else ot.info("no availability is set"),this.slots={MO:[],TU:[],WE:[],TH:[],FR:[],SA:[],SU:[]}}catch(a){ot.error("could not load existing availability",a),(0,d.Qg)(t("dav","Failed to load availability"))}finally{this.loading=!1}},methods:{async save(){try{this.saving=!0,await async function(t,a){const n=function(t,a){const n=new q.A.Component("vcalendar");n.addPropertyWithValue("prodid","Nextcloud DAV app");const e=(0,$.E$)(a);if(e){const t=new q.A.Component(q.A.parse(e));n.addSubcomponent(t)}else{const t=new q.A.Component("vtimezone");t.addPropertyWithValue("tzid",a),n.addSubcomponent(t)}const r=new q.A.Component("vavailability"),s=t.reduce(((t,a)=>{var n;const e=new Date(1e3*a.start),r=new Date(1e3*a.end),s=[e.getHours(),e.getMinutes(),r.getHours(),r.getMinutes()].join("-");return{...t,[s]:[...null!=(n=t[s])?n:[],a]}}),{});return Object.keys(s).map((t=>{const n=s[t],e=n[0].start,r=n[0].end,i=n.map((t=>t.day)).filter(((t,a,n)=>n.indexOf(t)===a)),o=new q.A.Component("available");return o.addPropertyWithValue("dtstart",q.A.Time.fromJSDate(new Date(1e3*e),!1)).setParameter("tzid",a),o.addPropertyWithValue("dtend",q.A.Time.fromJSDate(new Date(1e3*r),!1)).setParameter("tzid",a),o.addPropertyWithValue("uid",Q()),o.addPropertyWithValue("rrule",{freq:"WEEKLY",byday:i}),o})).map(r.addSubcomponent.bind(r)),n.addSubcomponent(r),n.toString()}([...Object.keys(t).flatMap((a=>t[a].map((t=>({...t,day:a})))))],a);S.debug("New availability ical created",{vavailability:n});const e=rt("calendars");await e.customRequest("inbox",{method:"PROPPATCH",data:`<?xml version="1.0"?>\n\t\t\t<x0:propertyupdate xmlns:x0="DAV:">\n\t\t\t  <x0:set>\n\t\t\t\t<x0:prop>\n\t\t\t\t  <x1:calendar-availability xmlns:x1="urn:ietf:params:xml:ns:caldav">${n}</x1:calendar-availability>\n\t\t\t\t</x0:prop>\n\t\t\t  </x0:set>\n\t\t\t</x0:propertyupdate>`})}(this.slots,this.timezone),this.automated?await async function(){return await u.Ay.post((0,c.KT)("/apps/provisioning_api/api/v1/config/users/{appId}/{configKey}",{appId:"dav",configKey:"user_status_automation"}),{configValue:"yes"})}():await async function(){return await u.Ay.delete((0,c.KT)("/apps/provisioning_api/api/v1/config/users/{appId}/{configKey}",{appId:"dav",configKey:"user_status_automation"}))}(),(0,d.Te)(t("dav","Saved availability"))}catch(a){ot.error("could not save availability",a),(0,d.Qg)(t("dav","Failed to save availability"))}finally{this.saving=!1}}}};var lt=e(3673),ct={};ct.styleTagTransform=N(),ct.setAttributes=M(),ct.insert=B().bind(null,"head"),ct.domAPI=D(),ct.insertStyleElement=P(),x()(lt.A,ct),lt.A&&lt.A.locals&&lt.A.locals;const ft=(0,F.A)(dt,(function(){var t=this,a=t._self._c;return a("div",[a("div",{staticClass:"time-zone"},[a("label",{staticClass:"time-zone__heading",attrs:{for:`vs${t.timeZonePickerId}__combobox`}},[t._v("\n\t\t\t"+t._s(t.$t("dav","Time zone:"))+"\n\t\t")]),t._v(" "),a("span",{staticClass:"time-zone-text"},[a("NcTimezonePicker",{attrs:{uid:t.timeZonePickerId},model:{value:t.timezone,callback:function(a){t.timezone=a},expression:"timezone"}})],1)]),t._v(" "),a("CalendarAvailability",{attrs:{slots:t.slots,loading:t.loading,"l10n-to":t.$t("dav","to"),"l10n-delete-slot":t.$t("dav","Delete slot"),"l10n-empty-day":t.$t("dav","No working hours set"),"l10n-add-slot":t.$t("dav","Add slot"),"l10n-week-day-list-label":t.$t("dav","Weekdays"),"l10n-monday":t.$t("dav","Monday"),"l10n-tuesday":t.$t("dav","Tuesday"),"l10n-wednesday":t.$t("dav","Wednesday"),"l10n-thursday":t.$t("dav","Thursday"),"l10n-friday":t.$t("dav","Friday"),"l10n-saturday":t.$t("dav","Saturday"),"l10n-sunday":t.$t("dav","Sunday"),"l10n-start-picker-label":a=>t.$t("dav","Pick a start time for {dayName}",{dayName:a}),"l10n-end-picker-label":a=>t.$t("dav","Pick a end time for {dayName}",{dayName:a})},on:{"update:slots":function(a){t.slots=a}}}),t._v(" "),a("NcCheckboxRadioSwitch",{attrs:{checked:t.automated},on:{"update:checked":function(a){t.automated=a}}},[t._v("\n\t\t"+t._s(t.$t("dav",'Automatically set user status to "Do not disturb" outside of availability to mute all notifications.'))+"\n\t")]),t._v(" "),a("NcButton",{attrs:{disabled:t.loading||t.saving,type:"primary"},on:{click:t.save}},[t._v("\n\t\t"+t._s(t.$t("dav","Save"))+"\n\t")])],1)}),[],!1,null,"1a1ab9aa",null).exports,At={name:"Availability",components:{NcSettingsSection:i.A,AbsenceForm:G,AvailabilityForm:ft},data:()=>({hideAbsenceSettings:(0,l.C)("dav","hide_absence_settings",!0)})},ut=(0,F.A)(At,(function(){var t=this,a=t._self._c;return a("div",[a("NcSettingsSection",{attrs:{id:"availability",name:t.$t("dav","Availability"),description:t.$t("dav","If you configure your working hours, other people will see when you are out of office when they book a meeting.")}},[a("AvailabilityForm")],1),t._v(" "),t.hideAbsenceSettings?t._e():a("NcSettingsSection",{attrs:{id:"absence",name:t.$t("dav","Absence"),description:t.$t("dav","Configure your next absence period.")}},[a("AbsenceForm")],1)],1)}),[],!1,null,null,null).exports;r.Ay.prototype.$t=s.Tl,new(r.Ay.extend(ut))({}).$mount("#settings-personal-availability")},89491:(t,a,n)=>{"use strict";n.d(a,{A:()=>o});var e=n(71354),r=n.n(e),s=n(76314),i=n.n(s)()(r());i.push([t.id,".availability-day[data-v-ac7f4eb9] {\n  padding: 0 10px 0 10px;\n  position: absolute;\n}\n.availability-slots[data-v-ac7f4eb9] {\n  max-width: 332px;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n  white-space: nowrap;\n}\n.availability-slot[data-v-ac7f4eb9] {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n}\n.availability-slot-group[data-v-ac7f4eb9] {\n  display: flex;\n  flex-direction: column;\n}\n.time-zone[data-v-ac7f4eb9] {\n  padding: 32px 12px 12px 0;\n}\n.week-day-container[data-v-ac7f4eb9] {\n  box-sizing: border-box;\n  margin-bottom: 32px;\n  max-width: 500px;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start;\n}\n.button[data-v-ac7f4eb9] {\n  align-self: flex-end;\n}\n.label-weekday[data-v-ac7f4eb9] {\n  position: relative;\n  display: flex;\n  align-items: flex-start;\n  min-width: 77px;\n  width: 77px;\n}\n.label-weekday > span[data-v-ac7f4eb9] {\n  height: 50px;\n  display: flex;\n  align-items: center;\n}\n.add-another[data-v-ac7f4eb9] {\n  background-color: transparent;\n  border: none;\n  opacity: 0.5;\n  display: inline-flex;\n  padding: 0;\n  margin: 0;\n  margin-bottom: 3px;\n}\n.add-another[data-v-ac7f4eb9]:hover {\n  opacity: 1;\n}\n.to-text[data-v-ac7f4eb9] {\n  padding-right: 12px;\n}\n.time-zone-text[data-v-ac7f4eb9] {\n  padding-left: 22px;\n}\n.empty-content[data-v-ac7f4eb9] {\n  color: var(--color-text-lighter);\n  display: inline-flex;\n  align-items: center;\n}\n.start-date[data-v-ac7f4eb9] {\n  padding-right: 12px;\n}\n.day-container[data-v-ac7f4eb9] {\n  display: flex;\n  max-width: 500px;\n  width: 100%;\n  gap: 24px;\n  border-top: 1px solid var(--color-border);\n  padding-top: calc(3 * var(--default-grid-baseline));\n  margin-top: calc(2 * var(--default-grid-baseline));\n}","",{version:3,sources:["webpack://./node_modules/@nextcloud/calendar-availability-vue/dist/assets/index-Ds7BWaqb.css"],names:[],mappings:"AAAA;EACE,sBAAsB;EACtB,kBAAkB;AACpB;AACA;EACE,gBAAgB;EAChB,WAAW;EACX,aAAa;EACb,2BAA2B;EAC3B,mBAAmB;AACrB;AACA;EACE,aAAa;EACb,mBAAmB;EACnB,mBAAmB;AACrB;AACA;EACE,aAAa;EACb,sBAAsB;AACxB;AACA;EACE,yBAAyB;AAC3B;AACA;EACE,sBAAsB;EACtB,mBAAmB;EACnB,gBAAgB;EAChB,WAAW;EACX,aAAa;EACb,sBAAsB;EACtB,uBAAuB;AACzB;AACA;EACE,oBAAoB;AACtB;AACA;EACE,kBAAkB;EAClB,aAAa;EACb,uBAAuB;EACvB,eAAe;EACf,WAAW;AACb;AACA;EACE,YAAY;EACZ,aAAa;EACb,mBAAmB;AACrB;AACA;EACE,6BAA6B;EAC7B,YAAY;EACZ,YAAY;EACZ,oBAAoB;EACpB,UAAU;EACV,SAAS;EACT,kBAAkB;AACpB;AACA;EACE,UAAU;AACZ;AACA;EACE,mBAAmB;AACrB;AACA;EACE,kBAAkB;AACpB;AACA;EACE,gCAAgC;EAChC,oBAAoB;EACpB,mBAAmB;AACrB;AACA;EACE,mBAAmB;AACrB;AACA;EACE,aAAa;EACb,gBAAgB;EAChB,WAAW;EACX,SAAS;EACT,yCAAyC;EACzC,mDAAmD;EACnD,kDAAkD;AACpD",sourcesContent:[".availability-day[data-v-ac7f4eb9] {\n  padding: 0 10px 0 10px;\n  position: absolute;\n}\n.availability-slots[data-v-ac7f4eb9] {\n  max-width: 332px;\n  width: 100%;\n  display: flex;\n  justify-content: flex-start;\n  white-space: nowrap;\n}\n.availability-slot[data-v-ac7f4eb9] {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n}\n.availability-slot-group[data-v-ac7f4eb9] {\n  display: flex;\n  flex-direction: column;\n}\n.time-zone[data-v-ac7f4eb9] {\n  padding: 32px 12px 12px 0;\n}\n.week-day-container[data-v-ac7f4eb9] {\n  box-sizing: border-box;\n  margin-bottom: 32px;\n  max-width: 500px;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start;\n}\n.button[data-v-ac7f4eb9] {\n  align-self: flex-end;\n}\n.label-weekday[data-v-ac7f4eb9] {\n  position: relative;\n  display: flex;\n  align-items: flex-start;\n  min-width: 77px;\n  width: 77px;\n}\n.label-weekday > span[data-v-ac7f4eb9] {\n  height: 50px;\n  display: flex;\n  align-items: center;\n}\n.add-another[data-v-ac7f4eb9] {\n  background-color: transparent;\n  border: none;\n  opacity: 0.5;\n  display: inline-flex;\n  padding: 0;\n  margin: 0;\n  margin-bottom: 3px;\n}\n.add-another[data-v-ac7f4eb9]:hover {\n  opacity: 1;\n}\n.to-text[data-v-ac7f4eb9] {\n  padding-right: 12px;\n}\n.time-zone-text[data-v-ac7f4eb9] {\n  padding-left: 22px;\n}\n.empty-content[data-v-ac7f4eb9] {\n  color: var(--color-text-lighter);\n  display: inline-flex;\n  align-items: center;\n}\n.start-date[data-v-ac7f4eb9] {\n  padding-right: 12px;\n}\n.day-container[data-v-ac7f4eb9] {\n  display: flex;\n  max-width: 500px;\n  width: 100%;\n  gap: 24px;\n  border-top: 1px solid var(--color-border);\n  padding-top: calc(3 * var(--default-grid-baseline));\n  margin-top: calc(2 * var(--default-grid-baseline));\n}"],sourceRoot:""}]);const o=i},48521:(t,a,n)=>{"use strict";n.d(a,{A:()=>o});var e=n(71354),r=n.n(e),s=n(76314),i=n.n(s)()(r());i.push([t.id,".absence[data-v-23bf0848]{display:flex;flex-direction:column;gap:5px}.absence__dates[data-v-23bf0848]{display:flex;gap:10px;width:100%}.absence__dates__picker[data-v-23bf0848]{flex:1 auto}.absence__dates__picker[data-v-23bf0848] .native-datetime-picker--input{margin-bottom:0}.absence__buttons[data-v-23bf0848]{display:flex;gap:5px}","",{version:3,sources:["webpack://./apps/dav/src/components/AbsenceForm.vue"],names:[],mappings:"AACA,0BACC,YAAA,CACA,qBAAA,CACA,OAAA,CAEA,iCACC,YAAA,CACA,QAAA,CACA,UAAA,CAEA,yCACC,WAAA,CAEA,wEACC,eAAA,CAKH,mCACC,YAAA,CACA,OAAA",sourcesContent:["\n.absence {\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: 5px;\n\n\t&__dates {\n\t\tdisplay: flex;\n\t\tgap: 10px;\n\t\twidth: 100%;\n\n\t\t&__picker {\n\t\t\tflex: 1 auto;\n\n\t\t\t::v-deep .native-datetime-picker--input {\n\t\t\t\tmargin-bottom: 0;\n\t\t\t}\n\t\t}\n\t}\n\n\t&__buttons {\n\t\tdisplay: flex;\n\t\tgap: 5px;\n\t}\n}\n"],sourceRoot:""}]);const o=i},3673:(t,a,n)=>{"use strict";n.d(a,{A:()=>o});var e=n(71354),r=n.n(e),s=n(76314),i=n.n(s)()(r());i.push([t.id,"[data-v-1a1ab9aa] .availability-day{padding:0 10px 0 10px;position:absolute}[data-v-1a1ab9aa] .availability-slots{display:flex;white-space:normal}[data-v-1a1ab9aa] .availability-slot{display:flex;flex-direction:row;align-items:center;flex-wrap:wrap}[data-v-1a1ab9aa] .availability-slot-group{display:flex;flex-direction:column}[data-v-1a1ab9aa] .mx-input-wrapper{width:85px}[data-v-1a1ab9aa] .mx-datepicker{width:97px}[data-v-1a1ab9aa] .multiselect{border:1px solid var(--color-border-dark);width:120px}.time-zone[data-v-1a1ab9aa]{padding-block:32px 12px;padding-inline:0 12px;display:flex;flex-wrap:wrap}.time-zone__heading[data-v-1a1ab9aa]{margin-inline-end:calc(var(--default-grid-baseline)*2);line-height:var(--default-clickable-area);font-weight:bold}.grid-table[data-v-1a1ab9aa]{display:grid;margin-bottom:32px;grid-column-gap:24px;grid-row-gap:6px;grid-template-columns:min-content auto min-content;max-width:500px}.button[data-v-1a1ab9aa]{align-self:flex-end}[data-v-1a1ab9aa] .label-weekday{position:relative;display:inline-flex;padding-top:4px;align-self:center}[data-v-1a1ab9aa] .delete-slot{padding-bottom:unset}[data-v-1a1ab9aa] .add-another{align-self:center}.to-text[data-v-1a1ab9aa]{padding-inline-end:12px}.empty-content[data-v-1a1ab9aa]{color:var(--color-text-lighter);margin-block-start:var(--default-grid-baseline);align-self:center}","",{version:3,sources:["webpack://./apps/dav/src/components/AvailabilityForm.vue"],names:[],mappings:"AACA,oCACC,qBAAA,CACA,iBAAA,CAED,sCACC,YAAA,CACA,kBAAA,CAED,qCACC,YAAA,CACA,kBAAA,CACA,kBAAA,CACA,cAAA,CAED,2CACC,YAAA,CACA,qBAAA,CAED,oCACC,UAAA,CAED,iCACC,UAAA,CAED,+BACC,yCAAA,CACA,WAAA,CAED,4BACC,uBAAA,CACA,qBAAA,CACA,YAAA,CACA,cAAA,CAEA,qCACC,sDAAA,CACA,yCAAA,CACA,gBAAA,CAGF,6BACC,YAAA,CACA,kBAAA,CACA,oBAAA,CACA,gBAAA,CACA,kDAAA,CACA,eAAA,CAED,yBACC,mBAAA,CAED,iCACC,iBAAA,CACA,mBAAA,CACA,eAAA,CACA,iBAAA,CAGD,+BACC,oBAAA,CAGD,+BACC,iBAAA,CAGD,0BACC,uBAAA,CAGD,gCACC,+BAAA,CACA,+CAAA,CACA,iBAAA",sourcesContent:["\n:deep(.availability-day) {\n\tpadding: 0 10px 0 10px;\n\tposition: absolute;\n}\n:deep(.availability-slots) {\n\tdisplay: flex;\n\twhite-space: normal;\n}\n:deep(.availability-slot) {\n\tdisplay: flex;\n\tflex-direction: row;\n\talign-items: center;\n\tflex-wrap: wrap;\n}\n:deep(.availability-slot-group) {\n\tdisplay: flex;\n\tflex-direction: column;\n}\n:deep(.mx-input-wrapper) {\n\twidth: 85px;\n}\n:deep(.mx-datepicker) {\n\twidth: 97px;\n}\n:deep(.multiselect) {\n\tborder: 1px solid var(--color-border-dark);\n\twidth: 120px;\n}\n.time-zone {\n\tpadding-block: 32px 12px;\n\tpadding-inline: 0 12px;\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\n\t&__heading {\n\t\tmargin-inline-end: calc(var(--default-grid-baseline) * 2);\n\t\tline-height: var(--default-clickable-area);\n\t\tfont-weight: bold;\n\t}\n}\n.grid-table {\n\tdisplay: grid;\n\tmargin-bottom: 32px;\n\tgrid-column-gap: 24px;\n\tgrid-row-gap: 6px;\n\tgrid-template-columns: min-content auto min-content;\n\tmax-width: 500px;\n}\n.button {\n\talign-self: flex-end;\n}\n:deep(.label-weekday) {\n\tposition: relative;\n\tdisplay: inline-flex;\n\tpadding-top: 4px;\n\talign-self: center;\n}\n\n:deep(.delete-slot) {\n\tpadding-bottom: unset;\n}\n\n:deep(.add-another) {\n\talign-self: center;\n}\n\n.to-text {\n\tpadding-inline-end: 12px;\n}\n\n.empty-content {\n\tcolor: var(--color-text-lighter);\n\tmargin-block-start: var(--default-grid-baseline);\n\talign-self: center;\n}\n"],sourceRoot:""}]);const o=i},46447:(t,a,n)=>{"use strict";a.E$=void 0;const e=n(61080);function r(t){const{n:a,f:n,t:r,r:s,s:i}=t;return[`TZNAME:${a}`,`TZOFFSETFROM:${n}`,`TZOFFSETTO:${r||n}`,`DTSTART:${i||e.defaultStart}`,...s?[`RRULE:FREQ=${s.f||"YEARLY"};BYMONTH=${s.m};BYDAY=${s.d}`]:[]]}a.E$=function(t,a=!0){const n=function(t,a=!0){const n=e.zonesMap.get(t);if(n){const{s:e,d:s}=n;return[...a?["BEGIN:VTIMEZONE"]:[],`TZID:${t}`,"BEGIN:STANDARD",...r(e),"END:STANDARD",...s?["BEGIN:DAYLIGHT",...r(s),"END:DAYLIGHT"]:[],...a?["END:VTIMEZONE"]:[]]}}(t,a);return null==n?void 0:n.join("\r\n")}},61080:(t,a)=>{"use strict";Object.defineProperty(a,"__esModule",{value:!0}),a.zonesMap=a.defaultStart=void 0,a.defaultStart="19700101T000000",a.zonesMap=new Map([["Africa/Abidjan",{s:{f:"+0000",n:"GMT"}}],["Africa/Accra",{s:{f:"+0000",n:"GMT"}}],["Africa/Addis_Ababa",{s:{f:"+0300",n:"EAT"}}],["Africa/Algiers",{s:{f:"+0100",n:"CET"}}],["Africa/Asmara",{s:{f:"+0300",n:"EAT"}}],["Africa/Bamako",{s:{f:"+0000",n:"GMT"}}],["Africa/Bangui",{s:{f:"+0100",n:"WAT"}}],["Africa/Banjul",{s:{f:"+0000",n:"GMT"}}],["Africa/Bissau",{s:{f:"+0000",n:"GMT"}}],["Africa/Blantyre",{s:{f:"+0200",n:"CAT"}}],["Africa/Brazzaville",{s:{f:"+0100",n:"WAT"}}],["Africa/Bujumbura",{s:{f:"+0200",n:"CAT"}}],["Africa/Cairo",{s:{f:"+0200",n:"EET"}}],["Africa/Casablanca",{s:{f:"+0100",n:"+01"}}],["Africa/Ceuta",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Africa/Conakry",{s:{f:"+0000",n:"GMT"}}],["Africa/Dakar",{s:{f:"+0000",n:"GMT"}}],["Africa/Dar_es_Salaam",{s:{f:"+0300",n:"EAT"}}],["Africa/Djibouti",{s:{f:"+0300",n:"EAT"}}],["Africa/Douala",{s:{f:"+0100",n:"WAT"}}],["Africa/El_Aaiun",{s:{f:"+0100",n:"+01"}}],["Africa/Freetown",{s:{f:"+0000",n:"GMT"}}],["Africa/Gaborone",{s:{f:"+0200",n:"CAT"}}],["Africa/Harare",{s:{f:"+0200",n:"CAT"}}],["Africa/Johannesburg",{s:{f:"+0200",n:"SAST"}}],["Africa/Juba",{s:{f:"+0300",n:"EAT"}}],["Africa/Kampala",{s:{f:"+0300",n:"EAT"}}],["Africa/Khartoum",{s:{f:"+0200",n:"CAT"}}],["Africa/Kigali",{s:{f:"+0200",n:"CAT"}}],["Africa/Kinshasa",{s:{f:"+0100",n:"WAT"}}],["Africa/Lagos",{s:{f:"+0100",n:"WAT"}}],["Africa/Libreville",{s:{f:"+0100",n:"WAT"}}],["Africa/Lome",{s:{f:"+0000",n:"GMT"}}],["Africa/Luanda",{s:{f:"+0100",n:"WAT"}}],["Africa/Lubumbashi",{s:{f:"+0200",n:"CAT"}}],["Africa/Lusaka",{s:{f:"+0200",n:"CAT"}}],["Africa/Malabo",{s:{f:"+0100",n:"WAT"}}],["Africa/Maputo",{s:{f:"+0200",n:"CAT"}}],["Africa/Maseru",{s:{f:"+0200",n:"SAST"}}],["Africa/Mbabane",{s:{f:"+0200",n:"SAST"}}],["Africa/Mogadishu",{s:{f:"+0300",n:"EAT"}}],["Africa/Monrovia",{s:{f:"+0000",n:"GMT"}}],["Africa/Nairobi",{s:{f:"+0300",n:"EAT"}}],["Africa/Ndjamena",{s:{f:"+0100",n:"WAT"}}],["Africa/Niamey",{s:{f:"+0100",n:"WAT"}}],["Africa/Nouakchott",{s:{f:"+0000",n:"GMT"}}],["Africa/Ouagadougou",{s:{f:"+0000",n:"GMT"}}],["Africa/Porto-Novo",{s:{f:"+0100",n:"WAT"}}],["Africa/Sao_Tome",{s:{f:"+0100",n:"WAT"}}],["Africa/Tripoli",{s:{f:"+0200",n:"EET"}}],["Africa/Tunis",{s:{f:"+0100",n:"CET"}}],["Africa/Windhoek",{s:{f:"+0200",n:"CAT"}}],["America/Adak",{s:{f:"-0900",t:"-1000",n:"HST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-1000",t:"-0900",n:"HDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Anchorage",{s:{f:"-0800",t:"-0900",n:"AKST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0900",t:"-0800",n:"AKDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Anguilla",{s:{f:"-0400",n:"AST"}}],["America/Antigua",{s:{f:"-0400",n:"AST"}}],["America/Araguaina",{s:{f:"-0300",n:"-03"}}],["America/Argentina/Buenos_Aires",{s:{f:"-0300",n:"-03"}}],["America/Argentina/Catamarca",{s:{f:"-0300",n:"-03"}}],["America/Argentina/Cordoba",{s:{f:"-0300",n:"-03"}}],["America/Argentina/Jujuy",{s:{f:"-0300",n:"-03"}}],["America/Argentina/La_Rioja",{s:{f:"-0300",n:"-03"}}],["America/Argentina/Mendoza",{s:{f:"-0300",n:"-03"}}],["America/Argentina/Rio_Gallegos",{s:{f:"-0300",n:"-03"}}],["America/Argentina/Salta",{s:{f:"-0300",n:"-03"}}],["America/Argentina/San_Juan",{s:{f:"-0300",n:"-03"}}],["America/Argentina/San_Luis",{s:{f:"-0300",n:"-03"}}],["America/Argentina/Tucuman",{s:{f:"-0300",n:"-03"}}],["America/Argentina/Ushuaia",{s:{f:"-0300",n:"-03"}}],["America/Aruba",{s:{f:"-0400",n:"AST"}}],["America/Asuncion",{s:{f:"-0300",t:"-0400",n:"-04",s:"19700322T000000",r:{m:3,d:"4SU"}},d:{f:"-0400",t:"-0300",n:"-03",s:"19701004T000000",r:{m:10,d:"1SU"}}}],["America/Atikokan",{s:{f:"-0500",n:"EST"}}],["America/Bahia_Banderas",{s:{f:"-0500",t:"-0600",n:"CST",s:"19701025T020000",r:{m:10,d:"-1SU"}},d:{f:"-0600",t:"-0500",n:"CDT",s:"19700405T020000",r:{m:4,d:"1SU"}}}],["America/Bahia",{s:{f:"-0300",n:"-03"}}],["America/Barbados",{s:{f:"-0400",n:"AST"}}],["America/Belem",{s:{f:"-0300",n:"-03"}}],["America/Belize",{s:{f:"-0600",n:"CST"}}],["America/Blanc-Sablon",{s:{f:"-0400",n:"AST"}}],["America/Boa_Vista",{s:{f:"-0400",n:"-04"}}],["America/Bogota",{s:{f:"-0500",n:"-05"}}],["America/Boise",{s:{f:"-0600",t:"-0700",n:"MST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0700",t:"-0600",n:"MDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Cambridge_Bay",{s:{f:"-0600",t:"-0700",n:"MST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0700",t:"-0600",n:"MDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Campo_Grande",{s:{f:"-0400",n:"-04",s:"19700215T000000",r:{m:2,d:"3SU"}},d:{f:"-0400",t:"-0300",n:"-03",s:"19701101T000000",r:{m:11,d:"1SU"}}}],["America/Cancun",{s:{f:"-0500",n:"EST"}}],["America/Caracas",{s:{f:"-0400",n:"-04"}}],["America/Cayenne",{s:{f:"-0300",n:"-03"}}],["America/Cayman",{s:{f:"-0500",n:"EST"}}],["America/Chicago",{s:{f:"-0500",t:"-0600",n:"CST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0600",t:"-0500",n:"CDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Chihuahua",{s:{f:"-0600",t:"-0700",n:"MST",s:"19701025T020000",r:{m:10,d:"-1SU"}},d:{f:"-0700",t:"-0600",n:"MDT",s:"19700405T020000",r:{m:4,d:"1SU"}}}],["America/Costa_Rica",{s:{f:"-0600",n:"CST"}}],["America/Creston",{s:{f:"-0700",n:"MST"}}],["America/Cuiaba",{s:{f:"-0400",n:"-04",s:"19700215T000000",r:{m:2,d:"3SU"}},d:{f:"-0400",t:"-0300",n:"-03",s:"19701101T000000",r:{m:11,d:"1SU"}}}],["America/Curacao",{s:{f:"-0400",n:"AST"}}],["America/Danmarkshavn",{s:{f:"+0000",n:"GMT"}}],["America/Dawson_Creek",{s:{f:"-0700",n:"MST"}}],["America/Dawson",{s:{f:"-0700",t:"-0800",n:"PST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0800",t:"-0700",n:"PDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Denver",{s:{f:"-0600",t:"-0700",n:"MST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0700",t:"-0600",n:"MDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Detroit",{s:{f:"-0400",t:"-0500",n:"EST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0500",t:"-0400",n:"EDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Dominica",{s:{f:"-0400",n:"AST"}}],["America/Edmonton",{s:{f:"-0600",t:"-0700",n:"MST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0700",t:"-0600",n:"MDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Eirunepe",{s:{f:"-0500",n:"-05"}}],["America/El_Salvador",{s:{f:"-0600",n:"CST"}}],["America/Fort_Nelson",{s:{f:"-0700",n:"MST"}}],["America/Fortaleza",{s:{f:"-0300",n:"-03"}}],["America/Glace_Bay",{s:{f:"-0300",t:"-0400",n:"AST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0400",t:"-0300",n:"ADT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Godthab",{s:{f:"-0200",t:"-0300",n:"-03",s:"19701024T230000",r:{m:10,d:"-1SA"}},d:{f:"-0300",t:"-0200",n:"-02",s:"19700328T220000",r:{m:3,d:"-1SA"}}}],["America/Goose_Bay",{s:{f:"-0300",t:"-0400",n:"AST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0400",t:"-0300",n:"ADT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Grand_Turk",{s:{f:"-0400",t:"-0500",n:"EST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0500",t:"-0400",n:"EDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Grenada",{s:{f:"-0400",n:"AST"}}],["America/Guadeloupe",{s:{f:"-0400",n:"AST"}}],["America/Guatemala",{s:{f:"-0600",n:"CST"}}],["America/Guayaquil",{s:{f:"-0500",n:"-05"}}],["America/Guyana",{s:{f:"-0400",n:"-04"}}],["America/Halifax",{s:{f:"-0300",t:"-0400",n:"AST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0400",t:"-0300",n:"ADT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Havana",{s:{f:"-0400",t:"-0500",n:"CST",s:"19701101T010000",r:{m:11,d:"1SU"}},d:{f:"-0500",t:"-0400",n:"CDT",s:"19700308T000000",r:{m:3,d:"2SU"}}}],["America/Hermosillo",{s:{f:"-0700",n:"MST"}}],["America/Indiana/Indianapolis",{s:{f:"-0400",t:"-0500",n:"EST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0500",t:"-0400",n:"EDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Indiana/Knox",{s:{f:"-0500",t:"-0600",n:"CST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0600",t:"-0500",n:"CDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Indiana/Marengo",{s:{f:"-0400",t:"-0500",n:"EST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0500",t:"-0400",n:"EDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Indiana/Petersburg",{s:{f:"-0400",t:"-0500",n:"EST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0500",t:"-0400",n:"EDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Indiana/Tell_City",{s:{f:"-0500",t:"-0600",n:"CST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0600",t:"-0500",n:"CDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Indiana/Vevay",{s:{f:"-0400",t:"-0500",n:"EST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0500",t:"-0400",n:"EDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Indiana/Vincennes",{s:{f:"-0400",t:"-0500",n:"EST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0500",t:"-0400",n:"EDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Indiana/Winamac",{s:{f:"-0400",t:"-0500",n:"EST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0500",t:"-0400",n:"EDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Inuvik",{s:{f:"-0600",t:"-0700",n:"MST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0700",t:"-0600",n:"MDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Iqaluit",{s:{f:"-0400",t:"-0500",n:"EST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0500",t:"-0400",n:"EDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Jamaica",{s:{f:"-0500",n:"EST"}}],["America/Juneau",{s:{f:"-0800",t:"-0900",n:"AKST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0900",t:"-0800",n:"AKDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Kentucky/Louisville",{s:{f:"-0400",t:"-0500",n:"EST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0500",t:"-0400",n:"EDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Kentucky/Monticello",{s:{f:"-0400",t:"-0500",n:"EST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0500",t:"-0400",n:"EDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Kralendijk",{s:{f:"-0400",n:"AST"}}],["America/La_Paz",{s:{f:"-0400",n:"-04"}}],["America/Lima",{s:{f:"-0500",n:"-05"}}],["America/Los_Angeles",{s:{f:"-0700",t:"-0800",n:"PST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0800",t:"-0700",n:"PDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Lower_Princes",{s:{f:"-0400",n:"AST"}}],["America/Maceio",{s:{f:"-0300",n:"-03"}}],["America/Managua",{s:{f:"-0600",n:"CST"}}],["America/Manaus",{s:{f:"-0400",n:"-04"}}],["America/Marigot",{s:{f:"-0400",n:"AST"}}],["America/Martinique",{s:{f:"-0400",n:"AST"}}],["America/Matamoros",{s:{f:"-0500",t:"-0600",n:"CST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0600",t:"-0500",n:"CDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Mazatlan",{s:{f:"-0600",t:"-0700",n:"MST",s:"19701025T020000",r:{m:10,d:"-1SU"}},d:{f:"-0700",t:"-0600",n:"MDT",s:"19700405T020000",r:{m:4,d:"1SU"}}}],["America/Menominee",{s:{f:"-0500",t:"-0600",n:"CST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0600",t:"-0500",n:"CDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Merida",{s:{f:"-0500",t:"-0600",n:"CST",s:"19701025T020000",r:{m:10,d:"-1SU"}},d:{f:"-0600",t:"-0500",n:"CDT",s:"19700405T020000",r:{m:4,d:"1SU"}}}],["America/Metlakatla",{s:{f:"-0800",t:"-0900",n:"AKST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0900",t:"-0800",n:"AKDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Mexico_City",{s:{f:"-0500",t:"-0600",n:"CST",s:"19701025T020000",r:{m:10,d:"-1SU"}},d:{f:"-0600",t:"-0500",n:"CDT",s:"19700405T020000",r:{m:4,d:"1SU"}}}],["America/Miquelon",{s:{f:"-0200",t:"-0300",n:"-03",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0300",t:"-0200",n:"-02",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Moncton",{s:{f:"-0300",t:"-0400",n:"AST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0400",t:"-0300",n:"ADT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Monterrey",{s:{f:"-0500",t:"-0600",n:"CST",s:"19701025T020000",r:{m:10,d:"-1SU"}},d:{f:"-0600",t:"-0500",n:"CDT",s:"19700405T020000",r:{m:4,d:"1SU"}}}],["America/Montevideo",{s:{f:"-0300",n:"-03"}}],["America/Montserrat",{s:{f:"-0400",n:"AST"}}],["America/Nassau",{s:{f:"-0400",t:"-0500",n:"EST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0500",t:"-0400",n:"EDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/New_York",{s:{f:"-0400",t:"-0500",n:"EST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0500",t:"-0400",n:"EDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Nipigon",{s:{f:"-0400",t:"-0500",n:"EST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0500",t:"-0400",n:"EDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Nome",{s:{f:"-0800",t:"-0900",n:"AKST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0900",t:"-0800",n:"AKDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Noronha",{s:{f:"-0200",n:"-02"}}],["America/North_Dakota/Beulah",{s:{f:"-0500",t:"-0600",n:"CST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0600",t:"-0500",n:"CDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/North_Dakota/Center",{s:{f:"-0500",t:"-0600",n:"CST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0600",t:"-0500",n:"CDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/North_Dakota/New_Salem",{s:{f:"-0500",t:"-0600",n:"CST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0600",t:"-0500",n:"CDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Ojinaga",{s:{f:"-0600",t:"-0700",n:"MST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0700",t:"-0600",n:"MDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Panama",{s:{f:"-0500",n:"EST"}}],["America/Pangnirtung",{s:{f:"-0400",t:"-0500",n:"EST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0500",t:"-0400",n:"EDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Paramaribo",{s:{f:"-0300",n:"-03"}}],["America/Phoenix",{s:{f:"-0700",n:"MST"}}],["America/Port_of_Spain",{s:{f:"-0400",n:"AST"}}],["America/Port-au-Prince",{s:{f:"-0400",t:"-0500",n:"EST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0500",t:"-0400",n:"EDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Porto_Velho",{s:{f:"-0400",n:"-04"}}],["America/Puerto_Rico",{s:{f:"-0400",n:"AST"}}],["America/Punta_Arenas",{s:{f:"-0300",n:"-03"}}],["America/Rainy_River",{s:{f:"-0500",t:"-0600",n:"CST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0600",t:"-0500",n:"CDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Rankin_Inlet",{s:{f:"-0500",t:"-0600",n:"CST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0600",t:"-0500",n:"CDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Recife",{s:{f:"-0300",n:"-03"}}],["America/Regina",{s:{f:"-0600",n:"CST"}}],["America/Resolute",{s:{f:"-0500",t:"-0600",n:"CST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0600",t:"-0500",n:"CDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Rio_Branco",{s:{f:"-0500",n:"-05"}}],["America/Santarem",{s:{f:"-0300",n:"-03"}}],["America/Santiago",{s:{f:"-0300",t:"-0400",n:"-04",s:"19700405T000000",r:{m:4,d:"1SU"}},d:{f:"-0400",t:"-0300",n:"-03",s:"19700906T000000",r:{m:9,d:"1SU"}}}],["America/Santo_Domingo",{s:{f:"-0400",n:"AST"}}],["America/Sao_Paulo",{s:{f:"-0300",n:"-03",s:"19700215T000000",r:{m:2,d:"3SU"}},d:{f:"-0300",t:"-0200",n:"-02",s:"19701101T000000",r:{m:11,d:"1SU"}}}],["America/Scoresbysund",{s:{f:"+0000",t:"-0100",n:"-01",s:"19701025T010000",r:{m:10,d:"-1SU"}},d:{f:"-0100",t:"+0000",n:"+00",s:"19700329T000000",r:{m:3,d:"-1SU"}}}],["America/Sitka",{s:{f:"-0800",t:"-0900",n:"AKST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0900",t:"-0800",n:"AKDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/St_Barthelemy",{s:{f:"-0400",n:"AST"}}],["America/St_Johns",{s:{f:"-0230",t:"-0330",n:"NST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0330",t:"-0230",n:"NDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/St_Kitts",{s:{f:"-0400",n:"AST"}}],["America/St_Lucia",{s:{f:"-0400",n:"AST"}}],["America/St_Thomas",{s:{f:"-0400",n:"AST"}}],["America/St_Vincent",{s:{f:"-0400",n:"AST"}}],["America/Swift_Current",{s:{f:"-0600",n:"CST"}}],["America/Tegucigalpa",{s:{f:"-0600",n:"CST"}}],["America/Thule",{s:{f:"-0300",t:"-0400",n:"AST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0400",t:"-0300",n:"ADT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Thunder_Bay",{s:{f:"-0400",t:"-0500",n:"EST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0500",t:"-0400",n:"EDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Tijuana",{s:{f:"-0700",t:"-0800",n:"PST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0800",t:"-0700",n:"PDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Toronto",{s:{f:"-0400",t:"-0500",n:"EST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0500",t:"-0400",n:"EDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Tortola",{s:{f:"-0400",n:"AST"}}],["America/Vancouver",{s:{f:"-0700",t:"-0800",n:"PST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0800",t:"-0700",n:"PDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Whitehorse",{s:{f:"-0700",t:"-0800",n:"PST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0800",t:"-0700",n:"PDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Winnipeg",{s:{f:"-0500",t:"-0600",n:"CST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0600",t:"-0500",n:"CDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Yakutat",{s:{f:"-0800",t:"-0900",n:"AKST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0900",t:"-0800",n:"AKDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["America/Yellowknife",{s:{f:"-0600",t:"-0700",n:"MST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0700",t:"-0600",n:"MDT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["Antarctica/Casey",{s:{f:"+0800",n:"+08"}}],["Antarctica/Davis",{s:{f:"+0700",n:"+07"}}],["Antarctica/DumontDUrville",{s:{f:"+1000",n:"+10"}}],["Antarctica/Macquarie",{s:{f:"+1100",n:"+11"}}],["Antarctica/Mawson",{s:{f:"+0500",n:"+05"}}],["Antarctica/McMurdo",{s:{f:"+1300",t:"+1200",n:"NZST",s:"19700405T030000",r:{m:4,d:"1SU"}},d:{f:"+1200",t:"+1300",n:"NZDT",s:"19700927T020000",r:{m:9,d:"-1SU"}}}],["Antarctica/Palmer",{s:{f:"-0300",n:"-03"}}],["Antarctica/Rothera",{s:{f:"-0300",n:"-03"}}],["Antarctica/Syowa",{s:{f:"+0300",n:"+03"}}],["Antarctica/Troll",{s:{f:"+0200",t:"+0000",n:"+00",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0000",t:"+0200",n:"+02",s:"19700329T010000",r:{m:3,d:"-1SU"}}}],["Antarctica/Vostok",{s:{f:"+0600",n:"+06"}}],["Arctic/Longyearbyen",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Asia/Aden",{s:{f:"+0300",n:"+03"}}],["Asia/Almaty",{s:{f:"+0600",n:"+06"}}],["Asia/Amman",{s:{f:"+0300",t:"+0200",n:"EET",s:"19701030T010000",r:{m:10,d:"-1FR"}},d:{f:"+0200",t:"+0300",n:"EEST",s:"19700326T235959",r:{m:3,d:"-1TH"}}}],["Asia/Anadyr",{s:{f:"+1200",n:"+12"}}],["Asia/Aqtau",{s:{f:"+0500",n:"+05"}}],["Asia/Aqtobe",{s:{f:"+0500",n:"+05"}}],["Asia/Ashgabat",{s:{f:"+0500",n:"+05"}}],["Asia/Atyrau",{s:{f:"+0500",n:"+05"}}],["Asia/Baghdad",{s:{f:"+0300",n:"+03"}}],["Asia/Bahrain",{s:{f:"+0300",n:"+03"}}],["Asia/Baku",{s:{f:"+0400",n:"+04"}}],["Asia/Bangkok",{s:{f:"+0700",n:"+07"}}],["Asia/Barnaul",{s:{f:"+0700",n:"+07"}}],["Asia/Beirut",{s:{f:"+0300",t:"+0200",n:"EET",s:"19701025T000000",r:{m:10,d:"-1SU"}},d:{f:"+0200",t:"+0300",n:"EEST",s:"19700329T000000",r:{m:3,d:"-1SU"}}}],["Asia/Bishkek",{s:{f:"+0600",n:"+06"}}],["Asia/Brunei",{s:{f:"+0800",n:"+08"}}],["Asia/Chita",{s:{f:"+0900",n:"+09"}}],["Asia/Choibalsan",{s:{f:"+0800",n:"+08"}}],["Asia/Colombo",{s:{f:"+0530",n:"+0530"}}],["Asia/Damascus",{s:{f:"+0300",t:"+0200",n:"EET",s:"19701030T000000",r:{m:10,d:"-1FR"}},d:{f:"+0200",t:"+0300",n:"EEST",s:"19700327T000000",r:{m:3,d:"-1FR"}}}],["Asia/Dhaka",{s:{f:"+0600",n:"+06"}}],["Asia/Dili",{s:{f:"+0900",n:"+09"}}],["Asia/Dubai",{s:{f:"+0400",n:"+04"}}],["Asia/Dushanbe",{s:{f:"+0500",n:"+05"}}],["Asia/Famagusta",{s:{f:"+0300",t:"+0200",n:"EET",s:"19701025T040000",r:{m:10,d:"-1SU"}},d:{f:"+0200",t:"+0300",n:"EEST",s:"19700329T030000",r:{m:3,d:"-1SU"}}}],["Asia/Gaza",{s:{f:"+0300",t:"+0200",n:"EET",s:"19701031T010000",r:{m:10,d:"-1SA"}},d:{f:"+0200",t:"+0300",n:"EEST",s:"19700328T010000",r:{m:3,d:"4SA"}}}],["Asia/Hebron",{s:{f:"+0300",t:"+0200",n:"EET",s:"19701031T010000",r:{m:10,d:"-1SA"}},d:{f:"+0200",t:"+0300",n:"EEST",s:"19700328T010000",r:{m:3,d:"4SA"}}}],["Asia/Ho_Chi_Minh",{s:{f:"+0700",n:"+07"}}],["Asia/Hong_Kong",{s:{f:"+0800",n:"HKT"}}],["Asia/Hovd",{s:{f:"+0700",n:"+07"}}],["Asia/Irkutsk",{s:{f:"+0800",n:"+08"}}],["Asia/Istanbul",{s:{f:"+0300",n:"+03"}}],["Asia/Jakarta",{s:{f:"+0700",n:"WIB"}}],["Asia/Jayapura",{s:{f:"+0900",n:"WIT"}}],["Asia/Jerusalem",{s:{f:"+0300",t:"+0200",n:"IST",s:"19701025T020000",r:{m:10,d:"-1SU"}},d:{f:"+0200",t:"+0300",n:"IDT",s:"19700327T020000",r:{m:3,d:"-1FR"}}}],["Asia/Kabul",{s:{f:"+0430",n:"+0430"}}],["Asia/Kamchatka",{s:{f:"+1200",n:"+12"}}],["Asia/Karachi",{s:{f:"+0500",n:"PKT"}}],["Asia/Kathmandu",{s:{f:"+0545",n:"+0545"}}],["Asia/Khandyga",{s:{f:"+0900",n:"+09"}}],["Asia/Kolkata",{s:{f:"+0530",n:"IST"}}],["Asia/Krasnoyarsk",{s:{f:"+0700",n:"+07"}}],["Asia/Kuala_Lumpur",{s:{f:"+0800",n:"+08"}}],["Asia/Kuching",{s:{f:"+0800",n:"+08"}}],["Asia/Kuwait",{s:{f:"+0300",n:"+03"}}],["Asia/Macau",{s:{f:"+0800",n:"CST"}}],["Asia/Magadan",{s:{f:"+1100",n:"+11"}}],["Asia/Makassar",{s:{f:"+0800",n:"WITA"}}],["Asia/Manila",{s:{f:"+0800",n:"PST"}}],["Asia/Muscat",{s:{f:"+0400",n:"+04"}}],["Asia/Nicosia",{s:{f:"+0300",t:"+0200",n:"EET",s:"19701025T040000",r:{m:10,d:"-1SU"}},d:{f:"+0200",t:"+0300",n:"EEST",s:"19700329T030000",r:{m:3,d:"-1SU"}}}],["Asia/Novokuznetsk",{s:{f:"+0700",n:"+07"}}],["Asia/Novosibirsk",{s:{f:"+0700",n:"+07"}}],["Asia/Omsk",{s:{f:"+0600",n:"+06"}}],["Asia/Oral",{s:{f:"+0500",n:"+05"}}],["Asia/Phnom_Penh",{s:{f:"+0700",n:"+07"}}],["Asia/Pontianak",{s:{f:"+0700",n:"WIB"}}],["Asia/Pyongyang",{s:{f:"+0900",n:"KST"}}],["Asia/Qatar",{s:{f:"+0300",n:"+03"}}],["Asia/Qyzylorda",{s:{f:"+0600",n:"+06"}}],["Asia/Riyadh",{s:{f:"+0300",n:"+03"}}],["Asia/Sakhalin",{s:{f:"+1100",n:"+11"}}],["Asia/Samarkand",{s:{f:"+0500",n:"+05"}}],["Asia/Seoul",{s:{f:"+0900",n:"KST"}}],["Asia/Shanghai",{s:{f:"+0800",n:"CST"}}],["Asia/Singapore",{s:{f:"+0800",n:"+08"}}],["Asia/Srednekolymsk",{s:{f:"+1100",n:"+11"}}],["Asia/Taipei",{s:{f:"+0800",n:"CST"}}],["Asia/Tashkent",{s:{f:"+0500",n:"+05"}}],["Asia/Tbilisi",{s:{f:"+0400",n:"+04"}}],["Asia/Tehran",{s:{f:"+0430",t:"+0330",n:"+0330",s:"19700921T000000",r:{m:9,d:"3SU"}},d:{f:"+0330",t:"+0430",n:"+0430",s:"19700321T000000",r:{m:3,d:"3SU"}}}],["Asia/Thimphu",{s:{f:"+0600",n:"+06"}}],["Asia/Tokyo",{s:{f:"+0900",n:"JST"}}],["Asia/Tomsk",{s:{f:"+0700",n:"+07"}}],["Asia/Ulaanbaatar",{s:{f:"+0800",n:"+08"}}],["Asia/Urumqi",{s:{f:"+0600",n:"+06"}}],["Asia/Ust-Nera",{s:{f:"+1000",n:"+10"}}],["Asia/Vientiane",{s:{f:"+0700",n:"+07"}}],["Asia/Vladivostok",{s:{f:"+1000",n:"+10"}}],["Asia/Yakutsk",{s:{f:"+0900",n:"+09"}}],["Asia/Yangon",{s:{f:"+0630",n:"+0630"}}],["Asia/Yekaterinburg",{s:{f:"+0500",n:"+05"}}],["Asia/Yerevan",{s:{f:"+0400",n:"+04"}}],["Atlantic/Azores",{s:{f:"+0000",t:"-0100",n:"-01",s:"19701025T010000",r:{m:10,d:"-1SU"}},d:{f:"-0100",t:"+0000",n:"+00",s:"19700329T000000",r:{m:3,d:"-1SU"}}}],["Atlantic/Bermuda",{s:{f:"-0300",t:"-0400",n:"AST",s:"19701101T020000",r:{m:11,d:"1SU"}},d:{f:"-0400",t:"-0300",n:"ADT",s:"19700308T020000",r:{m:3,d:"2SU"}}}],["Atlantic/Canary",{s:{f:"+0100",t:"+0000",n:"WET",s:"19701025T020000",r:{m:10,d:"-1SU"}},d:{f:"+0000",t:"+0100",n:"WEST",s:"19700329T010000",r:{m:3,d:"-1SU"}}}],["Atlantic/Cape_Verde",{s:{f:"-0100",n:"-01"}}],["Atlantic/Faroe",{s:{f:"+0100",t:"+0000",n:"WET",s:"19701025T020000",r:{m:10,d:"-1SU"}},d:{f:"+0000",t:"+0100",n:"WEST",s:"19700329T010000",r:{m:3,d:"-1SU"}}}],["Atlantic/Madeira",{s:{f:"+0100",t:"+0000",n:"WET",s:"19701025T020000",r:{m:10,d:"-1SU"}},d:{f:"+0000",t:"+0100",n:"WEST",s:"19700329T010000",r:{m:3,d:"-1SU"}}}],["Atlantic/Reykjavik",{s:{f:"+0000",n:"GMT"}}],["Atlantic/South_Georgia",{s:{f:"-0200",n:"-02"}}],["Atlantic/St_Helena",{s:{f:"+0000",n:"GMT"}}],["Atlantic/Stanley",{s:{f:"-0300",n:"-03"}}],["Australia/Adelaide",{s:{f:"+1030",t:"+0930",n:"ACST",s:"19700405T030000",r:{m:4,d:"1SU"}},d:{f:"+0930",t:"+1030",n:"ACDT",s:"19701004T020000",r:{m:10,d:"1SU"}}}],["Australia/Brisbane",{s:{f:"+1000",n:"AEST"}}],["Australia/Broken_Hill",{s:{f:"+1030",t:"+0930",n:"ACST",s:"19700405T030000",r:{m:4,d:"1SU"}},d:{f:"+0930",t:"+1030",n:"ACDT",s:"19701004T020000",r:{m:10,d:"1SU"}}}],["Australia/Currie",{s:{f:"+1100",t:"+1000",n:"AEST",s:"19700405T030000",r:{m:4,d:"1SU"}},d:{f:"+1000",t:"+1100",n:"AEDT",s:"19701004T020000",r:{m:10,d:"1SU"}}}],["Australia/Darwin",{s:{f:"+0930",n:"ACST"}}],["Australia/Eucla",{s:{f:"+0845",n:"+0845"}}],["Australia/Hobart",{s:{f:"+1100",t:"+1000",n:"AEST",s:"19700405T030000",r:{m:4,d:"1SU"}},d:{f:"+1000",t:"+1100",n:"AEDT",s:"19701004T020000",r:{m:10,d:"1SU"}}}],["Australia/Lindeman",{s:{f:"+1000",n:"AEST"}}],["Australia/Lord_Howe",{s:{f:"+1100",t:"+1030",n:"+1030",s:"19700405T020000",r:{m:4,d:"1SU"}},d:{f:"+1030",t:"+1100",n:"+11",s:"19701004T020000",r:{m:10,d:"1SU"}}}],["Australia/Melbourne",{s:{f:"+1100",t:"+1000",n:"AEST",s:"19700405T030000",r:{m:4,d:"1SU"}},d:{f:"+1000",t:"+1100",n:"AEDT",s:"19701004T020000",r:{m:10,d:"1SU"}}}],["Australia/Perth",{s:{f:"+0800",n:"AWST"}}],["Australia/Sydney",{s:{f:"+1100",t:"+1000",n:"AEST",s:"19700405T030000",r:{m:4,d:"1SU"}},d:{f:"+1000",t:"+1100",n:"AEDT",s:"19701004T020000",r:{m:10,d:"1SU"}}}],["Etc/GMT-0",{s:{f:"+0000",n:"GMT"}}],["Etc/GMT-1",{s:{f:"-0100",n:"-01"}}],["Etc/GMT-10",{s:{f:"-1000",n:"-10"}}],["Etc/GMT-11",{s:{f:"-1100",n:"-11"}}],["Etc/GMT-12",{s:{f:"-1200",n:"-12"}}],["Etc/GMT-2",{s:{f:"-0200",n:"-02"}}],["Etc/GMT-3",{s:{f:"-0300",n:"-03"}}],["Etc/GMT-4",{s:{f:"-0400",n:"-04"}}],["Etc/GMT-5",{s:{f:"-0500",n:"-05"}}],["Etc/GMT-6",{s:{f:"-0600",n:"-06"}}],["Etc/GMT-7",{s:{f:"-0700",n:"-07"}}],["Etc/GMT-8",{s:{f:"-0800",n:"-08"}}],["Etc/GMT-9",{s:{f:"-0900",n:"-09"}}],["Etc/GMT",{s:{f:"+0000",n:"GMT"}}],["Etc/GMT+0",{s:{f:"+0000",n:"GMT"}}],["Etc/GMT+1",{s:{f:"+0100",n:"+01"}}],["Etc/GMT+10",{s:{f:"+1000",n:"+10"}}],["Etc/GMT+11",{s:{f:"+1100",n:"+11"}}],["Etc/GMT+12",{s:{f:"+1200",n:"+12"}}],["Etc/GMT+13",{s:{f:"+1300",n:"+13"}}],["Etc/GMT+14",{s:{f:"+1400",n:"+14"}}],["Etc/GMT+2",{s:{f:"+0200",n:"+02"}}],["Etc/GMT+3",{s:{f:"+0300",n:"+03"}}],["Etc/GMT+4",{s:{f:"+0400",n:"+04"}}],["Etc/GMT+5",{s:{f:"+0500",n:"+05"}}],["Etc/GMT+6",{s:{f:"+0600",n:"+06"}}],["Etc/GMT+7",{s:{f:"+0700",n:"+07"}}],["Etc/GMT+8",{s:{f:"+0800",n:"+08"}}],["Etc/GMT+9",{s:{f:"+0900",n:"+09"}}],["Etc/GMT0",{s:{f:"+0000",n:"GMT"}}],["Etc/Greenwich",{s:{f:"+0000",n:"GMT"}}],["Etc/UCT",{s:{f:"+0000",n:"UCT"}}],["Etc/Universal",{s:{f:"+0000",n:"UTC"}}],["Etc/UTC",{s:{f:"+0000",n:"UTC"}}],["Etc/Zulu",{s:{f:"+0000",n:"UTC"}}],["Europe/Amsterdam",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Andorra",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Astrakhan",{s:{f:"+0400",n:"+04"}}],["Europe/Athens",{s:{f:"+0300",t:"+0200",n:"EET",s:"19701025T040000",r:{m:10,d:"-1SU"}},d:{f:"+0200",t:"+0300",n:"EEST",s:"19700329T030000",r:{m:3,d:"-1SU"}}}],["Europe/Belgrade",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Berlin",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Bratislava",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Brussels",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Bucharest",{s:{f:"+0300",t:"+0200",n:"EET",s:"19701025T040000",r:{m:10,d:"-1SU"}},d:{f:"+0200",t:"+0300",n:"EEST",s:"19700329T030000",r:{m:3,d:"-1SU"}}}],["Europe/Budapest",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Busingen",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Chisinau",{s:{f:"+0300",t:"+0200",n:"EET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0200",t:"+0300",n:"EEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Copenhagen",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Dublin",{s:{f:"+0100",t:"+0000",n:"GMT",s:"19701025T020000",r:{m:10,d:"-1SU"}},d:{f:"+0000",t:"+0100",n:"IST",s:"19700329T010000",r:{m:3,d:"-1SU"}}}],["Europe/Gibraltar",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Guernsey",{s:{f:"+0100",t:"+0000",n:"GMT",s:"19701025T020000",r:{m:10,d:"-1SU"}},d:{f:"+0000",t:"+0100",n:"BST",s:"19700329T010000",r:{m:3,d:"-1SU"}}}],["Europe/Helsinki",{s:{f:"+0300",t:"+0200",n:"EET",s:"19701025T040000",r:{m:10,d:"-1SU"}},d:{f:"+0200",t:"+0300",n:"EEST",s:"19700329T030000",r:{m:3,d:"-1SU"}}}],["Europe/Isle_of_Man",{s:{f:"+0100",t:"+0000",n:"GMT",s:"19701025T020000",r:{m:10,d:"-1SU"}},d:{f:"+0000",t:"+0100",n:"BST",s:"19700329T010000",r:{m:3,d:"-1SU"}}}],["Europe/Istanbul",{s:{f:"+0300",n:"+03"}}],["Europe/Jersey",{s:{f:"+0100",t:"+0000",n:"GMT",s:"19701025T020000",r:{m:10,d:"-1SU"}},d:{f:"+0000",t:"+0100",n:"BST",s:"19700329T010000",r:{m:3,d:"-1SU"}}}],["Europe/Kaliningrad",{s:{f:"+0200",n:"EET"}}],["Europe/Kiev",{s:{f:"+0300",t:"+0200",n:"EET",s:"19701025T040000",r:{m:10,d:"-1SU"}},d:{f:"+0200",t:"+0300",n:"EEST",s:"19700329T030000",r:{m:3,d:"-1SU"}}}],["Europe/Kirov",{s:{f:"+0300",n:"+03"}}],["Europe/Lisbon",{s:{f:"+0100",t:"+0000",n:"WET",s:"19701025T020000",r:{m:10,d:"-1SU"}},d:{f:"+0000",t:"+0100",n:"WEST",s:"19700329T010000",r:{m:3,d:"-1SU"}}}],["Europe/Ljubljana",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/London",{s:{f:"+0100",t:"+0000",n:"GMT",s:"19701025T020000",r:{m:10,d:"-1SU"}},d:{f:"+0000",t:"+0100",n:"BST",s:"19700329T010000",r:{m:3,d:"-1SU"}}}],["Europe/Luxembourg",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Madrid",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Malta",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Mariehamn",{s:{f:"+0300",t:"+0200",n:"EET",s:"19701025T040000",r:{m:10,d:"-1SU"}},d:{f:"+0200",t:"+0300",n:"EEST",s:"19700329T030000",r:{m:3,d:"-1SU"}}}],["Europe/Minsk",{s:{f:"+0300",n:"+03"}}],["Europe/Monaco",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Moscow",{s:{f:"+0300",n:"MSK"}}],["Europe/Nicosia",{s:{f:"+0300",t:"+0200",n:"EET",s:"19701025T040000",r:{m:10,d:"-1SU"}},d:{f:"+0200",t:"+0300",n:"EEST",s:"19700329T030000",r:{m:3,d:"-1SU"}}}],["Europe/Oslo",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Paris",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Podgorica",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Prague",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Riga",{s:{f:"+0300",t:"+0200",n:"EET",s:"19701025T040000",r:{m:10,d:"-1SU"}},d:{f:"+0200",t:"+0300",n:"EEST",s:"19700329T030000",r:{m:3,d:"-1SU"}}}],["Europe/Rome",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Samara",{s:{f:"+0400",n:"+04"}}],["Europe/San_Marino",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Sarajevo",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Saratov",{s:{f:"+0400",n:"+04"}}],["Europe/Simferopol",{s:{f:"+0300",n:"MSK"}}],["Europe/Skopje",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Sofia",{s:{f:"+0300",t:"+0200",n:"EET",s:"19701025T040000",r:{m:10,d:"-1SU"}},d:{f:"+0200",t:"+0300",n:"EEST",s:"19700329T030000",r:{m:3,d:"-1SU"}}}],["Europe/Stockholm",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Tallinn",{s:{f:"+0300",t:"+0200",n:"EET",s:"19701025T040000",r:{m:10,d:"-1SU"}},d:{f:"+0200",t:"+0300",n:"EEST",s:"19700329T030000",r:{m:3,d:"-1SU"}}}],["Europe/Tirane",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Ulyanovsk",{s:{f:"+0400",n:"+04"}}],["Europe/Uzhgorod",{s:{f:"+0300",t:"+0200",n:"EET",s:"19701025T040000",r:{m:10,d:"-1SU"}},d:{f:"+0200",t:"+0300",n:"EEST",s:"19700329T030000",r:{m:3,d:"-1SU"}}}],["Europe/Vaduz",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Vatican",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Vienna",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Vilnius",{s:{f:"+0300",t:"+0200",n:"EET",s:"19701025T040000",r:{m:10,d:"-1SU"}},d:{f:"+0200",t:"+0300",n:"EEST",s:"19700329T030000",r:{m:3,d:"-1SU"}}}],["Europe/Volgograd",{s:{f:"+0400",n:"+04"}}],["Europe/Warsaw",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Zagreb",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Europe/Zaporozhye",{s:{f:"+0300",t:"+0200",n:"EET",s:"19701025T040000",r:{m:10,d:"-1SU"}},d:{f:"+0200",t:"+0300",n:"EEST",s:"19700329T030000",r:{m:3,d:"-1SU"}}}],["Europe/Zurich",{s:{f:"+0200",t:"+0100",n:"CET",s:"19701025T030000",r:{m:10,d:"-1SU"}},d:{f:"+0100",t:"+0200",n:"CEST",s:"19700329T020000",r:{m:3,d:"-1SU"}}}],["Indian/Antananarivo",{s:{f:"+0300",n:"EAT"}}],["Indian/Chagos",{s:{f:"+0600",n:"+06"}}],["Indian/Christmas",{s:{f:"+0700",n:"+07"}}],["Indian/Cocos",{s:{f:"+0630",n:"+0630"}}],["Indian/Comoro",{s:{f:"+0300",n:"EAT"}}],["Indian/Kerguelen",{s:{f:"+0500",n:"+05"}}],["Indian/Mahe",{s:{f:"+0400",n:"+04"}}],["Indian/Maldives",{s:{f:"+0500",n:"+05"}}],["Indian/Mauritius",{s:{f:"+0400",n:"+04"}}],["Indian/Mayotte",{s:{f:"+0300",n:"EAT"}}],["Indian/Reunion",{s:{f:"+0400",n:"+04"}}],["Pacific/Apia",{s:{f:"+1400",t:"+1300",n:"+13",s:"19700405T040000",r:{m:4,d:"1SU"}},d:{f:"+1300",t:"+1400",n:"+14",s:"19700927T030000",r:{m:9,d:"-1SU"}}}],["Pacific/Auckland",{s:{f:"+1300",t:"+1200",n:"NZST",s:"19700405T030000",r:{m:4,d:"1SU"}},d:{f:"+1200",t:"+1300",n:"NZDT",s:"19700927T020000",r:{m:9,d:"-1SU"}}}],["Pacific/Bougainville",{s:{f:"+1100",n:"+11"}}],["Pacific/Chatham",{s:{f:"+1345",t:"+1245",n:"+1245",s:"19700405T034500",r:{m:4,d:"1SU"}},d:{f:"+1245",t:"+1345",n:"+1345",s:"19700927T024500",r:{m:9,d:"-1SU"}}}],["Pacific/Chuuk",{s:{f:"+1000",n:"+10"}}],["Pacific/Easter",{s:{f:"-0500",t:"-0600",n:"-06",s:"19700404T220000",r:{m:4,d:"1SA"}},d:{f:"-0600",t:"-0500",n:"-05",s:"19700905T220000",r:{m:9,d:"1SA"}}}],["Pacific/Efate",{s:{f:"+1100",n:"+11"}}],["Pacific/Enderbury",{s:{f:"+1300",n:"+13"}}],["Pacific/Fakaofo",{s:{f:"+1300",n:"+13"}}],["Pacific/Fiji",{s:{f:"+1300",t:"+1200",n:"+12",s:"19700118T030000",r:{m:1,d:"-2SU"}},d:{f:"+1200",t:"+1300",n:"+13",s:"19701101T020000",r:{m:11,d:"1SU"}}}],["Pacific/Funafuti",{s:{f:"+1200",n:"+12"}}],["Pacific/Galapagos",{s:{f:"-0600",n:"-06"}}],["Pacific/Gambier",{s:{f:"-0900",n:"-09"}}],["Pacific/Guadalcanal",{s:{f:"+1100",n:"+11"}}],["Pacific/Guam",{s:{f:"+1000",n:"ChST"}}],["Pacific/Honolulu",{s:{f:"-1000",n:"HST"}}],["Pacific/Kiritimati",{s:{f:"+1400",n:"+14"}}],["Pacific/Kosrae",{s:{f:"+1100",n:"+11"}}],["Pacific/Kwajalein",{s:{f:"+1200",n:"+12"}}],["Pacific/Majuro",{s:{f:"+1200",n:"+12"}}],["Pacific/Marquesas",{s:{f:"-0930",n:"-0930"}}],["Pacific/Midway",{s:{f:"-1100",n:"SST"}}],["Pacific/Nauru",{s:{f:"+1200",n:"+12"}}],["Pacific/Niue",{s:{f:"-1100",n:"-11"}}],["Pacific/Norfolk",{s:{f:"+1100",n:"+11"}}],["Pacific/Noumea",{s:{f:"+1100",n:"+11"}}],["Pacific/Pago_Pago",{s:{f:"-1100",n:"SST"}}],["Pacific/Palau",{s:{f:"+0900",n:"+09"}}],["Pacific/Pitcairn",{s:{f:"-0800",n:"-08"}}],["Pacific/Pohnpei",{s:{f:"+1100",n:"+11"}}],["Pacific/Port_Moresby",{s:{f:"+1000",n:"+10"}}],["Pacific/Rarotonga",{s:{f:"-1000",n:"-10"}}],["Pacific/Saipan",{s:{f:"+1000",n:"ChST"}}],["Pacific/Tahiti",{s:{f:"-1000",n:"-10"}}],["Pacific/Tarawa",{s:{f:"+1200",n:"+12"}}],["Pacific/Tongatapu",{s:{f:"+1300",n:"+13"}}],["Pacific/Wake",{s:{f:"+1200",n:"+12"}}],["Pacific/Wallis",{s:{f:"+1200",n:"+12"}}]])},30980:(t,a,n)=>{var e=n(39344),r=n(94033);function s(t){this.__wrapped__=t,this.__actions__=[],this.__dir__=1,this.__filtered__=!1,this.__iteratees__=[],this.__takeCount__=4294967295,this.__views__=[]}s.prototype=e(r.prototype),s.prototype.constructor=s,t.exports=s},56017:(t,a,n)=>{var e=n(39344),r=n(94033);function s(t,a){this.__wrapped__=t,this.__actions__=[],this.__chain__=!!a,this.__index__=0,this.__values__=void 0}s.prototype=e(r.prototype),s.prototype.constructor=s,t.exports=s},83120:(t,a,n)=>{var e=n(14528),r=n(45891);t.exports=function t(a,n,s,i,o){var d=-1,l=a.length;for(s||(s=r),o||(o=[]);++d<l;){var c=a[d];n>0&&s(c)?n>1?t(c,n-1,s,i,o):e(o,c):i||(o[o.length]=c)}return o}},94033:t=>{t.exports=function(){}},68882:(t,a,n)=>{var e=n(83488),r=n(48152),s=r?function(t,a){return r.set(t,a),t}:e;t.exports=s},91596:t=>{var a=Math.max;t.exports=function(t,n,e,r){for(var s=-1,i=t.length,o=e.length,d=-1,l=n.length,c=a(i-o,0),f=Array(l+c),A=!r;++d<l;)f[d]=n[d];for(;++s<o;)(A||s<i)&&(f[e[s]]=t[s]);for(;c--;)f[d++]=t[s++];return f}},53320:t=>{var a=Math.max;t.exports=function(t,n,e,r){for(var s=-1,i=t.length,o=-1,d=e.length,l=-1,c=n.length,f=a(i-d,0),A=Array(f+c),u=!r;++s<f;)A[s]=t[s];for(var m=s;++l<c;)A[m+l]=n[l];for(;++o<d;)(u||s<i)&&(A[m+e[o]]=t[s++]);return A}},58523:t=>{t.exports=function(t,a){for(var n=t.length,e=0;n--;)t[n]===a&&++e;return e}},11842:(t,a,n)=>{var e=n(82819),r=n(9325);t.exports=function(t,a,n){var s=1&a,i=e(t);return function a(){return(this&&this!==r&&this instanceof a?i:t).apply(s?n:this,arguments)}}},82819:(t,a,n)=>{var e=n(39344),r=n(23805);t.exports=function(t){return function(){var a=arguments;switch(a.length){case 0:return new t;case 1:return new t(a[0]);case 2:return new t(a[0],a[1]);case 3:return new t(a[0],a[1],a[2]);case 4:return new t(a[0],a[1],a[2],a[3]);case 5:return new t(a[0],a[1],a[2],a[3],a[4]);case 6:return new t(a[0],a[1],a[2],a[3],a[4],a[5]);case 7:return new t(a[0],a[1],a[2],a[3],a[4],a[5],a[6])}var n=e(t.prototype),s=t.apply(n,a);return r(s)?s:n}}},77078:(t,a,n)=>{var e=n(91033),r=n(82819),s=n(37471),i=n(18073),o=n(11287),d=n(36306),l=n(9325);t.exports=function(t,a,n){var c=r(t);return function r(){for(var f=arguments.length,A=Array(f),u=f,m=o(r);u--;)A[u]=arguments[u];var p=f<3&&A[0]!==m&&A[f-1]!==m?[]:d(A,m);return(f-=p.length)<n?i(t,a,s,r.placeholder,void 0,A,p,void 0,void 0,n-f):e(this&&this!==l&&this instanceof r?c:t,this,A)}}},37471:(t,a,n)=>{var e=n(91596),r=n(53320),s=n(58523),i=n(82819),o=n(18073),d=n(11287),l=n(68294),c=n(36306),f=n(9325);t.exports=function t(a,n,A,u,m,p,T,S,h,g){var v=128&n,y=1&n,E=2&n,C=24&n,b=512&n,U=E?void 0:i(a);return function x(){for(var _=arguments.length,D=Array(_),k=_;k--;)D[k]=arguments[k];if(C)var B=d(x),w=s(D,B);if(u&&(D=e(D,u,m,C)),p&&(D=r(D,p,T,C)),_-=w,C&&_<g){var M=c(D,B);return o(a,n,t,x.placeholder,A,D,M,S,h,g-_)}var W=y?A:this,P=E?W[a]:a;return _=D.length,S?D=l(D,S):b&&_>1&&D.reverse(),v&&h<_&&(D.length=h),this&&this!==f&&this instanceof x&&(P=U||i(P)),P.apply(W,D)}}},24168:(t,a,n)=>{var e=n(91033),r=n(82819),s=n(9325);t.exports=function(t,a,n,i){var o=1&a,d=r(t);return function a(){for(var r=-1,l=arguments.length,c=-1,f=i.length,A=Array(f+l),u=this&&this!==s&&this instanceof a?d:t;++c<f;)A[c]=i[c];for(;l--;)A[c++]=arguments[++r];return e(u,o?n:this,A)}}},18073:(t,a,n)=>{var e=n(85087),r=n(54641),s=n(70981);t.exports=function(t,a,n,i,o,d,l,c,f,A){var u=8&a;a|=u?32:64,4&(a&=~(u?64:32))||(a&=-4);var m=[t,a,o,u?d:void 0,u?l:void 0,u?void 0:d,u?void 0:l,c,f,A],p=n.apply(void 0,m);return e(t)&&r(p,m),p.placeholder=i,s(p,t,a)}},66977:(t,a,n)=>{var e=n(68882),r=n(11842),s=n(77078),i=n(37471),o=n(24168),d=n(37381),l=n(3209),c=n(54641),f=n(70981),A=n(61489),u=Math.max;t.exports=function(t,a,n,m,p,T,S,h){var g=2&a;if(!g&&"function"!=typeof t)throw new TypeError("Expected a function");var v=m?m.length:0;if(v||(a&=-97,m=p=void 0),S=void 0===S?S:u(A(S),0),h=void 0===h?h:A(h),v-=p?p.length:0,64&a){var y=m,E=p;m=p=void 0}var C=g?void 0:d(t),b=[t,a,n,m,p,y,E,T,S,h];if(C&&l(b,C),t=b[0],a=b[1],n=b[2],m=b[3],p=b[4],!(h=b[9]=void 0===b[9]?g?0:t.length:u(b[9]-v,0))&&24&a&&(a&=-25),a&&1!=a)U=8==a||16==a?s(t,a,h):32!=a&&33!=a||p.length?i.apply(void 0,b):o(t,a,n,m);else var U=r(t,a,n);return f((C?e:c)(U,b),t,a)}},38816:(t,a,n)=>{var e=n(35970),r=n(56757),s=n(32865);t.exports=function(t){return s(r(t,void 0,e),t+"")}},37381:(t,a,n)=>{var e=n(48152),r=n(63950),s=e?function(t){return e.get(t)}:r;t.exports=s},62284:(t,a,n)=>{var e=n(84629),r=Object.prototype.hasOwnProperty;t.exports=function(t){for(var a=t.name+"",n=e[a],s=r.call(e,a)?n.length:0;s--;){var i=n[s],o=i.func;if(null==o||o==t)return i.name}return a}},11287:t=>{t.exports=function(t){return t.placeholder}},75251:t=>{var a=/\{\n\/\* \[wrapped with (.+)\] \*/,n=/,? & /;t.exports=function(t){var e=t.match(a);return e?e[1].split(n):[]}},62060:t=>{var a=/\{(?:\n\/\* \[wrapped with .+\] \*\/)?\n?/;t.exports=function(t,n){var e=n.length;if(!e)return t;var r=e-1;return n[r]=(e>1?"& ":"")+n[r],n=n.join(e>2?", ":" "),t.replace(a,"{\n/* [wrapped with "+n+"] */\n")}},45891:(t,a,n)=>{var e=n(51873),r=n(72428),s=n(56449),i=e?e.isConcatSpreadable:void 0;t.exports=function(t){return s(t)||r(t)||!!(i&&t&&t[i])}},85087:(t,a,n)=>{var e=n(30980),r=n(37381),s=n(62284),i=n(53758);t.exports=function(t){var a=s(t),n=i[a];if("function"!=typeof n||!(a in e.prototype))return!1;if(t===n)return!0;var o=r(n);return!!o&&t===o[0]}},3209:(t,a,n)=>{var e=n(91596),r=n(53320),s=n(36306),i="__lodash_placeholder__",o=Math.min;t.exports=function(t,a){var n=t[1],d=a[1],l=n|d,c=l<131,f=128==d&&8==n||128==d&&256==n&&t[7].length<=a[8]||384==d&&a[7].length<=a[8]&&8==n;if(!c&&!f)return t;1&d&&(t[2]=a[2],l|=1&n?0:4);var A=a[3];if(A){var u=t[3];t[3]=u?e(u,A,a[4]):A,t[4]=u?s(t[3],i):a[4]}return(A=a[5])&&(u=t[5],t[5]=u?r(u,A,a[6]):A,t[6]=u?s(t[5],i):a[6]),(A=a[7])&&(t[7]=A),128&d&&(t[8]=null==t[8]?a[8]:o(t[8],a[8])),null==t[9]&&(t[9]=a[9]),t[0]=a[0],t[1]=l,t}},48152:(t,a,n)=>{var e=n(28303),r=e&&new e;t.exports=r},84629:t=>{t.exports={}},68294:(t,a,n)=>{var e=n(23007),r=n(30361),s=Math.min;t.exports=function(t,a){for(var n=t.length,i=s(a.length,n),o=e(t);i--;){var d=a[i];t[i]=r(d,n)?o[d]:void 0}return t}},36306:t=>{var a="__lodash_placeholder__";t.exports=function(t,n){for(var e=-1,r=t.length,s=0,i=[];++e<r;){var o=t[e];o!==n&&o!==a||(t[e]=a,i[s++]=e)}return i}},54641:(t,a,n)=>{var e=n(68882),r=n(51811)(e);t.exports=r},70981:(t,a,n)=>{var e=n(75251),r=n(62060),s=n(32865),i=n(75948);t.exports=function(t,a,n){var o=a+"";return s(t,r(o,i(e(o),n)))}},75948:(t,a,n)=>{var e=n(83729),r=n(15325),s=[["ary",128],["bind",1],["bindKey",2],["curry",8],["curryRight",16],["flip",512],["partial",32],["partialRight",64],["rearg",256]];t.exports=function(t,a){return e(s,(function(n){var e="_."+n[0];a&n[1]&&!r(t,e)&&t.push(e)})),t.sort()}},80257:(t,a,n)=>{var e=n(30980),r=n(56017),s=n(23007);t.exports=function(t){if(t instanceof e)return t.clone();var a=new r(t.__wrapped__,t.__chain__);return a.__actions__=s(t.__actions__),a.__index__=t.__index__,a.__values__=t.__values__,a}},64626:(t,a,n)=>{var e=n(66977);t.exports=function(t,a,n){return a=n?void 0:a,a=t&&null==a?t.length:a,e(t,128,void 0,void 0,void 0,void 0,a)}},49747:(t,a,n)=>{var e=n(66977);function r(t,a,n){var s=e(t,8,void 0,void 0,void 0,void 0,void 0,a=n?void 0:a);return s.placeholder=r.placeholder,s}r.placeholder={},t.exports=r},35970:(t,a,n)=>{var e=n(83120);t.exports=function(t){return null!=t&&t.length?e(t,1):[]}},73424:(t,a,n)=>{var e=n(16962),r=n(2874),s=Array.prototype.push;function i(t,a){return 2==a?function(a,n){return t(a,n)}:function(a){return t(a)}}function o(t){for(var a=t?t.length:0,n=Array(a);a--;)n[a]=t[a];return n}function d(t,a){return function(){var n=arguments.length;if(n){for(var e=Array(n);n--;)e[n]=arguments[n];var r=e[0]=a.apply(void 0,e);return t.apply(void 0,e),r}}}t.exports=function t(a,n,l,c){var f="function"==typeof n,A=n===Object(n);if(A&&(c=l,l=n,n=void 0),null==l)throw new TypeError;c||(c={});var u={cap:!("cap"in c)||c.cap,curry:!("curry"in c)||c.curry,fixed:!("fixed"in c)||c.fixed,immutable:!("immutable"in c)||c.immutable,rearg:!("rearg"in c)||c.rearg},m=f?l:r,p="curry"in c&&c.curry,T="fixed"in c&&c.fixed,S="rearg"in c&&c.rearg,h=f?l.runInContext():void 0,g=f?l:{ary:a.ary,assign:a.assign,clone:a.clone,curry:a.curry,forEach:a.forEach,isArray:a.isArray,isError:a.isError,isFunction:a.isFunction,isWeakMap:a.isWeakMap,iteratee:a.iteratee,keys:a.keys,rearg:a.rearg,toInteger:a.toInteger,toPath:a.toPath},v=g.ary,y=g.assign,E=g.clone,C=g.curry,b=g.forEach,U=g.isArray,x=g.isError,_=g.isFunction,D=g.isWeakMap,k=g.keys,B=g.rearg,w=g.toInteger,M=g.toPath,W=k(e.aryMethod),P={castArray:function(t){return function(){var a=arguments[0];return U(a)?t(o(a)):t.apply(void 0,arguments)}},iteratee:function(t){return function(){var a=arguments[1],n=t(arguments[0],a),e=n.length;return u.cap&&"number"==typeof a?(a=a>2?a-2:1,e&&e<=a?n:i(n,a)):n}},mixin:function(t){return function(a){var n=this;if(!_(n))return t(n,Object(a));var e=[];return b(k(a),(function(t){_(a[t])&&e.push([t,n.prototype[t]])})),t(n,Object(a)),b(e,(function(t){var a=t[1];_(a)?n.prototype[t[0]]=a:delete n.prototype[t[0]]})),n}},nthArg:function(t){return function(a){var n=a<0?1:w(a)+1;return C(t(a),n)}},rearg:function(t){return function(a,n){var e=n?n.length:0;return C(t(a,n),e)}},runInContext:function(n){return function(e){return t(a,n(e),c)}}};function I(t,a,n){if(u.fixed&&(T||!e.skipFixed[t])){var r=e.methodSpread[t],i=r&&r.start;return void 0===i?v(a,n):function(t,a){return function(){for(var n=arguments.length,e=n-1,r=Array(n);n--;)r[n]=arguments[n];var i=r[a],o=r.slice(0,a);return i&&s.apply(o,i),a!=e&&s.apply(o,r.slice(a+1)),t.apply(this,o)}}(a,i)}return a}function N(t,a,n){return u.rearg&&n>1&&(S||!e.skipRearg[t])?B(a,e.methodRearg[t]||e.aryRearg[n]):a}function R(t,a){for(var n=-1,e=(a=M(a)).length,r=e-1,s=E(Object(t)),i=s;null!=i&&++n<e;){var o=a[n],d=i[o];null==d||_(d)||x(d)||D(d)||(i[o]=E(n==r?d:Object(d))),i=i[o]}return s}function O(a,n){var r=e.aliasToReal[a]||a,s=e.remap[r]||r,i=c;return function(a){var e=f?h:g,o=f?h[s]:n,d=y(y({},i),a);return t(e,r,o,d)}}function F(t,a){return function(){var n=arguments.length;if(!n)return t();for(var e=Array(n);n--;)e[n]=arguments[n];var r=u.rearg?0:n-1;return e[r]=a(e[r]),t.apply(void 0,e)}}function G(t,a,n){var r,s=e.aliasToReal[t]||t,l=a,c=P[s];return c?l=c(a):u.immutable&&(e.mutate.array[s]?l=d(a,o):e.mutate.object[s]?l=d(a,function(t){return function(a){return t({},a)}}(a)):e.mutate.set[s]&&(l=d(a,R))),b(W,(function(t){return b(e.aryMethod[t],(function(a){if(s==a){var n=e.methodSpread[s],o=n&&n.afterRearg;return r=o?I(s,N(s,l,t),t):N(s,I(s,l,t),t),r=function(t,a,n){return p||u.curry&&n>1?C(a,n):a}(0,r=function(t,a){if(u.cap){var n=e.iterateeRearg[t];if(n)return function(t,a){return F(t,(function(t){var n=a.length;return function(t,a){return 2==a?function(a,n){return t.apply(void 0,arguments)}:function(a){return t.apply(void 0,arguments)}}(B(i(t,n),a),n)}))}(a,n);var r=!f&&e.iterateeAry[t];if(r)return function(t,a){return F(t,(function(t){return"function"==typeof t?i(t,a):t}))}(a,r)}return a}(s,r),t),!1}})),!r})),r||(r=l),r==a&&(r=p?C(r,1):function(){return a.apply(this,arguments)}),r.convert=O(s,a),r.placeholder=a.placeholder=n,r}if(!A)return G(n,l,m);var j=l,z=[];return b(W,(function(t){b(e.aryMethod[t],(function(t){var a=j[e.remap[t]||t];a&&z.push([t,G(t,a,j)])}))})),b(k(j),(function(t){var a=j[t];if("function"==typeof a){for(var n=z.length;n--;)if(z[n][0]==t)return;a.convert=O(t,a),z.push([t,a])}})),b(z,(function(t){j[t[0]]=t[1]})),j.convert=function(t){return j.runInContext.convert(t)(void 0)},j.placeholder=j,b(k(j),(function(t){b(e.realToAlias[t]||[],(function(a){j[a]=j[t]}))})),j}},16962:(t,a)=>{a.aliasToReal={each:"forEach",eachRight:"forEachRight",entries:"toPairs",entriesIn:"toPairsIn",extend:"assignIn",extendAll:"assignInAll",extendAllWith:"assignInAllWith",extendWith:"assignInWith",first:"head",conforms:"conformsTo",matches:"isMatch",property:"get",__:"placeholder",F:"stubFalse",T:"stubTrue",all:"every",allPass:"overEvery",always:"constant",any:"some",anyPass:"overSome",apply:"spread",assoc:"set",assocPath:"set",complement:"negate",compose:"flowRight",contains:"includes",dissoc:"unset",dissocPath:"unset",dropLast:"dropRight",dropLastWhile:"dropRightWhile",equals:"isEqual",identical:"eq",indexBy:"keyBy",init:"initial",invertObj:"invert",juxt:"over",omitAll:"omit",nAry:"ary",path:"get",pathEq:"matchesProperty",pathOr:"getOr",paths:"at",pickAll:"pick",pipe:"flow",pluck:"map",prop:"get",propEq:"matchesProperty",propOr:"getOr",props:"at",symmetricDifference:"xor",symmetricDifferenceBy:"xorBy",symmetricDifferenceWith:"xorWith",takeLast:"takeRight",takeLastWhile:"takeRightWhile",unapply:"rest",unnest:"flatten",useWith:"overArgs",where:"conformsTo",whereEq:"isMatch",zipObj:"zipObject"},a.aryMethod={1:["assignAll","assignInAll","attempt","castArray","ceil","create","curry","curryRight","defaultsAll","defaultsDeepAll","floor","flow","flowRight","fromPairs","invert","iteratee","memoize","method","mergeAll","methodOf","mixin","nthArg","over","overEvery","overSome","rest","reverse","round","runInContext","spread","template","trim","trimEnd","trimStart","uniqueId","words","zipAll"],2:["add","after","ary","assign","assignAllWith","assignIn","assignInAllWith","at","before","bind","bindAll","bindKey","chunk","cloneDeepWith","cloneWith","concat","conformsTo","countBy","curryN","curryRightN","debounce","defaults","defaultsDeep","defaultTo","delay","difference","divide","drop","dropRight","dropRightWhile","dropWhile","endsWith","eq","every","filter","find","findIndex","findKey","findLast","findLastIndex","findLastKey","flatMap","flatMapDeep","flattenDepth","forEach","forEachRight","forIn","forInRight","forOwn","forOwnRight","get","groupBy","gt","gte","has","hasIn","includes","indexOf","intersection","invertBy","invoke","invokeMap","isEqual","isMatch","join","keyBy","lastIndexOf","lt","lte","map","mapKeys","mapValues","matchesProperty","maxBy","meanBy","merge","mergeAllWith","minBy","multiply","nth","omit","omitBy","overArgs","pad","padEnd","padStart","parseInt","partial","partialRight","partition","pick","pickBy","propertyOf","pull","pullAll","pullAt","random","range","rangeRight","rearg","reject","remove","repeat","restFrom","result","sampleSize","some","sortBy","sortedIndex","sortedIndexOf","sortedLastIndex","sortedLastIndexOf","sortedUniqBy","split","spreadFrom","startsWith","subtract","sumBy","take","takeRight","takeRightWhile","takeWhile","tap","throttle","thru","times","trimChars","trimCharsEnd","trimCharsStart","truncate","union","uniqBy","uniqWith","unset","unzipWith","without","wrap","xor","zip","zipObject","zipObjectDeep"],3:["assignInWith","assignWith","clamp","differenceBy","differenceWith","findFrom","findIndexFrom","findLastFrom","findLastIndexFrom","getOr","includesFrom","indexOfFrom","inRange","intersectionBy","intersectionWith","invokeArgs","invokeArgsMap","isEqualWith","isMatchWith","flatMapDepth","lastIndexOfFrom","mergeWith","orderBy","padChars","padCharsEnd","padCharsStart","pullAllBy","pullAllWith","rangeStep","rangeStepRight","reduce","reduceRight","replace","set","slice","sortedIndexBy","sortedLastIndexBy","transform","unionBy","unionWith","update","xorBy","xorWith","zipWith"],4:["fill","setWith","updateWith"]},a.aryRearg={2:[1,0],3:[2,0,1],4:[3,2,0,1]},a.iterateeAry={dropRightWhile:1,dropWhile:1,every:1,filter:1,find:1,findFrom:1,findIndex:1,findIndexFrom:1,findKey:1,findLast:1,findLastFrom:1,findLastIndex:1,findLastIndexFrom:1,findLastKey:1,flatMap:1,flatMapDeep:1,flatMapDepth:1,forEach:1,forEachRight:1,forIn:1,forInRight:1,forOwn:1,forOwnRight:1,map:1,mapKeys:1,mapValues:1,partition:1,reduce:2,reduceRight:2,reject:1,remove:1,some:1,takeRightWhile:1,takeWhile:1,times:1,transform:2},a.iterateeRearg={mapKeys:[1],reduceRight:[1,0]},a.methodRearg={assignInAllWith:[1,0],assignInWith:[1,2,0],assignAllWith:[1,0],assignWith:[1,2,0],differenceBy:[1,2,0],differenceWith:[1,2,0],getOr:[2,1,0],intersectionBy:[1,2,0],intersectionWith:[1,2,0],isEqualWith:[1,2,0],isMatchWith:[2,1,0],mergeAllWith:[1,0],mergeWith:[1,2,0],padChars:[2,1,0],padCharsEnd:[2,1,0],padCharsStart:[2,1,0],pullAllBy:[2,1,0],pullAllWith:[2,1,0],rangeStep:[1,2,0],rangeStepRight:[1,2,0],setWith:[3,1,2,0],sortedIndexBy:[2,1,0],sortedLastIndexBy:[2,1,0],unionBy:[1,2,0],unionWith:[1,2,0],updateWith:[3,1,2,0],xorBy:[1,2,0],xorWith:[1,2,0],zipWith:[1,2,0]},a.methodSpread={assignAll:{start:0},assignAllWith:{start:0},assignInAll:{start:0},assignInAllWith:{start:0},defaultsAll:{start:0},defaultsDeepAll:{start:0},invokeArgs:{start:2},invokeArgsMap:{start:2},mergeAll:{start:0},mergeAllWith:{start:0},partial:{start:1},partialRight:{start:1},without:{start:1},zipAll:{start:0}},a.mutate={array:{fill:!0,pull:!0,pullAll:!0,pullAllBy:!0,pullAllWith:!0,pullAt:!0,remove:!0,reverse:!0},object:{assign:!0,assignAll:!0,assignAllWith:!0,assignIn:!0,assignInAll:!0,assignInAllWith:!0,assignInWith:!0,assignWith:!0,defaults:!0,defaultsAll:!0,defaultsDeep:!0,defaultsDeepAll:!0,merge:!0,mergeAll:!0,mergeAllWith:!0,mergeWith:!0},set:{set:!0,setWith:!0,unset:!0,update:!0,updateWith:!0}},a.realToAlias=function(){var t=Object.prototype.hasOwnProperty,n=a.aliasToReal,e={};for(var r in n){var s=n[r];t.call(e,s)?e[s].push(r):e[s]=[r]}return e}(),a.remap={assignAll:"assign",assignAllWith:"assignWith",assignInAll:"assignIn",assignInAllWith:"assignInWith",curryN:"curry",curryRightN:"curryRight",defaultsAll:"defaults",defaultsDeepAll:"defaultsDeep",findFrom:"find",findIndexFrom:"findIndex",findLastFrom:"findLast",findLastIndexFrom:"findLastIndex",getOr:"get",includesFrom:"includes",indexOfFrom:"indexOf",invokeArgs:"invoke",invokeArgsMap:"invokeMap",lastIndexOfFrom:"lastIndexOf",mergeAll:"merge",mergeAllWith:"mergeWith",padChars:"pad",padCharsEnd:"padEnd",padCharsStart:"padStart",propertyOf:"get",rangeStep:"range",rangeStepRight:"rangeRight",restFrom:"rest",spreadFrom:"spread",trimChars:"trim",trimCharsEnd:"trimEnd",trimCharsStart:"trimStart",zipAll:"zip"},a.skipFixed={castArray:!0,flow:!0,flowRight:!0,iteratee:!0,mixin:!0,rearg:!0,runInContext:!0},a.skipRearg={add:!0,assign:!0,assignIn:!0,bind:!0,bindKey:!0,concat:!0,difference:!0,divide:!0,eq:!0,gt:!0,gte:!0,isEqual:!0,lt:!0,lte:!0,matchesProperty:!0,merge:!0,multiply:!0,overArgs:!0,partial:!0,partialRight:!0,propertyOf:!0,random:!0,range:!0,rangeRight:!0,subtract:!0,zip:!0,zipObject:!0,zipObjectDeep:!0}},47934:(t,a,n)=>{t.exports={ary:n(64626),assign:n(74733),clone:n(32629),curry:n(49747),forEach:n(83729),isArray:n(56449),isError:n(23546),isFunction:n(1882),isWeakMap:n(47886),iteratee:n(33855),keys:n(88984),rearg:n(84195),toInteger:n(61489),toPath:n(42072)}},79920:(t,a,n)=>{var e=n(73424),r=n(47934);t.exports=function(t,a,n){return e(r,t,a,n)}},33455:(t,a,n)=>{var e=n(79920)("memoize",n(50104));e.placeholder=n(2874),t.exports=e},2874:t=>{t.exports={}},23546:(t,a,n)=>{var e=n(72552),r=n(40346),s=n(11331);t.exports=function(t){if(!r(t))return!1;var a=e(t);return"[object Error]"==a||"[object DOMException]"==a||"string"==typeof t.message&&"string"==typeof t.name&&!s(t)}},47886:(t,a,n)=>{var e=n(5861),r=n(40346);t.exports=function(t){return r(t)&&"[object WeakMap]"==e(t)}},33855:(t,a,n)=>{var e=n(9999),r=n(15389);t.exports=function(t){return r("function"==typeof t?t:e(t,1))}},84195:(t,a,n)=>{var e=n(66977),r=n(38816)((function(t,a){return e(t,256,void 0,void 0,void 0,a)}));t.exports=r},17400:(t,a,n)=>{var e=n(99374),r=1/0;t.exports=function(t){return t?(t=e(t))===r||t===-1/0?17976931348623157e292*(t<0?-1:1):t==t?t:0:0===t?t:0}},61489:(t,a,n)=>{var e=n(17400);t.exports=function(t){var a=e(t),n=a%1;return a==a?n?a-n:a:0}},42072:(t,a,n)=>{var e=n(34932),r=n(23007),s=n(56449),i=n(44394),o=n(61802),d=n(77797),l=n(13222);t.exports=function(t){return s(t)?e(t,d):i(t)?[t]:r(o(l(t)))}},53758:(t,a,n)=>{var e=n(30980),r=n(56017),s=n(94033),i=n(56449),o=n(40346),d=n(80257),l=Object.prototype.hasOwnProperty;function c(t){if(o(t)&&!i(t)&&!(t instanceof e)){if(t instanceof r)return t;if(l.call(t,"__wrapped__"))return d(t)}return new r(t)}c.prototype=s.prototype,c.prototype.constructor=c,t.exports=c},42634:()=>{},63779:()=>{},77199:()=>{},59169:()=>{},86833:()=>{}},s={};function i(t){var a=s[t];if(void 0!==a)return a.exports;var n=s[t]={id:t,loaded:!1,exports:{}};return r[t].call(n.exports,n,n.exports,i),n.loaded=!0,n.exports}i.m=r,a=[],i.O=(t,n,e,r)=>{if(!n){var s=1/0;for(c=0;c<a.length;c++){n=a[c][0],e=a[c][1],r=a[c][2];for(var o=!0,d=0;d<n.length;d++)(!1&r||s>=r)&&Object.keys(i.O).every((t=>i.O[t](n[d])))?n.splice(d--,1):(o=!1,r<s&&(s=r));if(o){a.splice(c--,1);var l=e();void 0!==l&&(t=l)}}return t}r=r||0;for(var c=a.length;c>0&&a[c-1][2]>r;c--)a[c]=a[c-1];a[c]=[n,e,r]},i.n=t=>{var a=t&&t.__esModule?()=>t.default:()=>t;return i.d(a,{a}),a},i.d=(t,a)=>{for(var n in a)i.o(a,n)&&!i.o(t,n)&&Object.defineProperty(t,n,{enumerable:!0,get:a[n]})},i.f={},i.e=t=>Promise.all(Object.keys(i.f).reduce(((a,n)=>(i.f[n](t,a),a)),[])),i.u=t=>t+"-"+t+".js?v="+{802:"eddac441912aee9d7aa8",9291:"077955af818a227340aa"}[t],i.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(t){if("object"==typeof window)return window}}(),i.o=(t,a)=>Object.prototype.hasOwnProperty.call(t,a),n={},e="nextcloud:",i.l=(t,a,r,s)=>{if(n[t])n[t].push(a);else{var o,d;if(void 0!==r)for(var l=document.getElementsByTagName("script"),c=0;c<l.length;c++){var f=l[c];if(f.getAttribute("src")==t||f.getAttribute("data-webpack")==e+r){o=f;break}}o||(d=!0,(o=document.createElement("script")).charset="utf-8",o.timeout=120,i.nc&&o.setAttribute("nonce",i.nc),o.setAttribute("data-webpack",e+r),o.src=t),n[t]=[a];var A=(a,e)=>{o.onerror=o.onload=null,clearTimeout(u);var r=n[t];if(delete n[t],o.parentNode&&o.parentNode.removeChild(o),r&&r.forEach((t=>t(e))),a)return a(e)},u=setTimeout(A.bind(null,void 0,{type:"timeout",target:o}),12e4);o.onerror=A.bind(null,o.onerror),o.onload=A.bind(null,o.onload),d&&document.head.appendChild(o)}},i.r=t=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},i.nmd=t=>(t.paths=[],t.children||(t.children=[]),t),i.j=3705,(()=>{var t;i.g.importScripts&&(t=i.g.location+"");var a=i.g.document;if(!t&&a&&(a.currentScript&&"SCRIPT"===a.currentScript.tagName.toUpperCase()&&(t=a.currentScript.src),!t)){var n=a.getElementsByTagName("script");if(n.length)for(var e=n.length-1;e>-1&&(!t||!/^http(s?):/.test(t));)t=n[e--].src}if(!t)throw new Error("Automatic publicPath is not supported in this browser");t=t.replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),i.p=t})(),(()=>{i.b=document.baseURI||self.location.href;var t={3705:0};i.f.j=(a,n)=>{var e=i.o(t,a)?t[a]:void 0;if(0!==e)if(e)n.push(e[2]);else{var r=new Promise(((n,r)=>e=t[a]=[n,r]));n.push(e[2]=r);var s=i.p+i.u(a),o=new Error;i.l(s,(n=>{if(i.o(t,a)&&(0!==(e=t[a])&&(t[a]=void 0),e)){var r=n&&("load"===n.type?"missing":n.type),s=n&&n.target&&n.target.src;o.message="Loading chunk "+a+" failed.\n("+r+": "+s+")",o.name="ChunkLoadError",o.type=r,o.request=s,e[1](o)}}),"chunk-"+a,a)}},i.O.j=a=>0===t[a];var a=(a,n)=>{var e,r,s=n[0],o=n[1],d=n[2],l=0;if(s.some((a=>0!==t[a]))){for(e in o)i.o(o,e)&&(i.m[e]=o[e]);if(d)var c=d(i)}for(a&&a(n);l<s.length;l++)r=s[l],i.o(t,r)&&t[r]&&t[r][0](),t[r]=0;return i.O(c)},n=self.webpackChunknextcloud=self.webpackChunknextcloud||[];n.forEach(a.bind(null,0)),n.push=a.bind(null,n.push.bind(n))})(),i.nc=void 0;var o=i.O(void 0,[4208],(()=>i(29499)));o=i.O(o)})();
-//# sourceMappingURL=dav-settings-personal-availability.js.map?v=afcd2e99881da611bdbc
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/dav/src/dav/client.js":
+/*!************************************!*\
+  !*** ./apps/dav/src/dav/client.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getClient: () => (/* binding */ getClient)
+/* harmony export */ });
+/* harmony import */ var webdav_dist_node_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! webdav/dist/node/index.js */ "./node_modules/webdav/dist/node/index.js");
+/* harmony import */ var lodash_fp_memoize_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/fp/memoize.js */ "./node_modules/lodash/fp/memoize.js");
+/* harmony import */ var lodash_fp_memoize_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_fp_memoize_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+const getClient = lodash_fp_memoize_js__WEBPACK_IMPORTED_MODULE_1___default()(service => {
+  // init webdav client
+  const remote = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_2__.generateRemoteUrl)(`dav/${service}/${(0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_3__.getCurrentUser)().uid}`);
+  const client = (0,webdav_dist_node_index_js__WEBPACK_IMPORTED_MODULE_0__.createClient)(remote);
+
+  // set CSRF token header
+  const setHeaders = token => {
+    client.setHeaders({
+      // Add this so the server knows it is an request from the browser
+      'X-Requested-With': 'XMLHttpRequest',
+      // Inject user auth
+      requesttoken: token ?? ''
+    });
+  };
+
+  // refresh headers when request token changes
+  (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_3__.onRequestTokenUpdate)(setHeaders);
+  setHeaders((0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_3__.getRequestToken)());
+  return client;
+});
+
+/***/ }),
+
+/***/ "./apps/dav/src/service/CalendarService.js":
+/*!*************************************************!*\
+  !*** ./apps/dav/src/service/CalendarService.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   findScheduleInboxAvailability: () => (/* binding */ findScheduleInboxAvailability),
+/* harmony export */   getEmptySlots: () => (/* binding */ getEmptySlots),
+/* harmony export */   saveScheduleInboxAvailability: () => (/* binding */ saveScheduleInboxAvailability)
+/* harmony export */ });
+/* harmony import */ var _dav_client_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dav/client.js */ "./apps/dav/src/dav/client.js");
+/* harmony import */ var _logger_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./logger.js */ "./apps/dav/src/service/logger.js");
+/* harmony import */ var webdav_dist_node_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! webdav/dist/node/index.js */ "./node_modules/webdav/dist/node/index.js");
+/* harmony import */ var _nextcloud_calendar_availability_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/calendar-availability-vue */ "./node_modules/@nextcloud/calendar-availability-vue/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+/**
+ *
+ */
+function getEmptySlots() {
+  return {
+    MO: [],
+    TU: [],
+    WE: [],
+    TH: [],
+    FR: [],
+    SA: [],
+    SU: []
+  };
+}
+
+/**
+ *
+ */
+async function findScheduleInboxAvailability() {
+  const client = (0,_dav_client_js__WEBPACK_IMPORTED_MODULE_0__.getClient)('calendars');
+  const response = await client.customRequest('inbox', {
+    method: 'PROPFIND',
+    data: `<?xml version="1.0"?>
+			<x0:propfind xmlns:x0="DAV:">
+			  <x0:prop>
+				<x1:calendar-availability xmlns:x1="urn:ietf:params:xml:ns:caldav"/>
+			  </x0:prop>
+			</x0:propfind>`
+  });
+  const xml = await (0,webdav_dist_node_index_js__WEBPACK_IMPORTED_MODULE_2__.parseXML)(await response.text());
+  if (!xml) {
+    return undefined;
+  }
+  const availability = xml?.multistatus?.response[0]?.propstat?.prop['calendar-availability'];
+  if (!availability) {
+    return undefined;
+  }
+  return (0,_nextcloud_calendar_availability_vue__WEBPACK_IMPORTED_MODULE_3__.vavailabilityToSlots)(availability);
+}
+
+/**
+ * @param {any} slots -
+ * @param {any} timezoneId -
+ */
+async function saveScheduleInboxAvailability(slots, timezoneId) {
+  const all = [...Object.keys(slots).flatMap(dayId => slots[dayId].map(slot => ({
+    ...slot,
+    day: dayId
+  })))];
+  const vavailability = (0,_nextcloud_calendar_availability_vue__WEBPACK_IMPORTED_MODULE_3__.slotsToVavailability)(all, timezoneId);
+  _logger_js__WEBPACK_IMPORTED_MODULE_1__["default"].debug('New availability ical created', {
+    vavailability
+  });
+  const client = (0,_dav_client_js__WEBPACK_IMPORTED_MODULE_0__.getClient)('calendars');
+  await client.customRequest('inbox', {
+    method: 'PROPPATCH',
+    data: `<?xml version="1.0"?>
+			<x0:propertyupdate xmlns:x0="DAV:">
+			  <x0:set>
+				<x0:prop>
+				  <x1:calendar-availability xmlns:x1="urn:ietf:params:xml:ns:caldav">${vavailability}</x1:calendar-availability>
+				</x0:prop>
+			  </x0:set>
+			</x0:propertyupdate>`
+  });
+}
+
+/***/ }),
+
+/***/ "./apps/dav/src/service/PreferenceService.js":
+/*!***************************************************!*\
+  !*** ./apps/dav/src/service/PreferenceService.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   disableUserStatusAutomation: () => (/* binding */ disableUserStatusAutomation),
+/* harmony export */   enableUserStatusAutomation: () => (/* binding */ enableUserStatusAutomation)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+/**
+ * Enable user status automation based on availability
+ */
+async function enableUserStatusAutomation() {
+  return await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateOcsUrl)('/apps/provisioning_api/api/v1/config/users/{appId}/{configKey}', {
+    appId: 'dav',
+    configKey: 'user_status_automation'
+  }), {
+    configValue: 'yes'
+  });
+}
+
+/**
+ * Disable user status automation based on availability
+ */
+async function disableUserStatusAutomation() {
+  return await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].delete((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateOcsUrl)('/apps/provisioning_api/api/v1/config/users/{appId}/{configKey}', {
+    appId: 'dav',
+    configKey: 'user_status_automation'
+  }));
+}
+
+/***/ }),
+
+/***/ "./apps/dav/src/service/logger.js":
+/*!****************************************!*\
+  !*** ./apps/dav/src/service/logger.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+const logger = (0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__.getLoggerBuilder)().setApp('dav').detectUser().build();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (logger);
+
+/***/ }),
+
+/***/ "./apps/dav/src/settings-personal-availability.js":
+/*!********************************************************!*\
+  !*** ./apps/dav/src/settings-personal-availability.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _views_Availability_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./views/Availability.vue */ "./apps/dav/src/views/Availability.vue");
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+vue__WEBPACK_IMPORTED_MODULE_2__["default"].prototype.$t = _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate;
+const View = vue__WEBPACK_IMPORTED_MODULE_2__["default"].extend(_views_Availability_vue__WEBPACK_IMPORTED_MODULE_1__["default"]);
+new View({}).$mount('#settings-personal-availability');
+
+/***/ }),
+
+/***/ "./apps/dav/src/utils/date.js":
+/*!************************************!*\
+  !*** ./apps/dav/src/utils/date.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   formatDateAsYMD: () => (/* binding */ formatDateAsYMD)
+/* harmony export */ });
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/**
+ * Format a date as 'YYYY-MM-DD'.
+ *
+ * @param {Date} date A date instance to format.
+ * @return {string} 'YYYY-MM-DD'
+ */
+function formatDateAsYMD(date) {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AbsenceForm.vue?vue&type=script&lang=js":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AbsenceForm.vue?vue&type=script&lang=js ***!
+  \*****************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/sharing */ "./node_modules/@nextcloud/sharing/dist/index.mjs");
+/* harmony import */ var _utils_date_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/date.js */ "./apps/dav/src/utils/date.js");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var debounce__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! debounce */ "./node_modules/debounce/index.js");
+/* harmony import */ var debounce__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(debounce__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _service_logger_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../service/logger.js */ "./apps/dav/src/service/logger.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcButton.js */ "./node_modules/@nextcloud/vue/dist/Components/NcButton.mjs");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcTextField_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcTextField.js */ "./node_modules/@nextcloud/vue/dist/Components/NcTextField.mjs");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcTextArea_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcTextArea.js */ "./node_modules/@nextcloud/vue/dist/Components/NcTextArea.mjs");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcSelect_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcSelect.js */ "./node_modules/@nextcloud/vue/dist/Components/NcSelect.mjs");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcDateTimePickerNative_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcDateTimePickerNative.js */ "./node_modules/@nextcloud/vue/dist/Components/NcDateTimePickerNative.mjs");
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'AbsenceForm',
+  components: {
+    NcButton: _nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_8__["default"],
+    NcTextField: _nextcloud_vue_dist_Components_NcTextField_js__WEBPACK_IMPORTED_MODULE_9__["default"],
+    NcTextArea: _nextcloud_vue_dist_Components_NcTextArea_js__WEBPACK_IMPORTED_MODULE_10__["default"],
+    NcDateTimePickerNative: _nextcloud_vue_dist_Components_NcDateTimePickerNative_js__WEBPACK_IMPORTED_MODULE_12__["default"],
+    NcSelect: _nextcloud_vue_dist_Components_NcSelect_js__WEBPACK_IMPORTED_MODULE_11__["default"]
+  },
+  data() {
+    const {
+      firstDay,
+      lastDay,
+      status,
+      message,
+      replacementUserId,
+      replacementUserDisplayName
+    } = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_2__.loadState)('dav', 'absence', {});
+    return {
+      loading: false,
+      status: status ?? '',
+      message: message ?? '',
+      firstDay: firstDay ? new Date(firstDay) : new Date(),
+      lastDay: lastDay ? new Date(lastDay) : null,
+      replacementUserId,
+      replacementUser: replacementUserId ? {
+        user: replacementUserId,
+        displayName: replacementUserDisplayName
+      } : null,
+      searchLoading: false,
+      options: []
+    };
+  },
+  computed: {
+    /**
+     * @return {boolean}
+     */
+    valid() {
+      // Translate the two date objects to midnight for an accurate comparison
+      const firstDay = new Date(this.firstDay?.getTime());
+      const lastDay = new Date(this.lastDay?.getTime());
+      firstDay?.setHours(0, 0, 0, 0);
+      lastDay?.setHours(0, 0, 0, 0);
+      return !!this.firstDay && !!this.lastDay && !!this.status && !!this.message && lastDay >= firstDay;
+    }
+  },
+  methods: {
+    resetForm() {
+      this.status = '';
+      this.message = '';
+      this.firstDay = new Date();
+      this.lastDay = null;
+    },
+    /**
+     * Format shares for the multiselect options
+     *
+     * @param {object} result select entry item
+     * @return {object}
+     */
+    formatForMultiselect(result) {
+      return {
+        user: result.uuid || result.value.shareWith,
+        displayName: result.name || result.label,
+        subtitle: result.dsc | ''
+      };
+    },
+    async asyncFind(query) {
+      this.searchLoading = true;
+      await this.debounceGetSuggestions(query.trim());
+    },
+    /**
+     * Get suggestions
+     *
+     * @param {string} search the search query
+     */
+    async getSuggestions(search) {
+      const shareType = [_nextcloud_sharing__WEBPACK_IMPORTED_MODULE_4__.ShareType.SHARE_TYPE_USER];
+      let request = null;
+      try {
+        request = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_6__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_3__.generateOcsUrl)('apps/files_sharing/api/v1/sharees'), {
+          params: {
+            format: 'json',
+            itemType: 'file',
+            search,
+            shareType
+          }
+        });
+      } catch (error) {
+        console.error('Error fetching suggestions', error);
+        return;
+      }
+      const data = request.data.ocs.data;
+      const exact = request.data.ocs.data.exact;
+      data.exact = []; // removing exact from general results
+      const rawExactSuggestions = exact.users;
+      const rawSuggestions = data.users;
+      console.info('rawExactSuggestions', rawExactSuggestions);
+      console.info('rawSuggestions', rawSuggestions);
+      // remove invalid data and format to user-select layout
+      const exactSuggestions = rawExactSuggestions.map(share => this.formatForMultiselect(share));
+      const suggestions = rawSuggestions.map(share => this.formatForMultiselect(share));
+      const allSuggestions = exactSuggestions.concat(suggestions);
+
+      // Count occurrences of display names in order to provide a distinguishable description if needed
+      const nameCounts = allSuggestions.reduce((nameCounts, result) => {
+        if (!result.displayName) {
+          return nameCounts;
+        }
+        if (!nameCounts[result.displayName]) {
+          nameCounts[result.displayName] = 0;
+        }
+        nameCounts[result.displayName]++;
+        return nameCounts;
+      }, {});
+      this.options = allSuggestions.map(item => {
+        // Make sure that items with duplicate displayName get the shareWith applied as a description
+        if (nameCounts[item.displayName] > 1 && !item.desc) {
+          return {
+            ...item,
+            desc: item.shareWithDisplayNameUnique
+          };
+        }
+        return item;
+      });
+      this.searchLoading = false;
+      console.info('suggestions', this.options);
+    },
+    /**
+     * Debounce getSuggestions
+     *
+     * @param {...*} args the arguments
+     */
+    debounceGetSuggestions: debounce__WEBPACK_IMPORTED_MODULE_13___default()(function () {
+      this.getSuggestions(...arguments);
+    }, 300),
+    async saveForm() {
+      if (!this.valid) {
+        return;
+      }
+      this.loading = true;
+      try {
+        await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_6__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_3__.generateOcsUrl)('/apps/dav/api/v1/outOfOffice/{userId}', {
+          userId: (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)().uid
+        }), {
+          firstDay: (0,_utils_date_js__WEBPACK_IMPORTED_MODULE_5__.formatDateAsYMD)(this.firstDay),
+          lastDay: (0,_utils_date_js__WEBPACK_IMPORTED_MODULE_5__.formatDateAsYMD)(this.lastDay),
+          status: this.status,
+          message: this.message,
+          replacementUserId: this.replacementUser?.user ?? null,
+          replacementUserDisplayName: this.replacementUser?.displayName ?? null
+        });
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__.showSuccess)(this.$t('dav', 'Absence saved'));
+      } catch (error) {
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__.showError)(this.$t('dav', 'Failed to save your absence settings'));
+        _service_logger_js__WEBPACK_IMPORTED_MODULE_7__["default"].error('Could not save absence', {
+          error
+        });
+      } finally {
+        this.loading = false;
+      }
+    },
+    async clearAbsence() {
+      this.loading = true;
+      try {
+        await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_6__["default"].delete((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_3__.generateOcsUrl)('/apps/dav/api/v1/outOfOffice/{userId}', {
+          userId: (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)().uid
+        }));
+        this.resetForm();
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__.showSuccess)(this.$t('dav', 'Absence cleared'));
+      } catch (error) {
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__.showError)(this.$t('dav', 'Failed to clear your absence settings'));
+        _service_logger_js__WEBPACK_IMPORTED_MODULE_7__["default"].error('Could not clear absence', {
+          error
+        });
+      } finally {
+        this.loading = false;
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AvailabilityForm.vue?vue&type=script&lang=js":
+/*!**********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AvailabilityForm.vue?vue&type=script&lang=js ***!
+  \**********************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_calendar_availability_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/calendar-availability-vue */ "./node_modules/@nextcloud/calendar-availability-vue/dist/index.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _service_CalendarService_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../service/CalendarService.js */ "./apps/dav/src/service/CalendarService.js");
+/* harmony import */ var _service_PreferenceService_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../service/PreferenceService.js */ "./apps/dav/src/service/PreferenceService.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcButton.js */ "./node_modules/@nextcloud/vue/dist/Components/NcButton.mjs");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcCheckboxRadioSwitch_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js */ "./node_modules/@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.mjs");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcTimezonePicker_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcTimezonePicker.js */ "./node_modules/@nextcloud/vue/dist/Components/NcTimezonePicker.mjs");
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+
+
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'AvailabilityForm',
+  components: {
+    NcButton: _nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_5__["default"],
+    NcCheckboxRadioSwitch: _nextcloud_vue_dist_Components_NcCheckboxRadioSwitch_js__WEBPACK_IMPORTED_MODULE_6__["default"],
+    CalendarAvailability: _nextcloud_calendar_availability_vue__WEBPACK_IMPORTED_MODULE_0__.CalendarAvailability,
+    NcTimezonePicker: _nextcloud_vue_dist_Components_NcTimezonePicker_js__WEBPACK_IMPORTED_MODULE_7__["default"]
+  },
+  data() {
+    // Try to determine the current timezone, and fall back to UTC otherwise
+    const defaultTimezoneId = new Intl.DateTimeFormat()?.resolvedOptions()?.timeZone ?? 'UTC';
+    return {
+      loading: true,
+      saving: false,
+      timezone: defaultTimezoneId,
+      slots: (0,_service_CalendarService_js__WEBPACK_IMPORTED_MODULE_3__.getEmptySlots)(),
+      automated: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_1__.loadState)('dav', 'user_status_automation') === 'yes'
+    };
+  },
+  computed: {
+    timeZonePickerId() {
+      return `tz-${(Math.random() + 1).toString(36).substring(7)}`;
+    }
+  },
+  async mounted() {
+    try {
+      const slotData = await (0,_service_CalendarService_js__WEBPACK_IMPORTED_MODULE_3__.findScheduleInboxAvailability)();
+      if (!slotData) {
+        console.info('no availability is set');
+        this.slots = (0,_service_CalendarService_js__WEBPACK_IMPORTED_MODULE_3__.getEmptySlots)();
+      } else {
+        const {
+          slots,
+          timezoneId
+        } = slotData;
+        this.slots = slots;
+        if (timezoneId) {
+          this.timezone = timezoneId;
+        }
+        console.info('availability loaded', this.slots, this.timezoneId);
+      }
+    } catch (e) {
+      console.error('could not load existing availability', e);
+      (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showError)(t('dav', 'Failed to load availability'));
+    } finally {
+      this.loading = false;
+    }
+  },
+  methods: {
+    async save() {
+      try {
+        this.saving = true;
+        await (0,_service_CalendarService_js__WEBPACK_IMPORTED_MODULE_3__.saveScheduleInboxAvailability)(this.slots, this.timezone);
+        if (this.automated) {
+          await (0,_service_PreferenceService_js__WEBPACK_IMPORTED_MODULE_4__.enableUserStatusAutomation)();
+        } else {
+          await (0,_service_PreferenceService_js__WEBPACK_IMPORTED_MODULE_4__.disableUserStatusAutomation)();
+        }
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showSuccess)(t('dav', 'Saved availability'));
+      } catch (e) {
+        console.error('could not save availability', e);
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showError)(t('dav', 'Failed to save availability'));
+      } finally {
+        this.saving = false;
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/views/Availability.vue?vue&type=script&lang=js":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/views/Availability.vue?vue&type=script&lang=js ***!
+  \*************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_vue_dist_Components_NcSettingsSection_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcSettingsSection.js */ "./node_modules/@nextcloud/vue/dist/Components/NcSettingsSection.mjs");
+/* harmony import */ var _components_AbsenceForm_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/AbsenceForm.vue */ "./apps/dav/src/components/AbsenceForm.vue");
+/* harmony import */ var _components_AvailabilityForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/AvailabilityForm.vue */ "./apps/dav/src/components/AvailabilityForm.vue");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.mjs");
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'Availability',
+  components: {
+    NcSettingsSection: _nextcloud_vue_dist_Components_NcSettingsSection_js__WEBPACK_IMPORTED_MODULE_0__["default"],
+    AbsenceForm: _components_AbsenceForm_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    AvailabilityForm: _components_AvailabilityForm_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  data() {
+    return {
+      hideAbsenceSettings: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__.loadState)('dav', 'hide_absence_settings', true)
+    };
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AbsenceForm.vue?vue&type=template&id=e2547430&scoped=true":
+/*!****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AbsenceForm.vue?vue&type=template&id=e2547430&scoped=true ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("form", {
+    staticClass: "absence",
+    on: {
+      submit: function ($event) {
+        $event.preventDefault();
+        return _vm.saveForm.apply(null, arguments);
+      }
+    }
+  }, [_c("div", {
+    staticClass: "absence__dates"
+  }, [_c("NcDateTimePickerNative", {
+    staticClass: "absence__dates__picker",
+    attrs: {
+      id: "absence-first-day",
+      label: _vm.$t("dav", "First day"),
+      required: true
+    },
+    model: {
+      value: _vm.firstDay,
+      callback: function ($$v) {
+        _vm.firstDay = $$v;
+      },
+      expression: "firstDay"
+    }
+  }), _vm._v(" "), _c("NcDateTimePickerNative", {
+    staticClass: "absence__dates__picker",
+    attrs: {
+      id: "absence-last-day",
+      label: _vm.$t("dav", "Last day (inclusive)"),
+      required: true
+    },
+    model: {
+      value: _vm.lastDay,
+      callback: function ($$v) {
+        _vm.lastDay = $$v;
+      },
+      expression: "lastDay"
+    }
+  })], 1), _vm._v(" "), _c("label", {
+    attrs: {
+      for: "replacement-search-input"
+    }
+  }, [_vm._v(_vm._s(_vm.$t("dav", "Out of office replacement (optional)")))]), _vm._v(" "), _c("NcSelect", {
+    ref: "select",
+    attrs: {
+      "input-id": "replacement-search-input",
+      loading: _vm.searchLoading,
+      placeholder: _vm.$t("dav", "Name of the replacement"),
+      "clear-search-on-blur": () => false,
+      "user-select": true,
+      options: _vm.options
+    },
+    on: {
+      search: _vm.asyncFind
+    },
+    scopedSlots: _vm._u([{
+      key: "no-options",
+      fn: function (_ref) {
+        let {
+          search
+        } = _ref;
+        return [_vm._v("\n\t\t\t" + _vm._s(search ? _vm.$t("dav", "No results.") : _vm.$t("dav", "Start typing.")) + "\n\t\t")];
+      }
+    }]),
+    model: {
+      value: _vm.replacementUser,
+      callback: function ($$v) {
+        _vm.replacementUser = $$v;
+      },
+      expression: "replacementUser"
+    }
+  }), _vm._v(" "), _c("NcTextField", {
+    attrs: {
+      value: _vm.status,
+      label: _vm.$t("dav", "Short absence status"),
+      required: true
+    },
+    on: {
+      "update:value": function ($event) {
+        _vm.status = $event;
+      }
+    }
+  }), _vm._v(" "), _c("NcTextArea", {
+    attrs: {
+      value: _vm.message,
+      label: _vm.$t("dav", "Long absence Message"),
+      required: true
+    },
+    on: {
+      "update:value": function ($event) {
+        _vm.message = $event;
+      }
+    }
+  }), _vm._v(" "), _c("div", {
+    staticClass: "absence__buttons"
+  }, [_c("NcButton", {
+    attrs: {
+      disabled: _vm.loading || !_vm.valid,
+      type: "primary",
+      "native-type": "submit"
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.$t("dav", "Save")) + "\n\t\t")]), _vm._v(" "), _c("NcButton", {
+    attrs: {
+      disabled: _vm.loading || !_vm.valid,
+      type: "error"
+    },
+    on: {
+      click: _vm.clearAbsence
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.$t("dav", "Disable absence")) + "\n\t\t")])], 1)], 1);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AvailabilityForm.vue?vue&type=template&id=55a42208&scoped=true":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AvailabilityForm.vue?vue&type=template&id=55a42208&scoped=true ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", [_c("div", {
+    staticClass: "time-zone"
+  }, [_c("label", {
+    staticClass: "time-zone__heading",
+    attrs: {
+      for: `vs${_vm.timeZonePickerId}__combobox`
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.$t("dav", "Time zone:")) + "\n\t\t")]), _vm._v(" "), _c("span", {
+    staticClass: "time-zone-text"
+  }, [_c("NcTimezonePicker", {
+    attrs: {
+      uid: _vm.timeZonePickerId
+    },
+    model: {
+      value: _vm.timezone,
+      callback: function ($$v) {
+        _vm.timezone = $$v;
+      },
+      expression: "timezone"
+    }
+  })], 1)]), _vm._v(" "), _c("CalendarAvailability", {
+    attrs: {
+      slots: _vm.slots,
+      loading: _vm.loading,
+      "l10n-to": _vm.$t("dav", "to"),
+      "l10n-delete-slot": _vm.$t("dav", "Delete slot"),
+      "l10n-empty-day": _vm.$t("dav", "No working hours set"),
+      "l10n-add-slot": _vm.$t("dav", "Add slot"),
+      "l10n-week-day-list-label": _vm.$t("dav", "Weekdays"),
+      "l10n-monday": _vm.$t("dav", "Monday"),
+      "l10n-tuesday": _vm.$t("dav", "Tuesday"),
+      "l10n-wednesday": _vm.$t("dav", "Wednesday"),
+      "l10n-thursday": _vm.$t("dav", "Thursday"),
+      "l10n-friday": _vm.$t("dav", "Friday"),
+      "l10n-saturday": _vm.$t("dav", "Saturday"),
+      "l10n-sunday": _vm.$t("dav", "Sunday"),
+      "l10n-start-picker-label": dayName => _vm.$t("dav", "Pick a start time for {dayName}", {
+        dayName
+      }),
+      "l10n-end-picker-label": dayName => _vm.$t("dav", "Pick a end time for {dayName}", {
+        dayName
+      })
+    },
+    on: {
+      "update:slots": function ($event) {
+        _vm.slots = $event;
+      }
+    }
+  }), _vm._v(" "), _c("NcCheckboxRadioSwitch", {
+    attrs: {
+      checked: _vm.automated
+    },
+    on: {
+      "update:checked": function ($event) {
+        _vm.automated = $event;
+      }
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.$t("dav", 'Automatically set user status to "Do not disturb" outside of availability to mute all notifications.')) + "\n\t")]), _vm._v(" "), _c("NcButton", {
+    attrs: {
+      disabled: _vm.loading || _vm.saving,
+      type: "primary"
+    },
+    on: {
+      click: _vm.save
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.$t("dav", "Save")) + "\n\t")])], 1);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/views/Availability.vue?vue&type=template&id=aad5ff48":
+/*!************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/views/Availability.vue?vue&type=template&id=aad5ff48 ***!
+  \************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", [_c("NcSettingsSection", {
+    attrs: {
+      id: "availability",
+      name: _vm.$t("dav", "Availability"),
+      description: _vm.$t("dav", "If you configure your working hours, other people will see when you are out of office when they book a meeting.")
+    }
+  }, [_c("AvailabilityForm")], 1), _vm._v(" "), !_vm.hideAbsenceSettings ? _c("NcSettingsSection", {
+    attrs: {
+      id: "absence",
+      name: _vm.$t("dav", "Absence"),
+      description: _vm.$t("dav", "Configure your next absence period.")
+    }
+  }, [_c("AbsenceForm")], 1) : _vm._e()], 1);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/@nextcloud/calendar-availability-vue/dist/assets/index-Ds7BWaqb.css":
+/*!********************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/@nextcloud/calendar-availability-vue/dist/assets/index-Ds7BWaqb.css ***!
+  \********************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `.availability-day[data-v-ac7f4eb9] {
+  padding: 0 10px 0 10px;
+  position: absolute;
+}
+.availability-slots[data-v-ac7f4eb9] {
+  max-width: 332px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  white-space: nowrap;
+}
+.availability-slot[data-v-ac7f4eb9] {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.availability-slot-group[data-v-ac7f4eb9] {
+  display: flex;
+  flex-direction: column;
+}
+.time-zone[data-v-ac7f4eb9] {
+  padding: 32px 12px 12px 0;
+}
+.week-day-container[data-v-ac7f4eb9] {
+  box-sizing: border-box;
+  margin-bottom: 32px;
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.button[data-v-ac7f4eb9] {
+  align-self: flex-end;
+}
+.label-weekday[data-v-ac7f4eb9] {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  min-width: 77px;
+  width: 77px;
+}
+.label-weekday > span[data-v-ac7f4eb9] {
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+.add-another[data-v-ac7f4eb9] {
+  background-color: transparent;
+  border: none;
+  opacity: 0.5;
+  display: inline-flex;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 3px;
+}
+.add-another[data-v-ac7f4eb9]:hover {
+  opacity: 1;
+}
+.to-text[data-v-ac7f4eb9] {
+  padding-right: 12px;
+}
+.time-zone-text[data-v-ac7f4eb9] {
+  padding-left: 22px;
+}
+.empty-content[data-v-ac7f4eb9] {
+  color: var(--color-text-lighter);
+  display: inline-flex;
+  align-items: center;
+}
+.start-date[data-v-ac7f4eb9] {
+  padding-right: 12px;
+}
+.day-container[data-v-ac7f4eb9] {
+  display: flex;
+  max-width: 500px;
+  width: 100%;
+  gap: 24px;
+  border-top: 1px solid var(--color-border);
+  padding-top: calc(3 * var(--default-grid-baseline));
+  margin-top: calc(2 * var(--default-grid-baseline));
+}`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AbsenceForm.vue?vue&type=style&index=0&id=e2547430&lang=scss&scoped=true":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AbsenceForm.vue?vue&type=style&index=0&id=e2547430&lang=scss&scoped=true ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `.absence[data-v-e2547430] {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.absence__dates[data-v-e2547430] {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+.absence__dates__picker[data-v-e2547430] {
+  flex: 1 auto;
+}
+.absence__dates__picker[data-v-e2547430] .native-datetime-picker--input {
+  margin-bottom: 0;
+}
+.absence__buttons[data-v-e2547430] {
+  display: flex;
+  gap: 5px;
+}`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AvailabilityForm.vue?vue&type=style&index=0&id=55a42208&lang=scss&scoped=true":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AvailabilityForm.vue?vue&type=style&index=0&id=55a42208&lang=scss&scoped=true ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `[data-v-55a42208] .availability-day {
+  padding: 0 10px 0 10px;
+  position: absolute;
+}
+[data-v-55a42208] .availability-slots {
+  display: flex;
+  white-space: normal;
+}
+[data-v-55a42208] .availability-slot {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+}
+[data-v-55a42208] .availability-slot-group {
+  display: flex;
+  flex-direction: column;
+}
+[data-v-55a42208] .mx-input-wrapper {
+  width: 85px;
+}
+[data-v-55a42208] .mx-datepicker {
+  width: 97px;
+}
+[data-v-55a42208] .multiselect {
+  border: 1px solid var(--color-border-dark);
+  width: 120px;
+}
+.time-zone[data-v-55a42208] {
+  padding-block: 32px 12px;
+  padding-inline: 0 12px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.time-zone__heading[data-v-55a42208] {
+  margin-inline-end: calc(var(--default-grid-baseline) * 2);
+  line-height: var(--default-clickable-area);
+  font-weight: bold;
+}
+.grid-table[data-v-55a42208] {
+  display: grid;
+  margin-bottom: 32px;
+  grid-column-gap: 24px;
+  grid-row-gap: 6px;
+  grid-template-columns: min-content auto min-content;
+  max-width: 500px;
+}
+.button[data-v-55a42208] {
+  align-self: flex-end;
+}
+[data-v-55a42208] .label-weekday {
+  position: relative;
+  display: inline-flex;
+  padding-top: 4px;
+  align-self: center;
+}
+[data-v-55a42208] .delete-slot {
+  padding-bottom: unset;
+}
+[data-v-55a42208] .add-another {
+  align-self: center;
+}
+.to-text[data-v-55a42208] {
+  padding-inline-end: 12px;
+}
+.empty-content[data-v-55a42208] {
+  color: var(--color-text-lighter);
+  margin-block-start: var(--default-grid-baseline);
+  align-self: center;
+}`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/icalzone/dist/index.js":
+/*!*********************************************!*\
+  !*** ./node_modules/icalzone/dist/index.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getZoneString = exports.getZoneLines = void 0;
+const zones_1 = __webpack_require__(/*! ./zones */ "./node_modules/icalzone/dist/zones.js"); // This module must be generated with `yarn run build-zones`.
+function renderZoneSub(data) {
+    const { n, f, t, r, s } = data;
+    return [
+        `TZNAME:${n}`,
+        `TZOFFSETFROM:${f}`,
+        `TZOFFSETTO:${t || f}`,
+        `DTSTART:${s || zones_1.defaultStart}`,
+        ...(r ? [`RRULE:FREQ=${r.f || 'YEARLY'};BYMONTH=${r.m};BYDAY=${r.d}`] : []),
+    ];
+}
+/**
+ * Tries to resolve a given time zone to iCalendar time zone component
+ * (`VTIMEZONE`) as string array (usually for further processing).
+ * @param zoneName Time zone name (e.g. `America/Los_Angeles`)
+ * @param includeWrapper Set to `false` to avoid including lines for
+ * `BEGIN:VTIMEZONE` and `END:VTIMEZONE`.
+ * @returns Lines of the iCalendar time zone component (`VTIMEZONE`), each line
+ * individually as an array of strings.
+ */
+function getZoneLines(zoneName, includeWrapper = true) {
+    const zoneData = zones_1.zonesMap.get(zoneName);
+    if (zoneData) {
+        const { s, d } = zoneData;
+        const lines = [
+            ...(includeWrapper ? ['BEGIN:VTIMEZONE'] : []),
+            `TZID:${zoneName}`,
+            // `X-LIC-LOCATION:${zoneName}`, // Who uses this?
+            'BEGIN:STANDARD',
+            ...renderZoneSub(s),
+            'END:STANDARD',
+            ...(d ? [
+                'BEGIN:DAYLIGHT',
+                ...renderZoneSub(d),
+                'END:DAYLIGHT',
+            ] : []),
+            ...(includeWrapper ? ['END:VTIMEZONE'] : []),
+        ];
+        return lines;
+    }
+}
+exports.getZoneLines = getZoneLines;
+/**
+ * Tries to resolve a given time zone to iCalendar time zone component
+ * (`VTIMEZONE`) as string.
+ * @param zoneName Time zone name (e.g. `America/Los_Angeles`)
+ * @param includeWrapper Set to `false` to avoid including lines for
+ * `BEGIN:VTIMEZONE` and `END:VTIMEZONE`.
+ * @returns The iCalendar time zone component (`VTIMEZONE`) as string
+ * with `\r\n` line breaks.
+ */
+function getZoneString(zoneName, includeWrapper = true) {
+    const lines = getZoneLines(zoneName, includeWrapper);
+    return lines === null || lines === void 0 ? void 0 : lines.join('\r\n');
+}
+exports.getZoneString = getZoneString;
+
+
+/***/ }),
+
+/***/ "./node_modules/icalzone/dist/zones.js":
+/*!*********************************************!*\
+  !*** ./node_modules/icalzone/dist/zones.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.zonesMap = exports.defaultStart = void 0;
+exports.defaultStart = "19700101T000000";
+exports.zonesMap = new Map([
+    [
+        "Africa/Abidjan",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "GMT"
+            }
+        }
+    ],
+    [
+        "Africa/Accra",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "GMT"
+            }
+        }
+    ],
+    [
+        "Africa/Addis_Ababa",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "EAT"
+            }
+        }
+    ],
+    [
+        "Africa/Algiers",
+        {
+            "s": {
+                "f": "+0100",
+                "n": "CET"
+            }
+        }
+    ],
+    [
+        "Africa/Asmara",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "EAT"
+            }
+        }
+    ],
+    [
+        "Africa/Bamako",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "GMT"
+            }
+        }
+    ],
+    [
+        "Africa/Bangui",
+        {
+            "s": {
+                "f": "+0100",
+                "n": "WAT"
+            }
+        }
+    ],
+    [
+        "Africa/Banjul",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "GMT"
+            }
+        }
+    ],
+    [
+        "Africa/Bissau",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "GMT"
+            }
+        }
+    ],
+    [
+        "Africa/Blantyre",
+        {
+            "s": {
+                "f": "+0200",
+                "n": "CAT"
+            }
+        }
+    ],
+    [
+        "Africa/Brazzaville",
+        {
+            "s": {
+                "f": "+0100",
+                "n": "WAT"
+            }
+        }
+    ],
+    [
+        "Africa/Bujumbura",
+        {
+            "s": {
+                "f": "+0200",
+                "n": "CAT"
+            }
+        }
+    ],
+    [
+        "Africa/Cairo",
+        {
+            "s": {
+                "f": "+0200",
+                "n": "EET"
+            }
+        }
+    ],
+    [
+        "Africa/Casablanca",
+        {
+            "s": {
+                "f": "+0100",
+                "n": "+01"
+            }
+        }
+    ],
+    [
+        "Africa/Ceuta",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Africa/Conakry",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "GMT"
+            }
+        }
+    ],
+    [
+        "Africa/Dakar",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "GMT"
+            }
+        }
+    ],
+    [
+        "Africa/Dar_es_Salaam",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "EAT"
+            }
+        }
+    ],
+    [
+        "Africa/Djibouti",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "EAT"
+            }
+        }
+    ],
+    [
+        "Africa/Douala",
+        {
+            "s": {
+                "f": "+0100",
+                "n": "WAT"
+            }
+        }
+    ],
+    [
+        "Africa/El_Aaiun",
+        {
+            "s": {
+                "f": "+0100",
+                "n": "+01"
+            }
+        }
+    ],
+    [
+        "Africa/Freetown",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "GMT"
+            }
+        }
+    ],
+    [
+        "Africa/Gaborone",
+        {
+            "s": {
+                "f": "+0200",
+                "n": "CAT"
+            }
+        }
+    ],
+    [
+        "Africa/Harare",
+        {
+            "s": {
+                "f": "+0200",
+                "n": "CAT"
+            }
+        }
+    ],
+    [
+        "Africa/Johannesburg",
+        {
+            "s": {
+                "f": "+0200",
+                "n": "SAST"
+            }
+        }
+    ],
+    [
+        "Africa/Juba",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "EAT"
+            }
+        }
+    ],
+    [
+        "Africa/Kampala",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "EAT"
+            }
+        }
+    ],
+    [
+        "Africa/Khartoum",
+        {
+            "s": {
+                "f": "+0200",
+                "n": "CAT"
+            }
+        }
+    ],
+    [
+        "Africa/Kigali",
+        {
+            "s": {
+                "f": "+0200",
+                "n": "CAT"
+            }
+        }
+    ],
+    [
+        "Africa/Kinshasa",
+        {
+            "s": {
+                "f": "+0100",
+                "n": "WAT"
+            }
+        }
+    ],
+    [
+        "Africa/Lagos",
+        {
+            "s": {
+                "f": "+0100",
+                "n": "WAT"
+            }
+        }
+    ],
+    [
+        "Africa/Libreville",
+        {
+            "s": {
+                "f": "+0100",
+                "n": "WAT"
+            }
+        }
+    ],
+    [
+        "Africa/Lome",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "GMT"
+            }
+        }
+    ],
+    [
+        "Africa/Luanda",
+        {
+            "s": {
+                "f": "+0100",
+                "n": "WAT"
+            }
+        }
+    ],
+    [
+        "Africa/Lubumbashi",
+        {
+            "s": {
+                "f": "+0200",
+                "n": "CAT"
+            }
+        }
+    ],
+    [
+        "Africa/Lusaka",
+        {
+            "s": {
+                "f": "+0200",
+                "n": "CAT"
+            }
+        }
+    ],
+    [
+        "Africa/Malabo",
+        {
+            "s": {
+                "f": "+0100",
+                "n": "WAT"
+            }
+        }
+    ],
+    [
+        "Africa/Maputo",
+        {
+            "s": {
+                "f": "+0200",
+                "n": "CAT"
+            }
+        }
+    ],
+    [
+        "Africa/Maseru",
+        {
+            "s": {
+                "f": "+0200",
+                "n": "SAST"
+            }
+        }
+    ],
+    [
+        "Africa/Mbabane",
+        {
+            "s": {
+                "f": "+0200",
+                "n": "SAST"
+            }
+        }
+    ],
+    [
+        "Africa/Mogadishu",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "EAT"
+            }
+        }
+    ],
+    [
+        "Africa/Monrovia",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "GMT"
+            }
+        }
+    ],
+    [
+        "Africa/Nairobi",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "EAT"
+            }
+        }
+    ],
+    [
+        "Africa/Ndjamena",
+        {
+            "s": {
+                "f": "+0100",
+                "n": "WAT"
+            }
+        }
+    ],
+    [
+        "Africa/Niamey",
+        {
+            "s": {
+                "f": "+0100",
+                "n": "WAT"
+            }
+        }
+    ],
+    [
+        "Africa/Nouakchott",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "GMT"
+            }
+        }
+    ],
+    [
+        "Africa/Ouagadougou",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "GMT"
+            }
+        }
+    ],
+    [
+        "Africa/Porto-Novo",
+        {
+            "s": {
+                "f": "+0100",
+                "n": "WAT"
+            }
+        }
+    ],
+    [
+        "Africa/Sao_Tome",
+        {
+            "s": {
+                "f": "+0100",
+                "n": "WAT"
+            }
+        }
+    ],
+    [
+        "Africa/Tripoli",
+        {
+            "s": {
+                "f": "+0200",
+                "n": "EET"
+            }
+        }
+    ],
+    [
+        "Africa/Tunis",
+        {
+            "s": {
+                "f": "+0100",
+                "n": "CET"
+            }
+        }
+    ],
+    [
+        "Africa/Windhoek",
+        {
+            "s": {
+                "f": "+0200",
+                "n": "CAT"
+            }
+        }
+    ],
+    [
+        "America/Adak",
+        {
+            "s": {
+                "f": "-0900",
+                "t": "-1000",
+                "n": "HST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-1000",
+                "t": "-0900",
+                "n": "HDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Anchorage",
+        {
+            "s": {
+                "f": "-0800",
+                "t": "-0900",
+                "n": "AKST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0900",
+                "t": "-0800",
+                "n": "AKDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Anguilla",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/Antigua",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/Araguaina",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Argentina/Buenos_Aires",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Argentina/Catamarca",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Argentina/Cordoba",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Argentina/Jujuy",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Argentina/La_Rioja",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Argentina/Mendoza",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Argentina/Rio_Gallegos",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Argentina/Salta",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Argentina/San_Juan",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Argentina/San_Luis",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Argentina/Tucuman",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Argentina/Ushuaia",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Aruba",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/Asuncion",
+        {
+            "s": {
+                "f": "-0300",
+                "t": "-0400",
+                "n": "-04",
+                "s": "19700322T000000",
+                "r": {
+                    "m": 3,
+                    "d": "4SU"
+                }
+            },
+            "d": {
+                "f": "-0400",
+                "t": "-0300",
+                "n": "-03",
+                "s": "19701004T000000",
+                "r": {
+                    "m": 10,
+                    "d": "1SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Atikokan",
+        {
+            "s": {
+                "f": "-0500",
+                "n": "EST"
+            }
+        }
+    ],
+    [
+        "America/Bahia_Banderas",
+        {
+            "s": {
+                "f": "-0500",
+                "t": "-0600",
+                "n": "CST",
+                "s": "19701025T020000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "-0600",
+                "t": "-0500",
+                "n": "CDT",
+                "s": "19700405T020000",
+                "r": {
+                    "m": 4,
+                    "d": "1SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Bahia",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Barbados",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/Belem",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Belize",
+        {
+            "s": {
+                "f": "-0600",
+                "n": "CST"
+            }
+        }
+    ],
+    [
+        "America/Blanc-Sablon",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/Boa_Vista",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "-04"
+            }
+        }
+    ],
+    [
+        "America/Bogota",
+        {
+            "s": {
+                "f": "-0500",
+                "n": "-05"
+            }
+        }
+    ],
+    [
+        "America/Boise",
+        {
+            "s": {
+                "f": "-0600",
+                "t": "-0700",
+                "n": "MST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0700",
+                "t": "-0600",
+                "n": "MDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Cambridge_Bay",
+        {
+            "s": {
+                "f": "-0600",
+                "t": "-0700",
+                "n": "MST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0700",
+                "t": "-0600",
+                "n": "MDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Campo_Grande",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "-04",
+                "s": "19700215T000000",
+                "r": {
+                    "m": 2,
+                    "d": "3SU"
+                }
+            },
+            "d": {
+                "f": "-0400",
+                "t": "-0300",
+                "n": "-03",
+                "s": "19701101T000000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Cancun",
+        {
+            "s": {
+                "f": "-0500",
+                "n": "EST"
+            }
+        }
+    ],
+    [
+        "America/Caracas",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "-04"
+            }
+        }
+    ],
+    [
+        "America/Cayenne",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Cayman",
+        {
+            "s": {
+                "f": "-0500",
+                "n": "EST"
+            }
+        }
+    ],
+    [
+        "America/Chicago",
+        {
+            "s": {
+                "f": "-0500",
+                "t": "-0600",
+                "n": "CST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0600",
+                "t": "-0500",
+                "n": "CDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Chihuahua",
+        {
+            "s": {
+                "f": "-0600",
+                "t": "-0700",
+                "n": "MST",
+                "s": "19701025T020000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "-0700",
+                "t": "-0600",
+                "n": "MDT",
+                "s": "19700405T020000",
+                "r": {
+                    "m": 4,
+                    "d": "1SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Costa_Rica",
+        {
+            "s": {
+                "f": "-0600",
+                "n": "CST"
+            }
+        }
+    ],
+    [
+        "America/Creston",
+        {
+            "s": {
+                "f": "-0700",
+                "n": "MST"
+            }
+        }
+    ],
+    [
+        "America/Cuiaba",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "-04",
+                "s": "19700215T000000",
+                "r": {
+                    "m": 2,
+                    "d": "3SU"
+                }
+            },
+            "d": {
+                "f": "-0400",
+                "t": "-0300",
+                "n": "-03",
+                "s": "19701101T000000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Curacao",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/Danmarkshavn",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "GMT"
+            }
+        }
+    ],
+    [
+        "America/Dawson_Creek",
+        {
+            "s": {
+                "f": "-0700",
+                "n": "MST"
+            }
+        }
+    ],
+    [
+        "America/Dawson",
+        {
+            "s": {
+                "f": "-0700",
+                "t": "-0800",
+                "n": "PST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0800",
+                "t": "-0700",
+                "n": "PDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Denver",
+        {
+            "s": {
+                "f": "-0600",
+                "t": "-0700",
+                "n": "MST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0700",
+                "t": "-0600",
+                "n": "MDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Detroit",
+        {
+            "s": {
+                "f": "-0400",
+                "t": "-0500",
+                "n": "EST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0500",
+                "t": "-0400",
+                "n": "EDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Dominica",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/Edmonton",
+        {
+            "s": {
+                "f": "-0600",
+                "t": "-0700",
+                "n": "MST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0700",
+                "t": "-0600",
+                "n": "MDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Eirunepe",
+        {
+            "s": {
+                "f": "-0500",
+                "n": "-05"
+            }
+        }
+    ],
+    [
+        "America/El_Salvador",
+        {
+            "s": {
+                "f": "-0600",
+                "n": "CST"
+            }
+        }
+    ],
+    [
+        "America/Fort_Nelson",
+        {
+            "s": {
+                "f": "-0700",
+                "n": "MST"
+            }
+        }
+    ],
+    [
+        "America/Fortaleza",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Glace_Bay",
+        {
+            "s": {
+                "f": "-0300",
+                "t": "-0400",
+                "n": "AST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0400",
+                "t": "-0300",
+                "n": "ADT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Godthab",
+        {
+            "s": {
+                "f": "-0200",
+                "t": "-0300",
+                "n": "-03",
+                "s": "19701024T230000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SA"
+                }
+            },
+            "d": {
+                "f": "-0300",
+                "t": "-0200",
+                "n": "-02",
+                "s": "19700328T220000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SA"
+                }
+            }
+        }
+    ],
+    [
+        "America/Goose_Bay",
+        {
+            "s": {
+                "f": "-0300",
+                "t": "-0400",
+                "n": "AST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0400",
+                "t": "-0300",
+                "n": "ADT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Grand_Turk",
+        {
+            "s": {
+                "f": "-0400",
+                "t": "-0500",
+                "n": "EST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0500",
+                "t": "-0400",
+                "n": "EDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Grenada",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/Guadeloupe",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/Guatemala",
+        {
+            "s": {
+                "f": "-0600",
+                "n": "CST"
+            }
+        }
+    ],
+    [
+        "America/Guayaquil",
+        {
+            "s": {
+                "f": "-0500",
+                "n": "-05"
+            }
+        }
+    ],
+    [
+        "America/Guyana",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "-04"
+            }
+        }
+    ],
+    [
+        "America/Halifax",
+        {
+            "s": {
+                "f": "-0300",
+                "t": "-0400",
+                "n": "AST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0400",
+                "t": "-0300",
+                "n": "ADT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Havana",
+        {
+            "s": {
+                "f": "-0400",
+                "t": "-0500",
+                "n": "CST",
+                "s": "19701101T010000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0500",
+                "t": "-0400",
+                "n": "CDT",
+                "s": "19700308T000000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Hermosillo",
+        {
+            "s": {
+                "f": "-0700",
+                "n": "MST"
+            }
+        }
+    ],
+    [
+        "America/Indiana/Indianapolis",
+        {
+            "s": {
+                "f": "-0400",
+                "t": "-0500",
+                "n": "EST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0500",
+                "t": "-0400",
+                "n": "EDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Indiana/Knox",
+        {
+            "s": {
+                "f": "-0500",
+                "t": "-0600",
+                "n": "CST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0600",
+                "t": "-0500",
+                "n": "CDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Indiana/Marengo",
+        {
+            "s": {
+                "f": "-0400",
+                "t": "-0500",
+                "n": "EST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0500",
+                "t": "-0400",
+                "n": "EDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Indiana/Petersburg",
+        {
+            "s": {
+                "f": "-0400",
+                "t": "-0500",
+                "n": "EST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0500",
+                "t": "-0400",
+                "n": "EDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Indiana/Tell_City",
+        {
+            "s": {
+                "f": "-0500",
+                "t": "-0600",
+                "n": "CST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0600",
+                "t": "-0500",
+                "n": "CDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Indiana/Vevay",
+        {
+            "s": {
+                "f": "-0400",
+                "t": "-0500",
+                "n": "EST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0500",
+                "t": "-0400",
+                "n": "EDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Indiana/Vincennes",
+        {
+            "s": {
+                "f": "-0400",
+                "t": "-0500",
+                "n": "EST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0500",
+                "t": "-0400",
+                "n": "EDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Indiana/Winamac",
+        {
+            "s": {
+                "f": "-0400",
+                "t": "-0500",
+                "n": "EST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0500",
+                "t": "-0400",
+                "n": "EDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Inuvik",
+        {
+            "s": {
+                "f": "-0600",
+                "t": "-0700",
+                "n": "MST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0700",
+                "t": "-0600",
+                "n": "MDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Iqaluit",
+        {
+            "s": {
+                "f": "-0400",
+                "t": "-0500",
+                "n": "EST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0500",
+                "t": "-0400",
+                "n": "EDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Jamaica",
+        {
+            "s": {
+                "f": "-0500",
+                "n": "EST"
+            }
+        }
+    ],
+    [
+        "America/Juneau",
+        {
+            "s": {
+                "f": "-0800",
+                "t": "-0900",
+                "n": "AKST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0900",
+                "t": "-0800",
+                "n": "AKDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Kentucky/Louisville",
+        {
+            "s": {
+                "f": "-0400",
+                "t": "-0500",
+                "n": "EST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0500",
+                "t": "-0400",
+                "n": "EDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Kentucky/Monticello",
+        {
+            "s": {
+                "f": "-0400",
+                "t": "-0500",
+                "n": "EST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0500",
+                "t": "-0400",
+                "n": "EDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Kralendijk",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/La_Paz",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "-04"
+            }
+        }
+    ],
+    [
+        "America/Lima",
+        {
+            "s": {
+                "f": "-0500",
+                "n": "-05"
+            }
+        }
+    ],
+    [
+        "America/Los_Angeles",
+        {
+            "s": {
+                "f": "-0700",
+                "t": "-0800",
+                "n": "PST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0800",
+                "t": "-0700",
+                "n": "PDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Lower_Princes",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/Maceio",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Managua",
+        {
+            "s": {
+                "f": "-0600",
+                "n": "CST"
+            }
+        }
+    ],
+    [
+        "America/Manaus",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "-04"
+            }
+        }
+    ],
+    [
+        "America/Marigot",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/Martinique",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/Matamoros",
+        {
+            "s": {
+                "f": "-0500",
+                "t": "-0600",
+                "n": "CST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0600",
+                "t": "-0500",
+                "n": "CDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Mazatlan",
+        {
+            "s": {
+                "f": "-0600",
+                "t": "-0700",
+                "n": "MST",
+                "s": "19701025T020000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "-0700",
+                "t": "-0600",
+                "n": "MDT",
+                "s": "19700405T020000",
+                "r": {
+                    "m": 4,
+                    "d": "1SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Menominee",
+        {
+            "s": {
+                "f": "-0500",
+                "t": "-0600",
+                "n": "CST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0600",
+                "t": "-0500",
+                "n": "CDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Merida",
+        {
+            "s": {
+                "f": "-0500",
+                "t": "-0600",
+                "n": "CST",
+                "s": "19701025T020000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "-0600",
+                "t": "-0500",
+                "n": "CDT",
+                "s": "19700405T020000",
+                "r": {
+                    "m": 4,
+                    "d": "1SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Metlakatla",
+        {
+            "s": {
+                "f": "-0800",
+                "t": "-0900",
+                "n": "AKST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0900",
+                "t": "-0800",
+                "n": "AKDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Mexico_City",
+        {
+            "s": {
+                "f": "-0500",
+                "t": "-0600",
+                "n": "CST",
+                "s": "19701025T020000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "-0600",
+                "t": "-0500",
+                "n": "CDT",
+                "s": "19700405T020000",
+                "r": {
+                    "m": 4,
+                    "d": "1SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Miquelon",
+        {
+            "s": {
+                "f": "-0200",
+                "t": "-0300",
+                "n": "-03",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0300",
+                "t": "-0200",
+                "n": "-02",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Moncton",
+        {
+            "s": {
+                "f": "-0300",
+                "t": "-0400",
+                "n": "AST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0400",
+                "t": "-0300",
+                "n": "ADT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Monterrey",
+        {
+            "s": {
+                "f": "-0500",
+                "t": "-0600",
+                "n": "CST",
+                "s": "19701025T020000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "-0600",
+                "t": "-0500",
+                "n": "CDT",
+                "s": "19700405T020000",
+                "r": {
+                    "m": 4,
+                    "d": "1SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Montevideo",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Montserrat",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/Nassau",
+        {
+            "s": {
+                "f": "-0400",
+                "t": "-0500",
+                "n": "EST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0500",
+                "t": "-0400",
+                "n": "EDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/New_York",
+        {
+            "s": {
+                "f": "-0400",
+                "t": "-0500",
+                "n": "EST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0500",
+                "t": "-0400",
+                "n": "EDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Nipigon",
+        {
+            "s": {
+                "f": "-0400",
+                "t": "-0500",
+                "n": "EST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0500",
+                "t": "-0400",
+                "n": "EDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Nome",
+        {
+            "s": {
+                "f": "-0800",
+                "t": "-0900",
+                "n": "AKST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0900",
+                "t": "-0800",
+                "n": "AKDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Noronha",
+        {
+            "s": {
+                "f": "-0200",
+                "n": "-02"
+            }
+        }
+    ],
+    [
+        "America/North_Dakota/Beulah",
+        {
+            "s": {
+                "f": "-0500",
+                "t": "-0600",
+                "n": "CST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0600",
+                "t": "-0500",
+                "n": "CDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/North_Dakota/Center",
+        {
+            "s": {
+                "f": "-0500",
+                "t": "-0600",
+                "n": "CST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0600",
+                "t": "-0500",
+                "n": "CDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/North_Dakota/New_Salem",
+        {
+            "s": {
+                "f": "-0500",
+                "t": "-0600",
+                "n": "CST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0600",
+                "t": "-0500",
+                "n": "CDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Ojinaga",
+        {
+            "s": {
+                "f": "-0600",
+                "t": "-0700",
+                "n": "MST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0700",
+                "t": "-0600",
+                "n": "MDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Panama",
+        {
+            "s": {
+                "f": "-0500",
+                "n": "EST"
+            }
+        }
+    ],
+    [
+        "America/Pangnirtung",
+        {
+            "s": {
+                "f": "-0400",
+                "t": "-0500",
+                "n": "EST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0500",
+                "t": "-0400",
+                "n": "EDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Paramaribo",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Phoenix",
+        {
+            "s": {
+                "f": "-0700",
+                "n": "MST"
+            }
+        }
+    ],
+    [
+        "America/Port_of_Spain",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/Port-au-Prince",
+        {
+            "s": {
+                "f": "-0400",
+                "t": "-0500",
+                "n": "EST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0500",
+                "t": "-0400",
+                "n": "EDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Porto_Velho",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "-04"
+            }
+        }
+    ],
+    [
+        "America/Puerto_Rico",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/Punta_Arenas",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Rainy_River",
+        {
+            "s": {
+                "f": "-0500",
+                "t": "-0600",
+                "n": "CST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0600",
+                "t": "-0500",
+                "n": "CDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Rankin_Inlet",
+        {
+            "s": {
+                "f": "-0500",
+                "t": "-0600",
+                "n": "CST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0600",
+                "t": "-0500",
+                "n": "CDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Recife",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Regina",
+        {
+            "s": {
+                "f": "-0600",
+                "n": "CST"
+            }
+        }
+    ],
+    [
+        "America/Resolute",
+        {
+            "s": {
+                "f": "-0500",
+                "t": "-0600",
+                "n": "CST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0600",
+                "t": "-0500",
+                "n": "CDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Rio_Branco",
+        {
+            "s": {
+                "f": "-0500",
+                "n": "-05"
+            }
+        }
+    ],
+    [
+        "America/Santarem",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "America/Santiago",
+        {
+            "s": {
+                "f": "-0300",
+                "t": "-0400",
+                "n": "-04",
+                "s": "19700405T000000",
+                "r": {
+                    "m": 4,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0400",
+                "t": "-0300",
+                "n": "-03",
+                "s": "19700906T000000",
+                "r": {
+                    "m": 9,
+                    "d": "1SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Santo_Domingo",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/Sao_Paulo",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03",
+                "s": "19700215T000000",
+                "r": {
+                    "m": 2,
+                    "d": "3SU"
+                }
+            },
+            "d": {
+                "f": "-0300",
+                "t": "-0200",
+                "n": "-02",
+                "s": "19701101T000000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Scoresbysund",
+        {
+            "s": {
+                "f": "+0000",
+                "t": "-0100",
+                "n": "-01",
+                "s": "19701025T010000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "-0100",
+                "t": "+0000",
+                "n": "+00",
+                "s": "19700329T000000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Sitka",
+        {
+            "s": {
+                "f": "-0800",
+                "t": "-0900",
+                "n": "AKST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0900",
+                "t": "-0800",
+                "n": "AKDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/St_Barthelemy",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/St_Johns",
+        {
+            "s": {
+                "f": "-0230",
+                "t": "-0330",
+                "n": "NST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0330",
+                "t": "-0230",
+                "n": "NDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/St_Kitts",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/St_Lucia",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/St_Thomas",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/St_Vincent",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/Swift_Current",
+        {
+            "s": {
+                "f": "-0600",
+                "n": "CST"
+            }
+        }
+    ],
+    [
+        "America/Tegucigalpa",
+        {
+            "s": {
+                "f": "-0600",
+                "n": "CST"
+            }
+        }
+    ],
+    [
+        "America/Thule",
+        {
+            "s": {
+                "f": "-0300",
+                "t": "-0400",
+                "n": "AST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0400",
+                "t": "-0300",
+                "n": "ADT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Thunder_Bay",
+        {
+            "s": {
+                "f": "-0400",
+                "t": "-0500",
+                "n": "EST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0500",
+                "t": "-0400",
+                "n": "EDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Tijuana",
+        {
+            "s": {
+                "f": "-0700",
+                "t": "-0800",
+                "n": "PST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0800",
+                "t": "-0700",
+                "n": "PDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Toronto",
+        {
+            "s": {
+                "f": "-0400",
+                "t": "-0500",
+                "n": "EST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0500",
+                "t": "-0400",
+                "n": "EDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Tortola",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "AST"
+            }
+        }
+    ],
+    [
+        "America/Vancouver",
+        {
+            "s": {
+                "f": "-0700",
+                "t": "-0800",
+                "n": "PST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0800",
+                "t": "-0700",
+                "n": "PDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Whitehorse",
+        {
+            "s": {
+                "f": "-0700",
+                "t": "-0800",
+                "n": "PST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0800",
+                "t": "-0700",
+                "n": "PDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Winnipeg",
+        {
+            "s": {
+                "f": "-0500",
+                "t": "-0600",
+                "n": "CST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0600",
+                "t": "-0500",
+                "n": "CDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Yakutat",
+        {
+            "s": {
+                "f": "-0800",
+                "t": "-0900",
+                "n": "AKST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0900",
+                "t": "-0800",
+                "n": "AKDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "America/Yellowknife",
+        {
+            "s": {
+                "f": "-0600",
+                "t": "-0700",
+                "n": "MST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0700",
+                "t": "-0600",
+                "n": "MDT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "Antarctica/Casey",
+        {
+            "s": {
+                "f": "+0800",
+                "n": "+08"
+            }
+        }
+    ],
+    [
+        "Antarctica/Davis",
+        {
+            "s": {
+                "f": "+0700",
+                "n": "+07"
+            }
+        }
+    ],
+    [
+        "Antarctica/DumontDUrville",
+        {
+            "s": {
+                "f": "+1000",
+                "n": "+10"
+            }
+        }
+    ],
+    [
+        "Antarctica/Macquarie",
+        {
+            "s": {
+                "f": "+1100",
+                "n": "+11"
+            }
+        }
+    ],
+    [
+        "Antarctica/Mawson",
+        {
+            "s": {
+                "f": "+0500",
+                "n": "+05"
+            }
+        }
+    ],
+    [
+        "Antarctica/McMurdo",
+        {
+            "s": {
+                "f": "+1300",
+                "t": "+1200",
+                "n": "NZST",
+                "s": "19700405T030000",
+                "r": {
+                    "m": 4,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "+1200",
+                "t": "+1300",
+                "n": "NZDT",
+                "s": "19700927T020000",
+                "r": {
+                    "m": 9,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Antarctica/Palmer",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "Antarctica/Rothera",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "Antarctica/Syowa",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "+03"
+            }
+        }
+    ],
+    [
+        "Antarctica/Troll",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0000",
+                "n": "+00",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0000",
+                "t": "+0200",
+                "n": "+02",
+                "s": "19700329T010000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Antarctica/Vostok",
+        {
+            "s": {
+                "f": "+0600",
+                "n": "+06"
+            }
+        }
+    ],
+    [
+        "Arctic/Longyearbyen",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Asia/Aden",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "+03"
+            }
+        }
+    ],
+    [
+        "Asia/Almaty",
+        {
+            "s": {
+                "f": "+0600",
+                "n": "+06"
+            }
+        }
+    ],
+    [
+        "Asia/Amman",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "EET",
+                "s": "19701030T010000",
+                "r": {
+                    "m": 10,
+                    "d": "-1FR"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "EEST",
+                "s": "19700326T235959",
+                "r": {
+                    "m": 3,
+                    "d": "-1TH"
+                }
+            }
+        }
+    ],
+    [
+        "Asia/Anadyr",
+        {
+            "s": {
+                "f": "+1200",
+                "n": "+12"
+            }
+        }
+    ],
+    [
+        "Asia/Aqtau",
+        {
+            "s": {
+                "f": "+0500",
+                "n": "+05"
+            }
+        }
+    ],
+    [
+        "Asia/Aqtobe",
+        {
+            "s": {
+                "f": "+0500",
+                "n": "+05"
+            }
+        }
+    ],
+    [
+        "Asia/Ashgabat",
+        {
+            "s": {
+                "f": "+0500",
+                "n": "+05"
+            }
+        }
+    ],
+    [
+        "Asia/Atyrau",
+        {
+            "s": {
+                "f": "+0500",
+                "n": "+05"
+            }
+        }
+    ],
+    [
+        "Asia/Baghdad",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "+03"
+            }
+        }
+    ],
+    [
+        "Asia/Bahrain",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "+03"
+            }
+        }
+    ],
+    [
+        "Asia/Baku",
+        {
+            "s": {
+                "f": "+0400",
+                "n": "+04"
+            }
+        }
+    ],
+    [
+        "Asia/Bangkok",
+        {
+            "s": {
+                "f": "+0700",
+                "n": "+07"
+            }
+        }
+    ],
+    [
+        "Asia/Barnaul",
+        {
+            "s": {
+                "f": "+0700",
+                "n": "+07"
+            }
+        }
+    ],
+    [
+        "Asia/Beirut",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "EET",
+                "s": "19701025T000000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "EEST",
+                "s": "19700329T000000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Asia/Bishkek",
+        {
+            "s": {
+                "f": "+0600",
+                "n": "+06"
+            }
+        }
+    ],
+    [
+        "Asia/Brunei",
+        {
+            "s": {
+                "f": "+0800",
+                "n": "+08"
+            }
+        }
+    ],
+    [
+        "Asia/Chita",
+        {
+            "s": {
+                "f": "+0900",
+                "n": "+09"
+            }
+        }
+    ],
+    [
+        "Asia/Choibalsan",
+        {
+            "s": {
+                "f": "+0800",
+                "n": "+08"
+            }
+        }
+    ],
+    [
+        "Asia/Colombo",
+        {
+            "s": {
+                "f": "+0530",
+                "n": "+0530"
+            }
+        }
+    ],
+    [
+        "Asia/Damascus",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "EET",
+                "s": "19701030T000000",
+                "r": {
+                    "m": 10,
+                    "d": "-1FR"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "EEST",
+                "s": "19700327T000000",
+                "r": {
+                    "m": 3,
+                    "d": "-1FR"
+                }
+            }
+        }
+    ],
+    [
+        "Asia/Dhaka",
+        {
+            "s": {
+                "f": "+0600",
+                "n": "+06"
+            }
+        }
+    ],
+    [
+        "Asia/Dili",
+        {
+            "s": {
+                "f": "+0900",
+                "n": "+09"
+            }
+        }
+    ],
+    [
+        "Asia/Dubai",
+        {
+            "s": {
+                "f": "+0400",
+                "n": "+04"
+            }
+        }
+    ],
+    [
+        "Asia/Dushanbe",
+        {
+            "s": {
+                "f": "+0500",
+                "n": "+05"
+            }
+        }
+    ],
+    [
+        "Asia/Famagusta",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "EET",
+                "s": "19701025T040000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "EEST",
+                "s": "19700329T030000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Asia/Gaza",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "EET",
+                "s": "19701031T010000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SA"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "EEST",
+                "s": "19700328T010000",
+                "r": {
+                    "m": 3,
+                    "d": "4SA"
+                }
+            }
+        }
+    ],
+    [
+        "Asia/Hebron",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "EET",
+                "s": "19701031T010000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SA"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "EEST",
+                "s": "19700328T010000",
+                "r": {
+                    "m": 3,
+                    "d": "4SA"
+                }
+            }
+        }
+    ],
+    [
+        "Asia/Ho_Chi_Minh",
+        {
+            "s": {
+                "f": "+0700",
+                "n": "+07"
+            }
+        }
+    ],
+    [
+        "Asia/Hong_Kong",
+        {
+            "s": {
+                "f": "+0800",
+                "n": "HKT"
+            }
+        }
+    ],
+    [
+        "Asia/Hovd",
+        {
+            "s": {
+                "f": "+0700",
+                "n": "+07"
+            }
+        }
+    ],
+    [
+        "Asia/Irkutsk",
+        {
+            "s": {
+                "f": "+0800",
+                "n": "+08"
+            }
+        }
+    ],
+    [
+        "Asia/Istanbul",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "+03"
+            }
+        }
+    ],
+    [
+        "Asia/Jakarta",
+        {
+            "s": {
+                "f": "+0700",
+                "n": "WIB"
+            }
+        }
+    ],
+    [
+        "Asia/Jayapura",
+        {
+            "s": {
+                "f": "+0900",
+                "n": "WIT"
+            }
+        }
+    ],
+    [
+        "Asia/Jerusalem",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "IST",
+                "s": "19701025T020000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "IDT",
+                "s": "19700327T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1FR"
+                }
+            }
+        }
+    ],
+    [
+        "Asia/Kabul",
+        {
+            "s": {
+                "f": "+0430",
+                "n": "+0430"
+            }
+        }
+    ],
+    [
+        "Asia/Kamchatka",
+        {
+            "s": {
+                "f": "+1200",
+                "n": "+12"
+            }
+        }
+    ],
+    [
+        "Asia/Karachi",
+        {
+            "s": {
+                "f": "+0500",
+                "n": "PKT"
+            }
+        }
+    ],
+    [
+        "Asia/Kathmandu",
+        {
+            "s": {
+                "f": "+0545",
+                "n": "+0545"
+            }
+        }
+    ],
+    [
+        "Asia/Khandyga",
+        {
+            "s": {
+                "f": "+0900",
+                "n": "+09"
+            }
+        }
+    ],
+    [
+        "Asia/Kolkata",
+        {
+            "s": {
+                "f": "+0530",
+                "n": "IST"
+            }
+        }
+    ],
+    [
+        "Asia/Krasnoyarsk",
+        {
+            "s": {
+                "f": "+0700",
+                "n": "+07"
+            }
+        }
+    ],
+    [
+        "Asia/Kuala_Lumpur",
+        {
+            "s": {
+                "f": "+0800",
+                "n": "+08"
+            }
+        }
+    ],
+    [
+        "Asia/Kuching",
+        {
+            "s": {
+                "f": "+0800",
+                "n": "+08"
+            }
+        }
+    ],
+    [
+        "Asia/Kuwait",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "+03"
+            }
+        }
+    ],
+    [
+        "Asia/Macau",
+        {
+            "s": {
+                "f": "+0800",
+                "n": "CST"
+            }
+        }
+    ],
+    [
+        "Asia/Magadan",
+        {
+            "s": {
+                "f": "+1100",
+                "n": "+11"
+            }
+        }
+    ],
+    [
+        "Asia/Makassar",
+        {
+            "s": {
+                "f": "+0800",
+                "n": "WITA"
+            }
+        }
+    ],
+    [
+        "Asia/Manila",
+        {
+            "s": {
+                "f": "+0800",
+                "n": "PST"
+            }
+        }
+    ],
+    [
+        "Asia/Muscat",
+        {
+            "s": {
+                "f": "+0400",
+                "n": "+04"
+            }
+        }
+    ],
+    [
+        "Asia/Nicosia",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "EET",
+                "s": "19701025T040000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "EEST",
+                "s": "19700329T030000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Asia/Novokuznetsk",
+        {
+            "s": {
+                "f": "+0700",
+                "n": "+07"
+            }
+        }
+    ],
+    [
+        "Asia/Novosibirsk",
+        {
+            "s": {
+                "f": "+0700",
+                "n": "+07"
+            }
+        }
+    ],
+    [
+        "Asia/Omsk",
+        {
+            "s": {
+                "f": "+0600",
+                "n": "+06"
+            }
+        }
+    ],
+    [
+        "Asia/Oral",
+        {
+            "s": {
+                "f": "+0500",
+                "n": "+05"
+            }
+        }
+    ],
+    [
+        "Asia/Phnom_Penh",
+        {
+            "s": {
+                "f": "+0700",
+                "n": "+07"
+            }
+        }
+    ],
+    [
+        "Asia/Pontianak",
+        {
+            "s": {
+                "f": "+0700",
+                "n": "WIB"
+            }
+        }
+    ],
+    [
+        "Asia/Pyongyang",
+        {
+            "s": {
+                "f": "+0900",
+                "n": "KST"
+            }
+        }
+    ],
+    [
+        "Asia/Qatar",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "+03"
+            }
+        }
+    ],
+    [
+        "Asia/Qyzylorda",
+        {
+            "s": {
+                "f": "+0600",
+                "n": "+06"
+            }
+        }
+    ],
+    [
+        "Asia/Riyadh",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "+03"
+            }
+        }
+    ],
+    [
+        "Asia/Sakhalin",
+        {
+            "s": {
+                "f": "+1100",
+                "n": "+11"
+            }
+        }
+    ],
+    [
+        "Asia/Samarkand",
+        {
+            "s": {
+                "f": "+0500",
+                "n": "+05"
+            }
+        }
+    ],
+    [
+        "Asia/Seoul",
+        {
+            "s": {
+                "f": "+0900",
+                "n": "KST"
+            }
+        }
+    ],
+    [
+        "Asia/Shanghai",
+        {
+            "s": {
+                "f": "+0800",
+                "n": "CST"
+            }
+        }
+    ],
+    [
+        "Asia/Singapore",
+        {
+            "s": {
+                "f": "+0800",
+                "n": "+08"
+            }
+        }
+    ],
+    [
+        "Asia/Srednekolymsk",
+        {
+            "s": {
+                "f": "+1100",
+                "n": "+11"
+            }
+        }
+    ],
+    [
+        "Asia/Taipei",
+        {
+            "s": {
+                "f": "+0800",
+                "n": "CST"
+            }
+        }
+    ],
+    [
+        "Asia/Tashkent",
+        {
+            "s": {
+                "f": "+0500",
+                "n": "+05"
+            }
+        }
+    ],
+    [
+        "Asia/Tbilisi",
+        {
+            "s": {
+                "f": "+0400",
+                "n": "+04"
+            }
+        }
+    ],
+    [
+        "Asia/Tehran",
+        {
+            "s": {
+                "f": "+0430",
+                "t": "+0330",
+                "n": "+0330",
+                "s": "19700921T000000",
+                "r": {
+                    "m": 9,
+                    "d": "3SU"
+                }
+            },
+            "d": {
+                "f": "+0330",
+                "t": "+0430",
+                "n": "+0430",
+                "s": "19700321T000000",
+                "r": {
+                    "m": 3,
+                    "d": "3SU"
+                }
+            }
+        }
+    ],
+    [
+        "Asia/Thimphu",
+        {
+            "s": {
+                "f": "+0600",
+                "n": "+06"
+            }
+        }
+    ],
+    [
+        "Asia/Tokyo",
+        {
+            "s": {
+                "f": "+0900",
+                "n": "JST"
+            }
+        }
+    ],
+    [
+        "Asia/Tomsk",
+        {
+            "s": {
+                "f": "+0700",
+                "n": "+07"
+            }
+        }
+    ],
+    [
+        "Asia/Ulaanbaatar",
+        {
+            "s": {
+                "f": "+0800",
+                "n": "+08"
+            }
+        }
+    ],
+    [
+        "Asia/Urumqi",
+        {
+            "s": {
+                "f": "+0600",
+                "n": "+06"
+            }
+        }
+    ],
+    [
+        "Asia/Ust-Nera",
+        {
+            "s": {
+                "f": "+1000",
+                "n": "+10"
+            }
+        }
+    ],
+    [
+        "Asia/Vientiane",
+        {
+            "s": {
+                "f": "+0700",
+                "n": "+07"
+            }
+        }
+    ],
+    [
+        "Asia/Vladivostok",
+        {
+            "s": {
+                "f": "+1000",
+                "n": "+10"
+            }
+        }
+    ],
+    [
+        "Asia/Yakutsk",
+        {
+            "s": {
+                "f": "+0900",
+                "n": "+09"
+            }
+        }
+    ],
+    [
+        "Asia/Yangon",
+        {
+            "s": {
+                "f": "+0630",
+                "n": "+0630"
+            }
+        }
+    ],
+    [
+        "Asia/Yekaterinburg",
+        {
+            "s": {
+                "f": "+0500",
+                "n": "+05"
+            }
+        }
+    ],
+    [
+        "Asia/Yerevan",
+        {
+            "s": {
+                "f": "+0400",
+                "n": "+04"
+            }
+        }
+    ],
+    [
+        "Atlantic/Azores",
+        {
+            "s": {
+                "f": "+0000",
+                "t": "-0100",
+                "n": "-01",
+                "s": "19701025T010000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "-0100",
+                "t": "+0000",
+                "n": "+00",
+                "s": "19700329T000000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Atlantic/Bermuda",
+        {
+            "s": {
+                "f": "-0300",
+                "t": "-0400",
+                "n": "AST",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "-0400",
+                "t": "-0300",
+                "n": "ADT",
+                "s": "19700308T020000",
+                "r": {
+                    "m": 3,
+                    "d": "2SU"
+                }
+            }
+        }
+    ],
+    [
+        "Atlantic/Canary",
+        {
+            "s": {
+                "f": "+0100",
+                "t": "+0000",
+                "n": "WET",
+                "s": "19701025T020000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0000",
+                "t": "+0100",
+                "n": "WEST",
+                "s": "19700329T010000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Atlantic/Cape_Verde",
+        {
+            "s": {
+                "f": "-0100",
+                "n": "-01"
+            }
+        }
+    ],
+    [
+        "Atlantic/Faroe",
+        {
+            "s": {
+                "f": "+0100",
+                "t": "+0000",
+                "n": "WET",
+                "s": "19701025T020000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0000",
+                "t": "+0100",
+                "n": "WEST",
+                "s": "19700329T010000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Atlantic/Madeira",
+        {
+            "s": {
+                "f": "+0100",
+                "t": "+0000",
+                "n": "WET",
+                "s": "19701025T020000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0000",
+                "t": "+0100",
+                "n": "WEST",
+                "s": "19700329T010000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Atlantic/Reykjavik",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "GMT"
+            }
+        }
+    ],
+    [
+        "Atlantic/South_Georgia",
+        {
+            "s": {
+                "f": "-0200",
+                "n": "-02"
+            }
+        }
+    ],
+    [
+        "Atlantic/St_Helena",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "GMT"
+            }
+        }
+    ],
+    [
+        "Atlantic/Stanley",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "Australia/Adelaide",
+        {
+            "s": {
+                "f": "+1030",
+                "t": "+0930",
+                "n": "ACST",
+                "s": "19700405T030000",
+                "r": {
+                    "m": 4,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "+0930",
+                "t": "+1030",
+                "n": "ACDT",
+                "s": "19701004T020000",
+                "r": {
+                    "m": 10,
+                    "d": "1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Australia/Brisbane",
+        {
+            "s": {
+                "f": "+1000",
+                "n": "AEST"
+            }
+        }
+    ],
+    [
+        "Australia/Broken_Hill",
+        {
+            "s": {
+                "f": "+1030",
+                "t": "+0930",
+                "n": "ACST",
+                "s": "19700405T030000",
+                "r": {
+                    "m": 4,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "+0930",
+                "t": "+1030",
+                "n": "ACDT",
+                "s": "19701004T020000",
+                "r": {
+                    "m": 10,
+                    "d": "1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Australia/Currie",
+        {
+            "s": {
+                "f": "+1100",
+                "t": "+1000",
+                "n": "AEST",
+                "s": "19700405T030000",
+                "r": {
+                    "m": 4,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "+1000",
+                "t": "+1100",
+                "n": "AEDT",
+                "s": "19701004T020000",
+                "r": {
+                    "m": 10,
+                    "d": "1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Australia/Darwin",
+        {
+            "s": {
+                "f": "+0930",
+                "n": "ACST"
+            }
+        }
+    ],
+    [
+        "Australia/Eucla",
+        {
+            "s": {
+                "f": "+0845",
+                "n": "+0845"
+            }
+        }
+    ],
+    [
+        "Australia/Hobart",
+        {
+            "s": {
+                "f": "+1100",
+                "t": "+1000",
+                "n": "AEST",
+                "s": "19700405T030000",
+                "r": {
+                    "m": 4,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "+1000",
+                "t": "+1100",
+                "n": "AEDT",
+                "s": "19701004T020000",
+                "r": {
+                    "m": 10,
+                    "d": "1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Australia/Lindeman",
+        {
+            "s": {
+                "f": "+1000",
+                "n": "AEST"
+            }
+        }
+    ],
+    [
+        "Australia/Lord_Howe",
+        {
+            "s": {
+                "f": "+1100",
+                "t": "+1030",
+                "n": "+1030",
+                "s": "19700405T020000",
+                "r": {
+                    "m": 4,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "+1030",
+                "t": "+1100",
+                "n": "+11",
+                "s": "19701004T020000",
+                "r": {
+                    "m": 10,
+                    "d": "1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Australia/Melbourne",
+        {
+            "s": {
+                "f": "+1100",
+                "t": "+1000",
+                "n": "AEST",
+                "s": "19700405T030000",
+                "r": {
+                    "m": 4,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "+1000",
+                "t": "+1100",
+                "n": "AEDT",
+                "s": "19701004T020000",
+                "r": {
+                    "m": 10,
+                    "d": "1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Australia/Perth",
+        {
+            "s": {
+                "f": "+0800",
+                "n": "AWST"
+            }
+        }
+    ],
+    [
+        "Australia/Sydney",
+        {
+            "s": {
+                "f": "+1100",
+                "t": "+1000",
+                "n": "AEST",
+                "s": "19700405T030000",
+                "r": {
+                    "m": 4,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "+1000",
+                "t": "+1100",
+                "n": "AEDT",
+                "s": "19701004T020000",
+                "r": {
+                    "m": 10,
+                    "d": "1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Etc/GMT-0",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "GMT"
+            }
+        }
+    ],
+    [
+        "Etc/GMT-1",
+        {
+            "s": {
+                "f": "-0100",
+                "n": "-01"
+            }
+        }
+    ],
+    [
+        "Etc/GMT-10",
+        {
+            "s": {
+                "f": "-1000",
+                "n": "-10"
+            }
+        }
+    ],
+    [
+        "Etc/GMT-11",
+        {
+            "s": {
+                "f": "-1100",
+                "n": "-11"
+            }
+        }
+    ],
+    [
+        "Etc/GMT-12",
+        {
+            "s": {
+                "f": "-1200",
+                "n": "-12"
+            }
+        }
+    ],
+    [
+        "Etc/GMT-2",
+        {
+            "s": {
+                "f": "-0200",
+                "n": "-02"
+            }
+        }
+    ],
+    [
+        "Etc/GMT-3",
+        {
+            "s": {
+                "f": "-0300",
+                "n": "-03"
+            }
+        }
+    ],
+    [
+        "Etc/GMT-4",
+        {
+            "s": {
+                "f": "-0400",
+                "n": "-04"
+            }
+        }
+    ],
+    [
+        "Etc/GMT-5",
+        {
+            "s": {
+                "f": "-0500",
+                "n": "-05"
+            }
+        }
+    ],
+    [
+        "Etc/GMT-6",
+        {
+            "s": {
+                "f": "-0600",
+                "n": "-06"
+            }
+        }
+    ],
+    [
+        "Etc/GMT-7",
+        {
+            "s": {
+                "f": "-0700",
+                "n": "-07"
+            }
+        }
+    ],
+    [
+        "Etc/GMT-8",
+        {
+            "s": {
+                "f": "-0800",
+                "n": "-08"
+            }
+        }
+    ],
+    [
+        "Etc/GMT-9",
+        {
+            "s": {
+                "f": "-0900",
+                "n": "-09"
+            }
+        }
+    ],
+    [
+        "Etc/GMT",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "GMT"
+            }
+        }
+    ],
+    [
+        "Etc/GMT+0",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "GMT"
+            }
+        }
+    ],
+    [
+        "Etc/GMT+1",
+        {
+            "s": {
+                "f": "+0100",
+                "n": "+01"
+            }
+        }
+    ],
+    [
+        "Etc/GMT+10",
+        {
+            "s": {
+                "f": "+1000",
+                "n": "+10"
+            }
+        }
+    ],
+    [
+        "Etc/GMT+11",
+        {
+            "s": {
+                "f": "+1100",
+                "n": "+11"
+            }
+        }
+    ],
+    [
+        "Etc/GMT+12",
+        {
+            "s": {
+                "f": "+1200",
+                "n": "+12"
+            }
+        }
+    ],
+    [
+        "Etc/GMT+13",
+        {
+            "s": {
+                "f": "+1300",
+                "n": "+13"
+            }
+        }
+    ],
+    [
+        "Etc/GMT+14",
+        {
+            "s": {
+                "f": "+1400",
+                "n": "+14"
+            }
+        }
+    ],
+    [
+        "Etc/GMT+2",
+        {
+            "s": {
+                "f": "+0200",
+                "n": "+02"
+            }
+        }
+    ],
+    [
+        "Etc/GMT+3",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "+03"
+            }
+        }
+    ],
+    [
+        "Etc/GMT+4",
+        {
+            "s": {
+                "f": "+0400",
+                "n": "+04"
+            }
+        }
+    ],
+    [
+        "Etc/GMT+5",
+        {
+            "s": {
+                "f": "+0500",
+                "n": "+05"
+            }
+        }
+    ],
+    [
+        "Etc/GMT+6",
+        {
+            "s": {
+                "f": "+0600",
+                "n": "+06"
+            }
+        }
+    ],
+    [
+        "Etc/GMT+7",
+        {
+            "s": {
+                "f": "+0700",
+                "n": "+07"
+            }
+        }
+    ],
+    [
+        "Etc/GMT+8",
+        {
+            "s": {
+                "f": "+0800",
+                "n": "+08"
+            }
+        }
+    ],
+    [
+        "Etc/GMT+9",
+        {
+            "s": {
+                "f": "+0900",
+                "n": "+09"
+            }
+        }
+    ],
+    [
+        "Etc/GMT0",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "GMT"
+            }
+        }
+    ],
+    [
+        "Etc/Greenwich",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "GMT"
+            }
+        }
+    ],
+    [
+        "Etc/UCT",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "UCT"
+            }
+        }
+    ],
+    [
+        "Etc/Universal",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "UTC"
+            }
+        }
+    ],
+    [
+        "Etc/UTC",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "UTC"
+            }
+        }
+    ],
+    [
+        "Etc/Zulu",
+        {
+            "s": {
+                "f": "+0000",
+                "n": "UTC"
+            }
+        }
+    ],
+    [
+        "Europe/Amsterdam",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Andorra",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Astrakhan",
+        {
+            "s": {
+                "f": "+0400",
+                "n": "+04"
+            }
+        }
+    ],
+    [
+        "Europe/Athens",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "EET",
+                "s": "19701025T040000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "EEST",
+                "s": "19700329T030000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Belgrade",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Berlin",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Bratislava",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Brussels",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Bucharest",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "EET",
+                "s": "19701025T040000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "EEST",
+                "s": "19700329T030000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Budapest",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Busingen",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Chisinau",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "EET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "EEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Copenhagen",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Dublin",
+        {
+            "s": {
+                "f": "+0100",
+                "t": "+0000",
+                "n": "GMT",
+                "s": "19701025T020000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0000",
+                "t": "+0100",
+                "n": "IST",
+                "s": "19700329T010000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Gibraltar",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Guernsey",
+        {
+            "s": {
+                "f": "+0100",
+                "t": "+0000",
+                "n": "GMT",
+                "s": "19701025T020000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0000",
+                "t": "+0100",
+                "n": "BST",
+                "s": "19700329T010000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Helsinki",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "EET",
+                "s": "19701025T040000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "EEST",
+                "s": "19700329T030000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Isle_of_Man",
+        {
+            "s": {
+                "f": "+0100",
+                "t": "+0000",
+                "n": "GMT",
+                "s": "19701025T020000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0000",
+                "t": "+0100",
+                "n": "BST",
+                "s": "19700329T010000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Istanbul",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "+03"
+            }
+        }
+    ],
+    [
+        "Europe/Jersey",
+        {
+            "s": {
+                "f": "+0100",
+                "t": "+0000",
+                "n": "GMT",
+                "s": "19701025T020000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0000",
+                "t": "+0100",
+                "n": "BST",
+                "s": "19700329T010000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Kaliningrad",
+        {
+            "s": {
+                "f": "+0200",
+                "n": "EET"
+            }
+        }
+    ],
+    [
+        "Europe/Kiev",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "EET",
+                "s": "19701025T040000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "EEST",
+                "s": "19700329T030000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Kirov",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "+03"
+            }
+        }
+    ],
+    [
+        "Europe/Lisbon",
+        {
+            "s": {
+                "f": "+0100",
+                "t": "+0000",
+                "n": "WET",
+                "s": "19701025T020000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0000",
+                "t": "+0100",
+                "n": "WEST",
+                "s": "19700329T010000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Ljubljana",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/London",
+        {
+            "s": {
+                "f": "+0100",
+                "t": "+0000",
+                "n": "GMT",
+                "s": "19701025T020000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0000",
+                "t": "+0100",
+                "n": "BST",
+                "s": "19700329T010000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Luxembourg",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Madrid",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Malta",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Mariehamn",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "EET",
+                "s": "19701025T040000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "EEST",
+                "s": "19700329T030000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Minsk",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "+03"
+            }
+        }
+    ],
+    [
+        "Europe/Monaco",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Moscow",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "MSK"
+            }
+        }
+    ],
+    [
+        "Europe/Nicosia",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "EET",
+                "s": "19701025T040000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "EEST",
+                "s": "19700329T030000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Oslo",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Paris",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Podgorica",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Prague",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Riga",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "EET",
+                "s": "19701025T040000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "EEST",
+                "s": "19700329T030000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Rome",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Samara",
+        {
+            "s": {
+                "f": "+0400",
+                "n": "+04"
+            }
+        }
+    ],
+    [
+        "Europe/San_Marino",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Sarajevo",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Saratov",
+        {
+            "s": {
+                "f": "+0400",
+                "n": "+04"
+            }
+        }
+    ],
+    [
+        "Europe/Simferopol",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "MSK"
+            }
+        }
+    ],
+    [
+        "Europe/Skopje",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Sofia",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "EET",
+                "s": "19701025T040000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "EEST",
+                "s": "19700329T030000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Stockholm",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Tallinn",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "EET",
+                "s": "19701025T040000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "EEST",
+                "s": "19700329T030000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Tirane",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Ulyanovsk",
+        {
+            "s": {
+                "f": "+0400",
+                "n": "+04"
+            }
+        }
+    ],
+    [
+        "Europe/Uzhgorod",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "EET",
+                "s": "19701025T040000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "EEST",
+                "s": "19700329T030000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Vaduz",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Vatican",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Vienna",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Vilnius",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "EET",
+                "s": "19701025T040000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "EEST",
+                "s": "19700329T030000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Volgograd",
+        {
+            "s": {
+                "f": "+0400",
+                "n": "+04"
+            }
+        }
+    ],
+    [
+        "Europe/Warsaw",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Zagreb",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Zaporozhye",
+        {
+            "s": {
+                "f": "+0300",
+                "t": "+0200",
+                "n": "EET",
+                "s": "19701025T040000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0200",
+                "t": "+0300",
+                "n": "EEST",
+                "s": "19700329T030000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Europe/Zurich",
+        {
+            "s": {
+                "f": "+0200",
+                "t": "+0100",
+                "n": "CET",
+                "s": "19701025T030000",
+                "r": {
+                    "m": 10,
+                    "d": "-1SU"
+                }
+            },
+            "d": {
+                "f": "+0100",
+                "t": "+0200",
+                "n": "CEST",
+                "s": "19700329T020000",
+                "r": {
+                    "m": 3,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Indian/Antananarivo",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "EAT"
+            }
+        }
+    ],
+    [
+        "Indian/Chagos",
+        {
+            "s": {
+                "f": "+0600",
+                "n": "+06"
+            }
+        }
+    ],
+    [
+        "Indian/Christmas",
+        {
+            "s": {
+                "f": "+0700",
+                "n": "+07"
+            }
+        }
+    ],
+    [
+        "Indian/Cocos",
+        {
+            "s": {
+                "f": "+0630",
+                "n": "+0630"
+            }
+        }
+    ],
+    [
+        "Indian/Comoro",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "EAT"
+            }
+        }
+    ],
+    [
+        "Indian/Kerguelen",
+        {
+            "s": {
+                "f": "+0500",
+                "n": "+05"
+            }
+        }
+    ],
+    [
+        "Indian/Mahe",
+        {
+            "s": {
+                "f": "+0400",
+                "n": "+04"
+            }
+        }
+    ],
+    [
+        "Indian/Maldives",
+        {
+            "s": {
+                "f": "+0500",
+                "n": "+05"
+            }
+        }
+    ],
+    [
+        "Indian/Mauritius",
+        {
+            "s": {
+                "f": "+0400",
+                "n": "+04"
+            }
+        }
+    ],
+    [
+        "Indian/Mayotte",
+        {
+            "s": {
+                "f": "+0300",
+                "n": "EAT"
+            }
+        }
+    ],
+    [
+        "Indian/Reunion",
+        {
+            "s": {
+                "f": "+0400",
+                "n": "+04"
+            }
+        }
+    ],
+    [
+        "Pacific/Apia",
+        {
+            "s": {
+                "f": "+1400",
+                "t": "+1300",
+                "n": "+13",
+                "s": "19700405T040000",
+                "r": {
+                    "m": 4,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "+1300",
+                "t": "+1400",
+                "n": "+14",
+                "s": "19700927T030000",
+                "r": {
+                    "m": 9,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Pacific/Auckland",
+        {
+            "s": {
+                "f": "+1300",
+                "t": "+1200",
+                "n": "NZST",
+                "s": "19700405T030000",
+                "r": {
+                    "m": 4,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "+1200",
+                "t": "+1300",
+                "n": "NZDT",
+                "s": "19700927T020000",
+                "r": {
+                    "m": 9,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Pacific/Bougainville",
+        {
+            "s": {
+                "f": "+1100",
+                "n": "+11"
+            }
+        }
+    ],
+    [
+        "Pacific/Chatham",
+        {
+            "s": {
+                "f": "+1345",
+                "t": "+1245",
+                "n": "+1245",
+                "s": "19700405T034500",
+                "r": {
+                    "m": 4,
+                    "d": "1SU"
+                }
+            },
+            "d": {
+                "f": "+1245",
+                "t": "+1345",
+                "n": "+1345",
+                "s": "19700927T024500",
+                "r": {
+                    "m": 9,
+                    "d": "-1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Pacific/Chuuk",
+        {
+            "s": {
+                "f": "+1000",
+                "n": "+10"
+            }
+        }
+    ],
+    [
+        "Pacific/Easter",
+        {
+            "s": {
+                "f": "-0500",
+                "t": "-0600",
+                "n": "-06",
+                "s": "19700404T220000",
+                "r": {
+                    "m": 4,
+                    "d": "1SA"
+                }
+            },
+            "d": {
+                "f": "-0600",
+                "t": "-0500",
+                "n": "-05",
+                "s": "19700905T220000",
+                "r": {
+                    "m": 9,
+                    "d": "1SA"
+                }
+            }
+        }
+    ],
+    [
+        "Pacific/Efate",
+        {
+            "s": {
+                "f": "+1100",
+                "n": "+11"
+            }
+        }
+    ],
+    [
+        "Pacific/Enderbury",
+        {
+            "s": {
+                "f": "+1300",
+                "n": "+13"
+            }
+        }
+    ],
+    [
+        "Pacific/Fakaofo",
+        {
+            "s": {
+                "f": "+1300",
+                "n": "+13"
+            }
+        }
+    ],
+    [
+        "Pacific/Fiji",
+        {
+            "s": {
+                "f": "+1300",
+                "t": "+1200",
+                "n": "+12",
+                "s": "19700118T030000",
+                "r": {
+                    "m": 1,
+                    "d": "-2SU"
+                }
+            },
+            "d": {
+                "f": "+1200",
+                "t": "+1300",
+                "n": "+13",
+                "s": "19701101T020000",
+                "r": {
+                    "m": 11,
+                    "d": "1SU"
+                }
+            }
+        }
+    ],
+    [
+        "Pacific/Funafuti",
+        {
+            "s": {
+                "f": "+1200",
+                "n": "+12"
+            }
+        }
+    ],
+    [
+        "Pacific/Galapagos",
+        {
+            "s": {
+                "f": "-0600",
+                "n": "-06"
+            }
+        }
+    ],
+    [
+        "Pacific/Gambier",
+        {
+            "s": {
+                "f": "-0900",
+                "n": "-09"
+            }
+        }
+    ],
+    [
+        "Pacific/Guadalcanal",
+        {
+            "s": {
+                "f": "+1100",
+                "n": "+11"
+            }
+        }
+    ],
+    [
+        "Pacific/Guam",
+        {
+            "s": {
+                "f": "+1000",
+                "n": "ChST"
+            }
+        }
+    ],
+    [
+        "Pacific/Honolulu",
+        {
+            "s": {
+                "f": "-1000",
+                "n": "HST"
+            }
+        }
+    ],
+    [
+        "Pacific/Kiritimati",
+        {
+            "s": {
+                "f": "+1400",
+                "n": "+14"
+            }
+        }
+    ],
+    [
+        "Pacific/Kosrae",
+        {
+            "s": {
+                "f": "+1100",
+                "n": "+11"
+            }
+        }
+    ],
+    [
+        "Pacific/Kwajalein",
+        {
+            "s": {
+                "f": "+1200",
+                "n": "+12"
+            }
+        }
+    ],
+    [
+        "Pacific/Majuro",
+        {
+            "s": {
+                "f": "+1200",
+                "n": "+12"
+            }
+        }
+    ],
+    [
+        "Pacific/Marquesas",
+        {
+            "s": {
+                "f": "-0930",
+                "n": "-0930"
+            }
+        }
+    ],
+    [
+        "Pacific/Midway",
+        {
+            "s": {
+                "f": "-1100",
+                "n": "SST"
+            }
+        }
+    ],
+    [
+        "Pacific/Nauru",
+        {
+            "s": {
+                "f": "+1200",
+                "n": "+12"
+            }
+        }
+    ],
+    [
+        "Pacific/Niue",
+        {
+            "s": {
+                "f": "-1100",
+                "n": "-11"
+            }
+        }
+    ],
+    [
+        "Pacific/Norfolk",
+        {
+            "s": {
+                "f": "+1100",
+                "n": "+11"
+            }
+        }
+    ],
+    [
+        "Pacific/Noumea",
+        {
+            "s": {
+                "f": "+1100",
+                "n": "+11"
+            }
+        }
+    ],
+    [
+        "Pacific/Pago_Pago",
+        {
+            "s": {
+                "f": "-1100",
+                "n": "SST"
+            }
+        }
+    ],
+    [
+        "Pacific/Palau",
+        {
+            "s": {
+                "f": "+0900",
+                "n": "+09"
+            }
+        }
+    ],
+    [
+        "Pacific/Pitcairn",
+        {
+            "s": {
+                "f": "-0800",
+                "n": "-08"
+            }
+        }
+    ],
+    [
+        "Pacific/Pohnpei",
+        {
+            "s": {
+                "f": "+1100",
+                "n": "+11"
+            }
+        }
+    ],
+    [
+        "Pacific/Port_Moresby",
+        {
+            "s": {
+                "f": "+1000",
+                "n": "+10"
+            }
+        }
+    ],
+    [
+        "Pacific/Rarotonga",
+        {
+            "s": {
+                "f": "-1000",
+                "n": "-10"
+            }
+        }
+    ],
+    [
+        "Pacific/Saipan",
+        {
+            "s": {
+                "f": "+1000",
+                "n": "ChST"
+            }
+        }
+    ],
+    [
+        "Pacific/Tahiti",
+        {
+            "s": {
+                "f": "-1000",
+                "n": "-10"
+            }
+        }
+    ],
+    [
+        "Pacific/Tarawa",
+        {
+            "s": {
+                "f": "+1200",
+                "n": "+12"
+            }
+        }
+    ],
+    [
+        "Pacific/Tongatapu",
+        {
+            "s": {
+                "f": "+1300",
+                "n": "+13"
+            }
+        }
+    ],
+    [
+        "Pacific/Wake",
+        {
+            "s": {
+                "f": "+1200",
+                "n": "+12"
+            }
+        }
+    ],
+    [
+        "Pacific/Wallis",
+        {
+            "s": {
+                "f": "+1200",
+                "n": "+12"
+            }
+        }
+    ]
+]);
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_LazyWrapper.js":
+/*!*********************************************!*\
+  !*** ./node_modules/lodash/_LazyWrapper.js ***!
+  \*********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var baseCreate = __webpack_require__(/*! ./_baseCreate */ "./node_modules/lodash/_baseCreate.js"),
+    baseLodash = __webpack_require__(/*! ./_baseLodash */ "./node_modules/lodash/_baseLodash.js");
+
+/** Used as references for the maximum length and index of an array. */
+var MAX_ARRAY_LENGTH = 4294967295;
+
+/**
+ * Creates a lazy wrapper object which wraps `value` to enable lazy evaluation.
+ *
+ * @private
+ * @constructor
+ * @param {*} value The value to wrap.
+ */
+function LazyWrapper(value) {
+  this.__wrapped__ = value;
+  this.__actions__ = [];
+  this.__dir__ = 1;
+  this.__filtered__ = false;
+  this.__iteratees__ = [];
+  this.__takeCount__ = MAX_ARRAY_LENGTH;
+  this.__views__ = [];
+}
+
+// Ensure `LazyWrapper` is an instance of `baseLodash`.
+LazyWrapper.prototype = baseCreate(baseLodash.prototype);
+LazyWrapper.prototype.constructor = LazyWrapper;
+
+module.exports = LazyWrapper;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_LodashWrapper.js":
+/*!***********************************************!*\
+  !*** ./node_modules/lodash/_LodashWrapper.js ***!
+  \***********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var baseCreate = __webpack_require__(/*! ./_baseCreate */ "./node_modules/lodash/_baseCreate.js"),
+    baseLodash = __webpack_require__(/*! ./_baseLodash */ "./node_modules/lodash/_baseLodash.js");
+
+/**
+ * The base constructor for creating `lodash` wrapper objects.
+ *
+ * @private
+ * @param {*} value The value to wrap.
+ * @param {boolean} [chainAll] Enable explicit method chain sequences.
+ */
+function LodashWrapper(value, chainAll) {
+  this.__wrapped__ = value;
+  this.__actions__ = [];
+  this.__chain__ = !!chainAll;
+  this.__index__ = 0;
+  this.__values__ = undefined;
+}
+
+LodashWrapper.prototype = baseCreate(baseLodash.prototype);
+LodashWrapper.prototype.constructor = LodashWrapper;
+
+module.exports = LodashWrapper;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_baseFlatten.js":
+/*!*********************************************!*\
+  !*** ./node_modules/lodash/_baseFlatten.js ***!
+  \*********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var arrayPush = __webpack_require__(/*! ./_arrayPush */ "./node_modules/lodash/_arrayPush.js"),
+    isFlattenable = __webpack_require__(/*! ./_isFlattenable */ "./node_modules/lodash/_isFlattenable.js");
+
+/**
+ * The base implementation of `_.flatten` with support for restricting flattening.
+ *
+ * @private
+ * @param {Array} array The array to flatten.
+ * @param {number} depth The maximum recursion depth.
+ * @param {boolean} [predicate=isFlattenable] The function invoked per iteration.
+ * @param {boolean} [isStrict] Restrict to values that pass `predicate` checks.
+ * @param {Array} [result=[]] The initial result value.
+ * @returns {Array} Returns the new flattened array.
+ */
+function baseFlatten(array, depth, predicate, isStrict, result) {
+  var index = -1,
+      length = array.length;
+
+  predicate || (predicate = isFlattenable);
+  result || (result = []);
+
+  while (++index < length) {
+    var value = array[index];
+    if (depth > 0 && predicate(value)) {
+      if (depth > 1) {
+        // Recursively flatten arrays (susceptible to call stack limits).
+        baseFlatten(value, depth - 1, predicate, isStrict, result);
+      } else {
+        arrayPush(result, value);
+      }
+    } else if (!isStrict) {
+      result[result.length] = value;
+    }
+  }
+  return result;
+}
+
+module.exports = baseFlatten;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_baseLodash.js":
+/*!********************************************!*\
+  !*** ./node_modules/lodash/_baseLodash.js ***!
+  \********************************************/
+/***/ ((module) => {
+
+/**
+ * The function whose prototype chain sequence wrappers inherit from.
+ *
+ * @private
+ */
+function baseLodash() {
+  // No operation performed.
+}
+
+module.exports = baseLodash;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_baseSetData.js":
+/*!*********************************************!*\
+  !*** ./node_modules/lodash/_baseSetData.js ***!
+  \*********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var identity = __webpack_require__(/*! ./identity */ "./node_modules/lodash/identity.js"),
+    metaMap = __webpack_require__(/*! ./_metaMap */ "./node_modules/lodash/_metaMap.js");
+
+/**
+ * The base implementation of `setData` without support for hot loop shorting.
+ *
+ * @private
+ * @param {Function} func The function to associate metadata with.
+ * @param {*} data The metadata.
+ * @returns {Function} Returns `func`.
+ */
+var baseSetData = !metaMap ? identity : function(func, data) {
+  metaMap.set(func, data);
+  return func;
+};
+
+module.exports = baseSetData;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_composeArgs.js":
+/*!*********************************************!*\
+  !*** ./node_modules/lodash/_composeArgs.js ***!
+  \*********************************************/
+/***/ ((module) => {
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max;
+
+/**
+ * Creates an array that is the composition of partially applied arguments,
+ * placeholders, and provided arguments into a single array of arguments.
+ *
+ * @private
+ * @param {Array} args The provided arguments.
+ * @param {Array} partials The arguments to prepend to those provided.
+ * @param {Array} holders The `partials` placeholder indexes.
+ * @params {boolean} [isCurried] Specify composing for a curried function.
+ * @returns {Array} Returns the new array of composed arguments.
+ */
+function composeArgs(args, partials, holders, isCurried) {
+  var argsIndex = -1,
+      argsLength = args.length,
+      holdersLength = holders.length,
+      leftIndex = -1,
+      leftLength = partials.length,
+      rangeLength = nativeMax(argsLength - holdersLength, 0),
+      result = Array(leftLength + rangeLength),
+      isUncurried = !isCurried;
+
+  while (++leftIndex < leftLength) {
+    result[leftIndex] = partials[leftIndex];
+  }
+  while (++argsIndex < holdersLength) {
+    if (isUncurried || argsIndex < argsLength) {
+      result[holders[argsIndex]] = args[argsIndex];
+    }
+  }
+  while (rangeLength--) {
+    result[leftIndex++] = args[argsIndex++];
+  }
+  return result;
+}
+
+module.exports = composeArgs;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_composeArgsRight.js":
+/*!**************************************************!*\
+  !*** ./node_modules/lodash/_composeArgsRight.js ***!
+  \**************************************************/
+/***/ ((module) => {
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max;
+
+/**
+ * This function is like `composeArgs` except that the arguments composition
+ * is tailored for `_.partialRight`.
+ *
+ * @private
+ * @param {Array} args The provided arguments.
+ * @param {Array} partials The arguments to append to those provided.
+ * @param {Array} holders The `partials` placeholder indexes.
+ * @params {boolean} [isCurried] Specify composing for a curried function.
+ * @returns {Array} Returns the new array of composed arguments.
+ */
+function composeArgsRight(args, partials, holders, isCurried) {
+  var argsIndex = -1,
+      argsLength = args.length,
+      holdersIndex = -1,
+      holdersLength = holders.length,
+      rightIndex = -1,
+      rightLength = partials.length,
+      rangeLength = nativeMax(argsLength - holdersLength, 0),
+      result = Array(rangeLength + rightLength),
+      isUncurried = !isCurried;
+
+  while (++argsIndex < rangeLength) {
+    result[argsIndex] = args[argsIndex];
+  }
+  var offset = argsIndex;
+  while (++rightIndex < rightLength) {
+    result[offset + rightIndex] = partials[rightIndex];
+  }
+  while (++holdersIndex < holdersLength) {
+    if (isUncurried || argsIndex < argsLength) {
+      result[offset + holders[holdersIndex]] = args[argsIndex++];
+    }
+  }
+  return result;
+}
+
+module.exports = composeArgsRight;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_countHolders.js":
+/*!**********************************************!*\
+  !*** ./node_modules/lodash/_countHolders.js ***!
+  \**********************************************/
+/***/ ((module) => {
+
+/**
+ * Gets the number of `placeholder` occurrences in `array`.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} placeholder The placeholder to search for.
+ * @returns {number} Returns the placeholder count.
+ */
+function countHolders(array, placeholder) {
+  var length = array.length,
+      result = 0;
+
+  while (length--) {
+    if (array[length] === placeholder) {
+      ++result;
+    }
+  }
+  return result;
+}
+
+module.exports = countHolders;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_createBind.js":
+/*!********************************************!*\
+  !*** ./node_modules/lodash/_createBind.js ***!
+  \********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var createCtor = __webpack_require__(/*! ./_createCtor */ "./node_modules/lodash/_createCtor.js"),
+    root = __webpack_require__(/*! ./_root */ "./node_modules/lodash/_root.js");
+
+/** Used to compose bitmasks for function metadata. */
+var WRAP_BIND_FLAG = 1;
+
+/**
+ * Creates a function that wraps `func` to invoke it with the optional `this`
+ * binding of `thisArg`.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+ * @param {*} [thisArg] The `this` binding of `func`.
+ * @returns {Function} Returns the new wrapped function.
+ */
+function createBind(func, bitmask, thisArg) {
+  var isBind = bitmask & WRAP_BIND_FLAG,
+      Ctor = createCtor(func);
+
+  function wrapper() {
+    var fn = (this && this !== root && this instanceof wrapper) ? Ctor : func;
+    return fn.apply(isBind ? thisArg : this, arguments);
+  }
+  return wrapper;
+}
+
+module.exports = createBind;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_createCtor.js":
+/*!********************************************!*\
+  !*** ./node_modules/lodash/_createCtor.js ***!
+  \********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var baseCreate = __webpack_require__(/*! ./_baseCreate */ "./node_modules/lodash/_baseCreate.js"),
+    isObject = __webpack_require__(/*! ./isObject */ "./node_modules/lodash/isObject.js");
+
+/**
+ * Creates a function that produces an instance of `Ctor` regardless of
+ * whether it was invoked as part of a `new` expression or by `call` or `apply`.
+ *
+ * @private
+ * @param {Function} Ctor The constructor to wrap.
+ * @returns {Function} Returns the new wrapped function.
+ */
+function createCtor(Ctor) {
+  return function() {
+    // Use a `switch` statement to work with class constructors. See
+    // http://ecma-international.org/ecma-262/7.0/#sec-ecmascript-function-objects-call-thisargument-argumentslist
+    // for more details.
+    var args = arguments;
+    switch (args.length) {
+      case 0: return new Ctor;
+      case 1: return new Ctor(args[0]);
+      case 2: return new Ctor(args[0], args[1]);
+      case 3: return new Ctor(args[0], args[1], args[2]);
+      case 4: return new Ctor(args[0], args[1], args[2], args[3]);
+      case 5: return new Ctor(args[0], args[1], args[2], args[3], args[4]);
+      case 6: return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5]);
+      case 7: return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
+    }
+    var thisBinding = baseCreate(Ctor.prototype),
+        result = Ctor.apply(thisBinding, args);
+
+    // Mimic the constructor's `return` behavior.
+    // See https://es5.github.io/#x13.2.2 for more details.
+    return isObject(result) ? result : thisBinding;
+  };
+}
+
+module.exports = createCtor;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_createCurry.js":
+/*!*********************************************!*\
+  !*** ./node_modules/lodash/_createCurry.js ***!
+  \*********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var apply = __webpack_require__(/*! ./_apply */ "./node_modules/lodash/_apply.js"),
+    createCtor = __webpack_require__(/*! ./_createCtor */ "./node_modules/lodash/_createCtor.js"),
+    createHybrid = __webpack_require__(/*! ./_createHybrid */ "./node_modules/lodash/_createHybrid.js"),
+    createRecurry = __webpack_require__(/*! ./_createRecurry */ "./node_modules/lodash/_createRecurry.js"),
+    getHolder = __webpack_require__(/*! ./_getHolder */ "./node_modules/lodash/_getHolder.js"),
+    replaceHolders = __webpack_require__(/*! ./_replaceHolders */ "./node_modules/lodash/_replaceHolders.js"),
+    root = __webpack_require__(/*! ./_root */ "./node_modules/lodash/_root.js");
+
+/**
+ * Creates a function that wraps `func` to enable currying.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+ * @param {number} arity The arity of `func`.
+ * @returns {Function} Returns the new wrapped function.
+ */
+function createCurry(func, bitmask, arity) {
+  var Ctor = createCtor(func);
+
+  function wrapper() {
+    var length = arguments.length,
+        args = Array(length),
+        index = length,
+        placeholder = getHolder(wrapper);
+
+    while (index--) {
+      args[index] = arguments[index];
+    }
+    var holders = (length < 3 && args[0] !== placeholder && args[length - 1] !== placeholder)
+      ? []
+      : replaceHolders(args, placeholder);
+
+    length -= holders.length;
+    if (length < arity) {
+      return createRecurry(
+        func, bitmask, createHybrid, wrapper.placeholder, undefined,
+        args, holders, undefined, undefined, arity - length);
+    }
+    var fn = (this && this !== root && this instanceof wrapper) ? Ctor : func;
+    return apply(fn, this, args);
+  }
+  return wrapper;
+}
+
+module.exports = createCurry;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_createHybrid.js":
+/*!**********************************************!*\
+  !*** ./node_modules/lodash/_createHybrid.js ***!
+  \**********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var composeArgs = __webpack_require__(/*! ./_composeArgs */ "./node_modules/lodash/_composeArgs.js"),
+    composeArgsRight = __webpack_require__(/*! ./_composeArgsRight */ "./node_modules/lodash/_composeArgsRight.js"),
+    countHolders = __webpack_require__(/*! ./_countHolders */ "./node_modules/lodash/_countHolders.js"),
+    createCtor = __webpack_require__(/*! ./_createCtor */ "./node_modules/lodash/_createCtor.js"),
+    createRecurry = __webpack_require__(/*! ./_createRecurry */ "./node_modules/lodash/_createRecurry.js"),
+    getHolder = __webpack_require__(/*! ./_getHolder */ "./node_modules/lodash/_getHolder.js"),
+    reorder = __webpack_require__(/*! ./_reorder */ "./node_modules/lodash/_reorder.js"),
+    replaceHolders = __webpack_require__(/*! ./_replaceHolders */ "./node_modules/lodash/_replaceHolders.js"),
+    root = __webpack_require__(/*! ./_root */ "./node_modules/lodash/_root.js");
+
+/** Used to compose bitmasks for function metadata. */
+var WRAP_BIND_FLAG = 1,
+    WRAP_BIND_KEY_FLAG = 2,
+    WRAP_CURRY_FLAG = 8,
+    WRAP_CURRY_RIGHT_FLAG = 16,
+    WRAP_ARY_FLAG = 128,
+    WRAP_FLIP_FLAG = 512;
+
+/**
+ * Creates a function that wraps `func` to invoke it with optional `this`
+ * binding of `thisArg`, partial application, and currying.
+ *
+ * @private
+ * @param {Function|string} func The function or method name to wrap.
+ * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+ * @param {*} [thisArg] The `this` binding of `func`.
+ * @param {Array} [partials] The arguments to prepend to those provided to
+ *  the new function.
+ * @param {Array} [holders] The `partials` placeholder indexes.
+ * @param {Array} [partialsRight] The arguments to append to those provided
+ *  to the new function.
+ * @param {Array} [holdersRight] The `partialsRight` placeholder indexes.
+ * @param {Array} [argPos] The argument positions of the new function.
+ * @param {number} [ary] The arity cap of `func`.
+ * @param {number} [arity] The arity of `func`.
+ * @returns {Function} Returns the new wrapped function.
+ */
+function createHybrid(func, bitmask, thisArg, partials, holders, partialsRight, holdersRight, argPos, ary, arity) {
+  var isAry = bitmask & WRAP_ARY_FLAG,
+      isBind = bitmask & WRAP_BIND_FLAG,
+      isBindKey = bitmask & WRAP_BIND_KEY_FLAG,
+      isCurried = bitmask & (WRAP_CURRY_FLAG | WRAP_CURRY_RIGHT_FLAG),
+      isFlip = bitmask & WRAP_FLIP_FLAG,
+      Ctor = isBindKey ? undefined : createCtor(func);
+
+  function wrapper() {
+    var length = arguments.length,
+        args = Array(length),
+        index = length;
+
+    while (index--) {
+      args[index] = arguments[index];
+    }
+    if (isCurried) {
+      var placeholder = getHolder(wrapper),
+          holdersCount = countHolders(args, placeholder);
+    }
+    if (partials) {
+      args = composeArgs(args, partials, holders, isCurried);
+    }
+    if (partialsRight) {
+      args = composeArgsRight(args, partialsRight, holdersRight, isCurried);
+    }
+    length -= holdersCount;
+    if (isCurried && length < arity) {
+      var newHolders = replaceHolders(args, placeholder);
+      return createRecurry(
+        func, bitmask, createHybrid, wrapper.placeholder, thisArg,
+        args, newHolders, argPos, ary, arity - length
+      );
+    }
+    var thisBinding = isBind ? thisArg : this,
+        fn = isBindKey ? thisBinding[func] : func;
+
+    length = args.length;
+    if (argPos) {
+      args = reorder(args, argPos);
+    } else if (isFlip && length > 1) {
+      args.reverse();
+    }
+    if (isAry && ary < length) {
+      args.length = ary;
+    }
+    if (this && this !== root && this instanceof wrapper) {
+      fn = Ctor || createCtor(fn);
+    }
+    return fn.apply(thisBinding, args);
+  }
+  return wrapper;
+}
+
+module.exports = createHybrid;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_createPartial.js":
+/*!***********************************************!*\
+  !*** ./node_modules/lodash/_createPartial.js ***!
+  \***********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var apply = __webpack_require__(/*! ./_apply */ "./node_modules/lodash/_apply.js"),
+    createCtor = __webpack_require__(/*! ./_createCtor */ "./node_modules/lodash/_createCtor.js"),
+    root = __webpack_require__(/*! ./_root */ "./node_modules/lodash/_root.js");
+
+/** Used to compose bitmasks for function metadata. */
+var WRAP_BIND_FLAG = 1;
+
+/**
+ * Creates a function that wraps `func` to invoke it with the `this` binding
+ * of `thisArg` and `partials` prepended to the arguments it receives.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+ * @param {*} thisArg The `this` binding of `func`.
+ * @param {Array} partials The arguments to prepend to those provided to
+ *  the new function.
+ * @returns {Function} Returns the new wrapped function.
+ */
+function createPartial(func, bitmask, thisArg, partials) {
+  var isBind = bitmask & WRAP_BIND_FLAG,
+      Ctor = createCtor(func);
+
+  function wrapper() {
+    var argsIndex = -1,
+        argsLength = arguments.length,
+        leftIndex = -1,
+        leftLength = partials.length,
+        args = Array(leftLength + argsLength),
+        fn = (this && this !== root && this instanceof wrapper) ? Ctor : func;
+
+    while (++leftIndex < leftLength) {
+      args[leftIndex] = partials[leftIndex];
+    }
+    while (argsLength--) {
+      args[leftIndex++] = arguments[++argsIndex];
+    }
+    return apply(fn, isBind ? thisArg : this, args);
+  }
+  return wrapper;
+}
+
+module.exports = createPartial;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_createRecurry.js":
+/*!***********************************************!*\
+  !*** ./node_modules/lodash/_createRecurry.js ***!
+  \***********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var isLaziable = __webpack_require__(/*! ./_isLaziable */ "./node_modules/lodash/_isLaziable.js"),
+    setData = __webpack_require__(/*! ./_setData */ "./node_modules/lodash/_setData.js"),
+    setWrapToString = __webpack_require__(/*! ./_setWrapToString */ "./node_modules/lodash/_setWrapToString.js");
+
+/** Used to compose bitmasks for function metadata. */
+var WRAP_BIND_FLAG = 1,
+    WRAP_BIND_KEY_FLAG = 2,
+    WRAP_CURRY_BOUND_FLAG = 4,
+    WRAP_CURRY_FLAG = 8,
+    WRAP_PARTIAL_FLAG = 32,
+    WRAP_PARTIAL_RIGHT_FLAG = 64;
+
+/**
+ * Creates a function that wraps `func` to continue currying.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+ * @param {Function} wrapFunc The function to create the `func` wrapper.
+ * @param {*} placeholder The placeholder value.
+ * @param {*} [thisArg] The `this` binding of `func`.
+ * @param {Array} [partials] The arguments to prepend to those provided to
+ *  the new function.
+ * @param {Array} [holders] The `partials` placeholder indexes.
+ * @param {Array} [argPos] The argument positions of the new function.
+ * @param {number} [ary] The arity cap of `func`.
+ * @param {number} [arity] The arity of `func`.
+ * @returns {Function} Returns the new wrapped function.
+ */
+function createRecurry(func, bitmask, wrapFunc, placeholder, thisArg, partials, holders, argPos, ary, arity) {
+  var isCurry = bitmask & WRAP_CURRY_FLAG,
+      newHolders = isCurry ? holders : undefined,
+      newHoldersRight = isCurry ? undefined : holders,
+      newPartials = isCurry ? partials : undefined,
+      newPartialsRight = isCurry ? undefined : partials;
+
+  bitmask |= (isCurry ? WRAP_PARTIAL_FLAG : WRAP_PARTIAL_RIGHT_FLAG);
+  bitmask &= ~(isCurry ? WRAP_PARTIAL_RIGHT_FLAG : WRAP_PARTIAL_FLAG);
+
+  if (!(bitmask & WRAP_CURRY_BOUND_FLAG)) {
+    bitmask &= ~(WRAP_BIND_FLAG | WRAP_BIND_KEY_FLAG);
+  }
+  var newData = [
+    func, bitmask, thisArg, newPartials, newHolders, newPartialsRight,
+    newHoldersRight, argPos, ary, arity
+  ];
+
+  var result = wrapFunc.apply(undefined, newData);
+  if (isLaziable(func)) {
+    setData(result, newData);
+  }
+  result.placeholder = placeholder;
+  return setWrapToString(result, func, bitmask);
+}
+
+module.exports = createRecurry;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_createWrap.js":
+/*!********************************************!*\
+  !*** ./node_modules/lodash/_createWrap.js ***!
+  \********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var baseSetData = __webpack_require__(/*! ./_baseSetData */ "./node_modules/lodash/_baseSetData.js"),
+    createBind = __webpack_require__(/*! ./_createBind */ "./node_modules/lodash/_createBind.js"),
+    createCurry = __webpack_require__(/*! ./_createCurry */ "./node_modules/lodash/_createCurry.js"),
+    createHybrid = __webpack_require__(/*! ./_createHybrid */ "./node_modules/lodash/_createHybrid.js"),
+    createPartial = __webpack_require__(/*! ./_createPartial */ "./node_modules/lodash/_createPartial.js"),
+    getData = __webpack_require__(/*! ./_getData */ "./node_modules/lodash/_getData.js"),
+    mergeData = __webpack_require__(/*! ./_mergeData */ "./node_modules/lodash/_mergeData.js"),
+    setData = __webpack_require__(/*! ./_setData */ "./node_modules/lodash/_setData.js"),
+    setWrapToString = __webpack_require__(/*! ./_setWrapToString */ "./node_modules/lodash/_setWrapToString.js"),
+    toInteger = __webpack_require__(/*! ./toInteger */ "./node_modules/lodash/toInteger.js");
+
+/** Error message constants. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/** Used to compose bitmasks for function metadata. */
+var WRAP_BIND_FLAG = 1,
+    WRAP_BIND_KEY_FLAG = 2,
+    WRAP_CURRY_FLAG = 8,
+    WRAP_CURRY_RIGHT_FLAG = 16,
+    WRAP_PARTIAL_FLAG = 32,
+    WRAP_PARTIAL_RIGHT_FLAG = 64;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max;
+
+/**
+ * Creates a function that either curries or invokes `func` with optional
+ * `this` binding and partially applied arguments.
+ *
+ * @private
+ * @param {Function|string} func The function or method name to wrap.
+ * @param {number} bitmask The bitmask flags.
+ *    1 - `_.bind`
+ *    2 - `_.bindKey`
+ *    4 - `_.curry` or `_.curryRight` of a bound function
+ *    8 - `_.curry`
+ *   16 - `_.curryRight`
+ *   32 - `_.partial`
+ *   64 - `_.partialRight`
+ *  128 - `_.rearg`
+ *  256 - `_.ary`
+ *  512 - `_.flip`
+ * @param {*} [thisArg] The `this` binding of `func`.
+ * @param {Array} [partials] The arguments to be partially applied.
+ * @param {Array} [holders] The `partials` placeholder indexes.
+ * @param {Array} [argPos] The argument positions of the new function.
+ * @param {number} [ary] The arity cap of `func`.
+ * @param {number} [arity] The arity of `func`.
+ * @returns {Function} Returns the new wrapped function.
+ */
+function createWrap(func, bitmask, thisArg, partials, holders, argPos, ary, arity) {
+  var isBindKey = bitmask & WRAP_BIND_KEY_FLAG;
+  if (!isBindKey && typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  var length = partials ? partials.length : 0;
+  if (!length) {
+    bitmask &= ~(WRAP_PARTIAL_FLAG | WRAP_PARTIAL_RIGHT_FLAG);
+    partials = holders = undefined;
+  }
+  ary = ary === undefined ? ary : nativeMax(toInteger(ary), 0);
+  arity = arity === undefined ? arity : toInteger(arity);
+  length -= holders ? holders.length : 0;
+
+  if (bitmask & WRAP_PARTIAL_RIGHT_FLAG) {
+    var partialsRight = partials,
+        holdersRight = holders;
+
+    partials = holders = undefined;
+  }
+  var data = isBindKey ? undefined : getData(func);
+
+  var newData = [
+    func, bitmask, thisArg, partials, holders, partialsRight, holdersRight,
+    argPos, ary, arity
+  ];
+
+  if (data) {
+    mergeData(newData, data);
+  }
+  func = newData[0];
+  bitmask = newData[1];
+  thisArg = newData[2];
+  partials = newData[3];
+  holders = newData[4];
+  arity = newData[9] = newData[9] === undefined
+    ? (isBindKey ? 0 : func.length)
+    : nativeMax(newData[9] - length, 0);
+
+  if (!arity && bitmask & (WRAP_CURRY_FLAG | WRAP_CURRY_RIGHT_FLAG)) {
+    bitmask &= ~(WRAP_CURRY_FLAG | WRAP_CURRY_RIGHT_FLAG);
+  }
+  if (!bitmask || bitmask == WRAP_BIND_FLAG) {
+    var result = createBind(func, bitmask, thisArg);
+  } else if (bitmask == WRAP_CURRY_FLAG || bitmask == WRAP_CURRY_RIGHT_FLAG) {
+    result = createCurry(func, bitmask, arity);
+  } else if ((bitmask == WRAP_PARTIAL_FLAG || bitmask == (WRAP_BIND_FLAG | WRAP_PARTIAL_FLAG)) && !holders.length) {
+    result = createPartial(func, bitmask, thisArg, partials);
+  } else {
+    result = createHybrid.apply(undefined, newData);
+  }
+  var setter = data ? baseSetData : setData;
+  return setWrapToString(setter(result, newData), func, bitmask);
+}
+
+module.exports = createWrap;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_flatRest.js":
+/*!******************************************!*\
+  !*** ./node_modules/lodash/_flatRest.js ***!
+  \******************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var flatten = __webpack_require__(/*! ./flatten */ "./node_modules/lodash/flatten.js"),
+    overRest = __webpack_require__(/*! ./_overRest */ "./node_modules/lodash/_overRest.js"),
+    setToString = __webpack_require__(/*! ./_setToString */ "./node_modules/lodash/_setToString.js");
+
+/**
+ * A specialized version of `baseRest` which flattens the rest array.
+ *
+ * @private
+ * @param {Function} func The function to apply a rest parameter to.
+ * @returns {Function} Returns the new function.
+ */
+function flatRest(func) {
+  return setToString(overRest(func, undefined, flatten), func + '');
+}
+
+module.exports = flatRest;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_getData.js":
+/*!*****************************************!*\
+  !*** ./node_modules/lodash/_getData.js ***!
+  \*****************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var metaMap = __webpack_require__(/*! ./_metaMap */ "./node_modules/lodash/_metaMap.js"),
+    noop = __webpack_require__(/*! ./noop */ "./node_modules/lodash/noop.js");
+
+/**
+ * Gets metadata for `func`.
+ *
+ * @private
+ * @param {Function} func The function to query.
+ * @returns {*} Returns the metadata for `func`.
+ */
+var getData = !metaMap ? noop : function(func) {
+  return metaMap.get(func);
+};
+
+module.exports = getData;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_getFuncName.js":
+/*!*********************************************!*\
+  !*** ./node_modules/lodash/_getFuncName.js ***!
+  \*********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var realNames = __webpack_require__(/*! ./_realNames */ "./node_modules/lodash/_realNames.js");
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Gets the name of `func`.
+ *
+ * @private
+ * @param {Function} func The function to query.
+ * @returns {string} Returns the function name.
+ */
+function getFuncName(func) {
+  var result = (func.name + ''),
+      array = realNames[result],
+      length = hasOwnProperty.call(realNames, result) ? array.length : 0;
+
+  while (length--) {
+    var data = array[length],
+        otherFunc = data.func;
+    if (otherFunc == null || otherFunc == func) {
+      return data.name;
+    }
+  }
+  return result;
+}
+
+module.exports = getFuncName;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_getHolder.js":
+/*!*******************************************!*\
+  !*** ./node_modules/lodash/_getHolder.js ***!
+  \*******************************************/
+/***/ ((module) => {
+
+/**
+ * Gets the argument placeholder value for `func`.
+ *
+ * @private
+ * @param {Function} func The function to inspect.
+ * @returns {*} Returns the placeholder value.
+ */
+function getHolder(func) {
+  var object = func;
+  return object.placeholder;
+}
+
+module.exports = getHolder;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_getWrapDetails.js":
+/*!************************************************!*\
+  !*** ./node_modules/lodash/_getWrapDetails.js ***!
+  \************************************************/
+/***/ ((module) => {
+
+/** Used to match wrap detail comments. */
+var reWrapDetails = /\{\n\/\* \[wrapped with (.+)\] \*/,
+    reSplitDetails = /,? & /;
+
+/**
+ * Extracts wrapper details from the `source` body comment.
+ *
+ * @private
+ * @param {string} source The source to inspect.
+ * @returns {Array} Returns the wrapper details.
+ */
+function getWrapDetails(source) {
+  var match = source.match(reWrapDetails);
+  return match ? match[1].split(reSplitDetails) : [];
+}
+
+module.exports = getWrapDetails;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_insertWrapDetails.js":
+/*!***************************************************!*\
+  !*** ./node_modules/lodash/_insertWrapDetails.js ***!
+  \***************************************************/
+/***/ ((module) => {
+
+/** Used to match wrap detail comments. */
+var reWrapComment = /\{(?:\n\/\* \[wrapped with .+\] \*\/)?\n?/;
+
+/**
+ * Inserts wrapper `details` in a comment at the top of the `source` body.
+ *
+ * @private
+ * @param {string} source The source to modify.
+ * @returns {Array} details The details to insert.
+ * @returns {string} Returns the modified source.
+ */
+function insertWrapDetails(source, details) {
+  var length = details.length;
+  if (!length) {
+    return source;
+  }
+  var lastIndex = length - 1;
+  details[lastIndex] = (length > 1 ? '& ' : '') + details[lastIndex];
+  details = details.join(length > 2 ? ', ' : ' ');
+  return source.replace(reWrapComment, '{\n/* [wrapped with ' + details + '] */\n');
+}
+
+module.exports = insertWrapDetails;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_isFlattenable.js":
+/*!***********************************************!*\
+  !*** ./node_modules/lodash/_isFlattenable.js ***!
+  \***********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var Symbol = __webpack_require__(/*! ./_Symbol */ "./node_modules/lodash/_Symbol.js"),
+    isArguments = __webpack_require__(/*! ./isArguments */ "./node_modules/lodash/isArguments.js"),
+    isArray = __webpack_require__(/*! ./isArray */ "./node_modules/lodash/isArray.js");
+
+/** Built-in value references. */
+var spreadableSymbol = Symbol ? Symbol.isConcatSpreadable : undefined;
+
+/**
+ * Checks if `value` is a flattenable `arguments` object or array.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is flattenable, else `false`.
+ */
+function isFlattenable(value) {
+  return isArray(value) || isArguments(value) ||
+    !!(spreadableSymbol && value && value[spreadableSymbol]);
+}
+
+module.exports = isFlattenable;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_isLaziable.js":
+/*!********************************************!*\
+  !*** ./node_modules/lodash/_isLaziable.js ***!
+  \********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var LazyWrapper = __webpack_require__(/*! ./_LazyWrapper */ "./node_modules/lodash/_LazyWrapper.js"),
+    getData = __webpack_require__(/*! ./_getData */ "./node_modules/lodash/_getData.js"),
+    getFuncName = __webpack_require__(/*! ./_getFuncName */ "./node_modules/lodash/_getFuncName.js"),
+    lodash = __webpack_require__(/*! ./wrapperLodash */ "./node_modules/lodash/wrapperLodash.js");
+
+/**
+ * Checks if `func` has a lazy counterpart.
+ *
+ * @private
+ * @param {Function} func The function to check.
+ * @returns {boolean} Returns `true` if `func` has a lazy counterpart,
+ *  else `false`.
+ */
+function isLaziable(func) {
+  var funcName = getFuncName(func),
+      other = lodash[funcName];
+
+  if (typeof other != 'function' || !(funcName in LazyWrapper.prototype)) {
+    return false;
+  }
+  if (func === other) {
+    return true;
+  }
+  var data = getData(other);
+  return !!data && func === data[0];
+}
+
+module.exports = isLaziable;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_mergeData.js":
+/*!*******************************************!*\
+  !*** ./node_modules/lodash/_mergeData.js ***!
+  \*******************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var composeArgs = __webpack_require__(/*! ./_composeArgs */ "./node_modules/lodash/_composeArgs.js"),
+    composeArgsRight = __webpack_require__(/*! ./_composeArgsRight */ "./node_modules/lodash/_composeArgsRight.js"),
+    replaceHolders = __webpack_require__(/*! ./_replaceHolders */ "./node_modules/lodash/_replaceHolders.js");
+
+/** Used as the internal argument placeholder. */
+var PLACEHOLDER = '__lodash_placeholder__';
+
+/** Used to compose bitmasks for function metadata. */
+var WRAP_BIND_FLAG = 1,
+    WRAP_BIND_KEY_FLAG = 2,
+    WRAP_CURRY_BOUND_FLAG = 4,
+    WRAP_CURRY_FLAG = 8,
+    WRAP_ARY_FLAG = 128,
+    WRAP_REARG_FLAG = 256;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMin = Math.min;
+
+/**
+ * Merges the function metadata of `source` into `data`.
+ *
+ * Merging metadata reduces the number of wrappers used to invoke a function.
+ * This is possible because methods like `_.bind`, `_.curry`, and `_.partial`
+ * may be applied regardless of execution order. Methods like `_.ary` and
+ * `_.rearg` modify function arguments, making the order in which they are
+ * executed important, preventing the merging of metadata. However, we make
+ * an exception for a safe combined case where curried functions have `_.ary`
+ * and or `_.rearg` applied.
+ *
+ * @private
+ * @param {Array} data The destination metadata.
+ * @param {Array} source The source metadata.
+ * @returns {Array} Returns `data`.
+ */
+function mergeData(data, source) {
+  var bitmask = data[1],
+      srcBitmask = source[1],
+      newBitmask = bitmask | srcBitmask,
+      isCommon = newBitmask < (WRAP_BIND_FLAG | WRAP_BIND_KEY_FLAG | WRAP_ARY_FLAG);
+
+  var isCombo =
+    ((srcBitmask == WRAP_ARY_FLAG) && (bitmask == WRAP_CURRY_FLAG)) ||
+    ((srcBitmask == WRAP_ARY_FLAG) && (bitmask == WRAP_REARG_FLAG) && (data[7].length <= source[8])) ||
+    ((srcBitmask == (WRAP_ARY_FLAG | WRAP_REARG_FLAG)) && (source[7].length <= source[8]) && (bitmask == WRAP_CURRY_FLAG));
+
+  // Exit early if metadata can't be merged.
+  if (!(isCommon || isCombo)) {
+    return data;
+  }
+  // Use source `thisArg` if available.
+  if (srcBitmask & WRAP_BIND_FLAG) {
+    data[2] = source[2];
+    // Set when currying a bound function.
+    newBitmask |= bitmask & WRAP_BIND_FLAG ? 0 : WRAP_CURRY_BOUND_FLAG;
+  }
+  // Compose partial arguments.
+  var value = source[3];
+  if (value) {
+    var partials = data[3];
+    data[3] = partials ? composeArgs(partials, value, source[4]) : value;
+    data[4] = partials ? replaceHolders(data[3], PLACEHOLDER) : source[4];
+  }
+  // Compose partial right arguments.
+  value = source[5];
+  if (value) {
+    partials = data[5];
+    data[5] = partials ? composeArgsRight(partials, value, source[6]) : value;
+    data[6] = partials ? replaceHolders(data[5], PLACEHOLDER) : source[6];
+  }
+  // Use source `argPos` if available.
+  value = source[7];
+  if (value) {
+    data[7] = value;
+  }
+  // Use source `ary` if it's smaller.
+  if (srcBitmask & WRAP_ARY_FLAG) {
+    data[8] = data[8] == null ? source[8] : nativeMin(data[8], source[8]);
+  }
+  // Use source `arity` if one is not provided.
+  if (data[9] == null) {
+    data[9] = source[9];
+  }
+  // Use source `func` and merge bitmasks.
+  data[0] = source[0];
+  data[1] = newBitmask;
+
+  return data;
+}
+
+module.exports = mergeData;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_metaMap.js":
+/*!*****************************************!*\
+  !*** ./node_modules/lodash/_metaMap.js ***!
+  \*****************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var WeakMap = __webpack_require__(/*! ./_WeakMap */ "./node_modules/lodash/_WeakMap.js");
+
+/** Used to store function metadata. */
+var metaMap = WeakMap && new WeakMap;
+
+module.exports = metaMap;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_realNames.js":
+/*!*******************************************!*\
+  !*** ./node_modules/lodash/_realNames.js ***!
+  \*******************************************/
+/***/ ((module) => {
+
+/** Used to lookup unminified function names. */
+var realNames = {};
+
+module.exports = realNames;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_reorder.js":
+/*!*****************************************!*\
+  !*** ./node_modules/lodash/_reorder.js ***!
+  \*****************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var copyArray = __webpack_require__(/*! ./_copyArray */ "./node_modules/lodash/_copyArray.js"),
+    isIndex = __webpack_require__(/*! ./_isIndex */ "./node_modules/lodash/_isIndex.js");
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMin = Math.min;
+
+/**
+ * Reorder `array` according to the specified indexes where the element at
+ * the first index is assigned as the first element, the element at
+ * the second index is assigned as the second element, and so on.
+ *
+ * @private
+ * @param {Array} array The array to reorder.
+ * @param {Array} indexes The arranged array indexes.
+ * @returns {Array} Returns `array`.
+ */
+function reorder(array, indexes) {
+  var arrLength = array.length,
+      length = nativeMin(indexes.length, arrLength),
+      oldArray = copyArray(array);
+
+  while (length--) {
+    var index = indexes[length];
+    array[length] = isIndex(index, arrLength) ? oldArray[index] : undefined;
+  }
+  return array;
+}
+
+module.exports = reorder;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_replaceHolders.js":
+/*!************************************************!*\
+  !*** ./node_modules/lodash/_replaceHolders.js ***!
+  \************************************************/
+/***/ ((module) => {
+
+/** Used as the internal argument placeholder. */
+var PLACEHOLDER = '__lodash_placeholder__';
+
+/**
+ * Replaces all `placeholder` elements in `array` with an internal placeholder
+ * and returns an array of their indexes.
+ *
+ * @private
+ * @param {Array} array The array to modify.
+ * @param {*} placeholder The placeholder to replace.
+ * @returns {Array} Returns the new array of placeholder indexes.
+ */
+function replaceHolders(array, placeholder) {
+  var index = -1,
+      length = array.length,
+      resIndex = 0,
+      result = [];
+
+  while (++index < length) {
+    var value = array[index];
+    if (value === placeholder || value === PLACEHOLDER) {
+      array[index] = PLACEHOLDER;
+      result[resIndex++] = index;
+    }
+  }
+  return result;
+}
+
+module.exports = replaceHolders;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_setData.js":
+/*!*****************************************!*\
+  !*** ./node_modules/lodash/_setData.js ***!
+  \*****************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var baseSetData = __webpack_require__(/*! ./_baseSetData */ "./node_modules/lodash/_baseSetData.js"),
+    shortOut = __webpack_require__(/*! ./_shortOut */ "./node_modules/lodash/_shortOut.js");
+
+/**
+ * Sets metadata for `func`.
+ *
+ * **Note:** If this function becomes hot, i.e. is invoked a lot in a short
+ * period of time, it will trip its breaker and transition to an identity
+ * function to avoid garbage collection pauses in V8. See
+ * [V8 issue 2070](https://bugs.chromium.org/p/v8/issues/detail?id=2070)
+ * for more details.
+ *
+ * @private
+ * @param {Function} func The function to associate metadata with.
+ * @param {*} data The metadata.
+ * @returns {Function} Returns `func`.
+ */
+var setData = shortOut(baseSetData);
+
+module.exports = setData;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_setWrapToString.js":
+/*!*************************************************!*\
+  !*** ./node_modules/lodash/_setWrapToString.js ***!
+  \*************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var getWrapDetails = __webpack_require__(/*! ./_getWrapDetails */ "./node_modules/lodash/_getWrapDetails.js"),
+    insertWrapDetails = __webpack_require__(/*! ./_insertWrapDetails */ "./node_modules/lodash/_insertWrapDetails.js"),
+    setToString = __webpack_require__(/*! ./_setToString */ "./node_modules/lodash/_setToString.js"),
+    updateWrapDetails = __webpack_require__(/*! ./_updateWrapDetails */ "./node_modules/lodash/_updateWrapDetails.js");
+
+/**
+ * Sets the `toString` method of `wrapper` to mimic the source of `reference`
+ * with wrapper details in a comment at the top of the source body.
+ *
+ * @private
+ * @param {Function} wrapper The function to modify.
+ * @param {Function} reference The reference function.
+ * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+ * @returns {Function} Returns `wrapper`.
+ */
+function setWrapToString(wrapper, reference, bitmask) {
+  var source = (reference + '');
+  return setToString(wrapper, insertWrapDetails(source, updateWrapDetails(getWrapDetails(source), bitmask)));
+}
+
+module.exports = setWrapToString;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_updateWrapDetails.js":
+/*!***************************************************!*\
+  !*** ./node_modules/lodash/_updateWrapDetails.js ***!
+  \***************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var arrayEach = __webpack_require__(/*! ./_arrayEach */ "./node_modules/lodash/_arrayEach.js"),
+    arrayIncludes = __webpack_require__(/*! ./_arrayIncludes */ "./node_modules/lodash/_arrayIncludes.js");
+
+/** Used to compose bitmasks for function metadata. */
+var WRAP_BIND_FLAG = 1,
+    WRAP_BIND_KEY_FLAG = 2,
+    WRAP_CURRY_FLAG = 8,
+    WRAP_CURRY_RIGHT_FLAG = 16,
+    WRAP_PARTIAL_FLAG = 32,
+    WRAP_PARTIAL_RIGHT_FLAG = 64,
+    WRAP_ARY_FLAG = 128,
+    WRAP_REARG_FLAG = 256,
+    WRAP_FLIP_FLAG = 512;
+
+/** Used to associate wrap methods with their bit flags. */
+var wrapFlags = [
+  ['ary', WRAP_ARY_FLAG],
+  ['bind', WRAP_BIND_FLAG],
+  ['bindKey', WRAP_BIND_KEY_FLAG],
+  ['curry', WRAP_CURRY_FLAG],
+  ['curryRight', WRAP_CURRY_RIGHT_FLAG],
+  ['flip', WRAP_FLIP_FLAG],
+  ['partial', WRAP_PARTIAL_FLAG],
+  ['partialRight', WRAP_PARTIAL_RIGHT_FLAG],
+  ['rearg', WRAP_REARG_FLAG]
+];
+
+/**
+ * Updates wrapper `details` based on `bitmask` flags.
+ *
+ * @private
+ * @returns {Array} details The details to modify.
+ * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+ * @returns {Array} Returns `details`.
+ */
+function updateWrapDetails(details, bitmask) {
+  arrayEach(wrapFlags, function(pair) {
+    var value = '_.' + pair[0];
+    if ((bitmask & pair[1]) && !arrayIncludes(details, value)) {
+      details.push(value);
+    }
+  });
+  return details.sort();
+}
+
+module.exports = updateWrapDetails;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_wrapperClone.js":
+/*!**********************************************!*\
+  !*** ./node_modules/lodash/_wrapperClone.js ***!
+  \**********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var LazyWrapper = __webpack_require__(/*! ./_LazyWrapper */ "./node_modules/lodash/_LazyWrapper.js"),
+    LodashWrapper = __webpack_require__(/*! ./_LodashWrapper */ "./node_modules/lodash/_LodashWrapper.js"),
+    copyArray = __webpack_require__(/*! ./_copyArray */ "./node_modules/lodash/_copyArray.js");
+
+/**
+ * Creates a clone of `wrapper`.
+ *
+ * @private
+ * @param {Object} wrapper The wrapper to clone.
+ * @returns {Object} Returns the cloned wrapper.
+ */
+function wrapperClone(wrapper) {
+  if (wrapper instanceof LazyWrapper) {
+    return wrapper.clone();
+  }
+  var result = new LodashWrapper(wrapper.__wrapped__, wrapper.__chain__);
+  result.__actions__ = copyArray(wrapper.__actions__);
+  result.__index__  = wrapper.__index__;
+  result.__values__ = wrapper.__values__;
+  return result;
+}
+
+module.exports = wrapperClone;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/ary.js":
+/*!************************************!*\
+  !*** ./node_modules/lodash/ary.js ***!
+  \************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var createWrap = __webpack_require__(/*! ./_createWrap */ "./node_modules/lodash/_createWrap.js");
+
+/** Used to compose bitmasks for function metadata. */
+var WRAP_ARY_FLAG = 128;
+
+/**
+ * Creates a function that invokes `func`, with up to `n` arguments,
+ * ignoring any additional arguments.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category Function
+ * @param {Function} func The function to cap arguments for.
+ * @param {number} [n=func.length] The arity cap.
+ * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+ * @returns {Function} Returns the new capped function.
+ * @example
+ *
+ * _.map(['6', '8', '10'], _.ary(parseInt, 1));
+ * // => [6, 8, 10]
+ */
+function ary(func, n, guard) {
+  n = guard ? undefined : n;
+  n = (func && n == null) ? func.length : n;
+  return createWrap(func, WRAP_ARY_FLAG, undefined, undefined, undefined, undefined, n);
+}
+
+module.exports = ary;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/curry.js":
+/*!**************************************!*\
+  !*** ./node_modules/lodash/curry.js ***!
+  \**************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var createWrap = __webpack_require__(/*! ./_createWrap */ "./node_modules/lodash/_createWrap.js");
+
+/** Used to compose bitmasks for function metadata. */
+var WRAP_CURRY_FLAG = 8;
+
+/**
+ * Creates a function that accepts arguments of `func` and either invokes
+ * `func` returning its result, if at least `arity` number of arguments have
+ * been provided, or returns a function that accepts the remaining `func`
+ * arguments, and so on. The arity of `func` may be specified if `func.length`
+ * is not sufficient.
+ *
+ * The `_.curry.placeholder` value, which defaults to `_` in monolithic builds,
+ * may be used as a placeholder for provided arguments.
+ *
+ * **Note:** This method doesn't set the "length" property of curried functions.
+ *
+ * @static
+ * @memberOf _
+ * @since 2.0.0
+ * @category Function
+ * @param {Function} func The function to curry.
+ * @param {number} [arity=func.length] The arity of `func`.
+ * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+ * @returns {Function} Returns the new curried function.
+ * @example
+ *
+ * var abc = function(a, b, c) {
+ *   return [a, b, c];
+ * };
+ *
+ * var curried = _.curry(abc);
+ *
+ * curried(1)(2)(3);
+ * // => [1, 2, 3]
+ *
+ * curried(1, 2)(3);
+ * // => [1, 2, 3]
+ *
+ * curried(1, 2, 3);
+ * // => [1, 2, 3]
+ *
+ * // Curried with placeholders.
+ * curried(1)(_, 3)(2);
+ * // => [1, 2, 3]
+ */
+function curry(func, arity, guard) {
+  arity = guard ? undefined : arity;
+  var result = createWrap(func, WRAP_CURRY_FLAG, undefined, undefined, undefined, undefined, undefined, arity);
+  result.placeholder = curry.placeholder;
+  return result;
+}
+
+// Assign default placeholders.
+curry.placeholder = {};
+
+module.exports = curry;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/flatten.js":
+/*!****************************************!*\
+  !*** ./node_modules/lodash/flatten.js ***!
+  \****************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var baseFlatten = __webpack_require__(/*! ./_baseFlatten */ "./node_modules/lodash/_baseFlatten.js");
+
+/**
+ * Flattens `array` a single level deep.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Array
+ * @param {Array} array The array to flatten.
+ * @returns {Array} Returns the new flattened array.
+ * @example
+ *
+ * _.flatten([1, [2, [3, [4]], 5]]);
+ * // => [1, 2, [3, [4]], 5]
+ */
+function flatten(array) {
+  var length = array == null ? 0 : array.length;
+  return length ? baseFlatten(array, 1) : [];
+}
+
+module.exports = flatten;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/fp/_baseConvert.js":
+/*!************************************************!*\
+  !*** ./node_modules/lodash/fp/_baseConvert.js ***!
+  \************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var mapping = __webpack_require__(/*! ./_mapping */ "./node_modules/lodash/fp/_mapping.js"),
+    fallbackHolder = __webpack_require__(/*! ./placeholder */ "./node_modules/lodash/fp/placeholder.js");
+
+/** Built-in value reference. */
+var push = Array.prototype.push;
+
+/**
+ * Creates a function, with an arity of `n`, that invokes `func` with the
+ * arguments it receives.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {number} n The arity of the new function.
+ * @returns {Function} Returns the new function.
+ */
+function baseArity(func, n) {
+  return n == 2
+    ? function(a, b) { return func.apply(undefined, arguments); }
+    : function(a) { return func.apply(undefined, arguments); };
+}
+
+/**
+ * Creates a function that invokes `func`, with up to `n` arguments, ignoring
+ * any additional arguments.
+ *
+ * @private
+ * @param {Function} func The function to cap arguments for.
+ * @param {number} n The arity cap.
+ * @returns {Function} Returns the new function.
+ */
+function baseAry(func, n) {
+  return n == 2
+    ? function(a, b) { return func(a, b); }
+    : function(a) { return func(a); };
+}
+
+/**
+ * Creates a clone of `array`.
+ *
+ * @private
+ * @param {Array} array The array to clone.
+ * @returns {Array} Returns the cloned array.
+ */
+function cloneArray(array) {
+  var length = array ? array.length : 0,
+      result = Array(length);
+
+  while (length--) {
+    result[length] = array[length];
+  }
+  return result;
+}
+
+/**
+ * Creates a function that clones a given object using the assignment `func`.
+ *
+ * @private
+ * @param {Function} func The assignment function.
+ * @returns {Function} Returns the new cloner function.
+ */
+function createCloner(func) {
+  return function(object) {
+    return func({}, object);
+  };
+}
+
+/**
+ * A specialized version of `_.spread` which flattens the spread array into
+ * the arguments of the invoked `func`.
+ *
+ * @private
+ * @param {Function} func The function to spread arguments over.
+ * @param {number} start The start position of the spread.
+ * @returns {Function} Returns the new function.
+ */
+function flatSpread(func, start) {
+  return function() {
+    var length = arguments.length,
+        lastIndex = length - 1,
+        args = Array(length);
+
+    while (length--) {
+      args[length] = arguments[length];
+    }
+    var array = args[start],
+        otherArgs = args.slice(0, start);
+
+    if (array) {
+      push.apply(otherArgs, array);
+    }
+    if (start != lastIndex) {
+      push.apply(otherArgs, args.slice(start + 1));
+    }
+    return func.apply(this, otherArgs);
+  };
+}
+
+/**
+ * Creates a function that wraps `func` and uses `cloner` to clone the first
+ * argument it receives.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {Function} cloner The function to clone arguments.
+ * @returns {Function} Returns the new immutable function.
+ */
+function wrapImmutable(func, cloner) {
+  return function() {
+    var length = arguments.length;
+    if (!length) {
+      return;
+    }
+    var args = Array(length);
+    while (length--) {
+      args[length] = arguments[length];
+    }
+    var result = args[0] = cloner.apply(undefined, args);
+    func.apply(undefined, args);
+    return result;
+  };
+}
+
+/**
+ * The base implementation of `convert` which accepts a `util` object of methods
+ * required to perform conversions.
+ *
+ * @param {Object} util The util object.
+ * @param {string} name The name of the function to convert.
+ * @param {Function} func The function to convert.
+ * @param {Object} [options] The options object.
+ * @param {boolean} [options.cap=true] Specify capping iteratee arguments.
+ * @param {boolean} [options.curry=true] Specify currying.
+ * @param {boolean} [options.fixed=true] Specify fixed arity.
+ * @param {boolean} [options.immutable=true] Specify immutable operations.
+ * @param {boolean} [options.rearg=true] Specify rearranging arguments.
+ * @returns {Function|Object} Returns the converted function or object.
+ */
+function baseConvert(util, name, func, options) {
+  var isLib = typeof name == 'function',
+      isObj = name === Object(name);
+
+  if (isObj) {
+    options = func;
+    func = name;
+    name = undefined;
+  }
+  if (func == null) {
+    throw new TypeError;
+  }
+  options || (options = {});
+
+  var config = {
+    'cap': 'cap' in options ? options.cap : true,
+    'curry': 'curry' in options ? options.curry : true,
+    'fixed': 'fixed' in options ? options.fixed : true,
+    'immutable': 'immutable' in options ? options.immutable : true,
+    'rearg': 'rearg' in options ? options.rearg : true
+  };
+
+  var defaultHolder = isLib ? func : fallbackHolder,
+      forceCurry = ('curry' in options) && options.curry,
+      forceFixed = ('fixed' in options) && options.fixed,
+      forceRearg = ('rearg' in options) && options.rearg,
+      pristine = isLib ? func.runInContext() : undefined;
+
+  var helpers = isLib ? func : {
+    'ary': util.ary,
+    'assign': util.assign,
+    'clone': util.clone,
+    'curry': util.curry,
+    'forEach': util.forEach,
+    'isArray': util.isArray,
+    'isError': util.isError,
+    'isFunction': util.isFunction,
+    'isWeakMap': util.isWeakMap,
+    'iteratee': util.iteratee,
+    'keys': util.keys,
+    'rearg': util.rearg,
+    'toInteger': util.toInteger,
+    'toPath': util.toPath
+  };
+
+  var ary = helpers.ary,
+      assign = helpers.assign,
+      clone = helpers.clone,
+      curry = helpers.curry,
+      each = helpers.forEach,
+      isArray = helpers.isArray,
+      isError = helpers.isError,
+      isFunction = helpers.isFunction,
+      isWeakMap = helpers.isWeakMap,
+      keys = helpers.keys,
+      rearg = helpers.rearg,
+      toInteger = helpers.toInteger,
+      toPath = helpers.toPath;
+
+  var aryMethodKeys = keys(mapping.aryMethod);
+
+  var wrappers = {
+    'castArray': function(castArray) {
+      return function() {
+        var value = arguments[0];
+        return isArray(value)
+          ? castArray(cloneArray(value))
+          : castArray.apply(undefined, arguments);
+      };
+    },
+    'iteratee': function(iteratee) {
+      return function() {
+        var func = arguments[0],
+            arity = arguments[1],
+            result = iteratee(func, arity),
+            length = result.length;
+
+        if (config.cap && typeof arity == 'number') {
+          arity = arity > 2 ? (arity - 2) : 1;
+          return (length && length <= arity) ? result : baseAry(result, arity);
+        }
+        return result;
+      };
+    },
+    'mixin': function(mixin) {
+      return function(source) {
+        var func = this;
+        if (!isFunction(func)) {
+          return mixin(func, Object(source));
+        }
+        var pairs = [];
+        each(keys(source), function(key) {
+          if (isFunction(source[key])) {
+            pairs.push([key, func.prototype[key]]);
+          }
+        });
+
+        mixin(func, Object(source));
+
+        each(pairs, function(pair) {
+          var value = pair[1];
+          if (isFunction(value)) {
+            func.prototype[pair[0]] = value;
+          } else {
+            delete func.prototype[pair[0]];
+          }
+        });
+        return func;
+      };
+    },
+    'nthArg': function(nthArg) {
+      return function(n) {
+        var arity = n < 0 ? 1 : (toInteger(n) + 1);
+        return curry(nthArg(n), arity);
+      };
+    },
+    'rearg': function(rearg) {
+      return function(func, indexes) {
+        var arity = indexes ? indexes.length : 0;
+        return curry(rearg(func, indexes), arity);
+      };
+    },
+    'runInContext': function(runInContext) {
+      return function(context) {
+        return baseConvert(util, runInContext(context), options);
+      };
+    }
+  };
+
+  /*--------------------------------------------------------------------------*/
+
+  /**
+   * Casts `func` to a function with an arity capped iteratee if needed.
+   *
+   * @private
+   * @param {string} name The name of the function to inspect.
+   * @param {Function} func The function to inspect.
+   * @returns {Function} Returns the cast function.
+   */
+  function castCap(name, func) {
+    if (config.cap) {
+      var indexes = mapping.iterateeRearg[name];
+      if (indexes) {
+        return iterateeRearg(func, indexes);
+      }
+      var n = !isLib && mapping.iterateeAry[name];
+      if (n) {
+        return iterateeAry(func, n);
+      }
+    }
+    return func;
+  }
+
+  /**
+   * Casts `func` to a curried function if needed.
+   *
+   * @private
+   * @param {string} name The name of the function to inspect.
+   * @param {Function} func The function to inspect.
+   * @param {number} n The arity of `func`.
+   * @returns {Function} Returns the cast function.
+   */
+  function castCurry(name, func, n) {
+    return (forceCurry || (config.curry && n > 1))
+      ? curry(func, n)
+      : func;
+  }
+
+  /**
+   * Casts `func` to a fixed arity function if needed.
+   *
+   * @private
+   * @param {string} name The name of the function to inspect.
+   * @param {Function} func The function to inspect.
+   * @param {number} n The arity cap.
+   * @returns {Function} Returns the cast function.
+   */
+  function castFixed(name, func, n) {
+    if (config.fixed && (forceFixed || !mapping.skipFixed[name])) {
+      var data = mapping.methodSpread[name],
+          start = data && data.start;
+
+      return start  === undefined ? ary(func, n) : flatSpread(func, start);
+    }
+    return func;
+  }
+
+  /**
+   * Casts `func` to an rearged function if needed.
+   *
+   * @private
+   * @param {string} name The name of the function to inspect.
+   * @param {Function} func The function to inspect.
+   * @param {number} n The arity of `func`.
+   * @returns {Function} Returns the cast function.
+   */
+  function castRearg(name, func, n) {
+    return (config.rearg && n > 1 && (forceRearg || !mapping.skipRearg[name]))
+      ? rearg(func, mapping.methodRearg[name] || mapping.aryRearg[n])
+      : func;
+  }
+
+  /**
+   * Creates a clone of `object` by `path`.
+   *
+   * @private
+   * @param {Object} object The object to clone.
+   * @param {Array|string} path The path to clone by.
+   * @returns {Object} Returns the cloned object.
+   */
+  function cloneByPath(object, path) {
+    path = toPath(path);
+
+    var index = -1,
+        length = path.length,
+        lastIndex = length - 1,
+        result = clone(Object(object)),
+        nested = result;
+
+    while (nested != null && ++index < length) {
+      var key = path[index],
+          value = nested[key];
+
+      if (value != null &&
+          !(isFunction(value) || isError(value) || isWeakMap(value))) {
+        nested[key] = clone(index == lastIndex ? value : Object(value));
+      }
+      nested = nested[key];
+    }
+    return result;
+  }
+
+  /**
+   * Converts `lodash` to an immutable auto-curried iteratee-first data-last
+   * version with conversion `options` applied.
+   *
+   * @param {Object} [options] The options object. See `baseConvert` for more details.
+   * @returns {Function} Returns the converted `lodash`.
+   */
+  function convertLib(options) {
+    return _.runInContext.convert(options)(undefined);
+  }
+
+  /**
+   * Create a converter function for `func` of `name`.
+   *
+   * @param {string} name The name of the function to convert.
+   * @param {Function} func The function to convert.
+   * @returns {Function} Returns the new converter function.
+   */
+  function createConverter(name, func) {
+    var realName = mapping.aliasToReal[name] || name,
+        methodName = mapping.remap[realName] || realName,
+        oldOptions = options;
+
+    return function(options) {
+      var newUtil = isLib ? pristine : helpers,
+          newFunc = isLib ? pristine[methodName] : func,
+          newOptions = assign(assign({}, oldOptions), options);
+
+      return baseConvert(newUtil, realName, newFunc, newOptions);
+    };
+  }
+
+  /**
+   * Creates a function that wraps `func` to invoke its iteratee, with up to `n`
+   * arguments, ignoring any additional arguments.
+   *
+   * @private
+   * @param {Function} func The function to cap iteratee arguments for.
+   * @param {number} n The arity cap.
+   * @returns {Function} Returns the new function.
+   */
+  function iterateeAry(func, n) {
+    return overArg(func, function(func) {
+      return typeof func == 'function' ? baseAry(func, n) : func;
+    });
+  }
+
+  /**
+   * Creates a function that wraps `func` to invoke its iteratee with arguments
+   * arranged according to the specified `indexes` where the argument value at
+   * the first index is provided as the first argument, the argument value at
+   * the second index is provided as the second argument, and so on.
+   *
+   * @private
+   * @param {Function} func The function to rearrange iteratee arguments for.
+   * @param {number[]} indexes The arranged argument indexes.
+   * @returns {Function} Returns the new function.
+   */
+  function iterateeRearg(func, indexes) {
+    return overArg(func, function(func) {
+      var n = indexes.length;
+      return baseArity(rearg(baseAry(func, n), indexes), n);
+    });
+  }
+
+  /**
+   * Creates a function that invokes `func` with its first argument transformed.
+   *
+   * @private
+   * @param {Function} func The function to wrap.
+   * @param {Function} transform The argument transform.
+   * @returns {Function} Returns the new function.
+   */
+  function overArg(func, transform) {
+    return function() {
+      var length = arguments.length;
+      if (!length) {
+        return func();
+      }
+      var args = Array(length);
+      while (length--) {
+        args[length] = arguments[length];
+      }
+      var index = config.rearg ? 0 : (length - 1);
+      args[index] = transform(args[index]);
+      return func.apply(undefined, args);
+    };
+  }
+
+  /**
+   * Creates a function that wraps `func` and applys the conversions
+   * rules by `name`.
+   *
+   * @private
+   * @param {string} name The name of the function to wrap.
+   * @param {Function} func The function to wrap.
+   * @returns {Function} Returns the converted function.
+   */
+  function wrap(name, func, placeholder) {
+    var result,
+        realName = mapping.aliasToReal[name] || name,
+        wrapped = func,
+        wrapper = wrappers[realName];
+
+    if (wrapper) {
+      wrapped = wrapper(func);
+    }
+    else if (config.immutable) {
+      if (mapping.mutate.array[realName]) {
+        wrapped = wrapImmutable(func, cloneArray);
+      }
+      else if (mapping.mutate.object[realName]) {
+        wrapped = wrapImmutable(func, createCloner(func));
+      }
+      else if (mapping.mutate.set[realName]) {
+        wrapped = wrapImmutable(func, cloneByPath);
+      }
+    }
+    each(aryMethodKeys, function(aryKey) {
+      each(mapping.aryMethod[aryKey], function(otherName) {
+        if (realName == otherName) {
+          var data = mapping.methodSpread[realName],
+              afterRearg = data && data.afterRearg;
+
+          result = afterRearg
+            ? castFixed(realName, castRearg(realName, wrapped, aryKey), aryKey)
+            : castRearg(realName, castFixed(realName, wrapped, aryKey), aryKey);
+
+          result = castCap(realName, result);
+          result = castCurry(realName, result, aryKey);
+          return false;
+        }
+      });
+      return !result;
+    });
+
+    result || (result = wrapped);
+    if (result == func) {
+      result = forceCurry ? curry(result, 1) : function() {
+        return func.apply(this, arguments);
+      };
+    }
+    result.convert = createConverter(realName, func);
+    result.placeholder = func.placeholder = placeholder;
+
+    return result;
+  }
+
+  /*--------------------------------------------------------------------------*/
+
+  if (!isObj) {
+    return wrap(name, func, defaultHolder);
+  }
+  var _ = func;
+
+  // Convert methods by ary cap.
+  var pairs = [];
+  each(aryMethodKeys, function(aryKey) {
+    each(mapping.aryMethod[aryKey], function(key) {
+      var func = _[mapping.remap[key] || key];
+      if (func) {
+        pairs.push([key, wrap(key, func, _)]);
+      }
+    });
+  });
+
+  // Convert remaining methods.
+  each(keys(_), function(key) {
+    var func = _[key];
+    if (typeof func == 'function') {
+      var length = pairs.length;
+      while (length--) {
+        if (pairs[length][0] == key) {
+          return;
+        }
+      }
+      func.convert = createConverter(key, func);
+      pairs.push([key, func]);
+    }
+  });
+
+  // Assign to `_` leaving `_.prototype` unchanged to allow chaining.
+  each(pairs, function(pair) {
+    _[pair[0]] = pair[1];
+  });
+
+  _.convert = convertLib;
+  _.placeholder = _;
+
+  // Assign aliases.
+  each(keys(_), function(key) {
+    each(mapping.realToAlias[key] || [], function(alias) {
+      _[alias] = _[key];
+    });
+  });
+
+  return _;
+}
+
+module.exports = baseConvert;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/fp/_mapping.js":
+/*!********************************************!*\
+  !*** ./node_modules/lodash/fp/_mapping.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+/** Used to map aliases to their real names. */
+exports.aliasToReal = {
+
+  // Lodash aliases.
+  'each': 'forEach',
+  'eachRight': 'forEachRight',
+  'entries': 'toPairs',
+  'entriesIn': 'toPairsIn',
+  'extend': 'assignIn',
+  'extendAll': 'assignInAll',
+  'extendAllWith': 'assignInAllWith',
+  'extendWith': 'assignInWith',
+  'first': 'head',
+
+  // Methods that are curried variants of others.
+  'conforms': 'conformsTo',
+  'matches': 'isMatch',
+  'property': 'get',
+
+  // Ramda aliases.
+  '__': 'placeholder',
+  'F': 'stubFalse',
+  'T': 'stubTrue',
+  'all': 'every',
+  'allPass': 'overEvery',
+  'always': 'constant',
+  'any': 'some',
+  'anyPass': 'overSome',
+  'apply': 'spread',
+  'assoc': 'set',
+  'assocPath': 'set',
+  'complement': 'negate',
+  'compose': 'flowRight',
+  'contains': 'includes',
+  'dissoc': 'unset',
+  'dissocPath': 'unset',
+  'dropLast': 'dropRight',
+  'dropLastWhile': 'dropRightWhile',
+  'equals': 'isEqual',
+  'identical': 'eq',
+  'indexBy': 'keyBy',
+  'init': 'initial',
+  'invertObj': 'invert',
+  'juxt': 'over',
+  'omitAll': 'omit',
+  'nAry': 'ary',
+  'path': 'get',
+  'pathEq': 'matchesProperty',
+  'pathOr': 'getOr',
+  'paths': 'at',
+  'pickAll': 'pick',
+  'pipe': 'flow',
+  'pluck': 'map',
+  'prop': 'get',
+  'propEq': 'matchesProperty',
+  'propOr': 'getOr',
+  'props': 'at',
+  'symmetricDifference': 'xor',
+  'symmetricDifferenceBy': 'xorBy',
+  'symmetricDifferenceWith': 'xorWith',
+  'takeLast': 'takeRight',
+  'takeLastWhile': 'takeRightWhile',
+  'unapply': 'rest',
+  'unnest': 'flatten',
+  'useWith': 'overArgs',
+  'where': 'conformsTo',
+  'whereEq': 'isMatch',
+  'zipObj': 'zipObject'
+};
+
+/** Used to map ary to method names. */
+exports.aryMethod = {
+  '1': [
+    'assignAll', 'assignInAll', 'attempt', 'castArray', 'ceil', 'create',
+    'curry', 'curryRight', 'defaultsAll', 'defaultsDeepAll', 'floor', 'flow',
+    'flowRight', 'fromPairs', 'invert', 'iteratee', 'memoize', 'method', 'mergeAll',
+    'methodOf', 'mixin', 'nthArg', 'over', 'overEvery', 'overSome','rest', 'reverse',
+    'round', 'runInContext', 'spread', 'template', 'trim', 'trimEnd', 'trimStart',
+    'uniqueId', 'words', 'zipAll'
+  ],
+  '2': [
+    'add', 'after', 'ary', 'assign', 'assignAllWith', 'assignIn', 'assignInAllWith',
+    'at', 'before', 'bind', 'bindAll', 'bindKey', 'chunk', 'cloneDeepWith',
+    'cloneWith', 'concat', 'conformsTo', 'countBy', 'curryN', 'curryRightN',
+    'debounce', 'defaults', 'defaultsDeep', 'defaultTo', 'delay', 'difference',
+    'divide', 'drop', 'dropRight', 'dropRightWhile', 'dropWhile', 'endsWith', 'eq',
+    'every', 'filter', 'find', 'findIndex', 'findKey', 'findLast', 'findLastIndex',
+    'findLastKey', 'flatMap', 'flatMapDeep', 'flattenDepth', 'forEach',
+    'forEachRight', 'forIn', 'forInRight', 'forOwn', 'forOwnRight', 'get',
+    'groupBy', 'gt', 'gte', 'has', 'hasIn', 'includes', 'indexOf', 'intersection',
+    'invertBy', 'invoke', 'invokeMap', 'isEqual', 'isMatch', 'join', 'keyBy',
+    'lastIndexOf', 'lt', 'lte', 'map', 'mapKeys', 'mapValues', 'matchesProperty',
+    'maxBy', 'meanBy', 'merge', 'mergeAllWith', 'minBy', 'multiply', 'nth', 'omit',
+    'omitBy', 'overArgs', 'pad', 'padEnd', 'padStart', 'parseInt', 'partial',
+    'partialRight', 'partition', 'pick', 'pickBy', 'propertyOf', 'pull', 'pullAll',
+    'pullAt', 'random', 'range', 'rangeRight', 'rearg', 'reject', 'remove',
+    'repeat', 'restFrom', 'result', 'sampleSize', 'some', 'sortBy', 'sortedIndex',
+    'sortedIndexOf', 'sortedLastIndex', 'sortedLastIndexOf', 'sortedUniqBy',
+    'split', 'spreadFrom', 'startsWith', 'subtract', 'sumBy', 'take', 'takeRight',
+    'takeRightWhile', 'takeWhile', 'tap', 'throttle', 'thru', 'times', 'trimChars',
+    'trimCharsEnd', 'trimCharsStart', 'truncate', 'union', 'uniqBy', 'uniqWith',
+    'unset', 'unzipWith', 'without', 'wrap', 'xor', 'zip', 'zipObject',
+    'zipObjectDeep'
+  ],
+  '3': [
+    'assignInWith', 'assignWith', 'clamp', 'differenceBy', 'differenceWith',
+    'findFrom', 'findIndexFrom', 'findLastFrom', 'findLastIndexFrom', 'getOr',
+    'includesFrom', 'indexOfFrom', 'inRange', 'intersectionBy', 'intersectionWith',
+    'invokeArgs', 'invokeArgsMap', 'isEqualWith', 'isMatchWith', 'flatMapDepth',
+    'lastIndexOfFrom', 'mergeWith', 'orderBy', 'padChars', 'padCharsEnd',
+    'padCharsStart', 'pullAllBy', 'pullAllWith', 'rangeStep', 'rangeStepRight',
+    'reduce', 'reduceRight', 'replace', 'set', 'slice', 'sortedIndexBy',
+    'sortedLastIndexBy', 'transform', 'unionBy', 'unionWith', 'update', 'xorBy',
+    'xorWith', 'zipWith'
+  ],
+  '4': [
+    'fill', 'setWith', 'updateWith'
+  ]
+};
+
+/** Used to map ary to rearg configs. */
+exports.aryRearg = {
+  '2': [1, 0],
+  '3': [2, 0, 1],
+  '4': [3, 2, 0, 1]
+};
+
+/** Used to map method names to their iteratee ary. */
+exports.iterateeAry = {
+  'dropRightWhile': 1,
+  'dropWhile': 1,
+  'every': 1,
+  'filter': 1,
+  'find': 1,
+  'findFrom': 1,
+  'findIndex': 1,
+  'findIndexFrom': 1,
+  'findKey': 1,
+  'findLast': 1,
+  'findLastFrom': 1,
+  'findLastIndex': 1,
+  'findLastIndexFrom': 1,
+  'findLastKey': 1,
+  'flatMap': 1,
+  'flatMapDeep': 1,
+  'flatMapDepth': 1,
+  'forEach': 1,
+  'forEachRight': 1,
+  'forIn': 1,
+  'forInRight': 1,
+  'forOwn': 1,
+  'forOwnRight': 1,
+  'map': 1,
+  'mapKeys': 1,
+  'mapValues': 1,
+  'partition': 1,
+  'reduce': 2,
+  'reduceRight': 2,
+  'reject': 1,
+  'remove': 1,
+  'some': 1,
+  'takeRightWhile': 1,
+  'takeWhile': 1,
+  'times': 1,
+  'transform': 2
+};
+
+/** Used to map method names to iteratee rearg configs. */
+exports.iterateeRearg = {
+  'mapKeys': [1],
+  'reduceRight': [1, 0]
+};
+
+/** Used to map method names to rearg configs. */
+exports.methodRearg = {
+  'assignInAllWith': [1, 0],
+  'assignInWith': [1, 2, 0],
+  'assignAllWith': [1, 0],
+  'assignWith': [1, 2, 0],
+  'differenceBy': [1, 2, 0],
+  'differenceWith': [1, 2, 0],
+  'getOr': [2, 1, 0],
+  'intersectionBy': [1, 2, 0],
+  'intersectionWith': [1, 2, 0],
+  'isEqualWith': [1, 2, 0],
+  'isMatchWith': [2, 1, 0],
+  'mergeAllWith': [1, 0],
+  'mergeWith': [1, 2, 0],
+  'padChars': [2, 1, 0],
+  'padCharsEnd': [2, 1, 0],
+  'padCharsStart': [2, 1, 0],
+  'pullAllBy': [2, 1, 0],
+  'pullAllWith': [2, 1, 0],
+  'rangeStep': [1, 2, 0],
+  'rangeStepRight': [1, 2, 0],
+  'setWith': [3, 1, 2, 0],
+  'sortedIndexBy': [2, 1, 0],
+  'sortedLastIndexBy': [2, 1, 0],
+  'unionBy': [1, 2, 0],
+  'unionWith': [1, 2, 0],
+  'updateWith': [3, 1, 2, 0],
+  'xorBy': [1, 2, 0],
+  'xorWith': [1, 2, 0],
+  'zipWith': [1, 2, 0]
+};
+
+/** Used to map method names to spread configs. */
+exports.methodSpread = {
+  'assignAll': { 'start': 0 },
+  'assignAllWith': { 'start': 0 },
+  'assignInAll': { 'start': 0 },
+  'assignInAllWith': { 'start': 0 },
+  'defaultsAll': { 'start': 0 },
+  'defaultsDeepAll': { 'start': 0 },
+  'invokeArgs': { 'start': 2 },
+  'invokeArgsMap': { 'start': 2 },
+  'mergeAll': { 'start': 0 },
+  'mergeAllWith': { 'start': 0 },
+  'partial': { 'start': 1 },
+  'partialRight': { 'start': 1 },
+  'without': { 'start': 1 },
+  'zipAll': { 'start': 0 }
+};
+
+/** Used to identify methods which mutate arrays or objects. */
+exports.mutate = {
+  'array': {
+    'fill': true,
+    'pull': true,
+    'pullAll': true,
+    'pullAllBy': true,
+    'pullAllWith': true,
+    'pullAt': true,
+    'remove': true,
+    'reverse': true
+  },
+  'object': {
+    'assign': true,
+    'assignAll': true,
+    'assignAllWith': true,
+    'assignIn': true,
+    'assignInAll': true,
+    'assignInAllWith': true,
+    'assignInWith': true,
+    'assignWith': true,
+    'defaults': true,
+    'defaultsAll': true,
+    'defaultsDeep': true,
+    'defaultsDeepAll': true,
+    'merge': true,
+    'mergeAll': true,
+    'mergeAllWith': true,
+    'mergeWith': true,
+  },
+  'set': {
+    'set': true,
+    'setWith': true,
+    'unset': true,
+    'update': true,
+    'updateWith': true
+  }
+};
+
+/** Used to map real names to their aliases. */
+exports.realToAlias = (function() {
+  var hasOwnProperty = Object.prototype.hasOwnProperty,
+      object = exports.aliasToReal,
+      result = {};
+
+  for (var key in object) {
+    var value = object[key];
+    if (hasOwnProperty.call(result, value)) {
+      result[value].push(key);
+    } else {
+      result[value] = [key];
+    }
+  }
+  return result;
+}());
+
+/** Used to map method names to other names. */
+exports.remap = {
+  'assignAll': 'assign',
+  'assignAllWith': 'assignWith',
+  'assignInAll': 'assignIn',
+  'assignInAllWith': 'assignInWith',
+  'curryN': 'curry',
+  'curryRightN': 'curryRight',
+  'defaultsAll': 'defaults',
+  'defaultsDeepAll': 'defaultsDeep',
+  'findFrom': 'find',
+  'findIndexFrom': 'findIndex',
+  'findLastFrom': 'findLast',
+  'findLastIndexFrom': 'findLastIndex',
+  'getOr': 'get',
+  'includesFrom': 'includes',
+  'indexOfFrom': 'indexOf',
+  'invokeArgs': 'invoke',
+  'invokeArgsMap': 'invokeMap',
+  'lastIndexOfFrom': 'lastIndexOf',
+  'mergeAll': 'merge',
+  'mergeAllWith': 'mergeWith',
+  'padChars': 'pad',
+  'padCharsEnd': 'padEnd',
+  'padCharsStart': 'padStart',
+  'propertyOf': 'get',
+  'rangeStep': 'range',
+  'rangeStepRight': 'rangeRight',
+  'restFrom': 'rest',
+  'spreadFrom': 'spread',
+  'trimChars': 'trim',
+  'trimCharsEnd': 'trimEnd',
+  'trimCharsStart': 'trimStart',
+  'zipAll': 'zip'
+};
+
+/** Used to track methods that skip fixing their arity. */
+exports.skipFixed = {
+  'castArray': true,
+  'flow': true,
+  'flowRight': true,
+  'iteratee': true,
+  'mixin': true,
+  'rearg': true,
+  'runInContext': true
+};
+
+/** Used to track methods that skip rearranging arguments. */
+exports.skipRearg = {
+  'add': true,
+  'assign': true,
+  'assignIn': true,
+  'bind': true,
+  'bindKey': true,
+  'concat': true,
+  'difference': true,
+  'divide': true,
+  'eq': true,
+  'gt': true,
+  'gte': true,
+  'isEqual': true,
+  'lt': true,
+  'lte': true,
+  'matchesProperty': true,
+  'merge': true,
+  'multiply': true,
+  'overArgs': true,
+  'partial': true,
+  'partialRight': true,
+  'propertyOf': true,
+  'random': true,
+  'range': true,
+  'rangeRight': true,
+  'subtract': true,
+  'zip': true,
+  'zipObject': true,
+  'zipObjectDeep': true
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/fp/_util.js":
+/*!*****************************************!*\
+  !*** ./node_modules/lodash/fp/_util.js ***!
+  \*****************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = {
+  'ary': __webpack_require__(/*! ../ary */ "./node_modules/lodash/ary.js"),
+  'assign': __webpack_require__(/*! ../_baseAssign */ "./node_modules/lodash/_baseAssign.js"),
+  'clone': __webpack_require__(/*! ../clone */ "./node_modules/lodash/clone.js"),
+  'curry': __webpack_require__(/*! ../curry */ "./node_modules/lodash/curry.js"),
+  'forEach': __webpack_require__(/*! ../_arrayEach */ "./node_modules/lodash/_arrayEach.js"),
+  'isArray': __webpack_require__(/*! ../isArray */ "./node_modules/lodash/isArray.js"),
+  'isError': __webpack_require__(/*! ../isError */ "./node_modules/lodash/isError.js"),
+  'isFunction': __webpack_require__(/*! ../isFunction */ "./node_modules/lodash/isFunction.js"),
+  'isWeakMap': __webpack_require__(/*! ../isWeakMap */ "./node_modules/lodash/isWeakMap.js"),
+  'iteratee': __webpack_require__(/*! ../iteratee */ "./node_modules/lodash/iteratee.js"),
+  'keys': __webpack_require__(/*! ../_baseKeys */ "./node_modules/lodash/_baseKeys.js"),
+  'rearg': __webpack_require__(/*! ../rearg */ "./node_modules/lodash/rearg.js"),
+  'toInteger': __webpack_require__(/*! ../toInteger */ "./node_modules/lodash/toInteger.js"),
+  'toPath': __webpack_require__(/*! ../toPath */ "./node_modules/lodash/toPath.js")
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/fp/convert.js":
+/*!*******************************************!*\
+  !*** ./node_modules/lodash/fp/convert.js ***!
+  \*******************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var baseConvert = __webpack_require__(/*! ./_baseConvert */ "./node_modules/lodash/fp/_baseConvert.js"),
+    util = __webpack_require__(/*! ./_util */ "./node_modules/lodash/fp/_util.js");
+
+/**
+ * Converts `func` of `name` to an immutable auto-curried iteratee-first data-last
+ * version with conversion `options` applied. If `name` is an object its methods
+ * will be converted.
+ *
+ * @param {string} name The name of the function to wrap.
+ * @param {Function} [func] The function to wrap.
+ * @param {Object} [options] The options object. See `baseConvert` for more details.
+ * @returns {Function|Object} Returns the converted function or object.
+ */
+function convert(name, func, options) {
+  return baseConvert(util, name, func, options);
+}
+
+module.exports = convert;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/fp/memoize.js":
+/*!*******************************************!*\
+  !*** ./node_modules/lodash/fp/memoize.js ***!
+  \*******************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var convert = __webpack_require__(/*! ./convert */ "./node_modules/lodash/fp/convert.js"),
+    func = convert('memoize', __webpack_require__(/*! ../memoize */ "./node_modules/lodash/memoize.js"));
+
+func.placeholder = __webpack_require__(/*! ./placeholder */ "./node_modules/lodash/fp/placeholder.js");
+module.exports = func;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/fp/placeholder.js":
+/*!***********************************************!*\
+  !*** ./node_modules/lodash/fp/placeholder.js ***!
+  \***********************************************/
+/***/ ((module) => {
+
+/**
+ * The default argument placeholder value for methods.
+ *
+ * @type {Object}
+ */
+module.exports = {};
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/isError.js":
+/*!****************************************!*\
+  !*** ./node_modules/lodash/isError.js ***!
+  \****************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var baseGetTag = __webpack_require__(/*! ./_baseGetTag */ "./node_modules/lodash/_baseGetTag.js"),
+    isObjectLike = __webpack_require__(/*! ./isObjectLike */ "./node_modules/lodash/isObjectLike.js"),
+    isPlainObject = __webpack_require__(/*! ./isPlainObject */ "./node_modules/lodash/isPlainObject.js");
+
+/** `Object#toString` result references. */
+var domExcTag = '[object DOMException]',
+    errorTag = '[object Error]';
+
+/**
+ * Checks if `value` is an `Error`, `EvalError`, `RangeError`, `ReferenceError`,
+ * `SyntaxError`, `TypeError`, or `URIError` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an error object, else `false`.
+ * @example
+ *
+ * _.isError(new Error);
+ * // => true
+ *
+ * _.isError(Error);
+ * // => false
+ */
+function isError(value) {
+  if (!isObjectLike(value)) {
+    return false;
+  }
+  var tag = baseGetTag(value);
+  return tag == errorTag || tag == domExcTag ||
+    (typeof value.message == 'string' && typeof value.name == 'string' && !isPlainObject(value));
+}
+
+module.exports = isError;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/isWeakMap.js":
+/*!******************************************!*\
+  !*** ./node_modules/lodash/isWeakMap.js ***!
+  \******************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var getTag = __webpack_require__(/*! ./_getTag */ "./node_modules/lodash/_getTag.js"),
+    isObjectLike = __webpack_require__(/*! ./isObjectLike */ "./node_modules/lodash/isObjectLike.js");
+
+/** `Object#toString` result references. */
+var weakMapTag = '[object WeakMap]';
+
+/**
+ * Checks if `value` is classified as a `WeakMap` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.3.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a weak map, else `false`.
+ * @example
+ *
+ * _.isWeakMap(new WeakMap);
+ * // => true
+ *
+ * _.isWeakMap(new Map);
+ * // => false
+ */
+function isWeakMap(value) {
+  return isObjectLike(value) && getTag(value) == weakMapTag;
+}
+
+module.exports = isWeakMap;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/iteratee.js":
+/*!*****************************************!*\
+  !*** ./node_modules/lodash/iteratee.js ***!
+  \*****************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var baseClone = __webpack_require__(/*! ./_baseClone */ "./node_modules/lodash/_baseClone.js"),
+    baseIteratee = __webpack_require__(/*! ./_baseIteratee */ "./node_modules/lodash/_baseIteratee.js");
+
+/** Used to compose bitmasks for cloning. */
+var CLONE_DEEP_FLAG = 1;
+
+/**
+ * Creates a function that invokes `func` with the arguments of the created
+ * function. If `func` is a property name, the created function returns the
+ * property value for a given element. If `func` is an array or object, the
+ * created function returns `true` for elements that contain the equivalent
+ * source properties, otherwise it returns `false`.
+ *
+ * @static
+ * @since 4.0.0
+ * @memberOf _
+ * @category Util
+ * @param {*} [func=_.identity] The value to convert to a callback.
+ * @returns {Function} Returns the callback.
+ * @example
+ *
+ * var users = [
+ *   { 'user': 'barney', 'age': 36, 'active': true },
+ *   { 'user': 'fred',   'age': 40, 'active': false }
+ * ];
+ *
+ * // The `_.matches` iteratee shorthand.
+ * _.filter(users, _.iteratee({ 'user': 'barney', 'active': true }));
+ * // => [{ 'user': 'barney', 'age': 36, 'active': true }]
+ *
+ * // The `_.matchesProperty` iteratee shorthand.
+ * _.filter(users, _.iteratee(['user', 'fred']));
+ * // => [{ 'user': 'fred', 'age': 40 }]
+ *
+ * // The `_.property` iteratee shorthand.
+ * _.map(users, _.iteratee('user'));
+ * // => ['barney', 'fred']
+ *
+ * // Create custom iteratee shorthands.
+ * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {
+ *   return !_.isRegExp(func) ? iteratee(func) : function(string) {
+ *     return func.test(string);
+ *   };
+ * });
+ *
+ * _.filter(['abc', 'def'], /ef/);
+ * // => ['def']
+ */
+function iteratee(func) {
+  return baseIteratee(typeof func == 'function' ? func : baseClone(func, CLONE_DEEP_FLAG));
+}
+
+module.exports = iteratee;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/rearg.js":
+/*!**************************************!*\
+  !*** ./node_modules/lodash/rearg.js ***!
+  \**************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var createWrap = __webpack_require__(/*! ./_createWrap */ "./node_modules/lodash/_createWrap.js"),
+    flatRest = __webpack_require__(/*! ./_flatRest */ "./node_modules/lodash/_flatRest.js");
+
+/** Used to compose bitmasks for function metadata. */
+var WRAP_REARG_FLAG = 256;
+
+/**
+ * Creates a function that invokes `func` with arguments arranged according
+ * to the specified `indexes` where the argument value at the first index is
+ * provided as the first argument, the argument value at the second index is
+ * provided as the second argument, and so on.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category Function
+ * @param {Function} func The function to rearrange arguments for.
+ * @param {...(number|number[])} indexes The arranged argument indexes.
+ * @returns {Function} Returns the new function.
+ * @example
+ *
+ * var rearged = _.rearg(function(a, b, c) {
+ *   return [a, b, c];
+ * }, [2, 0, 1]);
+ *
+ * rearged('b', 'c', 'a')
+ * // => ['a', 'b', 'c']
+ */
+var rearg = flatRest(function(func, indexes) {
+  return createWrap(func, WRAP_REARG_FLAG, undefined, undefined, undefined, indexes);
+});
+
+module.exports = rearg;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/toFinite.js":
+/*!*****************************************!*\
+  !*** ./node_modules/lodash/toFinite.js ***!
+  \*****************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var toNumber = __webpack_require__(/*! ./toNumber */ "./node_modules/lodash/toNumber.js");
+
+/** Used as references for various `Number` constants. */
+var INFINITY = 1 / 0,
+    MAX_INTEGER = 1.7976931348623157e+308;
+
+/**
+ * Converts `value` to a finite number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.12.0
+ * @category Lang
+ * @param {*} value The value to convert.
+ * @returns {number} Returns the converted number.
+ * @example
+ *
+ * _.toFinite(3.2);
+ * // => 3.2
+ *
+ * _.toFinite(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toFinite(Infinity);
+ * // => 1.7976931348623157e+308
+ *
+ * _.toFinite('3.2');
+ * // => 3.2
+ */
+function toFinite(value) {
+  if (!value) {
+    return value === 0 ? value : 0;
+  }
+  value = toNumber(value);
+  if (value === INFINITY || value === -INFINITY) {
+    var sign = (value < 0 ? -1 : 1);
+    return sign * MAX_INTEGER;
+  }
+  return value === value ? value : 0;
+}
+
+module.exports = toFinite;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/toInteger.js":
+/*!******************************************!*\
+  !*** ./node_modules/lodash/toInteger.js ***!
+  \******************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var toFinite = __webpack_require__(/*! ./toFinite */ "./node_modules/lodash/toFinite.js");
+
+/**
+ * Converts `value` to an integer.
+ *
+ * **Note:** This method is loosely based on
+ * [`ToInteger`](http://www.ecma-international.org/ecma-262/7.0/#sec-tointeger).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to convert.
+ * @returns {number} Returns the converted integer.
+ * @example
+ *
+ * _.toInteger(3.2);
+ * // => 3
+ *
+ * _.toInteger(Number.MIN_VALUE);
+ * // => 0
+ *
+ * _.toInteger(Infinity);
+ * // => 1.7976931348623157e+308
+ *
+ * _.toInteger('3.2');
+ * // => 3
+ */
+function toInteger(value) {
+  var result = toFinite(value),
+      remainder = result % 1;
+
+  return result === result ? (remainder ? result - remainder : result) : 0;
+}
+
+module.exports = toInteger;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/toPath.js":
+/*!***************************************!*\
+  !*** ./node_modules/lodash/toPath.js ***!
+  \***************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var arrayMap = __webpack_require__(/*! ./_arrayMap */ "./node_modules/lodash/_arrayMap.js"),
+    copyArray = __webpack_require__(/*! ./_copyArray */ "./node_modules/lodash/_copyArray.js"),
+    isArray = __webpack_require__(/*! ./isArray */ "./node_modules/lodash/isArray.js"),
+    isSymbol = __webpack_require__(/*! ./isSymbol */ "./node_modules/lodash/isSymbol.js"),
+    stringToPath = __webpack_require__(/*! ./_stringToPath */ "./node_modules/lodash/_stringToPath.js"),
+    toKey = __webpack_require__(/*! ./_toKey */ "./node_modules/lodash/_toKey.js"),
+    toString = __webpack_require__(/*! ./toString */ "./node_modules/lodash/toString.js");
+
+/**
+ * Converts `value` to a property path array.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Util
+ * @param {*} value The value to convert.
+ * @returns {Array} Returns the new property path array.
+ * @example
+ *
+ * _.toPath('a.b.c');
+ * // => ['a', 'b', 'c']
+ *
+ * _.toPath('a[0].b.c');
+ * // => ['a', '0', 'b', 'c']
+ */
+function toPath(value) {
+  if (isArray(value)) {
+    return arrayMap(value, toKey);
+  }
+  return isSymbol(value) ? [value] : copyArray(stringToPath(toString(value)));
+}
+
+module.exports = toPath;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/wrapperLodash.js":
+/*!**********************************************!*\
+  !*** ./node_modules/lodash/wrapperLodash.js ***!
+  \**********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var LazyWrapper = __webpack_require__(/*! ./_LazyWrapper */ "./node_modules/lodash/_LazyWrapper.js"),
+    LodashWrapper = __webpack_require__(/*! ./_LodashWrapper */ "./node_modules/lodash/_LodashWrapper.js"),
+    baseLodash = __webpack_require__(/*! ./_baseLodash */ "./node_modules/lodash/_baseLodash.js"),
+    isArray = __webpack_require__(/*! ./isArray */ "./node_modules/lodash/isArray.js"),
+    isObjectLike = __webpack_require__(/*! ./isObjectLike */ "./node_modules/lodash/isObjectLike.js"),
+    wrapperClone = __webpack_require__(/*! ./_wrapperClone */ "./node_modules/lodash/_wrapperClone.js");
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Creates a `lodash` object which wraps `value` to enable implicit method
+ * chain sequences. Methods that operate on and return arrays, collections,
+ * and functions can be chained together. Methods that retrieve a single value
+ * or may return a primitive value will automatically end the chain sequence
+ * and return the unwrapped value. Otherwise, the value must be unwrapped
+ * with `_#value`.
+ *
+ * Explicit chain sequences, which must be unwrapped with `_#value`, may be
+ * enabled using `_.chain`.
+ *
+ * The execution of chained methods is lazy, that is, it's deferred until
+ * `_#value` is implicitly or explicitly called.
+ *
+ * Lazy evaluation allows several methods to support shortcut fusion.
+ * Shortcut fusion is an optimization to merge iteratee calls; this avoids
+ * the creation of intermediate arrays and can greatly reduce the number of
+ * iteratee executions. Sections of a chain sequence qualify for shortcut
+ * fusion if the section is applied to an array and iteratees accept only
+ * one argument. The heuristic for whether a section qualifies for shortcut
+ * fusion is subject to change.
+ *
+ * Chaining is supported in custom builds as long as the `_#value` method is
+ * directly or indirectly included in the build.
+ *
+ * In addition to lodash methods, wrappers have `Array` and `String` methods.
+ *
+ * The wrapper `Array` methods are:
+ * `concat`, `join`, `pop`, `push`, `shift`, `sort`, `splice`, and `unshift`
+ *
+ * The wrapper `String` methods are:
+ * `replace` and `split`
+ *
+ * The wrapper methods that support shortcut fusion are:
+ * `at`, `compact`, `drop`, `dropRight`, `dropWhile`, `filter`, `find`,
+ * `findLast`, `head`, `initial`, `last`, `map`, `reject`, `reverse`, `slice`,
+ * `tail`, `take`, `takeRight`, `takeRightWhile`, `takeWhile`, and `toArray`
+ *
+ * The chainable wrapper methods are:
+ * `after`, `ary`, `assign`, `assignIn`, `assignInWith`, `assignWith`, `at`,
+ * `before`, `bind`, `bindAll`, `bindKey`, `castArray`, `chain`, `chunk`,
+ * `commit`, `compact`, `concat`, `conforms`, `constant`, `countBy`, `create`,
+ * `curry`, `debounce`, `defaults`, `defaultsDeep`, `defer`, `delay`,
+ * `difference`, `differenceBy`, `differenceWith`, `drop`, `dropRight`,
+ * `dropRightWhile`, `dropWhile`, `extend`, `extendWith`, `fill`, `filter`,
+ * `flatMap`, `flatMapDeep`, `flatMapDepth`, `flatten`, `flattenDeep`,
+ * `flattenDepth`, `flip`, `flow`, `flowRight`, `fromPairs`, `functions`,
+ * `functionsIn`, `groupBy`, `initial`, `intersection`, `intersectionBy`,
+ * `intersectionWith`, `invert`, `invertBy`, `invokeMap`, `iteratee`, `keyBy`,
+ * `keys`, `keysIn`, `map`, `mapKeys`, `mapValues`, `matches`, `matchesProperty`,
+ * `memoize`, `merge`, `mergeWith`, `method`, `methodOf`, `mixin`, `negate`,
+ * `nthArg`, `omit`, `omitBy`, `once`, `orderBy`, `over`, `overArgs`,
+ * `overEvery`, `overSome`, `partial`, `partialRight`, `partition`, `pick`,
+ * `pickBy`, `plant`, `property`, `propertyOf`, `pull`, `pullAll`, `pullAllBy`,
+ * `pullAllWith`, `pullAt`, `push`, `range`, `rangeRight`, `rearg`, `reject`,
+ * `remove`, `rest`, `reverse`, `sampleSize`, `set`, `setWith`, `shuffle`,
+ * `slice`, `sort`, `sortBy`, `splice`, `spread`, `tail`, `take`, `takeRight`,
+ * `takeRightWhile`, `takeWhile`, `tap`, `throttle`, `thru`, `toArray`,
+ * `toPairs`, `toPairsIn`, `toPath`, `toPlainObject`, `transform`, `unary`,
+ * `union`, `unionBy`, `unionWith`, `uniq`, `uniqBy`, `uniqWith`, `unset`,
+ * `unshift`, `unzip`, `unzipWith`, `update`, `updateWith`, `values`,
+ * `valuesIn`, `without`, `wrap`, `xor`, `xorBy`, `xorWith`, `zip`,
+ * `zipObject`, `zipObjectDeep`, and `zipWith`
+ *
+ * The wrapper methods that are **not** chainable by default are:
+ * `add`, `attempt`, `camelCase`, `capitalize`, `ceil`, `clamp`, `clone`,
+ * `cloneDeep`, `cloneDeepWith`, `cloneWith`, `conformsTo`, `deburr`,
+ * `defaultTo`, `divide`, `each`, `eachRight`, `endsWith`, `eq`, `escape`,
+ * `escapeRegExp`, `every`, `find`, `findIndex`, `findKey`, `findLast`,
+ * `findLastIndex`, `findLastKey`, `first`, `floor`, `forEach`, `forEachRight`,
+ * `forIn`, `forInRight`, `forOwn`, `forOwnRight`, `get`, `gt`, `gte`, `has`,
+ * `hasIn`, `head`, `identity`, `includes`, `indexOf`, `inRange`, `invoke`,
+ * `isArguments`, `isArray`, `isArrayBuffer`, `isArrayLike`, `isArrayLikeObject`,
+ * `isBoolean`, `isBuffer`, `isDate`, `isElement`, `isEmpty`, `isEqual`,
+ * `isEqualWith`, `isError`, `isFinite`, `isFunction`, `isInteger`, `isLength`,
+ * `isMap`, `isMatch`, `isMatchWith`, `isNaN`, `isNative`, `isNil`, `isNull`,
+ * `isNumber`, `isObject`, `isObjectLike`, `isPlainObject`, `isRegExp`,
+ * `isSafeInteger`, `isSet`, `isString`, `isUndefined`, `isTypedArray`,
+ * `isWeakMap`, `isWeakSet`, `join`, `kebabCase`, `last`, `lastIndexOf`,
+ * `lowerCase`, `lowerFirst`, `lt`, `lte`, `max`, `maxBy`, `mean`, `meanBy`,
+ * `min`, `minBy`, `multiply`, `noConflict`, `noop`, `now`, `nth`, `pad`,
+ * `padEnd`, `padStart`, `parseInt`, `pop`, `random`, `reduce`, `reduceRight`,
+ * `repeat`, `result`, `round`, `runInContext`, `sample`, `shift`, `size`,
+ * `snakeCase`, `some`, `sortedIndex`, `sortedIndexBy`, `sortedLastIndex`,
+ * `sortedLastIndexBy`, `startCase`, `startsWith`, `stubArray`, `stubFalse`,
+ * `stubObject`, `stubString`, `stubTrue`, `subtract`, `sum`, `sumBy`,
+ * `template`, `times`, `toFinite`, `toInteger`, `toJSON`, `toLength`,
+ * `toLower`, `toNumber`, `toSafeInteger`, `toString`, `toUpper`, `trim`,
+ * `trimEnd`, `trimStart`, `truncate`, `unescape`, `uniqueId`, `upperCase`,
+ * `upperFirst`, `value`, and `words`
+ *
+ * @name _
+ * @constructor
+ * @category Seq
+ * @param {*} value The value to wrap in a `lodash` instance.
+ * @returns {Object} Returns the new `lodash` wrapper instance.
+ * @example
+ *
+ * function square(n) {
+ *   return n * n;
+ * }
+ *
+ * var wrapped = _([1, 2, 3]);
+ *
+ * // Returns an unwrapped value.
+ * wrapped.reduce(_.add);
+ * // => 6
+ *
+ * // Returns a wrapped value.
+ * var squares = wrapped.map(square);
+ *
+ * _.isArray(squares);
+ * // => false
+ *
+ * _.isArray(squares.value());
+ * // => true
+ */
+function lodash(value) {
+  if (isObjectLike(value) && !isArray(value) && !(value instanceof LazyWrapper)) {
+    if (value instanceof LodashWrapper) {
+      return value;
+    }
+    if (hasOwnProperty.call(value, '__wrapped__')) {
+      return wrapperClone(value);
+    }
+  }
+  return new LodashWrapper(value);
+}
+
+// Ensure wrappers are instances of `baseLodash`.
+lodash.prototype = baseLodash.prototype;
+lodash.prototype.constructor = lodash;
+
+module.exports = lodash;
+
+
+/***/ }),
+
+/***/ "./node_modules/@nextcloud/calendar-availability-vue/dist/assets/index-Ds7BWaqb.css":
+/*!******************************************************************************************!*\
+  !*** ./node_modules/@nextcloud/calendar-availability-vue/dist/assets/index-Ds7BWaqb.css ***!
+  \******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _css_loader_dist_cjs_js_index_Ds7BWaqb_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../css-loader/dist/cjs.js!./index-Ds7BWaqb.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/@nextcloud/calendar-availability-vue/dist/assets/index-Ds7BWaqb.css");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_css_loader_dist_cjs_js_index_Ds7BWaqb_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_index_Ds7BWaqb_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _css_loader_dist_cjs_js_index_Ds7BWaqb_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _css_loader_dist_cjs_js_index_Ds7BWaqb_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AbsenceForm.vue?vue&type=style&index=0&id=e2547430&lang=scss&scoped=true":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AbsenceForm.vue?vue&type=style&index=0&id=e2547430&lang=scss&scoped=true ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AbsenceForm_vue_vue_type_style_index_0_id_e2547430_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AbsenceForm.vue?vue&type=style&index=0&id=e2547430&lang=scss&scoped=true */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AbsenceForm.vue?vue&type=style&index=0&id=e2547430&lang=scss&scoped=true");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AbsenceForm_vue_vue_type_style_index_0_id_e2547430_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AbsenceForm_vue_vue_type_style_index_0_id_e2547430_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AbsenceForm_vue_vue_type_style_index_0_id_e2547430_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AbsenceForm_vue_vue_type_style_index_0_id_e2547430_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AvailabilityForm.vue?vue&type=style&index=0&id=55a42208&lang=scss&scoped=true":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AvailabilityForm.vue?vue&type=style&index=0&id=55a42208&lang=scss&scoped=true ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AvailabilityForm_vue_vue_type_style_index_0_id_55a42208_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AvailabilityForm.vue?vue&type=style&index=0&id=55a42208&lang=scss&scoped=true */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AvailabilityForm.vue?vue&type=style&index=0&id=55a42208&lang=scss&scoped=true");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AvailabilityForm_vue_vue_type_style_index_0_id_55a42208_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AvailabilityForm_vue_vue_type_style_index_0_id_55a42208_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AvailabilityForm_vue_vue_type_style_index_0_id_55a42208_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AvailabilityForm_vue_vue_type_style_index_0_id_55a42208_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./node_modules/uuid/dist/esm-browser/native.js":
+/*!******************************************************!*\
+  !*** ./node_modules/uuid/dist/esm-browser/native.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const randomUUID = typeof crypto !== 'undefined' && crypto.randomUUID && crypto.randomUUID.bind(crypto);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  randomUUID
+});
+
+/***/ }),
+
+/***/ "./node_modules/uuid/dist/esm-browser/regex.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/uuid/dist/esm-browser/regex.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i);
+
+/***/ }),
+
+/***/ "./node_modules/uuid/dist/esm-browser/rng.js":
+/*!***************************************************!*\
+  !*** ./node_modules/uuid/dist/esm-browser/rng.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ rng)
+/* harmony export */ });
+// Unique ID creation requires a high quality random # generator. In the browser we therefore
+// require the crypto API and do not support built-in fallback to lower quality random number
+// generators (like Math.random()).
+let getRandomValues;
+const rnds8 = new Uint8Array(16);
+function rng() {
+  // lazy load so that environments that need to polyfill have a chance to do so
+  if (!getRandomValues) {
+    // getRandomValues needs to be invoked in a context where "this" is a Crypto implementation.
+    getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto);
+
+    if (!getRandomValues) {
+      throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
+    }
+  }
+
+  return getRandomValues(rnds8);
+}
+
+/***/ }),
+
+/***/ "./node_modules/uuid/dist/esm-browser/stringify.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/uuid/dist/esm-browser/stringify.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   unsafeStringify: () => (/* binding */ unsafeStringify)
+/* harmony export */ });
+/* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./validate.js */ "./node_modules/uuid/dist/esm-browser/validate.js");
+
+/**
+ * Convert array of 16 byte values to UUID string format of the form:
+ * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+ */
+
+const byteToHex = [];
+
+for (let i = 0; i < 256; ++i) {
+  byteToHex.push((i + 0x100).toString(16).slice(1));
+}
+
+function unsafeStringify(arr, offset = 0) {
+  // Note: Be careful editing this code!  It's been tuned for performance
+  // and works in ways you may not expect. See https://github.com/uuidjs/uuid/pull/434
+  return byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + '-' + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + '-' + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + '-' + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + '-' + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]];
+}
+
+function stringify(arr, offset = 0) {
+  const uuid = unsafeStringify(arr, offset); // Consistency check for valid UUID.  If this throws, it's likely due to one
+  // of the following:
+  // - One or more input array values don't map to a hex octet (leading to
+  // "undefined" in the uuid)
+  // - Invalid input values for the RFC `version` or `variant` fields
+
+  if (!(0,_validate_js__WEBPACK_IMPORTED_MODULE_0__["default"])(uuid)) {
+    throw TypeError('Stringified UUID is invalid');
+  }
+
+  return uuid;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (stringify);
+
+/***/ }),
+
+/***/ "./node_modules/uuid/dist/esm-browser/v4.js":
+/*!**************************************************!*\
+  !*** ./node_modules/uuid/dist/esm-browser/v4.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _native_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./native.js */ "./node_modules/uuid/dist/esm-browser/native.js");
+/* harmony import */ var _rng_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./rng.js */ "./node_modules/uuid/dist/esm-browser/rng.js");
+/* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./stringify.js */ "./node_modules/uuid/dist/esm-browser/stringify.js");
+
+
+
+
+function v4(options, buf, offset) {
+  if (_native_js__WEBPACK_IMPORTED_MODULE_0__["default"].randomUUID && !buf && !options) {
+    return _native_js__WEBPACK_IMPORTED_MODULE_0__["default"].randomUUID();
+  }
+
+  options = options || {};
+  const rnds = options.random || (options.rng || _rng_js__WEBPACK_IMPORTED_MODULE_1__["default"])(); // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
+
+  rnds[6] = rnds[6] & 0x0f | 0x40;
+  rnds[8] = rnds[8] & 0x3f | 0x80; // Copy bytes to buffer, if provided
+
+  if (buf) {
+    offset = offset || 0;
+
+    for (let i = 0; i < 16; ++i) {
+      buf[offset + i] = rnds[i];
+    }
+
+    return buf;
+  }
+
+  return (0,_stringify_js__WEBPACK_IMPORTED_MODULE_2__.unsafeStringify)(rnds);
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (v4);
+
+/***/ }),
+
+/***/ "./node_modules/uuid/dist/esm-browser/validate.js":
+/*!********************************************************!*\
+  !*** ./node_modules/uuid/dist/esm-browser/validate.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _regex_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./regex.js */ "./node_modules/uuid/dist/esm-browser/regex.js");
+
+
+function validate(uuid) {
+  return typeof uuid === 'string' && _regex_js__WEBPACK_IMPORTED_MODULE_0__["default"].test(uuid);
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (validate);
+
+/***/ }),
+
+/***/ "./apps/dav/src/components/AbsenceForm.vue":
+/*!*************************************************!*\
+  !*** ./apps/dav/src/components/AbsenceForm.vue ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _AbsenceForm_vue_vue_type_template_id_e2547430_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbsenceForm.vue?vue&type=template&id=e2547430&scoped=true */ "./apps/dav/src/components/AbsenceForm.vue?vue&type=template&id=e2547430&scoped=true");
+/* harmony import */ var _AbsenceForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AbsenceForm.vue?vue&type=script&lang=js */ "./apps/dav/src/components/AbsenceForm.vue?vue&type=script&lang=js");
+/* harmony import */ var _AbsenceForm_vue_vue_type_style_index_0_id_e2547430_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AbsenceForm.vue?vue&type=style&index=0&id=e2547430&lang=scss&scoped=true */ "./apps/dav/src/components/AbsenceForm.vue?vue&type=style&index=0&id=e2547430&lang=scss&scoped=true");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _AbsenceForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AbsenceForm_vue_vue_type_template_id_e2547430_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render,
+  _AbsenceForm_vue_vue_type_template_id_e2547430_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "e2547430",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "apps/dav/src/components/AbsenceForm.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/dav/src/components/AvailabilityForm.vue":
+/*!******************************************************!*\
+  !*** ./apps/dav/src/components/AvailabilityForm.vue ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _AvailabilityForm_vue_vue_type_template_id_55a42208_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AvailabilityForm.vue?vue&type=template&id=55a42208&scoped=true */ "./apps/dav/src/components/AvailabilityForm.vue?vue&type=template&id=55a42208&scoped=true");
+/* harmony import */ var _AvailabilityForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AvailabilityForm.vue?vue&type=script&lang=js */ "./apps/dav/src/components/AvailabilityForm.vue?vue&type=script&lang=js");
+/* harmony import */ var _AvailabilityForm_vue_vue_type_style_index_0_id_55a42208_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AvailabilityForm.vue?vue&type=style&index=0&id=55a42208&lang=scss&scoped=true */ "./apps/dav/src/components/AvailabilityForm.vue?vue&type=style&index=0&id=55a42208&lang=scss&scoped=true");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _AvailabilityForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AvailabilityForm_vue_vue_type_template_id_55a42208_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render,
+  _AvailabilityForm_vue_vue_type_template_id_55a42208_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "55a42208",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "apps/dav/src/components/AvailabilityForm.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/dav/src/views/Availability.vue":
+/*!*********************************************!*\
+  !*** ./apps/dav/src/views/Availability.vue ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Availability_vue_vue_type_template_id_aad5ff48__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Availability.vue?vue&type=template&id=aad5ff48 */ "./apps/dav/src/views/Availability.vue?vue&type=template&id=aad5ff48");
+/* harmony import */ var _Availability_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Availability.vue?vue&type=script&lang=js */ "./apps/dav/src/views/Availability.vue?vue&type=script&lang=js");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Availability_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Availability_vue_vue_type_template_id_aad5ff48__WEBPACK_IMPORTED_MODULE_0__.render,
+  _Availability_vue_vue_type_template_id_aad5ff48__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "apps/dav/src/views/Availability.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/dav/src/components/AbsenceForm.vue?vue&type=script&lang=js":
+/*!*************************************************************************!*\
+  !*** ./apps/dav/src/components/AbsenceForm.vue?vue&type=script&lang=js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AbsenceForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AbsenceForm.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AbsenceForm.vue?vue&type=script&lang=js");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AbsenceForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/dav/src/components/AvailabilityForm.vue?vue&type=script&lang=js":
+/*!******************************************************************************!*\
+  !*** ./apps/dav/src/components/AvailabilityForm.vue?vue&type=script&lang=js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AvailabilityForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AvailabilityForm.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AvailabilityForm.vue?vue&type=script&lang=js");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AvailabilityForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/dav/src/views/Availability.vue?vue&type=script&lang=js":
+/*!*********************************************************************!*\
+  !*** ./apps/dav/src/views/Availability.vue?vue&type=script&lang=js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Availability_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Availability.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/views/Availability.vue?vue&type=script&lang=js");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Availability_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/dav/src/components/AbsenceForm.vue?vue&type=template&id=e2547430&scoped=true":
+/*!*******************************************************************************************!*\
+  !*** ./apps/dav/src/components/AbsenceForm.vue?vue&type=template&id=e2547430&scoped=true ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AbsenceForm_vue_vue_type_template_id_e2547430_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AbsenceForm_vue_vue_type_template_id_e2547430_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AbsenceForm_vue_vue_type_template_id_e2547430_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AbsenceForm.vue?vue&type=template&id=e2547430&scoped=true */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AbsenceForm.vue?vue&type=template&id=e2547430&scoped=true");
+
+
+/***/ }),
+
+/***/ "./apps/dav/src/components/AvailabilityForm.vue?vue&type=template&id=55a42208&scoped=true":
+/*!************************************************************************************************!*\
+  !*** ./apps/dav/src/components/AvailabilityForm.vue?vue&type=template&id=55a42208&scoped=true ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AvailabilityForm_vue_vue_type_template_id_55a42208_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AvailabilityForm_vue_vue_type_template_id_55a42208_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AvailabilityForm_vue_vue_type_template_id_55a42208_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AvailabilityForm.vue?vue&type=template&id=55a42208&scoped=true */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AvailabilityForm.vue?vue&type=template&id=55a42208&scoped=true");
+
+
+/***/ }),
+
+/***/ "./apps/dav/src/views/Availability.vue?vue&type=template&id=aad5ff48":
+/*!***************************************************************************!*\
+  !*** ./apps/dav/src/views/Availability.vue?vue&type=template&id=aad5ff48 ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Availability_vue_vue_type_template_id_aad5ff48__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Availability_vue_vue_type_template_id_aad5ff48__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Availability_vue_vue_type_template_id_aad5ff48__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Availability.vue?vue&type=template&id=aad5ff48 */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/views/Availability.vue?vue&type=template&id=aad5ff48");
+
+
+/***/ }),
+
+/***/ "./apps/dav/src/components/AbsenceForm.vue?vue&type=style&index=0&id=e2547430&lang=scss&scoped=true":
+/*!**********************************************************************************************************!*\
+  !*** ./apps/dav/src/components/AbsenceForm.vue?vue&type=style&index=0&id=e2547430&lang=scss&scoped=true ***!
+  \**********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AbsenceForm_vue_vue_type_style_index_0_id_e2547430_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AbsenceForm.vue?vue&type=style&index=0&id=e2547430&lang=scss&scoped=true */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AbsenceForm.vue?vue&type=style&index=0&id=e2547430&lang=scss&scoped=true");
+
+
+/***/ }),
+
+/***/ "./apps/dav/src/components/AvailabilityForm.vue?vue&type=style&index=0&id=55a42208&lang=scss&scoped=true":
+/*!***************************************************************************************************************!*\
+  !*** ./apps/dav/src/components/AvailabilityForm.vue?vue&type=style&index=0&id=55a42208&lang=scss&scoped=true ***!
+  \***************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AvailabilityForm_vue_vue_type_style_index_0_id_55a42208_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AvailabilityForm.vue?vue&type=style&index=0&id=55a42208&lang=scss&scoped=true */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dav/src/components/AvailabilityForm.vue?vue&type=style&index=0&id=55a42208&lang=scss&scoped=true");
+
+
+/***/ }),
+
+/***/ "?4f7e":
+/*!********************************!*\
+  !*** ./util.inspect (ignored) ***!
+  \********************************/
+/***/ (() => {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ "?3e83":
+/*!**********************!*\
+  !*** util (ignored) ***!
+  \**********************/
+/***/ (() => {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ "?19e6":
+/*!**********************!*\
+  !*** util (ignored) ***!
+  \**********************/
+/***/ (() => {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ "?0cc0":
+/*!**********************!*\
+  !*** util (ignored) ***!
+  \**********************/
+/***/ (() => {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ "?aeb7":
+/*!**********************!*\
+  !*** util (ignored) ***!
+  \**********************/
+/***/ (() => {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ "./node_modules/@nextcloud/calendar-availability-vue/dist/index.mjs":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@nextcloud/calendar-availability-vue/dist/index.mjs ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   CalendarAvailability: () => (/* binding */ CalendarAvailability),
+/* harmony export */   getEmptySlots: () => (/* binding */ getEmptySlots),
+/* harmony export */   slotsToVavailability: () => (/* binding */ slotsToVavailability),
+/* harmony export */   vavailabilityToSlots: () => (/* binding */ vavailabilityToSlots)
+/* harmony export */ });
+/* harmony import */ var _assets_index_Ds7BWaqb_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./assets/index-Ds7BWaqb.css */ "./node_modules/@nextcloud/calendar-availability-vue/dist/assets/index-Ds7BWaqb.css");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcDateTimePickerNative_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcDateTimePickerNative.js */ "./node_modules/@nextcloud/vue/dist/Components/NcDateTimePickerNative.mjs");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcButton.js */ "./node_modules/@nextcloud/vue/dist/Components/NcButton.mjs");
+/* harmony import */ var vue_material_design_icons_Delete_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-material-design-icons/Delete.vue */ "./node_modules/vue-material-design-icons/Delete.vue");
+/* harmony import */ var vue_material_design_icons_Plus_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-material-design-icons/Plus.vue */ "./node_modules/vue-material-design-icons/Plus.vue");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var icalzone__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! icalzone */ "./node_modules/icalzone/dist/index.js");
+/* harmony import */ var ical_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ical.js */ "./node_modules/ical.js/dist/ical.min.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.mjs");
+
+
+
+
+
+
+
+
+
+
+function normalizeComponent(scriptExports, render2, staticRenderFns, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
+  var options = typeof scriptExports === "function" ? scriptExports.options : scriptExports;
+  if (render2) {
+    options.render = render2;
+    options.staticRenderFns = staticRenderFns;
+    options._compiled = true;
+  }
+  if (functionalTemplate) {
+    options.functional = true;
+  }
+  if (scopeId) {
+    options._scopeId = "data-v-" + scopeId;
+  }
+  var hook;
+  if (moduleIdentifier) {
+    hook = function(context) {
+      context = context || // cached call
+      this.$vnode && this.$vnode.ssrContext || // stateful
+      this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext;
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== "undefined") {
+        context = __VUE_SSR_CONTEXT__;
+      }
+      if (injectStyles) {
+        injectStyles.call(this, context);
+      }
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier);
+      }
+    };
+    options._ssrRegister = hook;
+  } else if (injectStyles) {
+    hook = shadowMode ? function() {
+      injectStyles.call(
+        this,
+        (options.functional ? this.parent : this).$root.$options.shadowRoot
+      );
+    } : injectStyles;
+  }
+  if (hook) {
+    if (options.functional) {
+      options._injectStyles = hook;
+      var originalRender = options.render;
+      options.render = function renderWithStyleInjection(h, context) {
+        hook.call(context);
+        return originalRender(h, context);
+      };
+    } else {
+      var existing = options.beforeCreate;
+      options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
+    }
+  }
+  return {
+    exports: scriptExports,
+    options
+  };
+}
+const _sfc_main = {
+  name: "CalendarAvailability",
+  components: {
+    NcDateTimePickerNative: _nextcloud_vue_dist_Components_NcDateTimePickerNative_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+    NcButton: _nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_2__["default"],
+    IconAdd: vue_material_design_icons_Plus_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    IconDelete: vue_material_design_icons_Delete_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+  },
+  props: {
+    slots: {
+      type: Object,
+      required: true
+    },
+    loading: {
+      type: Boolean,
+      default: false
+    },
+    l10nTo: {
+      type: String,
+      required: true
+    },
+    l10nDeleteSlot: {
+      type: String,
+      required: true
+    },
+    l10nEmptyDay: {
+      type: String,
+      required: true
+    },
+    l10nAddSlot: {
+      type: String,
+      required: true
+    },
+    l10nWeekDayListLabel: {
+      type: String,
+      default: "Weekdays"
+    },
+    l10nMonday: {
+      type: String,
+      required: true
+    },
+    l10nTuesday: {
+      type: String,
+      required: true
+    },
+    l10nWednesday: {
+      type: String,
+      required: true
+    },
+    l10nThursday: {
+      type: String,
+      required: true
+    },
+    l10nFriday: {
+      type: String,
+      required: true
+    },
+    l10nSaturday: {
+      type: String,
+      required: true
+    },
+    l10nSunday: {
+      type: String,
+      required: true
+    },
+    l10nStartPickerLabel: {
+      type: Function,
+      default: (dayName) => "Pick a start time for ".concat(dayName)
+    },
+    l10nEndPickerLabel: {
+      type: Function,
+      default: (dayName) => "Pick a end time for ".concat(dayName)
+    }
+  },
+  data() {
+    return {
+      internalSlots: this.slotsToInternalData(this.slots)
+    };
+  },
+  watch: {
+    slots() {
+      this.internalSlots = this.slotsToInternalData(this.slots);
+    }
+  },
+  methods: {
+    timeStampSlotsToDateObjectSlots(slots) {
+      return slots.map((slot) => ({
+        start: new Date(slot.start * 1e3),
+        end: new Date(slot.end * 1e3)
+      }));
+    },
+    slotsToInternalData() {
+      const moToSa = [
+        {
+          id: "MO",
+          displayName: this.l10nMonday,
+          slots: this.timeStampSlotsToDateObjectSlots(this.slots.MO)
+        },
+        {
+          id: "TU",
+          displayName: this.l10nTuesday,
+          slots: this.timeStampSlotsToDateObjectSlots(this.slots.TU)
+        },
+        {
+          id: "WE",
+          displayName: this.l10nWednesday,
+          slots: this.timeStampSlotsToDateObjectSlots(this.slots.WE)
+        },
+        {
+          id: "TH",
+          displayName: this.l10nThursday,
+          slots: this.timeStampSlotsToDateObjectSlots(this.slots.TH)
+        },
+        {
+          id: "FR",
+          displayName: this.l10nFriday,
+          slots: this.timeStampSlotsToDateObjectSlots(this.slots.FR)
+        },
+        {
+          id: "SA",
+          displayName: this.l10nSaturday,
+          slots: this.timeStampSlotsToDateObjectSlots(this.slots.SA)
+        }
+      ];
+      const sunday = {
+        id: "SU",
+        displayName: this.l10nSunday,
+        slots: this.timeStampSlotsToDateObjectSlots(this.slots.SU)
+      };
+      return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.getFirstDay)() === 1 ? [...moToSa, sunday] : [sunday, ...moToSa];
+    },
+    internalDataToSlots() {
+      const converted = {};
+      this.internalSlots.forEach(({ id, slots }) => {
+        converted[id] = slots.map((slot) => ({
+          start: Math.round(slot.start.getTime() / 1e3),
+          end: Math.round(slot.end.getTime() / 1e3)
+        }));
+      });
+      return converted;
+    },
+    addSlot(day) {
+      const start = /* @__PURE__ */ new Date();
+      start.setHours(9, 0, 0, 0);
+      const end = /* @__PURE__ */ new Date();
+      end.setHours(17, 0, 0, 0);
+      day.slots.push({
+        start,
+        end
+      });
+      this.onChangeSlots();
+    },
+    removeSlot(day, idx) {
+      day.slots.splice(idx, 1);
+      this.onChangeSlots();
+    },
+    onChangeSlots() {
+      this.$emit("update:slots", this.internalDataToSlots());
+    }
+  }
+};
+var _sfc_render = function render() {
+  var _vm = this, _c = _vm._self._c;
+  return _c("ul", { staticClass: "week-day-container", attrs: { "aria-label": _vm.l10nWeekDayListLabel } }, [_vm._l(_vm.internalSlots, function(day) {
+    return [_c("li", { key: "day-label-".concat(day.id), staticClass: "day-container" }, [_c("div", { staticClass: "label-weekday" }, [_c("span", { attrs: { "id": day.displayName + "-label" } }, [_vm._v(_vm._s(day.displayName))])]), _c("div", { key: "day-slots-".concat(day.id), staticClass: "availability-slots" }, [_c("div", { staticClass: "availability-slot-group" }, [_vm._l(day.slots, function(slot, idx) {
+      var _a, _b;
+      return [_c("div", { key: "slot-".concat(day.id, "-").concat(idx), staticClass: "availability-slot" }, [_c("NcDateTimePickerNative", { staticClass: "start-date", attrs: { "id": "start-".concat(day.id, "-").concat(idx), "type": "time", "label": (_a = _vm.l10nStartPickerLabel) == null ? void 0 : _a.call(_vm, day.displayName), "hide-label": true }, on: { "change": _vm.onChangeSlots }, model: { value: slot.start, callback: function($$v) {
+        _vm.$set(slot, "start", $$v);
+      }, expression: "slot.start" } }), _c("span", { staticClass: "to-text" }, [_vm._v(" " + _vm._s(_vm.l10nTo) + " ")]), _c("NcDateTimePickerNative", { staticClass: "end-date", attrs: { "id": "end-".concat(day.id, "-").concat(idx), "type": "time", "label": (_b = _vm.l10nEndPickerLabel) == null ? void 0 : _b.call(_vm, day.displayName), "hide-label": true }, on: { "change": _vm.onChangeSlots }, model: { value: slot.end, callback: function($$v) {
+        _vm.$set(slot, "end", $$v);
+      }, expression: "slot.end" } }), _c("NcButton", { key: "slot-".concat(day.id, "-").concat(idx, "-btn"), staticClass: "button", attrs: { "type": "tertiary", "aria-label": _vm.l10nDeleteSlot, "title": _vm.l10nDeleteSlot }, on: { "click": function($event) {
+        return _vm.removeSlot(day, idx);
+      } }, scopedSlots: _vm._u([{ key: "icon", fn: function() {
+        return [_c("IconDelete", { attrs: { "size": 20 } })];
+      }, proxy: true }], null, true) })], 1)];
+    })], 2), day.slots.length === 0 ? _c("span", { staticClass: "empty-content" }, [_vm._v(" " + _vm._s(_vm.l10nEmptyDay) + " ")]) : _vm._e()]), _c("NcButton", { key: "add-slot-".concat(day.id), staticClass: "add-another button", attrs: { "disabled": _vm.loading, "title": _vm.l10nAddSlot, "aria-label": _vm.l10nAddSlot }, on: { "click": function($event) {
+      return _vm.addSlot(day);
+    } }, scopedSlots: _vm._u([{ key: "icon", fn: function() {
+      return [_c("IconAdd", { attrs: { "size": 20 } })];
+    }, proxy: true }], null, true) })], 1)];
+  })], 2);
+};
+var _sfc_staticRenderFns = [];
+var __component__ = /* @__PURE__ */ normalizeComponent(
+  _sfc_main,
+  _sfc_render,
+  _sfc_staticRenderFns,
+  false,
+  null,
+  "ac7f4eb9",
+  null,
+  null
+);
+const CalendarAvailability = __component__.exports;
+/*
+ * @copyright Copyright (c) 2022 Richard Steinmetz <richard@steinmetz.cloud>
+ *
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+const logger = (0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_8__.getLoggerBuilder)().detectUser().setApp("@nextcloud/calendar-availability-vue").build();
+function getEmptySlots() {
+  return {
+    MO: [],
+    TU: [],
+    WE: [],
+    TH: [],
+    FR: [],
+    SA: [],
+    SU: []
+  };
+}
+function vavailabilityToSlots(vavailability) {
+  const parsedIcal = ical_js__WEBPACK_IMPORTED_MODULE_7__["default"].parse(vavailability);
+  const vcalendarComp = new ical_js__WEBPACK_IMPORTED_MODULE_7__["default"].Component(parsedIcal);
+  const vavailabilityComp = vcalendarComp.getFirstSubcomponent("vavailability");
+  let timezoneId;
+  const timezoneComp = vcalendarComp.getFirstSubcomponent("vtimezone");
+  if (timezoneComp) {
+    timezoneId = timezoneComp.getFirstProperty("tzid").getFirstValue();
+  }
+  const availableComps = vavailabilityComp.getAllSubcomponents("available");
+  const slots = getEmptySlots();
+  availableComps.forEach((availableComp) => {
+    const start = availableComp.getFirstProperty("dtstart").getFirstValue().toJSDate();
+    const end = availableComp.getFirstProperty("dtend").getFirstValue().toJSDate();
+    const rrule = availableComp.getFirstProperty("rrule");
+    if (rrule.getFirstValue().freq !== "WEEKLY") {
+      logger.warn("rrule not supported", {
+        rrule: rrule.toICALString()
+      });
+      return;
+    }
+    rrule.getFirstValue().getComponent("BYDAY").forEach((day) => {
+      slots[day].push({
+        start: start.getTime() / 1e3,
+        end: end.getTime() / 1e3
+      });
+    });
+  });
+  return {
+    slots,
+    timezoneId
+  };
+}
+function slotsToVavailability(slots, timezoneId) {
+  const vcalendarComp = new ical_js__WEBPACK_IMPORTED_MODULE_7__["default"].Component("vcalendar");
+  vcalendarComp.addPropertyWithValue("prodid", "Nextcloud DAV app");
+  const predefinedTimezoneIcal = (0,icalzone__WEBPACK_IMPORTED_MODULE_6__.getZoneString)(timezoneId);
+  if (predefinedTimezoneIcal) {
+    const timezoneComp = new ical_js__WEBPACK_IMPORTED_MODULE_7__["default"].Component(ical_js__WEBPACK_IMPORTED_MODULE_7__["default"].parse(predefinedTimezoneIcal));
+    vcalendarComp.addSubcomponent(timezoneComp);
+  } else {
+    const timezoneComp = new ical_js__WEBPACK_IMPORTED_MODULE_7__["default"].Component("vtimezone");
+    timezoneComp.addPropertyWithValue("tzid", timezoneId);
+    vcalendarComp.addSubcomponent(timezoneComp);
+  }
+  const vavailabilityComp = new ical_js__WEBPACK_IMPORTED_MODULE_7__["default"].Component("vavailability");
+  const deduplicated = slots.reduce((acc, slot) => {
+    var _a;
+    const start = new Date(slot.start * 1e3);
+    const end = new Date(slot.end * 1e3);
+    const key = [
+      start.getHours(),
+      start.getMinutes(),
+      end.getHours(),
+      end.getMinutes()
+    ].join("-");
+    return {
+      ...acc,
+      [key]: [...(_a = acc[key]) != null ? _a : [], slot]
+    };
+  }, {});
+  Object.keys(deduplicated).map((key) => {
+    const slots2 = deduplicated[key];
+    const start = slots2[0].start;
+    const end = slots2[0].end;
+    const days = slots2.map((slot) => slot.day).filter((day, index, self) => self.indexOf(day) === index);
+    const availableComp = new ical_js__WEBPACK_IMPORTED_MODULE_7__["default"].Component("available");
+    const startTimeProp = availableComp.addPropertyWithValue("dtstart", ical_js__WEBPACK_IMPORTED_MODULE_7__["default"].Time.fromJSDate(new Date(start * 1e3), false));
+    startTimeProp.setParameter("tzid", timezoneId);
+    const endTimeProp = availableComp.addPropertyWithValue("dtend", ical_js__WEBPACK_IMPORTED_MODULE_7__["default"].Time.fromJSDate(new Date(end * 1e3), false));
+    endTimeProp.setParameter("tzid", timezoneId);
+    availableComp.addPropertyWithValue("uid", (0,uuid__WEBPACK_IMPORTED_MODULE_9__["default"])());
+    availableComp.addPropertyWithValue("rrule", {
+      freq: "WEEKLY",
+      byday: days
+    });
+    return availableComp;
+  }).map(vavailabilityComp.addSubcomponent.bind(vavailabilityComp));
+  vcalendarComp.addSubcomponent(vavailabilityComp);
+  return vcalendarComp.toString();
+}
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@nextcloud/vue/dist/Components/NcTimezonePicker.mjs":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@nextcloud/vue/dist/Components/NcTimezonePicker.mjs ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _chunks_NcTimezonePicker_DdVLB1Bv_mjs__WEBPACK_IMPORTED_MODULE_0__.N)
+/* harmony export */ });
+/* harmony import */ var _chunks_NcTimezonePicker_DdVLB1Bv_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../chunks/NcTimezonePicker-DdVLB1Bv.mjs */ "./node_modules/@nextcloud/vue/dist/chunks/NcTimezonePicker-DdVLB1Bv.mjs");
+
+
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		__webpack_require__.f = {};
+/******/ 		// This file contains only the entry chunk.
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		__webpack_require__.e = (chunkId) => {
+/******/ 			return Promise.all(Object.keys(__webpack_require__.f).reduce((promises, key) => {
+/******/ 				__webpack_require__.f[key](chunkId, promises);
+/******/ 				return promises;
+/******/ 			}, []));
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/get javascript chunk filename */
+/******/ 	(() => {
+/******/ 		// This function allow to reference async chunks
+/******/ 		__webpack_require__.u = (chunkId) => {
+/******/ 			// return url for filenames based on template
+/******/ 			return "" + chunkId + "-" + chunkId + ".js?v=" + {"node_modules_nextcloud_dialogs_dist_chunks_index-CWnkpNim_mjs":"4b496e25fdc85bcc8255","data_image_svg_xml_3c_21--_20-_20SPDX-FileCopyrightText_202020_20Google_20Inc_20-_20SPDX-Lice-019035":"f005f04e196c41e04984"}[chunkId] + "";
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/load script */
+/******/ 	(() => {
+/******/ 		var inProgress = {};
+/******/ 		var dataWebpackPrefix = "nextcloud:";
+/******/ 		// loadScript function to load a script via script tag
+/******/ 		__webpack_require__.l = (url, done, key, chunkId) => {
+/******/ 			if(inProgress[url]) { inProgress[url].push(done); return; }
+/******/ 			var script, needAttach;
+/******/ 			if(key !== undefined) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				for(var i = 0; i < scripts.length; i++) {
+/******/ 					var s = scripts[i];
+/******/ 					if(s.getAttribute("src") == url || s.getAttribute("data-webpack") == dataWebpackPrefix + key) { script = s; break; }
+/******/ 				}
+/******/ 			}
+/******/ 			if(!script) {
+/******/ 				needAttach = true;
+/******/ 				script = document.createElement('script');
+/******/ 		
+/******/ 				script.charset = 'utf-8';
+/******/ 				script.timeout = 120;
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.setAttribute("data-webpack", dataWebpackPrefix + key);
+/******/ 		
+/******/ 				script.src = url;
+/******/ 			}
+/******/ 			inProgress[url] = [done];
+/******/ 			var onScriptComplete = (prev, event) => {
+/******/ 				// avoid mem leaks in IE.
+/******/ 				script.onerror = script.onload = null;
+/******/ 				clearTimeout(timeout);
+/******/ 				var doneFns = inProgress[url];
+/******/ 				delete inProgress[url];
+/******/ 				script.parentNode && script.parentNode.removeChild(script);
+/******/ 				doneFns && doneFns.forEach((fn) => (fn(event)));
+/******/ 				if(prev) return prev(event);
+/******/ 			}
+/******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
+/******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
+/******/ 			script.onload = onScriptComplete.bind(null, script.onload);
+/******/ 			needAttach && document.head.appendChild(script);
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT')
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && (!scriptUrl || !/^http(s?):/.test(scriptUrl))) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"dav-settings-personal-availability": 0
+/******/ 		};
+/******/ 		
+/******/ 		__webpack_require__.f.j = (chunkId, promises) => {
+/******/ 				// JSONP chunk loading for javascript
+/******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
+/******/ 				if(installedChunkData !== 0) { // 0 means "already installed".
+/******/ 		
+/******/ 					// a Promise means "currently loading".
+/******/ 					if(installedChunkData) {
+/******/ 						promises.push(installedChunkData[2]);
+/******/ 					} else {
+/******/ 						if(true) { // all chunks have JS
+/******/ 							// setup Promise in chunk cache
+/******/ 							var promise = new Promise((resolve, reject) => (installedChunkData = installedChunks[chunkId] = [resolve, reject]));
+/******/ 							promises.push(installedChunkData[2] = promise);
+/******/ 		
+/******/ 							// start chunk loading
+/******/ 							var url = __webpack_require__.p + __webpack_require__.u(chunkId);
+/******/ 							// create error before stack unwound to get useful stacktrace later
+/******/ 							var error = new Error();
+/******/ 							var loadingEnded = (event) => {
+/******/ 								if(__webpack_require__.o(installedChunks, chunkId)) {
+/******/ 									installedChunkData = installedChunks[chunkId];
+/******/ 									if(installedChunkData !== 0) installedChunks[chunkId] = undefined;
+/******/ 									if(installedChunkData) {
+/******/ 										var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 										var realSrc = event && event.target && event.target.src;
+/******/ 										error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 										error.name = 'ChunkLoadError';
+/******/ 										error.type = errorType;
+/******/ 										error.request = realSrc;
+/******/ 										installedChunkData[1](error);
+/******/ 									}
+/******/ 								}
+/******/ 							};
+/******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
+/******/ 						}
+/******/ 					}
+/******/ 				}
+/******/ 		};
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./apps/dav/src/settings-personal-availability.js")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=dav-settings-personal-availability.js.map?v=132a1d1bdc6dc1e08106
