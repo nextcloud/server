@@ -96,7 +96,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testUserExistsNoBackends() {
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 
 		$this->assertFalse($manager->userExists('foo'));
 	}
@@ -430,7 +430,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCreateUserNoBackends() {
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 
 		$this->assertFalse($manager->createUser('foo', 'bar'));
 	}
@@ -498,7 +498,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCountUsersNoBackend() {
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher);
+		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 
 		$result = $manager->countUsers();
 		$this->assertTrue(is_array($result));
