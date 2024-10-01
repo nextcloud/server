@@ -38,6 +38,21 @@ if (getenv('OBJECT_STORE') === 's3') {
 			'use_path_style' => true
 		]
 	];
+} elseif (getenv('OBJECT_STORE') === 's3-multibucket') {
+	$CONFIG['objectstore_multibucket'] = [
+		'class' => 'OC\\Files\\ObjectStore\\S3',
+		'arguments' => [
+			'bucket' => 'nextcloud',
+			'autocreate' => true,
+			'key' => getenv('OBJECT_STORE_KEY') ?: 'nextcloud',
+			'secret' => getenv('OBJECT_STORE_SECRET') ?: 'nextcloud',
+			'hostname' => getenv('OBJECT_STORE_HOST') ?: 'localhost',
+			'port' => 9000,
+			'use_ssl' => false,
+			// required for some non amazon s3 implementations
+			'use_path_style' => true
+		]
+	];
 } elseif (getenv('OBJECT_STORE') === 'azure') {
 	$CONFIG['objectstore'] = [
 		'class' => 'OC\\Files\\ObjectStore\\Azure',
