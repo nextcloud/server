@@ -9,7 +9,6 @@
     "Cannot create sub-admins for admin group" : "Nun se puen crear soalministradores pal grupu d'alministradores",
     "No permissions to promote sub-admins" : "Nun hai nengún permisu p'ascender a soalministradores",
     "Invalid password value" : "El valor de la contraseña ye inválidu",
-    "To send a password link to the user an email address is required." : "Ríquese una direición de corréu pa unviar l'enllaz de la contraseña.",
     "Required email address was not provided" : "Nun se fornió la direición de corréu electrónicu riquida",
     "Invalid quota value: %1$s" : "El valor de la cuota ye inválidu: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "El valor de la cuota ye inválidu. %1$s supera la cuota máxima.",
@@ -36,6 +35,7 @@
     "Provisioning API" : "API d'aprovisionamientu",
     "This application enables a set of APIs that external systems can use to manage accounts, groups and apps." : "Esta aplicación activa un conxuntu d'APIs que los sistemes esternos puen usar pa xestionar cuentes grupos y aplicaciones.",
     "Logged in user must be an administrator or have authorization to edit this setting." : "L'usuariu qu'anició la sesión ha ser alministrador o tener autorización pa editar esta opción.",
-    "This application enables a set of APIs that external systems can use to manage users, groups and apps." : "Esta aplicación activa un conxuntu d'APIs que los sistemes esternos puen usar pa xestionar usuarios, grupos y aplicaciones."
+    "This application enables a set of APIs that external systems can use to manage users, groups and apps." : "Esta aplicación activa un conxuntu d'APIs que los sistemes esternos puen usar pa xestionar usuarios, grupos y aplicaciones.",
+    "To send a password link to the user an email address is required." : "Ríquese una direición de corréu pa unviar l'enllaz de la contraseña."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
