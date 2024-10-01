@@ -20,9 +20,7 @@
 						class="groups-enable__checkbox checkbox"
 						@change="setGroupLimit"
 					/>
-					<label :for="`groups_enable_${app.id}`">{{
-						t("settings", "Limit to groups")
-					}}</label>
+					<label :for="`groups_enable_${app.id}`">{{ t('settings', 'Limit to groups') }}</label>
 					<input type="hidden"
 						class="group_select"
 						:title="t('settings', 'All')"
@@ -30,7 +28,7 @@
 					/>
 					<br />
 					<label for="limitToGroups">
-						<span>{{ t("settings", "Limit app usage to groups") }}</span>
+						<span>{{ t('settings', 'Limit app usage to groups') }}</span>
 					</label>
 					<NcSelect v-if="isLimitedToGroups(app)"
 						v-model="appGroups"
@@ -43,16 +41,14 @@
 						:close-on-select="false"
 						@search="searchGroup"
 					>
-						<span slot="noResult">{{ t("settings", "No results") }}</span>
+						<span slot="noResult">{{ t('settings', 'No results') }}</span>
 					</NcSelect>
 				</div>
 				<div class="app-details__actions-manage">
 					<input v-if="app.update"
 						class="update primary"
 						type="button"
-						:value="
-							t('settings', 'Update to {version}', { version: app.update })
-						"
+						:value="t('settings', 'Update to {version}', { version: app.update })"
 						:disabled="installing || isLoading"
 						@click="update(app.id)"
 					/>
@@ -93,28 +89,13 @@
 
 			<ul class="app-details__dependencies">
 				<li v-if="app.missingMinOwnCloudVersion">
-					{{
-						t(
-							"settings",
-							"This app has no minimum Nextcloud version assigned. This will be an error in the future."
-						)
-					}}
+					{{ t('settings', 'This app has no minimum Nextcloud version assigned. This will be an error in the future.') }}
 				</li>
 				<li v-if="app.missingMaxOwnCloudVersion">
-					{{
-						t(
-							"settings",
-							"This app has no maximum Nextcloud version assigned. This will be an error in the future."
-						)
-					}}
+					{{ t('settings', 'This app has no maximum Nextcloud version assigned. This will be an error in the future.') }}
 				</li>
 				<li v-if="!app.canInstall">
-					{{
-						t(
-							"settings",
-							"This app cannot be installed because the following dependencies are not fulfilled:"
-						)
-					}}
+					{{ t('settings', 'This app cannot be installed because the following dependencies are not fulfilled:') }}
 					<ul class="missing-dependencies">
 						<li v-for="(dep, index) in app.missingDependencies" :key="index">
 							{{ dep }}
@@ -125,7 +106,7 @@
 
 			<div v-if="lastModified" class="app-details__section">
 				<h4>
-					{{ t("settings", "Latest updated") }}
+					{{ t('settings', 'Latest updated') }}
 				</h4>
 				<NcDateTime :timestamp="lastModified" />
 			</div>
@@ -141,7 +122,7 @@
 
 			<div class="app-details__section">
 				<h4>
-					{{ t("settings", "Categories") }}
+					{{ t('settings', 'Categories') }}
 				</h4>
 				<p>
 					{{ appCategories }}
@@ -149,7 +130,7 @@
 			</div>
 
 			<div v-if="externalResources.length > 0" class="app-details__section">
-				<h4>{{ t("settings", "Resources") }}</h4>
+				<h4>{{ t('settings', 'Resources') }}</h4>
 				<ul class="app-details__documentation"
 					:aria-label="t('settings', 'Documentation')"
 				>
@@ -166,7 +147,7 @@
 			</div>
 
 			<div class="app-details__section">
-				<h4>{{ t("settings", "Interact") }}</h4>
+				<h4>{{ t('settings', 'Interact') }}</h4>
 				<div class="app-details__interact">
 					<NcButton :disabled="!app.bugs"
 						:href="app.bugs ?? '#'"
@@ -211,29 +192,29 @@
 </template>
 
 <script>
-import NcAppSidebarTab from "@nextcloud/vue/dist/Components/NcAppSidebarTab.js";
-import NcButton from "@nextcloud/vue/dist/Components/NcButton.js";
-import NcDateTime from "@nextcloud/vue/dist/Components/NcDateTime.js";
-import NcIconSvgWrapper from "@nextcloud/vue/dist/Components/NcIconSvgWrapper.js";
-import NcSelect from "@nextcloud/vue/dist/Components/NcSelect.js";
+import NcAppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab.js';
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js';
+import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js';
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js';
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js';
 
-import AppManagement from "../../mixins/AppManagement.js";
+import AppManagement from '../../mixins/AppManagement.js';
 import {
 	mdiBug,
 	mdiFeatureSearch,
 	mdiStar,
 	mdiTextBox,
 	mdiTooltipQuestion,
-} from "@mdi/js";
-import { useAppsStore } from "../../store/apps-store";
-import sortedUniq from "lodash/sortedUniq.js";
-import uniq from "lodash/uniq.js";
-import debounce from "lodash/debounce.js";
-import axios from "@nextcloud/axios";
-import { generateOcsUrl } from "@nextcloud/router";
+} from '@mdi/js';
+import { useAppsStore } from '../../store/apps-store';
+import sortedUniq from 'lodash/sortedUniq.js';
+import uniq from 'lodash/uniq.js';
+import debounce from 'lodash/debounce.js';
+import axios from '@nextcloud/axios';
+import { generateOcsUrl } from '@nextcloud/router';
 
 export default {
-	name: "AppDetailsTab",
+	name: 'AppDetailsTab',
 
 	components: {
 		NcAppSidebarTab,
@@ -252,7 +233,7 @@ export default {
 	},
 
 	setup() {
-		const store = useAppsStore();
+		const store = useAppsStore()
 
 		return {
 			store,
@@ -290,29 +271,29 @@ export default {
 		appAuthors() {
 			console.warn(this.app);
 			if (!this.app) {
-				return "";
+				return ''
 			}
 
 			const authorName = (xmlNode) => {
-				if (xmlNode["@value"]) {
+				if (xmlNode['@value']) {
 					// Complex node (with email or homepage attribute)
-					return xmlNode["@value"];
+					return xmlNode['@value']
 				}
 				// Simple text node
-				return xmlNode;
+				return xmlNode
 			};
 
 			const authors = Array.isArray(this.app.author)
 				? this.app.author.map(authorName)
-				: [authorName(this.app.author)];
+				: [authorName(this.app.author)]
 
 			return authors
-				.sort((a, b) => a.split(" ").at(-1).localeCompare(b.split(" ").at(-1)))
-				.join(", ");
+				.sort((a, b) => a.split(' ').at(-1).localeCompare(b.split(' ').at(-1)))
+				.join(', ')
 		},
 
 		appstoreUrl() {
-			return `https://apps.nextcloud.com/apps/${this.app.id}`;
+			return `https://apps.nextcloud.com/apps/${this.app.id}`
 		},
 
 		/**
@@ -322,83 +303,83 @@ export default {
 			const resources = [];
 			if (!this.app.internal) {
 				resources.push({
-					id: "appstore",
+					id: 'appstore',
 					href: this.appstoreUrl,
-					label: t("settings", "View in store"),
-				});
+					label: t('settings', 'View in store'),
+				})
 			}
 			if (this.app.website) {
 				resources.push({
-					id: "website",
+					id: 'website',
 					href: this.app.website,
-					label: t("settings", "Visit website"),
-				});
+					label: t('settings', 'Visit website'),
+				})
 			}
 			if (this.app.documentation) {
 				if (this.app.documentation.user) {
 					resources.push({
-						id: "doc-user",
+						id: 'doc-user',
 						href: this.app.documentation.user,
-						label: t("settings", "Usage documentation"),
-					});
+						label: t('settings', 'Usage documentation'),
+					})
 				}
 				if (this.app.documentation.admin) {
 					resources.push({
-						id: "doc-admin",
+						id: 'doc-admin',
 						href: this.app.documentation.admin,
-						label: t("settings", "Admin documentation"),
-					});
+						label: t('settings', 'Admin documentation'),
+					})
 				}
 				if (this.app.documentation.developer) {
 					resources.push({
-						id: "doc-developer",
+						id: 'doc-developer',
 						href: this.app.documentation.developer,
-						label: t("settings", "Developer documentation"),
-					});
+						label: t('settings', 'Developer documentation'),
+					})
 				}
 			}
-			return resources;
+			return resources
 		},
 
 		appCategories() {
 			return [this.app.category]
 				.flat()
 				.map((id) => this.store.getCategoryById(id)?.displayName ?? id)
-				.join(", ");
+				.join(', ')
 		},
 
 		rateAppUrl() {
-			return `${this.appstoreUrl}#comments`;
+			return `${this.appstoreUrl}#comments`
 		},
 		appGroups: {
 			get() {
-				return this.appGroupsSelected;
+				return this.appGroupsSelected
 			},
 			set(val) {
 				this.appGroupsOptions = this.groups.filter(
 					(group) => !val.includes(group)
-				);
-				this.appGroupsSelected = val;
-				this.$store.dispatch("enableApp", { appId: this.app.id, groups: val });
+				)
+				this.appGroupsSelected = val
+				this.$store.dispatch("enableApp", { appId: this.app.id, groups: val })
 			},
 		},
 	},
 	mounted() {
 		if (this.app.groups.length > 0) {
-			this.groupCheckedAppsData = true;
-			this.appGroupsSelected = this.app.groups;
+			this.groupCheckedAppsData = true
+			this.appGroupsSelected = this.app.groups
 		}
 
 		// Populate the groups with a first set so the dropdown is not empty
 		// when opening the page the first time
-		this.searchGroup("");
+		this.searchGroup('')
 	},
 	methods: {
 		searchGroup: debounce(function (query) {
-			this.loadingGroups = true;
+			this.loadingGroups = true
 			axios
 				.get(
-					generateOcsUrl("cloud/groups?offset=0&search={query}&limit=20", {
+					generateOcsUrl('cloud/groups?offset=0&search={query}&limit=20', {
 						query,
 					})
 				)
@@ -409,13 +390,13 @@ export default {
 					if (this.appGroupsOptions.length === 0) {
 						this.appGroupsOptions = this.groups.filter(
 							(group) => !this.app.groups.includes(group)
-						);
+						)
 					}
 				})
-				.catch((err) => console.error("could not search groups", err))
+				.catch((err) => console.error('could not search groups', err))
 				.then(() => {
 					this.loadingGroups = false;
-				});
+				})
 		}, 500),
 	},
 };
