@@ -10,7 +10,7 @@ on:
       - master
       - stable*
     paths:
-      - '.github'
+      - '.github/workflows/static-code-analysis.yml'
       - '**.php'
 
 concurrency:
