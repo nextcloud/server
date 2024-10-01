@@ -26,7 +26,6 @@
  */
 namespace OCA\DAV\Tests\unit\CalDAV\WebcalCaching;
 
-use GuzzleHttp\HandlerStack;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\WebcalCaching\RefreshWebcalService;
 use OCP\Http\Client\IClient;
@@ -120,9 +119,7 @@ class RefreshWebcalServiceTest extends TestCase {
 
 		$client->expects($this->once())
 			->method('get')
-			->with('https://foo.bar/bla2', $this->callback(function ($obj) {
-				return $obj['allow_redirects']['redirects'] === 10 && $obj['handler'] instanceof HandlerStack;
-			}))
+			->with('https://foo.bar/bla2')
 			->willReturn($response);
 
 		$response->expects($this->once())
@@ -188,9 +185,7 @@ class RefreshWebcalServiceTest extends TestCase {
 
 		$client->expects($this->once())
 			->method('get')
-			->with('https://foo.bar/bla2', $this->callback(function ($obj) {
-				return $obj['allow_redirects']['redirects'] === 10 && $obj['handler'] instanceof HandlerStack;
-			}))
+			->with('https://foo.bar/bla2')
 			->willReturn($response);
 
 		$response->expects($this->once())
@@ -212,7 +207,7 @@ class RefreshWebcalServiceTest extends TestCase {
 
 		$noInstanceException = new NoInstancesException("can't add calendar object");
 		$this->caldavBackend->expects($this->once())
-			->method("createCalendarObject")
+			->method('createCalendarObject')
 			->willThrowException($noInstanceException);
 
 		$this->logger->expects($this->once())
@@ -265,9 +260,7 @@ class RefreshWebcalServiceTest extends TestCase {
 
 		$client->expects($this->once())
 			->method('get')
-			->with('https://foo.bar/bla2', $this->callback(function ($obj) {
-				return $obj['allow_redirects']['redirects'] === 10 && $obj['handler'] instanceof HandlerStack;
-			}))
+			->with('https://foo.bar/bla2')
 			->willReturn($response);
 
 		$response->expects($this->once())
@@ -289,7 +282,7 @@ class RefreshWebcalServiceTest extends TestCase {
 
 		$badRequestException = new BadRequest("can't add reach calendar url");
 		$this->caldavBackend->expects($this->once())
-			->method("createCalendarObject")
+			->method('createCalendarObject')
 			->willThrowException($badRequestException);
 
 		$this->logger->expects($this->once())
@@ -367,7 +360,7 @@ class RefreshWebcalServiceTest extends TestCase {
 
 		$this->logger->expects($this->once())
 			->method('warning')
-			->with("Subscription 42 was not refreshed because it violates local access rules", ['exception' => $localServerException]);
+			->with('Subscription 42 was not refreshed because it violates local access rules', ['exception' => $localServerException]);
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
@@ -411,15 +404,11 @@ class RefreshWebcalServiceTest extends TestCase {
 			]);
 
 		$client = $this->createMock(IClient::class);
-		$this->clientService->expects($this->once())
-			->method('newClient')
-			->with()
-			->willReturn($client);
+		$this->clientService->expects($this->never())
+			->method('newClient');
 
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('dav', 'webcalAllowLocalAccess', 'no')
-			->willReturn('no');
+		$this->config->expects($this->never())
+			->method('getAppValue');
 
 		$client->expects($this->never())
 			->method('get');
