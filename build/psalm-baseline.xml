@@ -1976,7 +1976,6 @@
   </file>
   <file src="lib/private/Files/Node/Folder.php">
     <LessSpecificReturnStatement>
-      <code><![CDATA[$this->root->get($this->getFullPath($path))]]></code>
       <code><![CDATA[array_map(function (FileInfo $file) {
 			return $this->createNode($file->getPath(), $file);
 		}, $files)]]></code>
@@ -1985,7 +1984,6 @@
       <code><![CDATA[$node]]></code>
     </MoreSpecificImplementedParamType>
     <MoreSpecificReturnType>
-      <code><![CDATA[\OC\Files\Node\Node]]></code>
       <code><![CDATA[\OC\Files\Node\Node[]]]></code>
     </MoreSpecificReturnType>
   </file>
@@ -2046,7 +2044,6 @@
   <file src="lib/private/Files/Node/Root.php">
     <LessSpecificReturnStatement>
       <code><![CDATA[$folders]]></code>
-      <code><![CDATA[$this->createNode($fullPath, $fileInfo, false)]]></code>
       <code><![CDATA[$this->mountManager->findByNumericId($numericId)]]></code>
       <code><![CDATA[$this->mountManager->findByStorageId($storageId)]]></code>
       <code><![CDATA[$this->mountManager->findIn($mountPoint)]]></code>
@@ -2054,7 +2051,6 @@
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
       <code><![CDATA[MountPoint[]]]></code>
-      <code><![CDATA[Node]]></code>
       <code><![CDATA[\OC\Files\Mount\MountPoint[]]]></code>
       <code><![CDATA[\OC\Files\Mount\MountPoint[]]]></code>
       <code><![CDATA[\OC\User\User]]></code>
@@ -2763,16 +2759,6 @@
       <code><![CDATA[$appId === null]]></code>
       <code><![CDATA[$appId === null]]></code>
     </TypeDoesNotContainNull>
-  </file>
-  <file src="lib/private/legacy/OC_Files.php">
-    <RedundantCondition>
-      <code><![CDATA[$getType === self::ZIP_DIR]]></code>
-      <code><![CDATA[$getType === self::ZIP_DIR]]></code>
-    </RedundantCondition>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[get]]></code>
-      <code><![CDATA[get]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/legacy/OC_Helper.php">
     <InvalidArrayOffset>

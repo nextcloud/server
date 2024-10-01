@@ -1623,7 +1623,7 @@ class UsersControllerTest extends TestCase {
 			->with($userAccount);
 
 		$this->expectException(OCSException::class);
-		$this->expectExceptionCode(102);
+		$this->expectExceptionCode(101);
 		$this->api->editUser('UserToEdit', 'additional_mail', 'demo@nextcloud.com')->getData();
 	}
 
@@ -1682,13 +1682,13 @@ class UsersControllerTest extends TestCase {
 			->with($userAccount);
 
 		$this->expectException(OCSException::class);
-		$this->expectExceptionCode(102);
+		$this->expectExceptionCode(101);
 		$this->api->editUser('UserToEdit', 'additional_mail', 'demo1@nextcloud.com')->getData();
 	}
 
 	public function testEditUserRegularUserSelfEditChangeEmailInvalid(): void {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
-		$this->expectExceptionCode(102);
+		$this->expectExceptionCode(101);
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
@@ -1922,7 +1922,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testEditUserRegularUserSelfEditChangeQuota(): void {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
-		$this->expectExceptionCode(103);
+		$this->expectExceptionCode(113);
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
@@ -2009,7 +2009,7 @@ class UsersControllerTest extends TestCase {
 	public function testEditUserAdminUserSelfEditChangeInvalidQuota(): void {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
 		$this->expectExceptionMessage('Invalid quota value: ABC');
-		$this->expectExceptionCode(102);
+		$this->expectExceptionCode(101);
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser

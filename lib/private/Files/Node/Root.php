@@ -171,12 +171,6 @@ class Root extends Folder implements IRootFolder {
 		$this->mountManager->remove($mount);
 	}
 
-	/**
-	 * @param string $path
-	 * @return Node
-	 * @throws \OCP\Files\NotPermittedException
-	 * @throws \OCP\Files\NotFoundException
-	 */
 	public function get($path) {
 		$path = $this->normalizePath($path);
 		if ($this->isValidPath($path)) {

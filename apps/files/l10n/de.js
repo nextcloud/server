@@ -208,8 +208,6 @@ OC.L10N.register(
     "Edit online" : "Online bearbeiten",
     "Failed to redirect to client" : "Umleitung zum Client fehlgeschlagen",
     "Edit locally" : "Lokal bearbeiten",
-    "Destination is not a folder" : "Ziel ist kein Ordner",
-    "This file/folder is already in that directory" : "Diese Datei oder Ordner ist bereits in diesem Verzeichnis vorhanden",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Eine Datei oder ein Ordner kann nicht auf sich selbst oder in einen Unterordner von sich selbst verschoben werden.",
     "(copy)" : "(kopieren)",
     "(copy %n)" : "(%n kopieren)",
@@ -275,6 +273,7 @@ OC.L10N.register(
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\" ist ein reservierter Name und für Dateinamen nicht zulässig.",
     "\"{extension}\" is not an allowed filetype." : "\"{extension}\" ist kein zulässiger Dateityp.",
     "Filenames must not end with \"{extension}\"." : "Dateinamen dürfen nicht mit \"{extension}\" enden.",
+    "List of favorite files and folders." : "Liste der favorisierten Ordner und Dateien.",
     "No favorites yet" : "Noch keine Favoriten vorhanden",
     "Files and folders you mark as favorite will show up here" : "Dateien und Ordner, die als Favoriten markiert werden, erscheinen hier",
     "All files" : "Alle Dateien",
@@ -386,6 +385,8 @@ OC.L10N.register(
     "Storage informations" : "Speicherinformationen",
     "Open the files app settings" : "Einstellungen der Dateien-App öffnen",
     "You might not have have permissions to view it, ask the sender to share it" : "Möglicherweise hast du nicht die Berechtigung zur Anzeige. Bitte den Absender, die Datei freizugeben.",
+    "Destination is not a folder" : "Ziel ist kein Ordner",
+    "This file/folder is already in that directory" : "Diese Datei oder Ordner ist bereits in diesem Verzeichnis vorhanden",
     "The files is locked" : "Die Datei ist gesperrt",
     "Create new templates folder" : "Neuen Vorlagenordner erstellen",
     "List of favorites files and folders." : "Liste der favorisierten Ordner und Dateien",
@@ -393,6 +394,9 @@ OC.L10N.register(
     "Text file" : "Textdatei",
     "New text file.txt" : "Neue Textdatei file.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Direktlink wurde kopiert (funktioniert nur für Personen, die Zugriff auf diese Datei/Ordner haben)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Direktlink kopieren (funktioniert nur für Personen, die Zugriff auf diese Datei/Ordner haben)"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Direktlink kopieren (funktioniert nur für Personen, die Zugriff auf diese Datei/Ordner haben)",
+    "Favored" : "Favorisiert",
+    "Favor" : "Favorisieren",
+    "Not favored" : "Nicht favorisiert"
 },
 "nplurals=2; plural=(n != 1);");

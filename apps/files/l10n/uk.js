@@ -208,8 +208,6 @@ OC.L10N.register(
     "Edit online" : "Редагувати в онлайні",
     "Failed to redirect to client" : "Не вдалося перенаправити на клієнта",
     "Edit locally" : "Редагувати локально",
-    "Destination is not a folder" : "Місце призначення не є каталогом",
-    "This file/folder is already in that directory" : "Такий файл чи каталог вже присутні в цьому каталозі",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Неможливо перемістити файл чи каталог до самого себе або у цей саме підкаталог",
     "(copy)" : "(копія)",
     "(copy %n)" : "(копія %n)",
@@ -275,6 +273,7 @@ OC.L10N.register(
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\" є зарезервованим ім'ям і не дозволяється у іменах файлів.",
     "\"{extension}\" is not an allowed filetype." : "\"{extension}\" не є дозволеним типом файлів.",
     "Filenames must not end with \"{extension}\"." : "Імена файлів не мають закінчуватися на \"{extension}\".",
+    "List of favorite files and folders." : "Список файлів та каталогів із зірочкою.",
     "No favorites yet" : "Поки немає нічого, позначеного зірочкою",
     "Files and folders you mark as favorite will show up here" : "Файли та каталоги із зірочкою з’являться тут",
     "All files" : "Усі файли",
@@ -386,6 +385,8 @@ OC.L10N.register(
     "Storage informations" : "Інформація про сховище",
     "Open the files app settings" : "Перейти до налаштувань застосунку файлів",
     "You might not have have permissions to view it, ask the sender to share it" : "Ймовірно у вас відсутні права на перегляд. Попросіть відправника поділитися доступом.",
+    "Destination is not a folder" : "Місце призначення не є каталогом",
+    "This file/folder is already in that directory" : "Такий файл чи каталог вже присутні в цьому каталозі",
     "The files is locked" : "Файл заблоковано",
     "Create new templates folder" : "Створіть новий каталог для шаблонів",
     "List of favorites files and folders." : "Список файлів та каталогів із зірочкою.",
@@ -393,6 +394,9 @@ OC.L10N.register(
     "Text file" : "Текстовий файл",
     "New text file.txt" : "Новий текстовий файл.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Пряме посилання було скопійовано (дійсне лише для користувачів, які мають відповідні права доступу)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Копіювати пряме посилання (дійсне лише для користувачів, які мають відповідні права доступу)"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Копіювати пряме посилання (дійсне лише для користувачів, які мають відповідні права доступу)",
+    "Favored" : "Із зірочкою",
+    "Favor" : "Додати зірочку",
+    "Not favored" : "Без зірочки"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");
