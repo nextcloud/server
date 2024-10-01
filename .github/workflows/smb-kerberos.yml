@@ -1,20 +1,17 @@
 name: Samba Kerberos SSO
 on:
-  push:
-    branches:
-      - master
-      - stable*
-    paths:
-      - 'apps/files_external/**'
-      - '.github/workflows/smb-kerberos.yml'
   pull_request:
     paths:
       - 'apps/files_external/**'
       - '.github/workflows/smb-kerberos.yml'
 
+concurrency:
+  group: smb-kerberos-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   smb-kerberos-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
@@ -22,21 +19,30 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@v3
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           submodules: true
+      - name: Checkout user_saml
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        with:
+          repository: nextcloud/user_saml
+          path: apps/user_saml
+          ref: stable-5.2
       - name: Pull images
         run: |
-          docker pull icewind1991/samba-krb-test-dc
-          docker pull icewind1991/samba-krb-test-apache
-          docker pull icewind1991/samba-krb-test-client
+          docker pull ghcr.io/icewind1991/samba-krb-test-dc
+          docker pull ghcr.io/icewind1991/samba-krb-test-apache
+          docker pull ghcr.io/icewind1991/samba-krb-test-client
+          docker tag ghcr.io/icewind1991/samba-krb-test-dc icewind1991/samba-krb-test-dc
+          docker tag ghcr.io/icewind1991/samba-krb-test-apache icewind1991/samba-krb-test-apache
+          docker tag ghcr.io/icewind1991/samba-krb-test-client icewind1991/samba-krb-test-client
       - name: Setup AD-DC
         run: |
-          cp apps/files_external/tests/*.sh .
           mkdir data
           sudo chown -R 33 data apps config
-          DC_IP=$(./start-dc.sh)
-          ./start-apache.sh $DC_IP $PWD
+          DC_IP=$(apps/files_external/tests/start-dc.sh)
+          sleep 1
+          apps/files_external/tests/start-apache.sh $DC_IP $PWD
           echo "DC_IP=$DC_IP" >> $GITHUB_ENV
       - name: Set up Nextcloud
         run: |
@@ -61,9 +67,9 @@ jobs:
           chmod 0777 /tmp/shared/cookies
 
           echo "SAML login"
-          ./client-cmd.sh ${{ env.DC_IP }} curl -c /shared/cookies/jar -s --negotiate -u testuser@DOMAIN.TEST: --delegation always http://httpd.domain.test/index.php/apps/user_saml/saml/login
+          apps/files_external/tests/client-cmd.sh ${{ env.DC_IP }} curl -c /shared/cookies/jar -s --negotiate -u testuser@DOMAIN.TEST: --delegation always http://httpd.domain.test/index.php/apps/user_saml/saml/login
           echo "Check we are logged in"
-          CONTENT=$(./client-cmd.sh ${{ env.DC_IP }} curl -b /shared/cookies/jar -s --negotiate -u testuser@DOMAIN.TEST: --delegation always http://httpd.domain.test/remote.php/webdav/smb/test.txt)
+          CONTENT=$(apps/files_external/tests/client-cmd.sh ${{ env.DC_IP }} curl -b /shared/cookies/jar -s --negotiate -u testuser@DOMAIN.TEST: --delegation always http://httpd.domain.test/remote.php/webdav/smb/test.txt)
           CONTENT=$(echo $CONTENT | head -n 1 | tr -d '[:space:]')
           [[ $CONTENT == "testfile" ]]
       - name: Show logs
@@ -71,4 +77,5 @@ jobs:
         run: |
           docker exec --user 33 apache ./occ log:file
           FILEPATH=$(docker exec --user 33 apache ./occ log:file | grep "Log file:" | cut -d' ' -f3)
+          echo "$FILEPATH:"
           docker exec --user 33 apache cat $FILEPATH
