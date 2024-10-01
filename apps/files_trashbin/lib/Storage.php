@@ -48,7 +48,7 @@ class Storage extends Wrapper {
 		parent::__construct($parameters);
 	}
 
-	public function unlink($path): bool {
+	public function unlink(string $path): bool {
 		if ($this->trashEnabled) {
 			try {
 				return $this->doDelete($path, 'unlink');
@@ -65,7 +65,7 @@ class Storage extends Wrapper {
 		}
 	}
 
-	public function rmdir($path): bool {
+	public function rmdir(string $path): bool {
 		if ($this->trashEnabled) {
 			return $this->doDelete($path, 'rmdir');
 		} else {
@@ -76,11 +76,8 @@ class Storage extends Wrapper {
 	/**
 	 * check if it is a file located in data/user/files only files in the
 	 * 'files' directory should be moved to the trash
-	 *
-	 * @param $path
-	 * @return bool
 	 */
-	protected function shouldMoveToTrash($path): bool {
+	protected function shouldMoveToTrash(string $path): bool {
 		$normalized = Filesystem::normalizePath($this->mountPoint . '/' . $path);
 		$parts = explode('/', $normalized);
 		if (count($parts) < 4 || strpos($normalized, '/appdata_') === 0) {
@@ -130,7 +127,7 @@ class Storage extends Wrapper {
 	 *
 	 * @return bool true if the operation succeeded, false otherwise
 	 */
-	private function doDelete($path, $method): bool {
+	private function doDelete(string $path, string $method): bool {
 		if (
 			!\OC::$server->getAppManager()->isEnabledForUser('files_trashbin')
 			|| (pathinfo($path, PATHINFO_EXTENSION) === 'part')
@@ -181,7 +178,7 @@ class Storage extends Wrapper {
 		return $this->mountPoint;
 	}
 
-	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath): bool {
+	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		$sourceIsTrashbin = $sourceStorage->instanceOfStorage(Storage::class);
 		try {
 			// the fallback for moving between storage involves a copy+delete
