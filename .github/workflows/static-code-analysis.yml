@@ -4,6 +4,14 @@ name: Psalm static code analysis
 
 on:
   pull_request:
+  push:
+    branches:
+      - main
+      - master
+      - stable*
+    paths:
+      - '.github'
+      - '**.php'
 
 concurrency:
   group: static-code-analysis-${{ github.head_ref || github.run_id }}
@@ -13,7 +21,7 @@ jobs:
   static-code-analysis:
     runs-on: ubuntu-latest
 
-    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
 
     steps:
       - name: Checkout
@@ -42,6 +50,8 @@ jobs:
 
   static-code-analysis-security:
     runs-on: ubuntu-latest
+
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
     steps:
       - name: Checkout code
@@ -74,6 +84,8 @@ jobs:
 
   static-code-analysis-ocp:
     runs-on: ubuntu-latest
+
+    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
 
     steps:
       - name: Checkout
