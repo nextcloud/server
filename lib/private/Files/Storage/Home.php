@@ -10,6 +10,7 @@ namespace OC\Files\Storage;
 use OC\Files\Cache\HomePropagator;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IPropagator;
+use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 
 /**
@@ -44,7 +45,7 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 		return $this->id;
 	}
 
-	public function getCache($path = '', $storage = null): ICache {
+	public function getCache(string $path = '', ?IStorage $storage = null): ICache {
 		if (!$storage) {
 			$storage = $this;
 		}
@@ -54,7 +55,7 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 		return $this->cache;
 	}
 
-	public function getPropagator($storage = null): IPropagator {
+	public function getPropagator(?IStorage $storage = null): IPropagator {
 		if (!$storage) {
 			$storage = $this;
 		}
@@ -69,7 +70,7 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 		return $this->user;
 	}
 
-	public function getOwner($path): string|false {
+	public function getOwner(string $path): string|false {
 		return $this->user->getUID();
 	}
 }

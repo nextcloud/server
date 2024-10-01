@@ -20,119 +20,119 @@ class NullStorage extends Common {
 		return 'null';
 	}
 
-	public function mkdir($path): never {
+	public function mkdir(string $path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function rmdir($path): never {
+	public function rmdir(string $path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function opendir($path): IteratorDirectory {
+	public function opendir(string $path): IteratorDirectory {
 		return new IteratorDirectory([]);
 	}
 
-	public function is_dir($path): bool {
+	public function is_dir(string $path): bool {
 		return $path === '';
 	}
 
-	public function is_file($path): bool {
+	public function is_file(string $path): bool {
 		return false;
 	}
 
-	public function stat($path): never {
+	public function stat(string $path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function filetype($path): string|false {
+	public function filetype(string $path): string|false {
 		return ($path === '') ? 'dir' : false;
 	}
 
-	public function filesize($path): never {
+	public function filesize(string $path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function isCreatable($path): bool {
+	public function isCreatable(string $path): bool {
 		return false;
 	}
 
-	public function isReadable($path): bool {
+	public function isReadable(string $path): bool {
 		return $path === '';
 	}
 
-	public function isUpdatable($path): bool {
+	public function isUpdatable(string $path): bool {
 		return false;
 	}
 
-	public function isDeletable($path): bool {
+	public function isDeletable(string $path): bool {
 		return false;
 	}
 
-	public function isSharable($path): bool {
+	public function isSharable(string $path): bool {
 		return false;
 	}
 
-	public function getPermissions($path): int {
+	public function getPermissions(string $path): int {
 		return 0;
 	}
 
-	public function file_exists($path): bool {
+	public function file_exists(string $path): bool {
 		return $path === '';
 	}
 
-	public function filemtime($path): int|false {
+	public function filemtime(string $path): int|false {
 		return ($path === '') ? time() : false;
 	}
 
-	public function file_get_contents($path): never {
+	public function file_get_contents(string $path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function file_put_contents($path, $data): never {
+	public function file_put_contents(string $path, mixed $data): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function unlink($path): never {
+	public function unlink(string $path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function rename($source, $target): never {
+	public function rename(string $source, string $target): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function copy($source, $target): never {
+	public function copy(string $source, string $target): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function fopen($path, $mode): never {
+	public function fopen(string $path, string $mode): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function getMimeType($path): never {
+	public function getMimeType(string $path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function hash($type, $path, $raw = false): never {
+	public function hash(string $type, string $path, bool $raw = false): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function free_space($path): int {
+	public function free_space(string $path): int {
 		return FileInfo::SPACE_UNKNOWN;
 	}
 
-	public function touch($path, $mtime = null): never {
+	public function touch(string $path, ?int $mtime = null): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function getLocalFile($path): string|false {
+	public function getLocalFile(string $path): string|false {
 		return false;
 	}
 
-	public function hasUpdated($path, $time): bool {
+	public function hasUpdated(string $path, int $time): bool {
 		return false;
 	}
 
-	public function getETag($path): string {
+	public function getETag(string $path): string {
 		return '';
 	}
 
@@ -140,15 +140,15 @@ class NullStorage extends Common {
 		return false;
 	}
 
-	public function getDirectDownload($path): array|false {
+	public function getDirectDownload(string $path): array|false {
 		return false;
 	}
 
-	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false): never {
+	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, bool $preserveMtime = false): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath): never {
+	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
@@ -156,11 +156,11 @@ class NullStorage extends Common {
 		return true;
 	}
 
-	public function getOwner($path): string|false {
+	public function getOwner(string $path): string|false {
 		return false;
 	}
 
-	public function getCache($path = '', $storage = null): ICache {
+	public function getCache(string $path = '', ?IStorage $storage = null): ICache {
 		return new NullCache();
 	}
 }
