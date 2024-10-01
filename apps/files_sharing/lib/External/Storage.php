@@ -24,6 +24,7 @@ use OCP\Files\Cache\IWatcher;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IReliableEtagStorage;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\IClientService;
@@ -94,7 +95,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		);
 	}
 
-	public function getWatcher($path = '', $storage = null): IWatcher {
+	public function getWatcher(string $path = '', ?IStorage $storage = null): IWatcher {
 		if (!$storage) {
 			$storage = $this;
 		}
@@ -129,14 +130,14 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		return 'shared::' . md5($this->token . '@' . $this->getRemote());
 	}
 
-	public function getCache($path = '', $storage = null): ICache {
+	public function getCache(string $path = '', ?IStorage $storage = null): ICache {
 		if (is_null($this->cache)) {
 			$this->cache = new Cache($this, $this->cloudId);
 		}
 		return $this->cache;
 	}
 
-	public function getScanner($path = '', $storage = null): IScanner {
+	public function getScanner(string $path = '', ?IStorage $storage = null): IScanner {
 		if (!$storage) {
 			$storage = $this;
 		}
@@ -147,7 +148,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		return $this->scanner;
 	}
 
-	public function hasUpdated($path, $time): bool {
+	public function hasUpdated(string $path, int $time): bool {
 		// since for owncloud webdav servers we can rely on etag propagation we only need to check the root of the storage
 		// because of that we only do one check for the entire storage per request
 		if ($this->updateChecked) {
@@ -217,7 +218,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		}
 	}
 
-	public function file_exists($path): bool {
+	public function file_exists(string $path): bool {
 		if ($path === '') {
 			return true;
 		} else {
@@ -322,18 +323,18 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		return json_decode($response->getBody(), true);
 	}
 
-	public function getOwner($path): string|false {
+	public function getOwner(string $path): string|false {
 		return $this->cloudId->getDisplayId();
 	}
 
-	public function isSharable($path): bool {
+	public function isSharable(string $path): bool {
 		if (\OCP\Util::isSharingDisabledForUser() || !\OC\Share\Share::isResharingAllowed()) {
 			return false;
 		}
 		return (bool)($this->getPermissions($path) & Constants::PERMISSION_SHARE);
 	}
 
-	public function getPermissions($path): int {
+	public function getPermissions(string $path): int {
 		$response = $this->propfind($path);
 		if ($response === false) {
 			return 0;
@@ -408,7 +409,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		return $permissions;
 	}
 
-	public function free_space($path): int|float|false {
+	public function free_space(string $path): int|float|false {
 		return parent::free_space('');
 	}
 

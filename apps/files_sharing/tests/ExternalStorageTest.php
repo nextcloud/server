@@ -109,7 +109,7 @@ class TestSharingExternalStorage extends \OCA\Files_Sharing\External\Storage {
 		return $this->createBaseUri();
 	}
 
-	public function stat($path): array|false {
+	public function stat(string $path): array|false {
 		if ($path === '') {
 			return ['key' => 'value'];
 		}
