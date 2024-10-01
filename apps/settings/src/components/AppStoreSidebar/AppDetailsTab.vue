@@ -29,16 +29,15 @@
 						<span>{{ t('settings', 'Limit app usage to groups') }}</span>
 					</label>
 					<NcSelect v-if="isLimitedToGroups(app)"
+						v-model="appGroups"
 						input-id="limitToGroups"
-						:options="groups"
-						:value="appGroups"
+						:options="appGroupsOptions"
 						:limit="5"
 						label="name"
 						:multiple="true"
+						:loading="loadingGroups"
 						:close-on-select="false"
-						@option:selected="addGroupLimitation"
-						@option:deselected="removeGroupLimitation"
-						@search="asyncFindGroup">
+						@search="searchGroup">
 						<span slot="noResult">{{ t('settings', 'No results') }}</span>
 					</NcSelect>
 				</div>
@@ -188,6 +187,12 @@ import AppManagement from '../../mixins/AppManagement.js'
 import { mdiBug, mdiFeatureSearch, mdiStar, mdiTextBox, mdiTooltipQuestion } from '@mdi/js'
 import { useAppsStore } from '../../store/apps-store'
 
+import sortedUniq from 'lodash/sortedUniq.js'
+import uniq from 'lodash/uniq.js'
+import debounce from 'lodash/debounce.js'
+import axios from '@nextcloud/axios'
+import { generateOcsUrl } from '@nextcloud/router'
+
 export default {
 	name: 'AppDetailsTab',
 
@@ -224,6 +229,10 @@ export default {
 	data() {
 		return {
 			groupCheckedAppsData: false,
+			groups: [],
+			appGroupsOptions: [],
+			appGroupsSelected: [],
+			loadingGroups: false,
 		}
 	},
 
@@ -319,19 +328,49 @@ export default {
 		rateAppUrl() {
 			return `${this.appstoreUrl}#comments`
 		},
-		appGroups() {
-			return this.app.groups.map(group => { return { id: group, name: group } })
-		},
-		groups() {
-			return this.$store.getters.getGroups
-				.filter(group => group.id !== 'disabled')
-				.sort((a, b) => a.name.localeCompare(b.name))
+		appGroups: {
+			get() {
+				return this.appGroupsSelected
+			},
+			set(val) {
+				this.appGroupsOptions = this.groups.filter((group) => !val.includes(group))
+				this.appGroupsSelected = val
+				this.$store.dispatch('enableApp', { appId: this.app.id, groups: val })
+			},
 		},
 	},
 	mounted() {
 		if (this.app.groups.length > 0) {
 			this.groupCheckedAppsData = true
+			this.appGroupsSelected = this.app.groups
 		}
+
+		// Populate the groups with a first set so the dropdown is not empty
+		// when opening the page the first time
+		this.searchGroup('')
+	},
+	methods: {
+		searchGroup: debounce(function(query) {
+			this.loadingGroups = true
+			axios
+				.get(
+					generateOcsUrl('cloud/groups?offset=0&search={query}&limit=20', {
+						query,
+					}),
+				)
+				.then((res) => res.data.ocs)
+				.then((ocs) => ocs.data.groups)
+				.then((groups) => {
+					this.groups = sortedUniq(uniq(this.groups.concat(groups)))
+					if (this.appGroupsOptions.length === 0) {
+						this.appGroupsOptions = this.groups.filter((group) => !this.app.groups.includes(group))
+					}
+				})
+				.catch((err) => console.error('could not search groups', err))
+				.then(() => {
+					this.loadingGroups = false
+				})
+		}, 500),
 	},
 }
 </script>
