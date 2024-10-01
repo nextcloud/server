@@ -72,5 +72,5 @@ interface Storage extends IStorage, ILockingStorage {
 	 * - storage_mtime
 	 * - permissions
 	 */
-	public function getDirectoryContent($directory): \Traversable|false;
+	public function getDirectoryContent($directory): \Traversable;
 }

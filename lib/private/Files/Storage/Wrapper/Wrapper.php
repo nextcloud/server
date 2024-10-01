@@ -331,7 +331,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 		}
 	}
 
-	public function getDirectoryContent($directory): \Traversable|false {
+	public function getDirectoryContent($directory): \Traversable {
 		return $this->getWrapperStorage()->getDirectoryContent($directory);
 	}
 
