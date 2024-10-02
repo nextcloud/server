@@ -206,6 +206,8 @@
     "Edit online" : "Online bearbeiten",
     "Failed to redirect to client" : "Umleitung zum Client fehlgeschlagen",
     "Edit locally" : "Lokal bearbeiten",
+    "Moving \"{source}\" to \"{destination}\" …" : "Verschiebe \"{source}\" nach \"{destination}\" …",
+    "Copying \"{source}\" to \"{destination}\" …" : "Kopiere \"{source}\" nach \"{destination}\" …",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Eine Datei oder ein Ordner kann nicht auf sich selbst oder in einen Unterordner von sich selbst verschoben werden",
     "(copy)" : "(kopieren)",
     "(copy %n)" : "(%n kopieren)",

@@ -83,7 +83,11 @@ class ListCommand extends Base {
 		$endedBefore = $input->getOption('endedBefore');
 
 		$tasks = $this->taskProcessingManager->getTasks($userIdFilter, $type, $appId, $customId, $status, $scheduledAfter, $endedBefore);
-		$arrayTasks = array_map(fn (Task $task): array => $task->jsonSerialize(), $tasks);
+		$arrayTasks = array_map(static function (Task $task) {
+			$jsonTask = $task->jsonSerialize();
+			$jsonTask['error_message'] = $task->getErrorMessage();
+			return $jsonTask;
+		}, $tasks);
 
 		$this->writeArrayInOutputFormat($input, $output, $arrayTasks);
 		return 0;

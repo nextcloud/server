@@ -108,25 +108,54 @@ class SyncService {
 		}, $this->dbConnection);
 	}
 
+	private function prepareUri(string $host, string $path): string {
+		/*
+		 * The trailing slash is important for merging the uris together.
+		 *
+		 * $host is stored in oc_trusted_servers.url and usually without a trailing slash.
+		 *
+		 * Example for a report request
+		 *
+		 * $host = 'https://server.internal/cloud'
+		 * $path = 'remote.php/dav/addressbooks/system/system/system'
+		 *
+		 * Without the trailing slash, the webroot is missing:
+		 * https://server.internal/remote.php/dav/addressbooks/system/system/system
+		 *
+		 * Example for a download request
+		 *
+		 * $host = 'https://server.internal/cloud'
+		 * $path = '/cloud/remote.php/dav/addressbooks/system/system/system/Database:alice.vcf'
+		 *
+		 * The response from the remote usually contains the webroot already and must be normalized to:
+		 * https://server.internal/cloud/remote.php/dav/addressbooks/system/system/system/Database:alice.vcf
+		 */
+		$host = rtrim($host, '/') . '/';
+
+		$uri = \GuzzleHttp\Psr7\UriResolver::resolve(
+			\GuzzleHttp\Psr7\Utils::uriFor($host),
+			\GuzzleHttp\Psr7\Utils::uriFor($path)
+		);
+
+		return (string)$uri;
+	}
+
 	/**
 	 * @throws ClientExceptionInterface
 	 */
 	protected function requestSyncReport(string $url, string $userName, string $addressBookUrl, string $sharedSecret, ?string $syncToken): array {
 		$client = $this->clientService->newClient();
-
-		// the trailing slash is important for merging base_uri and uri
-		$url = rtrim($url, '/') . '/';
+		$uri = $this->prepareUri($url, $addressBookUrl);
 
 		$options = [
 			'auth' => [$userName, $sharedSecret],
-			'base_uri' => $url,
 			'body' => $this->buildSyncCollectionRequestBody($syncToken),
 			'headers' => ['Content-Type' => 'application/xml']
 		];
 
 		$response = $client->request(
 			'REPORT',
-			$addressBookUrl,
+			$uri,
 			$options
 		);
 
@@ -138,17 +167,14 @@ class SyncService {
 
 	protected function download(string $url, string $userName, string $sharedSecret, string $resourcePath): string {
 		$client = $this->clientService->newClient();
-
-		// the trailing slash is important for merging base_uri and uri
-		$url = rtrim($url, '/') . '/';
+		$uri = $this->prepareUri($url, $resourcePath);
 
 		$options = [
 			'auth' => [$userName, $sharedSecret],
-			'base_uri' => $url,
 		];
 
 		$response = $client->get(
-			$resourcePath,
+			$uri,
 			$options
 		);
 

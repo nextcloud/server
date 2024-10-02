@@ -130,6 +130,13 @@ class ClientTest extends \Test\TestCase {
 		], self::invokePrivate($this->client, 'getProxyUri'));
 	}
 
+	public function testPreventLocalAddressThrowOnInvalidUri(): void {
+		$this->expectException(LocalServerException::class);
+		$this->expectExceptionMessage('Could not detect any host');
+
+		self::invokePrivate($this->client, 'preventLocalAddress', ['!@#$', []]);
+	}
+
 	public function dataPreventLocalAddress():array {
 		return [
 			['https://localhost/foo.bar'],
@@ -146,7 +153,6 @@ class ClientTest extends \Test\TestCase {
 			['https://10.0.0.1'],
 			['https://another-host.local'],
 			['https://service.localhost'],
-			['!@#$', true], // test invalid url
 			['https://normal.host.com'],
 			['https://com.one-.nextcloud-one.com'],
 		];

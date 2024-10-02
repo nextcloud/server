@@ -208,6 +208,8 @@ OC.L10N.register(
     "Edit online" : "線上編輯",
     "Failed to redirect to client" : "重新導向到客戶端失敗",
     "Edit locally" : "本機編輯",
+    "Moving \"{source}\" to \"{destination}\" …" : "正在移動「{source}」至「{destination}」……",
+    "Copying \"{source}\" to \"{destination}\" …" : "正在複製「{source}」至「{destination}」……",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "您無法將檔案/資料夾移動到其自身或子資料夾中",
     "(copy)" : "（副本）",
     "(copy %n)" : "（副本 %n）",
