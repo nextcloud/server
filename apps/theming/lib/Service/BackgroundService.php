@@ -18,6 +18,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
@@ -200,6 +201,7 @@ class BackgroundService {
 	public function __construct(
 		private IRootFolder $rootFolder,
 		private IAppData $appData,
+		private IAppConfig $appConfig,
 		private IConfig $config,
 		private ?string $userId,
 	) {
@@ -328,7 +330,7 @@ class BackgroundService {
 		if ($handle && $image->loadFromFileHandle($handle) !== false) {
 			$meanColor = $this->calculateMeanColor($image);
 			if ($meanColor !== false) {
-				$this->config->setAppValue(Application::APP_ID, 'background_color', $meanColor);
+				$this->appConfig->setValueString(Application::APP_ID, 'background_color', $meanColor);
 				return $meanColor;
 			}
 		}
