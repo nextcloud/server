@@ -32,7 +32,7 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 *
 	 * @param bool $decorated Whether to decorate the messages or not
 	 */
-	public function setDecorated($decorated) {
+	public function setDecorated(bool $decorated) {
 		$this->formatter->setDecorated($decorated);
 	}
 
@@ -51,7 +51,7 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 * @param string $name The style name
 	 * @param OutputFormatterStyleInterface $style The style instance
 	 */
-	public function setStyle($name, OutputFormatterStyleInterface $style) {
+	public function setStyle(string $name, OutputFormatterStyleInterface $style) {
 		$this->formatter->setStyle($name, $style);
 	}
 
@@ -61,7 +61,7 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 * @param string $name
 	 * @return bool
 	 */
-	public function hasStyle($name): bool {
+	public function hasStyle(string $name): bool {
 		return $this->formatter->hasStyle($name);
 	}
 
@@ -72,7 +72,7 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 * @return OutputFormatterStyleInterface
 	 * @throws \InvalidArgumentException When style isn't defined
 	 */
-	public function getStyle($name): OutputFormatterStyleInterface {
+	public function getStyle(string $name): OutputFormatterStyleInterface {
 		return $this->formatter->getStyle($name);
 	}
 
