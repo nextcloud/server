@@ -29,19 +29,19 @@
 					<Facebook :size="20" />
 				</template>
 			</NcButton>
-			<NcButton @click="goTo(shareTwitterUrl)">
-				{{ t('federatedfilesharing', 'Twitter') }}
-				<template #icon>
-					<Twitter :size="20" />
-				</template>
-			</NcButton>
-			<NcButton @click="goTo(shareDiasporaUrl)">
-				{{ t('federatedfilesharing', 'Diaspora') }}
+			<NcButton @click="goTo(shareXUrl)">
+				{{ t('federatedfilesharing', 'formerly Twitter') }}
 				<template #icon>
 					<svg width="20"
 						height="20"
-						viewBox="-10 -5 1034 1034"
-						xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M502 197q-96 0-96.5 1.5t-1.5 137-1.5 138-2 2.5T266 432.5 132.5 390t-30 94T74 578l232 77q21 8 21 10t-79.5 117.5T168 899t79.5 56.5T328 1011t81-110 82-110 41 55l83 115q43 60 44 60t79.5-58 79-59-76-112.5-76-113.5T795 632.5t129.5-44-28-94T867 400t-128 42-128.5 43-2.5-7.5-1-38.5l-3-108q-4-133-5-133.5t-97-.5z" /></svg>
+						viewBox="0 0 15 15"
+						xmlns="http://www.w3.org/2000/svg"><path fill="black" d="m 3.384891,2.6 c -0.3882,0 -0.61495,0.4362184 -0.39375,0.7558594 L 6.5841098,8.4900156 2.9770785,12.707422 C 2.7436785,12.979821 2.9370285,13.4 3.2958285,13.4 H 3.694266 c 0.176,0 0.3430313,-0.07714 0.4570313,-0.210938 L 7.294266,9.5065156 9.6602817,12.887891 C 9.8762817,13.208984 10.25229,13.4 10.743485,13.4 h 1.900391 c 0.3882,0 0.61575,-0.436688 0.39375,-0.754688 L 9.2466097,7.2195156 12.682547,3.1941408 C 12.881744,2.9601408 12.715528,2.6 12.407473,2.6 h -0.506566 c -0.175,0 -0.34186,0.076453 -0.45586,0.2197656 L 8.5405785,6.2058438 6.3790317,3.1132812 C 6.1568442,2.7913687 5.6965004,2.6 5.3958285,2.6 Z" /></svg>
+				</template>
+			</NcButton>
+			<NcButton @click="goTo(shareMastodonUrl)">
+				{{ t('federatedfilesharing', 'Mastodon') }}
+				<template #icon>
+					<Mastodon :size="20" />
 				</template>
 			</NcButton>
 			<NcButton class="social-button__website-button"
@@ -78,7 +78,7 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import Twitter from 'vue-material-design-icons/Twitter.vue'
+import Mastodon from 'vue-material-design-icons/Mastodon.vue'
 import Facebook from 'vue-material-design-icons/Facebook.vue'
 import Web from 'vue-material-design-icons/Web.vue'
 import Clipboard from 'vue-material-design-icons/ContentCopy.vue'
@@ -88,7 +88,7 @@ export default {
 	components: {
 		NcButton,
 		NcSettingsSection,
-		Twitter,
+		Mastodon,
 		Facebook,
 		Web,
 		Clipboard,
@@ -112,11 +112,11 @@ export default {
 		messageWithoutURL() {
 			return t('federatedfilesharing', 'Share with me through my #Nextcloud Federated Cloud ID')
 		},
-		shareDiasporaUrl() {
-			return `https://share.diasporafoundation.org/?title=${encodeURIComponent(this.messageWithoutURL)}&url=${encodeURIComponent(this.reference)}`
+		shareMastodonUrl() {
+			return `https://https://mastodon.xyz/?text=${encodeURIComponent(this.messageWithoutURL)}&url=${encodeURIComponent(this.reference)}`
 		},
-		shareTwitterUrl() {
-			return `https://twitter.com/intent/tweet?text=${encodeURIComponent(this.messageWithURL)}`
+		shareXUrl() {
+			return `https://x.com/intent/tweet?text=${encodeURIComponent(this.messageWithURL)}`
 		},
 		shareFacebookUrl() {
 			return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.reference)}`
