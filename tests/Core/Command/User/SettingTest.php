@@ -49,15 +49,14 @@ class SettingTest extends TestCase {
 
 	public function getCommand(array $methods = []) {
 		if (empty($methods)) {
-			return new Setting($this->userManager, $this->config, $this->connection);
+			return new Setting($this->userManager, $this->config);
 		} else {
-			$mock = $this->getMockBuilder('OC\Core\Command\User\Setting')
+			$mock = $this->getMockBuilder(Setting::class)
 				->setConstructorArgs([
 					$this->userManager,
 					$this->config,
-					$this->connection,
 				])
-				->setMethods($methods)
+				->onlyMethods($methods)
 				->getMock();
 			return $mock;
 		}
