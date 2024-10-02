@@ -38,7 +38,7 @@ class Option extends Config {
 		if (!is_string($value)) { // show bools and objects correctly
 			$value = json_encode($value);
 		}
-		$output->writeln($value);
+		$output->writeln((string)$value);
 	}
 
 	/**
