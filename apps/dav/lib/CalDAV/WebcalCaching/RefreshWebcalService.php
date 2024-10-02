@@ -58,7 +58,7 @@ class RefreshWebcalService {
 		}
 
 
-		$webcalData = $this->connection->queryWebcalFeed($subscription, $mutations);
+		$webcalData = $this->connection->queryWebcalFeed($subscription);
 		if (!$webcalData) {
 			return;
 		}
