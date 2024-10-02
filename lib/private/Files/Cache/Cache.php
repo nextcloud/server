@@ -1210,7 +1210,7 @@ class Cache implements ICache {
 		}
 	}
 
-	private function moveFromStorageSharded(ShardDefinition $shardDefinition, ICache $sourceCache, ICacheEntry $sourceEntry, $targetPath) {
+	private function moveFromStorageSharded(ShardDefinition $shardDefinition, ICache $sourceCache, ICacheEntry $sourceEntry, $targetPath): void {
 		if ($sourceEntry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE) {
 			$fileIds = $this->getChildIds($sourceCache->getNumericStorageId(), $sourceEntry->getPath());
 		} else {

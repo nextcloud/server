@@ -16,7 +16,6 @@ use OCP\Files\IMimeTypeLoader;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IDBConnection;
-use function Symfony\Component\Translation\t;
 
 class BackgroundCleanupJob extends TimedJob {
 	/** @var IDBConnection */
