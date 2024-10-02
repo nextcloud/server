@@ -175,12 +175,6 @@ class UsersController extends Controller {
 				foreach ($groups as $key => $group) {
 					// $userCount += (int)$group['usercount'];
 					$groupsIds[] = $group['id'];
-					// we prevent subadmins from looking up themselves
-					// so we lower the count of the groups he belongs to
-					if (array_key_exists($group['id'], $userGroups)) {
-						$groups[$key]['usercount']--;
-						$userCount -= 1; // we also lower from one the total count
-					}
 				}
 
 				$userCount += $this->userManager->countUsersOfGroups($groupsInfo->getGroups());
