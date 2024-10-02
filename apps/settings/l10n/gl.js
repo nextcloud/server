@@ -583,7 +583,7 @@ OC.L10N.register(
     "she/her" : "ela — she/her",
     "he/him" : "el — he/him",
     "they/them" : "ele — they/them",
-    "Your pronouns. E.g. ${pronounsExample}" : "Os seus pronomes. p.ex. ${pronounsExample}",
+    "Your pronouns. E.g. ${pronounsExample}" : "Os seus pronomes. p. ex. ${pronounsExample}",
     "Your role" : "O seu cargo",
     "Your X (formerly Twitter) handle" : "O seu identificador en X (anteriormente Twitter).",
     "Your website" : "O seu sitio web",
