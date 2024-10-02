@@ -2,24 +2,24 @@
  - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+
 <template>
 	<NcSettingsSection :name="t('federatedfilesharing', 'Federated Cloud')"
 		:description="t('federatedfilesharing', 'You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com')"
 		:doc-url="docUrlFederated">
-		<p class="cloud-id-text">
-			{{ t('federatedfilesharing', 'Your Federated Cloud ID:') }}
-			<strong id="cloudid">{{ cloudId }}</strong>
-			<NcButton ref="clipboard"
-				:title="copyLinkTooltip"
-				:aria-label="copyLinkTooltip"
-				class="clipboard"
-				type="tertiary"
-				@click.prevent="copyCloudId">
-				<template #icon>
-					<Clipboard :size="20" />
-				</template>
-			</NcButton>
-		</p>
+		<NcInputField class="federated-cloud__cloud-id"
+			readonly
+			:label="t('federatedfilesharing', 'Your Federated Cloud ID')"
+			:value="cloudId"
+			:success="isCopied"
+			show-trailing-button
+			:trailing-button-label="copyLinkTooltip"
+			@trailing-button-click="copyCloudId">
+			<template #trailing-button-icon>
+				<IconCheck v-if="isCopied" :size="20" fill-color="var(--color-success)" />
+				<IconClipboard v-else :size="20" />
+			</template>
+		</NcInputField>
 
 		<p class="social-button">
 			{{ t('federatedfilesharing', 'Share it so your friends can share files with you:') }}<br>
@@ -45,7 +45,7 @@
 			<NcButton class="social-button__website-button"
 				@click="showHtml = !showHtml">
 				<template #icon>
-					<Web :size="20" />
+					<IconWeb :size="20" />
 				</template>
 				{{ t('federatedfilesharing', 'Add to your website') }}
 			</NcButton>
@@ -78,16 +78,20 @@ import { t } from '@nextcloud/l10n'
 import { imagePath } from '@nextcloud/router'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import Web from 'vue-material-design-icons/Web.vue'
-import Clipboard from 'vue-material-design-icons/ContentCopy.vue'
+import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
+import IconWeb from 'vue-material-design-icons/Web.vue'
+import IconCheck from 'vue-material-design-icons/Check.vue'
+import IconClipboard from 'vue-material-design-icons/ContentCopy.vue'
 
 export default {
 	name: 'PersonalSettings',
 	components: {
 		NcButton,
+		NcInputField,
 		NcSettingsSection,
-		Web,
-		Clipboard,
+		IconCheck,
+		IconClipboard,
+		IconWeb,
 	},
 	setup() {
 		return {
@@ -155,6 +159,10 @@ export default {
 				window.prompt(t('federatedfilesharing', 'Clipboard not available. Please copy the cloud ID manually.'), this.reference)
 			}
 			this.isCopied = true
+			showSuccess(t('federatedfilesharing', 'Copied!'))
+			setTimeout(() => {
+				this.isCopied = false
+			}, 2000)
 		},
 
 		goTo(url: string): void {
@@ -189,19 +197,13 @@ export default {
 			}
 		}
 	}
-	.cloud-id-text {
-		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-		button {
-			display: inline-flex;
-		}
+
+	.federated-cloud__cloud-id {
+		max-width: 300px;
 	}
+
 	pre {
 		margin-top: 0;
 		white-space: pre-wrap;
-	}
-	#cloudid {
-		margin-inline-start: 0.25rem;
 	}
 </style>
