@@ -1,5 +1,9 @@
 name: EasyCloud Build
 
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2024 STRATO AG
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 # The EasyCloud source is packaged as a container image.
 # This is a workaround because releases can not be created without tags
 # and we want to be able to create snapshots from branches.
