@@ -11,6 +11,7 @@ OC.L10N.register(
     "Cannot create sub-admins for admin group" : "تعذّر إنشاء مشرفين فرعيين لمجموعة المشرفين",
     "No permissions to promote sub-admins" : "أذونات غير كافية لترقية مشرفين فرعيين",
     "Invalid password value" : "قيمة غير صحيحة لكلمة المرور",
+    "An email address is required, to send a password link to the user." : "عنوان الإيميل مطلوب لإرسال رابط كلمة المرور للمستخدِم",
     "Required email address was not provided" : "عنوان الإيميل المطلوب لم يتم توفيره",
     "Invalid quota value: %1$s" : "قيمة غير صحيحة للحصة: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "قيمة غير صحيحة للحصة. %1$s تزيد عن الحد الأقصى للحصة",

@@ -208,6 +208,8 @@ OC.L10N.register(
     "Edit online" : "التحرير عبر الإنترنت",
     "Failed to redirect to client" : "فشل في التحويل الى العميل",
     "Edit locally" : "تعديل محليًا",
+    "Moving \"{source}\" to \"{destination}\" …" : "نقل \"{source}\" إلى \"{destination}\" …",
+    "Copying \"{source}\" to \"{destination}\" …" : "نسخ \"{source}\" إلى \"{destination}\" …",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "لا يمكنك نقل ملف/مجلد إلى نفسه أو إلى مجلد فرعي منه",
     "(copy)" : "(نسخ)",
     "(copy %n)" : "(نسخ %n)",

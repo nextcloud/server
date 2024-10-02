@@ -143,6 +143,7 @@ OC.L10N.register(
     "Accounts" : "Облікові записи",
     "System address book which holds all accounts" : "Системна адресна книга, в якій містяться всі облікові записи",
     "File is not updatable: %1$s" : "Файл не оновлюється: %1$s",
+    "Failed to get storage for file" : "Не вдалося отримати дані про сховище для файлу",
     "Could not write to final file, canceled by hook" : "Не вдалося записати в остаточний файл, скасовано перехопленням",
     "Could not write file contents" : "Не вдалося записати вміст файлу",
     "_%n byte_::_%n bytes_" : ["%n байт","%n байтів","%n байтів","%n байтів"],
