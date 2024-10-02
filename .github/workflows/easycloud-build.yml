@@ -25,6 +25,7 @@ on:
       - master
       - stable*
       - ionos-dev
+      - ionos-dev30
 
 env:
   TARGET_PACKAGE_NAME: easy-storage.zip
