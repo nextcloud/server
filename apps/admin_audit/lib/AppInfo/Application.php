@@ -38,12 +38,11 @@ use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengeFailed;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengePassed;
 use OCP\Console\ConsoleEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeReadEvent;
 use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
-use OCP\Files\Events\Node\BeforeNodeWrittenEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\Node\NodeCreatedEvent;
-use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Group\Events\GroupCreatedEvent;
@@ -195,16 +194,9 @@ class Application extends App implements IBootstrap {
 		);
 
 		$eventDispatcher->addListener(
-			BeforeNodeWrittenEvent::class,
-			function (BeforeNodeWrittenEvent $event) use ($fileActions): void {
-				$fileActions->write($event);
-			}
-		);
-
-		$eventDispatcher->addListener(
 			NodeWrittenEvent::class,
 			function (NodeWrittenEvent $event) use ($fileActions): void {
-				$fileActions->update($event);
+				$fileActions->write($event);
 			}
 		);
 
@@ -216,8 +208,8 @@ class Application extends App implements IBootstrap {
 		);
 
 		$eventDispatcher->addListener(
-			NodeDeletedEvent::class,
-			function (NodeDeletedEvent $event) use ($fileActions): void {
+			BeforeNodeDeletedEvent::class,
+			function (BeforeNodeDeletedEvent $event) use ($fileActions): void {
 				$fileActions->delete($event);
 			}
 		);
