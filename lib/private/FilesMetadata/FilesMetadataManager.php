@@ -77,10 +77,13 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		int $process = self::PROCESS_LIVE,
 		string $namedEvent = '',
 	): IFilesMetadata {
+		$storageId = $node->getStorage()->getCache()->getNumericStorageId();
 		try {
+			/** @var FilesMetadata $metadata */
 			$metadata = $this->metadataRequestService->getMetadataFromFileId($node->getId());
+			$metadata->setStorageId($storageId);
 		} catch (FilesMetadataNotFoundException) {
-			$metadata = new FilesMetadata($node->getId());
+			$metadata = new FilesMetadata($node->getId(), $storageId);
 		}
 
 		// if $process is LIVE, we enforce LIVE

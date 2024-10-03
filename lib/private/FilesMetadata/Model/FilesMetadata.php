@@ -30,6 +30,7 @@ class FilesMetadata implements IFilesMetadata {
 
 	public function __construct(
 		private int $fileId = 0,
+		private ?int $storageId = null,
 	) {
 	}
 
@@ -40,6 +41,14 @@ class FilesMetadata implements IFilesMetadata {
 	 */
 	public function getFileId(): int {
 		return $this->fileId;
+	}
+
+	public function getStorageId(): ?int {
+		return $this->storageId;
+	}
+
+	public function setStorageId(int $storageId): void {
+		$this->storageId = $storageId;
 	}
 
 	/**
