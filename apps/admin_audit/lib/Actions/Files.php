@@ -8,12 +8,11 @@ declare(strict_types=1);
 namespace OCA\AdminAudit\Actions;
 
 use OC\Files\Node\NonExistingFile;
+use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeReadEvent;
 use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
-use OCP\Files\Events\Node\BeforeNodeWrittenEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\Node\NodeCreatedEvent;
-use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\InvalidPathException;
@@ -29,10 +28,9 @@ use Psr\Log\LoggerInterface;
 class Files extends Action {
 
 	private array $renamedNodes = [];
+
 	/**
 	 * Logs file read actions
-	 *
-	 * @param BeforeNodeReadEvent $event
 	 */
 	public function read(BeforeNodeReadEvent $event): void {
 		try {
@@ -56,8 +54,6 @@ class Files extends Action {
 
 	/**
 	 * Logs rename actions of files
-	 *
-	 * @param BeforeNodeRenamedEvent $event
 	 */
 	public function beforeRename(BeforeNodeRenamedEvent $event): void {
 		try {
@@ -73,8 +69,6 @@ class Files extends Action {
 
 	/**
 	 * Logs rename actions of files
-	 *
-	 * @param NodeRenamedEvent $event
 	 */
 	public function afterRename(NodeRenamedEvent $event): void {
 		try {
@@ -102,8 +96,6 @@ class Files extends Action {
 
 	/**
 	 * Logs creation of files
-	 *
-	 * @param NodeCreatedEvent $event
 	 */
 	public function create(NodeCreatedEvent $event): void {
 		try {
@@ -129,8 +121,6 @@ class Files extends Action {
 
 	/**
 	 * Logs copying of files
-	 *
-	 * @param NodeCopiedEvent $event
 	 */
 	public function copy(NodeCopiedEvent $event): void {
 		try {
@@ -155,14 +145,12 @@ class Files extends Action {
 
 	/**
 	 * Logs writing of files
-	 *
-	 * @param BeforeNodeWrittenEvent $event
 	 */
-	public function write(BeforeNodeWrittenEvent $event): void {
+	public function write(NodeWrittenEvent $event): void {
 		$node = $event->getNode();
 		try {
 			$params = [
-				'id' => $node instanceof NonExistingFile ? null : $node->getId(),
+				'id' => $node->getId(),
 				'path' => mb_substr($node->getInternalPath(), 5),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
@@ -183,35 +171,9 @@ class Files extends Action {
 	}
 
 	/**
-	 * Logs update of files
-	 *
-	 * @param NodeWrittenEvent $event
-	 */
-	public function update(NodeWrittenEvent $event): void {
-		try {
-			$params = [
-				'id' => $event->getNode()->getId(),
-				'path' => mb_substr($event->getNode()->getInternalPath(), 5),
-			];
-		} catch (InvalidPathException|NotFoundException $e) {
-			\OCP\Server::get(LoggerInterface::class)->error(
-				"Exception thrown in file update: ".$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
-			);
-			return;
-		}
-		$this->log(
-			'File with id "%s" updated: "%s"',
-			$params,
-			array_keys($params)
-		);
-	}
-
-	/**
 	 * Logs deletions of files
-	 *
-	 * @param NodeDeletedEvent $event
 	 */
-	public function delete(NodeDeletedEvent $event): void {
+	public function delete(BeforeNodeDeletedEvent $event): void {
 		try {
 			$params = [
 				'id' => $event->getNode()->getId(),
