@@ -16,6 +16,7 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IUser;
+use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -579,7 +580,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCountUsersOnlyDisabled(): void {
-		$manager = \OC::$server->getUserManager();
+		$manager = \OCP\Server::get(IUserManager::class);
 		// count other users in the db before adding our own
 		$countBefore = $manager->countDisabledUsers();
 
@@ -604,7 +605,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCountUsersOnlySeen(): void {
-		$manager = \OC::$server->getUserManager();
+		$manager = \OCP\Server::get(IUserManager::class);
 		// count other users in the db before adding our own
 		$countBefore = $manager->countSeenUsers();
 
@@ -630,7 +631,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCallForSeenUsers(): void {
-		$manager = \OC::$server->getUserManager();
+		$manager = \OCP\Server::get(IUserManager::class);
 		// count other users in the db before adding our own
 		$count = 0;
 		$function = function (IUser $user) use (&$count) {
@@ -661,6 +662,66 @@ class ManagerTest extends TestCase {
 		$user2->delete();
 		$user3->delete();
 		$user4->delete();
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function testRecentlyActive(): void {
+		$config = \OCP\Server::get(IConfig::class);
+		$manager = \OCP\Server::get(IUserManager::class);
+
+		// Create some users
+		$now = (string)time();
+		$user1 = $manager->createUser('test_active_1', 'test_active_1');
+		$config->setUserValue('test_active_1', 'login', 'lastLogin', $now);
+		$user1->setDisplayName('test active 1');
+		$user1->setSystemEMailAddress('roger@active.com');
+
+		$user2 = $manager->createUser('TEST_ACTIVE_2_FRED', 'TEST_ACTIVE_2');
+		$config->setUserValue('TEST_ACTIVE_2_FRED', 'login', 'lastLogin', $now);
+		$user2->setDisplayName('TEST ACTIVE 2 UPPER');
+		$user2->setSystemEMailAddress('Fred@Active.Com');
+
+		$user3 = $manager->createUser('test_active_3', 'test_active_3');
+		$config->setUserValue('test_active_3', 'login', 'lastLogin', $now + 1);
+		$user3->setDisplayName('test active 3');
+
+		$user4 = $manager->createUser('test_active_4', 'test_active_4');
+		$config->setUserValue('test_active_4', 'login', 'lastLogin', $now);
+		$user4->setDisplayName('Test Active 4');
+
+		$user5 = $manager->createUser('test_inactive_1', 'test_inactive_1');
+		$user5->setDisplayName('Test Inactive 1');
+		$user2->setSystemEMailAddress('jeanne@Active.Com');
+
+		// Search recently active
+		//  - No search, case-insensitive order
+		$users = $manager->getLastLoggedInUsers(4);
+		$this->assertEquals(['test_active_3', 'test_active_1', 'TEST_ACTIVE_2_FRED', 'test_active_4'], $users);
+		//  - Search, case-insensitive order
+		$users = $manager->getLastLoggedInUsers(search: 'act');
+		$this->assertEquals(['test_active_3', 'test_active_1', 'TEST_ACTIVE_2_FRED', 'test_active_4'], $users);
+		//  - No search with offset
+		$users = $manager->getLastLoggedInUsers(2, 2);
+		$this->assertEquals(['TEST_ACTIVE_2_FRED', 'test_active_4'], $users);
+		//  - Case insensitive search (email)
+		$users = $manager->getLastLoggedInUsers(search: 'active.com');
+		$this->assertEquals(['test_active_1', 'TEST_ACTIVE_2_FRED'], $users);
+		//  - Case insensitive search (display name)
+		$users = $manager->getLastLoggedInUsers(search: 'upper');
+		$this->assertEquals(['TEST_ACTIVE_2_FRED'], $users);
+		//  - Case insensitive search (uid)
+		$users = $manager->getLastLoggedInUsers(search: 'fred');
+		$this->assertEquals(['TEST_ACTIVE_2_FRED'], $users);
+
+		// Delete users and config keys
+		$user1->delete();
+		$user2->delete();
+		$user3->delete();
+		$user4->delete();
+		$user5->delete();
 	}
 
 	public function testDeleteUser(): void {
