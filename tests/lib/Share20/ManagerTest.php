@@ -228,7 +228,7 @@ class ManagerTest extends \Test\TestCase {
 	 */
 	public function testDelete($shareType, $sharedWith) {
 		$manager = $this->createManagerMock()
-			->setMethods(['getShareById', 'deleteChildren', 'deleteReshares'])
+			->setMethods(['getShareById', 'deleteChildren', 'promoteReshares'])
 			->getMock();
 
 		$manager->method('deleteChildren')->willReturn([]);
@@ -246,7 +246,7 @@ class ManagerTest extends \Test\TestCase {
 			->setTarget('myTarget');
 
 		$manager->expects($this->once())->method('deleteChildren')->with($share);
-		$manager->expects($this->once())->method('deleteReshares')->with($share);
+		$manager->expects($this->once())->method('promoteReshares')->with($share);
 
 		$this->defaultProvider
 			->expects($this->once())
@@ -271,7 +271,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testDeleteLazyShare() {
 		$manager = $this->createManagerMock()
-			->setMethods(['getShareById', 'deleteChildren', 'deleteReshares'])
+			->setMethods(['getShareById', 'deleteChildren', 'promoteReshares'])
 			->getMock();
 
 		$manager->method('deleteChildren')->willReturn([]);
@@ -290,7 +290,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->rootFolder->expects($this->never())->method($this->anything());
 
 		$manager->expects($this->once())->method('deleteChildren')->with($share);
-		$manager->expects($this->once())->method('deleteReshares')->with($share);
+		$manager->expects($this->once())->method('promoteReshares')->with($share);
 
 		$this->defaultProvider
 			->expects($this->once())
@@ -315,7 +315,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testDeleteNested() {
 		$manager = $this->createManagerMock()
-			->setMethods(['getShareById', 'deleteReshares'])
+			->setMethods(['getShareById', 'promoteReshares'])
 			->getMock();
 
 		$path = $this->createMock(File::class);
@@ -472,9 +472,9 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertSame($shares, $result);
 	}
 
-	public function testDeleteReshareWhenUserHasOneShare(): void {
+	public function testPromoteReshareWhenUserHasOneShare(): void {
 		$manager = $this->createManagerMock()
-			->setMethods(['deleteShare', 'getSharesInFolder', 'generalCreateChecks'])
+			->setMethods(['updateShare', 'getSharesInFolder', 'generalCreateChecks'])
 			->getMock();
 
 		$folder = $this->createMock(Folder::class);
@@ -499,14 +499,14 @@ class ManagerTest extends \Test\TestCase {
 		$this->defaultProvider->method('getSharesBy')
 			->willReturn([$reShare]);
 
-		$manager->expects($this->atLeast(2))->method('deleteShare')->withConsecutive([$reShare], [$reShareInSubFolder]);
+		$manager->expects($this->atLeast(2))->method('updateShare')->withConsecutive([$reShare], [$reShareInSubFolder]);
 
-		self::invokePrivate($manager, 'deleteReshares', [$share]);
+		self::invokePrivate($manager, 'promoteReshares', [$share]);
 	}
 
-	public function testDeleteReshareWhenUserHasAnotherShare(): void {
+	public function testPromoteReshareWhenUserHasAnotherShare(): void {
 		$manager = $this->createManagerMock()
-			->setMethods(['deleteShare', 'getSharesInFolder', 'getSharedWith', 'generalCreateChecks'])
+			->setMethods(['updateShare', 'getSharesInFolder', 'getSharedWith', 'generalCreateChecks'])
 			->getMock();
 
 		$folder = $this->createMock(Folder::class);
@@ -527,14 +527,14 @@ class ManagerTest extends \Test\TestCase {
 		$manager->method('getSharesInFolder')->willReturn([]);
 		$manager->method('generalCreateChecks')->willReturn(true);
 
-		$manager->expects($this->never())->method('deleteShare');
+		$manager->expects($this->never())->method('updateShare');
 
-		self::invokePrivate($manager, 'deleteReshares', [$share]);
+		self::invokePrivate($manager, 'promoteReshares', [$share]);
 	}
 
-	public function testDeleteReshareOfUsersInGroupShare(): void {
+	public function testPromoteReshareOfUsersInGroupShare(): void {
 		$manager = $this->createManagerMock()
-			->setMethods(['deleteShare', 'getSharesInFolder', 'getSharedWith', 'generalCreateChecks'])
+			->setMethods(['updateShare', 'getSharesInFolder', 'getSharedWith', 'generalCreateChecks'])
 			->getMock();
 
 		$folder = $this->createMock(Folder::class);
@@ -576,9 +576,9 @@ class ManagerTest extends \Test\TestCase {
 		$manager->method('getSharedWith')->willReturn([]);
 		$manager->expects($this->exactly(2))->method('getSharesInFolder')->willReturnOnConsecutiveCalls([[$reShare1]], [[$reShare2]]);
 
-		$manager->expects($this->exactly(2))->method('deleteShare')->withConsecutive([$reShare1], [$reShare2]);
+		$manager->expects($this->exactly(2))->method('updateShare')->withConsecutive([$reShare1], [$reShare2]);
 
-		self::invokePrivate($manager, 'deleteReshares', [$share]);
+		self::invokePrivate($manager, 'promoteReshares', [$share]);
 	}
 
 	public function testGetShareById(): void {
