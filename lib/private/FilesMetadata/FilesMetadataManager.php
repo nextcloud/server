@@ -81,10 +81,10 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		try {
 			/** @var FilesMetadata $metadata */
 			$metadata = $this->metadataRequestService->getMetadataFromFileId($node->getId());
-			$metadata->setStorageId($storageId);
 		} catch (FilesMetadataNotFoundException) {
-			$metadata = new FilesMetadata($node->getId(), $storageId);
+			$metadata = new FilesMetadata($node->getId());
 		}
+		$metadata->setStorageId($storageId);
 
 		// if $process is LIVE, we enforce LIVE
 		// if $process is NAMED, we go NAMED

@@ -29,8 +29,11 @@ class MetadataRequestService {
 	}
 
 	private function getStorageId(IFilesMetadata $filesMetadata): int {
-		if ($filesMetadata instanceof FilesMetadata && $filesMetadata->getStorageId()) {
-			return $filesMetadata->getStorageId();
+		if ($filesMetadata instanceof FilesMetadata) {
+			$storage = $filesMetadata->getStorageId();
+			if ($storage) {
+				return $storage;
+			}
 		}
 		// all code paths that lead to saving metadata *should* have the storage id set
 		// this fallback is there just in case
