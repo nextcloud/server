@@ -136,7 +136,6 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Forespørsel om overføring av eierskap er sendt",
     "Cannot transfer ownership of a file or folder you do not own" : "Kan ikke overføre eierskap til en fil eller mappe du ikke eier",
     "Select file or folder to link to" : "Velg fil eller mappe å koble til",
-    "Choose file" : "Velg fil",
     "Choose {file}" : "Choose {file}",
     "New" : "Ny",
     "Loading current folder" : "Laster gjeldende mappe",
@@ -208,6 +207,8 @@ OC.L10N.register(
     "Edit online" : "Rediger på nett",
     "Failed to redirect to client" : "Kunne ikke omdirigere til klienten",
     "Edit locally" : "Rediger lokalt",
+    "Moving \"{source}\" to \"{destination}\" …" : "Flytter \"{source}\" til \"{destination}\" …",
+    "Copying \"{source}\" to \"{destination}\" …" : "Flytter \"{source}\" til \"{destination}\" …",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Du kan ikke flytte en fil/mappe til seg selv eller til en undermappe av seg selv",
     "(copy)" : "(kopier)",
     "(copy %n)" : "(kopier %n)",
@@ -273,6 +274,7 @@ OC.L10N.register(
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\" er et reservert navn og ikke tillatt for filnavn.",
     "\"{extension}\" is not an allowed filetype." : "\"{extension}\" er ikke en tillatt filtype.",
     "Filenames must not end with \"{extension}\"." : "Filnavn må ikke slutte med \"{extension}\".",
+    "List of favorite files and folders." : "Liste over favorittfiler og mapper.",
     "No favorites yet" : "Ingen favoritter enda",
     "Files and folders you mark as favorite will show up here" : "Filer og mapper som du gjør til favoritter vises her",
     "All files" : "Alle filer",
@@ -382,6 +384,7 @@ OC.L10N.register(
     "Name cannot be empty" : "Navn kan ikke være tom",
     "Another entry with the same name already exists" : "En annen oppføring med samme navnet finnes allerede",
     "Storage informations" : "Informasjon om lagring",
+    "Choose file" : "Velg fil",
     "Open the files app settings" : "Åpne Filer-appens innstillinger",
     "You might not have have permissions to view it, ask the sender to share it" : "Du har kanskje ikke tillatelse til å se den, be avsenderen om å dele den",
     "Destination is not a folder" : "Målplassering er ikke en mappe",
@@ -393,6 +396,9 @@ OC.L10N.register(
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekstfil.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Direkte lenke ble kopiert (fungerer bare for personer som har tilgang til denne filen / mappen)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Kopier direkte lenke (fungerer bare for personer som har tilgang til denne filen / mappen)"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Kopier direkte lenke (fungerer bare for personer som har tilgang til denne filen / mappen)",
+    "Favored" : "Favorittlagt",
+    "Favor" : "Favoritt",
+    "Not favored" : "Ikke favorittlagt"
 },
 "nplurals=2; plural=(n != 1);");

@@ -11,6 +11,7 @@ OC.L10N.register(
     "Cannot create sub-admins for admin group" : "Ní féidir fo-riaracháin a chruthú don ghrúpa riaracháin",
     "No permissions to promote sub-admins" : "Níl aon chead chun fo-riaracháin a chur chun cinn",
     "Invalid password value" : "Luach pasfhocail neamhbhailí",
+    "An email address is required, to send a password link to the user." : "Tá seoladh ríomhphoist ag teastáil, chun nasc pasfhocal a sheoladh chuig an úsáideoir.",
     "Required email address was not provided" : "Níor cuireadh an seoladh ríomhphoist riachtanach ar fáil",
     "Invalid quota value: %1$s" : "Luach cuóta neamhbhailí: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "Luach cuóta neamhbhailí. Tá %1$s níos mó ná an t-uaschuóta",

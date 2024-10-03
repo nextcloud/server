@@ -430,7 +430,6 @@
     "Reasons to use Nextcloud in your organization" : "Причини да използвате Nextcloud във вашата организация",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Разработен от {communityopen}общността на Nextcloud{linkclose}, {githubopen}изходният код{linkclose} е лицензиран под {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Харесайте страницата ни във Facebook",
-    "Follow us on Twitter" : "Следвайте ни в Twitter",
     "Follow us on Mastodon" : "Следвайте ни в Mastodon",
     "Check out our blog" : "Посетете блога ни",
     "Subscribe to our newsletter" : "Абонирайте се за нашия имейл бюлетин",
@@ -482,6 +481,7 @@
     "Not available as federation has been disabled for your account, contact your system administrator if you have any questions" : "Не е налично, тъй като федерирането е деактивирано за вашия профил, свържете се с вашия системен администратор, ако имате въпроси.",
     "Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions" : "Не е налично, тъй като публикуването на специфични потребителски данни на сървъра за търсене не е разрешено, свържете се с вашия системен администратор, ако имате въпроси",
     "Show to logged in users only" : "Показване само на влезли потребители",
-    "SMTP Username" : "SMTP потребител"
+    "SMTP Username" : "SMTP потребител",
+    "Follow us on Twitter" : "Следвайте ни в Twitter"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
