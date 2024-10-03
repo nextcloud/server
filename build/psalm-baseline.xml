@@ -1334,9 +1334,6 @@
     <MoreSpecificImplementedParamType>
       <code><![CDATA[$key]]></code>
     </MoreSpecificImplementedParamType>
-    <TypeDoesNotContainType>
-      <code><![CDATA[!is_array($userIds)]]></code>
-    </TypeDoesNotContainType>
   </file>
   <file src="lib/private/App/AppManager.php">
     <LessSpecificImplementedReturnType>
