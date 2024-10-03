@@ -640,7 +640,6 @@
     "Reasons to use Nextcloud in your organization" : "Dlaczego warto korzystać z Nextcloud w Twojej organizacji",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Opracowane przez {communityopen}społeczność Nextcloud{linkclose}, {githubopen}kod źródłowy{linkclose} jest objęty licencją {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Polub nas na Facebook'u",
-    "Follow us on Twitter" : "Bądź z nami na Twitterze",
     "Follow us on Mastodon" : "Bądź z nami na Mastodonie",
     "Check out our blog" : "Sprawdź nasz blog",
     "Subscribe to our newsletter" : "Subskrybuj nasz newsletter",
@@ -725,6 +724,7 @@
     "Show to logged in users only" : "Pokaż tylko zalogowanym użytkownikom",
     "Nextcloud help resources" : "Zasoby pomocy Nextcloud",
     "SMTP Username" : "Użytkownik SMTP",
+    "Follow us on Twitter" : "Bądź z nami na Twitterze",
     "Active accounts" : "Aktywne konta"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

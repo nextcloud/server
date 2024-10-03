@@ -212,7 +212,6 @@ OC.L10N.register(
     "All checks passed." : "Pasaron todas las verificaciones. ",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Desarrollado por la  {communityopen}comunidad Nextcloud {linkclose}, el {githubopen}código fuente {linkclose} está licenciado bajo  {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Da un Like a nuestra página de Facebook",
-    "Follow us on Twitter" : "Síguenos en Twitter",
     "Check out our blog" : "Visita nuestro blog",
     "Subscribe to our newsletter" : "Suscribete a nuestro boletín",
     "No user supplied" : "No se proporcionó usuario alguno",
@@ -225,6 +224,7 @@ OC.L10N.register(
     "User backend" : "Backend del usuario",
     "Show user backend" : "Mostrar backend del usuario",
     "Active users" : "Usuarios activos",
-    "SMTP Username" : "Usuario SMTP"
+    "SMTP Username" : "Usuario SMTP",
+    "Follow us on Twitter" : "Síguenos en Twitter"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

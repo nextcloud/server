@@ -177,6 +177,7 @@ OC.L10N.register(
     "Your IP address was resolved as %s" : "Vaše IP adresa byla přeložena jako %s",
     "The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud." : "Nastavení hlaviček reverzní proxy není správné nebo přistupujete na Nextcloud z důvěryhodné proxy. Pokud nepřistupujete k Nextcloud z důvěryhodné proxy, potom je toto bezpečností chyba a může útočníkovi umožnit falšovat IP adresu, kterou NextCloud vidí.",
     "HTTPS access and URLs" : "HTTPS přístup a URL adresy",
+    "Accessing site insecurely via HTTP." : "Nezabezpečený přístup k webu přes HTTP.",
     "Internet connectivity" : "Připojení k internetu",
     "Internet connectivity is disabled in configuration file." : "Připojení k Internetu je vypnuté v souboru s nastaveními.",
     "This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features." : "Tento server nemá funkční připojení k Internetu: Nedaří se připojit k vícero koncovým bodům. Některé moduly jako např. externí úložiště, upozorňování na dostupnost aktualizací, nebo instalace aplikací třetích stran kvůli tomu nebudou fungovat. Přístup k souborům z jiných míst a odesílání e-mailů s upozorněními také nemusí fungovat. Pokud chcete využívat všechny možnosti tohoto serveru, doporučujeme zprovoznit připojení k Internetu.",
@@ -715,7 +716,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "Důvody proč používat Nextcloud ve vaší organizaci",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Vyvíjeno {communityopen}komunitou Nextcloud{linkclose}, {githubopen}zdrojové kódy{linkclose} jsou licencovány pod {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Hodnoťte naše stránky na Facebooku",
-    "Follow us on Twitter" : "Následujte nás na Twitteru",
     "Follow us on Mastodon" : "Následujte nás na Mastodon",
     "Check out our blog" : "Čtete náš blog",
     "Subscribe to our newsletter" : "Přihlaste se k odběru našeho zpravodaje",
@@ -804,6 +804,7 @@ OC.L10N.register(
     "Show to logged in users only" : "Ukázat pouze přihlášeným uživatelům",
     "Nextcloud help resources" : "Prostředky nápovědy k Nextcloud",
     "SMTP Username" : "SMTP uživatelské jméno ",
+    "Follow us on Twitter" : "Následujte nás na Twitteru",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Aby bylo možné možné povolit spuštění této kontroly je třeba zajistit, aby se webový server mohl připojit sám na sebe. Proto je třeba, aby bylo možné přeložit na IP adresu a připojit se k alespoň jedné z `trusted_domains` nebo `overwrite.cli.url`.",
     "Active accounts" : "Aktivní účty"
 },
