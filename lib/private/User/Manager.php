@@ -7,6 +7,7 @@
  */
 namespace OC\User;
 
+use Doctrine\DBAL\Platforms\OraclePlatform;
 use OC\Hooks\PublicEmitter;
 use OC\Memcache\WithLocalCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -742,12 +743,15 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * Gets the list of user ids sorted by lastLogin, from most recent to least recent
 	 *
-	 * @param int|null $limit how many users to fetch
+	 * @param int|null $limit how many users to fetch (default: 25, max: 100)
 	 * @param int $offset from which offset to fetch
 	 * @param string $search search users based on search params
 	 * @return list<string> list of user IDs
 	 */
 	public function getLastLoggedInUsers(?int $limit = null, int $offset = 0, string $search = ''): array {
+		// We can't load all users who already logged in
+		$limit = min(100, $limit ?: 25);
+
 		$connection = \OC::$server->getDatabaseConnection();
 		$queryBuilder = $connection->getQueryBuilder();
 		$queryBuilder->selectDistinct('uid')
@@ -772,14 +776,36 @@ class Manager extends PublicEmitter implements IUserManager {
 		$queryBuilder->orderBy($queryBuilder->func()->lower('p.configvalue'), 'DESC')
 			->addOrderBy('uid_lower', 'ASC')
 			->setFirstResult($offset)
-			->setMaxResults($limit);
+			->setMaxResults($limit)
+		;
 
-		$result = $queryBuilder->executeQuery();
-		/** @var list<string> $uids */
-		$uids = $result->fetchAll(\PDO::FETCH_COLUMN);
-		$result->closeCursor();
+		// Oracle don't want to run ORDER BY on CLOB column
+		$loginOrder = $connection->getDatabasePlatform() instanceof OraclePlatform
+			? $queryBuilder->expr()->castColumn('pref_login.configvalue', IQueryBuilder::PARAM_INT)
+			: 'pref_login.configvalue';
+		$queryBuilder
+			->orderBy($loginOrder, 'DESC')
+			->addOrderBy($queryBuilder->func()->lower('pref_login.userid'), 'ASC');
 
-		return $uids;
+		if ($search !== '') {
+			$displayNameMatches = $this->searchDisplayName($search);
+			$matchedUids = array_map(static fn (IUser $u): string => $u->getUID(), $displayNameMatches);
+
+			$queryBuilder
+				->leftJoin('pref_login', 'preferences', 'pref_email', $queryBuilder->expr()->andX(
+					$queryBuilder->expr()->eq('pref_login.userid', 'pref_email.userid'),
+					$queryBuilder->expr()->eq('pref_email.appid', $queryBuilder->expr()->literal('settings')),
+					$queryBuilder->expr()->eq('pref_email.configkey', $queryBuilder->expr()->literal('email')),
+				))
+				->andWhere($queryBuilder->expr()->orX(
+					$queryBuilder->expr()->in('pref_login.userid', $queryBuilder->createNamedParameter($matchedUids, IQueryBuilder::PARAM_STR_ARRAY)),
+				));
+		}
+
+		/** @var list<string> */
+		$list = $queryBuilder->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+
+		return $list;
 	}
 
 	private function verifyUid(string $uid, bool $checkDataDirectory = false): bool {
