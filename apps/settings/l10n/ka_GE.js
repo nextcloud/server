@@ -217,7 +217,6 @@ OC.L10N.register(
     "All checks passed." : "ყველა შემოწმებამ ჩაიარა დადებითად.",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "განავითარა {communityopen}Nextcloud საზოგადოებამ{linkclose}, {githubopen}კოდი{linkclose} is ლიცენზირებულია {licenseopen}AGPL ლიცენზიით{linkclose}.",
     "Like our Facebook page" : "მოიწონეთ ჩვენი Facebook გვერდი",
-    "Follow us on Twitter" : "გამოგვყევით Twitter-ზე",
     "Check out our blog" : "იხილეთ ჩვენი ბლოგი",
     "Subscribe to our newsletter" : "გამოიწერეთ ჩვენი სიახლეები",
     "No user supplied" : "მომხმარებელი არ იქნა მოწოდებული",
@@ -231,6 +230,7 @@ OC.L10N.register(
     "User backend" : "მომხმარებელის ბექენდი",
     "Show user backend" : "მომხმარებლის ბექენდის ჩვენება",
     "Active users" : "აქტიური მომხმარებლები",
-    "SMTP Username" : "SMTP მოხმარებლის სახელი"
+    "SMTP Username" : "SMTP მოხმარებლის სახელი",
+    "Follow us on Twitter" : "გამოგვყევით Twitter-ზე"
 },
 "nplurals=2; plural=(n!=1);");

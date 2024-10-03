@@ -218,7 +218,6 @@ OC.L10N.register(
     "Save" : "Salvar",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Desvolopat per la {communityopen}comunautat Nextcloud{linkclose}, lo {githubopen}còdi font{linkclose} es jos licéncia {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Aimar nòstra pagina Facebook",
-    "Follow us on Twitter" : "Nos seguir sus Twitter",
     "Follow us on Mastodon" : "Nos seguir sus Mastodon",
     "Check out our blog" : "Donar un còp d’uèlh a nòstre blòg",
     "Subscribe to our newsletter" : "S’abonar a l’infoletra",
@@ -239,6 +238,7 @@ OC.L10N.register(
     "by {author}\n{license}" : "per {author}\n{license}",
     "Active users" : "Utilizaires actius",
     "Disabled users" : "Utilizaires desactivats",
-    "SMTP Username" : "Utilizaire SMTP"
+    "SMTP Username" : "Utilizaire SMTP",
+    "Follow us on Twitter" : "Nos seguir sus Twitter"
 },
 "nplurals=2; plural=(n > 1);");

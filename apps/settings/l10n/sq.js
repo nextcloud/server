@@ -212,7 +212,6 @@ OC.L10N.register(
     "All checks passed." : "I kaloi krejt kontrollet.",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Zhvilluar nga {communityopen}komuniteti Nextcloud {linkclose},  {githubopen}kodi i hapur{linkclose} iështë licensuar sipar {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Pëlqeni faqen tonë në Facebook",
-    "Follow us on Twitter" : "Na ndiqni në Twitter",
     "Check out our blog" : "Shikoni blogun tonë",
     "Subscribe to our newsletter" : "Abonohu në gazeten tonë",
     "No user supplied" : "S’u dha përdorues",
@@ -228,6 +227,7 @@ OC.L10N.register(
     "Name your device" : "Emërtoni pajisjen tuaj",
     "Active users" : "Përdoruesit aktivë",
     "Disabled users" : "Përdoruesit të çaktivizuar",
-    "SMTP Username" : "Emër përdoruesi SMTP"
+    "SMTP Username" : "Emër përdoruesi SMTP",
+    "Follow us on Twitter" : "Na ndiqni në Twitter"
 },
 "nplurals=2; plural=(n != 1);");
