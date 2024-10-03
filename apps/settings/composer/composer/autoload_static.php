@@ -119,6 +119,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\MaintenanceWindowStart' => __DIR__ . '/..' . '/../lib/SetupChecks/MaintenanceWindowStart.php',
         'OCA\\Settings\\SetupChecks\\MemcacheConfigured' => __DIR__ . '/..' . '/../lib/SetupChecks/MemcacheConfigured.php',
         'OCA\\Settings\\SetupChecks\\MimeTypeMigrationAvailable' => __DIR__ . '/..' . '/../lib/SetupChecks/MimeTypeMigrationAvailable.php',
+        'OCA\\Settings\\SetupChecks\\MysqlRowFormat' => __DIR__ . '/..' . '/../lib/SetupChecks/MysqlRowFormat.php',
         'OCA\\Settings\\SetupChecks\\MysqlUnicodeSupport' => __DIR__ . '/..' . '/../lib/SetupChecks/MysqlUnicodeSupport.php',
         'OCA\\Settings\\SetupChecks\\OcxProviders' => __DIR__ . '/..' . '/../lib/SetupChecks/OcxProviders.php',
         'OCA\\Settings\\SetupChecks\\OverwriteCliUrl' => __DIR__ . '/..' . '/../lib/SetupChecks/OverwriteCliUrl.php',
