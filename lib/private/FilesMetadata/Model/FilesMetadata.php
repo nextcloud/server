@@ -42,6 +42,14 @@ class FilesMetadata implements IFilesMetadata {
 		return $this->fileId;
 	}
 
+	public function getStorageId(): ?int {
+		return $this->storageId;
+	}
+
+	public function setStorageId(int $storageId): void {
+		$this->storageId = $storageId;
+	}
+
 	/**
 	 * @inheritDoc
 	 * @return int timestamp

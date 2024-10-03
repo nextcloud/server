@@ -8,6 +8,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\AppFramework\Http\Request;
+use OC\FilesMetadata\Model\FilesMetadata;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
@@ -581,7 +582,9 @@ class FilesPlugin extends ServerPlugin {
 			$propPatch->handle(
 				$mutation,
 				function (mixed $value) use ($accessRight, $knownMetadata, $node, $mutation, $filesMetadataManager): bool {
+					/** @var FilesMetadata $metadata */
 					$metadata = $filesMetadataManager->getMetadata((int)$node->getFileId(), true);
+					$metadata->setStorageId($node->getNode()->getStorage()->getCache()->getNumericStorageId());
 					$metadataKey = substr($mutation, strlen(self::FILE_METADATA_PREFIX));
 
 					// confirm metadata key is editable via PROPPATCH
