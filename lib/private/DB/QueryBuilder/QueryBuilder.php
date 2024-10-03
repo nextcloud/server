@@ -582,6 +582,9 @@ class QueryBuilder implements IQueryBuilder {
 			if (is_array($column)) {
 				$this->addOutputColumns($column);
 			} elseif (is_string($column) && !str_contains($column, '*')) {
+				if (str_contains(strtolower($column), ' as ')) {
+					[, $column] = preg_split('/ as /i', $column);
+				}
 				if (str_contains($column, '.')) {
 					[, $column] = explode('.', $column);
 				}
@@ -591,14 +594,7 @@ class QueryBuilder implements IQueryBuilder {
 	}
 
 	public function getOutputColumns(): array {
-		return array_unique(array_map(function (string $column) {
-			if (str_contains($column, '.')) {
-				[, $column] = explode('.', $column);
-				return $column;
-			} else {
-				return $column;
-			}
-		}, $this->selectedColumns));
+		return array_unique($this->selectedColumns);
 	}
 
 	/**
