@@ -18,9 +18,6 @@ use Psr\Log\LoggerInterface;
  * update encrypted files, e.g. because a file was shared
  */
 class Update {
-	/** @var View */
-	protected $view;
-
 	/** @var Util */
 	protected $util;
 
@@ -43,7 +40,6 @@ class Update {
 	 * @param string $uid
 	 */
 	public function __construct(
-		View $view,
 		Util $util,
 		Mount\Manager $mountManager,
 		Manager $encryptionManager,
@@ -51,7 +47,6 @@ class Update {
 		LoggerInterface $logger,
 		$uid,
 	) {
-		$this->view = $view;
 		$this->util = $util;
 		$this->mountManager = $mountManager;
 		$this->encryptionManager = $encryptionManager;
@@ -62,32 +57,28 @@ class Update {
 
 	/**
 	 * hook after file was shared
-	 *
-	 * @param array $params
 	 */
-	public function postShared($params) {
+	public function postShared(string $nodeType, int $nodeId): void {
 		if ($this->encryptionManager->isEnabled()) {
-			if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
-				$path = Filesystem::getPath($params['fileSource']);
+			if ($nodeType === 'file' || $nodeType === 'folder') {
+				$path = Filesystem::getPath($nodeId);
 				[$owner, $ownerPath] = $this->getOwnerPath($path);
 				$absPath = '/' . $owner . '/files/' . $ownerPath;
-				$this->update($absPath);
+				$this->update($nodeType === 'folder', $absPath);
 			}
 		}
 	}
 
 	/**
 	 * hook after file was unshared
-	 *
-	 * @param array $params
 	 */
-	public function postUnshared($params) {
+	public function postUnshared(string $nodeType, int $nodeId): void {
 		if ($this->encryptionManager->isEnabled()) {
-			if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
-				$path = Filesystem::getPath($params['fileSource']);
+			if ($nodeType === 'file' || $nodeType === 'folder') {
+				$path = Filesystem::getPath($nodeId);
 				[$owner, $ownerPath] = $this->getOwnerPath($path);
 				$absPath = '/' . $owner . '/files/' . $ownerPath;
-				$this->update($absPath);
+				$this->update($nodeType === 'folder', $absPath);
 			}
 		}
 	}
@@ -95,32 +86,26 @@ class Update {
 	/**
 	 * inform encryption module that a file was restored from the trash bin,
 	 * e.g. to update the encryption keys
-	 *
-	 * @param array $params
 	 */
-	public function postRestore($params) {
+	public function postRestore(bool $directory, string $filePath): void {
 		if ($this->encryptionManager->isEnabled()) {
-			$path = Filesystem::normalizePath('/' . $this->uid . '/files/' . $params['filePath']);
-			$this->update($path);
+			$path = Filesystem::normalizePath('/' . $this->uid . '/files/' . $filePath);
+			$this->update($directory, $path);
 		}
 	}
 
 	/**
 	 * inform encryption module that a file was renamed,
 	 * e.g. to update the encryption keys
-	 *
-	 * @param array $params
 	 */
-	public function postRename($params) {
-		$source = $params['oldpath'];
-		$target = $params['newpath'];
+	public function postRename(bool $directory, string $source, string $target): void {
 		if (
 			$this->encryptionManager->isEnabled() &&
 			dirname($source) !== dirname($target)
 		) {
 			[$owner, $ownerPath] = $this->getOwnerPath($target);
 			$absPath = '/' . $owner . '/files/' . $ownerPath;
-			$this->update($absPath);
+			$this->update($directory, $absPath);
 		}
 	}
 
@@ -149,7 +134,7 @@ class Update {
 	 * @param string $path relative to data/
 	 * @throws Exceptions\ModuleDoesNotExistsException
 	 */
-	public function update($path) {
+	public function update(bool $directory, string $path): void {
 		$encryptionModule = $this->encryptionManager->getEncryptionModule();
 
 		// if the encryption module doesn't encrypt the files on a per-user basis
@@ -159,7 +144,7 @@ class Update {
 		}
 
 		// if a folder was shared, get a list of all (sub-)folders
-		if ($this->view->is_dir($path)) {
+		if ($directory) {
 			$allFiles = $this->util->getAllFiles($path);
 		} else {
 			$allFiles = [$path];
