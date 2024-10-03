@@ -17,6 +17,7 @@
 
 # ignore all apps except core ones
 /apps*/*
+!/apps/sociallogin
 !/apps/cloud_federation_api
 !/apps/comments
 !/apps/contactsinteraction

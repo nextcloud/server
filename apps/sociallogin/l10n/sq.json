@@ -1,0 +1,8 @@
+{ "translations": {
+    "Save" : "Ruaj",
+    "None" : "Asnjë",
+    "Secret" : "Sekret",
+    "Title" : "Titulli",
+    "Scope" : "Shtrirje"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

@@ -1,0 +1,8 @@
+{ "translations": {
+    "Save" : "Salvesta",
+    "None" : "Pole",
+    "Secret" : "Salajane",
+    "Title" : "Pealkiri",
+    "Scope" : "Skoop"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

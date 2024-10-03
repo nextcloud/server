@@ -20,6 +20,8 @@ use OCP\Share;
 use OCP\User\Events\UserChangedEvent;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+
+use OCA\SocialLogin\Service\LoginAttemptEvent;
 use function OCP\Log\logger;
 
 require_once 'public/Constants.php';
@@ -1077,6 +1079,22 @@ class OC {
 			return false;
 		}
 		$userSession = Server::get(\OC\User\Session::class);
+
+
+		// Dispatch a custom event
+		$eventDispatcher = \OC::$server->get(IEventDispatcher::class);
+		$event = new LoginAttemptEvent($request);
+		$eventDispatcher->dispatch('user.login_attempt', $event);
+
+		
+		// Check if any listener marked the login as successful
+		if ($event->isLoginSuccess()) {
+			if ($userSession->tryTokenLogin($request)) {
+				return true;
+			}			
+		}
+
+
 		if (OC_User::handleApacheAuth()) {
 			return true;
 		}

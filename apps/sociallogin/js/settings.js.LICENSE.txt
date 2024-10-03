@@ -1,0 +1,15 @@
+/*!
+ * Toastify js 1.12.0
+ * https://github.com/apvarun/toastify-js
+ * @license MIT licensed
+ *
+ * Copyright (C) 2018 Varun A P
+ */
+
+/*! #__NO_SIDE_EFFECTS__ */
+
+/**
+* @vue/shared v3.4.27
+* (c) 2018-present Yuxi (Evan) You and Vue contributors
+* @license MIT
+**/

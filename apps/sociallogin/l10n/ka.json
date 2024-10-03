@@ -1,0 +1,8 @@
+{ "translations": {
+    "Save" : "Save",
+    "None" : "None",
+    "Team ID" : "Team ID",
+    "Secret" : "Secret",
+    "Scope" : "Scope"
+},"pluralForm" :"nplurals=2; plural=(n!=1);"
+}

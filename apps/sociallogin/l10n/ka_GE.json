@@ -1,0 +1,8 @@
+{ "translations": {
+    "Save" : "შენახვა",
+    "None" : "არც ერთი",
+    "Secret" : "საიდუმლო",
+    "Title" : "სათაური",
+    "Scope" : "ფარგლები"
+},"pluralForm" :"nplurals=2; plural=(n!=1);"
+}
