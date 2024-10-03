@@ -350,7 +350,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "Resones pro impreare Nextcloud in s'organizatzione tua",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Isvilupadu dae {communityopen}comunidadeNextcloud {linkclose}, su {githubopen}còdighe de orìgine{linkclose} est lissentziadu pro {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Pone•ddi M'agradat a sa pàgina Facebook nostra",
-    "Follow us on Twitter" : "Sighi•nosi in Twitter",
     "Follow us on Mastodon" : "Sighi•nos in Mastodon",
     "Check out our blog" : "Leghe·ti su blog nostru",
     "Subscribe to our newsletter" : "Iscrie·ti a sa lista de messàgios nostra",
@@ -388,6 +387,7 @@ OC.L10N.register(
     "Active users" : "Utèntzias ativas",
     "Disabled users" : "Disativa utentes",
     "Show to logged in users only" : "Mustra isceti a is utentes autenticados",
-    "SMTP Username" : "Nùmene utente SMTP "
+    "SMTP Username" : "Nùmene utente SMTP ",
+    "Follow us on Twitter" : "Sighi•nosi in Twitter"
 },
 "nplurals=2; plural=(n != 1);");

@@ -521,7 +521,6 @@
     "Reasons to use Nextcloud in your organization" : "Razones pa usar Nextcloud na to organzación",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Desendolcáu pola {communityopen}comunidá de Nextcloud{linkclose}, el {githubopen}códigu fonte{linkclose} llicénciase baxo l'{licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Da un préstame a la nuesa páxina de Facebook",
-    "Follow us on Twitter" : "Síguinos en Twitter",
     "Follow us on Mastodon" : "Síguinos en Mastodon",
     "Check out our blog" : "Revisa'l nuesu blogue",
     "Subscribe to our newsletter" : "Soscríbite al nuesu boletín",
@@ -569,6 +568,7 @@
     "Disabled users" : "Usuarios desactivaos",
     "Creating group …" : "Creando'l grupu…",
     "Nextcloud help resources" : "Recursos d'ayuda de Nextcloud",
+    "Follow us on Twitter" : "Síguinos en Twitter",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Pa permitir qu'esta comprobación s'execute, tienes d'asegurate de que'l sirvidor web se pueda conectase. Poro, ha ser a resolver y conectase a, polo menos, unu de los sos «trusted_domains» o al «overwrite.cli.url».",
     "Active accounts" : "Cuentes actives"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

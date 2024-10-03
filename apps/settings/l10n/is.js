@@ -518,7 +518,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "Ástæður til að nota Nextcloud á vinnustaðnum þínum",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Þróað af {communityopen}Nextcloud samfélaginu{linkclose}, {githubopen}grunnkóðinn{linkclose} er gefinn út með {licenseopen}AGPL{linkclose} notkunarleyfinu.",
     "Like our Facebook page" : "Líkaðu við Facebook-síðuna okkar",
-    "Follow us on Twitter" : "Fylgstu með okkur á Twitter",
     "Follow us on Mastodon" : "Fylgstu með okkur á Mastodon",
     "Check out our blog" : "Kíktu á bloggið okkar",
     "Subscribe to our newsletter" : "Gerstu áskrifandi að fréttabréfinu okkar",
@@ -592,6 +591,7 @@ OC.L10N.register(
     "Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions" : "Er ekki tiltækt þar sem ekki er leyfilegt að miðla sértækum gögnum notenda yfir á uppflettingaþjóninn, hafðu samband við kerfisstjórann þinn ef þú ert með einhverjar spurningar",
     "Show to logged in users only" : "Birta einungis innskráðum notendum",
     "Nextcloud help resources" : "Aðstoðartilföng Nextcloud",
-    "SMTP Username" : "SMTP-notandanafn"
+    "SMTP Username" : "SMTP-notandanafn",
+    "Follow us on Twitter" : "Fylgstu með okkur á Twitter"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
