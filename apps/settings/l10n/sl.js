@@ -662,7 +662,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "Razlogi za uporabo oblaka Nextcloud v vaši organizaciji",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Okolje razvija {communityopen}skupnost Nextcloud{linkclose}, {githubopen}izvorna koda{linkclose} pa je objavljena pod pogoji dovoljenja {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Spremljajte naš Facebook",
-    "Follow us on Twitter" : "Sledite nam na Twitter!",
     "Follow us on Mastodon" : "Sledite nam na Mastodon",
     "Check out our blog" : "Preverite naš blog",
     "Subscribe to our newsletter" : "Naročite se na novice",
@@ -747,6 +746,7 @@ OC.L10N.register(
     "Show to logged in users only" : "Pokaži le prijavljenim uporabnikom",
     "Nextcloud help resources" : "Viri pomoči za okolje Nextcloud",
     "SMTP Username" : "Uporabniško ime SMTP",
+    "Follow us on Twitter" : "Sledite nam na Twitter!",
     "Active accounts" : "Dejavni računi",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Če želite omogočiti izvajanje tega preverjanja, je treba zagotoviti, da se spletni strežnik lahko poveže sam s seboj. Zato mora biti nastavljen za povezovanje z vsaj eno od določenih »varnih domen« (trusted_domains) ali naslovov za prepis »vmesnika ukazne vrstice« (overwrite.cli.url). Spodletelo preverjanje je lahko posledica neujemanja imen DNS na strani strežnika oziroma pravila požarnega zidu."
 },

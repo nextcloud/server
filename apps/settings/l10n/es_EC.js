@@ -448,7 +448,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "Razones para usar Nextcloud en tu organización",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Desarrollado por la  {communityopen}comunidad Nextcloud {linkclose}, el {githubopen}código fuente {linkclose} está licenciado bajo  {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Da un Like a nuestra página de Facebook",
-    "Follow us on Twitter" : "Síguenos en Twitter",
     "Follow us on Mastodon" : "Síguenos en Mastodon",
     "Check out our blog" : "Visita nuestro blog",
     "Subscribe to our newsletter" : "Suscribete a nuestro boletín",
@@ -515,6 +514,7 @@ OC.L10N.register(
     "Not available as federation has been disabled for your account, contact your system administrator if you have any questions" : "No disponible, ya que la federación se ha desactivado para tu cuenta. Ponte en contacto con el administrador del sistema si tienes alguna pregunta.",
     "Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions" : "No disponible, ya que no se permite la publicación de datos específicos de usuarios en el servidor de búsqueda. Ponte en contacto con el administrador del sistema si tienes alguna pregunta.",
     "Show to logged in users only" : "Mostrar solo a usuarios conectados",
-    "SMTP Username" : "Usuario SMTP"
+    "SMTP Username" : "Usuario SMTP",
+    "Follow us on Twitter" : "Síguenos en Twitter"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

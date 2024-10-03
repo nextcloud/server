@@ -564,7 +564,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "Motius per a utilitzar Nextcloud en la vostra organització",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Desenvolupat per la {communityopen}comunitat Nextcloud{linkclose}, el {githubopen}codi font{linkclose} es troba sota la llicència {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Poseu un m’agrada a la nostra pàgina de Facebook",
-    "Follow us on Twitter" : "Seguiu-nos a Twitter",
     "Follow us on Mastodon" : "Seguiu-nos a Mastodon",
     "Check out our blog" : "Consulteu el nostre bloc",
     "Subscribe to our newsletter" : "Subscriviu-vos al nostre butlletí",
@@ -649,6 +648,7 @@ OC.L10N.register(
     "Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions" : "No està disponible perquè no es permet la publicació de dades específiques de l'usuari al servidor de cerca, poseu-vos en contacte amb l'administrador del sistema si teniu cap pregunta",
     "Show to logged in users only" : "Mostra només als usuaris connectats",
     "Nextcloud help resources" : "Recursos d'ajuda de Nextcloud",
-    "SMTP Username" : "Nom d'usuari SMTP"
+    "SMTP Username" : "Nom d'usuari SMTP",
+    "Follow us on Twitter" : "Seguiu-nos a Twitter"
 },
 "nplurals=2; plural=(n != 1);");
