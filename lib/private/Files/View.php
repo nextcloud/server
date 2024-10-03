@@ -26,6 +26,7 @@ use OCP\Files\InvalidDirectoryException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\ReservedWordException;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -751,16 +752,18 @@ class View {
 					$mount2 = $this->getMount($target);
 					$storage1 = $mount1->getStorage();
 					$storage2 = $mount2->getStorage();
+					$sourceParent = dirname($source);
+					$targetParent = dirname($target);
 					$internalPath1 = $mount1->getInternalPath($absolutePath1);
 					$internalPath2 = $mount2->getInternalPath($absolutePath2);
 
-					$this->changeLock($source, ILockingProvider::LOCK_EXCLUSIVE, true);
+					$this->changeLock($source, ILockingProvider::LOCK_EXCLUSIVE, true);s
 					try {
 						$this->changeLock($target, ILockingProvider::LOCK_EXCLUSIVE, true);
 
 						if ($internalPath1 === '') {
 							if ($mount1 instanceof MoveableMount) {
-								$sourceParentMount = $this->getMount(dirname($source));
+								$sourceParentMount = $this->getMount($sourceParent);
 								if ($sourceParentMount === $mount2 && $this->targetIsNotShared($targetUser, $absolutePath2)) {
 									/**
 									 * @var \OC\Files\Mount\MountPoint | \OC\Files\Mount\MoveableMount $mount1
@@ -769,7 +772,7 @@ class View {
 									$result = $mount1->moveMount($absolutePath2);
 									$manager->moveMount($sourceMountPoint, $mount1->getMountPoint());
 								} else {
-									$result = false;
+									throw new NotPermittedException("Not allowed to move $source to $target as $sourceParent is not the same storage as $targetParent");
 								}
 							} else {
 								$result = false;
