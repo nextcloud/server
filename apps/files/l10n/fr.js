@@ -135,7 +135,7 @@ OC.L10N.register(
     "Unknown error" : "Erreur inconnue ",
     "Ownership transfer request sent" : "Requête de transfert de propriété envoyée",
     "Cannot transfer ownership of a file or folder you do not own" : "Impossible de transférer la propriété d'un fichier ou d'un dossier que vous ne possédez pas",
-    "Select file or folder to link to" : "Sélectionnez le fichier ou le dossier à lier",
+    "Select file or folder to link to" : "Sélection d'un fichier ou d'un dossier à lier",
     "Choose {file}" : "Choisir {file}",
     "New" : "Nouveau",
     "Loading current folder" : "Chargement du dossier courant",
