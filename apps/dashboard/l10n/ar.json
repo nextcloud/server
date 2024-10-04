@@ -1,10 +1,10 @@
 { "translations": {
-    "Dashboard" : "لوحة التحكم",
+    "Dashboard" : "الرئيسية",
     "Dashboard app" : "تطبيق الصفحة الرئيسية",
     "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "ابدأ يومك على اطِّلاع. \n\nتُعدُّ لوحة المعلومات dashboard في نكست كلاود هي نقطة البداية لليوم. إذ هي تُوفِّر لك نظرة عامة على مواعيدك القادمة و رسائل بريدك العاجلة و رسائل الدردشة و التذاكر الواردة و أحدث التغريدات و غير ذلك الكثير! يُمكِن للمستخدِم إضافة الأدوات التي يحبها و تغيير الخلفية حسب رغبته.",
     "\"{title} icon\"" : "\"{title} أيقونة\"",
     "Customize" : "تعديل",
-    "Edit widgets" : "تعديل الودجات",
+    "Edit widgets" : "تعديل أدوات الصفحة الرئيسية",
     "Get more widgets from the App Store" : "يمكنك الحصول على المزيد من الأدوات من متجر التطبيقات",
     "Weather service" : "خدمة الطقس",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "للحفاظ على خصوصيتك، يتم استدعاء بيانات حالة الطقس عبر خادم NextCloud الخاص بك نيابه عنك، وبالتالي فإن خدمة حالة الطقس لا تشارك معلوماتك الشخصية.",
