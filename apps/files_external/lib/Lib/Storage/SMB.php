@@ -36,6 +36,7 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\INotifyStorage;
 use OCP\Files\StorageAuthException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IBinaryFinder;
 use Psr\Log\LoggerInterface;
 
 class SMB extends Common implements INotifyStorage {
@@ -698,7 +699,7 @@ class SMB extends Common implements INotifyStorage {
 	 */
 	public static function checkDependencies(): array|bool {
 		return (
-			(bool)\OC_Helper::findBinaryPath('smbclient')
+			(bool) \OCP\Server::get(IBinaryFinder::class)->findBinaryPath('smbclient')
 			|| NativeServer::available(new System())
 		) ? true : ['smbclient'];
 	}
