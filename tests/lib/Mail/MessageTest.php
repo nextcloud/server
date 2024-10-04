@@ -92,23 +92,23 @@ class MessageTest extends TestCase {
 		$this->symfonyEmail
 			->expects($this->once())
 			->method('from')
-			->willReturn(new Address('pierres-general-store@stardewvalley.com', 'Pierres General Store'));
+			->with(new Address('pierres-general-store@stardewvalley.com', 'Pierres General Store'));
 		$this->symfonyEmail
 			->expects($this->once())
 			->method('to')
-			->willReturn(new Address('lewis-tent@stardewvalley.com', "Lewis' Tent Life"));
+			->with(new Address('lewis-tent@stardewvalley.com', "Lewis' Tent Life"));
 		$this->symfonyEmail
 			->expects($this->once())
 			->method('replyTo')
-			->willReturn(new Address('penny@stardewvalley-library.co.edu', 'Penny'));
+			->with(new Address('penny@stardewvalley-library.co.edu', 'Penny'));
 		$this->symfonyEmail
 			->expects($this->once())
 			->method('cc')
-			->willReturn(new Address('gunther@stardewvalley-library.co.edu', 'Gunther'));
+			->with(new Address('gunther@stardewvalley-library.co.edu', 'Gunther'));
 		$this->symfonyEmail
 			->expects($this->once())
 			->method('bcc')
-			->willReturn(new Address('pam@stardewvalley-bus.com', 'Pam'));
+			->with(new Address('pam@stardewvalley-bus.com', 'Pam'));
 
 		$this->message->setRecipients();
 	}
