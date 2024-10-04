@@ -193,7 +193,16 @@ class SettingTest extends TestCase {
 			->willReturnMap($options);
 		$this->consoleInput->expects($this->any())
 			->method('hasParameterOption')
-			->willReturnMap($parameterOptions);
+			->willReturnCallback(function (string|array $config, bool $default = false) use ($parameterOptions): bool {
+				foreach ($parameterOptions as $parameterOption) {
+					if ($config === $parameterOption[0]
+						// Check the default value if the maps has 3 entries
+						&& (!isset($parameterOption[2]) || $default === $parameterOption[1])) {
+						return end($parameterOption);
+					}
+				}
+				return false;
+			});
 
 		if ($user !== false) {
 			$this->userManager->expects($this->once())
@@ -401,15 +410,16 @@ class SettingTest extends TestCase {
 			if ($defaultValue === null) {
 				$this->consoleInput->expects($this->atLeastOnce())
 					->method('hasParameterOption')
-					->willReturnMap([
-						['--default-value', false],
-					]);
+					->willReturn(false);
 			} else {
 				$this->consoleInput->expects($this->atLeastOnce())
 					->method('hasParameterOption')
-					->willReturnMap([
-						['--default-value', false, true],
-					]);
+					->willReturnCallback(function (string|array $config, bool $default = false): bool {
+						if ($config === '--default-value' && $default === false) {
+							return true;
+						}
+						return false;
+					});
 				$this->consoleInput->expects($this->once())
 					->method('getOption')
 					->with('default-value')
