@@ -20,9 +20,11 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\Files\NotFoundException;
+use OCP\Group\ISubAdmin;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -55,6 +57,8 @@ abstract class AUserData extends OCSController {
 	protected $userSession;
 	/** @var IAccountManager */
 	protected $accountManager;
+	/** @var ISubAdmin */
+	protected $subAdminManager;
 	/** @var IFactory */
 	protected $l10nFactory;
 
@@ -65,6 +69,7 @@ abstract class AUserData extends OCSController {
 		IGroupManager $groupManager,
 		IUserSession $userSession,
 		IAccountManager $accountManager,
+		ISubAdmin $subAdminManager,
 		IFactory $l10nFactory) {
 		parent::__construct($appName, $request);
 
@@ -73,6 +78,7 @@ abstract class AUserData extends OCSController {
 		$this->groupManager = $groupManager;
 		$this->userSession = $userSession;
 		$this->accountManager = $accountManager;
+		$this->subAdminManager = $subAdminManager;
 		$this->l10nFactory = $l10nFactory;
 	}
 
@@ -136,8 +142,8 @@ abstract class AUserData extends OCSController {
 		$data['backend'] = $targetUserObject->getBackendClassName();
 		$data['subadmin'] = $this->getUserSubAdminGroupsData($targetUserObject->getUID());
 		$data[self::USER_FIELD_QUOTA] = $this->fillStorageInfo($targetUserObject->getUID());
-		$managerUids = $targetUserObject->getManagerUids();
-		$data[self::USER_FIELD_MANAGER] = empty($managerUids) ? '' : $managerUids[0];
+		$managers = $this->getManagers($targetUserObject);
+		$data[self::USER_FIELD_MANAGER] = empty($managers) ? '' : $managers[0];
 
 		try {
 			if ($includeScopes) {
@@ -204,6 +210,34 @@ abstract class AUserData extends OCSController {
 		];
 
 		return $data;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	protected function getManagers(IUser $user): array {
+		$currentLoggedInUser = $this->userSession->getUser();
+
+		$managerUids = $user->getManagerUids();
+		if ($this->groupManager->isAdmin($currentLoggedInUser->getUID()) || $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())) {
+			return $managerUids;
+		}
+
+		if ($this->subAdminManager->isSubAdmin($currentLoggedInUser)) {
+			$accessibleManagerUids = array_values(array_filter(
+				$managerUids,
+				function (string $managerUid) use ($currentLoggedInUser) {
+					$manager = $this->userManager->get($managerUid);
+					if (!($manager instanceof IUser)) {
+						return false;
+					}
+					return $this->subAdminManager->isUserAccessible($currentLoggedInUser, $manager);
+				},
+			));
+			return $accessibleManagerUids;
+		}
+
+		return [];
 	}
 
 	/**
