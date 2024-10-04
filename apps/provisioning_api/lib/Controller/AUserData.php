@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\Provisioning_API\Controller;
 
-use OC\Group\Manager;
+use OC\Group\Manager as GroupManager;
 use OC\User\Backend;
 use OC\User\NoUserException;
 use OC_Helper;
@@ -22,7 +22,6 @@ use OCP\AppFramework\OCSController;
 use OCP\Files\NotFoundException;
 use OCP\Group\ISubAdmin;
 use OCP\IConfig;
-use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -47,39 +46,18 @@ abstract class AUserData extends OCSController {
 	public const USER_FIELD_MANAGER = 'manager';
 	public const USER_FIELD_NOTIFICATION_EMAIL = 'notify_email';
 
-	/** @var IUserManager */
-	protected $userManager;
-	/** @var IConfig */
-	protected $config;
-	/** @var Manager */
-	protected $groupManager;
-	/** @var IUserSession */
-	protected $userSession;
-	/** @var IAccountManager */
-	protected $accountManager;
-	/** @var ISubAdmin */
-	protected $subAdminManager;
-	/** @var IFactory */
-	protected $l10nFactory;
-
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IUserManager $userManager,
-		IConfig $config,
-		IGroupManager $groupManager,
-		IUserSession $userSession,
-		IAccountManager $accountManager,
-		ISubAdmin $subAdminManager,
-		IFactory $l10nFactory) {
+		protected IUserManager $userManager,
+		protected IConfig $config,
+		protected GroupManager $groupManager,
+		protected IUserSession $userSession,
+		protected IAccountManager $accountManager,
+		protected ISubAdmin $subAdminManager,
+		protected IFactory $l10nFactory,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->userManager = $userManager;
-		$this->config = $config;
-		$this->groupManager = $groupManager;
-		$this->userSession = $userSession;
-		$this->accountManager = $accountManager;
-		$this->subAdminManager = $subAdminManager;
-		$this->l10nFactory = $l10nFactory;
 	}
 
 	/**
