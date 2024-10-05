@@ -205,6 +205,8 @@
     "Edit online" : "Çevrim içi düzenle",
     "Failed to redirect to client" : "İstemciye yönlendirilemedi",
     "Edit locally" : "Yerel olarak düzenle",
+    "Moving \"{source}\" to \"{destination}\" …" : "\"{source}\", \"{destination}\" hedefine taşınıyor…",
+    "Copying \"{source}\" to \"{destination}\" …" : "\"{source}\", \"{destination}\" hedefine kopyalanıyor…",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Bir dosyayı ya da klasörü kendi üzerine veya kendisinin alt klasörüne taşıyamazsınız",
     "(copy)" : "(kopya)",
     "(copy %n)" : "(%n kopyası)",
