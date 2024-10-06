@@ -207,6 +207,8 @@ OC.L10N.register(
     "Edit online" : "Editar on-line",
     "Failed to redirect to client" : "Falha ao redirecionar para o cliente",
     "Edit locally" : "Editar localmente",
+    "Moving \"{source}\" to \"{destination}\" …" : "Movendo \"{source}\" para \"{destination}\" …",
+    "Copying \"{source}\" to \"{destination}\" …" : "Copiando \"{source}\" para \"{destination}\" …",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Você não pode mover um arquivo/pasta para si mesmo ou para uma subpasta dele mesmo",
     "(copy)" : "(cópia)",
     "(copy %n)" : "(copiar %n)",
@@ -396,6 +398,7 @@ OC.L10N.register(
     "Direct link was copied (only works for people who have access to this file/folder)" : "Link direto foi copiado (funciona apenas para pessoas que têm acesso a este arquivo/pasta)",
     "Copy direct link (only works for people who have access to this file/folder)" : "Copiar link direto (funciona apenas para pessoas que têm acesso a este arquivo/pasta)",
     "Favored" : "Favoritado",
+    "Favor" : "Favor",
     "Not favored" : "Não favoritado"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
