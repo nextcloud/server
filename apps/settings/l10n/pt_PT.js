@@ -214,6 +214,7 @@ OC.L10N.register(
     "Email" : "Email",
     "Quota" : "Quota",
     "Language" : "Idioma",
+    "Total rows summary" : "Resumo do total de linhas",
     "Avatar" : "Avatar",
     "Group admin for" : "Administrador de grupo para",
     "Storage location" : "Localização do armazenamento",
