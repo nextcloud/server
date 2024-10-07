@@ -8,7 +8,9 @@ declare(strict_types=1);
  */
 namespace OC\DB;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Result;
+use OC\DB\Exceptions\DbalException;
 use OCP\DB\IResult;
 use PDO;
 
@@ -38,6 +40,22 @@ class ResultAdapter implements IResult {
 		};
 	}
 
+	public function fetchAssociative(): array|false {
+		try {
+			return $this->inner->fetchAssociative();
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
+	}
+
+	public function fetchAllAssociative(): array {
+		try {
+			return $this->inner->fetchAllAssociative();
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
+	}
+
 	public function fetchAll(int $fetchMode = PDO::FETCH_ASSOC): array {
 		return match ($fetchMode) {
 			PDO::FETCH_ASSOC => $this->inner->fetchAllAssociative(),
@@ -51,8 +69,32 @@ class ResultAdapter implements IResult {
 		return $this->inner->fetchOne();
 	}
 
+	public function fetchNumeric(): array|false {
+		try {
+			return $this->inner->fetchNumeric();
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
+	}
+
+	public function fetchAllNumeric(): array {
+		try {
+			return $this->inner->fetchAllNumeric();
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
+	}
+
 	public function fetchOne() {
 		return $this->inner->fetchOne();
+	}
+
+	public function fetchFirstColumn(): array {
+		try {
+			return $this->inner->fetchFirstColumn();
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
 	}
 
 	public function rowCount(): int {
