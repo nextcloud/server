@@ -33,7 +33,7 @@ use OCP\DB\Exception;
 use Psr\Log\LoggerInterface;
 
 class RemoveOldTasksBackgroundJob extends TimedJob {
-	public const MAX_TASK_AGE_SECONDS = 60 * 50 * 24 * 7; // 1 week
+	public const MAX_TASK_AGE_SECONDS = 60 * 60 * 24 * 7; // 1 week
 
 	public function __construct(
 		ITimeFactory $timeFactory,
@@ -43,6 +43,7 @@ class RemoveOldTasksBackgroundJob extends TimedJob {
 	) {
 		parent::__construct($timeFactory);
 		$this->setInterval(60 * 60 * 24);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 	/**

@@ -28,7 +28,6 @@ namespace OCA\OAuth2\BackgroundJob;
 
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
 use OCP\DB\Exception;
 use Psr\Log\LoggerInterface;
@@ -44,7 +43,7 @@ class CleanupExpiredAuthorizationCode extends TimedJob {
 		parent::__construct($timeFactory);
 		// 30 days
 		$this->setInterval(60 * 60 * 24 * 30);
-		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 	/**

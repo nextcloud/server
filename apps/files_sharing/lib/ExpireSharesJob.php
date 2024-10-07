@@ -25,7 +25,6 @@
 namespace OCA\Files_Sharing;
 
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IDBConnection;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -51,7 +50,7 @@ class ExpireSharesJob extends TimedJob {
 
 		// Run once a day
 		$this->setInterval(24 * 60 * 60);
-		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 

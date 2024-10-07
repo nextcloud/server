@@ -27,7 +27,6 @@ namespace OCA\ContactsInteraction\BackgroundJob;
 
 use OCA\ContactsInteraction\Db\RecentContactMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
 
 class CleanupJob extends TimedJob {
@@ -39,7 +38,7 @@ class CleanupJob extends TimedJob {
 		parent::__construct($time);
 
 		$this->setInterval(24 * 60 * 60);
-		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 
 	}
 
