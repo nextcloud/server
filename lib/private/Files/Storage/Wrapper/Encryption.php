@@ -29,76 +29,32 @@ use Psr\Log\LoggerInterface;
 class Encryption extends Wrapper {
 	use LocalTempFileTrait;
 
-	/** @var string */
-	private $mountPoint;
-
-	/** @var \OC\Encryption\Util */
-	private $util;
-
-	/** @var \OCP\Encryption\IManager */
-	private $encryptionManager;
-
-	private LoggerInterface $logger;
-
-	/** @var string */
-	private $uid;
-
-	/** @var array */
-	protected $unencryptedSize;
-
-	/** @var \OCP\Encryption\IFile */
-	private $fileHelper;
-
-	/** @var IMountPoint */
-	private $mount;
-
-	/** @var IStorage */
-	private $keyStorage;
-
-	/** @var Update */
-	private $update;
-
-	/** @var Manager */
-	private $mountManager;
-
-	/** @var array remember for which path we execute the repair step to avoid recursions */
-	private $fixUnencryptedSizeOf = [];
-
-	/** @var ArrayCache */
-	private $arrayCache;
-
+	private string $mountPoint;
+	protected array $unencryptedSize = [];
+	private IMountPoint $mount;
+	/** for which path we execute the repair step to avoid recursions */
+	private array $fixUnencryptedSizeOf = [];
 	/** @var CappedMemoryCache<bool> */
 	private CappedMemoryCache $encryptedPaths;
-
-	private $enabled = true;
+	private bool $enabled = true;
 
 	/**
 	 * @param array $parameters
 	 */
 	public function __construct(
 		$parameters,
-		?IManager $encryptionManager = null,
-		?Util $util = null,
-		?LoggerInterface $logger = null,
-		?IFile $fileHelper = null,
-		$uid = null,
-		?IStorage $keyStorage = null,
-		?Update $update = null,
-		?Manager $mountManager = null,
-		?ArrayCache $arrayCache = null,
+		private IManager $encryptionManager,
+		private Util $util,
+		private LoggerInterface $logger,
+		private IFile $fileHelper,
+		private ?string $uid,
+		private IStorage $keyStorage,
+		private Update $update,
+		private Manager $mountManager,
+		private ArrayCache $arrayCache,
 	) {
 		$this->mountPoint = $parameters['mountPoint'];
 		$this->mount = $parameters['mount'];
-		$this->encryptionManager = $encryptionManager;
-		$this->util = $util;
-		$this->logger = $logger;
-		$this->uid = $uid;
-		$this->fileHelper = $fileHelper;
-		$this->keyStorage = $keyStorage;
-		$this->unencryptedSize = [];
-		$this->update = $update;
-		$this->mountManager = $mountManager;
-		$this->arrayCache = $arrayCache;
 		$this->encryptedPaths = new CappedMemoryCache();
 		parent::__construct($parameters);
 	}
