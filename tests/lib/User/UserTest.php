@@ -513,14 +513,25 @@ class UserTest extends TestCase {
 		$test = $this;
 
 		/**
-		 * @var Backend | MockObject $backend
+		 * @var UserInterface&MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
 			->method('deleteUser')
 			->willReturn($result);
+
+		$config = $this->createMock(IConfig::class);
+		$config->method('getSystemValue')
+			->willReturnArgument(1);
+		$config->method('getSystemValueString')
+			->willReturnArgument(1);
+		$config->method('getSystemValueBool')
+			->willReturnArgument(1);
+		$config->method('getSystemValueInt')
+			->willReturnArgument(1);
+
 		$emitter = new PublicEmitter();
-		$user = new User('foo', $backend, $this->dispatcher, $emitter);
+		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
 
 		/**
 		 * @param User $user
@@ -533,21 +544,11 @@ class UserTest extends TestCase {
 		$emitter->listen('\OC\User', 'preDelete', $hook);
 		$emitter->listen('\OC\User', 'postDelete', $hook);
 
-		$config = $this->createMock(IConfig::class);
 		$commentsManager = $this->createMock(ICommentsManager::class);
 		$notificationManager = $this->createMock(INotificationManager::class);
 
-		$config->method('getSystemValue')
-			->willReturnArgument(1);
-		$config->method('getSystemValueString')
-			->willReturnArgument(1);
-		$config->method('getSystemValueBool')
-			->willReturnArgument(1);
-		$config->method('getSystemValueInt')
-			->willReturnArgument(1);
-
 		if ($result) {
-			$config->expects($this->once())
+			$config->expects($this->atLeastOnce())
 				->method('deleteAllUserValues')
 				->with('foo');
 
@@ -586,7 +587,6 @@ class UserTest extends TestCase {
 
 		$this->overwriteService(\OCP\Notification\IManager::class, $notificationManager);
 		$this->overwriteService(\OCP\Comments\ICommentsManager::class, $commentsManager);
-		$this->overwriteService(AllConfig::class, $config);
 
 		$this->assertSame($result, $user->delete());
 
@@ -595,6 +595,59 @@ class UserTest extends TestCase {
 		$this->restoreService(\OCP\Notification\IManager::class);
 
 		$this->assertEquals($expectedHooks, $hooksCalled);
+	}
+
+	public function testDeleteRecoverState() {
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->expects($this->once())
+			->method('deleteUser')
+			->willReturn(true);
+
+		$config = $this->createMock(IConfig::class);
+		$config->method('getSystemValue')
+			->willReturnArgument(1);
+		$config->method('getSystemValueString')
+			->willReturnArgument(1);
+		$config->method('getSystemValueBool')
+			->willReturnArgument(1);
+		$config->method('getSystemValueInt')
+			->willReturnArgument(1);
+
+		$userConfig = [];
+		$config->expects(self::atLeast(2))
+			->method('setUserValue')
+			->willReturnCallback(function () {
+				$userConfig[] = func_get_args();
+			});
+
+		$commentsManager = $this->createMock(ICommentsManager::class);
+		$commentsManager->expects($this->once())
+			->method('deleteReferencesOfActor')
+			->willThrowException(new \Error('Test exception'));
+
+		$this->overwriteService(\OCP\Comments\ICommentsManager::class, $commentsManager);
+		$this->expectException(\Error::class);
+
+		$user = $this->getMockBuilder(User::class)
+			->onlyMethods(['getHome'])
+			->setConstructorArgs(['foo', $backend, $this->dispatcher, null, $config])
+			->getMock();
+		
+		$user->expects(self::atLeastOnce())
+			->method('getHome')
+			->willReturn('/home/path');
+
+		$user->delete();
+
+		$this->assertEqualsCanonicalizing(
+			[
+				['foo', 'core', 'deleted', 'true', null],
+				['foo', 'core', 'deleted.backup-home', '/home/path', null],
+			],
+			$userConfig,
+		);
+
+		$this->restoreService(\OCP\Comments\ICommentsManager::class);
 	}
 
 	public function dataGetCloudId(): array {
