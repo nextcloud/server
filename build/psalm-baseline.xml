@@ -2750,10 +2750,6 @@
     <NullArgument>
       <code><![CDATA[null]]></code>
     </NullArgument>
-    <TypeDoesNotContainNull>
-      <code><![CDATA[$appId === null]]></code>
-      <code><![CDATA[$appId === null]]></code>
-    </TypeDoesNotContainNull>
   </file>
   <file src="lib/private/legacy/OC_Helper.php">
     <InvalidArrayOffset>
