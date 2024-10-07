@@ -29,7 +29,8 @@
 					<img class="social-button__icon social-button__icon--bright" :src="urlFacebookIcon">
 				</template>
 			</NcButton>
-			<NcButton @click="goTo(shareXUrl)">
+			<NcButton :aria-label="t('federatedfilesharing', 'X (formerly Twitter)')"
+				@click="goTo(shareXUrl)">
 				{{ t('federatedfilesharing', 'formerly Twitter') }}
 				<template #icon>
 					<img class="social-button__icon" :src="urlXIcon">
