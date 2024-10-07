@@ -27,7 +27,7 @@ class CleanUp extends TimedJob {
 	protected $limit;
 
 	/** @var int $defaultIntervalMin default interval in minutes */
-	protected $defaultIntervalMin = 51;
+	protected $defaultIntervalMin = 60;
 
 	/** @var User_LDAP|User_Proxy $userBackend */
 	protected $userBackend;
