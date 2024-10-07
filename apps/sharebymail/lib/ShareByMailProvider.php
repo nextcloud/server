@@ -673,11 +673,14 @@ class ShareByMailProvider implements IShareProvider {
 		}
 
 		/*
-		 * We allow updating the permissions and password of mail shares
+		 * We allow updating mail shares
 		 */
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->update('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
+			->set('item_source', $qb->createNamedParameter($share->getNode()->getId()))
+			->set('file_source', $qb->createNamedParameter($share->getNode()->getId()))
+			->set('share_with', $qb->createNamedParameter($share->getSharedWith()))
 			->set('permissions', $qb->createNamedParameter($share->getPermissions()))
 			->set('uid_owner', $qb->createNamedParameter($share->getShareOwner()))
 			->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()))
