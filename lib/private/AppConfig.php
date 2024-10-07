@@ -1519,6 +1519,12 @@ class AppConfig implements IAppConfig {
 			'notify_push' => [
 				'/^cookie$/',
 			],
+			'onlyoffice' => [
+				'/^jwt_secret$/',
+			],
+			'passwords' => [
+				'/^SSEv1ServerKey$/',
+			],
 			'serverinfo' => [
 				'/^token$/',
 			],
@@ -1549,6 +1555,9 @@ class AppConfig implements IAppConfig {
 			],
 			'user_ldap' => [
 				'/^(s..)?ldap_agent_password$/',
+			],
+			'twofactor_gateway' => [
+				'/^.*token$/',
 			],
 			'user_saml' => [
 				'/^idp-x509cert$/',
