@@ -10,7 +10,6 @@ namespace OCA\DAV\BackgroundJob;
 
 use OC\User\NoUserException;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\TimedJob;
 use OCP\Files\File;
@@ -32,7 +31,7 @@ class UploadCleanup extends TimedJob {
 
 		// Run once a day
 		$this->setInterval(60 * 60 * 24);
-		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 	protected function run($argument) {
