@@ -203,7 +203,7 @@ Files: core/img/apps/richdocumentscode.svg
 Copyright: 2016-2024 Collabora Ltd.
 License: LicenseRef-CollaboraTrademarks
 
-Files: core/img/twitter.svg core/img/actions/twitter.svg apps/federatedfilesharing/img/social-twitter.svg
+Files: core/img/x.svg core/img/twitter.svg core/img/actions/twitter.svg apps/federatedfilesharing/img/social-twitter.svg
 Copyright: X Corp.
 License: LicenseRef-XTrademarks
 
