@@ -44,11 +44,6 @@
       <code><![CDATA[array]]></code>
     </LessSpecificImplementedReturnType>
   </file>
-  <file src="3rdparty/symfony/routing/Route.php">
-    <MethodSignatureMustProvideReturnType>
-      <code><![CDATA[unserialize]]></code>
-    </MethodSignatureMustProvideReturnType>
-  </file>
   <file src="apps/dav/appinfo/v1/caldav.php">
     <UndefinedGlobalVariable>
       <code><![CDATA[$baseuri]]></code>

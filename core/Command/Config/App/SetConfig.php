@@ -12,6 +12,7 @@ use OC\AppConfig;
 use OCP\Exceptions\AppConfigIncorrectTypeException;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -229,6 +230,7 @@ class SetConfig extends Base {
 	}
 
 	private function ask(InputInterface $input, OutputInterface $output, string $request): bool {
+		/** @var QuestionHelper $helper */
 		$helper = $this->getHelper('question');
 		if ($input->getOption('no-interaction')) {
 			return true;
