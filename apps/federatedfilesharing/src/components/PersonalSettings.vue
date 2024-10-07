@@ -118,7 +118,7 @@ export default {
 			return t('federatedfilesharing', 'Share with me through my #Nextcloud Federated Cloud ID')
 		},
 		shareMastodonUrl() {
-			return `https://https://mastodon.xyz/?text=${encodeURIComponent(this.messageWithoutURL)}&url=${encodeURIComponent(this.reference)}`
+			return `https://mastodon.social/?text=${encodeURIComponent(this.messageWithoutURL)}&url=${encodeURIComponent(this.reference)}`
 		},
 		shareXUrl() {
 			return `https://x.com/intent/tweet?text=${encodeURIComponent(this.messageWithURL)}`
