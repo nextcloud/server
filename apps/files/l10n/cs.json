@@ -100,6 +100,7 @@
     "Size" : "Velikost",
     "Toggle selection for all files and folders" : "Vybrat / zrušit výběr všech souborů a složek",
     "Actions" : "Akce",
+    "(selected)" : "(vybráno)",
     "\"{displayName}\" failed on some elements " : "„{displayName}“ se pro některé prvky nezdařilo",
     "\"{displayName}\" batch action executed successfully" : "hromadná akce „{displayName}“ úspěšně vykonána",
     "{count} selected" : "vybráno {count}",
@@ -204,6 +205,8 @@
     "Edit online" : "Upravit online",
     "Failed to redirect to client" : "Nepodařilo se přesměrovat klienta",
     "Edit locally" : "Upravit lokálně",
+    "Moving \"{source}\" to \"{destination}\" …" : "Přesouvání „{source}“ do „{destination}“ …",
+    "Copying \"{source}\" to \"{destination}\" …" : "Kopírování „{source}“ do „{destination}“ …",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Není možné přesunout soubor/složku do sebe samé nebo do své vlastní podložky",
     "(copy)" : "(zkopírovat)",
     "(copy %n)" : "(zkopírovat %n)",
@@ -391,6 +394,9 @@
     "Text file" : "Textový soubor",
     "New text file.txt" : "Nový textový soubor.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Přímý odkaz byl zkopírován (funguje pouze pro osoby, které mají přístup k tomuto souboru/složce)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Zkopírovat přímý odkaz (funguje pouze pro osoby, které mají přístup k tomuto souboru/složce)"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Zkopírovat přímý odkaz (funguje pouze pro osoby, které mají přístup k tomuto souboru/složce)",
+    "Favored" : "Zařazeno mezi oblíbené",
+    "Favor" : "Zařadit mezi oblíbené",
+    "Not favored" : "Není v oblíbených"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }
