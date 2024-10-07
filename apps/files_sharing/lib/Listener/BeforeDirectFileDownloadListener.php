@@ -9,11 +9,13 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\Listener;
 
+use OCA\Files_Sharing\Services\ShareAccessService;
 use OCA\Files_Sharing\ViewOnly;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\IRootFolder;
+use OCP\Files\Storage\ISharedStorage;
 use OCP\IUserSession;
 
 /**
@@ -24,6 +26,7 @@ class BeforeDirectFileDownloadListener implements IEventListener {
 	public function __construct(
 		private IUserSession $userSession,
 		private IRootFolder $rootFolder,
+		private ShareAccessService $accessService,
 	) {
 	}
 
@@ -42,6 +45,19 @@ class BeforeDirectFileDownloadListener implements IEventListener {
 			if (!$viewOnlyHandler->check($pathsToCheck)) {
 				$event->setSuccessful(false);
 				$event->setErrorMessage('Access to this resource or one of its sub-items has been denied.');
+				return;
+			}
+		}
+
+		$node = $event->getNode();
+		if ($node !== null) {
+			$storage = $node->getStorage();
+			if ($storage->instanceOfStorage(ISharedStorage::class)) {
+				/** @var ISharedStorage $storage */
+				$share = $storage->getShare();
+				$this->accessService->shareDownloaded($share);
+				// All we now need to do is log the download
+				$this->accessService->sharedFileDownloaded($share, $node);
 			}
 		}
 	}
