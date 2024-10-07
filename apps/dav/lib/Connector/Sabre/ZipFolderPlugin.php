@@ -9,6 +9,9 @@ declare(strict_types=1);
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Streamer;
+use OCA\DAV\Connector\Sabre\Exception\Forbidden;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\File as NcFile;
 use OCP\Files\Folder as NcFolder;
 use OCP\Files\Node as NcNode;
@@ -37,6 +40,7 @@ class ZipFolderPlugin extends ServerPlugin {
 	public function __construct(
 		private Tree $tree,
 		private LoggerInterface $logger,
+		private IEventDispatcher $eventDispatcher,
 	) {
 	}
 
@@ -114,17 +118,33 @@ class ZipFolderPlugin extends ServerPlugin {
 		if ($filesParam !== '') {
 			$files = json_decode($filesParam);
 			if (!is_array($files)) {
-				if (!is_string($files)) {
+				$files = [$files];
+			}
+
+			foreach ($files as $file) {
+				if (!is_string($file)) {
+					// we log this as this means either we - or an app - have a bug somewhere or a user is trying invalid things
+					$this->logger->notice('Invalid files filter parameter for ZipFolderPlugin', ['filter' => $filesParam]);
 					// no valid parameter so continue with Sabre behavior
-					$this->logger->debug('Invalid files filter parameter for ZipFolderPlugin', ['filter' => $filesParam]);
 					return null;
 				}
-
-				$files = [$files];
 			}
 		}
 
 		$folder = $node->getNode();
+		$event = new BeforeZipCreatedEvent($folder, $files);
+		$this->eventDispatcher->dispatchTyped($event);
+		if ((!$event->isSuccessful()) || $event->getErrorMessage() !== null) {
+			$errorMessage = $event->getErrorMessage();
+			if ($errorMessage === null) {
+				// Not allowed to download but also no explaining error
+				// so we abort the ZIP creation and fall back to Sabre default behavior.
+				return null;
+			}
+			// Downloading was denied by an app
+			throw new Forbidden($errorMessage);
+		}
+
 		$content = empty($files) ? $folder->getDirectoryListing() : [];
 		foreach ($files as $path) {
 			$child = $node->getChild($path);
