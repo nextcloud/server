@@ -420,6 +420,7 @@ class OwnershipTransferService {
 
 		foreach ($shares as ['share' => $share, 'suffix' => $suffix]) {
 			try {
+				$output->writeln('Transfering share ' . $share->getId() . ' of type ' . $share->getShareType(), OutputInterface::VERBOSITY_VERBOSE);
 				if ($share->getShareType() === IShare::TYPE_USER &&
 					$share->getSharedWith() === $destinationUid) {
 					// Unmount the shares before deleting, so we don't try to get the storage later on.
@@ -457,6 +458,7 @@ class OwnershipTransferService {
 							// Try to get the new ID from the target path and suffix of the share
 							$node = $rootFolder->get(Filesystem::normalizePath($targetLocation . '/' . $suffix));
 							$newNodeId = $node->getId();
+							$output->writeln('Had to change node id to ' . $newNodeId, OutputInterface::VERBOSITY_VERY_VERBOSE);
 						}
 						$share->setNodeId($newNodeId);
 
