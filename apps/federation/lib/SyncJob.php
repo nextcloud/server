@@ -37,6 +37,7 @@ class SyncJob extends TimedJob {
 		parent::__construct($timeFactory);
 		// Run once a day
 		$this->setInterval(24 * 60 * 60);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 		$this->syncService = $syncService;
 		$this->logger = $logger;
 	}
