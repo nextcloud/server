@@ -162,7 +162,7 @@ OC.L10N.register(
     "Reset password" : "تعديل كلمة السر",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or Login, check your spam/junk folders or ask your local administration for help." : "إذا كان هذا الحساب موجودًا، فسيتم إرسال رسالة إعادة تعيين كلمة المرور إلى عنوان البريد الإلكتروني الخاص به. إذا لم تستلمها، فتحقق من عنوان بريدك الإلكتروني و/أو تسجيل الدخول، وتحقق من مجلدات البريد العشوائي عندك أو اطلب المساعدة من مشرف النظام عندك.",
     "Couldn't send reset email. Please contact your administrator." : "تعذر إرسال البريد الإلكتروني لإعادة التعيين. يرجى مراجعة المسؤول.",
-    "Password cannot be changed. Please contact your administrator." : "كلمة المرور لا يمكن تغييرها. فضلاً تحدث مع المسؤول.",
+    "Password cannot be changed. Please contact your administrator." : "كلمة المرور لا يمكن تغييرها. فضلاً تحدث مع مدير النظام.",
     "Back to login" : "العودة إلى تسجيل الدخول",
     "New password" : "كلمات سر جديدة",
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "المحتوى الخاص بك مشفر. لن تكون هناك طريقة لاستعادة محتوياتك وبياناتك بعد إعادة تعيين كلمة مرورك. إذا لم تكن متأكدًا مما يجب فعله ، فيرجى الاتصال بالمسؤول قبل المتابعة. هل حقا تريد الاستمرار؟",
