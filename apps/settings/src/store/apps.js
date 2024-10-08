@@ -5,6 +5,7 @@
 
 import api from './api.js'
 import Vue from 'vue'
+import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showInfo } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
@@ -178,7 +179,7 @@ const actions = {
 					})
 
 					// check for server health
-					return api.get(generateUrl('apps/files/'))
+					return axios.get(generateUrl('apps/files/'))
 						.then(() => {
 							if (response.data.update_required) {
 								showInfo(
