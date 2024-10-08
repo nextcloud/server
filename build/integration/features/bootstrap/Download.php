@@ -120,4 +120,18 @@ trait Download {
 			"Local header for folder did not appear once in zip file"
 		);
 	}
+
+	/**
+	 * @Then the downloaded file has the content of :sourceFilename from :user data
+	 */
+	public function theDownloadedFileHasContentOfUserFile($sourceFilename, $user) {
+		$this->getDownloadedFile();
+		$expectedFileContents = file_get_contents($this->getDataDirectory() . "/$user/files" . $sourceFilename);
+
+		// prevent the whole file from being printed in case of error.
+		Assert::assertEquals(
+			0, strcmp($expectedFileContents, $this->downloadedFile),
+			'Downloaded file content does not match local file content'
+		);
+	}
 }
