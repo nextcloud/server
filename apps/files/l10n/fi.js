@@ -152,6 +152,8 @@ OC.L10N.register(
     "Remove from favorites" : "Poista suosikeista",
     "Add to favorites" : "Lisää suosikkeihin",
     "Tags" : "Tunnisteet",
+    "You" : "Sinä",
+    "Shared multiple times with different people" : "Jaettu useita kertoja eri ihmisten kanssa",
     "Unable to change the favourite state of the file" : "Suosikki-tilan muuttaminen epäonnistui.",
     "Error while loading the file data" : "Virhe tiedostoa ladatessa",
     "Pick a template for {name}" : "Valtise mallipohja tiedostolle {name}",
