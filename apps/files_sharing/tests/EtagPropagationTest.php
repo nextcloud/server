@@ -277,8 +277,7 @@ class EtagPropagationTest extends PropagationTestCase {
 			self::TEST_FILES_SHARING_API_USER2,
 		]);
 
-		$this->assertEtagsNotChanged([self::TEST_FILES_SHARING_API_USER1, self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_USER3]);
-		$this->assertEtagsChanged([self::TEST_FILES_SHARING_API_USER4]);
+		$this->assertAllUnchanged();
 	}
 
 	public function testOwnerUnsharesFlatReshares(): void {
