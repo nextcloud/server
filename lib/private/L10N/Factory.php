@@ -98,7 +98,7 @@ class Factory implements IFactory {
 				$lang = str_replace(['\0', '/', '\\', '..'], '', $lang);
 			}
 
-			$forceLang = $this->config->getSystemValue('force_language', false);
+			$forceLang = $this->request->getParam('forceLanguage') ?? $this->config->getSystemValue('force_language', false);
 			if (is_string($forceLang)) {
 				$lang = $forceLang;
 			}
