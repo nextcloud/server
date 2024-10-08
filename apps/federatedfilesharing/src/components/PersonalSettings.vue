@@ -2,24 +2,24 @@
  - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+
 <template>
 	<NcSettingsSection :name="t('federatedfilesharing', 'Federated Cloud')"
 		:description="t('federatedfilesharing', 'You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com')"
 		:doc-url="docUrlFederated">
-		<p class="cloud-id-text">
-			{{ t('federatedfilesharing', 'Your Federated Cloud ID:') }}
-			<strong id="cloudid">{{ cloudId }}</strong>
-			<NcButton ref="clipboard"
-				:title="copyLinkTooltip"
-				:aria-label="copyLinkTooltip"
-				class="clipboard"
-				type="tertiary-no-background"
-				@click.prevent="copyCloudId">
-				<template #icon>
-					<Clipboard :size="20" />
-				</template>
-			</NcButton>
-		</p>
+		<NcInputField class="federated-cloud__cloud-id"
+			readonly
+			:label="t('federatedfilesharing', 'Your Federated Cloud ID')"
+			:value="cloudId"
+			:success="isCopied"
+			show-trailing-button
+			:trailing-button-label="copyLinkTooltip"
+			@trailing-button-click="copyCloudId">
+			<template #trailing-button-icon>
+				<Check v-if="isCopied" :size="20" fill-color="var(--color-success)" />
+				<Clipboard v-else :size="20" />
+			</template>
+		</NcInputField>
 
 		<p class="social-button">
 			{{ t('federatedfilesharing', 'Share it so your friends can share files with you:') }}<br>
@@ -78,19 +78,23 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
 import Twitter from 'vue-material-design-icons/Twitter.vue'
 import Facebook from 'vue-material-design-icons/Facebook.vue'
 import Web from 'vue-material-design-icons/Web.vue'
+import Check from 'vue-material-design-icons/Check.vue'
 import Clipboard from 'vue-material-design-icons/ContentCopy.vue'
 
 export default {
 	name: 'PersonalSettings',
 	components: {
 		NcButton,
+		NcInputField,
 		NcSettingsSection,
 		Twitter,
 		Facebook,
 		Web,
+		Check,
 		Clipboard,
 	},
 	data() {
@@ -150,7 +154,9 @@ export default {
 			await navigator.clipboard.writeText(this.cloudId)
 			this.isCopied = true
 			showSuccess(t('federatedfilesharing', 'Copied!'))
-			this.$refs.clipboard.$el.focus()
+			setTimeout(() => {
+				this.isCopied = false
+			}, 2000)
 		},
 		goTo(url) {
 			window.location.href = url
@@ -171,19 +177,13 @@ export default {
 			width: min(100%, 400px) !important;
 		}
 	}
-	.cloud-id-text {
-		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-		button {
-			display: inline-flex;
-		}
+
+	.federated-cloud__cloud-id {
+		max-width: 300px;
 	}
+
 	pre {
 		margin-top: 0;
 		white-space: pre-wrap;
-	}
-	#cloudid {
-		margin-inline-start: 0.25rem;
 	}
 </style>
