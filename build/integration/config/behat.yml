@@ -61,7 +61,7 @@ default:
       paths:
         - "%paths.base%/../dav_features"
       contexts:
-        - FeatureContext:
+        - DavFeatureContext:
             baseUrl:  http://localhost:8080/ocs/
             admin:
               - admin
