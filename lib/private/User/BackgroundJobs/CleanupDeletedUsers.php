@@ -12,7 +12,6 @@ use OC\User\Manager;
 use OC\User\PartiallyDeletedUsersBackend;
 use OC\User\User;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -26,8 +25,8 @@ class CleanupDeletedUsers extends TimedJob {
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($time);
-		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
-		$this->setInterval(24 * 3600);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
+		$this->setInterval(24 * 60 * 60);
 	}
 
 	protected function run($argument): void {

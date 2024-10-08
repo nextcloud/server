@@ -18,7 +18,6 @@ use Psr\Log\LoggerInterface;
  */
 class DeleteOrphanedItems extends TimedJob {
 	public const CHUNK_SIZE = 200;
-	protected $defaultIntervalMin = 60;
 
 	/**
 	 * sets the correct interval for this timed job
@@ -29,7 +28,7 @@ class DeleteOrphanedItems extends TimedJob {
 		protected LoggerInterface $logger,
 	) {
 		parent::__construct($time);
-		$this->interval = $this->defaultIntervalMin * 60;
+		$this->setInterval(60 * 60);
 	}
 
 	/**

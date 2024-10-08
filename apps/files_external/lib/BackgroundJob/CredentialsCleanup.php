@@ -12,7 +12,6 @@ use OCA\Files_External\Lib\Auth\Password\LoginCredentials;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -37,7 +36,7 @@ class CredentialsCleanup extends TimedJob {
 
 		// run every day
 		$this->setInterval(24 * 60 * 60);
-		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 	protected function run($argument) {
