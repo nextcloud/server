@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\UserStatus\Db;
 
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 
 /**
  * Class UserStatus
@@ -73,13 +74,13 @@ class UserStatus extends Entity {
 	public function __construct() {
 		$this->addType('userId', 'string');
 		$this->addType('status', 'string');
-		$this->addType('statusTimestamp', 'int');
+		$this->addType('statusTimestamp', Types::INTEGER);
 		$this->addType('isUserDefined', 'boolean');
 		$this->addType('messageId', 'string');
 		$this->addType('customIcon', 'string');
 		$this->addType('customMessage', 'string');
-		$this->addType('clearAt', 'int');
+		$this->addType('clearAt', Types::INTEGER);
 		$this->addType('isBackup', 'boolean');
-		$this->addType('statusMessageTimestamp', 'int');
+		$this->addType('statusMessageTimestamp', Types::INTEGER);
 	}
 }

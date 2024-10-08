@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Core\Db;
 
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 
 /**
  * @method int getTimestamp()
@@ -55,8 +56,8 @@ class LoginFlowV2 extends Entity {
 	protected $appPassword;
 
 	public function __construct() {
-		$this->addType('timestamp', 'int');
-		$this->addType('started', 'int');
+		$this->addType('timestamp', Types::INTEGER);
+		$this->addType('started', Types::INTEGER);
 		$this->addType('pollToken', 'string');
 		$this->addType('loginToken', 'string');
 		$this->addType('publicKey', 'string');
