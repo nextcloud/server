@@ -10,7 +10,8 @@
 				<th class="token-list__header-device">
 					{{ t('settings', 'Device') }}
 				</th>
-				<th class="toke-list__header-activity">
+				<th class="hidden-visually" />
+				<th class="token-list__header-activity">
 					{{ t('settings', 'Last activity') }}
 				</th>
 				<th>
@@ -56,6 +57,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@use '../../../../core/css/variables.scss' as variables;
+
 .token-list {
 	width: 100%;
 	min-height: 50px;
@@ -72,6 +75,12 @@ export default defineComponent({
 	}
 	&__header-activity {
 		text-align: end;
+	}
+}
+
+@media screen and (max-width: calc(variables.$breakpoint-mobile / 2)) {
+	.token-list__header-activity {
+		display: none;
 	}
 }
 </style>
