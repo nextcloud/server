@@ -213,13 +213,14 @@ class Setting extends Base {
 				return 1;
 			}
 		} else {
-			$settings = $this->getUserSettings($uid, $app);
+			$ignoreMissingUser = $input->getOption('ignore-missing-user');
+			$settings = $this->getUserSettings($uid, $app, $ignoreMissingUser);
 			$this->writeArrayInOutputFormat($input, $output, $settings);
 			return 0;
 		}
 	}
 
-	protected function getUserSettings($uid, $app) {
+	protected function getUserSettings(string $uid, string $app, bool $ignoreMissingUser = false) {
 		$settings = $this->config->getAllUserValues($uid);
 		if ($app !== '') {
 			if (isset($settings[$app])) {
@@ -230,7 +231,10 @@ class Setting extends Base {
 		}
 
 		$user = $this->userManager->get($uid);
-		$settings['settings']['display_name'] = $user->getDisplayName();
+		if ($user !== null || $ignoreMissingUser === false) {
+			// Only add the display name if the user exists (or is expected to exist)
+			$settings['settings']['display_name'] = $user?->getDisplayName();
+		}
 
 		return $settings;
 	}
