@@ -35,6 +35,7 @@ use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use Psr\Log\LoggerInterface;
 
+/** @template-implements IEventListener<BeforeUserDeletedEvent|UserDeletedEvent> */
 class UserDeletedFilesCleanupListener implements IEventListener {
 	/** @var array<string,IStorage> */
 	private $homeStorageCache = [];
