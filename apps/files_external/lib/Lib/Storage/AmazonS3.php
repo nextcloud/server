@@ -59,11 +59,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		$this->logger = Server::get(LoggerInterface::class);
 	}
 
-	/**
-	 * @param string $path
-	 * @return string correctly encoded path
-	 */
-	private function normalizePath($path): string {
+	private function normalizePath(string $path): string {
 		$path = trim($path, '/');
 
 		if (!$path) {
@@ -73,11 +69,11 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return $path;
 	}
 
-	private function isRoot($path): bool {
+	private function isRoot(string $path): bool {
 		return $path === '.';
 	}
 
-	private function cleanKey($path): string {
+	private function cleanKey(string $path): string {
 		if ($this->isRoot($path)) {
 			return '/';
 		}
@@ -90,7 +86,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		$this->filesCache = new CappedMemoryCache();
 	}
 
-	private function invalidateCache($key): void {
+	private function invalidateCache(string $key): void {
 		unset($this->objectCache[$key]);
 		$keys = array_keys($this->objectCache->getData());
 		$keyLength = strlen($key);
@@ -143,7 +139,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	 *
 	 * @throws \Exception
 	 */
-	private function doesDirectoryExist($path): bool {
+	private function doesDirectoryExist(string $path): bool {
 		if ($path === '.' || $path === '') {
 			return true;
 		}
@@ -185,7 +181,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return false;
 	}
 
-	protected function remove($path): bool {
+	protected function remove(string $path): bool {
 		// remember fileType to reduce http calls
 		$fileType = $this->filetype($path);
 		if ($fileType === 'dir') {
@@ -197,7 +193,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 	}
 
-	public function mkdir($path): bool {
+	public function mkdir(string $path): bool {
 		$path = $this->normalizePath($path);
 
 		if ($this->is_dir($path)) {
@@ -225,12 +221,12 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return true;
 	}
 
-	public function file_exists($path): bool {
+	public function file_exists(string $path): bool {
 		return $this->filetype($path) !== false;
 	}
 
 
-	public function rmdir($path): bool {
+	public function rmdir(string $path): bool {
 		$path = $this->normalizePath($path);
 
 		if ($this->isRoot($path)) {
@@ -250,7 +246,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return $this->batchDelete();
 	}
 
-	private function batchDelete($path = null): bool {
+	private function batchDelete(?string $path = null): bool {
 		// TODO explore using https://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.S3.BatchDelete.html
 		$params = [
 			'Bucket' => $this->bucket
@@ -290,7 +286,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return true;
 	}
 
-	public function opendir($path) {
+	public function opendir(string $path) {
 		try {
 			$content = iterator_to_array($this->getDirectoryContent($path));
 			return IteratorDirectory::wrap(array_map(function (array $item) {
@@ -301,7 +297,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 	}
 
-	public function stat($path): array|false {
+	public function stat(string $path): array|false {
 		$path = $this->normalizePath($path);
 
 		if ($this->is_dir($path)) {
@@ -324,7 +320,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	 * When the information is already present (e.g. opendir has been called before)
 	 * this value is return. Otherwise a headObject is emitted.
 	 */
-	private function getContentLength($path): int {
+	private function getContentLength(string $path): int {
 		if (isset($this->filesCache[$path])) {
 			return (int)$this->filesCache[$path]['ContentLength'];
 		}
@@ -343,7 +339,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	 * When the information is already present (e.g. opendir has been called before)
 	 * this value is return. Otherwise a headObject is emitted.
 	 */
-	private function getLastModified($path): string {
+	private function getLastModified(string $path): string {
 		if (isset($this->filesCache[$path])) {
 			return $this->filesCache[$path]['LastModified'];
 		}
@@ -356,7 +352,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return 'now';
 	}
 
-	public function is_dir($path): bool {
+	public function is_dir(string $path): bool {
 		$path = $this->normalizePath($path);
 
 		if (isset($this->filesCache[$path])) {
@@ -374,7 +370,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 	}
 
-	public function filetype($path): string|false {
+	public function filetype(string $path): string|false {
 		$path = $this->normalizePath($path);
 
 		if ($this->isRoot($path)) {
@@ -402,7 +398,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return false;
 	}
 
-	public function getPermissions($path): int {
+	public function getPermissions(string $path): int {
 		$type = $this->filetype($path);
 		if (!$type) {
 			return 0;
@@ -410,7 +406,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return $type === 'dir' ? Constants::PERMISSION_ALL : Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE;
 	}
 
-	public function unlink($path): bool {
+	public function unlink(string $path): bool {
 		$path = $this->normalizePath($path);
 
 		if ($this->is_dir($path)) {
@@ -431,7 +427,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return true;
 	}
 
-	public function fopen($path, $mode) {
+	public function fopen(string $path, string $mode) {
 		$path = $this->normalizePath($path);
 
 		switch ($mode) {
@@ -489,7 +485,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return false;
 	}
 
-	public function touch($path, $mtime = null): bool {
+	public function touch(string $path, ?int $mtime = null): bool {
 		if (is_null($mtime)) {
 			$mtime = time();
 		}
@@ -524,7 +520,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return true;
 	}
 
-	public function copy($source, $target, $isFile = null): bool {
+	public function copy(string $source, string $target, ?bool $isFile = null): bool {
 		$source = $this->normalizePath($source);
 		$target = $this->normalizePath($target);
 
@@ -567,7 +563,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return true;
 	}
 
-	public function rename($source, $target): bool {
+	public function rename(string $source, string $target): bool {
 		$source = $this->normalizePath($source);
 		$target = $this->normalizePath($target);
 
@@ -605,7 +601,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return $this->id;
 	}
 
-	public function writeBack($tmpFile, $path): bool {
+	public function writeBack(string $tmpFile, string $path): bool {
 		try {
 			$source = fopen($tmpFile, 'r');
 			$this->writeObject($path, $source, $this->mimeDetector->detectPath($path));
@@ -629,7 +625,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return true;
 	}
 
-	public function getDirectoryContent($directory): \Traversable {
+	public function getDirectoryContent(string $directory): \Traversable {
 		$path = $this->normalizePath($directory);
 
 		if ($this->isRoot($path)) {
@@ -726,7 +722,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 	}
 
-	public function hasUpdated($path, $time): bool {
+	public function hasUpdated(string $path, int $time): bool {
 		// for files we can get the proper mtime
 		if ($path !== '' && $object = $this->headObject($path)) {
 			$stat = $this->objectToMetaData($object);

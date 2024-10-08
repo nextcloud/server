@@ -44,10 +44,9 @@ class SFTPReadStream implements File {
 	/**
 	 * Load the source from the stream context and return the context options
 	 *
-	 * @param string $name
 	 * @throws \BadMethodCallException
 	 */
-	protected function loadContext($name) {
+	protected function loadContext(string $name) {
 		$context = stream_context_get_options($this->context);
 		if (isset($context[$name])) {
 			$context = $context[$name];
@@ -146,7 +145,7 @@ class SFTPReadStream implements File {
 		return $data;
 	}
 
-	private function request_chunk($size) {
+	private function request_chunk(int $size) {
 		if ($this->pendingRead) {
 			$this->sftp->_get_sftp_packet();
 		}
