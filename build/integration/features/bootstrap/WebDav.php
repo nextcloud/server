@@ -80,6 +80,14 @@ trait WebDav {
 		$this->usingOldDavPath = false;
 	}
 
+	/**
+	 * @Given /^using new public dav path$/
+	 */
+	public function usingNewPublicDavPath() {
+		$this->davPath = 'public.php/dav';
+		$this->usingOldDavPath = false;
+	}
+
 	public function getDavFilesPath($user) {
 		if ($this->usingOldDavPath === true) {
 			return $this->davPath;
@@ -265,6 +273,42 @@ trait WebDav {
 	public function downloadingFile($fileName) {
 		try {
 			$this->response = $this->makeDavRequest($this->currentUser, 'GET', $fileName, []);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @When Downloading public file :filename
+	 */
+	public function downloadingPublicFile(string $filename) {
+		$token = $this->lastShareData->data->token;
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/$filename";
+
+		$client = new GClient();
+		$options = [
+			'headers' => [
+				'X-Requested-With' => 'XMLHttpRequest',
+			]
+		];
+
+		try {
+			$this->response = $client->request('GET', $fullUrl, $options);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @When Downloading public file :filename without ajax header
+	 */
+	public function downloadingPublicFileWithoutHeader(string $filename) {
+		$token = $this->lastShareData->data->token;
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/$filename";
+
+		$client = new GClient();
+		try {
+			$this->response = $client->request('GET', $fullUrl);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}
