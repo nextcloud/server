@@ -20,10 +20,10 @@ class KnownMtime extends Wrapper {
 	private CappedMemoryCache $knowMtimes;
 	private ClockInterface $clock;
 
-	public function __construct($arguments) {
-		parent::__construct($arguments);
+	public function __construct(array $parameters) {
+		parent::__construct($parameters);
 		$this->knowMtimes = new CappedMemoryCache();
-		$this->clock = $arguments['clock'];
+		$this->clock = $parameters['clock'];
 	}
 
 	public function file_put_contents(string $path, mixed $data): int|float|false {

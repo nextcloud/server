@@ -40,11 +40,11 @@ class Local extends \OC\Files\Storage\Common {
 
 	protected bool $caseInsensitive = false;
 
-	public function __construct($arguments) {
-		if (!isset($arguments['datadir']) || !is_string($arguments['datadir'])) {
+	public function __construct(array $parameters) {
+		if (!isset($parameters['datadir']) || !is_string($parameters['datadir'])) {
 			throw new \InvalidArgumentException('No data directory set for local storage');
 		}
-		$this->datadir = str_replace('//', '/', $arguments['datadir']);
+		$this->datadir = str_replace('//', '/', $parameters['datadir']);
 		// some crazy code uses a local storage on root...
 		if ($this->datadir === '/') {
 			$this->realDataDir = $this->datadir;
@@ -64,7 +64,7 @@ class Local extends \OC\Files\Storage\Common {
 		// support Write-Once-Read-Many file systems
 		$this->unlinkOnTruncate = $this->config->getSystemValueBool('localstorage.unlink_on_truncate', false);
 
-		if (isset($arguments['isExternal']) && $arguments['isExternal'] && !$this->stat('')) {
+		if (isset($parameters['isExternal']) && $parameters['isExternal'] && !$this->stat('')) {
 			// data dir not accessible or available, can happen when using an external storage of type Local
 			// on an unmounted system mount point
 			throw new StorageNotAvailableException('Local storage path does not exist "' . $this->getSourcePath('') . '"');

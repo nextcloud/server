@@ -69,55 +69,55 @@ class SMB extends Common implements INotifyStorage {
 	/** @var bool */
 	protected $checkAcl;
 
-	public function __construct($params) {
-		if (!isset($params['host'])) {
+	public function __construct(array $parameters) {
+		if (!isset($parameters['host'])) {
 			throw new \Exception('Invalid configuration, no host provided');
 		}
 
-		if (isset($params['auth'])) {
-			$auth = $params['auth'];
-		} elseif (isset($params['user']) && isset($params['password']) && isset($params['share'])) {
-			[$workgroup, $user] = $this->splitUser($params['user']);
-			$auth = new BasicAuth($user, $workgroup, $params['password']);
+		if (isset($parameters['auth'])) {
+			$auth = $parameters['auth'];
+		} elseif (isset($parameters['user']) && isset($parameters['password']) && isset($parameters['share'])) {
+			[$workgroup, $user] = $this->splitUser($parameters['user']);
+			$auth = new BasicAuth($user, $workgroup, $parameters['password']);
 		} else {
 			throw new \Exception('Invalid configuration, no credentials provided');
 		}
 
-		if (isset($params['logger'])) {
-			if (!$params['logger'] instanceof LoggerInterface) {
+		if (isset($parameters['logger'])) {
+			if (!$parameters['logger'] instanceof LoggerInterface) {
 				throw new \Exception(
 					'Invalid logger. Got '
-					. get_class($params['logger'])
+					. get_class($parameters['logger'])
 					. ' Expected ' . LoggerInterface::class
 				);
 			}
-			$this->logger = $params['logger'];
+			$this->logger = $parameters['logger'];
 		} else {
 			$this->logger = \OCP\Server::get(LoggerInterface::class);
 		}
 
 		$options = new Options();
-		if (isset($params['timeout'])) {
-			$timeout = (int)$params['timeout'];
+		if (isset($parameters['timeout'])) {
+			$timeout = (int)$parameters['timeout'];
 			if ($timeout > 0) {
 				$options->setTimeout($timeout);
 			}
 		}
 		$system = \OCP\Server::get(SystemBridge::class);
 		$serverFactory = new ServerFactory($options, $system);
-		$this->server = $serverFactory->createServer($params['host'], $auth);
-		$this->share = $this->server->getShare(trim($params['share'], '/'));
+		$this->server = $serverFactory->createServer($parameters['host'], $auth);
+		$this->share = $this->server->getShare(trim($parameters['share'], '/'));
 
-		$this->root = $params['root'] ?? '/';
+		$this->root = $parameters['root'] ?? '/';
 		$this->root = '/' . ltrim($this->root, '/');
 		$this->root = rtrim($this->root, '/') . '/';
 
-		$this->showHidden = isset($params['show_hidden']) && $params['show_hidden'];
-		$this->caseSensitive = (bool)($params['case_sensitive'] ?? true);
-		$this->checkAcl = isset($params['check_acl']) && $params['check_acl'];
+		$this->showHidden = isset($parameters['show_hidden']) && $parameters['show_hidden'];
+		$this->caseSensitive = (bool)($parameters['case_sensitive'] ?? true);
+		$this->checkAcl = isset($parameters['check_acl']) && $parameters['check_acl'];
 
 		$this->statCache = new CappedMemoryCache();
-		parent::__construct($params);
+		parent::__construct($parameters);
 	}
 
 	private function splitUser(string $user): array {

@@ -15,14 +15,14 @@ class PublicOwnerWrapper extends Wrapper {
 	private string $owner;
 
 	/**
-	 * @param array $arguments ['storage' => $storage, 'owner' => $owner]
+	 * @param array $parameters ['storage' => $storage, 'owner' => $owner]
 	 *
 	 * $storage: The storage the permissions mask should be applied on
 	 * $owner: The owner to use in case no owner is found
 	 */
-	public function __construct($arguments) {
-		parent::__construct($arguments);
-		$this->owner = $arguments['owner'];
+	public function __construct(array $parameters) {
+		parent::__construct($parameters);
+		$this->owner = $parameters['owner'];
 	}
 
 	public function getOwner(string $path): string|false {
