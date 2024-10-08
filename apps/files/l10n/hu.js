@@ -178,6 +178,7 @@ OC.L10N.register(
     "Remove from favorites" : "Eltávolítás a kedvencekből",
     "Add to favorites" : "Hozzáadás a kedvencekhez",
     "Tags" : "Címkék",
+    "You" : "Ön",
     "Unable to change the favourite state of the file" : "Nem lehet megváltoztatni a fájl kedvenc állapotát",
     "Error while loading the file data" : "Hiba történt a fájladatok betöltése közben",
     "Pick a template for {name}" : "Válassz sablont a(z) {name} fájlnak",
