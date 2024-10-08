@@ -90,8 +90,16 @@ class CachedSubscriptionImpl implements ICalendar {
 		return $result;
 	}
 
+	public function isWritable(): bool {
+		return false;
+	}
+
 	public function isDeleted(): bool {
 		return false;
+	}
+
+	public function isShared(): bool {
+		return true;
 	}
 
 	public function getSource(): string {

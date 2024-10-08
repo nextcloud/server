@@ -205,6 +205,83 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * @since 31.0.0
+	 * @throws \OCP\DB\Exception
+	 */
+	public function handleIMipRequest(
+		string $principalUri,
+		string $sender,
+		string $recipient,
+		string $calendarData,
+	): bool {
+		
+		$userCalendars = $this->getCalendarsForPrincipal($principalUri);
+		if (empty($userCalendars)) {
+			$this->logger->warning('iMip message could not be processed because user has on calendars');
+			return false;
+		}
+		
+		/** @var VCalendar $vObject|null */
+		$calendarObject = Reader::read($calendarData);
+		
+		if (!isset($calendarObject->METHOD) || $calendarObject->METHOD->getValue() !== 'REQUEST') {
+			$this->logger->warning('iMip message contains an incorrect or invalid method');
+			return false;
+		}
+		
+		if (!isset($calendarObject->VEVENT)) {
+			$this->logger->warning('iMip message contains an no event');
+			return false;
+		}
+
+		$eventObject = $calendarObject->VEVENT;
+
+		if (!isset($eventObject->UID)) {
+			$this->logger->warning('iMip message event dose not contains a UID');
+			return false;
+		}
+		
+		if (!isset($eventObject->ATTENDEE)) {
+			$this->logger->warning('iMip message event dose not contains any attendees');
+			return false;
+		}
+		
+		foreach ($eventObject->ATTENDEE as $entry) {
+			$address = trim(str_replace('mailto:', '', $entry->getValue()));
+			if ($address === $recipient) {
+				$attendee = $address;
+				break;
+			}
+		}
+		if (!isset($attendee)) {
+			$this->logger->warning('iMip message event does not contain a attendee that matches the recipient');
+			return false;
+		}
+		
+		foreach ($userCalendars as $calendar) {
+			
+			if ($calendar->isDeleted() || !$calendar->isWritable() || $calendar->isShared()) {
+				continue;
+			}
+			
+			if (!empty($calendar->search($recipient, ['ATTENDEE'], ['uid' => $eventObject->UID->getValue()]))) {
+				try {
+					if ($calendar instanceof IHandleImipMessage) {
+						$calendar->handleIMipMessage('', $calendarData);
+					}
+					return true;
+				} catch (CalendarException $e) {
+					$this->logger->error('An error occurred while processing the iMip message event', ['exception' => $e]);
+					return false;
+				}
+			}
+		}
+		
+		$this->logger->warning('iMip message event could not be processed because the no corresponding event was found in any calendar');
+		return false;
+	}
+
+	/**
 	 * @throws \OCP\DB\Exception
 	 */
 	public function handleIMipReply(
