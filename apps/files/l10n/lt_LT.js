@@ -106,6 +106,7 @@ OC.L10N.register(
     "Copy to clipboard" : "Kopijuoti į iškarpinę",
     "Use this address to access your Files via WebDAV" : "Naudokite šį adresą norėdami pasiekti failus per WebDAV",
     "Clipboard is not available" : "Iškarpinė neprieinama",
+    "Owner" : "Savivinkas",
     "Remove from favorites" : "Šalinti iš mėgstamų",
     "Add to favorites" : "Pridėti į mėgstamus",
     "Tags" : "Žymės",

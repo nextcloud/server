@@ -21,7 +21,7 @@ OC.L10N.register(
     "Good afternoon, {name}" : "مساء الخير، {name}",
     "Good evening" : "مساء الخير",
     "Good evening, {name}" : "مساء الخير، {name}",
-    "Hello" : "مرحبا",
+    "Hello" : "مرحباً",
     "Hello, {name}" : "أهلا، {name} ",
     "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "إبدأ يومك بالاطلاع على ما يهمّك\n\nلوحة قيادة نكست كلاود هي نقطة البداية ليومك؛\nتعطيك لمحة عن مواعيدك القادمة و الرسائل المستعجلة و المحادثات الواردة و تذاكر طلب المساعدة المعلقة و آخر التغريدات و الكثير غيرها!\nيمكنك أن تضيف أدوات أخرى ترغبها\nكما يمكنك تغيير مظهر و خلفية اللوحة كما تريد. "
 },

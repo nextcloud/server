@@ -143,6 +143,7 @@
     "Remove from favorites" : "Отстрани од фаворити",
     "Add to favorites" : "Додади во фаворити",
     "Tags" : "Ознаки",
+    "You" : "Вие",
     "Unable to change the favourite state of the file" : "Неможе да се промени статусот на омимени на датотеката",
     "Error while loading the file data" : "Грешка при вчитување на податоците од датотеката",
     "Pick a template for {name}" : "Избери шаблон за {name}",

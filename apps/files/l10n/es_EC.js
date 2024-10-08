@@ -128,6 +128,7 @@ OC.L10N.register(
     "If you have enabled 2FA, you must create and use a new app password by clicking here." : "Si has habilitado la autenticación de dos factores (2FA), debes crear y usar una nueva contraseña de aplicación haciendo clic aquí.",
     "Clipboard is not available" : "El portapapeles no está disponible",
     "WebDAV URL copied to clipboard" : "URL de WebDAV copiada al portapapeles.",
+    "Owner" : "Dueño",
     "Remove from favorites" : "Eliminar de favoritos",
     "Add to favorites" : "Agregar a favoritos",
     "Tags" : "Etiquetas",
