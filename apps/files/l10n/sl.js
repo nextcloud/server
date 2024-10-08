@@ -165,6 +165,7 @@ OC.L10N.register(
     "Remove from favorites" : "Odstrani iz priljubljenih",
     "Add to favorites" : "Dodaj med priljubljene",
     "Tags" : "Oznake",
+    "You" : "Jaz",
     "Unable to change the favourite state of the file" : "Ni mogoče spremeniti stanja priljubljenosti datoteke",
     "Error while loading the file data" : "Prišlo je do napake med nalaganjem podatkov računa",
     "Pick a template for {name}" : "Izbor predloge za {name}",

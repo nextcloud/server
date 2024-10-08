@@ -177,6 +177,8 @@ OC.L10N.register(
     "Remove from favorites" : "Rimuovi dai preferiti",
     "Add to favorites" : "Aggiungi ai preferiti",
     "Tags" : "Etichette",
+    "You" : "Tu",
+    "Shared multiple times with different people" : "Condiviso più volte con diverse persone",
     "Unable to change the favourite state of the file" : "Impossibile cambiare lo stato di preferito del file",
     "Error while loading the file data" : "Errore durante il caricamento del file di dati",
     "Pick a template for {name}" : "Scegli un modello per {name}",

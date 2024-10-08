@@ -139,6 +139,7 @@ OC.L10N.register(
     "If you have enabled 2FA, you must create and use a new app password by clicking here." : "Nếu bạn đã bật 2FA, bạn phải tạo và sử dụng mật khẩu ứng dụng mới bằng cách nhấp vào đây.",
     "Clipboard is not available" : "Bảng nhớ tạm không có sẵn",
     "WebDAV URL copied to clipboard" : "Đã sao chép URL WebDAV vào bảng nhớ tạm",
+    "Owner" : "Chủ",
     "Remove from favorites" : "Xóa khỏi ưa thích",
     "Add to favorites" : "Thêm vào ưa thích",
     "Tags" : "Nhãn",

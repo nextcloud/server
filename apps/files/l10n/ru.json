@@ -176,6 +176,8 @@
     "Remove from favorites" : "Удалить из избранных",
     "Add to favorites" : "Добавить в избранное",
     "Tags" : "Метки",
+    "You" : "Вы",
+    "Shared multiple times with different people" : "Делиться несколько раз с разными людьми",
     "Unable to change the favourite state of the file" : "Не удалось изменить состояние «избранный» этого файла.",
     "Error while loading the file data" : "Не удалось загрузить данные файла",
     "Pick a template for {name}" : "Выбрать шаблон для {name}",
