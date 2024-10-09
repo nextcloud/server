@@ -55,6 +55,12 @@ class WipeControllerTest extends TestCase {
 			$this->remoteWipe->method('start')
 				->with('mytoken')
 				->willThrowException(new InvalidTokenException());
+			$this->remoteWipe->method('start')
+				->with('')
+				->willThrowException(new InvalidTokenException());
+			$this->remoteWipe->method('start')
+				->with(NULL)
+				->willThrowException(new InvalidTokenException());
 		} else {
 			$this->remoteWipe->method('start')
 				->with('mytoken')
