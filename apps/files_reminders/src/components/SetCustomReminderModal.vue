@@ -93,16 +93,16 @@ export default Vue.extend({
 	},
 
 	computed: {
-		fileId(): number {
-			return this.node.fileid
+		fileId(): number|undefined {
+			return this.node?.fileid
 		},
 
-		fileName(): string {
-			return this.node.basename
+		fileName(): string|undefined {
+			return this.node?.basename
 		},
 
 		name() {
-			return t('files_reminders', 'Set reminder for "{fileName}"', { fileName: this.fileName })
+			return this.fileName ? t('files_reminders', 'Set reminder for "{fileName}"', { fileName: this.fileName }) : ''
 		},
 
 		label(): string {
