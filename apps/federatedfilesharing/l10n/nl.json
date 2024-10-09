@@ -24,14 +24,12 @@
     "Your Federated Cloud ID:" : "Je gefedereerde Cloud ID:",
     "Share it so your friends can share files with you:" : "Deel het, zodat anderen bestanden met jou kunnen delen:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Toevoegen aan je website",
     "Share with me via Nextcloud" : "Deel met mij via Nextcloud",
     "HTML Code:" : "HTML Code:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Deel met mij via mijn #Nextcloud gefedereerde Cloud ID",
     "Copy to clipboard" : "Kopiëren naar het klembord",
-    "Copied!" : "Gekopieerd!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Wil je de externe share {name} van {owner}@{remote} toevoegen?",
     "Remote share" : "Externe share",
     "Remote share password" : "Wachtwoord externe share",
@@ -45,6 +43,9 @@
     "Allow users on this server to send shares to groups on other servers" : "Sta gebruikers op deze server toe om shares naar groepen op andere servers te delen",
     "Allow users on this server to receive group shares from other servers" : "Sta gebruikers op deze server toe om shares van groepen op andere servers te ontvangen",
     "Search global and public address book for users" : "Doorzoeken van openbare adresboeken voor gebruikers",
-    "Allow users to publish their data to a global and public address book" : "Publiek maken van data met een openbaar adresboek toestaan"
+    "Allow users to publish their data to a global and public address book" : "Publiek maken van data met een openbaar adresboek toestaan",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
+    "Copied!" : "Gekopieerd!"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -9,6 +9,7 @@ OC.L10N.register(
     "Restore" : "Atkurti",
     "Unknown" : "Nežinoma",
     "All files" : "Visi failai",
+    "You" : "Jūs",
     "Original location" : "Pradinė vieta",
     "Deleted" : "Ištrinta",
     "A long time ago" : "Prieš ilgą laiką",

@@ -34,8 +34,8 @@
     "Your Federated Cloud ID:" : "D'aitheantas scamall Cónaidhme:",
     "Share it so your friends can share files with you:" : "Roinn é ionas gur féidir le do chairde comhaid a roinnt leat:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspóra",
+    "X (formerly Twitter)" : "X (Twitter roimhe seo)",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Cuir le do láithreán gréasáin",
     "Share with me via Nextcloud" : "Roinn liom trí Nextcloud",
     "HTML Code:" : "Cód HTML:",
@@ -43,8 +43,6 @@
     "Share with me through my #Nextcloud Federated Cloud ID" : "Roinn liom trí m'aitheantas scamall #Nextcloud Federated Cloud",
     "Cloud ID copied to the clipboard" : "Cóipeáladh Cloud ID chuig an ngearrthaisce",
     "Copy to clipboard" : "Cóipeáil chuig an ngearrthaisce",
-    "Clipboard is not available" : "Níl fáil ar an ngearrthaisce",
-    "Copied!" : "Cóipeáladh!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ar mhaith leat an sciar cianda {name} ó {owner}@{remote} a chur leis?",
     "Remote share" : "Comhroinnt iargúlta",
     "Remote share password" : "Pasfhocal comhroinnte cianda",
@@ -58,6 +56,10 @@
     "Allow users on this server to send shares to groups on other servers" : "Lig d'úsáideoirí ar an bhfreastalaí seo scaireanna a sheoladh chuig grúpaí ar fhreastalaithe eile",
     "Allow users on this server to receive group shares from other servers" : "Lig d'úsáideoirí ar an bhfreastalaí seo scaireanna grúpa a fháil ó fhreastalaithe eile",
     "Search global and public address book for users" : "Cuardaigh leabhar seoltaí domhanda agus poiblí le haghaidh úsáideoirí",
-    "Allow users to publish their data to a global and public address book" : "Lig d’úsáideoirí a gcuid sonraí a fhoilsiú i leabhar seoltaí domhanda agus poiblí"
+    "Allow users to publish their data to a global and public address book" : "Lig d’úsáideoirí a gcuid sonraí a fhoilsiú i leabhar seoltaí domhanda agus poiblí",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspóra",
+    "Clipboard is not available" : "Níl fáil ar an ngearrthaisce",
+    "Copied!" : "Cóipeáladh!"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

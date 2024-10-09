@@ -34,8 +34,8 @@
     "Your Federated Cloud ID:" : "您的雲端聯盟 ID：",
     "Share it so your friends can share files with you:" : "使用分享以便您的朋友可以與您分享檔案：",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora",
+    "X (formerly Twitter)" : "X（前身為 Twitter）",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "新增至您的網站",
     "Share with me via Nextcloud" : "透過 Nextcloud 與我分享",
     "HTML Code:" : "HTML 代碼：",
@@ -43,8 +43,6 @@
     "Share with me through my #Nextcloud Federated Cloud ID" : "可透過我的 #Nextcloud 聯盟雲端 ID 與我分享",
     "Cloud ID copied to the clipboard" : "已複製 Cloud ID 至剪貼板",
     "Copy to clipboard" : "複製到剪貼板",
-    "Clipboard is not available" : "剪貼板不可用",
-    "Copied!" : "已複製！",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "是否要加入來自 {owner}@{remote} 的遠端分享 {name} ？",
     "Remote share" : "遠端分享",
     "Remote share password" : "遠端分享密碼",
@@ -58,6 +56,10 @@
     "Allow users on this server to send shares to groups on other servers" : "允許此伺服器上的用戶向其他伺服器上的群組發送分享 ",
     "Allow users on this server to receive group shares from other servers" : "允許此伺服器上的用戶接收其他伺服器的群組分享",
     "Search global and public address book for users" : "在全局和公共通訊錄中尋找用戶",
-    "Allow users to publish their data to a global and public address book" : "允許用戶將其數據發佈到全球和公共通訊錄"
+    "Allow users to publish their data to a global and public address book" : "允許用戶將其數據發佈到全球和公共通訊錄",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "剪貼板不可用",
+    "Copied!" : "已複製！"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

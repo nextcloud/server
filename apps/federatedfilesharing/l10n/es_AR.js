@@ -18,13 +18,11 @@ OC.L10N.register(
     "Federated Cloud" : "Nube Federada",
     "Your Federated Cloud ID:" : "Su ID de Nube Federada:",
     "Share it so your friends can share files with you:" : "Compártalo para que sus amigos puedan compartir archivos con usted. ",
-    "Twitter" : "Twitter",
     "Add to your website" : "Agregar a su sitio web",
     "Share with me via Nextcloud" : "Compartir conmigo vía Nextcloud",
     "HTML Code:" : "Código HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Compartir conmigo a través de mi ID de Nube Federada #Nextcloud",
     "Copy to clipboard" : "Copiar al portapapeles",
-    "Copied!" : "¡Copiado!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Desea agregar el elemento compartido remoto {name} de {owner}@{remote}?",
     "Remote share" : "Elemento compartido remoto",
     "Remote share password" : "Contraseña del elemento compartido remoto",
@@ -33,6 +31,8 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "No está permitido crear un elelmento compartido federado con el mismo usuario",
     "Allow users on this server to receive shares from other servers" : "Permitir que los usuarios de este servidor recibir elementos compartidos de otros servidores",
     "Search global and public address book for users" : "Buscar usuarios en las libretas de contactos globales y públicas",
-    "Allow users to publish their data to a global and public address book" : "Permitir a los usuarios publicar sus datos a una libreta de direcciones global y pública"
+    "Allow users to publish their data to a global and public address book" : "Permitir a los usuarios publicar sus datos a una libreta de direcciones global y pública",
+    "Twitter" : "Twitter",
+    "Copied!" : "¡Copiado!"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
