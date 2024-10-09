@@ -28,8 +28,8 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Váš identifikátor v rámci federovaného cloudu:",
     "Share it so your friends can share files with you:" : "Podělte se o to, aby mohli vaši přátelé s vámi mohli sdílet soubory:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora",
+    "X (formerly Twitter)" : "X (dříve Twitter)",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Přidat na svou webovou stránku",
     "Share with me via Nextcloud" : "Sdílet se mnou přes Nextcloud",
     "HTML Code:" : "HTML kód:",
@@ -37,8 +37,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Sdílejte se mnou pomocí mého #Nextcloud identifikátoru v rámci federovaného cloudu",
     "Cloud ID copied to the clipboard" : "Cloudový identifikátor zkopírován do schránky",
     "Copy to clipboard" : "Zkopírovat do schránky",
-    "Clipboard is not available" : "Schránka není k dispozici",
-    "Copied!" : "Zkopírováno",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Chcete přidat vzdálené sdílení {name} od {owner}@{remote}?",
     "Remote share" : "Vzdálené sdílení",
     "Remote share password" : "Heslo ke vzdálenému sdílení",
@@ -52,6 +50,10 @@ OC.L10N.register(
     "Allow users on this server to send shares to groups on other servers" : "Povolit uživatelům na tomto serveru zasílat sdílení skupinám na ostatních serverech",
     "Allow users on this server to receive group shares from other servers" : "Povolit uživatelům na tomto serveru přijímat skupinová sdílení z jiných serverů",
     "Search global and public address book for users" : "Hledat uživatele v globálním a veřejném adresáři kontaktů",
-    "Allow users to publish their data to a global and public address book" : "Povolit uživatelům publikování jejich dat do globálního a sdíleného adresáře kontaktů"
+    "Allow users to publish their data to a global and public address book" : "Povolit uživatelům publikování jejich dat do globálního a sdíleného adresáře kontaktů",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "Schránka není k dispozici",
+    "Copied!" : "Zkopírováno"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

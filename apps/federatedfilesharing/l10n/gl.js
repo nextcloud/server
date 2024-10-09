@@ -36,8 +36,8 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "ID da súa nube federada:",
     "Share it so your friends can share files with you:" : "Compártao para que as súas amizades poidan compartir ficheiros con Vde.:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora",
+    "X (formerly Twitter)" : "X (anteriormente Twitter).",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Engadir ao seu sitio web",
     "Share with me via Nextcloud" : "Comparte comigo a través de Nextcloud",
     "HTML Code:" : "Código HTML:",
@@ -45,8 +45,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Comparta comigo a través do meu ID de nube federada de #Nextcloud",
     "Cloud ID copied to the clipboard" : "O identificador de nube (Cloud ID) (foi copiado no portapapeis",
     "Copy to clipboard" : "Copiar no portapapeis.",
-    "Clipboard is not available" : "O portapapeis non está dispoñíbel",
-    "Copied!" : "Copiado!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Quere engadir a compartición remota {name} de {owner}@{remote}?",
     "Remote share" : "Compartición remota",
     "Remote share password" : "Contrasinal da compartición remota",
@@ -60,6 +58,10 @@ OC.L10N.register(
     "Allow users on this server to send shares to groups on other servers" : "Permitirlle aos usuarios deste servidor enviar comparticións a grupos noutros servidores",
     "Allow users on this server to receive group shares from other servers" : "Permitirlle aos usuarios deste servidor recibir comparticións de grupos dende outros servidores",
     "Search global and public address book for users" : "Buscar usuarios nos cadernos de enderezos globais e públicos",
-    "Allow users to publish their data to a global and public address book" : "Permitirlle aos usuarios publicar os seus datos nun caderno de  enderezos global e público"
+    "Allow users to publish their data to a global and public address book" : "Permitirlle aos usuarios publicar os seus datos nun caderno de  enderezos global e público",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "O portapapeis non está dispoñíbel",
+    "Copied!" : "Copiado!"
 },
 "nplurals=2; plural=(n != 1);");

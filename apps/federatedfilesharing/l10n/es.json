@@ -34,8 +34,8 @@
     "Your Federated Cloud ID:" : "Tu ID de Nube Federada:",
     "Share it so your friends can share files with you:" : "Compártelo para que tus amigos puedan compartir archivos contigo:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora",
+    "X (formerly Twitter)" : "X (anteriormente Twitter)",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Añadir a su sitio web",
     "Share with me via Nextcloud" : "Compartirlo conmigo vía Nextcloud",
     "HTML Code:" : "Código HTML:",
@@ -43,8 +43,6 @@
     "Share with me through my #Nextcloud Federated Cloud ID" : "Compartirlo conmigo a través de mi ID de Nube Federada #Nextcloud",
     "Cloud ID copied to the clipboard" : "ID de nube copiado al portapapeles",
     "Copy to clipboard" : "Copiar al portapapeles",
-    "Clipboard is not available" : "El portapapeles no está disponible",
-    "Copied!" : "¡Copiado!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Deseas añadir el recurso compartido remoto {name} de {owner}@{remote}?",
     "Remote share" : "Recurso compartido remoto",
     "Remote share password" : "Contraseña del compartido remoto",
@@ -58,6 +56,10 @@
     "Allow users on this server to send shares to groups on other servers" : "Permitir a los usuarios de este servidor enviar a grupos de otros servidores",
     "Allow users on this server to receive group shares from other servers" : "Permitir a los usuarios de este servidor recibir de grupos de otros servidores",
     "Search global and public address book for users" : "Buscar usuarios en libreta de direcciones global y pública",
-    "Allow users to publish their data to a global and public address book" : "Permitir a los usuarios publicar su información en la libreta de direcciones global y pública"
+    "Allow users to publish their data to a global and public address book" : "Permitir a los usuarios publicar su información en la libreta de direcciones global y pública",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "El portapapeles no está disponible",
+    "Copied!" : "¡Copiado!"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

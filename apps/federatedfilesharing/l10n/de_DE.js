@@ -36,8 +36,8 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Ihre Federated-Cloud-ID:",
     "Share it so your friends can share files with you:" : "Teilen Sie es, so dass Ihre Freunde Dateien mit Ihnen teilen können:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora",
+    "X (formerly Twitter)" : "X (früher Twitter)",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Zu Ihrer Webseite hinzufügen",
     "Share with me via Nextcloud" : "Teilen Sie mit mir über Nextcloud",
     "HTML Code:" : "HTML-Code:",
@@ -45,8 +45,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Teilen Sie mit mir über meine #Nextcloud Federated-Cloud-ID",
     "Cloud ID copied to the clipboard" : "Cloud-ID wurde in die Zwischenablage kopiert",
     "Copy to clipboard" : "In die Zwischenablage kopieren",
-    "Clipboard is not available" : "Zwischenablage ist nicht verfügbar",
-    "Copied!" : "Kopiert!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Möchten Sie die externe Freigabe {name} von {owner}@{remote} hinzufügen?",
     "Remote share" : "Externe Freigabe",
     "Remote share password" : "Passwort für die externe Freigabe",
@@ -60,6 +58,10 @@ OC.L10N.register(
     "Allow users on this server to send shares to groups on other servers" : "Ermöglichen Sie Nutzern dieses Servers, Freigaben an Gruppen auf anderen Servern zu senden",
     "Allow users on this server to receive group shares from other servers" : "Ermöglichen Sie Nutzern dieses Servers, Gruppen-Freigaben von anderen Servern zu erhalten",
     "Search global and public address book for users" : "Durchsuche globales und öffentliches Adressbuch nach Nutzern",
-    "Allow users to publish their data to a global and public address book" : "Erlaube Benutzern, ihre Daten in einem globalen und öffentlichen Adressbuch zu veröffentlichen"
+    "Allow users to publish their data to a global and public address book" : "Erlaube Benutzern, ihre Daten in einem globalen und öffentlichen Adressbuch zu veröffentlichen",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "Zwischenablage ist nicht verfügbar",
+    "Copied!" : "Kopiert!"
 },
 "nplurals=2; plural=(n != 1);");
