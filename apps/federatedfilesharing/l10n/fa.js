@@ -27,8 +27,7 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "شناسهٔ ابردی خودگردانتان:",
     "Share it so your friends can share files with you:" : "آن را به اشتراک بگذارید تا دوستانتان بتوانند فایل ها را با شما به اشتراک بگذارند:",
     "Facebook" : "فیس‌بوک",
-    "Twitter" : "توییتر",
-    "Diaspora" : "دیازپورا",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "افزودن به پایگاه وبتان",
     "Share with me via Nextcloud" : "هم‌رسانی با من روی نسکت‌کلود",
     "HTML Code:" : "کد HTML :",
@@ -36,8 +35,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "از طریق شناسه ابری فدرال #Nextcloud با من به اشتراک بگذارید",
     "Cloud ID copied to the clipboard" : "Cloud ID در کلیپ بورد کپی شد",
     "Copy to clipboard" : "رونوشت به تخته‌گیره",
-    "Clipboard is not available" : "کلیپ بورد در دسترس نیست",
-    "Copied!" : "رونوشت شد!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "می‌خواهید هم‌رسانی دوردست {name} را از ‪{owner}@{remote}‬ بیفزایید؟",
     "Remote share" : "هم‌رسانی دوردست",
     "Remote share password" : "گذرواژهٔ هم‌رسانی دوردست",
@@ -51,6 +48,10 @@ OC.L10N.register(
     "Allow users on this server to send shares to groups on other servers" : "به کاربران موجود در این سرور امکان ارسال اشتراک‌ها به گروه‌های موجود در سرورهای دیگر را بدهید",
     "Allow users on this server to receive group shares from other servers" : "به کاربران این سرور اجازه دهید اشتراک‌های گروهی را از سرورهای دیگر دریافت کنند",
     "Search global and public address book for users" : "کتاب آدرس عمومی و عمومی را برای کاربران جستجو کنید",
-    "Allow users to publish their data to a global and public address book" : "به کاربران اجازه دهید داده های خود را در یک دفترچه آدرس عمومی و عمومی منتشر کنند"
+    "Allow users to publish their data to a global and public address book" : "به کاربران اجازه دهید داده های خود را در یک دفترچه آدرس عمومی و عمومی منتشر کنند",
+    "Twitter" : "توییتر",
+    "Diaspora" : "دیازپورا",
+    "Clipboard is not available" : "کلیپ بورد در دسترس نیست",
+    "Copied!" : "رونوشت شد!"
 },
 "nplurals=2; plural=(n > 1);");

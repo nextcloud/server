@@ -36,8 +36,8 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Zure federatutako hodei IDa:",
     "Share it so your friends can share files with you:" : "Bidali lagunei, zurekin fitxategiak parteka ditzaten:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora",
+    "X (formerly Twitter)" : "X (lehen Twitter)",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Gehitu zure webgunera",
     "Share with me via Nextcloud" : "Partekatu nirekin Nextcloud bidez",
     "HTML Code:" : "HTML kodea:",
@@ -45,8 +45,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Partekatu nirekin, nire federatutako #Nextcloud hodei IDa erabiliz",
     "Cloud ID copied to the clipboard" : "Hodei IDa arbelean kopiatu da",
     "Copy to clipboard" : "Kopiatu arbelera",
-    "Clipboard is not available" : "Arbela ez dago erabilgarri",
-    "Copied!" : "Kopiatuta!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote}(r)en {name} urruneko partekatzea gehitu nahi duzu?",
     "Remote share" : "Urruneko partekatzea",
     "Remote share password" : "Urruneko partekatzearen pasahitza",
@@ -60,6 +58,10 @@ OC.L10N.register(
     "Allow users on this server to send shares to groups on other servers" : "Baimendu zerbitzari honetako erabiltzaileei beste zerbitzari batzuetako taldeei elementuak partekatzea.",
     "Allow users on this server to receive group shares from other servers" : "Baimendu zerbitzari honetako erabiltzaileek beste zerbitzari batzuetako talde-partekatzeak jasotzea.",
     "Search global and public address book for users" : "Bilatu erabiltzaileak helbide-liburu global eta publikoan",
-    "Allow users to publish their data to a global and public address book" : "Baimena eman erabiltzaileei beren datuak helbide-liburu global eta publikoan argitaratzeko"
+    "Allow users to publish their data to a global and public address book" : "Baimena eman erabiltzaileei beren datuak helbide-liburu global eta publikoan argitaratzeko",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "Arbela ez dago erabilgarri",
+    "Copied!" : "Kopiatuta!"
 },
 "nplurals=2; plural=(n != 1);");

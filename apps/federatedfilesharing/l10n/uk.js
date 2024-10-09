@@ -29,8 +29,7 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Ваш ідентифікатор Federated Cloud:",
     "Share it so your friends can share files with you:" : "Поділіться ним, щоб ваші друзі могли ділитися з вами файлами:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Діаспора",
+    "X (formerly Twitter)" : "X (раніше відома як Twitter)",
     "Add to your website" : "Додати на ваш вебсайт",
     "Share with me via Nextcloud" : "Поділися зі мною через Nextcloud",
     "HTML Code:" : "Код HTML:",
@@ -38,8 +37,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Поділіться зі мною через мій #Nextcloud Federated Cloud ID",
     "Cloud ID copied to the clipboard" : "Cloud ID скопійовано в буфер обміну",
     "Copy to clipboard" : "Копіювати до буферу обміну",
-    "Clipboard is not available" : "Буфер обміну недоступний",
-    "Copied!" : "Скопійовано!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Додати віддалений каталог {name} з {owner}@{remote}?",
     "Remote share" : "Віддалений каталог",
     "Remote share password" : "Пароль для віддаленого каталогу",
@@ -53,6 +50,10 @@ OC.L10N.register(
     "Allow users on this server to send shares to groups on other servers" : "Дозволити користувачам цього сервера надсилати спільні файли групам на інших серверах",
     "Allow users on this server to receive group shares from other servers" : "Дозволити користувачам на цьому сервері отримувати групові спільні файли з інших серверів",
     "Search global and public address book for users" : "Пошук по глобальній та публічній адресній книзі користувачів",
-    "Allow users to publish their data to a global and public address book" : "Дозволити користувачам публікувати свої дані в глобальній загальнодоступній адресній книзі"
+    "Allow users to publish their data to a global and public address book" : "Дозволити користувачам публікувати свої дані в глобальній загальнодоступній адресній книзі",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Діаспора",
+    "Clipboard is not available" : "Буфер обміну недоступний",
+    "Copied!" : "Скопійовано!"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

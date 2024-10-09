@@ -36,8 +36,8 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Your Federated Cloud ID:",
     "Share it so your friends can share files with you:" : "Share it so your friends can share files with you:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora",
+    "X (formerly Twitter)" : "X (formerly Twitter)",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Add to your website",
     "Share with me via Nextcloud" : "Share with me via Nextcloud",
     "HTML Code:" : "HTML Code:",
@@ -45,8 +45,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Share with me through my #Nextcloud Federated Cloud ID",
     "Cloud ID copied to the clipboard" : "Cloud ID copied to the clipboard",
     "Copy to clipboard" : "Copy to clipboard",
-    "Clipboard is not available" : "Clipboard is not available",
-    "Copied!" : "Copied!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Do you want to add the remote share {name} from {owner}@{remote}?",
     "Remote share" : "Remote share",
     "Remote share password" : "Remote share password",
@@ -60,6 +58,10 @@ OC.L10N.register(
     "Allow users on this server to send shares to groups on other servers" : "Allow users on this server to send shares to groups on other servers",
     "Allow users on this server to receive group shares from other servers" : "Allow users on this server to receive group shares from other servers",
     "Search global and public address book for users" : "Search global and public address book for users",
-    "Allow users to publish their data to a global and public address book" : "Allow users to publish their data to a global and public address book"
+    "Allow users to publish their data to a global and public address book" : "Allow users to publish their data to a global and public address book",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "Clipboard is not available",
+    "Copied!" : "Copied!"
 },
 "nplurals=2; plural=(n != 1);");

@@ -25,8 +25,8 @@
     "Your Federated Cloud ID:" : "Az Ön föderált felhőazonosítója:",
     "Share it so your friends can share files with you:" : "Ossza meg, hogy a barátai is oszthassanak meg Önnel fájlokat:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora",
+    "X (formerly Twitter)" : "X (korábban Twitter)",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Adja hozzá saját weboldalához",
     "Share with me via Nextcloud" : "Ossza meg velem a Nextcloudon keresztül",
     "HTML Code:" : "HTML-kód:",
@@ -34,8 +34,6 @@
     "Share with me through my #Nextcloud Federated Cloud ID" : "Ossza meg velem a #Nextcloud föderált felhőazonosítóm segítségével ",
     "Cloud ID copied to the clipboard" : "Felhőazonosító a vágólapra másolva",
     "Copy to clipboard" : "Másolás a vágólapra",
-    "Clipboard is not available" : "A vágólap nem érhető el",
-    "Copied!" : "Másolva!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Hozzáadja a(z) {name} távoli megosztást innen: {owner}@{remote}?",
     "Remote share" : "Távoli megosztás",
     "Remote share password" : "Jelszó a távoli megosztáshoz",
@@ -49,6 +47,10 @@
     "Allow users on this server to send shares to groups on other servers" : "Engedélyezze ezen kiszolgáló felhasználóinak, hogy megosztásokat küldjenek más kiszolgálók csoportjainak",
     "Allow users on this server to receive group shares from other servers" : "Engedélyezi ezen kiszolgáló felhasználóinak, hogy csoportmegosztásokat fogadjanak más kiszolgálóktól",
     "Search global and public address book for users" : "Felhasználók keresése a globális és a nyilvános címjegyzékben",
-    "Allow users to publish their data to a global and public address book" : "A felhasználók közzétehetik az adataikat a globális és nyilvános címjegyzékben"
+    "Allow users to publish their data to a global and public address book" : "A felhasználók közzétehetik az adataikat a globális és nyilvános címjegyzékben",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "A vágólap nem érhető el",
+    "Copied!" : "Másolva!"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -35,8 +35,8 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "您的联合云 ID：",
     "Share it so your friends can share files with you:" : "使用共享，以便您的朋友可以与您共享文件：",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora",
+    "X (formerly Twitter)" : "X（原Twitter）",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "添加到您的网站",
     "Share with me via Nextcloud" : "通过联合云与我共享",
     "HTML Code:" : "HTML 代码：",
@@ -44,8 +44,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "通过我的 #Nextcloud 联合云 ID 与我共享",
     "Cloud ID copied to the clipboard" : "云端 ID 已复制至剪切板",
     "Copy to clipboard" : "复制到剪贴板",
-    "Clipboard is not available" : "剪贴板不可用",
-    "Copied!" : "已复制！",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "您想要添加来自 {owner}@{remote}的远程共享 {name} 吗？",
     "Remote share" : "远程共享",
     "Remote share password" : "远程共享密码",
@@ -59,6 +57,10 @@ OC.L10N.register(
     "Allow users on this server to send shares to groups on other servers" : "允许此服务器上的用户向其他服务器上的分组发送共享",
     "Allow users on this server to receive group shares from other servers" : "允许此服务器上的用户接收其他服务器的分组共享",
     "Search global and public address book for users" : "在全局和公开地址簿中寻找用户",
-    "Allow users to publish their data to a global and public address book" : "允许用户将其数据发布到全球和公共通讯录"
+    "Allow users to publish their data to a global and public address book" : "允许用户将其数据发布到全球和公共通讯录",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "剪贴板不可用",
+    "Copied!" : "已复制！"
 },
 "nplurals=1; plural=0;");

@@ -34,8 +34,8 @@
     "Your Federated Cloud ID:" : "Votre ID de Cloud Fédéré :",
     "Share it so your friends can share files with you:" : "Partagez-le afin que vos amis puissent partager des fichiers avec vous :",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora",
+    "X (formerly Twitter)" : "X (anciennement Twitter)",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Ajouter à votre site web",
     "Share with me via Nextcloud" : "Partagez avec moi via Nextcloud",
     "HTML Code:" : "Code HTML :",
@@ -43,8 +43,6 @@
     "Share with me through my #Nextcloud Federated Cloud ID" : "Partagez avec moi grâce à mon ID de Cloud Fédéré #Nextcloud",
     "Cloud ID copied to the clipboard" : "ID de Cloud Fédéré copié dans le presse-papiers",
     "Copy to clipboard" : "Copier dans le presse-papiers",
-    "Clipboard is not available" : "Le presse-papiers n'est pas disponible",
-    "Copied!" : "Copié !",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Voulez-vous ajouter le partage distant {name} depuis {owner}@{remote} ?",
     "Remote share" : "Partage distant",
     "Remote share password" : "Mot de passe du partage distant",
@@ -58,6 +56,10 @@
     "Allow users on this server to send shares to groups on other servers" : "Autoriser les utilisateurs de ce serveur à envoyer des partages à des groupes sur d'autres serveurs",
     "Allow users on this server to receive group shares from other servers" : "Autoriser les utilisateurs de ce serveur à recevoir des partages de groupe depuis d'autres serveurs",
     "Search global and public address book for users" : "Rechercher dans le carnet d'adresse global et public pour les utilisateurs",
-    "Allow users to publish their data to a global and public address book" : "Autoriser les utilisateurs à publier leurs données dans un carnet d'adresse global et public"
+    "Allow users to publish their data to a global and public address book" : "Autoriser les utilisateurs à publier leurs données dans un carnet d'adresse global et public",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "Le presse-papiers n'est pas disponible",
+    "Copied!" : "Copié !"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

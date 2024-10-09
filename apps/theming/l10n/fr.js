@@ -99,7 +99,7 @@ OC.L10N.register(
     "Theme selection is enforced" : "La sélection du thème est imposée",
     "Navigation bar settings" : "Paramètres de la barre de navigation",
     "You can configure the app order used for the navigation bar. The first entry will be the default app, opened after login or when clicking on the logo." : "Vous pouvez configurer l'ordre des applications utilisées dans la barre de navigation. La première entrée sera l'application par défaut, ouverte après la connexion ou en cliquant sur le logo.",
-    "The default app can not be changed because it was configured by the administrator." : "L'application par défaut ne peut pas être changé car elle a été configurée par l'administrateur.",
+    "The default app can not be changed because it was configured by the administrator." : "L'application par défaut ne peut pas être changée, car elle a été configurée par l'administrateur.",
     "The app order was changed, to see it in action you have to reload the page." : "L'ordre des applications a été changé, pour le voir en action, vous devez recharger la page.",
     "Reset default app order" : "Réinitialiser l'ordre par défaut des applications",
     "Could not set the app order" : "Impossible de définir l'ordre des applications",

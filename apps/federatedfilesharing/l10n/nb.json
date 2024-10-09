@@ -34,8 +34,8 @@
     "Your Federated Cloud ID:" : "Din ID for sammenknyttet sky:",
     "Share it so your friends can share files with you:" : "Del den slik at venner kan dele filer med deg:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora",
+    "X (formerly Twitter)" : "X (tidligere Twitter)",
+    "Mastodon" : "Mastodont",
     "Add to your website" : "Legg på nettsiden din",
     "Share with me via Nextcloud" : "Del med meg via Nextcloud",
     "HTML Code:" : "HTML-kode:",
@@ -43,8 +43,6 @@
     "Share with me through my #Nextcloud Federated Cloud ID" : "Del med meg gjennom min #Nextcloud-ID for sammenknyttet sky",
     "Cloud ID copied to the clipboard" : "Sky-ID kopiert til utklippstavlen",
     "Copy to clipboard" : "Kopiert til utklippstavlen",
-    "Clipboard is not available" : "Utklippstavlen er ikke tilgjengelig",
-    "Copied!" : "Kopiert!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ønsker du å legge til ekstern ressurs {name} fra {owner}@{remote}?",
     "Remote share" : "Ekstern ressurs",
     "Remote share password" : "Passord for ekstern ressurs",
@@ -58,6 +56,10 @@
     "Allow users on this server to send shares to groups on other servers" : "Tillat brukere på denne serveren å sende delinger til grupper på andre servere",
     "Allow users on this server to receive group shares from other servers" : "Tillat brukere på denne serveren å motta gruppedelinger fra andre servere",
     "Search global and public address book for users" : "Søk global og offentlige adressebøker etter brukere",
-    "Allow users to publish their data to a global and public address book" : "Tillat brukere å offentliggjøre deres data til en verdensomspennende og offentlig adressebok"
+    "Allow users to publish their data to a global and public address book" : "Tillat brukere å offentliggjøre deres data til en verdensomspennende og offentlig adressebok",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "Utklippstavlen er ikke tilgjengelig",
+    "Copied!" : "Kopiert!"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

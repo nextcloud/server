@@ -20,12 +20,9 @@
     "Your Federated Cloud ID:" : "Jūsų federacinės debesijos ID:",
     "Share it so your friends can share files with you:" : "Pasidalinkite juo, kad jūsų draugai galėtų bendrinti failus kartu su jumis:",
     "Facebook" : "„Facebook“",
-    "Twitter" : "Twitter",
     "HTML Code:" : "HTML kodas:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Bendrinti su manimi per mano #Nextcloud federacinės debesijos ID",
     "Copy to clipboard" : "Kopijuoti į iškarpinę",
-    "Clipboard is not available" : "Iškarpinė neprieinama",
-    "Copied!" : "Nukopijuota!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ar norite pridėti nuotolinį viešinį {name} iš {owner}@{remote}?",
     "Remote share" : "Nuotolinis viešinys",
     "Remote share password" : "Nuotolinio viešinio slaptažodis",
@@ -37,6 +34,9 @@
     "Allow users on this server to send shares to groups on other servers" : "Leisti naudotojams šiame serveryje siųsti viešinius į grupes kituose serveriuose",
     "Allow users on this server to receive group shares from other servers" : "Leisti naudotojams šiame serveryje gauti grupių viešinius iš kitų serverių",
     "Search global and public address book for users" : "Ieškoti naudotojų visuotinėje ir viešoje adresų knygoje",
-    "Allow users to publish their data to a global and public address book" : "Leisti naudotojams paskelbti savo duomenis visuotinėje ir viešoje adresų knygoje"
+    "Allow users to publish their data to a global and public address book" : "Leisti naudotojams paskelbti savo duomenis visuotinėje ir viešoje adresų knygoje",
+    "Twitter" : "Twitter",
+    "Clipboard is not available" : "Iškarpinė neprieinama",
+    "Copied!" : "Nukopijuota!"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }
