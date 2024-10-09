@@ -43,6 +43,7 @@ use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use OCP\Server;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -89,6 +90,8 @@ class AppSettingsController extends Controller {
 		$this->initialState->provideInitialState('appstoreDeveloperDocs', $this->urlGenerator->linkToDocs('developer-manual'));
 		$this->initialState->provideInitialState('appstoreUpdateCount', count($this->getAppsWithUpdates()));
 
+		$this->provideAppApiState();
+
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 
@@ -99,6 +102,37 @@ class AppSettingsController extends Controller {
 		Util::addScript('settings', 'vue-settings-apps-users-management');
 
 		return $templateResponse;
+	}
+
+	private function provideAppApiState(): void {
+		$appApiEnabled = $this->appManager->isInstalled('app_api');
+		$this->initialState->provideInitialState('appApiEnabled', $appApiEnabled);
+		$daemonConfigAccessible = false;
+		$defaultDaemonConfig = null;
+
+		if ($appApiEnabled) {
+			$exAppFetcher = Server::get(\OCA\AppAPI\Fetcher\ExAppFetcher::class);
+			$this->initialState->provideInitialState('appstoreExAppUpdateCount', count($exAppFetcher->getExAppsWithUpdates()));
+
+			$defaultDaemonConfigName = $this->config->getAppValue('app_api', 'default_daemon_config');
+			if ($defaultDaemonConfigName !== '') {
+				$daemonConfigService = Server::get(\OCA\AppAPI\Service\DaemonConfigService::class);
+				$daemonConfig = $daemonConfigService->getDaemonConfigByName($defaultDaemonConfigName);
+				if ($daemonConfig !== null) {
+					$defaultDaemonConfig = $daemonConfig->jsonSerialize();
+					unset($defaultDaemonConfig['deploy_config']['haproxy_password']);
+					$dockerActions = Server::get(\OCA\AppAPI\DeployActions\DockerActions::class);
+					$dockerActions->initGuzzleClient($daemonConfig);
+					$daemonConfigAccessible = $dockerActions->ping($dockerActions->buildDockerUrl($daemonConfig));
+					if (!$daemonConfigAccessible) {
+						$this->logger->warning(sprintf('Deploy daemon "%s" is not accessible by Nextcloud. Please verify its configuration', $daemonConfig->getName()));
+					}
+				}
+			}
+		}
+
+		$this->initialState->provideInitialState('defaultDaemonConfigAccessible', $daemonConfigAccessible);
+		$this->initialState->provideInitialState('defaultDaemonConfig', $defaultDaemonConfig);
 	}
 
 	/**
