@@ -1,0 +1,47 @@
+<!--
+  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
+<template>
+	<NcAppSidebarTab v-if="app?.daemon"
+		id="daemon"
+		:name="t('settings', 'Daemon')"
+		:order="3">
+		<template #icon>
+			<NcIconSvgWrapper :path="mdiFileChart" :size="24" />
+		</template>
+		<div class="daemon">
+			<h4>{{ t('app_api', 'Deploy Daemon') }}</h4>
+			<p><b>{{ t('app_api', 'Type') }}</b>: {{ app?.daemon.accepts_deploy_id }}</p>
+			<p><b>{{ t('app_api', 'Name') }}</b>: {{ app?.daemon.name }}</p>
+			<p><b>{{ t('app_api', 'Display Name') }}</b>: {{ app?.daemon.display_name }}</p>
+			<p><b>{{ t('app_api', 'GPUs support') }}</b>: {{ app?.daemon.deploy_config?.computeDevice?.id !== 'cpu' || 'false' }}</p>
+		</div>
+	</NcAppSidebarTab>
+</template>
+
+<script setup lang="ts">
+import type { IAppstoreExApp } from '../../app-types'
+
+import NcAppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab.js'
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+
+import { mdiFileChart } from '@mdi/js'
+
+defineProps<{
+	app: IAppstoreExApp,
+}>()
+</script>
+
+
+<style scoped lang="scss">
+.daemon {
+  padding: 20px;
+
+  h4 {
+    font-weight: bold;
+    margin: 10px auto;
+  }
+}
+</style>

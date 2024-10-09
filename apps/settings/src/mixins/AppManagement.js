@@ -12,16 +12,76 @@ export default {
 			return this.app.groups.map(group => { return { id: group, name: group } })
 		},
 		installing() {
+			if (this.app?.app_api) {
+				return this.app && this.$store.getters['app_api_apps/loading']('install')
+			}
 			return this.$store.getters.loading('install')
 		},
 		isLoading() {
+			if (this.app?.app_api) {
+				return this.app && this.$store.getters['app_api_apps/loading'](this.app.id)
+			}
 			return this.app && this.$store.getters.loading(this.app.id)
 		},
-		enableButtonText() {
-			if (this.app.needsDownload) {
-				return t('settings', 'Download and enable')
+		isInitializing() {
+			if (this.app?.app_api) {
+				return this.app && Object.hasOwn(this.app?.status, 'action') && (this.app.status.action === 'init' || this.app.status.action === 'healthcheck')
 			}
-			return t('settings', 'Enable')
+			return false
+		},
+		isDeploying() {
+			if (this.app?.app_api) {
+				return this.app && Object.hasOwn(this.app?.status, 'action') && this.app.status.action === 'deploy'
+			}
+			return false
+		},
+		isManualInstall() {
+			if (this.app?.app_api) {
+				return this.app?.daemon?.accepts_deploy_id === 'manual-install'
+			}
+			return false
+		},
+		updateButtonText() {
+			if (this.app?.daemon?.accepts_deploy_id === 'manual-install') {
+				return t('app_api', 'manual-install apps cannot be updated')
+			}
+			return ''
+		},
+		enableButtonText() {
+			if (this.app?.app_api) {
+				if (this.app && Object.hasOwn(this.app?.status, 'action') && this.app.status.action === 'deploy') {
+					return t('app_api', '{progress}% Deploying', { progress: this.app.status?.deploy })
+				}
+				if (this.app && Object.hasOwn(this.app?.status, 'action') && this.app.status.action === 'init') {
+					return t('app_api', '{progress}% Initializing', { progress: this.app.status?.init })
+				}
+				if (this.app && Object.hasOwn(this.app?.status, 'action') && this.app.status.action === 'healthcheck') {
+					return t('app_api', 'Healthchecking')
+				}
+				if (this.app.needsDownload) {
+					return t('app_api', 'Deploy and Enable')
+				}
+				return t('app_api', 'Enable')
+			} else {
+				if (this.app.needsDownload) {
+					return t('settings', 'Download and enable')
+				}
+				return t('settings', 'Enable')
+			}
+		},
+		disableButtonText() {
+			if (this.app?.app_api) {
+				if (this.app && Object.hasOwn(this.app?.status, 'action') && this.app.status.action === 'deploy') {
+					return t('app_api', '{progress}% Deploying', { progress: this.app.status?.deploy })
+				}
+				if (this.app && Object.hasOwn(this.app?.status, 'action') && this.app.status.action === 'init') {
+					return t('app_api', '{progress}% Initializing', { progress: this.app.status?.init })
+				}
+				if (this.app && Object.hasOwn(this.app?.status, 'action') && this.app.status.action === 'healthcheck') {
+					return t('app_api', 'Healthchecking')
+				}
+			}
+			return t('app_api', 'Disable')
 		},
 		forceEnableButtonText() {
 			if (this.app.needsDownload) {
@@ -42,6 +102,18 @@ export default {
 			}
 			return base
 		},
+		defaultDeployDaemonAccessible() {
+			if (this.app?.app_api) {
+				if (this.app?.daemon && this.app?.daemon?.accepts_deploy_id === 'manual-install') {
+					return true
+				}
+				if (this.app?.daemon?.accepts_deploy_id === 'docker-install') {
+					return this.$store.getters['app_api_apps/getDaemonAccessible'] === true
+				}
+				return this.$store.getters['app_api_apps/getDaemonAccessible']
+			}
+			return true
+		},
 	},
 
 	data() {
@@ -61,12 +133,15 @@ export default {
 			return this.$store.dispatch('getGroups', { search: query, limit: 5, offset: 0 })
 		},
 		isLimitedToGroups(app) {
-			if (this.app.groups.length || this.groupCheckedAppsData) {
-				return true
+			if (this.app?.app_api) {
+				return false
 			}
-			return false
+			return this.app.groups.length || this.groupCheckedAppsData;
 		},
 		setGroupLimit() {
+			if (this.app?.app_api) {
+				return // not supported for app_api apps
+			}
 			if (!this.groupCheckedAppsData) {
 				this.$store.dispatch('enableApp', { appId: this.app.id, groups: [] })
 			}
@@ -76,17 +151,24 @@ export default {
 					|| app.types.includes('prelogin')
 					|| app.types.includes('authentication')
 					|| app.types.includes('logging')
-					|| app.types.includes('prevent_group_restriction')) {
+					|| app.types.includes('prevent_group_restriction')
+					|| app?.app_api) {
 				return false
 			}
 			return true
 		},
 		addGroupLimitation(groupArray) {
+			if (this.app?.app_api) {
+				return // not supported for app_api apps
+			}
 			const group = groupArray.pop()
 			const groups = this.app.groups.concat([]).concat([group.id])
 			this.$store.dispatch('enableApp', { appId: this.app.id, groups })
 		},
 		removeGroupLimitation(group) {
+			if (this.app?.app_api) {
+				return // not supported for app_api apps
+			}
 			const currentGroups = this.app.groups.concat([])
 			const index = currentGroups.indexOf(group.id)
 			if (index > -1) {
@@ -95,32 +177,58 @@ export default {
 			this.$store.dispatch('enableApp', { appId: this.app.id, groups: currentGroups })
 		},
 		forceEnable(appId) {
-			this.$store.dispatch('forceEnableApp', { appId, groups: [] })
+			let type = 'forceEnableApp'
+			if (this.app?.app_api) {
+				type = 'app_api_apps/forceEnableApp'
+			}
+			this.$store.dispatch(type, { appId, groups: [] })
 				.then((response) => { rebuildNavigation() })
 				.catch((error) => { showError(error) })
 		},
 		enable(appId) {
-			this.$store.dispatch('enableApp', { appId, groups: [] })
+			let type = 'enableApp'
+			if (this.app?.app_api) {
+				type = 'app_api_apps/enableApp'
+			}
+			this.$store.dispatch(type, { appId, groups: [] })
 				.then((response) => { rebuildNavigation() })
 				.catch((error) => { showError(error) })
 		},
 		disable(appId) {
-			this.$store.dispatch('disableApp', { appId })
+			let type = 'disableApp'
+			if (this.app?.app_api) {
+				type = 'app_api_apps/disableApp'
+			}
+			this.$store.dispatch(type, { appId })
 				.then((response) => { rebuildNavigation() })
 				.catch((error) => { showError(error) })
 		},
-		remove(appId) {
-			this.$store.dispatch('uninstallApp', { appId })
+		remove(appId, removeData = false) {
+			let type = 'uninstallApp'
+			let payload = { appId }
+			if (this.app?.app_api) {
+				type = 'app_api_apps/uninstallApp'
+				payload = { appId, removeData }
+			}
+			this.$store.dispatch(type, payload)
 				.then((response) => { rebuildNavigation() })
 				.catch((error) => { showError(error) })
 		},
 		install(appId) {
-			this.$store.dispatch('enableApp', { appId })
+			let type = 'enableApp'
+			if (this.app?.app_api) {
+				type = 'app_api_apps/enableApp'
+			}
+			this.$store.dispatch(type, { appId })
 				.then((response) => { rebuildNavigation() })
 				.catch((error) => { showError(error) })
 		},
 		update(appId) {
-			this.$store.dispatch('updateApp', { appId })
+			let type = 'updateApp'
+			if (this.app?.app_api) {
+				type = 'app_api_apps/updateApp'
+			}
+			this.$store.dispatch(type, { appId })
 				.catch((error) => { showError(error) })
 				.then(() => {
 					rebuildNavigation()

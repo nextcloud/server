@@ -7,6 +7,7 @@ import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 import users from './users.js'
 import apps from './apps.js'
+import app_api_apps from './app_api_apps.js'
 import settings from './users-settings.js'
 import oc from './oc.js'
 import { showError } from '@nextcloud/dialogs'
@@ -35,6 +36,7 @@ export const useStore = () => {
 			modules: {
 				users,
 				apps,
+				app_api_apps,
 				settings,
 				oc,
 			},

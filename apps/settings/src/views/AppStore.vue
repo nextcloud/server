@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import { translate as t } from '@nextcloud/l10n'
-import { computed, getCurrentInstance, onBeforeMount, watchEffect } from 'vue'
+import { computed, getCurrentInstance, onBeforeMount, onBeforeUnmount, watchEffect } from 'vue'
 import { useRoute } from 'vue-router/composables'
 
 import { useAppsStore } from '../store/apps-store'
@@ -59,7 +59,17 @@ onBeforeMount(() => {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	(instance?.proxy as any).$store.dispatch('getCategories', { shouldRefetchCategories: true });
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	(instance?.proxy as any).$store.dispatch('getAllApps')
+	(instance?.proxy as any).$store.dispatch('getAllApps');
+	if ((instance?.proxy as any).$store.getters.isAppApiEnabled) {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		(instance?.proxy as any).$store.dispatch('app_api_apps/getAllApps');
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		(instance?.proxy as any).$store.dispatch('app_api_apps/updateAppsStatus');
+	}
+})
+onBeforeUnmount(() => {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	clearInterval((instance?.proxy as any).$store.getters('app_api_apps/getStatusUpdater'));
 })
 </script>
 
