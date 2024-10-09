@@ -34,8 +34,8 @@
     "Your Federated Cloud ID:" : "La to ID de nube federada:",
     "Share it so your friends can share files with you:" : "Compártilu pa que los tos amigos puedan compartir ficheros contigo:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora",
+    "X (formerly Twitter)" : "X (anteriormente Twitter)",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Amestar al to sitiu web",
     "Share with me via Nextcloud" : "Compartir conmigo per Nextcloud",
     "HTML Code:" : "Códigu HTML:",
@@ -43,8 +43,6 @@
     "Share with me through my #Nextcloud Federated Cloud ID" : "Compartir conmigo pente la mio ID de nube federada de #Nextcloud",
     "Cloud ID copied to the clipboard" : "La ID de la nube copióse nel cartafueyu",
     "Copy to clipboard" : "Copiar nel cartafueyu",
-    "Clipboard is not available" : "El cartafueyu nun ta disponible",
-    "Copied!" : "¡Copióse!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Quies amestar la compartición remota «{name}» de {owner}@{remote}?",
     "Remote share" : "Compartición remota",
     "Remote share password" : "Contraseña de la compartición remota",
@@ -58,6 +56,10 @@
     "Allow users on this server to send shares to groups on other servers" : "Permitir que los usuarios d'esti sirvidor unvien comparticiones a grupos d'otros sirvidores",
     "Allow users on this server to receive group shares from other servers" : "Permitir que los usuarios d'esti sirvidor reciban elementos compartíos de grupos d'otros sirvidores",
     "Search global and public address book for users" : "Busca persones na llibreta de direiciones global y pública",
-    "Allow users to publish their data to a global and public address book" : "Permitir que los usuarios espublicen los sos datos nuna llibreta de direiciones global y pública"
+    "Allow users to publish their data to a global and public address book" : "Permitir que los usuarios espublicen los sos datos nuna llibreta de direiciones global y pública",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "El cartafueyu nun ta disponible",
+    "Copied!" : "¡Copióse!"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -210,6 +210,8 @@ OC.L10N.register(
     "Edit online" : "Éditer en ligne",
     "Failed to redirect to client" : "Échec de la redirection vers le client",
     "Edit locally" : "Éditer localement",
+    "Moving \"{source}\" to \"{destination}\" …" : "Déplacement de \"{source}\" vers \"{destination}\" …",
+    "Copying \"{source}\" to \"{destination}\" …" : "Copie de \"{source}\" vers \"{destination}\" …",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Vous ne pouvez pas déplacer un fichier/dossier sur lui-même ou dans un sous-dossier de celui-ci",
     "(copy)" : "(copier)",
     "(copy %n)" : "(copier %n)",

@@ -34,8 +34,8 @@
     "Your Federated Cloud ID:" : "مُعرّف سحابتك الاتحاديّة:",
     "Share it so your friends can share files with you:" : "شاركه مع أصدقائك بحيث يمكنهم مُشاركة الملفات معك:",
     "Facebook" : "فيسبوك",
-    "Twitter" : "تويتر",
-    "Diaspora" : "دياسبورا",
+    "X (formerly Twitter)" : "منصة X (تويتر سابقاً)",
+    "Mastodon" : "برنامج ماستودون Mastodon",
     "Add to your website" : "أضف إلى موقعك على الوب",
     "Share with me via Nextcloud" : "شاركه معي عبر النكست كلاود",
     "HTML Code:" : "كود HTML: ",
@@ -43,8 +43,6 @@
     "Share with me through my #Nextcloud Federated Cloud ID" : "شارك معي عبر #مُعرّف سحابة نكست كلاود الاتّحاديّة Nextcloud Federated Cloud ID",
     "Cloud ID copied to the clipboard" : "تمّ نسخ مُعرّف السحابة إلى الحافظة",
     "Copy to clipboard" : "نسخ الرابط",
-    "Clipboard is not available" : "الحافظة غير متوافرة",
-    "Copied!" : "تم نسخه !",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "هل ترغب في إضافة مُشاركة بعيدة remote ـ {name} من {owner}@{remote}؟",
     "Remote share" : "مُشاركة بعيدة remote",
     "Remote share password" : "كلمة مرور مشاركة بعيدة remote",
@@ -58,6 +56,10 @@
     "Allow users on this server to send shares to groups on other servers" : "تمكين المستخدمين على هذا الخادم من إرسال مُشاركات إلى مجموعاتٍ على خوادم أخرى",
     "Allow users on this server to receive group shares from other servers" : "تمكين المستخدمين على هذا الخادم من استقبال مُشاركاتٍ من مجموعاتٍ على خوادم أخرى",
     "Search global and public address book for users" : "البحث في سجلات العناوين العمومية public و الشاملة glabal عن مُستخدِمين",
-    "Allow users to publish their data to a global and public address book" : "تمكين المستخدمين من نشر بياناتهم في سجلات العناوين الشاملة و العمومية"
+    "Allow users to publish their data to a global and public address book" : "تمكين المستخدمين من نشر بياناتهم في سجلات العناوين الشاملة و العمومية",
+    "Twitter" : "تويتر",
+    "Diaspora" : "دياسبورا",
+    "Clipboard is not available" : "الحافظة غير متوافرة",
+    "Copied!" : "تم نسخه !"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

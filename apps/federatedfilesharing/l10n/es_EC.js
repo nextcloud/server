@@ -27,8 +27,7 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Tu ID de Nube Federada:",
     "Share it so your friends can share files with you:" : "Compártelo para que tus amigos puedan compartir archivos contigo:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Agregar a tu sitio web",
     "Share with me via Nextcloud" : "Compartir conmigo vía Nextcloud",
     "HTML Code:" : "Código HTML:",
@@ -36,8 +35,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Compartir conmigo a través de mi ID de Nube Federada #Nextcloud",
     "Cloud ID copied to the clipboard" : "ID de Nube copiado al portapapeles",
     "Copy to clipboard" : "Copiar al portapapeles",
-    "Clipboard is not available" : "El portapapeles no está disponible",
-    "Copied!" : "¡Copiado!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Desea agregar el elemento compartido remoto {name} de {owner}@{remote}?",
     "Remote share" : "Elemento compartido remoto",
     "Remote share password" : "Contraseña del elemento compartido remoto",
@@ -51,6 +48,10 @@ OC.L10N.register(
     "Allow users on this server to send shares to groups on other servers" : "Permite a los usuarios de este servidor enviar comparticiones a grupos en otros servidores",
     "Allow users on this server to receive group shares from other servers" : "Permite a los usuarios de este servidor recibir comparticiones de grupos de otros servidores",
     "Search global and public address book for users" : "Buscar usuarios en las libretas de contactos globales y públicas",
-    "Allow users to publish their data to a global and public address book" : "Permitirle a los usuarios publicar sus datos a una libreta de direcciones global y pública"
+    "Allow users to publish their data to a global and public address book" : "Permitirle a los usuarios publicar sus datos a una libreta de direcciones global y pública",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "El portapapeles no está disponible",
+    "Copied!" : "¡Copiado!"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
