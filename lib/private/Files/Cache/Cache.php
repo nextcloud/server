@@ -306,6 +306,9 @@ class Cache implements ICache {
 		if (!isset($data['parent'])) {
 			$data['parent'] = $this->getParentId($file);
 		}
+		if ($data['parent'] === -1 && $file !== '') {
+			throw new \Exception('Parent folder not in filecache for ' . $file);
+		}
 		$data['name'] = basename($file);
 
 		[$values, $extensionValues] = $this->normalizeData($data);

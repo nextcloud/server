@@ -32,6 +32,7 @@ use OCA\Files_Sharing\Tests\TestCase;
 use OCP\Contacts\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudIdManager;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\ICacheFactory;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
@@ -95,6 +96,7 @@ class CacheTest extends TestCase {
 			$this->storage,
 			$this->cloudIdManager->getCloudId($this->remoteUser, 'http://example.com/owncloud')
 		);
+		$this->cache->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
 		$this->cache->put(
 			'test.txt',
 			[
