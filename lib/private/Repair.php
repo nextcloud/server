@@ -37,6 +37,7 @@ namespace OC;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
 use OC\Repair\AddBruteForceCleanupJob;
+use OC\Repair\AddCleanupDeletedUsersBackgroundJob;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\AddMetadataGenerationJob;
 use OC\Repair\AddRemoveOldTasksBackgroundJob;
