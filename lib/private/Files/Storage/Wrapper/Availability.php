@@ -23,7 +23,7 @@ class Availability extends Wrapper {
 	/** @var IConfig */
 	protected $config;
 
-	public function __construct($parameters) {
+	public function __construct(array $parameters) {
 		$this->config = $parameters['config'] ?? \OC::$server->getConfig();
 		parent::__construct($parameters);
 	}

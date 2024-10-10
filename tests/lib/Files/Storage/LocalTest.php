@@ -59,7 +59,7 @@ class LocalTest extends Storage {
 	public function testInvalidArgumentsNoArray(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
-		new \OC\Files\Storage\Local(null);
+		new \OC\Files\Storage\Local([]);
 	}
 
 

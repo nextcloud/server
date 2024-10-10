@@ -45,7 +45,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	private ?bool $versioningEnabled = null;
 	private ICache $memCache;
 
-	public function __construct($parameters) {
+	public function __construct(array $parameters) {
 		parent::__construct($parameters);
 		$this->parseParams($parameters);
 		$this->id = 'amazon::external::' . md5($this->params['hostname'] . ':' . $this->params['bucket'] . ':' . $this->params['key']);

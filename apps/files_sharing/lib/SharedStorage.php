@@ -85,16 +85,16 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 	 */
 	protected $storage;
 
-	public function __construct($arguments) {
-		$this->ownerView = $arguments['ownerView'];
+	public function __construct(array $parameters) {
+		$this->ownerView = $parameters['ownerView'];
 		$this->logger = \OC::$server->get(LoggerInterface::class);
 
-		$this->superShare = $arguments['superShare'];
-		$this->groupedShares = $arguments['groupedShares'];
+		$this->superShare = $parameters['superShare'];
+		$this->groupedShares = $parameters['groupedShares'];
 
-		$this->user = $arguments['user'];
-		if (isset($arguments['sharingDisabledForUser'])) {
-			$this->sharingDisabledForUser = $arguments['sharingDisabledForUser'];
+		$this->user = $parameters['user'];
+		if (isset($parameters['sharingDisabledForUser'])) {
+			$this->sharingDisabledForUser = $parameters['sharingDisabledForUser'];
 		} else {
 			$this->sharingDisabledForUser = false;
 		}
