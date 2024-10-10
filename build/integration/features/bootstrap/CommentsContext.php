@@ -49,8 +49,6 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 		}
 	}
 
-
-
 	/**
 	 * get a named entry from response instead of picking a random entry from values
 	 *
