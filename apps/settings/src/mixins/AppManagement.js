@@ -81,19 +81,6 @@ export default {
 			}
 			return true
 		},
-		addGroupLimitation(groupArray) {
-			const group = groupArray.pop()
-			const groups = this.app.groups.concat([]).concat([group.id])
-			this.$store.dispatch('enableApp', { appId: this.app.id, groups })
-		},
-		removeGroupLimitation(group) {
-			const currentGroups = this.app.groups.concat([])
-			const index = currentGroups.indexOf(group.id)
-			if (index > -1) {
-				currentGroups.splice(index, 1)
-			}
-			this.$store.dispatch('enableApp', { appId: this.app.id, groups: currentGroups })
-		},
 		forceEnable(appId) {
 			this.$store.dispatch('forceEnableApp', { appId, groups: [] })
 				.then((response) => { rebuildNavigation() })
