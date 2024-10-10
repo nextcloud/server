@@ -22,11 +22,6 @@
       <code><![CDATA['Location: ' . \OC::$WEBROOT . '/']]></code>
     </TaintedHeader>
   </file>
-  <file src="lib/private/App/InfoParser.php">
-    <TaintedFile>
-      <code><![CDATA[$file]]></code>
-    </TaintedFile>
-  </file>
   <file src="lib/private/AppFramework/Utility/SimpleContainer.php">
     <TaintedCallable>
       <code><![CDATA[$name]]></code>

@@ -313,7 +313,8 @@ class OC_App {
 	 * @deprecated 11.0.0 use \OCP\Server::get(IAppManager)->getAppPath()
 	 */
 	public static function getAppPath(string $appId, bool $refreshAppPath = false) {
-		if ($appId === null || trim($appId) === '') {
+		$appId = self::cleanAppId($appId);
+		if ($appId === '') {
 			return false;
 		}
 
@@ -346,7 +347,7 @@ class OC_App {
 	 */
 	public static function getAppVersionByPath(string $path): string {
 		$infoFile = $path . '/appinfo/info.xml';
-		$appData = \OC::$server->getAppManager()->getAppInfo($infoFile, true);
+		$appData = \OCP\Server::get(IAppManager::class)->getAppInfoByPath($infoFile);
 		return $appData['version'] ?? '';
 	}
 

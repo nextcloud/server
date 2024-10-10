@@ -744,28 +744,35 @@ class AppManager implements IAppManager {
 	 */
 	public function getAppInfo(string $appId, bool $path = false, $lang = null) {
 		if ($path) {
-			$file = $appId;
-		} else {
-			if ($lang === null && isset($this->appInfos[$appId])) {
-				return $this->appInfos[$appId];
-			}
-			try {
-				$appPath = $this->getAppPath($appId);
-			} catch (AppPathNotFoundException $e) {
-				return null;
-			}
-			$file = $appPath . '/appinfo/info.xml';
+			throw new \InvalidArgumentException('Calling IAppManager::getAppInfo() with a path is no longer supported. Please call IAppManager::getAppInfoByPath() instead and verify that the path is good before calling.');
+		}
+		if ($lang === null && isset($this->appInfos[$appId])) {
+			return $this->appInfos[$appId];
+		}
+		try {
+			$appPath = $this->getAppPath($appId);
+		} catch (AppPathNotFoundException $e) {
+			return null;
+		}
+		$file = $appPath . '/appinfo/info.xml';
+
+		return $this->getAppInfoByPath($file, $lang);
+	}
+
+	public function getAppInfoByPath(string $path, ?string $lang = null): ?array {
+		if (!str_ends_with($path, '/appinfo/info.xml')) {
+			return null;
 		}
 
 		$parser = new InfoParser($this->memCacheFactory->createLocal('core.appinfo'));
-		$data = $parser->parse($file);
+		$data = $parser->parse($path);
 
 		if (is_array($data)) {
 			$data = \OC_App::parseAppInfo($data, $lang);
 		}
 
-		if ($lang === null) {
-			$this->appInfos[$appId] = $data;
+		if ($lang === null && isset($data['id'])) {
+			$this->appInfos[$data['id']] = $data;
 		}
 
 		return $data;

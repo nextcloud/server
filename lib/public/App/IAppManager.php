@@ -25,13 +25,21 @@ interface IAppManager {
 	public const BACKEND_CALDAV = 'caldav';
 
 	/**
-	 * Returns the app information from "appinfo/info.xml".
+	 * Returns the app information from "appinfo/info.xml" for an app
 	 *
 	 * @param string|null $lang
 	 * @return array|null
 	 * @since 14.0.0
+	 * @since 31.0.0 Usage of $path is discontinued and throws an \InvalidArgumentException, use {@see self::getAppInfoByPath} instead.
 	 */
 	public function getAppInfo(string $appId, bool $path = false, $lang = null);
+
+	/**
+	 * Returns the app information from a given path ending with "/appinfo/info.xml"
+	 *
+	 * @since 31.0.0
+	 */
+	public function getAppInfoByPath(string $path, ?string $lang = null): ?array;
 
 	/**
 	 * Returns the app information from "appinfo/info.xml".
