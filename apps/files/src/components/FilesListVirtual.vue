@@ -252,6 +252,11 @@ export default defineComponent({
 
 		scrollToFile(fileId: number|null, warn = true) {
 			if (fileId) {
+				// Do not uselessly scroll to the top of the list.
+				if (fileId === this.currentFolder.fileid) {
+					return
+				}
+
 				const index = this.nodes.findIndex(node => node.fileid === fileId)
 				if (warn && index === -1 && fileId !== this.currentFolder.fileid) {
 					showError(this.t('files', 'File not found'))
