@@ -141,6 +141,12 @@
 					:placeholder="t('settings', 'Expire shares after x days')"
 					:value.sync="settings.expireAfterNDays" />
 			</fieldset>
+
+			<NcCheckboxRadioSwitch type="switch"
+				aria-controls="settings-sharing-api-expiration-delete"
+				:checked.sync="settings.deleteOnExpire">
+				{{ t('settings', 'Delete shares on expiration') }}
+			</NcCheckboxRadioSwitch>
 		</div>
 
 		<div v-show="settings.enabled" id="settings-sharing-privary-related" class="sharing__section">
@@ -240,6 +246,7 @@ interface IShareSettings {
 	defaultRemoteExpireDate: boolean
 	remoteExpireAfterNDays: string
 	enforceRemoteExpireDate: boolean
+	deleteOnExpire: boolean
 }
 
 export default defineComponent({

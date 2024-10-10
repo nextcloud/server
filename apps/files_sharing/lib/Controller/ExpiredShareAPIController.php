@@ -13,8 +13,6 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\OCS\OCSException;
-use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Files\IRootFolder;
 use OCP\IDateTimeZone;
 use OCP\IGroupManager;
@@ -23,8 +21,6 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
-use OCP\Share\Exceptions\GenericShareException;
-use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
 use OCP\Share\IShare;
 use OCP\UserStatus\IManager as UserStatusManager;
@@ -34,8 +30,8 @@ use Psr\Log\LoggerInterface;
 /**
  * @psalm-import-type Files_SharingShare from ResponseDefinitions
  */
-class DeletedShareAPIController extends ShareApiControllerFactory {
-	
+class ExpiredShareAPIController extends ShareApiControllerFactory {
+
 	public function __construct(
 		IRequest $request,
 		protected ShareManager $shareManager,
@@ -67,11 +63,10 @@ class DeletedShareAPIController extends ShareApiControllerFactory {
 			$l,
 			$logger,
 		);
-		$this->isDeletedShareController = true;
 	}
 
 	/**
-	 * Get a list of all deleted shares
+	 * Get a list of all expired shares
 	 *
 	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare[], array{}>
 	 *
@@ -79,48 +74,22 @@ class DeletedShareAPIController extends ShareApiControllerFactory {
 	 */
 	#[NoAdminRequired]
 	public function index(): DataResponse {
-		$groupShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_GROUP, null, -1, 0);
-		$roomShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_ROOM, null, -1, 0);
-		$deckShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_DECK, null, -1, 0);
-		$sciencemeshShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_SCIENCEMESH, null, -1, 0);
+		$groupShares = $this->shareManager->getExpiredShares($this->userId, IShare::TYPE_GROUP, null, -1, 0);
+		$roomShares = $this->shareManager->getExpiredShares($this->userId, IShare::TYPE_ROOM, null, -1, 0);
+		$deckShares = $this->shareManager->getExpiredShares($this->userId, IShare::TYPE_DECK, null, -1, 0);
+		$sciencemeshShares = $this->shareManager->getExpiredShares($this->userId, IShare::TYPE_SCIENCEMESH, null, -1, 0);
+		$linkShares = $this->shareManager->getExpiredShares($this->userId, IShare::TYPE_LINK, null, -1, 0);
+		$userShares = $this->shareManager->getExpiredShares($this->userId, IShare::TYPE_USER, null, -1, 0);
+		$emailsShares = $this->shareManager->getExpiredShares($this->userId, IShare::TYPE_EMAIL, null, -1, 0);
+		$circlesShares = $this->shareManager->getExpiredShares($this->userId, IShare::TYPE_CIRCLE, null, -1, 0);
+		$remoteShares = $this->shareManager->getExpiredShares($this->userId, IShare::TYPE_REMOTE, null, -1, 0);
 
-		$shares = array_merge($groupShares, $roomShares, $deckShares, $sciencemeshShares);
+		$shares = array_merge($groupShares, $roomShares, $deckShares, $sciencemeshShares, $linkShares, $userShares, $emailsShares, $circlesShares, $remoteShares);
 
 		$shares = array_map(function (IShare $share) {
 			return $this->formatShare($share);
 		}, $shares);
 
 		return new DataResponse($shares);
-	}
-
-	/**
-	 * Undelete a deleted share
-	 *
-	 * @param string $id ID of the share
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
-	 * @throws OCSException
-	 * @throws OCSNotFoundException Share not found
-	 *
-	 * 200: Share undeleted successfully
-	 */
-	#[NoAdminRequired]
-	public function undelete(string $id): DataResponse {
-		try {
-			$share = $this->shareManager->getShareById($id, $this->userId);
-		} catch (ShareNotFound $e) {
-			throw new OCSNotFoundException('Share not found');
-		}
-
-		if ($share->getPermissions() !== 0) {
-			throw new OCSNotFoundException('No deleted share found');
-		}
-
-		try {
-			$this->shareManager->restoreShare($share, $this->userId);
-		} catch (GenericShareException $e) {
-			throw new OCSException('Something went wrong');
-		}
-
-		return new DataResponse([]);
 	}
 }

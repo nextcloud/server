@@ -147,8 +147,9 @@
 			<errorLevel type="suppress">
 				<!-- Helper classes for sharing API integration from other apps -->
 				<referencedClass name="OCA\Deck\Sharing\ShareAPIHelper" />
-				<referencedClass name="OCA\Talk\Share\Helper\DeletedShareAPIController" />
 				<referencedClass name="OCA\GlobalSiteSelector\Service\SlaveService"/>
+				<referencedClass name="OCA\Talk\Share\Helper\DeletedShareAPIController" />
+				<referencedClass name="OCA\Talk\Share\Helper\ShareAPIController" />
 			</errorLevel>
 		</UndefinedDocblockClass>
 		<AmbiguousConstantInheritance>

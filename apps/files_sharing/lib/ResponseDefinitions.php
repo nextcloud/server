@@ -56,29 +56,6 @@ namespace OCA\Files_Sharing;
  *     url?: string,
  * }
  *
- * @psalm-type Files_SharingDeletedShare = array{
- *     id: string,
- *     share_type: int,
- *     uid_owner: string,
- *     displayname_owner: string,
- *     permissions: int,
- *     stime: int,
- *     uid_file_owner: string,
- *     displayname_file_owner: string,
- *     path: string,
- *     item_type: string,
- *     mimetype: string,
- *     storage: int,
- *     item_source: int,
- *     file_source: int,
- *     file_parent: int,
- *     file_target: int,
- *     expiration: string|null,
- *     share_with: string|null,
- *     share_with_displayname: string|null,
- *     share_with_link: string|null,
- * }
- *
  * @psalm-type Files_SharingRemoteShare = array{
  *     accepted: bool,
  *     file_id: int|null,

@@ -3,8 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { translate as t } from '@nextcloud/l10n'
-import { View, getNavigation } from '@nextcloud/files'
+import { Column, View, getNavigation } from '@nextcloud/files'
 import { ShareType } from '@nextcloud/sharing'
+import moment from '@nextcloud/moment'
+
+import AccountArrowLeftSvg from '@mdi/svg/svg/account-arrow-left.svg?raw'
 import AccountClockSvg from '@mdi/svg/svg/account-clock.svg?raw'
 import AccountGroupSvg from '@mdi/svg/svg/account-group.svg?raw'
 import AccountPlusSvg from '@mdi/svg/svg/account-plus.svg?raw'
@@ -22,6 +25,7 @@ export const sharingByLinksViewId = 'sharinglinks'
 export const deletedSharesViewId = 'deletedshares'
 export const pendingSharesViewId = 'pendingshares'
 export const fileRequestViewId = 'filerequest'
+export const expiredSharesViewId = 'expiredshares'
 
 export default () => {
 	const Navigation = getNavigation()
@@ -89,7 +93,7 @@ export default () => {
 
 		columns: [],
 
-		getContents: () => getContents(false, true, false, false, [ShareType.Link]),
+		getContents: () => getContents(false, true, false, false, false, [ShareType.Link]),
 	}))
 
 	Navigation.register(new View({
@@ -106,7 +110,7 @@ export default () => {
 
 		columns: [],
 
-		getContents: () => getContents(false, true, false, false, [ShareType.Link, ShareType.Email])
+		getContents: () => getContents(false, true, false, false, false, [ShareType.Link, ShareType.Email])
 			.then(({ folder, contents }) => {
 				return {
 					folder,
@@ -133,6 +137,46 @@ export default () => {
 	}))
 
 	Navigation.register(new View({
+		id: expiredSharesViewId,
+		name: t('files_sharing', 'Expired shares'),
+		caption: t('files_sharing', 'List of shares that expired.'),
+
+		emptyTitle: t('files_sharing', 'No expired shares'),
+		emptyCaption: t('files_sharing', 'Shares that have expired will show up here'),
+
+		icon: AccountClockSvg,
+		order: 6,
+		parent: sharesViewId,
+
+		columns: [
+			new Column({
+				id: 'expired',
+				title: t('files_sharing', 'Expired'),
+				render(node) {
+					const expirationTime = node.attributes?.expiration
+					const span = document.createElement('span')
+					if (expirationTime) {
+						span.title = moment.unix(expirationTime).format('LLL')
+						span.textContent = moment.unix(expirationTime).fromNow()
+						return span
+					}
+
+					// Unknown expiration time
+					span.textContent = t('files_sharing', 'A long time ago')
+					return span
+				},
+				sort(nodeA, nodeB) {
+					const expirationTimeA = nodeA.attributes?.expiration || 0
+					const expirationTimeB = nodeB.attributes?.expiration || 0
+					return expirationTimeB - expirationTimeA
+				},
+			}),
+		],
+
+		getContents: () => getContents(false, false, false, false, true),
+	}))
+
+	Navigation.register(new View({
 		id: pendingSharesViewId,
 		name: t('files_sharing', 'Pending shares'),
 		caption: t('files_sharing', 'List of unapproved shares.'),
@@ -140,8 +184,8 @@ export default () => {
 		emptyTitle: t('files_sharing', 'No pending shares'),
 		emptyCaption: t('files_sharing', 'Shares you have received but not approved will show up here'),
 
-		icon: AccountClockSvg,
-		order: 6,
+		icon: AccountArrowLeftSvg,
+		order: 7,
 		parent: sharesViewId,
 
 		columns: [],
