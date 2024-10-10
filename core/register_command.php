@@ -135,6 +135,9 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\SystemTag\Delete::class));
 	$application->add(Server::get(Command\SystemTag\Add::class));
 	$application->add(Server::get(Command\SystemTag\Edit::class));
+	$application->add(Server::get(Command\SystemTag\Files\Delete::class));
+	$application->add(Server::get(Command\SystemTag\Files\DeleteAll::class));
+	$application->add(Server::get(Command\SystemTag\Files\Add::class));
 
 	$application->add(Server::get(Command\Security\ListCertificates::class));
 	$application->add(Server::get(Command\Security\ExportCertificates::class));
