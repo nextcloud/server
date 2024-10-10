@@ -54,13 +54,18 @@ trait S3ObjectTrait {
 				'http' => [
 					'protocol_version' => $request->getProtocolVersion(),
 					'header' => $headers,
-				]
+				],
+				'ssl' => [],
 			];
 			$bundle = $this->getCertificateBundlePath();
 			if ($bundle) {
 				$opts['ssl'] = [
 					'cafile' => $bundle
 				];
+			}
+
+			if ($this->params['ssl_verify'] === false) {
+				$opts['ssl']['verify_peer'] = false;
 			}
 
 			if ($this->getProxy()) {
