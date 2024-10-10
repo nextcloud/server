@@ -16,16 +16,23 @@ import '@nextcloud/password-confirmation/dist/style.css'
 
 const BASE_URL = generateUrl('/settings/personal/authtokens')
 
-const confirm = () => {
+const confirm = (message: string, title: string) => {
 	return new Promise(resolve => {
-		window.OC.dialogs.confirm(
-			t('settings', 'Do you really want to wipe your data from this device?'),
-			t('settings', 'Confirm wipe'),
-			resolve,
-			true,
-		)
+		window.OC.dialogs.confirm(message, title, resolve, true)
 	})
 }
+const confirmUpdate = () => confirm(
+	t('settings', 'Do you really want to update this session?'),
+	t('settings', 'Confirm update'),
+)
+const confirmDelete = () => confirm(
+	t('settings', 'Do you really want to delete this session?'),
+	t('settings', 'Confirm delete'),
+)
+const confirmWipe = () => confirm(
+	t('settings', 'Do you really want to wipe this session?'),
+	t('settings', 'Confirm wipe'),
+)
 
 export enum TokenType {
 	TEMPORARY_TOKEN = 0,
@@ -74,6 +81,13 @@ export const useAuthTokenStore = defineStore('auth-token', {
 		 * @param token Token to update
 		 */
 		async updateToken(token: IToken) {
+			await confirmPassword()
+
+			if (!(await confirmUpdate())) {
+				logger.debug('Update aborted by user')
+				return
+			}
+
 			const { data } = await axios.put(`${BASE_URL}/${token.id}`, token)
 			return data
 		},
@@ -104,17 +118,22 @@ export const useAuthTokenStore = defineStore('auth-token', {
 		async deleteToken(token: IToken) {
 			logger.debug('Deleting app token', { token })
 
-			this.tokens = this.tokens.filter(({ id }) => id !== token.id)
-
 			try {
+				await confirmPassword()
+
+				if (!(await confirmDelete())) {
+					logger.debug('Delete aborted by user')
+					return
+				}
+
 				await axios.delete(`${BASE_URL}/${token.id}`)
 				logger.debug('App token deleted')
+
+				this.tokens = this.tokens.filter(({ id }) => id !== token.id)
 				return true
 			} catch (error) {
 				logger.error('Could not delete app token', { error })
 				showError(t('settings', 'Could not delete the app token'))
-				// Restore
-				this.tokens.push(token)
 			}
 			return false
 		},
@@ -129,7 +148,7 @@ export const useAuthTokenStore = defineStore('auth-token', {
 			try {
 				await confirmPassword()
 
-				if (!(await confirm())) {
+				if (!(await confirmWipe())) {
 					logger.debug('Wipe aborted by user')
 					return
 				}
