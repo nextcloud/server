@@ -22,9 +22,14 @@
 
 <template>
 	<div id="app-content-inner">
-		<div id="apps-list" class="apps-list" :class="{installed: (useBundleView || useListView), store: useAppStoreView}">
+		<div id="apps-list"
+			class="apps-list"
+			:class="{
+				'apps-list--list-view': (useBundleView || useListView),
+				'apps-list--store-view': useAppStoreView,
+			}">
 			<template v-if="useListView">
-				<div v-if="showUpdateAll" class="toolbar">
+				<div v-if="showUpdateAll" class="apps-list__toolbar">
 					{{ n('settings', '%n app has an update available', '%n apps have an update available', counter) }}
 					<NcButton v-if="showUpdateAll"
 						id="app-list-update-all"
@@ -34,25 +39,25 @@
 					</NcButton>
 				</div>
 
-				<div v-if="!showUpdateAll" class="toolbar">
+				<div v-if="!showUpdateAll" class="apps-list__toolbar">
 					{{ t('settings', 'All apps are up-to-date.') }}
 				</div>
 
-				<transition-group name="app-list" tag="table" class="apps-list-container">
-					<tr key="app-list-view-header" class="apps-header">
-						<th class="app-image">
+				<TransitionGroup name="apps-list" tag="table" class="apps-list__list-container">
+					<tr key="app-list-view-header">
+						<th>
 							<span class="hidden-visually">{{ t('settings', 'Icon') }}</span>
 						</th>
-						<th class="app-name">
+						<th>
 							<span class="hidden-visually">{{ t('settings', 'Name') }}</span>
 						</th>
-						<th class="app-version">
+						<th>
 							<span class="hidden-visually">{{ t('settings', 'Version') }}</span>
 						</th>
-						<th class="app-level">
+						<th>
 							<span class="hidden-visually">{{ t('settings', 'Level') }}</span>
 						</th>
-						<th class="actions">
+						<th>
 							<span class="hidden-visually">{{ t('settings', 'Actions') }}</span>
 						</th>
 					</tr>
@@ -60,33 +65,33 @@
 						:key="app.id"
 						:app="app"
 						:category="category" />
-				</transition-group>
+				</TransitionGroup>
 			</template>
 
 			<table v-if="useBundleView"
-				class="apps-list-container">
-				<tr key="app-list-view-header" class="apps-header">
-					<th id="app-table-col-icon" class="app-image">
+				class="apps-list__list-container">
+				<tr key="app-list-view-header">
+					<th id="app-table-col-icon">
 						<span class="hidden-visually">{{ t('settings', 'Icon') }}</span>
 					</th>
-					<th id="app-table-col-name" class="app-name">
+					<th id="app-table-col-name">
 						<span class="hidden-visually">{{ t('settings', 'Name') }}</span>
 					</th>
-					<th id="app-table-col-version" class="app-version">
+					<th id="app-table-col-version">
 						<span class="hidden-visually">{{ t('settings', 'Version') }}</span>
 					</th>
-					<th id="app-table-col-level" class="app-level">
+					<th id="app-table-col-level">
 						<span class="hidden-visually">{{ t('settings', 'Level') }}</span>
 					</th>
-					<th id="app-table-col-actions" class="actions">
+					<th id="app-table-col-actions">
 						<span class="hidden-visually">{{ t('settings', 'Actions') }}</span>
 					</th>
 				</tr>
 				<template v-for="bundle in bundles">
 					<tr :key="bundle.id">
 						<th :id="`app-table-rowgroup-${bundle.id}`" colspan="5" scope="rowgroup">
-							<div class="app-bundle-heading">
-								<span class="app-bundle-header">
+							<div class="apps-list__bundle-heading">
+								<span class="apps-list__bundle-header">
 									{{ bundle.name }}
 								</span>
 								<NcButton type="secondary" @click="toggleBundle(bundle.id)">
@@ -103,7 +108,7 @@
 						:category="category" />
 				</template>
 			</table>
-			<ul v-if="useAppStoreView" class="apps-store-view">
+			<ul v-if="useAppStoreView" class="apps-list__store-container">
 				<AppItem v-for="app in apps"
 					:key="app.id"
 					:app="app"
@@ -112,20 +117,34 @@
 			</ul>
 		</div>
 
-		<div id="apps-list-search" class="apps-list installed">
-			<div class="apps-list-container">
-				<template v-if="search !== '' && searchApps.length > 0">
-					<div class="section">
-						<div />
-						<td colspan="5">
-							<h2>{{ t('settings', 'Results from other categories') }}</h2>
-						</td>
-					</div>
+		<div id="apps-list-search" class="apps-list apps-list--list-view">
+			<div class="apps-list__list-container">
+				<table v-if="search !== '' && searchApps.length > 0" class="apps-list__list-container">
+					<caption class="apps-list__bundle-header">
+						{{ t('settings', 'Results from other categories') }}
+					</caption>
+					<tr key="app-list-view-header">
+						<th>
+							<span class="hidden-visually">{{ t('settings', 'Icon') }}</span>
+						</th>
+						<th>
+							<span class="hidden-visually">{{ t('settings', 'Name') }}</span>
+						</th>
+						<th>
+							<span class="hidden-visually">{{ t('settings', 'Version') }}</span>
+						</th>
+						<th>
+							<span class="hidden-visually">{{ t('settings', 'Level') }}</span>
+						</th>
+						<th>
+							<span class="hidden-visually">{{ t('settings', 'Actions') }}</span>
+						</th>
+					</tr>
 					<AppItem v-for="app in searchApps"
 						:key="app.id"
 						:app="app"
 						:category="category" />
-				</template>
+				</table>
 			</div>
 		</div>
 
@@ -133,8 +152,6 @@
 			<div id="app-list-empty-icon" class="icon-settings-dark" />
 			<h2>{{ t('settings', 'No apps found for your version') }}</h2>
 		</div>
-
-		<div id="searchresults" />
 	</div>
 </template>
 
@@ -197,6 +214,7 @@ export default {
 				// An app level of `200` will be set for apps featured on the app store
 				return apps.filter(app => app.level === 200)
 			}
+
 			// filter app store categories
 			return apps.filter(app => {
 				return app.appstore && app.category !== undefined
