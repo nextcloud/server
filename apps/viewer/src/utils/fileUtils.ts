@@ -33,7 +33,7 @@ export interface FileInfo {
 	/** File type */
 	type: 'directory'|'file'
 	/** Attributes for file shares */
-	shareAttributes?: string
+	shareAttributes?: string|Array<{value:boolean|string|number|null|object|Array<unknown>, key: string, scope: string}>
 
 	// custom attributes not fetch from API
 
