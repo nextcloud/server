@@ -53,7 +53,7 @@ class Client implements IClient {
 
 		$defaults = [
 			RequestOptions::VERIFY => $this->getCertBundle(),
-			RequestOptions::TIMEOUT => 30,
+			RequestOptions::TIMEOUT => IClient::DEFAULT_REQUEST_TIMEOUT,
 		];
 
 		$options['nextcloud']['allow_local_address'] = $this->isLocalAddressAllowed($options);
