@@ -106,25 +106,27 @@ interface ISystemTagManager {
 	 * given id.
 	 *
 	 * @param ISystemTag $tag tag to check permission for
-	 * @param IUser $user user to check permission for
+	 * @param IUser|null $user user to check permission for
 	 *
 	 * @return bool true if the user is allowed to assign/unassign the tag, false otherwise
 	 *
 	 * @since 9.1.0
+	 * @since 31.0.0 `$user` can be null to check anonymous permissions
 	 */
-	public function canUserAssignTag(ISystemTag $tag, IUser $user): bool;
+	public function canUserAssignTag(ISystemTag $tag, ?IUser $user): bool;
 
 	/**
 	 * Checks whether the given user is allowed to see the tag with the given id.
 	 *
 	 * @param ISystemTag $tag tag to check permission for
-	 * @param IUser $user user to check permission for
+	 * @param IUser|null $user user to check permission for
 	 *
 	 * @return bool true if the user can see the tag, false otherwise
 	 *
 	 * @since 9.1.0
+	 * @since 31.0.0 `$user` can be null to check anonymous permissions
 	 */
-	public function canUserSeeTag(ISystemTag $tag, IUser $user): bool;
+	public function canUserSeeTag(ISystemTag $tag, ?IUser $user): bool;
 
 	/**
 	 * Set groups that can assign a given tag.

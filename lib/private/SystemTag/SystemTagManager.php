@@ -305,7 +305,11 @@ class SystemTagManager implements ISystemTagManager {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function canUserAssignTag(ISystemTag $tag, IUser $user): bool {
+	public function canUserAssignTag(ISystemTag $tag, ?IUser $user): bool {
+		if ($user === null) {
+			return false;
+		}
+
 		// early check to avoid unneeded group lookups
 		if ($tag->isUserAssignable() && $tag->isUserVisible()) {
 			return true;
@@ -333,9 +337,19 @@ class SystemTagManager implements ISystemTagManager {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function canUserSeeTag(ISystemTag $tag, IUser $user): bool {
+	public function canUserSeeTag(ISystemTag $tag, ?IUser $user): bool {
+		// If no user, then we only show public tags
+		if (!$user && $tag->getAccessLevel() === ISystemTag::ACCESS_LEVEL_PUBLIC) {
+			return true;
+		}
+
 		if ($tag->isUserVisible()) {
 			return true;
+		}
+
+		// if not returned yet, and user is not logged in, then the tag is not visible
+		if ($user === null) {
+			return false;
 		}
 
 		if ($this->groupManager->isAdmin($user->getUID())) {

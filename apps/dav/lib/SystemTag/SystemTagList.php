@@ -20,12 +20,14 @@ use Sabre\Xml\Writer;
 class SystemTagList implements Element {
 	public const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
 
-	/** @var ISystemTag[] */
-	private array $tags;
-	private ISystemTagManager $tagManager;
-	private IUser $user;
-
-	public function __construct(array $tags, ISystemTagManager $tagManager, IUser $user) {
+	/**
+	 * @param ISystemTag[] $tags
+	 */
+	public function __construct(
+		private array $tags,
+		private ISystemTagManager $tagManager,
+		private ?IUser $user,
+	) {
 		$this->tags = $tags;
 		$this->tagManager = $tagManager;
 		$this->user = $user;

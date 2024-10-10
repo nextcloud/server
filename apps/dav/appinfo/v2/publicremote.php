@@ -12,6 +12,7 @@ use OC\Files\View;
 use OCA\DAV\Storage\PublicOwnerWrapper;
 use OCA\DAV\Storage\PublicShareWrapper;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCP\BeforeSabrePubliclyLoadedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
@@ -35,6 +36,7 @@ OC_Util::obEnd();
 
 $session = \OCP\Server::get(ISession::class);
 $request = \OCP\Server::get(IRequest::class);
+$eventDispatcher = \OCP\Server::get(IEventDispatcher::class);
 
 $session->close();
 $requestUri = $request->getRequestUri();
@@ -59,7 +61,7 @@ $serverFactory = new OCA\DAV\Connector\Sabre\ServerFactory(
 	\OCP\Server::get(ITagManager::class),
 	$request,
 	\OCP\Server::get(IPreview::class),
-	\OCP\Server::get(IEventDispatcher::class),
+	$eventDispatcher,
 	$l10nFactory->get('dav'),
 );
 
@@ -134,6 +136,10 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 
 $server->addPlugin($linkCheckPlugin);
 $server->addPlugin($filesDropPlugin);
+
+// allow setup of additional plugins
+$event = new BeforeSabrePubliclyLoadedEvent($server);
+$eventDispatcher->dispatchTyped($event);
 
 // And off we go!
 $server->start();

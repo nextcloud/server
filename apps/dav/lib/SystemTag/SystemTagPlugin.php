@@ -305,9 +305,6 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 
 		$propFind->handle(self::SYSTEM_TAGS_PROPERTYNAME, function () use ($node) {
 			$user = $this->userSession->getUser();
-			if ($user === null) {
-				return;
-			}
 
 			$tags = $this->getTagsForFile($node->getId(), $user);
 			usort($tags, function (ISystemTag $tagA, ISystemTag $tagB): int {
@@ -321,8 +318,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param int $fileId
 	 * @return ISystemTag[]
 	 */
-	private function getTagsForFile(int $fileId, IUser $user): array {
-
+	private function getTagsForFile(int $fileId, ?IUser $user): array {
 		if (isset($this->cachedTagMappings[$fileId])) {
 			$tagIds = $this->cachedTagMappings[$fileId];
 		} else {
