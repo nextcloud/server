@@ -242,7 +242,6 @@ class Server {
 			$this->server->addPlugin(new ViewOnlyPlugin(
 				\OC::$server->getUserFolder(),
 			));
-
 			// custom properties plugin must be the last one
 			$userSession = \OC::$server->getUserSession();
 			$user = $userSession->getUser();
@@ -279,9 +278,7 @@ class Server {
 						new QuotaPlugin($view));
 				}
 				$this->server->addPlugin(
-					new TagsPlugin(
-						$this->server->tree, \OC::$server->getTagManager()
-					)
+					new TagsPlugin($this->server->tree, \OC::$server->getTagManager())
 				);
 
 				// TODO: switch to LazyUserFolder

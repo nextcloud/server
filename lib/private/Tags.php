@@ -9,10 +9,17 @@ namespace OC;
 
 use OC\Tagging\Tag;
 use OC\Tagging\TagMapper;
+use OCA\Files\Activity\FavoriteProvider;
+use OCP\Activity\IManager;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\NodeAddedToFavorite;
+use OCP\Files\Events\NodeRemovedFromFavorite;
 use OCP\IDBConnection;
 use OCP\ITags;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Share_Backend;
 use Psr\Log\LoggerInterface;
 
@@ -43,6 +50,14 @@ class Tags implements ITags {
 	 */
 	private TagMapper $mapper;
 
+	/** @var \OCP\IUserSession */
+	private $userSession;
+
+	/** @var IEventDispatcher */
+	private $dispatcher;
+
+	/** @var IManager */
+	private $activityManager;
 	/**
 	 * The sharing backend for objects of $this->type. Required if
 	 * $this->includeShared === true to determine ownership of items.
@@ -62,8 +77,11 @@ class Tags implements ITags {
 	 *
 	 * since 20.0.0 $includeShared isn't used anymore
 	 */
-	public function __construct(TagMapper $mapper, string $user, string $type, LoggerInterface $logger, IDBConnection $connection, array $defaultTags = []) {
+	public function __construct(TagMapper $mapper, IUserSession $userSession, IEventDispatcher $dispatcher, IManager $activityManager, string $user, string $type, LoggerInterface $logger, IDBConnection $connection, array $defaultTags = []) {
 		$this->mapper = $mapper;
+		$this->userSession = $userSession;
+		$this->dispatcher = $dispatcher;
+		$this->activityManager = $activityManager;
 		$this->user = $user;
 		$this->type = $type;
 		$this->owners = [$this->user];
@@ -478,10 +496,11 @@ class Tags implements ITags {
 	 * @param int $objid The id of the object
 	 * @return boolean
 	 */
-	public function addToFavorites($objid) {
+	public function addToFavorites($objid, $path) {
 		if (!$this->userHasTag(ITags::TAG_FAVORITE, $this->user)) {
 			$this->add(ITags::TAG_FAVORITE);
 		}
+		$this->addActivity(true, $objid, $path);
 		return $this->tagAs($objid, ITags::TAG_FAVORITE);
 	}
 
@@ -491,7 +510,8 @@ class Tags implements ITags {
 	 * @param int $objid The id of the object
 	 * @return boolean
 	 */
-	public function removeFromFavorites($objid) {
+	public function removeFromFavorites($objid, $path) {
+		$this->addActivity(false, $objid, $path);
 		return $this->unTag($objid, ITags::TAG_FAVORITE);
 	}
 
@@ -683,5 +703,40 @@ class Tags implements ITags {
 			'owner' => $tag->getOwner(),
 			'type' => $tag->getType()
 		];
+	}
+	/**
+	 * @param bool $addToFavorite
+	 * @param int $fileId
+	 * @param string $path
+	 */
+	protected function addActivity($addToFavorite, $fileId, $path) {
+		$user = $this->userSession->getUser();
+		if (!$user instanceof IUser) {
+			return;
+		}
+
+		if ($addToFavorite) {
+			$event = new NodeAddedToFavorite($user, $fileId, $path);
+		} else {
+			$event = new NodeRemovedFromFavorite($user, $fileId, $path);
+		}
+		$this->dispatcher->dispatchTyped($event);
+
+		$event = $this->activityManager->generateEvent();
+		try {
+			$event->setApp('files')
+				->setObject('files', $fileId, $path)
+				->setType('favorite')
+				->setAuthor($user->getUID())
+				->setAffectedUser($user->getUID())
+				->setTimestamp(time())
+				->setSubject(
+					$addToFavorite ? FavoriteProvider::SUBJECT_ADDED : FavoriteProvider::SUBJECT_REMOVED,
+					['id' => $fileId, 'path' => $path]
+				);
+			$this->activityManager->publish($event);
+		} catch (\InvalidArgumentException $e) {
+		} catch (\BadMethodCallException $e) {
+		}
 	}
 }

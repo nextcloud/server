@@ -73,7 +73,10 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param \Sabre\DAV\Tree $tree tree
 	 * @param \OCP\ITagManager $tagManager tag manager
 	 */
-	public function __construct(\Sabre\DAV\Tree $tree, \OCP\ITagManager $tagManager) {
+	public function __construct(
+		\Sabre\DAV\Tree $tree,
+		\OCP\ITagManager $tagManager,
+	) {
 		$this->tree = $tree;
 		$this->tagManager = $tagManager;
 		$this->tagger = null;
@@ -248,7 +251,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	 *
 	 * @return void
 	 */
-	public function handleUpdateProperties($path, PropPatch $propPatch) {
+	public function handleUpdateProperties(string $path, PropPatch $propPatch) {
 		$node = $this->tree->getNodeForPath($path);
 		if (!($node instanceof \OCA\DAV\Connector\Sabre\Node)) {
 			return;
@@ -259,11 +262,11 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 			return true;
 		});
 
-		$propPatch->handle(self::FAVORITE_PROPERTYNAME, function ($favState) use ($node) {
+		$propPatch->handle(self::FAVORITE_PROPERTYNAME, function ($favState) use ($node, $path) {
 			if ((int)$favState === 1 || $favState === 'true') {
-				$this->getTagger()->tagAs($node->getId(), self::TAG_FAVORITE);
+				$this->getTagger()->addToFavorites($node->getId(), $path);
 			} else {
-				$this->getTagger()->unTag($node->getId(), self::TAG_FAVORITE);
+				$this->getTagger()->removeFromFavorites($node->getId(), $path);
 			}
 
 			if (is_null($favState)) {
@@ -274,4 +277,5 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 			return 200;
 		});
 	}
+
 }
