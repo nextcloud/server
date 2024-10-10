@@ -15,7 +15,9 @@ use OCP\DB\QueryBuilder\Sharded\IShardMapper;
  */
 class ShardDefinition {
 	// we reserve the bottom byte of the primary key for the initial shard, so the total shard count is limited to what we can fit there
-	public const MAX_SHARDS = 256;
+	// additionally, shard id 255 is reserved for migration purposes
+	public const MAX_SHARDS = 255;
+	public const MIGRATION_SHARD = 255;
 
 	public const PRIMARY_KEY_MASK = 0x7F_FF_FF_FF_FF_FF_FF_00;
 	public const PRIMARY_KEY_SHARD_MASK = 0x00_00_00_00_00_00_00_FF;
@@ -37,8 +39,10 @@ class ShardDefinition {
 		public array $companionKeys,
 		public string $shardKey,
 		public IShardMapper $shardMapper,
-		public array $companionTables = [],
-		public array $shards = [],
+		public array $companionTables,
+		public array $shards,
+		public int $fromFileId,
+		public int $fromStorageId,
 	) {
 		if (count($this->shards) >= self::MAX_SHARDS) {
 			throw new \Exception('Only allowed maximum of ' . self::MAX_SHARDS . ' shards allowed');
@@ -53,11 +57,21 @@ class ShardDefinition {
 	}
 
 	public function getShardForKey(int $key): int {
+		if ($key < $this->fromStorageId) {
+			return self::MIGRATION_SHARD;
+		}
 		return $this->shardMapper->getShardForKey($key, count($this->shards));
 	}
 
+	/**
+	 * @return list<int>
+	 */
 	public function getAllShards(): array {
-		return array_keys($this->shards);
+		if ($this->fromStorageId !== 0) {
+			return array_merge(array_keys($this->shards), [self::MIGRATION_SHARD]);
+		} else {
+			return array_keys($this->shards);
+		}
 	}
 
 	public function isKey(string $column): bool {
