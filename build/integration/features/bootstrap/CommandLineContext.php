@@ -6,6 +6,7 @@
  */
 require __DIR__ . '/../../vendor/autoload.php';
 
+use Behat\Behat\Context\Exception\ContextNotFoundException;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use PHPUnit\Framework\Assert;
 
@@ -41,8 +42,12 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	/** @BeforeScenario */
 	public function gatherContexts(BeforeScenarioScope $scope) {
 		$environment = $scope->getEnvironment();
-		// this should really be "WebDavContext" ...
-		$this->featureContext = $environment->getContext('FeatureContext');
+		// this should really be "WebDavContext"
+		try {
+			$this->featureContext = $environment->getContext('FeatureContext');
+		} catch (ContextNotFoundException) {
+			$this->featureContext = $environment->getContext('DavFeatureContext');
+		}
 	}
 
 	private function findLastTransferFolderForUser($sourceUser, $targetUser) {
