@@ -7,6 +7,8 @@
 
 namespace Test\Files\Storage;
 
+use OC\Files\Storage\Wrapper\Jail;
+
 /**
  * Class LocalTest
  *
@@ -134,5 +136,26 @@ class LocalTest extends Storage {
 		$this->instance = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir . '/unexist']);
 		// no exception thrown
 		$this->assertNotNull($this->instance);
+	}
+
+	public function testMoveNestedJail(): void {
+		$this->instance->mkdir('foo');
+		$this->instance->mkdir('foo/bar');
+		$this->instance->mkdir('target');
+		$this->instance->file_put_contents('foo/bar/file.txt', 'foo');
+		$jail1 = new Jail([
+			'storage' => $this->instance,
+			'root' => 'foo'
+		]);
+		$jail2 = new Jail([
+			'storage' => $jail1,
+			'root' => 'bar'
+		]);
+		$jail3 = new Jail([
+			'storage' => $this->instance,
+			'root' => 'target'
+		]);
+		$jail3->moveFromStorage($jail2, 'file.txt', 'file.txt');
+		$this->assertTrue($this->instance->file_exists('target/file.txt'));
 	}
 }
