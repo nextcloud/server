@@ -12,7 +12,7 @@ import type { FileInfo } from './fileUtils'
 export function canDownload(fileInfo: FileInfo) {
 	// TODO: This should probably be part of `@nextcloud/sharing`
 	// check share attributes
-	const shareAttributes = JSON.parse(fileInfo.shareAttributes || '[]')
+	const shareAttributes = typeof fileInfo?.shareAttributes === 'string' ? JSON.parse(fileInfo.shareAttributes || '[]') : fileInfo?.shareAttributes
 
 	if (shareAttributes && shareAttributes.length > 0) {
 		const downloadAttribute = shareAttributes.find(({ scope, key }) => scope === 'permissions' && key === 'download')
