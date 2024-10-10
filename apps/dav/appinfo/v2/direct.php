@@ -6,7 +6,9 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+use OCA\DAV\Db\DirectMapper;
 use OCA\DAV\Direct\ServerFactory;
+use OCP\AppFramework\Utility\ITimeFactory;
 
 // no php execution timeout for webdav
 if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
@@ -25,8 +27,8 @@ $server = $serverFactory->createServer(
 	$baseuri,
 	$requestUri,
 	\OC::$server->getRootFolder(),
-	\OC::$server->query(\OCA\DAV\Db\DirectMapper::class),
-	\OC::$server->query(\OCP\AppFramework\Utility\ITimeFactory::class),
+	\OC::$server->query(DirectMapper::class),
+	\OC::$server->query(ITimeFactory::class),
 	\OC::$server->getBruteForceThrottler(),
 	\OC::$server->getRequest()
 );

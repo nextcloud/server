@@ -8,6 +8,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\View;
+use OCA\Circles\Api\v1\Circles;
 use OCP\App\IAppManager;
 use OCP\Files\Folder;
 use OCP\Files\Node as INode;
@@ -355,7 +356,7 @@ class FilesReportPlugin extends ServerPlugin {
 		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
 			return [];
 		}
-		return \OCA\Circles\Api\v1\Circles::getFilesForCircles($circlesIds);
+		return Circles::getFilesForCircles($circlesIds);
 	}
 
 
@@ -419,7 +420,7 @@ class FilesReportPlugin extends ServerPlugin {
 		return $results;
 	}
 
-	protected function wrapNode(\OCP\Files\Node $node): File|Directory {
+	protected function wrapNode(INode $node): File|Directory {
 		if ($node instanceof \OCP\Files\File) {
 			return new File($this->fileView, $node);
 		} else {

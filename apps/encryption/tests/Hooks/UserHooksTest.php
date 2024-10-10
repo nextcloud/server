@@ -305,7 +305,7 @@ class UserHooksTest extends TestCase {
 				]
 			)->setMethods(['initMountPoints'])->getMock();
 
-		/** @var \OCA\Encryption\Hooks\UserHooks $userHooks */
+		/** @var UserHooks $userHooks */
 		$this->assertNull($userHooks->setPassphrase($this->params));
 	}
 

@@ -12,6 +12,7 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Storage\IStorage;
+use OCP\UserInterface;
 use Test\TestCase;
 
 /**
@@ -142,7 +143,7 @@ class CleanupTest extends TestCase {
 			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->versionMapper])
 			->getMock();
 
-		$backend = $this->getMockBuilder(\OCP\UserInterface::class)
+		$backend = $this->getMockBuilder(UserInterface::class)
 			->disableOriginalConstructor()->getMock();
 		$backend->expects($this->once())->method('getUsers')
 			->with('', 500, 0)

@@ -13,6 +13,7 @@ use Icewind\Streams\IteratorDirectory;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\ObjectStore\S3ConnectionTrait;
 use OC\Files\ObjectStore\S3ObjectTrait;
+use OC\Files\Storage\Common;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\FileInfo;
@@ -22,7 +23,7 @@ use OCP\ICacheFactory;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
-class AmazonS3 extends \OC\Files\Storage\Common {
+class AmazonS3 extends Common {
 	use S3ConnectionTrait;
 	use S3ObjectTrait;
 

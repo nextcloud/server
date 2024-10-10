@@ -16,6 +16,7 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
 use OCP\Settings\IDeclarativeManager;
 use OCP\Settings\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -66,17 +67,17 @@ class AdminSettingsControllerTest extends TestCase {
 			$this->initialState,
 		);
 
-		$user = \OCP\Server::get(IUserManager::class)->createUser($this->adminUid, 'mylongrandompassword');
+		$user = Server::get(IUserManager::class)->createUser($this->adminUid, 'mylongrandompassword');
 		\OC_User::setUserId($user->getUID());
-		\OCP\Server::get(IGroupManager::class)->createGroup('admin')->addUser($user);
+		Server::get(IGroupManager::class)->createGroup('admin')->addUser($user);
 	}
 
 	protected function tearDown(): void {
-		\OCP\Server::get(IUserManager::class)
+		Server::get(IUserManager::class)
 			->get($this->adminUid)
 			->delete();
 		\OC_User::setUserId(null);
-		\OCP\Server::get(IUserSession::class)->setUser(null);
+		Server::get(IUserSession::class)->setUser(null);
 
 		parent::tearDown();
 	}

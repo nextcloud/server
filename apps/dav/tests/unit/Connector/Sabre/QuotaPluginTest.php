@@ -16,7 +16,7 @@ class QuotaPluginTest extends TestCase {
 	/** @var \Sabre\DAV\Server | \PHPUnit\Framework\MockObject\MockObject */
 	private $server;
 
-	/** @var \OCA\DAV\Connector\Sabre\QuotaPlugin | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var QuotaPlugin|\PHPUnit\Framework\MockObject\MockObject */
 	private $plugin;
 
 	private function init($quota, $checkedPath = ''): void {

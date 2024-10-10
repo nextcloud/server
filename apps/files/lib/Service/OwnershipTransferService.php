@@ -13,6 +13,7 @@ use Closure;
 use OC\Encryption\Manager as EncryptionManager;
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OCA\Encryption\Util;
 use OCA\Files\Exception\TransferOwnershipException;
 use OCP\Encryption\IManager as IEncryptionManager;
 use OCP\Files\Config\IUserMountCache;
@@ -21,9 +22,11 @@ use OCP\Files\IHomeStorage;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\NotFoundException;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Server;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -227,7 +230,7 @@ class OwnershipTransferService {
 		$progress->start();
 
 		if ($this->encryptionManager->isEnabled()) {
-			$masterKeyEnabled = \OCP\Server::get(\OCA\Encryption\Util::class)->isMasterKeyEnabled();
+			$masterKeyEnabled = Server::get(Util::class)->isMasterKeyEnabled();
 		} else {
 			$masterKeyEnabled = false;
 		}
@@ -416,7 +419,7 @@ class OwnershipTransferService {
 	):void {
 		$output->writeln('Restoring shares ...');
 		$progress = new ProgressBar($output, count($shares));
-		$rootFolder = \OCP\Server::get(IRootFolder::class);
+		$rootFolder = Server::get(IRootFolder::class);
 
 		foreach ($shares as ['share' => $share, 'suffix' => $suffix]) {
 			try {
@@ -453,7 +456,7 @@ class OwnershipTransferService {
 							// Normally the ID is preserved,
 							// but for transferes between different storages the ID might change
 							$newNodeId = $share->getNode()->getId();
-						} catch (\OCP\Files\NotFoundException) {
+						} catch (NotFoundException) {
 							// ID has changed due to transfer between different storages
 							// Try to get the new ID from the target path and suffix of the share
 							$node = $rootFolder->get(Filesystem::normalizePath($targetLocation . '/' . $suffix));
@@ -465,7 +468,7 @@ class OwnershipTransferService {
 						$this->shareManager->updateShare($share);
 					}
 				}
-			} catch (\OCP\Files\NotFoundException $e) {
+			} catch (NotFoundException $e) {
 				$output->writeln('<error>Share with id ' . $share->getId() . ' points at deleted file, skipping</error>');
 			} catch (\Throwable $e) {
 				$output->writeln('<error>Could not restore share with id ' . $share->getId() . ':' . $e->getMessage() . ' : ' . $e->getTraceAsString() . '</error>');
@@ -545,7 +548,7 @@ class OwnershipTransferService {
 					$this->shareManager->moveShare($share, $destinationUid);
 					continue;
 				}
-			} catch (\OCP\Files\NotFoundException $e) {
+			} catch (NotFoundException $e) {
 				$output->writeln('<error>Share with id ' . $share->getId() . ' points at deleted file, skipping</error>');
 			} catch (\Throwable $e) {
 				$output->writeln('<error>Could not restore share with id ' . $share->getId() . ':' . $e->getTraceAsString() . '</error>');

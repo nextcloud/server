@@ -16,7 +16,7 @@ class Cache extends \OC\Files\Cache\Cache {
 	private $storage;
 
 	/**
-	 * @param \OCA\Files_Sharing\External\Storage $storage
+	 * @param Storage $storage
 	 * @param ICloudId $cloudId
 	 */
 	public function __construct($storage, ICloudId $cloudId) {

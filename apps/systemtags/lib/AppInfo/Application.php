@@ -24,6 +24,7 @@ use OCP\BeforeSabrePubliclyLoadedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\SystemTag\ManagerEvent;
 use OCP\SystemTag\MapperEvent;
+use OCP\Util;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'systemtags';
@@ -48,13 +49,13 @@ class Application extends App implements IBootstrap {
 			$dispatcher->addListener(
 				LoadAdditionalScriptsEvent::class,
 				function (): void {
-					\OCP\Util::addScript('core', 'systemtags');
-					\OCP\Util::addInitScript(self::APP_ID, 'init');
+					Util::addScript('core', 'systemtags');
+					Util::addInitScript(self::APP_ID, 'init');
 				}
 			);
 
 			$managerListener = function (ManagerEvent $event) use ($context): void {
-				/** @var \OCA\SystemTags\Activity\Listener $listener */
+				/** @var Listener $listener */
 				$listener = $context->getServerContainer()->query(Listener::class);
 				$listener->event($event);
 			};
@@ -63,7 +64,7 @@ class Application extends App implements IBootstrap {
 			$dispatcher->addListener(ManagerEvent::EVENT_UPDATE, $managerListener);
 
 			$mapperListener = function (MapperEvent $event) use ($context): void {
-				/** @var \OCA\SystemTags\Activity\Listener $listener */
+				/** @var Listener $listener */
 				$listener = $context->getServerContainer()->query(Listener::class);
 				$listener->mapperEvent($event);
 			};

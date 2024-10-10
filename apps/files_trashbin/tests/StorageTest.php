@@ -9,12 +9,14 @@ namespace OCA\Files_Trashbin\Tests;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Common;
 use OC\Files\Storage\Temporary;
+use OC\Files\View;
 use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Events\MoveToTrashEvent;
 use OCA\Files_Trashbin\Storage;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Folder;
@@ -83,10 +85,10 @@ class StorageTest extends \Test\TestCase {
 		// this will setup the FS
 		$this->loginAsUser($this->user);
 
-		\OCA\Files_Trashbin\Storage::setupStorage();
+		Storage::setupStorage();
 
-		$this->rootView = new \OC\Files\View('/');
-		$this->userView = new \OC\Files\View('/' . $this->user . '/files/');
+		$this->rootView = new View('/');
+		$this->userView = new View('/' . $this->user . '/files/');
 		$this->userView->file_put_contents('test.txt', 'foo');
 		$this->userView->file_put_contents(static::LONG_FILENAME, 'foo');
 		$this->userView->file_put_contents(static::MAX_FILENAME, 'foo');
@@ -96,7 +98,7 @@ class StorageTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		\OC\Files\Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
+		Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
 		$this->logout();
 		$user = \OC::$server->getUserManager()->get($this->user);
 		if ($user !== null) {
@@ -191,7 +193,7 @@ class StorageTest extends \Test\TestCase {
 	 */
 	public function testCrossStorageDeleteFile(): void {
 		$storage2 = new Temporary([]);
-		\OC\Files\Filesystem::mount($storage2, [], $this->user . '/files/substorage');
+		Filesystem::mount($storage2, [], $this->user . '/files/substorage');
 
 		$this->userView->file_put_contents('substorage/subfile.txt', 'foo');
 		$storage2->getScanner()->scan('');
@@ -217,7 +219,7 @@ class StorageTest extends \Test\TestCase {
 	 */
 	public function testCrossStorageDeleteFolder(): void {
 		$storage2 = new Temporary([]);
-		\OC\Files\Filesystem::mount($storage2, [], $this->user . '/files/substorage');
+		Filesystem::mount($storage2, [], $this->user . '/files/substorage');
 
 		$this->userView->mkdir('substorage/folder');
 		$this->userView->file_put_contents('substorage/folder/subfile.txt', 'bar');
@@ -322,14 +324,14 @@ class StorageTest extends \Test\TestCase {
 			->setShareType(IShare::TYPE_USER)
 			->setSharedBy($this->user)
 			->setSharedWith($recipientUser)
-			->setPermissions(\OCP\Constants::PERMISSION_ALL);
+			->setPermissions(Constants::PERMISSION_ALL);
 		$share = \OC::$server->getShareManager()->createShare($share);
 		\OC::$server->getShareManager()->acceptShare($share, $recipientUser);
 
 		$this->loginAsUser($recipientUser);
 
 		// delete as recipient
-		$recipientView = new \OC\Files\View('/' . $recipientUser . '/files');
+		$recipientView = new View('/' . $recipientUser . '/files');
 		$recipientView->unlink('share/test.txt');
 
 		// rescan trash storage for both users
@@ -374,14 +376,14 @@ class StorageTest extends \Test\TestCase {
 			->setShareType(IShare::TYPE_USER)
 			->setSharedBy($this->user)
 			->setSharedWith($recipientUser)
-			->setPermissions(\OCP\Constants::PERMISSION_ALL);
+			->setPermissions(Constants::PERMISSION_ALL);
 		$share = \OC::$server->getShareManager()->createShare($share);
 		\OC::$server->getShareManager()->acceptShare($share, $recipientUser);
 
 		$this->loginAsUser($recipientUser);
 
 		// delete as recipient
-		$recipientView = new \OC\Files\View('/' . $recipientUser . '/files');
+		$recipientView = new View('/' . $recipientUser . '/files');
 		$recipientView->rmdir('share/folder');
 
 		// rescan trash storage
@@ -424,7 +426,7 @@ class StorageTest extends \Test\TestCase {
 	 */
 	public function testKeepFileAndVersionsWhenMovingFileBetweenStorages(): void {
 		$storage2 = new Temporary([]);
-		\OC\Files\Filesystem::mount($storage2, [], $this->user . '/files/substorage');
+		Filesystem::mount($storage2, [], $this->user . '/files/substorage');
 
 		// trigger a version (multiple would not work because of the expire logic)
 		$this->userView->file_put_contents('test.txt', 'v1');
@@ -463,7 +465,7 @@ class StorageTest extends \Test\TestCase {
 	 */
 	public function testKeepFileAndVersionsWhenMovingFolderBetweenStorages(): void {
 		$storage2 = new Temporary([]);
-		\OC\Files\Filesystem::mount($storage2, [], $this->user . '/files/substorage');
+		Filesystem::mount($storage2, [], $this->user . '/files/substorage');
 
 		// trigger a version (multiple would not work because of the expire logic)
 		$this->userView->file_put_contents('folder/inside.txt', 'v1');

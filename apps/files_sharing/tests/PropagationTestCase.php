@@ -6,6 +6,8 @@
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OCA\Files_Sharing\Helper;
+
 abstract class PropagationTestCase extends TestCase {
 	/**
 	 * @var \OC\Files\View
@@ -16,7 +18,7 @@ abstract class PropagationTestCase extends TestCase {
 
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
-		\OCA\Files_Sharing\Helper::registerHooks();
+		Helper::registerHooks();
 	}
 
 	protected function setUp(): void {

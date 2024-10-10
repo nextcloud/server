@@ -8,6 +8,7 @@ namespace OCA\Files_External\Tests\Command;
 
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Service\GlobalStoragesService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\Input;
@@ -17,7 +18,7 @@ use Test\TestCase;
 abstract class CommandTest extends TestCase {
 	/**
 	 * @param StorageConfig[] $mounts
-	 * @return \OCA\Files_External\Service\GlobalStoragesService|\PHPUnit\Framework\MockObject\MockObject
+	 * @return GlobalStoragesService|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getGlobalStorageService(array $mounts = []) {
 		$mock = $this->getMockBuilder('OCA\Files_External\Service\GlobalStoragesService')

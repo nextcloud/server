@@ -11,6 +11,7 @@ use Doctrine\DBAL\Exception;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -34,7 +35,7 @@ abstract class AbstractMapping {
 	/**
 	 * @param \OCP\IDBConnection $dbc
 	 */
-	public function __construct(\OCP\IDBConnection $dbc) {
+	public function __construct(IDBConnection $dbc) {
 		$this->dbc = $dbc;
 	}
 
@@ -333,7 +334,7 @@ abstract class AbstractMapping {
 	 */
 	public function map($fdn, $name, $uuid) {
 		if (mb_strlen($fdn) > 4000) {
-			\OCP\Server::get(LoggerInterface::class)->error(
+			Server::get(LoggerInterface::class)->error(
 				'Cannot map, because the DN exceeds 4000 characters: {dn}',
 				[
 					'app' => 'user_ldap',

@@ -7,6 +7,7 @@
 namespace OCA\Files_Sharing\Tests\External;
 
 use OC\Federation\CloudIdManager;
+use OCA\Files_Sharing\External\Cache;
 use OCA\Files_Sharing\Tests\TestCase;
 use OCP\Contacts\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -33,7 +34,7 @@ class CacheTest extends TestCase {
 	private $storage;
 
 	/**
-	 * @var \OCA\Files_Sharing\External\Cache
+	 * @var Cache
 	 */
 	private $cache;
 
@@ -71,7 +72,7 @@ class CacheTest extends TestCase {
 			->method('search')
 			->willReturn([]);
 
-		$this->cache = new \OCA\Files_Sharing\External\Cache(
+		$this->cache = new Cache(
 			$this->storage,
 			$this->cloudIdManager->getCloudId($this->remoteUser, 'http://example.com/owncloud')
 		);

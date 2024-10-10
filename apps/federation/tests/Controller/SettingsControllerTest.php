@@ -10,6 +10,7 @@ namespace OCA\Federation\Tests\Controller;
 use OCA\Federation\Controller\SettingsController;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\HintException;
 use OCP\IL10N;
 use OCP\IRequest;
 use Test\TestCase;
@@ -23,7 +24,7 @@ class SettingsControllerTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IL10N */
 	private $l10n;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCA\Federation\TrustedServers */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|TrustedServers */
 	private $trustedServers;
 
 	protected function setUp(): void {
@@ -67,7 +68,7 @@ class SettingsControllerTest extends TestCase {
 	 * @dataProvider checkServerFails
 	 */
 	public function testAddServerFail(bool $isTrustedServer, bool $isNextcloud): void {
-		$this->expectException(\OCP\HintException::class);
+		$this->expectException(HintException::class);
 
 		$this->trustedServers
 			->expects($this->any())
@@ -113,7 +114,7 @@ class SettingsControllerTest extends TestCase {
 	 * @dataProvider checkServerFails
 	 */
 	public function testCheckServerFail(bool $isTrustedServer, bool $isNextcloud): void {
-		$this->expectException(\OCP\HintException::class);
+		$this->expectException(HintException::class);
 
 		$this->trustedServers
 			->expects($this->any())

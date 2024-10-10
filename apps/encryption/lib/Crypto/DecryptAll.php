@@ -7,6 +7,7 @@
  */
 namespace OCA\Encryption\Crypto;
 
+use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Session;
 use OCA\Encryption\Util;
@@ -118,7 +119,7 @@ class DecryptAll {
 	 * @param string $user
 	 * @param string $password
 	 * @return bool|string
-	 * @throws \OCA\Encryption\Exceptions\PrivateKeyMissingException
+	 * @throws PrivateKeyMissingException
 	 */
 	protected function getPrivateKey($user, $password) {
 		$recoveryKeyId = $this->keyManager->getRecoveryKeyId();

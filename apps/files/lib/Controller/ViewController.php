@@ -8,6 +8,7 @@
 namespace OCA\Files\Controller;
 
 use OC\Files\FilenameValidator;
+use OC\Files\Filesystem;
 use OCA\Files\AppInfo\Application;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSearchPlugins;
@@ -36,6 +37,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Util;
 
 /**
  * @package OCA\Files\Controller
@@ -69,7 +71,7 @@ class ViewController extends Controller {
 	 * @throws \OCP\Files\NotFoundException
 	 */
 	protected function getStorageInfo(string $dir = '/') {
-		$rootInfo = \OC\Files\Filesystem::getFileInfo('/', false);
+		$rootInfo = Filesystem::getFileInfo('/', false);
 
 		return \OC_Helper::getStorageInfo($dir, $rootInfo ?: null);
 	}
@@ -138,8 +140,8 @@ class ViewController extends Controller {
 		}
 
 		// Load the files we need
-		\OCP\Util::addInitScript('files', 'init');
-		\OCP\Util::addScript('files', 'main');
+		Util::addInitScript('files', 'init');
+		Util::addScript('files', 'main');
 
 		$userId = $this->userSession->getUser()->getUID();
 

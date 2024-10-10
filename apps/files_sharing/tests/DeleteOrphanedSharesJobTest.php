@@ -6,7 +6,10 @@
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Files\Filesystem;
 use OCA\Files_Sharing\DeleteOrphanedSharesJob;
+use OCP\Constants;
+use OCP\Server;
 use OCP\Share\IShare;
 
 /**
@@ -48,7 +51,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 		$appManager->disableApp('files_trashbin');
 
 		// just in case...
-		\OC\Files\Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
+		Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
 	}
 
 	public static function tearDownAfterClass(): void {
@@ -73,7 +76,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 
 		\OC::registerShareHooks(\OC::$server->getSystemConfig());
 
-		$this->job = \OCP\Server::get(DeleteOrphanedSharesJob::class);
+		$this->job = Server::get(DeleteOrphanedSharesJob::class);
 	}
 
 	protected function tearDown(): void {
@@ -119,7 +122,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 
 		$share->setNode($testSubFolder)
 			->setShareType(IShare::TYPE_USER)
-			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setPermissions(Constants::PERMISSION_READ)
 			->setSharedWith($this->user2)
 			->setSharedBy($this->user1);
 

@@ -259,7 +259,7 @@ class FilesPlugin extends ServerPlugin {
 			}
 		}
 
-		if ($node instanceof \OCA\DAV\Connector\Sabre\File) {
+		if ($node instanceof File) {
 			//Add OC-Checksum header
 			$checksum = $node->getChecksum();
 			if ($checksum !== null && $checksum !== '') {
@@ -279,7 +279,7 @@ class FilesPlugin extends ServerPlugin {
 	public function handleGetProperties(PropFind $propFind, \Sabre\DAV\INode $node) {
 		$httpRequest = $this->server->httpRequest;
 
-		if ($node instanceof \OCA\DAV\Connector\Sabre\Node) {
+		if ($node instanceof Node) {
 			/**
 			 * This was disabled, because it made dir listing throw an exception,
 			 * so users were unable to navigate into folders where one subitem
@@ -415,7 +415,7 @@ class FilesPlugin extends ServerPlugin {
 			});
 		}
 
-		if ($node instanceof \OCA\DAV\Connector\Sabre\File) {
+		if ($node instanceof File) {
 			$propFind->handle(self::DOWNLOADURL_PROPERTYNAME, function () use ($node) {
 				try {
 					$directDownloadUrl = $node->getDirectDownload();
@@ -504,7 +504,7 @@ class FilesPlugin extends ServerPlugin {
 	 */
 	public function handleUpdateProperties($path, PropPatch $propPatch) {
 		$node = $this->tree->getNodeForPath($path);
-		if (!($node instanceof \OCA\DAV\Connector\Sabre\Node)) {
+		if (!($node instanceof Node)) {
 			return;
 		}
 
@@ -670,7 +670,7 @@ class FilesPlugin extends ServerPlugin {
 			return;
 		}
 		$node = $this->server->tree->getNodeForPath($filePath);
-		if ($node instanceof \OCA\DAV\Connector\Sabre\Node) {
+		if ($node instanceof Node) {
 			$fileId = $node->getFileId();
 			if (!is_null($fileId)) {
 				$this->server->httpResponse->setHeader('OC-FileId', $fileId);

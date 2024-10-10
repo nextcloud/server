@@ -108,7 +108,7 @@ class SearchPlugin extends ServerPlugin {
 	 * This report is used by clients to request calendar objects based on
 	 * complex conditions.
 	 *
-	 * @param Xml\Request\CalendarSearchReport $report
+	 * @param CalendarSearchReport $report
 	 * @return void
 	 */
 	private function calendarSearch($report) {

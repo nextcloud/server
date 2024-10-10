@@ -9,6 +9,7 @@ use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
+use OCA\DAV\CalDAV\CalendarObject;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
@@ -163,7 +164,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 				return;
 			}
 			
-			/** @var \OCA\DAV\CalDAV\Calendar $calendarNode */
+			/** @var Calendar $calendarNode */
 			$calendarNode = $this->server->tree->getNodeForPath($calendarPath);
 			// extract addresses for owner
 			$addresses = $this->getAddressesForPrincipal($calendarNode->getOwner());
@@ -178,7 +179,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 			// determine if we are updating a calendar event
 			if (!$isNew) {
 				// retrieve current calendar event node
-				/** @var \OCA\DAV\CalDAV\CalendarObject $currentNode */
+				/** @var CalendarObject $currentNode */
 				$currentNode = $this->server->tree->getNodeForPath($request->getPath());
 				// convert calendar event string data to VCalendar object
 				/** @var \Sabre\VObject\Component\VCalendar $currentObject */
@@ -561,7 +562,7 @@ EOF;
 		$calendarTimeZone = new DateTimeZone('UTC');
 
 		$homePath = $result[0][200]['{' . self::NS_CALDAV . '}calendar-home-set']->getHref();
-		/** @var \OCA\DAV\CalDAV\Calendar $node */
+		/** @var Calendar $node */
 		foreach ($this->server->tree->getNodeForPath($homePath)->getChildren() as $node) {
 			
 			if (!$node instanceof ICalendar) {

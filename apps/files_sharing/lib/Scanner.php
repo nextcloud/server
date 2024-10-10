@@ -14,7 +14,7 @@ use OC\Files\ObjectStore\ObjectStoreScanner;
  */
 class Scanner extends \OC\Files\Cache\Scanner {
 	/**
-	 * @var \OCA\Files_Sharing\SharedStorage $storage
+	 * @var SharedStorage $storage
 	 */
 	protected $storage;
 

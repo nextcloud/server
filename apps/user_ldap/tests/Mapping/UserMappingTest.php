@@ -8,6 +8,7 @@
 namespace OCA\User_LDAP\Tests\Mapping;
 
 use OCA\User_LDAP\Mapping\UserMapping;
+use OCP\IDBConnection;
 use OCP\Support\Subscription\IAssertion;
 
 /**
@@ -18,7 +19,7 @@ use OCP\Support\Subscription\IAssertion;
  * @package OCA\User_LDAP\Tests\Mapping
  */
 class UserMappingTest extends AbstractMappingTest {
-	public function getMapper(\OCP\IDBConnection $dbMock) {
+	public function getMapper(IDBConnection $dbMock) {
 		return new UserMapping($dbMock, $this->createMock(IAssertion::class));
 	}
 }

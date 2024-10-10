@@ -20,6 +20,7 @@ use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 use OCP\Notification\UnknownNotificationException;
+use OCP\Server;
 use OCP\Util;
 
 class Notifier implements INotifier {
@@ -188,6 +189,6 @@ class Notifier implements INotifier {
 	}
 
 	protected function getAppInfo($appId, $languageCode) {
-		return \OCP\Server::get(IAppManager::class)->getAppInfo($appId, false, $languageCode);
+		return Server::get(IAppManager::class)->getAppInfo($appId, false, $languageCode);
 	}
 }

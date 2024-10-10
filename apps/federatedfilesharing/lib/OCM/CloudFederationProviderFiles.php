@@ -11,6 +11,7 @@ use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Activity\Providers\RemoteShares;
 use OCA\Files_Sharing\External\Manager;
+use OCA\GlobalSiteSelector\Service\SlaveService;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\IAppManager;
 use OCP\Constants;
@@ -734,7 +735,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		}
 
 		try {
-			$slaveService = Server::get(\OCA\GlobalSiteSelector\Service\SlaveService::class);
+			$slaveService = Server::get(SlaveService::class);
 		} catch (\Throwable $e) {
 			Server::get(LoggerInterface::class)->error(
 				$e->getMessage(),

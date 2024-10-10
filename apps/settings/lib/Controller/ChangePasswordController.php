@@ -11,6 +11,8 @@ namespace OCA\Settings\Controller;
 
 use OC\Group\Manager as GroupManager;
 use OC\User\Session;
+use OCA\Encryption\KeyManager;
+use OCA\Encryption\Recovery;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
@@ -24,6 +26,7 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
 
 class ChangePasswordController extends Controller {
 	private ?string $userId;
@@ -146,8 +149,8 @@ class ChangePasswordController extends Controller {
 
 		if ($this->appManager->isEnabledForUser('encryption')) {
 			//handle the recovery case
-			$keyManager = \OCP\Server::get(\OCA\Encryption\KeyManager::class);
-			$recovery = \OCP\Server::get(\OCA\Encryption\Recovery::class);
+			$keyManager = Server::get(KeyManager::class);
+			$recovery = Server::get(Recovery::class);
 			$recoveryAdminEnabled = $recovery->isRecoveryKeyEnabled();
 
 			$validRecoveryPassword = false;

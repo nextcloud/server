@@ -12,6 +12,7 @@ use OCA\Files\Command\DeleteOrphanedFiles;
 use OCP\Files\IRootFolder;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
+use OCP\Server;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
@@ -32,7 +33,7 @@ class DeleteOrphanedFilesTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OCP\Server::get(IDBConnection::class);
+		$this->connection = Server::get(IDBConnection::class);
 
 		$this->user1 = $this->getUniqueID('user1_');
 
@@ -81,7 +82,7 @@ class DeleteOrphanedFilesTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$rootFolder = \OCP\Server::get(IRootFolder::class);
+		$rootFolder = Server::get(IRootFolder::class);
 
 		// scan home storage so that mounts are properly setup
 		$rootFolder->getUserFolder($this->user1)->getStorage()->getScanner()->scan('');

@@ -77,7 +77,7 @@ class Manager {
 	 * property array
 	 * @param string $dn the DN of the user
 	 * @param string $uid the internal (owncloud) username
-	 * @return \OCA\User_LDAP\User\User
+	 * @return User
 	 */
 	private function createAndCache($dn, $uid) {
 		$this->checkAccess();
@@ -188,7 +188,7 @@ class Manager {
 	/**
 	 * creates and returns an instance of OfflineUser for the specified user
 	 * @param string $id
-	 * @return \OCA\User_LDAP\User\OfflineUser
+	 * @return OfflineUser
 	 */
 	public function getDeletedUser($id) {
 		return new OfflineUser(
@@ -202,7 +202,7 @@ class Manager {
 	/**
 	 * @brief returns a User object by its Nextcloud username
 	 * @param string $id the DN or username of the user
-	 * @return \OCA\User_LDAP\User\User|\OCA\User_LDAP\User\OfflineUser|null
+	 * @return User|OfflineUser|null
 	 */
 	protected function createInstancyByUserName($id) {
 		//most likely a uid. Check whether it is a deleted user
@@ -219,7 +219,7 @@ class Manager {
 	/**
 	 * @brief returns a User object by its DN or Nextcloud username
 	 * @param string $id the DN or username of the user
-	 * @return \OCA\User_LDAP\User\User|\OCA\User_LDAP\User\OfflineUser|null
+	 * @return User|OfflineUser|null
 	 * @throws \Exception when connection could not be established
 	 */
 	public function get($id) {

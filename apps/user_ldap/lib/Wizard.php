@@ -11,6 +11,7 @@ namespace OCA\User_LDAP;
 use OC\ServerNotAvailableException;
 use OCP\IL10N;
 use OCP\L10N\IFactory as IL10NFactory;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Wizard extends LDAPUtility {
@@ -1253,7 +1254,7 @@ class Wizard extends LDAPUtility {
 		}
 
 		// strtolower on all keys for proper comparison
-		$result = \OCP\Util::mb_array_change_key_case($result);
+		$result = Util::mb_array_change_key_case($result);
 		$attribute = strtolower($attribute);
 		if (isset($result[$attribute])) {
 			foreach ($result[$attribute] as $key => $val) {

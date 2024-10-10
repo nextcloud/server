@@ -9,6 +9,7 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\FilesReportPlugin as FilesReportPluginImplementation;
 use OCP\App\IAppManager;
 use OCP\Files\File;
@@ -289,7 +290,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 				$filesNode2,
 			);
 
-		/** @var \OCA\DAV\Connector\Sabre\Directory&MockObject $reportTargetNode */
+		/** @var Directory&MockObject $reportTargetNode */
 		$result = $this->plugin->findNodesByFileIds($reportTargetNode, ['111', '222']);
 
 		$this->assertCount(2, $result);
@@ -342,7 +343,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 				$filesNode2,
 			);
 
-		/** @var \OCA\DAV\Connector\Sabre\Directory&MockObject $reportTargetNode */
+		/** @var Directory&MockObject $reportTargetNode */
 		$result = $this->plugin->findNodesByFileIds($reportTargetNode, ['111', '222']);
 
 		$this->assertCount(2, $result);
@@ -390,7 +391,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$validator = $this->createMock(IFilenameValidator::class);
 
 		$this->server->addPlugin(
-			new \OCA\DAV\Connector\Sabre\FilesPlugin(
+			new FilesPlugin(
 				$this->tree,
 				$config,
 				$this->createMock(IRequest::class),

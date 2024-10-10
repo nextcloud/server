@@ -12,7 +12,7 @@ use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 
 class Scanner extends \OC\Files\Cache\Scanner {
-	/** @var \OCA\Files_Sharing\External\Storage */
+	/** @var Storage */
 	protected $storage;
 
 	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true) {

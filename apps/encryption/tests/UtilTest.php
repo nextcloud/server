@@ -64,7 +64,7 @@ class UtilTest extends TestCase {
 		$this->filesMock = $this->createMock(View::class);
 		$this->userManagerMock = $this->createMock(IUserManager::class);
 
-		/** @var \OCA\Encryption\Crypto\Crypt $cryptMock */
+		/** @var Crypt $cryptMock */
 		$cryptMock = $this->getMockBuilder(Crypt::class)
 			->disableOriginalConstructor()
 			->getMock();

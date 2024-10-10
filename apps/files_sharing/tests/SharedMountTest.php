@@ -6,11 +6,16 @@
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Files\Filesystem;
+use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OCA\Files_Sharing\MountProvider;
+use OCA\Files_Sharing\SharedMount;
+use OCP\Constants;
 use OCP\ICacheFactory;
 use OCP\IGroupManager;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\Share\IShare;
 
 /**
@@ -73,7 +78,7 @@ class SharedMountTest extends TestCase {
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
-			\OCP\Constants::PERMISSION_ALL);
+			Constants::PERMISSION_ALL);
 		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER2);
 
 		$share->setTarget('/foo/bar' . $this->folder);
@@ -104,11 +109,11 @@ class SharedMountTest extends TestCase {
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
-			\OCP\Constants::PERMISSION_ALL
+			Constants::PERMISSION_ALL
 		);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$user2View = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
+		$user2View = new View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
 		$this->assertTrue($user2View->file_exists($this->folder));
 
 		// create a local folder
@@ -143,25 +148,25 @@ class SharedMountTest extends TestCase {
 			$this->filename,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
-			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE
+			Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE
 		);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
-		\OC\Files\Filesystem::rename($this->filename, $this->filename . '_renamed');
+		Filesystem::rename($this->filename, $this->filename . '_renamed');
 
-		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename . '_renamed'));
-		$this->assertFalse(\OC\Files\Filesystem::file_exists($this->filename));
+		$this->assertTrue(Filesystem::file_exists($this->filename . '_renamed'));
+		$this->assertFalse(Filesystem::file_exists($this->filename));
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
-		$this->assertFalse(\OC\Files\Filesystem::file_exists($this->filename . '_renamed'));
+		$this->assertTrue(Filesystem::file_exists($this->filename));
+		$this->assertFalse(Filesystem::file_exists($this->filename . '_renamed'));
 
 		// rename back to original name
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		\OC\Files\Filesystem::rename($this->filename . '_renamed', $this->filename);
-		$this->assertFalse(\OC\Files\Filesystem::file_exists($this->filename . '_renamed'));
-		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
+		Filesystem::rename($this->filename . '_renamed', $this->filename);
+		$this->assertFalse(Filesystem::file_exists($this->filename . '_renamed'));
+		$this->assertTrue(Filesystem::file_exists($this->filename));
 
 		//cleanup
 		$this->shareManager->deleteShare($share);
@@ -186,7 +191,7 @@ class SharedMountTest extends TestCase {
 			$this->filename,
 			self::TEST_FILES_SHARING_API_USER1,
 			'testGroup',
-			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE
+			Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE
 		);
 		$this->shareManager->acceptShare($share, $user1->getUID());
 		$this->shareManager->acceptShare($share, $user2->getUID());
@@ -194,20 +199,20 @@ class SharedMountTest extends TestCase {
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
-		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
+		$this->assertTrue(Filesystem::file_exists($this->filename));
 
-		\OC\Files\Filesystem::rename($this->filename, 'newFileName');
+		Filesystem::rename($this->filename, 'newFileName');
 
-		$this->assertTrue(\OC\Files\Filesystem::file_exists('newFileName'));
-		$this->assertFalse(\OC\Files\Filesystem::file_exists($this->filename));
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
-		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
-		$this->assertFalse(\OC\Files\Filesystem::file_exists('newFileName'));
+		$this->assertTrue(Filesystem::file_exists('newFileName'));
+		$this->assertFalse(Filesystem::file_exists($this->filename));
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
-		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
-		$this->assertFalse(\OC\Files\Filesystem::file_exists('newFileName'));
+		$this->assertTrue(Filesystem::file_exists($this->filename));
+		$this->assertFalse(Filesystem::file_exists('newFileName'));
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
+		$this->assertTrue(Filesystem::file_exists($this->filename));
+		$this->assertFalse(Filesystem::file_exists('newFileName'));
 
 		//cleanup
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
@@ -270,7 +275,7 @@ class SharedMountTest extends TestCase {
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			'testGroup',
-			\OCP\Constants::PERMISSION_READ
+			Constants::PERMISSION_READ
 		);
 		$this->shareManager->acceptShare($share, $user1->getUID());
 		$this->shareManager->acceptShare($share, $user2->getUID());
@@ -278,14 +283,14 @@ class SharedMountTest extends TestCase {
 
 		// Login as user 2 and verify the item exists
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->folder));
+		$this->assertTrue(Filesystem::file_exists($this->folder));
 		$result = $this->shareManager->getShareById($share->getFullId(), self::TEST_FILES_SHARING_API_USER2);
 		$this->assertNotEmpty($result);
-		$this->assertEquals(\OCP\Constants::PERMISSION_READ, $result->getPermissions());
+		$this->assertEquals(Constants::PERMISSION_READ, $result->getPermissions());
 
 		// Delete the share
-		$this->assertTrue(\OC\Files\Filesystem::rmdir($this->folder));
-		$this->assertFalse(\OC\Files\Filesystem::file_exists($this->folder));
+		$this->assertTrue(Filesystem::rmdir($this->folder));
+		$this->assertFalse(Filesystem::file_exists($this->folder));
 
 		// Verify we do not get a share
 		$result = $this->shareManager->getShareById($share->getFullId(), self::TEST_FILES_SHARING_API_USER2);
@@ -293,12 +298,12 @@ class SharedMountTest extends TestCase {
 
 		// Login as user 1 again and change permissions
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$share->setPermissions(\OCP\Constants::PERMISSION_ALL);
+		$share->setPermissions(Constants::PERMISSION_ALL);
 		$share = $this->shareManager->updateShare($share);
 
 		// Login as user 2 and verify
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$this->assertFalse(\OC\Files\Filesystem::file_exists($this->folder));
+		$this->assertFalse(Filesystem::file_exists($this->folder));
 		$result = $this->shareManager->getShareById($share->getFullId(), self::TEST_FILES_SHARING_API_USER2);
 		$this->assertEquals(0, $result->getPermissions());
 
@@ -326,7 +331,7 @@ class SharedMountTest extends TestCase {
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
-			\OCP\Constants::PERMISSION_ALL);
+			Constants::PERMISSION_ALL);
 		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER2);
 
 		$share->setTarget('/bar');
@@ -369,7 +374,7 @@ class SharedMountTest extends TestCase {
 			});
 
 		// hack to overwrite the cache factory, we can't use the proper "overwriteService" since the mount provider is created before this test is called
-		$mountProvider = \OCP\Server::get(MountProvider::class);
+		$mountProvider = Server::get(MountProvider::class);
 		$reflectionClass = new \ReflectionClass($mountProvider);
 		$reflectionCacheFactory = $reflectionClass->getProperty('cacheFactory');
 		$reflectionCacheFactory->setAccessible(true);
@@ -381,7 +386,7 @@ class SharedMountTest extends TestCase {
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
-			\OCP\Constants::PERMISSION_ALL);
+			Constants::PERMISSION_ALL);
 		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER2);
 
 		$share->setTarget('/foobar');
@@ -394,7 +399,7 @@ class SharedMountTest extends TestCase {
 			$this->folder2,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
-			\OCP\Constants::PERMISSION_ALL);
+			Constants::PERMISSION_ALL);
 		$this->shareManager->acceptShare($share2, self::TEST_FILES_SHARING_API_USER2);
 
 		$share2->setTarget('/foobar');
@@ -418,7 +423,7 @@ class SharedMountTest extends TestCase {
 	}
 }
 
-class DummyTestClassSharedMount extends \OCA\Files_Sharing\SharedMount {
+class DummyTestClassSharedMount extends SharedMount {
 	public function __construct($storage, $mountpoint, $arguments = null, $loader = null) {
 		// noop
 	}

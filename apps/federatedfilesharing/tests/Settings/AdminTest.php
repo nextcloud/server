@@ -17,7 +17,7 @@ use Test\TestCase;
 class AdminTest extends TestCase {
 	/** @var Admin */
 	private $admin;
-	/** @var \OCA\FederatedFileSharing\FederatedShareProvider */
+	/** @var FederatedShareProvider */
 	private $federatedShareProvider;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $gsConfig;

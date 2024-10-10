@@ -168,7 +168,7 @@ class ImageManagerTest extends TestCase {
 
 
 	public function testGetImageUnset(): void {
-		$this->expectException(\OCP\Files\NotFoundException::class);
+		$this->expectException(NotFoundException::class);
 
 		$this->config->expects($this->once())
 			->method('getAppValue')->with('theming', 'logoMime', false)
@@ -223,13 +223,13 @@ class ImageManagerTest extends TestCase {
 
 
 	public function testGetCachedImageNotFound(): void {
-		$this->expectException(\OCP\Files\NotFoundException::class);
+		$this->expectException(NotFoundException::class);
 
 		$folder = $this->setupCacheFolder();
 		$folder->expects($this->once())
 			->method('getFile')
 			->with('filename')
-			->will($this->throwException(new \OCP\Files\NotFoundException()));
+			->will($this->throwException(new NotFoundException()));
 		$image = $this->imageManager->getCachedImage('filename');
 	}
 

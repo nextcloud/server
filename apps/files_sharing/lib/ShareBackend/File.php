@@ -6,11 +6,17 @@
  */
 namespace OCA\Files_Sharing\ShareBackend;
 
+use OC\Files\Filesystem;
+use OC\Files\View;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\Files_Sharing\Helper;
+use OCP\Files\NotFoundException;
+use OCP\Server;
 use OCP\Share\IShare;
+use OCP\Share_Backend_File_Dependent;
 use Psr\Log\LoggerInterface;
 
-class File implements \OCP\Share_Backend_File_Dependent {
+class File implements Share_Backend_File_Dependent {
 	public const FORMAT_SHARED_STORAGE = 0;
 	public const FORMAT_GET_FOLDER_CONTENTS = 1;
 	public const FORMAT_FILE_APP_ROOT = 2;
@@ -34,13 +40,13 @@ class File implements \OCP\Share_Backend_File_Dependent {
 
 	public function isValidSource($itemSource, $uidOwner) {
 		try {
-			$path = \OC\Files\Filesystem::getPath($itemSource);
+			$path = Filesystem::getPath($itemSource);
 			// FIXME: attributes should not be set here,
 			// keeping this pattern for now to avoid unexpected
 			// regressions
-			$this->path = \OC\Files\Filesystem::normalizePath(basename($path));
+			$this->path = Filesystem::normalizePath(basename($path));
 			return true;
-		} catch (\OCP\Files\NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			return false;
 		}
 	}
@@ -52,9 +58,9 @@ class File implements \OCP\Share_Backend_File_Dependent {
 			return $path;
 		} else {
 			try {
-				$path = \OC\Files\Filesystem::getPath($itemSource);
+				$path = Filesystem::getPath($itemSource);
 				return $path;
-			} catch (\OCP\Files\NotFoundException $e) {
+			} catch (NotFoundException $e) {
 				return false;
 			}
 		}
@@ -68,11 +74,11 @@ class File implements \OCP\Share_Backend_File_Dependent {
 	 * @return string
 	 */
 	public function generateTarget($itemSource, $shareWith) {
-		$shareFolder = \OCA\Files_Sharing\Helper::getShareFolder();
-		$target = \OC\Files\Filesystem::normalizePath($shareFolder . '/' . basename($itemSource));
+		$shareFolder = Helper::getShareFolder();
+		$target = Filesystem::normalizePath($shareFolder . '/' . basename($itemSource));
 
-		\OC\Files\Filesystem::initMountPoints($shareWith);
-		$view = new \OC\Files\View('/' . $shareWith . '/files');
+		Filesystem::initMountPoints($shareWith);
+		$view = new View('/' . $shareWith . '/files');
 
 		if (!$view->is_dir($shareFolder)) {
 			$dir = '';
@@ -85,7 +91,7 @@ class File implements \OCP\Share_Backend_File_Dependent {
 			}
 		}
 
-		return \OCA\Files_Sharing\Helper::generateUniqueTarget($target, $view);
+		return Helper::generateUniqueTarget($target, $view);
 	}
 
 	public function formatItems($items, $format, $parameters = null) {
@@ -116,7 +122,7 @@ class File implements \OCP\Share_Backend_File_Dependent {
 				$file['uid_owner'] = $item['uid_owner'];
 				$file['displayname_owner'] = $item['displayname_owner'];
 
-				$storage = \OC\Files\Filesystem::getStorage('/');
+				$storage = Filesystem::getStorage('/');
 				$cache = $storage->getCache();
 				$file['size'] = $item['size'];
 				$files[] = $file;
@@ -199,7 +205,7 @@ class File implements \OCP\Share_Backend_File_Dependent {
 		if (isset($fileOwner)) {
 			$source['fileOwner'] = $fileOwner;
 		} else {
-			\OCP\Server::get(LoggerInterface::class)->error('No owner found for reshare', ['app' => 'files_sharing']);
+			Server::get(LoggerInterface::class)->error('No owner found for reshare', ['app' => 'files_sharing']);
 		}
 
 		return $source;

@@ -10,6 +10,7 @@ namespace OCA\Files_Sharing\Controller;
 
 use Generator;
 use OC\Collaboration\Collaborators\SearchResult;
+use OC\Share\Share;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -362,7 +363,7 @@ class ShareesAPIController extends OCSController {
 	protected function isRemoteSharingAllowed(string $itemType): bool {
 		try {
 			// FIXME: static foo makes unit testing unnecessarily difficult
-			$backend = \OC\Share\Share::getBackend($itemType);
+			$backend = Share::getBackend($itemType);
 			return $backend->isShareTypeAllowed(IShare::TYPE_REMOTE);
 		} catch (\Exception $e) {
 			return false;
@@ -372,7 +373,7 @@ class ShareesAPIController extends OCSController {
 	protected function isRemoteGroupSharingAllowed(string $itemType): bool {
 		try {
 			// FIXME: static foo makes unit testing unnecessarily difficult
-			$backend = \OC\Share\Share::getBackend($itemType);
+			$backend = Share::getBackend($itemType);
 			return $backend->isShareTypeAllowed(IShare::TYPE_REMOTE_GROUP);
 		} catch (\Exception $e) {
 			return false;

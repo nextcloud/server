@@ -17,6 +17,7 @@ use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\Activity\IManager;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Template\ExternalShareMenuAction;
 use OCP\AppFramework\Http\Template\LinkMenuAction;
@@ -39,6 +40,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IPublicShareTemplateFactory;
 use OCP\Share\IShare;
@@ -115,7 +117,7 @@ class ShareControllerTest extends \Test\TestCase {
 				)
 			);
 
-		$this->shareController = new \OCA\Files_Sharing\Controller\ShareController(
+		$this->shareController = new ShareController(
 			$this->appName,
 			$this->createMock(IRequest::class),
 			$this->config,
@@ -236,7 +238,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->willReturn($account);
 
 		/** @var Manager */
-		$manager = \OCP\Server::get(Manager::class);
+		$manager = Server::get(Manager::class);
 		$share = $manager->newShare();
 		$share->setId(42)
 			->setPermissions(Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE)
@@ -333,7 +335,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$this->assertEquals($expectedInitialState, $initialState);
 
-		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
+		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
 		$expectedResponse = new PublicTemplateResponse('files', 'index');
 		$expectedResponse->setContentSecurityPolicy($csp);
@@ -382,7 +384,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->willReturn($account);
 
 		/** @var Manager */
-		$manager = \OCP\Server::get(Manager::class);
+		$manager = Server::get(Manager::class);
 		$share = $manager->newShare();
 		$share->setId(42)
 			->setPermissions(Constants::PERMISSION_CREATE)
@@ -472,7 +474,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$this->assertEquals($expectedInitialState, $initialState);
 
-		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
+		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
 		$expectedResponse = new PublicTemplateResponse('files', 'index');
 		$expectedResponse->setContentSecurityPolicy($csp);
@@ -522,7 +524,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->willReturn($account);
 
 		/** @var IShare */
-		$share = \OCP\Server::get(Manager::class)->newShare();
+		$share = Server::get(Manager::class)->newShare();
 		$share->setId(42);
 		$share->setPassword('password')
 			->setShareOwner('ownerUID')
@@ -530,7 +532,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->setNode($file)
 			->setNote($note)
 			->setToken('token')
-			->setPermissions(\OCP\Constants::PERMISSION_ALL & ~\OCP\Constants::PERMISSION_SHARE)
+			->setPermissions(Constants::PERMISSION_ALL & ~Constants::PERMISSION_SHARE)
 			->setTarget("/$filename");
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
@@ -599,7 +601,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$response = $this->shareController->showShare();
 
-		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
+		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
 		$expectedResponse = new PublicTemplateResponse('files', 'index');
 		$expectedResponse->setContentSecurityPolicy($csp);
@@ -616,7 +618,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 
 	public function testShowShareInvalid(): void {
-		$this->expectException(\OCP\Files\NotFoundException::class);
+		$this->expectException(NotFoundException::class);
 
 		$filename = 'file1.txt';
 		$this->shareController->setToken('token');
@@ -671,7 +673,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$share
 			->expects($this->once())
 			->method('getPermissions')
-			->willReturn(\OCP\Constants::PERMISSION_CREATE);
+			->willReturn(Constants::PERMISSION_CREATE);
 
 		$this->shareManager
 			->expects($this->once())

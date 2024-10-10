@@ -6,7 +6,9 @@
  */
 namespace OCA\Files_External\Lib\Storage;
 
-abstract class StreamWrapper extends \OC\Files\Storage\Common {
+use OC\Files\Storage\Common;
+
+abstract class StreamWrapper extends Common {
 
 	abstract public function constructUrl(string $path): ?string;
 

@@ -10,6 +10,7 @@ use OC\User\Manager;
 use OCA\Files_Trashbin\Command\CleanUp;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
+use OCP\UserInterface;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\NullOutput;
@@ -175,7 +176,7 @@ class CleanUpTest extends TestCase {
 			->setMethods(['removeDeletedFiles'])
 			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->dbConnection])
 			->getMock();
-		$backend = $this->createMock(\OCP\UserInterface::class);
+		$backend = $this->createMock(UserInterface::class);
 		$backend->method('getUsers')
 			->with('', 500, 0)
 			->willReturn($backendUsers);

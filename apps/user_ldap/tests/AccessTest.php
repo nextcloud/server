@@ -6,6 +6,7 @@
  */
 namespace OCA\User_LDAP\Tests;
 
+use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
@@ -19,6 +20,7 @@ use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\HintException;
 use OCP\IAppConfig;
 use OCP\IAvatarManager;
 use OCP\IConfig;
@@ -470,19 +472,19 @@ class AccessTest extends TestCase {
 		$this->connection
 			->expects($this->once())
 			->method('getConnectionResource')
-			->willThrowException(new \OC\ServerNotAvailableException('Connection to LDAP server could not be established'));
+			->willThrowException(new ServerNotAvailableException('Connection to LDAP server could not be established'));
 		$this->ldap
 			->expects($this->never())
 			->method('isResource');
 
-		$this->expectException(\OC\ServerNotAvailableException::class);
+		$this->expectException(ServerNotAvailableException::class);
 		$this->expectExceptionMessage('Connection to LDAP server could not be established');
 		$this->access->setPassword('CN=foo', 'MyPassword');
 	}
 
 
 	public function testSetPasswordWithRejectedChange(): void {
-		$this->expectException(\OCP\HintException::class);
+		$this->expectException(HintException::class);
 		$this->expectExceptionMessage('Password change rejected.');
 
 		$this->connection

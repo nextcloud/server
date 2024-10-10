@@ -7,6 +7,7 @@
 namespace OCA\Files_Sharing;
 
 use OC\Files\Cache\FileAccess;
+use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OCP\Constants;
 use OCP\Files\Folder;
@@ -96,7 +97,7 @@ class Updater {
 				continue;
 			}
 
-			if ($dstMount instanceof \OCA\Files_Sharing\SharedMount) {
+			if ($dstMount instanceof SharedMount) {
 				if (!($dstMount->getShare()->getPermissions() & Constants::PERMISSION_SHARE)) {
 					$shareManager->deleteShare($share);
 					continue;
@@ -121,10 +122,10 @@ class Updater {
 	 * @param string $newPath new path relative to data/user/files
 	 */
 	private static function renameChildren($oldPath, $newPath) {
-		$absNewPath = \OC\Files\Filesystem::normalizePath('/' . \OC_User::getUser() . '/files/' . $newPath);
-		$absOldPath = \OC\Files\Filesystem::normalizePath('/' . \OC_User::getUser() . '/files/' . $oldPath);
+		$absNewPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files/' . $newPath);
+		$absOldPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files/' . $oldPath);
 
-		$mountManager = \OC\Files\Filesystem::getMountManager();
+		$mountManager = Filesystem::getMountManager();
 		$mountedShares = $mountManager->findIn('/' . \OC_User::getUser() . '/files/' . $oldPath);
 		foreach ($mountedShares as $mount) {
 			/** @var MountPoint $mount */
