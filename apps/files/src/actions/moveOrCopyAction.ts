@@ -60,6 +60,28 @@ const getActionForNodes = (nodes: Node[]): MoveCopyAction => {
 }
 
 /**
+ * Create a loading notification toast
+ * @param mode The move or copy mode
+ * @param source Name of the node that is copied / moved
+ * @param destination Destination path
+ * @return {() => void} Function to hide the notification
+ */
+function createLoadingNotification(mode: MoveCopyAction, source: string, destination: string): () => void {
+	const text = mode === MoveCopyAction.MOVE ? t('files', 'Moving "{source}" to "{destination}" …', { source, destination }) : t('files', 'Copying "{source}" to "{destination}" …', { source, destination })
+
+	let toast: ReturnType<typeof showInfo>|undefined
+	toast = showInfo(
+		`<span class="icon icon-loading-small toast-loading-icon"></span> ${text}`,
+		{
+			isHTML: true,
+			timeout: TOAST_PERMANENT_TIMEOUT,
+			onRemove: () => { toast?.hideToast(); toast = undefined },
+		},
+	)
+	return () => toast && toast.hideToast()
+}
+
+/**
  * Handle the copy/move of a node to a destination
  * This can be imported and used by other scripts/components on server
  * @param {Node} node The node to copy/move
@@ -99,6 +121,7 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 
 	// Set loading state
 	Vue.set(node, 'status', NodeStatus.LOADING)
+	const actionFinished = createLoadingNotification(method, node.basename, destination.path)
 
 	const queue = getQueue()
 	return await queue.add(async () => {
@@ -181,7 +204,8 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 			logger.debug(error as Error)
 			throw new Error()
 		} finally {
-			Vue.set(node, 'status', undefined)
+			Vue.set(node, 'status', '')
+			actionFinished()
 		}
 	})
 }
@@ -327,7 +351,7 @@ export const action = new FileAction({
 		if (result === false) {
 			showInfo(nodes.length === 1
 				? t('files', 'Cancelled move or copy of "{filename}".', { filename: nodes[0].displayname })
-				: t('files', 'Cancelled move or copy operation')
+				: t('files', 'Cancelled move or copy operation'),
 			)
 			return nodes.map(() => null)
 		}

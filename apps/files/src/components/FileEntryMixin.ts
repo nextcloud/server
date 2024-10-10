@@ -87,8 +87,9 @@ export default defineComponent({
 		uniqueId() {
 			return hashCode(this.source.source)
 		},
+
 		isLoading() {
-			return this.source.status === NodeStatus.LOADING
+			return this.source.status === NodeStatus.LOADING || this.loading !== ''
 		},
 
 		/**
