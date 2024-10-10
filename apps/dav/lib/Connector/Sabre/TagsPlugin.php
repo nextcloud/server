@@ -28,13 +28,6 @@ namespace OCA\DAV\Connector\Sabre;
  *
  */
 
-use OCA\Files\Activity\FavoriteProvider;
-use OCP\Activity\IManager;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Events\NodeAddedToFavorite;
-use OCP\Files\Events\NodeRemovedFromFavorite;
-use OCP\IUser;
-use OCP\IUserSession;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 
@@ -57,15 +50,6 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @var \OCP\ITagManager
 	 */
 	private $tagManager;
-
-	/** @var \OCP\IUserSession */
-	private $userSession;
-
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	/** @var IManager */
-	private $activityManager;
 
 	/**
 	 * @var \OCP\ITags
@@ -92,17 +76,11 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	public function __construct(
 		\Sabre\DAV\Tree $tree,
 		\OCP\ITagManager $tagManager,
-		IUserSession $userSession,
-		IEventDispatcher $dispatcher,
-		IManager $activityManager,
 	) {
 		$this->tree = $tree;
 		$this->tagManager = $tagManager;
 		$this->tagger = null;
 		$this->cachedTags = [];
-		$this->userSession = $userSession;
-		$this->dispatcher = $dispatcher;
-		$this->activityManager = $activityManager;
 	}
 
 	/**
@@ -286,11 +264,9 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 
 		$propPatch->handle(self::FAVORITE_PROPERTYNAME, function ($favState) use ($node, $path) {
 			if ((int)$favState === 1 || $favState === 'true') {
-				$this->addActivity(true, $node->getId(), $path);
-				$this->getTagger()->tagAs($node->getId(), self::TAG_FAVORITE);
+				$this->getTagger()->addToFavorites($node->getId(), $path);
 			} else {
-				$this->addActivity(false, $node->getId(), $path);
-				$this->getTagger()->unTag($node->getId(), self::TAG_FAVORITE);
+				$this->getTagger()->removeFromFavorites($node->getId(), $path);
 			}
 
 			if (is_null($favState)) {
@@ -302,39 +278,4 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 		});
 	}
 
-	/**
-	 * @param bool $addToFavorite
-	 * @param int $fileId
-	 * @param string $path
-	 */
-	protected function addActivity($addToFavorite, $fileId, $path) {
-		$user = $this->userSession->getUser();
-		if (!$user instanceof IUser) {
-			return;
-		}
-
-		if ($addToFavorite) {
-			$event = new NodeAddedToFavorite($user, $fileId, $path);
-		} else {
-			$event = new NodeRemovedFromFavorite($user, $fileId, $path);
-		}
-		$this->dispatcher->dispatchTyped($event);
-
-		$event = $this->activityManager->generateEvent();
-		try {
-			$event->setApp('files')
-				->setObject('files', $fileId, $path)
-				->setType('favorite')
-				->setAuthor($user->getUID())
-				->setAffectedUser($user->getUID())
-				->setTimestamp(time())
-				->setSubject(
-					$addToFavorite ? FavoriteProvider::SUBJECT_ADDED : FavoriteProvider::SUBJECT_REMOVED,
-					['id' => $fileId, 'path' => $path]
-				);
-			$this->activityManager->publish($event);
-		} catch (\InvalidArgumentException $e) {
-		} catch (\BadMethodCallException $e) {
-		}
-	}
 }

@@ -151,7 +151,7 @@ class ServerFactory {
 			));
 
 			if ($this->userSession->isLoggedIn()) {
-				$server->addPlugin(new \OCA\DAV\Connector\Sabre\TagsPlugin($objectTree, $this->tagManager, $this->userSession, $this->eventDispatcher, \OCP\Server::get(\OCP\Activity\IManager::class)));
+				$server->addPlugin(new \OCA\DAV\Connector\Sabre\TagsPlugin($objectTree, $this->tagManager));
 				$server->addPlugin(new \OCA\DAV\Connector\Sabre\SharesPlugin(
 					$objectTree,
 					$this->userSession,

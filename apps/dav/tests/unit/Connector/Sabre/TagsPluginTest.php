@@ -397,8 +397,8 @@ class TagsPluginTest extends \Test\TestCase {
 
 		// set favorite tag
 		$this->tagger->expects($this->once())
-			->method('tagAs')
-			->with(123, self::TAG_FAVORITE);
+			->method('addToFavorites')
+			->with(123, '/dummypath');
 
 		// properties to set
 		$propPatch = new \Sabre\DAV\PropPatch([
