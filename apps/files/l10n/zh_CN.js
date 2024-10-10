@@ -210,6 +210,8 @@ OC.L10N.register(
     "Edit online" : "在线编辑",
     "Failed to redirect to client" : "重定向到客户端失败",
     "Edit locally" : "本地编辑",
+    "Moving \"{source}\" to \"{destination}\" …" : "正在移动 “{source}” 至 “{destination}” ...",
+    "Copying \"{source}\" to \"{destination}\" …" : "正在复制 “{source}” 至 “{destination}” ...",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "你无法将文件/文件夹移动至其自身或子文件夹中",
     "(copy)" : "（复制）",
     "(copy %n)" : "(复制 %n)",
@@ -275,6 +277,7 @@ OC.L10N.register(
     "\"{segment}\" is a reserved name and not allowed for filenames." : "“{segment}” 是一个保留名称，不允许用在文件名中。",
     "\"{extension}\" is not an allowed filetype." : "“{extension}” 文件类型不被允许。",
     "Filenames must not end with \"{extension}\"." : "文件名不能以 “{extension}” 结尾。",
+    "List of favorite files and folders." : "收藏的文件和文件夹列表。",
     "No favorites yet" : "暂无收藏",
     "Files and folders you mark as favorite will show up here" : "收藏的文件和文件夹会在这里显示",
     "All files" : "全部文件",
@@ -396,6 +399,9 @@ OC.L10N.register(
     "Text file" : "文本文件",
     "New text file.txt" : "新建文本文档.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "已复制直接链接（仅适用于有权访问此文件/文件夹的用户）",
-    "Copy direct link (only works for people who have access to this file/folder)" : "复制直接链接(仅适用于有权访问此文件/文件夹的用户)"
+    "Copy direct link (only works for people who have access to this file/folder)" : "复制直接链接(仅适用于有权访问此文件/文件夹的用户)",
+    "Favored" : "已加入收藏",
+    "Favor" : "收藏",
+    "Not favored" : "未收藏"
 },
 "nplurals=1; plural=0;");
