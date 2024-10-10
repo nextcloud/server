@@ -14,15 +14,19 @@ $nextcloudDir = dirname(__DIR__);
 $config = RectorConfig::configure()
 	->withPaths([
 		$nextcloudDir . '/apps',
-		// $nextcloudDir . '/config',
-		// $nextcloudDir . '/core',
-		// $nextcloudDir . '/lib',
-		// $nextcloudDir . '/ocs',
-		// $nextcloudDir . '/ocs-provider',
-		// $nextcloudDir . '/tests',
-		// $nextcloudDir . '/themes',
+		$nextcloudDir . '/build',
+		$nextcloudDir . '/config',
+		$nextcloudDir . '/core',
+		$nextcloudDir . '/lib',
+		$nextcloudDir . '/ocs',
+		$nextcloudDir . '/ocs-provider',
+		$nextcloudDir . '/tests',
+		$nextcloudDir . '/themes',
+		$nextcloudDir . '/*.php',
 	])
 	->withSkip([
+		$nextcloudDir . '/build/stubs/*',
+		$nextcloudDir . '/lib/composer/*',
 		$nextcloudDir . '/apps/*/3rdparty/*',
 		$nextcloudDir . '/apps/*/build/stubs/*',
 		$nextcloudDir . '/apps/*/composer/*',
