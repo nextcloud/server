@@ -651,7 +651,7 @@ export default defineComponent({
 		},
 
 		filterDirContent() {
-			let nodes = this.dirContents
+			let nodes: INode[] = this.dirContents
 			for (const filter of this.filtersStore.sortedFilters) {
 				nodes = filter.filter(nodes)
 			}
