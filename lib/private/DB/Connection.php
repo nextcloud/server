@@ -737,7 +737,20 @@ class Connection extends PrimaryReadReplicaConnection {
 			$this->transactionBacktrace = null;
 			$this->transactionActiveSince = null;
 			if ($timeTook > 1) {
-				$this->logger->debug('Transaction took ' . $timeTook . 's', ['exception' => new \Exception('Transaction took ' . $timeTook . 's')]);
+				$logLevel = match (true) {
+					$timeTook > 20 * 60 => ILogger::ERROR,
+					$timeTook > 5 * 60 => ILogger::WARN,
+					$timeTook > 10 => ILogger::INFO,
+					default => ILogger::DEBUG,
+				};
+				$this->logger->log(
+					$logLevel,
+					'Transaction took ' . $timeTook . 's',
+					[
+						'exception' => new \Exception('Transaction took ' . $timeTook . 's'),
+						'timeSpent' => $timeTook,
+					]
+				);
 			}
 		}
 		return $result;
@@ -750,7 +763,20 @@ class Connection extends PrimaryReadReplicaConnection {
 			$this->transactionBacktrace = null;
 			$this->transactionActiveSince = null;
 			if ($timeTook > 1) {
-				$this->logger->debug('Transaction rollback took longer than 1s: ' . $timeTook, ['exception' => new \Exception('Long running transaction rollback')]);
+				$logLevel = match (true) {
+					$timeTook > 20 * 60 => ILogger::ERROR,
+					$timeTook > 5 * 60 => ILogger::WARN,
+					$timeTook > 10 => ILogger::INFO,
+					default => ILogger::DEBUG,
+				};
+				$this->logger->log(
+					$logLevel,
+					'Transaction rollback took longer than 1s: ' . $timeTook,
+					[
+						'exception' => new \Exception('Long running transaction rollback'),
+						'timeSpent' => $timeTook,
+					]
+				);
 			}
 		}
 		return $result;
