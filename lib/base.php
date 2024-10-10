@@ -104,7 +104,7 @@ class OC {
 	 */
 	private static string $SUBURI = '';
 	/**
-	 * the Nextcloud root path for http requests (e.g. nextcloud/)
+	 * the Nextcloud root path for http requests (e.g. /nextcloud)
 	 */
 	public static string $WEBROOT = '';
 	/**
