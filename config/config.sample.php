@@ -341,6 +341,13 @@ $CONFIG = [
 'davstorage.request_timeout' => 30,
 
 /**
+ * The timeout in seconds for synchronizing address books, e.g. federated system address books (as run by `occ federation:sync-addressbooks`).
+ * 
+ * Defaults to ``30`` seconds
+ */
+'carddav_sync_request_timeout' => 30,
+
+/**
  * `true` enabled a relaxed session timeout, where the session timeout would no longer be
  * handled by Nextcloud but by either the PHP garbage collection or the expiration of
  * potential other session backends like redis.
