@@ -102,6 +102,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\Maintenance\Repair::class));
 	$application->add(Server::get(Command\Maintenance\RepairShareOwnership::class));
 
+	$application->add(Server::get(Command\Preview\Cleanup::class));
 	$application->add(Server::get(Command\Preview\Generate::class));
 	$application->add(Server::get(Command\Preview\Repair::class));
 	$application->add(Server::get(Command\Preview\ResetRenderedTexts::class));
