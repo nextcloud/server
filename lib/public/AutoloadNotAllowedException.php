@@ -14,10 +14,9 @@ namespace OCP;
  */
 class AutoloadNotAllowedException extends \DomainException {
 	/**
-	 * @param string $path
 	 * @since 8.2.0
 	 */
-	public function __construct($path) {
+	public function __construct(string $path) {
 		parent::__construct('Autoload path not allowed: ' . $path);
 	}
 }

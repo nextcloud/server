@@ -71,7 +71,7 @@ class JSONResponse extends Response {
 	 * @return JSONResponse Reference to this object
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
-	public function setData($data) {
+	public function setData(mixed $data) {
 		$this->data = $data;
 
 		return $this;
