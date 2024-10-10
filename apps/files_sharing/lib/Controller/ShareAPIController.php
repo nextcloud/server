@@ -658,7 +658,16 @@ class ShareAPIController extends OCSController {
 		$this->checkInheritedAttributes($share);
 
 		// Handle mail send
-		if ($sendMail === 'true' || $sendMail === 'false') {
+		if (is_null($sendMail)) {
+			// Define a default behavior when sendMail is not provided
+			if ($shareType === IShare::TYPE_EMAIL) {
+				// For email shares, the default is to send the mail
+				$share->setMailSend(true);
+			} else {
+				// For all other share types, the default is to not send the mail
+				$share->setMailSend(false);
+			}
+		} else {
 			$share->setMailSend($sendMail === 'true');
 		}
 
@@ -718,7 +727,7 @@ class ShareAPIController extends OCSController {
 			}
 
 			// Only share by mail have a recipient
-			if (is_string($shareWith) && $shareType === IShare::TYPE_EMAIL) {
+			if (!empty($shareWith) && $shareType === IShare::TYPE_EMAIL) {
 				// If sending a mail have been requested, validate the mail address
 				if ($share->getMailSend() && !$this->mailer->validateMailAddress($shareWith)) {
 					throw new OCSNotFoundException($this->l->t('Please specify a valid email address'));
@@ -1217,11 +1226,6 @@ class ShareAPIController extends OCSController {
 			$share = $this->setShareAttributes($share, $attributes);
 		}
 		$this->checkInheritedAttributes($share);
-
-		// Handle mail send
-		if ($sendMail === 'true' || $sendMail === 'false') {
-			$share->setMailSend($sendMail === 'true');
-		}
 
 		/**
 		 * expirationdate, password and publicUpload only make sense for link shares

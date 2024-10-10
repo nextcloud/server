@@ -284,7 +284,7 @@ export default defineComponent({
 				const request = await axios.post<OCSResponse>(shareUrl, {
 					// Always create a file request, but without mail share
 					// permissions, only a share link will be created.
-					shareType: sharingConfig.isMailShareAllowed ? ShareType.Email : ShareType.Link,
+					shareType: ShareType.Link,
 					permissions: Permission.CREATE,
 
 					label: this.label,
