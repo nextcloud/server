@@ -644,6 +644,7 @@ OC.L10N.register(
     "Headline" : "Nadpis",
     "Organisation" : "Organizace",
     "Phone number" : "Telefonní číslo",
+    "Pronouns" : "Zájmena",
     "Role" : "Role",
     "X (formerly Twitter)" : "X (dříve Twitter)",
     "Website" : "Webová stránka",
