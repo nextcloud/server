@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\WebhookListeners\BackgroundJobs;
 
+use OCA\AppAPI\PublicFunctions;
 use OCA\WebhookListeners\Db\AuthMethod;
 use OCA\WebhookListeners\Db\WebhookListenerMapper;
 use OCP\App\IAppManager;
@@ -16,6 +17,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
+use OCP\Server;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
@@ -62,7 +64,7 @@ class WebhookCall extends QueuedJob {
 					throw new RuntimeException('AppAPI is disabled or not installed.');
 				}
 				try {
-					$appApiFunctions = \OCP\Server::get(\OCA\AppAPI\PublicFunctions::class);
+					$appApiFunctions = Server::get(PublicFunctions::class);
 				} catch (ContainerExceptionInterface|NotFoundExceptionInterface) {
 					throw new RuntimeException('Could not get AppAPI public functions.');
 				}

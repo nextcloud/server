@@ -19,8 +19,8 @@ use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
 use OCA\DAV\CalDAV\Reminder\Notifier;
-
 use OCA\DAV\Capabilities;
+
 use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\SyncService;
@@ -85,6 +85,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\IUser;
+use OCP\Server;
 use OCP\User\Events\OutOfOfficeChangedEvent;
 use OCP\User\Events\OutOfOfficeClearedEvent;
 use OCP\User\Events\OutOfOfficeScheduledEvent;
@@ -222,7 +223,7 @@ class Application extends App implements IBootstrap {
 
 		$dispatcher->addListener(UserUpdatedEvent::class, function (UserUpdatedEvent $event) use ($container): void {
 			/** @var SyncService $syncService */
-			$syncService = \OCP\Server::get(SyncService::class);
+			$syncService = Server::get(SyncService::class);
 			$syncService->updateUser($event->getUser());
 		});
 

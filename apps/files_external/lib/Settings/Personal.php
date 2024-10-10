@@ -6,6 +6,7 @@
 namespace OCA\Files_External\Settings;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
+use OCA\Files_External\MountConfig;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -56,7 +57,7 @@ class Personal implements ISettings {
 			'storages' => $this->userGlobalStoragesService->getStorages(),
 			'backends' => $this->backendService->getAvailableBackends(),
 			'authMechanisms' => $this->backendService->getAuthMechanisms(),
-			'dependencies' => \OCA\Files_External\MountConfig::dependencyMessage($this->backendService->getBackends()),
+			'dependencies' => MountConfig::dependencyMessage($this->backendService->getBackends()),
 			'allowUserMounting' => $this->backendService->isUserMountingAllowed(),
 			'globalCredentials' => $this->globalAuth->getAuth($uid),
 			'globalCredentialsUid' => $uid,

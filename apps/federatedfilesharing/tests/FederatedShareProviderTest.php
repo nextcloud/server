@@ -12,6 +12,7 @@ use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\TokenHandler;
+use OCP\Constants;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationProviderManager;
@@ -895,7 +896,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$share1->setSharedWith('user@server.com')
 			->setSharedBy($u1->getUID())
 			->setShareOwner($u1->getUID())
-			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setPermissions(Constants::PERMISSION_READ)
 			->setShareType(IShare::TYPE_REMOTE)
 			->setNode($file1);
 		$this->provider->create($share1);
@@ -904,7 +905,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$share2->setSharedWith('user@server.com')
 			->setSharedBy($u2->getUID())
 			->setShareOwner($u1->getUID())
-			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setPermissions(Constants::PERMISSION_READ)
 			->setShareType(IShare::TYPE_REMOTE)
 			->setNode($file2);
 		$this->provider->create($share2);
@@ -955,7 +956,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$share1->setSharedWith('user@server.com')
 			->setSharedBy($u1->getUID())
 			->setShareOwner($u1->getUID())
-			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setPermissions(Constants::PERMISSION_READ)
 			->setShareType(IShare::TYPE_REMOTE)
 			->setNode($file1);
 		$this->provider->create($share1);
@@ -964,7 +965,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$share2->setSharedWith('foobar@localhost')
 			->setSharedBy($u1->getUID())
 			->setShareOwner($u1->getUID())
-			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setPermissions(Constants::PERMISSION_READ)
 			->setShareType(IShare::TYPE_REMOTE)
 			->setNode($file1);
 		$this->provider->create($share2);

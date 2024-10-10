@@ -15,6 +15,8 @@ use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
+use OCP\Mail\Provider\Address;
+use OCP\Mail\Provider\Attachment;
 use OCP\Mail\Provider\IManager as IMailManager;
 use OCP\Mail\Provider\IMessageSend;
 use OCP\Util;
@@ -277,15 +279,15 @@ class IMipPlugin extends SabreIMipPlugin {
 				// construct mail message and set required parameters
 				$message = $mailService->initiateMessage();
 				$message->setFrom(
-					(new \OCP\Mail\Provider\Address($sender, $fromName))
+					(new Address($sender, $fromName))
 				);
 				$message->setTo(
-					(new \OCP\Mail\Provider\Address($recipient, $recipientName))
+					(new Address($recipient, $recipientName))
 				);
 				$message->setSubject($template->renderSubject());
 				$message->setBodyPlain($template->renderText());
 				$message->setBodyHtml($template->renderHtml());
-				$message->setAttachments((new \OCP\Mail\Provider\Attachment(
+				$message->setAttachments((new Attachment(
 					$itip_msg,
 					'event.ics',
 					'text/calendar; method=' . $iTipMessage->method,

@@ -5,12 +5,15 @@
  */
 namespace OCA\User_LDAP\Tests;
 
+use OC\Config;
 use OC\User\Manager;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Group_LDAP;
+use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\IGroupLDAP;
 use OCA\User_LDAP\IUserLDAP;
+use OCA\User_LDAP\LDAPProviderFactory;
 use OCA\User_LDAP\User_LDAP;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
@@ -33,7 +36,7 @@ class LDAPProviderTest extends \Test\TestCase {
 	private function getServerMock(IUserLDAP $userBackend, IGroupLDAP $groupBackend) {
 		$server = $this->getMockBuilder('OC\Server')
 			->setMethods(['getUserManager', 'getBackends', 'getGroupManager'])
-			->setConstructorArgs(['', new \OC\Config(\OC::$configDir)])
+			->setConstructorArgs(['', new Config(\OC::$configDir)])
 			->getMock();
 		$server->expects($this->any())
 			->method('getUserManager')
@@ -84,7 +87,7 @@ class LDAPProviderTest extends \Test\TestCase {
 	}
 
 	private function getLDAPProvider(IServerContainer $serverContainer) {
-		$factory = new \OCA\User_LDAP\LDAPProviderFactory($serverContainer);
+		$factory = new LDAPProviderFactory($serverContainer);
 		return $factory->getLDAPProvider();
 	}
 
@@ -201,7 +204,7 @@ class LDAPProviderTest extends \Test\TestCase {
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 
-		$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
+		$helper = new Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
 
 		$ldapProvider = $this->getLDAPProvider($server);
 		$this->assertEquals(
@@ -217,7 +220,7 @@ class LDAPProviderTest extends \Test\TestCase {
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 
-		$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
+		$helper = new Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
 
 		$ldapProvider = $this->getLDAPProvider($server);
 		$this->assertEquals(

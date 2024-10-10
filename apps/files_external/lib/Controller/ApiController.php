@@ -17,6 +17,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
+use OCP\Constants;
 use OCP\IRequest;
 
 /**
@@ -55,10 +56,10 @@ class ApiController extends OCSController {
 
 		$isSystemMount = $mountConfig->getType() === StorageConfig::MOUNT_TYPE_ADMIN;
 
-		$permissions = \OCP\Constants::PERMISSION_READ;
+		$permissions = Constants::PERMISSION_READ;
 		// personal mounts can be deleted
 		if (!$isSystemMount) {
-			$permissions |= \OCP\Constants::PERMISSION_DELETE;
+			$permissions |= Constants::PERMISSION_DELETE;
 		}
 
 		$entry = [

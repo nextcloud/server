@@ -7,6 +7,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\KnownUser\KnownUserService;
+use OCA\Circles\Api\v1\Circles;
 use OCA\Circles\Exceptions\CircleNotFoundException;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Traits\PrincipalProxyTrait;
@@ -530,7 +531,7 @@ class Principal implements BackendInterface {
 		}
 
 		try {
-			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($circleUniqueId, true);
+			$circle = Circles::detailsCircle($circleUniqueId, true);
 		} catch (QueryException $ex) {
 			return null;
 		} catch (CircleNotFoundException $ex) {
@@ -570,7 +571,7 @@ class Principal implements BackendInterface {
 				throw new Exception('Principal not found');
 			}
 
-			$circles = \OCA\Circles\Api\v1\Circles::joinedCircles($name, true);
+			$circles = Circles::joinedCircles($name, true);
 
 			$circles = array_map(function ($circle) {
 				/** @var \OCA\Circles\Model\Circle $circle */

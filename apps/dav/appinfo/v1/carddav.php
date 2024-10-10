@@ -8,8 +8,11 @@
 // Backends
 use OC\KnownUser\KnownUserService;
 use OCA\DAV\AppInfo\PluginManager;
+use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CardDAV\AddressBookRoot;
 use OCA\DAV\CardDAV\CardDavBackend;
+use OCA\DAV\CardDAV\ImageExportPlugin;
+use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\Security\CardDavRateLimitingPlugin;
 use OCA\DAV\CardDAV\Validation\CardDavValidatePlugin;
 use OCA\DAV\Connector\LegacyDAVACL;
@@ -19,6 +22,9 @@ use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IGroupManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Sabre\CardDAV\Plugin;
 
@@ -37,7 +43,7 @@ $principalBackend = new Principal(
 	\OC::$server->getShareManager(),
 	\OC::$server->getUserSession(),
 	\OC::$server->getAppManager(),
-	\OC::$server->query(\OCA\DAV\CalDAV\Proxy\ProxyMapper::class),
+	\OC::$server->query(ProxyMapper::class),
 	\OC::$server->get(KnownUserService::class),
 	\OC::$server->getConfig(),
 	\OC::$server->getL10NFactory(),
@@ -48,7 +54,7 @@ $cardDavBackend = new CardDavBackend(
 	$db,
 	$principalBackend,
 	\OC::$server->getUserManager(),
-	\OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class),
+	\OC::$server->get(IEventDispatcher::class),
 	\OC::$server->get(\OCA\DAV\CardDAV\Sharing\Backend::class),
 );
 
@@ -59,7 +65,7 @@ $principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend)
 $principalCollection->disableListing = !$debugging; // Disable listing
 
 $pluginManager = new PluginManager(\OC::$server, \OC::$server->query(IAppManager::class));
-$addressBookRoot = new AddressBookRoot($principalBackend, $cardDavBackend, $pluginManager, \OC::$server->getUserSession()->getUser(), \OC::$server->get(\OCP\IGroupManager::class));
+$addressBookRoot = new AddressBookRoot($principalBackend, $cardDavBackend, $pluginManager, \OC::$server->getUserSession()->getUser(), \OC::$server->get(IGroupManager::class));
 $addressBookRoot->disableListing = !$debugging; // Disable listing
 
 $nodes = [
@@ -84,13 +90,13 @@ if ($debugging) {
 
 $server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 $server->addPlugin(new \Sabre\CardDAV\VCFExportPlugin());
-$server->addPlugin(new \OCA\DAV\CardDAV\ImageExportPlugin(new \OCA\DAV\CardDAV\PhotoCache(
+$server->addPlugin(new ImageExportPlugin(new PhotoCache(
 	\OC::$server->getAppDataDir('dav-photocache'),
 	\OC::$server->get(LoggerInterface::class)
 )));
 $server->addPlugin(new ExceptionLoggerPlugin('carddav', \OC::$server->get(LoggerInterface::class)));
-$server->addPlugin(\OCP\Server::get(CardDavRateLimitingPlugin::class));
-$server->addPlugin(\OCP\Server::get(CardDavValidatePlugin::class));
+$server->addPlugin(Server::get(CardDavRateLimitingPlugin::class));
+$server->addPlugin(Server::get(CardDavValidatePlugin::class));
 
 // And off we go!
 $server->exec();

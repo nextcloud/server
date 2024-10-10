@@ -23,6 +23,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Server;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -121,7 +122,7 @@ class User {
 		$this->notificationManager = $notificationManager;
 		$this->birthdateParser = new BirthdateParserService();
 
-		\OCP\Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry');
+		Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry');
 	}
 
 	/**
@@ -228,7 +229,7 @@ class User {
 			//User Profile Field - Phone number
 			$attr = strtolower($this->connection->ldapAttributePhone);
 			if (!empty($attr)) { // attribute configured
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_PHONE]
+				$profileValues[IAccountManager::PROPERTY_PHONE]
 					= $ldapEntry[$attr][0] ?? '';
 			}
 			//User Profile Field - website
@@ -237,57 +238,57 @@ class User {
 				$cutPosition = strpos($ldapEntry[$attr][0], ' ');
 				if ($cutPosition) {
 					// drop appended label
-					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE]
+					$profileValues[IAccountManager::PROPERTY_WEBSITE]
 						= substr($ldapEntry[$attr][0], 0, $cutPosition);
 				} else {
-					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE]
+					$profileValues[IAccountManager::PROPERTY_WEBSITE]
 						= $ldapEntry[$attr][0];
 				}
 			} elseif (!empty($attr)) {	// configured, but not defined
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE] = '';
+				$profileValues[IAccountManager::PROPERTY_WEBSITE] = '';
 			}
 			//User Profile Field - Address
 			$attr = strtolower($this->connection->ldapAttributeAddress);
 			if (isset($ldapEntry[$attr])) {
 				if (str_contains($ldapEntry[$attr][0], '$')) {
 					// basic format conversion from postalAddress syntax to commata delimited
-					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ADDRESS]
+					$profileValues[IAccountManager::PROPERTY_ADDRESS]
 						= str_replace('$', ', ', $ldapEntry[$attr][0]);
 				} else {
-					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ADDRESS]
+					$profileValues[IAccountManager::PROPERTY_ADDRESS]
 						= $ldapEntry[$attr][0];
 				}
 			} elseif (!empty($attr)) {	// configured, but not defined
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ADDRESS] = '';
+				$profileValues[IAccountManager::PROPERTY_ADDRESS] = '';
 			}
 			//User Profile Field - Twitter
 			$attr = strtolower($this->connection->ldapAttributeTwitter);
 			if (!empty($attr)) {
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_TWITTER]
+				$profileValues[IAccountManager::PROPERTY_TWITTER]
 					= $ldapEntry[$attr][0] ?? '';
 			}
 			//User Profile Field - fediverse
 			$attr = strtolower($this->connection->ldapAttributeFediverse);
 			if (!empty($attr)) {
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_FEDIVERSE]
+				$profileValues[IAccountManager::PROPERTY_FEDIVERSE]
 					= $ldapEntry[$attr][0] ?? '';
 			}
 			//User Profile Field - organisation
 			$attr = strtolower($this->connection->ldapAttributeOrganisation);
 			if (!empty($attr)) {
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ORGANISATION]
+				$profileValues[IAccountManager::PROPERTY_ORGANISATION]
 					= $ldapEntry[$attr][0] ?? '';
 			}
 			//User Profile Field - role
 			$attr = strtolower($this->connection->ldapAttributeRole);
 			if (!empty($attr)) {
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ROLE]
+				$profileValues[IAccountManager::PROPERTY_ROLE]
 					= $ldapEntry[$attr][0] ?? '';
 			}
 			//User Profile Field - headline
 			$attr = strtolower($this->connection->ldapAttributeHeadline);
 			if (!empty($attr)) {
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_HEADLINE]
+				$profileValues[IAccountManager::PROPERTY_HEADLINE]
 					= $ldapEntry[$attr][0] ?? '';
 			}
 			//User Profile Field - biography
@@ -295,14 +296,14 @@ class User {
 			if (isset($ldapEntry[$attr])) {
 				if (str_contains($ldapEntry[$attr][0], '\r')) {
 					// convert line endings
-					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY]
+					$profileValues[IAccountManager::PROPERTY_BIOGRAPHY]
 						= str_replace(["\r\n","\r"], "\n", $ldapEntry[$attr][0]);
 				} else {
-					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY]
+					$profileValues[IAccountManager::PROPERTY_BIOGRAPHY]
 						= $ldapEntry[$attr][0];
 				}
 			} elseif (!empty($attr)) {	// configured, but not defined
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY] = '';
+				$profileValues[IAccountManager::PROPERTY_BIOGRAPHY] = '';
 			}
 			//User Profile Field - birthday
 			$attr = strtolower($this->connection->ldapAttributeBirthDate);
@@ -310,7 +311,7 @@ class User {
 				$value = $ldapEntry[$attr][0];
 				try {
 					$birthdate = $this->birthdateParser->parseBirthdate($value);
-					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIRTHDATE]
+					$profileValues[IAccountManager::PROPERTY_BIRTHDATE]
 						= $birthdate->format('Y-m-d');
 				} catch (InvalidArgumentException $e) {
 					// Invalid date -> just skip the property
@@ -323,7 +324,7 @@ class User {
 			//User Profile Field - pronouns
 			$attr = strtolower($this->connection->ldapAttributePronouns);
 			if (!empty($attr)) {
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_PRONOUNS]
+				$profileValues[IAccountManager::PROPERTY_PRONOUNS]
 					= $ldapEntry[$attr][0] ?? '';
 			}
 			// check for changed data and cache just for TTL checking
@@ -354,7 +355,7 @@ class User {
 				// system must be postponed after the login. It is to ensure
 				// external mounts are mounted properly (e.g. with login
 				// credentials from the session).
-				\OCP\Util::connectHook('OC_User', 'post_login', $this, 'updateAvatarPostLogin');
+				Util::connectHook('OC_User', 'post_login', $this, 'updateAvatarPostLogin');
 				break;
 			}
 		}

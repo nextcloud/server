@@ -10,6 +10,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IBinaryFinder;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\Server;
 use Test\TestCase;
 
 class MailTest extends TestCase {
@@ -52,7 +53,7 @@ class MailTest extends TestCase {
 			'settings',
 			'settings/admin/additional-mail',
 			[
-				'sendmail_is_available' => (bool)\OCP\Server::get(IBinaryFinder::class)->findBinaryPath('sendmail'),
+				'sendmail_is_available' => (bool)Server::get(IBinaryFinder::class)->findBinaryPath('sendmail'),
 				'mail_domain' => 'mx.nextcloud.com',
 				'mail_from_address' => 'no-reply@nextcloud.com',
 				'mail_smtpmode' => 'smtp',

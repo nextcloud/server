@@ -8,6 +8,7 @@
 namespace OCA\DAV\Tests\unit\Upload;
 
 use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Upload\FutureFile;
 
 class FutureFileTest extends \Test\TestCase {
 	public function testGetContentType(): void {
@@ -50,7 +51,7 @@ class FutureFileTest extends \Test\TestCase {
 		$d->expects($this->once())
 			->method('delete');
 
-		$f = new \OCA\DAV\Upload\FutureFile($d, 'foo.txt');
+		$f = new FutureFile($d, 'foo.txt');
 		$f->delete();
 	}
 
@@ -71,7 +72,7 @@ class FutureFileTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @return \OCA\DAV\Upload\FutureFile
+	 * @return FutureFile
 	 */
 	private function mockFutureFile() {
 		$d = $this->getMockBuilder(Directory::class)
@@ -91,6 +92,6 @@ class FutureFileTest extends \Test\TestCase {
 			->method('getChildren')
 			->willReturn([]);
 
-		return new \OCA\DAV\Upload\FutureFile($d, 'foo.txt');
+		return new FutureFile($d, 'foo.txt');
 	}
 }

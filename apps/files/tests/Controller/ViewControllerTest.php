@@ -12,7 +12,9 @@ use OCA\Files\Controller\ViewController;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
 use OCP\App\IAppManager;
-use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
@@ -133,11 +135,11 @@ class ViewControllerTest extends TestCase {
 			->method('getAppValue')
 			->willReturnArgument(2);
 
-		$expected = new Http\TemplateResponse(
+		$expected = new TemplateResponse(
 			'files',
 			'index',
 		);
-		$policy = new Http\ContentSecurityPolicy();
+		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedWorkerSrcDomain('\'self\'');
 		$policy->addAllowedFrameDomain('\'self\'');
 		$expected->setContentSecurityPolicy($policy);
@@ -193,7 +195,7 @@ class ViewControllerTest extends TestCase {
 			->with('files.view.indexViewFileid', ['view' => 'trashbin', 'dir' => '/test.d1462861890/sub', 'fileid' => '123'])
 			->willReturn('/apps/files/trashbin/123?dir=/test.d1462861890/sub');
 
-		$expected = new Http\RedirectResponse('/apps/files/trashbin/123?dir=/test.d1462861890/sub');
+		$expected = new RedirectResponse('/apps/files/trashbin/123?dir=/test.d1462861890/sub');
 		$this->assertEquals($expected, $this->viewController->index('', '', '123'));
 	}
 }

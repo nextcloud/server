@@ -6,6 +6,7 @@
 namespace OCA\Theming\Tests\Service;
 
 use OC\Route\Router;
+use OC\URLGenerator;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
 use OCA\Theming\Themes\DyslexiaFont;
@@ -61,7 +62,7 @@ class DyslexiaFontTest extends TestCase {
 		$cacheFactory = $this->createMock(ICacheFactory::class);
 		$request = $this->createMock(IRequest::class);
 		$router = $this->createMock(Router::class);
-		$this->urlGenerator = new \OC\URLGenerator(
+		$this->urlGenerator = new URLGenerator(
 			$this->config,
 			$userSession,
 			$cacheFactory,

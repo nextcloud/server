@@ -45,7 +45,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 
 
 	public function testBeforeControllerAsUserWithExemption(): void {
-		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\NotAdminException::class);
+		$this->expectException(NotAdminException::class);
 
 		$this->reflector
 			->expects($this->exactly(2))

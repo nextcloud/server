@@ -7,7 +7,10 @@
  */
 namespace OCA\FederatedFileSharing\Tests;
 
+use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\Controller\RequestHandlerController;
+use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\FederatedFileSharing\Notifications;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
@@ -39,13 +42,13 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 	/** @var RequestHandlerController */
 	private $requestHandler;
 
-	/** @var \OCA\FederatedFileSharing\FederatedShareProvider|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var FederatedShareProvider|\PHPUnit\Framework\MockObject\MockObject */
 	private $federatedShareProvider;
 
-	/** @var \OCA\FederatedFileSharing\Notifications|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Notifications|\PHPUnit\Framework\MockObject\MockObject */
 	private $notifications;
 
-	/** @var \OCA\FederatedFileSharing\AddressHandler|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var AddressHandler|\PHPUnit\Framework\MockObject\MockObject */
 	private $addressHandler;
 
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */

@@ -18,6 +18,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IInitialStateService;
 use OCP\IUserSession;
+use OCP\Util;
 
 /** @template-implements IEventListener<BeforeTemplateRenderedEvent> */
 class BeforeTemplateRenderedListener implements IEventListener {
@@ -80,7 +81,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			return ['profileEnabled' => $this->profileManager->isProfileEnabled($user)];
 		});
 
-		\OCP\Util::addScript('user_status', 'menu');
-		\OCP\Util::addStyle('user_status', 'user-status-menu');
+		Util::addScript('user_status', 'menu');
+		Util::addStyle('user_status', 'user-status-menu');
 	}
 }

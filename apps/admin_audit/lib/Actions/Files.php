@@ -17,6 +17,7 @@ use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -39,7 +40,7 @@ class Files extends Action {
 				'path' => mb_substr($node->getInternalPath(), 5),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
-			\OCP\Server::get(LoggerInterface::class)->error(
+			Server::get(LoggerInterface::class)->error(
 				'Exception thrown in file read: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
@@ -59,7 +60,7 @@ class Files extends Action {
 			$source = $event->getSource();
 			$this->renamedNodes[$source->getId()] = $source;
 		} catch (InvalidPathException|NotFoundException $e) {
-			\OCP\Server::get(LoggerInterface::class)->error(
+			Server::get(LoggerInterface::class)->error(
 				'Exception thrown in file rename: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
@@ -79,7 +80,7 @@ class Files extends Action {
 				'newpath' => mb_substr($target->getInternalPath(), 5),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
-			\OCP\Server::get(LoggerInterface::class)->error(
+			Server::get(LoggerInterface::class)->error(
 				'Exception thrown in file rename: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
@@ -103,7 +104,7 @@ class Files extends Action {
 				'path' => mb_substr($event->getNode()->getInternalPath(), 5),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
-			\OCP\Server::get(LoggerInterface::class)->error(
+			Server::get(LoggerInterface::class)->error(
 				'Exception thrown in file create: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
@@ -130,7 +131,7 @@ class Files extends Action {
 				'newpath' => mb_substr($event->getTarget()->getInternalPath(), 5),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
-			\OCP\Server::get(LoggerInterface::class)->error(
+			Server::get(LoggerInterface::class)->error(
 				'Exception thrown in file copy: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
@@ -153,7 +154,7 @@ class Files extends Action {
 				'path' => mb_substr($node->getInternalPath(), 5),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
-			\OCP\Server::get(LoggerInterface::class)->error(
+			Server::get(LoggerInterface::class)->error(
 				'Exception thrown in file write: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
@@ -179,7 +180,7 @@ class Files extends Action {
 				'path' => mb_substr($event->getNode()->getInternalPath(), 5),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
-			\OCP\Server::get(LoggerInterface::class)->error(
+			Server::get(LoggerInterface::class)->error(
 				'Exception thrown in file delete: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;

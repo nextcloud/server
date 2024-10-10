@@ -11,6 +11,7 @@ use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\Files\Utils\Scanner;
 use OC\FilesMetadata\FilesMetadataManager;
 use OC\ForbiddenException;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -98,7 +99,7 @@ class Scan extends Base {
 
 	protected function scanFiles(string $user, string $path, ?string $scanMetadata, OutputInterface $output, bool $backgroundScan = false, bool $recursive = true, bool $homeOnly = false): void {
 		$connection = $this->reconnectToDatabase($output);
-		$scanner = new \OC\Files\Utils\Scanner(
+		$scanner = new Scanner(
 			$user,
 			new ConnectionAdapter($connection),
 			\OC::$server->get(IEventDispatcher::class),

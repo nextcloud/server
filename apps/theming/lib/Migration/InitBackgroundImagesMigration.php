@@ -12,8 +12,9 @@ namespace OCA\Theming\Migration;
 use OCA\Theming\Jobs\MigrateBackgroundImages;
 use OCP\BackgroundJob\IJobList;
 use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 
-class InitBackgroundImagesMigration implements \OCP\Migration\IRepairStep {
+class InitBackgroundImagesMigration implements IRepairStep {
 
 	private IJobList $jobList;
 

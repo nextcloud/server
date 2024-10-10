@@ -13,6 +13,7 @@ use OC\Files\Mount\MountPoint;
 use OC\Files\Node\Folder;
 use OC\Files\View;
 use OC\Share20\ShareAttributes;
+use OCA\DAV\Connector\Sabre\File;
 use OCA\Files_Sharing\SharedMount;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\Constants;
@@ -97,7 +98,7 @@ class NodeTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$node = new  \OCA\DAV\Connector\Sabre\File($view, $info);
+		$node = new  File($view, $info);
 		$this->assertEquals($expected, $node->getDavPermissions());
 	}
 
@@ -180,7 +181,7 @@ class NodeTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$node = new \OCA\DAV\Connector\Sabre\File($view, $info);
+		$node = new File($view, $info);
 		$this->invokePrivate($node, 'shareManager', [$shareManager]);
 		$this->assertEquals($expected, $node->getSharePermissions($user));
 	}
@@ -217,7 +218,7 @@ class NodeTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$node = new \OCA\DAV\Connector\Sabre\File($view, $info);
+		$node = new File($view, $info);
 		$this->invokePrivate($node, 'shareManager', [$shareManager]);
 		$this->assertEquals($attributes->toArray(), $node->getShareAttributes());
 	}
@@ -243,7 +244,7 @@ class NodeTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$node = new \OCA\DAV\Connector\Sabre\File($view, $info);
+		$node = new File($view, $info);
 		$this->invokePrivate($node, 'shareManager', [$shareManager]);
 		$this->assertEquals([], $node->getShareAttributes());
 	}
@@ -266,7 +267,7 @@ class NodeTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$node = new \OCA\DAV\Connector\Sabre\File($view, $info);
+		$node = new File($view, $info);
 		$result = $this->invokePrivate($node, 'sanitizeMtime', [$mtime]);
 		$this->assertEquals($expected, $result);
 	}
@@ -290,7 +291,7 @@ class NodeTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$node = new \OCA\DAV\Connector\Sabre\File($view, $info);
+		$node = new File($view, $info);
 		$result = $this->invokePrivate($node, 'sanitizeMtime', [$mtime]);
 	}
 }

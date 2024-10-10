@@ -9,6 +9,7 @@ namespace OCA\DAV\Comments;
 
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
+use OCP\Comments\MessageTooLongException;
 use OCP\IUserSession;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
@@ -227,9 +228,9 @@ class CommentsPlugin extends ServerPlugin {
 			return $comment;
 		} catch (\InvalidArgumentException $e) {
 			throw new BadRequest('Invalid input values', 0, $e);
-		} catch (\OCP\Comments\MessageTooLongException $e) {
+		} catch (MessageTooLongException $e) {
 			$msg = 'Message exceeds allowed character limit of ';
-			throw new BadRequest($msg . \OCP\Comments\IComment::MAX_MESSAGE_LENGTH, 0, $e);
+			throw new BadRequest($msg . IComment::MAX_MESSAGE_LENGTH, 0, $e);
 		}
 	}
 }

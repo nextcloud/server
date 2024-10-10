@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV\Reminder;
 
+use OCA\DAV\CalDAV\Reminder\NotificationProvider\ProviderNotAvailableException;
+
 /**
  * Class NotificationProviderManager
  *
@@ -42,7 +44,7 @@ class NotificationProviderManager {
 			if (isset($this->providers[$type])) {
 				return $this->providers[$type];
 			}
-			throw new NotificationProvider\ProviderNotAvailableException($type);
+			throw new ProviderNotAvailableException($type);
 		}
 		throw new NotificationTypeDoesNotExistException($type);
 	}

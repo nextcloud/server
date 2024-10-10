@@ -1,5 +1,7 @@
 <?php
 
+use OCA\DAV\Server;
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -15,5 +17,5 @@ ignore_user_abort(true);
 \OC_Util::obEnd();
 
 $request = \OC::$server->getRequest();
-$server = new \OCA\DAV\Server($request, $baseuri);
+$server = new Server($request, $baseuri);
 $server->exec();

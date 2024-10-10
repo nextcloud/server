@@ -12,11 +12,13 @@ namespace OCA\Files_Sharing\Controller;
 use Exception;
 use OC\Files\FileInfo;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OCA\Circles\Api\v1\Circles;
 use OCA\Files\Helper;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCA\Files_Sharing\SharedStorage;
+use OCA\GlobalSiteSelector\Service\SlaveService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -29,6 +31,7 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\QueryException;
 use OCP\Constants;
+use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
@@ -410,7 +413,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		try {
-			$slaveService = Server::get(\OCA\GlobalSiteSelector\Service\SlaveService::class);
+			$slaveService = Server::get(SlaveService::class);
 		} catch (\Throwable $e) {
 			$this->logger->error(
 				$e->getMessage(),
@@ -619,7 +622,7 @@ class ShareAPIController extends OCSController {
 			$permissions |= Constants::PERMISSION_READ;
 		}
 
-		if ($node instanceof \OCP\Files\File) {
+		if ($node instanceof File) {
 			// Single file shares should never have delete or create permissions
 			$permissions &= ~Constants::PERMISSION_DELETE;
 			$permissions &= ~Constants::PERMISSION_CREATE;
@@ -695,7 +698,7 @@ class ShareAPIController extends OCSController {
 				}
 
 				// Public upload can only be set for folders
-				if ($node instanceof \OCP\Files\File) {
+				if ($node instanceof File) {
 					throw new OCSNotFoundException($this->l->t('Public upload is only possible for publicly shared folders'));
 				}
 
@@ -766,7 +769,7 @@ class ShareAPIController extends OCSController {
 				throw new OCSNotFoundException($this->l->t('You cannot share to a Team if the app is not enabled'));
 			}
 
-			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($shareWith);
+			$circle = Circles::detailsCircle($shareWith);
 
 			// Valid team is required to share
 			if ($circle === null) {
@@ -864,7 +867,7 @@ class ShareAPIController extends OCSController {
 	 * @throws NotFoundException
 	 */
 	private function getSharesInDir(Node $folder): array {
-		if (!($folder instanceof \OCP\Files\Folder)) {
+		if (!($folder instanceof Folder)) {
 			throw new OCSBadRequestException($this->l->t('Not a directory'));
 		}
 
@@ -1066,7 +1069,7 @@ class ShareAPIController extends OCSController {
 		try {
 			$node = $userFolder->get($path);
 			$this->lock($node);
-		} catch (\OCP\Files\NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			throw new OCSNotFoundException($this->l->t('Wrong path, file/folder does not exist'));
 		} catch (LockedException $e) {
 			throw new OCSNotFoundException($this->l->t('Could not lock path'));
@@ -1287,7 +1290,7 @@ class ShareAPIController extends OCSController {
 					throw new OCSForbiddenException($this->l->t('Public upload disabled by the administrator'));
 				}
 
-				if (!($share->getNode() instanceof \OCP\Files\Folder)) {
+				if (!($share->getNode() instanceof Folder)) {
 					throw new OCSBadRequestException($this->l->t('Public upload is only possible for publicly shared folders'));
 				}
 
@@ -1458,7 +1461,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * @suppress PhanUndeclaredClassMethod
 	 */
-	protected function canAccessShare(\OCP\Share\IShare $share, bool $checkGroups = true): bool {
+	protected function canAccessShare(IShare $share, bool $checkGroups = true): bool {
 		// A file with permissions 0 can't be accessed by us. So Don't show it
 		if ($share->getPermissions() === 0) {
 			return false;
@@ -1531,7 +1534,7 @@ class ShareAPIController extends OCSController {
 	 * @param \OCP\Share\IShare $share the share to check
 	 * @return boolean
 	 */
-	protected function canEditShare(\OCP\Share\IShare $share): bool {
+	protected function canEditShare(IShare $share): bool {
 		// A file with permissions 0 can't be accessed by us. So Don't show it
 		if ($share->getPermissions() === 0) {
 			return false;
@@ -1558,7 +1561,7 @@ class ShareAPIController extends OCSController {
 	 * @param \OCP\Share\IShare $share the share to check
 	 * @return boolean
 	 */
-	protected function canDeleteShare(\OCP\Share\IShare $share): bool {
+	protected function canDeleteShare(IShare $share): bool {
 		// A file with permissions 0 can't be accessed by us. So Don't show it
 		if ($share->getPermissions() === 0) {
 			return false;
@@ -1595,7 +1598,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * @suppress PhanUndeclaredClassMethod
 	 */
-	protected function canDeleteShareFromSelf(\OCP\Share\IShare $share): bool {
+	protected function canDeleteShareFromSelf(IShare $share): bool {
 		if ($share->getShareType() !== IShare::TYPE_GROUP &&
 			$share->getShareType() !== IShare::TYPE_ROOM &&
 			$share->getShareType() !== IShare::TYPE_DECK &&
@@ -1746,7 +1749,7 @@ class ShareAPIController extends OCSController {
 	 * @param \OCP\Files\Node $node
 	 * @throws LockedException
 	 */
-	private function lock(\OCP\Files\Node $node) {
+	private function lock(Node $node) {
 		$node->lock(ILockingProvider::LOCK_SHARED);
 		$this->lockedNode = $node;
 	}
@@ -1923,7 +1926,7 @@ class ShareAPIController extends OCSController {
 			return true;
 		}
 
-		if ((\OCP\Constants::PERMISSION_SHARE & $share->getPermissions()) === 0) {
+		if ((Constants::PERMISSION_SHARE & $share->getPermissions()) === 0) {
 			return false;
 		}
 
@@ -1946,7 +1949,7 @@ class ShareAPIController extends OCSController {
 				$sharedWith = substr($share->getSharedWith(), $shareWithStart, $shareWithLength);
 			}
 			try {
-				$member = \OCA\Circles\Api\v1\Circles::getMember($sharedWith, $userId, 1);
+				$member = Circles::getMember($sharedWith, $userId, 1);
 				if ($member->getLevel() >= 4) {
 					return true;
 				}
@@ -2065,7 +2068,7 @@ class ShareAPIController extends OCSController {
 			} else {
 				throw new \RuntimeException('Should not happen, instanceOfStorage but not a wrapper');
 			}
-			/** @var \OCA\Files_Sharing\SharedStorage $storage */
+			/** @var SharedStorage $storage */
 			$inheritedAttributes = $storage->getShare()->getAttributes();
 			if ($inheritedAttributes !== null && $inheritedAttributes->getAttribute('permissions', 'download') === false) {
 				$share->setHideDownload(true);

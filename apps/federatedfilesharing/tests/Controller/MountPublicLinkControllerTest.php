@@ -7,6 +7,7 @@
 namespace OCA\FederatedFileSharing\Tests\Controller;
 
 use OC\Federation\CloudIdManager;
+use OC\Share20\Share;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\Controller\MountPublicLinkController;
 use OCA\FederatedFileSharing\FederatedShareProvider;
@@ -83,7 +84,7 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->disableOriginalConstructor()->getMock();
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->disableOriginalConstructor()->getMock();
-		$this->share = new \OC\Share20\Share($this->rootFolder, $this->userManager);
+		$this->share = new Share($this->rootFolder, $this->userManager);
 		$this->session = $this->getMockBuilder(ISession::class)->disableOriginalConstructor()->getMock();
 		$this->l10n = $this->getMockBuilder(IL10N::class)->disableOriginalConstructor()->getMock();
 		$this->userSession = $this->getMockBuilder(IUserSession::class)->disableOriginalConstructor()->getMock();

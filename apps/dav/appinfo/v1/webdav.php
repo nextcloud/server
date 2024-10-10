@@ -5,6 +5,13 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+use OC\Files\Filesystem;
+use OCA\DAV\Connector\Sabre\Auth;
+use OCA\DAV\Connector\Sabre\BearerAuth;
+use OCA\DAV\Connector\Sabre\ServerFactory;
+use OCA\DAV\Events\SabrePluginAddEvent;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\SabrePluginEvent;
 use Psr\Log\LoggerInterface;
 
 // no php execution timeout for webdav
@@ -16,9 +23,9 @@ ignore_user_abort(true);
 // Turn off output buffering to prevent memory problems
 \OC_Util::obEnd();
 
-$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
+$dispatcher = \OC::$server->get(IEventDispatcher::class);
 
-$serverFactory = new \OCA\DAV\Connector\Sabre\ServerFactory(
+$serverFactory = new ServerFactory(
 	\OC::$server->getConfig(),
 	\OC::$server->get(LoggerInterface::class),
 	\OC::$server->getDatabaseConnection(),
@@ -32,7 +39,7 @@ $serverFactory = new \OCA\DAV\Connector\Sabre\ServerFactory(
 );
 
 // Backends
-$authBackend = new \OCA\DAV\Connector\Sabre\Auth(
+$authBackend = new Auth(
 	\OC::$server->getSession(),
 	\OC::$server->getUserSession(),
 	\OC::$server->getRequest(),
@@ -41,7 +48,7 @@ $authBackend = new \OCA\DAV\Connector\Sabre\Auth(
 	'principals/'
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
-$bearerAuthPlugin = new \OCA\DAV\Connector\Sabre\BearerAuth(
+$bearerAuthPlugin = new BearerAuth(
 	\OC::$server->getUserSession(),
 	\OC::$server->getSession(),
 	\OC::$server->getRequest()
@@ -52,13 +59,13 @@ $requestUri = \OC::$server->getRequest()->getRequestUri();
 
 $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, function () {
 	// use the view for the logged in user
-	return \OC\Files\Filesystem::getView();
+	return Filesystem::getView();
 });
 
 // allow setup of additional plugins
-$event = new \OCP\SabrePluginEvent($server);
+$event = new SabrePluginEvent($server);
 $dispatcher->dispatch('OCA\DAV\Connector\Sabre::addPlugin', $event);
-$event = new \OCA\DAV\Events\SabrePluginAddEvent($server);
+$event = new SabrePluginAddEvent($server);
 $dispatcher->dispatchTyped($event);
 
 // And off we go!

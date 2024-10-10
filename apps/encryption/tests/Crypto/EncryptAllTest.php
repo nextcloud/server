@@ -29,16 +29,16 @@ use Test\TestCase;
 
 class EncryptAllTest extends TestCase {
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCA\Encryption\KeyManager */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|KeyManager */
 	protected $keyManager;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCA\Encryption\Util */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|Util */
 	protected $util;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IUserManager */
 	protected $userManager;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCA\Encryption\Users\Setup */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|Setup */
 	protected $setupUser;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \OC\Files\View */

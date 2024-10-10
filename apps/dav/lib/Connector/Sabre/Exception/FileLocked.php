@@ -8,6 +8,7 @@
 namespace OCA\DAV\Connector\Sabre\Exception;
 
 use Exception;
+use OCP\Files\LockNotAcquiredException;
 
 class FileLocked extends \Sabre\DAV\Exception {
 	/**
@@ -15,7 +16,7 @@ class FileLocked extends \Sabre\DAV\Exception {
 	 * @param int $code
 	 */
 	public function __construct($message = '', $code = 0, ?Exception $previous = null) {
-		if ($previous instanceof \OCP\Files\LockNotAcquiredException) {
+		if ($previous instanceof LockNotAcquiredException) {
 			$message = sprintf('Target file %s is locked by another process.', $previous->path);
 		}
 		parent::__construct($message, $code, $previous);

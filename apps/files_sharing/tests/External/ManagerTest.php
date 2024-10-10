@@ -28,6 +28,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\OCS\IDiscoveryService;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 use Test\Traits\UserTrait;
@@ -156,7 +157,7 @@ class ManagerTest extends TestCase {
 					new StorageFactory(),
 					$this->clientService,
 					\OC::$server->getNotificationManager(),
-					\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
+					\OC::$server->query(IDiscoveryService::class),
 					$this->cloudFederationProviderManager,
 					$this->cloudFederationFactory,
 					$this->groupManager,

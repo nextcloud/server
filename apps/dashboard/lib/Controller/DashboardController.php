@@ -10,11 +10,11 @@ namespace OCA\Dashboard\Controller;
 
 use OCA\Dashboard\Service\DashboardService;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\FeaturePolicy;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Dashboard\IIconWidget;
@@ -24,6 +24,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\Util;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class DashboardController extends Controller {
@@ -49,8 +50,8 @@ class DashboardController extends Controller {
 	#[NoAdminRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/')]
 	public function index(): TemplateResponse {
-		\OCP\Util::addStyle('dashboard', 'dashboard');
-		\OCP\Util::addScript('dashboard', 'main', 'theming');
+		Util::addStyle('dashboard', 'dashboard');
+		Util::addScript('dashboard', 'main', 'theming');
 
 		$widgets = array_map(function (IWidget $widget) {
 			return [
@@ -76,7 +77,7 @@ class DashboardController extends Controller {
 		]);
 
 		// For the weather widget we should allow the geolocation
-		$featurePolicy = new Http\FeaturePolicy();
+		$featurePolicy = new FeaturePolicy();
 		$featurePolicy->addAllowedGeoLocationDomain('\'self\'');
 		$response->setFeaturePolicy($featurePolicy);
 

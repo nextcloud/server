@@ -5,6 +5,7 @@
  */
 namespace OCA\WorkflowEngine\Tests\Check;
 
+use OCA\WorkflowEngine\Check\AbstractStringCheck;
 use OCP\IL10N;
 
 class AbstractStringCheckTest extends \Test\TestCase {
@@ -55,7 +56,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 	public function testExecuteStringCheck($operation, $checkValue, $actualValue, $expected): void {
 		$check = $this->getCheckMock();
 
-		/** @var \OCA\WorkflowEngine\Check\AbstractStringCheck $check */
+		/** @var AbstractStringCheck $check */
 		$this->assertEquals($expected, $this->invokePrivate($check, 'executeStringCheck', [$operation, $checkValue, $actualValue]));
 	}
 
@@ -76,7 +77,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 	public function testValidateCheck($operator, $value): void {
 		$check = $this->getCheckMock();
 
-		/** @var \OCA\WorkflowEngine\Check\AbstractStringCheck $check */
+		/** @var AbstractStringCheck $check */
 		$check->validateCheck($operator, $value);
 
 		$this->addToAssertionCount(1);
@@ -102,7 +103,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 		$check = $this->getCheckMock();
 
 		try {
-			/** @var \OCA\WorkflowEngine\Check\AbstractStringCheck $check */
+			/** @var AbstractStringCheck $check */
 			$check->validateCheck($operator, $value);
 		} catch (\UnexpectedValueException $e) {
 			$this->assertEquals($exceptionCode, $e->getCode());

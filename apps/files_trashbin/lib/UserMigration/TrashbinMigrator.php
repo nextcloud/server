@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Files_Trashbin\UserMigration;
 
 use OCA\Files_Trashbin\AppInfo\Application;
+use OCA\Files_Trashbin\Trashbin;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -81,7 +82,7 @@ class TrashbinMigrator implements IMigrator, ISizeEstimationMigrator {
 			$exportDestination->copyFolder($trashbinFolder, static::PATH_FILES_FOLDER);
 			$originalLocations = [];
 			// TODO Export all extra data and bump migrator to v2
-			foreach (\OCA\Files_Trashbin\Trashbin::getExtraData($uid) as $filename => $extraData) {
+			foreach (Trashbin::getExtraData($uid) as $filename => $extraData) {
 				$locationData = [];
 				foreach ($extraData as $timestamp => ['location' => $location]) {
 					$locationData[$timestamp] = $location;

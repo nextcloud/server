@@ -12,6 +12,7 @@ use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IUrlGenerator;
+use OCP\Server;
 use OCP\SetupCheck\SetupResult;
 use Test\TestCase;
 
@@ -30,12 +31,12 @@ class SupportedDatabaseTest extends TestCase {
 
 		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
 		$this->urlGenerator = $this->getMockBuilder(IUrlGenerator::class)->getMock();
-		$this->connection = \OCP\Server::get(IDBConnection::class);
+		$this->connection = Server::get(IDBConnection::class);
 
 		$this->check = new SupportedDatabase(
 			$this->l10n,
 			$this->urlGenerator,
-			\OCP\Server::get(IDBConnection::class)
+			Server::get(IDBConnection::class)
 		);
 	}
 

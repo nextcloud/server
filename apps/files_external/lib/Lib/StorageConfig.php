@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_External\Lib;
 
+use OC\Files\Filesystem;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\IUserProvided;
 use OCA\Files_External\Lib\Backend\Backend;
@@ -152,7 +153,7 @@ class StorageConfig implements \JsonSerializable {
 	 * @param string $mountPoint path
 	 */
 	public function setMountPoint($mountPoint) {
-		$this->mountPoint = \OC\Files\Filesystem::normalizePath($mountPoint);
+		$this->mountPoint = Filesystem::normalizePath($mountPoint);
 	}
 
 	/**
@@ -203,7 +204,7 @@ class StorageConfig implements \JsonSerializable {
 			foreach ($backendOptions as $key => $value) {
 				if (isset($parameters[$key])) {
 					switch ($parameters[$key]->getType()) {
-						case \OCA\Files_External\Lib\DefinitionParameter::VALUE_BOOLEAN:
+						case DefinitionParameter::VALUE_BOOLEAN:
 							$value = (bool)$value;
 							break;
 					}

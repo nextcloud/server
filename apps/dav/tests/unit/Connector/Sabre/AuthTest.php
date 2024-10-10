@@ -7,8 +7,11 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\User\Session;
+use OCA\DAV\Connector\Sabre\Auth;
+use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
@@ -28,7 +31,7 @@ use Test\TestCase;
 class AuthTest extends TestCase {
 	/** @var ISession&MockObject */
 	private $session;
-	/** @var \OCA\DAV\Connector\Sabre\Auth */
+	/** @var Auth */
 	private $auth;
 	/** @var Session&MockObject */
 	private $userSession;
@@ -53,7 +56,7 @@ class AuthTest extends TestCase {
 		$this->throttler = $this->getMockBuilder(IThrottler::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->auth = new \OCA\DAV\Connector\Sabre\Auth(
+		$this->auth = new Auth(
 			$this->session,
 			$this->userSession,
 			$this->request,
@@ -201,7 +204,7 @@ class AuthTest extends TestCase {
 
 
 	public function testValidateUserPassWithPasswordLoginForbidden(): void {
-		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden::class);
+		$this->expectException(PasswordLoginForbidden::class);
 
 		$this->userSession
 			->expects($this->once())
@@ -211,7 +214,7 @@ class AuthTest extends TestCase {
 			->expects($this->once())
 			->method('logClientIn')
 			->with('MyTestUser', 'MyTestPassword')
-			->will($this->throwException(new \OC\Authentication\Exceptions\PasswordLoginForbiddenException()));
+			->will($this->throwException(new PasswordLoginForbiddenException()));
 		$this->session
 			->expects($this->once())
 			->method('close');

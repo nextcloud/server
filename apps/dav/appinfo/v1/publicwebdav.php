@@ -5,9 +5,20 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-
+use OC\Files\Filesystem;
+use OC\Files\Storage\Wrapper\PermissionsMask;
+use OC\Files\View;
+use OCA\DAV\Connector\LegacyPublicAuth;
+use OCA\DAV\Connector\Sabre\ServerFactory;
+use OCA\DAV\Files\Sharing\FilesDropPlugin;
+use OCA\DAV\Files\Sharing\PublicLinkCheckPlugin;
+use OCA\DAV\Storage\PublicOwnerWrapper;
+use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\BeforeSabrePubliclyLoadedEvent;
+use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IRootFolder;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 // load needed apps
@@ -19,7 +30,7 @@ OC_Util::obEnd();
 \OC::$server->getSession()->close();
 
 // Backends
-$authBackend = new OCA\DAV\Connector\LegacyPublicAuth(
+$authBackend = new LegacyPublicAuth(
 	\OC::$server->getRequest(),
 	\OC::$server->getShareManager(),
 	\OC::$server->getSession(),
@@ -30,7 +41,7 @@ $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 /** @var IEventDispatcher $eventDispatcher */
 $eventDispatcher = \OC::$server->get(IEventDispatcher::class);
 
-$serverFactory = new OCA\DAV\Connector\Sabre\ServerFactory(
+$serverFactory = new ServerFactory(
 	\OC::$server->getConfig(),
 	\OC::$server->get(LoggerInterface::class),
 	\OC::$server->getDatabaseConnection(),
@@ -45,13 +56,13 @@ $serverFactory = new OCA\DAV\Connector\Sabre\ServerFactory(
 
 $requestUri = \OC::$server->getRequest()->getRequestUri();
 
-$linkCheckPlugin = new \OCA\DAV\Files\Sharing\PublicLinkCheckPlugin();
-$filesDropPlugin = new \OCA\DAV\Files\Sharing\FilesDropPlugin();
+$linkCheckPlugin = new PublicLinkCheckPlugin();
+$filesDropPlugin = new FilesDropPlugin();
 
 $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($authBackend, $linkCheckPlugin, $filesDropPlugin) {
 	$isAjax = in_array('XMLHttpRequest', explode(',', $_SERVER['HTTP_X_REQUESTED_WITH'] ?? ''));
-	/** @var \OCA\FederatedFileSharing\FederatedShareProvider $shareProvider */
-	$federatedShareProvider = \OC::$server->query(\OCA\FederatedFileSharing\FederatedShareProvider::class);
+	/** @var FederatedShareProvider $shareProvider */
+	$federatedShareProvider = \OC::$server->query(FederatedShareProvider::class);
 	if ($federatedShareProvider->isOutgoingServer2serverShareEnabled() === false && !$isAjax) {
 		// this is what is thrown when trying to access a non-existing share
 		throw new \Sabre\DAV\Exception\NotAuthenticated();
@@ -59,20 +70,20 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 
 	$share = $authBackend->getShare();
 	$owner = $share->getShareOwner();
-	$isReadable = $share->getPermissions() & \OCP\Constants::PERMISSION_READ;
+	$isReadable = $share->getPermissions() & Constants::PERMISSION_READ;
 	$fileId = $share->getNodeId();
 
 	// FIXME: should not add storage wrappers outside of preSetup, need to find a better way
-	$previousLog = \OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(false);
-	\OC\Files\Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($share) {
-		return new \OC\Files\Storage\Wrapper\PermissionsMask(['storage' => $storage, 'mask' => $share->getPermissions() | \OCP\Constants::PERMISSION_SHARE]);
+	$previousLog = Filesystem::logWarningWhenAddingStorageWrapper(false);
+	Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($share) {
+		return new PermissionsMask(['storage' => $storage, 'mask' => $share->getPermissions() | Constants::PERMISSION_SHARE]);
 	});
-	\OC\Files\Filesystem::addStorageWrapper('shareOwner', function ($mountPoint, $storage) use ($share) {
-		return new \OCA\DAV\Storage\PublicOwnerWrapper(['storage' => $storage, 'owner' => $share->getShareOwner()]);
+	Filesystem::addStorageWrapper('shareOwner', function ($mountPoint, $storage) use ($share) {
+		return new PublicOwnerWrapper(['storage' => $storage, 'owner' => $share->getShareOwner()]);
 	});
-	\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
+	Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
-	$rootFolder = \OCP\Server::get(\OCP\Files\IRootFolder::class);
+	$rootFolder = Server::get(IRootFolder::class);
 	$userFolder = $rootFolder->getUserFolder($owner);
 	$node = $userFolder->getFirstNodeById($fileId);
 	if (!$node) {
@@ -85,7 +96,7 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 		$filesDropPlugin->enable();
 	}
 
-	$view = new \OC\Files\View($node->getPath());
+	$view = new View($node->getPath());
 	$filesDropPlugin->setView($view);
 	$filesDropPlugin->setShare($share);
 

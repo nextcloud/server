@@ -91,7 +91,7 @@ class ZipFolderPlugin extends ServerPlugin {
 	 */
 	public function handleDownload(Request $request, Response $response): ?bool {
 		$node = $this->tree->getNodeForPath($request->getPath());
-		if (!($node instanceof \OCA\DAV\Connector\Sabre\Directory)) {
+		if (!($node instanceof Directory)) {
 			// only handle directories
 			return null;
 		}

@@ -19,6 +19,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IConfig;
 use OCP\IUserSession;
+use OCP\Util;
 use Psr\Container\ContainerInterface;
 
 /** @template-implements IEventListener<BeforeTemplateRenderedEvent|BeforeLoginTemplateRenderedEvent> */
@@ -64,6 +65,6 @@ class BeforeTemplateRenderedListener implements IEventListener {
 		$this->themeInjectionService->injectHeaders();
 
 		// Making sure to inject just after core
-		\OCP\Util::addScript('theming', 'theming', 'core');
+		Util::addScript('theming', 'theming', 'core');
 	}
 }

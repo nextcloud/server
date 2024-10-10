@@ -14,6 +14,7 @@ use OCA\WebhookListeners\Db\WebhookListenerMapper;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\ICacheFactory;
 use OCP\IDBConnection;
+use OCP\Server;
 use OCP\User\Events\UserCreatedEvent;
 use Test\TestCase;
 
@@ -28,8 +29,8 @@ class WebhookListenerMapperTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OCP\Server::get(IDBConnection::class);
-		$this->cacheFactory = \OCP\Server::get(ICacheFactory::class);
+		$this->connection = Server::get(IDBConnection::class);
+		$this->cacheFactory = Server::get(ICacheFactory::class);
 		$this->pruneTables();
 
 		$this->mapper = new WebhookListenerMapper(

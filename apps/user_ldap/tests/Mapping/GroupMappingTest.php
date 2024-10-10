@@ -8,6 +8,7 @@
 namespace OCA\User_LDAP\Tests\Mapping;
 
 use OCA\User_LDAP\Mapping\GroupMapping;
+use OCP\IDBConnection;
 
 /**
  * Class GroupMappingTest
@@ -17,7 +18,7 @@ use OCA\User_LDAP\Mapping\GroupMapping;
  * @package OCA\User_LDAP\Tests\Mapping
  */
 class GroupMappingTest extends AbstractMappingTest {
-	public function getMapper(\OCP\IDBConnection $dbMock) {
+	public function getMapper(IDBConnection $dbMock) {
 		return new GroupMapping($dbMock);
 	}
 }

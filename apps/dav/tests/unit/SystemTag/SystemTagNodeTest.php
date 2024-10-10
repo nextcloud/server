@@ -8,6 +8,7 @@
 namespace OCA\DAV\Tests\unit\SystemTag;
 
 use OC\SystemTag\SystemTag;
+use OCA\DAV\SystemTag\SystemTagNode;
 use OCP\IUser;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
@@ -40,7 +41,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		if ($tag === null) {
 			$tag = new SystemTag(1, 'Test', true, true);
 		}
-		return new \OCA\DAV\SystemTag\SystemTagNode(
+		return new SystemTagNode(
 			$tag,
 			$this->user,
 			$isAdmin,

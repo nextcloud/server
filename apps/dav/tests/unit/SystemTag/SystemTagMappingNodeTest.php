@@ -8,6 +8,7 @@
 namespace OCA\DAV\Tests\unit\SystemTag;
 
 use OC\SystemTag\SystemTag;
+use OCA\DAV\SystemTag\SystemTagMappingNode;
 use OCP\IUser;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
@@ -34,7 +35,7 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 		if ($tag === null) {
 			$tag = new SystemTag(1, 'Test', true, true);
 		}
-		return new \OCA\DAV\SystemTag\SystemTagMappingNode(
+		return new SystemTagMappingNode(
 			$tag,
 			123,
 			'files',

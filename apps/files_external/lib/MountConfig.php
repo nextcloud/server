@@ -14,6 +14,8 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IL10N;
+use OCP\Util;
 use phpseclib\Crypt\AES;
 use Psr\Log\LoggerInterface;
 
@@ -119,7 +121,7 @@ class MountConfig {
 	 * @param Backend[] $backends
 	 */
 	public static function dependencyMessage(array $backends): string {
-		$l = \OCP\Util::getL10N('files_external');
+		$l = Util::getL10N('files_external');
 		$message = '';
 		$dependencyGroups = [];
 
@@ -147,7 +149,7 @@ class MountConfig {
 	/**
 	 * Returns a dependency missing message
 	 */
-	private static function getSingleDependencyMessage(\OCP\IL10N $l, string $module, string $backend): string {
+	private static function getSingleDependencyMessage(IL10N $l, string $module, string $backend): string {
 		switch (strtolower($module)) {
 			case 'curl':
 				return $l->t('The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.', [$backend]);

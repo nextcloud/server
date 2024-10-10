@@ -14,8 +14,10 @@ use OC\Files\Storage\Common;
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Home;
 use OC\Files\Storage\Storage;
+use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OC\Share\Share;
 use OC\User\NoUserException;
 use OCA\Files_External\Config\ConfigAdapter;
 use OCA\Files_Sharing\ISharedStorage as LegacyISharedStorage;
@@ -35,12 +37,13 @@ use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Lock\ILockingProvider;
 use OCP\Share\IShare;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
  */
-class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISharedStorage, ISharedStorage, IDisableEncryptionStorage {
+class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage, IDisableEncryptionStorage {
 	/** @var \OCP\Share\IShare */
 	private $superShare;
 
@@ -242,18 +245,18 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 
 		// part files and the mount point always have delete permissions
 		if ($path === '' || pathinfo($path, PATHINFO_EXTENSION) === 'part') {
-			$permissions |= \OCP\Constants::PERMISSION_DELETE;
+			$permissions |= Constants::PERMISSION_DELETE;
 		}
 
 		if ($this->sharingDisabledForUser) {
-			$permissions &= ~\OCP\Constants::PERMISSION_SHARE;
+			$permissions &= ~Constants::PERMISSION_SHARE;
 		}
 
 		return $permissions;
 	}
 
 	public function isCreatable(string $path): bool {
-		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_CREATE);
+		return (bool)($this->getPermissions($path) & Constants::PERMISSION_CREATE);
 	}
 
 	public function isReadable(string $path): bool {
@@ -270,18 +273,18 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 	}
 
 	public function isUpdatable(string $path): bool {
-		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_UPDATE);
+		return (bool)($this->getPermissions($path) & Constants::PERMISSION_UPDATE);
 	}
 
 	public function isDeletable(string $path): bool {
-		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_DELETE);
+		return (bool)($this->getPermissions($path) & Constants::PERMISSION_DELETE);
 	}
 
 	public function isSharable(string $path): bool {
-		if (\OCP\Util::isSharingDisabledForUser() || !\OC\Share\Share::isResharingAllowed()) {
+		if (Util::isSharingDisabledForUser() || !Share::isResharingAllowed()) {
 			return false;
 		}
-		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_SHARE);
+		return (bool)($this->getPermissions($path) & Constants::PERMISSION_SHARE);
 	}
 
 	public function fopen(string $path, string $mode) {
@@ -332,7 +335,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 			'source' => $source,
 			'mode' => $mode,
 		];
-		\OCP\Util::emitHook('\OC\Files\Storage\Shared', 'fopen', $info);
+		Util::emitHook('\OC\Files\Storage\Shared', 'fopen', $info);
 		return $this->nonMaskedStorage->fopen($this->getUnjailedPath($path), $mode);
 	}
 
@@ -406,7 +409,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 			return new FailedCache();
 		}
 
-		$this->cache = new \OCA\Files_Sharing\Cache(
+		$this->cache = new Cache(
 			$storage,
 			$sourceRoot,
 			\OC::$server->get(CacheDependencies::class),
@@ -419,7 +422,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 		if (!$storage) {
 			$storage = $this;
 		}
-		return new \OCA\Files_Sharing\Scanner($storage);
+		return new Scanner($storage);
 	}
 
 	public function getOwner(string $path): string|false {
@@ -529,7 +532,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 			'target' => $this->getMountPoint() . '/' . $path,
 			'source' => $this->getUnjailedPath($path),
 		];
-		\OCP\Util::emitHook('\OC\Files\Storage\Shared', 'file_get_contents', $info);
+		Util::emitHook('\OC\Files\Storage\Shared', 'file_get_contents', $info);
 		return parent::file_get_contents($path);
 	}
 
@@ -538,7 +541,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 			'target' => $this->getMountPoint() . '/' . $path,
 			'source' => $this->getUnjailedPath($path),
 		];
-		\OCP\Util::emitHook('\OC\Files\Storage\Shared', 'file_put_contents', $info);
+		Util::emitHook('\OC\Files\Storage\Shared', 'file_put_contents', $info);
 		return parent::file_put_contents($path, $data);
 	}
 

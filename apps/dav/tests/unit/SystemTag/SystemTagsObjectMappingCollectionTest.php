@@ -8,6 +8,7 @@
 namespace OCA\DAV\Tests\unit\SystemTag;
 
 use OC\SystemTag\SystemTag;
+use OCA\DAV\SystemTag\SystemTagsObjectMappingCollection;
 use OCP\IUser;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
@@ -31,7 +32,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 	}
 
 	public function getNode(array $writableNodeIds = []) {
-		return new \OCA\DAV\SystemTag\SystemTagsObjectMappingCollection(
+		return new SystemTagsObjectMappingCollection(
 			111,
 			'files',
 			$this->user,

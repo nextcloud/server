@@ -6,6 +6,7 @@
 namespace OCA\Files_External\Tests\Settings;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
+use OCA\Files_External\MountConfig;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Settings\Admin;
@@ -76,7 +77,7 @@ class AdminTest extends TestCase {
 			'storages' => ['a', 'b', 'c'],
 			'backends' => ['d', 'e', 'f'],
 			'authMechanisms' => ['g', 'h', 'i'],
-			'dependencies' => \OCA\Files_External\MountConfig::dependencyMessage($this->backendService->getBackends()),
+			'dependencies' => MountConfig::dependencyMessage($this->backendService->getBackends()),
 			'allowUserMounting' => true,
 			'globalCredentials' => 'asdf:asdf',
 			'globalCredentialsUid' => '',

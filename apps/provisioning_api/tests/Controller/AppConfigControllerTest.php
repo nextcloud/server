@@ -17,6 +17,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Server;
 use OCP\Settings\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -45,7 +46,7 @@ class AppConfigControllerTest extends TestCase {
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->settingManager = $this->createMock(IManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
-		$this->appManager = \OCP\Server::get(IAppManager::class);
+		$this->appManager = Server::get(IAppManager::class);
 	}
 
 	/**

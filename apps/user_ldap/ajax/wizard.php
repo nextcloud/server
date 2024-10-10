@@ -1,5 +1,11 @@
 <?php
 
+use OCA\User_LDAP\AccessFactory;
+use OCA\User_LDAP\Configuration;
+use OCA\User_LDAP\LDAP;
+use OCA\User_LDAP\Wizard;
+use OCP\Util;
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,7 +16,7 @@
 \OC_JSON::checkAppEnabled('user_ldap');
 \OC_JSON::callCheck();
 
-$l = \OCP\Util::getL10N('user_ldap');
+$l = Util::getL10N('user_ldap');
 
 if (!isset($_POST['action'])) {
 	\OC_JSON::error(['message' => $l->t('No action specified')]);
@@ -22,18 +28,18 @@ if (!isset($_POST['ldap_serverconfig_chooser'])) {
 }
 $prefix = (string)$_POST['ldap_serverconfig_chooser'];
 
-$ldapWrapper = new \OCA\User_LDAP\LDAP();
-$configuration = new \OCA\User_LDAP\Configuration($prefix);
+$ldapWrapper = new LDAP();
+$configuration = new Configuration($prefix);
 
 $con = new \OCA\User_LDAP\Connection($ldapWrapper, $prefix, null);
 $con->setConfiguration($configuration->getConfiguration());
 $con->ldapConfigurationActive = (string)true;
 $con->setIgnoreValidation(true);
 
-$factory = \OC::$server->get(\OCA\User_LDAP\AccessFactory::class);
+$factory = \OC::$server->get(AccessFactory::class);
 $access = $factory->get($con);
 
-$wizard = new \OCA\User_LDAP\Wizard($configuration, $ldapWrapper, $access);
+$wizard = new Wizard($configuration, $ldapWrapper, $access);
 
 switch ($action) {
 	case 'guessPortAndTLS':

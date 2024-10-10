@@ -8,7 +8,9 @@
 namespace OCA\Provisioning_API\Tests\Controller;
 
 use OCA\Provisioning_API\Controller\AppsController;
+use OCA\Provisioning_API\Tests\TestCase;
 use OCP\App\IAppManager;
+use OCP\AppFramework\OCS\OCSException;
 use OCP\IRequest;
 use OCP\IUserSession;
 
@@ -19,7 +21,7 @@ use OCP\IUserSession;
  *
  * @package OCA\Provisioning_API\Tests
  */
-class AppsControllerTest extends \OCA\Provisioning_API\Tests\TestCase {
+class AppsControllerTest extends TestCase {
 	/** @var IAppManager */
 	private $appManager;
 	/** @var AppsController */
@@ -57,7 +59,7 @@ class AppsControllerTest extends \OCA\Provisioning_API\Tests\TestCase {
 
 
 	public function testGetAppInfoOnBadAppID(): void {
-		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
+		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(998);
 
 		$this->api->getAppInfo('not_provisioning_api');
@@ -94,7 +96,7 @@ class AppsControllerTest extends \OCA\Provisioning_API\Tests\TestCase {
 
 	
 	public function testGetAppsInvalidFilter(): void {
-		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
+		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(101);
 
 		$this->api->getApps('foo');

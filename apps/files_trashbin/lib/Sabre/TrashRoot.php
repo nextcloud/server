@@ -10,6 +10,7 @@ namespace OCA\Files_Trashbin\Sabre;
 
 use OCA\Files_Trashbin\Trash\ITrashItem;
 use OCA\Files_Trashbin\Trash\ITrashManager;
+use OCA\Files_Trashbin\Trashbin;
 use OCP\Files\FileInfo;
 use OCP\IUser;
 use Sabre\DAV\Exception\Forbidden;
@@ -30,7 +31,7 @@ class TrashRoot implements ICollection {
 	}
 
 	public function delete() {
-		\OCA\Files_Trashbin\Trashbin::deleteAll();
+		Trashbin::deleteAll();
 		foreach ($this->trashManager->listTrashRoot($this->user) as $trashItem) {
 			$this->trashManager->removeItem($trashItem);
 		}

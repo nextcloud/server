@@ -6,13 +6,15 @@
  */
 namespace OCA\Files_External\Tests\Service;
 
+use OC\Files\Cache\Storage;
 use OC\Files\Filesystem;
-
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\InvalidAuth;
+
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\Backend\InvalidBackend;
 use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\MountConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\DBConfigService;
@@ -26,6 +28,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\Server;
+use OCP\Util;
 
 class CleaningDBConfig extends DBConfigService {
 	private $mountIds = [];
@@ -91,7 +94,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 			'datadirectory',
 			\OC::$SERVERROOT . '/data/'
 		);
-		\OCA\Files_External\MountConfig::$skipTest = true;
+		MountConfig::$skipTest = true;
 
 		$this->mountCache = $this->createMock(IUserMountCache::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
@@ -143,11 +146,11 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 			->willReturn($backends);
 		$this->overwriteService(BackendService::class, $this->backendService);
 
-		\OCP\Util::connectHook(
+		Util::connectHook(
 			Filesystem::CLASSNAME,
 			Filesystem::signal_create_mount,
 			get_class($this), 'createHookCallback');
-		\OCP\Util::connectHook(
+		Util::connectHook(
 			Filesystem::CLASSNAME,
 			Filesystem::signal_delete_mount,
 			get_class($this), 'deleteHookCallback');
@@ -162,7 +165,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		\OCA\Files_External\MountConfig::$skipTest = false;
+		MountConfig::$skipTest = false;
 		self::$hookCalls = [];
 		if ($this->dbConfig) {
 			$this->dbConfig->clean();
@@ -249,7 +252,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	}
 
 	public function testNonExistingStorage(): void {
-		$this->expectException(\OCA\Files_External\NotFoundException::class);
+		$this->expectException(NotFoundException::class);
 
 		$this->ActualNonExistingStorageTest();
 	}
@@ -295,7 +298,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 
 		// manually trigger storage entry because normally it happens on first
 		// access, which isn't possible within this test
-		$storageCache = new \OC\Files\Cache\Storage($rustyStorageId, true, Server::get(IDBConnection::class));
+		$storageCache = new Storage($rustyStorageId, true, Server::get(IDBConnection::class));
 
 		/** @var IUserMountCache $mountCache */
 		$mountCache = \OC::$server->get(IUserMountCache::class);
@@ -353,7 +356,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	}
 
 	public function testDeleteUnexistingStorage(): void {
-		$this->expectException(\OCA\Files_External\NotFoundException::class);
+		$this->expectException(NotFoundException::class);
 
 		$this->actualDeletedUnexistingStorageTest();
 	}

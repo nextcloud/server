@@ -10,6 +10,8 @@ use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarRoot;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
+use OCA\DAV\CalDAV\Proxy\ProxyMapper;
+use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\CalDAV\Security\RateLimitingPlugin;
 use OCA\DAV\CalDAV\Validation\CalDavValidatePlugin;
 use OCA\DAV\Connector\LegacyDAVACL;
@@ -18,6 +20,9 @@ use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\Accounts\IAccountManager;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 $authBackend = new Auth(
@@ -35,7 +40,7 @@ $principalBackend = new Principal(
 	\OC::$server->getShareManager(),
 	\OC::$server->getUserSession(),
 	\OC::$server->getAppManager(),
-	\OC::$server->query(\OCA\DAV\CalDAV\Proxy\ProxyMapper::class),
+	\OC::$server->query(ProxyMapper::class),
 	\OC::$server->get(KnownUserService::class),
 	\OC::$server->getConfig(),
 	\OC::$server->getL10NFactory(),
@@ -45,8 +50,8 @@ $db = \OC::$server->getDatabaseConnection();
 $userManager = \OC::$server->getUserManager();
 $random = \OC::$server->getSecureRandom();
 $logger = \OC::$server->get(LoggerInterface::class);
-$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
-$config = \OC::$server->get(\OCP\IConfig::class);
+$dispatcher = \OC::$server->get(IEventDispatcher::class);
+$config = \OC::$server->get(IConfig::class);
 
 $calDavBackend = new CalDavBackend(
 	$db,
@@ -96,11 +101,11 @@ $server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
 $server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), \OC::$server->get(DefaultCalendarValidator::class)));
 
 if ($sendInvitations) {
-	$server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
+	$server->addPlugin(\OC::$server->query(IMipPlugin::class));
 }
 $server->addPlugin(new ExceptionLoggerPlugin('caldav', $logger));
-$server->addPlugin(\OCP\Server::get(RateLimitingPlugin::class));
-$server->addPlugin(\OCP\Server::get(CalDavValidatePlugin::class));
+$server->addPlugin(Server::get(RateLimitingPlugin::class));
+$server->addPlugin(Server::get(CalDavValidatePlugin::class));
 
 // And off we go!
 $server->exec();

@@ -7,6 +7,7 @@
  */
 namespace OCA\User_LDAP\Tests;
 
+use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\ILDAPWrapper;
 
@@ -18,7 +19,7 @@ use OCA\User_LDAP\ILDAPWrapper;
  * @package OCA\User_LDAP\Tests
  */
 class ConnectionTest extends \Test\TestCase {
-	/** @var \OCA\User_LDAP\ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $ldap;
 
 	/** @var Connection */
@@ -114,7 +115,7 @@ class ConnectionTest extends \Test\TestCase {
 			->willReturnCallback(function () use (&$isThrown) {
 				if (!$isThrown) {
 					$isThrown = true;
-					throw new \OC\ServerNotAvailableException();
+					throw new ServerNotAvailableException();
 				}
 				return true;
 			});
@@ -212,7 +213,7 @@ class ConnectionTest extends \Test\TestCase {
 
 		try {
 			$this->assertFalse($this->connection->bind(), 'Connection::bind() should not return true with invalid credentials.');
-		} catch (\OC\ServerNotAvailableException $e) {
+		} catch (ServerNotAvailableException $e) {
 			$this->fail('Failed asserting that exception of type "OC\ServerNotAvailableException" is not thrown.');
 		}
 	}
@@ -260,7 +261,7 @@ class ConnectionTest extends \Test\TestCase {
 			->method('startTls')
 			->willReturn(false);
 
-		$this->expectException(\OC\ServerNotAvailableException::class);
+		$this->expectException(ServerNotAvailableException::class);
 		$this->expectExceptionMessage('Start TLS failed, when connecting to LDAP host ' . $host . '.');
 
 		$this->connection->init();

@@ -12,6 +12,7 @@ use OCA\User_LDAP\DataCollector\LdapDataCollector;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
 use OCP\IConfig;
 use OCP\Profiler\IProfiler;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class LDAP implements ILDAPWrapper {
@@ -31,7 +32,7 @@ class LDAP implements ILDAPWrapper {
 			$profiler->add($this->dataCollector);
 		}
 
-		$this->logger = \OCP\Server::get(LoggerInterface::class);
+		$this->logger = Server::get(LoggerInterface::class);
 	}
 
 	/**

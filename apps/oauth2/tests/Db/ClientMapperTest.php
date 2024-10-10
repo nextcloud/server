@@ -7,6 +7,7 @@ namespace OCA\OAuth2\Tests\Db;
 
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
+use OCA\OAuth2\Exceptions\ClientNotFoundException;
 use Test\TestCase;
 
 /**
@@ -40,7 +41,7 @@ class ClientMapperTest extends TestCase {
 	}
 
 	public function testGetByIdentifierNotExisting(): void {
-		$this->expectException(\OCA\OAuth2\Exceptions\ClientNotFoundException::class);
+		$this->expectException(ClientNotFoundException::class);
 
 		$this->clientMapper->getByIdentifier('MyTotallyNotExistingClient');
 	}
@@ -57,7 +58,7 @@ class ClientMapperTest extends TestCase {
 	}
 
 	public function testGetByUidNotExisting(): void {
-		$this->expectException(\OCA\OAuth2\Exceptions\ClientNotFoundException::class);
+		$this->expectException(ClientNotFoundException::class);
 
 		$this->clientMapper->getByUid(1234);
 	}

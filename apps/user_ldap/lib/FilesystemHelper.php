@@ -7,6 +7,8 @@
  */
 namespace OCA\User_LDAP;
 
+use OC\Files\Filesystem;
+
 /**
  * @brief wraps around static Nextcloud core methods
  */
@@ -17,7 +19,7 @@ class FilesystemHelper {
 	 * @return bool
 	 */
 	public function isLoaded() {
-		return \OC\Files\Filesystem::$loaded;
+		return Filesystem::$loaded;
 	}
 
 	/**

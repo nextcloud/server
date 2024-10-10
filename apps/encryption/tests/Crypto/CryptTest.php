@@ -8,6 +8,7 @@
 namespace OCA\Encryption\Tests\Crypto;
 
 use OCA\Encryption\Crypto\Crypt;
+use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUserSession;
@@ -232,7 +233,7 @@ class CryptTest extends TestCase {
 	 * @dataProvider dataTestHasSignatureFail
 	 */
 	public function testHasSignatureFail($cipher): void {
-		$this->expectException(\OCP\Encryption\Exceptions\GenericEncryptionException::class);
+		$this->expectException(GenericEncryptionException::class);
 
 		$data = 'encryptedContent00iv001234567890123456xx';
 		$this->invokePrivate($this->crypt, 'hasSignature', [$data, $cipher]);
@@ -377,7 +378,7 @@ class CryptTest extends TestCase {
 				['encryption.use_legacy_base64_encoding', false])
 			->willReturnOnConsecutiveCalls(true, false);
 
-		/** @var \OCA\Encryption\Crypto\Crypt | \PHPUnit\Framework\MockObject\MockObject $crypt */
+		/** @var Crypt|\PHPUnit\Framework\MockObject\MockObject $crypt */
 		$crypt = $this->getMockBuilder(Crypt::class)
 			->setConstructorArgs(
 				[

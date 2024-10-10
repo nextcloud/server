@@ -13,12 +13,16 @@ use OC\Files\Node\Node;
 use OC\Files\Storage\Wrapper\Quota;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\Exception\Forbidden;
+use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
+use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\StorageNotAvailableException;
 use Test\Traits\UserTrait;
 
-class TestViewDirectory extends \OC\Files\View {
+class TestViewDirectory extends View {
 	private $updatables;
 	private $deletables;
 	private $canRename;
@@ -106,7 +110,7 @@ class DirectoryTest extends \Test\TestCase {
 
 
 	public function testDeleteForbidden(): void {
-		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 
 		// deletion allowed
 		$this->info->expects($this->once())
@@ -250,7 +254,7 @@ class DirectoryTest extends \Test\TestCase {
 
 		$this->view->expects($this->once())
 			->method('getFileInfo')
-			->willThrowException(new \OCP\Files\StorageNotAvailableException());
+			->willThrowException(new StorageNotAvailableException());
 
 		$dir = new Directory($this->view, $this->info);
 		$dir->getChild('.');
@@ -258,11 +262,11 @@ class DirectoryTest extends \Test\TestCase {
 
 
 	public function testGetChildThrowInvalidPath(): void {
-		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\InvalidPath::class);
+		$this->expectException(InvalidPath::class);
 
 		$this->view->expects($this->once())
 			->method('verifyPath')
-			->willThrowException(new \OCP\Files\InvalidPathException());
+			->willThrowException(new InvalidPathException());
 		$this->view->expects($this->never())
 			->method('getFileInfo');
 
@@ -398,7 +402,7 @@ class DirectoryTest extends \Test\TestCase {
 	 * @dataProvider moveFailedInvalidCharsProvider
 	 */
 	public function testMoveFailedInvalidChars($source, $destination, $updatables, $deletables): void {
-		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\InvalidPath::class);
+		$this->expectException(InvalidPath::class);
 
 		$this->moveTest($source, $destination, $updatables, $deletables);
 	}

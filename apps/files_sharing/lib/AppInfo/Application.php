@@ -120,9 +120,9 @@ class Application extends App implements IBootstrap {
 
 	public function registerEventsScripts(IEventDispatcher $dispatcher): void {
 		$dispatcher->addListener(ResourcesLoadAdditionalScriptsEvent::class, function (): void {
-			\OCP\Util::addScript('files_sharing', 'collaboration');
+			Util::addScript('files_sharing', 'collaboration');
 		});
-		$dispatcher->addListener(\OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent::class, function (): void {
+		$dispatcher->addListener(BeforeTemplateRenderedEvent::class, function (): void {
 			/**
 			 * Always add main sharing script
 			 */

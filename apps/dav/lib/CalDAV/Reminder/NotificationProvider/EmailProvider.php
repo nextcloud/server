@@ -17,6 +17,7 @@ use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject;
 use Sabre\VObject\Component\VEvent;
@@ -87,7 +88,7 @@ class EmailProvider extends AbstractProvider {
 				$lang = $fallbackLanguage;
 			}
 			$l10n = $this->getL10NForLang($lang);
-			$fromEMail = \OCP\Util::getDefaultEmailAddress('reminders-noreply');
+			$fromEMail = Util::getDefaultEmailAddress('reminders-noreply');
 
 			$template = $this->mailer->createEMailTemplate('dav.calendarReminder');
 			$template->addHeader();

@@ -15,11 +15,12 @@ use OCA\Theming\Jobs\RestoreBackgroundImageColor;
 use OCP\BackgroundJob\IJobList;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
+use OCP\Migration\IMigrationStep;
 use OCP\Migration\IOutput;
 
 // This can only be executed once because `background_color` is again used with Nextcloud 30,
 // so this part only works when updating -> Nextcloud 29 -> 30
-class Version2006Date20240905111627 implements \OCP\Migration\IMigrationStep {
+class Version2006Date20240905111627 implements IMigrationStep {
 
 	public function __construct(
 		private IJobList $jobList,

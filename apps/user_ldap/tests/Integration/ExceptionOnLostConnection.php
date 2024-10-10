@@ -39,7 +39,7 @@ class ExceptionOnLostConnection {
 	/** @var string */
 	private $ldapHost;
 
-	/** @var \OCA\User_LDAP\LDAP */
+	/** @var LDAP */
 	private $ldap;
 
 	/** @var bool */

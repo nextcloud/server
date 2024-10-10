@@ -7,6 +7,8 @@ namespace OCA\DAV\Tests\unit\CalDAV\ResourceBooking;
 
 use OCA\DAV\CalDAV\Proxy\Proxy;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
+use OCA\DAV\CalDAV\ResourceBooking\ResourcePrincipalBackend;
+use OCA\DAV\CalDAV\ResourceBooking\RoomPrincipalBackend;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -15,7 +17,7 @@ use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
 abstract class AbstractPrincipalBackendTest extends TestCase {
-	/** @var \OCA\DAV\CalDAV\ResourceBooking\ResourcePrincipalBackend|\OCA\DAV\CalDAV\ResourceBooking\RoomPrincipalBackend */
+	/** @var ResourcePrincipalBackend|RoomPrincipalBackend */
 	protected $principalBackend;
 
 	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */

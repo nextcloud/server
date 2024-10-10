@@ -10,6 +10,7 @@ namespace OCA\DAV\Tests\unit\BackgroundJob;
 
 use OCA\DAV\BackgroundJob\CleanupInvitationTokenJob;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use Test\TestCase;
@@ -21,7 +22,7 @@ class CleanupInvitationTokenJobTest extends TestCase {
 	/** @var ITimeFactory | \PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
-	/** @var \OCA\DAV\BackgroundJob\CleanupInvitationTokenJob */
+	/** @var CleanupInvitationTokenJob */
 	private $backgroundJob;
 
 	protected function setUp(): void {
@@ -41,7 +42,7 @@ class CleanupInvitationTokenJobTest extends TestCase {
 			->willReturn(1337);
 
 		$queryBuilder = $this->createMock(IQueryBuilder::class);
-		$expr = $this->createMock(\OCP\DB\QueryBuilder\IExpressionBuilder::class);
+		$expr = $this->createMock(IExpressionBuilder::class);
 		$stmt = $this->createMock(\Doctrine\DBAL\Driver\Statement::class);
 
 		$this->dbConnection->expects($this->once())

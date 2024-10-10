@@ -8,6 +8,7 @@ namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OCP\Constants;
 use OCP\Share\IShare;
 
 /**
@@ -38,7 +39,7 @@ class GroupEtagPropagationTest extends PropagationTestCase {
 			'/test',
 			self::TEST_FILES_SHARING_API_USER1,
 			'group1',
-			\OCP\Constants::PERMISSION_ALL
+			Constants::PERMISSION_ALL
 		);
 		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER2);
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER1][''] = $view1->getFileInfo('')->getId();
@@ -53,7 +54,7 @@ class GroupEtagPropagationTest extends PropagationTestCase {
 			'/test',
 			self::TEST_FILES_SHARING_API_USER2,
 			'group2',
-			\OCP\Constants::PERMISSION_ALL
+			Constants::PERMISSION_ALL
 		);
 		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER3);
 		$share = $this->share(
@@ -61,7 +62,7 @@ class GroupEtagPropagationTest extends PropagationTestCase {
 			'/test/sub',
 			self::TEST_FILES_SHARING_API_USER2,
 			'group3',
-			\OCP\Constants::PERMISSION_ALL
+			Constants::PERMISSION_ALL
 		);
 		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER4);
 

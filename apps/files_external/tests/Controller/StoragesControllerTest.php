@@ -9,8 +9,9 @@ namespace OCA\Files_External\Tests\Controller;
 use OCA\Files_External\Controller\GlobalStoragesController;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
-
 use OCA\Files_External\Lib\StorageConfig;
+
+use OCA\Files_External\MountConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
@@ -30,11 +31,11 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 	protected $service;
 
 	protected function setUp(): void {
-		\OCA\Files_External\MountConfig::$skipTest = true;
+		MountConfig::$skipTest = true;
 	}
 
 	protected function tearDown(): void {
-		\OCA\Files_External\MountConfig::$skipTest = false;
+		MountConfig::$skipTest = false;
 	}
 
 	/**
@@ -54,7 +55,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @return \OCA\Files_External\Lib\Auth\AuthMechanism|MockObject
+	 * @return AuthMechanism|MockObject
 	 */
 	protected function getAuthMechMock($scheme = 'null', $class = '\OCA\Files_External\Lib\Auth\NullMechanism') {
 		$authMech = $this->getMockBuilder(AuthMechanism::class)

@@ -92,7 +92,7 @@ class LegacyTrashBackend implements ITrashBackend {
 			$this->deletedFiles[$normalized] = $normalized;
 			if ($filesPath = $view->getRelativePath($normalized)) {
 				$filesPath = trim($filesPath, '/');
-				$result = \OCA\Files_Trashbin\Trashbin::move2trash($filesPath);
+				$result = Trashbin::move2trash($filesPath);
 			} else {
 				$result = false;
 			}

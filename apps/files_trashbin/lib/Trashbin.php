@@ -19,6 +19,8 @@ use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Command\Expire;
 use OCA\Files_Trashbin\Events\BeforeNodeRestoredEvent;
 use OCA\Files_Trashbin\Events\NodeRestoredEvent;
+use OCA\Files_Trashbin\Exceptions\CopyRecursiveException;
+use OCA\Files_Versions\Storage;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\Event;
@@ -39,6 +41,7 @@ use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Server;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /** @template-implements IEventListener<BeforeNodeDeletedEvent> */
@@ -293,7 +296,7 @@ class Trashbin implements IEventListener {
 			if ($sourceStorage->getCache()->inCache($sourceInternalPath)) {
 				$trashStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
 			}
-		} catch (\OCA\Files_Trashbin\Exceptions\CopyRecursiveException $e) {
+		} catch (CopyRecursiveException $e) {
 			$moveSuccessful = false;
 			if ($trashStorage->file_exists($trashInternalPath)) {
 				$trashStorage->unlink($trashInternalPath);
@@ -329,7 +332,7 @@ class Trashbin implements IEventListener {
 			if (!$result) {
 				\OC::$server->get(LoggerInterface::class)->error('trash bin database couldn\'t be updated', ['app' => 'files_trashbin']);
 			}
-			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', ['filePath' => Filesystem::normalizePath($file_path),
+			Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', ['filePath' => Filesystem::normalizePath($file_path),
 				'trashPath' => Filesystem::normalizePath(static::getTrashFilename($filename, $timestamp))]);
 
 			self::retainVersions($filename, $owner, $ownerPath, $timestamp);
@@ -356,11 +359,11 @@ class Trashbin implements IEventListener {
 		$config = \OC::$server->get(IConfig::class);
 		$userTrashbinSize = $config->getUserValue($user, 'files_trashbin', 'trashbin_size', '-1');
 		if (is_numeric($userTrashbinSize) && ($userTrashbinSize > -1)) {
-			return \OCP\Util::numericToNumber($userTrashbinSize);
+			return Util::numericToNumber($userTrashbinSize);
 		}
 		$systemTrashbinSize = $config->getAppValue('files_trashbin', 'trashbin_size', '-1');
 		if (is_numeric($systemTrashbinSize)) {
-			return \OCP\Util::numericToNumber($systemTrashbinSize);
+			return Util::numericToNumber($systemTrashbinSize);
 		}
 		return -1;
 	}
@@ -374,7 +377,7 @@ class Trashbin implements IEventListener {
 	 * @param int $timestamp when the file was deleted
 	 */
 	private static function retainVersions($filename, $owner, $ownerPath, $timestamp) {
-		if (\OCP\Server::get(IAppManager::class)->isEnabledForUser('files_versions') && !empty($ownerPath)) {
+		if (Server::get(IAppManager::class)->isEnabledForUser('files_versions') && !empty($ownerPath)) {
 			$user = OC_User::getUser();
 			$rootView = new View('/');
 
@@ -383,7 +386,7 @@ class Trashbin implements IEventListener {
 					self::copy_recursive($owner . '/files_versions/' . $ownerPath, $owner . '/files_trashbin/versions/' . static::getTrashFilename(basename($ownerPath), $timestamp), $rootView);
 				}
 				self::move($rootView, $owner . '/files_versions/' . $ownerPath, $user . '/files_trashbin/versions/' . static::getTrashFilename($filename, $timestamp));
-			} elseif ($versions = \OCA\Files_Versions\Storage::getVersions($owner, $ownerPath)) {
+			} elseif ($versions = Storage::getVersions($owner, $ownerPath)) {
 				foreach ($versions as $v) {
 					if ($owner !== $user) {
 						self::copy($rootView, $owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $owner . '/files_trashbin/versions/' . static::getTrashFilename($v['name'] . '.v' . $v['version'], $timestamp));
@@ -505,7 +508,7 @@ class Trashbin implements IEventListener {
 			$view->chroot('/' . $user . '/files');
 			$view->touch('/' . $location . '/' . $uniqueFilename, $mtime);
 			$view->chroot($fakeRoot);
-			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', ['filePath' => $targetPath, 'trashPath' => $sourcePath]);
+			Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', ['filePath' => $targetPath, 'trashPath' => $sourcePath]);
 
 			$sourceNode = self::getNodeForPath($sourcePath);
 			$targetNode = self::getNodeForPath($targetPath);
@@ -542,7 +545,7 @@ class Trashbin implements IEventListener {
 	 * @return false|null
 	 */
 	private static function restoreVersions(View $view, $file, $filename, $uniqueFilename, $location, $timestamp) {
-		if (\OCP\Server::get(IAppManager::class)->isEnabledForUser('files_versions')) {
+		if (Server::get(IAppManager::class)->isEnabledForUser('files_versions')) {
 			$user = OC_User::getUser();
 			$rootView = new View('/');
 
@@ -700,7 +703,7 @@ class Trashbin implements IEventListener {
 	 */
 	private static function deleteVersions(View $view, $file, $filename, $timestamp, string $user): int|float {
 		$size = 0;
-		if (\OCP\Server::get(IAppManager::class)->isEnabledForUser('files_versions')) {
+		if (Server::get(IAppManager::class)->isEnabledForUser('files_versions')) {
 			if ($view->is_dir('files_trashbin/versions/' . $file)) {
 				$size += self::calculateSize(new View('/' . $user . '/files_trashbin/versions/' . $file));
 				$view->unlink('files_trashbin/versions/' . $file);
@@ -778,7 +781,7 @@ class Trashbin implements IEventListener {
 				$quota = PHP_INT_MAX;
 			}
 		} else {
-			$quota = \OCP\Util::computerFileSize($quota);
+			$quota = Util::computerFileSize($quota);
 			// invalid quota
 			if ($quota === false) {
 				$quota = PHP_INT_MAX;
@@ -802,7 +805,7 @@ class Trashbin implements IEventListener {
 			$availableSpace = $quota;
 		}
 
-		return \OCP\Util::numericToNumber($availableSpace);
+		return Util::numericToNumber($availableSpace);
 	}
 
 	/**
@@ -902,7 +905,7 @@ class Trashbin implements IEventListener {
 				try {
 					$size += self::delete($filename, $user, $timestamp);
 					$count++;
-				} catch (\OCP\Files\NotPermittedException $e) {
+				} catch (NotPermittedException $e) {
 					\OC::$server->get(LoggerInterface::class)->warning('Removing "' . $filename . '" from trashbin failed.',
 						[
 							'exception' => $e,
@@ -944,7 +947,7 @@ class Trashbin implements IEventListener {
 					$size += $view->filesize($pathDir);
 					$result = $view->copy($pathDir, $destination . '/' . $i['name']);
 					if (!$result) {
-						throw new \OCA\Files_Trashbin\Exceptions\CopyRecursiveException();
+						throw new CopyRecursiveException();
 					}
 					$view->touch($destination . '/' . $i['name'], $view->filemtime($pathDir));
 				}
@@ -953,7 +956,7 @@ class Trashbin implements IEventListener {
 			$size += $view->filesize($source);
 			$result = $view->copy($source, $destination);
 			if (!$result) {
-				throw new \OCA\Files_Trashbin\Exceptions\CopyRecursiveException();
+				throw new CopyRecursiveException();
 			}
 			$view->touch($destination, $view->filemtime($source));
 		}
@@ -1033,7 +1036,7 @@ class Trashbin implements IEventListener {
 	private static function getUniqueFilename($location, $filename, View $view) {
 		$ext = pathinfo($filename, PATHINFO_EXTENSION);
 		$name = pathinfo($filename, PATHINFO_FILENAME);
-		$l = \OCP\Util::getL10N('files_trashbin');
+		$l = Util::getL10N('files_trashbin');
 
 		$location = '/' . trim($location, '/');
 

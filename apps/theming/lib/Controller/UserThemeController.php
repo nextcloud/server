@@ -21,6 +21,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
@@ -136,7 +137,7 @@ class UserThemeController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
-	public function getBackground(): Http\Response {
+	public function getBackground(): Response {
 		$file = $this->backgroundService->getBackground();
 		if ($file !== null) {
 			$response = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => $file->getMimeType()]);

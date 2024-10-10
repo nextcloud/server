@@ -5,6 +5,7 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use OC\User\Session;
 use OCA\DAV\Connector\Sabre\BearerAuth;
 use OCP\IRequest;
 use OCP\ISession;
@@ -30,7 +31,7 @@ class BearerAuthTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->userSession = $this->createMock(\OC\User\Session::class);
+		$this->userSession = $this->createMock(Session::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->request = $this->createMock(IRequest::class);
 

@@ -7,6 +7,7 @@ namespace OCA\Files_Trashbin\Command;
 
 use OC\Core\Command\Base;
 use OCA\Files_Trashbin\Trash\ITrashManager;
+use OCA\Files_Trashbin\Trash\TrashItem;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -246,7 +247,7 @@ class RestoreAllFiles extends Base {
 			$trashItemClass = get_class($trashItem);
 
 			// Check scope with exact class name for locally deleted files
-			if ($scope === self::SCOPE_USER && $trashItemClass !== \OCA\Files_Trashbin\Trash\TrashItem::class) {
+			if ($scope === self::SCOPE_USER && $trashItemClass !== TrashItem::class) {
 				$output->writeln('Skipping <info>' . $trashItem->getName() . '</info> because it is not a user trash item', OutputInterface::VERBOSITY_VERBOSE);
 				continue;
 			}

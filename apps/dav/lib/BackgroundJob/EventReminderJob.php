@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\BackgroundJob;
 
+use OCA\DAV\CalDAV\Reminder\NotificationProvider\ProviderNotAvailableException;
+use OCA\DAV\CalDAV\Reminder\NotificationTypeDoesNotExistException;
 use OCA\DAV\CalDAV\Reminder\ReminderService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
@@ -34,8 +36,8 @@ class EventReminderJob extends TimedJob {
 	}
 
 	/**
-	 * @throws \OCA\DAV\CalDAV\Reminder\NotificationProvider\ProviderNotAvailableException
-	 * @throws \OCA\DAV\CalDAV\Reminder\NotificationTypeDoesNotExistException
+	 * @throws ProviderNotAvailableException
+	 * @throws NotificationTypeDoesNotExistException
 	 * @throws \OC\User\NoUserException
 	 */
 	public function run($argument):void {

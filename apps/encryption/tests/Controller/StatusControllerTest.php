@@ -22,7 +22,7 @@ class StatusControllerTest extends TestCase {
 	/** @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10nMock;
 
-	/** @var \OCA\Encryption\Session | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Session|\PHPUnit\Framework\MockObject\MockObject */
 	protected $sessionMock;
 
 	/** @var IManager | \PHPUnit\Framework\MockObject\MockObject */

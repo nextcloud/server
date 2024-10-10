@@ -40,7 +40,7 @@ class BackendServiceTest extends \Test\TestCase {
 	/**
 	 * @param string $class
 	 *
-	 * @return \OCA\Files_External\Lib\Auth\AuthMechanism|\PHPUnit\Framework\MockObject\MockObject
+	 * @return AuthMechanism|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getAuthMechanismMock($class) {
 		$backend = $this->getMockBuilder(AuthMechanism::class)

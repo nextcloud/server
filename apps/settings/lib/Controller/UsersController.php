@@ -14,6 +14,7 @@ use InvalidArgumentException;
 use OC\AppFramework\Http;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\ForbiddenException;
+use OC\Group\MetaData;
 use OC\KnownUser\KnownUserService;
 use OC\Security\IdentityProof\Manager;
 use OC\User\Manager as UserManager;
@@ -46,6 +47,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
+use OCP\Util;
 use function in_array;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
@@ -101,17 +103,17 @@ class UsersController extends Controller {
 		\OC::$server->getNavigationManager()->setActiveEntry('core_users');
 
 		/* SORT OPTION: SORT_USERCOUNT or SORT_GROUPNAME */
-		$sortGroupsBy = \OC\Group\MetaData::SORT_USERCOUNT;
+		$sortGroupsBy = MetaData::SORT_USERCOUNT;
 		$isLDAPUsed = false;
 		if ($this->config->getSystemValueBool('sort_groups_by_name', false)) {
-			$sortGroupsBy = \OC\Group\MetaData::SORT_GROUPNAME;
+			$sortGroupsBy = MetaData::SORT_GROUPNAME;
 		} else {
 			if ($this->appManager->isEnabledForUser('user_ldap')) {
 				$isLDAPUsed =
 					$this->groupManager->isBackendUsed('\OCA\User_LDAP\Group_Proxy');
 				if ($isLDAPUsed) {
 					// LDAP user count can be slow, so we sort by group name here
-					$sortGroupsBy = \OC\Group\MetaData::SORT_GROUPNAME;
+					$sortGroupsBy = MetaData::SORT_GROUPNAME;
 				}
 			}
 		}
@@ -119,7 +121,7 @@ class UsersController extends Controller {
 		$canChangePassword = $this->canAdminChangeUserPasswords();
 
 		/* GROUPS */
-		$groupsInfo = new \OC\Group\MetaData(
+		$groupsInfo = new MetaData(
 			$uid,
 			$isAdmin,
 			$isDelegatedAdmin,
@@ -192,7 +194,7 @@ class UsersController extends Controller {
 		$languages = $this->l10nFactory->getLanguages();
 
 		/** Using LDAP or admins (system config) can enfore sorting by group name, in this case the frontend setting is overwritten */
-		$forceSortGroupByName = $sortGroupsBy === \OC\Group\MetaData::SORT_GROUPNAME;
+		$forceSortGroupByName = $sortGroupsBy === MetaData::SORT_GROUPNAME;
 
 		/* FINAL DATA */
 		$serverData = [];
@@ -202,8 +204,8 @@ class UsersController extends Controller {
 		$serverData['isAdmin'] = $isAdmin;
 		$serverData['isDelegatedAdmin'] = $isDelegatedAdmin;
 		$serverData['sortGroups'] = $forceSortGroupByName
-			? \OC\Group\MetaData::SORT_GROUPNAME
-			: (int)$this->config->getAppValue('core', 'group.sortBy', (string)\OC\Group\MetaData::SORT_USERCOUNT);
+			? MetaData::SORT_GROUPNAME
+			: (int)$this->config->getAppValue('core', 'group.sortBy', (string)MetaData::SORT_USERCOUNT);
 		$serverData['forceSortGroupByName'] = $forceSortGroupByName;
 		$serverData['quotaPreset'] = $quotaPreset;
 		$serverData['allowUnlimitedQuota'] = $allowUnlimitedQuota;
@@ -220,8 +222,8 @@ class UsersController extends Controller {
 
 		$this->initialState->provideInitialState('usersSettings', $serverData);
 
-		\OCP\Util::addStyle('settings', 'settings');
-		\OCP\Util::addScript('settings', 'vue-settings-apps-users-management');
+		Util::addStyle('settings', 'settings');
+		Util::addScript('settings', 'vue-settings-apps-users-management');
 
 		return new TemplateResponse('settings', 'settings/empty', ['pageTitle' => $this->l10n->t('Settings')]);
 	}

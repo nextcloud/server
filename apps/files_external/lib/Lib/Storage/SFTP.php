@@ -10,6 +10,7 @@ use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
 use Icewind\Streams\RetryWrapper;
 use OC\Files\Storage\Common;
+use OC\Files\View;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
@@ -174,7 +175,7 @@ class SFTP extends Common {
 				return false;
 			}
 
-			$view = new \OC\Files\View('/' . $userId . '/files_external');
+			$view = new View('/' . $userId . '/files_external');
 
 			return $view->getLocalFile('ssh_hostKeys');
 		} catch (\Exception $e) {

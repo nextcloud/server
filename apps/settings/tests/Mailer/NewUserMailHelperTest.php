@@ -7,6 +7,7 @@ namespace OCA\Settings\Tests\Mailer;
 
 use OC\Mail\EMailTemplate;
 use OC\Mail\Message;
+use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -40,7 +41,7 @@ class NewUserMailHelperTest extends TestCase {
 	private $config;
 	/** @var ICrypto|\PHPUnit\Framework\MockObject\MockObject */
 	private $crypto;
-	/** @var \OCA\Settings\Mailer\NewUserMailHelper */
+	/** @var NewUserMailHelper */
 	private $newUserMailHelper;
 
 	protected function setUp(): void {
@@ -89,7 +90,7 @@ class NewUserMailHelperTest extends TestCase {
 				return $this->l10n;
 			});
 
-		$this->newUserMailHelper = new \OCA\Settings\Mailer\NewUserMailHelper(
+		$this->newUserMailHelper = new NewUserMailHelper(
 			$this->defaults,
 			$this->urlGenerator,
 			$this->l10nFactory,

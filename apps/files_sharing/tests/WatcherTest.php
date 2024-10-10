@@ -6,6 +6,8 @@
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Files\View;
+use OCP\Constants;
 use OCP\Share\IShare;
 
 /**
@@ -50,7 +52,7 @@ class WatcherTest extends TestCase {
 			'container/shareddir',
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
-			\OCP\Constants::PERMISSION_ALL
+			Constants::PERMISSION_ALL
 		);
 
 		$this->_share->setStatus(IShare::STATUS_ACCEPTED);
@@ -60,7 +62,7 @@ class WatcherTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
 		// retrieve the shared storage
-		$secondView = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2);
+		$secondView = new View('/' . self::TEST_FILES_SHARING_API_USER2);
 		[$this->sharedStorage, $internalPath] = $secondView->resolvePath('files/shareddir');
 		$this->sharedCache = $this->sharedStorage->getCache();
 	}

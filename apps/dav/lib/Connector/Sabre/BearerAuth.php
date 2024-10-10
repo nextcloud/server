@@ -5,6 +5,7 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OCP\Defaults;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -28,7 +29,7 @@ class BearerAuth extends AbstractBearer {
 		$this->principalPrefix = $principalPrefix;
 
 		// setup realm
-		$defaults = new \OCP\Defaults();
+		$defaults = new Defaults();
 		$this->realm = $defaults->getName() ?: 'Nextcloud';
 	}
 

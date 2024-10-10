@@ -14,6 +14,7 @@ use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IAppConfig;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /** @template-implements IEventListener<BeforeTemplateRenderedEvent> */
@@ -48,6 +49,6 @@ class BeforeTemplateRenderedEventListener implements IEventListener {
 			return;
 		}
 
-		\OCP\Util::addInitScript(Application::APP_NAME, 'init');
+		Util::addInitScript(Application::APP_NAME, 'init');
 	}
 }

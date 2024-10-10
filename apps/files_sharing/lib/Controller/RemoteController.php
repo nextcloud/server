@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_Sharing\Controller;
 
+use OC\Files\View;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\AppFramework\Http;
@@ -96,7 +97,7 @@ class RemoteController extends OCSController {
 	 * @return array enriched share info with data from the filecache
 	 */
 	private static function extendShareInfo($share) {
-		$view = new \OC\Files\View('/' . \OC_User::getUser() . '/files/');
+		$view = new View('/' . \OC_User::getUser() . '/files/');
 		$info = $view->getFileInfo($share['mountpoint']);
 
 		if ($info === false) {

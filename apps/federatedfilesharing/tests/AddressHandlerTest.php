@@ -11,6 +11,7 @@ use OC\Federation\CloudIdManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCP\Contacts\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\HintException;
 use OCP\ICacheFactory;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -130,7 +131,7 @@ class AddressHandlerTest extends \Test\TestCase {
 	 * @param string $id
 	 */
 	public function testSplitUserRemoteError($id): void {
-		$this->expectException(\OCP\HintException::class);
+		$this->expectException(HintException::class);
 
 		$this->addressHandler->splitUserRemote($id);
 	}

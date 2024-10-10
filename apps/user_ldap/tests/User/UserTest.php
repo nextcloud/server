@@ -19,6 +19,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -1149,7 +1150,7 @@ class UserTest extends \Test\TestCase {
 			->method('notify');
 
 		\OC_Hook::clear();//disconnect irrelevant hooks
-		\OCP\Util::connectHook('OC_User', 'post_login', $this->user, 'handlePasswordExpiry');
+		Util::connectHook('OC_User', 'post_login', $this->user, 'handlePasswordExpiry');
 		/** @noinspection PhpUnhandledExceptionInspection */
 		\OC_Hook::emit('OC_User', 'post_login', ['uid' => $this->uid]);
 	}
@@ -1213,7 +1214,7 @@ class UserTest extends \Test\TestCase {
 			->method('notify');
 
 		\OC_Hook::clear();//disconnect irrelevant hooks
-		\OCP\Util::connectHook('OC_User', 'post_login', $this->user, 'handlePasswordExpiry');
+		Util::connectHook('OC_User', 'post_login', $this->user, 'handlePasswordExpiry');
 		/** @noinspection PhpUnhandledExceptionInspection */
 		\OC_Hook::emit('OC_User', 'post_login', ['uid' => $this->uid]);
 	}

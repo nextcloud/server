@@ -21,7 +21,7 @@ use Test\TestCase;
  */
 class ListAddressbooksTest extends TestCase {
 
-	private \OCP\IUserManager|MockObject $userManager;
+	private IUserManager|MockObject $userManager;
 	private CardDavBackend|MockObject $cardDavBackend;
 	private ListAddressbooks $command;
 

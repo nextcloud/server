@@ -12,8 +12,10 @@ use OC\Files\Node\File;
 use OC\Files\Node\Folder;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
+use OCP\Constants;
 use OCP\Files\DavUtil;
 use OCP\Files\FileInfo;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
@@ -282,15 +284,15 @@ abstract class Node implements \Sabre\DAV\INode {
 			}
 
 			if (!$mountpoint->getOption('readonly', false) && $mountpointpath === $this->info->getPath()) {
-				$permissions |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
+				$permissions |= Constants::PERMISSION_DELETE | Constants::PERMISSION_UPDATE;
 			}
 		}
 
 		/*
 		 * Files can't have create or delete permissions
 		 */
-		if ($this->info->getType() === \OCP\Files\FileInfo::TYPE_FILE) {
-			$permissions &= ~(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_DELETE);
+		if ($this->info->getType() === FileInfo::TYPE_FILE) {
+			$permissions &= ~(Constants::PERMISSION_CREATE | Constants::PERMISSION_DELETE);
 		}
 
 		return $permissions;
@@ -358,7 +360,7 @@ abstract class Node implements \Sabre\DAV\INode {
 				dirname($path),
 				basename($path),
 			);
-		} catch (\OCP\Files\InvalidPathException $ex) {
+		} catch (InvalidPathException $ex) {
 			throw new InvalidPath($ex->getMessage());
 		}
 	}

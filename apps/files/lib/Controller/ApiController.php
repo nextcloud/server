@@ -8,6 +8,7 @@
 namespace OCA\Files\Controller;
 
 use OC\Files\Node\Node;
+use OCA\Files\Helper;
 use OCA\Files\ResponseDefinitions;
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
@@ -30,6 +31,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IPreview;
@@ -124,11 +126,11 @@ class ApiController extends Controller {
 		if (!is_null($tags)) {
 			try {
 				$this->tagService->updateFileTags($path, $tags);
-			} catch (\OCP\Files\NotFoundException $e) {
+			} catch (NotFoundException $e) {
 				return new DataResponse([
 					'message' => $e->getMessage()
 				], Http::STATUS_NOT_FOUND);
-			} catch (\OCP\Files\StorageNotAvailableException $e) {
+			} catch (StorageNotAvailableException $e) {
 				return new DataResponse([
 					'message' => $e->getMessage()
 				], Http::STATUS_SERVICE_UNAVAILABLE);
@@ -150,7 +152,7 @@ class ApiController extends Controller {
 		$shareTypesForNodes = $this->getShareTypesForNodes($nodes);
 		return array_values(array_map(function (Node $node) use ($shareTypesForNodes) {
 			$shareTypes = $shareTypesForNodes[$node->getId()] ?? [];
-			$file = \OCA\Files\Helper::formatFileInfo($node->getFileInfo());
+			$file = Helper::formatFileInfo($node->getFileInfo());
 			$file['hasPreview'] = $this->previewManager->isAvailable($node);
 			$parts = explode('/', dirname($node->getPath()), 4);
 			if (isset($parts[3])) {

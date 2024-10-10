@@ -18,6 +18,7 @@ use OCA\Settings\AppInfo\Application;
 use OCP\Accounts\IAccountManager;
 use OCP\IAvatarManager;
 use OCP\IL10N;
+use OCP\Image;
 use OCP\IUser;
 use OCP\UserMigration\IExportDestination;
 use OCP\UserMigration\IImportSource;
@@ -156,7 +157,7 @@ class AccountMigrator implements IMigrator, ISizeEstimationMigrator {
 
 			$output->writeln('Importing avatar from ' . $importPath . '…');
 			$stream = $importSource->getFileAsStream($importPath);
-			$image = new \OCP\Image();
+			$image = new Image();
 			$image->loadFromFileHandle($stream);
 
 			try {

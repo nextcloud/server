@@ -7,8 +7,10 @@
 namespace OCA\Files_External\Tests\Service;
 
 use OC\Files\Filesystem;
-
 use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\MountConfig;
+
+use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserStoragesService;
@@ -85,7 +87,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 			current(self::$hookCalls),
 			Filesystem::signal_create_mount,
 			$storage->getMountPoint(),
-			\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+			MountConfig::MOUNT_TYPE_USER,
 			$this->userId
 		);
 
@@ -136,7 +138,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 			self::$hookCalls[1],
 			Filesystem::signal_delete_mount,
 			'/mountpoint',
-			\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+			MountConfig::MOUNT_TYPE_USER,
 			$this->userId
 		);
 	}
@@ -157,21 +159,21 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 			self::$hookCalls[0],
 			Filesystem::signal_delete_mount,
 			'/mountpoint',
-			\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+			MountConfig::MOUNT_TYPE_USER,
 			$this->userId
 		);
 		$this->assertHookCall(
 			self::$hookCalls[1],
 			Filesystem::signal_create_mount,
 			'/renamedMountpoint',
-			\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+			MountConfig::MOUNT_TYPE_USER,
 			$this->userId
 		);
 	}
 
 
 	public function testGetAdminStorage(): void {
-		$this->expectException(\OCA\Files_External\NotFoundException::class);
+		$this->expectException(NotFoundException::class);
 
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
 		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');

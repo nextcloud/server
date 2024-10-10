@@ -10,15 +10,17 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\Node;
+use OCA\DAV\Connector\Sabre\TagList;
+use OCA\DAV\Connector\Sabre\TagsPlugin;
 use OCA\DAV\Upload\UploadFile;
 use OCP\ITagManager;
 use OCP\ITags;
 use Sabre\DAV\Tree;
 
 class TagsPluginTest extends \Test\TestCase {
-	public const TAGS_PROPERTYNAME = \OCA\DAV\Connector\Sabre\TagsPlugin::TAGS_PROPERTYNAME;
-	public const FAVORITE_PROPERTYNAME = \OCA\DAV\Connector\Sabre\TagsPlugin::FAVORITE_PROPERTYNAME;
-	public const TAG_FAVORITE = \OCA\DAV\Connector\Sabre\TagsPlugin::TAG_FAVORITE;
+	public const TAGS_PROPERTYNAME = TagsPlugin::TAGS_PROPERTYNAME;
+	public const FAVORITE_PROPERTYNAME = TagsPlugin::FAVORITE_PROPERTYNAME;
+	public const TAG_FAVORITE = TagsPlugin::TAG_FAVORITE;
 
 	/**
 	 * @var \Sabre\DAV\Server
@@ -41,7 +43,7 @@ class TagsPluginTest extends \Test\TestCase {
 	private $tagger;
 
 	/**
-	 * @var \OCA\DAV\Connector\Sabre\TagsPlugin
+	 * @var TagsPlugin
 	 */
 	private $plugin;
 
@@ -61,7 +63,7 @@ class TagsPluginTest extends \Test\TestCase {
 			->method('load')
 			->with('files')
 			->willReturn($this->tagger);
-		$this->plugin = new \OCA\DAV\Connector\Sabre\TagsPlugin($this->tree, $this->tagManager);
+		$this->plugin = new TagsPlugin($this->tree, $this->tagManager);
 		$this->plugin->initialize($this->server);
 	}
 
@@ -194,7 +196,7 @@ class TagsPluginTest extends \Test\TestCase {
 				[self::TAGS_PROPERTYNAME, self::FAVORITE_PROPERTYNAME],
 				[
 					200 => [
-						self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(['tag1', 'tag2']),
+						self::TAGS_PROPERTYNAME => new TagList(['tag1', 'tag2']),
 						self::FAVORITE_PROPERTYNAME => true,
 					]
 				]
@@ -205,7 +207,7 @@ class TagsPluginTest extends \Test\TestCase {
 				[self::TAGS_PROPERTYNAME],
 				[
 					200 => [
-						self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(['tag1', 'tag2']),
+						self::TAGS_PROPERTYNAME => new TagList(['tag1', 'tag2']),
 					]
 				]
 			],
@@ -233,7 +235,7 @@ class TagsPluginTest extends \Test\TestCase {
 				[self::TAGS_PROPERTYNAME, self::FAVORITE_PROPERTYNAME],
 				[
 					200 => [
-						self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList([]),
+						self::TAGS_PROPERTYNAME => new TagList([]),
 						self::FAVORITE_PROPERTYNAME => false,
 					]
 				]
@@ -296,7 +298,7 @@ class TagsPluginTest extends \Test\TestCase {
 
 		// properties to set
 		$propPatch = new \Sabre\DAV\PropPatch([
-			self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(['tag1', 'tag2', 'tagkeep'])
+			self::TAGS_PROPERTYNAME => new TagList(['tag1', 'tag2', 'tagkeep'])
 		]);
 
 		$this->plugin->handleUpdateProperties(
@@ -342,7 +344,7 @@ class TagsPluginTest extends \Test\TestCase {
 
 		// properties to set
 		$propPatch = new \Sabre\DAV\PropPatch([
-			self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(['tag1', 'tag2'])
+			self::TAGS_PROPERTYNAME => new TagList(['tag1', 'tag2'])
 		]);
 
 		$this->plugin->handleUpdateProperties(
