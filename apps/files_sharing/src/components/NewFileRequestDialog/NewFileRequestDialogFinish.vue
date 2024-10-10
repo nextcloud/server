@@ -205,11 +205,11 @@ export default defineComponent({
 
 			// Warn about duplicate emails
 			if (duplicateEmails.length > 0) {
-				showError(n('files_sharing', '1 email address already added', '{count} email addresses already added', duplicateEmails.length, { count: duplicateEmails.length }))
+				showError(n('files_sharing', '{count} email address already added', '{count} email addresses already added', duplicateEmails.length, { count: duplicateEmails.length }))
 			}
 
 			if (validEmails.length > 0) {
-				showSuccess(n('files_sharing', '1 email address added', '{count} email addresses added', validEmails.length, { count: validEmails.length }))
+				showSuccess(n('files_sharing', '{count} email address added', '{count} email addresses added', validEmails.length, { count: validEmails.length }))
 			}
 
 			this.email = ''
