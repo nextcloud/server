@@ -21,7 +21,21 @@ class NextcloudNamespaceSkipVoter implements ClassNameImportSkipVoterInterface {
 		'OCA',
 		'OCP',
 	];
+	private array $skippedClassNames = [
+		'Backend',
+		'Connection',
+		'Exception',
+		'IManager',
+		'IProvider',
+		'Manager',
+		'Plugin',
+		'Provider',
+	];
 	public function shouldSkip(File $file, FullyQualifiedObjectType $fullyQualifiedObjectType, Node $node) : bool {
+		if (in_array($fullyQualifiedObjectType->getShortName(), $this->skippedClassNames)) {
+			// Skip common class names to avoid confusion
+			return true;
+		}
 		foreach ($this->namespacePrefixes as $prefix) {
 			if (str_starts_with($fullyQualifiedObjectType->getClassName(), $prefix . '\\')) {
 				// Import Nextcloud namespaces
