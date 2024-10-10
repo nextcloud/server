@@ -479,6 +479,7 @@ class SharedStorageTest extends TestCase {
 
 		$sourceStorage = new \OC\Files\Storage\Temporary([]);
 		$sourceStorage->file_put_contents('foo.txt', 'asd');
+		$sourceStorage->getScanner()->scan('');
 
 		$sharedStorage->moveFromStorage($sourceStorage, 'foo.txt', 'bar.txt');
 		$this->assertTrue($sharedStorage->file_exists('bar.txt'));
