@@ -59,6 +59,7 @@ use OC\Authentication\Token\TokenCleanupJob;
 use OC\Log\Rotate;
 use OC\Preview\BackgroundCleanupJob;
 use OC\TextProcessing\RemoveOldTasksBackgroundJob;
+use OC\User\BackgroundJobs\CleanupDeletedUsers;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\Defaults;
@@ -453,6 +454,7 @@ class Setup {
 		$jobList->add(Rotate::class);
 		$jobList->add(BackgroundCleanupJob::class);
 		$jobList->add(RemoveOldTasksBackgroundJob::class);
+		$jobList->add(CleanupDeletedUsers::class);
 	}
 
 	/**
