@@ -155,13 +155,6 @@ class ConvertType extends Command implements CompletionAwareInterface {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		// WARNING:
-		// Leave in place until #45257 is addressed to prevent data loss (hopefully in time for the next maintenance release)
-		//
-		throw new \InvalidArgumentException(
-			'This command is temporarily disabled (until the next maintenance release).'
-		);
-
 		$this->validateInput($input, $output);
 		$this->readPassword($input, $output);
 
@@ -229,7 +222,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 
 	protected function getToDBConnection(InputInterface $input, OutputInterface $output) {
 		$type = $input->getArgument('type');
-		$connectionParams = $this->connectionFactory->createConnectionParams();
+		$connectionParams = $this->connectionFactory->createConnectionParams(type: $type);
 		$connectionParams = array_merge($connectionParams, [
 			'host' => $input->getArgument('hostname'),
 			'user' => $input->getArgument('username'),
