@@ -128,14 +128,6 @@ const mutations = {
 		Vue.set(state.loading, id, false) // eslint-disable-line
 	},
 
-	setDaemonAccessible(state, value) {
-		state.daemonAccessible = value
-	},
-
-	setDefaultDaemon(state, value) {
-		Vue.set(state, 'defaultDaemon', value) // eslint-disable-line
-	},
-
 	setAppStatus(state, { appId, status }) {
 		const app = state.apps.find(app => app.id === appId)
 		if (status.type === 'install' && status.deploy === 100 && status.action === '') {
@@ -247,7 +239,7 @@ const actions = {
 					})
 					context.commit('APPS_API_FAILURE', { appId, error })
 				})
-		}).catch((error) => context.commit('API_FAILURE', { appId, error }))
+		}).catch((error) => context.commit('API_FAILURE', { appId, error }, { root: true }))
 	},
 
 	forceEnableApp(context, { appId }) {
@@ -267,7 +259,7 @@ const actions = {
 					})
 					context.commit('APPS_API_FAILURE', { appId, error })
 				})
-		}).catch((error) => context.commit('API_FAILURE', { appId, error }))
+		}).catch((error) => context.commit('API_FAILURE', { appId, error }, { root: true }))
 	},
 
 	disableApp(context, { appId }) {
@@ -284,7 +276,7 @@ const actions = {
 					context.commit('stopLoading', appId)
 					context.commit('APPS_API_FAILURE', { appId, error })
 				})
-		}).catch((error) => context.commit('API_FAILURE', { appId, error }))
+		}).catch((error) => context.commit('API_FAILURE', { appId, error }, { root: true }))
 	},
 
 	uninstallApp(context, { appId, removeData }) {
@@ -300,7 +292,7 @@ const actions = {
 					context.commit('stopLoading', appId)
 					context.commit('APPS_API_FAILURE', { appId, error })
 				})
-		}).catch((error) => context.commit('API_FAILURE', { appId, error }))
+		}).catch((error) => context.commit('API_FAILURE', { appId, error }, { root: true }))
 	},
 
 	updateApp(context, { appId }) {
@@ -320,7 +312,7 @@ const actions = {
 					context.commit('stopLoading', 'install')
 					context.commit('APPS_API_FAILURE', { appId, error })
 				})
-		}).catch((error) => context.commit('API_FAILURE', { appId, error }))
+		}).catch((error) => context.commit('API_FAILURE', { appId, error }, { root: true }))
 	},
 
 	getAllApps(context) {
@@ -331,7 +323,7 @@ const actions = {
 				context.commit('stopLoading', 'list')
 				return true
 			})
-			.catch((error) => context.commit('API_FAILURE', error))
+			.catch((error) => context.commit('API_FAILURE', error, { root: true }))
 	},
 
 	async getCategories(context, { shouldRefetchCategories = false } = {}) {
@@ -349,7 +341,7 @@ const actions = {
 				context.commit('stopLoading', 'categories')
 				return false
 			} catch (error) {
-				context.commit('API_FAILURE', error)
+				context.commit('API_FAILURE', error, { root: true })
 			}
 		}
 		return context.state.gettingCategoriesPromise
@@ -374,7 +366,7 @@ const actions = {
 				}
 			})
 			.catch((error) => {
-				context.commit('API_FAILURE', error)
+				context.commit('API_FAILURE', error, { root: true })
 				context.commit('unregisterApp', { appId })
 				context.dispatch('updateAppsStatus')
 			})
