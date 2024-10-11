@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import axios from '@nextcloud/axios'
 import api from './api.js'
 import Vue from 'vue'
 import { generateUrl } from '@nextcloud/router'
@@ -195,7 +196,7 @@ const actions = {
 		return api.requireAdmin().then((response) => {
 			context.commit('startLoading', appId)
 			context.commit('startLoading', 'install')
-			return api.post(generateUrl(`/apps/app_api/apps/enable/${appId}`))
+			return axios.post(generateUrl(`/apps/app_api/apps/enable/${appId}`))
 				.then((response) => {
 					context.commit('stopLoading', appId)
 					context.commit('stopLoading', 'install')
@@ -374,6 +375,10 @@ const actions = {
 
 	updateAppsStatus(context) {
 		clearInterval(context.getters.getStatusUpdater) // clear previous interval if exists
+		const initializingOrDeployingApps = context.getters.getInitializingOrDeployingApps
+		if (initializingOrDeployingApps.length === 0) {
+			return
+		}
 		context.commit('setIntervalUpdater', setInterval(() => {
 			const initializingOrDeployingApps = context.getters.getInitializingOrDeployingApps
 			console.debug('initializingOrDeployingApps', initializingOrDeployingApps)
