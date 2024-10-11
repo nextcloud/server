@@ -20,6 +20,7 @@ use OCP\Files\ForbiddenException;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
 use OCP\IConfig;
@@ -124,7 +125,7 @@ class DAV extends Common {
 		$this->logger = Server::get(LoggerInterface::class);
 		$this->eventLogger = Server::get(IEventLogger::class);
 		// This timeout value will be used for the download and upload of files
-		$this->timeout = Server::get(IConfig::class)->getSystemValueInt('davstorage.request_timeout', 30);
+		$this->timeout = Server::get(IConfig::class)->getSystemValueInt('davstorage.request_timeout', IClient::DEFAULT_REQUEST_TIMEOUT);
 		$this->mimeTypeDetector = \OC::$server->getMimeTypeDetector();
 	}
 
