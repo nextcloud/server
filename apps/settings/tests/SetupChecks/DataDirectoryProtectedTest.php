@@ -90,14 +90,14 @@ class DataDirectoryProtectedTest extends TestCase {
 
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->willReturn('');
 
 		$result = $this->setupcheck->run();
 		$this->assertEquals($expected, $result->getSeverity());
 	}
 
-	public function dataTestStatusCode(): array {
+	public static function dataTestStatusCode(): array {
 		return [
 			'success: forbidden access' => [[403], SetupResult::SUCCESS],
 			'error: can access' => [[200], SetupResult::ERROR],
@@ -117,7 +117,7 @@ class DataDirectoryProtectedTest extends TestCase {
 
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->willReturn('');
 
 		$result = $this->setupcheck->run();

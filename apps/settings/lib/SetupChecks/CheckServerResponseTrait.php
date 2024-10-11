@@ -54,59 +54,64 @@ trait CheckServerResponseTrait {
 	 * Get all possible URLs that need to be checked for a local request test.
 	 * This takes all `trusted_domains` and the CLI overwrite URL into account.
 	 *
-	 * @param string $url The relative URL to test starting with a /
-	 * @return string[] List of possible absolute URLs
+	 * @param string $url The absolute path (absolute URL without host but with web-root) to test starting with a /
+	 * @param bool $isRootRequest Set to remove the web-root from URL and host (e.g. when requesting a path in the domain root like '/.well-known')
+	 * @return list<string> List of possible absolute URLs
 	 */
-	protected function getTestUrls(string $url, bool $removeWebroot): array {
-		$testUrls = [];
+	protected function getTestUrls(string $url, bool $isRootRequest = false): array {
+		$url = '/' . ltrim($url, '/');
 
 		$webroot = rtrim($this->urlGenerator->getWebroot(), '/');
-
-		/* Try overwrite.cli.url first, it’s supposed to be how the server contacts itself */
-		$cliUrl = $this->config->getSystemValueString('overwrite.cli.url', '');
-
-		if ($cliUrl !== '') {
-			$cliUrl = $this->normalizeUrl(
-				$cliUrl,
-				$webroot,
-				$removeWebroot
-			);
-
-			$testUrls[] = $cliUrl . $url;
+		if ($isRootRequest === false && $webroot !== '' && str_starts_with($url, $webroot)) {
+			// The URL contains the web-root but also the base url does so,
+			// so we need to remove the web-root from the URL.
+			$url = substr($url, strlen($webroot));
 		}
 
-		/* Try URL generator second */
-		$baseUrl = $this->normalizeUrl(
+		// Base URLs to test
+		$baseUrls = [];
+
+		// Try overwrite.cli.url first, it’s supposed to be how the server contacts itself
+		$cliUrl = $this->config->getSystemValueString('overwrite.cli.url', '');
+		if ($cliUrl !== '') {
+			// The CLI URL already contains the web-root, so we need to normalize it if requested
+			$baseUrls[] = $this->normalizeUrl(
+				$cliUrl,
+				$isRootRequest
+			);
+		}
+
+		// Try URL generator second
+		// The base URL also contains the webroot so also normalize it
+		$baseUrls[] = $this->normalizeUrl(
 			$this->urlGenerator->getBaseUrl(),
-			$webroot,
-			$removeWebroot
+			$isRootRequest
 		);
 
-		if ($baseUrl !== $cliUrl) {
-			$testUrls[] = $baseUrl . $url;
-		}
-
 		/* Last resort: trusted domains */
-		$hosts = $this->config->getSystemValue('trusted_domains', []);
-		foreach ($hosts as $host) {
+		$trustedDomains = $this->config->getSystemValue('trusted_domains', []);
+		foreach ($trustedDomains as $host) {
 			if (str_contains($host, '*')) {
 				/* Ignore domains with a wildcard */
 				continue;
 			}
-			$hosts[] = 'https://' . $host . $url;
-			$hosts[] = 'http://' . $host . $url;
+			$baseUrls[] = $this->normalizeUrl("https://$host$webroot", $isRootRequest);
+			$baseUrls[] = $this->normalizeUrl("http://$host$webroot", $isRootRequest);
 		}
 
-		return $testUrls;
+		return array_map(fn (string $host) => $host . $url, array_values(array_unique($baseUrls)));
 	}
 
 	/**
 	 * Strip a trailing slash and remove the webroot if requested.
+	 * @param string $url The URL to normalize. Should be an absolute URL containing scheme, host and optionally web-root.
+	 * @param bool $removeWebroot If set the web-root is removed from the URL and an absolute URL with only the scheme and host (optional port) is returned
 	 */
-	protected function normalizeUrl(string $url, string $webroot, bool $removeWebroot): string {
-		$url = rtrim($url, '/');
-		if ($removeWebroot && str_ends_with($url, $webroot)) {
-			$url = substr($url, -strlen($webroot));
+	protected function normalizeUrl(string $url, bool $removeWebroot): string {
+		if ($removeWebroot) {
+			$segments = parse_url($url);
+			$port = isset($segments['port']) ? (':' . $segments['port']) : '';
+			return $segments['scheme'] . '://' . $segments['host'] . $port;
 		}
 		return rtrim($url, '/');
 	}
@@ -114,25 +119,28 @@ trait CheckServerResponseTrait {
 	/**
 	 * Run a HTTP request to check header
 	 * @param string $method The HTTP method to use
-	 * @param string $url The relative URL to check
-	 * @param array{ignoreSSL?: bool, httpErrors?: bool, options?: array} $options Additional options, like
-	 *                                                 [
-	 *                                                  // Ignore invalid SSL certificates (e.g. self signed)
-	 *                                                  'ignoreSSL' => true,
-	 *                                                  // Ignore requests with HTTP errors (will not yield if request has a 4xx or 5xx response)
-	 *                                                  'httpErrors' => true,
-	 *                                                 ]
+	 * @param string $url The absolute path (URL with webroot but without host) to check, can be the output of `IURLGenerator`
+	 * @param bool $isRootRequest If set the webroot is removed from URLs to make the request target the host's root. Example usage are the /.well-known URLs in the root path.
+	 * @param array{ignoreSSL?: bool, httpErrors?: bool, options?: array} $options HTTP client related options, like
+	 *                                                                             [
+	 *                                                                             // Ignore invalid SSL certificates (e.g. self signed)
+	 *                                                                             'ignoreSSL' => true,
+	 *                                                                             // Ignore requests with HTTP errors (will not yield if request has a 4xx or 5xx response)
+	 *                                                                             'httpErrors' => true,
+	 *                                                                             // Additional options for the HTTP client (see `IClient`)
+	 *                                                                             'options' => [],
+	 *                                                                             ]
 	 *
 	 * @return Generator<int, IResponse>
 	 */
-	protected function runRequest(string $method, string $url, array $options = [], bool $removeWebroot = false): Generator {
+	protected function runRequest(string $method, string $url, array $options = [], bool $isRootRequest = false): Generator {
 		$options = array_merge(['ignoreSSL' => true, 'httpErrors' => true], $options);
 
 		$client = $this->clientService->newClient();
 		$requestOptions = $this->getRequestOptions($options['ignoreSSL'], $options['httpErrors']);
 		$requestOptions = array_merge($requestOptions, $options['options'] ?? []);
 
-		foreach ($this->getTestUrls($url, $removeWebroot) as $testURL) {
+		foreach ($this->getTestUrls($url, $isRootRequest) as $testURL) {
 			try {
 				yield $client->request($method, $testURL, $requestOptions);
 			} catch (\Throwable $e) {
@@ -143,7 +151,7 @@ trait CheckServerResponseTrait {
 
 	/**
 	 * Run a HEAD request to check header
-	 * @param string $url The relative URL to check
+	 * @param string $url The relative URL to check (e.g. output of IURLGenerator)
 	 * @param bool $ignoreSSL Ignore SSL certificates
 	 * @param bool $httpErrors Ignore requests with HTTP errors (will not yield if request has a 4xx or 5xx response)
 	 * @return Generator<int, IResponse>
