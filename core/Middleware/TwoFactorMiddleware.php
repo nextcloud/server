@@ -134,8 +134,10 @@ class TwoFactorMiddleware extends Middleware {
 
 	public function afterException($controller, $methodName, Exception $exception) {
 		if ($exception instanceof TwoFactorAuthRequiredException) {
-			$params = [];
-			if (isset($this->request->server['REQUEST_URI'])) {
+			$params = [
+				'redirect_url' => $this->request->getParam('redirect_url'),
+			];
+			if (!isset($params['redirect_url']) && isset($this->request->server['REQUEST_URI'])) {
 				$params['redirect_url'] = $this->request->server['REQUEST_URI'];
 			}
 			return new RedirectResponse($this->urlGenerator->linkToRoute('core.TwoFactorChallenge.selectChallenge', $params));
