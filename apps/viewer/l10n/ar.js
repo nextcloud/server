@@ -105,7 +105,7 @@ OC.L10N.register(
     "Stroke" : "شطب stroke",
     "Save image as" : "حفظ الصورة باسم",
     "Extension" : "الامتداد",
-    "Name is required." : "خانة الاسم لازمةٌ.",
+    "Name is required." : "خانة الاسم مطلوبة.",
     "Quality" : "الجودة",
     "Saved image size (width x height)" : "حجم الصورة المحفوظة (العرض × الارتفاع)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "لاحظ أن مساحة الاقتصاص crop المحددة أقل من الحجم المطبق مما قد يتسبب في انخفاض الجودة",
