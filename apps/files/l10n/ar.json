@@ -170,7 +170,7 @@
     "WebDAV URL" : "عنوان URL لـ WebDAV",
     "Copy to clipboard" : "نسخ الرابط",
     "Use this address to access your Files via WebDAV" : "استخدم هذا العنوان للوصول للملفات عبر WebDAV",
-    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "إذا كنت قد فعّلت خاصية \"التحقق بأكثل من عامل\" 2FA، يجب عليك تجديد كلمة سر التطبيق بالضغط هنا.",
+    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "إذا كنت قد فعّلت خاصية \"التحقق ثنائي العوامل\" 2FA، يجب عليك تجديد كلمة مرور التطبيق بالضغط هنا.",
     "Clipboard is not available" : "الحافظة غير متاحة",
     "WebDAV URL copied to clipboard" : "تم نسخ WebDAV URL إلى الحافظة",
     "Owner" : "مالك",

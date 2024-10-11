@@ -585,7 +585,7 @@ OC.L10N.register(
     "they/them" : "sie/sie",
     "Your pronouns. E.g. ${pronounsExample}" : "Ihre Pronomen. Z. B. ${pronounsExample}",
     "Your role" : "Ihre Funktion",
-    "Your X (formerly Twitter) handle" : "Ihre X (früher Twitter)-Handle",
+    "Your X (formerly Twitter) handle" : "Ihr X (früher Twitter)-Handle",
     "Your website" : "Ihre Webseite",
     "No {property} set" : "Keine {property} gesetzt",
     "Invalid value" : "Ungültiger Wert",
