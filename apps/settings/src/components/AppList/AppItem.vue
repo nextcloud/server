@@ -90,7 +90,7 @@
 				{{ t('settings', 'Remove') }}
 			</NcButton>
 			<NcButton v-if="app.active"
-				:disabled="installing || isLoading"
+				:disabled="installing || isLoading  || isInitializing || isDeploying"
 				@click.stop="disable(app.id)">
 				{{ disableButtonText }}
 			</NcButton>
