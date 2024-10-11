@@ -121,7 +121,7 @@ OC.L10N.register(
     "Password" : "Heslo",
     "Share link" : "Odkaz pro sdílení",
     "Copy to clipboard" : "Zkopírovat do schránky",
-    "Send link via email" : "Odeslat odkaz přes email",
+    "Send link via email" : "Odeslat odkaz přes e-mail",
     "Link copied to clipboard" : "Odkaz zkopírován do schánky",
     "What are you requesting?" : "Co požadujete?",
     "Request subject" : "Předmět požadavku",

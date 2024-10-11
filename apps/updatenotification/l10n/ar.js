@@ -2,7 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "Channel updated" : "تمّ تحديث القناة",
-    "Web updater is disabled" : "مُحدِّث الوب موقوف",
+    "Web updater is disabled" : "التحديث من خلال الويب معطل",
     "App updated" : "تمّ تحديث التطبيق",
     "See what's new" : "إطَّلِع على الجديد",
     "{app} updated to version {version}" : "تمّ تحديث التطبيق {app} إلى الإصدار {version}",
