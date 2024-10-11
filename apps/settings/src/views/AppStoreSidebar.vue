@@ -26,6 +26,7 @@
 			<!-- Featured/Supported badges -->
 			<div class="app-sidebar__badges">
 				<AppLevelBadge :level="app.level" />
+				<AppDaemonBadge v-if="app?.app_api && app?.daemon" :daemon="app.daemon" />
 				<AppScore v-if="hasRating" :score="rating" />
 			</div>
 		</template>
@@ -52,6 +53,7 @@ import AppDetailsTab from '../components/AppStoreSidebar/AppDetailsTab.vue'
 import AppReleasesTab from '../components/AppStoreSidebar/AppReleasesTab.vue'
 import AppDeployDaemonTab from '../components/AppStoreSidebar/AppDeployDaemonTab.vue'
 import AppLevelBadge from '../components/AppList/AppLevelBadge.vue'
+import AppDaemonBadge from '../components/AppList/AppDaemonBadge.vue'
 import { useAppIcon } from '../composables/useAppIcon.ts'
 import { useStore } from '../store'
 
