@@ -17,6 +17,7 @@ OC.L10N.register(
     "Reminder set for \"{fileName}\"" : "Nastavena připomínka ohledně „{fileName}“",
     "Failed to set reminder" : "Připomínku se nepodařilo nastavit",
     "Failed to clear reminder" : "Připomínku se nepodařilo vyčistit",
+    "Reminder set" : "Nastavit připomínku",
     "Set custom reminder" : "Nastavit uživatelsky určenou připomínku",
     "Later today" : "Později dnes",
     "Set reminder for later today" : "Nastavit připomínku na později dnes",
