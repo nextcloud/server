@@ -76,7 +76,7 @@
     "Appearance and accessibility settings" : "إعدادات المظهر و سهولة الوصول",
     "Misc accessibility options" : "خيارات متفرقة للوصول",
     "Enable blur background filter (may increase GPU load)" : "تمكين فلتر تضبيب الخلفية (يمكن أن يتسبب في زيادة العبء على المعالج الرسومي  GPU)",
-    "Customization has been disabled by your administrator" : "التخصيص موقوف من قِبَل المُشرف",
+    "Customization has been disabled by your administrator" : "التخصيص معطل من قبل المُشرف",
     "Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements." : "يُستعمل الِلون الأساسي لإبراز بعض العناصر مثل الأزرار الهامة. و قد يتم ضبطه قليلاً تلبيةً لمتطلبات سهولة الوصول.",
     "Background and color" : "الخلفية و الألوان",
     "The background can be set to an image from the default set, a custom uploaded image, or a plain color." : "الخلفية يمكن تعيين صورة لها من مجموعة تلقائية أو صورة مرفوعة خصيصاً أو لون واحد سائد.",

@@ -19,7 +19,7 @@ OC.L10N.register(
     "New comment" : "تعليق جديد",
     "Write a comment …" : "أكتُب تعليق ...",
     "Post comment" : "أضف تعليق",
-    "@ for mentions, : for emoji, / for smart picker" : "@ للإشارات،    : للإيموجي،    / للاقط الذكي",
+    "@ for mentions, : for emoji, / for smart picker" : "@ للإشارات : للإيموجي  / للاقط الذكي",
     "Could not reload comments" : "تعذّرت إعادة تحميل التعليقات",
     "No comments yet, start the conversation!" : "لا توجد تعليقات, ابدأ النقاش الآن!",
     "No more messages" : "لامزيد من الرسائل",
