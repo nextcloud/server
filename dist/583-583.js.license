@@ -133,6 +133,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue-select
 	- version: 3.25.1
 	- license: MIT
+- debounce
+	- version: 2.1.0
+	- license: MIT
 - @nextcloud/vue
 	- version: 8.17.1
 	- license: AGPL-3.0-or-later
@@ -192,9 +195,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - date-format-parse
 	- version: 0.2.7
-	- license: MIT
-- debounce
-	- version: 2.1.0
 	- license: MIT
 - decode-named-character-reference
 	- version: 1.0.2

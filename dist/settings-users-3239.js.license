@@ -118,6 +118,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue-select
 	- version: 3.25.1
 	- license: MIT
+- debounce
+	- version: 2.1.0
+	- license: MIT
 - @nextcloud/vue
 	- version: 8.17.1
 	- license: AGPL-3.0-or-later
@@ -164,7 +167,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.7
 	- license: MIT
 - debounce
-	- version: 2.1.0
+	- version: 2.1.1
 	- license: MIT
 - define-data-property
 	- version: 1.1.4
