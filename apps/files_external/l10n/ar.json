@@ -60,7 +60,7 @@
     "Global credentials" : "حيثيّات التعريف الشاملة Global credentials",
     "Log-in credentials, save in database" : "حيثيّات الدخول؛ تُحفظ في قاعدة البيانات",
     "Login and password" : "الدخول و كلمة المرور",
-    "Log-in credentials, save in session" : "حيثيات الدخول، احفظها في الجلسة",
+    "Log-in credentials, save in session" : "متطلبات الدخول، احفظها في الجلسة",
     "Global credentials, manually entered" : "حيثيات الدخول الشاملة، يتم إدخالها يدويّاً",
     "Manually entered, store in database" : "يتمّ إدخالها يدويّاً، و تٌحفظ في قاعدة بيانات",
     "RSA public key" : "مفتاح RSA العمومي",
