@@ -73,7 +73,7 @@ class Config extends Base {
 		if (!is_string($value) && json_decode(json_encode($value)) === $value) { // show bools and objects correctly
 			$value = json_encode($value);
 		}
-		$output->writeln($value);
+		$output->writeln((string)$value);
 	}
 
 	/**

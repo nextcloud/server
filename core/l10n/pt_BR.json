@@ -8,7 +8,7 @@
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "O arquivo enviado excede a diretiva MAX_FILE_SIZE que foi especificada no formulário HTML",
     "The file was only partially uploaded" : "O arquivo foi carregado apenas parcialmente",
     "No file was uploaded" : "Nenhum arquivo foi enviado",
-    "Missing a temporary folder" : "Faltando uma pasta temporária",
+    "Missing a temporary folder" : "Falta uma pasta temporária",
     "Could not write file to disk" : "Não foi possível gravar o arquivo no disco",
     "A PHP extension stopped the file upload" : "Uma extensão PHP interrompeu o upload do arquivo",
     "Invalid file provided" : "Arquivo fornecido inválido",

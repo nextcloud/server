@@ -96,6 +96,7 @@ return array(
     'OCA\\Files_External\\Lib\\Storage\\SMB' => $baseDir . '/../lib/Lib/Storage/SMB.php',
     'OCA\\Files_External\\Lib\\Storage\\StreamWrapper' => $baseDir . '/../lib/Lib/Storage/StreamWrapper.php',
     'OCA\\Files_External\\Lib\\Storage\\Swift' => $baseDir . '/../lib/Lib/Storage/Swift.php',
+    'OCA\\Files_External\\Lib\\Storage\\SystemBridge' => $baseDir . '/../lib/Lib/Storage/SystemBridge.php',
     'OCA\\Files_External\\Lib\\VisibilityTrait' => $baseDir . '/../lib/Lib/VisibilityTrait.php',
     'OCA\\Files_External\\Listener\\GroupDeletedListener' => $baseDir . '/../lib/Listener/GroupDeletedListener.php',
     'OCA\\Files_External\\Listener\\LoadAdditionalListener' => $baseDir . '/../lib/Listener/LoadAdditionalListener.php',

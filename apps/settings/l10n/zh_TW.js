@@ -796,6 +796,7 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "在您的組織中使用 Nextcloud 的原因",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "由 {communityopen}Nextcloud 社群{linkclose}開發，{githubopen}原始碼{linkclose}以 {licenseopen}AGPL 授權{linkclose}釋出。",
     "Like our Facebook page" : "到我們的 Facebook 頁面按讚",
+    "Follow us on X" : "在 X 上追蹤我們",
     "Follow us on Mastodon" : "在 Mastodon 上追蹤我們",
     "Check out our blog" : "逛逛我們的部落格",
     "Subscribe to our newsletter" : "訂閱我們的電子報",

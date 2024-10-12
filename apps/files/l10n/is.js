@@ -141,6 +141,7 @@ OC.L10N.register(
     "If you have enabled 2FA, you must create and use a new app password by clicking here." : "Ef þú hefur virkjað 2FA tveggja-þrepa-auðkenningu, þarftu að útbúa nýtt lykilorð forrits og nota það með því að smella hér.",
     "Clipboard is not available" : "Klippispjald er ekki tiltækt",
     "WebDAV URL copied to clipboard" : "WebDAV-slóð afrituð á klippispjaldið",
+    "Owner" : "Eigandi",
     "Remove from favorites" : "Fjarlægja úr eftirlætum",
     "Add to favorites" : "Bæta í eftirlæti",
     "Tags" : "Merki",

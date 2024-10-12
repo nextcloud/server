@@ -54,151 +54,151 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 		return $this->getWrapperStorage()->getId();
 	}
 
-	public function mkdir($path): bool {
+	public function mkdir(string $path): bool {
 		return $this->getWrapperStorage()->mkdir($path);
 	}
 
-	public function rmdir($path): bool {
+	public function rmdir(string $path): bool {
 		return $this->getWrapperStorage()->rmdir($path);
 	}
 
-	public function opendir($path) {
+	public function opendir(string $path) {
 		return $this->getWrapperStorage()->opendir($path);
 	}
 
-	public function is_dir($path): bool {
+	public function is_dir(string $path): bool {
 		return $this->getWrapperStorage()->is_dir($path);
 	}
 
-	public function is_file($path): bool {
+	public function is_file(string $path): bool {
 		return $this->getWrapperStorage()->is_file($path);
 	}
 
-	public function stat($path): array|false {
+	public function stat(string $path): array|false {
 		return $this->getWrapperStorage()->stat($path);
 	}
 
-	public function filetype($path): string|false {
+	public function filetype(string $path): string|false {
 		return $this->getWrapperStorage()->filetype($path);
 	}
 
-	public function filesize($path): int|float|false {
+	public function filesize(string $path): int|float|false {
 		return $this->getWrapperStorage()->filesize($path);
 	}
 
-	public function isCreatable($path): bool {
+	public function isCreatable(string $path): bool {
 		return $this->getWrapperStorage()->isCreatable($path);
 	}
 
-	public function isReadable($path): bool {
+	public function isReadable(string $path): bool {
 		return $this->getWrapperStorage()->isReadable($path);
 	}
 
-	public function isUpdatable($path): bool {
+	public function isUpdatable(string $path): bool {
 		return $this->getWrapperStorage()->isUpdatable($path);
 	}
 
-	public function isDeletable($path): bool {
+	public function isDeletable(string $path): bool {
 		return $this->getWrapperStorage()->isDeletable($path);
 	}
 
-	public function isSharable($path): bool {
+	public function isSharable(string $path): bool {
 		return $this->getWrapperStorage()->isSharable($path);
 	}
 
-	public function getPermissions($path): int {
+	public function getPermissions(string $path): int {
 		return $this->getWrapperStorage()->getPermissions($path);
 	}
 
-	public function file_exists($path): bool {
+	public function file_exists(string $path): bool {
 		return $this->getWrapperStorage()->file_exists($path);
 	}
 
-	public function filemtime($path): int|false {
+	public function filemtime(string $path): int|false {
 		return $this->getWrapperStorage()->filemtime($path);
 	}
 
-	public function file_get_contents($path): string|false {
+	public function file_get_contents(string $path): string|false {
 		return $this->getWrapperStorage()->file_get_contents($path);
 	}
 
-	public function file_put_contents($path, $data): int|float|false {
+	public function file_put_contents(string $path, mixed $data): int|float|false {
 		return $this->getWrapperStorage()->file_put_contents($path, $data);
 	}
 
-	public function unlink($path): bool {
+	public function unlink(string $path): bool {
 		return $this->getWrapperStorage()->unlink($path);
 	}
 
-	public function rename($source, $target): bool {
+	public function rename(string $source, string $target): bool {
 		return $this->getWrapperStorage()->rename($source, $target);
 	}
 
-	public function copy($source, $target): bool {
+	public function copy(string $source, string $target): bool {
 		return $this->getWrapperStorage()->copy($source, $target);
 	}
 
-	public function fopen($path, $mode) {
+	public function fopen(string $path, string $mode) {
 		return $this->getWrapperStorage()->fopen($path, $mode);
 	}
 
-	public function getMimeType($path): string|false {
+	public function getMimeType(string $path): string|false {
 		return $this->getWrapperStorage()->getMimeType($path);
 	}
 
-	public function hash($type, $path, $raw = false): string|false {
+	public function hash(string $type, string $path, bool $raw = false): string|false {
 		return $this->getWrapperStorage()->hash($type, $path, $raw);
 	}
 
-	public function free_space($path): int|float|false {
+	public function free_space(string $path): int|float|false {
 		return $this->getWrapperStorage()->free_space($path);
 	}
 
-	public function touch($path, $mtime = null): bool {
+	public function touch(string $path, ?int $mtime = null): bool {
 		return $this->getWrapperStorage()->touch($path, $mtime);
 	}
 
-	public function getLocalFile($path): string|false {
+	public function getLocalFile(string $path): string|false {
 		return $this->getWrapperStorage()->getLocalFile($path);
 	}
 
-	public function hasUpdated($path, $time): bool {
+	public function hasUpdated(string $path, int $time): bool {
 		return $this->getWrapperStorage()->hasUpdated($path, $time);
 	}
 
-	public function getCache($path = '', $storage = null): ICache {
+	public function getCache(string $path = '', ?IStorage $storage = null): ICache {
 		if (!$storage) {
 			$storage = $this;
 		}
 		return $this->getWrapperStorage()->getCache($path, $storage);
 	}
 
-	public function getScanner($path = '', $storage = null): IScanner {
+	public function getScanner(string $path = '', ?IStorage $storage = null): IScanner {
 		if (!$storage) {
 			$storage = $this;
 		}
 		return $this->getWrapperStorage()->getScanner($path, $storage);
 	}
 
-	public function getOwner($path): string|false {
+	public function getOwner(string $path): string|false {
 		return $this->getWrapperStorage()->getOwner($path);
 	}
 
-	public function getWatcher($path = '', $storage = null): IWatcher {
+	public function getWatcher(string $path = '', ?IStorage $storage = null): IWatcher {
 		if (!$storage) {
 			$storage = $this;
 		}
 		return $this->getWrapperStorage()->getWatcher($path, $storage);
 	}
 
-	public function getPropagator($storage = null): IPropagator {
+	public function getPropagator(?IStorage $storage = null): IPropagator {
 		if (!$storage) {
 			$storage = $this;
 		}
 		return $this->getWrapperStorage()->getPropagator($storage);
 	}
 
-	public function getUpdater($storage = null): IUpdater {
+	public function getUpdater(?IStorage $storage = null): IUpdater {
 		if (!$storage) {
 			$storage = $this;
 		}
@@ -209,7 +209,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 		return $this->getWrapperStorage()->getStorageCache();
 	}
 
-	public function getETag($path): string|false {
+	public function getETag(string $path): string|false {
 		return $this->getWrapperStorage()->getETag($path);
 	}
 
@@ -221,7 +221,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 		return $this->getWrapperStorage()->isLocal();
 	}
 
-	public function instanceOfStorage($class): bool {
+	public function instanceOfStorage(string $class): bool {
 		if (ltrim($class, '\\') === 'OC\Files\Storage\Shared') {
 			// FIXME Temporary fix to keep existing checks working
 			$class = '\OCA\Files_Sharing\SharedStorage';
@@ -251,15 +251,13 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	/**
 	 * Pass any methods custom to specific storage implementations to the wrapped storage
 	 *
-	 * @param string $method
-	 * @param array $args
 	 * @return mixed
 	 */
-	public function __call($method, $args) {
+	public function __call(string $method, array $args) {
 		return call_user_func_array([$this->getWrapperStorage(), $method], $args);
 	}
 
-	public function getDirectDownload($path): array|false {
+	public function getDirectDownload(string $path): array|false {
 		return $this->getWrapperStorage()->getDirectDownload($path);
 	}
 
@@ -267,15 +265,15 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 		return $this->getWrapperStorage()->getAvailability();
 	}
 
-	public function setAvailability($isAvailable): void {
+	public function setAvailability(bool $isAvailable): void {
 		$this->getWrapperStorage()->setAvailability($isAvailable);
 	}
 
-	public function verifyPath($path, $fileName): void {
+	public function verifyPath(string $path, string $fileName): void {
 		$this->getWrapperStorage()->verifyPath($path, $fileName);
 	}
 
-	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath): bool {
+	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		if ($sourceStorage === $this) {
 			return $this->copy($sourceInternalPath, $targetInternalPath);
 		}
@@ -283,7 +281,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 		return $this->getWrapperStorage()->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
-	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath): bool {
+	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		if ($sourceStorage === $this) {
 			return $this->rename($sourceInternalPath, $targetInternalPath);
 		}
@@ -291,23 +289,23 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 		return $this->getWrapperStorage()->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
-	public function getMetaData($path): ?array {
+	public function getMetaData(string $path): ?array {
 		return $this->getWrapperStorage()->getMetaData($path);
 	}
 
-	public function acquireLock($path, $type, ILockingProvider $provider): void {
+	public function acquireLock(string $path, int $type, ILockingProvider $provider): void {
 		if ($this->getWrapperStorage()->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
 			$this->getWrapperStorage()->acquireLock($path, $type, $provider);
 		}
 	}
 
-	public function releaseLock($path, $type, ILockingProvider $provider): void {
+	public function releaseLock(string $path, int $type, ILockingProvider $provider): void {
 		if ($this->getWrapperStorage()->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
 			$this->getWrapperStorage()->releaseLock($path, $type, $provider);
 		}
 	}
 
-	public function changeLock($path, $type, ILockingProvider $provider): void {
+	public function changeLock(string $path, int $type, ILockingProvider $provider): void {
 		if ($this->getWrapperStorage()->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
 			$this->getWrapperStorage()->changeLock($path, $type, $provider);
 		}
@@ -331,7 +329,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 		}
 	}
 
-	public function getDirectoryContent($directory): \Traversable {
+	public function getDirectoryContent(string $directory): \Traversable {
 		return $this->getWrapperStorage()->getDirectoryContent($directory);
 	}
 

@@ -77,7 +77,7 @@
     "core-js": "^3.38.1",
     "davclient.js": "github:owncloud/davclient.js.git#0.2.2",
     "debounce": "^2.1.0",
-    "dompurify": "^3.0.11",
+    "dompurify": "^3.1.7",
     "escape-html": "^1.0.3",
     "focus-trap": "^7.6.0",
     "handlebars": "^4.7.7",
@@ -120,8 +120,8 @@
     "webdav": "^5.7.0"
   },
   "devDependencies": {
-    "@babel/node": "^7.24.8",
-    "@babel/plugin-transform-private-methods": "^7.25.4",
+    "@babel/node": "^7.25.7",
+    "@babel/plugin-transform-private-methods": "^7.25.7",
     "@babel/preset-typescript": "^7.24.7",
     "@cypress/vue2": "^2.1.1",
     "@cypress/webpack-preprocessor": "^6.0.2",

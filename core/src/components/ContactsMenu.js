@@ -15,6 +15,7 @@ export const setUp = () => {
 	if (mountPoint) {
 		// eslint-disable-next-line no-new
 		new Vue({
+			name: 'ContactsMenuRoot',
 			el: mountPoint,
 			render: h => h(ContactsMenu),
 		})

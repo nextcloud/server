@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\Provisioning_API\Controller;
 
-use OC\Group\Manager;
+use OC\Group\Manager as GroupManager;
 use OC\User\Backend;
 use OC\User\NoUserException;
 use OC_Helper;
@@ -20,9 +20,10 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\Files\NotFoundException;
+use OCP\Group\ISubAdmin;
 use OCP\IConfig;
-use OCP\IGroupManager;
 use OCP\IRequest;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -45,35 +46,18 @@ abstract class AUserData extends OCSController {
 	public const USER_FIELD_MANAGER = 'manager';
 	public const USER_FIELD_NOTIFICATION_EMAIL = 'notify_email';
 
-	/** @var IUserManager */
-	protected $userManager;
-	/** @var IConfig */
-	protected $config;
-	/** @var Manager */
-	protected $groupManager;
-	/** @var IUserSession */
-	protected $userSession;
-	/** @var IAccountManager */
-	protected $accountManager;
-	/** @var IFactory */
-	protected $l10nFactory;
-
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IUserManager $userManager,
-		IConfig $config,
-		IGroupManager $groupManager,
-		IUserSession $userSession,
-		IAccountManager $accountManager,
-		IFactory $l10nFactory) {
+		protected IUserManager $userManager,
+		protected IConfig $config,
+		protected GroupManager $groupManager,
+		protected IUserSession $userSession,
+		protected IAccountManager $accountManager,
+		protected ISubAdmin $subAdminManager,
+		protected IFactory $l10nFactory,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->userManager = $userManager;
-		$this->config = $config;
-		$this->groupManager = $groupManager;
-		$this->userSession = $userSession;
-		$this->accountManager = $accountManager;
-		$this->l10nFactory = $l10nFactory;
 	}
 
 	/**
@@ -136,8 +120,8 @@ abstract class AUserData extends OCSController {
 		$data['backend'] = $targetUserObject->getBackendClassName();
 		$data['subadmin'] = $this->getUserSubAdminGroupsData($targetUserObject->getUID());
 		$data[self::USER_FIELD_QUOTA] = $this->fillStorageInfo($targetUserObject->getUID());
-		$managerUids = $targetUserObject->getManagerUids();
-		$data[self::USER_FIELD_MANAGER] = empty($managerUids) ? '' : $managerUids[0];
+		$managers = $this->getManagers($targetUserObject);
+		$data[self::USER_FIELD_MANAGER] = empty($managers) ? '' : $managers[0];
 
 		try {
 			if ($includeScopes) {
@@ -204,6 +188,34 @@ abstract class AUserData extends OCSController {
 		];
 
 		return $data;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	protected function getManagers(IUser $user): array {
+		$currentLoggedInUser = $this->userSession->getUser();
+
+		$managerUids = $user->getManagerUids();
+		if ($this->groupManager->isAdmin($currentLoggedInUser->getUID()) || $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())) {
+			return $managerUids;
+		}
+
+		if ($this->subAdminManager->isSubAdmin($currentLoggedInUser)) {
+			$accessibleManagerUids = array_values(array_filter(
+				$managerUids,
+				function (string $managerUid) use ($currentLoggedInUser) {
+					$manager = $this->userManager->get($managerUid);
+					if (!($manager instanceof IUser)) {
+						return false;
+					}
+					return $this->subAdminManager->isUserAccessible($currentLoggedInUser, $manager);
+				},
+			));
+			return $accessibleManagerUids;
+		}
+
+		return [];
 	}
 
 	/**

@@ -124,6 +124,7 @@ OC.L10N.register(
     "Remove from favorites" : "Verwijderen uit favorieten",
     "Add to favorites" : "Aan favorieten toevoegen",
     "Tags" : "Tags",
+    "You" : "Je",
     "Unable to change the favourite state of the file" : "Niet mogelijk om favoriet status van het bestand te wijzigen",
     "Error while loading the file data" : "Fout bij het lezen van de bestandsgegevens",
     "Pick a template for {name}" : "Kies een sjabloon voor {name}",

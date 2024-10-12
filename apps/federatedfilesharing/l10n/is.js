@@ -27,8 +27,8 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Skýjasambandsauðkennið þitt (Federated Cloud ID):",
     "Share it so your friends can share files with you:" : "Deildu þessu svo að vinir þínir geti deilt skrám með þér:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora",
+    "X (formerly Twitter)" : "X (fyrrum Twitter)",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Bæta við vefsvæðið þitt",
     "Share with me via Nextcloud" : "Deila með mér í gegnum Nextcloud",
     "HTML Code:" : "HTML-kóði:",
@@ -36,8 +36,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Deila með mér í gegnum víðværa skýjasambandsauðkennið mitt #Nextcloud Federated Cloud ID",
     "Cloud ID copied to the clipboard" : "Skýjasambandsauðkenni afritað á klippispjald",
     "Copy to clipboard" : "Afrita á klippispjald",
-    "Clipboard is not available" : "Klippispjald er ekki tiltækt",
-    "Copied!" : "Afritað!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Viltu bæta við fjartengdri sameign {name} frá {owner}@{remote}?",
     "Remote share" : "Fjartengd sameign",
     "Remote share password" : "Lykilorð fjartengdrar sameignar",
@@ -49,6 +47,10 @@ OC.L10N.register(
     "Allow users on this server to send shares to groups on other servers" : "Leyfa notendum á þessum þjóni að senda sameignir til hópa á öðrum þjónum",
     "Allow users on this server to receive group shares from other servers" : "Leyfa notendum á þessum þjóni að taka á móti hópsameignum frá öðrum þjónum",
     "Search global and public address book for users" : "Leita að notendum í víðværri og opinberri vistfangaskrá",
-    "Allow users to publish their data to a global and public address book" : "Leifa notendum að birta gögnin sín í víðværri og opinberri vistfangaskrá"
+    "Allow users to publish their data to a global and public address book" : "Leifa notendum að birta gögnin sín í víðværri og opinberri vistfangaskrá",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "Klippispjald er ekki tiltækt",
+    "Copied!" : "Afritað!"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

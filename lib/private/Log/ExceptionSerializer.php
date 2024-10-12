@@ -6,6 +6,7 @@
 namespace OC\Log;
 
 use OC\Core\Controller\SetupController;
+use OC\Http\Client\Client;
 use OC\Security\IdentityProof\Key;
 use OC\Setup;
 use OC\SystemConfig;
@@ -106,6 +107,22 @@ class ExceptionSerializer {
 		Key::class => [
 			'__construct'
 		],
+		Client::class => [
+			'request',
+			'delete',
+			'deleteAsync',
+			'get',
+			'getAsync',
+			'head',
+			'headAsync',
+			'options',
+			'optionsAsync',
+			'patch',
+			'post',
+			'postAsync',
+			'put',
+			'putAsync',
+		],
 		\Redis::class => [
 			'auth'
 		],
@@ -196,13 +213,13 @@ class ExceptionSerializer {
 
 	private function removeValuesFromArgs($args, $values): array {
 		$workArgs = [];
-		foreach ($args as $arg) {
+		foreach ($args as $key => $arg) {
 			if (in_array($arg, $values, true)) {
 				$arg = self::SENSITIVE_VALUE_PLACEHOLDER;
 			} elseif (is_array($arg)) {
 				$arg = $this->removeValuesFromArgs($arg, $values);
 			}
-			$workArgs[] = $arg;
+			$workArgs[$key] = $arg;
 		}
 		return $workArgs;
 	}

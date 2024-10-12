@@ -14,6 +14,14 @@ namespace OCP\Http\Client;
  * @since 8.1.0
  */
 interface IClient {
+
+	/**
+	 * Default request timeout for requests
+	 *
+	 * @since 31.0.0
+	 */
+	public const DEFAULT_REQUEST_TIMEOUT = 30;
+
 	/**
 	 * Sends a GET request
 	 * @param string $uri

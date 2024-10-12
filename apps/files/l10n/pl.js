@@ -155,6 +155,7 @@ OC.L10N.register(
     "Remove from favorites" : "Usuń z ulubionych",
     "Add to favorites" : "Dodaj do ulubionych",
     "Tags" : "Etykiety",
+    "You" : "Ty",
     "Unable to change the favourite state of the file" : "Nie można zmienić ulubionego stanu pliku",
     "Error while loading the file data" : "Błąd podczas ładowania danych pliku",
     "Pick a template for {name}" : "Wybierz szablon dla {name}",

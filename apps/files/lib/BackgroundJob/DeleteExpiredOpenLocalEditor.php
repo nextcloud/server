@@ -11,7 +11,6 @@ namespace OCA\Files\BackgroundJob;
 
 use OCA\Files\Db\OpenLocalEditorMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
 
 /**
@@ -29,7 +28,7 @@ class DeleteExpiredOpenLocalEditor extends TimedJob {
 
 		// Run every 12h
 		$this->interval = 12 * 3600;
-		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 	/**

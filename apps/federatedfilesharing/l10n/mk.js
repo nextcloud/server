@@ -27,8 +27,6 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Вашиот федерален ID:",
     "Share it so your friends can share files with you:" : "Споделете и вашите пријатели ќе можат да споделуваат со вас:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora",
     "Add to your website" : "Додади на твојот веб сајт",
     "Share with me via Nextcloud" : "Сподели со мене",
     "HTML Code:" : "HTML код:",
@@ -36,8 +34,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Споделете со мене преку мојот Федерален Cloud ID",
     "Cloud ID copied to the clipboard" : "Cloud ID е копиран во клипборд",
     "Copy to clipboard" : "Копирај во клипборд",
-    "Clipboard is not available" : "Клипбордот не е достапен",
-    "Copied!" : "Копирано!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Дали сакате да додадете далечинско споделување на {name} од {owner}@{remote}?",
     "Remote share" : "Далечинско споделување",
     "Remote share password" : "Лозинка за далечинско споделување",
@@ -51,6 +47,10 @@ OC.L10N.register(
     "Allow users on this server to send shares to groups on other servers" : "Дозволи им на корисниците на овој сервер да испраќаат споделувања со групи на други сервери",
     "Allow users on this server to receive group shares from other servers" : "Дозволи им на корисниците на овој сервер да примаат споделувања од групи од други сервери",
     "Search global and public address book for users" : "Пребарајте го глобалниот и јавниот именик на корисници",
-    "Allow users to publish their data to a global and public address book" : "Дозволи им на корисниците да објавуваат информации во глобалниот и јавниот именик "
+    "Allow users to publish their data to a global and public address book" : "Дозволи им на корисниците да објавуваат информации во глобалниот и јавниот именик ",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "Клипбордот не е достапен",
+    "Copied!" : "Копирано!"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

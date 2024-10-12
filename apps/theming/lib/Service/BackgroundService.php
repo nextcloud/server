@@ -208,10 +208,7 @@ class BackgroundService {
 	}
 
 	public function setDefaultBackground(?string $userId = null): void {
-		$userId = $userId ?? $this->userId;
-		if ($userId === null) {
-			throw new RuntimeException('No currently logged-in user');
-		}
+		$userId = $userId ?? $this->getUserId();
 
 		$this->config->deleteUserValue($userId, Application::APP_ID, 'background_image');
 		$this->config->deleteUserValue($userId, Application::APP_ID, 'background_color');
@@ -226,11 +223,9 @@ class BackgroundService {
 	 * @throws PreConditionNotMetException
 	 * @throws NoUserException
 	 */
-	public function setFileBackground($path): void {
-		if ($this->userId === null) {
-			throw new RuntimeException('No currently logged-in user');
-		}
-		$userFolder = $this->rootFolder->getUserFolder($this->userId);
+	public function setFileBackground(string $path, ?string $userId = null): void {
+		$userId = $userId ?? $this->getUserId();
+		$userFolder = $this->rootFolder->getUserFolder($userId);
 
 		/** @var File $file */
 		$file = $userFolder->get($path);
@@ -244,10 +239,7 @@ class BackgroundService {
 	}
 
 	public function recalculateMeanColor(?string $userId = null): void {
-		$userId = $userId ?? $this->userId;
-		if ($userId === null) {
-			throw new RuntimeException('No currently logged-in user');
-		}
+		$userId = $userId ?? $this->getUserId();
 
 		$image = new \OCP\Image();
 		$handle = $this->getAppDataFolder($userId)->getFile('background.jpg')->read();
@@ -270,10 +262,8 @@ class BackgroundService {
 	 * @throws InvalidArgumentException If the specified filename does not match any shipped background
 	 */
 	public function setShippedBackground(string $filename, ?string $userId = null): void {
-		$userId = $userId ?? $this->userId;
-		if ($userId === null) {
-			throw new RuntimeException('No currently logged-in user');
-		}
+		$userId = $userId ?? $this->getUserId();
+
 		if (!array_key_exists($filename, self::SHIPPED_BACKGROUNDS)) {
 			throw new InvalidArgumentException('The given file name is invalid');
 		}
@@ -287,10 +277,8 @@ class BackgroundService {
 	 * @param string|null $userId The user to set the color - default to current logged-in user
 	 */
 	public function setColorBackground(string $color, ?string $userId = null): void {
-		$userId = $userId ?? $this->userId;
-		if ($userId === null) {
-			throw new RuntimeException('No currently logged-in user');
-		}
+		$userId = $userId ?? $this->getUserId();
+
 		if (!preg_match('/^#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
 			throw new InvalidArgumentException('The given color is invalid');
 		}
@@ -298,15 +286,14 @@ class BackgroundService {
 		$this->config->setUserValue($userId, Application::APP_ID, 'background_image', self::BACKGROUND_COLOR);
 	}
 
-	public function deleteBackgroundImage(): void {
-		if ($this->userId === null) {
-			throw new RuntimeException('No currently logged-in user');
-		}
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'background_image', self::BACKGROUND_COLOR);
+	public function deleteBackgroundImage(?string $userId = null): void {
+		$userId = $userId ?? $this->getUserId();
+		$this->config->setUserValue($userId, Application::APP_ID, 'background_image', self::BACKGROUND_COLOR);
 	}
 
-	public function getBackground(): ?ISimpleFile {
-		$background = $this->config->getUserValue($this->userId, Application::APP_ID, 'background_image', self::BACKGROUND_DEFAULT);
+	public function getBackground(?string $userId = null): ?ISimpleFile {
+		$userId = $userId ?? $this->getUserId();
+		$background = $this->config->getUserValue($userId, Application::APP_ID, 'background_image', self::BACKGROUND_DEFAULT);
 		if ($background === self::BACKGROUND_CUSTOM) {
 			try {
 				return $this->getAppDataFolder()->getFile('background.jpg');
@@ -400,20 +387,27 @@ class BackgroundService {
 	 * @throws NotPermittedException
 	 */
 	private function getAppDataFolder(?string $userId = null): ISimpleFolder {
-		$userId = $userId ?? $this->userId;
-		if ($userId === null) {
-			throw new RuntimeException('No currently logged-in user');
-		}
+		$userId = $userId ?? $this->getUserId();
 
 		try {
 			$rootFolder = $this->appData->getFolder('users');
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			$rootFolder = $this->appData->newFolder('users');
 		}
 		try {
 			return $rootFolder->getFolder($userId);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return $rootFolder->newFolder($userId);
 		}
+	}
+
+	/**
+	 * @throws RuntimeException Thrown if a method that needs a user is called without any logged-in user
+	 */
+	private function getUserId(): string {
+		if ($this->userId === null) {
+			throw new RuntimeException('No currently logged-in user');
+		}
+		return $this->userId;
 	}
 }

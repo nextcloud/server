@@ -175,6 +175,7 @@ OC.L10N.register(
     "Remove from favorites" : "Fjern fra favoritter",
     "Add to favorites" : "Tilføj til favoritter",
     "Tags" : "Tags",
+    "You" : "Dig",
     "Unable to change the favourite state of the file" : "Kan ikke ændre favorittilstanden for filen",
     "Error while loading the file data" : "Fejl under indlæsning af fildata",
     "Pick a template for {name}" : "Vælg en skabelon til {name}",

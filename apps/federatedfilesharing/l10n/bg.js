@@ -27,8 +27,7 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Вашият Federated Cloud ID:",
     "Share it so your friends can share files with you:" : "Споделете, за да могат приятелите ви да споделят файлове, с вас:",
     "Facebook" : "Фейсбук",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Диаспора",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Добавете към вашия уеб сайт",
     "Share with me via Nextcloud" : "Споделете с мен, чрез Nextcloud",
     "HTML Code:" : "HTML код:",
@@ -36,8 +35,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Споделете с мен, чрез моя #Nextcloud Federated Cloud ID",
     "Cloud ID copied to the clipboard" : "Cloud идентификатора е копиран в клипборда",
     "Copy to clipboard" : "Копиране в клипборда",
-    "Clipboard is not available" : "Клипбордът не е достъпен",
-    "Copied!" : "Копирано!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Искате ли да добавите отдалечено споделяне {name} от {owner}@{remote}?",
     "Remote share" : "Отдалечено споделяне",
     "Remote share password" : "Парола за отдалечено споделяне",
@@ -51,6 +48,10 @@ OC.L10N.register(
     "Allow users on this server to send shares to groups on other servers" : "Позволете на потребителите на този сървър да изпращат споделяния до групи на други сървъри",
     "Allow users on this server to receive group shares from other servers" : "Позволете на потребители на този сървър да получават групови споделяния от други сървъри",
     "Search global and public address book for users" : "Търсене на глобална и публична адресна книга за потребители",
-    "Allow users to publish their data to a global and public address book" : "Позволете на потребителите да публикуват своите данни в глобална и публична адресна книга"
+    "Allow users to publish their data to a global and public address book" : "Позволете на потребителите да публикуват своите данни в глобална и публична адресна книга",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Диаспора",
+    "Clipboard is not available" : "Клипбордът не е достъпен",
+    "Copied!" : "Копирано!"
 },
 "nplurals=2; plural=(n != 1);");

@@ -13,6 +13,7 @@ use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,6 +27,7 @@ class Delete extends Base {
 		protected UserStoragesService $userService,
 		protected IUserSession $userSession,
 		protected IUserManager $userManager,
+		protected QuestionHelper $questionHelper,
 	) {
 		parent::__construct();
 	}
@@ -64,6 +66,7 @@ class Delete extends Base {
 			$listInput->setOption('output', $input->getOption('output'));
 			$listCommand->listMounts(null, [$mount], $listInput, $output);
 
+			/** @var QuestionHelper $questionHelper */
 			$questionHelper = $this->getHelper('question');
 			$question = new ConfirmationQuestion('Delete this mount? [y/N] ', false);
 

@@ -122,6 +122,7 @@ OC.L10N.register(
     "If you have enabled 2FA, you must create and use a new app password by clicking here." : "Ако сте активирали 2FA, трябва да създадете и използвате нова парола за приложението, като кликнете тук.",
     "Clipboard is not available" : "Клипбордът не е достъпен",
     "WebDAV URL copied to clipboard" : "WebDAV URL адрес е копиран в клипборда",
+    "Owner" : "Създател",
     "Remove from favorites" : "Премахни от любимите",
     "Add to favorites" : "Добави към любимите",
     "Tags" : "Етикети",

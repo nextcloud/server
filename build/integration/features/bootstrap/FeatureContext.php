@@ -9,7 +9,6 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-
 /**
  * Features context.
  */

@@ -36,10 +36,9 @@ interface INotifyStorage {
 	/**
 	 * Start the notification handler for this storage
 	 *
-	 * @param $path
 	 * @return INotifyHandler
 	 *
 	 * @since 12.0.0
 	 */
-	public function notify($path);
+	public function notify(string $path);
 }

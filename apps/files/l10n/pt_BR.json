@@ -173,9 +173,12 @@
     "If you have enabled 2FA, you must create and use a new app password by clicking here." : "If you have enabled 2FA, you must create and use a new app password by clicking here.",
     "Clipboard is not available" : "A área de transferência não está disponível",
     "WebDAV URL copied to clipboard" : "URL do WebDAV copiado para a área de transferência",
+    "Owner" : "Proprietário",
     "Remove from favorites" : "Excluir dos favoritos",
     "Add to favorites" : "Adicionar aos favoritos",
     "Tags" : "Etiquetas",
+    "You" : "Você",
+    "Shared multiple times with different people" : "Compartilhado várias vezes com pessoas diferentes",
     "Unable to change the favourite state of the file" : "Não foi possível alterar o estado favorito do arquivo",
     "Error while loading the file data" : "Erro ao carregar os dados do arquivo",
     "Pick a template for {name}" : "Escolha um modelo para {name}",
@@ -205,6 +208,8 @@
     "Edit online" : "Editar on-line",
     "Failed to redirect to client" : "Falha ao redirecionar para o cliente",
     "Edit locally" : "Editar localmente",
+    "Moving \"{source}\" to \"{destination}\" …" : "Movendo \"{source}\" para \"{destination}\" …",
+    "Copying \"{source}\" to \"{destination}\" …" : "Copiando \"{source}\" para \"{destination}\" …",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Você não pode mover um arquivo/pasta para si mesmo ou para uma subpasta dele mesmo",
     "(copy)" : "(cópia)",
     "(copy %n)" : "(copiar %n)",
@@ -394,6 +399,7 @@
     "Direct link was copied (only works for people who have access to this file/folder)" : "Link direto foi copiado (funciona apenas para pessoas que têm acesso a este arquivo/pasta)",
     "Copy direct link (only works for people who have access to this file/folder)" : "Copiar link direto (funciona apenas para pessoas que têm acesso a este arquivo/pasta)",
     "Favored" : "Favoritado",
+    "Favor" : "Favor",
     "Not favored" : "Não favoritado"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

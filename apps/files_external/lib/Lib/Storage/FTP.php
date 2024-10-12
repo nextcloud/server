@@ -82,7 +82,7 @@ class FTP extends Common {
 		return 'ftp::' . $this->username . '@' . $this->host . '/' . $this->root;
 	}
 
-	protected function buildPath($path): string {
+	protected function buildPath(string $path): string {
 		return rtrim($this->root . '/' . $path, '/');
 	}
 
@@ -94,7 +94,7 @@ class FTP extends Common {
 		}
 	}
 
-	public function filemtime($path): int|false {
+	public function filemtime(string $path): int|false {
 		$result = $this->getConnection()->mdtm($this->buildPath($path));
 
 		if ($result === -1) {
@@ -126,7 +126,7 @@ class FTP extends Common {
 		}
 	}
 
-	public function filesize($path): false|int|float {
+	public function filesize(string $path): false|int|float {
 		$result = $this->getConnection()->size($this->buildPath($path));
 		if ($result === -1) {
 			return false;
@@ -135,7 +135,7 @@ class FTP extends Common {
 		}
 	}
 
-	public function rmdir($path): bool {
+	public function rmdir(string $path): bool {
 		if ($this->is_dir($path)) {
 			$result = $this->getConnection()->rmdir($this->buildPath($path));
 			// recursive rmdir support depends on the ftp server
@@ -151,10 +151,7 @@ class FTP extends Common {
 		}
 	}
 
-	/**
-	 * @param string $path
-	 */
-	private function recursiveRmDir($path): bool {
+	private function recursiveRmDir(string $path): bool {
 		$contents = $this->getDirectoryContent($path);
 		$result = true;
 		foreach ($contents as $content) {
@@ -177,7 +174,7 @@ class FTP extends Common {
 		}
 	}
 
-	public function stat($path): array|false {
+	public function stat(string $path): array|false {
 		if (!$this->file_exists($path)) {
 			return false;
 		}
@@ -187,14 +184,14 @@ class FTP extends Common {
 		];
 	}
 
-	public function file_exists($path): bool {
+	public function file_exists(string $path): bool {
 		if ($path === '' || $path === '.' || $path === '/') {
 			return true;
 		}
 		return $this->filetype($path) !== false;
 	}
 
-	public function unlink($path): bool {
+	public function unlink(string $path): bool {
 		switch ($this->filetype($path)) {
 			case 'dir':
 				return $this->rmdir($path);
@@ -205,19 +202,19 @@ class FTP extends Common {
 		}
 	}
 
-	public function opendir($path) {
+	public function opendir(string $path) {
 		$files = $this->getConnection()->nlist($this->buildPath($path));
 		return IteratorDirectory::wrap($files);
 	}
 
-	public function mkdir($path): bool {
+	public function mkdir(string $path): bool {
 		if ($this->is_dir($path)) {
 			return false;
 		}
 		return $this->getConnection()->mkdir($this->buildPath($path)) !== false;
 	}
 
-	public function is_dir($path): bool {
+	public function is_dir(string $path): bool {
 		if ($path === '') {
 			return true;
 		}
@@ -229,11 +226,11 @@ class FTP extends Common {
 		}
 	}
 
-	public function is_file($path): bool {
+	public function is_file(string $path): bool {
 		return $this->filesize($path) !== false;
 	}
 
-	public function filetype($path): string|false {
+	public function filetype(string $path): string|false {
 		if ($this->is_dir($path)) {
 			return 'dir';
 		} elseif ($this->is_file($path)) {
@@ -243,7 +240,7 @@ class FTP extends Common {
 		}
 	}
 
-	public function fopen($path, $mode) {
+	public function fopen(string $path, string $mode) {
 		$useExisting = true;
 		switch ($mode) {
 			case 'r':
@@ -309,7 +306,7 @@ class FTP extends Common {
 		return $stream;
 	}
 
-	public function touch($path, $mtime = null): bool {
+	public function touch(string $path, ?int $mtime = null): bool {
 		if ($this->file_exists($path)) {
 			return false;
 		} else {
@@ -318,12 +315,12 @@ class FTP extends Common {
 		}
 	}
 
-	public function rename($source, $target): bool {
+	public function rename(string $source, string $target): bool {
 		$this->unlink($target);
 		return $this->getConnection()->rename($this->buildPath($source), $this->buildPath($target));
 	}
 
-	public function getDirectoryContent($directory): \Traversable {
+	public function getDirectoryContent(string $directory): \Traversable {
 		$files = $this->getConnection()->mlsd($this->buildPath($directory));
 		$mimeTypeDetector = \OC::$server->getMimeTypeDetector();
 

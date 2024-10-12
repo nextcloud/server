@@ -15,7 +15,7 @@ export default () => {
 	const view = new View({
 		id: 'public-file-share',
 		name: t('files_sharing', 'Public file share'),
-		caption: t('files_sharing', 'Public shared file.'),
+		caption: t('files_sharing', 'Publicly shared file.'),
 
 		emptyTitle: t('files_sharing', 'No file'),
 		emptyCaption: t('files_sharing', 'The file shared with you will show up here'),

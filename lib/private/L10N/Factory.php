@@ -98,7 +98,7 @@ class Factory implements IFactory {
 				$lang = str_replace(['\0', '/', '\\', '..'], '', $lang);
 			}
 
-			$forceLang = $this->config->getSystemValue('force_language', false);
+			$forceLang = $this->request->getParam('forceLanguage') ?? $this->config->getSystemValue('force_language', false);
 			if (is_string($forceLang)) {
 				$lang = $forceLang;
 			}
@@ -139,7 +139,7 @@ class Factory implements IFactory {
 	 */
 	public function findLanguage(?string $appId = null): string {
 		// Step 1: Forced language always has precedence over anything else
-		$forceLang = $this->config->getSystemValue('force_language', false);
+		$forceLang = $this->request->getParam('forceLanguage') ?? $this->config->getSystemValue('force_language', false);
 		if (is_string($forceLang)) {
 			$this->requestLanguage = $forceLang;
 		}
@@ -196,7 +196,7 @@ class Factory implements IFactory {
 
 	public function findGenericLanguage(?string $appId = null): string {
 		// Step 1: Forced language always has precedence over anything else
-		$forcedLanguage = $this->config->getSystemValue('force_language', false);
+		$forcedLanguage = $this->request->getParam('forceLanguage') ?? $this->config->getSystemValue('force_language', false);
 		if ($forcedLanguage !== false) {
 			return $forcedLanguage;
 		}
@@ -411,6 +411,10 @@ class Factory implements IFactory {
 				return $language;
 			}
 
+			if (($forcedLanguage = $this->request->getParam('forceLanguage')) !== null) {
+				return $forcedLanguage;
+			}
+
 			// Use language from request
 			if ($this->userSession->getUser() instanceof IUser &&
 				$user->getUID() === $this->userSession->getUser()->getUID()) {
@@ -421,7 +425,7 @@ class Factory implements IFactory {
 			}
 		}
 
-		return $this->config->getSystemValueString('default_language', 'en');
+		return $this->request->getParam('forceLanguage') ?? $this->config->getSystemValueString('default_language', 'en');
 	}
 
 	/**

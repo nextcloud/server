@@ -348,6 +348,7 @@ OC.L10N.register(
     "Total rows summary" : "Tóm tắt tổng số hàng",
     "Scroll to load more rows" : "Cuộn để tải thêm hàng",
     "Avatar" : "Hình đại diện",
+    "Account name" : "Tên tài khoản",
     "Group admin for" : "Quản trị viên nhóm",
     "Storage location" : "Khu vực lưu trữ",
     "Last login" : "Lần đăng nhập cuối",

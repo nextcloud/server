@@ -20,6 +20,8 @@ OC.L10N.register(
     "Set status" : "Nastavit stav",
     "Online status" : "Stav online",
     "Status message" : "Stavová zpráva",
+    "Set absence period" : "Nastavit období nepřítomnosti",
+    "Set absence period and replacement" : "Nastavit období nepřítomnosti a zástup",
     "Your status was set automatically" : "Váš stav byl nastaven automaticky",
     "Clear status message" : "Vyčistit stavovou zprávu",
     "Set status message" : "Nastavit stavovou zprávu",

@@ -140,7 +140,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: MIT
 - dompurify
-	- version: 3.1.6
+	- version: 3.1.7
 	- license: (MPL-2.0 OR Apache-2.0)
 - emoji-mart-vue-fast
 	- version: 15.0.2

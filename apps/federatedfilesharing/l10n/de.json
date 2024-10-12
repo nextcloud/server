@@ -34,8 +34,8 @@
     "Your Federated Cloud ID:" : "Deine Federated-Cloud-ID:",
     "Share it so your friends can share files with you:" : "Teile es, so dass deine Freunde Dateien mit dir teilen können:",
     "Facebook" : "Facebook",
-    "Twitter" : "X",
-    "Diaspora" : "Diaspora",
+    "X (formerly Twitter)" : "X (früher Twitter)",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Zu deiner Webseite hinzufügen",
     "Share with me via Nextcloud" : "Teile mit mir über Nextcloud",
     "HTML Code:" : "HTML-Code:",
@@ -43,8 +43,6 @@
     "Share with me through my #Nextcloud Federated Cloud ID" : "Teile mit mir über meine #Nextcloud Federated-Cloud-ID",
     "Cloud ID copied to the clipboard" : "Cloud-ID in die Zwischenablage kopiert",
     "Copy to clipboard" : "In die Zwischenablage kopieren",
-    "Clipboard is not available" : "Zwischenablage ist nicht verfügbar",
-    "Copied!" : "Kopiert!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Soll die externe Freigabe {name} von {owner}@{remote} hinzugefügt werden?",
     "Remote share" : "Externe Freigabe",
     "Remote share password" : "Passwort für die externe Freigabe",
@@ -58,6 +56,10 @@
     "Allow users on this server to send shares to groups on other servers" : "Ermögliche Benutzern dieses Servers Freigaben an Gruppen auf anderen Servern zu senden",
     "Allow users on this server to receive group shares from other servers" : "Ermögliche Benutzern dieses Servers, Gruppen-Freigaben von anderen Servern zu empfangen",
     "Search global and public address book for users" : "Durchsuche globales und öffentliches Adressbuch nach Benutzern",
-    "Allow users to publish their data to a global and public address book" : "Erlaube Benutzern, ihre Daten an ein globales und öffentliches Adressbuch zu veröffentlichen"
+    "Allow users to publish their data to a global and public address book" : "Erlaube Benutzern, ihre Daten an ein globales und öffentliches Adressbuch zu veröffentlichen",
+    "Twitter" : "X",
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "Zwischenablage ist nicht verfügbar",
+    "Copied!" : "Kopiert!"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

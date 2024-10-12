@@ -134,6 +134,7 @@
     "If you have enabled 2FA, you must create and use a new app password by clicking here." : "اگر 2FA را فعال کرده اید، باید با کلیک کردن در اینجا یک رمز عبور برنامه جدید ایجاد و استفاده کنید.",
     "Clipboard is not available" : "کلیپ بورد در دسترس نیست",
     "WebDAV URL copied to clipboard" : "URL WebDAV در کلیپ بورد کپی شد",
+    "Owner" : "مالک",
     "Remove from favorites" : "حذف کردن از برگزیده ها",
     "Add to favorites" : "اضافه کردن به برگزیده ها",
     "Tags" : "برچسب‌ها",
