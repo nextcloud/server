@@ -11,8 +11,8 @@
     "{actor} removed system tag {systemtag}" : "{actor} حذف وسم النظام {systemtag}",
     "You created system tag %1$s" : "قمت بإنشاء وسم النظام %1$s",
     "You created system tag {systemtag}" : "قمت بإنشاء وسم النظام {systemtag}",
-    "%1$s created system tag %2$s" : "%1$s قمت بإنشاء وسم النظام %2$s",
-    "{actor} created system tag {systemtag}" : "{actor} قمت بإنشاء وسم النظام {systemtag}",
+    "%1$s created system tag %2$s" : "%1$s قام بإنشاء وسم النظام %2$s",
+    "{actor} created system tag {systemtag}" : "{actor} قام بإنشاء وسم النظام {systemtag}",
     "You deleted system tag %1$s" : "قمت بحذف وسم النظام %1$s",
     "You deleted system tag {systemtag}" : "قمت بحذف وسم النظام {systemtag}",
     "%1$s deleted system tag %2$s" : "%1$s تم حذف وسم النظام %2$s",
@@ -41,8 +41,8 @@
     "All tagged %s …" : "جميع الوسوم %s …",
     "tagged %s" : "موسوم %s",
     "Collaborative tags" : "الوسوم التعاونية",
-    "Collaborative tagging functionality which shares tags among people." : "وظيفة السِّمات التعاونية التي تسمح بمشاركة السِّمات بين المستخدِمين.",
-    "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "وظيفة السِّمات التعاونية التي تسمح بمشاركة السِّمات بين المستخدِمين.\n\t(إذا كنت مقدم خدمة متعدد الإيجارات multi-tenancy provider، فمن المستحسن إلغاء تنشيط هذا التطبيق حيث تتم مشاركة السِّمات.)",
+    "Collaborative tagging functionality which shares tags among people." : "وظيفة الوسوم التعاونية التي تسمح بمشاركة الوسوم بين المستخدِمين.",
+    "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "وظيفة الوسوم التعاونية التي تسمح بمشاركة الوسوم بين المستخدِمين.\n\t(إذا كنت مقدم خدمة متعدد الإيجارات multi-tenancy provider، فمن المستحسن إلغاء تنشيط هذا التطبيق حيث تتم مشاركة الوسوم.)",
     "Create or edit tags" : "أنشِيءْ أو عدِّل الوسوم ",
     "Search for a tag to edit" : "البحث عن وسم لتعديله",
     "Collaborative tags …" : "وسوم تعاونية ...",
@@ -88,6 +88,6 @@
     "No entries found in this folder" : "لا يوجد مدخلات في هذا المجلد ",
     "Name" : "اسم",
     "Size" : "حجم",
-    "Modified" : "معدل"
+    "Modified" : "تاريخ التعديل"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

@@ -13,6 +13,18 @@
     "{temperature} {unit} clear sky" : "{temperature} {unit} 天晴",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} 今天稍後密雲",
     "{temperature} {unit} cloudy" : "{temperature} {unit} 密雲",
+    "{temperature} {unit} snow and thunder later today" : "{temperature} {unit} 今日稍後會下雪與行雷",
+    "{temperature} {unit} snow and thunder" : "{temperature} {unit} 下雪與行雷",
+    "{temperature} {unit} snow showers and thunder later today" : "{temperature} {unit} 今日稍後有陣雪與行雷",
+    "{temperature} {unit} snow showers and thunder" : "{temperature} {unit} 陣雪與行雷",
+    "{temperature} {unit} snow showers, thunder and polar twilight later today" : "{temperature} {unit} 今日稍後有陣雪、行雷與極地曙暮光",
+    "{temperature} {unit} snow showers, thunder and polar twilight" : "{temperature} {unit} 陣雪、行雷與極地曙暮光",
+    "{temperature} {unit} snow showers later today" : "{temperature} {unit} 今日稍後陣雪",
+    "{temperature} {unit} snow showers" : "{temperature} {unit} 陣雪",
+    "{temperature} {unit} snow showers and polar twilight later today" : "{temperature} {unit} 今日稍後有陣雪與極地曙暮光",
+    "{temperature} {unit} snow showers and polar twilight" : "{temperature} {unit} 有陣雪與極地曙暮光",
+    "{temperature} {unit} snow later today" : "{temperature} {unit} 今日稍後有雪",
+    "{temperature} {unit} snow" : "{temperature} {unit} 有雪",
     "{temperature} {unit} fair weather later today" : "{temperature} {unit} 今天稍後好天氣",
     "{temperature} {unit} fair weather" : "{temperature} {unit} 好天氣",
     "{temperature} {unit} partly cloudy later today" : "{temperature} {unit} 天稍後局部密雲",
@@ -44,6 +56,7 @@
     "There was an error setting the location." : "設定位置時發生錯誤。",
     "There was an error saving the mode." : "儲存模式時發生錯誤。",
     "There was an error using personal address." : "使用個人地址時發生錯誤。",
+    "Unknown weather code" : "天氣代碼不詳",
     "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "整合在儀表板應用程式中的天氣報告。\n    用戶的位置可以自動偵測或手動定義。然後會顯示6小時的預測。\n    此狀態也可以整合到其他地方，如「日曆」應用程式。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
