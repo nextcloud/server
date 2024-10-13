@@ -74,15 +74,19 @@ class DnsPinMiddleware {
 
 		$soaDnsEntry = $this->soaRecord($target);
 		$dnsNegativeTtl = $soaDnsEntry['minimum-ttl'] ?? null;
+		$canHaveCnameRecord = true;
 
 		$dnsTypes = [DNS_A, DNS_AAAA, DNS_CNAME];
 		foreach ($dnsTypes as $dnsType) {
+			if ($canHaveCnameRecord === false && $dnsType === DNS_CNAME) {
+				continue;
+			}
+
 			if ($this->negativeDnsCache->isNegativeCached($target, $dnsType)) {
 				continue;
 			}
 
 			$dnsResponses = $this->dnsGetRecord($target, $dnsType);
-			$canHaveCnameRecord = true;
 			if ($dnsResponses !== false && count($dnsResponses) > 0) {
 				foreach ($dnsResponses as $dnsResponse) {
 					if (isset($dnsResponse['ip'])) {
