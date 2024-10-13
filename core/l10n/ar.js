@@ -207,7 +207,7 @@ OC.L10N.register(
     "Login form is disabled." : "نموذج تسجيل الدخول معطل",
     "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "نموذج تسجيل الدخول إلى نكست كلاود مُعطّل. استخدم خيار تسجيل دخول آخر إذا كان متاحًا أو اتصل بإدارتك.",
     "Edit Profile" : "تعديل الملف الشخصي",
-    "The headline and about sections will show up here" : "الترويسة و أقسام التعريف About سيتم عرضها هنا",
+    "The headline and about sections will show up here" : "سيظهر هنا العنوان والأقسام الخاصة بالملف الشخصي",
     "You have not added any info yet" : "لم تقم بإضافة أي معلومات حتى الآن",
     "{user} has not added any info yet" : "لم يقم المستخدم {user} بإضافة أي معلومات بعد",
     "Error opening the user status modal, try hard refreshing the page" : "خطأ في فتح حالة المستخدم ، حاول تحديث الصفحة",
