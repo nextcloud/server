@@ -472,34 +472,92 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertSame($shares, $result);
 	}
 
-	public function testPromoteReshareWhenUserHasOneShare(): void {
+	public function testPromoteReshareFile(): void {
+		$manager = $this->createManagerMock()
+			->setMethods(['updateShare', 'getSharesInFolder', 'generalCreateChecks'])
+			->getMock();
+
+		$file = $this->createMock(File::class);
+
+		$share = $this->createMock(IShare::class);
+		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$share->method('getNodeType')->willReturn('folder');
+		$share->method('getSharedWith')->willReturn('userB');
+		$share->method('getNode')->willReturn($file);
+
+		$reShare = $this->createMock(IShare::class);
+		$reShare->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$reShare->method('getSharedBy')->willReturn('userB');
+		$reShare->method('getSharedWith')->willReturn('userC');
+		$reShare->method('getNode')->willReturn($file);
+
+		$this->defaultProvider->method('getSharesBy')
+			->willReturnCallback(function ($userId, $shareType, $node, $reshares, $limit, $offset) use ($reShare, $file) {
+				$this->assertEquals($file, $node);
+				if ($shareType === IShare::TYPE_USER) {
+					return match($userId) {
+						'userB' => [$reShare],
+					};
+				} else {
+					return [];
+				}
+			});
+		$manager->method('generalCreateChecks')->willThrowException(new GenericShareException());
+
+		$manager->expects($this->exactly(1))->method('updateShare')->with($reShare);
+
+		self::invokePrivate($manager, 'promoteReshares', [$share]);
+	}
+
+	public function testPromoteReshare(): void {
 		$manager = $this->createManagerMock()
 			->setMethods(['updateShare', 'getSharesInFolder', 'generalCreateChecks'])
 			->getMock();
 
 		$folder = $this->createMock(Folder::class);
+		$folder->method('getPath')->willReturn('/path/to/folder');
+
+		$subFolder = $this->createMock(Folder::class);
+		$subFolder->method('getPath')->willReturn('/path/to/folder/sub');
+
+		$otherFolder = $this->createMock(Folder::class);
+		$otherFolder->method('getPath')->willReturn('/path/to/otherfolder/');
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
 		$share->method('getNodeType')->willReturn('folder');
-		$share->method('getSharedWith')->willReturn('UserB');
+		$share->method('getSharedWith')->willReturn('userB');
 		$share->method('getNode')->willReturn($folder);
 
 		$reShare = $this->createMock(IShare::class);
-		$reShare->method('getSharedBy')->willReturn('UserB');
-		$reShare->method('getSharedWith')->willReturn('UserC');
+		$reShare->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$reShare->method('getSharedBy')->willReturn('userB');
+		$reShare->method('getSharedWith')->willReturn('userC');
 		$reShare->method('getNode')->willReturn($folder);
 
 		$reShareInSubFolder = $this->createMock(IShare::class);
-		$reShareInSubFolder->method('getSharedBy')->willReturn('UserB');
+		$reShareInSubFolder->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$reShareInSubFolder->method('getSharedBy')->willReturn('userB');
+		$reShareInSubFolder->method('getNode')->willReturn($subFolder);
 
-		$manager->method('getSharesInFolder')->willReturn([$reShareInSubFolder]);
-		$manager->method('generalCreateChecks')->willThrowException(new GenericShareException());
+		$reShareInOtherFolder = $this->createMock(IShare::class);
+		$reShareInOtherFolder->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$reShareInOtherFolder->method('getSharedBy')->willReturn('userB');
+		$reShareInOtherFolder->method('getNode')->willReturn($otherFolder);
 
 		$this->defaultProvider->method('getSharesBy')
-			->willReturn([$reShare]);
+			->willReturnCallback(function ($userId, $shareType, $node, $reshares, $limit, $offset) use ($reShare, $reShareInSubFolder, $reShareInOtherFolder) {
+				if ($shareType === IShare::TYPE_USER) {
+					return match($userId) {
+						'userB' => [$reShare,$reShareInSubFolder,$reShareInOtherFolder],
+					};
+				} else {
+					return [];
+				}
+			});
+		$manager->method('generalCreateChecks')->willThrowException(new GenericShareException());
 
-		$manager->expects($this->atLeast(2))->method('updateShare')->withConsecutive([$reShare], [$reShareInSubFolder]);
+		$manager->expects($this->exactly(2))->method('updateShare')->withConsecutive([$reShare], [$reShareInSubFolder]);
 
 		self::invokePrivate($manager, 'promoteReshares', [$share]);
 	}
@@ -510,23 +568,24 @@ class ManagerTest extends \Test\TestCase {
 			->getMock();
 
 		$folder = $this->createMock(Folder::class);
+		$folder->method('getPath')->willReturn('/path/to/folder');
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
 		$share->method('getNodeType')->willReturn('folder');
-		$share->method('getSharedWith')->willReturn('UserB');
+		$share->method('getSharedWith')->willReturn('userB');
 		$share->method('getNode')->willReturn($folder);
 
 		$reShare = $this->createMock(IShare::class);
 		$reShare->method('getShareType')->willReturn(IShare::TYPE_USER);
 		$reShare->method('getNodeType')->willReturn('folder');
-		$reShare->method('getSharedBy')->willReturn('UserB');
+		$reShare->method('getSharedBy')->willReturn('userB');
 		$reShare->method('getNode')->willReturn($folder);
 
 		$this->defaultProvider->method('getSharesBy')->willReturn([$reShare]);
-		$manager->method('getSharesInFolder')->willReturn([]);
 		$manager->method('generalCreateChecks')->willReturn(true);
 
+		/* No share is promoted because generalCreateChecks does not throw */
 		$manager->expects($this->never())->method('updateShare');
 
 		self::invokePrivate($manager, 'promoteReshares', [$share]);
@@ -538,6 +597,7 @@ class ManagerTest extends \Test\TestCase {
 			->getMock();
 
 		$folder = $this->createMock(Folder::class);
+		$folder->method('getPath')->willReturn('/path/to/folder');
 
 		$userA = $this->createMock(IUser::class);
 		$userA->method('getUID')->willReturn('userA');
@@ -552,13 +612,13 @@ class ManagerTest extends \Test\TestCase {
 		$reShare1 = $this->createMock(IShare::class);
 		$reShare1->method('getShareType')->willReturn(IShare::TYPE_USER);
 		$reShare1->method('getNodeType')->willReturn('folder');
-		$reShare1->method('getSharedBy')->willReturn('UserB');
+		$reShare1->method('getSharedBy')->willReturn('userB');
 		$reShare1->method('getNode')->willReturn($folder);
 
 		$reShare2 = $this->createMock(IShare::class);
 		$reShare2->method('getShareType')->willReturn(IShare::TYPE_USER);
 		$reShare2->method('getNodeType')->willReturn('folder');
-		$reShare2->method('getSharedBy')->willReturn('UserC');
+		$reShare2->method('getSharedBy')->willReturn('userC');
 		$reShare2->method('getNode')->willReturn($folder);
 
 		$userB = $this->createMock(IUser::class);
@@ -570,11 +630,19 @@ class ManagerTest extends \Test\TestCase {
 		$this->groupManager->method('get')->with('Group')->willReturn($group);
 
 		$this->defaultProvider->method('getSharesBy')
-			->willReturn([]);
+			->willReturnCallback(function ($userId, $shareType, $node, $reshares, $limit, $offset) use ($reShare1, $reShare2) {
+				if ($shareType === IShare::TYPE_USER) {
+					return match($userId) {
+						'userB' => [$reShare1],
+						'userC' => [$reShare2],
+					};
+				} else {
+					return [];
+				}
+			});
 		$manager->method('generalCreateChecks')->willThrowException(new GenericShareException());
 
 		$manager->method('getSharedWith')->willReturn([]);
-		$manager->expects($this->exactly(2))->method('getSharesInFolder')->willReturnOnConsecutiveCalls([[$reShare1]], [[$reShare2]]);
 
 		$manager->expects($this->exactly(2))->method('updateShare')->withConsecutive([$reShare1], [$reShare2]);
 
