@@ -2693,12 +2693,8 @@
       <code><![CDATA[string]]></code>
     </InvalidParamDefault>
     <InvalidScalarArgument>
-      <code><![CDATA[$appName]]></code>
-      <code><![CDATA[$appName]]></code>
+      <code><![CDATA[$appId]]></code>
     </InvalidScalarArgument>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getInitialStates]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/URLGenerator.php">
     <InvalidReturnStatement>
