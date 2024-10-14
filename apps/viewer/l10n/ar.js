@@ -27,7 +27,7 @@ OC.L10N.register(
     "Save as" : "حفظ باسم",
     "Back" : "عودة",
     "Loading …" : "التحميلُ جارٍ …",
-    "Reset" : "إعادة الضبط",
+    "Reset" : "إعادة تعيين",
     "All changes will be lost." : "ستفقد كل التغييرات.",
     "Are you sure you want to continue?" : "هل أنت متأكد أنك ترغب بالاستمرار؟",
     "Cancel" : "إلغاء",
