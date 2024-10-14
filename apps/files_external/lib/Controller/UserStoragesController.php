@@ -156,6 +156,7 @@ class UserStoragesController extends StoragesController {
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	public function update(
 		$id,
 		$mountPoint,
@@ -207,6 +208,7 @@ class UserStoragesController extends StoragesController {
 	 * {@inheritdoc}
 	 */
 	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	public function destroy($id) {
 		return parent::destroy($id);
 	}
