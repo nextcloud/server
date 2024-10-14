@@ -73,7 +73,7 @@
 					:required="!settings.isAdmin && !settings.isDelegatedAdmin"
 					@input="handleGroupInput"
 					@option:created="createGroup" />
-					<!-- If user is not admin, he is a subadmin.
+					<!-- If user is not admin, they are a subadmin.
 						Subadmins can't create users outside their groups
 						Therefore, empty select is forbidden -->
 			</div>

@@ -243,7 +243,7 @@ interface Node extends FileInfo {
 	 * Check the type of an existing lock.
 	 *
 	 * A shared lock can be changed to an exclusive lock is there is exactly one shared lock on the file,
-	 * an exclusive lock can always be changed to a shared lock since there can only be one exclusive lock int he first place.
+	 * an exclusive lock can always be changed to a shared lock since there can only be one exclusive lock in the first place.
 	 *
 	 * A locked exception will be thrown when these preconditions are not met.
 	 * Note that this is also the case if no existing lock exists for the file.

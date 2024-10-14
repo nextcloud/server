@@ -1172,7 +1172,7 @@ class Access extends LDAPUtility {
 				return false;
 			}
 			// if count is bigger, then the server does not support
-			// paged search. Instead, he did a normal search. We set a
+			// paged search. Instead, they did a normal search. We set a
 			// flag here, so the callee knows how to deal with it.
 			if ($foundItems <= $limit) {
 				$this->pagedSearchedSuccessful = true;

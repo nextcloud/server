@@ -394,7 +394,7 @@ class User implements IUser {
 	}
 
 	/**
-	 * Check if the backend allows the user to change his avatar on Personal page
+	 * Check if the backend allows the user to change their avatar on Personal page
 	 *
 	 * @return bool
 	 */

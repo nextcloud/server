@@ -659,7 +659,7 @@ class User {
 				$currentValue = '';
 				$scope = $defaultScopes[$property];
 			}
-			$verified = IAccountManager::VERIFIED; // trust the LDAP admin knew what he put there
+			$verified = IAccountManager::VERIFIED; // trust the LDAP admin knew what they put there
 			if ($currentValue !== $value) {
 				$account->setProperty($property, $value, $scope, $verified);
 				$this->logger->debug('update user profile: ' . $property . '=' . $value
@@ -854,7 +854,7 @@ class User {
 				exit();
 			}
 			//handle pwdReset attribute
-			if (!empty($pwdReset) && $pwdReset[0] === 'TRUE') { //user must change his password
+			if (!empty($pwdReset) && $pwdReset[0] === 'TRUE') { //user must change their password
 				$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
 				header('Location: ' . \OC::$server->getURLGenerator()->linkToRouteAbsolute(
 					'user_ldap.renewPassword.showRenewPasswordForm', ['user' => $uid]));

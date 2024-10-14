@@ -43,7 +43,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	}
 
 	/**
-	 * checks whether the user is allowed to change his avatar in Nextcloud
+	 * checks whether the user is allowed to change their avatar in Nextcloud
 	 *
 	 * @param string $uid the Nextcloud user name
 	 * @return boolean either the user can or cannot
