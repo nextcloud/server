@@ -10,7 +10,6 @@ SPDX-FileCopyrightText: inline-style-parser developers
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: atomiks
-SPDX-FileCopyrightText: assert developers
 SPDX-FileCopyrightText: Victor Felder <victor@draft.li> (https://draft.li)
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
@@ -21,7 +20,6 @@ SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
-SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
 SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
@@ -30,8 +28,6 @@ SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
 SPDX-FileCopyrightText: Mapbox
 SPDX-FileCopyrightText: Joyent
-SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
-SPDX-FileCopyrightText: Jordan Harband
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)
 SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
@@ -134,12 +130,6 @@ This file is generated from multiple sources. Included packages:
 - @vueuse/shared
 	- version: 11.1.0
 	- license: MIT
-- assert
-	- version: 2.1.0
-	- license: MIT
-- available-typed-arrays
-	- version: 1.0.7
-	- license: MIT
 - axios
 	- version: 1.7.7
 	- license: MIT
@@ -148,9 +138,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - base64-js
 	- version: 1.5.1
-	- license: MIT
-- call-bind
-	- version: 1.0.7
 	- license: MIT
 - cancelable-promise
 	- version: 4.3.1
@@ -164,23 +151,14 @@ This file is generated from multiple sources. Included packages:
 - comma-separated-tokens
 	- version: 2.0.3
 	- license: MIT
-- console-browserify
-	- version: 1.2.0
-	- license: MIT
 - crypt
 	- version: 0.0.2
 	- license: BSD-3-Clause
 - css-loader
-	- version: 6.11.0
+	- version: 7.1.2
 	- license: MIT
 - decode-named-character-reference
 	- version: 1.0.2
-	- license: MIT
-- define-data-property
-	- version: 1.1.4
-	- license: MIT
-- define-properties
-	- version: 1.2.1
 	- license: MIT
 - devlop
 	- version: 1.1.0
@@ -188,12 +166,6 @@ This file is generated from multiple sources. Included packages:
 - dompurify
 	- version: 3.1.7
 	- license: (MPL-2.0 OR Apache-2.0)
-- es-define-property
-	- version: 1.0.0
-	- license: MIT
-- es-errors
-	- version: 1.3.0
-	- license: MIT
 - escape-html
 	- version: 1.0.3
 	- license: MIT
@@ -205,33 +177,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - focus-trap
 	- version: 7.6.0
-	- license: MIT
-- for-each
-	- version: 0.3.3
-	- license: MIT
-- function-bind
-	- version: 1.1.2
-	- license: MIT
-- get-intrinsic
-	- version: 1.2.4
-	- license: MIT
-- gopd
-	- version: 1.0.1
-	- license: MIT
-- has-property-descriptors
-	- version: 1.0.2
-	- license: MIT
-- has-proto
-	- version: 1.0.3
-	- license: MIT
-- has-symbols
-	- version: 1.0.3
-	- license: MIT
-- has-tostringtag
-	- version: 1.0.2
-	- license: MIT
-- hasown
-	- version: 2.0.2
 	- license: MIT
 - hast-to-hyperscript
 	- version: 10.0.3
@@ -245,35 +190,17 @@ This file is generated from multiple sources. Included packages:
 - ieee754
 	- version: 1.2.1
 	- license: BSD-3-Clause
-- inherits
-	- version: 2.0.4
-	- license: ISC
 - inline-style-parser
 	- version: 0.1.1
 	- license: MIT
 - is-absolute-url
 	- version: 4.0.1
 	- license: MIT
-- is-arguments
-	- version: 1.1.1
-	- license: MIT
 - is-buffer
 	- version: 1.1.6
 	- license: MIT
-- is-callable
-	- version: 1.2.7
-	- license: MIT
-- is-generator-function
-	- version: 1.0.10
-	- license: MIT
-- is-nan
-	- version: 1.3.2
-	- license: MIT
 - is-plain-obj
 	- version: 4.1.0
-	- license: MIT
-- is-typed-array
-	- version: 1.1.13
 	- license: MIT
 - linkify-string
 	- version: 4.1.3
@@ -416,15 +343,6 @@ This file is generated from multiple sources. Included packages:
 - buffer
 	- version: 6.0.3
 	- license: MIT
-- object-is
-	- version: 1.1.6
-	- license: MIT
-- object-keys
-	- version: 1.1.1
-	- license: MIT
-- object.assign
-	- version: 4.1.5
-	- license: MIT
 - inherits
 	- version: 2.0.3
 	- license: ISC
@@ -433,9 +351,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - path
 	- version: 0.12.7
-	- license: MIT
-- possible-typed-array-names
-	- version: 1.0.0
 	- license: MIT
 - process
 	- version: 0.11.10
@@ -461,9 +376,6 @@ This file is generated from multiple sources. Included packages:
 - remark-rehype
 	- version: 11.1.0
 	- license: MIT
-- set-function-length
-	- version: 1.2.2
-	- license: MIT
 - space-separated-tokens
 	- version: 2.0.2
 	- license: MIT
@@ -471,7 +383,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.2.0
 	- license: MIT
 - style-loader
-	- version: 3.3.4
+	- version: 4.0.0
 	- license: MIT
 - style-to-object
 	- version: 0.4.4
@@ -512,9 +424,6 @@ This file is generated from multiple sources. Included packages:
 - unist-util-visit
 	- version: 5.0.0
 	- license: MIT
-- util
-	- version: 0.12.5
-	- license: MIT
 - vfile-message
 	- version: 4.0.2
 	- license: MIT
@@ -541,9 +450,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - webpack
 	- version: 5.94.0
-	- license: MIT
-- which-typed-array
-	- version: 1.1.15
 	- license: MIT
 - zwitch
 	- version: 2.0.4
