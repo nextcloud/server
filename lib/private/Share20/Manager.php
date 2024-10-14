@@ -1205,16 +1205,23 @@ class Manager implements IManager {
 		foreach ($userIds as $userId) {
 			foreach ($shareTypes as $shareType) {
 				$provider = $this->factory->getProviderForType($shareType);
-				$shares = $provider->getSharesBy($userId, $shareType, $node, false, -1, 0);
-				foreach ($shares as $child) {
-					$reshareRecords[] = $child;
-				}
-			}
+				if ($node instanceof Folder) {
+					/* We need to get all shares by this user to get subshares */
+					$shares = $provider->getSharesBy($userId, $shareType, null, false, -1, 0);
 
-			if ($node instanceof Folder) {
-				$sharesInFolder = $this->getSharesInFolder($userId, $node, false);
-
-				foreach ($sharesInFolder as $shares) {
+					foreach ($shares as $share) {
+						try {
+							$path = $share->getNode()->getPath();
+						} catch (NotFoundException) {
+							/* Ignore share of non-existing node */
+							continue;
+						}
+						if (str_starts_with($path, $node->getPath() . '/') || ($path === $node->getPath())) {
+							$reshareRecords[] = $share;
+						}
+					}
+				} else {
+					$shares = $provider->getSharesBy($userId, $shareType, $node, false, -1, 0);
 					foreach ($shares as $child) {
 						$reshareRecords[] = $child;
 					}
