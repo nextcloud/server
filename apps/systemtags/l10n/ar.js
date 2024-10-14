@@ -54,7 +54,7 @@ OC.L10N.register(
     "Create" : "إنشاء",
     "Update" : "تحديث",
     "Delete" : "حذف ",
-    "Reset" : "إعادة الضبط",
+    "Reset" : "إعادة تعيين",
     "Loading …" : "التحميل جارٍ …",
     "Public" : "للعامة",
     "Restricted" : "مقيدة",

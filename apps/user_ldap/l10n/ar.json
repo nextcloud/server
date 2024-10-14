@@ -71,7 +71,7 @@
     "> 1000 groups found" : "> 1000 مجموعة موجودة",
     "> 1000 users found" : "> 1000 مستخدِم موجود",
     "_%n user found_::_%n users found_" : ["تم العثور على %n مستخدمين","تم العثور على %n مستخدم","تم العثور على %n مستخدمين","تم العثور على %n مستخدمين","تم العثور على %n مستخدمين","تم العثور على %n مستخدمين"],
-    "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "تعذر اكتشاف خاصّية الاسم المعروض للمستخدم user display name attribute. يرجى تحديدها بنفسك في الإعدادات المتقدمة لخادم LDAP.",
+    "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "تعذر اكتشاف خاصّية اسم العرض للمستخدم user display name attribute. يرجى تحديدها بنفسك في الإعدادات المتقدمة لخادم LDAP.",
     "Could not find the desired feature" : "تعذر العثور على الميزة المطلوبة",
     "Invalid Host" : "مُضيف غير صالح",
     "LDAP user and group backend" : "خلفية المستخدمين و المجموعات من LDAP",
