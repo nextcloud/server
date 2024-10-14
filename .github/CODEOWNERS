@@ -2,10 +2,14 @@
 /apps/admin_audit/appinfo/info.xml            @luka-nextcloud @blizzz
 /apps/cloud_federation_api/appinfo/info.xml   @mejo-
 /apps/comments/appinfo/info.xml               @edward-ly @Pytal
-/apps/contactsinteraction/appinfo/info.xml    @kesselb @miaulalala @ChristophWurst @GretaD @hamza221 @st3iny
+/apps/contactsinteraction/appinfo/info.xml    @kesselb @SebastianKrupinski
+/apps/contactsinteraction/lib                 @kesselb @SebastianKrupinski
+/apps/contactsinteraction/tests               @kesselb @SebastianKrupinski
 /apps/dashboard/appinfo/info.xml              @julien-nc @juliushaertl
-/apps/dav/lib/CalDAV                          @ChristophWurst @miaulalala @tcitworld
-/apps/dav/lib/CardDAV                         @ChristophWurst @miaulalala @tcitworld
+/apps/dav/lib/CalDAV                          @miaulalala @st3iny @SebastianKrupinski
+/apps/dav/lib/CardDAV                         @miaulalala @st3iny @SebastianKrupinski
+/apps/dav/tests/unit/CalDAV                   @miaulalala @st3iny @SebastianKrupinski
+/apps/dav/tests/unit/CardDAV                  @miaulalala @st3iny @SebastianKrupinski
 /apps/encryption/appinfo/info.xml             @come-nc @icewind1991
 /apps/federatedfilesharing/appinfo/info.xml   @icewind1991 @danxuliu
 /apps/federation/appinfo/info.xml             @datenangebot
@@ -63,6 +67,10 @@ ResponseDefinitions.php @provokateurin
 /lib/public/OCM                     @nickvergessen
 /lib/public/Talk                    @nickvergessen
 /lib/public/UserStatus              @nickvergessen
+
+# Groupware
+/build/integration/dav_features/caldav.feature    @miaulalala @st3iny @SebastianKrupinski
+/build/integration/dav_features/carddav.feature   @miaulalala @st3iny @SebastianKrupinski
 
 # Personal interest
 */Activity/*                        @nickvergessen
