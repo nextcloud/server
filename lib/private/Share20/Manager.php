@@ -1216,7 +1216,8 @@ class Manager implements IManager {
 							/* Ignore share of non-existing node */
 							continue;
 						}
-						if (str_starts_with($path, $node->getPath() . '/') || ($path === $node->getPath())) {
+						if ($node->getRelativePath($path) !== null) {
+							/* If relative path is not null it means the shared node is the same or in a subfolder */
 							$reshareRecords[] = $share;
 						}
 					}
