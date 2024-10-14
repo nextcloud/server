@@ -583,8 +583,7 @@
                         ]
                     },
                     "label": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
                     },
                     "mail_send": {
                         "type": "integer",
