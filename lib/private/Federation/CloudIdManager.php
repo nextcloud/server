@@ -125,7 +125,7 @@ class CloudIdManager implements ICloudIdManager {
 			if (isset($entry['CLOUD'])) {
 				foreach ($entry['CLOUD'] as $cloudID) {
 					if ($cloudID === $cloudId) {
-						// Warning, if user decides to make his full name local only,
+						// Warning, if user decides to make their full name local only,
 						// no FN is found on federated servers
 						if (isset($entry['FN'])) {
 							return $entry['FN'];

@@ -242,7 +242,7 @@ class Tags implements ITags {
 
 	/**
 	 * Checks whether a tag is saved for the given user,
-	 * disregarding the ones shared with him or her.
+	 * disregarding the ones shared with them.
 	 *
 	 * @param string $name The tag name to check for.
 	 * @param string $user The user whose tags are to be checked.
