@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 @use 'variables';
+@use 'sass:color';
 @import 'functions';
 
  /* Specifically override browser styles */
@@ -512,24 +513,24 @@ input {
 		&.checkbox--white {
 			+ label:before,
 			&:focus + label:before {
-				border-color: darken($color-checkbox-radio-white, 27%);
+				border-color: color.adjust($color-checkbox-radio-white, $lightness: -27%, $space: hsl);
 			}
 			&:not(:disabled):not(:checked) + label:hover:before {
 				border-color: $color-checkbox-radio-white;
 			}
 			&:checked + label:before {
 				box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
-				background-color: darken($color-checkbox-radio-white, 14%);
-				border-color: darken($color-checkbox-radio-white, 14%);
+				background-color: color.adjust($color-checkbox-radio-white, $lightness: -14%, $space: hsl);
+				border-color: color.adjust($color-checkbox-radio-white, $lightness: -14%, $space: hsl);
 			}
 			&:disabled + label:before {
-				background-color: darken($color-checkbox-radio-white, 27%) !important; /* override other status */
+				background-color: color.adjust($color-checkbox-radio-white, $lightness: -27%, $space: hsl) !important; /* override other status */
 				border-color: rgba($color-checkbox-radio-white, 0.4) !important; /* override other status */
 			}
 			&:checked:disabled + label:before {
 				box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
 				border-color: rgba($color-checkbox-radio-white, 0.4) !important; /* override other status */
-				background-color: darken($color-checkbox-radio-white, 27%);
+				background-color: color.adjust($color-checkbox-radio-white, $lightness: -27%, $space: hsl);
 			}
 		}
 		&.checkbox--white {
