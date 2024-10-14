@@ -299,7 +299,7 @@ class Server {
 				));
 				if (\OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
 					$this->server->addPlugin(new IMipPlugin(
-						\OC::$server->get(\OCP\IConfig::class),
+						\OC::$server->get(\OCP\IAppConfig::class),
 						\OC::$server->get(\OCP\Mail\IMailer::class),
 						\OC::$server->get(LoggerInterface::class),
 						\OC::$server->get(\OCP\AppFramework\Utility\ITimeFactory::class),
