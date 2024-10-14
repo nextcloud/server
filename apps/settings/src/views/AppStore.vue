@@ -59,17 +59,18 @@ onBeforeMount(() => {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	(instance?.proxy as any).$store.dispatch('getCategories', { shouldRefetchCategories: true });
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	(instance?.proxy as any).$store.dispatch('getAllApps');
+	(instance?.proxy as any).$store.dispatch('getAllApps')
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	if ((instance?.proxy as any).$store.getters.isAppApiEnabled) {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(instance?.proxy as any).$store.dispatch('app_api_apps/getAllApps');
+		(instance?.proxy as any).$store.dispatch('appApiApps/getAllApps');
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(instance?.proxy as any).$store.dispatch('app_api_apps/updateAppsStatus');
+		(instance?.proxy as any).$store.dispatch('appApiApps/updateAppsStatus')
 	}
 })
 onBeforeUnmount(() => {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	clearInterval((instance?.proxy as any).$store.getters('app_api_apps/getStatusUpdater'));
+	clearInterval((instance?.proxy as any).$store.getters('appApiApps/getStatusUpdater'))
 })
 </script>
 

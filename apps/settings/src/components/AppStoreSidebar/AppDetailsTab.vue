@@ -79,9 +79,9 @@
 						@click="forceEnable(app.id)">
 				</div>
 				<NcCheckboxRadioSwitch v-if="app.canUnInstall"
-															 :checked="removeData"
-															 :disabled="installing || isLoading || !defaultDeployDaemonAccessible"
-															 @update:checked="toggleRemoveData">
+					:checked="removeData"
+					:disabled="installing || isLoading || !defaultDeployDaemonAccessible"
+					@update:checked="toggleRemoveData">
 					{{ t('settings', 'Delete data on remove') }}
 				</NcCheckboxRadioSwitch>
 			</div>

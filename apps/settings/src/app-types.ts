@@ -53,13 +53,6 @@ export interface IAppstoreApp {
 	releases?: IAppstoreAppRelease[]
 }
 
-export interface IAppstoreExApp extends IAppstoreApp {
-	daemon: IDeployDaemon,
-	status: IExAppStatus,
-	error: string,
-	app_api: boolean,
-}
-
 export interface IComputeDevice {
 	id: string,
 	label: string,
@@ -89,4 +82,11 @@ export interface IExAppStatus {
 	init: number,
 	init_start_time: number,
 	type: string,
+}
+
+export interface IAppstoreExApp extends IAppstoreApp {
+	daemon: IDeployDaemon,
+	status: IExAppStatus,
+	error: string,
+	app_api: boolean,
 }

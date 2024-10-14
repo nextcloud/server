@@ -13,13 +13,13 @@ export default {
 		},
 		installing() {
 			if (this.app?.app_api) {
-				return this.app && this.$store.getters['app_api_apps/loading']('install')
+				return this.app && this.$store.getters['appApiApps/loading']('install')
 			}
 			return this.$store.getters.loading('install')
 		},
 		isLoading() {
 			if (this.app?.app_api) {
-				return this.app && this.$store.getters['app_api_apps/loading'](this.app.id)
+				return this.app && this.$store.getters['appApiApps/loading'](this.app.id)
 			}
 			return this.app && this.$store.getters.loading(this.app.id)
 		},
@@ -108,9 +108,9 @@ export default {
 					return true
 				}
 				if (this.app?.daemon?.accepts_deploy_id === 'docker-install') {
-					return this.$store.getters['app_api_apps/getDaemonAccessible'] === true
+					return this.$store.getters['appApiApps/getDaemonAccessible'] === true
 				}
-				return this.$store.getters['app_api_apps/getDaemonAccessible']
+				return this.$store.getters['appApiApps/getDaemonAccessible']
 			}
 			return true
 		},
@@ -136,7 +136,7 @@ export default {
 			if (this.app?.app_api) {
 				return false
 			}
-			return this.app.groups.length || this.groupCheckedAppsData;
+			return this.app.groups.length || this.groupCheckedAppsData
 		},
 		setGroupLimit() {
 			if (this.app?.app_api) {
@@ -179,7 +179,7 @@ export default {
 		forceEnable(appId) {
 			let type = 'forceEnableApp'
 			if (this.app?.app_api) {
-				type = 'app_api_apps/forceEnableApp'
+				type = 'appApiApps/forceEnableApp'
 			}
 			this.$store.dispatch(type, { appId, groups: [] })
 				.then((response) => { rebuildNavigation() })
@@ -188,7 +188,7 @@ export default {
 		enable(appId) {
 			let type = 'enableApp'
 			if (this.app?.app_api) {
-				type = 'app_api_apps/enableApp'
+				type = 'appApiApps/enableApp'
 			}
 			this.$store.dispatch(type, { appId, groups: [] })
 				.then((response) => { rebuildNavigation() })
@@ -197,7 +197,7 @@ export default {
 		disable(appId) {
 			let type = 'disableApp'
 			if (this.app?.app_api) {
-				type = 'app_api_apps/disableApp'
+				type = 'appApiApps/disableApp'
 			}
 			this.$store.dispatch(type, { appId })
 				.then((response) => { rebuildNavigation() })
@@ -207,7 +207,7 @@ export default {
 			let type = 'uninstallApp'
 			let payload = { appId }
 			if (this.app?.app_api) {
-				type = 'app_api_apps/uninstallApp'
+				type = 'appApiApps/uninstallApp'
 				payload = { appId, removeData }
 			}
 			this.$store.dispatch(type, payload)
@@ -217,7 +217,7 @@ export default {
 		install(appId) {
 			let type = 'enableApp'
 			if (this.app?.app_api) {
-				type = 'app_api_apps/enableApp'
+				type = 'appApiApps/enableApp'
 			}
 			this.$store.dispatch(type, { appId })
 				.then((response) => { rebuildNavigation() })
@@ -226,7 +226,7 @@ export default {
 		update(appId) {
 			let type = 'updateApp'
 			if (this.app?.app_api) {
-				type = 'app_api_apps/updateApp'
+				type = 'appApiApps/updateApp'
 			}
 			this.$store.dispatch(type, { appId })
 				.catch((error) => { showError(error) })

@@ -34,7 +34,6 @@ defineProps<{
 }>()
 </script>
 
-
 <style scoped lang="scss">
 .daemon {
   padding: 20px;

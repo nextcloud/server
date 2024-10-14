@@ -103,7 +103,7 @@ const mutations = {
 		state.apps.find(app => app.id === appId).installed = false
 		state.apps.find(app => app.id === appId).canUnInstall = false
 		state.apps.find(app => app.id === appId).canInstall = true
-		if (app.id === 'app_api') {
+		if (appId === 'app_api') {
 			state.appApiEnabled = false
 		}
 	},

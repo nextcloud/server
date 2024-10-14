@@ -65,7 +65,7 @@ const legacyStore = useStore()
 const appId = computed(() => route.params.id ?? '')
 const app = computed(() => {
 	if (legacyStore.getters.isAppApiEnabled) {
-		const exApp = legacyStore.getters['app_api_apps/getAllApps']
+		const exApp = legacyStore.getters['appApiApps/getAllApps']
 			.find((app) => app.id === appId.value) ?? null
 		if (exApp) {
 			return exApp
