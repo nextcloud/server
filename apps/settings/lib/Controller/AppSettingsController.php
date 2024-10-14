@@ -104,6 +104,9 @@ class AppSettingsController extends Controller {
 		return $templateResponse;
 	}
 
+	/**
+	 * @psalm-suppress UndefinedClass
+	 */
 	private function provideAppApiState(): void {
 		$appApiEnabled = $this->appManager->isInstalled('app_api');
 		$this->initialState->provideInitialState('appApiEnabled', $appApiEnabled);
