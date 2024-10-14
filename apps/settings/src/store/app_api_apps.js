@@ -392,5 +392,8 @@ const actions = {
 
 export default {
 	namespaced: true, // we will use AppAPI store module explicitly, since methods names are the same, we need to scope it
-	state, mutations, getters, actions
+	state,
+	mutations,
+	getters,
+	actions,
 }

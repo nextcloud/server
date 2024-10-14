@@ -16,7 +16,7 @@ import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js
 import { mdiFileChart } from '@mdi/js'
 import type { IDeployDaemon } from '../../app-types.ts'
 
-const props = defineProps<{
+defineProps<{
 	daemon?: IDeployDaemon
 }>()
 </script>

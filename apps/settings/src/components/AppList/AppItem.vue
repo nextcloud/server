@@ -16,9 +16,9 @@
 			:headers="getDataItemHeaders(`app-table-col-icon`)">
 			<div v-if="(listView && !app.preview && !app?.app_api) || (!listView && !screenshotLoaded && !app?.app_api)" class="icon-settings-dark" />
 			<NcIconSvgWrapper v-else-if="(listView && app?.app_api && !app.preview) || (!listView && !screenshotLoaded && app?.app_api)"
-												:path="mdiCogOutline()"
-												:size="listView ? 24 : 48"
-												style="min-width: auto; min-height: auto; height: 100%;"/>
+				:path="mdiCogOutline()"
+				:size="listView ? 24 : 48"
+				style="min-width: auto; min-height: auto; height: 100%;" />
 
 			<svg v-else-if="listView && app.preview && !app?.app_api"
 				width="32"
