@@ -9,6 +9,7 @@ namespace Test\Share20;
 
 use DateTimeZone;
 use OC\Files\Mount\MoveableMount;
+use OC\Files\Utils\PathHelper;
 use OC\KnownUser\KnownUserService;
 use OC\Share20\DefaultShareProvider;
 use OC\Share20\Exception;
@@ -199,6 +200,14 @@ class ManagerTest extends \Test\TestCase {
 			]);
 	}
 
+	private function createFolderMock(string $folderPath): MockObject&Folder {
+		$folder = $this->createMock(Folder::class);
+		$folder->method('getPath')->willReturn($folderPath);
+		$folder->method('getRelativePath')->willReturnCallback(
+			fn (string $path): ?string => PathHelper::getRelativePath($folderPath, $path)
+		);
+		return $folder;
+	}
 
 	public function testDeleteNoShareId(): void {
 		$this->expectException(\InvalidArgumentException::class);
@@ -514,14 +523,11 @@ class ManagerTest extends \Test\TestCase {
 			->setMethods(['updateShare', 'getSharesInFolder', 'generalCreateChecks'])
 			->getMock();
 
-		$folder = $this->createMock(Folder::class);
-		$folder->method('getPath')->willReturn('/path/to/folder');
+		$folder = $this->createFolderMock('/path/to/folder');
 
-		$subFolder = $this->createMock(Folder::class);
-		$subFolder->method('getPath')->willReturn('/path/to/folder/sub');
+		$subFolder = $this->createFolderMock('/path/to/folder/sub');
 
-		$otherFolder = $this->createMock(Folder::class);
-		$otherFolder->method('getPath')->willReturn('/path/to/otherfolder/');
+		$otherFolder = $this->createFolderMock('/path/to/otherfolder/');
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
@@ -567,8 +573,7 @@ class ManagerTest extends \Test\TestCase {
 			->setMethods(['updateShare', 'getSharesInFolder', 'getSharedWith', 'generalCreateChecks'])
 			->getMock();
 
-		$folder = $this->createMock(Folder::class);
-		$folder->method('getPath')->willReturn('/path/to/folder');
+		$folder = $this->createFolderMock('/path/to/folder');
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
@@ -596,8 +601,7 @@ class ManagerTest extends \Test\TestCase {
 			->setMethods(['updateShare', 'getSharesInFolder', 'getSharedWith', 'generalCreateChecks'])
 			->getMock();
 
-		$folder = $this->createMock(Folder::class);
-		$folder->method('getPath')->willReturn('/path/to/folder');
+		$folder = $this->createFolderMock('/path/to/folder');
 
 		$userA = $this->createMock(IUser::class);
 		$userA->method('getUID')->willReturn('userA');
