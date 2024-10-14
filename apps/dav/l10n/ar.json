@@ -194,7 +194,7 @@
     "You updated contact {card} in address book {addressbook}" : "أنت قمت بتحديث جهة الاتصال {card} في دفتر العناوين {addressbook}",
     "A <strong>contact</strong> or <strong>address book</strong> was modified" : "تمّ تعديل <strong>جهة الاتصال</strong> أو <strong>دفتر العناوين</strong> ",
     "Accounts" : "حسابات",
-    "System address book which holds all accounts" : "دفتر عناوين النظام الذي يحوي كل الحسابات",
+    "System address book which holds all accounts" : "دفتر عناوين النظام الذي يحتوي على جميع الحسابات",
     "File is not updatable: %1$s" : "ملف غير قابل للتعديل: %1$s",
     "Failed to get storage for file" : "تعذّر الحصول على مكان لتخزين الملف",
     "Could not write to final file, canceled by hook" : "تعذرت الكتابة إلى الملف النهائي، تم إلغاؤه بواسطة خطّاف hook",

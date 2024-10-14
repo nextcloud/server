@@ -72,7 +72,7 @@ OC.L10N.register(
     "Update app \"%s\" from App Store" : "Оновіть застосунок \"%s\" з App Store",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Перевіряю, чи схема бази даних для %s може бути оновлена (це може зайняти багато часу, залежно від розмірів бази даних)",
     "Updated \"%1$s\" to %2$s" : "Оновлено з \"%1$s\" до %2$s",
-    "Set log level to debug" : "Встановити рівень детальності журналу як налагодження",
+    "Set log level to debug" : "Встановити рівень деталізації журналу у налагодження",
     "Reset log level" : "Скинути налаштування детальності журналу",
     "Starting code integrity check" : "Початок перевірки цілісності коду",
     "Finished code integrity check" : "Завершено перевірку цілісності коду",
