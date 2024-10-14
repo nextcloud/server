@@ -151,7 +151,7 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 			$elapsed = $this->timeFactory->getTime() - $saved['time'];
 
 			// old value to compare to when setting ttl in case someone else changes the lock in the middle of this function
-			$value = $this->memcache->get($path);
+			$value = $this->memcache->getTTL($path);
 
 			$currentTtl = $this->getTTL($path);
 
