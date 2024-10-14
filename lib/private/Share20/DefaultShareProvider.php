@@ -991,7 +991,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
 			))
-			->execute();
+			->executeQuery();
 
 		$data = $cursor->fetch();
 
@@ -1024,7 +1024,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 			->setNote((string)$data['note'])
 			->setMailSend((bool)$data['mail_send'])
 			->setStatus((int)$data['accepted'])
-			->setLabel($data['label']);
+			->setLabel($data['label'] ?? '');
 
 		$shareTime = new \DateTime();
 		$shareTime->setTimestamp((int)$data['stime']);
