@@ -23,6 +23,7 @@ namespace Test\Share20;
 
 use DateTimeZone;
 use OC\Files\Mount\MoveableMount;
+use OC\Files\Utils\PathHelper;
 use OC\KnownUser\KnownUserService;
 use OC\Share20\DefaultShareProvider;
 use OC\Share20\Exception;
@@ -213,6 +214,14 @@ class ManagerTest extends \Test\TestCase {
 			]);
 	}
 
+	private function createFolderMock(string $folderPath): MockObject&Folder {
+		$folder = $this->createMock(Folder::class);
+		$folder->method('getPath')->willReturn($folderPath);
+		$folder->method('getRelativePath')->willReturnCallback(
+			fn (string $path): ?string => PathHelper::getRelativePath($folderPath, $path)
+		);
+		return $folder;
+	}
 
 	public function testDeleteNoShareId() {
 		$this->expectException(\InvalidArgumentException::class);
