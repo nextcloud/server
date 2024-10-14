@@ -1213,6 +1213,7 @@ return array(
     'OC\\Core\\Command\\Maintenance\\UpdateHtaccess' => $baseDir . '/core/Command/Maintenance/UpdateHtaccess.php',
     'OC\\Core\\Command\\Maintenance\\UpdateTheme' => $baseDir . '/core/Command/Maintenance/UpdateTheme.php',
     'OC\\Core\\Command\\Memcache\\RedisCommand' => $baseDir . '/core/Command/Memcache/RedisCommand.php',
+    'OC\\Core\\Command\\Preview\\Cleanup' => $baseDir . '/core/Command/Preview/Cleanup.php',
     'OC\\Core\\Command\\Preview\\Generate' => $baseDir . '/core/Command/Preview/Generate.php',
     'OC\\Core\\Command\\Preview\\Repair' => $baseDir . '/core/Command/Preview/Repair.php',
     'OC\\Core\\Command\\Preview\\ResetRenderedTexts' => $baseDir . '/core/Command/Preview/ResetRenderedTexts.php',

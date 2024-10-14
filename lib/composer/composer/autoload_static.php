@@ -1246,6 +1246,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\Maintenance\\UpdateHtaccess' => __DIR__ . '/../../..' . '/core/Command/Maintenance/UpdateHtaccess.php',
         'OC\\Core\\Command\\Maintenance\\UpdateTheme' => __DIR__ . '/../../..' . '/core/Command/Maintenance/UpdateTheme.php',
         'OC\\Core\\Command\\Memcache\\RedisCommand' => __DIR__ . '/../../..' . '/core/Command/Memcache/RedisCommand.php',
+        'OC\\Core\\Command\\Preview\\Cleanup' => __DIR__ . '/../../..' . '/core/Command/Preview/Cleanup.php',
         'OC\\Core\\Command\\Preview\\Generate' => __DIR__ . '/../../..' . '/core/Command/Preview/Generate.php',
         'OC\\Core\\Command\\Preview\\Repair' => __DIR__ . '/../../..' . '/core/Command/Preview/Repair.php',
         'OC\\Core\\Command\\Preview\\ResetRenderedTexts' => __DIR__ . '/../../..' . '/core/Command/Preview/ResetRenderedTexts.php',
