@@ -44,7 +44,7 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 		parent::__construct($ttl);
 	}
 
-	private function setTTL(string $path, ?int $ttl = null, ?int $compare = null): void {
+	private function setTTL(string $path, ?int $ttl = null, mixed $compare = null): void {
 		if (is_null($ttl)) {
 			$ttl = $this->ttl;
 		}
