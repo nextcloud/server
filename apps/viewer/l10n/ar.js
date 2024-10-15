@@ -34,7 +34,7 @@ OC.L10N.register(
     "Continue" : "متابعة",
     "Undo" : "تراجع",
     "Redo" : "إعادة",
-    "Show original image" : "أعرُض الصور الأصلية",
+    "Show original image" : "عرض الصورة الأصلية",
     "Zoom in" : "تكبير",
     "Zoom out" : "تصغير",
     "Toggle zoom menu" : "تبديل قائمة التكبير و التصغير",
