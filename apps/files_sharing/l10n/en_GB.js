@@ -143,8 +143,6 @@ OC.L10N.register(
     "Link copied to clipboard" : "Link copied to clipboard",
     "Email already added" : "Email already added",
     "Invalid email address" : "Invalid email address",
-    "_1 email address already added_::_{count} email addresses already added_" : ["1 email address already added","{count} email addresses already added"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 email address added","{count} email addresses added"],
     "What are you requesting?" : "What are you requesting?",
     "Request subject" : "Request subject",
     "Birthday party photos, History assignment…" : "Birthday party photos, History assignment…",
@@ -404,6 +402,8 @@ OC.L10N.register(
     "the link expired" : "the link expired",
     "sharing is disabled" : "sharing is disabled",
     "For more info, please ask the person who sent this link." : "For more info, please ask the person who sent this link.",
+    "_1 email address already added_::_{count} email addresses already added_" : ["1 email address already added","{count} email addresses already added"],
+    "_1 email address added_::_{count} email addresses added_" : ["1 email address added","{count} email addresses added"],
     "Enter your name" : "Enter your name"
 },
 "nplurals=2; plural=(n != 1);");

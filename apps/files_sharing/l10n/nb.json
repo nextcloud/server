@@ -138,8 +138,6 @@
     "Link copied to clipboard" : "Lenke kopiert til utklippstavlen",
     "Email already added" : "E-post allerede lagt til",
     "Invalid email address" : "Ugyldig e-postadresse",
-    "_1 email address already added_::_{count} email addresses already added_" : ["1 e-postadresse allerede lagt til","{count} e-postadresser allerede lagt til"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 e-postadresse lagt til","{count} e-postadresser lagt til"],
     "What are you requesting?" : "Hva ber du om?",
     "Request subject" : "Be om emne",
     "Birthday party photos, History assignment…" : "Bursdagsfestbilder, Historieoppgave...",
@@ -387,6 +385,8 @@
     "the link expired" : "lenken er utløpt",
     "sharing is disabled" : "deling er avskrudd",
     "For more info, please ask the person who sent this link." : "For mer informasjon, spør personen som sendte lenken.",
+    "_1 email address already added_::_{count} email addresses already added_" : ["1 e-postadresse allerede lagt til","{count} e-postadresser allerede lagt til"],
+    "_1 email address added_::_{count} email addresses added_" : ["1 e-postadresse lagt til","{count} e-postadresser lagt til"],
     "Enter your name" : "Skriv inn navnet ditt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

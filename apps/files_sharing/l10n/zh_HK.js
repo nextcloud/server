@@ -143,8 +143,6 @@ OC.L10N.register(
     "Link copied to clipboard" : "已複製連結至剪貼板",
     "Email already added" : "已加入電郵地址",
     "Invalid email address" : "電郵地址無效",
-    "_1 email address already added_::_{count} email addresses already added_" : ["已添加 {count} 個電郵地址"],
-    "_1 email address added_::_{count} email addresses added_" : ["添加了{count}個電郵地址"],
     "What are you requesting?" : "您正在請求什麼？",
     "Request subject" : "請求主題",
     "Birthday party photos, History assignment…" : "生日派對照片、歷史作業 …",
@@ -404,6 +402,8 @@ OC.L10N.register(
     "the link expired" : "連結已過期",
     "sharing is disabled" : "分享功能已停用",
     "For more info, please ask the person who sent this link." : "請詢問告訴您此連結的人以瞭解更多",
+    "_1 email address already added_::_{count} email addresses already added_" : ["已添加 {count} 個電郵地址"],
+    "_1 email address added_::_{count} email addresses added_" : ["添加了{count}個電郵地址"],
     "Enter your name" : "輸入您的名稱"
 },
 "nplurals=1; plural=0;");

@@ -143,8 +143,6 @@ OC.L10N.register(
     "Link copied to clipboard" : "A ligazón foi copiada no portapapeis",
     "Email already added" : "O correo xa foi engadido",
     "Invalid email address" : "Enderezo de correo incorrecto",
-    "_1 email address already added_::_{count} email addresses already added_" : ["Xa foi engadido 1 enderezo de correo","Xa foron engadidos {count} enderezos de correo"],
-    "_1 email address added_::_{count} email addresses added_" : ["Foi engadido 1 enderezo de correo","Foron engadidos {count} enderezos de correo"],
     "What are you requesting?" : "Que é o que está a solicitar?",
     "Request subject" : "Asunto da solicitude",
     "Birthday party photos, History assignment…" : "Fotos da festa de aniversario, tarefa de historia…",
@@ -406,6 +404,8 @@ OC.L10N.register(
     "the link expired" : "a ligazón caducou",
     "sharing is disabled" : "foi desactivada a compartición",
     "For more info, please ask the person who sent this link." : "Para obter máis información, pregúntelle á persoa que lle enviou a ligazón.",
+    "_1 email address already added_::_{count} email addresses already added_" : ["Xa foi engadido 1 enderezo de correo","Xa foron engadidos {count} enderezos de correo"],
+    "_1 email address added_::_{count} email addresses added_" : ["Foi engadido 1 enderezo de correo","Foron engadidos {count} enderezos de correo"],
     "Enter your name" : "Introduza o seu nome"
 },
 "nplurals=2; plural=(n != 1);");

@@ -69,6 +69,7 @@ OC.L10N.register(
     "Custom user agent" : "Uživatelem určený user agent",
     "Select groups" : "Vybrat skupiny",
     "Groups" : "Skupiny",
+    "Type to search for group …" : "Skupinu vyhledáte psaním…",
     "Select a trigger" : "Vybrat spouštěč",
     "At least one event must be selected" : "Je třeba vybrat alespoň jednu událost",
     "Add new flow" : "Přidat nový tok",

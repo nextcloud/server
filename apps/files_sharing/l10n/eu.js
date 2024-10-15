@@ -140,8 +140,6 @@ OC.L10N.register(
     "Link copied to clipboard" : "Arbelara kopiatutako esteka",
     "Email already added" : "Helbide elektronikoa dagoeneko gehituta dago",
     "Invalid email address" : "Baliogabeko helbide elektronikoa",
-    "_1 email address already added_::_{count} email addresses already added_" : ["Helbide elektroniko 1 gehitu da dagoeneko","{count} helbide elektroniko gehitu dira dagoeneko"],
-    "_1 email address added_::_{count} email addresses added_" : ["Helbide elektroniko 1 gehitu da","{count} helbide elektroniko gehitu dira"],
     "What are you requesting?" : "Zer eskatu nahi duzu?",
     "Request subject" : "Eskaeraren gaia",
     "Birthday party photos, History assignment…" : "Urtebetetze festako argazkiak, Historiako apunteak...",
@@ -391,6 +389,8 @@ OC.L10N.register(
     "the link expired" : "esteka iraungi da",
     "sharing is disabled" : "partekatzea desgaituta dago",
     "For more info, please ask the person who sent this link." : "Informazio gehiagorako, galdetu esteka hau bidali zuen pertsonari",
+    "_1 email address already added_::_{count} email addresses already added_" : ["Helbide elektroniko 1 gehitu da dagoeneko","{count} helbide elektroniko gehitu dira dagoeneko"],
+    "_1 email address added_::_{count} email addresses added_" : ["Helbide elektroniko 1 gehitu da","{count} helbide elektroniko gehitu dira"],
     "Enter your name" : "Sartu zure izena"
 },
 "nplurals=2; plural=(n != 1);");

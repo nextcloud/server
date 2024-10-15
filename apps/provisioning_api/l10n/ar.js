@@ -18,7 +18,7 @@ OC.L10N.register(
     "Unlimited quota is forbidden on this instance" : "الحصة غير المحدودة غير مسموح بها على هذا الخادوم",
     "Setting the password is not supported by the users backend" : "تعيين كلمة المرور غير مدعوم من قِبَل الواجهة الخلفية للمستخدمين.",
     "Invalid language" : "لغة غير صالحة",
-    "Invalid locale" : "الدولة غير صالحة",
+    "Invalid locale" : "الدولة أو المنطقة غير صالحة",
     "Invalid first day of week" : "اليوم الأول من الأسبوع غير صحيح",
     "Cannot remove yourself from the admin group" : "لا يمكنك إزالة نفسك من قائمة المشرفين",
     "Cannot remove yourself from this group as you are a sub-admin" : "لا يمكنك إزالة نفسك من هذه المجموعة باعتبارك مشرفاً فرعيّاً فيها",

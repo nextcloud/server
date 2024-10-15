@@ -141,8 +141,6 @@
     "Link copied to clipboard" : "Länken kopierad till urklipp",
     "Email already added" : "E-post har redan lagts till",
     "Invalid email address" : "Ogiltig e-postadress",
-    "_1 email address already added_::_{count} email addresses already added_" : ["1 e-postadress som redan har lagts till","{count} e-postadresser som redan har lagts till"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 e-postadress har lagts till","{count} e-postadresser har lagts till"],
     "What are you requesting?" : "Vad begär du?",
     "Request subject" : "Begär ämne",
     "Birthday party photos, History assignment…" : "Foton på födelsedagsfester, historiauppgift...",
@@ -404,6 +402,8 @@
     "the link expired" : "giltighet för länken har gått ut",
     "sharing is disabled" : "delning är inaktiverat",
     "For more info, please ask the person who sent this link." : "För mer information, kontakta den person som skickade den här länken.",
+    "_1 email address already added_::_{count} email addresses already added_" : ["1 e-postadress som redan har lagts till","{count} e-postadresser som redan har lagts till"],
+    "_1 email address added_::_{count} email addresses added_" : ["1 e-postadress har lagts till","{count} e-postadresser har lagts till"],
     "Enter your name" : "Ange ditt namn"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -143,8 +143,6 @@ OC.L10N.register(
     "Link copied to clipboard" : "Bağlantı panoya kopyalandı",
     "Email already added" : "E-posta adresi zaten eklenmiş",
     "Invalid email address" : "E-posta adresi geçersiz",
-    "_1 email address already added_::_{count} email addresses already added_" : ["1 e-posta adresi zaten eklenmiş","{count} e-posta adresi zaten eklenmiş"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 e-posta adresi eklendi","{count} e-posta adresi eklendi"],
     "What are you requesting?" : "Ne yapmak istiyorsunuz?",
     "Request subject" : "İstek konusu",
     "Birthday party photos, History assignment…" : "Doğum günü fotoğraflarını paylaşmak ve tarihleri belirlemek…",
@@ -404,6 +402,8 @@ OC.L10N.register(
     "the link expired" : "bağlantının geçerlilik süresi dolmuş",
     "sharing is disabled" : "paylaşım devre dışı bırakılmış",
     "For more info, please ask the person who sent this link." : "Ayrıntılı bilgi almak için bu bağlantıyı aldığınız kişi ile görüşün.",
+    "_1 email address already added_::_{count} email addresses already added_" : ["1 e-posta adresi zaten eklenmiş","{count} e-posta adresi zaten eklenmiş"],
+    "_1 email address added_::_{count} email addresses added_" : ["1 e-posta adresi eklendi","{count} e-posta adresi eklendi"],
     "Enter your name" : "Adınızı yazın"
 },
 "nplurals=2; plural=(n > 1);");

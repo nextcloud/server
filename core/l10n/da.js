@@ -103,6 +103,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} underretning","{count} underretninger"],
     "No" : "Nej",
     "Yes" : "Ja",
+    "Federated user" : "Fødereret bruger",
     "Failed to add the public link to your Nextcloud" : "Fejl ved tilføjelse af offentligt link til din Nextcloud",
     "Custom date range" : "Tilpasset datointerval",
     "Pick start date" : "Vælg en startdato",
