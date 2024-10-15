@@ -6,7 +6,7 @@
     "Could not enable recovery key. Please check your recovery key password!" : "لم يُمكن تفعيل مفتاح الاستعادة. يرجى التحقق من كلمة مرور مفتاح الاستعادة!",
     "Recovery key successfully disabled" : "تمّ بنجاح تعطيل مفتاح الاستعادة ",
     "Could not disable recovery key. Please check your recovery key password!" : "لم يُمكن تعطيل مفتاح الاستعادة. يرجى التحقق من كلمة مرور مفتاح الاستعادة!",
-    "Missing parameters" : "البارامترات ناقصة",
+    "Missing parameters" : "المعاملات ناقصة",
     "Please provide the old recovery password" : "يرجى إعطاء كلمة مرور الاستعادة القديمة",
     "Please provide a new recovery password" : "يرجى إعطاء كلمة مرور جديدة للاستعادة",
     "Please repeat the new recovery password" : "يرجى تكرار كلمة مرور الاستعادة الجديدة",

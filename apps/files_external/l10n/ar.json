@@ -99,7 +99,7 @@
     "Case sensitive file system" : "نظام الملفات حساس لحالة الأحرف الصغيرة و الكبيرة",
     "Disabling it will allow to use a case insensitive file system, but comes with a performance penalty" : "تعطيله سوف يسمح باستعمال نظام ملفات غير حساس لحالة الأحرف الصغيرة و الكبيرة، لكن هذا سيترتب عليه تأثير سلبيٌّ في الأداء.",
     "Verify ACL access when listing files" : "تأكد من قائمة صلاحيات الوصول ACL عند سرد الملفات",
-    "Check the ACL's of each file or folder inside a directory to filter out items where the account has no read permissions, comes with a performance penalty" : "فحص قائمة التحكم في الوصول ACL لكل ملف و مجلد داخل الدليل لغرض فلترة العناصر و تحديد الحسابات التي لا تملك إذونات للقراءة سيؤثر على سرعة أداء النظام",
+    "Check the ACL's of each file or folder inside a directory to filter out items where the account has no read permissions, comes with a performance penalty" : "فحص قائمة التحكم في الوصول ACL لكل ملف و مجلد داخل الدليل لغرض تصفية العناصر و تحديد الحسابات التي لا تملك إذونات للقراءة سيؤثر على سرعة أداء النظام",
     "Timeout" : "إنتَهَى الوقت",
     "SMB/CIFS using OC login" : "SMB/CIFS باستعمال دخول نكست كلاود",
     "Login as share" : "تسجيل الدخول كمشاركة",

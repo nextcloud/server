@@ -141,8 +141,6 @@
     "Link copied to clipboard" : "已複製連結至剪貼簿",
     "Email already added" : "已新增電子郵件",
     "Invalid email address" : "無效的電子郵件地址",
-    "_1 email address already added_::_{count} email addresses already added_" : ["已新增 {count} 個電子郵件地址"],
-    "_1 email address added_::_{count} email addresses added_" : ["已新增 {count} 個電子郵件地址"],
     "What are you requesting?" : "您正在請求什麼？",
     "Request subject" : "請求主旨",
     "Birthday party photos, History assignment…" : "生日派對照片、歷史作業……",
@@ -309,9 +307,11 @@
     "Create file request" : "建立檔案請求",
     "Upload files to {foldername}" : "上傳檔案至 {foldername}",
     "Public file share" : "公開連結分享",
+    "Publicly shared file." : "公開分享的檔案。",
     "No file" : "無檔案",
     "The file shared with you will show up here" : "與您分享的檔案將會在此顯示",
     "Public share" : "公開分享",
+    "Publicly shared files." : "公開分享的檔案。",
     "No files" : "沒有檔案",
     "Files and folders shared with you will show up here" : "與您分享的檔案與資料夾將會在此顯示",
     "Overview of shared files." : "已分享檔案的概覽。",
@@ -402,6 +402,8 @@
     "the link expired" : "連結過期",
     "sharing is disabled" : "分享功能已停用",
     "For more info, please ask the person who sent this link." : "要取得更多資訊，請詢問傳送此連結給您的人。",
+    "_1 email address already added_::_{count} email addresses already added_" : ["已新增 {count} 個電子郵件地址"],
+    "_1 email address added_::_{count} email addresses added_" : ["已新增 {count} 個電子郵件地址"],
     "Enter your name" : "輸入您的名稱"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
