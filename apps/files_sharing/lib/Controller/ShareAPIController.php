@@ -1235,18 +1235,6 @@ class ShareAPIController extends OCSController {
 		if ($share->getShareType() === IShare::TYPE_LINK
 			|| $share->getShareType() === IShare::TYPE_EMAIL) {
 
-			/**
-			 * We do not allow editing link shares that the current user
-			 * doesn't own. This is confusing and lead to errors when
-			 * someone else edit a password or expiration date without
-			 * the share owner knowing about it.
-			 * We only allow deletion
-			 */
-
-			if ($share->getSharedBy() !== $this->userId) {
-				throw new OCSForbiddenException($this->l->t('You are not allowed to edit link shares that you don\'t own'));
-			}
-
 			// Update hide download state
 			$attributes = $share->getAttributes() ?? $share->newAttributes();
 			if ($hideDownload === 'true') {
