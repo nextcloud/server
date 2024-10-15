@@ -21,7 +21,6 @@ SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: defunctzombie
 SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
-SPDX-FileCopyrightText: assert developers
 SPDX-FileCopyrightText: Yehuda Katz
 SPDX-FileCopyrightText: Victor Felder <victor@draft.li> (https://draft.li)
 SPDX-FileCopyrightText: Varun A P
@@ -208,9 +207,6 @@ This file is generated from multiple sources. Included packages:
 - @vueuse/shared
 	- version: 11.1.0
 	- license: MIT
-- assert
-	- version: 2.1.0
-	- license: MIT
 - available-typed-arrays
 	- version: 1.0.7
 	- license: MIT
@@ -265,9 +261,6 @@ This file is generated from multiple sources. Included packages:
 - comma-separated-tokens
 	- version: 2.0.3
 	- license: MIT
-- console-browserify
-	- version: 1.2.0
-	- license: MIT
 - core-js
 	- version: 3.38.1
 	- license: MIT
@@ -275,7 +268,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.0.2
 	- license: BSD-3-Clause
 - css-loader
-	- version: 6.11.0
+	- version: 7.1.2
 	- license: MIT
 - date-format-parse
 	- version: 0.2.7
@@ -288,9 +281,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - define-data-property
 	- version: 1.1.4
-	- license: MIT
-- define-properties
-	- version: 1.2.1
 	- license: MIT
 - devlop
 	- version: 1.1.0
@@ -399,9 +389,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - is-generator-function
 	- version: 1.0.10
-	- license: MIT
-- is-nan
-	- version: 1.3.2
 	- license: MIT
 - is-plain-obj
 	- version: 4.1.0
@@ -577,15 +564,6 @@ This file is generated from multiple sources. Included packages:
 - object-inspect
 	- version: 1.13.2
 	- license: MIT
-- object-is
-	- version: 1.1.6
-	- license: MIT
-- object-keys
-	- version: 1.1.1
-	- license: MIT
-- object.assign
-	- version: 4.1.5
-	- license: MIT
 - p-cancelable
 	- version: 4.0.1
 	- license: MIT
@@ -695,7 +673,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.5
 	- license: MIT
 - style-loader
-	- version: 3.3.4
+	- version: 4.0.0
 	- license: MIT
 - style-to-object
 	- version: 0.4.4

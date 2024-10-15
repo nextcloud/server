@@ -10,7 +10,6 @@ SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: defunctzombie
 SPDX-FileCopyrightText: debounce developers
-SPDX-FileCopyrightText: assert developers
 SPDX-FileCopyrightText: akfish
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
@@ -78,12 +77,6 @@ This file is generated from multiple sources. Included packages:
 - @vueuse/shared
 	- version: 11.1.0
 	- license: MIT
-- assert
-	- version: 2.1.0
-	- license: MIT
-- available-typed-arrays
-	- version: 1.0.7
-	- license: MIT
 - axios
 	- version: 1.7.7
 	- license: MIT
@@ -93,20 +86,14 @@ This file is generated from multiple sources. Included packages:
 - call-bind
 	- version: 1.0.7
 	- license: MIT
-- console-browserify
-	- version: 1.2.0
-	- license: MIT
 - css-loader
-	- version: 6.11.0
+	- version: 7.1.2
 	- license: MIT
 - debounce
 	- version: 2.1.0
 	- license: MIT
 - define-data-property
 	- version: 1.1.4
-	- license: MIT
-- define-properties
-	- version: 1.2.1
 	- license: MIT
 - dompurify
 	- version: 3.1.7
@@ -126,9 +113,6 @@ This file is generated from multiple sources. Included packages:
 - focus-trap
 	- version: 7.6.0
 	- license: MIT
-- for-each
-	- version: 0.3.3
-	- license: MIT
 - function-bind
 	- version: 1.1.2
 	- license: MIT
@@ -147,33 +131,12 @@ This file is generated from multiple sources. Included packages:
 - has-symbols
 	- version: 1.0.3
 	- license: MIT
-- has-tostringtag
-	- version: 1.0.2
-	- license: MIT
 - hasown
 	- version: 2.0.2
 	- license: MIT
 - ieee754
 	- version: 1.2.1
 	- license: BSD-3-Clause
-- inherits
-	- version: 2.0.4
-	- license: ISC
-- is-arguments
-	- version: 1.1.1
-	- license: MIT
-- is-callable
-	- version: 1.2.7
-	- license: MIT
-- is-generator-function
-	- version: 1.0.10
-	- license: MIT
-- is-nan
-	- version: 1.3.2
-	- license: MIT
-- is-typed-array
-	- version: 1.1.13
-	- license: MIT
 - lodash.get
 	- version: 4.4.2
 	- license: MIT
@@ -192,15 +155,6 @@ This file is generated from multiple sources. Included packages:
 - object-inspect
 	- version: 1.13.2
 	- license: MIT
-- object-is
-	- version: 1.1.6
-	- license: MIT
-- object-keys
-	- version: 1.1.1
-	- license: MIT
-- object.assign
-	- version: 4.1.5
-	- license: MIT
 - inherits
 	- version: 2.0.3
 	- license: ISC
@@ -209,9 +163,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - path
 	- version: 0.12.7
-	- license: MIT
-- possible-typed-array-names
-	- version: 1.0.0
 	- license: MIT
 - process
 	- version: 0.11.10
@@ -229,7 +180,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.6
 	- license: MIT
 - style-loader
-	- version: 3.3.4
+	- version: 4.0.0
 	- license: MIT
 - tabbable
 	- version: 6.2.0
@@ -239,9 +190,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - url
 	- version: 0.11.4
-	- license: MIT
-- util
-	- version: 0.12.5
 	- license: MIT
 - vue-color
 	- version: 2.8.1
@@ -260,9 +208,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - webpack
 	- version: 5.94.0
-	- license: MIT
-- which-typed-array
-	- version: 1.1.15
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

@@ -817,6 +817,10 @@ $input-padding: 10px;
 	}
 
 	&__results {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+
 		&-header {
 			display: block;
 			margin: $margin;
@@ -826,9 +830,6 @@ $input-padding: 10px;
 			font-size: 19px;
 			font-weight: bold;
 		}
-		display: flex;
-		flex-direction: column;
-		gap: 4px;
 	}
 
 	.unified-search__result-more::v-deep {
