@@ -10,6 +10,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { showRemoteShareDialog } from './services/dialogService.ts'
+import logger from './services/logger.ts'
 
 window.OCA.Sharing = window.OCA.Sharing ?? {}
 
@@ -105,7 +106,7 @@ function processIncomingShareFromUrl() {
 					showInfo(data.message)
 				}
 			}).catch((error) => {
-				console.error('Error while processing incoming share', error)
+				logger.error('Error while processing incoming share', { error })
 
 				if (isAxiosError(error) && error.response.data.message) {
 					showError(error.response.data.message)
