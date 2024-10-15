@@ -49,7 +49,7 @@
 <script>
 import { encodePath } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
-import { getToken, isPublic } from '../utils/davUtils.js'
+import { getToken, isPublic } from '../utils/davUtils.ts'
 
 // preview width generation
 const previewWidth = 256
