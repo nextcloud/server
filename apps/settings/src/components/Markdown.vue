@@ -26,7 +26,7 @@ export default {
 	computed: {
 		renderMarkdown() {
 			const renderer = new marked.Renderer()
-			renderer.link = function(href, title, text) {
+			renderer.link = function({ href, title, text }) {
 				let prot
 				try {
 					prot = decodeURIComponent(unescape(href))
@@ -47,11 +47,11 @@ export default {
 				out += '>' + text + '</a>'
 				return out
 			}
-			renderer.heading = (text, level) => {
-				level = Math.min(6, level + (this.minHeading - 1))
-				return `<h${level}>${text}</h${level}>`
+			renderer.heading = ({ text, depth }) => {
+				depth = Math.min(6, depth + (this.minHeading - 1))
+				return `<h${depth}>${text}</h${depth}>`
 			}
-			renderer.image = function(href, title, text) {
+			renderer.image = function({ title, text }) {
 				if (text) {
 					return text
 				}
