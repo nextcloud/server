@@ -13,11 +13,9 @@ namespace OCP\Accounts;
  */
 class PropertyDoesNotExistException extends \Exception {
 	/**
-	 * Constructor
-	 * @param string $msg the error message
 	 * @since 15.0.0
 	 */
-	public function __construct($property) {
+	public function __construct(string $property) {
 		parent::__construct('Property ' . $property . ' does not exist.');
 	}
 }
