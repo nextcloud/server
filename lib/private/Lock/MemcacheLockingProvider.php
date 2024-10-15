@@ -173,9 +173,9 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 		if (!$existing) {
 			return 'none';
 		} elseif ($existing === 'exclusive') {
-			return $existing;
+			return $existing . ': ' . $path;
 		} else {
-			return $existing . ' shared locks';
+			return $existing . ' shared locks: ' . $path;
 		}
 	}
 }
