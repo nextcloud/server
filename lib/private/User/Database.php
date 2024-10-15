@@ -130,7 +130,7 @@ class Database extends ABackend implements
 		$query = $this->dbConn->getQueryBuilder();
 		$query->delete($this->table)
 			->where($query->expr()->eq('uid_lower', $query->createNamedParameter(mb_strtolower($uid))));
-		$result = $query->execute();
+		$result = $query->executeStatement();
 
 		if (isset($this->cache[$uid])) {
 			unset($this->cache[$uid]);
@@ -144,7 +144,7 @@ class Database extends ABackend implements
 		$query->update($this->table)
 			->set('password', $query->createNamedParameter($passwordHash))
 			->where($query->expr()->eq('uid_lower', $query->createNamedParameter(mb_strtolower($uid))));
-		$result = $query->execute();
+		$result = $query->executeStatement();
 
 		return $result ? true : false;
 	}
@@ -236,7 +236,7 @@ class Database extends ABackend implements
 			$query->update($this->table)
 				->set('displayname', $query->createNamedParameter($displayName))
 				->where($query->expr()->eq('uid_lower', $query->createNamedParameter(mb_strtolower($uid))));
-			$query->execute();
+			$query->executeStatement();
 
 			$this->cache[$uid]['displayname'] = $displayName;
 

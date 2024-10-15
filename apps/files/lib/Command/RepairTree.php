@@ -60,7 +60,7 @@ class RepairTree extends Command {
 						'path' => $row['parent_path'] . '/' . $row['name'],
 						'storage' => $row['parent_storage'],
 					]);
-					$query->execute();
+					$query->executeStatement();
 				}
 			}
 		}
@@ -85,7 +85,7 @@ class RepairTree extends Command {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('filecache')
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($fileId)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	private function findBrokenTreeBits(): array {
