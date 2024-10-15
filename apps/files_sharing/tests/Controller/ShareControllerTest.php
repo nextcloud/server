@@ -38,6 +38,7 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IPublicShareTemplateFactory;
@@ -71,6 +72,7 @@ class ShareControllerTest extends \Test\TestCase {
 	private IEventDispatcher&MockObject $eventDispatcher;
 	private FederatedShareProvider&MockObject $federatedShareProvider;
 	private IPublicShareTemplateFactory&MockObject $publicShareTemplateFactory;
+	private IUserSession&MockObject $userSession;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -114,6 +116,7 @@ class ShareControllerTest extends \Test\TestCase {
 					$this->appConfig,
 				)
 			);
+		$this->userSession = $this->createMock(IUserSession::class);
 
 		$this->shareController = new \OCA\Files_Sharing\Controller\ShareController(
 			$this->appName,
@@ -133,8 +136,8 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->defaults,
 			$this->publicShareTemplateFactory,
+			$this->userSession,
 		);
-
 
 		// Store current user
 		$this->oldUser = \OC_User::getUser();
@@ -144,7 +147,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		\OC::$server->getUserManager()->createUser($this->user, $this->user);
 		\OC_Util::tearDownFS();
-		$this->loginAsUser($this->user);
+		self::loginAsUser($this->user);
 	}
 
 	protected function tearDown(): void {
