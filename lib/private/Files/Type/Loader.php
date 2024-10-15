@@ -21,8 +21,6 @@ use OCP\IDBConnection;
 class Loader implements IMimeTypeLoader {
 	use TTransactional;
 
-	private IDBConnection $dbConnection;
-
 	/** @psalm-var array<int, string> */
 	protected array $mimetypes;
 
@@ -32,8 +30,9 @@ class Loader implements IMimeTypeLoader {
 	/**
 	 * @param IDBConnection $dbConnection
 	 */
-	public function __construct(IDBConnection $dbConnection) {
-		$this->dbConnection = $dbConnection;
+	public function __construct(
+		private IDBConnection $dbConnection,
+	) {
 		$this->mimetypes = [];
 		$this->mimetypeIds = [];
 	}
@@ -161,6 +160,6 @@ class Loader implements IMimeTypeLoader {
 				$update->func()->lower('name'),
 				$update->createNamedParameter('%' . $this->dbConnection->escapeLikeParameter('.' . $ext))
 			));
-		return $update->execute();
+		return $update->executeStatement();
 	}
 }

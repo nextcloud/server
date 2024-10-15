@@ -112,7 +112,7 @@ class DBConfigService {
 			)
 			)
 			->groupBy(['a.mount_id']);
-		$stmt = $query->execute();
+		$stmt = $query->executeQuery();
 		$result = $stmt->fetchAll();
 		$stmt->closeCursor();
 
@@ -243,7 +243,7 @@ class DBConfigService {
 				'priority' => $builder->createNamedParameter($priority, IQueryBuilder::PARAM_INT),
 				'type' => $builder->createNamedParameter($type, IQueryBuilder::PARAM_INT)
 			]);
-		$query->execute();
+		$query->executeStatement();
 		return $query->getLastInsertId();
 	}
 
@@ -256,22 +256,22 @@ class DBConfigService {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_mounts')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
-		$query->execute();
+		$query->executeStatement();
 
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_applicable')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
-		$query->execute();
+		$query->executeStatement();
 
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_config')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
-		$query->execute();
+		$query->executeStatement();
 
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_options')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**
@@ -285,7 +285,7 @@ class DBConfigService {
 			->set('mount_point', $builder->createNamedParameter($newMountPoint))
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**
@@ -299,7 +299,7 @@ class DBConfigService {
 			->set('auth_backend', $builder->createNamedParameter($newAuthBackend))
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**
@@ -318,14 +318,14 @@ class DBConfigService {
 				->setValue('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT))
 				->setValue('key', $builder->createNamedParameter($key, IQueryBuilder::PARAM_STR))
 				->setValue('value', $builder->createNamedParameter($value, IQueryBuilder::PARAM_STR))
-				->execute();
+				->executeStatement();
 		} catch (UniqueConstraintViolationException $e) {
 			$builder = $this->connection->getQueryBuilder();
 			$query = $builder->update('external_config')
 				->set('value', $builder->createNamedParameter($value, IQueryBuilder::PARAM_STR))
 				->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)))
 				->andWhere($builder->expr()->eq('key', $builder->createNamedParameter($key, IQueryBuilder::PARAM_STR)));
-			$query->execute();
+			$query->executeStatement();
 		}
 	}
 
@@ -341,14 +341,14 @@ class DBConfigService {
 				->setValue('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT))
 				->setValue('key', $builder->createNamedParameter($key, IQueryBuilder::PARAM_STR))
 				->setValue('value', $builder->createNamedParameter(json_encode($value), IQueryBuilder::PARAM_STR))
-				->execute();
+				->executeStatement();
 		} catch (UniqueConstraintViolationException $e) {
 			$builder = $this->connection->getQueryBuilder();
 			$query = $builder->update('external_options')
 				->set('value', $builder->createNamedParameter(json_encode($value), IQueryBuilder::PARAM_STR))
 				->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)))
 				->andWhere($builder->expr()->eq('key', $builder->createNamedParameter($key, IQueryBuilder::PARAM_STR)));
-			$query->execute();
+			$query->executeStatement();
 		}
 	}
 
@@ -359,7 +359,7 @@ class DBConfigService {
 				->setValue('mount_id', $builder->createNamedParameter($mountId))
 				->setValue('type', $builder->createNamedParameter($type))
 				->setValue('value', $builder->createNamedParameter($value))
-				->execute();
+				->executeStatement();
 		} catch (UniqueConstraintViolationException $e) {
 			// applicable exists already
 		}
@@ -377,11 +377,11 @@ class DBConfigService {
 			$query = $query->andWhere($builder->expr()->eq('value', $builder->createNamedParameter($value, IQueryBuilder::PARAM_STR)));
 		}
 
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	private function getMountsFromQuery(IQueryBuilder $query) {
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$mounts = $result->fetchAll();
 		$uniqueMounts = [];
 		foreach ($mounts as $mount) {
@@ -432,7 +432,7 @@ class DBConfigService {
 			->from($table)
 			->where($builder->expr()->in('mount_id', $placeHolders));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$rows = $result->fetchAll();
 		$result->closeCursor();
 

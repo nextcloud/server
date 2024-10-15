@@ -23,27 +23,15 @@ use function urlencode;
 class RepairDavShares implements IRepairStep {
 	protected const GROUP_PRINCIPAL_PREFIX = 'principals/groups/';
 
-	/** @var IConfig */
-	private $config;
-	/** @var IDBConnection */
-	private $dbc;
-	/** @var IGroupManager */
-	private $groupManager;
-	/** @var LoggerInterface */
-	private $logger;
 	/** @var bool */
 	private $hintInvalidShares = false;
 
 	public function __construct(
-		IConfig $config,
-		IDBConnection $dbc,
-		IGroupManager $groupManager,
-		LoggerInterface $logger,
+		private IConfig $config,
+		private IDBConnection $dbc,
+		private IGroupManager $groupManager,
+		private LoggerInterface $logger,
 	) {
-		$this->config = $config;
-		$this->dbc = $dbc;
-		$this->groupManager = $groupManager;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -64,7 +52,7 @@ class RepairDavShares implements IRepairStep {
 			->set('principaluri', $updateQuery->createParameter('updatedPrincipalUri'))
 			->where($updateQuery->expr()->eq('id', $updateQuery->createParameter('shareId')));
 
-		$statement = $qb->execute();
+		$statement = $qb->executeQuery();
 		while ($share = $statement->fetch()) {
 			$gid = substr($share['principaluri'], strlen(self::GROUP_PRINCIPAL_PREFIX));
 			$decodedGid = urldecode($gid);
@@ -93,7 +81,7 @@ class RepairDavShares implements IRepairStep {
 				$updateQuery
 					->setParameter('updatedPrincipalUri', $fixedPrincipal)
 					->setParameter('shareId', $share['id'])
-					->execute();
+					->executeStatement();
 				$this->logger->info('Repaired principal for dav share {id} from {old} to {new}', $logParameters);
 			} catch (Exception $e) {
 				$logParameters['message'] = $e->getMessage();
