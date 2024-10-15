@@ -16,7 +16,7 @@ declare module '@nextcloud/event-bus' {
 		'files:node:deleted': Node
 		'files:node:updated': Node
 		'files:node:renamed': Node
-		'files:node:moved': { node: Node, oldSource: string }
+		'files:node:moved': { newNode: Node, oldNode: Node }
 
 		'files:filter:added': IFileListFilter
 		'files:filter:removed': string

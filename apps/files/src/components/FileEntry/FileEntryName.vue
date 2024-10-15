@@ -46,7 +46,6 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { FileType, NodeStatus } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import { dirname } from '@nextcloud/paths'
 import { defineComponent, inject } from 'vue'
 
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
@@ -244,6 +243,7 @@ export default defineComponent({
 				return
 			}
 
+			const oldNode = this.source.clone()
 			const oldName = this.source.basename
 			const oldEncodedSource = this.source.encodedSource
 			if (oldName === newName) {
@@ -272,8 +272,8 @@ export default defineComponent({
 				emit('files:node:updated', this.source)
 				emit('files:node:renamed', this.source)
 				emit('files:node:moved', {
-					node: this.source,
-					oldSource: `${dirname(this.source.source)}/${oldName}`,
+					newNode: this.source,
+					oldNode,
 				})
 				showSuccess(t('files', 'Renamed "{oldName}" to "{newName}"', { oldName, newName }))
 

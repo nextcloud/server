@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { NextcloudEvents } from '@nextcloud/event-bus'
 import type { TreeNode } from '../services/FolderTree.ts'
 
 import PQueue from 'p-queue'
@@ -20,7 +21,6 @@ import {
 	getContents,
 	getFolderTreeNodes,
 	getSourceParent,
-	sourceRoot,
 } from '../services/FolderTree.ts'
 
 const isFolderTreeEnabled = loadState('files', 'config', { folder_tree: true }).folder_tree
@@ -94,10 +94,6 @@ const removeFolderView = (folder: Folder) => {
 	Navigation.remove(viewId)
 }
 
-const removeFolderViewSource = (source: string) => {
-	Navigation.remove(source)
-}
-
 const onCreateNode = (node: Node) => {
 	if (!(node instanceof Folder)) {
 		return
@@ -112,15 +108,15 @@ const onDeleteNode = (node: Node) => {
 	removeFolderView(node)
 }
 
-const onMoveNode = ({ node, oldSource }) => {
-	if (!(node instanceof Folder)) {
+const onMoveNode = ({ newNode, oldNode }: NextcloudEvents['files:node:moved']) => {
+	if (!(newNode instanceof Folder) || !(oldNode instanceof Folder)) {
 		return
 	}
-	removeFolderViewSource(oldSource)
-	registerNodeView(node)
+	removeFolderView(oldNode)
+	registerNodeView(newNode)
 
-	const newPath = node.source.replace(sourceRoot, '')
-	const oldPath = oldSource.replace(sourceRoot, '')
+	const newPath = newNode.path
+	const oldPath = oldNode.path
 	const childViews = Navigation.views.filter(view => {
 		if (!view.params?.dir) {
 			return false
@@ -132,7 +128,7 @@ const onMoveNode = ({ node, oldSource }) => {
 	})
 	for (const view of childViews) {
 		// @ts-expect-error FIXME Allow setting parent
-		view.parent = getSourceParent(node.source)
+		view.parent = getSourceParent(newNode.source)
 		// @ts-expect-error dir param is defined
 		view.params.dir = view.params.dir.replace(oldPath, newPath)
 	}
