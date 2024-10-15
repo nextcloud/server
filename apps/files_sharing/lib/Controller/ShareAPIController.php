@@ -35,6 +35,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IShareOwnerlessMount;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\HintException;
@@ -1541,6 +1542,12 @@ class ShareAPIController extends OCSController {
 			return true;
 		}
 
+		$userFolder = $this->rootFolder->getUserFolder($this->userId);
+		$file = $userFolder->getFirstNodeById($share->getNodeId());
+		if ($file?->getMountPoint() instanceof IShareOwnerlessMount && $this->shareProviderResharingRights($this->userId, $share, $file)) {
+			return true;
+		}
+
 		//! we do NOT support some kind of `admin` in groups.
 		//! You cannot edit shares shared to a group you're
 		//! a member of if you're not the share owner or the file owner!
@@ -1573,6 +1580,12 @@ class ShareAPIController extends OCSController {
 		if ($share->getShareOwner() === $this->userId ||
 			$share->getSharedBy() === $this->userId
 		) {
+			return true;
+		}
+
+		$userFolder = $this->rootFolder->getUserFolder($this->userId);
+		$file = $userFolder->getFirstNodeById($share->getNodeId());
+		if ($file?->getMountPoint() instanceof IShareOwnerlessMount && $this->shareProviderResharingRights($this->userId, $share, $file)) {
 			return true;
 		}
 
