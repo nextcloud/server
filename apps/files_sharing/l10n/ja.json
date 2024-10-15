@@ -141,8 +141,6 @@
     "Link copied to clipboard" : "クリップボードにリンクをコピーしました",
     "Email already added" : "メールはすでに追加されています",
     "Invalid email address" : "無効なメールアドレス",
-    "_1 email address already added_::_{count} email addresses already added_" : ["{count} メールアドレスはすでに追加されています"],
-    "_1 email address added_::_{count} email addresses added_" : ["{count} メールアドレスが追加されました"],
     "What are you requesting?" : "何をリクエストしているのですか？",
     "Request subject" : "件名をリクエスト",
     "Birthday party photos, History assignment…" : "誕生日パーティーの写真、歴史の課題...",
@@ -402,6 +400,8 @@
     "the link expired" : "リンクの期限が切れています",
     "sharing is disabled" : "共有は無効になっています",
     "For more info, please ask the person who sent this link." : "不明な点は、こちらのリンクの提供者に確認をお願いします。",
+    "_1 email address already added_::_{count} email addresses already added_" : ["{count} メールアドレスはすでに追加されています"],
+    "_1 email address added_::_{count} email addresses added_" : ["{count} メールアドレスが追加されました"],
     "Enter your name" : "あなたの名前を入力"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -143,8 +143,6 @@ OC.L10N.register(
     "Link copied to clipboard" : "Collegamento copiato negli appunti",
     "Email already added" : "Indirizzo di posta già aggiunto",
     "Invalid email address" : "Indirizzo di posta non valido",
-    "_1 email address already added_::_{count} email addresses already added_" : ["1 indirizzo di posta già aggiunto","{count} indirizzi di posta già aggiunti","{count} indirizzi di posta già aggiunti"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 indirizzo di posta aggiunto","{count} indirizzi di posta aggiunti","{count} indirizzi di posta aggiunti"],
     "What are you requesting?" : "Cosa stai richiedendo?",
     "Request subject" : "Oggetto della richiesta",
     "Birthday party photos, History assignment…" : "Foto della festa di compleanno, compito di storia…",
@@ -393,6 +391,8 @@ OC.L10N.register(
     "the link expired" : "il collegamento è scaduto",
     "sharing is disabled" : "la condivisione è disabilitata",
     "For more info, please ask the person who sent this link." : "Per ulteriori informazioni, chiedi alla persona che ti ha inviato il collegamento.",
+    "_1 email address already added_::_{count} email addresses already added_" : ["1 indirizzo di posta già aggiunto","{count} indirizzi di posta già aggiunti","{count} indirizzi di posta già aggiunti"],
+    "_1 email address added_::_{count} email addresses added_" : ["1 indirizzo di posta aggiunto","{count} indirizzi di posta aggiunti","{count} indirizzi di posta aggiunti"],
     "Enter your name" : "Digita il tuo nome"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
