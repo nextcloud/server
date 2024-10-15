@@ -49,7 +49,8 @@ script('user_ldap', [
 	'wizard/wizardDetectorClearGroupMappings',
 	'wizard/wizardFilterOnType',
 	'wizard/wizardFilterOnTypeFactory',
-	'wizard/wizard'
+	'wizard/wizard',
+	'main'
 ]);
 
 style('user_ldap', 'settings');
@@ -161,3 +162,5 @@ style('user_ldap', 'settings');
 	<!-- Spinner Template -->
 	<img class="ldapSpinner hidden" src="<?php p(image_path('core', 'loading.gif')); ?>">
 </form>
+
+<div id="content-ldap-settings"></div>
