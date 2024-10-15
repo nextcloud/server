@@ -140,8 +140,6 @@
     "Link copied to clipboard" : "Посилання скопійовано в буфер обміну",
     "Email already added" : "Ел. адресу вже додано",
     "Invalid email address" : "Недійсна адреса ел. пошти",
-    "_1 email address already added_::_{count} email addresses already added_" : ["Вже додано 1 адресу ел. пошти","Вже додано {count} адреси ел. пошти","Вже додано {count} адрес ел. пошти","Вже додано {count} адрес ел. пошти"],
-    "_1 email address added_::_{count} email addresses added_" : ["Додано 1 адресу ел. пошти","Додано {count} адреси ел. пошти","Додано {count} адрес ел. пошти","Додано {count} адрес ел. пошти"],
     "What are you requesting?" : "Що ви хочете отримати?",
     "Request subject" : "Тема запиту",
     "Birthday party photos, History assignment…" : "Світлини зі святкування уродин, завдання з історії...",
@@ -401,6 +399,8 @@
     "the link expired" : "термін дії посилання вичерпано",
     "sharing is disabled" : "спільний доступ заборонено",
     "For more info, please ask the person who sent this link." : "За додатковою інформацією, будь ласка, зверніться до особи, від якої ви отримали це посилання.",
+    "_1 email address already added_::_{count} email addresses already added_" : ["Вже додано 1 адресу ел. пошти","Вже додано {count} адреси ел. пошти","Вже додано {count} адрес ел. пошти","Вже додано {count} адрес ел. пошти"],
+    "_1 email address added_::_{count} email addresses added_" : ["Додано 1 адресу ел. пошти","Додано {count} адреси ел. пошти","Додано {count} адрес ел. пошти","Додано {count} адрес ел. пошти"],
     "Enter your name" : "Зазначте ваше ім'я"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

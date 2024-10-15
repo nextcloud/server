@@ -143,8 +143,6 @@ OC.L10N.register(
     "Link copied to clipboard" : "Cóipeáladh an nasc chuig an ngearrthaisce",
     "Email already added" : "Ríomhphost curtha leis cheana féin",
     "Invalid email address" : "sheoladh ríomhphoist neamhbhailí",
-    "_1 email address already added_::_{count} email addresses already added_" : ["1 seoladh ríomhphoist curtha leis cheana féin","{count} seoladh ríomhphoist curtha leis cheana","{count} seoladh ríomhphoist curtha leis cheana","{count} seoladh ríomhphoist curtha leis cheana","{count} seoladh ríomhphoist curtha leis cheana"],
-    "_1 email address added_::_{count} email addresses added_" : ["Cuireadh 1 seoladh ríomhphoist leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis"],
     "What are you requesting?" : "Cad atá á iarraidh agat?",
     "Request subject" : "Ábhar an iarratais",
     "Birthday party photos, History assignment…" : "Grianghraif cóisir lá breithe, tasc Staire…",
@@ -406,6 +404,8 @@ OC.L10N.register(
     "the link expired" : "chuaigh an nasc in éag",
     "sharing is disabled" : "tá comhroinnt díchumasaithe",
     "For more info, please ask the person who sent this link." : "Le haghaidh tuilleadh eolais, cuir ceist ar an té a sheol an nasc seo le do thoil.",
+    "_1 email address already added_::_{count} email addresses already added_" : ["1 seoladh ríomhphoist curtha leis cheana féin","{count} seoladh ríomhphoist curtha leis cheana","{count} seoladh ríomhphoist curtha leis cheana","{count} seoladh ríomhphoist curtha leis cheana","{count} seoladh ríomhphoist curtha leis cheana"],
+    "_1 email address added_::_{count} email addresses added_" : ["Cuireadh 1 seoladh ríomhphoist leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis"],
     "Enter your name" : "Cuir isteach d'ainm"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

@@ -141,8 +141,6 @@
     "Link copied to clipboard" : "Link wurde in die Zwischenablage kopiert",
     "Email already added" : "E-Mail-Adresse wurde bereits hinzugefügt",
     "Invalid email address" : "Ungültige E-Mail-Adresse",
-    "_1 email address already added_::_{count} email addresses already added_" : ["1 E-Mail-Adresse bereits hinzugefügt","{count} E-Mail-Adressen bereits hinzugefügt"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 E-Mail-Adresse hinzugefügt","{count} E-Mail-Adressen hinzugefügt"],
     "What are you requesting?" : "Was fragst du an?",
     "Request subject" : "Betreff der Anfrage",
     "Birthday party photos, History assignment…" : "Fotos von Geburtstagsfeiern, Geschichtsaufgaben…",
@@ -402,6 +400,8 @@
     "the link expired" : "Der Link ist abgelaufen",
     "sharing is disabled" : "Teilen ist deaktiviert",
     "For more info, please ask the person who sent this link." : "Um nähere Informationen zu erhalten, wende dich bitte an die Person, die dir diesen Link geschickt hat.",
+    "_1 email address already added_::_{count} email addresses already added_" : ["1 E-Mail-Adresse bereits hinzugefügt","{count} E-Mail-Adressen bereits hinzugefügt"],
+    "_1 email address added_::_{count} email addresses added_" : ["1 E-Mail-Adresse hinzugefügt","{count} E-Mail-Adressen hinzugefügt"],
     "Enter your name" : "Gib deinen Namen ein"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

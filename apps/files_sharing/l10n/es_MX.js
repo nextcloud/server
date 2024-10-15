@@ -139,8 +139,6 @@ OC.L10N.register(
     "Link copied to clipboard" : "Enlace copiado al portapapeles",
     "Email already added" : "El correo electrónico ya está añadido",
     "Invalid email address" : "Correo electrónico inválido",
-    "_1 email address already added_::_{count} email addresses already added_" : ["Ya se ha añadido 1 dirección de correo electrónico","Ya se han añadido {count} direcciones de correo electrónico","Ya se han añadido {count} direcciones de correo electrónico"],
-    "_1 email address added_::_{count} email addresses added_" : ["Se añadió 1 dirección de correo electrónico","Se añadieron {count} direcciones de correo electrónico","Se añadieron {count} direcciones de correo electrónico"],
     "What are you requesting?" : "¿Qué está solicitando?",
     "Request subject" : "Asunto de la solicitud",
     "Birthday party photos, History assignment…" : "Fotos de fiestas de cumpleaños, tarea de historia...",
@@ -387,6 +385,8 @@ OC.L10N.register(
     "the link expired" : "la liga expiró",
     "sharing is disabled" : "compartir está deshabilitado",
     "For more info, please ask the person who sent this link." : "Para mayores informes, contacta a la persona que le envió esta liga.",
+    "_1 email address already added_::_{count} email addresses already added_" : ["Ya se ha añadido 1 dirección de correo electrónico","Ya se han añadido {count} direcciones de correo electrónico","Ya se han añadido {count} direcciones de correo electrónico"],
+    "_1 email address added_::_{count} email addresses added_" : ["Se añadió 1 dirección de correo electrónico","Se añadieron {count} direcciones de correo electrónico","Se añadieron {count} direcciones de correo electrónico"],
     "Enter your name" : "Ingrese su nombre"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -47,7 +47,7 @@ OC.L10N.register(
     "{temperature} {unit} heavy rainfall showers" : "{temperature} {unit} هُطولُ أمطارٍ غزيرةٍ  ",
     "More weather for {adr}" : "المزيد عن الطقس في {adr}",
     "Loading weather" : "تحميل الطقس",
-    "Set location for weather" : "عيّن المكان لمعرفة الطقس",
+    "Set location for weather" : "تعيين المكان لمعرفة الطقس",
     "Remove from favorites" : "إزالة من المُفضّلة",
     "Add as favorite" : "إضافة إلى المُفضّلة",
     "You are not logged in." : "أنت لست داخلاً بعدُ",
