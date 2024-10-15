@@ -90,7 +90,7 @@ abstract class TestCase extends \Test\TestCase {
 
 		\OC_Util::tearDownFS();
 		\OC::$server->getUserSession()->setUser(null);
-		\OC\Files\Filesystem::tearDown();
+		Filesystem::tearDown();
 		\OC::$server->getUserSession()->login($user, $password);
 		\OC::$server->getUserFolder($user);
 

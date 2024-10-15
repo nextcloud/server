@@ -8,7 +8,9 @@ namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OCP\Constants;
 use OCP\Lock\ILockingProvider;
+use OCP\Lock\LockedException;
 use OCP\Share\IShare;
 
 /**
@@ -48,7 +50,7 @@ class LockingTest extends TestCase {
 			'/foo/bar.txt',
 			$this->ownerUid,
 			$this->recipientUid,
-			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE
+			Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE
 		);
 
 		$this->loginAsUser($this->recipientUid);
@@ -62,7 +64,7 @@ class LockingTest extends TestCase {
 
 
 	public function testLockAsRecipient(): void {
-		$this->expectException(\OCP\Lock\LockedException::class);
+		$this->expectException(LockedException::class);
 
 		$this->loginAsUser($this->ownerUid);
 

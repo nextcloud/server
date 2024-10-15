@@ -15,6 +15,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCSController;
@@ -29,6 +30,7 @@ use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
+use OCP\Server;
 use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use Psr\Log\LoggerInterface;
@@ -170,7 +172,7 @@ class RequestHandlerController extends OCSController {
 			throw new OCSException('internal server error, was not able to add share from ' . $remote, 500);
 		}
 
-		return new Http\DataResponse();
+		return new DataResponse();
 	}
 
 	/**
@@ -206,7 +208,7 @@ class RequestHandlerController extends OCSController {
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
 			[$newToken, $localId] = $provider->notificationReceived('REQUEST_RESHARE', $id, $notification);
-			return new Http\DataResponse([
+			return new DataResponse([
 				'token' => $newToken,
 				'remoteId' => $localId
 			]);
@@ -254,7 +256,7 @@ class RequestHandlerController extends OCSController {
 			$this->logger->debug('internal server error, can not process notification: ' . $e->getMessage(), ['exception' => $e]);
 		}
 
-		return new Http\DataResponse();
+		return new DataResponse();
 	}
 
 	/**
@@ -287,7 +289,7 @@ class RequestHandlerController extends OCSController {
 			$this->logger->debug('internal server error, can not process notification: ' . $e->getMessage(), ['exception' => $e]);
 		}
 
-		return new Http\DataResponse();
+		return new DataResponse();
 	}
 
 	/**
@@ -316,7 +318,7 @@ class RequestHandlerController extends OCSController {
 			$this->logger->debug('processing unshare notification failed: ' . $e->getMessage(), ['exception' => $e]);
 		}
 
-		return new Http\DataResponse();
+		return new DataResponse();
 	}
 
 	private function cleanupRemote($remote) {
@@ -343,7 +345,7 @@ class RequestHandlerController extends OCSController {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
 			$notification = ['sharedSecret' => $token];
 			$provider->notificationReceived('RESHARE_UNDO', $id, $notification);
-			return new Http\DataResponse();
+			return new DataResponse();
 		} catch (\Exception $e) {
 			throw new OCSBadRequestException();
 		}
@@ -356,7 +358,7 @@ class RequestHandlerController extends OCSController {
 	 * @return bool
 	 */
 	private function isS2SEnabled($incoming = false) {
-		$result = \OCP\Server::get(IAppManager::class)->isEnabledForUser('files_sharing');
+		$result = Server::get(IAppManager::class)->isEnabledForUser('files_sharing');
 
 		if ($incoming) {
 			$result = $result && $this->federatedShareProvider->isIncomingServer2serverShareEnabled();
@@ -394,7 +396,7 @@ class RequestHandlerController extends OCSController {
 			throw new OCSBadRequestException();
 		}
 
-		return new Http\DataResponse();
+		return new DataResponse();
 	}
 
 	/**
@@ -454,7 +456,7 @@ class RequestHandlerController extends OCSController {
 		$affected = $query->executeStatement();
 
 		if ($affected > 0) {
-			return new Http\DataResponse(['remote' => $cloudId->getRemote(), 'owner' => $cloudId->getUser()]);
+			return new DataResponse(['remote' => $cloudId->getRemote(), 'owner' => $cloudId->getUser()]);
 		} else {
 			throw new OCSBadRequestException('Share not found or token invalid');
 		}

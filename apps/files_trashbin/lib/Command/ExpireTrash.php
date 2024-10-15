@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_Trashbin\Command;
 
+use OC\Files\View;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Helper;
 use OCA\Files_Trashbin\Trashbin;
@@ -103,7 +104,7 @@ class ExpireTrash extends Command {
 		\OC_Util::setupFS($user);
 
 		// Check if this user has a trashbin directory
-		$view = new \OC\Files\View('/' . $user);
+		$view = new View('/' . $user);
 		if (!$view->is_dir('/files_trashbin/files')) {
 			return false;
 		}

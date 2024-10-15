@@ -14,6 +14,7 @@ use OCP\IUser;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
+use OCP\Util;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
 
@@ -350,7 +351,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 
 		$message->expects($this->once())
 			->method('setFrom')
-			->with([\OCP\Util::getDefaultEmailAddress('reminders-noreply')])
+			->with([Util::getDefaultEmailAddress('reminders-noreply')])
 			->willReturn($message);
 
 		if ($replyTo) {

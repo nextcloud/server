@@ -27,7 +27,7 @@ namespace OCA\DAV\Connector\Sabre;
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
+use OCP\ITagManager;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 
@@ -73,7 +73,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param \Sabre\DAV\Tree $tree tree
 	 * @param \OCP\ITagManager $tagManager tag manager
 	 */
-	public function __construct(\Sabre\DAV\Tree $tree, \OCP\ITagManager $tagManager) {
+	public function __construct(\Sabre\DAV\Tree $tree, ITagManager $tagManager) {
 		$this->tree = $tree;
 		$this->tagManager = $tagManager;
 		$this->tagger = null;
@@ -191,12 +191,12 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 		PropFind $propFind,
 		\Sabre\DAV\INode $node,
 	) {
-		if (!($node instanceof \OCA\DAV\Connector\Sabre\Node)) {
+		if (!($node instanceof Node)) {
 			return;
 		}
 
 		// need prefetch ?
-		if ($node instanceof \OCA\DAV\Connector\Sabre\Directory
+		if ($node instanceof Directory
 			&& $propFind->getDepth() !== 0
 			&& (!is_null($propFind->getStatus(self::TAGS_PROPERTYNAME))
 			|| !is_null($propFind->getStatus(self::FAVORITE_PROPERTYNAME))
@@ -250,7 +250,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	public function handleUpdateProperties($path, PropPatch $propPatch) {
 		$node = $this->tree->getNodeForPath($path);
-		if (!($node instanceof \OCA\DAV\Connector\Sabre\Node)) {
+		if (!($node instanceof Node)) {
 			return;
 		}
 

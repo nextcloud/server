@@ -56,6 +56,7 @@ use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Share;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
+use OCP\SystemTag\ManagerEvent;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\BeforeUserLoggedOutEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
@@ -156,7 +157,7 @@ class Application extends App implements IBootstrap {
 
 	private function tagHooks(IAuditLogger $logger,
 		IEventDispatcher $eventDispatcher): void {
-		$eventDispatcher->addListener(\OCP\SystemTag\ManagerEvent::EVENT_CREATE, function (\OCP\SystemTag\ManagerEvent $event) use ($logger): void {
+		$eventDispatcher->addListener(ManagerEvent::EVENT_CREATE, function (ManagerEvent $event) use ($logger): void {
 			$tagActions = new TagManagement($logger);
 			$tagActions->createTag($event->getTag());
 		});

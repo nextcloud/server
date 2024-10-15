@@ -8,6 +8,7 @@
 namespace OCA\DAV\Connector;
 
 use OCA\DAV\Connector\Sabre\PublicAuth;
+use OCP\Defaults;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\Bruteforce\IThrottler;
@@ -40,7 +41,7 @@ class LegacyPublicAuth extends AbstractBasic {
 		$this->throttler = $throttler;
 
 		// setup realm
-		$defaults = new \OCP\Defaults();
+		$defaults = new Defaults();
 		$this->realm = $defaults->getName() ?: 'Nextcloud';
 	}
 

@@ -27,6 +27,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -276,7 +277,7 @@ class RequestHandlerController extends Controller {
 	private function mapUid($uid) {
 		// FIXME this should be a method in the user management instead
 		$this->logger->debug('shareWith before, ' . $uid, ['app' => $this->appName]);
-		\OCP\Util::emitHook(
+		Util::emitHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
 			['uid' => &$uid]

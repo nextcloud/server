@@ -14,11 +14,11 @@ use Test\TestCase;
 
 class SetupTest extends TestCase {
 	/**
-	 * @var \OCA\Encryption\KeyManager|\PHPUnit\Framework\MockObject\MockObject
+	 * @var KeyManager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $keyManagerMock;
 	/**
-	 * @var \OCA\Encryption\Crypto\Crypt|\PHPUnit\Framework\MockObject\MockObject
+	 * @var Crypt|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $cryptMock;
 	/**

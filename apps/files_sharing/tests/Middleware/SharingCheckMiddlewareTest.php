@@ -178,7 +178,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 
 
 	public function testBeforeControllerWithSharingDisabled(): void {
-		$this->expectException(\OCP\Files\NotFoundException::class);
+		$this->expectException(NotFoundException::class);
 		$this->expectExceptionMessage('Sharing is disabled.');
 
 		$this->appManager

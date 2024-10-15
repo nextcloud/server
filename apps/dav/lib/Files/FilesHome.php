@@ -7,6 +7,7 @@
  */
 namespace OCA\DAV\Files;
 
+use OC\Files\Filesystem;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCP\Files\FileInfo;
 use Sabre\DAV\Exception\Forbidden;
@@ -26,7 +27,7 @@ class FilesHome extends Directory {
 	 */
 	public function __construct($principalInfo, FileInfo $userFolder) {
 		$this->principalInfo = $principalInfo;
-		$view = \OC\Files\Filesystem::getView();
+		$view = Filesystem::getView();
 		parent::__construct($view, $userFolder);
 	}
 

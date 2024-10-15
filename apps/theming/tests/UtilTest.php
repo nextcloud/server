@@ -13,6 +13,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
+use OCP\Server;
 use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -29,7 +30,7 @@ class UtilTest extends TestCase {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
 		$this->appData = $this->createMock(IAppData::class);
-		$this->appManager = \OCP\Server::get(IAppManager::class);
+		$this->appManager = Server::get(IAppManager::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->util = new Util($this->createMock(ServerVersion::class), $this->config, $this->appManager, $this->appData, $this->imageManager);
 	}
@@ -154,9 +155,9 @@ class UtilTest extends TestCase {
 
 	public function dataGetAppIcon() {
 		return [
-			['user_ldap', \OCP\Server::get(IAppManager::class)->getAppPath('user_ldap') . '/img/app.svg'],
+			['user_ldap', Server::get(IAppManager::class)->getAppPath('user_ldap') . '/img/app.svg'],
 			['noapplikethis', \OC::$SERVERROOT . '/core/img/logo/logo.svg'],
-			['comments', \OCP\Server::get(IAppManager::class)->getAppPath('comments') . '/img/comments.svg'],
+			['comments', Server::get(IAppManager::class)->getAppPath('comments') . '/img/comments.svg'],
 		];
 	}
 

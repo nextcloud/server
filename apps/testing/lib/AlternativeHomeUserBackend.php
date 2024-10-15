@@ -5,6 +5,8 @@
  */
 namespace OCA\Testing;
 
+use OC\User\Database;
+
 /**
  * Alternative home user backend.
  *
@@ -17,7 +19,7 @@ namespace OCA\Testing;
  *			],
  *	]
  */
-class AlternativeHomeUserBackend extends \OC\User\Database {
+class AlternativeHomeUserBackend extends Database {
 	public function __construct() {
 		parent::__construct();
 	}

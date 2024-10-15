@@ -88,7 +88,7 @@ class ViewOnly {
 		}
 
 		// Extract extra permissions
-		/** @var \OCA\Files_Sharing\SharedStorage $storage */
+		/** @var SharedStorage $storage */
 		$share = $storage->getShare();
 
 		$canDownload = true;

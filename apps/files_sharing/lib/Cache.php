@@ -122,7 +122,7 @@ class Cache extends CacheJail {
 		parent::remove($file);
 	}
 
-	public function moveFromCache(\OCP\Files\Cache\ICache $sourceCache, $sourcePath, $targetPath) {
+	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
 		$this->rootUnchanged = false;
 		return parent::moveFromCache($sourceCache, $sourcePath, $targetPath);
 	}

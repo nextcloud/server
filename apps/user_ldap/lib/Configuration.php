@@ -7,6 +7,7 @@
  */
 namespace OCA\User_LDAP;
 
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -673,7 +674,7 @@ class Configuration {
 			return [strtolower($attribute)];
 		}
 		if ($value !== self::AVATAR_PREFIX_DEFAULT) {
-			\OCP\Server::get(LoggerInterface::class)->warning('Invalid config value to ldapUserAvatarRule; falling back to default.');
+			Server::get(LoggerInterface::class)->warning('Invalid config value to ldapUserAvatarRule; falling back to default.');
 		}
 		return $defaultAttributes;
 	}

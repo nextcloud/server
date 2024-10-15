@@ -9,6 +9,7 @@ namespace OCA\Files_External\Command;
 use OC\Core\Command\Base;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\MountConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\AppFramework\Http;
@@ -92,7 +93,7 @@ class Verify extends Base {
 			$backend = $storage->getBackend();
 			// update status (can be time-consuming)
 			$storage->setStatus(
-				\OCA\Files_External\MountConfig::getBackendStatus(
+				MountConfig::getBackendStatus(
 					$backend->getStorageClass(),
 					$storage->getBackendOptions(),
 					false

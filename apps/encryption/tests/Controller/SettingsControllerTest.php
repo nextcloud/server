@@ -39,13 +39,13 @@ class SettingsControllerTest extends TestCase {
 	/** @var \OCP\IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSessionMock;
 
-	/** @var \OCA\Encryption\KeyManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var KeyManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $keyManagerMock;
 
-	/** @var \OCA\Encryption\Crypto\Crypt|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Crypt|\PHPUnit\Framework\MockObject\MockObject */
 	private $cryptMock;
 
-	/** @var \OCA\Encryption\Session|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Session|\PHPUnit\Framework\MockObject\MockObject */
 	private $sessionMock;
 	/** @var MockObject|IUser */
 	private $user;
@@ -53,7 +53,7 @@ class SettingsControllerTest extends TestCase {
 	/** @var \OCP\ISession|\PHPUnit\Framework\MockObject\MockObject */
 	private $ocSessionMock;
 
-	/** @var \OCA\Encryption\Util|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
 	private $utilMock;
 
 	protected function setUp(): void {

@@ -1,5 +1,7 @@
 <?php
 
+use OCA\User_LDAP\LDAP;
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -23,7 +25,7 @@ foreach ($chkboxes as $boxid) {
 	}
 }
 
-$ldapWrapper = new OCA\User_LDAP\LDAP();
+$ldapWrapper = new LDAP();
 $connection = new \OCA\User_LDAP\Connection($ldapWrapper, $prefix);
 $connection->setConfiguration($_POST);
 $connection->saveConfiguration();

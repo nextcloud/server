@@ -24,7 +24,7 @@ class RecoveryControllerTest extends TestCase {
 	private $configMock;
 	/** @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10nMock;
-	/** @var \OCA\Encryption\Recovery|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Recovery|\PHPUnit\Framework\MockObject\MockObject */
 	private $recoveryMock;
 
 	public function adminRecoveryProvider() {

@@ -123,7 +123,7 @@ class FilesPluginTest extends TestCase {
 	}
 
 	public function testGetPropertiesForFile(): void {
-		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit\Framework\MockObject\MockObject $node */
+		/** @var File|\PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
 
 		$propFind = new PropFind(
@@ -180,7 +180,7 @@ class FilesPluginTest extends TestCase {
 	}
 
 	public function testGetPropertiesStorageNotAvailable(): void {
-		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit\Framework\MockObject\MockObject $node */
+		/** @var File|\PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
 
 		$propFind = new PropFind(
@@ -227,7 +227,7 @@ class FilesPluginTest extends TestCase {
 			0
 		);
 
-		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit\Framework\MockObject\MockObject $node */
+		/** @var File|\PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
 		$node->expects($this->any())
 			->method('getDavPermissions')
@@ -242,7 +242,7 @@ class FilesPluginTest extends TestCase {
 	}
 
 	public function testGetPropertiesForDirectory(): void {
-		/** @var \OCA\DAV\Connector\Sabre\Directory | \PHPUnit\Framework\MockObject\MockObject $node */
+		/** @var Directory|\PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\Directory');
 
 		$propFind = new PropFind(
@@ -277,7 +277,7 @@ class FilesPluginTest extends TestCase {
 	}
 
 	public function testGetPropertiesForRootDirectory(): void {
-		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit\Framework\MockObject\MockObject $node */
+		/** @var Directory|\PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -312,8 +312,7 @@ class FilesPluginTest extends TestCase {
 		// No read permissions can be caused by files access control.
 		// But we still want to load the directory list, so this is okay for us.
 		// $this->expectException(\Sabre\DAV\Exception\NotFound::class);
-
-		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit\Framework\MockObject\MockObject $node */
+		/** @var Directory|\PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -614,7 +613,7 @@ class FilesPluginTest extends TestCase {
 	}
 
 	public function testHasPreview(): void {
-		/** @var \OCA\DAV\Connector\Sabre\Directory | \PHPUnit\Framework\MockObject\MockObject $node */
+		/** @var Directory|\PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\Directory');
 
 		$propFind = new PropFind(

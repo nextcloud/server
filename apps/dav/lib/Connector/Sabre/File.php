@@ -18,6 +18,7 @@ use OCA\DAV\Connector\Sabre\Exception\EntityTooLarge;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden as DAVForbiddenException;
 use OCA\DAV\Connector\Sabre\Exception\UnsupportedMediaType;
+use OCP\App\IAppManager;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\Files\EntityTooLargeException;
 use OCP\Files\FileInfo;
@@ -35,6 +36,7 @@ use OCP\IRequest;
 use OCP\L10N\IFactory as IL10NFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use OCP\Server;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception;
@@ -123,7 +125,7 @@ class File extends Node implements IFile {
 		}
 		$needsPartFile = $partStorage->needsPartFile() && (strlen($this->path) > 1);
 
-		$view = \OC\Files\Filesystem::getView();
+		$view = Filesystem::getView();
 
 		if ($needsPartFile) {
 			// mark file as partial while uploading (ignored by the scanner)
@@ -402,19 +404,19 @@ class File extends Node implements IFile {
 		$run = true;
 
 		if (!$exists) {
-			\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_create, [
-				\OC\Files\Filesystem::signal_param_path => $hookPath,
-				\OC\Files\Filesystem::signal_param_run => &$run,
+			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_create, [
+				Filesystem::signal_param_path => $hookPath,
+				Filesystem::signal_param_run => &$run,
 			]);
 		} else {
-			\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_update, [
-				\OC\Files\Filesystem::signal_param_path => $hookPath,
-				\OC\Files\Filesystem::signal_param_run => &$run,
+			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_update, [
+				Filesystem::signal_param_path => $hookPath,
+				Filesystem::signal_param_run => &$run,
 			]);
 		}
-		\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_write, [
-			\OC\Files\Filesystem::signal_param_path => $hookPath,
-			\OC\Files\Filesystem::signal_param_run => &$run,
+		\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_write, [
+			Filesystem::signal_param_path => $hookPath,
+			Filesystem::signal_param_run => &$run,
 		]);
 		return $run;
 	}
@@ -429,16 +431,16 @@ class File extends Node implements IFile {
 			return;
 		}
 		if (!$exists) {
-			\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_create, [
-				\OC\Files\Filesystem::signal_param_path => $hookPath
+			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_create, [
+				Filesystem::signal_param_path => $hookPath
 			]);
 		} else {
-			\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_update, [
-				\OC\Files\Filesystem::signal_param_path => $hookPath
+			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_update, [
+				Filesystem::signal_param_path => $hookPath
 			]);
 		}
-		\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_write, [
-			\OC\Files\Filesystem::signal_param_path => $hookPath
+		\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_write, [
+			Filesystem::signal_param_path => $hookPath
 		]);
 	}
 
@@ -535,7 +537,7 @@ class File extends Node implements IFile {
 	 * @return array|bool
 	 */
 	public function getDirectDownload() {
-		if (\OCP\Server::get(\OCP\App\IAppManager::class)->isEnabledForUser('encryption')) {
+		if (Server::get(IAppManager::class)->isEnabledForUser('encryption')) {
 			return [];
 		}
 		[$storage, $internalPath] = $this->fileView->resolvePath($this->path);

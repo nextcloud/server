@@ -7,6 +7,7 @@
  */
 namespace OCA\DAV\Tests\unit\Connector;
 
+use OCA\DAV\Connector\LegacyPublicAuth;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\Bruteforce\IThrottler;
@@ -29,7 +30,7 @@ class LegacyPublicAuthTest extends \Test\TestCase {
 	private $request;
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
-	/** @var \OCA\DAV\Connector\LegacyPublicAuth */
+	/** @var LegacyPublicAuth */
 	private $auth;
 	/** @var IThrottler|\PHPUnit\Framework\MockObject\MockObject */
 	private $throttler;
@@ -53,7 +54,7 @@ class LegacyPublicAuthTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->auth = new \OCA\DAV\Connector\LegacyPublicAuth(
+		$this->auth = new LegacyPublicAuth(
 			$this->request,
 			$this->shareManager,
 			$this->session,

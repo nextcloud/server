@@ -18,7 +18,7 @@ use OCP\GroupInterface;
 use OCP\IConfig;
 use OCP\IUserManager;
 
-class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGetDisplayNameBackend, INamedBackend, IDeleteGroupBackend, IBatchMethodsBackend, IIsAdminBackend {
+class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, INamedBackend, IDeleteGroupBackend, IBatchMethodsBackend, IIsAdminBackend {
 	private $backends = [];
 	private ?Group_LDAP $refBackend = null;
 	private Helper $helper;

@@ -7,6 +7,7 @@
 namespace OCA\Files_External\Tests\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
+use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_external\Lib\StorageConfig;
 use OCP\IL10N;
 use OCP\Security\ICredentialsManager;
@@ -90,7 +91,7 @@ class GlobalAuthTest extends TestCase {
 
 
 	public function testNoCredentialsPersonal(): void {
-		$this->expectException(\OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException::class);
+		$this->expectException(InsufficientDataForMeaningfulAnswerException::class);
 
 		$this->credentialsManager->expects($this->never())
 			->method('retrieve');

@@ -94,7 +94,7 @@ class UserHooks implements IHook {
 	 */
 	public function login($params) {
 		// ensure filesystem is loaded
-		if (!\OC\Files\Filesystem::$loaded) {
+		if (!Filesystem::$loaded) {
 			$this->setupFS($params['uid']);
 		}
 		if ($this->util->isMasterKeyEnabled() === false) {

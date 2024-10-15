@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_Versions\Command;
 
+use OC\Files\View;
 use OCA\Files_Versions\Expiration;
 use OCA\Files_Versions\Storage;
 use OCP\IUser;
@@ -84,7 +85,7 @@ class ExpireVersions extends Command {
 		\OC_Util::setupFS($user);
 
 		// Check if this user has a version directory
-		$view = new \OC\Files\View('/' . $user);
+		$view = new View('/' . $user);
 		if (!$view->is_dir('/files_versions')) {
 			return false;
 		}

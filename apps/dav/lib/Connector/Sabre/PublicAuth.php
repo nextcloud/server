@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OCP\Defaults;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\Bruteforce\IThrottler;
@@ -54,7 +55,7 @@ class PublicAuth extends AbstractBasic {
 		$this->logger = $logger;
 
 		// setup realm
-		$defaults = new \OCP\Defaults();
+		$defaults = new Defaults();
 		$this->realm = $defaults->getName();
 	}
 

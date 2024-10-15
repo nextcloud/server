@@ -47,6 +47,7 @@ use OCP\L10N\IFactory;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
 use OCP\User\Backend\ISetDisplayNameBackend;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -1032,7 +1033,7 @@ class UsersController extends AUserData {
 					if (is_numeric($quota)) {
 						$quota = (float)$quota;
 					} else {
-						$quota = \OCP\Util::computerFileSize($quota);
+						$quota = Util::computerFileSize($quota);
 					}
 					if ($quota === false) {
 						throw new OCSException($this->l10n->t('Invalid quota value: %1$s', [$value]), 101);
@@ -1044,7 +1045,7 @@ class UsersController extends AUserData {
 						if ($maxQuota !== -1 && $quota > $maxQuota) {
 							throw new OCSException($this->l10n->t('Invalid quota value. %1$s is exceeding the maximum quota', [$value]), 101);
 						}
-						$quota = \OCP\Util::humanFileSize($quota);
+						$quota = Util::humanFileSize($quota);
 					}
 				}
 				// no else block because quota can be set to 'none' in previous if

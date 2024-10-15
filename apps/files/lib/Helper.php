@@ -7,8 +7,10 @@
  */
 namespace OCA\Files;
 
+use OC\Files\Filesystem;
 use OCP\Files\FileInfo;
 use OCP\ITagManager;
+use OCP\Util;
 
 /**
  * Helper class for manipulating file information
@@ -22,9 +24,9 @@ class Helper {
 	public static function buildFileStorageStatistics($dir) {
 		// information about storage capacities
 		$storageInfo = \OC_Helper::getStorageInfo($dir);
-		$l = \OCP\Util::getL10N('files');
-		$maxUploadFileSize = \OCP\Util::maxUploadFilesize($dir, $storageInfo['free']);
-		$maxHumanFileSize = \OCP\Util::humanFileSize($maxUploadFileSize);
+		$l = Util::getL10N('files');
+		$maxUploadFileSize = Util::maxUploadFilesize($dir, $storageInfo['free']);
+		$maxHumanFileSize = Util::humanFileSize($maxUploadFileSize);
 		$maxHumanFileSize = $l->t('Upload (max. %s)', [$maxHumanFileSize]);
 
 		return [
@@ -80,7 +82,7 @@ class Helper {
 		} elseif ($aType !== 'dir' and $bType === 'dir') {
 			return 1;
 		} else {
-			return \OCP\Util::naturalSortCompare($a->getName(), $b->getName());
+			return Util::naturalSortCompare($a->getName(), $b->getName());
 		}
 	}
 
@@ -181,7 +183,7 @@ class Helper {
 	 * @return \OCP\Files\FileInfo[] files
 	 */
 	public static function getFiles($dir, $sortAttribute = 'name', $sortDescending = false, $mimetypeFilter = '') {
-		$content = \OC\Files\Filesystem::getDirectoryContent($dir, $mimetypeFilter);
+		$content = Filesystem::getDirectoryContent($dir, $mimetypeFilter);
 
 		return self::sortFiles($content, $sortAttribute, $sortDescending);
 	}

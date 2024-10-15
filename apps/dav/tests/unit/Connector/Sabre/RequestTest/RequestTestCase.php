@@ -25,7 +25,7 @@ abstract class RequestTestCase extends TestCase {
 	use MountProviderTrait;
 
 	/**
-	 * @var \OCA\DAV\Connector\Sabre\ServerFactory
+	 * @var ServerFactory
 	 */
 	protected $serverFactory;
 

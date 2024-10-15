@@ -37,7 +37,7 @@ class RecoveryTest extends TestCase {
 	 */
 	private $user;
 	/**
-	 * @var \OCA\Encryption\KeyManager|\PHPUnit\Framework\MockObject\MockObject
+	 * @var KeyManager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $keyManagerMock;
 	/**
@@ -45,7 +45,7 @@ class RecoveryTest extends TestCase {
 	 */
 	private $configMock;
 	/**
-	 * @var \OCA\Encryption\Crypto\Crypt|\PHPUnit\Framework\MockObject\MockObject
+	 * @var Crypt|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $cryptMock;
 	/**

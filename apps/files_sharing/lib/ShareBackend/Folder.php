@@ -6,7 +6,9 @@
  */
 namespace OCA\Files_Sharing\ShareBackend;
 
-class Folder extends File implements \OCP\Share_Backend_Collection {
+use OCP\Share_Backend_Collection;
+
+class Folder extends File implements Share_Backend_Collection {
 	public function getChildren($itemSource) {
 		$children = [];
 		$parents = [$itemSource];

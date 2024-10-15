@@ -1043,8 +1043,8 @@ class FederatedShareProvider implements IShareProvider {
 			->from('share')
 			->where(
 				$qb->expr()->orX(
-					$qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share\IShare::TYPE_REMOTE)),
-					$qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share\IShare::TYPE_REMOTE_GROUP))
+					$qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_REMOTE)),
+					$qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_REMOTE_GROUP))
 				)
 			);
 
