@@ -34,7 +34,8 @@ export const usePathsStore = function(...args) {
 	const store = defineStore('paths', {
 		state: () => ({
 			paths: {} as ServicesState,
-		} as PathsStore),
+			_initialized: false,
+		}),
 
 		getters: {
 			getPath: (state) => {

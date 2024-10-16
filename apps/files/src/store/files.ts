@@ -44,9 +44,10 @@ const fetchNode = async (node: Node): Promise<Node> => {
 
 export const useFilesStore = function(...args) {
 	const store = defineStore('files', {
-		state: (): FilesState => ({
+		state: () => ({
 			files: {} as FilesStore,
 			roots: {} as RootsStore,
+			_initialized: false,
 		}),
 
 		getters: {
