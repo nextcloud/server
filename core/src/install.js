@@ -5,6 +5,8 @@
 
 import $ from 'jquery'
 import { translate as t } from '@nextcloud/l10n'
+import { linkTo } from '@nextcloud/router'
+
 import { getToken } from './OC/requesttoken.js'
 import getURLParameter from './Util/get-url-parameter.js'
 
@@ -129,7 +131,7 @@ window.addEventListener('DOMContentLoaded', function() {
 	}
 
 	$('#adminpass').strengthify({
-		zxcvbn: OC.linkTo('core', 'vendor/zxcvbn/dist/zxcvbn.js'),
+		zxcvbn: linkTo('core', 'vendor/zxcvbn/dist/zxcvbn.js'),
 		titles: [
 			t('core', 'Very weak password'),
 			t('core', 'Weak password'),

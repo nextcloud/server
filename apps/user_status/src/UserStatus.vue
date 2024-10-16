@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { getCurrentUser } from '@nextcloud/auth'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Fragment } from 'vue-frag'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -159,7 +160,7 @@ export default {
 			}
 		},
 		handleUserStatusUpdated(state) {
-			if (OC.getCurrentUser().uid === state.userId) {
+			if (getCurrentUser()?.uid === state.userId) {
 				this.$store.dispatch('setStatusFromObject', {
 					status: state.status,
 					icon: state.icon,

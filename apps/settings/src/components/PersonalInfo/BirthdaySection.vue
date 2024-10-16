@@ -8,13 +8,11 @@
 			:input-id="inputId"
 			:readable="birthdate.readable" />
 
-		<template>
-			<NcDateTimePickerNative :id="inputId"
-				type="date"
-				label=""
-				:value="value"
-				@input="onInput" />
-		</template>
+		<NcDateTimePickerNative :id="inputId"
+			type="date"
+			label=""
+			:value="value"
+			@input="onInput" />
 
 		<p class="property__helper-text-message">
 			{{ t('settings', 'Enter your date of birth') }}
@@ -66,7 +64,7 @@ export default {
 			get() {
 				return new Date(this.birthdate.value)
 			},
-			/** @param {Date} value */
+			/** @param {Date} value The date to set */
 			set(value) {
 				const day = value.getDate().toString().padStart(2, '0')
 				const month = (value.getMonth() + 1).toString().padStart(2, '0')

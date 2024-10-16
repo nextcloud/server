@@ -59,8 +59,8 @@ export const useViewConfigStore = function(...args) {
 			 * Set the sorting key AND sort by ASC
 			 * The key param must be a valid key of a File object
 			 * If not found, will be searched within the File attributes
-			 * @param key
-			 * @param view
+			 * @param key Key to sort by
+			 * @param view View to set the sorting key for
 			 */
 			setSortingBy(key = 'basename', view = 'files') {
 				// Save new config
@@ -70,7 +70,7 @@ export const useViewConfigStore = function(...args) {
 
 			/**
 			 * Toggle the sorting direction
-			 * @param view
+			 * @param view view to set the sorting order for
 			 */
 			toggleSortingDirection(view = 'files') {
 				const config = this.getConfig(view) || { sorting_direction: 'asc' }

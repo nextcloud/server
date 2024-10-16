@@ -21,7 +21,7 @@ const fetchCurrentStatus = async () => {
 /**
  * Fetches the current user-status
  *
- * @param {string} userId
+ * @param {string} userId Id of the user to fetch the status
  * @return {Promise<object>}
  */
 const fetchBackupStatus = async (userId) => {
@@ -89,7 +89,7 @@ const clearMessage = async () => {
 /**
  * Revert the automated status
  *
- * @param {string} messageId
+ * @param {string} messageId ID of the message to revert
  * @return {Promise<object>}
  */
 const revertToBackupStatus = async (messageId) => {

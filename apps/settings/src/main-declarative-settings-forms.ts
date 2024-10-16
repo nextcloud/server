@@ -5,9 +5,10 @@
 import type { ComponentInstance } from 'vue'
 
 import { loadState } from '@nextcloud/initial-state'
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { t, n } from '@nextcloud/l10n'
 import Vue from 'vue'
 import DeclarativeSection from './components/DeclarativeSettings/DeclarativeSection.vue'
+import logger from './logger'
 
 interface DeclarativeFormField {
 	id: string,
@@ -34,12 +35,10 @@ interface DeclarativeForm {
 	fields: Array<DeclarativeFormField>,
 }
 
-const forms = loadState('settings', 'declarative-settings-forms', []) as Array<DeclarativeForm>
-console.debug('Loaded declarative forms:', forms)
+const forms = loadState<DeclarativeForm[]>('settings', 'declarative-settings-forms', [])
 
 /**
- *
- * @param forms
+ * @param forms The forms to render
  */
 function renderDeclarativeSettingsSections(forms: Array<DeclarativeForm>): ComponentInstance[] {
 	Vue.mixin({ methods: { t, n } })
@@ -57,5 +56,6 @@ function renderDeclarativeSettingsSections(forms: Array<DeclarativeForm>): Compo
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+	logger.debug('Loaded declarative forms', { forms })
 	renderDeclarativeSettingsSections(forms)
 })

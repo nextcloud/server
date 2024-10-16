@@ -3,11 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { generateUrl } from '@nextcloud/router'
 import $ from 'jquery'
 
 window.addEventListener('DOMContentLoaded', () => {
 	$('#loglevel').change(function() {
-		$.post(OC.generateUrl('/settings/admin/log/level'), { level: $(this).val() }, () => {
+		$.post(generateUrl('/settings/admin/log/level'), { level: $(this).val() }, () => {
 			OC.Log.reload()
 		})
 	})
@@ -48,7 +49,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 		OC.msg.startSaving('#mail_settings_msg')
 		$.ajax({
-			url: OC.generateUrl('/settings/admin/mailsettings'),
+			url: generateUrl('/settings/admin/mailsettings'),
 			type: 'POST',
 			data: $('#mail_general_settings_form').serialize(),
 			success: () => {
@@ -68,7 +69,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 		OC.msg.startSaving('#mail_settings_msg')
 		$.ajax({
-			url: OC.generateUrl('/settings/admin/mailsettings/credentials'),
+			url: generateUrl('/settings/admin/mailsettings/credentials'),
 			type: 'POST',
 			data: $('#mail_credentials_settings').serialize(),
 			success: () => {
@@ -94,7 +95,7 @@ window.addEventListener('DOMContentLoaded', () => {
 		OC.msg.startAction('#sendtestmail_msg', t('settings', 'Sending…'))
 
 		$.ajax({
-			url: OC.generateUrl('/settings/admin/mailtest'),
+			url: generateUrl('/settings/admin/mailtest'),
 			type: 'POST',
 			success: () => {
 				OC.msg.finishedSuccess('#sendtestmail_msg', t('settings', 'Email sent'))

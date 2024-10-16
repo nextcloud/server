@@ -135,6 +135,7 @@
 </template>
 
 <script>
+import { formatFileSize, parseFileSize } from '@nextcloud/files'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
 import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
@@ -317,7 +318,7 @@ export default {
 			const validQuota = OC.Util.computerFileSize(quota)
 			if (validQuota !== null && validQuota >= 0) {
 				// unify format output
-				quota = OC.Util.humanFileSize(OC.Util.computerFileSize(quota))
+				quota = formatFileSize(parseFileSize(quota))
 				this.newUser.quota = { id: quota, label: quota }
 				return this.newUser.quota
 			}

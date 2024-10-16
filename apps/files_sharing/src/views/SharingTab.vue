@@ -82,15 +82,19 @@
 </template>
 
 <script>
-import axios from '@nextcloud/axios'
+import { getCurrentUser } from '@nextcloud/auth'
 import { orderBy } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
 import { CollectionList } from 'nextcloud-vue-collections'
+
+import axios from '@nextcloud/axios'
+import moment from '@nextcloud/moment'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 
-import Config from '../services/ConfigService.ts'
 import { shareWithTitle } from '../utils/SharedWithMe.js'
+
+import Config from '../services/ConfigService.ts'
 import Share from '../models/Share.ts'
 import ShareTypes from '../mixins/ShareTypes.js'
 import SharingEntryInternal from '../components/SharingEntryInternal.vue'
@@ -241,7 +245,7 @@ export default {
 		updateExpirationSubtitle(share) {
 			const expiration = moment(share.expireDate).unix()
 			this.$set(this.sharedWithMe, 'subtitle', t('files_sharing', 'Expires {relativetime}', {
-				relativetime: OC.Util.relativeModifiedDate(expiration * 1000),
+				relativetime: moment(expiration * 1000).fromNow(),
 			}))
 
 			// share have expired
@@ -310,7 +314,7 @@ export default {
 					// interval update
 					this.expirationInterval = setInterval(this.updateExpirationSubtitle, 10000, share)
 				}
-			} else if (this.fileInfo && this.fileInfo.shareOwnerId !== undefined ? this.fileInfo.shareOwnerId !== OC.currentUser : false) {
+			} else if (this.fileInfo && this.fileInfo.shareOwnerId !== undefined ? this.fileInfo.shareOwnerId !== getCurrentUser().uid : false) {
 				// Fallback to compare owner and current user.
 				this.sharedWithMe = {
 					displayName: this.fileInfo.shareOwner,
