@@ -88,6 +88,10 @@ class Notifier implements INotifier, IDismissableNotifier {
 			throw new \InvalidArgumentException('Unhandled app');
 		}
 
+		$imagePath = $this->urlGenerator->imagePath('files', 'folder-move.svg');
+		$iconUrl = $this->urlGenerator->getAbsoluteURL($imagePath);
+		$notification->setIcon($iconUrl);
+
 		return match($notification->getSubject()) {
 			'transferownershipRequest' => $this->handleTransferownershipRequest($notification, $languageCode),
 			'transferownershipRequestDenied' => $this->handleTransferOwnershipRequestDenied($notification, $languageCode),
