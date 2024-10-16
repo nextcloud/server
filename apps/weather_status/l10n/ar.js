@@ -2,7 +2,7 @@ OC.L10N.register(
     "weather_status",
     {
     "Unknown address" : "عنوان غير معروف",
-    "No result." : "لا يوجد نتيجة",
+    "No result." : "لا توجد أية نتيجة",
     "Malformed JSON data." : "بيانات JSON غير مكونة بشكل صحيح",
     "Error" : "خطأ",
     "Weather status" : "حالة الطقس",

@@ -11,6 +11,7 @@ OC.L10N.register(
     "Cannot create sub-admins for admin group" : "Non é posibel crear postos de subadministración para o grupo de administración",
     "No permissions to promote sub-admins" : "Non ten permisos para promover a subadministración",
     "Invalid password value" : "O valor do contrasinal non é correcto",
+    "An email address is required, to send a password link to the user." : "Precisase dun enderezo de correo-e para enviar unha ligazón de contrasinal ao usuario.",
     "Required email address was not provided" : "Precisase dun enderezo de correo-e mais non foi fornecido",
     "Invalid quota value: %1$s" : "Valor de cota incorrecto: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "O valor da cota é incorrecto. %1$s excede a cota máxima",

@@ -663,7 +663,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "당신의 조직에서 Nextcloud를 사용해야 할 이유",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "{communityopen}Nextcloud 커뮤니티{linkclose}에서 개발, {githubopen}소스 코드{linkclose}는 {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose} 라이선스를 따릅니다.",
     "Like our Facebook page" : "Facebook 페이지에서 좋아요 누르기",
-    "Follow us on Twitter" : "트위터에서 팔로하기",
     "Follow us on Mastodon" : "Mastodon에서 팔로우하기",
     "Check out our blog" : "블로그 확인하기",
     "Subscribe to our newsletter" : "뉴스레터 구독하기",
@@ -750,6 +749,7 @@ OC.L10N.register(
     "Show to logged in users only" : "로그인된 사용자에게 공개",
     "Nextcloud help resources" : "Nextcloud 도움말 자원",
     "SMTP Username" : "SMTP 사용자 이름",
+    "Follow us on Twitter" : "트위터에서 팔로하기",
     "Active accounts" : "활성화된 계정"
 },
 "nplurals=1; plural=0;");

@@ -443,7 +443,6 @@
     "Reasons to use Nextcloud in your organization" : "Причини зошто да го користите Nextcloud во вашата организација",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Развиена од {communityopen}Nextcloud заедницата{linkclose}, {githubopen}изворениот код{linkclose} е лиценциран според {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Лајкни ја нашата Facebook страна",
-    "Follow us on Twitter" : "Следете не на Twitter",
     "Follow us on Mastodon" : "Следете не на Mastodon",
     "Check out our blog" : "Проверете го нашиот блог",
     "Subscribe to our newsletter" : "Претплатете се на нашиот билтен",
@@ -511,6 +510,7 @@
     "Disabled users" : "Оневозможени корисници",
     "Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions" : "Не е достапно бидејќи не е дозволено објавување специфични податоци за корисникот на серверот за пребарување, контактирајте со вашиот системски администратор ако имате какви било прашања",
     "Show to logged in users only" : "Прикажи само на корисници",
-    "SMTP Username" : "SMTP корисничко име"
+    "SMTP Username" : "SMTP корисничко име",
+    "Follow us on Twitter" : "Следете не на Twitter"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

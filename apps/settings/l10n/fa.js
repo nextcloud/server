@@ -461,7 +461,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "دلایلی برای استفاده از نکست‌کلود در سازمان شما",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "توسعه یافته توسط {communityopen} انجمن نکست کلود {linkclose}، {githubopen} کد منبع {linkclose} تحت مجوز {licenseopen}AGPL{linkclose}است. ",
     "Like our Facebook page" : "پسندیدن صفحه فیس بوک ما",
-    "Follow us on Twitter" : "ما را در توییتر دنبال کنید",
     "Follow us on Mastodon" : "ما را در ماستودون دنبال کنید",
     "Check out our blog" : "وبلاگ ما را بررسی کنید",
     "Subscribe to our newsletter" : "مشترک شدن در خبرنامه ما",
@@ -537,6 +536,7 @@ OC.L10N.register(
     "Show to logged in users only" : "نمایش فقط برای کاربران وارد شده به سامانه",
     "Nextcloud help resources" : "منابع راهنمای نکست‌کلود",
     "SMTP Username" : "نام کاربری SMTP",
+    "Follow us on Twitter" : "ما را در توییتر دنبال کنید",
     "Active accounts" : "حساب‌های فعال"
 },
 "nplurals=2; plural=(n > 1);");

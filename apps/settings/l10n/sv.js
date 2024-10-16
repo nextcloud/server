@@ -676,7 +676,7 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "Anledningar att använda Nextcloud i din organisation",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Utvecklat av {communityopen}Nextcloud-gemenskapen{linkclose}, {githubopen}källkoden{linkclose}  är licensierad enligt {licenseopen}AGPL-standard{linkclose}.",
     "Like our Facebook page" : "Gilla vår Facebook-sida",
-    "Follow us on Twitter" : "Följ oss på Twitter",
+    "Follow us on X" : "Följ oss på X",
     "Follow us on Mastodon" : "Följ oss på Mastodon",
     "Check out our blog" : "Kolla in vår blogg",
     "Subscribe to our newsletter" : "Prenumerera på vårt nyhetsbrev",
@@ -763,6 +763,7 @@ OC.L10N.register(
     "Show to logged in users only" : "Visa endast för inloggade användare",
     "Nextcloud help resources" : "Nextcloud hjälpresurser",
     "SMTP Username" : "SMTP-användarnamn",
+    "Follow us on Twitter" : "Följ oss på Twitter",
     "Active accounts" : "Aktiva konton"
 },
 "nplurals=2; plural=(n != 1);");

@@ -292,7 +292,6 @@ OC.L10N.register(
     "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Kontrolu sekurecon de via servilo Nextcloud pere de <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">nia sekureca ekzameno ↗</a>.",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Programita de la {communityopen}Nextcloud-komunumo{linkclose}, la {githubopen}fontkodo{linkclose} havas {licenseopen}AGPL{linkclose}-permesilon.",
     "Like our Facebook page" : "Ŝatu nian Facebook-paĝon",
-    "Follow us on Twitter" : "Sekvu nin per Twitter",
     "Follow us on Mastodon" : "Sekvu nin per Mastodon",
     "Check out our blog" : "Vizitu nian blogon",
     "Subscribe to our newsletter" : "Aboni nian retan bultenon",
@@ -321,6 +320,7 @@ OC.L10N.register(
     "Show user backend" : "Montri uzantolokon",
     "Active users" : "Aktivaj uzantoj",
     "Disabled users" : "Malebligitaj uzantoj",
-    "SMTP Username" : "SMTP-uzantonomo"
+    "SMTP Username" : "SMTP-uzantonomo",
+    "Follow us on Twitter" : "Sekvu nin per Twitter"
 },
 "nplurals=2; plural=(n != 1);");

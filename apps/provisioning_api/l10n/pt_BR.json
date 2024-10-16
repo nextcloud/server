@@ -9,6 +9,7 @@
     "Cannot create sub-admins for admin group" : "Não é possível criar subadministradores para o grupo de administradores",
     "No permissions to promote sub-admins" : "Sem permissões para promover subadministradores",
     "Invalid password value" : "Valor de senha inválido",
+    "An email address is required, to send a password link to the user." : "É necessário um endereço de e-mail, para enviar um link de senha para o usuário.",
     "Required email address was not provided" : "O endereço de e-mail obrigatório não foi fornecido",
     "Invalid quota value: %1$s" : "Valor de cota inválido: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "Valor de cota inválido. %1$s está excedendo a cota máxima",

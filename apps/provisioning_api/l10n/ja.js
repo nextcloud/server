@@ -11,6 +11,7 @@ OC.L10N.register(
     "Cannot create sub-admins for admin group" : "管理者グループにサブ管理者を作成することはできません",
     "No permissions to promote sub-admins" : "権限がないため、サブ管理者を昇格させることはできません",
     "Invalid password value" : "無効なパスワード値",
+    "An email address is required, to send a password link to the user." : "ユーザーにパスワードリンクを送信するため、メールアドレスが必要です。",
     "Required email address was not provided" : "必要のEメールアドレスが提供されていません",
     "Invalid quota value: %1$s" : "無効なクォータ値: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "無効なクォータ値。%1$sは最大クォータを超えています",

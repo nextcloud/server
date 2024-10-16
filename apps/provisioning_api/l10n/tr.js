@@ -11,6 +11,7 @@ OC.L10N.register(
     "Cannot create sub-admins for admin group" : "Yönetici grubu için alt yöneticiler oluşturulamadı",
     "No permissions to promote sub-admins" : "Alt yöneticileri yükseltme izni yok",
     "Invalid password value" : "Parola değeri geçersiz",
+    "An email address is required, to send a password link to the user." : "Kullanıcıya bir parola bağlantısı gönderebilmek için bir e-posta adresi gereklidir.",
     "Required email address was not provided" : "Gerekli e-posta adresi belirtilmemiş",
     "Invalid quota value: %1$s" : "Kota değeri geçersiz: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "Kota değeri geçersiz. %1$s en fazla kota değerini aşıyor",

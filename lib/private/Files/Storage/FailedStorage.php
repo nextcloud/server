@@ -34,146 +34,146 @@ class FailedStorage extends Common {
 		return 'failedstorage';
 	}
 
-	public function mkdir($path): never {
+	public function mkdir(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function rmdir($path): never {
+	public function rmdir(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function opendir($path): never {
+	public function opendir(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function is_dir($path): never {
+	public function is_dir(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function is_file($path): never {
+	public function is_file(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function stat($path): never {
+	public function stat(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function filetype($path): never {
+	public function filetype(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function filesize($path): never {
+	public function filesize(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function isCreatable($path): never {
+	public function isCreatable(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function isReadable($path): never {
+	public function isReadable(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function isUpdatable($path): never {
+	public function isUpdatable(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function isDeletable($path): never {
+	public function isDeletable(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function isSharable($path): never {
+	public function isSharable(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function getPermissions($path): never {
+	public function getPermissions(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function file_exists($path): never {
+	public function file_exists(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function filemtime($path): never {
+	public function filemtime(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function file_get_contents($path): never {
+	public function file_get_contents(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function file_put_contents($path, $data): never {
+	public function file_put_contents(string $path, mixed $data): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function unlink($path): never {
+	public function unlink(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function rename($source, $target): never {
+	public function rename(string $source, string $target): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function copy($source, $target): never {
+	public function copy(string $source, string $target): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function fopen($path, $mode): never {
+	public function fopen(string $path, string $mode): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function getMimeType($path): never {
+	public function getMimeType(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function hash($type, $path, $raw = false): never {
+	public function hash(string $type, string $path, bool $raw = false): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function free_space($path): never {
+	public function free_space(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function touch($path, $mtime = null): never {
+	public function touch(string $path, ?int $mtime = null): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function getLocalFile($path): never {
+	public function getLocalFile(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function hasUpdated($path, $time): never {
+	public function hasUpdated(string $path, int $time): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function getETag($path): never {
+	public function getETag(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function getDirectDownload($path): never {
+	public function getDirectDownload(string $path): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function verifyPath($path, $fileName): void {
+	public function verifyPath(string $path, string $fileName): void {
 	}
 
-	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false): never {
+	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, bool $preserveMtime = false): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath): never {
+	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function acquireLock($path, $type, ILockingProvider $provider): never {
+	public function acquireLock(string $path, int $type, ILockingProvider $provider): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function releaseLock($path, $type, ILockingProvider $provider): never {
+	public function releaseLock(string $path, int $type, ILockingProvider $provider): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function changeLock($path, $type, ILockingProvider $provider): never {
+	public function changeLock(string $path, int $type, ILockingProvider $provider): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
@@ -181,11 +181,11 @@ class FailedStorage extends Common {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function setAvailability($isAvailable): never {
+	public function setAvailability(bool $isAvailable): never {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function getCache($path = '', $storage = null): FailedCache {
+	public function getCache(string $path = '', ?IStorage $storage = null): FailedCache {
 		return new FailedCache();
 	}
 }

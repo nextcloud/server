@@ -86,9 +86,9 @@ class Server {
 
 		$this->request = $request;
 		$this->baseUri = $baseUri;
-		$logger = \OC::$server->get(LoggerInterface::class);
-		/** @var IEventDispatcher $dispatcher */
-		$dispatcher = \OC::$server->get(IEventDispatcher::class);
+
+		$logger = \OCP\Server::get(LoggerInterface::class);
+		$eventDispatcher = \OCP\Server::get(IEventDispatcher::class);
 
 		$root = new RootCollection();
 		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
@@ -123,10 +123,10 @@ class Server {
 
 		// allow setup of additional auth backends
 		$event = new SabrePluginEvent($this->server);
-		$dispatcher->dispatch('OCA\DAV\Connector\Sabre::authInit', $event);
+		$eventDispatcher->dispatch('OCA\DAV\Connector\Sabre::authInit', $event);
 
 		$newAuthEvent = new SabrePluginAuthInitEvent($this->server);
-		$dispatcher->dispatchTyped($newAuthEvent);
+		$eventDispatcher->dispatchTyped($newAuthEvent);
 
 		$bearerAuthBackend = new BearerAuth(
 			\OC::$server->getUserSession(),
@@ -213,12 +213,13 @@ class Server {
 		$this->server->addPlugin(new ZipFolderPlugin(
 			$this->server->tree,
 			$logger,
+			$eventDispatcher,
 		));
 
 		// allow setup of additional plugins
-		$dispatcher->dispatch('OCA\DAV\Connector\Sabre::addPlugin', $event);
+		$eventDispatcher->dispatch('OCA\DAV\Connector\Sabre::addPlugin', $event);
 		$typedEvent = new SabrePluginAddEvent($this->server);
-		$dispatcher->dispatchTyped($typedEvent);
+		$eventDispatcher->dispatchTyped($typedEvent);
 
 		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
 		// we do not provide locking we emulate it using a fake locking plugin.

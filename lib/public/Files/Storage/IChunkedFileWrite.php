@@ -24,28 +24,19 @@ interface IChunkedFileWrite extends IStorage {
 	public function startChunkedWrite(string $targetPath): string;
 
 	/**
-	 * @param string $targetPath
-	 * @param string $writeToken
-	 * @param string $chunkId
 	 * @param resource $data
-	 * @param int|null $size
 	 * @throws GenericFileException
 	 * @since 26.0.0
 	 */
 	public function putChunkedWritePart(string $targetPath, string $writeToken, string $chunkId, $data, ?int $size = null): ?array;
 
 	/**
-	 * @param string $targetPath
-	 * @param string $writeToken
-	 * @return int
 	 * @throws GenericFileException
 	 * @since 26.0.0
 	 */
 	public function completeChunkedWrite(string $targetPath, string $writeToken): int;
 
 	/**
-	 * @param string $targetPath
-	 * @param string $writeToken
 	 * @throws GenericFileException
 	 * @since 26.0.0
 	 */

@@ -39,7 +39,7 @@ export default defineComponent({
 		},
 		filepickerOptions() {
 			return {
-				allowPickDirectory: false,
+				allowPickDirectory: true,
 				buttons: this.buttonFactory,
 				container: `#${this.containerId}`,
 				multiselect: false,
@@ -53,18 +53,17 @@ export default defineComponent({
 		buttonFactory(selected: NcNode[]): IFilePickerButton[] {
 			const buttons = [] as IFilePickerButton[]
 			if (selected.length === 0) {
-				buttons.push({
-					label: t('files', 'Choose file'),
-					type: 'tertiary' as never,
-					callback: this.onClose,
-				})
-			} else {
-				buttons.push({
-					label: t('files', 'Choose {file}', { file: selected[0].basename }),
-					type: 'primary',
-					callback: this.onClose,
-				})
+				return []
 			}
+			const node = selected.at(0)
+			if (node.path === '/') {
+				return [] // Do not allow selecting the users root folder
+			}
+			buttons.push({
+				label: t('files', 'Choose {file}', { file: node.displayname }),
+				type: 'primary',
+				callback: this.onClose,
+			})
 			return buttons
 		},
 

@@ -36,8 +36,9 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Ditt federerade moln-ID:",
     "Share it so your friends can share files with you:" : "Dela det så att dina vänner kan dela filer med dig:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora",
+    "X (formerly Twitter)" : "X (tidigare Twitter)",
+    "formerly Twitter" : "tidigare Twitter",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Lägg till på din hemsida",
     "Share with me via Nextcloud" : "Dela med mig via Nextcloud",
     "HTML Code:" : "HTML Kod:",
@@ -45,8 +46,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Dela med mig genom mitt #Nextcloud federerade moln-ID",
     "Cloud ID copied to the clipboard" : "Moln-ID kopierades till urklippet",
     "Copy to clipboard" : "Kopiera till urklipp",
-    "Clipboard is not available" : "Urklipp är inte tillgängligt",
-    "Copied!" : "Kopierad!",
+    "Clipboard not available. Please copy the cloud ID manually." : "Urklipp är inte tillgängligt. Kopiera moln-ID manuellt.",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Vill du lägga till extern delning {name} från {owner}@{remote}?",
     "Remote share" : "Extern delning",
     "Remote share password" : "Lösenord för extern delning",
@@ -60,6 +60,10 @@ OC.L10N.register(
     "Allow users on this server to send shares to groups on other servers" : "Tillåt användare på denna server att skicka delningar till grupper på andra servrar",
     "Allow users on this server to receive group shares from other servers" : "Tillåt användare på denna servern att ta emot gruppdelningar från andra servrar",
     "Search global and public address book for users" : "Sök global och offentlig adressbok för användare",
-    "Allow users to publish their data to a global and public address book" : "Tillåt användare att publicera deras data till en global och publik adressbok"
+    "Allow users to publish their data to a global and public address book" : "Tillåt användare att publicera deras data till en global och publik adressbok",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "Urklipp är inte tillgängligt",
+    "Copied!" : "Kopierad!"
 },
 "nplurals=2; plural=(n != 1);");

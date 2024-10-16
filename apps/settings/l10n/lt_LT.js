@@ -389,7 +389,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "Priežastys, kodėl turėtumėte naudoti Nextcloud savo organizacijoje",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Sukurta {communityopen}Nextcloud bendruomenės{linkclose}, {githubopen}pirminis kodas{linkclose} yra licencijuotas pagal {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Spauskite „Patinka“ mūsų „Facebook“ puslapyje",
-    "Follow us on Twitter" : "Sekite mus Twitter",
     "Follow us on Mastodon" : "Sekite mus Mastodon",
     "Check out our blog" : "Peržvelkite mūsų tinklaraštį",
     "Subscribe to our newsletter" : "Prenumeruokite mūsų naujienlaiškį",
@@ -433,6 +432,7 @@ OC.L10N.register(
     "Disabled users" : "Išjungti naudotojai",
     "Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions" : "Neprieinama, nes su naudotoju susijusios informacijos paskelbimas į paieškos serverį yra neleidžiamas. Jei turite klausimų, susisiekite su savo sistemos administratoriumi",
     "Show to logged in users only" : "Rodyti tik prisijungusiems naudotojams",
-    "SMTP Username" : "SMTP naudotojo vardas"
+    "SMTP Username" : "SMTP naudotojo vardas",
+    "Follow us on Twitter" : "Sekite mus Twitter"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

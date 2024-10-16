@@ -614,7 +614,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "Motivi per utilizzare Nextcloud nella tua organizzazione",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Sviluppato dalla {communityopen}comunità di Nextcloud{linkclose}, il {githubopen}codice sorgente{linkclose} è rilasciato nei termini della licenza {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Mi piace sulla nostra pagina di Facebook!",
-    "Follow us on Twitter" : "Seguici su Twitter!",
     "Follow us on Mastodon" : "Seguici su Mastodon",
     "Check out our blog" : "Leggi il nostro blog!",
     "Subscribe to our newsletter" : "Iscriviti alla nostra newsletter",
@@ -701,6 +700,7 @@ OC.L10N.register(
     "Show to logged in users only" : "Mostra solo a utenti registrati",
     "Nextcloud help resources" : "Risorse dell'aiuto per Nextcloud",
     "SMTP Username" : "Nome utente SMTP",
+    "Follow us on Twitter" : "Seguici su Twitter!",
     "Active accounts" : "Account attivi"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

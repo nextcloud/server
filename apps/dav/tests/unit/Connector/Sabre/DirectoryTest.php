@@ -314,6 +314,10 @@ class DirectoryTest extends \Test\TestCase {
 			->method('getRelativePath')
 			->willReturn('/foo');
 
+		$this->info->expects($this->once())
+			->method('getInternalPath')
+			->willReturn('/foo');
+
 		$mountPoint->method('getMountPoint')
 			->willReturn('/user/files/mymountpoint');
 
@@ -357,6 +361,10 @@ class DirectoryTest extends \Test\TestCase {
 		$this->info->expects($this->once())
 			->method('getMountPoint')
 			->willReturn($mountPoint);
+
+		$this->info->expects($this->once())
+			->method('getInternalPath')
+			->willReturn('/foo');
 
 		$mountPoint->method('getMountPoint')
 			->willReturn('/user/files/mymountpoint');

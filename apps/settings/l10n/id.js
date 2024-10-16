@@ -315,7 +315,6 @@ OC.L10N.register(
     "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Cek keamanan Nextcloud Anda dengan <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">pemindaian keamanan kami ↗</a>.",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Dikembangkan oleh {commmunityopen}komunitas Nextcloud{linkclose}, {githubopen}sumber kode{linkclose} dilisensikan dibawah {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Sukai kami di halaman Facebook",
-    "Follow us on Twitter" : "Ikuti kami di Twitter",
     "Follow us on Mastodon" : "Ikuti kami di Mastodon",
     "Check out our blog" : "Cek blog kami",
     "Subscribe to our newsletter" : "Berlangganan surat berita kami",
@@ -343,6 +342,7 @@ OC.L10N.register(
     "Show user backend" : "Tampilkan pengguna backend",
     "Active users" : "Pengguna aktif",
     "Disabled users" : "Nonaktifkan pengguna",
-    "SMTP Username" : "Nama pengguna SMTP"
+    "SMTP Username" : "Nama pengguna SMTP",
+    "Follow us on Twitter" : "Ikuti kami di Twitter"
 },
 "nplurals=1; plural=0;");

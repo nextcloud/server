@@ -323,7 +323,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "סיבות להשתמש ב־Nextcloud בארגון שלך",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "בפיתוח על ידי {communityopen}קהילת Nextcloud{linkclose}, {githubopen}קוד המקור{linkclose} זמין ברישיון {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "לייק לעמוד הפייסבוק שלנו",
-    "Follow us on Twitter" : "לעקוב אחרינו בטוויטר",
     "Follow us on Mastodon" : "למעקב אחרינו ב־Mastodon",
     "Check out our blog" : "לעיין בבלוג שלנו",
     "Subscribe to our newsletter" : "הרשמה לרשימת הדיוור שלנו",
@@ -359,6 +358,7 @@ OC.L10N.register(
     "by {author}\n{license}" : "מאת {author}\n{license}",
     "Active users" : "משתמשים פעילים",
     "Disabled users" : "משתמשים מושבתים",
-    "SMTP Username" : "שם משתמש SMTP "
+    "SMTP Username" : "שם משתמש SMTP ",
+    "Follow us on Twitter" : "לעקוב אחרינו בטוויטר"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

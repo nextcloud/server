@@ -66,7 +66,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$this->logger = \OCP\Server::get(LoggerInterface::class);
 	}
 
-	public function mkdir($path, bool $force = false): bool {
+	public function mkdir(string $path, bool $force = false): bool {
 		$path = $this->normalizePath($path);
 		if (!$force && $this->file_exists($path)) {
 			$this->logger->warning("Tried to create an object store folder that already exists: $path");
@@ -111,11 +111,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		}
 	}
 
-	/**
-	 * @param string $path
-	 * @return string
-	 */
-	private function normalizePath($path) {
+	private function normalizePath(string $path): string {
 		$path = trim($path, '/');
 		//FIXME why do we sometimes get a path like 'files//username'?
 		$path = str_replace('//', '/', $path);
@@ -132,7 +128,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	 * Object Stores use a NoopScanner because metadata is directly stored in
 	 * the file cache and cannot really scan the filesystem. The storage passed in is not used anywhere.
 	 */
-	public function getScanner($path = '', $storage = null): IScanner {
+	public function getScanner(string $path = '', ?IStorage $storage = null): IScanner {
 		if (!$storage) {
 			$storage = $this;
 		}
@@ -147,7 +143,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return $this->id;
 	}
 
-	public function rmdir($path): bool {
+	public function rmdir(string $path): bool {
 		$path = $this->normalizePath($path);
 		$entry = $this->getCache()->get($path);
 
@@ -179,7 +175,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return true;
 	}
 
-	public function unlink($path): bool {
+	public function unlink(string $path): bool {
 		$path = $this->normalizePath($path);
 		$entry = $this->getCache()->get($path);
 
@@ -215,7 +211,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return true;
 	}
 
-	public function stat($path): array|false {
+	public function stat(string $path): array|false {
 		$path = $this->normalizePath($path);
 		$cacheEntry = $this->getCache()->get($path);
 		if ($cacheEntry instanceof CacheEntry) {
@@ -232,7 +228,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		}
 	}
 
-	public function getPermissions($path): int {
+	public function getPermissions(string $path): int {
 		$stat = $this->stat($path);
 
 		if (is_array($stat) && isset($stat['permissions'])) {
@@ -247,17 +243,13 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	 * The default implementations just appends the fileId to 'urn:oid:'. Make sure the URN is unique over all users.
 	 * You may need a mapping table to store your URN if it cannot be generated from the fileid.
 	 *
-	 * @param int $fileId the fileid
-	 * @return null|string the unified resource name used to identify the object
+	 * @return string the unified resource name used to identify the object
 	 */
-	public function getURN($fileId) {
-		if (is_numeric($fileId)) {
-			return $this->objectPrefix . $fileId;
-		}
-		return null;
+	public function getURN(int $fileId): string {
+		return $this->objectPrefix . $fileId;
 	}
 
-	public function opendir($path) {
+	public function opendir(string $path) {
 		$path = $this->normalizePath($path);
 
 		try {
@@ -274,7 +266,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		}
 	}
 
-	public function filetype($path): string|false {
+	public function filetype(string $path): string|false {
 		$path = $this->normalizePath($path);
 		$stat = $this->stat($path);
 		if ($stat) {
@@ -287,7 +279,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		}
 	}
 
-	public function fopen($path, $mode) {
+	public function fopen(string $path, string $mode) {
 		$path = $this->normalizePath($path);
 
 		if (strrpos($path, '.') !== false) {
@@ -379,12 +371,12 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return false;
 	}
 
-	public function file_exists($path): bool {
+	public function file_exists(string $path): bool {
 		$path = $this->normalizePath($path);
 		return (bool)$this->stat($path);
 	}
 
-	public function rename($source, $target): bool {
+	public function rename(string $source, string $target): bool {
 		$source = $this->normalizePath($source);
 		$target = $this->normalizePath($target);
 		$this->remove($target);
@@ -393,12 +385,12 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return true;
 	}
 
-	public function getMimeType($path): string|false {
+	public function getMimeType(string $path): string|false {
 		$path = $this->normalizePath($path);
 		return parent::getMimeType($path);
 	}
 
-	public function touch($path, $mtime = null): bool {
+	public function touch(string $path, ?int $mtime = null): bool {
 		if (is_null($mtime)) {
 			$mtime = time();
 		}
@@ -444,12 +436,12 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return true;
 	}
 
-	public function writeBack($tmpFile, $path) {
+	public function writeBack(string $tmpFile, string $path) {
 		$size = filesize($tmpFile);
 		$this->writeStream($path, fopen($tmpFile, 'r'), $size);
 	}
 
-	public function hasUpdated($path, $time): bool {
+	public function hasUpdated(string $path, int $time): bool {
 		return false;
 	}
 
@@ -457,7 +449,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return false;
 	}
 
-	public function file_put_contents($path, $data): int {
+	public function file_put_contents(string $path, mixed $data): int {
 		$fh = fopen('php://temp', 'w+');
 		fwrite($fh, $data);
 		rewind($fh);
@@ -567,9 +559,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 	public function copyFromStorage(
 		IStorage $sourceStorage,
-		$sourceInternalPath,
-		$targetInternalPath,
-		$preserveMtime = false,
+		string $sourceInternalPath,
+		string $targetInternalPath,
+		bool $preserveMtime = false,
 	): bool {
 		if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
 			/** @var ObjectStoreStorage $sourceStorage */
@@ -591,7 +583,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
-	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, ?ICacheEntry $sourceCacheEntry = null): bool {
+	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, ?ICacheEntry $sourceCacheEntry = null): bool {
 		$sourceCache = $sourceStorage->getCache();
 		if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class) && $sourceStorage->getObjectStore()->getStorageId() === $this->getObjectStore()->getStorageId()) {
 			$this->getCache()->moveFromCache($sourceCache, $sourceInternalPath, $targetInternalPath);
@@ -663,7 +655,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		}
 	}
 
-	public function copy($source, $target): bool {
+	public function copy(string $source, string $target): bool {
 		$source = $this->normalizePath($source);
 		$target = $this->normalizePath($target);
 

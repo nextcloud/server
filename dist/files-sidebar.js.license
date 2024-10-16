@@ -200,7 +200,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: MIT
 - dompurify
-	- version: 3.1.6
+	- version: 3.1.7
 	- license: (MPL-2.0 OR Apache-2.0)
 - es-define-property
 	- version: 1.0.0
@@ -420,6 +420,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - vue-loader
 	- version: 15.11.1
+	- license: MIT
+- vue-router
+	- version: 3.6.5
 	- license: MIT
 - vue
 	- version: 2.7.16

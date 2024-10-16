@@ -179,6 +179,10 @@ const iconsColor = {
 		path: path.join(__dirname, '../img', 'filetypes', 'text.svg'),
 		color: 'grey',
 	},
+	'file-text': {
+		path: path.join(__dirname, '../img', 'filetypes', 'text.svg'),
+		color: 'black',
+	},
 }
 
 // use this to define aliases to existing icons

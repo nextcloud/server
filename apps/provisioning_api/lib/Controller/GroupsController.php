@@ -21,6 +21,7 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
+use OCP\Group\ISubAdmin;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -47,6 +48,7 @@ class GroupsController extends AUserData {
 		IGroupManager $groupManager,
 		IUserSession $userSession,
 		IAccountManager $accountManager,
+		ISubAdmin $subAdminManager,
 		IFactory $l10nFactory,
 		LoggerInterface $logger) {
 		parent::__construct($appName,
@@ -56,6 +58,7 @@ class GroupsController extends AUserData {
 			$groupManager,
 			$userSession,
 			$accountManager,
+			$subAdminManager,
 			$l10nFactory
 		);
 

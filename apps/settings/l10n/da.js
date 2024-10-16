@@ -544,7 +544,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "Grunde til at bruge Nextcloud i din organisation",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Udviklet af {communityopen}Nextcloud fællesskabet{linkclose}, {githubopen}kildekoden{linkclose} er udgivet med {licenseopen}AGPL{linkclose} licensen.",
     "Like our Facebook page" : "Følg os på Facebook",
-    "Follow us on Twitter" : "Følg os på Twitter",
     "Follow us on Mastodon" : "Følg os på Mastodon",
     "Check out our blog" : "Besøg vores blog",
     "Subscribe to our newsletter" : "Abonner på vores nyhedsbrev",
@@ -611,6 +610,7 @@ OC.L10N.register(
     "Show to logged in users only" : "Vis kun til loggede brugere",
     "Nextcloud help resources" : "Nextcloud hjælperessourcer",
     "SMTP Username" : "SMTP Brugernavn",
+    "Follow us on Twitter" : "Følg os på Twitter",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "For at tillade at denne kontrol køres så skal du sikre dig at din webserver kan forbinde til sig selv. Derfor skal den kunne opløse og forbinde til mindst en af dets `trusted_domains` eller `overwrite.cli.url`. Denne fejl kan være resultatet af en server-side DNS mismatch eller udadgående firewall regel."
 },
 "nplurals=2; plural=(n != 1);");

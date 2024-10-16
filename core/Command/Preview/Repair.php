@@ -19,6 +19,7 @@ use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -133,6 +134,7 @@ class Repair extends Command {
 		if ($input->getOption('batch')) {
 			$output->writeln('Batch mode active: migration is started right away.');
 		} else {
+			/** @var QuestionHelper $helper */
 			$helper = $this->getHelper('question');
 			$question = new ConfirmationQuestion('<info>Should the migration be started? (y/[n]) </info>', false);
 

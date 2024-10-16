@@ -53,7 +53,7 @@ class Client implements IClient {
 
 		$defaults = [
 			RequestOptions::VERIFY => $this->getCertBundle(),
-			RequestOptions::TIMEOUT => 30,
+			RequestOptions::TIMEOUT => IClient::DEFAULT_REQUEST_TIMEOUT,
 		];
 
 		$options['nextcloud']['allow_local_address'] = $this->isLocalAddressAllowed($options);
@@ -158,14 +158,15 @@ class Client implements IClient {
 	}
 
 	protected function preventLocalAddress(string $uri, array $options): void {
-		if ($this->isLocalAddressAllowed($options)) {
-			return;
-		}
-
 		$host = parse_url($uri, PHP_URL_HOST);
 		if ($host === false || $host === null) {
 			throw new LocalServerException('Could not detect any host');
 		}
+
+		if ($this->isLocalAddressAllowed($options)) {
+			return;
+		}
+
 		if (!$this->remoteHostValidator->isValid($host)) {
 			throw new LocalServerException('Host "' . $host . '" violates local access rules');
 		}

@@ -12,6 +12,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\BadRequest;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\PropPatch;
 use Sabre\VObject\Component;
 use Sabre\VObject\DateTimeParser;
@@ -57,7 +58,7 @@ class RefreshWebcalService {
 		}
 
 
-		$webcalData = $this->connection->queryWebcalFeed($subscription, $mutations);
+		$webcalData = $this->connection->queryWebcalFeed($subscription);
 		if (!$webcalData) {
 			return;
 		}
@@ -101,7 +102,13 @@ class RefreshWebcalService {
 					continue;
 				}
 
-				$denormalized = $this->calDavBackend->getDenormalizedData($vObject->serialize());
+				try {
+					$denormalized = $this->calDavBackend->getDenormalizedData($vObject->serialize());
+				} catch (InvalidDataException|Forbidden $ex) {
+					$this->logger->warning('Unable to denormalize calendar object from subscription {subscriptionId}', ['exception' => $ex, 'subscriptionId' => $subscription['id'], 'source' => $subscription['source']]);
+					continue;
+				}
+
 				// Find all identical sets and remove them from the update
 				if (isset($localData[$uid]) && $denormalized['etag'] === $localData[$uid]['etag']) {
 					unset($localData[$uid]);
@@ -127,7 +134,7 @@ class RefreshWebcalService {
 					$objectUri = $this->getRandomCalendarObjectUri();
 					$this->calDavBackend->createCalendarObject($subscription['id'], $objectUri, $vObject->serialize(), CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
 				} catch (NoInstancesException|BadRequest $ex) {
-					$this->logger->error('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $ex, 'subscriptionId' => $subscription['id'], 'source' => $subscription['source']]);
+					$this->logger->warning('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $ex, 'subscriptionId' => $subscription['id'], 'source' => $subscription['source']]);
 				}
 			}
 

@@ -6,7 +6,6 @@
 <template>
 	<section>
 		<NcSettingsSection :name="t('theming', 'Appearance and accessibility settings')"
-			:limit-width="false"
 			class="theming">
 			<!-- eslint-disable-next-line vue/no-v-html -->
 			<p v-html="description" />
@@ -318,7 +317,6 @@ export default {
 		margin-top: var(--gap);
 		column-gap: var(--gap);
 		row-gap: var(--gap);
-		grid-template-columns: 1fr 1fr;
 	}
 }
 

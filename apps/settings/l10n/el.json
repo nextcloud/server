@@ -409,7 +409,6 @@
     "Reasons to use Nextcloud in your organization" : "Λόγοι για να χρησιμοποιήσετε το Nextcloud στον οργανισμό σας",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Αναπτύχθηκε από τη {communityopen}Κοινότητα του Nextcloud {linkclose}, ο πηγαίος κώδικας {githubopen} {linkclose}  είναι αδειοδοτημένος υπό την άδεια {icenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Ακολουθήστε μας στην σελίδα μας στο facebook!",
-    "Follow us on Twitter" : "Ακολουθήστε μας στο Twitter",
     "Follow us on Mastodon" : "Ακολουθήστε μας στο Mastodon",
     "Check out our blog" : "Επισκεφθείτε το ιστολόγιό μας!",
     "Subscribe to our newsletter" : "Εγγραφείτε στο ενημερωτικό δελτίο μας!",
@@ -457,6 +456,7 @@
     "Not available as federation has been disabled for your account, contact your system administrator if you have any questions" : "Μη διαθέσιμο καθώς το Federation έχει απενεργοποιηθεί για τον λογαριασμό σας, επικοινωνήστε με τον διαχειριστή του συστήματός σας εάν έχετε οποιαδήποτε απορία",
     "Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions" : "Δεν είναι διαθέσιμο καθώς δεν επιτρέπεται η δημοσίευση δεδομένων χρήστη στον διακομιστή αναζήτησης. Επικοινωνήστε με τον διαχειριστή του συστήματός σας εάν έχετε οποιεσδήποτε ερωτήσεις",
     "Show to logged in users only" : "Εμφάνιση μόνο σε συνδεδεμένους χρήστες",
-    "SMTP Username" : "Όνομα χρήστη SMTP"
+    "SMTP Username" : "Όνομα χρήστη SMTP",
+    "Follow us on Twitter" : "Ακολουθήστε μας στο Twitter"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

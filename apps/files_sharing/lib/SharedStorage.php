@@ -202,7 +202,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 		self::$initDepth--;
 	}
 
-	public function instanceOfStorage($class): bool {
+	public function instanceOfStorage(string $class): bool {
 		if ($class === '\OC\Files\Storage\Common' || $class == Common::class) {
 			return true;
 		}
@@ -234,7 +234,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 		return 'shared::' . $this->getMountPoint();
 	}
 
-	public function getPermissions($path = ''): int {
+	public function getPermissions(string $path = ''): int {
 		if (!$this->isValid()) {
 			return 0;
 		}
@@ -252,11 +252,11 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 		return $permissions;
 	}
 
-	public function isCreatable($path): bool {
+	public function isCreatable(string $path): bool {
 		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_CREATE);
 	}
 
-	public function isReadable($path): bool {
+	public function isReadable(string $path): bool {
 		if (!$this->isValid()) {
 			return false;
 		}
@@ -269,22 +269,22 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 		return $storage->isReadable($internalPath);
 	}
 
-	public function isUpdatable($path): bool {
+	public function isUpdatable(string $path): bool {
 		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_UPDATE);
 	}
 
-	public function isDeletable($path): bool {
+	public function isDeletable(string $path): bool {
 		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_DELETE);
 	}
 
-	public function isSharable($path): bool {
+	public function isSharable(string $path): bool {
 		if (\OCP\Util::isSharingDisabledForUser() || !\OC\Share\Share::isResharingAllowed()) {
 			return false;
 		}
 		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_SHARE);
 	}
 
-	public function fopen($path, $mode) {
+	public function fopen(string $path, string $mode) {
 		$source = $this->getUnjailedPath($path);
 		switch ($mode) {
 			case 'r+':
@@ -336,7 +336,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 		return $this->nonMaskedStorage->fopen($this->getUnjailedPath($path), $mode);
 	}
 
-	public function rename($source, $target): bool {
+	public function rename(string $source, string $target): bool {
 		$this->init();
 		$isPartFile = pathinfo($source, PATHINFO_EXTENSION) === 'part';
 		$targetExists = $this->file_exists($target);
@@ -364,10 +364,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 		return $this->superShare->getTarget();
 	}
 
-	/**
-	 * @param string $path
-	 */
-	public function setMountPoint($path): void {
+	public function setMountPoint(string $path): void {
 		$this->superShare->setTarget($path);
 
 		foreach ($this->groupedShares as $share) {
@@ -397,7 +394,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 		return $this->superShare->getNodeType();
 	}
 
-	public function getCache($path = '', $storage = null): ICache {
+	public function getCache(string $path = '', ?IStorage $storage = null): ICache {
 		if ($this->cache) {
 			return $this->cache;
 		}
@@ -418,18 +415,18 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 		return $this->cache;
 	}
 
-	public function getScanner($path = '', $storage = null): IScanner {
+	public function getScanner(string $path = '', ?IStorage $storage = null): IScanner {
 		if (!$storage) {
 			$storage = $this;
 		}
 		return new \OCA\Files_Sharing\Scanner($storage);
 	}
 
-	public function getOwner($path): string|false {
+	public function getOwner(string $path): string|false {
 		return $this->superShare->getShareOwner();
 	}
 
-	public function getWatcher($path = '', $storage = null): IWatcher {
+	public function getWatcher(string $path = '', ?IStorage $storage = null): IWatcher {
 		if ($this->watcher) {
 			return $this->watcher;
 		}
@@ -467,7 +464,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 		return true;
 	}
 
-	public function acquireLock($path, $type, ILockingProvider $provider): void {
+	public function acquireLock(string $path, int $type, ILockingProvider $provider): void {
 		/** @var ILockingStorage $targetStorage */
 		[$targetStorage, $targetInternalPath] = $this->resolvePath($path);
 		$targetStorage->acquireLock($targetInternalPath, $type, $provider);
@@ -478,7 +475,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 		}
 	}
 
-	public function releaseLock($path, $type, ILockingProvider $provider): void {
+	public function releaseLock(string $path, int $type, ILockingProvider $provider): void {
 		/** @var ILockingStorage $targetStorage */
 		[$targetStorage, $targetInternalPath] = $this->resolvePath($path);
 		$targetStorage->releaseLock($targetInternalPath, $type, $provider);
@@ -489,7 +486,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 		}
 	}
 
-	public function changeLock($path, $type, ILockingProvider $provider): void {
+	public function changeLock(string $path, int $type, ILockingProvider $provider): void {
 		/** @var ILockingStorage $targetStorage */
 		[$targetStorage, $targetInternalPath] = $this->resolvePath($path);
 		$targetStorage->changeLock($targetInternalPath, $type, $provider);
@@ -503,7 +500,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 		];
 	}
 
-	public function setAvailability($isAvailable): void {
+	public function setAvailability(bool $isAvailable): void {
 		// shares do not participate in availability logic
 	}
 
@@ -527,7 +524,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 		return $this->storage;
 	}
 
-	public function file_get_contents($path): string|false {
+	public function file_get_contents(string $path): string|false {
 		$info = [
 			'target' => $this->getMountPoint() . '/' . $path,
 			'source' => $this->getUnjailedPath($path),
@@ -536,7 +533,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 		return parent::file_get_contents($path);
 	}
 
-	public function file_put_contents($path, $data): int|float|false {
+	public function file_put_contents(string $path, mixed $data): int|float|false {
 		$info = [
 			'target' => $this->getMountPoint() . '/' . $path,
 			'source' => $this->getUnjailedPath($path),
@@ -545,15 +542,12 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 		return parent::file_put_contents($path, $data);
 	}
 
-	/**
-	 * @return void
-	 */
-	public function setMountOptions(array $options) {
+	public function setMountOptions(array $options): void {
 		/* Note: This value is never read */
 		$this->mountOptions = $options;
 	}
 
-	public function getUnjailedPath($path): string {
+	public function getUnjailedPath(string $path): string {
 		$this->init();
 		return parent::getUnjailedPath($path);
 	}

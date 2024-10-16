@@ -518,7 +518,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "Nextcloudin käytön edut organisaatiossasi",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Kehityksestä on vastannut {communityopen}Nextcloud-yhteisö{linkclose}, {githubopen}lähdekoodi{linkclose} on {licenseopen}AGPL-lisensoitu{linkclose}.",
     "Like our Facebook page" : "Tykkää Facebook-sivustamme",
-    "Follow us on Twitter" : "Seuraa meitä Twitterissä",
     "Follow us on Mastodon" : "Seuraa meitä Mastodonissa",
     "Check out our blog" : "Lue blogia",
     "Subscribe to our newsletter" : "Tilaa uutiskirje",
@@ -582,6 +581,7 @@ OC.L10N.register(
     "Show to logged in users only" : "Näytä vain sisäänkirjautuneille käyttäjille",
     "Nextcloud help resources" : "Nextcloud-ohjeresurssit",
     "SMTP Username" : "SMTP-käyttäjätunnus",
+    "Follow us on Twitter" : "Seuraa meitä Twitterissä",
     "Active accounts" : "Aktiiviset tilit"
 },
 "nplurals=2; plural=(n != 1);");

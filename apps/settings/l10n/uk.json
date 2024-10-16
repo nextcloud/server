@@ -57,7 +57,9 @@
     "No Login supplied" : "Не надано ім'я облікового запису",
     "Unable to change password. Password too long." : "Неможливо змінити пароль. Пароль задовгий.",
     "Authentication error" : "Помилка авторизації",
+    "Please provide an admin recovery password; otherwise, all account data will be lost." : "Надайте пароль відновлення адміністратора. В іншому випадку всі облікові дані буде втрачено.",
     "Wrong admin recovery password. Please check the password and try again." : "Хибний пароль відновлення адміністратора.  Будь ласка, перевірте пароль та спробуйте ще раз.",
+    "Backend does not support password change, but the encryption of the account key was updated." : "Бекенд не підтримує зміну паролю, проте шифрування ключа облікового запису було оновлено.",
     "Administrator documentation" : "Документація адміністратора",
     "User documentation" : "Користувацька документація",
     "Nextcloud help overview" : "Допомога у користуванні Nextcloud",
@@ -100,6 +102,7 @@
     "Set your password" : "Встановіть свій пароль",
     "Go to %s" : "Перейти до %s",
     "Install Client" : "Встановити Клієнт",
+    "Logged in account must be a subadmin" : "Користувач, який увійшов, має бути субадміністратором",
     "Apps" : "Застосунки",
     "Personal" : "Особисте",
     "Administration" : "Адміністрування",
@@ -685,7 +688,6 @@
     "Reasons to use Nextcloud in your organization" : "Дізнатися про переваги хмари Nextcloud для вашої організації",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Розроблено {communityopen}спільнотою Nextcloud{linkclose}. Ліцензія {licenseopen}AGPL{linkclose} на {githubopen}вихідний код{linkclose}.",
     "Like our Facebook page" : "Вподобайте нашу сторінку у Facebook",
-    "Follow us on Twitter" : "Слідкуйте за нами в Twitter",
     "Follow us on Mastodon" : "Слідкуйте за нами на Mastodon",
     "Check out our blog" : "Перегляньте наш блог",
     "Subscribe to our newsletter" : "Підпишіться на нашу розсилку",
@@ -773,6 +775,7 @@
     "Show to logged in users only" : "Лише авторизованим",
     "Nextcloud help resources" : "Посібники та допомога у користуванні Nextcloud",
     "SMTP Username" : "Ім'я користувача SMTP",
+    "Follow us on Twitter" : "Слідкуйте за нами в Twitter",
     "Active accounts" : "Активні облікові записи"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

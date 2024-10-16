@@ -572,7 +572,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "Miért használjon Nextcloudot a szervezeténél",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Fejleszti a {communityopen}Nextcloud közösség{linkclose}, a {githubopen}forráskódra{linkclose} az {licenseopen}AGPL{linkclose} licenc vonatkozik.",
     "Like our Facebook page" : "Kedvelje a Facebook oldalunkat",
-    "Follow us on Twitter" : "Kövessen minket Twitteren",
     "Follow us on Mastodon" : "Kövessen minket a Mastodonon",
     "Check out our blog" : "Nézze meg a blogunkat",
     "Subscribe to our newsletter" : "Iratkozzon fel a hírlevelünkre",
@@ -653,6 +652,7 @@ OC.L10N.register(
     "Show to logged in users only" : "Csak a bejelentkezett felhasználók számára látható",
     "Nextcloud help resources" : "Nextcloud súgóerőforrások",
     "SMTP Username" : "SMTP felhasználónév",
+    "Follow us on Twitter" : "Kövessen minket Twitteren",
     "Active accounts" : "Aktív fiókok"
 },
 "nplurals=2; plural=(n != 1);");

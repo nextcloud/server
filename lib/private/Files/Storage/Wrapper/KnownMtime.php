@@ -26,7 +26,7 @@ class KnownMtime extends Wrapper {
 		$this->clock = $arguments['clock'];
 	}
 
-	public function file_put_contents($path, $data): int|float|false {
+	public function file_put_contents(string $path, mixed $data): int|float|false {
 		$result = parent::file_put_contents($path, $data);
 		if ($result) {
 			$now = $this->clock->now()->getTimestamp();
@@ -35,7 +35,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
-	public function stat($path): array|false {
+	public function stat(string $path): array|false {
 		$stat = parent::stat($path);
 		if ($stat) {
 			$this->applyKnownMtime($path, $stat);
@@ -43,7 +43,7 @@ class KnownMtime extends Wrapper {
 		return $stat;
 	}
 
-	public function getMetaData($path): ?array {
+	public function getMetaData(string $path): ?array {
 		$stat = parent::getMetaData($path);
 		if ($stat) {
 			$this->applyKnownMtime($path, $stat);
@@ -58,12 +58,12 @@ class KnownMtime extends Wrapper {
 		}
 	}
 
-	public function filemtime($path): int|false {
+	public function filemtime(string $path): int|false {
 		$knownMtime = $this->knowMtimes->get($path) ?? 0;
 		return max(parent::filemtime($path), $knownMtime);
 	}
 
-	public function mkdir($path): bool {
+	public function mkdir(string $path): bool {
 		$result = parent::mkdir($path);
 		if ($result) {
 			$this->knowMtimes->set($path, $this->clock->now()->getTimestamp());
@@ -71,7 +71,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
-	public function rmdir($path): bool {
+	public function rmdir(string $path): bool {
 		$result = parent::rmdir($path);
 		if ($result) {
 			$this->knowMtimes->set($path, $this->clock->now()->getTimestamp());
@@ -79,7 +79,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
-	public function unlink($path): bool {
+	public function unlink(string $path): bool {
 		$result = parent::unlink($path);
 		if ($result) {
 			$this->knowMtimes->set($path, $this->clock->now()->getTimestamp());
@@ -87,7 +87,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
-	public function rename($source, $target): bool {
+	public function rename(string $source, string $target): bool {
 		$result = parent::rename($source, $target);
 		if ($result) {
 			$this->knowMtimes->set($target, $this->clock->now()->getTimestamp());
@@ -96,7 +96,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
-	public function copy($source, $target): bool {
+	public function copy(string $source, string $target): bool {
 		$result = parent::copy($source, $target);
 		if ($result) {
 			$this->knowMtimes->set($target, $this->clock->now()->getTimestamp());
@@ -104,7 +104,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
-	public function fopen($path, $mode) {
+	public function fopen(string $path, string $mode) {
 		$result = parent::fopen($path, $mode);
 		if ($result && $mode === 'w') {
 			$this->knowMtimes->set($path, $this->clock->now()->getTimestamp());
@@ -112,7 +112,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
-	public function touch($path, $mtime = null): bool {
+	public function touch(string $path, ?int $mtime = null): bool {
 		$result = parent::touch($path, $mtime);
 		if ($result) {
 			$this->knowMtimes->set($path, $mtime ?? $this->clock->now()->getTimestamp());
@@ -120,7 +120,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
-	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath): bool {
+	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		$result = parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		if ($result) {
 			$this->knowMtimes->set($targetInternalPath, $this->clock->now()->getTimestamp());
@@ -128,7 +128,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
-	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath): bool {
+	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		$result = parent::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		if ($result) {
 			$this->knowMtimes->set($targetInternalPath, $this->clock->now()->getTimestamp());

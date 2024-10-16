@@ -697,7 +697,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "Razones para usar Nextcloud en su organización",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Desarrollado por la  {communityopen}comunidad Nextcloud {linkclose}, el {githubopen}código fuente {linkclose} está licenciado bajo  {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Da un Like a nuestra página de Facebook",
-    "Follow us on Twitter" : "Síguenos en Twitter",
     "Follow us on Mastodon" : "Síguenos en Mastodon",
     "Check out our blog" : "Visita nuestro blog",
     "Subscribe to our newsletter" : "Suscribete a nuestro boletín",
@@ -780,6 +779,7 @@ OC.L10N.register(
     "Show to logged in users only" : "Mostrar únicamente a usuarios conectados",
     "Nextcloud help resources" : "Recursos de ayuda de Nextcloud",
     "SMTP Username" : "Usuario SMTP",
+    "Follow us on Twitter" : "Síguenos en Twitter",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Para permitir que esta verificación se lleve a cabo, debe asegurarse que su servidor web pueda conectarse a sí mismo. Por lo tanto, éste debe poder resolver y conectarse a al menos uno de sus `trusted_domains` o a `overwrite.cli.url`",
     "Active accounts" : "Cuentas activas"
 },

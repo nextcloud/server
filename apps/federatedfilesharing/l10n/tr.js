@@ -36,8 +36,9 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Birleşik bulut kimliğiniz:",
     "Share it so your friends can share files with you:" : "Paylaşın, böylece arkadaşlarınız da sizinle dosya paylaşabilir:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora",
+    "X (formerly Twitter)" : "X (eski Twitter)",
+    "formerly Twitter" : "eski Twitter",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Sitenize ekleyin",
     "Share with me via Nextcloud" : "Benimle Nextcloud üzerinden paylaşın",
     "HTML Code:" : "HTML kodu:",
@@ -45,8 +46,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "#Nextcloud birleşik bulut kimliğim üzerinden benimle paylaş",
     "Cloud ID copied to the clipboard" : "Bulut kimliği panoya kopyalandı",
     "Copy to clipboard" : "Panoya kopyala",
-    "Clipboard is not available" : "Pano kullanılamıyor",
-    "Copied!" : "Kopyalandı!",
+    "Clipboard not available. Please copy the cloud ID manually." : "Pano kullanılamıyor. Lütfen bulut kimliğini el ile kopyalayın.",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote} konumundan {name} uzak paylaşımını eklemek istiyor musunuz?",
     "Remote share" : "Uzak paylaşım",
     "Remote share password" : "Uzak paylaşım parolası",
@@ -60,6 +60,10 @@ OC.L10N.register(
     "Allow users on this server to send shares to groups on other servers" : "Bu sunucudaki kullanıcılar diğer sunuculardaki gruplara paylaşım gönderebilsin",
     "Allow users on this server to receive group shares from other servers" : "Bu sunucudaki kullanıcılar diğer sunuculardaki grup paylaşımlarını alabilsin",
     "Search global and public address book for users" : "Genel ve herkese açık adres defterindeki kullanıcılar aranabilsin",
-    "Allow users to publish their data to a global and public address book" : "Kullanıcıların bilgilerini genel ve herkese açık bir adres defterinde paylaşabilsin"
+    "Allow users to publish their data to a global and public address book" : "Kullanıcıların bilgilerini genel ve herkese açık bir adres defterinde paylaşabilsin",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "Pano kullanılamıyor",
+    "Copied!" : "Kopyalandı!"
 },
 "nplurals=2; plural=(n > 1);");

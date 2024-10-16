@@ -428,7 +428,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "Redenen om Nextcloud te gebruiken in jouw organisatie",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Ontwikkeld door de {communityopen}Nextcloud community{linkclose}, de {githubopen}broncode{linkclose} is gelicenseerd onder de {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Vind onze Facebook pagina leuk",
-    "Follow us on Twitter" : "Volg ons op Twitter",
     "Follow us on Mastodon" : "Volg ons op Mastodon",
     "Check out our blog" : "Lees ons blog",
     "Subscribe to our newsletter" : "Abonneer jezelf op onze nieuwsbrief",
@@ -472,6 +471,7 @@ OC.L10N.register(
     "Disabled users" : "Uitgeschakelde gebruikers",
     "Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions" : "Niet beschikbaar omdat het publiceren van gebruikersdata aan de lookup server niet toegestaan is, neem contact op met je beheerder als je vragen hebt",
     "Show to logged in users only" : "Laat alleen zien aan ingelogde gebruikers",
-    "SMTP Username" : "SMTP gebruikersnaam"
+    "SMTP Username" : "SMTP gebruikersnaam",
+    "Follow us on Twitter" : "Volg ons op Twitter"
 },
 "nplurals=2; plural=(n != 1);");

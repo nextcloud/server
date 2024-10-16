@@ -212,6 +212,7 @@
     "Email" : "Email",
     "Quota" : "Quota",
     "Language" : "Idioma",
+    "Total rows summary" : "Resumo do total de linhas",
     "Avatar" : "Avatar",
     "Group admin for" : "Administrador de grupo para",
     "Storage location" : "Localização do armazenamento",
@@ -267,7 +268,6 @@
     "All checks passed." : "Todas as verificações passaram.",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Desenvolvido pela [communityopen]Comunidade Nextcloud[linkclose]. O [githubcode]código fonte[/linkclose] está licenciado sob [licenseopen]AGPL[linkclose].",
     "Like our Facebook page" : "Deixe um Gosto na nossa página do Facebook",
-    "Follow us on Twitter" : "Siga-nos no Twitter",
     "Check out our blog" : "Veja o nosso blog",
     "Subscribe to our newsletter" : "Subscreva as nossas notícias",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Este lançamento comunitário do Nextcloud não é compatível e as notificações instantâneas não estão disponíveis.",
@@ -281,6 +281,7 @@
     "User backend" : "Backend do utilizador",
     "Show user backend" : "Mostrar interface do utilizador",
     "Active users" : "Utilizadores activos",
-    "SMTP Username" : "Nome de utilizador SMTP"
+    "SMTP Username" : "Nome de utilizador SMTP",
+    "Follow us on Twitter" : "Siga-nos no Twitter"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

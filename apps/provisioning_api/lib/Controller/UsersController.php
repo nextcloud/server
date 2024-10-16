@@ -31,6 +31,7 @@ use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\ISubAdmin;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -63,6 +64,7 @@ class UsersController extends AUserData {
 		IGroupManager $groupManager,
 		IUserSession $userSession,
 		IAccountManager $accountManager,
+		ISubAdmin $subAdminManager,
 		IFactory $l10nFactory,
 		private IURLGenerator $urlGenerator,
 		private LoggerInterface $logger,
@@ -81,6 +83,7 @@ class UsersController extends AUserData {
 			$groupManager,
 			$userSession,
 			$accountManager,
+			$subAdminManager,
 			$l10nFactory
 		);
 
@@ -946,7 +949,7 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::PROPERTY_PROFILE_ENABLED;
 			$permittedFields[] = IAccountManager::PROPERTY_BIRTHDATE;
 			$permittedFields[] = IAccountManager::PROPERTY_PRONOUNS;
-		
+
 			$permittedFields[] = IAccountManager::PROPERTY_PHONE . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE . self::SCOPE_SUFFIX;
