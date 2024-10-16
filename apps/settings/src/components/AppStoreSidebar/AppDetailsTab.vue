@@ -189,7 +189,7 @@ import { useAppsStore } from '../../store/apps-store'
 
 import sortedUniq from 'lodash/sortedUniq.js'
 import uniq from 'lodash/uniq.js'
-import debounce from 'lodash/debounce.js'
+import debounce from 'debounce'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 
