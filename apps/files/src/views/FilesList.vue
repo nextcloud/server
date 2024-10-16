@@ -652,6 +652,7 @@ export default defineComponent({
 			}
 			sidebarAction.exec(this.currentFolder, this.currentView!, this.currentFolder.path)
 		},
+
 		toggleGridView() {
 			this.userConfigStore.update('grid_view', !this.userConfig.grid_view)
 		},
