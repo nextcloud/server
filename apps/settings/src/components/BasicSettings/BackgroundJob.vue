@@ -56,6 +56,7 @@
 			@update:checked="onBackgroundJobModeChanged">
 			{{ t('settings', 'Cron (Recommended)') }}
 		</NcCheckboxRadioSwitch>
+		<!-- eslint-disable-next-line vue/no-v-html The translation is sanitized-->
 		<em v-html="cronLabel" />
 	</NcSettingsSection>
 </template>
@@ -111,7 +112,7 @@ export default {
 				desc += '<br>' + t('settings', 'The PHP POSIX extension is required. See {linkstart}PHP documentation{linkend} for more details.', {
 					linkstart: '<a target="_blank" rel="noreferrer nofollow" class="external" href="https://www.php.net/manual/en/book.posix.php">',
 					linkend: '</a>',
-				}, undefined, { escape: false, sanitize: false })
+				}, undefined, { escape: false })
 			}
 			return desc
 		},

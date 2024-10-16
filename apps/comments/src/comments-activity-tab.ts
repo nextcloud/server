@@ -24,7 +24,7 @@ export function registerCommentsPlugins() {
 
 			if (!ActivityTabPluginView) {
 				const { default: ActivityCommentAction } = await import('./views/ActivityCommentAction.vue')
-				/** @ts-expect-error Types are broken for Vue2 */
+				// @ts-expect-error Types are broken for Vue2
 				ActivityTabPluginView = Vue.extend(ActivityCommentAction)
 			}
 			ActivityTabPluginInstance = new ActivityTabPluginView({
@@ -50,7 +50,7 @@ export function registerCommentsPlugins() {
 		const { data: comments } = await getComments({ resourceType: 'files', resourceId: fileInfo.id }, { limit, offset })
 		logger.debug('Loaded comments', { fileInfo, comments })
 		const { default: CommentView } = await import('./views/ActivityCommentEntry.vue')
-		/** @ts-expect-error Types are broken for Vue2 */
+		// @ts-expect-error Types are broken for Vue2
 		const CommentsViewObject = Vue.extend(CommentView)
 
 		return comments.map((comment) => ({

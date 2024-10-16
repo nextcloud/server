@@ -30,7 +30,8 @@ export const action = new FileAction({
 	/**
 	 * Use this function to check the storage availability
 	 * We then update the node attributes directly.
-	 * @param node
+	 *
+	 * @param node The node to render inline
 	 */
 	async renderInline(node: Node) {
 		let config = null as unknown as StorageConfig

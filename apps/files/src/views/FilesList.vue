@@ -410,7 +410,7 @@ export default defineComponent({
 
 		showCustomEmptyView() {
 			return !this.loading && this.isEmptyDir && this.currentView?.emptyView !== undefined
-		}
+		},
 	},
 
 	watch: {

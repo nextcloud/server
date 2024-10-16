@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 /* eslint-disable n/no-extraneous-import */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { OCSResponse } from '@nextcloud/typings/ocs'
 import { Folder, Navigation, View, getNavigation } from '@nextcloud/files'
 import { beforeEach, describe, expect, test, vi } from 'vitest'

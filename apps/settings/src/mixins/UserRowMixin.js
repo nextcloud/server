@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { formatFileSize } from '@nextcloud/files'
+
 export default {
 	props: {
 		user: {
@@ -68,11 +70,10 @@ export default {
 
 		/* QUOTA MANAGEMENT */
 		usedSpace() {
-			if (this.user.quota.used) {
-				return t('settings', '{size} used', { size: OC.Util.humanFileSize(this.user.quota.used) })
-			}
-			return t('settings', '{size} used', { size: OC.Util.humanFileSize(0) })
+			const quotaUsed = this.user.quota.used > 0 ? this.user.quota.used : 0
+			return t('settings', '{size} used', { size: formatFileSize(quotaUsed, true) })
 		},
+
 		usedQuota() {
 			let quota = this.user.quota.quota
 			if (quota > 0) {
@@ -84,11 +85,12 @@ export default {
 			}
 			return isNaN(quota) ? 0 : quota
 		},
+
 		// Mapping saved values to objects
 		userQuota() {
 			if (this.user.quota.quota >= 0) {
 				// if value is valid, let's map the quotaOptions or return custom quota
-				const humanQuota = OC.Util.humanFileSize(this.user.quota.quota)
+				const humanQuota = formatFileSize(this.user.quota.quota)
 				const userQuota = this.quotaOptions.find(quota => quota.id === humanQuota)
 				return userQuota || { id: humanQuota, label: humanQuota }
 			} else if (this.user.quota.quota === 'default') {
