@@ -258,6 +258,7 @@ class Manager implements ICommentsManager {
 			throw new NotFoundException();
 		}
 
+
 		$comment = $this->getCommentFromData($data);
 		$this->cache($comment);
 		return $comment;
@@ -1277,11 +1278,11 @@ class Manager implements ICommentsManager {
 			->andWhere($qb->expr()->eq('actor_id', $qb->createParameter('id')))
 			->setParameter('type', $actorType)
 			->setParameter('id', $actorId)
-			->executeStatement();
+			->execute();
 
 		$this->commentsCache = [];
 
-		return ($affectedRows > 0);
+		return is_int($affectedRows);
 	}
 
 	/**
@@ -1302,11 +1303,11 @@ class Manager implements ICommentsManager {
 			->andWhere($qb->expr()->eq('object_id', $qb->createParameter('id')))
 			->setParameter('type', $objectType)
 			->setParameter('id', $objectId)
-			->executeStatement();
+			->execute();
 
 		$this->commentsCache = [];
 
-		return ($affectedRows > 0);
+		return is_int($affectedRows);
 	}
 
 	/**
@@ -1323,7 +1324,7 @@ class Manager implements ICommentsManager {
 			->setParameter('user_id', $user->getUID());
 
 		try {
-			$affectedRows = $query->executeStatement();
+			$affectedRows = $query->execute();
 		} catch (DriverException $e) {
 			$this->logger->error($e->getMessage(), [
 				'exception' => $e,
@@ -1368,7 +1369,7 @@ class Manager implements ICommentsManager {
 			->setParameter('user_id', $user->getUID(), IQueryBuilder::PARAM_STR)
 			->setParameter('object_type', $objectType, IQueryBuilder::PARAM_STR)
 			->setParameter('object_id', $objectId, IQueryBuilder::PARAM_STR)
-			->executeStatement();
+			->execute();
 
 		if ($affectedRows > 0) {
 			return;
@@ -1376,7 +1377,7 @@ class Manager implements ICommentsManager {
 
 		$qb->insert('comments_read_markers')
 			->values($values)
-			->executeStatement();
+			->execute();
 	}
 
 	/**
@@ -1430,7 +1431,7 @@ class Manager implements ICommentsManager {
 			->setParameter('object_id', $objectId);
 
 		try {
-			$affectedRows = $query->executeStatement();
+			$affectedRows = $query->execute();
 		} catch (DriverException $e) {
 			$this->logger->error($e->getMessage(), [
 				'exception' => $e,
