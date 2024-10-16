@@ -97,7 +97,7 @@
 				</li>
 			</ul>
 
-			<div v-if="lastModified" class="app-details__section">
+			<div v-if="lastModified && !app.shipped" class="app-details__section">
 				<h4>
 					{{ t('settings', 'Latest updated') }}
 				</h4>
