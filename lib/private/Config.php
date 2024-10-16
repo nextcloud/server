@@ -186,7 +186,8 @@ class Config {
 				@opcache_invalidate($file, false);
 			}
 
-			$filePointer = @fopen($file, 'r');
+			// suppressor doesn't work here at boot time since it'll go via our onError custom error handler
+			$filePointer = file_exists($file) ? @fopen($file, 'r') : false;
 			if ($filePointer === false) {
 				// e.g. wrong permissions are set
 				if ($file === $this->configFilePath) {
