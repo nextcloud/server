@@ -445,7 +445,7 @@ class AppSettingsController extends Controller {
 				'summary' => $app['translations'][$currentLanguage]['summary'] ?? $app['translations']['en']['summary'],
 				'license' => $app['releases'][0]['licenses'],
 				'author' => $authors,
-				'shipped' => false,
+				'shipped' => $this->appManager->isShipped($app['id']),
 				'version' => $currentVersion,
 				'default_enable' => '',
 				'types' => [],
