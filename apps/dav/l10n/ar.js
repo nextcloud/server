@@ -264,7 +264,7 @@ OC.L10N.register(
     "Availability" : "أوقات التواجد ",
     "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "إذا قمت بضبط ساعات عملك، سيرى الآخرون متى تكون خارج المكتب عندما يقومون بحجز اجتماع معك.",
     "Absence" : "غياب",
-    "Configure your next absence period." : "قٌم بتهيئة فترة غيابك القادمة.",
+    "Configure your next absence period." : "تهيئة فترة غيابك القادمة.",
     "Calendar server" : "خادم التقويم",
     "Send invitations to attendees" : "إرسال دعوات للمطلوب حضورهم",
     "Automatically generate a birthday calendar" : "تجاهل تقويم أعياد الميلاد تلقائيّاً",

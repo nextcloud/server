@@ -143,6 +143,8 @@ OC.L10N.register(
     "Link copied to clipboard" : "Odkaz zkopírován do schánky",
     "Email already added" : "E-mail již byl přidán",
     "Invalid email address" : "Neplatná e-mailová adresa",
+    "_{count} email address already added_::_{count} email addresses already added_" : ["{count} e-mailová adresa už přidána","{count} e-mailové adresy už přidány","{count} e-mailových adres už přidáno","{count} e-mailové adresy už přidány"],
+    "_{count} email address added_::_{count} email addresses added_" : ["{count} e-mailová adresa přidána","{count} e-mailové adresy přidány","{count} e-mailových adres přidáno","{count} e-mailové adresy přidány"],
     "What are you requesting?" : "Co požadujete?",
     "Request subject" : "Předmět požadavku",
     "Birthday party photos, History assignment…" : "Fotky z narozeninové oslavy, přiřazení historie…",
