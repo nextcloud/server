@@ -140,11 +140,6 @@ class TransferOwnershipController extends OCSController {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		$notification = $this->notificationManager->createNotification();
-		$notification->setApp('files')
-			->setObject('transfer', (string)$id);
-		$this->notificationManager->markProcessed($notification);
-
 		$newTransferOwnership = new TransferOwnershipEntity();
 		$newTransferOwnership->setNodeName($transferOwnership->getNodeName());
 		$newTransferOwnership->setFileId($transferOwnership->getFileId());
@@ -155,6 +150,11 @@ class TransferOwnershipController extends OCSController {
 		$this->jobList->add(TransferOwnership::class, [
 			'id' => $newTransferOwnership->getId(),
 		]);
+
+		$notification = $this->notificationManager->createNotification();
+		$notification->setApp('files')
+			->setObject('transfer', (string)$id);
+		$this->notificationManager->markProcessed($notification);
 
 		return new DataResponse([], Http::STATUS_OK);
 	}
