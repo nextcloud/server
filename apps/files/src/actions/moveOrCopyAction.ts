@@ -25,7 +25,7 @@ import type { IFilePickerButton } from '@nextcloud/dialogs'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 import type { MoveCopyResult } from './moveOrCopyActionUtils'
 
-import { FilePickerClosed, getFilePickerBuilder, showError, showInfo } from '@nextcloud/dialogs'
+import { FilePickerClosed, getFilePickerBuilder, showError, showInfo, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { FileAction, FileType, NodeStatus, davGetClient, davRootPath, davResultToNode, davGetDefaultPropfind, getUniqueName } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
@@ -57,6 +57,28 @@ const getActionForNodes = (nodes: Node[]): MoveCopyAction => {
 
 	// Assuming we can copy as the enabled checks for copy permissions
 	return MoveCopyAction.COPY
+}
+
+/**
+ * Create a loading notification toast
+ * @param mode The move or copy mode
+ * @param source Name of the node that is copied / moved
+ * @param destination Destination path
+ * @return {() => void} Function to hide the notification
+ */
+function createLoadingNotification(mode: MoveCopyAction, source: string, destination: string): () => void {
+	const text = mode === MoveCopyAction.MOVE ? t('files', 'Moving "{source}" to "{destination}" …', { source, destination }) : t('files', 'Copying "{source}" to "{destination}" …', { source, destination })
+
+	let toast: ReturnType<typeof showInfo>|undefined
+	toast = showInfo(
+		`<span class="icon icon-loading-small toast-loading-icon"></span> ${text}`,
+		{
+			isHTML: true,
+			timeout: TOAST_PERMANENT_TIMEOUT,
+			onRemove: () => { toast?.hideToast(); toast = undefined },
+		},
+	)
+	return () => toast && toast.hideToast()
 }
 
 /**
@@ -99,6 +121,7 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 
 	// Set loading state
 	Vue.set(node, 'status', NodeStatus.LOADING)
+	const actionFinished = createLoadingNotification(method, node.basename, destination.path)
 
 	const queue = getQueue()
 	return await queue.add(async () => {
@@ -181,7 +204,8 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 			logger.debug(error as Error)
 			throw new Error()
 		} finally {
-			Vue.set(node, 'status', undefined)
+			Vue.set(node, 'status', '')
+			actionFinished()
 		}
 	})
 }
