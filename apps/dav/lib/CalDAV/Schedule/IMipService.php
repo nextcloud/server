@@ -27,13 +27,7 @@ use Sabre\VObject\Recur\EventIterator;
 
 class IMipService {
 
-	private URLGenerator $urlGenerator;
-	private IConfig $config;
-	private IDBConnection $db;
-	private ISecureRandom $random;
-	private L10NFactory $l10nFactory;
 	private IL10N $l10n;
-	private ITimeFactory $timeFactory;
 
 	/** @var string[] */
 	private const STRING_DIFF = [
@@ -43,20 +37,16 @@ class IMipService {
 		'meeting_location' => 'LOCATION'
 	];
 
-	public function __construct(URLGenerator $urlGenerator,
-		IConfig $config,
-		IDBConnection $db,
-		ISecureRandom $random,
-		L10NFactory $l10nFactory,
-		ITimeFactory $timeFactory) {
-		$this->urlGenerator = $urlGenerator;
-		$this->config = $config;
-		$this->db = $db;
-		$this->random = $random;
-		$this->l10nFactory = $l10nFactory;
+	public function __construct(
+		private URLGenerator $urlGenerator,
+		private IConfig $config,
+		private IDBConnection $db,
+		private ISecureRandom $random,
+		private L10NFactory $l10nFactory,
+		private ITimeFactory $timeFactory,
+	) {
 		$default = $this->l10nFactory->findGenericLanguage();
 		$this->l10n = $this->l10nFactory->get('dav', $default);
-		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -912,7 +902,7 @@ class IMipService {
 				'expiration' => $query->createNamedParameter($lastOccurrence),
 				'uid' => $query->createNamedParameter($uid)
 			])
-			->execute();
+			->executeStatement();
 
 		return $token;
 	}

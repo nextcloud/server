@@ -147,11 +147,11 @@ class DeleteOrphanedFiles extends Command {
 		$deletedInLastChunk = self::CHUNK_SIZE;
 		while ($deletedInLastChunk === self::CHUNK_SIZE) {
 			$deletedInLastChunk = 0;
-			$result = $query->execute();
+			$result = $query->executeQuery();
 			while ($row = $result->fetch()) {
 				$deletedInLastChunk++;
 				$deletedEntries += $deleteQuery->setParameter('storageid', (int)$row['storage_id'])
-					->execute();
+					->executeStatement();
 			}
 			$result->closeCursor();
 		}

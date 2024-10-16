@@ -32,39 +32,23 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 	 */
 	protected $storage = null;
 
-	/**
-	 * @var \OC\Files\View
-	 */
-	private $recipientView;
-
-	private IUser $user;
-
 	/** @var \OCP\Share\IShare */
 	private $superShare;
 
 	/** @var \OCP\Share\IShare[] */
 	private $groupedShares;
 
-	private IEventDispatcher $eventDispatcher;
-
-	private ICache $cache;
-
 	public function __construct(
 		$storage,
 		array $mountpoints,
 		$arguments,
 		IStorageFactory $loader,
-		View $recipientView,
+		private View $recipientView,
 		CappedMemoryCache $folderExistCache,
-		IEventDispatcher $eventDispatcher,
-		IUser $user,
-		ICache $cache,
+		private IEventDispatcher $eventDispatcher,
+		private IUser $user,
+		private ICache $cache,
 	) {
-		$this->user = $user;
-		$this->recipientView = $recipientView;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->cache = $cache;
-
 		$this->superShare = $arguments['superShare'];
 		$this->groupedShares = $arguments['groupedShares'];
 
@@ -271,7 +255,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 				->from('filecache')
 				->where($builder->expr()->eq('fileid', $builder->createNamedParameter($this->getStorageRootId())));
 
-			$result = $query->execute();
+			$result = $query->executeQuery();
 			$row = $result->fetch();
 			$result->closeCursor();
 			if ($row) {

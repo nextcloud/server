@@ -2167,14 +2167,6 @@
       <code><![CDATA[$mimetype]]></code>
     </ParamNameMismatch>
   </file>
-  <file src="lib/private/Files/Type/Loader.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$update->execute()]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[int]]></code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/private/Files/Utils/Scanner.php">
     <LessSpecificReturnStatement>
       <code><![CDATA[$mounts]]></code>
