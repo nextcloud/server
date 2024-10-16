@@ -118,6 +118,7 @@ OC.L10N.register(
     "Link copied" : "Link kopieret",
     "Password protection" : "Adgangskodebeskyttelse",
     "Enter a password" : "Indtast en adgangskode",
+    "Create share" : "Opret share",
     "Add another link" : "Tilføj et link mere",
     "Create a new share link" : "Opret et nyt delingslink",
     "View only" : "Kun visning",

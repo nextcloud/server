@@ -234,6 +234,7 @@ OC.L10N.register(
     "Change password" : "Pakeisti slaptažodį",
     "Your profile picture" : "Jūsų profilio paveikslėlis",
     "Remove profile picture" : "Šalinti profilio paveikslėlį",
+    "The file must be a PNG or JPG" : "Failas privalo būti PNG ar JPG tipo",
     "Picture provided by original account" : "Paveikslėlis gautas iš pagrindinės paskyros",
     "Set as profile picture" : "Nustatyti kaip profilio paveikslėlį",
     "Please note that it can take up to 24 hours for your profile picture to be updated everywhere." : "Turėkite omenyje, kad gali praeiti iki 24 valandų, kol jūsų profilis bus visur atnaujintas.",

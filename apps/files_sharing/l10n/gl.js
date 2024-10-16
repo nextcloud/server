@@ -143,6 +143,8 @@ OC.L10N.register(
     "Link copied to clipboard" : "A ligazón foi copiada no portapapeis",
     "Email already added" : "O correo xa foi engadido",
     "Invalid email address" : "Enderezo de correo incorrecto",
+    "_{count} email address already added_::_{count} email addresses already added_" : ["Xa foi engadido {count} enderezo de correo","Xa foron engadidos {count} enderezos de correo"],
+    "_{count} email address added_::_{count} email addresses added_" : ["Foi engadido {count} enderezo de correo","Foron engadidos {count} enderezos de correo"],
     "What are you requesting?" : "Que é o que está a solicitar?",
     "Request subject" : "Asunto da solicitude",
     "Birthday party photos, History assignment…" : "Fotos da festa de aniversario, tarefa de historia…",
