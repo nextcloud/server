@@ -141,6 +141,8 @@
     "Link copied to clipboard" : "已複製連結至剪貼簿",
     "Email already added" : "已新增電子郵件",
     "Invalid email address" : "無效的電子郵件地址",
+    "_{count} email address already added_::_{count} email addresses already added_" : ["已新增 {count} 個電子郵件地址"],
+    "_{count} email address added_::_{count} email addresses added_" : ["新增了 {count} 個電子郵件地址"],
     "What are you requesting?" : "您正在請求什麼？",
     "Request subject" : "請求主旨",
     "Birthday party photos, History assignment…" : "生日派對照片、歷史作業……",

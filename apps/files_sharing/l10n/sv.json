@@ -141,6 +141,8 @@
     "Link copied to clipboard" : "Länken kopierad till urklipp",
     "Email already added" : "E-post har redan lagts till",
     "Invalid email address" : "Ogiltig e-postadress",
+    "_{count} email address already added_::_{count} email addresses already added_" : ["{count} e-postadress som redan har lagts till","{count} e-postadresser som redan har lagts till"],
+    "_{count} email address added_::_{count} email addresses added_" : ["{count} e-postadress har lagts till","{count} e-postadresser har lagts till"],
     "What are you requesting?" : "Vad begär du?",
     "Request subject" : "Begär ämne",
     "Birthday party photos, History assignment…" : "Foton på födelsedagsfester, historiauppgift...",
