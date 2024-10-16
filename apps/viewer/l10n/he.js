@@ -20,7 +20,9 @@ OC.L10N.register(
     "Loading …" : "בטעינה…",
     "Reset" : "איפוס",
     "Cancel" : "ביטול",
-    "Continue" : "להמשך",
+    "Apply" : "החלה",
+    "Warning" : "אזהרה",
+    "Confirm" : "אישור",
     "Undo" : "ביטול",
     "Redo" : "שחזור",
     "Zoom in" : "התקרבות",
@@ -32,6 +34,9 @@ OC.L10N.register(
     "Position" : "מיקום",
     "Extension" : "הרחבה",
     "Name is required." : "נדרש שם.",
-    "Quality" : "איכות"
+    "Quality" : "איכות",
+    "Menu" : "תפריט",
+    "Height" : "גובה",
+    "Continue" : "להמשך"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

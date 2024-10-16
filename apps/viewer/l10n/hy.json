@@ -5,7 +5,8 @@
     "Name" : "Անուն",
     "Save" : "Պահպանել",
     "Cancel" : "ընդհատել",
-    "Continue" : "Շարունակել",
-    "Size" : "Չափս"
+    "Warning" : "Զգուշացում",
+    "Size" : "Չափս",
+    "Continue" : "Շարունակել"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

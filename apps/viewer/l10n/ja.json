@@ -29,7 +29,10 @@
     "All changes will be lost." : "全ての変更がなくなります",
     "Are you sure you want to continue?" : "本当に続けてよろしいですか？",
     "Cancel" : "キャンセル",
-    "Continue" : "続ける",
+    "Apply" : "適用",
+    "Warning" : "警告",
+    "Confirm" : "承認",
+    "Discard changes" : "変更を破棄する",
     "Undo" : "元に戻す",
     "Redo" : "やり直し",
     "Show original image" : "オリジナル画像を表示する",
@@ -108,6 +111,9 @@
     "Saved image size (width x height)" : "保存した画像のサイズ（幅 x 高さ）",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "選択されたクロップエリアは、適用されたリサイズよりも低いため、品質が低下する可能性があることに注意してください",
     "Actual size (100%)" : "実際のサイズ（100％）",
-    "Fit size" : "適合サイズ"
+    "Fit size" : "適合サイズ",
+    "Menu" : "メニュー",
+    "Height" : "身長",
+    "Continue" : "続ける"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

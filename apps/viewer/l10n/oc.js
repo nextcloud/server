@@ -19,7 +19,9 @@ OC.L10N.register(
     "Loading …" : "Cargament…",
     "Reset" : "Reïnicializar",
     "Cancel" : "Anullar",
-    "Continue" : "Contunhar",
+    "Apply" : "Aplicar",
+    "Warning" : "Avertiment",
+    "Confirm" : "Confirmar",
     "Undo" : "Desfar",
     "Redo" : "Refar",
     "Custom" : "Personalizar",
@@ -29,6 +31,8 @@ OC.L10N.register(
     "Text" : "Tèxt",
     "Size" : "Talha",
     "Position" : "Posicion",
-    "Extension" : "Extension"
+    "Extension" : "Extension",
+    "Menu" : "Menú",
+    "Continue" : "Contunhar"
 },
 "nplurals=2; plural=(n > 1);");

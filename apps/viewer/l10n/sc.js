@@ -20,7 +20,9 @@ OC.L10N.register(
     "Loading …" : "Carrigamentu …",
     "Reset" : "Ripristina",
     "Cancel" : "Annulla",
-    "Continue" : "Sighi",
+    "Apply" : "Àplica",
+    "Warning" : "Avisu",
+    "Confirm" : "Cunfirma",
     "Undo" : "Annulla",
     "Redo" : "Torra a fàghere",
     "Zoom in" : "Ammània",
@@ -33,6 +35,9 @@ OC.L10N.register(
     "Position" : "Positzione",
     "Extension" : "Estensione",
     "Name is required." : "Su nùmene est rechertu: ",
-    "Quality" : "Calidade"
+    "Quality" : "Calidade",
+    "Menu" : "Menu",
+    "Height" : "Altezza",
+    "Continue" : "Sighi"
 },
 "nplurals=2; plural=(n != 1);");

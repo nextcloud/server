@@ -29,7 +29,6 @@
     "All changes will be lost." : "ستفقد كل التغييرات.",
     "Are you sure you want to continue?" : "هل أنت متأكد أنك ترغب بالاستمرار؟",
     "Cancel" : "إلغاء",
-    "Continue" : "متابعة",
     "Undo" : "تراجع",
     "Redo" : "إعادة",
     "Show original image" : "عرض الصورة الأصلية",
@@ -108,6 +107,7 @@
     "Saved image size (width x height)" : "حجم الصورة المحفوظة (العرض × الارتفاع)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "لاحظ أن مساحة الاقتصاص crop المحددة أقل من الحجم المطبق مما قد يتسبب في انخفاض الجودة",
     "Actual size (100%)" : "الحجم الفعلي (100%)",
-    "Fit size" : "الحجم الملائم fit size"
+    "Fit size" : "الحجم الملائم fit size",
+    "Continue" : "متابعة"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

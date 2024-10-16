@@ -11,7 +11,9 @@
     "Loading …" : "Loading …",
     "Reset" : "Reset",
     "Cancel" : "Cancel",
-    "Continue" : "Continue",
+    "Warning" : "Warning",
+    "Confirm" : "Confirm",
+    "Discard changes" : "Discard changes",
     "Undo" : "Undo",
     "Custom" : "Custom",
     "Blur" : "Blur",
@@ -19,6 +21,8 @@
     "Image" : "Image",
     "Text" : "Text",
     "Size" : "Size",
-    "Position" : "Position"
+    "Position" : "Position",
+    "Menu" : "Menu",
+    "Continue" : "Continue"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

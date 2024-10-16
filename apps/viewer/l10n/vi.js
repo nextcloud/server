@@ -20,7 +20,9 @@ OC.L10N.register(
     "Loading …" : "Đang tải …",
     "Reset" : "Đặt lại",
     "Cancel" : "Hủy",
-    "Continue" : "Tiếp tục",
+    "Apply" : "Áp dụng",
+    "Warning" : "Cảnh báo",
+    "Confirm" : "Xác nhận",
     "Undo" : "Hoàn tác",
     "Redo" : "Làm lại",
     "Custom" : "Tùy chỉnh",
@@ -30,6 +32,7 @@ OC.L10N.register(
     "Text" : "Văn bản",
     "Size" : "Kích cỡ",
     "Extension" : "Tiện ích",
-    "Name is required." : "Tên là bắt buộc."
+    "Name is required." : "Tên là bắt buộc.",
+    "Continue" : "Tiếp tục"
 },
 "nplurals=1; plural=0;");

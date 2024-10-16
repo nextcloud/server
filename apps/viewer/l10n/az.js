@@ -9,7 +9,7 @@ OC.L10N.register(
     "Back" : "Geri",
     "Reset" : "Sıfırla",
     "Cancel" : "Dayandır",
-    "Continue" : "Davam et",
-    "Size" : "Həcm"
+    "Size" : "Həcm",
+    "Continue" : "Davam et"
 },
 "nplurals=2; plural=(n != 1);");

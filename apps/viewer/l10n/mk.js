@@ -22,7 +22,10 @@ OC.L10N.register(
     "All changes will be lost." : "Сите промени ќе се изгубат.",
     "Are you sure you want to continue?" : "Дали си сигурен дека сакаш да продолжиш?",
     "Cancel" : "Откажи",
-    "Continue" : "Продолжи",
+    "Apply" : "Примени",
+    "Warning" : "Предупредување",
+    "Confirm" : "Потврди",
+    "Discard changes" : "Орфрли промени",
     "Undo" : "Назад",
     "Redo" : "Напред",
     "Show original image" : "Прикажи ја оргиналната слика",
@@ -63,6 +66,7 @@ OC.L10N.register(
     "Name is required." : "Потребно е име.",
     "Quality" : "Квалитет",
     "Actual size (100%)" : "Актуелна големина (100%)",
-    "Fit size" : "Соодветна големина"
+    "Fit size" : "Соодветна големина",
+    "Continue" : "Продолжи"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -31,7 +31,10 @@ OC.L10N.register(
     "All changes will be lost." : "Изгубиће се све измене.",
     "Are you sure you want to continue?" : "Да ли сте сигурни да желите да наставите?",
     "Cancel" : "Поништи",
-    "Continue" : "Настави",
+    "Apply" : "Примени",
+    "Warning" : "Упозорење",
+    "Confirm" : "Потврди",
+    "Discard changes" : "Одбаци измене",
     "Undo" : "Опозови",
     "Redo" : "Понови",
     "Show original image" : "Прикажи оригиналну слику",
@@ -110,6 +113,9 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Величина сачуване слике (ширина x висина)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Приметите да је величина изабране површине опсецања мања од примењене промене величине, а то може да умањи квалитет",
     "Actual size (100%)" : "Стварна величина (100%)",
-    "Fit size" : "Уклопи величину"
+    "Fit size" : "Уклопи величину",
+    "Menu" : "Мени",
+    "Height" : "Висина",
+    "Continue" : "Настави"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

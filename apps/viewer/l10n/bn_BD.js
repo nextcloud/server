@@ -9,7 +9,7 @@ OC.L10N.register(
     "Back" : "পেছনে যাও",
     "Reset" : "পূণঃনির্ধানণ",
     "Cancel" : "বাতির",
-    "Continue" : "চালিয়ে যাও",
-    "Size" : "আকার"
+    "Size" : "আকার",
+    "Continue" : "চালিয়ে যাও"
 },
 "nplurals=2; plural=(n != 1);");

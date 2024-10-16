@@ -9,6 +9,8 @@ OC.L10N.register(
     "Back" : "ආපසු",
     "Loading …" : "පූරණය වෙමින් …",
     "Cancel" : "අවලංගු කරන්න",
+    "Warning" : "අවවාදයයි",
+    "Confirm" : "තහවුරු කරන්න",
     "Undo" : "පෙරසේ",
     "Value" : "අගය",
     "Size" : "ප්‍රමාණය"

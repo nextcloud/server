@@ -9,6 +9,7 @@ OC.L10N.register(
     "Error saving image" : "Virhe kuvaa tallentaessa",
     "Unsaved changes" : "Tallentamattomia muutoksia",
     "Drop changes" : "Hylkää muutokset",
+    "LIVE" : "LIVE",
     "Your browser does not support videos." : "Selaimesi ei tue videoita.",
     "Edit" : "Muokkaa",
     "Exit full screen" : "Poistu koko näytön tilasta",
@@ -28,7 +29,10 @@ OC.L10N.register(
     "All changes will be lost." : "Kaikki muutokset menetetään.",
     "Are you sure you want to continue?" : "Haluatko varmasti jatkaa?",
     "Cancel" : "Peruuta",
-    "Continue" : "Jatka",
+    "Apply" : "Toteuta",
+    "Warning" : "Varoitus",
+    "Confirm" : "Vahvista",
+    "Discard changes" : "Hylkää muutokset",
     "Undo" : "Kumoa",
     "Redo" : "Tee uudelleen",
     "Show original image" : "Näytä alkuperäinen kuva",
@@ -102,6 +106,9 @@ OC.L10N.register(
     "Quality" : "Laatu",
     "Saved image size (width x height)" : "Tallennetun kuvan koko (leveys x korkeus)",
     "Actual size (100%)" : "Todellinen koko (100 %)",
-    "Fit size" : "Sovita koko"
+    "Fit size" : "Sovita koko",
+    "Menu" : "Valikko",
+    "Height" : "Pituus",
+    "Continue" : "Jatka"
 },
 "nplurals=2; plural=(n != 1);");

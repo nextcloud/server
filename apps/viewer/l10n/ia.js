@@ -10,8 +10,12 @@ OC.L10N.register(
     "Back" : "Retro",
     "Reset" : "Re-fixar",
     "Cancel" : "Cancellar",
+    "Apply" : "Applicar",
+    "Warning" : "Aviso",
+    "Confirm" : "Confirmar",
     "Undo" : "Disfacer",
     "Custom" : "Personalisate",
-    "Size" : "Dimension"
+    "Size" : "Dimension",
+    "Menu" : "Menu"
 },
 "nplurals=2; plural=(n != 1);");

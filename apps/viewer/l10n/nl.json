@@ -21,7 +21,9 @@
     "All changes will be lost." : "Alle aanpassingen zullen verloren gaan.",
     "Are you sure you want to continue?" : "Weet je zeker dat je wilt doorgaan?",
     "Cancel" : "Annuleren",
-    "Continue" : "Doorgaan",
+    "Apply" : "Pas toe",
+    "Warning" : "Waarschuwing",
+    "Confirm" : "Bevestigen",
     "Undo" : "Ongedaan maken",
     "Redo" : "Opnieuw doen",
     "Show original image" : "Toon originele afbeelding",
@@ -70,6 +72,9 @@
     "Quality" : "Kwaliteit",
     "Saved image size (width x height)" : "Grootte van opgeslagen afbeelding (breedte x hoogte)",
     "Actual size (100%)" : "Ware grootte (100%)",
-    "Fit size" : "Passend maken"
+    "Fit size" : "Passend maken",
+    "Menu" : "Menu",
+    "Height" : "Lengte",
+    "Continue" : "Doorgaan"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -21,7 +21,6 @@ OC.L10N.register(
     "Loading …" : "Φόρτωση …",
     "Reset" : "Επαναφορά",
     "Cancel" : "Ακύρωση",
-    "Continue" : "Συνεχίστε",
     "Undo" : "Ακύρωση ενέργειας",
     "Redo" : "Ξανακάντε",
     "Zoom in" : "Εστίαση",
@@ -59,6 +58,7 @@ OC.L10N.register(
     "Extension" : "Επέκταση",
     "Name is required." : "Απαιτείται όνομα.",
     "Quality" : "Ποιότητα",
-    "Fit size" : "Προσαρμογή στο μέγεθος"
+    "Fit size" : "Προσαρμογή στο μέγεθος",
+    "Continue" : "Συνεχίστε"
 },
 "nplurals=2; plural=(n != 1);");

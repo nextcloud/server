@@ -8,6 +8,7 @@ OC.L10N.register(
     "Save" : "Simpan",
     "Back" : "Kembali",
     "Cancel" : "Batal",
+    "Warning" : "Amaran",
     "Size" : "Saiz"
 },
 "nplurals=1; plural=0;");

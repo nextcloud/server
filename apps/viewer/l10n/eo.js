@@ -17,13 +17,13 @@ OC.L10N.register(
     "Loading …" : "Ŝargas …",
     "Reset" : "Restarigi",
     "Cancel" : "Nuligi",
-    "Continue" : "Daŭrigi",
     "Undo" : "Malfari",
     "Redo" : "Refari",
     "Custom" : "Propra",
     "Text" : "Teksto",
     "Size" : "Grando",
     "Position" : "Loko",
-    "Extension" : "Dosiersufikso"
+    "Extension" : "Dosiersufikso",
+    "Continue" : "Daŭrigi"
 },
 "nplurals=2; plural=(n != 1);");

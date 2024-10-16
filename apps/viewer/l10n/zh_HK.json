@@ -29,7 +29,10 @@
     "All changes will be lost." : "所有的更改將被掉棄。",
     "Are you sure you want to continue?" : "您確定要繼續嗎？",
     "Cancel" : "取消",
-    "Continue" : "繼續",
+    "Apply" : "使用",
+    "Warning" : "警告",
+    "Confirm" : "確認",
+    "Discard changes" : "放棄更新",
     "Undo" : "撤消",
     "Redo" : "重作",
     "Show original image" : "顯示原始圖像",
@@ -108,6 +111,10 @@
     "Saved image size (width x height)" : "已保存的圖像大小（寬度 x 高度）",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "請注意，選定的裁剪區域低於套用的調整大小，這可能會導致品質下降",
     "Actual size (100%)" : "實際大小 (100%)",
-    "Fit size" : "調整大小"
+    "Fit size" : "調整大小",
+    "Menu" : "選項單",
+    "Width" : "寬度",
+    "Height" : "身高",
+    "Continue" : "繼續"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

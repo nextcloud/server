@@ -31,7 +31,10 @@ OC.L10N.register(
     "All changes will be lost." : "所有變更都將會遺失。",
     "Are you sure you want to continue?" : "您確定您想要繼續嗎？",
     "Cancel" : "取消",
-    "Continue" : "繼續",
+    "Apply" : "套用",
+    "Warning" : "警告",
+    "Confirm" : "確認",
+    "Discard changes" : "放棄變更",
     "Undo" : "復原",
     "Redo" : "重作",
     "Show original image" : "顯示原始影像",
@@ -110,6 +113,9 @@ OC.L10N.register(
     "Saved image size (width x height)" : "儲存的圖片大小（寬度 x 高度）",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "請注意，選定的裁剪區域低於套用的調整大小，這可能會導致品質下降",
     "Actual size (100%)" : "實際大小 (100%)",
-    "Fit size" : "合適大小"
+    "Fit size" : "合適大小",
+    "Menu" : "選單",
+    "Height" : "高度",
+    "Continue" : "繼續"
 },
 "nplurals=1; plural=0;");

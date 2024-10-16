@@ -30,7 +30,10 @@ OC.L10N.register(
     "All changes will be lost." : "Toate modificările se vor pierde.",
     "Are you sure you want to continue?" : "Sigur continuați?",
     "Cancel" : "Anulare",
-    "Continue" : "Continuă",
+    "Apply" : "Aplică",
+    "Warning" : "Atenție",
+    "Confirm" : "Confirmă",
+    "Discard changes" : "Anulează modificările",
     "Undo" : "Anulează ultima acțiune",
     "Redo" : "Fă din nou",
     "Show original image" : "Arată imaginea originală",
@@ -96,6 +99,8 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Mărimea imaginii salvate (lățime x înălțime)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Zona de decupare selectată este mai mică decât redimensionarea aplicată, ceea ce poate scădea calitatea",
     "Actual size (100%)" : "Mărimea reală (100%)",
-    "Fit size" : "Potrivește mărimea"
+    "Fit size" : "Potrivește mărimea",
+    "Menu" : "Meniu",
+    "Continue" : "Continuă"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

@@ -25,7 +25,6 @@
     "All changes will be lost." : "Всички промени ще бъдат загубени.",
     "Are you sure you want to continue?" : "Сигурни ли сте, че искате да продължите?",
     "Cancel" : "Отказ",
-    "Continue" : "Продължаване",
     "Undo" : "Отмяна",
     "Redo" : "Повторение",
     "Show original image" : "Показване на оригиналното изображение",
@@ -104,6 +103,7 @@
     "Saved image size (width x height)" : "Размер на запазеното изображение (ширина x височина)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Обърнете внимание, че избраната област за изрязване е по-ниска от приложеното преоразмеряване, което може да доведе до влошаване на качеството",
     "Actual size (100%)" : "Действителен размер (100%)",
-    "Fit size" : "Подходящ размер"
+    "Fit size" : "Подходящ размер",
+    "Continue" : "Продължаване"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

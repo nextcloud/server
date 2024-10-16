@@ -15,13 +15,13 @@
     "Loading …" : "Ŝargas …",
     "Reset" : "Restarigi",
     "Cancel" : "Nuligi",
-    "Continue" : "Daŭrigi",
     "Undo" : "Malfari",
     "Redo" : "Refari",
     "Custom" : "Propra",
     "Text" : "Teksto",
     "Size" : "Grando",
     "Position" : "Loko",
-    "Extension" : "Dosiersufikso"
+    "Extension" : "Dosiersufikso",
+    "Continue" : "Daŭrigi"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -31,7 +31,6 @@ OC.L10N.register(
     "All changes will be lost." : "Alle Änderungen gehen verloren.",
     "Are you sure you want to continue?" : "Bist du dir sicher, dass du fortsetzen möchtest?",
     "Cancel" : "Abbrechen",
-    "Continue" : "Fortsetzen",
     "Undo" : "Rückgängig",
     "Redo" : "Wiederherstellen",
     "Show original image" : "Originalbild anzeigen",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Gespeicherte Bildgröße (Breite x Höhe)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Beachte, dass der ausgewählte Zuschneidebereich kleiner ist als die angewendete Größenänderung, was zu Qualitätseinbußen führen kann.",
     "Actual size (100%)" : "Tatsächliche Größe (100%)",
-    "Fit size" : "Größe anpassen"
+    "Fit size" : "Größe anpassen",
+    "Continue" : "Fortsetzen"
 },
 "nplurals=2; plural=(n != 1);");

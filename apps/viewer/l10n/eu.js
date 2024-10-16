@@ -31,7 +31,9 @@ OC.L10N.register(
     "All changes will be lost." : "Aldaketa guztiak galduko dira.",
     "Are you sure you want to continue?" : "Ziur zaude jarraitu nahi duzula?",
     "Cancel" : "Utzi",
-    "Continue" : "Jarraitu",
+    "Warning" : "Abisua",
+    "Confirm" : "Berretsi",
+    "Discard changes" : "Baztertu aldaketak",
     "Undo" : "Desegin",
     "Redo" : "Berregin",
     "Show original image" : "Erakutsi jatorrizko irudia",
@@ -110,6 +112,9 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Gordetako irudiaren tamaina (zabalera x altuera)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Kontuan izan hautatutako mozte-eremua aplikatutako tamaina baino txikiagoa dela eta horrek kalitatea gutxitzea eragin dezakeela",
     "Actual size (100%)" : "Benetako tamaina (% 100)",
-    "Fit size" : "Egokitu tamaina"
+    "Fit size" : "Egokitu tamaina",
+    "Menu" : "Menua",
+    "Height" : "Altuera",
+    "Continue" : "Jarraitu"
 },
 "nplurals=2; plural=(n != 1);");

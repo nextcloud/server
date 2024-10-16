@@ -6,7 +6,8 @@ OC.L10N.register(
     "Name" : "Name",
     "Save" : "Save",
     "Cancel" : "Cancel",
-    "Continue" : "Continue",
-    "Size" : "Size"
+    "Confirm" : "Confirm",
+    "Size" : "Size",
+    "Continue" : "Continue"
 },
 "nplurals=1; plural=0;");

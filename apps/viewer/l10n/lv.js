@@ -16,7 +16,9 @@ OC.L10N.register(
     "Loading …" : "Ielādē…",
     "Reset" : "Atiestatīt",
     "Cancel" : "Atcelt",
-    "Continue" : "Turpināt",
+    "Apply" : "Apstiprināt",
+    "Warning" : "Brīdinājums",
+    "Confirm" : "Apstiprināt",
     "Undo" : "Atsaukt",
     "Redo" : "Atcelt atsaukšanu",
     "Filters" : "Filtri",
@@ -35,6 +37,8 @@ OC.L10N.register(
     "Quality" : "Kvalitāte",
     "Saved image size (width x height)" : "Saglabātā attēla izmērs (platums x augstums)",
     "Actual size (100%)" : "Faktiskais izmērs (100%)",
-    "Fit size" : "Atbilst izmēram"
+    "Fit size" : "Atbilst izmēram",
+    "Menu" : "Izvēlne",
+    "Continue" : "Turpināt"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -10,11 +10,13 @@ OC.L10N.register(
     "Loading …" : "Уншиж байна...",
     "Reset" : "тохируулах",
     "Cancel" : "болиулах",
-    "Continue" : "үргэлжлүүлэх",
+    "Apply" : "хэрэглэх",
+    "Confirm" : "Батлах",
     "Undo" : "буцах",
     "Custom" : "Дурын",
     "Value" : "Үнийн дүн",
     "Size" : "Хэмжээ",
-    "Position" : "Байр"
+    "Position" : "Байр",
+    "Continue" : "үргэлжлүүлэх"
 },
 "nplurals=2; plural=(n != 1);");

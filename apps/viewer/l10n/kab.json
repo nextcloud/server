@@ -7,7 +7,9 @@
     "Back" : "Retour",
     "Loading …" : "Asali ...",
     "Cancel" : "Sefsex",
-    "Continue" : "Continuer",
-    "Size" : "Teɣzi"
+    "Warning" : "Alɣu",
+    "Confirm" : "Serggeg",
+    "Size" : "Teɣzi",
+    "Continue" : "Continuer"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

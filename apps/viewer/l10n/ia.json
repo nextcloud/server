@@ -8,8 +8,12 @@
     "Back" : "Retro",
     "Reset" : "Re-fixar",
     "Cancel" : "Cancellar",
+    "Apply" : "Applicar",
+    "Warning" : "Aviso",
+    "Confirm" : "Confirmar",
     "Undo" : "Disfacer",
     "Custom" : "Personalisate",
-    "Size" : "Dimension"
+    "Size" : "Dimension",
+    "Menu" : "Menu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

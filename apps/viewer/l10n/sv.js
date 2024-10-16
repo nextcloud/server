@@ -31,7 +31,9 @@ OC.L10N.register(
     "All changes will be lost." : "Alla ändringar kommer att gå förlorade.",
     "Are you sure you want to continue?" : "Är du säker på att du vill fortsätta?",
     "Cancel" : "Avbryt",
-    "Continue" : "Fortsätt",
+    "Apply" : "Tillämpa",
+    "Warning" : "Varning",
+    "Confirm" : "Bekräfta",
     "Undo" : "Ångra",
     "Redo" : "Gör om",
     "Show original image" : "Visa originalbilden",
@@ -101,6 +103,9 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Sparad bildstorlek (bredd x höjd)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Observera att det valda beskärningsområdet är lägre än den tillämpade storleksändringen, vilket kan orsaka kvalitetsförsämring",
     "Actual size (100%)" : "Faktisk storlek (100 %)",
-    "Fit size" : "Passande storlek"
+    "Fit size" : "Passande storlek",
+    "Menu" : "Meny",
+    "Height" : "Höjd",
+    "Continue" : "Fortsätt"
 },
 "nplurals=2; plural=(n != 1);");

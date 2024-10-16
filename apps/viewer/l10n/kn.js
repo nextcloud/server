@@ -8,7 +8,8 @@ OC.L10N.register(
     "Save" : "﻿ಉಳಿಸಿ",
     "Reset" : "ಮರುಹೊಂದಿಸಿ",
     "Cancel" : "﻿ರದ್ದು",
-    "Continue" : "﻿ಮುಂದುವರಿಸಿ",
-    "Size" : "﻿ ಗಾತ್ರ"
+    "Warning" : "﻿ಎಚ್ಚರಿಕೆ",
+    "Size" : "﻿ ಗಾತ್ರ",
+    "Continue" : "﻿ಮುಂದುವರಿಸಿ"
 },
 "nplurals=2; plural=(n > 1);");

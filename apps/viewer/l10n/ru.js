@@ -31,7 +31,10 @@ OC.L10N.register(
     "All changes will be lost." : "Изменения не будут сохранены.",
     "Are you sure you want to continue?" : "Продолжить?",
     "Cancel" : "Отменить",
-    "Continue" : "Продолжить",
+    "Apply" : "Применить",
+    "Warning" : "Предупреждение",
+    "Confirm" : "Подтвердить",
+    "Discard changes" : "Отменить изменения",
     "Undo" : "Отменить",
     "Redo" : "Повторить",
     "Show original image" : "Показать исходное изображение",
@@ -110,6 +113,9 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Размер сохранённого изображения (ширина × высота)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Обратите внимание, что выбранная область обрезки меньше примененного изменения размера, что может привести к снижению качества",
     "Actual size (100%)" : "Фактический размер (100%)",
-    "Fit size" : "По размеру окна"
+    "Fit size" : "По размеру окна",
+    "Menu" : "Меню",
+    "Height" : "Рост",
+    "Continue" : "Продолжить"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

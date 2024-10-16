@@ -30,7 +30,10 @@ OC.L10N.register(
     "All changes will be lost." : "All changes will be lost.",
     "Are you sure you want to continue?" : "Are you sure you want to continue?",
     "Cancel" : "لغو",
-    "Continue" : "ادامه دادن",
+    "Apply" : "اعمال",
+    "Warning" : "هشدار",
+    "Confirm" : "تأیید",
+    "Discard changes" : "Discard changes",
     "Undo" : "برگرداندن",
     "Redo" : "Redo",
     "Show original image" : "Show original image",
@@ -109,6 +112,9 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Saved image size (width x height)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Note that the selected crop area is lower than the applied resize which might cause quality decrease",
     "Actual size (100%)" : "Actual size (100%)",
-    "Fit size" : "Fit size"
+    "Fit size" : "Fit size",
+    "Menu" : "منو",
+    "Height" : "Height",
+    "Continue" : "ادامه دادن"
 },
 "nplurals=2; plural=(n > 1);");

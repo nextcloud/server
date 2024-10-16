@@ -31,7 +31,10 @@ OC.L10N.register(
     "All changes will be lost." : "Tous les changements seront perdus.",
     "Are you sure you want to continue?" : "Êtes-vous sûr de vouloir continuer ?",
     "Cancel" : "Annuler",
-    "Continue" : "Continuer",
+    "Apply" : "Appliquer",
+    "Warning" : "Avertissement",
+    "Confirm" : "Confirmer",
+    "Discard changes" : "Abandonner les modifications",
     "Undo" : "Annuler",
     "Redo" : "Rétablir",
     "Show original image" : "Afficher l'image originale",
@@ -110,6 +113,9 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Taille de l'image sauvegardée (largeur x hauteur)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Notez que la zone de recadrage sélectionnée est inférieure au redimensionnement appliqué, ce qui peut entraîner une baisse de qualité.",
     "Actual size (100%)" : "Taille actuelle (100%)",
-    "Fit size" : "Adapter à la taille"
+    "Fit size" : "Adapter à la taille",
+    "Menu" : "Menu",
+    "Height" : "Taille",
+    "Continue" : "Continuer"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

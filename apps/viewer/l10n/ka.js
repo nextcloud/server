@@ -13,7 +13,9 @@ OC.L10N.register(
     "Loading …" : "Loading …",
     "Reset" : "Reset",
     "Cancel" : "Cancel",
-    "Continue" : "Continue",
+    "Warning" : "Warning",
+    "Confirm" : "Confirm",
+    "Discard changes" : "Discard changes",
     "Undo" : "Undo",
     "Custom" : "Custom",
     "Blur" : "Blur",
@@ -21,6 +23,8 @@ OC.L10N.register(
     "Image" : "Image",
     "Text" : "Text",
     "Size" : "Size",
-    "Position" : "Position"
+    "Position" : "Position",
+    "Menu" : "Menu",
+    "Continue" : "Continue"
 },
 "nplurals=2; plural=(n!=1);");

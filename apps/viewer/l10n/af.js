@@ -19,13 +19,13 @@ OC.L10N.register(
     "Loading …" : "Laai …",
     "Reset" : "Herstel",
     "Cancel" : "Kanselleer",
-    "Continue" : "Gaan voort",
     "Original" : "Oorspronklik",
     "Custom" : "Eie",
     "Value" : "Waarde",
     "Text" : "Teks",
     "Size" : "Grootte",
     "Position" : "Posisie",
-    "Quality" : "Kwaliteit"
+    "Quality" : "Kwaliteit",
+    "Continue" : "Gaan voort"
 },
 "nplurals=2; plural=(n != 1);");

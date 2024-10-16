@@ -28,7 +28,9 @@
     "All changes will be lost." : "Wszystkie zmiany zostaną utracone.",
     "Are you sure you want to continue?" : "Jesteś pewien, że chcesz kontynuować?",
     "Cancel" : "Anuluj",
-    "Continue" : "Kontynuuj",
+    "Apply" : "Zastosuj",
+    "Warning" : "Ostrzeżenie",
+    "Confirm" : "Potwierdź",
     "Undo" : "Cofnij",
     "Redo" : "Powtórz",
     "Show original image" : "Pokaż oryginalny obraz",
@@ -107,6 +109,9 @@
     "Saved image size (width x height)" : "Rozmiar zapisanego obrazu (szerokość x wysokość)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Zwróć uwagę, że wybrany obszar kadrowania jest mniejszy niż zastosowana zmiana rozmiaru, co może spowodować spadek jakości",
     "Actual size (100%)" : "Rzeczywisty rozmiar (100%)",
-    "Fit size" : "Dopasuj rozmiar"
+    "Fit size" : "Dopasuj rozmiar",
+    "Menu" : "Menu",
+    "Height" : "Wysokość",
+    "Continue" : "Kontynuuj"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

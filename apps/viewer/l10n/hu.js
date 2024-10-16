@@ -31,7 +31,10 @@ OC.L10N.register(
     "All changes will be lost." : "Az összes változtatás elvész.",
     "Are you sure you want to continue?" : "Biztos, hogy folytatja?",
     "Cancel" : "Mégse",
-    "Continue" : "Folytatás",
+    "Apply" : "Alkalmaz",
+    "Warning" : "Figyelmeztetés",
+    "Confirm" : "Megerősítés",
+    "Discard changes" : "Változtatások elvetése",
     "Undo" : "Visszavonás",
     "Redo" : "Újra",
     "Show original image" : "Eredeti kép megjelenítése",
@@ -110,6 +113,9 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Mentett kép mérete (szélesség×magasság)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Vegye figyelembe, hogy a kijelölt levágási terület kisebb mint az alkalmazott átméretezés, amely minőségcsökkenést okozhat",
     "Actual size (100%)" : "Tényleges méret (100%)",
-    "Fit size" : "Illeszkedő méret"
+    "Fit size" : "Illeszkedő méret",
+    "Menu" : "Menü",
+    "Height" : "Magasság",
+    "Continue" : "Folytatás"
 },
 "nplurals=2; plural=(n != 1);");

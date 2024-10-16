@@ -13,7 +13,9 @@ OC.L10N.register(
     "Back" : "Prapa",
     "Reset" : "Rivendos",
     "Cancel" : "Anullo",
-    "Continue" : "Vazhdo",
+    "Apply" : "Apliko",
+    "Warning" : "Kujdes",
+    "Confirm" : "Konfirmo",
     "Undo" : "Ktheje pas",
     "Redo" : "Ribëj",
     "Custom" : "E përshtatur",
@@ -21,6 +23,8 @@ OC.L10N.register(
     "Text" : "Tekst",
     "Size" : "Madhësi",
     "Position" : "Pozicion",
-    "Name is required." : "Emri është i domosdoshëm"
+    "Name is required." : "Emri është i domosdoshëm",
+    "Menu" : "Menu",
+    "Continue" : "Vazhdo"
 },
 "nplurals=2; plural=(n != 1);");

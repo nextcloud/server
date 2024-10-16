@@ -12,12 +12,16 @@ OC.L10N.register(
     "Back" : "Kembali",
     "Reset" : "Setel ulang",
     "Cancel" : "Membatalkan",
-    "Continue" : "Lanjutkan",
+    "Apply" : "Terapkan",
+    "Warning" : "Peringatan",
+    "Confirm" : "Konfirmasi",
     "Undo" : "Undo",
     "Value" : "Nilari",
     "Image" : "Gambar",
     "Line" : "Garis",
     "Text" : "Teks",
-    "Size" : "Ukuran"
+    "Size" : "Ukuran",
+    "Menu" : "Menu",
+    "Continue" : "Lanjutkan"
 },
 "nplurals=1; plural=0;");

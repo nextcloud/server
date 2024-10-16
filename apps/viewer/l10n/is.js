@@ -30,7 +30,9 @@ OC.L10N.register(
     "All changes will be lost." : "Allar breytingar munu tapast.",
     "Are you sure you want to continue?" : "Ertu viss um að þú viljir halda áfram?",
     "Cancel" : "Hætta við",
-    "Continue" : "Halda áfram",
+    "Apply" : "Virkja",
+    "Warning" : "Aðvörun",
+    "Confirm" : "Staðfesta",
     "Undo" : "Undo",
     "Redo" : "Redo",
     "Show original image" : "Birta upprunalega mynd",
@@ -109,6 +111,8 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Stærð vistaðrar myndar (breidd x hæð)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Athugaðu að valið afskurðarsvæði er minna en virkjuð stærðarbreyting gefur, sem gæti komið niður á gæðum",
     "Actual size (100%)" : "Raunstærð (100%)",
-    "Fit size" : "Aðlaga stærð"
+    "Fit size" : "Aðlaga stærð",
+    "Menu" : "Valmynd",
+    "Continue" : "Halda áfram"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

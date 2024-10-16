@@ -28,7 +28,10 @@ OC.L10N.register(
     "All changes will be lost." : "Visi pakeitimai bus prarasti.",
     "Are you sure you want to continue?" : "Ar tikrai norite tęsti?",
     "Cancel" : "Atšaukti",
-    "Continue" : "Tęsti",
+    "Apply" : "Taikyti",
+    "Warning" : "Įspėjimas",
+    "Confirm" : "Patvirtinti",
+    "Discard changes" : "Atmesti pakeitimus",
     "Undo" : "Atšaukti",
     "Redo" : "Grąžinti",
     "Zoom in" : "Didinti",
@@ -48,6 +51,8 @@ OC.L10N.register(
     "Add as text" : "Pridėti kaip tekstą",
     "Position" : "Vieta",
     "Name is required." : "Vardas yra būtinas.",
-    "Quality" : "Kokybė"
+    "Quality" : "Kokybė",
+    "Menu" : "Meniu",
+    "Continue" : "Tęsti"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

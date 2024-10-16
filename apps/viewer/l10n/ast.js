@@ -31,7 +31,6 @@ OC.L10N.register(
     "All changes will be lost." : "Van perdese tolos cambeos.",
     "Are you sure you want to continue?" : "¿De xuru que quies siguir?",
     "Cancel" : "Encaboxar",
-    "Continue" : "Siguir",
     "Undo" : "Desfacer",
     "Redo" : "Refacer",
     "Show original image" : "Amosar la imaxe orixinal",
@@ -108,6 +107,7 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Tamañu de la imaxe guardada (llargura x altor)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Decátate que l'área de recorte seleicionada ye menor que la redimensión aplicada, lo que ye posible que cause una perda de calidá",
     "Actual size (100%)" : "Tamañu actual (100%)",
-    "Fit size" : "Axustar el tamañu"
+    "Fit size" : "Axustar el tamañu",
+    "Continue" : "Siguir"
 },
 "nplurals=2; plural=(n != 1);");

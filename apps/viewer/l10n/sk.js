@@ -31,7 +31,10 @@ OC.L10N.register(
     "All changes will be lost." : "Všetky zmeny sa stratia.",
     "Are you sure you want to continue?" : "Naozaj chcete pokračovať?",
     "Cancel" : "Zrušiť",
-    "Continue" : "Pokračovať",
+    "Apply" : "Použiť",
+    "Warning" : "Varovanie",
+    "Confirm" : "Potvrdiť",
+    "Discard changes" : "Zahodiť zmeny",
     "Undo" : "Vrátiť",
     "Redo" : "Prerobiť",
     "Show original image" : "Zobraziť pôvodný obrázok",
@@ -110,6 +113,9 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Veľkosť uloženého obrázka (šírka x výška)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Upozorňujeme, že vybratá oblasť orezania je menšia ako použitá zmena veľkosti, čo môže spôsobiť zníženie kvality",
     "Actual size (100%)" : "Aktuálna veľkosť (100%)",
-    "Fit size" : "Prispôsobiť veľlkosť"
+    "Fit size" : "Prispôsobiť veľlkosť",
+    "Menu" : "Menu",
+    "Height" : "Výška",
+    "Continue" : "Pokračovať"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

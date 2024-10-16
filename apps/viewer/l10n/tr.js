@@ -31,7 +31,10 @@ OC.L10N.register(
     "All changes will be lost." : "Tüm değişiklikler kaybolacak.",
     "Are you sure you want to continue?" : "İşlemi sürdürmek istediğinize emin misiniz?",
     "Cancel" : "İptal",
-    "Continue" : "Sürdür",
+    "Apply" : "Uygula",
+    "Warning" : "Uyarı",
+    "Confirm" : "Onayla",
+    "Discard changes" : "Değişiklikleri yok say",
     "Undo" : "Geri al",
     "Redo" : "Yinele",
     "Show original image" : "Özgün görseli görüntüle",
@@ -110,6 +113,9 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Kaydedilmiş görsel boyutu (genişlik x yükseklik)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Seçilmiş kırpma alanı uygulanan yeniden boyutlandırma alanından küçük. Bu durum görsel kalitesinin düşmesine neden olabilir.",
     "Actual size (100%)" : "Gerçek boyut (%100)",
-    "Fit size" : "Boyutu sığdır"
+    "Fit size" : "Boyutu sığdır",
+    "Menu" : "Menü",
+    "Height" : "Boy",
+    "Continue" : "Sürdür"
 },
 "nplurals=2; plural=(n > 1);");

@@ -4,7 +4,8 @@
     "Name" : "Name",
     "Save" : "Save",
     "Cancel" : "Cancel",
-    "Continue" : "Continue",
-    "Size" : "Size"
+    "Confirm" : "Confirm",
+    "Size" : "Size",
+    "Continue" : "Continue"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

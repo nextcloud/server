@@ -8,8 +8,9 @@
     "Back" : "ຫຼັງ",
     "Loading …" : "ກຳລັງໂຫຼດ",
     "Cancel" : "ຍົກເລີກ",
-    "Continue" : "ສືບຕໍ່",
+    "Confirm" : "ຢືນຢັນ",
     "Original" : "ຕົ້ນສະບັບ",
-    "Size" : "ຂະຫນາດ"
+    "Size" : "ຂະຫນາດ",
+    "Continue" : "ສືບຕໍ່"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

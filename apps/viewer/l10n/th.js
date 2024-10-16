@@ -11,11 +11,15 @@ OC.L10N.register(
     "Back" : "ย้อนกลับ",
     "Reset" : "รีเซ็ต",
     "Cancel" : "ยกเลิก",
-    "Continue" : "ดำเนินการต่อ",
+    "Apply" : "นำไปใช้",
+    "Warning" : "คำเตือน",
+    "Confirm" : "ยืนยัน",
     "Undo" : "เลิกทำ",
     "Custom" : "กำหนดเอง",
     "Text" : "ข้อความ",
     "Size" : "ขนาด",
-    "Position" : "ตำแหน่ง"
+    "Position" : "ตำแหน่ง",
+    "Menu" : "เมนู",
+    "Continue" : "ดำเนินการต่อ"
 },
 "nplurals=1; plural=0;");

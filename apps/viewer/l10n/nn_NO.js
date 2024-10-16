@@ -9,8 +9,10 @@ OC.L10N.register(
     "Save" : "Lagre",
     "Back" : "Tilbake",
     "Cancel" : "Avbryt",
-    "Continue" : "Gå vidare",
+    "Apply" : "Anvend",
+    "Warning" : "Åtvaring",
     "Value" : "Verdi",
-    "Size" : "Storleik"
+    "Size" : "Storleik",
+    "Continue" : "Gå vidare"
 },
 "nplurals=2; plural=(n != 1);");

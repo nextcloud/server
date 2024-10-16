@@ -31,7 +31,10 @@ OC.L10N.register(
     "All changes will be lost." : "Perderanse todos os cambios.",
     "Are you sure you want to continue?" : "Confirma que quere continuar?",
     "Cancel" : "Cancelar",
-    "Continue" : "Continuar",
+    "Apply" : "Aplicar",
+    "Warning" : "Advertencia",
+    "Confirm" : "Confirmar",
+    "Discard changes" : "Desbotar os cambios",
     "Undo" : "Desfacer",
     "Redo" : "Refacer",
     "Show original image" : "Amosar a imaxe orixinal",
@@ -110,6 +113,9 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Tamaño da imaxe gardada (largo x alto)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Teña en conta que a área de recorte seleccionada é inferior ao cambio de tamaño aplicado, o que pode provocar unha diminución da calidade",
     "Actual size (100%)" : "Tamaño real (100%)",
-    "Fit size" : "Axuste de tamaño"
+    "Fit size" : "Axuste de tamaño",
+    "Menu" : "Menú",
+    "Height" : "Altura",
+    "Continue" : "Continuar"
 },
 "nplurals=2; plural=(n != 1);");

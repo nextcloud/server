@@ -31,7 +31,10 @@ OC.L10N.register(
     "All changes will be lost." : "Alle endringer vil gå tapt.",
     "Are you sure you want to continue?" : "Er du sikker på at du vil fortsette?",
     "Cancel" : "Avbryt",
-    "Continue" : "Fortsett",
+    "Apply" : "Bruk",
+    "Warning" : "Advarsel",
+    "Confirm" : "Bekreft",
+    "Discard changes" : "Forkast endringer",
     "Undo" : "Angre",
     "Redo" : "Gjør om",
     "Show original image" : "Vis originalbilde",
@@ -110,6 +113,9 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Lagret bildestørrelse (bredde x høyde)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Vær oppmerksom på at det valgte beskjæringsområdet er lavere enn den valgte størrelsen, noe som kan føre til redusert kvalitet",
     "Actual size (100%)" : "Faktisk størrelse (100%)",
-    "Fit size" : "Tilpass størrelse"
+    "Fit size" : "Tilpass størrelse",
+    "Menu" : "Meny",
+    "Height" : "Høyde",
+    "Continue" : "Fortsett"
 },
 "nplurals=2; plural=(n != 1);");

@@ -11,7 +11,9 @@
     "Back" : "Prapa",
     "Reset" : "Rivendos",
     "Cancel" : "Anullo",
-    "Continue" : "Vazhdo",
+    "Apply" : "Apliko",
+    "Warning" : "Kujdes",
+    "Confirm" : "Konfirmo",
     "Undo" : "Ktheje pas",
     "Redo" : "Ribëj",
     "Custom" : "E përshtatur",
@@ -19,6 +21,8 @@
     "Text" : "Tekst",
     "Size" : "Madhësi",
     "Position" : "Pozicion",
-    "Name is required." : "Emri është i domosdoshëm"
+    "Name is required." : "Emri është i domosdoshëm",
+    "Menu" : "Menu",
+    "Continue" : "Vazhdo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

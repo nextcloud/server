@@ -7,7 +7,8 @@ OC.L10N.register(
     "Name" : "Անուն",
     "Save" : "Պահպանել",
     "Cancel" : "ընդհատել",
-    "Continue" : "Շարունակել",
-    "Size" : "Չափս"
+    "Warning" : "Զգուշացում",
+    "Size" : "Չափս",
+    "Continue" : "Շարունակել"
 },
 "nplurals=2; plural=(n != 1);");

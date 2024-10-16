@@ -31,7 +31,10 @@ OC.L10N.register(
     "All changes will be lost." : "Caillfear gach athrú.",
     "Are you sure you want to continue?" : "An bhfuil tú cinnte gur mhaith leat leanúint ar aghaidh?",
     "Cancel" : "Cealaigh",
-    "Continue" : "Leanúint ar aghaidh",
+    "Apply" : "Cuir iarratas isteach",
+    "Warning" : "Rabhadh",
+    "Confirm" : "Deimhnigh",
+    "Discard changes" : "Scrios na hathruithe",
     "Undo" : "Cealaigh",
     "Redo" : "Athdhéan",
     "Show original image" : "Taispeáin íomhá bunaidh",
@@ -110,6 +113,9 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Méid na híomhá sábháilte (leithead x airde)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Tabhair faoi deara go bhfuil an t-achar barr roghnaithe níos ísle ná an t-athrú méide a cuireadh i bhfeidhm, rud a d'fhéadfadh a bheith ina chúis le laghdú cáilíochta",
     "Actual size (100%)" : "Méid iarbhír (100%)",
-    "Fit size" : "Méid oiriúnach"
+    "Fit size" : "Méid oiriúnach",
+    "Menu" : "Roghchlár",
+    "Height" : "Airde",
+    "Continue" : "Leanúint ar aghaidh"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

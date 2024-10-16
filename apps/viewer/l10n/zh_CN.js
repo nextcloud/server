@@ -30,7 +30,10 @@ OC.L10N.register(
     "All changes will be lost." : "所有更改都将丢失。",
     "Are you sure you want to continue?" : "您确定要继续吗？",
     "Cancel" : "取消",
-    "Continue" : "继续",
+    "Apply" : "应用",
+    "Warning" : "警告",
+    "Confirm" : "确认",
+    "Discard changes" : "放弃更改",
     "Undo" : "撤销操作",
     "Redo" : "恢复上个操作",
     "Show original image" : "显示原始图片",
@@ -109,6 +112,9 @@ OC.L10N.register(
     "Saved image size (width x height)" : "已保存的图像大小（宽度 x 高度）",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "请注意，选择的裁剪面积低于应用的调整大小，这可能会导致质量下降",
     "Actual size (100%)" : "实际尺寸（100%）",
-    "Fit size" : "适合尺寸"
+    "Fit size" : "适合尺寸",
+    "Menu" : "菜单",
+    "Height" : "身高",
+    "Continue" : "继续"
 },
 "nplurals=1; plural=0;");

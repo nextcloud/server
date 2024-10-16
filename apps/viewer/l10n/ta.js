@@ -8,8 +8,8 @@ OC.L10N.register(
     "Save" : "சேமிக்க ",
     "Back" : "பின்னுக்கு",
     "Cancel" : "இரத்து செய்க",
-    "Continue" : "Continue",
     "Value" : "Value",
-    "Size" : "அளவு"
+    "Size" : "அளவு",
+    "Continue" : "Continue"
 },
 "nplurals=2; plural=(n != 1);");
