@@ -44,18 +44,7 @@ class FileUtils {
 			return [];
 		}
 
-		$mounts = $this->userMountCache->getMountsForFileId($id);
-		$result = [];
-		foreach ($mounts as $mount) {
-			if (isset($result[$mount->getUser()->getUID()])) {
-				continue;
-			}
-
-			$userFolder = $this->rootFolder->getUserFolder($mount->getUser()->getUID());
-			$result[$mount->getUser()->getUID()] = $userFolder->getById($id);
-		}
-
-		return $result;
+		return $this->userMountCache->getReadableNodesByUserForFileId($id);
 	}
 
 	/**
