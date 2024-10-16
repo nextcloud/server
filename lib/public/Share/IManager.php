@@ -127,10 +127,12 @@ interface IManager {
 	 * @param bool $reshares
 	 * @param int $limit The maximum number of returned results, -1 for all results
 	 * @param int $offset
+	 * @param bool $allowExpired also return expired shares
 	 * @return IShare[]
 	 * @since 9.0.0
+	 * @since 31.0.0 Added $allowExpired parameter
 	 */
-	public function getSharesBy($userId, $shareType, $path = null, $reshares = false, $limit = 50, $offset = 0);
+	public function getSharesBy($userId, $shareType, $path = null, $reshares = false, $limit = 50, $offset = 0, $allowExpired = false);
 
 	/**
 	 * Get shares shared with $user.
@@ -159,6 +161,20 @@ interface IManager {
 	 * @since 14.0.0
 	 */
 	public function getDeletedSharedWith($userId, $shareType, $node = null, $limit = 50, $offset = 0);
+
+	/**
+	 * Get expired shares created by $user.
+	 * Filter by $node if provided
+	 *
+	 * @param string $userId
+	 * @param int $shareType
+	 * @param Node|null $path
+	 * @param int $limit The maximum number of shares returned, -1 for all
+	 * @param int $offset
+	 * @return IShare[]
+	 * @since 31.0.0
+	 */
+	public function getExpiredShares($userId, $shareType, ?Node $path = null, $limit = 50, $offset = 0);
 
 	/**
 	 * Retrieve a share by the share id.

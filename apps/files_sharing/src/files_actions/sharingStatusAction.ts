@@ -14,6 +14,7 @@ import LinkSvg from '@mdi/svg/svg/link.svg?raw'
 import CircleSvg from '../../../../core/img/apps/circles.svg?raw'
 
 import { action as sidebarAction } from '../../../files/src/actions/sidebarAction'
+import { expiredSharesViewId } from '../files_views/shares'
 import { generateAvatarSvg } from '../utils/AccountIcon'
 
 import './sharingStatusAction.scss'
@@ -24,9 +25,13 @@ const isExternal = (node: Node) => {
 
 export const action = new FileAction({
 	id: 'sharing-status',
-	displayName(nodes: Node[]) {
+	displayName(nodes: Node[], view: View) {
 		const node = nodes[0]
 		const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat() as number[]
+
+		if (view.id === expiredSharesViewId) {
+			return t('files_sharing', 'Expired')
+		}
 
 		if (shareTypes.length > 0
 			|| (node.owner !== getCurrentUser()?.uid || isExternal(node))) {

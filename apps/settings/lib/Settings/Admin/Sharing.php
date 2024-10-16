@@ -71,6 +71,7 @@ class Sharing implements IDelegatedSettings {
 			'defaultRemoteExpireDate' => $this->getHumanBooleanConfig('core', 'shareapi_default_remote_expire_date'),
 			'remoteExpireAfterNDays' => $this->config->getAppValue('core', 'shareapi_remote_expire_after_n_days', '7'),
 			'enforceRemoteExpireDate' => $this->getHumanBooleanConfig('core', 'shareapi_enforce_remote_expire_date'),
+			'deleteOnExpire' => $this->getHumanBooleanConfig('core', 'shareapi_delete_on_expire', true),
 		];
 
 		$this->initialState->provideInitialState('sharingAppEnabled', $this->appManager->isEnabledForUser('files_sharing'));
@@ -82,10 +83,10 @@ class Sharing implements IDelegatedSettings {
 	}
 
 	/**
-	 * Helper function to retrive boolean values from human readable strings ('yes' / 'no')
+	 * Helper function to retrieve boolean values from human readable strings ('yes' / 'no')
 	 */
 	private function getHumanBooleanConfig(string $app, string $key, bool $default = false): bool {
-		return $this->config->getAppValue($app, $key, $default ? 'yes' : 'no') === 'yes';
+		return $this->config->getAppValue($app, $key, $default ? 'yes' : 'no') !== 'no';
 	}
 
 	/**

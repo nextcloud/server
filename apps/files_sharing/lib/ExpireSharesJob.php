@@ -8,25 +8,25 @@ namespace OCA\Files_Sharing;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
+use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 /**
  * Delete all shares that are expired
  */
 class ExpireSharesJob extends TimedJob {
 
-	/** @var IManager */
-	private $shareManager;
-
-	/** @var IDBConnection */
-	private $db;
-
-	public function __construct(ITimeFactory $time, IManager $shareManager, IDBConnection $db) {
-		$this->shareManager = $shareManager;
-		$this->db = $db;
+	public function __construct(
+		ITimeFactory $time,
+		private IManager $shareManager,
+		private IDBConnection $db,
+		private IAppConfig $appConfig,
+		private LoggerInterface $logger,
+	) {
 
 		parent::__construct($time);
 
@@ -42,13 +42,16 @@ class ExpireSharesJob extends TimedJob {
 	 * @param array $argument unused argument
 	 */
 	public function run($argument) {
-		//Current time
+		if ($this->appConfig->getValueString('core', 'shareapi_delete_on_expire', 'yes') === 'no') {
+			$this->logger->info('Share deletion on expiration is disabled');
+			return;
+		}
+
+		// Current time
 		$now = new \DateTime();
 		$now = $now->format('Y-m-d H:i:s');
 
-		/*
-		 * Expire file link shares only (for now)
-		 */
+		// Expire file link shares only (for now)
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'share_type')
 			->from('share')

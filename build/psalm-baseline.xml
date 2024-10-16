@@ -874,12 +874,6 @@
       <code><![CDATA[Circles]]></code>
       <code><![CDATA[Circles]]></code>
     </UndefinedClass>
-    <UndefinedDocblockClass>
-      <code><![CDATA[$this->getRoomShareHelper()]]></code>
-      <code><![CDATA[$this->getRoomShareHelper()]]></code>
-      <code><![CDATA[$this->getRoomShareHelper()]]></code>
-      <code><![CDATA[\OCA\Talk\Share\Helper\ShareAPIController]]></code>
-    </UndefinedDocblockClass>
   </file>
   <file src="apps/files_sharing/lib/External/Manager.php">
     <LessSpecificReturnStatement>
