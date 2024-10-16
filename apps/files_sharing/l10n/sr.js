@@ -143,6 +143,8 @@ OC.L10N.register(
     "Link copied to clipboard" : "Веза копирана у оставу",
     "Email already added" : "И-мејл је већ додат",
     "Invalid email address" : "Неисправна и-мејл адреса",
+    "_{count} email address already added_::_{count} email addresses already added_" : ["{count} и-мејл адреса је већ додата","{count} и-мејл адресе су већ додате","{count} и-мејл адреса је већ додато"],
+    "_{count} email address added_::_{count} email addresses added_" : ["Додата је {count} и-мејл адреса","Додате су {count} и-мејл адресе","Додато је {count} и-мејл адреса"],
     "What are you requesting?" : "Шта захтевате?",
     "Request subject" : "Тема захтева",
     "Birthday party photos, History assignment…" : "Слике за рођенданске забаве, рад из историје…",

@@ -143,6 +143,8 @@ OC.L10N.register(
     "Link copied to clipboard" : "Link wurde in die Zwischenablage kopiert",
     "Email already added" : "E-Mail-Adresse wurde bereits hinzugefügt",
     "Invalid email address" : "Ungültige E-Mail-Adresse",
+    "_{count} email address already added_::_{count} email addresses already added_" : ["{count} E-Mail-Adresse bereits hinzugefügt","{count} E-Mail-Adressen bereits hinzugefügt"],
+    "_{count} email address added_::_{count} email addresses added_" : ["{count} E-Mail-Adresse hinzugefügt","{count} E-Mail-Adressen hinzugefügt"],
     "What are you requesting?" : "Was fragen Sie an?",
     "Request subject" : "Betreff der Anfrage",
     "Birthday party photos, History assignment…" : "Fotos von Geburtstagsfeiern, Geschichtsaufgaben…",
