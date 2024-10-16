@@ -216,8 +216,9 @@ describe('Quota rendering', () => {
 
 		cy.get('[data-cy-files-navigation-settings-quota]').should('be.visible')
 		cy.get('[data-cy-files-navigation-settings-quota]').should('contain.text', '1 GB of 5 GB used')
-		cy.get('[data-cy-files-navigation-settings-quota] progress').should('be.visible')
-		cy.get('[data-cy-files-navigation-settings-quota] progress').should('have.attr', 'value', '20')
+		cy.get('[data-cy-files-navigation-settings-quota] progress')
+			.should('exist')
+			.and('have.attr', 'value', '20')
 	})
 
 	it('Reached quota', () => {
@@ -237,7 +238,8 @@ describe('Quota rendering', () => {
 
 		cy.get('[data-cy-files-navigation-settings-quota]').should('be.visible')
 		cy.get('[data-cy-files-navigation-settings-quota]').should('contain.text', '5 GB of 1 GB used')
-		cy.get('[data-cy-files-navigation-settings-quota] progress').should('be.visible')
-		cy.get('[data-cy-files-navigation-settings-quota] progress').should('have.attr', 'value', '100') // progress max is 100
+		cy.get('[data-cy-files-navigation-settings-quota] progress')
+			.should('exist')
+			.and('have.attr', 'value', '100') // progress max is 100
 	})
 })
