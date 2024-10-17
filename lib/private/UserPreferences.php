@@ -22,7 +22,6 @@ use OCP\UserPreferences\Exceptions\UnknownKeyException;
 use OCP\UserPreferences\IUserPreferences;
 use OCP\UserPreferences\ValueType;
 use Psr\Log\LoggerInterface;
-use ValueError;
 
 /**
  * This class provides an easy way for apps to store user preferences in the
@@ -45,15 +44,20 @@ class UserPreferences implements IUserPreferences {
 	private const USER_MAX_LENGTH = 64;
 	private const APP_MAX_LENGTH = 32;
 	private const KEY_MAX_LENGTH = 64;
+	private const INDEX_MAX_LENGTH = 64;
 	private const ENCRYPTION_PREFIX = '$UserPreferencesEncryption$';
 	private const ENCRYPTION_PREFIX_LENGTH = 27; // strlen(self::ENCRYPTION_PREFIX)
 
-	/** @var array<string, array<string, array<string, mixed>>> ['user_id' => ['app_id' => ['key' => 'value']]] */
+	/** @var array<string, array<string, array<string, mixed>>> [ass'user_id' => ['app_id' => ['key' => 'value']]] */
 	private array $fastCache = [];   // cache for normal preference keys
 	/** @var array<string, array<string, array<string, mixed>>> ['user_id' => ['app_id' => ['key' => 'value']]] */
 	private array $lazyCache = [];   // cache for lazy preference keys
-	/** @var array<string, array<string, array<string, int>>> ['user_id' => ['app_id' => ['key' => bitflag]]] */
+	/** @var array<string, array<string, array<string, <'type', ValueType>|<'flags', int>> ['user_id' => ['app_id' => ['key' => ['type' => ValueType, 'flags' => bitflag]]] */
+	private array $valueDetails = [];  // type for all preference values
+	/** @var array<string, array<string, array<string, ValueType>>> ['user_id' => ['app_id' => ['key' => bitflag]]] */
 	private array $valueTypes = [];  // type for all preference values
+	/** @var array<string, array<string, array<string, int>>> ['user_id' => ['app_id' => ['key' => bitflag]]] */
+	private array $valueFlags = [];  // type for all preference values
 	/** @var array<string, boolean> ['user_id' => bool] */
 	private array $fastLoaded = [];
 	/** @var array<string, boolean> ['user_id' => bool] */
@@ -157,6 +161,8 @@ class UserPreferences implements IUserPreferences {
 	}
 
 	/**
+	 * @inheritDoc
+	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
 	 * @param string $key preference key
@@ -164,17 +170,40 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @return bool
 	 * @throws UnknownKeyException if preference key is not known
-	 * @since 29.0.0
+	 * @since 31.0.0
 	 */
 	public function isSensitive(string $userId, string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($userId, $app, $key);
 		$this->loadPreferences($userId, $lazy);
 
-		if (!isset($this->valueTypes[$userId][$app][$key])) {
+		if (!isset($this->valueDetails[$userId][$app][$key])) {
 			throw new UnknownKeyException('unknown preference key');
 		}
 
-		return $this->isTyped(ValueType::SENSITIVE, $this->valueTypes[$userId][$app][$key]);
+		return $this->isFlagged(self::FLAG_SENSITIVE, $this->valueDetails[$userId][$app][$key]['flags']);
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * @param string $userId id of the user
+	 * @param string $app id of the app
+	 * @param string $key preference key
+	 * @param bool|null $lazy TRUE to search within lazy loaded preferences, NULL to search within all preferences
+	 *
+	 * @return bool
+	 * @throws UnknownKeyException if preference key is not known
+	 * @since 31.0.0
+	 */
+	public function isIndexed(string $userId, string $app, string $key, ?bool $lazy = false): bool {
+		$this->assertParams($userId, $app, $key);
+		$this->loadPreferences($userId, $lazy);
+
+		if (!isset($this->valueDetails[$userId][$app][$key])) {
+			throw new UnknownKeyException('unknown preference key');
+		}
+
+		return $this->isFlagged(self::FLAG_INDEXED, $this->valueDetails[$userId][$app][$key]['flags']);
 	}
 
 	/**
@@ -187,15 +216,16 @@ class UserPreferences implements IUserPreferences {
 	 * @return bool TRUE if preference is lazy loaded
 	 * @throws UnknownKeyException if preference key is not known
 	 * @see IUserPreferences for details about lazy loading
-	 * @since 29.0.0
+	 * @since 31.0.0
 	 */
 	public function isLazy(string $userId, string $app, string $key): bool {
 		// there is a huge probability the non-lazy preferences are already loaded
+		// meaning that we can start by only checking if a current non-lazy key exists
 		if ($this->hasKey($userId, $app, $key, false)) {
-			return false;
+			return false; // meaning key is not lazy.
 		}
 
-		// key not found, we search in the lazy preferences
+		// as key is not found as non-lazy, we load and search in the lazy preferences
 		if ($this->hasKey($userId, $app, $key, true)) {
 			return true;
 		}
@@ -268,7 +298,7 @@ class UserPreferences implements IUserPreferences {
 	 * @return array<string, string|int|float|bool|array> [appId => value]
 	 * @since 31.0.0
 	 */
-	public function searchValuesByApps(string $userId, string $key, bool $lazy = false, ?ValueType $typedAs = null): array {
+	public function getValuesByApps(string $userId, string $key, bool $lazy = false, ?ValueType $typedAs = null): array {
 		$this->assertParams($userId, '', $key, allowEmptyApp: true);
 		$this->loadPreferences($userId, $lazy);
 
@@ -307,7 +337,7 @@ class UserPreferences implements IUserPreferences {
 	 * @return array<string, string|int|float|bool|array> [userId => value]
 	 * @since 31.0.0
 	 */
-	public function searchValuesByUsers(
+	public function getValuesByUsers(
 		string $app,
 		string $key,
 		?ValueType $typedAs = null,
@@ -328,7 +358,7 @@ class UserPreferences implements IUserPreferences {
 			while ($row = $result->fetch()) {
 				$value = $row['configvalue'];
 				try {
-					$value = $this->convertTypedValue($value, $typedAs ?? $this->extractValueType($row['type']));
+					$value = $this->convertTypedValue($value, $typedAs ?? ValueType::from((int) $row['type']));
 				} catch (IncorrectTypeException) {
 				}
 				$values[$row['userid']] = $value;
@@ -368,6 +398,22 @@ class UserPreferences implements IUserPreferences {
 	 */
 	public function searchUsersByValueString(string $app, string $key, string $value, bool $caseInsensitive = false): array {
 		return $this->searchUsersByTypedValue($app, $key, $value, $caseInsensitive);
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * @param string $app id of the app
+	 * @param string $key preference key
+	 * @param string $value preference value
+	 * @param bool $caseInsensitive non-case-sensitive search, only works if $value is a string
+	 * @internal
+	 * @deprecated since 31.0.0 - {@see }
+	 * @return list<string>
+	 * @since 31.0.0
+	 */
+	public function searchUsersByValueDeprecated(string $app, string $key, string $value, bool $caseInsensitive = false): array {
+		return $this->searchUsersByTypedValue($app, $key, $value, $caseInsensitive, true);
 	}
 
 	/**
@@ -424,6 +470,7 @@ class UserPreferences implements IUserPreferences {
 	 * @param string $key
 	 * @param string|array $value
 	 * @param bool $caseInsensitive
+	 * @param bool $withinNotIndexedField DEPRECATED: should only be used to stay compatible with not-indexed/pre-31 preferences value
 	 *
 	 * @return list<string>
 	 */
@@ -436,19 +483,38 @@ class UserPreferences implements IUserPreferences {
 		$qb->where($qb->expr()->eq('appid', $qb->createNamedParameter($app)));
 		$qb->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($key)));
 
+		// search within 'indexed' OR 'configvalue' (but if 'flags' is not set as indexed)
+		// TODO: when implementing config lexicon remove the searches on 'configvalue' if value is set as indexed
 		$configValueColumn = ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) ? $qb->expr()->castColumn('configvalue', IQueryBuilder::PARAM_STR) : 'configvalue';
 		if (is_array($value)) {
-			$qb->andWhere($qb->expr()->in($configValueColumn, $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR_ARRAY)));
+			$where = $qb->expr()->orX(
+				$qb->expr()->in('indexed', $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR_ARRAY)),
+				$qb->expr()->andX(
+					$qb->createFunction('NOT ' . $qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED)),
+					$qb->expr()->in($configValueColumn, $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR_ARRAY))
+				)
+			);
 		} else {
 			if ($caseInsensitive) {
-				$qb->andWhere($qb->expr()->eq(
-					$qb->func()->lower($configValueColumn),
-					$qb->createNamedParameter(strtolower($value)))
+				$where = $qb->expr()->orX(
+					$qb->expr()->eq($qb->func()->lower('indexed'), $qb->createNamedParameter(strtolower($value))),
+					$qb->expr()->andX(
+						$qb->createFunction('NOT ' . $qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED)),
+						$qb->expr()->eq($qb->func()->lower($configValueColumn), $qb->createNamedParameter(strtolower($value)))
+					)
 				);
 			} else {
-				$qb->andWhere($qb->expr()->eq($configValueColumn, $qb->createNamedParameter($value)));
+				$where = $qb->expr()->orX(
+					$qb->expr()->eq('indexed', $qb->createNamedParameter($value)),
+					$qb->expr()->andX(
+						$qb->createFunction('NOT ' . $qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED)),
+						$qb->expr()->eq($configValueColumn, $qb->createNamedParameter($value))
+					)
+				);
 			}
 		}
+
+		$qb->andWhere($where);
 
 		$userIds = [];
 		$result = $qb->executeQuery();
@@ -493,7 +559,7 @@ class UserPreferences implements IUserPreferences {
 		?bool $lazy = false,
 	): string {
 		try {
-			$lazy = ($lazy === null) ? $this->isLazy($userId, $app, $key) : $lazy;
+			$lazy ??= $this->isLazy($userId, $app, $key);
 		} catch (UnknownKeyException) {
 			return $default;
 		}
@@ -570,7 +636,7 @@ class UserPreferences implements IUserPreferences {
 	 * @return float stored preference value or $default if not set in database
 	 * @throws InvalidArgumentException if one of the argument format is invalid
 	 * @throws TypeConflictException in case of conflict with the value type set in database
-	 * @since 29.0.0
+	 * @since 31.0.0
 	 * @see IUserPreferences for explanation about lazy loading
 	 */
 	public function getValueFloat(
@@ -595,7 +661,7 @@ class UserPreferences implements IUserPreferences {
 	 * @return bool stored preference value or $default if not set in database
 	 * @throws InvalidArgumentException if one of the argument format is invalid
 	 * @throws TypeConflictException in case of conflict with the value type set in database
-	 * @since 29.0.0
+	 * @since 31.0.0
 	 * @see IUserPreferences for explanation about lazy loading
 	 */
 	public function getValueBool(
@@ -621,7 +687,7 @@ class UserPreferences implements IUserPreferences {
 	 * @return array stored preference value or $default if not set in database
 	 * @throws InvalidArgumentException if one of the argument format is invalid
 	 * @throws TypeConflictException in case of conflict with the value type set in database
-	 * @since 29.0.0
+	 * @since 31.0.0
 	 * @see IUserPreferences for explanation about lazy loading
 	 */
 	public function getValueArray(
@@ -668,11 +734,11 @@ class UserPreferences implements IUserPreferences {
 		 * If type of stored value is set as mixed, we don't filter.
 		 * If type of stored value is defined, we compare with the one requested.
 		 */
-		$knownType = $this->valueTypes[$userId][$app][$key] ?? 0;
-		if (!$this->isTyped(ValueType::MIXED, $type->value)
-			&& $knownType > 0
-			&& !$this->isTyped(ValueType::MIXED, $knownType)
-			&& !$this->isTyped($type, $knownType)) {
+		$knownType = $this->valueDetails[$userId][$app][$key]['type'] ?? null;
+		if ($type !== ValueType::MIXED
+			&& $knownType !== null
+			&& $knownType !== ValueType::MIXED
+			&& $type !== $knownType) {
 			$this->logger->warning('conflict with value type from database', ['app' => $app, 'key' => $key, 'type' => $type, 'knownType' => $knownType]);
 			throw new TypeConflictException('conflict with value type from database');
 		}
@@ -712,29 +778,35 @@ class UserPreferences implements IUserPreferences {
 		$this->assertParams($userId, $app, $key);
 		$this->loadPreferences($userId, $lazy);
 
-		if (!isset($this->valueTypes[$userId][$app][$key])) {
+		if (!isset($this->valueDetails[$userId][$app][$key]['type'])) {
 			throw new UnknownKeyException('unknown preference key');
 		}
 
-		return $this->extractValueType($this->valueTypes[$userId][$app][$key]);
+		return $this->valueDetails[$userId][$app][$key]['type'];
 	}
 
 	/**
-	 * convert bitflag from value type to ValueType
+	 * @inheritDoc
 	 *
-	 * @param int $type
+	 * @param string $userId id of the user
+	 * @param string $app id of the app
+	 * @param string $key preference key
+	 * @param bool $lazy lazy loading
 	 *
-	 * @return ValueType
-	 * @throws IncorrectTypeException
+	 * @return ValueType type of the value
+	 * @throws UnknownKeyException if preference key is not known
+	 * @throws IncorrectTypeException if preferences value type is not known
+	 * @since 31.0.0
 	 */
-	private function extractValueType(int $type): ValueType {
-		$type &= ~ValueType::SENSITIVE->value;
+	public function getValueFlags(string $userId, string $app, string $key, bool $lazy = false): int {
+		$this->assertParams($userId, $app, $key);
+		$this->loadPreferences($userId, $lazy);
 
-		try {
-			return ValueType::from($type);
-		} catch (ValueError) {
-			throw new IncorrectTypeException('invalid value type');
+		if (!isset($this->valueDetails[$userId][$app][$key])) {
+			throw new UnknownKeyException('unknown preference key');
 		}
+
+		return $this->valueDetails[$userId][$app][$key]['flags'];
 	}
 
 	/**
@@ -752,7 +824,7 @@ class UserPreferences implements IUserPreferences {
 	 * @return bool TRUE if value was different, therefor updated in database
 	 * @throws TypeConflictException if type from database is not VALUE_MIXED
 	 * @internal
-	 * @since 29.0.0
+	 * @since 31.0.0
 	 * @see IUserPreferences for explanation about lazy loading
 	 * @see setValueString()
 	 * @see setValueInt()
@@ -766,7 +838,7 @@ class UserPreferences implements IUserPreferences {
 		string $key,
 		string $value,
 		bool $lazy = false,
-		bool $sensitive = false,
+		int $flags = 0,
 	): bool {
 		return $this->setTypedValue(
 			$userId,
@@ -774,7 +846,7 @@ class UserPreferences implements IUserPreferences {
 			$key,
 			$value,
 			$lazy,
-			$sensitive,
+			$flags,
 			ValueType::MIXED
 		);
 	}
@@ -792,7 +864,7 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @return bool TRUE if value was different, therefor updated in database
 	 * @throws TypeConflictException if type from database is not VALUE_MIXED and different from the requested one
-	 * @since 29.0.0
+	 * @since 31.0.0
 	 * @see IUserPreferences for explanation about lazy loading
 	 */
 	public function setValueString(
@@ -801,7 +873,7 @@ class UserPreferences implements IUserPreferences {
 		string $key,
 		string $value,
 		bool $lazy = false,
-		bool $sensitive = false,
+		int $flags = 0,
 	): bool {
 		return $this->setTypedValue(
 			$userId,
@@ -809,7 +881,7 @@ class UserPreferences implements IUserPreferences {
 			$key,
 			$value,
 			$lazy,
-			$sensitive,
+			$flags,
 			ValueType::STRING
 		);
 	}
@@ -826,7 +898,7 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @return bool TRUE if value was different, therefor updated in database
 	 * @throws TypeConflictException if type from database is not VALUE_MIXED and different from the requested one
-	 * @since 29.0.0
+	 * @since 31.0.0
 	 * @see IUserPreferences for explanation about lazy loading
 	 */
 	public function setValueInt(
@@ -835,7 +907,7 @@ class UserPreferences implements IUserPreferences {
 		string $key,
 		int $value,
 		bool $lazy = false,
-		bool $sensitive = false,
+		int $flags = 0,
 	): bool {
 		if ($value > 2000000000) {
 			$this->logger->debug('You are trying to store an integer value around/above 2,147,483,647. This is a reminder that reaching this theoretical limit on 32 bits system will throw an exception.');
@@ -847,7 +919,7 @@ class UserPreferences implements IUserPreferences {
 			$key,
 			(string)$value,
 			$lazy,
-			$sensitive,
+			$flags,
 			ValueType::INT
 		);
 	}
@@ -864,7 +936,7 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @return bool TRUE if value was different, therefor updated in database
 	 * @throws TypeConflictException if type from database is not VALUE_MIXED and different from the requested one
-	 * @since 29.0.0
+	 * @since 31.0.0
 	 * @see IUserPreferences for explanation about lazy loading
 	 */
 	public function setValueFloat(
@@ -873,7 +945,7 @@ class UserPreferences implements IUserPreferences {
 		string $key,
 		float $value,
 		bool $lazy = false,
-		bool $sensitive = false,
+		int $flags = 0,
 	): bool {
 		return $this->setTypedValue(
 			$userId,
@@ -881,7 +953,7 @@ class UserPreferences implements IUserPreferences {
 			$key,
 			(string)$value,
 			$lazy,
-			$sensitive,
+			$flags,
 			ValueType::FLOAT
 		);
 	}
@@ -897,7 +969,7 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @return bool TRUE if value was different, therefor updated in database
 	 * @throws TypeConflictException if type from database is not VALUE_MIXED and different from the requested one
-	 * @since 29.0.0
+	 * @since 31.0.0
 	 * @see IUserPreferences for explanation about lazy loading
 	 */
 	public function setValueBool(
@@ -906,6 +978,7 @@ class UserPreferences implements IUserPreferences {
 		string $key,
 		bool $value,
 		bool $lazy = false,
+		int $flags = 0
 	): bool {
 		return $this->setTypedValue(
 			$userId,
@@ -913,7 +986,7 @@ class UserPreferences implements IUserPreferences {
 			$key,
 			($value) ? '1' : '0',
 			$lazy,
-			false,
+			$flags,
 			ValueType::BOOL
 		);
 	}
@@ -931,7 +1004,7 @@ class UserPreferences implements IUserPreferences {
 	 * @return bool TRUE if value was different, therefor updated in database
 	 * @throws TypeConflictException if type from database is not VALUE_MIXED and different from the requested one
 	 * @throws JsonException
-	 * @since 29.0.0
+	 * @since 31.0.0
 	 * @see IUserPreferences for explanation about lazy loading
 	 */
 	public function setValueArray(
@@ -940,7 +1013,7 @@ class UserPreferences implements IUserPreferences {
 		string $key,
 		array $value,
 		bool $lazy = false,
-		bool $sensitive = false,
+		int $flags = 0,
 	): bool {
 		try {
 			return $this->setTypedValue(
@@ -949,7 +1022,7 @@ class UserPreferences implements IUserPreferences {
 				$key,
 				json_encode($value, JSON_THROW_ON_ERROR),
 				$lazy,
-				$sensitive,
+				$flags,
 				ValueType::ARRAY
 			);
 		} catch (JsonException $e) {
@@ -982,7 +1055,7 @@ class UserPreferences implements IUserPreferences {
 		string $key,
 		string $value,
 		bool $lazy,
-		bool $sensitive,
+		int $flags,
 		ValueType $type,
 	): bool {
 		$this->assertParams($userId, $app, $key, valueType: $type);
@@ -990,10 +1063,22 @@ class UserPreferences implements IUserPreferences {
 
 		$inserted = $refreshCache = false;
 		$origValue = $value;
-		$typeValue = $type->value;
+		$sensitive = $this->isFlagged(self::FLAG_SENSITIVE, $flags);
 		if ($sensitive || ($this->hasKey($userId, $app, $key, $lazy) && $this->isSensitive($userId, $app, $key, $lazy))) {
 			$value = self::ENCRYPTION_PREFIX . $this->crypto->encrypt($value);
-			$typeValue = $typeValue | ValueType::SENSITIVE->value;
+			$flags |= UserPreferences::FLAG_SENSITIVE;
+		}
+
+		// if requested, we fill the 'indexed' field with current value
+		$indexed = '';
+		if ($type !== ValueType::ARRAY && $this->isFlagged(self::FLAG_INDEXED, $flags)) {
+			if ($this->isFlagged(self::FLAG_SENSITIVE, $flags)) {
+				$this->logger->warning('sensitive value are not to be indexed');
+			} else if (strlen($value) > self::USER_MAX_LENGTH) {
+				$this->logger->warning('value is too lengthy to be indexed');
+			} else {
+				$indexed = $value;
+			}
 		}
 
 		if ($this->hasKey($userId, $app, $key, $lazy)) {
@@ -1016,7 +1101,9 @@ class UserPreferences implements IUserPreferences {
 					->setValue('userid', $insert->createNamedParameter($userId))
 					->setValue('appid', $insert->createNamedParameter($app))
 					->setValue('lazy', $insert->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
-					->setValue('type', $insert->createNamedParameter($typeValue, IQueryBuilder::PARAM_INT))
+					->setValue('type', $insert->createNamedParameter($type->value, IQueryBuilder::PARAM_INT))
+					->setValue('flags', $insert->createNamedParameter($flags, IQueryBuilder::PARAM_INT))
+					->setValue('indexed', $insert->createNamedParameter($indexed))
 					->setValue('configkey', $insert->createNamedParameter($key))
 					->setValue('configvalue', $insert->createNamedParameter($value));
 				$insert->executeStatement();
@@ -1032,36 +1119,34 @@ class UserPreferences implements IUserPreferences {
 		 * We cannot insert a new row, meaning we need to update an already existing one
 		 */
 		if (!$inserted) {
-			$currType = $this->valueTypes[$userId][$app][$key] ?? 0;
-			if ($currType === 0) { // this might happen when switching lazy loading status
+			$currType = $this->valueDetails[$userId][$app][$key]['type'] ?? null;
+			if ($currType === null) { // this might happen when switching lazy loading status
 				$this->loadPreferencesAll($userId);
-				$currType = $this->valueTypes[$userId][$app][$key] ?? 0;
+				$currType = $this->valueDetails[$userId][$app][$key]['type'];
 			}
 
 			/**
-			 * This should only happen during the upgrade process from 28 to 29.
 			 * We only log a warning and set it to VALUE_MIXED.
 			 */
-			if ($currType === 0) {
-				$this->logger->warning('Value type is set to zero (0) in database. This is fine only during the upgrade process from 28 to 29.', ['app' => $app, 'key' => $key]);
-				$currType = ValueType::MIXED->value;
+			if ($currType === null) {
+				$this->logger->warning('Value type is set to zero (0) in database. This is not supposed to happens', ['app' => $app, 'key' => $key]);
+				$currType = ValueType::MIXED;
 			}
-
-			//			if ($type->isSensitive()) {}
 
 			/**
 			 * we only accept a different type from the one stored in database
 			 * if the one stored in database is not-defined (VALUE_MIXED)
 			 */
-			if (!$this->isTyped(ValueType::MIXED, $currType) &&
-				($type->value | ValueType::SENSITIVE->value) !== ($currType | ValueType::SENSITIVE->value)) {
+			if ($currType !== ValueType::MIXED &&
+				$currType !== $type) {
 				try {
-					$currType = $this->extractValueType($currType)->getDefinition();
-					$type = $type->getDefinition();
+					$currTypeDef = $currType->getDefinition();
+					$typeDef = $type->getDefinition();
 				} catch (IncorrectTypeException) {
-					$type = $type->value;
+					$currTypeDef = $currType->value;
+					$typeDef = $type->value;
 				}
-				throw new TypeConflictException('conflict between new type (' . $type . ') and old type (' . $currType . ')');
+				throw new TypeConflictException('conflict between new type (' . $typeDef . ') and old type (' . $currTypeDef . ')');
 			}
 
 			if ($lazy !== $this->isLazy($userId, $app, $key)) {
@@ -1072,7 +1157,9 @@ class UserPreferences implements IUserPreferences {
 			$update->update('preferences')
 				->set('configvalue', $update->createNamedParameter($value))
 				->set('lazy', $update->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
-				->set('type', $update->createNamedParameter($typeValue, IQueryBuilder::PARAM_INT))
+				->set('type', $update->createNamedParameter($type->value, IQueryBuilder::PARAM_INT))
+				->set('flags', $update->createNamedParameter($flags, IQueryBuilder::PARAM_INT))
+				->set('indexed', $update->createNamedParameter($indexed))
 				->where($update->expr()->eq('userid', $update->createNamedParameter($userId)))
 				->andWhere($update->expr()->eq('appid', $update->createNamedParameter($app)))
 				->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
@@ -1091,7 +1178,10 @@ class UserPreferences implements IUserPreferences {
 		} else {
 			$this->fastCache[$userId][$app][$key] = $value;
 		}
-		$this->valueTypes[$userId][$app][$key] = $typeValue;
+		$this->valueDetails[$userId][$app][$key] = [
+			'type' => $type,
+			'flags' => $flags
+		];
 
 		return true;
 	}
@@ -1116,26 +1206,16 @@ class UserPreferences implements IUserPreferences {
 		$this->assertParams($userId, $app, $key, valueType: $type);
 		$this->loadPreferencesAll($userId);
 		$this->isLazy($userId, $app, $key); // confirm key exists
-		$typeValue = $type->value;
-
-		$currType = $this->valueTypes[$userId][$app][$key];
-		if (($typeValue | ValueType::SENSITIVE->value) === ($currType | ValueType::SENSITIVE->value)) {
-			return false;
-		}
-
-		// we complete with sensitive flag if the stored value is set as sensitive
-		if ($this->isTyped(ValueType::SENSITIVE, $currType)) {
-			$typeValue = $typeValue | ValueType::SENSITIVE->value;
-		}
 
 		$update = $this->connection->getQueryBuilder();
 		$update->update('preferences')
-			->set('type', $update->createNamedParameter($typeValue, IQueryBuilder::PARAM_INT))
+			->set('type', $update->createNamedParameter($type->value, IQueryBuilder::PARAM_INT))
 			->where($update->expr()->eq('userid', $update->createNamedParameter($userId)))
 			->andWhere($update->expr()->eq('appid', $update->createNamedParameter($app)))
 			->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
 		$update->executeStatement();
-		$this->valueTypes[$userId][$app][$key] = $typeValue;
+
+		$this->valueDetails[$userId][$app][$key]['type'] = $type;
 
 		return true;
 	}
@@ -1174,29 +1254,26 @@ class UserPreferences implements IUserPreferences {
 			throw new UnknownKeyException('unknown preference key');
 		}
 
-		/**
-		 * type returned by getValueType() is already cleaned from sensitive flag
-		 * we just need to update it based on $sensitive and store it in database
-		 */
-		$typeValue = $this->getValueType($userId, $app, $key)->value;
 		$value = $cache[$userId][$app][$key];
+		$flags = $this->getValueFlags($userId, $app, $key);
 		if ($sensitive) {
-			$typeValue |= ValueType::SENSITIVE->value;
+			$flags |= self::FLAG_SENSITIVE;
 			$value = self::ENCRYPTION_PREFIX . $this->crypto->encrypt($value);
 		} else {
+			$flags &= ~self::FLAG_SENSITIVE;
 			$this->decryptSensitiveValue($userId, $app, $key, $value);
 		}
 
 		$update = $this->connection->getQueryBuilder();
 		$update->update('preferences')
-			->set('type', $update->createNamedParameter($typeValue, IQueryBuilder::PARAM_INT))
+			->set('flags', $update->createNamedParameter($flags, IQueryBuilder::PARAM_INT))
 			->set('configvalue', $update->createNamedParameter($value))
 			->where($update->expr()->eq('userid', $update->createNamedParameter($userId)))
 			->andWhere($update->expr()->eq('appid', $update->createNamedParameter($app)))
 			->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
 		$update->executeStatement();
 
-		$this->valueTypes[$userId][$app][$key] = $typeValue;
+		$this->valueDetails[$userId][$app][$key]['flags'] = $flags;
 
 		return true;
 	}
@@ -1212,9 +1289,92 @@ class UserPreferences implements IUserPreferences {
 	 */
 	public function updateGlobalSensitive(string $app, string $key, bool $sensitive): void {
 		$this->assertParams('', $app, $key, allowEmptyUser: true);
-		foreach (array_keys($this->searchValuesByUsers($app, $key)) as $userId) {
+		foreach (array_keys($this->getValuesByUsers($app, $key)) as $userId) {
 			try {
 				$this->updateSensitive($userId, $app, $key, $sensitive);
+			} catch (UnknownKeyException) {
+				// should not happen and can be ignored
+			}
+		}
+
+		$this->clearCacheAll(); // we clear all cache
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * @param string $userId
+	 * @param string $app
+	 * @param string $key
+	 * @param bool $indexed
+	 *
+	 * @return bool
+	 * @throws DBException
+	 * @throws IncorrectTypeException
+	 * @throws UnknownKeyException
+	 * @since 31.0.0
+	 */
+	public function updateIndexed(string $userId, string $app, string $key, bool $indexed): bool {
+		$this->assertParams($userId, $app, $key);
+		$this->loadPreferencesAll($userId);
+
+		try {
+			if ($indexed === $this->isIndexed($userId, $app, $key, null)) {
+				return false;
+			}
+		} catch (UnknownKeyException) {
+			return false;
+		}
+
+		$lazy = $this->isLazy($userId, $app, $key);
+		if ($lazy) {
+			$cache = $this->lazyCache;
+		} else {
+			$cache = $this->fastCache;
+		}
+
+		if (!isset($cache[$userId][$app][$key])) {
+			throw new UnknownKeyException('unknown preference key');
+		}
+
+		$value = $cache[$userId][$app][$key];
+		$flags = $this->getValueFlags($userId, $app, $key);
+		if ($indexed) {
+			$indexed = $value;
+		} else {
+			$flags &= ~self::FLAG_INDEXED;
+			$indexed = '';
+		}
+
+		$update = $this->connection->getQueryBuilder();
+		$update->update('preferences')
+			   ->set('flags', $update->createNamedParameter($flags, IQueryBuilder::PARAM_INT))
+			   ->set('indexed', $update->createNamedParameter($indexed))
+			   ->where($update->expr()->eq('userid', $update->createNamedParameter($userId)))
+			   ->andWhere($update->expr()->eq('appid', $update->createNamedParameter($app)))
+			   ->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
+		$update->executeStatement();
+
+		$this->valueDetails[$userId][$app][$key]['flags'] = $flags;
+
+		return true;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 *
+	 * @param string $app
+	 * @param string $key
+	 * @param bool $indexed
+	 *
+	 * @since 31.0.0
+	 */
+	public function updateGlobalIndexed(string $app, string $key, bool $indexed): void {
+		$this->assertParams('', $app, $key, allowEmptyUser: true);
+		foreach (array_keys($this->getValuesByUsers($app, $key)) as $userId) {
+			try {
+				$this->updateIndexed($userId, $app, $key, $indexed);
 			} catch (UnknownKeyException) {
 				// should not happen and can be ignored
 			}
@@ -1411,7 +1571,7 @@ class UserPreferences implements IUserPreferences {
 	public function clearCache(string $userId, bool $reload = false): void {
 		$this->assertParams($userId, allowEmptyApp: true);
 		$this->lazyLoaded[$userId] = $this->fastLoaded[$userId] = false;
-		$this->lazyCache[$userId] = $this->fastCache[$userId] = $this->valueTypes[$userId] = [];
+		$this->lazyCache[$userId] = $this->fastCache[$userId] = $this->valueDetails[$userId] = [];
 
 		if (!$reload) {
 			return;
@@ -1427,7 +1587,7 @@ class UserPreferences implements IUserPreferences {
 	 */
 	public function clearCacheAll(): void {
 		$this->lazyLoaded = $this->fastLoaded = [];
-		$this->lazyCache = $this->fastCache = $this->valueTypes = [];
+		$this->lazyCache = $this->fastCache = $this->valueDetails = [];
 	}
 
 	/**
@@ -1444,18 +1604,18 @@ class UserPreferences implements IUserPreferences {
 			'fastCache' => $this->fastCache,
 			'lazyLoaded' => $this->lazyLoaded,
 			'lazyCache' => $this->lazyCache,
-			'valueTypes' => $this->valueTypes,
+			'valueDetails' => $this->valueDetails,
 		];
 	}
 
 	/**
-	 * @param ValueType $needle bitflag to search
-	 * @param int $type known value
+	 * @param int $needle bitflag to search
+	 * @param int $flags all flags
 	 *
-	 * @return bool TRUE if bitflag $needle is set in $type
+	 * @return bool TRUE if bitflag $needle is set in $flags
 	 */
-	private function isTyped(ValueType $needle, int $type): bool {
-		return (($needle->value & $type) !== 0);
+	private function isFlagged(int $needle, int $flags): bool {
+		return (($needle & $flags) !== 0);
 	}
 
 	/**
@@ -1492,11 +1652,10 @@ class UserPreferences implements IUserPreferences {
 			throw new InvalidArgumentException('Value (' . $prefKey . ') for key is too long (' . self::KEY_MAX_LENGTH . ')');
 		}
 		if ($valueType !== null) {
-			$valueFlag = $valueType->value;
-			$valueFlag &= ~ValueType::SENSITIVE->value;
-			if (ValueType::tryFrom($valueFlag) === null) {
-				throw new InvalidArgumentException('Unknown value type');
-			}
+//			$valueFlag = $valueType->value;
+//			if (ValueType::tryFrom($valueFlag) === null) {
+//				throw new InvalidArgumentException('Unknown value type');
+//			}
 		}
 	}
 
@@ -1520,7 +1679,7 @@ class UserPreferences implements IUserPreferences {
 
 		$qb = $this->connection->getQueryBuilder();
 		$qb->from('preferences');
-		$qb->select('userid', 'appid', 'configkey', 'configvalue', 'type');
+		$qb->select('appid', 'configkey', 'configvalue', 'type', 'flags');
 		$qb->where($qb->expr()->eq('userid', $qb->createNamedParameter($userId)));
 
 		// we only need value from lazy when loadPreferences does not specify it
@@ -1534,11 +1693,11 @@ class UserPreferences implements IUserPreferences {
 		$rows = $result->fetchAll();
 		foreach ($rows as $row) {
 			if (($row['lazy'] ?? ($lazy ?? 0) ? 1 : 0) === 1) {
-				$this->lazyCache[$row['userid']][$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
+				$this->lazyCache[$userId][$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
 			} else {
-				$this->fastCache[$row['userid']][$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
+				$this->fastCache[$userId][$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
 			}
-			$this->valueTypes[$row['userid']][$row['appid']][$row['configkey']] = (int)($row['type'] ?? 0);
+			$this->valueDetails[$userId][$row['appid']][$row['configkey']] = ['type' => ValueType::from((int)($row['type'] ?? 0)), 'flags' => (int) $row['flags']];
 		}
 		$result->closeCursor();
 		$this->setAsLoaded($userId, $lazy);
@@ -1608,7 +1767,7 @@ class UserPreferences implements IUserPreferences {
 				continue;
 			}
 
-			if ($this->isTyped(ValueType::SENSITIVE, $this->valueTypes[$userId][$app][$key] ?? 0)) {
+			if ($this->isFlagged(self::FLAG_SENSITIVE, $this->valueDetails[$userId][$app][$key]['flags'] ?? 0)) {
 				if ($filtered) {
 					$value = IConfig::SENSITIVE_VALUE;
 					$type = ValueType::STRING;
@@ -1652,7 +1811,7 @@ class UserPreferences implements IUserPreferences {
 
 
 	private function decryptSensitiveValue(string $userId, string $app, string $key, string &$value): void {
-		if (!$this->isTyped(ValueType::SENSITIVE, $this->valueTypes[$userId][$app][$key] ?? 0)) {
+		if (!$this->isFlagged(self::FLAG_SENSITIVE, $this->valueDetails[$userId][$app][$key]['flags'] ?? 0)) {
 			return;
 		}
 

@@ -43,30 +43,30 @@ class UserPreferencesTest extends TestCase {
 						'fast_string' => ['fast_string', 'f_value', ValueType::STRING],
 						'lazy_string' => ['lazy_string', 'l_value', ValueType::STRING, true],
 						'fast_string_sensitive' => [
-							'fast_string_sensitive', 'fs_value', ValueType::STRING, false, true
+							'fast_string_sensitive', 'fs_value', ValueType::STRING, false, UserPreferences::FLAG_SENSITIVE
 						],
 						'lazy_string_sensitive' => [
-							'lazy_string_sensitive', 'ls_value', ValueType::STRING, true, true
+							'lazy_string_sensitive', 'ls_value', ValueType::STRING, true, UserPreferences::FLAG_SENSITIVE
 						],
 						'fast_int' => ['fast_int', 11, ValueType::INT],
 						'lazy_int' => ['lazy_int', 12, ValueType::INT, true],
-						'fast_int_sensitive' => ['fast_int_sensitive', 2024, ValueType::INT, false, true],
-						'lazy_int_sensitive' => ['lazy_int_sensitive', 2048, ValueType::INT, true, true],
+						'fast_int_sensitive' => ['fast_int_sensitive', 2024, ValueType::INT, false, UserPreferences::FLAG_SENSITIVE],
+						'lazy_int_sensitive' => ['lazy_int_sensitive', 2048, ValueType::INT, true, UserPreferences::FLAG_SENSITIVE],
 						'fast_float' => ['fast_float', 3.14, ValueType::FLOAT],
 						'lazy_float' => ['lazy_float', 3.14159, ValueType::FLOAT, true],
 						'fast_float_sensitive' => [
-							'fast_float_sensitive', 1.41, ValueType::FLOAT, false, true
+							'fast_float_sensitive', 1.41, ValueType::FLOAT, false, UserPreferences::FLAG_SENSITIVE
 						],
 						'lazy_float_sensitive' => [
-							'lazy_float_sensitive', 1.4142, ValueType::FLOAT, true, true
+							'lazy_float_sensitive', 1.4142, ValueType::FLOAT, true, UserPreferences::FLAG_SENSITIVE
 						],
 						'fast_array' => ['fast_array', ['year' => 2024], ValueType::ARRAY],
 						'lazy_array' => ['lazy_array', ['month' => 'October'], ValueType::ARRAY, true],
 						'fast_array_sensitive' => [
-							'fast_array_sensitive', ['password' => 'pwd'], ValueType::ARRAY, false, true
+							'fast_array_sensitive', ['password' => 'pwd'], ValueType::ARRAY, false, UserPreferences::FLAG_SENSITIVE
 						],
 						'lazy_array_sensitive' => [
-							'lazy_array_sensitive', ['password' => 'qwerty'], ValueType::ARRAY, true, true
+							'lazy_array_sensitive', ['password' => 'qwerty'], ValueType::ARRAY, true, UserPreferences::FLAG_SENSITIVE
 						],
 						'fast_boolean' => ['fast_boolean', true, ValueType::BOOL],
 						'fast_boolean_0' => ['fast_boolean_0', false, ValueType::BOOL],
@@ -74,22 +74,22 @@ class UserPreferencesTest extends TestCase {
 						'lazy_boolean_0' => ['lazy_boolean_0', false, ValueType::BOOL, true],
 					],
 					'app2' => [
-						'key2' => ['key2', 'value2a', ValueType::STRING],
-						'key3' => ['key3', 'value3', ValueType::STRING, true, false],
-						'key4' => ['key4', 'value4', ValueType::STRING, false, true],
-						'key8' => ['key8', 11, ValueType::INT],
+						'key2' => ['key2', 'value2a', ValueType::STRING, false, 0, true],
+						'key3' => ['key3', 'value3', ValueType::STRING, true],
+						'key4' => ['key4', 'value4', ValueType::STRING, false, UserPreferences::FLAG_SENSITIVE],
+						'key8' => ['key8', 11, ValueType::INT, false, 0, true],
 						'key9' => ['key9', 'value9a', ValueType::STRING],
 					],
 					'app3' => [
 						'key1' => ['key1', 'value123'],
 						'key3' => ['key3', 'value3'],
-						'key8' => ['key8', 12, ValueType::INT, false, true],
-						'key9' => ['key9', 'value9b', ValueType::STRING, false, true],
-						'key10' => ['key10', true, ValueType::BOOL],
+						'key8' => ['key8', 12, ValueType::INT, false, UserPreferences::FLAG_SENSITIVE, true],
+						'key9' => ['key9', 'value9b', ValueType::STRING, false, UserPreferences::FLAG_SENSITIVE],
+						'key10' => ['key10', true, ValueType::BOOL, false, 0, true],
 					],
 					'only-lazy' => [
-						'key1' => ['key1', 'value456', ValueType::STRING, true],
-						'key2' => ['key2', 'value2c', ValueType::STRING, true, true],
+						'key1' => ['key1', 'value456', ValueType::STRING, true, 0, true],
+						'key2' => ['key2', 'value2c', ValueType::STRING, true, UserPreferences::FLAG_SENSITIVE],
 						'key3' => ['key3', 42, ValueType::INT, true],
 						'key4' => ['key4', 17.42, ValueType::FLOAT, true],
 						'key5' => ['key5', true, ValueType::BOOL, true],
@@ -99,36 +99,36 @@ class UserPreferencesTest extends TestCase {
 				[
 					'app1' => [
 						'1' => ['1', 'value1'],
-						'2' => ['2', 'value2', ValueType::STRING, true, true],
+						'2' => ['2', 'value2', ValueType::STRING, true, UserPreferences::FLAG_SENSITIVE],
 						'3' => ['3', 17, ValueType::INT, true],
-						'4' => ['4', 42, ValueType::INT, false, true],
+						'4' => ['4', 42, ValueType::INT, false, UserPreferences::FLAG_SENSITIVE],
 						'5' => ['5', 17.42, ValueType::FLOAT, false],
 						'6' => ['6', true, ValueType::BOOL, false],
 					],
 					'app2' => [
-						'key2' => ['key2', 'value2b', ValueType::STRING],
-						'key3' => ['key3', 'value3', ValueType::STRING, true, false],
-						'key4' => ['key4', 'value4', ValueType::STRING, false, true],
-						'key8' => ['key8', 12, ValueType::INT],
+						'key2' => ['key2', 'value2b', ValueType::STRING, false, 0, true],
+						'key3' => ['key3', 'value3', ValueType::STRING, true],
+						'key4' => ['key4', 'value4', ValueType::STRING, false, UserPreferences::FLAG_SENSITIVE],
+						'key8' => ['key8', 12, ValueType::INT, false, 0, true],
 					],
 					'app3' => [
-						'key10' => ['key10', false, ValueType::BOOL],
+						'key10' => ['key10', false, ValueType::BOOL, false, 0, true],
 					],
 					'only-lazy' => [
-						'key1' => ['key1', 'value1', ValueType::STRING, true]
+						'key1' => ['key1', 'value1', ValueType::STRING, true, 0, true]
 					]
 				],
 			'user3' =>
 				[
 					'app2' => [
-						'key2' => ['key2', 'value2c'],
-						'key3' => ['key3', 'value3', ValueType::STRING, true, false],
-						'key4' => ['key4', 'value4', ValueType::STRING, false, true],
+						'key2' => ['key2', 'value2c', ValueType::MIXED, false, 0, true],
+						'key3' => ['key3', 'value3', ValueType::STRING, true, ],
+						'key4' => ['key4', 'value4', ValueType::STRING, false, UserPreferences::FLAG_SENSITIVE],
 						'fast_string_sensitive' => [
-							'fast_string_sensitive', 'fs_value', ValueType::STRING, false, true
+							'fast_string_sensitive', 'fs_value', ValueType::STRING, false, UserPreferences::FLAG_SENSITIVE
 						],
 						'lazy_string_sensitive' => [
-							'lazy_string_sensitive', 'ls_value', ValueType::STRING, true, true
+							'lazy_string_sensitive', 'ls_value', ValueType::STRING, true, UserPreferences::FLAG_SENSITIVE
 						],
 					],
 					'only-lazy' => [
@@ -139,15 +139,15 @@ class UserPreferencesTest extends TestCase {
 				[
 					'app2' => [
 						'key1' => ['key1', 'value1'],
-						'key2' => ['key2', 'value2A'],
-						'key3' => ['key3', 'value3', ValueType::STRING, true, false],
-						'key4' => ['key4', 'value4', ValueType::STRING, false, true],
+						'key2' => ['key2', 'value2A', ValueType::MIXED, false, 0, true],
+						'key3' => ['key3', 'value3', ValueType::STRING, true,],
+						'key4' => ['key4', 'value4', ValueType::STRING, false, UserPreferences::FLAG_SENSITIVE],
 					],
 					'app3' => [
-						'key10' => ['key10', true, ValueType::BOOL],
+						'key10' => ['key10', true, ValueType::BOOL, false, 0, true],
 					],
 					'only-lazy' => [
-						'key1' => ['key1', 123, ValueType::INT, true]
+						'key1' => ['key1', 123, ValueType::INT, true, 0, true]
 					]
 				],
 			'user5' =>
@@ -156,10 +156,10 @@ class UserPreferencesTest extends TestCase {
 						'key1' => ['key1', 'value1']
 					],
 					'app2' => [
-						'key8' => ['key8', 12, ValueType::INT]
+						'key8' => ['key8', 12, ValueType::INT, false, 0, true]
 					],
 					'only-lazy' => [
-						'key1' => ['key1', 'value1', ValueType::STRING, true]
+						'key1' => ['key1', 'value1', ValueType::STRING, true, 0, true]
 					]
 				],
 
@@ -193,7 +193,9 @@ class UserPreferencesTest extends TestCase {
 					'configkey' => $sql->createParameter('configkey'),
 					'configvalue' => $sql->createParameter('configvalue'),
 					'type' => $sql->createParameter('type'),
-					'lazy' => $sql->createParameter('lazy')
+					'lazy' => $sql->createParameter('lazy'),
+					'flags' => $sql->createParameter('flags'),
+					'indexed' => $sql->createParameter('indexed')
 				]
 			);
 
@@ -207,15 +209,16 @@ class UserPreferencesTest extends TestCase {
 						$value = json_encode($value);
 					}
 
-					if (($row[4] ?? false) === true) {
-						$type |= ValueType::SENSITIVE->value;
-						$value = self::invokePrivate(UserPreferences::class, 'ENCRYPTION_PREFIX')
-								 . $this->crypto->encrypt((string)$value);
-						$this->basePreferences[$userId][$appId][$key]['encrypted'] = $value;
-					}
-
 					if ($type === ValueType::BOOL->value && $value === false) {
 						$value = '0';
+					}
+
+					$flags = $row[4] ?? 0;
+					if ((UserPreferences::FLAG_SENSITIVE & $flags) !== 0) {
+						$value = self::invokePrivate(UserPreferences::class, 'ENCRYPTION_PREFIX')
+								 . $this->crypto->encrypt((string)$value);
+					} else {
+						$indexed = (($row[5] ?? false) === true) ? $value : '';
 					}
 
 					$sql->setParameters(
@@ -225,7 +228,9 @@ class UserPreferencesTest extends TestCase {
 							'configkey' => $row[0],
 							'configvalue' => $value,
 							'type' => $type,
-							'lazy' => (($row[3] ?? false) === true) ? 1 : 0
+							'lazy' => (($row[3] ?? false) === true) ? 1 : 0,
+							'flags' => $flags,
+							'indexed' => $indexed ?? ''
 						]
 					)->executeStatement();
 				}
@@ -696,7 +701,7 @@ class UserPreferencesTest extends TestCase {
 		array $result,
 	): void {
 		$preferences = $this->generateUserPreferences();
-		$this->assertEquals($result, $preferences->searchValuesByApps($userId, $key, $lazy, $typedAs));
+		$this->assertEquals($result, $preferences->getValuesByApps($userId, $key, $lazy, $typedAs));
 	}
 
 	public function providerSearchValuesByUsers(): array {
@@ -747,7 +752,7 @@ class UserPreferencesTest extends TestCase {
 	): void {
 		$preferences = $this->generateUserPreferences();
 		$this->assertEqualsCanonicalizing(
-			$result, $preferences->searchValuesByUsers($app, $key, $typedAs, $userIds)
+			$result, $preferences->getValuesByUsers($app, $key, $typedAs, $userIds)
 		);
 	}
 
@@ -770,9 +775,7 @@ class UserPreferencesTest extends TestCase {
 		array $result,
 	): void {
 		$preferences = $this->generateUserPreferences();
-		$this->assertEqualsCanonicalizing(
-			$result, $preferences->searchUsersByValueString($app, $key, $value, $ci)
-		);
+		$this->assertEqualsCanonicalizing($result, $preferences->searchUsersByValueString($app, $key, $value, $ci));
 	}
 
 	public function providerSearchValuesByValueInt(): array {
@@ -1235,7 +1238,7 @@ class UserPreferencesTest extends TestCase {
 			$this->expectException($exception);
 		}
 
-		$edited = $preferences->setValueMixed($userId, $app, $key, $value, $lazy, $sensitive);
+		$edited = $preferences->setValueMixed($userId, $app, $key, $value, $lazy, ($sensitive) ? 1 : 0);
 
 		if ($exception === null) {
 			$this->assertEquals($result, $edited);
@@ -1305,7 +1308,7 @@ class UserPreferencesTest extends TestCase {
 			$this->expectException($exception);
 		}
 
-		$edited = $preferences->setValueString($userId, $app, $key, $value, $lazy, $sensitive);
+		$edited = $preferences->setValueString($userId, $app, $key, $value, $lazy, ($sensitive) ? 1 : 0);
 		if ($exception !== null) {
 			return;
 		}
@@ -1368,7 +1371,7 @@ class UserPreferencesTest extends TestCase {
 			$this->expectException($exception);
 		}
 
-		$edited = $preferences->setValueInt($userId, $app, $key, $value, $lazy, $sensitive);
+		$edited = $preferences->setValueInt($userId, $app, $key, $value, $lazy, ($sensitive) ? 1 : 0);
 
 		if ($exception !== null) {
 			return;
@@ -1431,7 +1434,7 @@ class UserPreferencesTest extends TestCase {
 			$this->expectException($exception);
 		}
 
-		$edited = $preferences->setValueFloat($userId, $app, $key, $value, $lazy, $sensitive);
+		$edited = $preferences->setValueFloat($userId, $app, $key, $value, $lazy, ($sensitive) ? 1 : 0);
 
 		if ($exception !== null) {
 			return;
@@ -1495,7 +1498,7 @@ class UserPreferencesTest extends TestCase {
 			$this->expectException($exception);
 		}
 
-		$edited = $preferences->setValueArray($userId, $app, $key, $value, $lazy, $sensitive);
+		$edited = $preferences->setValueArray($userId, $app, $key, $value, $lazy, ($sensitive) ? 1 : 0);
 
 		if ($exception !== null) {
 			return;
@@ -1681,7 +1684,7 @@ class UserPreferencesTest extends TestCase {
 					'app' => 'app2',
 					'key' => 'key2',
 					'value' => 'value2c',
-					'type' => 2,
+					'type' => 0,
 					'lazy' => false,
 					'typeString' => 'mixed',
 					'sensitive' => false
@@ -1694,7 +1697,7 @@ class UserPreferencesTest extends TestCase {
 					'app' => 'app1',
 					'key' => 'lazy_int',
 					'value' => 12,
-					'type' => 8,
+					'type' => 2,
 					'lazy' => true,
 					'typeString' => 'int',
 					'sensitive' => false
@@ -1707,7 +1710,7 @@ class UserPreferencesTest extends TestCase {
 					'app' => 'app1',
 					'key' => 'fast_float_sensitive',
 					'value' => 1.41,
-					'type' => 16,
+					'type' => 3,
 					'lazy' => false,
 					'typeString' => 'float',
 					'sensitive' => true

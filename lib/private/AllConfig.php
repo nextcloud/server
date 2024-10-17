@@ -226,9 +226,15 @@ class AllConfig implements IConfig {
 	 * @param string $key the key under which the value is being stored
 	 * @param string|float|int $value the value that you want to store
 	 * @param string $preCondition only update if the config value was previously the value passed as $preCondition
+	 *
 	 * @throws \OCP\PreConditionNotMetException if a precondition is specified and is not met
 	 * @throws \UnexpectedValueException when trying to store an unexpected value
 	 * @deprecated 31.0.0 - use {@see IUserPreferences} directly
+	 * @see IUserPreferences::getValueString
+	 * @see IUserPreferences::getValueInt
+	 * @see IUserPreferences::getValueFloat
+	 * @see IUserPreferences::getValueArray
+	 * @see IUserPreferences::getValueBool
 	 */
 	public function setUserValue($userId, $appName, $key, $value, $preCondition = null) {
 		if (!is_int($value) && !is_float($value) && !is_string($value)) {
@@ -236,7 +242,7 @@ class AllConfig implements IConfig {
 		}
 
 		/** @var UserPreferences $userPreferences */
-		$userPreferences = \OC::$server->get(IUserPreferences::class);
+		$userPreferences = \OCP\Server::get(IUserPreferences::class);
 		if ($preCondition !== null) {
 			try {
 				if ($userPreferences->getValueMixed($userId, $appName, $key) !== (string)$preCondition) {
@@ -256,15 +262,21 @@ class AllConfig implements IConfig {
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key under which the value is being stored
 	 * @param mixed $default the default value to be returned if the value isn't set
+	 *
 	 * @return string
 	 * @deprecated 31.0.0 - use {@see IUserPreferences} directly
+	 * @see IUserPreferences::getValueString
+	 * @see IUserPreferences::getValueInt
+	 * @see IUserPreferences::getValueFloat
+	 * @see IUserPreferences::getValueArray
+	 * @see IUserPreferences::getValueBool
 	 */
 	public function getUserValue($userId, $appName, $key, $default = '') {
 		if ($userId === null || $userId === '') {
 			return $default;
 		}
 		/** @var UserPreferences $userPreferences */
-		$userPreferences = \OC::$server->get(IUserPreferences::class);
+		$userPreferences = \OCP\Server::get(IUserPreferences::class);
 		// because $default can be null ...
 		if (!$userPreferences->hasKey($userId, $appName, $key)) {
 			return $default;
@@ -278,10 +290,10 @@ class AllConfig implements IConfig {
 	 * @param string $userId the userId of the user that we want to store the value under
 	 * @param string $appName the appName that we stored the value under
 	 * @return string[]
-	 * @deprecated 31.0.0 - use {@see IUserPreferences} directly
+	 * @deprecated 31.0.0 - use {@see IUserPreferences::getKeys} directly
 	 */
 	public function getUserKeys($userId, $appName) {
-		return \OC::$server->get(IUserPreferences::class)->getKeys($userId, $appName);
+		return \OCP\Server::get(IUserPreferences::class)->getKeys($userId, $appName);
 	}
 
 	/**
@@ -290,33 +302,33 @@ class AllConfig implements IConfig {
 	 * @param string $userId the userId of the user that we want to store the value under
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key under which the value is being stored
-	 * @deprecated 31.0.0 - use {@see IUserPreferences} directly
+	 * @deprecated 31.0.0 - use {@see IUserPreferences::deletePreference} directly
 	 */
 	public function deleteUserValue($userId, $appName, $key) {
-		\OC::$server->get(IUserPreferences::class)->deletePreference($userId, $appName, $key);
+		\OCP\Server::get(IUserPreferences::class)->deletePreference($userId, $appName, $key);
 	}
 
 	/**
 	 * Delete all user values
 	 *
 	 * @param string $userId the userId of the user that we want to remove all values from
-	 * @deprecated 31.0.0 - use {@see IUserPreferences} directly
+	 * @deprecated 31.0.0 - use {@see IUserPreferences::deleteAllPreferences} directly
 	 */
 	public function deleteAllUserValues($userId) {
 		if ($userId === null) {
 			return;
 		}
-		\OC::$server->get(IUserPreferences::class)->deleteAllPreferences($userId);
+		\OCP\Server::get(IUserPreferences::class)->deleteAllPreferences($userId);
 	}
 
 	/**
 	 * Delete all user related values of one app
 	 *
 	 * @param string $appName the appName of the app that we want to remove all values from
-	 * @deprecated 31.0.0 - use {@see IUserPreferences} directly
+	 * @deprecated 31.0.0 - use {@see IUserPreferences::deleteApp} directly
 	 */
 	public function deleteAppFromAllUsers($appName) {
-		\OC::$server->get(IUserPreferences::class)->deleteApp($appName);
+		\OCP\Server::get(IUserPreferences::class)->deleteApp($appName);
 	}
 
 	/**
@@ -328,14 +340,14 @@ class AllConfig implements IConfig {
 	 *                 [ $appId =>
 	 *                 [ $key => $value ]
 	 *                 ]
-	 * @deprecated 31.0.0 - use {@see IUserPreferences} directly
+	 * @deprecated 31.0.0 - use {@see IUserPreferences::getAllValues} directly
 	 */
 	public function getAllUserValues(?string $userId): array {
 		if ($userId === null || $userId === '') {
 			return [];
 		}
 
-		$values = \OC::$server->get(IUserPreferences::class)->getAllValues($userId);
+		$values = \OCP\Server::get(IUserPreferences::class)->getAllValues($userId);
 		$result = [];
 		foreach ($values as $app => $list) {
 			foreach ($list as $key => $value) {
@@ -352,10 +364,10 @@ class AllConfig implements IConfig {
 	 * @param string $key the key to get the value for
 	 * @param array $userIds the user IDs to fetch the values for
 	 * @return array Mapped values: userId => value
-	 * @deprecated 31.0.0 - use {@see IUserPreferences} directly
+	 * @deprecated 31.0.0 - use {@see IUserPreferences::getValuesByUsers} directly
 	 */
 	public function getUserValueForUsers($appName, $key, $userIds) {
-		return \OC::$server->get(IUserPreferences::class)->searchValuesByUsers($appName, $key, ValueType::MIXED, $userIds);
+		return \OCP\Server::get(IUserPreferences::class)->getValuesByUsers($appName, $key, ValueType::MIXED, $userIds);
 	}
 
 	/**
@@ -365,10 +377,10 @@ class AllConfig implements IConfig {
 	 * @param string $key the key to get the user for
 	 * @param string $value the value to get the user for
 	 * @return list<string> of user IDs
-	 * @deprecated 31.0.0 - use {@see IUserPreferences} directly
+	 * @deprecated 31.0.0 - use {@see IUserPreferences::searchUsersByValueString} directly
 	 */
 	public function getUsersForUserValue($appName, $key, $value) {
-		return \OC::$server->get(IUserPreferences::class)->searchUsersByValueString($appName, $key, $value);
+		return \OCP\Server::get(IUserPreferences::class)->searchUsersByValueDeprecated($appName, $key, $value);
 	}
 
 	/**
@@ -378,14 +390,14 @@ class AllConfig implements IConfig {
 	 * @param string $key the key to get the user for
 	 * @param string $value the value to get the user for
 	 * @return list<string> of user IDs
-	 * @deprecated 31.0.0 - use {@see IUserPreferences} directly
+	 * @deprecated 31.0.0 - use {@see IUserPreferences::searchUsersByValueString} directly
 	 */
 	public function getUsersForUserValueCaseInsensitive($appName, $key, $value) {
 		if ($appName === 'settings' && $key === 'email') {
 			return $this->getUsersForUserValue($appName, $key, strtolower($value));
 		}
 
-		return \OC::$server->get(IUserPreferences::class)->searchUsersByValueString($appName, $key, $value, true);
+		return \OCP\Server::get(IUserPreferences::class)->searchUsersByValueDeprecated($appName, $key, $value, true);
 	}
 
 	public function getSystemConfig() {
