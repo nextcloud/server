@@ -86,9 +86,6 @@
     "Another entry with the same name already exists." : "Esiste già un'altra voce con lo stesso nome.",
     "Invalid filename." : "Nome di file non valido.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Rinominato \"{oldName}\" in \"{newName}\"",
-    "Could not rename \"{oldName}\", it does not exist any more" : "Impossibile rinominare \"{oldName}\", non esiste più",
-    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Il nome \"{newName}\" è attualmente in uso nella cartella \"{dir}\". Scegli un nome diverso.",
-    "Could not rename \"{oldName}\"" : "Impossibile rinominare \"{oldName}\"",
     "Pending" : "In corso",
     "Clear filter" : "Pulisci il filtro",
     "Modified" : "Modificato",
@@ -379,12 +376,13 @@
     "Filenames must not end with \"{segment}\"." : "I nomi di file non possono terminare con \"{segment}\".",
     "Name cannot be empty" : "Il nome non può essere vuoto",
     "Another entry with the same name already exists" : "Esiste già un'altra voce con lo stesso nome",
+    "Could not rename \"{oldName}\", it does not exist any more" : "Impossibile rinominare \"{oldName}\", non esiste più",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Il nome \"{newName}\" è attualmente in uso nella cartella \"{dir}\". Scegli un nome diverso.",
+    "Could not rename \"{oldName}\"" : "Impossibile rinominare \"{oldName}\"",
     "Storage informations" : "Informazioni di archiviazione",
     "Choose file" : "Scegli file",
     "Open the files app settings" : "Apri le impostazioni dell'applicazione File",
     "You might not have have permissions to view it, ask the sender to share it" : "Potresti non avere i permessi per visualizzarlo, chiedi al mittente di condividerlo",
-    "Destination is not a folder" : "La destinazione non è una cartella",
-    "This file/folder is already in that directory" : "Questo file/cartella è già in quella cartella",
     "The files is locked" : "Il file è bloccato",
     "Create new templates folder" : "Crea una nuova cartella dei modelli",
     "List of favorites files and folders." : "Lista di file e cartelle preferiti.",
@@ -392,6 +390,8 @@
     "Text file" : "File di testo",
     "New text file.txt" : "Nuovo file di testo.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Il collegamento diretto è stato copiato (funziona solo per gli utenti che hanno accesso a questo file o cartella)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Copia collegamento diretto (funziona solo per utenti che hanno accesso a questo file/cartella)"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Copia collegamento diretto (funziona solo per utenti che hanno accesso a questo file/cartella)",
+    "Destination is not a folder" : "La destinazione non è una cartella",
+    "This file/folder is already in that directory" : "Questo file/cartella è già in quella cartella"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

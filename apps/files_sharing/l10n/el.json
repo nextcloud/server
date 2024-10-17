@@ -232,6 +232,8 @@
     "Shares you have received but not approved will show up here" : "Κοινόχρηστα που έχετε λάβει αλλά δεν έχετε εγκρίνει θα εμφανιστούν εδώ",
     "Error updating the share: {errorMessage}" : "Σφάλμα κατά τη δημιουργία της κοινής χρήσης: {errorMessage}",
     "Error updating the share" : "Σφάλμα κατά την ενημέρωση του κοινόχρηστου",
+    "Share label saved" : "Διαμοιρασμένη ετικέτα αποθηκεύτηκε ",
+    "Share password saved" : "Διαμοιρασμένο συνθηματικό αποθηκεύτηκε ",
     "Shared by" : "Διαμοιράστηκε από",
     "Shared with" : "Διαμοιράστηκε με",
     "Password created successfully" : "Συνθηματικό δημιουργήθηκε με επιτυχία",

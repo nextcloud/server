@@ -84,9 +84,6 @@
     "Another entry with the same name already exists." : "Izen bereko beste sarrera bat badago jada.",
     "Invalid filename." : "Fitxategi-izen baliogabea.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" \"{newName}\"(e)ra berrizendatu da.",
-    "Could not rename \"{oldName}\", it does not exist any more" : "Ezin izan da \"{oldName}\" berrizendatu, ez da existitzen dagoeneko",
-    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "\"{newName}\" izena \"{dir}\" karpetan dagoeneko erabiltzen da. Mesedez aukeratu beste izen bat.",
-    "Could not rename \"{oldName}\"" : "Ezin izan da \"{oldName}\" berrizendatu ",
     "Pending" : "Zain",
     "Clear filter" : "Garbitu iragazkia",
     "Modified" : "Aldatuta",
@@ -374,12 +371,13 @@
     "{newName} already exists." : "{newName} badago aurretik.",
     "Name cannot be empty" : "Izena ezin da hutsik egon",
     "Another entry with the same name already exists" : "Badago izen hori duen beste sarrera bat",
+    "Could not rename \"{oldName}\", it does not exist any more" : "Ezin izan da \"{oldName}\" berrizendatu, ez da existitzen dagoeneko",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "\"{newName}\" izena \"{dir}\" karpetan dagoeneko erabiltzen da. Mesedez aukeratu beste izen bat.",
+    "Could not rename \"{oldName}\"" : "Ezin izan da \"{oldName}\" berrizendatu ",
     "Storage informations" : "Biltegiaren informazioak",
     "Choose file" : "Aukeratu fitxategia",
     "Open the files app settings" : "Ireki Fitxategiak aplikazioaren ezarpenak",
     "You might not have have permissions to view it, ask the sender to share it" : "Baliteke hura ikusteko baimenik ez izatea; eskatu igorleari partekatzeko",
-    "Destination is not a folder" : "Helburua ez da karpeta bat",
-    "This file/folder is already in that directory" : "Fitxategi/karpeta hau dagoeneko karpeta horretan dago",
     "The files is locked" : "Fixategiak blokeatuta dago",
     "Create new templates folder" : "Sortu txantiloi karpeta berria",
     "List of favorites files and folders." : "Fitxategi eta karpeta gogokoen zerrenda.",
@@ -387,6 +385,8 @@
     "Text file" : "Testu-fitxategia",
     "New text file.txt" : "Testu-fitxategi berria.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Esteka zuzena kopiatu da (fitxategi/karpeta honetara sarbidea dutenentzat bakarrik balio du)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Kopiatu esteka zuzena (fitxategi/karpeta honetara sarbidea dutenentzat bakarrik balio du)"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Kopiatu esteka zuzena (fitxategi/karpeta honetara sarbidea dutenentzat bakarrik balio du)",
+    "Destination is not a folder" : "Helburua ez da karpeta bat",
+    "This file/folder is already in that directory" : "Fitxategi/karpeta hau dagoeneko karpeta horretan dago"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
