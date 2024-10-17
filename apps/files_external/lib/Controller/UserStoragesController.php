@@ -34,6 +34,8 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -120,9 +122,9 @@ class UserStoragesController extends StoragesController {
 	 * @param array $mountOptions backend-specific mount options
 	 *
 	 * @return DataResponse
-	 *
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	public function create(
 		$mountPoint,
 		$backend,
@@ -176,9 +178,9 @@ class UserStoragesController extends StoragesController {
 	 * @param bool $testOnly whether to storage should only test the connection or do more things
 	 *
 	 * @return DataResponse
-	 *
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	public function update(
 		$id,
 		$mountPoint,
@@ -227,10 +229,10 @@ class UserStoragesController extends StoragesController {
 	/**
 	 * Delete storage
 	 *
-	 * @NoAdminRequired
-	 *
 	 * {@inheritdoc}
 	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	public function destroy($id) {
 		return parent::destroy($id);
 	}
