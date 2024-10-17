@@ -37,6 +37,7 @@ namespace OC;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
 use OC\Repair\AddBruteForceCleanupJob;
+use OC\Repair\AddCleanupDeletedUsersBackgroundJob;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\AddMetadataGenerationJob;
 use OC\Repair\AddRemoveOldTasksBackgroundJob;
@@ -215,6 +216,7 @@ class Repair implements IOutput {
 			\OCP\Server::get(AddRemoveOldTasksBackgroundJob::class),
 			\OCP\Server::get(AddMetadataGenerationJob::class),
 			\OCP\Server::get(RepairLogoDimension::class),
+			\OCP\Server::get(AddCleanupDeletedUsersBackgroundJob::class),
 		];
 	}
 
