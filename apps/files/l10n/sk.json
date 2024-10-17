@@ -84,9 +84,6 @@
     "Another entry with the same name already exists." : "Iná položka s rovnakým menom už existuje.",
     "Invalid filename." : "Chybný názov súboru.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Premenované z \"{oldName}\" na \"{newName}\"",
-    "Could not rename \"{oldName}\", it does not exist any more" : "Nebolo možné premenovať  \"{oldName}\". Položka už neexistuje.",
-    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Názov \"{newName}\" sa už používa v priečinku \"{dir}\". Vyberte prosím iný názov.",
-    "Could not rename \"{oldName}\"" : "Nebolo možné premenovať \"{oldName}\"",
     "Pending" : "Čaká",
     "Clear filter" : "Vyčistiť filter",
     "Modified" : "Upravené",
@@ -378,12 +375,13 @@
     "Filenames must not end with \"{segment}\"." : "Názov súboru nesmie končit na \"{segment}\".",
     "Name cannot be empty" : "Názov nemôže byť prázdny",
     "Another entry with the same name already exists" : "Názov už existuje",
+    "Could not rename \"{oldName}\", it does not exist any more" : "Nebolo možné premenovať  \"{oldName}\". Položka už neexistuje.",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Názov \"{newName}\" sa už používa v priečinku \"{dir}\". Vyberte prosím iný názov.",
+    "Could not rename \"{oldName}\"" : "Nebolo možné premenovať \"{oldName}\"",
     "Storage informations" : "Úložiskové informácie",
     "Choose file" : "Vybrať súbor",
     "Open the files app settings" : "Otvoriť nastavenia súborovej aplikácie",
     "You might not have have permissions to view it, ask the sender to share it" : "Pravdopodobne nemáte prístup, požiadajte oň odosielateľa ",
-    "Destination is not a folder" : "Cieľ nie je priečinok",
-    "This file/folder is already in that directory" : "Tento súbor/priečinok sa už v danom adresári nachádza",
     "The files is locked" : "Súbory sú uzamknuté",
     "Create new templates folder" : "Vytvoriť nový vzorový priečinok",
     "List of favorites files and folders." : "Zoznam obľúbených súborov a priečinkov.",
@@ -391,6 +389,8 @@
     "Text file" : "Textový súbor",
     "New text file.txt" : "Nový text file.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Priamy odkaz bol skopirovaný (funguje iba pre užívateľov, ktorí majú prístup k danému súboru/adresáru)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Kopírovať priamy odkaz (funguje iba pre užívateľov, ktorí majú prístup k tomuto súboru/priečinku)"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Kopírovať priamy odkaz (funguje iba pre užívateľov, ktorí majú prístup k tomuto súboru/priečinku)",
+    "Destination is not a folder" : "Cieľ nie je priečinok",
+    "This file/folder is already in that directory" : "Tento súbor/priečinok sa už v danom adresári nachádza"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

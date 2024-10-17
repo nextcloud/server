@@ -69,9 +69,6 @@
     "Folder name" : "Folder name",
     "This node is unavailable" : "This node is unavailable",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Renamed \"{oldName}\" to \"{newName}\"",
-    "Could not rename \"{oldName}\", it does not exist any more" : "Could not rename \"{oldName}\", it does not exist any more",
-    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name.",
-    "Could not rename \"{oldName}\"" : "Could not rename \"{oldName}\"",
     "Pending" : "Pending",
     "Clear filter" : "Clear filter",
     "Modified" : "Modified",
@@ -292,17 +289,20 @@
     "{newName} already exists." : "{newName} already exists.",
     "Name cannot be empty" : "Name cannot be empty",
     "Another entry with the same name already exists" : "Another entry with the same name already exists",
+    "Could not rename \"{oldName}\", it does not exist any more" : "Could not rename \"{oldName}\", it does not exist any more",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name.",
+    "Could not rename \"{oldName}\"" : "Could not rename \"{oldName}\"",
     "Storage informations" : "Storage informations",
     "Choose file" : "Choose file",
     "Open the files app settings" : "Open the files app settings",
     "You might not have have permissions to view it, ask the sender to share it" : "You might not have have permissions to view it, ask the sender to share it",
-    "Destination is not a folder" : "Destination is not a folder",
-    "This file/folder is already in that directory" : "This file/folder is already in that directory",
     "The files is locked" : "The files is locked",
     "Create new templates folder" : "Create new templates folder",
     "List of favorites files and folders." : "List of favorites files and folders.",
     "Toggle %1$s sublist" : "Toggle %1$s sublist",
     "Text file" : "Text file",
-    "New text file.txt" : "New text file.txt"
+    "New text file.txt" : "New text file.txt",
+    "Destination is not a folder" : "Destination is not a folder",
+    "This file/folder is already in that directory" : "This file/folder is already in that directory"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

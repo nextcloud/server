@@ -86,9 +86,6 @@
     "Another entry with the same name already exists." : "Већ постоји ставка са истим именом.",
     "Invalid filename." : "Неисправно име фајла.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "„{oldName}” је промењено на „{newName}”",
-    "Could not rename \"{oldName}\", it does not exist any more" : "Не може да се промени име фајла „{fileName}” јер фајл више не постоји",
-    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Назив „{targetName}” се већ користи у директоријуму „{dir}”. Молимо вас да изаберете неко друго име.",
-    "Could not rename \"{oldName}\"" : "Не може да се промени име фајла „{fileName}”",
     "Pending" : "На чекању",
     "Clear filter" : "Очисти филтер",
     "Modified" : "Измењен",
@@ -384,12 +381,13 @@
     "Filenames must not end with \"{segment}\"." : "Имена фајлова не смеју да се завршавају са „{segment}”.",
     "Name cannot be empty" : "Назив не може бити празан",
     "Another entry with the same name already exists" : "Већ постоји ставка са истим именом.",
+    "Could not rename \"{oldName}\", it does not exist any more" : "Не може да се промени име фајла „{fileName}” јер фајл више не постоји",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Назив „{targetName}” се већ користи у директоријуму „{dir}”. Молимо вас да изаберете неко друго име.",
+    "Could not rename \"{oldName}\"" : "Не може да се промени име фајла „{fileName}”",
     "Storage informations" : "Информације о складишту",
     "Choose file" : "Изаберите фајл",
     "Open the files app settings" : "Отвори подешавања апликације фајлови",
     "You might not have have permissions to view it, ask the sender to share it" : "Можда немате дозволе да га погледате, затражите од пошиљаоца да га подели са вама",
-    "Destination is not a folder" : "Одредиште није фолдер",
-    "This file/folder is already in that directory" : "Овај фајл/фолдер се већ налази у том директоријуму",
     "The files is locked" : "Фајл је закључан",
     "Create new templates folder" : "Креирај нови фолдер шаблона",
     "List of favorites files and folders." : "Листа омиљених фајлова и директоријума.",
@@ -400,6 +398,8 @@
     "Copy direct link (only works for people who have access to this file/folder)" : "Копирај директни линк (ради само за особе које имају приступ овом фајлу/фолдеру)",
     "Favored" : "Наклоњен",
     "Favor" : "Наклоност",
-    "Not favored" : "Ненаклоњен"
+    "Not favored" : "Ненаклоњен",
+    "Destination is not a folder" : "Одредиште није фолдер",
+    "This file/folder is already in that directory" : "Овај фајл/фолдер се већ налази у том директоријуму"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

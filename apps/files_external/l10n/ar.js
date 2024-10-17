@@ -145,7 +145,7 @@ OC.L10N.register(
     "Authentication" : "المصادقة",
     "Configuration" : "إعداد",
     "Available for" : "متاح لـ ",
-    "Add storage" : "أضِف وحدة تخزين",
+    "Add storage" : "إضافة وحدة تخزين",
     "All people" : "كُلَّ الأشخاص",
     "Advanced settings" : "إعدادات متقدمة",
     "Allow people to mount external storage" : "السماح للأشخاص بامتطاء mount وحدات تخزين خارجية",
