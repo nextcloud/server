@@ -45,6 +45,7 @@ for app in ${REPODIR}/apps/*; do
 		echo "Regenerating composer files for ${app}"
 		$COMPOSER_COMMAND i --no-dev -d ${app}/composer || exit 1
 		$COMPOSER_COMMAND dump-autoload -d ${app}/composer || exit 1
+		git checkout ${app}/composer/composer/installed.php
     fi
 done
 
