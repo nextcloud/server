@@ -1193,7 +1193,7 @@ class Cache implements ICache {
 	}
 
 	private function cacheEntryToArray(ICacheEntry $entry): array {
-		return [
+		$data = [
 			'size' => $entry->getSize(),
 			'mtime' => $entry->getMTime(),
 			'storage_mtime' => $entry->getStorageMTime(),
@@ -1206,6 +1206,10 @@ class Cache implements ICache {
 			'upload_time' => $entry->getUploadTime(),
 			'metadata_etag' => $entry->getMetadataEtag(),
 		];
+		if ($entry instanceof CacheEntry && isset($entry['scan_permissions'])) {
+			$data['permissions'] = $entry['scan_permissions'];
+		}
+		return $data;
 	}
 
 	public function getQueryFilterForStorage(): ISearchOperator {
