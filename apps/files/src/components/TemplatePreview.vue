@@ -48,8 +48,8 @@
 
 <script>
 import { generateUrl } from '@nextcloud/router'
+import { isPublicShare, getSharingToken } from '@nextcloud/sharing/public'
 import { encodeFilePath } from '../utils/fileUtils.ts'
-import { getToken, isPublic } from '../utils/davUtils.js'
 
 // preview width generation
 const previewWidth = 256
@@ -123,8 +123,8 @@ export default {
 				return this.previewUrl
 			}
 			// TODO: find a nicer standard way of doing this?
-			if (isPublic()) {
-				return generateUrl(`/apps/files_sharing/publicpreview/${getToken()}?fileId=${this.fileid}&file=${encodeFilePath(this.filename)}&x=${previewWidth}&y=${previewWidth}&a=1`)
+			if (isPublicShare()) {
+				return generateUrl(`/apps/files_sharing/publicpreview/${getSharingToken()}?fileId=${this.fileid}&file=${encodeFilePath(this.filename)}&x=${previewWidth}&y=${previewWidth}&a=1`)
 			}
 			return generateUrl(`/core/preview?fileId=${this.fileid}&x=${previewWidth}&y=${previewWidth}&a=1`)
 		},
