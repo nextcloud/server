@@ -218,6 +218,25 @@ export default defineComponent({
 				this.resetState()
 			}
 		},
+
+		openedMenu() {
+			if (this.openedMenu === false) {
+				// TODO: This timeout can be removed once `close` event only triggers after the transition
+				// ref: https://github.com/nextcloud-libraries/nextcloud-vue/pull/6065
+				window.setTimeout(() => {
+					if (this.openedMenu) {
+						// was reopened while the animation run
+						return
+					}
+					// Reset any right menu position potentially set
+					const root = document.getElementById('app-content-vue')
+					if (root !== null) {
+						root.style.removeProperty('--mouse-pos-x')
+						root.style.removeProperty('--mouse-pos-y')
+					}
+				}, 300)
+			}
+		},
 	},
 
 	beforeDestroy() {
