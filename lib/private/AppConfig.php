@@ -1432,6 +1432,7 @@ class AppConfig implements IAppConfig {
 			],
 			'external' => [
 				'/^sites$/',
+				'/^jwt_token_privkey_(.*)$/',
 			],
 			'integration_discourse' => [
 				'/^private_key$/',
