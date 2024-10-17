@@ -65,7 +65,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 	private ?LoggerInterface $logger = null;
 	private ?IFilenameValidator $filenameValidator = null;
 
-	public function __construct($parameters) {
+	public function __construct(array $parameters) {
 	}
 
 	protected function remove(string $path): bool {

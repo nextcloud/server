@@ -33,10 +33,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	public $propagator;
 	public $updater;
 
-	/**
-	 * @param array $parameters
-	 */
-	public function __construct($parameters) {
+	public function __construct(array $parameters) {
 		$this->storage = $parameters['storage'];
 	}
 

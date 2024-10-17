@@ -29,15 +29,9 @@ class Jail extends Wrapper {
 	 */
 	protected $rootPath;
 
-	/**
-	 * @param array $arguments ['storage' => $storage, 'root' => $root]
-	 *
-	 * $storage: The storage that will be wrapper
-	 * $root: The folder in the wrapped storage that will become the root folder of the wrapped storage
-	 */
-	public function __construct($arguments) {
-		parent::__construct($arguments);
-		$this->rootPath = $arguments['root'];
+	public function __construct(array $parameters) {
+		parent::__construct($parameters);
+		$this->rootPath = $parameters['root'];
 	}
 
 	public function getUnjailedPath(string $path): string {

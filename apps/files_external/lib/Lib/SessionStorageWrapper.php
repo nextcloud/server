@@ -13,13 +13,9 @@ use OCP\Constants;
  * Wrap Storage in PermissionsMask for session ephemeral use
  */
 class SessionStorageWrapper extends PermissionsMask {
-
-	/**
-	 * @param array $arguments ['storage' => $storage]
-	 */
-	public function __construct($arguments) {
+	public function __construct(array $parameters) {
 		// disable sharing permission
-		$arguments['mask'] = Constants::PERMISSION_ALL & ~Constants::PERMISSION_SHARE;
-		parent::__construct($arguments);
+		$parameters['mask'] = Constants::PERMISSION_ALL & ~Constants::PERMISSION_SHARE;
+		parent::__construct($parameters);
 	}
 }
