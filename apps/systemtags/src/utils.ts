@@ -8,6 +8,7 @@ import camelCase from 'camelcase'
 import type { DAVResultResponseProps } from 'webdav'
 
 import type { BaseTag, ServerTag, Tag, TagWithId } from './types.js'
+import type { Node } from '@nextcloud/files'
 
 export const defaultBaseTag: BaseTag = {
 	userVisible: true,
@@ -54,4 +55,14 @@ export const formatTag = (initialTag: Tag | ServerTag): ServerTag => {
 	delete tag.displayName
 
 	return tag as unknown as ServerTag
+}
+
+export const getNodeSystemTags = function(node: Node): string[] {
+	const tags = node.attributes?.['system-tags']?.['system-tag'] as string|string[]|undefined
+
+	if (tags === undefined) {
+		return []
+	}
+
+	return [tags].flat()
 }
