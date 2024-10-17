@@ -244,7 +244,7 @@ class UsersControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->api->getUsers('MyCustomSearch')->getData());
 	}
 
-	private function createUserMock(string $uid, bool $enabled): MockObject&IUser {
+	private function createUserMock(string $uid, bool $enabled): MockObject|IUser {
 		$mockUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
