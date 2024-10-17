@@ -14,12 +14,6 @@ use OCP\Migration\IRepairStep;
 use OCP\Share\IShare;
 
 class OldGroupMembershipShares implements IRepairStep {
-	/** @var \OCP\IDBConnection */
-	protected $connection;
-
-	/** @var \OCP\IGroupManager */
-	protected $groupManager;
-
 	/**
 	 * @var array [gid => [uid => (bool)]]
 	 */
@@ -29,9 +23,10 @@ class OldGroupMembershipShares implements IRepairStep {
 	 * @param IDBConnection $connection
 	 * @param IGroupManager $groupManager
 	 */
-	public function __construct(IDBConnection $connection, IGroupManager $groupManager) {
-		$this->connection = $connection;
-		$this->groupManager = $groupManager;
+	public function __construct(
+		protected IDBConnection $connection,
+		protected IGroupManager $groupManager,
+	) {
 	}
 
 	/**
@@ -66,11 +61,11 @@ class OldGroupMembershipShares implements IRepairStep {
 		$deleteQuery->delete('share')
 			->where($query->expr()->eq('id', $deleteQuery->createParameter('share')));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			if (!$this->isMember($row['group'], $row['user'])) {
 				$deletedEntries += $deleteQuery->setParameter('share', (int)$row['id'])
-					->execute();
+					->executeStatement();
 			}
 		}
 		$result->closeCursor();

@@ -435,7 +435,7 @@ abstract class AbstractMapping {
 		$query = $this->dbc->getQueryBuilder();
 		$query->select($query->func()->count('ldap_dn_hash'))
 			->from($this->getTableName());
-		$res = $query->execute();
+		$res = $query->executeQuery();
 		$count = $res->fetchOne();
 		$res->closeCursor();
 		return (int)$count;
@@ -446,7 +446,7 @@ abstract class AbstractMapping {
 		$query->select($query->func()->count('ldap_dn_hash'))
 			->from($this->getTableName())
 			->where($query->expr()->like('directory_uuid', $query->createNamedParameter('invalidated_%')));
-		$res = $query->execute();
+		$res = $query->executeQuery();
 		$count = $res->fetchOne();
 		$res->closeCursor();
 		return (int)$count;
