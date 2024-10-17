@@ -67,9 +67,6 @@
     "Folder name" : "Denumire director",
     "This node is unavailable" : "Acest nod este indisponibil",
     "Renamed \"{oldName}\" to \"{newName}\"" : "A fost redenumit  \"{oldName}\" cu \"{newName}\"",
-    "Could not rename \"{oldName}\", it does not exist any more" : "\"{oldName}\" nu poate fi redenumit deoarece nu mai există",
-    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Numele \"{newName}\" există în folderul \"{dir}\". Selectați, vă rog, alt nume.",
-    "Could not rename \"{oldName}\"" : "\"{oldName}\" nu poate fi redenumit",
     "Pending" : "În așteptare",
     "Clear filter" : "Șterge filtrul",
     "Modified" : "Modificat",
@@ -277,16 +274,19 @@
     "{newName} already exists." : "{newName} există deja.",
     "Name cannot be empty" : "Numele nu poate fi gol",
     "Another entry with the same name already exists" : "Există o altă intrare cu același nume",
+    "Could not rename \"{oldName}\", it does not exist any more" : "\"{oldName}\" nu poate fi redenumit deoarece nu mai există",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Numele \"{newName}\" există în folderul \"{dir}\". Selectați, vă rog, alt nume.",
+    "Could not rename \"{oldName}\"" : "\"{oldName}\" nu poate fi redenumit",
     "Storage informations" : "Informații despre stocare",
     "Open the files app settings" : "Deschide setările aplicației Fișiere",
     "You might not have have permissions to view it, ask the sender to share it" : "S-ar putea să nu aveți permisiunea de a-l vedea, solicitați expeditorului să-l partajeze",
-    "Destination is not a folder" : "Destinația nu este un folder",
-    "This file/folder is already in that directory" : "Acest fișier/folder există în acel dosar",
     "The files is locked" : "Fișierul este blocat",
     "Create new templates folder" : "Creează un nou dosar pentru șabloane",
     "List of favorites files and folders." : "Lista fișierelor și dosarelor favorite",
     "Toggle %1$s sublist" : "Comută %1$s sublistă",
     "Text file" : "Fișier text",
-    "New text file.txt" : "Fișier nou.txt"
+    "New text file.txt" : "Fișier nou.txt",
+    "Destination is not a folder" : "Destinația nu este un folder",
+    "This file/folder is already in that directory" : "Acest fișier/folder există în acel dosar"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }
