@@ -133,10 +133,24 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 	}
 
 	/**
+	 * @since 31.0.0
+	 */
+	public function isWritable(): bool {
+		return $this->calendar->canWrite();
+	}
+	
+	/**
 	 * @since 26.0.0
 	 */
 	public function isDeleted(): bool {
 		return $this->calendar->isDeleted();
+	}
+
+	/**
+	 * @since 31.0.0
+	 */
+	public function isShared(): bool {
+		return $this->calendar->isShared();
 	}
 
 	/**

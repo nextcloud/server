@@ -59,8 +59,23 @@ interface ICalendar {
 	public function getPermissions(): int;
 
 	/**
-	 * Whether the calendar is deleted
+	 * Indicates whether the calendar can be modified
+	 *
+	 * @since 31.0.0
+	 */
+	public function isWritable(): bool;
+
+	/**
+	 * Indicates whether the calendar is in the trash bin
+	 *
 	 * @since 26.0.0
 	 */
 	public function isDeleted(): bool;
+	
+	/**
+	 * Indicates whether the calendar is shared with the current user
+	 *
+	 * @since 31.0.0
+	 */
+	public function isShared(): bool;
 }
