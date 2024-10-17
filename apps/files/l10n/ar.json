@@ -86,9 +86,6 @@
     "Another entry with the same name already exists." : "توجد سلفاً إدخالية أخرى بنفس هذا الاسم.",
     "Invalid filename." : "اسم ملف غير صحيح.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "تمت إعادة تسمية \"{oldName}\" إلى \"{newName}\"",
-    "Could not rename \"{oldName}\", it does not exist any more" : "تعذر إعادة تسمية \"{oldName}\"، لم يعد موجودًا",
-    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "الاسم \"{newName}\" مُستعمَلٌ سلفاً في المجلّد\"{dir}\". إختَر اسماً آخر رجاءً.",
-    "Could not rename \"{oldName}\"" : "تعذرت إعادة تسمية \"{oldName}\"",
     "Pending" : "قيد الانتظار",
     "Clear filter" : "إزالة التصفية",
     "Modified" : "تاريخ التعديل",
@@ -384,12 +381,13 @@
     "Filenames must not end with \"{segment}\"." : "أسماء الملفات يجب ألّا تنتهي بـ \"{segment}\".",
     "Name cannot be empty" : "لا يمكن أن يكون الاسم فارغاً",
     "Another entry with the same name already exists" : "إدخال آخر بنفس الاسم موجود بالفعل",
+    "Could not rename \"{oldName}\", it does not exist any more" : "تعذر إعادة تسمية \"{oldName}\"، لم يعد موجودًا",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "الاسم \"{newName}\" مُستعمَلٌ سلفاً في المجلّد\"{dir}\". إختَر اسماً آخر رجاءً.",
+    "Could not rename \"{oldName}\"" : "تعذرت إعادة تسمية \"{oldName}\"",
     "Storage informations" : "معلومات التخزين",
     "Choose file" : "حدد ملف",
     "Open the files app settings" : "فتح إعدادات تطبيق الملفات",
     "You might not have have permissions to view it, ask the sender to share it" : "يمكن ألاّ تكون لديك صلاحية لعرضه، أطلب من المُرسل إن يشاركه معك",
-    "Destination is not a folder" : "الوجهة ليست مجلد",
-    "This file/folder is already in that directory" : "هذا الملف/المجلد موجود سلفاً في ذلك المجلد",
     "The files is locked" : "الملفات مقفلة",
     "Create new templates folder" : "إنشيْ مجلد جديد للقوالب",
     "List of favorites files and folders." : "قائمة الملفات والمجلدات المفضلة.",
@@ -400,6 +398,8 @@
     "Copy direct link (only works for people who have access to this file/folder)" : "نسخ الرابط المباشر (يعمل فقط للأشخاص الذين لديهم حق الوصول إلى هذا الملف/المجلد)",
     "Favored" : "مُفضّلة",
     "Favor" : "تفضيل",
-    "Not favored" : "غير مُفضّلة"
+    "Not favored" : "غير مُفضّلة",
+    "Destination is not a folder" : "الوجهة ليست مجلد",
+    "This file/folder is already in that directory" : "هذا الملف/المجلد موجود سلفاً في ذلك المجلد"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

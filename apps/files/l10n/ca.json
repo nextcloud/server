@@ -84,9 +84,6 @@
     "Another entry with the same name already exists." : "Ja existeix una altra entrada amb el mateix nom.",
     "Invalid filename." : "Nom de fitxer no vàlid.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "S'ha canviat el nom de «{oldName}» a «{newName}»",
-    "Could not rename \"{oldName}\", it does not exist any more" : "No s'ha pogut canviar el nom de «{oldName}», ja no existeix",
-    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "El nom «{newName}» ja està en ús en la carpeta «{dir}». Trieu un nom diferent.",
-    "Could not rename \"{oldName}\"" : "No s'ha pogut canviar el nom de «{oldName}»",
     "Pending" : "Pendent",
     "Clear filter" : "Esborra el filtre",
     "Modified" : "Darrera modificació",
@@ -380,12 +377,13 @@
     "Filenames must not end with \"{segment}\"." : "Els noms de fitxer no han d'acabar amb \"{segment}\".",
     "Name cannot be empty" : "El nom no pot estar buit",
     "Another entry with the same name already exists" : "Ja existeix una altra entrada amb aquest nom",
+    "Could not rename \"{oldName}\", it does not exist any more" : "No s'ha pogut canviar el nom de «{oldName}», ja no existeix",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "El nom «{newName}» ja està en ús en la carpeta «{dir}». Trieu un nom diferent.",
+    "Could not rename \"{oldName}\"" : "No s'ha pogut canviar el nom de «{oldName}»",
     "Storage informations" : "Informació d'emmagatzematge",
     "Choose file" : "Tria el fitxer",
     "Open the files app settings" : "Obre els paràmetres de l'aplicació Fitxers",
     "You might not have have permissions to view it, ask the sender to share it" : "És possible que no tingueu permisos per a visualitzar-lo; demaneu al remitent que el comparteixi",
-    "Destination is not a folder" : "La destinació no és una carpeta",
-    "This file/folder is already in that directory" : "Aquest fitxer o carpeta ja existeix en aquesta carpeta",
     "The files is locked" : "El fitxer està blocat",
     "Create new templates folder" : "Crea la carpeta de plantilles",
     "List of favorites files and folders." : "Llista de fitxers i carpetes preferits.",
@@ -396,6 +394,8 @@
     "Copy direct link (only works for people who have access to this file/folder)" : "Copia l'enllaç directe (només funciona per a les persones que tinguin accés a aquest fitxer o carpeta)",
     "Favored" : "Afavorit",
     "Favor" : "Afavorir",
-    "Not favored" : "No afavorit"
+    "Not favored" : "No afavorit",
+    "Destination is not a folder" : "La destinació no és una carpeta",
+    "This file/folder is already in that directory" : "Aquest fitxer o carpeta ja existeix en aquesta carpeta"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

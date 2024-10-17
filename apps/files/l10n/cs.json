@@ -86,9 +86,6 @@
     "Another entry with the same name already exists." : "Už existuje jiná položka se stejným názvem.",
     "Invalid filename." : "Neplatný název souboru.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Přejmenováno „{oldName}“ na „{newName}",
-    "Could not rename \"{oldName}\", it does not exist any more" : "Není možné přejmenovat „{oldName}“ – už neexistuje",
-    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Název „{newtName}“ je už použitý ve složce „{dir}“. Zvolte jiný název.",
-    "Could not rename \"{oldName}\"" : "„{oldName}“ se nepodařilo přejmenovat",
     "Pending" : "Nevyřízené",
     "Clear filter" : "Vyčistit filtr",
     "Modified" : "Změněno",
@@ -384,12 +381,13 @@
     "Filenames must not end with \"{segment}\"." : "Názvy souborů nemohou končit na „{segment}“.",
     "Name cannot be empty" : "Je třeba zadat název",
     "Another entry with the same name already exists" : "Už existuje jiná položka se stejným názevm",
+    "Could not rename \"{oldName}\", it does not exist any more" : "Není možné přejmenovat „{oldName}“ – už neexistuje",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Název „{newtName}“ je už použitý ve složce „{dir}“. Zvolte jiný název.",
+    "Could not rename \"{oldName}\"" : "„{oldName}“ se nepodařilo přejmenovat",
     "Storage informations" : "Informace o úložišti",
     "Choose file" : "Vyberte soubor",
     "Open the files app settings" : "Otevřít nastavení aplikace soubory",
     "You might not have have permissions to view it, ask the sender to share it" : "Může být, že nemáte oprávnění pro jeho zobrazení – požádejte odesilatele aby vám ho nasdílel",
-    "Destination is not a folder" : "Cíl není složka",
-    "This file/folder is already in that directory" : "V oné složce se už daný soubor/složka nachází",
     "The files is locked" : "Soubory jsou uzamčené",
     "Create new templates folder" : "Vytvořit novou složku šablon",
     "List of favorites files and folders." : "Seznam oblíbených souborů a složek.",
@@ -400,6 +398,8 @@
     "Copy direct link (only works for people who have access to this file/folder)" : "Zkopírovat přímý odkaz (funguje pouze pro osoby, které mají přístup k tomuto souboru/složce)",
     "Favored" : "Zařazeno mezi oblíbené",
     "Favor" : "Zařadit mezi oblíbené",
-    "Not favored" : "Není v oblíbených"
+    "Not favored" : "Není v oblíbených",
+    "Destination is not a folder" : "Cíl není složka",
+    "This file/folder is already in that directory" : "V oné složce se už daný soubor/složka nachází"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

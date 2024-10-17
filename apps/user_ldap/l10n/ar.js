@@ -102,7 +102,7 @@ OC.L10N.register(
     "Attempts to receive a DN for the given loginname and the current login filter" : "محاولة تلقّي الاسم المميز DN لاسم تسجيل الدخول المحدد و عامل تصفية تسجيل الدخول الحالي",
     "Verify settings" : "التحقُّق من الإعدادات",
     "%s. Server:" : "%s. خادم:",
-    "Add a new configuration" : "إضافة تهيئة جديدة",
+    "Add a new configuration" : "إضافة تكوين جديد",
     "Copy current configuration into new directory binding" : "نسخ التهيئة الحالية إلى دليل جديد مرتبط",
     "Delete the current configuration" : "حذف التهيئة الحالية",
     "Host" : "المضيف",
