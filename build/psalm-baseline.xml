@@ -2916,12 +2916,8 @@
       <code>string</code>
     </InvalidParamDefault>
     <InvalidScalarArgument>
-      <code>$appName</code>
-      <code>$appName</code>
+      <code>$appId</code>
     </InvalidScalarArgument>
-    <UndefinedInterfaceMethod>
-      <code>getInitialStates</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/URLGenerator.php">
     <InvalidReturnStatement>
