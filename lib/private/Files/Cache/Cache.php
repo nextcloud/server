@@ -168,6 +168,9 @@ class Cache implements ICache {
 		if ($data['storage_mtime'] == 0) {
 			$data['storage_mtime'] = $data['mtime'];
 		}
+		if (isset($data['f_permissions'])) {
+			$data['scan_permissions'] = $data['f_permissions'];
+		}
 		$data['permissions'] = (int)$data['permissions'];
 		if (isset($data['creation_time'])) {
 			$data['creation_time'] = (int)$data['creation_time'];
