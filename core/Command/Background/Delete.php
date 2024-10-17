@@ -10,6 +10,7 @@ namespace OC\Core\Command\Background;
 
 use OC\Core\Command\Base;
 use OCP\BackgroundJob\IJobList;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -51,6 +52,7 @@ class Delete extends Base {
 			'/^(y|Y)/i'
 		);
 
+		/** @var QuestionHelper $helper */
 		$helper = $this->getHelper('question');
 		if (!$helper->ask($input, $output, $question)) {
 			$output->writeln('aborted.');
