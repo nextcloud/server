@@ -29,7 +29,11 @@ class SqliteExpressionBuilder extends ExpressionBuilder {
 	 * @return array|IQueryFunction|string
 	 */
 	protected function prepareColumn($column, $type) {
-		if ($type === IQueryBuilder::PARAM_DATE && !is_array($column) && !($column instanceof IParameter) && !($column instanceof ILiteral)) {
+		if ($type !== null
+			&& !is_array($column)
+			&& !($column instanceof IParameter)
+			&& !($column instanceof ILiteral)
+			&& (str_starts_with($type, 'date') || str_starts_with($type, 'time'))) {
 			return $this->castColumn($column, $type);
 		}
 
@@ -44,9 +48,21 @@ class SqliteExpressionBuilder extends ExpressionBuilder {
 	 * @return IQueryFunction
 	 */
 	public function castColumn($column, $type): IQueryFunction {
-		if ($type === IQueryBuilder::PARAM_DATE) {
-			$column = $this->helper->quoteColumnName($column);
-			return new QueryFunction('DATETIME(' . $column . ')');
+		switch ($type) {
+			case IQueryBuilder::PARAM_DATE_MUTABLE:
+			case IQueryBuilder::PARAM_DATE_IMMUTABLE:
+				$column = $this->helper->quoteColumnName($column);
+				return new QueryFunction('DATE(' . $column . ')');
+			case IQueryBuilder::PARAM_DATETIME_MUTABLE:
+			case IQueryBuilder::PARAM_DATETIME_IMMUTABLE:
+			case IQueryBuilder::PARAM_DATETIME_TZ_MUTABLE:
+			case IQueryBuilder::PARAM_DATETIME_TZ_IMMUTABLE:
+				$column = $this->helper->quoteColumnName($column);
+				return new QueryFunction('DATETIME(' . $column . ')');
+			case IQueryBuilder::PARAM_TIME_MUTABLE:
+			case IQueryBuilder::PARAM_TIME_IMMUTABLE:
+				$column = $this->helper->quoteColumnName($column);
+				return new QueryFunction('TIME(' . $column . ')');
 		}
 
 		return parent::castColumn($column, $type);

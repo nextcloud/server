@@ -23,10 +23,24 @@ enum ColumnType : string {
 	case BLOB = 'blob';
 	/** @since 30.0.0 */
 	case BOOLEAN = 'boolean';
-	/** @since 30.0.0 */
+	/**
+	 * A column created with `DATE` can be used for both `DATE` and `DATE_IMMUTABLE`
+	 * on the `\OCP\AppFramework\Db\Entity`.
+	 * @since 30.0.0
+	 */
 	case DATE = 'date';
-	/** @since 30.0.0 */
+	/**
+	 * A column created with `DATETIME` can be used for both `DATETIME` and `DATETIME_IMMUTABLE`
+	 * on the `\OCP\AppFramework\Db\Entity`.
+	 * @since 30.0.0
+	 */
 	case DATETIME = 'datetime';
+	/**
+	 * A column created with `DATETIME_TZ` can be used for both `DATETIME_TZ` and `DATETIME_TZ_IMMUTABLE`
+	 * on the `\OCP\AppFramework\Db\Entity`.
+	 * @since 31.0.0
+	 */
+	case DATETIME_TZ = 'datetimetz';
 	/** @since 30.0.0 */
 	case DECIMAL = 'decimal';
 	/** @since 30.0.0 */

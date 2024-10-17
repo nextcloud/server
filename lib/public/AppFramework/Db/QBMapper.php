@@ -10,6 +10,7 @@ namespace OCP\AppFramework\Db;
 use Generator;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\Types;
 use OCP\IDBConnection;
 
 /**
@@ -218,18 +219,33 @@ abstract class QBMapper {
 
 		switch ($types[ $property ]) {
 			case 'int':
-			case 'integer':
+			case Types::INTEGER:
+			case Types::SMALLINT:
 				return IQueryBuilder::PARAM_INT;
-			case 'string':
+			case Types::STRING:
 				return IQueryBuilder::PARAM_STR;
 			case 'bool':
-			case 'boolean':
+			case Types::BOOLEAN:
 				return IQueryBuilder::PARAM_BOOL;
-			case 'blob':
+			case Types::BLOB:
 				return IQueryBuilder::PARAM_LOB;
-			case 'datetime':
-				return IQueryBuilder::PARAM_DATE;
-			case 'json':
+			case Types::DATE:
+				return IQueryBuilder::PARAM_DATETIME_MUTABLE;
+			case Types::DATETIME:
+				return IQueryBuilder::PARAM_DATETIME_MUTABLE;
+			case Types::DATETIME_TZ:
+				return IQueryBuilder::PARAM_DATETIME_TZ_MUTABLE;
+			case Types::DATE_IMMUTABLE:
+				return IQueryBuilder::PARAM_DATE_IMMUTABLE;
+			case Types::DATETIME_IMMUTABLE:
+				return IQueryBuilder::PARAM_DATETIME_IMMUTABLE;
+			case Types::DATETIME_TZ_IMMUTABLE:
+				return IQueryBuilder::PARAM_DATETIME_TZ_IMMUTABLE;
+			case Types::TIME:
+				return IQueryBuilder::PARAM_TIME_MUTABLE;
+			case Types::TIME_IMMUTABLE:
+				return IQueryBuilder::PARAM_TIME_IMMUTABLE;
+			case Types::JSON:
 				return IQueryBuilder::PARAM_JSON;
 		}
 
