@@ -202,7 +202,7 @@ class Comment implements IComment {
 	 *
 	 */
 	public function getMentions(): array {
-		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@(\"guest\/[a-f0-9]+\"|\"(?:federated_)?(?:group|team|user){1}\/[a-z0-9_\-@\.\' \/:]+\"|\"[a-z0-9_\-@\.\' ]+\"|[a-z0-9_\-@\.\']+)/i", $this->getMessage(), $mentions);
+		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@(\"(guest|email)\/[a-f0-9]+\"|\"(?:federated_)?(?:group|team|user){1}\/[a-z0-9_\-@\.\' \/:]+\"|\"[a-z0-9_\-@\.\' ]+\"|[a-z0-9_\-@\.\']+)/i", $this->getMessage(), $mentions);
 		if (!$ok || !isset($mentions[0])) {
 			return [];
 		}
@@ -217,6 +217,10 @@ class Comment implements IComment {
 
 			if (str_starts_with($cleanId, 'guest/')) {
 				$result[] = ['type' => 'guest', 'id' => $cleanId];
+			} elseif (str_starts_with($cleanId, 'email/')) {
+				/** @var non-empty-lowercase-string $cleanId */
+				$cleanId = substr($cleanId, 6);
+				$result[] = ['type' => 'email', 'id' => $cleanId];
 			} elseif (str_starts_with($cleanId, 'federated_group/')) {
 				$result[] = ['type' => 'federated_group', 'id' => substr($cleanId, 16)];
 			} elseif (str_starts_with($cleanId, 'group/')) {
