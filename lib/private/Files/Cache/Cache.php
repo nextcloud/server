@@ -359,18 +359,12 @@ class Cache implements ICache {
 		}
 
 		if (count($extensionValues)) {
-			try {
-				$query = $this->getQueryBuilder();
-				$query->insert('filecache_extended');
-				$query->hintShardKey('storage', $this->getNumericStorageId());
+			$insertCount = $this->connection->insertIgnoreConflict(
+				'filecache_extended',
+				array_merge(['fileid' => $id], $extensionValues)
+			);
 
-				$query->setValue('fileid', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT));
-				foreach ($extensionValues as $column => $value) {
-					$query->setValue($column, $query->createNamedParameter($value));
-				}
-
-				$query->execute();
-			} catch (UniqueConstraintViolationException $e) {
+			if ($insertCount === 0) {
 				$query = $this->getQueryBuilder();
 				$query->update('filecache_extended')
 					->whereFileId($id)
@@ -386,7 +380,7 @@ class Cache implements ICache {
 					$query->set($key, $query->createNamedParameter($value));
 				}
 
-				$query->execute();
+				$query->executeStatement();
 			}
 		}
 
