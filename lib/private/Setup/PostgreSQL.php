@@ -131,7 +131,7 @@ class PostgreSQL extends AbstractDatabase {
 		$query = $builder->select('*')
 			->from('pg_roles')
 			->where($builder->expr()->eq('rolname', $builder->createNamedParameter($this->dbUser)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		return $result->rowCount() > 0;
 	}
 
@@ -141,7 +141,7 @@ class PostgreSQL extends AbstractDatabase {
 		$query = $builder->select('datname')
 			->from('pg_database')
 			->where($builder->expr()->eq('datname', $builder->createNamedParameter($this->dbName)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		return $result->rowCount() > 0;
 	}
 

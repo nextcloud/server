@@ -1792,12 +1792,8 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/DirectEditing/Manager.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$query->execute()]]></code>
-    </InvalidReturnStatement>
     <InvalidReturnType>
       <code><![CDATA[TemplateResponse]]></code>
-      <code><![CDATA[int]]></code>
     </InvalidReturnType>
     <UndefinedMethod>
       <code><![CDATA[$template]]></code>
@@ -2465,16 +2461,6 @@
     <InvalidArgument>
       <code><![CDATA[\strlen($this->value)]]></code>
     </InvalidArgument>
-  </file>
-  <file src="lib/private/Security/CredentialsManager.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$qb->execute()]]></code>
-      <code><![CDATA[$qb->execute()]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[int]]></code>
-      <code><![CDATA[int]]></code>
-    </InvalidReturnType>
   </file>
   <file src="lib/private/Security/Crypto.php">
     <InternalMethod>

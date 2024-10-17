@@ -450,7 +450,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				)
 			);
 
-		$result = $qb->execute();
+		$result = $qb->executeQuery();
 		$share = $result->fetch();
 		$result->closeCursor();
 
@@ -470,13 +470,13 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 					)
 				);
 
-			$qb->execute();
+			$qb->executeStatement();
 
 			// delete all child in case of a group share
 			$qb = $this->connection->getQueryBuilder();
 			$qb->delete('share_external')
 				->where($qb->expr()->eq('parent', $qb->createNamedParameter((int)$share['id'])));
-			$qb->execute();
+			$qb->executeStatement();
 
 			$ownerDisplayName = $this->getUserDisplayName($owner->getId());
 
@@ -624,7 +624,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		$query->update('share')
 			->where($query->expr()->eq('id', $query->createNamedParameter($share->getId())))
 			->set('permissions', $query->createNamedParameter($permissions))
-			->execute();
+			->executeStatement();
 	}
 
 
