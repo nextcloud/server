@@ -126,7 +126,7 @@ class UserStatusMapper extends QBMapper {
 				$qb->expr()->eq('status', $qb->createNamedParameter(IUserStatus::ONLINE))
 			));
 
-		$qb->execute();
+		$qb->executeStatement();
 	}
 
 	/**
@@ -140,7 +140,7 @@ class UserStatusMapper extends QBMapper {
 			->where($qb->expr()->isNotNull('clear_at'))
 			->andWhere($qb->expr()->lte('clear_at', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT)));
 
-		$qb->execute();
+		$qb->executeStatement();
 	}
 
 
