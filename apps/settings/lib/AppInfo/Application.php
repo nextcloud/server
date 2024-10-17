@@ -47,6 +47,7 @@ use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
 use OCA\Settings\SetupChecks\MaintenanceWindowStart;
 use OCA\Settings\SetupChecks\MemcacheConfigured;
 use OCA\Settings\SetupChecks\MimeTypeMigrationAvailable;
+use OCA\Settings\SetupChecks\MysqlRowFormat;
 use OCA\Settings\SetupChecks\MysqlUnicodeSupport;
 use OCA\Settings\SetupChecks\OcxProviders;
 use OCA\Settings\SetupChecks\OverwriteCliUrl;
@@ -181,6 +182,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(MaintenanceWindowStart::class);
 		$context->registerSetupCheck(MemcacheConfigured::class);
 		$context->registerSetupCheck(MimeTypeMigrationAvailable::class);
+		$context->registerSetupCheck(MysqlRowFormat::class);
 		$context->registerSetupCheck(MysqlUnicodeSupport::class);
 		$context->registerSetupCheck(OcxProviders::class);
 		$context->registerSetupCheck(OverwriteCliUrl::class);
