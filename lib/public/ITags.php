@@ -165,19 +165,21 @@ interface ITags {
 	 * Add an object to favorites
 	 *
 	 * @param int $objid The id of the object
+	 * @param string $path the path of the file to add to favorites
 	 * @return boolean
 	 * @since 6.0.0
 	 */
-	public function addToFavorites($objid);
+	public function addToFavorites($objid, $path);
 
 	/**
 	 * Remove an object from favorites
 	 *
 	 * @param int $objid The id of the object
+	 * @param string $path the path of the file to remove from favorites
 	 * @return boolean
 	 * @since 6.0.0
 	 */
-	public function removeFromFavorites($objid);
+	public function removeFromFavorites($objid, $path);
 
 	/**
 	 * Creates a tag/object relation.
