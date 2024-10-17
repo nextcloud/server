@@ -85,6 +85,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
         'OCA\\Files\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
         'OCA\\Files\\Search\\FilesSearchProvider' => __DIR__ . '/..' . '/../lib/Search/FilesSearchProvider.php',
+        'OCA\\Files\\Service\\ChunkedUploadConfig' => __DIR__ . '/..' . '/../lib/Service/ChunkedUploadConfig.php',
         'OCA\\Files\\Service\\DirectEditingService' => __DIR__ . '/..' . '/../lib/Service/DirectEditingService.php',
         'OCA\\Files\\Service\\LivePhotosService' => __DIR__ . '/..' . '/../lib/Service/LivePhotosService.php',
         'OCA\\Files\\Service\\OwnershipTransferService' => __DIR__ . '/..' . '/../lib/Service/OwnershipTransferService.php',

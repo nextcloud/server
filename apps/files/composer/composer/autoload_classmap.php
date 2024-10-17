@@ -70,6 +70,7 @@ return array(
     'OCA\\Files\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
     'OCA\\Files\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
     'OCA\\Files\\Search\\FilesSearchProvider' => $baseDir . '/../lib/Search/FilesSearchProvider.php',
+    'OCA\\Files\\Service\\ChunkedUploadConfig' => $baseDir . '/../lib/Service/ChunkedUploadConfig.php',
     'OCA\\Files\\Service\\DirectEditingService' => $baseDir . '/../lib/Service/DirectEditingService.php',
     'OCA\\Files\\Service\\LivePhotosService' => $baseDir . '/../lib/Service/LivePhotosService.php',
     'OCA\\Files\\Service\\OwnershipTransferService' => $baseDir . '/../lib/Service/OwnershipTransferService.php',
