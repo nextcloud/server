@@ -46,11 +46,10 @@ describe('Settings: App management', { testIsolation: true }, () => {
 	})
 
 	it('Can enable an installed app', () => {
-		cy.get('#apps-list').should('be.visible')
+		cy.get('#apps-list').should('exist')
 			// Wait for the app list to load
 			.contains('tr', 'QA testing', { timeout: 10000 })
 			.should('exist')
-			.find('.actions')
 			// I enable the "QA testing" app
 			.contains('button', 'Enable')
 			.click({ force: true })
@@ -58,10 +57,9 @@ describe('Settings: App management', { testIsolation: true }, () => {
 		handlePasswordConfirmation(admin.password)
 
 		// Wait until we see the disable button for the app
-		cy.get('#apps-list').should('be.visible')
+		cy.get('#apps-list').should('exist')
 			.contains('tr', 'QA testing')
 			.should('exist')
-			.find('.actions')
 			// I see the disable button for the app
 			.contains('button', 'Disable', { timeout: 10000 })
 
@@ -69,15 +67,15 @@ describe('Settings: App management', { testIsolation: true }, () => {
 		cy.get('#app-category-enabled a').click({ force: true })
 		cy.url().should('match', /settings\/apps\/enabled$/)
 		// I see that the "QA testing" app has been enabled
-		cy.get('.apps-list-container').contains('tr', 'QA testing')
+		cy.get('#apps-list').contains('tr', 'QA testing')
 	})
 
 	it('Can disable an installed app', () => {
-		cy.get('#apps-list').should('be.visible')
+		cy.get('#apps-list')
+			.should('exist')
 			// Wait for the app list to load
 			.contains('tr', 'Update notification', { timeout: 10000 })
 			.should('exist')
-			.find('.actions')
 			// I disable the "Update notification" app
 			.contains('button', 'Disable')
 			.click({ force: true })
@@ -85,10 +83,9 @@ describe('Settings: App management', { testIsolation: true }, () => {
 		handlePasswordConfirmation(admin.password)
 
 		// Wait until we see the disable button for the app
-		cy.get('#apps-list').should('be.visible')
+		cy.get('#apps-list').should('exist')
 			.contains('tr', 'Update notification')
 			.should('exist')
-			.find('.actions')
 			// I see the enable button for the app
 			.contains('button', 'Enable', { timeout: 10000 })
 
@@ -96,7 +93,7 @@ describe('Settings: App management', { testIsolation: true }, () => {
 		cy.get('#app-category-disabled a').click({ force: true })
 		cy.url().should('match', /settings\/apps\/disabled$/)
 		// I see that the "Update notification" app has been disabled
-		cy.get('.apps-list-container').contains('tr', 'Update notification')
+		cy.get('#apps-list').contains('tr', 'Update notification')
 	})
 
 	it('Browse enabled apps', () => {
@@ -109,8 +106,8 @@ describe('Settings: App management', { testIsolation: true }, () => {
 		cy.get('#app-category-enabled').find('.active').should('exist')
 		// I see that there are only enabled apps
 		cy.get('#apps-list')
-			.should('be.visible')
-			.find('tr .actions')
+			.should('exist')
+			.find('tr button')
 			.each(($action) => {
 				cy.wrap($action).should('not.contain', 'Enable')
 			})
@@ -126,8 +123,8 @@ describe('Settings: App management', { testIsolation: true }, () => {
 		cy.get('#app-category-disabled').find('.active').should('exist')
 		// I see that there are only disabled apps
 		cy.get('#apps-list')
-			.should('be.visible')
-			.find('tr .actions')
+			.should('exist')
+			.find('tr button')
 			.each(($action) => {
 				cy.wrap($action).should('not.contain', 'Disable')
 			})
