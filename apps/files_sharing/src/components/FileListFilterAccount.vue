@@ -5,7 +5,7 @@
 <template>
 	<FileListFilter class="file-list-filter-accounts"
 		:is-active="selectedAccounts.length > 0"
-		:filter-name="t('files', 'People')"
+		:filter-name="t('files_sharing', 'People')"
 		@reset-filter="resetFilter">
 		<template #icon>
 			<NcIconSvgWrapper :path="mdiAccountMultiple" />
