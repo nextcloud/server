@@ -17,6 +17,7 @@
     "Loading …" : "Laai …",
     "Reset" : "Herstel",
     "Cancel" : "Kanselleer",
+    "Confirm" : "Bevestig",
     "Original" : "Oorspronklik",
     "Custom" : "Eie",
     "Value" : "Waarde",
@@ -24,6 +25,7 @@
     "Size" : "Grootte",
     "Position" : "Posisie",
     "Quality" : "Kwaliteit",
+    "Menu" : "Kieslys",
     "Continue" : "Gaan voort"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

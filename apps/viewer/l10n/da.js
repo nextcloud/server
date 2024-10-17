@@ -21,6 +21,9 @@ OC.L10N.register(
     "Loading …" : "Loading …",
     "Reset" : "Nulstil",
     "Cancel" : "Annuller",
+    "Apply" : "Anvend",
+    "Warning" : "Advarsler",
+    "Confirm" : "Bekræft",
     "Undo" : "Fortryd",
     "Redo" : "Annullér fortryd",
     "Zoom in" : "Zoom ind",
@@ -34,6 +37,7 @@ OC.L10N.register(
     "Position" : "Position",
     "Extension" : "Filtype",
     "Name is required." : "Navn er påkrævet.",
+    "Menu" : "Menu",
     "Continue" : "Fortsæt"
 },
 "nplurals=2; plural=(n != 1);");

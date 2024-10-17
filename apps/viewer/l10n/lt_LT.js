@@ -19,7 +19,7 @@ OC.L10N.register(
     "This file no longer exists" : "Šio failo daugiau nebėra",
     "There is no plugin available to display this file type" : "Nėra prieinamo įskiepio, skirto atvaizduoti šį failo tipą",
     "View" : "Rodyti",
-    "Name" : "Vardas, pavardė",
+    "Name" : "Pavadinimas",
     "Save" : "Įrašyti",
     "Save as" : "Įrašyti kaip",
     "Back" : "Atgal",
@@ -27,7 +27,7 @@ OC.L10N.register(
     "Reset" : "Atstatyti",
     "All changes will be lost." : "Visi pakeitimai bus prarasti.",
     "Are you sure you want to continue?" : "Ar tikrai norite tęsti?",
-    "Cancel" : "Atšaukti",
+    "Cancel" : "Atsisakyti",
     "Apply" : "Taikyti",
     "Warning" : "Įspėjimas",
     "Confirm" : "Patvirtinti",
@@ -53,6 +53,8 @@ OC.L10N.register(
     "Name is required." : "Vardas yra būtinas.",
     "Quality" : "Kokybė",
     "Menu" : "Meniu",
+    "Width" : "Plotis",
+    "Height" : "Aukštis",
     "Continue" : "Tęsti"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

@@ -31,6 +31,8 @@ OC.L10N.register(
     "All changes will be lost." : "Se perderán todos los cambios.",
     "Are you sure you want to continue?" : "¿Está seguro que desea continuar?",
     "Cancel" : "Cancelar",
+    "Apply" : "Aplicar",
+    "Warning" : "Advertencia",
     "Confirm" : "Confirmar",
     "Undo" : "Deshacer",
     "Redo" : "Rehacer",

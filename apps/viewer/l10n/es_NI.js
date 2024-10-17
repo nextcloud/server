@@ -10,6 +10,7 @@ OC.L10N.register(
     "Back" : "Atrás",
     "Reset" : "Restablecer",
     "Cancel" : "Cancelar",
+    "Apply" : "Aplicar",
     "Confirm" : "Confirmar",
     "Undo" : "Deshacer",
     "Custom" : "Personalizado",

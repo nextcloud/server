@@ -19,6 +19,9 @@
     "Loading …" : "Loading …",
     "Reset" : "Nulstil",
     "Cancel" : "Annuller",
+    "Apply" : "Anvend",
+    "Warning" : "Advarsler",
+    "Confirm" : "Bekræft",
     "Undo" : "Fortryd",
     "Redo" : "Annullér fortryd",
     "Zoom in" : "Zoom ind",
@@ -32,6 +35,7 @@
     "Position" : "Position",
     "Extension" : "Filtype",
     "Name is required." : "Navn er påkrævet.",
+    "Menu" : "Menu",
     "Continue" : "Fortsæt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -7,6 +7,7 @@ OC.L10N.register(
     "Name" : "Ime",
     "Save" : "Spremi",
     "Cancel" : "Otkaži",
+    "Warning" : "Upozorenje",
     "Size" : "Veličina",
     "Continue" : "Nastavi"
 },

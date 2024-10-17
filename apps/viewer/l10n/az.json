@@ -7,7 +7,10 @@
     "Back" : "Geri",
     "Reset" : "Sıfırla",
     "Cancel" : "Dayandır",
+    "Warning" : "Xəbərdarlıq",
+    "Confirm" : "Təsdiq edin",
     "Size" : "Həcm",
+    "Menu" : "Menyu",
     "Continue" : "Davam et"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

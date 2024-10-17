@@ -27,6 +27,9 @@ OC.L10N.register(
     "All changes will be lost." : "Всички промени ще бъдат загубени.",
     "Are you sure you want to continue?" : "Сигурни ли сте, че искате да продължите?",
     "Cancel" : "Отказ",
+    "Apply" : "Приложи",
+    "Warning" : "Внимание",
+    "Confirm" : "Потвърдете",
     "Undo" : "Отмяна",
     "Redo" : "Повторение",
     "Show original image" : "Показване на оригиналното изображение",
@@ -106,6 +109,8 @@ OC.L10N.register(
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Обърнете внимание, че избраната област за изрязване е по-ниска от приложеното преоразмеряване, което може да доведе до влошаване на качеството",
     "Actual size (100%)" : "Действителен размер (100%)",
     "Fit size" : "Подходящ размер",
+    "Menu" : "Меню",
+    "Height" : "Ръст",
     "Continue" : "Продължаване"
 },
 "nplurals=2; plural=(n != 1);");

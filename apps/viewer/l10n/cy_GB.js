@@ -11,6 +11,8 @@ OC.L10N.register(
     "Back" : "Nôl",
     "Loading …" : "Yn llwytho …",
     "Cancel" : "Diddymu",
+    "Warning" : "Rhybudd",
+    "Confirm" : "Cadarnhau",
     "Undo" : "Dadwneud",
     "Custom" : "Cyfaddas",
     "Size" : "Maint"
