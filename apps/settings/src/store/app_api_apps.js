@@ -25,7 +25,7 @@ const state = {
 const mutations = {
 
 	APPS_API_FAILURE(state, error) {
-		showError(t('app_api', 'An error occurred during the request. Unable to proceed.') + '<br>' + error.error.response.data.data.message, { isHTML: true })
+		showError(t('settings', 'An error occurred during the request. Unable to proceed.') + '<br>' + error.error.response.data.data.message, { isHTML: true })
 		console.error(state, error)
 	},
 
@@ -227,7 +227,7 @@ const actions = {
 						.catch(() => {
 							context.commit('setError', {
 								appId: [appId],
-								error: t('app_api', 'Error: This app cannot be enabled because it makes the server unstable'),
+								error: t('settings', 'Error: This app cannot be enabled because it makes the server unstable'),
 							})
 						})
 				})
