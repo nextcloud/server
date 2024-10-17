@@ -16,6 +16,7 @@ use OCA\DAV\CardDAV\Converter;
 use OCA\DAV\CardDAV\SyncService;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -33,6 +34,7 @@ class SyncServiceTest extends TestCase {
 	protected LoggerInterface $logger;
 	protected Converter $converter;
 	protected IClient $client;
+	protected IConfig $config;
 	protected SyncService $service;
 	public function setUp(): void {
 		$addressBook = [
@@ -53,6 +55,7 @@ class SyncServiceTest extends TestCase {
 		$this->logger = new NullLogger();
 		$this->converter = $this->createMock(Converter::class);
 		$this->client = $this->createMock(IClient::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$clientService = $this->createMock(IClientService::class);
 		$clientService->method('newClient')
@@ -64,7 +67,8 @@ class SyncServiceTest extends TestCase {
 			$this->dbConnection,
 			$this->logger,
 			$this->converter,
-			$clientService
+			$clientService,
+			$this->config
 		);
 	}
 
@@ -305,8 +309,9 @@ END:VCARD';
 		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
 		$converter = $this->createMock(Converter::class);
 		$clientService = $this->createMock(IClientService::class);
+		$config = $this->createMock(IConfig::class);
 
-		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService);
+		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService, $config);
 		$ss->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
 	}
 
@@ -360,8 +365,9 @@ END:VCARD';
 			->willReturn($this->createMock(VCard::class));
 
 		$clientService = $this->createMock(IClientService::class);
+		$config = $this->createMock(IConfig::class);
 
-		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService);
+		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService, $config);
 		$ss->updateUser($user);
 
 		$ss->updateUser($user);
