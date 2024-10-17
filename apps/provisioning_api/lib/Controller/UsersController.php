@@ -31,6 +31,7 @@ use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\ISubAdmin;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -63,6 +64,7 @@ class UsersController extends AUserData {
 		IGroupManager $groupManager,
 		IUserSession $userSession,
 		IAccountManager $accountManager,
+		ISubAdmin $subAdminManager,
 		IFactory $l10nFactory,
 		private IURLGenerator $urlGenerator,
 		private LoggerInterface $logger,
@@ -81,6 +83,7 @@ class UsersController extends AUserData {
 			$groupManager,
 			$userSession,
 			$accountManager,
+			$subAdminManager,
 			$l10nFactory
 		);
 
