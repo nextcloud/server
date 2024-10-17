@@ -2386,6 +2386,7 @@ class ViewTest extends \Test\TestCase {
 		Filesystem::mount($storage2, [], $this->user . '/files/substorage');
 		$storage->mkdir('files');
 		$view->file_put_contents($sourcePath, 'meh');
+		$storage2->getUpdater()->update('');
 
 		$storage->expects($this->never())
 			->method($storageOperation);
