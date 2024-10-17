@@ -86,9 +86,6 @@
     "Another entry with the same name already exists." : "Une autre entrée avec le même nom existe déjà.",
     "Invalid filename." : "Nom de fichier invalide.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" renommé en \"{newName}\"",
-    "Could not rename \"{oldName}\", it does not exist any more" : "Impossible de renommer \"{oldName}\", il n'existe plus.",
-    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Le nom \"{newName}\" est déjà utilisé dans le dossier \"{dir}\". Veuillez choisir un autre nom.",
-    "Could not rename \"{oldName}\"" : "Impossible de renommer \"{oldName}\"",
     "Pending" : "En attente",
     "Clear filter" : "Supprimer le filtre",
     "Modified" : "Modifié",
@@ -384,12 +381,13 @@
     "Filenames must not end with \"{segment}\"." : "Les noms de fichiers ne doivent pas se terminer par \"{segment}\".",
     "Name cannot be empty" : "Le nom ne peut pas être vide",
     "Another entry with the same name already exists" : "Une autre entrée avec le même nom existe déjà",
+    "Could not rename \"{oldName}\", it does not exist any more" : "Impossible de renommer \"{oldName}\", il n'existe plus.",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Le nom \"{newName}\" est déjà utilisé dans le dossier \"{dir}\". Veuillez choisir un autre nom.",
+    "Could not rename \"{oldName}\"" : "Impossible de renommer \"{oldName}\"",
     "Storage informations" : "Informations sur le stockage",
     "Choose file" : "Choisir un fichier",
     "Open the files app settings" : "Ouvrir les paramètres de l'application Fichiers",
     "You might not have have permissions to view it, ask the sender to share it" : "Vous n’avez peut-être pas les autorisations pour le voir, demandez à l’expéditeur de le partager",
-    "Destination is not a folder" : "La destination n'est pas un dossier",
-    "This file/folder is already in that directory" : "Ce fichier/dossier se trouve déjà dans ce dossier",
     "The files is locked" : "Le fichier est verrouillé",
     "Create new templates folder" : "Créer un nouveau dossier de modèles",
     "List of favorites files and folders." : "Liste des fichiers et dossiers favoris.",
@@ -400,6 +398,8 @@
     "Copy direct link (only works for people who have access to this file/folder)" : "Copier le lien direct (fonctionne uniquement pour les personnes pouvant accéder à ce fichier ou à ce dossier)",
     "Favored" : "Favoris",
     "Favor" : "Mettre en favoris",
-    "Not favored" : "Non favoris"
+    "Not favored" : "Non favoris",
+    "Destination is not a folder" : "La destination n'est pas un dossier",
+    "This file/folder is already in that directory" : "Ce fichier/dossier se trouve déjà dans ce dossier"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

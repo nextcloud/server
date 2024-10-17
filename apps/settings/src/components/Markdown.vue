@@ -4,6 +4,7 @@
 -->
 
 <template>
+	<!-- eslint-disable-next-line vue/no-v-html This is rendered markdown so should be "safe" -->
 	<div class="settings-markdown" v-html="renderMarkdown" />
 </template>
 

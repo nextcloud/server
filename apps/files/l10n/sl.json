@@ -78,9 +78,6 @@
     "This node is unavailable" : "To vozlišče ni na voljo.",
     "Invalid filename." : "Neveljavno ime datoteke",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Preimenuj »{oldName}« to »{newName}«",
-    "Could not rename \"{oldName}\", it does not exist any more" : "Datoteke »{oldName}« ni mogoče preimenovati, ker ne obstaja več.",
-    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Ime »{newtName}« je v mapi »{dir}« že v uporabi. Izbrati je treba drugačno ime.",
-    "Could not rename \"{oldName}\"" : "Datoteke »{oldName}« ni mogoče preimenovati",
     "Pending" : "Na čakanju ...",
     "Clear filter" : "Počisti filter",
     "Modified" : "Spremenjeno",
@@ -349,12 +346,13 @@
     "{newName} already exists." : "Ime {newName} že obstaja.",
     "Name cannot be empty" : "Polje imena ne sme biti prazno",
     "Another entry with the same name already exists" : "Vpis s tem imenom že obstaja.",
+    "Could not rename \"{oldName}\", it does not exist any more" : "Datoteke »{oldName}« ni mogoče preimenovati, ker ne obstaja več.",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Ime »{newtName}« je v mapi »{dir}« že v uporabi. Izbrati je treba drugačno ime.",
+    "Could not rename \"{oldName}\"" : "Datoteke »{oldName}« ni mogoče preimenovati",
     "Storage informations" : "Podrobnosti shrambe",
     "Choose file" : "Izbor datotek",
     "Open the files app settings" : "Odpri nastavitve programa Datoteke",
     "You might not have have permissions to view it, ask the sender to share it" : "Morda ni ustreznih dovoljenj za ogled. Prosite pošiljatelja za prilagoditev.",
-    "Destination is not a folder" : "Ciljno mesto ni mapa",
-    "This file/folder is already in that directory" : "Ta datoteka oziroma mapa je že v določeni mapi",
     "The files is locked" : "Datoteka je zaklenjena",
     "Create new templates folder" : "Ustvari novo začasno mapo",
     "List of favorites files and folders." : "Seznam priljubljenih datotek in map.",
@@ -362,6 +360,8 @@
     "Text file" : "Besedilna datoteka",
     "New text file.txt" : "nova_datoteka.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Kopirana je neposredna povezava (za uporabnike, ki imajo dostop do datoteke ali mape)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Kopiraj neposredno povezavo (za uporabnike, ki imajo dostop do datoteke ali mape)"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Kopiraj neposredno povezavo (za uporabnike, ki imajo dostop do datoteke ali mape)",
+    "Destination is not a folder" : "Ciljno mesto ni mapa",
+    "This file/folder is already in that directory" : "Ta datoteka oziroma mapa je že v določeni mapi"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

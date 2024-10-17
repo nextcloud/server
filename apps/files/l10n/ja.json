@@ -86,9 +86,6 @@
     "Another entry with the same name already exists." : "同じ名前の別のエントリがすでに存在しています。",
     "Invalid filename." : "無効なファイル名。",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" から \"{newName}\" に名前を変更済み",
-    "Could not rename \"{oldName}\", it does not exist any more" : "\"{oldName}\" の名前を変更できませんでした、それは既に存在しません。",
-    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "\"{newName}\" という名前は \"{dir}\" フォルダですでに使用されています。別の名前を選択してください。",
-    "Could not rename \"{oldName}\"" : "\"{oldName}\" の名前を変更できませんでした。",
     "Pending" : "保留中",
     "Clear filter" : "フィルターをクリア",
     "Modified" : "更新日時",
@@ -382,12 +379,13 @@
     "Filenames must not end with \"{segment}\"." : "ファイル名は \"{segment}\"で終了できません。",
     "Name cannot be empty" : "名前は空にできません",
     "Another entry with the same name already exists" : "同じ名前の別のエントリがすでに存在しています",
+    "Could not rename \"{oldName}\", it does not exist any more" : "\"{oldName}\" の名前を変更できませんでした、それは既に存在しません。",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "\"{newName}\" という名前は \"{dir}\" フォルダですでに使用されています。別の名前を選択してください。",
+    "Could not rename \"{oldName}\"" : "\"{oldName}\" の名前を変更できませんでした。",
     "Storage informations" : "ストレージ情報",
     "Choose file" : "ファイルを選択",
     "Open the files app settings" : "ファイルアプリの設定を開く",
     "You might not have have permissions to view it, ask the sender to share it" : "閲覧権限がない可能性があるため、送信者に共有を依頼してください",
-    "Destination is not a folder" : "宛先がフォルダではありません",
-    "This file/folder is already in that directory" : "このファイル/フォルダはすでにそのディレクトリにあります",
     "The files is locked" : "ファイルはロックされています",
     "Create new templates folder" : "新しいテンプレートフォルダーを作成",
     "List of favorites files and folders." : "お気に入りのファイルやフォルダーの一覧",
@@ -398,6 +396,8 @@
     "Copy direct link (only works for people who have access to this file/folder)" : "ダイレクトリンクをコピー (このファイル/フォルダにアクセスできる人にのみ機能します)",
     "Favored" : "好評",
     "Favor" : "好意的",
-    "Not favored" : "好ましくない"
+    "Not favored" : "好ましくない",
+    "Destination is not a folder" : "宛先がフォルダではありません",
+    "This file/folder is already in that directory" : "このファイル/フォルダはすでにそのディレクトリにあります"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

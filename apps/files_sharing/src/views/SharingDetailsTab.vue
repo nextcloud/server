@@ -247,6 +247,7 @@
 import { emit } from '@nextcloud/event-bus'
 import { getLanguage } from '@nextcloud/l10n'
 import { ShareType } from '@nextcloud/sharing'
+import moment from '@nextcloud/moment'
 
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'

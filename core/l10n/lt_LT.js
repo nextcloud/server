@@ -205,6 +205,7 @@ OC.L10N.register(
     "Collaborative tags" : "Bendradarbiavimo žymės",
     "No tags found" : "Nerasta jokių žymių",
     "Personal" : "Asmeniniai",
+    "Accounts" : "Paskyros",
     "Admin" : "Administravimas",
     "Help" : "Pagalba",
     "Access forbidden" : "Prieiga uždrausta",

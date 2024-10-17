@@ -177,7 +177,7 @@ export default {
 		/**
 		 * Handle restored event from Version.vue
 		 *
-		 * @param {import('../utils/versions.ts').Version} version
+		 * @param {import('../utils/versions.ts').Version} version The version to restore
 		 */
 		async handleRestore(version) {
 			// Update local copy of fileInfo as rendering depends on it.
@@ -217,7 +217,7 @@ export default {
 
 		/**
 		 * Handle label-updated event from Version.vue
-		 * @param {import('../utils/versions.ts').Version} version
+		 * @param {import('../utils/versions.ts').Version} version The version to update
 		 */
 		handleLabelUpdateRequest(version) {
 			this.showVersionLabelForm = true
@@ -226,7 +226,7 @@ export default {
 
 		/**
 		 * Handle label-updated event from Version.vue
-		 * @param {string} newLabel
+		 * @param {string} newLabel The new label
 		 */
 		async handleLabelUpdate(newLabel) {
 			const oldLabel = this.editedVersion.label
@@ -246,8 +246,7 @@ export default {
 		/**
 		 * Handle deleted event from Version.vue
 		 *
-		 * @param {import('../utils/versions.ts').Version} version
-		 * @param {string} newName
+		 * @param {import('../utils/versions.ts').Version} version The version to delete
 		 */
 		async handleDelete(version) {
 			const index = this.versions.indexOf(version)

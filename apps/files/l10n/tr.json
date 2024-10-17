@@ -86,9 +86,6 @@
     "Another entry with the same name already exists." : "Aynı adlı bir kayıt zaten var.",
     "Invalid filename." : "Dosya adı geçersiz.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" adı \"{newName}\" olarak değiştirildi",
-    "Could not rename \"{oldName}\", it does not exist any more" : "\"{oldName}\" adı artık olmadığından değiştirilemedi. ",
-    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "\"{newName}\" adı \"{dir}\" klasöründe zaten kullanılmış. Lütfen başka bir ad seçin.",
-    "Could not rename \"{oldName}\"" : "\"{oldName}\" adı değiştirilemedi",
     "Pending" : "Bekliyor",
     "Clear filter" : "Süzgeci temizle",
     "Modified" : "Değiştirilme",
@@ -384,12 +381,13 @@
     "Filenames must not end with \"{segment}\"." : "Dosya adları \"{segment}\" ile bitmemelidir.",
     "Name cannot be empty" : "Ad boş olamaz",
     "Another entry with the same name already exists" : "Aynı adlı bir kayıt zaten var",
+    "Could not rename \"{oldName}\", it does not exist any more" : "\"{oldName}\" adı artık olmadığından değiştirilemedi. ",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "\"{newName}\" adı \"{dir}\" klasöründe zaten kullanılmış. Lütfen başka bir ad seçin.",
+    "Could not rename \"{oldName}\"" : "\"{oldName}\" adı değiştirilemedi",
     "Storage informations" : "Depolama bilgileri",
     "Choose file" : "Dosya seçin",
     "Open the files app settings" : "Dosyalar uygulaması ayarlarını aç",
     "You might not have have permissions to view it, ask the sender to share it" : "Dosyayı görüntüleme izniniz olmayabilir. Gönderenden paylaşmasını isteyin",
-    "Destination is not a folder" : "Hedef bir klasör değil",
-    "This file/folder is already in that directory" : "Dosya ya da klasör bu klasörde zaten var",
     "The files is locked" : "Dosyalar kilitli",
     "Create new templates folder" : "Yeni kalıp klasörü oluştur",
     "List of favorites files and folders." : "Sık kullanılan dosya ve klasör listesi.",
@@ -400,6 +398,8 @@
     "Copy direct link (only works for people who have access to this file/folder)" : "Doğrudan bağlantıyı kopyala (yalnızca bu dosya ya da klasöre erişim izni olan kişiler için)",
     "Favored" : "Sık kullanılanlara eklenmiş",
     "Favor" : "Sık kullanılanlara ekle",
-    "Not favored" : "Sık kullanılanlara eklenmemiş"
+    "Not favored" : "Sık kullanılanlara eklenmemiş",
+    "Destination is not a folder" : "Hedef bir klasör değil",
+    "This file/folder is already in that directory" : "Dosya ya da klasör bu klasörde zaten var"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

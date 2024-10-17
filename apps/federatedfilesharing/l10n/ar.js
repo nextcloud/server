@@ -19,7 +19,7 @@ OC.L10N.register(
     "You received {share} as a remote share from {user}" : "أنت تلقّيتَ {share} كُمشاركة بعيدة من {user}  ",
     "Accept" : "قبول",
     "Decline" : "رفض",
-    "Federated Cloud Sharing" : "المشاركة السحابية الموحّدة",
+    "Federated Cloud Sharing" : "المشاركة عبر السحابة الموحّدة",
     "Sharing" : "المشاركة",
     "Federated file sharing" : "مُشاركة السحابة الموحدة لملف",
     "Provide federated file sharing across servers" : "توفير مُشاركة السحابة الموحدة للملفات عبر الخوادم",

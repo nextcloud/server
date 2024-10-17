@@ -6,6 +6,7 @@
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 import type { ServerTagWithId, Tag, TagWithId } from '../types.js'
 
+import { t } from '@nextcloud/l10n'
 import { davClient } from './davClient.js'
 import { createTag, fetchTagsPayload } from './api.js'
 import { formatTag, parseTags } from '../utils.js'
@@ -27,9 +28,11 @@ export const fetchTagsForFile = async (fileId: number): Promise<TagWithId[]> => 
 }
 
 /**
- * @param tag
- * @param fileId
- * @return created tag id
+ * Create a tag and apply it to a given file (by id).
+ * This returns the id of the newly created tag.
+ *
+ * @param tag The tag to create
+ * @param fileId Id of the file to tag
  */
 export const createTagForFile = async (tag: Tag, fileId: number): Promise<number> => {
 	const tagToCreate = formatTag(tag)

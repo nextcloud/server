@@ -175,8 +175,8 @@ export default defineComponent({
 			return this.token.type === TokenType.PERMANENT_TOKEN
 		},
 		/**
-		 * Object ob the current user agend used by the token
-		 * @return Either an object containing user agent information or null if unknown
+		 * Object ob the current user agent used by the token
+		 * This either returns an object containing user agent information or `null` if unknown
 		 */
 		client() {
 			// pretty format sync client user agent

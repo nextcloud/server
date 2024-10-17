@@ -157,7 +157,7 @@ OC.L10N.register(
     "Name, email, or Federated Cloud ID …" : "Vardas, el. paštas ar federacinės debesijos ID…",
     "Searching …" : "Ieškoma…",
     "No elements found." : "Nerasta jokių elementų.",
-    "Search globally" : "Ieškoti visur",
+    "Search globally" : "Ieškoti visuotiniu mastu",
     "Guest" : "Svečias",
     "Group" : "Grupė",
     "Email" : "El. paštas",
