@@ -10,7 +10,6 @@ namespace OCP\UserPreferences;
 
 use OCP\UserPreferences\Exceptions\IncorrectTypeException;
 use UnhandledMatchError;
-use ValueError;
 
 /**
  * Listing of available value type for user preferences
@@ -20,22 +19,20 @@ use ValueError;
  */
 enum ValueType: int {
 	/** @since 31.0.0 */
-	case SENSITIVE = 1;
+	case MIXED = 0;
 	/** @since 31.0.0 */
-	case MIXED = 2;
+	case STRING = 1;
 	/** @since 31.0.0 */
-	case STRING = 4;
+	case INT = 2;
 	/** @since 31.0.0 */
-	case INT = 8;
+	case FLOAT = 3;
 	/** @since 31.0.0 */
-	case FLOAT = 16;
+	case BOOL = 4;
 	/** @since 31.0.0 */
-	case BOOL = 32;
-	/** @since 31.0.0 */
-	case ARRAY = 64;
+	case ARRAY = 5;
 
 	/**
-	 * get ValueType from string based on ValueTypeDefinition
+	 * get ValueType from string
 	 *
 	 * @param string $definition
 	 *
@@ -43,35 +40,18 @@ enum ValueType: int {
 	 * @throws IncorrectTypeException
 	 * @since 31.0.0
 	 */
-	public function fromStringDefinition(string $definition): self {
-		try {
-			return $this->fromValueDefinition(ValueTypeDefinition::from($definition));
-		} catch (ValueError) {
-			throw new IncorrectTypeException('unknown string definition');
-		}
-	}
-
-	/**
-	 * get ValueType from ValueTypeDefinition
-	 *
-	 * @param ValueTypeDefinition $definition
-	 *
-	 * @return self
-	 * @throws IncorrectTypeException
-	 * @since 31.0.0
-	 */
-	public function fromValueDefinition(ValueTypeDefinition $definition): self {
+	public static function fromStringDefinition(string $definition): self {
 		try {
 			return match ($definition) {
-				ValueTypeDefinition::MIXED => self::MIXED,
-				ValueTypeDefinition::STRING => self::STRING,
-				ValueTypeDefinition::INT => self::INT,
-				ValueTypeDefinition::FLOAT => self::FLOAT,
-				ValueTypeDefinition::BOOL => self::BOOL,
-				ValueTypeDefinition::ARRAY => self::ARRAY
+				'mixed' => self::MIXED,
+				'string' => self::STRING,
+				'int' => self::INT,
+				'float' => self::FLOAT,
+				'bool' => self::BOOL,
+				'array' => self::ARRAY
 			};
-		} catch (UnhandledMatchError) {
-			throw new IncorrectTypeException('unknown definition ' . $definition->value);
+		} catch (\UnhandledMatchError ) {
+			throw new IncorrectTypeException('unknown string definition');
 		}
 	}
 
@@ -83,26 +63,14 @@ enum ValueType: int {
 	 * @since 31.0.0
 	 */
 	public function getDefinition(): string {
-		return $this->getValueTypeDefinition()->value;
-	}
-
-	/**
-	 * get ValueTypeDefinition for current enum value
-	 *
-	 * @return ValueTypeDefinition
-	 * @throws IncorrectTypeException
-	 * @since 31.0.0
-	 */
-	public function getValueTypeDefinition(): ValueTypeDefinition {
 		try {
-			/** @psalm-suppress UnhandledMatchCondition */
 			return match ($this) {
-				self::MIXED => ValueTypeDefinition::MIXED,
-				self::STRING => ValueTypeDefinition::STRING,
-				self::INT => ValueTypeDefinition::INT,
-				self::FLOAT => ValueTypeDefinition::FLOAT,
-				self::BOOL => ValueTypeDefinition::BOOL,
-				self::ARRAY => ValueTypeDefinition::ARRAY,
+				self::MIXED => 'mixed',
+				self::STRING => 'string',
+				self::INT => 'int',
+				self::FLOAT => 'float',
+				self::BOOL => 'bool',
+				self::ARRAY => 'array',
 			};
 		} catch (UnhandledMatchError) {
 			throw new IncorrectTypeException('unknown type definition ' . $this->value);

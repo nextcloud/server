@@ -15,6 +15,9 @@ use OCP\UserPreferences\Exceptions\UnknownKeyException;
  * @since 31.0.0
  */
 interface IUserPreferences {
+	public const FLAG_SENSITIVE = 1;   // value is sensitive
+	public const FLAG_INDEXED = 2;    // value should be indexed
+
 	/**
 	 * Get list of all userIds with preferences stored in database.
 	 * If $appId is specified, will only limit the search to this value
@@ -83,6 +86,25 @@ interface IUserPreferences {
 	public function isSensitive(string $userId, string $app, string $key, ?bool $lazy = false): bool;
 
 	/**
+	 * best way to see if a value is set as indexed (so it can be search)
+	 *
+	 * @see self::searchUsersByValueString()
+	 * @see self::searchUsersByValueInt()
+	 * @see self::searchUsersByValueBool()
+	 * @see self::searchUsersByValues()
+	 *
+	 * @param string $userId id of the user
+	 * @param string $app id of the app
+	 * @param string $key preference key
+	 * @param bool|null $lazy search within lazy loaded preferences
+	 *
+	 * @return bool TRUE if value is sensitive
+	 * @throws UnknownKeyException if preference key is not known
+	 * @since 31.0.0
+	 */
+	public function isIndexed(string $userId, string $app, string $key, ?bool $lazy = false): bool;
+
+	/**
 	 * Returns if the preference key stored in database is lazy loaded
 	 *
 	 * **WARNING:** ignore lazy filtering, all preference values are loaded from database
@@ -140,7 +162,7 @@ interface IUserPreferences {
 	 * @return array<string, string|int|float|bool|array> [appId => value]
 	 * @since 31.0.0
 	 */
-	public function searchValuesByApps(string $userId, string $key, bool $lazy = false, ?ValueType $typedAs = null): array;
+	public function getValuesByApps(string $userId, string $key, bool $lazy = false, ?ValueType $typedAs = null): array;
 
 	/**
 	 * List all users storing a specific preference key and its stored value.
@@ -156,7 +178,7 @@ interface IUserPreferences {
 	 * @return array<string, string|int|float|bool|array> [userId => value]
 	 * @since 31.0.0
 	 */
-	public function searchValuesByUsers(string $app, string $key, ?ValueType $typedAs = null, ?array $userIds = null): array;
+	public function getValuesByUsers(string $app, string $key, ?ValueType $typedAs = null, ?array $userIds = null): array;
 
 	/**
 	 * List all users storing a specific preference key/value pair.
@@ -343,6 +365,24 @@ interface IUserPreferences {
 	public function getValueType(string $userId, string $app, string $key, ?bool $lazy = null): ValueType;
 
 	/**
+	 * returns a bitflag related to preference value
+	 *
+	 * **WARNING:** ignore lazy filtering, all preference values are loaded from database
+	 *              unless lazy is set to false
+	 *
+	 * @param string $userId id of the user
+	 * @param string $app id of the app
+	 * @param string $key preference key
+	 * @param bool $lazy lazy loading
+	 *
+	 * @return int a bitflag in relation to the preference value
+	 * @throws UnknownKeyException if preference key is not known
+	 * @throws IncorrectTypeException if preferences value type is not known
+	 * @since 31.0.0
+	 */
+	public function getValueFlags(string $userId, string $app, string $key, bool $lazy = false): int;
+
+	/**
 	 * Store a preference key and its value in database
 	 *
 	 * If preference key is already known with the exact same preference value, the database is not updated.
@@ -365,7 +405,7 @@ interface IUserPreferences {
 	 * @see setValueBool()
 	 * @see setValueArray()
 	 */
-	public function setValueString(string $userId, string $app, string $key, string $value, bool $lazy = false, bool $sensitive = false): bool;
+	public function setValueString(string $userId, string $app, string $key, string $value, bool $lazy = false, int $flags = 0): bool;
 
 	/**
 	 * Store a preference key and its value in database
@@ -395,7 +435,7 @@ interface IUserPreferences {
 	 * @see setValueBool()
 	 * @see setValueArray()
 	 */
-	public function setValueInt(string $userId, string $app, string $key, int $value, bool $lazy = false, bool $sensitive = false): bool;
+	public function setValueInt(string $userId, string $app, string $key, int $value, bool $lazy = false, int $flags = 0): bool;
 
 	/**
 	 * Store a preference key and its value in database.
@@ -420,7 +460,7 @@ interface IUserPreferences {
 	 * @see setValueBool()
 	 * @see setValueArray()
 	 */
-	public function setValueFloat(string $userId, string $app, string $key, float $value, bool $lazy = false, bool $sensitive = false): bool;
+	public function setValueFloat(string $userId, string $app, string $key, float $value, bool $lazy = false, int $flags = 0): bool;
 
 	/**
 	 * Store a preference key and its value in database
@@ -469,7 +509,7 @@ interface IUserPreferences {
 	 * @see setValueFloat()
 	 * @see setValueBool()
 	 */
-	public function setValueArray(string $userId, string $app, string $key, array $value, bool $lazy = false, bool $sensitive = false): bool;
+	public function setValueArray(string $userId, string $app, string $key, array $value, bool $lazy = false, int $flags = 0): bool;
 
 	/**
 	 * switch sensitive status of a preference value
@@ -491,7 +531,6 @@ interface IUserPreferences {
 	 *
 	 * **Warning:** heavy on resources, MUST only be used on occ command or migrations
 	 *
-	 *
 	 * @param string $app id of the app
 	 * @param string $key preference key
 	 * @param bool $sensitive TRUE to set as sensitive, FALSE to unset
@@ -499,6 +538,34 @@ interface IUserPreferences {
 	 * @since 31.0.0
 	 */
 	public function updateGlobalSensitive(string $app, string $key, bool $sensitive): void;
+
+
+	/**
+	 * switch indexed status of a preference value
+	 *
+	 *  **WARNING:** ignore lazy filtering, all preference values are loaded from database
+	 *
+	 * @param string $userId id of the user
+	 * @param string $app id of the app
+	 * @param string $key preference key
+	 * @param bool $indexed TRUE to set as indexed, FALSE to unset
+	 *
+	 * @return bool TRUE if database update were necessary
+	 * @since 31.0.0
+	 */
+	public function updateIndexed(string $userId, string $app, string $key, bool $indexed): bool;
+
+	/**
+	 * switch sensitive loading status of a preference key for all users
+	 *
+	 * **Warning:** heavy on resources, MUST only be used on occ command or migrations
+	 *
+	 * @param string $app id of the app
+	 * @param string $key preference key
+	 * @param bool $indexed TRUE to set as indexed, FALSE to unset
+	 * @since 31.0.0
+	 */
+	public function updateGlobalIndexed(string $app, string $key, bool $indexed): void;
 
 	/**
 	 * switch lazy loading status of a preference value
