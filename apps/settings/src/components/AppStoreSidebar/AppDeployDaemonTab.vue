@@ -12,11 +12,11 @@
 			<NcIconSvgWrapper :path="mdiFileChart" :size="24" />
 		</template>
 		<div class="daemon">
-			<h4>{{ t('app_api', 'Deploy Daemon') }}</h4>
-			<p><b>{{ t('app_api', 'Type') }}</b>: {{ app?.daemon.accepts_deploy_id }}</p>
-			<p><b>{{ t('app_api', 'Name') }}</b>: {{ app?.daemon.name }}</p>
-			<p><b>{{ t('app_api', 'Display Name') }}</b>: {{ app?.daemon.display_name }}</p>
-			<p><b>{{ t('app_api', 'GPUs support') }}</b>: {{ app?.daemon.deploy_config?.computeDevice?.id !== 'cpu' || 'false' }}</p>
+			<h4>{{ t('settings', 'Deploy Daemon') }}</h4>
+			<p><b>{{ t('settings', 'Type') }}</b>: {{ app?.daemon.accepts_deploy_id }}</p>
+			<p><b>{{ t('settings', 'Name') }}</b>: {{ app?.daemon.name }}</p>
+			<p><b>{{ t('settings', 'Display Name') }}</b>: {{ app?.daemon.display_name }}</p>
+			<p><b>{{ t('settings', 'GPUs support') }}</b>: {{ app?.daemon.deploy_config?.computeDevice?.id !== 'cpu' || 'false' }}</p>
 		</div>
 	</NcAppSidebarTab>
 </template>

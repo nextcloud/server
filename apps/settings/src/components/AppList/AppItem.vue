@@ -14,8 +14,8 @@
 		<component :is="dataItemTag"
 			class="app-image app-image-icon"
 			:headers="getDataItemHeaders(`app-table-col-icon`)">
-			<div v-if="(listView && !app.preview && !app?.app_api) || (!listView && !screenshotLoaded && !app?.app_api)" class="icon-settings-dark" />
-			<NcIconSvgWrapper v-else-if="(listView && app?.app_api && !app.preview) || (!listView && !screenshotLoaded && app?.app_api)"
+			<div v-if="!app?.app_api && shouldDisplayDefaultIcon" class="icon-settings-dark" />
+			<NcIconSvgWrapper v-else-if="app?.app_api && shouldDisplayDefaultIcon"
 				:path="mdiCogOutline()"
 				:size="listView ? 24 : 48"
 				style="min-width: auto; min-height: auto; height: 100%;" />
@@ -79,6 +79,7 @@
 			<NcButton v-if="app.update"
 				type="primary"
 				:disabled="installing || isLoading || !defaultDeployDaemonAccessible || isManualInstall"
+				:title="updateButtonText"
 				@click.stop="update(app.id)">
 				{{ t('settings', 'Update to {update}', {update:app.update}) }}
 			</NcButton>
@@ -181,6 +182,9 @@ export default {
 		},
 		withSidebar() {
 			return !!this.$route.params.id
+		},
+		shouldDisplayDefaultIcon() {
+			return this.listView && !this.app.preview || !this.listView && !this.screenshotLoaded
 		},
 	},
 	watch: {

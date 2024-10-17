@@ -42,26 +42,26 @@ export default {
 			return false
 		},
 		updateButtonText() {
-			if (this.app?.daemon?.accepts_deploy_id === 'manual-install') {
-				return t('app_api', 'manual-install apps cannot be updated')
+			if (this.app?.app_api && this.app?.daemon?.accepts_deploy_id === 'manual-install') {
+				return t('settings', 'manual-install apps cannot be updated')
 			}
-			return ''
+			return t('settings', 'Update to {version}', { version: this.app?.update })
 		},
 		enableButtonText() {
 			if (this.app?.app_api) {
-				if (this.app && Object.hasOwn(this.app?.status, 'action') && this.app.status.action === 'deploy') {
-					return t('app_api', '{progress}% Deploying', { progress: this.app.status?.deploy })
+				if (this.app && this.app?.status?.action && this.app?.status?.action === 'deploy') {
+					return t('settings', '{progress}% Deploying …', { progress: this.app?.status?.deploy ?? 0 })
 				}
-				if (this.app && Object.hasOwn(this.app?.status, 'action') && this.app.status.action === 'init') {
-					return t('app_api', '{progress}% Initializing', { progress: this.app.status?.init })
+				if (this.app && this.app?.status?.action && this.app?.status?.action === 'init') {
+					return t('settings', '{progress}% Initializing …', { progress: this.app?.status?.init ?? 0 })
 				}
-				if (this.app && Object.hasOwn(this.app?.status, 'action') && this.app.status.action === 'healthcheck') {
-					return t('app_api', 'Healthchecking')
+				if (this.app && this.app?.status?.action && this.app?.status?.action === 'healthcheck') {
+					return t('settings', 'Health checking')
 				}
 				if (this.app.needsDownload) {
-					return t('app_api', 'Deploy and Enable')
+					return t('settings', 'Deploy and Enable')
 				}
-				return t('app_api', 'Enable')
+				return t('settings', 'Enable')
 			} else {
 				if (this.app.needsDownload) {
 					return t('settings', 'Download and enable')
@@ -71,17 +71,17 @@ export default {
 		},
 		disableButtonText() {
 			if (this.app?.app_api) {
-				if (this.app && Object.hasOwn(this.app?.status, 'action') && this.app.status.action === 'deploy') {
-					return t('app_api', '{progress}% Deploying', { progress: this.app.status?.deploy })
+				if (this.app && this.app?.status?.action && this.app?.status?.action === 'deploy') {
+					return t('settings', '{progress}% Deploying …', { progress: this.app?.status?.deploy })
 				}
-				if (this.app && Object.hasOwn(this.app?.status, 'action') && this.app.status.action === 'init') {
-					return t('app_api', '{progress}% Initializing', { progress: this.app.status?.init })
+				if (this.app && this.app?.status?.action && this.app?.status?.action === 'init') {
+					return t('settings', '{progress}% Initializing …', { progress: this.app?.status?.init })
 				}
-				if (this.app && Object.hasOwn(this.app?.status, 'action') && this.app.status.action === 'healthcheck') {
-					return t('app_api', 'Healthchecking')
+				if (this.app && this.app?.status?.action && this.app?.status?.action === 'healthcheck') {
+					return t('settings', 'Health checking')
 				}
 			}
-			return t('app_api', 'Disable')
+			return t('settings', 'Disable')
 		},
 		forceEnableButtonText() {
 			if (this.app.needsDownload) {

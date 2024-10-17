@@ -84,7 +84,15 @@ const { appIcon } = useAppIcon(app)
 /**
  * The second text line shown on the sidebar
  */
-const licenseText = computed(() => app.value ? t('settings', 'Version {version}, {license}-licensed', { version: app.value.version, license: app.value.licence.toString().toUpperCase() }) : '')
+const licenseText = computed(() => {
+	if (!app.value) {
+		return ''
+	}
+	if (app.value.license !== '') {
+		return t('settings', 'Version {version}, {license}-licensed', { version: app.value.version, license: app.value.licence.toString().toUpperCase() })
+	}
+	return t('settings', 'Version {version}', { version: app.value.version })
+})
 
 const activeTab = ref('details')
 watch([app], () => { activeTab.value = 'details' })

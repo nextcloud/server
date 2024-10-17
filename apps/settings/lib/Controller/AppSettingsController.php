@@ -90,7 +90,12 @@ class AppSettingsController extends Controller {
 		$this->initialState->provideInitialState('appstoreDeveloperDocs', $this->urlGenerator->linkToDocs('developer-manual'));
 		$this->initialState->provideInitialState('appstoreUpdateCount', count($this->getAppsWithUpdates()));
 
-		$this->provideAppApiState();
+		if ($this->appManager->isInstalled('app_api')) {
+			try {
+				Server::get(\OCA\AppAPI\Service\ExAppsPageService::class)->provideAppApiState($this->initialState);
+			} catch (\Psr\Container\NotFoundExceptionInterface|\Psr\Container\ContainerExceptionInterface $e) {
+			}
+		}
 
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
@@ -102,40 +107,6 @@ class AppSettingsController extends Controller {
 		Util::addScript('settings', 'vue-settings-apps-users-management');
 
 		return $templateResponse;
-	}
-
-	/**
-	 * @psalm-suppress UndefinedClass
-	 */
-	private function provideAppApiState(): void {
-		$appApiEnabled = $this->appManager->isInstalled('app_api');
-		$this->initialState->provideInitialState('appApiEnabled', $appApiEnabled);
-		$daemonConfigAccessible = false;
-		$defaultDaemonConfig = null;
-
-		if ($appApiEnabled) {
-			$exAppFetcher = Server::get(\OCA\AppAPI\Fetcher\ExAppFetcher::class);
-			$this->initialState->provideInitialState('appstoreExAppUpdateCount', count($exAppFetcher->getExAppsWithUpdates()));
-
-			$defaultDaemonConfigName = $this->config->getAppValue('app_api', 'default_daemon_config');
-			if ($defaultDaemonConfigName !== '') {
-				$daemonConfigService = Server::get(\OCA\AppAPI\Service\DaemonConfigService::class);
-				$daemonConfig = $daemonConfigService->getDaemonConfigByName($defaultDaemonConfigName);
-				if ($daemonConfig !== null) {
-					$defaultDaemonConfig = $daemonConfig->jsonSerialize();
-					unset($defaultDaemonConfig['deploy_config']['haproxy_password']);
-					$dockerActions = Server::get(\OCA\AppAPI\DeployActions\DockerActions::class);
-					$dockerActions->initGuzzleClient($daemonConfig);
-					$daemonConfigAccessible = $dockerActions->ping($dockerActions->buildDockerUrl($daemonConfig));
-					if (!$daemonConfigAccessible) {
-						$this->logger->warning(sprintf('Deploy daemon "%s" is not accessible by Nextcloud. Please verify its configuration', $daemonConfig->getName()));
-					}
-				}
-			}
-		}
-
-		$this->initialState->provideInitialState('defaultDaemonConfigAccessible', $daemonConfigAccessible);
-		$this->initialState->provideInitialState('defaultDaemonConfig', $defaultDaemonConfig);
 	}
 
 	/**
@@ -475,6 +446,7 @@ class AppSettingsController extends Controller {
 
 			$formattedApps[] = [
 				'id' => $app['id'],
+				'app_api' => false,
 				'name' => $app['translations'][$currentLanguage]['name'] ?? $app['translations']['en']['name'],
 				'description' => $app['translations'][$currentLanguage]['description'] ?? $app['translations']['en']['description'],
 				'summary' => $app['translations'][$currentLanguage]['summary'] ?? $app['translations']['en']['summary'],

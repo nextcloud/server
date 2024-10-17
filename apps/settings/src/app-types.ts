@@ -41,6 +41,7 @@ export interface IAppstoreApp {
 	preview?: string
 	screenshot?: string
 
+	app_api: boolean
 	active: boolean
 	internal: boolean
 	removeable: boolean
@@ -48,6 +49,8 @@ export interface IAppstoreApp {
 	canInstall: boolean
 	canUninstall: boolean
 	isCompatible: boolean
+	needsDownload: boolean
+	update: string | null
 
 	appstoreData: Record<string, never>
 	releases?: IAppstoreAppRelease[]
@@ -75,18 +78,18 @@ export interface IDeployDaemon {
 }
 
 export interface IExAppStatus {
-	action: string,
-	deploy: number,
-	deploy_start_time: number,
-	error: string,
-	init: number,
-	init_start_time: number,
-	type: string,
+	action: string
+	deploy: number
+	deploy_start_time: number
+	error: string
+	init: number
+	init_start_time: number
+	type: string
 }
 
 export interface IAppstoreExApp extends IAppstoreApp {
-	daemon: IDeployDaemon,
-	status: IExAppStatus,
-	error: string,
-	app_api: boolean,
+	daemon: IDeployDaemon | null | undefined
+	status: IExAppStatus | Record<string, never>
+	error: string
+	removable: boolean
 }
