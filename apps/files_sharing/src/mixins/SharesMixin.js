@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { getCurrentUser } from '@nextcloud/auth'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { fetchNode } from '../services/WebdavClient.ts'
-import { showError, showSuccess } from '@nextcloud/dialogs'
-import { getCurrentUser } from '@nextcloud/auth'
-// eslint-disable-next-line import/no-unresolved, n/no-missing-import
+
 import PQueue from 'p-queue'
 import debounce from 'debounce'
 
@@ -92,10 +92,10 @@ export default {
 		// Datepicker language
 		lang() {
 			const weekdaysShort = window.dayNamesShort
-				? window.dayNamesShort // provided by nextcloud
+				? window.dayNamesShort // provided by Nextcloud
 				: ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.']
 			const monthsShort = window.monthNamesShort
-				? window.monthNamesShort // provided by nextcloud
+				? window.monthNamesShort // provided by Nextcloud
 				: ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.']
 			const firstDayOfWeek = window.firstDay ? window.firstDay : 0
 
@@ -156,7 +156,7 @@ export default {
 
 	methods: {
 		/**
-		 * Fetch webdav node
+		 * Fetch WebDAV node
 		 *
 		 * @return {Node}
 		 */
@@ -169,6 +169,7 @@ export default {
 				logger.error('Error:', error)
 			}
 		},
+
 		/**
 		 * Check if a share is valid before
 		 * firing the request
@@ -192,19 +193,7 @@ export default {
 		},
 
 		/**
-		 * @param {string} date a date with YYYY-MM-DD format
-		 * @return {Date} date
-		 */
-		parseDateString(date) {
-			if (!date) {
-				return
-			}
-			const regex = /([0-9]{4}-[0-9]{2}-[0-9]{2})/i
-			return new Date(date.match(regex)?.pop())
-		},
-
-		/**
-		 * @param {Date} date
+		 * @param {Date} date the date to format
 		 * @return {string} date a date with YYYY-MM-DD format
 		 */
 		formatDateToString(date) {
@@ -316,11 +305,17 @@ export default {
 
 						// clear any previous errors
 						this.$delete(this.errors, propertyNames[0])
-						showSuccess(t('files_sharing', 'Share {propertyName} saved', { propertyName: propertyNames[0] }))
-					} catch ({ message }) {
+						showSuccess(this.updateSuccessMessage(propertyNames))
+					} catch (error) {
+						logger.error('Could not update share', { error, share: this.share, propertyNames })
+
+						const { message } = error
 						if (message && message !== '') {
 							this.onSyncError(propertyNames[0], message)
-							showError(t('files_sharing', message))
+							showError(message)
+						} else {
+							// We do not have information what happened, but we should still inform the user
+							showError(t('files_sharing', 'Could not update share'))
 						}
 					} finally {
 						this.saving = false
@@ -331,6 +326,32 @@ export default {
 
 			// This share does not exists on the server yet
 			console.debug('Updated local share', this.share)
+		},
+
+		/**
+		 * @param {string[]} names Properties changed
+		 */
+		updateSuccessMessage(names) {
+			if (names.length !== 1) {
+				return t('files_sharing', 'Share saved')
+			}
+
+			switch (names[0]) {
+			case 'expireDate':
+				return t('files_sharing', 'Share expire date saved')
+			case 'hideDownload':
+				return t('files_sharing', 'Share hide-download state saved')
+			case 'label':
+				return t('files_sharing', 'Share label saved')
+			case 'note':
+				return t('files_sharing', 'Share note for recipient saved')
+			case 'password':
+				return t('files_sharing', 'Share password saved')
+			case 'permissions':
+				return t('files_sharing', 'Share permissions saved')
+			default:
+				return t('files_sharing', 'Share saved')
+			}
 		},
 
 		/**
