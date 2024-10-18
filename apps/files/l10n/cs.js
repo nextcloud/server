@@ -400,8 +400,6 @@ OC.L10N.register(
     "Copy direct link (only works for people who have access to this file/folder)" : "Zkopírovat přímý odkaz (funguje pouze pro osoby, které mají přístup k tomuto souboru/složce)",
     "Favored" : "Zařazeno mezi oblíbené",
     "Favor" : "Zařadit mezi oblíbené",
-    "Not favored" : "Není v oblíbených",
-    "Destination is not a folder" : "Cíl není složka",
-    "This file/folder is already in that directory" : "V oné složce se už daný soubor/složka nachází"
+    "Not favored" : "Není v oblíbených"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -6,7 +6,7 @@
     "{app} updated to version {version}" : "تمّ تحديث التطبيق {app} إلى الإصدار {version}",
     "Update notifications" : "إشعارات التحديث",
     "The update server could not be reached since %d days to check for new updates." : "تعذر الوصول إلى خادم التحديث للتحقق من وجود تحديثات جديدة منذ %d أيام.",
-    "Please check the Nextcloud and server log files for errors." : "يرجى التحقق من نكست كلاود و سجل حركات الخادم log بحثًا عن الأخطاء.",
+    "Please check the Nextcloud and server log files for errors." : "يرجى التحقق من نكست كلاود و سجل أنشطة الخادم log بحثًا عن الأخطاء.",
     "Update to {serverAndVersion} is available." : "تحديث الـ {serverAndVersion} متوفّر.",
     "Update for {app} to version %s is available." : "التحديث ل {app} نسخة رقم %s متوفر.",
     "Update notification" : "إشعار التحديث",

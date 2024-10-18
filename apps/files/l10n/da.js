@@ -385,8 +385,6 @@ OC.L10N.register(
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekst fil.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Linket er kopieret (dette link kan kun anvendes af brugere med adgang til denne fil/mappe)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Kopier direkte link (virker kun for brugere der har adgang til denne fil/mappe)",
-    "Destination is not a folder" : "Destinationen er ikke en mappe",
-    "This file/folder is already in that directory" : "Filen/mappen er allerede i denne mappe"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Kopier direkte link (virker kun for brugere der har adgang til denne fil/mappe)"
 },
 "nplurals=2; plural=(n != 1);");

@@ -424,6 +424,8 @@ OC.L10N.register(
     "Enter your date of birth" : "Ange ditt födelsedatum",
     "Unable to update date of birth" : "Det gick inte att uppdatera födelsedatum",
     "You are a member of the following groups:" : "Du är medlem i följande grupper:",
+    "You are using {s}{usage}{/s}" : "Du använder {s}{usage}{/s}",
+    "You are using {s}{usage}{/s} of {s}{totalSpace}{/s} ({s}{usageRelative}%{/s})" : "Du använder {s}{usage}{/s} av {s}{totalSpace}{/s} ({s}{usageRelative}%{/s})",
     "Your full name" : "Ditt fullständiga namn",
     "Primary email for password reset and notifications" : "Primär e-postadress för notifikationer och återställning av lösenord",
     "Email options" : "E-postinställningar",

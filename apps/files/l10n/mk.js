@@ -314,8 +314,6 @@ OC.L10N.register(
     "Text file" : "Текстуална датотека",
     "New text file.txt" : "Нова текстуална датотека file.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Копиран е директен линк (работи само за корисници кој имаат директен пристап до датотеката/папката)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Копирај директен линк (работи само за корисници кој имаат директен пристап до датотеката/папката)",
-    "Destination is not a folder" : "Дестинацијата не е папка",
-    "This file/folder is already in that directory" : "Оваа папка/датотека се наоѓа веќе во таа папка"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Копирај директен линк (работи само за корисници кој имаат директен пристап до датотеката/папката)"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

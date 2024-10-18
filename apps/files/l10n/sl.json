@@ -360,8 +360,6 @@
     "Text file" : "Besedilna datoteka",
     "New text file.txt" : "nova_datoteka.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Kopirana je neposredna povezava (za uporabnike, ki imajo dostop do datoteke ali mape)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Kopiraj neposredno povezavo (za uporabnike, ki imajo dostop do datoteke ali mape)",
-    "Destination is not a folder" : "Ciljno mesto ni mapa",
-    "This file/folder is already in that directory" : "Ta datoteka oziroma mapa je že v določeni mapi"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Kopiraj neposredno povezavo (za uporabnike, ki imajo dostop do datoteke ali mape)"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

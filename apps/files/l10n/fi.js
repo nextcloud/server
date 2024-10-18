@@ -345,8 +345,6 @@ OC.L10N.register(
     "Text file" : "Tekstitiedosto",
     "New text file.txt" : "Uusi tekstitiedosto.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Suora linkki kopioitu (toimii vain henkilöillä, joilla on pääsyoikeus tähän tiedostoon/kansioon)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Kopioi suora linkki (toimii vain henkilöillä, joilla on pääsyoikeus tähän tiedostoon/kansioon)",
-    "Destination is not a folder" : "Kohde ei ole kansio",
-    "This file/folder is already in that directory" : "Tämä tiedosto/kansio on jo kyseisessä kansiossa"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Kopioi suora linkki (toimii vain henkilöillä, joilla on pääsyoikeus tähän tiedostoon/kansioon)"
 },
 "nplurals=2; plural=(n != 1);");

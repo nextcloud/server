@@ -279,8 +279,6 @@ OC.L10N.register(
     "List of favorites files and folders." : "Lista de cartellas e de archìvios preferidos.",
     "Toggle %1$s sublist" : "Passa a sa sutalista %1$s",
     "Text file" : "Archìviu de testu",
-    "New text file.txt" : "Archìviu de testu .txt nou",
-    "Destination is not a folder" : "Sa destinatzione no est una cartella",
-    "This file/folder is already in that directory" : "Custu archìviu o cartella est giai in cussu diretòriu"
+    "New text file.txt" : "Archìviu de testu .txt nou"
 },
 "nplurals=2; plural=(n != 1);");

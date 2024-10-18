@@ -541,6 +541,8 @@ OC.L10N.register(
     "Enter your date of birth" : "Geben Sie Ihr Geburtsdatum ein",
     "Unable to update date of birth" : "Geburtsdatum konnte nicht aktualisiert werden",
     "You are a member of the following groups:" : "Sie sind Mitglied folgender Gruppen:",
+    "You are using {s}{usage}{/s}" : "Sie verwenden {s}{usage}{/s}",
+    "You are using {s}{usage}{/s} of {s}{totalSpace}{/s} ({s}{usageRelative}%{/s})" : "Sie verwenden {s}{usage}{/s} von {s}{totalSpace}{/s} ({s}{usageRelative}%{/s})",
     "Your full name" : "Ihr vollständiger Name",
     "Primary email for password reset and notifications" : "Primäre E-Mail-Adresse für Benachrichtigungen und Passwort-Zurücksetzen",
     "Email options" : "E-Mail-Optionen",
