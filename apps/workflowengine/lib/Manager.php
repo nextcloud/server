@@ -365,7 +365,7 @@ class Manager implements IManager {
 				->set('entity', $query->createNamedParameter($entity))
 				->set('events', $query->createNamedParameter(json_encode($events)))
 				->where($query->expr()->eq('id', $query->createNamedParameter($id)));
-			$query->execute();
+			$query->executeStatement();
 			$this->connection->commit();
 		} catch (Exception $e) {
 			$this->connection->rollBack();
