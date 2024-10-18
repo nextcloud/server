@@ -541,6 +541,8 @@ OC.L10N.register(
     "Enter your date of birth" : "輸入您的出生日期",
     "Unable to update date of birth" : "無法更新出生日期",
     "You are a member of the following groups:" : "你是下列群組的成員︰",
+    "You are using {s}{usage}{/s}" : "您已使用 {s}{usage}{/s}",
+    "You are using {s}{usage}{/s} of {s}{totalSpace}{/s} ({s}{usageRelative}%{/s})" : "您已使用 {s}{usage}{/s}，總儲存空間{s}{totalSpace}{/s} ({s}{usageRelative}%{/s})",
     "Your full name" : "您的全名",
     "Primary email for password reset and notifications" : "用於密碼重設與通知的主要電子郵件地址",
     "Email options" : "電子郵件選項",

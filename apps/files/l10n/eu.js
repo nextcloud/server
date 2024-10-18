@@ -387,8 +387,6 @@ OC.L10N.register(
     "Text file" : "Testu-fitxategia",
     "New text file.txt" : "Testu-fitxategi berria.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Esteka zuzena kopiatu da (fitxategi/karpeta honetara sarbidea dutenentzat bakarrik balio du)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Kopiatu esteka zuzena (fitxategi/karpeta honetara sarbidea dutenentzat bakarrik balio du)",
-    "Destination is not a folder" : "Helburua ez da karpeta bat",
-    "This file/folder is already in that directory" : "Fitxategi/karpeta hau dagoeneko karpeta horretan dago"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Kopiatu esteka zuzena (fitxategi/karpeta honetara sarbidea dutenentzat bakarrik balio du)"
 },
 "nplurals=2; plural=(n != 1);");

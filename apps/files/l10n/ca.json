@@ -394,8 +394,6 @@
     "Copy direct link (only works for people who have access to this file/folder)" : "Copia l'enllaç directe (només funciona per a les persones que tinguin accés a aquest fitxer o carpeta)",
     "Favored" : "Afavorit",
     "Favor" : "Afavorir",
-    "Not favored" : "No afavorit",
-    "Destination is not a folder" : "La destinació no és una carpeta",
-    "This file/folder is already in that directory" : "Aquest fitxer o carpeta ja existeix en aquesta carpeta"
+    "Not favored" : "No afavorit"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -31,7 +31,7 @@ OC.L10N.register(
     "Email confirmation" : "تأكيد الإيميل",
     "To enable the email address %s please click the button below." : "لتمكين عنوان الإيميل %s، إضغط الزر أدناه رجاءً.",
     "Confirm" : "تأكيد",
-    "Email was already removed from account and cannot be confirmed anymore." : "الإيميل سبق حذفه من الحساب و لا يمكن توكيده بعد الآن.",
+    "Email was already removed from account and cannot be confirmed anymore." : " البريد الإلكتروني سبق حذفه من الحساب و لا يمكن تأكيده بعد الآن.",
     "Could not verify mail because the token is expired." : "لا يمكن التحقّق من الإيميل بسبب انتهاء صلاحية الأَمارة token.",
     "Could not verify mail because the token is invalid." : "لا يمكن التحقّق من الإيميل بسبب أن الأَمارة token غير صحيحة.",
     "An unexpected error occurred. Please contact your admin." : "حدث خطأ غير متوقع. اتصل بالمشرف رجاءً.",

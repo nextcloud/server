@@ -400,8 +400,6 @@ OC.L10N.register(
     "Copy direct link (only works for people who have access to this file/folder)" : "Doğrudan bağlantıyı kopyala (yalnızca bu dosya ya da klasöre erişim izni olan kişiler için)",
     "Favored" : "Sık kullanılanlara eklenmiş",
     "Favor" : "Sık kullanılanlara ekle",
-    "Not favored" : "Sık kullanılanlara eklenmemiş",
-    "Destination is not a folder" : "Hedef bir klasör değil",
-    "This file/folder is already in that directory" : "Dosya ya da klasör bu klasörde zaten var"
+    "Not favored" : "Sık kullanılanlara eklenmemiş"
 },
 "nplurals=2; plural=(n > 1);");

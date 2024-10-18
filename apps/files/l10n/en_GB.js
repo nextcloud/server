@@ -400,8 +400,6 @@ OC.L10N.register(
     "Copy direct link (only works for people who have access to this file/folder)" : "Copy direct link (only works for people who have access to this file/folder)",
     "Favored" : "Favoured",
     "Favor" : "Favour",
-    "Not favored" : "Not favoured",
-    "Destination is not a folder" : "Destination is not a folder",
-    "This file/folder is already in that directory" : "This file/folder is already in that directory"
+    "Not favored" : "Not favoured"
 },
 "nplurals=2; plural=(n != 1);");

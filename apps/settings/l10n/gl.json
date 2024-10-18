@@ -539,6 +539,8 @@
     "Enter your date of birth" : "Introduza a súa data de nacemento",
     "Unable to update date of birth" : "Non é posíbel actualizar a data de nacemento",
     "You are a member of the following groups:" : "Vde. é membro dos seguintes grupos:",
+    "You are using {s}{usage}{/s}" : "Está a usar {s}{usage}{/s}",
+    "You are using {s}{usage}{/s} of {s}{totalSpace}{/s} ({s}{usageRelative}%{/s})" : "Está a usar {s}{usage}{/s} de {s}{totalSpace}{/s} ({s}{usageRelative}%{/s})",
     "Your full name" : "O seu nome completo",
     "Primary email for password reset and notifications" : "Correo-e principal para restabelecer o contrasinal e notificacións",
     "Email options" : "Opcións de correo -e",

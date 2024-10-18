@@ -541,6 +541,8 @@ OC.L10N.register(
     "Enter your date of birth" : "Унесите датум свог рођења",
     "Unable to update date of birth" : "Није успело ажурирање датума рођења",
     "You are a member of the following groups:" : "Члан сте следећих група:",
+    "You are using {s}{usage}{/s}" : "Користите {s}{usage}{/s}",
+    "You are using {s}{usage}{/s} of {s}{totalSpace}{/s} ({s}{usageRelative}%{/s})" : "Користите {s}{usage}{/s} од {s}{totalSpace}{/s} ({s}{usageRelative}%{/s})",
     "Your full name" : "Ваше пуно име",
     "Primary email for password reset and notifications" : "Примарни и-мејл за ресетовање лозинке и обавештења",
     "Email options" : "Опције за и-мејл",
