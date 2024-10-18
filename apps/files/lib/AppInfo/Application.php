@@ -28,14 +28,12 @@ use OCA\Files\Search\FilesSearchProvider;
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
-use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\Collaboration\Resources\IProviderManager;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntryRemovedEvent;
 use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
@@ -97,11 +95,8 @@ class Application extends App implements IBootstrap {
 			$server = $c->get(IServerContainer::class);
 
 			return new TagService(
-				$c->get(IUserSession::class),
-				$c->get(IActivityManager::class),
 				$c->get(ITagManager::class)->load(self::APP_ID),
 				$server->getUserFolder(),
-				$c->get(IEventDispatcher::class),
 			);
 		});
 

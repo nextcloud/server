@@ -13,8 +13,11 @@ use OCA\DAV\Connector\Sabre\Node;
 use OCA\DAV\Connector\Sabre\TagList;
 use OCA\DAV\Connector\Sabre\TagsPlugin;
 use OCA\DAV\Upload\UploadFile;
+use OCP\Activity\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ITagManager;
 use OCP\ITags;
+use OCP\IUserSession;
 use Sabre\DAV\Tree;
 
 class TagsPluginTest extends \Test\TestCase {
@@ -42,6 +45,14 @@ class TagsPluginTest extends \Test\TestCase {
 	 */
 	private $tagger;
 
+	/** @var IManager */
+	private $activityManager;
+
+	/** @var IUserSession */
+	private $userSession;
+
+	/** @var IEventDispatcher */
+	private $dispatcher;
 	/**
 	 * @var TagsPlugin
 	 */
@@ -59,11 +70,20 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->tagManager = $this->getMockBuilder(ITagManager::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$this->activityManager = $this->getMockBuilder(IManager::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userSession = $this->getMockBuilder(IUserSession::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$this->dispatcher = $this->getMockBuilder(IEventDispatcher::class)
+			->disableOriginalConstructor()
+			->getMock();
 		$this->tagManager->expects($this->any())
 			->method('load')
 			->with('files')
 			->willReturn($this->tagger);
-		$this->plugin = new TagsPlugin($this->tree, $this->tagManager);
+		$this->plugin = new TagsPlugin($this->tree, $this->tagManager, $this->userSession, $this->dispatcher, $this->activityManager);
 		$this->plugin->initialize($this->server);
 	}
 
@@ -379,8 +399,8 @@ class TagsPluginTest extends \Test\TestCase {
 
 		// set favorite tag
 		$this->tagger->expects($this->once())
-			->method('tagAs')
-			->with(123, self::TAG_FAVORITE);
+			->method('addToFavorites')
+			->with(123, '/dummypath');
 
 		// properties to set
 		$propPatch = new \Sabre\DAV\PropPatch([
@@ -404,8 +424,8 @@ class TagsPluginTest extends \Test\TestCase {
 		// unfavorite now
 		// set favorite tag
 		$this->tagger->expects($this->once())
-			->method('unTag')
-			->with(123, self::TAG_FAVORITE);
+			->method('removeFromFavorites')
+			->with(123, '/dummypath');
 
 		// properties to set
 		$propPatch = new \Sabre\DAV\PropPatch([
