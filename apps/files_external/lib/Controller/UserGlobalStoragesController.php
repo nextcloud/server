@@ -15,6 +15,7 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
@@ -136,6 +137,7 @@ class UserGlobalStoragesController extends StoragesController {
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	public function update(
 		$id,
 		$backendOptions,
