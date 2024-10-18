@@ -16,10 +16,21 @@ use OCP\Migration\IRepairStep;
 
 class RefreshWebcalJobRegistrar implements IRepairStep {
 
-	public function __construct(
-		private IDBConnection $connection,
-		private IJobList $jobList,
-	) {
+	/** @var IDBConnection */
+	private $connection;
+
+	/** @var IJobList */
+	private $jobList;
+
+	/**
+	 * FixBirthdayCalendarComponent constructor.
+	 *
+	 * @param IDBConnection $connection
+	 * @param IJobList $jobList
+	 */
+	public function __construct(IDBConnection $connection, IJobList $jobList) {
+		$this->connection = $connection;
+		$this->jobList = $jobList;
 	}
 
 	/**
