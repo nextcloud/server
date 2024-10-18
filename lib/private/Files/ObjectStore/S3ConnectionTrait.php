@@ -51,6 +51,7 @@ trait S3ConnectionTrait {
 			$params['port'] = (isset($params['use_ssl']) && $params['use_ssl'] === false) ? 80 : 443;
 		}
 		$params['verify_bucket_exists'] = $params['verify_bucket_exists'] ?? true;
+		$params['ssl_verify'] = $params['ssl_verify'] ?? true;
 
 		if ($params['s3-accelerate']) {
 			$params['verify_bucket_exists'] = false;
@@ -100,7 +101,7 @@ trait S3ConnectionTrait {
 			'csm' => false,
 			'use_arn_region' => false,
 			'http' => [
-				'verify' => $this->getCertificateBundlePath(),
+				'verify' => $this->params['ssl_verify'] ? $this->getCertificateBundlePath() : false,
 				// Timeout for the connection to S3 server, not for the request.
 				'connect_timeout' => 5
 			],
