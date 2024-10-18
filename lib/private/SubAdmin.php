@@ -259,6 +259,9 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @return bool
 	 */
 	public function isUserAccessible(IUser $subadmin, IUser $user): bool {
+		if ($subadmin->getUID() === $user->getUID()) {
+			return true;
+		}
 		if (!$this->isSubAdmin($subadmin)) {
 			return false;
 		}
