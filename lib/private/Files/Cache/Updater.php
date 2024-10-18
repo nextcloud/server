@@ -9,6 +9,7 @@ namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception\DeadlockException;
 use OC\Files\FileInfo;
+use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IUpdater;
 use OCP\Files\Storage\IStorage;
@@ -157,13 +158,35 @@ class Updater implements IUpdater {
 	}
 
 	/**
-	 * Rename a file or folder in the cache and update the size, etag and mtime of the parent folders
+	 * Rename a file or folder in the cache.
 	 *
 	 * @param IStorage $sourceStorage
 	 * @param string $source
 	 * @param string $target
 	 */
 	public function renameFromStorage(IStorage $sourceStorage, $source, $target) {
+		$this->copyOrRenameFromStorage($sourceStorage, $source, $target, function (ICache $sourceCache) use ($sourceStorage, $source, $target) {
+			if ($sourceStorage === $this->storage) {
+				$this->cache->move($source, $target);
+			} else {
+				$this->cache->moveFromCache($sourceCache, $source, $target);
+			}
+		});
+	}
+
+	/**
+	 * Copy a file or folder in the cache.
+	 */
+	public function copyFromStorage(IStorage $sourceStorage, string $source, string $target): void {
+		$this->copyOrRenameFromStorage($sourceStorage, $source, $target, function (ICache $sourceCache, ICacheEntry $sourceInfo) use ($target) {
+			$this->cache->copyFromCache($sourceCache, $sourceInfo, $target);
+		});
+	}
+
+	/**
+	 * Utility to copy or rename a file or folder in the cache and update the size, etag and mtime of the parent folders
+	 */
+	private function copyOrRenameFromStorage(IStorage $sourceStorage, string $source, string $target, callable $operation): void {
 		if (!$this->enabled or Scanner::isPartialFile($source) or Scanner::isPartialFile($target)) {
 			return;
 		}
@@ -181,11 +204,7 @@ class Updater implements IUpdater {
 				$this->cache->remove($target);
 			}
 
-			if ($sourceStorage === $this->storage) {
-				$this->cache->move($source, $target);
-			} else {
-				$this->cache->moveFromCache($sourceCache, $source, $target);
-			}
+			$operation($sourceCache, $sourceInfo);
 
 			$sourceExtension = pathinfo($source, PATHINFO_EXTENSION);
 			$targetExtension = pathinfo($target, PATHINFO_EXTENSION);
