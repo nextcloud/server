@@ -346,8 +346,6 @@ OC.L10N.register(
     "Text file" : "Plik tekstowy",
     "New text file.txt" : "Nowy plik tekstowy.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Bezpośredni link został skopiowany (działa tylko dla użytkowników, którzy mają dostęp do tego pliku/katalogu)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Skopiuj bezpośredni link (działa tylko dla użytkowników, którzy mają dostęp do tego pliku/katalogu)",
-    "Destination is not a folder" : "Miejsce docelowe nie jest katalogiem",
-    "This file/folder is already in that directory" : "Ten plik/katalog znajduje się już w tym katalogu"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Skopiuj bezpośredni link (działa tylko dla użytkowników, którzy mają dostęp do tego pliku/katalogu)"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

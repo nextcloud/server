@@ -293,8 +293,6 @@ OC.L10N.register(
     "List of favorites files and folders." : "Danh sách các tập tin và thư mục yêu thích.",
     "Toggle %1$s sublist" : "Chuyển đổi danh sách phụ %1$s",
     "Text file" : "Tập tin văn bản",
-    "New text file.txt" : "Tệp văn bản mới.txt",
-    "Destination is not a folder" : "Đích đến không phải là một thư mục",
-    "This file/folder is already in that directory" : "Tệp/thư mục này đã có trong thư mục đó"
+    "New text file.txt" : "Tệp văn bản mới.txt"
 },
 "nplurals=1; plural=0;");

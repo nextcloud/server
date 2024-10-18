@@ -253,7 +253,7 @@ OC.L10N.register(
     "to" : "إلى",
     "Delete slot" : "حذف فُرَضَةٍ slot زمنيّةٍ",
     "No working hours set" : "لم يتم تحديد ساعات العمل",
-    "Add slot" : "أضِف فُرَضَةً slot زمنيّةً",
+    "Add slot" : "إضافة فترة زمنية",
     "Weekdays" : "أيام الأسبوع",
     "Pick a start time for {dayName}" : "إختَر وقت البدء ليوم {dayName}",
     "Pick a end time for {dayName}" : "إختَر وقت الانتهاء ليوم {dayName}",

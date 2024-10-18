@@ -347,8 +347,6 @@
     "Text file" : "텍스트 파일",
     "New text file.txt" : "새 텍스트 파일.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "직접 링크를 복사했습니다. (이 파일 및 폴더에 접근할 수 있는 사람에게만 작동)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "직접 링크 복사(이 파일/폴더에 접근 권한이 있는 사람만)",
-    "Destination is not a folder" : "대상이 폴더가 아닙니다.",
-    "This file/folder is already in that directory" : "이 파일/폴더가 이미 그 경로에 있습니다."
+    "Copy direct link (only works for people who have access to this file/folder)" : "직접 링크 복사(이 파일/폴더에 접근 권한이 있는 사람만)"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

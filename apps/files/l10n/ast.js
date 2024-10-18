@@ -348,8 +348,6 @@ OC.L10N.register(
     "Text file" : "Ficheru de testu",
     "New text file.txt" : "ficheru_nuevu.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Copióse l'enllaz direutu (namás funciona coles persones que tienen accesu a esti ficheru o esta carpeta)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Copiar l'enllaz direutu (namás funciona coles persones que tienen accesu a esti ficheru o esta carpeta)",
-    "Destination is not a folder" : "El destín nun ye una carpeta",
-    "This file/folder is already in that directory" : "Esti ficheru o esta carpeta yá ta nel direutoriu"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Copiar l'enllaz direutu (namás funciona coles persones que tienen accesu a esti ficheru o esta carpeta)"
 },
 "nplurals=2; plural=(n != 1);");

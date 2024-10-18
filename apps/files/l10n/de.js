@@ -398,8 +398,6 @@ OC.L10N.register(
     "Copy direct link (only works for people who have access to this file/folder)" : "Direktlink kopieren (funktioniert nur für Personen, die Zugriff auf diese Datei/Ordner haben)",
     "Favored" : "Favorisiert",
     "Favor" : "Favorisieren",
-    "Not favored" : "Nicht favorisiert",
-    "Destination is not a folder" : "Ziel ist kein Ordner",
-    "This file/folder is already in that directory" : "Diese Datei oder Ordner ist bereits in diesem Verzeichnis vorhanden"
+    "Not favored" : "Nicht favorisiert"
 },
 "nplurals=2; plural=(n != 1);");

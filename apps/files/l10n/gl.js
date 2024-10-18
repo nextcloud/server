@@ -400,8 +400,6 @@ OC.L10N.register(
     "Copy direct link (only works for people who have access to this file/folder)" : "Copiar a ligazón directa (só funciona para persoas con acceso a este ficheiro/cartafol)",
     "Favored" : "Favoritos",
     "Favor" : "Engadir a favoritos",
-    "Not favored" : "Non está en favoritos",
-    "Destination is not a folder" : "O destino non é un cartafol",
-    "This file/folder is already in that directory" : "Este ficheiro/cartafol xa está nese directorio"
+    "Not favored" : "Non está en favoritos"
 },
 "nplurals=2; plural=(n != 1);");

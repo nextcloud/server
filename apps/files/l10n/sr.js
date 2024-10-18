@@ -400,8 +400,6 @@ OC.L10N.register(
     "Copy direct link (only works for people who have access to this file/folder)" : "Копирај директни линк (ради само за особе које имају приступ овом фајлу/фолдеру)",
     "Favored" : "Наклоњен",
     "Favor" : "Наклоност",
-    "Not favored" : "Ненаклоњен",
-    "Destination is not a folder" : "Одредиште није фолдер",
-    "This file/folder is already in that directory" : "Овај фајл/фолдер се већ налази у том директоријуму"
+    "Not favored" : "Ненаклоњен"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

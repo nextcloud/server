@@ -303,8 +303,6 @@ OC.L10N.register(
     "List of favorites files and folders." : "List of favorites files and folders.",
     "Toggle %1$s sublist" : "Toggle %1$s sublist",
     "Text file" : "Text file",
-    "New text file.txt" : "New text file.txt",
-    "Destination is not a folder" : "Destination is not a folder",
-    "This file/folder is already in that directory" : "This file/folder is already in that directory"
+    "New text file.txt" : "New text file.txt"
 },
 "nplurals=2; plural=(n!=1);");

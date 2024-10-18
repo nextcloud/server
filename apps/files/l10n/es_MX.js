@@ -385,8 +385,6 @@ OC.L10N.register(
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Se ha copiado el enlace directo (sólo funciona para usuarios que tienen acceso a este archivo/carpeta)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Copiar enlace directo (sólo funciona para usuarios que tienen acceso a este archivo/carpeta)",
-    "Destination is not a folder" : "El destino no es una carpeta",
-    "This file/folder is already in that directory" : "Este archivo/carpeta ya está en ese directorio"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Copiar enlace directo (sólo funciona para usuarios que tienen acceso a este archivo/carpeta)"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

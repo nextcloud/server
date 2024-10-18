@@ -400,8 +400,6 @@ OC.L10N.register(
     "Copy direct link (only works for people who have access to this file/folder)" : "Kopiera direktlänk (fungerar endast för användare som har åtkomst till denna fil/mapp)",
     "Favored" : "Favoriserad",
     "Favor" : "Favorisera",
-    "Not favored" : "Inte favoriserad",
-    "Destination is not a folder" : "Destinationen är inte en mapp",
-    "This file/folder is already in that directory" : "Den här filen/mappen finns redan i den katalogen"
+    "Not favored" : "Inte favoriserad"
 },
 "nplurals=2; plural=(n != 1);");

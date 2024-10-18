@@ -539,6 +539,8 @@
     "Enter your date of birth" : "Zadejte datum svého narození",
     "Unable to update date of birth" : "Nedaří se aktualizovat datum narození",
     "You are a member of the following groups:" : "Jste členy následujících skupin:",
+    "You are using {s}{usage}{/s}" : "Využíváte {s}{usage}{/s}",
+    "You are using {s}{usage}{/s} of {s}{totalSpace}{/s} ({s}{usageRelative}%{/s})" : "Využíváte {s}{usage}{/s} z {s}{totalSpace}{/s} ({s}{usageRelative}%{/s})",
     "Your full name" : "Vaše celé jméno",
     "Primary email for password reset and notifications" : "Hlavní e-mail pro resetování hesla a oznamování",
     "Email options" : "Předvolby e-mailu",
