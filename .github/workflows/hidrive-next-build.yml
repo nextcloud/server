@@ -81,6 +81,9 @@ jobs:
           PUPPETEER_SKIP_DOWNLOAD: true
         run: make -f IONOS/Makefile build_dep_user_oidc_app
 
+      - name: Install dependencies for external apps nc_ionos_processes
+        run: make -f IONOS/Makefile build_dep_nc_ionos_processes_app
+
       - name: Build Custom CSS
         run: make -f IONOS/Makefile build_dep_theming_app
 

@@ -40,3 +40,6 @@
 [submodule "custom-npms/nc-nextcloud-vue"]
 	path = custom-npms/nc-nextcloud-vue
 	url = git@github.com:IONOS-Productivity/nc-nextcloud-vue.git
+[submodule "apps-custom/nc_ionos_processes"]
+	path = apps-custom/nc_ionos_processes
+	url = git@github.com:IONOS-Productivity/nc_ionos_processes.git
