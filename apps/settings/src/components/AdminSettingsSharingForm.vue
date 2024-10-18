@@ -96,7 +96,7 @@
 			<NcCheckboxRadioSwitch type="switch"
 				aria-controls="settings-sharing-api-expiration"
 				:checked.sync="settings.defaultInternalExpireDate">
-				{{ t('settings', 'Set default expiration date for shares') }}
+				{{ t('settings', 'Set default expiration date for internal shares') }}
 			</NcCheckboxRadioSwitch>
 			<fieldset v-show="settings.defaultInternalExpireDate" id="settings-sharing-api-expiration" class="sharing__sub-section">
 				<NcCheckboxRadioSwitch :checked.sync="settings.enforceInternalExpireDate">
