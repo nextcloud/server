@@ -271,13 +271,24 @@ StorageConfig.prototype = {
 	 * @param {Function} [options.error] error callback
 	 */
 	save: function(options) {
-		var self = this;
 		var url = OC.generateUrl(this._url);
 		var method = 'POST';
 		if (_.isNumber(this.id)) {
 			method = 'PUT';
 			url = OC.generateUrl(this._url + '/{id}', {id: this.id});
 		}
+
+		window.OC.PasswordConfirmation.requirePasswordConfirmation(() => this._save(method, url, options), options.error);
+	},
+
+	/**
+	 * Private implementation of the save function (called after potential password confirmation)
+	 * @param {string} method 
+	 * @param {string} url 
+	 * @param {{success: Function, error: Function}} options 
+	 */
+	_save: function(method, url, options) {
+		self = this;
 
 		$.ajax({
 			type: method,
@@ -352,6 +363,15 @@ StorageConfig.prototype = {
 			}
 			return;
 		}
+
+		window.OC.PasswordConfirmation.requirePasswordConfirmation(() => this._destroy(options), options.error)
+	},
+
+	/**
+	 * Private implementation of the DELETE method called after password confirmation
+	 * @param {{ success: Function, error: Function }} options 
+	 */
+	_destroy: function(options) {
 		$.ajax({
 			type: 'DELETE',
 			url: OC.generateUrl(this._url + '/{id}', {id: this.id}),
