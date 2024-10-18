@@ -8,7 +8,9 @@ declare(strict_types=1);
 
 namespace OC\DB\QueryBuilder\Sharded;
 
+use OC\DB\QueryBuilder\QueryBuilder;
 use OCP\ICacheFactory;
+use OCP\IDBConnection;
 use OCP\IMemcache;
 use OCP\IMemcacheTTL;
 
@@ -134,17 +136,19 @@ class AutoIncrementHandler {
 	 * Get the maximum primary key value from the shards
 	 */
 	private function getMaxFromDb(ShardDefinition $shardDefinition): int {
-		$max = 0;
+		$max = $shardDefinition->fromFileId;
+		$query = $this->shardConnectionManager->getConnection($shardDefinition, 0)->getQueryBuilder();
+		$query->select($shardDefinition->primaryKey)
+			->from($shardDefinition->table)
+			->orderBy($shardDefinition->primaryKey, 'DESC')
+			->setMaxResults(1);
 		foreach ($shardDefinition->getAllShards() as $shard) {
-			$connection = $this->shardConnectionManager->getConnection($shardDefinition, $shard);
-			$query = $connection->getQueryBuilder();
-			$query->select($shardDefinition->primaryKey)
-				->from($shardDefinition->table)
-				->orderBy($shardDefinition->primaryKey, 'DESC')
-				->setMaxResults(1);
-			$result = $query->executeQuery()->fetchOne();
-			if ($result) {
-				$max = max($max, $result);
+			if ($shard !== ShardDefinition::MIGRATION_SHARD) {
+				$connection = $this->shardConnectionManager->getConnection($shardDefinition, $shard);
+				$result = $query->executeQuery($connection)->fetchOne();
+				if ($result) {
+					$max = max($max, $result);
+				}
 			}
 		}
 		return $max;
