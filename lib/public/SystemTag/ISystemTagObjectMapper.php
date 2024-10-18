@@ -111,4 +111,14 @@ interface ISystemTagObjectMapper {
 	 * @since 9.0.0
 	 */
 	public function haveTag($objIds, string $objectType, string $tagId, bool $all = true): bool;
+
+
+	/**
+	 * Get the list of object types that have objects assigned to them.
+	 *
+	 * @return string[] list of object types
+	 *
+	 * @since 31.0.0
+	 */
+	public function getAvailableObjectTypes(): array;
 }
