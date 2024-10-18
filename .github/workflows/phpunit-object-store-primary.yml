@@ -78,7 +78,7 @@ jobs:
         uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d #v2.25.2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
