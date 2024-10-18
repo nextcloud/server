@@ -260,4 +260,19 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			);
 		}
 	}
+
+	public function getAvailableObjectTypes(): array {
+		$query = $this->connection->getQueryBuilder();
+		$query->selectDistinct('objecttype')
+			->from(self::RELATION_TABLE);
+
+		$result = $query->executeQuery();
+		$objectTypes = [];
+		while ($row = $result->fetch()) {
+			$objectTypes[] = $row['objecttype'];
+		}
+		$result->closeCursor();
+
+		return $objectTypes;
+	}
 }
