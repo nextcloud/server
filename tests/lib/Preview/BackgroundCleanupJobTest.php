@@ -191,13 +191,23 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$f2 = $appdata->newFolder((string)PHP_INT_MAX - 1);
 		$f2->newFile('foo.jpg', 'foo');
 
+		/*
+		 * Cleanup of OldPreviewLocations should only remove folders on AppData level,
+		 * therefore this file should stay untouched.
+		 */
+		$appdata->getAppDataFolder()->newFile('not-a-directory', 'foo');
+
 		$appdata = \OC::$server->getAppDataDir('preview');
-		$this->assertSame(3, count($appdata->getDirectoryListing()));
+		$this->assertSame(4, count($appdata->getDirectoryListing()));
 
 		$job = new BackgroundCleanupJob($this->timeFactory, $this->connection, $this->getRoot(), $this->mimeTypeLoader, true);
 		$job->run([]);
 
 		$appdata = \OC::$server->getAppDataDir('preview');
-		$this->assertSame(0, count($appdata->getDirectoryListing()));
+
+		// Check if the `not-a-directory` file is still present
+		$directoryListing = $appdata->getDirectoryListing();
+		$this->assertSame(1, count($directoryListing));
+		$this->assertSame('not-a-directory', $directoryListing[0]->getName());
 	}
 }
