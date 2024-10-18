@@ -22,10 +22,7 @@ class Quota extends Wrapper {
 	private SystemConfig $config;
 	private bool $quotaIncludeExternalStorage;
 
-	/**
-	 * @param array $parameters
-	 */
-	public function __construct($parameters) {
+	public function __construct(array $parameters) {
 		parent::__construct($parameters);
 		$this->quota = $parameters['quota'] ?? null;
 		$this->quotaCallback = $parameters['quotaCallback'] ?? null;

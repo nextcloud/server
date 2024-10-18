@@ -38,11 +38,8 @@ class Encryption extends Wrapper {
 	private CappedMemoryCache $encryptedPaths;
 	private bool $enabled = true;
 
-	/**
-	 * @param array $parameters
-	 */
 	public function __construct(
-		$parameters,
+		array $parameters,
 		private IManager $encryptionManager,
 		private Util $util,
 		private LoggerInterface $logger,

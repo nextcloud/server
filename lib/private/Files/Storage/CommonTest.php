@@ -14,8 +14,8 @@ class CommonTest extends \OC\Files\Storage\Common {
 	 */
 	private $storage;
 
-	public function __construct($params) {
-		$this->storage = new \OC\Files\Storage\Local($params);
+	public function __construct(array $parameters) {
+		$this->storage = new \OC\Files\Storage\Local($parameters);
 	}
 
 	public function getId(): string {

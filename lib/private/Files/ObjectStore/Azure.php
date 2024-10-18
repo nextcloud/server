@@ -24,10 +24,7 @@ class Azure implements IObjectStore {
 	/** @var bool */
 	private $autoCreate = false;
 
-	/**
-	 * @param array $parameters
-	 */
-	public function __construct($parameters) {
+	public function __construct(array $parameters) {
 		$this->containerName = $parameters['container'];
 		$this->accountName = $parameters['account_name'];
 		$this->accountKey = $parameters['account_key'];
