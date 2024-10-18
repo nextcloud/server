@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -27,10 +28,9 @@ class File implements Share_Backend_File_Dependent {
 
 	private $path;
 
-	/** @var FederatedShareProvider */
-	private $federatedShareProvider;
-
-	public function __construct(?FederatedShareProvider $federatedShareProvider = null) {
+	public function __construct(
+		private ?FederatedShareProvider $federatedShareProvider = null,
+	) {
 		if ($federatedShareProvider) {
 			$this->federatedShareProvider = $federatedShareProvider;
 		} else {
@@ -189,7 +189,7 @@ class File implements Share_Backend_File_Dependent {
 					->where(
 						$qb->expr()->eq('id', $qb->createNamedParameter($parent))
 					);
-				$result = $qb->execute();
+				$result = $qb->executeQuery();
 				$item = $result->fetch();
 				$result->closeCursor();
 				if (isset($item['parent'])) {

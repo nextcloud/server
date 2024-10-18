@@ -74,7 +74,7 @@ class Cache implements ICache {
 			$this->storageId = md5($this->storageId);
 		}
 		if (!$dependencies) {
-			$dependencies = \OC::$server->get(CacheDependencies::class);
+			$dependencies = \OCP\Server::get(CacheDependencies::class);
 		}
 		$this->storageCache = new Storage($this->storage, true, $dependencies->getConnection());
 		$this->mimetypeLoader = $dependencies->getMimeTypeLoader();
@@ -127,7 +127,7 @@ class Cache implements ICache {
 		}
 		$query->whereStorageId($this->getNumericStorageId());
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$data = $result->fetch();
 		$result->closeCursor();
 
@@ -205,7 +205,7 @@ class Cache implements ICache {
 
 			$metadataQuery = $query->selectMetadata();
 
-			$result = $query->execute();
+			$result = $query->executeQuery();
 			$files = $result->fetchAll();
 			$result->closeCursor();
 
@@ -294,7 +294,7 @@ class Cache implements ICache {
 					foreach ($extensionValues as $column => $value) {
 						$query->setValue($column, $query->createNamedParameter($value));
 					}
-					$query->execute();
+					$query->executeStatement();
 				}
 
 				$event = new CacheEntryInsertedEvent($this->storage, $file, $fileId, $storageId);
@@ -355,7 +355,7 @@ class Cache implements ICache {
 				$query->set($key, $query->createNamedParameter($value));
 			}
 
-			$query->execute();
+			$query->executeStatement();
 		}
 
 		if (count($extensionValues)) {
@@ -386,7 +386,7 @@ class Cache implements ICache {
 					$query->set($key, $query->createNamedParameter($value));
 				}
 
-				$query->execute();
+				$query->executeStatement();
 			}
 		}
 
@@ -468,7 +468,7 @@ class Cache implements ICache {
 			->whereStorageId($this->getNumericStorageId())
 			->wherePath($file);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$id = $result->fetchOne();
 		$result->closeCursor();
 
@@ -523,13 +523,13 @@ class Cache implements ICache {
 			$query->delete('filecache')
 				->whereStorageId($this->getNumericStorageId())
 				->whereFileId($entry->getId());
-			$query->execute();
+			$query->executeStatement();
 
 			$query = $this->getQueryBuilder();
 			$query->delete('filecache_extended')
 				->whereFileId($entry->getId())
 				->hintShardKey('storage', $this->getNumericStorageId());
-			$query->execute();
+			$query->executeStatement();
 
 			if ($entry->getMimeType() == FileInfo::MIMETYPE_FOLDER) {
 				$this->removeChildren($entry);
@@ -577,7 +577,7 @@ class Cache implements ICache {
 
 			foreach (array_chunk($childIds, 1000) as $childIdChunk) {
 				$query->setParameter('childIds', $childIdChunk, IQueryBuilder::PARAM_INT_ARRAY);
-				$query->execute();
+				$query->executeStatement();
 			}
 
 			/** @var ICacheEntry[] $childFolders */
@@ -603,7 +603,7 @@ class Cache implements ICache {
 		sort($parentIds, SORT_NUMERIC);
 		foreach (array_chunk($parentIds, 1000) as $parentIdChunk) {
 			$query->setParameter('parentIds', $parentIdChunk, IQueryBuilder::PARAM_INT_ARRAY);
-			$query->execute();
+			$query->executeStatement();
 		}
 
 		foreach (array_combine($deletedIds, $deletedPaths) as $fileId => $filePath) {
@@ -765,7 +765,7 @@ class Cache implements ICache {
 				$query->set('encrypted', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT));
 			}
 
-			$query->execute();
+			$query->executeStatement();
 
 			$this->connection->commit();
 
@@ -800,12 +800,12 @@ class Cache implements ICache {
 		$query = $this->getQueryBuilder();
 		$query->delete('filecache')
 			->whereStorageId($this->getNumericStorageId());
-		$query->execute();
+		$query->executeStatement();
 
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('storages')
 			->where($query->expr()->eq('id', $query->createNamedParameter($this->storageId)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**
@@ -830,7 +830,7 @@ class Cache implements ICache {
 			->whereStorageId($this->getNumericStorageId())
 			->wherePath($file);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$size = $result->fetchOne();
 		$result->closeCursor();
 
@@ -919,7 +919,7 @@ class Cache implements ICache {
 				->whereStorageId($this->getNumericStorageId())
 				->andWhere($query->expr()->lt('size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
 
-			$result = $query->execute();
+			$result = $query->executeQuery();
 			$size = (int)$result->fetchOne();
 			$result->closeCursor();
 
@@ -965,7 +965,7 @@ class Cache implements ICache {
 				$query->andWhere($query->expr()->gte('size', $query->createNamedParameter(0)));
 			}
 
-			$result = $query->execute();
+			$result = $query->executeQuery();
 			$rows = $result->fetchAll();
 			$result->closeCursor();
 
@@ -1039,7 +1039,7 @@ class Cache implements ICache {
 			->from('filecache')
 			->whereStorageId($this->getNumericStorageId());
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$files = $result->fetchAll(\PDO::FETCH_COLUMN);
 		$result->closeCursor();
 
@@ -1070,7 +1070,7 @@ class Cache implements ICache {
 			->orderBy('fileid', 'DESC')
 			->setMaxResults(1);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$id = $result->fetchOne();
 		$result->closeCursor();
 
@@ -1095,7 +1095,7 @@ class Cache implements ICache {
 			->whereStorageId($this->getNumericStorageId())
 			->whereFileId($id);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$path = $result->fetchOne();
 		$result->closeCursor();
 
@@ -1121,7 +1121,7 @@ class Cache implements ICache {
 			->from('filecache')
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$row = $result->fetch();
 		$result->closeCursor();
 
