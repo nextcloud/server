@@ -44,10 +44,8 @@ class MysqlRowFormat implements ISetupCheck {
 		}
 
 		return SetupResult::warning(
-			$this->l10n->n(
-				'Table %s is not using ROW_FORMAT=Dynamic. This format offers the best database performances for Nextcloud. Please change the row format to Dynamic.',
-				'Some tables are not using ROW_FORMAT=Dynamic. This format offers the best database performances for Nextcloud. Please change the row format to Dynamic on the following tables: %s.',
-				count($wrongRowFormatTables),
+			$this->l10n->t(
+				'Incorrect row format found in your database. ROW_FORMAT=Dynamic offers the best database performances for Nextcloud. Please update row format on the following list: %s.',
 				[implode(', ', $wrongRowFormatTables)],
 			),
 			'https://dev.mysql.com/doc/refman/en/innodb-row-format.html',
