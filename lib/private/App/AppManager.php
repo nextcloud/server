@@ -42,6 +42,7 @@ use InvalidArgumentException;
 use OC\AppConfig;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\ServerNotAvailableException;
+use OC\Session\CryptoSessionData;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\Events\AppDisableEvent;
@@ -210,6 +211,13 @@ class AppManager implements IAppManager {
 		foreach ($apps as $app) {
 			if (!$this->isAppLoaded($app) && ($types === [] || $this->isType($app, $types))) {
 				try {
+					if (in_array('session', $types, true)) {
+						$e = new \Exception('Stacktrace for loading session-type app');
+						\OCP\Log\logger('core')->warning('SnaeDebug: Loading session app ' . $app, [ 'exception' => $e ]);
+					} else if (method_exists($this->userSession, 'getSession') && !$this->userSession->getSession() instanceof CryptoSessionData) {
+						$e = new \Exception('Stacktrace for early loading of non session-type app');
+						\OCP\Log\logger('core')->warning('SnaeDebug: Loading app early: ' . $app, [ 'exception' => $e, 'session' => get_class($this->userSession->getSession()) ]);
+					}
 					$this->loadApp($app);
 				} catch (\Throwable $e) {
 					$this->logger->emergency('Error during app loading: ' . $e->getMessage(), [
