@@ -36,6 +36,7 @@
                             "forbidden_filename_basenames",
                             "forbidden_filename_characters",
                             "forbidden_filename_extensions",
+                            "chunked_upload",
                             "directEditing"
                         ],
                         "properties": {
@@ -74,6 +75,23 @@
                                 "type": "array",
                                 "items": {
                                     "type": "string"
+                                }
+                            },
+                            "chunked_upload": {
+                                "type": "object",
+                                "required": [
+                                    "max_size",
+                                    "max_parallel_count"
+                                ],
+                                "properties": {
+                                    "max_size": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "max_parallel_count": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    }
                                 }
                             },
                             "directEditing": {
