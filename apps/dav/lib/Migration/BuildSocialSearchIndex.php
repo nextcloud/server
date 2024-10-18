@@ -13,26 +13,11 @@ use OCP\Migration\IRepairStep;
 
 class BuildSocialSearchIndex implements IRepairStep {
 
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var IConfig */
-	private $config;
-
-	/**
-	 * @param IDBConnection $db
-	 * @param IJobList $jobList
-	 * @param IConfig $config
-	 */
-	public function __construct(IDBConnection $db,
-		IJobList $jobList,
-		IConfig $config) {
-		$this->db = $db;
-		$this->jobList = $jobList;
-		$this->config = $config;
+	public function __construct(
+		private IDBConnection $db,
+		private IJobList $jobList,
+		private IConfig $config,
+	) {
 	}
 
 	/**
@@ -56,7 +41,7 @@ class BuildSocialSearchIndex implements IRepairStep {
 		$query->select($query->func()->max('cardid'))
 			->from('cards_properties')
 			->where($query->expr()->eq('name', $query->createNamedParameter('X-SOCIALPROFILE')));
-		$maxId = (int)$query->execute()->fetchOne();
+		$maxId = (int)$query->executeQuery()->fetchOne();
 
 		if ($maxId === 0) {
 			return;

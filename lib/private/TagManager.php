@@ -23,16 +23,13 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<UserDeletedEvent>
  */
 class TagManager implements ITagManager, IEventListener {
-	private TagMapper $mapper;
-	private IUserSession $userSession;
-	private IDBConnection $connection;
-	private LoggerInterface $logger;
 
-	public function __construct(TagMapper $mapper, IUserSession $userSession, IDBConnection $connection, LoggerInterface $logger) {
-		$this->mapper = $mapper;
-		$this->userSession = $userSession;
-		$this->connection = $connection;
-		$this->logger = $logger;
+	public function __construct(
+		private TagMapper $mapper,
+		private IUserSession $userSession,
+		private IDBConnection $connection,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**
@@ -76,7 +73,7 @@ class TagManager implements ITagManager, IEventListener {
 			->andWhere($query->expr()->eq('c.type', $query->createNamedParameter($objectType)))
 			->andWhere($query->expr()->eq('c.category', $query->createNamedParameter(ITags::TAG_FAVORITE)));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$users = $result->fetchAll(\PDO::FETCH_COLUMN);
 		$result->closeCursor();
 

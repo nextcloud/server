@@ -19,7 +19,7 @@ class Folder extends File implements Share_Backend_Collection {
 			->where(
 				$qb->expr()->eq('mimetype', $qb->createNamedParameter('httpd/unix-directory'))
 			);
-		$result = $qb->execute();
+		$result = $qb->executeQuery();
 		$row = $result->fetch();
 		$result->closeCursor();
 
@@ -41,7 +41,7 @@ class Folder extends File implements Share_Backend_Collection {
 					$qb->expr()->in('parent', $parents)
 				);
 
-			$result = $qb->execute();
+			$result = $qb->executeQuery();
 
 			$parents = [];
 			while ($file = $result->fetch()) {
