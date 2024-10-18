@@ -10,8 +10,8 @@ namespace OCA\DAV\SystemTag;
 use OCP\IUser;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagAlreadyExistsException;
-
 use OCP\SystemTag\TagNotFoundException;
 use Sabre\DAV\Exception\Conflict;
 use Sabre\DAV\Exception\Forbidden;
@@ -21,7 +21,7 @@ use Sabre\DAV\Exception\NotFound;
 /**
  * DAV node representing a system tag, with the name being the tag id.
  */
-class SystemTagNode implements \Sabre\DAV\INode {
+class SystemTagNode implements \Sabre\DAV\ICollection {
 
 	protected int $numberOfFiles = -1;
 	protected int $referenceFileId = -1;
@@ -43,8 +43,9 @@ class SystemTagNode implements \Sabre\DAV\INode {
 		/**
 		 * Whether to allow permissions for admins
 		 */
-		protected $isAdmin,
+		protected bool $isAdmin,
 		protected ISystemTagManager $tagManager,
+		protected ISystemTagObjectMapper $tagMapper,
 	) {
 	}
 
@@ -163,5 +164,27 @@ class SystemTagNode implements \Sabre\DAV\INode {
 
 	public function setReferenceFileId(int $referenceFileId): void {
 		$this->referenceFileId = $referenceFileId;
+	}
+
+	public function createFile($name, $data = null) {
+		throw new MethodNotAllowed();
+	}
+	
+	public function createDirectory($name) {
+		throw new MethodNotAllowed();
+	}
+	
+	public function getChild($name) {
+		return new SystemTagObjectType($this->tag, $name, $this->tagManager, $this->tagMapper);
+	}
+	
+	public function childExists($name) {
+		$objectTypes = $this->tagMapper->getAvailableObjectTypes();
+		return in_array($name, $objectTypes);
+	}
+
+	public function getChildren() {
+		// We currently don't have a method to list allowed tag mappings types
+		return [new SystemTagObjectType($this->tag, 'files', $this->tagManager, $this->tagMapper)];
 	}
 }

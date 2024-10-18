@@ -11,6 +11,7 @@ use OCP\IGroupManager;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Forbidden;
@@ -30,6 +31,7 @@ class SystemTagsByIdCollection implements ICollection {
 		private ISystemTagManager $tagManager,
 		private IUserSession $userSession,
 		private IGroupManager $groupManager,
+		protected ISystemTagObjectMapper $tagMapper,
 	) {
 	}
 
@@ -162,6 +164,6 @@ class SystemTagsByIdCollection implements ICollection {
 	 * @return SystemTagNode
 	 */
 	private function makeNode(ISystemTag $tag) {
-		return new SystemTagNode($tag, $this->userSession->getUser(), $this->isAdmin(), $this->tagManager);
+		return new SystemTagNode($tag, $this->userSession->getUser(), $this->isAdmin(), $this->tagManager, $this->tagMapper);
 	}
 }
