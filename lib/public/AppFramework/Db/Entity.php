@@ -7,13 +7,14 @@
  */
 namespace OCP\AppFramework\Db;
 
+use OCP\DB\Types;
+
 use function lcfirst;
 use function substr;
 
 /**
  * @method int getId()
  * @method void setId(int $id)
- * @psalm-type AllowedTypes = 'json'|'blob'|'datetime'|'string'|'int'|'integer'|'bool'|'boolean'|'float'|'double'|'array'|'object'
  * @since 7.0.0
  * @psalm-consistent-constructor
  */
@@ -24,7 +25,7 @@ abstract class Entity {
 	public $id;
 
 	private array $_updatedFields = [];
-	/** @var array<string, AllowedTypes> */
+	/** @var array<string, \OCP\DB\Types::*> */
 	private array $_fieldTypes = ['id' => 'integer'];
 
 	/**
@@ -65,7 +66,7 @@ abstract class Entity {
 
 
 	/**
-	 * @return array<string, AllowedTypes> with attribute and type
+	 * @return array<string, \OCP\DB\Types::*> with attribute and type
 	 * @since 7.0.0
 	 */
 	public function getFieldTypes(): array {
@@ -102,33 +103,38 @@ abstract class Entity {
 		// if type definition exists, cast to correct type
 		if ($args[0] !== null && array_key_exists($name, $this->_fieldTypes)) {
 			$type = $this->_fieldTypes[$name];
-			if ($type === 'blob') {
+			if ($type === Types::BLOB) {
 				// (B)LOB is treated as string when we read from the DB
 				if (is_resource($args[0])) {
 					$args[0] = stream_get_contents($args[0]);
 				}
-				$type = 'string';
+				$type = Types::STRING;
 			}
 
-			if ($type === 'datetime') {
-				if (!$args[0] instanceof \DateTime) {
-					$args[0] = new \DateTime($args[0]);
-				}
-			} elseif ($type === 'json') {
-				if (!is_array($args[0])) {
-					$args[0] = json_decode($args[0], true);
-				}
-			} else {
-				$args[0] = match($type) {
-					'string' => (string)$args[0],
-					'bool', 'boolean', => (bool)$args[0],
-					'int', 'integer', => (int)$args[0],
-					'float' => (float)$args[0],
-					'double' => (float)$args[0],
-					'array' => (array)$args[0],
-					'object' => (object)$args[0],
-					default => new \InvalidArgumentException()
-				};
+			switch ($type) {
+				case Types::TIME:
+				case Types::DATE:
+				case Types::DATETIME:
+				case Types::DATETIME_TZ:
+					if (!$args[0] instanceof \DateTime) {
+						$args[0] = new \DateTime($args[0]);
+					}
+					break;
+				case Types::TIME_IMMUTABLE:
+				case Types::DATE_IMMUTABLE:
+				case Types::DATETIME_IMMUTABLE:
+				case Types::DATETIME_TZ_IMMUTABLE:
+					if (!$args[0] instanceof \DateTimeImmutable) {
+						$args[0] = new \DateTimeImmutable($args[0]);
+					}
+					break;
+				case Types::JSON:
+					if (!is_array($args[0])) {
+						$args[0] = json_decode($args[0], true);
+					}
+					break;
+				default:
+					settype($args[0], $type);
 			}
 		}
 		$this->$name = $args[0];
@@ -253,7 +259,7 @@ abstract class Entity {
 	 * that value once its being returned from the database
 	 *
 	 * @param string $fieldName the name of the attribute
-	 * @param AllowedTypes $type the type which will be used to match a cast
+	 * @param \OCP\DB\Types::* $type the type which will be used to match a cast
 	 * @since 7.0.0
 	 */
 	protected function addType(string $fieldName, string $type): void {
