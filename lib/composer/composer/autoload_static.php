@@ -731,6 +731,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Settings\\Events\\DeclarativeSettingsSetValueEvent' => __DIR__ . '/../../..' . '/lib/public/Settings/Events/DeclarativeSettingsSetValueEvent.php',
         'OCP\\Settings\\IDeclarativeManager' => __DIR__ . '/../../..' . '/lib/public/Settings/IDeclarativeManager.php',
         'OCP\\Settings\\IDeclarativeSettingsForm' => __DIR__ . '/../../..' . '/lib/public/Settings/IDeclarativeSettingsForm.php',
+        'OCP\\Settings\\IDeclarativeSettingsFormWithHandlers' => __DIR__ . '/../../..' . '/lib/public/Settings/IDeclarativeSettingsFormWithHandlers.php',
         'OCP\\Settings\\IDelegatedSettings' => __DIR__ . '/../../..' . '/lib/public/Settings/IDelegatedSettings.php',
         'OCP\\Settings\\IIconSection' => __DIR__ . '/../../..' . '/lib/public/Settings/IIconSection.php',
         'OCP\\Settings\\IManager' => __DIR__ . '/../../..' . '/lib/public/Settings/IManager.php',
