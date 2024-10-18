@@ -49,15 +49,14 @@ class SettingTest extends TestCase {
 
 	public function getCommand(array $methods = []) {
 		if (empty($methods)) {
-			return new Setting($this->userManager, $this->config, $this->connection);
+			return new Setting($this->userManager, $this->config);
 		} else {
-			$mock = $this->getMockBuilder('OC\Core\Command\User\Setting')
+			$mock = $this->getMockBuilder(Setting::class)
 				->setConstructorArgs([
 					$this->userManager,
 					$this->config,
-					$this->connection,
 				])
-				->setMethods($methods)
+				->onlyMethods($methods)
 				->getMock();
 			return $mock;
 		}
@@ -194,7 +193,16 @@ class SettingTest extends TestCase {
 			->willReturnMap($options);
 		$this->consoleInput->expects($this->any())
 			->method('hasParameterOption')
-			->willReturnMap($parameterOptions);
+			->willReturnCallback(function (string|array $config, bool $default = false) use ($parameterOptions): bool {
+				foreach ($parameterOptions as $parameterOption) {
+					if ($config === $parameterOption[0]
+						// Check the default value if the maps has 3 entries
+						&& (!isset($parameterOption[2]) || $default === $parameterOption[1])) {
+						return end($parameterOption);
+					}
+				}
+				return false;
+			});
 
 		if ($user !== false) {
 			$this->userManager->expects($this->once())
@@ -402,15 +410,16 @@ class SettingTest extends TestCase {
 			if ($defaultValue === null) {
 				$this->consoleInput->expects($this->atLeastOnce())
 					->method('hasParameterOption')
-					->willReturnMap([
-						['--default-value', false],
-					]);
+					->willReturn(false);
 			} else {
 				$this->consoleInput->expects($this->atLeastOnce())
 					->method('hasParameterOption')
-					->willReturnMap([
-						['--default-value', false, true],
-					]);
+					->willReturnCallback(function (string|array $config, bool $default = false): bool {
+						if ($config === '--default-value' && $default === false) {
+							return true;
+						}
+						return false;
+					});
 				$this->consoleInput->expects($this->once())
 					->method('getOption')
 					->with('default-value')

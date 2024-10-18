@@ -15,6 +15,7 @@ use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareI
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -120,6 +121,7 @@ class {{classname}} extends SimpleMigrationStep {
 				$output->writeln('<comment> - Actual:   ' . $version . '</comment>');
 
 				if ($input->isInteractive()) {
+					/** @var QuestionHelper $helper */
 					$helper = $this->getHelper('question');
 					$question = new ConfirmationQuestion('Continue with your given version? (y/n) [n] ', false);
 
