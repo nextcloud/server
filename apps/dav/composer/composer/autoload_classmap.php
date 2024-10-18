@@ -362,6 +362,7 @@ return array(
     'OCA\\DAV\\SystemTag\\SystemTagList' => $baseDir . '/../lib/SystemTag/SystemTagList.php',
     'OCA\\DAV\\SystemTag\\SystemTagMappingNode' => $baseDir . '/../lib/SystemTag/SystemTagMappingNode.php',
     'OCA\\DAV\\SystemTag\\SystemTagNode' => $baseDir . '/../lib/SystemTag/SystemTagNode.php',
+    'OCA\\DAV\\SystemTag\\SystemTagObjectType' => $baseDir . '/../lib/SystemTag/SystemTagObjectType.php',
     'OCA\\DAV\\SystemTag\\SystemTagPlugin' => $baseDir . '/../lib/SystemTag/SystemTagPlugin.php',
     'OCA\\DAV\\SystemTag\\SystemTagsByIdCollection' => $baseDir . '/../lib/SystemTag/SystemTagsByIdCollection.php',
     'OCA\\DAV\\SystemTag\\SystemTagsInUseCollection' => $baseDir . '/../lib/SystemTag/SystemTagsInUseCollection.php',

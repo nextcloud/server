@@ -377,6 +377,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\SystemTag\\SystemTagList' => __DIR__ . '/..' . '/../lib/SystemTag/SystemTagList.php',
         'OCA\\DAV\\SystemTag\\SystemTagMappingNode' => __DIR__ . '/..' . '/../lib/SystemTag/SystemTagMappingNode.php',
         'OCA\\DAV\\SystemTag\\SystemTagNode' => __DIR__ . '/..' . '/../lib/SystemTag/SystemTagNode.php',
+        'OCA\\DAV\\SystemTag\\SystemTagObjectType' => __DIR__ . '/..' . '/../lib/SystemTag/SystemTagObjectType.php',
         'OCA\\DAV\\SystemTag\\SystemTagPlugin' => __DIR__ . '/..' . '/../lib/SystemTag/SystemTagPlugin.php',
         'OCA\\DAV\\SystemTag\\SystemTagsByIdCollection' => __DIR__ . '/..' . '/../lib/SystemTag/SystemTagsByIdCollection.php',
         'OCA\\DAV\\SystemTag\\SystemTagsInUseCollection' => __DIR__ . '/..' . '/../lib/SystemTag/SystemTagsInUseCollection.php',
