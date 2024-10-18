@@ -773,6 +773,8 @@ class ShareByMailProviderTest extends TestCase {
 		$this->share->expects($this->once())->method('getSharedBy')->willReturn($sharedBy);
 		$this->share->expects($this->any())->method('getNote')->willReturn($note);
 		$this->share->expects($this->atLeastOnce())->method('getId')->willReturn($id);
+		$this->share->expects($this->atLeastOnce())->method('getNodeId')->willReturn($itemSource);
+		$this->share->expects($this->once())->method('getSharedWith')->willReturn($shareWith);
 
 		$this->assertSame($this->share,
 			$instance->update($this->share)
