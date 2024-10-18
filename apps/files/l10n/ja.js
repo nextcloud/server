@@ -398,8 +398,6 @@ OC.L10N.register(
     "Copy direct link (only works for people who have access to this file/folder)" : "ダイレクトリンクをコピー (このファイル/フォルダにアクセスできる人にのみ機能します)",
     "Favored" : "好評",
     "Favor" : "好意的",
-    "Not favored" : "好ましくない",
-    "Destination is not a folder" : "宛先がフォルダではありません",
-    "This file/folder is already in that directory" : "このファイル/フォルダはすでにそのディレクトリにあります"
+    "Not favored" : "好ましくない"
 },
 "nplurals=1; plural=0;");

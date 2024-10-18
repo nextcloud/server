@@ -390,8 +390,6 @@
     "Text file" : "Текстовый файл",
     "New text file.txt" : "Новый текстовый файл.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Внутренняя ссылка скопирована. Она может быть использована только пользователями, у которых уже есть доступ к этому файлу или папке. ",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Копировать прямую ссылку (она сработает только для пользователей, у которых уже есть доступ к этому файлу или каталогу)",
-    "Destination is not a folder" : "Указанное назначение не является папкой",
-    "This file/folder is already in that directory" : "Файл или папка уже расположены в этой папке"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Копировать прямую ссылку (она сработает только для пользователей, у которых уже есть доступ к этому файлу или каталогу)"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

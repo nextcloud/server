@@ -296,8 +296,6 @@ OC.L10N.register(
     "List of favorites files and folders." : "Listi yfir eftirlætisskrár og möppur.",
     "Toggle %1$s sublist" : "Víxla %1$s undirlistanum af/á",
     "Text file" : "Textaskrá",
-    "New text file.txt" : "Ný textaskrá.txt",
-    "Destination is not a folder" : "Áfangastaðurinn er ekki mappa",
-    "This file/folder is already in that directory" : "Þessi skrá/mappa er þegar í þessari möppu"
+    "New text file.txt" : "Ný textaskrá.txt"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

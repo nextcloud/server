@@ -400,8 +400,6 @@ OC.L10N.register(
     "Copy direct link (only works for people who have access to this file/folder)" : "复制直接链接(仅适用于有权访问此文件/文件夹的用户)",
     "Favored" : "已加入收藏",
     "Favor" : "收藏",
-    "Not favored" : "未收藏",
-    "Destination is not a folder" : "目标不是一个文件夹",
-    "This file/folder is already in that directory" : "该文件/文件夹已经存在与该目录中"
+    "Not favored" : "未收藏"
 },
 "nplurals=1; plural=0;");

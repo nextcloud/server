@@ -280,9 +280,9 @@ OC.L10N.register(
     "All files" : "Усі файли",
     "List of your files and folders." : "Список ваших файлів та каталогів.",
     "All folders" : "Усі каталоги",
-    "Personal Files" : "Приватні файли",
+    "Personal Files" : "Мої документи",
     "List of your files and folders that are not shared." : "Перелік ваших файлів та каталогів, які не є у спільному доступі.",
-    "No personal files found" : "Приватні файли не знайдено",
+    "No personal files found" : "Мої документи не знайдено",
     "Files that are not shared will show up here." : "Тут показуватимуться файли, які не є у спільному доступі.",
     "Recent" : "Останні",
     "List of recently modified files and folders." : "Список нещодавно змінених файлів та каталогів.",
@@ -400,8 +400,6 @@ OC.L10N.register(
     "Copy direct link (only works for people who have access to this file/folder)" : "Копіювати пряме посилання (дійсне лише для користувачів, які мають відповідні права доступу)",
     "Favored" : "Із зірочкою",
     "Favor" : "Додати зірочку",
-    "Not favored" : "Без зірочки",
-    "Destination is not a folder" : "Місце призначення не є каталогом",
-    "This file/folder is already in that directory" : "Такий файл чи каталог вже присутні в цьому каталозі"
+    "Not favored" : "Без зірочки"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

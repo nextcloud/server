@@ -400,8 +400,6 @@ OC.L10N.register(
     "Copy direct link (only works for people who have access to this file/folder)" : "Cóipeáil nasc díreach (ní oibríonn ach do dhaoine a bhfuil rochtain acu ar an gcomhad/fillteán seo)",
     "Favored" : "B'fhearr leis",
     "Favor" : "Fabhar",
-    "Not favored" : "Ní bail ar fónamh orthu",
-    "Destination is not a folder" : "Ní fillteán é ceann scríbe",
-    "This file/folder is already in that directory" : "Tá an comhad/fillteán seo san eolaire sin cheana féin"
+    "Not favored" : "Ní bail ar fónamh orthu"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

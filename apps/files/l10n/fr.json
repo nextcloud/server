@@ -398,8 +398,6 @@
     "Copy direct link (only works for people who have access to this file/folder)" : "Copier le lien direct (fonctionne uniquement pour les personnes pouvant accéder à ce fichier ou à ce dossier)",
     "Favored" : "Favoris",
     "Favor" : "Mettre en favoris",
-    "Not favored" : "Non favoris",
-    "Destination is not a folder" : "La destination n'est pas un dossier",
-    "This file/folder is already in that directory" : "Ce fichier/dossier se trouve déjà dans ce dossier"
+    "Not favored" : "Non favoris"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

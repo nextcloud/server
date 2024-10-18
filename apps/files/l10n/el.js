@@ -354,8 +354,6 @@ OC.L10N.register(
     "Text file" : "Αρχείο κειμένου",
     "New text file.txt" : "Νέο αρχείο file.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Ο άμεσος σύνδεσμος αντιγράφηκε (λειτουργεί μόνο για άτομα που έχουν πρόσβαση σε αυτό το αρχείο/φάκελο)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Αντιγραφή άμεσου συνδέσμου (λειτουργεί μόνο για άτομα που έχουν πρόσβαση στο αρχείο/φάκελο)",
-    "Destination is not a folder" : "Ο προορισμός δεν είναι φάκελος",
-    "This file/folder is already in that directory" : "Αυτό το αρχείο/φάκελος βρίσκεται ήδη σε αυτόν τον κατάλογο"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Αντιγραφή άμεσου συνδέσμου (λειτουργεί μόνο για άτομα που έχουν πρόσβαση στο αρχείο/φάκελο)"
 },
 "nplurals=2; plural=(n != 1);");

@@ -2,7 +2,7 @@ OC.L10N.register(
     "twofactor_backupcodes",
     {
     "You created two-factor backup codes for your account" : "لقد قمت بتوليد الأكواد الاحتياطية للدخول مع التحقق ثنائي العوامل لحسابك",
-    "Second-factor backup codes" : "الأكواد الاحتياطية للعامل الثاني في الدخول مع التحقق ثنائي العوامل",
+    "Second-factor backup codes" : "الأكواد الاحتياطية للعامل الثاني في الدخول مع التحقق ثنائي العوامل من الهوية",
     "Generate backup codes" : "توليد رموز الاسترجاع الاحتياطية",
     "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "لقد قمت بتمكين التحقّق المثنى من الهوية لكنك لم تقم بتوليد الأكواد الاحتياطية بعد. ستحتاج هذه الأكواد لاسترجاع حق الدخول لحسابك إذا ما ضاع عاملك الثاني في الدخول.",
     "Backup code" : "الرمز الاحتياطي",

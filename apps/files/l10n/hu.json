@@ -390,8 +390,6 @@
     "Text file" : "Szövegfájl",
     "New text file.txt" : "Új szövegfájl.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "A közvetlen hivatkozás másolva (csak azon személyeknek működik, akik elérik ezt a fájlt/mappát)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Közvetlen hivatkozás másolása (csak azoknál a személyeknél működik, akiknek hozzáférése van a fájlhoz/mappához)",
-    "Destination is not a folder" : "A cél nem mappa",
-    "This file/folder is already in that directory" : "Ez a fájl/mappa már létezik a mappában"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Közvetlen hivatkozás másolása (csak azoknál a személyeknél működik, akiknek hozzáférése van a fájlhoz/mappához)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -167,7 +167,7 @@
     "WebDAV URL" : "عنوان URL لـ WebDAV",
     "Copy to clipboard" : "نسخ الرابط",
     "Use this address to access your Files via WebDAV" : "استخدم هذا العنوان للوصول للملفات عبر WebDAV",
-    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "إذا كنت قد فعّلت خاصية \"التحقق ثنائي العوامل\" 2FA، يجب عليك تجديد كلمة مرور التطبيق بالضغط هنا.",
+    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "إذا كنت قد فعّلت خاصية \"التحقق ثنائي العوامل من الهوية 2FA\"، يجب عليك تجديد كلمة مرور التطبيق بالضغط هنا.",
     "Clipboard is not available" : "الحافظة غير متاحة",
     "WebDAV URL copied to clipboard" : "تم نسخ WebDAV URL إلى الحافظة",
     "Owner" : "مالك",
@@ -398,8 +398,6 @@
     "Copy direct link (only works for people who have access to this file/folder)" : "نسخ الرابط المباشر (يعمل فقط للأشخاص الذين لديهم حق الوصول إلى هذا الملف/المجلد)",
     "Favored" : "مُفضّلة",
     "Favor" : "تفضيل",
-    "Not favored" : "غير مُفضّلة",
-    "Destination is not a folder" : "الوجهة ليست مجلد",
-    "This file/folder is already in that directory" : "هذا الملف/المجلد موجود سلفاً في ذلك المجلد"
+    "Not favored" : "غير مُفضّلة"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

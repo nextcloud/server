@@ -391,8 +391,6 @@ OC.L10N.register(
     "Text file" : "Textový súbor",
     "New text file.txt" : "Nový text file.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Priamy odkaz bol skopirovaný (funguje iba pre užívateľov, ktorí majú prístup k danému súboru/adresáru)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Kopírovať priamy odkaz (funguje iba pre užívateľov, ktorí majú prístup k tomuto súboru/priečinku)",
-    "Destination is not a folder" : "Cieľ nie je priečinok",
-    "This file/folder is already in that directory" : "Tento súbor/priečinok sa už v danom adresári nachádza"
+    "Copy direct link (only works for people who have access to this file/folder)" : "Kopírovať priamy odkaz (funguje iba pre užívateľov, ktorí majú prístup k tomuto súboru/priečinku)"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

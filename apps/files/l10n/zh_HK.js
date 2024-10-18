@@ -400,8 +400,6 @@ OC.L10N.register(
     "Copy direct link (only works for people who have access to this file/folder)" : "複製直接連結（只對能存取的人仕有用）",
     "Favored" : "已加入最愛",
     "Favor" : "加入最愛",
-    "Not favored" : "未加入最愛",
-    "Destination is not a folder" : "目標地不是資料夾",
-    "This file/folder is already in that directory" : "此檔案/資料夾已在該目錄中"
+    "Not favored" : "未加入最愛"
 },
 "nplurals=1; plural=0;");
