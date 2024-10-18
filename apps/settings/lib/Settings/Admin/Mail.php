@@ -28,6 +28,7 @@
 namespace OCA\Settings\Settings\Admin;
 
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IBinaryFinder;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\Settings\IDelegatedSettings;
