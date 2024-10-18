@@ -17,6 +17,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\HintException;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -349,7 +350,7 @@ class FederatedShareProvider implements IShareProvider {
 	 *
 	 * @param IShare $share
 	 * @throws ShareNotFound
-	 * @throws \OCP\HintException
+	 * @throws HintException
 	 */
 	protected function sendPermissionUpdate(IShare $share) {
 		$remoteId = $this->getRemoteId($share);
@@ -458,7 +459,7 @@ class FederatedShareProvider implements IShareProvider {
 	 *
 	 * @param IShare $share
 	 * @throws ShareNotFound
-	 * @throws \OCP\HintException
+	 * @throws HintException
 	 */
 	public function delete(IShare $share) {
 		[, $remote] = $this->addressHandler->splitUserRemote($share->getSharedWith());
@@ -485,7 +486,7 @@ class FederatedShareProvider implements IShareProvider {
 	 * @param IShare $share
 	 * @param bool $isOwner the user can either be the owner or the user who re-sahred it
 	 * @throws ShareNotFound
-	 * @throws \OCP\HintException
+	 * @throws HintException
 	 */
 	protected function revokeShare($share, $isOwner) {
 		if ($this->userManager->userExists($share->getShareOwner()) && $this->userManager->userExists($share->getSharedBy())) {
@@ -680,7 +681,7 @@ class FederatedShareProvider implements IShareProvider {
 	/**
 	 * Get shares for a given path
 	 *
-	 * @param \OCP\Files\Node $path
+	 * @param Node $path
 	 * @return IShare[]
 	 */
 	public function getSharesByPath(Node $path) {
@@ -850,7 +851,7 @@ class FederatedShareProvider implements IShareProvider {
 	 *
 	 * @param string $userId
 	 * @param int $id
-	 * @return \OCP\Files\Node
+	 * @return Node
 	 * @throws InvalidShare
 	 */
 	private function getNode($userId, $id) {

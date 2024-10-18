@@ -17,29 +17,21 @@ class MountProvider implements IMountProvider {
 	public const STORAGE = '\OCA\Files_Sharing\External\Storage';
 
 	/**
-	 * @var \OCP\IDBConnection
-	 */
-	private $connection;
-
-	/**
 	 * @var callable
 	 */
 	private $managerProvider;
 
 	/**
-	 * @var ICloudIdManager
-	 */
-	private $cloudIdManager;
-
-	/**
-	 * @param \OCP\IDBConnection $connection
+	 * @param IDBConnection $connection
 	 * @param callable $managerProvider due to setup order we need a callable that return the manager instead of the manager itself
 	 * @param ICloudIdManager $cloudIdManager
 	 */
-	public function __construct(IDBConnection $connection, callable $managerProvider, ICloudIdManager $cloudIdManager) {
-		$this->connection = $connection;
+	public function __construct(
+		private IDBConnection $connection,
+		callable $managerProvider,
+		private ICloudIdManager $cloudIdManager,
+	) {
 		$this->managerProvider = $managerProvider;
-		$this->cloudIdManager = $cloudIdManager;
 	}
 
 	public function getMount(IUser $user, $data, IStorageFactory $storageFactory) {

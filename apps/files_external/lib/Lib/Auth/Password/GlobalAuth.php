@@ -21,12 +21,10 @@ class GlobalAuth extends AuthMechanism {
 	public const CREDENTIALS_IDENTIFIER = 'password::global';
 	private const PWD_PLACEHOLDER = '************************';
 
-	/** @var ICredentialsManager */
-	protected $credentialsManager;
-
-	public function __construct(IL10N $l, ICredentialsManager $credentialsManager) {
-		$this->credentialsManager = $credentialsManager;
-
+	public function __construct(
+		IL10N $l,
+		protected ICredentialsManager $credentialsManager,
+	) {
 		$this
 			->setIdentifier('password::global')
 			->setVisibility(BackendService::VISIBILITY_DEFAULT)

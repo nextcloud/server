@@ -7,6 +7,7 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OC\Files\View;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\DAV\CustomPropertiesBackend;
@@ -96,7 +97,7 @@ class ServerFactory {
 			// ensure the skeleton is copied
 			$userFolder = \OC::$server->getUserFolder();
 
-			/** @var \OC\Files\View $view */
+			/** @var View $view */
 			$view = $viewCallBack($server);
 			if ($userFolder instanceof Folder && $userFolder->getPath() === $view->getRoot()) {
 				$rootInfo = $userFolder;

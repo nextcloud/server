@@ -13,15 +13,13 @@ use OCP\EventDispatcher\Event;
 use OCP\Files\Mount\IMountPoint;
 
 class ShareMountedEvent extends Event {
-	/** @var SharedMount */
-	private $mount;
-
 	/** @var IMountPoint[] */
 	private $additionalMounts = [];
 
-	public function __construct(SharedMount $mount) {
+	public function __construct(
+		private SharedMount $mount,
+	) {
 		parent::__construct();
-		$this->mount = $mount;
 	}
 
 	public function getMount(): SharedMount {

@@ -14,22 +14,16 @@ use OCP\IUserManager;
 use OCP\Settings\ISettings;
 
 class Security implements ISettings {
-	private IManager $manager;
-	private IUserManager $userManager;
 	private MandatoryTwoFactor $mandatoryTwoFactor;
-	private IInitialState $initialState;
-	private IURLGenerator $urlGenerator;
 
-	public function __construct(IManager $manager,
-		IUserManager $userManager,
+	public function __construct(
+		private IManager $manager,
+		private IUserManager $userManager,
 		MandatoryTwoFactor $mandatoryTwoFactor,
-		IInitialState $initialState,
-		IURLGenerator $urlGenerator) {
-		$this->manager = $manager;
-		$this->userManager = $userManager;
+		private IInitialState $initialState,
+		private IURLGenerator $urlGenerator,
+	) {
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
-		$this->initialState = $initialState;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**

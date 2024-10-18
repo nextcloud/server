@@ -18,16 +18,15 @@ class ImageExportPlugin extends ServerPlugin {
 
 	/** @var Server */
 	protected $server;
-	/** @var PhotoCache */
-	private $cache;
 
 	/**
 	 * ImageExportPlugin constructor.
 	 *
 	 * @param PhotoCache $cache
 	 */
-	public function __construct(PhotoCache $cache) {
-		$this->cache = $cache;
+	public function __construct(
+		private PhotoCache $cache,
+	) {
 	}
 
 	/**

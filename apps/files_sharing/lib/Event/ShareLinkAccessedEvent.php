@@ -13,24 +13,13 @@ use OCP\EventDispatcher\Event;
 use OCP\Share\IShare;
 
 class ShareLinkAccessedEvent extends Event {
-	/** @var IShare */
-	private $share;
-
-	/** @var string */
-	private $step;
-
-	/** @var int */
-	private $errorCode;
-
-	/** @var string */
-	private $errorMessage;
-
-	public function __construct(IShare $share, string $step = '', int $errorCode = 200, string $errorMessage = '') {
+	public function __construct(
+		private IShare $share,
+		private string $step = '',
+		private int $errorCode = 200,
+		private string $errorMessage = '',
+	) {
 		parent::__construct();
-		$this->share = $share;
-		$this->step = $step;
-		$this->errorCode = $errorCode;
-		$this->errorMessage = $errorMessage;
 	}
 
 	public function getShare(): IShare {

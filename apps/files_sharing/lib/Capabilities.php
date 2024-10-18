@@ -18,14 +18,10 @@ use OCP\Share\IManager;
  */
 class Capabilities implements ICapability {
 
-	/** @var IConfig */
-	private $config;
-	/** @var IManager */
-	private $shareManager;
-
-	public function __construct(IConfig $config, IManager $shareManager) {
-		$this->config = $config;
-		$this->shareManager = $shareManager;
+	public function __construct(
+		private IConfig $config,
+		private IManager $shareManager,
+	) {
 	}
 
 	/**

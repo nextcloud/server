@@ -76,7 +76,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	protected static $hookCalls;
 
 	/**
-	 * @var \PHPUnit\Framework\MockObject\MockObject|\OCP\Files\Config\IUserMountCache
+	 * @var \PHPUnit\Framework\MockObject\MockObject|IUserMountCache
 	 */
 	protected $mountCache;
 

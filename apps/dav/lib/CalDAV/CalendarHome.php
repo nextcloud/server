@@ -11,6 +11,8 @@ use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\Integration\ExternalCalendar;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
 use OCA\DAV\CalDAV\Trashbin\TrashbinHome;
+use OCP\IConfig;
+use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Backend\BackendInterface;
 use Sabre\CalDAV\Backend\NotificationSupport;
@@ -25,23 +27,20 @@ use Sabre\DAV\MkCol;
 
 class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 
-	/** @var \OCP\IL10N */
+	/** @var IL10N */
 	private $l10n;
 
-	/** @var \OCP\IConfig */
+	/** @var IConfig */
 	private $config;
 
 	/** @var PluginManager */
 	private $pluginManager;
-
-	/** @var LoggerInterface */
-	private $logger;
 	private ?array $cachedChildren = null;
 
 	public function __construct(
 		BackendInterface $caldavBackend,
 		array $principalInfo,
-		LoggerInterface $logger,
+		private LoggerInterface $logger,
 		private bool $returnCachedSubscriptions,
 	) {
 		parent::__construct($caldavBackend, $principalInfo);
@@ -51,7 +50,6 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 			\OC::$server,
 			\OC::$server->getAppManager()
 		);
-		$this->logger = $logger;
 	}
 
 	/**

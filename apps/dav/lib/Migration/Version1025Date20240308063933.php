@@ -20,13 +20,10 @@ use OCP\Migration\SimpleMigrationStep;
 
 class Version1025Date20240308063933 extends SimpleMigrationStep {
 
-	private IAppConfig $appConfig;
-	private IDBConnection $db;
-
-	public function __construct(IAppConfig $appConfig,
-		IDBConnection $db) {
-		$this->db = $db;
-		$this->appConfig = $appConfig;
+	public function __construct(
+		private IAppConfig $appConfig,
+		private IDBConnection $db,
+	) {
 	}
 
 	/**

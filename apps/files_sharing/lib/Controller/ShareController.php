@@ -20,6 +20,7 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Constants;
 use OCP\Defaults;
@@ -29,6 +30,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\HintException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IPreview;
@@ -207,12 +209,12 @@ class ShareController extends AuthPublicShareController {
 	/**
 	 * throws hooks when a share is attempted to be accessed
 	 *
-	 * @param \OCP\Share\IShare|string $share the Share instance if available,
-	 *                                        otherwise token
+	 * @param IShare|string $share the Share instance if available,
+	 *                             otherwise token
 	 * @param int $errorCode
 	 * @param string $errorMessage
 	 *
-	 * @throws \OCP\HintException
+	 * @throws HintException
 	 * @throws \OC\ServerNotAvailableException
 	 *
 	 * @deprecated use OCP\Files_Sharing\Event\ShareLinkAccessedEvent
@@ -342,7 +344,7 @@ class ShareController extends AuthPublicShareController {
 	 * @param string $token
 	 * @param string|null $files
 	 * @param string $path
-	 * @return void|\OCP\AppFramework\Http\Response
+	 * @return void|Response
 	 * @throws NotFoundException
 	 * @deprecated 31.0.0 Users are encouraged to use the DAV endpoint
 	 */
@@ -368,7 +370,7 @@ class ShareController extends AuthPublicShareController {
 		}
 		// Directory share
 		else {
-			/** @var \OCP\Files\Folder $node */
+			/** @var Folder $node */
 			$node = $share->getNode();
 
 			// Try to get the path

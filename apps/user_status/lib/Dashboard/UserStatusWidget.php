@@ -32,14 +32,6 @@ use OCP\UserStatus\IUserStatus;
  * @package OCA\UserStatus
  */
 class UserStatusWidget implements IAPIWidget, IAPIWidgetV2, IIconWidget, IOptionWidget {
-	private IL10N $l10n;
-	private IDateTimeFormatter $dateTimeFormatter;
-	private IURLGenerator $urlGenerator;
-	private IInitialState $initialStateService;
-	private IUserManager $userManager;
-	private IUserSession $userSession;
-	private StatusService $service;
-
 	/**
 	 * UserStatusWidget constructor
 	 *
@@ -51,20 +43,15 @@ class UserStatusWidget implements IAPIWidget, IAPIWidgetV2, IIconWidget, IOption
 	 * @param IUserSession $userSession
 	 * @param StatusService $service
 	 */
-	public function __construct(IL10N $l10n,
-		IDateTimeFormatter $dateTimeFormatter,
-		IURLGenerator $urlGenerator,
-		IInitialState $initialStateService,
-		IUserManager $userManager,
-		IUserSession $userSession,
-		StatusService $service) {
-		$this->l10n = $l10n;
-		$this->dateTimeFormatter = $dateTimeFormatter;
-		$this->urlGenerator = $urlGenerator;
-		$this->initialStateService = $initialStateService;
-		$this->userManager = $userManager;
-		$this->userSession = $userSession;
-		$this->service = $service;
+	public function __construct(
+		private IL10N $l10n,
+		private IDateTimeFormatter $dateTimeFormatter,
+		private IURLGenerator $urlGenerator,
+		private IInitialState $initialStateService,
+		private IUserManager $userManager,
+		private IUserSession $userSession,
+		private StatusService $service,
+	) {
 	}
 
 	/**

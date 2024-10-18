@@ -33,15 +33,14 @@ class EmailProvider extends AbstractProvider {
 	/** @var string */
 	public const NOTIFICATION_TYPE = 'EMAIL';
 
-	private IMailer $mailer;
-
-	public function __construct(IConfig $config,
-		IMailer $mailer,
+	public function __construct(
+		IConfig $config,
+		private IMailer $mailer,
 		LoggerInterface $logger,
 		L10NFactory $l10nFactory,
-		IURLGenerator $urlGenerator) {
+		IURLGenerator $urlGenerator,
+	) {
 		parent::__construct($logger, $l10nFactory, $urlGenerator, $config);
-		$this->mailer = $mailer;
 	}
 
 	/**

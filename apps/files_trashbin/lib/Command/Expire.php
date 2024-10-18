@@ -14,15 +14,11 @@ class Expire implements ICommand {
 	use FileAccess;
 
 	/**
-	 * @var string
-	 */
-	private $user;
-
-	/**
 	 * @param string $user
 	 */
-	public function __construct($user) {
-		$this->user = $user;
+	public function __construct(
+		private $user,
+	) {
 	}
 
 	public function handle() {

@@ -27,34 +27,21 @@ use Psr\Log\LoggerInterface;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class CheckSetupController extends Controller {
-	/** @var IConfig */
-	private $config;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var IL10N */
-	private $l10n;
 	/** @var Checker */
 	private $checker;
-	/** @var LoggerInterface */
-	private $logger;
-	private ISetupCheckManager $setupCheckManager;
 
-	public function __construct($AppName,
+	public function __construct(
+		$AppName,
 		IRequest $request,
-		IConfig $config,
-		IURLGenerator $urlGenerator,
-		IL10N $l10n,
+		private IConfig $config,
+		private IURLGenerator $urlGenerator,
+		private IL10N $l10n,
 		Checker $checker,
-		LoggerInterface $logger,
-		ISetupCheckManager $setupCheckManager,
+		private LoggerInterface $logger,
+		private ISetupCheckManager $setupCheckManager,
 	) {
 		parent::__construct($AppName, $request);
-		$this->config = $config;
-		$this->urlGenerator = $urlGenerator;
-		$this->l10n = $l10n;
 		$this->checker = $checker;
-		$this->logger = $logger;
-		$this->setupCheckManager = $setupCheckManager;
 	}
 
 	/**

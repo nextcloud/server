@@ -17,14 +17,11 @@ use OCP\BackgroundJob\TimedJob;
  * Delete all expired "Open local editor" token
  */
 class DeleteExpiredOpenLocalEditor extends TimedJob {
-	protected OpenLocalEditorMapper $mapper;
-
 	public function __construct(
 		ITimeFactory $time,
-		OpenLocalEditorMapper $mapper,
+		protected OpenLocalEditorMapper $mapper,
 	) {
 		parent::__construct($time);
-		$this->mapper = $mapper;
 
 		// Run every 12h
 		$this->interval = 12 * 3600;

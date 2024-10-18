@@ -17,17 +17,13 @@ use OCP\IL10N;
 use OCP\IRequest;
 
 class SettingsController extends Controller {
-	private IL10N $l;
-	private TrustedServers $trustedServers;
-
-	public function __construct(string $AppName,
+	public function __construct(
+		string $AppName,
 		IRequest $request,
-		IL10N $l10n,
-		TrustedServers $trustedServers,
+		private IL10N $l,
+		private TrustedServers $trustedServers,
 	) {
 		parent::__construct($AppName, $request);
-		$this->l = $l10n;
-		$this->trustedServers = $trustedServers;
 	}
 
 

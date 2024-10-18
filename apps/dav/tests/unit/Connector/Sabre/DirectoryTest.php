@@ -23,14 +23,11 @@ use OCP\Files\StorageNotAvailableException;
 use Test\Traits\UserTrait;
 
 class TestViewDirectory extends View {
-	private $updatables;
-	private $deletables;
-	private $canRename;
-
-	public function __construct($updatables, $deletables, $canRename = true) {
-		$this->updatables = $updatables;
-		$this->deletables = $deletables;
-		$this->canRename = $canRename;
+	public function __construct(
+		private $updatables,
+		private $deletables,
+		private $canRename = true,
+	) {
 	}
 
 	public function isUpdatable($path) {
@@ -61,9 +58,9 @@ class TestViewDirectory extends View {
 class DirectoryTest extends \Test\TestCase {
 	use UserTrait;
 
-	/** @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var View|\PHPUnit\Framework\MockObject\MockObject */
 	private $view;
-	/** @var \OC\Files\FileInfo | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var FileInfo|\PHPUnit\Framework\MockObject\MockObject */
 	private $info;
 
 	protected function setUp(): void {

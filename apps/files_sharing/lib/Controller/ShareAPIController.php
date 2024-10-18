@@ -68,7 +68,6 @@ use Psr\Log\LoggerInterface;
 class ShareAPIController extends OCSController {
 
 	private ?Node $lockedNode = null;
-	private string $currentUser;
 
 	/**
 	 * Share20OCS constructor.
@@ -91,16 +90,15 @@ class ShareAPIController extends OCSController {
 		private LoggerInterface $logger,
 		private IProviderFactory $factory,
 		private IMailer $mailer,
-		?string $userId = null,
+		private ?string $currentUser = null,
 	) {
 		parent::__construct($appName, $request);
-		$this->currentUser = $userId;
 	}
 
 	/**
 	 * Convert an IShare to an array for OCS output
 	 *
-	 * @param \OCP\Share\IShare $share
+	 * @param IShare $share
 	 * @param Node|null $recipientNode
 	 * @return Files_SharingShare
 	 * @throws NotFoundException In case the node can't be resolved.
@@ -860,7 +858,7 @@ class ShareAPIController extends OCSController {
 	}
 
 	/**
-	 * @param \OCP\Files\Node $folder
+	 * @param Node $folder
 	 *
 	 * @return Files_SharingShare[]
 	 * @throws OCSBadRequestException
@@ -873,7 +871,7 @@ class ShareAPIController extends OCSController {
 
 		$nodes = $folder->getDirectoryListing();
 
-		/** @var \OCP\Share\IShare[] $shares */
+		/** @var IShare[] $shares */
 		$shares = array_reduce($nodes, function ($carry, $node) {
 			$carry = array_merge($carry, $this->getAllShares($node, true));
 			return $carry;
@@ -1454,7 +1452,7 @@ class ShareAPIController extends OCSController {
 	/**
 	 * Does the user have read permission on the share
 	 *
-	 * @param \OCP\Share\IShare $share the share to check
+	 * @param IShare $share the share to check
 	 * @param boolean $checkGroups check groups as well?
 	 * @return boolean
 	 * @throws NotFoundException
@@ -1531,7 +1529,7 @@ class ShareAPIController extends OCSController {
 	/**
 	 * Does the user have edit permission on the share
 	 *
-	 * @param \OCP\Share\IShare $share the share to check
+	 * @param IShare $share the share to check
 	 * @return boolean
 	 */
 	protected function canEditShare(IShare $share): bool {
@@ -1558,7 +1556,7 @@ class ShareAPIController extends OCSController {
 	/**
 	 * Does the user have delete permission on the share
 	 *
-	 * @param \OCP\Share\IShare $share the share to check
+	 * @param IShare $share the share to check
 	 * @return boolean
 	 */
 	protected function canDeleteShare(IShare $share): bool {
@@ -1593,7 +1591,7 @@ class ShareAPIController extends OCSController {
 	 * completely delete the share but only the mount point.
 	 * It can then be restored from the deleted shares section.
 	 *
-	 * @param \OCP\Share\IShare $share the share to check
+	 * @param IShare $share the share to check
 	 * @return boolean
 	 *
 	 * @suppress PhanUndeclaredClassMethod
@@ -1677,7 +1675,7 @@ class ShareAPIController extends OCSController {
 	 * not support this we need to check all backends.
 	 *
 	 * @param string $id
-	 * @return \OCP\Share\IShare
+	 * @return IShare
 	 * @throws ShareNotFound
 	 */
 	private function getShareById(string $id): IShare {
@@ -1746,7 +1744,7 @@ class ShareAPIController extends OCSController {
 	/**
 	 * Lock a Node
 	 *
-	 * @param \OCP\Files\Node $node
+	 * @param Node $node
 	 * @throws LockedException
 	 */
 	private function lock(Node $node) {

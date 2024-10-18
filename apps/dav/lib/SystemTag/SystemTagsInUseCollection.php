@@ -21,24 +21,16 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\SimpleCollection;
 
 class SystemTagsInUseCollection extends SimpleCollection {
-	protected IUserSession $userSession;
-	protected IRootFolder $rootFolder;
-	protected string $mediaType;
-	protected ISystemTagManager $systemTagManager;
 	protected SystemTagsInFilesDetector $systemTagsInFilesDetector;
 
 	/** @noinspection PhpMissingParentConstructorInspection */
 	public function __construct(
-		IUserSession $userSession,
-		IRootFolder $rootFolder,
-		ISystemTagManager $systemTagManager,
+		protected IUserSession $userSession,
+		protected IRootFolder $rootFolder,
+		protected ISystemTagManager $systemTagManager,
 		SystemTagsInFilesDetector $systemTagsInFilesDetector,
-		string $mediaType = '',
+		protected string $mediaType = '',
 	) {
-		$this->userSession = $userSession;
-		$this->rootFolder = $rootFolder;
-		$this->systemTagManager = $systemTagManager;
-		$this->mediaType = $mediaType;
 		$this->systemTagsInFilesDetector = $systemTagsInFilesDetector;
 		$this->name = 'systemtags-assigned';
 		if ($this->mediaType != '') {

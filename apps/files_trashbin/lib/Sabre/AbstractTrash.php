@@ -14,15 +14,10 @@ use OCP\Files\FileInfo;
 use OCP\IUser;
 
 abstract class AbstractTrash implements ITrash {
-	/** @var ITrashItem */
-	protected $data;
-
-	/** @var ITrashManager */
-	protected $trashManager;
-
-	public function __construct(ITrashManager $trashManager, ITrashItem $data) {
-		$this->trashManager = $trashManager;
-		$this->data = $data;
+	public function __construct(
+		protected ITrashManager $trashManager,
+		protected ITrashItem $data,
+	) {
 	}
 
 	public function getFilename(): string {

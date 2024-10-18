@@ -11,11 +11,11 @@ use OCP\IRequest;
 
 class RequestRemoteAddressTest extends \Test\TestCase {
 
-	/** @var \OCP\IRequest|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	protected $request;
 
 	/**
-	 * @return \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject
+	 * @return IL10N|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getL10NMock() {
 		$l = $this->getMockBuilder(IL10N::class)

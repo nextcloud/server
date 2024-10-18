@@ -18,11 +18,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Index extends Command {
 
-	/** @var Manager */
-	private $manager;
-
-	public function __construct(Manager $manager) {
-		$this->manager = $manager;
+	public function __construct(
+		private Manager $manager,
+	) {
 		parent::__construct();
 	}
 

@@ -24,22 +24,9 @@ class EnablePlugin extends ServerPlugin {
 	public const NS_Nextcloud = 'http://nextcloud.com/ns';
 
 	/**
-	 * @var IConfig
-	 */
-	protected $config;
-
-	/**
-	 * @var BirthdayService
-	 */
-	protected $birthdayService;
-
-	/**
 	 * @var Server
 	 */
 	protected $server;
-
-	/** @var IUser */
-	private $user;
 
 	/**
 	 * PublishPlugin constructor.
@@ -48,10 +35,11 @@ class EnablePlugin extends ServerPlugin {
 	 * @param BirthdayService $birthdayService
 	 * @param IUser $user
 	 */
-	public function __construct(IConfig $config, BirthdayService $birthdayService, IUser $user) {
-		$this->config = $config;
-		$this->birthdayService = $birthdayService;
-		$this->user = $user;
+	public function __construct(
+		protected IConfig $config,
+		protected BirthdayService $birthdayService,
+		private IUser $user,
+	) {
 	}
 
 	/**

@@ -18,18 +18,16 @@ use Sabre\VObject\Property\ICalendar\Duration;
  * @package OCA\DAV\CalDAV\ICSExportPlugin
  */
 class ICSExportPlugin extends \Sabre\CalDAV\ICSExportPlugin {
-	private IConfig $config;
-	private LoggerInterface $logger;
-
 	/** @var string */
 	private const DEFAULT_REFRESH_INTERVAL = 'PT4H';
 
 	/**
 	 * ICSExportPlugin constructor.
 	 */
-	public function __construct(IConfig $config, LoggerInterface $logger) {
-		$this->config = $config;
-		$this->logger = $logger;
+	public function __construct(
+		private IConfig $config,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**

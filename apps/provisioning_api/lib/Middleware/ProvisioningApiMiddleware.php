@@ -18,15 +18,6 @@ use OCP\AppFramework\Utility\IControllerMethodReflector;
 
 class ProvisioningApiMiddleware extends Middleware {
 
-	/** @var IControllerMethodReflector */
-	private $reflector;
-
-	/** @var bool */
-	private $isAdmin;
-
-	/** @var bool */
-	private $isSubAdmin;
-
 	/**
 	 * ProvisioningApiMiddleware constructor.
 	 *
@@ -35,12 +26,10 @@ class ProvisioningApiMiddleware extends Middleware {
 	 * @param bool $isSubAdmin
 	 */
 	public function __construct(
-		IControllerMethodReflector $reflector,
-		bool $isAdmin,
-		bool $isSubAdmin) {
-		$this->reflector = $reflector;
-		$this->isAdmin = $isAdmin;
-		$this->isSubAdmin = $isSubAdmin;
+		private IControllerMethodReflector $reflector,
+		private bool $isAdmin,
+		private bool $isSubAdmin,
+	) {
 	}
 
 	/**

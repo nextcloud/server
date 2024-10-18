@@ -16,20 +16,16 @@ use Sabre\Uri;
 
 class AvatarHome implements ICollection {
 
-	/** @var array */
-	private $principalInfo;
-	/** @var IAvatarManager */
-	private $avatarManager;
-
 	/**
 	 * AvatarHome constructor.
 	 *
 	 * @param array $principalInfo
 	 * @param IAvatarManager $avatarManager
 	 */
-	public function __construct($principalInfo, IAvatarManager $avatarManager) {
-		$this->principalInfo = $principalInfo;
-		$this->avatarManager = $avatarManager;
+	public function __construct(
+		private $principalInfo,
+		private IAvatarManager $avatarManager,
+	) {
 	}
 
 	public function createFile($name, $data = null) {

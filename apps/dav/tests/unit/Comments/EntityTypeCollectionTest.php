@@ -18,7 +18,7 @@ class EntityTypeCollectionTest extends \Test\TestCase {
 
 	/** @var ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $commentsManager;
-	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;

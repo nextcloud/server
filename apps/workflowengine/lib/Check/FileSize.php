@@ -16,19 +16,14 @@ class FileSize implements ICheck {
 	/** @var int */
 	protected $size;
 
-	/** @var IL10N */
-	protected $l;
-
-	/** @var IRequest */
-	protected $request;
-
 	/**
 	 * @param IL10N $l
 	 * @param IRequest $request
 	 */
-	public function __construct(IL10N $l, IRequest $request) {
-		$this->l = $l;
-		$this->request = $request;
+	public function __construct(
+		protected IL10N $l,
+		protected IRequest $request,
+	) {
 	}
 
 	/**

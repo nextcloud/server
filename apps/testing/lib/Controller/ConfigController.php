@@ -13,19 +13,17 @@ use OCP\IRequest;
 
 class ConfigController extends OCSController {
 
-	/** @var IConfig */
-	private $config;
-
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IConfig $config
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 		IRequest $request,
-		IConfig $config) {
+		private IConfig $config,
+	) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
 	}
 
 	/**

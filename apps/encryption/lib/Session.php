@@ -12,9 +12,6 @@ use OCP\ISession;
 
 class Session {
 
-	/** @var ISession */
-	protected $session;
-
 	public const NOT_INITIALIZED = '0';
 	public const INIT_EXECUTED = '1';
 	public const INIT_SUCCESSFUL = '2';
@@ -22,8 +19,9 @@ class Session {
 	/**
 	 * @param ISession $session
 	 */
-	public function __construct(ISession $session) {
-		$this->session = $session;
+	public function __construct(
+		protected ISession $session,
+	) {
 	}
 
 	/**

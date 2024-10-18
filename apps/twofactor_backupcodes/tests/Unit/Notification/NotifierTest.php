@@ -80,7 +80,7 @@ class NotifierTest extends TestCase {
 	}
 
 	public function testPrepare(): void {
-		/** @var \OCP\Notification\INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
+		/** @var INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 
 		$notification->expects($this->once())

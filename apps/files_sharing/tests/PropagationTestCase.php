@@ -6,11 +6,12 @@
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Files\View;
 use OCA\Files_Sharing\Helper;
 
 abstract class PropagationTestCase extends TestCase {
 	/**
-	 * @var \OC\Files\View
+	 * @var View
 	 */
 	protected $rootView;
 	protected $fileIds = []; // [$user=>[$path=>$id]]

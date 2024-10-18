@@ -25,42 +25,17 @@ use OCP\IRequest;
 use OCP\IUserSession;
 
 class PreviewController extends Controller {
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var ITrashManager */
-	private $trashManager;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IMimeTypeDetector */
-	private $mimeTypeDetector;
-
-	/** @var IPreview */
-	private $previewManager;
-
-	/** @var ITimeFactory */
-	private $time;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IRootFolder $rootFolder,
-		ITrashManager $trashManager,
-		IUserSession $userSession,
-		IMimeTypeDetector $mimeTypeDetector,
-		IPreview $previewManager,
-		ITimeFactory $time,
+		private IRootFolder $rootFolder,
+		private ITrashManager $trashManager,
+		private IUserSession $userSession,
+		private IMimeTypeDetector $mimeTypeDetector,
+		private IPreview $previewManager,
+		private ITimeFactory $time,
 	) {
 		parent::__construct($appName, $request);
-
-		$this->trashManager = $trashManager;
-		$this->rootFolder = $rootFolder;
-		$this->userSession = $userSession;
-		$this->mimeTypeDetector = $mimeTypeDetector;
-		$this->previewManager = $previewManager;
-		$this->time = $time;
 	}
 
 	/**

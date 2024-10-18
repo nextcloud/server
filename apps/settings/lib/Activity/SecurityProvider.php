@@ -17,19 +17,11 @@ use OCP\L10N\IFactory as L10nFactory;
 
 class SecurityProvider implements IProvider {
 
-	/** @var L10nFactory */
-	private $l10n;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var IManager */
-	private $activityManager;
-
-	public function __construct(L10nFactory $l10n, IURLGenerator $urlGenerator, IManager $activityManager) {
-		$this->urlGenerator = $urlGenerator;
-		$this->l10n = $l10n;
-		$this->activityManager = $activityManager;
+	public function __construct(
+		private L10nFactory $l10n,
+		private IURLGenerator $urlGenerator,
+		private IManager $activityManager,
+	) {
 	}
 
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {

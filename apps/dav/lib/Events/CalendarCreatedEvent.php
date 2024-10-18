@@ -18,12 +18,6 @@ use OCP\EventDispatcher\Event;
  */
 class CalendarCreatedEvent extends Event {
 
-	/** @var int */
-	private $calendarId;
-
-	/** @var array */
-	private $calendarData;
-
 	/**
 	 * CalendarCreatedEvent constructor.
 	 *
@@ -31,11 +25,11 @@ class CalendarCreatedEvent extends Event {
 	 * @param array $calendarData
 	 * @since 20.0.0
 	 */
-	public function __construct(int $calendarId,
-		array $calendarData) {
+	public function __construct(
+		private int $calendarId,
+		private array $calendarData,
+	) {
 		parent::__construct();
-		$this->calendarId = $calendarId;
-		$this->calendarData = $calendarData;
 	}
 
 	/**

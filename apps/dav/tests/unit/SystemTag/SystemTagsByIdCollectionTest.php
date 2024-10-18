@@ -18,12 +18,12 @@ use OCP\SystemTag\TagNotFoundException;
 class SystemTagsByIdCollectionTest extends \Test\TestCase {
 
 	/**
-	 * @var \OCP\SystemTag\ISystemTagManager
+	 * @var ISystemTagManager
 	 */
 	private $tagManager;
 
 	/**
-	 * @var \OCP\IUser
+	 * @var IUser
 	 */
 	private $user;
 

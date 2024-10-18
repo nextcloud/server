@@ -53,8 +53,8 @@ class File extends Node implements IFile {
 	/**
 	 * Sets up the node, expects a full path name
 	 *
-	 * @param \OC\Files\View $view
-	 * @param \OCP\Files\FileInfo $info
+	 * @param View $view
+	 * @param FileInfo $info
 	 * @param ?\OCP\Share\IManager $shareManager
 	 * @param ?IRequest $request
 	 * @param ?IL10N $l10n

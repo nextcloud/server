@@ -16,7 +16,7 @@ use OCP\IConfig;
 
 class BackendServiceTest extends \Test\TestCase {
 
-	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
 	protected function setUp(): void {

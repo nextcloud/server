@@ -29,38 +29,8 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class EncryptAll {
 
-	/** @var Setup */
-	protected $userSetup;
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var View */
-	protected $rootView;
-
-	/** @var KeyManager */
-	protected $keyManager;
-
-	/** @var Util */
-	protected $util;
-
 	/** @var array */
 	protected $userPasswords;
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var IMailer */
-	protected $mailer;
-
-	/** @var IL10N */
-	protected $l;
-
-	/** @var IFactory */
-	protected $l10nFactory;
-
-	/** @var QuestionHelper */
-	protected $questionHelper;
 
 	/** @var OutputInterface */
 	protected $output;
@@ -68,33 +38,19 @@ class EncryptAll {
 	/** @var InputInterface */
 	protected $input;
 
-	/** @var ISecureRandom */
-	protected $secureRandom;
-
 	public function __construct(
-		Setup $userSetup,
-		IUserManager $userManager,
-		View $rootView,
-		KeyManager $keyManager,
-		Util $util,
-		IConfig $config,
-		IMailer $mailer,
-		IL10N $l,
-		IFactory $l10nFactory,
-		QuestionHelper $questionHelper,
-		ISecureRandom $secureRandom,
+		protected Setup $userSetup,
+		protected IUserManager $userManager,
+		protected View $rootView,
+		protected KeyManager $keyManager,
+		protected Util $util,
+		protected IConfig $config,
+		protected IMailer $mailer,
+		protected IL10N $l,
+		protected IFactory $l10nFactory,
+		protected QuestionHelper $questionHelper,
+		protected ISecureRandom $secureRandom,
 	) {
-		$this->userSetup = $userSetup;
-		$this->userManager = $userManager;
-		$this->rootView = $rootView;
-		$this->keyManager = $keyManager;
-		$this->util = $util;
-		$this->config = $config;
-		$this->mailer = $mailer;
-		$this->l = $l;
-		$this->l10nFactory = $l10nFactory;
-		$this->questionHelper = $questionHelper;
-		$this->secureRandom = $secureRandom;
 		// store one time passwords for the users
 		$this->userPasswords = [];
 	}

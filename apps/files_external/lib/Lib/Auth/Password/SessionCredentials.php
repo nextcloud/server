@@ -22,12 +22,10 @@ use OCP\IUser;
  */
 class SessionCredentials extends AuthMechanism {
 
-	/** @var CredentialsStore */
-	private $credentialsStore;
-
-	public function __construct(IL10N $l, CredentialsStore $credentialsStore) {
-		$this->credentialsStore = $credentialsStore;
-
+	public function __construct(
+		IL10N $l,
+		private CredentialsStore $credentialsStore,
+	) {
 		$this->setIdentifier('password::sessioncredentials')
 			->setScheme(self::SCHEME_PASSWORD)
 			->setText($l->t('Log-in credentials, save in session'))

@@ -73,7 +73,7 @@ class ManagerTest extends TestCase {
 	private $uid;
 
 	/**
-	 * @var \OCP\IUser
+	 * @var IUser
 	 */
 	private $user;
 	private $testMountProvider;

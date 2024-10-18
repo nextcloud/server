@@ -9,6 +9,7 @@ namespace OCA\Files_Sharing\Tests;
 use OC\Files\Filesystem;
 use OCA\Files_Sharing\DeleteOrphanedSharesJob;
 use OCP\Constants;
+use OCP\IDBConnection;
 use OCP\Server;
 use OCP\Share\IShare;
 
@@ -31,7 +32,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 	private $job;
 
 	/**
-	 * @var \OCP\IDBConnection
+	 * @var IDBConnection
 	 */
 	private $connection;
 

@@ -33,12 +33,12 @@ class ViewConfig {
 			'allowed' => [true, false],
 		],
 	];
-
-	protected IConfig $config;
 	protected ?IUser $user = null;
 
-	public function __construct(IConfig $config, IUserSession $userSession) {
-		$this->config = $config;
+	public function __construct(
+		protected IConfig $config,
+		IUserSession $userSession,
+	) {
 		$this->user = $userSession->getUser();
 	}
 

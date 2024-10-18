@@ -20,30 +20,18 @@ use OCP\Util;
  */
 class AddressHandler {
 
-	/** @var IL10N */
-	private $l;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
-
 	/**
 	 * AddressHandler constructor.
 	 *
 	 * @param IURLGenerator $urlGenerator
-	 * @param IL10N $il10n
+	 * @param IL10N $l
 	 * @param ICloudIdManager $cloudIdManager
 	 */
 	public function __construct(
-		IURLGenerator $urlGenerator,
-		IL10N $il10n,
-		ICloudIdManager $cloudIdManager,
+		private IURLGenerator $urlGenerator,
+		private IL10N $l,
+		private ICloudIdManager $cloudIdManager,
 	) {
-		$this->l = $il10n;
-		$this->urlGenerator = $urlGenerator;
-		$this->cloudIdManager = $cloudIdManager;
 	}
 
 	/**

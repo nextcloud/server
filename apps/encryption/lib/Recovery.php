@@ -20,26 +20,6 @@ class Recovery {
 	 * @var null|IUser
 	 */
 	protected $user;
-	/**
-	 * @var Crypt
-	 */
-	protected $crypt;
-	/**
-	 * @var KeyManager
-	 */
-	private $keyManager;
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-	/**
-	 * @var View
-	 */
-	private $view;
-	/**
-	 * @var IFile
-	 */
-	private $file;
 
 	/**
 	 * @param IUserSession $userSession
@@ -49,18 +29,15 @@ class Recovery {
 	 * @param IFile $file
 	 * @param View $view
 	 */
-	public function __construct(IUserSession $userSession,
-		Crypt $crypt,
-		KeyManager $keyManager,
-		IConfig $config,
-		IFile $file,
-		View $view) {
+	public function __construct(
+		IUserSession $userSession,
+		protected Crypt $crypt,
+		private KeyManager $keyManager,
+		private IConfig $config,
+		private IFile $file,
+		private View $view,
+	) {
 		$this->user = ($userSession->isLoggedIn()) ? $userSession->getUser() : null;
-		$this->crypt = $crypt;
-		$this->keyManager = $keyManager;
-		$this->config = $config;
-		$this->view = $view;
-		$this->file = $file;
 	}
 
 	/**

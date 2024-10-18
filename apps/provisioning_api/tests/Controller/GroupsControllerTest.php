@@ -14,6 +14,7 @@ use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\Group\ISubAdmin;
 use OCP\IConfig;
+use OCP\IGroup;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -82,7 +83,7 @@ class GroupsControllerTest extends \Test\TestCase {
 
 	/**
 	 * @param string $gid
-	 * @return \OCP\IGroup|\PHPUnit\Framework\MockObject\MockObject
+	 * @return IGroup|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private function createGroup($gid) {
 		$group = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
@@ -110,7 +111,7 @@ class GroupsControllerTest extends \Test\TestCase {
 
 	/**
 	 * @param string $uid
-	 * @return \OCP\IUser|\PHPUnit\Framework\MockObject\MockObject
+	 * @return IUser|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private function createUser($uid) {
 		$user = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();

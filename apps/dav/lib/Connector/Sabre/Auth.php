@@ -27,25 +27,20 @@ use Sabre\HTTP\ResponseInterface;
 
 class Auth extends AbstractBasic {
 	public const DAV_AUTHENTICATED = 'AUTHENTICATED_TO_DAV_BACKEND';
-
-	private ISession $session;
 	private Session $userSession;
-	private IRequest $request;
 	private ?string $currentUser = null;
 	private Manager $twoFactorManager;
-	private IThrottler $throttler;
 
-	public function __construct(ISession $session,
+	public function __construct(
+		private ISession $session,
 		Session $userSession,
-		IRequest $request,
+		private IRequest $request,
 		Manager $twoFactorManager,
-		IThrottler $throttler,
-		string $principalPrefix = 'principals/users/') {
-		$this->session = $session;
+		private IThrottler $throttler,
+		string $principalPrefix = 'principals/users/',
+	) {
 		$this->userSession = $userSession;
 		$this->twoFactorManager = $twoFactorManager;
-		$this->request = $request;
-		$this->throttler = $throttler;
 		$this->principalPrefix = $principalPrefix;
 
 		// setup realm

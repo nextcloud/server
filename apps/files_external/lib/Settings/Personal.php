@@ -16,33 +16,13 @@ use OCP\Settings\ISettings;
 
 class Personal implements ISettings {
 
-	/** @var IManager */
-	private $encryptionManager;
-
-	/** @var UserGlobalStoragesService */
-	private $userGlobalStoragesService;
-
-	/** @var BackendService */
-	private $backendService;
-
-	/** @var GlobalAuth */
-	private $globalAuth;
-
-	/** @var IUserSession */
-	private $userSession;
-
 	public function __construct(
-		IManager $encryptionManager,
-		UserGlobalStoragesService $userGlobalStoragesService,
-		BackendService $backendService,
-		GlobalAuth $globalAuth,
-		IUserSession $userSession,
+		private IManager $encryptionManager,
+		private UserGlobalStoragesService $userGlobalStoragesService,
+		private BackendService $backendService,
+		private GlobalAuth $globalAuth,
+		private IUserSession $userSession,
 	) {
-		$this->encryptionManager = $encryptionManager;
-		$this->userGlobalStoragesService = $userGlobalStoragesService;
-		$this->backendService = $backendService;
-		$this->globalAuth = $globalAuth;
-		$this->userSession = $userSession;
 	}
 
 	/**

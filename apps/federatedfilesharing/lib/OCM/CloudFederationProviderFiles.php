@@ -14,6 +14,7 @@ use OCA\Files_Sharing\External\Manager;
 use OCA\GlobalSiteSelector\Service\SlaveService;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\IAppManager;
+use OCP\AppFramework\QueryException;
 use OCP\Constants;
 use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
@@ -79,7 +80,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @return string provider specific unique ID of the share
 	 *
 	 * @throws ProviderCouldNotAddShareException
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 * @throws HintException
 	 * @since 14.0.0
 	 */

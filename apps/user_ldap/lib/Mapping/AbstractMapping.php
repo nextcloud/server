@@ -21,11 +21,6 @@ use Psr\Log\LoggerInterface;
  */
 abstract class AbstractMapping {
 	/**
-	 * @var \OCP\IDBConnection $dbc
-	 */
-	protected $dbc;
-
-	/**
 	 * returns the DB table name which holds the mappings
 	 *
 	 * @return string
@@ -33,10 +28,11 @@ abstract class AbstractMapping {
 	abstract protected function getTableName(bool $includePrefix = true);
 
 	/**
-	 * @param \OCP\IDBConnection $dbc
+	 * @param IDBConnection $dbc
 	 */
-	public function __construct(IDBConnection $dbc) {
-		$this->dbc = $dbc;
+	public function __construct(
+		protected IDBConnection $dbc,
+	) {
 	}
 
 	/** @var array caches Names (value) by DN (key) */

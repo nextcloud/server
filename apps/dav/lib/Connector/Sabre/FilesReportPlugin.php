@@ -42,55 +42,8 @@ class FilesReportPlugin extends ServerPlugin {
 	private $server;
 
 	/**
-	 * @var Tree
-	 */
-	private $tree;
-
-	/**
-	 * @var View
-	 */
-	private $fileView;
-
-	/**
-	 * @var ISystemTagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var ISystemTagObjectMapper
-	 */
-	private $tagMapper;
-
-	/**
-	 * Manager for private tags
-	 *
-	 * @var ITagManager
-	 */
-	private $fileTagger;
-
-	/**
-	 * @var IUserSession
-	 */
-	private $userSession;
-
-	/**
-	 * @var IGroupManager
-	 */
-	private $groupManager;
-
-	/**
-	 * @var Folder
-	 */
-	private $userFolder;
-
-	/**
-	 * @var IAppManager
-	 */
-	private $appManager;
-
-	/**
 	 * @param Tree $tree
-	 * @param View $view
+	 * @param View $fileView
 	 * @param ISystemTagManager $tagManager
 	 * @param ISystemTagObjectMapper $tagMapper
 	 * @param ITagManager $fileTagger manager for private tags
@@ -99,25 +52,20 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @param Folder $userFolder
 	 * @param IAppManager $appManager
 	 */
-	public function __construct(Tree $tree,
-		View $view,
-		ISystemTagManager $tagManager,
-		ISystemTagObjectMapper $tagMapper,
-		ITagManager $fileTagger,
-		IUserSession $userSession,
-		IGroupManager $groupManager,
-		Folder $userFolder,
-		IAppManager $appManager,
+	public function __construct(
+		private Tree $tree,
+		private View $fileView,
+		private ISystemTagManager $tagManager,
+		private ISystemTagObjectMapper $tagMapper,
+		/**
+		 * Manager for private tags
+		 */
+		private ITagManager $fileTagger,
+		private IUserSession $userSession,
+		private IGroupManager $groupManager,
+		private Folder $userFolder,
+		private IAppManager $appManager,
 	) {
-		$this->tree = $tree;
-		$this->fileView = $view;
-		$this->tagManager = $tagManager;
-		$this->tagMapper = $tagMapper;
-		$this->fileTagger = $fileTagger;
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
-		$this->userFolder = $userFolder;
-		$this->appManager = $appManager;
 	}
 
 	/**

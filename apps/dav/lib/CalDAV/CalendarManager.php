@@ -12,18 +12,6 @@ use Psr\Log\LoggerInterface;
 
 class CalendarManager {
 
-	/** @var CalDavBackend */
-	private $backend;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var LoggerInterface */
-	private $logger;
-
 	/**
 	 * CalendarManager constructor.
 	 *
@@ -31,11 +19,12 @@ class CalendarManager {
 	 * @param IL10N $l10n
 	 * @param IConfig $config
 	 */
-	public function __construct(CalDavBackend $backend, IL10N $l10n, IConfig $config, LoggerInterface $logger) {
-		$this->backend = $backend;
-		$this->l10n = $l10n;
-		$this->config = $config;
-		$this->logger = $logger;
+	public function __construct(
+		private CalDavBackend $backend,
+		private IL10N $l10n,
+		private IConfig $config,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**

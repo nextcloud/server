@@ -27,37 +27,18 @@ use Psr\Log\LoggerInterface;
  */
 abstract class StoragesService {
 
-	/** @var BackendService */
-	protected $backendService;
-
-	/**
-	 * @var DBConfigService
-	 */
-	protected $dbConfig;
-
-	/**
-	 * @var IUserMountCache
-	 */
-	protected $userMountCache;
-
-	protected IEventDispatcher $eventDispatcher;
-
 	/**
 	 * @param BackendService $backendService
-	 * @param DBConfigService $dbConfigService
+	 * @param DBConfigService $dbConfig
 	 * @param IUserMountCache $userMountCache
 	 * @param IEventDispatcher $eventDispatcher
 	 */
 	public function __construct(
-		BackendService $backendService,
-		DBConfigService $dbConfigService,
-		IUserMountCache $userMountCache,
-		IEventDispatcher $eventDispatcher,
+		protected BackendService $backendService,
+		protected DBConfigService $dbConfig,
+		protected IUserMountCache $userMountCache,
+		protected IEventDispatcher $eventDispatcher,
 	) {
-		$this->backendService = $backendService;
-		$this->dbConfig = $dbConfigService;
-		$this->userMountCache = $userMountCache;
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	protected function readDBConfig() {

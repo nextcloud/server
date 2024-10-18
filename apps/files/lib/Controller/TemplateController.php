@@ -25,11 +25,12 @@ use OCP\IRequest;
  * @psalm-import-type FilesTemplateField from ResponseDefinitions
  */
 class TemplateController extends OCSController {
-	protected $templateManager;
-
-	public function __construct($appName, IRequest $request, ITemplateManager $templateManager) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		protected ITemplateManager $templateManager,
+	) {
 		parent::__construct($appName, $request);
-		$this->templateManager = $templateManager;
 	}
 
 	/**

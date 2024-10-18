@@ -23,56 +23,26 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class Provider implements IProvider {
-	/** @var IFactory */
-	protected $languageFactory;
-
 	/** @var IL10N */
 	protected $l;
 	/** @var IL10N */
 	protected $activityLang;
-
-	/** @var IURLGenerator */
-	protected $url;
-
-	/** @var IManager */
-	protected $activityManager;
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IRootFolder */
-	protected $rootFolder;
-
-	/** @var IEventMerger */
-	protected $eventMerger;
-
-	/** @var ICloudIdManager */
-	protected $cloudIdManager;
-
-	/** @var IContactsManager */
-	protected $contactsManager;
 
 	/** @var string[] cached displayNames - key is the cloud id and value the displayname */
 	protected $displayNames = [];
 
 	protected $fileIsEncrypted = false;
 
-	public function __construct(IFactory $languageFactory,
-		IURLGenerator $url,
-		IManager $activityManager,
-		IUserManager $userManager,
-		IRootFolder $rootFolder,
-		ICloudIdManager $cloudIdManager,
-		IContactsManager $contactsManager,
-		IEventMerger $eventMerger) {
-		$this->languageFactory = $languageFactory;
-		$this->url = $url;
-		$this->activityManager = $activityManager;
-		$this->userManager = $userManager;
-		$this->rootFolder = $rootFolder;
-		$this->cloudIdManager = $cloudIdManager;
-		$this->contactsManager = $contactsManager;
-		$this->eventMerger = $eventMerger;
+	public function __construct(
+		protected IFactory $languageFactory,
+		protected IURLGenerator $url,
+		protected IManager $activityManager,
+		protected IUserManager $userManager,
+		protected IRootFolder $rootFolder,
+		protected ICloudIdManager $cloudIdManager,
+		protected IContactsManager $contactsManager,
+		protected IEventMerger $eventMerger,
+	) {
 	}
 
 	/**

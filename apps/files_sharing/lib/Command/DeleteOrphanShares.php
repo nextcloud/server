@@ -17,11 +17,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class DeleteOrphanShares extends Base {
-	private OrphanHelper $orphanHelper;
-
-	public function __construct(OrphanHelper $orphanHelper) {
+	public function __construct(
+		private OrphanHelper $orphanHelper,
+	) {
 		parent::__construct();
-		$this->orphanHelper = $orphanHelper;
 	}
 
 	protected function configure(): void {

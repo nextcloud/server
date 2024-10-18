@@ -18,36 +18,14 @@ use OCP\Util;
 
 class ServerDevNotice implements ISettings {
 
-	/** @var IRegistry */
-	private $registry;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IInitialState */
-	private $initialState;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	public function __construct(IRegistry $registry,
-		IEventDispatcher $eventDispatcher,
-		IRootFolder $rootFolder,
-		IUserSession $userSession,
-		IInitialState $initialState,
-		IURLGenerator $urlGenerator) {
-		$this->registry = $registry;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->rootFolder = $rootFolder;
-		$this->userSession = $userSession;
-		$this->initialState = $initialState;
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(
+		private IRegistry $registry,
+		private IEventDispatcher $eventDispatcher,
+		private IRootFolder $rootFolder,
+		private IUserSession $userSession,
+		private IInitialState $initialState,
+		private IURLGenerator $urlGenerator,
+	) {
 	}
 
 	/**

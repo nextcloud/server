@@ -30,16 +30,10 @@ use function sprintf;
 /** @template-implements IEventListener<CalendarCreatedEvent|CalendarUpdatedEvent|CalendarMovedToTrashEvent|CalendarRestoredEvent|CalendarDeletedEvent|CalendarObjectCreatedEvent|CalendarObjectUpdatedEvent|CalendarObjectMovedEvent|CalendarObjectMovedToTrashEvent|CalendarObjectRestoredEvent|CalendarObjectDeletedEvent> */
 class ActivityUpdaterListener implements IEventListener {
 
-	/** @var ActivityBackend */
-	private $activityBackend;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(ActivityBackend $activityBackend,
-		LoggerInterface $logger) {
-		$this->activityBackend = $activityBackend;
-		$this->logger = $logger;
+	public function __construct(
+		private ActivityBackend $activityBackend,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function handle(Event $event): void {

@@ -27,40 +27,24 @@ use Psr\Log\LoggerInterface;
  */
 class Manager {
 	protected ?Access $access = null;
-	protected IConfig $ocConfig;
 	protected IDBConnection $db;
-	protected IUserManager $userManager;
-	protected INotificationManager $notificationManager;
-	protected FilesystemHelper $ocFilesystem;
-	protected LoggerInterface $logger;
-	protected Image $image;
-	protected IAvatarManager $avatarManager;
 	/** @var CappedMemoryCache<User> $usersByDN */
 	protected CappedMemoryCache $usersByDN;
 	/** @var CappedMemoryCache<User> $usersByUid */
 	protected CappedMemoryCache $usersByUid;
-	private IManager $shareManager;
 
 	public function __construct(
-		IConfig $ocConfig,
-		FilesystemHelper $ocFilesystem,
-		LoggerInterface $logger,
-		IAvatarManager $avatarManager,
-		Image $image,
-		IUserManager $userManager,
-		INotificationManager $notificationManager,
-		IManager $shareManager,
+		protected IConfig $ocConfig,
+		protected FilesystemHelper $ocFilesystem,
+		protected LoggerInterface $logger,
+		protected IAvatarManager $avatarManager,
+		protected Image $image,
+		protected IUserManager $userManager,
+		protected INotificationManager $notificationManager,
+		private IManager $shareManager,
 	) {
-		$this->ocConfig = $ocConfig;
-		$this->ocFilesystem = $ocFilesystem;
-		$this->logger = $logger;
-		$this->avatarManager = $avatarManager;
-		$this->image = $image;
-		$this->userManager = $userManager;
-		$this->notificationManager = $notificationManager;
 		$this->usersByDN = new CappedMemoryCache();
 		$this->usersByUid = new CappedMemoryCache();
-		$this->shareManager = $shareManager;
 	}
 
 	/**

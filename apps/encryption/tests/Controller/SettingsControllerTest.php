@@ -27,16 +27,16 @@ class SettingsControllerTest extends TestCase {
 	/** @var SettingsController */
 	private $controller;
 
-	/** @var \OCP\IRequest|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $requestMock;
 
-	/** @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10nMock;
 
-	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManagerMock;
 
-	/** @var \OCP\IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSessionMock;
 
 	/** @var KeyManager|\PHPUnit\Framework\MockObject\MockObject */
@@ -50,7 +50,7 @@ class SettingsControllerTest extends TestCase {
 	/** @var MockObject|IUser */
 	private $user;
 
-	/** @var \OCP\ISession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
 	private $ocSessionMock;
 
 	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */

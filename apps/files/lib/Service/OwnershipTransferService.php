@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace OCA\Files\Service;
 
 use Closure;
-use OC\Encryption\Manager as EncryptionManager;
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OC\User\NoUserException;
 use OCA\Encryption\Util;
 use OCA\Files\Exception\TransferOwnershipException;
 use OCP\Encryption\IManager as IEncryptionManager;
@@ -41,10 +41,8 @@ use function rtrim;
 
 class OwnershipTransferService {
 
-	private IEncryptionManager|EncryptionManager $encryptionManager;
-
 	public function __construct(
-		IEncryptionManager $encryptionManager,
+		private IEncryptionManager $encryptionManager,
 		private IShareManager $shareManager,
 		private IMountManager $mountManager,
 		private IUserMountCache $userMountCache,
@@ -52,7 +50,6 @@ class OwnershipTransferService {
 		private IFactory $l10nFactory,
 		private IRootFolder $rootFolder,
 	) {
-		$this->encryptionManager = $encryptionManager;
 	}
 
 	/**
@@ -63,7 +60,7 @@ class OwnershipTransferService {
 	 * @param OutputInterface|null $output
 	 * @param bool $move
 	 * @throws TransferOwnershipException
-	 * @throws \OC\User\NoUserException
+	 * @throws NoUserException
 	 */
 	public function transfer(
 		IUser $sourceUser,

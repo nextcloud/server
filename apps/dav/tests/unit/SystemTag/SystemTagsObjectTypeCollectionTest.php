@@ -24,17 +24,17 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 	private $node;
 
 	/**
-	 * @var \OCP\SystemTag\ISystemTagManager
+	 * @var ISystemTagManager
 	 */
 	private $tagManager;
 
 	/**
-	 * @var \OCP\SystemTag\ISystemTagObjectMapper
+	 * @var ISystemTagObjectMapper
 	 */
 	private $tagMapper;
 
 	/**
-	 * @var \OCP\Files\Folder
+	 * @var Folder
 	 */
 	private $userFolder;
 

@@ -12,11 +12,6 @@ use Sabre\HTTP\Response;
 
 class Sapi {
 	/**
-	 * @var \Sabre\HTTP\Request
-	 */
-	private $request;
-
-	/**
 	 * @var \Sabre\HTTP\Response
 	 */
 	private $response;
@@ -31,8 +26,9 @@ class Sapi {
 		return $this->request;
 	}
 
-	public function __construct(Request $request) {
-		$this->request = $request;
+	public function __construct(
+		private Request $request,
+	) {
 	}
 
 	/**

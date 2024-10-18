@@ -31,24 +31,19 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	protected CappedMemoryCache $cachedGroupsByMember;
 	/** @var CappedMemoryCache<string[]> $cachedNestedGroups array of groups with gid (DN) as key */
 	protected CappedMemoryCache $cachedNestedGroups;
-	protected GroupPluginManager $groupPluginManager;
 	protected LoggerInterface $logger;
-	protected Access $access;
 
 	/**
 	 * @var string $ldapGroupMemberAssocAttr contains the LDAP setting (in lower case) with the same name
 	 */
 	protected string $ldapGroupMemberAssocAttr;
-	private IConfig $config;
-	private IUserManager $ncUserManager;
 
 	public function __construct(
-		Access $access,
-		GroupPluginManager $groupPluginManager,
-		IConfig $config,
-		IUserManager $ncUserManager,
+		protected Access $access,
+		protected GroupPluginManager $groupPluginManager,
+		private IConfig $config,
+		private IUserManager $ncUserManager,
 	) {
-		$this->access = $access;
 		$filter = $this->access->connection->ldapGroupFilter;
 		$gAssoc = $this->access->connection->ldapGroupMemberAssocAttr;
 		if (!empty($filter) && !empty($gAssoc)) {
@@ -58,11 +53,8 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		$this->cachedGroupMembers = new CappedMemoryCache();
 		$this->cachedGroupsByMember = new CappedMemoryCache();
 		$this->cachedNestedGroups = new CappedMemoryCache();
-		$this->groupPluginManager = $groupPluginManager;
 		$this->logger = Server::get(LoggerInterface::class);
 		$this->ldapGroupMemberAssocAttr = strtolower((string)$gAssoc);
-		$this->config = $config;
-		$this->ncUserManager = $ncUserManager;
 	}
 
 	/**

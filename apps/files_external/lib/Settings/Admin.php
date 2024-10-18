@@ -15,28 +15,12 @@ use OCP\Settings\ISettings;
 
 class Admin implements ISettings {
 
-	/** @var IManager */
-	private $encryptionManager;
-
-	/** @var GlobalStoragesService */
-	private $globalStoragesService;
-
-	/** @var BackendService */
-	private $backendService;
-
-	/** @var GlobalAuth */
-	private $globalAuth;
-
 	public function __construct(
-		IManager $encryptionManager,
-		GlobalStoragesService $globalStoragesService,
-		BackendService $backendService,
-		GlobalAuth $globalAuth,
+		private IManager $encryptionManager,
+		private GlobalStoragesService $globalStoragesService,
+		private BackendService $backendService,
+		private GlobalAuth $globalAuth,
 	) {
-		$this->encryptionManager = $encryptionManager;
-		$this->globalStoragesService = $globalStoragesService;
-		$this->backendService = $backendService;
-		$this->globalAuth = $globalAuth;
 	}
 
 	/**
