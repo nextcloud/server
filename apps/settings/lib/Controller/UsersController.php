@@ -168,7 +168,7 @@ class UsersController extends Controller {
 		$recentUsersGroup = [
 			'id' => '__nc_internal_recent',
 			'name' => $this->l10n->t('Recently active'),
-			'usercount' => $userCount,
+			'usercount' => $this->userManager->countSeenUsers(),
 		];
 
 		$disabledUsersGroup = [
