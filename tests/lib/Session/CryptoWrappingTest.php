@@ -7,7 +7,7 @@
 
 namespace Test\Session;
 
-use OC\Session\CryptoSessionData;
+use OC\Session\LegacyCryptoSessionData;
 use OCP\ISession;
 use Test\TestCase;
 
@@ -18,7 +18,7 @@ class CryptoWrappingTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|\OCP\ISession */
 	protected $wrappedSession;
 
-	/** @var \OC\Session\CryptoSessionData */
+	/** @var \OC\Session\LegacyCryptoSessionData */
 	protected $instance;
 
 	protected function setUp(): void {
@@ -44,7 +44,7 @@ class CryptoWrappingTest extends TestCase {
 				return substr($input, 1, -1);
 			});
 
-		$this->instance = new CryptoSessionData($this->wrappedSession, $this->crypto, 'PASS');
+		$this->instance = new LegacyCryptoSessionData($this->wrappedSession, $this->crypto, 'PASS');
 	}
 
 	public function testUnwrappingGet(): void {

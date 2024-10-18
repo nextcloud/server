@@ -7,7 +7,7 @@
 
 namespace Test\Session;
 
-use OC\Session\CryptoSessionData;
+use OC\Session\LegacyCryptoSessionData;
 use OCP\Security\ICrypto;
 
 class CryptoSessionDataTest extends Session {
@@ -36,6 +36,6 @@ class CryptoSessionDataTest extends Session {
 				return substr($input, 1, -1);
 			});
 
-		$this->instance = new CryptoSessionData($this->wrappedSession, $this->crypto, 'PASS');
+		$this->instance = new LegacyCryptoSessionData($this->wrappedSession, $this->crypto, 'PASS');
 	}
 }
