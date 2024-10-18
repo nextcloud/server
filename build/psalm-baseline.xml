@@ -682,12 +682,6 @@
       <code><![CDATA[new PrivateKeyMissingException('please try to log-out and log-in again', 0)]]></code>
     </TooManyArguments>
   </file>
-  <file src="apps/encryption/lib/Util.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$this->files->getMount($path)->getStorage()]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType/>
-  </file>
   <file src="apps/federatedfilesharing/lib/Controller/RequestHandlerController.php">
     <InvalidArgument>
       <code><![CDATA[$id]]></code>

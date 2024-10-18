@@ -363,10 +363,6 @@ class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuot
 			throw new BadRequest('Incompatible node types');
 		}
 
-		if (!$this->fileView) {
-			throw new ServiceUnavailable('filesystem not setup');
-		}
-
 		$destinationPath = $this->getPath() . '/' . $targetName;
 
 

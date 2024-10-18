@@ -14,10 +14,10 @@ class Groups implements XmlSerializable {
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
 	/**
-	 * @param string $groups
+	 * @param list<string> $groups
 	 */
 	public function __construct(
-		private $groups,
+		private array $groups,
 	) {
 	}
 

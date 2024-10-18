@@ -37,7 +37,7 @@ class UserContext {
 		if ($this->userId !== null) {
 			return $this->userId;
 		}
-		if ($this->session && $this->session->getUser() !== null) {
+		if ($this->session->getUser() !== null) {
 			return $this->session->getUser()->getUID();
 		}
 		try {

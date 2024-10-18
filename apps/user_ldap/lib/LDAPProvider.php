@@ -118,8 +118,8 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 
 	/**
 	 * Sanitize a DN received from the LDAP server.
-	 * @param array $dn the DN in question
-	 * @return array the sanitized DN
+	 * @param array|string $dn the DN in question
+	 * @return array|string the sanitized DN
 	 */
 	public function sanitizeDN($dn) {
 		return $this->helper->sanitizeDN($dn);

@@ -69,10 +69,6 @@ class AvatarNode extends File {
 	}
 
 	public function getLastModified() {
-		$timestamp = $this->avatar->getFile($this->size)->getMTime();
-		if (!empty($timestamp)) {
-			return (int)$timestamp;
-		}
-		return $timestamp;
+		return $this->avatar->getFile($this->size)->getMTime();
 	}
 }
