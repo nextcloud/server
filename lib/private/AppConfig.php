@@ -732,6 +732,14 @@ class AppConfig implements IAppConfig {
 		}
 
 		if ($this->hasKey($app, $key, $lazy)) {
+			// if current set is using deprecated method (using MIXED) but config is typed in db, we fix the type.
+			if ($this->isTyped(self::VALUE_MIXED, $type)) {
+				$type = $this->getValueType($app, $key, $lazy);
+				if ($sensitive) {
+					$type = $type | self::VALUE_SENSITIVE;
+				}
+			}
+
 			/**
 			 * no update if key is already known with set lazy status and value is
 			 * not different, unless sensitivity is switched from false to true.
