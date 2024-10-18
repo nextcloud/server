@@ -14,15 +14,10 @@ use OCP\Settings\IIconSection;
 
 class Security implements IIconSection {
 
-	/** @var IL10N */
-	private $l;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	public function __construct(IL10N $l, IURLGenerator $urlGenerator) {
-		$this->l = $l;
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(
+		private IL10N $l,
+		private IURLGenerator $urlGenerator,
+	) {
 	}
 
 	public function getIcon(): string {

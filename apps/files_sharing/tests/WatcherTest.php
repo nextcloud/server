@@ -6,6 +6,8 @@
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Files\Cache\Cache;
+use OC\Files\Storage\Storage;
 use OC\Files\View;
 use OCP\Constants;
 use OCP\Share\IShare;
@@ -17,19 +19,19 @@ use OCP\Share\IShare;
  */
 class WatcherTest extends TestCase {
 
-	/** @var \OC\Files\Storage\Storage */
+	/** @var Storage */
 	private $ownerStorage;
 
-	/** @var \OC\Files\Cache\Cache */
+	/** @var Cache */
 	private $ownerCache;
 
-	/** @var \OC\Files\Storage\Storage */
+	/** @var Storage */
 	private $sharedStorage;
 
-	/** @var \OC\Files\Cache\Cache */
+	/** @var Cache */
 	private $sharedCache;
 
-	/** @var \OCP\Share\IShare */
+	/** @var IShare */
 	private $_share;
 
 	protected function setUp(): void {

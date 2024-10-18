@@ -11,14 +11,11 @@ use OCP\IL10N;
 use OCP\Settings\IDelegatedSettings;
 
 class Admin implements IDelegatedSettings {
-	private SettingsManager $settingsManager;
-	private IL10N $l;
-	private IInitialState $initialState;
-
-	public function __construct(SettingsManager $settingsManager, IL10N $l, IInitialState $initialState) {
-		$this->settingsManager = $settingsManager;
-		$this->l = $l;
-		$this->initialState = $initialState;
+	public function __construct(
+		private SettingsManager $settingsManager,
+		private IL10N $l,
+		private IInitialState $initialState,
+	) {
 	}
 
 	/**

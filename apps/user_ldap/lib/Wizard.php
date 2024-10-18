@@ -16,9 +16,7 @@ use Psr\Log\LoggerInterface;
 
 class Wizard extends LDAPUtility {
 	protected static ?IL10N $l = null;
-	protected Access $access;
 	protected ?\LDAP\Connection $cr = null;
-	protected Configuration $configuration;
 	protected WizardResult $result;
 	protected LoggerInterface $logger;
 
@@ -36,16 +34,14 @@ class Wizard extends LDAPUtility {
 	public const LDAP_NW_TIMEOUT = 4;
 
 	public function __construct(
-		Configuration $configuration,
+		protected Configuration $configuration,
 		ILDAPWrapper $ldap,
-		Access $access,
+		protected Access $access,
 	) {
 		parent::__construct($ldap);
-		$this->configuration = $configuration;
 		if (is_null(static::$l)) {
 			static::$l = \OC::$server->get(IL10NFactory::class)->get('user_ldap');
 		}
-		$this->access = $access;
 		$this->result = new WizardResult();
 		$this->logger = \OC::$server->get(LoggerInterface::class);
 	}

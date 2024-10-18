@@ -64,7 +64,7 @@ abstract class RequestTestCase extends TestCase {
 	}
 
 	/**
-	 * @param \OC\Files\View $view the view to run the webdav server against
+	 * @param View $view the view to run the webdav server against
 	 * @param string $user
 	 * @param string $password
 	 * @param string $method

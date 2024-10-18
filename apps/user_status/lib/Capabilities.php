@@ -17,10 +17,9 @@ use OCP\IEmojiHelper;
  * @package OCA\UserStatus
  */
 class Capabilities implements ICapability {
-	private IEmojiHelper $emojiHelper;
-
-	public function __construct(IEmojiHelper $emojiHelper) {
-		$this->emojiHelper = $emojiHelper;
+	public function __construct(
+		private IEmojiHelper $emojiHelper,
+	) {
 	}
 
 	/**

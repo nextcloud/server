@@ -32,9 +32,6 @@ class BackendService {
 	/** Priority constants for PriorityTrait */
 	public const PRIORITY_DEFAULT = 100;
 
-	/** @var IConfig */
-	protected $config;
-
 	/** @var bool */
 	private $userMountingAllowed = true;
 
@@ -62,10 +59,8 @@ class BackendService {
 	 * @param IConfig $config
 	 */
 	public function __construct(
-		IConfig $config,
+		protected IConfig $config,
 	) {
-		$this->config = $config;
-
 		// Load config values
 		if ($this->config->getAppValue('files_external', 'allow_user_mounting', 'yes') !== 'yes') {
 			$this->userMountingAllowed = false;

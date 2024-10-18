@@ -20,22 +20,14 @@ use OCP\IUser;
 class ResourceProvider implements IProvider {
 	public const RESOURCE_TYPE = 'file';
 
-	/** @var IRootFolder */
-	protected $rootFolder;
-	/** @var IPreview */
-	private $preview;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
 	/** @var array */
 	protected $nodes = [];
 
-	public function __construct(IRootFolder $rootFolder,
-		IPreview $preview,
-		IURLGenerator $urlGenerator) {
-		$this->rootFolder = $rootFolder;
-		$this->preview = $preview;
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(
+		protected IRootFolder $rootFolder,
+		private IPreview $preview,
+		private IURLGenerator $urlGenerator,
+	) {
 	}
 
 	private function getNode(IResource $resource): ?Node {

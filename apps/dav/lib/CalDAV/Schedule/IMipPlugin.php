@@ -45,41 +45,25 @@ use Sabre\VObject\Reader;
  * @license http://sabre.io/license/ Modified BSD License
  */
 class IMipPlugin extends SabreIMipPlugin {
-	private IUserSession $userSession;
-	private IConfig $config;
-	private IMailer $mailer;
-	private LoggerInterface $logger;
-	private ITimeFactory $timeFactory;
-	private Defaults $defaults;
 	private ?VCalendar $vCalendar = null;
-	private IMipService $imipService;
 	public const MAX_DATE = '2038-01-01';
 	public const METHOD_REQUEST = 'request';
 	public const METHOD_REPLY = 'reply';
 	public const METHOD_CANCEL = 'cancel';
-	public const IMIP_INDENT = 15; // Enough for the length of all body bullet items, in all languages
-	private EventComparisonService $eventComparisonService;
-	private IMailManager $mailManager;
+	public const IMIP_INDENT = 15;
 
-	public function __construct(IConfig $config,
-		IMailer $mailer,
-		LoggerInterface $logger,
-		ITimeFactory $timeFactory,
-		Defaults $defaults,
-		IUserSession $userSession,
-		IMipService $imipService,
-		EventComparisonService $eventComparisonService,
-		IMailManager $mailManager) {
+	public function __construct(
+		private IConfig $config,
+		private IMailer $mailer,
+		private LoggerInterface $logger,
+		private ITimeFactory $timeFactory,
+		private Defaults $defaults,
+		private IUserSession $userSession,
+		private IMipService $imipService,
+		private EventComparisonService $eventComparisonService,
+		private IMailManager $mailManager,
+	) {
 		parent::__construct('');
-		$this->userSession = $userSession;
-		$this->config = $config;
-		$this->mailer = $mailer;
-		$this->logger = $logger;
-		$this->timeFactory = $timeFactory;
-		$this->defaults = $defaults;
-		$this->imipService = $imipService;
-		$this->eventComparisonService = $eventComparisonService;
-		$this->mailManager = $mailManager;
 	}
 
 	public function initialize(DAV\Server $server): void {

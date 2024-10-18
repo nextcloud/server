@@ -22,20 +22,8 @@ class Provider implements IProvider {
 	public const ASSIGN_TAG = 'assign_tag';
 	public const UNASSIGN_TAG = 'unassign_tag';
 
-	/** @var IFactory */
-	protected $languageFactory;
-
 	/** @var IL10N */
 	protected $l;
-
-	/** @var IURLGenerator */
-	protected $url;
-
-	/** @var IManager */
-	protected $activityManager;
-
-	/** @var IUserManager */
-	protected $userManager;
 
 	/**
 	 * @param IFactory $languageFactory
@@ -43,11 +31,12 @@ class Provider implements IProvider {
 	 * @param IManager $activityManager
 	 * @param IUserManager $userManager
 	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager) {
-		$this->languageFactory = $languageFactory;
-		$this->url = $url;
-		$this->activityManager = $activityManager;
-		$this->userManager = $userManager;
+	public function __construct(
+		protected IFactory $languageFactory,
+		protected IURLGenerator $url,
+		protected IManager $activityManager,
+		protected IUserManager $userManager,
+	) {
 	}
 
 	/**

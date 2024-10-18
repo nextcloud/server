@@ -7,6 +7,7 @@
  */
 namespace OCA\Encryption;
 
+use OC\Files\Storage\Storage;
 use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
 use OCP\IConfig;
@@ -131,7 +132,7 @@ class Util {
 	 * get storage of path
 	 *
 	 * @param string $path
-	 * @return \OC\Files\Storage\Storage|null
+	 * @return Storage|null
 	 */
 	public function getStorage($path) {
 		return $this->files->getMount($path)->getStorage();

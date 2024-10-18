@@ -25,16 +25,12 @@ use OCP\IL10N;
  * @package OCA\Federation
  */
 class DbHandler {
-	private IDBConnection $connection;
-	private IL10N $IL10N;
 	private string $dbTable = 'trusted_servers';
 
 	public function __construct(
-		IDBConnection $connection,
-		IL10N $il10n,
+		private IDBConnection $connection,
+		private IL10N $IL10N,
 	) {
-		$this->connection = $connection;
-		$this->IL10N = $il10n;
 	}
 
 	/**

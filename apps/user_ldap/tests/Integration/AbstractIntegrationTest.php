@@ -37,14 +37,19 @@ abstract class AbstractIntegrationTest {
 	/** @var Helper */
 	protected $helper;
 
-	/** @var string */
-	protected $base;
-
 	/** @var string[] */
 	protected $server;
 
-	public function __construct($host, $port, $bind, $pwd, $base) {
-		$this->base = $base;
+	/**
+	 * @param string $base
+	 */
+	public function __construct(
+		$host,
+		$port,
+		$bind,
+		$pwd,
+		protected $base,
+	) {
 		$this->server = [
 			'host' => $host,
 			'port' => $port,

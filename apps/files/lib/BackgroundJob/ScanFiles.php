@@ -24,29 +24,19 @@ use Psr\Log\LoggerInterface;
  * @package OCA\Files\BackgroundJob
  */
 class ScanFiles extends TimedJob {
-	private IConfig $config;
-	private IEventDispatcher $dispatcher;
-	private LoggerInterface $logger;
-	private IDBConnection $connection;
-
 	/** Amount of users that should get scanned per execution */
 	public const USERS_PER_SESSION = 500;
 
 	public function __construct(
-		IConfig $config,
-		IEventDispatcher $dispatcher,
-		LoggerInterface $logger,
-		IDBConnection $connection,
+		private IConfig $config,
+		private IEventDispatcher $dispatcher,
+		private LoggerInterface $logger,
+		private IDBConnection $connection,
 		ITimeFactory $time,
 	) {
 		parent::__construct($time);
 		// Run once per 10 minutes
 		$this->setInterval(60 * 10);
-
-		$this->config = $config;
-		$this->dispatcher = $dispatcher;
-		$this->logger = $logger;
-		$this->connection = $connection;
 	}
 
 	protected function runScanner(string $user): void {

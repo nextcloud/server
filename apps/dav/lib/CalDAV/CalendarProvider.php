@@ -15,23 +15,12 @@ use Psr\Log\LoggerInterface;
 
 class CalendarProvider implements ICalendarProvider {
 
-	/** @var CalDavBackend */
-	private $calDavBackend;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(CalDavBackend $calDavBackend, IL10N $l10n, IConfig $config, LoggerInterface $logger) {
-		$this->calDavBackend = $calDavBackend;
-		$this->l10n = $l10n;
-		$this->config = $config;
-		$this->logger = $logger;
+	public function __construct(
+		private CalDavBackend $calDavBackend,
+		private IL10N $l10n,
+		private IConfig $config,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function getCalendars(string $principalUri, array $calendarUris = []): array {

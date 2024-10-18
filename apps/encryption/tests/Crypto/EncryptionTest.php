@@ -50,7 +50,7 @@ class EncryptionTest extends TestCase {
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $loggerMock;
 
-	/** @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10nMock;
 
 	private IStorage&MockObject $storageMock;

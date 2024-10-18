@@ -9,6 +9,7 @@ namespace OCA\Files_Sharing\Tests;
 use OC\Files\Cache\FailedCache;
 use OC\Files\Filesystem;
 use OC\Files\Storage\FailedStorage;
+use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OCA\Files_Sharing\SharedStorage;
@@ -88,7 +89,7 @@ class SharedStorageTest extends TestCase {
 		$this->assertFalse($user2View->is_dir($this->folder));
 
 		// delete the local folder
-		/** @var \OC\Files\Storage\Storage $storage */
+		/** @var Storage $storage */
 		[$storage, $internalPath] = Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/localfolder');
 		$storage->rmdir($internalPath);
 

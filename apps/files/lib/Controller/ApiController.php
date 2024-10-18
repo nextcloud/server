@@ -38,6 +38,7 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\PreConditionNotMetException;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
@@ -384,7 +385,7 @@ class ApiController extends Controller {
 	 *
 	 * @param bool $value
 	 * @return Response
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws PreConditionNotMetException
 	 */
 	#[NoAdminRequired]
 	public function showHiddenFiles(bool $value): Response {
@@ -397,7 +398,7 @@ class ApiController extends Controller {
 	 *
 	 * @param bool $value
 	 * @return Response
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws PreConditionNotMetException
 	 */
 	#[NoAdminRequired]
 	public function cropImagePreviews(bool $value): Response {
@@ -410,7 +411,7 @@ class ApiController extends Controller {
 	 *
 	 * @param bool $show
 	 * @return Response
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws PreConditionNotMetException
 	 */
 	#[NoAdminRequired]
 	public function showGridView(bool $show): Response {

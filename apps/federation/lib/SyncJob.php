@@ -12,16 +12,15 @@ use OCP\BackgroundJob\TimedJob;
 use Psr\Log\LoggerInterface;
 
 class SyncJob extends TimedJob {
-	protected SyncFederationAddressBooks $syncService;
-	protected LoggerInterface $logger;
-
-	public function __construct(SyncFederationAddressBooks $syncService, LoggerInterface $logger, ITimeFactory $timeFactory) {
+	public function __construct(
+		protected SyncFederationAddressBooks $syncService,
+		protected LoggerInterface $logger,
+		ITimeFactory $timeFactory,
+	) {
 		parent::__construct($timeFactory);
 		// Run once a day
 		$this->setInterval(24 * 60 * 60);
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
-		$this->syncService = $syncService;
-		$this->logger = $logger;
 	}
 
 	protected function run($argument) {

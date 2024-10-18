@@ -21,25 +21,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ExpireTrash extends Command {
 
 	/**
-	 * @var Expiration
-	 */
-	private $expiration;
-
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-
-	/**
 	 * @param IUserManager|null $userManager
 	 * @param Expiration|null $expiration
 	 */
-	public function __construct(?IUserManager $userManager = null,
-		?Expiration $expiration = null) {
+	public function __construct(
+		private ?IUserManager $userManager = null,
+		private ?Expiration $expiration = null,
+	) {
 		parent::__construct();
-
-		$this->userManager = $userManager;
-		$this->expiration = $expiration;
 	}
 
 	protected function configure() {

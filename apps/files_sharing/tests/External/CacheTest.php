@@ -7,6 +7,7 @@
 namespace OCA\Files_Sharing\Tests\External;
 
 use OC\Federation\CloudIdManager;
+use OC\Files\Storage\Storage;
 use OCA\Files_Sharing\External\Cache;
 use OCA\Files_Sharing\Tests\TestCase;
 use OCP\Contacts\IManager;
@@ -29,7 +30,7 @@ class CacheTest extends TestCase {
 	protected $contactsManager;
 
 	/**
-	 * @var \OC\Files\Storage\Storage
+	 * @var Storage
 	 **/
 	private $storage;
 

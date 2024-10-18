@@ -23,23 +23,14 @@ use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
 class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
-	protected INotificationManager $notificationManager;
-	protected UserPluginManager $userPluginManager;
-	protected LoggerInterface $logger;
-	protected DeletedUsersIndex $deletedUsersIndex;
-
 	public function __construct(
 		Access $access,
-		INotificationManager $notificationManager,
-		UserPluginManager $userPluginManager,
-		LoggerInterface $logger,
-		DeletedUsersIndex $deletedUsersIndex,
+		protected INotificationManager $notificationManager,
+		protected UserPluginManager $userPluginManager,
+		protected LoggerInterface $logger,
+		protected DeletedUsersIndex $deletedUsersIndex,
 	) {
 		parent::__construct($access);
-		$this->notificationManager = $notificationManager;
-		$this->userPluginManager = $userPluginManager;
-		$this->logger = $logger;
-		$this->deletedUsersIndex = $deletedUsersIndex;
 	}
 
 	/**

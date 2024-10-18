@@ -152,7 +152,7 @@ class ImageManager {
 	 *
 	 * @param string $filename
 	 * @throws NotFoundException
-	 * @return \OCP\Files\SimpleFS\ISimpleFile
+	 * @return ISimpleFile
 	 * @throws NotPermittedException
 	 */
 	public function getCachedImage(string $filename): ISimpleFile {
@@ -165,7 +165,7 @@ class ImageManager {
 	 *
 	 * @param string $filename
 	 * @param string $data
-	 * @return \OCP\Files\SimpleFS\ISimpleFile
+	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
 	 */

@@ -17,9 +17,6 @@ use OCP\EventDispatcher\Event;
  * @since 20.0.0
  */
 class CalendarUnpublishedEvent extends Event {
-	private int $calendarId;
-	private array $calendarData;
-
 	/**
 	 * CalendarUnpublishedEvent constructor.
 	 *
@@ -27,11 +24,11 @@ class CalendarUnpublishedEvent extends Event {
 	 * @param array $calendarData
 	 * @since 20.0.0
 	 */
-	public function __construct(int $calendarId,
-		array $calendarData) {
+	public function __construct(
+		private int $calendarId,
+		private array $calendarData,
+	) {
 		parent::__construct();
-		$this->calendarId = $calendarId;
-		$this->calendarData = $calendarData;
 	}
 
 	/**

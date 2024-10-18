@@ -17,24 +17,16 @@ use OCP\L10N\IFactory as L10nFactory;
 
 class Provider implements IProvider {
 
-	/** @var L10nFactory */
-	private $l10n;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var IManager */
-	private $activityManager;
-
 	/**
 	 * @param L10nFactory $l10n
 	 * @param IURLGenerator $urlGenerator
 	 * @param IManager $activityManager
 	 */
-	public function __construct(L10nFactory $l10n, IURLGenerator $urlGenerator, IManager $activityManager) {
-		$this->urlGenerator = $urlGenerator;
-		$this->activityManager = $activityManager;
-		$this->l10n = $l10n;
+	public function __construct(
+		private L10nFactory $l10n,
+		private IURLGenerator $urlGenerator,
+		private IManager $activityManager,
+	) {
 	}
 
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null): IEvent {

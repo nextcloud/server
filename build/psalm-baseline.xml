@@ -335,11 +335,6 @@
       <code><![CDATA[$this->principalUri]]></code>
     </InvalidArgument>
   </file>
-  <file src="apps/dav/lib/CardDAV/Xml/Groups.php">
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$groups]]></code>
-    </InvalidPropertyAssignmentValue>
-  </file>
   <file src="apps/dav/lib/Comments/CommentsPlugin.php">
     <UndefinedFunction>
       <code><![CDATA[\Sabre\HTTP\toDate($value)]]></code>
@@ -691,9 +686,7 @@
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->files->getMount($path)->getStorage()]]></code>
     </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[\OC\Files\Storage\Storage|null]]></code>
-    </MoreSpecificReturnType>
+    <MoreSpecificReturnType/>
   </file>
   <file src="apps/federatedfilesharing/lib/Controller/RequestHandlerController.php">
     <InvalidArgument>
@@ -1246,15 +1239,6 @@
     <InvalidReturnType>
       <code><![CDATA[bool]]></code>
     </InvalidReturnType>
-  </file>
-  <file src="apps/workflowengine/lib/Service/RuleMatcher.php">
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getAllConfiguredScopesForOperation]]></code>
-      <code><![CDATA[getChecks]]></code>
-      <code><![CDATA[getOperations]]></code>
-      <code><![CDATA[getOperations]]></code>
-      <code><![CDATA[isUserScopeEnabled]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="core/BackgroundJobs/CheckForUserCertificates.php">
     <ParamNameMismatch>

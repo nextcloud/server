@@ -11,12 +11,10 @@ use OCP\IL10N;
 use OCP\Settings\IDelegatedSettings;
 
 class Admin implements IDelegatedSettings {
-	private TrustedServers $trustedServers;
-	private IL10N $l;
-
-	public function __construct(TrustedServers $trustedServers, IL10N $l) {
-		$this->trustedServers = $trustedServers;
-		$this->l = $l;
+	public function __construct(
+		private TrustedServers $trustedServers,
+		private IL10N $l,
+	) {
 	}
 
 	/**

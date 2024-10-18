@@ -15,27 +15,19 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 
 abstract class Base implements IProvider {
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IGroupManager */
-	protected $groupManager;
-
 	/** @var string[] */
 	protected $groupDisplayNames = [];
-
-	/** @var IURLGenerator */
-	protected $url;
 
 	/**
 	 * @param IUserManager $userManager
 	 * @param IGroupManager $groupManager
-	 * @param IURLGenerator $urlGenerator
+	 * @param IURLGenerator $url
 	 */
-	public function __construct(IUserManager $userManager, IGroupManager $groupManager, IURLGenerator $urlGenerator) {
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->url = $urlGenerator;
+	public function __construct(
+		protected IUserManager $userManager,
+		protected IGroupManager $groupManager,
+		protected IURLGenerator $url,
+	) {
 	}
 
 	protected function setSubjects(IEvent $event, string $subject, array $parameters): void {

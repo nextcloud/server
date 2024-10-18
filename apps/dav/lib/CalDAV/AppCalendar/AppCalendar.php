@@ -24,12 +24,14 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader;
 
 class AppCalendar extends ExternalCalendar {
-	protected string $principal;
 	protected ICalendar $calendar;
 
-	public function __construct(string $appId, ICalendar $calendar, string $principal) {
+	public function __construct(
+		string $appId,
+		ICalendar $calendar,
+		protected string $principal,
+	) {
 		parent::__construct($appId, $calendar->getUri());
-		$this->principal = $principal;
 		$this->calendar = $calendar;
 	}
 

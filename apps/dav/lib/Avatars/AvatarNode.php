@@ -11,10 +11,6 @@ use OCP\IAvatar;
 use Sabre\DAV\File;
 
 class AvatarNode extends File {
-	private $ext;
-	private $size;
-	private $avatar;
-
 	/**
 	 * AvatarNode constructor.
 	 *
@@ -22,10 +18,11 @@ class AvatarNode extends File {
 	 * @param string $ext
 	 * @param IAvatar $avatar
 	 */
-	public function __construct($size, $ext, $avatar) {
-		$this->size = $size;
-		$this->ext = $ext;
-		$this->avatar = $avatar;
+	public function __construct(
+		private $size,
+		private $ext,
+		private $avatar,
+	) {
 	}
 
 	/**

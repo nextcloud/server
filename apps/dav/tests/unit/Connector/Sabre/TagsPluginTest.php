@@ -33,12 +33,12 @@ class TagsPluginTest extends \Test\TestCase {
 	private $tree;
 
 	/**
-	 * @var \OCP\ITagManager
+	 * @var ITagManager
 	 */
 	private $tagManager;
 
 	/**
-	 * @var \OCP\ITags
+	 * @var ITags
 	 */
 	private $tagger;
 

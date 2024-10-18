@@ -18,25 +18,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ExiprationNotification extends Command {
-	/** @var NotificationManager */
-	private $notificationManager;
-	/** @var IDBConnection */
-	private $connection;
-	/** @var ITimeFactory */
-	private $time;
-	/** @var ShareManager */
-	private $shareManager;
-
-	public function __construct(ITimeFactory $time,
-		NotificationManager $notificationManager,
-		IDBConnection $connection,
-		ShareManager $shareManager) {
+	public function __construct(
+		private ITimeFactory $time,
+		private NotificationManager $notificationManager,
+		private IDBConnection $connection,
+		private ShareManager $shareManager,
+	) {
 		parent::__construct();
-
-		$this->notificationManager = $notificationManager;
-		$this->connection = $connection;
-		$this->time = $time;
-		$this->shareManager = $shareManager;
 	}
 
 	protected function configure() {

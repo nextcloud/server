@@ -18,10 +18,10 @@ use Test\TestCase;
 class SettingsControllerTest extends TestCase {
 	private SettingsController $controller;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IRequest */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IRequest */
 	private $request;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IL10N */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IL10N */
 	private $l10n;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject|TrustedServers */

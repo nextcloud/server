@@ -43,7 +43,7 @@ class Helper {
 	/**
 	 * get default share folder
 	 *
-	 * @param \OC\Files\View|null $view
+	 * @param View|null $view
 	 * @param string|null $userId
 	 * @return string
 	 */

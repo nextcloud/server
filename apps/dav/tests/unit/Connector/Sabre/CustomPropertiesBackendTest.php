@@ -40,7 +40,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 	private $plugin;
 
 	/**
-	 * @var \OCP\IUser
+	 * @var IUser
 	 */
 	private $user;
 

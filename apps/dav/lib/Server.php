@@ -85,21 +85,19 @@ use Sabre\DAV\UUIDUtil;
 use SearchDAV\DAV\SearchPlugin;
 
 class Server {
-	private IRequest $request;
-	private string $baseUri;
 	public Connector\Sabre\Server $server;
 	private IProfiler $profiler;
 
-	public function __construct(IRequest $request, string $baseUri) {
+	public function __construct(
+		private IRequest $request,
+		private string $baseUri,
+	) {
 		$this->profiler = \OC::$server->get(IProfiler::class);
 		if ($this->profiler->isEnabled()) {
 			/** @var IEventLogger $eventLogger */
 			$eventLogger = \OC::$server->get(IEventLogger::class);
 			$eventLogger->start('runtime', 'DAV Runtime');
 		}
-
-		$this->request = $request;
-		$this->baseUri = $baseUri;
 
 		$logger = \OCP\Server::get(LoggerInterface::class);
 		$eventDispatcher = \OCP\Server::get(IEventDispatcher::class);
@@ -180,7 +178,7 @@ class Server {
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), \OC::$server->get(DefaultCalendarValidator::class)));
 
 			$this->server->addPlugin(\OC::$server->get(\OCA\DAV\CalDAV\Trashbin\Plugin::class));
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\WebcalCaching\Plugin($request));
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\WebcalCaching\Plugin($this->request));
 			if (\OC::$server->getConfig()->getAppValue('dav', 'allow_calendar_link_subscriptions', 'yes') === 'yes') {
 				$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 			}
@@ -237,7 +235,7 @@ class Server {
 
 		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
 		// we do not provide locking we emulate it using a fake locking plugin.
-		if ($request->isUserAgent([
+		if ($this->request->isUserAgent([
 			'/WebDAVFS/',
 			'/OneNote/',
 			'/^Microsoft-WebDAV/',// Microsoft-WebDAV-MiniRedir/6.1.7601

@@ -16,10 +16,10 @@ use Test\TestCase;
 
 class StatusControllerTest extends TestCase {
 
-	/** @var \OCP\IRequest|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $requestMock;
 
-	/** @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10nMock;
 
 	/** @var Session|\PHPUnit\Framework\MockObject\MockObject */

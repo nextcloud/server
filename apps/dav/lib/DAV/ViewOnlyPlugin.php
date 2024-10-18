@@ -24,12 +24,10 @@ use Sabre\HTTP\RequestInterface;
  */
 class ViewOnlyPlugin extends ServerPlugin {
 	private ?Server $server = null;
-	private ?Folder $userFolder;
 
 	public function __construct(
-		?Folder $userFolder,
+		private ?Folder $userFolder,
 	) {
-		$this->userFolder = $userFolder;
 	}
 
 	/**

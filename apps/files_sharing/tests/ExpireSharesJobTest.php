@@ -9,6 +9,7 @@ namespace OCA\Files_Sharing\Tests;
 use OCA\Files_Sharing\ExpireSharesJob;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Constants;
+use OCP\IDBConnection;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 
@@ -24,7 +25,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 	/** @var ExpireSharesJob */
 	private $job;
 
-	/** @var \OCP\IDBConnection */
+	/** @var IDBConnection */
 	private $connection;
 
 	/** @var string */

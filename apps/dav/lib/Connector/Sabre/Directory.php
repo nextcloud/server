@@ -39,20 +39,23 @@ use Sabre\DAV\INode;
 class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota, \Sabre\DAV\IMoveTarget, \Sabre\DAV\ICopyTarget {
 	/**
 	 * Cached directory content
-	 * @var \OCP\Files\FileInfo[]
+	 * @var FileInfo[]
 	 */
 	private ?array $dirContent = null;
 
 	/** Cached quota info */
 	private ?array $quotaInfo = null;
-	private ?CachingTree $tree = null;
 
 	/**
 	 * Sets up the node, expects a full path name
 	 */
-	public function __construct(View $view, FileInfo $info, ?CachingTree $tree = null, ?IShareManager $shareManager = null) {
+	public function __construct(
+		View $view,
+		FileInfo $info,
+		private ?CachingTree $tree = null,
+		?IShareManager $shareManager = null,
+	) {
 		parent::__construct($view, $info, $shareManager);
-		$this->tree = $tree;
 	}
 
 	/**
@@ -161,7 +164,7 @@ class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuot
 	 * Returns a specific child node, referenced by its name
 	 *
 	 * @param string $name
-	 * @param \OCP\Files\FileInfo $info
+	 * @param FileInfo $info
 	 * @return \Sabre\DAV\INode
 	 * @throws InvalidPath
 	 * @throws \Sabre\DAV\Exception\NotFound

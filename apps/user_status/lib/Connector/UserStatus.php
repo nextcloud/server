@@ -29,21 +29,19 @@ class UserStatus implements IUserStatus {
 	/** @var DateTimeImmutable|null */
 	private $clearAt;
 
-	/** @var Db\UserStatus */
-	private $internalStatus;
+	public function __construct(
+		private Db\UserStatus $internalStatus,
+	) {
+		$this->userId = $this->internalStatus->getUserId();
+		$this->status = $this->internalStatus->getStatus();
+		$this->message = $this->internalStatus->getCustomMessage();
+		$this->icon = $this->internalStatus->getCustomIcon();
 
-	public function __construct(Db\UserStatus $status) {
-		$this->internalStatus = $status;
-		$this->userId = $status->getUserId();
-		$this->status = $status->getStatus();
-		$this->message = $status->getCustomMessage();
-		$this->icon = $status->getCustomIcon();
-
-		if ($status->getStatus() === IUserStatus::INVISIBLE) {
+		if ($this->internalStatus->getStatus() === IUserStatus::INVISIBLE) {
 			$this->status = IUserStatus::OFFLINE;
 		}
-		if ($status->getClearAt() !== null) {
-			$this->clearAt = DateTimeImmutable::createFromFormat('U', (string)$status->getClearAt());
+		if ($this->internalStatus->getClearAt() !== null) {
+			$this->clearAt = DateTimeImmutable::createFromFormat('U', (string)$this->internalStatus->getClearAt());
 		}
 	}
 

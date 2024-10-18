@@ -23,15 +23,6 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 
 class LoginRedirectorController extends Controller {
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var ClientMapper */
-	private $clientMapper;
-	/** @var ISession */
-	private $session;
-	/** @var IL10N */
-	private $l;
-
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -40,17 +31,15 @@ class LoginRedirectorController extends Controller {
 	 * @param ISession $session
 	 * @param IL10N $l
 	 */
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IURLGenerator $urlGenerator,
-		ClientMapper $clientMapper,
-		ISession $session,
-		IL10N $l) {
+		private IURLGenerator $urlGenerator,
+		private ClientMapper $clientMapper,
+		private ISession $session,
+		private IL10N $l,
+	) {
 		parent::__construct($appName, $request);
-		$this->urlGenerator = $urlGenerator;
-		$this->clientMapper = $clientMapper;
-		$this->session = $session;
-		$this->l = $l;
 	}
 
 	/**

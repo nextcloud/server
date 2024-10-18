@@ -14,14 +14,12 @@ use Sabre\DAVACL\PrincipalBackend;
 
 class RootCollection extends AbstractPrincipalCollection {
 
-	/** @var CleanupService */
-	private $cleanupService;
-
-	public function __construct(PrincipalBackend\BackendInterface $principalBackend,
+	public function __construct(
+		PrincipalBackend\BackendInterface $principalBackend,
 		string $principalPrefix,
-		CleanupService $cleanupService) {
+		private CleanupService $cleanupService,
+	) {
 		parent::__construct($principalBackend, $principalPrefix);
-		$this->cleanupService = $cleanupService;
 	}
 
 	/**

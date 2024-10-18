@@ -28,15 +28,13 @@ class PhotoCache {
 		'image/vnd.microsoft.icon' => 'ico',
 	];
 
-	protected IAppData $appData;
-	protected LoggerInterface $logger;
-
 	/**
 	 * PhotoCache constructor.
 	 */
-	public function __construct(IAppData $appData, LoggerInterface $logger) {
-		$this->appData = $appData;
-		$this->logger = $logger;
+	public function __construct(
+		protected IAppData $appData,
+		protected LoggerInterface $logger,
+	) {
 	}
 
 	/**

@@ -20,7 +20,7 @@ class AddServerMiddlewareTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject | LoggerInterface */
 	private $logger;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IL10N */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IL10N */
 	private $l10n;
 
 	private AddServerMiddleware $middleware;

@@ -52,38 +52,17 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	private $server;
 
-	/**
-	 * @var ISystemTagManager
-	 */
-	protected $tagManager;
-
-	/**
-	 * @var IUserSession
-	 */
-	protected $userSession;
-
-	/**
-	 * @var IGroupManager
-	 */
-	protected $groupManager;
-
 	/** @var array<int, string[]> */
 	private array $cachedTagMappings = [];
 	/** @var array<string, ISystemTag> */
 	private array $cachedTags = [];
 
-	private ISystemTagObjectMapper $tagMapper;
-
 	public function __construct(
-		ISystemTagManager $tagManager,
-		IGroupManager $groupManager,
-		IUserSession $userSession,
-		ISystemTagObjectMapper $tagMapper,
+		protected ISystemTagManager $tagManager,
+		protected IGroupManager $groupManager,
+		protected IUserSession $userSession,
+		private ISystemTagObjectMapper $tagMapper,
 	) {
-		$this->tagManager = $tagManager;
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
-		$this->tagMapper = $tagMapper;
 	}
 
 	/**

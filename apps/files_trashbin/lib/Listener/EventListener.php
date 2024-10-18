@@ -19,10 +19,9 @@ use OCP\User\Events\BeforeUserDeletedEvent;
 
 /** @template-implements IEventListener<NodeWrittenEvent|BeforeUserDeletedEvent|BeforeFileSystemSetupEvent> */
 class EventListener implements IEventListener {
-	private ?string $userId;
-
-	public function __construct(?string $userId = null) {
-		$this->userId = $userId;
+	public function __construct(
+		private ?string $userId = null,
+	) {
 	}
 
 	public function handle(Event $event): void {

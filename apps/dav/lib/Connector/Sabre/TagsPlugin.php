@@ -28,6 +28,7 @@ namespace OCA\DAV\Connector\Sabre;
  *
  */
 use OCP\ITagManager;
+use OCP\ITags;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 
@@ -47,12 +48,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	private $server;
 
 	/**
-	 * @var \OCP\ITagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var \OCP\ITags
+	 * @var ITags
 	 */
 	private $tagger;
 
@@ -65,17 +61,13 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	private $cachedTags;
 
 	/**
-	 * @var \Sabre\DAV\Tree
-	 */
-	private $tree;
-
-	/**
 	 * @param \Sabre\DAV\Tree $tree tree
-	 * @param \OCP\ITagManager $tagManager tag manager
+	 * @param ITagManager $tagManager tag manager
 	 */
-	public function __construct(\Sabre\DAV\Tree $tree, ITagManager $tagManager) {
-		$this->tree = $tree;
-		$this->tagManager = $tagManager;
+	public function __construct(
+		private \Sabre\DAV\Tree $tree,
+		private ITagManager $tagManager,
+	) {
 		$this->tagger = null;
 		$this->cachedTags = [];
 	}
@@ -103,7 +95,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	/**
 	 * Returns the tagger
 	 *
-	 * @return \OCP\ITags tagger
+	 * @return ITags tagger
 	 */
 	private function getTagger() {
 		if (!$this->tagger) {
