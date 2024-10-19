@@ -69,7 +69,7 @@
     "Failed to load tags" : "فشل في تحميل الوسوم",
     "Failed to load selected tags" : "فشل في تحميل الوسوم المنتقاة",
     "Failed to select tag" : "فشل في اختيار وسم",
-    "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "الوسوم التعاونية مُتاحة لكل المستخدمين. الوسوم المقيدة restricted يمكن للمستخدمين رؤيتها لكن لا يمكنهم اسنادها. الوسوم المخفية invisible للاستعمال الداخلي فقط حيث لا يستطيع المستخدمون رؤيتها و لا إسنادها.",
+    "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "الوسوم التعاونية مُتاحة لكل المستخدمين. الوسوم المقيدة restricted يمكن للمستخدمين رؤيتها لكن لا يمكنهم إسنادها. الوسوم المخفية invisible للاستعمال الداخلي فقط حيث لا يستطيع المستخدمون رؤيتها و لا إسنادها.",
     "Assigned collaborative tags" : "الوسوم التعاونية المُسندَة",
     "Open in Files" : "إفتَح في \"الملفات\"",
     "List of tags and their associated files and folders." : "قائمة بالوسوم والملفات والمجلدات الموسومة بها.",

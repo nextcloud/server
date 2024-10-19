@@ -95,7 +95,7 @@ OC.L10N.register(
     "Active filters" : "فلاتر نشطة",
     "Remove filter" : "إزالة عامل التصفية ",
     "Total rows summary" : "ملخص مجموع الأسطر",
-    "Name" : "الإسم",
+    "Name" : "الاسم",
     "Size" : "الحجم",
     "Toggle selection for all files and folders" : "تبديل الاختيار لكل الملفات و المجلدات",
     "Actions" : "الإجراءات",
