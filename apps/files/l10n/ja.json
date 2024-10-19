@@ -205,6 +205,8 @@
     "Edit online" : "オンラインで編集",
     "Failed to redirect to client" : "クライアントへリダイレクトできませんでした",
     "Edit locally" : "ローカルで編集",
+    "Moving \"{source}\" to \"{destination}\" …" : "\"{source}\" を \"{destination}\"に移動",
+    "Copying \"{source}\" to \"{destination}\" …" : "\"{source}\" を \"{destination}\"にコピー",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "ファイル/フォルダをそれ自身の上に移動したり、それ自身のサブフォルダに移動したりすることはできません。",
     "(copy)" : "(copy)",
     "(copy %n)" : "(copy %n)",

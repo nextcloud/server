@@ -6,7 +6,7 @@ OC.L10N.register(
     "No server to federate with found" : "لم يُمكن إيجاد أي خادم للاتحاد معه",
     "Could not add server" : "تعذّرت إضافة الخادم",
     "Trusted servers" : "الخوادم الموثوقة",
-    "Federation" : "الإتحاد",
+    "Federation" : "الربط عبر السحابة الموحدة",
     "Federation allows you to connect with other trusted servers to exchange the account directory." : "يسمح لك الاتحاد بالاتصال بخوادم موثوقة أخرى لتبادل أدلة الحسابات معها.",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing." : "يسمح لك الاتحاد بالاتصال بخوادم موثوقة أخرى لتبادل أدلة الحسابات معها. على سبيل المثال، سيتم استخدام هذا للإكمال التلقائي للحسابات الخارجية عند المشاركة عبر السحابة الموحدة federated sharing.",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "يسمح لك الاتحاد بالاتصال بخوادم موثوقة أخرى لتبادل أدلة الحسابات معها. على سبيل المثال، سيتم استخدام هذا للإكمال التلقائي للحسابات الخارجية عند المشاركة الاتحادية. ليس من الضروري إضافة خادم كخادم موثوق به لإنشاء مشاركة السحابة الموحدة.",
