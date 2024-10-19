@@ -20,7 +20,7 @@ use Psr\Log\LoggerInterface;
 
 class Storage extends Wrapper {
 	private string $mountPoint;
-	private IUserManager$userManager;
+	private IUserManager $userManager;
 	private LoggerInterface $logger;
 	private IEventDispatcher $eventDispatcher;
 	private IRootFolder $rootFolder;

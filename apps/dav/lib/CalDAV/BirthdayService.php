@@ -139,9 +139,9 @@ class BirthdayService {
 	 * @return VCalendar|null
 	 * @throws InvalidDataException
 	 */
-	public function buildDateFromContact(string  $cardData,
-		string  $dateField,
-		string  $postfix,
+	public function buildDateFromContact(string $cardData,
+		string $dateField,
+		string $postfix,
 		?string $reminderOffset):?VCalendar {
 		if (empty($cardData)) {
 			return null;

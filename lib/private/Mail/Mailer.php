@@ -61,13 +61,13 @@ class Mailer implements IMailer {
 	private ?MailerInterface $instance = null;
 
 	public function __construct(
-		private IConfig          $config,
-		private LoggerInterface  $logger,
-		private Defaults         $defaults,
-		private IURLGenerator    $urlGenerator,
-		private IL10N            $l10n,
+		private IConfig $config,
+		private LoggerInterface $logger,
+		private Defaults $defaults,
+		private IURLGenerator $urlGenerator,
+		private IL10N $l10n,
 		private IEventDispatcher $dispatcher,
-		private IFactory         $l10nFactory,
+		private IFactory $l10nFactory,
 	) {
 	}
 

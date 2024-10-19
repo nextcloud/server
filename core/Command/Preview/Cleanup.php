@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Cleanup extends Base {
 
 	public function __construct(
-		private IRootFolder     $rootFolder,
+		private IRootFolder $rootFolder,
 		private LoggerInterface $logger,
 	) {
 		parent::__construct();

@@ -38,13 +38,13 @@ use Psr\Log\LoggerInterface;
  */
 class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	public function __construct(
-		string                     $appName,
-		IRequest                   $request,
-		private IManager           $textProcessingManager,
-		private IL10N              $l,
-		private ?string            $userId,
+		string $appName,
+		IRequest $request,
+		private IManager $textProcessingManager,
+		private IL10N $l,
+		private ?string $userId,
 		private ContainerInterface $container,
-		private LoggerInterface    $logger,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
 	}

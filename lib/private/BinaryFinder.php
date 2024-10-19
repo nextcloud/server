@@ -30,7 +30,7 @@ class BinaryFinder implements IBinaryFinder {
 	private ICache $cache;
 
 	public function __construct(
-		ICacheFactory   $cacheFactory,
+		ICacheFactory $cacheFactory,
 		private IConfig $config,
 	) {
 		$this->cache = $cacheFactory->createLocal('findBinaryPath');

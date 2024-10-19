@@ -50,10 +50,10 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 	private ?int $offset = null;
 
 	public function __construct(
-		IQueryBuilder          $builder,
-		array                  $shardDefinitions,
+		IQueryBuilder $builder,
+		array $shardDefinitions,
 		ShardConnectionManager $shardConnectionManager,
-		AutoIncrementHandler   $autoIncrementHandler,
+		AutoIncrementHandler $autoIncrementHandler,
 	) {
 		parent::__construct($builder, $shardDefinitions, $shardConnectionManager, $autoIncrementHandler);
 		$this->quoteHelper = new QuoteHelper();

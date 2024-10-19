@@ -77,12 +77,12 @@ class ShardQueryRunner {
 	 */
 	public function executeQuery(
 		IQueryBuilder $query,
-		bool          $allShards,
-		array         $shardKeys,
-		array         $primaryKeys,
-		?array        $sortList = null,
-		?int          $limit = null,
-		?int          $offset = null,
+		bool $allShards,
+		array $shardKeys,
+		array $primaryKeys,
+		?array $sortList = null,
+		?int $limit = null,
+		?int $offset = null,
 	): IResult {
 		$shards = $this->getShards($allShards, $shardKeys);
 		$results = [];

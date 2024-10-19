@@ -42,20 +42,20 @@ class JSConfigHelper {
 	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
 
 	public function __construct(
-		protected ServerVersion        $serverVersion,
-		protected IL10N                $l,
-		protected Defaults             $defaults,
-		protected IAppManager          $appManager,
-		protected ISession             $session,
-		protected ?IUser               $currentUser,
-		protected IConfig              $config,
-		protected IGroupManager        $groupManager,
-		protected IniGetWrapper        $iniWrapper,
-		protected IURLGenerator        $urlGenerator,
-		protected CapabilitiesManager  $capabilitiesManager,
+		protected ServerVersion $serverVersion,
+		protected IL10N $l,
+		protected Defaults $defaults,
+		protected IAppManager $appManager,
+		protected ISession $session,
+		protected ?IUser $currentUser,
+		protected IConfig $config,
+		protected IGroupManager $groupManager,
+		protected IniGetWrapper $iniWrapper,
+		protected IURLGenerator $urlGenerator,
+		protected CapabilitiesManager $capabilitiesManager,
 		protected IInitialStateService $initialStateService,
-		protected IProvider            $tokenProvider,
-		protected FilenameValidator    $filenameValidator,
+		protected IProvider $tokenProvider,
+		protected FilenameValidator $filenameValidator,
 	) {
 	}
 

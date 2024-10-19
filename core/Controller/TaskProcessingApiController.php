@@ -46,13 +46,13 @@ use RuntimeException;
  */
 class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	public function __construct(
-		string              $appName,
-		IRequest            $request,
-		private IManager    $taskProcessingManager,
-		private IL10N       $l,
-		private ?string     $userId,
+		string $appName,
+		IRequest $request,
+		private IManager $taskProcessingManager,
+		private IL10N $l,
+		private ?string $userId,
 		private IRootFolder $rootFolder,
-		private IAppData    $appData,
+		private IAppData $appData,
 	) {
 		parent::__construct($appName, $request);
 	}

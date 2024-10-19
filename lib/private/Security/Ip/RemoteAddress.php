@@ -34,7 +34,7 @@ class RemoteAddress implements IRemoteAddress, IAddress {
 		return Address::isValid($ip);
 	}
 
-	public function matches(IRange... $ranges): bool {
+	public function matches(IRange ... $ranges): bool {
 		return $this->ip === null
 			? true
 			: $this->ip->matches(... $ranges);

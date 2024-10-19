@@ -38,16 +38,16 @@ class SharesReminderJob extends TimedJob {
 	private int $folderMimeTypeId;
 
 	public function __construct(
-		ITimeFactory                     $time,
-		private readonly IDBConnection   $db,
-		private readonly IManager        $shareManager,
-		private readonly IUserManager    $userManager,
+		ITimeFactory $time,
+		private readonly IDBConnection $db,
+		private readonly IManager $shareManager,
+		private readonly IUserManager $userManager,
 		private readonly LoggerInterface $logger,
-		private readonly IURLGenerator   $urlGenerator,
-		private readonly IFactory        $l10nFactory,
-		private readonly IMailer         $mailer,
-		private readonly Defaults        $defaults,
-		IMimeTypeLoader                  $mimeTypeLoader,
+		private readonly IURLGenerator $urlGenerator,
+		private readonly IFactory $l10nFactory,
+		private readonly IMailer $mailer,
+		private readonly Defaults $defaults,
+		IMimeTypeLoader $mimeTypeLoader,
 	) {
 		parent::__construct($time);
 		$this->setInterval(60 * 60);
