@@ -19,8 +19,8 @@ use OCP\TextProcessing\IManager;
 
 class TaskBackgroundJob extends QueuedJob {
 	public function __construct(
-		ITimeFactory             $timeFactory,
-		private IManager         $textProcessingManager,
+		ITimeFactory $timeFactory,
+		private IManager $textProcessingManager,
 		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($timeFactory);

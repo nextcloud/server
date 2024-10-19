@@ -34,11 +34,11 @@ use Psr\Log\LoggerInterface;
 class DeclarativeManager implements IDeclarativeManager {
 	public function __construct(
 		private IEventDispatcher $eventDispatcher,
-		private IGroupManager    $groupManager,
-		private Coordinator      $coordinator,
-		private IConfig          $config,
-		private IAppConfig       $appConfig,
-		private LoggerInterface  $logger,
+		private IGroupManager $groupManager,
+		private Coordinator $coordinator,
+		private IConfig $config,
+		private IAppConfig $appConfig,
+		private LoggerInterface $logger,
 	) {
 	}
 

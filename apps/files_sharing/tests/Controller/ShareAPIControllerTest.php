@@ -60,7 +60,7 @@ class ShareAPIControllerTest extends TestCase {
 	private IRootFolder|\PHPUnit\Framework\MockObject\MockObject $rootFolder;
 	private IURLGenerator|\PHPUnit\Framework\MockObject\MockObject $urlGenerator;
 	private string|\PHPUnit\Framework\MockObject\MockObject $currentUser;
-	private ShareAPIController  $ocs;
+	private ShareAPIController $ocs;
 	private IL10N|\PHPUnit\Framework\MockObject\MockObject $l;
 	private IConfig|\PHPUnit\Framework\MockObject\MockObject $config;
 	private IAppManager|\PHPUnit\Framework\MockObject\MockObject $appManager;

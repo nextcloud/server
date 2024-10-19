@@ -70,14 +70,14 @@ class Session implements IUserSession, Emitter {
 	protected $activeUser;
 
 	public function __construct(
-		private Manager          $manager,
-		private ISession         $session,
-		private ITimeFactory     $timeFactory,
-		private ?IProvider       $tokenProvider,
-		private IConfig          $config,
-		private ISecureRandom    $random,
+		private Manager $manager,
+		private ISession $session,
+		private ITimeFactory $timeFactory,
+		private ?IProvider $tokenProvider,
+		private IConfig $config,
+		private ISecureRandom $random,
 		private ILockdownManager $lockdownManager,
-		private LoggerInterface  $logger,
+		private LoggerInterface $logger,
 		private IEventDispatcher $dispatcher,
 	) {
 	}

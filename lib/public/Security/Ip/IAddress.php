@@ -24,7 +24,7 @@ interface IAddress {
 	 *
 	 * @since 30.0.0
 	 */
-	public function matches(IRange... $ranges): bool;
+	public function matches(IRange ... $ranges): bool;
 
 	/**
 	 * Normalized IP address

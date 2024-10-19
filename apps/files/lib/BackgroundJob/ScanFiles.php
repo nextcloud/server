@@ -33,11 +33,11 @@ class ScanFiles extends TimedJob {
 	public const USERS_PER_SESSION = 500;
 
 	public function __construct(
-		IConfig          $config,
+		IConfig $config,
 		IEventDispatcher $dispatcher,
-		LoggerInterface  $logger,
-		IDBConnection    $connection,
-		ITimeFactory     $time,
+		LoggerInterface $logger,
+		IDBConnection $connection,
+		ITimeFactory $time,
 	) {
 		parent::__construct($time);
 		// Run once per 10 minutes

@@ -41,8 +41,8 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 	private string $mainTable = '';
 
 	public function __construct(
-		IQueryBuilder                  $builder,
-		protected array                  $shardDefinitions,
+		IQueryBuilder $builder,
+		protected array $shardDefinitions,
 		protected ShardConnectionManager $shardConnectionManager,
 		protected AutoIncrementHandler $autoIncrementHandler,
 	) {

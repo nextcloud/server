@@ -47,10 +47,10 @@ class TagSearchProvider implements IProvider {
 	private ISystemTagManager $tagManager;
 
 	public function __construct(
-		IL10N             $l10n,
-		IURLGenerator     $urlGenerator,
+		IL10N $l10n,
+		IURLGenerator $urlGenerator,
 		IMimeTypeDetector $mimeTypeDetector,
-		IRootFolder       $rootFolder,
+		IRootFolder $rootFolder,
 		ISystemTagObjectMapper $objectMapper,
 		ISystemTagManager $tagManager,
 	) {

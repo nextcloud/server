@@ -791,7 +791,7 @@ class UsersControllerTest extends \Test\TestCase {
 		array $data,
 		string $oldEmailAddress,
 		string $oldDisplayName,
-		bool  $setDisplayNameResult,
+		bool $setDisplayNameResult,
 		bool $canChangeEmail,
 	): void {
 		$this->expectException(ForbiddenException::class);

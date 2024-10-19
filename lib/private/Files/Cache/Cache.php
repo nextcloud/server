@@ -55,7 +55,7 @@ class Cache implements ICache {
 	protected array $partial = [];
 	protected string $storageId;
 	protected Storage $storageCache;
-	protected IMimeTypeLoader$mimetypeLoader;
+	protected IMimeTypeLoader $mimetypeLoader;
 	protected IDBConnection $connection;
 	protected SystemConfig $systemConfig;
 	protected LoggerInterface $logger;
