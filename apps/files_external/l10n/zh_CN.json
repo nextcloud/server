@@ -115,7 +115,7 @@
     "External mount error" : "外部挂载错误",
     "List of external storage." : "外部存储列表",
     "There is no external storage configured. You can configure them in your Personal settings." : "未配置外部存储。您可前往您的个人设置页中进行配置。",
-    "There is no external storage configured and you don't have the permission to configure them." : "未配置外部存储，且您没有配置外部存储的权限。",
+    "There is no external storage configured and you don't have the permission to configure them." : "未配置外部存储，且你没有配置外部存储的权限。",
     "No external storage" : "无外部存储",
     "Storage type" : "存储类型",
     "Unknown" : "未知",
