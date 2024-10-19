@@ -1763,7 +1763,7 @@
                                     "expireDate": {
                                         "type": "string",
                                         "nullable": true,
-                                        "description": "The expiry date of the share in the user's timezone at 00:00.\n                           If $expireDate is not supplied or set to `null`, the system default will be used."
+                                        "description": "The expiry date of the share in the user's timezone at 00:00. If $expireDate is not supplied or set to `null`, the system default will be used."
                                     },
                                     "note": {
                                         "type": "string",
@@ -2279,7 +2279,7 @@
                                     "sendMail": {
                                         "type": "string",
                                         "nullable": true,
-                                        "description": "if the share should be send by mail.\n                             Considering the share already exists, no mail will be send after the share is updated.\n                             You will have to use the sendMail action to send the mail."
+                                        "description": "if the share should be send by mail. Considering the share already exists, no mail will be send after the share is updated. You will have to use the sendMail action to send the mail."
                                     }
                                 }
                             }
