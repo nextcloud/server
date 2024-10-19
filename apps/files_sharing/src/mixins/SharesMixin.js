@@ -338,7 +338,7 @@ export default {
 
 			switch (names[0]) {
 			case 'expireDate':
-				return t('files_sharing', 'Share expire date saved')
+				return t('files_sharing', 'Share expiry date saved')
 			case 'hideDownload':
 				return t('files_sharing', 'Share hide-download state saved')
 			case 'label':
