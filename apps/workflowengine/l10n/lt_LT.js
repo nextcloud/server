@@ -46,6 +46,7 @@ OC.L10N.register(
     "Nextcloud workflow engine" : "Nextcloud darbo eigos modulis",
     "Select a filter" : "Pasirinkite filtrą",
     "Select a comparator" : "Pasirinkite palyginimą",
+    "Remove filter" : "Šalinti filtrą",
     "Select a file type" : "Pasirinkite failo tipą",
     "e.g. httpd/unix-directory" : "pvz., httpd/unix-directory",
     "Folder" : "Aplankas",

@@ -14,7 +14,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "访问 {file} 的密码被发送给 {email}",
     "Password to access {file} was sent to you" : "访问 {file} 的密码已发送给您",
     "Share by mail" : "通过邮件共享",
-    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "共享 %1$s 失败，因为该项目已与账号 %2$s 分享",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "共享 %1$s 失败，因为该项目已与账号 %2$s 共享",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "我们无法将自动生成的密码发送给您。请在您的个人设置中设置一个有效的电子邮件地址，然后重试。 ",
     "Failed to send share by email. Got an invalid email address" : "无法通过邮箱发送分享。无效邮箱",
     "Failed to send share by email" : "通过邮件发送共享失败",
