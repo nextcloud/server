@@ -164,7 +164,7 @@ class IMipService {
 
 			$data['meeting_when_html'] = $oldMeetingWhen !== $data['meeting_when'] ? sprintf("<span style='text-decoration: line-through'>%s</span><br />%s", $oldMeetingWhen, $data['meeting_when']) : $data['meeting_when'];
 		}
-		// generate occuring next string
+		// generate occurring next string
 		if ($eventReaderCurrent->recurs()) {
 			$data['meeting_occurring'] = $this->generateOccurringString($eventReaderCurrent);
 		}
@@ -173,7 +173,7 @@ class IMipService {
 	}
 
 	/**
-	 * genarates a when string based on if a event has an recurrence or not
+	 * generates a when string based on if a event has an recurrence or not
 	 *
 	 * @since 30.0.0
 	 *
@@ -189,7 +189,7 @@ class IMipService {
 	}
 
 	/**
-	 * genarates a when string for a non recurring event
+	 * generates a when string for a non recurring event
 	 *
 	 * @since 30.0.0
 	 *
@@ -198,8 +198,8 @@ class IMipService {
 	 * @return string
 	 */
 	public function generateWhenStringSingular(EventReader $er): string {
-		// calculate time differnce from now to start of event
-		$occuring = $this->minimizeInterval($this->timeFactory->getDateTime()->diff($er->recurrenceDate()));
+		// calculate time difference from now to start of event
+		$occurring = $this->minimizeInterval($this->timeFactory->getDateTime()->diff($er->recurrenceDate()));
 		// extract start date
 		$startDate = $this->l10n->l('date', $er->startDateTime(), ['width' => 'full']);
 		// time of the day
@@ -214,19 +214,19 @@ class IMipService {
 		// Output produced in order:
 		// In a day/week/month/year on July 1, 2024 for the entire day
 		// In a day/week/month/year on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)
-		// In 2 days/weeks/monthss/years on July 1, 2024 for the entire day
-		// In 2 days/weeks/monthss/years on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)
-		return match ([($occuring[0] > 1), !empty($endTime)]) {
-			[false, false] => $this->l10n->t('In a %1$s on %2$s for the entire day', [$occuring[1], $startDate]),
-			[false, true] => $this->l10n->t('In a %1$s on %2$s between %3$s - %4$s', [$occuring[1], $startDate, $startTime, $endTime]),
-			[true, false] => $this->l10n->t('In %1$s %2$s on %3$s for the entire day', [$occuring[0], $occuring[1], $startDate]),
-			[true, true] => $this->l10n->t('In %1$s %2$s on %3$s between %4$s - %5$s', [$occuring[0], $occuring[1], $startDate, $startTime, $endTime]),
+		// In 2 days/weeks/months/years on July 1, 2024 for the entire day
+		// In 2 days/weeks/months/years on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)
+		return match ([($occurring[0] > 1), !empty($endTime)]) {
+			[false, false] => $this->l10n->t('In a %1$s on %2$s for the entire day', [$occurring[1], $startDate]),
+			[false, true] => $this->l10n->t('In a %1$s on %2$s between %3$s - %4$s', [$occurring[1], $startDate, $startTime, $endTime]),
+			[true, false] => $this->l10n->t('In %1$s %2$s on %3$s for the entire day', [$occurring[0], $occurring[1], $startDate]),
+			[true, true] => $this->l10n->t('In %1$s %2$s on %3$s between %4$s - %5$s', [$occurring[0], $occurring[1], $startDate, $startTime, $endTime]),
 			default => $this->l10n->t('Could not generate when statement')
 		};
 	}
 
 	/**
-	 * genarates a when string based on recurrance precision/frequency
+	 * generates a when string based on recurrence precision/frequency
 	 *
 	 * @since 30.0.0
 	 *
@@ -245,7 +245,7 @@ class IMipService {
 	}
 
 	/**
-	 * genarates a when string for a daily precision/frequency
+	 * generates a when string for a daily precision/frequency
 	 *
 	 * @since 30.0.0
 	 *
@@ -297,7 +297,7 @@ class IMipService {
 	}
 
 	/**
-	 * genarates a when string for a weekly precision/frequency
+	 * generates a when string for a weekly precision/frequency
 	 *
 	 * @since 30.0.0
 	 *
@@ -351,7 +351,7 @@ class IMipService {
 	}
 
 	/**
-	 * genarates a when string for a monthly precision/frequency
+	 * generates a when string for a monthly precision/frequency
 	 *
 	 * @since 30.0.0
 	 *
@@ -417,7 +417,7 @@ class IMipService {
 	}
 
 	/**
-	 * genarates a when string for a yearly precision/frequency
+	 * generates a when string for a yearly precision/frequency
 	 *
 	 * @since 30.0.0
 	 *
@@ -485,7 +485,7 @@ class IMipService {
 	}
 
 	/**
-	 * genarates a when string for a fixed precision/frequency
+	 * generates a when string for a fixed precision/frequency
 	 *
 	 * @since 30.0.0
 	 *
@@ -519,7 +519,7 @@ class IMipService {
 	}
 	
 	/**
-	 * genarates a occurring next string for a recurring event
+	 * generates a occurring next string for a recurring event
 	 *
 	 * @since 30.0.0
 	 *
@@ -529,26 +529,26 @@ class IMipService {
 	 */
 	public function generateOccurringString(EventReader $er): string {
 
-		// reset to initial occurance
+		// reset to initial occurrence
 		$er->recurrenceRewind();
 		// forward to current date
 		$er->recurrenceAdvanceTo($this->timeFactory->getDateTime());
-		// calculate time differnce from now to start of next event occurance and minimize it
-		$occuranceIn = $this->minimizeInterval($this->timeFactory->getDateTime()->diff($er->recurrenceDate()));
-		// store next occurance value
-		$occurance = $this->l10n->l('date', $er->recurrenceDate(), ['width' => 'long']);
-		// forward one occurance
+		// calculate time difference from now to start of next event occurrence and minimize it
+		$occurrenceIn = $this->minimizeInterval($this->timeFactory->getDateTime()->diff($er->recurrenceDate()));
+		// store next occurrence value
+		$occurrence = $this->l10n->l('date', $er->recurrenceDate(), ['width' => 'long']);
+		// forward one occurrence
 		$er->recurrenceAdvance();
-		// evaluate if occurance is valid
+		// evaluate if occurrence is valid
 		if ($er->recurrenceDate() !== null) {
-			// store following occurance value
-			$occurance2 = $this->l10n->l('date', $er->recurrenceDate(), ['width' => 'long']);
-			// forward one occurance
+			// store following occurrence value
+			$occurrence2 = $this->l10n->l('date', $er->recurrenceDate(), ['width' => 'long']);
+			// forward one occurrence
 			$er->recurrenceAdvance();
-			// evaluate if occurance is valid
+			// evaluate if occurrence is valid
 			if ($er->recurrenceDate()) {
-				// store following occurance value
-				$occurance3 = $this->l10n->l('date', $er->recurrenceDate(), ['width' => 'long']);
+				// store following occurrence value
+				$occurrence3 = $this->l10n->l('date', $er->recurrenceDate(), ['width' => 'long']);
 			}
 		}
 		// generate localized when string
@@ -561,13 +561,13 @@ class IMipService {
 		// In 2 days/weeks/months/years on July 1, 2024
 		// In 2 days/weeks/months/years on July 1, 2024 then on July 3, 2024
 		// In 2 days/weeks/months/years on July 1, 2024 then on July 3, 2024 and July 5, 2024
-		return match ([($occuranceIn[0] > 1), !empty($occurance2), !empty($occurance3)]) {
-			[false, false, false] => $this->l10n->t('In a %1$s on %2$s', [$occuranceIn[1], $occurance]),
-			[false, true, false] => $this->l10n->t('In a %1$s on %2$s then on %3$s', [$occuranceIn[1], $occurance, $occurance2]),
-			[false, true, true] => $this->l10n->t('In a %1$s on %2$s then on %3$s and %4$s', [$occuranceIn[1], $occurance, $occurance2, $occurance3]),
-			[true, false, false] => $this->l10n->t('In %1$s %2$s on %3$s', [$occuranceIn[0], $occuranceIn[1], $occurance]),
-			[true, true, false] => $this->l10n->t('In %1$s %2$s on %3$s then on %4$s', [$occuranceIn[0], $occuranceIn[1], $occurance, $occurance2]),
-			[true, true, true] => $this->l10n->t('In %1$s %2$s on %3$s then on %4$s and %5$s', [$occuranceIn[0], $occuranceIn[1], $occurance, $occurance2, $occurance3]),
+		return match ([($occurrenceIn[0] > 1), !empty($occurrence2), !empty($occurrence3)]) {
+			[false, false, false] => $this->l10n->t('In a %1$s on %2$s', [$occurrenceIn[1], $occurrence]),
+			[false, true, false] => $this->l10n->t('In a %1$s on %2$s then on %3$s', [$occurrenceIn[1], $occurrence, $occurrence2]),
+			[false, true, true] => $this->l10n->t('In a %1$s on %2$s then on %3$s and %4$s', [$occurrenceIn[1], $occurrence, $occurrence2, $occurrence3]),
+			[true, false, false] => $this->l10n->t('In %1$s %2$s on %3$s', [$occurrenceIn[0], $occurrenceIn[1], $occurrence]),
+			[true, true, false] => $this->l10n->t('In %1$s %2$s on %3$s then on %4$s', [$occurrenceIn[0], $occurrenceIn[1], $occurrence, $occurrence2]),
+			[true, true, true] => $this->l10n->t('In %1$s %2$s on %3$s then on %4$s and %5$s', [$occurrenceIn[0], $occurrenceIn[1], $occurrence, $occurrence2, $occurrence3]),
 			default => $this->l10n->t('Could not generate next recurrence statement')
 		};
 
