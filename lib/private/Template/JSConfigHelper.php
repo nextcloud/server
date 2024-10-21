@@ -159,6 +159,7 @@ class JSConfigHelper {
 			'version' => implode('.', $this->serverVersion->getVersion()),
 			'versionstring' => $this->serverVersion->getVersionString(),
 			'enable_non-accessible_features' => $this->config->getSystemValueBool('enable_non-accessible_features', true),
+			'is_enterprise' => Util::isEnterprise(),
 		];
 
 		$array = [
