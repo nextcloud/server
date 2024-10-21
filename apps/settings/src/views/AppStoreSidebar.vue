@@ -56,16 +56,18 @@ import AppLevelBadge from '../components/AppList/AppLevelBadge.vue'
 import AppDaemonBadge from '../components/AppList/AppDaemonBadge.vue'
 import { useAppIcon } from '../composables/useAppIcon.ts'
 import { useStore } from '../store'
+import { useAppApiStore } from '../store/app-api-store.ts'
 
 const route = useRoute()
 const router = useRouter()
 const store = useAppsStore()
+const appApiStore = useAppApiStore()
 const legacyStore = useStore()
 
 const appId = computed(() => route.params.id ?? '')
 const app = computed(() => {
 	if (legacyStore.getters.isAppApiEnabled) {
-		const exApp = legacyStore.getters['appApiApps/getAllApps']
+		const exApp = appApiStore.getAllApps
 			.find((app) => app.id === appId.value) ?? null
 		if (exApp) {
 			return exApp
