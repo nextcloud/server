@@ -143,6 +143,7 @@ import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import AppItem from './AppList/AppItem.vue'
 import pLimit from 'p-limit'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import { useAppApiStore } from '../store/app-api-store'
 
 export default {
 	name: 'AppList',
@@ -158,6 +159,13 @@ export default {
 		},
 	},
 
+	setup() {
+		const appApiStore = useAppApiStore()
+		return {
+			appApiStore,
+		}
+	},
+
 	data() {
 		return {
 			search: '',
@@ -171,7 +179,7 @@ export default {
 			if (!this.$store.getters['appApiApps/isAppApiEnabled']) {
 				return this.$store.getters.loading('list')
 			}
-			return this.$store.getters.loading('list') || this.$store.getters['appApiApps/loading']('list')
+			return this.$store.getters.loading('list') || this.appApiStore.getLoading('list')
 		},
 		hasPendingUpdate() {
 			return this.apps.filter(app => app.update).length > 0
@@ -181,7 +189,7 @@ export default {
 		},
 		apps() {
 			// Exclude ExApps from the list if AppAPI is disabled
-			const exApps = this.$store.getters.isAppApiEnabled ? this.$store.getters['appApiApps/getAllApps'] : []
+			const exApps = this.$store.getters.isAppApiEnabled ? this.appApiStore.getAllApps : []
 			const apps = [...this.$store.getters.getAllApps, ...exApps]
 				.filter(app => app.name.toLowerCase().search(this.search.toLowerCase()) !== -1)
 				.sort(function(a, b) {
