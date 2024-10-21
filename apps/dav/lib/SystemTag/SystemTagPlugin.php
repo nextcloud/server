@@ -37,6 +37,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 
 	// namespace
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
+	public const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
 	public const ID_PROPERTYNAME = '{http://owncloud.org/ns}id';
 	public const DISPLAYNAME_PROPERTYNAME = '{http://owncloud.org/ns}display-name';
 	public const USERVISIBLE_PROPERTYNAME = '{http://owncloud.org/ns}user-visible';
@@ -45,7 +46,8 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	public const CANASSIGN_PROPERTYNAME = '{http://owncloud.org/ns}can-assign';
 	public const SYSTEM_TAGS_PROPERTYNAME = '{http://nextcloud.org/ns}system-tags';
 	public const NUM_FILES_PROPERTYNAME = '{http://nextcloud.org/ns}files-assigned';
-	public const FILEID_PROPERTYNAME = '{http://nextcloud.org/ns}reference-fileid';
+	public const REFERENCE_FILEID_PROPERTYNAME = '{http://nextcloud.org/ns}reference-fileid';
+	public const OBJECTID_PROPERTYNAME = '{http://nextcloud.org/ns}object-id';
 
 	/**
 	 * @var \Sabre\DAV\Server $server
@@ -223,7 +225,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			return;
 		}
 
-		if (!($node instanceof SystemTagNode) && !($node instanceof SystemTagMappingNode)) {
+		if (!($node instanceof SystemTagNode) && !($node instanceof SystemTagMappingNode) && !($node instanceof SystemTagObjectType)) {
 			return;
 		}
 
@@ -272,8 +274,14 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 				return $node->getNumberOfFiles();
 			});
 
-			$propFind->handle(self::FILEID_PROPERTYNAME, function () use ($node): int {
+			$propFind->handle(self::REFERENCE_FILEID_PROPERTYNAME, function () use ($node): int {
 				return $node->getReferenceFileId();
+			});
+		}
+
+		if ($node instanceof SystemTagObjectType) {
+			$propFind->handle(self::OBJECTID_PROPERTYNAME, function () use ($node) {
+				return $node->getObjectsIds();
 			});
 		}
 	}
@@ -372,7 +380,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			self::USERASSIGNABLE_PROPERTYNAME,
 			self::GROUPS_PROPERTYNAME,
 			self::NUM_FILES_PROPERTYNAME,
-			self::FILEID_PROPERTYNAME,
+			self::REFERENCE_FILEID_PROPERTYNAME,
 		], function ($props) use ($node) {
 			$tag = $node->getSystemTag();
 			$name = $tag->getName();
@@ -409,7 +417,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 				$this->tagManager->setTagGroups($tag, $groupIds);
 			}
 
-			if (isset($props[self::NUM_FILES_PROPERTYNAME]) || isset($props[self::FILEID_PROPERTYNAME])) {
+			if (isset($props[self::NUM_FILES_PROPERTYNAME]) || isset($props[self::REFERENCE_FILEID_PROPERTYNAME])) {
 				// read-only properties
 				throw new Forbidden();
 			}
