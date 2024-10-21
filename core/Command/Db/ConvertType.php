@@ -359,7 +359,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 							$insertQuery->setParameter($key, $value);
 						}
 					}
-					$insertQuery->execute();
+					$insertQuery->executeStatement();
 				}
 				$result->closeCursor();
 

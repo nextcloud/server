@@ -15,13 +15,6 @@ use OCP\Migration\IRepairStep;
 use Psr\Log\LoggerInterface;
 
 class Collation implements IRepairStep {
-	/** @var IConfig */
-	protected $config;
-
-	protected LoggerInterface $logger;
-
-	/** @var IDBConnection */
-	protected $connection;
 
 	/** @var bool */
 	protected $ignoreFailures;
@@ -30,14 +23,11 @@ class Collation implements IRepairStep {
 	 * @param bool $ignoreFailures
 	 */
 	public function __construct(
-		IConfig $config,
-		LoggerInterface $logger,
-		IDBConnection $connection,
+		protected IConfig $config,
+		protected LoggerInterface $logger,
+		protected IDBConnection $connection,
 		$ignoreFailures,
 	) {
-		$this->connection = $connection;
-		$this->config = $config;
-		$this->logger = $logger;
 		$this->ignoreFailures = $ignoreFailures;
 	}
 

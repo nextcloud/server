@@ -60,7 +60,7 @@ class RepairTree extends Command {
 						'path' => $row['parent_path'] . '/' . $row['name'],
 						'storage' => $row['parent_storage'],
 					]);
-					$query->execute();
+					$query->executeStatement();
 				}
 			}
 		}
@@ -78,14 +78,14 @@ class RepairTree extends Command {
 			->from('filecache')
 			->where($query->expr()->eq('storage', $query->createNamedParameter($storage)))
 			->andWhere($query->expr()->eq('path_hash', $query->createNamedParameter(md5($path))));
-		return $query->execute()->fetch(\PDO::FETCH_COLUMN);
+		return $query->executeQuery()->fetch(\PDO::FETCH_COLUMN);
 	}
 
 	private function deleteById(int $fileId): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('filecache')
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($fileId)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	private function findBrokenTreeBits(): array {
@@ -108,6 +108,6 @@ class RepairTree extends Command {
 				$query->expr()->neq('f.storage', 'p.storage')
 			));
 
-		return $query->execute()->fetchAll();
+		return $query->executeQuery()->fetchAll();
 	}
 }
