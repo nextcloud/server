@@ -37,8 +37,7 @@ class CryptTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->logger->expects($this->any())
-			->method('warning')
-			->willReturn(true);
+			->method('warning');
 		$this->userSession = $this->getMockBuilder(IUserSession::class)
 			->disableOriginalConstructor()
 			->getMock();
