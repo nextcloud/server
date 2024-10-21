@@ -197,8 +197,12 @@ class EventReader {
 		}
 		// evaluate if RDATE exist and construct iterator
 		if (isset($this->baseEvent->RDATE)) {
+			$dates = [];
+			foreach ($this->baseEvent->RDATE as $entry) {
+				$dates[] = $entry->getValue();
+			}
 			$this->rdateIterator = new EventReaderRDate(
-				$this->baseEvent->RDATE->getValue(),
+				implode(',', $dates),
 				$this->baseEventStartDate
 			);
 		}
@@ -211,8 +215,12 @@ class EventReader {
 		}
 		// evaluate if EXDATE exist and construct iterator
 		if (isset($this->baseEvent->EXDATE)) {
+			$dates = [];
+			foreach ($this->baseEvent->EXDATE as $entry) {
+				$dates[] = $entry->getValue();
+			}
 			$this->edateIterator = new EventReaderRDate(
-				$this->baseEvent->EXDATE->getValue(),
+				implode(',', $dates),
 				$this->baseEventStartDate
 			);
 		}

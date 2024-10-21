@@ -533,6 +533,15 @@ class EventReaderTest extends TestCase {
 		// test set by constructor
 		$this->assertTrue($er->recurringConcludes());
 
+		/** test rdate (multiple property instances) recurrance */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RDATE', '20240703');
+		$vCalendar->VEVENT[0]->add('RDATE', '20240705');
+		// construct event reader
+		$er = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test set by constructor
+		$this->assertTrue($er->recurringConcludes());
+
 		/** test rrule and rdate recurrance with rdate as last date */
 		$vCalendar = clone $this->vCalendar1a;
 		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=WEEKLY;COUNT=6;BYDAY=MO,WE,FR');
@@ -573,6 +582,15 @@ class EventReaderTest extends TestCase {
 		/** test rdate recurrance */
 		$vCalendar = clone $this->vCalendar1a;
 		$vCalendar->VEVENT[0]->add('RDATE', '20240703,20240705');
+		// construct event reader
+		$er = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test set by constructor
+		$this->assertEquals(2, $er->recurringConcludesAfter());
+
+		/** test rdate (multiple property instances) recurrance */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RDATE', '20240703');
+		$vCalendar->VEVENT[0]->add('RDATE', '20240705');
 		// construct event reader
 		$er = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test set by constructor
@@ -619,6 +637,15 @@ class EventReaderTest extends TestCase {
 		/** test rdate recurrance */
 		$vCalendar = clone $this->vCalendar1a;
 		$vCalendar->VEVENT[0]->add('RDATE', '20240703,20240705');
+		// construct event reader
+		$er = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test set by constructor
+		$this->assertEquals((new \DateTime('20240705T000000', (new DateTimeZone('America/Toronto')))), $er->recurringConcludesOn());
+
+		/** test rdate (multiple property instances) recurrance */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RDATE', '20240703');
+		$vCalendar->VEVENT[0]->add('RDATE', '20240705');
 		// construct event reader
 		$er = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test set by constructor
