@@ -14,6 +14,7 @@ use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
+use OC\Files\Filesystem;
 use OC\Files\Storage\PolyFill\CopyDirectory;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
@@ -696,6 +697,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			throw new \Exception('Invalid source cache for object store copy');
 		}
 
+		Filesystem::getView()->disableCacheUpdate();
 		$targetId = $cache->copyFromCache($cache, $sourceEntry, $to);
 
 		$targetUrn = $this->getURN($targetId);
