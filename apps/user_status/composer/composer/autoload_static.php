@@ -32,6 +32,7 @@ class ComposerStaticInitUserStatus
         'OCA\\UserStatus\\Controller\\PredefinedStatusController' => __DIR__ . '/..' . '/../lib/Controller/PredefinedStatusController.php',
         'OCA\\UserStatus\\Controller\\StatusesController' => __DIR__ . '/..' . '/../lib/Controller/StatusesController.php',
         'OCA\\UserStatus\\Controller\\UserStatusController' => __DIR__ . '/..' . '/../lib/Controller/UserStatusController.php',
+        'OCA\\UserStatus\\Dashboard\\AllUserStatusWidget' => __DIR__ . '/..' . '/../lib/Dashboard/AllUserStatusWidget.php',
         'OCA\\UserStatus\\Dashboard\\UserStatusWidget' => __DIR__ . '/..' . '/../lib/Dashboard/UserStatusWidget.php',
         'OCA\\UserStatus\\Db\\UserStatus' => __DIR__ . '/..' . '/../lib/Db/UserStatus.php',
         'OCA\\UserStatus\\Db\\UserStatusMapper' => __DIR__ . '/..' . '/../lib/Db/UserStatusMapper.php',
