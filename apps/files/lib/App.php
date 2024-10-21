@@ -8,6 +8,7 @@
 namespace OCA\Files;
 
 use OC\NavigationManager;
+use OCA\Files\Service\ChunkedUploadConfig;
 use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -44,9 +45,8 @@ class App {
 	public static function extendJsConfig($settings): void {
 		$appConfig = json_decode($settings['array']['oc_appconfig'], true);
 
-		$maxChunkSize = (int)Server::get(IConfig::class)->getAppValue('files', 'max_chunk_size', (string)(100 * 1024 * 1024));
 		$appConfig['files'] = [
-			'max_chunk_size' => $maxChunkSize
+			'max_chunk_size' => ChunkedUploadConfig::getMaxChunkSize(),
 		];
 
 		$settings['array']['oc_appconfig'] = json_encode($appConfig);
