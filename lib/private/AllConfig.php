@@ -6,13 +6,14 @@
  */
 namespace OC;
 
+use OC\Config\UserPreferences;
 use OCP\Cache\CappedMemoryCache;
+use OCP\Config\Exceptions\TypeConflictException;
+use OCP\Config\IUserPreferences;
+use OCP\Config\ValueType;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\PreConditionNotMetException;
-use OCP\UserPreferences\Exceptions\TypeConflictException;
-use OCP\UserPreferences\IUserPreferences;
-use OCP\UserPreferences\ValueType;
 
 /**
  * Class to combine all the configuration options ownCloud offers
@@ -376,11 +377,11 @@ class AllConfig implements IConfig {
 	 * @param string $appName the app to get the user for
 	 * @param string $key the key to get the user for
 	 * @param string $value the value to get the user for
-	 * @return list<string> of user IDs
+	 * @return array<string> of user IDs
 	 * @deprecated 31.0.0 - use {@see IUserPreferences::searchUsersByValueString} directly
 	 */
 	public function getUsersForUserValue($appName, $key, $value) {
-		return \OCP\Server::get(IUserPreferences::class)->searchUsersByValueDeprecated($appName, $key, $value);
+		return iterator_to_array(\OCP\Server::get(IUserPreferences::class)->searchUsersByValueString($appName, $key, $value));
 	}
 
 	/**
@@ -389,7 +390,7 @@ class AllConfig implements IConfig {
 	 * @param string $appName the app to get the user for
 	 * @param string $key the key to get the user for
 	 * @param string $value the value to get the user for
-	 * @return list<string> of user IDs
+	 * @return array<string> of user IDs
 	 * @deprecated 31.0.0 - use {@see IUserPreferences::searchUsersByValueString} directly
 	 */
 	public function getUsersForUserValueCaseInsensitive($appName, $key, $value) {
@@ -397,7 +398,7 @@ class AllConfig implements IConfig {
 			return $this->getUsersForUserValue($appName, $key, strtolower($value));
 		}
 
-		return \OCP\Server::get(IUserPreferences::class)->searchUsersByValueDeprecated($appName, $key, $value, true);
+		return iterator_to_array(\OCP\Server::get(IUserPreferences::class)->searchUsersByValueString($appName, $key, $value, true));
 	}
 
 	public function getSystemConfig() {

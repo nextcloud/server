@@ -6,21 +6,22 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OC;
+namespace OC\Config;
 
+use Generator;
 use InvalidArgumentException;
 use JsonException;
+use OCP\Config\Exceptions\IncorrectTypeException;
+use OCP\Config\Exceptions\TypeConflictException;
+use OCP\Config\Exceptions\UnknownKeyException;
+use OCP\Config\IUserPreferences;
+use OCP\Config\ValueType;
 use OCP\DB\Exception as DBException;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
-use OCP\UserPreferences\Exceptions\IncorrectTypeException;
-use OCP\UserPreferences\Exceptions\TypeConflictException;
-use OCP\UserPreferences\Exceptions\UnknownKeyException;
-use OCP\UserPreferences\IUserPreferences;
-use OCP\UserPreferences\ValueType;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -52,7 +53,7 @@ class UserPreferences implements IUserPreferences {
 	private array $fastCache = [];   // cache for normal preference keys
 	/** @var array<string, array<string, array<string, mixed>>> ['user_id' => ['app_id' => ['key' => 'value']]] */
 	private array $lazyCache = [];   // cache for lazy preference keys
-	/** @var array<string, array<string, array<string, <'type', ValueType>|<'flags', int>> ['user_id' => ['app_id' => ['key' => ['type' => ValueType, 'flags' => bitflag]]] */
+	/** @var array<string, array<string, array<string, array<string, mixed>>>> ['user_id' => ['app_id' => ['key' => ['type' => ValueType, 'flags' => bitflag]]]] */
 	private array $valueDetails = [];  // type for all preference values
 	/** @var array<string, array<string, array<string, ValueType>>> ['user_id' => ['app_id' => ['key' => bitflag]]] */
 	private array $valueTypes = [];  // type for all preference values
@@ -358,7 +359,7 @@ class UserPreferences implements IUserPreferences {
 			while ($row = $result->fetch()) {
 				$value = $row['configvalue'];
 				try {
-					$value = $this->convertTypedValue($value, $typedAs ?? ValueType::from((int) $row['type']));
+					$value = $this->convertTypedValue($value, $typedAs ?? ValueType::from((int)$row['type']));
 				} catch (IncorrectTypeException) {
 				}
 				$values[$row['userid']] = $value;
@@ -393,27 +394,11 @@ class UserPreferences implements IUserPreferences {
 	 * @param string $value preference value
 	 * @param bool $caseInsensitive non-case-sensitive search, only works if $value is a string
 	 *
-	 * @return list<string>
+	 * @return Generator<string>
 	 * @since 31.0.0
 	 */
-	public function searchUsersByValueString(string $app, string $key, string $value, bool $caseInsensitive = false): array {
+	public function searchUsersByValueString(string $app, string $key, string $value, bool $caseInsensitive = false): Generator {
 		return $this->searchUsersByTypedValue($app, $key, $value, $caseInsensitive);
-	}
-
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 * @param string $key preference key
-	 * @param string $value preference value
-	 * @param bool $caseInsensitive non-case-sensitive search, only works if $value is a string
-	 * @internal
-	 * @deprecated since 31.0.0 - {@see }
-	 * @return list<string>
-	 * @since 31.0.0
-	 */
-	public function searchUsersByValueDeprecated(string $app, string $key, string $value, bool $caseInsensitive = false): array {
-		return $this->searchUsersByTypedValue($app, $key, $value, $caseInsensitive, true);
 	}
 
 	/**
@@ -423,10 +408,10 @@ class UserPreferences implements IUserPreferences {
 	 * @param string $key preference key
 	 * @param int $value preference value
 	 *
-	 * @return list<string>
+	 * @return Generator<string>
 	 * @since 31.0.0
 	 */
-	public function searchUsersByValueInt(string $app, string $key, int $value): array {
+	public function searchUsersByValueInt(string $app, string $key, int $value): Generator {
 		return $this->searchUsersByValueString($app, $key, (string)$value);
 	}
 
@@ -437,10 +422,10 @@ class UserPreferences implements IUserPreferences {
 	 * @param string $key preference key
 	 * @param array $values list of preference values
 	 *
-	 * @return list<string>
+	 * @return Generator<string>
 	 * @since 31.0.0
 	 */
-	public function searchUsersByValues(string $app, string $key, array $values): array {
+	public function searchUsersByValues(string $app, string $key, array $values): Generator {
 		return $this->searchUsersByTypedValue($app, $key, $values);
 	}
 
@@ -451,10 +436,10 @@ class UserPreferences implements IUserPreferences {
 	 * @param string $key preference key
 	 * @param bool $value preference value
 	 *
-	 * @return list<string>
+	 * @return Generator<string>
 	 * @since 31.0.0
 	 */
-	public function searchUsersByValueBool(string $app, string $key, bool $value): array {
+	public function searchUsersByValueBool(string $app, string $key, bool $value): Generator {
 		$values = ['0', 'off', 'false', 'no'];
 		if ($value) {
 			$values = ['1', 'on', 'true', 'yes'];
@@ -470,11 +455,10 @@ class UserPreferences implements IUserPreferences {
 	 * @param string $key
 	 * @param string|array $value
 	 * @param bool $caseInsensitive
-	 * @param bool $withinNotIndexedField DEPRECATED: should only be used to stay compatible with not-indexed/pre-31 preferences value
 	 *
-	 * @return list<string>
+	 * @return Generator<string>
 	 */
-	private function searchUsersByTypedValue(string $app, string $key, string|array $value, bool $caseInsensitive = false): array {
+	private function searchUsersByTypedValue(string $app, string $key, string|array $value, bool $caseInsensitive = false): Generator {
 		$this->assertParams('', $app, $key, allowEmptyUser: true);
 
 		$qb = $this->connection->getQueryBuilder();
@@ -483,14 +467,14 @@ class UserPreferences implements IUserPreferences {
 		$qb->where($qb->expr()->eq('appid', $qb->createNamedParameter($app)));
 		$qb->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($key)));
 
-		// search within 'indexed' OR 'configvalue' (but if 'flags' is not set as indexed)
+		// search within 'indexed' OR 'configvalue' only if 'flags' is set as not indexed
 		// TODO: when implementing config lexicon remove the searches on 'configvalue' if value is set as indexed
 		$configValueColumn = ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) ? $qb->expr()->castColumn('configvalue', IQueryBuilder::PARAM_STR) : 'configvalue';
 		if (is_array($value)) {
 			$where = $qb->expr()->orX(
 				$qb->expr()->in('indexed', $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR_ARRAY)),
 				$qb->expr()->andX(
-					$qb->createFunction('NOT ' . $qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED)),
+					$qb->expr()->neq($qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED), $qb->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)),
 					$qb->expr()->in($configValueColumn, $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR_ARRAY))
 				)
 			);
@@ -499,7 +483,7 @@ class UserPreferences implements IUserPreferences {
 				$where = $qb->expr()->orX(
 					$qb->expr()->eq($qb->func()->lower('indexed'), $qb->createNamedParameter(strtolower($value))),
 					$qb->expr()->andX(
-						$qb->createFunction('NOT ' . $qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED)),
+						$qb->expr()->neq($qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED), $qb->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)),
 						$qb->expr()->eq($qb->func()->lower($configValueColumn), $qb->createNamedParameter(strtolower($value)))
 					)
 				);
@@ -507,7 +491,7 @@ class UserPreferences implements IUserPreferences {
 				$where = $qb->expr()->orX(
 					$qb->expr()->eq('indexed', $qb->createNamedParameter($value)),
 					$qb->expr()->andX(
-						$qb->createFunction('NOT ' . $qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED)),
+						$qb->expr()->neq($qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED), $qb->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)),
 						$qb->expr()->eq($configValueColumn, $qb->createNamedParameter($value))
 					)
 				);
@@ -515,15 +499,10 @@ class UserPreferences implements IUserPreferences {
 		}
 
 		$qb->andWhere($where);
-
-		$userIds = [];
 		$result = $qb->executeQuery();
-		$rows = $result->fetchAll();
-		foreach ($rows as $row) {
-			$userIds[] = $row['userid'];
+		while ($row = $result->fetch()) {
+			yield $row['userid'];
 		}
-
-		return $userIds;
 	}
 
 	/**
@@ -726,7 +705,7 @@ class UserPreferences implements IUserPreferences {
 		bool $lazy,
 		ValueType $type,
 	): string {
-		$this->assertParams($userId, $app, $key, valueType: $type);
+		$this->assertParams($userId, $app, $key);
 		$this->loadPreferences($userId, $lazy);
 
 		/**
@@ -793,7 +772,7 @@ class UserPreferences implements IUserPreferences {
 	 * @param string $key preference key
 	 * @param bool $lazy lazy loading
 	 *
-	 * @return ValueType type of the value
+	 * @return int flags applied to value
 	 * @throws UnknownKeyException if preference key is not known
 	 * @throws IncorrectTypeException if preferences value type is not known
 	 * @since 31.0.0
@@ -978,7 +957,7 @@ class UserPreferences implements IUserPreferences {
 		string $key,
 		bool $value,
 		bool $lazy = false,
-		int $flags = 0
+		int $flags = 0,
 	): bool {
 		return $this->setTypedValue(
 			$userId,
@@ -1058,7 +1037,7 @@ class UserPreferences implements IUserPreferences {
 		int $flags,
 		ValueType $type,
 	): bool {
-		$this->assertParams($userId, $app, $key, valueType: $type);
+		$this->assertParams($userId, $app, $key);
 		$this->loadPreferences($userId, $lazy);
 
 		$inserted = $refreshCache = false;
@@ -1074,7 +1053,7 @@ class UserPreferences implements IUserPreferences {
 		if ($type !== ValueType::ARRAY && $this->isFlagged(self::FLAG_INDEXED, $flags)) {
 			if ($this->isFlagged(self::FLAG_SENSITIVE, $flags)) {
 				$this->logger->warning('sensitive value are not to be indexed');
-			} else if (strlen($value) > self::USER_MAX_LENGTH) {
+			} elseif (strlen($value) > self::USER_MAX_LENGTH) {
 				$this->logger->warning('value is too lengthy to be indexed');
 			} else {
 				$indexed = $value;
@@ -1203,7 +1182,7 @@ class UserPreferences implements IUserPreferences {
 	 * @since 31.0.0
 	 */
 	public function updateType(string $userId, string $app, string $key, ValueType $type = ValueType::MIXED): bool {
-		$this->assertParams($userId, $app, $key, valueType: $type);
+		$this->assertParams($userId, $app, $key);
 		$this->loadPreferencesAll($userId);
 		$this->isLazy($userId, $app, $key); // confirm key exists
 
@@ -1348,11 +1327,11 @@ class UserPreferences implements IUserPreferences {
 
 		$update = $this->connection->getQueryBuilder();
 		$update->update('preferences')
-			   ->set('flags', $update->createNamedParameter($flags, IQueryBuilder::PARAM_INT))
-			   ->set('indexed', $update->createNamedParameter($indexed))
-			   ->where($update->expr()->eq('userid', $update->createNamedParameter($userId)))
-			   ->andWhere($update->expr()->eq('appid', $update->createNamedParameter($app)))
-			   ->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
+			->set('flags', $update->createNamedParameter($flags, IQueryBuilder::PARAM_INT))
+			->set('indexed', $update->createNamedParameter($indexed))
+			->where($update->expr()->eq('userid', $update->createNamedParameter($userId)))
+			->andWhere($update->expr()->eq('appid', $update->createNamedParameter($app)))
+			->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
 		$update->executeStatement();
 
 		$this->valueDetails[$userId][$app][$key]['flags'] = $flags;
@@ -1634,7 +1613,6 @@ class UserPreferences implements IUserPreferences {
 		string $prefKey = '',
 		bool $allowEmptyUser = false,
 		bool $allowEmptyApp = false,
-		?ValueType $valueType = null,
 	): void {
 		if (!$allowEmptyUser && $userId === '') {
 			throw new InvalidArgumentException('userId cannot be an empty string');
@@ -1650,12 +1628,6 @@ class UserPreferences implements IUserPreferences {
 		}
 		if (strlen($prefKey) > self::KEY_MAX_LENGTH) {
 			throw new InvalidArgumentException('Value (' . $prefKey . ') for key is too long (' . self::KEY_MAX_LENGTH . ')');
-		}
-		if ($valueType !== null) {
-//			$valueFlag = $valueType->value;
-//			if (ValueType::tryFrom($valueFlag) === null) {
-//				throw new InvalidArgumentException('Unknown value type');
-//			}
 		}
 	}
 
@@ -1697,7 +1669,7 @@ class UserPreferences implements IUserPreferences {
 			} else {
 				$this->fastCache[$userId][$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
 			}
-			$this->valueDetails[$userId][$row['appid']][$row['configkey']] = ['type' => ValueType::from((int)($row['type'] ?? 0)), 'flags' => (int) $row['flags']];
+			$this->valueDetails[$userId][$row['appid']][$row['configkey']] = ['type' => ValueType::from((int)($row['type'] ?? 0)), 'flags' => (int)$row['flags']];
 		}
 		$result->closeCursor();
 		$this->setAsLoaded($userId, $lazy);

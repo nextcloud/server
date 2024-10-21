@@ -6,15 +6,14 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCP\UserPreferences;
+namespace OCP\Config;
 
-use OCP\UserPreferences\Exceptions\IncorrectTypeException;
+use OCP\Config\Exceptions\IncorrectTypeException;
 use UnhandledMatchError;
 
 /**
- * Listing of available value type for user preferences
+ * Listing of available value type for typed config value
  *
- * @see IUserPreferences
  * @since 31.0.0
  */
 enum ValueType: int {
@@ -50,7 +49,7 @@ enum ValueType: int {
 				'bool' => self::BOOL,
 				'array' => self::ARRAY
 			};
-		} catch (\UnhandledMatchError ) {
+		} catch (\UnhandledMatchError) {
 			throw new IncorrectTypeException('unknown string definition');
 		}
 	}

@@ -138,6 +138,7 @@ use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Reference\IReferenceManager;
 use OCP\Command\IBus;
 use OCP\Comments\ICommentsManager;
+use OCP\Config\IUserPreferences;
 use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Contacts\ContactsMenu\IContactsStore;
 use OCP\Defaults;
@@ -237,7 +238,6 @@ use OCP\User\Events\UserLoggedInEvent;
 use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\User\Events\UserLoggedOutEvent;
 use OCP\User\IAvailabilityCoordinator;
-use OCP\UserPreferences\IUserPreferences;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -568,7 +568,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerAlias(IAppConfig::class, \OC\AppConfig::class);
-		$this->registerAlias(IUserPreferences::class, \OC\UserPreferences::class);
+		$this->registerAlias(IUserPreferences::class, \OC\Config\UserPreferences::class);
 
 		$this->registerService(IFactory::class, function (Server $c) {
 			return new \OC\L10N\Factory(
