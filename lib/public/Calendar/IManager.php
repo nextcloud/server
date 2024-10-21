@@ -138,6 +138,13 @@ interface IManager {
 	public function newQuery(string $principalUri) : ICalendarQuery;
 
 	/**
+	 * Handle a iMip REQUEST message
+	 *
+	 * @since 31.0.0
+	 */
+	public function handleIMipRequest(string $principalUri, string $sender, string $recipient, string $calendarData): bool;
+
+	/**
 	 * Handle a iMip REPLY message
 	 *
 	 * @since 25.0.0
