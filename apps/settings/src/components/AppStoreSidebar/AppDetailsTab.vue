@@ -49,7 +49,7 @@
 						:value="t('settings', 'Update to {version}', { version: app.update })"
 						:disabled="installing || isLoading || isManualInstall"
 						@click="update(app.id)">
-					<input v-if="app.canUnInstall"
+					<input v-if="app.canUnInstall || app.canUninstall"
 						class="uninstall"
 						type="button"
 						:value="t('settings', 'Remove')"
@@ -78,7 +78,10 @@
 						:disabled="installing || isLoading"
 						@click="forceEnable(app.id)">
 				</div>
-				<NcCheckboxRadioSwitch v-if="app.canUnInstall"
+				<p v-if="!defaultDeployDaemonAccessible" class="warning">
+					{{ t('settings', 'Default Deploy daemon is not accessible') }}
+				</p>
+				<NcCheckboxRadioSwitch v-if="app.canUnInstall || app.canUninstall"
 					:checked="removeData"
 					:disabled="installing || isLoading || !defaultDeployDaemonAccessible"
 					@update:checked="toggleRemoveData">
@@ -110,7 +113,7 @@
 				<NcDateTime :timestamp="lastModified" />
 			</div>
 
-			<div class="app-details__section">
+			<div v-if="appAuthors" class="app-details__section">
 				<h4>
 					{{ t('settings', 'Author') }}
 				</h4>
@@ -119,7 +122,7 @@
 				</p>
 			</div>
 
-			<div class="app-details__section">
+			<div v-if="appCategories" class="app-details__section">
 				<h4>
 					{{ t('settings', 'Categories') }}
 				</h4>
@@ -194,6 +197,7 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadi
 import AppManagement from '../../mixins/AppManagement.js'
 import { mdiBug, mdiFeatureSearch, mdiStar, mdiTextBox, mdiTooltipQuestion } from '@mdi/js'
 import { useAppsStore } from '../../store/apps-store'
+import { useAppApiStore } from '../../store/app-api-store'
 
 export default {
 	name: 'AppDetailsTab',
@@ -217,9 +221,11 @@ export default {
 
 	setup() {
 		const store = useAppsStore()
+		const appApiStore = useAppApiStore()
 
 		return {
 			store,
+			appApiStore,
 
 			mdiBug,
 			mdiFeatureSearch,

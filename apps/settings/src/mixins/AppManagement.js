@@ -5,33 +5,40 @@
 
 import { showError } from '@nextcloud/dialogs'
 import rebuildNavigation from '../service/rebuild-navigation.js'
+import { useAppApiStore } from '../store/app-api-store'
 
 export default {
+	setup() {
+		const appApiStore = useAppApiStore()
+		return {
+			appApiStore,
+		}
+	},
 	computed: {
 		appGroups() {
 			return this.app.groups.map(group => { return { id: group, name: group } })
 		},
 		installing() {
 			if (this.app?.app_api) {
-				return this.app && this.$store.getters['appApiApps/loading']('install')
+				return this.app && this?.appApiStore.getLoading('install') === true
 			}
 			return this.$store.getters.loading('install')
 		},
 		isLoading() {
 			if (this.app?.app_api) {
-				return this.app && this.$store.getters['appApiApps/loading'](this.app.id)
+				return this.app && this?.appApiStore.getLoading(this.app.id) === true
 			}
 			return this.app && this.$store.getters.loading(this.app.id)
 		},
 		isInitializing() {
 			if (this.app?.app_api) {
-				return this.app && Object.hasOwn(this.app?.status, 'action') && (this.app.status.action === 'init' || this.app.status.action === 'healthcheck')
+				return this.app && (this.app?.status?.action === 'init' || this.app?.status?.action === 'healthcheck')
 			}
 			return false
 		},
 		isDeploying() {
 			if (this.app?.app_api) {
-				return this.app && Object.hasOwn(this.app?.status, 'action') && this.app.status.action === 'deploy'
+				return this.app && this.app?.status?.action === 'deploy'
 			}
 			return false
 		},
@@ -90,7 +97,7 @@ export default {
 			return t('settings', 'Allow untested app')
 		},
 		enableButtonTooltip() {
-			if (this.app.needsDownload) {
+			if (!this.app?.app_api && this.app.needsDownload) {
 				return t('settings', 'The app will be downloaded from the App Store')
 			}
 			return null
@@ -107,10 +114,11 @@ export default {
 				if (this.app?.daemon && this.app?.daemon?.accepts_deploy_id === 'manual-install') {
 					return true
 				}
-				if (this.app?.daemon?.accepts_deploy_id === 'docker-install') {
-					return this.$store.getters['appApiApps/getDaemonAccessible'] === true
+				if (this.app?.daemon?.accepts_deploy_id === 'docker-install'
+					&& this.appApiStore.getDefaultDaemon?.name === this.app?.daemon?.name) {
+					return this?.appApiStore.getDaemonAccessible === true
 				}
-				return this.$store.getters['appApiApps/getDaemonAccessible']
+				return this?.appApiStore.getDaemonAccessible
 			}
 			return true
 		},
@@ -177,63 +185,73 @@ export default {
 			this.$store.dispatch('enableApp', { appId: this.app.id, groups: currentGroups })
 		},
 		forceEnable(appId) {
-			let type = 'forceEnableApp'
 			if (this.app?.app_api) {
-				type = 'appApiApps/forceEnableApp'
+				this.appApiStore.forceEnableApp(appId)
+					.then(() => { rebuildNavigation() })
+					.catch((error) => { showError(error) })
+			} else {
+				this.$store.dispatch('forceEnableApp', { appId, groups: [] })
+					.then((response) => { rebuildNavigation() })
+					.catch((error) => { showError(error) })
 			}
-			this.$store.dispatch(type, { appId, groups: [] })
-				.then((response) => { rebuildNavigation() })
-				.catch((error) => { showError(error) })
 		},
 		enable(appId) {
-			let type = 'enableApp'
 			if (this.app?.app_api) {
-				type = 'appApiApps/enableApp'
+				this.appApiStore.enableApp(appId)
+					.then(() => { rebuildNavigation() })
+					.catch((error) => { showError(error) })
+			} else {
+				this.$store.dispatch('enableApp', { appId, groups: [] })
+					.then((response) => { rebuildNavigation() })
+					.catch((error) => { showError(error) })
 			}
-			this.$store.dispatch(type, { appId, groups: [] })
-				.then((response) => { rebuildNavigation() })
-				.catch((error) => { showError(error) })
 		},
 		disable(appId) {
-			let type = 'disableApp'
 			if (this.app?.app_api) {
-				type = 'appApiApps/disableApp'
+				this.appApiStore.disableApp(appId)
+					.then(() => { rebuildNavigation() })
+					.catch((error) => { showError(error) })
+			} else {
+				this.$store.dispatch('disableApp', { appId })
+					.then((response) => { rebuildNavigation() })
+					.catch((error) => { showError(error) })
 			}
-			this.$store.dispatch(type, { appId })
-				.then((response) => { rebuildNavigation() })
-				.catch((error) => { showError(error) })
 		},
 		remove(appId, removeData = false) {
-			let type = 'uninstallApp'
-			let payload = { appId }
 			if (this.app?.app_api) {
-				type = 'appApiApps/uninstallApp'
-				payload = { appId, removeData }
+				this.appApiStore.uninstallApp(appId, removeData)
+					.then(() => { rebuildNavigation() })
+					.catch((error) => { showError(error) })
+			} else {
+				this.$store.dispatch('appApiApps/uninstallApp', { appId, removeData })
+					.then((response) => { rebuildNavigation() })
+					.catch((error) => { showError(error) })
 			}
-			this.$store.dispatch(type, payload)
-				.then((response) => { rebuildNavigation() })
-				.catch((error) => { showError(error) })
 		},
 		install(appId) {
-			let type = 'enableApp'
 			if (this.app?.app_api) {
-				type = 'appApiApps/enableApp'
+				this.appApiStore.enableApp(appId)
+					.then(() => { rebuildNavigation() })
+					.catch((error) => { showError(error) })
+			} else {
+				this.$store.dispatch('enableApp', { appId })
+					.then((response) => { rebuildNavigation() })
+					.catch((error) => { showError(error) })
 			}
-			this.$store.dispatch(type, { appId })
-				.then((response) => { rebuildNavigation() })
-				.catch((error) => { showError(error) })
 		},
 		update(appId) {
-			let type = 'updateApp'
 			if (this.app?.app_api) {
-				type = 'appApiApps/updateApp'
+				this.appApiStore.updateApp(appId)
+					.then(() => { rebuildNavigation() })
+					.catch((error) => { showError(error) })
+			} else {
+				this.$store.dispatch('updateApp', { appId })
+					.catch((error) => { showError(error) })
+					.then(() => {
+						rebuildNavigation()
+						this.store.updateCount = Math.max(this.store.updateCount - 1, 0)
+					})
 			}
-			this.$store.dispatch(type, { appId })
-				.catch((error) => { showError(error) })
-				.then(() => {
-					rebuildNavigation()
-					this.store.updateCount = Math.max(this.store.updateCount - 1, 0)
-				})
 		},
 	},
 }

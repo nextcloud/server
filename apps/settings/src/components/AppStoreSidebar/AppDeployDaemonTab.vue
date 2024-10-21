@@ -16,7 +16,8 @@
 			<p><b>{{ t('settings', 'Type') }}</b>: {{ app?.daemon.accepts_deploy_id }}</p>
 			<p><b>{{ t('settings', 'Name') }}</b>: {{ app?.daemon.name }}</p>
 			<p><b>{{ t('settings', 'Display Name') }}</b>: {{ app?.daemon.display_name }}</p>
-			<p><b>{{ t('settings', 'GPUs support') }}</b>: {{ app?.daemon.deploy_config?.computeDevice?.id !== 'cpu' || 'false' }}</p>
+			<p><b>{{ t('settings', 'GPUs support') }}</b>: {{ gpuSupport }}</p>
+			<p><b>{{ t('settings', 'Compute device') }}</b>: {{ app?.daemon?.deploy_config?.computeDevice?.label }}</p>
 		</div>
 	</NcAppSidebarTab>
 </template>
@@ -28,10 +29,13 @@ import NcAppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 
 import { mdiFileChart } from '@mdi/js'
+import { ref } from 'vue'
 
-defineProps<{
+const props = defineProps<{
 	app: IAppstoreExApp,
 }>()
+
+const gpuSupport = ref(props.app?.daemon?.deploy_config?.computeDevice?.id !== 'cpu' || false)
 </script>
 
 <style scoped lang="scss">

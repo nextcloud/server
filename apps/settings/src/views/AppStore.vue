@@ -34,9 +34,11 @@ import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import AppList from '../components/AppList.vue'
 import AppStoreDiscoverSection from '../components/AppStoreDiscover/AppStoreDiscoverSection.vue'
+import { useAppApiStore } from '../store/app-api-store.ts'
 
 const route = useRoute()
 const store = useAppsStore()
+const appApiStore = useAppApiStore()
 
 /**
  * ID of the current active category, default is `discover`
@@ -62,15 +64,12 @@ onBeforeMount(() => {
 	(instance?.proxy as any).$store.dispatch('getAllApps')
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	if ((instance?.proxy as any).$store.getters.isAppApiEnabled) {
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(instance?.proxy as any).$store.dispatch('appApiApps/getAllApps');
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(instance?.proxy as any).$store.dispatch('appApiApps/updateAppsStatus')
+		appApiStore.fetchAllApps()
+		appApiStore.updateAppsStatus()
 	}
 })
 onBeforeUnmount(() => {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	clearInterval((instance?.proxy as any).$store.getters('appApiApps/getStatusUpdater'))
+	clearInterval(appApiStore.getStatusUpdater)
 })
 </script>
 

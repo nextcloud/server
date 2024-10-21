@@ -83,7 +83,7 @@
 				@click.stop="update(app.id)">
 				{{ t('settings', 'Update to {update}', {update:app.update}) }}
 			</NcButton>
-			<NcButton v-if="app.canUnInstall"
+			<NcButton v-if="app.canUnInstall || app.canUninstall"
 				class="uninstall"
 				type="tertiary"
 				:disabled="installing || isLoading"
@@ -91,7 +91,7 @@
 				{{ t('settings', 'Remove') }}
 			</NcButton>
 			<NcButton v-if="app.active"
-				:disabled="installing || isLoading  || isInitializing || isDeploying"
+				:disabled="installing || isLoading || isInitializing || isDeploying"
 				@click.stop="disable(app.id)">
 				{{ disableButtonText }}
 			</NcButton>
@@ -184,7 +184,7 @@ export default {
 			return !!this.$route.params.id
 		},
 		shouldDisplayDefaultIcon() {
-			return this.listView && !this.app.preview || !this.listView && !this.screenshotLoaded
+			return (this.listView && !this.app.preview) || (!this.listView && !this.screenshotLoaded)
 		},
 	},
 	watch: {

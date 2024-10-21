@@ -29,9 +29,9 @@ export function useAppIcon(app: Ref<IAppstoreApp>) {
 			path = mdiCogOutline
 		} else {
 			path = [app.value?.category ?? []].flat()
-					.map((name) => AppstoreCategoryIcons[name])
-					.filter((icon) => !!icon)
-					.at(0)
+				.map((name) => AppstoreCategoryIcons[name])
+				.filter((icon) => !!icon)
+				.at(0)
 				?? (!app.value?.app_api ? mdiCog : mdiCogOutline)
 		}
 		return path ? `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="${path}" /></svg>` : null
