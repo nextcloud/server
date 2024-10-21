@@ -57,25 +57,25 @@ class SFTP extends Common {
 		}
 	}
 
-	public function __construct($params) {
+	public function __construct(array $parameters) {
 		// Register sftp://
 		Stream::register();
 
-		$parsedHost = $this->splitHost($params['host']);
+		$parsedHost = $this->splitHost($parameters['host']);
 
 		$this->host = $parsedHost[0];
 		$this->port = $parsedHost[1];
 
-		if (!isset($params['user'])) {
+		if (!isset($parameters['user'])) {
 			throw new \UnexpectedValueException('no authentication parameters specified');
 		}
-		$this->user = $params['user'];
+		$this->user = $parameters['user'];
 
-		if (isset($params['public_key_auth'])) {
-			$this->auth[] = $params['public_key_auth'];
+		if (isset($parameters['public_key_auth'])) {
+			$this->auth[] = $parameters['public_key_auth'];
 		}
-		if (isset($params['password']) && $params['password'] !== '') {
-			$this->auth[] = $params['password'];
+		if (isset($parameters['password']) && $parameters['password'] !== '') {
+			$this->auth[] = $parameters['password'];
 		}
 
 		if ($this->auth === []) {
@@ -83,7 +83,7 @@ class SFTP extends Common {
 		}
 
 		$this->root
-			= isset($params['root']) ? $this->cleanPath($params['root']) : '/';
+			= isset($parameters['root']) ? $this->cleanPath($parameters['root']) : '/';
 
 		$this->root = '/' . ltrim($this->root, '/');
 		$this->root = rtrim($this->root, '/') . '/';
