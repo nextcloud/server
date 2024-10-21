@@ -18,6 +18,7 @@ use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
 use OCP\Share;
 use OCP\User\Events\UserChangedEvent;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use function OCP\Log\logger;
@@ -819,6 +820,15 @@ class OC {
 		$eventLogger->start('request', 'Full request after boot');
 		register_shutdown_function(function () use ($eventLogger) {
 			$eventLogger->end('request');
+		});
+
+		register_shutdown_function(function () {
+			$memoryPeak = memory_get_peak_usage();
+			if ($memoryPeak > 300_000_000) {
+				$message = 'Request used more than 300 MB of ram: ' . Util::humanFileSize($memoryPeak);
+				$logger = \OCP\Server::get(LoggerInterface::class);
+				$logger->warning($message, ['app' => 'core']);
+			}
 		});
 	}
 
