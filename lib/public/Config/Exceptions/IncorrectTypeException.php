@@ -6,12 +6,12 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCP\UserPreferences\Exceptions;
+namespace OCP\Config\Exceptions;
 
 use Exception;
 
 /**
  * @since 31.0.0
  */
-class UserPreferencesException extends Exception {
+class IncorrectTypeException extends Exception {
 }

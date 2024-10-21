@@ -38,7 +38,7 @@ class Version31000Date20240814184402 extends SimpleMigrationStep {
 		$table->addColumn('lazy', Types::SMALLINT, ['notnull' => true, 'default' => 0, 'length' => 1, 'unsigned' => true]);
 		$table->addColumn('type', Types::SMALLINT, ['notnull' => true, 'default' => 0, 'unsigned' => true]);
 		$table->addColumn('flags', Types::INTEGER, ['notnull' => true, 'default' => 0, 'unsigned' => true]);
-		$table->addColumn('indexed', Types::STRING, ['notnull' => true, 'default' => '', 'length' => 64]);
+		$table->addColumn('indexed', Types::STRING, ['notnull' => false, 'default' => '', 'length' => 64]);
 
 		// removing this index from Version13000Date20170718121200
 		// $table->addIndex(['appid', 'configkey'], 'preferences_app_key');

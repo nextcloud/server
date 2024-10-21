@@ -6,16 +6,34 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCP\UserPreferences;
+namespace OCP\Config;
 
-use OCP\UserPreferences\Exceptions\IncorrectTypeException;
-use OCP\UserPreferences\Exceptions\UnknownKeyException;
+use Generator;
+use OCP\Config\Exceptions\IncorrectTypeException;
+use OCP\Config\Exceptions\UnknownKeyException;
 
 /**
+ * This class provides an easy way for apps to store user preferences in the
+ * database.
+ * Supports **lazy loading**
+ *
+ * ### What is lazy loading ?
+ * In order to avoid loading useless user preferences into memory for each request,
+ * only non-lazy values are now loaded.
+ *
+ * Once a value that is lazy is requested, all lazy values will be loaded.
+ *
+ * Similarly, some methods from this class are marked with a warning about ignoring
+ * lazy loading. Use them wisely and only on parts of the code that are called
+ * during specific requests or actions to avoid loading the lazy values all the time.
+ *
  * @since 31.0.0
  */
+
 interface IUserPreferences {
+	/** @since 31.0.0 */
 	public const FLAG_SENSITIVE = 1;   // value is sensitive
+	/** @since 31.0.0 */
 	public const FLAG_INDEXED = 2;    // value should be indexed
 
 	/**
@@ -191,10 +209,10 @@ interface IUserPreferences {
 	 * @param string $value preference value
 	 * @param bool $caseInsensitive non-case-sensitive search, only works if $value is a string
 	 *
-	 * @return list<string>
+	 * @return Generator<string>
 	 * @since 31.0.0
 	 */
-	public function searchUsersByValueString(string $app, string $key, string $value, bool $caseInsensitive = false): array;
+	public function searchUsersByValueString(string $app, string $key, string $value, bool $caseInsensitive = false): Generator;
 
 	/**
 	 * List all users storing a specific preference key/value pair.
@@ -206,10 +224,10 @@ interface IUserPreferences {
 	 * @param string $key preference key
 	 * @param int $value preference value
 	 *
-	 * @return list<string>
+	 * @return Generator<string>
 	 * @since 31.0.0
 	 */
-	public function searchUsersByValueInt(string $app, string $key, int $value): array;
+	public function searchUsersByValueInt(string $app, string $key, int $value): Generator;
 
 	/**
 	 * List all users storing a specific preference key/value pair.
@@ -221,10 +239,10 @@ interface IUserPreferences {
 	 * @param string $key preference key
 	 * @param array $values list of possible preference values
 	 *
-	 * @return list<string>
+	 * @return Generator<string>
 	 * @since 31.0.0
 	 */
-	public function searchUsersByValues(string $app, string $key, array $values): array;
+	public function searchUsersByValues(string $app, string $key, array $values): Generator;
 
 	/**
 	 * List all users storing a specific preference key/value pair.
@@ -236,10 +254,10 @@ interface IUserPreferences {
 	 * @param string $key preference key
 	 * @param bool $value preference value
 	 *
-	 * @return list<string>
+	 * @return Generator<string>
 	 * @since 31.0.0
 	 */
-	public function searchUsersByValueBool(string $app, string $key, bool $value): array;
+	public function searchUsersByValueBool(string $app, string $key, bool $value): Generator;
 
 	/**
 	 * Get user preference assigned to a preference key.
