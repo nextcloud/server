@@ -8,9 +8,11 @@
 namespace OC;
 
 use OC\Tagging\TagMapper;
+use OCP\Activity\IManager;
 use OCP\Db\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IDBConnection;
 use OCP\ITagManager;
@@ -25,12 +27,16 @@ use Psr\Log\LoggerInterface;
 class TagManager implements ITagManager, IEventListener {
 	private TagMapper $mapper;
 	private IUserSession $userSession;
+	private IEventDispatcher $dispatcher;
+	private IManager $activityManager;
 	private IDBConnection $connection;
 	private LoggerInterface $logger;
 
-	public function __construct(TagMapper $mapper, IUserSession $userSession, IDBConnection $connection, LoggerInterface $logger) {
+	public function __construct(TagMapper $mapper, IUserSession $userSession, IEventDispatcher $dispatcher, IManager $activityManager, IDBConnection $connection, LoggerInterface $logger) {
 		$this->mapper = $mapper;
 		$this->userSession = $userSession;
+		$this->dispatcher = $dispatcher;
+		$this->activityManager = $activityManager;
 		$this->connection = $connection;
 		$this->logger = $logger;
 	}
@@ -57,7 +63,7 @@ class TagManager implements ITagManager, IEventListener {
 			}
 			$userId = $this->userSession->getUser()->getUId();
 		}
-		return new Tags($this->mapper, $userId, $type, $this->logger, $this->connection, $defaultTags);
+		return new Tags($this->mapper, $this->userSession, $this->dispatcher, $this->activityManager, $userId, $type, $this->logger, $this->connection, $defaultTags);
 	}
 
 	/**
