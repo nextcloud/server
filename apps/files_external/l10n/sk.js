@@ -12,7 +12,7 @@ OC.L10N.register(
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibilita s Mac NFD enkódovaním (pomalé)",
     "Enable encryption" : "Povoliť šifrovanie",
     "Enable previews" : "Povoliť náhľady",
-    "Enable sharing" : "Povoliť sprístupňovanie",
+    "Enable sharing" : "Povoliť zdieľanie",
     "Check for changes" : "Zisťovať zmeny",
     "Never" : "Nikdy",
     "Once every direct access" : "S každým priamym prístupom",
