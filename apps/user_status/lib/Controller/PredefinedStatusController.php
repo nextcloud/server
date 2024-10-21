@@ -24,9 +24,6 @@ use OCP\IRequest;
  */
 class PredefinedStatusController extends OCSController {
 
-	/** @var PredefinedStatusService */
-	private $predefinedStatusService;
-
 	/**
 	 * AStatusController constructor.
 	 *
@@ -34,11 +31,12 @@ class PredefinedStatusController extends OCSController {
 	 * @param IRequest $request
 	 * @param PredefinedStatusService $predefinedStatusService
 	 */
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		PredefinedStatusService $predefinedStatusService) {
+		private PredefinedStatusService $predefinedStatusService,
+	) {
 		parent::__construct($appName, $request);
-		$this->predefinedStatusService = $predefinedStatusService;
 	}
 
 	/**

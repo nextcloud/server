@@ -35,26 +35,8 @@ class AuthSettingsController extends Controller {
 	/** @var IProvider */
 	private $tokenProvider;
 
-	/** @var ISession */
-	private $session;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var string */
-	private $uid;
-
-	/** @var ISecureRandom */
-	private $random;
-
-	/** @var IManager */
-	private $activityManager;
-
 	/** @var RemoteWipe */
 	private $remoteWipe;
-
-	/** @var LoggerInterface */
-	private $logger;
 
 	/**
 	 * @param string $appName
@@ -68,25 +50,21 @@ class AuthSettingsController extends Controller {
 	 * @param RemoteWipe $remoteWipe
 	 * @param LoggerInterface $logger
 	 */
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
 		IProvider $tokenProvider,
-		ISession $session,
-		ISecureRandom $random,
-		?string $userId,
-		IUserSession $userSession,
-		IManager $activityManager,
+		private ISession $session,
+		private ISecureRandom $random,
+		private ?string $userId,
+		private IUserSession $userSession,
+		private IManager $activityManager,
 		RemoteWipe $remoteWipe,
-		LoggerInterface $logger) {
+		private LoggerInterface $logger,
+	) {
 		parent::__construct($appName, $request);
 		$this->tokenProvider = $tokenProvider;
-		$this->uid = $userId;
-		$this->userSession = $userSession;
-		$this->session = $session;
-		$this->random = $random;
-		$this->activityManager = $activityManager;
 		$this->remoteWipe = $remoteWipe;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -128,7 +106,7 @@ class AuthSettingsController extends Controller {
 		}
 
 		$token = $this->generateRandomDeviceToken();
-		$deviceToken = $this->tokenProvider->generateToken($token, $this->uid, $loginName, $password, $name, IToken::PERMANENT_TOKEN);
+		$deviceToken = $this->tokenProvider->generateToken($token, $this->userId, $loginName, $password, $name, IToken::PERMANENT_TOKEN);
 		$tokenData = $deviceToken->jsonSerialize();
 		$tokenData['canDelete'] = true;
 		$tokenData['canRename'] = true;
@@ -191,7 +169,7 @@ class AuthSettingsController extends Controller {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		$this->tokenProvider->invalidateTokenById($this->uid, $token->getId());
+		$this->tokenProvider->invalidateTokenById($this->userId, $token->getId());
 		$this->publishActivity(Provider::APP_TOKEN_DELETED, $token->getId(), ['name' => $token->getName()]);
 		return [];
 	}
@@ -245,8 +223,8 @@ class AuthSettingsController extends Controller {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('settings')
 			->setType('security')
-			->setAffectedUser($this->uid)
-			->setAuthor($this->uid)
+			->setAffectedUser($this->userId)
+			->setAuthor($this->userId)
 			->setSubject($subject, $parameters)
 			->setObject('app_token', $id, 'App Password');
 
@@ -270,7 +248,7 @@ class AuthSettingsController extends Controller {
 		} catch (ExpiredTokenException $e) {
 			$token = $e->getToken();
 		}
-		if ($token->getUID() !== $this->uid) {
+		if ($token->getUID() !== $this->userId) {
 			/** @psalm-suppress DeprecatedClass We have to throw the OC version so both OC and OCP catches catch it */
 			throw new OcInvalidTokenException('This token does not belong to you!');
 		}

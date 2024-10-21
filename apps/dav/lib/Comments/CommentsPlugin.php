@@ -35,14 +35,8 @@ class CommentsPlugin extends ServerPlugin {
 	public const REPORT_PARAM_OFFSET = '{http://owncloud.org/ns}offset';
 	public const REPORT_PARAM_TIMESTAMP = '{http://owncloud.org/ns}datetime';
 
-	/** @var ICommentsManager */
-	protected $commentsManager;
-
 	/** @var \Sabre\DAV\Server $server */
 	private $server;
-
-	/** @var \OCP\IUserSession */
-	protected $userSession;
 
 	/**
 	 * Comments plugin
@@ -50,9 +44,10 @@ class CommentsPlugin extends ServerPlugin {
 	 * @param ICommentsManager $commentsManager
 	 * @param IUserSession $userSession
 	 */
-	public function __construct(ICommentsManager $commentsManager, IUserSession $userSession) {
-		$this->commentsManager = $commentsManager;
-		$this->userSession = $userSession;
+	public function __construct(
+		protected ICommentsManager $commentsManager,
+		protected IUserSession $userSession,
+	) {
 	}
 
 	/**

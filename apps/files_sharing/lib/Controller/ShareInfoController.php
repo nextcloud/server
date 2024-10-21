@@ -26,9 +26,6 @@ use OCP\Share\IManager;
  */
 class ShareInfoController extends ApiController {
 
-	/** @var IManager */
-	private $shareManager;
-
 	/**
 	 * ShareInfoController constructor.
 	 *
@@ -36,12 +33,12 @@ class ShareInfoController extends ApiController {
 	 * @param IRequest $request
 	 * @param IManager $shareManager
 	 */
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IManager $shareManager) {
+		private IManager $shareManager,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->shareManager = $shareManager;
 	}
 
 	/**

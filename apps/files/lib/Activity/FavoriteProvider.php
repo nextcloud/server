@@ -18,20 +18,8 @@ class FavoriteProvider implements IProvider {
 	public const SUBJECT_ADDED = 'added_favorite';
 	public const SUBJECT_REMOVED = 'removed_favorite';
 
-	/** @var IFactory */
-	protected $languageFactory;
-
 	/** @var IL10N */
 	protected $l;
-
-	/** @var IURLGenerator */
-	protected $url;
-
-	/** @var IManager */
-	protected $activityManager;
-
-	/** @var IEventMerger */
-	protected $eventMerger;
 
 	/**
 	 * @param IFactory $languageFactory
@@ -39,11 +27,12 @@ class FavoriteProvider implements IProvider {
 	 * @param IManager $activityManager
 	 * @param IEventMerger $eventMerger
 	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IEventMerger $eventMerger) {
-		$this->languageFactory = $languageFactory;
-		$this->url = $url;
-		$this->activityManager = $activityManager;
-		$this->eventMerger = $eventMerger;
+	public function __construct(
+		protected IFactory $languageFactory,
+		protected IURLGenerator $url,
+		protected IManager $activityManager,
+		protected IEventMerger $eventMerger,
+	) {
 	}
 
 	/**

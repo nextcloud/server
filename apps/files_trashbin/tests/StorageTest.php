@@ -55,12 +55,12 @@ class StorageTest extends \Test\TestCase {
 	private $user;
 
 	/**
-	 * @var \OC\Files\View
+	 * @var View
 	 */
 	private $rootView;
 
 	/**
-	 * @var \OC\Files\View
+	 * @var View
 	 */
 	private $userView;
 
@@ -502,7 +502,7 @@ class StorageTest extends \Test\TestCase {
 	 */
 	public function testSingleStorageDeleteFileFail(): void {
 		/**
-		 * @var \OC\Files\Storage\Temporary | \PHPUnit\Framework\MockObject\MockObject $storage
+		 * @var Temporary|\PHPUnit\Framework\MockObject\MockObject $storage
 		 */
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
 			->setConstructorArgs([[]])
@@ -539,7 +539,7 @@ class StorageTest extends \Test\TestCase {
 	 */
 	public function testSingleStorageDeleteFolderFail(): void {
 		/**
-		 * @var \OC\Files\Storage\Temporary | \PHPUnit\Framework\MockObject\MockObject $storage
+		 * @var Temporary|\PHPUnit\Framework\MockObject\MockObject $storage
 		 */
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
 			->setConstructorArgs([[]])

@@ -17,24 +17,13 @@ use OCP\IUserSession;
 use OCP\Settings\ISettings;
 
 class Personal implements ISettings {
-	private FederatedShareProvider $federatedShareProvider;
-	private IUserSession $userSession;
-	private Defaults $defaults;
-	private IInitialState $initialState;
-	private IURLGenerator $urlGenerator;
-
 	public function __construct(
-		FederatedShareProvider $federatedShareProvider,
-		IUserSession $userSession,
-		Defaults $defaults,
-		IInitialState $initialState,
-		IURLGenerator $urlGenerator,
+		private FederatedShareProvider $federatedShareProvider,
+		private IUserSession $userSession,
+		private Defaults $defaults,
+		private IInitialState $initialState,
+		private IURLGenerator $urlGenerator,
 	) {
-		$this->federatedShareProvider = $federatedShareProvider;
-		$this->userSession = $userSession;
-		$this->defaults = $defaults;
-		$this->initialState = $initialState;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**

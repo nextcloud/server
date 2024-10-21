@@ -18,20 +18,8 @@ use Psr\Log\LoggerInterface;
 
 class HookManager {
 
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var SyncService */
-	private $syncService;
-
 	/** @var IUser[] */
 	private $usersToDelete = [];
-
-	/** @var CalDavBackend */
-	private $calDav;
-
-	/** @var CardDavBackend */
-	private $cardDav;
 
 	/** @var array */
 	private $calendarsToDelete = [];
@@ -42,19 +30,13 @@ class HookManager {
 	/** @var array */
 	private $addressBooksToDelete = [];
 
-	/** @var Defaults */
-	private $themingDefaults;
-
-	public function __construct(IUserManager $userManager,
-		SyncService $syncService,
-		CalDavBackend $calDav,
-		CardDavBackend $cardDav,
-		Defaults $themingDefaults) {
-		$this->userManager = $userManager;
-		$this->syncService = $syncService;
-		$this->calDav = $calDav;
-		$this->cardDav = $cardDav;
-		$this->themingDefaults = $themingDefaults;
+	public function __construct(
+		private IUserManager $userManager,
+		private SyncService $syncService,
+		private CalDavBackend $calDav,
+		private CardDavBackend $cardDav,
+		private Defaults $themingDefaults,
+	) {
 	}
 
 	public function setup() {

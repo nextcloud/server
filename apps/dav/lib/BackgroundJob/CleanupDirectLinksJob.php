@@ -13,12 +13,11 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 
 class CleanupDirectLinksJob extends TimedJob {
-	/** @var DirectMapper */
-	private $mapper;
-
-	public function __construct(ITimeFactory $timeFactory, DirectMapper $mapper) {
+	public function __construct(
+		ITimeFactory $timeFactory,
+		private DirectMapper $mapper,
+	) {
 		parent::__construct($timeFactory);
-		$this->mapper = $mapper;
 
 		// Run once a day at off-peak time
 		$this->setInterval(24 * 60 * 60);

@@ -37,23 +37,16 @@ class UserThemeController extends OCSController {
 
 	protected ?string $userId = null;
 
-	private IConfig $config;
-	private ThemesService $themesService;
-	private ThemingDefaults $themingDefaults;
-	private BackgroundService $backgroundService;
-
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IConfig $config,
+		private IConfig $config,
 		IUserSession $userSession,
-		ThemesService $themesService,
-		ThemingDefaults $themingDefaults,
-		BackgroundService $backgroundService) {
+		private ThemesService $themesService,
+		private ThemingDefaults $themingDefaults,
+		private BackgroundService $backgroundService,
+	) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
-		$this->themesService = $themesService;
-		$this->themingDefaults = $themingDefaults;
-		$this->backgroundService = $backgroundService;
 
 		$user = $userSession->getUser();
 		if ($user !== null) {

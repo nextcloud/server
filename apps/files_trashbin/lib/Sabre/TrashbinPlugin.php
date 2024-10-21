@@ -28,13 +28,9 @@ class TrashbinPlugin extends ServerPlugin {
 	/** @var Server */
 	private $server;
 
-	/** @var IPreview */
-	private $previewManager;
-
 	public function __construct(
-		IPreview $previewManager,
+		private IPreview $previewManager,
 	) {
-		$this->previewManager = $previewManager;
 	}
 
 	public function initialize(Server $server) {

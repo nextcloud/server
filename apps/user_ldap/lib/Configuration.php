@@ -92,11 +92,6 @@ class Configuration {
 	public const LDAP_SERVER_FEATURE_UNKNOWN = 'unknown';
 	public const LDAP_SERVER_FEATURE_AVAILABLE = 'available';
 	public const LDAP_SERVER_FEATURE_UNAVAILABLE = 'unavailable';
-
-	/**
-	 * @var string
-	 */
-	protected $configPrefix;
 	/**
 	 * @var bool
 	 */
@@ -185,8 +180,10 @@ class Configuration {
 		'ldapAttributePronouns' => null,
 	];
 
-	public function __construct(string $configPrefix, bool $autoRead = true) {
-		$this->configPrefix = $configPrefix;
+	public function __construct(
+		protected string $configPrefix,
+		bool $autoRead = true,
+	) {
 		if ($autoRead) {
 			$this->readConfiguration();
 		}

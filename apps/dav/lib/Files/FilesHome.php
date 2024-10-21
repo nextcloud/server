@@ -15,18 +15,15 @@ use Sabre\DAV\Exception\Forbidden;
 class FilesHome extends Directory {
 
 	/**
-	 * @var array
-	 */
-	private $principalInfo;
-
-	/**
 	 * FilesHome constructor.
 	 *
 	 * @param array $principalInfo
 	 * @param FileInfo $userFolder
 	 */
-	public function __construct($principalInfo, FileInfo $userFolder) {
-		$this->principalInfo = $principalInfo;
+	public function __construct(
+		private $principalInfo,
+		FileInfo $userFolder,
+	) {
 		$view = Filesystem::getView();
 		parent::__construct($view, $userFolder);
 	}

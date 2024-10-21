@@ -15,12 +15,12 @@ use OCP\DB\Exception;
 use OCP\IRequest;
 
 class AuthorizedGroupController extends Controller {
-	/** @var AuthorizedGroupService $authorizedGroupService */
-	private $authorizedGroupService;
-
-	public function __construct(string $AppName, IRequest $request, AuthorizedGroupService $authorizedGroupService) {
+	public function __construct(
+		string $AppName,
+		IRequest $request,
+		private AuthorizedGroupService $authorizedGroupService,
+	) {
 		parent::__construct($AppName, $request);
-		$this->authorizedGroupService = $authorizedGroupService;
 	}
 
 	/**

@@ -19,20 +19,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Size extends Base {
-	private $config;
-	private $userManager;
-	private $commandBus;
-
 	public function __construct(
-		IConfig $config,
-		IUserManager $userManager,
-		IBus $commandBus,
+		private IConfig $config,
+		private IUserManager $userManager,
+		private IBus $commandBus,
 	) {
 		parent::__construct();
-
-		$this->config = $config;
-		$this->userManager = $userManager;
-		$this->commandBus = $commandBus;
 	}
 
 	protected function configure() {

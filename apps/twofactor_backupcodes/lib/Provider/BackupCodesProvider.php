@@ -21,19 +21,8 @@ use OCP\Template;
 
 class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSettings {
 
-	/** @var string */
-	private $appName;
-
-	/** @var BackupCodeStorage */
-	private $storage;
-
-	/** @var IL10N */
-	private $l10n;
-
 	/** @var AppManager */
 	private $appManager;
-	/** @var IInitialStateService */
-	private $initialStateService;
 
 	/**
 	 * @param string $appName
@@ -41,16 +30,14 @@ class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSet
 	 * @param IL10N $l10n
 	 * @param AppManager $appManager
 	 */
-	public function __construct(string $appName,
-		BackupCodeStorage $storage,
-		IL10N $l10n,
+	public function __construct(
+		private string $appName,
+		private BackupCodeStorage $storage,
+		private IL10N $l10n,
 		AppManager $appManager,
-		IInitialStateService $initialStateService) {
-		$this->appName = $appName;
-		$this->l10n = $l10n;
-		$this->storage = $storage;
+		private IInitialStateService $initialStateService,
+	) {
 		$this->appManager = $appManager;
-		$this->initialStateService = $initialStateService;
 	}
 
 	/**

@@ -15,12 +15,12 @@ use Test\TestCase;
 
 class GlobalAuthTest extends TestCase {
 	/**
-	 * @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject
+	 * @var IL10N|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $l10n;
 
 	/**
-	 * @var \OCP\Security\ICredentialsManager|\PHPUnit\Framework\MockObject\MockObject
+	 * @var ICredentialsManager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $credentialsManager;
 

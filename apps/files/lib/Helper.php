@@ -9,6 +9,7 @@ namespace OCA\Files;
 
 use OC\Files\Filesystem;
 use OCP\Files\FileInfo;
+use OCP\Files\NotFoundException;
 use OCP\ITagManager;
 use OCP\Util;
 
@@ -19,7 +20,7 @@ class Helper {
 	/**
 	 * @param string $dir
 	 * @return array
-	 * @throws \OCP\Files\NotFoundException
+	 * @throws NotFoundException
 	 */
 	public static function buildFileStorageStatistics($dir) {
 		// information about storage capacities
@@ -47,7 +48,7 @@ class Helper {
 	/**
 	 * Determine icon for a given file
 	 *
-	 * @param \OCP\Files\FileInfo $file file info
+	 * @param FileInfo $file file info
 	 * @return string icon URL
 	 */
 	public static function determineIcon($file) {
@@ -70,8 +71,8 @@ class Helper {
 	 * Comparator function to sort files alphabetically and have
 	 * the directories appear first
 	 *
-	 * @param \OCP\Files\FileInfo $a file
-	 * @param \OCP\Files\FileInfo $b file
+	 * @param FileInfo $a file
+	 * @param FileInfo $b file
 	 * @return int -1 if $a must come before $b, 1 otherwise
 	 */
 	public static function compareFileNames(FileInfo $a, FileInfo $b) {
@@ -89,8 +90,8 @@ class Helper {
 	/**
 	 * Comparator function to sort files by date
 	 *
-	 * @param \OCP\Files\FileInfo $a file
-	 * @param \OCP\Files\FileInfo $b file
+	 * @param FileInfo $a file
+	 * @param FileInfo $b file
 	 * @return int -1 if $a must come before $b, 1 otherwise
 	 */
 	public static function compareTimestamp(FileInfo $a, FileInfo $b) {
@@ -102,8 +103,8 @@ class Helper {
 	/**
 	 * Comparator function to sort files by size
 	 *
-	 * @param \OCP\Files\FileInfo $a file
-	 * @param \OCP\Files\FileInfo $b file
+	 * @param FileInfo $a file
+	 * @param FileInfo $b file
 	 * @return int -1 if $a must come before $b, 1 otherwise
 	 */
 	public static function compareSize(FileInfo $a, FileInfo $b) {
@@ -115,7 +116,7 @@ class Helper {
 	/**
 	 * Formats the file info to be returned as JSON to the client.
 	 *
-	 * @param \OCP\Files\FileInfo $i
+	 * @param FileInfo $i
 	 * @return array formatted file info
 	 */
 	public static function formatFileInfo(FileInfo $i) {
@@ -160,7 +161,7 @@ class Helper {
 
 	/**
 	 * Format file info for JSON
-	 * @param \OCP\Files\FileInfo[] $fileInfos file infos
+	 * @param FileInfo[] $fileInfos file infos
 	 * @return array
 	 */
 	public static function formatFileInfos($fileInfos) {
@@ -180,7 +181,7 @@ class Helper {
 	 * @param string $sortAttribute attribute to sort on
 	 * @param bool $sortDescending true for descending sort, false otherwise
 	 * @param string $mimetypeFilter limit returned content to this mimetype or mimepart
-	 * @return \OCP\Files\FileInfo[] files
+	 * @return FileInfo[] files
 	 */
 	public static function getFiles($dir, $sortAttribute = 'name', $sortDescending = false, $mimetypeFilter = '') {
 		$content = Filesystem::getDirectoryContent($dir, $mimetypeFilter);
@@ -231,10 +232,10 @@ class Helper {
 	/**
 	 * Sort the given file info array
 	 *
-	 * @param \OCP\Files\FileInfo[] $files files to sort
+	 * @param FileInfo[] $files files to sort
 	 * @param string $sortAttribute attribute to sort on
 	 * @param bool $sortDescending true for descending sort, false otherwise
-	 * @return \OCP\Files\FileInfo[] sorted files
+	 * @return FileInfo[] sorted files
 	 */
 	public static function sortFiles($files, $sortAttribute = 'name', $sortDescending = false) {
 		$sortFunc = 'compareFileNames';

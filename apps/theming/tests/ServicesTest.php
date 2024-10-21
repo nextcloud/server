@@ -12,6 +12,7 @@ use OCA\Theming\Settings\PersonalSection;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\AppFramework\App;
+use OCP\AppFramework\IAppContainer;
 use OCP\Capabilities\ICapability;
 use OCP\IL10N;
 use OCP\Settings\IIconSection;
@@ -28,7 +29,7 @@ class ServicesTest extends TestCase {
 	/** @var \OCA\Activity\AppInfo\Application */
 	protected $app;
 
-	/** @var \OCP\AppFramework\IAppContainer */
+	/** @var IAppContainer */
 	protected $container;
 
 	protected function setUp(): void {

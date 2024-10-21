@@ -12,14 +12,12 @@ use OCP\Activity\ActivitySettings;
 use OCP\IL10N;
 
 abstract class ShareActivitySettings extends ActivitySettings {
-	/** @var IL10N */
-	protected $l;
-
 	/**
 	 * @param IL10N $l
 	 */
-	public function __construct(IL10N $l) {
-		$this->l = $l;
+	public function __construct(
+		protected IL10N $l,
+	) {
 	}
 
 	public function getGroupIdentifier() {

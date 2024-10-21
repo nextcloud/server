@@ -17,15 +17,10 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class BulkUploadPlugin extends ServerPlugin {
-	private Folder $userFolder;
-	private LoggerInterface $logger;
-
 	public function __construct(
-		Folder $userFolder,
-		LoggerInterface $logger,
+		private Folder $userFolder,
+		private LoggerInterface $logger,
 	) {
-		$this->userFolder = $userFolder;
-		$this->logger = $logger;
 	}
 
 	/**

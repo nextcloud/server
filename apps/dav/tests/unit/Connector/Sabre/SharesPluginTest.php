@@ -38,7 +38,7 @@ class SharesPluginTest extends \Test\TestCase {
 	private $shareManager;
 
 	/**
-	 * @var \OCP\Files\Folder
+	 * @var Folder
 	 */
 	private $userFolder;
 

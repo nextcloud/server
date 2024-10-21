@@ -15,21 +15,11 @@ use OCP\Share\IManager;
 
 class Capabilities implements ICapability {
 
-	/** @var IManager */
-	private $manager;
-
-	/** @var SettingsManager */
-	private $settingsManager;
-
-	/** @var IAppManager */
-	private $appManager;
-
-	public function __construct(IManager $manager,
-		SettingsManager $settingsManager,
-		IAppManager $appManager) {
-		$this->manager = $manager;
-		$this->settingsManager = $settingsManager;
-		$this->appManager = $appManager;
+	public function __construct(
+		private IManager $manager,
+		private SettingsManager $settingsManager,
+		private IAppManager $appManager,
+	) {
 	}
 
 	/**

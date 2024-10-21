@@ -17,32 +17,19 @@ use OCP\EventDispatcher\Event;
  * @since 25.0.0
  */
 class CalendarObjectMovedEvent extends Event {
-	private int $sourceCalendarId;
-	private array $sourceCalendarData;
-	private int $targetCalendarId;
-	private array $targetCalendarData;
-	private array $sourceShares;
-	private array $targetShares;
-	private array $objectData;
-
 	/**
 	 * @since 25.0.0
 	 */
-	public function __construct(int $sourceCalendarId,
-		array $sourceCalendarData,
-		int $targetCalendarId,
-		array $targetCalendarData,
-		array $sourceShares,
-		array $targetShares,
-		array $objectData) {
+	public function __construct(
+		private int $sourceCalendarId,
+		private array $sourceCalendarData,
+		private int $targetCalendarId,
+		private array $targetCalendarData,
+		private array $sourceShares,
+		private array $targetShares,
+		private array $objectData,
+	) {
 		parent::__construct();
-		$this->sourceCalendarId = $sourceCalendarId;
-		$this->sourceCalendarData = $sourceCalendarData;
-		$this->targetCalendarId = $targetCalendarId;
-		$this->targetCalendarData = $targetCalendarData;
-		$this->sourceShares = $sourceShares;
-		$this->targetShares = $targetShares;
-		$this->objectData = $objectData;
 	}
 
 	/**

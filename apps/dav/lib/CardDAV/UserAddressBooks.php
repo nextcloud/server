@@ -36,20 +36,14 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	/** @var IConfig */
 	protected $config;
 
-	/** @var PluginManager */
-	private $pluginManager;
-	private ?IUser $user;
-	private ?IGroupManager $groupManager;
-
-	public function __construct(Backend\BackendInterface $carddavBackend,
+	public function __construct(
+		Backend\BackendInterface $carddavBackend,
 		string $principalUri,
-		PluginManager $pluginManager,
-		?IUser $user,
-		?IGroupManager $groupManager) {
+		private PluginManager $pluginManager,
+		private ?IUser $user,
+		private ?IGroupManager $groupManager,
+	) {
 		parent::__construct($carddavBackend, $principalUri);
-		$this->pluginManager = $pluginManager;
-		$this->user = $user;
-		$this->groupManager = $groupManager;
 	}
 
 	/**

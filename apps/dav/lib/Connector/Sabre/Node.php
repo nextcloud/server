@@ -25,11 +25,6 @@ use OCP\Share\IManager;
 
 abstract class Node implements \Sabre\DAV\INode {
 	/**
-	 * @var View
-	 */
-	protected $fileView;
-
-	/**
 	 * The path to the current node
 	 *
 	 * @var string
@@ -55,8 +50,11 @@ abstract class Node implements \Sabre\DAV\INode {
 	/**
 	 * Sets up the node, expects a full path name
 	 */
-	public function __construct(View $view, FileInfo $info, ?IManager $shareManager = null) {
-		$this->fileView = $view;
+	public function __construct(
+		protected View $fileView,
+		FileInfo $info,
+		?IManager $shareManager = null,
+	) {
 		$this->path = $this->fileView->getRelativePath($info->getPath());
 		$this->info = $info;
 		if ($shareManager) {

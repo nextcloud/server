@@ -6,15 +6,16 @@
 namespace OCA\WorkflowEngine\Tests\Check;
 
 use OCA\WorkflowEngine\Check\RequestTime;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IL10N;
 
 class RequestTimeTest extends \Test\TestCase {
 
-	/** @var \OCP\AppFramework\Utility\ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $timeFactory;
 
 	/**
-	 * @return \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject
+	 * @return IL10N|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getL10NMock() {
 		$l = $this->getMockBuilder(IL10N::class)

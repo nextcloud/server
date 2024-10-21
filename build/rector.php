@@ -10,6 +10,7 @@ declare(strict_types=1);
 use PhpParser\Node;
 use Rector\CodingStyle\Contract\ClassNameImport\ClassNameImportSkipVoterInterface;
 use Rector\Config\RectorConfig;
+use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 use Rector\ValueObject\Application\File;
 
@@ -67,7 +68,11 @@ $config = RectorConfig::configure()
 	// uncomment to reach your current PHP version
 	// ->withPhpSets()
 	->withImportNames(importShortClasses:false)
-	->withTypeCoverageLevel(0);
+	->withTypeCoverageLevel(0)
+	->withConfiguredRule(ClassPropertyAssignToConstructorPromotionRector::class, [
+		'inline_public' => true,
+		'rename_property' => true,
+	]);
 
 $config->registerService(NextcloudNamespaceSkipVoter::class, tag:ClassNameImportSkipVoterInterface::class);
 

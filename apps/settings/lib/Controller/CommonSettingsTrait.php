@@ -109,7 +109,7 @@ trait CommonSettingsTrait {
 	}
 
 	/**
-	 * @param list<\OCP\Settings\ISettings> $settings
+	 * @param list<ISettings> $settings
 	 * @param list<DeclarativeSettingsFormSchemaWithValues> $declarativeSettings
 	 * @return array{content: string}
 	 */

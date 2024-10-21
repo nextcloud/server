@@ -19,21 +19,6 @@ use Symfony\Component\Console\Question\Question;
 
 class DecryptAll {
 
-	/** @var Util */
-	protected $util;
-
-	/** @var QuestionHelper */
-	protected $questionHelper;
-
-	/** @var Crypt */
-	protected $crypt;
-
-	/** @var KeyManager */
-	protected $keyManager;
-
-	/** @var Session */
-	protected $session;
-
 	/**
 	 * @param Util $util
 	 * @param KeyManager $keyManager
@@ -42,17 +27,12 @@ class DecryptAll {
 	 * @param QuestionHelper $questionHelper
 	 */
 	public function __construct(
-		Util $util,
-		KeyManager $keyManager,
-		Crypt $crypt,
-		Session $session,
-		QuestionHelper $questionHelper,
+		protected Util $util,
+		protected KeyManager $keyManager,
+		protected Crypt $crypt,
+		protected Session $session,
+		protected QuestionHelper $questionHelper,
 	) {
-		$this->util = $util;
-		$this->keyManager = $keyManager;
-		$this->crypt = $crypt;
-		$this->session = $session;
-		$this->questionHelper = $questionHelper;
 	}
 
 	/**

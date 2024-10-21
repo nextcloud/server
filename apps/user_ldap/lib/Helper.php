@@ -13,15 +13,13 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 
 class Helper {
-	private IConfig $config;
-	private IDBConnection $connection;
 	/** @var CappedMemoryCache<string> */
 	protected CappedMemoryCache $sanitizeDnCache;
 
-	public function __construct(IConfig $config,
-		IDBConnection $connection) {
-		$this->config = $config;
-		$this->connection = $connection;
+	public function __construct(
+		private IConfig $config,
+		private IDBConnection $connection,
+	) {
 		$this->sanitizeDnCache = new CappedMemoryCache(10000);
 	}
 

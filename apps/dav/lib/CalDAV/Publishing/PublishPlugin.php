@@ -29,28 +29,21 @@ class PublishPlugin extends ServerPlugin {
 	protected $server;
 
 	/**
-	 * Config instance to get instance secret.
-	 *
-	 * @var IConfig
-	 */
-	protected $config;
-
-	/**
-	 * URL Generator for absolute URLs.
-	 *
-	 * @var IURLGenerator
-	 */
-	protected $urlGenerator;
-
-	/**
 	 * PublishPlugin constructor.
 	 *
 	 * @param IConfig $config
 	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct(IConfig $config, IURLGenerator $urlGenerator) {
-		$this->config = $config;
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(
+		/**
+		 * Config instance to get instance secret.
+		 */
+		protected IConfig $config,
+		/**
+		 * URL Generator for absolute URLs.
+		 */
+		protected IURLGenerator $urlGenerator,
+	) {
 	}
 
 	/**

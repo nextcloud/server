@@ -23,30 +23,6 @@ use Sabre\DAV\Exception\NotFound;
  */
 class SystemTagNode implements \Sabre\DAV\INode {
 
-	/**
-	 * @var ISystemTag
-	 */
-	protected $tag;
-
-	/**
-	 * @var ISystemTagManager
-	 */
-	protected $tagManager;
-
-	/**
-	 * User
-	 *
-	 * @var IUser
-	 */
-	protected $user;
-
-	/**
-	 * Whether to allow permissions for admins
-	 *
-	 * @var bool
-	 */
-	protected $isAdmin;
-
 	protected int $numberOfFiles = -1;
 	protected int $referenceFileId = -1;
 
@@ -58,11 +34,18 @@ class SystemTagNode implements \Sabre\DAV\INode {
 	 * @param bool $isAdmin whether to allow operations for admins
 	 * @param ISystemTagManager $tagManager tag manager
 	 */
-	public function __construct(ISystemTag $tag, IUser $user, $isAdmin, ISystemTagManager $tagManager) {
-		$this->tag = $tag;
-		$this->user = $user;
-		$this->isAdmin = $isAdmin;
-		$this->tagManager = $tagManager;
+	public function __construct(
+		protected ISystemTag $tag,
+		/**
+		 * User
+		 */
+		protected IUser $user,
+		/**
+		 * Whether to allow permissions for admins
+		 */
+		protected $isAdmin,
+		protected ISystemTagManager $tagManager,
+	) {
 	}
 
 	/**

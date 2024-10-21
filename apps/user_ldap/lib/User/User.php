@@ -22,6 +22,7 @@ use OCP\Image;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\PreConditionNotMetException;
 use OCP\Server;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -33,41 +34,13 @@ use Psr\Log\LoggerInterface;
  */
 class User {
 	/**
-	 * @var Access
-	 */
-	protected $access;
-	/**
 	 * @var Connection
 	 */
 	protected $connection;
 	/**
-	 * @var IConfig
-	 */
-	protected $config;
-	/**
-	 * @var FilesystemHelper
-	 */
-	protected $fs;
-	/**
-	 * @var Image
-	 */
-	protected $image;
-	/**
 	 * @var LoggerInterface
 	 */
 	protected $logger;
-	/**
-	 * @var IAvatarManager
-	 */
-	protected $avatarManager;
-	/**
-	 * @var IUserManager
-	 */
-	protected $userManager;
-	/**
-	 * @var INotificationManager
-	 */
-	protected $notificationManager;
 	/**
 	 * @var string
 	 */
@@ -97,10 +70,18 @@ class User {
 	 * @param string $username the internal username
 	 * @param string $dn the LDAP DN
 	 */
-	public function __construct($username, $dn, Access $access,
-		IConfig $config, FilesystemHelper $fs, Image $image,
-		LoggerInterface $logger, IAvatarManager $avatarManager, IUserManager $userManager,
-		INotificationManager $notificationManager) {
+	public function __construct(
+		$username,
+		$dn,
+		protected Access $access,
+		protected IConfig $config,
+		protected FilesystemHelper $fs,
+		protected Image $image,
+		LoggerInterface $logger,
+		protected IAvatarManager $avatarManager,
+		protected IUserManager $userManager,
+		protected INotificationManager $notificationManager,
+	) {
 		if ($username === null) {
 			$logger->error("uid for '$dn' must not be null!", ['app' => 'user_ldap']);
 			throw new \InvalidArgumentException('uid must not be null!');
@@ -108,18 +89,10 @@ class User {
 			$logger->error("uid for '$dn' must not be an empty string", ['app' => 'user_ldap']);
 			throw new \InvalidArgumentException('uid must not be an empty string!');
 		}
-
-		$this->access = $access;
-		$this->connection = $access->getConnection();
-		$this->config = $config;
-		$this->fs = $fs;
+		$this->connection = $this->access->getConnection();
 		$this->dn = $dn;
 		$this->uid = $username;
-		$this->image = $image;
 		$this->logger = $logger;
-		$this->avatarManager = $avatarManager;
-		$this->userManager = $userManager;
-		$this->notificationManager = $notificationManager;
 		$this->birthdateParser = new BirthdateParserService();
 
 		Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry');
@@ -128,7 +101,7 @@ class User {
 	/**
 	 * marks a user as deleted
 	 *
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws PreConditionNotMetException
 	 */
 	public function markUser() {
 		$curValue = $this->config->getUserValue($this->getUsername(), 'user_ldap', 'isDeleted', '0');
@@ -765,7 +738,7 @@ class User {
 	/**
 	 * @throws AttributeNotSet
 	 * @throws \OC\ServerNotAvailableException
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws PreConditionNotMetException
 	 */
 	public function getExtStorageHome():string {
 		$value = $this->config->getUserValue($this->getUsername(), 'user_ldap', 'extStorageHome', '');
@@ -784,7 +757,7 @@ class User {
 	}
 
 	/**
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws PreConditionNotMetException
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function updateExtStorageHome(?string $valueFromLDAP = null):string {

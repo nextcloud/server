@@ -20,21 +20,6 @@ use Sabre\DAV\ICollection;
 class SystemTagsByIdCollection implements ICollection {
 
 	/**
-	 * @var ISystemTagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var IGroupManager
-	 */
-	private $groupManager;
-
-	/**
-	 * @var IUserSession
-	 */
-	private $userSession;
-
-	/**
 	 * SystemTagsByIdCollection constructor.
 	 *
 	 * @param ISystemTagManager $tagManager
@@ -42,13 +27,10 @@ class SystemTagsByIdCollection implements ICollection {
 	 * @param IGroupManager $groupManager
 	 */
 	public function __construct(
-		ISystemTagManager $tagManager,
-		IUserSession $userSession,
-		IGroupManager $groupManager,
+		private ISystemTagManager $tagManager,
+		private IUserSession $userSession,
+		private IGroupManager $groupManager,
 	) {
-		$this->tagManager = $tagManager;
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
 	}
 
 	/**

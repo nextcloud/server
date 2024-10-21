@@ -27,9 +27,6 @@ use OCP\UserStatus\IUserStatus;
  */
 class StatusesController extends OCSController {
 
-	/** @var StatusService */
-	private $service;
-
 	/**
 	 * StatusesController constructor.
 	 *
@@ -37,11 +34,12 @@ class StatusesController extends OCSController {
 	 * @param IRequest $request
 	 * @param StatusService $service
 	 */
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		StatusService $service) {
+		private StatusService $service,
+	) {
 		parent::__construct($appName, $request);
-		$this->service = $service;
 	}
 
 	/**

@@ -38,7 +38,7 @@ use Test\TestCase;
 class ApiControllerTest extends TestCase {
 	/** @var string */
 	private $appName = 'files';
-	/** @var \OCP\IUser */
+	/** @var IUser */
 	private $user;
 	/** @var IRequest */
 	private $request;
@@ -50,7 +50,7 @@ class ApiControllerTest extends TestCase {
 	private $apiController;
 	/** @var \OCP\Share\IManager */
 	private $shareManager;
-	/** @var \OCP\IConfig */
+	/** @var IConfig */
 	private $config;
 	/** @var Folder|\PHPUnit\Framework\MockObject\MockObject */
 	private $userFolder;

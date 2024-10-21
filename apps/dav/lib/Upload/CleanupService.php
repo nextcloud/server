@@ -13,14 +13,10 @@ use OCP\BackgroundJob\IJobList;
 use OCP\IUserSession;
 
 class CleanupService {
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IJobList */
-	private $jobList;
-
-	public function __construct(IUserSession $userSession, IJobList $jobList) {
-		$this->userSession = $userSession;
-		$this->jobList = $jobList;
+	public function __construct(
+		private IUserSession $userSession,
+		private IJobList $jobList,
+	) {
 	}
 
 	public function addJob(string $folder) {

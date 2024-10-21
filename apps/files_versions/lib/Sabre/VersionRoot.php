@@ -18,19 +18,11 @@ use Sabre\DAV\ICollection;
 
 class VersionRoot implements ICollection {
 
-	/** @var IUser */
-	private $user;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IVersionManager */
-	private $versionManager;
-
-	public function __construct(IUser $user, IRootFolder $rootFolder, IVersionManager $versionManager) {
-		$this->user = $user;
-		$this->rootFolder = $rootFolder;
-		$this->versionManager = $versionManager;
+	public function __construct(
+		private IUser $user,
+		private IRootFolder $rootFolder,
+		private IVersionManager $versionManager,
+	) {
 	}
 
 	public function delete() {

@@ -17,16 +17,14 @@ use OCP\Security\ISecureRandom;
 class TokenHandler {
 	public const TOKEN_LENGTH = 15;
 
-	/** @var ISecureRandom */
-	private $secureRandom;
-
 	/**
 	 * TokenHandler constructor.
 	 *
 	 * @param ISecureRandom $secureRandom
 	 */
-	public function __construct(ISecureRandom $secureRandom) {
-		$this->secureRandom = $secureRandom;
+	public function __construct(
+		private ISecureRandom $secureRandom,
+	) {
 	}
 
 	/**

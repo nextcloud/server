@@ -25,20 +25,8 @@ class Event extends Base {
 	public const SUBJECT_OBJECT_RESTORE = 'object_restore';
 	public const SUBJECT_OBJECT_DELETE = 'object_delete';
 
-	/** @var IFactory */
-	protected $languageFactory;
-
 	/** @var IL10N */
 	protected $l;
-
-	/** @var IManager */
-	protected $activityManager;
-
-	/** @var IEventMerger */
-	protected $eventMerger;
-
-	/** @var IAppManager */
-	protected $appManager;
 
 	/**
 	 * @param IFactory $languageFactory
@@ -49,12 +37,16 @@ class Event extends Base {
 	 * @param IEventMerger $eventMerger
 	 * @param IAppManager $appManager
 	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IGroupManager $groupManager, IEventMerger $eventMerger, IAppManager $appManager) {
+	public function __construct(
+		protected IFactory $languageFactory,
+		IURLGenerator $url,
+		protected IManager $activityManager,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		protected IEventMerger $eventMerger,
+		protected IAppManager $appManager,
+	) {
 		parent::__construct($userManager, $groupManager, $url);
-		$this->languageFactory = $languageFactory;
-		$this->activityManager = $activityManager;
-		$this->eventMerger = $eventMerger;
-		$this->appManager = $appManager;
 	}
 
 	/**

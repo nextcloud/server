@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface;
 
 class EntityCollectionTest extends \Test\TestCase {
 
-	/** @var \OCP\Comments\ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $commentsManager;
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;

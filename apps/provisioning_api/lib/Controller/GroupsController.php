@@ -38,10 +38,8 @@ use Psr\Log\LoggerInterface;
  */
 class GroupsController extends AUserData {
 
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
 		IUserManager $userManager,
 		IConfig $config,
@@ -50,7 +48,8 @@ class GroupsController extends AUserData {
 		IAccountManager $accountManager,
 		ISubAdmin $subAdminManager,
 		IFactory $l10nFactory,
-		LoggerInterface $logger) {
+		private LoggerInterface $logger,
+	) {
 		parent::__construct($appName,
 			$request,
 			$userManager,
@@ -61,8 +60,6 @@ class GroupsController extends AUserData {
 			$subAdminManager,
 			$l10nFactory
 		);
-
-		$this->logger = $logger;
 	}
 
 	/**

@@ -20,20 +20,20 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	private $userBackend;
 	private $groupBackend;
 	private $logger;
-	private $helper;
-	private $deletedUsersIndex;
 
 	/**
 	 * Create new LDAPProvider
-	 * @param \OCP\IServerContainer $serverContainer
+	 * @param IServerContainer $serverContainer
 	 * @param Helper $helper
 	 * @param DeletedUsersIndex $deletedUsersIndex
 	 * @throws \Exception if user_ldap app was not enabled
 	 */
-	public function __construct(IServerContainer $serverContainer, Helper $helper, DeletedUsersIndex $deletedUsersIndex) {
+	public function __construct(
+		IServerContainer $serverContainer,
+		private Helper $helper,
+		private DeletedUsersIndex $deletedUsersIndex,
+	) {
 		$this->logger = $serverContainer->get(LoggerInterface::class);
-		$this->helper = $helper;
-		$this->deletedUsersIndex = $deletedUsersIndex;
 		$userBackendFound = false;
 		$groupBackendFound = false;
 		foreach ($serverContainer->getUserManager()->getBackends() as $backend) {
@@ -118,8 +118,8 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 
 	/**
 	 * Sanitize a DN received from the LDAP server.
-	 * @param array $dn the DN in question
-	 * @return array the sanitized DN
+	 * @param array|string $dn the DN in question
+	 * @return array|string the sanitized DN
 	 */
 	public function sanitizeDN($dn) {
 		return $this->helper->sanitizeDN($dn);

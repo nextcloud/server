@@ -20,14 +20,11 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Property\ICalendar\DateTime;
 
 class CalendarObject implements ICalendarObject, IACL {
-	private VCalendar $vobject;
-	private AppCalendar $calendar;
-	private ICalendar|ICreateFromString $backend;
-
-	public function __construct(AppCalendar $calendar, ICalendar $backend, VCalendar $vobject) {
-		$this->backend = $backend;
-		$this->calendar = $calendar;
-		$this->vobject = $vobject;
+	public function __construct(
+		private AppCalendar $calendar,
+		private ICalendar|ICreateFromString $backend,
+		private VCalendar $vobject,
+	) {
 	}
 
 	public function getOwner() {

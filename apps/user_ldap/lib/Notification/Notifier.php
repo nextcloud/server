@@ -12,14 +12,12 @@ use OCP\Notification\UnknownNotificationException;
 
 class Notifier implements INotifier {
 
-	/** @var IFactory */
-	protected $l10nFactory;
-
 	/**
 	 * @param IFactory $l10nFactory
 	 */
-	public function __construct(IFactory $l10nFactory) {
-		$this->l10nFactory = $l10nFactory;
+	public function __construct(
+		protected IFactory $l10nFactory,
+	) {
 	}
 
 	/**

@@ -24,10 +24,10 @@ use Test\TestCase;
  * @package OCA\DAV\Tests\Command
  */
 class MoveCalendarTest extends TestCase {
-	/** @var \OCP\IUserManager|MockObject $userManager */
+	/** @var IUserManager|MockObject $userManager */
 	private $userManager;
 
-	/** @var \OCP\IGroupManager|MockObject $groupManager */
+	/** @var IGroupManager|MockObject $groupManager */
 	private $groupManager;
 
 	/** @var \OCP\Share\IManager|MockObject $shareManager */

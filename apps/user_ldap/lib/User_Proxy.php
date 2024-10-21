@@ -24,27 +24,17 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	private ?User_LDAP $refBackend = null;
 
 	private bool $isSetUp = false;
-	private Helper $helper;
-	private INotificationManager $notificationManager;
-	private UserPluginManager $userPluginManager;
-	private LoggerInterface $logger;
-	private DeletedUsersIndex $deletedUsersIndex;
 
 	public function __construct(
-		Helper $helper,
+		private Helper $helper,
 		ILDAPWrapper $ldap,
 		AccessFactory $accessFactory,
-		INotificationManager $notificationManager,
-		UserPluginManager $userPluginManager,
-		LoggerInterface $logger,
-		DeletedUsersIndex $deletedUsersIndex,
+		private INotificationManager $notificationManager,
+		private UserPluginManager $userPluginManager,
+		private LoggerInterface $logger,
+		private DeletedUsersIndex $deletedUsersIndex,
 	) {
 		parent::__construct($ldap, $accessFactory);
-		$this->helper = $helper;
-		$this->notificationManager = $notificationManager;
-		$this->userPluginManager = $userPluginManager;
-		$this->logger = $logger;
-		$this->deletedUsersIndex = $deletedUsersIndex;
 	}
 
 	protected function setup(): void {

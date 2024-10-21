@@ -25,16 +25,11 @@ class DeletedCalendarObjectsCollection implements ICalendarObjectContainer, IACL
 
 	public const NAME = 'objects';
 
-	/** @var CalDavBackend */
-	protected $caldavBackend;
-
-	/** @var mixed[] */
-	private $principalInfo;
-
-	public function __construct(CalDavBackend $caldavBackend,
-		array $principalInfo) {
-		$this->caldavBackend = $caldavBackend;
-		$this->principalInfo = $principalInfo;
+	public function __construct(
+		protected CalDavBackend $caldavBackend,
+		/** @var mixed[] */
+		private array $principalInfo,
+	) {
 	}
 
 	/**

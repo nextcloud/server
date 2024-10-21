@@ -26,7 +26,7 @@ class IconControllerTest extends TestCase {
 	private $request;
 	/** @var ThemingDefaults|\PHPUnit\Framework\MockObject\MockObject */
 	private $themingDefaults;
-	/** @var \OCP\AppFramework\Utility\ITimeFactory */
+	/** @var ITimeFactory */
 	private $timeFactory;
 	/** @var IconController|\PHPUnit\Framework\MockObject\MockObject */
 	private $iconController;

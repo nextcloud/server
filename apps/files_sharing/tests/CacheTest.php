@@ -6,7 +6,9 @@
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Files\Cache\Cache;
 use OC\Files\Filesystem;
+use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\View;
@@ -22,20 +24,20 @@ use OCP\Share\IShare;
 class CacheTest extends TestCase {
 
 	/**
-	 * @var \OC\Files\View
+	 * @var View
 	 */
 	public $user2View;
 
-	/** @var \OC\Files\Cache\Cache */
+	/** @var Cache */
 	protected $ownerCache;
 
-	/** @var \OC\Files\Cache\Cache */
+	/** @var Cache */
 	protected $sharedCache;
 
-	/** @var \OC\Files\Storage\Storage */
+	/** @var Storage */
 	protected $ownerStorage;
 
-	/** @var \OC\Files\Storage\Storage */
+	/** @var Storage */
 	protected $sharedStorage;
 
 	/** @var \OCP\Share\IManager */

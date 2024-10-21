@@ -18,15 +18,11 @@ use OCP\Migration\IRepairStep;
 
 class SetTokenExpiration implements IRepairStep {
 
-	/** @var ITimeFactory */
-	private $time;
-
 	public function __construct(
 		private IDBConnection $connection,
-		ITimeFactory $timeFactory,
+		private ITimeFactory $time,
 		private TokenProvider $tokenProvider,
 	) {
-		$this->time = $timeFactory;
 	}
 
 	public function getName(): string {

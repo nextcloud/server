@@ -13,6 +13,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\NodeAddedToFavorite;
 use OCP\Files\Events\NodeRemovedFromFavorite;
 use OCP\Files\Folder;
+use OCP\Files\NotFoundException;
 use OCP\ITags;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -22,29 +23,13 @@ use OCP\IUserSession;
  */
 class TagService {
 
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IManager */
-	private $activityManager;
-	/** @var ITags|null */
-	private $tagger;
-	/** @var Folder|null */
-	private $homeFolder;
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
 	public function __construct(
-		IUserSession $userSession,
-		IManager $activityManager,
-		?ITags $tagger,
-		?Folder $homeFolder,
-		IEventDispatcher $dispatcher,
+		private IUserSession $userSession,
+		private IManager $activityManager,
+		private ?ITags $tagger,
+		private ?Folder $homeFolder,
+		private IEventDispatcher $dispatcher,
 	) {
-		$this->userSession = $userSession;
-		$this->activityManager = $activityManager;
-		$this->tagger = $tagger;
-		$this->homeFolder = $homeFolder;
-		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -55,7 +40,7 @@ class TagService {
 	 * @param string $path path
 	 * @param array $tags array of tags
 	 * @return array list of tags
-	 * @throws \OCP\Files\NotFoundException if the file does not exist
+	 * @throws NotFoundException if the file does not exist
 	 */
 	public function updateFileTags($path, $tags) {
 		if ($this->tagger === null) {

@@ -1570,7 +1570,7 @@ class ShareAPIControllerTest extends TestCase {
 	 * @dataProvider dataCanAccessRoomShare
 	 *
 	 * @param bool $expects
-	 * @param \OCP\Share\IShare $share
+	 * @param IShare $share
 	 * @param bool helperAvailable
 	 * @param bool canAccessShareByHelper
 	 */
@@ -4701,7 +4701,7 @@ class ShareAPIControllerTest extends TestCase {
 	 * @dataProvider dataFormatShare
 	 *
 	 * @param array $expects
-	 * @param \OCP\Share\IShare $share
+	 * @param IShare $share
 	 * @param array $users
 	 * @param $exception
 	 */
@@ -4920,7 +4920,7 @@ class ShareAPIControllerTest extends TestCase {
 	 * @dataProvider dataFormatRoomShare
 	 *
 	 * @param array $expects
-	 * @param \OCP\Share\IShare $share
+	 * @param IShare $share
 	 * @param bool $helperAvailable
 	 * @param array $formatShareByHelper
 	 */

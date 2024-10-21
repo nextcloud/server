@@ -15,19 +15,12 @@ use OCP\IConfig;
 
 class GenerateBirthdayCalendarBackgroundJob extends QueuedJob {
 
-	/** @var BirthdayService */
-	private $birthdayService;
-
-	/** @var IConfig */
-	private $config;
-
-	public function __construct(ITimeFactory $time,
-		BirthdayService $birthdayService,
-		IConfig $config) {
+	public function __construct(
+		ITimeFactory $time,
+		private BirthdayService $birthdayService,
+		private IConfig $config,
+	) {
 		parent::__construct($time);
-
-		$this->birthdayService = $birthdayService;
-		$this->config = $config;
 	}
 
 	public function run($argument) {

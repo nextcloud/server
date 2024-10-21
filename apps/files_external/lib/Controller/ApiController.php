@@ -25,18 +25,13 @@ use OCP\IRequest;
  */
 class ApiController extends OCSController {
 
-	private UserGlobalStoragesService $userGlobalStoragesService;
-	private UserStoragesService $userStoragesService;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		UserGlobalStoragesService $userGlobalStorageService,
-		UserStoragesService $userStorageService,
+		private UserGlobalStoragesService $userGlobalStoragesService,
+		private UserStoragesService $userStoragesService,
 	) {
 		parent::__construct($appName, $request);
-		$this->userGlobalStoragesService = $userGlobalStorageService;
-		$this->userStoragesService = $userStorageService;
 	}
 
 	/**

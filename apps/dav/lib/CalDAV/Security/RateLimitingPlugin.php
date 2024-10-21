@@ -25,24 +25,16 @@ use function explode;
 class RateLimitingPlugin extends ServerPlugin {
 
 	private Limiter $limiter;
-	private IUserManager $userManager;
-	private CalDavBackend $calDavBackend;
-	private IAppConfig $config;
-	private LoggerInterface $logger;
-	private ?string $userId;
 
-	public function __construct(Limiter $limiter,
-		IUserManager $userManager,
-		CalDavBackend $calDavBackend,
-		LoggerInterface $logger,
-		IAppConfig $config,
-		?string $userId) {
+	public function __construct(
+		Limiter $limiter,
+		private IUserManager $userManager,
+		private CalDavBackend $calDavBackend,
+		private LoggerInterface $logger,
+		private IAppConfig $config,
+		private ?string $userId,
+	) {
 		$this->limiter = $limiter;
-		$this->userManager = $userManager;
-		$this->calDavBackend = $calDavBackend;
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->userId = $userId;
 	}
 
 	public function initialize(DAV\Server $server): void {

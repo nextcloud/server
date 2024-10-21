@@ -26,15 +26,6 @@ class BeforeTemplateRenderedListener implements IEventListener {
 	/** @var ProfileManager */
 	private $profileManager;
 
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IInitialStateService */
-	private $initialState;
-
-	/** @var JSDataService */
-	private $jsDataService;
-
 	/**
 	 * BeforeTemplateRenderedListener constructor.
 	 *
@@ -45,14 +36,11 @@ class BeforeTemplateRenderedListener implements IEventListener {
 	 */
 	public function __construct(
 		ProfileManager $profileManager,
-		IUserSession $userSession,
-		IInitialStateService $initialState,
-		JSDataService $jsDataService,
+		private IUserSession $userSession,
+		private IInitialStateService $initialState,
+		private JSDataService $jsDataService,
 	) {
 		$this->profileManager = $profileManager;
-		$this->userSession = $userSession;
-		$this->initialState = $initialState;
-		$this->jsDataService = $jsDataService;
 	}
 
 	/**

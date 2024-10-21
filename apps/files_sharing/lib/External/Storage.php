@@ -188,8 +188,8 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	 * Check whether this storage is permanently or temporarily
 	 * unavailable
 	 *
-	 * @throws \OCP\Files\StorageNotAvailableException
-	 * @throws \OCP\Files\StorageInvalidException
+	 * @throws StorageNotAvailableException
+	 * @throws StorageInvalidException
 	 */
 	public function checkStorageAvailability() {
 		// see if we can find out why the share is unavailable

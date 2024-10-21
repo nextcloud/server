@@ -37,23 +37,14 @@ class PublicAuth extends AbstractBasic {
 	public const DAV_AUTHENTICATED = 'public_link_authenticated';
 
 	private ?IShare $share = null;
-	private IManager $shareManager;
-	private ISession $session;
-	private IRequest $request;
-	private IThrottler $throttler;
-	private LoggerInterface $logger;
 
-	public function __construct(IRequest $request,
-		IManager $shareManager,
-		ISession $session,
-		IThrottler $throttler,
-		LoggerInterface $logger) {
-		$this->request = $request;
-		$this->shareManager = $shareManager;
-		$this->session = $session;
-		$this->throttler = $throttler;
-		$this->logger = $logger;
-
+	public function __construct(
+		private IRequest $request,
+		private IManager $shareManager,
+		private ISession $session,
+		private IThrottler $throttler,
+		private LoggerInterface $logger,
+	) {
 		// setup realm
 		$defaults = new Defaults();
 		$this->realm = $defaults->getName();

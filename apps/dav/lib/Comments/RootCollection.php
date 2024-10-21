@@ -21,24 +21,15 @@ use Sabre\DAV\ICollection;
 class RootCollection implements ICollection {
 	/** @var EntityTypeCollection[]|null */
 	private ?array $entityTypeCollections = null;
-	protected ICommentsManager $commentsManager;
 	protected string $name = 'comments';
-	protected LoggerInterface $logger;
-	protected IUserManager $userManager;
-	protected IUserSession $userSession;
-	protected IEventDispatcher $dispatcher;
 
 	public function __construct(
-		ICommentsManager $commentsManager,
-		IUserManager $userManager,
-		IUserSession $userSession,
-		IEventDispatcher $dispatcher,
-		LoggerInterface $logger) {
-		$this->commentsManager = $commentsManager;
-		$this->logger = $logger;
-		$this->userManager = $userManager;
-		$this->userSession = $userSession;
-		$this->dispatcher = $dispatcher;
+		protected ICommentsManager $commentsManager,
+		protected IUserManager $userManager,
+		protected IUserSession $userSession,
+		protected IEventDispatcher $dispatcher,
+		protected LoggerInterface $logger,
+	) {
 	}
 
 	/**

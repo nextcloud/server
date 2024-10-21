@@ -23,17 +23,12 @@ use OCP\IRequest;
  * @psalm-import-type DAVUpcomingEvent from ResponseDefinitions
  */
 class UpcomingEventsController extends OCSController {
-	private ?string $userId;
-	private UpcomingEventsService $service;
-
 	public function __construct(
 		IRequest $request,
-		?string $userId,
-		UpcomingEventsService $service) {
+		private ?string $userId,
+		private UpcomingEventsService $service,
+	) {
 		parent::__construct(Application::APP_ID, $request);
-
-		$this->userId = $userId;
-		$this->service = $service;
 	}
 
 	/**

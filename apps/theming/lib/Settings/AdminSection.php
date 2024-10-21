@@ -10,14 +10,11 @@ use OCP\IURLGenerator;
 use OCP\Settings\IIconSection;
 
 class AdminSection implements IIconSection {
-	private string $appName;
-	private IL10N $l;
-	private IURLGenerator $url;
-
-	public function __construct(string $appName, IURLGenerator $url, IL10N $l) {
-		$this->appName = $appName;
-		$this->url = $url;
-		$this->l = $l;
+	public function __construct(
+		private string $appName,
+		private IURLGenerator $url,
+		private IL10N $l,
+	) {
 	}
 
 	/**

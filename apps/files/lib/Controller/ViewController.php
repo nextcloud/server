@@ -68,7 +68,7 @@ class ViewController extends Controller {
 	 * FIXME: Replace with non static code
 	 *
 	 * @return array
-	 * @throws \OCP\Files\NotFoundException
+	 * @throws NotFoundException
 	 */
 	protected function getStorageInfo(string $dir = '/') {
 		$rootInfo = Filesystem::getFileInfo('/', false);

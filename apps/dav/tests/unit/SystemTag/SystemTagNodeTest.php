@@ -19,12 +19,12 @@ use Sabre\DAV\Exception\Forbidden;
 class SystemTagNodeTest extends \Test\TestCase {
 
 	/**
-	 * @var \OCP\SystemTag\ISystemTagManager|\PHPUnit\Framework\MockObject\MockObject
+	 * @var ISystemTagManager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $tagManager;
 
 	/**
-	 * @var \OCP\IUser
+	 * @var IUser
 	 */
 	private $user;
 

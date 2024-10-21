@@ -15,7 +15,9 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\MountConfig;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
+use OCP\AppFramework\QueryException;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\Storage\IConstructableStorage;
 use OCP\Files\Storage\IStorage;
@@ -40,7 +42,7 @@ class ConfigAdapter implements IMountProvider {
 	/**
 	 * Process storage ready for mounting
 	 *
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 */
 	private function prepareStorageConfig(StorageConfig &$storage, IUser $user): void {
 		foreach ($storage->getBackendOptions() as $option => $value) {
@@ -82,7 +84,7 @@ class ConfigAdapter implements IMountProvider {
 	/**
 	 * Get all mountpoints applicable for the user
 	 *
-	 * @return \OCP\Files\Mount\IMountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
 		$this->userStoragesService->setUser($user);
