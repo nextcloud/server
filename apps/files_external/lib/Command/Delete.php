@@ -10,6 +10,7 @@ use OC\Core\Command\Base;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
+use OCP\AppFramework\Http;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -19,7 +20,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\HttpFoundation\Response;
 
 class Delete extends Base {
 	public function __construct(
@@ -54,7 +54,7 @@ class Delete extends Base {
 			$mount = $this->globalService->getStorage($mountId);
 		} catch (NotFoundException $e) {
 			$output->writeln('<error>Mount with id "' . $mountId . ' not found, check "occ files_external:list" to get available mounts"</error>');
-			return Response::HTTP_NOT_FOUND;
+			return Http::STATUS_NOT_FOUND;
 		}
 
 		$noConfirm = $input->getOption('yes');

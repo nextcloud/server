@@ -10,10 +10,10 @@ use OC\Core\Command\Base;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\GlobalStoragesService;
+use OCP\AppFramework\Http;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\HttpFoundation\Response;
 
 class Config extends Base {
 	public function __construct(
@@ -49,7 +49,7 @@ class Config extends Base {
 			$mount = $this->globalService->getStorage($mountId);
 		} catch (NotFoundException $e) {
 			$output->writeln('<error>Mount with id "' . $mountId . ' not found, check "occ files_external:list" to get available mounts"</error>');
-			return Response::HTTP_NOT_FOUND;
+			return Http::STATUS_NOT_FOUND;
 		}
 
 		$value = $input->getArgument('value');
