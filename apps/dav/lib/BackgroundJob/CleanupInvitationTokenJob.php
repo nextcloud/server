@@ -14,12 +14,11 @@ use OCP\IDBConnection;
 
 class CleanupInvitationTokenJob extends TimedJob {
 
-	/** @var IDBConnection */
-	private $db;
-
-	public function __construct(IDBConnection $db, ITimeFactory $time) {
+	public function __construct(
+		private IDBConnection $db,
+		ITimeFactory $time,
+	) {
 		parent::__construct($time);
-		$this->db = $db;
 
 		// Run once a day at off-peak time
 		$this->setInterval(24 * 60 * 60);
@@ -31,6 +30,6 @@ class CleanupInvitationTokenJob extends TimedJob {
 		$query->delete('calendar_invitations')
 			->where($query->expr()->lt('expiration',
 				$query->createNamedParameter($this->time->getTime())))
-			->execute();
+			->executeStatement();
 	}
 }
