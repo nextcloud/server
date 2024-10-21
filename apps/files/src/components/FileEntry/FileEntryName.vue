@@ -59,7 +59,6 @@ import type { PropType } from 'vue'
 
 import axios from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { emit } from '@nextcloud/event-bus'
 import { FileType, NodeStatus } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent, inject } from 'vue'
@@ -260,11 +259,6 @@ export default defineComponent({
 			}
 
 			const oldName = this.source.basename
-			const oldEncodedSource = this.source.encodedSource
-			if (oldName === newName) {
-				this.stopRenaming()
-				return
-			}
 
 			// Set loading state
 			this.loading = 'renaming'
@@ -296,9 +290,8 @@ export default defineComponent({
 					nameContainter?.focus()
 				})
 			} catch (error) {
-				logger.error('Error while renaming file', { error })
-				// Rename back as it failed
-				this.source.rename(oldName)
+				logger.error(error as Error)
+				showError((error as Error).message)
 				// And ensure we reset to the renaming state
 				this.startRenaming()
 
