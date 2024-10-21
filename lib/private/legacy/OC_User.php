@@ -210,9 +210,14 @@ class OC_User {
 							'filesystem' => true,
 						]);
 						$tokenProvider->updateToken($token);
-					} catch (InvalidTokenException|WipeTokenException|SessionNotAvailableException) {
+					} catch (InvalidTokenException|WipeTokenException|SessionNotAvailableException $e) {
 						// swallow the exceptions as we do not deal with them here
 						// simply skip updating the token when is it missing
+						\OCP\Log\logger('core')->warning('SnaeDebug: Potential error case', [
+							'uid' => $uid,
+							'session_class' => get_class($userSession->getSession()),
+							'exception' => $e,
+						]);
 					}
 				}
 
@@ -255,6 +260,8 @@ class OC_User {
 	 *          null: not handled / no backend available
 	 */
 	public static function handleApacheAuth() {
+		$e = new \Exception('Stacktrace for invoking apache auth');
+		\OCP\Log\logger('core')->warning('SnaeDebug: ApacheAuth was invoked', [ 'exception' => $e ]);
 		$backend = self::findFirstActiveUsedBackend();
 		if ($backend) {
 			OC_App::loadApps();

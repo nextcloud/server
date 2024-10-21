@@ -447,6 +447,8 @@ class OC {
 
 			$cryptoWrapper = Server::get(\OC\Session\CryptoWrapper::class);
 			$session = $cryptoWrapper->wrapSession($session);
+			$e = new \Exception('Stacktrace for initializing Internal/Encrypted session');
+			\OCP\Log\logger('core')->warning('SnaeDebug: Updating UserSession with persistent Internal/Encrypted backend', [ 'exception' => $e ]);
 			self::$server->setSession($session);
 
 			// if session can't be started break with http 500 error
