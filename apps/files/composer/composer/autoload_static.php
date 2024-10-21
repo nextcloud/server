@@ -73,9 +73,6 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Event\\LoadSidebar' => __DIR__ . '/..' . '/../lib/Event/LoadSidebar.php',
         'OCA\\Files\\Exception\\TransferOwnershipException' => __DIR__ . '/..' . '/../lib/Exception/TransferOwnershipException.php',
         'OCA\\Files\\Helper' => __DIR__ . '/..' . '/../lib/Helper.php',
-        'OCA\\Files\\Listener\\DeclarativeSettingsGetValueEventListener' => __DIR__ . '/..' . '/../lib/Listener/DeclarativeSettingsGetValueEventListener.php',
-        'OCA\\Files\\Listener\\DeclarativeSettingsRegisterFormEventListener' => __DIR__ . '/..' . '/../lib/Listener/DeclarativeSettingsRegisterFormEventListener.php',
-        'OCA\\Files\\Listener\\DeclarativeSettingsSetValueEventListener' => __DIR__ . '/..' . '/../lib/Listener/DeclarativeSettingsSetValueEventListener.php',
         'OCA\\Files\\Listener\\LoadSearchPluginsListener' => __DIR__ . '/..' . '/../lib/Listener/LoadSearchPluginsListener.php',
         'OCA\\Files\\Listener\\LoadSidebarListener' => __DIR__ . '/..' . '/../lib/Listener/LoadSidebarListener.php',
         'OCA\\Files\\Listener\\RenderReferenceEventListener' => __DIR__ . '/..' . '/../lib/Listener/RenderReferenceEventListener.php',
@@ -94,6 +91,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Service\\TagService' => __DIR__ . '/..' . '/../lib/Service/TagService.php',
         'OCA\\Files\\Service\\UserConfig' => __DIR__ . '/..' . '/../lib/Service/UserConfig.php',
         'OCA\\Files\\Service\\ViewConfig' => __DIR__ . '/..' . '/../lib/Service/ViewConfig.php',
+        'OCA\\Files\\Settings\\DeclarativeAdminSettings' => __DIR__ . '/..' . '/../lib/Settings/DeclarativeAdminSettings.php',
         'OCA\\Files\\Settings\\PersonalSettings' => __DIR__ . '/..' . '/../lib/Settings/PersonalSettings.php',
     );
 

@@ -2,32 +2,42 @@
 
 declare(strict_types=1);
 /**
- * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Files\Listener;
+namespace OCA\Files\Settings;
 
-use OCA\Files\AppInfo\Application;
-use OCP\EventDispatcher\Event;
-use OCP\EventDispatcher\IEventListener;
+use OCA\Files\Service\SettingsService;
 use OCP\IL10N;
+use OCP\IUser;
 use OCP\Settings\DeclarativeSettingsTypes;
-use OCP\Settings\Events\DeclarativeSettingsRegisterFormEvent;
+use OCP\Settings\IDeclarativeSettingsFormWithHandlers;
 
-/** @template-implements IEventListener<DeclarativeSettingsRegisterFormEvent> */
-class DeclarativeSettingsRegisterFormEventListener implements IEventListener {
+class DeclarativeAdminSettings implements IDeclarativeSettingsFormWithHandlers {
 
 	public function __construct(
 		private IL10N $l,
+		private SettingsService $service,
 	) {
 	}
 
-	public function handle(Event $event): void {
-		if (!($event instanceof DeclarativeSettingsRegisterFormEvent)) {
-			return;
-		}
+	public function getValue(string $fieldId, IUser $user): mixed {
+		return match($fieldId) {
+			'windows_support' => $this->service->hasFilesWindowsSupport(),
+			default => throw new \InvalidArgumentException('Unexpected field id ' . $fieldId),
+		};
+	}
 
-		$event->registerSchema(Application::APP_ID, [
+	public function setValue(string $fieldId, mixed $value, IUser $user): void {
+		switch ($fieldId) {
+			case 'windows_support':
+				$this->service->setFilesWindowsSupport((bool)$value);
+				break;
+		}
+	}
+
+	public function getSchema(): array {
+		return [
 			'id' => 'files-filename-support',
 			'priority' => 10,
 			'section_type' => DeclarativeSettingsTypes::SECTION_TYPE_ADMIN,
@@ -45,6 +55,6 @@ class DeclarativeSettingsRegisterFormEventListener implements IEventListener {
 					'default' => false,
 				],
 			],
-		]);
+		];
 	}
 }
