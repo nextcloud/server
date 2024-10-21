@@ -132,7 +132,7 @@ select {
 }
 
 .link-button {
-	display: inline-block;
+	display: inline-flex;
 	margin: calc(2 * var(--default-grid-baseline));
 	padding: calc(2 * var(--default-grid-baseline)) calc(4 * var(--default-grid-baseline));
 	background-color: var(--color-primary-element);
@@ -140,6 +140,8 @@ select {
 	border-radius: var(--border-radius-element);
 	border: 1px solid var(--color-primary-element);
 	box-shadow: 0 2px 9px var(--color-box-shadow);
+	align-items: center;
+	gap: calc(var(--default-grid-baseline) * 2);
 
 	&:hover,
 	&:focus {
@@ -152,9 +154,10 @@ select {
 		outline: 2px solid var(--color-main-text) !important;
 	}
 
-	&.icon-file {
-		padding-left: calc(var(--default-grid-baseline) + var(--default-clickable-area));
-		background-position: calc(2 * var(--default-grid-baseline));
+	.icon-file-text {
+		filter: var(--primary-invert-if-dark);
+		width: 20px;
+		height: 20px;
 	}
 }
 
