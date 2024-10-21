@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 use OC\Encryption\HookManager;
+use OC\Session\CryptoSessionHandler;
 use OC\Share20\Hooks;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserRemovedEvent;
@@ -362,6 +363,9 @@ class OC {
 
 	public static function initSession(): void {
 		$request = Server::get(IRequest::class);
+
+		$cryptoHandler = Server::get(CryptoSessionHandler::class);
+		session_set_save_handler($cryptoHandler, true);
 
 		// TODO: Temporary disabled again to solve issues with CalDAV/CardDAV clients like DAVx5 that use cookies
 		// TODO: See https://github.com/nextcloud/server/issues/37277#issuecomment-1476366147 and the other comments

@@ -90,8 +90,8 @@ class CryptoWrapper {
 	 * @return ISession
 	 */
 	public function wrapSession(ISession $session) {
-		if (!($session instanceof CryptoSessionData)) {
-			return new CryptoSessionData($session, $this->crypto, $this->passphrase);
+		if (!($session instanceof LegacyCryptoSessionData)) {
+			return new LegacyCryptoSessionData($session, $this->crypto, $this->passphrase);
 		}
 
 		return $session;
