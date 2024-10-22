@@ -206,6 +206,7 @@
     "_Restore share_::_Restore shares_" : ["Khôi phục lượt chia sẻ"],
     "Shared" : "Chia sẻ",
     "Shared by {ownerDisplayName}" : "Được chia sẻ bởi {ownerDisplayName}",
+    "Shared multiple times with different people" : "Shared multiple times with different people",
     "Shared with others" : "Chia sẻ với người khác",
     "Overview of shared files." : "Tổng quan về các tập tin được chia sẻ.",
     "No shares" : "Không có lượt chia sẻ",

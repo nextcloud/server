@@ -350,7 +350,6 @@ OC.L10N.register(
     "Folder \"{path}\" has been unshared" : "\"{path}\" klasörü paylaşımdan kaldırıldı",
     "Could not update share" : "Paylaşım güncellenemedi",
     "Share saved" : "Paylaşım kaydedildi",
-    "Share expire date saved" : "Paylaşım geçerlilik süresi kaydedildi",
     "Share hide-download state saved" : "Paylaşımın indirmeyi gizleme durumu kaydedildi",
     "Share label saved" : "Paylaşım etiketi kaydedildi",
     "Share note for recipient saved" : "Alıcı için paylaşım notu kaydedildi",
@@ -414,6 +413,7 @@ OC.L10N.register(
     "the link expired" : "bağlantının geçerlilik süresi dolmuş",
     "sharing is disabled" : "paylaşım devre dışı bırakılmış",
     "For more info, please ask the person who sent this link." : "Ayrıntılı bilgi almak için bu bağlantıyı aldığınız kişi ile görüşün.",
+    "Share expire date saved" : "Paylaşım geçerlilik süresi kaydedildi",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 e-posta adresi zaten eklenmiş","{count} e-posta adresi zaten eklenmiş"],
     "_1 email address added_::_{count} email addresses added_" : ["1 e-posta adresi eklendi","{count} e-posta adresi eklendi"],
     "Enter your name" : "Adınızı yazın"

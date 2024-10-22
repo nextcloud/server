@@ -350,7 +350,6 @@ OC.L10N.register(
     "Folder \"{path}\" has been unshared" : "Фолдер „{path}” се више не дели",
     "Could not update share" : "Не може да се ажурира дељење",
     "Share saved" : "Дељење је сачувано",
-    "Share expire date saved" : "Сачуван је датум истека дељења",
     "Share hide-download state saved" : "Сачувано је стање сакриј-преузми дељења ",
     "Share label saved" : "Сачувана је ознака дељења",
     "Share note for recipient saved" : "Сачувана је напомена за примаоца дељења",
@@ -414,6 +413,7 @@ OC.L10N.register(
     "the link expired" : "веза је истекла",
     "sharing is disabled" : "дељење је искључено",
     "For more info, please ask the person who sent this link." : "За више информација, питајте особу која вам је послала везу.",
+    "Share expire date saved" : "Сачуван је датум истека дељења",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 и-мејл адреса је већ додата","{count} и-мејл адресе су већ додате","{count} и-мејл адреса је већ додато"],
     "_1 email address added_::_{count} email addresses added_" : ["Додата је 1 и-мејл адреса","Додате су {count} и-мејл адресе","Додато је {count} и-мејл адреса"],
     "Enter your name" : "Унесите Ваше име"

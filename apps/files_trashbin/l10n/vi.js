@@ -7,6 +7,7 @@ OC.L10N.register(
     "Restore" : "Khôi phục",
     "Unknown" : "Không xác định",
     "All files" : "Tất cả tệp tin",
+    "You" : "You",
     "Deleted" : "Đã xóa",
     "A long time ago" : "Một khoảng thời gian trước",
     "List of files that have been deleted." : "Danh sách các tập tin đã bị xóa.",

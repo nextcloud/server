@@ -348,7 +348,6 @@
     "Folder \"{path}\" has been unshared" : "資料夾「{path}」已取消分享",
     "Could not update share" : "無法更新分享",
     "Share saved" : "已儲存分享",
-    "Share expire date saved" : "已儲存分享過期日期",
     "Share hide-download state saved" : "已儲存分享隱藏下載狀態",
     "Share label saved" : "分享標籤已儲存",
     "Share note for recipient saved" : "已儲存給收件者的分享備註",
@@ -412,6 +411,7 @@
     "the link expired" : "連結過期",
     "sharing is disabled" : "分享功能已停用",
     "For more info, please ask the person who sent this link." : "要取得更多資訊，請詢問傳送此連結給您的人。",
+    "Share expire date saved" : "已儲存分享過期日期",
     "_1 email address already added_::_{count} email addresses already added_" : ["已新增 {count} 個電子郵件地址"],
     "_1 email address added_::_{count} email addresses added_" : ["已新增 {count} 個電子郵件地址"],
     "Enter your name" : "輸入您的名稱"

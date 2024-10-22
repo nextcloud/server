@@ -2,7 +2,7 @@
     "Shared with {email}" : "Partilhado com {email}",
     "Shared with {email} by {actor}" : "Partilhado com {email} por {actor}",
     "Unshared from {email}" : "Despartilhado de {email}",
-    "Unshared from {email} by {actor}" : "Despartilhado  de {email} para {ator}",
+    "Unshared from {email} by {actor}" : "Despartilhado  de {email} para {actor}",
     "Password for mail share sent to {email}" : "Palavra-chave da partilha por email enviada para {email}",
     "Password for mail share sent to you" : "Palavra-chave da partilha por email enviada para si",
     "You shared {file} with {email} by mail" : "Partilhou {file} com {email} por e-mail",
