@@ -798,7 +798,8 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 			->andWhere(
 				$qb->expr()->orX(
 					$qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USER)),
-					$qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP))
+					$qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)),
+					$qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_LINK)),
 				)
 			)
 			->andWhere($qb->expr()->orX(
