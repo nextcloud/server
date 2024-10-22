@@ -184,7 +184,12 @@ class SystemTagNode implements \Sabre\DAV\ICollection {
 	}
 
 	public function getChildren() {
-		// We currently don't have a method to list allowed tag mappings types
-		return [new SystemTagObjectType($this->tag, 'files', $this->tagManager, $this->tagMapper)];
+		$objectTypes = $this->tagMapper->getAvailableObjectTypes();
+		return array_map(
+			function ($objectType) {
+				return new SystemTagObjectType($this->tag, $objectType, $this->tagManager, $this->tagMapper);
+			},
+			$objectTypes
+		);
 	}
 }

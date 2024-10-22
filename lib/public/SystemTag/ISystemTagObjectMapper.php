@@ -121,4 +121,17 @@ interface ISystemTagObjectMapper {
 	 * @since 31.0.0
 	 */
 	public function getAvailableObjectTypes(): array;
+
+	/**
+	 * Set the list of object ids for the given tag.
+	 * This will replace the current list of object ids.
+	 *
+	 * @param string $tagId tag id
+	 * @param string $objectType object type
+	 * @param string[] $objectIds list of object ids
+	 * 
+	 * @throws TagNotFoundException if the tag does not exist
+	 * @since 31.0.0
+	 */
+	public function setObjectIdsForTag(string $tagId, string $objectType, array $objectIds): void;
 }

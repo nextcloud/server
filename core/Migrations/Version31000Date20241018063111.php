@@ -37,6 +37,17 @@ class Version31000Date20241018063111 extends SimpleMigrationStep {
 			}
 		}
 
+		if ($schema->hasTable('systemtag')) {
+			$table = $schema->getTable('systemtag');
+
+			if (!$table->hasColumn('etag')) {
+				$table->addColumn('etag', 'string', [
+					'notnull' => false,
+					'length' => 32,
+				]);
+			}
+		}
+
 		return $schema;
 	}
 }

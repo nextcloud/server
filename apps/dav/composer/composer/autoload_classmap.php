@@ -366,6 +366,7 @@ return array(
     'OCA\\DAV\\SystemTag\\SystemTagPlugin' => $baseDir . '/../lib/SystemTag/SystemTagPlugin.php',
     'OCA\\DAV\\SystemTag\\SystemTagsByIdCollection' => $baseDir . '/../lib/SystemTag/SystemTagsByIdCollection.php',
     'OCA\\DAV\\SystemTag\\SystemTagsInUseCollection' => $baseDir . '/../lib/SystemTag/SystemTagsInUseCollection.php',
+    'OCA\\DAV\\SystemTag\\SystemTagsObjectList' => $baseDir . '/../lib/SystemTag/SystemTagsObjectList.php',
     'OCA\\DAV\\SystemTag\\SystemTagsObjectMappingCollection' => $baseDir . '/../lib/SystemTag/SystemTagsObjectMappingCollection.php',
     'OCA\\DAV\\SystemTag\\SystemTagsObjectTypeCollection' => $baseDir . '/../lib/SystemTag/SystemTagsObjectTypeCollection.php',
     'OCA\\DAV\\SystemTag\\SystemTagsRelationsCollection' => $baseDir . '/../lib/SystemTag/SystemTagsRelationsCollection.php',
