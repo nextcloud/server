@@ -350,7 +350,6 @@ OC.L10N.register(
     "Folder \"{path}\" has been unshared" : "Sdílení složky „{path}“ bylo zrušeno",
     "Could not update share" : "Nepodařilo se zaktualizovat sdílení",
     "Share saved" : "Sdílení uloženo",
-    "Share expire date saved" : "Datum skončení platnosti sdílení uloženo",
     "Share hide-download state saved" : "Stav skrýt stahování uložen",
     "Share label saved" : "Štítek sdílení uložen",
     "Share note for recipient saved" : "Poznámka pro příjemce sdílení uložena",
@@ -414,6 +413,7 @@ OC.L10N.register(
     "the link expired" : "platnost odkazu skončila",
     "sharing is disabled" : "sdílení je vypnuto",
     "For more info, please ask the person who sent this link." : "Pokud potřebujete další podrobnosti, obraťte se na osobu, která vám tento odkaz zaslala.",
+    "Share expire date saved" : "Datum skončení platnosti sdílení uloženo",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 e-mailová adresa už přidána","{count} e-mailové adresy už přidány","{count} e-mailových adres už přidáno","{count} e-mailové adresy už přidány"],
     "_1 email address added_::_{count} email addresses added_" : ["Jedna e-mailová adresa přidána","{count} e-mailové adresy přidány","{count} e-mailových adres přidáno","{count} e-mailové adresy přidány"],
     "Enter your name" : "Zadejte své jméno"

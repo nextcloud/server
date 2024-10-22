@@ -350,7 +350,6 @@ OC.L10N.register(
     "Folder \"{path}\" has been unshared" : "Le partage du dossier \"{path}\" a été retiré",
     "Could not update share" : "Impossible de mettre à jour le partage",
     "Share saved" : "Partager enregistré",
-    "Share expire date saved" : "Le partage expirât à la date enregistrée",
     "Share hide-download state saved" : "Partager l'état  masqué du téléchargement enregistré",
     "Share label saved" : "Étiquette collaborative enregistrée",
     "Share note for recipient saved" : "Partager la note pour le destinataire enregistré",
@@ -414,6 +413,7 @@ OC.L10N.register(
     "the link expired" : "le lien a expiré",
     "sharing is disabled" : "le partage est désactivé",
     "For more info, please ask the person who sent this link." : "Pour plus d'informations, veuillez contacter la personne qui vous a envoyé ce lien.",
+    "Share expire date saved" : "Le partage expirât à la date enregistrée",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 adresse mail déjà ajoutée"," {count}adresses email déjà ajoutées","{count} adresses e-mail déjà ajoutées"],
     "_1 email address added_::_{count} email addresses added_" : [" 1 adresse mail ajoutée","{count} adresses mail ajoutées","{count} adresses mail ajoutées"],
     "Enter your name" : "Saisissez votre nom"

@@ -10,7 +10,7 @@ OC.L10N.register(
     "Could not find share" : "Jagamist ei leitud",
     "Federated sharing" : "Liit-jagamine",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Sa said kaugjagatud faili  {share} kasjutajalt  {user} ({behalf} nimel)",
-    "You received {share} as a remote share from {user}" : "Sa said kaugjagatud faili {file} kasutajalt {user}",
+    "You received {share} as a remote share from {user}" : "Sa said kaugjagatud faili {share} kasutajalt {user}",
     "Accept" : "Nõustu",
     "Decline" : "Keeldu",
     "Federated Cloud Sharing" : "Jagamine liitpilves",

@@ -349,7 +349,7 @@ OC.L10N.register(
     "Name cannot be empty" : "Polje imena ne sme biti prazno",
     "Another entry with the same name already exists" : "Vpis s tem imenom že obstaja.",
     "Could not rename \"{oldName}\", it does not exist any more" : "Datoteke »{oldName}« ni mogoče preimenovati, ker ne obstaja več.",
-    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Ime »{newtName}« je v mapi »{dir}« že v uporabi. Izbrati je treba drugačno ime.",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Ime »{newName}« je v mapi »{dir}« že v uporabi. Izbrati je treba drugačno ime.",
     "Could not rename \"{oldName}\"" : "Datoteke »{oldName}« ni mogoče preimenovati",
     "Storage informations" : "Podrobnosti shrambe",
     "Choose file" : "Izbor datotek",
