@@ -165,6 +165,7 @@ class SystemTagManager implements ISystemTagManager {
 				'name' => $query->createNamedParameter($truncatedTagName),
 				'visibility' => $query->createNamedParameter($userVisible ? 1 : 0),
 				'editable' => $query->createNamedParameter($userAssignable ? 1 : 0),
+				'etag' => $query->createNamedParameter(md5((string)time())),
 			]);
 
 		try {
@@ -360,7 +361,7 @@ class SystemTagManager implements ISystemTagManager {
 	}
 
 	private function createSystemTagFromRow($row): SystemTag {
-		return new SystemTag((string)$row['id'], $row['name'], (bool)$row['visibility'], (bool)$row['editable']);
+		return new SystemTag((string)$row['id'], $row['name'], (bool)$row['visibility'], (bool)$row['editable'], $row['etag']);
 	}
 
 	/**

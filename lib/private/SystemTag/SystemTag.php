@@ -16,6 +16,7 @@ class SystemTag implements ISystemTag {
 		private string $name,
 		private bool $userVisible,
 		private bool $userAssignable,
+		private ?string $etag = null,
 	) {
 	}
 
@@ -60,5 +61,12 @@ class SystemTag implements ISystemTag {
 		}
 
 		return self::ACCESS_LEVEL_PUBLIC;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getEtag(): ?string {
+		return $this->etag;
 	}
 }

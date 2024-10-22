@@ -15,7 +15,7 @@ import { formatTag, parseIdFromLocation, parseTags } from '../utils'
 import { logger } from '../logger.js'
 
 export const fetchTagsPayload = `<?xml version="1.0"?>
-<d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
+<d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
 	<d:prop>
 		<oc:id />
 		<oc:display-name />
@@ -79,7 +79,7 @@ export const createTag = async (tag: Tag | ServerTag): Promise<number> => {
 export const updateTag = async (tag: TagWithId): Promise<void> => {
 	const path = '/systemtags/' + tag.id
 	const data = `<?xml version="1.0"?>
-	<d:propertyupdate  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
+	<d:propertyupdate xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
 		<d:set>
 			<d:prop>
 				<oc:display-name>${tag.displayName}</oc:display-name>
@@ -108,4 +108,69 @@ export const deleteTag = async (tag: TagWithId): Promise<void> => {
 		logger.error(t('systemtags', 'Failed to delete tag'), { error })
 		throw new Error(t('systemtags', 'Failed to delete tag'))
 	}
+}
+
+type TagObject = {
+	id: number,
+	type: string,
+}
+
+type TagObjectResponse = {
+	etag: string,
+	objects: TagObject[],
+}
+
+export const getTagObjects = async function(tag: TagWithId, type: string): Promise<TagObjectResponse> {
+	const path = `/systemtags/${tag.id}/${type}`
+	const data = `<?xml version="1.0"?>
+	<d:propfind xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
+		<d:prop>
+			<nc:object-ids />
+			<d:getetag />
+		</d:prop>
+	</d:propfind>`
+
+	const response = await davClient.stat(path, { data, details: true })
+	const etag = response?.data?.props?.getetag || '""'
+	const objects = Object.values(response?.data?.props?.['object-ids'] || []).flat() as TagObject[]
+
+	return {
+		etag,
+		objects,
+	}
+}
+
+/**
+ * Set the objects for a tag.
+ * Warning: This will overwrite the existing objects.
+ */
+export const setTagObjects = async function(tag: TagWithId, type: string, objectIds: TagObject[], etag: string = ''): Promise<void> {
+	const path = `/systemtags/${tag.id}/${type}`
+	let data = `<?xml version="1.0"?>
+	<d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
+		<d:set>
+			<d:prop>
+				<nc:object-ids>${objectIds.map(({ id, type }) => `<nc:object-id><nc:id>${id}</nc:id><nc:type>${type}</nc:type></nc:object-id>`).join('')}</nc:object-ids>
+			</d:prop>
+		</d:set>
+	</d:propertyupdate>`
+
+	if (objectIds.length === 0) {
+		data = `<?xml version="1.0"?>
+		<d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
+			<d:remove>
+				<d:prop>
+					<nc:object-ids />
+				</d:prop>
+			</d:remove>
+		</d:propertyupdate>`
+	}
+
+	await davClient.customRequest(path, {
+		method: 'PROPPATCH',
+		data,
+		headers: {
+			'if-match': etag,
+		},
+	})
 }

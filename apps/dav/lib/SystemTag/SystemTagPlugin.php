@@ -8,6 +8,7 @@
 namespace OCA\DAV\SystemTag;
 
 use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\Node;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -20,6 +21,7 @@ use OCP\Util;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Conflict;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\PreconditionFailed;
 use Sabre\DAV\Exception\UnsupportedMediaType;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
@@ -80,6 +82,9 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
 		$server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
+		$server->xml->namespaceMap[self::NS_NEXTCLOUD] = 'nc';
+
+		$server->xml->elementMap[self::OBJECTIDS_PROPERTYNAME] = SystemTagsObjectList::class;
 
 		$server->protectedProperties[] = self::ID_PROPERTYNAME;
 
@@ -212,6 +217,10 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		if (preg_match('/^systemtags-assigned\/[0-9]+/', $propFind->getPath())) {
 			$propFind->setPath(str_replace('systemtags-assigned/', 'systemtags/', $propFind->getPath()));
 		}
+
+		$propFind->handle(FilesPlugin::GETETAG_PROPERTYNAME, function () use ($node): string|null {
+			return $node->getSystemTag()->getETag();
+		});
 
 		$propFind->handle(self::ID_PROPERTYNAME, function () use ($node) {
 			return $node->getSystemTag()->getId();
@@ -359,9 +368,37 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	public function handleUpdateProperties($path, PropPatch $propPatch) {
 		$node = $this->server->tree->getNodeForPath($path);
-		if (!($node instanceof SystemTagNode)) {
+		if (!($node instanceof SystemTagNode) && !($node instanceof SystemTagObjectType)) {
 			return;
 		}
+		
+		$propPatch->handle([self::OBJECTIDS_PROPERTYNAME], function ($props) use ($node) {
+			if (!($node instanceof SystemTagObjectType)) {
+				return false;
+			}
+
+			if (isset($props[self::OBJECTIDS_PROPERTYNAME])) {
+				$propValue = $props[self::OBJECTIDS_PROPERTYNAME];
+				if (!($propValue instanceof SystemTagsObjectList) || count($propValue?->getObjects() ?: []) === 0) {
+					throw new BadRequest('Invalid object-ids property');
+				}
+
+				$objects = $propValue->getObjects();
+				$objectTypes = array_unique(array_values($objects));
+
+				if (count($objectTypes) !== 1 || $objectTypes[0] !== $node->getName()) {
+					throw new BadRequest('Invalid object-ids property. All object types must be of the same type: ' . $node->getName());
+				}
+				
+				$this->tagMapper->setObjectIdsForTag($node->getSystemTag()->getId(), $node->getName(), array_keys($objects));
+			}
+
+			if ($props[self::OBJECTIDS_PROPERTYNAME] === null) {
+				$this->tagMapper->setObjectIdsForTag($node->getSystemTag()->getId(), $node->getName(), []);
+			}
+
+			return true;
+		});
 
 		$propPatch->handle([
 			self::DISPLAYNAME_PROPERTYNAME,
@@ -371,6 +408,10 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			self::NUM_FILES_PROPERTYNAME,
 			self::REFERENCE_FILEID_PROPERTYNAME,
 		], function ($props) use ($node) {
+			if (!($node instanceof SystemTagNode)) {
+				return false;
+			}
+
 			$tag = $node->getSystemTag();
 			$name = $tag->getName();
 			$userVisible = $tag->isUserVisible();

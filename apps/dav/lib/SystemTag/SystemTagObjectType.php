@@ -14,7 +14,7 @@ use Sabre\DAV\Exception\MethodNotAllowed;
  * SystemTagObjectType property
  * This property represent a type of object which tags are assigned to.
  */
-class SystemTagObjectType implements \Sabre\DAV\INode {
+class SystemTagObjectType implements \Sabre\DAV\IFile {
 	public const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
 
 	/** @var string[] */
@@ -39,19 +39,43 @@ class SystemTagObjectType implements \Sabre\DAV\INode {
 		return $this->objectsIds;
 	}
 
-	public function delete() {
-		throw new MethodNotAllowed();
+	/**
+	 * Returns the system tag represented by this node
+	 *
+	 * @return ISystemTag system tag
+	 */
+	public function getSystemTag() {
+		return $this->tag;
 	}
 
 	public function getName() {
 		return $this->type;
 	}
 
+	public function getLastModified() {
+		return null;
+	}
+
+	public function getETag() {
+		return '"' . $this->tag->getETag() . '"';
+	}
+
 	public function setName($name) {
 		throw new MethodNotAllowed();
 	}
-
-	public function getLastModified() {
-		return null;
+	public function put($data) {
+		throw new MethodNotAllowed();
+	}
+	public function get() {
+		throw new MethodNotAllowed();
+	}
+	public function delete() {
+		throw new MethodNotAllowed();
+	}
+	public function getContentType() {
+		throw new MethodNotAllowed();
+	}
+	public function getSize() {
+		throw new MethodNotAllowed();
 	}
 }
