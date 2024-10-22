@@ -17,6 +17,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\Mount\IShareOwnerlessMount;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\HintException;
@@ -1215,17 +1216,26 @@ class Manager implements IManager {
 			throw new \Exception('non-shallow getSharesInFolder is no longer supported');
 		}
 
-		return array_reduce($providers, function ($shares, IShareProvider $provider) use ($userId, $node, $reshares) {
-			$newShares = $provider->getSharesInFolder($userId, $node, $reshares);
-			foreach ($newShares as $fid => $data) {
-				if (!isset($shares[$fid])) {
-					$shares[$fid] = [];
-				}
+		$isOwnerless = $node->getMountPoint() instanceof IShareOwnerlessMount;
 
-				$shares[$fid] = array_merge($shares[$fid], $data);
+		$shares = [];
+		foreach ($providers as $provider) {
+			if ($isOwnerless) {
+				foreach ($node->getDirectoryListing() as $childNode) {
+					$data = $provider->getSharesByPath($childNode);
+					$fid = $childNode->getId();
+					$shares[$fid] ??= [];
+					$shares[$fid] = array_merge($shares[$fid], $data);
+				}
+			} else {
+				foreach ($provider->getSharesInFolder($userId, $node, $reshares) as $fid => $data) {
+					$shares[$fid] ??= [];
+					$shares[$fid] = array_merge($shares[$fid], $data);
+				}
 			}
-			return $shares;
-		}, []);
+		}
+
+		return $shares;
 	}
 
 	/**
@@ -1244,7 +1254,11 @@ class Manager implements IManager {
 			return [];
 		}
 
-		$shares = $provider->getSharesBy($userId, $shareType, $path, $reshares, $limit, $offset);
+		if ($path?->getMountPoint() instanceof IShareOwnerlessMount) {
+			$shares = array_filter($provider->getSharesByPath($path), static fn (IShare $share) => $share->getShareType() === $shareType);
+		} else {
+			$shares = $provider->getSharesBy($userId, $shareType, $path, $reshares, $limit, $offset);
+		}
 
 		/*
 		 * Work around so we don't return expired shares but still follow
@@ -1288,7 +1302,12 @@ class Manager implements IManager {
 			$offset += $added;
 
 			// Fetch again $limit shares
-			$shares = $provider->getSharesBy($userId, $shareType, $path, $reshares, $limit, $offset);
+			if ($path?->getMountPoint() instanceof IShareOwnerlessMount) {
+				// We already fetched all shares, so end here
+				$shares = [];
+			} else {
+				$shares = $provider->getSharesBy($userId, $shareType, $path, $reshares, $limit, $offset);
+			}
 
 			// No more shares means we are done
 			if (empty($shares)) {

@@ -23,6 +23,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Mount\IShareOwnerlessMount;
 use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
 use OCP\HintException;
@@ -2895,6 +2896,31 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertSame($share, $shares[0]);
 	}
 
+	public function testGetSharesByOwnerless(): void {
+		$mount = $this->createMock(IShareOwnerlessMount::class);
+
+		$node = $this->createMock(Folder::class);
+		$node
+			->expects($this->once())
+			->method('getMountPoint')
+			->willReturn($mount);
+
+		$share = $this->manager->newShare();
+		$share->setNode($node);
+		$share->setShareType(IShare::TYPE_USER);
+
+		$this->defaultProvider
+			->expects($this->once())
+			->method('getSharesByPath')
+			->with($this->equalTo($node))
+			->willReturn([$share]);
+
+		$shares = $this->manager->getSharesBy('user', IShare::TYPE_USER, $node, true, 1, 1);
+
+		$this->assertCount(1, $shares);
+		$this->assertSame($share, $shares[0]);
+	}
+
 	/**
 	 * Test to ensure we correctly remove expired link shares
 	 *
@@ -4492,6 +4518,49 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->assertSame($expects, $result);
 	}
+
+	public function testGetSharesInFolderOwnerless(): void {
+		$factory = new DummyFactory2($this->createMock(IServerContainer::class));
+
+		$manager = $this->createManager($factory);
+
+		$factory->setProvider($this->defaultProvider);
+		$extraProvider = $this->createMock(IShareProvider::class);
+		$factory->setSecondProvider($extraProvider);
+
+		$share1 = $this->createMock(IShare::class);
+		$share2 = $this->createMock(IShare::class);
+
+		$mount = $this->createMock(IShareOwnerlessMount::class);
+
+		$file = $this->createMock(File::class);
+		$file
+			->method('getId')
+			->willReturn(1);
+
+		$folder = $this->createMock(Folder::class);
+		$folder
+			->method('getMountPoint')
+			->willReturn($mount);
+		$folder
+			->method('getDirectoryListing')
+			->willReturn([$file]);
+
+		$this->defaultProvider
+			->method('getSharesByPath')
+			->with($file)
+			->willReturn([$share1]);
+
+		$extraProvider
+			->method('getSharesByPath')
+			->with($file)
+			->willReturn([$share2]);
+
+		$this->assertSame([
+			1 => [$share1, $share2],
+		], $manager->getSharesInFolder('user', $folder));
+	}
+
 
 	public function testGetAccessList(): void {
 		$factory = new DummyFactory2($this->createMock(IServerContainer::class));
