@@ -320,7 +320,7 @@ OC.L10N.register(
     "Wrong username or password." : "Neĝusta uzantnomo aŭ pasvorto.",
     "User disabled" : "Uzanto malvalidigita",
     "Username or email" : "Uzantnomo aŭ retpoŝtadreso",
-    "Error loading message template: {error}" : "Eraro dum ŝargo de mesaĝa ŝablono: {eraro}",
+    "Error loading message template: {error}" : "Eraro dum ŝargo de mesaĝa ŝablono: {error}",
     "Users" : "Uzantoj",
     "Username" : "Uzantnomo",
     "Database user" : "Datumbaza uzanto",

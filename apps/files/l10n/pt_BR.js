@@ -56,7 +56,7 @@ OC.L10N.register(
     "Incoming ownership transfer from {user}" : "Transferência de propriedade recebida de {user}",
     "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "Deseja aceitar {path}?\n\nObservação: O processo de transferência pode levar até 1 hora.",
     "Ownership transfer denied" : "Transferência de propriedade negada",
-    "Your ownership transfer of {path} was denied by {user}." : "Sua transferência de propriedade de {caminho} foi negado por {usuário}.",
+    "Your ownership transfer of {path} was denied by {user}." : "Sua transferência de propriedade de {path} foi negado por {user}.",
     "Ownership transfer failed" : "Erro na transferência da propriedade",
     "Your ownership transfer of {path} to {user} failed." : "Erro na transferência da sua propriedade de {path} para {user}.",
     "The ownership transfer of {path} from {user} failed." : "Erro na transferência da propriedade de {path} de {user}.",

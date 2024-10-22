@@ -13,7 +13,7 @@ OC.L10N.register(
     "Restored by {user}" : "استعادة من قبل {user}",
     "Renamed by {user}" : "اعادة تسمية من قبل {user}",
     "Moved by {user}" : "نقل من قبل {user}",
-    "\"remote account\"" : "\"حساب بعيد remote account\"",
+    "\"remote account\"" : "\"حساب بعيد\"",
     "You created {file}" : "أنشأتَ {file}",
     "You created an encrypted file in {file}" : "انشأت ملف مشفر في {file}",
     "{user} created {file}" : "{user} قام بإنشاء ملف {file}",

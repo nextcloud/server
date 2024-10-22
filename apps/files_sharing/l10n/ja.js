@@ -350,7 +350,6 @@ OC.L10N.register(
     "Folder \"{path}\" has been unshared" : "フォルダーパス \"{path}\" が共有解除されました",
     "Could not update share" : "共有を更新できませんでした",
     "Share saved" : "共有を保存しました",
-    "Share expire date saved" : "共有の有効期限が保存されました",
     "Share hide-download state saved" : "ダウンロードを隠す状態の共有が保存されました",
     "Share label saved" : "共有ラベルが保存されました",
     "Share note for recipient saved" : "共有の受取人への注意が保存されました",
@@ -414,6 +413,7 @@ OC.L10N.register(
     "the link expired" : "リンクの期限が切れています",
     "sharing is disabled" : "共有は無効になっています",
     "For more info, please ask the person who sent this link." : "不明な点は、こちらのリンクの提供者に確認をお願いします。",
+    "Share expire date saved" : "共有の有効期限が保存されました",
     "_1 email address already added_::_{count} email addresses already added_" : ["{count} メールアドレスはすでに追加されています"],
     "_1 email address added_::_{count} email addresses added_" : ["{count} メールアドレスが追加されました"],
     "Enter your name" : "あなたの名前を入力"
