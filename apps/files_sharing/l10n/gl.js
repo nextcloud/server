@@ -350,7 +350,6 @@ OC.L10N.register(
     "Folder \"{path}\" has been unshared" : "Foi retirado o cartafol compartido «{path}».",
     "Could not update share" : "Non foi posíbel actualizar a compartición",
     "Share saved" : "Gardouse a compartición",
-    "Share expire date saved" : "Gardouse a data de caducidade da compartición",
     "Share hide-download state saved" : "Gardouse o estado de agochado e descarga da compartición",
     "Share label saved" : "Gardouse a etiqueta de compartición",
     "Share note for recipient saved" : "Gardouse a nota de compartición para o destinatario",
@@ -414,6 +413,7 @@ OC.L10N.register(
     "the link expired" : "a ligazón caducou",
     "sharing is disabled" : "foi desactivada a compartición",
     "For more info, please ask the person who sent this link." : "Para obter máis información, pregúntelle á persoa que lle enviou a ligazón.",
+    "Share expire date saved" : "Gardouse a data de caducidade da compartición",
     "_1 email address already added_::_{count} email addresses already added_" : ["Xa foi engadido 1 enderezo de correo","Xa foron engadidos {count} enderezos de correo"],
     "_1 email address added_::_{count} email addresses added_" : ["Foi engadido 1 enderezo de correo","Foron engadidos {count} enderezos de correo"],
     "Enter your name" : "Introduza o seu nome"

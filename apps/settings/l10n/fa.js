@@ -199,6 +199,7 @@ OC.L10N.register(
     "Categories" : "دسته‌ها",
     "Resources" : "منابع",
     "Documentation" : "مستندسازی",
+    "Interact" : "تعامل",
     "Report a bug" : "گزارش یک خطا",
     "Request feature" : "درخواست ویژگی",
     "Ask questions or discuss" : "پرسش یا بحث",

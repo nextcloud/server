@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Shared with {email}" : "{email}-rekin partekatua",
     "Shared with {email} by {actor}" : "{actor}-k {email}-rekin partekatua",
-    "Unshared from {email}" : "{Email} -etik partekatzeari utzi zaio",
+    "Unshared from {email}" : "{email} -etik partekatzeari utzi zaio",
     "Unshared from {email} by {actor}" : "{actor}-(e)k {email}-(e)tik partekatzeari utzi dio",
     "Password for mail share sent to {email}" : "E-posta bidezko partekatzearen pasahitza bidali zaio {email} e-postari",
     "Password for mail share sent to you" : "E-posta bidezko partekatzearen pasahitza bidali zaizu",

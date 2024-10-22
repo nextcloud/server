@@ -348,7 +348,6 @@
     "Folder \"{path}\" has been unshared" : "Freigabe für den Ordner \"{path}\" wurde entfernt",
     "Could not update share" : "Freigabe konnte nicht aktualisiert werden",
     "Share saved" : "Freigabe gespeichert",
-    "Share expire date saved" : "Freigabe-Ablaufdatum gespeichert",
     "Share hide-download state saved" : "\"Download verbergen\"-Status der Freigabe gespeichert",
     "Share label saved" : "Freigabe-Label gespeichert",
     "Share note for recipient saved" : "Freigabe-Notiz für Empfänger gespeichert",
@@ -412,6 +411,7 @@
     "the link expired" : "Der Link ist abgelaufen",
     "sharing is disabled" : "Teilen ist deaktiviert",
     "For more info, please ask the person who sent this link." : "Um nähere Informationen zu erhalten, wenden Sie sich bitte an die Person, die Ihnen diesen Link geschickt hat.",
+    "Share expire date saved" : "Freigabe-Ablaufdatum gespeichert",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 E-Mail-Adresse bereits hinzugefügt","{count} E-Mail-Adressen bereits hinzugefügt"],
     "_1 email address added_::_{count} email addresses added_" : ["1 E-Mail-Adresse hinzugefügt","{count} E-Mail-Adressen hinzugefügt"],
     "Enter your name" : "Geben Sie Ihren Namen ein"

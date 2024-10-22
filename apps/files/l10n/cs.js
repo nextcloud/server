@@ -384,7 +384,7 @@ OC.L10N.register(
     "Name cannot be empty" : "Je třeba zadat název",
     "Another entry with the same name already exists" : "Už existuje jiná položka se stejným názevm",
     "Could not rename \"{oldName}\", it does not exist any more" : "Není možné přejmenovat „{oldName}“ – už neexistuje",
-    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Název „{newtName}“ je už použitý ve složce „{dir}“. Zvolte jiný název.",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Název \"{newName}\" je už použitý ve složce \"{dir}\". Zvolte jiný název.",
     "Could not rename \"{oldName}\"" : "„{oldName}“ se nepodařilo přejmenovat",
     "Storage informations" : "Informace o úložišti",
     "Choose file" : "Vyberte soubor",

@@ -350,7 +350,6 @@ OC.L10N.register(
     "Folder \"{path}\" has been unshared" : "Folder \"{path}\" has been unshared",
     "Could not update share" : "Could not update share",
     "Share saved" : "Share saved",
-    "Share expire date saved" : "Share expire date saved",
     "Share hide-download state saved" : "Share hide-download state saved",
     "Share label saved" : "Share label saved",
     "Share note for recipient saved" : "Share note for recipient saved",
@@ -414,6 +413,7 @@ OC.L10N.register(
     "the link expired" : "the link expired",
     "sharing is disabled" : "sharing is disabled",
     "For more info, please ask the person who sent this link." : "For more info, please ask the person who sent this link.",
+    "Share expire date saved" : "Share expire date saved",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 email address already added","{count} email addresses already added"],
     "_1 email address added_::_{count} email addresses added_" : ["1 email address added","{count} email addresses added"],
     "Enter your name" : "Enter your name"
