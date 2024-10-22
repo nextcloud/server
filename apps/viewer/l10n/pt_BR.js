@@ -47,6 +47,7 @@ OC.L10N.register(
     "Watermark" : "Marca d'água",
     "Draw" : "Desenhar",
     "Resize" : "Redimensionar",
+    "Image name" : "Nome da imagem",
     "Invalid image." : "Imagem inválida.",
     "Error while uploading the image." : "Erro ao fazer upload da imagem.",
     "are not images" : "não são imagens",
@@ -103,6 +104,7 @@ OC.L10N.register(
     "Upload watermark" : "Enviar marca d'água",
     "Add as text" : "Adicionar como texto",
     "Padding" : "Preenchimento",
+    "Paddings" : "Preenchimentos",
     "Shadow" : "Sombra",
     "Horizontal" : "Horizontal",
     "Vertical" : "Vertical",
@@ -124,6 +126,7 @@ OC.L10N.register(
     "Menu" : "Menu",
     "Width" : "Largura",
     "Height" : "Altura",
+    "No preview available for this crop item" : "Nenhuma visualização disponível para este item de corte",
     "Continue" : "Continuar"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
