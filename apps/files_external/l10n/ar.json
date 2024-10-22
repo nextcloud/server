@@ -129,7 +129,7 @@
     "External mount error" : "خطأ في تثبيت التخزين الخارجي external mount",
     "List of external storage." : "قائمة التخزين الخارجي.",
     "There is no external storage configured. You can configure them in your Personal settings." : "لا توجد أي وحدة تخزين خارجية مهيأة. يمكنك تهيئتها في إعداداتك الشخصية.",
-    "There is no external storage configured and you don't have the permission to configure them." : "لا توجد أي وحدة تخزين خارجية مهيأة، و أنت لا تملك الحق في تهيئتها.",
+    "There is no external storage configured and you don't have the permission to configure them." : "لا توجد أي وحدة تخزين خارجية مهيأة، كما أنك لا تملك الصلاحية لتهيئتها.",
     "No external storage" : "لا توجد وحدات تخزين خارجية",
     "Storage type" : "نوع التخزين",
     "Unknown" : "غير معروف",
