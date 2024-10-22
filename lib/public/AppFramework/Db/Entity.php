@@ -112,6 +112,15 @@ abstract class Entity {
 			}
 
 			switch ($type) {
+				case Types::BIGINT:
+				case Types::SMALLINT:
+					settype($args[0], Types::INTEGER);
+					break;
+				case Types::BINARY:
+				case Types::DECIMAL:
+				case Types::TEXT:
+					settype($args[0], Types::STRING);
+					break;
 				case Types::TIME:
 				case Types::DATE:
 				case Types::DATETIME:
@@ -260,9 +269,22 @@ abstract class Entity {
 	 *
 	 * @param string $fieldName the name of the attribute
 	 * @param \OCP\DB\Types::* $type the type which will be used to match a cast
+	 * @since 31.0.0 Parameter $type is now restricted to {@see \OCP\DB\Types} constants. The formerly accidentally supported types 'int'|'bool'|'double' are mapped to Types::INTEGER|Types::BOOLEAN|Types::FLOAT accordingly.
 	 * @since 7.0.0
 	 */
 	protected function addType(string $fieldName, string $type): void {
+		/** @psalm-suppress TypeDoesNotContainType */
+		if (in_array($type, ['bool', 'double', 'int', 'array', 'object'], true)) {
+			// Mapping legacy strings to the actual types
+			$type = match ($type) {
+				'int' => Types::INTEGER,
+				'bool' => Types::BOOLEAN,
+				'double' => Types::FLOAT,
+				'array',
+				'object' => Types::STRING,
+			};
+		}
+
 		$this->_fieldTypes[$fieldName] = $type;
 	}
 

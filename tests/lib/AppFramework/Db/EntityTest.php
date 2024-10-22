@@ -39,20 +39,31 @@ class TestEntity extends Entity {
 	protected $name;
 	protected $email;
 	protected $testId;
+	protected $smallInt;
+	protected $bigInt;
 	protected $preName;
 	protected $trueOrFalse;
 	protected $anotherBool;
+	protected $text;
 	protected $longText;
 	protected $time;
 	protected $datetime;
 
 	public function __construct($name = null) {
 		$this->addType('testId', Types::INTEGER);
-		$this->addType('trueOrFalse', 'bool');
+		$this->addType('smallInt', Types::SMALLINT);
+		$this->addType('bigInt', Types::BIGINT);
 		$this->addType('anotherBool', Types::BOOLEAN);
+		$this->addType('text', Types::TEXT);
 		$this->addType('longText', Types::BLOB);
 		$this->addType('time', Types::TIME);
 		$this->addType('datetime', Types::DATETIME_IMMUTABLE);
+
+		// Legacy types
+		$this->addType('trueOrFalse', 'bool');
+		$this->addType('legacyInt', 'int');
+		$this->addType('doubleNowFloat', 'double');
+
 		$this->name = $name;
 	}
 
@@ -200,10 +211,28 @@ class EntityTest extends \Test\TestCase {
 	}
 
 
-	public function testSetterCasts(): void {
+	public function dataSetterCasts(): array {
+		return [
+			['Id', '3', 3],
+			['smallInt', '3', 3],
+			['bigInt', '' . PHP_INT_MAX, PHP_INT_MAX],
+			['trueOrFalse', 0, false],
+			['trueOrFalse', 1, true],
+			['anotherBool', 0, false],
+			['anotherBool', 1, true],
+			['text', 33, '33'],
+			['longText', PHP_INT_MAX, '' . PHP_INT_MAX],
+		];
+	}
+
+
+	/**
+	 * @dataProvider dataSetterCasts
+	 */
+	public function testSetterCasts(string $field, mixed $in, mixed $out): void {
 		$entity = new TestEntity();
-		$entity->setId('3');
-		$this->assertSame(3, $entity->getId());
+		$entity->{'set' . $field}($in);
+		$this->assertSame($out, $entity->{'get' . $field}());
 	}
 
 
@@ -248,11 +277,16 @@ class EntityTest extends \Test\TestCase {
 		$this->assertEquals([
 			'id' => Types::INTEGER,
 			'testId' => Types::INTEGER,
-			'trueOrFalse' => 'bool',
+			'smallInt' => Types::SMALLINT,
+			'bigInt' => Types::BIGINT,
 			'anotherBool' => Types::BOOLEAN,
+			'text' => Types::TEXT,
 			'longText' => Types::BLOB,
 			'time' => Types::TIME,
 			'datetime' => Types::DATETIME_IMMUTABLE,
+			'trueOrFalse' => Types::BOOLEAN,
+			'legacyInt' => Types::INTEGER,
+			'doubleNowFloat' => Types::FLOAT,
 		], $entity->getFieldTypes());
 	}
 
