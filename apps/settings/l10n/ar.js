@@ -876,7 +876,7 @@ OC.L10N.register(
     "Toggle user actions menu" : "تبديل قائمة إجراءات المستخدم",
     "User management settings" : "إعدادات إدارة المستخدِمين",
     "Show user backend" : "إظهار خلفية المُستخدِم user backend",
-    "Send welcome email to new users" : "أرسِل إيميل ترحيبي للمستخدِمين الجُدُد",
+    "Send welcome email to new users" : "أرسل بريد إلكتروني ترحيبي للمستخدِمين الجدد",
     "Name your device" : "اسم جهازك",
     "Server error while trying to add WebAuthn device" : "حدث خطأ في الخادم أثناء محاولة إضافة جهاز WebAuthn",
     "by {author}\n{license}" : "من قِبَل {author}\n{license}",

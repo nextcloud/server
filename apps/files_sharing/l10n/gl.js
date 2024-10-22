@@ -350,6 +350,7 @@ OC.L10N.register(
     "Folder \"{path}\" has been unshared" : "Foi retirado o cartafol compartido «{path}».",
     "Could not update share" : "Non foi posíbel actualizar a compartición",
     "Share saved" : "Gardouse a compartición",
+    "Share expiry date saved" : "Gardouse a data de caducidade da compartición",
     "Share hide-download state saved" : "Gardouse o estado de agochado e descarga da compartición",
     "Share label saved" : "Gardouse a etiqueta de compartición",
     "Share note for recipient saved" : "Gardouse a nota de compartición para o destinatario",
