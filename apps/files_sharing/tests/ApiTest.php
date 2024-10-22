@@ -1294,7 +1294,7 @@ class ApiTest extends TestCase {
 			$this->assertTrue($valid);
 		} catch (OCSNotFoundException $e) {
 			$this->assertFalse($valid);
-			$this->assertEquals('Invalid date, date format must be YYYY-MM-DD', $e->getMessage());
+			$this->assertEquals('Invalid date. Format must be YYYY-MM-DD', $e->getMessage());
 			$ocs->cleanup();
 			return;
 		}
