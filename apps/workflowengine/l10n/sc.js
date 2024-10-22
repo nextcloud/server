@@ -71,6 +71,7 @@ OC.L10N.register(
     "Add new flow" : "Agiunghe flussu nou",
     "When" : "Cando",
     "and" : "e",
+    "Add a new filter" : "Agiunghe unu filtru nou",
     "Cancel" : "Annulla",
     "Delete" : "Cantzella",
     "The configuration is invalid" : "Sa cunfiguratzione no est bàlida",

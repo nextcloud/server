@@ -71,7 +71,7 @@ OC.L10N.register(
     "Target folder does not exist any more" : "المجلد المراد غير موجود بعد الان",
     "Reload current directory" : "إعادة تحميل المجلد الحالي",
     "Go to the \"{dir}\" directory" : "إنتقل إلى المجلد \"{dir}\"",
-    "Drag and drop files here to upload" : "قم بسحب وإسقاط الملفات هنا لرفعها",
+    "Drag and drop files here to upload" : "إسحب وأفلت الملفات هنا لرفعها",
     "Your have used your space quota and cannot upload files anymore" : "لقد استنفذت حصتك التخزينية و لم يعد بإمكانك رفع أي ملفات بعدُ",
     "You don’t have permission to upload or create files here" : "لا تملك الصلاحية لرفع او انشاء ملف هنا ",
     "Favorite" : "المفضلة",

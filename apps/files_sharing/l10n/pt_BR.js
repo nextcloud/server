@@ -350,6 +350,7 @@ OC.L10N.register(
     "Folder \"{path}\" has been unshared" : "A pasta \"{path}\" foi descompartilhada",
     "Could not update share" : "Não foi possível atualizar o compartilhamento",
     "Share saved" : "Compartilhamento salvo",
+    "Share expiry date saved" : "Data de vencimento do compartilhamento salva",
     "Share hide-download state saved" : "Estado ocultar-download do compartilhamento salvo",
     "Share label saved" : "Marcador de compartilhamento salvo",
     "Share note for recipient saved" : "Observação para o destinatário do compartilhamento salva",

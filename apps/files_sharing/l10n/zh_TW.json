@@ -348,6 +348,7 @@
     "Folder \"{path}\" has been unshared" : "資料夾「{path}」已取消分享",
     "Could not update share" : "無法更新分享",
     "Share saved" : "已儲存分享",
+    "Share expiry date saved" : "已儲存分享過期日期",
     "Share hide-download state saved" : "已儲存分享隱藏下載狀態",
     "Share label saved" : "分享標籤已儲存",
     "Share note for recipient saved" : "已儲存給收件者的分享備註",

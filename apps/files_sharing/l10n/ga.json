@@ -348,6 +348,7 @@
     "Folder \"{path}\" has been unshared" : "Díroinneadh an fillteán \"{path}\".",
     "Could not update share" : "Níorbh fhéidir an sciar a nuashonrú",
     "Share saved" : "Sábháladh an sciar",
+    "Share expiry date saved" : "Comhroinn dáta éaga sábháilte",
     "Share hide-download state saved" : "Stádas i bhfolach-íoslódáil roinnte a shábháil",
     "Share label saved" : "Comhroinn lipéad sábháilte",
     "Share note for recipient saved" : "Comhroinn nóta don fhaighteoir sábháilte",
