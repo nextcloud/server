@@ -17,19 +17,12 @@ use OCP\IRequest;
 
 class SettingsController extends Controller {
 
-	/** @var IConfig */
-	private $config;
-
-	/** @var string */
-	private $userId;
-
-	public function __construct(IRequest $request,
-		IConfig $config,
-		string $userId) {
+	public function __construct(
+		IRequest $request,
+		private IConfig $config,
+		private string $userId,
+	) {
 		parent::__construct(Application::APP_ID, $request);
-
-		$this->config = $config;
-		$this->userId = $userId;
 	}
 
 	#[NoAdminRequired]

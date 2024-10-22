@@ -15,17 +15,11 @@ use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ICollection;
 
 class UploadFolder implements ICollection {
-	/** @var Directory */
-	private $node;
-	/** @var CleanupService */
-	private $cleanupService;
-	/** @var IStorage */
-	private $storage;
-
-	public function __construct(Directory $node, CleanupService $cleanupService, IStorage $storage) {
-		$this->node = $node;
-		$this->cleanupService = $cleanupService;
-		$this->storage = $storage;
+	public function __construct(
+		private Directory $node,
+		private CleanupService $cleanupService,
+		private IStorage $storage,
+	) {
 	}
 
 	public function createFile($name, $data = null) {

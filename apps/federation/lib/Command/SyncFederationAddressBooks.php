@@ -14,12 +14,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SyncFederationAddressBooks extends Command {
-	private SyncService $syncService;
-
-	public function __construct(SyncService $syncService) {
+	public function __construct(
+		private SyncService $syncService,
+	) {
 		parent::__construct();
-
-		$this->syncService = $syncService;
 	}
 
 	protected function configure() {

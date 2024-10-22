@@ -33,15 +33,9 @@ class AccountMigrator implements IMigrator, ISizeEstimationMigrator {
 
 	use TAccountsHelper;
 
-	private IAccountManager $accountManager;
-
-	private IAvatarManager $avatarManager;
-
 	private ProfileManager $profileManager;
 
 	private ProfileConfigMapper $configMapper;
-
-	private IL10N $l10n;
 
 	private const PATH_ROOT = Application::APP_ID . '/';
 
@@ -52,17 +46,14 @@ class AccountMigrator implements IMigrator, ISizeEstimationMigrator {
 	private const PATH_CONFIG_FILE = AccountMigrator::PATH_ROOT . 'config.json';
 
 	public function __construct(
-		IAccountManager $accountManager,
-		IAvatarManager $avatarManager,
+		private IAccountManager $accountManager,
+		private IAvatarManager $avatarManager,
 		ProfileManager $profileManager,
 		ProfileConfigMapper $configMapper,
-		IL10N $l10n,
+		private IL10N $l10n,
 	) {
-		$this->accountManager = $accountManager;
-		$this->avatarManager = $avatarManager;
 		$this->profileManager = $profileManager;
 		$this->configMapper = $configMapper;
-		$this->l10n = $l10n;
 	}
 
 	/**

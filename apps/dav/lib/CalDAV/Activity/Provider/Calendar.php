@@ -28,17 +28,8 @@ class Calendar extends Base {
 	public const SUBJECT_UNSHARE_USER = 'calendar_user_unshare';
 	public const SUBJECT_UNSHARE_GROUP = 'calendar_group_unshare';
 
-	/** @var IFactory */
-	protected $languageFactory;
-
 	/** @var IL10N */
 	protected $l;
-
-	/** @var IManager */
-	protected $activityManager;
-
-	/** @var IEventMerger */
-	protected $eventMerger;
 
 	/**
 	 * @param IFactory $languageFactory
@@ -48,11 +39,15 @@ class Calendar extends Base {
 	 * @param IGroupManager $groupManager
 	 * @param IEventMerger $eventMerger
 	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IGroupManager $groupManager, IEventMerger $eventMerger) {
+	public function __construct(
+		protected IFactory $languageFactory,
+		IURLGenerator $url,
+		protected IManager $activityManager,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		protected IEventMerger $eventMerger,
+	) {
 		parent::__construct($userManager, $groupManager, $url);
-		$this->languageFactory = $languageFactory;
-		$this->activityManager = $activityManager;
-		$this->eventMerger = $eventMerger;
 	}
 
 	/**

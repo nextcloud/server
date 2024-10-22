@@ -15,16 +15,14 @@ use Sabre\HTTP\ResponseInterface;
 
 class FedAuth extends AbstractBasic {
 
-	/** @var DbHandler */
-	private $db;
-
 	/**
 	 * FedAuth constructor.
 	 *
 	 * @param DbHandler $db
 	 */
-	public function __construct(DbHandler $db) {
-		$this->db = $db;
+	public function __construct(
+		private DbHandler $db,
+	) {
 		$this->principalPrefix = 'principals/system/';
 
 		// setup realm

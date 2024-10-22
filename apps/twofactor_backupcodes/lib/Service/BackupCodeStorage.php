@@ -19,26 +19,12 @@ use OCP\Security\ISecureRandom;
 class BackupCodeStorage {
 	private static $CODE_LENGTH = 16;
 
-	/** @var BackupCodeMapper */
-	private $mapper;
-
-	/** @var IHasher */
-	private $hasher;
-
-	/** @var ISecureRandom */
-	private $random;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	public function __construct(BackupCodeMapper $mapper,
-		ISecureRandom $random,
-		IHasher $hasher,
-		IEventDispatcher $eventDispatcher) {
-		$this->mapper = $mapper;
-		$this->hasher = $hasher;
-		$this->random = $random;
-		$this->eventDispatcher = $eventDispatcher;
+	public function __construct(
+		private BackupCodeMapper $mapper,
+		private ISecureRandom $random,
+		private IHasher $hasher,
+		private IEventDispatcher $eventDispatcher,
+	) {
 	}
 
 	/**

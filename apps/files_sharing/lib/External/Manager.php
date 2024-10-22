@@ -36,71 +36,27 @@ class Manager {
 	/** @var string|null */
 	private $uid;
 
-	/** @var IDBConnection */
-	private $connection;
-
 	/** @var \OC\Files\Mount\Manager */
 	private $mountManager;
 
-	/** @var IStorageFactory */
-	private $storageLoader;
-
-	/** @var IClientService */
-	private $clientService;
-
-	/** @var IManager */
-	private $notificationManager;
-
-	/** @var IDiscoveryService */
-	private $discoveryService;
-
-	/** @var ICloudFederationProviderManager */
-	private $cloudFederationProviderManager;
-
-	/** @var ICloudFederationFactory */
-	private $cloudFederationFactory;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	/** @var LoggerInterface */
-	private $logger;
-
 	public function __construct(
-		IDBConnection $connection,
+		private IDBConnection $connection,
 		\OC\Files\Mount\Manager $mountManager,
-		IStorageFactory $storageLoader,
-		IClientService $clientService,
-		IManager $notificationManager,
-		IDiscoveryService $discoveryService,
-		ICloudFederationProviderManager $cloudFederationProviderManager,
-		ICloudFederationFactory $cloudFederationFactory,
-		IGroupManager $groupManager,
-		IUserManager $userManager,
+		private IStorageFactory $storageLoader,
+		private IClientService $clientService,
+		private IManager $notificationManager,
+		private IDiscoveryService $discoveryService,
+		private ICloudFederationProviderManager $cloudFederationProviderManager,
+		private ICloudFederationFactory $cloudFederationFactory,
+		private IGroupManager $groupManager,
+		private IUserManager $userManager,
 		IUserSession $userSession,
-		IEventDispatcher $eventDispatcher,
-		LoggerInterface $logger,
+		private IEventDispatcher $eventDispatcher,
+		private LoggerInterface $logger,
 	) {
 		$user = $userSession->getUser();
-		$this->connection = $connection;
 		$this->mountManager = $mountManager;
-		$this->storageLoader = $storageLoader;
-		$this->clientService = $clientService;
 		$this->uid = $user ? $user->getUID() : null;
-		$this->notificationManager = $notificationManager;
-		$this->discoveryService = $discoveryService;
-		$this->cloudFederationProviderManager = $cloudFederationProviderManager;
-		$this->cloudFederationFactory = $cloudFederationFactory;
-		$this->groupManager = $groupManager;
-		$this->userManager = $userManager;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->logger = $logger;
 	}
 
 	/**

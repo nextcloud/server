@@ -10,13 +10,6 @@ use ImagickPixel;
 use OCP\Files\SimpleFS\ISimpleFile;
 
 class IconBuilder {
-	/** @var ThemingDefaults */
-	private $themingDefaults;
-	/** @var Util */
-	private $util;
-	/** @var ImageManager */
-	private $imageManager;
-
 	/**
 	 * IconBuilder constructor.
 	 *
@@ -25,13 +18,10 @@ class IconBuilder {
 	 * @param ImageManager $imageManager
 	 */
 	public function __construct(
-		ThemingDefaults $themingDefaults,
-		Util $util,
-		ImageManager $imageManager,
+		private ThemingDefaults $themingDefaults,
+		private Util $util,
+		private ImageManager $imageManager,
 	) {
-		$this->themingDefaults = $themingDefaults;
-		$this->util = $util;
-		$this->imageManager = $imageManager;
 	}
 
 	/**

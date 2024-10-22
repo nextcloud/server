@@ -32,10 +32,10 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 	 */
 	protected $storage = null;
 
-	/** @var \OCP\Share\IShare */
+	/** @var IShare */
 	private $superShare;
 
-	/** @var \OCP\Share\IShare[] */
+	/** @var IShare[] */
 	private $groupedShares;
 
 	public function __construct(
@@ -60,7 +60,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 	/**
 	 * check if the parent folder exists otherwise move the mount point up
 	 *
-	 * @param \OCP\Share\IShare $share
+	 * @param IShare $share
 	 * @param SharedMount[] $mountpoints
 	 * @param CappedMemoryCache<bool> $folderExistCache
 	 * @return string
@@ -113,7 +113,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 	 * update fileTarget in the database if the mount point changed
 	 *
 	 * @param string $newPath
-	 * @param \OCP\Share\IShare $share
+	 * @param IShare $share
 	 * @return bool
 	 */
 	private function updateFileTarget($newPath, &$share) {
@@ -220,14 +220,14 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 	}
 
 	/**
-	 * @return \OCP\Share\IShare
+	 * @return IShare
 	 */
 	public function getShare() {
 		return $this->superShare;
 	}
 
 	/**
-	 * @return \OCP\Share\IShare[]
+	 * @return IShare[]
 	 */
 	public function getGroupedShares(): array {
 		return $this->groupedShares;

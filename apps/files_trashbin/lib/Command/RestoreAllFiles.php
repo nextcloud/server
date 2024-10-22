@@ -32,17 +32,6 @@ class RestoreAllFiles extends Base {
 		'all' => self::SCOPE_ALL
 	];
 
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IRootFolder */
-	protected $rootFolder;
-
-	/** @var \OCP\IDBConnection */
-	protected $dbConnection;
-
-	protected ITrashManager $trashManager;
-
 	/** @var IL10N */
 	protected $l10n;
 
@@ -53,12 +42,14 @@ class RestoreAllFiles extends Base {
 	 * @param ITrashManager $trashManager
 	 * @param IFactory $l10nFactory
 	 */
-	public function __construct(IRootFolder $rootFolder, IUserManager $userManager, IDBConnection $dbConnection, ITrashManager $trashManager, IFactory $l10nFactory) {
+	public function __construct(
+		protected IRootFolder $rootFolder,
+		protected IUserManager $userManager,
+		protected IDBConnection $dbConnection,
+		protected ITrashManager $trashManager,
+		IFactory $l10nFactory,
+	) {
 		parent::__construct();
-		$this->userManager = $userManager;
-		$this->rootFolder = $rootFolder;
-		$this->dbConnection = $dbConnection;
-		$this->trashManager = $trashManager;
 		$this->l10n = $l10nFactory->get('files_trashbin');
 	}
 

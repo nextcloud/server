@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_External;
 
+use OC\Files\Storage\Common;
 use OCA\Files_External\Config\IConfigHandler;
 use OCA\Files_External\Config\UserContext;
 use OCA\Files_External\Lib\Backend\Backend;
@@ -13,6 +14,7 @@ use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
+use OCP\AppFramework\QueryException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IL10N;
 use OCP\Util;
@@ -33,28 +35,18 @@ class MountConfig {
 	// whether to skip backend test (for unit tests, as this static class is not mockable)
 	public static $skipTest = false;
 
-	/** @var UserGlobalStoragesService */
-	private $userGlobalStorageService;
-	/** @var UserStoragesService */
-	private $userStorageService;
-	/** @var GlobalStoragesService */
-	private $globalStorageService;
-
 	public function __construct(
-		UserGlobalStoragesService $userGlobalStorageService,
-		UserStoragesService $userStorageService,
-		GlobalStoragesService $globalStorageService,
+		private UserGlobalStoragesService $userGlobalStorageService,
+		private UserStoragesService $userStorageService,
+		private GlobalStoragesService $globalStorageService,
 	) {
-		$this->userGlobalStorageService = $userGlobalStorageService;
-		$this->userStorageService = $userStorageService;
-		$this->globalStorageService = $globalStorageService;
 	}
 
 	/**
 	 * @param mixed $input
 	 * @param string|null $userId
 	 * @return mixed
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 * @since 16.0.0
 	 */
 	public static function substitutePlaceholdersInConfig($input, ?string $userId = null) {
@@ -93,7 +85,7 @@ class MountConfig {
 		}
 		if (class_exists($class)) {
 			try {
-				/** @var \OC\Files\Storage\Common $storage */
+				/** @var Common $storage */
 				$storage = new $class($options);
 
 				try {

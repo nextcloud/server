@@ -18,6 +18,7 @@ use OCA\Files_Trashbin\Helper;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Constants;
+use OCP\Files\FileInfo;
 use OCP\IConfig;
 use OCP\Share\IShare;
 
@@ -41,7 +42,7 @@ class TrashbinTest extends \Test\TestCase {
 	private static $trashBinStatus;
 
 	/**
-	 * @var \OC\Files\View
+	 * @var View
 	 */
 	private $rootView;
 
@@ -159,7 +160,7 @@ class TrashbinTest extends \Test\TestCase {
 	 */
 	public function testExpireOldFiles(): void {
 
-		/** @var \OCP\AppFramework\Utility\ITimeFactory $time */
+		/** @var ITimeFactory $time */
 		$time = \OC::$server->query(ITimeFactory::class);
 		$currentTime = $time->getTime();
 		$expireAt = $currentTime - 2 * 24 * 60 * 60;
@@ -282,7 +283,7 @@ class TrashbinTest extends \Test\TestCase {
 	/**
 	 * verify that the array contains the expected results
 	 *
-	 * @param OCP\Files\FileInfo[] $result
+	 * @param FileInfo[] $result
 	 * @param string[] $expected
 	 */
 	private function verifyArray($result, $expected) {
@@ -303,7 +304,7 @@ class TrashbinTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @param OCP\Files\FileInfo[] $files
+	 * @param FileInfo[] $files
 	 * @param string $trashRoot
 	 * @param integer $expireDate
 	 */
@@ -374,7 +375,7 @@ class TrashbinTest extends \Test\TestCase {
 		$filesInTrash = Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1, 'mtime');
 		$this->assertCount(1, $filesInTrash);
 
-		/** @var \OCP\Files\FileInfo */
+		/** @var FileInfo */
 		$trashedFile = $filesInTrash[0];
 
 		$this->assertTrue(
@@ -407,7 +408,7 @@ class TrashbinTest extends \Test\TestCase {
 		$filesInTrash = Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1, 'mtime');
 		$this->assertCount(1, $filesInTrash);
 
-		/** @var \OCP\Files\FileInfo */
+		/** @var FileInfo */
 		$trashedFile = $filesInTrash[0];
 
 		$this->assertTrue(
@@ -440,7 +441,7 @@ class TrashbinTest extends \Test\TestCase {
 		$filesInTrash = Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1, 'mtime');
 		$this->assertCount(1, $filesInTrash);
 
-		/** @var \OCP\Files\FileInfo */
+		/** @var FileInfo */
 		$trashedFolder = $filesInTrash[0];
 
 		$this->assertTrue(
@@ -473,7 +474,7 @@ class TrashbinTest extends \Test\TestCase {
 		$filesInTrash = Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1, 'mtime');
 		$this->assertCount(1, $filesInTrash);
 
-		/** @var \OCP\Files\FileInfo */
+		/** @var FileInfo */
 		$trashedFile = $filesInTrash[0];
 
 		$this->assertTrue(
@@ -507,7 +508,7 @@ class TrashbinTest extends \Test\TestCase {
 		$filesInTrash = Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1, 'mtime');
 		$this->assertCount(1, $filesInTrash);
 
-		/** @var \OCP\Files\FileInfo */
+		/** @var FileInfo */
 		$trashedFile = $filesInTrash[0];
 
 		// delete source folder
@@ -543,7 +544,7 @@ class TrashbinTest extends \Test\TestCase {
 		$filesInTrash = Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1, 'mtime');
 		$this->assertCount(1, $filesInTrash);
 
-		/** @var \OCP\Files\FileInfo */
+		/** @var FileInfo */
 		$trashedFile = $filesInTrash[0];
 
 		// create another file
@@ -584,7 +585,7 @@ class TrashbinTest extends \Test\TestCase {
 		$filesInTrash = Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1, 'mtime');
 		$this->assertCount(1, $filesInTrash);
 
-		/** @var \OCP\Files\FileInfo */
+		/** @var FileInfo */
 		$trashedFile = $filesInTrash[0];
 
 		// create another file
@@ -638,7 +639,7 @@ class TrashbinTest extends \Test\TestCase {
 		$filesInTrash = Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1, 'mtime');
 		$this->assertCount(1, $filesInTrash);
 
-		/** @var \OCP\Files\FileInfo */
+		/** @var FileInfo */
 		$trashedFile = $filesInTrash[0];
 
 		// delete source folder
@@ -689,7 +690,7 @@ class TrashbinTest extends \Test\TestCase {
 class TrashbinForTesting extends Trashbin {
 
 	/**
-	 * @param OCP\Files\FileInfo[] $files
+	 * @param FileInfo[] $files
 	 * @param integer $limit
 	 */
 	public function dummyDeleteExpiredFiles($files) {
@@ -698,7 +699,7 @@ class TrashbinForTesting extends Trashbin {
 	}
 
 	/**
-	 * @param OCP\Files\FileInfo[] $files
+	 * @param FileInfo[] $files
 	 * @param integer $availableSpace
 	 */
 	public function dummyDeleteFiles($files, $availableSpace) {

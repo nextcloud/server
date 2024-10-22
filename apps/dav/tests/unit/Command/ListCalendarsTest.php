@@ -19,7 +19,7 @@ use Test\TestCase;
  */
 class ListCalendarsTest extends TestCase {
 
-	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject $userManager */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject $userManager */
 	private $userManager;
 
 	/** @var CalDavBackend|\PHPUnit\Framework\MockObject\MockObject $l10n */

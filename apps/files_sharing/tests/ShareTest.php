@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Files\FileInfo;
 use OC\Files\Filesystem;
 use OCA\Files_Sharing\Helper;
 use OCP\Constants;
@@ -100,7 +101,7 @@ class ShareTest extends TestCase {
 	}
 
 	/**
-	 * @param \OC\Files\FileInfo[] $content
+	 * @param FileInfo[] $content
 	 * @param string[] $expected
 	 */
 	public function verifyDirContent($content, $expected) {

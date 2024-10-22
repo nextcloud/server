@@ -17,21 +17,11 @@ class RetentionService {
 	public const RETENTION_CONFIG_KEY = 'calendarRetentionObligation';
 	private const DEFAULT_RETENTION_SECONDS = 30 * 24 * 60 * 60;
 
-	/** @var IConfig */
-	private $config;
-
-	/** @var ITimeFactory */
-	private $time;
-
-	/** @var CalDavBackend */
-	private $calDavBackend;
-
-	public function __construct(IConfig $config,
-		ITimeFactory $time,
-		CalDavBackend $calDavBackend) {
-		$this->config = $config;
-		$this->time = $time;
-		$this->calDavBackend = $calDavBackend;
+	public function __construct(
+		private IConfig $config,
+		private ITimeFactory $time,
+		private CalDavBackend $calDavBackend,
+	) {
 	}
 
 	public function getDuration(): int {

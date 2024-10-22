@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_Sharing\Tests\External;
 
+use OC\Files\Cache\Cache;
 use OCA\Files_Sharing\External\Scanner;
 use OCA\Files_Sharing\External\Storage;
 use Test\TestCase;
@@ -17,7 +18,7 @@ class ScannerTest extends TestCase {
 	protected Scanner $scanner;
 	/** @var Storage|\PHPUnit\Framework\MockObject\MockObject */
 	protected $storage;
-	/** @var \OC\Files\Cache\Cache|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Cache|\PHPUnit\Framework\MockObject\MockObject */
 	protected $cache;
 
 	protected function setUp(): void {

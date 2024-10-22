@@ -10,6 +10,7 @@ namespace OCA\Files\Tests\Service;
 use OCA\Files\Service\TagService;
 use OCP\Activity\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\ITags;
 use OCP\IUser;
@@ -36,7 +37,7 @@ class TagServiceTest extends \Test\TestCase {
 	private $activityManager;
 
 	/**
-	 * @var \OCP\Files\Folder
+	 * @var Folder
 	 */
 	private $root;
 
@@ -49,7 +50,7 @@ class TagServiceTest extends \Test\TestCase {
 	private $tagService;
 
 	/**
-	 * @var \OCP\ITags
+	 * @var ITags
 	 */
 	private $tagger;
 
@@ -62,7 +63,7 @@ class TagServiceTest extends \Test\TestCase {
 		\OC_Util::setupFS($this->user);
 		$user = $this->createMock(IUser::class);
 		/**
-		 * @var \OCP\IUserSession
+		 * @var IUserSession
 		 */
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->userSession->expects($this->any())

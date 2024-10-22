@@ -30,21 +30,15 @@ class PushProvider extends AbstractProvider {
 	/** @var string */
 	public const NOTIFICATION_TYPE = 'DISPLAY';
 
-	/** @var IManager */
-	private $manager;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	public function __construct(IConfig $config,
-		IManager $manager,
+	public function __construct(
+		IConfig $config,
+		private IManager $manager,
 		LoggerInterface $logger,
 		L10NFactory $l10nFactory,
 		IURLGenerator $urlGenerator,
-		ITimeFactory $timeFactory) {
+		private ITimeFactory $timeFactory,
+	) {
 		parent::__construct($logger, $l10nFactory, $urlGenerator, $config);
-		$this->manager = $manager;
-		$this->timeFactory = $timeFactory;
 	}
 
 	/**

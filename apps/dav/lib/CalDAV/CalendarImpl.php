@@ -25,17 +25,12 @@ use Sabre\VObject\Reader;
 use function Sabre\Uri\split as uriSplit;
 
 class CalendarImpl implements ICreateFromString, IHandleImipMessage {
-	private CalDavBackend $backend;
-	private Calendar $calendar;
-	/** @var array<string, mixed> */
-	private array $calendarInfo;
-
-	public function __construct(Calendar $calendar,
-		array $calendarInfo,
-		CalDavBackend $backend) {
-		$this->calendar = $calendar;
-		$this->calendarInfo = $calendarInfo;
-		$this->backend = $backend;
+	public function __construct(
+		private Calendar $calendar,
+		/** @var array<string, mixed> */
+		private array $calendarInfo,
+		private CalDavBackend $backend,
+	) {
 	}
 
 	/**

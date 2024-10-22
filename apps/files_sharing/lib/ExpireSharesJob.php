@@ -18,16 +18,11 @@ use OCP\Share\IShare;
  */
 class ExpireSharesJob extends TimedJob {
 
-	/** @var IManager */
-	private $shareManager;
-
-	/** @var IDBConnection */
-	private $db;
-
-	public function __construct(ITimeFactory $time, IManager $shareManager, IDBConnection $db) {
-		$this->shareManager = $shareManager;
-		$this->db = $db;
-
+	public function __construct(
+		ITimeFactory $time,
+		private IManager $shareManager,
+		private IDBConnection $db,
+	) {
 		parent::__construct($time);
 
 		// Run once a day

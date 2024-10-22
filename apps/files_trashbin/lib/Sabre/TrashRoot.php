@@ -19,15 +19,10 @@ use Sabre\DAV\ICollection;
 
 class TrashRoot implements ICollection {
 
-	/** @var IUser */
-	private $user;
-
-	/** @var ITrashManager */
-	private $trashManager;
-
-	public function __construct(IUser $user, ITrashManager $trashManager) {
-		$this->user = $user;
-		$this->trashManager = $trashManager;
+	public function __construct(
+		private IUser $user,
+		private ITrashManager $trashManager,
+	) {
 	}
 
 	public function delete() {

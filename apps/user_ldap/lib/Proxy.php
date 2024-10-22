@@ -15,17 +15,13 @@ use OCP\Server;
 abstract class Proxy {
 	/** @var array<string,Access> */
 	private static array $accesses = [];
-	private ILDAPWrapper $ldap;
 	private ?bool $isSingleBackend = null;
 	private ?ICache $cache = null;
-	private AccessFactory $accessFactory;
 
 	public function __construct(
-		ILDAPWrapper $ldap,
-		AccessFactory $accessFactory,
+		private ILDAPWrapper $ldap,
+		private AccessFactory $accessFactory,
 	) {
-		$this->ldap = $ldap;
-		$this->accessFactory = $accessFactory;
 		$memcache = \OC::$server->getMemCacheFactory();
 		if ($memcache->isAvailable()) {
 			$this->cache = $memcache->createDistributed();

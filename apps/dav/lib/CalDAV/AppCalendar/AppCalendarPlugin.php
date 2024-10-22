@@ -18,12 +18,10 @@ use Psr\Log\LoggerInterface;
 
 /* Plugin for wrapping application generated calendars registered in nextcloud core (OCP\Calendar\ICalendarProvider) */
 class AppCalendarPlugin implements ICalendarProvider {
-	protected IManager $manager;
-	protected LoggerInterface $logger;
-
-	public function __construct(IManager $manager, LoggerInterface $logger) {
-		$this->manager = $manager;
-		$this->logger = $logger;
+	public function __construct(
+		protected IManager $manager,
+		protected LoggerInterface $logger,
+	) {
 	}
 
 	public function getAppID(): string {

@@ -20,11 +20,6 @@ use Psr\Log\LoggerInterface;
 
 class Storage extends Wrapper {
 	private string $mountPoint;
-	private IUserManager $userManager;
-	private LoggerInterface $logger;
-	private IEventDispatcher $eventDispatcher;
-	private IRootFolder $rootFolder;
-	private ITrashManager $trashManager;
 	private bool $trashEnabled = true;
 
 	/**
@@ -33,18 +28,13 @@ class Storage extends Wrapper {
 	 */
 	public function __construct(
 		$parameters,
-		?ITrashManager $trashManager = null,
-		?IUserManager $userManager = null,
-		?LoggerInterface $logger = null,
-		?IEventDispatcher $eventDispatcher = null,
-		?IRootFolder $rootFolder = null,
+		private ?ITrashManager $trashManager = null,
+		private ?IUserManager $userManager = null,
+		private ?LoggerInterface $logger = null,
+		private ?IEventDispatcher $eventDispatcher = null,
+		private ?IRootFolder $rootFolder = null,
 	) {
 		$this->mountPoint = $parameters['mountPoint'];
-		$this->trashManager = $trashManager;
-		$this->userManager = $userManager;
-		$this->logger = $logger;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->rootFolder = $rootFolder;
 		parent::__construct($parameters);
 	}
 

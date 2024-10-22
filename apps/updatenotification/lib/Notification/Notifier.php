@@ -24,24 +24,6 @@ use OCP\Server;
 use OCP\Util;
 
 class Notifier implements INotifier {
-	/** @var IURLGenerator */
-	protected $url;
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var IManager */
-	protected $notificationManager;
-
-	/** @var IFactory */
-	protected $l10NFactory;
-
-	/** @var IUserSession */
-	protected $userSession;
-
-	/** @var IGroupManager */
-	protected $groupManager;
-
 	/** @var string[] */
 	protected $appVersions;
 
@@ -55,13 +37,14 @@ class Notifier implements INotifier {
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
 	 */
-	public function __construct(IURLGenerator $url, IConfig $config, IManager $notificationManager, IFactory $l10NFactory, IUserSession $userSession, IGroupManager $groupManager) {
-		$this->url = $url;
-		$this->notificationManager = $notificationManager;
-		$this->config = $config;
-		$this->l10NFactory = $l10NFactory;
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
+	public function __construct(
+		protected IURLGenerator $url,
+		protected IConfig $config,
+		protected IManager $notificationManager,
+		protected IFactory $l10NFactory,
+		protected IUserSession $userSession,
+		protected IGroupManager $groupManager,
+	) {
 		$this->appVersions = $this->getAppVersions();
 	}
 

@@ -42,7 +42,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 	private $tree;
 
 	/**
-	 * @var \OCP\SystemTag\ISystemTagManager
+	 * @var ISystemTagManager
 	 */
 	private $tagManager;
 

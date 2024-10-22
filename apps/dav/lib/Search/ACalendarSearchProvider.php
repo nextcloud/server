@@ -23,18 +23,6 @@ use Sabre\VObject\Reader;
  */
 abstract class ACalendarSearchProvider implements IProvider {
 
-	/** @var IAppManager */
-	protected $appManager;
-
-	/** @var IL10N */
-	protected $l10n;
-
-	/** @var IURLGenerator */
-	protected $urlGenerator;
-
-	/** @var CalDavBackend */
-	protected $backend;
-
 	/**
 	 * ACalendarSearchProvider constructor.
 	 *
@@ -43,14 +31,12 @@ abstract class ACalendarSearchProvider implements IProvider {
 	 * @param IURLGenerator $urlGenerator
 	 * @param CalDavBackend $backend
 	 */
-	public function __construct(IAppManager $appManager,
-		IL10N $l10n,
-		IURLGenerator $urlGenerator,
-		CalDavBackend $backend) {
-		$this->appManager = $appManager;
-		$this->l10n = $l10n;
-		$this->urlGenerator = $urlGenerator;
-		$this->backend = $backend;
+	public function __construct(
+		protected IAppManager $appManager,
+		protected IL10N $l10n,
+		protected IURLGenerator $urlGenerator,
+		protected CalDavBackend $backend,
+	) {
 	}
 
 	/**

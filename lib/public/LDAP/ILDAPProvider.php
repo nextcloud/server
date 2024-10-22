@@ -46,8 +46,8 @@ interface ILDAPProvider {
 
 	/**
 	 * Sanitize a DN received from the LDAP server.
-	 * @param array $dn the DN in question
-	 * @return array the sanitized DN
+	 * @param array|string $dn the DN in question
+	 * @return array|string the sanitized DN
 	 * @since 11.0.0
 	 */
 	public function sanitizeDN($dn);

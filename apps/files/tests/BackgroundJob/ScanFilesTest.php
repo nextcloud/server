@@ -12,6 +12,7 @@ use OC\Files\Storage\Temporary;
 use OCA\Files\BackgroundJob\ScanFiles;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Config\IUserMountCache;
 use OCP\IConfig;
 use OCP\IUser;
 use Psr\Log\LoggerInterface;
@@ -31,7 +32,7 @@ class ScanFilesTest extends TestCase {
 
 	/** @var ScanFiles */
 	private $scanFiles;
-	/** @var \OCP\Files\Config\IUserMountCache */
+	/** @var IUserMountCache */
 	private $mountCache;
 
 	protected function setUp(): void {

@@ -8,6 +8,7 @@
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
+use OCP\ICache;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -89,8 +90,6 @@ use Psr\Log\LoggerInterface;
  */
 class Connection extends LDAPUtility {
 	private ?\LDAP\Connection $ldapConnectionRes = null;
-	private string $configPrefix;
-	private ?string $configID;
 	private bool $configured = false;
 
 	/**
@@ -109,7 +108,7 @@ class Connection extends LDAPUtility {
 	public $hasGidNumber = true;
 
 	/**
-	 * @var \OCP\ICache|null
+	 * @var ICache|null
 	 */
 	protected $cache = null;
 
@@ -139,11 +138,13 @@ class Connection extends LDAPUtility {
 	 * @param string $configPrefix a string with the prefix for the configkey column (appconfig table)
 	 * @param string|null $configID a string with the value for the appid column (appconfig table) or null for on-the-fly connections
 	 */
-	public function __construct(ILDAPWrapper $ldap, string $configPrefix = '', ?string $configID = 'user_ldap') {
+	public function __construct(
+		ILDAPWrapper $ldap,
+		private string $configPrefix = '',
+		private ?string $configID = 'user_ldap',
+	) {
 		parent::__construct($ldap);
-		$this->configPrefix = $configPrefix;
-		$this->configID = $configID;
-		$this->configuration = new Configuration($configPrefix, !is_null($configID));
+		$this->configuration = new Configuration($this->configPrefix, !is_null($this->configID));
 		$memcache = \OC::$server->getMemCacheFactory();
 		if ($memcache->isAvailable()) {
 			$this->cache = $memcache->createDistributed();

@@ -16,15 +16,10 @@ use OCP\Notification\UnknownNotificationException;
 
 class Notifier implements INotifier {
 
-	/** @var IFactory */
-	private $factory;
-
-	/** @var IURLGenerator */
-	private $url;
-
-	public function __construct(IFactory $factory, IURLGenerator $url) {
-		$this->factory = $factory;
-		$this->url = $url;
+	public function __construct(
+		private IFactory $factory,
+		private IURLGenerator $url,
+	) {
 	}
 
 	/**

@@ -32,20 +32,11 @@ class TrashbinMigrator implements IMigrator, ISizeEstimationMigrator {
 	protected const PATH_FILES_FOLDER = Application::APP_ID . '/files';
 	protected const PATH_LOCATIONS_FILE = Application::APP_ID . '/locations.json';
 
-	protected IRootFolder $root;
-
-	protected IDBConnection $dbc;
-
-	protected IL10N $l10n;
-
 	public function __construct(
-		IRootFolder $rootFolder,
-		IDBConnection $dbc,
-		IL10N $l10n,
+		protected IRootFolder $root,
+		protected IDBConnection $dbc,
+		protected IL10N $l10n,
 	) {
-		$this->root = $rootFolder;
-		$this->dbc = $dbc;
-		$this->l10n = $l10n;
 	}
 
 	/**

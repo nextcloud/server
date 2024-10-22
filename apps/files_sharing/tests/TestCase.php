@@ -15,6 +15,7 @@ use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\External\MountProvider as ExternalMountProvider;
 use OCA\Files_Sharing\MountProvider;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Files\IRootFolder;
 use OCP\Share\IShare;
 use Test\Traits\MountProviderTrait;
 
@@ -38,11 +39,11 @@ abstract class TestCase extends \Test\TestCase {
 	public $filename;
 	public $data;
 	/**
-	 * @var \OC\Files\View
+	 * @var View
 	 */
 	public $view;
 	/**
-	 * @var \OC\Files\View
+	 * @var View
 	 */
 	public $view2;
 	public $folder;
@@ -50,7 +51,7 @@ abstract class TestCase extends \Test\TestCase {
 
 	/** @var \OCP\Share\IManager */
 	protected $shareManager;
-	/** @var \OCP\Files\IRootFolder */
+	/** @var IRootFolder */
 	protected $rootFolder;
 
 	public static function setUpBeforeClass(): void {
@@ -218,7 +219,7 @@ abstract class TestCase extends \Test\TestCase {
 	 * @param string $initiator
 	 * @param string $recipient
 	 * @param int $permissions
-	 * @return \OCP\Share\IShare
+	 * @return IShare
 	 */
 	protected function share($type, $path, $initiator, $recipient, $permissions) {
 		$userFolder = $this->rootFolder->getUserFolder($initiator);

@@ -21,17 +21,6 @@ use OCP\Mail\IMailer;
 
 class MailSettingsController extends Controller {
 
-	/** @var IL10N */
-	private $l10n;
-	/** @var IConfig */
-	private $config;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IMailer */
-	private $mailer;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -41,19 +30,16 @@ class MailSettingsController extends Controller {
 	 * @param IURLGenerator $urlGenerator,
 	 * @param IMailer $mailer
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 		IRequest $request,
-		IL10N $l10n,
-		IConfig $config,
-		IUserSession $userSession,
-		IURLGenerator $urlGenerator,
-		IMailer $mailer) {
+		private IL10N $l10n,
+		private IConfig $config,
+		private IUserSession $userSession,
+		private IURLGenerator $urlGenerator,
+		private IMailer $mailer,
+	) {
 		parent::__construct($appName, $request);
-		$this->l10n = $l10n;
-		$this->config = $config;
-		$this->userSession = $userSession;
-		$this->urlGenerator = $urlGenerator;
-		$this->mailer = $mailer;
 	}
 
 	/**

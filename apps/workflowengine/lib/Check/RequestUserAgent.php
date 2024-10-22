@@ -10,16 +10,15 @@ use OCP\IRequest;
 
 class RequestUserAgent extends AbstractStringCheck {
 
-	/** @var IRequest */
-	protected $request;
-
 	/**
 	 * @param IL10N $l
 	 * @param IRequest $request
 	 */
-	public function __construct(IL10N $l, IRequest $request) {
+	public function __construct(
+		IL10N $l,
+		protected IRequest $request,
+	) {
 		parent::__construct($l);
-		$this->request = $request;
 	}
 
 	/**

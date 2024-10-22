@@ -452,7 +452,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 
 	/**
 	 * @param string $gid
-	 * @return \OCP\IGroup|MockObject
+	 * @return IGroup|MockObject
 	 */
 	protected function getGroup(string $gid) {
 		$group = $this->createMock(IGroup::class);

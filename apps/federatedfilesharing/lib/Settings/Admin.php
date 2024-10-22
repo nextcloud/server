@@ -14,27 +14,16 @@ use OCP\IURLGenerator;
 use OCP\Settings\IDelegatedSettings;
 
 class Admin implements IDelegatedSettings {
-	private FederatedShareProvider $fedShareProvider;
-	private IConfig $gsConfig;
-	private IL10N $l;
-	private IURLGenerator $urlGenerator;
-	private IInitialState $initialState;
-
 	/**
 	 * Admin constructor.
 	 */
 	public function __construct(
-		FederatedShareProvider $fedShareProvider,
-		IConfig $globalScaleConfig,
-		IL10N $l,
-		IURLGenerator $urlGenerator,
-		IInitialState $initialState,
+		private FederatedShareProvider $fedShareProvider,
+		private IConfig $gsConfig,
+		private IL10N $l,
+		private IURLGenerator $urlGenerator,
+		private IInitialState $initialState,
 	) {
-		$this->fedShareProvider = $fedShareProvider;
-		$this->gsConfig = $globalScaleConfig;
-		$this->l = $l;
-		$this->urlGenerator = $urlGenerator;
-		$this->initialState = $initialState;
 	}
 
 	/**

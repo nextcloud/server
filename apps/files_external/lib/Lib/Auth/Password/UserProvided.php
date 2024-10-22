@@ -22,12 +22,10 @@ use OCP\Security\ICredentialsManager;
 class UserProvided extends AuthMechanism implements IUserProvided {
 	public const CREDENTIALS_IDENTIFIER_PREFIX = 'password::userprovided/';
 
-	/** @var ICredentialsManager */
-	protected $credentialsManager;
-
-	public function __construct(IL10N $l, ICredentialsManager $credentialsManager) {
-		$this->credentialsManager = $credentialsManager;
-
+	public function __construct(
+		IL10N $l,
+		protected ICredentialsManager $credentialsManager,
+	) {
 		$this
 			->setIdentifier('password::userprovided')
 			->setVisibility(BackendService::VISIBILITY_ADMIN)

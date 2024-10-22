@@ -17,7 +17,10 @@ use OC\Files\ObjectStore\SwiftFactory;
 use OC\Files\Storage\Common;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Files\IMimeTypeDetector;
+use OCP\Files\StorageAuthException;
 use OCP\Files\StorageBadConfigException;
+use OCP\Files\StorageNotAvailableException;
+use OCP\ICache;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\ObjectStore\v1\Models\Container;
 use OpenStack\ObjectStore\v1\Models\StorageObject;
@@ -55,7 +58,7 @@ class Swift extends Common {
 	 * \OpenCloud\OpenStack\ObjectStorage\Resource\DataObject for existing
 	 * paths and path to false for not existing paths.
 	 *
-	 * @var \OCP\ICache
+	 * @var ICache
 	 */
 	private $objectCache;
 
@@ -81,8 +84,8 @@ class Swift extends Common {
 	 *
 	 * @return StorageObject|false object
 	 *                             or false if the object did not exist
-	 * @throws \OCP\Files\StorageAuthException
-	 * @throws \OCP\Files\StorageNotAvailableException
+	 * @throws StorageAuthException
+	 * @throws StorageNotAvailableException
 	 */
 	private function fetchObject(string $path): StorageObject|false {
 		$cached = $this->objectCache->get($path);
@@ -112,8 +115,8 @@ class Swift extends Common {
 	 * Returns whether the given path exists.
 	 *
 	 * @return bool true if the object exist, false otherwise
-	 * @throws \OCP\Files\StorageAuthException
-	 * @throws \OCP\Files\StorageNotAvailableException
+	 * @throws StorageAuthException
+	 * @throws StorageNotAvailableException
 	 */
 	private function doesObjectExist(string $path): bool {
 		return $this->fetchObject($path) !== false;
@@ -534,8 +537,8 @@ class Swift extends Common {
 	 * Returns the initialized object store container.
 	 *
 	 * @return Container
-	 * @throws \OCP\Files\StorageAuthException
-	 * @throws \OCP\Files\StorageNotAvailableException
+	 * @throws StorageAuthException
+	 * @throws StorageNotAvailableException
 	 */
 	public function getContainer(): Container {
 		if (is_null($this->container)) {

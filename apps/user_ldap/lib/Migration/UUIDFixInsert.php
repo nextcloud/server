@@ -14,23 +14,12 @@ use OCP\Migration\IRepairStep;
 
 class UUIDFixInsert implements IRepairStep {
 
-	/** @var IConfig */
-	protected $config;
-
-	/** @var UserMapping */
-	protected $userMapper;
-
-	/** @var GroupMapping */
-	protected $groupMapper;
-
-	/** @var IJobList */
-	protected $jobList;
-
-	public function __construct(IConfig $config, UserMapping $userMapper, GroupMapping $groupMapper, IJobList $jobList) {
-		$this->config = $config;
-		$this->userMapper = $userMapper;
-		$this->groupMapper = $groupMapper;
-		$this->jobList = $jobList;
+	public function __construct(
+		protected IConfig $config,
+		protected UserMapping $userMapper,
+		protected GroupMapping $groupMapper,
+		protected IJobList $jobList,
+	) {
 	}
 
 	/**

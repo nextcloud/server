@@ -17,18 +17,6 @@ use Sabre\VObject\UUIDUtil;
 
 class AddressBookImpl implements IAddressBook {
 
-	/** @var CardDavBackend */
-	private $backend;
-
-	/** @var array */
-	private $addressBookInfo;
-
-	/** @var AddressBook */
-	private $addressBook;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
 	/**
 	 * AddressBookImpl constructor.
 	 *
@@ -38,14 +26,11 @@ class AddressBookImpl implements IAddressBook {
 	 * @param IUrlGenerator $urlGenerator
 	 */
 	public function __construct(
-		AddressBook $addressBook,
-		array $addressBookInfo,
-		CardDavBackend $backend,
-		IURLGenerator $urlGenerator) {
-		$this->addressBook = $addressBook;
-		$this->addressBookInfo = $addressBookInfo;
-		$this->backend = $backend;
-		$this->urlGenerator = $urlGenerator;
+		private AddressBook $addressBook,
+		private array $addressBookInfo,
+		private CardDavBackend $backend,
+		private IURLGenerator $urlGenerator,
+	) {
 	}
 
 	/**

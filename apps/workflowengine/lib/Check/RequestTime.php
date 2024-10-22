@@ -16,18 +16,13 @@ class RequestTime implements ICheck {
 	/** @var bool[] */
 	protected $cachedResults;
 
-	/** @var IL10N */
-	protected $l;
-
-	/** @var ITimeFactory */
-	protected $timeFactory;
-
 	/**
 	 * @param ITimeFactory $timeFactory
 	 */
-	public function __construct(IL10N $l, ITimeFactory $timeFactory) {
-		$this->l = $l;
-		$this->timeFactory = $timeFactory;
+	public function __construct(
+		protected IL10N $l,
+		protected ITimeFactory $timeFactory,
+	) {
 	}
 
 	/**

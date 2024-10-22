@@ -8,6 +8,7 @@
 namespace OCA\Files_Sharing;
 
 use OC\Files\ObjectStore\ObjectStoreScanner;
+use OC\Files\Storage\Storage;
 
 /**
  * Scanner for SharedStorage
@@ -43,7 +44,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 			return $this->sourceScanner;
 		}
 		if ($this->storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
-			/** @var \OC\Files\Storage\Storage $storage */
+			/** @var Storage $storage */
 			[$storage] = $this->storage->resolvePath('');
 			$this->sourceScanner = $storage->getScanner();
 			return $this->sourceScanner;

@@ -18,15 +18,6 @@ use OCP\EventDispatcher\Event;
  */
 class AddressBookDeletedEvent extends Event {
 
-	/** @var int */
-	private $addressBookId;
-
-	/** @var array */
-	private $addressBookData;
-
-	/** @var array */
-	private $shares;
-
 	/**
 	 * AddressBookDeletedEvent constructor.
 	 *
@@ -35,13 +26,12 @@ class AddressBookDeletedEvent extends Event {
 	 * @param array $shares
 	 * @since 20.0.0
 	 */
-	public function __construct(int $addressBookId,
-		array $addressBookData,
-		array $shares) {
+	public function __construct(
+		private int $addressBookId,
+		private array $addressBookData,
+		private array $shares,
+	) {
 		parent::__construct();
-		$this->addressBookId = $addressBookId;
-		$this->addressBookData = $addressBookData;
-		$this->shares = $shares;
 	}
 
 	/**

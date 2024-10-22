@@ -20,24 +20,16 @@ class UserGroupMembership implements ICheck {
 	/** @var string[] */
 	protected $cachedGroupMemberships;
 
-	/** @var IUserSession */
-	protected $userSession;
-
-	/** @var IGroupManager */
-	protected $groupManager;
-
-	/** @var IL10N */
-	protected $l;
-
 	/**
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
 	 * @param IL10N $l
 	 */
-	public function __construct(IUserSession $userSession, IGroupManager $groupManager, IL10N $l) {
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
-		$this->l = $l;
+	public function __construct(
+		protected IUserSession $userSession,
+		protected IGroupManager $groupManager,
+		protected IL10N $l,
+	) {
 	}
 
 	/**

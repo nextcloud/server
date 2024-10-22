@@ -11,15 +11,10 @@ use OCP\IURLGenerator;
 
 class SecurityFilter implements IFilter {
 
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var IL10N */
-	private $l10n;
-
-	public function __construct(IURLGenerator $urlGenerator, IL10N $l10n) {
-		$this->urlGenerator = $urlGenerator;
-		$this->l10n = $l10n;
+	public function __construct(
+		private IURLGenerator $urlGenerator,
+		private IL10N $l10n,
+	) {
 	}
 
 	public function allowedApps() {

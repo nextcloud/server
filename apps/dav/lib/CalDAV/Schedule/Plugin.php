@@ -41,11 +41,6 @@ use function Sabre\Uri\split;
 
 class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-
 	/** @var ITip\Message[] */
 	private $schedulingResponses = [];
 
@@ -54,16 +49,15 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 
 	public const CALENDAR_USER_TYPE = '{' . self::NS_CALDAV . '}calendar-user-type';
 	public const SCHEDULE_DEFAULT_CALENDAR_URL = '{' . Plugin::NS_CALDAV . '}schedule-default-calendar-URL';
-	private LoggerInterface $logger;
-	private DefaultCalendarValidator $defaultCalendarValidator;
 
 	/**
 	 * @param IConfig $config
 	 */
-	public function __construct(IConfig $config, LoggerInterface $logger, DefaultCalendarValidator $defaultCalendarValidator) {
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->defaultCalendarValidator = $defaultCalendarValidator;
+	public function __construct(
+		private IConfig $config,
+		private LoggerInterface $logger,
+		private DefaultCalendarValidator $defaultCalendarValidator,
+	) {
 	}
 
 	/**

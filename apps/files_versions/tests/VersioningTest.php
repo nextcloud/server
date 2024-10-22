@@ -37,7 +37,7 @@ class VersioningTest extends \Test\TestCase {
 	public const USERS_VERSIONS_ROOT = '/test-versions-user/files_versions';
 
 	/**
-	 * @var \OC\Files\View
+	 * @var View
 	 */
 	private $rootView;
 	/**
@@ -934,7 +934,7 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @param \OC\Files\View $view
+	 * @param View $view
 	 * @param string $path
 	 */
 	private function createAndCheckVersions(View $view, $path) {

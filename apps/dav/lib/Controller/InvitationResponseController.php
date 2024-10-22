@@ -23,15 +23,6 @@ use Sabre\VObject\Reader;
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class InvitationResponseController extends Controller {
 
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var InvitationResponseServer */
-	private $responseServer;
-
 	/**
 	 * InvitationResponseController constructor.
 	 *
@@ -41,13 +32,14 @@ class InvitationResponseController extends Controller {
 	 * @param ITimeFactory $timeFactory
 	 * @param InvitationResponseServer $responseServer
 	 */
-	public function __construct(string $appName, IRequest $request,
-		IDBConnection $db, ITimeFactory $timeFactory,
-		InvitationResponseServer $responseServer) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private IDBConnection $db,
+		private ITimeFactory $timeFactory,
+		private InvitationResponseServer $responseServer,
+	) {
 		parent::__construct($appName, $request);
-		$this->db = $db;
-		$this->timeFactory = $timeFactory;
-		$this->responseServer = $responseServer;
 		// Don't run `$server->exec()`, because we just need access to the
 		// fully initialized schedule plugin, but we don't want Sabre/DAV
 		// to actually handle and reply to the request

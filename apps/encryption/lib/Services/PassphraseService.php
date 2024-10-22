@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OCA\Encryption\Services;
 
+use OC\Files\Filesystem;
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Recovery;
@@ -78,7 +79,7 @@ class PassphraseService {
 			}
 
 			$this->logger->error('Encryption could not update users encryption password');
-			
+
 			// NOTE: Session does not need to be updated as the
 			// private key has not changed, only the passphrase
 			// used to decrypt it has changed
@@ -137,6 +138,6 @@ class PassphraseService {
 	 * Init mount points for given user
 	 */
 	private function initMountPoints(IUser $user): void {
-		\OC\Files\Filesystem::initMountPoints($user);
+		Filesystem::initMountPoints($user);
 	}
 }

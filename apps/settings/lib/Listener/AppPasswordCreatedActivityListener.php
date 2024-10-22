@@ -21,21 +21,11 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<\OC\Authentication\Events\AppPasswordCreatedEvent>
  */
 class AppPasswordCreatedActivityListener implements IEventListener {
-	/** @var IActivityManager */
-	private $activityManager;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IActivityManager $activityManager,
-		IUserSession $userSession,
-		LoggerInterface $logger) {
-		$this->activityManager = $activityManager;
-		$this->userSession = $userSession;
-		$this->logger = $logger;
+	public function __construct(
+		private IActivityManager $activityManager,
+		private IUserSession $userSession,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function handle(Event $event): void {

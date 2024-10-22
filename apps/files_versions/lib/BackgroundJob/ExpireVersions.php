@@ -18,18 +18,15 @@ use OCP\IUserManager;
 class ExpireVersions extends TimedJob {
 	public const ITEMS_PER_SESSION = 1000;
 
-	private IConfig $config;
-	private Expiration $expiration;
-	private IUserManager $userManager;
-
-	public function __construct(IConfig $config, IUserManager $userManager, Expiration $expiration, ITimeFactory $time) {
+	public function __construct(
+		private IConfig $config,
+		private IUserManager $userManager,
+		private Expiration $expiration,
+		ITimeFactory $time,
+	) {
 		parent::__construct($time);
 		// Run once per 30 minutes
 		$this->setInterval(60 * 30);
-
-		$this->config = $config;
-		$this->expiration = $expiration;
-		$this->userManager = $userManager;
 	}
 
 	public function run($argument) {

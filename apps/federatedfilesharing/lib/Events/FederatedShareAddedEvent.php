@@ -17,14 +17,12 @@ use OCP\EventDispatcher\Event;
  */
 class FederatedShareAddedEvent extends Event {
 
-	/** @var string */
-	private $remote;
-
 	/**
 	 * @since 20.0.0
 	 */
-	public function __construct(string $remote) {
-		$this->remote = $remote;
+	public function __construct(
+		private string $remote,
+	) {
 	}
 
 	/**

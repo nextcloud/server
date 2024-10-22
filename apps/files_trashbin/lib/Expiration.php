@@ -15,9 +15,6 @@ class Expiration {
 	public const DEFAULT_RETENTION_OBLIGATION = 30;
 	public const NO_OBLIGATION = -1;
 
-	/** @var ITimeFactory */
-	private $timeFactory;
-
 	/** @var string */
 	private $retentionObligation;
 
@@ -30,8 +27,10 @@ class Expiration {
 	/** @var bool */
 	private $canPurgeToSaveSpace;
 
-	public function __construct(IConfig $config, ITimeFactory $timeFactory) {
-		$this->timeFactory = $timeFactory;
+	public function __construct(
+		IConfig $config,
+		private ITimeFactory $timeFactory,
+	) {
 		$this->setRetentionObligation($config->getSystemValue('trashbin_retention_obligation', 'auto'));
 	}
 
