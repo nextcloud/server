@@ -14,6 +14,7 @@ OC.L10N.register(
     "Edit comment" : "Modìfica cummentu",
     "Delete comment" : "Cantzella cummentu",
     "Cancel edit" : "Annulla modìfica",
+    "New comment" : "Cummentu nou",
     "Post comment" : "Pùblica cummentu",
     "No comments yet, start the conversation!" : "Ancora perunu cummentu, cumintza sa cunversatzione!",
     "No more messages" : "Perunu àteru messàgiu",

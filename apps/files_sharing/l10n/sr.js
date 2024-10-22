@@ -350,6 +350,7 @@ OC.L10N.register(
     "Folder \"{path}\" has been unshared" : "Фолдер „{path}” се више не дели",
     "Could not update share" : "Не може да се ажурира дељење",
     "Share saved" : "Дељење је сачувано",
+    "Share expiry date saved" : "Сачуван је датум истека дељења",
     "Share hide-download state saved" : "Сачувано је стање сакриј-преузми дељења ",
     "Share label saved" : "Сачувана је ознака дељења",
     "Share note for recipient saved" : "Сачувана је напомена за примаоца дељења",

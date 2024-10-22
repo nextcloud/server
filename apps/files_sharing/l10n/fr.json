@@ -348,6 +348,7 @@
     "Folder \"{path}\" has been unshared" : "Le partage du dossier \"{path}\" a été retiré",
     "Could not update share" : "Impossible de mettre à jour le partage",
     "Share saved" : "Partager enregistré",
+    "Share expiry date saved" : "Partager la date d'expiration enregistrée",
     "Share hide-download state saved" : "Partager l'état  masqué du téléchargement enregistré",
     "Share label saved" : "Étiquette collaborative enregistrée",
     "Share note for recipient saved" : "Partager la note pour le destinataire enregistré",

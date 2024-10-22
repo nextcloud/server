@@ -350,6 +350,7 @@ OC.L10N.register(
     "Folder \"{path}\" has been unshared" : "Mapp \"{path}\" har slutat att delas",
     "Could not update share" : "Kunde inte uppdatera delning",
     "Share saved" : "Delningen sparad",
+    "Share expiry date saved" : "Delningens utgångsdatum sparad",
     "Share hide-download state saved" : "Delningens göm nedladdningsstatus sparad",
     "Share label saved" : "Delningsetikett sparad",
     "Share note for recipient saved" : "Delningens notering för mottagare sparad",
