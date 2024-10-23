@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use OC\Files\FileInfo;
 use OCA\Files\Helper;
 use OCP\ITagManager;

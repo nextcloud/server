@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors

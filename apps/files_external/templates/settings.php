@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
@@ -170,7 +172,7 @@ uasort($sortedBackends, function ($a, $b) {
 								continue;
 							} // ignore deprecated backends?>
 							<option value="<?php p($backend->getIdentifier()); ?>"><?php p($backend->getText()); ?></option>
-						<?php endforeach; ?>
+<?php endforeach; ?>
 					</select>
 				</td>
 				<td class="authentication" data-mechanisms='<?php p(json_encode($_['authMechanisms'])); ?>'></td>
