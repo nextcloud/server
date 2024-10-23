@@ -26,7 +26,7 @@
 			<!-- Featured/Supported badges -->
 			<div class="app-sidebar__badges">
 				<AppLevelBadge :level="app.level" />
-				<AppDaemonBadge v-if="app?.app_api && app?.daemon" :daemon="app.daemon" />
+				<AppDaemonBadge v-if="app.app_api && app.daemon" :daemon="app.daemon" />
 				<AppScore v-if="hasRating" :score="rating" />
 			</div>
 		</template>

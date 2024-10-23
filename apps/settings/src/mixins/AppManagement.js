@@ -8,12 +8,6 @@ import rebuildNavigation from '../service/rebuild-navigation.js'
 import { useAppApiStore } from '../store/app-api-store'
 
 export default {
-	setup() {
-		const appApiStore = useAppApiStore()
-		return {
-			appApiStore,
-		}
-	},
 	computed: {
 		appGroups() {
 			return this.app.groups.map(group => { return { id: group, name: group } })
