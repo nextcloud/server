@@ -15,12 +15,12 @@
 			class="app-image app-image-icon"
 			:headers="getDataItemHeaders(`app-table-col-icon`)">
 			<div v-if="!app?.app_api && shouldDisplayDefaultIcon" class="icon-settings-dark" />
-			<NcIconSvgWrapper v-else-if="app?.app_api && shouldDisplayDefaultIcon"
-				:path="mdiCogOutline()"
+			<NcIconSvgWrapper v-else-if="app.app_api && shouldDisplayDefaultIcon"
+				:path="mdiCogOutline"
 				:size="listView ? 24 : 48"
 				style="min-width: auto; min-height: auto; height: 100%;" />
 
-			<svg v-else-if="listView && app.preview && !app?.app_api"
+			<svg v-else-if="listView && app.preview && !app.app_api"
 				width="32"
 				height="32"
 				viewBox="0 0 32 32">
@@ -83,7 +83,7 @@
 				@click.stop="update(app.id)">
 				{{ t('settings', 'Update to {update}', {update:app.update}) }}
 			</NcButton>
-			<NcButton v-if="app.canUnInstall || app.canUninstall"
+			<NcButton v-if="app.canUnInstall"
 				class="uninstall"
 				type="tertiary"
 				:disabled="installing || isLoading"
@@ -125,6 +125,8 @@ import SvgFilterMixin from '../SvgFilterMixin.vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import { mdiCogOutline } from '@mdi/js'
+import { useAppApiStore } from '../../store/app-api-store'
+
 
 export default {
 	name: 'AppItem',
@@ -133,7 +135,14 @@ export default {
 		AppScore,
 		NcButton,
 		NcIconSvgWrapper,
-		mdiCogOutline,
+	},
+	setup() {
+		const appApiStore = useAppApiStore()
+
+		return {
+			appApiStore,
+			mdiCogOutline,
+		}
 	},
 	mixins: [AppManagement, SvgFilterMixin],
 	props: {
@@ -206,9 +215,6 @@ export default {
 
 	},
 	methods: {
-		mdiCogOutline() {
-			return mdiCogOutline
-		},
 		prefix(prefix, content) {
 			return prefix + '_' + content
 		},

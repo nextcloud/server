@@ -44,13 +44,13 @@ export interface IAppstoreApp {
 	app_api: boolean
 	active: boolean
 	internal: boolean
-	removeable: boolean
+	removable: boolean
 	installed: boolean
 	canInstall: boolean
-	canUninstall: boolean
+	canUnInstall: boolean
 	isCompatible: boolean
 	needsDownload: boolean
-	update: string | null
+	update?: string
 
 	appstoreData: Record<string, never>
 	releases?: IAppstoreAppRelease[]
@@ -91,5 +91,4 @@ export interface IAppstoreExApp extends IAppstoreApp {
 	daemon: IDeployDaemon | null | undefined
 	status: IExAppStatus | Record<string, never>
 	error: string
-	removable: boolean
 }

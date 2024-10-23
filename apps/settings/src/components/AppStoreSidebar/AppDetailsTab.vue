@@ -49,7 +49,7 @@
 						:value="t('settings', 'Update to {version}', { version: app.update })"
 						:disabled="installing || isLoading || isManualInstall"
 						@click="update(app.id)">
-					<input v-if="app.canUnInstall || app.canUninstall"
+					<input v-if="app.canUnInstall"
 						class="uninstall"
 						type="button"
 						:value="t('settings', 'Remove')"
@@ -81,7 +81,7 @@
 				<p v-if="!defaultDeployDaemonAccessible" class="warning">
 					{{ t('settings', 'Default Deploy daemon is not accessible') }}
 				</p>
-				<NcCheckboxRadioSwitch v-if="app.canUnInstall || app.canUninstall"
+				<NcCheckboxRadioSwitch v-if="app.canUnInstall"
 					:checked="removeData"
 					:disabled="installing || isLoading || !defaultDeployDaemonAccessible"
 					@update:checked="toggleRemoveData">
@@ -113,7 +113,7 @@
 				<NcDateTime :timestamp="lastModified" />
 			</div>
 
-			<div v-if="appAuthors" class="app-details__section">
+			<div class="app-details__section">
 				<h4>
 					{{ t('settings', 'Author') }}
 				</h4>
@@ -122,7 +122,7 @@
 				</p>
 			</div>
 
-			<div v-if="appCategories" class="app-details__section">
+			<div class="app-details__section">
 				<h4>
 					{{ t('settings', 'Categories') }}
 				</h4>

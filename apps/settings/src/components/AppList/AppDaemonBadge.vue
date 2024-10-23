@@ -12,9 +12,9 @@
 </template>
 
 <script setup lang="ts">
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import { mdiFileChart } from '@mdi/js'
 import type { IDeployDaemon } from '../../app-types.ts'
+import { mdiFileChart } from '@mdi/js'
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 
 defineProps<{
 	daemon?: IDeployDaemon

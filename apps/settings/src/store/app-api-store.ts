@@ -95,7 +95,7 @@ export const useAppApiStore = defineStore('app-api-apps', {
 								} as IExAppStatus
 							}
 							app.active = true
-							app.canUninstall = false
+							app.canUnInstall = false
 							app.removable = true
 							app.error = ''
 						}
@@ -159,7 +159,7 @@ export const useAppApiStore = defineStore('app-api-apps', {
 						if (app) {
 							app.active = false
 							if (app.removable) {
-								app.canUninstall = true
+								app.canUnInstall = true
 							}
 						}
 						return true
@@ -183,14 +183,14 @@ export const useAppApiStore = defineStore('app-api-apps', {
 							app.active = false
 							app.needsDownload = true
 							app.installed = false
-							app.canUninstall = false
+							app.canUnInstall = false
 							app.canInstall = true
 							app.daemon = null
 							app.status = {}
 							if (app.update !== null) {
 								this.updateCount--
 							}
-							app.update = null
+							app.update = undefined
 						}
 						return true
 					})
@@ -213,7 +213,7 @@ export const useAppApiStore = defineStore('app-api-apps', {
 						const app = this.apps.find((app) => app.id === appId)
 						if (app) {
 							const version = app.update
-							app.update = null
+							app.update = undefined
 							app.version = version || app.version
 							app.status = {
 								type: 'update',
