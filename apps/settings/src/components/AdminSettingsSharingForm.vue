@@ -170,7 +170,7 @@
 			<NcCheckboxRadioSwitch type="switch" :checked.sync="publicShareDisclaimerEnabled">
 				{{ t('settings', 'Show disclaimer text on the public link upload page (only shown when the file list is hidden)') }}
 			</NcCheckboxRadioSwitch>
-			<div v-if="typeof settings.publicShareDisclaimerText === 'string'"
+			<div v-if="publicShareDisclaimerEnabled"
 				aria-describedby="settings-sharing-privary-related-disclaimer-hint"
 				class="sharing__sub-section">
 				<NcTextArea class="sharing__input"
@@ -231,7 +231,7 @@ interface IShareSettings {
 	enforceExpireDate: boolean
 	excludeGroups: string
 	excludeGroupsList: string[]
-	publicShareDisclaimerText?: string
+	publicShareDisclaimerText: string
 	enableLinkPasswordByDefault: boolean
 	defaultPermissions: number
 	defaultInternalExpireDate: boolean
@@ -252,8 +252,10 @@ export default defineComponent({
 		SelectSharingPermissions,
 	},
 	data() {
+		const settingsData = loadState<IShareSettings>('settings', 'sharingSettings')
 		return {
-			settingsData: loadState<IShareSettings>('settings', 'sharingSettings'),
+			settingsData,
+			publicShareDisclaimerEnabled: settingsData.publicShareDisclaimerText !== '',
 		}
 	},
 	computed: {
@@ -272,26 +274,24 @@ export default defineComponent({
 				},
 			})
 		},
-		publicShareDisclaimerEnabled: {
-			get() {
-				return typeof this.settingsData.publicShareDisclaimerText === 'string'
-			},
-			set(value) {
-				if (value) {
-					this.settingsData.publicShareDisclaimerText = ''
-				} else {
-					this.onUpdateDisclaimer()
-				}
-			},
+	},
+
+	watch: {
+		publicShareDisclaimerEnabled() {
+			// When disabled we just remove the disclaimer content
+			if (this.publicShareDisclaimerEnabled === false) {
+				this.onUpdateDisclaimer('')
+			}
 		},
 	},
+
 	methods: {
 		t,
 
-		onUpdateDisclaimer: debounce(function(value?: string) {
+		onUpdateDisclaimer: debounce(function(value: string) {
 			const options = {
 				success() {
-					if (value) {
+					if (value !== '') {
 						showSuccess(t('settings', 'Changed disclaimer text'))
 					} else {
 						showSuccess(t('settings', 'Deleted disclaimer text'))
@@ -301,7 +301,7 @@ export default defineComponent({
 					showError(t('settings', 'Could not set disclaimer text'))
 				},
 			}
-			if (!value) {
+			if (value === '') {
 				window.OCP.AppConfig.deleteKey('core', 'shareapi_public_link_disclaimertext', options)
 			} else {
 				window.OCP.AppConfig.setValue('core', 'shareapi_public_link_disclaimertext', value, options)
