@@ -33,7 +33,6 @@ namespace OCA\Files_Trashbin\Tests;
 
 use OC\Files\Filesystem;
 use OC\Files\Storage\Common;
-use OC\Files\Storage\Local;
 use OC\Files\Storage\Temporary;
 use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Events\MoveToTrashEvent;
@@ -697,10 +696,7 @@ class StorageTest extends \Test\TestCase {
 		$this->assertEquals('bar', $this->rootView->file_get_contents($this->user . '/files_trashbin/files/test.txt.d1001'));
 	}
 
-	public function testMoveFromStoragePreserveFileId() {
-		if (!$this->userView->getMount('')->getStorage()->instanceOfStorage(Local::class)) {
-			$this->markTestSkipped("Skipping on non-local users storage");
-		}
+	public function testMoveFromStoragePreserveFileId(): void {
 		$this->userView->file_put_contents('test.txt', 'foo');
 		$fileId = $this->userView->getFileInfo('test.txt')->getId();
 
