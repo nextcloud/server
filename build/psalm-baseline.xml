@@ -722,9 +722,6 @@
     <InvalidReturnType>
       <code><![CDATA[string]]></code>
     </InvalidReturnType>
-    <InvalidScalarArgument>
-      <code><![CDATA[(int)$share['id']]]></code>
-    </InvalidScalarArgument>
   </file>
   <file src="apps/federation/lib/DbHandler.php">
     <LessSpecificReturnStatement>
@@ -978,9 +975,6 @@
     <InvalidArgument>
       <code><![CDATA[$timestamp]]></code>
     </InvalidArgument>
-    <InvalidScalarArgument>
-      <code><![CDATA[$timestamp]]></code>
-    </InvalidScalarArgument>
   </file>
   <file src="apps/files_versions/appinfo/routes.php">
     <InvalidScope>
@@ -1071,11 +1065,6 @@
     <InvalidReturnType>
       <code><![CDATA[array{0: int, 1: int, 2: int}]]></code>
     </InvalidReturnType>
-  </file>
-  <file src="apps/user_ldap/ajax/getNewServerConfigPrefix.php">
-    <InvalidScalarArgument>
-      <code><![CDATA[$ln + 1]]></code>
-    </InvalidScalarArgument>
   </file>
   <file src="apps/user_ldap/appinfo/routes.php">
     <InvalidScope>
@@ -1203,12 +1192,6 @@
       <code><![CDATA[$decodedValue[1]]]></code>
       <code><![CDATA[$decodedValue[1]]]></code>
     </InvalidArgument>
-  </file>
-  <file src="apps/workflowengine/lib/Check/RequestTime.php">
-    <InvalidScalarArgument>
-      <code><![CDATA[$hour1]]></code>
-      <code><![CDATA[$minute1]]></code>
-    </InvalidScalarArgument>
   </file>
   <file src="apps/workflowengine/lib/Check/TFileCheck.php">
     <InvalidArgument>

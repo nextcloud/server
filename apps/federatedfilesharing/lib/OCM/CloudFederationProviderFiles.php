@@ -490,7 +490,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				$notification = $this->notificationManager->createNotification();
 				$notification->setApp('files_sharing')
 					->setUser($share['user'])
-					->setObject('remote_share', (int)$share['id']);
+					->setObject('remote_share', (string)$share['id']);
 				$this->notificationManager->markProcessed($notification);
 
 				$event = $this->activityManager->generateEvent();

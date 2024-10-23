@@ -980,7 +980,7 @@ class Trashbin implements IEventListener {
 		$pattern = \OC::$server->getDatabaseConnection()->escapeLikeParameter(basename($filename));
 		if ($timestamp) {
 			// fetch for old versions
-			$escapedTimestamp = \OC::$server->getDatabaseConnection()->escapeLikeParameter($timestamp);
+			$escapedTimestamp = \OC::$server->getDatabaseConnection()->escapeLikeParameter((string)$timestamp);
 			$pattern .= '.v%.d' . $escapedTimestamp;
 			$offset = -strlen($escapedTimestamp) - 2;
 		} else {
