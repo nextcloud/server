@@ -261,7 +261,7 @@
     "Email length is at max (255)" : "邮箱长度达到最大（255）",
     "Non-existing tag #{tag}" : "标签 #{tag} 不存在",
     "Restricted" : "受限",
-    "Invisible" : "不可见",
+    "Invisible" : "隐藏",
     "Delete" : "删除",
     "Rename" : "重命名",
     "Collaborative tags" : "协作标签",
