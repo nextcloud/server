@@ -76,7 +76,6 @@ class EncryptionWrapper {
 				\OC::$server->getConfig()
 			);
 			$update = new Update(
-				new View(),
 				$util,
 				Filesystem::getMountManager(),
 				$this->manager,
