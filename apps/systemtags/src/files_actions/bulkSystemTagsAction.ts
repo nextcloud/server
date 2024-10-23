@@ -5,22 +5,21 @@
 import { type Node } from '@nextcloud/files'
 
 import { defineAsyncComponent } from 'vue'
-import { FileAction } from '@nextcloud/files'
-import { t } from '@nextcloud/l10n'
-import TagMultipleSvg from '@mdi/svg/svg/tag-multiple.svg?raw'
 import { getCurrentUser } from '@nextcloud/auth'
-
+import { FileAction } from '@nextcloud/files'
 import { spawnDialog } from '@nextcloud/dialogs'
-import { fetchTags } from '../services/api'
+import { t } from '@nextcloud/l10n'
+
+import TagMultipleSvg from '@mdi/svg/svg/tag-multiple.svg?raw'
 
 export const action = new FileAction({
 	id: 'systemtags:bulk',
 	displayName: () => t('systemtags', 'Manage tags'),
 	iconSvgInline: () => TagMultipleSvg,
 
+	// If the app is disabled, the action is not available anyway
 	enabled(nodes) {
-		// Only for multiple nodes
-		if (nodes.length <= 1) {
+		if (nodes.length > 0) {
 			return false
 		}
 
@@ -33,11 +32,9 @@ export const action = new FileAction({
 	},
 
 	async execBatch(nodes: Node[]) {
-		const tags = await fetchTags()
 		const response = await new Promise<null|boolean>((resolve) => {
 			spawnDialog(defineAsyncComponent(() => import('../components/SystemTagPicker.vue')), {
 				nodes,
-				tags,
 			}, (status) => {
 				resolve(status as null|boolean)
 			})

@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { FileStat, ResponseDataDetailed } from 'webdav'
+import type { FileStat, ResponseDataDetailed, WebDAVClientError } from 'webdav'
 import type { ServerTag, Tag, TagWithId } from '../types.js'
 
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 
 import { davClient } from './davClient.js'
 import { formatTag, parseIdFromLocation, parseTags } from '../utils'
@@ -22,6 +22,7 @@ export const fetchTagsPayload = `<?xml version="1.0"?>
 		<oc:user-visible />
 		<oc:user-assignable />
 		<oc:can-assign />
+		<d:getetag />
 	</d:prop>
 </d:propfind>`
 
@@ -37,6 +38,20 @@ export const fetchTags = async (): Promise<TagWithId[]> => {
 	} catch (error) {
 		logger.error(t('systemtags', 'Failed to load tags'), { error })
 		throw new Error(t('systemtags', 'Failed to load tags'))
+	}
+}
+
+export const fetchTag = async (tagId: number): Promise<TagWithId> => {
+	const path = '/systemtags/' + tagId
+	try {
+		const { data: tag } = await davClient.stat(path, {
+			data: fetchTagsPayload,
+			details: true
+		}) as ResponseDataDetailed<Required<FileStat>>
+		return parseTags([tag])[0]
+	} catch (error) {
+		logger.error(t('systemtags', 'Failed to load tag'), { error })
+		throw new Error(t('systemtags', 'Failed to load tag'))
 	}
 }
 
@@ -71,6 +86,10 @@ export const createTag = async (tag: Tag | ServerTag): Promise<number> => {
 		logger.error(t('systemtags', 'Missing "Content-Location" header'))
 		throw new Error(t('systemtags', 'Missing "Content-Location" header'))
 	} catch (error) {
+		if ((error as WebDAVClientError)?.response?.status === 409) {
+			logger.error(t('systemtags', 'A tag with the same name already exists'), { error })
+			throw new Error(t('systemtags', 'A tag with the same name already exists'))
+		}
 		logger.error(t('systemtags', 'Failed to create tag'), { error })
 		throw new Error(t('systemtags', 'Failed to create tag'))
 	}
