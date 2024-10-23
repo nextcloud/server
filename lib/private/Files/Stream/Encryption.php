@@ -42,7 +42,7 @@ class Encryption extends Wrapper {
 	/**
 	 * user who perform the read/write operation null for public access
 	 */
-	protected string $uid;
+	protected ?string $uid;
 	protected bool $readOnly;
 	protected bool $writeFlag;
 	protected array $expectedContextProperties;
