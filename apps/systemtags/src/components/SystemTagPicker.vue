@@ -11,24 +11,25 @@
 		close-on-click-outside
 		out-transition
 		@update:open="onCancel">
-		<NcEmptyContent v-if="loading || done" :name="t('systemtags', 'Applying tags changes…')">
+		<NcEmptyContent v-if="status === Status.LOADING || status === Status.DONE"
+			:name="t('systemtags', 'Applying tags changes…')">
 			<template #icon>
-				<NcLoadingIcon v-if="!done" />
+				<NcLoadingIcon v-if="status === Status.LOADING" />
 				<CheckIcon v-else fill-color="var(--color-success)" />
 			</template>
 		</NcEmptyContent>
 
 		<template v-else>
 			<!-- Search or create input -->
-			<div class="systemtags-picker__create">
+			<form class="systemtags-picker__create" @submit.stop.prevent="onNewTag">
 				<NcTextField :value.sync="input"
 					:label="t('systemtags', 'Search or create tag')">
 					<TagIcon :size="20" />
 				</NcTextField>
-				<NcButton>
+				<NcButton :disabled="status === Status.CREATING_TAG" native-type="submit">
 					{{ t('systemtags', 'Create tag') }}
 				</NcButton>
-			</div>
+			</form>
 
 			<!-- Tags list -->
 			<div v-if="filteredTags.length > 0" class="systemtags-picker__tags">
@@ -60,10 +61,10 @@
 		</template>
 
 		<template #actions>
-			<NcButton :disabled="loading || done" type="tertiary" @click="onCancel">
+			<NcButton :disabled="status !== Status.BASE" type="tertiary" @click="onCancel">
 				{{ t('systemtags', 'Cancel') }}
 			</NcButton>
-			<NcButton :disabled="!hasChanges || loading || done" @click="onSubmit">
+			<NcButton :disabled="!hasChanges || status !== Status.BASE" @click="onSubmit">
 				{{ t('systemtags', 'Apply changes') }}
 			</NcButton>
 		</template>
@@ -81,7 +82,7 @@
 <script lang="ts">
 import type { Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
-import type { TagWithId } from '../types'
+import type { Tag, TagWithId } from '../types'
 
 import { defineComponent } from 'vue'
 import { emit } from '@nextcloud/event-bus'
@@ -102,11 +103,18 @@ import TagIcon from 'vue-material-design-icons/Tag.vue'
 import CheckIcon from 'vue-material-design-icons/CheckCircle.vue'
 
 import { getNodeSystemTags, setNodeSystemTags } from '../utils'
-import { getTagObjects, setTagObjects } from '../services/api'
+import { createTag, fetchTag, fetchTags, getTagObjects, setTagObjects } from '../services/api'
 import logger from '../services/logger'
 
 type TagListCount = {
 	string: number
+}
+
+enum Status {
+	BASE,
+	LOADING,
+	CREATING_TAG,
+	DONE,
 }
 
 export default defineComponent({
@@ -131,27 +139,23 @@ export default defineComponent({
 			type: Array as PropType<Node[]>,
 			required: true,
 		},
-
-		tags: {
-			type: Array as PropType<TagWithId[]>,
-			default: () => [],
-		},
 	},
 
 	setup() {
 		return {
 			emit,
+			Status,
 			t,
 		}
 	},
 
 	data() {
 		return {
-			done: false,
-			loading: false,
+			status: Status.BASE,
 			opened: true,
 
 			input: '',
+			tags: [] as TagWithId[],
 			tagList: {} as TagListCount,
 
 			toAdd: [] as TagWithId[],
@@ -243,6 +247,10 @@ export default defineComponent({
 	},
 
 	beforeMount() {
+		fetchTags().then(tags => {
+			this.tags = tags
+		})
+
 		// Efficient way of counting tags and their occurrences
 		this.tagList = this.nodes.reduce((acc: TagListCount, node: Node) => {
 			const tags = getNodeSystemTags(node) || []
@@ -296,8 +304,28 @@ export default defineComponent({
 			}
 		},
 
+		async onNewTag() {
+			this.status = Status.CREATING_TAG
+			try {
+				const payload: Tag = {
+					displayName: this.input.trim(),
+					userAssignable: true,
+					userVisible: true,
+					canAssign: true,
+				}
+				const id = await createTag(payload)
+				const tag = await fetchTag(id)
+				this.tags.push(tag)
+				this.input = ''
+			} catch (error) {
+				showError((error as Error)?.message || t('systemtags', 'Failed to create tag'))
+			} finally {
+				this.status = Status.BASE
+			}
+		},
+
 		async onSubmit() {
-			this.loading = true
+			this.status = Status.LOADING
 			logger.debug('Applying tags', {
 				toAdd: this.toAdd,
 				toRemove: this.toRemove,
@@ -336,7 +364,7 @@ export default defineComponent({
 			} catch (error) {
 				logger.error('Failed to apply tags', { error })
 				showError(t('systemtags', 'Failed to apply tags changes'))
-				this.loading = false
+				this.status = Status.BASE
 				return
 			}
 
@@ -364,8 +392,7 @@ export default defineComponent({
 			// trigger update event
 			nodes.forEach(node => emit('systemtags:node:updated', node))
 
-			this.done = true
-			this.loading = false
+			this.status = Status.DONE
 			setTimeout(() => {
 				this.opened = false
 				this.$emit('close', null)
