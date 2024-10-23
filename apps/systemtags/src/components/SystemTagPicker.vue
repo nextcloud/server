@@ -11,7 +11,7 @@
 		close-on-click-outside
 		out-transition
 		@update:open="onCancel">
-		<NcEmptyContent v-if="loading || done" :name="t('systemtags', 'Applying changes…')">
+		<NcEmptyContent v-if="loading || done" :name="t('systemtags', 'Applying tags changes…')">
 			<template #icon>
 				<NcLoadingIcon v-if="!done" />
 				<CheckIcon v-else fill-color="var(--color-success)" />
@@ -86,8 +86,8 @@ import type { TagWithId } from '../types'
 import { defineComponent } from 'vue'
 import { emit } from '@nextcloud/event-bus'
 import { sanitize } from 'dompurify'
-import { showInfo } from '@nextcloud/dialogs'
-import { t } from '@nextcloud/l10n'
+import { showError, showInfo } from '@nextcloud/dialogs'
+import { getLanguage, t } from '@nextcloud/l10n'
 import escapeHTML from 'escape-html'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -101,7 +101,7 @@ import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import TagIcon from 'vue-material-design-icons/Tag.vue'
 import CheckIcon from 'vue-material-design-icons/CheckCircle.vue'
 
-import { getNodeSystemTags } from '../utils'
+import { getNodeSystemTags, setNodeSystemTags } from '../utils'
 import { getTagObjects, setTagObjects } from '../services/api'
 import logger from '../services/logger'
 
@@ -303,23 +303,66 @@ export default defineComponent({
 				toRemove: this.toRemove,
 			})
 
-			// Add tags
-			for (const tag of this.toAdd) {
-				const { etag, objects } = await getTagObjects(tag, 'files')
-				let ids = [...objects.map(obj => obj.id), ...this.nodes.map(node => node.fileid)] as number[]
-				// Remove duplicates and empty ids
-				ids = [...new Set(ids.filter(id => !!id))]
-				await setTagObjects(tag, 'files', ids.map(id => ({ id, type: 'files' })), etag)
+			try {
+				// Add tags
+				for (const tag of this.toAdd) {
+					const { etag, objects } = await getTagObjects(tag, 'files')
+
+					// Create a new list of ids in one pass
+					const ids = [...new Set([
+						...objects.map(obj => obj.id).filter(Boolean),
+						...this.nodes.map(node => node.fileid).filter(Boolean),
+					])] as number[]
+
+					// Set tags
+					await setTagObjects(tag, 'files', ids.map(id => ({ id, type: 'files' })), etag)
+				}
+
+				// Remove tags
+				for (const tag of this.toRemove) {
+					const { etag, objects } = await getTagObjects(tag, 'files')
+
+					// Get file IDs from the nodes array just once
+					const nodeFileIds = new Set(this.nodes.map(node => node.fileid))
+
+					// Create a filtered and deduplicated list of ids in one pass
+					const ids = objects
+						.map(obj => obj.id)
+						.filter((id, index, self) => !nodeFileIds.has(id) && self.indexOf(id) === index)
+
+					// Set tags
+					await setTagObjects(tag, 'files', ids.map(id => ({ id, type: 'files' })), etag)
+				}
+			} catch (error) {
+				logger.error('Failed to apply tags', { error })
+				showError(t('systemtags', 'Failed to apply tags changes'))
+				this.loading = false
+				return
 			}
 
-			// Remove tags
-			for (const tag of this.toRemove) {
-				const { etag, objects } = await getTagObjects(tag, 'files')
-				let ids = objects.map(obj => obj.id) as number[]
-				// Remove the ids of the nodes and remove duplicates
-				ids = [...new Set(ids.filter(id => !this.nodes.map(node => node.fileid).includes(id)))]
-				await setTagObjects(tag, 'files', ids.map(id => ({ id, type: 'files' })), etag)
-			}
+			const nodes = [] as Node[]
+
+			// Update nodes
+			this.toAdd.forEach(tag => {
+				this.nodes.forEach(node => {
+					const tags = [...(getNodeSystemTags(node) || []), tag.displayName]
+						.sort((a, b) => a.localeCompare(b, getLanguage(), { ignorePunctuation: true }))
+					setNodeSystemTags(node, tags)
+					nodes.push(node)
+				})
+			})
+
+			this.toRemove.forEach(tag => {
+				this.nodes.forEach(node => {
+					const tags = [...(getNodeSystemTags(node) || [])].filter(t => t !== tag.displayName)
+						.sort((a, b) => a.localeCompare(b, getLanguage(), { ignorePunctuation: true }))
+					setNodeSystemTags(node, tags)
+					nodes.push(node)
+				})
+			})
+
+			// trigger update event
+			nodes.forEach(node => emit('systemtags:node:updated', node))
 
 			this.done = true
 			this.loading = false
