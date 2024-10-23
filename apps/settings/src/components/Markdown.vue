@@ -27,7 +27,7 @@ export default {
 	computed: {
 		renderMarkdown() {
 			const renderer = new marked.Renderer()
-			renderer.link = function(href, title, text) {
+			renderer.link = function({ href, title, text }) {
 				let prot
 				try {
 					prot = decodeURIComponent(unescape(href))
@@ -48,18 +48,18 @@ export default {
 				out += '>' + text + '</a>'
 				return out
 			}
-			renderer.heading = (text, level) => {
-				level = Math.min(6, level + (this.minHeading - 1))
-				return `<h${level}>${text}</h${level}>`
+			renderer.heading = ({ text, depth }) => {
+				depth = Math.min(6, depth + (this.minHeading - 1))
+				return `<h${depth}>${text}</h${depth}>`
 			}
-			renderer.image = function(href, title, text) {
+			renderer.image = ({ title, text }) => {
 				if (text) {
 					return text
 				}
 				return title
 			}
-			renderer.blockquote = function(quote) {
-				return quote
+			renderer.blockquote = ({ text }) => {
+				return `<blockquote>${text}</blockquote>`
 			}
 			return dompurify.sanitize(
 				marked(this.text.trim(), {
@@ -100,45 +100,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-	.settings-markdown::v-deep {
-
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
-		font-weight: 600;
-		line-height: 120%;
-		margin-top: 24px;
-		margin-bottom: 12px;
-		color: var(--color-main-text);
-	}
-
-	h1 {
-		font-size: 36px;
-		margin-top: 48px;
-	}
-
-	h2 {
-		font-size: 28px;
-		margin-top: 48px;
-	}
-
-	h3 {
-		font-size: 24px;
-	}
-
-	h4 {
-		font-size: 21px;
-	}
-
-	h5 {
-		font-size: 17px;
-	}
-
-	h6 {
-		font-size: var(--default-font-size);
+.settings-markdown::v-deep {
+	a {
+		text-decoration: underline;
+		&::after {
+			content: '↗';
+			padding-inline: calc(var(--default-grid-baseline) / 2);
+		}
 	}
 
 	pre {
@@ -183,6 +151,5 @@ export default {
 		color: var(--color-text-maxcontrast);
 		margin-inline: 0;
 	}
-
-	}
+}
 </style>

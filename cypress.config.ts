@@ -123,6 +123,7 @@ export default defineConfig({
 	},
 
 	component: {
+		specPattern: ['core/**/*.cy.ts', 'apps/**/*.cy.ts'],
 		devServer: {
 			framework: 'vue',
 			bundler: 'webpack',
