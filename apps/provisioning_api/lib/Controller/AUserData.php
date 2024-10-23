@@ -110,6 +110,13 @@ abstract class AUserData extends OCSController {
 	 * @throws OCSNotFoundException
 	 */
 	protected function getUserData(string $userId, bool $includeScopes = false): ?array {
+		\OC::$server->get(\Psr\Log\LoggerInterface::class)->error(
+			'Start of getUserData for {user}',
+			[
+				'user' => $userId,
+				'ticket' => '66440',
+			]
+		);
 		$currentLoggedInUser = $this->userSession->getUser();
 		assert($currentLoggedInUser !== null, 'No user logged in');
 
@@ -222,6 +229,13 @@ abstract class AUserData extends OCSController {
 			'setDisplayName' => $backend instanceof ISetDisplayNameBackend || $backend->implementsActions(Backend::SET_DISPLAYNAME),
 			'setPassword' => $backend instanceof ISetPasswordBackend || $backend->implementsActions(Backend::SET_PASSWORD),
 		];
+		\OC::$server->get(\Psr\Log\LoggerInterface::class)->error(
+			'End of getUserData for {user}',
+			[
+				'user' => $userId,
+				'ticket' => '66440',
+			]
+		);
 
 		return $data;
 	}
@@ -256,6 +270,14 @@ abstract class AUserData extends OCSController {
 	 * @throws OCSException
 	 */
 	protected function fillStorageInfo(string $userId): array {
+		\OC::$server->get(\Psr\Log\LoggerInterface::class)->error(
+			'Start of fillStorageInfo for {user}',
+			[
+				'user' => $userId,
+				'ticket' => '66440',
+			]
+		);
+
 		try {
 			\OC_Util::tearDownFS();
 			\OC_Util::setupFS($userId);
@@ -294,6 +316,14 @@ abstract class AUserData extends OCSController {
 			\OC_Util::tearDownFS();
 			return [];
 		}
+		\OC::$server->get(\Psr\Log\LoggerInterface::class)->error(
+			'End of fillStorageInfo for {user}',
+			[
+				'user' => $userId,
+				'ticket' => '66440',
+			]
+		);
+
 		return $data;
 	}
 }
