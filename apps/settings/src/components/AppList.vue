@@ -157,9 +157,11 @@
 
 <script>
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { useAppsStore } from '../store/apps-store'
 import AppItem from './AppList/AppItem.vue'
 import pLimit from 'p-limit'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import AppManagement from '../mixins/AppManagement'
 
 export default {
 	name: 'AppList',
@@ -168,11 +170,20 @@ export default {
 		NcButton,
 	},
 
+	mixins: [AppManagement],
+
 	props: {
 		category: {
 			type: String,
 			required: true,
 		},
+	},
+
+	setup() {
+		const store = useAppsStore()
+		return {
+			store,
+		}
 	},
 
 	data() {
@@ -321,8 +332,9 @@ export default {
 			const limit = pLimit(1)
 			this.apps
 				.filter(app => app.update)
-				.map(app => limit(() => this.$store.dispatch('updateApp', { appId: app.id })),
-				)
+				.map((app) => limit(() => {
+					this.update(app.id)
+				}))
 		},
 	},
 }

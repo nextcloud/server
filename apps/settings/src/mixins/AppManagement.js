@@ -138,8 +138,11 @@ export default {
 		},
 		update(appId) {
 			this.$store.dispatch('updateApp', { appId })
-				.then((response) => { rebuildNavigation() })
 				.catch((error) => { showError(error) })
+				.then(() => {
+					rebuildNavigation()
+					this.store.updateCount = Math.max(this.store.updateCount - 1, 0)
+				})
 		},
 	},
 }
