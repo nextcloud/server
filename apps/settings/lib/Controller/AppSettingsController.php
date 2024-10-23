@@ -230,11 +230,25 @@ class AppSettingsController extends Controller {
 		], $categories);
 	}
 
+	/**
+	 * Convert URL to proxied URL so CSP is no problem
+	 */
+	private function createProxyPreviewUrl(string $url): string {
+		if ($url === '') {
+			return '';
+		}
+		return 'https://usercontent.apps.nextcloud.com/' . base64_encode($url);
+	}
+
 	private function fetchApps() {
 		$appClass = new \OC_App();
 		$apps = $appClass->listAllApps();
 		foreach ($apps as $app) {
 			$app['installed'] = true;
+			// locally installed apps have a flatted screenshot property
+			if (isset($app['screenshot'][0])) {
+				$app['screenshot'] = $this->createProxyPreviewUrl($app['screenshot'][0]);
+			}
 			$this->allApps[$app['id']] = $app;
 		}
 
@@ -293,7 +307,7 @@ class AppSettingsController extends Controller {
 		$apps = array_map(function (array $appData) use ($dependencyAnalyzer, $ignoreMaxApps) {
 			if (isset($appData['appstoreData'])) {
 				$appstoreData = $appData['appstoreData'];
-				$appData['screenshot'] = isset($appstoreData['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/' . base64_encode($appstoreData['screenshots'][0]['url']) : '';
+				$appData['screenshot'] = $this->createProxyPreviewUrl($appstoreData['screenshots'][0]['url'] ?? '');
 				$appData['category'] = $appstoreData['categories'];
 				$appData['releases'] = $appstoreData['releases'];
 			}
