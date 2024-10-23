@@ -143,6 +143,10 @@ export const getTagObjects = async function(tag: TagWithId, type: string): Promi
 /**
  * Set the objects for a tag.
  * Warning: This will overwrite the existing objects.
+ * @param tag The tag to set the objects for
+ * @param type The type of the objects
+ * @param objectIds The objects to set
+ * @param etag Strongly recommended to avoid conflict and data loss.
  */
 export const setTagObjects = async function(tag: TagWithId, type: string, objectIds: TagObject[], etag: string = ''): Promise<void> {
 	const path = `/systemtags/${tag.id}/${type}`
