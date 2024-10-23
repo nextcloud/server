@@ -76,8 +76,8 @@ foreach ($directories as $dir) {
 		$content = file_get_contents($file->getPathname());
 
 		$language = pathinfo($file->getFilename(), PATHINFO_FILENAME);
-		if (!in_array($language, $rtlLanguages, true) && preg_match('/[' . implode('', $rtlCharacters) . ']/u', $content, $matches)) {
-			$errors[] = $file->getPathname() . "\n" . '  ' . 'Contains a RTL limited characters in the translations. Offending Unicode codepoints: ' . implode(', ', array_map(static fn (string $match) => mb_ord($match), $matches)) . "\n";
+		if (!in_array($language, $rtlLanguages, true) && preg_match_all('/^(.+[' . implode('', $rtlCharacters) . '].+)$/mu', $content, $matches)) {
+			$errors[] = $file->getPathname() . "\n" . '  ' . 'Contains a RTL limited characters in the translations. Offending strings:' . "\n" . implode("\n", $matches[0]) . "\n";
 		}
 
 		$json = json_decode($content, true);
