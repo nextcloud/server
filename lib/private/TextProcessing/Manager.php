@@ -82,6 +82,20 @@ class Manager implements IManager {
 	}
 
 	public function hasProviders(): bool {
+		// check if task processing equivalent types are available
+		$taskTaskTypes = $this->taskProcessingManager->getAvailableTaskTypes();
+		$taskProcessingCompatibleTaskTypes = [
+			FreePromptTaskType::class => TextToText::ID,
+			HeadlineTaskType::class => TextToTextHeadline::ID,
+			SummaryTaskType::class => TextToTextSummary::ID,
+			TopicsTaskType::class => TextToTextTopics::ID,
+		];
+		foreach ($taskProcessingCompatibleTaskTypes as $textTaskTypeClass => $taskTaskTypeId) {
+			if (isset($taskTaskTypes[$taskTaskTypeId])) {
+				return true;
+			}
+		}
+
 		$context = $this->coordinator->getRegistrationContext();
 		if ($context === null) {
 			return false;
@@ -97,6 +111,21 @@ class Manager implements IManager {
 		foreach ($this->getProviders() as $provider) {
 			$tasks[$provider->getTaskType()] = true;
 		}
+
+		// check if task processing equivalent types are available
+		$taskTaskTypes = $this->taskProcessingManager->getAvailableTaskTypes();
+		$taskProcessingCompatibleTaskTypes = [
+			FreePromptTaskType::class => TextToText::ID,
+			HeadlineTaskType::class => TextToTextHeadline::ID,
+			SummaryTaskType::class => TextToTextSummary::ID,
+			TopicsTaskType::class => TextToTextTopics::ID,
+		];
+		foreach ($taskProcessingCompatibleTaskTypes as $textTaskTypeClass => $taskTaskTypeId) {
+			if (isset($taskTaskTypes[$taskTaskTypeId])) {
+				$tasks[$textTaskTypeClass] = true;
+			}
+		}
+
 		return array_keys($tasks);
 	}
 
