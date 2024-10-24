@@ -143,6 +143,7 @@ import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import AppItem from './AppList/AppItem.vue'
 import pLimit from 'p-limit'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import { useAppApiStore } from '../store/app-api-store'
 
 export default {
 	name: 'AppList',
@@ -158,6 +159,13 @@ export default {
 		},
 	},
 
+	setup() {
+		const appApiStore = useAppApiStore()
+		return {
+			appApiStore,
+		}
+	},
+
 	data() {
 		return {
 			search: '',
@@ -168,7 +176,10 @@ export default {
 			return this.apps.filter(app => app.update).length
 		},
 		loading() {
-			return this.$store.getters.loading('list')
+			if (!this.$store.getters['appApiApps/isAppApiEnabled']) {
+				return this.$store.getters.loading('list')
+			}
+			return this.$store.getters.loading('list') || this.appApiStore.getLoading('list')
 		},
 		hasPendingUpdate() {
 			return this.apps.filter(app => app.update).length > 0
@@ -177,7 +188,9 @@ export default {
 			return this.hasPendingUpdate && this.useListView
 		},
 		apps() {
-			const apps = this.$store.getters.getAllApps
+			// Exclude ExApps from the list if AppAPI is disabled
+			const exApps = this.$store.getters.isAppApiEnabled ? this.appApiStore.getAllApps : []
+			const apps = [...this.$store.getters.getAllApps, ...exApps]
 				.filter(app => app.name.toLowerCase().search(this.search.toLowerCase()) !== -1)
 				.sort(function(a, b) {
 					const sortStringA = '' + (a.active ? 0 : 1) + (a.update ? 0 : 1) + a.name
@@ -304,8 +317,13 @@ export default {
 			const limit = pLimit(1)
 			this.apps
 				.filter(app => app.update)
-				.map(app => limit(() => this.$store.dispatch('updateApp', { appId: app.id })),
-				)
+				.map(app => limit(() => {
+					let type = 'updateApp'
+					if (app?.app_api) {
+						type = 'appApiApps/updateApp'
+					}
+					this.$store.dispatch(type, { appId: app.id })
+				}))
 		},
 	},
 }

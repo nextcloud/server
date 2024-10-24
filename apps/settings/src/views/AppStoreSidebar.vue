@@ -26,6 +26,7 @@
 			<!-- Featured/Supported badges -->
 			<div class="app-sidebar__badges">
 				<AppLevelBadge :level="app.level" />
+				<AppDaemonBadge v-if="app.app_api && app.daemon" :daemon="app.daemon" />
 				<AppScore v-if="hasRating" :score="rating" />
 			</div>
 		</template>
@@ -34,6 +35,7 @@
 		<AppDescriptionTab :app="app" />
 		<AppDetailsTab :app="app" />
 		<AppReleasesTab :app="app" />
+		<AppDeployDaemonTab :app="app" />
 	</NcAppSidebar>
 </template>
 
@@ -49,15 +51,30 @@ import AppScore from '../components/AppList/AppScore.vue'
 import AppDescriptionTab from '../components/AppStoreSidebar/AppDescriptionTab.vue'
 import AppDetailsTab from '../components/AppStoreSidebar/AppDetailsTab.vue'
 import AppReleasesTab from '../components/AppStoreSidebar/AppReleasesTab.vue'
+import AppDeployDaemonTab from '../components/AppStoreSidebar/AppDeployDaemonTab.vue'
 import AppLevelBadge from '../components/AppList/AppLevelBadge.vue'
+import AppDaemonBadge from '../components/AppList/AppDaemonBadge.vue'
 import { useAppIcon } from '../composables/useAppIcon.ts'
+import { useStore } from '../store'
+import { useAppApiStore } from '../store/app-api-store.ts'
 
 const route = useRoute()
 const router = useRouter()
 const store = useAppsStore()
+const appApiStore = useAppApiStore()
+const legacyStore = useStore()
 
 const appId = computed(() => route.params.id ?? '')
-const app = computed(() => store.getAppById(appId.value)!)
+const app = computed(() => {
+	if (legacyStore.getters.isAppApiEnabled) {
+		const exApp = appApiStore.getAllApps
+			.find((app) => app.id === appId.value) ?? null
+		if (exApp) {
+			return exApp
+		}
+	}
+	return store.getAppById(appId.value)!
+})
 const hasRating = computed(() => app.value.appstoreData?.ratingNumOverall > 5)
 const rating = computed(() => app.value.appstoreData?.ratingNumRecent > 5
 	? app.value.appstoreData.ratingRecent
@@ -69,7 +86,15 @@ const { appIcon } = useAppIcon(app)
 /**
  * The second text line shown on the sidebar
  */
-const licenseText = computed(() => app.value ? t('settings', 'Version {version}, {license}-licensed', { version: app.value.version, license: app.value.licence.toString().toUpperCase() }) : '')
+const licenseText = computed(() => {
+	if (!app.value) {
+		return ''
+	}
+	if (app.value.license !== '') {
+		return t('settings', 'Version {version}, {license}-licensed', { version: app.value.version, license: app.value.licence.toString().toUpperCase() })
+	}
+	return t('settings', 'Version {version}', { version: app.value.version })
+})
 
 const activeTab = ref('details')
 watch([app], () => { activeTab.value = 'details' })
