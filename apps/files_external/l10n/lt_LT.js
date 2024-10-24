@@ -8,7 +8,7 @@ OC.L10N.register(
     "Generate keys" : "Generuoti raktus",
     "Error generating key pair" : "Klaida kuriant raktus",
     "(Group)" : "(Grupė)",
-    "Compatibility with Mac NFD encoding (slow)" : "Suderinamumas su Mac NFD kodavimu (lėtai)",
+    "Compatibility with Mac NFD encoding (slow)" : "Suderinamumas su Mac NFD koduote (lėtai)",
     "Enable encryption" : "Įjungti šifravimą",
     "Enable previews" : "Leisti peržiūras",
     "Enable sharing" : "Leisti bendrinti",

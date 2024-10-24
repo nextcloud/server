@@ -404,7 +404,7 @@ OC.L10N.register(
     "Circle" : "Круг",
     "Allow download" : "Дозволи преузимање",
     "No other users with access found" : "Нису нађени други корисници са приступом",
-    "Share {propertyName} saved" : "Сачувано је дељење {propertyName}",
+    "Share expire date saved" : "Сачуван је датум истека дељења",
     "No entries found in this folder" : "Нема ничега у овој фасцикли",
     "Name" : "Назив",
     "Share time" : "Време дељења",
@@ -414,7 +414,6 @@ OC.L10N.register(
     "the link expired" : "веза је истекла",
     "sharing is disabled" : "дељење је искључено",
     "For more info, please ask the person who sent this link." : "За више информација, питајте особу која вам је послала везу.",
-    "Share expire date saved" : "Сачуван је датум истека дељења",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 и-мејл адреса је већ додата","{count} и-мејл адресе су већ додате","{count} и-мејл адреса је већ додато"],
     "_1 email address added_::_{count} email addresses added_" : ["Додата је 1 и-мејл адреса","Додате су {count} и-мејл адресе","Додато је {count} и-мејл адреса"],
     "Enter your name" : "Унесите Ваше име"

@@ -288,7 +288,6 @@ OC.L10N.register(
     "Circle" : "Circle",
     "Allow download" : "Allow download",
     "No other users with access found" : "No other users with access found",
-    "Share {propertyName} saved" : "Share {propertyName} saved",
     "No entries found in this folder" : "No entries found in this folder",
     "Name" : "Name",
     "Share time" : "Share time",

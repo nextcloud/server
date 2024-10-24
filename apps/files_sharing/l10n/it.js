@@ -381,7 +381,6 @@ OC.L10N.register(
     "Circle" : "Cerchia",
     "Allow download" : "Consenti scaricamento",
     "No other users with access found" : "Nessun altro utente con accesso trovato",
-    "Share {propertyName} saved" : "Condivisione {propertyName} salvata",
     "No entries found in this folder" : "Nessuna voce trovata in questa cartella",
     "Name" : "Nome",
     "Share time" : "Tempo di condivisione",

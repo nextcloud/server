@@ -394,7 +394,6 @@ OC.L10N.register(
     "Circle" : "Kreis",
     "Allow download" : "Download erlauben",
     "No other users with access found" : "Keine anderen Benutzer mit Zugriff gefunden",
-    "Share {propertyName} saved" : "Freigabe {propertyName} gespeichert",
     "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
     "Name" : "Name",
     "Share time" : "Freigabezeitpunkt",

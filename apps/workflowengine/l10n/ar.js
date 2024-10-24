@@ -84,7 +84,7 @@ OC.L10N.register(
     "Available flows" : "أتمتة سير العمل المتاحة",
     "For details on how to write your own flow, check out the development documentation." : "للحصول على تفاصيل حول كيفية تطوير أتمتة سير العمل الخاص بك، تحقق من وثائق التطوير.",
     "No flows installed" : "لم يتم تثبيت أي أتمتة لسير العمل",
-    "Ask your administrator to install new flows." : "أطلب من المشرف تثبيت أتمتة سير عمل جديدة .",
+    "Ask your administrator to install new flows." : "أطلب من مسؤول النظام تثبيت أتمتة سير عمل جديدة .",
     "More flows" : "المزيد من أتمتة سير العمل",
     "Browse the App Store" : "إستعرض متجر التطبيقات",
     "Show less" : "عرض أقل",

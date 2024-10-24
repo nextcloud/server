@@ -310,7 +310,6 @@ OC.L10N.register(
     "Circle" : "Círculo",
     "Allow download" : "Permitir descarga",
     "No other users with access found" : "No se encontraron otros usuarios con acceso",
-    "Share {propertyName} saved" : "Se guardó la propiedad {propertyName} de la compartición",
     "No entries found in this folder" : "No hay nada en esta carpeta",
     "Name" : "Nombre",
     "Share time" : "Compartido hace",

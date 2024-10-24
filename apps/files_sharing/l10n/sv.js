@@ -404,7 +404,7 @@ OC.L10N.register(
     "Circle" : "Cirkel",
     "Allow download" : "Tillåt nedladdning",
     "No other users with access found" : "Inga andra användare med åtkomst hittades",
-    "Share {propertyName} saved" : "Delning {propertyName} sparad",
+    "Share expire date saved" : "Delningens utgångsdatum sparad",
     "No entries found in this folder" : "Inga filer hittades i denna mapp",
     "Name" : "Namn",
     "Share time" : "Delningstid",
@@ -414,7 +414,6 @@ OC.L10N.register(
     "the link expired" : "giltighet för länken har gått ut",
     "sharing is disabled" : "delning är inaktiverat",
     "For more info, please ask the person who sent this link." : "För mer information, kontakta den person som skickade den här länken.",
-    "Share expire date saved" : "Delningens utgångsdatum sparad",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 e-postadress som redan har lagts till","{count} e-postadresser som redan har lagts till"],
     "_1 email address added_::_{count} email addresses added_" : ["1 e-postadress har lagts till","{count} e-postadresser har lagts till"],
     "Enter your name" : "Ange ditt namn"

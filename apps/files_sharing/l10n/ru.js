@@ -389,7 +389,6 @@ OC.L10N.register(
     "Circle" : "Круг",
     "Allow download" : "Разрешить скачивать",
     "No other users with access found" : "Не найдено пользователей, имеющих доступ",
-    "Share {propertyName} saved" : "Общий ресурс «{propertyName}» сохранён",
     "No entries found in this folder" : "В этой папке ничего нет",
     "Name" : "Имя",
     "Share time" : "Дата публикации",

@@ -402,7 +402,7 @@
     "Circle" : "圈子",
     "Allow download" : "允許下載",
     "No other users with access found" : "找不到其他有存取權的使用者",
-    "Share {propertyName} saved" : "分享 {propertyName} 已儲存",
+    "Share expire date saved" : "已儲存分享過期日期",
     "No entries found in this folder" : "在此資料夾中沒有任何項目",
     "Name" : "名稱",
     "Share time" : "分享時間",
@@ -412,7 +412,6 @@
     "the link expired" : "連結過期",
     "sharing is disabled" : "分享功能已停用",
     "For more info, please ask the person who sent this link." : "要取得更多資訊，請詢問傳送此連結給您的人。",
-    "Share expire date saved" : "已儲存分享過期日期",
     "_1 email address already added_::_{count} email addresses already added_" : ["已新增 {count} 個電子郵件地址"],
     "_1 email address added_::_{count} email addresses added_" : ["已新增 {count} 個電子郵件地址"],
     "Enter your name" : "輸入您的名稱"

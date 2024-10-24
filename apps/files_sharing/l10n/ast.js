@@ -322,7 +322,6 @@ OC.L10N.register(
     "Circle" : "Círculu",
     "Allow download" : "Permitir la descarga",
     "No other users with access found" : "Nun s'atopó nengún usuariu más con accesu",
-    "Share {propertyName} saved" : "Guardóse la compartición «{propertyName}»",
     "No entries found in this folder" : "Nun s'atopó nenguna entrada nesta carpeta",
     "Name" : "Nome",
     "Share time" : "Tiempu d'usu compartíu",
