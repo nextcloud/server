@@ -14,7 +14,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload {
 	use S3ConnectionTrait;
 	use S3ObjectTrait;
 
-	public function __construct($parameters) {
+	public function __construct(array $parameters) {
 		$parameters['primary_storage'] = true;
 		$this->parseParams($parameters);
 	}

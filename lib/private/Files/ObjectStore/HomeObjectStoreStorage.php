@@ -17,15 +17,15 @@ class HomeObjectStoreStorage extends ObjectStoreStorage implements IHomeStorage 
 	/**
 	 * The home user storage requires a user object to create a unique storage id
 	 *
-	 * @param array $params
+	 * @param array $parameters
 	 * @throws Exception
 	 */
-	public function __construct($params) {
-		if (! isset($params['user']) || ! $params['user'] instanceof IUser) {
+	public function __construct(array $parameters) {
+		if (! isset($parameters['user']) || ! $parameters['user'] instanceof IUser) {
 			throw new Exception('missing user object in parameters');
 		}
-		$this->user = $params['user'];
-		parent::__construct($params);
+		$this->user = $parameters['user'];
+		parent::__construct($parameters);
 	}
 
 	public function getId(): string {

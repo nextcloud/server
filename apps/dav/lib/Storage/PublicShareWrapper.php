@@ -17,14 +17,14 @@ class PublicShareWrapper extends Wrapper implements ISharedStorage {
 	private IShare $share;
 
 	/**
-	 * @param array $arguments ['storage' => $storage, 'share' => $share]
+	 * @param array $parameters ['storage' => $storage, 'share' => $share]
 	 *
 	 * $storage: The storage the permissions mask should be applied on
 	 * $share: The share to use in case no share is found
 	 */
-	public function __construct($arguments) {
-		parent::__construct($arguments);
-		$this->share = $arguments['share'];
+	public function __construct(array $parameters) {
+		parent::__construct($parameters);
+		$this->share = $parameters['share'];
 	}
 
 	public function getShare(): IShare {

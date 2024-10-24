@@ -25,14 +25,14 @@ class PermissionsMask extends Wrapper {
 	private $mask;
 
 	/**
-	 * @param array $arguments ['storage' => $storage, 'mask' => $mask]
+	 * @param array $parameters ['storage' => $storage, 'mask' => $mask]
 	 *
 	 * $storage: The storage the permissions mask should be applied on
 	 * $mask: The permission bits that should be kept, a combination of the \OCP\Constant::PERMISSION_ constants
 	 */
-	public function __construct($arguments) {
-		parent::__construct($arguments);
-		$this->mask = $arguments['mask'];
+	public function __construct(array $parameters) {
+		parent::__construct($parameters);
+		$this->mask = $parameters['mask'];
 	}
 
 	private function checkMask(int $permissions): bool {

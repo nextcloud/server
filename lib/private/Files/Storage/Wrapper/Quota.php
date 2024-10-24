@@ -25,7 +25,7 @@ class Quota extends Wrapper {
 	/**
 	 * @param array $parameters
 	 */
-	public function __construct($parameters) {
+	public function __construct(array $parameters) {
 		parent::__construct($parameters);
 		$this->quota = $parameters['quota'] ?? null;
 		$this->quotaCallback = $parameters['quotaCallback'] ?? null;
