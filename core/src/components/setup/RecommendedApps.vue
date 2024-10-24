@@ -246,7 +246,7 @@ p {
 
 	.info {
 		h3, p {
-			text-align: left;
+			text-align: start;
 		}
 
 		h3 {
@@ -255,7 +255,7 @@ p {
 	}
 
 	.checkbox-radio-switch {
-		margin-left: auto;
+		margin-inline-start: auto;
 		padding: 0 2px;
 	}
 }

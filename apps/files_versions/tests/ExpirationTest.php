@@ -88,7 +88,7 @@ class ExpirationTest extends \Test\TestCase {
 	 * @param bool $quotaExceeded
 	 * @param string $expectedResult
 	 */
-	public function testExpiration($retentionObligation, $timeNow, $timestamp, $quotaExceeded, $expectedResult) {
+	public function testExpiration($retentionObligation, $timeNow, $timestamp, $quotaExceeded, $expectedResult): void {
 		$mockedConfig = $this->getMockedConfig($retentionObligation);
 		$mockedTimeFactory = $this->getMockedTimeFactory($timeNow);
 		$mockedLogger = $this->createMock(LoggerInterface::class);

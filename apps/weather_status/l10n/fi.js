@@ -34,6 +34,7 @@ OC.L10N.register(
     "{temperature} {unit} heavy rainfall showers" : "{temperature} {unit} rankkoja sadekuuroja",
     "More weather for {adr}" : "Lisää säätietoja kohteesta {adr}",
     "Loading weather" : "Ladataan säätietoa",
+    "Set location for weather" : "Aseta sijainti säätiedoille",
     "Remove from favorites" : "Poista suosikeista",
     "Add as favorite" : "Lisää suosikiksi",
     "You are not logged in." : "Et ole kirjautuneena sisään.",
@@ -44,7 +45,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Sijainnin asettamisessa tapahtui virhe.",
     "There was an error saving the mode." : "Tilan tallennuksessa tapahtui virhe.",
     "There was an error using personal address." : "Henkilökohtaisen osoitteen käytössä tapahtui virhe.",
-    "Set location for weather" : "Aseta sijainti säätiedoille",
     "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Säätiedot integroituna kojelautaan.\n    Käyttäjän sijainti voidaan joko tunnistaa automaattisesti tai asettaa manuaalisesti. Sääennuste näytetään kuudelle tunnille.\n    Tiedot voidaan myös integroida muihin paikkoihin, kuten kalenterisovellukseen."
 },
 "nplurals=2; plural=(n != 1);");

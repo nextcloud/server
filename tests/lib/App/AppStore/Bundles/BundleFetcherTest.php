@@ -32,7 +32,7 @@ class BundleFetcherTest extends TestCase {
 		);
 	}
 
-	public function testGetBundles() {
+	public function testGetBundles(): void {
 		$expected = [
 			new EnterpriseBundle($this->l10n),
 			new HubBundle($this->l10n),
@@ -44,13 +44,13 @@ class BundleFetcherTest extends TestCase {
 		$this->assertEquals($expected, $this->bundleFetcher->getBundles());
 	}
 
-	public function testGetBundleByIdentifier() {
+	public function testGetBundleByIdentifier(): void {
 		$this->assertEquals(new EnterpriseBundle($this->l10n), $this->bundleFetcher->getBundleByIdentifier('EnterpriseBundle'));
 		$this->assertEquals(new GroupwareBundle($this->l10n), $this->bundleFetcher->getBundleByIdentifier('GroupwareBundle'));
 	}
 
 
-	public function testGetBundleByIdentifierWithException() {
+	public function testGetBundleByIdentifierWithException(): void {
 		$this->expectException(\BadMethodCallException::class);
 		$this->expectExceptionMessage('Bundle with specified identifier does not exist');
 

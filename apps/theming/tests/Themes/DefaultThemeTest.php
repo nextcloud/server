@@ -18,6 +18,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class DefaultThemeTest extends AccessibleThemeTestCase {
@@ -46,6 +47,7 @@ class DefaultThemeTest extends AccessibleThemeTestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 
 		$this->util = new Util(
+			$this->createMock(ServerVersion::class),
 			$this->config,
 			$this->appManager,
 			$this->createMock(IAppData::class),
@@ -109,31 +111,31 @@ class DefaultThemeTest extends AccessibleThemeTestCase {
 	}
 
 
-	public function testGetId() {
+	public function testGetId(): void {
 		$this->assertEquals('default', $this->theme->getId());
 	}
 
-	public function testGetType() {
+	public function testGetType(): void {
 		$this->assertEquals(ITheme::TYPE_THEME, $this->theme->getType());
 	}
 
-	public function testGetTitle() {
+	public function testGetTitle(): void {
 		$this->assertEquals('System default theme', $this->theme->getTitle());
 	}
 
-	public function testGetEnableLabel() {
+	public function testGetEnableLabel(): void {
 		$this->assertEquals('Enable the system default', $this->theme->getEnableLabel());
 	}
 
-	public function testGetDescription() {
+	public function testGetDescription(): void {
 		$this->assertEquals('Using the default system appearance.', $this->theme->getDescription());
 	}
 
-	public function testGetMediaQuery() {
+	public function testGetMediaQuery(): void {
 		$this->assertEquals('', $this->theme->getMediaQuery());
 	}
 
-	public function testGetCustomCss() {
+	public function testGetCustomCss(): void {
 		$this->assertEquals('', $this->theme->getCustomCss());
 	}
 
@@ -141,7 +143,7 @@ class DefaultThemeTest extends AccessibleThemeTestCase {
 	 * Ensure parity between the default theme and the static generated file
 	 * @see ThemingController.php:313
 	 */
-	public function testThemindDisabledFallbackCss() {
+	public function testThemindDisabledFallbackCss(): void {
 		// Generate variables
 		$variables = '';
 		foreach ($this->theme->getCSSVariables() as $variable => $value) {

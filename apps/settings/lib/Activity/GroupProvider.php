@@ -5,7 +5,7 @@
  */
 namespace OCA\Settings\Activity;
 
-use InvalidArgumentException;
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
@@ -19,36 +19,22 @@ class GroupProvider implements IProvider {
 	public const ADDED_TO_GROUP = 'group_added';
 	public const REMOVED_FROM_GROUP = 'group_removed';
 
-	/** @var L10nFactory */
-	private $l10n;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var IManager */
-	private $activityManager;
-	/** @var IUserManager */
-	protected $userManager;
-	/** @var IGroupManager */
-	protected $groupManager;
-
 	/** @var string[] */
 	protected $groupDisplayNames = [];
 
 
-	public function __construct(L10nFactory $l10n,
-		IURLGenerator $urlGenerator,
-		IManager $activityManager,
-		IUserManager $userManager,
-		IGroupManager $groupManager) {
-		$this->urlGenerator = $urlGenerator;
-		$this->l10n = $l10n;
-		$this->activityManager = $activityManager;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
+	public function __construct(
+		private L10nFactory $l10n,
+		private IURLGenerator $urlGenerator,
+		private IManager $activityManager,
+		protected IUserManager $userManager,
+		protected IGroupManager $groupManager,
+	) {
 	}
 
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getType() !== 'group_settings') {
-			throw new InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$l = $this->l10n->get('settings', $language);
@@ -95,7 +81,7 @@ class GroupProvider implements IProvider {
 				}
 				break;
 			default:
-				throw new InvalidArgumentException();
+				throw new UnknownActivityException();
 		}
 
 		$this->setSubjects($event, $subject, $parsedParameters);
@@ -103,9 +89,6 @@ class GroupProvider implements IProvider {
 		return $event;
 	}
 
-	/**
-	 * @throws \InvalidArgumentException
-	 */
 	protected function setSubjects(IEvent $event, string $subject, array $parameters): void {
 		$event->setRichSubject($subject, $parameters);
 	}

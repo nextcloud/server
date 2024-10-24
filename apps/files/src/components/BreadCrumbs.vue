@@ -83,7 +83,7 @@ export default defineComponent({
 		const pathsStore = usePathsStore()
 		const selectionStore = useSelectionStore()
 		const uploaderStore = useUploaderStore()
-		const { currentView } = useNavigation()
+		const { currentView, views } = useNavigation()
 
 		return {
 			draggingStore,
@@ -93,6 +93,7 @@ export default defineComponent({
 			uploaderStore,
 
 			currentView,
+			views,
 		}
 	},
 
@@ -171,8 +172,10 @@ export default defineComponent({
 				}
 			}
 			if (node === undefined) {
+				const view = this.views.find(view => view.params?.dir === dir)
 				return {
 					...this.$route,
+					params: { fileid: view?.params?.fileid ?? '' },
 					query: { dir },
 				}
 			}

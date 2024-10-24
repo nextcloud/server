@@ -17,15 +17,10 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class BulkUploadPlugin extends ServerPlugin {
-	private Folder $userFolder;
-	private LoggerInterface $logger;
-
 	public function __construct(
-		Folder $userFolder,
-		LoggerInterface $logger
+		private Folder $userFolder,
+		private LoggerInterface $logger,
 	) {
-		$this->userFolder = $userFolder;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -44,7 +39,7 @@ class BulkUploadPlugin extends ServerPlugin {
 	 */
 	public function httpPost(RequestInterface $request, ResponseInterface $response): bool {
 		// Limit bulk upload to the /dav/bulk endpoint
-		if ($request->getPath() !== "bulk") {
+		if ($request->getPath() !== 'bulk') {
 			return true;
 		}
 
@@ -77,16 +72,16 @@ class BulkUploadPlugin extends ServerPlugin {
 				$node = $this->userFolder->getFirstNodeById($node->getId());
 
 				$writtenFiles[$headers['x-file-path']] = [
-					"error" => false,
-					"etag" => $node->getETag(),
-					"fileid" => DavUtil::getDavFileId($node->getId()),
-					"permissions" => DavUtil::getDavPermissions($node),
+					'error' => false,
+					'etag' => $node->getETag(),
+					'fileid' => DavUtil::getDavFileId($node->getId()),
+					'permissions' => DavUtil::getDavPermissions($node),
 				];
 			} catch (\Exception $e) {
 				$this->logger->error($e->getMessage(), ['path' => $headers['x-file-path']]);
 				$writtenFiles[$headers['x-file-path']] = [
-					"error" => true,
-					"message" => $e->getMessage(),
+					'error' => true,
+					'message' => $e->getMessage(),
 				];
 			}
 		}

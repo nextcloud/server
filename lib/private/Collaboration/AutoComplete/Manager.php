@@ -7,17 +7,20 @@ namespace OC\Collaboration\AutoComplete;
 
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\AutoComplete\ISorter;
-use OCP\IServerContainer;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
 	/** @var string[] */
 	protected array $sorters = [];
 
-	/** @var ISorter[]  */
+	/** @var ISorter[] */
 	protected array $sorterInstances = [];
 
 	public function __construct(
-		private IServerContainer $container,
+		private ContainerInterface $container,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -27,7 +30,7 @@ class Manager implements IManager {
 			if (isset($sorterInstances[$sorter])) {
 				$sorterInstances[$sorter]->sort($sortArray, $context);
 			} else {
-				$this->container->getLogger()->warning('No sorter for ID "{id}", skipping', [
+				$this->logger->warning('No sorter for ID "{id}", skipping', [
 					'app' => 'core', 'id' => $sorter
 				]);
 			}
@@ -41,16 +44,23 @@ class Manager implements IManager {
 	protected function getSorters(): array {
 		if (count($this->sorterInstances) === 0) {
 			foreach ($this->sorters as $sorter) {
-				/** @var ISorter $instance */
-				$instance = $this->container->resolve($sorter);
+				try {
+					$instance = $this->container->get($sorter);
+				} catch (ContainerExceptionInterface) {
+					$this->logger->notice(
+						'Skipping not registered sorter. Class name: {class}',
+						['app' => 'core', 'class' => $sorter],
+					);
+					continue;
+				}
 				if (!$instance instanceof ISorter) {
-					$this->container->getLogger()->notice('Skipping sorter which is not an instance of ISorter. Class name: {class}',
+					$this->logger->notice('Skipping sorter which is not an instance of ISorter. Class name: {class}',
 						['app' => 'core', 'class' => $sorter]);
 					continue;
 				}
 				$sorterId = trim($instance->getId());
 				if (trim($sorterId) === '') {
-					$this->container->getLogger()->notice('Skipping sorter with empty ID. Class name: {class}',
+					$this->logger->notice('Skipping sorter with empty ID. Class name: {class}',
 						['app' => 'core', 'class' => $sorter]);
 					continue;
 				}

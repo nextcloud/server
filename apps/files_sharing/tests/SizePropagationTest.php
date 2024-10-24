@@ -7,6 +7,7 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\View;
+use OCP\Constants;
 use OCP\Share\IShare;
 use Test\Traits\UserTrait;
 
@@ -28,7 +29,7 @@ class SizePropagationTest extends TestCase {
 		return new View('/' . $name . '/files');
 	}
 
-	public function testSizePropagationWhenOwnerChangesFile() {
+	public function testSizePropagationWhenOwnerChangesFile(): void {
 		$recipientView = $this->setupUser(self::TEST_FILES_SHARING_API_USER1);
 
 		$ownerView = $this->setupUser(self::TEST_FILES_SHARING_API_USER2);
@@ -40,7 +41,7 @@ class SizePropagationTest extends TestCase {
 			'/sharedfolder',
 			self::TEST_FILES_SHARING_API_USER2,
 			self::TEST_FILES_SHARING_API_USER1,
-			\OCP\Constants::PERMISSION_ALL
+			Constants::PERMISSION_ALL
 		);
 		$ownerRootInfo = $ownerView->getFileInfo('', false);
 
@@ -63,7 +64,7 @@ class SizePropagationTest extends TestCase {
 		$this->assertEquals($ownerRootInfo->getSize() + 3, $newOwnerRootInfo->getSize());
 	}
 
-	public function testSizePropagationWhenRecipientChangesFile() {
+	public function testSizePropagationWhenRecipientChangesFile(): void {
 		$recipientView = $this->setupUser(self::TEST_FILES_SHARING_API_USER1);
 
 		$ownerView = $this->setupUser(self::TEST_FILES_SHARING_API_USER2);
@@ -75,7 +76,7 @@ class SizePropagationTest extends TestCase {
 			'/sharedfolder',
 			self::TEST_FILES_SHARING_API_USER2,
 			self::TEST_FILES_SHARING_API_USER1,
-			\OCP\Constants::PERMISSION_ALL
+			Constants::PERMISSION_ALL
 		);
 		$ownerRootInfo = $ownerView->getFileInfo('', false);
 

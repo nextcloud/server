@@ -23,7 +23,7 @@ class StreamResponseTest extends \Test\TestCase {
 			->getMock();
 	}
 
-	public function testOutputNotModified() {
+	public function testOutputNotModified(): void {
 		$path = __FILE__;
 		$this->output->expects($this->once())
 			->method('getHttpResponseCode')
@@ -35,7 +35,7 @@ class StreamResponseTest extends \Test\TestCase {
 		$response->callback($this->output);
 	}
 
-	public function testOutputOk() {
+	public function testOutputOk(): void {
 		$path = __FILE__;
 		$this->output->expects($this->once())
 			->method('getHttpResponseCode')
@@ -49,7 +49,7 @@ class StreamResponseTest extends \Test\TestCase {
 		$response->callback($this->output);
 	}
 
-	public function testOutputNotFound() {
+	public function testOutputNotFound(): void {
 		$path = __FILE__ . 'test';
 		$this->output->expects($this->once())
 			->method('getHttpResponseCode')
@@ -64,7 +64,7 @@ class StreamResponseTest extends \Test\TestCase {
 		$response->callback($this->output);
 	}
 
-	public function testOutputReadFileError() {
+	public function testOutputReadFileError(): void {
 		$path = __FILE__;
 		$this->output->expects($this->once())
 			->method('getHttpResponseCode')

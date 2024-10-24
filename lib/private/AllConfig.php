@@ -41,7 +41,7 @@ class AllConfig implements IConfig {
 	private CappedMemoryCache $userCache;
 
 	public function __construct(
-		private SystemConfig $systemConfig
+		private SystemConfig $systemConfig,
 	) {
 		$this->userCache = new CappedMemoryCache();
 	}
@@ -107,7 +107,7 @@ class AllConfig implements IConfig {
 	 * @since 16.0.0
 	 */
 	public function getSystemValueBool(string $key, bool $default = false): bool {
-		return (bool) $this->getSystemValue($key, $default);
+		return (bool)$this->getSystemValue($key, $default);
 	}
 
 	/**
@@ -121,7 +121,7 @@ class AllConfig implements IConfig {
 	 * @since 16.0.0
 	 */
 	public function getSystemValueInt(string $key, int $default = 0): int {
-		return (int) $this->getSystemValue($key, $default);
+		return (int)$this->getSystemValue($key, $default);
 	}
 
 	/**
@@ -135,7 +135,7 @@ class AllConfig implements IConfig {
 	 * @since 16.0.0
 	 */
 	public function getSystemValueString(string $key, string $default = ''): string {
-		return (string) $this->getSystemValue($key, $default);
+		return (string)$this->getSystemValue($key, $default);
 	}
 
 	/**
@@ -236,16 +236,16 @@ class AllConfig implements IConfig {
 		$this->fixDIInit();
 
 		if ($appName === 'settings' && $key === 'email') {
-			$value = strtolower((string) $value);
+			$value = strtolower((string)$value);
 		}
 
 		$prevValue = $this->getUserValue($userId, $appName, $key, null);
 
 		if ($prevValue !== null) {
-			if ($prevValue === (string)$value) {
-				return;
-			} elseif ($preCondition !== null && $prevValue !== (string)$preCondition) {
+			if ($preCondition !== null && $prevValue !== (string)$preCondition) {
 				throw new PreConditionNotMetException();
+			} elseif ($prevValue === (string)$value) {
+				return;
 			} else {
 				$qb = $this->connection->getQueryBuilder();
 				$qb->update('preferences')
@@ -382,9 +382,9 @@ class AllConfig implements IConfig {
 	 * @param ?string $userId the user ID to get the app configs from
 	 * @psalm-return array<string, array<string, string>>
 	 * @return array[] - 2 dimensional array with the following structure:
-	 *     [ $appId =>
-	 *         [ $key => $value ]
-	 *     ]
+	 *                 [ $appId =>
+	 *                 [ $key => $value ]
+	 *                 ]
 	 */
 	public function getAllUserValues(?string $userId): array {
 		if (isset($this->userCache[$userId])) {
@@ -462,7 +462,7 @@ class AllConfig implements IConfig {
 	 * @param string $appName the app to get the user for
 	 * @param string $key the key to get the user for
 	 * @param string $value the value to get the user for
-	 * @return array of user IDs
+	 * @return list<string> of user IDs
 	 */
 	public function getUsersForUserValue($appName, $key, $value) {
 		// TODO - FIXME
@@ -496,7 +496,7 @@ class AllConfig implements IConfig {
 	 * @param string $appName the app to get the user for
 	 * @param string $key the key to get the user for
 	 * @param string $value the value to get the user for
-	 * @return array of user IDs
+	 * @return list<string> of user IDs
 	 */
 	public function getUsersForUserValueCaseInsensitive($appName, $key, $value) {
 		// TODO - FIXME

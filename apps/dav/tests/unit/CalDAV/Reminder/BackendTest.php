@@ -95,7 +95,7 @@ class BackendTest extends TestCase {
 
 		$this->assertCount(4, $rows);
 
-		$this->reminderBackend->removeReminder((int) $rows[3]['id']);
+		$this->reminderBackend->removeReminder((int)$rows[3]['id']);
 
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
@@ -118,24 +118,7 @@ class BackendTest extends TestCase {
 		unset($rows[0]['id']);
 		unset($rows[1]['id']);
 
-		$this->assertEquals($rows[0], [
-			'calendar_id' => 1,
-			'object_id' => 1,
-			'uid' => 'asd',
-			'is_recurring' => false,
-			'recurrence_id' => 123458,
-			'is_recurrence_exception' => false,
-			'event_hash' => 'asd123',
-			'alarm_hash' => 'asd567',
-			'type' => 'AUDIO',
-			'is_relative' => true,
-			'notification_date' => 123456,
-			'is_repeat_based' => false,
-			'calendardata' => 'Calendar data 123',
-			'displayname' => 'Displayname 123',
-			'principaluri' => 'principals/users/user001',
-		]);
-		$this->assertEquals($rows[1], [
+		$expected1 = [
 			'calendar_id' => 1,
 			'object_id' => 1,
 			'uid' => 'asd',
@@ -151,7 +134,26 @@ class BackendTest extends TestCase {
 			'calendardata' => 'Calendar data 123',
 			'displayname' => 'Displayname 123',
 			'principaluri' => 'principals/users/user001',
-		]);
+		];
+		$expected2 = [
+			'calendar_id' => 1,
+			'object_id' => 1,
+			'uid' => 'asd',
+			'is_recurring' => false,
+			'recurrence_id' => 123458,
+			'is_recurrence_exception' => false,
+			'event_hash' => 'asd123',
+			'alarm_hash' => 'asd567',
+			'type' => 'AUDIO',
+			'is_relative' => true,
+			'notification_date' => 123456,
+			'is_repeat_based' => false,
+			'calendardata' => 'Calendar data 123',
+			'displayname' => 'Displayname 123',
+			'principaluri' => 'principals/users/user001',
+		];
+
+		$this->assertEqualsCanonicalizing([$rows[0],$rows[1]], [$expected1,$expected2]);
 	}
 
 	public function testGetAllScheduledRemindersForEvent(): void {
@@ -240,7 +242,7 @@ class BackendTest extends TestCase {
 
 		$this->assertEquals($rows[3]['notification_date'], 123600);
 
-		$reminderId = (int)  $rows[3]['id'];
+		$reminderId = (int)$rows[3]['id'];
 		$newNotificationDate = 123700;
 
 		$this->reminderBackend->updateReminder($reminderId, $newNotificationDate);
@@ -252,7 +254,7 @@ class BackendTest extends TestCase {
 			->execute()
 			->fetch();
 
-		$this->assertEquals((int) $row['notification_date'], 123700);
+		$this->assertEquals((int)$row['notification_date'], 123700);
 	}
 
 

@@ -30,8 +30,10 @@ class Internal extends Session {
 	 * @param string $name
 	 * @throws \Exception
 	 */
-	public function __construct(string $name,
-		private LoggerInterface $logger) {
+	public function __construct(
+		string $name,
+		private ?LoggerInterface $logger,
+	) {
 		set_error_handler([$this, 'trapError']);
 		$this->invoke('session_name', [$name]);
 		$this->invoke('session_cache_limiter', ['']);
@@ -206,7 +208,7 @@ class Internal extends Session {
 					$timeSpent > 0.5 => ILogger::INFO,
 					default => ILogger::DEBUG,
 				};
-				$this->logger->log(
+				$this->logger?->log(
 					$logLevel,
 					"Slow session operation $functionName detected",
 					[

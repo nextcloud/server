@@ -113,7 +113,7 @@ export default {
 		// Override Avatar component position to fix positioning on rerender
 		position: absolute !important;
 		top: 40px;
-		left: 18px;
+		inset-inline-start: 18px;
 		z-index: 1;
 
 		&:not(.avatardiv--unknown) {
@@ -128,7 +128,7 @@ export default {
 
 		span {
 			position: absolute;
-			left: 78px;
+			inset-inline-start: 78px;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			overflow-wrap: anywhere;
@@ -151,7 +151,8 @@ export default {
 			color: var(--color-primary-element-text);
 			font-size: 18px;
 			font-weight: bold;
-			margin: 0 4px 8px 0;
+			margin-block: 0 8px;
+			margin-inline: 0 4px;
 		}
 	}
 
@@ -163,7 +164,8 @@ export default {
 			color: var(--color-text-maxcontrast);
 			font-size: 14px;
 			font-weight: normal;
-			margin: 4px 4px 0 0;
+			margin-block: 4px 0;
+			margin-inline: 0 4px;
 			line-height: 1.3;
 		}
 	}

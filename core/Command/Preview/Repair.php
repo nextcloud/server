@@ -19,6 +19,7 @@ use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -59,11 +60,11 @@ class Repair extends Command {
 			$thresholdInMiB = round($this->memoryTreshold / 1024 / 1024, 1);
 			$output->writeln("Memory limit is $limitInMiB MiB");
 			$output->writeln("Memory threshold is $thresholdInMiB MiB");
-			$output->writeln("");
+			$output->writeln('');
 			$memoryCheckEnabled = true;
 		} else {
-			$output->writeln("No memory limit in place - disabled memory check. Set a PHP memory limit to automatically stop the execution of this migration script once memory consumption is close to this limit.");
-			$output->writeln("");
+			$output->writeln('No memory limit in place - disabled memory check. Set a PHP memory limit to automatically stop the execution of this migration script once memory consumption is close to this limit.');
+			$output->writeln('');
 			$memoryCheckEnabled = false;
 		}
 
@@ -72,16 +73,16 @@ class Repair extends Command {
 
 
 		if ($dryMode) {
-			$output->writeln("INFO: The migration is run in dry mode and will not modify anything.");
-			$output->writeln("");
+			$output->writeln('INFO: The migration is run in dry mode and will not modify anything.');
+			$output->writeln('');
 		} elseif ($deleteMode) {
-			$output->writeln("WARN: The migration will _DELETE_ old previews.");
-			$output->writeln("");
+			$output->writeln('WARN: The migration will _DELETE_ old previews.');
+			$output->writeln('');
 		}
 
 		$instanceId = $this->config->getSystemValueString('instanceid');
 
-		$output->writeln("This will migrate all previews from the old preview location to the new one.");
+		$output->writeln('This will migrate all previews from the old preview location to the new one.');
 		$output->writeln('');
 
 		$output->writeln('Fetching previews that need to be migrated …');
@@ -122,17 +123,18 @@ class Repair extends Command {
 		}
 
 		if ($total === 0) {
-			$output->writeln("All previews are already migrated.");
+			$output->writeln('All previews are already migrated.');
 			return 0;
 		}
 
 		$output->writeln("A total of $total preview files need to be migrated.");
-		$output->writeln("");
-		$output->writeln("The migration will always migrate all previews of a single file in a batch. After each batch the process can be canceled by pressing CTRL-C. This will finish the current batch and then stop the migration. This migration can then just be started and it will continue.");
+		$output->writeln('');
+		$output->writeln('The migration will always migrate all previews of a single file in a batch. After each batch the process can be canceled by pressing CTRL-C. This will finish the current batch and then stop the migration. This migration can then just be started and it will continue.');
 
 		if ($input->getOption('batch')) {
 			$output->writeln('Batch mode active: migration is started right away.');
 		} else {
+			/** @var QuestionHelper $helper */
 			$helper = $this->getHelper('question');
 			$question = new ConfirmationQuestion('<info>Should the migration be started? (y/[n]) </info>', false);
 
@@ -144,12 +146,12 @@ class Repair extends Command {
 		// register the SIGINT listener late in here to be able to exit in the early process of this command
 		pcntl_signal(SIGINT, [$this, 'sigIntHandler']);
 
-		$output->writeln("");
-		$output->writeln("");
+		$output->writeln('');
+		$output->writeln('');
 		$section1 = $output->section();
 		$section2 = $output->section();
 		$progressBar = new ProgressBar($section2, $total);
-		$progressBar->setFormat("%current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% Used Memory: %memory:6s%");
+		$progressBar->setFormat('%current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% Used Memory: %memory:6s%');
 		$time = (new \DateTime())->format('H:i:s');
 		$progressBar->setMessage("$time Starting …");
 		$progressBar->maxSecondsBetweenRedraws(0.2);
@@ -191,10 +193,10 @@ class Repair extends Command {
 
 			$memoryUsage = memory_get_usage();
 			if ($memoryCheckEnabled && $memoryUsage > $this->memoryTreshold) {
-				$section1->writeln("");
-				$section1->writeln("");
-				$section1->writeln("");
-				$section1->writeln("         Stopped process 25 MB before reaching the memory limit to avoid a hard crash.");
+				$section1->writeln('');
+				$section1->writeln('');
+				$section1->writeln('');
+				$section1->writeln('         Stopped process 25 MB before reaching the memory limit to avoid a hard crash.');
 				$time = (new \DateTime())->format('H:i:s');
 				$section1->writeln("$time Reached memory limit and stopped to avoid hard crash.");
 				return 1;
@@ -205,7 +207,7 @@ class Repair extends Command {
 				$section1->writeln("         Locking \"$lockName\" …", OutputInterface::VERBOSITY_VERBOSE);
 				$this->lockingProvider->acquireLock($lockName, ILockingProvider::LOCK_EXCLUSIVE);
 			} catch (LockedException $e) {
-				$section1->writeln("         Skipping because it is locked - another process seems to work on this …");
+				$section1->writeln('         Skipping because it is locked - another process seems to work on this …');
 				continue;
 			}
 
@@ -273,14 +275,14 @@ class Repair extends Command {
 			}
 
 			$this->lockingProvider->releaseLock($lockName, ILockingProvider::LOCK_EXCLUSIVE);
-			$section1->writeln("         Unlocked", OutputInterface::VERBOSITY_VERBOSE);
+			$section1->writeln('         Unlocked', OutputInterface::VERBOSITY_VERBOSE);
 
 			$section1->writeln("         Finished migrating previews of file with fileId $name …");
 			$progressBar->advance();
 		}
 
 		$progressBar->finish();
-		$output->writeln("");
+		$output->writeln('');
 		return 0;
 	}
 

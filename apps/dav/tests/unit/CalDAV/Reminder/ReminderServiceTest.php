@@ -35,13 +35,13 @@ class ReminderServiceTest extends TestCase {
 	/** @var IUserManager|MockObject */
 	private $userManager;
 
-	/** @var IGroupManager|MockObject*/
+	/** @var IGroupManager|MockObject */
 	private $groupManager;
 
 	/** @var CalDavBackend|MockObject */
 	private $caldavBackend;
 
-	/** @var ITimeFactory|MockObject  */
+	/** @var ITimeFactory|MockObject */
 	private $timeFactory;
 
 	/** @var IConfig|MockObject */

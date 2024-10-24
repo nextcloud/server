@@ -18,7 +18,7 @@ class CapabilitiesTest extends TestCase {
 		$this->capabilities = new Capabilities();
 	}
 	
-	public function testGetCapabilities() {
+	public function testGetCapabilities(): void {
 		$capabilities = [
 			'files' => [
 				'undelete' => true

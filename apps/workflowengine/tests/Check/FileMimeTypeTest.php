@@ -16,11 +16,11 @@ use OCP\IRequest;
 use Test\TestCase;
 
 class TemporaryNoLocal extends Temporary {
-	public function instanceOfStorage($className) {
-		if ($className === '\OC\Files\Storage\Local') {
+	public function instanceOfStorage(string $class): bool {
+		if ($class === '\OC\Files\Storage\Local') {
 			return false;
 		} else {
-			return parent::instanceOfStorage($className);
+			return parent::instanceOfStorage($class);
 		}
 	}
 }
@@ -71,7 +71,7 @@ class FileMimeTypeTest extends TestCase {
 			});
 	}
 
-	public function testUseCachedMimetype() {
+	public function testUseCachedMimetype(): void {
 		$storage = new Temporary([]);
 		$storage->mkdir('foo');
 		$storage->file_put_contents('foo/bar.txt', 'asd');
@@ -84,7 +84,7 @@ class FileMimeTypeTest extends TestCase {
 		$this->assertTrue($check->executeCheck('is', 'text/plain'));
 	}
 
-	public function testNonCachedNotExists() {
+	public function testNonCachedNotExists(): void {
 		$storage = new Temporary([]);
 
 		$check = new FileMimeType($this->l10n, $this->request, $this->mimeDetector);
@@ -93,7 +93,7 @@ class FileMimeTypeTest extends TestCase {
 		$this->assertTrue($check->executeCheck('is', 'text/plain-path-detected'));
 	}
 
-	public function testNonCachedLocal() {
+	public function testNonCachedLocal(): void {
 		$storage = new Temporary([]);
 		$storage->mkdir('foo');
 		$storage->file_put_contents('foo/bar.txt', 'text-content');
@@ -104,7 +104,7 @@ class FileMimeTypeTest extends TestCase {
 		$this->assertTrue($check->executeCheck('is', 'text/plain-content-detected'));
 	}
 
-	public function testNonCachedNotLocal() {
+	public function testNonCachedNotLocal(): void {
 		$storage = new TemporaryNoLocal([]);
 		$storage->mkdir('foo');
 		$storage->file_put_contents('foo/bar.txt', 'text-content');
@@ -115,7 +115,7 @@ class FileMimeTypeTest extends TestCase {
 		$this->assertTrue($check->executeCheck('is', 'text/plain-content-detected'));
 	}
 
-	public function testFallback() {
+	public function testFallback(): void {
 		$storage = new Temporary([]);
 
 		$check = new FileMimeType($this->l10n, $this->request, $this->mimeDetector);
@@ -124,7 +124,7 @@ class FileMimeTypeTest extends TestCase {
 		$this->assertTrue($check->executeCheck('is', 'application/octet-stream'));
 	}
 
-	public function testFromCacheCached() {
+	public function testFromCacheCached(): void {
 		$storage = new Temporary([]);
 		$storage->mkdir('foo');
 		$storage->file_put_contents('foo/bar.txt', 'text-content');
@@ -144,7 +144,7 @@ class FileMimeTypeTest extends TestCase {
 		$this->assertTrue($newCheck->executeCheck('is', 'text/plain-content-detected'));
 	}
 
-	public function testExistsCached() {
+	public function testExistsCached(): void {
 		$storage = new TemporaryNoLocal([]);
 		$storage->mkdir('foo');
 		$storage->file_put_contents('foo/bar.txt', 'text-content');
@@ -161,7 +161,7 @@ class FileMimeTypeTest extends TestCase {
 		$this->assertTrue($newCheck->executeCheck('is', 'text/plain-path-detected'));
 	}
 
-	public function testNonExistsNotCached() {
+	public function testNonExistsNotCached(): void {
 		$storage = new TemporaryNoLocal([]);
 
 		$check = new FileMimeType($this->l10n, $this->request, $this->mimeDetector);

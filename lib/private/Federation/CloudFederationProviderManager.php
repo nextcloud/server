@@ -40,7 +40,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		private IClientService $httpClientService,
 		private ICloudIdManager $cloudIdManager,
 		private IOCMDiscoveryService $discoveryService,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -106,13 +106,9 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 
 		$client = $this->httpClientService->newClient();
 		try {
-			$response = $client->post($ocmProvider->getEndPoint() . '/shares', [
+			$response = $client->post($ocmProvider->getEndPoint() . '/shares', array_merge($this->getDefaultRequestOptions(), [
 				'body' => json_encode($share->getShare()),
-				'headers' => ['content-type' => 'application/json'],
-				'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
-				'timeout' => 10,
-				'connect_timeout' => 10,
-			]);
+			]));
 
 			if ($response->getStatusCode() === Http::STATUS_CREATED) {
 				$result = json_decode($response->getBody(), true);
@@ -143,13 +139,9 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 
 		$client = $this->httpClientService->newClient();
 		try {
-			return $client->post($ocmProvider->getEndPoint() . '/shares', [
+			return $client->post($ocmProvider->getEndPoint() . '/shares', array_merge($this->getDefaultRequestOptions(), [
 				'body' => json_encode($share->getShare()),
-				'headers' => ['content-type' => 'application/json'],
-				'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
-				'timeout' => 10,
-				'connect_timeout' => 10,
-			]);
+			]));
 		} catch (\Throwable $e) {
 			$this->logger->error('Error while sending share to federation server: ' . $e->getMessage(), ['exception' => $e]);
 			try {
@@ -175,13 +167,9 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 
 		$client = $this->httpClientService->newClient();
 		try {
-			$response = $client->post($ocmProvider->getEndPoint() . '/notifications', [
+			$response = $client->post($ocmProvider->getEndPoint() . '/notifications', array_merge($this->getDefaultRequestOptions(), [
 				'body' => json_encode($notification->getMessage()),
-				'headers' => ['content-type' => 'application/json'],
-				'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
-				'timeout' => 10,
-				'connect_timeout' => 10,
-			]);
+			]));
 			if ($response->getStatusCode() === Http::STATUS_CREATED) {
 				$result = json_decode($response->getBody(), true);
 				return (is_array($result)) ? $result : [];
@@ -205,13 +193,9 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 
 		$client = $this->httpClientService->newClient();
 		try {
-			return $client->post($ocmProvider->getEndPoint() . '/notifications', [
+			return $client->post($ocmProvider->getEndPoint() . '/notifications', array_merge($this->getDefaultRequestOptions(), [
 				'body' => json_encode($notification->getMessage()),
-				'headers' => ['content-type' => 'application/json'],
-				'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
-				'timeout' => 10,
-				'connect_timeout' => 10,
-			]);
+			]));
 		} catch (\Throwable $e) {
 			$this->logger->error('Error while sending notification to federation server: ' . $e->getMessage(), ['exception' => $e]);
 			try {
@@ -229,5 +213,18 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 */
 	public function isReady() {
 		return $this->appManager->isEnabledForUser('cloud_federation_api');
+	}
+
+	private function getDefaultRequestOptions(): array {
+		$options = [
+			'headers' => ['content-type' => 'application/json'],
+			'timeout' => 10,
+			'connect_timeout' => 10,
+		];
+
+		if ($this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates')) {
+			$options['verify'] = false;
+		}
+		return $options;
 	}
 }

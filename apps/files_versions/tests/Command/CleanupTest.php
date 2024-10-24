@@ -12,6 +12,7 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Storage\IStorage;
+use OCP\UserInterface;
 use Test\TestCase;
 
 /**
@@ -23,7 +24,7 @@ use Test\TestCase;
  */
 class CleanupTest extends TestCase {
 
-	/** @var  CleanUp */
+	/** @var CleanUp */
 	protected $cleanup;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | Manager */
@@ -52,7 +53,7 @@ class CleanupTest extends TestCase {
 	 * @dataProvider dataTestDeleteVersions
 	 * @param boolean $nodeExists
 	 */
-	public function testDeleteVersions($nodeExists) {
+	public function testDeleteVersions($nodeExists): void {
 		$this->rootFolder->expects($this->once())
 			->method('nodeExists')
 			->with('/testUser/files_versions')
@@ -102,7 +103,7 @@ class CleanupTest extends TestCase {
 	/**
 	 * test delete versions from users given as parameter
 	 */
-	public function testExecuteDeleteListOfUsers() {
+	public function testExecuteDeleteListOfUsers(): void {
 		$userIds = ['user1', 'user2', 'user3'];
 
 		$instance = $this->getMockBuilder('OCA\Files_Versions\Command\CleanUp')
@@ -111,7 +112,7 @@ class CleanupTest extends TestCase {
 			->getMock();
 		$instance->expects($this->exactly(count($userIds)))
 			->method('deleteVersions')
-			->willReturnCallback(function ($user) use ($userIds) {
+			->willReturnCallback(function ($user) use ($userIds): void {
 				$this->assertTrue(in_array($user, $userIds));
 			});
 
@@ -133,7 +134,7 @@ class CleanupTest extends TestCase {
 	/**
 	 * test delete versions of all users
 	 */
-	public function testExecuteAllUsers() {
+	public function testExecuteAllUsers(): void {
 		$userIds = [];
 		$backendUsers = ['user1', 'user2'];
 
@@ -142,7 +143,7 @@ class CleanupTest extends TestCase {
 			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->versionMapper])
 			->getMock();
 
-		$backend = $this->getMockBuilder(\OCP\UserInterface::class)
+		$backend = $this->getMockBuilder(UserInterface::class)
 			->disableOriginalConstructor()->getMock();
 		$backend->expects($this->once())->method('getUsers')
 			->with('', 500, 0)
@@ -150,7 +151,7 @@ class CleanupTest extends TestCase {
 
 		$instance->expects($this->exactly(count($backendUsers)))
 			->method('deleteVersions')
-			->willReturnCallback(function ($user) use ($backendUsers) {
+			->willReturnCallback(function ($user) use ($backendUsers): void {
 				$this->assertTrue(in_array($user, $backendUsers));
 			});
 
@@ -164,8 +165,8 @@ class CleanupTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 
 		$this->userManager->expects($this->once())
-				->method('getBackends')
-				->willReturn([$backend]);
+			->method('getBackends')
+			->willReturn([$backend]);
 
 		$this->invokePrivate($instance, 'execute', [$inputInterface, $outputInterface]);
 	}

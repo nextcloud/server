@@ -29,32 +29,14 @@ use OCP\Share\IManager;
  */
 class SharingCheckMiddleware extends Middleware {
 
-	/** @var string */
-	protected $appName;
-	/** @var IConfig */
-	protected $config;
-	/** @var IAppManager */
-	protected $appManager;
-	/** @var IControllerMethodReflector */
-	protected $reflector;
-	/** @var IManager */
-	protected $shareManager;
-	/** @var IRequest */
-	protected $request;
-
-	public function __construct(string $appName,
-		IConfig $config,
-		IAppManager $appManager,
-		IControllerMethodReflector $reflector,
-		IManager $shareManager,
-		IRequest $request
+	public function __construct(
+		protected string $appName,
+		protected IConfig $config,
+		protected IAppManager $appManager,
+		protected IControllerMethodReflector $reflector,
+		protected IManager $shareManager,
+		protected IRequest $request,
 	) {
-		$this->appName = $appName;
-		$this->config = $config;
-		$this->appManager = $appManager;
-		$this->reflector = $reflector;
-		$this->shareManager = $shareManager;
-		$this->request = $request;
 	}
 
 	/**

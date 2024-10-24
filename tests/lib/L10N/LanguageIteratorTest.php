@@ -60,7 +60,7 @@ class LanguageIteratorTest extends TestCase {
 	/**
 	 * @dataProvider languageSettingsProvider
 	 */
-	public function testIterator($forcedLang, $userLang, $sysLang, $expectedValues) {
+	public function testIterator($forcedLang, $userLang, $sysLang, $expectedValues): void {
 		$this->config->expects($this->any())
 			->method('getSystemValue')
 			->willReturnMap([

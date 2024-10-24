@@ -12,8 +12,10 @@ use OC\Files\Node\File;
 use OC\Files\Node\Folder;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
+use OCP\Constants;
 use OCP\Files\DavUtil;
 use OCP\Files\FileInfo;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
@@ -22,11 +24,6 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 
 abstract class Node implements \Sabre\DAV\INode {
-	/**
-	 * @var View
-	 */
-	protected $fileView;
-
 	/**
 	 * The path to the current node
 	 *
@@ -53,8 +50,11 @@ abstract class Node implements \Sabre\DAV\INode {
 	/**
 	 * Sets up the node, expects a full path name
 	 */
-	public function __construct(View $view, FileInfo $info, ?IManager $shareManager = null) {
-		$this->fileView = $view;
+	public function __construct(
+		protected View $fileView,
+		FileInfo $info,
+		?IManager $shareManager = null,
+	) {
 		$this->path = $this->fileView->getRelativePath($info->getPath());
 		$this->info = $info;
 		if ($shareManager) {
@@ -79,7 +79,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	protected function refreshInfo(): void {
 		$info = $this->fileView->getFileInfo($this->path);
 		if ($info === false) {
-			throw new \Sabre\DAV\Exception('Failed to get fileinfo for '. $this->path);
+			throw new \Sabre\DAV\Exception('Failed to get fileinfo for ' . $this->path);
 		}
 		$this->info = $info;
 		$root = \OC::$server->get(IRootFolder::class);
@@ -117,8 +117,9 @@ abstract class Node implements \Sabre\DAV\INode {
 	 * @throws \Sabre\DAV\Exception\Forbidden
 	 */
 	public function setName($name) {
-		// rename is only allowed if the update privilege is granted
-		if (!($this->info->isUpdateable() || ($this->info->getMountPoint() instanceof MoveableMount && $this->info->getInternalPath() === ''))) {
+		// rename is only allowed if the delete privilege is granted
+		// (basically rename is a copy with delete of the original node)
+		if (!($this->info->isDeletable() || ($this->info->getMountPoint() instanceof MoveableMount && $this->info->getInternalPath() === ''))) {
 			throw new \Sabre\DAV\Exception\Forbidden();
 		}
 
@@ -129,9 +130,8 @@ abstract class Node implements \Sabre\DAV\INode {
 		// verify path of the target
 		$this->verifyPath($newPath);
 
-
 		if (!$this->fileView->rename($this->path, $newPath)) {
-			throw new \Sabre\DAV\Exception('Failed to rename '. $this->path . ' to ' . $newPath);
+			throw new \Sabre\DAV\Exception('Failed to rename ' . $this->path . ' to ' . $newPath);
 		}
 
 		$this->path = $newPath;
@@ -282,15 +282,15 @@ abstract class Node implements \Sabre\DAV\INode {
 			}
 
 			if (!$mountpoint->getOption('readonly', false) && $mountpointpath === $this->info->getPath()) {
-				$permissions |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
+				$permissions |= Constants::PERMISSION_DELETE | Constants::PERMISSION_UPDATE;
 			}
 		}
 
 		/*
 		 * Files can't have create or delete permissions
 		 */
-		if ($this->info->getType() === \OCP\Files\FileInfo::TYPE_FILE) {
-			$permissions &= ~(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_DELETE);
+		if ($this->info->getType() === FileInfo::TYPE_FILE) {
+			$permissions &= ~(Constants::PERMISSION_CREATE | Constants::PERMISSION_DELETE);
 		}
 
 		return $permissions;
@@ -358,7 +358,7 @@ abstract class Node implements \Sabre\DAV\INode {
 				dirname($path),
 				basename($path),
 			);
-		} catch (\OCP\Files\InvalidPathException $ex) {
+		} catch (InvalidPathException $ex) {
 			throw new InvalidPath($ex->getMessage());
 		}
 	}
@@ -392,7 +392,7 @@ abstract class Node implements \Sabre\DAV\INode {
 		return $this->node;
 	}
 
-	protected function sanitizeMtime($mtimeFromRequest) {
+	protected function sanitizeMtime(string $mtimeFromRequest): int {
 		return MtimeSanitizer::sanitizeMtime($mtimeFromRequest);
 	}
 }

@@ -30,7 +30,7 @@ class MemcachedTest extends Cache {
 		$this->instance = new \OC\Memcache\Memcached($this->getUniqueID());
 	}
 
-	public function testClear() {
+	public function testClear(): void {
 		// Memcached is sometimes broken with clear(), so we don't test it thoroughly
 		$value = 'ipsum lorum';
 		$this->instance->set('1_value1', $value);

@@ -18,28 +18,20 @@ use OCP\GroupInterface;
 use OCP\IConfig;
 use OCP\IUserManager;
 
-class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGetDisplayNameBackend, INamedBackend, IDeleteGroupBackend, IBatchMethodsBackend, IIsAdminBackend {
+class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, INamedBackend, IDeleteGroupBackend, IBatchMethodsBackend, IIsAdminBackend {
 	private $backends = [];
 	private ?Group_LDAP $refBackend = null;
-	private Helper $helper;
-	private GroupPluginManager $groupPluginManager;
 	private bool $isSetUp = false;
-	private IConfig $config;
-	private IUserManager $ncUserManager;
 
 	public function __construct(
-		Helper $helper,
+		private Helper $helper,
 		ILDAPWrapper $ldap,
 		AccessFactory $accessFactory,
-		GroupPluginManager $groupPluginManager,
-		IConfig $config,
-		IUserManager $ncUserManager,
+		private GroupPluginManager $groupPluginManager,
+		private IConfig $config,
+		private IUserManager $ncUserManager,
 	) {
 		parent::__construct($ldap, $accessFactory);
-		$this->helper = $helper;
-		$this->groupPluginManager = $groupPluginManager;
-		$this->config = $config;
-		$this->ncUserManager = $ncUserManager;
 	}
 
 	protected function setup(): void {
@@ -252,7 +244,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	 */
 	public function getGroupsDetails(array $gids): array {
 		if (!($this instanceof IGroupDetailsBackend || $this->implementsActions(GroupInterface::GROUP_DETAILS))) {
-			throw new \Exception("Should not have been called");
+			throw new \Exception('Should not have been called');
 		}
 
 		$groupData = [];

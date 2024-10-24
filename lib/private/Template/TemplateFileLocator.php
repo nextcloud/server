@@ -29,13 +29,13 @@ class TemplateFileLocator {
 		}
 
 		foreach ($this->dirs as $dir) {
-			$file = $dir.$template.'.php';
+			$file = $dir . $template . '.php';
 			if (is_file($file)) {
 				$this->path = $dir;
 				return $file;
 			}
 		}
-		throw new \Exception('template file not found: template:'.$template);
+		throw new \Exception('template file not found: template:' . $template);
 	}
 
 	public function getPath() {

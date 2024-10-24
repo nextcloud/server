@@ -121,7 +121,6 @@ export default {
 	position: relative;
 	display: flex;
 	justify-content: flex-start;
-	max-width: 800px;
 
 	&,
 	* {
@@ -132,7 +131,7 @@ export default {
 		flex-basis: calc(16px * var(--ratio));
 		flex-shrink: 0;
 		height: calc(10px * var(--ratio));
-		margin-right: var(--gap);
+		margin-inline-end: var(--gap);
 		cursor: pointer;
 		border-radius: var(--border-radius);
 		background-repeat: no-repeat;
@@ -156,10 +155,6 @@ export default {
 		label {
 			padding: 12px 0;
 		}
-	}
-
-	&--default {
-		grid-column: span 2;
 	}
 
 	&-warning {

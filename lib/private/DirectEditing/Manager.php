@@ -38,36 +38,21 @@ class Manager implements IManager {
 
 	/** @var IEditor[] */
 	private $editors = [];
-	/** @var IDBConnection */
-	private $connection;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var ISecureRandom */
-	private $random;
 	/** @var string|null */
 	private $userId;
-	/** @var IRootFolder */
-	private $rootFolder;
 	/** @var IL10N */
 	private $l10n;
-	/** @var EncryptionManager */
-	private $encryptionManager;
 
 	public function __construct(
-		ISecureRandom $random,
-		IDBConnection $connection,
-		IUserSession $userSession,
-		IRootFolder $rootFolder,
-		IFactory $l10nFactory,
-		EncryptionManager $encryptionManager
+		private ISecureRandom $random,
+		private IDBConnection $connection,
+		private IUserSession $userSession,
+		private IRootFolder $rootFolder,
+		private IFactory $l10nFactory,
+		private EncryptionManager $encryptionManager,
 	) {
-		$this->random = $random;
-		$this->connection = $connection;
-		$this->userSession = $userSession;
 		$this->userId = $userSession->getUser() ? $userSession->getUser()->getUID() : null;
-		$this->rootFolder = $rootFolder;
 		$this->l10n = $l10nFactory->get('lib');
-		$this->encryptionManager = $encryptionManager;
 	}
 
 	public function registerDirectEditor(IEditor $directEditor): void {
@@ -209,7 +194,7 @@ class Manager implements IManager {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')->from(self::TABLE_TOKENS)
 			->where($query->expr()->eq('token', $query->createNamedParameter($token, IQueryBuilder::PARAM_STR)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		if ($tokenRow = $result->fetch(FetchMode::ASSOCIATIVE)) {
 			return new Token($this, $tokenRow);
 		}
@@ -220,7 +205,7 @@ class Manager implements IManager {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete(self::TABLE_TOKENS)
 			->where($query->expr()->lt('timestamp', $query->createNamedParameter(time() - self::TOKEN_CLEANUP_TIME)));
-		return $query->execute();
+		return $query->executeStatement();
 	}
 
 	public function refreshToken(string $token): bool {
@@ -228,7 +213,7 @@ class Manager implements IManager {
 		$query->update(self::TABLE_TOKENS)
 			->set('timestamp', $query->createNamedParameter(time(), IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('token', $query->createNamedParameter($token, IQueryBuilder::PARAM_STR)));
-		$result = $query->execute();
+		$result = $query->executeStatement();
 		return $result !== 0;
 	}
 
@@ -237,7 +222,7 @@ class Manager implements IManager {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete(self::TABLE_TOKENS)
 			->where($query->expr()->eq('token', $query->createNamedParameter($token, IQueryBuilder::PARAM_STR)));
-		$result = $query->execute();
+		$result = $query->executeStatement();
 		return $result !== 0;
 	}
 
@@ -247,7 +232,7 @@ class Manager implements IManager {
 			->set('accessed', $query->createNamedParameter(true, IQueryBuilder::PARAM_BOOL))
 			->set('timestamp', $query->createNamedParameter(time(), IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('token', $query->createNamedParameter($token, IQueryBuilder::PARAM_STR)));
-		$result = $query->execute();
+		$result = $query->executeStatement();
 		return $result !== 0;
 	}
 
@@ -272,7 +257,7 @@ class Manager implements IManager {
 				'share_id' => $query->createNamedParameter($share !== null ? $share->getId(): null),
 				'timestamp' => $query->createNamedParameter(time())
 			]);
-		$query->execute();
+		$query->executeStatement();
 		return $token;
 	}
 
@@ -303,7 +288,7 @@ class Manager implements IManager {
 			$moduleId = $this->encryptionManager->getDefaultEncryptionModuleId();
 			$module = $this->encryptionManager->getEncryptionModule($moduleId);
 			/** @var \OCA\Encryption\Util $util */
-			$util = \OC::$server->get(\OCA\Encryption\Util::class);
+			$util = \OCP\Server::get(\OCA\Encryption\Util::class);
 			if ($module->isReadyForUser($this->userId) && $util->isMasterKeyEnabled()) {
 				return true;
 			}

@@ -267,13 +267,24 @@ StorageConfig.prototype = {
 	 * @param {Function} [options.error] error callback
 	 */
 	save: function(options) {
-		var self = this;
 		var url = OC.generateUrl(this._url);
 		var method = 'POST';
 		if (_.isNumber(this.id)) {
 			method = 'PUT';
 			url = OC.generateUrl(this._url + '/{id}', {id: this.id});
 		}
+
+		window.OC.PasswordConfirmation.requirePasswordConfirmation(() => this._save(method, url, options), options.error);
+	},
+
+	/**
+	 * Private implementation of the save function (called after potential password confirmation)
+	 * @param {string} method 
+	 * @param {string} url 
+	 * @param {{success: Function, error: Function}} options 
+	 */
+	_save: function(method, url, options) {
+		self = this;
 
 		$.ajax({
 			type: method,
@@ -348,6 +359,15 @@ StorageConfig.prototype = {
 			}
 			return;
 		}
+
+		window.OC.PasswordConfirmation.requirePasswordConfirmation(() => this._destroy(options), options.error)
+	},
+
+	/**
+	 * Private implementation of the DELETE method called after password confirmation
+	 * @param {{ success: Function, error: Function }} options 
+	 */
+	_destroy: function(options) {
 		$.ajax({
 			type: 'DELETE',
 			url: OC.generateUrl(this._url + '/{id}', {id: this.id}),
@@ -766,6 +786,8 @@ MountConfigListView.prototype = _.extend({
 		storageConfig.backend = $target.val();
 		$tr.find('.mountPoint input').val('');
 
+		$tr.find('.selectBackend').prop('selectedIndex', 0)
+
 		var onCompletion = jQuery.Deferred();
 		$tr = this.newStorage(storageConfig, onCompletion);
 		$tr.find('.applicableToAllUsers').prop('checked', false).trigger('change');
@@ -874,7 +896,7 @@ MountConfigListView.prototype = _.extend({
 			$tr.find('.applicable,.mountOptionsToggle').empty();
 			$tr.find('.save').empty();
 			if (backend.invalid) {
-				this.updateStatus($tr, false, 'Unknown backend: ' + backend.name);
+				this.updateStatus($tr, false, t('files_external', 'Unknown backend: {backendName}', {backendName: backend.name}));
 			}
 			return $tr;
 		}
@@ -977,9 +999,10 @@ MountConfigListView.prototype = _.extend({
 				data: {'testOnly' : true},
 				contentType: 'application/json',
 				success: function(result) {
+					result = Object.values(result);
 					var onCompletion = jQuery.Deferred();
 					var $rows = $();
-					Object.values(result).forEach(function(storageParams) {
+					result.forEach(function(storageParams) {
 						var storageConfig;
 						var isUserGlobal = storageParams.type === 'system' && self._isPersonal;
 						storageParams.mountPoint = storageParams.mountPoint.substr(1); // trim leading slash
@@ -1007,6 +1030,13 @@ MountConfigListView.prototype = _.extend({
 						} else {
 							// userglobal storages do not expose configuration data
 							$tr.find('.configuration').text(t('files_external', 'Admin defined'));
+						}
+
+						// don't recheck config automatically when there are a large number of storages
+						if (result.length < 20) {
+							self.recheckStorageConfig($tr);
+						} else {
+							self.updateStatus($tr, StorageConfig.Status.INDETERMINATE, t('files_external', 'Automatic status checking is disabled due to the large number of configured storages, click to check status'));
 						}
 						$rows = $rows.add($tr);
 					});
@@ -1226,8 +1256,9 @@ MountConfigListView.prototype = _.extend({
 					success: function () {
 						$tr.remove();
 					},
-					error: function () {
-						self.updateStatus($tr, StorageConfig.Status.ERROR);
+					error: function (result) {
+						const statusMessage = (result && result.responseJSON) ? result.responseJSON.message : undefined;
+						self.updateStatus($tr, StorageConfig.Status.ERROR, statusMessage);
 					}
 				});
 			}
@@ -1254,7 +1285,7 @@ MountConfigListView.prototype = _.extend({
 				if (concurrentTimer === undefined
 					|| $tr.data('save-timer') === concurrentTimer
 				) {
-					self.updateStatus($tr, result.status);
+					self.updateStatus($tr, result.status, result.statusMessage);
 					$tr.data('id', result.id);
 
 					if (_.isFunction(callback)) {
@@ -1262,11 +1293,12 @@ MountConfigListView.prototype = _.extend({
 					}
 				}
 			},
-			error: function() {
+			error: function(result) {
 				if (concurrentTimer === undefined
 					|| $tr.data('save-timer') === concurrentTimer
 				) {
-					self.updateStatus($tr, StorageConfig.Status.ERROR);
+					const statusMessage = (result && result.responseJSON) ? result.responseJSON.message : undefined;
+					self.updateStatus($tr, StorageConfig.Status.ERROR, statusMessage);
 				}
 			}
 		});
@@ -1290,8 +1322,9 @@ MountConfigListView.prototype = _.extend({
 			success: function(result) {
 				self.updateStatus($tr, result.status, result.statusMessage);
 			},
-			error: function() {
-				self.updateStatus($tr, StorageConfig.Status.ERROR);
+			error: function(result) {
+				const statusMessage = (result && result.responseJSON) ? result.responseJSON.message : undefined;
+				self.updateStatus($tr, StorageConfig.Status.ERROR, statusMessage);
 			}
 		});
 	},
@@ -1308,6 +1341,7 @@ MountConfigListView.prototype = _.extend({
 		switch (status) {
 			case null:
 				// remove status
+				$statusSpan.hide();
 				break;
 			case StorageConfig.Status.IN_PROGRESS:
 				$statusSpan.attr('class', 'icon-loading-small');
@@ -1321,9 +1355,13 @@ MountConfigListView.prototype = _.extend({
 			default:
 				$statusSpan.attr('class', 'error icon-error-white');
 		}
-		if (typeof message === 'string') {
-			$statusSpan.attr('title', message);
+		if (status !== null) {
+			$statusSpan.show();
 		}
+		if (typeof message !== 'string') {
+			message = t('files_external', 'Click to recheck the configuration');
+		}
+		$statusSpan.attr('title', message);
 	},
 
 	/**

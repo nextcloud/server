@@ -7,6 +7,7 @@ namespace OCA\SystemTags\Settings;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Settings\ISettings;
+use OCP\Util;
 
 class Admin implements ISettings {
 
@@ -14,7 +15,7 @@ class Admin implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		\OCP\Util::addScript('systemtags', 'admin');
+		Util::addScript('systemtags', 'admin');
 		return new TemplateResponse('systemtags', 'admin', [], '');
 	}
 
@@ -27,8 +28,8 @@ class Admin implements ISettings {
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
+	 *             the admin section. The forms are arranged in ascending order of the
+	 *             priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
 	 */

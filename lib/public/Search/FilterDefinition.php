@@ -67,7 +67,7 @@ class FilterDefinition {
 	 *
 	 * @param self::TYPE_* $type
 	 * @param bool $exclusive If true, all providers not supporting this filter will be ignored when this filter is provided
-	 * @throw InvalidArgumentException in case of invalid name. Allowed characters are -, 0-9, a-z.
+	 * @throws InvalidArgumentException in case of invalid name. Allowed characters are -, 0-9, a-z.
 	 * @since 28.0.0
 	 */
 	public function __construct(

@@ -9,31 +9,31 @@ namespace OCA\Files_Sharing;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\Files_Sharing\AppInfo\Application;
+use OCP\Util;
 
 class Helper {
 	public static function registerHooks() {
-		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', '\OCA\Files_Sharing\Updater', 'renameHook');
-		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', '\OCA\Files_Sharing\Hooks', 'unshareChildren');
+		Util::connectHook('OC_Filesystem', 'post_rename', '\OCA\Files_Sharing\Updater', 'renameHook');
+		Util::connectHook('OC_Filesystem', 'post_delete', '\OCA\Files_Sharing\Hooks', 'unshareChildren');
 
-		\OCP\Util::connectHook('OC_User', 'post_deleteUser', '\OCA\Files_Sharing\Hooks', 'deleteUser');
+		Util::connectHook('OC_User', 'post_deleteUser', '\OCA\Files_Sharing\Hooks', 'deleteUser');
 	}
 
 	/**
 	 * check if file name already exists and generate unique target
 	 *
 	 * @param string $path
-	 * @param array $excludeList
 	 * @param View $view
 	 * @return string $path
 	 */
-	public static function generateUniqueTarget($path, $excludeList, $view) {
+	public static function generateUniqueTarget($path, $view) {
 		$pathinfo = pathinfo($path);
-		$ext = isset($pathinfo['extension']) ? '.'.$pathinfo['extension'] : '';
+		$ext = isset($pathinfo['extension']) ? '.' . $pathinfo['extension'] : '';
 		$name = $pathinfo['filename'];
 		$dir = $pathinfo['dirname'];
 		$i = 2;
-		while ($view->file_exists($path) || in_array($path, $excludeList)) {
-			$path = Filesystem::normalizePath($dir . '/' . $name . ' ('.$i.')' . $ext);
+		while ($view->file_exists($path)) {
+			$path = Filesystem::normalizePath($dir . '/' . $name . ' (' . $i . ')' . $ext);
 			$i++;
 		}
 
@@ -43,7 +43,7 @@ class Helper {
 	/**
 	 * get default share folder
 	 *
-	 * @param \OC\Files\View|null $view
+	 * @param View|null $view
 	 * @param string|null $userId
 	 * @return string
 	 */

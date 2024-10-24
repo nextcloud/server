@@ -39,7 +39,7 @@ class ListCommandTest extends CommandTest {
 		return new ListCommand($globalService, $userService, $userSession, $userManager);
 	}
 
-	public function testListAuthIdentifier() {
+	public function testListAuthIdentifier(): void {
 		$l10n = $this->createMock(IL10N::class);
 		$session = $this->createMock(ISession::class);
 		$crypto = $this->createMock(ICrypto::class);

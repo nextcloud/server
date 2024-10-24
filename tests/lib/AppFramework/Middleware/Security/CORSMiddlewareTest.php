@@ -308,7 +308,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$middleware->beforeController($this->controller, $method);
 	}
 
-	public function testAfterExceptionWithSecurityExceptionNoStatus() {
+	public function testAfterExceptionWithSecurityExceptionNoStatus(): void {
 		$request = new Request(
 			['server' => [
 				'PHP_AUTH_USER' => 'user',
@@ -324,7 +324,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->assertEquals($expected, $response);
 	}
 
-	public function testAfterExceptionWithSecurityExceptionWithStatus() {
+	public function testAfterExceptionWithSecurityExceptionWithStatus(): void {
 		$request = new Request(
 			['server' => [
 				'PHP_AUTH_USER' => 'user',
@@ -340,7 +340,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->assertEquals($expected, $response);
 	}
 
-	public function testAfterExceptionWithRegularException() {
+	public function testAfterExceptionWithRegularException(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('A regular exception');
 

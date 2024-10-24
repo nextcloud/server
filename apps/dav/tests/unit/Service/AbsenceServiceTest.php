@@ -62,7 +62,7 @@ class AbsenceServiceTest extends TestCase {
 		);
 	}
 
-	public function testCreateAbsenceEmitsScheduledEvent() {
+	public function testCreateAbsenceEmitsScheduledEvent(): void {
 		$tz = new DateTimeZone('Europe/Berlin');
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
@@ -117,7 +117,7 @@ class AbsenceServiceTest extends TestCase {
 		);
 	}
 
-	public function testUpdateAbsenceEmitsChangedEvent() {
+	public function testUpdateAbsenceEmitsChangedEvent(): void {
 		$tz = new DateTimeZone('Europe/Berlin');
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
@@ -181,7 +181,7 @@ class AbsenceServiceTest extends TestCase {
 		);
 	}
 
-	public function testCreateAbsenceSchedulesBothJobs() {
+	public function testCreateAbsenceSchedulesBothJobs(): void {
 		$tz = new DateTimeZone('Europe/Berlin');
 		$startDateString = '2023-01-05';
 		$startDate = new DateTimeImmutable($startDateString, $tz);
@@ -230,7 +230,7 @@ class AbsenceServiceTest extends TestCase {
 		);
 	}
 
-	public function testCreateAbsenceSchedulesOnlyEndJob() {
+	public function testCreateAbsenceSchedulesOnlyEndJob(): void {
 		$tz = new DateTimeZone('Europe/Berlin');
 		$endDateString = '2023-01-10';
 		$endDate = new DateTimeImmutable($endDateString, $tz);
@@ -271,7 +271,7 @@ class AbsenceServiceTest extends TestCase {
 		);
 	}
 
-	public function testCreateAbsenceSchedulesNoJob() {
+	public function testCreateAbsenceSchedulesNoJob(): void {
 		$tz = new DateTimeZone('Europe/Berlin');
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
@@ -306,7 +306,7 @@ class AbsenceServiceTest extends TestCase {
 		);
 	}
 
-	public function testUpdateAbsenceSchedulesBothJobs() {
+	public function testUpdateAbsenceSchedulesBothJobs(): void {
 		$tz = new DateTimeZone('Europe/Berlin');
 		$startDateString = '2023-01-05';
 		$startDate = new DateTimeImmutable($startDateString, $tz);
@@ -362,7 +362,7 @@ class AbsenceServiceTest extends TestCase {
 		);
 	}
 
-	public function testUpdateSchedulesOnlyEndJob() {
+	public function testUpdateSchedulesOnlyEndJob(): void {
 		$tz = new DateTimeZone('Europe/Berlin');
 		$endDateString = '2023-01-10';
 		$endDate = new DateTimeImmutable($endDateString, $tz);
@@ -410,7 +410,7 @@ class AbsenceServiceTest extends TestCase {
 		);
 	}
 
-	public function testUpdateAbsenceSchedulesNoJob() {
+	public function testUpdateAbsenceSchedulesNoJob(): void {
 		$tz = new DateTimeZone('Europe/Berlin');
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')

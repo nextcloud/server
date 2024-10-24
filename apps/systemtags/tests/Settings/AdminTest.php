@@ -19,16 +19,16 @@ class AdminTest extends TestCase {
 		$this->admin = new Admin();
 	}
 
-	public function testGetForm() {
+	public function testGetForm(): void {
 		$expected = new TemplateResponse('systemtags', 'admin', [], '');
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertSame('server', $this->admin->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(70, $this->admin->getPriority());
 	}
 }

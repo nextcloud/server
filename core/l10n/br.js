@@ -114,7 +114,6 @@ OC.L10N.register(
     "Loading more results …" : "O kargañ muioc'h a zisoc'hoù ...",
     "Search" : "Klask",
     "No results for {query}" : "Disoc'h ebet evit {query}",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Lakait {minSearchLength} arouez pe muioc'h evit klask","Lakait {minSearchLength} arouez pe muioc'h evit klask","Lakait {minSearchLength} arouez pe muioc'h evit klask","Lakait {minSearchLength} arouez pe muioc'h evit klask","Lakait  {minSearchLength} arouez pe muioc'h evit klask"],
     "Forgot password?" : "Ger-tremen ankouaet?",
     "Back" : "Distro",
     "Search {types} …" : "Klask {types} ...",

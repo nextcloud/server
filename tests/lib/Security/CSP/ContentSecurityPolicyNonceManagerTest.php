@@ -33,7 +33,7 @@ class ContentSecurityPolicyNonceManagerTest extends TestCase {
 		);
 	}
 
-	public function testGetNonce() {
+	public function testGetNonce(): void {
 		$secret = base64_encode('secret');
 		$tokenValue = base64_encode('secret' ^ 'value_') . ':' . $secret;
 		$token = $this->createMock(CsrfToken::class);
@@ -52,7 +52,7 @@ class ContentSecurityPolicyNonceManagerTest extends TestCase {
 		$this->assertSame($secret, $this->nonceManager->getNonce());
 	}
 
-	public function testGetNonceServerVar() {
+	public function testGetNonceServerVar(): void {
 		$token = 'SERVERNONCE';
 		$this->request
 			->method('__isset')

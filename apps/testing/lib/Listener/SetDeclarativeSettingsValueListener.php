@@ -17,7 +17,9 @@ use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
  */
 class SetDeclarativeSettingsValueListener implements IEventListener {
 
-	public function __construct(private IConfig $config) {
+	public function __construct(
+		private IConfig $config,
+	) {
 	}
 
 	public function handle(Event $event): void {

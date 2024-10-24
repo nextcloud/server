@@ -23,7 +23,7 @@ class NaturalSort {
 		// or inject an instance of \OC\NaturalSort_DefaultCollator to force using Owncloud's default collator
 		if (isset($injectedCollator)) {
 			$this->collator = $injectedCollator;
-			\OC::$server->get(LoggerInterface::class)->debug('forced use of '.get_class($injectedCollator));
+			\OC::$server->get(LoggerInterface::class)->debug('forced use of ' . get_class($injectedCollator));
 		}
 	}
 
@@ -82,7 +82,7 @@ class NaturalSort {
 	 * @param string $a first string to compare
 	 * @param string $b second string to compare
 	 * @return int -1 if $b comes before $a, 1 if $a comes before $b
-	 * or 0 if the strings are identical
+	 *             or 0 if the strings are identical
 	 */
 	public function compare($a, $b) {
 		// Needed because PHP doesn't sort correctly when numbers are enclosed in

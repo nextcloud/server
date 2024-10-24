@@ -70,12 +70,12 @@ class BackgroundRepairTest extends TestCase {
 			->getMock();
 	}
 
-	public function testNoArguments() {
+	public function testNoArguments(): void {
 		$this->jobList->expects($this->once())->method('remove');
 		$this->job->start($this->jobList);
 	}
 
-	public function testAppUpgrading() {
+	public function testAppUpgrading(): void {
 		$this->jobList->expects($this->never())->method('remove');
 		$this->job->expects($this->once())->method('loadApp')->with('test')->willThrowException(new NeedsUpdateException());
 		$this->job->setArgument([
@@ -85,7 +85,7 @@ class BackgroundRepairTest extends TestCase {
 		$this->job->start($this->jobList);
 	}
 
-	public function testUnknownStep() {
+	public function testUnknownStep(): void {
 		$this->dispatcher->expects($this->never())->method('dispatchTyped');
 
 		$this->jobList->expects($this->once())->method('remove');
@@ -98,7 +98,7 @@ class BackgroundRepairTest extends TestCase {
 		$this->job->start($this->jobList);
 	}
 
-	public function testWorkingStep() {
+	public function testWorkingStep(): void {
 		$this->dispatcher->expects($this->once())->method('dispatchTyped')
 			->with($this->equalTo(new RepairStepEvent('A test repair step')));
 

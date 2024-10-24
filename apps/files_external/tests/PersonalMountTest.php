@@ -10,12 +10,13 @@ use OC\Files\Mount\Manager;
 use OC\Files\SetupManagerFactory;
 use OCA\Files_External\Lib\PersonalMount;
 use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\Service\UserStoragesService;
 use Test\TestCase;
 
 class PersonalMountTest extends TestCase {
-	public function testFindByStorageId() {
+	public function testFindByStorageId(): void {
 		$storageConfig = $this->createMock(StorageConfig::class);
-		/** @var \OCA\Files_External\Service\UserStoragesService $storageService */
+		/** @var UserStoragesService $storageService */
 		$storageService = $this->getMockBuilder('\OCA\Files_External\Service\UserStoragesService')
 			->disableOriginalConstructor()
 			->getMock();

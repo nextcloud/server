@@ -24,7 +24,9 @@ abstract class AbstractLockingProvider implements ILockingProvider {
 	 *
 	 * @param int $ttl how long until we clear stray locks in seconds
 	 */
-	public function __construct(protected int $ttl) {
+	public function __construct(
+		protected int $ttl,
+	) {
 	}
 
 	/** @inheritDoc */

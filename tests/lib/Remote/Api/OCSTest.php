@@ -40,7 +40,7 @@ class OCSTest extends TestCase {
 		return 'https://example.com/ocs/v2.php/' . $url;
 	}
 
-	public function testGetUser() {
+	public function testGetUser(): void {
 		$client = $this->getOCSClient();
 
 		$this->expectGetRequest($this->getOCSUrl('cloud/users/user'),
@@ -53,7 +53,7 @@ class OCSTest extends TestCase {
 	}
 
 	
-	public function testGetUserInvalidResponse() {
+	public function testGetUserInvalidResponse(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Invalid user response, expected field email not found');
 
@@ -67,7 +67,7 @@ class OCSTest extends TestCase {
 	}
 
 	
-	public function testInvalidPassword() {
+	public function testInvalidPassword(): void {
 		$this->expectException(\OC\ForbiddenException::class);
 
 		$client = $this->getOCSClient();

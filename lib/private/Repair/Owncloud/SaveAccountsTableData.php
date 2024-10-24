@@ -150,7 +150,7 @@ class SaveAccountsTableData implements IRepairStep {
 	 * @throws \UnexpectedValueException
 	 */
 	protected function migrateUserInfo(IQueryBuilder $update, $userdata) {
-		$state = (int) $userdata['state'];
+		$state = (int)$userdata['state'];
 		if ($state === 3) {
 			// Deleted user, ignore
 			return;

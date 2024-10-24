@@ -27,7 +27,7 @@ class UidLoginCommandTest extends ALoginCommandTest {
 		);
 	}
 
-	public function testProcessFailingLogin() {
+	public function testProcessFailingLogin(): void {
 		$data = $this->getBasicLoginData();
 		$this->userManager->expects($this->once())
 			->method('checkPasswordNoLogging')
@@ -43,7 +43,7 @@ class UidLoginCommandTest extends ALoginCommandTest {
 		$this->assertFalse($data->getUser());
 	}
 
-	public function testProcess() {
+	public function testProcess(): void {
 		$data = $this->getBasicLoginData();
 		$this->userManager->expects($this->once())
 			->method('checkPasswordNoLogging')

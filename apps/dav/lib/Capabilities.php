@@ -9,10 +9,9 @@ use OCP\Capabilities\ICapability;
 use OCP\IConfig;
 
 class Capabilities implements ICapability {
-	private IConfig $config;
-
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		private IConfig $config,
+	) {
 	}
 
 	/**

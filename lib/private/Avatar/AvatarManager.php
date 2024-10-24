@@ -115,7 +115,7 @@ class AvatarManager implements IAvatarManager {
 			$folder->delete();
 		} catch (NotFoundException $e) {
 			$this->logger->debug("No cache for the user $userId. Ignoring avatar deletion");
-		} catch (NotPermittedException | StorageNotAvailableException $e) {
+		} catch (NotPermittedException|StorageNotAvailableException $e) {
 			$this->logger->error("Unable to delete user avatars for $userId. gnoring avatar deletion");
 		} catch (NoUserException $e) {
 			$this->logger->debug("Account $userId not found. Ignoring avatar deletion");

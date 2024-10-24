@@ -23,6 +23,10 @@ class Redis extends Cache implements IMemcacheTTL {
 			'if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("del", KEYS[1]) else return 0 end',
 			'cf0e94b2e9ffc7e04395cf88f7583fc309985910',
 		],
+		'ncad' => [
+			'if redis.call("get", KEYS[1]) ~= ARGV[1] then return redis.call("del", KEYS[1]) else return 0 end',
+			'75526f8048b13ce94a41b58eee59c664b4990ab2',
+		],
 		'caSetTtl' => [
 			'if redis.call("get", KEYS[1]) == ARGV[1] then redis.call("expire", KEYS[1], ARGV[2]) return 1 else return 0 end',
 			'fa4acbc946d23ef41d7d3910880b60e6e4972d72',
@@ -164,6 +168,12 @@ class Redis extends Cache implements IMemcacheTTL {
 		return $this->evalLua('cad', [$key], [$old]) > 0;
 	}
 
+	public function ncad(string $key, mixed $old): bool {
+		$old = self::encodeValue($old);
+
+		return $this->evalLua('ncad', [$key], [$old]) > 0;
+	}
+
 	public function setTTL($key, $ttl) {
 		if ($ttl === 0) {
 			// having infinite TTL can lead to leaked keys as the prefix changes with version upgrades
@@ -202,10 +212,10 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	protected static function encodeValue(mixed $value): string {
-		return is_int($value) ? (string) $value : json_encode($value);
+		return is_int($value) ? (string)$value : json_encode($value);
 	}
 
 	protected static function decodeValue(string $value): mixed {
-		return is_numeric($value) ? (int) $value : json_decode($value, true);
+		return is_numeric($value) ? (int)$value : json_decode($value, true);
 	}
 }

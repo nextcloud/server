@@ -35,6 +35,7 @@ OC.L10N.register(
     "{temperature} {unit} heavy rainfall showers" : "{temperature} {unit} chubascos fuertes",
     "More weather for {adr}" : "Más previsiones para {adr}",
     "Loading weather" : "Cargando previsión del tiempo",
+    "Set location for weather" : "Seleccione la ubicación para el tiempo",
     "Remove from favorites" : "Quitar de favoritos",
     "Add as favorite" : "Añadir como favorito",
     "You are not logged in." : "No ha iniciado sesión.",
@@ -45,7 +46,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Ha habido un error al ajustar la ubicación.",
     "There was an error saving the mode." : "Ha habido un error al guardar el modo.",
     "There was an error using personal address." : "Ha habido un error al ajustar la dirección personal.",
-    "Set location for weather" : "Seleccione la ubicación para el tiempo",
     "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Integración de la previsión del tiempo en la app Dashboard.\n   La posición del panel puede ser determinada automáticamente o definida manualmente. El panel muestra una previsión de tiempo de las próximas 6 horas.\n   Este panel también puede ser integrado en otros sitios, como la app de Calendario."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

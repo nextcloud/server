@@ -28,31 +28,14 @@ use OCP\User\Events\UserLoggedInEvent;
 class LoginCredentials extends AuthMechanism {
 	public const CREDENTIALS_IDENTIFIER = 'password::logincredentials/credentials';
 
-	/** @var ISession */
-	protected $session;
-
-	/** @var ICredentialsManager */
-	protected $credentialsManager;
-
-	/** @var CredentialsStore */
-	private $credentialsStore;
-
-	/** @var ILDAPProviderFactory */
-	private $ldapFactory;
-
 	public function __construct(
 		IL10N $l,
-		ISession $session,
-		ICredentialsManager $credentialsManager,
-		CredentialsStore $credentialsStore,
+		protected ISession $session,
+		protected ICredentialsManager $credentialsManager,
+		private CredentialsStore $credentialsStore,
 		IEventDispatcher $eventDispatcher,
-		ILDAPProviderFactory $ldapFactory
+		private ILDAPProviderFactory $ldapFactory,
 	) {
-		$this->session = $session;
-		$this->credentialsManager = $credentialsManager;
-		$this->credentialsStore = $credentialsStore;
-		$this->ldapFactory = $ldapFactory;
-
 		$this
 			->setIdentifier('password::logincredentials')
 			->setScheme(self::SCHEME_PASSWORD)
@@ -100,7 +83,7 @@ class LoginCredentials extends AuthMechanism {
 		}
 		$credentials = $this->getCredentials($user);
 
-		$loginKey = $storage->getBackendOption("login_ldap_attr");
+		$loginKey = $storage->getBackendOption('login_ldap_attr');
 		if ($loginKey) {
 			$backend = $user->getBackend();
 			if ($backend instanceof IUserBackend && $backend->getBackendName() === 'LDAP') {

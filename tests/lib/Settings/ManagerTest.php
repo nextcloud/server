@@ -64,7 +64,7 @@ class ManagerTest extends TestCase {
 		);
 	}
 
-	public function testGetAdminSections() {
+	public function testGetAdminSections(): void {
 		$this->manager->registerSection('admin', \OCA\WorkflowEngine\Settings\Section::class);
 
 		$section = \OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class);
@@ -77,7 +77,7 @@ class ManagerTest extends TestCase {
 		], $this->manager->getAdminSections());
 	}
 
-	public function testGetPersonalSections() {
+	public function testGetPersonalSections(): void {
 		$this->manager->registerSection('personal', \OCA\WorkflowEngine\Settings\Section::class);
 
 		$section = \OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class);
@@ -90,11 +90,11 @@ class ManagerTest extends TestCase {
 		], $this->manager->getPersonalSections());
 	}
 
-	public function testGetAdminSectionsEmptySection() {
+	public function testGetAdminSectionsEmptySection(): void {
 		$this->assertEquals([], $this->manager->getAdminSections());
 	}
 
-	public function testGetPersonalSectionsEmptySection() {
+	public function testGetPersonalSectionsEmptySection(): void {
 		$this->l10nFactory
 			->expects($this->once())
 			->method('get')
@@ -108,7 +108,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals([], $this->manager->getPersonalSections());
 	}
 
-	public function testGetAdminSettings() {
+	public function testGetAdminSettings(): void {
 		$section = $this->createMock(ISettings::class);
 		$section->method('getPriority')
 			->willReturn(13);
@@ -126,7 +126,7 @@ class ManagerTest extends TestCase {
 		], $settings);
 	}
 
-	public function testGetAdminSettingsAsSubAdmin() {
+	public function testGetAdminSettingsAsSubAdmin(): void {
 		$section = $this->createMock(ISettings::class);
 		$section->method('getPriority')
 			->willReturn(13);
@@ -142,7 +142,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals([], $settings);
 	}
 
-	public function testGetSubAdminSettingsAsSubAdmin() {
+	public function testGetSubAdminSettingsAsSubAdmin(): void {
 		$section = $this->createMock(ISubAdminSettings::class);
 		$section->method('getPriority')
 			->willReturn(13);
@@ -161,7 +161,7 @@ class ManagerTest extends TestCase {
 		], $settings);
 	}
 
-	public function testGetPersonalSettings() {
+	public function testGetPersonalSettings(): void {
 		$section = $this->createMock(ISettings::class);
 		$section->method('getPriority')
 			->willReturn(16);
@@ -195,7 +195,7 @@ class ManagerTest extends TestCase {
 		], $settings);
 	}
 
-	public function testSameSectionAsPersonalAndAdmin() {
+	public function testSameSectionAsPersonalAndAdmin(): void {
 		$this->l10nFactory
 			->expects($this->once())
 			->method('get')

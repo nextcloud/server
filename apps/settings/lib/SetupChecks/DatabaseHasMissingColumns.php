@@ -62,10 +62,10 @@ class DatabaseHasMissingColumns implements ISetupCheck {
 		} else {
 			$list = '';
 			foreach ($missingColumns as $missingColumn) {
-				$list .= "\n".$this->l10n->t('Missing optional column "%s" in table "%s".', [$missingColumn['columnName'], $missingColumn['tableName']]);
+				$list .= "\n" . $this->l10n->t('Missing optional column "%s" in table "%s".', [$missingColumn['columnName'], $missingColumn['tableName']]);
 			}
 			return SetupResult::warning(
-				$this->l10n->t('The database is missing some optional columns. Due to the fact that adding columns on big tables could take some time they were not added automatically when they can be optional. By running "occ db:add-missing-columns" those missing columns could be added manually while the instance keeps running. Once the columns are added some features might improve responsiveness or usability.').$list
+				$this->l10n->t('The database is missing some optional columns. Due to the fact that adding columns on big tables could take some time they were not added automatically when they can be optional. By running "occ db:add-missing-columns" those missing columns could be added manually while the instance keeps running. Once the columns are added some features might improve responsiveness or usability.') . $list
 			);
 		}
 	}

@@ -38,35 +38,35 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "client_id",
-                                    "state",
-                                    "response_type"
-                                ],
-                                "properties": {
-                                    "client_id": {
-                                        "type": "string",
-                                        "description": "Client ID"
-                                    },
-                                    "state": {
-                                        "type": "string",
-                                        "description": "State of the flow"
-                                    },
-                                    "response_type": {
-                                        "type": "string",
-                                        "description": "Response type for the flow"
-                                    }
-                                }
-                            }
+                "parameters": [
+                    {
+                        "name": "client_id",
+                        "in": "query",
+                        "description": "Client ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "state",
+                        "in": "query",
+                        "description": "State of the flow",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "response_type",
+                        "in": "query",
+                        "description": "Response type for the flow",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
                         }
                     }
-                },
+                ],
                 "responses": {
                     "200": {
                         "description": "Client not found",

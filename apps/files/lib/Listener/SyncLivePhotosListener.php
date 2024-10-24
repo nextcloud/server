@@ -100,7 +100,7 @@ class SyncLivePhotosListener implements IEventListener {
 		$peerFileExtension = $peerFile->getExtension();
 		$targetName = $targetFile->getName();
 
-		if (!str_ends_with($targetName, "." . $sourceExtension)) {
+		if (!str_ends_with($targetName, '.' . $sourceExtension)) {
 			throw new AbortedEventException('Cannot change the extension of a Live Photo');
 		}
 
@@ -176,7 +176,7 @@ class SyncLivePhotosListener implements IEventListener {
 				unset($this->pendingDeletion[$peerFile->getId()]);
 				return;
 			} else {
-				throw new AbortedEventException("Cannot delete the video part of a live photo");
+				throw new AbortedEventException('Cannot delete the video part of a live photo');
 			}
 		} else {
 			$this->pendingDeletion[$deletedFile->getId()] = true;

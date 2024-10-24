@@ -21,20 +21,10 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
 
 class Manager implements IManager {
-	/** @var IRequest */
-	protected $request;
-
-	/** @var IUserSession */
-	protected $session;
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var IValidator */
-	protected $validator;
 
 	/** @var string */
 	protected $formattingObjectType;
@@ -48,20 +38,14 @@ class Manager implements IManager {
 	/** @var string */
 	protected $currentUserId;
 
-	protected $l10n;
-
 	public function __construct(
-		IRequest $request,
-		IUserSession $session,
-		IConfig $config,
-		IValidator $validator,
-		IL10N $l10n
+		protected IRequest $request,
+		protected IUserSession $session,
+		protected IConfig $config,
+		protected IValidator $validator,
+		protected IRichTextFormatter $richTextFormatter,
+		protected IL10N $l10n,
 	) {
-		$this->request = $request;
-		$this->session = $session;
-		$this->config = $config;
-		$this->validator = $validator;
-		$this->l10n = $l10n;
 	}
 
 	/** @var \Closure[] */
@@ -104,7 +88,7 @@ class Manager implements IManager {
 	 * @return IEvent
 	 */
 	public function generateEvent(): IEvent {
-		return new Event($this->validator);
+		return new Event($this->validator, $this->richTextFormatter);
 	}
 
 	/**
@@ -291,7 +275,7 @@ class Manager implements IManager {
 	public function isFormattingFilteredObject(): bool {
 		return $this->formattingObjectType !== null && $this->formattingObjectId !== null
 			&& $this->formattingObjectType === $this->request->getParam('object_type')
-			&& $this->formattingObjectId === (int) $this->request->getParam('object_id');
+			&& $this->formattingObjectId === (int)$this->request->getParam('object_id');
 	}
 
 	/**
@@ -344,7 +328,7 @@ class Manager implements IManager {
 	 * @throws \UnexpectedValueException If the token is invalid, does not exist or is not unique
 	 */
 	protected function getUserFromToken(): string {
-		$token = (string) $this->request->getParam('token', '');
+		$token = (string)$this->request->getParam('token', '');
 		if (strlen($token) !== 30) {
 			throw new \UnexpectedValueException('The token is invalid');
 		}

@@ -51,7 +51,7 @@ class ProvisioningApiMiddlewareTest extends TestCase {
 	 * @param bool $isSubAdmin
 	 * @param bool $shouldThrowException
 	 */
-	public function testBeforeController($subadminRequired, $isAdmin, $isSubAdmin, $hasSettingAuthorizationAnnotation, $shouldThrowException) {
+	public function testBeforeController($subadminRequired, $isAdmin, $isSubAdmin, $hasSettingAuthorizationAnnotation, $shouldThrowException): void {
 		$middleware = new ProvisioningApiMiddleware(
 			$this->reflector,
 			$isAdmin,
@@ -93,7 +93,7 @@ class ProvisioningApiMiddlewareTest extends TestCase {
 	 * @param \Exception $e
 	 * @param bool $forwared
 	 */
-	public function testAfterException(\Exception $exception, $forwared) {
+	public function testAfterException(\Exception $exception, $forwared): void {
 		$middleware = new ProvisioningApiMiddleware(
 			$this->reflector,
 			false,

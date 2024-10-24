@@ -4,6 +4,14 @@ name: Psalm static code analysis
 
 on:
   pull_request:
+  push:
+    branches:
+      - main
+      - master
+      - stable*
+    paths:
+      - '.github/workflows/static-code-analysis.yml'
+      - '**.php'
 
 concurrency:
   group: static-code-analysis-${{ github.head_ref || github.run_id }}
@@ -13,11 +21,11 @@ jobs:
   static-code-analysis:
     runs-on: ubuntu-latest
 
-    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
         with:
           submodules: true
 
@@ -34,24 +42,20 @@ jobs:
         run: composer i
 
       - name: Psalm
-        run: composer run psalm:ci -- --monochrome --no-progress --output-format=github --update-baseline --report=results.sarif
+        run: composer run psalm -- --threads=1 --monochrome --no-progress --output-format=github --update-baseline
 
       - name: Show potential changes in Psalm baseline
         if: always()
-        run: git diff -- . ':!lib/composer'
-
-      - name: Upload Analysis results to GitHub
-        if: always()
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: results.sarif
+        run: git diff --exit-code -- . ':!lib/composer'
 
   static-code-analysis-security:
     runs-on: ubuntu-latest
 
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
         with:
           submodules: true
 
@@ -66,7 +70,11 @@ jobs:
         run: composer i
 
       - name: Psalm taint analysis
-        run: composer run psalm:ci -- --monochrome --no-progress --output-format=github --report=results.sarif --taint-analysis
+        run: composer run psalm:security -- --threads=1 --monochrome --no-progress --output-format=github --update-baseline --report=results.sarif
+
+      - name: Show potential changes in Psalm baseline
+        if: always()
+        run: git diff --exit-code -- . ':!lib/composer'
 
       - name: Upload Security Analysis results to GitHub
         if: always()
@@ -77,9 +85,11 @@ jobs:
   static-code-analysis-ocp:
     runs-on: ubuntu-latest
 
+    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
+
     steps:
       - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
         with:
           submodules: true
 
@@ -96,8 +106,8 @@ jobs:
         run: composer i
 
       - name: Psalm
-        run: composer run psalm:ci -- -c psalm-ocp.xml --monochrome --no-progress --output-format=github --update-baseline
+        run: composer run psalm:ocp -- --threads=1 --monochrome --no-progress --output-format=github --update-baseline
 
       - name: Show potential changes in Psalm baseline
         if: always()
-        run: git diff -- . ':!lib/composer'
+        run: git diff --exit-code -- . ':!lib/composer'

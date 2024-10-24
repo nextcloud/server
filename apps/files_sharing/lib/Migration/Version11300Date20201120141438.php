@@ -18,11 +18,9 @@ use OCP\Migration\SimpleMigrationStep;
 
 class Version11300Date20201120141438 extends SimpleMigrationStep {
 
-	/** @var IDBConnection */
-	private $connection;
-
-	public function __construct(IDBConnection $connection) {
-		$this->connection = $connection;
+	public function __construct(
+		private IDBConnection $connection,
+	) {
 	}
 
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {

@@ -103,11 +103,11 @@ class Manager implements IManager {
 		$providers = $this->getPreferredProviders();
 
 		foreach ($providers as $provider) {
-			$this->logger->debug('Trying to run Text2Image provider '.$provider::class);
+			$this->logger->debug('Trying to run Text2Image provider ' . $provider::class);
 			try {
 				$task->setStatus(Task::STATUS_RUNNING);
 				$completionExpectedAt = new \DateTime('now');
-				$completionExpectedAt->add(new \DateInterval('PT'.$provider->getExpectedRuntime().'S'));
+				$completionExpectedAt->add(new \DateInterval('PT' . $provider->getExpectedRuntime() . 'S'));
 				$task->setCompletionExpectedAt($completionExpectedAt);
 				if ($task->getId() === null) {
 					$this->logger->debug('Inserting Text2Image task into DB');
@@ -119,21 +119,21 @@ class Manager implements IManager {
 				}
 				try {
 					$folder = $this->appData->getFolder('text2image');
-				} catch(NotFoundException) {
+				} catch (NotFoundException) {
 					$this->logger->debug('Creating folder in appdata for Text2Image results');
 					$folder = $this->appData->newFolder('text2image');
 				}
 				try {
-					$folder = $folder->getFolder((string) $task->getId());
-				} catch(NotFoundException) {
+					$folder = $folder->getFolder((string)$task->getId());
+				} catch (NotFoundException) {
 					$this->logger->debug('Creating new folder in appdata Text2Image results folder');
-					$folder = $folder->newFolder((string) $task->getId());
+					$folder = $folder->newFolder((string)$task->getId());
 				}
 				$this->logger->debug('Creating result files for Text2Image task');
 				$resources = [];
 				$files = [];
 				for ($i = 0; $i < $task->getNumberOfImages(); $i++) {
-					$file = $folder->newFile((string) $i);
+					$file = $folder->newFile((string)$i);
 					$files[] = $file;
 					$resource = $file->write();
 					if ($resource !== false && $resource !== true && is_resource($resource)) {
@@ -162,7 +162,7 @@ class Manager implements IManager {
 					if (isset($files, $files[$i])) {
 						try {
 							$files[$i]->delete();
-						} catch(NotPermittedException $e) {
+						} catch (NotPermittedException $e) {
 							$this->logger->warning('Failed to clean up Text2Image result file after error', ['exception' => $e]);
 						}
 					}
@@ -198,7 +198,7 @@ class Manager implements IManager {
 		$this->logger->debug('Scheduling Text2Image Task');
 		$task->setStatus(Task::STATUS_SCHEDULED);
 		$completionExpectedAt = new \DateTime('now');
-		$completionExpectedAt->add(new \DateInterval('PT'.$this->getPreferredProviders()[0]->getExpectedRuntime().'S'));
+		$completionExpectedAt->add(new \DateInterval('PT' . $this->getPreferredProviders()[0]->getExpectedRuntime() . 'S'));
 		$task->setCompletionExpectedAt($completionExpectedAt);
 		$taskEntity = DbTask::fromPublicTask($task);
 		$this->taskMapper->insert($taskEntity);
@@ -216,7 +216,7 @@ class Manager implements IManager {
 			throw new PreConditionNotMetException('No text to image provider is installed that can handle this task');
 		}
 		$providers = $this->getPreferredProviders();
-		$maxExecutionTime = (int) ini_get('max_execution_time');
+		$maxExecutionTime = (int)ini_get('max_execution_time');
 		// Offload the task to a background job if the expected runtime of the likely provider is longer than 80% of our max execution time
 		if ($providers[0]->getExpectedRuntime() > $maxExecutionTime * 0.8) {
 			$this->scheduleTask($task);

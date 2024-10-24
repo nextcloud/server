@@ -14,6 +14,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\Settings\IDelegatedSettings;
 use OCP\Util;
@@ -28,6 +29,7 @@ class Admin implements IDelegatedSettings {
 		private IInitialState $initialState,
 		private IURLGenerator $urlGenerator,
 		private ImageManager $imageManager,
+		private INavigationManager $navigationManager,
 	) {
 	}
 
@@ -70,7 +72,7 @@ class Admin implements IDelegatedSettings {
 			'docUrlIcons' => $this->urlGenerator->linkToDocs('admin-theming-icons'),
 			'canThemeIcons' => $this->imageManager->shouldReplaceIcons(),
 			'userThemingDisabled' => $this->themingDefaults->isUserThemingDisabled(),
-			'defaultApps' => array_filter(explode(',', $this->config->getSystemValueString('defaultapp', ''))),
+			'defaultApps' => $this->navigationManager->getDefaultEntryIds(),
 		]);
 
 		Util::addScript($this->appName, 'admin-theming');
@@ -87,8 +89,8 @@ class Admin implements IDelegatedSettings {
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
+	 *             the admin section. The forms are arranged in ascending order of the
+	 *             priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
 	 */

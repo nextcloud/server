@@ -15,7 +15,7 @@ $CONFIG = [
 	],
 ];
 
-if (is_dir(OC::$SERVERROOT.'/apps2')) {
+if (is_dir(OC::$SERVERROOT . '/apps2')) {
 	$CONFIG['apps_paths'][] = [
 		'path' => OC::$SERVERROOT . '/apps2',
 		'url' => '/apps2',
@@ -25,6 +25,21 @@ if (is_dir(OC::$SERVERROOT.'/apps2')) {
 
 if (getenv('OBJECT_STORE') === 's3') {
 	$CONFIG['objectstore'] = [
+		'class' => 'OC\\Files\\ObjectStore\\S3',
+		'arguments' => [
+			'bucket' => 'nextcloud',
+			'autocreate' => true,
+			'key' => getenv('OBJECT_STORE_KEY') ?: 'nextcloud',
+			'secret' => getenv('OBJECT_STORE_SECRET') ?: 'nextcloud',
+			'hostname' => getenv('OBJECT_STORE_HOST') ?: 'localhost',
+			'port' => 9000,
+			'use_ssl' => false,
+			// required for some non amazon s3 implementations
+			'use_path_style' => true
+		]
+	];
+} elseif (getenv('OBJECT_STORE') === 's3-multibucket') {
+	$CONFIG['objectstore_multibucket'] = [
 		'class' => 'OC\\Files\\ObjectStore\\S3',
 		'arguments' => [
 			'bucket' => 'nextcloud',
@@ -75,6 +90,27 @@ if (getenv('OBJECT_STORE') === 's3') {
 			'region' => 'RegionOne',
 			'url' => "http://$swiftHost/v3",
 			'bucket' => 'nextcloud',
+		]
+	];
+}
+
+if (getenv('SHARDING') == '1') {
+	$CONFIG['dbsharding'] = [
+		'filecache' => [
+			'shards' => [
+				[
+					'port' => 5001,
+				],
+				[
+					'port' => 5002,
+				],
+				[
+					'port' => 5003,
+				],
+				[
+					'port' => 5004,
+				],
+			]
 		]
 	];
 }

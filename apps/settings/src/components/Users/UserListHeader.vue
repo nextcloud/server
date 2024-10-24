@@ -143,9 +143,9 @@ export default Vue.extend({
 @import './shared/styles.scss';
 
 .header {
+	border-bottom: 1px solid var(--color-border);
+
 	@include row;
 	@include cell;
-
-	border-bottom: 1px solid var(--color-border);
 }
 </style>

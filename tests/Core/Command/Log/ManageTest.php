@@ -36,7 +36,7 @@ class ManageTest extends TestCase {
 		$this->command = new Manage($config);
 	}
 
-	public function testChangeBackend() {
+	public function testChangeBackend(): void {
 		$this->consoleInput->method('getOption')
 			->willReturnMap([
 				['backend', 'syslog']
@@ -48,7 +48,7 @@ class ManageTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testChangeLevel() {
+	public function testChangeLevel(): void {
 		$this->consoleInput->method('getOption')
 			->willReturnMap([
 				['level', 'debug']
@@ -60,7 +60,7 @@ class ManageTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testChangeTimezone() {
+	public function testChangeTimezone(): void {
 		$this->consoleInput->method('getOption')
 			->willReturnMap([
 				['timezone', 'UTC']
@@ -73,14 +73,14 @@ class ManageTest extends TestCase {
 	}
 
 
-	public function testValidateBackend() {
+	public function testValidateBackend(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		self::invokePrivate($this->command, 'validateBackend', ['notabackend']);
 	}
 
 
-	public function testValidateTimezone() {
+	public function testValidateTimezone(): void {
 		$this->expectException(\Exception::class);
 
 		// this might need to be changed when humanity colonises Mars
@@ -102,14 +102,14 @@ class ManageTest extends TestCase {
 	/**
 	 * @dataProvider convertLevelStringProvider
 	 */
-	public function testConvertLevelString($levelString, $expectedInt) {
+	public function testConvertLevelString($levelString, $expectedInt): void {
 		$this->assertEquals($expectedInt,
 			self::invokePrivate($this->command, 'convertLevelString', [$levelString])
 		);
 	}
 
 
-	public function testConvertLevelStringInvalid() {
+	public function testConvertLevelStringInvalid(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		self::invokePrivate($this->command, 'convertLevelString', ['abc']);
@@ -128,20 +128,20 @@ class ManageTest extends TestCase {
 	/**
 	 * @dataProvider convertLevelNumberProvider
 	 */
-	public function testConvertLevelNumber($levelNum, $expectedString) {
+	public function testConvertLevelNumber($levelNum, $expectedString): void {
 		$this->assertEquals($expectedString,
 			self::invokePrivate($this->command, 'convertLevelNumber', [$levelNum])
 		);
 	}
 
 
-	public function testConvertLevelNumberInvalid() {
+	public function testConvertLevelNumberInvalid(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		self::invokePrivate($this->command, 'convertLevelNumber', [11]);
 	}
 
-	public function testGetConfiguration() {
+	public function testGetConfiguration(): void {
 		$this->config->expects($this->exactly(3))
 			->method('getSystemValue')
 			->withConsecutive(

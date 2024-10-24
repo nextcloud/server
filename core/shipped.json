@@ -2,6 +2,7 @@
   "shippedApps": [
     "activity",
     "admin_audit",
+    "app_api",
     "bruteforcesettings",
     "circles",
     "cloud_federation_api",
@@ -54,6 +55,7 @@
   ],
   "defaultEnabled": [
     "activity",
+    "app_api",
     "bruteforcesettings",
     "circles",
     "comments",
@@ -91,7 +93,8 @@
     "updatenotification",
     "user_status",
     "viewer",
-    "weather_status"
+    "weather_status",
+    "webhook_listeners"
   ],
   "alwaysEnabled": [
     "files",

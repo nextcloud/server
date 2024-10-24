@@ -8,7 +8,7 @@
 namespace OCA\Files\Controller;
 
 use OC\Files\FilenameValidator;
-use OCA\Files\Activity\Helper;
+use OC\Files\Filesystem;
 use OCA\Files\AppInfo\Application;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSearchPlugins;
@@ -37,6 +37,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Util;
 
 /**
  * @package OCA\Files\Controller
@@ -54,7 +55,6 @@ class ViewController extends Controller {
 		private IUserSession $userSession,
 		private IAppManager $appManager,
 		private IRootFolder $rootFolder,
-		private Helper $activityHelper,
 		private IInitialState $initialState,
 		private ITemplateManager $templateManager,
 		private UserConfig $userConfig,
@@ -68,10 +68,10 @@ class ViewController extends Controller {
 	 * FIXME: Replace with non static code
 	 *
 	 * @return array
-	 * @throws \OCP\Files\NotFoundException
+	 * @throws NotFoundException
 	 */
 	protected function getStorageInfo(string $dir = '/') {
-		$rootInfo = \OC\Files\Filesystem::getFileInfo('/', false);
+		$rootInfo = Filesystem::getFileInfo('/', false);
 
 		return \OC_Helper::getStorageInfo($dir, $rootInfo ?: null);
 	}
@@ -89,7 +89,7 @@ class ViewController extends Controller {
 
 		// This is the entry point from the `/f/{fileid}` URL which is hardcoded in the server.
 		try {
-			return $this->redirectToFile((int) $fileid);
+			return $this->redirectToFile((int)$fileid);
 		} catch (NotFoundException $e) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', ['fileNotFound' => true]));
 		}
@@ -134,43 +134,30 @@ class ViewController extends Controller {
 	public function index($dir = '', $view = '', $fileid = null, $fileNotFound = false) {
 		if ($fileid !== null && $view !== 'trashbin') {
 			try {
-				return $this->redirectToFileIfInTrashbin((int) $fileid);
+				return $this->redirectToFileIfInTrashbin((int)$fileid);
 			} catch (NotFoundException $e) {
 			}
 		}
 
 		// Load the files we need
-		\OCP\Util::addInitScript('files', 'init');
-		\OCP\Util::addStyle('files', 'merged');
-		\OCP\Util::addScript('files', 'main');
+		Util::addInitScript('files', 'init');
+		Util::addScript('files', 'main');
 
 		$userId = $this->userSession->getUser()->getUID();
-
-		// Get all the user favorites to create a submenu
-		try {
-			$userFolder = $this->rootFolder->getUserFolder($userId);
-			$favElements = $this->activityHelper->getFavoriteNodes($userId, true);
-			$favElements = array_map(fn (Folder $node) => [
-				'fileid' => $node->getId(),
-				'path' => $userFolder->getRelativePath($node->getPath()),
-			], $favElements);
-		} catch (\RuntimeException $e) {
-			$favElements = [];
-		}
 
 		// If the file doesn't exists in the folder and
 		// exists in only one occurrence, redirect to that file
 		// in the correct folder
 		if ($fileid && $dir !== '') {
 			$baseFolder = $this->rootFolder->getUserFolder($userId);
-			$nodes = $baseFolder->getById((int) $fileid);
+			$nodes = $baseFolder->getById((int)$fileid);
 			if (!empty($nodes)) {
 				$nodePath = $baseFolder->getRelativePath($nodes[0]->getPath());
 				$relativePath = $nodePath ? dirname($nodePath) : '';
 				// If the requested path does not contain the file id
 				// or if the requested path is not the file id itself
 				if (count($nodes) === 1 && $relativePath !== $dir && $nodePath !== $dir) {
-					return $this->redirectToFile((int) $fileid);
+					return $this->redirectToFile((int)$fileid);
 				}
 			} else { // fileid does not exist anywhere
 				$fileNotFound = true;
@@ -180,14 +167,13 @@ class ViewController extends Controller {
 		try {
 			// If view is files, we use the directory, otherwise we use the root storage
 			$storageInfo = $this->getStorageInfo(($view === 'files' && $dir) ? $dir : '/');
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			$storageInfo = $this->getStorageInfo();
 		}
 
 		$this->initialState->provideInitialState('storageStats', $storageInfo);
 		$this->initialState->provideInitialState('config', $this->userConfig->getConfigs());
 		$this->initialState->provideInitialState('viewConfigs', $this->viewConfig->getConfigs());
-		$this->initialState->provideInitialState('favoriteFolders', $favElements);
 
 		// File sorting user config
 		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);

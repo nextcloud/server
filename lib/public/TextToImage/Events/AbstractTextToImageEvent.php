@@ -21,7 +21,7 @@ abstract class AbstractTextToImageEvent extends Event {
 	 * @since 28.0.0
 	 */
 	public function __construct(
-		private Task $task
+		private Task $task,
 	) {
 		parent::__construct();
 	}

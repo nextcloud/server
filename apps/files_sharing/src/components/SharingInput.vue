@@ -17,6 +17,7 @@
 			:clear-search-on-blur="() => false"
 			:user-select="true"
 			:options="options"
+			:label-outside="true"
 			@search="asyncFind"
 			@option:selected="onSelected">
 			<template #no-options="{ search }">

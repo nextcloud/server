@@ -55,10 +55,10 @@ class SyncBirthdayCalendar extends Command {
 			$this->birthdayService->syncUser($user);
 			return self::SUCCESS;
 		}
-		$output->writeln("Start birthday calendar sync for all users ...");
+		$output->writeln('Start birthday calendar sync for all users ...');
 		$p = new ProgressBar($output);
 		$p->start();
-		$this->userManager->callForSeenUsers(function ($user) use ($p) {
+		$this->userManager->callForSeenUsers(function ($user) use ($p): void {
 			$p->advance();
 
 			$userId = $user->getUID();

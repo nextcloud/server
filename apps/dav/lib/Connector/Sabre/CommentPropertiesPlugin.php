@@ -20,13 +20,12 @@ class CommentPropertiesPlugin extends ServerPlugin {
 	public const PROPERTY_NAME_UNREAD = '{http://owncloud.org/ns}comments-unread';
 
 	protected ?Server $server = null;
-	private ICommentsManager $commentsManager;
-	private IUserSession $userSession;
 	private array $cachedUnreadCount = [];
 
-	public function __construct(ICommentsManager $commentsManager, IUserSession $userSession) {
-		$this->commentsManager = $commentsManager;
-		$this->userSession = $userSession;
+	public function __construct(
+		private ICommentsManager $commentsManager,
+		private IUserSession $userSession,
+	) {
 	}
 
 	/**
@@ -62,7 +61,7 @@ class CommentPropertiesPlugin extends ServerPlugin {
 			$ids[] = (string)$id;
 		}
 
-		$ids[] = (string) $directory->getId();
+		$ids[] = (string)$directory->getId();
 		$unread = $this->commentsManager->getNumberOfUnreadCommentsForObjects('files', $ids, $this->userSession->getUser());
 
 		foreach ($unread as $id => $count) {
@@ -80,7 +79,7 @@ class CommentPropertiesPlugin extends ServerPlugin {
 	 */
 	public function handleGetProperties(
 		PropFind $propFind,
-		\Sabre\DAV\INode $node
+		\Sabre\DAV\INode $node,
 	) {
 		if (!($node instanceof File) && !($node instanceof Directory)) {
 			return;

@@ -52,7 +52,7 @@ class Constants {
 	 * @since 8.0.0 - Updated in 9.0.0 to allow all POSIX chars since we no
 	 * longer support windows as server platform.
 	 */
-	public const FILENAME_INVALID_CHARS = "\\/";
+	public const FILENAME_INVALID_CHARS = '\\/';
 
 	/**
 	 * @since 21.0.0 – default value for autocomplete/search results limit,

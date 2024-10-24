@@ -32,7 +32,7 @@ class PruneOutdatedSyncTokensJobTest extends TestCase {
 	/** @var IConfig|MockObject */
 	private $config;
 
-	/** @var LoggerInterface|MockObject*/
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 
 	private PruneOutdatedSyncTokensJob $backgroundJob;

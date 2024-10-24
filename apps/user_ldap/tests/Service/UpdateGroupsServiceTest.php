@@ -26,17 +26,17 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class UpdateGroupsServiceTest extends TestCase {
-	/** @var Group_Proxy|MockObject  */
+	/** @var Group_Proxy|MockObject */
 	protected $groupBackend;
-	/** @var IEventDispatcher|MockObject  */
+	/** @var IEventDispatcher|MockObject */
 	protected $dispatcher;
-	/** @var IGroupManager|MockObject  */
+	/** @var IGroupManager|MockObject */
 	protected $groupManager;
 	/** @var IUserManager|MockObject */
 	protected $userManager;
 	/** @var LoggerInterface|MockObject */
 	protected $logger;
-	/** @var GroupMembershipMapper|MockObject  */
+	/** @var GroupMembershipMapper|MockObject */
 	protected $groupMembershipMapper;
 	/** @var IConfig|MockObject */
 	protected $config;
@@ -137,7 +137,7 @@ class UpdateGroupsServiceTest extends TestCase {
 		$removedEvents = 0;
 		$this->dispatcher->expects($this->exactly(4))
 			->method('dispatchTyped')
-			->willReturnCallback(function ($event) use (&$addedEvents, &$removedEvents) {
+			->willReturnCallback(function ($event) use (&$addedEvents, &$removedEvents): void {
 				if ($event instanceof UserRemovedEvent) {
 					$removedEvents++;
 				} elseif ($event instanceof UserAddedEvent) {

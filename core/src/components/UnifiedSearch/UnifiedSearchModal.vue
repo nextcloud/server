@@ -9,6 +9,7 @@
 		dialog-classes="unified-search-modal"
 		:name="t('core', 'Unified search')"
 		:open="open"
+		size="normal"
 		@update:open="onUpdateOpen">
 		<!-- Modal for picking custom time range -->
 		<CustomDateRangeModal :is-open="showDateRangeModal"
@@ -724,7 +725,8 @@ export default defineComponent({
 	&__no-content {
 		display: flex;
 		align-items: center;
-		height: 100%;
+		margin-top: 0.5em;
+		height: 70%;
 	}
 
 	&__results {

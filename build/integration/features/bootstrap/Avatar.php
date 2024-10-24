@@ -9,7 +9,7 @@ use PHPUnit\Framework\Assert;
 require __DIR__ . '/../../vendor/autoload.php';
 
 trait Avatar {
-	/** @var string **/
+	/** @var string * */
 	private $lastAvatar;
 
 	/** @AfterScenario **/

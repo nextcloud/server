@@ -60,11 +60,11 @@ class IpAddressTest extends TestCase {
 	 * @param string $input
 	 * @param string $expected
 	 */
-	public function testGetSubnet($input, $expected) {
+	public function testGetSubnet($input, $expected): void {
 		$this->assertSame($expected, (new IpAddress($input))->getSubnet());
 	}
 
-	public function testToString() {
+	public function testToString(): void {
 		$this->assertSame('127.0.0.1', (string)(new IpAddress('127.0.0.1')));
 	}
 }

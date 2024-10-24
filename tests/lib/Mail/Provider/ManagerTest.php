@@ -40,63 +40,63 @@ class ManagerTest extends TestCase {
 		// construct service registration
 		$registration = $this->createMock(ServiceRegistration::class);
 		$registration
-		->method('getService')
-		->willReturn('Mock\Provider\MailProvider');
+			->method('getService')
+			->willReturn('Mock\Provider\MailProvider');
 		// construct registration context
 		$context = $this->createMock(RegistrationContext::class);
 		$context
-		->method('getMailProviders')
-		->willReturn([$registration]);
+			->method('getMailProviders')
+			->willReturn([$registration]);
 		// construct coordinator
 		$this->coordinator = $this->createMock(Coordinator::class);
 		$this->coordinator
-		->method('getRegistrationContext')
-		->willReturn($context);
+			->method('getRegistrationContext')
+			->willReturn($context);
 
 		// construct mail service
 		$this->service = $this->createMock(IService::class);
 		$this->service
-		->method('id')
-		->willReturn('100');
+			->method('id')
+			->willReturn('100');
 		$this->service
-		->method('getLabel')
-		->willReturn('Mock Mail Service');
+			->method('getLabel')
+			->willReturn('Mock Mail Service');
 		$this->service
-		->method('getPrimaryAddress')
-		->willReturn((new Address('user1@testing.com', 'User One')));
+			->method('getPrimaryAddress')
+			->willReturn((new Address('user1@testing.com', 'User One')));
 		// construct mail provider
 		$this->provider = $this->createMock(IProvider::class);
 		$this->provider
-		->method('id')
-		->willReturn('mock-provider');
+			->method('id')
+			->willReturn('mock-provider');
 		$this->provider
-		->method('label')
-		->willReturn('Mock Provider');
+			->method('label')
+			->willReturn('Mock Provider');
 		$this->provider
-		->method('listServices')
-		->willReturnMap([
-			['user0', []],
-			['user1', [$this->service->id() => $this->service]]
-		]);
+			->method('listServices')
+			->willReturnMap([
+				['user0', []],
+				['user1', [$this->service->id() => $this->service]]
+			]);
 		$this->provider
-		->method('findServiceById')
-		->willReturnMap([
-			['user0', '100', null],
-			['user1', '100', $this->service]
-		]);
+			->method('findServiceById')
+			->willReturnMap([
+				['user0', '100', null],
+				['user1', '100', $this->service]
+			]);
 		$this->provider
-		->method('findServiceByAddress')
-		->willReturnMap([
-			['user0', 'user0@testing.com', null],
-			['user1', 'user1@testing.com', $this->service]
-		]);
+			->method('findServiceByAddress')
+			->willReturnMap([
+				['user0', 'user0@testing.com', null],
+				['user1', 'user1@testing.com', $this->service]
+			]);
 		// construct container interface
 		$this->container = $this->createMock(ContainerInterface::class);
 		$this->container
-		->method('get')
-		->willReturnMap([
-			['Mock\Provider\MailProvider', $this->provider]
-		]);
+			->method('get')
+			->willReturnMap([
+				['Mock\Provider\MailProvider', $this->provider]
+			]);
 
 	}
 

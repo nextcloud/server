@@ -19,31 +19,17 @@ use OCP\Migration\IRepairStep;
 use OCP\Notification\IManager;
 
 class RemoveLinkShares implements IRepairStep {
-	/** @var IDBConnection */
-	private $connection;
-	/** @var IConfig */
-	private $config;
 	/** @var string[] */
 	private $userToNotify = [];
-	/** @var IGroupManager */
-	private $groupManager;
-	/** @var IManager */
-	private $notificationManager;
-	/** @var ITimeFactory */
-	private $timeFactory;
 
-	public function __construct(IDBConnection $connection,
-		IConfig $config,
-		IGroupManager $groupManager,
-		IManager $notificationManager,
-		ITimeFactory $timeFactory) {
-		$this->connection = $connection;
-		$this->config = $config;
-		$this->groupManager = $groupManager;
-		$this->notificationManager = $notificationManager;
-		$this->timeFactory = $timeFactory;
+	public function __construct(
+		private IDBConnection $connection,
+		private IConfig $config,
+		private IGroupManager $groupManager,
+		private IManager $notificationManager,
+		private ITimeFactory $timeFactory,
+	) {
 	}
-
 
 	public function getName(): string {
 		return 'Remove potentially over exposing share links';
@@ -74,7 +60,7 @@ class RemoveLinkShares implements IRepairStep {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->delete('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
-		$qb->execute();
+		$qb->executeStatement();
 	}
 
 	/**
@@ -107,11 +93,11 @@ class RemoveLinkShares implements IRepairStep {
 			->from('share')
 			->where($query->expr()->in('id', $query->createFunction($subQuery->getSQL())));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$data = $result->fetch();
 		$result->closeCursor();
 
-		return (int) $data['total'];
+		return (int)$data['total'];
 	}
 
 	/**
@@ -137,7 +123,7 @@ class RemoveLinkShares implements IRepairStep {
 			))
 			->andWhere($query->expr()->eq('s1.item_source', 's2.item_source'));
 		/** @var IResult $result */
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		return $result;
 	}
 
@@ -180,7 +166,7 @@ class RemoveLinkShares implements IRepairStep {
 
 		$users = array_keys($this->userToNotify);
 		foreach ($users as $user) {
-			$notification->setUser((string) $user);
+			$notification->setUser((string)$user);
 			$this->notificationManager->notify($notification);
 		}
 	}

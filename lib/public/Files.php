@@ -30,7 +30,7 @@ class Files {
 	 * Get the mimetype form a local file
 	 * @param string $path
 	 * @return string
-	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
+	 *                does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
 	 * @since 5.0.0
 	 * @deprecated 14.0.0
 	 */

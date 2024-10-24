@@ -35,4 +35,21 @@ trait CADTrait {
 			return false;
 		}
 	}
+
+	public function ncad(string $key, mixed $old): bool {
+		//no native cad, emulate with locking
+		if ($this->add($key . '_lock', true)) {
+			$value = $this->get($key);
+			if ($value !== null && $value !== $old) {
+				$this->remove($key);
+				$this->remove($key . '_lock');
+				return true;
+			} else {
+				$this->remove($key . '_lock');
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
 }

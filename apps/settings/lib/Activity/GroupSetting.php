@@ -10,14 +10,12 @@ use OCP\IL10N;
 
 class GroupSetting implements ISetting {
 
-	/** @var IL10N */
-	protected $l;
-
 	/**
-	 * @param IL10N $l10n
+	 * @param IL10N $l
 	 */
-	public function __construct(IL10N $l10n) {
-		$this->l = $l10n;
+	public function __construct(
+		protected IL10N $l,
+	) {
 	}
 
 	/**
@@ -38,8 +36,8 @@ class GroupSetting implements ISetting {
 
 	/**
 	 * @return int whether the filter should be rather on the top or bottom of
-	 * the admin section. The filters are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
+	 *             the admin section. The filters are arranged in ascending order of the
+	 *             priority values. It is required to return a value between 0 and 100.
 	 * @since 11.0.0
 	 */
 	public function getPriority(): int {

@@ -11,8 +11,10 @@ use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Activity\Providers\RemoteShares;
 use OCA\Files_Sharing\External\Manager;
+use OCA\GlobalSiteSelector\Service\SlaveService;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\IAppManager;
+use OCP\AppFramework\QueryException;
 use OCP\Constants;
 use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
@@ -78,7 +80,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @return string provider specific unique ID of the share
 	 *
 	 * @throws ProviderCouldNotAddShareException
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 * @throws HintException
 	 * @since 14.0.0
 	 */
@@ -431,7 +433,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 */
 	private function unshare($id, array $notification) {
 		if (!$this->isS2SEnabled(true)) {
-			throw new ActionNotSupportedException("incoming shares disabled!");
+			throw new ActionNotSupportedException('incoming shares disabled!');
 		}
 
 		if (!isset($notification['sharedSecret'])) {
@@ -449,7 +451,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				)
 			);
 
-		$result = $qb->execute();
+		$result = $qb->executeQuery();
 		$share = $result->fetch();
 		$result->closeCursor();
 
@@ -469,13 +471,13 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 					)
 				);
 
-			$qb->execute();
+			$qb->executeStatement();
 
 			// delete all child in case of a group share
 			$qb = $this->connection->getQueryBuilder();
 			$qb->delete('share_external')
 				->where($qb->expr()->eq('parent', $qb->createNamedParameter((int)$share['id'])));
-			$qb->execute();
+			$qb->executeStatement();
 
 			$ownerDisplayName = $this->getUserDisplayName($owner->getId());
 
@@ -488,7 +490,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				$notification = $this->notificationManager->createNotification();
 				$notification->setApp('files_sharing')
 					->setUser($share['user'])
-					->setObject('remote_share', (int)$share['id']);
+					->setObject('remote_share', (string)$share['id']);
 				$this->notificationManager->markProcessed($notification);
 
 				$event = $this->activityManager->generateEvent();
@@ -623,7 +625,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		$query->update('share')
 			->where($query->expr()->eq('id', $query->createNamedParameter($share->getId())))
 			->set('permissions', $query->createNamedParameter($permissions))
-			->execute();
+			->executeStatement();
 	}
 
 
@@ -734,7 +736,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		}
 
 		try {
-			$slaveService = Server::get(\OCA\GlobalSiteSelector\Service\SlaveService::class);
+			$slaveService = Server::get(SlaveService::class);
 		} catch (\Throwable $e) {
 			Server::get(LoggerInterface::class)->error(
 				$e->getMessage(),

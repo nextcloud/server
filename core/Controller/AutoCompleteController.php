@@ -123,7 +123,7 @@ class AutoCompleteController extends OCSController {
 				$shareWithDisplayNameUnique = array_key_exists('shareWithDisplayNameUnique', $result) ? $result['shareWithDisplayNameUnique'] : null;
 
 				$output[] = [
-					'id' => (string) $result['value']['shareWith'],
+					'id' => (string)$result['value']['shareWith'],
 					'label' => $label,
 					'icon' => $icon ?? '',
 					'source' => $type,

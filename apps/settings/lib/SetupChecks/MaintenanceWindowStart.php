@@ -40,7 +40,7 @@ class MaintenanceWindowStart implements ISetupCheck {
 			);
 		}
 
-		$startValue = (int) $configValue;
+		$startValue = (int)$configValue;
 		$endValue = ($startValue + 6) % 24;
 		return SetupResult::success(
 			str_replace(

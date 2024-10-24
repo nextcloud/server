@@ -32,7 +32,7 @@ class DeclarativeSettingsSetValueEventListener implements IEventListener {
 
 		switch ($event->getFieldId()) {
 			case 'windows_support':
-				$this->service->setFilesWindowsSupport((bool) $event->getValue());
+				$this->service->setFilesWindowsSupport((bool)$event->getValue());
 				$event->stopPropagation();
 				break;
 		}

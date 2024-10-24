@@ -7,6 +7,7 @@
 namespace Test;
 
 use OCP\App\IAppManager;
+use OCP\Server;
 
 /**
  * Class InfoXmlTest
@@ -15,6 +16,13 @@ use OCP\App\IAppManager;
  * @package Test
  */
 class InfoXmlTest extends TestCase {
+	private IAppManager $appManager;
+
+	protected function setUp(): void {
+		parent::setUp();
+		$this->appManager = Server::get(IAppManager::class);
+	}
+
 	public function dataApps() {
 		return [
 			['admin_audit'],
@@ -44,9 +52,9 @@ class InfoXmlTest extends TestCase {
 	 *
 	 * @param string $app
 	 */
-	public function testClasses($app) {
-		$appInfo = \OCP\Server::get(IAppManager::class)->getAppInfo($app);
-		$appPath = \OC_App::getAppPath($app);
+	public function testClasses($app): void {
+		$appInfo = $this->appManager->getAppInfo($app);
+		$appPath = $this->appManager->getAppPath($app);
 		\OC_App::registerAutoloading($app, $appPath);
 
 		//Add the appcontainer
@@ -117,7 +125,7 @@ class InfoXmlTest extends TestCase {
 
 		if (isset($appInfo['commands'])) {
 			foreach ($appInfo['commands'] as $command) {
-				$this->assertTrue(class_exists($command), 'Asserting command "'. $command . '"exists');
+				$this->assertTrue(class_exists($command), 'Asserting command "' . $command . '"exists');
 				$this->assertInstanceOf($command, \OC::$server->query($command));
 			}
 		}

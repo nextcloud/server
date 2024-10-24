@@ -19,7 +19,7 @@ class DownloadResponseTest extends \Test\TestCase {
 		parent::setUp();
 	}
 
-	public function testHeaders() {
+	public function testHeaders(): void {
 		$response = new ChildDownloadResponse('file', 'content');
 		$headers = $response->getHeaders();
 
@@ -30,11 +30,11 @@ class DownloadResponseTest extends \Test\TestCase {
 	/**
 	 * @dataProvider filenameEncodingProvider
 	 */
-	public function testFilenameEncoding(string $input, string $expected) {
+	public function testFilenameEncoding(string $input, string $expected): void {
 		$response = new ChildDownloadResponse($input, 'content');
 		$headers = $response->getHeaders();
 
-		$this->assertEquals('attachment; filename="'.$expected.'"', $headers['Content-Disposition']);
+		$this->assertEquals('attachment; filename="' . $expected . '"', $headers['Content-Disposition']);
 	}
 
 	public function filenameEncodingProvider() : array {

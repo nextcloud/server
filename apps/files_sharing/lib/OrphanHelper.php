@@ -14,15 +14,10 @@ use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 
 class OrphanHelper {
-	private IDBConnection $connection;
-	private IRootFolder $rootFolder;
-
 	public function __construct(
-		IDBConnection $connection,
-		IRootFolder $rootFolder
+		private IDBConnection $connection,
+		private IRootFolder $rootFolder,
 	) {
-		$this->connection = $connection;
-		$this->rootFolder = $rootFolder;
 	}
 
 	public function isShareValid(string $owner, int $fileId): bool {

@@ -39,7 +39,7 @@ class SabrePluginEvent extends Event {
 	 * @since 8.2.0
 	 */
 	public function setStatusCode($statusCode) {
-		$this->statusCode = (int) $statusCode;
+		$this->statusCode = (int)$statusCode;
 		return $this;
 	}
 
@@ -49,7 +49,7 @@ class SabrePluginEvent extends Event {
 	 * @since 8.2.0
 	 */
 	public function setMessage($message) {
-		$this->message = (string) $message;
+		$this->message = (string)$message;
 		return $this;
 	}
 

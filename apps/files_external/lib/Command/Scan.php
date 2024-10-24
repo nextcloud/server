@@ -24,7 +24,7 @@ class Scan extends StorageAuthBase {
 
 	public function __construct(
 		GlobalStoragesService $globalService,
-		IUserManager $userManager
+		IUserManager $userManager,
 	) {
 		parent::__construct($globalService, $userManager);
 	}
@@ -70,13 +70,13 @@ class Scan extends StorageAuthBase {
 		/** @var Scanner $scanner */
 		$scanner = $storage->getScanner();
 
-		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFile', function (string $path) use ($output) {
+		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFile', function (string $path) use ($output): void {
 			$output->writeln("\tFile\t<info>$path</info>", OutputInterface::VERBOSITY_VERBOSE);
 			++$this->filesCounter;
 			$this->abortIfInterrupted();
 		});
 
-		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFolder', function (string $path) use ($output) {
+		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFolder', function (string $path) use ($output): void {
 			$output->writeln("\tFolder\t<info>$path</info>", OutputInterface::VERBOSITY_VERBOSE);
 			++$this->foldersCounter;
 			$this->abortIfInterrupted();

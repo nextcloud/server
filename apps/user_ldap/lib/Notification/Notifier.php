@@ -12,14 +12,12 @@ use OCP\Notification\UnknownNotificationException;
 
 class Notifier implements INotifier {
 
-	/** @var IFactory */
-	protected $l10nFactory;
-
 	/**
 	 * @param IFactory $l10nFactory
 	 */
-	public function __construct(\OCP\L10N\IFactory $l10nFactory) {
-		$this->l10nFactory = $l10nFactory;
+	public function __construct(
+		protected IFactory $l10nFactory,
+	) {
 	}
 
 	/**
@@ -61,7 +59,7 @@ class Notifier implements INotifier {
 			// Deal with known subjects
 			case 'pwd_exp_warn_days':
 				$params = $notification->getSubjectParameters();
-				$days = (int) $params[0];
+				$days = (int)$params[0];
 				if ($days === 2) {
 					$notification->setParsedSubject($l->t('Your password will expire tomorrow.'));
 				} elseif ($days === 1) {

@@ -58,7 +58,7 @@ class User_ProxyTest extends TestCase {
 			->getMock();
 	}
 
-	public function testSetPassword() {
+	public function testSetPassword(): void {
 		$this->proxy
 			->expects($this->once())
 			->method('handleRequest')
@@ -68,7 +68,7 @@ class User_ProxyTest extends TestCase {
 		$this->assertTrue($this->proxy->setPassword('MyUid', 'MyPassword'));
 	}
 
-	public function testSetDisplayName() {
+	public function testSetDisplayName(): void {
 		$this->proxy
 			->expects($this->once())
 			->method('handleRequest')
@@ -78,7 +78,7 @@ class User_ProxyTest extends TestCase {
 		$this->assertTrue($this->proxy->setDisplayName('MyUid', 'MyPassword'));
 	}
 
-	public function testCreateUser() {
+	public function testCreateUser(): void {
 		$this->proxy
 			->expects($this->once())
 			->method('handleRequest')

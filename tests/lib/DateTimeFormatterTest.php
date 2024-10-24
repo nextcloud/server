@@ -77,8 +77,8 @@ class DateTimeFormatterTest extends TestCase {
 	/**
 	 * @dataProvider formatTimeSpanData
 	 */
-	public function testFormatTimeSpan($expected, $timestamp, $compare, $locale = null) {
-		$this->assertEquals((string) $expected, (string) $this->formatter->formatTimeSpan($timestamp, $compare, $locale));
+	public function testFormatTimeSpan($expected, $timestamp, $compare, $locale = null): void {
+		$this->assertEquals((string)$expected, (string)$this->formatter->formatTimeSpan($timestamp, $compare, $locale));
 	}
 
 	public function formatDateSpanData() {
@@ -143,8 +143,8 @@ class DateTimeFormatterTest extends TestCase {
 	/**
 	 * @dataProvider formatDateSpanData
 	 */
-	public function testFormatDateSpan($expected, $timestamp, $compare = null, $locale = null) {
-		$this->assertEquals((string) $expected, (string) $this->formatter->formatDateSpan($timestamp, $compare, $locale));
+	public function testFormatDateSpan($expected, $timestamp, $compare = null, $locale = null): void {
+		$this->assertEquals((string)$expected, (string)$this->formatter->formatDateSpan($timestamp, $compare, $locale));
 	}
 
 	public function formatDateData() {
@@ -156,8 +156,8 @@ class DateTimeFormatterTest extends TestCase {
 	/**
 	 * @dataProvider formatDateData
 	 */
-	public function testFormatDate($timestamp, $expected) {
-		$this->assertEquals($expected, (string) $this->formatter->formatDate($timestamp));
+	public function testFormatDate($timestamp, $expected): void {
+		$this->assertEquals($expected, (string)$this->formatter->formatDate($timestamp));
 	}
 
 	public function formatDateTimeData() {
@@ -170,12 +170,12 @@ class DateTimeFormatterTest extends TestCase {
 	/**
 	 * @dataProvider formatDateTimeData
 	 */
-	public function testFormatDateTime($timestamp, $timeZone, $expected) {
-		$this->assertEquals($expected, (string) $this->formatter->formatDateTime($timestamp, 'long', 'long', $timeZone));
+	public function testFormatDateTime($timestamp, $timeZone, $expected): void {
+		$this->assertEquals($expected, (string)$this->formatter->formatDateTime($timestamp, 'long', 'long', $timeZone));
 	}
 
 
-	public function testFormatDateWithInvalidTZ() {
+	public function testFormatDateWithInvalidTZ(): void {
 		$this->expectException(\Exception::class);
 
 		$this->formatter->formatDate(1350129205, 'long', new \DateTimeZone('Mordor/Barad-dûr'));

@@ -78,7 +78,7 @@ class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 	 * @param bool $enabled
 	 * @param bool $exception
 	 */
-	public function testBeforeController(Controller $controller, $enabled, $exception) {
+	public function testBeforeController(Controller $controller, $enabled, $exception): void {
 		$this->shareManager->method('shareApiEnabled')->willReturn($enabled);
 
 		try {
@@ -109,7 +109,7 @@ class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 	 * @param Controller $controller
 	 * @param bool $called
 	 */
-	public function testAfterController(Controller $controller) {
+	public function testAfterController(Controller $controller): void {
 		if ($controller instanceof ShareAPIController) {
 			$controller->expects($this->once())->method('cleanup');
 		}

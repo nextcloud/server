@@ -27,7 +27,7 @@ class FileInfoTest extends TestCase {
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 	}
 
-	public function testIsMountedHomeStorage() {
+	public function testIsMountedHomeStorage(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('foo');
@@ -45,7 +45,7 @@ class FileInfoTest extends TestCase {
 		$this->assertFalse($fileInfo->isMounted());
 	}
 
-	public function testIsMountedNonHomeStorage() {
+	public function testIsMountedNonHomeStorage(): void {
 		$storage = new Temporary();
 		$fileInfo = new FileInfo(
 			'',

@@ -22,9 +22,6 @@ use Psr\Log\LoggerInterface;
 
 class UserWorkflowsController extends AWorkflowController {
 
-	/** @var IUserSession */
-	private $session;
-
 	/** @var ScopeContext */
 	private $scopeContext;
 
@@ -32,12 +29,10 @@ class UserWorkflowsController extends AWorkflowController {
 		$appName,
 		IRequest $request,
 		Manager $manager,
-		IUserSession $session,
-		LoggerInterface $logger
+		private IUserSession $session,
+		LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request, $manager, $logger);
-
-		$this->session = $session;
 	}
 
 	/**

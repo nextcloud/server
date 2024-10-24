@@ -35,29 +35,13 @@ use OCP\Search\SearchResultEntry;
 use OCP\Share\IShare;
 
 class FilesSearchProvider implements IFilteringProvider {
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var IMimeTypeDetector */
-	private $mimeTypeDetector;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
 	public function __construct(
-		IL10N $l10n,
-		IURLGenerator $urlGenerator,
-		IMimeTypeDetector $mimeTypeDetector,
-		IRootFolder $rootFolder,
+		private IL10N $l10n,
+		private IURLGenerator $urlGenerator,
+		private IMimeTypeDetector $mimeTypeDetector,
+		private IRootFolder $rootFolder,
 		private IPreview $previewManager,
 	) {
-		$this->l10n = $l10n;
-		$this->urlGenerator = $urlGenerator;
-		$this->mimeTypeDetector = $mimeTypeDetector;
-		$this->rootFolder = $rootFolder;
 	}
 
 	/**
@@ -172,7 +156,7 @@ class FilesSearchProvider implements IFilteringProvider {
 		return new SearchQuery(
 			new SearchBinaryOperator(SearchBinaryOperator::OPERATOR_AND, $comparisons),
 			$query->getLimit(),
-			(int) $query->getCursor(),
+			(int)$query->getCursor(),
 			$query->getSortOrder() === ISearchQuery::SORT_DATE_DESC
 				? [new SearchOrder(ISearchOrder::DIRECTION_DESCENDING, 'mtime')]
 				: [],

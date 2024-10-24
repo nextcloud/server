@@ -12,6 +12,8 @@ use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use OC\DB\Exceptions\DbalException;
+use OC\DB\QueryBuilder\Sharded\CrossShardMoveHelper;
+use OC\DB\QueryBuilder\Sharded\ShardDefinition;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -243,5 +245,13 @@ class ConnectionAdapter implements IDBConnection {
 
 	public function logDatabaseException(\Exception $exception) {
 		$this->inner->logDatabaseException($exception);
+	}
+
+	public function getShardDefinition(string $name): ?ShardDefinition {
+		return $this->inner->getShardDefinition($name);
+	}
+
+	public function getCrossShardMoveHelper(): CrossShardMoveHelper {
+		return $this->inner->getCrossShardMoveHelper();
 	}
 }

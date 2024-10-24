@@ -19,7 +19,7 @@
     "You unshared calendar {calendar} from {user}" : "Dexesti de compartir el calendariu «{calendar}» con «{user}»",
     "{actor} unshared calendar {calendar} from {user}" : "{actor} dexó de compartir el calendariu «{calendar}» con «{user}»",
     "{actor} unshared calendar {calendar} from themselves" : "{actor} dexó de compartir el calendariu «{calendar}» con sigo",
-    "You shared calendar {calendar} with group {group}" : "Compartiesti'l calendariu «{calendar}» col grupu «{gorup}»",
+    "You shared calendar {calendar} with group {group}" : "Compartiesti'l calendariu «{calendar}» col grupu «{group}»",
     "{actor} shared calendar {calendar} with group {group}" : "{actor} compartió'l calendariu «{calendar}» col grupu «{group}»",
     "You unshared calendar {calendar} from group {group}" : "Dexesti de compartir el calendariu «{calendar}» col grupu «{group}»",
     "{actor} unshared calendar {calendar} from group {group}" : "{actor} dexó de compartir el calendariu «{calendar}» col grupu «{group}»",

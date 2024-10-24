@@ -104,42 +104,39 @@ class Router implements IRouter {
 	 */
 	public function loadRoutes($app = null) {
 		if (is_string($app)) {
-			$app = \OC_App::cleanAppId($app);
+			$app = $this->appManager->cleanAppId($app);
 		}
 
 		$requestedApp = $app;
 		if ($this->loaded) {
 			return;
 		}
+		$this->eventLogger->start('route:load:' . $requestedApp, 'Loading Routes for ' . $requestedApp);
 		if (is_null($app)) {
 			$this->loaded = true;
 			$routingFiles = $this->getRoutingFiles();
+
+			foreach (\OC_App::getEnabledApps() as $enabledApp) {
+				$this->loadAttributeRoutes($enabledApp);
+			}
 		} else {
 			if (isset($this->loadedApps[$app])) {
 				return;
 			}
-			$appPath = \OC_App::getAppPath($app);
-			$file = $appPath . '/appinfo/routes.php';
-			if ($appPath !== false && file_exists($file)) {
-				$routingFiles = [$app => $file];
-			} else {
+			try {
+				$appPath = $this->appManager->getAppPath($app);
+				$file = $appPath . '/appinfo/routes.php';
+				if (file_exists($file)) {
+					$routingFiles = [$app => $file];
+				} else {
+					$routingFiles = [];
+				}
+			} catch (AppPathNotFoundException) {
 				$routingFiles = [];
 			}
-		}
-		$this->eventLogger->start('route:load:' . $requestedApp, 'Loading Routes for ' . $requestedApp);
 
-		if ($requestedApp !== null && in_array($requestedApp, \OC_App::getEnabledApps())) {
-			$routes = $this->getAttributeRoutes($requestedApp);
-			if (count($routes) > 0) {
-				$this->useCollection($requestedApp);
-				$this->setupRoutes($routes, $requestedApp);
-				$collection = $this->getCollection($requestedApp);
-				$this->root->addCollection($collection);
-
-				// Also add the OCS collection
-				$collection = $this->getCollection($requestedApp . '.ocs');
-				$collection->addPrefix('/ocsapp');
-				$this->root->addCollection($collection);
+			if ($this->appManager->isEnabledForUser($app)) {
+				$this->loadAttributeRoutes($app);
 			}
 		}
 
@@ -158,7 +155,7 @@ class Router implements IRouter {
 				$this->root->addCollection($collection);
 
 				// Also add the OCS collection
-				$collection = $this->getCollection($app.'.ocs');
+				$collection = $this->getCollection($app . '.ocs');
 				$collection->addPrefix('/ocsapp');
 				$this->root->addCollection($collection);
 			}
@@ -245,14 +242,14 @@ class Router implements IRouter {
 			// empty string / 'apps' / $app / rest of the route
 			[, , $app,] = explode('/', $url, 4);
 
-			$app = \OC_App::cleanAppId($app);
+			$app = $this->appManager->cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
 			$this->loadRoutes($app);
 		} elseif (str_starts_with($url, '/ocsapp/apps/')) {
 			// empty string / 'ocsapp' / 'apps' / $app / rest of the route
 			[, , , $app,] = explode('/', $url, 5);
 
-			$app = \OC_App::cleanAppId($app);
+			$app = $this->appManager->cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
 			$this->loadRoutes($app);
 		} elseif (str_starts_with($url, '/settings/')) {
@@ -413,6 +410,23 @@ class Router implements IRouter {
 		return $routeName;
 	}
 
+	private function loadAttributeRoutes(string $app): void {
+		$routes = $this->getAttributeRoutes($app);
+		if (count($routes) === 0) {
+			return;
+		}
+
+		$this->useCollection($app);
+		$this->setupRoutes($routes, $app);
+		$collection = $this->getCollection($app);
+		$this->root->addCollection($collection);
+
+		// Also add the OCS collection
+		$collection = $this->getCollection($app . '.ocs');
+		$collection->addPrefix('/ocsapp');
+		$this->root->addCollection($collection);
+	}
+
 	/**
 	 * @throws ReflectionException
 	 */
@@ -423,7 +437,11 @@ class Router implements IRouter {
 			$appControllerPath = __DIR__ . '/../../../core/Controller';
 			$appNameSpace = 'OC\\Core';
 		} else {
-			$appControllerPath = \OC_App::getAppPath($app) . '/lib/Controller';
+			try {
+				$appControllerPath = $this->appManager->getAppPath($app) . '/lib/Controller';
+			} catch (AppPathNotFoundException) {
+				return [];
+			}
 			$appNameSpace = App::buildAppNamespace($app);
 		}
 

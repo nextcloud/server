@@ -45,7 +45,7 @@ class DatabaseBackend implements IBackend {
 		$row = $result->fetch();
 		$result->closeCursor();
 
-		return (int) $row['attempts'];
+		return (int)$row['attempts'];
 	}
 
 	/**

@@ -23,24 +23,17 @@ use OCP\Share\IShare;
 
 class PublicPreviewController extends PublicShareController {
 
-	/** @var ShareManager */
-	private $shareManager;
-
-	/** @var IPreview */
-	private $previewManager;
-
 	/** @var IShare */
 	private $share;
 
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		ShareManager $shareManger,
+		private ShareManager $shareManager,
 		ISession $session,
-		IPreview $previewManager) {
+		private IPreview $previewManager,
+	) {
 		parent::__construct($appName, $request, $session);
-
-		$this->shareManager = $shareManger;
-		$this->previewManager = $previewManager;
 	}
 
 	protected function getPasswordHash(): ?string {
@@ -83,7 +76,7 @@ class PublicPreviewController extends PublicShareController {
 		string $file = '',
 		int $x = 32,
 		int $y = 32,
-		$a = false
+		$a = false,
 	) {
 		if ($token === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);

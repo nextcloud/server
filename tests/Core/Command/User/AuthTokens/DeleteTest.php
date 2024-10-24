@@ -37,7 +37,7 @@ class DeleteTest extends TestCase {
 		$this->command = new Delete($tokenProvider);
 	}
 
-	public function testDeleteTokenById() {
+	public function testDeleteTokenById(): void {
 		$this->consoleInput->expects($this->exactly(2))
 			->method('getArgument')
 			->withConsecutive(['uid'], ['id'])
@@ -56,7 +56,7 @@ class DeleteTest extends TestCase {
 		$this->assertSame(Command::SUCCESS, $result);
 	}
 
-	public function testDeleteTokenByIdRequiresTokenId() {
+	public function testDeleteTokenByIdRequiresTokenId(): void {
 		$this->consoleInput->expects($this->exactly(2))
 			->method('getArgument')
 			->withConsecutive(['uid'], ['id'])
@@ -75,7 +75,7 @@ class DeleteTest extends TestCase {
 		$this->assertSame(Command::FAILURE, $result);
 	}
 
-	public function testDeleteTokensLastUsedBefore() {
+	public function testDeleteTokensLastUsedBefore(): void {
 		$this->consoleInput->expects($this->exactly(2))
 			->method('getArgument')
 			->withConsecutive(['uid'], ['id'])
@@ -94,7 +94,7 @@ class DeleteTest extends TestCase {
 		$this->assertSame(Command::SUCCESS, $result);
 	}
 
-	public function testLastUsedBeforeAcceptsIso8601Expanded() {
+	public function testLastUsedBeforeAcceptsIso8601Expanded(): void {
 		$this->consoleInput->expects($this->exactly(2))
 			->method('getArgument')
 			->withConsecutive(['uid'], ['id'])
@@ -113,7 +113,7 @@ class DeleteTest extends TestCase {
 		$this->assertSame(Command::SUCCESS, $result);
 	}
 
-	public function testLastUsedBeforeAcceptsYmd() {
+	public function testLastUsedBeforeAcceptsYmd(): void {
 		$this->consoleInput->expects($this->exactly(2))
 			->method('getArgument')
 			->withConsecutive(['uid'], ['id'])
@@ -132,7 +132,7 @@ class DeleteTest extends TestCase {
 		$this->assertSame(Command::SUCCESS, $result);
 	}
 
-	public function testIdAndLastUsedBeforeAreMutuallyExclusive() {
+	public function testIdAndLastUsedBeforeAreMutuallyExclusive(): void {
 		$this->consoleInput->expects($this->exactly(2))
 			->method('getArgument')
 			->withConsecutive(['uid'], ['id'])

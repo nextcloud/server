@@ -59,7 +59,7 @@ class MetaDataTest extends \Test\TestCase {
 	}
 
 
-	public function testGet() {
+	public function testGet(): void {
 		$group = $this->getGroupMock();
 		$groups = array_fill(0, 3, $group);
 
@@ -78,7 +78,7 @@ class MetaDataTest extends \Test\TestCase {
 		$this->assertSame(0, $ordinaryGroups[0]['usercount']);
 	}
 
-	public function testGetWithSorting() {
+	public function testGetWithSorting(): void {
 		$this->groupMetadata->setSorting(1);
 		$group = $this->getGroupMock(3);
 		$groups = array_fill(0, 3, $group);
@@ -97,7 +97,7 @@ class MetaDataTest extends \Test\TestCase {
 		$this->assertSame(5, $ordinaryGroups[0]['usercount']);
 	}
 
-	public function testGetWithCache() {
+	public function testGetWithCache(): void {
 		$group = $this->getGroupMock();
 		$groups = array_fill(0, 3, $group);
 
@@ -115,7 +115,7 @@ class MetaDataTest extends \Test\TestCase {
 	//get() does not need to be tested with search parameters, because they are
 	//solely and only passed to GroupManager and Group.
 
-	public function testGetGroupsAsAdmin() {
+	public function testGetGroupsAsAdmin(): void {
 		$this->groupManager
 			->expects($this->once())
 			->method('search')

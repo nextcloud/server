@@ -59,7 +59,7 @@ class CardDavBackendTest extends TestCase {
 	/** @var IEventDispatcher|MockObject */
 	private $dispatcher;
 	private Backend $sharingBackend;
-	/** @var  IDBConnection */
+	/** @var IDBConnection */
 	private $db;
 
 	/** @var string */
@@ -72,35 +72,35 @@ class CardDavBackendTest extends TestCase {
 	public const UNIT_TEST_USER1 = 'principals/users/carddav-unit-test1';
 	public const UNIT_TEST_GROUP = 'principals/groups/carddav-unit-test-group';
 
-	private $vcardTest0 = 'BEGIN:VCARD'.PHP_EOL.
-		'VERSION:3.0'.PHP_EOL.
-		'PRODID:-//Sabre//Sabre VObject 4.1.2//EN'.PHP_EOL.
-		'UID:Test'.PHP_EOL.
-		'FN:Test'.PHP_EOL.
-		'N:Test;;;;'.PHP_EOL.
+	private $vcardTest0 = 'BEGIN:VCARD' . PHP_EOL .
+		'VERSION:3.0' . PHP_EOL .
+		'PRODID:-//Sabre//Sabre VObject 4.1.2//EN' . PHP_EOL .
+		'UID:Test' . PHP_EOL .
+		'FN:Test' . PHP_EOL .
+		'N:Test;;;;' . PHP_EOL .
 		'END:VCARD';
 
-	private $vcardTest1 = 'BEGIN:VCARD'.PHP_EOL.
-		'VERSION:3.0'.PHP_EOL.
-		'PRODID:-//Sabre//Sabre VObject 4.1.2//EN'.PHP_EOL.
-		'UID:Test2'.PHP_EOL.
-		'FN:Test2'.PHP_EOL.
-		'N:Test2;;;;'.PHP_EOL.
+	private $vcardTest1 = 'BEGIN:VCARD' . PHP_EOL .
+		'VERSION:3.0' . PHP_EOL .
+		'PRODID:-//Sabre//Sabre VObject 4.1.2//EN' . PHP_EOL .
+		'UID:Test2' . PHP_EOL .
+		'FN:Test2' . PHP_EOL .
+		'N:Test2;;;;' . PHP_EOL .
 		'END:VCARD';
 
-	private $vcardTest2 = 'BEGIN:VCARD'.PHP_EOL.
-		'VERSION:3.0'.PHP_EOL.
-		'PRODID:-//Sabre//Sabre VObject 4.1.2//EN'.PHP_EOL.
-		'UID:Test3'.PHP_EOL.
-		'FN:Test3'.PHP_EOL.
-		'N:Test3;;;;'.PHP_EOL.
+	private $vcardTest2 = 'BEGIN:VCARD' . PHP_EOL .
+		'VERSION:3.0' . PHP_EOL .
+		'PRODID:-//Sabre//Sabre VObject 4.1.2//EN' . PHP_EOL .
+		'UID:Test3' . PHP_EOL .
+		'FN:Test3' . PHP_EOL .
+		'N:Test3;;;;' . PHP_EOL .
 		'END:VCARD';
 
-	private $vcardTestNoUID = 'BEGIN:VCARD'.PHP_EOL.
-		'VERSION:3.0'.PHP_EOL.
-		'PRODID:-//Sabre//Sabre VObject 4.1.2//EN'.PHP_EOL.
-		'FN:TestNoUID'.PHP_EOL.
-		'N:TestNoUID;;;;'.PHP_EOL.
+	private $vcardTestNoUID = 'BEGIN:VCARD' . PHP_EOL .
+		'VERSION:3.0' . PHP_EOL .
+		'PRODID:-//Sabre//Sabre VObject 4.1.2//EN' . PHP_EOL .
+		'FN:TestNoUID' . PHP_EOL .
+		'N:TestNoUID;;;;' . PHP_EOL .
 		'END:VCARD';
 
 	protected function setUp(): void {
@@ -237,8 +237,8 @@ class CardDavBackendTest extends TestCase {
 	public function testCardOperations(): void {
 		/** @var CardDavBackend | \PHPUnit\Framework\MockObject\MockObject $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)
-				->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->dispatcher, $this->sharingBackend])
-				->onlyMethods(['updateProperties', 'purgeProperties'])->getMock();
+			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->dispatcher, $this->sharingBackend])
+			->onlyMethods(['updateProperties', 'purgeProperties'])->getMock();
 
 		// create a new address book
 		$backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
@@ -332,7 +332,7 @@ class CardDavBackendTest extends TestCase {
 			$this->assertArrayHasKey('lastmodified', $card);
 			$this->assertArrayHasKey('etag', $card);
 			$this->assertArrayHasKey('size', $card);
-			$this->assertEquals($this->{ 'vcardTest'.($index + 1) }, $card['carddata']);
+			$this->assertEquals($this->{ 'vcardTest' . ($index + 1) }, $card['carddata']);
 		}
 
 		// delete the card
@@ -662,16 +662,16 @@ class CardDavBackendTest extends TestCase {
 		$query = $this->db->getQueryBuilder();
 		for ($i = 0; $i < 3; $i++) {
 			$query->insert($this->dbCardsTable)
-					->values(
-						[
-							'addressbookid' => $query->createNamedParameter(0),
-							'carddata' => $query->createNamedParameter($vCards[$i]->serialize(), IQueryBuilder::PARAM_LOB),
-							'uri' => $query->createNamedParameter('uri' . $i),
-							'lastmodified' => $query->createNamedParameter(time()),
-							'etag' => $query->createNamedParameter('etag' . $i),
-							'size' => $query->createNamedParameter(120),
-						]
-					);
+				->values(
+					[
+						'addressbookid' => $query->createNamedParameter(0),
+						'carddata' => $query->createNamedParameter($vCards[$i]->serialize(), IQueryBuilder::PARAM_LOB),
+						'uri' => $query->createNamedParameter('uri' . $i),
+						'lastmodified' => $query->createNamedParameter(time()),
+						'etag' => $query->createNamedParameter('etag' . $i),
+						'size' => $query->createNamedParameter(120),
+					]
+				);
 			$query->execute();
 			$vCardIds[] = $query->getLastInsertId();
 		}
@@ -771,16 +771,16 @@ class CardDavBackendTest extends TestCase {
 	public function testGetCardUri(): void {
 		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsTable)
-				->values(
-					[
-						'addressbookid' => $query->createNamedParameter(1),
-						'carddata' => $query->createNamedParameter('carddata', IQueryBuilder::PARAM_LOB),
-						'uri' => $query->createNamedParameter('uri'),
-						'lastmodified' => $query->createNamedParameter(5489543),
-						'etag' => $query->createNamedParameter('etag'),
-						'size' => $query->createNamedParameter(120),
-					]
-				);
+			->values(
+				[
+					'addressbookid' => $query->createNamedParameter(1),
+					'carddata' => $query->createNamedParameter('carddata', IQueryBuilder::PARAM_LOB),
+					'uri' => $query->createNamedParameter('uri'),
+					'lastmodified' => $query->createNamedParameter(5489543),
+					'etag' => $query->createNamedParameter('etag'),
+					'size' => $query->createNamedParameter(120),
+				]
+			);
 		$query->execute();
 
 		$id = $query->getLastInsertId();
@@ -799,16 +799,16 @@ class CardDavBackendTest extends TestCase {
 		$query = $this->db->getQueryBuilder();
 		for ($i = 0; $i < 2; $i++) {
 			$query->insert($this->dbCardsTable)
-					->values(
-						[
-							'addressbookid' => $query->createNamedParameter($i),
-							'carddata' => $query->createNamedParameter('carddata' . $i, IQueryBuilder::PARAM_LOB),
-							'uri' => $query->createNamedParameter('uri' . $i),
-							'lastmodified' => $query->createNamedParameter(5489543),
-							'etag' => $query->createNamedParameter('etag' . $i),
-							'size' => $query->createNamedParameter(120),
-						]
-					);
+				->values(
+					[
+						'addressbookid' => $query->createNamedParameter($i),
+						'carddata' => $query->createNamedParameter('carddata' . $i, IQueryBuilder::PARAM_LOB),
+						'uri' => $query->createNamedParameter('uri' . $i),
+						'lastmodified' => $query->createNamedParameter(5489543),
+						'etag' => $query->createNamedParameter('etag' . $i),
+						'size' => $query->createNamedParameter(120),
+					]
+				);
 			$query->execute();
 		}
 
@@ -842,7 +842,7 @@ class CardDavBackendTest extends TestCase {
 					'preferred' => $query->createNamedParameter(0)
 				]
 			)
-		->execute();
+			->execute();
 
 		$result = $this->backend->collectCardProperties(666, 'FN');
 		$this->assertEquals(['John Doe'], $result);

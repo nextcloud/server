@@ -38,7 +38,7 @@ class NoFSTest extends \Test\TestCase {
 		$this->createUser('foo', 'var');
 	}
 
-	public function testSetupFS() {
+	public function testSetupFS(): void {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS('foo');
 

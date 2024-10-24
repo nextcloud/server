@@ -8,6 +8,7 @@
 namespace OCA\Files;
 
 use OC\Files\FilenameValidator;
+use OCA\Files\Service\ChunkedUploadConfig;
 use OCP\Capabilities\ICapability;
 
 class Capabilities implements ICapability {
@@ -20,7 +21,7 @@ class Capabilities implements ICapability {
 	/**
 	 * Return this classes capabilities
 	 *
-	 * @return array{files: array{'$comment': ?string, bigfilechunking: bool, blacklisted_files: array<mixed>, forbidden_filenames: list<string>, forbidden_filename_basenames: list<string>, forbidden_filename_characters: list<string>, forbidden_filename_extensions: list<string>}}
+	 * @return array{files: array{'$comment': ?string, bigfilechunking: bool, blacklisted_files: array<mixed>, forbidden_filenames: list<string>, forbidden_filename_basenames: list<string>, forbidden_filename_characters: list<string>, forbidden_filename_extensions: list<string>, chunked_upload: array{max_size: int, max_parallel_count: int}}}
 	 */
 	public function getCapabilities(): array {
 		return [
@@ -33,6 +34,10 @@ class Capabilities implements ICapability {
 				'forbidden_filename_extensions' => $this->filenameValidator->getForbiddenExtensions(),
 
 				'bigfilechunking' => true,
+				'chunked_upload' => [
+					'max_size' => ChunkedUploadConfig::getMaxChunkSize(),
+					'max_parallel_count' => ChunkedUploadConfig::getMaxParallelCount(),
+				],
 			],
 		];
 	}

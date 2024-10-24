@@ -100,7 +100,7 @@ class DeleteCalendarTest extends TestCase {
 	public function testInvalidCalendar(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage(
-			'User <' . self::USER . '> has no calendar named <' . self::NAME .  '>.');
+			'User <' . self::USER . '> has no calendar named <' . self::NAME . '>.');
 
 		$this->userManager->expects($this->once())
 			->method('userExists')

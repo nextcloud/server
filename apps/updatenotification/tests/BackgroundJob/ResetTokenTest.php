@@ -33,7 +33,7 @@ class ResetTokenTest extends TestCase {
 		);
 	}
 
-	public function testRunWithNotExpiredToken() {
+	public function testRunWithNotExpiredToken(): void {
 		$this->timeFactory
 			->expects($this->atLeastOnce())
 			->method('getTime')
@@ -54,7 +54,7 @@ class ResetTokenTest extends TestCase {
 		static::invokePrivate($this->resetTokenBackgroundJob, 'run', [null]);
 	}
 
-	public function testRunWithExpiredToken() {
+	public function testRunWithExpiredToken(): void {
 		$this->timeFactory
 			->expects($this->once())
 			->method('getTime')
@@ -72,7 +72,7 @@ class ResetTokenTest extends TestCase {
 		static::invokePrivate($this->resetTokenBackgroundJob, 'run', [null]);
 	}
 
-	public function testRunWithExpiredTokenAndReadOnlyConfigFile() {
+	public function testRunWithExpiredTokenAndReadOnlyConfigFile(): void {
 		$this->timeFactory
 			->expects($this->never())
 			->method('getTime');

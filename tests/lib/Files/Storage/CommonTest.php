@@ -42,7 +42,7 @@ class CommonTest extends Storage {
 		parent::tearDown();
 	}
 
-	public function testVerifyPath() {
+	public function testVerifyPath(): void {
 		$this->filenameValidator
 			->expects($this->once())
 			->method('validateFilename')
@@ -53,7 +53,7 @@ class CommonTest extends Storage {
 		$this->instance->verifyPath('/', 'invalid:char.txt');
 	}
 
-	public function testVerifyPathSucceed() {
+	public function testVerifyPathSucceed(): void {
 		$this->filenameValidator
 			->expects($this->once())
 			->method('validateFilename')
@@ -62,7 +62,7 @@ class CommonTest extends Storage {
 		$this->instance->verifyPath('/', 'valid-char.txt');
 	}
 
-	public function testMoveFromStorageWrapped() {
+	public function testMoveFromStorageWrapped(): void {
 		/** @var \OC\Files\Storage\CommonTest|MockObject $instance */
 		$instance = $this->getMockBuilder(\OC\Files\Storage\CommonTest::class)
 			->onlyMethods(['copyFromStorage', 'rmdir', 'unlink'])
@@ -80,7 +80,7 @@ class CommonTest extends Storage {
 		$this->assertTrue($instance->file_exists('bar.txt'));
 	}
 
-	public function testMoveFromStorageJailed() {
+	public function testMoveFromStorageJailed(): void {
 		/** @var \OC\Files\Storage\CommonTest|MockObject $instance */
 		$instance = $this->getMockBuilder(\OC\Files\Storage\CommonTest::class)
 			->onlyMethods(['copyFromStorage', 'rmdir', 'unlink'])
@@ -103,7 +103,7 @@ class CommonTest extends Storage {
 		$this->assertTrue($instance->file_exists('bar.txt'));
 	}
 
-	public function testMoveFromStorageNestedJail() {
+	public function testMoveFromStorageNestedJail(): void {
 		/** @var \OC\Files\Storage\CommonTest|MockObject $instance */
 		$instance = $this->getMockBuilder(\OC\Files\Storage\CommonTest::class)
 			->onlyMethods(['copyFromStorage', 'rmdir', 'unlink'])

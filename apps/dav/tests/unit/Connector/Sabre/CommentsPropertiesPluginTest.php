@@ -16,7 +16,7 @@ use Sabre\DAV\PropFind;
 
 class CommentsPropertiesPluginTest extends \Test\TestCase {
 
-	/** @var  CommentPropertiesPluginImplementation */
+	/** @var CommentPropertiesPluginImplementation */
 	protected $plugin;
 	protected $commentsManager;
 	protected $userSession;

@@ -73,6 +73,7 @@ OC.L10N.register(
     "Service name" : "ชื่อบริการ",
     "Request timeout (seconds)" : "หมดเวลาคำขอ (วินาที)",
     "External storage" : "พื้นที่จัดเก็บข้อมูลภายนอก",
+    "Submit" : "ส่ง",
     "External mount error" : "ข้อผิดพลาดจุดเชื่อมต่อภายนอก",
     "Storage type" : "ชนิดการจัดเก็บข้อมูล",
     "Unknown" : "ไม่ทราบ",

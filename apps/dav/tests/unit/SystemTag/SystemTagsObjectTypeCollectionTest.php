@@ -7,7 +7,9 @@
  */
 namespace OCA\DAV\Tests\unit\SystemTag;
 
+use OCA\DAV\SystemTag\SystemTagsObjectTypeCollection;
 use OCP\Files\Folder;
+use OCP\Files\Node;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -17,22 +19,22 @@ use OCP\SystemTag\ISystemTagObjectMapper;
 class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 
 	/**
-	 * @var \OCA\DAV\SystemTag\SystemTagsObjectTypeCollection
+	 * @var SystemTagsObjectTypeCollection
 	 */
 	private $node;
 
 	/**
-	 * @var \OCP\SystemTag\ISystemTagManager
+	 * @var ISystemTagManager
 	 */
 	private $tagManager;
 
 	/**
-	 * @var \OCP\SystemTag\ISystemTagObjectMapper
+	 * @var ISystemTagObjectMapper
 	 */
 	private $tagMapper;
 
 	/**
-	 * @var \OCP\Files\Folder
+	 * @var Folder
 	 */
 	private $userFolder;
 
@@ -79,7 +81,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 			return false;
 		};
 
-		$this->node = new \OCA\DAV\SystemTag\SystemTagsObjectTypeCollection(
+		$this->node = new SystemTagsObjectTypeCollection(
 			'files',
 			$this->tagManager,
 			$this->tagMapper,
@@ -108,7 +110,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 		$this->userFolder->expects($this->once())
 			->method('getFirstNodeById')
 			->with('555')
-			->willReturn($this->createMock(\OCP\Files\Node::class));
+			->willReturn($this->createMock(Node::class));
 		$childNode = $this->node->getChild('555');
 
 		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagsObjectMappingCollection', $childNode);
@@ -137,7 +139,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 		$this->userFolder->expects($this->once())
 			->method('getFirstNodeById')
 			->with('123')
-			->willReturn($this->createMock(\OCP\Files\Node::class));
+			->willReturn($this->createMock(Node::class));
 		$this->assertTrue($this->node->childExists('123'));
 	}
 

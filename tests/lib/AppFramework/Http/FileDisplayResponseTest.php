@@ -34,23 +34,23 @@ class FileDisplayResponseTest extends \Test\TestCase {
 		$this->response = new FileDisplayResponse($this->file);
 	}
 
-	public function testHeader() {
+	public function testHeader(): void {
 		$headers = $this->response->getHeaders();
 		$this->assertArrayHasKey('Content-Disposition', $headers);
 		$this->assertSame('inline; filename="myFileName"', $headers['Content-Disposition']);
 	}
 
-	public function testETag() {
+	public function testETag(): void {
 		$this->assertSame('myETag', $this->response->getETag());
 	}
 
-	public function testLastModified() {
+	public function testLastModified(): void {
 		$lastModified = $this->response->getLastModified();
 		$this->assertNotNull($lastModified);
 		$this->assertSame(1464825600, $lastModified->getTimestamp());
 	}
 
-	public function test304() {
+	public function test304(): void {
 		$output = $this->getMockBuilder('OCP\AppFramework\Http\IOutput')
 			->disableOriginalConstructor()
 			->getMock();
@@ -67,7 +67,7 @@ class FileDisplayResponseTest extends \Test\TestCase {
 	}
 
 
-	public function testNon304() {
+	public function testNon304(): void {
 		$output = $this->getMockBuilder('OCP\AppFramework\Http\IOutput')
 			->disableOriginalConstructor()
 			->getMock();

@@ -14,6 +14,7 @@ OC.L10N.register(
     "Initial version" : "Kezdeti verzió",
     "Version name" : "Verziónév",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "A nevesített verziók meg lesznek őrizve, és ki lesznek zárva az automatikus takarítás alól, ha a tárkvóta betelik.",
+    "Cancel" : "Mégse",
     "Remove version name" : "Verziónév eltávolítása",
     "Save version name" : "Verziónév mentése",
     "Initial version restored" : "Kezdeti verzió helyreállítva",

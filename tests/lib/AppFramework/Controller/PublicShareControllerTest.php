@@ -50,7 +50,7 @@ class PublicShareControllerTest extends \Test\TestCase {
 		$this->session = $this->createMock(ISession::class);
 	}
 
-	public function testGetToken() {
+	public function testGetToken(): void {
 		$controller = new TestController('app', $this->request, $this->session, 'hash', false);
 
 		$controller->setToken('test');
@@ -73,7 +73,7 @@ class PublicShareControllerTest extends \Test\TestCase {
 	/**
 	 * @dataProvider dataIsAuthenticated
 	 */
-	public function testIsAuthenticatedNotPasswordProtected(bool $protected, string $token1, string $token2, string $hash1, string $hash2, bool $expected) {
+	public function testIsAuthenticatedNotPasswordProtected(bool $protected, string $token1, string $token2, string $hash1, string $hash2, bool $expected): void {
 		$controller = new TestController('app', $this->request, $this->session, $hash2, $protected);
 
 		$this->session->method('get')

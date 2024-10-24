@@ -99,7 +99,7 @@ class ManagerTest extends TestCase {
 		return $backend;
 	}
 
-	public function testGet() {
+	public function testGet(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
@@ -117,13 +117,13 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('group1', $group->getGID());
 	}
 
-	public function testGetNoBackend() {
+	public function testGetNoBackend(): void {
 		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 
 		$this->assertNull($manager->get('group1'));
 	}
 
-	public function testGetNotExists() {
+	public function testGetNotExists(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
@@ -139,7 +139,7 @@ class ManagerTest extends TestCase {
 		$this->assertNull($manager->get('group1'));
 	}
 
-	public function testGetDeleted() {
+	public function testGetDeleted(): void {
 		$backend = new \Test\Util\Group\Dummy();
 		$backend->createGroup('group1');
 
@@ -151,7 +151,7 @@ class ManagerTest extends TestCase {
 		$this->assertNull($manager->get('group1'));
 	}
 
-	public function testGetMultipleBackends() {
+	public function testGetMultipleBackends(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend1
 		 */
@@ -179,8 +179,8 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('group1', $group->getGID());
 	}
 
-	public function testCreate() {
-		/**@var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
+	public function testCreate(): void {
+		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
 		$backendGroupCreated = false;
 		$backend = $this->getTestBackend();
 		$backend->expects($this->any())
@@ -203,8 +203,8 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('group1', $group->getGID());
 	}
 
-	public function testCreateFailure() {
-		/**@var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
+	public function testCreateFailure(): void {
+		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
 		$backendGroupCreated = false;
 		$backend = $this->getTestBackend(
 			GroupInterface::ADD_TO_GROUP |
@@ -232,8 +232,8 @@ class ManagerTest extends TestCase {
 		$this->assertEquals(null, $group);
 	}
 
-	public function testCreateTooLong() {
-		/**@var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
+	public function testCreateTooLong(): void {
+		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
 		$backendGroupCreated = false;
 		$backend = $this->getTestBackend(
 			GroupInterface::ADD_TO_GROUP |
@@ -256,7 +256,7 @@ class ManagerTest extends TestCase {
 		$group = $manager->createGroup($groupName);
 	}
 
-	public function testCreateExists() {
+	public function testCreateExists(): void {
 		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
 		$backend = $this->getTestBackend();
 		$backend->expects($this->any())
@@ -273,7 +273,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('group1', $group->getGID());
 	}
 
-	public function testSearch() {
+	public function testSearch(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
@@ -296,7 +296,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('group1', $group1->getGID());
 	}
 
-	public function testSearchMultipleBackends() {
+	public function testSearchMultipleBackends(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend1
 		 */
@@ -333,7 +333,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('group12', $group12->getGID());
 	}
 
-	public function testSearchMultipleBackendsLimitAndOffset() {
+	public function testSearchMultipleBackendsLimitAndOffset(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend1
 		 */
@@ -370,7 +370,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('group12', $group12->getGID());
 	}
 
-	public function testSearchResultExistsButGroupDoesNot() {
+	public function testSearchResultExistsButGroupDoesNot(): void {
 		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
 		$backend = $this->createMock(Database::class);
 		$backend->expects($this->once())
@@ -394,7 +394,7 @@ class ManagerTest extends TestCase {
 		$this->assertEmpty($groups);
 	}
 
-	public function testGetUserGroups() {
+	public function testGetUserGroups(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
@@ -417,7 +417,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('group1', $group1->getGID());
 	}
 
-	public function testGetUserGroupIds() {
+	public function testGetUserGroupIds(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
@@ -442,7 +442,7 @@ class ManagerTest extends TestCase {
 		}
 	}
 
-	public function testGetUserGroupsWithDeletedGroup() {
+	public function testGetUserGroupsWithDeletedGroup(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
@@ -469,7 +469,7 @@ class ManagerTest extends TestCase {
 		$this->assertEmpty($groups);
 	}
 
-	public function testInGroup() {
+	public function testInGroup(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
@@ -488,7 +488,7 @@ class ManagerTest extends TestCase {
 		$this->assertTrue($manager->isInGroup('user1', 'group1'));
 	}
 
-	public function testIsAdmin() {
+	public function testIsAdmin(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
@@ -507,7 +507,7 @@ class ManagerTest extends TestCase {
 		$this->assertTrue($manager->isAdmin('user1'));
 	}
 
-	public function testNotAdmin() {
+	public function testNotAdmin(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
@@ -526,7 +526,7 @@ class ManagerTest extends TestCase {
 		$this->assertFalse($manager->isAdmin('user1'));
 	}
 
-	public function testGetUserGroupsMultipleBackends() {
+	public function testGetUserGroupsMultipleBackends(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend1
 		 */
@@ -563,7 +563,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('group2', $group2->getGID());
 	}
 
-	public function testDisplayNamesInGroupWithOneUserBackend() {
+	public function testDisplayNamesInGroupWithOneUserBackend(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
@@ -621,7 +621,7 @@ class ManagerTest extends TestCase {
 		$this->assertTrue(isset($users['user33']));
 	}
 
-	public function testDisplayNamesInGroupWithOneUserBackendWithLimitSpecified() {
+	public function testDisplayNamesInGroupWithOneUserBackendWithLimitSpecified(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
@@ -682,7 +682,7 @@ class ManagerTest extends TestCase {
 		$this->assertFalse(isset($users['user333']));
 	}
 
-	public function testDisplayNamesInGroupWithOneUserBackendWithLimitAndOffsetSpecified() {
+	public function testDisplayNamesInGroupWithOneUserBackendWithLimitAndOffsetSpecified(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
@@ -746,7 +746,7 @@ class ManagerTest extends TestCase {
 		$this->assertTrue(isset($users['user333']));
 	}
 
-	public function testDisplayNamesInGroupWithOneUserBackendAndSearchEmpty() {
+	public function testDisplayNamesInGroupWithOneUserBackendAndSearchEmpty(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend
 		 */
@@ -774,7 +774,7 @@ class ManagerTest extends TestCase {
 		$this->assertTrue(isset($users['user33']));
 	}
 
-	public function testDisplayNamesInGroupWithOneUserBackendAndSearchEmptyAndLimitSpecified() {
+	public function testDisplayNamesInGroupWithOneUserBackendAndSearchEmptyAndLimitSpecified(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
@@ -802,7 +802,7 @@ class ManagerTest extends TestCase {
 		$this->assertFalse(isset($users['user33']));
 	}
 
-	public function testDisplayNamesInGroupWithOneUserBackendAndSearchEmptyAndLimitAndOffsetSpecified() {
+	public function testDisplayNamesInGroupWithOneUserBackendAndSearchEmptyAndLimitAndOffsetSpecified(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
@@ -830,7 +830,7 @@ class ManagerTest extends TestCase {
 		$this->assertTrue(isset($users['user33']));
 	}
 
-	public function testGetUserGroupsWithAddUser() {
+	public function testGetUserGroupsWithAddUser(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
@@ -867,7 +867,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('group1', $group1->getGID());
 	}
 
-	public function testGetUserGroupsWithRemoveUser() {
+	public function testGetUserGroupsWithRemoveUser(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
@@ -910,7 +910,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($expectedGroups, $groups);
 	}
 
-	public function testGetUserIdGroups() {
+	public function testGetUserIdGroups(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
@@ -927,7 +927,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals([], $groups);
 	}
 
-	public function testGroupDisplayName() {
+	public function testGroupDisplayName(): void {
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */

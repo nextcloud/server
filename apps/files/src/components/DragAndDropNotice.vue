@@ -27,17 +27,20 @@
 
 <script lang="ts">
 import type { Folder } from '@nextcloud/files'
+
 import { Permission } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { UploadStatus } from '@nextcloud/upload'
 import { defineComponent, type PropType } from 'vue'
+import debounce from 'debounce'
 
 import TrayArrowDownIcon from 'vue-material-design-icons/TrayArrowDown.vue'
 
 import { useNavigation } from '../composables/useNavigation'
 import { dataTransferToFileTree, onDropExternalFiles } from '../services/DropService'
 import logger from '../logger.ts'
+import type { RawLocation } from 'vue-router'
 
 export default defineComponent({
 	name: 'DragAndDropNotice',
@@ -86,18 +89,29 @@ export default defineComponent({
 			}
 			return null
 		},
+
+		/**
+		 * Debounced function to reset the drag over state
+		 * Required as Firefox has a bug where no dragleave is emitted:
+		 * https://bugzilla.mozilla.org/show_bug.cgi?id=656164
+		 */
+		resetDragOver() {
+			return debounce(() => {
+				this.dragover = false
+			}, 3000)
+		},
 	},
 
 	mounted() {
 		// Add events on parent to cover both the table and DragAndDrop notice
-		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
+		const mainContent = window.document.getElementById('app-content-vue') as HTMLElement
 		mainContent.addEventListener('dragover', this.onDragOver)
 		mainContent.addEventListener('dragleave', this.onDragLeave)
 		mainContent.addEventListener('drop', this.onContentDrop)
 	},
 
 	beforeDestroy() {
-		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
+		const mainContent = window.document.getElementById('app-content-vue') as HTMLElement
 		mainContent.removeEventListener('dragover', this.onDragOver)
 		mainContent.removeEventListener('dragleave', this.onDragLeave)
 		mainContent.removeEventListener('drop', this.onContentDrop)
@@ -112,6 +126,7 @@ export default defineComponent({
 			if (isForeignFile) {
 				// Only handle uploading of outside files (not Nextcloud files)
 				this.dragover = true
+				this.resetDragOver()
 			}
 		},
 
@@ -126,6 +141,7 @@ export default defineComponent({
 
 			if (this.dragover) {
 				this.dragover = false
+				this.resetDragOver.clear()
 			}
 		},
 
@@ -134,6 +150,7 @@ export default defineComponent({
 			event.preventDefault()
 			if (this.dragover) {
 				this.dragover = false
+				this.resetDragOver.clear()
 			}
 		},
 
@@ -186,16 +203,24 @@ export default defineComponent({
 
 			if (lastUpload !== undefined) {
 				logger.debug('Scrolling to last upload in current folder', { lastUpload })
-				this.$router.push({
-					...this.$route,
+				const location: RawLocation = {
+					path: this.$route.path,
+					// Keep params but change file id
 					params: {
-						view: this.$route.params?.view ?? 'files',
-						fileid: parseInt(lastUpload.response!.headers['oc-fileid']),
+						...this.$route.params,
+						fileid: String(lastUpload.response!.headers['oc-fileid']),
 					},
-				})
+					query: {
+						...this.$route.query,
+					},
+				}
+				// Remove open file from query
+				delete location.query.openfile
+				this.$router.push(location)
 			}
 
 			this.dragover = false
+			this.resetDragOver.clear()
 		},
 
 		t,
@@ -218,7 +243,7 @@ export default defineComponent({
 	border-color: black;
 
 	h3 {
-		margin-left: 16px;
+		margin-inline-start: 16px;
 		color: inherit;
 	}
 

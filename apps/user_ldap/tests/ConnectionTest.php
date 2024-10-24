@@ -7,6 +7,7 @@
  */
 namespace OCA\User_LDAP\Tests;
 
+use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\ILDAPWrapper;
 
@@ -18,10 +19,10 @@ use OCA\User_LDAP\ILDAPWrapper;
  * @package OCA\User_LDAP\Tests
  */
 class ConnectionTest extends \Test\TestCase {
-	/** @var \OCA\User_LDAP\ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject  */
+	/** @var ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $ldap;
 
-	/** @var  Connection */
+	/** @var Connection */
 	protected $connection;
 
 	protected function setUp(): void {
@@ -39,7 +40,7 @@ class ConnectionTest extends \Test\TestCase {
 			->willReturn(true);
 	}
 
-	public function testOriginalAgentUnchangedOnClone() {
+	public function testOriginalAgentUnchangedOnClone(): void {
 		//background: upon login a bind is done with the user credentials
 		//which is valid for the whole LDAP resource. It needs to be reset
 		//to the agent's credentials
@@ -66,7 +67,7 @@ class ConnectionTest extends \Test\TestCase {
 		$this->assertSame($agentPawd, $agent['ldapAgentPassword']);
 	}
 
-	public function testUseBackupServer() {
+	public function testUseBackupServer(): void {
 		$mainHost = 'ldap://nixda.ldap';
 		$backupHost = 'ldap://fallback.ldap';
 		$config = [
@@ -114,7 +115,7 @@ class ConnectionTest extends \Test\TestCase {
 			->willReturnCallback(function () use (&$isThrown) {
 				if (!$isThrown) {
 					$isThrown = true;
-					throw new \OC\ServerNotAvailableException();
+					throw new ServerNotAvailableException();
 				}
 				return true;
 			});
@@ -125,7 +126,7 @@ class ConnectionTest extends \Test\TestCase {
 		$this->connection->init();
 	}
 
-	public function testDontUseBackupServerOnFailedAuth() {
+	public function testDontUseBackupServerOnFailedAuth(): void {
 		$mainHost = 'ldap://nixda.ldap';
 		$backupHost = 'ldap://fallback.ldap';
 		$config = [
@@ -172,7 +173,7 @@ class ConnectionTest extends \Test\TestCase {
 		$this->connection->init();
 	}
 
-	public function testBindWithInvalidCredentials() {
+	public function testBindWithInvalidCredentials(): void {
 		// background: Bind with invalid credentials should return false
 		// and not throw a ServerNotAvailableException.
 
@@ -212,12 +213,12 @@ class ConnectionTest extends \Test\TestCase {
 
 		try {
 			$this->assertFalse($this->connection->bind(), 'Connection::bind() should not return true with invalid credentials.');
-		} catch (\OC\ServerNotAvailableException $e) {
+		} catch (ServerNotAvailableException $e) {
 			$this->fail('Failed asserting that exception of type "OC\ServerNotAvailableException" is not thrown.');
 		}
 	}
 
-	public function testStartTlsNegotiationFailure() {
+	public function testStartTlsNegotiationFailure(): void {
 		// background: If Start TLS negotiation fails,
 		// a ServerNotAvailableException should be thrown.
 
@@ -260,7 +261,7 @@ class ConnectionTest extends \Test\TestCase {
 			->method('startTls')
 			->willReturn(false);
 
-		$this->expectException(\OC\ServerNotAvailableException::class);
+		$this->expectException(ServerNotAvailableException::class);
 		$this->expectExceptionMessage('Start TLS failed, when connecting to LDAP host ' . $host . '.');
 
 		$this->connection->init();

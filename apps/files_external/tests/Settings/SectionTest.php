@@ -29,11 +29,11 @@ class SectionTest extends TestCase {
 		);
 	}
 
-	public function testGetID() {
+	public function testGetID(): void {
 		$this->assertSame('externalstorages', $this->section->getID());
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->l
 			->expects($this->once())
 			->method('t')
@@ -43,7 +43,7 @@ class SectionTest extends TestCase {
 		$this->assertSame('External storage', $this->section->getName());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(10, $this->section->getPriority());
 	}
 }

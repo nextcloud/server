@@ -19,7 +19,7 @@ use Sabre\DAV\PropPatch;
 
 class CommentsNodeTest extends \Test\TestCase {
 
-	/** @var  ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $commentsManager;
 
 	protected $comment;

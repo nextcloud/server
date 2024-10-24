@@ -231,7 +231,7 @@ class ReferenceManager implements IReferenceManager {
 			}
 
 			$configKey = 'provider-last-use_' . $providerId;
-			$this->config->setUserValue($userId, 'references', $configKey, (string) $timestamp);
+			$this->config->setUserValue($userId, 'references', $configKey, (string)$timestamp);
 			return true;
 		}
 		return false;
@@ -254,7 +254,7 @@ class ReferenceManager implements IReferenceManager {
 		$timestamps = [];
 		foreach ($keys as $key) {
 			$providerId = substr($key, strlen($prefix));
-			$timestamp = (int) $this->config->getUserValue($userId, 'references', $key);
+			$timestamp = (int)$this->config->getUserValue($userId, 'references', $key);
 			$timestamps[$providerId] = $timestamp;
 		}
 		return $timestamps;

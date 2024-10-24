@@ -78,12 +78,12 @@ class TransferOwnership extends Command {
 		$destinationUserObject = $this->userManager->get($input->getArgument('destination-user'));
 
 		if (!$sourceUserObject instanceof IUser) {
-			$output->writeln("<error>Unknown source user " . $input->getArgument('source-user') . "</error>");
+			$output->writeln('<error>Unknown source user ' . $input->getArgument('source-user') . '</error>');
 			return self::FAILURE;
 		}
 
 		if (!$destinationUserObject instanceof IUser) {
-			$output->writeln("<error>Unknown destination user " . $input->getArgument('destination-user') . "</error>");
+			$output->writeln('<error>Unknown destination user ' . $input->getArgument('destination-user') . '</error>');
 			return self::FAILURE;
 		}
 
@@ -105,7 +105,7 @@ class TransferOwnership extends Command {
 					}
 					break;
 				default:
-					$output->writeln("<error>Option --transfer-incoming-shares: wrong usage. Transfer aborted.</error>");
+					$output->writeln('<error>Option --transfer-incoming-shares: wrong usage. Transfer aborted.</error>');
 					return self::FAILURE;
 			}
 
@@ -119,7 +119,7 @@ class TransferOwnership extends Command {
 				$includeIncoming
 			);
 		} catch (TransferOwnershipException $e) {
-			$output->writeln("<error>" . $e->getMessage() . "</error>");
+			$output->writeln('<error>' . $e->getMessage() . '</error>');
 			return $e->getCode() !== 0 ? $e->getCode() : self::FAILURE;
 		}
 

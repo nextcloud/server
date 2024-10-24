@@ -99,25 +99,25 @@ class CheckGroup extends Command {
 
 			throw new \Exception('The given group is not a recognized LDAP group.');
 		} catch (\Exception $e) {
-			$output->writeln('<error>' . $e->getMessage(). '</error>');
+			$output->writeln('<error>' . $e->getMessage() . '</error>');
 			return self::FAILURE;
 		}
 	}
 
 	public function onGroupCreatedEvent(GroupCreatedEvent $event, OutputInterface $output): void {
-		$output->writeln('<info>The group '.$event->getGroup()->getGID().' was added to Nextcloud with '.$event->getGroup()->count().' users</info>');
+		$output->writeln('<info>The group ' . $event->getGroup()->getGID() . ' was added to Nextcloud with ' . $event->getGroup()->count() . ' users</info>');
 	}
 
 	public function onUserAddedEvent(UserAddedEvent $event, OutputInterface $output): void {
 		$user = $event->getUser();
 		$group = $event->getGroup();
-		$output->writeln('<info>The user '.$user->getUID().' was added to group '.$group->getGID().'</info>');
+		$output->writeln('<info>The user ' . $user->getUID() . ' was added to group ' . $group->getGID() . '</info>');
 	}
 
 	public function onUserRemovedEvent(UserRemovedEvent $event, OutputInterface $output): void {
 		$user = $event->getUser();
 		$group = $event->getGroup();
-		$output->writeln('<info>The user '.$user->getUID().' was removed from group '.$group->getGID().'</info>');
+		$output->writeln('<info>The user ' . $user->getUID() . ' was removed from group ' . $group->getGID() . '</info>');
 	}
 
 	/**

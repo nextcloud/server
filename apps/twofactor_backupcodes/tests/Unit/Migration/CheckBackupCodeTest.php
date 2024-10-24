@@ -28,11 +28,11 @@ class CheckBackupCodeTest extends TestCase {
 		$this->checkBackupsCodes = new CheckBackupCodes($this->jobList);
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->assertSame('Add background job to check for backup codes', $this->checkBackupsCodes->getName());
 	}
 
-	public function testRun() {
+	public function testRun(): void {
 		$this->jobList->expects($this->once())
 			->method('add')
 			->with(

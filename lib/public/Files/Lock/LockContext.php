@@ -33,7 +33,7 @@ final class LockContext {
 	public function __construct(
 		Node $node,
 		int $type,
-		string $owner
+		string $owner,
 	) {
 		$this->node = $node;
 		$this->type = $type;

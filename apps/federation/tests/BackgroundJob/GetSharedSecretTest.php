@@ -33,7 +33,7 @@ class GetSharedSecretTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IClient */
 	private $httpClient;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject|IClientService */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IClientService */
 	private $httpClientService;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IJobList */
@@ -42,7 +42,7 @@ class GetSharedSecretTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IURLGenerator */
 	private $urlGenerator;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject|TrustedServers  */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|TrustedServers */
 	private $trustedServers;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject|LoggerInterface */
@@ -152,7 +152,7 @@ class GetSharedSecretTest extends TestCase {
 	 *
 	 * @param int $statusCode
 	 */
-	public function testRun($statusCode) {
+	public function testRun($statusCode): void {
 		$target = 'targetURL';
 		$source = 'sourceURL';
 		$token = 'token';
@@ -210,7 +210,7 @@ class GetSharedSecretTest extends TestCase {
 		];
 	}
 
-	public function testRunExpired() {
+	public function testRunExpired(): void {
 		$target = 'targetURL';
 		$source = 'sourceURL';
 		$token = 'token';
@@ -240,7 +240,7 @@ class GetSharedSecretTest extends TestCase {
 		$this->invokePrivate($this->getSharedSecret, 'run', [$argument]);
 	}
 
-	public function testRunConnectionError() {
+	public function testRunConnectionError(): void {
 		$target = 'targetURL';
 		$source = 'sourceURL';
 		$token = 'token';

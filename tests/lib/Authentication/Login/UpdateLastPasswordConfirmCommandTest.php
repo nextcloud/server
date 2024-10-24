@@ -27,7 +27,7 @@ class UpdateLastPasswordConfirmCommandTest extends ALoginCommandTest {
 		);
 	}
 
-	public function testProcess() {
+	public function testProcess(): void {
 		$data = $this->getLoggedInLoginData();
 		$this->user->expects($this->once())
 			->method('getLastLogin')

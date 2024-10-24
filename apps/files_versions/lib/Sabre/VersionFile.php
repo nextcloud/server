@@ -23,7 +23,7 @@ use Sabre\DAV\IFile;
 class VersionFile implements IFile {
 	public function __construct(
 		private IVersion $version,
-		private IVersionManager $versionManager
+		private IVersionManager $versionManager,
 	) {
 	}
 

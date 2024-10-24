@@ -66,14 +66,14 @@ class RemoteWipeEmailListenerTest extends TestCase {
 	}
 
 
-	public function testHandleUnrelated() {
+	public function testHandleUnrelated(): void {
 		$event = new Event();
 		$this->mailer->expects($this->never())->method('send');
 
 		$this->listener->handle($event);
 	}
 
-	public function testHandleRemoteWipeStartedInvalidUser() {
+	public function testHandleRemoteWipeStartedInvalidUser(): void {
 		/** @var IToken|MockObject $token */
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeStarted($token);
@@ -87,7 +87,7 @@ class RemoteWipeEmailListenerTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleRemoteWipeStartedNoEmailSet() {
+	public function testHandleRemoteWipeStartedNoEmailSet(): void {
 		/** @var IToken|MockObject $token */
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeStarted($token);
@@ -103,7 +103,7 @@ class RemoteWipeEmailListenerTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleRemoteWipeStartedTransmissionError() {
+	public function testHandleRemoteWipeStartedTransmissionError(): void {
 		/** @var IToken|MockObject $token */
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeStarted($token);
@@ -123,7 +123,7 @@ class RemoteWipeEmailListenerTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleRemoteWipeStarted() {
+	public function testHandleRemoteWipeStarted(): void {
 		/** @var IToken|MockObject $token */
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeStarted($token);
@@ -148,7 +148,7 @@ class RemoteWipeEmailListenerTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleRemoteWipeFinishedInvalidUser() {
+	public function testHandleRemoteWipeFinishedInvalidUser(): void {
 		/** @var IToken|MockObject $token */
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeFinished($token);
@@ -162,7 +162,7 @@ class RemoteWipeEmailListenerTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleRemoteWipeFinishedNoEmailSet() {
+	public function testHandleRemoteWipeFinishedNoEmailSet(): void {
 		/** @var IToken|MockObject $token */
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeFinished($token);
@@ -178,7 +178,7 @@ class RemoteWipeEmailListenerTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleRemoteWipeFinishedTransmissionError() {
+	public function testHandleRemoteWipeFinishedTransmissionError(): void {
 		/** @var IToken|MockObject $token */
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeFinished($token);
@@ -198,7 +198,7 @@ class RemoteWipeEmailListenerTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleRemoteWipeFinished() {
+	public function testHandleRemoteWipeFinished(): void {
 		/** @var IToken|MockObject $token */
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeFinished($token);

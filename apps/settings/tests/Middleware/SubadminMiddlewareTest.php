@@ -44,8 +44,8 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 	}
 
 
-	public function testBeforeControllerAsUserWithExemption() {
-		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\NotAdminException::class);
+	public function testBeforeControllerAsUserWithExemption(): void {
+		$this->expectException(NotAdminException::class);
 
 		$this->reflector
 			->expects($this->exactly(2))
@@ -58,7 +58,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 	}
 
 
-	public function testBeforeControllerAsUserWithoutExemption() {
+	public function testBeforeControllerAsUserWithoutExemption(): void {
 		$this->reflector
 			->expects($this->once())
 			->method('hasAnnotation')
@@ -67,7 +67,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$this->subadminMiddleware->beforeController($this->controller, 'foo');
 	}
 
-	public function testBeforeControllerAsSubAdminWithoutExemption() {
+	public function testBeforeControllerAsSubAdminWithoutExemption(): void {
 		$this->reflector
 			->expects($this->exactly(2))
 			->method('hasAnnotation')
@@ -78,7 +78,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$this->subadminMiddlewareAsSubAdmin->beforeController($this->controller, 'foo');
 	}
 
-	public function testBeforeControllerAsSubAdminWithExemption() {
+	public function testBeforeControllerAsSubAdminWithExemption(): void {
 		$this->reflector
 			->expects($this->once())
 			->method('hasAnnotation')
@@ -87,14 +87,14 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$this->subadminMiddlewareAsSubAdmin->beforeController($this->controller, 'foo');
 	}
 
-	public function testAfterNotAdminException() {
+	public function testAfterNotAdminException(): void {
 		$expectedResponse = new TemplateResponse('core', '403', [], 'guest');
 		$expectedResponse->setStatus(403);
 		$this->assertEquals($expectedResponse, $this->subadminMiddleware->afterException($this->controller, 'foo', new NotAdminException('')));
 	}
 
 
-	public function testAfterRegularException() {
+	public function testAfterRegularException(): void {
 		$this->expectException(\Exception::class);
 
 		$expectedResponse = new TemplateResponse('core', '403', [], 'guest');

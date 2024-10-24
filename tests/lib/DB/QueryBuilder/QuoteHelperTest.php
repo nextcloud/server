@@ -41,7 +41,7 @@ class QuoteHelperTest extends \Test\TestCase {
 	 * @param mixed $input
 	 * @param string $expected
 	 */
-	public function testQuoteColumnName($input, $expected) {
+	public function testQuoteColumnName($input, $expected): void {
 		$this->assertSame(
 			$expected,
 			$this->helper->quoteColumnName($input)
@@ -76,7 +76,7 @@ class QuoteHelperTest extends \Test\TestCase {
 	 * @param mixed $input
 	 * @param string $expected
 	 */
-	public function testQuoteColumnNames($input, $expected) {
+	public function testQuoteColumnNames($input, $expected): void {
 		$this->assertSame(
 			$expected,
 			$this->helper->quoteColumnNames($input)

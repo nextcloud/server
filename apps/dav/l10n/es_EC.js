@@ -20,7 +20,7 @@ OC.L10N.register(
     "{actor} unshared calendar {calendar} from you" : "{actor} ha dejado de compartir el calendario {calendar} contigo",
     "You unshared calendar {calendar} from {user}" : "Has dejado de compartir el calendario {calendar} con {user}",
     "{actor} unshared calendar {calendar} from {user}" : "{actor} dejó de compartir el calendario {calendar} con {user}",
-    "{actor} unshared calendar {calendar} from themselves" : "{actor} dejó de compartir {el calendario calendar} con él mismo",
+    "{actor} unshared calendar {calendar} from themselves" : "{actor} dejó de compartir {calendar} con él mismo",
     "You shared calendar {calendar} with group {group}" : "Compartiste el calendario {calendar} con el grupo {group}",
     "{actor} shared calendar {calendar} with group {group}" : "{actor} compartió el calendario {calendar} con el grupo {group}",
     "You unshared calendar {calendar} from group {group}" : "Dejaste de compartir el calendario {calendar} con el grupo {group}",

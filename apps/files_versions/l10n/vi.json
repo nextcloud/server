@@ -11,6 +11,7 @@
     "Initial version" : "Phiên bản đầu tiên",
     "Version name" : "Tên phiên bản",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Các phiên bản được đặt tên vẫn được duy trì và bị loại khỏi quá trình dọn dẹp tự động khi hạn mức bộ nhớ của bạn đã đầy.",
+    "Cancel" : "Hủy",
     "Remove version name" : "Xóa tên phiên bản",
     "Save version name" : "Lưu tên phiên bản",
     "Initial version restored" : "Đã khôi phục phiên bản ban đầu",

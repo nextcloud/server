@@ -36,7 +36,7 @@ class CleanupTest extends TestCase {
 		$this->cmd = new CommandTester($cmd);
 	}
 
-	public function testCleanup() {
+	public function testCleanup(): void {
 		$this->registry->expects($this->once())
 			->method('cleanUp')
 			->with('u2f');
@@ -47,6 +47,6 @@ class CleanupTest extends TestCase {
 
 		$this->assertEquals(0, $rc);
 		$output = $this->cmd->getDisplay();
-		$this->assertStringContainsString("All user-provider associations for provider u2f have been removed", $output);
+		$this->assertStringContainsString('All user-provider associations for provider u2f have been removed', $output);
 	}
 }

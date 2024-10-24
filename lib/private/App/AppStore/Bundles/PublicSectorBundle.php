@@ -28,6 +28,7 @@ class PublicSectorBundle extends Bundle {
 			'richdocuments',
 			'admin_audit',
 			'files_retention',
+			'whiteboard',
 		];
 	}
 

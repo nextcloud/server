@@ -90,7 +90,7 @@ class NotifierTest extends TestCase {
 	 * @param string $versionInstalled
 	 * @param bool $exception
 	 */
-	public function testUpdateAlreadyInstalledCheck(string $versionNotification, string $versionInstalled, bool $exception) {
+	public function testUpdateAlreadyInstalledCheck(string $versionNotification, string $versionInstalled, bool $exception): void {
 		$notifier = $this->getNotifier();
 
 		$notification = $this->createMock(INotification::class);

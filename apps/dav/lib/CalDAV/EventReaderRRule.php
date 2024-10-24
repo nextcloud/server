@@ -22,7 +22,7 @@ class EventReaderRRule extends \Sabre\VObject\Recur\RRuleIterator {
 		return $this->interval;
 	}
 
-	public function concludes(): DateTime | null {
+	public function concludes(): ?DateTime {
 		// evaluate if until value is a date
 		if ($this->until instanceof DateTimeInterface) {
 			return DateTime::createFromInterface($this->until);
@@ -48,11 +48,11 @@ class EventReaderRRule extends \Sabre\VObject\Recur\RRuleIterator {
 		return null;
 	}
 
-	public function concludesAfter(): int | null {
+	public function concludesAfter(): ?int {
 		return !empty($this->count) ? $this->count : null;
 	}
 
-	public function concludesOn(): DateTime | null {
+	public function concludesOn(): ?DateTime {
 		return isset($this->until) ? DateTime::createFromInterface($this->until) : null;
 	}
 

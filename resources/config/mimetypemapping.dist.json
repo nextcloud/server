@@ -130,6 +130,7 @@
 	"mt2s": ["video/MP2T"],
 	"mts": ["video/MP2T"],
 	"nef": ["image/x-dcraw"],
+	"nfo": ["text/x-nfo"],
 	"numbers": ["application/x-iwork-numbers-sffnumbers"],
 	"odf": ["application/vnd.oasis.opendocument.formula"],
 	"odg": ["application/vnd.oasis.opendocument.graphics"],
@@ -234,5 +235,6 @@
 	"xrf": ["image/x-dcraw"],
 	"yaml": ["application/yaml", "text/plain"],
 	"yml": ["application/yaml", "text/plain"],
-	"zip": ["application/zip"]
+	"zip": ["application/zip"],
+	"zst": ["application/zstd"]
 }

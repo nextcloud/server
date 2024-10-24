@@ -22,15 +22,15 @@ class NulLCacheTest extends \Test\TestCase {
 		$this->cache = new NullCache();
 	}
 
-	public function testGetNumericStorageId() {
+	public function testGetNumericStorageId(): void {
 		$this->assertSame(-1, $this->cache->getNumericStorageId());
 	}
 
-	public function testGetEmpty() {
+	public function testGetEmpty(): void {
 		$this->assertNull($this->cache->get('foo'));
 	}
 
-	public function testGet() {
+	public function testGet(): void {
 		$data = $this->cache->get('');
 
 		$this->assertEquals(-1, $data['fileid']);
@@ -44,63 +44,63 @@ class NulLCacheTest extends \Test\TestCase {
 		$this->assertEquals(Constants::PERMISSION_READ, $data['permissions']);
 	}
 
-	public function testGetFolderContents() {
+	public function testGetFolderContents(): void {
 		$this->assertSame([], $this->cache->getFolderContents('foo'));
 	}
 
-	public function testGetFolderContentsById() {
+	public function testGetFolderContentsById(): void {
 		$this->assertSame([], $this->cache->getFolderContentsById(42));
 	}
 
-	public function testPut() {
+	public function testPut(): void {
 		$this->expectException(ForbiddenException::class);
 		$this->expectExceptionMessage('This request is not allowed to access the filesystem');
 
 		$this->cache->put('foo', ['size' => 100]);
 	}
 
-	public function testInsert() {
+	public function testInsert(): void {
 		$this->expectException(ForbiddenException::class);
 		$this->expectExceptionMessage('This request is not allowed to access the filesystem');
 
 		$this->cache->insert('foo', ['size' => 100]);
 	}
 
-	public function testUpdate() {
+	public function testUpdate(): void {
 		$this->expectException(ForbiddenException::class);
 		$this->expectExceptionMessage('This request is not allowed to access the filesystem');
 
 		$this->cache->update('foo', ['size' => 100]);
 	}
 
-	public function testGetId() {
+	public function testGetId(): void {
 		$this->assertSame(-1, $this->cache->getId('foo'));
 	}
 
-	public function testGetParentId() {
+	public function testGetParentId(): void {
 		$this->assertSame(-1, $this->cache->getParentId('foo'));
 	}
 
-	public function testInCache() {
+	public function testInCache(): void {
 		$this->assertTrue($this->cache->inCache(''));
 		$this->assertFalse($this->cache->inCache('foo'));
 	}
 
-	public function testRemove() {
+	public function testRemove(): void {
 		$this->expectException(ForbiddenException::class);
 		$this->expectExceptionMessage('This request is not allowed to access the filesystem');
 
 		$this->cache->remove('foo');
 	}
 
-	public function testMove() {
+	public function testMove(): void {
 		$this->expectException(ForbiddenException::class);
 		$this->expectExceptionMessage('This request is not allowed to access the filesystem');
 
 		$this->cache->move('foo', 'bar');
 	}
 
-	public function testMoveFromCache() {
+	public function testMoveFromCache(): void {
 		$sourceCache = $this->createMock(ICache::class);
 
 		$this->expectException(ForbiddenException::class);
@@ -109,27 +109,27 @@ class NulLCacheTest extends \Test\TestCase {
 		$this->cache->moveFromCache($sourceCache, 'foo', 'bar');
 	}
 
-	public function testGetStatus() {
+	public function testGetStatus(): void {
 		$this->assertSame(ICache::COMPLETE, $this->cache->getStatus('foo'));
 	}
 
-	public function testSearch() {
+	public function testSearch(): void {
 		$this->assertSame([], $this->cache->search('foo'));
 	}
 
-	public function testSearchByMime() {
+	public function testSearchByMime(): void {
 		$this->assertSame([], $this->cache->searchByMime('foo'));
 	}
 
-	public function testGetIncomplete() {
+	public function testGetIncomplete(): void {
 		$this->assertSame([], $this->cache->getIncomplete());
 	}
 
-	public function testGetPathById() {
+	public function testGetPathById(): void {
 		$this->assertSame('', $this->cache->getPathById(42));
 	}
 
-	public function testNormalize() {
+	public function testNormalize(): void {
 		$this->assertSame('foo/ bar /', $this->cache->normalize('foo/ bar /'));
 	}
 }

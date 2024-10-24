@@ -34,7 +34,7 @@ class AppDiscoverFetcherTest extends FetcherBase {
 		);
 	}
 
-	public function testAppstoreDisabled() {
+	public function testAppstoreDisabled(): void {
 		$this->config
 			->method('getSystemValueBool')
 			->willReturnCallback(function ($var, $default) {
@@ -50,7 +50,7 @@ class AppDiscoverFetcherTest extends FetcherBase {
 		$this->assertEquals([], $this->fetcher->get());
 	}
 
-	public function testNoInternet() {
+	public function testNoInternet(): void {
 		$this->config
 			->method('getSystemValueBool')
 			->willReturnCallback(function ($var, $default) {
@@ -74,7 +74,7 @@ class AppDiscoverFetcherTest extends FetcherBase {
 	/**
 	 * @dataProvider dataGetETag
 	 */
-	public function testGetEtag(string|null $expected, bool $throws, string $content = '') {
+	public function testGetEtag(?string $expected, bool $throws, string $content = ''): void {
 		$folder = $this->createMock(ISimpleFolder::class);
 		if (!$throws) {
 			$file = $this->createMock(ISimpleFile::class);

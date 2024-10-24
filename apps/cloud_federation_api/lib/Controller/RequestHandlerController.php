@@ -27,6 +27,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -50,7 +51,7 @@ class RequestHandlerController extends Controller {
 		private ICloudFederationProviderManager $cloudFederationProviderManager,
 		private Config $config,
 		private ICloudFederationFactory $factory,
-		private ICloudIdManager $cloudIdManager
+		private ICloudIdManager $cloudIdManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -71,6 +72,7 @@ class RequestHandlerController extends Controller {
 	 * @param string $resourceType 'file', 'calendar',...
 	 *
 	 * @return JSONResponse<Http::STATUS_CREATED, CloudFederationAPIAddShare, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationAPIValidationError, array{}>|JSONResponse<Http::STATUS_NOT_IMPLEMENTED, CloudFederationAPIError, array{}>
+	 *
 	 * 201: The notification was successfully received. The display name of the recipient might be returned in the body
 	 * 400: Bad request due to invalid parameters, e.g. when `shareWith` is not found or required properties are missing
 	 * 501: Share type or the resource type is not supported
@@ -196,6 +198,7 @@ class RequestHandlerController extends Controller {
 	 * @param array<string, mixed>|null $notification The actual payload of the notification
 	 *
 	 * @return JSONResponse<Http::STATUS_CREATED, array<string, mixed>, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationAPIValidationError, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_IMPLEMENTED, CloudFederationAPIError, array{}>
+	 *
 	 * 201: The notification was successfully received
 	 * 400: Bad request due to invalid parameters, e.g. when `type` is invalid or missing
 	 * 403: Getting resource is not allowed
@@ -274,7 +277,7 @@ class RequestHandlerController extends Controller {
 	private function mapUid($uid) {
 		// FIXME this should be a method in the user management instead
 		$this->logger->debug('shareWith before, ' . $uid, ['app' => $this->appName]);
-		\OCP\Util::emitHook(
+		Util::emitHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
 			['uid' => &$uid]

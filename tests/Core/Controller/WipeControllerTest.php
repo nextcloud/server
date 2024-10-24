@@ -50,7 +50,7 @@ class WipeControllerTest extends TestCase {
 	 *
 	 * @dataProvider dataTest
 	 */
-	public function testCheckWipe(bool $valid, bool $couldPerform, bool $result) {
+	public function testCheckWipe(bool $valid, bool $couldPerform, bool $result): void {
 		if (!$valid) {
 			$this->remoteWipe->method('start')
 				->with('mytoken')
@@ -79,7 +79,7 @@ class WipeControllerTest extends TestCase {
 	 *
 	 * @dataProvider dataTest
 	 */
-	public function testWipeDone(bool $valid, bool $couldPerform, bool $result) {
+	public function testWipeDone(bool $valid, bool $couldPerform, bool $result): void {
 		if (!$valid) {
 			$this->remoteWipe->method('finish')
 				->with('mytoken')

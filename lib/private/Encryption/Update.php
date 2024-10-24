@@ -49,7 +49,7 @@ class Update {
 		Manager $encryptionManager,
 		File $file,
 		LoggerInterface $logger,
-		$uid
+		$uid,
 	) {
 		$this->view = $view;
 		$this->util = $util;
@@ -129,7 +129,7 @@ class Update {
 	 *
 	 * @param string $path path to file for current user
 	 * @return array ['owner' => $owner, 'path' => $path]
-	 * @throw \InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	protected function getOwnerPath($path) {
 		$info = Filesystem::getFileInfo($path);

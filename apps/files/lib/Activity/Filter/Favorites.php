@@ -15,21 +15,6 @@ use OCP\IURLGenerator;
 
 class Favorites implements IFilter {
 
-	/** @var IL10N */
-	protected $l;
-
-	/** @var IURLGenerator */
-	protected $url;
-
-	/** @var IManager */
-	protected $activityManager;
-
-	/** @var Helper */
-	protected $helper;
-
-	/** @var IDBConnection */
-	protected $db;
-
 	/**
 	 * @param IL10N $l
 	 * @param IURLGenerator $url
@@ -37,12 +22,13 @@ class Favorites implements IFilter {
 	 * @param Helper $helper
 	 * @param IDBConnection $db
 	 */
-	public function __construct(IL10N $l, IURLGenerator $url, IManager $activityManager, Helper $helper, IDBConnection $db) {
-		$this->l = $l;
-		$this->url = $url;
-		$this->activityManager = $activityManager;
-		$this->helper = $helper;
-		$this->db = $db;
+	public function __construct(
+		protected IL10N $l,
+		protected IURLGenerator $url,
+		protected IManager $activityManager,
+		protected Helper $helper,
+		protected IDBConnection $db,
+	) {
 	}
 
 	/**

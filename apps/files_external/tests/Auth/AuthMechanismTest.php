@@ -11,7 +11,7 @@ use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\StorageConfig;
 
 class AuthMechanismTest extends \Test\TestCase {
-	public function testJsonSerialization() {
+	public function testJsonSerialization(): void {
 		$mechanism = $this->getMockBuilder(AuthMechanism::class)
 			->setMethods(['jsonSerializeDefinition'])
 			->getMock();
@@ -38,7 +38,7 @@ class AuthMechanismTest extends \Test\TestCase {
 	/**
 	 * @dataProvider validateStorageProvider
 	 */
-	public function testValidateStorage($expectedSuccess, $scheme, $definitionSuccess) {
+	public function testValidateStorage($expectedSuccess, $scheme, $definitionSuccess): void {
 		$mechanism = $this->getMockBuilder(AuthMechanism::class)
 			->setMethods(['validateStorageDefinition'])
 			->getMock();

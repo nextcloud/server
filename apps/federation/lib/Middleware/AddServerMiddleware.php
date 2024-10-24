@@ -17,14 +17,11 @@ use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 
 class AddServerMiddleware extends Middleware {
-	protected string $appName;
-	protected IL10N $l;
-	protected LoggerInterface $logger;
-
-	public function __construct(string $appName, IL10N $l, LoggerInterface $logger) {
-		$this->appName = $appName;
-		$this->l = $l;
-		$this->logger = $logger;
+	public function __construct(
+		protected string $appName,
+		protected IL10N $l,
+		protected LoggerInterface $logger,
+	) {
 	}
 
 	/**

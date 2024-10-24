@@ -23,7 +23,7 @@ class GroupFilter implements IFilter {
 	) {
 		$group = $groupManager->get($value);
 		if ($group === null) {
-			throw new InvalidArgumentException('Group '.$value.' not found');
+			throw new InvalidArgumentException('Group ' . $value . ' not found');
 		}
 		$this->group = $group;
 	}

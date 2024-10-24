@@ -58,7 +58,7 @@ class LargeFileHelperGetFileSizeTest extends TestCase {
 	/**
 	 * @dataProvider dataFileNameProvider
 	 */
-	public function testGetFileSizeViaExec($filename, $fileSize) {
+	public function testGetFileSizeViaExec($filename, $fileSize): void {
 		if (escapeshellarg('strängé') !== '\'strängé\'') {
 			$this->markTestSkipped('Your escapeshell args removes accents');
 		}
@@ -76,7 +76,7 @@ class LargeFileHelperGetFileSizeTest extends TestCase {
 	/**
 	 * @dataProvider dataFileNameProvider
 	 */
-	public function testGetFileSizeNative($filename, $fileSize) {
+	public function testGetFileSizeNative($filename, $fileSize): void {
 		$this->assertSame(
 			$fileSize,
 			$this->helper->getFileSizeNative($filename)

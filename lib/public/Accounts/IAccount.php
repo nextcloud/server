@@ -22,7 +22,7 @@ interface IAccount extends \JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param string $property  Must be one of the PROPERTY_ prefixed constants of \OCP\Accounts\IAccountManager
+	 * @param string $property Must be one of the PROPERTY_ prefixed constants of \OCP\Accounts\IAccountManager
 	 * @param string $value
 	 * @param string $scope Must be one of the VISIBILITY_ prefixed constants of \OCP\Accounts\IAccountManager
 	 * @param string $verified \OCP\Accounts\IAccountManager::NOT_VERIFIED | \OCP\Accounts\IAccountManager::VERIFICATION_IN_PROGRESS | \OCP\Accounts\IAccountManager::VERIFIED

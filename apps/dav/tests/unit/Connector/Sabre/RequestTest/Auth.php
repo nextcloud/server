@@ -13,24 +13,15 @@ use Sabre\HTTP\ResponseInterface;
 
 class Auth implements BackendInterface {
 	/**
-	 * @var string
-	 */
-	private $user;
-
-	/**
-	 * @var string
-	 */
-	private $password;
-
-	/**
 	 * Auth constructor.
 	 *
 	 * @param string $user
 	 * @param string $password
 	 */
-	public function __construct($user, $password) {
-		$this->user = $user;
-		$this->password = $password;
+	public function __construct(
+		private $user,
+		private $password,
+	) {
 	}
 
 	/**
@@ -72,7 +63,7 @@ class Auth implements BackendInterface {
 			\OC::$server->getUserFolder($user);
 			return [true, "principals/$user"];
 		}
-		return [false, "login failed"];
+		return [false, 'login failed'];
 	}
 
 	/**

@@ -46,13 +46,13 @@ use RuntimeException;
  */
 class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	public function __construct(
-		string              $appName,
-		IRequest            $request,
-		private IManager    $taskProcessingManager,
-		private IL10N       $l,
-		private ?string     $userId,
+		string $appName,
+		IRequest $request,
+		private IManager $taskProcessingManager,
+		private IL10N $l,
+		private ?string $userId,
 		private IRootFolder $rootFolder,
-		private IAppData    $appData,
+		private IAppData $appData,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -121,7 +121,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	#[ApiRoute(verb: 'POST', url: '/schedule', root: '/taskprocessing')]
 	public function schedule(
 		array $input, string $type, string $appId, string $customId = '',
-		?string $webhookUri = null, ?string $webhookMethod = null
+		?string $webhookUri = null, ?string $webhookMethod = null,
 	): DataResponse {
 		$task = new Task($type, $input, $appId, $this->userId, $customId);
 		$task->setWebhookUri($webhookUri);
@@ -210,7 +210,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @param string|null $customId An arbitrary identifier for the task
 	 * @return DataResponse<Http::STATUS_OK, array{tasks: CoreTaskProcessingTask[]}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
-	 *  200: Tasks returned
+	 * 200: Tasks returned
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks/app/{appId}', root: '/taskprocessing')]
@@ -237,7 +237,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @param string|null $customId An arbitrary identifier for the task
 	 * @return DataResponse<Http::STATUS_OK, array{tasks: CoreTaskProcessingTask[]}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
-	 *  200: Tasks returned
+	 * 200: Tasks returned
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks', root: '/taskprocessing')]
@@ -264,8 +264,8 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @param int $fileId The file id of the file to retrieve
 	 * @return DataDownloadResponse<Http::STATUS_OK, string, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
-	 *  200: File content returned
-	 *  404: Task or file not found
+	 * 200: File content returned
+	 * 404: Task or file not found
 	 */
 	#[NoAdminRequired]
 	#[Http\Attribute\NoCSRFRequired]
@@ -288,8 +288,8 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @param int $fileId The file id of the file to retrieve
 	 * @return DataDownloadResponse<Http::STATUS_OK, string, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
-	 *  200: File content returned
-	 *  404: Task or file not found
+	 * 200: File content returned
+	 * 404: Task or file not found
 	 */
 	#[ExAppRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks_provider/{taskId}/file/{fileId}', root: '/taskprocessing')]
@@ -312,9 +312,9 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @param int $taskId The id of the task
 	 * @return DataResponse<Http::STATUS_CREATED, array{fileId: int}, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
-	 *  201: File created
-	 *  400: File upload failed or no file was uploaded
-	 *  404: Task not found
+	 * 201: File created
+	 * 400: File upload failed or no file was uploaded
+	 * 404: Task not found
 	 */
 	#[ExAppRequired]
 	#[ApiRoute(verb: 'POST', url: '/tasks_provider/{taskId}/file', root: '/taskprocessing')]
@@ -409,8 +409,8 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @param float $progress The progress
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
-	 *  200: Progress updated successfully
-	 *  404: Task not found
+	 * 200: Progress updated successfully
+	 * 404: Task not found
 	 */
 	#[ExAppRequired]
 	#[ApiRoute(verb: 'POST', url: '/tasks_provider/{taskId}/progress', root: '/taskprocessing')]
@@ -440,8 +440,8 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @param string|null $errorMessage An error message if the task failed
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
-	 *  200: Result updated successfully
-	 *  404: Task not found
+	 * 200: Result updated successfully
+	 * 404: Task not found
 	 */
 	#[ExAppRequired]
 	#[ApiRoute(verb: 'POST', url: '/tasks_provider/{taskId}/result', root: '/taskprocessing')]
@@ -470,8 +470,8 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @param int $taskId The id of the task
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
-	 *  200: Task canceled successfully
-	 *  404: Task not found
+	 * 200: Task canceled successfully
+	 * 404: Task not found
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/tasks/{taskId}/cancel', root: '/taskprocessing')]
@@ -503,8 +503,8 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @param list<string> $taskTypeIds The ids of the task types
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask, provider: array{name: string}}, array{}>|DataResponse<Http::STATUS_NO_CONTENT, null, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
-	 *  200: Task returned
-	 *  204: No task found
+	 * 200: Task returned
+	 * 204: No task found
 	 */
 	#[ExAppRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks_provider/next', root: '/taskprocessing')]

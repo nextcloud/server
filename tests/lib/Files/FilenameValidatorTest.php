@@ -252,15 +252,13 @@ class FilenameValidatorTest extends TestCase {
 	/**
 	 * @dataProvider dataIsForbidden
 	 */
-	public function testIsForbidden(string $filename, array $forbiddenNames, array $forbiddenBasenames, bool $expected): void {
+	public function testIsForbidden(string $filename, array $forbiddenNames, bool $expected): void {
 		/** @var FilenameValidator&MockObject */
 		$validator = $this->getMockBuilder(FilenameValidator::class)
-			->onlyMethods(['getForbiddenFilenames', 'getForbiddenBasenames'])
+			->onlyMethods(['getForbiddenFilenames'])
 			->setConstructorArgs([$this->l10n, $this->database, $this->config, $this->logger])
 			->getMock();
 
-		$validator->method('getForbiddenBasenames')
-			->willReturn($forbiddenBasenames);
 		$validator->method('getForbiddenFilenames')
 			->willReturn($forbiddenNames);
 
@@ -270,27 +268,19 @@ class FilenameValidatorTest extends TestCase {
 	public function dataIsForbidden(): array {
 		return [
 			'valid name' => [
-				'a: b.txt', ['.htaccess'], [], false
+				'a: b.txt', ['.htaccess'], false
 			],
 			'valid name with some more parameters' => [
-				'a: b.txt', ['.htaccess'], [], false
+				'a: b.txt', ['.htaccess'], false
 			],
 			'valid name as only full forbidden should be matched' => [
-				'.htaccess.sample', ['.htaccess'], [], false,
+				'.htaccess.sample', ['.htaccess'], false,
 			],
 			'forbidden name' => [
-				'.htaccess', ['.htaccess'], [], true
+				'.htaccess', ['.htaccess'], true
 			],
 			'forbidden name - name is case insensitive' => [
-				'COM1', ['.htaccess', 'com1'], [], true,
-			],
-			'forbidden name - basename is checked' => [
-				// needed for Windows namespaces
-				'com1.suffix', ['.htaccess'], ['com1'], true
-			],
-			'forbidden name - basename is checked also with multiple extensions' => [
-				// needed for Windows namespaces
-				'com1.tar.gz', ['.htaccess'], ['com1'], true
+				'COM1', ['.htaccess', 'com1'], true,
 			],
 		];
 	}

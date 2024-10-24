@@ -38,15 +38,13 @@ use Psr\Log\LoggerInterface;
  * @package OC\Share20
  */
 class ProviderFactory implements IProviderFactory {
-	/** @var IServerContainer */
-	private $serverContainer;
 	/** @var DefaultShareProvider */
 	private $defaultProvider = null;
 	/** @var FederatedShareProvider */
 	private $federatedProvider = null;
-	/** @var  ShareByMailProvider */
+	/** @var ShareByMailProvider */
 	private $shareByMailProvider;
-	/** @var  \OCA\Circles\ShareByCircleProvider */
+	/** @var \OCA\Circles\ShareByCircleProvider */
 	private $shareByCircleProvider = null;
 	/** @var bool */
 	private $circlesAreNotAvailable = false;
@@ -62,8 +60,9 @@ class ProviderFactory implements IProviderFactory {
 	 *
 	 * @param IServerContainer $serverContainer
 	 */
-	public function __construct(IServerContainer $serverContainer) {
-		$this->serverContainer = $serverContainer;
+	public function __construct(
+		private IServerContainer $serverContainer,
+	) {
 	}
 
 	public function registerProvider(string $shareProviderClass): void {
@@ -83,10 +82,10 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getGroupManager(),
 				$this->serverContainer->get(IRootFolder::class),
 				$this->serverContainer->get(IMailer::class),
-				$this->serverContainer->query(Defaults::class),
+				$this->serverContainer->get(Defaults::class),
 				$this->serverContainer->get(IFactory::class),
 				$this->serverContainer->getURLGenerator(),
-				$this->serverContainer->query(ITimeFactory::class),
+				$this->serverContainer->get(ITimeFactory::class),
 				$this->serverContainer->get(LoggerInterface::class),
 				$this->serverContainer->get(IManager::class),
 			);
@@ -122,11 +121,11 @@ class ProviderFactory implements IProviderFactory {
 			$notifications = new Notifications(
 				$addressHandler,
 				$this->serverContainer->get(IClientService::class),
-				$this->serverContainer->query(\OCP\OCS\IDiscoveryService::class),
+				$this->serverContainer->get(\OCP\OCS\IDiscoveryService::class),
 				$this->serverContainer->getJobList(),
 				\OC::$server->getCloudFederationProviderManager(),
 				\OC::$server->get(ICloudFederationFactory::class),
-				$this->serverContainer->query(IEventDispatcher::class),
+				$this->serverContainer->get(IEventDispatcher::class),
 				$this->serverContainer->get(LoggerInterface::class),
 			);
 			$tokenHandler = new TokenHandler(
@@ -181,7 +180,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getURLGenerator(),
 				$this->serverContainer->getActivityManager(),
 				$settingsManager,
-				$this->serverContainer->query(Defaults::class),
+				$this->serverContainer->get(Defaults::class),
 				$this->serverContainer->get(IHasher::class),
 				$this->serverContainer->get(IEventDispatcher::class),
 				$this->serverContainer->get(IManager::class)
@@ -218,7 +217,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->get(IRootFolder::class),
 				$this->serverContainer->getL10N('circles'),
-				$this->serverContainer->getLogger(),
+				$this->serverContainer->get(LoggerInterface::class),
 				$this->serverContainer->getURLGenerator()
 			);
 		}

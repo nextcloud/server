@@ -38,7 +38,7 @@ class PushService implements ISetupCheck {
 	 * Check if is fair use of free push service
 	 */
 	private function isFairUseOfFreePushService(): bool {
-		$rateLimitReached = (int) $this->config->getAppValue('notifications', 'rate_limit_reached', '0');
+		$rateLimitReached = (int)$this->config->getAppValue('notifications', 'rate_limit_reached', '0');
 		if ($rateLimitReached >= ($this->timeFactory->now()->getTimestamp() - 7 * 24 * 3600)) {
 			// Notifications app is showing a message already
 			return true;

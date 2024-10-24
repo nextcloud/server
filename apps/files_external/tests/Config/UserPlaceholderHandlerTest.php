@@ -64,7 +64,7 @@ class UserPlaceholderHandlerTest extends \Test\TestCase {
 	/**
 	 * @dataProvider optionProvider
 	 */
-	public function testHandle($option, $expected) {
+	public function testHandle($option, $expected): void {
 		$this->setUser();
 		$this->assertSame($expected, $this->handler->handle($option));
 	}
@@ -72,7 +72,7 @@ class UserPlaceholderHandlerTest extends \Test\TestCase {
 	/**
 	 * @dataProvider optionProvider
 	 */
-	public function testHandleNoUser($option) {
+	public function testHandleNoUser($option): void {
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
 			->willThrowException(new ShareNotFound());

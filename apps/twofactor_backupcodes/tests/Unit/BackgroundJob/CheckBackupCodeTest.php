@@ -50,7 +50,7 @@ class CheckBackupCodeTest extends TestCase {
 		$this->user = $this->createMock(IUser::class);
 
 		$this->userManager->method('callForSeenUsers')
-			->willReturnCallback(function (\Closure $e) {
+			->willReturnCallback(function (\Closure $e): void {
 				$e($this->user);
 			});
 
@@ -63,7 +63,7 @@ class CheckBackupCodeTest extends TestCase {
 		);
 	}
 
-	public function testRunAlreadyGenerated() {
+	public function testRunAlreadyGenerated(): void {
 		$this->user->method('isEnabled')
 			->willReturn(true);
 
@@ -79,7 +79,7 @@ class CheckBackupCodeTest extends TestCase {
 		$this->invokePrivate($this->checkBackupCodes, 'run', [[]]);
 	}
 
-	public function testRun() {
+	public function testRun(): void {
 		$this->user->method('getUID')
 			->willReturn('myUID');
 		$this->user->method('isEnabled')
@@ -104,7 +104,7 @@ class CheckBackupCodeTest extends TestCase {
 		$this->invokePrivate($this->checkBackupCodes, 'run', [[]]);
 	}
 
-	public function testRunDisabledUser() {
+	public function testRunDisabledUser(): void {
 		$this->user->method('getUID')
 			->willReturn('myUID');
 		$this->user->method('isEnabled')
@@ -120,7 +120,7 @@ class CheckBackupCodeTest extends TestCase {
 		$this->invokePrivate($this->checkBackupCodes, 'run', [[]]);
 	}
 
-	public function testRunNoProviders() {
+	public function testRunNoProviders(): void {
 		$this->user->method('isEnabled')
 			->willReturn(true);
 

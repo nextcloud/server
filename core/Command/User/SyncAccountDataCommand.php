@@ -21,7 +21,7 @@ class SyncAccountDataCommand extends Base {
 
 	public function __construct(
 		IUserManager $userManager,
-		IAccountManager $accountManager
+		IAccountManager $accountManager,
 	) {
 		$this->userManager = $userManager;
 		$this->accountManager = $accountManager;
@@ -48,7 +48,7 @@ class SyncAccountDataCommand extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$users = $this->userManager->searchDisplayName('', (int) $input->getOption('limit'), (int) $input->getOption('offset'));
+		$users = $this->userManager->searchDisplayName('', (int)$input->getOption('limit'), (int)$input->getOption('offset'));
 
 		foreach ($users as $user) {
 			$this->updateUserAccount($user, $output);

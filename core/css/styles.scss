@@ -20,8 +20,7 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 	font-family: inherit;
 	vertical-align: baseline;
 	cursor: default;
-	scrollbar-color: var(--color-border-dark) transparent;
-	scrollbar-width: thin;
+	scrollbar-color: var(--color-scrollbar);
 }
 
 .js-focus-visible :focus:not(.focus-visible) {
@@ -55,7 +54,7 @@ table {
 }
 
 caption, th, td {
-	text-align: left;
+	text-align: start;
 	font-weight: normal;
 }
 
@@ -130,7 +129,7 @@ body {
 	position: fixed;
 	top: 0;
 	bottom: 0;
-	left: 0;
+	inset-inline-start: 0;
 	height: 100%;
 	width: 100%;
 	z-index: 9000;
@@ -243,16 +242,23 @@ body {
 }
 
 /* Show password toggle */
-
-#show, #dbpassword {
+#show,
+#dbpassword {
 	position: absolute;
-	right: 1em;
+	inset-inline-end: 1em;
 	top: .8em;
+	/* Cannot use inline-start and :dir to support Samsung Internet */
 	float: right;
 }
 
+body[dir='rtl'] #show,
+body[dir='rtl'] #dbpassword {
+	/* Cannot use inline-start and :dir to support Samsung Internet */
+	float: left;
+}
+
 #show + label, #dbpassword + label {
-	right: 21px;
+	inset-inline-end: 21px;
 	top: 15px !important;
 	margin: -14px !important;
 	padding: 14px !important;
@@ -294,19 +300,19 @@ body {
 }
 
 #pass2, input[name='personal-password-clone'] {
-	padding-right: 30px;
+	padding-inline-end: 30px;
 }
 
 .personal-show-container {
 	position: relative;
 	display: inline-block;
-	margin-right: 6px;
+	margin-inline-end: 6px;
 }
 #personal-show + label {
 	display: block;
-	right: 0;
+	inset-inline-end: 0;
 	margin-top: -43px;
-	margin-right: -4px;
+	margin-inline-end: -4px;
 	padding: 22px;
 }
 
@@ -338,13 +344,13 @@ body {
 	}
 	pre {
 		white-space: pre-wrap;
-		text-align: left;
+		text-align: start;
 	}
 }
 
 .error-wide {
 	width: 700px;
-	margin-left: -200px !important;
+	margin-inline-start: -200px !important;
 	.button {
 		color: black !important;
 	}
@@ -485,11 +491,10 @@ code {
 		.ui-icon {
 			opacity: .5;
 
-			&.ui-icon-circle-triangle-e {
-				background: url("../img/actions/arrow-right.svg") center center no-repeat;
-			}
+			&.ui-icon-circle-triangle-e,
 			&.ui-icon-circle-triangle-w {
-				background: url("../img/actions/arrow-left.svg") center center no-repeat;
+				background-position: center center;
+				background-repeat: no-repeat;
 			}
 		}
 		.ui-state-hover .ui-icon {
@@ -526,6 +531,24 @@ code {
 				opacity: .8;
 			}
 		}
+	}
+}
+
+body[dir='ltr'] .ui-widget.ui-datepicker .ui-widget-header .ui-icon {
+	&.ui-icon-circle-triangle-e {
+		background: url("../img/actions/arrow-right.svg");
+	}
+	&.ui-icon-circle-triangle-w {
+		background: url("../img/actions/arrow-left.svg");
+	}
+}
+
+body[dir='rtl'] .ui-widget.ui-datepicker .ui-widget-header .ui-icon {
+	&.ui-icon-circle-triangle-e {
+		background: url("../img/actions/arrow-left.svg");
+	}
+	&.ui-icon-circle-triangle-w {
+		background: url("../img/actions/arrow-right.svg");
 	}
 }
 
@@ -566,7 +589,7 @@ code {
 	}
 	/* AM/PM fix */
 	table.ui-timepicker tr .ui-timepicker-hour-cell:first-child {
-		margin-left: 30px;
+		margin-inline-start: 30px;
 	}
 	.ui-timepicker-table {
 		th {
@@ -597,7 +620,7 @@ code {
 			}
 
 			&.ui-timepicker-hours {
-				border-right: 1px solid var(--color-border);
+				border-inline-end: 1px solid var(--color-border);
 			}
 		}
 	}
@@ -642,13 +665,14 @@ code {
 
 span.ui-icon {
 	float: left;
-	margin: 3px 7px 30px 0;
+	margin-block: 3px 30px;
+	margin-inline: 0 7px;
 }
 
 /* ---- TOOLTIPS ---- */
 
 .extra-data {
-	padding-right: 5px !important;
+	padding-inline-end: 5px !important;
 }
 
 /* ---- TAGS ---- */
@@ -703,7 +727,7 @@ li.crumb {
 	background-size: auto 24px;
 	flex: 0 0 auto;
 	order: 1;
-	padding-right: 7px;
+	padding-inline-end: 7px;
 	&.crumbmenu {
 		order: 2;
 		position: relative;
@@ -719,12 +743,12 @@ li.crumb {
 		// Fix because of the display flex
 		.popovermenu {
 			top: 100%;
-			margin-right: 3px;
+			margin-inline-end: 3px;
 			ul {
 				max-height: 345px;
 				overflow-y: auto;
 				overflow-x: hidden;
-				padding-right: 5px;
+				padding-inline-end: 5px;
 				li.canDrop span:first-child {
 					background-image: url('../img/filetypes/folder-drag-accept.svg?v=1') !important;
 				}
@@ -766,10 +790,10 @@ li.crumb {
 	}
 	&:last-child {
 		font-weight: bold;
-		margin-right: 10px;
+		margin-inline-end: 10px;
 		// Allow multiple span next to the main 'a'
 		a ~ span {
-			padding-left: 0;
+			padding-inline-start: 0;
 		}
 	}
 	&:hover, &:focus, a:focus, &:active {

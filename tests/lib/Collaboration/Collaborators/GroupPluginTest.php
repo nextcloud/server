@@ -18,19 +18,19 @@ use OCP\Share\IShare;
 use Test\TestCase;
 
 class GroupPluginTest extends TestCase {
-	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var  IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
 
-	/** @var  IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $session;
 
-	/** @var  ISearchResult */
+	/** @var ISearchResult */
 	protected $searchResult;
 
-	/** @var  GroupPlugin */
+	/** @var GroupPlugin */
 	protected $plugin;
 
 	/** @var int */
@@ -39,7 +39,7 @@ class GroupPluginTest extends TestCase {
 	/** @var int */
 	protected $offset = 0;
 
-	/** @var  IUser|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	protected $user;
 
 	protected function setUp(): void {
@@ -440,8 +440,8 @@ class GroupPluginTest extends TestCase {
 		array $exactExpected,
 		array $expected,
 		bool $reachedEnd,
-		$singleGroup
-	) {
+		$singleGroup,
+	): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(

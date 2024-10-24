@@ -33,7 +33,7 @@ class NotificationsController extends Controller {
 		protected IRootFolder $rootFolder,
 		protected IURLGenerator $urlGenerator,
 		protected IManager $notificationManager,
-		protected IUserSession $userSession
+		protected IUserSession $userSession,
 	) {
 		parent::__construct($appName, $request);
 	}

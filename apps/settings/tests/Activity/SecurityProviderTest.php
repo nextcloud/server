@@ -5,8 +5,8 @@
  */
 namespace OCA\Settings\Tests;
 
-use InvalidArgumentException;
 use OCA\Settings\Activity\SecurityProvider;
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\IL10N;
@@ -39,13 +39,13 @@ class SecurityProviderTest extends TestCase {
 		$this->provider = new SecurityProvider($this->l10n, $this->urlGenerator, $this->activityManager);
 	}
 
-	public function testParseUnrelated() {
+	public function testParseUnrelated(): void {
 		$lang = 'ru';
 		$event = $this->createMock(IEvent::class);
 		$event->expects($this->once())
 			->method('getType')
 			->willReturn('comments');
-		$this->expectException(InvalidArgumentException::class);
+		$this->expectException(UnknownActivityException::class);
 
 		$this->provider->parse($lang, $event);
 	}
@@ -60,7 +60,7 @@ class SecurityProviderTest extends TestCase {
 	/**
 	 * @dataProvider subjectData
 	 */
-	public function testParse($subject) {
+	public function testParse($subject): void {
 		$lang = 'ru';
 		$event = $this->createMock(IEvent::class);
 		$l = $this->createMock(IL10N::class);
@@ -96,7 +96,7 @@ class SecurityProviderTest extends TestCase {
 		$this->provider->parse($lang, $event);
 	}
 
-	public function testParseInvalidSubject() {
+	public function testParseInvalidSubject(): void {
 		$lang = 'ru';
 		$l = $this->createMock(IL10N::class);
 		$event = $this->createMock(IEvent::class);
@@ -112,7 +112,7 @@ class SecurityProviderTest extends TestCase {
 			->method('getSubject')
 			->willReturn('unrelated');
 
-		$this->expectException(InvalidArgumentException::class);
+		$this->expectException(UnknownActivityException::class);
 		$this->provider->parse($lang, $event);
 	}
 }

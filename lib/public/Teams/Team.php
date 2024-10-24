@@ -18,7 +18,11 @@ class Team implements \JsonSerializable {
 	/**
 	 * @since 29.0.0
 	 */
-	public function __construct(private string $teamId, private string $displayName, private ?string $link) {
+	public function __construct(
+		private string $teamId,
+		private string $displayName,
+		private ?string $link,
+	) {
 	}
 
 	/**

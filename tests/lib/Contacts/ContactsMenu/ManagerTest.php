@@ -57,7 +57,7 @@ class ManagerTest extends TestCase {
 		return $entries;
 	}
 
-	public function testGetFilteredEntries() {
+	public function testGetFilteredEntries(): void {
 		$filter = 'con';
 		$user = $this->createMock(IUser::class);
 		$entries = $this->generateTestEntries();
@@ -94,7 +94,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($expected, $data);
 	}
 
-	public function testGetFilteredEntriesLimit() {
+	public function testGetFilteredEntriesLimit(): void {
 		$filter = 'con';
 		$user = $this->createMock(IUser::class);
 		$entries = $this->generateTestEntries();
@@ -131,7 +131,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($expected, $data);
 	}
 
-	public function testGetFilteredEntriesMinSearchStringLength() {
+	public function testGetFilteredEntriesMinSearchStringLength(): void {
 		$filter = 'con';
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
@@ -157,7 +157,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($expected, $data);
 	}
 
-	public function testFindOne() {
+	public function testFindOne(): void {
 		$shareTypeFilter = 42;
 		$shareWithFilter = 'foobar';
 
@@ -180,7 +180,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($entry, $data);
 	}
 
-	public function testFindOne404() {
+	public function testFindOne404(): void {
 		$shareTypeFilter = 42;
 		$shareWithFilter = 'foobar';
 

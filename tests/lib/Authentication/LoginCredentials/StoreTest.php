@@ -43,7 +43,7 @@ class StoreTest extends TestCase {
 		$this->store = new Store($this->session, $this->logger, $this->tokenProvider);
 	}
 
-	public function testAuthenticate() {
+	public function testAuthenticate(): void {
 		$params = [
 			'run' => true,
 			'uid' => 'user123',
@@ -57,14 +57,14 @@ class StoreTest extends TestCase {
 		$this->store->authenticate($params);
 	}
 
-	public function testSetSession() {
+	public function testSetSession(): void {
 		$session = $this->createMock(ISession::class);
 
 		$this->store->setSession($session);
 		$this->addToAssertionCount(1);
 	}
 
-	public function testGetLoginCredentialsNoTokenProvider() {
+	public function testGetLoginCredentialsNoTokenProvider(): void {
 		$this->store = new Store($this->session, $this->logger, null);
 
 		$this->expectException(CredentialsUnavailableException::class);
@@ -72,7 +72,7 @@ class StoreTest extends TestCase {
 		$this->store->getLoginCredentials();
 	}
 
-	public function testGetLoginCredentials() {
+	public function testGetLoginCredentials(): void {
 		$uid = 'uid';
 		$user = 'user123';
 		$password = 'passme';
@@ -101,7 +101,7 @@ class StoreTest extends TestCase {
 		$this->assertEquals($expected, $creds);
 	}
 
-	public function testGetLoginCredentialsSessionNotAvailable() {
+	public function testGetLoginCredentialsSessionNotAvailable(): void {
 		$this->session->expects($this->once())
 			->method('getId')
 			->will($this->throwException(new SessionNotAvailableException()));
@@ -110,7 +110,7 @@ class StoreTest extends TestCase {
 		$this->store->getLoginCredentials();
 	}
 
-	public function testGetLoginCredentialsInvalidToken() {
+	public function testGetLoginCredentialsInvalidToken(): void {
 		$this->session->expects($this->once())
 			->method('getId')
 			->willReturn('sess2233');
@@ -123,7 +123,7 @@ class StoreTest extends TestCase {
 		$this->store->getLoginCredentials();
 	}
 
-	public function testGetLoginCredentialsPartialCredentialsAndSessionName() {
+	public function testGetLoginCredentialsPartialCredentialsAndSessionName(): void {
 		$uid = 'id987';
 		$user = 'user987';
 		$password = '7389374';
@@ -161,7 +161,7 @@ class StoreTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testGetLoginCredentialsPartialCredentials() {
+	public function testGetLoginCredentialsPartialCredentials(): void {
 		$uid = 'id987';
 		$password = '7389374';
 
@@ -198,7 +198,7 @@ class StoreTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testGetLoginCredentialsInvalidTokenLoginCredentials() {
+	public function testGetLoginCredentialsInvalidTokenLoginCredentials(): void {
 		$uid = 'id987';
 		$user = 'user987';
 		$password = '7389374';
@@ -225,7 +225,7 @@ class StoreTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testGetLoginCredentialsPasswordlessToken() {
+	public function testGetLoginCredentialsPasswordlessToken(): void {
 		$this->session->expects($this->once())
 			->method('getId')
 			->willReturn('sess2233');

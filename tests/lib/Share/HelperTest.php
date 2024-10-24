@@ -36,7 +36,7 @@ class HelperTest extends \Test\TestCase {
 	/**
 	 * @dataProvider expireDateProvider
 	 */
-	public function testCalculateExpireDate($defaultExpireSettings, $creationTime, $userExpireDate, $expected) {
+	public function testCalculateExpireDate($defaultExpireSettings, $creationTime, $userExpireDate, $expected): void {
 		$result = \OC\Share\Helper::calculateExpireDate($defaultExpireSettings, $creationTime, $userExpireDate);
 		$this->assertSame($expected, $result);
 	}
@@ -48,7 +48,7 @@ class HelperTest extends \Test\TestCase {
 	 * @param string $server2
 	 * @param bool $expected
 	 */
-	public function testIsSameUserOnSameServer($user1, $server1, $user2, $server2, $expected) {
+	public function testIsSameUserOnSameServer($user1, $server1, $user2, $server2, $expected): void {
 		$this->assertSame($expected,
 			\OC\Share\Helper::isSameUserOnSameServer($user1, $server1, $user2, $server2)
 		);

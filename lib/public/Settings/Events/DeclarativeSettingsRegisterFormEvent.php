@@ -22,7 +22,9 @@ class DeclarativeSettingsRegisterFormEvent extends Event {
 	/**
 	 * @since 29.0.0
 	 */
-	public function __construct(private IDeclarativeManager $manager) {
+	public function __construct(
+		private IDeclarativeManager $manager,
+	) {
 		parent::__construct();
 	}
 

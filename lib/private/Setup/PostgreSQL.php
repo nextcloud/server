@@ -105,7 +105,7 @@ class PostgreSQL extends AbstractDatabase {
 	private function createDatabase(Connection $connection) {
 		if (!$this->databaseExists($connection)) {
 			//The database does not exists... let's create it
-			$query = $connection->prepare("CREATE DATABASE " . addslashes($this->dbName) . " OWNER \"" . addslashes($this->dbUser) . '"');
+			$query = $connection->prepare('CREATE DATABASE ' . addslashes($this->dbName) . ' OWNER "' . addslashes($this->dbUser) . '"');
 			try {
 				$query->execute();
 			} catch (DatabaseException $e) {
@@ -114,7 +114,7 @@ class PostgreSQL extends AbstractDatabase {
 				]);
 			}
 		} else {
-			$query = $connection->prepare("REVOKE ALL PRIVILEGES ON DATABASE " . addslashes($this->dbName) . " FROM PUBLIC");
+			$query = $connection->prepare('REVOKE ALL PRIVILEGES ON DATABASE ' . addslashes($this->dbName) . ' FROM PUBLIC');
 			try {
 				$query->execute();
 			} catch (DatabaseException $e) {
@@ -131,7 +131,7 @@ class PostgreSQL extends AbstractDatabase {
 		$query = $builder->select('*')
 			->from('pg_roles')
 			->where($builder->expr()->eq('rolname', $builder->createNamedParameter($this->dbUser)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		return $result->rowCount() > 0;
 	}
 
@@ -141,7 +141,7 @@ class PostgreSQL extends AbstractDatabase {
 		$query = $builder->select('datname')
 			->from('pg_database')
 			->where($builder->expr()->eq('datname', $builder->createNamedParameter($this->dbName)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		return $result->rowCount() > 0;
 	}
 
@@ -155,7 +155,7 @@ class PostgreSQL extends AbstractDatabase {
 			}
 
 			// create the user
-			$query = $connection->prepare("CREATE USER \"" . addslashes($this->dbUser) . "\" CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
+			$query = $connection->prepare('CREATE USER "' . addslashes($this->dbUser) . "\" CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
 			$query->execute();
 			if ($this->databaseExists($connection)) {
 				$query = $connection->prepare('GRANT CONNECT ON DATABASE ' . addslashes($this->dbName) . ' TO "' . addslashes($this->dbUser) . '"');

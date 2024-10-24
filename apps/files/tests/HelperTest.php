@@ -1,5 +1,10 @@
 <?php
 
+use OC\Files\FileInfo;
+use OCA\Files\Helper;
+use OCP\ITagManager;
+use OCP\ITags;
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,7 +12,7 @@
  */
 class HelperTest extends \Test\TestCase {
 	private function makeFileInfo($name, $size, $mtime, $isDir = false) {
-		return new \OC\Files\FileInfo(
+		return new FileInfo(
 			'/' . $name,
 			null,
 			'/',
@@ -74,12 +79,12 @@ class HelperTest extends \Test\TestCase {
 	/**
 	 * @dataProvider sortDataProvider
 	 */
-	public function testSortByName(string $sort, bool $sortDescending, array $expectedOrder) {
+	public function testSortByName(string $sort, bool $sortDescending, array $expectedOrder): void {
 		if (($sort === 'mtime') && (PHP_INT_SIZE < 8)) {
 			$this->markTestSkipped('Skip mtime sorting on 32bit');
 		}
 		$files = self::getTestFileList();
-		$files = \OCA\Files\Helper::sortFiles($files, $sort, $sortDescending);
+		$files = Helper::sortFiles($files, $sort, $sortDescending);
 		$fileNames = [];
 		foreach ($files as $fileInfo) {
 			$fileNames[] = $fileInfo->getName();
@@ -90,9 +95,9 @@ class HelperTest extends \Test\TestCase {
 		);
 	}
 
-	public function testPopulateTags() {
-		$tagManager = $this->createMock(\OCP\ITagManager::class);
-		$tagger = $this->createMock(\OCP\ITags::class);
+	public function testPopulateTags(): void {
+		$tagManager = $this->createMock(ITagManager::class);
+		$tagger = $this->createMock(ITags::class);
 
 		$tagManager->method('load')
 			->with('files')
@@ -113,7 +118,7 @@ class HelperTest extends \Test\TestCase {
 			->with([10, 22, 42])
 			->willReturn($tags);
 
-		$result = \OCA\Files\Helper::populateTags($data, 'id', $tagManager);
+		$result = Helper::populateTags($data, 'id', $tagManager);
 
 		$this->assertSame([
 			['id' => 10, 'tags' => ['tag3']],

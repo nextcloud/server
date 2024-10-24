@@ -53,7 +53,7 @@ class Manager implements IManager {
 		IServerContainer $container,
 		AuthorizedGroupMapper $mapper,
 		IGroupManager $groupManager,
-		ISubAdmin $subAdmin
+		ISubAdmin $subAdmin,
 	) {
 		$this->log = $log;
 		$this->l10nFactory = $l10nFactory;
@@ -260,9 +260,7 @@ class Manager implements IManager {
 
 		$sections = [];
 
-		$legacyForms = \OC_App::getForms('personal');
-		if ((!empty($legacyForms) && $this->hasLegacyPersonalSettingsToRender($legacyForms))
-			|| count($this->getPersonalSettings('additional')) > 1) {
+		if (count($this->getPersonalSettings('additional')) > 1) {
 			$sections[98] = [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))];
 		}
 
@@ -280,20 +278,6 @@ class Manager implements IManager {
 		ksort($sections);
 
 		return $sections;
-	}
-
-	/**
-	 * @param string[] $forms
-	 *
-	 * @return bool
-	 */
-	private function hasLegacyPersonalSettingsToRender(array $forms): bool {
-		foreach ($forms as $form) {
-			if (trim($form) !== '') {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**

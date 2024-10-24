@@ -1,5 +1,4 @@
 { "translations": {
-    "{version} is available. Get more information on how to update." : "{version} е налична. Намерете допълнителна информация за това как да актуализирате.",
     "Channel updated" : "Канала е променен",
     "Web updater is disabled" : "Уеб програмата за актуализиране е деактивирана",
     "Update notifications" : "Известия за актуализации",
@@ -38,6 +37,7 @@
     "Beta" : "Бета",
     "A pre-release version only for testing new features, not for production environments." : "Версия само за тестване на нови функционалности, която не е подходяща за ползване в производствена среда.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> приложения нямат налична съвместима версия за тази версия на Nextcloud.","<strong>%n</strong> от приложенията нямат налична съвместима версия за тази версия на Nextcloud."],
+    "{version} is available. Get more information on how to update." : "{version} е налична. Намерете допълнителна информация за това как да актуализирате.",
     "Update to %1$s is available." : "Налична е актуализация до версия %1$s.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Показва известия за актуализация за Nextcloud и предоставя SSO за програмата за актуализиране.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Моля, имайте предвид, че уеб актуализатора не се препоръчва за използване от повече от 100 потребители! Моля, вместо това използвайте програмата за актуализиране на командния ред!",

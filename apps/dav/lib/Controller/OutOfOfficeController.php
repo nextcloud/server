@@ -121,7 +121,7 @@ class OutOfOfficeController extends OCSController {
 		string $status,
 		string $message,
 		?string $replacementUserId,
-		?string $replacementUserDisplayName
+		?string $replacementUserDisplayName,
 
 	): DataResponse {
 		$user = $this->userSession?->getUser();

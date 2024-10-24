@@ -26,7 +26,7 @@ interface ISystemTagManager {
 	 *
 	 * @throws \InvalidArgumentException if at least one given tag ids is invalid (string instead of integer, etc.)
 	 * @throws TagNotFoundException if at least one given tag ids did no exist
-	 * 			The message contains a json_encoded array of the ids that could not be found
+	 *                              The message contains a json_encoded array of the ids that could not be found
 	 *
 	 * @since 9.0.0, optional parameter $user added in 28.0.0
 	 */
@@ -84,7 +84,7 @@ interface ISystemTagManager {
 	 *
 	 * @throws TagNotFoundException if tag with the given id does not exist
 	 * @throws TagAlreadyExistsException if there is already another tag
-	 * with the same attributes
+	 *                                   with the same attributes
 	 *
 	 * @since 9.0.0
 	 */
@@ -106,25 +106,27 @@ interface ISystemTagManager {
 	 * given id.
 	 *
 	 * @param ISystemTag $tag tag to check permission for
-	 * @param IUser $user user to check permission for
+	 * @param IUser|null $user user to check permission for
 	 *
 	 * @return bool true if the user is allowed to assign/unassign the tag, false otherwise
 	 *
 	 * @since 9.1.0
+	 * @since 31.0.0 `$user` can be null to check anonymous permissions
 	 */
-	public function canUserAssignTag(ISystemTag $tag, IUser $user): bool;
+	public function canUserAssignTag(ISystemTag $tag, ?IUser $user): bool;
 
 	/**
 	 * Checks whether the given user is allowed to see the tag with the given id.
 	 *
 	 * @param ISystemTag $tag tag to check permission for
-	 * @param IUser $user user to check permission for
+	 * @param IUser|null $user user to check permission for
 	 *
 	 * @return bool true if the user can see the tag, false otherwise
 	 *
 	 * @since 9.1.0
+	 * @since 31.0.0 `$user` can be null to check anonymous permissions
 	 */
-	public function canUserSeeTag(ISystemTag $tag, IUser $user): bool;
+	public function canUserSeeTag(ISystemTag $tag, ?IUser $user): bool;
 
 	/**
 	 * Set groups that can assign a given tag.

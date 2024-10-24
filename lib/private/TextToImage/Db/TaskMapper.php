@@ -91,15 +91,15 @@ class TaskMapper extends QBMapper {
 	 */
 	public function deleteOlderThan(int $timeout): array {
 		$datetime = $this->timeFactory->getDateTime();
-		$datetime->sub(new \DateInterval('PT'.$timeout.'S'));
+		$datetime->sub(new \DateInterval('PT' . $timeout . 'S'));
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from($this->tableName)
-			->where($qb->expr()->lt('last_updated', $qb->createPositionalParameter($datetime, IQueryBuilder::PARAM_DATE)));
+			->where($qb->expr()->lt('last_updated', $qb->createPositionalParameter($datetime, IQueryBuilder::PARAM_DATETIME_MUTABLE)));
 		$deletedTasks = $this->findEntities($qb);
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->tableName)
-			->where($qb->expr()->lt('last_updated', $qb->createPositionalParameter($datetime, IQueryBuilder::PARAM_DATE)));
+			->where($qb->expr()->lt('last_updated', $qb->createPositionalParameter($datetime, IQueryBuilder::PARAM_DATETIME_MUTABLE)));
 		$qb->executeStatement();
 		return $deletedTasks;
 	}

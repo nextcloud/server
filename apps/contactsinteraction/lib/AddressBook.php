@@ -39,7 +39,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	 * @throws Exception
 	 */
 	public function delete(): void {
-		throw new Exception("This addressbook is immutable");
+		throw new Exception('This addressbook is immutable');
 	}
 
 	/**
@@ -47,7 +47,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	 * @throws Exception
 	 */
 	public function createFile($name, $data = null) {
-		throw new Exception("This addressbook is immutable");
+		throw new Exception('This addressbook is immutable');
 	}
 
 	/**
@@ -65,7 +65,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 				$this->getACL()
 			);
 		} catch (DoesNotExistException $ex) {
-			throw new NotFound("Contact does not exist: " . $ex->getMessage(), 0, $ex);
+			throw new NotFound('Contact does not exist: ' . $ex->getMessage(), 0, $ex);
 		}
 	}
 
@@ -112,7 +112,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	 * @throws Exception
 	 */
 	public function propPatch(PropPatch $propPatch) {
-		throw new Exception("This addressbook is immutable");
+		throw new Exception('This addressbook is immutable');
 	}
 
 	/**

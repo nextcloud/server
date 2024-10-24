@@ -63,7 +63,7 @@ class LookupPlugin implements ISearchPlugin {
 				try {
 					$remote = $this->cloudIdManager->resolveCloudId($lookup['federationId'])->getRemote();
 				} catch (\Exception $e) {
-					$this->logger->error('Can not parse federated cloud ID "' .  $lookup['federationId'] . '"', [
+					$this->logger->error('Can not parse federated cloud ID "' . $lookup['federationId'] . '"', [
 						'exception' => $e,
 					]);
 					continue;

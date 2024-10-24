@@ -53,7 +53,7 @@ class ExternalShareControllerTest extends \Test\TestCase {
 		);
 	}
 
-	public function testIndex() {
+	public function testIndex(): void {
 		$this->externalManager
 			->expects($this->once())
 			->method('getOpenShares')
@@ -62,7 +62,7 @@ class ExternalShareControllerTest extends \Test\TestCase {
 		$this->assertEquals(new JSONResponse(['MyDummyArray']), $this->getExternalShareController()->index());
 	}
 
-	public function testCreate() {
+	public function testCreate(): void {
 		$this->externalManager
 			->expects($this->once())
 			->method('acceptShare')
@@ -71,7 +71,7 @@ class ExternalShareControllerTest extends \Test\TestCase {
 		$this->assertEquals(new JSONResponse(), $this->getExternalShareController()->create(4));
 	}
 
-	public function testDestroy() {
+	public function testDestroy(): void {
 		$this->externalManager
 			->expects($this->once())
 			->method('declineShare')
@@ -80,7 +80,7 @@ class ExternalShareControllerTest extends \Test\TestCase {
 		$this->assertEquals(new JSONResponse(), $this->getExternalShareController()->destroy(4));
 	}
 
-	public function testRemoteWithValidHttps() {
+	public function testRemoteWithValidHttps(): void {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
 		$response
@@ -103,7 +103,7 @@ class ExternalShareControllerTest extends \Test\TestCase {
 		$this->assertEquals(new DataResponse('https'), $this->getExternalShareController()->testRemote('nextcloud.com'));
 	}
 
-	public function testRemoteWithWorkingHttp() {
+	public function testRemoteWithWorkingHttp(): void {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
 		$client
@@ -127,7 +127,7 @@ class ExternalShareControllerTest extends \Test\TestCase {
 		$this->assertEquals(new DataResponse('http'), $this->getExternalShareController()->testRemote('nextcloud.com'));
 	}
 
-	public function testRemoteWithInvalidRemote() {
+	public function testRemoteWithInvalidRemote(): void {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
 		$client
@@ -158,7 +158,7 @@ class ExternalShareControllerTest extends \Test\TestCase {
 	 * @dataProvider dataRemoteWithInvalidRemoteURLs
 	 * @param string $remote
 	 */
-	public function testRemoteWithInvalidRemoteURLs(string $remote) {
+	public function testRemoteWithInvalidRemoteURLs(string $remote): void {
 		$this->clientService
 			->expects($this->never())
 			->method('newClient');

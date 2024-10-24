@@ -17,11 +17,9 @@ use OCP\Files\NotFoundException;
  */
 class ViewOnly {
 
-	/** @var Folder */
-	private $userFolder;
-
-	public function __construct(Folder $userFolder) {
-		$this->userFolder = $userFolder;
+	public function __construct(
+		private Folder $userFolder,
+	) {
 	}
 
 	/**
@@ -88,7 +86,7 @@ class ViewOnly {
 		}
 
 		// Extract extra permissions
-		/** @var \OCA\Files_Sharing\SharedStorage $storage */
+		/** @var SharedStorage $storage */
 		$share = $storage->getShare();
 
 		$canDownload = true;

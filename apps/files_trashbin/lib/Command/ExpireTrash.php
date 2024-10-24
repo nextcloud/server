@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_Trashbin\Command;
 
+use OC\Files\View;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Helper;
 use OCA\Files_Trashbin\Trashbin;
@@ -20,25 +21,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ExpireTrash extends Command {
 
 	/**
-	 * @var Expiration
-	 */
-	private $expiration;
-
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-
-	/**
 	 * @param IUserManager|null $userManager
 	 * @param Expiration|null $expiration
 	 */
-	public function __construct(?IUserManager $userManager = null,
-		?Expiration $expiration = null) {
+	public function __construct(
+		private ?IUserManager $userManager = null,
+		private ?Expiration $expiration = null,
+	) {
 		parent::__construct();
-
-		$this->userManager = $userManager;
-		$this->expiration = $expiration;
 	}
 
 	protected function configure() {
@@ -55,7 +45,7 @@ class ExpireTrash extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$maxAge = $this->expiration->getMaxAgeAsTimestamp();
 		if (!$maxAge) {
-			$output->writeln("Auto expiration is configured - keeps files and folders in the trash bin for 30 days and automatically deletes anytime after that if space is needed (note: files may not be deleted if space is not needed)");
+			$output->writeln('Auto expiration is configured - keeps files and folders in the trash bin for 30 days and automatically deletes anytime after that if space is needed (note: files may not be deleted if space is not needed)');
 			return 1;
 		}
 
@@ -74,7 +64,7 @@ class ExpireTrash extends Command {
 		} else {
 			$p = new ProgressBar($output);
 			$p->start();
-			$this->userManager->callForSeenUsers(function (IUser $user) use ($p) {
+			$this->userManager->callForSeenUsers(function (IUser $user) use ($p): void {
 				$p->advance();
 				$this->expireTrashForUser($user);
 			});
@@ -103,7 +93,7 @@ class ExpireTrash extends Command {
 		\OC_Util::setupFS($user);
 
 		// Check if this user has a trashbin directory
-		$view = new \OC\Files\View('/' . $user);
+		$view = new View('/' . $user);
 		if (!$view->is_dir('/files_trashbin/files')) {
 			return false;
 		}

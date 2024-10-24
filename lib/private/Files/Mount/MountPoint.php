@@ -75,7 +75,7 @@ class MountPoint implements IMountPoint {
 		?IStorageFactory $loader = null,
 		?array $mountOptions = null,
 		?int $mountId = null,
-		?string $mountProvider = null
+		?string $mountProvider = null,
 	) {
 		if (is_null($arguments)) {
 			$arguments = [];

@@ -724,7 +724,7 @@ $input-padding: 10px;
 			align-self: flex-start;
 			font-weight: bold;
 			font-size: 19px;
-			margin-left: 13px;
+			margin-inline-start: 13px;
 		}
 	}
 
@@ -745,7 +745,8 @@ $input-padding: 10px;
 	}
 
 	&__filters {
-		margin: $margin 0 $margin math.div($margin, 2);
+		margin-block: $margin;
+		margin-inline: math.div($margin, 2) 0;
 		padding-top: 5px;
 		ul {
 			display: inline-flex;
@@ -760,8 +761,7 @@ $input-padding: 10px;
 
 		// Loading spinner
 		&::after {
-			right: $input-padding;
-			left: auto;
+		inset-inline-start: auto $input-padding;
 		}
 
 		&-input,
@@ -794,7 +794,7 @@ $input-padding: 10px;
 		&-reset, &-submit {
 			position: absolute;
 			top: 0;
-			right: 4px;
+			inset-inline-end: 4px;
 			width: $input-height - $input-padding;
 			height: $input-height - $input-padding;
 			min-height: 30px;
@@ -802,7 +802,7 @@ $input-padding: 10px;
 			opacity: .5;
 			border: none;
 			background-color: transparent;
-			margin-right: 0;
+			margin-inline-end: 0;
 
 			&:hover,
 			&:focus,
@@ -812,23 +812,24 @@ $input-padding: 10px;
 		}
 
 		&-submit {
-			right: 28px;
+			inset-inline-end: 28px;
 		}
 	}
 
 	&__results {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+
 		&-header {
 			display: block;
 			margin: $margin;
 			margin-bottom: $margin - 4px;
-			margin-left: 13px;
+			margin-inline-start: 13px;
 			color: var(--color-primary-element);
 			font-size: 19px;
 			font-weight: bold;
 		}
-		display: flex;
-		flex-direction: column;
-		gap: 4px;
 	}
 
 	.unified-search__result-more::v-deep {

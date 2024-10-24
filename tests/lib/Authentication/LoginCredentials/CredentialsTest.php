@@ -33,15 +33,15 @@ class CredentialsTest extends TestCase {
 		$this->credentials = new Credentials($this->uid, $this->user, $this->password);
 	}
 
-	public function testGetUID() {
+	public function testGetUID(): void {
 		$this->assertEquals($this->uid, $this->credentials->getUID());
 	}
 
-	public function testGetUserName() {
+	public function testGetUserName(): void {
 		$this->assertEquals($this->user, $this->credentials->getLoginName());
 	}
 
-	public function testGetPassword() {
+	public function testGetPassword(): void {
 		$this->assertEquals($this->password, $this->credentials->getPassword());
 	}
 }

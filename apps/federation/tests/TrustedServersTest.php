@@ -12,6 +12,8 @@ use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\Events\TrustedServerRemovedEvent;
+use OCP\HintException;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
@@ -24,31 +26,31 @@ class TrustedServersTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject | TrustedServers */
 	private $trustedServers;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | DbHandler */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | DbHandler */
 	private $dbHandler;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | IClientService */
 	private $httpClientService;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | IClient */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | IClient */
 	private $httpClient;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | IResponse */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | IResponse */
 	private $response;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | LoggerInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | LoggerInterface */
 	private $logger;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | IJobList */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | IJobList */
 	private $jobList;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | ISecureRandom */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | ISecureRandom */
 	private $secureRandom;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | IConfig */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | IConfig */
 	private $config;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | IEventDispatcher */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | IEventDispatcher */
 	private $dispatcher;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject|ITimeFactory */
@@ -100,7 +102,7 @@ class TrustedServersTest extends TestCase {
 			->setMethods(['normalizeUrl', 'updateProtocol'])
 			->getMock();
 		$trustedServers->expects($this->once())->method('updateProtocol')
-				->with('url')->willReturn('https://url');
+			->with('url')->willReturn('https://url');
 		$this->timeFactory->method('getTime')
 			->willReturn(1234567);
 		$this->dbHandler->expects($this->once())->method('addServer')->with('https://url')
@@ -127,9 +129,9 @@ class TrustedServersTest extends TestCase {
 
 	public function testGetSharedSecret(): void {
 		$this->dbHandler->expects($this->once())
-				->method('getSharedSecret')
-				->with('url')
-				->willReturn('secret');
+			->method('getSharedSecret')
+			->with('url')
+			->willReturn('secret');
 		$this->assertSame(
 			$this->trustedServers->getSharedSecret('url'),
 			'secret'
@@ -144,8 +146,8 @@ class TrustedServersTest extends TestCase {
 			->willReturn($server);
 		$this->dispatcher->expects($this->once())->method('dispatchTyped')
 			->willReturnCallback(
-				function ($event) {
-					$this->assertSame(get_class($event), \OCP\Federation\Events\TrustedServerRemovedEvent::class);
+				function ($event): void {
+					$this->assertSame(get_class($event), TrustedServerRemovedEvent::class);
 					/** @var \OCP\Federated\Events\TrustedServerRemovedEvent $event */
 					$this->assertSame('url_hash', $event->getUrlHash());
 				}
@@ -173,13 +175,13 @@ class TrustedServersTest extends TestCase {
 		);
 	}
 
-	public function testSetServerStatus() {
+	public function testSetServerStatus(): void {
 		$this->dbHandler->expects($this->once())->method('setServerStatus')
 			->with('url', 1);
 		$this->trustedServers->setServerStatus('url', 1);
 	}
 
-	public function testGetServerStatus() {
+	public function testGetServerStatus(): void {
 		$this->dbHandler->expects($this->once())->method('getServerStatus')
 			->with('url')->willReturn(1);
 		$this->assertSame(
@@ -252,7 +254,7 @@ class TrustedServersTest extends TestCase {
 			->willReturn($this->httpClient);
 
 		$this->httpClient->expects($this->once())->method('get')->with($server . '/status.php')
-			->willReturnCallback(function () {
+			->willReturnCallback(function (): void {
 				throw new \Exception('simulated exception');
 			});
 
@@ -277,7 +279,7 @@ class TrustedServersTest extends TestCase {
 	 * @dataProvider dataTestCheckNextcloudVersionTooLow
 	 */
 	public function testCheckNextcloudVersionTooLow(string $status): void {
-		$this->expectException(\OCP\HintException::class);
+		$this->expectException(HintException::class);
 		$this->expectExceptionMessage('Remote server version is too low. 9.0 is required.');
 
 		$this->invokePrivate($this->trustedServers, 'checkNextcloudVersion', [$status]);

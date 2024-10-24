@@ -20,6 +20,8 @@ OC.L10N.register(
     "Set status" : "ステータスを設定",
     "Online status" : "オンラインステータス",
     "Status message" : "状態メッセージ",
+    "Set absence period" : "不在設定をセットする",
+    "Set absence period and replacement" : "不在期間と交代要員をセットする",
     "Your status was set automatically" : "あなたのステータスは自動的に設定されました",
     "Clear status message" : "ステータスメッセージを消去",
     "Set status message" : "ステータスメッセージを設定",

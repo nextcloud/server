@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,26 +10,27 @@
 namespace Test\Files\Stream;
 
 use OC\Files\Cache\CacheEntry;
+use OC\Files\Storage\Wrapper\Wrapper;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
+use OCP\Encryption\IEncryptionModule;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 class EncryptionTest extends \Test\TestCase {
 	public const DEFAULT_WRAPPER = '\OC\Files\Stream\Encryption';
 
-	/** @var  \OCP\Encryption\IEncryptionModule | \PHPUnit\Framework\MockObject\MockObject  */
-	private $encryptionModule;
+	private IEncryptionModule&MockObject $encryptionModule;
 
 	/**
-	 * @param string $fileName
-	 * @param string $mode
-	 * @param integer $unencryptedSize
+	 * @param class-string<Wrapper> $wrapper
 	 * @return resource
 	 */
-	protected function getStream($fileName, $mode, $unencryptedSize, $wrapper = self::DEFAULT_WRAPPER, $unencryptedSizeOnClose = 0) {
+	protected function getStream(string $fileName, string $mode, int $unencryptedSize, string $wrapper = self::DEFAULT_WRAPPER, int $unencryptedSizeOnClose = 0) {
 		clearstatcache();
 		$size = filesize($fileName);
 		$source = fopen($fileName, $mode);
@@ -57,7 +61,8 @@ class EncryptionTest extends \Test\TestCase {
 			->setConstructorArgs([new View(), new \OC\User\Manager(
 				$config,
 				$this->createMock(ICacheFactory::class),
-				$this->createMock(IEventDispatcher::class)
+				$this->createMock(IEventDispatcher::class),
+				$this->createMock(LoggerInterface::class),
 			), $groupManager, $config, $arrayCache])
 			->getMock();
 		$util->expects($this->any())
@@ -72,31 +77,47 @@ class EncryptionTest extends \Test\TestCase {
 		$cache->expects($this->any())->method('get')->willReturn($entry);
 		$cache->expects($this->any())->method('update')->with(5, ['encrypted' => 3, 'encryptedVersion' => 3, 'unencrypted_size' => $unencryptedSizeOnClose]);
 
-
-		return $wrapper::wrap($source, $internalPath,
-			$fullPath, $header, $uid, $this->encryptionModule, $storage, $encStorage,
-			$util, $file, $mode, $size, $unencryptedSize, 8192, $wrapper);
+		return $wrapper::wrap(
+			$source,
+			$internalPath,
+			$fullPath,
+			$header,
+			$uid,
+			$this->encryptionModule,
+			$storage,
+			$encStorage,
+			$util,
+			$file,
+			$mode,
+			$size,
+			$unencryptedSize,
+			8192,
+			true,
+			$wrapper,
+		);
 	}
 
 	/**
 	 * @dataProvider dataProviderStreamOpen()
 	 */
-	public function testStreamOpen($isMasterKeyUsed,
+	public function testStreamOpen(
+		$isMasterKeyUsed,
 		$mode,
 		$fullPath,
 		$fileExists,
 		$expectedSharePath,
 		$expectedSize,
 		$expectedUnencryptedSize,
-		$expectedReadOnly) {
+		$expectedReadOnly,
+	): void {
 		// build mocks
 		$encryptionModuleMock = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
-		->disableOriginalConstructor()->getMock();
+			->disableOriginalConstructor()->getMock();
 		$encryptionModuleMock->expects($this->any())->method('needDetailedAccessList')->willReturn(!$isMasterKeyUsed);
 		$encryptionModuleMock->expects($this->once())
 			->method('getUnencryptedBlockSize')->willReturn(99);
 		$encryptionModuleMock->expects($this->once())
-			->method('begin')->willReturn(true);
+			->method('begin')->willReturn([]);
 
 		$storageMock = $this->getMockBuilder('\OC\Files\Storage\Storage')
 			->disableOriginalConstructor()->getMock();
@@ -150,6 +171,8 @@ class EncryptionTest extends \Test\TestCase {
 		$header->setValue($streamWrapper, []);
 		$header->setAccessible(false);
 		$this->invokePrivate($streamWrapper, 'signed', [true]);
+		$this->invokePrivate($streamWrapper, 'internalPath', [$fullPath]);
+		$this->invokePrivate($streamWrapper, 'uid', ['test']);
 
 		// call stream_open, that's the method we want to test
 		$dummyVar = 'foo';
@@ -158,23 +181,17 @@ class EncryptionTest extends \Test\TestCase {
 		// check internal properties
 		$size = $stream->getProperty('size');
 		$size->setAccessible(true);
-		$this->assertSame($expectedSize,
-			$size->getValue($streamWrapper)
-		);
+		$this->assertSame($expectedSize, $size->getValue($streamWrapper));
 		$size->setAccessible(false);
 
 		$unencryptedSize = $stream->getProperty('unencryptedSize');
 		$unencryptedSize->setAccessible(true);
-		$this->assertSame($expectedUnencryptedSize,
-			$unencryptedSize->getValue($streamWrapper)
-		);
+		$this->assertSame($expectedUnencryptedSize, $unencryptedSize->getValue($streamWrapper));
 		$unencryptedSize->setAccessible(false);
 
 		$readOnly = $stream->getProperty('readOnly');
 		$readOnly->setAccessible(true);
-		$this->assertSame($expectedReadOnly,
-			$readOnly->getValue($streamWrapper)
-		);
+		$this->assertSame($expectedReadOnly, $readOnly->getValue($streamWrapper));
 		$readOnly->setAccessible(false);
 	}
 
@@ -189,8 +206,8 @@ class EncryptionTest extends \Test\TestCase {
 		];
 	}
 
-	public function testWriteRead() {
-		$fileName = tempnam("/tmp", "FOO");
+	public function testWriteRead(): void {
+		$fileName = tempnam('/tmp', 'FOO');
 		$stream = $this->getStream($fileName, 'w+', 0, self::DEFAULT_WRAPPER, 6);
 		$this->assertEquals(6, fwrite($stream, 'foobar'));
 		fclose($stream);
@@ -210,8 +227,8 @@ class EncryptionTest extends \Test\TestCase {
 		unlink($fileName);
 	}
 
-	public function testRewind() {
-		$fileName = tempnam("/tmp", "FOO");
+	public function testRewind(): void {
+		$fileName = tempnam('/tmp', 'FOO');
 		$stream = $this->getStream($fileName, 'w+', 0, self::DEFAULT_WRAPPER, 6);
 		$this->assertEquals(6, fwrite($stream, 'foobar'));
 		$this->assertEquals(true, rewind($stream));
@@ -227,8 +244,8 @@ class EncryptionTest extends \Test\TestCase {
 		unlink($fileName);
 	}
 
-	public function testSeek() {
-		$fileName = tempnam("/tmp", "FOO");
+	public function testSeek(): void {
+		$fileName = tempnam('/tmp', 'FOO');
 
 		$stream = $this->getStream($fileName, 'w+', 0, self::DEFAULT_WRAPPER, 9);
 		$this->assertEquals(6, fwrite($stream, 'foobar'));
@@ -260,10 +277,10 @@ class EncryptionTest extends \Test\TestCase {
 	/**
 	 * @dataProvider dataFilesProvider
 	 */
-	public function testWriteReadBigFile($testFile) {
+	public function testWriteReadBigFile($testFile): void {
 		$expectedData = file_get_contents(\OC::$SERVERROOT . '/tests/data/' . $testFile);
 		// write it
-		$fileName = tempnam("/tmp", "FOO");
+		$fileName = tempnam('/tmp', 'FOO');
 		$stream = $this->getStream($fileName, 'w+', 0, self::DEFAULT_WRAPPER, strlen($expectedData));
 		// while writing the file from the beginning to the end we should never try
 		// to read parts of the file. This should only happen for write operations
@@ -297,14 +314,14 @@ class EncryptionTest extends \Test\TestCase {
 	 *
 	 * @dataProvider dataFilesProvider
 	 */
-	public function testWriteToNonSeekableStorage($testFile) {
+	public function testWriteToNonSeekableStorage($testFile): void {
 		$wrapper = $this->getMockBuilder('\OC\Files\Stream\Encryption')
 			->setMethods(['parentSeekStream'])->getMock();
 		$wrapper->expects($this->any())->method('parentSeekStream')->willReturn(false);
 
 		$expectedData = file_get_contents(\OC::$SERVERROOT . '/tests/data/' . $testFile);
 		// write it
-		$fileName = tempnam("/tmp", "FOO");
+		$fileName = tempnam('/tmp', 'FOO');
 		$stream = $this->getStream($fileName, 'w+', 0, '\Test\Files\Stream\DummyEncryptionWrapper', strlen($expectedData));
 		// while writing the file from the beginning to the end we should never try
 		// to read parts of the file. This should only happen for write operations
@@ -333,10 +350,7 @@ class EncryptionTest extends \Test\TestCase {
 		unlink($fileName);
 	}
 
-	/**
-	 * @return \PHPUnit\Framework\MockObject\MockObject
-	 */
-	protected function buildMockModule() {
+	protected function buildMockModule(): IEncryptionModule&MockObject {
 		$encryptionModule = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
 			->disableOriginalConstructor()
 			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'getUnencryptedBlockSize', 'isReadable', 'encryptAll', 'prepareDecryptAll', 'isReadyForUser', 'needDetailedAccessList'])

@@ -110,14 +110,14 @@ select {
 	}
 
 	.personal-info {
-		margin-right: 10%;
+		margin-inline-end: 10%;
 		margin-bottom: 12px;
 		margin-top: 12px;
 	}
 
 	.personal-info[class^='icon-'], .personal-info[class*=' icon-'] {
 		background-position: 0px 2px;
-		padding-left: 30px;
+		padding-inline-start: 30px;
 		opacity: 0.7;
 	}
 }
@@ -132,7 +132,7 @@ select {
 }
 
 .link-button {
-	display: inline-block;
+	display: inline-flex;
 	margin: calc(2 * var(--default-grid-baseline));
 	padding: calc(2 * var(--default-grid-baseline)) calc(4 * var(--default-grid-baseline));
 	background-color: var(--color-primary-element);
@@ -140,6 +140,8 @@ select {
 	border-radius: var(--border-radius-element);
 	border: 1px solid var(--color-primary-element);
 	box-shadow: 0 2px 9px var(--color-box-shadow);
+	align-items: center;
+	gap: calc(var(--default-grid-baseline) * 2);
 
 	&:hover,
 	&:focus {
@@ -152,9 +154,10 @@ select {
 		outline: 2px solid var(--color-main-text) !important;
 	}
 
-	&.icon-file {
-		padding-left: calc(var(--default-grid-baseline) + var(--default-clickable-area));
-		background-position: calc(2 * var(--default-grid-baseline));
+	.icon-file-text {
+		filter: var(--primary-invert-if-dark);
+		width: 20px;
+		height: 20px;
 	}
 }
 
@@ -186,7 +189,7 @@ select {
 		> form span {
 			&[class^='icon-checkmark'], &[class^='icon-error'] {
 				position: relative;
-				right: 8px;
+				inset-inline-end: 8px;
 				top: -28px;
 				pointer-events: none;
 				float: right;
@@ -196,7 +199,7 @@ select {
 
 	.verify {
 		position: relative;
-		left: 100%;
+		inset-inline-start: 100%;
 		top: 0;
 		height: 0;
 
@@ -221,7 +224,7 @@ select {
 /* only show pointer cursor when popup will be there */
 .verification-dialog {
 	display: none;
-	right: -9px;
+	inset-inline-end: -9px;
 	top: 40px;
 	width: 275px;
 
@@ -257,7 +260,7 @@ select {
 	}
 
 	.icon-federation-menu {
-		padding-left: 16px;
+		padding-inline-start: 16px;
 		background-size: 16px;
 		background-position: left center;
 		opacity: .3;
@@ -349,7 +352,7 @@ input#identity {
 
 table.nostyle {
 	label {
-		margin-right: 2em;
+		margin-inline-end: 2em;
 	}
 
 	td {
@@ -386,9 +389,9 @@ table.nostyle {
 			}
 			.personal-show-label {
 				top: 34px !important;
-				margin-right: 0;
+				margin-inline-end: 0;
 				margin-top: 0 !important;
-				right: 3px;
+				inset-inline-end: 3px;
 			}
 		}
 
@@ -402,7 +405,7 @@ table.nostyle {
 
 		.strengthify-wrapper {
 			position: absolute;
-			left: 0;
+			inset-inline-start: 0;
 			width: 100%;
 			border-radius: 0 0 2px 2px;
 			margin-top: 5px;
@@ -420,7 +423,7 @@ table.nostyle {
 	}
 
 	li > div {
-		margin-left: 20px;
+		margin-inline-start: 20px;
 	}
 
 	.two-factor-provider-settings-icon {
@@ -462,7 +465,7 @@ li.active {
 #usersearchform {
 	position: absolute;
 	top: 2px;
-	right: 0;
+	inset-inline-end: 0;
 
 	input {
 		width: 150px;
@@ -479,23 +482,25 @@ table.grid {
 
 	th {
 		height: 2em;
-		padding: 0 1em 0 0;
+		padding: 0;
+		padding-inline-end: 1em;
 		border-bottom: 1px solid var(--color-border);
-		text-align: left;
+		text-align: start;
 		font-weight: normal;
 	}
 
 	td {
 		border-bottom: 1px solid var(--color-border);
-		padding: 0 1em 0 0;
-		text-align: left;
+		padding: 0;
+		padding-inline-end: 1em;
+		text-align: start;
 		font-weight: normal;
 	}
 }
 
 td, th {
 	&.name {
-		padding-left: .8em;
+		padding-inline-start: .8em;
 		min-width: 5em;
 		max-width: 12em;
 		text-overflow: ellipsis;
@@ -503,7 +508,7 @@ td, th {
 	}
 
 	&.password {
-		padding-left: .8em;
+		padding-inline-start: .8em;
 
 		> img {
 			visibility: hidden;
@@ -533,7 +538,7 @@ td, th {
 	}
 
 	&.password > span {
-		margin-right: 1.2em;
+		margin-inline-end: 1.2em;
 		color: #C7C7C7;
 	}
 }
@@ -547,12 +552,12 @@ span.usersLastLoginTooltip {
 	/* Navigation icons */
 	img {
 		margin-bottom: -3px;
-		margin-right: 6px;
+		margin-inline-end: 6px;
 		width: 16px;
 	}
 
 	li span.no-icon {
-		padding-left: 32px;
+		padding-inline-start: 32px;
 	}
 
 	ul li.active > span.utils {
@@ -643,15 +648,15 @@ table.grid td.date {
 	}
 
 	.indent {
-		padding-left: 28px;
+		padding-inline-start: 28px;
 	}
 
 	.double-indent {
-		padding-left: 56px;
+		padding-inline-start: 56px;
 	}
 
 	.nocheckbox {
-		padding-left: 20px;
+		padding-inline-start: 20px;
 	}
 
 	#s2id_linksExcludedGroups {
@@ -660,7 +665,7 @@ table.grid td.date {
 }
 
 #shareApiDefaultPermissionsSection label {
-	margin-right: 20px;
+	margin-inline-end: 20px;
 }
 
 #fileSharingSettings h3 {
@@ -672,7 +677,7 @@ table.grid td.date {
 	/* 20 px left margin, 3 px right margin */
 	max-width: 600px;
 	height: 150px;
-	margin-left: 20px;
+	margin-inline-start: 20px;
 	box-sizing: border-box;
 }
 
@@ -694,7 +699,7 @@ table.grid td.date {
 	label:first-child {
 		display: inline-block;
 		width: 300px;
-		text-align: right;
+		text-align: end;
 	}
 
 	select:nth-child(2),
@@ -706,7 +711,7 @@ table.grid td.date {
 @media (max-width: calc(variables.$breakpoint-mobile * 0.75)) {
 	.mail_settings p label:first-child {
 		width: unset;
-		text-align: left;
+		text-align: start;
 		display: block;
 		margin-top: calc(var(--default-grid-baseline) * 2);
 	}
@@ -717,7 +722,7 @@ table.grid td.date {
 }
 
 .cronlog {
-	margin-left: 10px;
+	margin-inline-start: 10px;
 }
 
 .status {
@@ -762,7 +767,7 @@ span {
 
 /* OPERA hack for strengthify*/
 doesnotexist:-o-prefocus, .strengthify-wrapper {
-	left: 185px;
+	inset-inline-start: 185px;
 	width: 129px;
 }
 
@@ -776,7 +781,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 #postsetupchecks {
 	ul {
-		margin-left: 44px;
+		margin-inline-start: 44px;
 		list-style: disc;
 
 		li {

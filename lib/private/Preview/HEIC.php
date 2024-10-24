@@ -31,7 +31,7 @@ class HEIC extends ProviderV2 {
 	 * {@inheritDoc}
 	 */
 	public function isAvailable(FileInfo $file): bool {
-		return in_array('HEIC', \Imagick::queryFormats("HEI*"));
+		return in_array('HEIC', \Imagick::queryFormats('HEI*'));
 	}
 
 	/**
@@ -70,7 +70,7 @@ class HEIC extends ProviderV2 {
 
 		//new bitmap image object
 		$image = new \OCP\Image();
-		$image->loadFromData((string) $bp);
+		$image->loadFromData((string)$bp);
 		//check if image object is valid
 		return $image->valid() ? $image : null;
 	}

@@ -31,7 +31,7 @@ class UserControllerTest extends TestCase {
 		);
 	}
 
-	public function testGetDisplayNames() {
+	public function testGetDisplayNames(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getDisplayName')
 			->willReturn('FooDisplay Name');

@@ -41,6 +41,7 @@ OC.L10N.register(
     "Nextcloud workflow engine" : "Motor de fluxo de trabalho da Nextcloud",
     "Select a filter" : "Selecionar um filtro",
     "Select a comparator" : "Selecionar um comparador",
+    "Remove filter" : "Remover filtro",
     "Folder" : "Pasta",
     "Images" : "Imagens",
     "Files WebDAV" : "Ficheiros WebDAV",

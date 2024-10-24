@@ -89,7 +89,7 @@ class ConfigurationTest extends \Test\TestCase {
 	/**
 	 * @dataProvider configurationDataProvider
 	 */
-	public function testSetValue($key, $input, $expected) {
+	public function testSetValue($key, $input, $expected): void {
 		$this->configuration->setConfiguration([$key => $input]);
 		$this->assertSame($this->configuration->$key, $expected);
 	}
@@ -108,7 +108,7 @@ class ConfigurationTest extends \Test\TestCase {
 	/**
 	 * @dataProvider avatarRuleValueProvider
 	 */
-	public function testGetAvatarAttributes($setting, $expected) {
+	public function testGetAvatarAttributes($setting, $expected): void {
 		$this->configuration->setConfiguration(['ldapUserAvatarRule' => $setting]);
 		$this->assertSame($expected, $this->configuration->getAvatarAttributes());
 	}
@@ -116,7 +116,7 @@ class ConfigurationTest extends \Test\TestCase {
 	/**
 	 * @dataProvider avatarRuleValueProvider
 	 */
-	public function testResolveRule($setting, $expected) {
+	public function testResolveRule($setting, $expected): void {
 		$this->configuration->setConfiguration(['ldapUserAvatarRule' => $setting]);
 		// so far the only thing that can get resolved :)
 		$this->assertSame($expected, $this->configuration->resolveRule('avatar'));

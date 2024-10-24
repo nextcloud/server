@@ -8,8 +8,8 @@ declare(strict_types=1);
  */
 namespace OCA\TwoFactorBackupCodes\Test\Unit\Activity;
 
-use InvalidArgumentException;
 use OCA\TwoFactorBackupCodes\Activity\Provider;
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\IL10N;
@@ -41,13 +41,13 @@ class ProviderTest extends TestCase {
 		$this->provider = new Provider($this->l10n, $this->urlGenerator, $this->activityManager);
 	}
 
-	public function testParseUnrelated() {
+	public function testParseUnrelated(): void {
 		$lang = 'ru';
 		$event = $this->createMock(IEvent::class);
 		$event->expects($this->once())
 			->method('getApp')
 			->willReturn('comments');
-		$this->expectException(InvalidArgumentException::class);
+		$this->expectException(UnknownActivityException::class);
 
 		$this->provider->parse($lang, $event);
 	}
@@ -61,7 +61,7 @@ class ProviderTest extends TestCase {
 	/**
 	 * @dataProvider subjectData
 	 */
-	public function testParse($subject) {
+	public function testParse($subject): void {
 		$lang = 'ru';
 		$event = $this->createMock(IEvent::class);
 		$l = $this->createMock(IL10N::class);
@@ -93,7 +93,7 @@ class ProviderTest extends TestCase {
 		$this->provider->parse($lang, $event);
 	}
 
-	public function testParseInvalidSubject() {
+	public function testParseInvalidSubject(): void {
 		$lang = 'ru';
 		$l = $this->createMock(IL10N::class);
 		$event = $this->createMock(IEvent::class);
@@ -109,7 +109,7 @@ class ProviderTest extends TestCase {
 			->method('getSubject')
 			->willReturn('unrelated');
 
-		$this->expectException(InvalidArgumentException::class);
+		$this->expectException(UnknownActivityException::class);
 		$this->provider->parse($lang, $event);
 	}
 }

@@ -50,7 +50,7 @@ class BackupCodeMapperTest extends TestCase {
 		$this->resetDB();
 	}
 
-	public function testGetBackupCodes() {
+	public function testGetBackupCodes(): void {
 		$code1 = new BackupCode();
 		$code1->setUserId($this->testUID);
 		$code1->setCode('1|$2y$10$Fyo.DkMtkaHapVvRVbQBeeIdi5x/6nmPnxiBzD0GDKa08NMus5xze');
@@ -76,7 +76,7 @@ class BackupCodeMapperTest extends TestCase {
 		$this->assertInstanceOf(BackupCode::class, $dbCodes[1]);
 	}
 
-	public function testDeleteCodes() {
+	public function testDeleteCodes(): void {
 		$code = new BackupCode();
 		$code->setUserId($this->testUID);
 		$code->setCode('1|$2y$10$CagG8pEhZL.xDirtCCP/KuuWtnsAasgq60zY9rU46dBK4w8yW0Z/y');
@@ -95,7 +95,7 @@ class BackupCodeMapperTest extends TestCase {
 		$this->assertCount(0, $this->mapper->getBackupCodes($user));
 	}
 
-	public function testInsertArgonEncryptedCodes() {
+	public function testInsertArgonEncryptedCodes(): void {
 		$code = new BackupCode();
 		$code->setUserId($this->testUID);
 		$code->setCode('2|$argon2i$v=19$m=1024,t=2,p=2$MjJWUjRFWndtMm5BWGxOag$BusVxLeFyiLLWtaVvX/JRFBiPdZcjRrzpQ/rAhn6vqY');

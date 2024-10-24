@@ -68,14 +68,14 @@ interface IManager {
 	 * @param string $pattern which should match within the $searchProperties
 	 * @param array $searchProperties defines the properties within the query pattern should match
 	 * @param array $options = array() to define the search behavior
-	 *  - 'types' boolean (since 15.0.0) If set to true, fields that come with a TYPE property will be an array
-	 *    example: ['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['type => 'HOME', 'value' => 'g@h.i']]
-	 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped
-	 * 	- 'limit' - Set a numeric limit for the search results
-	 * 	- 'offset' - Set the offset for the limited search results
-	 * 	- 'enumeration' - (since 23.0.0) Whether user enumeration on system address book is allowed
-	 * 	- 'fullmatch' - (since 23.0.0) Whether matching on full detail in system address book is allowed
-	 * 	- 'strict_search' - (since 23.0.0) Whether the search pattern is full string or partial search
+	 *                       - 'types' boolean (since 15.0.0) If set to true, fields that come with a TYPE property will be an array
+	 *                       example: ['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['type => 'HOME', 'value' => 'g@h.i']]
+	 *                       - 'escape_like_param' - If set to false wildcards _ and % are not escaped
+	 *                       - 'limit' - Set a numeric limit for the search results
+	 *                       - 'offset' - Set the offset for the limited search results
+	 *                       - 'enumeration' - (since 23.0.0) Whether user enumeration on system address book is allowed
+	 *                       - 'fullmatch' - (since 23.0.0) Whether matching on full detail in system address book is allowed
+	 *                       - 'strict_search' - (since 23.0.0) Whether the search pattern is full string or partial search
 	 * @psalm-param array{types?: bool, escape_like_param?: bool, limit?: int, offset?: int, enumeration?: bool, fullmatch?: bool, strict_search?: bool} $options
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 * @since 6.0.0

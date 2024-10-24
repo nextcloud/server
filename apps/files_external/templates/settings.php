@@ -14,12 +14,12 @@ use OCA\Files_External\Service\BackendService;
 
 $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || $_['allowUserMounting'];
 
-$l->t("Enable encryption");
-$l->t("Enable previews");
-$l->t("Enable sharing");
-$l->t("Check for changes");
-$l->t("Never");
-$l->t("Once every direct access");
+$l->t('Enable encryption');
+$l->t('Enable previews');
+$l->t('Enable sharing');
+$l->t('Check for changes');
+$l->t('Never');
+$l->t('Once every direct access');
 $l->t('Read only');
 
 script('files_external', [
@@ -66,7 +66,7 @@ function writeParameterInput($parameter, $options, $classes = []) {
 			<?php
 				break;
 		case DefinitionParameter::VALUE_BOOLEAN: ?>
-			<?php $checkboxId = uniqid("checkbox_"); ?>
+			<?php $checkboxId = uniqid('checkbox_'); ?>
 			<div>
 			<label>
 			<input type="checkbox"
@@ -116,7 +116,7 @@ function writeParameterInput($parameter, $options, $classes = []) {
 	<a target="_blank" rel="noreferrer" class="icon-info" title="<?php p($l->t('Open documentation'));?>" href="<?php p(link_to_docs('admin-external-storage')); ?>"></a>
 	<p class="settings-hint"><?php p($l->t('External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow people to mount their own external storage services.')); ?></p>
 	<?php if (isset($_['dependencies']) and ($_['dependencies'] !== '') and $canCreateMounts) {
-		print_unescaped(''.$_['dependencies'].'');
+		print_unescaped('' . $_['dependencies'] . '');
 	} ?>
 	<table id="externalStorage" class="grid" data-admin='<?php print_unescaped(json_encode($_['visibilityType'] === BackendService::VISIBILITY_ADMIN)); ?>'>
 		<thead>
@@ -127,7 +127,7 @@ function writeParameterInput($parameter, $options, $classes = []) {
 				<th><?php p($l->t('Authentication')); ?></th>
 				<th><?php p($l->t('Configuration')); ?></th>
 				<?php if ($_['visibilityType'] === BackendService::VISIBILITY_ADMIN) {
-					print_unescaped('<th>'.$l->t('Available for').'</th>');
+					print_unescaped('<th>' . $l->t('Available for') . '</th>');
 				} ?>
 				<th>&nbsp;</th>
 				<th>&nbsp;</th>
@@ -146,7 +146,7 @@ function writeParameterInput($parameter, $options, $classes = []) {
 			<?php endif; ?>
 			>
 				<td class="status">
-					<span data-placement="right" title="<?php p($l->t('Click to recheck the configuration')); ?>"></span>
+					<span data-placement="right" title="<?php p($l->t('Click to recheck the configuration')); ?>" style="display: none;"></span>
 				</td>
 				<td class="mountPoint"><input type="text" name="mountPoint" value=""
 					placeholder="<?php p($l->t('Folder name')); ?>">
@@ -166,7 +166,7 @@ uasort($sortedBackends, function ($a, $b) {
 });
 ?>
 						<?php foreach ($sortedBackends as $backend): ?>
-							<?php if ($backend->getDeprecateTo() || (!$canCreateNewLocalStorage && $backend->getIdentifier() == "local")) {
+							<?php if ($backend->getDeprecateTo() || (!$canCreateNewLocalStorage && $backend->getIdentifier() == 'local')) {
 								continue;
 							} // ignore deprecated backends?>
 							<option value="<?php p($backend->getIdentifier()); ?>"><?php p($backend->getText()); ?></option>
@@ -227,7 +227,7 @@ uasort($sortedBackends, function ($a, $b) {
 	<form autocomplete="false" action="#"
 		  id="global_credentials" method="post"
 		  class="<?php if (isset($_['visibilityType']) && $_['visibilityType'] === BackendService::VISIBILITY_PERSONAL) {
-		  	print_unescaped("global_credentials__personal");
+		  	print_unescaped('global_credentials__personal');
 		  } ?>">
 		<h2><?php p($l->t('Global credentials')); ?></h2>
 		<p class="settings-hint"><?php p($l->t('Global credentials can be used to authenticate with multiple external storages that have the same credentials.')); ?></p>

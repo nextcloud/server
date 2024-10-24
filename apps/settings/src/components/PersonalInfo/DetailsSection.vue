@@ -20,6 +20,7 @@
 			<div class="details__quota">
 				<CircleSlice :size="20" />
 				<div class="details__quota-info">
+					<!-- eslint-disable-next-line vue/no-v-html -->
 					<p class="details__quota-text" v-html="quotaText" />
 					<NcProgressBar size="medium"
 						:value="usageRelative"
@@ -32,8 +33,9 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-import NcProgressBar from '@nextcloud/vue/dist/Components/NcProgressBar.js'
+import { t } from '@nextcloud/l10n'
 
+import NcProgressBar from '@nextcloud/vue/dist/Components/NcProgressBar.js'
 import Account from 'vue-material-design-icons/Account.vue'
 import CircleSlice from 'vue-material-design-icons/CircleSlice3.vue'
 
@@ -64,12 +66,14 @@ export default {
 	computed: {
 		quotaText() {
 			if (quota === SPACE_UNLIMITED) {
-				return t('settings', 'You are using <strong>{usage}</strong>', { usage })
+				return t('settings', 'You are using {s}{usage}{/s}', { usage, s: '<strong>', '/s': '</strong>' }, undefined, { escape: false })
 			}
 			return t(
 				'settings',
-				'You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)',
-				{ usage, totalSpace, usageRelative },
+				'You are using {s}{usage}{/s} of {s}{totalSpace}{/s} ({s}{usageRelative}%{/s})',
+				{ usage, totalSpace, usageRelative, s: '<strong>', '/s': '</strong>' },
+				undefined,
+				{ escape: false },
 			)
 		},
 	},
@@ -80,7 +84,8 @@ export default {
 .details {
 	display: flex;
 	flex-direction: column;
-	margin: 10px 32px 10px 0;
+	margin-block: 10px;
+	margin-inline: 0 32px;
 	gap: 16px 0;
 	color: var(--color-text-maxcontrast);
 

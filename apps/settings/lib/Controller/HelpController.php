@@ -25,43 +25,19 @@ use OCP\IURLGenerator;
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class HelpController extends Controller {
 
-	/** @var INavigationManager */
-	private $navigationManager;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var IGroupManager */
-	private $groupManager;
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var string */
-	private $userId;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IAppConfig */
-	private $appConfig;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		INavigationManager $navigationManager,
-		IURLGenerator $urlGenerator,
-		?string $userId,
-		IGroupManager $groupManager,
-		IL10N $l10n,
-		IConfig $config,
-		IAppConfig $appConfig,
+		private INavigationManager $navigationManager,
+		private IURLGenerator $urlGenerator,
+		/** @var string */
+		private ?string $userId,
+		private IGroupManager $groupManager,
+		private IL10N $l10n,
+		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct($appName, $request);
-		$this->navigationManager = $navigationManager;
-		$this->urlGenerator = $urlGenerator;
-		$this->userId = $userId;
-		$this->groupManager = $groupManager;
-		$this->l10n = $l10n;
-		$this->config = $config;
-		$this->appConfig = $appConfig;
 	}
 
 	/**

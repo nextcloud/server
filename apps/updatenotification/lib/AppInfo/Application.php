@@ -50,7 +50,8 @@ class Application extends App implements IBootstrap {
 			IAppManager $appManager,
 			IGroupManager $groupManager,
 			ContainerInterface $container,
-			LoggerInterface $logger) {
+			LoggerInterface $logger,
+		): void {
 			if ($config->getSystemValue('updatechecker', true) !== true) {
 				// Updater check is disabled
 				return;
@@ -72,8 +73,8 @@ class Application extends App implements IBootstrap {
 				}
 
 				if ($updateChecker->getUpdateState() !== []) {
-					Util::addScript('updatenotification', 'legacy-notification');
-					\OC_Hook::connect('\OCP\Config', 'js', $updateChecker, 'populateJavaScriptVariables');
+					Util::addScript('updatenotification', 'update-notification-legacy');
+					$updateChecker->setInitialState();
 				}
 			}
 		});

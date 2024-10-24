@@ -22,11 +22,11 @@ class SettingTest extends TestCase {
 		$this->setting = new Setting($this->l);
 	}
 
-	public function testGetIdentifier() {
+	public function testGetIdentifier(): void {
 		$this->assertSame('systemtags', $this->setting->getIdentifier());
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->l
 			->expects($this->once())
 			->method('t')
@@ -36,23 +36,23 @@ class SettingTest extends TestCase {
 		$this->assertSame('<strong>System tags</strong> for a file have been modified', $this->setting->getName());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(50, $this->setting->getPriority());
 	}
 
-	public function testCanChangeStream() {
+	public function testCanChangeStream(): void {
 		$this->assertSame(true, $this->setting->canChangeStream());
 	}
 
-	public function testIsDefaultEnabledStream() {
+	public function testIsDefaultEnabledStream(): void {
 		$this->assertSame(true, $this->setting->isDefaultEnabledStream());
 	}
 
-	public function testCanChangeMail() {
+	public function testCanChangeMail(): void {
 		$this->assertSame(true, $this->setting->canChangeMail());
 	}
 
-	public function testIsDefaultEnabledMail() {
+	public function testIsDefaultEnabledMail(): void {
 		$this->assertSame(false, $this->setting->isDefaultEnabledMail());
 	}
 }

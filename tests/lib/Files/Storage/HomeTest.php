@@ -69,18 +69,18 @@ class HomeTest extends Storage {
 	/**
 	 * Tests that the home id is in the format home::user1
 	 */
-	public function testId() {
+	public function testId(): void {
 		$this->assertEquals('home::' . $this->userId, $this->instance->getId());
 	}
 
 	/**
 	 * Tests that getCache() returns an instance of HomeCache
 	 */
-	public function testGetCacheReturnsHomeCache() {
+	public function testGetCacheReturnsHomeCache(): void {
 		$this->assertInstanceOf('\OC\Files\Cache\HomeCache', $this->instance->getCache());
 	}
 
-	public function testGetOwner() {
+	public function testGetOwner(): void {
 		$this->assertEquals($this->userId, $this->instance->getOwner(''));
 	}
 }

@@ -8,6 +8,8 @@ declare(strict_types=1);
 namespace OCP\BackgroundJob;
 
 use OCP\ILogger;
+use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 /**
  * Simple base class to extend to run periodic background jobs.
@@ -52,8 +54,8 @@ abstract class TimedJob extends Job {
 	 * @since 24.0.0
 	 */
 	public function setTimeSensitivity(int $sensitivity): void {
-		if ($sensitivity !== IJob::TIME_SENSITIVE &&
-			$sensitivity !== IJob::TIME_INSENSITIVE) {
+		if ($sensitivity !== self::TIME_SENSITIVE &&
+			$sensitivity !== self::TIME_INSENSITIVE) {
 			throw new \InvalidArgumentException('Invalid sensitivity');
 		}
 
@@ -67,7 +69,7 @@ abstract class TimedJob extends Job {
 	 * @param ILogger|null $logger
 	 *
 	 * @since 15.0.0
-	 * @deprecated since 25.0.0 Use start() instead
+	 * @deprecated 25.0.0 Use start() instead
 	 */
 	final public function execute(IJobList $jobList, ?ILogger $logger = null) {
 		$this->start($jobList);
@@ -80,6 +82,9 @@ abstract class TimedJob extends Job {
 	 */
 	final public function start(IJobList $jobList): void {
 		if (($this->time->getTime() - $this->lastRun) > $this->interval) {
+			if ($this->interval >= 12 * 60 * 60 && $this->isTimeSensitive()) {
+				Server::get(LoggerInterface::class)->debug('TimedJob ' . get_class($this) . ' has a configured interval of ' . $this->interval . ' seconds, but is also marked as time sensitive. Please consider marking it as time insensitive to allow more sensitive jobs to run when needed.');
+			}
 			parent::start($jobList);
 		}
 	}

@@ -34,14 +34,14 @@ class ConvertMysqlToMB4 extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_MYSQL) {
-			$output->writeln("This command is only valid for MySQL/MariaDB databases.");
+			$output->writeln('This command is only valid for MySQL/MariaDB databases.');
 			return 1;
 		}
 
 		$tools = new MySqlTools();
 		if (!$tools->supports4ByteCharset($this->connection)) {
 			$url = $this->urlGenerator->linkToDocs('admin-mysql-utf8mb4');
-			$output->writeln("The database is not properly setup to use the charset utf8mb4.");
+			$output->writeln('The database is not properly setup to use the charset utf8mb4.');
 			$output->writeln("For more information please read the documentation at $url");
 			return 1;
 		}

@@ -52,38 +52,17 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	private $server;
 
-	/**
-	 * @var ISystemTagManager
-	 */
-	protected $tagManager;
-
-	/**
-	 * @var IUserSession
-	 */
-	protected $userSession;
-
-	/**
-	 * @var IGroupManager
-	 */
-	protected $groupManager;
-
 	/** @var array<int, string[]> */
 	private array $cachedTagMappings = [];
 	/** @var array<string, ISystemTag> */
 	private array $cachedTags = [];
 
-	private ISystemTagObjectMapper $tagMapper;
-
 	public function __construct(
-		ISystemTagManager $tagManager,
-		IGroupManager $groupManager,
-		IUserSession $userSession,
-		ISystemTagObjectMapper $tagMapper,
+		protected ISystemTagManager $tagManager,
+		protected IGroupManager $groupManager,
+		protected IUserSession $userSession,
+		private ISystemTagObjectMapper $tagMapper,
 	) {
-		$this->tagManager = $tagManager;
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
-		$this->tagMapper = $tagMapper;
 	}
 
 	/**
@@ -216,7 +195,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	public function handleGetProperties(
 		PropFind $propFind,
-		\Sabre\DAV\INode $node
+		\Sabre\DAV\INode $node,
 	) {
 		if ($node instanceof Node) {
 			$this->propfindForFile($propFind, $node);
@@ -305,9 +284,6 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 
 		$propFind->handle(self::SYSTEM_TAGS_PROPERTYNAME, function () use ($node) {
 			$user = $this->userSession->getUser();
-			if ($user === null) {
-				return;
-			}
 
 			$tags = $this->getTagsForFile($node->getId(), $user);
 			usort($tags, function (ISystemTag $tagA, ISystemTag $tagB): int {
@@ -321,8 +297,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param int $fileId
 	 * @return ISystemTag[]
 	 */
-	private function getTagsForFile(int $fileId, IUser $user): array {
-
+	private function getTagsForFile(int $fileId, ?IUser $user): array {
 		if (isset($this->cachedTagMappings[$fileId])) {
 			$tagIds = $this->cachedTagMappings[$fileId];
 		} else {

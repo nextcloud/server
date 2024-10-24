@@ -1,12 +1,12 @@
 OC.L10N.register(
     "dashboard",
     {
-    "Dashboard" : "لوحة التحكم",
+    "Dashboard" : "الرئيسية",
     "Dashboard app" : "تطبيق الصفحة الرئيسية",
     "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "ابدأ يومك على اطِّلاع. \n\nتُعدُّ لوحة المعلومات dashboard في نكست كلاود هي نقطة البداية لليوم. إذ هي تُوفِّر لك نظرة عامة على مواعيدك القادمة و رسائل بريدك العاجلة و رسائل الدردشة و التذاكر الواردة و أحدث التغريدات و غير ذلك الكثير! يُمكِن للمستخدِم إضافة الأدوات التي يحبها و تغيير الخلفية حسب رغبته.",
     "\"{title} icon\"" : "\"{title} أيقونة\"",
     "Customize" : "تعديل",
-    "Edit widgets" : "تعديل الودجات",
+    "Edit widgets" : "تعديل أدوات الصفحة الرئيسية",
     "Get more widgets from the App Store" : "يمكنك الحصول على المزيد من الأدوات من متجر التطبيقات",
     "Weather service" : "خدمة الطقس",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "للحفاظ على خصوصيتك، يتم استدعاء بيانات حالة الطقس عبر خادم NextCloud الخاص بك نيابه عنك، وبالتالي فإن خدمة حالة الطقس لا تشارك معلوماتك الشخصية.",
@@ -21,7 +21,7 @@ OC.L10N.register(
     "Good afternoon, {name}" : "مساء الخير، {name}",
     "Good evening" : "مساء الخير",
     "Good evening, {name}" : "مساء الخير، {name}",
-    "Hello" : "مرحبا",
+    "Hello" : "مرحباً",
     "Hello, {name}" : "أهلا، {name} ",
     "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "إبدأ يومك بالاطلاع على ما يهمّك\n\nلوحة قيادة نكست كلاود هي نقطة البداية ليومك؛\nتعطيك لمحة عن مواعيدك القادمة و الرسائل المستعجلة و المحادثات الواردة و تذاكر طلب المساعدة المعلقة و آخر التغريدات و الكثير غيرها!\nيمكنك أن تضيف أدوات أخرى ترغبها\nكما يمكنك تغيير مظهر و خلفية اللوحة كما تريد. "
 },

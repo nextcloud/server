@@ -27,33 +27,33 @@ class SettingsControllerTest extends TestCase {
 	/** @var SettingsController */
 	private $controller;
 
-	/** @var \OCP\IRequest|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $requestMock;
 
-	/** @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10nMock;
 
-	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManagerMock;
 
-	/** @var \OCP\IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSessionMock;
 
-	/** @var \OCA\Encryption\KeyManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var KeyManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $keyManagerMock;
 
-	/** @var \OCA\Encryption\Crypto\Crypt|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Crypt|\PHPUnit\Framework\MockObject\MockObject */
 	private $cryptMock;
 
-	/** @var \OCA\Encryption\Session|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Session|\PHPUnit\Framework\MockObject\MockObject */
 	private $sessionMock;
 	/** @var MockObject|IUser */
 	private $user;
 
-	/** @var \OCP\ISession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
 	private $ocSessionMock;
 
-	/** @var \OCA\Encryption\Util|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
 	private $utilMock;
 
 	protected function setUp(): void {
@@ -115,7 +115,7 @@ class SettingsControllerTest extends TestCase {
 	/**
 	 * test updatePrivateKeyPassword() if wrong new password was entered
 	 */
-	public function testUpdatePrivateKeyPasswordWrongNewPassword() {
+	public function testUpdatePrivateKeyPasswordWrongNewPassword(): void {
 		$oldPassword = 'old';
 		$newPassword = 'new';
 
@@ -140,7 +140,7 @@ class SettingsControllerTest extends TestCase {
 	/**
 	 * test updatePrivateKeyPassword() if wrong old password was entered
 	 */
-	public function testUpdatePrivateKeyPasswordWrongOldPassword() {
+	public function testUpdatePrivateKeyPasswordWrongOldPassword(): void {
 		$oldPassword = 'old';
 		$newPassword = 'new';
 
@@ -166,7 +166,7 @@ class SettingsControllerTest extends TestCase {
 	/**
 	 * test updatePrivateKeyPassword() with the correct old and new password
 	 */
-	public function testUpdatePrivateKeyPassword() {
+	public function testUpdatePrivateKeyPassword(): void {
 		$oldPassword = 'old';
 		$newPassword = 'new';
 
@@ -227,7 +227,7 @@ class SettingsControllerTest extends TestCase {
 			$data['message']);
 	}
 
-	public function testSetEncryptHomeStorage() {
+	public function testSetEncryptHomeStorage(): void {
 		$value = true;
 		$this->utilMock->expects($this->once())->method('setEncryptHomeStorage')->with($value);
 		$this->controller->setEncryptHomeStorage($value);

@@ -217,7 +217,7 @@ class UserAvatar extends Avatar {
 			if ($size === -1) {
 				$path = 'avatar' . ($darkTheme ? '-dark' : '') . '.' . $ext;
 			} else {
-				$path = 'avatar' . ($darkTheme ? '-dark' : '') . '.'  . $size . '.' . $ext;
+				$path = 'avatar' . ($darkTheme ? '-dark' : '') . '.' . $size . '.' . $ext;
 			}
 		} else {
 			if ($size === -1) {

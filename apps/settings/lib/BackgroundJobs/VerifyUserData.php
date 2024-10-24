@@ -20,7 +20,7 @@ use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class VerifyUserData extends Job {
-	/** @var  bool */
+	/** @var bool */
 	private bool $retainJob = true;
 
 	/** @var int max number of attempts to send the request */

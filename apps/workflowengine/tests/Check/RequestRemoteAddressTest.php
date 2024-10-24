@@ -5,16 +5,17 @@
  */
 namespace OCA\WorkflowEngine\Tests\Check;
 
+use OCA\WorkflowEngine\Check\RequestRemoteAddress;
 use OCP\IL10N;
 use OCP\IRequest;
 
 class RequestRemoteAddressTest extends \Test\TestCase {
 
-	/** @var \OCP\IRequest|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	protected $request;
 
 	/**
-	 * @return \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject
+	 * @return IL10N|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getL10NMock() {
 		$l = $this->getMockBuilder(IL10N::class)
@@ -52,8 +53,8 @@ class RequestRemoteAddressTest extends \Test\TestCase {
 	 * @param string $ip
 	 * @param bool $expected
 	 */
-	public function testExecuteCheckMatchesIPv4($value, $ip, $expected) {
-		$check = new \OCA\WorkflowEngine\Check\RequestRemoteAddress($this->getL10NMock(), $this->request);
+	public function testExecuteCheckMatchesIPv4($value, $ip, $expected): void {
+		$check = new RequestRemoteAddress($this->getL10NMock(), $this->request);
 
 		$this->request->expects($this->once())
 			->method('getRemoteAddress')
@@ -68,8 +69,8 @@ class RequestRemoteAddressTest extends \Test\TestCase {
 	 * @param string $ip
 	 * @param bool $expected
 	 */
-	public function testExecuteCheckNotMatchesIPv4($value, $ip, $expected) {
-		$check = new \OCA\WorkflowEngine\Check\RequestRemoteAddress($this->getL10NMock(), $this->request);
+	public function testExecuteCheckNotMatchesIPv4($value, $ip, $expected): void {
+		$check = new RequestRemoteAddress($this->getL10NMock(), $this->request);
 
 		$this->request->expects($this->once())
 			->method('getRemoteAddress')
@@ -96,8 +97,8 @@ class RequestRemoteAddressTest extends \Test\TestCase {
 	 * @param string $ip
 	 * @param bool $expected
 	 */
-	public function testExecuteCheckMatchesIPv6($value, $ip, $expected) {
-		$check = new \OCA\WorkflowEngine\Check\RequestRemoteAddress($this->getL10NMock(), $this->request);
+	public function testExecuteCheckMatchesIPv6($value, $ip, $expected): void {
+		$check = new RequestRemoteAddress($this->getL10NMock(), $this->request);
 
 		$this->request->expects($this->once())
 			->method('getRemoteAddress')
@@ -112,8 +113,8 @@ class RequestRemoteAddressTest extends \Test\TestCase {
 	 * @param string $ip
 	 * @param bool $expected
 	 */
-	public function testExecuteCheckNotMatchesIPv6($value, $ip, $expected) {
-		$check = new \OCA\WorkflowEngine\Check\RequestRemoteAddress($this->getL10NMock(), $this->request);
+	public function testExecuteCheckNotMatchesIPv6($value, $ip, $expected): void {
+		$check = new RequestRemoteAddress($this->getL10NMock(), $this->request);
 
 		$this->request->expects($this->once())
 			->method('getRemoteAddress')

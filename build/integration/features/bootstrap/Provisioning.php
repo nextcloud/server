@@ -34,7 +34,7 @@ trait Provisioning {
 			$this->userExists($user);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$previous_user = $this->currentUser;
-			$this->currentUser = "admin";
+			$this->currentUser = 'admin';
 			$this->creatingTheUser($user);
 			$this->currentUser = $previous_user;
 		}
@@ -51,7 +51,7 @@ trait Provisioning {
 			$this->userExists($user);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$previous_user = $this->currentUser;
-			$this->currentUser = "admin";
+			$this->currentUser = 'admin';
 			$this->creatingTheUser($user, $displayname);
 			$this->currentUser = $previous_user;
 		}
@@ -72,7 +72,7 @@ trait Provisioning {
 			return;
 		}
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 		$this->deletingTheUser($user);
 		$this->currentUser = $previous_user;
 		try {
@@ -250,7 +250,7 @@ trait Provisioning {
 
 	public function createUser($user) {
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 		$this->creatingTheUser($user);
 		$this->userExists($user);
 		$this->currentUser = $previous_user;
@@ -258,7 +258,7 @@ trait Provisioning {
 
 	public function deleteUser($user) {
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 		$this->deletingTheUser($user);
 		$this->userDoesNotExist($user);
 		$this->currentUser = $previous_user;
@@ -266,7 +266,7 @@ trait Provisioning {
 
 	public function createGroup($group) {
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 		$this->creatingTheGroup($group);
 		$this->groupExists($group);
 		$this->currentUser = $previous_user;
@@ -274,7 +274,7 @@ trait Provisioning {
 
 	public function deleteGroup($group) {
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 		$this->deletingTheGroup($group);
 		$this->groupDoesNotExist($group);
 		$this->currentUser = $previous_user;
@@ -343,7 +343,7 @@ trait Provisioning {
 	 */
 	public function assureUserBelongsToGroup($user, $group) {
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 
 		if (!$this->userBelongsToGroup($user, $group)) {
 			$this->addingUserToGroup($user, $group);
@@ -522,7 +522,7 @@ trait Provisioning {
 			$this->groupExists($group);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$previous_user = $this->currentUser;
-			$this->currentUser = "admin";
+			$this->currentUser = 'admin';
 			$this->creatingTheGroup($group);
 			$this->currentUser = $previous_user;
 		}
@@ -543,7 +543,7 @@ trait Provisioning {
 			return;
 		}
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 		$this->deletingTheGroup($group);
 		$this->currentUser = $previous_user;
 		try {
@@ -775,7 +775,7 @@ trait Provisioning {
 	 * @param string $app
 	 */
 	public function appIsDisabled($app) {
-		$fullUrl = $this->baseUrl . "v2.php/cloud/apps?filter=disabled";
+		$fullUrl = $this->baseUrl . 'v2.php/cloud/apps?filter=disabled';
 		$client = new Client();
 		$options = [];
 		if ($this->currentUser === 'admin') {
@@ -796,7 +796,7 @@ trait Provisioning {
 	 * @param string $app
 	 */
 	public function appIsEnabled($app) {
-		$fullUrl = $this->baseUrl . "v2.php/cloud/apps?filter=enabled";
+		$fullUrl = $this->baseUrl . 'v2.php/cloud/apps?filter=enabled';
 		$client = new Client();
 		$options = [];
 		if ($this->currentUser === 'admin') {
@@ -820,7 +820,7 @@ trait Provisioning {
 	 * @param string $app
 	 */
 	public function appIsNotEnabled($app) {
-		$fullUrl = $this->baseUrl . "v2.php/cloud/apps?filter=enabled";
+		$fullUrl = $this->baseUrl . 'v2.php/cloud/apps?filter=enabled';
 		$client = new Client();
 		$options = [];
 		if ($this->currentUser === 'admin') {
@@ -873,7 +873,7 @@ trait Provisioning {
 
 		$this->response = $client->get($fullUrl, $options);
 		// boolean to string is integer
-		Assert::assertEquals("1", simplexml_load_string($this->response->getBody())->data[0]->enabled);
+		Assert::assertEquals('1', simplexml_load_string($this->response->getBody())->data[0]->enabled);
 	}
 
 	/**
@@ -888,7 +888,7 @@ trait Provisioning {
 		]);
 
 		// method used from BasicStructure trait
-		$this->sendingToWith("PUT", "/cloud/users/" . $user, $body);
+		$this->sendingToWith('PUT', '/cloud/users/' . $user, $body);
 	}
 
 	/**

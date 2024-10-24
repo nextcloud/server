@@ -12,7 +12,6 @@ use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IURLGenerator;
-use OCP\Security\ICrypto;
 use OCP\Settings\ISettings;
 use Psr\Log\LoggerInterface;
 
@@ -22,7 +21,6 @@ class Admin implements ISettings {
 		private IInitialState $initialState,
 		private ClientMapper $clientMapper,
 		private IURLGenerator $urlGenerator,
-		private ICrypto $crypto,
 		private LoggerInterface $logger,
 	) {
 	}
@@ -33,13 +31,12 @@ class Admin implements ISettings {
 
 		foreach ($clients as $client) {
 			try {
-				$secret = $this->crypto->decrypt($client->getSecret());
 				$result[] = [
 					'id' => $client->getId(),
 					'name' => $client->getName(),
 					'redirectUri' => $client->getRedirectUri(),
 					'clientId' => $client->getClientIdentifier(),
-					'clientSecret' => $secret,
+					'clientSecret' => '',
 				];
 			} catch (\Exception $e) {
 				$this->logger->error('[Settings] OAuth client secret decryption error', ['exception' => $e]);

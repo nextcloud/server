@@ -17,6 +17,7 @@ use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\Activity\IManager;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Template\ExternalShareMenuAction;
 use OCP\AppFramework\Http\Template\LinkMenuAction;
@@ -29,7 +30,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
-use OCP\Files\Storage;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IPreview;
@@ -39,6 +40,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IPublicShareTemplateFactory;
 use OCP\Share\IShare;
@@ -50,41 +52,27 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @package OCA\Files_Sharing\Controllers
  */
 class ShareControllerTest extends \Test\TestCase {
-	/** @var string */
-	private $user;
-	/** @var string */
-	private $oldUser;
 
-	/** @var string */
-	private $appName = 'files_sharing';
-	/** @var ShareController */
-	private $shareController;
-	/** @var IURLGenerator|MockObject */
-	private $urlGenerator;
-	/** @var ISession|MockObject */
-	private $session;
-	/** @var \OCP\IPreview|MockObject */
-	private $previewManager;
-	/** @var \OCP\IConfig|MockObject */
-	private $config;
-	/** @var  \OC\Share20\Manager|MockObject */
-	private $shareManager;
-	/** @var IUserManager|MockObject */
-	private $userManager;
-	/** @var  FederatedShareProvider|MockObject */
-	private $federatedShareProvider;
-	/** @var IAccountManager|MockObject */
-	private $accountManager;
-	/** @var IEventDispatcher|MockObject */
-	private $eventDispatcher;
-	/** @var IL10N */
-	private $l10n;
-	/** @var ISecureRandom */
-	private $secureRandom;
-	/** @var Defaults|MockObject */
-	private $defaults;
-	/** @var IPublicShareTemplateFactory|MockObject */
-	private $publicShareTemplateFactory;
+	private string $user;
+	private string $oldUser;
+	private string $appName = 'files_sharing';
+	private ShareController $shareController;
+
+	private IL10N&MockObject $l10n;
+	private IConfig&MockObject $config;
+	private ISession&MockObject $session;
+	private Defaults&MockObject $defaults;
+	private IAppConfig&MockObject $appConfig;
+	private Manager&MockObject $shareManager;
+	private IPreview&MockObject $previewManager;
+	private IUserManager&MockObject $userManager;
+	private IInitialState&MockObject $initialState;
+	private IURLGenerator&MockObject $urlGenerator;
+	private ISecureRandom&MockObject $secureRandom;
+	private IAccountManager&MockObject $accountManager;
+	private IEventDispatcher&MockObject $eventDispatcher;
+	private FederatedShareProvider&MockObject $federatedShareProvider;
+	private IPublicShareTemplateFactory&MockObject $publicShareTemplateFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -95,7 +83,9 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->session = $this->createMock(ISession::class);
 		$this->previewManager = $this->createMock(IPreview::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->initialState = $this->createMock(IInitialState::class);
 		$this->federatedShareProvider = $this->createMock(FederatedShareProvider::class);
 		$this->federatedShareProvider->expects($this->any())
 			->method('isOutgoingServer2serverShareEnabled')->willReturn(true);
@@ -122,11 +112,12 @@ class ShareControllerTest extends \Test\TestCase {
 					$this->defaults,
 					$this->config,
 					$this->createMock(IRequest::class),
-					$this->createMock(IInitialState::class)
+					$this->initialState,
+					$this->appConfig,
 				)
 			);
 
-		$this->shareController = new \OCA\Files_Sharing\Controller\ShareController(
+		$this->shareController = new ShareController(
 			$this->appName,
 			$this->createMock(IRequest::class),
 			$this->config,
@@ -176,7 +167,7 @@ class ShareControllerTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public function testShowShareInvalidToken() {
+	public function testShowShareInvalidToken(): void {
 		$this->shareController->setToken('invalidtoken');
 
 		$this->shareManager
@@ -191,7 +182,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->shareController->showShare();
 	}
 
-	public function testShowShareNotAuthenticated() {
+	public function testShowShareNotAuthenticated(): void {
 		$this->shareController->setToken('validtoken');
 
 		$share = \OC::$server->getShareManager()->newShare();
@@ -210,7 +201,7 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 
-	public function testShowShare() {
+	public function testShowShare(): void {
 		$note = 'personal note';
 		$filename = 'file1.txt';
 
@@ -246,29 +237,32 @@ class ShareControllerTest extends \Test\TestCase {
 			->with($owner)
 			->willReturn($account);
 
-		$share = \OC::$server->getShareManager()->newShare();
-		$share->setId(42);
-		$share->setPassword('password')
+		/** @var Manager */
+		$manager = Server::get(Manager::class);
+		$share = $manager->newShare();
+		$share->setId(42)
+			->setPermissions(Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE)
+			->setPassword('password')
 			->setShareOwner('ownerUID')
 			->setSharedBy('initiatorUID')
 			->setNode($file)
 			->setNote($note)
-			->setTarget("/$filename");
+			->setTarget("/$filename")
+			->setToken('token');
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
 		$this->session->method('get')->with('public_link_authenticated')->willReturn('42');
 
-		$this->urlGenerator->expects($this->exactly(3))
+		$this->urlGenerator->expects(self::atLeast(2))
 			->method('linkToRouteAbsolute')
-			->withConsecutive(
-				['files_sharing.sharecontroller.downloadShare', ['token' => 'token', 'filename' => $filename]],
-				['files_sharing.sharecontroller.showShare', ['token' => 'token']],
-				['files_sharing.PublicPreview.getPreview', ['token' => 'token', 'x' => 200, 'y' => 200, 'file' => '/'.$filename]],
-			)->willReturnOnConsecutiveCalls(
-				'downloadURL',
-				'shareUrl',
-				'previewImage',
-			);
+			->willReturnMap([
+				// every file has the show show share url in the opengraph url prop
+				['files_sharing.sharecontroller.showShare', ['token' => 'token'], 'shareUrl'],
+				// this share is not an image to the default preview is used
+				['files_sharing.PublicPreview.getPreview', ['x' => 256, 'y' => 256, 'file' => $share->getTarget(), 'token' => 'token'], 'previewUrl'],
+				// for the direct link
+				['files_sharing.sharecontroller.downloadShare', ['token' => 'token', 'filename' => $filename ], 'downloadUrl'],
+			]);
 
 		$this->previewManager->method('isMimeSupported')->with('text/plain')->willReturn(true);
 
@@ -281,19 +275,12 @@ class ShareControllerTest extends \Test\TestCase {
 					['preview_max_y', 1024, 1024],
 				]
 			);
-		$shareTmpl['maxSizeAnimateGif'] = $this->config->getSystemValue('max_filesize_animated_gifs_public_sharing', 10);
-		$shareTmpl['previewEnabled'] = $this->config->getSystemValue('enable_previews', true);
 
 		$this->shareManager
 			->expects($this->once())
 			->method('getShareByToken')
 			->with('token')
 			->willReturn($share);
-		$this->config
-			->expects($this->once())
-			->method('getAppValue')
-			->with('core', 'shareapi_public_link_disclaimertext', null)
-			->willReturn('My disclaimer text');
 
 		$this->userManager->method('get')->willReturnCallback(function (string $uid) use ($owner, $initiator) {
 			if ($uid === 'ownerUID') {
@@ -325,54 +312,182 @@ class ShareControllerTest extends \Test\TestCase {
 			->method('getProductName')
 			->willReturn('Nextcloud');
 
-		$response = $this->shareController->showShare();
-		$sharedTmplParams = [
-			'owner' => 'ownerUID',
-			'filename' => $filename,
-			'directory_path' => "/$filename",
-			'mimetype' => 'text/plain',
-			'dirToken' => 'token',
+		// Ensure the correct initial state is setup
+		// Shared node is a file so this is a single file share:
+		$view = 'public-file-share';
+		// Set up initial state
+		$initialState = [];
+		$this->initialState->expects(self::any())
+			->method('provideInitialState')
+			->willReturnCallback(function ($key, $value) use (&$initialState): void {
+				$initialState[$key] = $value;
+			});
+		$expectedInitialState = [
+			'isPublic' => true,
 			'sharingToken' => 'token',
-			'server2serversharing' => true,
-			'protected' => 'true',
-			'dir' => '',
-			'downloadURL' => 'downloadURL',
-			'fileSize' => '33 B',
-			'nonHumanFileSize' => 33,
-			'maxSizeAnimateGif' => 10,
-			'previewSupported' => true,
-			'previewEnabled' => true,
-			'previewMaxX' => 1024,
-			'previewMaxY' => 1024,
-			'hideFileList' => false,
-			'shareOwner' => 'ownerDisplay',
-			'disclaimer' => 'My disclaimer text',
-			'shareUrl' => 'shareUrl',
-			'previewImage' => 'previewImage',
-			'previewURL' => 'downloadURL',
-			'note' => $note,
-			'hideDownload' => false,
-			'showgridview' => false,
-			'label' => ''
+			'sharePermissions' => (Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE),
+			'filename' => $filename,
+			'view' => $view,
+			'fileId' => 111,
 		];
 
-		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
+		$response = $this->shareController->showShare();
+
+		$this->assertEquals($expectedInitialState, $initialState);
+
+		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
-		$expectedResponse = new PublicTemplateResponse($this->appName, 'public', $sharedTmplParams);
+		$expectedResponse = new PublicTemplateResponse('files', 'index');
 		$expectedResponse->setContentSecurityPolicy($csp);
-		$expectedResponse->setHeaderTitle($sharedTmplParams['filename']);
-		$expectedResponse->setHeaderDetails('shared by ' . $sharedTmplParams['shareOwner']);
+		$expectedResponse->setHeaderTitle($filename);
+		$expectedResponse->setHeaderDetails('shared by ownerDisplay');
 		$expectedResponse->setHeaderActions([
-			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download-white', $sharedTmplParams['downloadURL'], 0),
-			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $sharedTmplParams['downloadURL'], 10, $sharedTmplParams['fileSize']),
-			new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $sharedTmplParams['previewURL']),
-			new ExternalShareMenuAction($this->l10n->t('Add to your Nextcloud'), 'icon-external', $sharedTmplParams['owner'], $sharedTmplParams['shareOwner'], $sharedTmplParams['filename']),
+			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', 'downloadUrl', 0, '33'),
+			new ExternalShareMenuAction($this->l10n->t('Add to your Nextcloud'), 'icon-external', 'owner', 'ownerDisplay', $filename),
+			new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', 'downloadUrl'),
 		]);
 
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testShowShareWithPrivateName() {
+	public function testShowFileDropShare(): void {
+		$filename = 'folder1';
+
+		$this->shareController->setToken('token');
+
+		$owner = $this->createMock(IUser::class);
+		$owner->method('getDisplayName')->willReturn('ownerDisplay');
+		$owner->method('getUID')->willReturn('ownerUID');
+		$owner->method('isEnabled')->willReturn(true);
+
+		$initiator = $this->createMock(IUser::class);
+		$initiator->method('getDisplayName')->willReturn('initiatorDisplay');
+		$initiator->method('getUID')->willReturn('initiatorUID');
+		$initiator->method('isEnabled')->willReturn(true);
+
+		$file = $this->createMock(Folder::class);
+		$file->method('isReadable')->willReturn(true);
+		$file->method('isShareable')->willReturn(true);
+		$file->method('getId')->willReturn(1234);
+		$file->method('getName')->willReturn($filename);
+
+		$accountName = $this->createMock(IAccountProperty::class);
+		$accountName->method('getScope')
+			->willReturn(IAccountManager::SCOPE_PUBLISHED);
+		$account = $this->createMock(IAccount::class);
+		$account->method('getProperty')
+			->with(IAccountManager::PROPERTY_DISPLAYNAME)
+			->willReturn($accountName);
+		$this->accountManager->expects($this->once())
+			->method('getAccount')
+			->with($owner)
+			->willReturn($account);
+
+		/** @var Manager */
+		$manager = Server::get(Manager::class);
+		$share = $manager->newShare();
+		$share->setId(42)
+			->setPermissions(Constants::PERMISSION_CREATE)
+			->setPassword('password')
+			->setShareOwner('ownerUID')
+			->setSharedBy('initiatorUID')
+			->setNode($file)
+			->setTarget("/$filename")
+			->setToken('token');
+
+		$this->appConfig
+			->expects($this->once())
+			->method('getValueString')
+			->with('core', 'shareapi_public_link_disclaimertext', '')
+			->willReturn('My disclaimer text');
+
+		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
+		$this->session->method('get')->with('public_link_authenticated')->willReturn('42');
+
+		$this->urlGenerator->expects(self::atLeastOnce())
+			->method('linkToRouteAbsolute')
+			->willReturnMap([
+				// every file has the show show share url in the opengraph url prop
+				['files_sharing.sharecontroller.showShare', ['token' => 'token'], 'shareUrl'],
+				// there is no preview or folders so no other link for opengraph
+			]);
+
+		$this->config->method('getSystemValue')
+			->willReturnMap(
+				[
+					['max_filesize_animated_gifs_public_sharing', 10, 10],
+					['enable_previews', true, true],
+					['preview_max_x', 1024, 1024],
+					['preview_max_y', 1024, 1024],
+				]
+			);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareByToken')
+			->with('token')
+			->willReturn($share);
+
+		$this->userManager->method('get')->willReturnCallback(function (string $uid) use ($owner, $initiator) {
+			if ($uid === 'ownerUID') {
+				return $owner;
+			}
+			if ($uid === 'initiatorUID') {
+				return $initiator;
+			}
+			return null;
+		});
+
+		$this->eventDispatcher->method('dispatchTyped')->with(
+			$this->callback(function ($event) use ($share) {
+				if ($event instanceof BeforeTemplateRenderedEvent) {
+					return $event->getShare() === $share;
+				} else {
+					return true;
+				}
+			})
+		);
+
+		$this->l10n->expects($this->any())
+			->method('t')
+			->willReturnCallback(function ($text, $parameters) {
+				return vsprintf($text, $parameters);
+			});
+
+		// Set up initial state
+		$initialState = [];
+		$this->initialState->expects(self::any())
+			->method('provideInitialState')
+			->willReturnCallback(function ($key, $value) use (&$initialState): void {
+				$initialState[$key] = $value;
+			});
+		$expectedInitialState = [
+			'isPublic' => true,
+			'sharingToken' => 'token',
+			'sharePermissions' => Constants::PERMISSION_CREATE,
+			'filename' => $filename,
+			'view' => 'public-file-drop',
+			'disclaimer' => 'My disclaimer text',
+		];
+
+		$response = $this->shareController->showShare();
+
+		$this->assertEquals($expectedInitialState, $initialState);
+
+		$csp = new ContentSecurityPolicy();
+		$csp->addAllowedFrameDomain('\'self\'');
+		$expectedResponse = new PublicTemplateResponse('files', 'index');
+		$expectedResponse->setContentSecurityPolicy($csp);
+		$expectedResponse->setHeaderTitle($filename);
+		$expectedResponse->setHeaderDetails('shared by ownerDisplay');
+		$expectedResponse->setHeaderActions([
+			new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', 'shareUrl'),
+		]);
+
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testShowShareWithPrivateName(): void {
 		$note = 'personal note';
 		$filename = 'file1.txt';
 
@@ -408,29 +523,31 @@ class ShareControllerTest extends \Test\TestCase {
 			->with($owner)
 			->willReturn($account);
 
-		$share = \OC::$server->getShareManager()->newShare();
+		/** @var IShare */
+		$share = Server::get(Manager::class)->newShare();
 		$share->setId(42);
 		$share->setPassword('password')
 			->setShareOwner('ownerUID')
 			->setSharedBy('initiatorUID')
 			->setNode($file)
 			->setNote($note)
+			->setToken('token')
+			->setPermissions(Constants::PERMISSION_ALL & ~Constants::PERMISSION_SHARE)
 			->setTarget("/$filename");
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
 		$this->session->method('get')->with('public_link_authenticated')->willReturn('42');
 
-		$this->urlGenerator->expects($this->exactly(3))
+		$this->urlGenerator->expects(self::atLeast(2))
 			->method('linkToRouteAbsolute')
-			->withConsecutive(
-				['files_sharing.sharecontroller.downloadShare', ['token' => 'token', 'filename' => $filename]],
-				['files_sharing.sharecontroller.showShare', ['token' => 'token']],
-				['files_sharing.PublicPreview.getPreview', ['token' => 'token', 'x' => 200, 'y' => 200, 'file' => '/'.$filename]],
-			)->willReturnOnConsecutiveCalls(
-				'downloadURL',
-				'shareUrl',
-				'previewImage',
-			);
+			->willReturnMap([
+				// every file has the show show share url in the opengraph url prop
+				['files_sharing.sharecontroller.showShare', ['token' => 'token'], 'shareUrl'],
+				// this share is not an image to the default preview is used
+				['files_sharing.PublicPreview.getPreview', ['x' => 256, 'y' => 256, 'file' => $share->getTarget(), 'token' => 'token'], 'previewUrl'],
+				// for the direct link
+				['files_sharing.sharecontroller.downloadShare', ['token' => 'token', 'filename' => $filename ], 'downloadUrl'],
+			]);
 
 		$this->previewManager->method('isMimeSupported')->with('text/plain')->willReturn(true);
 
@@ -451,11 +568,6 @@ class ShareControllerTest extends \Test\TestCase {
 			->method('getShareByToken')
 			->with('token')
 			->willReturn($share);
-		$this->config
-			->expects($this->once())
-			->method('getAppValue')
-			->with('core', 'shareapi_public_link_disclaimertext', null)
-			->willReturn('My disclaimer text');
 
 		$this->userManager->method('get')->willReturnCallback(function (string $uid) use ($owner, $initiator) {
 			if ($uid === 'ownerUID') {
@@ -488,338 +600,25 @@ class ShareControllerTest extends \Test\TestCase {
 			->willReturn('Nextcloud');
 
 		$response = $this->shareController->showShare();
-		$sharedTmplParams = [
-			'owner' => '',
-			'filename' => $filename,
-			'directory_path' => "/$filename",
-			'mimetype' => 'text/plain',
-			'dirToken' => 'token',
-			'sharingToken' => 'token',
-			'server2serversharing' => true,
-			'protected' => 'true',
-			'dir' => '',
-			'downloadURL' => 'downloadURL',
-			'fileSize' => '33 B',
-			'nonHumanFileSize' => 33,
-			'maxSizeAnimateGif' => 10,
-			'previewSupported' => true,
-			'previewEnabled' => true,
-			'previewMaxX' => 1024,
-			'previewMaxY' => 1024,
-			'hideFileList' => false,
-			'shareOwner' => '',
-			'disclaimer' => 'My disclaimer text',
-			'shareUrl' => 'shareUrl',
-			'previewImage' => 'previewImage',
-			'previewURL' => 'downloadURL',
-			'note' => $note,
-			'hideDownload' => false,
-			'showgridview' => false,
-			'label' => ''
-		];
 
-		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
+		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
-		$expectedResponse = new PublicTemplateResponse($this->appName, 'public', $sharedTmplParams);
+		$expectedResponse = new PublicTemplateResponse('files', 'index');
 		$expectedResponse->setContentSecurityPolicy($csp);
-		$expectedResponse->setHeaderTitle($sharedTmplParams['filename']);
+		$expectedResponse->setHeaderTitle($filename);
 		$expectedResponse->setHeaderDetails('');
 		$expectedResponse->setHeaderActions([
-			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download-white', $sharedTmplParams['downloadURL'], 0),
-			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $sharedTmplParams['downloadURL'], 10, $sharedTmplParams['fileSize']),
-			new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $sharedTmplParams['previewURL']),
-			new ExternalShareMenuAction($this->l10n->t('Add to your Nextcloud'), 'icon-external', $sharedTmplParams['owner'], $sharedTmplParams['shareOwner'], $sharedTmplParams['filename']),
+			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', 'downloadUrl', 0, '33'),
+			new ExternalShareMenuAction($this->l10n->t('Add to your Nextcloud'), 'icon-external', 'owner', 'ownerDisplay', $filename),
+			new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', 'downloadUrl'),
 		]);
 
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testShowShareHideDownload() {
-		$note = 'personal note';
-		$filename = 'file1.txt';
 
-		$this->shareController->setToken('token');
-
-		$owner = $this->getMockBuilder(IUser::class)->getMock();
-		$owner->method('getDisplayName')->willReturn('ownerDisplay');
-		$owner->method('getUID')->willReturn('ownerUID');
-		$owner->method('isEnabled')->willReturn(true);
-
-		$initiator = $this->createMock(IUser::class);
-		$initiator->method('getDisplayName')->willReturn('initiatorDisplay');
-		$initiator->method('getUID')->willReturn('initiatorUID');
-		$initiator->method('isEnabled')->willReturn(true);
-
-		$file = $this->getMockBuilder('OCP\Files\File')->getMock();
-		$file->method('getName')->willReturn($filename);
-		$file->method('getMimetype')->willReturn('text/plain');
-		$file->method('getSize')->willReturn(33);
-		$file->method('isReadable')->willReturn(true);
-		$file->method('isShareable')->willReturn(true);
-		$file->method('getId')->willReturn(111);
-
-		$accountName = $this->createMock(IAccountProperty::class);
-		$accountName->method('getScope')
-			->willReturn(IAccountManager::SCOPE_PUBLISHED);
-		$account = $this->createMock(IAccount::class);
-		$account->method('getProperty')
-			->with(IAccountManager::PROPERTY_DISPLAYNAME)
-			->willReturn($accountName);
-		$this->accountManager->expects($this->once())
-			->method('getAccount')
-			->with($owner)
-			->willReturn($account);
-
-		$share = \OC::$server->getShareManager()->newShare();
-		$share->setId(42);
-		$share->setPassword('password')
-			->setShareOwner('ownerUID')
-			->setSharedBy('initiatorUID')
-			->setNode($file)
-			->setNote($note)
-			->setTarget("/$filename")
-			->setHideDownload(true);
-
-		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
-		$this->session->method('get')->with('public_link_authenticated')->willReturn('42');
-
-		// Even if downloads are disabled the "downloadURL" parameter is
-		// provided to the template, as it is needed to preview audio and GIF
-		// files.
-		$this->urlGenerator->expects($this->exactly(3))
-			->method('linkToRouteAbsolute')
-			->withConsecutive(
-				['files_sharing.sharecontroller.downloadShare', ['token' => 'token', 'filename' => $filename]],
-				['files_sharing.sharecontroller.showShare', ['token' => 'token']],
-				['files_sharing.PublicPreview.getPreview', ['token' => 'token', 'x' => 200, 'y' => 200, 'file' => '/'.$filename]],
-			)->willReturnOnConsecutiveCalls(
-				'downloadURL',
-				'shareUrl',
-				'previewImage',
-			);
-
-		$this->previewManager->method('isMimeSupported')->with('text/plain')->willReturn(true);
-
-		$this->config->method('getSystemValue')
-			->willReturnMap(
-				[
-					['max_filesize_animated_gifs_public_sharing', 10, 10],
-					['enable_previews', true, true],
-					['preview_max_x', 1024, 1024],
-					['preview_max_y', 1024, 1024],
-				]
-			);
-		$shareTmpl['maxSizeAnimateGif'] = $this->config->getSystemValue('max_filesize_animated_gifs_public_sharing', 10);
-		$shareTmpl['previewEnabled'] = $this->config->getSystemValue('enable_previews', true);
-
-		$this->shareManager
-			->expects($this->once())
-			->method('getShareByToken')
-			->with('token')
-			->willReturn($share);
-		$this->config
-			->expects($this->once())
-			->method('getAppValue')
-			->with('core', 'shareapi_public_link_disclaimertext', null)
-			->willReturn('My disclaimer text');
-
-		$this->userManager->method('get')->willReturnCallback(function (string $uid) use ($owner, $initiator) {
-			if ($uid === 'ownerUID') {
-				return $owner;
-			}
-			if ($uid === 'initiatorUID') {
-				return $initiator;
-			}
-			return null;
-		});
-
-		$this->eventDispatcher->method('dispatchTyped')->with(
-			$this->callback(function ($event) use ($share) {
-				if ($event instanceof BeforeTemplateRenderedEvent) {
-					return $event->getShare() === $share;
-				} else {
-					return true;
-				}
-			})
-		);
-
-		$this->l10n->expects($this->any())
-			->method('t')
-			->willReturnCallback(function ($text, $parameters) {
-				return vsprintf($text, $parameters);
-			});
-
-		$response = $this->shareController->showShare();
-		$sharedTmplParams = [
-			'owner' => 'ownerUID',
-			'filename' => $filename,
-			'directory_path' => "/$filename",
-			'mimetype' => 'text/plain',
-			'dirToken' => 'token',
-			'sharingToken' => 'token',
-			'server2serversharing' => true,
-			'protected' => 'true',
-			'dir' => '',
-			'downloadURL' => 'downloadURL',
-			'fileSize' => '33 B',
-			'nonHumanFileSize' => 33,
-			'maxSizeAnimateGif' => 10,
-			'previewSupported' => true,
-			'previewEnabled' => true,
-			'previewMaxX' => 1024,
-			'previewMaxY' => 1024,
-			'hideFileList' => false,
-			'shareOwner' => 'ownerDisplay',
-			'disclaimer' => 'My disclaimer text',
-			'shareUrl' => 'shareUrl',
-			'previewImage' => 'previewImage',
-			'previewURL' => 'downloadURL',
-			'note' => $note,
-			'hideDownload' => true,
-			'showgridview' => false,
-			'label' => ''
-		];
-
-		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
-		$csp->addAllowedFrameDomain('\'self\'');
-		$expectedResponse = new PublicTemplateResponse($this->appName, 'public', $sharedTmplParams);
-		$expectedResponse->setContentSecurityPolicy($csp);
-		$expectedResponse->setHeaderTitle($sharedTmplParams['filename']);
-		$expectedResponse->setHeaderDetails('shared by ' . $sharedTmplParams['shareOwner']);
-		$expectedResponse->setHeaderActions([]);
-
-		$this->assertEquals($expectedResponse, $response);
-	}
-
-	/**
-	 * Checks file drop shares:
-	 * - there must not be any header action
-	 * - the template param "hideFileList" should be true
-	 *
-	 * @test
-	 * @return void
-	 */
-	public function testShareFileDrop() {
-		$this->shareController->setToken('token');
-
-		$owner = $this->getMockBuilder(IUser::class)->getMock();
-		$owner->method('getDisplayName')->willReturn('ownerDisplay');
-		$owner->method('getUID')->willReturn('ownerUID');
-		$owner->method('isEnabled')->willReturn(true);
-
-		$initiator = $this->createMock(IUser::class);
-		$initiator->method('getDisplayName')->willReturn('initiatorDisplay');
-		$initiator->method('getUID')->willReturn('initiatorUID');
-		$initiator->method('isEnabled')->willReturn(true);
-
-		/* @var MockObject|Storage $storage */
-		$storage = $this->getMockBuilder(Storage::class)
-			->disableOriginalConstructor()
-			->getMock();
-
-		/* @var MockObject|Folder $folder */
-		$folder = $this->getMockBuilder(Folder::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$folder->method('getName')->willReturn('/fileDrop');
-		$folder->method('isReadable')->willReturn(true);
-		$folder->method('isShareable')->willReturn(true);
-		$folder->method('getStorage')->willReturn($storage);
-		$folder->method('get')->with('')->willReturn($folder);
-		$folder->method('getSize')->willReturn(1337);
-		$folder->method('getId')->willReturn(111);
-
-		$accountName = $this->createMock(IAccountProperty::class);
-		$accountName->method('getScope')
-			->willReturn(IAccountManager::SCOPE_PUBLISHED);
-		$account = $this->createMock(IAccount::class);
-		$account->method('getProperty')
-			->with(IAccountManager::PROPERTY_DISPLAYNAME)
-			->willReturn($accountName);
-		$this->accountManager->expects($this->once())
-			->method('getAccount')
-			->with($owner)
-			->willReturn($account);
-
-		$share = \OC::$server->getShareManager()->newShare();
-		$share->setId(42);
-		$share->setPermissions(Constants::PERMISSION_CREATE)
-			->setShareOwner('ownerUID')
-			->setSharedBy('initiatorUID')
-			->setNode($folder)
-			->setTarget('/fileDrop');
-
-		$this->shareManager
-			->expects($this->once())
-			->method('getShareByToken')
-			->with('token')
-			->willReturn($share);
-
-		$this->userManager->method('get')->willReturnCallback(function (string $uid) use ($owner, $initiator) {
-			if ($uid === 'ownerUID') {
-				return $owner;
-			}
-			if ($uid === 'initiatorUID') {
-				return $initiator;
-			}
-			return null;
-		});
-
-		$this->l10n->expects($this->any())
-			->method('t')
-			->willReturnCallback(function ($text, $parameters) {
-				return vsprintf($text, $parameters);
-			});
-
-		$response = $this->shareController->showShare();
-		// skip the "folder" param for tests
-		$responseParams = $response->getParams();
-		unset($responseParams['folder']);
-		$response->setParams($responseParams);
-
-		$sharedTmplParams = [
-			'owner' => 'ownerUID',
-			'filename' => '/fileDrop',
-			'directory_path' => '/fileDrop',
-			'mimetype' => null,
-			'dirToken' => 'token',
-			'sharingToken' => 'token',
-			'server2serversharing' => true,
-			'protected' => 'false',
-			'dir' => null,
-			'downloadURL' => '',
-			'fileSize' => '1 KB',
-			'nonHumanFileSize' => 1337,
-			'maxSizeAnimateGif' => null,
-			'previewSupported' => null,
-			'previewEnabled' => null,
-			'previewMaxX' => null,
-			'previewMaxY' => null,
-			'hideFileList' => true,
-			'shareOwner' => 'ownerDisplay',
-			'disclaimer' => null,
-			'shareUrl' => '',
-			'previewImage' => '',
-			'previewURL' => '',
-			'note' => '',
-			'hideDownload' => false,
-			'showgridview' => false,
-			'label' => ''
-		];
-
-		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
-		$csp->addAllowedFrameDomain('\'self\'');
-		$expectedResponse = new PublicTemplateResponse($this->appName, 'public', $sharedTmplParams);
-		$expectedResponse->setContentSecurityPolicy($csp);
-		$expectedResponse->setHeaderTitle($sharedTmplParams['filename']);
-		$expectedResponse->setHeaderDetails('shared by ' . $sharedTmplParams['shareOwner']);
-
-		self::assertEquals($expectedResponse, $response);
-	}
-
-
-	public function testShowShareInvalid() {
-		$this->expectException(\OCP\Files\NotFoundException::class);
+	public function testShowShareInvalid(): void {
+		$this->expectException(NotFoundException::class);
 
 		$filename = 'file1.txt';
 		$this->shareController->setToken('token');
@@ -868,13 +667,13 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->shareController->showShare();
 	}
 
-	public function testDownloadShareWithCreateOnlyShare() {
+	public function testDownloadShareWithCreateOnlyShare(): void {
 		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->method('getPassword')->willReturn('password');
 		$share
 			->expects($this->once())
 			->method('getPermissions')
-			->willReturn(\OCP\Constants::PERMISSION_CREATE);
+			->willReturn(Constants::PERMISSION_CREATE);
 
 		$this->shareManager
 			->expects($this->once())
@@ -888,7 +687,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testDisabledOwner() {
+	public function testDisabledOwner(): void {
 		$this->shareController->setToken('token');
 
 		$owner = $this->getMockBuilder(IUser::class)->getMock();
@@ -929,7 +728,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->shareController->showShare();
 	}
 
-	public function testDisabledInitiator() {
+	public function testDisabledInitiator(): void {
 		$this->shareController->setToken('token');
 
 		$owner = $this->getMockBuilder(IUser::class)->getMock();

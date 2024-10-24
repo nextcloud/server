@@ -8,6 +8,7 @@
 namespace OCA\DAV\Tests\unit\Comments;
 
 use OCA\DAV\Comments\EntityCollection as EntityCollectionImplemantation;
+use OCA\DAV\Comments\EntityTypeCollection;
 use OCP\Comments\ICommentsManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -17,11 +18,11 @@ class EntityTypeCollectionTest extends \Test\TestCase {
 
 	/** @var ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $commentsManager;
-	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
-	/** @var \OCA\DAV\Comments\EntityTypeCollection */
+	/** @var EntityTypeCollection */
 	protected $collection;
 	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
@@ -46,7 +47,7 @@ class EntityTypeCollectionTest extends \Test\TestCase {
 
 		$instance = $this;
 
-		$this->collection = new \OCA\DAV\Comments\EntityTypeCollection(
+		$this->collection = new EntityTypeCollection(
 			'files',
 			$this->commentsManager,
 			$this->userManager,

@@ -113,30 +113,12 @@ class CustomPropertiesBackend implements BackendInterface {
 	];
 
 	/**
-	 * @var Tree
-	 */
-	private $tree;
-
-	/**
-	 * @var IDBConnection
-	 */
-	private $connection;
-
-	/**
-	 * @var IUser
-	 */
-	private $user;
-
-	/**
 	 * Properties cache
 	 *
 	 * @var array
 	 */
 	private $userCache = [];
-
-	private Server $server;
 	private XmlService $xmlService;
-	private DefaultCalendarValidator $defaultCalendarValidator;
 
 	/**
 	 * @param Tree $tree node tree
@@ -144,22 +126,17 @@ class CustomPropertiesBackend implements BackendInterface {
 	 * @param IUser $user owner of the tree and properties
 	 */
 	public function __construct(
-		Server $server,
-		Tree $tree,
-		IDBConnection $connection,
-		IUser $user,
-		DefaultCalendarValidator $defaultCalendarValidator,
+		private Server $server,
+		private Tree $tree,
+		private IDBConnection $connection,
+		private IUser $user,
+		private DefaultCalendarValidator $defaultCalendarValidator,
 	) {
-		$this->server = $server;
-		$this->tree = $tree;
-		$this->connection = $connection;
-		$this->user = $user;
 		$this->xmlService = new XmlService();
 		$this->xmlService->elementMap = array_merge(
 			$this->xmlService->elementMap,
 			self::COMPLEX_XML_ELEMENT_MAP,
 		);
-		$this->defaultCalendarValidator = $defaultCalendarValidator;
 	}
 
 	/**
@@ -364,16 +341,16 @@ class CustomPropertiesBackend implements BackendInterface {
 	private function cacheDirectory(string $path, Directory $node): void {
 		$prefix = ltrim($path . '/', '/');
 		$query = $this->connection->getQueryBuilder();
-		$query->select('name', 'propertypath', 'propertyname', 'propertyvalue', 'valuetype')
+		$query->select('name', 'p.propertypath', 'p.propertyname', 'p.propertyvalue', 'p.valuetype')
 			->from('filecache', 'f')
-			->leftJoin('f', 'properties', 'p', $query->expr()->andX(
-				$query->expr()->eq('propertypath', $query->func()->concat(
-					$query->createNamedParameter($prefix),
-					'name'
-				)),
-				$query->expr()->eq('userid', $query->createNamedParameter($this->user->getUID()))
-			))
-			->where($query->expr()->eq('parent', $query->createNamedParameter($node->getInternalFileId(), IQueryBuilder::PARAM_INT)));
+			->hintShardKey('storage', $node->getNode()->getMountPoint()->getNumericStorageId())
+			->leftJoin('f', 'properties', 'p', $query->expr()->eq('p.propertypath', $query->func()->concat(
+				$query->createNamedParameter($prefix),
+				'f.name'
+			)),
+			)
+			->where($query->expr()->eq('parent', $query->createNamedParameter($node->getInternalFileId(), IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->eq('p.userid', $query->createNamedParameter($this->user->getUID())));
 		$result = $query->executeQuery();
 
 		$propsByPath = [];

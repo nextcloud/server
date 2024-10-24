@@ -195,7 +195,6 @@ OC.L10N.register(
     "New text file.txt" : "קובץ טקסט חדש.txt",
     "Copy direct link (only works for users who have access to this file/folder)" : "העתקת קישור ישיר (עובד רק עבור משתמשים שיש להם גישה לקובץ/תיקייה זו)",
     "\"remote user\"" : "„משתמש מרוחק”",
-    "File name" : "שם קובץ",
     "Name cannot be empty" : "השם לא יכול להישאר ריק"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

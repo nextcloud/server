@@ -17,7 +17,7 @@ use Test\TestCase;
 class AdminTest extends TestCase {
 	/** @var Admin */
 	private $admin;
-	/** @var \OCA\FederatedFileSharing\FederatedShareProvider */
+	/** @var FederatedShareProvider */
 	private $federatedShareProvider;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $gsConfig;
@@ -58,7 +58,7 @@ class AdminTest extends TestCase {
 	 * @dataProvider sharingStateProvider
 	 * @param bool $state
 	 */
-	public function testGetForm($state) {
+	public function testGetForm($state): void {
 		$this->federatedShareProvider
 			->expects($this->once())
 			->method('isOutgoingServer2serverShareEnabled')
@@ -112,11 +112,11 @@ class AdminTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertSame('sharing', $this->admin->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(20, $this->admin->getPriority());
 	}
 }

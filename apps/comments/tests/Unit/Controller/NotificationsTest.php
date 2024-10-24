@@ -63,7 +63,7 @@ class NotificationsTest extends TestCase {
 		);
 	}
 
-	public function testViewGuestRedirect() {
+	public function testViewGuestRedirect(): void {
 		$this->commentsManager->expects($this->never())
 			->method('get');
 
@@ -96,7 +96,7 @@ class NotificationsTest extends TestCase {
 		$this->assertSame('link-to-login', $response->getRedirectURL());
 	}
 
-	public function testViewSuccess() {
+	public function testViewSuccess(): void {
 		$comment = $this->createMock(IComment::class);
 		$comment->expects($this->any())
 			->method('getObjectType')
@@ -146,7 +146,7 @@ class NotificationsTest extends TestCase {
 		$this->assertInstanceOf(RedirectResponse::class, $response);
 	}
 
-	public function testViewInvalidComment() {
+	public function testViewInvalidComment(): void {
 		$this->commentsManager->expects($this->any())
 			->method('get')
 			->with('42')
@@ -174,7 +174,7 @@ class NotificationsTest extends TestCase {
 		$this->assertInstanceOf(NotFoundResponse::class, $response);
 	}
 
-	public function testViewNoFile() {
+	public function testViewNoFile(): void {
 		$comment = $this->createMock(IComment::class);
 		$comment->expects($this->any())
 			->method('getObjectType')

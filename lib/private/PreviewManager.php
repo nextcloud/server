@@ -53,16 +53,16 @@ class PreviewManager implements IPreview {
 	private bool $enablePreviews;
 
 	public function __construct(
-		IConfig                  $config,
-		IRootFolder              $rootFolder,
-		IAppData                 $appData,
-		IEventDispatcher 		 $eventDispatcher,
-		GeneratorHelper          $helper,
-		?string                  $userId,
-		Coordinator              $bootstrapCoordinator,
-		IServerContainer         $container,
-		IBinaryFinder            $binaryFinder,
-		IMagickSupport           $imagickSupport
+		IConfig $config,
+		IRootFolder $rootFolder,
+		IAppData $appData,
+		IEventDispatcher $eventDispatcher,
+		GeneratorHelper $helper,
+		?string $userId,
+		Coordinator $bootstrapCoordinator,
+		IServerContainer $container,
+		IBinaryFinder $binaryFinder,
+		IMagickSupport $imagickSupport,
 	) {
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
@@ -389,7 +389,7 @@ class PreviewManager implements IPreview {
 
 
 			if (is_string($movieBinary)) {
-				$this->registerCoreProvider(Preview\Movie::class, '/video\/.*/', ["movieBinary" => $movieBinary]);
+				$this->registerCoreProvider(Preview\Movie::class, '/video\/.*/', ['movieBinary' => $movieBinary]);
 			}
 		}
 	}

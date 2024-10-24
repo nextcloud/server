@@ -24,13 +24,13 @@ class OrEqualsToInTest extends TestCase {
 		$this->simplifier = new FlattenSingleArgumentBinaryOperation();
 	}
 
-	public function testOrs() {
+	public function testOrs(): void {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "foo"),
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "bar"),
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "asd"),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'bar'),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'asd'),
 			]
 		);
 		$this->assertEquals('(path eq "foo" or path eq "bar" or path eq "asd")', $operator->__toString());
@@ -41,15 +41,15 @@ class OrEqualsToInTest extends TestCase {
 		$this->assertEquals('path in ["foo","bar","asd"]', $operator->__toString());
 	}
 
-	public function testOrsMultipleFields() {
+	public function testOrsMultipleFields(): void {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "foo"),
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "bar"),
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "fileid", 1),
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "fileid", 2),
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "mimetype", "asd"),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'bar'),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'fileid', 1),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'fileid', 2),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', 'asd'),
 			]
 		);
 		$this->assertEquals('(path eq "foo" or path eq "bar" or fileid eq 1 or fileid eq 2 or mimetype eq "asd")', $operator->__toString());
@@ -60,13 +60,13 @@ class OrEqualsToInTest extends TestCase {
 		$this->assertEquals('(path in ["foo","bar"] or fileid in [1,2] or mimetype eq "asd")', $operator->__toString());
 	}
 
-	public function testPreserveHints() {
+	public function testPreserveHints(): void {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "foo"),
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "bar"),
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "asd"),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'bar'),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'asd'),
 			]
 		);
 		foreach ($operator->getArguments() as $argument) {
@@ -81,13 +81,13 @@ class OrEqualsToInTest extends TestCase {
 		$this->assertEquals(false, $operator->getQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, true));
 	}
 
-	public function testOrSomeEq() {
+	public function testOrSomeEq(): void {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "foo"),
-				new SearchComparison(ISearchComparison::COMPARE_LIKE, "path", "foo%"),
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "bar"),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
+				new SearchComparison(ISearchComparison::COMPARE_LIKE, 'path', 'foo%'),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'bar'),
 			]
 		);
 		$this->assertEquals('(path eq "foo" or path like "foo%" or path eq "bar")', $operator->__toString());
@@ -98,17 +98,17 @@ class OrEqualsToInTest extends TestCase {
 		$this->assertEquals('(path in ["foo","bar"] or path like "foo%")', $operator->__toString());
 	}
 
-	public function testOrsInside() {
+	public function testOrsInside(): void {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_AND,
 			[
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "mimetype", "text"),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', 'text'),
 				new SearchBinaryOperator(
 					ISearchBinaryOperator::OPERATOR_OR,
 					[
-						new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "foo"),
-						new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "bar"),
-						new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "asd"),
+						new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
+						new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'bar'),
+						new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'asd'),
 					]
 				)
 			]

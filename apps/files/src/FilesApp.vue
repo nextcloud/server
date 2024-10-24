@@ -4,12 +4,13 @@
  -->
 <template>
 	<NcContent app-name="files">
-		<Navigation />
-		<FilesList />
+		<Navigation v-if="!isPublic" />
+		<FilesList :is-public="isPublic" />
 	</NcContent>
 </template>
 
 <script lang="ts">
+import { isPublicShare } from '@nextcloud/sharing/public'
 import { defineComponent } from 'vue'
 
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
@@ -24,6 +25,14 @@ export default defineComponent({
 		NcContent,
 		FilesList,
 		Navigation,
+	},
+
+	setup() {
+		const isPublic = isPublicShare()
+
+		return {
+			isPublic,
+		}
 	},
 })
 </script>

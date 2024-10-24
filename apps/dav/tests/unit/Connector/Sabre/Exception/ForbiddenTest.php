@@ -20,7 +20,7 @@ class ForbiddenTest extends \Test\TestCase {
 		$DOM->appendChild($error);
 
 		// serialize the exception
-		$message = "1234567890";
+		$message = '1234567890';
 		$retry = false;
 		$expectedXml = <<<EOD
 <?xml version="1.0" encoding="utf-8"?>

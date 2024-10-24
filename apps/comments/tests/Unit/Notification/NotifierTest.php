@@ -72,7 +72,7 @@ class NotifierTest extends TestCase {
 		$this->comment = $this->createMock(IComment::class);
 	}
 
-	public function testPrepareSuccess() {
+	public function testPrepareSuccess(): void {
 		$fileName = 'Gre\'thor.odp';
 		$displayName = 'Huraga';
 		$message = '@Huraga mentioned you in a comment on "Gre\'thor.odp"';
@@ -190,7 +190,7 @@ class NotifierTest extends TestCase {
 		$this->notifier->prepare($this->notification, $this->lc);
 	}
 
-	public function testPrepareSuccessDeletedUser() {
+	public function testPrepareSuccessDeletedUser(): void {
 		$fileName = 'Gre\'thor.odp';
 		$message = 'You were mentioned on "Gre\'thor.odp", in a comment by an account that has since been deleted';
 
@@ -305,7 +305,7 @@ class NotifierTest extends TestCase {
 	}
 
 
-	public function testPrepareDifferentApp() {
+	public function testPrepareDifferentApp(): void {
 		$this->expectException(UnknownNotificationException::class);
 
 		$this->folder
@@ -342,7 +342,7 @@ class NotifierTest extends TestCase {
 	}
 
 
-	public function testPrepareNotFound() {
+	public function testPrepareNotFound(): void {
 		$this->expectException(UnknownNotificationException::class);
 
 		$this->folder
@@ -380,7 +380,7 @@ class NotifierTest extends TestCase {
 	}
 
 
-	public function testPrepareDifferentSubject() {
+	public function testPrepareDifferentSubject(): void {
 		$this->expectException(UnknownNotificationException::class);
 
 		$displayName = 'Huraga';
@@ -437,7 +437,7 @@ class NotifierTest extends TestCase {
 	}
 
 
-	public function testPrepareNotFiles() {
+	public function testPrepareNotFiles(): void {
 		$this->expectException(UnknownNotificationException::class);
 
 		$displayName = 'Huraga';
@@ -495,7 +495,7 @@ class NotifierTest extends TestCase {
 	}
 
 
-	public function testPrepareUnresolvableFileID() {
+	public function testPrepareUnresolvableFileID(): void {
 		$this->expectException(AlreadyProcessedException::class);
 
 		$displayName = 'Huraga';

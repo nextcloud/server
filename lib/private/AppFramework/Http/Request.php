@@ -38,6 +38,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	public const USER_AGENT_CHROME = '/^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\)( Ubuntu Chromium\/[0-9.]+|) Chrome\/[0-9.]+ (Mobile Safari|Safari)\/[0-9.]+( (Vivaldi|Brave|OPR)\/[0-9.]+|)$/';
 	// Safari User Agent from http://www.useragentstring.com/pages/Safari/
 	public const USER_AGENT_SAFARI = '/^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Version\/[0-9.]+ Safari\/[0-9.A-Z]+$/';
+	public const USER_AGENT_SAFARI_MOBILE = '/^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Version\/[0-9.]+ (Mobile\/[0-9.A-Z]+) Safari\/[0-9.A-Z]+$/';
 	// Android Chrome user agent: https://developers.google.com/chrome/mobile/docs/user-agent
 	public const USER_AGENT_ANDROID_MOBILE_CHROME = '#Android.*Chrome/[.0-9]*#';
 	public const USER_AGENT_FREEBOX = '#^Mozilla/5\.0$#';
@@ -66,15 +67,15 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 	/**
 	 * @param array $vars An associative array with the following optional values:
-	 *        - array 'urlParams' the parameters which were matched from the URL
-	 *        - array 'get' the $_GET array
-	 *        - array|string 'post' the $_POST array or JSON string
-	 *        - array 'files' the $_FILES array
-	 *        - array 'server' the $_SERVER array
-	 *        - array 'env' the $_ENV array
-	 *        - array 'cookies' the $_COOKIE array
-	 *        - string 'method' the request method (GET, POST etc)
-	 *        - string|false 'requesttoken' the requesttoken or false when not available
+	 *                    - array 'urlParams' the parameters which were matched from the URL
+	 *                    - array 'get' the $_GET array
+	 *                    - array|string 'post' the $_POST array or JSON string
+	 *                    - array 'files' the $_FILES array
+	 *                    - array 'server' the $_SERVER array
+	 *                    - array 'env' the $_ENV array
+	 *                    - array 'cookies' the $_COOKIE array
+	 *                    - string 'method' the request method (GET, POST etc)
+	 *                    - string|false 'requesttoken' the requesttoken or false when not available
 	 * @param IRequestId $requestId
 	 * @param IConfig $config
 	 * @param CsrfTokenManager|null $csrfTokenManager
@@ -283,11 +284,11 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * In case of json requests the encoded json body is accessed
 	 *
 	 * @param string $key the key which you want to access in the URL Parameter
-	 *                     placeholder, $_POST or $_GET array.
-	 *                     The priority how they're returned is the following:
-	 *                     1. URL parameters
-	 *                     2. POST parameters
-	 *                     3. GET parameters
+	 *                    placeholder, $_POST or $_GET array.
+	 *                    The priority how they're returned is the following:
+	 *                    1. URL parameters
+	 *                    2. POST parameters
+	 *                    3. GET parameters
 	 * @param mixed $default If the key is not found, this value will be returned
 	 * @return mixed the content of the array
 	 */
@@ -483,7 +484,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			$prefix = '__Host-';
 		}
 
-		return $prefix.$name;
+		return $prefix . $name;
 	}
 
 	/**
@@ -605,7 +606,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return bool
 	 */
 	private function isOverwriteCondition(): bool {
-		$regex = '/' . $this->config->getSystemValueString('overwritecondaddr', '')  . '/';
+		$regex = '/' . $this->config->getSystemValueString('overwritecondaddr', '') . '/';
 		$remoteAddr = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
 		return $regex === '//' || preg_match($regex, $remoteAddr) === 1;
 	}
@@ -836,7 +837,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * Returns the overwritehost setting from the config if set and
 	 * if the overwrite condition is met
 	 * @return string|null overwritehost value or null if not defined or the defined condition
-	 * isn't met
+	 *                     isn't met
 	 */
 	private function getOverwriteHost() {
 		if ($this->config->getSystemValueString('overwritehost') !== '' && $this->isOverwriteCondition()) {

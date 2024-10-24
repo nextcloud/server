@@ -27,7 +27,7 @@ class Rotate extends \OCP\BackgroundJob\Job {
 		$this->maxSize = $config->getSystemValueInt('log_rotate_size', 100 * 1024 * 1024);
 		if ($this->shouldRotateBySize()) {
 			$rotatedFile = $this->rotate();
-			$msg = 'Log file "'.$this->filePath.'" was over '.$this->maxSize.' bytes, moved to "'.$rotatedFile.'"';
+			$msg = 'Log file "' . $this->filePath . '" was over ' . $this->maxSize . ' bytes, moved to "' . $rotatedFile . '"';
 			\OCP\Server::get(LoggerInterface::class)->info($msg, ['app' => Rotate::class]);
 		}
 	}

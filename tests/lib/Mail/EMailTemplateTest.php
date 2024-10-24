@@ -45,7 +45,7 @@ class EMailTemplateTest extends TestCase {
 		);
 	}
 
-	public function testEMailTemplateCustomFooter() {
+	public function testEMailTemplateCustomFooter(): void {
 		$this->defaults
 			->expects($this->any())
 			->method('getDefaultColorPrimary')
@@ -86,7 +86,7 @@ class EMailTemplateTest extends TestCase {
 		$this->assertSame($expectedTXT, $this->emailTemplate->renderText());
 	}
 
-	public function testEMailTemplateDefaultFooter() {
+	public function testEMailTemplateDefaultFooter(): void {
 		$this->defaults
 			->expects($this->any())
 			->method('getDefaultColorPrimary')
@@ -129,7 +129,7 @@ class EMailTemplateTest extends TestCase {
 		$this->assertSame($expectedTXT, $this->emailTemplate->renderText());
 	}
 
-	public function testEMailTemplateSingleButton() {
+	public function testEMailTemplateSingleButton(): void {
 		$this->defaults
 			->expects($this->any())
 			->method('getDefaultColorPrimary')
@@ -174,7 +174,7 @@ class EMailTemplateTest extends TestCase {
 
 
 
-	public function testEMailTemplateAlternativePlainTexts() {
+	public function testEMailTemplateAlternativePlainTexts(): void {
 		$this->defaults
 			->expects($this->any())
 			->method('getDefaultColorPrimary')

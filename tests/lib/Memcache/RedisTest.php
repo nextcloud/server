@@ -63,20 +63,20 @@ class RedisTest extends Cache {
 		$this->instance = new \OC\Memcache\Redis($this->getUniqueID());
 	}
 
-	public function testScriptHashes() {
+	public function testScriptHashes(): void {
 		foreach (\OC\Memcache\Redis::LUA_SCRIPTS as $script) {
 			$this->assertEquals(sha1($script[0]), $script[1]);
 		}
 	}
 
-	public function testCasTtlNotChanged() {
+	public function testCasTtlNotChanged(): void {
 		$this->instance->set('foo', 'bar', 50);
 		$this->assertTrue($this->instance->compareSetTTL('foo', 'bar', 100));
 		// allow for 1s of inaccuracy due to time moving forward
 		$this->assertLessThan(1, 100 - $this->instance->getTTL('foo'));
 	}
 
-	public function testCasTtlChanged() {
+	public function testCasTtlChanged(): void {
 		$this->instance->set('foo', 'bar1', 50);
 		$this->assertFalse($this->instance->compareSetTTL('foo', 'bar', 100));
 		// allow for 1s of inaccuracy due to time moving forward

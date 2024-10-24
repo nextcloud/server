@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,81 +11,42 @@ namespace OC\Files\Stream;
 
 use Icewind\Streams\Wrapper;
 use OC\Encryption\Exceptions\EncryptionHeaderKeyExistsException;
+use OC\Encryption\File;
+use OC\Encryption\Util;
+use OC\Files\Storage\Storage;
+use OCP\Encryption\IEncryptionModule;
 use function is_array;
 use function stream_context_create;
 
 class Encryption extends Wrapper {
-	/** @var \OC\Encryption\Util */
-	protected $util;
-
-	/** @var \OC\Encryption\File */
-	protected $file;
-
-	/** @var \OCP\Encryption\IEncryptionModule */
-	protected $encryptionModule;
-
-	/** @var \OC\Files\Storage\Storage */
-	protected $storage;
-
-	/** @var \OC\Files\Storage\Wrapper\Encryption */
-	protected $encryptionStorage;
-
-	/** @var string */
-	protected $internalPath;
-
-	/** @var string */
-	protected $cache;
-
-	/** @var integer */
-	protected $size;
-
-	/** @var integer */
-	protected $position;
-
-	/** @var integer */
-	protected $unencryptedSize;
-
-	/** @var integer */
-	protected $headerSize;
-
-	/** @var integer */
-	protected $unencryptedBlockSize;
-
-	/** @var array */
-	protected $header;
-
-	/** @var string */
-	protected $fullPath;
-
-	/** @var  bool */
-	protected $signed;
-
+	protected Util $util;
+	protected File $file;
+	protected IEncryptionModule $encryptionModule;
+	protected Storage $storage;
+	protected \OC\Files\Storage\Wrapper\Encryption $encryptionStorage;
+	protected string $internalPath;
+	protected string $cache;
+	protected ?int $size = null;
+	protected int $position;
+	protected ?int $unencryptedSize = null;
+	protected int $headerSize;
+	protected int $unencryptedBlockSize;
+	protected array $header;
+	protected string $fullPath;
+	protected bool $signed;
 	/**
 	 * header data returned by the encryption module, will be written to the file
 	 * in case of a write operation
-	 *
-	 * @var array
 	 */
-	protected $newHeader;
-
+	protected array $newHeader;
 	/**
 	 * user who perform the read/write operation null for public access
-	 *
-	 * @var string
 	 */
-	protected $uid;
-
-	/** @var bool */
-	protected $readOnly;
-
-	/** @var bool */
-	protected $writeFlag;
-
-	/** @var array */
-	protected $expectedContextProperties;
-
-	/** @var bool */
-	protected $fileUpdated;
+	protected ?string $uid;
+	protected bool $readOnly;
+	protected bool $writeFlag;
+	protected array $expectedContextProperties;
+	protected bool $fileUpdated;
 
 	public function __construct() {
 		$this->expectedContextProperties = [
@@ -113,11 +76,11 @@ class Encryption extends Wrapper {
 	 * @param string $fullPath relative to data/
 	 * @param array $header
 	 * @param string $uid
-	 * @param \OCP\Encryption\IEncryptionModule $encryptionModule
-	 * @param \OC\Files\Storage\Storage $storage
+	 * @param IEncryptionModule $encryptionModule
+	 * @param Storage $storage
 	 * @param \OC\Files\Storage\Wrapper\Encryption $encStorage
-	 * @param \OC\Encryption\Util $util
-	 * @param \OC\Encryption\File $file
+	 * @param Util $util
+	 * @param File $file
 	 * @param string $mode
 	 * @param int|float $size
 	 * @param int|float $unencryptedSize
@@ -128,19 +91,24 @@ class Encryption extends Wrapper {
 	 *
 	 * @throws \BadMethodCallException
 	 */
-	public static function wrap($source, $internalPath, $fullPath, array $header,
+	public static function wrap(
+		$source,
+		$internalPath,
+		$fullPath,
+		array $header,
 		$uid,
-		\OCP\Encryption\IEncryptionModule $encryptionModule,
-		\OC\Files\Storage\Storage $storage,
+		IEncryptionModule $encryptionModule,
+		Storage $storage,
 		\OC\Files\Storage\Wrapper\Encryption $encStorage,
-		\OC\Encryption\Util $util,
-		\OC\Encryption\File $file,
+		Util $util,
+		File $file,
 		$mode,
 		$size,
 		$unencryptedSize,
 		$headerSize,
 		$signed,
-		$wrapper = Encryption::class) {
+		$wrapper = Encryption::class,
+	) {
 		$context = stream_context_create([
 			'ocencryption' => [
 				'source' => $source,

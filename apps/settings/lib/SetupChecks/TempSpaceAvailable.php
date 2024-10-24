@@ -85,7 +85,7 @@ class TempSpaceAvailable implements ISetupCheck {
 				return SetupResult::error($this->l10n->t('Error while checking the available disk space of temporary PHP path or no free disk space returned. Temporary path: %s', [$nextcloudTempPath]));
 			}
 			$freeSpaceInNextcloudTempInGB = $freeSpaceInNextcloudTemp / 1024 / 1024 / 1024;
-			$spaceDetail .= "\n".$this->l10n->t('- %.1f GiB available in %s (Nextcloud temporary directory)', [round($freeSpaceInNextcloudTempInGB, 1),$nextcloudTempPath]);
+			$spaceDetail .= "\n" . $this->l10n->t('- %.1f GiB available in %s (Nextcloud temporary directory)', [round($freeSpaceInNextcloudTempInGB, 1),$nextcloudTempPath]);
 		}
 
 		if (!$this->isPrimaryStorageS3()) {

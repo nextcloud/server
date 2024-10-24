@@ -243,8 +243,8 @@ export default {
 	.hint {
 		display: inline-block;
 		color: var(--color-text-maxcontrast);
-		margin-left: 8px;
-		padding-top: 5px;
+		margin-inline-start: 8px;
+		padding-block-start: 5px;
 	}
 
 	&-radio, &-multi_checkbox {

@@ -7,7 +7,7 @@ OC.L10N.register(
     "Unshared from {email} by {actor}" : "{actor} dexó de compartir l'elementu con {email}",
     "Password for mail share sent to {email}" : "La contraseña pa la compartición per corréu electrónicu unvióse a {email}",
     "Password for mail share sent to you" : "Unviáronte la contraseña pa la compartición per corréu electrónicu",
-    "You shared {file} with {email} by mail" : "Compartió «{ficheru}» con {email} per corréu electrónicu",
+    "You shared {file} with {email} by mail" : "Compartió «{file}» con {email} per corréu electrónicu",
     "{actor} shared {file} with {email} by mail" : "{actor} compartió «{file}» con {email} per corréu electrónicu",
     "You unshared {file} from {email} by mail" : "Dexesti de compartir «{file}» con {email} per corréu electrónicu",
     "{actor} unshared {file} from {email} by mail" : "{actor} dexó de compartir «{file}» con {email} per corréu electrónicu",

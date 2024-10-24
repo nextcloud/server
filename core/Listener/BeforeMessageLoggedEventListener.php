@@ -40,11 +40,11 @@ class BeforeMessageLoggedEventListener implements IEventListener {
 				2 => '[warning]',
 				3 => '[error]',
 				4 => '[fatal]',
-				default => '['.$event->getLevel().']',
+				default => '[' . $event->getLevel() . ']',
 			}
-		.' ['.$event->getApp().'] '
-		.$event->getMessage()['message']
-		."\n";
+		. ' [' . $event->getApp() . '] '
+		. $event->getMessage()['message']
+		. "\n";
 	}
 
 	/**
@@ -55,10 +55,10 @@ class BeforeMessageLoggedEventListener implements IEventListener {
 		$argv = $_SERVER['argv'];
 		$level = 0;
 		foreach ($argv as $key => $arg) {
-			if ($arg === '--'.ReservedOptions::DEBUG_LOG) {
+			if ($arg === '--' . ReservedOptions::DEBUG_LOG) {
 				unset($argv[$key]);
-			} elseif (str_starts_with($arg, '--'.ReservedOptions::DEBUG_LOG_LEVEL.'=')) {
-				$level = (int)substr($arg, strlen('--'.ReservedOptions::DEBUG_LOG_LEVEL.'='));
+			} elseif (str_starts_with($arg, '--' . ReservedOptions::DEBUG_LOG_LEVEL . '=')) {
+				$level = (int)substr($arg, strlen('--' . ReservedOptions::DEBUG_LOG_LEVEL . '='));
 				unset($argv[$key]);
 			}
 		}

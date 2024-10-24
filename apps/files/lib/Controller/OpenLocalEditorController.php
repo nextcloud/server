@@ -29,28 +29,16 @@ class OpenLocalEditorController extends OCSController {
 	public const TOKEN_DURATION = 600; // 10 Minutes
 	public const TOKEN_RETRIES = 50;
 
-	protected ITimeFactory $timeFactory;
-	protected OpenLocalEditorMapper $mapper;
-	protected ISecureRandom $secureRandom;
-	protected LoggerInterface $logger;
-	protected ?string $userId;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		ITimeFactory $timeFactory,
-		OpenLocalEditorMapper $mapper,
-		ISecureRandom $secureRandom,
-		LoggerInterface $logger,
-		?string $userId
+		protected ITimeFactory $timeFactory,
+		protected OpenLocalEditorMapper $mapper,
+		protected ISecureRandom $secureRandom,
+		protected LoggerInterface $logger,
+		protected ?string $userId,
 	) {
 		parent::__construct($appName, $request);
-
-		$this->timeFactory = $timeFactory;
-		$this->mapper = $mapper;
-		$this->secureRandom = $secureRandom;
-		$this->logger = $logger;
-		$this->userId = $userId;
 	}
 
 	/**

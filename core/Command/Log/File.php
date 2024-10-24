@@ -79,11 +79,11 @@ class File extends Command implements Completion\CompletionAwareInterface {
 		} else {
 			$enabledText = 'disabled';
 		}
-		$output->writeln('Log backend file: '.$enabledText);
+		$output->writeln('Log backend file: ' . $enabledText);
 
-		$dataDir = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT.'/data');
-		$defaultLogFile = rtrim($dataDir, '/').'/nextcloud.log';
-		$output->writeln('Log file: '.$this->config->getSystemValue('logfile', $defaultLogFile));
+		$dataDir = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
+		$defaultLogFile = rtrim($dataDir, '/') . '/nextcloud.log';
+		$output->writeln('Log file: ' . $this->config->getSystemValue('logfile', $defaultLogFile));
 
 		$rotateSize = $this->config->getSystemValue('log_rotate_size', 100 * 1024 * 1024);
 		if ($rotateSize) {
@@ -91,7 +91,7 @@ class File extends Command implements Completion\CompletionAwareInterface {
 		} else {
 			$rotateString = 'disabled';
 		}
-		$output->writeln('Rotate at: '.$rotateString);
+		$output->writeln('Rotate at: ' . $rotateString);
 		return 0;
 	}
 

@@ -12,16 +12,15 @@ use OC\Collaboration\Resources\Manager;
 use OCP\Collaboration\Resources\IManager;
 use OCP\Collaboration\Resources\IProviderManager;
 use OCP\IDBConnection;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
-	/** @var LoggerInterface */
-	protected $logger;
-	/** @var IProviderManager */
-	protected $providerManager;
-	/** @var IManager */
-	protected $manager;
+
+	protected LoggerInterface&MockObject $logger;
+	protected IProviderManager&MockObject $providerManager;
+	protected IManager $manager;
 
 	protected function setUp(): void {
 		parent::setUp();

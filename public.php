@@ -78,7 +78,7 @@ try {
 	OC_App::loadApp($app);
 	OC_User::setIncognitoMode(true);
 
-	$baseuri = OC::$WEBROOT . '/public.php/'.$service.'/';
+	$baseuri = OC::$WEBROOT . '/public.php/' . $service . '/';
 	require_once $file;
 } catch (Exception $ex) {
 	$status = 500;

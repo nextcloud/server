@@ -45,13 +45,13 @@ class EventSource implements IEventSource {
 			 * @link https://github.com/owncloud/core/issues/14286
 			 */
 			header("Content-Security-Policy: default-src 'none'; script-src 'unsafe-inline'");
-			header("Content-Type: text/html");
+			header('Content-Type: text/html');
 			echo str_repeat('<span></span>' . PHP_EOL, 10); //dummy data to keep IE happy
 		} else {
-			header("Content-Type: text/event-stream");
+			header('Content-Type: text/event-stream');
 		}
 		if (!$this->request->passesStrictCookieCheck()) {
-			header('Location: '.\OC::$WEBROOT);
+			header('Location: ' . \OC::$WEBROOT);
 			exit();
 		}
 		if (!$this->request->passesCSRFCheck()) {
@@ -69,12 +69,12 @@ class EventSource implements IEventSource {
 	 * @param mixed $data
 	 *
 	 * @throws \BadMethodCallException
-	 * if only one parameter is given, a typeless message will be send with that parameter as data
+	 *                                 if only one parameter is given, a typeless message will be send with that parameter as data
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public function send($type, $data = null) {
 		if ($data and !preg_match('/^[A-Za-z0-9_]+$/', $type)) {
-			throw new \BadMethodCallException('Type needs to be alphanumeric ('. $type .')');
+			throw new \BadMethodCallException('Type needs to be alphanumeric (' . $type . ')');
 		}
 		$this->init();
 		if (is_null($data)) {

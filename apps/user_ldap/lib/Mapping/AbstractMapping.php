@@ -11,6 +11,7 @@ use Doctrine\DBAL\Exception;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -20,11 +21,6 @@ use Psr\Log\LoggerInterface;
  */
 abstract class AbstractMapping {
 	/**
-	 * @var \OCP\IDBConnection $dbc
-	 */
-	protected $dbc;
-
-	/**
 	 * returns the DB table name which holds the mappings
 	 *
 	 * @return string
@@ -32,10 +28,11 @@ abstract class AbstractMapping {
 	abstract protected function getTableName(bool $includePrefix = true);
 
 	/**
-	 * @param \OCP\IDBConnection $dbc
+	 * @param IDBConnection $dbc
 	 */
-	public function __construct(\OCP\IDBConnection $dbc) {
-		$this->dbc = $dbc;
+	public function __construct(
+		protected IDBConnection $dbc,
+	) {
 	}
 
 	/** @var array caches Names (value) by DN (key) */
@@ -259,7 +256,7 @@ abstract class AbstractMapping {
 	 *
 	 * @return string[]
 	 */
-	public function getNamesBySearch(string $search, string $prefixMatch = "", string $postfixMatch = ""): array {
+	public function getNamesBySearch(string $search, string $prefixMatch = '', string $postfixMatch = ''): array {
 		$statement = $this->dbc->prepare('
 			SELECT `owncloud_name`
 			FROM `' . $this->getTableName() . '`
@@ -333,7 +330,7 @@ abstract class AbstractMapping {
 	 */
 	public function map($fdn, $name, $uuid) {
 		if (mb_strlen($fdn) > 4000) {
-			\OCP\Server::get(LoggerInterface::class)->error(
+			Server::get(LoggerInterface::class)->error(
 				'Cannot map, because the DN exceeds 4000 characters: {dn}',
 				[
 					'app' => 'user_ldap',
@@ -406,7 +403,7 @@ abstract class AbstractMapping {
 	 * @param callable $preCallback
 	 * @param callable $postCallback
 	 * @return bool true on success, false when at least one row was not
-	 * deleted
+	 *              deleted
 	 */
 	public function clearCb(callable $preCallback, callable $postCallback): bool {
 		$picker = $this->dbc->getQueryBuilder();
@@ -434,7 +431,7 @@ abstract class AbstractMapping {
 		$query = $this->dbc->getQueryBuilder();
 		$query->select($query->func()->count('ldap_dn_hash'))
 			->from($this->getTableName());
-		$res = $query->execute();
+		$res = $query->executeQuery();
 		$count = $res->fetchOne();
 		$res->closeCursor();
 		return (int)$count;
@@ -445,7 +442,7 @@ abstract class AbstractMapping {
 		$query->select($query->func()->count('ldap_dn_hash'))
 			->from($this->getTableName())
 			->where($query->expr()->like('directory_uuid', $query->createNamedParameter('invalidated_%')));
-		$res = $query->execute();
+		$res = $query->executeQuery();
 		$count = $res->fetchOne();
 		$res->closeCursor();
 		return (int)$count;

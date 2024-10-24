@@ -16,7 +16,7 @@ use Test\TestCase;
  * @group DB
  */
 class PropagatorTest extends TestCase {
-	/** @var  IStorage */
+	/** @var IStorage */
 	private $storage;
 
 	protected function setUp(): void {
@@ -38,7 +38,7 @@ class PropagatorTest extends TestCase {
 		return array_combine($paths, $values);
 	}
 
-	public function testEtagPropagation() {
+	public function testEtagPropagation(): void {
 		$paths = ['', 'foo', 'foo/bar'];
 		$oldInfos = $this->getFileInfos($paths);
 		$this->storage->getPropagator()->propagateChange('foo/bar/file.txt', time());
@@ -49,7 +49,7 @@ class PropagatorTest extends TestCase {
 		}
 	}
 
-	public function testTimePropagation() {
+	public function testTimePropagation(): void {
 		$paths = ['', 'foo', 'foo/bar'];
 		$oldTime = time() - 200;
 		$targetTime = time() - 100;
@@ -69,7 +69,7 @@ class PropagatorTest extends TestCase {
 		$this->assertEquals($now, $newInfos['']->getMTime());
 	}
 
-	public function testSizePropagation() {
+	public function testSizePropagation(): void {
 		$paths = ['', 'foo', 'foo/bar'];
 		$oldInfos = $this->getFileInfos($paths);
 		$this->storage->getPropagator()->propagateChange('foo/bar/file.txt', time(), 10);
@@ -80,7 +80,7 @@ class PropagatorTest extends TestCase {
 		}
 	}
 
-	public function testSizePropagationNoNegative() {
+	public function testSizePropagationNoNegative(): void {
 		$paths = ['', 'foo', 'foo/bar'];
 		$oldInfos = $this->getFileInfos($paths);
 		$this->storage->getPropagator()->propagateChange('foo/bar/file.txt', time(), -100);
@@ -91,7 +91,7 @@ class PropagatorTest extends TestCase {
 		}
 	}
 
-	public function testBatchedPropagation() {
+	public function testBatchedPropagation(): void {
 		$this->storage->mkdir('foo/baz');
 		$this->storage->mkdir('asd');
 		$this->storage->file_put_contents('asd/file.txt', 'bar');

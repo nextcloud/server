@@ -32,7 +32,7 @@ class FinishRememberedLoginCommandTest extends ALoginCommandTest {
 		);
 	}
 
-	public function testProcessNotRememberedLogin() {
+	public function testProcessNotRememberedLogin(): void {
 		$data = $this->getLoggedInLoginData();
 		$data->setRememberLogin(false);
 		$this->userSession->expects($this->never())
@@ -43,7 +43,7 @@ class FinishRememberedLoginCommandTest extends ALoginCommandTest {
 		$this->assertTrue($result->isSuccess());
 	}
 
-	public function testProcess() {
+	public function testProcess(): void {
 		$data = $this->getLoggedInLoginData();
 		$this->config->expects($this->once())
 			->method('getSystemValueBool')
@@ -58,7 +58,7 @@ class FinishRememberedLoginCommandTest extends ALoginCommandTest {
 		$this->assertTrue($result->isSuccess());
 	}
 
-	public function testProcessNotRemeberedLoginWithAutologout() {
+	public function testProcessNotRemeberedLoginWithAutologout(): void {
 		$data = $this->getLoggedInLoginData();
 		$this->config->expects($this->once())
 			->method('getSystemValueBool')

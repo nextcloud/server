@@ -11,7 +11,11 @@ use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Event\Listeners\OracleSessionInit;
+use OC\DB\QueryBuilder\Sharded\AutoIncrementHandler;
+use OC\DB\QueryBuilder\Sharded\ShardConnectionManager;
 use OC\SystemConfig;
+use OCP\ICacheFactory;
+use OCP\Server;
 
 /**
  * Takes care of creating and configuring Doctrine connections.
@@ -54,9 +58,12 @@ class ConnectionFactory {
 		],
 	];
 
+	private ShardConnectionManager $shardConnectionManager;
+	private ICacheFactory $cacheFactory;
 
 	public function __construct(
-		private SystemConfig $config
+		private SystemConfig $config,
+		?ICacheFactory $cacheFactory = null,
 	) {
 		if ($this->config->getValue('mysql.utf8mb4', false)) {
 			$this->defaultConnectionParams['mysql']['charset'] = 'utf8mb4';
@@ -65,6 +72,8 @@ class ConnectionFactory {
 		if ($collationOverride) {
 			$this->defaultConnectionParams['mysql']['collation'] = $collationOverride;
 		}
+		$this->shardConnectionManager = new ShardConnectionManager($this->config, $this);
+		$this->cacheFactory = $cacheFactory ?? Server::get(ICacheFactory::class);
 	}
 
 	/**
@@ -124,7 +133,7 @@ class ConnectionFactory {
 				if ($host === '') {
 					$connectionParams['dbname'] = $dbName; // use dbname as easy connect name
 				} else {
-					$connectionParams['dbname'] = '//' . $host . (!empty($port) ? ":{$port}" : "") . '/' . $dbName;
+					$connectionParams['dbname'] = '//' . $host . (!empty($port) ? ":{$port}" : '') . '/' . $dbName;
 				}
 				unset($connectionParams['host']);
 				break;
@@ -180,7 +189,7 @@ class ConnectionFactory {
 		$name = $this->config->getValue($configPrefix . 'dbname', $this->config->getValue('dbname', self::DEFAULT_DBNAME));
 
 		if ($this->normalizeType($type) === 'sqlite3') {
-			$dataDir = $this->config->getValue("datadirectory", \OC::$SERVERROOT . '/data');
+			$dataDir = $this->config->getValue('datadirectory', \OC::$SERVERROOT . '/data');
 			$connectionParams['path'] = $dataDir . '/' . $name . '.db';
 		} else {
 			$host = $this->config->getValue($configPrefix . 'dbhost', $this->config->getValue('dbhost', ''));
@@ -214,6 +223,19 @@ class ConnectionFactory {
 		if ($this->config->getValue('dbpersistent', false)) {
 			$connectionParams['persistent'] = true;
 		}
+
+		$connectionParams['sharding'] = $this->config->getValue('dbsharding', []);
+		if (!empty($connectionParams['sharding'])) {
+			$connectionParams['shard_connection_manager'] = $this->shardConnectionManager;
+			$connectionParams['auto_increment_handler'] = new AutoIncrementHandler(
+				$this->cacheFactory,
+				$this->shardConnectionManager,
+			);
+		} else {
+			// just in case only the presence could lead to funny behaviour
+			unset($connectionParams['sharding']);
+		}
+
 		$connectionParams = array_merge($connectionParams, $additionalConnectionParams);
 
 		$replica = $this->config->getValue($configPrefix . 'dbreplica', $this->config->getValue('dbreplica', [])) ?: [$connectionParams];
@@ -237,7 +259,7 @@ class ConnectionFactory {
 			// Host variable carries a port or socket.
 			$params['host'] = $matches[1];
 			if (is_numeric($matches[2])) {
-				$params['port'] = (int) $matches[2];
+				$params['port'] = (int)$matches[2];
 			} else {
 				$params['unix_socket'] = $matches[2];
 			}

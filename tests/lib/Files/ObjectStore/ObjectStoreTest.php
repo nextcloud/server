@@ -38,7 +38,7 @@ abstract class ObjectStoreTest extends TestCase {
 		return $stream;
 	}
 
-	public function testWriteRead() {
+	public function testWriteRead(): void {
 		$stream = $this->stringToStream('foobar');
 
 		$instance = $this->getInstance();
@@ -51,7 +51,7 @@ abstract class ObjectStoreTest extends TestCase {
 		$this->assertEquals('foobar', stream_get_contents($result));
 	}
 
-	public function testDelete() {
+	public function testDelete(): void {
 		$stream = $this->stringToStream('foobar');
 
 		$instance = $this->getInstance();
@@ -70,7 +70,7 @@ abstract class ObjectStoreTest extends TestCase {
 		}
 	}
 
-	public function testReadNonExisting() {
+	public function testReadNonExisting(): void {
 		$instance = $this->getInstance();
 
 		try {
@@ -82,7 +82,7 @@ abstract class ObjectStoreTest extends TestCase {
 		}
 	}
 
-	public function testDeleteNonExisting() {
+	public function testDeleteNonExisting(): void {
 		$instance = $this->getInstance();
 
 		try {
@@ -94,7 +94,7 @@ abstract class ObjectStoreTest extends TestCase {
 		}
 	}
 
-	public function testExists() {
+	public function testExists(): void {
 		$stream = $this->stringToStream('foobar');
 
 		$instance = $this->getInstance();
@@ -109,7 +109,7 @@ abstract class ObjectStoreTest extends TestCase {
 		$this->assertFalse($instance->objectExists('2'));
 	}
 
-	public function testCopy() {
+	public function testCopy(): void {
 		$this->cleanupAfter('source');
 		$this->cleanupAfter('target');
 
@@ -128,7 +128,7 @@ abstract class ObjectStoreTest extends TestCase {
 		$this->assertEquals('foobar', stream_get_contents($instance->readObject('target')));
 	}
 
-	public function testFseekSize() {
+	public function testFseekSize(): void {
 		$instance = $this->getInstance();
 
 		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';

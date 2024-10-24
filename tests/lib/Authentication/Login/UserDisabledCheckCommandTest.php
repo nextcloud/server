@@ -34,7 +34,7 @@ class UserDisabledCheckCommandTest extends ALoginCommandTest {
 		);
 	}
 
-	public function testProcessNonExistingUser() {
+	public function testProcessNonExistingUser(): void {
 		$data = $this->getBasicLoginData();
 		$this->userManager->expects($this->once())
 			->method('get')
@@ -46,7 +46,7 @@ class UserDisabledCheckCommandTest extends ALoginCommandTest {
 		$this->assertTrue($result->isSuccess());
 	}
 
-	public function testProcessDisabledUser() {
+	public function testProcessDisabledUser(): void {
 		$data = $this->getBasicLoginData();
 		$this->userManager->expects($this->once())
 			->method('get')
@@ -62,7 +62,7 @@ class UserDisabledCheckCommandTest extends ALoginCommandTest {
 		$this->assertSame(LoginController::LOGIN_MSG_USERDISABLED, $result->getErrorMessage());
 	}
 
-	public function testProcess() {
+	public function testProcess(): void {
 		$data = $this->getBasicLoginData();
 		$this->userManager->expects($this->once())
 			->method('get')

@@ -21,20 +21,30 @@ use ZipStreamer\ZipStreamer;
 
 class Streamer {
 	// array of regexp. Matching user agents will get tar instead of zip
-	private array $preferTarFor = [ '/macintosh|mac os x/i' ];
+	private const UA_PREFERS_TAR = [ '/macintosh|mac os x/i' ];
 
 	// streamer instance
 	private $streamerInstance;
 
+	public static function isUserAgentPreferTar(IRequest $request): bool {
+		return $request->isUserAgent(self::UA_PREFERS_TAR);
+	}
+
 	/**
 	 * Streamer constructor.
 	 *
-	 * @param IRequest $request
+	 * @param bool|IRequest $preferTar If true a tar stream is used.
+	 *                                 For legacy reasons also a IRequest can be passed to detect this preference by user agent,
+	 *                                 please migrate to `Streamer::isUserAgentPreferTar()` instead.
 	 * @param int|float $size The size of the files in bytes
 	 * @param int $numberOfFiles The number of files (and directories) that will
-	 *        be included in the streamed file
+	 *                           be included in the streamed file
 	 */
-	public function __construct(IRequest $request, int|float $size, int $numberOfFiles) {
+	public function __construct(IRequest|bool $preferTar, int|float $size, int $numberOfFiles) {
+		if ($preferTar instanceof IRequest) {
+			$preferTar = self::isUserAgentPreferTar($preferTar);
+		}
+
 		/**
 		 * zip32 constraints for a basic (without compression, volumes nor
 		 * encryption) zip file according to the Zip specification:
@@ -61,10 +71,11 @@ class Streamer {
 		 * from not fully scanned external storage. And then things fall apart
 		 * if somebody tries to package to much.
 		 */
-		if ($size > 0 && $size < 4 * 1000 * 1000 * 1000 && $numberOfFiles < 65536) {
-			$this->streamerInstance = new ZipStreamer(['zip64' => false]);
-		} elseif ($request->isUserAgent($this->preferTarFor)) {
+		if ($preferTar) {
+			// If TAR ball is preferred use it
 			$this->streamerInstance = new TarStreamer();
+		} elseif ($size > 0 && $size < 4 * 1000 * 1000 * 1000 && $numberOfFiles < 65536) {
+			$this->streamerInstance = new ZipStreamer(['zip64' => false]);
 		} else {
 			$this->streamerInstance = new ZipStreamer(['zip64' => PHP_INT_SIZE !== 4]);
 		}
@@ -84,6 +95,7 @@ class Streamer {
 	/**
 	 * Stream directory recursively
 	 *
+	 * @param string $dir Directory path relative to root of current user
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
 	 * @throws InvalidPathException

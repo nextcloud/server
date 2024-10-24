@@ -83,7 +83,7 @@ class Color {
 	 * @since 25.0.0
 	 */
 	public function name(): string {
-		return sprintf("#%02x%02x%02x", $this->r, $this->g, $this->b);
+		return sprintf('#%02x%02x%02x', $this->r, $this->g, $this->b);
 	}
 
 	/**

@@ -20,6 +20,8 @@ OC.L10N.register(
     "Set status" : "Imposta stato",
     "Online status" : "Stato in linea",
     "Status message" : "Messaggio di stato",
+    "Set absence period" : "Imposta periodo di assenza",
+    "Set absence period and replacement" : "Imposta periodo di assenza e sostituzione",
     "Your status was set automatically" : "Stato impostato automaticamente",
     "Clear status message" : "Cancella il messaggio di stato",
     "Set status message" : "Imposta messaggio di stato",

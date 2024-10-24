@@ -21,6 +21,7 @@ class EducationBundleTest extends BundleBase {
 			'announcementcenter',
 			'quota_warning',
 			'user_saml',
+			'whiteboard',
 		];
 	}
 }

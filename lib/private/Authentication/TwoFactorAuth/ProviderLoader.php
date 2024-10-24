@@ -9,8 +9,7 @@ declare(strict_types=1);
 namespace OC\Authentication\TwoFactorAuth;
 
 use Exception;
-use OC;
-use OC_App;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
 use OCP\Authentication\TwoFactorAuth\IProvider;
@@ -19,15 +18,10 @@ use OCP\IUser;
 class ProviderLoader {
 	public const BACKUP_CODES_APP_ID = 'twofactor_backupcodes';
 
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var OC\AppFramework\Bootstrap\Coordinator */
-	private $coordinator;
-
-	public function __construct(IAppManager $appManager, OC\AppFramework\Bootstrap\Coordinator $coordinator) {
-		$this->appManager = $appManager;
-		$this->coordinator = $coordinator;
+	public function __construct(
+		private IAppManager $appManager,
+		private Coordinator $coordinator,
+	) {
 	}
 
 	/**
@@ -58,12 +52,12 @@ class ProviderLoader {
 			}
 		}
 
-		$registeredProviders = $this->coordinator->getRegistrationContext()->getTwoFactorProviders();
+		$registeredProviders = $this->coordinator->getRegistrationContext()?->getTwoFactorProviders() ?? [];
 		foreach ($registeredProviders as $provider) {
 			try {
 				$this->loadTwoFactorApp($provider->getAppId());
-				$provider = \OCP\Server::get($provider->getService());
-				$providers[$provider->getId()] = $provider;
+				$providerInstance = \OCP\Server::get($provider->getService());
+				$providers[$providerInstance->getId()] = $providerInstance;
 			} catch (QueryException $exc) {
 				// Provider class can not be resolved
 				throw new Exception('Could not load two-factor auth provider ' . $provider->getService());
@@ -75,12 +69,10 @@ class ProviderLoader {
 
 	/**
 	 * Load an app by ID if it has not been loaded yet
-	 *
-	 * @param string $appId
 	 */
-	protected function loadTwoFactorApp(string $appId) {
-		if (!OC_App::isAppLoaded($appId)) {
-			OC_App::loadApp($appId);
+	protected function loadTwoFactorApp(string $appId): void {
+		if (!$this->appManager->isAppLoaded($appId)) {
+			$this->appManager->loadApp($appId);
 		}
 	}
 }

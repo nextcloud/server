@@ -36,7 +36,7 @@ class RegistryUpdaterTest extends TestCase {
 		$this->listener = new RegistryUpdater($this->registry, $this->provider);
 	}
 
-	public function testHandleGenericEvent() {
+	public function testHandleGenericEvent(): void {
 		$event = $this->createMock(Event::class);
 		$this->registry->expects($this->never())
 			->method('enableProviderFor');
@@ -44,7 +44,7 @@ class RegistryUpdaterTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleCodesGeneratedEvent() {
+	public function testHandleCodesGeneratedEvent(): void {
 		$user = $this->createMock(IUser::class);
 		$event = new CodesGenerated($user);
 		$this->registry->expects($this->once())

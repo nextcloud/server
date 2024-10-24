@@ -25,7 +25,7 @@ class ProviderTest extends \Test\TestCase {
 		$this->ocsProvider = new Provider('ocs_provider', $this->request, $this->appManager);
 	}
 
-	public function testBuildProviderListWithoutAnythingEnabled() {
+	public function testBuildProviderListWithoutAnythingEnabled(): void {
 		$this->appManager
 			->expects($this->exactly(4))
 			->method('isEnabledForUser')
@@ -56,7 +56,7 @@ class ProviderTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->ocsProvider->buildProviderList());
 	}
 
-	public function testBuildProviderListWithSharingEnabled() {
+	public function testBuildProviderListWithSharingEnabled(): void {
 		$this->appManager
 			->expects($this->exactly(4))
 			->method('isEnabledForUser')
@@ -105,7 +105,7 @@ class ProviderTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->ocsProvider->buildProviderList());
 	}
 
-	public function testBuildProviderListWithFederationEnabled() {
+	public function testBuildProviderListWithFederationEnabled(): void {
 		$this->appManager
 			->expects($this->exactly(4))
 			->method('isEnabledForUser')
@@ -149,7 +149,7 @@ class ProviderTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->ocsProvider->buildProviderList());
 	}
 
-	public function testBuildProviderListWithEverythingEnabled() {
+	public function testBuildProviderListWithEverythingEnabled(): void {
 		$this->appManager
 			->expects($this->any())
 			->method('isEnabledForUser')

@@ -66,11 +66,11 @@ class FTP extends Common {
 					$this->password
 				);
 			} catch (\Exception $e) {
-				throw new StorageNotAvailableException("Failed to create ftp connection", 0, $e);
+				throw new StorageNotAvailableException('Failed to create ftp connection', 0, $e);
 			}
 			if ($this->utf8Mode) {
 				if (!$this->connection->setUtf8Mode()) {
-					throw new StorageNotAvailableException("Could not set UTF-8 mode");
+					throw new StorageNotAvailableException('Could not set UTF-8 mode');
 				}
 			}
 		}
@@ -78,15 +78,15 @@ class FTP extends Common {
 		return $this->connection;
 	}
 
-	public function getId() {
+	public function getId(): string {
 		return 'ftp::' . $this->username . '@' . $this->host . '/' . $this->root;
 	}
 
-	protected function buildPath($path) {
+	protected function buildPath(string $path): string {
 		return rtrim($this->root . '/' . $path, '/');
 	}
 
-	public static function checkDependencies() {
+	public static function checkDependencies(): array|bool {
 		if (function_exists('ftp_login')) {
 			return true;
 		} else {
@@ -94,7 +94,7 @@ class FTP extends Common {
 		}
 	}
 
-	public function filemtime($path) {
+	public function filemtime(string $path): int|false {
 		$result = $this->getConnection()->mdtm($this->buildPath($path));
 
 		if ($result === -1) {
@@ -126,7 +126,7 @@ class FTP extends Common {
 		}
 	}
 
-	public function filesize($path): false|int|float {
+	public function filesize(string $path): false|int|float {
 		$result = $this->getConnection()->size($this->buildPath($path));
 		if ($result === -1) {
 			return false;
@@ -135,7 +135,7 @@ class FTP extends Common {
 		}
 	}
 
-	public function rmdir($path) {
+	public function rmdir(string $path): bool {
 		if ($this->is_dir($path)) {
 			$result = $this->getConnection()->rmdir($this->buildPath($path));
 			// recursive rmdir support depends on the ftp server
@@ -151,11 +151,7 @@ class FTP extends Common {
 		}
 	}
 
-	/**
-	 * @param string $path
-	 * @return bool
-	 */
-	private function recursiveRmDir($path): bool {
+	private function recursiveRmDir(string $path): bool {
 		$contents = $this->getDirectoryContent($path);
 		$result = true;
 		foreach ($contents as $content) {
@@ -170,7 +166,7 @@ class FTP extends Common {
 		return $result;
 	}
 
-	public function test() {
+	public function test(): bool {
 		try {
 			return $this->getConnection()->systype() !== false;
 		} catch (\Exception $e) {
@@ -178,7 +174,7 @@ class FTP extends Common {
 		}
 	}
 
-	public function stat($path) {
+	public function stat(string $path): array|false {
 		if (!$this->file_exists($path)) {
 			return false;
 		}
@@ -188,14 +184,14 @@ class FTP extends Common {
 		];
 	}
 
-	public function file_exists($path) {
+	public function file_exists(string $path): bool {
 		if ($path === '' || $path === '.' || $path === '/') {
 			return true;
 		}
 		return $this->filetype($path) !== false;
 	}
 
-	public function unlink($path) {
+	public function unlink(string $path): bool {
 		switch ($this->filetype($path)) {
 			case 'dir':
 				return $this->rmdir($path);
@@ -206,20 +202,20 @@ class FTP extends Common {
 		}
 	}
 
-	public function opendir($path) {
+	public function opendir(string $path) {
 		$files = $this->getConnection()->nlist($this->buildPath($path));
 		return IteratorDirectory::wrap($files);
 	}
 
-	public function mkdir($path) {
+	public function mkdir(string $path): bool {
 		if ($this->is_dir($path)) {
 			return false;
 		}
 		return $this->getConnection()->mkdir($this->buildPath($path)) !== false;
 	}
 
-	public function is_dir($path) {
-		if ($path === "") {
+	public function is_dir(string $path): bool {
+		if ($path === '') {
 			return true;
 		}
 		if ($this->getConnection()->chdir($this->buildPath($path)) === true) {
@@ -230,11 +226,11 @@ class FTP extends Common {
 		}
 	}
 
-	public function is_file($path) {
+	public function is_file(string $path): bool {
 		return $this->filesize($path) !== false;
 	}
 
-	public function filetype($path) {
+	public function filetype(string $path): string|false {
 		if ($this->is_dir($path)) {
 			return 'dir';
 		} elseif ($this->is_file($path)) {
@@ -244,7 +240,7 @@ class FTP extends Common {
 		}
 	}
 
-	public function fopen($path, $mode) {
+	public function fopen(string $path, string $mode) {
 		$useExisting = true;
 		switch ($mode) {
 			case 'r':
@@ -277,7 +273,7 @@ class FTP extends Common {
 					$tmpFile = \OC::$server->getTempManager()->getTemporaryFile();
 				}
 				$source = fopen($tmpFile, $mode);
-				return CallbackWrapper::wrap($source, null, null, function () use ($tmpFile, $path) {
+				return CallbackWrapper::wrap($source, null, null, function () use ($tmpFile, $path): void {
 					$this->writeStream($path, fopen($tmpFile, 'r'));
 					unlink($tmpFile);
 				});
@@ -287,7 +283,7 @@ class FTP extends Common {
 
 	public function writeStream(string $path, $stream, ?int $size = null): int {
 		if ($size === null) {
-			$stream = CountWrapper::wrap($stream, function ($writtenSize) use (&$size) {
+			$stream = CountWrapper::wrap($stream, function ($writtenSize) use (&$size): void {
 				$size = $writtenSize;
 			});
 		}
@@ -310,7 +306,7 @@ class FTP extends Common {
 		return $stream;
 	}
 
-	public function touch($path, $mtime = null) {
+	public function touch(string $path, ?int $mtime = null): bool {
 		if ($this->file_exists($path)) {
 			return false;
 		} else {
@@ -319,12 +315,12 @@ class FTP extends Common {
 		}
 	}
 
-	public function rename($source, $target) {
+	public function rename(string $source, string $target): bool {
 		$this->unlink($target);
 		return $this->getConnection()->rename($this->buildPath($source), $this->buildPath($target));
 	}
 
-	public function getDirectoryContent($directory): \Traversable {
+	public function getDirectoryContent(string $directory): \Traversable {
 		$files = $this->getConnection()->mlsd($this->buildPath($directory));
 		$mimeTypeDetector = \OC::$server->getMimeTypeDetector();
 

@@ -51,7 +51,7 @@ class AddUserTest extends TestCase {
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function testNoGroup() {
+	public function testNoGroup(): void {
 		$this->groupManager->method('get')
 			->with('myGroup')
 			->willReturn(null);
@@ -63,7 +63,7 @@ class AddUserTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testNoUser() {
+	public function testNoUser(): void {
 		$group = $this->createMock(IGroup::class);
 		$this->groupManager->method('get')
 			->with('myGroup')
@@ -80,7 +80,7 @@ class AddUserTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testAdd() {
+	public function testAdd(): void {
 		$group = $this->createMock(IGroup::class);
 		$this->groupManager->method('get')
 			->with('myGroup')

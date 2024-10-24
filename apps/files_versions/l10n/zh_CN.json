@@ -12,6 +12,7 @@
     "Initial version" : "初始版本",
     "Version name" : "版本名",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "命名版本会保留，且当你的存储配额已满时，它将被从自动清理中排除。",
+    "Cancel" : "取消",
     "Remove version name" : "删除版本名",
     "Save version name" : "保存版本名",
     "Initial version restored" : "已还原最初版本",

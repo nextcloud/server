@@ -33,8 +33,8 @@ class ListModules extends Base {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$isMaintenanceModeEnabled = $this->config->getSystemValue('maintenance', false);
 		if ($isMaintenanceModeEnabled) {
-			$output->writeln("Maintenance mode must be disabled when listing modules");
-			$output->writeln("in order to list the relevant encryption modules correctly.");
+			$output->writeln('Maintenance mode must be disabled when listing modules');
+			$output->writeln('in order to list the relevant encryption modules correctly.');
 			return 1;
 		}
 

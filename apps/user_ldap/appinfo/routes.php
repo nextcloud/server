@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use OCA\User_LDAP\AppInfo\Application;
+use OCP\AppFramework\App;
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -22,7 +25,7 @@ $this->create('user_ldap_ajax_testConfiguration', 'apps/user_ldap/ajax/testConfi
 $this->create('user_ldap_ajax_wizard', 'apps/user_ldap/ajax/wizard.php')
 	->actionInclude('user_ldap/ajax/wizard.php');
 
-$application = new \OCP\AppFramework\App('user_ldap');
+$application = new App('user_ldap');
 $application->registerRoutes($this, [
 	'ocs' => [
 		['name' => 'ConfigAPI#create', 'url' => '/api/v1/config', 'verb' => 'POST'],
@@ -32,8 +35,8 @@ $application->registerRoutes($this, [
 	]
 ]);
 
-/** @var \OCA\User_LDAP\AppInfo\Application $application */
-$application = \OC::$server->query(\OCA\User_LDAP\AppInfo\Application::class);
+/** @var Application $application */
+$application = \OC::$server->query(Application::class);
 $application->registerRoutes($this, [
 	'routes' => [
 		['name' => 'renewPassword#tryRenewPassword', 'url' => '/renewpassword', 'verb' => 'POST'],

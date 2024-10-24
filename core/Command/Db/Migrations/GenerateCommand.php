@@ -15,6 +15,7 @@ use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareI
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -71,13 +72,10 @@ class {{classname}} extends SimpleMigrationStep {
 }
 ';
 
-	protected Connection $connection;
-	protected IAppManager $appManager;
-
-	public function __construct(Connection $connection, IAppManager $appManager) {
-		$this->connection = $connection;
-		$this->appManager = $appManager;
-
+	public function __construct(
+		protected Connection $connection,
+		protected IAppManager $appManager,
+	) {
 		parent::__construct();
 	}
 
@@ -112,7 +110,7 @@ class {{classname}} extends SimpleMigrationStep {
 
 		if ($fullVersion) {
 			[$major, $minor] = explode('.', $fullVersion);
-			$shouldVersion = (string) ((int)$major * 1000 + (int)$minor);
+			$shouldVersion = (string)((int)$major * 1000 + (int)$minor);
 			if ($version !== $shouldVersion) {
 				$output->writeln('<comment>Unexpected migration version for current version: ' . $fullVersion . '</comment>');
 				$output->writeln('<comment> - Pattern:  XYYY </comment>');
@@ -120,6 +118,7 @@ class {{classname}} extends SimpleMigrationStep {
 				$output->writeln('<comment> - Actual:   ' . $version . '</comment>');
 
 				if ($input->isInteractive()) {
+					/** @var QuestionHelper $helper */
 					$helper = $this->getHelper('question');
 					$question = new ConfirmationQuestion('Continue with your given version? (y/n) [n] ', false);
 
@@ -155,7 +154,7 @@ class {{classname}} extends SimpleMigrationStep {
 	 */
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'app') {
-			$allApps = \OC_App::getAllApps();
+			$allApps = $this->appManager->getAllAppsInAppsFolders();
 			return array_diff($allApps, \OC_App::getEnabledApps(true, true));
 		}
 

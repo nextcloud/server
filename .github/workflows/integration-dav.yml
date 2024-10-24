@@ -43,7 +43,7 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['8.3']
+        php-versions: ['8.1']
         endpoint: ['old', 'new']
         service: ['CalDAV', 'CardDAV']
 
@@ -51,7 +51,7 @@ jobs:
 
     steps:
         - name: Checkout server
-          uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+          uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
           with:
             submodules: true
 
@@ -99,9 +99,9 @@ jobs:
 
         - name: Run CalDAVTester
           run: |
-            cp "apps/dav/tests/travis/caldavtest/serverinfo-${{ matrix.endpoint }}${{ matrix.endpoint == 'old' && (matrix.service == 'CardDAV' && '-carddav' || '-caldav') || '' }}-endpoint.xml" "apps/dav/tests/travis/caldavtest/serverinfo.xml"
+            cp "apps/dav/tests/testsuits/caldavtest/serverinfo-${{ matrix.endpoint }}${{ matrix.endpoint == 'old' && (matrix.service == 'CardDAV' && '-carddav' || '-caldav') || '' }}-endpoint.xml" "apps/dav/tests/testsuits/caldavtest/serverinfo.xml"
             pushd CalDAVTester
-            PYTHONPATH="../pycalendar/src" python testcaldav.py --print-details-onfail --basedir "../apps/dav/tests/travis/caldavtest" -o cdt.txt \
+            PYTHONPATH="../pycalendar/src" python testcaldav.py --print-details-onfail --basedir "../apps/dav/tests/testsuits/caldavtest" -o cdt.txt \
               "${{ matrix.service }}/current-user-principal.xml" \
               "${{ matrix.service }}/sync-report.xml" \
               ${{ matrix.endpoint == 'new' && format('{0}/sharing-{1}.xml', matrix.service, matrix.service == 'CalDAV' && 'calendars' || 'addressbooks') || ';' }}

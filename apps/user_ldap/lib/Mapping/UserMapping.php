@@ -20,11 +20,12 @@ use OCP\Support\Subscription\IAssertion;
  */
 class UserMapping extends AbstractMapping {
 
-	private IAssertion $assertion;
 	protected const PROV_API_REGEX = '/\/ocs\/v[1-9].php\/cloud\/(groups|users)/';
 
-	public function __construct(IDBConnection $dbc, IAssertion $assertion) {
-		$this->assertion = $assertion;
+	public function __construct(
+		IDBConnection $dbc,
+		private IAssertion $assertion,
+	) {
 		parent::__construct($dbc);
 	}
 

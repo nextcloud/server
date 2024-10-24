@@ -30,6 +30,7 @@ use OCP\ILogger;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\ServerVersion;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\Share\IManager as IShareManager;
 use OCP\User\Backend\IPasswordConfirmationBackend;
@@ -41,19 +42,20 @@ class JSConfigHelper {
 	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
 
 	public function __construct(
-		protected IL10N                $l,
-		protected Defaults             $defaults,
-		protected IAppManager          $appManager,
-		protected ISession             $session,
-		protected ?IUser               $currentUser,
-		protected IConfig              $config,
-		protected IGroupManager        $groupManager,
-		protected IniGetWrapper        $iniWrapper,
-		protected IURLGenerator        $urlGenerator,
-		protected CapabilitiesManager  $capabilitiesManager,
+		protected ServerVersion $serverVersion,
+		protected IL10N $l,
+		protected Defaults $defaults,
+		protected IAppManager $appManager,
+		protected ISession $session,
+		protected ?IUser $currentUser,
+		protected IConfig $config,
+		protected IGroupManager $groupManager,
+		protected IniGetWrapper $iniWrapper,
+		protected IURLGenerator $urlGenerator,
+		protected CapabilitiesManager $capabilitiesManager,
 		protected IInitialStateService $initialStateService,
-		protected IProvider            $tokenProvider,
-		protected FilenameValidator   $filenameValidator,
+		protected IProvider $tokenProvider,
+		protected FilenameValidator $filenameValidator,
 	) {
 	}
 
@@ -154,22 +156,22 @@ class JSConfigHelper {
 			'session_lifetime' => min($this->config->getSystemValue('session_lifetime', $this->iniWrapper->getNumeric('session.gc_maxlifetime')), $this->iniWrapper->getNumeric('session.gc_maxlifetime')),
 			'sharing.maxAutocompleteResults' => max(0, $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT)),
 			'sharing.minSearchStringLength' => $this->config->getSystemValueInt('sharing.minSearchStringLength', 0),
-			'version' => implode('.', Util::getVersion()),
-			'versionstring' => \OC_Util::getVersionString(),
+			'version' => implode('.', $this->serverVersion->getVersion()),
+			'versionstring' => $this->serverVersion->getVersionString(),
 			'enable_non-accessible_features' => $this->config->getSystemValueBool('enable_non-accessible_features', true),
 		];
 
 		$array = [
-			"_oc_debug" => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
-			"_oc_isadmin" => $uid !== null && $this->groupManager->isAdmin($uid) ? 'true' : 'false',
-			"backendAllowsPasswordConfirmation" => $userBackendAllowsPasswordConfirmation ? 'true' : 'false',
-			"oc_dataURL" => is_string($dataLocation) ? "\"" . $dataLocation . "\"" : 'false',
-			"_oc_webroot" => "\"" . \OC::$WEBROOT . "\"",
-			"_oc_appswebroots" => str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
-			"datepickerFormatDate" => json_encode($this->l->l('jsdate', null)),
+			'_oc_debug' => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
+			'_oc_isadmin' => $uid !== null && $this->groupManager->isAdmin($uid) ? 'true' : 'false',
+			'backendAllowsPasswordConfirmation' => $userBackendAllowsPasswordConfirmation ? 'true' : 'false',
+			'oc_dataURL' => is_string($dataLocation) ? '"' . $dataLocation . '"' : 'false',
+			'_oc_webroot' => '"' . \OC::$WEBROOT . '"',
+			'_oc_appswebroots' => str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
+			'datepickerFormatDate' => json_encode($this->l->l('jsdate', null)),
 			'nc_lastLogin' => $lastConfirmTimestamp,
 			'nc_pageLoad' => time(),
-			"dayNames" => json_encode([
+			'dayNames' => json_encode([
 				$this->l->t('Sunday'),
 				$this->l->t('Monday'),
 				$this->l->t('Tuesday'),
@@ -178,7 +180,7 @@ class JSConfigHelper {
 				$this->l->t('Friday'),
 				$this->l->t('Saturday')
 			]),
-			"dayNamesShort" => json_encode([
+			'dayNamesShort' => json_encode([
 				$this->l->t('Sun.'),
 				$this->l->t('Mon.'),
 				$this->l->t('Tue.'),
@@ -187,7 +189,7 @@ class JSConfigHelper {
 				$this->l->t('Fri.'),
 				$this->l->t('Sat.')
 			]),
-			"dayNamesMin" => json_encode([
+			'dayNamesMin' => json_encode([
 				$this->l->t('Su'),
 				$this->l->t('Mo'),
 				$this->l->t('Tu'),
@@ -196,7 +198,7 @@ class JSConfigHelper {
 				$this->l->t('Fr'),
 				$this->l->t('Sa')
 			]),
-			"monthNames" => json_encode([
+			'monthNames' => json_encode([
 				$this->l->t('January'),
 				$this->l->t('February'),
 				$this->l->t('March'),
@@ -210,7 +212,7 @@ class JSConfigHelper {
 				$this->l->t('November'),
 				$this->l->t('December')
 			]),
-			"monthNamesShort" => json_encode([
+			'monthNamesShort' => json_encode([
 				$this->l->t('Jan.'),
 				$this->l->t('Feb.'),
 				$this->l->t('Mar.'),
@@ -224,9 +226,9 @@ class JSConfigHelper {
 				$this->l->t('Nov.'),
 				$this->l->t('Dec.')
 			]),
-			"firstDay" => json_encode($firstDay),
-			"_oc_config" => json_encode($config),
-			"oc_appconfig" => json_encode([
+			'firstDay' => json_encode($firstDay),
+			'_oc_config' => json_encode($config),
+			'oc_appconfig' => json_encode([
 				'core' => [
 					'defaultExpireDateEnabled' => $defaultExpireDateEnabled,
 					'defaultExpireDate' => $defaultExpireDate,
@@ -246,7 +248,7 @@ class JSConfigHelper {
 					'defaultRemoteExpireDateEnforced' => $defaultRemoteExpireDateEnforced,
 				]
 			]),
-			"_theme" => json_encode([
+			'_theme' => json_encode([
 				'entity' => $this->defaults->getEntity(),
 				'name' => $this->defaults->getName(),
 				'productName' => $this->defaults->getProductName(),
@@ -281,8 +283,8 @@ class JSConfigHelper {
 		$result = '';
 
 		// Echo it
-		foreach ($array as  $setting => $value) {
-			$result .= 'var '. $setting . '='. $value . ';' . PHP_EOL;
+		foreach ($array as $setting => $value) {
+			$result .= 'var ' . $setting . '=' . $value . ';' . PHP_EOL;
 		}
 
 		return $result;

@@ -10,40 +10,35 @@ use OC\Files\Mount\MoveableMount;
 use OCA\Files_External\Config\ExternalMountPoint;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\Files\Storage\IStorage;
+use OCP\Files\Storage\IStorageFactory;
 
 /**
  * Person mount points can be moved by the user
  */
 class PersonalMount extends ExternalMountPoint implements MoveableMount {
-	/** @var UserStoragesService */
-	protected $storagesService;
-
-	/** @var int id of the external storage (mount) (not the numeric id of the resulting storage!) */
-	protected $numericExternalStorageId;
-
 	/**
 	 * @param UserStoragesService $storagesService
 	 * @param int $storageId
 	 * @param IStorage $storage
 	 * @param string $mountpoint
 	 * @param array $arguments (optional) configuration for the storage backend
-	 * @param \OCP\Files\Storage\IStorageFactory $loader
+	 * @param IStorageFactory $loader
 	 * @param array $mountOptions mount specific options
+	 * @param int $externalStorageId
 	 */
 	public function __construct(
-		UserStoragesService $storagesService,
+		protected UserStoragesService $storagesService,
 		StorageConfig $storageConfig,
-		$externalStorageId,
+		/** @var int id of the external storage (mount) (not the numeric id of the resulting storage!) */
+		protected $numericExternalStorageId,
 		$storage,
 		$mountpoint,
 		$arguments = null,
 		$loader = null,
 		$mountOptions = null,
-		$mountId = null
+		$mountId = null,
 	) {
 		parent::__construct($storageConfig, $storage, $mountpoint, $arguments, $loader, $mountOptions, $mountId);
-		$this->storagesService = $storagesService;
-		$this->numericExternalStorageId = $externalStorageId;
 	}
 
 	/**

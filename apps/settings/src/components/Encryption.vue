@@ -53,7 +53,15 @@
 				</template>
 			</div>
 
-			<div v-else-if="externalBackendsEnabled" v-html="migrationMessage" />
+			<div v-else-if="externalBackendsEnabled">
+				{{
+					t(
+						'settings',
+						'You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the "Default encryption module" and run {command}',
+						{ command: '"occ encryption:migrate"' },
+					)
+				}}
+			</div>
 		</div>
 	</NcSettingsSection>
 </template>
@@ -91,13 +99,6 @@ export default {
 			migrating: false,
 			defaultCheckedModule: Object.entries(encryptionModules).find((module) => module[1].default)[0],
 		}
-	},
-	computed: {
-		migrationMessage() {
-			return t('settings', 'You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the "Default encryption module" and run {command}', {
-				command: '"occ encryption:migrate"',
-			})
-		},
 	},
 	methods: {
 		displayWarning() {
@@ -168,7 +169,7 @@ export default {
 	color: var(--color-text-light);
 	background-color: var(--note-background);
 	border: 1px solid var(--color-border);
-	border-left: 4px solid var(--note-theme);
+	border-inline-start: 4px solid var(--note-theme);
 	border-radius: var(--border-radius);
 	box-shadow: rgba(43, 42, 51, 0.05) 0px 1px 2px 0px;
 	margin: 1rem 0;
@@ -178,7 +179,7 @@ export default {
 
 li {
 	list-style-type: initial;
-	margin-left: 1rem;
+	margin-inline-start: 1rem;
 	padding: 0.25rem 0;
 }
 

@@ -43,7 +43,7 @@ class LoggerTest extends TestCase implements IWriter {
 			])));
 	}
 
-	public function testInterpolation() {
+	public function testInterpolation(): void {
 		$this->mockDefaultLogLevel();
 		$logger = $this->logger;
 		$logger->warning('{Message {nothing} {user} {foo.bar} a}', ['user' => 'Bob', 'foo.bar' => 'Bar']);
@@ -52,7 +52,7 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->assertEquals($expected, $this->getLogs());
 	}
 
-	public function testAppCondition() {
+	public function testAppCondition(): void {
 		$this->config->expects($this->any())
 			->method('getValue')
 			->will(($this->returnValueMap([
@@ -178,7 +178,7 @@ class LoggerTest extends TestCase implements IWriter {
 		if (is_array($message)) {
 			$textMessage = $message['message'];
 		}
-		$this->logs[] = $level . " " . $textMessage;
+		$this->logs[] = $level . ' ' . $textMessage;
 	}
 
 	public function userAndPasswordData(): array {

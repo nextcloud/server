@@ -16,15 +16,6 @@ use OCP\IRequest;
 use OCP\IUserSession;
 
 class AjaxController extends Controller {
-	/** @var RSA */
-	private $rsaMechanism;
-	/** @var GlobalAuth  */
-	private $globalAuth;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IGroupManager */
-	private $groupManager;
-
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -33,17 +24,15 @@ class AjaxController extends Controller {
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 		IRequest $request,
-		RSA $rsaMechanism,
-		GlobalAuth $globalAuth,
-		IUserSession $userSession,
-		IGroupManager $groupManager) {
+		private RSA $rsaMechanism,
+		private GlobalAuth $globalAuth,
+		private IUserSession $userSession,
+		private IGroupManager $groupManager,
+	) {
 		parent::__construct($appName, $request);
-		$this->rsaMechanism = $rsaMechanism;
-		$this->globalAuth = $globalAuth;
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
 	}
 
 	/**

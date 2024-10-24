@@ -32,13 +32,7 @@ class HomeObjectStoreStorage extends ObjectStoreStorage implements IHomeStorage 
 		return 'object::user:' . $this->user->getUID();
 	}
 
-	/**
-	 * get the owner of a path
-	 *
-	 * @param string $path The path to get the owner
-	 * @return string uid
-	 */
-	public function getOwner($path): string {
+	public function getOwner(string $path): string|false {
 		return $this->user->getUID();
 	}
 

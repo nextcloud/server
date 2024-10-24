@@ -65,6 +65,7 @@ import type { UserConfig } from '../types'
 import { getFileListHeaders, Folder, View, getFileActions, FileType } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
@@ -200,8 +201,12 @@ export default defineComponent({
 			handler() {
 				// wait for scrolling and updating the actions to settle
 				this.$nextTick(() => {
-					if (this.fileId && this.openFile) {
-						this.handleOpenFile(this.fileId)
+					if (this.fileId) {
+						if (this.openFile) {
+							this.handleOpenFile(this.fileId)
+						} else {
+							this.unselectFile()
+						}
 					}
 				})
 			},
@@ -214,6 +219,8 @@ export default defineComponent({
 		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
 		mainContent.addEventListener('dragover', this.onDragOver)
 
+		subscribe('files:sidebar:closed', this.unselectFile)
+
 		// If the file list is mounted with a fileId specified
 		// then we need to open the sidebar initially
 		if (this.fileId) {
@@ -224,6 +231,8 @@ export default defineComponent({
 	beforeDestroy() {
 		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
 		mainContent.removeEventListener('dragover', this.onDragOver)
+
+		unsubscribe('files:sidebar:closed', this.unselectFile)
 	},
 
 	methods: {
@@ -251,15 +260,22 @@ export default defineComponent({
 			}
 		},
 
+		unselectFile() {
+			// If the Sidebar is closed and if openFile is false, remove the file id from the URL
+			if (!this.openFile && OCA.Files.Sidebar.file === '') {
+				window.OCP.Files.Router.goToRoute(
+					null,
+					{ ...this.$route.params, fileid: String(this.currentFolder.fileid ?? '') },
+					this.$route.query,
+				)
+			}
+		},
+
 		/**
 		 * Handle opening a file (e.g. by ?openfile=true)
 		 * @param fileId File to open
 		 */
 		handleOpenFile(fileId: number|null) {
-			if (!this.openFile) {
-				return
-			}
-
 			if (fileId === null || this.openFileId === fileId) {
 				return
 			}
@@ -328,14 +344,14 @@ export default defineComponent({
 	--clickable-area: var(--default-clickable-area);
 	--icon-preview-size: 32px;
 
-	--fixed-top-position: var(--default-clickable-area);
+	--fixed-block-start-position: var(--default-clickable-area);
 
 	overflow: auto;
 	height: 100%;
 	will-change: scroll-position;
 
 	&:has(.file-list-filters__active) {
-		--fixed-top-position: calc(var(--default-clickable-area) + var(--default-grid-baseline) + var(--clickable-area-small));
+		--fixed-block-start-position: calc(var(--default-clickable-area) + var(--default-grid-baseline) + var(--clickable-area-small));
 	}
 
 	& :deep() {
@@ -366,7 +382,7 @@ export default defineComponent({
 		}
 
 		.files-list__selected {
-			padding-right: 12px;
+			padding-inline-end: 12px;
 			white-space: nowrap;
 		}
 
@@ -375,7 +391,7 @@ export default defineComponent({
 
 			&.files-list__table--with-thead-overlay {
 				// Hide the table header below the overlay
-				margin-top: calc(-1 * var(--row-height));
+				margin-block-start: calc(-1 * var(--row-height));
 			}
 		}
 
@@ -388,16 +404,16 @@ export default defineComponent({
 			z-index: 10;
 			// fixed the size
 			padding-inline: var(--row-height) var(--default-grid-baseline, 4px);
-			height: var(--fixed-top-position);
+			height: var(--fixed-block-start-position);
 			width: 100%;
 		}
 
 		.files-list__thead-overlay {
 			// Pinned on top when scrolling
 			position: sticky;
-			top: var(--fixed-top-position);
+			top: var(--fixed-block-start-position);
 			// Save space for a row checkbox
-			margin-left: var(--row-height);
+			margin-inline-start: var(--row-height);
 			// More than .files-list__thead
 			z-index: 20;
 
@@ -406,7 +422,7 @@ export default defineComponent({
 
 			// Reuse row styles
 			background-color: var(--color-main-background);
-			border-bottom: 1px solid var(--color-border);
+			border-block-end: 1px solid var(--color-border);
 			height: var(--row-height);
 		}
 
@@ -424,12 +440,7 @@ export default defineComponent({
 			// Pinned on top when scrolling
 			position: sticky;
 			z-index: 10;
-			top: var(--fixed-top-position);
-		}
-
-		// Table footer
-		.files-list__tfoot {
-			min-height: 300px;
+			top: var(--fixed-block-start-position);
 		}
 
 		tr {
@@ -438,7 +449,7 @@ export default defineComponent({
 			align-items: center;
 			width: 100%;
 			user-select: none;
-			border-bottom: 1px solid var(--color-border);
+			border-block-end: 1px solid var(--color-border);
 			box-sizing: border-box;
 			user-select: none;
 			height: var(--row-height);
@@ -448,7 +459,7 @@ export default defineComponent({
 			display: flex;
 			align-items: center;
 			flex: 0 0 auto;
-			justify-content: left;
+			justify-content: start;
 			width: var(--row-height);
 			height: var(--row-height);
 			margin: 0;
@@ -470,8 +481,7 @@ export default defineComponent({
 			position: absolute;
 			display: block;
 			top: 0;
-			left: 0;
-			right: 0;
+			inset-inline: 0;
 			bottom: 0;
 			opacity: .1;
 			z-index: -1;
@@ -535,7 +545,7 @@ export default defineComponent({
 			width: var(--icon-preview-size);
 			height: 100%;
 			// Show same padding as the checkbox right padding for visual balance
-			margin-right: var(--checkbox-padding);
+			margin-inline-end: var(--checkbox-padding);
 			color: var(--color-primary-element);
 
 			// Icon is also clickable
@@ -562,14 +572,30 @@ export default defineComponent({
 				}
 			}
 
-			&-preview {
+			&-preview-container {
+				position: relative; // Needed for the blurshash to be positioned correctly
 				overflow: hidden;
 				width: var(--icon-preview-size);
 				height: var(--icon-preview-size);
 				border-radius: var(--border-radius);
+			}
+
+			&-blurhash {
+				position: absolute;
+				inset-block-start: 0;
+				inset-inline-start: 0;
+				height: 100%;
+				width: 100%;
+				object-fit: cover;
+			}
+
+			&-preview {
 				// Center and contain the preview
 				object-fit: contain;
 				object-position: center;
+
+				height: 100%;
+				width: 100%;
 
 				/* Preview not loaded animation effect */
 				&:not(.files-list__row-icon-preview--loaded) {
@@ -581,7 +607,7 @@ export default defineComponent({
 			&-favorite {
 				position: absolute;
 				top: 0px;
-				right: -10px;
+				inset-inline-end: -10px;
 			}
 
 			// File and folder overlay
@@ -591,7 +617,7 @@ export default defineComponent({
 				max-width: calc(var(--icon-preview-size) * 0.5);
 				color: var(--color-primary-element-text);
 				// better alignment with the folder icon
-				margin-top: 2px;
+				margin-block-start: 2px;
 
 				// Improve icon contrast with a background for files
 				&--file {
@@ -640,7 +666,7 @@ export default defineComponent({
 				color: var(--color-main-text);
 				// Make some space for the outline
 				padding: var(--default-grid-baseline) calc(2 * var(--default-grid-baseline));
-				padding-left: 0;
+				padding-inline-start: -10px;
 				// Align two name and ext
 				display: inline-flex;
 			}
@@ -659,7 +685,7 @@ export default defineComponent({
 			input {
 				width: 100%;
 				// Align with text, 0 - padding - border
-				margin-left: -8px;
+				margin-inline-start: -8px;
 				padding: 2px 6px;
 				border-width: 2px;
 
@@ -690,7 +716,7 @@ export default defineComponent({
 		}
 
 		.files-list__row-action--inline {
-			margin-right: 7px;
+			margin-inline-end: 7px;
 		}
 
 		.files-list__row-mtime,
@@ -741,8 +767,6 @@ tbody.files-list__tbody.files-list__tbody--grid {
 	align-items: center;
 	justify-content: space-around;
 	justify-items: center;
-	margin: 16px;
-	width: calc(100% - 32px);
 
 	tr {
 		display: flex;
@@ -759,7 +783,7 @@ tbody.files-list__tbody.files-list__tbody--grid {
 		position: absolute;
 		z-index: 9;
 		top: calc(var(--item-padding)/2);
-		left: calc(var(--item-padding)/2);
+		inset-inline-start: calc(var(--item-padding)/2);
 		overflow: hidden;
 		--checkbox-container-size: 44px;
 		width: var(--checkbox-container-size);
@@ -771,8 +795,8 @@ tbody.files-list__tbody.files-list__tbody--grid {
 			width: 16px;
 			height: 16px;
 			position: absolute;
-			left: 50%;
-			margin-left: -8px;
+			inset-inline-start: 50%;
+			margin-inline-start: -8px;
 			z-index: -1;
 			background: var(--color-main-background);
 		}
@@ -782,7 +806,7 @@ tbody.files-list__tbody.files-list__tbody--grid {
 	.files-list__row-icon-favorite {
 		position: absolute;
 		top: 0;
-		right: 0;
+		inset-inline-end: 0;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -806,7 +830,7 @@ tbody.files-list__tbody.files-list__tbody--grid {
 		.files-list__row-name-text {
 			margin: 0;
 			// Ensure that the outline is not too close to the text.
-			margin-left: -4px;
+			margin-inline-start: -4px;
 			padding: 0px 4px;
 		}
 	}
@@ -819,8 +843,8 @@ tbody.files-list__tbody.files-list__tbody--grid {
 
 	.files-list__row-actions {
 		position: absolute;
-		right: calc(var(--half-clickable-area) / 2);
-		bottom: calc(var(--mtime-height) / 2);
+		inset-inline-end: calc(var(--half-clickable-area) / 2);
+		inset-block-end: calc(var(--mtime-height) / 2);
 		width: var(--clickable-area);
 		height: var(--clickable-area);
 	}

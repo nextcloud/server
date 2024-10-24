@@ -11,6 +11,8 @@ namespace OCA\Settings\Controller;
 
 use OC\Group\Manager as GroupManager;
 use OC\User\Session;
+use OCA\Encryption\KeyManager;
+use OCA\Encryption\Recovery;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
@@ -18,37 +20,28 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\HintException;
-use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
 
 class ChangePasswordController extends Controller {
-	private ?string $userId;
-	private IUserManager $userManager;
-	private IL10N $l;
-	private GroupManager $groupManager;
 	private Session $userSession;
-	private IAppManager $appManager;
 
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		?string $userId,
-		IUserManager $userManager,
+		private ?string $userId,
+		private IUserManager $userManager,
 		IUserSession $userSession,
-		IGroupManager $groupManager,
-		IAppManager $appManager,
-		IL10N $l) {
+		private GroupManager $groupManager,
+		private IAppManager $appManager,
+		private IL10N $l,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->userId = $userId;
-		$this->userManager = $userManager;
 		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
-		$this->appManager = $appManager;
-		$this->l = $l;
 	}
 
 	/**
@@ -146,8 +139,8 @@ class ChangePasswordController extends Controller {
 
 		if ($this->appManager->isEnabledForUser('encryption')) {
 			//handle the recovery case
-			$keyManager = \OCP\Server::get(\OCA\Encryption\KeyManager::class);
-			$recovery = \OCP\Server::get(\OCA\Encryption\Recovery::class);
+			$keyManager = Server::get(KeyManager::class);
+			$recovery = Server::get(Recovery::class);
 			$recoveryAdminEnabled = $recovery->isRecoveryKeyEnabled();
 
 			$validRecoveryPassword = false;

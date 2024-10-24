@@ -13,7 +13,7 @@ class RedisFactory {
 	public const REDIS_MINIMAL_VERSION = '4.0.0';
 	public const REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION = '5.3.0';
 
-	/** @var  \Redis|\RedisCluster */
+	/** @var \Redis|\RedisCluster */
 	private $instance;
 
 	private SystemConfig $config;

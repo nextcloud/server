@@ -20,7 +20,7 @@ class DatabaseBackend implements IBackend {
 	public function __construct(
 		private IConfig $config,
 		private IDBConnection $dbConnection,
-		private ITimeFactory $timeFactory
+		private ITimeFactory $timeFactory,
 	) {
 	}
 
@@ -35,14 +35,14 @@ class DatabaseBackend implements IBackend {
 	 * @throws Exception
 	 */
 	private function getExistingAttemptCount(
-		string $identifier
+		string $identifier,
 	): int {
 		$currentTime = $this->timeFactory->getDateTime();
 
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete(self::TABLE_NAME)
 			->where(
-				$qb->expr()->lte('delete_after', $qb->createNamedParameter($currentTime, IQueryBuilder::PARAM_DATE))
+				$qb->expr()->lte('delete_after', $qb->createNamedParameter($currentTime, IQueryBuilder::PARAM_DATETIME_MUTABLE))
 			)
 			->executeStatement();
 
@@ -87,7 +87,7 @@ class DatabaseBackend implements IBackend {
 		$qb->insert(self::TABLE_NAME)
 			->values([
 				'hash' => $qb->createNamedParameter($identifier, IQueryBuilder::PARAM_STR),
-				'delete_after' => $qb->createNamedParameter($deleteAfter, IQueryBuilder::PARAM_DATE),
+				'delete_after' => $qb->createNamedParameter($deleteAfter, IQueryBuilder::PARAM_DATETIME_MUTABLE),
 			]);
 
 		if (!$this->config->getSystemValueBool('ratelimit.protection.enabled', true)) {

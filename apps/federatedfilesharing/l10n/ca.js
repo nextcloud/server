@@ -36,8 +36,8 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "El vostre ID de núvol federat:",
     "Share it so your friends can share files with you:" : "Compartiu-lo perquè els vostres amics puguin enviar-vos fitxers compartits:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora",
+    "X (formerly Twitter)" : "X (abans Twitter)",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Afegiu-lo al vostre lloc web",
     "Share with me via Nextcloud" : "Comparteix contingut amb mi a través del Nextcloud",
     "HTML Code:" : "Codi HTML:",
@@ -45,9 +45,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Comparteix contingut amb mi amb el meu ID del núvol federat del #Nextcloud",
     "Cloud ID copied to the clipboard" : "S'ha copiat l'ID del núvol al porta-retalls",
     "Copy to clipboard" : "Copia-ho al porta-retalls",
-    "Clipboard is not available" : "El porta-retalls no està disponible",
-    "Copied!" : "S'ha copiat!",
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Voleu afegir l'element compartit remot {nom} de {owner}@{remote}?",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Voleu afegir l'element compartit remot {name} de {owner}@{remote}?",
     "Remote share" : "Element compartit remot",
     "Remote share password" : "Contrasenya de l'element compartit remot",
     "Cancel" : "Cancel·la",
@@ -60,6 +58,10 @@ OC.L10N.register(
     "Allow users on this server to send shares to groups on other servers" : "Permet que els usuaris d'aquest servidor enviïn elements compartits a grups d'altres servidors",
     "Allow users on this server to receive group shares from other servers" : "Permet que els usuaris d'aquest servidor rebin elements compartits de grups d'altres servidors",
     "Search global and public address book for users" : "Cerca usuaris a la llibreta d'adreces global i pública",
-    "Allow users to publish their data to a global and public address book" : "Permet que els usuaris publiquin les seves dades en una llibreta d'adreces global i pública"
+    "Allow users to publish their data to a global and public address book" : "Permet que els usuaris publiquin les seves dades en una llibreta d'adreces global i pública",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "El porta-retalls no està disponible",
+    "Copied!" : "S'ha copiat!"
 },
 "nplurals=2; plural=(n != 1);");

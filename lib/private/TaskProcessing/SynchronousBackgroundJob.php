@@ -9,14 +9,8 @@ namespace OC\TaskProcessing;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\QueuedJob;
-use OCP\Files\GenericFileException;
-use OCP\Files\NotPermittedException;
-use OCP\Lock\LockedException;
 use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\NotFoundException;
-use OCP\TaskProcessing\Exception\ProcessingException;
-use OCP\TaskProcessing\Exception\UnauthorizedException;
-use OCP\TaskProcessing\Exception\ValidationException;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\ISynchronousProvider;
 use OCP\TaskProcessing\Task;
@@ -57,46 +51,27 @@ class SynchronousBackgroundJob extends QueuedJob {
 				$this->logger->error('Unknown error while retrieving scheduled TaskProcessing tasks', ['exception' => $e]);
 				continue;
 			}
-			try {
-				try {
-					$input = $this->taskProcessingManager->prepareInputData($task);
-				} catch (GenericFileException|NotPermittedException|LockedException|ValidationException|UnauthorizedException $e) {
-					$this->logger->warning('Failed to prepare input data for a TaskProcessing task with synchronous provider ' . $provider->getId(), ['exception' => $e]);
-					$this->taskProcessingManager->setTaskResult($task->getId(), $e->getMessage(), null);
-					// Schedule again
-					$this->jobList->add(self::class, $argument);
-					return;
-				}
-				try {
-					$this->taskProcessingManager->setTaskStatus($task, Task::STATUS_RUNNING);
-					$output = $provider->process($task->getUserId(), $input, fn (float $progress) => $this->taskProcessingManager->setTaskProgress($task->getId(), $progress));
-				} catch (ProcessingException $e) {
-					$this->logger->warning('Failed to process a TaskProcessing task with synchronous provider ' . $provider->getId(), ['exception' => $e]);
-					$this->taskProcessingManager->setTaskResult($task->getId(), $e->getMessage(), null);
-					// Schedule again
-					$this->jobList->add(self::class, $argument);
-					return;
-				} catch (\Throwable $e) {
-					$this->logger->error('Unknown error while processing TaskProcessing task', ['exception' => $e]);
-					$this->taskProcessingManager->setTaskResult($task->getId(), $e->getMessage(), null);
-					// Schedule again
-					$this->jobList->add(self::class, $argument);
-					return;
-				}
-				$this->taskProcessingManager->setTaskResult($task->getId(), null, $output);
-			} catch (NotFoundException $e) {
-				$this->logger->info('Could not find task anymore after execution. Moving on.', ['exception' => $e]);
-			} catch (Exception $e) {
-				$this->logger->error('Failed to report result of TaskProcessing task', ['exception' => $e]);
+			if (!$this->taskProcessingManager->processTask($task, $provider)) {
+				// Schedule again
+				$this->jobList->add(self::class, $argument);
 			}
 		}
 
+		// check if this job needs to be scheduled again:
+		// if there is at least one preferred synchronous provider that has a scheduled task
 		$synchronousProviders = array_filter($providers, fn ($provider) =>
 			$provider instanceof ISynchronousProvider);
-		$taskTypes = array_values(array_map(fn ($provider) =>
-			$provider->getTaskTypeId(),
-			$synchronousProviders
-		));
+		$synchronousPreferredProviders = array_filter($synchronousProviders, function ($provider) {
+			$taskTypeId = $provider->getTaskTypeId();
+			$preferredProvider = $this->taskProcessingManager->getPreferredProvider($taskTypeId);
+			return $provider->getId() === $preferredProvider->getId();
+		});
+		$taskTypes = array_values(
+			array_map(
+				fn ($provider) => $provider->getTaskTypeId(),
+				$synchronousPreferredProviders
+			)
+		);
 		$taskTypesWithTasks = array_filter($taskTypes, function ($taskType) {
 			try {
 				$this->taskProcessingManager->getNextScheduledTask([$taskType]);

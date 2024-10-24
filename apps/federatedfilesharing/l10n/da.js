@@ -36,8 +36,9 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Din Federated Cloud ID:",
     "Share it so your friends can share files with you:" : "Del så dine venner kan dele filer med dig:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora",
+    "X (formerly Twitter)" : "X (tidligere Twitter)",
+    "formerly Twitter" : "tidligere Twitter",
+    "Mastodon" : "Mastodont",
     "Add to your website" : "Tilføj til dit websted",
     "Share with me via Nextcloud" : "Del med mig gennem Nextcloud",
     "HTML Code:" : "HTMLkode:",
@@ -45,8 +46,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Del med mig gennem min #Nextcloud Federated Cloud ID",
     "Cloud ID copied to the clipboard" : "Cloud ID er kopieret til udklipsholderen.",
     "Copy to clipboard" : "Kopier til udklipsholder",
-    "Clipboard is not available" : "Udklipsholderen er ikke tilgængelig",
-    "Copied!" : "Kopieret!",
+    "Clipboard not available. Please copy the cloud ID manually." : "Udklipsholder ikke tilgængelig. Kopier venligst Cloud ID'et manuelt.",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ønsker du at tilføje det eksterne drev  {name} fra {owner}@{remote}?",
     "Remote share" : "Eksterne drev",
     "Remote share password" : "Fjerndrev adgangskode",
@@ -60,6 +60,10 @@ OC.L10N.register(
     "Allow users on this server to send shares to groups on other servers" : "Tillad brugere på denne server at sende delinger til grupper på andre servere",
     "Allow users on this server to receive group shares from other servers" : "Tillad brugere på denne server at modtage gruppedelinger fra andre servere",
     "Search global and public address book for users" : "Søg global og offentlig adresse bog for brugere",
-    "Allow users to publish their data to a global and public address book" : "Tillad brugere at offentliggøre deres data til en global adressebog "
+    "Allow users to publish their data to a global and public address book" : "Tillad brugere at offentliggøre deres data til en global adressebog ",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "Udklipsholderen er ikke tilgængelig",
+    "Copied!" : "Kopieret!"
 },
 "nplurals=2; plural=(n != 1);");

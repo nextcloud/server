@@ -8,7 +8,9 @@
 namespace OCA\Provisioning_API\Tests\Controller;
 
 use OCA\Provisioning_API\Controller\AppsController;
+use OCA\Provisioning_API\Tests\TestCase;
 use OCP\App\IAppManager;
+use OCP\AppFramework\OCS\OCSException;
 use OCP\IRequest;
 use OCP\IUserSession;
 
@@ -19,7 +21,7 @@ use OCP\IUserSession;
  *
  * @package OCA\Provisioning_API\Tests
  */
-class AppsControllerTest extends \OCA\Provisioning_API\Tests\TestCase {
+class AppsControllerTest extends TestCase {
 	/** @var IAppManager */
 	private $appManager;
 	/** @var AppsController */
@@ -49,21 +51,21 @@ class AppsControllerTest extends \OCA\Provisioning_API\Tests\TestCase {
 		$this->userSession->setUser(null);
 	}
 
-	public function testGetAppInfo() {
+	public function testGetAppInfo(): void {
 		$result = $this->api->getAppInfo('provisioning_api');
 		$expected = $this->appManager->getAppInfo('provisioning_api');
 		$this->assertEquals($expected, $result->getData());
 	}
 
 
-	public function testGetAppInfoOnBadAppID() {
-		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
+	public function testGetAppInfoOnBadAppID(): void {
+		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(998);
 
 		$this->api->getAppInfo('not_provisioning_api');
 	}
 
-	public function testGetApps() {
+	public function testGetApps(): void {
 		$user = $this->generateUsers();
 		$this->groupManager->get('admin')->addUser($user);
 		$this->userSession->setUser($user);
@@ -74,13 +76,13 @@ class AppsControllerTest extends \OCA\Provisioning_API\Tests\TestCase {
 		$this->assertEquals(count((new \OC_App())->listAllApps()), count($data['apps']));
 	}
 
-	public function testGetAppsEnabled() {
+	public function testGetAppsEnabled(): void {
 		$result = $this->api->getApps('enabled');
 		$data = $result->getData();
 		$this->assertEquals(count(\OC_App::getEnabledApps()), count($data['apps']));
 	}
 
-	public function testGetAppsDisabled() {
+	public function testGetAppsDisabled(): void {
 		$result = $this->api->getApps('disabled');
 		$data = $result->getData();
 		$apps = (new \OC_App)->listAllApps();
@@ -93,8 +95,8 @@ class AppsControllerTest extends \OCA\Provisioning_API\Tests\TestCase {
 	}
 
 	
-	public function testGetAppsInvalidFilter() {
-		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
+	public function testGetAppsInvalidFilter(): void {
+		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(101);
 
 		$this->api->getApps('foo');

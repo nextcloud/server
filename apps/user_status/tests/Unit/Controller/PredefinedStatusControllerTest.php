@@ -31,7 +31,7 @@ class PredefinedStatusControllerTest extends TestCase {
 			$this->service);
 	}
 
-	public function testFindAll() {
+	public function testFindAll(): void {
 		$this->service->expects($this->once())
 			->method('getDefaultStatuses')
 			->with()

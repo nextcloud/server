@@ -18,7 +18,7 @@ class SetupController {
 		protected Setup $setupHelper,
 		protected LoggerInterface $logger,
 	) {
-		$this->autoConfigFile = \OC::$configDir.'autoconfig.php';
+		$this->autoConfigFile = \OC::$configDir . 'autoconfig.php';
 	}
 
 	public function run(array $post): void {

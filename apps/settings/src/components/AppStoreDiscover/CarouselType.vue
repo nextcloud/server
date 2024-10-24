@@ -165,10 +165,10 @@ h3 {
 
 		// See padding of discover section
 		&--next {
-			right: -54px;
+			inset-inline-end: -54px;
 		}
 		&--previous {
-			left: -54px;
+			inset-inline-start: -54px;
 		}
 	}
 

@@ -37,7 +37,7 @@ class App {
 	 * namespace tag or uppercasing the appid's first letter
 	 * @param string $appId the app id
 	 * @param string $topNamespace the namespace which should be prepended to
-	 * the transformed app id, defaults to OCA\
+	 *                             the transformed app id, defaults to OCA\
 	 * @return string the starting namespace for the app
 	 */
 	public static function buildAppNamespace(string $appId, string $topNamespace = 'OCA\\'): string {

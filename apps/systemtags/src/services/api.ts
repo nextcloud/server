@@ -52,8 +52,9 @@ export const fetchLastUsedTagIds = async (): Promise<number[]> => {
 }
 
 /**
- * @param tag
- * @return created tag id
+ * Create a tag and return the Id of the newly created tag.
+ *
+ * @param tag The tag to create
  */
 export const createTag = async (tag: Tag | ServerTag): Promise<number> => {
 	const path = '/systemtags'

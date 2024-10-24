@@ -19,7 +19,7 @@ class StartSessionListener implements TestListener {
 	public function endTest(Test $test, float $time): void {
 		// reopen the session - only allowed for memory session
 		if (\OC::$server->getSession() instanceof Memory) {
-			/** @var $session Memory */
+			/** @var Memory $session */
 			$session = \OC::$server->getSession();
 			$session->reopen();
 		}

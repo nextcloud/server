@@ -54,9 +54,9 @@ class DeleteCalendar extends Command {
 
 	protected function execute(
 		InputInterface $input,
-		OutputInterface $output
+		OutputInterface $output,
 	): int {
-		/** @var string $user **/
+		/** @var string $user */
 		$user = $input->getArgument('uid');
 		if (!$this->userManager->userExists($user)) {
 			throw new \InvalidArgumentException(
@@ -67,7 +67,7 @@ class DeleteCalendar extends Command {
 		if ($birthday !== false) {
 			$name = BirthdayService::BIRTHDAY_CALENDAR_URI;
 		} else {
-			/** @var string $name **/
+			/** @var string $name */
 			$name = $input->getArgument('name');
 			if (!$name) {
 				throw new \InvalidArgumentException(

@@ -94,7 +94,7 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 
 				'--color-favorite' => '#936B06',
 
-				'--color-scrollbar' => $this->util->darken($colorMainBackground, 25),
+				'--color-scrollbar' => 'auto',
 
 				// used for the icon loading animation
 				'--color-loading-light' => '#dddddd',

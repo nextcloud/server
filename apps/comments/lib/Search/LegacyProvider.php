@@ -85,7 +85,7 @@ class LegacyProvider extends Provider {
 	 * @throws NotFoundException
 	 */
 	protected function getFileForComment(Folder $userFolder, IComment $comment): Node {
-		$nodes = $userFolder->getById((int) $comment->getObjectId());
+		$nodes = $userFolder->getById((int)$comment->getObjectId());
 		if (empty($nodes)) {
 			throw new NotFoundException('File not found');
 		}

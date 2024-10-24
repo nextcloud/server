@@ -73,7 +73,7 @@ class Add extends Base {
 				]);
 			return 0;
 		} catch (TagAlreadyExistsException $e) {
-			$output->writeln('<error>'.$e->getMessage().'</error>');
+			$output->writeln('<error>' . $e->getMessage() . '</error>');
 			return 2;
 		}
 	}

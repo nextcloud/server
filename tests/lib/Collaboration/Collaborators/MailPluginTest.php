@@ -26,28 +26,28 @@ use OCP\Share\IShare;
 use Test\TestCase;
 
 class MailPluginTest extends TestCase {
-	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var  IManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $contactsManager;
 
-	/** @var  ICloudIdManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ICloudIdManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $cloudIdManager;
 
-	/** @var  MailPlugin */
+	/** @var MailPlugin */
 	protected $plugin;
 
-	/** @var  SearchResult */
+	/** @var SearchResult */
 	protected $searchResult;
 
-	/** @var  IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
 
-	/** @var  KnownUserService|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var KnownUserService|\PHPUnit\Framework\MockObject\MockObject */
 	protected $knownUserService;
 
-	/** @var  IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
 
 	/** @var IMailer|\PHPUnit\Framework\MockObject\MockObject */
@@ -94,7 +94,7 @@ class MailPluginTest extends TestCase {
 	 * @param array $expected
 	 * @param bool $reachedEnd
 	 */
-	public function testSearch($searchTerm, $contacts, $shareeEnumeration, $expected, $exactIdMatch, $reachedEnd, $validEmail) {
+	public function testSearch($searchTerm, $contacts, $shareeEnumeration, $expected, $exactIdMatch, $reachedEnd, $validEmail): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(
@@ -577,7 +577,7 @@ class MailPluginTest extends TestCase {
 	 * @param bool $reachedEnd
 	 * @param array groups
 	 */
-	public function testSearchGroupsOnly($searchTerm, $contacts, $expected, $exactIdMatch, $reachedEnd, $userToGroupMapping, $validEmail) {
+	public function testSearchGroupsOnly($searchTerm, $contacts, $expected, $exactIdMatch, $reachedEnd, $userToGroupMapping, $validEmail): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(
@@ -654,8 +654,8 @@ class MailPluginTest extends TestCase {
 				false,
 				false,
 				[
-					"currentUser" => ["group1"],
-					"User" => ["group1"]
+					'currentUser' => ['group1'],
+					'User' => ['group1']
 				],
 				false,
 			],
@@ -675,8 +675,8 @@ class MailPluginTest extends TestCase {
 				false,
 				false,
 				[
-					"currentUser" => ["group1"],
-					"User" => ["group2"]
+					'currentUser' => ['group1'],
+					'User' => ['group2']
 				],
 				false,
 			],
@@ -696,8 +696,8 @@ class MailPluginTest extends TestCase {
 				false,
 				false,
 				[
-					"currentUser" => ["group1"],
-					"User" => ["group2"]
+					'currentUser' => ['group1'],
+					'User' => ['group2']
 				],
 				true,
 			]

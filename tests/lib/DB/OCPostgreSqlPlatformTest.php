@@ -23,7 +23,7 @@ use Doctrine\DBAL\Types\Types;
  * @package Test\DB
  */
 class OCPostgreSqlPlatformTest extends \Test\TestCase {
-	public function testAlterBigint() {
+	public function testAlterBigint(): void {
 		$platform = new PostgreSQLPlatform();
 		$sourceSchema = new Schema();
 		$targetSchema = new Schema();
@@ -48,7 +48,7 @@ class OCPostgreSqlPlatformTest extends \Test\TestCase {
 	}
 
 	protected function createTableAndColumn($schema, $type) {
-		$table = $schema->createTable("poor_yorick");
+		$table = $schema->createTable('poor_yorick');
 		$table->addColumn('id', $type, [
 			'autoincrement' => true,
 			'unsigned' => true,

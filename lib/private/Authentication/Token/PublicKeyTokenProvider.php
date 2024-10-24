@@ -162,7 +162,7 @@ class PublicKeyTokenProvider implements IProvider {
 				$this->rotate($token, $tokenId, $tokenId);
 			} catch (DoesNotExistException) {
 				$this->cacheInvalidHash($tokenHash);
-				throw new InvalidTokenException("Token does not exist: " . $ex->getMessage(), 0, $ex);
+				throw new InvalidTokenException('Token does not exist: ' . $ex->getMessage(), 0, $ex);
 			}
 		}
 
@@ -232,7 +232,7 @@ class PublicKeyTokenProvider implements IProvider {
 			$token = $this->getToken($oldSessionId);
 
 			if (!($token instanceof PublicKeyToken)) {
-				throw new InvalidTokenException("Invalid token type");
+				throw new InvalidTokenException('Invalid token type');
 			}
 
 			$password = null;
@@ -302,7 +302,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 	public function updateToken(OCPIToken $token) {
 		if (!($token instanceof PublicKeyToken)) {
-			throw new InvalidTokenException("Invalid token type");
+			throw new InvalidTokenException('Invalid token type');
 		}
 		$this->mapper->update($token);
 		$this->cacheToken($token);
@@ -310,7 +310,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 	public function updateTokenActivity(OCPIToken $token) {
 		if (!($token instanceof PublicKeyToken)) {
-			throw new InvalidTokenException("Invalid token type");
+			throw new InvalidTokenException('Invalid token type');
 		}
 
 		$activityInterval = $this->config->getSystemValueInt('token_auth_activity_update', 60);
@@ -331,7 +331,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 	public function getPassword(OCPIToken $savedToken, string $tokenId): string {
 		if (!($savedToken instanceof PublicKeyToken)) {
-			throw new InvalidTokenException("Invalid token type");
+			throw new InvalidTokenException('Invalid token type');
 		}
 
 		if ($savedToken->getPassword() === null) {
@@ -347,7 +347,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 	public function setPassword(OCPIToken $token, string $tokenId, string $password) {
 		if (!($token instanceof PublicKeyToken)) {
-			throw new InvalidTokenException("Invalid token type");
+			throw new InvalidTokenException('Invalid token type');
 		}
 
 		$this->atomic(function () use ($password, $token) {
@@ -372,7 +372,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 	public function rotate(OCPIToken $token, string $oldTokenId, string $newTokenId): OCPIToken {
 		if (!($token instanceof PublicKeyToken)) {
-			throw new InvalidTokenException("Invalid token type");
+			throw new InvalidTokenException('Invalid token type');
 		}
 
 		// Decrypt private key with oldTokenId
@@ -405,7 +405,7 @@ class PublicKeyTokenProvider implements IProvider {
 			} catch (\Exception $ex2) {
 				// Delete the invalid token
 				$this->invalidateToken($token);
-				throw new InvalidTokenException("Could not decrypt token password: " . $ex->getMessage(), 0, $ex2);
+				throw new InvalidTokenException('Could not decrypt token password: ' . $ex->getMessage(), 0, $ex2);
 			}
 		}
 	}
@@ -430,7 +430,7 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	/**
-	 * @deprecated Fallback for instances where the secret might not have been set by accident
+	 * @deprecated 26.0.0 Fallback for instances where the secret might not have been set by accident
 	 */
 	private function hashTokenWithEmptySecret(string $token): string {
 		return hash('sha512', $token);
@@ -495,7 +495,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 	public function markPasswordInvalid(OCPIToken $token, string $tokenId) {
 		if (!($token instanceof PublicKeyToken)) {
-			throw new InvalidTokenException("Invalid token type");
+			throw new InvalidTokenException('Invalid token type');
 		}
 
 		$token->setPasswordInvalid(true);

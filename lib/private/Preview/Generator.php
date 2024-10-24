@@ -41,7 +41,7 @@ class Generator {
 		IPreview $previewManager,
 		IAppData $appData,
 		GeneratorHelper $helper,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
 	) {
 		$this->config = $config;
 		$this->previewManager = $previewManager;
@@ -80,6 +80,7 @@ class Generator {
 			$height,
 			$crop,
 			$mode,
+			$mimeType,
 		));
 
 		// since we only ask for one preview, and the generate method return the last one it created, it returns the one we want
@@ -171,7 +172,7 @@ class Generator {
 					$previewFiles[] = $preview;
 				}
 			} catch (\InvalidArgumentException $e) {
-				throw new NotFoundException("", 0, $e);
+				throw new NotFoundException('', 0, $e);
 			}
 
 			if ($preview->getSize() === 0) {
@@ -272,13 +273,13 @@ class Generator {
 
 		$hardwareConcurrency = self::getHardwareConcurrency();
 		switch ($type) {
-			case "preview_concurrency_all":
+			case 'preview_concurrency_all':
 				$fallback = $hardwareConcurrency > 0 ? $hardwareConcurrency * 2 : 8;
 				$concurrency_all = $this->config->getSystemValueInt($type, $fallback);
-				$concurrency_new = $this->getNumConcurrentPreviews("preview_concurrency_new");
+				$concurrency_new = $this->getNumConcurrentPreviews('preview_concurrency_new');
 				$cached[$type] = max($concurrency_all, $concurrency_new);
 				break;
-			case "preview_concurrency_new":
+			case 'preview_concurrency_new':
 				$fallback = $hardwareConcurrency > 0 ? $hardwareConcurrency : 4;
 				$cached[$type] = $this->config->getSystemValueInt($type, $fallback);
 				break;

@@ -7,6 +7,7 @@ namespace OCA\Settings\Tests\Mailer;
 
 use OC\Mail\EMailTemplate;
 use OC\Mail\Message;
+use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -40,7 +41,7 @@ class NewUserMailHelperTest extends TestCase {
 	private $config;
 	/** @var ICrypto|\PHPUnit\Framework\MockObject\MockObject */
 	private $crypto;
-	/** @var \OCA\Settings\Mailer\NewUserMailHelper */
+	/** @var NewUserMailHelper */
 	private $newUserMailHelper;
 
 	protected function setUp(): void {
@@ -89,7 +90,7 @@ class NewUserMailHelperTest extends TestCase {
 				return $this->l10n;
 			});
 
-		$this->newUserMailHelper = new \OCA\Settings\Mailer\NewUserMailHelper(
+		$this->newUserMailHelper = new NewUserMailHelper(
 			$this->defaults,
 			$this->urlGenerator,
 			$this->l10nFactory,
@@ -102,7 +103,7 @@ class NewUserMailHelperTest extends TestCase {
 		);
 	}
 
-	public function testGenerateTemplateWithPasswordResetToken() {
+	public function testGenerateTemplateWithPasswordResetToken(): void {
 		$this->secureRandom
 			->expects($this->once())
 			->method('generate')
@@ -357,7 +358,7 @@ EOF;
 		$this->assertSame('OC\Mail\EMailTemplate', get_class($result));
 	}
 
-	public function testGenerateTemplateWithoutPasswordResetToken() {
+	public function testGenerateTemplateWithoutPasswordResetToken(): void {
 		$this->urlGenerator
 			->expects($this->any())
 			->method('getAbsoluteURL')
@@ -593,7 +594,7 @@ EOF;
 		$this->assertSame('OC\Mail\EMailTemplate', get_class($result));
 	}
 
-	public function testGenerateTemplateWithoutUserId() {
+	public function testGenerateTemplateWithoutUserId(): void {
 		$this->urlGenerator
 			->expects($this->any())
 			->method('getAbsoluteURL')
@@ -816,7 +817,7 @@ EOF;
 		$this->assertSame('OC\Mail\EMailTemplate', get_class($result));
 	}
 
-	public function testSendMail() {
+	public function testSendMail(): void {
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user

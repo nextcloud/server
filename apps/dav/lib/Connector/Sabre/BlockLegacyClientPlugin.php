@@ -7,6 +7,7 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OCA\Theming\ThemingDefaults;
 use OCP\IConfig;
 use OCP\IRequest;
 use Sabre\DAV\Server;
@@ -21,10 +22,11 @@ use Sabre\HTTP\RequestInterface;
  */
 class BlockLegacyClientPlugin extends ServerPlugin {
 	protected ?Server $server = null;
-	protected IConfig $config;
 
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		private IConfig $config,
+		private ThemingDefaults $themingDefaults,
+	) {
 	}
 
 	/**
@@ -51,7 +53,10 @@ class BlockLegacyClientPlugin extends ServerPlugin {
 		preg_match(IRequest::USER_AGENT_CLIENT_DESKTOP, $userAgent, $versionMatches);
 		if (isset($versionMatches[1]) &&
 			version_compare($versionMatches[1], $minimumSupportedDesktopVersion) === -1) {
-			throw new \Sabre\DAV\Exception\Forbidden('Unsupported client version.');
+			$customClientDesktopLink = htmlspecialchars($this->themingDefaults->getSyncClientUrl());
+			$minimumSupportedDesktopVersion = htmlspecialchars($minimumSupportedDesktopVersion);
+
+			throw new \Sabre\DAV\Exception\Forbidden("This version of the client is unsupported. Upgrade to <a href=\"$customClientDesktopLink\">version $minimumSupportedDesktopVersion or later</a>.");
 		}
 	}
 }

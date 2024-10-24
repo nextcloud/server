@@ -23,7 +23,9 @@ export default function registerNoteToRecipient() {
 		enabled: (folder: Folder) => Boolean(folder.attributes.note),
 		// Update the root folder if needed
 		updated: (folder: Folder) => {
-			instance.updateFolder(folder)
+			if (instance) {
+				instance.updateFolder(folder)
+			}
 		},
 		// render simply spawns the component
 		render: async (el: HTMLElement, folder: Folder) => {

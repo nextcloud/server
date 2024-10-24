@@ -26,19 +26,19 @@ class HttpTest extends \Test\TestCase {
 	}
 
 
-	public function testProtocol() {
+	public function testProtocol(): void {
 		$header = $this->http->getStatusHeader(Http::STATUS_TEMPORARY_REDIRECT);
 		$this->assertEquals('HTTP/1.1 307 Temporary Redirect', $header);
 	}
 
 
-	public function testProtocol10() {
+	public function testProtocol10(): void {
 		$this->http = new Http($this->server, 'HTTP/1.0');
 		$header = $this->http->getStatusHeader(Http::STATUS_OK);
 		$this->assertEquals('HTTP/1.0 200 OK', $header);
 	}
 
-	public function testTempRedirectBecomesFoundInHttp10() {
+	public function testTempRedirectBecomesFoundInHttp10(): void {
 		$http = new Http([], 'HTTP/1.0');
 
 		$header = $http->getStatusHeader(Http::STATUS_TEMPORARY_REDIRECT);

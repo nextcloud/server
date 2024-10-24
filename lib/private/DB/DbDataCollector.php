@@ -111,7 +111,7 @@ class DbDataCollector extends \OCP\DataCollector\AbstractDataCollector {
 		}
 
 		if ($error) {
-			return ['⚠ '.$error->getMessage(), false, false];
+			return ['⚠ ' . $error->getMessage(), false, false];
 		}
 
 		if (\is_array($var)) {

@@ -34,8 +34,9 @@
     "Your Federated Cloud ID:" : "Sua ID de Nuvem Federada:",
     "Share it so your friends can share files with you:" : "Compartilhe para que seus amigos possam compartilhar arquivos com você:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diáspora",
+    "X (formerly Twitter)" : "X (anteriormente Twitter)",
+    "formerly Twitter" : "anteriormente Twitter",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Adicione ao seu website",
     "Share with me via Nextcloud" : "Compartilhe comigo via Nextcloud",
     "HTML Code:" : "Código HTML:",
@@ -43,8 +44,7 @@
     "Share with me through my #Nextcloud Federated Cloud ID" : "Compartilhe comigo através do meu ID de Nuvem Federada #Nextcloud",
     "Cloud ID copied to the clipboard" : "Cloud ID copiado para a área de transferência",
     "Copy to clipboard" : "Copiar para área de transferência",
-    "Clipboard is not available" : "A área de transferência não está disponível",
-    "Copied!" : "Copiado!",
+    "Clipboard not available. Please copy the cloud ID manually." : "Área de transferência indisponível. Copie o ID da nuvem manualmente.",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Deseja adicionar o compartilhamento remoto {name} de {owner}@{remote}?",
     "Remote share" : "Compartilhamento remoto",
     "Remote share password" : "Senha do compartilhamento remoto",
@@ -58,6 +58,10 @@
     "Allow users on this server to send shares to groups on other servers" : "Permitir que usuários deste servidor enviem compartilhamentos para grupos de outros servidores",
     "Allow users on this server to receive group shares from other servers" : "Permitir que usuários deste servidor recebam compartilhamentos de grupos de outros servidores",
     "Search global and public address book for users" : "Procurar por usuários em catálogo de endereços global e público",
-    "Allow users to publish their data to a global and public address book" : "Permitir que os usuários publiquem seus dados em um catálogo de endereços global e público"
+    "Allow users to publish their data to a global and public address book" : "Permitir que os usuários publiquem seus dados em um catálogo de endereços global e público",
+    "Twitter" : "Twitter",
+    "Diaspora" : "Diáspora",
+    "Clipboard is not available" : "A área de transferência não está disponível",
+    "Copied!" : "Copiado!"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

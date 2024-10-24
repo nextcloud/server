@@ -5,6 +5,7 @@
 <template>
 	<NcListItem class="version"
 		:force-display-actions="true"
+		:actions-aria-label="t('files_versions', 'Actions for version from {versionHumanExplicitDate}', { versionHumanExplicitDate })"
 		:data-files-versions-version="version.fileVersion"
 		@click="click">
 		<!-- Icon -->
@@ -109,10 +110,11 @@
 		</template>
 	</NcListItem>
 </template>
-
 <script lang="ts">
 import type { PropType } from 'vue'
 import type { Version } from '../utils/versions'
+
+import { defineComponent } from 'vue'
 
 import BackupRestore from 'vue-material-design-icons/BackupRestore.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
@@ -128,13 +130,12 @@ import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
 
+import moment from '@nextcloud/moment'
 import { getRootUrl, generateOcsUrl } from '@nextcloud/router'
 import { joinPaths } from '@nextcloud/paths'
 import { loadState } from '@nextcloud/initial-state'
 import { Permission, formatFileSize } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import { defineComponent } from 'vue'
-
 import axios from '@nextcloud/axios'
 
 const hasPermission = (permissions: number, permission: number): boolean => (permissions & permission) !== 0
@@ -223,6 +224,10 @@ export default defineComponent({
 			}
 
 			return label
+		},
+
+		versionHumanExplicitDate(): string {
+			return moment(this.version.mtime).format('LLLL')
 		},
 
 		downloadURL(): string {

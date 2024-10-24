@@ -22,7 +22,9 @@ use OCP\Image;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\PreConditionNotMetException;
 use OCP\Server;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -32,41 +34,13 @@ use Psr\Log\LoggerInterface;
  */
 class User {
 	/**
-	 * @var Access
-	 */
-	protected $access;
-	/**
 	 * @var Connection
 	 */
 	protected $connection;
 	/**
-	 * @var IConfig
-	 */
-	protected $config;
-	/**
-	 * @var FilesystemHelper
-	 */
-	protected $fs;
-	/**
-	 * @var Image
-	 */
-	protected $image;
-	/**
 	 * @var LoggerInterface
 	 */
 	protected $logger;
-	/**
-	 * @var IAvatarManager
-	 */
-	protected $avatarManager;
-	/**
-	 * @var IUserManager
-	 */
-	protected $userManager;
-	/**
-	 * @var INotificationManager
-	 */
-	protected $notificationManager;
 	/**
 	 * @var string
 	 */
@@ -96,10 +70,18 @@ class User {
 	 * @param string $username the internal username
 	 * @param string $dn the LDAP DN
 	 */
-	public function __construct($username, $dn, Access $access,
-		IConfig $config, FilesystemHelper $fs, Image $image,
-		LoggerInterface $logger, IAvatarManager $avatarManager, IUserManager $userManager,
-		INotificationManager $notificationManager) {
+	public function __construct(
+		$username,
+		$dn,
+		protected Access $access,
+		protected IConfig $config,
+		protected FilesystemHelper $fs,
+		protected Image $image,
+		LoggerInterface $logger,
+		protected IAvatarManager $avatarManager,
+		protected IUserManager $userManager,
+		protected INotificationManager $notificationManager,
+	) {
 		if ($username === null) {
 			$logger->error("uid for '$dn' must not be null!", ['app' => 'user_ldap']);
 			throw new \InvalidArgumentException('uid must not be null!');
@@ -107,27 +89,19 @@ class User {
 			$logger->error("uid for '$dn' must not be an empty string", ['app' => 'user_ldap']);
 			throw new \InvalidArgumentException('uid must not be an empty string!');
 		}
-
-		$this->access = $access;
-		$this->connection = $access->getConnection();
-		$this->config = $config;
-		$this->fs = $fs;
+		$this->connection = $this->access->getConnection();
 		$this->dn = $dn;
 		$this->uid = $username;
-		$this->image = $image;
 		$this->logger = $logger;
-		$this->avatarManager = $avatarManager;
-		$this->userManager = $userManager;
-		$this->notificationManager = $notificationManager;
 		$this->birthdateParser = new BirthdateParserService();
 
-		\OCP\Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry');
+		Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry');
 	}
 
 	/**
 	 * marks a user as deleted
 	 *
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws PreConditionNotMetException
 	 */
 	public function markUser() {
 		$curValue = $this->config->getUserValue($this->getUsername(), 'user_ldap', 'isDeleted', '0');
@@ -201,7 +175,7 @@ class User {
 		}
 
 		//memberOf groups
-		$cacheKey = 'getMemberOf'.$this->getUsername();
+		$cacheKey = 'getMemberOf' . $this->getUsername();
 		$groups = false;
 		if (isset($ldapEntry['memberof'])) {
 			$groups = $ldapEntry['memberof'];
@@ -217,7 +191,7 @@ class User {
 
 		// check for cached profile data
 		$username = $this->getUsername(); // buffer variable, to save resource
-		$cacheKey = 'getUserProfile-'.$username;
+		$cacheKey = 'getUserProfile-' . $username;
 		$profileCached = $this->connection->getFromCache($cacheKey);
 		// honoring profile disabled in config.php and check if user profile was refreshed
 		if ($this->config->getSystemValueBool('profile.enabled', true) &&
@@ -228,81 +202,81 @@ class User {
 			//User Profile Field - Phone number
 			$attr = strtolower($this->connection->ldapAttributePhone);
 			if (!empty($attr)) { // attribute configured
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_PHONE]
-					= $ldapEntry[$attr][0] ?? "";
+				$profileValues[IAccountManager::PROPERTY_PHONE]
+					= $ldapEntry[$attr][0] ?? '';
 			}
 			//User Profile Field - website
 			$attr = strtolower($this->connection->ldapAttributeWebsite);
 			if (isset($ldapEntry[$attr])) {
-				$cutPosition = strpos($ldapEntry[$attr][0], " ");
+				$cutPosition = strpos($ldapEntry[$attr][0], ' ');
 				if ($cutPosition) {
 					// drop appended label
-					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE]
+					$profileValues[IAccountManager::PROPERTY_WEBSITE]
 						= substr($ldapEntry[$attr][0], 0, $cutPosition);
 				} else {
-					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE]
+					$profileValues[IAccountManager::PROPERTY_WEBSITE]
 						= $ldapEntry[$attr][0];
 				}
 			} elseif (!empty($attr)) {	// configured, but not defined
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE] = "";
+				$profileValues[IAccountManager::PROPERTY_WEBSITE] = '';
 			}
 			//User Profile Field - Address
 			$attr = strtolower($this->connection->ldapAttributeAddress);
 			if (isset($ldapEntry[$attr])) {
 				if (str_contains($ldapEntry[$attr][0], '$')) {
 					// basic format conversion from postalAddress syntax to commata delimited
-					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ADDRESS]
-						= str_replace('$', ", ", $ldapEntry[$attr][0]);
+					$profileValues[IAccountManager::PROPERTY_ADDRESS]
+						= str_replace('$', ', ', $ldapEntry[$attr][0]);
 				} else {
-					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ADDRESS]
+					$profileValues[IAccountManager::PROPERTY_ADDRESS]
 						= $ldapEntry[$attr][0];
 				}
 			} elseif (!empty($attr)) {	// configured, but not defined
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ADDRESS] = "";
+				$profileValues[IAccountManager::PROPERTY_ADDRESS] = '';
 			}
 			//User Profile Field - Twitter
 			$attr = strtolower($this->connection->ldapAttributeTwitter);
 			if (!empty($attr)) {
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_TWITTER]
-					= $ldapEntry[$attr][0] ?? "";
+				$profileValues[IAccountManager::PROPERTY_TWITTER]
+					= $ldapEntry[$attr][0] ?? '';
 			}
 			//User Profile Field - fediverse
 			$attr = strtolower($this->connection->ldapAttributeFediverse);
 			if (!empty($attr)) {
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_FEDIVERSE]
-					= $ldapEntry[$attr][0] ?? "";
+				$profileValues[IAccountManager::PROPERTY_FEDIVERSE]
+					= $ldapEntry[$attr][0] ?? '';
 			}
 			//User Profile Field - organisation
 			$attr = strtolower($this->connection->ldapAttributeOrganisation);
 			if (!empty($attr)) {
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ORGANISATION]
-					= $ldapEntry[$attr][0] ?? "";
+				$profileValues[IAccountManager::PROPERTY_ORGANISATION]
+					= $ldapEntry[$attr][0] ?? '';
 			}
 			//User Profile Field - role
 			$attr = strtolower($this->connection->ldapAttributeRole);
 			if (!empty($attr)) {
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ROLE]
-					= $ldapEntry[$attr][0] ?? "";
+				$profileValues[IAccountManager::PROPERTY_ROLE]
+					= $ldapEntry[$attr][0] ?? '';
 			}
 			//User Profile Field - headline
 			$attr = strtolower($this->connection->ldapAttributeHeadline);
 			if (!empty($attr)) {
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_HEADLINE]
-					= $ldapEntry[$attr][0] ?? "";
+				$profileValues[IAccountManager::PROPERTY_HEADLINE]
+					= $ldapEntry[$attr][0] ?? '';
 			}
 			//User Profile Field - biography
 			$attr = strtolower($this->connection->ldapAttributeBiography);
 			if (isset($ldapEntry[$attr])) {
 				if (str_contains($ldapEntry[$attr][0], '\r')) {
 					// convert line endings
-					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY]
+					$profileValues[IAccountManager::PROPERTY_BIOGRAPHY]
 						= str_replace(["\r\n","\r"], "\n", $ldapEntry[$attr][0]);
 				} else {
-					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY]
+					$profileValues[IAccountManager::PROPERTY_BIOGRAPHY]
 						= $ldapEntry[$attr][0];
 				}
 			} elseif (!empty($attr)) {	// configured, but not defined
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY] = "";
+				$profileValues[IAccountManager::PROPERTY_BIOGRAPHY] = '';
 			}
 			//User Profile Field - birthday
 			$attr = strtolower($this->connection->ldapAttributeBirthDate);
@@ -310,8 +284,8 @@ class User {
 				$value = $ldapEntry[$attr][0];
 				try {
 					$birthdate = $this->birthdateParser->parseBirthdate($value);
-					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIRTHDATE]
-						= $birthdate->format("Y-m-d");
+					$profileValues[IAccountManager::PROPERTY_BIRTHDATE]
+						= $birthdate->format('Y-m-d');
 				} catch (InvalidArgumentException $e) {
 					// Invalid date -> just skip the property
 					$this->logger->info("Failed to parse user's birthdate from LDAP: $value", [
@@ -319,6 +293,12 @@ class User {
 						'userId' => $username,
 					]);
 				}
+			}
+			//User Profile Field - pronouns
+			$attr = strtolower($this->connection->ldapAttributePronouns);
+			if (!empty($attr)) {
+				$profileValues[IAccountManager::PROPERTY_PRONOUNS]
+					= $ldapEntry[$attr][0] ?? '';
 			}
 			// check for changed data and cache just for TTL checking
 			$checksum = hash('sha256', json_encode($profileValues));
@@ -330,11 +310,11 @@ class User {
 				$this->updateProfile($profileValues);
 				$this->logger->info("updated profile uid=$username", ['app' => 'user_ldap']);
 			} else {
-				$this->logger->debug("profile data from LDAP unchanged", ['app' => 'user_ldap', 'uid' => $username]);
+				$this->logger->debug('profile data from LDAP unchanged', ['app' => 'user_ldap', 'uid' => $username]);
 			}
 			unset($attr);
 		} elseif ($profileCached !== null) { // message delayed, to declutter log
-			$this->logger->debug("skipping profile check, while cached data exist", ['app' => 'user_ldap', 'uid' => $username]);
+			$this->logger->debug('skipping profile check, while cached data exist', ['app' => 'user_ldap', 'uid' => $username]);
 		}
 
 		//Avatar
@@ -348,7 +328,7 @@ class User {
 				// system must be postponed after the login. It is to ensure
 				// external mounts are mounted properly (e.g. with login
 				// credentials from the session).
-				\OCP\Util::connectHook('OC_User', 'post_login', $this, 'updateAvatarPostLogin');
+				Util::connectHook('OC_User', 'post_login', $this, 'updateAvatarPostLogin');
 				break;
 			}
 		}
@@ -398,7 +378,7 @@ class User {
 				   && $path[1] === ':' && ($path[2] === '\\' || $path[2] === '/'))
 			) {
 				$path = $this->config->getSystemValue('datadirectory',
-					\OC::$SERVERROOT.'/data') . '/' . $path;
+					\OC::$SERVERROOT . '/data') . '/' . $path;
 			}
 			//we need it to store it in the DB as well in case a user gets
 			//deleted so we can clean up afterwards
@@ -421,7 +401,7 @@ class User {
 	}
 
 	public function getMemberOfGroups() {
-		$cacheKey = 'getMemberOf'.$this->getUsername();
+		$cacheKey = 'getMemberOf' . $this->getUsername();
 		$memberOfGroups = $this->connection->getFromCache($cacheKey);
 		if (!is_null($memberOfGroups)) {
 			return $memberOfGroups;
@@ -570,7 +550,7 @@ class User {
 	 *
 	 * fetches the quota from LDAP and stores it as Nextcloud user value
 	 * @param ?string $valueFromLDAP the quota attribute's value can be passed,
-	 * to save the readAttribute request
+	 *                               to save the readAttribute request
 	 * @return void
 	 */
 	public function updateQuota($valueFromLDAP = null) {
@@ -631,7 +611,7 @@ class User {
 		// fetch/prepare user
 		$user = $this->userManager->get($this->uid);
 		if (is_null($user)) {
-			$this->logger->error('could not get user for uid='.$this->uid.'', ['app' => 'user_ldap']);
+			$this->logger->error('could not get user for uid=' . $this->uid . '', ['app' => 'user_ldap']);
 			return;
 		}
 		// prepare AccountManager and Account
@@ -646,25 +626,24 @@ class User {
 			try {
 				$accountProperty = $account->getProperty($property);
 				$currentValue = $accountProperty->getValue();
-				$scope = ($accountProperty->getScope() ? $accountProperty->getScope()
-					: $defaultScopes[$property]);
+				$scope = ($accountProperty->getScope() ?: $defaultScopes[$property]);
 			} catch (PropertyDoesNotExistException $e) { // thrown at getProperty
-				$this->logger->error('property does not exist: '.$property
-					.' for uid='.$this->uid.'', ['app' => 'user_ldap', 'exception' => $e]);
+				$this->logger->error('property does not exist: ' . $property
+					. ' for uid=' . $this->uid . '', ['app' => 'user_ldap', 'exception' => $e]);
 				$currentValue = '';
 				$scope = $defaultScopes[$property];
 			}
-			$verified = IAccountManager::VERIFIED; // trust the LDAP admin knew what he put there
+			$verified = IAccountManager::VERIFIED; // trust the LDAP admin knew what they put there
 			if ($currentValue !== $value) {
 				$account->setProperty($property, $value, $scope, $verified);
-				$this->logger->debug('update user profile: '.$property.'='.$value
-					.' for uid='.$this->uid.'', ['app' => 'user_ldap']);
+				$this->logger->debug('update user profile: ' . $property . '=' . $value
+					. ' for uid=' . $this->uid . '', ['app' => 'user_ldap']);
 			}
 		}
 		try {
 			$accountManager->updateAccount($account); // may throw InvalidArgumentException
 		} catch (\InvalidArgumentException $e) {
-			$this->logger->error('invalid data from LDAP: for uid='.$this->uid.'', ['app' => 'user_ldap', 'func' => 'updateProfile'
+			$this->logger->error('invalid data from LDAP: for uid=' . $this->uid . '', ['app' => 'user_ldap', 'func' => 'updateProfile'
 				, 'exception' => $e]);
 		}
 	}
@@ -730,7 +709,7 @@ class User {
 	 */
 	private function setOwnCloudAvatar() {
 		if (!$this->image->valid()) {
-			$this->logger->error('avatar image data from LDAP invalid for '.$this->dn, ['app' => 'user_ldap']);
+			$this->logger->error('avatar image data from LDAP invalid for ' . $this->dn, ['app' => 'user_ldap']);
 			return false;
 		}
 
@@ -738,7 +717,7 @@ class User {
 		//make sure it is a square and not bigger than 512x512
 		$size = min([$this->image->width(), $this->image->height(), 512]);
 		if (!$this->image->centerCrop($size)) {
-			$this->logger->error('croping image for avatar failed for '.$this->dn, ['app' => 'user_ldap']);
+			$this->logger->error('croping image for avatar failed for ' . $this->dn, ['app' => 'user_ldap']);
 			return false;
 		}
 
@@ -759,7 +738,7 @@ class User {
 	/**
 	 * @throws AttributeNotSet
 	 * @throws \OC\ServerNotAvailableException
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws PreConditionNotMetException
 	 */
 	public function getExtStorageHome():string {
 		$value = $this->config->getUserValue($this->getUsername(), 'user_ldap', 'extStorageHome', '');
@@ -778,7 +757,7 @@ class User {
 	}
 
 	/**
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws PreConditionNotMetException
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function updateExtStorageHome(?string $valueFromLDAP = null):string {
@@ -840,18 +819,18 @@ class User {
 				if (!empty($pwdGraceAuthNLimit)
 					&& count($pwdGraceUseTime) < (int)$pwdGraceAuthNLimit[0]) { //at least one more grace login available?
 					$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
-					header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
+					header('Location: ' . \OC::$server->getURLGenerator()->linkToRouteAbsolute(
 						'user_ldap.renewPassword.showRenewPasswordForm', ['user' => $uid]));
 				} else { //no more grace login available
-					header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
+					header('Location: ' . \OC::$server->getURLGenerator()->linkToRouteAbsolute(
 						'user_ldap.renewPassword.showLoginFormInvalidPassword', ['user' => $uid]));
 				}
 				exit();
 			}
 			//handle pwdReset attribute
-			if (!empty($pwdReset) && $pwdReset[0] === 'TRUE') { //user must change his password
+			if (!empty($pwdReset) && $pwdReset[0] === 'TRUE') { //user must change their password
 				$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
-				header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
+				header('Location: ' . \OC::$server->getURLGenerator()->linkToRouteAbsolute(
 					'user_ldap.renewPassword.showRenewPasswordForm', ['user' => $uid]));
 				exit();
 			}
@@ -863,7 +842,7 @@ class User {
 					$pwdExpireWarningInt = (int)$pwdExpireWarning[0];
 					if ($pwdMaxAgeInt > 0 && $pwdExpireWarningInt > 0) {
 						$pwdChangedTimeDt = \DateTime::createFromFormat('YmdHisZ', $pwdChangedTime[0]);
-						$pwdChangedTimeDt->add(new \DateInterval('PT'.$pwdMaxAgeInt.'S'));
+						$pwdChangedTimeDt->add(new \DateInterval('PT' . $pwdMaxAgeInt . 'S'));
 						$currentDateTime = new \DateTime();
 						$secondsToExpiry = $pwdChangedTimeDt->getTimestamp() - $currentDateTime->getTimestamp();
 						if ($secondsToExpiry <= $pwdExpireWarningInt) {
@@ -880,7 +859,7 @@ class User {
 								->setUser($uid)
 								->setDateTime($currentDateTime)
 								->setObject('pwd_exp_warn', $uid)
-								->setSubject('pwd_exp_warn_days', [(int) ceil($secondsToExpiry / 60 / 60 / 24)])
+								->setSubject('pwd_exp_warn_days', [(int)ceil($secondsToExpiry / 60 / 60 / 24)])
 							;
 							$this->notificationManager->notify($notification);
 						}

@@ -36,7 +36,7 @@ class CloudIdManager implements ICloudIdManager {
 		IURLGenerator $urlGenerator,
 		IUserManager $userManager,
 		ICacheFactory $cacheFactory,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
 	) {
 		$this->contactsManager = $contactsManager;
 		$this->urlGenerator = $urlGenerator;
@@ -59,7 +59,7 @@ class CloudIdManager implements ICloudIdManager {
 		if ($event instanceof CardUpdatedEvent) {
 			$data = $event->getCardData()['carddata'];
 			foreach (explode("\r\n", $data) as $line) {
-				if (str_starts_with($line, "CLOUD;")) {
+				if (str_starts_with($line, 'CLOUD;')) {
 					$parts = explode(':', $line, 2);
 					if (isset($parts[1])) {
 						$key = $parts[1];
@@ -125,7 +125,7 @@ class CloudIdManager implements ICloudIdManager {
 			if (isset($entry['CLOUD'])) {
 				foreach ($entry['CLOUD'] as $cloudID) {
 					if ($cloudID === $cloudId) {
-						// Warning, if user decides to make his full name local only,
+						// Warning, if user decides to make their full name local only,
 						// no FN is found on federated servers
 						if (isset($entry['FN'])) {
 							return $entry['FN'];

@@ -75,7 +75,7 @@ class UpdateTest extends TestCase {
 	 * @param array $allFiles
 	 * @param integer $numberOfFiles
 	 */
-	public function testUpdate($path, $isDir, $allFiles, $numberOfFiles) {
+	public function testUpdate($path, $isDir, $allFiles, $numberOfFiles): void {
 		$this->encryptionManager->expects($this->once())
 			->method('getEncryptionModule')
 			->willReturn($this->encryptionModule);
@@ -120,7 +120,7 @@ class UpdateTest extends TestCase {
 	 * @param string $target
 	 * @param boolean $encryptionEnabled
 	 */
-	public function testPostRename($source, $target, $encryptionEnabled) {
+	public function testPostRename($source, $target, $encryptionEnabled): void {
 		$updateMock = $this->getUpdateMock(['update', 'getOwnerPath']);
 
 		$this->encryptionManager->expects($this->once())
@@ -168,7 +168,7 @@ class UpdateTest extends TestCase {
 	 *
 	 * @param boolean $encryptionEnabled
 	 */
-	public function testPostRestore($encryptionEnabled) {
+	public function testPostRestore($encryptionEnabled): void {
 		$updateMock = $this->getUpdateMock(['update']);
 
 		$this->encryptionManager->expects($this->once())
@@ -199,7 +199,7 @@ class UpdateTest extends TestCase {
 	/**
 	 * create mock of the update method
 	 *
-	 * @param array$methods methods which should be set
+	 * @param array $methods methods which should be set
 	 * @return \OC\Encryption\Update | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getUpdateMock($methods) {

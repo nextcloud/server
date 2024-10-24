@@ -202,7 +202,7 @@ class IMipPluginTest extends TestCase {
 		$this->plugin->setVCalendar($oldVCalendar);
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
-			->willReturn('1496912700');
+			->willReturn(1496912700);
 		$this->mailer->expects(self::once())
 			->method('validateMailAddress')
 			->with('frodo@hobb.it')
@@ -248,7 +248,7 @@ class IMipPluginTest extends TestCase {
 			->willReturn('yes');
 		$this->service->expects(self::once())
 			->method('createInvitationToken')
-			->with($message, $newVevent, '1496912700')
+			->with($message, $newVevent, 1496912700)
 			->willReturn('token');
 		$this->service->expects(self::once())
 			->method('addResponseButtons')
@@ -305,7 +305,7 @@ class IMipPluginTest extends TestCase {
 		$this->plugin->setVCalendar($oldVCalendar);
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
-			->willReturn('1496912700');
+			->willReturn(1496912700);
 		$this->mailer->expects(self::once())
 			->method('validateMailAddress')
 			->with('the-shire@hobb.it')
@@ -406,7 +406,7 @@ class IMipPluginTest extends TestCase {
 		$this->plugin->setVCalendar($oldVCalendar);
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
-			->willReturn('1496912700');
+			->willReturn(1496912700);
 		$this->mailer->expects(self::once())
 			->method('validateMailAddress')
 			->with('frodo@hobb.it')
@@ -452,7 +452,7 @@ class IMipPluginTest extends TestCase {
 			->willReturn('yes');
 		$this->service->expects(self::once())
 			->method('createInvitationToken')
-			->with($message, $newVevent, '1496912700')
+			->with($message, $newVevent, 1496912700)
 			->willReturn('token');
 		$this->service->expects(self::once())
 			->method('addResponseButtons')
@@ -467,7 +467,7 @@ class IMipPluginTest extends TestCase {
 		$this->assertEquals('1.1', $message->getScheduleStatus());
 	}
 
-	public function testEmailValidationFailed() {
+	public function testEmailValidationFailed(): void {
 		$message = new Message();
 		$message->method = 'REQUEST';
 		$message->message = new VCalendar();
@@ -485,7 +485,7 @@ class IMipPluginTest extends TestCase {
 
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
-			->willReturn('1496912700');
+			->willReturn(1496912700);
 		$this->mailer->expects(self::once())
 			->method('validateMailAddress')
 			->with('frodo@hobb.it')
@@ -537,7 +537,7 @@ class IMipPluginTest extends TestCase {
 		$this->plugin->setVCalendar($oldVcalendar);
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
-			->willReturn('1496912700');
+			->willReturn(1496912700);
 		$this->mailer->expects(self::once())
 			->method('validateMailAddress')
 			->with('frodo@hobb.it')
@@ -583,7 +583,7 @@ class IMipPluginTest extends TestCase {
 			->willReturn('yes');
 		$this->service->expects(self::once())
 			->method('createInvitationToken')
-			->with($message, $newVevent, '1496912700')
+			->with($message, $newVevent, 1496912700)
 			->willReturn('token');
 		$this->service->expects(self::once())
 			->method('addResponseButtons')
@@ -650,7 +650,7 @@ class IMipPluginTest extends TestCase {
 		// construct service mock returns
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
-			->willReturn('1496912700');
+			->willReturn(1496912700);
 		$this->service->expects(self::once())
 			->method('getCurrentAttendee')
 			->with($message)
@@ -676,7 +676,7 @@ class IMipPluginTest extends TestCase {
 			->willReturn(true);
 		$this->service->expects(self::once())
 			->method('createInvitationToken')
-			->with($message, $event, '1496912700')
+			->with($message, $event, 1496912700)
 			->willReturn('token');
 		$this->service->expects(self::once())
 			->method('addResponseButtons')
@@ -703,7 +703,7 @@ class IMipPluginTest extends TestCase {
 			->method('findServiceByAddress')
 			->with('user1', 'gandalf@wiz.ard')
 			->willReturn($this->mailService);
-		
+
 		$this->plugin->schedule($message);
 		$this->assertEquals('1.1', $message->getScheduleStatus());
 	}
@@ -737,7 +737,7 @@ class IMipPluginTest extends TestCase {
 		}
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
-			->willReturn('1496912700');
+			->willReturn(1496912700);
 		$this->mailer->expects(self::once())
 			->method('validateMailAddress')
 			->with('frodo@hobb.it')
@@ -784,7 +784,7 @@ class IMipPluginTest extends TestCase {
 			->willReturn('yes');
 		$this->service->expects(self::once())
 			->method('createInvitationToken')
-			->with($message, $newVevent, '1496912700')
+			->with($message, $newVevent, 1496912700)
 			->willReturn('token');
 		$this->service->expects(self::once())
 			->method('addResponseButtons')
@@ -830,7 +830,7 @@ class IMipPluginTest extends TestCase {
 		}
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
-			->willReturn('1496912700');
+			->willReturn(1496912700);
 		$this->mailer->expects(self::once())
 			->method('validateMailAddress')
 			->with('frodo@hobb.it')

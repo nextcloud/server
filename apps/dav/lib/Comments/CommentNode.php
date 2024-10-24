@@ -30,37 +30,19 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	public const PROPERTY_NAME_MENTION_ID = '{http://owncloud.org/ns}mentionId';
 	public const PROPERTY_NAME_MENTION_DISPLAYNAME = '{http://owncloud.org/ns}mentionDisplayName';
 
-	/** @var  IComment */
-	public $comment;
-
-	/** @var ICommentsManager */
-	protected $commentsManager;
-
-	protected LoggerInterface $logger;
-
 	/** @var array list of properties with key being their name and value their setter */
 	protected $properties = [];
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IUserSession */
-	protected $userSession;
 
 	/**
 	 * CommentNode constructor.
 	 */
 	public function __construct(
-		ICommentsManager $commentsManager,
-		IComment $comment,
-		IUserManager $userManager,
-		IUserSession $userSession,
-		LoggerInterface $logger
+		protected ICommentsManager $commentsManager,
+		public IComment $comment,
+		protected IUserManager $userManager,
+		protected IUserSession $userSession,
+		protected LoggerInterface $logger,
 	) {
-		$this->commentsManager = $commentsManager;
-		$this->comment = $comment;
-		$this->logger = $logger;
-
 		$methods = get_class_methods($this->comment);
 		$methods = array_filter($methods, function ($name) {
 			return str_starts_with($name, 'get');
@@ -69,11 +51,9 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 			if ($getter === 'getMentions') {
 				continue;	// special treatment
 			}
-			$name = '{'.self::NS_OWNCLOUD.'}' . lcfirst(substr($getter, 3));
+			$name = '{' . self::NS_OWNCLOUD . '}' . lcfirst(substr($getter, 3));
 			$this->properties[$name] = $getter;
 		}
-		$this->userManager = $userManager;
-		$this->userSession = $userSession;
 	}
 
 	/**

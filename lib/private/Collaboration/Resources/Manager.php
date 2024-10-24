@@ -53,7 +53,7 @@ class Manager implements IManager {
 			throw new CollectionException('Collection not found');
 		}
 
-		return new Collection($this, $this->connection, (int) $row['id'], (string) $row['name']);
+		return new Collection($this, $this->connection, (int)$row['id'], (string)$row['name']);
 	}
 
 	/**
@@ -82,12 +82,12 @@ class Manager implements IManager {
 			throw new CollectionException('Collection not found');
 		}
 
-		$access = $row['access'] === null ? null : (bool) $row['access'];
+		$access = $row['access'] === null ? null : (bool)$row['access'];
 		if ($user instanceof IUser) {
-			return new Collection($this, $this->connection, (int) $row['id'], (string) $row['name'], $user, $access);
+			return new Collection($this, $this->connection, (int)$row['id'], (string)$row['name'], $user, $access);
 		}
 
-		return new Collection($this, $this->connection, (int) $row['id'], (string) $row['name'], $user, $access);
+		return new Collection($this, $this->connection, (int)$row['id'], (string)$row['name'], $user, $access);
 	}
 
 	/**
@@ -122,7 +122,7 @@ class Manager implements IManager {
 		$foundResults = 0;
 		while ($row = $result->fetch()) {
 			$foundResults++;
-			$access = $row['access'] === null ? null : (bool) $row['access'];
+			$access = $row['access'] === null ? null : (bool)$row['access'];
 			$collection = new Collection($this, $this->connection, (int)$row['id'], (string)$row['name'], $user, $access);
 			if ($collection->canAccess($user)) {
 				$collections[] = $collection;
@@ -186,7 +186,7 @@ class Manager implements IManager {
 			throw new ResourceException('Resource not found');
 		}
 
-		$access = $row['access'] === null ? null : (bool) $row['access'];
+		$access = $row['access'] === null ? null : (bool)$row['access'];
 		if ($user instanceof IUser) {
 			return new Resource($this, $this->connection, $type, $id, $user, $access);
 		}
@@ -217,7 +217,7 @@ class Manager implements IManager {
 		$resources = [];
 		$result = $query->execute();
 		while ($row = $result->fetch()) {
-			$access = $row['access'] === null ? null : (bool) $row['access'];
+			$access = $row['access'] === null ? null : (bool)$row['access'];
 			$resources[] = new Resource($this, $this->connection, $row['resource_type'], $row['resource_id'], $user, $access);
 		}
 		$result->closeCursor();
@@ -311,7 +311,7 @@ class Manager implements IManager {
 		$hasAccess = null;
 		$result = $query->execute();
 		if ($row = $result->fetch()) {
-			$hasAccess = (bool) $row['access'];
+			$hasAccess = (bool)$row['access'];
 		}
 		$result->closeCursor();
 
@@ -331,7 +331,7 @@ class Manager implements IManager {
 		$hasAccess = null;
 		$result = $query->execute();
 		if ($row = $result->fetch()) {
-			$hasAccess = (bool) $row['access'];
+			$hasAccess = (bool)$row['access'];
 		}
 		$result->closeCursor();
 

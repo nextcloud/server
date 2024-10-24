@@ -5,8 +5,6 @@
  */
 namespace OCP\AppFramework\Http\Template;
 
-use OCP\Util;
-
 /**
  * Class SimpleMenuAction
  *
@@ -68,6 +66,8 @@ class SimpleMenuAction implements IMenuAction {
 	}
 
 	/**
+	 * The icon CSS class to use.
+	 *
 	 * @return string
 	 * @since 14.0.0
 	 */
@@ -92,14 +92,28 @@ class SimpleMenuAction implements IMenuAction {
 	}
 
 	/**
+	 * Custom render function.
+	 * The returned HTML must be wrapped within a listitem (`<li>...</li>`).
+	 * * If an empty string is returned, the default design is used (based on the label and link specified).
 	 * @return string
 	 * @since 14.0.0
 	 */
 	public function render(): string {
-		$detailContent = ($this->detail !== '') ? '&nbsp;<span class="download-size">(' . Util::sanitizeHTML($this->detail) . ')</span>' : '';
-		return sprintf(
-			'<li id="%s"><a href="%s"><span class="icon %s"></span>%s %s</a></li>',
-			Util::sanitizeHTML($this->id), Util::sanitizeHTML($this->link), Util::sanitizeHTML($this->icon), Util::sanitizeHTML($this->label), $detailContent
-		);
+		return '';
+	}
+
+	/**
+	 * Return JSON data to let the frontend render the menu entry.
+	 * @return array{id: string, label: string, href: string, icon: string, details: string|null}
+	 * @since 31.0.0
+	 */
+	public function getData(): array {
+		return [
+			'id' => $this->id,
+			'label' => $this->label,
+			'href' => $this->link,
+			'icon' => $this->icon,
+			'details' => $this->detail,
+		];
 	}
 }

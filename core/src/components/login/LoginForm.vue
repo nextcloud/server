@@ -290,7 +290,7 @@ export default {
 
 <style lang="scss" scoped>
 .login-form {
-	text-align: left;
+	text-align: start;
 	font-size: 1rem;
 
 	&__fieldset {

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "{version} je dostupná. Získajte viac informácií o postupe aktualizácie.",
     "Channel updated" : "Kanál bol aktualizovaný",
     "Web updater is disabled" : "Aktualizácia cez Web je vypnutá",
     "App updated" : "Aplikácia aktualizovaná",
@@ -30,7 +29,7 @@ OC.L10N.register(
     "What's new?" : "Čo je nové?",
     "View changelog" : "Zobraziť súhrn zmien",
     "The update check is not yet finished. Please refresh the page." : "Kontrola aktualizácií ešte neskončila. Obnovte prosím stránku.",
-    "Your version is up to date." : "Vaša verzia je atuálna.",
+    "Your version is up to date." : "Vaša verzia je aktuálna.",
     "A non-default update server is in use to be checked for updates:" : "Pre kontrolu aktualizácií sa používa iný než predvolený server:",
     "Update channel" : "Aktualizovať kanál",
     "Changing the update channel also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Zmena aktualizačného kanála ovplyvňuje aj stránku správy aplikácií. Napr. po prepnutí na beta kanál vám budú na stránke správy aplikácií ponúknuté aktualizácie na beta verzie aplikácií.",
@@ -57,6 +56,7 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplikácia nemá dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom"],
     "Changelog for app {app}" : "Zoznam zmien pre aplikáciu {app}",
     "What's new in {app} version {version}" : "Čo je nové v {app} verzie {version}",
+    "{version} is available. Get more information on how to update." : "{version} je dostupná. Získajte viac informácií o postupe aktualizácie.",
     "Update to %1$s is available." : "Je dostupná aktualizácia na verziu %1$s.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Zobrazí upozornenie na aktualizáciu pre Nextcloud a poskytuje zjednotené prihlasovanie pre aktualizátor.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Upozorňujeme, že webový aktualizátor sa neodporúča pre viac ako 100 používateľov! Namiesto toho použite nástroj na aktualizáciu príkazového riadku!",

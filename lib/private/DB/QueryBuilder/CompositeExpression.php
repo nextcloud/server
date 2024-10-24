@@ -16,7 +16,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 
 	public function __construct(
 		private string $type,
-		private array  $parts = []
+		private array $parts = [],
 	) {
 	}
 

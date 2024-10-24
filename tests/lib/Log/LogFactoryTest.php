@@ -61,8 +61,8 @@ class LogFactoryTest extends TestCase {
 	 * @dataProvider fileTypeProvider
 	 * @throws \OCP\AppFramework\QueryException
 	 */
-	public function testFile(string $type) {
-		$datadir = \OC::$SERVERROOT.'/data';
+	public function testFile(string $type): void {
+		$datadir = \OC::$SERVERROOT . '/data';
 		$defaultLog = $datadir . '/nextcloud.log';
 
 		$this->systemConfig->expects($this->exactly(3))
@@ -82,7 +82,7 @@ class LogFactoryTest extends TestCase {
 			],
 			[
 				'/xdev/youshallfallback',
-				\OC::$SERVERROOT.'/data/nextcloud.log'
+				\OC::$SERVERROOT . '/data/nextcloud.log'
 			]
 		];
 	}
@@ -91,8 +91,8 @@ class LogFactoryTest extends TestCase {
 	 * @dataProvider logFilePathProvider
 	 * @throws \OCP\AppFramework\QueryException
 	 */
-	public function testFileCustomPath($path, $expected) {
-		$datadir = \OC::$SERVERROOT.'/data';
+	public function testFileCustomPath($path, $expected): void {
+		$datadir = \OC::$SERVERROOT . '/data';
 		$defaultLog = $datadir . '/nextcloud.log';
 
 		$this->systemConfig->expects($this->exactly(3))
@@ -108,7 +108,7 @@ class LogFactoryTest extends TestCase {
 	/**
 	 * @throws \OCP\AppFramework\QueryException
 	 */
-	public function testErrorLog() {
+	public function testErrorLog(): void {
 		$log = $this->factory->get('errorlog');
 		$this->assertInstanceOf(Errorlog::class, $log);
 	}
@@ -116,7 +116,7 @@ class LogFactoryTest extends TestCase {
 	/**
 	 * @throws \OCP\AppFramework\QueryException
 	 */
-	public function testSystemLog() {
+	public function testSystemLog(): void {
 		$this->c->expects($this->once())
 			->method('resolve')
 			->with(Syslog::class)
@@ -129,7 +129,7 @@ class LogFactoryTest extends TestCase {
 	/**
 	 * @throws \OCP\AppFramework\QueryException
 	 */
-	public function testSystemdLog() {
+	public function testSystemdLog(): void {
 		$this->c->expects($this->once())
 			->method('resolve')
 			->with(Systemdlog::class)

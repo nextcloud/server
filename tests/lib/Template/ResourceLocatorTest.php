@@ -37,7 +37,7 @@ class ResourceLocatorTest extends \Test\TestCase {
 			'', true, true, true, []);
 	}
 
-	public function testFind() {
+	public function testFind(): void {
 		$locator = $this->getResourceLocator('theme');
 		$locator->expects($this->once())
 			->method('doFind')
@@ -49,7 +49,7 @@ class ResourceLocatorTest extends \Test\TestCase {
 		$locator->find(['foo']);
 	}
 
-	public function testFindNotFound() {
+	public function testFindNotFound(): void {
 		$systemConfig = $this->createMock(SystemConfig::class);
 		$systemConfig->method('getValue')
 			->with('theme', '')
@@ -72,7 +72,7 @@ class ResourceLocatorTest extends \Test\TestCase {
 		$locator->find(['foo']);
 	}
 
-	public function testAppendIfExist() {
+	public function testAppendIfExist(): void {
 		$locator = $this->getResourceLocator('theme');
 		/** @var \OC\Template\ResourceLocator $locator */
 		$method = new \ReflectionMethod($locator, 'appendIfExist');

@@ -349,7 +349,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 		$fooGroup
 			->expects($this->exactly(1))
 			->method('getDisplayName')
-			->willReturn('Group '.$gid);
+			->willReturn('Group ' . $gid);
 		return $fooGroup;
 	}
 }

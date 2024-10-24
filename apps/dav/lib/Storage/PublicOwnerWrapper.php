@@ -12,8 +12,7 @@ use OC\Files\Storage\Wrapper\Wrapper;
 
 class PublicOwnerWrapper extends Wrapper {
 
-	/** @var string */
-	private $owner;
+	private string $owner;
 
 	/**
 	 * @param array $arguments ['storage' => $storage, 'owner' => $owner]
@@ -26,13 +25,12 @@ class PublicOwnerWrapper extends Wrapper {
 		$this->owner = $arguments['owner'];
 	}
 
-	public function getOwner($path) {
+	public function getOwner(string $path): string|false {
 		$owner = parent::getOwner($path);
-
-		if ($owner === null || $owner === false) {
-			return $this->owner;
+		if ($owner !== false) {
+			return $owner;
 		}
 
-		return $owner;
+		return $this->owner;
 	}
 }

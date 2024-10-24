@@ -1,8 +1,22 @@
+SPDX-License-Identifier: MIT
+SPDX-License-Identifier: GPL-3.0-or-later
 SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-FileCopyrightText: Tobias Koppers @sokra
+SPDX-FileCopyrightText: OpenJS Foundation and other contributors
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Christoph Wurst
 
 
 This file is generated from multiple sources. Included packages:
+- @nextcloud/router
+	- version: 3.0.1
+	- license: GPL-3.0-or-later
+- jquery
+	- version: 3.7.1
+	- license: MIT
+- webpack
+	- version: 5.94.0
+	- license: MIT
 - nextcloud
 	- version: 1.0.0
 	- license: AGPL-3.0-or-later

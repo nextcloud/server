@@ -14,7 +14,7 @@ class PlatformRepositoryTest extends \Test\TestCase {
 	 * @param $expected
 	 * @param $input
 	 */
-	public function testVersion($input, $expected) {
+	public function testVersion($input, $expected): void {
 		$pr = new OC\App\PlatformRepository();
 		$normalizedVersion = $pr->normalizeVersion($input);
 		$this->assertEquals($expected, $normalizedVersion);

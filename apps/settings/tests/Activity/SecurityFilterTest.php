@@ -31,15 +31,15 @@ class SecurityFilterTest extends TestCase {
 		$this->filter = new SecurityFilter($this->urlGenerator, $this->l10n);
 	}
 
-	public function testAllowedApps() {
+	public function testAllowedApps(): void {
 		$this->assertEquals([], $this->filter->allowedApps());
 	}
 
-	public function testFilterTypes() {
+	public function testFilterTypes(): void {
 		$this->assertEquals(['security'], $this->filter->filterTypes(['comments', 'security']));
 	}
 
-	public function testGetIcon() {
+	public function testGetIcon(): void {
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')
 			->with('core', 'actions/password.svg')
@@ -51,11 +51,11 @@ class SecurityFilterTest extends TestCase {
 		$this->assertEquals('abs/path/to/icon.svg', $this->filter->getIcon());
 	}
 
-	public function testGetIdentifier() {
+	public function testGetIdentifier(): void {
 		$this->assertEquals('security', $this->filter->getIdentifier());
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->l10n->expects($this->once())
 			->method('t')
 			->with('Security')
@@ -63,7 +63,7 @@ class SecurityFilterTest extends TestCase {
 		$this->assertEquals('translated', $this->filter->getName());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertEquals(30, $this->filter->getPriority());
 	}
 }

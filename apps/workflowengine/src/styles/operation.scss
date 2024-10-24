@@ -7,10 +7,9 @@
 	flex-wrap: wrap;
 	flex-direction: column;
 	flex-grow: 1;
-	margin-left: -1px;
 	padding: 10px;
 	border-radius: var(--border-radius-large);
-	margin-right: 20px;
+	margin-inline: -1px 20px;
 	margin-bottom: 20px;
 }
 .actions__item .icon {
@@ -33,7 +32,7 @@
 .actions__item_options {
 	width: 100%;
 	margin-top: 10px;
-	padding-left: 60px;
+	padding-inline-start: 60px;
 }
 h3, small {
 	padding: 6px;
@@ -61,7 +60,7 @@ small {
 
 	.actions__item__description {
 		padding-top: 5px;
-		text-align: left;
+		text-align: start;
 		width: calc(100% - 105px);
 		small {
 			padding: 0;
@@ -70,7 +69,7 @@ small {
 	.icon {
 		width: 50px;
 		margin: 0;
-		margin-right: 10px;
+		margin-inline-end: 10px;
 		&:not(.icon-invert) {
 			filter: var(--background-invert-if-bright);
 		}

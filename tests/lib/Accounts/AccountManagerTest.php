@@ -56,7 +56,7 @@ class AccountManagerTest extends TestCase {
 	/** @var IConfig|MockObject */
 	private $config;
 
-	/** @var  IEventDispatcher|MockObject */
+	/** @var IEventDispatcher|MockObject */
 	private $eventDispatcher;
 
 	/** @var IJobList|MockObject */
@@ -474,7 +474,7 @@ class AccountManagerTest extends TestCase {
 	 * @dataProvider dataTrueFalse
 	 *
 	 */
-	public function testUpdateUser(array $newData, array $oldData, bool $insertNew, bool $updateExisting) {
+	public function testUpdateUser(array $newData, array $oldData, bool $insertNew, bool $updateExisting): void {
 		$accountManager = $this->getInstance(['getUser', 'insertNewUser', 'updateExistingUser']);
 		/** @var IUser $user */
 		$user = $this->createMock(IUser::class);
@@ -516,7 +516,7 @@ class AccountManagerTest extends TestCase {
 		];
 	}
 
-	public function testAddMissingDefaults() {
+	public function testAddMissingDefaults(): void {
 		$user = $this->createMock(IUser::class);
 
 		$this->config
@@ -626,6 +626,12 @@ class AccountManagerTest extends TestCase {
 				'name' => IAccountManager::PROPERTY_PROFILE_ENABLED,
 				'value' => '1',
 			],
+
+			[
+				'name' => IAccountManager::PROPERTY_PRONOUNS,
+				'value' => '',
+				'scope' => IAccountManager::SCOPE_FEDERATED,
+			],
 		];
 		$this->config->expects($this->once())->method('getSystemValue')->with('account_manager.default_property_scope', [])->willReturn([]);
 
@@ -635,7 +641,7 @@ class AccountManagerTest extends TestCase {
 		$this->assertSame($expected, $result);
 	}
 
-	public function testGetAccount() {
+	public function testGetAccount(): void {
 		$accountManager = $this->getInstance(['getUser']);
 		/** @var IUser $user */
 		$user = $this->createMock(IUser::class);
@@ -879,7 +885,7 @@ class AccountManagerTest extends TestCase {
 		$result = $this->invokePrivate($this->accountManager, 'buildDefaultUserRecord', [$user]);
 		$resultProperties = array_column($result, 'name');
 
-		$this->assertEmpty(array_diff($resultProperties, IAccountManager::ALLOWED_PROPERTIES), "Building default user record returned non-allowed properties");
+		$this->assertEmpty(array_diff($resultProperties, IAccountManager::ALLOWED_PROPERTIES), 'Building default user record returned non-allowed properties');
 		foreach ($expectedResultScopes as $expectedResultScopeKey => $expectedResultScopeValue) {
 			$resultScope = $result[array_search($expectedResultScopeKey, $resultProperties)]['scope'];
 			$this->assertEquals($expectedResultScopeValue, $resultScope, "The result scope doesn't follow the value set into the config or defaults correctly.");

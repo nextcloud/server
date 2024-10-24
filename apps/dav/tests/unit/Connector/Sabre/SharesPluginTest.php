@@ -10,6 +10,7 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\Node;
+use OCA\DAV\Connector\Sabre\SharesPlugin;
 use OCA\DAV\Upload\UploadFile;
 use OCP\Files\Folder;
 use OCP\IUser;
@@ -19,7 +20,7 @@ use OCP\Share\IShare;
 use Sabre\DAV\Tree;
 
 class SharesPluginTest extends \Test\TestCase {
-	public const SHARETYPES_PROPERTYNAME = \OCA\DAV\Connector\Sabre\SharesPlugin::SHARETYPES_PROPERTYNAME;
+	public const SHARETYPES_PROPERTYNAME = SharesPlugin::SHARETYPES_PROPERTYNAME;
 
 	/**
 	 * @var \Sabre\DAV\Server
@@ -37,12 +38,12 @@ class SharesPluginTest extends \Test\TestCase {
 	private $shareManager;
 
 	/**
-	 * @var \OCP\Files\Folder
+	 * @var Folder
 	 */
 	private $userFolder;
 
 	/**
-	 * @var \OCA\DAV\Connector\Sabre\SharesPlugin
+	 * @var SharesPlugin
 	 */
 	private $plugin;
 
@@ -61,7 +62,7 @@ class SharesPluginTest extends \Test\TestCase {
 			->willReturn($user);
 		$this->userFolder = $this->createMock(Folder::class);
 
-		$this->plugin = new \OCA\DAV\Connector\Sabre\SharesPlugin(
+		$this->plugin = new SharesPlugin(
 			$this->tree,
 			$userSession,
 			$this->userFolder,

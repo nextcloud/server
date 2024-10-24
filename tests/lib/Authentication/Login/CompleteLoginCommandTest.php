@@ -27,7 +27,7 @@ class CompleteLoginCommandTest extends ALoginCommandTest {
 		);
 	}
 
-	public function testProcess() {
+	public function testProcess(): void {
 		$data = $this->getLoggedInLoginData();
 		$this->session->expects($this->once())
 			->method('completeLogin')

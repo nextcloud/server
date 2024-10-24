@@ -51,7 +51,7 @@ class ShareHelperTest extends TestCase {
 	/**
 	 * @dataProvider dataGetPathsForAccessList
 	 */
-	public function testGetPathsForAccessList(array $userList, array $userMap, $resolveUsers, array $remoteList, array $remoteMap, $resolveRemotes, array $expected) {
+	public function testGetPathsForAccessList(array $userList, array $userMap, $resolveUsers, array $remoteList, array $remoteMap, $resolveRemotes, array $expected): void {
 		$this->manager->expects($this->once())
 			->method('getAccessList')
 			->willReturn([
@@ -107,7 +107,7 @@ class ShareHelperTest extends TestCase {
 	 * @param array $nodes
 	 * @param array $expected
 	 */
-	public function testGetPathsForUsers(array $users, array $nodes, array $expected) {
+	public function testGetPathsForUsers(array $users, array $nodes, array $expected): void {
 		$lastNode = null;
 		foreach ($nodes as $nodeId => $nodeName) {
 			/** @var Node|\PHPUnit\Framework\MockObject\MockObject $node */
@@ -164,7 +164,7 @@ class ShareHelperTest extends TestCase {
 	 * @param array $nodes
 	 * @param array $expected
 	 */
-	public function testGetPathsForRemotes(array $remotes, array $nodes, array $expected) {
+	public function testGetPathsForRemotes(array $remotes, array $nodes, array $expected): void {
 		$lastNode = null;
 		foreach ($nodes as $nodeId => $nodePath) {
 			/** @var Node|\PHPUnit\Framework\MockObject\MockObject $node */
@@ -202,7 +202,7 @@ class ShareHelperTest extends TestCase {
 	 * @param string $path
 	 * @param string $expected
 	 */
-	public function testGetMountedPath($path, $expected) {
+	public function testGetMountedPath($path, $expected): void {
 		/** @var Node|\PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->createMock(Node::class);
 		$node->expects($this->once())

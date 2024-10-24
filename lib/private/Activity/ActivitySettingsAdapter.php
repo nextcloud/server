@@ -19,7 +19,7 @@ use OCP\IL10N;
 class ActivitySettingsAdapter extends ActivitySettings {
 	public function __construct(
 		private ISetting $oldSettings,
-		private IL10N $l10n
+		private IL10N $l10n,
 	) {
 	}
 

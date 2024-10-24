@@ -55,7 +55,7 @@ class EtagTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public function testNewUser() {
+	public function testNewUser(): void {
 		$user1 = $this->getUniqueID('user_');
 		$this->userBackend->createUser($user1, '');
 

@@ -15,6 +15,7 @@
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nem lehet az automatikusan előállított jelszót elküldeni. Állítson be érvényes e-mail-címet a személyes beállításokban, és próbálja újra.",
     "Failed to send share by email. Got an invalid email address" : "Az e-mailben történő megosztás sikertelen. Érvénytelen e-mail-cím.",
     "Failed to send share by email" : "Az e-mailben történő megosztás sikertelen",
+    "Note:" : "Megjegyzés:",
     "Click the button below to open it." : "Kattintson a lenti gombra a megnyitásához.",
     "%1$s via %2$s" : "%1$s ezen keresztül: %2$s",
     "It is protected with the following password:" : "A következő jelszó védi:",

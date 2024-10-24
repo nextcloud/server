@@ -46,7 +46,7 @@ class AppDirsWithDifferentOwnerTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testAppDirectoryOwnersOk() {
+	public function testAppDirectoryOwnersOk(): void {
 		$tempDir = tempnam(sys_get_temp_dir(), 'apps') . 'dir';
 		mkdir($tempDir);
 		mkdir($tempDir . DIRECTORY_SEPARATOR . 'app1');
@@ -73,7 +73,7 @@ class AppDirsWithDifferentOwnerTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testAppDirectoryOwnersNotWritable() {
+	public function testAppDirectoryOwnersNotWritable(): void {
 		$tempDir = tempnam(sys_get_temp_dir(), 'apps') . 'dir';
 		\OC::$APPSROOTS = [
 			[

@@ -451,7 +451,7 @@ export default defineComponent({
 		width: auto;
 		margin-inline: 12px;
 		span.dialog__actions-separator {
-			margin-left: auto;
+			margin-inline-start: auto;
 		}
 	}
 

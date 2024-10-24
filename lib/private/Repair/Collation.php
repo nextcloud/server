@@ -15,7 +15,7 @@ use OCP\Migration\IRepairStep;
 use Psr\Log\LoggerInterface;
 
 class Collation implements IRepairStep {
-	/**  @var IConfig */
+	/** @var IConfig */
 	protected $config;
 
 	protected LoggerInterface $logger;
@@ -33,7 +33,7 @@ class Collation implements IRepairStep {
 		IConfig $config,
 		LoggerInterface $logger,
 		IDBConnection $connection,
-		$ignoreFailures
+		$ignoreFailures,
 	) {
 		$this->connection = $connection;
 		$this->config = $config;
@@ -92,14 +92,14 @@ class Collation implements IRepairStep {
 	 * @return string[]
 	 */
 	protected function getAllNonUTF8BinTables(IDBConnection $connection) {
-		$dbName = $this->config->getSystemValueString("dbname");
+		$dbName = $this->config->getSystemValueString('dbname');
 		$characterSet = $this->config->getSystemValueBool('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
 
 		// fetch tables by columns
 		$statement = $connection->executeQuery(
-			"SELECT DISTINCT(TABLE_NAME) AS `table`" .
-			"	FROM INFORMATION_SCHEMA . COLUMNS" .
-			"	WHERE TABLE_SCHEMA = ?" .
+			'SELECT DISTINCT(TABLE_NAME) AS `table`' .
+			'	FROM INFORMATION_SCHEMA . COLUMNS' .
+			'	WHERE TABLE_SCHEMA = ?' .
 			"	AND (COLLATION_NAME <> '" . $characterSet . "_bin' OR CHARACTER_SET_NAME <> '" . $characterSet . "')" .
 			"	AND TABLE_NAME LIKE '*PREFIX*%'",
 			[$dbName]
@@ -112,9 +112,9 @@ class Collation implements IRepairStep {
 
 		// fetch tables by collation
 		$statement = $connection->executeQuery(
-			"SELECT DISTINCT(TABLE_NAME) AS `table`" .
-			"	FROM INFORMATION_SCHEMA . TABLES" .
-			"	WHERE TABLE_SCHEMA = ?" .
+			'SELECT DISTINCT(TABLE_NAME) AS `table`' .
+			'	FROM INFORMATION_SCHEMA . TABLES' .
+			'	WHERE TABLE_SCHEMA = ?' .
 			"	AND TABLE_COLLATION <> '" . $characterSet . "_bin'" .
 			"	AND TABLE_NAME LIKE '*PREFIX*%'",
 			[$dbName]

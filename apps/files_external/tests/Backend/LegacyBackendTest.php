@@ -21,7 +21,7 @@ class LegacyBackendTest extends \Test\TestCase {
 		];
 	}
 
-	public function testConstructor() {
+	public function testConstructor(): void {
 		$auth = $this->getMockBuilder('\OCA\Files_External\Lib\Auth\Builtin')
 			->disableOriginalConstructor()
 			->getMock();
@@ -77,7 +77,7 @@ class LegacyBackendTest extends \Test\TestCase {
 		$this->assertEquals(DefinitionParameter::FLAG_OPTIONAL, $parameters['optionalpassword']->getFlags());
 	}
 
-	public function testNoDependencies() {
+	public function testNoDependencies(): void {
 		$auth = $this->getMockBuilder('\OCA\Files_External\Lib\Auth\Builtin')
 			->disableOriginalConstructor()
 			->getMock();

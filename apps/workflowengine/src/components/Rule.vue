@@ -196,16 +196,16 @@ export default {
 		justify-content: end;
 
 		button {
-			margin-left: 5px;
+			margin-inline-start: 5px;
 		}
 		button:last-child{
-			margin-right: 10px;
+			margin-inline-end: 10px;
 		}
 	}
 
 	.error-message {
 		float: right;
-		margin-right: 10px;
+		margin-inline-end: 10px;
 	}
 
 	.flow-icon {
@@ -215,7 +215,7 @@ export default {
 	.rule {
 		display: flex;
 		flex-wrap: wrap;
-		border-left: 5px solid var(--color-primary-element);
+		border-inline-start: 5px solid var(--color-primary-element);
 
 		.trigger,
 		.action {
@@ -229,8 +229,8 @@ export default {
 		}
 		.icon-confirm {
 			background-position: right 27px;
-			padding-right: 20px;
-			margin-right: 20px;
+			padding-inline-end: 20px;
+			margin-inline-end: 20px;
 		}
 	}
 	.trigger p, .action p {
@@ -239,9 +239,9 @@ export default {
 
 		& > span {
 			min-width: 50px;
-			text-align: right;
+			text-align: end;
 			color: var(--color-text-maxcontrast);
-			padding-right: 10px;
+			padding-inline-end: 10px;
 			padding-top: 6px;
 		}
 		.multiselect {
@@ -259,13 +259,13 @@ export default {
 	.check--add {
 		background-position: 7px center;
 		background-color: transparent;
-		padding-left: 6px;
+		padding-inline-start: 6px;
 		margin: 0;
 		width: 180px;
 		border-radius: var(--border-radius);
 		color: var(--color-text-maxcontrast);
 		font-weight: normal;
-		text-align: left;
+		text-align: start;
 		font-size: 1em;
 	}
 

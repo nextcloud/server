@@ -42,7 +42,7 @@ const createNewFolder = async (root: Folder, name: string): Promise<createFolder
 export const entry = {
 	id: 'newFolder',
 	displayName: t('files', 'New folder'),
-	enabled: (context: Folder) => (context.permissions & Permission.CREATE) !== 0,
+	enabled: (context: Folder) => Boolean(context.permissions & Permission.CREATE) && Boolean(context.permissions & Permission.READ),
 	iconSvgInline: FolderPlusSvg,
 	order: 0,
 	async handler(context: Folder, content: Node[]) {

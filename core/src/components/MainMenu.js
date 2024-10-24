@@ -17,7 +17,7 @@ export const setUp = () => {
 		},
 	})
 
-	const container = document.getElementById('header-left__appmenu')
+	const container = document.getElementById('header-start__appmenu')
 	if (!container) {
 		// no container, possibly we're on a public page
 		return

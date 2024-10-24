@@ -18,6 +18,6 @@ class Literal implements ILiteral {
 	}
 
 	public function __toString(): string {
-		return (string) $this->literal;
+		return (string)$this->literal;
 	}
 }

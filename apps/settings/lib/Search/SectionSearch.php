@@ -21,26 +21,12 @@ use OCP\Settings\IManager;
 
 class SectionSearch implements IProvider {
 
-	/** @var IManager */
-	protected $settingsManager;
-
-	/** @var IGroupManager */
-	protected $groupManager;
-
-	/** @var IURLGenerator */
-	protected $urlGenerator;
-
-	/** @var IL10N */
-	protected $l;
-
-	public function __construct(IManager $settingsManager,
-		IGroupManager $groupManager,
-		IURLGenerator $urlGenerator,
-		IL10N $l) {
-		$this->settingsManager = $settingsManager;
-		$this->groupManager = $groupManager;
-		$this->urlGenerator = $urlGenerator;
-		$this->l = $l;
+	public function __construct(
+		protected IManager $settingsManager,
+		protected IGroupManager $groupManager,
+		protected IURLGenerator $urlGenerator,
+		protected IL10N $l,
+	) {
 	}
 
 	/**
@@ -74,9 +60,25 @@ class SectionSearch implements IProvider {
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 
+		$personalSections = $this->settingsManager->getPersonalSections();
+		foreach ($personalSections as $priority => $sections) {
+			$personalSections[$priority] = array_values(array_filter(
+				$sections,
+				fn (IIconSection $section) => !empty($this->settingsManager->getPersonalSettings($section->getID())),
+			));
+		}
+
+		$adminSections = $this->settingsManager->getAdminSections();
+		foreach ($adminSections as $priority => $sections) {
+			$adminSections[$priority] = array_values(array_filter(
+				$sections,
+				fn (IIconSection $section) => !empty($this->settingsManager->getAllowedAdminSettings($section->getID(), $user)),
+			));
+		}
+
 		$result = $this->searchSections(
 			$query,
-			$this->settingsManager->getPersonalSections(),
+			$personalSections,
 			$isAdmin ? $this->l->t('Personal') : '',
 			'settings.PersonalSettings.index'
 		);
@@ -84,7 +86,7 @@ class SectionSearch implements IProvider {
 		if ($this->groupManager->isAdmin($user->getUID())) {
 			$result = array_merge($result, $this->searchSections(
 				$query,
-				$this->settingsManager->getAdminSections(),
+				$adminSections,
 				$this->l->t('Administration'),
 				'settings.AdminSettings.index'
 			));

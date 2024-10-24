@@ -55,7 +55,7 @@ class SetConfigTest extends TestCase {
 	 * @param mixed $existingData
 	 * @param mixed $expectedValue
 	 */
-	public function testSet($configNames, $newValue, $existingData, $expectedValue) {
+	public function testSet($configNames, $newValue, $existingData, $expectedValue): void {
 		$this->systemConfig->expects($this->once())
 			->method('setValue')
 			->with($configNames[0], $expectedValue);
@@ -88,7 +88,7 @@ class SetConfigTest extends TestCase {
 	/**
 	 * @dataProvider setUpdateOnlyProvider
 	 */
-	public function testSetUpdateOnly($configNames, $existingData) {
+	public function testSetUpdateOnly($configNames, $existingData): void {
 		$this->expectException(\UnexpectedValueException::class);
 
 		$this->systemConfig->expects($this->never())
@@ -135,7 +135,7 @@ class SetConfigTest extends TestCase {
 	/**
 	 * @dataProvider castValueProvider
 	 */
-	public function testCastValue($value, $type, $expectedValue) {
+	public function testCastValue($value, $type, $expectedValue): void {
 		$this->assertSame($expectedValue,
 			$this->invokePrivate($this->command, 'castValue', [$value, $type])
 		);
@@ -156,7 +156,7 @@ class SetConfigTest extends TestCase {
 	/**
 	 * @dataProvider castValueInvalidProvider
 	 */
-	public function testCastValueInvalid($value, $type) {
+	public function testCastValueInvalid($value, $type): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->invokePrivate($this->command, 'castValue', [$value, $type]);

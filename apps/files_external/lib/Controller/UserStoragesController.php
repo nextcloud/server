@@ -13,6 +13,7 @@ use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -44,7 +45,7 @@ class UserStoragesController extends StoragesController {
 		LoggerInterface $logger,
 		IUserSession $userSession,
 		IGroupManager $groupManager,
-		IConfig $config
+		IConfig $config,
 	) {
 		parent::__construct(
 			$AppName,
@@ -99,12 +100,13 @@ class UserStoragesController extends StoragesController {
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	public function create(
 		$mountPoint,
 		$backend,
 		$authMechanism,
 		$backendOptions,
-		$mountOptions
+		$mountOptions,
 	) {
 		$canCreateNewLocalStorage = $this->config->getSystemValue('files_external_allow_create_new_local', true);
 		if (!$canCreateNewLocalStorage && $backend === 'local') {
@@ -154,6 +156,7 @@ class UserStoragesController extends StoragesController {
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	public function update(
 		$id,
 		$mountPoint,
@@ -161,7 +164,7 @@ class UserStoragesController extends StoragesController {
 		$authMechanism,
 		$backendOptions,
 		$mountOptions,
-		$testOnly = true
+		$testOnly = true,
 	) {
 		$storage = $this->createStorage(
 			$mountPoint,
@@ -205,6 +208,7 @@ class UserStoragesController extends StoragesController {
 	 * {@inheritdoc}
 	 */
 	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	public function destroy($id) {
 		return parent::destroy($id);
 	}

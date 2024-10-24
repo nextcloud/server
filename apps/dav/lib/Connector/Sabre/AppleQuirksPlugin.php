@@ -58,8 +58,8 @@ class AppleQuirksPlugin extends ServerPlugin {
 	 * This method handles HTTP REPORT requests.
 	 *
 	 * @param string $reportName
-	 * @param mixed  $report
-	 * @param mixed  $path
+	 * @param mixed $report
+	 * @param mixed $path
 	 *
 	 * @return bool
 	 */

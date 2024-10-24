@@ -20,6 +20,8 @@ OC.L10N.register(
     "Set status" : "Постави статус",
     "Online status" : "Мрежни статус",
     "Status message" : "Порука стања",
+    "Set absence period" : "Постави период одсутности",
+    "Set absence period and replacement" : "Постави период одсутности и замену",
     "Your status was set automatically" : "Ваш статус је аутоматски постављен",
     "Clear status message" : "Обриши статусну поруку",
     "Set status message" : "Постављање статусне поруке",

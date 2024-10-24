@@ -12,6 +12,7 @@ namespace OC\Activity;
 use OCP\Activity\Exceptions\InvalidValueException;
 use OCP\Activity\IEvent;
 use OCP\RichObjectStrings\InvalidObjectExeption;
+use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
 
 class Event implements IEvent {
@@ -60,14 +61,11 @@ class Event implements IEvent {
 
 	/** @var IEvent|null */
 	protected $child;
-	/** @var IValidator */
-	protected $richValidator;
 
-	/**
-	 * @param IValidator $richValidator
-	 */
-	public function __construct(IValidator $richValidator) {
-		$this->richValidator = $richValidator;
+	public function __construct(
+		protected IValidator $richValidator,
+		protected IRichTextFormatter $richTextFormatter,
+	) {
 	}
 
 	/**
@@ -217,37 +215,13 @@ class Event implements IEvent {
 
 		if ($this->subjectParsed === '') {
 			try {
-				$this->subjectParsed = $this->richToParsed($subject, $parameters);
+				$this->subjectParsed = $this->richTextFormatter->richToParsed($subject, $parameters);
 			} catch (\InvalidArgumentException $e) {
 				throw new InvalidValueException('richSubjectParameters', $e);
 			}
 		}
 
 		return $this;
-	}
-
-	/**
-	 * @throws \InvalidArgumentException if a parameter has no name or no type
-	 */
-	private function richToParsed(string $message, array $parameters): string {
-		$placeholders = [];
-		$replacements = [];
-		foreach ($parameters as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
-			foreach (['name','type'] as $requiredField) {
-				if (!isset($parameter[$requiredField]) || !is_string($parameter[$requiredField])) {
-					throw new \InvalidArgumentException("Invalid rich object, {$requiredField} field is missing");
-				}
-			}
-			if ($parameter['type'] === 'user') {
-				$replacements[] = '@' . $parameter['name'];
-			} elseif ($parameter['type'] === 'file') {
-				$replacements[] = $parameter['path'] ?? $parameter['name'];
-			} else {
-				$replacements[] = $parameter['name'];
-			}
-		}
-		return str_replace($placeholders, $replacements, $message);
 	}
 
 	/**
@@ -259,7 +233,7 @@ class Event implements IEvent {
 	}
 
 	/**
-	 * @return array[]
+	 * @return array<string, array<string, string>>
 	 * @since 11.0.0
 	 */
 	public function getRichSubjectParameters(): array {
@@ -317,7 +291,7 @@ class Event implements IEvent {
 
 		if ($this->messageParsed === '') {
 			try {
-				$this->messageParsed = $this->richToParsed($message, $parameters);
+				$this->messageParsed = $this->richTextFormatter->richToParsed($message, $parameters);
 			} catch (\InvalidArgumentException $e) {
 				throw new InvalidValueException('richMessageParameters', $e);
 			}
@@ -335,7 +309,7 @@ class Event implements IEvent {
 	}
 
 	/**
-	 * @return array[]
+	 * @return array<string, array<string, string>>
 	 * @since 11.0.0
 	 */
 	public function getRichMessageParameters(): array {

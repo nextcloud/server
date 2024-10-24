@@ -183,7 +183,7 @@ class ThrottlerTest extends TestCase {
 	 */
 	public function testIsIpWhiteListedWithEnabledProtection($ip,
 		$whitelists,
-		$isWhiteListed) {
+		$isWhiteListed): void {
 		$this->isIpWhiteListedHelper(
 			$ip,
 			$whitelists,
@@ -201,7 +201,7 @@ class ThrottlerTest extends TestCase {
 	 */
 	public function testIsIpWhiteListedWithDisabledProtection($ip,
 		$whitelists,
-		$isWhiteListed) {
+		$isWhiteListed): void {
 		$this->isIpWhiteListedHelper(
 			$ip,
 			$whitelists,

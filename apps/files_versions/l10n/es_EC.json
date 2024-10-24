@@ -9,6 +9,7 @@
     "Current version" : "Versión actual",
     "Version name" : "Nombre de la versión",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Las versiones con nombre se conservan y se excluyen de las limpiezas automáticas cuando tu cuota de almacenamiento está llena.",
+    "Cancel" : "Cancelar",
     "Remove version name" : "Eliminar nombre de versión",
     "Save version name" : "Guardar nombre de versión",
     "Initial version restored" : "Versión inicial restaurada",

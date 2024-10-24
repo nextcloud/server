@@ -63,7 +63,7 @@ class TemplateManager implements ITemplateManager {
 		IPreview $previewManager,
 		IConfig $config,
 		IFactory $l10nFactory,
-		LoggerInterface $logger
+		LoggerInterface $logger,
 	) {
 		$this->serverContainer = $serverContainer;
 		$this->eventDispatcher = $eventDispatcher;
@@ -144,11 +144,9 @@ class TemplateManager implements ITemplateManager {
 				throw new GenericFileException($this->l10n->t('Invalid path'));
 			}
 			$folder = $userFolder->get(dirname($filePath));
-			$targetFile = $folder->newFile(basename($filePath));
 			$template = null;
 			if ($templateType === 'user' && $templateId !== '') {
 				$template = $userFolder->get($templateId);
-				$template->copy($targetFile->getPath());
 			} else {
 				$matchingProvider = array_filter($this->getRegisteredProviders(), function (ICustomTemplateProvider $provider) use ($templateType) {
 					return $templateType === get_class($provider);
@@ -156,9 +154,11 @@ class TemplateManager implements ITemplateManager {
 				$provider = array_shift($matchingProvider);
 				if ($provider) {
 					$template = $provider->getCustomTemplate($templateId);
-					$template->copy($targetFile->getPath());
 				}
 			}
+
+			$targetFile = $folder->newFile(basename($filePath), ($template instanceof File ? $template->fopen('rb') : null));
+
 			$this->eventDispatcher->dispatchTyped(new FileCreatedFromTemplateEvent($template, $targetFile, $templateFields));
 			return $this->formatFile($userFolder->get($filePath));
 		} catch (\Exception $e) {

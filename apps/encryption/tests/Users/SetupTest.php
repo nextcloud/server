@@ -14,11 +14,11 @@ use Test\TestCase;
 
 class SetupTest extends TestCase {
 	/**
-	 * @var \OCA\Encryption\KeyManager|\PHPUnit\Framework\MockObject\MockObject
+	 * @var KeyManager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $keyManagerMock;
 	/**
-	 * @var \OCA\Encryption\Crypto\Crypt|\PHPUnit\Framework\MockObject\MockObject
+	 * @var Crypt|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $cryptMock;
 	/**
@@ -42,7 +42,7 @@ class SetupTest extends TestCase {
 	}
 
 
-	public function testSetupSystem() {
+	public function testSetupSystem(): void {
 		$this->keyManagerMock->expects($this->once())->method('validateShareKey');
 		$this->keyManagerMock->expects($this->once())->method('validateMasterKey');
 
@@ -55,7 +55,7 @@ class SetupTest extends TestCase {
 	 * @param bool $hasKeys
 	 * @param bool $expected
 	 */
-	public function testSetupUser($hasKeys, $expected) {
+	public function testSetupUser($hasKeys, $expected): void {
 		$this->keyManagerMock->expects($this->once())->method('userHasKeys')
 			->with('uid')->willReturn($hasKeys);
 

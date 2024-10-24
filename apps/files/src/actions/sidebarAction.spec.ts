@@ -2,8 +2,8 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { expect } from '@jest/globals'
 import { File, Permission, View, FileAction } from '@nextcloud/files'
+import { describe, expect, test, vi } from 'vitest'
 
 import { action } from './sidebarAction'
 import logger from '../logger'
@@ -18,7 +18,7 @@ describe('Open sidebar action conditions tests', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('details')
 		expect(action.displayName([], view)).toBe('Open details')
-		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
+		expect(action.iconSvgInline([], view)).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(-50)
 	})
@@ -107,9 +107,9 @@ describe('Open sidebar action enabled tests', () => {
 
 describe('Open sidebar action exec tests', () => {
 	test('Open sidebar', async () => {
-		const openMock = jest.fn()
+		const openMock = vi.fn()
 		window.OCA = { Files: { Sidebar: { open: openMock } } }
-		const goToRouteMock = jest.fn()
+		const goToRouteMock = vi.fn()
 		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
@@ -133,9 +133,9 @@ describe('Open sidebar action exec tests', () => {
 	})
 
 	test('Open sidebar fails', async () => {
-		const openMock = jest.fn(() => { throw new Error('Mock error') })
+		const openMock = vi.fn(() => { throw new Error('Mock error') })
 		window.OCA = { Files: { Sidebar: { open: openMock } } }
-		jest.spyOn(logger, 'error').mockImplementation(() => jest.fn())
+		vi.spyOn(logger, 'error').mockImplementation(() => vi.fn())
 
 		const file = new File({
 			id: 1,

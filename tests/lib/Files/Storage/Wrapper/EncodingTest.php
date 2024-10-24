@@ -57,7 +57,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 	/**
 	 * @dataProvider accessNameProvider
 	 */
-	public function testFputEncoding($accessName) {
+	public function testFputEncoding($accessName): void {
 		$this->sourceStorage->file_put_contents(self::NFD_NAME, 'bar');
 		$this->assertEquals('bar', $this->instance->file_get_contents($accessName));
 	}
@@ -65,7 +65,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 	/**
 	 * @dataProvider accessNameProvider
 	 */
-	public function testFopenReadEncoding($accessName) {
+	public function testFopenReadEncoding($accessName): void {
 		$this->sourceStorage->file_put_contents(self::NFD_NAME, 'bar');
 		$fh = $this->instance->fopen($accessName, 'r');
 		$data = fgets($fh);
@@ -76,7 +76,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 	/**
 	 * @dataProvider accessNameProvider
 	 */
-	public function testFopenOverwriteEncoding($accessName) {
+	public function testFopenOverwriteEncoding($accessName): void {
 		$this->sourceStorage->file_put_contents(self::NFD_NAME, 'bar');
 		$fh = $this->instance->fopen($accessName, 'w');
 		$data = fputs($fh, 'test');
@@ -89,7 +89,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 	/**
 	 * @dataProvider accessNameProvider
 	 */
-	public function testFileExistsEncoding($accessName) {
+	public function testFileExistsEncoding($accessName): void {
 		$this->sourceStorage->file_put_contents(self::NFD_NAME, 'bar');
 		$this->assertTrue($this->instance->file_exists($accessName));
 	}
@@ -97,14 +97,14 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 	/**
 	 * @dataProvider accessNameProvider
 	 */
-	public function testUnlinkEncoding($accessName) {
+	public function testUnlinkEncoding($accessName): void {
 		$this->sourceStorage->file_put_contents(self::NFD_NAME, 'bar');
 		$this->assertTrue($this->instance->unlink($accessName));
 		$this->assertFalse($this->sourceStorage->file_exists(self::NFC_NAME));
 		$this->assertFalse($this->sourceStorage->file_exists(self::NFD_NAME));
 	}
 
-	public function testNfcHigherPriority() {
+	public function testNfcHigherPriority(): void {
 		$this->sourceStorage->file_put_contents(self::NFC_NAME, 'nfc');
 		$this->sourceStorage->file_put_contents(self::NFD_NAME, 'nfd');
 		$this->assertEquals('nfc', $this->instance->file_get_contents(self::NFC_NAME));
@@ -114,14 +114,14 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 		return [
 			[self::NFD_NAME, self::NFC_NAME],
 			[self::NFD_NAME . '/' . self::NFD_NAME, self::NFC_NAME . '/' . self::NFC_NAME],
-			[self::NFD_NAME . '/' . self::NFC_NAME . '/' .self::NFD_NAME, self::NFC_NAME . '/' . self::NFC_NAME . '/' . self::NFC_NAME],
+			[self::NFD_NAME . '/' . self::NFC_NAME . '/' . self::NFD_NAME, self::NFC_NAME . '/' . self::NFC_NAME . '/' . self::NFC_NAME],
 		];
 	}
 
 	/**
 	 * @dataProvider encodedDirectoriesProvider
 	 */
-	public function testOperationInsideDirectory($sourceDir, $accessDir) {
+	public function testOperationInsideDirectory($sourceDir, $accessDir): void {
 		$this->sourceStorage->mkdir($sourceDir);
 		$this->instance->file_put_contents($accessDir . '/test.txt', 'bar');
 		$this->assertTrue($this->instance->file_exists($accessDir . '/test.txt'));
@@ -138,7 +138,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 		$this->assertTrue($this->instance->file_exists($accessDir . '/' . self::NFC_NAME));
 	}
 
-	public function testCacheExtraSlash() {
+	public function testCacheExtraSlash(): void {
 		$this->sourceStorage->file_put_contents(self::NFD_NAME, 'foo');
 		$this->assertEquals(3, $this->instance->file_put_contents(self::NFC_NAME, 'bar'));
 		$this->assertEquals('bar', $this->instance->file_get_contents(self::NFC_NAME));
@@ -162,7 +162,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 	/**
 	 * @dataProvider sourceAndTargetDirectoryProvider
 	 */
-	public function testCopyAndMoveEncodedFolder($sourceDir, $targetDir) {
+	public function testCopyAndMoveEncodedFolder($sourceDir, $targetDir): void {
 		$this->sourceStorage->mkdir($sourceDir);
 		$this->sourceStorage->mkdir($targetDir);
 		$this->sourceStorage->file_put_contents($sourceDir . '/test.txt', 'bar');
@@ -182,7 +182,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 	/**
 	 * @dataProvider sourceAndTargetDirectoryProvider
 	 */
-	public function testCopyAndMoveFromStorageEncodedFolder($sourceDir, $targetDir) {
+	public function testCopyAndMoveFromStorageEncodedFolder($sourceDir, $targetDir): void {
 		$this->sourceStorage->mkdir($sourceDir);
 		$this->sourceStorage->mkdir($targetDir);
 		$this->sourceStorage->file_put_contents($sourceDir . '/test.txt', 'bar');
@@ -199,7 +199,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 		$this->assertEquals('bar', $this->instance->file_get_contents(self::NFC_NAME . '2/test2.txt'));
 	}
 
-	public function testNormalizedDirectoryEntriesOpenDir() {
+	public function testNormalizedDirectoryEntriesOpenDir(): void {
 		$this->sourceStorage->mkdir('/test');
 		$this->sourceStorage->mkdir('/test/' . self::NFD_NAME);
 
@@ -218,7 +218,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 		$this->assertEquals(self::NFC_NAME, $content[0]);
 	}
 
-	public function testNormalizedDirectoryEntriesGetDirectoryContent() {
+	public function testNormalizedDirectoryEntriesGetDirectoryContent(): void {
 		$this->sourceStorage->mkdir('/test');
 		$this->sourceStorage->mkdir('/test/' . self::NFD_NAME);
 
@@ -230,7 +230,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 		$this->assertEquals(self::NFC_NAME, $content[0]['name']);
 	}
 
-	public function testNormalizedGetMetaData() {
+	public function testNormalizedGetMetaData(): void {
 		$this->sourceStorage->mkdir('/test');
 		$this->sourceStorage->mkdir('/test/' . self::NFD_NAME);
 

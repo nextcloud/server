@@ -13,13 +13,21 @@ use OC\Files\Cache\Propagator;
 use OC\Files\Cache\Scanner;
 use OC\Files\Cache\Updater;
 use OC\Files\Cache\Watcher;
+use OC\Files\FilenameValidator;
 use OC\Files\Filesystem;
+use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OCP\Files\Cache\ICache;
+use OCP\Files\Cache\IPropagator;
+use OCP\Files\Cache\IScanner;
+use OCP\Files\Cache\IUpdater;
+use OCP\Files\Cache\IWatcher;
 use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\InvalidPathException;
+use OCP\Files\Storage\IConstructableStorage;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
@@ -40,17 +48,17 @@ use Psr\Log\LoggerInterface;
  * Some \OC\Files\Storage\Common methods call functions which are first defined
  * in classes which extend it, e.g. $this->stat() .
  */
-abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
+abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, IConstructableStorage {
 	use LocalTempFileTrait;
 
-	protected $cache;
-	protected $scanner;
-	protected $watcher;
-	protected $propagator;
+	protected ?Cache $cache = null;
+	protected ?Scanner $scanner = null;
+	protected ?Watcher $watcher = null;
+	protected ?Propagator $propagator = null;
 	protected $storageCache;
-	protected $updater;
+	protected ?Updater $updater = null;
 
-	protected $mountOptions = [];
+	protected array $mountOptions = [];
 	protected $owner = null;
 
 	private ?bool $shouldLogLocks = null;
@@ -60,13 +68,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	public function __construct($parameters) {
 	}
 
-	/**
-	 * Remove a file or folder
-	 *
-	 * @param string $path
-	 * @return bool
-	 */
-	protected function remove($path) {
+	protected function remove(string $path): bool {
 		if ($this->is_dir($path)) {
 			return $this->rmdir($path);
 		} elseif ($this->is_file($path)) {
@@ -76,15 +78,15 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		}
 	}
 
-	public function is_dir($path) {
+	public function is_dir(string $path): bool {
 		return $this->filetype($path) === 'dir';
 	}
 
-	public function is_file($path) {
+	public function is_file(string $path): bool {
 		return $this->filetype($path) === 'file';
 	}
 
-	public function filesize($path): false|int|float {
+	public function filesize(string $path): int|float|false {
 		if ($this->is_dir($path)) {
 			return 0; //by definition
 		} else {
@@ -97,27 +99,27 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		}
 	}
 
-	public function isReadable($path) {
+	public function isReadable(string $path): bool {
 		// at least check whether it exists
 		// subclasses might want to implement this more thoroughly
 		return $this->file_exists($path);
 	}
 
-	public function isUpdatable($path) {
+	public function isUpdatable(string $path): bool {
 		// at least check whether it exists
 		// subclasses might want to implement this more thoroughly
 		// a non-existing file/folder isn't updatable
 		return $this->file_exists($path);
 	}
 
-	public function isCreatable($path) {
+	public function isCreatable(string $path): bool {
 		if ($this->is_dir($path) && $this->isUpdatable($path)) {
 			return true;
 		}
 		return false;
 	}
 
-	public function isDeletable($path) {
+	public function isDeletable(string $path): bool {
 		if ($path === '' || $path === '/') {
 			return $this->isUpdatable($path);
 		}
@@ -125,11 +127,11 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $this->isUpdatable($parent) && $this->isUpdatable($path);
 	}
 
-	public function isSharable($path) {
+	public function isSharable(string $path): bool {
 		return $this->isReadable($path);
 	}
 
-	public function getPermissions($path) {
+	public function getPermissions(string $path): int {
 		$permissions = 0;
 		if ($this->isCreatable($path)) {
 			$permissions |= \OCP\Constants::PERMISSION_CREATE;
@@ -149,7 +151,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $permissions;
 	}
 
-	public function filemtime($path) {
+	public function filemtime(string $path): int|false {
 		$stat = $this->stat($path);
 		if (isset($stat['mtime']) && $stat['mtime'] > 0) {
 			return $stat['mtime'];
@@ -158,8 +160,8 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		}
 	}
 
-	public function file_get_contents($path) {
-		$handle = $this->fopen($path, "r");
+	public function file_get_contents(string $path): string|false {
+		$handle = $this->fopen($path, 'r');
 		if (!$handle) {
 			return false;
 		}
@@ -168,8 +170,8 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $data;
 	}
 
-	public function file_put_contents($path, $data) {
-		$handle = $this->fopen($path, "w");
+	public function file_put_contents(string $path, mixed $data): int|float|false {
+		$handle = $this->fopen($path, 'w');
 		if (!$handle) {
 			return false;
 		}
@@ -179,14 +181,14 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $count;
 	}
 
-	public function rename($source, $target) {
+	public function rename(string $source, string $target): bool {
 		$this->remove($target);
 
 		$this->removeCachedFile($source);
 		return $this->copy($source, $target) and $this->remove($source);
 	}
 
-	public function copy($source, $target) {
+	public function copy(string $source, string $target): bool {
 		if ($this->is_dir($source)) {
 			$this->remove($target);
 			$dir = $this->opendir($source);
@@ -213,7 +215,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		}
 	}
 
-	public function getMimeType($path) {
+	public function getMimeType(string $path): string|false {
 		if ($this->is_dir($path)) {
 			return 'httpd/unix-directory';
 		} elseif ($this->file_exists($path)) {
@@ -223,7 +225,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		}
 	}
 
-	public function hash($type, $path, $raw = false) {
+	public function hash(string $type, string $path, bool $raw = false): string|false {
 		$fh = $this->fopen($path, 'rb');
 		$ctx = hash_init($type);
 		hash_update_stream($ctx, $fh);
@@ -231,19 +233,11 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return hash_final($ctx, $raw);
 	}
 
-	public function search($query) {
-		return $this->searchInDir($query);
-	}
-
-	public function getLocalFile($path) {
+	public function getLocalFile(string $path): string|false {
 		return $this->getCachedFile($path);
 	}
 
-	/**
-	 * @param string $path
-	 * @param string $target
-	 */
-	private function addLocalFolder($path, $target) {
+	private function addLocalFolder(string $path, string $target): void {
 		$dh = $this->opendir($path);
 		if (is_resource($dh)) {
 			while (($file = readdir($dh)) !== false) {
@@ -260,12 +254,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		}
 	}
 
-	/**
-	 * @param string $query
-	 * @param string $dir
-	 * @return array
-	 */
-	protected function searchInDir($query, $dir = '') {
+	protected function searchInDir(string $query, string $dir = ''): array {
 		$files = [];
 		$dh = $this->opendir($dir);
 		if (is_resource($dh)) {
@@ -286,18 +275,15 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	}
 
 	/**
+	 * @inheritDoc
 	 * Check if a file or folder has been updated since $time
 	 *
 	 * The method is only used to check if the cache needs to be updated. Storage backends that don't support checking
 	 * the mtime should always return false here. As a result storage implementations that always return false expect
 	 * exclusive access to the backend and will not pick up files that have been added in a way that circumvents
 	 * Nextcloud filesystem.
-	 *
-	 * @param string $path
-	 * @param int $time
-	 * @return bool
 	 */
-	public function hasUpdated($path, $time) {
+	public function hasUpdated(string $path, int $time): bool {
 		return $this->filemtime($path) > $time;
 	}
 
@@ -309,19 +295,23 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $dependencies;
 	}
 
-	public function getCache($path = '', $storage = null) {
+	public function getCache(string $path = '', ?IStorage $storage = null): ICache {
 		if (!$storage) {
 			$storage = $this;
 		}
+		/** @var self $storage */
 		if (!isset($storage->cache)) {
 			$storage->cache = new Cache($storage, $this->getCacheDependencies());
 		}
 		return $storage->cache;
 	}
 
-	public function getScanner($path = '', $storage = null) {
+	public function getScanner(string $path = '', ?IStorage $storage = null): IScanner {
 		if (!$storage) {
 			$storage = $this;
+		}
+		if (!$storage->instanceOfStorage(self::class)) {
+			throw new \InvalidArgumentException('Storage is not of the correct class');
 		}
 		if (!isset($storage->scanner)) {
 			$storage->scanner = new Scanner($storage);
@@ -329,7 +319,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $storage->scanner;
 	}
 
-	public function getWatcher($path = '', $storage = null) {
+	public function getWatcher(string $path = '', ?IStorage $storage = null): IWatcher {
 		if (!$storage) {
 			$storage = $this;
 		}
@@ -341,16 +331,14 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $this->watcher;
 	}
 
-	/**
-	 * get a propagator instance for the cache
-	 *
-	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the watcher
-	 * @return \OC\Files\Cache\Propagator
-	 */
-	public function getPropagator($storage = null) {
+	public function getPropagator(?IStorage $storage = null): IPropagator {
 		if (!$storage) {
 			$storage = $this;
 		}
+		if (!$storage->instanceOfStorage(self::class)) {
+			throw new \InvalidArgumentException('Storage is not of the correct class');
+		}
+		/** @var self $storage */
 		if (!isset($storage->propagator)) {
 			$config = \OC::$server->getSystemConfig();
 			$storage->propagator = new Propagator($storage, \OC::$server->getDatabaseConnection(), ['appdata_' . $config->getValue('instanceid')]);
@@ -358,27 +346,27 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $storage->propagator;
 	}
 
-	public function getUpdater($storage = null) {
+	public function getUpdater(?IStorage $storage = null): IUpdater {
 		if (!$storage) {
 			$storage = $this;
 		}
+		if (!$storage->instanceOfStorage(self::class)) {
+			throw new \InvalidArgumentException('Storage is not of the correct class');
+		}
+		/** @var self $storage */
 		if (!isset($storage->updater)) {
 			$storage->updater = new Updater($storage);
 		}
 		return $storage->updater;
 	}
 
-	public function getStorageCache($storage = null) {
-		return $this->getCache($storage)->getStorageCache();
+	public function getStorageCache(?IStorage $storage = null): \OC\Files\Cache\Storage {
+		/** @var Cache $cache */
+		$cache = $this->getCache(storage: $storage);
+		return $cache->getStorageCache();
 	}
 
-	/**
-	 * get the owner of a path
-	 *
-	 * @param string $path The path to get the owner
-	 * @return string|false uid or false
-	 */
-	public function getOwner($path) {
+	public function getOwner(string $path): string|false {
 		if ($this->owner === null) {
 			$this->owner = \OC_User::getUser();
 		}
@@ -386,13 +374,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $this->owner;
 	}
 
-	/**
-	 * get the ETag for a file or folder
-	 *
-	 * @param string $path
-	 * @return string
-	 */
-	public function getETag($path) {
+	public function getETag(string $path): string|false {
 		return uniqid();
 	}
 
@@ -403,7 +385,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @param string $path The path to clean
 	 * @return string cleaned path
 	 */
-	public function cleanPath($path) {
+	public function cleanPath(string $path): string {
 		if (strlen($path) == 0 or $path[0] != '/') {
 			$path = '/' . $path;
 		}
@@ -422,39 +404,28 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 
 	/**
 	 * Test a storage for availability
-	 *
-	 * @return bool
 	 */
-	public function test() {
+	public function test(): bool {
 		try {
 			if ($this->stat('')) {
 				return true;
 			}
-			\OC::$server->get(LoggerInterface::class)->info("External storage not available: stat() failed");
+			\OC::$server->get(LoggerInterface::class)->info('External storage not available: stat() failed');
 			return false;
 		} catch (\Exception $e) {
 			\OC::$server->get(LoggerInterface::class)->warning(
-				"External storage not available: " . $e->getMessage(),
+				'External storage not available: ' . $e->getMessage(),
 				['exception' => $e]
 			);
 			return false;
 		}
 	}
 
-	/**
-	 * get the free space in the storage
-	 *
-	 * @param string $path
-	 * @return int|float|false
-	 */
-	public function free_space($path) {
+	public function free_space(string $path): int|float|false {
 		return \OCP\Files\FileInfo::SPACE_UNKNOWN;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function isLocal() {
+	public function isLocal(): bool {
 		// the common implementation returns a temporary file by
 		// default, which is not local
 		return false;
@@ -462,11 +433,8 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 
 	/**
 	 * Check if the storage is an instance of $class or is a wrapper for a storage that is an instance of $class
-	 *
-	 * @param string $class
-	 * @return bool
 	 */
-	public function instanceOfStorage($class) {
+	public function instanceOfStorage(string $class): bool {
 		if (ltrim($class, '\\') === 'OC\Files\Storage\Shared') {
 			// FIXME Temporary fix to keep existing checks working
 			$class = '\OCA\Files_Sharing\SharedStorage';
@@ -478,23 +446,27 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * A custom storage implementation can return an url for direct download of a give file.
 	 *
 	 * For now the returned array can hold the parameter url - in future more attributes might follow.
-	 *
-	 * @param string $path
-	 * @return array|false
 	 */
-	public function getDirectDownload($path) {
+	public function getDirectDownload(string $path): array|false {
 		return [];
 	}
 
-	/**
-	 * @inheritdoc
-	 * @throws InvalidPathException
-	 */
-	public function verifyPath($path, $fileName) {
+	public function verifyPath(string $path, string $fileName): void {
 		$this->getFilenameValidator()
 			->validateFilename($fileName);
 
-		// NOTE: $path will remain unverified for now
+		// verify also the path is valid
+		if ($path && $path !== '/' && $path !== '.') {
+			try {
+				$this->verifyPath(dirname($path), basename($path));
+			} catch (InvalidPathException $e) {
+				// Ignore invalid file type exceptions on directories
+				if ($e->getCode() !== FilenameValidator::INVALID_FILE_TYPE) {
+					$l = \OCP\Util::getL10N('lib');
+					throw new InvalidPathException($l->t('Invalid parent path'), previous: $e);
+				}
+			}
+		}
 	}
 
 	/**
@@ -508,30 +480,15 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $this->filenameValidator;
 	}
 
-	/**
-	 * @param array $options
-	 */
-	public function setMountOptions(array $options) {
+	public function setMountOptions(array $options): void {
 		$this->mountOptions = $options;
 	}
 
-	/**
-	 * @param string $name
-	 * @param mixed $default
-	 * @return mixed
-	 */
-	public function getMountOption($name, $default = null) {
+	public function getMountOption(string $name, mixed $default = null): mixed {
 		return $this->mountOptions[$name] ?? $default;
 	}
 
-	/**
-	 * @param IStorage $sourceStorage
-	 * @param string $sourceInternalPath
-	 * @param string $targetInternalPath
-	 * @param bool $preserveMtime
-	 * @return bool
-	 */
-	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
+	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, bool $preserveMtime = false): bool {
 		if ($sourceStorage === $this) {
 			return $this->copy($sourceInternalPath, $targetInternalPath);
 		}
@@ -576,9 +533,6 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 
 	/**
 	 * Check if a storage is the same as the current one, including wrapped storages
-	 *
-	 * @param IStorage $storage
-	 * @return bool
 	 */
 	private function isSameStorage(IStorage $storage): bool {
 		while ($storage->instanceOfStorage(Wrapper::class)) {
@@ -591,13 +545,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $storage === $this;
 	}
 
-	/**
-	 * @param IStorage $sourceStorage
-	 * @param string $sourceInternalPath
-	 * @param string $targetInternalPath
-	 * @return bool
-	 */
-	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		if ($this->isSameStorage($sourceStorage)) {
 			// resolve any jailed paths
 			while ($sourceStorage->instanceOfStorage(Jail::class)) {
@@ -617,19 +565,27 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 
 		$result = $this->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, true);
 		if ($result) {
-			if ($sourceStorage->is_dir($sourceInternalPath)) {
-				$result = $sourceStorage->rmdir($sourceInternalPath);
-			} else {
-				$result = $sourceStorage->unlink($sourceInternalPath);
+			if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
+				/** @var ObjectStoreStorage $sourceStorage */
+				$sourceStorage->setPreserveCacheOnDelete(true);
+			}
+			try {
+				if ($sourceStorage->is_dir($sourceInternalPath)) {
+					$result = $sourceStorage->rmdir($sourceInternalPath);
+				} else {
+					$result = $sourceStorage->unlink($sourceInternalPath);
+				}
+			} finally {
+				if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
+					/** @var ObjectStoreStorage $sourceStorage */
+					$sourceStorage->setPreserveCacheOnDelete(false);
+				}
 			}
 		}
 		return $result;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getMetaData($path) {
+	public function getMetaData(string $path): ?array {
 		if (Filesystem::isFileBlacklisted($path)) {
 			throw new ForbiddenException('Invalid path: ' . $path, false);
 		}
@@ -659,13 +615,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $data;
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
-	 * @throws \OCP\Lock\LockedException
-	 */
-	public function acquireLock($path, $type, ILockingProvider $provider) {
+	public function acquireLock(string $path, int $type, ILockingProvider $provider): void {
 		$logger = $this->getLockLogger();
 		if ($logger) {
 			$typeString = ($type === ILockingProvider::LOCK_SHARED) ? 'shared' : 'exclusive';
@@ -692,13 +642,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		}
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
-	 * @throws \OCP\Lock\LockedException
-	 */
-	public function releaseLock($path, $type, ILockingProvider $provider) {
+	public function releaseLock(string $path, int $type, ILockingProvider $provider): void {
 		$logger = $this->getLockLogger();
 		if ($logger) {
 			$typeString = ($type === ILockingProvider::LOCK_SHARED) ? 'shared' : 'exclusive';
@@ -725,13 +669,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		}
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
-	 * @throws \OCP\Lock\LockedException
-	 */
-	public function changeLock($path, $type, ILockingProvider $provider) {
+	public function changeLock(string $path, int $type, ILockingProvider $provider): void {
 		$logger = $this->getLockLogger();
 		if ($logger) {
 			$typeString = ($type === ILockingProvider::LOCK_SHARED) ? 'shared' : 'exclusive';
@@ -769,45 +707,22 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	/**
 	 * @return array [ available, last_checked ]
 	 */
-	public function getAvailability() {
+	public function getAvailability(): array {
 		return $this->getStorageCache()->getAvailability();
 	}
 
-	/**
-	 * @param bool $isAvailable
-	 */
-	public function setAvailability($isAvailable) {
+	public function setAvailability(bool $isAvailable): void {
 		$this->getStorageCache()->setAvailability($isAvailable);
 	}
 
-	/**
-	 * Allow setting the storage owner
-	 *
-	 * This can be used for storages that do not have a dedicated owner, where we want to
-	 * pass the user that we setup the mountpoint for along to the storage layer
-	 *
-	 * @param string|null $user
-	 * @return void
-	 */
 	public function setOwner(?string $user): void {
 		$this->owner = $user;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function needsPartFile() {
+	public function needsPartFile(): bool {
 		return true;
 	}
 
-	/**
-	 * fallback implementation
-	 *
-	 * @param string $path
-	 * @param resource $stream
-	 * @param int $size
-	 * @return int
-	 */
 	public function writeStream(string $path, $stream, ?int $size = null): int {
 		$target = $this->fopen($path, 'w');
 		if (!$target) {
@@ -816,7 +731,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		try {
 			[$count, $result] = \OC_Helper::streamCopy($stream, $target);
 			if (!$result) {
-				throw new GenericFileException("Failed to copy stream");
+				throw new GenericFileException('Failed to copy stream');
 			}
 		} finally {
 			fclose($target);
@@ -825,7 +740,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $count;
 	}
 
-	public function getDirectoryContent($directory): \Traversable {
+	public function getDirectoryContent(string $directory): \Traversable {
 		$dh = $this->opendir($directory);
 
 		if ($dh === false) {

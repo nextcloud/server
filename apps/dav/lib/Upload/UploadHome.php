@@ -14,14 +14,10 @@ use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ICollection;
 
 class UploadHome implements ICollection {
-	/** @var array */
-	private $principalInfo;
-	/** @var CleanupService */
-	private $cleanupService;
-
-	public function __construct(array $principalInfo, CleanupService $cleanupService) {
-		$this->principalInfo = $principalInfo;
-		$this->cleanupService = $cleanupService;
+	public function __construct(
+		private array $principalInfo,
+		private CleanupService $cleanupService,
+	) {
 	}
 
 	public function createFile($name, $data = null) {

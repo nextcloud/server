@@ -14,20 +14,15 @@ use OCP\OCS\IDiscoveryService;
 use Psr\Log\LoggerInterface;
 
 class SyncFederationAddressBooks {
-	protected DbHandler $dbHandler;
-	private SyncService $syncService;
 	private DiscoveryService $ocsDiscoveryService;
-	private LoggerInterface $logger;
 
-	public function __construct(DbHandler $dbHandler,
-		SyncService $syncService,
+	public function __construct(
+		protected DbHandler $dbHandler,
+		private SyncService $syncService,
 		IDiscoveryService $ocsDiscoveryService,
-		LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
-		$this->syncService = $syncService;
-		$this->dbHandler = $dbHandler;
 		$this->ocsDiscoveryService = $ocsDiscoveryService;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -50,7 +45,7 @@ class SyncFederationAddressBooks {
 				continue;
 			}
 			$targetBookId = $trustedServer['url_hash'];
-			$targetPrincipal = "principals/system/system";
+			$targetPrincipal = 'principals/system/system';
 			$targetBookProperties = [
 				'{DAV:}displayname' => $url
 			];
@@ -60,6 +55,10 @@ class SyncFederationAddressBooks {
 					$this->dbHandler->setServerStatus($url, TrustedServers::STATUS_OK, $newToken);
 				} else {
 					$this->logger->debug("Sync Token for $url unchanged from previous sync");
+					// The server status might have been changed to a failure status in previous runs.
+					if ($this->dbHandler->getServerStatus($url) !== TrustedServers::STATUS_OK) {
+						$this->dbHandler->setServerStatus($url, TrustedServers::STATUS_OK);
+					}
 				}
 			} catch (\Exception $ex) {
 				if ($ex->getCode() === Http::STATUS_UNAUTHORIZED) {

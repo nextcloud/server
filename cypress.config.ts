@@ -66,6 +66,19 @@ export default defineConfig({
 
 			on('task', { removeDirectory })
 
+			// This allows to store global data (e.g. the name of a snapshot)
+			// because Cypress.env() and other options are local to the current spec file.
+			const data = {}
+			on('task', {
+				setVariable({ key, value }) {
+					data[key] = value
+					return null
+				},
+				getVariable({ key }) {
+					return data[key] ?? null
+				},
+			})
+
 			// Disable spell checking to prevent rendering differences
 			on('before:browser:launch', (browser, launchOptions) => {
 				if (browser.family === 'chromium' && browser.name !== 'electron') {
@@ -110,6 +123,7 @@ export default defineConfig({
 	},
 
 	component: {
+		specPattern: ['core/**/*.cy.ts', 'apps/**/*.cy.ts'],
 		devServer: {
 			framework: 'vue',
 			bundler: 'webpack',

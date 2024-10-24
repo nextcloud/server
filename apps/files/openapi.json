@@ -36,6 +36,7 @@
                             "forbidden_filename_basenames",
                             "forbidden_filename_characters",
                             "forbidden_filename_extensions",
+                            "chunked_upload",
                             "directEditing"
                         ],
                         "properties": {
@@ -74,6 +75,23 @@
                                 "type": "array",
                                 "items": {
                                     "type": "string"
+                                }
+                            },
+                            "chunked_upload": {
+                                "type": "object",
+                                "required": [
+                                    "max_size",
+                                    "max_parallel_count"
+                                ],
+                                "properties": {
+                                    "max_size": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "max_parallel_count": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    }
                                 }
                             },
                             "directEditing": {
@@ -148,6 +166,25 @@
                         "type": "string"
                     },
                     "itemsperpage": {
+                        "type": "string"
+                    }
+                }
+            },
+            "TemplateField": {
+                "type": "object",
+                "required": [
+                    "index",
+                    "content",
+                    "type"
+                ],
+                "properties": {
+                    "index": {
+                        "type": "string"
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "type": {
                         "type": "string"
                     }
                 }
@@ -1973,30 +2010,26 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "path": {
-                                        "type": "string",
-                                        "default": "/",
-                                        "description": "The path relative to the user folder"
-                                    },
-                                    "depth": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "default": 1,
-                                        "description": "The depth of the tree"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "parameters": [
+                    {
+                        "name": "path",
+                        "in": "query",
+                        "description": "The path relative to the user folder",
+                        "schema": {
+                            "type": "string",
+                            "default": "/"
+                        }
+                    },
+                    {
+                        "name": "depth",
+                        "in": "query",
+                        "description": "The depth of the tree",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 1
+                        }
+                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",

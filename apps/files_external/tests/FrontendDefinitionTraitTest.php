@@ -10,7 +10,7 @@ use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\StorageConfig;
 
 class FrontendDefinitionTraitTest extends \Test\TestCase {
-	public function testJsonSerialization() {
+	public function testJsonSerialization(): void {
 		$param = $this->getMockBuilder(DefinitionParameter::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -42,7 +42,7 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 	/**
 	 * @dataProvider validateStorageProvider
 	 */
-	public function testValidateStorage($expectedSuccess, $params) {
+	public function testValidateStorage($expectedSuccess, $params): void {
 		$backendParams = [];
 		foreach ($params as $name => $valid) {
 			$param = $this->getMockBuilder(DefinitionParameter::class)
@@ -74,7 +74,7 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 		$this->assertEquals($expectedSuccess, $trait->validateStorageDefinition($storageConfig));
 	}
 
-	public function testValidateStorageSet() {
+	public function testValidateStorageSet(): void {
 		$param = $this->getMockBuilder(DefinitionParameter::class)
 			->disableOriginalConstructor()
 			->getMock();

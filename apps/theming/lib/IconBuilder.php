@@ -10,13 +10,6 @@ use ImagickPixel;
 use OCP\Files\SimpleFS\ISimpleFile;
 
 class IconBuilder {
-	/** @var ThemingDefaults */
-	private $themingDefaults;
-	/** @var Util */
-	private $util;
-	/** @var ImageManager */
-	private $imageManager;
-
 	/**
 	 * IconBuilder constructor.
 	 *
@@ -25,13 +18,10 @@ class IconBuilder {
 	 * @param ImageManager $imageManager
 	 */
 	public function __construct(
-		ThemingDefaults $themingDefaults,
-		Util $util,
-		ImageManager $imageManager
+		private ThemingDefaults $themingDefaults,
+		private Util $util,
+		private ImageManager $imageManager,
 	) {
-		$this->themingDefaults = $themingDefaults;
-		$this->util = $util;
-		$this->imageManager = $imageManager;
 	}
 
 	/**
@@ -44,12 +34,12 @@ class IconBuilder {
 		}
 		try {
 			$favicon = new Imagick();
-			$favicon->setFormat("ico");
+			$favicon->setFormat('ico');
 			$icon = $this->renderAppIcon($app, 128);
 			if ($icon === false) {
 				return false;
 			}
-			$icon->setImageFormat("png32");
+			$icon->setImageFormat('png32');
 
 			$clone = clone $icon;
 			$clone->scaleImage(16, 0);
@@ -87,7 +77,7 @@ class IconBuilder {
 			if ($icon === false) {
 				return false;
 			}
-			$icon->setImageFormat("png32");
+			$icon->setImageFormat('png32');
 			$data = $icon->getImageBlob();
 			$icon->destroy();
 			return $data;
@@ -117,41 +107,37 @@ class IconBuilder {
 			$mime = mime_content_type($appIcon);
 		}
 
-		if ($appIconContent === false || $appIconContent === "") {
+		if ($appIconContent === false || $appIconContent === '') {
 			return false;
 		}
 
 		$color = $this->themingDefaults->getColorPrimary();
 
 		// generate background image with rounded corners
+		$cornerRadius = 0.2 * $size;
 		$background = '<?xml version="1.0" encoding="UTF-8"?>' .
-			'<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" width="512" height="512" xmlns:xlink="http://www.w3.org/1999/xlink">' .
-			'<rect x="0" y="0" rx="100" ry="100" width="512" height="512" style="fill:' . $color . ';" />' .
+			'<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" width="' . $size . '" height="' . $size . '" xmlns:xlink="http://www.w3.org/1999/xlink">' .
+			'<rect x="0" y="0" rx="' . $cornerRadius . '" ry="' . $cornerRadius . '" width="' . $size . '" height="' . $size . '" style="fill:' . $color . ';" />' .
 			'</svg>';
 		// resize svg magic as this seems broken in Imagemagick
-		if ($mime === "image/svg+xml" || substr($appIconContent, 0, 4) === "<svg") {
-			if (substr($appIconContent, 0, 5) !== "<?xml") {
-				$svg = "<?xml version=\"1.0\"?>".$appIconContent;
+		if ($mime === 'image/svg+xml' || substr($appIconContent, 0, 4) === '<svg') {
+			if (substr($appIconContent, 0, 5) !== '<?xml') {
+				$svg = '<?xml version="1.0"?>' . $appIconContent;
 			} else {
 				$svg = $appIconContent;
 			}
 			$tmp = new Imagick();
+			$tmp->setBackgroundColor(new ImagickPixel('transparent'));
+			$tmp->setResolution(72, 72);
 			$tmp->readImageBlob($svg);
 			$x = $tmp->getImageWidth();
 			$y = $tmp->getImageHeight();
-			$res = $tmp->getImageResolution();
 			$tmp->destroy();
-
-			if ($x > $y) {
-				$max = $x;
-			} else {
-				$max = $y;
-			}
 
 			// convert svg to resized image
 			$appIconFile = new Imagick();
-			$resX = (int)(512 * $res['x'] / $max * 2.53);
-			$resY = (int)(512 * $res['y'] / $max * 2.53);
+			$resX = (int)(72 * $size / $x);
+			$resY = (int)(72 * $size / $y);
 			$appIconFile->setResolution($resX, $resY);
 			$appIconFile->setBackgroundColor(new ImagickPixel('transparent'));
 			$appIconFile->readImageBlob($svg);
@@ -162,35 +148,34 @@ class IconBuilder {
 			 */
 			if ($this->util->isBrightColor($color)
 				&& !$appIcon instanceof ISimpleFile
-				&& $app !== "core"
+				&& $app !== 'core'
 			) {
 				$appIconFile->negateImage(false);
 			}
-			$appIconFile->scaleImage(512, 512, true);
 		} else {
 			$appIconFile = new Imagick();
 			$appIconFile->setBackgroundColor(new ImagickPixel('transparent'));
 			$appIconFile->readImageBlob($appIconContent);
-			$appIconFile->scaleImage(512, 512, true);
 		}
 		// offset for icon positioning
-		$border_w = (int)($appIconFile->getImageWidth() * 0.05);
-		$border_h = (int)($appIconFile->getImageHeight() * 0.05);
+		$padding = 0.15;
+		$border_w = (int)($appIconFile->getImageWidth() * $padding);
+		$border_h = (int)($appIconFile->getImageHeight() * $padding);
 		$innerWidth = ($appIconFile->getImageWidth() - $border_w * 2);
 		$innerHeight = ($appIconFile->getImageHeight() - $border_h * 2);
 		$appIconFile->adaptiveResizeImage($innerWidth, $innerHeight);
 		// center icon
-		$offset_w = (int)(512 / 2 - $innerWidth / 2);
-		$offset_h = (int)(512 / 2 - $innerHeight / 2);
+		$offset_w = (int)($size / 2 - $innerWidth / 2);
+		$offset_h = (int)($size / 2 - $innerHeight / 2);
 
 		$finalIconFile = new Imagick();
 		$finalIconFile->setBackgroundColor(new ImagickPixel('transparent'));
 		$finalIconFile->readImageBlob($background);
 		$finalIconFile->setImageVirtualPixelMethod(Imagick::VIRTUALPIXELMETHOD_TRANSPARENT);
-		$finalIconFile->setImageArtifact('compose:args', "1,0,-0.5,0.5");
+		$finalIconFile->setImageArtifact('compose:args', '1,0,-0.5,0.5');
 		$finalIconFile->compositeImage($appIconFile, Imagick::COMPOSITE_ATOP, $offset_w, $offset_h);
 		$finalIconFile->setImageFormat('png24');
-		if (defined("Imagick::INTERPOLATE_BICUBIC") === true) {
+		if (defined('Imagick::INTERPOLATE_BICUBIC') === true) {
 			$filter = Imagick::INTERPOLATE_BICUBIC;
 		} else {
 			$filter = Imagick::FILTER_LANCZOS;
@@ -208,11 +193,11 @@ class IconBuilder {
 	 */
 	public function colorSvg($app, $image) {
 		$imageFile = $this->util->getAppImage($app, $image);
-		if ($imageFile === false || $imageFile === "") {
+		if ($imageFile === false || $imageFile === '') {
 			return false;
 		}
 		$svg = file_get_contents($imageFile);
-		if ($svg !== false && $svg !== "") {
+		if ($svg !== false && $svg !== '') {
 			$color = $this->util->elementColor($this->themingDefaults->getColorPrimary());
 			$svg = $this->util->colorizeSvg($svg, $color);
 			return $svg;

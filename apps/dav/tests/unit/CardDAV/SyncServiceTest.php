@@ -16,6 +16,7 @@ use OCA\DAV\CardDAV\Converter;
 use OCA\DAV\CardDAV\SyncService;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -33,6 +34,7 @@ class SyncServiceTest extends TestCase {
 	protected LoggerInterface $logger;
 	protected Converter $converter;
 	protected IClient $client;
+	protected IConfig $config;
 	protected SyncService $service;
 	public function setUp(): void {
 		$addressBook = [
@@ -53,6 +55,7 @@ class SyncServiceTest extends TestCase {
 		$this->logger = new NullLogger();
 		$this->converter = $this->createMock(Converter::class);
 		$this->client = $this->createMock(IClient::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$clientService = $this->createMock(IClientService::class);
 		$clientService->method('newClient')
@@ -64,7 +67,8 @@ class SyncServiceTest extends TestCase {
 			$this->dbConnection,
 			$this->logger,
 			$this->converter,
-			$clientService
+			$clientService,
+			$this->config
 		);
 	}
 
@@ -305,8 +309,9 @@ END:VCARD';
 		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
 		$converter = $this->createMock(Converter::class);
 		$clientService = $this->createMock(IClientService::class);
+		$config = $this->createMock(IConfig::class);
 
-		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService);
+		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService, $config);
 		$ss->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
 	}
 
@@ -360,8 +365,9 @@ END:VCARD';
 			->willReturn($this->createMock(VCard::class));
 
 		$clientService = $this->createMock(IClientService::class);
+		$config = $this->createMock(IConfig::class);
 
-		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService);
+		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService, $config);
 		$ss->updateUser($user);
 
 		$ss->updateUser($user);
@@ -425,5 +431,60 @@ END:VCARD';
 			'principals/system/system',
 			[]
 		);
+	}
+
+	/**
+	 * @dataProvider providerUseAbsoluteUriReport
+	 */
+	public function testUseAbsoluteUriReport(string $host, string $expected): void {
+		$body = '<?xml version="1.0"?>
+<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns">
+    <d:sync-token>http://sabre.io/ns/sync/1</d:sync-token>
+</d:multistatus>';
+
+		$requestResponse = new Response(new PsrResponse(
+			207,
+			['Content-Type' => 'application/xml; charset=utf-8', 'Content-Length' => strlen($body)],
+			$body
+		));
+
+		$this->client
+			->method('request')
+			->with(
+				'REPORT',
+				$this->callback(function ($uri) use ($expected) {
+					$this->assertEquals($expected, $uri);
+					return true;
+				}),
+				$this->callback(function ($options) {
+					$this->assertIsArray($options);
+					return true;
+				}),
+			)
+			->willReturn($requestResponse);
+
+		$this->service->syncRemoteAddressBook(
+			$host,
+			'system',
+			'remote.php/dav/addressbooks/system/system/system',
+			'1234567890',
+			null,
+			'1',
+			'principals/system/system',
+			[]
+		);
+	}
+
+	public function providerUseAbsoluteUriReport(): array {
+		return [
+			['https://server.internal', 'https://server.internal/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal/', 'https://server.internal/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal/nextcloud', 'https://server.internal/nextcloud/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal/nextcloud/', 'https://server.internal/nextcloud/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal:8080', 'https://server.internal:8080/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal:8080/', 'https://server.internal:8080/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal:8080/nextcloud', 'https://server.internal:8080/nextcloud/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal:8080/nextcloud/', 'https://server.internal:8080/nextcloud/remote.php/dav/addressbooks/system/system/system'],
+		];
 	}
 }

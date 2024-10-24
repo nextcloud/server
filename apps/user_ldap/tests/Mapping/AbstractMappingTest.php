@@ -11,12 +11,12 @@ use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCP\IDBConnection;
 
 abstract class AbstractMappingTest extends \Test\TestCase {
-	abstract public function getMapper(\OCP\IDBConnection $dbMock);
+	abstract public function getMapper(IDBConnection $dbMock);
 
 	/**
 	 * kiss test on isColNameValid
 	 */
-	public function testIsColNameValid() {
+	public function testIsColNameValid(): void {
 		$dbMock = $this->createMock(IDBConnection::class);
 		$mapper = $this->getMapper($dbMock);
 
@@ -52,7 +52,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 
 	/**
 	 * calls map() on the given mapper and asserts result for true
-	 * @param \OCA\User_LDAP\Mapping\AbstractMapping $mapper
+	 * @param AbstractMapping $mapper
 	 * @param array $data
 	 */
 	protected function mapEntries($mapper, $data) {
@@ -67,7 +67,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * test objects. Preparing environment means that all mappings are cleared
 	 * first and then filled with test entries.
 	 * @return array 0 = \OCA\User_LDAP\Mapping\AbstractMapping, 1 = array of
-	 * users or groups
+	 *               users or groups
 	 */
 	private function initTest() {
 		$dbc = \OC::$server->getDatabaseConnection();
@@ -84,7 +84,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * tests map() method with input that should result in not-mapping.
 	 * Hint: successful mapping is tested inherently with mapEntries().
 	 */
-	public function testMap() {
+	public function testMap(): void {
 		[$mapper, $data] = $this->initTest();
 
 		// test that mapping will not happen when it shall not
@@ -104,7 +104,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * tests unmap() for both successful and unsuccessful removing of
 	 * mapping entries
 	 */
-	public function testUnmap() {
+	public function testUnmap(): void {
 		[$mapper, $data] = $this->initTest();
 
 		foreach ($data as $entry) {
@@ -124,7 +124,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * tests getDNByName(), getNameByDN() and getNameByUUID() for successful
 	 * and unsuccessful requests.
 	 */
-	public function testGetMethods() {
+	public function testGetMethods(): void {
 		[$mapper, $data] = $this->initTest();
 
 		foreach ($data as $entry) {
@@ -152,7 +152,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	/**
 	 * tests getNamesBySearch() for successful and unsuccessful requests.
 	 */
-	public function testSearch() {
+	public function testSearch(): void {
 		[$mapper,] = $this->initTest();
 
 		$names = $mapper->getNamesBySearch('oo', '%', '%');
@@ -168,7 +168,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	/**
 	 * tests setDNbyUUID() for successful and unsuccessful update.
 	 */
-	public function testSetDNMethod() {
+	public function testSetDNMethod(): void {
 		[$mapper, $data] = $this->initTest();
 
 		$newDN = 'uid=modified,dc=example,dc=org';
@@ -187,7 +187,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	/**
 	 * tests setUUIDbyDN() for successful and unsuccessful update.
 	 */
-	public function testSetUUIDMethod() {
+	public function testSetUUIDMethod(): void {
 		/** @var AbstractMapping $mapper */
 		[$mapper, $data] = $this->initTest();
 
@@ -207,7 +207,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	/**
 	 * tests clear() for successful update.
 	 */
-	public function testClear() {
+	public function testClear(): void {
 		[$mapper, $data] = $this->initTest();
 
 		$done = $mapper->clear();
@@ -221,13 +221,13 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	/**
 	 * tests clear() for successful update.
 	 */
-	public function testClearCb() {
+	public function testClearCb(): void {
 		[$mapper, $data] = $this->initTest();
 
 		$callbackCalls = 0;
 		$test = $this;
 
-		$callback = function (string $id) use ($test, &$callbackCalls) {
+		$callback = function (string $id) use ($test, &$callbackCalls): void {
 			$test->assertTrue(trim($id) !== '');
 			$callbackCalls++;
 		};
@@ -244,7 +244,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	/**
 	 * tests getList() method
 	 */
-	public function testList() {
+	public function testList(): void {
 		[$mapper, $data] = $this->initTest();
 
 		// get all entries without specifying offset or limit
@@ -265,7 +265,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 		$this->assertSame(1, count($results));
 	}
 
-	public function testGetListOfIdsByDn() {
+	public function testGetListOfIdsByDn(): void {
 		/** @var AbstractMapping $mapper */
 		[$mapper,] = $this->initTest();
 

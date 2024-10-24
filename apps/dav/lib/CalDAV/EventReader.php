@@ -66,8 +66,8 @@ class EventReader {
 	 * @since 30.0.0
 	 *
 	 * @param VCalendar|VEvent|Array|String $input
-	 * @param string|null     				$uid
-	 * @param DateTimeZone|null    				$timeZone reference timezone for floating dates and times
+	 * @param string|null $uid
+	 * @param DateTimeZone|null $timeZone reference timezone for floating dates and times
 	 */
 	public function __construct(VCalendar|VEvent|array|string $input, ?string $uid = null, ?DateTimeZone $timeZone = null) {
 
@@ -89,7 +89,7 @@ class EventReader {
 			$events = $input->getByUID($uid);
 			// evaluate if any event where found
 			if (count($events) === 0) {
-				throw new InvalidArgumentException('This VCALENDAR did not have an event with UID: '.$uid);
+				throw new InvalidArgumentException('This VCALENDAR did not have an event with UID: ' . $uid);
 			}
 			// extract calendar timezone
 			if (isset($input->VTIMEZONE) && isset($input->VTIMEZONE->TZID)) {
@@ -295,9 +295,9 @@ class EventReader {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return string|null				R - Relative or A - Absolute
+	 * @return string|null R - Relative or A - Absolute
 	 */
-	public function recurringPattern(): string | null {
+	public function recurringPattern(): ?string {
 		if ($this->rruleIterator === null && $this->rdateIterator === null) {
 			return null;
 		}
@@ -312,9 +312,9 @@ class EventReader {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return string|null			daily, weekly, monthly, yearly, fixed
+	 * @return string|null daily, weekly, monthly, yearly, fixed
 	 */
-	public function recurringPrecision(): string | null {
+	public function recurringPrecision(): ?string {
 		if ($this->rruleIterator !== null) {
 			return $this->rruleIterator->precision();
 		}
@@ -331,7 +331,7 @@ class EventReader {
 	 *
 	 * @return int|null
 	 */
-	public function recurringInterval(): int | null {
+	public function recurringInterval(): ?int {
 		return $this->rruleIterator?->interval();
 	}
 
@@ -374,14 +374,14 @@ class EventReader {
 	 *
 	 * @return int|null
 	 */
-	public function recurringConcludesAfter(): int | null {
+	public function recurringConcludesAfter(): ?int {
 		
 		// construct count place holder
 		$count = 0;
 		// retrieve and add RRULE iterations count
-		$count += (int) $this->rruleIterator?->concludesAfter();
+		$count += (int)$this->rruleIterator?->concludesAfter();
 		// retrieve and add RDATE iterations count
-		$count += (int) $this->rdateIterator?->concludesAfter();
+		$count += (int)$this->rdateIterator?->concludesAfter();
 		// return count
 		return !empty($count) ? $count : null;
 
@@ -399,7 +399,7 @@ class EventReader {
 	 *
 	 * @return DateTime|null
 	 */
-	public function recurringConcludesOn(): DateTime | null {
+	public function recurringConcludesOn(): ?DateTime {
 
 		if ($this->rruleIterator !== null) {
 			// retrieve rrule conclusion date
@@ -626,7 +626,7 @@ class EventReader {
 	 *
 	 * @return DateTime
 	 */
-	public function recurrenceDate(): DateTime | null {
+	public function recurrenceDate(): ?DateTime {
 		if ($this->recurrenceCurrentDate !== null) {
 			return DateTime::createFromInterface($this->recurrenceCurrentDate);
 		} else {
@@ -745,7 +745,7 @@ class EventReader {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param DateTimeInterface $dt			date and time to advance
+	 * @param DateTimeInterface $dt date and time to advance
 	 *
 	 * @return void
 	 */

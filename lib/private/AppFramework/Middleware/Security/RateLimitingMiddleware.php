@@ -112,8 +112,8 @@ class RateLimitingMiddleware extends Middleware {
 
 		if ($annotationLimit !== '' && $annotationPeriod !== '') {
 			return new $attributeClass(
-				(int) $annotationLimit,
-				(int) $annotationPeriod,
+				(int)$annotationLimit,
+				(int)$annotationPeriod,
 			);
 		}
 

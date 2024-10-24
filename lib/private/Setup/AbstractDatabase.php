@@ -50,14 +50,14 @@ abstract class AbstractDatabase {
 	public function validate($config) {
 		$errors = [];
 		if (empty($config['dbuser']) && empty($config['dbname'])) {
-			$errors[] = $this->trans->t("Enter the database Login and name for %s", [$this->dbprettyname]);
+			$errors[] = $this->trans->t('Enter the database Login and name for %s', [$this->dbprettyname]);
 		} elseif (empty($config['dbuser'])) {
-			$errors[] = $this->trans->t("Enter the database Login for %s", [$this->dbprettyname]);
+			$errors[] = $this->trans->t('Enter the database Login for %s', [$this->dbprettyname]);
 		} elseif (empty($config['dbname'])) {
-			$errors[] = $this->trans->t("Enter the database name for %s", [$this->dbprettyname]);
+			$errors[] = $this->trans->t('Enter the database name for %s', [$this->dbprettyname]);
 		}
 		if (substr_count($config['dbname'], '.') >= 1) {
-			$errors[] = $this->trans->t("You cannot use dots in the database name %s", [$this->dbprettyname]);
+			$errors[] = $this->trans->t('You cannot use dots in the database name %s', [$this->dbprettyname]);
 		}
 		return $errors;
 	}
@@ -70,9 +70,9 @@ abstract class AbstractDatabase {
 		$dbPort = !empty($config['dbport']) ? $config['dbport'] : '';
 		$dbTablePrefix = $config['dbtableprefix'] ?? 'oc_';
 
-		$createUserConfig = $this->config->getValue("setup_create_db_user", true);
+		$createUserConfig = $this->config->getValue('setup_create_db_user', true);
 		// accept `false` both as bool and string, since setting config values from env will result in a string
-		$this->tryCreateDbUser = $createUserConfig !== false && $createUserConfig !== "false";
+		$this->tryCreateDbUser = $createUserConfig !== false && $createUserConfig !== 'false';
 
 		$this->config->setValues([
 			'dbname' => $dbName,
@@ -133,7 +133,7 @@ abstract class AbstractDatabase {
 	abstract public function setupDatabase($username);
 
 	public function runMigrations(?IOutput $output = null) {
-		if (!is_dir(\OC::$SERVERROOT."/core/Migrations")) {
+		if (!is_dir(\OC::$SERVERROOT . '/core/Migrations')) {
 			return;
 		}
 		$ms = new MigrationService('core', \OC::$server->get(Connection::class), $output);

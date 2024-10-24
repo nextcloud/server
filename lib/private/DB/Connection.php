@@ -23,11 +23,21 @@ use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Statement;
+use OC\DB\QueryBuilder\Partitioned\PartitionedQueryBuilder;
+use OC\DB\QueryBuilder\Partitioned\PartitionSplit;
 use OC\DB\QueryBuilder\QueryBuilder;
+use OC\DB\QueryBuilder\Sharded\AutoIncrementHandler;
+use OC\DB\QueryBuilder\Sharded\CrossShardMoveHelper;
+use OC\DB\QueryBuilder\Sharded\RoundRobinShardMapper;
+use OC\DB\QueryBuilder\Sharded\ShardConnectionManager;
+use OC\DB\QueryBuilder\Sharded\ShardDefinition;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\QueryBuilder\Sharded\IShardMapper;
 use OCP\Diagnostics\IEventLogger;
+use OCP\ICacheFactory;
 use OCP\IDBConnection;
+use OCP\ILogger;
 use OCP\IRequestId;
 use OCP\PreConditionNotMetException;
 use OCP\Profiler\IProfiler;
@@ -75,6 +85,29 @@ class Connection extends PrimaryReadReplicaConnection {
 	protected bool $logRequestId;
 	protected string $requestId;
 
+	/** @var array<string, list<string>> */
+	protected array $partitions;
+	/** @var ShardDefinition[] */
+	protected array $shards = [];
+	protected ShardConnectionManager $shardConnectionManager;
+	protected AutoIncrementHandler $autoIncrementHandler;
+	protected bool $isShardingEnabled;
+
+	public const SHARD_PRESETS = [
+		'filecache' => [
+			'companion_keys' => [
+				'file_id',
+			],
+			'companion_tables' => [
+				'filecache_extended',
+				'files_metadata',
+			],
+			'primary_key' => 'fileid',
+			'shard_key' => 'storage',
+			'table' => 'filecache',
+		],
+	];
+
 	/**
 	 * Initializes a new instance of the Connection class.
 	 *
@@ -84,7 +117,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		private array $params,
 		Driver $driver,
 		?Configuration $config = null,
-		?EventManager $eventManager = null
+		?EventManager $eventManager = null,
 	) {
 		if (!isset($params['adapter'])) {
 			throw new \Exception('adapter not set');
@@ -98,7 +131,17 @@ class Connection extends PrimaryReadReplicaConnection {
 		parent::__construct($params, $driver, $config, $eventManager);
 		$this->adapter = new $params['adapter']($this);
 		$this->tablePrefix = $params['tablePrefix'];
+		$this->isShardingEnabled = isset($this->params['sharding']) && !empty($this->params['sharding']);
 
+		if ($this->isShardingEnabled) {
+			/** @psalm-suppress InvalidArrayOffset */
+			$this->shardConnectionManager = $this->params['shard_connection_manager'] ?? Server::get(ShardConnectionManager::class);
+			/** @psalm-suppress InvalidArrayOffset */
+			$this->autoIncrementHandler = $this->params['auto_increment_handler'] ?? new AutoIncrementHandler(
+				Server::get(ICacheFactory::class),
+				$this->shardConnectionManager,
+			);
+		}
 		$this->systemConfig = \OC::$server->getSystemConfig();
 		$this->clock = Server::get(ClockInterface::class);
 		$this->logger = Server::get(LoggerInterface::class);
@@ -117,7 +160,51 @@ class Connection extends PrimaryReadReplicaConnection {
 			$this->_config->setSQLLogger($debugStack);
 		}
 
+		/** @var array<string, array{shards: array[], mapper: ?string}> $shardConfig */
+		$shardConfig = $this->params['sharding'] ?? [];
+		$shardNames = array_keys($shardConfig);
+		$this->shards = array_map(function (array $config, string $name) {
+			if (!isset(self::SHARD_PRESETS[$name])) {
+				throw new \Exception("Shard preset $name not found");
+			}
+
+			$shardMapperClass = $config['mapper'] ?? RoundRobinShardMapper::class;
+			$shardMapper = Server::get($shardMapperClass);
+			if (!$shardMapper instanceof IShardMapper) {
+				throw new \Exception("Invalid shard mapper: $shardMapperClass");
+			}
+			return new ShardDefinition(
+				self::SHARD_PRESETS[$name]['table'],
+				self::SHARD_PRESETS[$name]['primary_key'],
+				self::SHARD_PRESETS[$name]['companion_keys'],
+				self::SHARD_PRESETS[$name]['shard_key'],
+				$shardMapper,
+				self::SHARD_PRESETS[$name]['companion_tables'],
+				$config['shards']
+			);
+		}, $shardConfig, $shardNames);
+		$this->shards = array_combine($shardNames, $this->shards);
+		$this->partitions = array_map(function (ShardDefinition $shard) {
+			return array_merge([$shard->table], $shard->companionTables);
+		}, $this->shards);
+
 		$this->setNestTransactionsWithSavepoints(true);
+	}
+
+	/**
+	 * @return IDBConnection[]
+	 */
+	public function getShardConnections(): array {
+		$connections = [];
+		if ($this->isShardingEnabled) {
+			foreach ($this->shards as $shardDefinition) {
+				foreach ($shardDefinition->getAllShards() as $shard) {
+					/** @var ConnectionAdapter $connection */
+					$connections[] = $this->shardConnectionManager->getConnection($shardDefinition, $shard);
+				}
+			}
+		}
+		return $connections;
 	}
 
 	/**
@@ -168,18 +255,34 @@ class Connection extends PrimaryReadReplicaConnection {
 	 */
 	public function getQueryBuilder(): IQueryBuilder {
 		$this->queriesBuilt++;
-		return new QueryBuilder(
+
+		$builder = new QueryBuilder(
 			new ConnectionAdapter($this),
 			$this->systemConfig,
 			$this->logger
 		);
+		if ($this->isShardingEnabled && count($this->partitions) > 0) {
+			$builder = new PartitionedQueryBuilder(
+				$builder,
+				$this->shards,
+				$this->shardConnectionManager,
+				$this->autoIncrementHandler,
+			);
+			foreach ($this->partitions as $name => $tables) {
+				$partition = new PartitionSplit($name, $tables);
+				$builder->addPartition($partition);
+			}
+			return $builder;
+		} else {
+			return $builder;
+		}
 	}
 
 	/**
 	 * Gets the QueryBuilder for the connection.
 	 *
 	 * @return \Doctrine\DBAL\Query\QueryBuilder
-	 * @deprecated please use $this->getQueryBuilder() instead
+	 * @deprecated 8.0.0 please use $this->getQueryBuilder() instead
 	 */
 	public function createQueryBuilder() {
 		$backtrace = $this->getCallerBacktrace();
@@ -192,7 +295,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * Gets the ExpressionBuilder for the connection.
 	 *
 	 * @return \Doctrine\DBAL\Query\Expression\ExpressionBuilder
-	 * @deprecated please use $this->getQueryBuilder()->expr() instead
+	 * @deprecated 8.0.0 please use $this->getQueryBuilder()->expr() instead
 	 */
 	public function getExpressionBuilder() {
 		$backtrace = $this->getCallerBacktrace();
@@ -239,10 +342,10 @@ class Connection extends PrimaryReadReplicaConnection {
 		if ($limit === -1 || $limit === null) {
 			$limit = null;
 		} else {
-			$limit = (int) $limit;
+			$limit = (int)$limit;
 		}
 		if ($offset !== null) {
-			$offset = (int) $offset;
+			$offset = (int)$offset;
 		}
 		if (!is_null($limit)) {
 			$platform = $this->getDatabasePlatform();
@@ -259,10 +362,10 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * If the query is parametrized, a prepared statement is used.
 	 * If an SQLLogger is configured, the execution is logged.
 	 *
-	 * @param string                                      $sql  The SQL query to execute.
-	 * @param array                                       $params The parameters to bind to the query, if any.
-	 * @param array                                       $types  The types the previous parameters are in.
-	 * @param \Doctrine\DBAL\Cache\QueryCacheProfile|null $qcp    The query cache profile, optional.
+	 * @param string $sql The SQL query to execute.
+	 * @param array $params The parameters to bind to the query, if any.
+	 * @param array $types The types the previous parameters are in.
+	 * @param \Doctrine\DBAL\Cache\QueryCacheProfile|null $qcp The query cache profile, optional.
 	 *
 	 * @return Result The executed statement.
 	 *
@@ -291,7 +394,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			// Read to a table that has been written to previously
 			// While this might not necessarily mean that we did a read after write it is an indication for a code path to check
 			$this->logger->log(
-				(int) ($this->systemConfig->getValue('loglevel_dirty_database_queries', null) ?? 0),
+				(int)($this->systemConfig->getValue('loglevel_dirty_database_queries', null) ?? 0),
 				'dirty table reads: ' . $sql,
 				[
 					'tables' => array_keys($this->tableDirtyWrites),
@@ -339,9 +442,9 @@ class Connection extends PrimaryReadReplicaConnection {
 	 *
 	 * This method supports PDO binding types as well as DBAL mapping types.
 	 *
-	 * @param string $sql  The SQL query.
-	 * @param array  $params The query parameters.
-	 * @param array  $types  The parameter types.
+	 * @param string $sql The SQL query.
+	 * @param array $params The query parameters.
+	 * @param array $types The parameter types.
 	 *
 	 * @return int The number of affected rows.
 	 *
@@ -426,8 +529,8 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @param string $table The table name (will replace *PREFIX* with the actual prefix)
 	 * @param array $input data that should be inserted into the table  (column name => value)
 	 * @param array|null $compare List of values that should be checked for "if not exists"
-	 *				If this is null or an empty array, all keys of $input will be compared
-	 *				Please note: text fields (clob) must not be used in the compare array
+	 *                            If this is null or an empty array, all keys of $input will be compared
+	 *                            Please note: text fields (clob) must not be used in the compare array
 	 * @return int number of inserted rows
 	 * @throws \Doctrine\DBAL\Exception
 	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (UniqueConstraintViolationException $e) {}" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
@@ -561,9 +664,9 @@ class Connection extends PrimaryReadReplicaConnection {
 		$msg = $this->errorCode() . ': ';
 		$errorInfo = $this->errorInfo();
 		if (!empty($errorInfo)) {
-			$msg .= 'SQLSTATE = '.$errorInfo[0] . ', ';
-			$msg .= 'Driver Code = '.$errorInfo[1] . ', ';
-			$msg .= 'Driver Message = '.$errorInfo[2];
+			$msg .= 'SQLSTATE = ' . $errorInfo[0] . ', ';
+			$msg .= 'Driver Code = ' . $errorInfo[1] . ', ';
+			$msg .= 'Driver Message = ' . $errorInfo[2];
 		}
 		return $msg;
 	}
@@ -609,7 +712,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		$statement = $this->replaceTablePrefix($statement);
 		$statement = $this->adapter->fixupStatement($statement);
 		if ($this->logRequestId) {
-			return $statement . " /* reqid: " . $this->requestId . " */";
+			return $statement . ' /* reqid: ' . $this->requestId . ' */';
 		} else {
 			return $statement;
 		}
@@ -686,6 +789,9 @@ class Connection extends PrimaryReadReplicaConnection {
 			return $migrator->generateChangeScript($toSchema);
 		} else {
 			$migrator->migrate($toSchema);
+			foreach ($this->getShardConnections() as $shardConnection) {
+				$shardConnection->migrateToSchema($toSchema);
+			}
 		}
 	}
 
@@ -719,7 +825,20 @@ class Connection extends PrimaryReadReplicaConnection {
 			$this->transactionBacktrace = null;
 			$this->transactionActiveSince = null;
 			if ($timeTook > 1) {
-				$this->logger->debug('Transaction took ' . $timeTook . 's', ['exception' => new \Exception('Transaction took ' . $timeTook . 's')]);
+				$logLevel = match (true) {
+					$timeTook > 20 * 60 => ILogger::ERROR,
+					$timeTook > 5 * 60 => ILogger::WARN,
+					$timeTook > 10 => ILogger::INFO,
+					default => ILogger::DEBUG,
+				};
+				$this->logger->log(
+					$logLevel,
+					'Transaction took ' . $timeTook . 's',
+					[
+						'exception' => new \Exception('Transaction took ' . $timeTook . 's'),
+						'timeSpent' => $timeTook,
+					]
+				);
 			}
 		}
 		return $result;
@@ -732,7 +851,20 @@ class Connection extends PrimaryReadReplicaConnection {
 			$this->transactionBacktrace = null;
 			$this->transactionActiveSince = null;
 			if ($timeTook > 1) {
-				$this->logger->debug('Transaction rollback took longer than 1s: ' . $timeTook, ['exception' => new \Exception('Long running transaction rollback')]);
+				$logLevel = match (true) {
+					$timeTook > 20 * 60 => ILogger::ERROR,
+					$timeTook > 5 * 60 => ILogger::WARN,
+					$timeTook > 10 => ILogger::INFO,
+					default => ILogger::DEBUG,
+				};
+				$this->logger->log(
+					$logLevel,
+					'Transaction rollback took longer than 1s: ' . $timeTook,
+					[
+						'exception' => new \Exception('Long running transaction rollback'),
+						'timeSpent' => $timeTook,
+					]
+				);
 			}
 		}
 		return $result;
@@ -801,5 +933,13 @@ class Connection extends PrimaryReadReplicaConnection {
 				$this->logger->error($exception->getMessage(), ['exception' => $exception, 'transaction' => $this->transactionBacktrace]);
 			}
 		}
+	}
+
+	public function getShardDefinition(string $name): ?ShardDefinition {
+		return $this->shards[$name] ?? null;
+	}
+
+	public function getCrossShardMoveHelper(): CrossShardMoveHelper {
+		return new CrossShardMoveHelper($this->shardConnectionManager);
 	}
 }

@@ -24,7 +24,7 @@ class CloudIdTest extends TestCase {
 	 * @param string $id
 	 * @param string $display
 	 */
-	public function testGetDisplayCloudId($id, $display) {
+	public function testGetDisplayCloudId($id, $display): void {
 		$cloudId = new CloudId($id, '', '');
 		$this->assertEquals($display, $cloudId->getDisplayId());
 	}

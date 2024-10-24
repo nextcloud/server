@@ -38,7 +38,7 @@ class MetadataNamedEvent extends AMetadataEvent {
 	public function __construct(
 		Node $node,
 		IFilesMetadata $metadata,
-		private string $name = ''
+		private string $name = '',
 	) {
 		parent::__construct($node, $metadata);
 	}

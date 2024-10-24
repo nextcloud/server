@@ -674,7 +674,7 @@ class Filesystem {
 	 *
 	 * @param string $path
 	 * @param bool|string $includeMountPoints whether to add mountpoint sizes,
-	 * defaults to true
+	 *                                        defaults to true
 	 * @return \OC\Files\FileInfo|false False if file does not exist
 	 */
 	public static function getFileInfo($path, $includeMountPoints = true) {

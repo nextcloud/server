@@ -7,6 +7,7 @@
  */
 namespace OCA\DAV\Tests\unit\Upload;
 
+use OCA\DAV\Upload\AssemblyStream;
 use Sabre\DAV\File;
 
 class AssemblyStreamTest extends \Test\TestCase {
@@ -15,7 +16,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 	 * @dataProvider providesNodes()
 	 */
 	public function testGetContents($expected, $nodes): void {
-		$stream = \OCA\DAV\Upload\AssemblyStream::wrap($nodes);
+		$stream = AssemblyStream::wrap($nodes);
 		$content = stream_get_contents($stream);
 
 		$this->assertEquals($expected, $content);
@@ -25,7 +26,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 	 * @dataProvider providesNodes()
 	 */
 	public function testGetContentsFread($expected, $nodes): void {
-		$stream = \OCA\DAV\Upload\AssemblyStream::wrap($nodes);
+		$stream = AssemblyStream::wrap($nodes);
 
 		$content = '';
 		while (!feof($stream)) {
@@ -39,7 +40,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 	 * @dataProvider providesNodes()
 	 */
 	public function testSeek($expected, $nodes): void {
-		$stream = \OCA\DAV\Upload\AssemblyStream::wrap($nodes);
+		$stream = AssemblyStream::wrap($nodes);
 
 		$offset = floor(strlen($expected) * 0.6);
 		if (fseek($stream, $offset) === -1) {
@@ -55,11 +56,11 @@ class AssemblyStreamTest extends \Test\TestCase {
 		$dataLess8k = $this->makeData(8191);
 
 		$tonofnodes = [];
-		$tonofdata = "";
+		$tonofdata = '';
 		for ($i = 0; $i < 101; $i++) {
-			$thisdata = rand(0, 100); // variable length and content
+			$thisdata = random_int(0, 100); // variable length and content
 			$tonofdata .= $thisdata;
-			array_push($tonofnodes, $this->buildNode($i, $thisdata));
+			$tonofnodes[] = $this->buildNode((string)$i, (string)$thisdata);
 		}
 
 		return[

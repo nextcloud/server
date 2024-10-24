@@ -18,7 +18,6 @@ use Psr\Log\LoggerInterface;
  */
 class DeleteOrphanedItems extends TimedJob {
 	public const CHUNK_SIZE = 200;
-	protected $defaultIntervalMin = 60;
 
 	/**
 	 * sets the correct interval for this timed job
@@ -29,7 +28,7 @@ class DeleteOrphanedItems extends TimedJob {
 		protected LoggerInterface $logger,
 	) {
 		parent::__construct($time);
-		$this->interval = $this->defaultIntervalMin * 60;
+		$this->setInterval(60 * 60);
 	}
 
 	/**
@@ -52,32 +51,84 @@ class DeleteOrphanedItems extends TimedJob {
 	 * @param string $typeCol
 	 * @return int Number of deleted entries
 	 */
-	protected function cleanUp($table, $idCol, $typeCol) {
+	protected function cleanUp(string $table, string $idCol, string $typeCol): int {
 		$deletedEntries = 0;
-
-		$query = $this->connection->getQueryBuilder();
-		$query->select('t1.' . $idCol)
-			->from($table, 't1')
-			->where($query->expr()->eq($typeCol, $query->expr()->literal('files')))
-			->andWhere($query->expr()->isNull('t2.fileid'))
-			->leftJoin('t1', 'filecache', 't2', $query->expr()->eq($query->expr()->castColumn('t1.' . $idCol, IQueryBuilder::PARAM_INT), 't2.fileid'))
-			->groupBy('t1.' . $idCol)
-			->setMaxResults(self::CHUNK_SIZE);
 
 		$deleteQuery = $this->connection->getQueryBuilder();
 		$deleteQuery->delete($table)
-			->where($deleteQuery->expr()->in($idCol, $deleteQuery->createParameter('objectid')));
+			->where($deleteQuery->expr()->eq($idCol, $deleteQuery->createParameter('objectid')));
 
-		$deletedInLastChunk = self::CHUNK_SIZE;
-		while ($deletedInLastChunk === self::CHUNK_SIZE) {
-			$chunk = $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
-			$deletedInLastChunk = count($chunk);
+		if ($this->connection->getShardDefinition('filecache')) {
+			$sourceIdChunks = $this->getItemIds($table, $idCol, $typeCol, 1000);
+			foreach ($sourceIdChunks as $sourceIdChunk) {
+				$deletedSources = $this->findMissingSources($sourceIdChunk);
+				$deleteQuery->setParameter('objectid', $deletedSources, IQueryBuilder::PARAM_INT_ARRAY);
+				$deletedEntries += $deleteQuery->executeStatement();
+			}
+		} else {
+			$query = $this->connection->getQueryBuilder();
+			$query->select('t1.' . $idCol)
+				->from($table, 't1')
+				->where($query->expr()->eq($typeCol, $query->expr()->literal('files')))
+				->leftJoin('t1', 'filecache', 't2', $query->expr()->eq($query->expr()->castColumn('t1.' . $idCol, IQueryBuilder::PARAM_INT), 't2.fileid'))
+				->andWhere($query->expr()->isNull('t2.fileid'))
+				->groupBy('t1.' . $idCol)
+				->setMaxResults(self::CHUNK_SIZE);
 
-			$deleteQuery->setParameter('objectid', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
-			$deletedEntries += $deleteQuery->executeStatement();
+			$deleteQuery = $this->connection->getQueryBuilder();
+			$deleteQuery->delete($table)
+				->where($deleteQuery->expr()->in($idCol, $deleteQuery->createParameter('objectid')));
+
+			$deletedInLastChunk = self::CHUNK_SIZE;
+			while ($deletedInLastChunk === self::CHUNK_SIZE) {
+				$chunk = $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+				$deletedInLastChunk = count($chunk);
+
+				$deleteQuery->setParameter('objectid', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
+				$deletedEntries += $deleteQuery->executeStatement();
+			}
 		}
 
 		return $deletedEntries;
+	}
+
+	/**
+	 * @param string $table
+	 * @param string $idCol
+	 * @param string $typeCol
+	 * @param int $chunkSize
+	 * @return \Iterator<int[]>
+	 * @throws \OCP\DB\Exception
+	 */
+	private function getItemIds(string $table, string $idCol, string $typeCol, int $chunkSize): \Iterator {
+		$query = $this->connection->getQueryBuilder();
+		$query->select($idCol)
+			->from($table)
+			->where($query->expr()->eq($typeCol, $query->expr()->literal('files')))
+			->groupBy($idCol)
+			->andWhere($query->expr()->gt($idCol, $query->createParameter('min_id')))
+			->setMaxResults($chunkSize);
+
+		$minId = 0;
+		while (true) {
+			$query->setParameter('min_id', $minId);
+			$rows = $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+			if (count($rows) > 0) {
+				$minId = $rows[count($rows) - 1];
+				yield $rows;
+			} else {
+				break;
+			}
+		}
+	}
+
+	private function findMissingSources(array $ids): array {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('fileid')
+			->from('filecache')
+			->where($qb->expr()->in('fileid', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)));
+		$found = $qb->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+		return array_diff($ids, $found);
 	}
 
 	/**

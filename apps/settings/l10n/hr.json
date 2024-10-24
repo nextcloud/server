@@ -370,7 +370,6 @@
     "Reasons to use Nextcloud in your organization" : "Razlozi za uporabu Nextclouda u vašoj organizaciji",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "{githubopen}Izvorni kôd{linkclose} je razvila {communityopen}Nextcloudova zajednica korisnika{linkclose} i licenciran je sukladno {Licenseopen}AGPL-u{linkclose}.",
     "Like our Facebook page" : "Pratite našu Facebook stranicu",
-    "Follow us on Twitter" : "Pratite nas na Twitteru",
     "Follow us on Mastodon" : "Pratite nas na Mastodonu",
     "Check out our blog" : "Pogledajte naš blog",
     "Subscribe to our newsletter" : "Pretplatite se na naše obavijesti",
@@ -389,6 +388,7 @@
     "These groups will still be able to receive shares, but not to initiate them." : "Ove će grupe još uvijek moći primati dijeljene sadržaje, ali ih neće moći pokrenuti.",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Dvofaktorska autentifikacija može se primijeniti na sve korisnike i određene grupe. Ako nisu konfigurirali davatelje usluge dvofaktorske autentifikacije, neće se moći prijaviti u sustav.",
     "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Nakon odabira grupa koje će biti obuhvaćene/izuzete, primjenjuje se sljedeća logika za utvrđivanje je li 2FA omogućen za određenog korisnika: ako nije odabrana nijedna grupa, 2FA je omogućen za sve osim za članove izuzetih grupa. Ako su odabrane određene grupe, 2FA je omogućen samo za sve članove tih grupa. Ako je korisnik član odabrane i izuzete grupe, odabrana grupa ima prednost i 2FA se primjenjuje.",
+    "{license}-licensed" : "Licencirano prema {license}",
     "Username" : "Korisničko ime",
     "Additional emails" : "Dodatne adrese e-pošte",
     "Enable Profile" : "Omogući profil",
@@ -406,12 +406,12 @@
     "Show user backend" : "Prikaži korisnički pozadinski sustav",
     "Name your device" : "Dodijelite naziv svom uređaju",
     "Server error while trying to add WebAuthn device" : "Pogreška poslužitelja pri dodavanju WebAuthn uređaja",
-    "{license}-licensed" : "Licencirano prema {license}",
     "by {author}\n{license}" : "{autor}\n{licenca}",
     "Active users" : "Aktivni korisnici",
     "Disabled users" : "Onemogućeni korisnici",
     "Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions" : "Nije dostupno jer nije dopušteno objavljivanje korisničkih podataka na poslužitelju pretraživanja, obratite se administratoru sustava ako imate pitanja",
     "Show to logged in users only" : "Prikaži samo prijavljenim korisnicima",
-    "SMTP Username" : "Korisničko ime za SMTP"
+    "SMTP Username" : "Korisničko ime za SMTP",
+    "Follow us on Twitter" : "Pratite nas na Twitteru"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

@@ -175,7 +175,7 @@ class SearchBuilderTest extends TestCase {
 	 * @param ISearchOperator $operator
 	 * @param array $fileIds
 	 */
-	public function testComparison(ISearchOperator $operator, array $fileIds) {
+	public function testComparison(ISearchOperator $operator, array $fileIds): void {
 		$fileId = [];
 		$fileId[] = $this->addCacheEntry([
 			'path' => 'foobar',

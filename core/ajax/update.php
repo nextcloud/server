@@ -91,6 +91,7 @@ if (\OCP\Util::needUpgrade()) {
 
 	$config = Server::get(IConfig::class);
 	$updater = new \OC\Updater(
+		Server::get(\OCP\ServerVersion::class),
 		$config,
 		Server::get(IAppConfig::class),
 		\OC::$server->getIntegrityCodeChecker(),

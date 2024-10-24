@@ -32,7 +32,7 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 *
 	 * @param bool $decorated Whether to decorate the messages or not
 	 */
-	public function setDecorated($decorated) {
+	public function setDecorated(bool $decorated) {
 		$this->formatter->setDecorated($decorated);
 	}
 
@@ -41,7 +41,7 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 *
 	 * @return bool true if the output will decorate messages, false otherwise
 	 */
-	public function isDecorated() {
+	public function isDecorated(): bool {
 		return $this->formatter->isDecorated();
 	}
 
@@ -51,7 +51,7 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 * @param string $name The style name
 	 * @param OutputFormatterStyleInterface $style The style instance
 	 */
-	public function setStyle($name, OutputFormatterStyleInterface $style) {
+	public function setStyle(string $name, OutputFormatterStyleInterface $style) {
 		$this->formatter->setStyle($name, $style);
 	}
 
@@ -61,7 +61,7 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 * @param string $name
 	 * @return bool
 	 */
-	public function hasStyle($name) {
+	public function hasStyle(string $name): bool {
 		return $this->formatter->hasStyle($name);
 	}
 
@@ -72,7 +72,7 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 * @return OutputFormatterStyleInterface
 	 * @throws \InvalidArgumentException When style isn't defined
 	 */
-	public function getStyle($name) {
+	public function getStyle(string $name): OutputFormatterStyleInterface {
 		return $this->formatter->getStyle($name);
 	}
 
@@ -81,7 +81,7 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 *
 	 * @param string|null $message The message to style
 	 * @return string|null The styled message, prepended with a timestamp using the
-	 * log timezone and dateformat, e.g. "2015-06-23T17:24:37+02:00"
+	 *                     log timezone and dateformat, e.g. "2015-06-23T17:24:37+02:00"
 	 */
 	public function format(?string $message): ?string {
 		if (!$this->formatter->isDecorated()) {

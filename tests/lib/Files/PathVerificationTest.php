@@ -30,9 +30,9 @@ class PathVerificationTest extends \Test\TestCase {
 	}
 
 
-	public function testPathVerificationFileNameTooLong() {
+	public function testPathVerificationFileNameTooLong(): void {
 		$this->expectException(\OCP\Files\InvalidPathException::class);
-		$this->expectExceptionMessage('File name is too long');
+		$this->expectExceptionMessage('Filename is too long');
 
 		$fileName = str_repeat('a', 500);
 		$this->view->verifyPath('', $fileName);
@@ -42,7 +42,7 @@ class PathVerificationTest extends \Test\TestCase {
 	/**
 	 * @dataProvider providesEmptyFiles
 	 */
-	public function testPathVerificationEmptyFileName($fileName) {
+	public function testPathVerificationEmptyFileName($fileName): void {
 		$this->expectException(\OCP\Files\InvalidPathException::class);
 		$this->expectExceptionMessage('Empty filename is not allowed');
 
@@ -59,7 +59,7 @@ class PathVerificationTest extends \Test\TestCase {
 	/**
 	 * @dataProvider providesDotFiles
 	 */
-	public function testPathVerificationDotFiles($fileName) {
+	public function testPathVerificationDotFiles($fileName): void {
 		$this->expectException(\OCP\Files\InvalidPathException::class);
 		$this->expectExceptionMessage('Dot files are not allowed');
 
@@ -82,7 +82,7 @@ class PathVerificationTest extends \Test\TestCase {
 	/**
 	 * @dataProvider providesAstralPlane
 	 */
-	public function testPathVerificationAstralPlane($fileName) {
+	public function testPathVerificationAstralPlane($fileName): void {
 		$connection = \OC::$server->getDatabaseConnection();
 
 		if (!$connection->supports4ByteText()) {
@@ -109,7 +109,7 @@ class PathVerificationTest extends \Test\TestCase {
 	/**
 	 * @dataProvider providesValidPosixPaths
 	 */
-	public function testPathVerificationValidPaths($fileName) {
+	public function testPathVerificationValidPaths($fileName): void {
 		$storage = new Local(['datadir' => '']);
 
 		self::invokePrivate($storage, 'verifyPosixPath', [$fileName]);

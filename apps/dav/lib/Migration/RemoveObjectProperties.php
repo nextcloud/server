@@ -15,16 +15,14 @@ class RemoveObjectProperties implements IRepairStep {
 	private const ME_CARD_PROPERTY = '{http://calendarserver.org/ns/}me-card';
 	private const CALENDAR_TRANSP_PROPERTY = '{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp';
 
-	/** @var IDBConnection */
-	private $connection;
-
 	/**
 	 * RemoveObjectProperties constructor.
 	 *
 	 * @param IDBConnection $connection
 	 */
-	public function __construct(IDBConnection $connection) {
-		$this->connection = $connection;
+	public function __construct(
+		private IDBConnection $connection,
+	) {
 	}
 
 	/**

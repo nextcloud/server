@@ -54,7 +54,7 @@ export default {
     .icon {
         display: flex;
         align-items: center;
-        padding-right: 5px;
+        padding-inline-end: 5px;
 
         img {
             width: 20px;

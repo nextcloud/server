@@ -22,7 +22,7 @@ class NotificationsTest extends \Test\TestCase {
 	/** @var AddressHandler|MockObject */
 	private $addressHandler;
 
-	/** @var IClientService|MockObject*/
+	/** @var IClientService|MockObject */
 	private $httpClientService;
 
 	/** @var IDiscoveryService|MockObject */
@@ -102,7 +102,7 @@ class NotificationsTest extends \Test\TestCase {
 	 * @param array $httpRequestResult
 	 * @param bool $expected
 	 */
-	public function testSendUpdateToRemote($try, $httpRequestResult, $expected) {
+	public function testSendUpdateToRemote($try, $httpRequestResult, $expected): void {
 		$remote = 'http://remote';
 		$id = 42;
 		$timestamp = 63576;
@@ -113,7 +113,7 @@ class NotificationsTest extends \Test\TestCase {
 		$instance->expects($this->any())->method('getTimestamp')->willReturn($timestamp);
 
 		$instance->expects($this->once())->method('tryHttpPostToShareEndpoint')
-			->with($remote, '/'.$id.'/unshare', ['token' => $token, 'data1Key' => 'data1Value', 'remoteId' => $id], $action)
+			->with($remote, '/' . $id . '/unshare', ['token' => $token, 'data1Key' => 'data1Value', 'remoteId' => $id], $action)
 			->willReturn($httpRequestResult);
 
 		// only add background job on first try

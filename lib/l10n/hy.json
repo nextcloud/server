@@ -4,7 +4,6 @@
     "Files" : "Ֆայլեր",
     "today" : "այսօր",
     "seconds ago" : "վրկ. առաջ",
-    "File name contains at least one invalid character" : "Ֆայլի անունը առնվազն մի անվավեր նիշ է պարունակում",
     "__language_name__" : "Հայերեն",
     "Settings" : "կարգավորումներ",
     "Log out" : "Դուրս գալ",
@@ -57,6 +56,7 @@
     "Nov." : "Նոյ.",
     "Dec." : "Դեկ.",
     "Translate" : "Թարգմանել",
+    "File name contains at least one invalid character" : "Ֆայլի անունը առնվազն մի անվավեր նիշ է պարունակում",
     "Help" : "Օգնություն"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

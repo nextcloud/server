@@ -35,34 +35,29 @@ class DeleteOrphanedFiles extends Command {
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$deletedEntries = 0;
+		$fileIdsByStorage = [];
 
-		$query = $this->connection->getQueryBuilder();
-		$query->select('fc.fileid')
-			->from('filecache', 'fc')
-			->where($query->expr()->isNull('s.numeric_id'))
-			->leftJoin('fc', 'storages', 's', $query->expr()->eq('fc.storage', 's.numeric_id'))
-			->setMaxResults(self::CHUNK_SIZE);
+		$deletedStorages = array_diff($this->getReferencedStorages(), $this->getExistingStorages());
+
+		$deleteExtended = !$input->getOption('skip-filecache-extended');
+		if ($deleteExtended) {
+			$fileIdsByStorage = $this->getFileIdsForStorages($deletedStorages);
+		}
 
 		$deleteQuery = $this->connection->getQueryBuilder();
 		$deleteQuery->delete('filecache')
-			->where($deleteQuery->expr()->eq('fileid', $deleteQuery->createParameter('objectid')));
+			->where($deleteQuery->expr()->in('storage', $deleteQuery->createParameter('storage_ids')));
 
-		$deletedInLastChunk = self::CHUNK_SIZE;
-		while ($deletedInLastChunk === self::CHUNK_SIZE) {
-			$deletedInLastChunk = 0;
-			$result = $query->execute();
-			while ($row = $result->fetch()) {
-				$deletedInLastChunk++;
-				$deletedEntries += $deleteQuery->setParameter('objectid', (int) $row['fileid'])
-					->execute();
-			}
-			$result->closeCursor();
+		$deletedStorageChunks = array_chunk($deletedStorages, self::CHUNK_SIZE);
+		foreach ($deletedStorageChunks as $deletedStorageChunk) {
+			$deleteQuery->setParameter('storage_ids', $deletedStorageChunk, IQueryBuilder::PARAM_INT_ARRAY);
+			$deletedEntries += $deleteQuery->executeStatement();
 		}
 
 		$output->writeln("$deletedEntries orphaned file cache entries deleted");
 
-		if (!$input->getOption('skip-filecache-extended')) {
-			$deletedFileCacheExtended = $this->cleanupOrphanedFileCacheExtended();
+		if ($deleteExtended) {
+			$deletedFileCacheExtended = $this->cleanupOrphanedFileCacheExtended($fileIdsByStorage);
 			$output->writeln("$deletedFileCacheExtended orphaned file cache extended entries deleted");
 		}
 
@@ -72,28 +67,63 @@ class DeleteOrphanedFiles extends Command {
 		return self::SUCCESS;
 	}
 
-	private function cleanupOrphanedFileCacheExtended(): int {
-		$deletedEntries = 0;
-
+	private function getReferencedStorages(): array {
 		$query = $this->connection->getQueryBuilder();
-		$query->select('fce.fileid')
-			->from('filecache_extended', 'fce')
-			->leftJoin('fce', 'filecache', 'fc', $query->expr()->eq('fce.fileid', 'fc.fileid'))
-			->where($query->expr()->isNull('fc.fileid'))
-			->setMaxResults(self::CHUNK_SIZE);
+		$query->select('storage')
+			->from('filecache')
+			->groupBy('storage')
+			->runAcrossAllShards();
+		return $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+	}
+
+	private function getExistingStorages(): array {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('numeric_id')
+			->from('storages')
+			->groupBy('numeric_id');
+		return $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+	}
+
+	/**
+	 * @param int[] $storageIds
+	 * @return array<int, int[]>
+	 */
+	private function getFileIdsForStorages(array $storageIds): array {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('storage', 'fileid')
+			->from('filecache')
+			->where($query->expr()->in('storage', $query->createParameter('storage_ids')));
+
+		$result = [];
+		$storageIdChunks = array_chunk($storageIds, self::CHUNK_SIZE);
+		foreach ($storageIdChunks as $storageIdChunk) {
+			$query->setParameter('storage_ids', $storageIdChunk, IQueryBuilder::PARAM_INT_ARRAY);
+			$chunk = $query->executeQuery()->fetchAll();
+			foreach ($chunk as $row) {
+				$result[$row['storage']][] = $row['fileid'];
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * @param array<int, int[]> $fileIdsByStorage
+	 * @return int
+	 */
+	private function cleanupOrphanedFileCacheExtended(array $fileIdsByStorage): int {
+		$deletedEntries = 0;
 
 		$deleteQuery = $this->connection->getQueryBuilder();
 		$deleteQuery->delete('filecache_extended')
-			->where($deleteQuery->expr()->in('fileid', $deleteQuery->createParameter('idsToDelete')));
+			->where($deleteQuery->expr()->in('fileid', $deleteQuery->createParameter('file_ids')));
 
-		$result = $query->executeQuery();
-		while ($result->rowCount() > 0) {
-			$idsToDelete = $result->fetchAll(\PDO::FETCH_COLUMN);
-
-			$deleteQuery->setParameter('idsToDelete', $idsToDelete, IQueryBuilder::PARAM_INT_ARRAY);
-			$deletedEntries += $deleteQuery->executeStatement();
-
-			$result = $query->executeQuery();
+		foreach ($fileIdsByStorage as $storageId => $fileIds) {
+			$deleteQuery->hintShardKey('storage', $storageId, true);
+			$fileChunks = array_chunk($fileIds, self::CHUNK_SIZE);
+			foreach ($fileChunks as $fileChunk) {
+				$deleteQuery->setParameter('file_ids', $fileChunk, IQueryBuilder::PARAM_INT_ARRAY);
+				$deletedEntries += $deleteQuery->executeStatement();
+			}
 		}
 
 		return $deletedEntries;
@@ -117,11 +147,11 @@ class DeleteOrphanedFiles extends Command {
 		$deletedInLastChunk = self::CHUNK_SIZE;
 		while ($deletedInLastChunk === self::CHUNK_SIZE) {
 			$deletedInLastChunk = 0;
-			$result = $query->execute();
+			$result = $query->executeQuery();
 			while ($row = $result->fetch()) {
 				$deletedInLastChunk++;
-				$deletedEntries += $deleteQuery->setParameter('storageid', (int) $row['storage_id'])
-					->execute();
+				$deletedEntries += $deleteQuery->setParameter('storageid', (int)$row['storage_id'])
+					->executeStatement();
 			}
 			$result->closeCursor();
 		}

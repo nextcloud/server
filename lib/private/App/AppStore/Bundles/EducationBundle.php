@@ -24,6 +24,7 @@ class EducationBundle extends Bundle {
 			'announcementcenter',
 			'quota_warning',
 			'user_saml',
+			'whiteboard',
 		];
 	}
 }

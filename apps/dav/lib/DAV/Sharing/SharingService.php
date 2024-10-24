@@ -9,7 +9,9 @@ namespace OCA\DAV\DAV\Sharing;
 
 abstract class SharingService {
 	protected string $resourceType = '';
-	public function __construct(protected SharingMapper $mapper) {
+	public function __construct(
+		protected SharingMapper $mapper,
+	) {
 	}
 
 	public function getResourceType(): string {
@@ -39,6 +41,10 @@ abstract class SharingService {
 
 	public function getShares(int $resourceId): array {
 		return $this->mapper->getSharesForId($resourceId, $this->getResourceType());
+	}
+
+	public function getUnshares(int $resourceId): array {
+		return $this->mapper->getUnsharesForId($resourceId, $this->getResourceType());
 	}
 
 	public function getSharesForIds(array $resourceIds): array {

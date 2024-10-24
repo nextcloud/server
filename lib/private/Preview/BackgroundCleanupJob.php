@@ -18,31 +18,18 @@ use OCP\Files\NotPermittedException;
 use OCP\IDBConnection;
 
 class BackgroundCleanupJob extends TimedJob {
-	/** @var IDBConnection */
-	private $connection;
 
-	/** @var Root */
-	private $previewFolder;
-
-	/** @var bool */
-	private $isCLI;
-
-	/** @var IMimeTypeLoader */
-	private $mimeTypeLoader;
-
-	public function __construct(ITimeFactory $timeFactory,
-		IDBConnection $connection,
-		Root $previewFolder,
-		IMimeTypeLoader $mimeTypeLoader,
-		bool $isCLI) {
+	public function __construct(
+		ITimeFactory $timeFactory,
+		private IDBConnection $connection,
+		private Root $previewFolder,
+		private IMimeTypeLoader $mimeTypeLoader,
+		private bool $isCLI,
+	) {
 		parent::__construct($timeFactory);
 		// Run at most once an hour
-		$this->setInterval(3600);
-
-		$this->connection = $connection;
-		$this->previewFolder = $previewFolder;
-		$this->isCLI = $isCLI;
-		$this->mimeTypeLoader = $mimeTypeLoader;
+		$this->setInterval(60 * 60);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 	public function run($argument) {
@@ -64,6 +51,11 @@ class BackgroundCleanupJob extends TimedJob {
 	}
 
 	private function getOldPreviewLocations(): \Iterator {
+		if ($this->connection->getShardDefinition('filecache')) {
+			// sharding is new enough that we don't need to support this
+			return;
+		}
+
 		$qb = $this->connection->getQueryBuilder();
 		$qb->select('a.name')
 			->from('filecache', 'a')
@@ -84,7 +76,7 @@ class BackgroundCleanupJob extends TimedJob {
 			$qb->setMaxResults(10);
 		}
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 
 		while ($row = $cursor->fetch()) {
 			yield $row['name'];
@@ -98,12 +90,21 @@ class BackgroundCleanupJob extends TimedJob {
 		$qb->select('path', 'mimetype')
 			->from('filecache')
 			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($this->previewFolder->getId())));
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$data = $cursor->fetch();
 		$cursor->closeCursor();
 
 		if ($data === null) {
 			return [];
+		}
+
+		if ($this->connection->getShardDefinition('filecache')) {
+			$chunks = $this->getAllPreviewIds($data['path'], 1000);
+			foreach ($chunks as $chunk) {
+				yield from $this->findMissingSources($chunk);
+			}
+
+			return;
 		}
 
 		/*
@@ -147,12 +148,54 @@ class BackgroundCleanupJob extends TimedJob {
 			$qb->setMaxResults(10);
 		}
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 
 		while ($row = $cursor->fetch()) {
 			yield $row['name'];
 		}
 
 		$cursor->closeCursor();
+	}
+
+	private function getAllPreviewIds(string $previewRoot, int $chunkSize): \Iterator {
+		// See `getNewPreviewLocations` for some more info about the logic here
+		$like = $this->connection->escapeLikeParameter($previewRoot) . '/_/_/_/_/_/_/_/%';
+
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('name', 'fileid')
+			->from('filecache')
+			->where(
+				$qb->expr()->andX(
+					$qb->expr()->eq('storage', $qb->createNamedParameter($this->previewFolder->getStorageId())),
+					$qb->expr()->like('path', $qb->createNamedParameter($like)),
+					$qb->expr()->eq('mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('httpd/unix-directory'))),
+					$qb->expr()->gt('fileid', $qb->createParameter('min_id')),
+				)
+			)
+			->orderBy('fileid', 'ASC')
+			->setMaxResults($chunkSize);
+
+		$minId = 0;
+		while (true) {
+			$qb->setParameter('min_id', $minId);
+			$rows = $qb->executeQuery()->fetchAll();
+			if (count($rows) > 0) {
+				$minId = $rows[count($rows) - 1]['fileid'];
+				yield array_map(function ($row) {
+					return (int)$row['name'];
+				}, $rows);
+			} else {
+				break;
+			}
+		}
+	}
+
+	private function findMissingSources(array $ids): array {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('fileid')
+			->from('filecache')
+			->where($qb->expr()->in('fileid', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)));
+		$found = $qb->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+		return array_diff($ids, $found);
 	}
 }

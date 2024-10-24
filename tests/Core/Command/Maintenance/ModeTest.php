@@ -115,7 +115,7 @@ class ModeTest extends TestCase {
 	 * @param string $option The command option.
 	 * @param bool $currentMaintenanceState The current maintenance state.
 	 * @param null|bool $expectedMaintenanceState
-	 * 					The expected maintenance state. Null for no change.
+	 *                                            The expected maintenance state. Null for no change.
 	 * @param string $expectedOutput The expected command output.
 	 * @throws \Exception
 	 */
@@ -123,8 +123,8 @@ class ModeTest extends TestCase {
 		string $option,
 		bool $currentMaintenanceState,
 		$expectedMaintenanceState,
-		string $expectedOutput
-	) {
+		string $expectedOutput,
+	): void {
 		$this->config->expects($this->any())
 			->method('getSystemValueBool')
 			->willReturn($currentMaintenanceState);

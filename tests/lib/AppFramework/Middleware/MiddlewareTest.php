@@ -37,8 +37,8 @@ class MiddlewareTest extends \Test\TestCase {
 		$this->middleware = new ChildMiddleware();
 
 		$this->api = $this->getMockBuilder(DIContainer::class)
-				->disableOriginalConstructor()
-				->getMock();
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->controller = $this->getMockBuilder(Controller::class)
 			->setMethods([])

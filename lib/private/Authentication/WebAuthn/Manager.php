@@ -53,7 +53,7 @@ class Manager {
 		CredentialRepository $repository,
 		PublicKeyCredentialMapper $credentialMapper,
 		LoggerInterface $logger,
-		IConfig $config
+		IConfig $config,
 	) {
 		$this->repository = $repository;
 		$this->credentialMapper = $credentialMapper;

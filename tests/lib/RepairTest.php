@@ -61,7 +61,7 @@ class RepairTest extends TestCase {
 		});
 	}
 
-	public function testRunRepairStep() {
+	public function testRunRepairStep(): void {
 		$this->repair->addStep(new TestRepairStep(false));
 		$this->repair->run();
 
@@ -74,7 +74,7 @@ class RepairTest extends TestCase {
 		);
 	}
 
-	public function testRunRepairStepThatFail() {
+	public function testRunRepairStepThatFail(): void {
 		$this->repair->addStep(new TestRepairStep(true));
 		$this->repair->run();
 
@@ -87,7 +87,7 @@ class RepairTest extends TestCase {
 		);
 	}
 
-	public function testRunRepairStepsWithException() {
+	public function testRunRepairStepsWithException(): void {
 		$mock = $this->createMock(TestRepairStep::class);
 		$mock->expects($this->any())
 			->method('run')
@@ -119,7 +119,7 @@ class RepairTest extends TestCase {
 		);
 	}
 
-	public function testRunRepairStepsContinueAfterWarning() {
+	public function testRunRepairStepsContinueAfterWarning(): void {
 		$this->repair->addStep(new TestRepairStep(true));
 		$this->repair->addStep(new TestRepairStep(false));
 		$this->repair->run();

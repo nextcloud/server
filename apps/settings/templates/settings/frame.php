@@ -8,7 +8,6 @@ style('settings', 'settings');
 script('settings', 'settings');
 \OCP\Util::addScript('settings', 'legacy-admin');
 script('core', 'setupchecks');
-script('files', 'jquery.fileupload');
 
 ?>
 

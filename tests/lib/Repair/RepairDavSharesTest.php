@@ -16,23 +16,19 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\Migration\IOutput;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 use function in_array;
 
 class RepairDavSharesTest extends TestCase {
-	/** @var IOutput|\PHPUnit\Framework\MockObject\MockObject */
-	protected $output;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
-	protected $dbc;
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $groupManager;
-	/** @var \PHPUnit\Framework\MockObject\MockObject|LoggerInterface */
-	protected $logger;
-	/** @var RepairDavSharesTest */
-	protected $repair;
+
+	private IOutput&MockObject $output;
+	private IConfig&MockObject $config;
+	private IDBConnection&MockObject $dbc;
+	private LoggerInterface&MockObject $logger;
+	private IGroupManager&MockObject $groupManager;
+	private RepairDavShares $repair;
 
 	public function setUp(): void {
 		parent::setUp();
@@ -52,7 +48,7 @@ class RepairDavSharesTest extends TestCase {
 		);
 	}
 
-	public function testRun() {
+	public function testRun(): void {
 		$this->config->expects($this->any())
 			->method('getSystemValueString')
 			->with('version', '0.0.0')
@@ -138,6 +134,7 @@ class RepairDavSharesTest extends TestCase {
 			->method('execute')
 			->willReturn($shareResults);
 
+		$updateCalls = [];
 		$updateMock = $this->createMock(IQueryBuilder::class);
 		$updateMock->expects($this->any())
 			->method('expr')
@@ -153,13 +150,10 @@ class RepairDavSharesTest extends TestCase {
 			->willReturnSelf();
 		$updateMock->expects($this->exactly(4))
 			->method('setParameter')
-			->withConsecutive(
-				['updatedPrincipalUri', 'principals/groups/' . urlencode('family friends')],
-				['shareId', 7],
-				['updatedPrincipalUri', 'principals/groups/' . urlencode('Wants Repair')],
-				['shareId', 1],
-			)
-			->willReturnSelf();
+			->willReturnCallback(function () use (&$updateCalls, &$updateMock) {
+				$updateCalls[] = func_get_args();
+				return $updateMock;
+			});
 		$updateMock->expects($this->exactly(2))
 			->method('execute');
 
@@ -174,5 +168,11 @@ class RepairDavSharesTest extends TestCase {
 			});
 
 		$this->repair->run($this->output);
+		self::assertEquals([
+			['updatedPrincipalUri', 'principals/groups/' . urlencode('family friends'), null],
+			['shareId', 7, null],
+			['updatedPrincipalUri', 'principals/groups/' . urlencode('Wants Repair'), null],
+			['shareId', 1, null]
+		], $updateCalls);
 	}
 }

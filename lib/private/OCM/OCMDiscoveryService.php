@@ -66,13 +66,16 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 
 		$client = $this->clientService->newClient();
 		try {
+			$options = [
+				'timeout' => 10,
+				'connect_timeout' => 10,
+			];
+			if ($this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates') === true) {
+				$options['verify'] = false;
+			}
 			$response = $client->get(
 				$remote . '/ocm-provider/',
-				[
-					'timeout' => 10,
-					'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates'),
-					'connect_timeout' => 10,
-				]
+				$options,
 			);
 
 			if ($response->getStatusCode() === Http::STATUS_OK) {

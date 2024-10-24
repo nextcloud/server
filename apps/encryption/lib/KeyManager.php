@@ -211,7 +211,7 @@ class KeyManager {
 	 */
 	public function setRecoveryKey($password, $keyPair) {
 		// Save Public Key
-		$this->keyStorage->setSystemUserKey($this->getRecoveryKeyId().
+		$this->keyStorage->setSystemUserKey($this->getRecoveryKeyId() .
 			'.' . $this->publicKeyId,
 			$keyPair['publicKey'],
 			Encryption::ID);
@@ -287,11 +287,9 @@ class KeyManager {
 	/**
 	 * Decrypt private key and store it
 	 *
-	 * @param string $uid user id
-	 * @param string $passPhrase users password
 	 * @return boolean
 	 */
-	public function init($uid, $passPhrase) {
+	public function init(string $uid, ?string $passPhrase) {
 		$this->session->setStatus(Session::INIT_EXECUTED);
 
 		try {
@@ -300,6 +298,10 @@ class KeyManager {
 				$passPhrase = $this->getMasterKeyPassword();
 				$privateKey = $this->getSystemPrivateKey($uid);
 			} else {
+				if ($passPhrase === null) {
+					$this->logger->warning('Master key is disabled but not passphrase provided.');
+					return false;
+				}
 				$privateKey = $this->getPrivateKey($uid);
 			}
 			$privateKey = $this->crypt->decryptPrivateKey($privateKey, $passPhrase, $uid);

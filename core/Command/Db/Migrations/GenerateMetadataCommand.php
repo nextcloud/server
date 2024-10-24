@@ -64,7 +64,7 @@ class GenerateMetadataCommand extends Command {
 	 * @throws \Exception
 	 */
 	private function extractMigrationMetadataFromApps(): array {
-		$allApps = \OC_App::getAllApps();
+		$allApps = $this->appManager->getAllAppsInAppsFolders();
 		$metadata = [];
 		foreach ($allApps as $appId) {
 			// We need to load app before being able to extract Migrations

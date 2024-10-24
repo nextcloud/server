@@ -19,6 +19,7 @@ use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\ServerVersion;
 
 class WhatsNewController extends OCSController {
 	public function __construct(
@@ -28,12 +29,13 @@ class WhatsNewController extends OCSController {
 		private IUserSession $userSession,
 		IUserManager $userManager,
 		Manager $keyManager,
+		ServerVersion $serverVersion,
 		private IConfig $config,
 		private ChangesCheck $whatsNewService,
 		private IFactory $langFactory,
 		private Defaults $defaults,
 	) {
-		parent::__construct($appName, $request, $capabilitiesManager, $userSession, $userManager, $keyManager);
+		parent::__construct($appName, $request, $capabilitiesManager, $userSession, $userManager, $keyManager, $serverVersion);
 	}
 
 	/**
@@ -49,7 +51,7 @@ class WhatsNewController extends OCSController {
 	public function get():DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
-			throw new \RuntimeException("Acting user cannot be resolved");
+			throw new \RuntimeException('Acting user cannot be resolved');
 		}
 		$lastRead = $this->config->getUserValue($user->getUID(), 'core', 'whatsNewLastRead', 0);
 		$currentVersion = $this->whatsNewService->normalizeVersion($this->config->getSystemValue('version'));
@@ -96,7 +98,7 @@ class WhatsNewController extends OCSController {
 	public function dismiss(string $version):DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
-			throw new \RuntimeException("Acting user cannot be resolved");
+			throw new \RuntimeException('Acting user cannot be resolved');
 		}
 		$version = $this->whatsNewService->normalizeVersion($version);
 		// checks whether it's a valid version, throws an Exception otherwise

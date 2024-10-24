@@ -10,12 +10,14 @@
 	<meta charset="utf-8">
 	<title>
 		<?php
-			p(!empty($_['application']) ? $_['application'].' - ' : '');
+			p(!empty($_['application']) ? $_['application'] . ' - ' : '');
 p($theme->getTitle());
 ?>
 	</title>
 	<meta name="csp-nonce" nonce="<?php p($_['cspNonce']); /* Do not pass into "content" to prevent exfiltration */ ?>">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0<?php if (isset($_['viewport_maximum_scale'])) {
+		p(', maximum-scale=' . $_['viewport_maximum_scale']);
+	} ?>">
 	<?php if ($theme->getiTunesAppId() !== '') { ?>
 	<meta name="apple-itunes-app" content="app-id=<?php p($theme->getiTunesAppId()); ?>">
 	<?php } ?>
@@ -42,7 +44,7 @@ p($theme->getTitle());
 	</div>
 
 	<header id="header">
-		<div class="header-left">
+		<div class="header-start">
 			<div id="nextcloud" class="header-appname">
 				<?php if ($_['logoUrl']): ?>
 					<a href="<?php print_unescaped($_['logoUrl']); ?>"
@@ -70,45 +72,19 @@ p($theme->getTitle());
 			</div>
 		</div>
 
-		<div class="header-right">
-		<?php
-/** @var \OCP\AppFramework\Http\Template\PublicTemplateResponse $template */
-if (isset($template) && $template->getActionCount() !== 0) {
-	$primary = $template->getPrimaryAction();
-	$others = $template->getOtherActions(); ?>
-			<span id="header-primary-action" class="<?php if ($template->getActionCount() === 1) {
-				p($primary->getIcon());
-			} ?>">
-				<a href="<?php p($primary->getLink()); ?>" class="primary button">
-					<span><?php p($primary->getLabel()) ?></span>
-				</a>
-			</span>
-			<?php if ($template->getActionCount() > 1) { ?>
-			<div id="header-secondary-action">
-				<button id="header-actions-toggle" class="menutoggle icon-more-white"></button>
-				<div id="header-actions-menu" class="popovermenu menu">
-					<ul>
-						<?php
-							/** @var \OCP\AppFramework\Http\Template\IMenuAction $action */
-							foreach ($others as $action) {
-								print_unescaped($action->render());
-							}
-				?>
-					</ul>
-				</div>
-			</div>
-			<?php } ?>
-		<?php
-} ?>
+		<div class="header-end">
+			<div id="public-page-menu"></div>
 		</div>
 	</header>
+
 	<main id="content" class="app-<?php p($_['appid']) ?>">
 		<h1 class="hidden-visually">
-			<?php if (isset($template) && $template->getHeaderTitle() !== '') { ?>
-				<?php p($template->getHeaderTitle()); ?>
-			<?php } else { ?>
-				<?php	p($theme->getName()); ?>
-			<?php } ?>
+			<?php
+			if (isset($template) && $template->getHeaderTitle() !== '') {
+				p($template->getHeaderTitle());
+			} else {
+				p($theme->getName());
+			} ?>
 		</h1>
 		<?php print_unescaped($_['content']); ?>
 	</main>

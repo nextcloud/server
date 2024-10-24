@@ -12,6 +12,7 @@ OC.L10N.register(
     "Current version" : "Nykyinen versio",
     "Initial version" : "Ensimmäinen versio",
     "Version name" : "Version nimi",
+    "Cancel" : "Peruuta",
     "Remove version name" : "Poista version nimi",
     "Save version name" : "Tallenna version nimi",
     "Initial version restored" : "Ensimmäinen versio palautettu",

@@ -24,7 +24,7 @@ class InstanceTest extends TestCase {
 		$this->cache = new ArrayCache();
 	}
 
-	public function testBasicStatus() {
+	public function testBasicStatus(): void {
 		$instance = new Instance('example.com', $this->cache, $this->getClientService());
 		$this->expectGetRequest('https://example.com/status.php', '{"installed":true,"maintenance":false,"needsDbUpgrade":false,"version":"13.0.0.5","versionstring":"13.0.0 alpha","edition":"","productname":"Nextcloud"}');
 
@@ -34,7 +34,7 @@ class InstanceTest extends TestCase {
 		$this->assertEquals('https://example.com', $instance->getFullUrl());
 	}
 
-	public function testHttpFallback() {
+	public function testHttpFallback(): void {
 		$instance = new Instance('example.com', $this->cache, $this->getClientService());
 		$this->expectGetRequest('https://example.com/status.php', new \Exception());
 		$this->expectGetRequest('http://example.com/status.php', '{"installed":true,"maintenance":false,"needsDbUpgrade":false,"version":"13.0.0.5","versionstring":"13.0.0 alpha","edition":"","productname":"Nextcloud"}');
@@ -43,7 +43,7 @@ class InstanceTest extends TestCase {
 		$this->assertEquals('http://example.com', $instance->getFullUrl());
 	}
 
-	public function testRerequestHttps() {
+	public function testRerequestHttps(): void {
 		$instance = new Instance('example.com', $this->cache, $this->getClientService());
 		$this->expectGetRequest('https://example.com/status.php', '{"installed":true,"maintenance":false,"needsDbUpgrade":false,"version":"13.0.0.5","versionstring":"13.0.0 alpha","edition":"","productname":"Nextcloud"}');
 
@@ -58,7 +58,7 @@ class InstanceTest extends TestCase {
 	}
 
 	
-	public function testPreventDowngradeAttach() {
+	public function testPreventDowngradeAttach(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('refusing to connect to remote instance(example.com) over http that was previously accessible over https');
 

@@ -36,9 +36,9 @@ class LDAPTest extends TestCase {
 	 * @param bool $passThrough
 	 * @dataProvider errorProvider
 	 */
-	public function testSearchWithErrorHandler(string $errorMessage, bool $passThrough) {
+	public function testSearchWithErrorHandler(string $errorMessage, bool $passThrough): void {
 		$wasErrorHandlerCalled = false;
-		$errorHandler = function ($number, $message, $file, $line) use (&$wasErrorHandlerCalled) {
+		$errorHandler = function ($number, $message, $file, $line) use (&$wasErrorHandlerCalled): void {
 			$wasErrorHandlerCalled = true;
 		};
 
@@ -48,7 +48,7 @@ class LDAPTest extends TestCase {
 			->expects($this->once())
 			->method('invokeLDAPMethod')
 			->with('search', $this->anything(), $this->anything(), $this->anything(), $this->anything(), $this->anything())
-			->willReturnCallback(function () use ($errorMessage) {
+			->willReturnCallback(function () use ($errorMessage): void {
 				trigger_error($errorMessage);
 			});
 
@@ -59,7 +59,7 @@ class LDAPTest extends TestCase {
 		restore_error_handler();
 	}
 
-	public function testModReplace() {
+	public function testModReplace(): void {
 		$link = $this->createMock(LDAP::class);
 		$userDN = 'CN=user';
 		$password = 'MyPassword';

@@ -59,7 +59,7 @@ class MemoryInfoTest extends TestCase {
 	 * @param int|float $expected The expected detected memory limit.
 	 * @dataProvider getMemoryLimitTestData
 	 */
-	public function testMemoryLimit(string $iniValue, int|float $expected) {
+	public function testMemoryLimit(string $iniValue, int|float $expected): void {
 		ini_set('memory_limit', $iniValue);
 		$memoryInfo = new MemoryInfo();
 		self::assertEquals($expected, $memoryInfo->getMemoryLimit());
@@ -87,7 +87,7 @@ class MemoryInfoTest extends TestCase {
 	 * @dataProvider getSufficientMemoryTestData
 	 * @return void
 	 */
-	public function testIsMemoryLimitSufficient(int $memoryLimit, bool $expected) {
+	public function testIsMemoryLimitSufficient(int $memoryLimit, bool $expected): void {
 		/* @var MemoryInfo|MockObject $memoryInfo */
 		$memoryInfo = $this->getMockBuilder(MemoryInfo::class)
 			->setMethods(['getMemoryLimit',])

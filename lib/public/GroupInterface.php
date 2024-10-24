@@ -35,7 +35,7 @@ interface GroupInterface {
 
 	/**
 	 * @since 12.0.0
-	 * @deprecated  29.0.0
+	 * @deprecated 29.0.0
 	 */
 	public const REMOVE_FROM_GOUP = 0x00001000; // oops
 

@@ -19,20 +19,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Size extends Base {
-	private $config;
-	private $userManager;
-	private $commandBus;
-
 	public function __construct(
-		IConfig $config,
-		IUserManager $userManager,
-		IBus $commandBus
+		private IConfig $config,
+		private IUserManager $userManager,
+		private IBus $commandBus,
 	) {
 		parent::__construct();
-
-		$this->config = $config;
-		$this->userManager = $userManager;
-		$this->commandBus = $commandBus;
 	}
 
 	protected function configure() {
@@ -55,7 +47,7 @@ class Size extends Base {
 		if ($size) {
 			$parsedSize = \OC_Helper::computerFileSize($size);
 			if ($parsedSize === false) {
-				$output->writeln("<error>Failed to parse input size</error>");
+				$output->writeln('<error>Failed to parse input size</error>');
 				return -1;
 			}
 			if ($user) {
@@ -63,8 +55,8 @@ class Size extends Base {
 				$this->commandBus->push(new Expire($user));
 			} else {
 				$this->config->setAppValue('files_trashbin', 'trashbin_size', (string)$parsedSize);
-				$output->writeln("<info>Warning: changing the default trashbin size will automatically trigger cleanup of existing trashbins,</info>");
-				$output->writeln("<info>a users trashbin can exceed the configured size until they move a new file to the trashbin.</info>");
+				$output->writeln('<info>Warning: changing the default trashbin size will automatically trigger cleanup of existing trashbins,</info>');
+				$output->writeln('<info>a users trashbin can exceed the configured size until they move a new file to the trashbin.</info>');
 			}
 		} else {
 			$this->printTrashbinSize($input, $output, $user);
@@ -76,7 +68,7 @@ class Size extends Base {
 	private function printTrashbinSize(InputInterface $input, OutputInterface $output, ?string $user) {
 		$globalSize = (int)$this->config->getAppValue('files_trashbin', 'trashbin_size', '-1');
 		if ($globalSize < 0) {
-			$globalHumanSize = "default (50% of available space)";
+			$globalHumanSize = 'default (50% of available space)';
 		} else {
 			$globalHumanSize = \OC_Helper::humanFileSize($globalSize);
 		}
@@ -103,21 +95,21 @@ class Size extends Base {
 			}
 		} else {
 			$users = [];
-			$this->userManager->callForSeenUsers(function (IUser $user) use (&$users) {
+			$this->userManager->callForSeenUsers(function (IUser $user) use (&$users): void {
 				$users[] = $user->getUID();
 			});
 			$userValues = $this->config->getUserValueForUsers('files_trashbin', 'trashbin_size', $users);
 
 			if ($input->getOption('output') == self::OUTPUT_FORMAT_PLAIN) {
 				$output->writeln("Default size: $globalHumanSize");
-				$output->writeln("");
+				$output->writeln('');
 				if (count($userValues)) {
-					$output->writeln("Per-user sizes:");
+					$output->writeln('Per-user sizes:');
 					$this->writeArrayInOutputFormat($input, $output, array_map(function ($size) {
 						return \OC_Helper::humanFileSize($size);
 					}, $userValues));
 				} else {
-					$output->writeln("No per-user sizes configured");
+					$output->writeln('No per-user sizes configured');
 				}
 			} else {
 				$globalValue = ($globalSize < 0) ? 'default' : $globalSize;

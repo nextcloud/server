@@ -13,6 +13,7 @@ use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\SetupCheck\CheckServerResponseTrait;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
 use Psr\Log\LoggerInterface;
@@ -64,16 +65,16 @@ class SecurityHeaders implements ISetupCheck {
 					$value = preg_replace('/,\s+/', ',', strtolower($response->getHeader($header)));
 					if ($value !== $expected) {
 						if ($accepted !== null && $value === $accepted) {
-							$msg .= $this->l10n->t('- The `%1$s` HTTP header is not set to `%2$s`. Some features might not work correctly, as it is recommended to adjust this setting accordingly.', [$header, $expected])."\n";
+							$msg .= $this->l10n->t('- The `%1$s` HTTP header is not set to `%2$s`. Some features might not work correctly, as it is recommended to adjust this setting accordingly.', [$header, $expected]) . "\n";
 						} else {
-							$msg .= $this->l10n->t('- The `%1$s` HTTP header is not set to `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.', [$header, $expected])."\n";
+							$msg .= $this->l10n->t('- The `%1$s` HTTP header is not set to `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.', [$header, $expected]) . "\n";
 						}
 					}
 				}
 
-				$xssfields = array_map('trim', explode(';', $response->getHeader('X-XSS-Protection')));
-				if (!in_array('1', $xssfields) || !in_array('mode=block', $xssfields)) {
-					$msg .= $this->l10n->t('- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.', ['X-XSS-Protection', '1; mode=block'])."\n";
+				$xssFields = array_map('trim', explode(';', $response->getHeader('X-XSS-Protection')));
+				if (!in_array('1', $xssFields) || !in_array('mode=block', $xssFields)) {
+					$msg .= $this->l10n->t('- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.', ['X-XSS-Protection', '1; mode=block']) . "\n";
 				}
 
 				$referrerPolicy = $response->getHeader('Referrer-Policy');
@@ -88,7 +89,7 @@ class SecurityHeaders implements ISetupCheck {
 							'strict-origin-when-cross-origin',
 							'same-origin',
 						]
-					)."\n";
+					) . "\n";
 					$msgParameters['w3c-recommendation'] = [
 						'type' => 'highlight',
 						'id' => 'w3c-recommendation',
@@ -102,17 +103,17 @@ class SecurityHeaders implements ISetupCheck {
 				if (preg_match('/^max-age=(\d+)(;.*)?$/', $transportSecurityValidity, $m)) {
 					$transportSecurityValidity = (int)$m[1];
 					if ($transportSecurityValidity < $minimumSeconds) {
-						$msg .= $this->l10n->t('- The `Strict-Transport-Security` HTTP header is not set to at least `%d` seconds (current value: `%d`). For enhanced security, it is recommended to use a long HSTS policy.', [$minimumSeconds, $transportSecurityValidity])."\n";
+						$msg .= $this->l10n->t('- The `Strict-Transport-Security` HTTP header is not set to at least `%d` seconds (current value: `%d`). For enhanced security, it is recommended to use a long HSTS policy.', [$minimumSeconds, $transportSecurityValidity]) . "\n";
 					}
 				} elseif (!empty($transportSecurityValidity)) {
-					$msg .= $this->l10n->t('- The `Strict-Transport-Security` HTTP header is malformed: `%s`. For enhanced security, it is recommended to enable HSTS.', [$transportSecurityValidity])."\n";
+					$msg .= $this->l10n->t('- The `Strict-Transport-Security` HTTP header is malformed: `%s`. For enhanced security, it is recommended to enable HSTS.', [$transportSecurityValidity]) . "\n";
 				} else {
-					$msg .= $this->l10n->t('- The `Strict-Transport-Security` HTTP header is not set (should be at least `%d` seconds). For enhanced security, it is recommended to enable HSTS.', [$minimumSeconds])."\n";
+					$msg .= $this->l10n->t('- The `Strict-Transport-Security` HTTP header is not set (should be at least `%d` seconds). For enhanced security, it is recommended to enable HSTS.', [$minimumSeconds]) . "\n";
 				}
 
 				if (!empty($msg)) {
 					return SetupResult::warning(
-						$this->l10n->t('Some headers are not set correctly on your instance')."\n".$msg,
+						$this->l10n->t('Some headers are not set correctly on your instance') . "\n" . $msg,
 						$this->urlGenerator->linkToDocs('admin-security'),
 						$msgParameters,
 					);
@@ -131,7 +132,7 @@ class SecurityHeaders implements ISetupCheck {
 			// Otherwise if we fail we can abort here
 			if ($works === false) {
 				return SetupResult::warning(
-					$this->l10n->t("Could not check that your web server serves security headers correctly, unable to query `%s`", [$url]),
+					$this->l10n->t('Could not check that your web server serves security headers correctly, unable to query `%s`', [$url]),
 					$this->urlGenerator->linkToDocs('admin-security'),
 				);
 			}

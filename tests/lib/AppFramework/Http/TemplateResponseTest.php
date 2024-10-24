@@ -24,7 +24,7 @@ class TemplateResponseTest extends \Test\TestCase {
 	}
 
 
-	public function testSetParamsConstructor() {
+	public function testSetParamsConstructor(): void {
 		$params = ['hi' => 'yo'];
 		$this->tpl = new TemplateResponse('app', 'home', $params);
 
@@ -32,7 +32,7 @@ class TemplateResponseTest extends \Test\TestCase {
 	}
 
 
-	public function testSetRenderAsConstructor() {
+	public function testSetRenderAsConstructor(): void {
 		$renderAs = 'myrender';
 		$this->tpl = new TemplateResponse('app', 'home', [], $renderAs);
 
@@ -40,7 +40,7 @@ class TemplateResponseTest extends \Test\TestCase {
 	}
 
 
-	public function testSetParams() {
+	public function testSetParams(): void {
 		$params = ['hi' => 'yo'];
 		$this->tpl->setParams($params);
 
@@ -48,17 +48,17 @@ class TemplateResponseTest extends \Test\TestCase {
 	}
 
 
-	public function testGetTemplateName() {
+	public function testGetTemplateName(): void {
 		$this->assertEquals('home', $this->tpl->getTemplateName());
 	}
 
-	public function testGetRenderAs() {
+	public function testGetRenderAs(): void {
 		$render = 'myrender';
 		$this->tpl->renderAs($render);
 		$this->assertEquals($render, $this->tpl->getRenderAs());
 	}
 
-	public function testChainability() {
+	public function testChainability(): void {
 		$params = ['hi' => 'yo'];
 		$this->tpl->setParams($params)
 			->setStatus(Http::STATUS_NOT_FOUND);

@@ -16,17 +16,16 @@ import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
 import FolderMultipleSvg from '@mdi/svg/svg/folder-multiple.svg?raw'
 
 import {
-	encodeSource,
 	folderTreeId,
 	getContents,
 	getFolderTreeNodes,
-	getFolderTreeParentId,
-	getFolderTreeViewId,
 	getSourceParent,
 	sourceRoot,
 } from '../services/FolderTree.ts'
 
 const isFolderTreeEnabled = loadState('files', 'config', { folder_tree: true }).folder_tree
+
+let showHiddenFiles = loadState('files', 'config', { show_hidden: false }).show_hidden
 
 const Navigation = getNavigation()
 
@@ -34,10 +33,10 @@ const queue = new PQueue({ concurrency: 5, intervalCap: 5, interval: 200 })
 
 const registerQueue = new PQueue({ concurrency: 5, intervalCap: 5, interval: 200 })
 
-const registerTreeNodes = async (path: string = '/') => {
+const registerTreeChildren = async (path: string = '/') => {
 	await queue.add(async () => {
 		const nodes = await getFolderTreeNodes(path)
-		const promises = nodes.map(node => registerQueue.add(() => registerTreeNodeView(node)))
+		const promises = nodes.map(node => registerQueue.add(() => registerNodeView(node)))
 		await Promise.allSettled(promises)
 	})
 }
@@ -50,7 +49,7 @@ const getLoadChildViews = (node: TreeNode | Folder) => {
 		}
 		// @ts-expect-error Custom property
 		view.loading = true
-		await registerTreeNodes(node.path)
+		await registerTreeChildren(node.path)
 		// @ts-expect-error Custom property
 		view.loading = false
 		// @ts-expect-error Custom property
@@ -62,15 +61,22 @@ const getLoadChildViews = (node: TreeNode | Folder) => {
 	}
 }
 
-const registerTreeNodeView = (node: TreeNode) => {
+const registerNodeView = (node: TreeNode | Folder) => {
+	const registeredView = Navigation.views.find(view => view.id === node.encodedSource)
+	if (registeredView) {
+		Navigation.remove(registeredView.id)
+	}
+	if (!showHiddenFiles && node.basename.startsWith('.')) {
+		return
+	}
 	Navigation.register(new View({
-		id: encodeSource(node.source),
+		id: node.encodedSource,
 		parent: getSourceParent(node.source),
 
-		name: node.displayName ?? node.basename,
+		// @ts-expect-error Casing differences
+		name: node.displayName ?? node.displayname ?? node.basename,
 
 		icon: FolderSvg,
-		order: 0, // TODO Allow undefined order for natural sort
 
 		getContents,
 		loadChildViews: getLoadChildViews(node),
@@ -83,29 +89,8 @@ const registerTreeNodeView = (node: TreeNode) => {
 	}))
 }
 
-const registerFolderView = (folder: Folder) => {
-	Navigation.register(new View({
-		id: getFolderTreeViewId(folder),
-		parent: getFolderTreeParentId(folder),
-
-		name: folder.displayname,
-
-		icon: FolderSvg,
-		order: 0, // TODO Allow undefined order for natural sort
-
-		getContents,
-		loadChildViews: getLoadChildViews(folder),
-
-		params: {
-			view: folderTreeId,
-			fileid: String(folder.fileid),
-			dir: folder.path,
-		},
-	}))
-}
-
 const removeFolderView = (folder: Folder) => {
-	const viewId = getFolderTreeViewId(folder)
+	const viewId = folder.encodedSource
 	Navigation.remove(viewId)
 }
 
@@ -117,7 +102,7 @@ const onCreateNode = (node: Node) => {
 	if (!(node instanceof Folder)) {
 		return
 	}
-	registerFolderView(node)
+	registerNodeView(node)
 }
 
 const onDeleteNode = (node: Node) => {
@@ -132,7 +117,7 @@ const onMoveNode = ({ node, oldSource }) => {
 		return
 	}
 	removeFolderViewSource(oldSource)
-	registerFolderView(node)
+	registerNodeView(node)
 
 	const newPath = node.source.replace(sourceRoot, '')
 	const oldPath = oldSource.replace(sourceRoot, '')
@@ -147,13 +132,22 @@ const onMoveNode = ({ node, oldSource }) => {
 	})
 	for (const view of childViews) {
 		// @ts-expect-error FIXME Allow setting parent
-		view.parent = getFolderTreeParentId(node)
+		view.parent = getSourceParent(node.source)
 		// @ts-expect-error dir param is defined
 		view.params.dir = view.params.dir.replace(oldPath, newPath)
 	}
 }
 
-const registerFolderTreeRoot = () => {
+const onUserConfigUpdated = async ({ key, value }) => {
+	if (key === 'show_hidden') {
+		showHiddenFiles = value
+		await registerTreeChildren()
+		// @ts-expect-error No payload
+		emit('files:folder-tree:initialized')
+	}
+}
+
+const registerTreeRoot = () => {
 	Navigation.register(new View({
 		id: folderTreeId,
 
@@ -167,19 +161,16 @@ const registerFolderTreeRoot = () => {
 	}))
 }
 
-const registerFolderTreeChildren = async () => {
-	await registerTreeNodes()
-	subscribe('files:node:created', onCreateNode)
-	subscribe('files:node:deleted', onDeleteNode)
-	subscribe('files:node:moved', onMoveNode)
-	// @ts-expect-error No payload
-	emit('files:folder-tree:initialized')
-}
-
 export const registerFolderTreeView = async () => {
 	if (!isFolderTreeEnabled) {
 		return
 	}
-	registerFolderTreeRoot()
-	await registerFolderTreeChildren()
+	registerTreeRoot()
+	await registerTreeChildren()
+	subscribe('files:node:created', onCreateNode)
+	subscribe('files:node:deleted', onDeleteNode)
+	subscribe('files:node:moved', onMoveNode)
+	subscribe('files:config:updated', onUserConfigUpdated)
+	// @ts-expect-error No payload
+	emit('files:folder-tree:initialized')
 }

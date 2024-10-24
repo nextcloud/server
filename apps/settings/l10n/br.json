@@ -300,7 +300,6 @@
     "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Gwiriit surentez ho Nextcoud war <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">hon skan surentez ↗</a>.",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Digelet gant {communityopen}kummuniezh NExtcloud{linkclose}, ar {githubopen}c'hod orin{linkclose} a zo dindan aotre {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Liamm d'hon bajenn Facebook",
-    "Follow us on Twitter" : "Heuliit ac'henomp war Twitter",
     "Follow us on Mastodon" : "Heuliit arc'hanomp war Mastodon",
     "Check out our blog" : "Sellit ouzh hon vlog",
     "Subscribe to our newsletter" : "Koumannantit d'hon kemenadennoù nevesadur",
@@ -314,6 +313,7 @@
     "These groups will still be able to receive shares, but not to initiate them." : "Posupl vo d'ar strolad resev rannadennoù, mes ne vo ket posuple d'eo o krouiñ.",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "An dilesa daou-elfenn a zo posupl rediañ evit tout an implijourieñ ha strolladoù 'zo. Ma n'ho deus get stummet ar goulenner deao-elfenn, ne vo ket posupl dezho mon-tre er sistem.",
     "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Pa vez choazet/argaset strolladoù, implijoet a vez gantez ar vezoniezh da heul evit gouzout ma eo bet rediet un dilesa daou-elfenn d'un implijer :  m'a n'eo ket bet choazet strollad ebet, an dilesa daou-elfenn a zo aotreet evit tout ar strolladoù estreget ar re argaset. M'az eo bet choazet strolladoù, an dilesa daou-elfenn a zo aotreet evito. M'az eo un implijer en ur strollad choazt hag un argaset, an hini choazet zo lakaet war-raok hag an dilesa daou-elfenn a vez rediet.",
+    "{license}-licensed" : "{license}-aotre",
     "Username" : "anv implijer",
     "New user" : "Implijer nevez",
     "User backend" : "Backen implijer",
@@ -328,9 +328,9 @@
     "Show user backend" : "Diskouez backend an implijer",
     "Name your device" : "Anvit o ardivink",
     "Server error while trying to add WebAuthn device" : "Ur fazi servijour a zo bet pa oa ouzhpennet an ardivink WebAuthn",
-    "{license}-licensed" : "{license}-aotre",
     "by {author}\n{license}" : "great gant {author}\n{license}",
     "Disabled users" : "Disaotreañ implijer",
-    "SMTP Username" : "Anv implijer SMTP"
+    "SMTP Username" : "Anv implijer SMTP",
+    "Follow us on Twitter" : "Heuliit ac'henomp war Twitter"
 },"pluralForm" :"nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);"
 }

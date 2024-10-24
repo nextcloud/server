@@ -37,7 +37,7 @@ class State extends Base {
 		$uid = $input->getArgument('uid');
 		$user = $this->userManager->get($uid);
 		if (is_null($user)) {
-			$output->writeln("<error>Invalid UID</error>");
+			$output->writeln('<error>Invalid UID</error>');
 			return 1;
 		}
 
@@ -51,9 +51,9 @@ class State extends Base {
 			$output->writeln("Two-factor authentication is not enabled for user $uid");
 		}
 
-		$output->writeln("");
-		$this->printProviders("Enabled providers", $enabled, $output);
-		$this->printProviders("Disabled providers", $disabled, $output);
+		$output->writeln('');
+		$this->printProviders('Enabled providers', $enabled, $output);
+		$this->printProviders('Disabled providers', $disabled, $output);
 
 		return 0;
 	}
@@ -80,9 +80,9 @@ class State extends Base {
 			return;
 		}
 
-		$output->writeln($title . ":");
+		$output->writeln($title . ':');
 		foreach ($providers as $provider) {
-			$output->writeln("- " . $provider);
+			$output->writeln('- ' . $provider);
 		}
 	}
 }

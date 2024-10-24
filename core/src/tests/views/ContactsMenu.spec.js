@@ -3,13 +3,18 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import axios from '@nextcloud/axios'
 import { mount, shallowMount } from '@vue/test-utils'
+import { describe, expect, it, vi } from 'vitest'
 
 import ContactsMenu from '../../views/ContactsMenu.vue'
 
-jest.mock('@nextcloud/axios', () => ({
-	post: jest.fn(),
+const axios = vi.hoisted(() => ({
+	post: vi.fn(),
+}))
+vi.mock('@nextcloud/axios', () => ({ default: axios }))
+
+vi.mock('@nextcloud/auth', () => ({
+	getCurrentUser: () => ({ uid: 'user', isAdmin: false, displayName: 'User' }),
 }))
 
 describe('ContactsMenu', function() {
@@ -39,7 +44,7 @@ describe('ContactsMenu', function() {
 	it('shows error view when contacts can not be loaded', async () => {
 		const view = mount(ContactsMenu)
 		axios.post.mockResolvedValue({})
-		jest.spyOn(console, 'error').mockImplementation(() => {})
+		vi.spyOn(console, 'error').mockImplementation(() => {})
 
 		try {
 			await view.vm.handleOpen()
@@ -56,7 +61,7 @@ describe('ContactsMenu', function() {
 
 	it('shows text when there are no contacts', async () => {
 		const view = mount(ContactsMenu)
-		axios.post.mockResolvedValue({
+		axios.post.mockResolvedValueOnce({
 			data: {
 				contacts: [],
 				contactsAppEnabled: false,

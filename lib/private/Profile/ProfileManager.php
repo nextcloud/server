@@ -66,6 +66,7 @@ class ProfileManager implements IProfileManager {
 		IAccountManager::PROPERTY_HEADLINE,
 		IAccountManager::PROPERTY_ORGANISATION,
 		IAccountManager::PROPERTY_ROLE,
+		IAccountManager::PROPERTY_PRONOUNS,
 	];
 
 	public function __construct(
@@ -93,7 +94,7 @@ class ProfileManager implements IProfileManager {
 		}
 
 		$account = $this->accountManager->getAccount($user);
-		return (bool) filter_var(
+		return (bool)filter_var(
 			$account->getProperty(IAccountManager::PROPERTY_PROFILE_ENABLED)->getValue(),
 			FILTER_VALIDATE_BOOLEAN,
 			FILTER_NULL_ON_FAILURE,
@@ -222,7 +223,7 @@ class ProfileManager implements IProfileManager {
 	/**
 	 * Return the profile parameters of the target user that are visible to the visiting user
 	 * in an associative array
-	 * @return array{userId: string, address?: string|null, biography?: string|null, displayname?: string|null, headline?: string|null, isUserAvatarVisible?: bool, organisation?: string|null, role?: string|null, actions: list<array{id: string, icon: string, title: string, target: ?string}>}
+	 * @return array{userId: string, address?: string|null, biography?: string|null, displayname?: string|null, headline?: string|null, isUserAvatarVisible?: bool, organisation?: string|null, pronouns?: string|null, role?: string|null, actions: list<array{id: string, icon: string, title: string, target: ?string}>}
 	 */
 	public function getProfileFields(IUser $targetUser, ?IUser $visitingUser): array {
 		$account = $this->accountManager->getAccount($targetUser);
@@ -241,6 +242,7 @@ class ProfileManager implements IProfileManager {
 				case IAccountManager::PROPERTY_HEADLINE:
 				case IAccountManager::PROPERTY_ORGANISATION:
 				case IAccountManager::PROPERTY_ROLE:
+				case IAccountManager::PROPERTY_PRONOUNS:
 					$profileParameters[$property] =
 						$this->isProfileFieldVisible($property, $targetUser, $visitingUser)
 						// Explicitly set to null when value is empty string
@@ -398,6 +400,10 @@ class ProfileManager implements IProfileManager {
 			IAccountManager::PROPERTY_ROLE => [
 				'appId' => self::CORE_APP_ID,
 				'displayId' => $this->l10nFactory->get('lib')->t('Role'),
+			],
+			IAccountManager::PROPERTY_PRONOUNS => [
+				'appId' => self::CORE_APP_ID,
+				'displayId' => $this->l10nFactory->get('lib')->t('Pronouns'),
 			],
 		];
 

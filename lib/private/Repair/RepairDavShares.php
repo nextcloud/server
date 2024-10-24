@@ -23,27 +23,15 @@ use function urlencode;
 class RepairDavShares implements IRepairStep {
 	protected const GROUP_PRINCIPAL_PREFIX = 'principals/groups/';
 
-	/** @var IConfig */
-	private $config;
-	/** @var IDBConnection */
-	private $dbc;
-	/** @var IGroupManager */
-	private $groupManager;
-	/** @var LoggerInterface */
-	private $logger;
 	/** @var bool */
 	private $hintInvalidShares = false;
 
 	public function __construct(
-		IConfig $config,
-		IDBConnection $dbc,
-		IGroupManager $groupManager,
-		LoggerInterface $logger
+		private IConfig $config,
+		private IDBConnection $dbc,
+		private IGroupManager $groupManager,
+		private LoggerInterface $logger,
 	) {
-		$this->config = $config;
-		$this->dbc = $dbc;
-		$this->groupManager = $groupManager;
-		$this->logger = $logger;
 	}
 
 	/**

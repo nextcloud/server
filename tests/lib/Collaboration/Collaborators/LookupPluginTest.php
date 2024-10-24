@@ -24,15 +24,15 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class LookupPluginTest extends TestCase {
-	/** @var  IConfig|MockObject */
+	/** @var IConfig|MockObject */
 	protected $config;
-	/** @var  IClientService|MockObject */
+	/** @var IClientService|MockObject */
 	protected $clientService;
 	/** @var IUserSession|MockObject */
 	protected $userSession;
 	/** @var ICloudIdManager|MockObject */
 	protected $cloudIdManager;
-	/** @var  LookupPlugin */
+	/** @var LookupPlugin */
 	protected $plugin;
 	/** @var LoggerInterface|MockObject */
 	protected $logger;
@@ -69,7 +69,7 @@ class LookupPluginTest extends TestCase {
 		);
 	}
 
-	public function testSearchNoLookupServerURI() {
+	public function testSearchNoLookupServerURI(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('files_sharing', 'lookupServerEnabled', 'yes')
@@ -98,7 +98,7 @@ class LookupPluginTest extends TestCase {
 		$this->plugin->search('foobar', 10, 0, $searchResult);
 	}
 
-	public function testSearchNoInternet() {
+	public function testSearchNoInternet(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('files_sharing', 'lookupServerEnabled', 'yes')
@@ -126,7 +126,7 @@ class LookupPluginTest extends TestCase {
 	 * @dataProvider searchDataProvider
 	 * @param array $searchParams
 	 */
-	public function testSearch(array $searchParams) {
+	public function testSearch(array $searchParams): void {
 		$type = new SearchResultType('lookup');
 
 		/** @var ISearchResult|MockObject $searchResult */
@@ -189,7 +189,7 @@ class LookupPluginTest extends TestCase {
 	 * @param bool $GSEnabled
 	 * @param bool $LookupEnabled
 	 */
-	public function testSearchEnableDisableLookupServer(array $searchParams, $GSEnabled, $LookupEnabled) {
+	public function testSearchEnableDisableLookupServer(array $searchParams, $GSEnabled, $LookupEnabled): void {
 		$type = new SearchResultType('lookup');
 
 		/** @var ISearchResult|MockObject $searchResult */
@@ -258,7 +258,7 @@ class LookupPluginTest extends TestCase {
 	}
 
 
-	public function testSearchLookupServerDisabled() {
+	public function testSearchLookupServerDisabled(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('files_sharing', 'lookupServerEnabled', 'yes')

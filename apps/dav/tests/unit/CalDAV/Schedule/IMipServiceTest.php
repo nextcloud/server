@@ -47,13 +47,13 @@ class IMipServiceTest extends TestCase {
 	/** @var IMipService */
 	private $service;
 
-	/** @var VCalendar*/
+	/** @var VCalendar */
 	private $vCalendar1a;
-	/** @var VCalendar*/
+	/** @var VCalendar */
 	private $vCalendar1b;
-	/** @var VCalendar*/
+	/** @var VCalendar */
 	private $vCalendar2;
-	/** @var VCalendar*/
+	/** @var VCalendar */
 	private $vCalendar3;
 	/** @var DateTime DateTime object that will be returned by DateTime() or DateTime('now') */
 	public static $datetimeNow;
@@ -156,9 +156,9 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGetFrom(): void {
-		$senderName = "Detective McQueen";
-		$default = "Twin Lakes Police Department - Darkside Division";
-		$expected = "Detective McQueen via Twin Lakes Police Department - Darkside Division";
+		$senderName = 'Detective McQueen';
+		$default = 'Twin Lakes Police Department - Darkside Division';
+		$expected = 'Detective McQueen via Twin Lakes Police Department - Darkside Division';
 
 		$this->l10n->expects(self::once())
 			->method('t')

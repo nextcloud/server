@@ -10,19 +10,15 @@ use OC\Template\JSCombiner;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\Migration\IOutput;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ClearFrontendCachesTest extends \Test\TestCase {
-	/** @var ICacheFactory */
-	private $cacheFactory;
 
-	/** @var JSCombiner */
-	private $jsCombiner;
+	private ICacheFactory&MockObject $cacheFactory;
+	private JSCombiner&MockObject $jsCombiner;
+	private IOutput&MockObject $outputMock;
 
-	/** @var \OC\Repair\ClearFrontendCaches */
-	protected $repair;
-
-	/** @var IOutput */
-	private $outputMock;
+	protected \OC\Repair\ClearFrontendCaches $repair;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -36,7 +32,7 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 	}
 
 
-	public function testRun() {
+	public function testRun(): void {
 		$imagePathCache = $this->createMock(ICache::class);
 		$imagePathCache->expects($this->once())
 			->method('clear')

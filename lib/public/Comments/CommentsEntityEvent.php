@@ -38,9 +38,9 @@ class CommentsEntityEvent extends Event {
 	/**
 	 * @param string $name
 	 * @param \Closure $entityExistsFunction The closure should take one
-	 *                 argument, which is the id of the entity, that comments
-	 *                 should be handled for. The return should then be bool,
-	 *                 depending on whether comments are allowed (true) or not.
+	 *                                       argument, which is the id of the entity, that comments
+	 *                                       should be handled for. The return should then be bool,
+	 *                                       depending on whether comments are allowed (true) or not.
 	 * @throws \OutOfBoundsException when the entity name is already taken
 	 * @since 9.1.0
 	 */

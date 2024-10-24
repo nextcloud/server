@@ -12,6 +12,7 @@ use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\SetupCheck\CheckServerResponseTrait;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
 use Psr\Log\LoggerInterface;
@@ -42,7 +43,7 @@ class JavaScriptSourceMaps implements ISetupCheck {
 	public function run(): SetupResult {
 		$testFile = $this->urlGenerator->linkTo('settings', 'js/map-test.js.map');
 
-		foreach ($this->runHEAD($testFile) as $response) {
+		foreach ($this->runRequest('HEAD', $testFile) as $response) {
 			return SetupResult::success();
 		}
 

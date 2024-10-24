@@ -20,9 +20,6 @@ use OCP\IUserSession;
 class UserGlobalStoragesService extends GlobalStoragesService {
 	use UserTrait;
 
-	/** @var IGroupManager */
-	protected $groupManager;
-
 	/**
 	 * @param BackendService $backendService
 	 * @param DBConfigService $dbConfig
@@ -35,13 +32,12 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		BackendService $backendService,
 		DBConfigService $dbConfig,
 		IUserSession $userSession,
-		IGroupManager $groupManager,
+		protected IGroupManager $groupManager,
 		IUserMountCache $userMountCache,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($backendService, $dbConfig, $userMountCache, $eventDispatcher);
 		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
 	}
 
 	/**

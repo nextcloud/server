@@ -192,7 +192,7 @@ class Manager {
 
 		if (!empty($missing)) {
 			// There was at least one provider missing
-			$this->logger->alert(count($missing) . " two-factor auth providers failed to load", ['app' => 'core']);
+			$this->logger->alert(count($missing) . ' two-factor auth providers failed to load', ['app' => 'core']);
 
 			return true;
 		}
@@ -322,7 +322,7 @@ class Manager {
 				$tokenId = $token->getId();
 				$tokensNeeding2FA = $this->config->getUserKeys($user->getUID(), 'login_token_2fa');
 
-				if (!\in_array((string) $tokenId, $tokensNeeding2FA, true)) {
+				if (!\in_array((string)$tokenId, $tokensNeeding2FA, true)) {
 					$this->session->set(self::SESSION_UID_DONE, $user->getUID());
 					return false;
 				}
@@ -359,7 +359,7 @@ class Manager {
 
 		$id = $this->session->getId();
 		$token = $this->tokenProvider->getToken($id);
-		$this->config->setUserValue($user->getUID(), 'login_token_2fa', (string) $token->getId(), (string)$this->timeFactory->getTime());
+		$this->config->setUserValue($user->getUID(), 'login_token_2fa', (string)$token->getId(), (string)$this->timeFactory->getTime());
 	}
 
 	public function clearTwoFactorPending(string $userId) {

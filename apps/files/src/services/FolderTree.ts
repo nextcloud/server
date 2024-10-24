@@ -6,27 +6,28 @@
 import type { ContentsWithRoot } from '@nextcloud/files'
 
 import { CancelablePromise } from 'cancelable-promise'
-import {
-	davRemoteURL,
-	Folder,
-} from '@nextcloud/files'
+import { davRemoteURL } from '@nextcloud/files'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { dirname, encodePath, joinPaths } from '@nextcloud/paths'
+import { getCanonicalLocale, getLanguage } from '@nextcloud/l10n'
 
 import { getContents as getFiles } from './Files.ts'
 
 // eslint-disable-next-line no-use-before-define
-type Tree = Array<{
+type Tree = TreeNodeData[]
+
+interface TreeNodeData {
 	id: number,
 	basename: string,
 	displayName?: string,
 	children: Tree,
-}>
+}
 
 export interface TreeNode {
 	source: string,
+	encodedSource: string,
 	path: string,
 	fileid: number,
 	basename: string,
@@ -37,11 +38,24 @@ export const folderTreeId = 'folders'
 
 export const sourceRoot = `${davRemoteURL}/files/${getCurrentUser()?.uid}`
 
+const collator = Intl.Collator(
+	[getLanguage(), getCanonicalLocale()],
+	{
+		numeric: true,
+		usage: 'sort',
+	},
+)
+
+const compareNodes = (a: TreeNodeData, b: TreeNodeData) => collator.compare(a.displayName ?? a.basename, b.displayName ?? b.basename)
+
 const getTreeNodes = (tree: Tree, currentPath: string = '/', nodes: TreeNode[] = []): TreeNode[] => {
-	for (const { id, basename, displayName, children } of tree) {
+	const sortedTree = tree.toSorted(compareNodes)
+	for (const { id, basename, displayName, children } of sortedTree) {
 		const path = joinPaths(currentPath, basename)
+		const source = `${sourceRoot}${path}`
 		const node: TreeNode = {
-			source: `${sourceRoot}${path}`,
+			source,
+			encodedSource: encodeSource(source),
 			path,
 			fileid: id,
 			basename,
@@ -78,15 +92,4 @@ export const getSourceParent = (source: string): string => {
 		return folderTreeId
 	}
 	return encodeSource(parent)
-}
-
-export const getFolderTreeViewId = (folder: Folder): string => {
-	return folder.encodedSource
-}
-
-export const getFolderTreeParentId = (folder: Folder): string => {
-	if (folder.dirname === '/') {
-		return folderTreeId
-	}
-	return dirname(folder.encodedSource)
 }

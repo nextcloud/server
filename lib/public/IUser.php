@@ -117,7 +117,7 @@ interface IUser {
 	public function getBackend();
 
 	/**
-	 * check if the backend allows the user to change his avatar on Personal page
+	 * check if the backend allows the user to change their avatar on Personal page
 	 *
 	 * @return bool
 	 * @since 8.0.0

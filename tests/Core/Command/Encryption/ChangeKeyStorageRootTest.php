@@ -32,7 +32,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/**  @var Util | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Util | \PHPUnit\Framework\MockObject\MockObject */
 	protected $util;
 
 	/** @var QuestionHelper | \PHPUnit\Framework\MockObject\MockObject */
@@ -79,7 +79,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 	/**
 	 * @dataProvider dataTestExecute
 	 */
-	public function testExecute($newRoot, $answer, $successMoveKey) {
+	public function testExecute($newRoot, $answer, $successMoveKey): void {
 		$changeKeyStorageRoot = $this->getMockBuilder('OC\Core\Command\Encryption\ChangeKeyStorageRoot')
 			->setConstructorArgs(
 				[
@@ -132,7 +132,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 		];
 	}
 
-	public function testMoveAllKeys() {
+	public function testMoveAllKeys(): void {
 		/** @var \OC\Core\Command\Encryption\ChangeKeyStorageRoot $changeKeyStorageRoot */
 		$changeKeyStorageRoot = $this->getMockBuilder('OC\Core\Command\Encryption\ChangeKeyStorageRoot')
 			->setConstructorArgs(
@@ -152,7 +152,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 		$this->invokePrivate($changeKeyStorageRoot, 'moveAllKeys', ['oldRoot', 'newRoot', $this->outputInterface]);
 	}
 
-	public function testPrepareNewRoot() {
+	public function testPrepareNewRoot(): void {
 		$this->view->expects($this->once())->method('is_dir')->with('newRoot')
 			->willReturn(true);
 
@@ -169,7 +169,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 	 * @param bool $dirExists
 	 * @param bool $couldCreateFile
 	 */
-	public function testPrepareNewRootException($dirExists, $couldCreateFile) {
+	public function testPrepareNewRootException($dirExists, $couldCreateFile): void {
 		$this->expectException(\Exception::class);
 
 		$this->view->expects($this->once())->method('is_dir')->with('newRoot')
@@ -194,7 +194,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 	 * @param bool $targetExists
 	 * @param bool $executeRename
 	 */
-	public function testMoveSystemKeys($dirExists, $targetExists, $executeRename) {
+	public function testMoveSystemKeys($dirExists, $targetExists, $executeRename): void {
 		$changeKeyStorageRoot = $this->getMockBuilder('OC\Core\Command\Encryption\ChangeKeyStorageRoot')
 			->setConstructorArgs(
 				[
@@ -213,7 +213,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 
 		if ($executeRename) {
 			$this->view->expects($this->once())->method('rename')
-			->with('oldRoot/files_encryption', 'newRoot/files_encryption');
+				->with('oldRoot/files_encryption', 'newRoot/files_encryption');
 		} else {
 			$this->view->expects($this->never())->method('rename');
 		}
@@ -231,7 +231,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 	}
 
 
-	public function testMoveUserKeys() {
+	public function testMoveUserKeys(): void {
 		$changeKeyStorageRoot = $this->getMockBuilder('OC\Core\Command\Encryption\ChangeKeyStorageRoot')
 			->setConstructorArgs(
 				[
@@ -261,7 +261,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 	 * @param bool $targetExists
 	 * @param bool $shouldRename
 	 */
-	public function testMoveUserEncryptionFolder($userExists, $isDir, $targetExists, $shouldRename) {
+	public function testMoveUserEncryptionFolder($userExists, $isDir, $targetExists, $shouldRename): void {
 		$changeKeyStorageRoot = $this->getMockBuilder('OC\Core\Command\Encryption\ChangeKeyStorageRoot')
 			->setConstructorArgs(
 				[
@@ -309,7 +309,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 	/**
 	 * @dataProvider dataTestPrepareParentFolder
 	 */
-	public function testPrepareParentFolder($path, $pathExists) {
+	public function testPrepareParentFolder($path, $pathExists): void {
 		$this->view->expects($this->any())->method('file_exists')
 			->willReturnCallback(
 				function ($fileExistsPath) use ($path, $pathExists) {
@@ -341,7 +341,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 		];
 	}
 
-	public function testTargetExists() {
+	public function testTargetExists(): void {
 		$this->view->expects($this->once())->method('file_exists')->with('path')
 			->willReturn(false);
 
@@ -351,7 +351,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 	}
 
 
-	public function testTargetExistsException() {
+	public function testTargetExistsException(): void {
 		$this->expectException(\Exception::class);
 
 		$this->view->expects($this->once())->method('file_exists')->with('path')

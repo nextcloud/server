@@ -46,14 +46,14 @@ class CasTraitTest extends TestCase {
 		return $mock;
 	}
 
-	public function testCasNotChanged() {
+	public function testCasNotChanged(): void {
 		$cache = $this->getCache();
 		$cache->set('foo', 'bar');
 		$this->assertTrue($cache->cas('foo', 'bar', 'asd'));
 		$this->assertEquals('asd', $cache->get('foo'));
 	}
 
-	public function testCasChanged() {
+	public function testCasChanged(): void {
 		$cache = $this->getCache();
 		$cache->set('foo', 'bar1');
 		$this->assertFalse($cache->cas('foo', 'bar', 'asd'));

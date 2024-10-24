@@ -23,13 +23,13 @@ class APCuTest extends Cache {
 		$this->instance = new \OC\Memcache\APCu($this->getUniqueID());
 	}
 
-	public function testCasIntChanged() {
+	public function testCasIntChanged(): void {
 		$this->instance->set('foo', 1);
 		$this->assertTrue($this->instance->cas('foo', 1, 2));
 		$this->assertEquals(2, $this->instance->get('foo'));
 	}
 
-	public function testCasIntNotChanged() {
+	public function testCasIntNotChanged(): void {
 		$this->instance->set('foo', 1);
 		$this->assertFalse($this->instance->cas('foo', 2, 3));
 		$this->assertEquals(1, $this->instance->get('foo'));

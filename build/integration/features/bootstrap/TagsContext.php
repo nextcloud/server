@@ -245,7 +245,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 		if (count($table->getRows()) !== count($tags)) {
 			throw new \Exception(
 				sprintf(
-					"Expected %s tags, got %s.",
+					'Expected %s tags, got %s.',
 					count($table->getRows()),
 					count($tags)
 				)

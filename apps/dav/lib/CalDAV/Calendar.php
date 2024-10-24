@@ -31,12 +31,16 @@ use Sabre\DAV\PropPatch;
  * @property CalDavBackend $caldavBackend
  */
 class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable, IMoveTarget {
-	private IConfig $config;
 	protected IL10N $l10n;
 	private bool $useTrashbin = true;
-	private LoggerInterface $logger;
 
-	public function __construct(BackendInterface $caldavBackend, $calendarInfo, IL10N $l10n, IConfig $config, LoggerInterface $logger) {
+	public function __construct(
+		BackendInterface $caldavBackend,
+		$calendarInfo,
+		IL10N $l10n,
+		private IConfig $config,
+		private LoggerInterface $logger,
+	) {
 		// Convert deletion date to ISO8601 string
 		if (isset($calendarInfo[TrashbinPlugin::PROPERTY_DELETED_AT])) {
 			$calendarInfo[TrashbinPlugin::PROPERTY_DELETED_AT] = (new DateTimeImmutable())
@@ -53,10 +57,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 			$this->calendarInfo['{DAV:}displayname'] === CalDavBackend::PERSONAL_CALENDAR_NAME) {
 			$this->calendarInfo['{DAV:}displayname'] = $l10n->t('Personal');
 		}
-
-		$this->config = $config;
 		$this->l10n = $l10n;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -189,8 +190,8 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 		$acl = $this->caldavBackend->applyShareAcl($this->getResourceId(), $acl);
 		$allowedPrincipals = [
 			$this->getOwner(),
-			$this->getOwner(). '/calendar-proxy-read',
-			$this->getOwner(). '/calendar-proxy-write',
+			$this->getOwner() . '/calendar-proxy-read',
+			$this->getOwner() . '/calendar-proxy-write',
 			parent::getOwner(),
 			'principals/system/public'
 		];
@@ -376,7 +377,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 	 * @inheritDoc
 	 */
 	public function restore(): void {
-		$this->caldavBackend->restoreCalendar((int) $this->calendarInfo['id']);
+		$this->caldavBackend->restoreCalendar((int)$this->calendarInfo['id']);
 	}
 
 	public function disableTrashbin(): void {

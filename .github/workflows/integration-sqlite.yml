@@ -41,6 +41,7 @@ jobs:
               - '.php-cs-fixer.dist.php'
               - 'composer.json'
               - 'composer.lock'
+              - 'core/shipped.json'
 
   integration-sqlite:
     runs-on: ubuntu-latest
@@ -69,7 +70,7 @@ jobs:
           - 'sharing_features'
           - 'videoverification_features'
 
-        php-versions: ['8.2']
+        php-versions: ['8.1']
         spreed-versions: ['main']
 
     services:
@@ -90,13 +91,13 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
         with:
           submodules: true
 
       - name: Checkout Talk app
         if: ${{ matrix.test-suite == 'videoverification_features' }}
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
         with:
           repository: nextcloud/spreed
           path: apps/spreed

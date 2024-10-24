@@ -12,7 +12,6 @@ use OC\AppFramework\Middleware\Security\CSPMiddleware;
 use OC\Security\CSP\ContentSecurityPolicy;
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
-use OC\Security\CSRF\CsrfTokenManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\AppFramework\Http\Response;
@@ -25,8 +24,6 @@ class CSPMiddlewareTest extends \Test\TestCase {
 	private $controller;
 	/** @var ContentSecurityPolicyManager&MockObject */
 	private $contentSecurityPolicyManager;
-	/** @var CsrfTokenManager&MockObject */
-	private $csrfTokenManager;
 	/** @var ContentSecurityPolicyNonceManager&MockObject */
 	private $cspNonceManager;
 
@@ -35,16 +32,14 @@ class CSPMiddlewareTest extends \Test\TestCase {
 
 		$this->controller = $this->createMock(Controller::class);
 		$this->contentSecurityPolicyManager = $this->createMock(ContentSecurityPolicyManager::class);
-		$this->csrfTokenManager = $this->createMock(CsrfTokenManager::class);
 		$this->cspNonceManager = $this->createMock(ContentSecurityPolicyNonceManager::class);
 		$this->middleware = new CSPMiddleware(
 			$this->contentSecurityPolicyManager,
 			$this->cspNonceManager,
-			$this->csrfTokenManager
 		);
 	}
 
-	public function testAfterController() {
+	public function testAfterController(): void {
 		$this->cspNonceManager
 			->expects($this->once())
 			->method('browserSupportsCspV3')
@@ -76,7 +71,7 @@ class CSPMiddlewareTest extends \Test\TestCase {
 		$this->middleware->afterController($this->controller, 'test', $response);
 	}
 
-	public function testAfterControllerEmptyCSP() {
+	public function testAfterControllerEmptyCSP(): void {
 		$response = $this->createMock(Response::class);
 		$emptyPolicy = new EmptyContentSecurityPolicy();
 		$response->expects($this->any())
@@ -88,7 +83,7 @@ class CSPMiddlewareTest extends \Test\TestCase {
 		$this->middleware->afterController($this->controller, 'test', $response);
 	}
 
-	public function testAfterControllerWithContentSecurityPolicy3Support() {
+	public function testAfterControllerWithContentSecurityPolicy3Support(): void {
 		$this->cspNonceManager
 			->expects($this->once())
 			->method('browserSupportsCspV3')

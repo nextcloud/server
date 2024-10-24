@@ -70,7 +70,7 @@ class GenerateBlurhashMetadata implements IEventListener {
 		}
 
 		$metadata->setString('blurhash', $this->generateBlurHash($image))
-				 ->setEtag('blurhash', $currentEtag);
+			->setEtag('blurhash', $currentEtag);
 	}
 
 	/**

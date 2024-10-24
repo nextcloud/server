@@ -71,7 +71,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		);
 	}
 
-	public function testGetAvatarInvalidUser() {
+	public function testGetAvatarInvalidUser(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('user does not exist');
 
@@ -84,7 +84,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->avatarManager->getAvatar('invalidUser');
 	}
 
-	public function testGetAvatarForSelf() {
+	public function testGetAvatarForSelf(): void {
 		$user = $this->createMock(User::class);
 		$user
 			->expects($this->any())
@@ -124,9 +124,9 @@ class AvatarManagerTest extends \Test\TestCase {
 			->willReturn(IAccountManager::SCOPE_PRIVATE);
 
 		$this->knownUserService->expects($this->any())
-			 ->method('isKnownToUser')
-			 ->with('valid-user', 'valid-user')
-			 ->willReturn(true);
+			->method('isKnownToUser')
+			->with('valid-user', 'valid-user')
+			->willReturn(true);
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData
@@ -139,7 +139,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('valid-user'));
 	}
 
-	public function testGetAvatarValidUserDifferentCasing() {
+	public function testGetAvatarValidUserDifferentCasing(): void {
 		$user = $this->createMock(User::class);
 		$this->userManager->expects($this->once())
 			->method('get')
@@ -206,7 +206,7 @@ class AvatarManagerTest extends \Test\TestCase {
 	/**
 	 * @dataProvider dataGetAvatarScopes
 	 */
-	public function testGetAvatarScopes($avatarScope, $isPublicCall, $isKnownUser, $expectedPlaceholder) {
+	public function testGetAvatarScopes($avatarScope, $isPublicCall, $isKnownUser, $expectedPlaceholder): void {
 		if ($isPublicCall) {
 			$requestingUser = null;
 		} else {
@@ -261,12 +261,12 @@ class AvatarManagerTest extends \Test\TestCase {
 
 		if (!$isPublicCall) {
 			$this->knownUserService->expects($this->any())
-				 ->method('isKnownToUser')
-				 ->with('requesting-user', 'valid-user')
-				 ->willReturn($isKnownUser);
+				->method('isKnownToUser')
+				->with('requesting-user', 'valid-user')
+				->willReturn($isKnownUser);
 		} else {
 			$this->knownUserService->expects($this->never())
-				 ->method('isKnownToUser');
+				->method('isKnownToUser');
 		}
 
 		if ($expectedPlaceholder) {

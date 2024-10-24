@@ -6,6 +6,8 @@
  */
 namespace OCA\Files_Versions\AppInfo;
 
+use OCP\Route\IRouter;
+
 /** @var Application $application */
 $application = \OC::$server->query(Application::class);
 $application->registerRoutes($this, [
@@ -18,7 +20,7 @@ $application->registerRoutes($this, [
 	],
 ]);
 
-/** @var $this \OCP\Route\IRouter */
+/** @var IRouter $this */
 $this->create('files_versions_download', 'apps/files_versions/download.php')
 	->actionInclude('files_versions/download.php');
 $this->create('files_versions_ajax_getVersions', 'apps/files_versions/ajax/getVersions.php')

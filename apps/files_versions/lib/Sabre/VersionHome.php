@@ -14,23 +14,12 @@ use Sabre\DAV\ICollection;
 
 class VersionHome implements ICollection {
 
-	/** @var array */
-	private $principalInfo;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IVersionManager */
-	private $versionManager;
-
-	public function __construct(array $principalInfo, IRootFolder $rootFolder, IUserManager $userManager, IVersionManager $versionManager) {
-		$this->principalInfo = $principalInfo;
-		$this->rootFolder = $rootFolder;
-		$this->userManager = $userManager;
-		$this->versionManager = $versionManager;
+	public function __construct(
+		private array $principalInfo,
+		private IRootFolder $rootFolder,
+		private IUserManager $userManager,
+		private IVersionManager $versionManager,
+	) {
 	}
 
 	private function getUser() {

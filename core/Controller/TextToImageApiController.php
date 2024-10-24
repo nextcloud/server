@@ -150,12 +150,12 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 			$task = $this->textToImageManager->getUserTask($id, $this->userId);
 			try {
 				$folder = $this->appData->getFolder('text2image');
-			} catch(NotFoundException) {
+			} catch (NotFoundException) {
 				$res = new DataResponse(['message' => $this->l->t('Image not found')], Http::STATUS_NOT_FOUND);
 				$res->throttle(['action' => 'text2image']);
 				return $res;
 			}
-			$file = $folder->getFolder((string) $task->getId())->getFile((string) $index);
+			$file = $folder->getFolder((string)$task->getId())->getFile((string)$index);
 			$info = getimagesizefromstring($file->getContent());
 
 			return new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => image_type_to_mime_type($info[2])]);
@@ -214,7 +214,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * @param string|null $identifier An arbitrary identifier for the task
 	 * @return DataResponse<Http::STATUS_OK, array{tasks: CoreTextToImageTask[]}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
-	 *  200: Task list returned
+	 * 200: Task list returned
 	 */
 	#[NoAdminRequired]
 	#[AnonRateLimit(limit: 5, period: 120)]

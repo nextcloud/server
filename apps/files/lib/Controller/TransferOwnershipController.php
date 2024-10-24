@@ -26,39 +26,18 @@ use OCP\Notification\IManager as NotificationManager;
 
 class TransferOwnershipController extends OCSController {
 
-	/** @var string */
-	private $userId;
-	/** @var NotificationManager */
-	private $notificationManager;
-	/** @var ITimeFactory */
-	private $timeFactory;
-	/** @var IJobList */
-	private $jobList;
-	/** @var TransferOwnershipMapper */
-	private $mapper;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		string $userId,
-		NotificationManager $notificationManager,
-		ITimeFactory $timeFactory,
-		IJobList $jobList,
-		TransferOwnershipMapper $mapper,
-		IUserManager $userManager,
-		IRootFolder $rootFolder) {
+		private string $userId,
+		private NotificationManager $notificationManager,
+		private ITimeFactory $timeFactory,
+		private IJobList $jobList,
+		private TransferOwnershipMapper $mapper,
+		private IUserManager $userManager,
+		private IRootFolder $rootFolder,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->userId = $userId;
-		$this->notificationManager = $notificationManager;
-		$this->timeFactory = $timeFactory;
-		$this->jobList = $jobList;
-		$this->mapper = $mapper;
-		$this->userManager = $userManager;
-		$this->rootFolder = $rootFolder;
 	}
 
 
@@ -140,21 +119,14 @@ class TransferOwnershipController extends OCSController {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
+		$this->jobList->add(TransferOwnership::class, [
+			'id' => $transferOwnership->getId(),
+		]);
+
 		$notification = $this->notificationManager->createNotification();
 		$notification->setApp('files')
 			->setObject('transfer', (string)$id);
 		$this->notificationManager->markProcessed($notification);
-
-		$newTransferOwnership = new TransferOwnershipEntity();
-		$newTransferOwnership->setNodeName($transferOwnership->getNodeName());
-		$newTransferOwnership->setFileId($transferOwnership->getFileId());
-		$newTransferOwnership->setSourceUser($transferOwnership->getSourceUser());
-		$newTransferOwnership->setTargetUser($transferOwnership->getTargetUser());
-		$this->mapper->insert($newTransferOwnership);
-
-		$this->jobList->add(TransferOwnership::class, [
-			'id' => $newTransferOwnership->getId(),
-		]);
 
 		return new DataResponse([], Http::STATUS_OK);
 	}

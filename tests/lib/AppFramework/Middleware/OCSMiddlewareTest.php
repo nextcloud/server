@@ -74,7 +74,7 @@ class OCSMiddlewareTest extends \Test\TestCase {
 	 * @param string $message
 	 * @param int $code
 	 */
-	public function testAfterExceptionOCSv1($controller, $exception, $forward, $message = '', $code = 0) {
+	public function testAfterExceptionOCSv1($controller, $exception, $forward, $message = '', $code = 0): void {
 		$this->request
 			->method('getScriptName')
 			->willReturn('/ocs/v1.php');
@@ -110,7 +110,7 @@ class OCSMiddlewareTest extends \Test\TestCase {
 	 * @param string $message
 	 * @param int $code
 	 */
-	public function testAfterExceptionOCSv2($controller, $exception, $forward, $message = '', $code = 0) {
+	public function testAfterExceptionOCSv2($controller, $exception, $forward, $message = '', $code = 0): void {
 		$this->request
 			->method('getScriptName')
 			->willReturn('/ocs/v2.php');
@@ -144,7 +144,7 @@ class OCSMiddlewareTest extends \Test\TestCase {
 	 * @param string $message
 	 * @param int $code
 	 */
-	public function testAfterExceptionOCSv2SubFolder($controller, $exception, $forward, $message = '', $code = 0) {
+	public function testAfterExceptionOCSv2SubFolder($controller, $exception, $forward, $message = '', $code = 0): void {
 		$this->request
 			->method('getScriptName')
 			->willReturn('/mysubfolder/ocs/v2.php');
@@ -201,7 +201,7 @@ class OCSMiddlewareTest extends \Test\TestCase {
 	 * @param bool $converted
 	 * @param int $convertedOCSStatus
 	 */
-	public function testAfterController($controller, $response, $converted, $convertedOCSStatus = 0) {
+	public function testAfterController($controller, $response, $converted, $convertedOCSStatus = 0): void {
 		$OCSMiddleware = new OCSMiddleware($this->request);
 		$newResponse = $OCSMiddleware->afterController($controller, 'foo', $response);
 

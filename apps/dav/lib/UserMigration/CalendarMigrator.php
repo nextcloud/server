@@ -41,17 +41,6 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 
 	use TMigratorBasicVersionHandling;
 
-	private CalDavBackend $calDavBackend;
-
-	private ICalendarManager $calendarManager;
-
-	// ICSExportPlugin is injected as the mergeObjects() method is required and is not to be used as a SabreDAV server plugin
-	private ICSExportPlugin $icsExportPlugin;
-
-	private Defaults $defaults;
-
-	private IL10N $l10n;
-
 	private SabreDavServer $sabreDavServer;
 
 	private const USERS_URI_ROOT = 'principals/users/';
@@ -63,18 +52,12 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 	private const EXPORT_ROOT = Application::APP_ID . '/calendars/';
 
 	public function __construct(
-		CalDavBackend $calDavBackend,
-		ICalendarManager $calendarManager,
-		ICSExportPlugin $icsExportPlugin,
-		Defaults $defaults,
-		IL10N $l10n
+		private CalDavBackend $calDavBackend,
+		private ICalendarManager $calendarManager,
+		private ICSExportPlugin $icsExportPlugin,
+		private Defaults $defaults,
+		private IL10N $l10n,
 	) {
-		$this->calDavBackend = $calDavBackend;
-		$this->calendarManager = $calendarManager;
-		$this->icsExportPlugin = $icsExportPlugin;
-		$this->defaults = $defaults;
-		$this->l10n = $l10n;
-
 		$root = new RootCollection();
 		$this->sabreDavServer = new SabreDavServer(new CachingTree($root));
 		$this->sabreDavServer->addPlugin(new CalDAVPlugin());

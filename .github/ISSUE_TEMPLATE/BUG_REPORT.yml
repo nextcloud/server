@@ -63,22 +63,6 @@ body:
     validations:
       required: true
   - type: dropdown
-    id: install-method
-    attributes:
-      label: Installation method
-      description: |
-        Select installation method you've used.
-        _Describe the method in the "Additional info" section if you chose "Other"._
-      options:
-        - "Community Web installer on a VPS or web space"
-        - "Community Manual installation with Archive"
-        - "Community Docker image"
-        - "Community NextcloudPi appliance"
-        - "Community SNAP package"
-        - "Community VM appliance"
-        - "Other Community project"
-        - "Official All-in-One appliance"
-  - type: dropdown
     id: nextcloud-version
     attributes:
       label: Nextcloud Server version
@@ -88,6 +72,7 @@ body:
       options:
         - "28"
         - "29"
+        - "30"
         - "master"
     validations:
       required: true
@@ -110,10 +95,10 @@ body:
         Select PHP engine version serving Nextcloud Server.
         _Describe in the "Additional info" section if you chose "Other"._
       options:
-        - "PHP 8.0"
-        - "PHP 8.1"
-        - "PHP 8.2"
         - "PHP 8.3"
+        - "PHP 8.2"
+        - "PHP 8.1"
+        - "PHP 8.0"
         - "Other"
   - type: dropdown
     id: webserver

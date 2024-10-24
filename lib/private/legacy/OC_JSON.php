@@ -12,7 +12,7 @@ class OC_JSON {
 	/**
 	 * Check if the app is enabled, send json error msg if not
 	 * @param string $app
-	 * @deprecated Use the AppFramework instead. It will automatically check if the app is enabled.
+	 * @deprecated 12.0.0 Use the AppFramework instead. It will automatically check if the app is enabled.
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function checkAppEnabled($app) {
@@ -25,7 +25,7 @@ class OC_JSON {
 
 	/**
 	 * Check if the user is logged in, send json error msg if not
-	 * @deprecated Use annotation based ACLs from the AppFramework instead
+	 * @deprecated 12.0.0 Use annotation based ACLs from the AppFramework instead
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function checkLoggedIn() {
@@ -41,12 +41,12 @@ class OC_JSON {
 
 	/**
 	 * Check an ajax get/post call if the request token is valid, send json error msg if not.
-	 * @deprecated Use annotation based CSRF checks from the AppFramework instead
+	 * @deprecated 12.0.0 Use annotation based CSRF checks from the AppFramework instead
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function callCheck() {
 		if (!\OC::$server->getRequest()->passesStrictCookieCheck()) {
-			header('Location: '.\OC::$WEBROOT);
+			header('Location: ' . \OC::$WEBROOT);
 			exit();
 		}
 
@@ -59,7 +59,7 @@ class OC_JSON {
 
 	/**
 	 * Check if the user is a admin, send json error msg if not.
-	 * @deprecated Use annotation based ACLs from the AppFramework instead
+	 * @deprecated 12.0.0 Use annotation based ACLs from the AppFramework instead
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function checkAdminUser() {
@@ -72,7 +72,7 @@ class OC_JSON {
 
 	/**
 	 * Send json error msg
-	 * @deprecated Use a AppFramework JSONResponse instead
+	 * @deprecated 12.0.0 Use a AppFramework JSONResponse instead
 	 * @suppress PhanDeprecatedFunction
 	 * @psalm-taint-escape html
 	 */
@@ -84,7 +84,7 @@ class OC_JSON {
 
 	/**
 	 * Send json success msg
-	 * @deprecated Use a AppFramework JSONResponse instead
+	 * @deprecated 12.0.0 Use a AppFramework JSONResponse instead
 	 * @suppress PhanDeprecatedFunction
 	 * @psalm-taint-escape html
 	 */
@@ -96,7 +96,7 @@ class OC_JSON {
 
 	/**
 	 * Encode JSON
-	 * @deprecated Use a AppFramework JSONResponse instead
+	 * @deprecated 12.0.0 Use a AppFramework JSONResponse instead
 	 */
 	private static function encode($data) {
 		return json_encode($data, JSON_HEX_TAG);

@@ -323,7 +323,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "סיבות להשתמש ב־Nextcloud בארגון שלך",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "בפיתוח על ידי {communityopen}קהילת Nextcloud{linkclose}, {githubopen}קוד המקור{linkclose} זמין ברישיון {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "לייק לעמוד הפייסבוק שלנו",
-    "Follow us on Twitter" : "לעקוב אחרינו בטוויטר",
     "Follow us on Mastodon" : "למעקב אחרינו ב־Mastodon",
     "Check out our blog" : "לעיין בבלוג שלנו",
     "Subscribe to our newsletter" : "הרשמה לרשימת הדיוור שלנו",
@@ -341,6 +340,7 @@ OC.L10N.register(
     "These groups will still be able to receive shares, but not to initiate them." : "קבוצות אלו עדיין יוכלו לקבל שיתופים, אך לא לשתף בעצמם.",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "ניתן לאכוף אימות דו־שלבי על כל המשתמשים ועל קבוצות מסוימות. אם אין להם ספק אימות דו־שלבי מוגדר, לא תהיה להם אפשרות להיכנס למערכת.",
     "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "כאשר קבוצות נבחרות/מוחרגות, הן משתמשות בלוגיקה הבאה כדי להחליט האם נאכף על המשתמש אימות דו־שלבי: אם לא נבחרו קבוצות, אימות דו־שלבי פעיל עבור כולם למעט החברים בקבוצות שהוחרגו. אם נבחרו קבוצות, אימות דו־שלבי מופעל לכל החברים של הקבוצות האלו. אם משתמש נמצא גם בקבוצה נבחרת וגם בקבוצה מוחרגת, הנבחרת מקבלת עדיפות ואימות דו־שלבי נאכף.",
+    "{license}-licensed" : "ברישיון {license}",
     "Username" : "שם משתמש",
     "New user" : "משתמש חדש",
     "User backend" : "מנגנון משתמש",
@@ -355,10 +355,10 @@ OC.L10N.register(
     "Show user backend" : "הצגת צד אחורי למשתמש",
     "Name your device" : "מתן שם להתקן שלך",
     "Server error while trying to add WebAuthn device" : "אירעה שגיאת שרת בעת הניסיון להוספת התקן WebAuthn",
-    "{license}-licensed" : "ברישיון {license}",
     "by {author}\n{license}" : "מאת {author}\n{license}",
     "Active users" : "משתמשים פעילים",
     "Disabled users" : "משתמשים מושבתים",
-    "SMTP Username" : "שם משתמש SMTP "
+    "SMTP Username" : "שם משתמש SMTP ",
+    "Follow us on Twitter" : "לעקוב אחרינו בטוויטר"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

@@ -6,7 +6,6 @@
     "View profile" : "View profile",
     "last month" : "last month",
     "seconds ago" : "seconds ago",
-    "File name is too long" : "File name is too long",
     "Apps" : "Apps",
     "Settings" : "Settings",
     "Address" : "Address",
@@ -16,6 +15,7 @@
     "January" : "January",
     "Authentication error" : "Authentication error",
     "Storage is temporarily not available" : "Storage is temporarily not available",
+    "File name is too long" : "File name is too long",
     "Help" : "Help",
     "Users" : "Users",
     "Unknown user" : "Unknown user"

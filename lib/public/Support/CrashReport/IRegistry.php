@@ -14,7 +14,7 @@ use Throwable;
 
 /**
  * @since 13.0.0
- * @deprecated used internally only
+ * @deprecated 20.0.0 used internally only
  */
 interface IRegistry {
 	/**
@@ -35,7 +35,7 @@ interface IRegistry {
 	 * @param string $category
 	 * @param array $context
 	 *
-	 * @deprecated used internally only
+	 * @deprecated 20.0.0 used internally only
 	 * @since 15.0.0
 	 */
 	public function delegateBreadcrumb(string $message, string $category, array $context = []): void;
@@ -46,7 +46,7 @@ interface IRegistry {
 	 * @param Exception|Throwable $exception
 	 * @param array $context
 	 *
-	 * @deprecated used internally only
+	 * @deprecated 20.0.0 used internally only
 	 * @since 13.0.0
 	 */
 	public function delegateReport($exception, array $context = []);
@@ -59,7 +59,7 @@ interface IRegistry {
 	 *
 	 * @return void
 	 *
-	 * @deprecated used internally only
+	 * @deprecated 20.0.0 used internally only
 	 * @since 17.0.0
 	 */
 	public function delegateMessage(string $message, array $context = []): void;
@@ -68,7 +68,7 @@ interface IRegistry {
 	 * Check if any reporter has been registered to delegate to
 	 *
 	 * @return bool
-	 * @deprecated use internally only
+	 * @deprecated 20.0.0 use internally only
 	 * @since 26.0.0
 	 */
 	public function hasReporters(): bool;

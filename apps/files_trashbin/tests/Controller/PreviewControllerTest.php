@@ -78,21 +78,21 @@ class PreviewControllerTest extends TestCase {
 		);
 	}
 
-	public function testInvalidWidth() {
+	public function testInvalidWidth(): void {
 		$res = $this->controller->getPreview(42, 0);
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testInvalidHeight() {
+	public function testInvalidHeight(): void {
 		$res = $this->controller->getPreview(42, 10, 0);
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testValidPreview() {
+	public function testValidPreview(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$userRoot = $this->createMock(Folder::class);
 		$trash = $this->createMock(Folder::class);
@@ -145,7 +145,7 @@ class PreviewControllerTest extends TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testTrashFileNotFound() {
+	public function testTrashFileNotFound(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$userRoot = $this->createMock(Folder::class);
 		$trash = $this->createMock(Folder::class);
@@ -169,7 +169,7 @@ class PreviewControllerTest extends TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testTrashFolder() {
+	public function testTrashFolder(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$userRoot = $this->createMock(Folder::class);
 		$trash = $this->createMock(Folder::class);

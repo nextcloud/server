@@ -47,10 +47,10 @@ class StatusServiceTest extends TestCase {
 	/** @var IConfig|MockObject */
 	private $config;
 
-	/** @var IUserManager|MockObject  */
+	/** @var IUserManager|MockObject */
 	private $userManager;
 
-	/** @var LoggerInterface|MockObject  */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 
 	private StatusService $service;

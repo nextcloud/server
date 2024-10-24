@@ -14,8 +14,8 @@ try {
 
 	$systemConfig = \OC::$server->getSystemConfig();
 
-	$installed = (bool) $systemConfig->getValue('installed', false);
-	$maintenance = (bool) $systemConfig->getValue('maintenance', false);
+	$installed = (bool)$systemConfig->getValue('installed', false);
+	$maintenance = (bool)$systemConfig->getValue('maintenance', false);
 	# see core/lib/private/legacy/defaults.php and core/themes/example/defaults.php
 	# for description and defaults
 	$defaults = new \OCP\Defaults();
@@ -24,7 +24,7 @@ try {
 		'maintenance' => $maintenance,
 		'needsDbUpgrade' => \OCP\Util::needUpgrade(),
 		'version' => implode('.', \OCP\Util::getVersion()),
-		'versionstring' => OC_Util::getVersionString(),
+		'versionstring' => \OCP\Server::get(\OCP\ServerVersion::class)->getVersionString(),
 		'edition' => '',
 		'productname' => $defaults->getProductName(),
 		'extendedSupport' => \OCP\Util::hasExtendedSupport()

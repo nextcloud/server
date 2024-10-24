@@ -20,6 +20,8 @@ OC.L10N.register(
     "Set status" : "設定狀態",
     "Online status" : "線上狀態",
     "Status message" : "狀態訊息",
+    "Set absence period" : "設定缺席時間",
+    "Set absence period and replacement" : "設定缺席時間與職務代理人",
     "Your status was set automatically" : "您的狀態為自動設定",
     "Clear status message" : "清空狀態訊息",
     "Set status message" : "設定狀態訊息",

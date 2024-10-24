@@ -5,7 +5,7 @@
 
 import $ from 'jquery'
 
-import OC from '../OC/index.js'
+import { generateUrl } from '@nextcloud/router'
 import { isA11yActivation } from '../Util/a11y.js'
 
 const LIST = ''
@@ -51,7 +51,7 @@ $.fn.contactsMenu = function(shareWith, shareType, appendTo) {
 		}
 
 		$list.addClass('loaded')
-		$.ajax(OC.generateUrl('/contactsmenu/findOne'), {
+		$.ajax(generateUrl('/contactsmenu/findOne'), {
 			method: 'POST',
 			data: {
 				shareType,

@@ -56,7 +56,7 @@ class UtilTest extends TestCase {
 	/**
 	 * @dataProvider providesHeadersForEncryptionModule
 	 */
-	public function testGetEncryptionModuleId($expected, $header) {
+	public function testGetEncryptionModuleId($expected, $header): void {
 		$id = $this->util->getEncryptionModuleId($header);
 		$this->assertEquals($expected, $id);
 	}
@@ -72,7 +72,7 @@ class UtilTest extends TestCase {
 	/**
 	 * @dataProvider providesHeaders
 	 */
-	public function testCreateHeader($expected, $header, $moduleId) {
+	public function testCreateHeader($expected, $header, $moduleId): void {
 		$em = $this->createMock(IEncryptionModule::class);
 		$em->expects($this->any())->method('getId')->willReturn($moduleId);
 
@@ -90,7 +90,7 @@ class UtilTest extends TestCase {
 	}
 
 
-	public function testCreateHeaderFailed() {
+	public function testCreateHeaderFailed(): void {
 		$this->expectException(\OC\Encryption\Exceptions\EncryptionHeaderKeyExistsException::class);
 
 
@@ -105,7 +105,7 @@ class UtilTest extends TestCase {
 	/**
 	 * @dataProvider providePathsForTestIsExcluded
 	 */
-	public function testIsExcluded($path, $keyStorageRoot, $expected) {
+	public function testIsExcluded($path, $keyStorageRoot, $expected): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('core', 'encryption_key_storage_root', '')
@@ -146,7 +146,7 @@ class UtilTest extends TestCase {
 	/**
 	 * @dataProvider dataTestIsFile
 	 */
-	public function testIsFile($path, $expected) {
+	public function testIsFile($path, $expected): void {
 		$this->assertSame($expected,
 			$this->util->isFile($path)
 		);
@@ -170,7 +170,7 @@ class UtilTest extends TestCase {
 	 * @param string $path
 	 * @param string $expected
 	 */
-	public function testStripPartialFileExtension($path, $expected) {
+	public function testStripPartialFileExtension($path, $expected): void {
 		$this->assertSame($expected,
 			$this->util->stripPartialFileExtension($path));
 	}
@@ -187,7 +187,7 @@ class UtilTest extends TestCase {
 	/**
 	 * @dataProvider dataTestParseRawHeader
 	 */
-	public function testParseRawHeader($rawHeader, $expected) {
+	public function testParseRawHeader($rawHeader, $expected): void {
 		$result = $this->util->parseRawHeader($rawHeader);
 		$this->assertSameSize($expected, $result);
 		foreach ($result as $key => $value) {
@@ -218,7 +218,7 @@ class UtilTest extends TestCase {
 	 * @param string $storageRoot
 	 * @param string $expected
 	 */
-	public function testGetFileKeyDir($isSystemWideMountPoint, $storageRoot, $expected) {
+	public function testGetFileKeyDir($isSystemWideMountPoint, $storageRoot, $expected): void {
 		$path = '/user1/files/foo/bar.txt';
 		$owner = 'user1';
 		$relativePath = '/foo/bar.txt';

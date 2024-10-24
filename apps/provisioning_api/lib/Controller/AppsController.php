@@ -19,17 +19,12 @@ use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 
 class AppsController extends OCSController {
-	/** @var IAppManager */
-	private $appManager;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IAppManager $appManager
+		private IAppManager $appManager,
 	) {
 		parent::__construct($appName, $request);
-
-		$this->appManager = $appManager;
 	}
 
 	/**

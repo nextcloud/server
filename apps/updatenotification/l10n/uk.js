@@ -1,7 +1,6 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "Доступна {version}. Отримати докладну інформацію про те, як оновити версію.",
     "Channel updated" : "Канал оновлено",
     "Web updater is disabled" : "Оновлення через веб вимкнено",
     "App updated" : "Оновлено застосунок",
@@ -20,7 +19,7 @@ OC.L10N.register(
     "No changelog available" : "Відсутній журнал змін",
     "Update" : "Оновлення",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Ваша версія більше не підтримується. Будь ласка, оновіться якнайшвидше до версії, на яку поширюється підтримка.",
-    "Apps missing compatible version" : "Ці застосунки не мають версії, що підтримується",
+    "Apps missing compatible version" : "Такі застосунки не мають версій, що підтримуються",
     "View in store" : "Переглянути у крамниці застосунків",
     "Apps with compatible version" : "Застосунки з підтримуваною версією",
     "Please note that the web updater is not recommended with more than 100 accounts! Please use the command line updater instead!" : "Зауважте, що оновлення через веб не рекомендується для систем з понад 100 обліковими записами! Натомість рекомендується використовувати оновлення з командного рядка.",
@@ -57,6 +56,7 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> застосункок не сумісний з цією версією Nextcloud.","<strong>%n</strong> застосунки не сумісні з цією версією Nextcloud.","<strong>%n</strong> застосунків не сумісні з цією версією Nextcloud.","<strong>%n</strong> застосунків не сумісні з цією версією Nextcloud."],
     "Changelog for app {app}" : "Журнал змін для застосунку {app}",
     "What's new in {app} version {version}" : "Що нового у {app} версії {version}",
+    "{version} is available. Get more information on how to update." : "Доступна {version}. Отримати докладну інформацію про те, як оновити версію.",
     "Update to %1$s is available." : "Доступне оновлення до %1$s.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Відображає сповіщення про оновлення для Nextcloud і надає SSO для програми оновлення.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Будь ласка, зверніть увагу, що веб-оновлювач не рекомендується, якщо кількість користувачів перевищує 100! Натомість використовуйте засіб оновлення командного рядка!",

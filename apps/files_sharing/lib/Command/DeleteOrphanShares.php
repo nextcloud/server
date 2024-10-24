@@ -17,11 +17,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class DeleteOrphanShares extends Base {
-	private OrphanHelper $orphanHelper;
-
-	public function __construct(OrphanHelper $orphanHelper) {
+	public function __construct(
+		private OrphanHelper $orphanHelper,
+	) {
 		parent::__construct();
-		$this->orphanHelper = $orphanHelper;
 	}
 
 	protected function configure(): void {
@@ -49,7 +48,7 @@ class DeleteOrphanShares extends Base {
 				if ($exists) {
 					$output->writeln("  file still exists but the share owner lost access to it, run <info>occ info:file {$share['fileid']}</info> for more information about the file");
 				} else {
-					$output->writeln("  file no longer exists");
+					$output->writeln('  file no longer exists');
 				}
 			}
 		}
@@ -57,14 +56,14 @@ class DeleteOrphanShares extends Base {
 		$count = count($orphans);
 
 		if ($count === 0) {
-			$output->writeln("No orphan shares detected");
+			$output->writeln('No orphan shares detected');
 			return 0;
 		}
 
 		if ($force) {
 			$doDelete = true;
 		} else {
-			$output->writeln("");
+			$output->writeln('');
 			/** @var QuestionHelper $helper */
 			$helper = $this->getHelper('question');
 			$question = new ConfirmationQuestion("Delete <info>$count</info> orphan shares? [y/N] ", false);

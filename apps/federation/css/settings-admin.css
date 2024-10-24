@@ -14,7 +14,7 @@
 .removeTrustedServer {
 	display: none;
 	vertical-align:middle;
-	padding-left: 10px;
+	padding-inline-start: 10px;
 }
 
 #ocFederationAddServerButton {
@@ -22,14 +22,14 @@
 }
 
 #listOfTrustedServers .status {
-	margin-right: 10px;
+	margin-inline-end: 10px;
 }
 
 #listOfTrustedServers .icon {
 	cursor: pointer;
 	display: inline-block;
 	vertical-align: middle;
-	margin-left: 10px;
+	margin-inline-start: 10px;
 }
 
 #ocFederationAddServer #serverUrl {

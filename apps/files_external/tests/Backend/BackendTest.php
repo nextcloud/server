@@ -10,7 +10,7 @@ use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\StorageConfig;
 
 class BackendTest extends \Test\TestCase {
-	public function testJsonSerialization() {
+	public function testJsonSerialization(): void {
 		$backend = $this->getMockBuilder(Backend::class)
 			->setMethods(['jsonSerializeDefinition'])
 			->getMock();
@@ -42,7 +42,7 @@ class BackendTest extends \Test\TestCase {
 	/**
 	 * @dataProvider validateStorageProvider
 	 */
-	public function testValidateStorage($expectedSuccess, $definitionSuccess) {
+	public function testValidateStorage($expectedSuccess, $definitionSuccess): void {
 		$backend = $this->getMockBuilder(Backend::class)
 			->setMethods(['validateStorageDefinition'])
 			->getMock();
@@ -57,7 +57,7 @@ class BackendTest extends \Test\TestCase {
 		$this->assertEquals($expectedSuccess, $backend->validateStorage($storageConfig));
 	}
 
-	public function testLegacyAuthMechanismCallback() {
+	public function testLegacyAuthMechanismCallback(): void {
 		$backend = new Backend();
 		$backend->setLegacyAuthMechanismCallback(function (array $params) {
 			if (isset($params['ping'])) {

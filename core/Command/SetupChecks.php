@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Command;
 
+use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\SetupCheck\ISetupCheckManager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,6 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SetupChecks extends Base {
 	public function __construct(
 		private ISetupCheckManager $setupCheckManager,
+		private IRichTextFormatter $richTextFormatter,
 	) {
 		parent::__construct();
 	}
@@ -27,29 +29,6 @@ class SetupChecks extends Base {
 			->setName('setupchecks')
 			->setDescription('Run setup checks and output the results')
 		;
-	}
-
-	/**
-	 * @TODO move this method to a common service used by notifications, activity and this command
-	 * @throws \InvalidArgumentException if a parameter has no name or no type
-	 */
-	private function richToParsed(string $message, array $parameters): string {
-		$placeholders = [];
-		$replacements = [];
-		foreach ($parameters as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
-			foreach (['name','type'] as $requiredField) {
-				if (!isset($parameter[$requiredField]) || !is_string($parameter[$requiredField])) {
-					throw new \InvalidArgumentException("Invalid rich object, {$requiredField} field is missing");
-				}
-			}
-			$replacements[] = match($parameter['type']) {
-				'user' => '@' . $parameter['name'],
-				'file' => $parameter['path'] ?? $parameter['name'],
-				default => $parameter['name'],
-			};
-		}
-		return str_replace($placeholders, $replacements, $message);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
@@ -79,14 +58,14 @@ class SetupChecks extends Base {
 						$description = $check->getDescription();
 						$descriptionParameters = $check->getDescriptionParameters();
 						if ($description !== null && $descriptionParameters !== null) {
-							$description = $this->richToParsed($description, $descriptionParameters);
+							$description = $this->richTextFormatter->richToParsed($description, $descriptionParameters);
 						}
 						$output->writeln(
-							"\t\t".
-							($styleTag !== null ? "<{$styleTag}>" : '').
-							"{$emoji} ".
-							($check->getName() ?? $check::class).
-							($description !== null ? ': '.$description : '').
+							"\t\t" .
+							($styleTag !== null ? "<{$styleTag}>" : '') .
+							"{$emoji} " .
+							($check->getName() ?? $check::class) .
+							($description !== null ? ': ' . $description : '') .
 							($styleTag !== null ? "</{$styleTag}>" : ''),
 							$verbosity
 						);

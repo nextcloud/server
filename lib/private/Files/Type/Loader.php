@@ -21,8 +21,6 @@ use OCP\IDBConnection;
 class Loader implements IMimeTypeLoader {
 	use TTransactional;
 
-	private IDBConnection $dbConnection;
-
 	/** @psalm-var array<int, string> */
 	protected array $mimetypes;
 
@@ -32,8 +30,9 @@ class Loader implements IMimeTypeLoader {
 	/**
 	 * @param IDBConnection $dbConnection
 	 */
-	public function __construct(IDBConnection $dbConnection) {
-		$this->dbConnection = $dbConnection;
+	public function __construct(
+		private IDBConnection $dbConnection,
+	) {
 		$this->mimetypes = [];
 		$this->mimetypeIds = [];
 	}
@@ -115,7 +114,7 @@ class Loader implements IMimeTypeLoader {
 				throw new \Exception("Database threw an unique constraint on inserting a new mimetype, but couldn't return the ID for this very mimetype");
 			}
 
-			$mimetypeId = (int) $id;
+			$mimetypeId = (int)$id;
 		}
 
 		$this->mimetypes[$mimetypeId] = $mimetype;
@@ -136,8 +135,8 @@ class Loader implements IMimeTypeLoader {
 		$result->closeCursor();
 
 		foreach ($results as $row) {
-			$this->mimetypes[(int) $row['id']] = $row['mimetype'];
-			$this->mimetypeIds[$row['mimetype']] = (int) $row['id'];
+			$this->mimetypes[(int)$row['id']] = $row['mimetype'];
+			$this->mimetypeIds[$row['mimetype']] = (int)$row['id'];
 		}
 	}
 
@@ -161,6 +160,6 @@ class Loader implements IMimeTypeLoader {
 				$update->func()->lower('name'),
 				$update->createNamedParameter('%' . $this->dbConnection->escapeLikeParameter('.' . $ext))
 			));
-		return $update->execute();
+		return $update->executeStatement();
 	}
 }

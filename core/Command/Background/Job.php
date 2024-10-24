@@ -42,7 +42,7 @@ class Job extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$jobId = (int) $input->getArgument('job-id');
+		$jobId = (int)$input->getArgument('job-id');
 
 		$job = $this->jobList->getById($jobId);
 		if ($job === null) {
@@ -90,11 +90,11 @@ class Job extends Command {
 		$row = $this->jobList->getDetailsById($jobId);
 
 		$lastRun = new \DateTime();
-		$lastRun->setTimestamp((int) $row['last_run']);
+		$lastRun->setTimestamp((int)$row['last_run']);
 		$lastChecked = new \DateTime();
-		$lastChecked->setTimestamp((int) $row['last_checked']);
+		$lastChecked->setTimestamp((int)$row['last_checked']);
 		$reservedAt = new \DateTime();
-		$reservedAt->setTimestamp((int) $row['reserved_at']);
+		$reservedAt->setTimestamp((int)$row['reserved_at']);
 
 		$output->writeln('Job class:            ' . get_class($job));
 		$output->writeln('Arguments:            ' . json_encode($job->getArgument()));
@@ -110,7 +110,7 @@ class Job extends Command {
 
 		$output->writeln('');
 		$output->writeln('Last checked:         ' . $lastChecked->format(\DateTimeInterface::ATOM));
-		if ((int) $row['reserved_at'] === 0) {
+		if ((int)$row['reserved_at'] === 0) {
 			$output->writeln('Reserved at:          -');
 		} else {
 			$output->writeln('Reserved at:          <comment>' . $reservedAt->format(\DateTimeInterface::ATOM) . '</comment>');

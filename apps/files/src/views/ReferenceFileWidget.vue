@@ -256,7 +256,7 @@ export default defineComponent({
 			min-width: 88px;
 			max-width: 88px;
 			padding: 12px;
-			padding-right: 0;
+			padding-inline-end: 0;
 			display: flex;
 			align-items: center;
 			justify-content: center;

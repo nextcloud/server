@@ -40,16 +40,16 @@ class NegativeDnsCacheTest extends \Test\TestCase {
 			->method('set')
 			->with('www.example.com-1', 'true', 3600);
 
-		$this->negativeDnsCache->setNegativeCacheForDnsType("www.example.com", DNS_A, 3600);
+		$this->negativeDnsCache->setNegativeCacheForDnsType('www.example.com', DNS_A, 3600);
 	}
 
-	public function testIsNegativeCached() {
+	public function testIsNegativeCached(): void {
 		$this->cache
 			->expects($this->once())
 			->method('hasKey')
 			->with('www.example.com-1')
 			->willReturn(true);
 
-		$this->assertTrue($this->negativeDnsCache->isNegativeCached("www.example.com", DNS_A));
+		$this->assertTrue($this->negativeDnsCache->isNegativeCached('www.example.com', DNS_A));
 	}
 }

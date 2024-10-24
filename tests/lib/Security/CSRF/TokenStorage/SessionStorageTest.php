@@ -44,7 +44,7 @@ class SessionStorageTest extends \Test\TestCase {
 	 * @dataProvider getTokenDataProvider
 	 *
 	 */
-	public function testGetTokenWithEmptyToken($token) {
+	public function testGetTokenWithEmptyToken($token): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Session does not contain a requesttoken');
 
@@ -56,7 +56,7 @@ class SessionStorageTest extends \Test\TestCase {
 		$this->sessionStorage->getToken();
 	}
 
-	public function testGetTokenWithValidToken() {
+	public function testGetTokenWithValidToken(): void {
 		$this->session
 			->expects($this->once())
 			->method('get')
@@ -65,7 +65,7 @@ class SessionStorageTest extends \Test\TestCase {
 		$this->assertSame('MyFancyCsrfToken', $this->sessionStorage->getToken());
 	}
 
-	public function testSetToken() {
+	public function testSetToken(): void {
 		$this->session
 			->expects($this->once())
 			->method('set')
@@ -73,7 +73,7 @@ class SessionStorageTest extends \Test\TestCase {
 		$this->sessionStorage->setToken('TokenToSet');
 	}
 
-	public function testRemoveToken() {
+	public function testRemoveToken(): void {
 		$this->session
 			->expects($this->once())
 			->method('remove')
@@ -81,7 +81,7 @@ class SessionStorageTest extends \Test\TestCase {
 		$this->sessionStorage->removeToken();
 	}
 
-	public function testHasTokenWithExistingToken() {
+	public function testHasTokenWithExistingToken(): void {
 		$this->session
 			->expects($this->once())
 			->method('exists')
@@ -90,7 +90,7 @@ class SessionStorageTest extends \Test\TestCase {
 		$this->assertSame(true, $this->sessionStorage->hasToken());
 	}
 
-	public function testHasTokenWithoutExistingToken() {
+	public function testHasTokenWithoutExistingToken(): void {
 		$this->session
 			->expects($this->once())
 			->method('exists')
@@ -99,7 +99,7 @@ class SessionStorageTest extends \Test\TestCase {
 		$this->assertSame(false, $this->sessionStorage->hasToken());
 	}
 
-	public function testSetSession() {
+	public function testSetSession(): void {
 		$session = $this->createMock(ISession::class);
 		$session
 			->expects($this->once())

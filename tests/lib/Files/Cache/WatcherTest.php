@@ -40,7 +40,7 @@ class WatcherTest extends \Test\TestCase {
 	/**
 	 * @medium
 	 */
-	public function testWatcher() {
+	public function testWatcher(): void {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
 		$updater = $storage->getWatcher();
@@ -81,7 +81,7 @@ class WatcherTest extends \Test\TestCase {
 	/**
 	 * @medium
 	 */
-	public function testFileToFolder() {
+	public function testFileToFolder(): void {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
 		$updater = $storage->getWatcher();
@@ -116,7 +116,7 @@ class WatcherTest extends \Test\TestCase {
 		$this->assertTrue($cache->inCache('foo.txt/bar.txt'));
 	}
 
-	public function testPolicyNever() {
+	public function testPolicyNever(): void {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
 		$updater = $storage->getWatcher();
@@ -134,7 +134,7 @@ class WatcherTest extends \Test\TestCase {
 		$this->assertFalse($updater->checkUpdate('foo.txt'));
 	}
 
-	public function testPolicyOnce() {
+	public function testPolicyOnce(): void {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
 		$updater = $storage->getWatcher();
@@ -152,7 +152,7 @@ class WatcherTest extends \Test\TestCase {
 		$this->assertFalse($updater->checkUpdate('foo.txt'));
 	}
 
-	public function testPolicyAlways() {
+	public function testPolicyAlways(): void {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
 		$updater = $storage->getWatcher();

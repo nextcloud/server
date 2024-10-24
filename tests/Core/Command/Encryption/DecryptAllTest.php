@@ -20,13 +20,13 @@ class DecryptAllTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IConfig */
 	protected $config;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IManager  */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IManager */
 	protected $encryptionManager;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\App\IAppManager  */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\App\IAppManager */
 	protected $appManager;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject  | \Symfony\Component\Console\Input\InputInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Input\InputInterface */
 	protected $consoleInput;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Output\OutputInterface */
@@ -70,7 +70,7 @@ class DecryptAllTest extends TestCase {
 			->with('files_trashbin')->willReturn(true);
 	}
 
-	public function testMaintenanceAndTrashbin() {
+	public function testMaintenanceAndTrashbin(): void {
 		// on construct we enable single-user-mode and disable the trash bin
 		// on destruct we disable single-user-mode again and enable the trash bin
 		$this->config->expects($this->exactly(2))
@@ -108,7 +108,7 @@ class DecryptAllTest extends TestCase {
 	/**
 	 * @dataProvider dataTestExecute
 	 */
-	public function testExecute($encryptionEnabled, $continue) {
+	public function testExecute($encryptionEnabled, $continue): void {
 		$instance = new DecryptAll(
 			$this->encryptionManager,
 			$this->appManager,
@@ -162,7 +162,7 @@ class DecryptAllTest extends TestCase {
 	}
 
 
-	public function testExecuteFailure() {
+	public function testExecuteFailure(): void {
 		$this->expectException(\Exception::class);
 
 		$instance = new DecryptAll(

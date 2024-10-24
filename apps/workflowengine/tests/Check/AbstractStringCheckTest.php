@@ -5,6 +5,7 @@
  */
 namespace OCA\WorkflowEngine\Tests\Check;
 
+use OCA\WorkflowEngine\Check\AbstractStringCheck;
 use OCP\IL10N;
 
 class AbstractStringCheckTest extends \Test\TestCase {
@@ -22,8 +23,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 			->setConstructorArgs([
 				$l,
 			])
-			->setMethods([
-				'setPath',
+			->onlyMethods([
 				'executeCheck',
 				'getActualValue',
 			])
@@ -53,10 +53,10 @@ class AbstractStringCheckTest extends \Test\TestCase {
 	 * @param string $actualValue
 	 * @param bool $expected
 	 */
-	public function testExecuteStringCheck($operation, $checkValue, $actualValue, $expected) {
+	public function testExecuteStringCheck($operation, $checkValue, $actualValue, $expected): void {
 		$check = $this->getCheckMock();
 
-		/** @var \OCA\WorkflowEngine\Check\AbstractStringCheck $check */
+		/** @var AbstractStringCheck $check */
 		$this->assertEquals($expected, $this->invokePrivate($check, 'executeStringCheck', [$operation, $checkValue, $actualValue]));
 	}
 
@@ -74,10 +74,10 @@ class AbstractStringCheckTest extends \Test\TestCase {
 	 * @param string $operator
 	 * @param string $value
 	 */
-	public function testValidateCheck($operator, $value) {
+	public function testValidateCheck($operator, $value): void {
 		$check = $this->getCheckMock();
 
-		/** @var \OCA\WorkflowEngine\Check\AbstractStringCheck $check */
+		/** @var AbstractStringCheck $check */
 		$check->validateCheck($operator, $value);
 
 		$this->addToAssertionCount(1);
@@ -99,11 +99,11 @@ class AbstractStringCheckTest extends \Test\TestCase {
 	 * @param $exceptionCode
 	 * @param $exceptionMessage
 	 */
-	public function testValidateCheckInvalid($operator, $value, $exceptionCode, $exceptionMessage) {
+	public function testValidateCheckInvalid($operator, $value, $exceptionCode, $exceptionMessage): void {
 		$check = $this->getCheckMock();
 
 		try {
-			/** @var \OCA\WorkflowEngine\Check\AbstractStringCheck $check */
+			/** @var AbstractStringCheck $check */
 			$check->validateCheck($operator, $value);
 		} catch (\UnexpectedValueException $e) {
 			$this->assertEquals($exceptionCode, $e->getCode());
@@ -125,7 +125,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 	 * @param array[] $matches
 	 * @param bool $expected
 	 */
-	public function testMatch($pattern, $subject, $matches, $expected) {
+	public function testMatch($pattern, $subject, $matches, $expected): void {
 		$check = $this->getCheckMock();
 
 		$this->invokePrivate($check, 'matches', [$matches]);

@@ -35,7 +35,7 @@ class Admin implements ISettings {
 		private IRegistry $subscriptionRegistry,
 		private IUserManager $userManager,
 		private LoggerInterface $logger,
-		private IInitialState $initialState
+		private IInitialState $initialState,
 	) {
 	}
 

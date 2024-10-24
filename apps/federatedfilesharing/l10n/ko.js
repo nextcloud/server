@@ -29,7 +29,7 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "내 연합 클라우드 ID:",
     "Share it so your friends can share files with you:" : "친구들과 파일을 공유할 수 있도록 공유하십시오:",
     "Facebook" : "Facebook",
-    "Twitter" : "Twitter",
+    "X (formerly Twitter)" : "X (구 Twitter)",
     "Add to your website" : "내 웹 사이트에 추가",
     "Share with me via Nextcloud" : "Nextcloud로 나와 공유하기",
     "HTML Code:" : "HTML 코드:",
@@ -37,8 +37,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "내 #Nextcloud 연합 클라우드 ID를 통해서 공유됨",
     "Cloud ID copied to the clipboard" : "클라우드 ID가 클립보드에 복사됨",
     "Copy to clipboard" : "클립보드로 복사",
-    "Clipboard is not available" : "클립보드를 사용할 수 없습니다.",
-    "Copied!" : "복사 성공!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote}의 원격 공유 {name}을(를) 추가하시겠습니까?",
     "Remote share" : "원격 공유",
     "Remote share password" : "원격 공유 암호",
@@ -52,6 +50,9 @@ OC.L10N.register(
     "Allow users on this server to send shares to groups on other servers" : "이 서버의 사용자가 다른 서버의 그룹으로 공유를 보낼 수 있도록 허용",
     "Allow users on this server to receive group shares from other servers" : "이 서버의 사용자가 다른 서버의 그룹에서 보낸 공유를 받을 수 있도록 허용",
     "Search global and public address book for users" : "전역 및 공개 주소록에서 사용자 검색",
-    "Allow users to publish their data to a global and public address book" : "사용자가 데이터를 전역 및 공개 주소록에 업로드할 수 있도록 허용"
+    "Allow users to publish their data to a global and public address book" : "사용자가 데이터를 전역 및 공개 주소록에 업로드할 수 있도록 허용",
+    "Twitter" : "Twitter",
+    "Clipboard is not available" : "클립보드를 사용할 수 없습니다.",
+    "Copied!" : "복사 성공!"
 },
 "nplurals=1; plural=0;");

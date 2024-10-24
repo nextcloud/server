@@ -47,7 +47,7 @@ class CryptoWrappingTest extends TestCase {
 		$this->instance = new LegacyCryptoSessionData($this->wrappedSession, $this->crypto, 'PASS');
 	}
 
-	public function testUnwrappingGet() {
+	public function testUnwrappingGet(): void {
 		$unencryptedValue = 'foobar';
 		$encryptedValue = $this->crypto->encrypt($unencryptedValue);
 

@@ -23,13 +23,14 @@
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Podes cumpartzire con chie si siat mpreet su serbidore Nextcloud o àteros serbidores Open Cloud Mesh (OCM) cumpatìbiles. Ti bastat de nche insertare s'ID issoro de sa nue virtuale federada in sa bentana de cumpartzidura. Assimìgiat a persone@nue.esempru.com ",
     "Your Federated Cloud ID:" : "S'ID tuo de sa nue virtuale federada:",
     "Share it so your friends can share files with you:" : " Condividilo in modo che i tuoi amici possano condividere file con te:",
-    "Twitter" : "Twitter",
-    "Add to your website" : "Agiunghe a su situ ìnternet tuo",
+    "X (formerly Twitter)" : "X (in antis, Twitter)",
+    "formerly Twitter" : "in antis, Twitter",
+    "Mastodon" : "Mastodon",
+    "Add to your website" : "Agiunghe a su situ web tuo",
     "Share with me via Nextcloud" : "Cumpartzi cun megus tràmite Nextcloud",
     "HTML Code:" : "Còdighe HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Cumpartzi cun megus tràmite s'ID meu de nue virtuale federada #Nextcloud Federated Cloud ID",
     "Copy to clipboard" : "Còpia in is punta de billete",
-    "Copied!" : "Copiadu!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Nche cheres agiùnghere sa cumpartzidura remota {name} dae {owner}@{remote}?",
     "Remote share" : "Cumpartzidura remota",
     "Remote share password" : "Cumpartzidura remota crae",
@@ -43,6 +44,8 @@
     "Allow users on this server to send shares to groups on other servers" : "Permite a is utentes in custu serbidore de imbiare cumpartzidura a grupos in àteros serbidores",
     "Allow users on this server to receive group shares from other servers" : "Permite a is utentes in custu serbidore de retzire cumpartziduras de grupu dae àteros serbidores",
     "Search global and public address book for users" : "Chirca is utentes in sa rubrica globale e pùblica",
-    "Allow users to publish their data to a global and public address book" : "Permite a is utentes de publicare is datos issoro in una rubrica globale e pùblica"
+    "Allow users to publish their data to a global and public address book" : "Permite a is utentes de publicare is datos issoro in una rubrica globale e pùblica",
+    "Twitter" : "Twitter",
+    "Copied!" : "Copiadu!"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

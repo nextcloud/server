@@ -40,17 +40,17 @@
 			}
 
 			&--avatar {
-				left: 0;
+				inset-inline-start: 0;
 			}
 
 			&--displayname {
-				left: var(--avatar-cell-width);
-				border-right: 1px solid var(--color-border);
+				inset-inline-start: var(--avatar-cell-width);
+				border-inline-end: 1px solid var(--color-border);
 			}
 		}
 
 		&--username {
-			padding-left: calc(var(--default-grid-baseline) * 3);
+			padding-inline-start: calc(var(--default-grid-baseline) * 3);
 		}
 
 		&--avatar {
@@ -92,7 +92,7 @@
 
 		&--actions {
 			position: sticky;
-			right: 0;
+			inset-inline-end: 0;
 			z-index: var(--sticky-column-z-index);
 			display: flex;
 			flex-direction: row;
@@ -100,7 +100,7 @@
 			min-width: 110px;
 			width: 110px;
 			background-color: var(--color-main-background);
-			border-left: 1px solid var(--color-border);
+			border-inline-start: 1px solid var(--color-border);
 		}
 	}
 

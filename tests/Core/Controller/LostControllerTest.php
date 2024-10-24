@@ -138,7 +138,7 @@ class LostControllerTest extends TestCase {
 		);
 	}
 
-	public function testResetFormTokenError() {
+	public function testResetFormTokenError(): void {
 		$this->userManager->method('get')
 			->with('ValidTokenUser')
 			->willReturn($this->existingUser);
@@ -160,7 +160,7 @@ class LostControllerTest extends TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testResetFormValidToken() {
+	public function testResetFormValidToken(): void {
 		$this->userManager->method('get')
 			->with('ValidTokenUser')
 			->willReturn($this->existingUser);
@@ -188,7 +188,7 @@ class LostControllerTest extends TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testEmailUnsuccessful() {
+	public function testEmailUnsuccessful(): void {
 		$existingUser = 'ExistingUser';
 		$nonExistingUser = 'NonExistingUser';
 		$this->userManager
@@ -230,12 +230,12 @@ class LostControllerTest extends TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testEmailSuccessful() {
+	public function testEmailSuccessful(): void {
 		$this->userManager
-				->expects($this->any())
-				->method('get')
-				->with('ExistingUser')
-				->willReturn($this->existingUser);
+			->expects($this->any())
+			->method('get')
+			->with('ExistingUser')
+			->willReturn($this->existingUser);
 		$this->verificationToken->expects($this->once())
 			->method('create')
 			->willReturn('ThisIsMaybeANotSoSecretToken!');
@@ -287,17 +287,17 @@ class LostControllerTest extends TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testEmailWithMailSuccessful() {
+	public function testEmailWithMailSuccessful(): void {
 		$this->userManager
-				->expects($this->any())
-				->method('get')
-				->with('test@example.com')
-				->willReturn(null);
+			->expects($this->any())
+			->method('get')
+			->with('test@example.com')
+			->willReturn(null);
 		$this->userManager
-				->expects($this->any())
-				->method('getByEmail')
-				->with('test@example.com')
-				->willReturn([$this->existingUser]);
+			->expects($this->any())
+			->method('getByEmail')
+			->with('test@example.com')
+			->willReturn([$this->existingUser]);
 		$this->verificationToken->expects($this->once())
 			->method('create')
 			->willReturn('ThisIsMaybeANotSoSecretToken!');
@@ -349,12 +349,12 @@ class LostControllerTest extends TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testEmailCantSendException() {
+	public function testEmailCantSendException(): void {
 		$this->userManager
-				->expects($this->any())
-				->method('get')
-				->with('ExistingUser')
-				->willReturn($this->existingUser);
+			->expects($this->any())
+			->method('get')
+			->with('ExistingUser')
+			->willReturn($this->existingUser);
 		$this->verificationToken->expects($this->once())
 			->method('create')
 			->willReturn('ThisIsMaybeANotSoSecretToken!');
@@ -409,7 +409,7 @@ class LostControllerTest extends TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testSetPasswordUnsuccessful() {
+	public function testSetPasswordUnsuccessful(): void {
 		$this->config->method('getUserValue')
 			->with('ValidTokenUser', 'core', 'lostpassword', null)
 			->willReturn('encryptedData');
@@ -435,7 +435,7 @@ class LostControllerTest extends TestCase {
 		$this->assertSame($expectedResponse, $response->getData());
 	}
 
-	public function testSetPasswordSuccessful() {
+	public function testSetPasswordSuccessful(): void {
 		$this->config->method('getUserValue')
 			->with('ValidTokenUser', 'core', 'lostpassword', null)
 			->willReturn('encryptedData');
@@ -463,7 +463,7 @@ class LostControllerTest extends TestCase {
 		$this->assertSame($expectedResponse, $response->getData());
 	}
 
-	public function testSetPasswordExpiredToken() {
+	public function testSetPasswordExpiredToken(): void {
 		$this->config->method('getUserValue')
 			->with('ValidTokenUser', 'core', 'lostpassword', null)
 			->willReturn('encryptedData');
@@ -482,7 +482,7 @@ class LostControllerTest extends TestCase {
 		$this->assertSame($expectedResponse, $response->getData());
 	}
 
-	public function testSetPasswordInvalidDataInDb() {
+	public function testSetPasswordInvalidDataInDb(): void {
 		$this->config->method('getUserValue')
 			->with('ValidTokenUser', 'core', 'lostpassword', null)
 			->willReturn('invalidEncryptedData');
@@ -502,7 +502,7 @@ class LostControllerTest extends TestCase {
 		$this->assertSame($expectedResponse, $response->getData());
 	}
 
-	public function testIsSetPasswordWithoutTokenFailing() {
+	public function testIsSetPasswordWithoutTokenFailing(): void {
 		$this->config->method('getUserValue')
 			->with('ValidTokenUser', 'core', 'lostpassword', null)
 			->willReturn('aValidtoken');
@@ -521,7 +521,7 @@ class LostControllerTest extends TestCase {
 		$this->assertSame($expectedResponse, $response->getData());
 	}
 
-	public function testSetPasswordForDisabledUser() {
+	public function testSetPasswordForDisabledUser(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('isEnabled')
@@ -551,7 +551,7 @@ class LostControllerTest extends TestCase {
 		$this->assertSame($expectedResponse, $response->getData());
 	}
 
-	public function testSendEmailNoEmail() {
+	public function testSendEmailNoEmail(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('isEnabled')
@@ -574,7 +574,7 @@ class LostControllerTest extends TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testSetPasswordEncryptionDontProceedPerUserKey() {
+	public function testSetPasswordEncryptionDontProceedPerUserKey(): void {
 		/** @var IEncryptionModule|MockObject $encryptionModule */
 		$encryptionModule = $this->createMock(IEncryptionModule::class);
 		$encryptionModule->expects($this->once())->method('needDetailedAccessList')->willReturn(true);
@@ -587,7 +587,7 @@ class LostControllerTest extends TestCase {
 		$this->assertSame($expectedResponse, $response->getData());
 	}
 
-	public function testSetPasswordDontProceedMasterKey() {
+	public function testSetPasswordDontProceedMasterKey(): void {
 		$encryptionModule = $this->createMock(IEncryptionModule::class);
 		$encryptionModule->expects($this->once())->method('needDetailedAccessList')->willReturn(false);
 		$this->encryptionManager->expects($this->once())->method('getEncryptionModules')
@@ -615,7 +615,7 @@ class LostControllerTest extends TestCase {
 		$this->assertSame($expectedResponse, $response->getData());
 	}
 
-	public function testTwoUsersWithSameEmail() {
+	public function testTwoUsersWithSameEmail(): void {
 		$user1 = $this->createMock(IUser::class);
 		$user1->expects($this->any())
 			->method('getEMailAddress')
@@ -707,12 +707,12 @@ class LostControllerTest extends TestCase {
 		$this->assertInstanceOf(IUser::class, $result);
 	}
 
-	public function testTrimEmailInput() {
+	public function testTrimEmailInput(): void {
 		$this->userManager
-				->expects($this->once())
-				->method('getByEmail')
-				->with('test@example.com')
-				->willReturn([$this->existingUser]);
+			->expects($this->once())
+			->method('getByEmail')
+			->with('test@example.com')
+			->willReturn([$this->existingUser]);
 
 		$this->mailer
 			->expects($this->once())
@@ -724,12 +724,12 @@ class LostControllerTest extends TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testUsernameInput() {
+	public function testUsernameInput(): void {
 		$this->userManager
-				->expects($this->once())
-				->method('get')
-				->with('ExistingUser')
-				->willReturn($this->existingUser);
+			->expects($this->once())
+			->method('get')
+			->with('ExistingUser')
+			->willReturn($this->existingUser);
 
 		$this->mailer
 			->expects($this->once())

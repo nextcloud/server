@@ -24,34 +24,10 @@ use OCP\IUserSession;
 
 class SettingsController extends Controller {
 
-	/** @var IL10N */
-	private $l;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var KeyManager */
-	private $keyManager;
-
-	/** @var Crypt */
-	private $crypt;
-
-	/** @var Session */
-	private $session;
-
-	/** @var ISession  */
-	private $ocSession;
-
-	/** @var  Util */
-	private $util;
-
 	/**
 	 * @param string $AppName
 	 * @param IRequest $request
-	 * @param IL10N $l10n
+	 * @param IL10N $l
 	 * @param IUserManager $userManager
 	 * @param IUserSession $userSession
 	 * @param KeyManager $keyManager
@@ -60,26 +36,19 @@ class SettingsController extends Controller {
 	 * @param ISession $ocSession
 	 * @param Util $util
 	 */
-	public function __construct($AppName,
+	public function __construct(
+		$AppName,
 		IRequest $request,
-		IL10N $l10n,
-		IUserManager $userManager,
-		IUserSession $userSession,
-		KeyManager $keyManager,
-		Crypt $crypt,
-		Session $session,
-		ISession $ocSession,
-		Util $util
+		private IL10N $l,
+		private IUserManager $userManager,
+		private IUserSession $userSession,
+		private KeyManager $keyManager,
+		private Crypt $crypt,
+		private Session $session,
+		private ISession $ocSession,
+		private Util $util,
 	) {
 		parent::__construct($AppName, $request);
-		$this->l = $l10n;
-		$this->userSession = $userSession;
-		$this->userManager = $userManager;
-		$this->keyManager = $keyManager;
-		$this->crypt = $crypt;
-		$this->session = $session;
-		$this->ocSession = $ocSession;
-		$this->util = $util;
 	}
 
 

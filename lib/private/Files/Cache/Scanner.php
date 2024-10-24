@@ -15,6 +15,7 @@ use OC\SystemConfig;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\ForbiddenException;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IReliableEtagStorage;
 use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
@@ -125,7 +126,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		if (!self::isPartialFile($file)) {
 			// acquire a lock
 			if ($lock) {
-				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+				if ($this->storage->instanceOfStorage(ILockingStorage::class)) {
 					$this->storage->acquireLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 				}
 			}
@@ -134,7 +135,7 @@ class Scanner extends BasicEmitter implements IScanner {
 				$data = $data ?? $this->getData($file);
 			} catch (ForbiddenException $e) {
 				if ($lock) {
-					if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+					if ($this->storage->instanceOfStorage(ILockingStorage::class)) {
 						$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 					}
 				}
@@ -233,7 +234,7 @@ class Scanner extends BasicEmitter implements IScanner {
 				}
 			} catch (\Exception $e) {
 				if ($lock) {
-					if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+					if ($this->storage->instanceOfStorage(ILockingStorage::class)) {
 						$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 					}
 				}
@@ -242,7 +243,7 @@ class Scanner extends BasicEmitter implements IScanner {
 
 			// release the acquired lock
 			if ($lock) {
-				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+				if ($this->storage->instanceOfStorage(ILockingStorage::class)) {
 					$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 				}
 			}
@@ -319,7 +320,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
 		if ($lock) {
-			if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+			if ($this->storage->instanceOfStorage(ILockingStorage::class)) {
 				$this->storage->acquireLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
 				$this->storage->acquireLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 			}
@@ -337,7 +338,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			}
 		} finally {
 			if ($lock) {
-				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+				if ($this->storage->instanceOfStorage(ILockingStorage::class)) {
 					$this->storage->releaseLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 					$this->storage->releaseLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
 				}
@@ -488,7 +489,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			$file = trim(\OC\Files\Filesystem::normalizePath($originalFile), '/');
 			if (trim($originalFile, '/') !== $file) {
 				// encoding mismatch, might require compatibility wrapper
-				\OC::$server->get(LoggerInterface::class)->debug('Scanner: Skipping non-normalized file name "'. $originalFile . '" in path "' . $path . '".', ['app' => 'core']);
+				\OC::$server->get(LoggerInterface::class)->debug('Scanner: Skipping non-normalized file name "' . $originalFile . '" in path "' . $path . '".', ['app' => 'core']);
 				$this->emit('\OC\Files\Cache\Scanner', 'normalizedNameMismatch', [$path ? $path . '/' . $originalFile : $originalFile]);
 				// skip this entry
 				continue;

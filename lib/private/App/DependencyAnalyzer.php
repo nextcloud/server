@@ -66,7 +66,7 @@ class DependencyAnalyzer {
 	 * @param string $first
 	 * @param string $second
 	 * @return string[] first element is the first version, second element is the
-	 * second version
+	 *                  second version
 	 */
 	private function normalizeVersions($first, $second) {
 		$first = explode('.', $first);

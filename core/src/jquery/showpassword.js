@@ -3,13 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+/** @typedef {import('jquery')} jQuery */
 import $ from 'jquery'
 
 /**
  * @name Show Password
  * @description
  * @version 1.3.0
- * @requires Jquery 1.5
+ * @requires jQuery 1.5
  *
  * @author Jan Jarfalk <jan.jarfalk@unwrongest.com>
  * author-website http://www.unwrongest.com

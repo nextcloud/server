@@ -19,7 +19,7 @@ use OC\SystemConfig;
 use OCP\IDBConnection;
 
 class AllConfigTest extends \Test\TestCase {
-	/** @var  \OCP\IDBConnection */
+	/** @var \OCP\IDBConnection */
 	protected $connection;
 
 	protected function getConfig($systemConfig = null, $connection = null) {
@@ -37,7 +37,7 @@ class AllConfigTest extends \Test\TestCase {
 		return new \OC\AllConfig($systemConfig, $connection);
 	}
 
-	public function testDeleteUserValue() {
+	public function testDeleteUserValue(): void {
 		$config = $this->getConfig();
 
 		// preparation - add something to the database
@@ -58,7 +58,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->assertEquals(0, $actualCount, 'There was one value in the database and after the tests there should be no entry left.');
 	}
 
-	public function testSetUserValue() {
+	public function testSetUserValue(): void {
 		$selectAllSQL = 'SELECT `userid`, `appid`, `configkey`, `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ?';
 		$config = $this->getConfig();
 
@@ -91,7 +91,7 @@ class AllConfigTest extends \Test\TestCase {
 		$config->deleteUserValue('userSet', 'appSet', 'keySet');
 	}
 
-	public function testSetUserValueWithPreCondition() {
+	public function testSetUserValueWithPreCondition(): void {
 		$config = $this->getConfig();
 
 		$selectAllSQL = 'SELECT `userid`, `appid`, `configkey`, `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ?';
@@ -138,7 +138,7 @@ class AllConfigTest extends \Test\TestCase {
 	 * @dataProvider dataSetUserValueUnexpectedValue
 	 * @param mixed $value
 	 */
-	public function testSetUserValueUnexpectedValue($value) {
+	public function testSetUserValueUnexpectedValue($value): void {
 		$this->expectException(\UnexpectedValueException::class);
 
 		$config = $this->getConfig();
@@ -146,7 +146,7 @@ class AllConfigTest extends \Test\TestCase {
 	}
 
 
-	public function testSetUserValueWithPreConditionFailure() {
+	public function testSetUserValueWithPreConditionFailure(): void {
 		$this->expectException(\OCP\PreConditionNotMetException::class);
 
 		$config = $this->getConfig();
@@ -182,7 +182,43 @@ class AllConfigTest extends \Test\TestCase {
 		$config->deleteUserValue('userPreCond1', 'appPreCond', 'keyPreCond');
 	}
 
-	public function testSetUserValueUnchanged() {
+	public function testSetUserValueWithPreConditionFailureWhenResultStillMatches(): void {
+		$this->expectException(\OCP\PreConditionNotMetException::class);
+
+		$config = $this->getConfig();
+
+		$selectAllSQL = 'SELECT `userid`, `appid`, `configkey`, `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ?';
+
+		$config->setUserValue('userPreCond1', 'appPreCond', 'keyPreCond', 'valuePreCond');
+
+		$result = $this->connection->executeQuery($selectAllSQL, ['userPreCond1'])->fetchAll();
+
+		$this->assertCount(1, $result);
+		$this->assertEquals([
+			'userid' => 'userPreCond1',
+			'appid' => 'appPreCond',
+			'configkey' => 'keyPreCond',
+			'configvalue' => 'valuePreCond'
+		], $result[0]);
+
+		// test if the method throws with invalid precondition when the value is the same
+		$config->setUserValue('userPreCond1', 'appPreCond', 'keyPreCond', 'valuePreCond', 'valuePreCond3');
+
+		$result = $this->connection->executeQuery($selectAllSQL, ['userPreCond1'])->fetchAll();
+
+		$this->assertCount(1, $result);
+		$this->assertEquals([
+			'userid' => 'userPreCond1',
+			'appid' => 'appPreCond',
+			'configkey' => 'keyPreCond',
+			'configvalue' => 'valuePreCond'
+		], $result[0]);
+
+		// cleanup
+		$config->deleteUserValue('userPreCond1', 'appPreCond', 'keyPreCond');
+	}
+
+	public function testSetUserValueUnchanged(): void {
 		// TODO - FIXME until the dependency injection is handled properly (in AllConfig)
 		$this->markTestSkipped('Skipped because this is just testable if database connection can be injected');
 
@@ -195,7 +231,7 @@ class AllConfigTest extends \Test\TestCase {
 		$connectionMock = $this->createMock(IDBConnection::class);
 		$connectionMock->expects($this->once())
 			->method('executeQuery')
-			->with($this->equalTo('SELECT `configvalue` FROM `*PREFIX*preferences` '.
+			->with($this->equalTo('SELECT `configvalue` FROM `*PREFIX*preferences` ' .
 					'WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?'),
 				$this->equalTo(['userSetUnchanged', 'appSetUnchanged', 'keySetUnchanged']))
 			->willReturn($resultMock);
@@ -207,7 +243,7 @@ class AllConfigTest extends \Test\TestCase {
 		$config->setUserValue('userSetUnchanged', 'appSetUnchanged', 'keySetUnchanged', 'valueSetUnchanged');
 	}
 
-	public function testGetUserValue() {
+	public function testGetUserValue(): void {
 		$config = $this->getConfig();
 
 		// setup - it therefore relies on the successful execution of the previous test
@@ -245,7 +281,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->assertEquals(0, count($result));
 	}
 
-	public function testGetUserKeys() {
+	public function testGetUserKeys(): void {
 		$config = $this->getConfig();
 
 		// preparation - add something to the database
@@ -276,7 +312,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
 	}
 
-	public function testGetUserKeysAllInts() {
+	public function testGetUserKeysAllInts(): void {
 		$config = $this->getConfig();
 
 		// preparation - add something to the database
@@ -301,7 +337,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
 	}
 
-	public function testGetUserValueDefault() {
+	public function testGetUserValueDefault(): void {
 		$config = $this->getConfig();
 
 		$this->assertEquals('', $config->getUserValue('userGetUnset', 'appGetUnset', 'keyGetUnset'));
@@ -309,7 +345,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->assertEquals('foobar', $config->getUserValue('userGetUnset', 'appGetUnset', 'keyGetUnset', 'foobar'));
 	}
 
-	public function testGetUserValueForUsers() {
+	public function testGetUserValueForUsers(): void {
 		$config = $this->getConfig();
 
 		// preparation - add something to the database
@@ -350,7 +386,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
 	}
 
-	public function testDeleteAllUserValues() {
+	public function testDeleteAllUserValues(): void {
 		$config = $this->getConfig();
 
 		// preparation - add something to the database
@@ -384,7 +420,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
 	}
 
-	public function testDeleteAppFromAllUsers() {
+	public function testDeleteAppFromAllUsers(): void {
 		$config = $this->getConfig();
 
 		// preparation - add something to the database
@@ -427,7 +463,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
 	}
 
-	public function testGetUsersForUserValue() {
+	public function testGetUsersForUserValue(): void {
 		// mock the check for the database to run the correct SQL statements for each database type
 		$systemConfig = $this->getMockBuilder('\OC\SystemConfig')
 			->disableOriginalConstructor()
@@ -458,7 +494,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
 	}
 
-	public function testGetUsersForUserValueCaseInsensitive() {
+	public function testGetUsersForUserValueCaseInsensitive(): void {
 		// mock the check for the database to run the correct SQL statements for each database type
 		$systemConfig = $this->createMock(SystemConfig::class);
 		$config = $this->getConfig($systemConfig);

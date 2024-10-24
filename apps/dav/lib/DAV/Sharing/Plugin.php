@@ -26,26 +26,18 @@ class Plugin extends ServerPlugin {
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 	public const NS_NEXTCLOUD = 'http://nextcloud.com/ns';
 
-	/** @var Auth */
-	private $auth;
-
-	/** @var IRequest */
-	private $request;
-
-	/** @var IConfig */
-	private $config;
-
 	/**
 	 * Plugin constructor.
 	 *
-	 * @param Auth $authBackEnd
+	 * @param Auth $auth
 	 * @param IRequest $request
 	 * @param IConfig $config
 	 */
-	public function __construct(Auth $authBackEnd, IRequest $request, IConfig $config) {
-		$this->auth = $authBackEnd;
-		$this->request = $request;
-		$this->config = $config;
+	public function __construct(
+		private Auth $auth,
+		private IRequest $request,
+		private IConfig $config,
+	) {
 	}
 
 	/**
@@ -110,7 +102,7 @@ class Plugin extends ServerPlugin {
 		$path = $request->getPath();
 
 		// Only handling xml
-		$contentType = (string) $request->getHeader('Content-Type');
+		$contentType = (string)$request->getHeader('Content-Type');
 		if (!str_contains($contentType, 'application/xml') && !str_contains($contentType, 'text/xml')) {
 			return;
 		}

@@ -42,7 +42,7 @@ class FixKeyLocation extends Command {
 		$this->keyRootDirectory = rtrim($this->encryptionUtil->getKeyStorageRoot(), '/');
 		$this->rootView = new View();
 		if (!$encryptionManager instanceof Manager) {
-			throw new \Exception("Wrong encryption manager");
+			throw new \Exception('Wrong encryption manager');
 		}
 		$this->encryptionManager = $encryptionManager;
 
@@ -57,7 +57,7 @@ class FixKeyLocation extends Command {
 			->setName('encryption:fix-key-location')
 			->setDescription('Fix the location of encryption keys for external storage')
 			->addOption('dry-run', null, InputOption::VALUE_NONE, "Only list files that require key migration, don't try to perform any migration")
-			->addArgument('user', InputArgument::REQUIRED, "User id to fix the key locations for");
+			->addArgument('user', InputArgument::REQUIRED, 'User id to fix the key locations for');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
@@ -75,7 +75,7 @@ class FixKeyLocation extends Command {
 		foreach ($mounts as $mount) {
 			$mountRootFolder = $this->rootFolder->get($mount->getMountPoint());
 			if (!$mountRootFolder instanceof Folder) {
-				$output->writeln("<error>System wide mount point is not a directory, skipping: " . $mount->getMountPoint() . "</error>");
+				$output->writeln('<error>System wide mount point is not a directory, skipping: ' . $mount->getMountPoint() . '</error>');
 				continue;
 			}
 
@@ -89,14 +89,14 @@ class FixKeyLocation extends Command {
 						// key was stored incorrectly as user key, migrate
 
 						if ($dryRun) {
-							$output->writeln("<info>" . $file->getPath() . "</info> needs migration");
+							$output->writeln('<info>' . $file->getPath() . '</info> needs migration');
 						} else {
-							$output->write("Migrating key for <info>" . $file->getPath() . "</info> ");
+							$output->write('Migrating key for <info>' . $file->getPath() . '</info> ');
 							if ($this->copyUserKeyToSystemAndValidate($user, $file)) {
-								$output->writeln("<info>✓</info>");
+								$output->writeln('<info>✓</info>');
 							} else {
-								$output->writeln("<fg=red>❌</>");
-								$output->writeln("  Failed to validate key for <error>" . $file->getPath() . "</error>, key will not be migrated");
+								$output->writeln('<fg=red>❌</>');
+								$output->writeln('  Failed to validate key for <error>' . $file->getPath() . '</error>, key will not be migrated');
 							}
 						}
 					} else {
@@ -107,42 +107,42 @@ class FixKeyLocation extends Command {
 						if ($isActuallyEncrypted) {
 							if ($dryRun) {
 								if ($shouldBeEncrypted) {
-									$output->write("<info>" . $file->getPath() . "</info> needs migration");
+									$output->write('<info>' . $file->getPath() . '</info> needs migration');
 								} else {
-									$output->write("<info>" . $file->getPath() . "</info> needs decryption");
+									$output->write('<info>' . $file->getPath() . '</info> needs decryption');
 								}
 								$foundKey = $this->findUserKeyForSystemFile($user, $file);
 								if ($foundKey) {
-									$output->writeln(", valid key found at <info>" . $foundKey . "</info>");
+									$output->writeln(', valid key found at <info>' . $foundKey . '</info>');
 								} else {
-									$output->writeln(" <error>❌ No key found</error>");
+									$output->writeln(' <error>❌ No key found</error>');
 								}
 							} else {
 								if ($shouldBeEncrypted) {
-									$output->write("<info>Migrating key for " . $file->getPath() . "</info>");
+									$output->write('<info>Migrating key for ' . $file->getPath() . '</info>');
 								} else {
-									$output->write("<info>Decrypting " . $file->getPath() . "</info>");
+									$output->write('<info>Decrypting ' . $file->getPath() . '</info>');
 								}
 								$foundKey = $this->findUserKeyForSystemFile($user, $file);
 								if ($foundKey) {
 									if ($shouldBeEncrypted) {
 										$systemKeyPath = $this->getSystemKeyPath($file);
 										$this->rootView->copy($foundKey, $systemKeyPath);
-										$output->writeln("  Migrated key from <info>" . $foundKey . "</info>");
+										$output->writeln('  Migrated key from <info>' . $foundKey . '</info>');
 									} else {
 										$this->decryptWithSystemKey($file, $foundKey);
-										$output->writeln("  Decrypted with key from <info>" . $foundKey . "</info>");
+										$output->writeln('  Decrypted with key from <info>' . $foundKey . '</info>');
 									}
 								} else {
-									$output->writeln(" <error>❌ No key found</error>");
+									$output->writeln(' <error>❌ No key found</error>');
 								}
 							}
 						} else {
 							if ($dryRun) {
-								$output->writeln("<info>" . $file->getPath() . " needs to be marked as not encrypted</info>");
+								$output->writeln('<info>' . $file->getPath() . ' needs to be marked as not encrypted</info>');
 							} else {
 								$this->markAsUnEncrypted($file);
-								$output->writeln("<info>" . $file->getPath() . " marked as not encrypted</info>");
+								$output->writeln('<info>' . $file->getPath() . ' marked as not encrypted</info>');
 							}
 						}
 					}
@@ -273,7 +273,7 @@ class FixKeyLocation extends Command {
 		}
 		/** @var resource|false $handle */
 		if ($handle === false) {
-			throw new \Exception("Failed to open " . $node->getPath());
+			throw new \Exception('Failed to open ' . $node->getPath());
 		}
 		return $handle;
 	}
@@ -316,7 +316,7 @@ class FixKeyLocation extends Command {
 			/** @var false|resource $dh */
 			$dh = $this->rootView->opendir($basePath);
 			if (!$dh) {
-				throw new \Exception("Invalid base path " . $basePath);
+				throw new \Exception('Invalid base path ' . $basePath);
 			}
 			while ($child = readdir($dh)) {
 				if ($child != '..' && $child != '.') {
@@ -366,7 +366,7 @@ class FixKeyLocation extends Command {
 			/** @var false|resource $source */
 			$source = $storage->fopen($node->getInternalPath(), 'r');
 			if (!$source) {
-				throw new \Exception("Failed to open " . $node->getPath() . " with " . $key);
+				throw new \Exception('Failed to open ' . $node->getPath() . ' with ' . $key);
 			}
 			$decryptedNode = $node->getParent()->newFile($name);
 
@@ -386,7 +386,7 @@ class FixKeyLocation extends Command {
 		}
 
 		if ($this->isDataEncrypted($decryptedNode)) {
-			throw new \Exception($node->getPath() . " still encrypted after attempting to decrypt with " . $key);
+			throw new \Exception($node->getPath() . ' still encrypted after attempting to decrypt with ' . $key);
 		}
 
 		$this->markAsUnEncrypted($decryptedNode);

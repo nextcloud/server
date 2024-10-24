@@ -49,6 +49,7 @@ class QueryBuilder implements IQueryBuilder {
 
 	/** @var string */
 	protected $lastInsertedTable;
+	private array $selectedColumns = [];
 
 	/**
 	 * Initializes a new QueryBuilder.
@@ -68,11 +69,11 @@ class QueryBuilder implements IQueryBuilder {
 	 * Enable/disable automatic prefixing of table names with the oc_ prefix
 	 *
 	 * @param bool $enabled If set to true table names will be prefixed with the
-	 * owncloud database prefix automatically.
+	 *                      owncloud database prefix automatically.
 	 * @since 8.2.0
 	 */
 	public function automaticTablePrefix($enabled) {
-		$this->automaticTablePrefix = (bool) $enabled;
+		$this->automaticTablePrefix = (bool)$enabled;
 	}
 
 	/**
@@ -204,6 +205,23 @@ class QueryBuilder implements IQueryBuilder {
 		// ]);
 		// }
 		// }
+
+		$tooLongOutputColumns = [];
+		foreach ($this->getOutputColumns() as $column) {
+			if (strlen($column) > 30) {
+				$tooLongOutputColumns[] = $column;
+			}
+		}
+
+		if (!empty($tooLongOutputColumns)) {
+			$exception = new QueryException('More than 30 characters for an output column name are not allowed on Oracle.');
+			$this->logger->error($exception->getMessage(), [
+				'query' => $this->getSQL(),
+				'columns' => $tooLongOutputColumns,
+				'app' => 'core',
+				'exception' => $exception,
+			]);
+		}
 
 		$numberOfParameters = 0;
 		$hasTooLargeArrayParameter = false;
@@ -405,7 +423,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function setFirstResult($firstResult) {
-		$this->queryBuilder->setFirstResult((int) $firstResult);
+		$this->queryBuilder->setFirstResult((int)$firstResult);
 
 		return $this;
 	}
@@ -435,7 +453,7 @@ class QueryBuilder implements IQueryBuilder {
 		if ($maxResults === null) {
 			$this->queryBuilder->setMaxResults($maxResults);
 		} else {
-			$this->queryBuilder->setMaxResults((int) $maxResults);
+			$this->queryBuilder->setMaxResults((int)$maxResults);
 		}
 
 		return $this;
@@ -470,6 +488,7 @@ class QueryBuilder implements IQueryBuilder {
 		if (count($selects) === 1 && is_array($selects[0])) {
 			$selects = $selects[0];
 		}
+		$this->addOutputColumns($selects);
 
 		$this->queryBuilder->select(
 			$this->helper->quoteColumnNames($selects)
@@ -497,6 +516,7 @@ class QueryBuilder implements IQueryBuilder {
 		$this->queryBuilder->addSelect(
 			$this->helper->quoteColumnName($select) . ' AS ' . $this->helper->quoteColumnName($alias)
 		);
+		$this->addOutputColumns([$alias]);
 
 		return $this;
 	}
@@ -518,6 +538,7 @@ class QueryBuilder implements IQueryBuilder {
 		if (!is_array($select)) {
 			$select = [$select];
 		}
+		$this->addOutputColumns($select);
 
 		$quotedSelect = $this->helper->quoteColumnNames($select);
 
@@ -547,12 +568,33 @@ class QueryBuilder implements IQueryBuilder {
 		if (count($selects) === 1 && is_array($selects[0])) {
 			$selects = $selects[0];
 		}
+		$this->addOutputColumns($selects);
 
 		$this->queryBuilder->addSelect(
 			$this->helper->quoteColumnNames($selects)
 		);
 
 		return $this;
+	}
+
+	private function addOutputColumns(array $columns): void {
+		foreach ($columns as $column) {
+			if (is_array($column)) {
+				$this->addOutputColumns($column);
+			} elseif (is_string($column) && !str_contains($column, '*')) {
+				if (str_contains(strtolower($column), ' as ')) {
+					[, $column] = preg_split('/ as /i', $column);
+				}
+				if (str_contains($column, '.')) {
+					[, $column] = explode('.', $column);
+				}
+				$this->selectedColumns[] = $column;
+			}
+		}
+	}
+
+	public function getOutputColumns(): array {
+		return array_unique($this->selectedColumns);
 	}
 
 	/**
@@ -735,7 +777,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $fromAlias The alias that points to a from clause.
-	 * @param string $join The table name to join.
+	 * @param string|IQueryFunction $join The table name or sub-query to join.
 	 * @param string $alias The alias of the join table.
 	 * @param string|ICompositeExpression|null $condition The condition for the join.
 	 *
@@ -978,7 +1020,7 @@ class QueryBuilder implements IQueryBuilder {
 	public function setValue($column, $value) {
 		$this->queryBuilder->setValue(
 			$this->helper->quoteColumnName($column),
-			(string) $value
+			(string)$value
 		);
 
 		return $this;
@@ -1287,7 +1329,7 @@ class QueryBuilder implements IQueryBuilder {
 	 */
 	public function getTableName($table) {
 		if ($table instanceof IQueryFunction) {
-			return (string) $table;
+			return (string)$table;
 		}
 
 		$table = $this->prefixTableName($table);
@@ -1300,7 +1342,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $table
 	 * @return string
 	 */
-	protected function prefixTableName($table) {
+	public function prefixTableName(string $table): string {
 		if ($this->automaticTablePrefix === false || str_starts_with($table, '*PREFIX*')) {
 			return $table;
 		}
@@ -1336,4 +1378,18 @@ class QueryBuilder implements IQueryBuilder {
 
 		return $this->helper->quoteColumnName($alias);
 	}
+
+	public function escapeLikeParameter(string $parameter): string {
+		return $this->connection->escapeLikeParameter($parameter);
+	}
+
+	public function hintShardKey(string $column, mixed $value, bool $overwrite = false): self {
+		return $this;
+	}
+
+	public function runAcrossAllShards(): self {
+		// noop
+		return $this;
+	}
+
 }

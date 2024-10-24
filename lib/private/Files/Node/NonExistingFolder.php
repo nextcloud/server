@@ -38,6 +38,14 @@ class NonExistingFolder extends Folder {
 		}
 	}
 
+	public function getInternalPath() {
+		if ($this->fileInfo) {
+			return parent::getInternalPath();
+		} else {
+			return $this->getParent()->getMountPoint()->getInternalPath($this->getPath());
+		}
+	}
+
 	public function stat() {
 		throw new NotFoundException();
 	}

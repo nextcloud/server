@@ -11,7 +11,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 
 class CalDavContext implements \Behat\Behat\Context\Context {
-	/** @var string  */
+	/** @var string */
 	private $baseUrl;
 	/** @var Client */
 	private $client;
@@ -41,7 +41,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 
 	/** @AfterScenario */
 	public function afterScenario() {
-		$davUrl = $this->baseUrl. '/remote.php/dav/calendars/admin/MyCalendar';
+		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/admin/MyCalendar';
 		try {
 			$this->client->delete(
 				$davUrl,
@@ -266,7 +266,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	 * @param string $name
 	 */
 	public function createsACalendarNamed($user, $name) {
-		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/'.$user.'/'.$name;
+		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/' . $user . '/' . $name;
 		$password = ($user === 'admin') ? 'admin' : '123456';
 
 		$this->response = $this->client->request(
@@ -289,7 +289,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	 * @param string $name
 	 */
 	public function publiclySharesTheCalendarNamed($user, $name) {
-		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/'.$user.'/'.$name;
+		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/' . $user . '/' . $name;
 		$password = ($user === 'admin') ? 'admin' : '123456';
 
 		$this->response = $this->client->request(

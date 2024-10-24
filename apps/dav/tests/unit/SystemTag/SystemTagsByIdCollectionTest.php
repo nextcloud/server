@@ -8,6 +8,7 @@
 namespace OCA\DAV\Tests\unit\SystemTag;
 
 use OC\SystemTag\SystemTag;
+use OCA\DAV\SystemTag\SystemTagsByIdCollection;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -17,12 +18,12 @@ use OCP\SystemTag\TagNotFoundException;
 class SystemTagsByIdCollectionTest extends \Test\TestCase {
 
 	/**
-	 * @var \OCP\SystemTag\ISystemTagManager
+	 * @var ISystemTagManager
 	 */
 	private $tagManager;
 
 	/**
-	 * @var \OCP\IUser
+	 * @var IUser
 	 */
 	private $user;
 
@@ -50,7 +51,7 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 			->method('isAdmin')
 			->with('testuser')
 			->willReturn($isAdmin);
-		return new \OCA\DAV\SystemTag\SystemTagsByIdCollection(
+		return new SystemTagsByIdCollection(
 			$this->tagManager,
 			$userSession,
 			$groupManager

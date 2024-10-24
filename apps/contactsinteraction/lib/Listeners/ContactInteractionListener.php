@@ -45,16 +45,16 @@ class ContactInteractionListener implements IEventListener {
 		}
 
 		if ($event->getUid() === null && $event->getEmail() === null && $event->getFederatedCloudId() === null) {
-			$this->logger->warning("Contact interaction event has no user identifier set");
+			$this->logger->warning('Contact interaction event has no user identifier set');
 			return;
 		}
 
 		if ($event->getUid() !== null && $event->getUid() === $event->getActor()->getUID()) {
-			$this->logger->info("Ignoring contact interaction with self");
+			$this->logger->info('Ignoring contact interaction with self');
 			return;
 		}
 
-		$this->atomic(function () use ($event) {
+		$this->atomic(function () use ($event): void {
 			$uid = $event->getUid();
 			$email = $event->getEmail();
 			$federatedCloudId = $event->getFederatedCloudId();

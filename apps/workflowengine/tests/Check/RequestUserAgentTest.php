@@ -5,6 +5,7 @@
  */
 namespace OCA\WorkflowEngine\Tests\Check;
 
+use OCA\WorkflowEngine\Check\AbstractStringCheck;
 use OCA\WorkflowEngine\Check\RequestUserAgent;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -90,12 +91,12 @@ class RequestUserAgentTest extends TestCase {
 	 * @param string $actualValue
 	 * @param bool $expected
 	 */
-	public function testExecuteCheck($operation, $checkValue, $actualValue, $expected) {
+	public function testExecuteCheck($operation, $checkValue, $actualValue, $expected): void {
 		$this->request->expects($this->once())
 			->method('getHeader')
 			->willReturn($actualValue);
 
-		/** @var \OCA\WorkflowEngine\Check\AbstractStringCheck $check */
+		/** @var AbstractStringCheck $check */
 		$this->assertEquals($expected, $this->check->executeCheck($operation, $checkValue));
 	}
 }

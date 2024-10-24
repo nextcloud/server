@@ -11,20 +11,20 @@ declare(strict_types=1);
 namespace Test\Security\CSRF;
 
 class CsrfTokenTest extends \Test\TestCase {
-	public function testGetEncryptedValue() {
+	public function testGetEncryptedValue(): void {
 		$csrfToken = new \OC\Security\CSRF\CsrfToken('MyCsrfToken');
 		$this->assertSame(33, strlen($csrfToken->getEncryptedValue()));
 		$this->assertSame(':', $csrfToken->getEncryptedValue()[16]);
 	}
 
-	public function testGetEncryptedValueStaysSameOnSecondRequest() {
+	public function testGetEncryptedValueStaysSameOnSecondRequest(): void {
 		$csrfToken = new \OC\Security\CSRF\CsrfToken('MyCsrfToken');
 		$tokenValue = $csrfToken->getEncryptedValue();
 		$this->assertSame($tokenValue, $csrfToken->getEncryptedValue());
 		$this->assertSame($tokenValue, $csrfToken->getEncryptedValue());
 	}
 
-	public function testGetDecryptedValue() {
+	public function testGetDecryptedValue(): void {
 		$a = 'abc';
 		$b = 'def';
 		$xorB64 = 'BQcF';

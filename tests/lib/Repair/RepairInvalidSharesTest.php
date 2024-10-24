@@ -9,8 +9,8 @@ namespace Test\Repair;
 
 use OC\Repair\RepairInvalidShares;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
 use OCP\Share\IShare;
 use Test\TestCase;
 
@@ -22,11 +22,9 @@ use Test\TestCase;
  * @see \OC\Repair\RepairInvalidShares
  */
 class RepairInvalidSharesTest extends TestCase {
-	/** @var IRepairStep */
-	private $repair;
 
-	/** @var \OCP\IDBConnection */
-	private $connection;
+	private RepairInvalidShares $repair;
+	private IDBConnection $connection;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -39,10 +37,9 @@ class RepairInvalidSharesTest extends TestCase {
 			->with('version')
 			->willReturn('12.0.0.0');
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OCP\Server::get(IDBConnection::class);
 		$this->deleteAllShares();
 
-		/** @var \OCP\IConfig $config */
 		$this->repair = new RepairInvalidShares($config, $this->connection);
 	}
 
@@ -54,13 +51,13 @@ class RepairInvalidSharesTest extends TestCase {
 
 	protected function deleteAllShares() {
 		$qb = $this->connection->getQueryBuilder();
-		$qb->delete('share')->execute();
+		$qb->delete('share')->executeStatement();
 	}
 
 	/**
 	 * Test remove shares where the parent share does not exist anymore
 	 */
-	public function testSharesNonExistingParent() {
+	public function testSharesNonExistingParent(): void {
 		$qb = $this->connection->getQueryBuilder();
 		$shareValues = [
 			'share_type' => $qb->expr()->literal(IShare::TYPE_USER),
@@ -80,30 +77,30 @@ class RepairInvalidSharesTest extends TestCase {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->values($shareValues)
-			->execute();
-		$parent = $this->getLastShareId();
+			->executeStatement();
+		$parent = $qb->getLastInsertId();
 
 		// share with existing parent
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->values(array_merge($shareValues, [
 				'parent' => $qb->expr()->literal($parent),
-			]))->execute();
-		$validChild = $this->getLastShareId();
+			]))->executeStatement();
+		$validChild = $qb->getLastInsertId();
 
 		// share with non-existing parent
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->values(array_merge($shareValues, [
 				'parent' => $qb->expr()->literal($parent + 100),
-			]))->execute();
-		$invalidChild = $this->getLastShareId();
+			]))->executeStatement();
+		$invalidChild = $qb->getLastInsertId();
 
 		$query = $this->connection->getQueryBuilder();
 		$result = $query->select('id')
 			->from('share')
 			->orderBy('id', 'ASC')
-			->execute();
+			->executeQuery();
 		$rows = $result->fetchAll();
 		$this->assertEquals([['id' => $parent], ['id' => $validChild], ['id' => $invalidChild]], $rows);
 		$result->closeCursor();
@@ -119,7 +116,7 @@ class RepairInvalidSharesTest extends TestCase {
 		$result = $query->select('id')
 			->from('share')
 			->orderBy('id', 'ASC')
-			->execute();
+			->executeQuery();
 		$rows = $result->fetchAll();
 		$this->assertEquals([['id' => $parent], ['id' => $validChild]], $rows);
 		$result->closeCursor();
@@ -153,7 +150,7 @@ class RepairInvalidSharesTest extends TestCase {
 	 *
 	 * @dataProvider fileSharePermissionsProvider
 	 */
-	public function testFileSharePermissions($itemType, $testPerms, $expectedPerms) {
+	public function testFileSharePermissions($itemType, $testPerms, $expectedPerms): void {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->values([
@@ -167,9 +164,7 @@ class RepairInvalidSharesTest extends TestCase {
 				'permissions' => $qb->expr()->literal($testPerms),
 				'stime' => $qb->expr()->literal(time()),
 			])
-			->execute();
-
-		$shareId = $this->getLastShareId();
+			->executeStatement();
 
 		/** @var IOutput | \PHPUnit\Framework\MockObject\MockObject $outputMock */
 		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
@@ -182,7 +177,7 @@ class RepairInvalidSharesTest extends TestCase {
 			->select('*')
 			->from('share')
 			->orderBy('permissions', 'ASC')
-			->execute()
+			->executeQuery()
 			->fetchAll();
 
 		$this->assertCount(1, $results);
@@ -190,12 +185,5 @@ class RepairInvalidSharesTest extends TestCase {
 		$updatedShare = $results[0];
 
 		$this->assertEquals($expectedPerms, $updatedShare['permissions']);
-	}
-
-	/**
-	 * @return int
-	 */
-	protected function getLastShareId() {
-		return $this->connection->lastInsertId('*PREFIX*share');
 	}
 }

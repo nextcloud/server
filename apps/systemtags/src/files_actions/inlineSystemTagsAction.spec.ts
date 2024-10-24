@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { action } from './inlineSystemTagsAction'
-import { expect } from '@jest/globals'
+import { describe, expect, test } from 'vitest'
 import { File, Permission, View, FileAction } from '@nextcloud/files'
 
 const view = {

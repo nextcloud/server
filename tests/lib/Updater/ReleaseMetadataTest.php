@@ -13,29 +13,29 @@ use OCP\Http\Client\IResponse;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ReleaseMetadataTest extends \Test\TestCase {
-	private IClientService| MockObject $clientService;
+	private IClientService|MockObject $clientService;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->clientService = $this->getMockBuilder(IClientService::class)
-									->disableOriginalConstructor()
-									->getMock();
+			->disableOriginalConstructor()
+			->getMock();
 	}
 
-	public function testDownloadMetadata() {
+	public function testDownloadMetadata(): void {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
 		$this->clientService->expects($this->once())
-							->method('newClient')
-							->with()
-							->willReturn($client);
+			->method('newClient')
+			->with()
+			->willReturn($client);
 		$client->expects($this->once())
-			   ->method('get')
-			   ->willReturn($response);
+			->method('get')
+			->willReturn($response);
 		$response->expects($this->once())
-				 ->method('getBody')
-				 ->with()
-				 ->willReturn($this->resultRequest());
+			->method('getBody')
+			->with()
+			->willReturn($this->resultRequest());
 
 
 		$releaseMetadata = new ReleaseMetadata($this->clientService);
@@ -48,22 +48,22 @@ class ReleaseMetadataTest extends \Test\TestCase {
 	 * @param string $version
 	 * @param string $url
 	 */
-	public function testGetMetadata(string $version, string $url) {
+	public function testGetMetadata(string $version, string $url): void {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
 		$this->clientService->expects($this->once())
-							->method('newClient')
-							->with()
-							->willReturn($client);
+			->method('newClient')
+			->with()
+			->willReturn($client);
 		$client->expects($this->once())
-			   ->method('get')
-			   ->with($url)
-			   ->willReturn($response);
+			->method('get')
+			->with($url)
+			->willReturn($response);
 
 		$response->expects($this->once())
-				 ->method('getBody')
-				 ->with()
-				 ->willReturn('{}');
+			->method('getBody')
+			->with()
+			->willReturn('{}');
 
 		$releaseMetadata = new ReleaseMetadata($this->clientService);
 		$releaseMetadata->getMetadata($version);

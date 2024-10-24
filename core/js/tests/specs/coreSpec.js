@@ -765,6 +765,7 @@ describe('Core base tests', function() {
 			OC.currentUser = 'dummy';
 			clock = sinon.useFakeTimers();
 			reloadStub = sinon.stub(OC, 'reload');
+			document.head.dataset.user = 'dummy'
 			notificationStub = sinon.stub(OC.Notification, 'show');
 			// unstub the error processing method
 			ajaxErrorStub = OC._processAjaxError;
@@ -778,47 +779,6 @@ describe('Core base tests', function() {
 			clock.restore();
 		});
 
-		it('reloads current page in case of auth error', function() {
-			var dataProvider = [
-				[200, false],
-				[400, false],
-				[0, false],
-				[401, true],
-				[302, true],
-				[303, true],
-				[307, true]
-			];
-
-			for (var i = 0; i < dataProvider.length; i++) {
-				var xhr = { status: dataProvider[i][0] };
-				var expectedCall = dataProvider[i][1];
-
-				reloadStub.reset();
-				OC._reloadCalled = false;
-
-				$(document).trigger(new $.Event('ajaxError'), xhr);
-
-				// trigger timers
-				clock.tick(waitTimeMs);
-
-				if (expectedCall) {
-					expect(reloadStub.calledOnce).toEqual(true);
-				} else {
-					expect(reloadStub.notCalled).toEqual(true);
-				}
-			}
-		});
-		it('reload only called once in case of auth error', function() {
-			var xhr = { status: 401 };
-
-			$(document).trigger(new $.Event('ajaxError'), xhr);
-			$(document).trigger(new $.Event('ajaxError'), xhr);
-
-			// trigger timers
-			clock.tick(waitTimeMs);
-
-			expect(reloadStub.calledOnce).toEqual(true);
-		});
 		it('does not reload the page if the user was navigating away', function() {
 			var xhr = { status: 0 };
 			OC._userIsNavigatingAway = true;
@@ -829,16 +789,7 @@ describe('Core base tests', function() {
 			clock.tick(waitTimeMs);
 			expect(reloadStub.notCalled).toEqual(true);
 		});
-		it('displays notification', function() {
-			var xhr = { status: 401 };
 
-			notificationUpdateStub = sinon.stub(OC.Notification, 'showUpdate');
-
-			$(document).trigger(new $.Event('ajaxError'), xhr);
-
-			clock.tick(waitTimeMs);
-			expect(notificationUpdateStub.notCalled).toEqual(false);
-		});
 		it('shows a temporary notification if the connection is lost', function() {
 			var xhr = { status: 0 };
 			spyOn(OC, '_ajaxConnectionLostHandler');

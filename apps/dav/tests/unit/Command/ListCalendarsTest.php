@@ -19,7 +19,7 @@ use Test\TestCase;
  */
 class ListCalendarsTest extends TestCase {
 
-	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject $userManager */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject $userManager */
 	private $userManager;
 
 	/** @var CalDavBackend|\PHPUnit\Framework\MockObject\MockObject $l10n */
@@ -54,7 +54,7 @@ class ListCalendarsTest extends TestCase {
 		$commandTester->execute([
 			'uid' => self::USERNAME,
 		]);
-		$this->assertStringContainsString("User <" . self::USERNAME . "> in unknown", $commandTester->getDisplay());
+		$this->assertStringContainsString('User <' . self::USERNAME . '> in unknown', $commandTester->getDisplay());
 	}
 
 	public function testWithCorrectUserWithNoCalendars(): void {
@@ -72,7 +72,7 @@ class ListCalendarsTest extends TestCase {
 		$commandTester->execute([
 			'uid' => self::USERNAME,
 		]);
-		$this->assertStringContainsString("User <" . self::USERNAME . "> has no calendars\n", $commandTester->getDisplay());
+		$this->assertStringContainsString('User <' . self::USERNAME . "> has no calendars\n", $commandTester->getDisplay());
 	}
 
 	public function dataExecute() {

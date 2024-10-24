@@ -19,26 +19,12 @@ use OCP\Security\ISecureRandom;
 class BackupCodeStorage {
 	private static $CODE_LENGTH = 16;
 
-	/** @var BackupCodeMapper */
-	private $mapper;
-
-	/** @var IHasher */
-	private $hasher;
-
-	/** @var ISecureRandom */
-	private $random;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	public function __construct(BackupCodeMapper $mapper,
-		ISecureRandom $random,
-		IHasher $hasher,
-		IEventDispatcher $eventDispatcher) {
-		$this->mapper = $mapper;
-		$this->hasher = $hasher;
-		$this->random = $random;
-		$this->eventDispatcher = $eventDispatcher;
+	public function __construct(
+		private BackupCodeMapper $mapper,
+		private ISecureRandom $random,
+		private IHasher $hasher,
+		private IEventDispatcher $eventDispatcher,
+	) {
 	}
 
 	/**
@@ -87,7 +73,7 @@ class BackupCodeStorage {
 		$codes = $this->mapper->getBackupCodes($user);
 		$total = count($codes);
 		$used = 0;
-		array_walk($codes, function (BackupCode $code) use (&$used) {
+		array_walk($codes, function (BackupCode $code) use (&$used): void {
 			if ((int)$code->getUsed() === 1) {
 				$used++;
 			}

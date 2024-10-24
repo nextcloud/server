@@ -78,7 +78,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 
 		$userAgent = $this->request->getHeader('USER_AGENT');
 
-		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
+		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
 
 		$generatedToken = $this->tokenProvider->generateToken(
 			$token,
@@ -149,7 +149,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 			throw new OCSForbiddenException('could not rotate apptoken');
 		}
 
-		$newToken = $this->random->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
+		$newToken = $this->random->generate(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
 		$this->tokenProvider->rotate($token, $appPassword, $newToken);
 
 		return new DataResponse([

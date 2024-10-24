@@ -8,6 +8,8 @@ namespace OCA\Files_Sharing\Tests;
 
 use OCA\Files_Sharing\ExpireSharesJob;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Constants;
+use OCP\IDBConnection;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 
@@ -23,7 +25,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 	/** @var ExpireSharesJob */
 	private $job;
 
-	/** @var \OCP\IDBConnection */
+	/** @var IDBConnection */
 	private $connection;
 
 	/** @var string */
@@ -107,7 +109,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 	 * @param bool $addInterval If true add to the current time if false subtract
 	 * @param bool $shouldExpire Should this share be expired
 	 */
-	public function testExpireLinkShare($addExpiration, $interval, $addInterval, $shouldExpire) {
+	public function testExpireLinkShare($addExpiration, $interval, $addInterval, $shouldExpire): void {
 		$this->loginAsUser($this->user1);
 
 		$user1Folder = \OC::$server->getUserFolder($this->user1);
@@ -118,7 +120,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 
 		$share->setNode($testFolder)
 			->setShareType(IShare::TYPE_LINK)
-			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setPermissions(Constants::PERMISSION_READ)
 			->setSharedBy($this->user1);
 
 		$shareManager->createShare($share);
@@ -164,7 +166,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 		}
 	}
 
-	public function testDoNotExpireOtherShares() {
+	public function testDoNotExpireOtherShares(): void {
 		$this->loginAsUser($this->user1);
 
 		$user1Folder = \OC::$server->getUserFolder($this->user1);
@@ -175,7 +177,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 
 		$share->setNode($testFolder)
 			->setShareType(IShare::TYPE_USER)
-			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setPermissions(Constants::PERMISSION_READ)
 			->setSharedBy($this->user1)
 			->setSharedWith($this->user2);
 

@@ -78,7 +78,7 @@ class HomeCacheTest extends \Test\TestCase {
 	 * that have an unknown size. This makes sure that quota calculation still
 	 * works as it's based on the "files" folder size.
 	 */
-	public function testRootFolderSizeIgnoresUnknownUpdate() {
+	public function testRootFolderSizeIgnoresUnknownUpdate(): void {
 		$dir1 = 'files/knownsize';
 		$dir2 = 'files/unknownsize';
 		$fileData = [];
@@ -110,7 +110,7 @@ class HomeCacheTest extends \Test\TestCase {
 		$this->assertFalse($this->cache->inCache($dir2));
 	}
 
-	public function testRootFolderSizeIsFilesSize() {
+	public function testRootFolderSizeIsFilesSize(): void {
 		$dir1 = 'files';
 		$afile = 'test.txt';
 		$fileData = [];

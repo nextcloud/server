@@ -23,8 +23,8 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\Constants;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\FileInfo;
-use OCP\Files\Folder;
+use OCP\Files\File;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IPreview;
@@ -34,7 +34,6 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Share\IPublicShareTemplateProvider;
 use OCP\Share\IShare;
-use OCP\Template;
 use OCP\Util;
 
 class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider {
@@ -51,6 +50,7 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		private IConfig $config,
 		private IRequest $request,
 		private IInitialState $initialState,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -60,113 +60,143 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 
 	public function renderPage(IShare $share, string $token, string $path): TemplateResponse {
 		$shareNode = $share->getNode();
+		$ownerName = '';
+		$ownerId = '';
 
-		$shareTmpl = [];
-		$shareTmpl['owner'] = '';
-		$shareTmpl['shareOwner'] = '';
-
+		// Only make the share owner public if they allowed to show their name
 		$owner = $this->userManager->get($share->getShareOwner());
 		if ($owner instanceof IUser) {
 			$ownerAccount = $this->accountManager->getAccount($owner);
 
-			$ownerName = $ownerAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME);
-			if ($ownerName->getScope() === IAccountManager::SCOPE_PUBLISHED) {
-				$shareTmpl['owner'] = $owner->getUID();
-				$shareTmpl['shareOwner'] = $owner->getDisplayName();
-				$this->initialState->provideInitialState('owner', $shareTmpl['owner']);
-				$this->initialState->provideInitialState('ownerDisplayName', $shareTmpl['shareOwner']);
+			$ownerNameProperty = $ownerAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME);
+			if ($ownerNameProperty->getScope() === IAccountManager::SCOPE_PUBLISHED) {
+				$ownerName = $owner->getDisplayName();
+				$ownerId = $owner->getUID();
 			}
 		}
 
-		// Provide initial state
-		$this->initialState->provideInitialState('label', $share->getLabel());
-		$this->initialState->provideInitialState('note', $share->getNote());
+		$view = 'public-share';
+		if ($shareNode instanceof File) {
+			$view = 'public-file-share';
+			$this->initialState->provideInitialState('fileId', $shareNode->getId());
+		} elseif (($share->getPermissions() & Constants::PERMISSION_CREATE)
+			&& !($share->getPermissions() & Constants::PERMISSION_READ)
+		) {
+			// share is a folder with create but no read permissions -> file drop only
+			$view = 'public-file-drop';
+			// Only needed for file drops
+			$this->initialState->provideInitialState(
+				'disclaimer',
+				$this->appConfig->getValueString('core', 'shareapi_public_link_disclaimertext'),
+			);
+		}
+		// Set up initial state
+		$this->initialState->provideInitialState('isPublic', true);
+		$this->initialState->provideInitialState('sharingToken', $token);
+		$this->initialState->provideInitialState('sharePermissions', $share->getPermissions());
 		$this->initialState->provideInitialState('filename', $shareNode->getName());
+		$this->initialState->provideInitialState('view', $view);
 
-		$shareTmpl['filename'] = $shareNode->getName();
-		$shareTmpl['directory_path'] = $share->getTarget();
-		$shareTmpl['label'] = $share->getLabel();
-		$shareTmpl['note'] = $share->getNote();
-		$shareTmpl['mimetype'] = $shareNode->getMimetype();
-		$shareTmpl['previewSupported'] = $this->previewManager->isMimeSupported($shareNode->getMimetype());
-		$shareTmpl['dirToken'] = $token;
-		$shareTmpl['sharingToken'] = $token;
-		$shareTmpl['server2serversharing'] = $this->federatedShareProvider->isOutgoingServer2serverShareEnabled();
-		$shareTmpl['protected'] = $share->getPassword() !== null ? 'true' : 'false';
-		$shareTmpl['dir'] = '';
-		$shareTmpl['nonHumanFileSize'] = $shareNode->getSize();
-		$shareTmpl['fileSize'] = Util::humanFileSize($shareNode->getSize());
-		$shareTmpl['hideDownload'] = $share->getHideDownload();
+		// Load scripts and styles for UI
+		Util::addInitScript('files', 'init');
+		Util::addInitScript(Application::APP_ID, 'init');
+		Util::addInitScript(Application::APP_ID, 'init-public');
+		Util::addScript('files', 'main');
 
-		$hideFileList = false;
-
-		if ($shareNode instanceof Folder) {
-			$shareIsFolder = true;
-
-			$folderNode = $shareNode->get($path);
-			$shareTmpl['dir'] = $shareNode->getRelativePath($folderNode->getPath());
-
-			/*
-			 * The OC_Util methods require a view. This just uses the node API
-			 */
-			$freeSpace = $share->getNode()->getStorage()->free_space($share->getNode()->getInternalPath());
-			if ($freeSpace < FileInfo::SPACE_UNLIMITED) {
-				$freeSpace = (int)max($freeSpace, 0);
-			} else {
-				$freeSpace = (INF > 0) ? INF: PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
-			}
-
-			$hideFileList = !($share->getPermissions() & Constants::PERMISSION_READ);
-			$maxUploadFilesize = $freeSpace;
-
-			$folder = new Template('files', 'list', '');
-
-			$folder->assign('dir', $shareNode->getRelativePath($folderNode->getPath()));
-			$folder->assign('dirToken', $token);
-			$folder->assign('permissions', Constants::PERMISSION_READ);
-			$folder->assign('isPublic', true);
-			$folder->assign('hideFileList', $hideFileList);
-			$folder->assign('publicUploadEnabled', 'no');
-			// default to list view
-			$folder->assign('showgridview', false);
-			$folder->assign('uploadMaxFilesize', $maxUploadFilesize);
-			$folder->assign('uploadMaxHumanFilesize', Util::humanFileSize($maxUploadFilesize));
-			$folder->assign('freeSpace', $freeSpace);
-			$folder->assign('usedSpacePercent', 0);
-			$folder->assign('trash', false);
-			$shareTmpl['folder'] = $folder->fetchPage();
-		} else {
-			$shareIsFolder = false;
+		// Add file-request script if needed
+		$attributes = $share->getAttributes();
+		$isFileRequest = $attributes?->getAttribute('fileRequest', 'enabled') === true;
+		if ($isFileRequest) {
+			Util::addScript(Application::APP_ID, 'public-file-request');
 		}
 
-		// default to list view
-		$shareTmpl['showgridview'] = false;
+		// Load Viewer scripts
+		if (class_exists(LoadViewer::class)) {
+			$this->eventDispatcher->dispatchTyped(new LoadViewer());
+		}
 
-		$shareTmpl['hideFileList'] = $hideFileList;
-		$shareTmpl['downloadURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.downloadShare', [
-			'token' => $token,
-			'filename' => $shareIsFolder ? null : $shareNode->getName()
-		]);
-		$shareTmpl['shareUrl'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $token]);
-		$shareTmpl['maxSizeAnimateGif'] = $this->config->getSystemValue('max_filesize_animated_gifs_public_sharing', 10);
-		$shareTmpl['previewEnabled'] = $this->config->getSystemValue('enable_previews', true);
-		$shareTmpl['previewMaxX'] = $this->config->getSystemValue('preview_max_x', 1024);
-		$shareTmpl['previewMaxY'] = $this->config->getSystemValue('preview_max_y', 1024);
-		$shareTmpl['disclaimer'] = $this->config->getAppValue('core', 'shareapi_public_link_disclaimertext', '');
-		$shareTmpl['previewURL'] = $shareTmpl['downloadURL'];
+		// Allow external apps to register their scripts
+		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($share));
 
-		if ($shareTmpl['previewSupported']) {
-			$shareTmpl['previewImage'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.PublicPreview.getPreview',
-				['x' => 200, 'y' => 200, 'file' => $shareTmpl['directory_path'], 'token' => $shareTmpl['dirToken']]);
-			$ogPreview = $shareTmpl['previewImage'];
+		// OpenGraph Support: http://ogp.me/
+		$this->addOpenGraphHeaders($share);
 
-			// We just have direct previews for image files
+		// CSP to allow office
+		$csp = new ContentSecurityPolicy();
+		$csp->addAllowedFrameDomain('\'self\'');
+
+		$response = new PublicTemplateResponse(
+			'files',
+			'index',
+		);
+		$response->setContentSecurityPolicy($csp);
+		// If the share has a label, use it as the title
+		if ($share->getLabel() !== '') {
+			$response->setHeaderTitle($share->getLabel());
+		} else {
+			$response->setHeaderTitle($shareNode->getName());
+		}
+		if ($ownerName !== '') {
+			$response->setHeaderDetails($this->l10n->t('shared by %s', [$ownerName]));
+		}
+
+		// Create the header action menu
+		$headerActions = [];
+		if ($view !== 'public-file-drop') {
+			// The download URL is used for the "download" header action as well as in some cases for the direct link
+			$downloadUrl = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.downloadShare', [
+				'token' => $token,
+				'filename' => ($shareNode instanceof File) ? $shareNode->getName() : null,
+			]);
+
+			// If not a file drop, then add the download header action
+			$headerActions[] = new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $downloadUrl, 0, (string)$shareNode->getSize());
+
+			// If remote sharing is enabled also add the remote share action to the menu
+			if ($this->federatedShareProvider->isOutgoingServer2serverShareEnabled() && !$share->getHideDownload()) {
+				$headerActions[] = new ExternalShareMenuAction(
+					// TRANSLATORS The placeholder refers to the software product name as in 'Add to your Nextcloud'
+					$this->l10n->t('Add to your %s', [$this->defaults->getProductName()]),
+					'icon-external',
+					$ownerId,
+					$ownerName,
+					$shareNode->getName(),
+				);
+			}
+		}
+
+		$shareUrl = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $token]);
+		// By default use the share link as the direct link
+		$directLink = $shareUrl;
+		// Add the direct link header actions
+		if ($shareNode->getMimePart() === 'image') {
+			// If this is a file and especially an image directly point to the image preview
+			$directLink = $this->urlGenerator->linkToRouteAbsolute('files_sharing.publicpreview.directLink', ['token' => $token]);
+		} elseif (($share->getPermissions() & Constants::PERMISSION_READ) && !$share->getHideDownload()) {
+			// Can read and no download restriction, so just download it
+			$directLink = $downloadUrl ?? $shareUrl;
+		}
+		$headerActions[] = new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $directLink);
+		$response->setHeaderActions($headerActions);
+
+		return $response;
+	}
+
+	/**
+	 * Add OpenGraph headers to response for preview
+	 * @param IShare $share The share for which to add the headers
+	 */
+	protected function addOpenGraphHeaders(IShare $share): void {
+		$shareNode = $share->getNode();
+		$token = $share->getToken();
+		$shareUrl = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $token]);
+
+		// Handle preview generation for OpenGraph
+		if ($this->previewManager->isMimeSupported($shareNode->getMimetype())) {
+			// For images we can use direct links
 			if ($shareNode->getMimePart() === 'image') {
-				$shareTmpl['previewURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.publicpreview.directLink', ['token' => $token]);
-
-				$ogPreview = $shareTmpl['previewURL'];
-
-				//Whatapp is kind of picky about their size requirements
+				$ogPreview = $this->urlGenerator->linkToRouteAbsolute('files_sharing.publicpreview.directLink', ['token' => $token]);
+				// Whatsapp is kind of picky about their size requirements
 				if ($this->request->isUserAgent(['/^WhatsApp/'])) {
 					$ogPreview = $this->urlGenerator->linkToRouteAbsolute('files_sharing.PublicPreview.getPreview', [
 						'token' => $token,
@@ -175,97 +205,28 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 						'a' => true,
 					]);
 				}
+			} else {
+				// For normal files use preview API
+				$ogPreview = $this->urlGenerator->linkToRouteAbsolute(
+					'files_sharing.PublicPreview.getPreview',
+					[
+						'x' => 256,
+						'y' => 256,
+						'file' => $share->getTarget(),
+						'token' => $token,
+					],
+				);
 			}
 		} else {
-			$shareTmpl['previewImage'] = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-fb.png'));
-			$ogPreview = $shareTmpl['previewImage'];
+			// No preview supported, so we just add the favicon
+			$ogPreview = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-fb.png'));
 		}
 
-		// Load files we need
-		Util::addScript('files', 'semaphore');
-		Util::addScript('files', 'file-upload');
-		Util::addStyle('files_sharing', 'publicView');
-		Util::addScript('files_sharing', 'public');
-		Util::addScript('files_sharing', 'templates');
-		Util::addScript('files', 'fileactions');
-		Util::addScript('files', 'fileactionsmenu');
-		Util::addScript('files', 'jquery.fileupload');
-		Util::addScript('files_sharing', 'files_drop');
-
-		if (isset($shareTmpl['folder'])) {
-			// JS required for folders
-			Util::addStyle('files', 'merged');
-			Util::addScript('files', 'filesummary');
-			Util::addScript('files', 'templates');
-			Util::addScript('files', 'breadcrumb');
-			Util::addScript('files', 'fileinfomodel');
-			Util::addScript('files', 'newfilemenu');
-			Util::addScript('files', 'files');
-			Util::addScript('files', 'filemultiselectmenu');
-			Util::addScript('files', 'filelist');
-			Util::addScript('files', 'keyboardshortcuts');
-			Util::addScript('files', 'operationprogressbar');
-		}
-
-		// Load Viewer scripts
-		if (class_exists(LoadViewer::class)) {
-			$this->eventDispatcher->dispatchTyped(new LoadViewer());
-		}
-		// OpenGraph Support: http://ogp.me/
-		Util::addHeader('meta', ['property' => "og:title", 'content' => $shareTmpl['filename']]);
-		Util::addHeader('meta', ['property' => "og:description", 'content' => $this->defaults->getName() . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : '')]);
-		Util::addHeader('meta', ['property' => "og:site_name", 'content' => $this->defaults->getName()]);
-		Util::addHeader('meta', ['property' => "og:url", 'content' => $shareTmpl['shareUrl']]);
-		Util::addHeader('meta', ['property' => "og:type", 'content' => "object"]);
-		Util::addHeader('meta', ['property' => "og:image", 'content' => $ogPreview]);
-
-		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($share));
-
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedFrameDomain('\'self\'');
-
-		$response = new PublicTemplateResponse(Application::APP_ID, 'public', $shareTmpl);
-		$response->setHeaderTitle($shareTmpl['filename']);
-		if ($shareTmpl['shareOwner'] !== '') {
-			$response->setHeaderDetails($this->l10n->t('shared by %s', [$shareTmpl['shareOwner']]));
-		}
-
-		// If the share has a label, use it as the title
-		if ($shareTmpl['label'] !== '') {
-			$response->setHeaderTitle($shareTmpl['label']);
-		}
-
-		$isNoneFileDropFolder = $shareIsFolder === false || $share->getPermissions() !== Constants::PERMISSION_CREATE;
-
-		if ($isNoneFileDropFolder && !$share->getHideDownload()) {
-			Util::addScript('files_sharing', 'public_note');
-
-			$downloadWhite = new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download-white', $shareTmpl['downloadURL'], 0);
-			$downloadAllWhite = new SimpleMenuAction('download', $this->l10n->t('Download all files'), 'icon-download-white', $shareTmpl['downloadURL'], 0);
-			$download = new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']);
-			$downloadAll = new SimpleMenuAction('download', $this->l10n->t('Download all files'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']);
-			$directLink = new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $shareTmpl['previewURL']);
-			// TRANSLATORS The placeholder refers to the software product name as in 'Add to your Nextcloud'
-			$externalShare = new ExternalShareMenuAction($this->l10n->t('Add to your %s', [$this->defaults->getProductName()]), 'icon-external', $shareTmpl['owner'], $shareTmpl['shareOwner'], $shareTmpl['filename']);
-
-			$responseComposer = [];
-
-			if ($shareIsFolder) {
-				$responseComposer[] = $downloadAllWhite;
-				$responseComposer[] = $downloadAll;
-			} else {
-				$responseComposer[] = $downloadWhite;
-				$responseComposer[] = $download;
-			}
-			$responseComposer[] = $directLink;
-			if ($this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
-				$responseComposer[] = $externalShare;
-			}
-
-			$response->setHeaderActions($responseComposer);
-		}
-
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		Util::addHeader('meta', ['property' => 'og:title', 'content' => $shareNode->getName()]);
+		Util::addHeader('meta', ['property' => 'og:description', 'content' => $this->defaults->getName() . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : '')]);
+		Util::addHeader('meta', ['property' => 'og:site_name', 'content' => $this->defaults->getName()]);
+		Util::addHeader('meta', ['property' => 'og:url', 'content' => $shareUrl]);
+		Util::addHeader('meta', ['property' => 'og:type', 'content' => 'object']);
+		Util::addHeader('meta', ['property' => 'og:image', 'content' => $ogPreview]);
 	}
 }

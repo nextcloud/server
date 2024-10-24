@@ -125,7 +125,7 @@ class ShareByMailProviderTest extends TestCase {
 
 	protected function tearDown(): void {
 		$this->dbConn->getQueryBuilder()->delete('share')->execute();
-		$this->dbConn->getQueryBuilder()->delete('filecache')->execute();
+		$this->dbConn->getQueryBuilder()->delete('filecache')->runAcrossAllShards()->execute();
 		$this->dbConn->getQueryBuilder()->delete('storages')->execute();
 	}
 
@@ -179,7 +179,7 @@ class ShareByMailProviderTest extends TestCase {
 			$qb->setValue('token', $qb->expr()->literal($token));
 		}
 		if ($expiration) {
-			$qb->setValue('expiration', $qb->createNamedParameter($expiration, IQueryBuilder::PARAM_DATE));
+			$qb->setValue('expiration', $qb->createNamedParameter($expiration, IQueryBuilder::PARAM_DATETIME_MUTABLE));
 		}
 		if ($parent) {
 			$qb->setValue('parent', $qb->expr()->literal($parent));
@@ -189,7 +189,7 @@ class ShareByMailProviderTest extends TestCase {
 		return $qb->getLastInsertId();
 	}
 
-	public function testGetSharesByWithResharesAndNoNode() {
+	public function testGetSharesByWithResharesAndNoNode(): void {
 		$this->addShareToDB(
 			IShare::TYPE_EMAIL,
 			'external.one@domain.tld',
@@ -236,7 +236,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertEquals('external.one@domain.tld', $actual[0]->getSharedWith());
 	}
 
-	public function testGetSharesByWithResharesAndNode() {
+	public function testGetSharesByWithResharesAndNode(): void {
 		$this->addShareToDB(
 			IShare::TYPE_EMAIL,
 			'external.one@domain.tld',

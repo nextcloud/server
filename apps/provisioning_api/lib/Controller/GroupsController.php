@@ -21,6 +21,7 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
+use OCP\Group\ISubAdmin;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -37,18 +38,18 @@ use Psr\Log\LoggerInterface;
  */
 class GroupsController extends AUserData {
 
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
 		IUserManager $userManager,
 		IConfig $config,
 		IGroupManager $groupManager,
 		IUserSession $userSession,
 		IAccountManager $accountManager,
+		ISubAdmin $subAdminManager,
 		IFactory $l10nFactory,
-		LoggerInterface $logger) {
+		private LoggerInterface $logger,
+	) {
 		parent::__construct($appName,
 			$request,
 			$userManager,
@@ -56,10 +57,9 @@ class GroupsController extends AUserData {
 			$groupManager,
 			$userSession,
 			$accountManager,
+			$subAdminManager,
 			$l10nFactory
 		);
-
-		$this->logger = $logger;
 	}
 
 	/**

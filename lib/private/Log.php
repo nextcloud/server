@@ -42,7 +42,7 @@ class Log implements ILogger, IDataLogger {
 		private IWriter $logger,
 		private SystemConfig $config,
 		private Normalizer $normalizer = new Normalizer(),
-		private ?IRegistry $crashReporters = null
+		private ?IRegistry $crashReporters = null,
 	) {
 	}
 
@@ -326,7 +326,7 @@ class Log implements ILogger, IDataLogger {
 		try {
 			$serializer = $this->getSerializer();
 		} catch (Throwable $e) {
-			$this->error("Failed to load ExceptionSerializer serializer while trying to log " . $exception->getMessage());
+			$this->error('Failed to load ExceptionSerializer serializer while trying to log ' . $exception->getMessage());
 			return;
 		}
 		$data = $context;

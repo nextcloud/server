@@ -16,16 +16,16 @@ use Test\TestCase;
 
 class StatusControllerTest extends TestCase {
 
-	/** @var \OCP\IRequest|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $requestMock;
 
-	/** @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10nMock;
 
-	/** @var  \OCA\Encryption\Session | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Session|\PHPUnit\Framework\MockObject\MockObject */
 	protected $sessionMock;
 
-	/** @var  IManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager | \PHPUnit\Framework\MockObject\MockObject */
 	protected $encryptionManagerMock;
 
 	/** @var StatusController */
@@ -60,7 +60,7 @@ class StatusControllerTest extends TestCase {
 	 * @param string $status
 	 * @param string $expectedStatus
 	 */
-	public function testGetStatus($status, $expectedStatus) {
+	public function testGetStatus($status, $expectedStatus): void {
 		$this->sessionMock->expects($this->once())
 			->method('getStatus')->willReturn($status);
 		$result = $this->controller->getStatus();

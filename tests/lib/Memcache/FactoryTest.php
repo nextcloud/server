@@ -107,10 +107,10 @@ class FactoryTest extends \Test\TestCase {
 	 * @dataProvider cacheAvailabilityProvider
 	 */
 	public function testCacheAvailability($localCache, $distributedCache, $lockingCache,
-		$expectedLocalCache, $expectedDistributedCache, $expectedLockingCache) {
+		$expectedLocalCache, $expectedDistributedCache, $expectedLockingCache): void {
 		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$profiler = $this->getMockBuilder(IProfiler::class)->getMock();
-		$factory = new \OC\Memcache\Factory('abc', $logger, $profiler, $localCache, $distributedCache, $lockingCache);
+		$factory = new \OC\Memcache\Factory(fn () => 'abc', $logger, $profiler, $localCache, $distributedCache, $lockingCache);
 		$this->assertTrue(is_a($factory->createLocal(), $expectedLocalCache));
 		$this->assertTrue(is_a($factory->createDistributed(), $expectedDistributedCache));
 		$this->assertTrue(is_a($factory->createLocking(), $expectedLockingCache));
@@ -119,18 +119,18 @@ class FactoryTest extends \Test\TestCase {
 	/**
 	 * @dataProvider cacheUnavailableProvider
 	 */
-	public function testCacheNotAvailableException($localCache, $distributedCache) {
+	public function testCacheNotAvailableException($localCache, $distributedCache): void {
 		$this->expectException(\OCP\HintException::class);
 
 		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$profiler = $this->getMockBuilder(IProfiler::class)->getMock();
-		new \OC\Memcache\Factory('abc', $logger, $profiler, $localCache, $distributedCache);
+		new \OC\Memcache\Factory(fn () => 'abc', $logger, $profiler, $localCache, $distributedCache);
 	}
 
 	public function testCreateInMemory(): void {
 		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$profiler = $this->getMockBuilder(IProfiler::class)->getMock();
-		$factory = new \OC\Memcache\Factory('abc', $logger, $profiler, null, null, null);
+		$factory = new \OC\Memcache\Factory(fn () => 'abc', $logger, $profiler, null, null, null);
 
 		$cache = $factory->createInMemory();
 		$cache->set('test', 48);

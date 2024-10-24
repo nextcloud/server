@@ -10,7 +10,8 @@
 		<td>
 			<div class="action-secret">
 				<code>{{ renderedSecret }}</code>
-				<NcButton type="tertiary-no-background"
+				<NcButton v-if="clientSecret !== ''"
+					type="tertiary-no-background"
 					:aria-label="toggleAriaLabel"
 					@click="toggleSecret">
 					<template #icon>
@@ -104,6 +105,6 @@ export default {
 	.action-column {
 		display: flex;
 		justify-content: flex-end;
-		padding-right: 0;
+		padding-inline-end: 0;
 	}
 </style>

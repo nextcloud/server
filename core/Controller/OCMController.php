@@ -32,7 +32,7 @@ class OCMController extends Controller {
 	public function __construct(
 		IRequest $request,
 		private IConfig $config,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 		parent::__construct('core', $request);
 	}

@@ -8,8 +8,7 @@
 	.select2-result-label {
 		.checkmark {
 			visibility: hidden;
-			margin-left: -5px;
-			margin-right: 5px;
+			margin-inline: -5px 5px;
 			padding: 4px;
 		}
 		.new-item .systemtags-actions {
@@ -28,7 +27,7 @@
 	}
 	.systemtags-actions {
 		position: absolute;
-		right: 5px;
+		inset-inline-end: 5px;
 	}
 	.systemtags-rename-form {
 		display: inline-block;

@@ -126,7 +126,7 @@ class MigratorTest extends \Test\TestCase {
 		return $config;
 	}
 
-	public function testUpgrade() {
+	public function testUpgrade(): void {
 		[$startSchema, $endSchema] = $this->getDuplicateKeySchemas();
 		$migrator = $this->getMigrator();
 		$migrator->migrate($startSchema);
@@ -139,7 +139,7 @@ class MigratorTest extends \Test\TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testUpgradeDifferentPrefix() {
+	public function testUpgradeDifferentPrefix(): void {
 		$oldTablePrefix = $this->config->getSystemValueString('dbtableprefix', 'oc_');
 
 		$this->config->setSystemValue('dbtableprefix', 'ownc_');
@@ -159,7 +159,7 @@ class MigratorTest extends \Test\TestCase {
 		$this->config->setSystemValue('dbtableprefix', $oldTablePrefix);
 	}
 
-	public function testInsertAfterUpgrade() {
+	public function testInsertAfterUpgrade(): void {
 		[$startSchema, $endSchema] = $this->getDuplicateKeySchemas();
 		$migrator = $this->getMigrator();
 		$migrator->migrate($startSchema);
@@ -176,7 +176,7 @@ class MigratorTest extends \Test\TestCase {
 		}
 	}
 
-	public function testAddingPrimaryKeyWithAutoIncrement() {
+	public function testAddingPrimaryKeyWithAutoIncrement(): void {
 		$startSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $startSchema->createTable($this->tableName);
 		$table->addColumn('id', 'integer');
@@ -196,7 +196,7 @@ class MigratorTest extends \Test\TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testReservedKeywords() {
+	public function testReservedKeywords(): void {
 		$startSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $startSchema->createTable($this->tableName);
 		$table->addColumn('id', 'integer', ['autoincrement' => true]);
@@ -220,7 +220,7 @@ class MigratorTest extends \Test\TestCase {
 	/**
 	 * Test for nextcloud/server#36803
 	 */
-	public function testColumnCommentsInUpdate() {
+	public function testColumnCommentsInUpdate(): void {
 		$startSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $startSchema->createTable($this->tableName);
 		$table->addColumn('id', 'integer', ['autoincrement' => true, 'comment' => 'foo']);
@@ -241,14 +241,14 @@ class MigratorTest extends \Test\TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testAddingForeignKey() {
+	public function testAddingForeignKey(): void {
 		$startSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $startSchema->createTable($this->tableName);
 		$table->addColumn('id', 'integer', ['autoincrement' => true]);
 		$table->addColumn('name', 'string');
 		$table->setPrimaryKey(['id']);
 
-		$fkName = "fkc";
+		$fkName = 'fkc';
 		$tableFk = $startSchema->createTable($this->tableNameTmp);
 		$tableFk->addColumn('fk_id', 'integer');
 		$tableFk->addColumn('name', 'string');

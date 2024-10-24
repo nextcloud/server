@@ -402,7 +402,7 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 			return $this;
 		}
 
-		$this->hash = hash("md5", $this->getContent());
+		$this->hash = hash('md5', $this->getContent());
 
 		return $this;
 	}
@@ -556,9 +556,9 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * @since 16.0.0
 	 */
 	private function cleanExcerpt(string $excerpt): string {
-		$excerpt = str_replace("\\n", ' ', $excerpt);
-		$excerpt = str_replace("\\r", ' ', $excerpt);
-		$excerpt = str_replace("\\t", ' ', $excerpt);
+		$excerpt = str_replace('\\n', ' ', $excerpt);
+		$excerpt = str_replace('\\r', ' ', $excerpt);
+		$excerpt = str_replace('\\t', ' ', $excerpt);
 		$excerpt = str_replace("\n", ' ', $excerpt);
 		$excerpt = str_replace("\r", ' ', $excerpt);
 		$excerpt = str_replace("\t", ' ', $excerpt);

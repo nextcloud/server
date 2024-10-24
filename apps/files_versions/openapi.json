@@ -65,40 +65,46 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "file": {
-                                        "type": "string",
-                                        "default": "",
-                                        "description": "Path of the file"
-                                    },
-                                    "x": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "default": 44,
-                                        "description": "Width of the preview"
-                                    },
-                                    "y": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "default": 44,
-                                        "description": "Height of the preview"
-                                    },
-                                    "version": {
-                                        "type": "string",
-                                        "default": "",
-                                        "description": "Version of the file to get the preview for"
-                                    }
-                                }
-                            }
+                "parameters": [
+                    {
+                        "name": "file",
+                        "in": "query",
+                        "description": "Path of the file",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
+                        "name": "x",
+                        "in": "query",
+                        "description": "Width of the preview",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 44
+                        }
+                    },
+                    {
+                        "name": "y",
+                        "in": "query",
+                        "description": "Height of the preview",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 44
+                        }
+                    },
+                    {
+                        "name": "version",
+                        "in": "query",
+                        "description": "Version of the file to get the preview for",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
                         }
                     }
-                },
+                ],
                 "responses": {
                     "200": {
                         "description": "Preview returned",

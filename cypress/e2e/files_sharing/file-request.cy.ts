@@ -5,12 +5,31 @@
 
 import type { User } from '@nextcloud/cypress'
 import { createFolder, getRowForFile, navigateToFolder } from '../files/FilesUtils'
-import { createFileRequest, enterGuestName } from './FilesSharingUtils'
+import { createFileRequest } from './FilesSharingUtils'
+
+const enterGuestName = (name: string) => {
+	cy.findByRole('dialog', { name: /Upload files to/ })
+		.should('be.visible')
+		.within(() => {
+			cy.findByRole('textbox', { name: 'Nickname' })
+				.should('be.visible')
+
+			cy.findByRole('textbox', { name: 'Nickname' })
+				.type(`{selectall}${name}`)
+
+			cy.findByRole('button', { name: 'Submit name' })
+				.should('be.visible')
+				.click()
+		})
+
+	cy.findByRole('dialog', { name: /Upload files to/ })
+		.should('not.exist')
+}
 
 describe('Files', { testIsolation: true }, () => {
+	const folderName = 'test-folder'
 	let user: User
 	let url = ''
-	let folderName = 'test-folder'
 
 	it('Login with a user and create a file request', () => {
 		cy.createRandomUser().then((_user) => {
@@ -33,19 +52,22 @@ describe('Files', { testIsolation: true }, () => {
 		enterGuestName('Guest')
 
 		// Check various elements on the page
-		cy.get('#public-upload .emptycontent').should('be.visible')
-		cy.get('#public-upload h2').contains(`Upload files to ${folderName}`)
-		cy.get('#public-upload input[type="file"]').as('fileInput').should('exist')
+		cy.contains(`Upload files to ${folderName}`)
+			.should('be.visible')
+		cy.findByRole('button', { name: 'Upload' })
+			.should('be.visible')
 
 		cy.intercept('PUT', '/public.php/dav/files/*/*').as('uploadFile')
 
 		// Upload a file
-		cy.get('@fileInput').selectFile({
-			contents: Cypress.Buffer.from('abcdef'),
-			fileName: 'file.txt',
-			mimeType: 'text/plain',
-			lastModified: Date.now(),
-		}, { force: true })
+		cy.get('[data-cy-files-sharing-file-drop] input[type="file"]')
+			.should('exist')
+			.selectFile({
+				contents: Cypress.Buffer.from('abcdef'),
+				fileName: 'file.txt',
+				mimeType: 'text/plain',
+				lastModified: Date.now(),
+			}, { force: true })
 
 		cy.wait('@uploadFile').its('response.statusCode').should('eq', 201)
 	})

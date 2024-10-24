@@ -20,9 +20,9 @@ use Sabre\VObject\Recur\NoInstancesException;
 use Test\TestCase;
 
 class RefreshWebcalServiceTest extends TestCase {
-	private CalDavBackend | MockObject $caldavBackend;
-	private Connection | MockObject $connection;
-	private LoggerInterface | MockObject $logger;
+	private CalDavBackend|MockObject $caldavBackend;
+	private Connection|MockObject $connection;
+	private LoggerInterface|MockObject $logger;
 	private ITimeFactory|MockObject $time;
 
 	protected function setUp(): void {
@@ -248,11 +248,11 @@ class RefreshWebcalServiceTest extends TestCase {
 
 		$noInstanceException = new NoInstancesException("can't add calendar object");
 		$this->caldavBackend->expects(self::once())
-			->method("createCalendarObject")
+			->method('createCalendarObject')
 			->willThrowException($noInstanceException);
 
 		$this->logger->expects(self::once())
-			->method('error')
+			->method('warning')
 			->with('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $noInstanceException, 'subscriptionId' => '42', 'source' => 'webcal://foo.bar/bla2']);
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
@@ -298,11 +298,11 @@ class RefreshWebcalServiceTest extends TestCase {
 
 		$badRequestException = new BadRequest("can't add reach calendar url");
 		$this->caldavBackend->expects(self::once())
-			->method("createCalendarObject")
+			->method('createCalendarObject')
 			->willThrowException($badRequestException);
 
 		$this->logger->expects(self::once())
-			->method('error')
+			->method('warning')
 			->with('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $badRequestException, 'subscriptionId' => '42', 'source' => 'webcal://foo.bar/bla2']);
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');

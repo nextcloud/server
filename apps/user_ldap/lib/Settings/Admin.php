@@ -13,14 +13,12 @@ use OCP\Settings\IDelegatedSettings;
 use OCP\Template;
 
 class Admin implements IDelegatedSettings {
-	/** @var IL10N */
-	private $l;
-
 	/**
 	 * @param IL10N $l
 	 */
-	public function __construct(IL10N $l) {
-		$this->l = $l;
+	public function __construct(
+		private IL10N $l,
+	) {
 	}
 
 	/**
@@ -55,7 +53,7 @@ class Admin implements IDelegatedSettings {
 		}
 		$defaults = $config->getDefaults();
 		foreach ($defaults as $key => $default) {
-			$parameters[$key.'_default'] = $default;
+			$parameters[$key . '_default'] = $default;
 		}
 
 		return new TemplateResponse('user_ldap', 'settings', $parameters);
@@ -70,8 +68,8 @@ class Admin implements IDelegatedSettings {
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
+	 *             the admin section. The forms are arranged in ascending order of the
+	 *             priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
 	 */

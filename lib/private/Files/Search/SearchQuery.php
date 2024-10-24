@@ -11,13 +11,13 @@ use OCP\Files\Search\ISearchQuery;
 use OCP\IUser;
 
 class SearchQuery implements ISearchQuery {
-	/** @var  ISearchOperator */
+	/** @var ISearchOperator */
 	private $searchOperation;
-	/** @var  integer */
+	/** @var integer */
 	private $limit;
-	/** @var  integer */
+	/** @var integer */
 	private $offset;
-	/** @var  ISearchOrder[] */
+	/** @var ISearchOrder[] */
 	private $order;
 	/** @var ?IUser */
 	private $user;
@@ -39,7 +39,7 @@ class SearchQuery implements ISearchQuery {
 		int $offset,
 		array $order,
 		?IUser $user = null,
-		bool $limitToHome = false
+		bool $limitToHome = false,
 	) {
 		$this->searchOperation = $searchOperation;
 		$this->limit = $limit;

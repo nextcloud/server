@@ -7,6 +7,7 @@ namespace OCA\OAuth2\Tests\Db;
 
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
+use OCA\OAuth2\Exceptions\ClientNotFoundException;
 use Test\TestCase;
 
 /**
@@ -28,7 +29,7 @@ class ClientMapperTest extends TestCase {
 		parent::tearDown();
 	}
 
-	public function testGetByIdentifier() {
+	public function testGetByIdentifier(): void {
 		$client = new Client();
 		$client->setClientIdentifier('MyAwesomeClientIdentifier');
 		$client->setName('Client Name');
@@ -39,13 +40,13 @@ class ClientMapperTest extends TestCase {
 		$this->assertEquals($client, $this->clientMapper->getByIdentifier('MyAwesomeClientIdentifier'));
 	}
 
-	public function testGetByIdentifierNotExisting() {
-		$this->expectException(\OCA\OAuth2\Exceptions\ClientNotFoundException::class);
+	public function testGetByIdentifierNotExisting(): void {
+		$this->expectException(ClientNotFoundException::class);
 
 		$this->clientMapper->getByIdentifier('MyTotallyNotExistingClient');
 	}
 
-	public function testGetByUid() {
+	public function testGetByUid(): void {
 		$client = new Client();
 		$client->setClientIdentifier('MyNewClient');
 		$client->setName('Client Name');
@@ -56,13 +57,13 @@ class ClientMapperTest extends TestCase {
 		$this->assertEquals($client, $this->clientMapper->getByUid($client->getId()));
 	}
 
-	public function testGetByUidNotExisting() {
-		$this->expectException(\OCA\OAuth2\Exceptions\ClientNotFoundException::class);
+	public function testGetByUidNotExisting(): void {
+		$this->expectException(ClientNotFoundException::class);
 
 		$this->clientMapper->getByUid(1234);
 	}
 
-	public function testGetClients() {
+	public function testGetClients(): void {
 		$this->assertSame('array', gettype($this->clientMapper->getClients()));
 	}
 

@@ -14,6 +14,7 @@ use OCP\Files\IAppData;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -143,7 +144,7 @@ class CapabilitiesTest extends TestCase {
 	 * @param bool $backgroundThemed
 	 * @param string[] $expected
 	 */
-	public function testGetCapabilities($name, $url, $slogan, $color, $textColor, $logo, $background, $backgroundColor, $backgroundTextColor, $baseUrl, $backgroundThemed, array $expected) {
+	public function testGetCapabilities($name, $url, $slogan, $color, $textColor, $logo, $background, $backgroundColor, $backgroundTextColor, $baseUrl, $backgroundThemed, array $expected): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->willReturn($background);
@@ -169,7 +170,7 @@ class CapabilitiesTest extends TestCase {
 			->method('getLogo')
 			->willReturn($logo);
 
-		$util = new Util($this->config, $this->createMock(IAppManager::class), $this->createMock(IAppData::class), $this->createMock(ImageManager::class));
+		$util = new Util($this->createMock(ServerVersion::class), $this->config, $this->createMock(IAppManager::class), $this->createMock(IAppData::class), $this->createMock(ImageManager::class));
 		$this->util->expects($this->exactly(3))
 			->method('elementColor')
 			->with($color)

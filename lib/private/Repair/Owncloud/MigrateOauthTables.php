@@ -32,11 +32,11 @@ class MigrateOauthTables implements IRepairStep {
 	public function run(IOutput $output) {
 		$schema = new SchemaWrapper($this->db);
 		if (!$schema->hasTable('oauth2_clients')) {
-			$output->info("oauth2_clients table does not exist.");
+			$output->info('oauth2_clients table does not exist.');
 			return;
 		}
 
-		$output->info("Update the oauth2_access_tokens table schema.");
+		$output->info('Update the oauth2_access_tokens table schema.');
 		$schema = new SchemaWrapper($this->db);
 		$table = $schema->getTable('oauth2_access_tokens');
 		if (!$table->hasColumn('hashed_code')) {
@@ -58,7 +58,7 @@ class MigrateOauthTables implements IRepairStep {
 			$table->addIndex(['client_id'], 'oauth2_access_client_id_idx');
 		}
 
-		$output->info("Update the oauth2_clients table schema.");
+		$output->info('Update the oauth2_clients table schema.');
 		$schema = new SchemaWrapper($this->db);
 		$table = $schema->getTable('oauth2_clients');
 		if ($table->getColumn('name')->getLength() !== 64) {
@@ -114,7 +114,7 @@ class MigrateOauthTables implements IRepairStep {
 			$result->closeCursor();
 
 			// 2. Insert them into the client_identifier column.
-			foreach ($identifiers as ["id" => $id, "identifier" => $clientIdentifier]) {
+			foreach ($identifiers as ['id' => $id, 'identifier' => $clientIdentifier]) {
 				$insertQuery = $this->db->getQueryBuilder();
 				$insertQuery->update('oauth2_clients')
 					->set('client_identifier', $insertQuery->createNamedParameter($clientIdentifier, IQueryBuilder::PARAM_STR))
@@ -122,7 +122,7 @@ class MigrateOauthTables implements IRepairStep {
 					->executeStatement();
 			}
 
-			$output->info("Drop the identifier column.");
+			$output->info('Drop the identifier column.');
 			$schema = new SchemaWrapper($this->db);
 			$table = $schema->getTable('oauth2_clients');
 			$table->dropColumn('identifier');

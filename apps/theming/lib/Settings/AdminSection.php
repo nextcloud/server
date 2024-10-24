@@ -10,14 +10,11 @@ use OCP\IURLGenerator;
 use OCP\Settings\IIconSection;
 
 class AdminSection implements IIconSection {
-	private string $appName;
-	private IL10N $l;
-	private IURLGenerator $url;
-
-	public function __construct(string $appName, IURLGenerator $url, IL10N $l) {
-		$this->appName = $appName;
-		$this->url = $url;
-		$this->l = $l;
+	public function __construct(
+		private string $appName,
+		private IURLGenerator $url,
+		private IL10N $l,
+	) {
 	}
 
 	/**
@@ -42,8 +39,8 @@ class AdminSection implements IIconSection {
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
-	 * the settings navigation. The sections are arranged in ascending order of
-	 * the priority values. It is required to return a value between 0 and 99.
+	 *             the settings navigation. The sections are arranged in ascending order of
+	 *             the priority values. It is required to return a value between 0 and 99.
 	 *
 	 * E.g.: 70
 	 */

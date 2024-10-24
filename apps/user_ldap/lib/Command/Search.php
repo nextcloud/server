@@ -106,7 +106,7 @@ class Search extends Command {
 
 		$result = $proxy->$getMethod($input->getArgument('search'), $limit, $offset);
 		foreach ($result as $id => $name) {
-			$line = $name . ($printID ? ' ('.$id.')' : '');
+			$line = $name . ($printID ? ' (' . $id . ')' : '');
 			$output->writeln($line);
 		}
 		return self::SUCCESS;

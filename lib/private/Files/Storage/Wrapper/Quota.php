@@ -33,14 +33,11 @@ class Quota extends Wrapper {
 		$this->quotaIncludeExternalStorage = $parameters['include_external_storage'] ?? false;
 	}
 
-	/**
-	 * @return int|float quota value
-	 */
 	public function getQuota(): int|float {
 		if ($this->quota === null) {
 			$quotaCallback = $this->quotaCallback;
 			if ($quotaCallback === null) {
-				throw new \Exception("No quota or quota callback provider");
+				throw new \Exception('No quota or quota callback provider');
 			}
 			$this->quota = $quotaCallback();
 		}
@@ -52,12 +49,7 @@ class Quota extends Wrapper {
 		return $this->getQuota() !== FileInfo::SPACE_UNLIMITED;
 	}
 
-	/**
-	 * @param string $path
-	 * @param IStorage $storage
-	 * @return int|float
-	 */
-	protected function getSize($path, $storage = null) {
+	protected function getSize(string $path, ?IStorage $storage = null): int|float {
 		if ($this->quotaIncludeExternalStorage) {
 			$rootInfo = Filesystem::getFileInfo('', 'ext');
 			if ($rootInfo) {
@@ -75,13 +67,7 @@ class Quota extends Wrapper {
 		}
 	}
 
-	/**
-	 * Get free space as limited by the quota
-	 *
-	 * @param string $path
-	 * @return int|float|bool
-	 */
-	public function free_space($path) {
+	public function free_space(string $path): int|float|false {
 		if (!$this->hasQuota()) {
 			return $this->storage->free_space($path);
 		}
@@ -101,14 +87,7 @@ class Quota extends Wrapper {
 		}
 	}
 
-	/**
-	 * see https://www.php.net/manual/en/function.file_put_contents.php
-	 *
-	 * @param string $path
-	 * @param mixed $data
-	 * @return int|float|false
-	 */
-	public function file_put_contents($path, $data) {
+	public function file_put_contents(string $path, mixed $data): int|float|false {
 		if (!$this->hasQuota()) {
 			return $this->storage->file_put_contents($path, $data);
 		}
@@ -120,14 +99,7 @@ class Quota extends Wrapper {
 		}
 	}
 
-	/**
-	 * see https://www.php.net/manual/en/function.copy.php
-	 *
-	 * @param string $source
-	 * @param string $target
-	 * @return bool
-	 */
-	public function copy($source, $target) {
+	public function copy(string $source, string $target): bool {
 		if (!$this->hasQuota()) {
 			return $this->storage->copy($source, $target);
 		}
@@ -139,14 +111,7 @@ class Quota extends Wrapper {
 		}
 	}
 
-	/**
-	 * see https://www.php.net/manual/en/function.fopen.php
-	 *
-	 * @param string $path
-	 * @param string $mode
-	 * @return resource|bool
-	 */
-	public function fopen($path, $mode) {
+	public function fopen(string $path, string $mode) {
 		if (!$this->hasQuota()) {
 			return $this->storage->fopen($path, $mode);
 		}
@@ -170,10 +135,9 @@ class Quota extends Wrapper {
 	 * Checks whether the given path is a part file
 	 *
 	 * @param string $path Path that may identify a .part file
-	 * @return bool
 	 * @note this is needed for reusing keys
 	 */
-	private function isPartFile($path) {
+	private function isPartFile(string $path): bool {
 		$extension = pathinfo($path, PATHINFO_EXTENSION);
 
 		return ($extension === 'part');
@@ -182,17 +146,11 @@ class Quota extends Wrapper {
 	/**
 	 * Only apply quota for files, not metadata, trash or others
 	 */
-	private function shouldApplyQuota(string $path): bool {
+	protected function shouldApplyQuota(string $path): bool {
 		return str_starts_with(ltrim($path, '/'), 'files/');
 	}
 
-	/**
-	 * @param IStorage $sourceStorage
-	 * @param string $sourceInternalPath
-	 * @param string $targetInternalPath
-	 * @return bool
-	 */
-	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		if (!$this->hasQuota()) {
 			return $this->storage->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		}
@@ -204,13 +162,7 @@ class Quota extends Wrapper {
 		}
 	}
 
-	/**
-	 * @param IStorage $sourceStorage
-	 * @param string $sourceInternalPath
-	 * @param string $targetInternalPath
-	 * @return bool
-	 */
-	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		if (!$this->hasQuota()) {
 			return $this->storage->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		}
@@ -222,7 +174,7 @@ class Quota extends Wrapper {
 		}
 	}
 
-	public function mkdir($path) {
+	public function mkdir(string $path): bool {
 		if (!$this->hasQuota()) {
 			return $this->storage->mkdir($path);
 		}
@@ -234,7 +186,7 @@ class Quota extends Wrapper {
 		return parent::mkdir($path);
 	}
 
-	public function touch($path, $mtime = null) {
+	public function touch(string $path, ?int $mtime = null): bool {
 		if (!$this->hasQuota()) {
 			return $this->storage->touch($path, $mtime);
 		}

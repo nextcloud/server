@@ -89,7 +89,7 @@ interface IManager {
 	/**
 	 * Returns a list of admin settings that the given user can use for the give section
 	 *
-	 * @return array<int, list<ISettings>> The array of admin settings there admin delegation is allowed.
+	 * @return array<int, list<ISettings>> List of admin-settings the user has access to, with priority as key.
 	 * @since 23.0.0
 	 */
 	public function getAllowedAdminSettings(string $section, IUser $user): array;

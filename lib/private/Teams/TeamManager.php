@@ -62,7 +62,7 @@ class TeamManager implements ITeamManager {
 			return $providers[$providerId];
 		}
 
-		throw new \RuntimeException('No provider found for id ' .$providerId);
+		throw new \RuntimeException('No provider found for id ' . $providerId);
 	}
 
 	public function getSharedWith(string $teamId, string $userId): array {

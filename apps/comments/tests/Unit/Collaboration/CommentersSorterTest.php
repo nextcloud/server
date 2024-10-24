@@ -11,9 +11,9 @@ use OCP\Comments\ICommentsManager;
 use Test\TestCase;
 
 class CommentersSorterTest extends TestCase {
-	/** @var  ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $commentsManager;
-	/** @var  CommentersSorter */
+	/** @var CommentersSorter */
 	protected $sorter;
 
 	protected function setUp(): void {
@@ -28,7 +28,7 @@ class CommentersSorterTest extends TestCase {
 	 * @dataProvider sortDataProvider
 	 * @param $data
 	 */
-	public function testSort($data) {
+	public function testSort($data): void {
 		$commentMocks = [];
 		foreach ($data['actors'] as $actorType => $actors) {
 			foreach ($actors as $actorId => $noOfComments) {

@@ -81,7 +81,7 @@ class ContactsSearchProvider implements IFilteringProvider {
 		$addressBooks = $this->backend->getAddressBooksForUser($principalUri);
 		$addressBooksById = [];
 		foreach ($addressBooks as $addressBook) {
-			$addressBooksById[(int) $addressBook['id']] = $addressBook;
+			$addressBooksById[(int)$addressBook['id']] = $addressBook;
 		}
 
 		$searchResults = $this->backend->searchPrincipalUri(
@@ -109,12 +109,12 @@ class ContactsSearchProvider implements IFilteringProvider {
 
 			$title = (string)$vCard->FN;
 			$subline = $this->generateSubline($vCard);
-			$resourceUrl = $this->getDeepLinkToContactsApp($addressBook['uri'], (string) $vCard->UID);
+			$resourceUrl = $this->getDeepLinkToContactsApp($addressBook['uri'], (string)$vCard->UID);
 
 			$result = new SearchResultEntry($thumbnailUrl, $title, $subline, $resourceUrl, 'icon-contacts-dark', true);
-			$result->addAttribute("displayName", $title);
-			$result->addAttribute("email", $subline);
-			$result->addAttribute("phoneNumber", (string)$vCard->TEL);
+			$result->addAttribute('displayName', $title);
+			$result->addAttribute('email', $subline);
+			$result->addAttribute('phoneNumber', (string)$vCard->TEL);
 
 			return $result;
 		}, $searchResults);

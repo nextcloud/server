@@ -46,13 +46,13 @@ class SameSiteCookieMiddleware extends Middleware {
 
 	public function afterException($controller, $methodName, \Exception $exception) {
 		if ($exception instanceof LaxSameSiteCookieFailedException) {
-			$respone = new Response();
-			$respone->setStatus(Http::STATUS_FOUND);
-			$respone->addHeader('Location', $this->request->getRequestUri());
+			$response = new Response();
+			$response->setStatus(Http::STATUS_FOUND);
+			$response->addHeader('Location', $this->request->getRequestUri());
 
 			$this->setSameSiteCookie();
 
-			return $respone;
+			return $response;
 		}
 
 		throw $exception;

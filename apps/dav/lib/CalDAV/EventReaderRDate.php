@@ -13,15 +13,15 @@ use DateTime;
 
 class EventReaderRDate extends \Sabre\VObject\Recur\RDateIterator {
 
-	public function concludes(): DateTime | null {
+	public function concludes(): ?DateTime {
 		return $this->concludesOn();
 	}
 
-	public function concludesAfter(): int | null {
+	public function concludesAfter(): ?int {
 		return !empty($this->dates) ? count($this->dates) : null;
 	}
 
-	public function concludesOn(): DateTime | null {
+	public function concludesOn(): ?DateTime {
 		if (count($this->dates) > 0) {
 			return new DateTime(
 				$this->dates[array_key_last($this->dates)],

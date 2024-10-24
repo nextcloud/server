@@ -14,11 +14,9 @@ use OCP\Group\Events\GroupDeletedEvent;
 /** @template-implements IEventListener<GroupDeletedEvent> */
 class GroupRemovedListener implements IEventListener {
 
-	/** @var AuthorizedGroupService $authorizedGroupService */
-	private $authorizedGroupService;
-
-	public function __construct(AuthorizedGroupService $authorizedGroupService) {
-		$this->authorizedGroupService = $authorizedGroupService;
+	public function __construct(
+		private AuthorizedGroupService $authorizedGroupService,
+	) {
 	}
 
 	/**

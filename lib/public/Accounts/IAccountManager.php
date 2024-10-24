@@ -162,25 +162,31 @@ interface IAccountManager {
 	public const PROPERTY_BIRTHDATE = 'birthdate';
 
 	/**
+	 * @since 31.0.0
+	 */
+	public const PROPERTY_PRONOUNS = 'pronouns';
+
+	/**
 	 * The list of allowed properties
 	 *
 	 * @since 25.0.0
 	 */
 	public const ALLOWED_PROPERTIES = [
-		self::PROPERTY_AVATAR,
-		self::PROPERTY_DISPLAYNAME,
-		self::PROPERTY_PHONE,
-		self::PROPERTY_EMAIL,
-		self::PROPERTY_WEBSITE,
 		self::PROPERTY_ADDRESS,
-		self::PROPERTY_TWITTER,
-		self::PROPERTY_FEDIVERSE,
-		self::PROPERTY_ORGANISATION,
-		self::PROPERTY_ROLE,
-		self::PROPERTY_HEADLINE,
+		self::PROPERTY_AVATAR,
 		self::PROPERTY_BIOGRAPHY,
-		self::PROPERTY_PROFILE_ENABLED,
 		self::PROPERTY_BIRTHDATE,
+		self::PROPERTY_DISPLAYNAME,
+		self::PROPERTY_EMAIL,
+		self::PROPERTY_FEDIVERSE,
+		self::PROPERTY_HEADLINE,
+		self::PROPERTY_ORGANISATION,
+		self::PROPERTY_PHONE,
+		self::PROPERTY_PROFILE_ENABLED,
+		self::PROPERTY_PRONOUNS,
+		self::PROPERTY_ROLE,
+		self::PROPERTY_TWITTER,
+		self::PROPERTY_WEBSITE,
 	];
 
 
@@ -228,9 +234,9 @@ interface IAccountManager {
 	 * Search for users based on account data
 	 *
 	 * @param string $property - property or property collection name – since
-	 * NC 22 the implementation MAY add a fitting property collection into the
-	 * search even if a property name was given e.g. email property and email
-	 * collection)
+	 *                         NC 22 the implementation MAY add a fitting property collection into the
+	 *                         search even if a property name was given e.g. email property and email
+	 *                         collection)
 	 * @param string[] $values
 	 * @return array
 	 *

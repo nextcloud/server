@@ -772,7 +772,7 @@ const Dialogs = {
 		var defer = $.Deferred()
 		if (!this.$fileexistsTemplate) {
 			var self = this
-			$.get(OC.filePath('files', 'templates', 'fileexists.html'), function(tmpl) {
+			$.get(OC.filePath('core', 'templates/legacy', 'fileexists.html'), function(tmpl) {
 				self.$fileexistsTemplate = $(tmpl)
 				defer.resolve(self.$fileexistsTemplate)
 			})

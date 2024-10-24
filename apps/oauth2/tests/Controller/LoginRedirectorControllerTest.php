@@ -53,7 +53,7 @@ class LoginRedirectorControllerTest extends TestCase {
 		);
 	}
 
-	public function testAuthorize() {
+	public function testAuthorize(): void {
 		$client = new Client();
 		$client->setClientIdentifier('MyClientIdentifier');
 		$this->clientMapper
@@ -80,7 +80,7 @@ class LoginRedirectorControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'code'));
 	}
 
-	public function testAuthorizeWrongResponseType() {
+	public function testAuthorizeWrongResponseType(): void {
 		$client = new Client();
 		$client->setClientIdentifier('MyClientIdentifier');
 		$client->setRedirectUri('http://foo.bar');
@@ -98,7 +98,7 @@ class LoginRedirectorControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'wrongcode'));
 	}
 
-	public function testClientNotFound() {
+	public function testClientNotFound(): void {
 		$clientNotFound = new ClientNotFoundException('could not find client test123', 0);
 		$this->clientMapper
 			->expects($this->once())

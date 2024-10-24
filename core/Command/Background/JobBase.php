@@ -19,7 +19,7 @@ abstract class JobBase extends \OC\Core\Command\Base {
 
 	public function __construct(
 		protected IJobList $jobList,
-		protected LoggerInterface $logger
+		protected LoggerInterface $logger,
 	) {
 		parent::__construct();
 	}
@@ -32,11 +32,11 @@ abstract class JobBase extends \OC\Core\Command\Base {
 		}
 
 		$lastRun = new \DateTime();
-		$lastRun->setTimestamp((int) $row['last_run']);
+		$lastRun->setTimestamp((int)$row['last_run']);
 		$lastChecked = new \DateTime();
-		$lastChecked->setTimestamp((int) $row['last_checked']);
+		$lastChecked->setTimestamp((int)$row['last_checked']);
 		$reservedAt = new \DateTime();
-		$reservedAt->setTimestamp((int) $row['reserved_at']);
+		$reservedAt->setTimestamp((int)$row['reserved_at']);
 
 		$output->writeln('Job class:            ' . get_class($job));
 		$output->writeln('Arguments:            ' . json_encode($job->getArgument()));
@@ -52,7 +52,7 @@ abstract class JobBase extends \OC\Core\Command\Base {
 
 		$output->writeln('');
 		$output->writeln('Last checked:         ' . $lastChecked->format(\DateTimeInterface::ATOM));
-		if ((int) $row['reserved_at'] === 0) {
+		if ((int)$row['reserved_at'] === 0) {
 			$output->writeln('Reserved at:          -');
 		} else {
 			$output->writeln('Reserved at:          <comment>' . $reservedAt->format(\DateTimeInterface::ATOM) . '</comment>');

@@ -35,7 +35,7 @@ class Upgrade extends Command {
 	public const ERROR_FAILURE = 5;
 
 	public function __construct(
-		private IConfig $config
+		private IConfig $config,
 	) {
 		parent::__construct();
 	}
@@ -142,9 +142,9 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'updateEnd',
 				function ($success) use ($output, $self) {
 					if ($success) {
-						$message = "<info>Update successful</info>";
+						$message = '<info>Update successful</info>';
 					} else {
-						$message = "<error>Update failed</error>";
+						$message = '<error>Update failed</error>';
 					}
 					$output->writeln($message);
 				});
@@ -175,16 +175,16 @@ class Upgrade extends Command {
 				$output->writeln("<error>$message</error>");
 			});
 			$updater->listen('\OC\Updater', 'setDebugLogLevel', function ($logLevel, $logLevelName) use ($output) {
-				$output->writeln("<info>Setting log level to debug</info>");
+				$output->writeln('<info>Setting log level to debug</info>');
 			});
 			$updater->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use ($output) {
-				$output->writeln("<info>Resetting log level</info>");
+				$output->writeln('<info>Resetting log level</info>');
 			});
 			$updater->listen('\OC\Updater', 'startCheckCodeIntegrity', function () use ($output) {
-				$output->writeln("<info>Starting code integrity check...</info>");
+				$output->writeln('<info>Starting code integrity check...</info>');
 			});
 			$updater->listen('\OC\Updater', 'finishedCheckCodeIntegrity', function () use ($output) {
-				$output->writeln("<info>Finished code integrity check</info>");
+				$output->writeln('<info>Finished code integrity check</info>');
 			});
 
 			$success = $updater->upgrade();

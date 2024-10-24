@@ -31,36 +31,19 @@ class TrustedServers {
 	/** remote server revoked access */
 	public const STATUS_ACCESS_REVOKED = 4;
 
-	private DbHandler $dbHandler;
-	private IClientService $httpClientService;
-	private LoggerInterface $logger;
-	private IJobList $jobList;
-	private ISecureRandom $secureRandom;
-	private IConfig $config;
-	private IEventDispatcher $dispatcher;
-	private ITimeFactory $timeFactory;
-
 	/** @var list<array{id: int, url: string, url_hash: string, shared_secret: ?string, status: int, sync_token: ?string}>|null */
 	private ?array $trustedServersCache = null;
 
 	public function __construct(
-		DbHandler $dbHandler,
-		IClientService $httpClientService,
-		LoggerInterface $logger,
-		IJobList $jobList,
-		ISecureRandom $secureRandom,
-		IConfig $config,
-		IEventDispatcher $dispatcher,
-		ITimeFactory $timeFactory
+		private DbHandler $dbHandler,
+		private IClientService $httpClientService,
+		private LoggerInterface $logger,
+		private IJobList $jobList,
+		private ISecureRandom $secureRandom,
+		private IConfig $config,
+		private IEventDispatcher $dispatcher,
+		private ITimeFactory $timeFactory,
 	) {
-		$this->dbHandler = $dbHandler;
-		$this->httpClientService = $httpClientService;
-		$this->logger = $logger;
-		$this->jobList = $jobList;
-		$this->secureRandom = $secureRandom;
-		$this->config = $config;
-		$this->dispatcher = $dispatcher;
-		$this->timeFactory = $timeFactory;
 	}
 
 	/**

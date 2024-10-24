@@ -317,15 +317,6 @@ interface IServerContainer extends ContainerInterface, IContainer {
 	public function getJobList();
 
 	/**
-	 * Returns a logger instance
-	 *
-	 * @return \OCP\ILogger
-	 * @since 8.0.0
-	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
-	 */
-	public function getLogger();
-
-	/**
 	 * returns a log factory instance
 	 *
 	 * @return ILogFactory

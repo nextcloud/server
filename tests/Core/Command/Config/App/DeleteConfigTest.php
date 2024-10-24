@@ -80,7 +80,7 @@ class DeleteConfigTest extends TestCase {
 	 * @param int $expectedReturn
 	 * @param string $expectedMessage
 	 */
-	public function testDelete($configName, $configExists, $checkIfExists, $expectedReturn, $expectedMessage) {
+	public function testDelete($configName, $configExists, $checkIfExists, $expectedReturn, $expectedMessage): void {
 		$this->config->expects(($checkIfExists) ? $this->once() : $this->never())
 			->method('getAppKeys')
 			->with('app-name')

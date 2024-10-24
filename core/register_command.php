@@ -102,6 +102,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\Maintenance\Repair::class));
 	$application->add(Server::get(Command\Maintenance\RepairShareOwnership::class));
 
+	$application->add(Server::get(Command\Preview\Cleanup::class));
 	$application->add(Server::get(Command\Preview\Generate::class));
 	$application->add(Server::get(Command\Preview\Repair::class));
 	$application->add(Server::get(Command\Preview\ResetRenderedTexts::class));
@@ -145,8 +146,11 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\SetupChecks::class));
 	$application->add(Server::get(Command\FilesMetadata\Get::class));
 
+	$application->add(Server::get(Command\TaskProcessing\GetCommand::class));
 	$application->add(Server::get(Command\TaskProcessing\ListCommand::class));
 	$application->add(Server::get(Command\TaskProcessing\Statistics::class));
+
+	$application->add(Server::get(Command\Memcache\RedisCommand::class));
 } else {
 	$application->add(Server::get(Command\Maintenance\Install::class));
 }

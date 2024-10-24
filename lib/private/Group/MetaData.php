@@ -31,7 +31,7 @@ class MetaData {
 		private bool $isAdmin,
 		private bool $isDelegatedAdmin,
 		private IGroupManager $groupManager,
-		private IUserSession $userSession
+		private IUserSession $userSession,
 	) {
 	}
 
@@ -41,7 +41,7 @@ class MetaData {
 	 * [0] array containing meta data about admin groups
 	 * [1] array containing meta data about unprivileged groups
 	 * @param string $groupSearch only effective when instance was created with
-	 * isAdmin being true
+	 *                            isAdmin being true
 	 * @param string $userSearch the pattern users are search for
 	 */
 	public function get(string $groupSearch = '', string $userSearch = ''): array {

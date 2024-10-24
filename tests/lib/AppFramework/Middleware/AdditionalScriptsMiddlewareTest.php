@@ -44,7 +44,7 @@ class AdditionalScriptsMiddlewareTest extends \Test\TestCase {
 		$this->controller = $this->createMock(Controller::class);
 	}
 
-	public function testNoTemplateResponse() {
+	public function testNoTemplateResponse(): void {
 		$this->userSession->expects($this->never())
 			->method($this->anything());
 		$this->dispatcher->expects($this->never())
@@ -53,7 +53,7 @@ class AdditionalScriptsMiddlewareTest extends \Test\TestCase {
 		$this->middleWare->afterController($this->controller, 'myMethod', $this->createMock(Response::class));
 	}
 
-	public function testPublicShareController() {
+	public function testPublicShareController(): void {
 		$this->userSession->expects($this->never())
 			->method($this->anything());
 		$this->dispatcher->expects($this->never())
@@ -62,7 +62,7 @@ class AdditionalScriptsMiddlewareTest extends \Test\TestCase {
 		$this->middleWare->afterController($this->createMock(PublicShareController::class), 'myMethod', $this->createMock(Response::class));
 	}
 
-	public function testStandaloneTemplateResponse() {
+	public function testStandaloneTemplateResponse(): void {
 		$this->userSession->expects($this->never())
 			->method($this->anything());
 		$this->dispatcher->expects($this->once())
@@ -78,7 +78,7 @@ class AdditionalScriptsMiddlewareTest extends \Test\TestCase {
 		$this->middleWare->afterController($this->controller, 'myMethod', $this->createMock(StandaloneTemplateResponse::class));
 	}
 
-	public function testTemplateResponseNotLoggedIn() {
+	public function testTemplateResponseNotLoggedIn(): void {
 		$this->userSession->method('isLoggedIn')
 			->willReturn(false);
 		$this->dispatcher->expects($this->once())
@@ -94,7 +94,7 @@ class AdditionalScriptsMiddlewareTest extends \Test\TestCase {
 		$this->middleWare->afterController($this->controller, 'myMethod', $this->createMock(TemplateResponse::class));
 	}
 
-	public function testTemplateResponseLoggedIn() {
+	public function testTemplateResponseLoggedIn(): void {
 		$events = [];
 
 		$this->userSession->method('isLoggedIn')

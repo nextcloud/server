@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Versions" : "Версії",
     "This application automatically maintains older versions of files that are changed." : "Цей застосунок підтримує роботу з попередніми версіями файлів, які було змінено.",
+    "Actions for version from {versionHumanExplicitDate}" : "Дії для версії від {versionHumanExplicitDate}",
     "Name this version" : "Назвіть цю версію",
     "Edit version name" : "Редагуйте назву версії",
     "Compare to current version" : "Порівняти з поточною версією",
@@ -13,6 +14,7 @@ OC.L10N.register(
     "Initial version" : "Початкова версія",
     "Version name" : "Назва версії",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Версії з назвами є постійними та їх виключено з автоматичного очищення після переповнення квоти у сховищі.",
+    "Cancel" : "Скасувати",
     "Remove version name" : "Вилучити назву версії",
     "Save version name" : "Зберегти назву версії",
     "Initial version restored" : "Початкову версію відновлено",

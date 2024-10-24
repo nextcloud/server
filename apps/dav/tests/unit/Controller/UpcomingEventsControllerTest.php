@@ -28,7 +28,7 @@ class UpcomingEventsControllerTest extends TestCase {
 		$this->service = $this->createMock(UpcomingEventsService::class);
 	}
 
-	public function testGetEventsAnonymously() {
+	public function testGetEventsAnonymously(): void {
 		$controller = new UpcomingEventsController(
 			$this->request,
 			null,
@@ -41,7 +41,7 @@ class UpcomingEventsControllerTest extends TestCase {
 		self::assertSame(401, $response->getStatus());
 	}
 
-	public function testGetEventsByLocation() {
+	public function testGetEventsByLocation(): void {
 		$controller = new UpcomingEventsController(
 			$this->request,
 			'u1',

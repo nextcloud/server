@@ -8,16 +8,18 @@ import $ from 'jquery'
 
 import OC from './index.js'
 import Notification from './notification.js'
+import { getCurrentUser } from '@nextcloud/auth'
+import { showWarning } from '@nextcloud/dialogs'
 
 /**
  * Warn users that the connection to the server was lost temporarily
  *
- * This function is throttled to prevent stacked notfications.
+ * This function is throttled to prevent stacked notifications.
  * After 7sec the first notification is gone, then we can show another one
  * if necessary.
  */
 export const ajaxConnectionLostHandler = _.throttle(() => {
-	Notification.showTemporary(t('core', 'Connection to server lost'))
+	showWarning(t('core', 'Connection to server lost'))
 }, 7 * 1000, { trailing: false })
 
 /**
@@ -28,13 +30,13 @@ export const ajaxConnectionLostHandler = _.throttle(() => {
  */
 export const processAjaxError = xhr => {
 	// purposefully aborted request ?
-	// OC._userIsNavigatingAway needed to distinguish ajax calls cancelled by navigating away
-	// from calls cancelled by failed cross-domain ajax due to SSO redirect
+	// OC._userIsNavigatingAway needed to distinguish Ajax calls cancelled by navigating away
+	// from calls cancelled by failed cross-domain Ajax due to SSO redirect
 	if (xhr.status === 0 && (xhr.statusText === 'abort' || xhr.statusText === 'timeout' || OC._reloadCalled)) {
 		return
 	}
 
-	if (_.contains([302, 303, 307, 401], xhr.status) && OC.currentUser) {
+	if ([302, 303, 307, 401].includes(xhr.status) && getCurrentUser()) {
 		// sometimes "beforeunload" happens later, so need to defer the reload a bit
 		setTimeout(function() {
 			if (!OC._userIsNavigatingAway && !OC._reloadCalled) {

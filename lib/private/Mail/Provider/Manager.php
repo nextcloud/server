@@ -60,7 +60,7 @@ class Manager implements IManager {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return array<string,string>		collection of provider id and label ['jmap' => 'JMap Connector']
+	 * @return array<string,string> collection of provider id and label ['jmap' => 'JMap Connector']
 	 */
 	public function types(): array {
 		
@@ -80,7 +80,7 @@ class Manager implements IManager {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return array<string,IProvider>	collection of provider id and object ['jmap' => IProviderObject]
+	 * @return array<string,IProvider> collection of provider id and object ['jmap' => IProviderObject]
 	 */
 	public function providers(): array {
 
@@ -121,11 +121,11 @@ class Manager implements IManager {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string $providerId		provider id
+	 * @param string $providerId provider id
 	 *
 	 * @return IProvider|null
 	 */
-	public function findProviderById(string $providerId): IProvider | null {
+	public function findProviderById(string $providerId): ?IProvider {
 
 		// evaluate if we already have a cached collection of providers
 		if (!is_array($this->providersCollection)) {
@@ -145,9 +145,9 @@ class Manager implements IManager {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string $userId			user id
+	 * @param string $userId user id
 	 *
-	 * @return array<string,array<string,IService>>	collection of provider id, service id and object ['jmap' => ['Service1' => IServiceObject]]
+	 * @return array<string,array<string,IService>> collection of provider id, service id and object ['jmap' => ['Service1' => IServiceObject]]
 	 */
 	public function services(string $userId): array {
 		
@@ -172,13 +172,13 @@ class Manager implements IManager {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string $userId			user id
-	 * @param string $serviceId			service id
-	 * @param string $providerId		provider id
+	 * @param string $userId user id
+	 * @param string $serviceId service id
+	 * @param string $providerId provider id
 	 *
-	 * @return IService|null			returns service object or null if none found
+	 * @return IService|null returns service object or null if none found
 	 */
-	public function findServiceById(string $userId, string $serviceId, ?string $providerId = null): IService | null {
+	public function findServiceById(string $userId, string $serviceId, ?string $providerId = null): ?IService {
 		
 		// evaluate if provider id was specified
 		if ($providerId !== null) {
@@ -216,13 +216,13 @@ class Manager implements IManager {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string $userId			user id
-	 * @param string $address			mail address (e.g. test@example.com)
-	 * @param string $providerId		provider id
+	 * @param string $userId user id
+	 * @param string $address mail address (e.g. test@example.com)
+	 * @param string $providerId provider id
 	 *
-	 * @return IService|null			returns service object or null if none found
+	 * @return IService|null returns service object or null if none found
 	 */
-	public function findServiceByAddress(string $userId, string $address, ?string $providerId = null): IService | null {
+	public function findServiceByAddress(string $userId, string $address, ?string $providerId = null): ?IService {
 		
 		// evaluate if provider id was specified
 		if ($providerId !== null) {

@@ -37,10 +37,6 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 
 	use TMigratorBasicVersionHandling;
 
-	private CardDavBackend $cardDavBackend;
-
-	private IL10N $l10n;
-
 	private SabreDavServer $sabreDavServer;
 
 	private const USERS_URI_ROOT = 'principals/users/';
@@ -54,12 +50,9 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 	private const PATH_ROOT = Application::APP_ID . '/address_books/';
 
 	public function __construct(
-		CardDavBackend $cardDavBackend,
-		IL10N $l10n
+		private CardDavBackend $cardDavBackend,
+		private IL10N $l10n,
 	) {
-		$this->cardDavBackend = $cardDavBackend;
-		$this->l10n = $l10n;
-
 		$root = new RootCollection();
 		$this->sabreDavServer = new SabreDavServer(new CachingTree($root));
 		$this->sabreDavServer->addPlugin(new CardDAVPlugin());
@@ -251,7 +244,7 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 				$vCard->serialize(),
 			);
 		} catch (Throwable $e) {
-			$output->writeln("Error creating contact \"" . ($vCard->FN ?? 'null') . "\" from \"$filename\", skipping…");
+			$output->writeln('Error creating contact "' . ($vCard->FN ?? 'null') . "\" from \"$filename\", skipping…");
 		}
 	}
 

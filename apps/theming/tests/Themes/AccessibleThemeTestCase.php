@@ -148,7 +148,7 @@ class AccessibleThemeTestCase extends TestCase {
 	/**
 	 * @dataProvider dataAccessibilityPairs
 	 */
-	public function testAccessibilityOfVariables($mainColors, $backgroundColors, $minContrast) {
+	public function testAccessibilityOfVariables($mainColors, $backgroundColors, $minContrast): void {
 		if (!isset($this->theme)) {
 			$this->markTestSkipped('You need to setup $this->theme in your setUp function');
 		} elseif (!isset($this->util)) {

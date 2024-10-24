@@ -228,7 +228,7 @@ export default {
 		.app-image {
 			width: var(--default-clickable-area);
 			height: auto;
-			text-align: right;
+			text-align: end;
 		}
 
 		.app-image-icon svg,
@@ -257,8 +257,7 @@ export default {
 		.app-name--link::after {
 			content: '';
 			position: absolute;
-			left: 0;
-			right: 0;
+			inset-inline: 0;
 			height: var(--app-item-height);
 		}
 
@@ -271,7 +270,7 @@ export default {
 			.icon-loading-small {
 				display: inline-block;
 				top: 4px;
-				margin-right: 10px;
+				margin-inline-end: 10px;
 			}
 		}
 
@@ -317,10 +316,8 @@ export default {
 		.app-name--link::after {
 			content: '';
 			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
+			inset-block: 0;
+			inset-inline: 0;
 		}
 
 		.app-actions {

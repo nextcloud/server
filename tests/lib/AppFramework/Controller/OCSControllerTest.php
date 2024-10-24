@@ -20,7 +20,7 @@ class ChildOCSController extends OCSController {
 
 
 class OCSControllerTest extends \Test\TestCase {
-	public function testCors() {
+	public function testCors(): void {
 		$request = new Request(
 			[
 				'server' => [
@@ -45,7 +45,7 @@ class OCSControllerTest extends \Test\TestCase {
 	}
 
 
-	public function testXML() {
+	public function testXML(): void {
 		$controller = new ChildOCSController('app', new Request(
 			[],
 			$this->createMock(IRequestId::class),
@@ -74,7 +74,7 @@ class OCSControllerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $response->render());
 	}
 
-	public function testJSON() {
+	public function testJSON(): void {
 		$controller = new ChildOCSController('app', new Request(
 			[],
 			$this->createMock(IRequestId::class),
@@ -91,7 +91,7 @@ class OCSControllerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $response->render());
 	}
 
-	public function testXMLV2() {
+	public function testXMLV2(): void {
 		$controller = new ChildOCSController('app', new Request(
 			[],
 			$this->createMock(IRequestId::class),
@@ -118,7 +118,7 @@ class OCSControllerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $response->render());
 	}
 
-	public function testJSONV2() {
+	public function testJSONV2(): void {
 		$controller = new ChildOCSController('app', new Request(
 			[],
 			$this->createMock(IRequestId::class),

@@ -26,7 +26,7 @@ class SystemTagsInFilesDetector {
 		Folder $folder,
 		string $filteredMediaType = '',
 		int $limit = 0,
-		int $offset = 0
+		int $offset = 0,
 	): array {
 		$operator = new SearchComparison(ISearchComparison::COMPARE_LIKE, 'systemtag', '%');
 		// Currently query has to have exactly one search condition. If no media type is provided,

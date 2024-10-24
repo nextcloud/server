@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 @use 'variables';
+@use 'sass:color';
 @import 'functions';
 
  /* Specifically override browser styles */
@@ -77,7 +78,8 @@ button:not(
 	border-radius: var(--border-radius);
 	cursor: text;
 	&:not(.app-navigation-entry-button) {
-		margin: 3px 3px 3px 0;
+		margin: 3px;
+		margin-inline-start: 0;
 	}
 	&:not(
 		:disabled,
@@ -152,7 +154,8 @@ button:not(
 }
 
 div[contenteditable=false] {
-	margin: 3px 3px 3px 0;
+	margin: 3px;
+	margin-inline-start: 0;
 	padding: 7px 6px;
 	font-size: 13px;
 	background-color: var(--color-main-background);
@@ -245,7 +248,8 @@ input:not(
 select,
 div[contenteditable=true],
 textarea {
-	margin: 3px 3px 3px 0;
+	margin: 3px;
+	margin-inline-start: 0;
 	padding: 0 12px;
 	font-size: var(--default-font-size);
 	background-color: var(--color-main-background);
@@ -277,10 +281,18 @@ textarea, div[contenteditable=true] {
 
 /* Override the ugly select arrow */
 select {
-	background: var(--icon-triangle-s-dark) no-repeat right 8px center;
+	background: var(--icon-triangle-s-dark) no-repeat;
 	appearance: none;
 	background-color: var(--color-main-background);
-	padding-right: 28px !important;
+	padding-inline-end: 28px !important;
+}
+
+body[dir='ltr'] select {
+	background-position:  right 8px center;
+}
+
+body[dir='rtl'] select {
+	background-position:  left 8px center;
 }
 
 select,
@@ -350,8 +362,8 @@ input {
 	&[type='password'],
 	&[type='email'] {
 		+ .icon-confirm {
-			margin-left: -13px !important;
-			border-left-color: transparent !important;
+			margin-inline-start: -13px !important;
+			border-inline-start-color: transparent !important;
 			border-radius: 0 var(--border-radius-large) var(--border-radius-large) 0 !important;
 			border-width: 2px;
 			background-clip: padding-box;
@@ -362,7 +374,7 @@ input {
 			width: var(--default-clickable-area);
 			padding: 7px 6px;
 			cursor: pointer;
-			margin-right: 0;
+			margin-inline-end: 0;
 			&:disabled {
 				cursor: default;
 				@include icon-color('confirm-fade', 'actions', variables.$color-black, 2, true);
@@ -393,7 +405,7 @@ input {
 		&:focus {
 			+ .icon-confirm {
 				border-color: var(--color-primary-element) !important;
-				border-left-color: transparent !important;
+				border-inline-start-color: transparent !important;
 				/* above previous input */
 				z-index: 2;
 			}
@@ -422,7 +434,7 @@ input {
 		&.radio,
 		&.checkbox {
 			position: absolute;
-			left: -10000px;
+			inset-inline-start: -10000px;
 			top: auto;
 			width: 1px;
 			height: 1px;
@@ -441,7 +453,8 @@ input {
 				width: $checkbox-radio-size;
 				vertical-align: middle;
 				border-radius: 50%;
-				margin: 0 6px 3px 3px;
+				margin: 0 3px;
+				margin-inline: 3px 6px;
 				border: 1px solid var(--color-text-maxcontrast);
 			}
 			&:not(:disabled):not(:checked) + label:hover:before,
@@ -473,7 +486,7 @@ input {
 			// Detail description below label of checkbox or radio button
 			& + label ~ em {
 				display: inline-block;
-				margin-left: 25px;
+				margin-inline-start: 25px;
 			}
 			& + label ~ em:last-of-type {
 				margin-bottom: $checkbox-radio-size;
@@ -500,24 +513,24 @@ input {
 		&.checkbox--white {
 			+ label:before,
 			&:focus + label:before {
-				border-color: darken($color-checkbox-radio-white, 27%);
+				border-color: color.adjust($color-checkbox-radio-white, $lightness: -27%, $space: hsl);
 			}
 			&:not(:disabled):not(:checked) + label:hover:before {
 				border-color: $color-checkbox-radio-white;
 			}
 			&:checked + label:before {
 				box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
-				background-color: darken($color-checkbox-radio-white, 14%);
-				border-color: darken($color-checkbox-radio-white, 14%);
+				background-color: color.adjust($color-checkbox-radio-white, $lightness: -14%, $space: hsl);
+				border-color: color.adjust($color-checkbox-radio-white, $lightness: -14%, $space: hsl);
 			}
 			&:disabled + label:before {
-				background-color: darken($color-checkbox-radio-white, 27%) !important; /* override other status */
+				background-color: color.adjust($color-checkbox-radio-white, $lightness: -27%, $space: hsl) !important; /* override other status */
 				border-color: rgba($color-checkbox-radio-white, 0.4) !important; /* override other status */
 			}
 			&:checked:disabled + label:before {
 				box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
 				border-color: rgba($color-checkbox-radio-white, 0.4) !important; /* override other status */
-				background-color: darken($color-checkbox-radio-white, 27%);
+				background-color: color.adjust($color-checkbox-radio-white, $lightness: -27%, $space: hsl);
 			}
 		}
 		&.checkbox--white {
@@ -546,7 +559,7 @@ div.select2-drop {
 	}
 	.avatar {
 		display: inline-block;
-		margin-right: 8px;
+		margin-inline-end: 8px;
 		vertical-align: middle;
 		img {
 			cursor: pointer;
@@ -554,7 +567,7 @@ div.select2-drop {
 	}
 	.select2-search input {
 		min-height: auto;
-		background: var(--icon-search-dark) no-repeat right center !important;
+		background: var(--icon-search-dark) no-repeat !important;
 		background-origin: content-box !important;
 	}
 	.select2-results {
@@ -594,6 +607,15 @@ div.select2-drop {
 		}
 	}
 }
+
+body[dir='ltr'] div.select2-drop .select2-search input {
+	background-position: right center !important;
+}
+
+body[dir='rtl'] div.select2-drop .select2-search input {
+	background-position: left center !important;
+}
+
 .select2-chosen,
 #select2-drop {
 	.avatar,
@@ -620,7 +642,7 @@ div.select2-container-multi {
 		}
 		.select2-search-choice {
 			line-height: 20px;
-			padding-left: 5px;
+			padding-inline-start: 5px;
 			&.select2-search-choice-focus,
 			&:hover,
 			&:active,
@@ -646,7 +668,8 @@ div.select2-container-multi {
 	}
 }
 div.select2-container {
-	margin: 3px 3px 3px 0;
+	margin: 3px;
+	margin-inline-start: 0;
 	&.select2-container-multi .select2-choices {
 		display: flex;
 		flex-wrap: wrap;
@@ -671,7 +694,7 @@ div.select2-container {
 		}
 		.select2-search-choice {
 			line-height: 20px;
-			padding-left: 5px;
+			padding-inline-start: 5px;
 			background-image: none;
 			background-color: var(--color-background-dark);
 			border-color: var(--color-background-dark);
@@ -706,14 +729,15 @@ div.select2-container {
 
 /* Vue v-select */
 .v-select {
-	margin: 3px 3px 3px 0;
+	margin: 3px;
+	margin-inline-start: 0;
 	display: inline-block;
 	.dropdown-toggle {
 		display: flex !important;
 		flex-wrap: wrap;
 		.selected-tag {
 			line-height: 20px;
-			padding-left: 5px;
+			padding-inline-start: 5px;
 			background-image: none;
 			background-color: var(--color-main-background);
 			color: var(--color-text-maxcontrast);
@@ -721,7 +745,7 @@ div.select2-container {
 			display: inline-flex;
 			align-items: center;
 			.close {
-				margin-left: 3px;
+				margin-inline-start: 3px;
 			}
 		}
 	}
@@ -739,7 +763,8 @@ div.select2-container {
 				overflow: hidden;
 				text-overflow: ellipsis;
 				height: 25px;
-				padding: 3px 7px 4px 2px;
+				padding-block: 3px 4px;
+				padding-inline: 2px 7px;
 				margin: 0;
 				cursor: pointer;
 				min-height: 1em;
@@ -761,7 +786,7 @@ div.select2-container {
 					min-height: 16px;
 					display: block;
 					opacity: 0.5;
-					margin-right: 5px;
+					margin-inline-end: 5px;
 					visibility: hidden;
 				}
 			}
@@ -843,7 +868,7 @@ progress:not(.vue) {
 // Same as .hidden-visually
 label.infield {
 	position: absolute;
-	left: -10000px;
+	inset-inline-start: -10000px;
 	top: -10000px;
 	width: 1px;
 	height: 1px;

@@ -31,7 +31,7 @@ class BuildSocialSearchIndexBackgroundJob extends QueuedJob {
 		$offset = $arguments['offset'];
 		$stopAt = $arguments['stopAt'];
 
-		$this->logger->info('Indexing social profile data (' . $offset .'/' . $stopAt . ')');
+		$this->logger->info('Indexing social profile data (' . $offset . '/' . $stopAt . ')');
 
 		$offset = $this->buildIndex($offset, $stopAt);
 

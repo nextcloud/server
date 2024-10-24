@@ -58,6 +58,18 @@ class Factory implements IFactory {
 		'pt_BR', 'pt_PT', 'da', 'fi_FI', 'nb_NO', 'sv', 'tr', 'zh_CN', 'ko'
 	];
 
+	/**
+	 * Keep in sync with `build/translation-checker.php`
+	 */
+	public const RTL_LANGUAGES = [
+		'ar', // Arabic
+		'fa', // Persian
+		'he', // Hebrew
+		'ps', // Pashto,
+		'ug', // 'Uyghurche / Uyghur
+		'ur_PK', // Urdu
+	];
+
 	private ICache $cache;
 
 	public function __construct(
@@ -81,12 +93,12 @@ class Factory implements IFactory {
 	 */
 	public function get($app, $lang = null, $locale = null) {
 		return new LazyL10N(function () use ($app, $lang, $locale) {
-			$app = \OC_App::cleanAppId($app);
+			$app = $this->appManager->cleanAppId($app);
 			if ($lang !== null) {
 				$lang = str_replace(['\0', '/', '\\', '..'], '', $lang);
 			}
 
-			$forceLang = $this->config->getSystemValue('force_language', false);
+			$forceLang = $this->request->getParam('forceLanguage') ?? $this->config->getSystemValue('force_language', false);
 			if (is_string($forceLang)) {
 				$lang = $forceLang;
 			}
@@ -127,7 +139,7 @@ class Factory implements IFactory {
 	 */
 	public function findLanguage(?string $appId = null): string {
 		// Step 1: Forced language always has precedence over anything else
-		$forceLang = $this->config->getSystemValue('force_language', false);
+		$forceLang = $this->request->getParam('forceLanguage') ?? $this->config->getSystemValue('force_language', false);
 		if (is_string($forceLang)) {
 			$this->requestLanguage = $forceLang;
 		}
@@ -184,7 +196,7 @@ class Factory implements IFactory {
 
 	public function findGenericLanguage(?string $appId = null): string {
 		// Step 1: Forced language always has precedence over anything else
-		$forcedLanguage = $this->config->getSystemValue('force_language', false);
+		$forcedLanguage = $this->request->getParam('forceLanguage') ?? $this->config->getSystemValue('force_language', false);
 		if ($forcedLanguage !== false) {
 			return $forcedLanguage;
 		}
@@ -364,6 +376,14 @@ class Factory implements IFactory {
 		return in_array($lang, $languages);
 	}
 
+	public function getLanguageDirection(string $language): string {
+		if (in_array($language, self::RTL_LANGUAGES, true)) {
+			return 'rtl';
+		}
+
+		return 'ltr';
+	}
+
 	public function getLanguageIterator(?IUser $user = null): ILanguageIterator {
 		$user = $user ?? $this->userSession->getUser();
 		if ($user === null) {
@@ -391,6 +411,10 @@ class Factory implements IFactory {
 				return $language;
 			}
 
+			if (($forcedLanguage = $this->request->getParam('forceLanguage')) !== null) {
+				return $forcedLanguage;
+			}
+
 			// Use language from request
 			if ($this->userSession->getUser() instanceof IUser &&
 				$user->getUID() === $this->userSession->getUser()->getUID()) {
@@ -401,7 +425,7 @@ class Factory implements IFactory {
 			}
 		}
 
-		return $this->config->getSystemValueString('default_language', 'en');
+		return $this->request->getParam('forceLanguage') ?? $this->config->getSystemValueString('default_language', 'en');
 	}
 
 	/**
@@ -444,7 +468,7 @@ class Factory implements IFactory {
 					if ($preferred_language === strtolower($available_language)) {
 						return $this->respectDefaultLanguage($app, $available_language);
 					}
-					if (strtolower($available_language) === $preferred_language_parts[0].'_'.end($preferred_language_parts)) {
+					if (strtolower($available_language) === $preferred_language_parts[0] . '_' . end($preferred_language_parts)) {
 						return $available_language;
 					}
 				}

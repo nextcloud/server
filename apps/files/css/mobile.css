@@ -1,8 +1,0 @@
-/*!
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
- * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
- * SPDX-License-Identifier: AGPL-3.0-only
- *//*!
- * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
- * SPDX-License-Identifier: AGPL-3.0-or-later
- */@media only screen and (max-width: 988px)and (min-width: 1025px),only screen and (max-width: 688px){.app-files #app-content.dir-drop{background-color:#fff !important}table th.column-size,table td.filesize,table th.column-mtime,table td.date{display:none}table td{padding:0}table.multiselect thead{padding-left:0}.fileList a.action.action-menu img{padding-left:0}.fileList .fileActionsMenu{margin-right:6px}.fileList a.action-share span:not(.icon):not(.avatar){position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}td.filename a.name .system-tags{display:none}#uploadprogressbar,#uploadprogressbar .label.inner{width:50px}#uploadprogressbar .desktop{display:none !important}#uploadprogressbar .mobile{display:block !important}table.dragshadow{z-index:1000}}@media only screen and (max-width: 480px){table th .selectedActions{float:right}table th .selectedActions>a span:not(.icon){display:none}table th .selectedActions a{padding:17px 14px}table.multiselect th .columntitle.name{margin-left:0}}/*# sourceMappingURL=mobile.css.map */

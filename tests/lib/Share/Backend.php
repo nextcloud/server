@@ -30,7 +30,7 @@ class Backend implements \OCP\Share_Backend {
 		// Always make target be test.txt to cause conflicts
 
 		if (substr($itemSource, 0, strlen('test')) !== 'test') {
-			$target = "test.txt";
+			$target = 'test.txt';
 		} else {
 			$target = $itemSource;
 		}
@@ -54,11 +54,11 @@ class Backend implements \OCP\Share_Backend {
 			$ext = substr($target, $pos);
 			$append = '';
 			$i = 1;
-			while (in_array($name.$append.$ext, $knownTargets)) {
+			while (in_array($name . $append . $ext, $knownTargets)) {
 				$append = $i;
 				$i++;
 			}
-			$target = $name.$append.$ext;
+			$target = $name . $append . $ext;
 		}
 
 		return $target;

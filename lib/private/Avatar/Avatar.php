@@ -88,8 +88,8 @@ abstract class Avatar implements IAvatar {
 		$userDisplayName = $this->getDisplayName();
 		$fgRGB = $this->avatarBackgroundColor($userDisplayName);
 		$bgRGB = $fgRGB->alphaBlending(0.1, $darkTheme ? new Color(0, 0, 0) : new Color(255, 255, 255));
-		$fill = sprintf("%02x%02x%02x", $bgRGB->red(), $bgRGB->green(), $bgRGB->blue());
-		$fgFill = sprintf("%02x%02x%02x", $fgRGB->red(), $fgRGB->green(), $fgRGB->blue());
+		$fill = sprintf('%02x%02x%02x', $bgRGB->red(), $bgRGB->green(), $bgRGB->blue());
+		$fgFill = sprintf('%02x%02x%02x', $fgRGB->red(), $fgRGB->green(), $fgRGB->blue());
 		$text = $this->getAvatarText();
 		$toReplace = ['{size}', '{fill}', '{fgFill}', '{letter}'];
 		return str_replace($toReplace, [$size, $fill, $fgFill, $text], $this->svgTemplate);
@@ -104,7 +104,7 @@ abstract class Avatar implements IAvatar {
 		}
 		$formats = Imagick::queryFormats();
 		// Avatar generation breaks if RSVG format is enabled. Fall back to gd in that case
-		if (in_array("RSVG", $formats, true)) {
+		if (in_array('RSVG', $formats, true)) {
 			return null;
 		}
 		try {
@@ -183,7 +183,7 @@ abstract class Avatar implements IAvatar {
 		string $text,
 		string $font,
 		int $size,
-		int $angle = 0
+		int $angle = 0,
 	): array {
 		// Image width & height
 		$xi = imagesx($image);

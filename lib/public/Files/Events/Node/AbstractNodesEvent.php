@@ -22,7 +22,7 @@ abstract class AbstractNodesEvent extends Event implements IWebhookCompatibleEve
 	 */
 	public function __construct(
 		private Node $source,
-		private Node $target
+		private Node $target,
 	) {
 	}
 

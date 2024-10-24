@@ -38,7 +38,7 @@ class IpAddress {
 		$binary = \inet_pton($ip);
 		$mask = inet_pton('FFFF:FFFF:FFFF:FFFF::');
 
-		return inet_ntop($binary & $mask).'/64';
+		return inet_ntop($binary & $mask) . '/64';
 	}
 
 	/**
@@ -67,12 +67,12 @@ class IpAddress {
 	 */
 	public function getSubnet(): string {
 		if (filter_var($this->ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-			return $this->ip.'/32';
+			return $this->ip . '/32';
 		}
 
 		$ipv4 = $this->getEmbeddedIpv4($this->ip);
 		if ($ipv4 !== null) {
-			return $ipv4.'/32';
+			return $ipv4 . '/32';
 		}
 
 		return $this->getIPv6Subnet($this->ip);

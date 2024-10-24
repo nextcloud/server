@@ -11,19 +11,14 @@ use OCP\IURLGenerator;
 
 class FileChanges implements IFilter {
 
-	/** @var IL10N */
-	protected $l;
-
-	/** @var IURLGenerator */
-	protected $url;
-
 	/**
 	 * @param IL10N $l
 	 * @param IURLGenerator $url
 	 */
-	public function __construct(IL10N $l, IURLGenerator $url) {
-		$this->l = $l;
-		$this->url = $url;
+	public function __construct(
+		protected IL10N $l,
+		protected IURLGenerator $url,
+	) {
 	}
 
 	/**

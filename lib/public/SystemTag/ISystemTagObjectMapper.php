@@ -31,7 +31,7 @@ interface ISystemTagObjectMapper {
 	 * @param string $objectType object type
 	 *
 	 * @return array with object id as key and an array
-	 * of tag ids as value
+	 *               of tag ids as value
 	 *
 	 * @since 9.0.0
 	 */
@@ -48,9 +48,9 @@ interface ISystemTagObjectMapper {
 	 * @return string[] array of object ids or empty array if none found
 	 *
 	 * @throws TagNotFoundException if at least one of the
-	 * given tags does not exist
+	 *                              given tags does not exist
 	 * @throws \InvalidArgumentException When a limit is specified together with
-	 * multiple tag ids
+	 *                                   multiple tag ids
 	 *
 	 * @since 9.0.0
 	 */
@@ -69,7 +69,7 @@ interface ISystemTagObjectMapper {
 	 * @param string|array $tagIds tag id or array of tag ids to assign
 	 *
 	 * @throws TagNotFoundException if at least one of the
-	 * given tags does not exist
+	 *                              given tags does not exist
 	 *
 	 * @since 9.0.0
 	 */
@@ -88,7 +88,7 @@ interface ISystemTagObjectMapper {
 	 * @param string|array $tagIds tag id or array of tag ids to unassign
 	 *
 	 * @throws TagNotFoundException if at least one of the
-	 * given tags does not exist
+	 *                              given tags does not exist
 	 *
 	 * @since 9.0.0
 	 */
@@ -101,10 +101,10 @@ interface ISystemTagObjectMapper {
 	 * @param string $objectType object type
 	 * @param string $tagId tag id to check
 	 * @param bool $all true to check that ALL objects have the tag assigned,
-	 * false to check that at least ONE object has the tag.
+	 *                  false to check that at least ONE object has the tag.
 	 *
 	 * @return bool true if the condition set by $all is matched, false
-	 * otherwise
+	 *              otherwise
 	 *
 	 * @throws TagNotFoundException if the tag does not exist
 	 *

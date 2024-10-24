@@ -10,7 +10,9 @@ namespace OCA\DAV\CardDAV;
 
 use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Http;
+use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -24,29 +26,19 @@ use function is_null;
 class SyncService {
 
 	use TTransactional;
-
-	private CardDavBackend $backend;
-	private IUserManager $userManager;
-	private IDBConnection $dbConnection;
-	private LoggerInterface $logger;
 	private ?array $localSystemAddressBook = null;
-	private Converter $converter;
 	protected string $certPath;
-	private IClientService $clientService;
 
-	public function __construct(CardDavBackend $backend,
-		IUserManager $userManager,
-		IDBConnection $dbConnection,
-		LoggerInterface $logger,
-		Converter $converter,
-		IClientService $clientService) {
-		$this->backend = $backend;
-		$this->userManager = $userManager;
-		$this->logger = $logger;
-		$this->converter = $converter;
+	public function __construct(
+		private CardDavBackend $backend,
+		private IUserManager $userManager,
+		private IDBConnection $dbConnection,
+		private LoggerInterface $logger,
+		private Converter $converter,
+		private IClientService $clientService,
+		private IConfig $config,
+	) {
 		$this->certPath = '';
-		$this->dbConnection = $dbConnection;
-		$this->clientService = $clientService;
 	}
 
 	/**
@@ -77,7 +69,7 @@ class SyncService {
 			$cardUri = basename($resource);
 			if (isset($status[200])) {
 				$vCard = $this->download($url, $userName, $sharedSecret, $resource);
-				$this->atomic(function () use ($addressBookId, $cardUri, $vCard) {
+				$this->atomic(function () use ($addressBookId, $cardUri, $vCard): void {
 					$existingCard = $this->backend->getCard($addressBookId, $cardUri);
 					if ($existingCard === false) {
 						$this->backend->createCard($addressBookId, $cardUri, $vCard);
@@ -108,25 +100,55 @@ class SyncService {
 		}, $this->dbConnection);
 	}
 
+	private function prepareUri(string $host, string $path): string {
+		/*
+		 * The trailing slash is important for merging the uris together.
+		 *
+		 * $host is stored in oc_trusted_servers.url and usually without a trailing slash.
+		 *
+		 * Example for a report request
+		 *
+		 * $host = 'https://server.internal/cloud'
+		 * $path = 'remote.php/dav/addressbooks/system/system/system'
+		 *
+		 * Without the trailing slash, the webroot is missing:
+		 * https://server.internal/remote.php/dav/addressbooks/system/system/system
+		 *
+		 * Example for a download request
+		 *
+		 * $host = 'https://server.internal/cloud'
+		 * $path = '/cloud/remote.php/dav/addressbooks/system/system/system/Database:alice.vcf'
+		 *
+		 * The response from the remote usually contains the webroot already and must be normalized to:
+		 * https://server.internal/cloud/remote.php/dav/addressbooks/system/system/system/Database:alice.vcf
+		 */
+		$host = rtrim($host, '/') . '/';
+
+		$uri = \GuzzleHttp\Psr7\UriResolver::resolve(
+			\GuzzleHttp\Psr7\Utils::uriFor($host),
+			\GuzzleHttp\Psr7\Utils::uriFor($path)
+		);
+
+		return (string)$uri;
+	}
+
 	/**
 	 * @throws ClientExceptionInterface
 	 */
 	protected function requestSyncReport(string $url, string $userName, string $addressBookUrl, string $sharedSecret, ?string $syncToken): array {
 		$client = $this->clientService->newClient();
-
-		// the trailing slash is important for merging base_uri and uri
-		$url = rtrim($url, '/') . '/';
+		$uri = $this->prepareUri($url, $addressBookUrl);
 
 		$options = [
 			'auth' => [$userName, $sharedSecret],
-			'base_uri' => $url,
 			'body' => $this->buildSyncCollectionRequestBody($syncToken),
-			'headers' => ['Content-Type' => 'application/xml']
+			'headers' => ['Content-Type' => 'application/xml'],
+			'timeout' => $this->config->getSystemValueInt('carddav_sync_request_timeout', IClient::DEFAULT_REQUEST_TIMEOUT)
 		];
 
 		$response = $client->request(
 			'REPORT',
-			$addressBookUrl,
+			$uri,
 			$options
 		);
 
@@ -138,17 +160,14 @@ class SyncService {
 
 	protected function download(string $url, string $userName, string $sharedSecret, string $resourcePath): string {
 		$client = $this->clientService->newClient();
-
-		// the trailing slash is important for merging base_uri and uri
-		$url = rtrim($url, '/') . '/';
+		$uri = $this->prepareUri($url, $resourcePath);
 
 		$options = [
 			'auth' => [$userName, $sharedSecret],
-			'base_uri' => $url,
 		];
 
 		$response = $client->get(
-			$resourcePath,
+			$uri,
 			$options
 		);
 
@@ -200,7 +219,7 @@ class SyncService {
 
 		$cardId = self::getCardUri($user);
 		if ($user->isEnabled()) {
-			$this->atomic(function () use ($addressBookId, $cardId, $user) {
+			$this->atomic(function () use ($addressBookId, $cardId, $user): void {
 				$card = $this->backend->getCard($addressBookId, $cardId);
 				if ($card === false) {
 					$vCard = $this->converter->createCardFromUser($user);
@@ -237,7 +256,7 @@ class SyncService {
 	 */
 	public function getLocalSystemAddressBook() {
 		if (is_null($this->localSystemAddressBook)) {
-			$systemPrincipal = "principals/system/system";
+			$systemPrincipal = 'principals/system/system';
 			$this->localSystemAddressBook = $this->ensureSystemAddressBookExists($systemPrincipal, 'system', [
 				'{' . Plugin::NS_CARDDAV . '}addressbook-description' => 'System addressbook which holds all users of this instance'
 			]);
@@ -251,7 +270,7 @@ class SyncService {
 	 */
 	public function syncInstance(?\Closure $progressCallback = null) {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
-		$this->userManager->callForAllUsers(function ($user) use ($systemAddressBook, $progressCallback) {
+		$this->userManager->callForAllUsers(function ($user) use ($systemAddressBook, $progressCallback): void {
 			$this->updateUser($user);
 			if (!is_null($progressCallback)) {
 				$progressCallback();

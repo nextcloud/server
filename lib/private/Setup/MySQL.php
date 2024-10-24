@@ -41,7 +41,7 @@ class MySQL extends AbstractDatabase {
 
 		//fill the database if needed
 		$query = 'select count(*) from information_schema.tables where table_schema=? AND table_name = ?';
-		$connection->executeQuery($query, [$this->dbName, $this->tablePrefix.'users']);
+		$connection->executeQuery($query, [$this->dbName, $this->tablePrefix . 'users']);
 
 		$connection->close();
 		$connection = $this->connect();

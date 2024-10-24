@@ -96,7 +96,7 @@ body {
 		height: 130px;
 		margin: 0 auto;
 		position: relative;
-		left: unset;
+		inset-inline-start: unset;
 	}
 }
 
@@ -123,7 +123,7 @@ form.install-form fieldset input {
 form.install-form .strengthify-wrapper {
 	bottom: 17px;
 	width: calc(100% - 8px);
-	left: 4px;
+	inset-inline-start: 4px;
 	top: unset;
 }
 
@@ -137,7 +137,7 @@ form #sqliteInformation {
 }
 form #adminaccount, form #use_other_db {
 	margin-bottom: 15px;
-	text-align: left;
+	text-align: start;
 }
 form #adminaccount > legend,
 form #adminlogin {
@@ -188,8 +188,8 @@ form #datadirField legend {
 
 	.submit-icon {
 		position: absolute;
-		right: 24px;
-		transition: right 100ms ease-in-out;
+		inset-inline-end: 24px;
+		transition: inset-inline-end 100ms ease-in-out;
 		pointer-events: none; /* The submit icon is positioned on the submit button.
 							 From the user point of view the icon is part of the
 							 button, so the clicks on the icon have to be
@@ -198,13 +198,13 @@ form #datadirField legend {
 	input.login:hover ~ .submit-icon.icon-confirm-white,
 	input.login:focus ~ .submit-icon.icon-confirm-white,
 	input.login:active ~ .submit-icon.icon-confirm-white {
-		right: 20px;
+		inset-inline-end: 20px;
 	}
 
 	.icon-loading-small {
 		position: absolute;
 		top: 22px;
-		right: 26px;
+		inset-inline-end: 26px;
 	}
 }
 
@@ -238,7 +238,7 @@ select {
 
 .icon-confirm.input-button-inline {
 	position: absolute;
-	right: 3px;
+	inset-inline-end: 3px;
 	top: 5px;
 }
 
@@ -255,12 +255,11 @@ input[type='email'] {
 	cursor: text;
 	font-family: inherit;
 	font-weight: normal;
-	margin-left: 0;
-	margin-right: 0;
+	margin-inline: 0;
 }
 input[type='password'].password-with-toggle, input[type='text'].password-with-toggle {
 	width: 238px;
-	padding-right: 40px !important;
+	padding-inline-end: 40px !important;
 }
 input.login {
 	width: 260px;
@@ -302,7 +301,7 @@ a {
 /* Checkboxes - white only for login */
 input[type='checkbox'].checkbox {
 	position: absolute;
-	left: -10000px;
+	inset-inline-start: -10000px;
 	top: auto;
 	width: 1px;
 	height: 1px;
@@ -358,7 +357,10 @@ input[type='checkbox'].checkbox--white:checked + label:before {
 	position: relative;
 	top: -20px;
 	width: 250px;
-	border-radius: 0 0 3px 3px;
+	border-start-start-radius: 0;
+	border-start-end-radius: 0;
+	border-end-end-radius: 3px;
+	border-end-start-radius: 3px;
 	overflow: hidden;
 	height: 3px;
 }
@@ -371,7 +373,7 @@ input[type='checkbox'].checkbox--white:checked + label:before {
 /* Show password toggle */
 #show, #dbpassword-toggle {
 	position: absolute;
-	right: 2px;
+	inset-inline-end: 2px;
 	top: -3px;
 	display: flex;
 	justify-content: center;
@@ -387,11 +389,11 @@ input[type='checkbox'].checkbox--white:checked + label:before {
 #personal-show + label {
 	height: 14px;
 	margin-top: -25px;
-	left: 295px;
+	inset-inline-start: 295px;
 	display: block;
 }
 #passwordbutton {
-	margin-left: .5em;
+	margin-inline-start: .5em;
 }
 
 /* Dark subtle label text */
@@ -419,7 +421,7 @@ form .warning input[type='checkbox']+label {
 	border-radius: 3px; /* --border-radius */
 	margin: 12px 0;
 	border: 1px solid transparent;
-	text-align: left;
+	text-align: start;
 	align-items: center;
 	text-decoration: none !important;
 
@@ -468,7 +470,8 @@ form .warning input[type='checkbox']+label {
 
 /* Additional login options */
 #remember_login {
-	margin: 18px 5px 0 16px !important;
+	margin-block: 18px 0 !important;
+	margin-inline: 16px 5px !important;
 }
 
 /* fixes for update page TODO should be fixed some time in a proper way */
@@ -535,7 +538,7 @@ form #selectDbType {
 .body-login-container {
 	display: flex;
 	flex-direction: column;
-	text-align: left;
+	text-align: start;
 	word-wrap: break-word;
 	border-radius: 10px; /* --border-radius-large */
 	cursor: default;
@@ -582,21 +585,25 @@ p.info {
 
 	.appList {
 		list-style: disc;
-		text-align: left;
-		margin-left: 25px;
-		margin-right: 25px;
-	}
-
-	img.float-spinner {
-		float: left;
+		text-align: start;
+		margin-inline: 25px;
 	}
 
 	a.update-show-detailed {
 		border-bottom: inherit;
 	}
 }
+
+/* Cannot use inline-start and :dir to support Samsung Internet */ 
+body[dir='ltr'] .update img.float-spinner {
+	float: left;
+}
+body[dir='rtl'] .update img.float-spinner {
+	float: right;
+}
+
 #update-progress-detailed {
-	text-align: left;
+	text-align: start;
 	margin-bottom: 12px;
 }
 .update-show-detailed {
@@ -663,7 +670,7 @@ p.info {
 	margin: -17px 0 0 -17px;
 	position: absolute;
 	top: 50%;
-	left: 50%;
+	inset-inline-start: 50%;
 	border-radius: 100%;
 	-webkit-animation: rotate .8s infinite linear;
 	animation: rotate .8s infinite linear;
@@ -741,7 +748,7 @@ footer {
 label.infield,
 .hidden-visually {
 	position: absolute;
-	left: -10000px;
+	inset-inline-start: -10000px;
 	top: -10000px;
 	width: 1px;
 	height: 1px;
@@ -755,11 +762,11 @@ a.legal {
 .notecard {
 	color: var(--color-text-light);
 	background-color: var(--note-background);
-	border-left: 4px solid var(--note-theme);
+	border-inline-start: 4px solid var(--note-theme);
 	border-radius: var(--border-radius);
 	margin: 1rem 0;
 	padding: 1rem;
-	text-align: left;
+	text-align: start;
 
 	&.success {
 		--note-background: rgba(var(--color-success-rgb), 0.1);
@@ -805,7 +812,7 @@ a.legal {
 .guest-box {
 	&.wide {
 		display: block;
-		text-align: left;
+		text-align: start;
 		border-radius: var(--border-radius-container-large);
 	}
 
@@ -830,7 +837,7 @@ button.toggle-password {
 }
 
 .text-left {
-	text-align: left !important;
+	text-align: start !important;
 }
 
 .hidden {

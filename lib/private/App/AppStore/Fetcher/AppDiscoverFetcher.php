@@ -81,7 +81,7 @@ class AppDiscoverFetcher extends Fetcher {
 		});
 	}
 
-	public function getETag(): string|null {
+	public function getETag(): ?string {
 		$rootFolder = $this->appData->getFolder('/');
 
 		try {

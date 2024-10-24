@@ -23,7 +23,7 @@ class CsrfTokenGeneratorTest extends \Test\TestCase {
 		$this->csrfTokenGenerator = new \OC\Security\CSRF\CsrfTokenGenerator($this->random);
 	}
 
-	public function testGenerateTokenWithCustomNumber() {
+	public function testGenerateTokenWithCustomNumber(): void {
 		$this->random
 			->expects($this->once())
 			->method('generate')
@@ -32,7 +32,7 @@ class CsrfTokenGeneratorTest extends \Test\TestCase {
 		$this->assertSame('abc', $this->csrfTokenGenerator->generateToken(3));
 	}
 
-	public function testGenerateTokenWithDefault() {
+	public function testGenerateTokenWithDefault(): void {
 		$this->random
 			->expects($this->once())
 			->method('generate')

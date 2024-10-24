@@ -34,7 +34,7 @@ class CreateSessionTokenCommandTest extends ALoginCommandTest {
 		);
 	}
 
-	public function testProcess() {
+	public function testProcess(): void {
 		$data = $this->getLoggedInLoginData();
 		$this->config->expects($this->once())
 			->method('getSystemValueInt')
@@ -67,7 +67,7 @@ class CreateSessionTokenCommandTest extends ALoginCommandTest {
 		$this->assertTrue($result->isSuccess());
 	}
 
-	public function testProcessDoNotRemember() {
+	public function testProcessDoNotRemember(): void {
 		$data = $this->getLoggedInLoginData();
 		$this->config->expects($this->once())
 			->method('getSystemValueInt')

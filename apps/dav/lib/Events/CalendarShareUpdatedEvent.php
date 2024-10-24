@@ -19,20 +19,6 @@ use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
  * @since 20.0.0
  */
 class CalendarShareUpdatedEvent extends Event {
-	private int $calendarId;
-
-	/** @var array{id: int, uri: string, '{http://calendarserver.org/ns/}getctag': string, '{http://sabredav.org/ns}sync-token': int, '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set': SupportedCalendarComponentSet, '{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp': ScheduleCalendarTransp, '{urn:ietf:params:xml:ns:caldav}calendar-timezone': ?string } */
-	private array $calendarData;
-
-	/** @var list<array{href: string, commonName: string, status: int, readOnly: bool, '{http://owncloud.org/ns}principal': string, '{http://owncloud.org/ns}group-share': bool}> */
-	private array $oldShares;
-
-	/** @var list<array{href: string, commonName: string, readOnly: bool}> */
-	private array $added;
-
-	/** @var list<string> */
-	private array $removed;
-
 	/**
 	 * CalendarShareUpdatedEvent constructor.
 	 *
@@ -43,17 +29,14 @@ class CalendarShareUpdatedEvent extends Event {
 	 * @param list<string> $removed
 	 * @since 20.0.0
 	 */
-	public function __construct(int $calendarId,
-		array $calendarData,
-		array $oldShares,
-		array $added,
-		array $removed) {
+	public function __construct(
+		private int $calendarId,
+		private array $calendarData,
+		private array $oldShares,
+		private array $added,
+		private array $removed,
+	) {
 		parent::__construct();
-		$this->calendarId = $calendarId;
-		$this->calendarData = $calendarData;
-		$this->oldShares = $oldShares;
-		$this->added = $added;
-		$this->removed = $removed;
 	}
 
 	/**

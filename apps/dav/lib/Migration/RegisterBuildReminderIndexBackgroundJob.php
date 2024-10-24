@@ -22,15 +22,6 @@ use OCP\Migration\IRepairStep;
  */
 class RegisterBuildReminderIndexBackgroundJob implements IRepairStep {
 
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var IConfig */
-	private $config;
-
 	/** @var string */
 	private const CONFIG_KEY = 'buildCalendarReminderIndex';
 
@@ -39,12 +30,11 @@ class RegisterBuildReminderIndexBackgroundJob implements IRepairStep {
 	 * @param IJobList $jobList
 	 * @param IConfig $config
 	 */
-	public function __construct(IDBConnection $db,
-		IJobList $jobList,
-		IConfig $config) {
-		$this->db = $db;
-		$this->jobList = $jobList;
-		$this->config = $config;
+	public function __construct(
+		private IDBConnection $db,
+		private IJobList $jobList,
+		private IConfig $config,
+	) {
 	}
 
 	/**
@@ -67,8 +57,8 @@ class RegisterBuildReminderIndexBackgroundJob implements IRepairStep {
 		$query = $this->db->getQueryBuilder();
 		$query->select($query->createFunction('MAX(' . $query->getColumnName('id') . ')'))
 			->from('calendarobjects');
-		$result = $query->execute();
-		$maxId = (int) $result->fetchOne();
+		$result = $query->executeQuery();
+		$maxId = (int)$result->fetchOne();
 		$result->closeCursor();
 
 		$output->info('Add background job');

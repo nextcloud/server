@@ -21,6 +21,7 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\ServerVersion;
 use Psr\Log\LoggerInterface;
 
 class ConfigAPIController extends OCSController {
@@ -31,9 +32,10 @@ class ConfigAPIController extends OCSController {
 		IUserSession $userSession,
 		IUserManager $userManager,
 		Manager $keyManager,
+		ServerVersion $serverVersion,
 		private Helper $ldapHelper,
 		private LoggerInterface $logger,
-		private ConnectionFactory $connectionFactory
+		private ConnectionFactory $connectionFactory,
 	) {
 		parent::__construct(
 			$appName,
@@ -41,7 +43,8 @@ class ConfigAPIController extends OCSController {
 			$capabilitiesManager,
 			$userSession,
 			$userManager,
-			$keyManager
+			$keyManager,
+			$serverVersion,
 		);
 	}
 

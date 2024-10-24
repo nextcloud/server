@@ -11,6 +11,8 @@ use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\Integration\ExternalCalendar;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
 use OCA\DAV\CalDAV\Trashbin\TrashbinHome;
+use OCP\IConfig;
+use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Backend\BackendInterface;
 use Sabre\CalDAV\Backend\NotificationSupport;
@@ -25,24 +27,21 @@ use Sabre\DAV\MkCol;
 
 class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 
-	/** @var \OCP\IL10N */
+	/** @var IL10N */
 	private $l10n;
 
-	/** @var \OCP\IConfig */
+	/** @var IConfig */
 	private $config;
 
 	/** @var PluginManager */
 	private $pluginManager;
-
-	/** @var LoggerInterface */
-	private $logger;
 	private ?array $cachedChildren = null;
 
 	public function __construct(
 		BackendInterface $caldavBackend,
 		array $principalInfo,
-		LoggerInterface $logger,
-		private bool $returnCachedSubscriptions
+		private LoggerInterface $logger,
+		private bool $returnCachedSubscriptions,
 	) {
 		parent::__construct($caldavBackend, $principalInfo);
 		$this->l10n = \OC::$server->getL10N('dav');
@@ -51,7 +50,6 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 			\OC::$server,
 			\OC::$server->getAppManager()
 		);
-		$this->logger = $logger;
 	}
 
 	/**
@@ -149,9 +147,9 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 
 		// Calendar - this covers all "regular" calendars, but not shared
 		// only check if the method is available
-		if($this->caldavBackend instanceof CalDavBackend) {
+		if ($this->caldavBackend instanceof CalDavBackend) {
 			$calendar = $this->caldavBackend->getCalendarByUri($this->principalInfo['uri'], $name);
-			if(!empty($calendar)) {
+			if (!empty($calendar)) {
 				return new Calendar($this->caldavBackend, $calendar, $this->l10n, $this->config, $this->logger);
 			}
 		}

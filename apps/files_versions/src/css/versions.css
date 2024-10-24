@@ -41,16 +41,16 @@
 
 .versionsTabView img {
 	cursor: pointer;
-	padding-right: 4px;
+	padding-inline-end: 4px;
 }
 
 .versionsTabView img.preview {
 	position: relative;
 	top: 6px;
-	left: 10px;
+	inset-inline-start: 10px;
 	border: 1px solid var(--color-border-dark);		
 	cursor: default;
-	padding-right: 0;
+	padding-inline-end: 0;
 }
 
 .versionsTabView .version-container {
@@ -63,7 +63,7 @@
 }
 
 .versionsTabView .version-details {
-	text-align: left;
+	text-align: start;
 }
 
 .versionsTabView .version-details > span {
@@ -73,7 +73,7 @@
 .versionsTabView .revertVersion {
 	cursor: pointer;
 	float: right;
-	margin-right: 0;
+	margin-inline-end: 0;
 }
 
 .versionsTabView li.active .downloadVersion {
@@ -95,7 +95,7 @@
 }
 
 .version-container {
-	padding-left: 5px;
+	padding-inline-start: 5px;
 }
 
 .version-details {

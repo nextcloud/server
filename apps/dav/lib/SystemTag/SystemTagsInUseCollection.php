@@ -21,24 +21,16 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\SimpleCollection;
 
 class SystemTagsInUseCollection extends SimpleCollection {
-	protected IUserSession $userSession;
-	protected IRootFolder $rootFolder;
-	protected string $mediaType;
-	protected ISystemTagManager $systemTagManager;
 	protected SystemTagsInFilesDetector $systemTagsInFilesDetector;
 
 	/** @noinspection PhpMissingParentConstructorInspection */
 	public function __construct(
-		IUserSession $userSession,
-		IRootFolder $rootFolder,
-		ISystemTagManager $systemTagManager,
+		protected IUserSession $userSession,
+		protected IRootFolder $rootFolder,
+		protected ISystemTagManager $systemTagManager,
 		SystemTagsInFilesDetector $systemTagsInFilesDetector,
-		string $mediaType = ''
+		protected string $mediaType = '',
 	) {
-		$this->userSession = $userSession;
-		$this->rootFolder = $rootFolder;
-		$this->systemTagManager = $systemTagManager;
-		$this->mediaType = $mediaType;
 		$this->systemTagsInFilesDetector = $systemTagsInFilesDetector;
 		$this->name = 'systemtags-assigned';
 		if ($this->mediaType != '') {
@@ -82,8 +74,8 @@ class SystemTagsInUseCollection extends SimpleCollection {
 			$tag = new SystemTag((string)$tagData['id'], $tagData['name'], (bool)$tagData['visibility'], (bool)$tagData['editable']);
 			// read only, so we can submit the isAdmin parameter as false generally
 			$node = new SystemTagNode($tag, $user, false, $this->systemTagManager);
-			$node->setNumberOfFiles((int) $tagData['number_files']);
-			$node->setReferenceFileId((int) $tagData['ref_file_id']);
+			$node->setNumberOfFiles((int)$tagData['number_files']);
+			$node->setReferenceFileId((int)$tagData['ref_file_id']);
 			$children[] = $node;
 		}
 		return $children;

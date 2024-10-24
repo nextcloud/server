@@ -61,7 +61,7 @@ abstract class Bitmap extends ProviderV2 {
 
 		//new bitmap image object
 		$image = new \OCP\Image();
-		$image->loadFromData((string) $bp);
+		$image->loadFromData((string)$bp);
 		//check if image object is valid
 		return $image->valid() ? $image : null;
 	}

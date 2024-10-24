@@ -9,11 +9,13 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\FilesReportPlugin as FilesReportPluginImplementation;
 use OCP\App\IAppManager;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
+use OCP\Files\IFilenameValidator;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IPreview;
@@ -32,43 +34,20 @@ use Sabre\DAV\Tree;
 use Sabre\HTTP\ResponseInterface;
 
 class FilesReportPluginTest extends \Test\TestCase {
-	/** @var \Sabre\DAV\Server|MockObject */
-	private $server;
 
-	/** @var \Sabre\DAV\Tree|MockObject */
-	private $tree;
-
-	/** @var ISystemTagObjectMapper|MockObject */
-	private $tagMapper;
-
-	/** @var ISystemTagManager|MockObject */
-	private $tagManager;
-
-	/** @var ITags|MockObject */
-	private $privateTags;
-
-	private ITagManager|MockObject $privateTagManager;
-
-	/** @var  \OCP\IUserSession */
-	private $userSession;
-
-	/** @var FilesReportPluginImplementation */
-	private $plugin;
-
-	/** @var View|MockObject **/
-	private $view;
-
-	/** @var IGroupManager|MockObject **/
-	private $groupManager;
-
-	/** @var Folder|MockObject **/
-	private $userFolder;
-
-	/** @var IPreview|MockObject * */
-	private $previewManager;
-
-	/** @var IAppManager|MockObject * */
-	private $appManager;
+	private \Sabre\DAV\Server&MockObject $server;
+	private Tree&MockObject $tree;
+	private ISystemTagObjectMapper&MockObject $tagMapper;
+	private ISystemTagManager&MockObject $tagManager;
+	private ITags&MockObject $privateTags;
+	private ITagManager&MockObject $privateTagManager;
+	private IUserSession&MockObject $userSession;
+	private FilesReportPluginImplementation $plugin;
+	private View&MockObject $view;
+	private IGroupManager&MockObject $groupManager;
+	private Folder&MockObject $userFolder;
+	private IPreview&MockObject $previewManager;
+	private IAppManager&MockObject $appManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -82,7 +61,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 
 		$this->server = $this->getMockBuilder('\Sabre\DAV\Server')
 			->setConstructorArgs([$this->tree])
-			->setMethods(['getRequestUri', 'getBaseUri'])
+			->onlyMethods(['getRequestUri', 'getBaseUri'])
 			->getMock();
 
 		$this->server->expects($this->any())
@@ -311,7 +290,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 				$filesNode2,
 			);
 
-		/** @var \OCA\DAV\Connector\Sabre\Directory|MockObject $reportTargetNode */
+		/** @var Directory&MockObject $reportTargetNode */
 		$result = $this->plugin->findNodesByFileIds($reportTargetNode, ['111', '222']);
 
 		$this->assertCount(2, $result);
@@ -364,7 +343,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 				$filesNode2,
 			);
 
-		/** @var \OCA\DAV\Connector\Sabre\Directory|MockObject $reportTargetNode */
+		/** @var Directory&MockObject $reportTargetNode */
 		$result = $this->plugin->findNodesByFileIds($reportTargetNode, ['111', '222']);
 
 		$this->assertCount(2, $result);
@@ -409,13 +388,16 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$validator = $this->createMock(IFilenameValidator::class);
+
 		$this->server->addPlugin(
-			new \OCA\DAV\Connector\Sabre\FilesPlugin(
+			new FilesPlugin(
 				$this->tree,
 				$config,
 				$this->createMock(IRequest::class),
 				$this->previewManager,
-				$this->createMock(IUserSession::class)
+				$this->createMock(IUserSession::class),
+				$validator,
 			)
 		);
 		$this->plugin->initialize($this->server);

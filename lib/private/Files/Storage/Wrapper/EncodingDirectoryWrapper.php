@@ -13,11 +13,7 @@ use OC\Files\Filesystem;
  * Normalize file names while reading directory entries
  */
 class EncodingDirectoryWrapper extends DirectoryWrapper {
-	/**
-	 * @psalm-suppress ImplementedReturnTypeMismatch Until return type is fixed upstream
-	 * @return string|false
-	 */
-	public function dir_readdir() {
+	public function dir_readdir(): string|false {
 		$file = readdir($this->source);
 		if ($file !== false && $file !== '.' && $file !== '..') {
 			$file = trim(Filesystem::normalizePath($file), '/');
@@ -28,7 +24,6 @@ class EncodingDirectoryWrapper extends DirectoryWrapper {
 
 	/**
 	 * @param resource $source
-	 * @param callable $filter
 	 * @return resource|false
 	 */
 	public static function wrap($source) {

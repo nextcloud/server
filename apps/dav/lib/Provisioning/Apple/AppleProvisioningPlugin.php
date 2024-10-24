@@ -21,52 +21,22 @@ class AppleProvisioningPlugin extends ServerPlugin {
 	protected $server;
 
 	/**
-	 * @var IURLGenerator
-	 */
-	protected $urlGenerator;
-
-	/**
-	 * @var IUserSession
-	 */
-	protected $userSession;
-
-	/**
 	 * @var \OC_Defaults
 	 */
 	protected $themingDefaults;
 
 	/**
-	 * @var IRequest
-	 */
-	protected $request;
-
-	/**
-	 * @var IL10N
-	 */
-	protected $l10n;
-
-	/**
-	 * @var \Closure
-	 */
-	protected $uuidClosure;
-
-	/**
 	 * AppleProvisioningPlugin constructor.
 	 */
 	public function __construct(
-		IUserSession $userSession,
-		IURLGenerator $urlGenerator,
+		protected IUserSession $userSession,
+		protected IURLGenerator $urlGenerator,
 		\OC_Defaults $themingDefaults,
-		IRequest $request,
-		IL10N $l10n,
-		\Closure $uuidClosure
+		protected IRequest $request,
+		protected IL10N $l10n,
+		protected \Closure $uuidClosure,
 	) {
-		$this->userSession = $userSession;
-		$this->urlGenerator = $urlGenerator;
 		$this->themingDefaults = $themingDefaults;
-		$this->request = $request;
-		$this->l10n = $l10n;
-		$this->uuidClosure = $uuidClosure;
 	}
 
 	/**
@@ -133,7 +103,7 @@ class AppleProvisioningPlugin extends ServerPlugin {
 		$filename = $userId . '-' . AppleProvisioningNode::FILENAME;
 
 		$xmlSkeleton = $this->getTemplate();
-		$body = vsprintf($xmlSkeleton, array_map(function ($v) {
+		$body = vsprintf($xmlSkeleton, array_map(function (string $v) {
 			return \htmlspecialchars($v, ENT_XML1, 'UTF-8');
 		}, [
 			$description,

@@ -17,7 +17,8 @@ use Psr\Log\LoggerInterface;
 
 class Backend extends SharingBackend {
 
-	public function __construct(private IUserManager $userManager,
+	public function __construct(
+		private IUserManager $userManager,
 		private IGroupManager $groupManager,
 		private Principal $principalBackend,
 		private ICacheFactory $cacheFactory,

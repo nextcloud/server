@@ -36,8 +36,9 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "ИД вашег здруженог облака:",
     "Share it so your friends can share files with you:" : "Поделите да би Ваши пријатељи могли да деле са Вама:",
     "Facebook" : "Фејсбук",
-    "Twitter" : "Твитер",
-    "Diaspora" : "Дијаспора",
+    "X (formerly Twitter)" : "X (бивши Twitter)",
+    "formerly Twitter" : "бивши Twitter",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Додај на свој веб сајт",
     "Share with me via Nextcloud" : "Дели са мном преко Некстклауда",
     "HTML Code:" : "ХТМЛ кôд:",
@@ -45,8 +46,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Дели са мном преко мог #Некстклауд Здруженог облака",
     "Cloud ID copied to the clipboard" : "Cloud ID је копиран у клипборд",
     "Copy to clipboard" : "Копирај у оставу",
-    "Clipboard is not available" : "Клипборд није доступан",
-    "Copied!" : "Копирано!",
+    "Clipboard not available. Please copy the cloud ID manually." : "Клипборд није доступан. Молимо вас да ручно копирате ID облака.",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Да ли желите да додате удаљено дељење {name} од {owner}@{remote}?",
     "Remote share" : "Удаљено дељење",
     "Remote share password" : "Лозинка удаљеног дељења",
@@ -60,6 +60,10 @@ OC.L10N.register(
     "Allow users on this server to send shares to groups on other servers" : "Дозволи корисницима са овог сервера да деле са групама на другим серверима",
     "Allow users on this server to receive group shares from other servers" : "Дозволи корисницима на овом серверу да примају групна дељења са других сервера",
     "Search global and public address book for users" : "Кориснике тражи и у глобалним и у јавним адресарима",
-    "Allow users to publish their data to a global and public address book" : "Дозволи корисницима да објаве своје податке у јавне и глобалне адресаре"
+    "Allow users to publish their data to a global and public address book" : "Дозволи корисницима да објаве своје податке у јавне и глобалне адресаре",
+    "Twitter" : "Твитер",
+    "Diaspora" : "Дијаспора",
+    "Clipboard is not available" : "Клипборд није доступан",
+    "Copied!" : "Копирано!"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

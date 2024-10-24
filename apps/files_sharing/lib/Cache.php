@@ -27,29 +27,22 @@ use OCP\Share\IShare;
  * don't use this class directly if you need to get metadata, use \OC\Files\Filesystem::getFileInfo instead
  */
 class Cache extends CacheJail {
-	/** @var SharedStorage */
-	private $storage;
-	private ICacheEntry $sourceRootInfo;
 	private bool $rootUnchanged = true;
 	private ?string $ownerDisplayName = null;
 	private $numericId;
 	private DisplayNameCache $displayNameCache;
-	private IShare $share;
 
 	/**
 	 * @param SharedStorage $storage
 	 */
 	public function __construct(
-		$storage,
-		ICacheEntry $sourceRootInfo,
+		private $storage,
+		private ICacheEntry $sourceRootInfo,
 		CacheDependencies $dependencies,
-		IShare $share
+		private IShare $share,
 	) {
-		$this->storage = $storage;
-		$this->sourceRootInfo = $sourceRootInfo;
-		$this->numericId = $sourceRootInfo->getStorageId();
+		$this->numericId = $this->sourceRootInfo->getStorageId();
 		$this->displayNameCache = $dependencies->getDisplayNameCache();
-		$this->share = $share;
 
 		parent::__construct(
 			null,
@@ -122,7 +115,7 @@ class Cache extends CacheJail {
 		parent::remove($file);
 	}
 
-	public function moveFromCache(\OCP\Files\Cache\ICache $sourceCache, $sourcePath, $targetPath) {
+	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
 		$this->rootUnchanged = false;
 		return parent::moveFromCache($sourceCache, $sourcePath, $targetPath);
 	}

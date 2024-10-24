@@ -72,6 +72,7 @@ OC.L10N.register(
     "Failed to load selected tags" : "Caricamento etichette selezionate fallito",
     "Failed to select tag" : "Selezione etichetta fallita",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Le etichette collaborative sono disponibili per tutti gli utenti. Le etichette limitate sono visibili agli utenti, ma non possono essere assegnate da essi. Le etichette invisibili sono per uso interno, poiché gli utenti non possono vederle o assegnarle.",
+    "Assigned collaborative tags" : "Etichette collaborative assegnate",
     "Open in Files" : "Apri in File",
     "List of tags and their associated files and folders." : "Lista di etichette e dei loro file e cartelle associati.",
     "No tags found" : "Nessuna etichetta trovata",

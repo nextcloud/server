@@ -11,6 +11,8 @@
 					<div class="profile__header__container__placeholder" />
 					<div class="profile__header__container__displayname">
 						<h2>{{ displayname || userId }}</h2>
+						<span v-if="pronouns">·</span>
+						<span v-if="pronouns" class="profile__header__container__pronouns">{{ pronouns }}</span>
 						<NcButton v-if="isCurrentUser"
 							type="primary"
 							:href="settingsUrl">
@@ -177,6 +179,7 @@ export default defineComponent({
 			biography: null as string|null,
 			actions: [] as IProfileAction[],
 			isUserAvatarVisible: false,
+			pronouns: null as string|null,
 		})
 
 		return {
@@ -268,6 +271,7 @@ $content-max-width: 640px;
 	overflow-y: auto;
 
 	&__header {
+		display: flex;
 		position: sticky;
 		height: 190px;
 		top: -40px;
@@ -279,7 +283,8 @@ $content-max-width: 640px;
 			align-self: flex-end;
 			width: 100%;
 			max-width: $profile-max-width;
-			margin: 0 auto;
+			margin: 8px auto;
+			row-gap: 8px;
 			display: grid;
 			grid-template-rows: max-content max-content;
 			grid-template-columns: 240px 1fr;
@@ -293,13 +298,18 @@ $content-max-width: 640px;
 				padding-inline: 16px; // same as the status text button, see NcButton
 				width: $content-max-width;
 				height: 45px;
-				margin-block: 100px 0;
+				margin-block: 125px 0;
 				display: flex;
 				align-items: center;
 				gap: 18px;
 
 				h2 {
 					font-size: 30px;
+					margin: 0;
+				}
+
+				span {
+					font-size: 20px;
 				}
 			}
 		}
@@ -311,7 +321,8 @@ $content-max-width: 640px;
 		align-self: flex-start;
 		padding-top: 20px;
 		min-width: 220px;
-		margin: -150px 20px 0 0;
+		margin-block: -150px 0;
+		margin-inline: 0 20px;
 
 		// Specificity hack is needed to override Avatar component styles
 		:deep(.avatar.avatardiv) {
@@ -328,7 +339,7 @@ $content-max-width: 640px;
 			}
 
 			.avatardiv__user-status {
-				right: 14px;
+				inset-inline-end: 14px;
 				bottom: 14px;
 				width: 34px;
 				height: 34px;
@@ -402,13 +413,13 @@ $content-max-width: 640px;
 
 			&__container {
 				grid-template-columns: unset;
+				margin-bottom: 110px;
 
 				&__displayname {
-					margin: 80px 20px 0px!important;
-					height: 1em;
+					margin: 80px 20px 0px 0px!important;
 					width: unset;
-					display: unset;
 					text-align: center;
+					padding-inline: 12px;
 				}
 
 				&__edit-button {
@@ -425,6 +436,11 @@ $content-max-width: 640px;
 
 		&__content {
 			display: block;
+
+			 .avatar {
+				// Overlap avatar to top header
+				margin-top: -110px !important;
+			 }
 		}
 
 		&__blocks {

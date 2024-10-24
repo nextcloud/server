@@ -216,7 +216,7 @@ export default Vue.extend({
 			return {
 				paddingTop: `${Math.floor(this.startIndex / this.columnCount) * this.itemHeight}px`,
 				paddingBottom: isOverScrolled ? 0 : `${hiddenAfterItems * this.itemHeight}px`,
-				minHeight: `${this.totalRowCount * this.itemHeight + this.beforeHeight}px`,
+				minHeight: `${this.totalRowCount * this.itemHeight}px`,
 			}
 		},
 	},

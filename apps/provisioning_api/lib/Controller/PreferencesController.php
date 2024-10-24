@@ -22,21 +22,14 @@ use OCP\IUserSession;
 
 class PreferencesController extends OCSController {
 
-	private IConfig $config;
-	private IUserSession $userSession;
-	private IEventDispatcher $eventDispatcher;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IConfig $config,
-		IUserSession $userSession,
-		IEventDispatcher $eventDispatcher
+		private IConfig $config,
+		private IUserSession $userSession,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
-		$this->userSession = $userSession;
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -134,6 +127,7 @@ class PreferencesController extends OCSController {
 	 * @param string[] $configKeys Keys to delete
 	 *
 	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST, array<empty>, array{}>
+	 *
 	 * 200: Preferences deleted successfully
 	 * 400: Preference invalid
 	 */

@@ -15,6 +15,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
+use OCP\IImage;
 use OCP\IPreview;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Preview\IProviderV2;
@@ -56,7 +57,7 @@ class GeneratorTest extends \Test\TestCase {
 		);
 	}
 
-	public function testGetCachedPreview() {
+	public function testGetCachedPreview(): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
 			->willReturn(true);
@@ -90,13 +91,13 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL));
+			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL, null));
 
 		$result = $this->generator->getPreview($file, 100, 100);
 		$this->assertSame($previewFile, $result);
 	}
 
-	public function testGetNewPreview() {
+	public function testGetNewPreview(): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
 			->willReturn(true);
@@ -161,7 +162,7 @@ class GeneratorTest extends \Test\TestCase {
 				$this->fail('Unexpected provider requested');
 			});
 
-		$image = $this->createMock(\OC_Image::class);
+		$image = $this->createMock(IImage::class);
 		$image->method('width')->willReturn(2048);
 		$image->method('height')->willReturn(2048);
 		$image->method('valid')->willReturn(true);
@@ -218,13 +219,13 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL));
+			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL, null));
 
 		$result = $this->generator->getPreview($file, 100, 100);
 		$this->assertSame($previewFile, $result);
 	}
 
-	public function testInvalidMimeType() {
+	public function testInvalidMimeType(): void {
 		$this->expectException(NotFoundException::class);
 
 		$file = $this->createMock(File::class);
@@ -257,12 +258,12 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file, 1024, 512, true, IPreview::MODE_COVER));
+			->with(new BeforePreviewFetchedEvent($file, 1024, 512, true, IPreview::MODE_COVER, 'invalidType'));
 
 		$this->generator->getPreview($file, 1024, 512, true, IPreview::MODE_COVER, 'invalidType');
 	}
 
-	public function testReturnCachedPreviewsWithoutCheckingSupportedMimetype() {
+	public function testReturnCachedPreviewsWithoutCheckingSupportedMimetype(): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
 			->willReturn(true);
@@ -294,13 +295,13 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file, 1024, 512, true, IPreview::MODE_COVER));
+			->with(new BeforePreviewFetchedEvent($file, 1024, 512, true, IPreview::MODE_COVER, 'invalidType'));
 
 		$result = $this->generator->getPreview($file, 1024, 512, true, IPreview::MODE_COVER, 'invalidType');
 		$this->assertSame($preview, $result);
 	}
 
-	public function testNoProvider() {
+	public function testNoProvider(): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
 			->willReturn(true);
@@ -322,14 +323,14 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL));
+			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL, null));
 
 		$this->expectException(NotFoundException::class);
 		$this->generator->getPreview($file, 100, 100);
 	}
 
 	private function getMockImage($width, $height, $data = null) {
-		$image = $this->createMock(\OC_Image::class);
+		$image = $this->createMock(IImage::class);
 		$image->method('height')->willReturn($width);
 		$image->method('width')->willReturn($height);
 		$image->method('valid')->willReturn(true);
@@ -397,7 +398,7 @@ class GeneratorTest extends \Test\TestCase {
 	 * @param int $expectedX
 	 * @param int $expectedY
 	 */
-	public function testCorrectSize($maxX, $maxY, $reqX, $reqY, $crop, $mode, $expectedX, $expectedY) {
+	public function testCorrectSize($maxX, $maxY, $reqX, $reqY, $crop, $mode, $expectedX, $expectedY): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
 			->willReturn(true);
@@ -447,7 +448,7 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file, $reqX, $reqY, $crop, $mode));
+			->with(new BeforePreviewFetchedEvent($file, $reqX, $reqY, $crop, $mode, null));
 
 		$result = $this->generator->getPreview($file, $reqX, $reqY, $crop, $mode);
 		if ($expectedX === $maxX && $expectedY === $maxY) {
@@ -457,7 +458,7 @@ class GeneratorTest extends \Test\TestCase {
 		}
 	}
 
-	public function testUnreadbleFile() {
+	public function testUnreadbleFile(): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
 			->willReturn(false);

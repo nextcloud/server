@@ -24,7 +24,7 @@ interface IHandleImipMessage extends ICalendar {
 	 *
 	 * @since 26.0.0
 	 *
-	 * @throws CalendarException  on validation failure or calendar write error
+	 * @throws CalendarException on validation failure or calendar write error
 	 */
 	public function handleIMipMessage(string $name, string $calendarData): void;
 }

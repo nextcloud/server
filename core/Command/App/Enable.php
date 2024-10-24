@@ -57,7 +57,7 @@ class Enable extends Command implements CompletionAwareInterface {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appIds = $input->getArgument('app-id');
 		$groups = $this->resolveGroupIds($input->getOption('groups'));
-		$forceEnable = (bool) $input->getOption('force');
+		$forceEnable = (bool)$input->getOption('force');
 
 		foreach ($appIds as $appId) {
 			$this->enableApp($appId, $groups, $forceEnable, $output);
@@ -145,7 +145,7 @@ class Enable extends Command implements CompletionAwareInterface {
 	 */
 	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app-id') {
-			$allApps = \OC_App::getAllApps();
+			$allApps = $this->appManager->getAllAppsInAppsFolders();
 			return array_diff($allApps, \OC_App::getEnabledApps(true, true));
 		}
 		return [];

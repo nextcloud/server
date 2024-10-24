@@ -29,12 +29,12 @@ class SearchIntegrationTest extends TestCase {
 	}
 
 
-	public function testThousandAndOneFilters() {
-		$id = $this->cache->put("file10", ['size' => 1, 'mtime' => 50, 'mimetype' => 'foo/folder']);
+	public function testThousandAndOneFilters(): void {
+		$id = $this->cache->put('file10', ['size' => 1, 'mtime' => 50, 'mimetype' => 'foo/folder']);
 
 		$comparisons = [];
-		for($i = 1; $i <= 1001; $i++) {
-			$comparisons[] = new SearchComparison(ISearchComparison::COMPARE_EQUAL, "name", "file$i");
+		for ($i = 1; $i <= 1001; $i++) {
+			$comparisons[] = new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'name', "file$i");
 		}
 		$operator = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, $comparisons);
 		$query = new SearchQuery($operator, 10, 0, []);

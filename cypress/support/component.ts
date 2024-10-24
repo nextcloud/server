@@ -4,6 +4,10 @@
  */
 import 'cypress-axe'
 
+// styles
+import '../../apps/theming/css/default.css'
+import '../../core/css/server.css'
+
 /* eslint-disable */
 import { mount } from '@cypress/vue2'
 

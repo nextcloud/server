@@ -14,22 +14,16 @@ use OCP\IUserManager;
 use OCP\Settings\ISettings;
 
 class Security implements ISettings {
-	private IManager $manager;
-	private IUserManager $userManager;
 	private MandatoryTwoFactor $mandatoryTwoFactor;
-	private IInitialState $initialState;
-	private IURLGenerator $urlGenerator;
 
-	public function __construct(IManager $manager,
-		IUserManager $userManager,
+	public function __construct(
+		private IManager $manager,
+		private IUserManager $userManager,
 		MandatoryTwoFactor $mandatoryTwoFactor,
-		IInitialState $initialState,
-		IURLGenerator $urlGenerator) {
-		$this->manager = $manager;
-		$this->userManager = $userManager;
+		private IInitialState $initialState,
+		private IURLGenerator $urlGenerator,
+	) {
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
-		$this->initialState = $initialState;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -67,8 +61,8 @@ class Security implements ISettings {
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
+	 *             the admin section. The forms are arranged in ascending order of the
+	 *             priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
 	 */

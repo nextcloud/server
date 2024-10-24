@@ -36,8 +36,8 @@ class GenerateMetadataJob extends TimedJob {
 	) {
 		parent::__construct($time);
 
-		$this->setTimeSensitivity(\OCP\BackgroundJob\IJob::TIME_INSENSITIVE);
-		$this->setInterval(24 * 3600);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
+		$this->setInterval(24 * 60 * 60);
 	}
 
 	protected function run(mixed $argument): void {
@@ -98,7 +98,7 @@ class GenerateMetadataJob extends TimedJob {
 			$nodeSize = $node->getSize();
 			$nodeLimit = $this->config->getSystemValueInt('metadata_max_filesize', self::DEFAULT_MAX_FILESIZE);
 			if ($nodeSize > $nodeLimit * 1000000) {
-				$this->logger->debug("Skipping generating metadata for fileid " . $node->getId() . " as its size exceeds configured 'metadata_max_filesize'.");
+				$this->logger->debug('Skipping generating metadata for fileid ' . $node->getId() . " as its size exceeds configured 'metadata_max_filesize'.");
 				continue;
 			}
 
@@ -111,7 +111,7 @@ class GenerateMetadataJob extends TimedJob {
 						IFilesMetadataManager::PROCESS_LIVE | IFilesMetadataManager::PROCESS_BACKGROUND
 					);
 				} catch (\Throwable $ex) {
-					$this->logger->warning("Error while generating metadata for fileid " . $node->getId(), ['exception' => $ex]);
+					$this->logger->warning('Error while generating metadata for fileid ' . $node->getId(), ['exception' => $ex]);
 				}
 			}
 		}

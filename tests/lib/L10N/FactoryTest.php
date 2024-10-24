@@ -112,9 +112,9 @@ class FactoryTest extends TestCase {
 		$factory = $this->getFactory(['languageExists']);
 		$this->invokePrivate($factory, 'requestLanguage', ['de']);
 		$factory->expects(self::once())
-				->method('languageExists')
-				->with('MyApp', 'de')
-				->willReturn(true);
+			->method('languageExists')
+			->with('MyApp', 'de')
+			->willReturn(true);
 
 		self::assertSame('de', $factory->findLanguage('MyApp'));
 	}
@@ -123,15 +123,15 @@ class FactoryTest extends TestCase {
 		$factory = $this->getFactory(['languageExists']);
 		$this->invokePrivate($factory, 'requestLanguage', ['de']);
 		$factory->expects($this->exactly(2))
-				->method('languageExists')
-				->withConsecutive(
-					['MyApp', 'de'],
-					['MyApp', 'jp'],
-				)
-				->willReturnOnConsecutiveCalls(
-					false,
-					true,
-				);
+			->method('languageExists')
+			->withConsecutive(
+				['MyApp', 'de'],
+				['MyApp', 'jp'],
+			)
+			->willReturnOnConsecutiveCalls(
+				false,
+				true,
+			);
 		$this->config
 			->expects($this->exactly(1))
 			->method('getSystemValue')
@@ -150,10 +150,10 @@ class FactoryTest extends TestCase {
 			->method('getUser')
 			->willReturn($user);
 		$this->config
-				->expects(self::once())
-				->method('getUserValue')
-				->with('MyUserUid', 'core', 'lang', null)
-				->willReturn('jp');
+			->expects(self::once())
+			->method('getUserValue')
+			->with('MyUserUid', 'core', 'lang', null)
+			->willReturn('jp');
 
 		self::assertSame('jp', $factory->findLanguage('MyApp'));
 	}
@@ -178,17 +178,17 @@ class FactoryTest extends TestCase {
 		$user = $this->getMockBuilder(IUser::class)
 			->getMock();
 		$user->expects(self::once())
-				->method('getUID')
-				->willReturn('MyUserUid');
+			->method('getUID')
+			->willReturn('MyUserUid');
 		$this->userSession
-				->expects(self::exactly(2))
-				->method('getUser')
-				->willReturn($user);
+			->expects(self::exactly(2))
+			->method('getUser')
+			->willReturn($user);
 		$this->config
-				->expects(self::once())
-				->method('getUserValue')
-				->with('MyUserUid', 'core', 'lang', null)
-				->willReturn('jp');
+			->expects(self::once())
+			->method('getUserValue')
+			->with('MyUserUid', 'core', 'lang', null)
+			->willReturn('jp');
 
 		self::assertSame('es', $factory->findLanguage('MyApp'));
 	}
@@ -213,17 +213,17 @@ class FactoryTest extends TestCase {
 		$user = $this->getMockBuilder(IUser::class)
 			->getMock();
 		$user->expects(self::once())
-				->method('getUID')
-				->willReturn('MyUserUid');
+			->method('getUID')
+			->willReturn('MyUserUid');
 		$this->userSession
-				->expects(self::exactly(2))
-				->method('getUser')
-				->willReturn($user);
+			->expects(self::exactly(2))
+			->method('getUser')
+			->willReturn($user);
 		$this->config
-				->expects(self::once())
-				->method('getUserValue')
-				->with('MyUserUid', 'core', 'lang', null)
-				->willReturn('jp');
+			->expects(self::once())
+			->method('getUserValue')
+			->with('MyUserUid', 'core', 'lang', null)
+			->willReturn('jp');
 		$this->config
 			->expects(self::never())
 			->method('setUserValue');
@@ -251,21 +251,21 @@ class FactoryTest extends TestCase {
 		$user = $this->getMockBuilder(IUser::class)
 			->getMock();
 		$user->expects(self::once())
-				->method('getUID')
-				->willReturn('MyUserUid');
+			->method('getUID')
+			->willReturn('MyUserUid');
 		$this->userSession
-				->expects(self::exactly(2))
-				->method('getUser')
-				->willReturn($user);
+			->expects(self::exactly(2))
+			->method('getUser')
+			->willReturn($user);
 		$this->config
-				->expects(self::once())
-				->method('getUserValue')
-				->with('MyUserUid', 'core', 'lang', null)
-				->willReturn('jp');
+			->expects(self::once())
+			->method('getUserValue')
+			->with('MyUserUid', 'core', 'lang', null)
+			->willReturn('jp');
 		$this->config
-				->expects(self::never())
-				->method('setUserValue')
-				->with('MyUserUid', 'core', 'lang', 'en');
+			->expects(self::never())
+			->method('setUserValue')
+			->with('MyUserUid', 'core', 'lang', 'en');
 
 
 		self::assertSame('en', $factory->findLanguage('MyApp'));
@@ -774,5 +774,23 @@ class FactoryTest extends TestCase {
 
 		$iterator = $factory->getLanguageIterator($iUserMock);
 		self::assertInstanceOf(ILanguageIterator::class, $iterator);
+	}
+
+	public static function dataGetLanguageDirection(): array {
+		return [
+			['en', 'ltr'],
+			['de', 'ltr'],
+			['fa', 'rtl'],
+			['ar', 'rtl']
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetLanguageDirection
+	 */
+	public function testGetLanguageDirection(string $language, string $expectedDirection) {
+		$factory = $this->getFactory();
+
+		self::assertEquals($expectedDirection, $factory->getLanguageDirection($language));
 	}
 }

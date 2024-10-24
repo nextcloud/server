@@ -41,7 +41,7 @@ class ShareInfoControllerTest extends TestCase {
 			->getMock();
 	}
 
-	public function testNoShare() {
+	public function testNoShare(): void {
 		$this->shareManager->method('getShareByToken')
 			->with('token')
 			->willThrowException(new ShareNotFound());
@@ -51,7 +51,7 @@ class ShareInfoControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->info('token'));
 	}
 
-	public function testWrongPassword() {
+	public function testWrongPassword(): void {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')
 			->willReturn('sharePass');
@@ -68,7 +68,7 @@ class ShareInfoControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->info('token', 'pass'));
 	}
 
-	public function testNoReadPermissions() {
+	public function testNoReadPermissions(): void {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')
 			->willReturn('sharePass');
@@ -107,7 +107,7 @@ class ShareInfoControllerTest extends TestCase {
 		return $file;
 	}
 
-	public function testInfoFile() {
+	public function testInfoFile(): void {
 		$file = $this->prepareFile();
 
 		$share = $this->createMock(IShare::class);
@@ -139,7 +139,7 @@ class ShareInfoControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->info('token', 'pass'));
 	}
 
-	public function testInfoFileRO() {
+	public function testInfoFileRO(): void {
 		$file = $this->prepareFile();
 
 		$share = $this->createMock(IShare::class);
@@ -221,7 +221,7 @@ class ShareInfoControllerTest extends TestCase {
 		return $root;
 	}
 
-	public function testInfoFolder() {
+	public function testInfoFolder(): void {
 		$file = $this->prepareFolder();
 
 		$share = $this->createMock(IShare::class);

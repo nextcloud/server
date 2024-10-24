@@ -32,7 +32,7 @@ class ActionTest extends TestCase {
 	 * @dataProvider dataSetLabel
 	 * @param string $label
 	 */
-	public function testSetLabel($label) {
+	public function testSetLabel($label): void {
 		$this->assertSame('', $this->action->getLabel());
 		$this->assertSame($this->action, $this->action->setLabel($label));
 		$this->assertSame($label, $this->action->getLabel());
@@ -50,7 +50,7 @@ class ActionTest extends TestCase {
 	 * @param mixed $label
 	 *
 	 */
-	public function testSetLabelInvalid($label) {
+	public function testSetLabelInvalid($label): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->action->setLabel($label);
@@ -68,7 +68,7 @@ class ActionTest extends TestCase {
 	 * @dataProvider dataSetParsedLabel
 	 * @param string $label
 	 */
-	public function testSetParsedLabel($label) {
+	public function testSetParsedLabel($label): void {
 		$this->assertSame('', $this->action->getParsedLabel());
 		$this->assertSame($this->action, $this->action->setParsedLabel($label));
 		$this->assertSame($label, $this->action->getParsedLabel());
@@ -85,7 +85,7 @@ class ActionTest extends TestCase {
 	 * @param mixed $label
 	 *
 	 */
-	public function testSetParsedLabelInvalid($label) {
+	public function testSetParsedLabelInvalid($label): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->action->setParsedLabel($label);
@@ -105,7 +105,7 @@ class ActionTest extends TestCase {
 	 * @param string $link
 	 * @param string $type
 	 */
-	public function testSetLink($link, $type) {
+	public function testSetLink($link, $type): void {
 		$this->assertSame('', $this->action->getLink());
 		$this->assertSame($this->action, $this->action->setLink($link, $type));
 		$this->assertSame($link, $this->action->getLink());
@@ -129,7 +129,7 @@ class ActionTest extends TestCase {
 	 * @param mixed $type
 	 *
 	 */
-	public function testSetLinkInvalid($link, $type) {
+	public function testSetLinkInvalid($link, $type): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->action->setLink($link, $type);
@@ -146,13 +146,13 @@ class ActionTest extends TestCase {
 	 * @dataProvider dataSetPrimary
 	 * @param bool $primary
 	 */
-	public function testSetPrimary($primary) {
+	public function testSetPrimary($primary): void {
 		$this->assertSame(false, $this->action->isPrimary());
 		$this->assertSame($this->action, $this->action->setPrimary($primary));
 		$this->assertSame($primary, $this->action->isPrimary());
 	}
 
-	public function testIsValid() {
+	public function testIsValid(): void {
 		$this->assertFalse($this->action->isValid());
 		$this->assertFalse($this->action->isValidParsed());
 		$this->action->setLabel('label');
@@ -163,7 +163,7 @@ class ActionTest extends TestCase {
 		$this->assertFalse($this->action->isValidParsed());
 	}
 
-	public function testIsValidParsed() {
+	public function testIsValidParsed(): void {
 		$this->assertFalse($this->action->isValid());
 		$this->assertFalse($this->action->isValidParsed());
 		$this->action->setParsedLabel('label');

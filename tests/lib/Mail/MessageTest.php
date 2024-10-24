@@ -77,7 +77,7 @@ class MessageTest extends TestCase {
 	 * @param string $unconverted
 	 * @param string $expected
 	 */
-	public function testConvertAddresses($unconverted, $expected) {
+	public function testConvertAddresses($unconverted, $expected): void {
 		$this->assertEquals($expected, self::invokePrivate($this->message, 'convertAddresses', [$unconverted]));
 	}
 
@@ -91,28 +91,28 @@ class MessageTest extends TestCase {
 		$this->symfonyEmail
 			->expects($this->once())
 			->method('from')
-			->willReturn(new Address('pierres-general-store@stardewvalley.com', 'Pierres General Store'));
+			->with(new Address('pierres-general-store@stardewvalley.com', 'Pierres General Store'));
 		$this->symfonyEmail
 			->expects($this->once())
 			->method('to')
-			->willReturn(new Address('lewis-tent@stardewvalley.com', "Lewis' Tent Life"));
+			->with(new Address('lewis-tent@stardewvalley.com', "Lewis' Tent Life"));
 		$this->symfonyEmail
 			->expects($this->once())
 			->method('replyTo')
-			->willReturn(new Address('penny@stardewvalley-library.co.edu', 'Penny'));
+			->with(new Address('penny@stardewvalley-library.co.edu', 'Penny'));
 		$this->symfonyEmail
 			->expects($this->once())
 			->method('cc')
-			->willReturn(new Address('gunther@stardewvalley-library.co.edu', 'Gunther'));
+			->with(new Address('gunther@stardewvalley-library.co.edu', 'Gunther'));
 		$this->symfonyEmail
 			->expects($this->once())
 			->method('bcc')
-			->willReturn(new Address('pam@stardewvalley-bus.com', 'Pam'));
+			->with(new Address('pam@stardewvalley-bus.com', 'Pam'));
 
 		$this->message->setRecipients();
 	}
 
-	public function testSetTo() {
+	public function testSetTo(): void {
 		$expected = ['pierres-general-store@stardewvalley.com' => 'Pierres General Store'];
 
 		$message = $this->message->setTo(['pierres-general-store@stardewvalley.com' => 'Pierres General Store']);
@@ -141,7 +141,7 @@ class MessageTest extends TestCase {
 		$message->setRecipients();
 	}
 
-	public function testSetGetFrom() {
+	public function testSetGetFrom(): void {
 		$expected = ['pierres-general-store@stardewvalley.com' => 'Pierres General Store'];
 
 		$message = $this->message->setFrom(['pierres-general-store@stardewvalley.com' => 'Pierres General Store']);
@@ -149,7 +149,7 @@ class MessageTest extends TestCase {
 		$this->assertEquals($expected, $message->getFrom());
 	}
 
-	public function testSetGetTo() {
+	public function testSetGetTo(): void {
 		$expected = ['lewis-tent@stardewvalley.com' => "Lewis' Tent Life"];
 
 		$message = $this->message->setTo(['lewis-tent@stardewvalley.com' => "Lewis' Tent Life"]);
@@ -157,7 +157,7 @@ class MessageTest extends TestCase {
 		$this->assertEquals($expected, $message->getTo());
 	}
 
-	public function testSetGetReplyTo() {
+	public function testSetGetReplyTo(): void {
 		$expected = ['penny@stardewvalley-library.co.edu' => 'Penny'];
 
 		$message = $this->message->setReplyTo(['penny@stardewvalley-library.co.edu' => 'Penny']);
@@ -165,7 +165,7 @@ class MessageTest extends TestCase {
 		$this->assertEquals($expected, $message->getReplyTo());
 	}
 
-	public function testSetGetCC() {
+	public function testSetGetCC(): void {
 		$expected = ['gunther@stardewvalley-library.co.edu' => 'Gunther'];
 
 		$message = $this->message->setCc(['gunther@stardewvalley-library.co.edu' => 'Gunther']);
@@ -173,7 +173,7 @@ class MessageTest extends TestCase {
 		$this->assertEquals($expected, $message->getCc());
 	}
 
-	public function testSetGetBCC() {
+	public function testSetGetBCC(): void {
 		$expected = ['pam@stardewvalley-bus.com' => 'Pam'];
 
 		$message = $this->message->setBcc(['pam@stardewvalley-bus.com' => 'Pam']);
@@ -181,7 +181,7 @@ class MessageTest extends TestCase {
 		$this->assertEquals($expected, $message->getBcc());
 	}
 
-	public function testSetPlainBody() {
+	public function testSetPlainBody(): void {
 		$this->symfonyEmail
 			->expects($this->once())
 			->method('text')
@@ -190,7 +190,7 @@ class MessageTest extends TestCase {
 		$this->message->setPlainBody('Fancy Body');
 	}
 
-	public function testGetPlainBody() {
+	public function testGetPlainBody(): void {
 		$this->symfonyEmail
 			->expects($this->once())
 			->method('getTextBody')
@@ -199,7 +199,7 @@ class MessageTest extends TestCase {
 		$this->assertSame('Fancy Body', $this->message->getPlainBody());
 	}
 
-	public function testSetHtmlBody() {
+	public function testSetHtmlBody(): void {
 		$this->symfonyEmail
 			->expects($this->once())
 			->method('html')
@@ -208,7 +208,7 @@ class MessageTest extends TestCase {
 		$this->message->setHtmlBody('<blink>Fancy Body</blink>');
 	}
 
-	public function testPlainTextRenderOption() {
+	public function testPlainTextRenderOption(): void {
 		/** @var MockObject|Email $symfonyEmail */
 		$symfonyEmail = $this->getMockBuilder(Email::class)
 			->disableOriginalConstructor()->getMock();
@@ -231,7 +231,7 @@ class MessageTest extends TestCase {
 		$message->useTemplate($template);
 	}
 
-	public function testBothRenderingOptions() {
+	public function testBothRenderingOptions(): void {
 		/** @var MockObject|Email $symfonyEmail */
 		$symfonyEmail = $this->getMockBuilder(Email::class)
 			->disableOriginalConstructor()->getMock();
@@ -254,9 +254,9 @@ class MessageTest extends TestCase {
 		$message->useTemplate($template);
 	}
 
-	public function testSetAutoSubmitted1() {
+	public function testSetAutoSubmitted1(): void {
 		$headers = new Headers($this->createMock(HeaderInterface::class));
-		$headers->addTextHeader(AutoSubmitted::HEADER, "yes");
+		$headers->addTextHeader(AutoSubmitted::HEADER, 'yes');
 		$symfonyEmail = $this->createMock(Email::class);
 
 		$symfonyEmail->method('getHeaders')
@@ -267,7 +267,7 @@ class MessageTest extends TestCase {
 		$this->assertNotSame('no', $message->getAutoSubmitted());
 	}
 
-	public function testSetAutoSubmitted2() {
+	public function testSetAutoSubmitted2(): void {
 		$headers = new Headers($this->createMock(HeaderInterface::class));
 		$headers->addTextHeader(AutoSubmitted::HEADER, 'no');
 		$symfonyEmail = $this->createMock(Email::class);
@@ -280,7 +280,7 @@ class MessageTest extends TestCase {
 		$this->assertSame('auto-generated', $message->getAutoSubmitted());
 	}
 
-	public function testGetAutoSubmitted() {
+	public function testGetAutoSubmitted(): void {
 		$headers = new Headers($this->createMock(HeaderInterface::class));
 		$headers->addTextHeader(AutoSubmitted::HEADER, 'no');
 		$symfonyEmail = $this->createMock(Email::class);
@@ -289,6 +289,6 @@ class MessageTest extends TestCase {
 			->willReturn($headers);
 
 		$message = new Message($symfonyEmail, false);
-		$this->assertSame("no", $message->getAutoSubmitted());
+		$this->assertSame('no', $message->getAutoSubmitted());
 	}
 }

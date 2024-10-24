@@ -6,6 +6,7 @@
 namespace OCA\Files_External\Settings;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
+use OCA\Files_External\MountConfig;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -15,33 +16,13 @@ use OCP\Settings\ISettings;
 
 class Personal implements ISettings {
 
-	/** @var IManager */
-	private $encryptionManager;
-
-	/** @var UserGlobalStoragesService */
-	private $userGlobalStoragesService;
-
-	/** @var BackendService */
-	private $backendService;
-
-	/** @var GlobalAuth	 */
-	private $globalAuth;
-
-	/** @var IUserSession */
-	private $userSession;
-
 	public function __construct(
-		IManager $encryptionManager,
-		UserGlobalStoragesService $userGlobalStoragesService,
-		BackendService $backendService,
-		GlobalAuth $globalAuth,
-		IUserSession $userSession
+		private IManager $encryptionManager,
+		private UserGlobalStoragesService $userGlobalStoragesService,
+		private BackendService $backendService,
+		private GlobalAuth $globalAuth,
+		private IUserSession $userSession,
 	) {
-		$this->encryptionManager = $encryptionManager;
-		$this->userGlobalStoragesService = $userGlobalStoragesService;
-		$this->backendService = $backendService;
-		$this->globalAuth = $globalAuth;
-		$this->userSession = $userSession;
 	}
 
 	/**
@@ -56,7 +37,7 @@ class Personal implements ISettings {
 			'storages' => $this->userGlobalStoragesService->getStorages(),
 			'backends' => $this->backendService->getAvailableBackends(),
 			'authMechanisms' => $this->backendService->getAuthMechanisms(),
-			'dependencies' => \OCA\Files_External\MountConfig::dependencyMessage($this->backendService->getBackends()),
+			'dependencies' => MountConfig::dependencyMessage($this->backendService->getBackends()),
 			'allowUserMounting' => $this->backendService->isUserMountingAllowed(),
 			'globalCredentials' => $this->globalAuth->getAuth($uid),
 			'globalCredentialsUid' => $uid,
@@ -74,8 +55,8 @@ class Personal implements ISettings {
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
+	 *             the admin section. The forms are arranged in ascending order of the
+	 *             priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
 	 */

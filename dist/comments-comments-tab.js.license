@@ -11,7 +11,6 @@ SPDX-FileCopyrightText: jden <jason@denizac.org>
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: defunctzombie
-SPDX-FileCopyrightText: assert developers
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
@@ -81,9 +80,6 @@ This file is generated from multiple sources. Included packages:
 - @vue/devtools-api
 	- version: 6.6.3
 	- license: MIT
-- assert
-	- version: 2.1.0
-	- license: MIT
 - available-typed-arrays
 	- version: 1.0.7
 	- license: MIT
@@ -114,11 +110,8 @@ This file is generated from multiple sources. Included packages:
 - charenc
 	- version: 0.0.2
 	- license: BSD-3-Clause
-- console-browserify
-	- version: 1.2.0
-	- license: MIT
 - core-js
-	- version: 3.37.1
+	- version: 3.38.1
 	- license: MIT
 - crypt
 	- version: 0.0.2
@@ -126,11 +119,8 @@ This file is generated from multiple sources. Included packages:
 - define-data-property
 	- version: 1.1.4
 	- license: MIT
-- define-properties
-	- version: 1.2.1
-	- license: MIT
 - dompurify
-	- version: 3.1.6
+	- version: 3.1.7
 	- license: (MPL-2.0 OR Apache-2.0)
 - es-define-property
 	- version: 1.0.0
@@ -198,9 +188,6 @@ This file is generated from multiple sources. Included packages:
 - is-generator-function
 	- version: 1.0.10
 	- license: MIT
-- is-nan
-	- version: 1.3.2
-	- license: MIT
 - is-typed-array
 	- version: 1.1.13
 	- license: MIT
@@ -213,6 +200,9 @@ This file is generated from multiple sources. Included packages:
 - md5
 	- version: 2.3.0
 	- license: BSD-3-Clause
+- minimatch
+	- version: 9.0.5
+	- license: ISC
 - moment
 	- version: 2.30.1
 	- license: MIT
@@ -228,20 +218,11 @@ This file is generated from multiple sources. Included packages:
 - object-inspect
 	- version: 1.13.2
 	- license: MIT
-- object-is
-	- version: 1.1.6
-	- license: MIT
-- object-keys
-	- version: 1.1.1
-	- license: MIT
-- object.assign
-	- version: 4.1.5
-	- license: MIT
 - path-posix
 	- version: 1.0.0
 	- license: ISC
 - pinia
-	- version: 2.2.2
+	- version: 2.2.4
 	- license: MIT
 - possible-typed-array-names
 	- version: 1.0.0
@@ -252,6 +233,9 @@ This file is generated from multiple sources. Included packages:
 - punycode
 	- version: 1.4.1
 	- license: MIT
+- qs
+	- version: 6.13.0
+	- license: BSD-3-Clause
 - querystringify
 	- version: 2.2.0
 	- license: MIT
@@ -291,9 +275,6 @@ This file is generated from multiple sources. Included packages:
 - url-parse
 	- version: 1.5.10
 	- license: MIT
-- qs
-	- version: 6.13.0
-	- license: BSD-3-Clause
 - url
 	- version: 0.11.4
 	- license: MIT
@@ -306,14 +287,11 @@ This file is generated from multiple sources. Included packages:
 - vue
 	- version: 2.7.16
 	- license: MIT
-- minimatch
-	- version: 10.0.1
-	- license: ISC
 - webdav
-	- version: 5.7.0
+	- version: 5.7.1
 	- license: MIT
 - webpack
-	- version: 5.93.0
+	- version: 5.94.0
 	- license: MIT
 - which-typed-array
 	- version: 1.1.15

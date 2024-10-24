@@ -42,7 +42,7 @@ abstract class Backend extends \Test\TestCase {
 		return $this->getUniqueID('test_');
 	}
 
-	public function testAddRemove() {
+	public function testAddRemove(): void {
 		//get the number of groups we start with, in case there are exising groups
 		$startCount = count($this->backend->getGroups());
 
@@ -66,7 +66,7 @@ abstract class Backend extends \Test\TestCase {
 		$this->assertFalse((array_search($name2, $this->backend->getGroups()) !== false));
 	}
 
-	public function testUser() {
+	public function testUser(): void {
 		$group1 = $this->getGroupName();
 		$group2 = $this->getGroupName();
 		$this->backend->createGroup($group1);
@@ -101,7 +101,7 @@ abstract class Backend extends \Test\TestCase {
 		$this->assertFalse($this->backend->inGroup($user1, $group1));
 	}
 
-	public function testSearchGroups() {
+	public function testSearchGroups(): void {
 		$name1 = $this->getGroupName('foobarbaz');
 		$name2 = $this->getGroupName('bazbarfoo');
 		$name3 = $this->getGroupName('notme');
@@ -114,7 +114,7 @@ abstract class Backend extends \Test\TestCase {
 		$this->assertSame(2, count($result));
 	}
 
-	public function testSearchUsers() {
+	public function testSearchUsers(): void {
 		$group = $this->getGroupName();
 		$this->backend->createGroup($group);
 
@@ -133,7 +133,7 @@ abstract class Backend extends \Test\TestCase {
 		$this->assertSame(2, $result);
 	}
 
-	public function testAddDouble() {
+	public function testAddDouble(): void {
 		$group = $this->getGroupName();
 
 		$this->backend->createGroup($group);

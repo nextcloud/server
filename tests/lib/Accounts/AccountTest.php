@@ -19,13 +19,13 @@ use Test\TestCase;
  * @package Test\Accounts
  */
 class AccountTest extends TestCase {
-	public function testConstructor() {
+	public function testConstructor(): void {
 		$user = $this->createMock(IUser::class);
 		$account = new Account($user);
 		$this->assertEquals($user, $account->getUser());
 	}
 
-	public function testSetProperty() {
+	public function testSetProperty(): void {
 		$user = $this->createMock(IUser::class);
 		$property = new AccountProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::SCOPE_PUBLISHED, IAccountManager::NOT_VERIFIED, '');
 		$account = new Account($user);
@@ -33,7 +33,7 @@ class AccountTest extends TestCase {
 		$this->assertEquals($property, $account->getProperty(IAccountManager::PROPERTY_WEBSITE));
 	}
 
-	public function testGetAndGetAllProperties() {
+	public function testGetAndGetAllProperties(): void {
 		$user = $this->createMock(IUser::class);
 		$properties = [
 			IAccountManager::PROPERTY_WEBSITE => new AccountProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::SCOPE_PUBLISHED, IAccountManager::NOT_VERIFIED, ''),
@@ -53,7 +53,7 @@ class AccountTest extends TestCase {
 		$this->assertEquals(array_values($properties), \iterator_to_array($account->getAllProperties()));
 	}
 
-	public function testSetAllPropertiesFromJson() {
+	public function testSetAllPropertiesFromJson(): void {
 		$user = $this->createMock(IUser::class);
 		$properties = [
 			IAccountManager::PROPERTY_DISPLAYNAME => new AccountProperty(IAccountManager::PROPERTY_DISPLAYNAME, 'Steve', IAccountManager::SCOPE_FEDERATED, IAccountManager::NOT_VERIFIED, ''),
@@ -78,7 +78,7 @@ class AccountTest extends TestCase {
 		$this->assertEquals($properties, $account->jsonSerialize());
 	}
 
-	public function testGetFilteredProperties() {
+	public function testGetFilteredProperties(): void {
 		$user = $this->createMock(IUser::class);
 		$properties = [
 			IAccountManager::PROPERTY_WEBSITE => new AccountProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::SCOPE_PUBLISHED, IAccountManager::NOT_VERIFIED, ''),
@@ -124,7 +124,7 @@ class AccountTest extends TestCase {
 		);
 	}
 
-	public function testJsonSerialize() {
+	public function testJsonSerialize(): void {
 		$user = $this->createMock(IUser::class);
 		$properties = [
 			IAccountManager::PROPERTY_WEBSITE => new AccountProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::SCOPE_PUBLISHED, IAccountManager::NOT_VERIFIED, ''),

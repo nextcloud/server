@@ -32,33 +32,6 @@ use function strcasecmp;
 
 class ReminderService {
 
-	/** @var Backend */
-	private $backend;
-
-	/** @var NotificationProviderManager */
-	private $notificationProviderManager;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var CalDavBackend */
-	private $caldavBackend;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var Principal */
-	private $principalConnector;
-
 	public const REMINDER_TYPE_EMAIL = 'EMAIL';
 	public const REMINDER_TYPE_DISPLAY = 'DISPLAY';
 	public const REMINDER_TYPE_AUDIO = 'AUDIO';
@@ -74,24 +47,17 @@ class ReminderService {
 		self::REMINDER_TYPE_AUDIO
 	];
 
-	public function __construct(Backend $backend,
-		NotificationProviderManager $notificationProviderManager,
-		IUserManager $userManager,
-		IGroupManager $groupManager,
-		CalDavBackend $caldavBackend,
-		ITimeFactory $timeFactory,
-		IConfig $config,
-		LoggerInterface $logger,
-		Principal $principalConnector) {
-		$this->backend = $backend;
-		$this->notificationProviderManager = $notificationProviderManager;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->caldavBackend = $caldavBackend;
-		$this->timeFactory = $timeFactory;
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->principalConnector = $principalConnector;
+	public function __construct(
+		private Backend $backend,
+		private NotificationProviderManager $notificationProviderManager,
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private CalDavBackend $caldavBackend,
+		private ITimeFactory $timeFactory,
+		private IConfig $config,
+		private LoggerInterface $logger,
+		private Principal $principalConnector,
+	) {
 	}
 
 	/**
@@ -206,14 +172,14 @@ class ReminderService {
 		if (!$vcalendar) {
 			return;
 		}
-		$calendarTimeZone = $this->getCalendarTimeZone((int) $objectData['calendarid']);
+		$calendarTimeZone = $this->getCalendarTimeZone((int)$objectData['calendarid']);
 
 		$vevents = $this->getAllVEventsFromVCalendar($vcalendar);
 		if (count($vevents) === 0) {
 			return;
 		}
 
-		$uid = (string) $vevents[0]->UID;
+		$uid = (string)$vevents[0]->UID;
 		$recurrenceExceptions = $this->getRecurrenceExceptionFromListOfVEvents($vevents);
 		$masterItem = $this->getMasterItemFromListOfVEvents($vevents);
 		$now = $this->timeFactory->getDateTime();
@@ -283,7 +249,7 @@ class ReminderService {
 						continue;
 					}
 
-					if (!\in_array((string) $valarm->ACTION, self::REMINDER_TYPES, true)) {
+					if (!\in_array((string)$valarm->ACTION, self::REMINDER_TYPES, true)) {
 						// Action allows x-name, we don't insert reminders
 						// into the database if they are not standard
 						$processedAlarms[] = $alarmHash;
@@ -353,7 +319,7 @@ class ReminderService {
 			return;
 		}
 
-		$this->backend->cleanRemindersForEvent((int) $objectData['id']);
+		$this->backend->cleanRemindersForEvent((int)$objectData['id']);
 	}
 
 	/**
@@ -402,19 +368,19 @@ class ReminderService {
 		$alarms[] = [
 			'calendar_id' => $objectData['calendarid'],
 			'object_id' => $objectData['id'],
-			'uid' => (string) $valarm->parent->UID,
+			'uid' => (string)$valarm->parent->UID,
 			'is_recurring' => $isRecurring,
 			'recurrence_id' => $recurrenceId,
 			'is_recurrence_exception' => $isRecurrenceException,
 			'event_hash' => $eventHash,
 			'alarm_hash' => $alarmHash,
-			'type' => (string) $valarm->ACTION,
+			'type' => (string)$valarm->ACTION,
 			'is_relative' => $isRelative,
 			'notification_date' => $notificationDate->getTimestamp(),
 			'is_repeat_based' => false,
 		];
 
-		$repeat = isset($valarm->REPEAT) ? (int) $valarm->REPEAT->getValue() : 0;
+		$repeat = isset($valarm->REPEAT) ? (int)$valarm->REPEAT->getValue() : 0;
 		for ($i = 0; $i < $repeat; $i++) {
 			if ($valarm->DURATION === null) {
 				continue;
@@ -424,13 +390,13 @@ class ReminderService {
 			$alarms[] = [
 				'calendar_id' => $objectData['calendarid'],
 				'object_id' => $objectData['id'],
-				'uid' => (string) $valarm->parent->UID,
+				'uid' => (string)$valarm->parent->UID,
 				'is_recurring' => $isRecurring,
 				'recurrence_id' => $recurrenceId,
 				'is_recurrence_exception' => $isRecurrenceException,
 				'event_hash' => $eventHash,
 				'alarm_hash' => $alarmHash,
-				'type' => (string) $valarm->ACTION,
+				'type' => (string)$valarm->ACTION,
 				'is_relative' => $isRelative,
 				'notification_date' => $clonedNotificationDate->getTimestamp(),
 				'is_repeat_based' => true,
@@ -446,24 +412,24 @@ class ReminderService {
 	private function writeRemindersToDatabase(array $reminders): void {
 		$uniqueReminders = [];
 		foreach ($reminders as $reminder) {
-			$key = $reminder['notification_date']. $reminder['event_hash'].$reminder['type'];
-			if(!isset($uniqueReminders[$key])) {
+			$key = $reminder['notification_date'] . $reminder['event_hash'] . $reminder['type'];
+			if (!isset($uniqueReminders[$key])) {
 				$uniqueReminders[$key] = $reminder;
 			}
 		}
 		foreach (array_values($uniqueReminders) as $reminder) {
 			$this->backend->insertReminder(
-				(int) $reminder['calendar_id'],
-				(int) $reminder['object_id'],
+				(int)$reminder['calendar_id'],
+				(int)$reminder['object_id'],
 				$reminder['uid'],
 				$reminder['is_recurring'],
-				(int) $reminder['recurrence_id'],
+				(int)$reminder['recurrence_id'],
 				$reminder['is_recurrence_exception'],
 				$reminder['event_hash'],
 				$reminder['alarm_hash'],
 				$reminder['type'],
 				$reminder['is_relative'],
-				(int) $reminder['notification_date'],
+				(int)$reminder['notification_date'],
 				$reminder['is_repeat_based']
 			);
 		}
@@ -486,7 +452,7 @@ class ReminderService {
 		$vevents = $this->getAllVEventsFromVCalendar($vevent->parent);
 		$recurrenceExceptions = $this->getRecurrenceExceptionFromListOfVEvents($vevents);
 		$now = $this->timeFactory->getDateTime();
-		$calendarTimeZone = $this->getCalendarTimeZone((int) $reminder['calendar_id']);
+		$calendarTimeZone = $this->getCalendarTimeZone((int)$reminder['calendar_id']);
 
 		try {
 			$iterator = new EventIterator($vevents, $reminder['uid']);
@@ -602,26 +568,26 @@ class ReminderService {
 	 */
 	private function getEventHash(VEvent $vevent):string {
 		$properties = [
-			(string) $vevent->DTSTART->serialize(),
+			(string)$vevent->DTSTART->serialize(),
 		];
 
 		if ($vevent->DTEND) {
-			$properties[] = (string) $vevent->DTEND->serialize();
+			$properties[] = (string)$vevent->DTEND->serialize();
 		}
 		if ($vevent->DURATION) {
-			$properties[] = (string) $vevent->DURATION->serialize();
+			$properties[] = (string)$vevent->DURATION->serialize();
 		}
 		if ($vevent->{'RECURRENCE-ID'}) {
-			$properties[] = (string) $vevent->{'RECURRENCE-ID'}->serialize();
+			$properties[] = (string)$vevent->{'RECURRENCE-ID'}->serialize();
 		}
 		if ($vevent->RRULE) {
-			$properties[] = (string) $vevent->RRULE->serialize();
+			$properties[] = (string)$vevent->RRULE->serialize();
 		}
 		if ($vevent->EXDATE) {
-			$properties[] = (string) $vevent->EXDATE->serialize();
+			$properties[] = (string)$vevent->EXDATE->serialize();
 		}
 		if ($vevent->RDATE) {
-			$properties[] = (string) $vevent->RDATE->serialize();
+			$properties[] = (string)$vevent->RDATE->serialize();
 		}
 
 		return md5(implode('::', $properties));
@@ -636,15 +602,15 @@ class ReminderService {
 	 */
 	private function getAlarmHash(VAlarm $valarm):string {
 		$properties = [
-			(string) $valarm->ACTION->serialize(),
-			(string) $valarm->TRIGGER->serialize(),
+			(string)$valarm->ACTION->serialize(),
+			(string)$valarm->TRIGGER->serialize(),
 		];
 
 		if ($valarm->DURATION) {
-			$properties[] = (string) $valarm->DURATION->serialize();
+			$properties[] = (string)$valarm->DURATION->serialize();
 		}
 		if ($valarm->REPEAT) {
-			$properties[] = (string) $valarm->REPEAT->serialize();
+			$properties[] = (string)$valarm->REPEAT->serialize();
 		}
 
 		return md5(implode('::', $properties));
@@ -664,7 +630,7 @@ class ReminderService {
 			return null;
 		}
 
-		$uid = (string) $vevents[0]->UID;
+		$uid = (string)$vevents[0]->UID;
 		$recurrenceExceptions = $this->getRecurrenceExceptionFromListOfVEvents($vevents);
 		$masterItem = $this->getMasterItemFromListOfVEvents($vevents);
 
@@ -715,7 +681,7 @@ class ReminderService {
 	 */
 	private function getStatusOfEvent(VEvent $vevent):string {
 		if ($vevent->STATUS) {
-			return (string) $vevent->STATUS;
+			return (string)$vevent->STATUS;
 		}
 
 		// Doesn't say so in the standard,

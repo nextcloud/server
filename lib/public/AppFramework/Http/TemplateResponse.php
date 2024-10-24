@@ -72,7 +72,7 @@ class TemplateResponse extends Response {
 	 * @param string $appName the name of the app to load the template from
 	 * @param string $templateName the name of the template
 	 * @param array $params an array of parameters which should be passed to the
-	 * template
+	 *                      template
 	 * @param string $renderAs how the page should be rendered, defaults to user
 	 * @param S $status
 	 * @param H $headers

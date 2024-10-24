@@ -44,7 +44,7 @@ class OC_Helper {
 	 */
 	public static function humanFileSize(int|float $bytes): string {
 		if ($bytes < 0) {
-			return "?";
+			return '?';
 		}
 		if ($bytes < 1024) {
 			return "$bytes B";
@@ -127,7 +127,7 @@ class OC_Helper {
 			}
 			$files = scandir($src);
 			foreach ($files as $file) {
-				if ($file != "." && $file != "..") {
+				if ($file != '.' && $file != '..') {
 					self::copyr("$src/$file", "$dest/$file");
 				}
 			}
@@ -195,21 +195,21 @@ class OC_Helper {
 	 * @param bool $path
 	 * @internal param string $program name
 	 * @internal param string $optional search path, defaults to $PATH
-	 * @return bool    true if executable program found in path
+	 * @return bool true if executable program found in path
 	 */
 	public static function canExecute($name, $path = false) {
 		// path defaults to PATH from environment if not set
 		if ($path === false) {
-			$path = getenv("PATH");
+			$path = getenv('PATH');
 		}
 		// we look for an executable file of that name
-		$exts = [""];
-		$check_fn = "is_executable";
+		$exts = [''];
+		$check_fn = 'is_executable';
 		// Default check will be done with $path directories :
 		$dirs = explode(PATH_SEPARATOR, $path);
 		// WARNING : We have to check if open_basedir is enabled :
 		$obd = OC::$server->get(IniGetWrapper::class)->getString('open_basedir');
-		if ($obd != "none") {
+		if ($obd != 'none') {
 			$obd_values = explode(PATH_SEPARATOR, $obd);
 			if (count($obd_values) > 0 and $obd_values[0]) {
 				// open_basedir is in effect !
@@ -417,7 +417,7 @@ class OC_Helper {
 	/**
 	 * Checks if a function is available
 	 *
-	 * @deprecated Since 25.0.0 use \OCP\Util::isFunctionEnabled instead
+	 * @deprecated 25.0.0 use \OCP\Util::isFunctionEnabled instead
 	 */
 	public static function is_function_enabled(string $function_name): bool {
 		return \OCP\Util::isFunctionEnabled($function_name);
@@ -425,7 +425,7 @@ class OC_Helper {
 
 	/**
 	 * Try to find a program
-	 * @deprecated Since 25.0.0 Use \OC\BinaryFinder directly
+	 * @deprecated 25.0.0 Use \OC\BinaryFinder directly
 	 */
 	public static function findBinaryPath(string $program): ?string {
 		$result = \OCP\Server::get(IBinaryFinder::class)->findBinaryPath($program);
@@ -463,7 +463,7 @@ class OC_Helper {
 		}
 		$fullPath = Filesystem::normalizePath($view->getAbsolutePath($path));
 
-		$cacheKey = $fullPath. '::' . ($includeMountPoints ? 'include' : 'exclude');
+		$cacheKey = $fullPath . '::' . ($includeMountPoints ? 'include' : 'exclude');
 		if ($useCache) {
 			$cached = $memcache->get($cacheKey);
 			if ($cached) {
@@ -516,13 +516,13 @@ class OC_Helper {
 				$free = 0.0;
 			}
 		} catch (\Exception $e) {
-			if ($path === "") {
+			if ($path === '') {
 				throw $e;
 			}
 			/** @var LoggerInterface $logger */
 			$logger = \OC::$server->get(LoggerInterface::class);
-			$logger->warning("Error while getting quota info, using root quota", ['exception' => $e]);
-			$rootInfo = self::getStorageInfo("");
+			$logger->warning('Error while getting quota info, using root quota', ['exception' => $e]);
+			$rootInfo = self::getStorageInfo('');
 			$memcache->set($cacheKey, $rootInfo, 5 * 60);
 			return $rootInfo;
 		}
@@ -541,10 +541,9 @@ class OC_Helper {
 			$relative = 0;
 		}
 
-		/** @var string $ownerId */
 		$ownerId = $storage->getOwner($path);
 		$ownerDisplayName = '';
-		if ($ownerId) {
+		if ($ownerId !== false) {
 			$ownerDisplayName = \OC::$server->getUserManager()->getDisplayName($ownerId) ?? '';
 		}
 

@@ -176,7 +176,7 @@ class Throttler implements IThrottler {
 			return 0;
 		}
 
-		$maxAgeTimestamp = (int) ($this->timeFactory->getTime() - 3600 * $maxAgeHours);
+		$maxAgeTimestamp = (int)($this->timeFactory->getTime() - 3600 * $maxAgeHours);
 
 		return $this->backend->getAttempts(
 			$ipAddress->getSubnet(),
@@ -204,7 +204,7 @@ class Throttler implements IThrottler {
 		if ($delay > self::MAX_DELAY) {
 			return self::MAX_DELAY_MS;
 		}
-		return (int) \ceil($delay * 1000);
+		return (int)\ceil($delay * 1000);
 	}
 
 	/**

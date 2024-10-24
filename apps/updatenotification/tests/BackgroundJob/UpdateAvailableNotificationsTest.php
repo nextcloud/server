@@ -20,10 +20,12 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
+use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UpdateAvailableNotificationsTest extends TestCase {
+	private ServerVersion $serverVersion;
 	private IConfig|MockObject $config;
 	private IManager|MockObject $notificationManager;
 	private IGroupManager|MockObject $groupManager;
@@ -36,6 +38,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->serverVersion = $this->createMock(ServerVersion::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->notificationManager = $this->createMock(IManager::class);
@@ -54,6 +57,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		if (empty($methods)) {
 			return new UpdateAvailableNotifications(
 				$this->timeFactory,
+				$this->serverVersion,
 				$this->config,
 				$this->appConfig,
 				$this->notificationManager,
@@ -67,6 +71,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 			return $this->getMockBuilder(UpdateAvailableNotifications::class)
 				->setConstructorArgs([
 					$this->timeFactory,
+					$this->serverVersion,
 					$this->config,
 					$this->appConfig,
 					$this->notificationManager,
@@ -80,7 +85,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		}
 	}
 
-	public function testRun() {
+	public function testRun(): void {
 		$job = $this->getJob([
 			'checkCoreUpdate',
 			'checkAppUpdates',
@@ -93,19 +98,15 @@ class UpdateAvailableNotificationsTest extends TestCase {
 
 		$this->config->expects($this->exactly(2))
 			->method('getSystemValueBool')
-			->withConsecutive(
-				['has_internet_connection', true],
-				['debug', false],
-			)
-			->willReturnOnConsecutiveCalls(
-				true,
-				true,
-			);
+			->willReturnMap([
+				['has_internet_connection', true, true],
+				['debug', false, true],
+			]);
 
 		self::invokePrivate($job, 'run', [null]);
 	}
 
-	public function testRunNoInternet() {
+	public function testRunNoInternet(): void {
 		$job = $this->getJob([
 			'checkCoreUpdate',
 			'checkAppUpdates',
@@ -160,15 +161,14 @@ class UpdateAvailableNotificationsTest extends TestCase {
 	 * @param null|string $readableVersion
 	 * @param null|int $errorDays
 	 */
-	public function testCheckCoreUpdate(string $channel, $versionCheck, $version, $readableVersion, $errorDays) {
+	public function testCheckCoreUpdate(string $channel, $versionCheck, $version, $readableVersion, $errorDays): void {
 		$job = $this->getJob([
-			'getChannel',
 			'createNotifications',
 			'clearErrorNotifications',
 			'sendErrorNotifications',
 		]);
 
-		$job->expects($this->once())
+		$this->serverVersion->expects($this->once())
 			->method('getChannel')
 			->willReturn($channel);
 
@@ -224,7 +224,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 					['app2', '1.9.2'],
 				],
 				[
-					['app2', '1.9.2'],
+					['app2', '1.9.2', ''],
 				],
 			],
 		];
@@ -237,7 +237,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 	 * @param array $isUpdateAvailable
 	 * @param array $notifications
 	 */
-	public function testCheckAppUpdates(array $apps, array $isUpdateAvailable, array $notifications) {
+	public function testCheckAppUpdates(array $apps, array $isUpdateAvailable, array $notifications): void {
 		$job = $this->getJob([
 			'isUpdateAvailable',
 			'createNotifications',
@@ -251,9 +251,14 @@ class UpdateAvailableNotificationsTest extends TestCase {
 			->method('isUpdateAvailable')
 			->willReturnMap($isUpdateAvailable);
 
-		$mockedMethod = $job->expects($this->exactly(\count($notifications)))
-			->method('createNotifications');
-		\call_user_func_array([$mockedMethod, 'withConsecutive'], $notifications);
+		$i = 0;
+		$job->expects($this->exactly(\count($notifications)))
+			->method('createNotifications')
+			->willReturnCallback(function () use ($notifications, &$i): void {
+				$this->assertEquals($notifications[$i], func_get_args());
+				$i++;
+			});
+
 
 		self::invokePrivate($job, 'checkAppUpdates');
 	}
@@ -277,7 +282,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 	 * @param string[]|null $users
 	 * @param array|null $userNotifications
 	 */
-	public function testCreateNotifications(string $app, string $version, $lastNotification, $callDelete, $createNotification, $users, $userNotifications) {
+	public function testCreateNotifications(string $app, string $version, $lastNotification, $callDelete, $createNotification, $users, $userNotifications): void {
 		$job = $this->getJob([
 			'deleteOutdatedNotifications',
 			'getUsersToNotify',
@@ -286,7 +291,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		$this->appConfig->expects($this->once())
 			->method('getAppValueString')
 			->with($app, '')
-			->willReturn($lastNotification ? $lastNotification : '');
+			->willReturn($lastNotification ?: '');
 
 		if ($lastNotification !== $version) {
 			$this->appConfig->expects($this->once())
@@ -331,10 +336,9 @@ class UpdateAvailableNotificationsTest extends TestCase {
 				->willReturnSelf();
 
 			if ($userNotifications !== null) {
-				$mockedMethod = $notification->expects($this->exactly(\count($userNotifications)))
+				$notification->expects($this->exactly(\count($userNotifications)))
 					->method('setUser')
 					->willReturnSelf();
-				\call_user_func_array([$mockedMethod, 'withConsecutive'], $userNotifications);
 
 				$this->notificationManager->expects($this->exactly(\count($userNotifications)))
 					->method('notify');
@@ -364,7 +368,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 	 * @param array $groupUsers
 	 * @param string[] $expected
 	 */
-	public function testGetUsersToNotify(array $groups, array $groupUsers, array $expected) {
+	public function testGetUsersToNotify(array $groups, array $groupUsers, array $expected): void {
 		$job = $this->getJob();
 
 		$this->appConfig->expects($this->once())
@@ -408,7 +412,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 	 * @param string $app
 	 * @param string $version
 	 */
-	public function testDeleteOutdatedNotifications(string $app, string $version) {
+	public function testDeleteOutdatedNotifications(string $app, string $version): void {
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->once())
 			->method('setApp')
@@ -448,7 +452,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 
 	/**
 	 * @param string $gid
-	 * @return \OCP\IGroup|MockObject
+	 * @return IGroup|MockObject
 	 */
 	protected function getGroup(string $gid) {
 		$group = $this->createMock(IGroup::class);

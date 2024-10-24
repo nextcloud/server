@@ -8,6 +8,7 @@ namespace Test\DB;
 
 use OC\DB\ConnectionFactory;
 use OC\SystemConfig;
+use OCP\ICacheFactory;
 use Test\TestCase;
 
 class ConnectionFactoryTest extends TestCase {
@@ -30,10 +31,11 @@ class ConnectionFactoryTest extends TestCase {
 	 * @param string $host
 	 * @param array $expected
 	 */
-	public function testSplitHostFromPortAndSocket($host, array $expected) {
+	public function testSplitHostFromPortAndSocket($host, array $expected): void {
 		/** @var SystemConfig $config */
 		$config = $this->createMock(SystemConfig::class);
-		$factory = new ConnectionFactory($config);
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$factory = new ConnectionFactory($config, $cacheFactory);
 
 		$this->assertEquals($expected, self::invokePrivate($factory, 'splitHostFromPortAndSocket', [$host]));
 	}

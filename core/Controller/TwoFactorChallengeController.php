@@ -123,7 +123,7 @@ class TwoFactorChallengeController extends Controller {
 		if ($this->session->exists('two_factor_auth_error')) {
 			$this->session->remove('two_factor_auth_error');
 			$error = true;
-			$errorMessage = $this->session->get("two_factor_auth_error_message");
+			$errorMessage = $this->session->get('two_factor_auth_error_message');
 			$this->session->remove('two_factor_auth_error_message');
 		}
 		$tmpl = $provider->getTemplate($user);

@@ -143,8 +143,10 @@ abstract class BaseResponse extends Response {
 				$writer->startElement($k);
 				$this->toXML($v->jsonSerialize(), $writer);
 				$writer->endElement();
+			} elseif ($v === null) {
+				$writer->writeElement($k);
 			} else {
-				$writer->writeElement($k, $v);
+				$writer->writeElement($k, (string)$v);
 			}
 		}
 	}

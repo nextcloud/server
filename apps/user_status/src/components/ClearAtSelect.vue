@@ -76,7 +76,7 @@ export default {
 	align-items: center;
 
 	&__label {
-		margin-right: 12px;
+		margin-inline-end: 12px;
 	}
 
 	&__select {

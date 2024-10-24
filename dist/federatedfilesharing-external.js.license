@@ -14,7 +14,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - webpack
-	- version: 5.93.0
+	- version: 5.94.0
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

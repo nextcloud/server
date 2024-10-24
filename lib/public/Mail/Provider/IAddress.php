@@ -23,9 +23,9 @@ interface IAddress {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string $value     mail address (test@example.com)
+	 * @param string $value mail address (test@example.com)
 	 *
-	 * @return self             return this object for command chaining
+	 * @return self return this object for command chaining
 	 */
 	public function setAddress(string $value): self;
 
@@ -34,18 +34,18 @@ interface IAddress {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return string			returns the mail address
+	 * @return string returns the mail address
 	 */
-	public function getAddress(): string | null;
+	public function getAddress(): ?string;
 
 	/**
 	 * sets the mail address label/name
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string $value     mail address label/name
+	 * @param string $value mail address label/name
 	 *
-	 * @return self             return this object for command chaining
+	 * @return self return this object for command chaining
 	 */
 	public function setLabel(string $value): self;
 
@@ -54,8 +54,8 @@ interface IAddress {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return string			returns the mail address label/name
+	 * @return string returns the mail address label/name
 	 */
-	public function getLabel(): string | null;
+	public function getLabel(): ?string;
 
 }

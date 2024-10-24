@@ -6,6 +6,10 @@
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Files\FileInfo;
+use OC\Files\Filesystem;
+use OCA\Files_Sharing\Helper;
+use OCP\Constants;
 use OCP\Share\IShare;
 
 /**
@@ -34,7 +38,7 @@ class ShareTest extends TestCase {
 		$this->view->mkdir($this->folder);
 		$this->view->mkdir($this->folder . $this->subfolder);
 		$this->view->mkdir($this->folder . $this->subfolder . $this->subsubfolder);
-		$this->view->file_put_contents($this->folder.$this->filename, $this->data);
+		$this->view->file_put_contents($this->folder . $this->filename, $this->data);
 		$this->view->file_put_contents($this->folder . $this->subfolder . $this->filename, $this->data);
 	}
 
@@ -48,7 +52,7 @@ class ShareTest extends TestCase {
 		parent::tearDown();
 	}
 
-	public function testUnshareFromSelf() {
+	public function testUnshareFromSelf(): void {
 		$groupManager = \OC::$server->getGroupManager();
 		$userManager = \OC::$server->getUserManager();
 
@@ -63,7 +67,7 @@ class ShareTest extends TestCase {
 			$this->filename,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
-			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE
+			Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE
 		);
 
 		$share2 = $this->share(
@@ -71,44 +75,44 @@ class ShareTest extends TestCase {
 			$this->filename,
 			self::TEST_FILES_SHARING_API_USER1,
 			'testGroup',
-			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE
+			Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE
 		);
 		$this->shareManager->acceptShare($share2, self::TEST_FILES_SHARING_API_USER2);
 		$this->shareManager->acceptShare($share2, self::TEST_FILES_SHARING_API_USER3);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
+		$this->assertTrue(Filesystem::file_exists($this->filename));
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
-		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
+		$this->assertTrue(Filesystem::file_exists($this->filename));
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		\OC\Files\Filesystem::unlink($this->filename);
+		Filesystem::unlink($this->filename);
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		// both group share and user share should be gone
-		$this->assertFalse(\OC\Files\Filesystem::file_exists($this->filename));
+		$this->assertFalse(Filesystem::file_exists($this->filename));
 
 		// for user3 nothing should change
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
-		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
+		$this->assertTrue(Filesystem::file_exists($this->filename));
 
 		$this->shareManager->deleteShare($share1);
 		$this->shareManager->deleteShare($share2);
 	}
 
 	/**
-	 * @param \OC\Files\FileInfo[] $content
+	 * @param FileInfo[] $content
 	 * @param string[] $expected
 	 */
 	public function verifyDirContent($content, $expected) {
 		foreach ($content as $c) {
 			if (!in_array($c['name'], $expected)) {
-				$this->assertTrue(false, "folder should only contain '" . implode(',', $expected) . "', found: " .$c['name']);
+				$this->assertTrue(false, "folder should only contain '" . implode(',', $expected) . "', found: " . $c['name']);
 			}
 		}
 	}
 
-	public function testShareWithDifferentShareFolder() {
+	public function testShareWithDifferentShareFolder(): void {
 		$fileinfo = $this->view->getFileInfo($this->filename);
 		$folderinfo = $this->view->getFileInfo($this->folder);
 
@@ -117,40 +121,40 @@ class ShareTest extends TestCase {
 			$this->filename,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
-			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE
+			Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE
 		);
 
-		\OCA\Files_Sharing\Helper::setShareFolder('/Shared/subfolder');
+		Helper::setShareFolder('/Shared/subfolder');
 
 		$share = $this->share(
 			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
-			\OCP\Constants::PERMISSION_ALL
+			Constants::PERMISSION_ALL
 		);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
-		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
-		$this->assertTrue(\OC\Files\Filesystem::file_exists('/Shared/subfolder/' . $this->folder));
+		$this->assertTrue(Filesystem::file_exists($this->filename));
+		$this->assertTrue(Filesystem::file_exists('/Shared/subfolder/' . $this->folder));
 
 		//cleanup
 		\OC::$server->getConfig()->deleteSystemValue('share_folder');
 	}
 
-	public function testShareWithGroupUniqueName() {
+	public function testShareWithGroupUniqueName(): void {
 		$this->markTestSkipped('TODO: Disable because fails on drone');
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		\OC\Files\Filesystem::file_put_contents('test.txt', 'test');
+		Filesystem::file_put_contents('test.txt', 'test');
 
 		$share = $this->share(
 			IShare::TYPE_GROUP,
 			'test.txt',
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_GROUP1,
-			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE
+			Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE
 		);
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
@@ -160,14 +164,14 @@ class ShareTest extends TestCase {
 		$this->assertSame('/test.txt', $share->getTarget());
 		$this->assertSame(19, $share->getPermissions());
 
-		\OC\Files\Filesystem::rename('test.txt', 'new test.txt');
+		Filesystem::rename('test.txt', 'new test.txt');
 
 		$shares = $this->shareManager->getSharedWith(self::TEST_FILES_SHARING_API_USER2, IShare::TYPE_GROUP);
 		$share = $shares[0];
 		$this->assertSame('/new test.txt', $share->getTarget());
 		$this->assertSame(19, $share->getPermissions());
 
-		$share->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE);
+		$share->setPermissions(Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE);
 		$this->shareManager->updateShare($share);
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
@@ -182,7 +186,7 @@ class ShareTest extends TestCase {
 	 * shared files should never have delete permissions
 	 * @dataProvider dataProviderTestFileSharePermissions
 	 */
-	public function testFileSharePermissions($permission, $expectedvalid) {
+	public function testFileSharePermissions($permission, $expectedvalid): void {
 		$pass = true;
 		try {
 			$this->share(
@@ -200,11 +204,11 @@ class ShareTest extends TestCase {
 	}
 
 	public function dataProviderTestFileSharePermissions() {
-		$permission1 = \OCP\Constants::PERMISSION_ALL;
-		$permission3 = \OCP\Constants::PERMISSION_READ;
-		$permission4 = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE;
-		$permission5 = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_DELETE;
-		$permission6 = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE;
+		$permission1 = Constants::PERMISSION_ALL;
+		$permission3 = Constants::PERMISSION_READ;
+		$permission4 = Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE;
+		$permission5 = Constants::PERMISSION_READ | Constants::PERMISSION_DELETE;
+		$permission6 = Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE;
 
 		return [
 			[$permission1, false],
@@ -215,18 +219,18 @@ class ShareTest extends TestCase {
 		];
 	}
 
-	public function testFileOwner() {
+	public function testFileOwner(): void {
 		$this->share(
 			IShare::TYPE_USER,
 			$this->filename,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
-			\OCP\Constants::PERMISSION_READ
+			Constants::PERMISSION_READ
 		);
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
-		$info = \OC\Files\Filesystem::getFileInfo($this->filename);
+		$info = Filesystem::getFileInfo($this->filename);
 
 		$this->assertSame(self::TEST_FILES_SHARING_API_USER1, $info->getOwner()->getUID());
 	}

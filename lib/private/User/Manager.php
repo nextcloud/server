@@ -68,6 +68,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		private IConfig $config,
 		ICacheFactory $cacheFactory,
 		private IEventDispatcher $eventDispatcher,
+		private LoggerInterface $logger,
 	) {
 		$this->cache = new WithLocalCache($cacheFactory->createDistributed('user_backend_map'));
 		$this->listen('\OC\User', 'postDelete', function (IUser $user): void {
@@ -201,7 +202,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		$result = $this->checkPasswordNoLogging($loginName, $password);
 
 		if ($result === false) {
-			\OCP\Server::get(LoggerInterface::class)->warning('Login failed: \''. $loginName .'\' (Remote IP: \''. \OC::$server->getRequest()->getRemoteAddress(). '\')', ['app' => 'core']);
+			$this->logger->warning('Login failed: \'' . $loginName . '\' (Remote IP: \'' . \OC::$server->getRequest()->getRemoteAddress() . '\')', ['app' => 'core']);
 		}
 
 		return $result;
@@ -260,7 +261,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param int $limit
 	 * @param int $offset
 	 * @return IUser[]
-	 * @deprecated since 27.0.0, use searchDisplayName instead
+	 * @deprecated 27.0.0, use searchDisplayName instead
 	 */
 	public function search($pattern, $limit = null, $offset = null) {
 		$users = [];
@@ -319,11 +320,16 @@ class Manager extends PublicEmitter implements IUserManager {
 		if ($search !== '') {
 			$users = array_filter(
 				$users,
-				fn (IUser $user): bool =>
-					mb_stripos($user->getUID(), $search) !== false ||
-					mb_stripos($user->getDisplayName(), $search) !== false ||
-					mb_stripos($user->getEMailAddress() ?? '', $search) !== false,
-			);
+				function (IUser $user) use ($search): bool {
+					try {
+						return mb_stripos($user->getUID(), $search) !== false ||
+						mb_stripos($user->getDisplayName(), $search) !== false ||
+						mb_stripos($user->getEMailAddress() ?? '', $search) !== false;
+					} catch (NoUserException $ex) {
+						$this->logger->error('Error while filtering disabled users', ['exception' => $ex, 'userUID' => $user->getUID()]);
+						return false;
+					}
+				});
 		}
 
 		$tempLimit = ($limit === null ? null : $limit + $offset);
@@ -455,7 +461,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * returns how many users per backend exist (if supported by backend)
 	 *
 	 * @param boolean $hasLoggedIn when true only users that have a lastLogin
-	 *                entry in the preferences table will be affected
+	 *                             entry in the preferences table will be affected
 	 * @return array<string, int> an array of backend class as key and count number as value
 	 */
 	public function countUsers() {
@@ -486,7 +492,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 *
 	 * @param IGroup[] $groups an array of gid to search in
 	 * @return array|int an array of backend class as key and count number as value
-	 *                if $hasLoggedIn is true only an int is returned
+	 *                   if $hasLoggedIn is true only an int is returned
 	 */
 	public function countUsersOfGroups(array $groups) {
 		$users = [];
@@ -506,7 +512,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @psalm-param \Closure(\OCP\IUser):?bool $callback
 	 * @param string $search
 	 * @param boolean $onlySeen when true only users that have a lastLogin entry
-	 *                in the preferences table will be affected
+	 *                          in the preferences table will be affected
 	 * @since 9.0.0
 	 */
 	public function callForAllUsers(\Closure $callback, $search = '', $onlySeen = false) {
@@ -751,7 +757,7 @@ class Manager extends PublicEmitter implements IUserManager {
 				$queryBuilder->expr()->eq('p.appid', $queryBuilder->expr()->literal('login')),
 				$queryBuilder->expr()->eq('p.configkey', $queryBuilder->expr()->literal('lastLogin')))
 			);
-		if($search !== '') {
+		if ($search !== '') {
 			$queryBuilder->leftJoin('u', 'preferences', 'p1', $queryBuilder->expr()->andX(
 				$queryBuilder->expr()->eq('p1.userid', 'uid'),
 				$queryBuilder->expr()->eq('p1.appid', $queryBuilder->expr()->literal('settings')),

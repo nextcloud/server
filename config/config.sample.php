@@ -341,6 +341,13 @@ $CONFIG = [
 'davstorage.request_timeout' => 30,
 
 /**
+ * The timeout in seconds for synchronizing address books, e.g. federated system address books (as run by `occ federation:sync-addressbooks`).
+ * 
+ * Defaults to ``30`` seconds
+ */
+'carddav_sync_request_timeout' => 30,
+
+/**
  * `true` enabled a relaxed session timeout, where the session timeout would no longer be
  * handled by Nextcloud but by either the PHP garbage collection or the expiration of
  * potential other session backends like redis.
@@ -493,7 +500,7 @@ $CONFIG = [
 
 /**
  * Enable SMTP class debugging.
- * NOTE: ``loglevel`` will likely need to be adjusted too. See docs: 
+ * NOTE: ``loglevel`` will likely need to be adjusted too. See docs:
  *   https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/email_configuration.html#enabling-debug-mode
  *
  * Defaults to ``false``
@@ -745,6 +752,11 @@ $CONFIG = [
 /**
  * If the trash bin app is enabled (default), this setting defines the policy
  * for when files and folders in the trash bin will be permanently deleted.
+ *
+ * If the user quota limit is exceeded due to deleted files in the trash bin,
+ * retention settings will be ignored and files will be cleaned up until
+ * the quota requirements are met.
+ *
  * The app allows for two settings, a minimum time for trash bin retention,
  * and a maximum time for trash bin retention.
  *
@@ -1167,9 +1179,9 @@ $CONFIG = [
  */
 
 /**
- * Set the default app to open on login. Use the app names as they appear in the
- * URL after clicking them in the Apps menu, such as documents, calendar, and
- * gallery. You can use a comma-separated list of app names, so if the first
+ * Set the default app to open on login. The entry IDs can be retrieved from
+ * the Navigations OCS API endpoint: https://docs.nextcloud.com/server/latest/develper_manual/_static/openapi.html#/operations/core-navigation-get-apps-navigation.
+ * You can use a comma-separated list of app names, so if the first
  * app is not enabled for a user then Nextcloud will try the second one, and so
  * on. If no enabled apps are found it defaults to the dashboard app.
  *
@@ -1307,18 +1319,18 @@ $CONFIG = [
 /**
  * custom path for ffmpeg binary
  *
- * Defaults to ``null`` and falls back to searching ``avconv`` and ``ffmpeg`` 
+ * Defaults to ``null`` and falls back to searching ``avconv`` and ``ffmpeg``
  * in the configured ``PATH`` environment
  */
 'preview_ffmpeg_path' => '/usr/bin/ffmpeg',
 
 /**
  * Set the URL of the Imaginary service to send image previews to.
- * Also requires the ``OC\Preview\Imaginary`` provider to be enabled in the 
- * ``enabledPreviewProviders`` array, to create previews for these mimetypes: bmp, 
+ * Also requires the ``OC\Preview\Imaginary`` provider to be enabled in the
+ * ``enabledPreviewProviders`` array, to create previews for these mimetypes: bmp,
  * x-bitmap, png, jpeg, gif, heic, heif, svg+xml, tiff, webp and illustrator.
  *
- * If you want Imaginary to also create preview images from PDF Documents, you 
+ * If you want Imaginary to also create preview images from PDF Documents, you
  * have to add the ``OC\Preview\ImaginaryPDF`` provider as well.
  *
  * See https://github.com/h2non/imaginary
@@ -2008,8 +2020,9 @@ $CONFIG = [
 'updatedirectory' => '',
 
 /**
- * Block a specific file or files and disallow the upload of files
- * with this name. ``.htaccess`` is blocked by default.
+ * Block a specific file or files and disallow the upload of files with this name.
+ * This blocks any access to those files (read and write).
+ * ``.htaccess`` is blocked by default.
  *
  * WARNING: USE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING.
  *
@@ -2021,6 +2034,7 @@ $CONFIG = [
 
 /**
  * Disallow the upload of files with specific basenames.
+ * Matching existing files can no longer be updated and in matching folders no files can be created anymore.
  *
  * The basename is the name of the file without the extension,
  * e.g. for "archive.tar.gz" the basename would be "archive".
@@ -2034,6 +2048,7 @@ $CONFIG = [
 /**
  * Block characters from being used in filenames. This is useful if you
  * have a filesystem or OS which does not support certain characters like windows.
+ * Matching existing files can no longer be updated and in matching folders no files can be created anymore.
  *
  * The '/' and '\' characters are always forbidden, as well as all characters in the ASCII range [0-31].
  *
@@ -2046,9 +2061,10 @@ $CONFIG = [
 
 /**
  * Deny extensions from being used for filenames.
- * 
+ * Matching existing files can no longer be updated and in matching folders no files can be created anymore.
+ *
  * The '.part' extension is always forbidden, as this is used internally by Nextcloud.
- * 
+ *
  * Defaults to ``array('.filepart', '.part')``
  */
 'forbidden_filename_extensions' => ['.part', '.filepart'],
@@ -2524,4 +2540,38 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'enable_non-accessible_features' => true,
+
+/**
+ * Directories where nextcloud looks for binaries.
+ * This is used to find external binaries like libreoffice, sendmail, ffmpeg and more.
+ *
+ * Defaults to ``['/usr/local/sbin','/usr/local/bin','/usr/sbin','/usr/bin','/sbin','/bin','/opt/bin']``
+ */
+'binary_search_paths' => [
+	'/usr/local/sbin',
+	'/usr/local/bin',
+	'/usr/sbin',
+	'/usr/bin',
+	'/sbin',
+	'/bin',
+	'/opt/bin',
+],
+
+/**
+ * The maximum chunk size to use for chunked uploads.
+ * A bigger chunk size results in higher throughput, but above 100 MiB there are only diminishing returns,
+ * while services like Cloudflare already limit to 100 MiB.
+ *
+ * Defaults to 100 MiB.
+ */
+'files.chunked_upload.max_size' => 100 * 1024 * 1024,
+
+/**
+ * The maximum number of chunks uploaded in parallel during chunked uploads.
+ * A bigger count results in higher throughput, but will also consume more server workers,
+ * while the improvements diminish.
+ *
+ * Defaults to 5.
+ */
+'files.chunked_upload.max_parallel_count' => 5,
 ];

@@ -11,7 +11,7 @@ namespace OCP\Collaboration\Collaborators;
  * @since 13.0.0
  */
 class SearchResultType {
-	/** @var string  */
+	/** @var string */
 	protected $label;
 
 	/**

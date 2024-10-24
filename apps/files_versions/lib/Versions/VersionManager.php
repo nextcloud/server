@@ -167,8 +167,8 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 		try {
 			return $callback();
 		} catch (ManuallyLockedException $e) {
-			$owner = (string) $e->getOwner();
-			$appsThatHandleUpdates = ["text", "richdocuments"];
+			$owner = (string)$e->getOwner();
+			$appsThatHandleUpdates = ['text', 'richdocuments'];
 			if (!in_array($owner, $appsThatHandleUpdates)) {
 				throw $e;
 			}
@@ -180,7 +180,7 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 			$lockContext = new LockContext($root, ILock::TYPE_APP, $owner);
 			$lockManager = \OC::$server->get(ILockManager::class);
 			$result = null;
-			$lockManager->runInScope($lockContext, function () use ($callback, &$result) {
+			$lockManager->runInScope($lockContext, function () use ($callback, &$result): void {
 				$result = $callback();
 			});
 			return $result;

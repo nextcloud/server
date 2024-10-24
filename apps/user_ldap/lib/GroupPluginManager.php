@@ -6,6 +6,7 @@
 namespace OCA\User_LDAP;
 
 use OCP\GroupInterface;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class GroupPluginManager {
@@ -41,7 +42,7 @@ class GroupPluginManager {
 		foreach ($this->which as $action => $v) {
 			if ((bool)($respondToActions & $action)) {
 				$this->which[$action] = $plugin;
-				\OCP\Server::get(LoggerInterface::class)->debug("Registered action ".$action." to plugin ".get_class($plugin), ['app' => 'user_ldap']);
+				Server::get(LoggerInterface::class)->debug('Registered action ' . $action . ' to plugin ' . get_class($plugin), ['app' => 'user_ldap']);
 			}
 		}
 	}

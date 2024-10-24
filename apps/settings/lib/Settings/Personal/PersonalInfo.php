@@ -31,58 +31,22 @@ use OCP\Settings\ISettings;
 
 class PersonalInfo implements ISettings {
 
-	/** @var IConfig */
-	private $config;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IAccountManager */
-	private $accountManager;
-
 	/** @var ProfileManager */
 	private $profileManager;
 
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var IFactory */
-	private $l10nFactory;
-
-	/** @var IL10N */
-	private $l;
-
-	/** @var IInitialState */
-	private $initialStateService;
-
-	/** @var IManager */
-	private $manager;
-
 	public function __construct(
-		IConfig $config,
-		IUserManager $userManager,
-		IGroupManager $groupManager,
-		IAccountManager $accountManager,
+		private IConfig $config,
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private IAccountManager $accountManager,
 		ProfileManager $profileManager,
-		IAppManager $appManager,
-		IFactory $l10nFactory,
-		IL10N $l,
-		IInitialState $initialStateService,
-		IManager $manager
+		private IAppManager $appManager,
+		private IFactory $l10nFactory,
+		private IL10N $l,
+		private IInitialState $initialStateService,
+		private IManager $manager,
 	) {
-		$this->config = $config;
-		$this->userManager = $userManager;
-		$this->accountManager = $accountManager;
 		$this->profileManager = $profileManager;
-		$this->groupManager = $groupManager;
-		$this->appManager = $appManager;
-		$this->l10nFactory = $l10nFactory;
-		$this->l = $l;
-		$this->initialStateService = $initialStateService;
-		$this->manager = $manager;
 	}
 
 	public function getForm(): TemplateResponse {
@@ -143,6 +107,7 @@ class PersonalInfo implements ISettings {
 			'biography' => $this->getProperty($account, IAccountManager::PROPERTY_BIOGRAPHY),
 			'birthdate' => $this->getProperty($account, IAccountManager::PROPERTY_BIRTHDATE),
 			'firstDayOfWeek' => $this->config->getUserValue($uid, 'core', AUserData::USER_FIELD_FIRST_DAY_OF_WEEK),
+			'pronouns' => $this->getProperty($account, IAccountManager::PROPERTY_PRONOUNS),
 		];
 
 		$accountParameters = [
@@ -197,8 +162,8 @@ class PersonalInfo implements ISettings {
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
+	 *             the admin section. The forms are arranged in ascending order of the
+	 *             priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
 	 * @since 9.1

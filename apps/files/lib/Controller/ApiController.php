@@ -8,6 +8,7 @@
 namespace OCA\Files\Controller;
 
 use OC\Files\Node\Node;
+use OCA\Files\Helper;
 use OCA\Files\ResponseDefinitions;
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
@@ -30,12 +31,14 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\PreConditionNotMetException;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
@@ -47,7 +50,8 @@ use Throwable;
  * @package OCA\Files\Controller
  */
 class ApiController extends Controller {
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
 		private IUserSession $userSession,
 		private TagService $tagService,
@@ -123,11 +127,11 @@ class ApiController extends Controller {
 		if (!is_null($tags)) {
 			try {
 				$this->tagService->updateFileTags($path, $tags);
-			} catch (\OCP\Files\NotFoundException $e) {
+			} catch (NotFoundException $e) {
 				return new DataResponse([
 					'message' => $e->getMessage()
 				], Http::STATUS_NOT_FOUND);
-			} catch (\OCP\Files\StorageNotAvailableException $e) {
+			} catch (StorageNotAvailableException $e) {
 				return new DataResponse([
 					'message' => $e->getMessage()
 				], Http::STATUS_SERVICE_UNAVAILABLE);
@@ -149,7 +153,7 @@ class ApiController extends Controller {
 		$shareTypesForNodes = $this->getShareTypesForNodes($nodes);
 		return array_values(array_map(function (Node $node) use ($shareTypesForNodes) {
 			$shareTypes = $shareTypesForNodes[$node->getId()] ?? [];
-			$file = \OCA\Files\Helper::formatFileInfo($node->getFileInfo());
+			$file = Helper::formatFileInfo($node->getFileInfo());
 			$file['hasPreview'] = $this->previewManager->isAvailable($node);
 			$parts = explode('/', dirname($node->getPath()), 4);
 			if (isset($parts[3])) {
@@ -381,7 +385,7 @@ class ApiController extends Controller {
 	 *
 	 * @param bool $value
 	 * @return Response
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws PreConditionNotMetException
 	 */
 	#[NoAdminRequired]
 	public function showHiddenFiles(bool $value): Response {
@@ -394,7 +398,7 @@ class ApiController extends Controller {
 	 *
 	 * @param bool $value
 	 * @return Response
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws PreConditionNotMetException
 	 */
 	#[NoAdminRequired]
 	public function cropImagePreviews(bool $value): Response {
@@ -407,7 +411,7 @@ class ApiController extends Controller {
 	 *
 	 * @param bool $show
 	 * @return Response
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws PreConditionNotMetException
 	 */
 	#[NoAdminRequired]
 	public function showGridView(bool $show): Response {

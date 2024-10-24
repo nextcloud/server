@@ -11,7 +11,7 @@ use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Util;
 use OCP\Files\Mount\IMountPoint;
-use OCP\Files\Storage;
+use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -22,27 +22,27 @@ use Test\TestCase;
 class UtilTest extends TestCase {
 	private static $tempStorage = [];
 
-	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $configMock;
 
-	/** @var \OC\Files\View|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var View|\PHPUnit\Framework\MockObject\MockObject */
 	private $filesMock;
 
-	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManagerMock;
 
-	/** @var \OCP\Files\Mount\IMountPoint|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IMountPoint|\PHPUnit\Framework\MockObject\MockObject */
 	private $mountMock;
 
 	/** @var Util */
 	private $instance;
 
-	public function testSetRecoveryForUser() {
+	public function testSetRecoveryForUser(): void {
 		$this->instance->setRecoveryForUser('1');
 		$this->assertArrayHasKey('recoveryEnabled', self::$tempStorage);
 	}
 
-	public function testIsRecoveryEnabledForUser() {
+	public function testIsRecoveryEnabledForUser(): void {
 		$this->assertTrue($this->instance->isRecoveryEnabledForUser('admin'));
 
 		// Assert recovery will return default value if not set
@@ -50,7 +50,7 @@ class UtilTest extends TestCase {
 		$this->assertEquals(0, $this->instance->isRecoveryEnabledForUser('admin'));
 	}
 
-	public function testUserHasFiles() {
+	public function testUserHasFiles(): void {
 		$this->filesMock->expects($this->once())
 			->method('file_exists')
 			->willReturn(true);
@@ -64,7 +64,7 @@ class UtilTest extends TestCase {
 		$this->filesMock = $this->createMock(View::class);
 		$this->userManagerMock = $this->createMock(IUserManager::class);
 
-		/** @var \OCA\Encryption\Crypto\Crypt $cryptMock */
+		/** @var Crypt $cryptMock */
 		$cryptMock = $this->getMockBuilder(Crypt::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -126,7 +126,7 @@ class UtilTest extends TestCase {
 	 * @param string $value
 	 * @param bool $expect
 	 */
-	public function testIsMasterKeyEnabled($value, $expect) {
+	public function testIsMasterKeyEnabled($value, $expect): void {
 		$this->configMock->expects($this->once())->method('getAppValue')
 			->with('encryption', 'useMasterKey', '1')->willReturn($value);
 		$this->assertSame($expect,
@@ -146,7 +146,7 @@ class UtilTest extends TestCase {
 	 * @param string $returnValue return value from getAppValue()
 	 * @param bool $expected
 	 */
-	public function testShouldEncryptHomeStorage($returnValue, $expected) {
+	public function testShouldEncryptHomeStorage($returnValue, $expected): void {
 		$this->configMock->expects($this->once())->method('getAppValue')
 			->with('encryption', 'encryptHomeStorage', '1')
 			->willReturn($returnValue);
@@ -167,7 +167,7 @@ class UtilTest extends TestCase {
 	 * @param $value
 	 * @param $expected
 	 */
-	public function testSetEncryptHomeStorage($value, $expected) {
+	public function testSetEncryptHomeStorage($value, $expected): void {
 		$this->configMock->expects($this->once())->method('setAppValue')
 			->with('encryption', 'encryptHomeStorage', $expected);
 		$this->instance->setEncryptHomeStorage($value);
@@ -180,8 +180,8 @@ class UtilTest extends TestCase {
 		];
 	}
 
-	public function testGetStorage() {
-		$return = $this->getMockBuilder(Storage::class)
+	public function testGetStorage(): void {
+		$return = $this->getMockBuilder(IStorage::class)
 			->disableOriginalConstructor()
 			->getMock();
 

@@ -110,7 +110,7 @@ class SystemTagManager implements ISystemTagManager {
 			$query->andWhere(
 				$query->expr()->like(
 					'name',
-					$query->createNamedParameter('%' . $this->connection->escapeLikeParameter($nameSearchPattern). '%')
+					$query->createNamedParameter('%' . $this->connection->escapeLikeParameter($nameSearchPattern) . '%')
 				)
 			);
 		}
@@ -146,7 +146,7 @@ class SystemTagManager implements ISystemTagManager {
 		$result->closeCursor();
 		if (!$row) {
 			throw new TagNotFoundException(
-				'Tag ("' . $truncatedTagName . '", '. $userVisible . ', ' . $userAssignable . ') does not exist'
+				'Tag ("' . $truncatedTagName . '", ' . $userVisible . ', ' . $userAssignable . ') does not exist'
 			);
 		}
 
@@ -171,7 +171,7 @@ class SystemTagManager implements ISystemTagManager {
 			$query->execute();
 		} catch (UniqueConstraintViolationException $e) {
 			throw new TagAlreadyExistsException(
-				'Tag ("' . $truncatedTagName . '", '. $userVisible . ', ' . $userAssignable . ') already exists',
+				'Tag ("' . $truncatedTagName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists',
 				0,
 				$e
 			);
@@ -239,7 +239,7 @@ class SystemTagManager implements ISystemTagManager {
 			}
 		} catch (UniqueConstraintViolationException $e) {
 			throw new TagAlreadyExistsException(
-				'Tag ("' . $newName . '", '. $userVisible . ', ' . $userAssignable . ') already exists',
+				'Tag ("' . $newName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists',
 				0,
 				$e
 			);
@@ -305,7 +305,11 @@ class SystemTagManager implements ISystemTagManager {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function canUserAssignTag(ISystemTag $tag, IUser $user): bool {
+	public function canUserAssignTag(ISystemTag $tag, ?IUser $user): bool {
+		if ($user === null) {
+			return false;
+		}
+
 		// early check to avoid unneeded group lookups
 		if ($tag->isUserAssignable() && $tag->isUserVisible()) {
 			return true;
@@ -333,9 +337,19 @@ class SystemTagManager implements ISystemTagManager {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function canUserSeeTag(ISystemTag $tag, IUser $user): bool {
+	public function canUserSeeTag(ISystemTag $tag, ?IUser $user): bool {
+		// If no user, then we only show public tags
+		if (!$user && $tag->getAccessLevel() === ISystemTag::ACCESS_LEVEL_PUBLIC) {
+			return true;
+		}
+
 		if ($tag->isUserVisible()) {
 			return true;
+		}
+
+		// if not returned yet, and user is not logged in, then the tag is not visible
+		if ($user === null) {
+			return false;
 		}
 
 		if ($this->groupManager->isAdmin($user->getUID())) {

@@ -20,6 +20,8 @@ OC.L10N.register(
     "Set status" : "تعيين الحالة",
     "Online status" : "حالة الاتصال",
     "Status message" : "رسالة الحالة",
+    "Set absence period" : "عيِّن فترة التّغيُّب",
+    "Set absence period and replacement" : "عيِّن فترة التّغيُّب و البديل",
     "Your status was set automatically" : "تمّ تعيين حالتك تلقائيّاً",
     "Clear status message" : "حذف رسالة الحالة",
     "Set status message" : "تعيين رسالة الحالة",
@@ -41,7 +43,7 @@ OC.L10N.register(
     "30 minutes" : "30 دقيقة",
     "1 hour" : "1 ساعة",
     "4 hours" : "4 ساعات",
-    "Mute all notifications" : "عدم اظهار جميع التنبيهات",
+    "Mute all notifications" : "عدم إظهار جميع التنبيهات",
     "Appear offline" : "الحالة غير متصل"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

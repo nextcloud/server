@@ -9,7 +9,7 @@ namespace OCA\Files_External\Tests;
 use OCA\Files_External\Lib\DefinitionParameter as Param;
 
 class DefinitionParameterTest extends \Test\TestCase {
-	public function testJsonSerialization() {
+	public function testJsonSerialization(): void {
 		$param = new Param('foo', 'bar');
 		$this->assertEquals([
 			'value' => 'bar',
@@ -70,7 +70,7 @@ class DefinitionParameterTest extends \Test\TestCase {
 	/**
 	 * @dataProvider validateValueProvider
 	 */
-	public function testValidateValue($type, $flags, $value, $success, $expectedValue = null) {
+	public function testValidateValue($type, $flags, $value, $success, $expectedValue = null): void {
 		$param = new Param('foo', 'bar');
 		$param->setType($type);
 		$param->setFlags($flags);

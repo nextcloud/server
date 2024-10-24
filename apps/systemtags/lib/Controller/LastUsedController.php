@@ -14,22 +14,19 @@ use OCP\IUserSession;
 
 class LastUsedController extends Controller {
 
-	/** @var IConfig */
-	protected $config;
-
-	/** @var IUserSession */
-	protected $userSession;
-
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IConfig $config
 	 * @param IUserSession $userSession
 	 */
-	public function __construct($appName, IRequest $request, IConfig $config, IUserSession $userSession) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		protected IConfig $config,
+		protected IUserSession $userSession,
+	) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
-		$this->userSession = $userSession;
 	}
 
 	#[NoAdminRequired]
@@ -37,7 +34,7 @@ class LastUsedController extends Controller {
 		$lastUsed = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'systemtags', 'last_used', '[]');
 		$tagIds = json_decode($lastUsed, true);
 		return new DataResponse(array_map(function ($id) {
-			return (string) $id;
+			return (string)$id;
 		}, $tagIds));
 	}
 }

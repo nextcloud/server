@@ -17,6 +17,7 @@ use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IRequest;
+use OCP\Util;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ChangelogController extends Controller {
@@ -55,7 +56,7 @@ class ChangelogController extends Controller {
 			'text' => $changes,
 		]);
 
-		\OCP\Util::addScript($this->appName, 'view-changelog-page');
+		Util::addScript($this->appName, 'view-changelog-page');
 		return new TemplateResponse($this->appName, 'empty');
 	}
 }

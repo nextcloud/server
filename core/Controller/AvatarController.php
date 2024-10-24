@@ -292,7 +292,7 @@ class AvatarController extends Controller {
 		$tmpAvatar = $this->cache->get('tmpAvatar');
 		if (is_null($tmpAvatar)) {
 			return new JSONResponse(['data' => [
-				'message' => $this->l10n->t("No temporary profile picture available, try again")
+				'message' => $this->l10n->t('No temporary profile picture available, try again')
 			]],
 				Http::STATUS_NOT_FOUND);
 		}
@@ -315,19 +315,19 @@ class AvatarController extends Controller {
 	#[FrontpageRoute(verb: 'POST', url: '/avatar/cropped')]
 	public function postCroppedAvatar(?array $crop = null): JSONResponse {
 		if (is_null($crop)) {
-			return new JSONResponse(['data' => ['message' => $this->l10n->t("No crop data provided")]],
+			return new JSONResponse(['data' => ['message' => $this->l10n->t('No crop data provided')]],
 				Http::STATUS_BAD_REQUEST);
 		}
 
 		if (!isset($crop['x'], $crop['y'], $crop['w'], $crop['h'])) {
-			return new JSONResponse(['data' => ['message' => $this->l10n->t("No valid crop data provided")]],
+			return new JSONResponse(['data' => ['message' => $this->l10n->t('No valid crop data provided')]],
 				Http::STATUS_BAD_REQUEST);
 		}
 
 		$tmpAvatar = $this->cache->get('tmpAvatar');
 		if (is_null($tmpAvatar)) {
 			return new JSONResponse(['data' => [
-				'message' => $this->l10n->t("No temporary profile picture available, try again")
+				'message' => $this->l10n->t('No temporary profile picture available, try again')
 			]],
 				Http::STATUS_BAD_REQUEST);
 		}

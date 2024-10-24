@@ -11,6 +11,7 @@ use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -39,6 +40,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 */
 	public function __construct(
 		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IL10N $l,
 		private IUserSession $userSession,
 		private IURLGenerator $urlGenerator,
@@ -121,7 +123,7 @@ class ThemingDefaults extends \OC_Defaults {
 				$footer = '<a href="' . $baseUrl . '" target="_blank"' .
 					' rel="noreferrer noopener" class="entity-name">' . $entity . '</a>';
 			} else {
-				$footer = '<span class="entity-name">' .$entity . '</span>';
+				$footer = '<span class="entity-name">' . $entity . '</span>';
 			}
 		}
 		$footer .= ($slogan !== '' ? ' – ' . $slogan : '');
@@ -206,9 +208,9 @@ class ThemingDefaults extends \OC_Defaults {
 
 		// user-defined background color
 		if (!empty($user)) {
-			$userPrimaryColor = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_color', '');
-			if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $userPrimaryColor)) {
-				return $userPrimaryColor;
+			$userBackgroundColor = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_color', '');
+			if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $userBackgroundColor)) {
+				return $userBackgroundColor;
 			}
 		}
 
@@ -221,7 +223,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 */
 	public function getDefaultColorPrimary(): string {
 		// try admin color
-		$defaultColor = $this->config->getAppValue(Application::APP_ID, 'primary_color', '');
+		$defaultColor = $this->appConfig->getValueString(Application::APP_ID, 'primary_color', '');
 		if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $defaultColor)) {
 			return $defaultColor;
 		}
@@ -234,7 +236,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * Default background color only taking admin setting into account
 	 */
 	public function getDefaultColorBackground(): string {
-		$defaultColor = $this->config->getAppValue(Application::APP_ID, 'background_color', '');
+		$defaultColor = $this->appConfig->getValueString(Application::APP_ID, 'background_color');
 		if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $defaultColor)) {
 			return $defaultColor;
 		}
@@ -338,13 +340,13 @@ class ThemingDefaults extends \OC_Defaults {
 			'theming-favicon-mime' => "'" . $this->config->getAppValue('theming', 'faviconMime') . "'"
 		];
 
-		$variables['image-logo'] = "url('".$this->imageManager->getImageUrl('logo')."')";
-		$variables['image-logoheader'] = "url('".$this->imageManager->getImageUrl('logoheader')."')";
-		$variables['image-favicon'] = "url('".$this->imageManager->getImageUrl('favicon')."')";
-		$variables['image-login-background'] = "url('".$this->imageManager->getImageUrl('background')."')";
+		$variables['image-logo'] = "url('" . $this->imageManager->getImageUrl('logo') . "')";
+		$variables['image-logoheader'] = "url('" . $this->imageManager->getImageUrl('logoheader') . "')";
+		$variables['image-favicon'] = "url('" . $this->imageManager->getImageUrl('favicon') . "')";
+		$variables['image-login-background'] = "url('" . $this->imageManager->getImageUrl('background') . "')";
 		$variables['image-login-plain'] = 'false';
 
-		if ($this->config->getAppValue('theming', 'primary_color', '') !== '') {
+		if ($this->appConfig->getValueString(Application::APP_ID, 'primary_color', '') !== '') {
 			$variables['color-primary'] = $this->getColorPrimary();
 			$variables['color-primary-text'] = $this->getTextColorPrimary();
 			$variables['color-primary-element'] = $this->util->elementColor($this->getColorPrimary());
@@ -520,6 +522,6 @@ class ThemingDefaults extends \OC_Defaults {
 	 * Has the admin disabled user customization
 	 */
 	public function isUserThemingDisabled(): bool {
-		return $this->config->getAppValue('theming', 'disable-user-theming', 'no') === 'yes';
+		return $this->appConfig->getValueBool(Application::APP_ID, 'disable-user-theming');
 	}
 }

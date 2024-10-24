@@ -22,7 +22,7 @@ class NonCachingDBLockingProviderTest extends DBLockingProviderTest {
 		return new \OC\Lock\DBLockingProvider($this->connection, $this->timeFactory, 3600, false);
 	}
 
-	public function testDoubleShared() {
+	public function testDoubleShared(): void {
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
 

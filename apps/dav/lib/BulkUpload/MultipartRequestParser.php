@@ -19,10 +19,10 @@ class MultipartRequestParser {
 	private $stream;
 
 	/** @var string */
-	private $boundary = "";
+	private $boundary = '';
 
 	/** @var string */
-	private $lastBoundary = "";
+	private $lastBoundary = '';
 
 	/**
 	 * @throws BadRequest
@@ -39,14 +39,14 @@ class MultipartRequestParser {
 		}
 
 		if ($contentType === null) {
-			throw new BadRequest("Content-Type can not be null");
+			throw new BadRequest('Content-Type can not be null');
 		}
 
 		$this->stream = $stream;
 
 		$boundary = $this->parseBoundaryFromHeaders($contentType);
-		$this->boundary = '--'.$boundary."\r\n";
-		$this->lastBoundary = '--'.$boundary."--\r\n";
+		$this->boundary = '--' . $boundary . "\r\n";
+		$this->lastBoundary = '--' . $boundary . "--\r\n";
 	}
 
 	/**
@@ -60,7 +60,7 @@ class MultipartRequestParser {
 			[$mimeType, $boundary] = explode(';', $contentType);
 			[$boundaryKey, $boundaryValue] = explode('=', $boundary);
 		} catch (\Exception $e) {
-			throw new BadRequest("Error while parsing boundary in Content-Type header.", Http::STATUS_BAD_REQUEST, $e);
+			throw new BadRequest('Error while parsing boundary in Content-Type header.', Http::STATUS_BAD_REQUEST, $e);
 		}
 
 		$boundaryValue = trim($boundaryValue);
@@ -96,7 +96,7 @@ class MultipartRequestParser {
 
 		$seekBackResult = fseek($this->stream, -$expectedContentLength, SEEK_CUR);
 		if ($seekBackResult === -1) {
-			throw new Exception("Unknown error while seeking content", Http::STATUS_INTERNAL_SERVER_ERROR);
+			throw new Exception('Unknown error while seeking content', Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
 		return $expectedContent === $content;
@@ -134,7 +134,7 @@ class MultipartRequestParser {
 
 		$headers = $this->readPartHeaders();
 
-		$content = $this->readPartContent($headers["content-length"], $headers["x-file-md5"]);
+		$content = $this->readPartContent((int)$headers['content-length'], $headers['x-file-md5']);
 
 		return [$headers, $content];
 	}
@@ -146,7 +146,7 @@ class MultipartRequestParser {
 	 */
 	private function readBoundary(): string {
 		if (!$this->isAtBoundary()) {
-			throw new BadRequest("Boundary not found where it should be.");
+			throw new BadRequest('Boundary not found where it should be.');
 		}
 
 		return fread($this->stream, strlen($this->boundary));
@@ -180,12 +180,12 @@ class MultipartRequestParser {
 			}
 		}
 
-		if (!isset($headers["content-length"])) {
-			throw new LengthRequired("The Content-Length header must not be null.");
+		if (!isset($headers['content-length'])) {
+			throw new LengthRequired('The Content-Length header must not be null.');
 		}
 
-		if (!isset($headers["x-file-md5"])) {
-			throw new BadRequest("The X-File-MD5 header must not be null.");
+		if (!isset($headers['x-file-md5'])) {
+			throw new BadRequest('The X-File-MD5 header must not be null.');
 		}
 
 		return $headers;
@@ -201,7 +201,7 @@ class MultipartRequestParser {
 		$computedMd5 = $this->computeMd5Hash($length);
 
 		if ($md5 !== $computedMd5) {
-			throw new BadRequest("Computed md5 hash is incorrect.");
+			throw new BadRequest('Computed md5 hash is incorrect.');
 		}
 
 		if ($length === 0) {
@@ -215,7 +215,7 @@ class MultipartRequestParser {
 		}
 
 		if ($length !== 0 && feof($this->stream)) {
-			throw new Exception("Unexpected EOF while reading stream.");
+			throw new Exception('Unexpected EOF while reading stream.');
 		}
 
 		// Read '\r\n'.

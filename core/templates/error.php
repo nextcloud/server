@@ -8,7 +8,7 @@
 <div class="guest-box">
 	<h2><?php p($l->t('Error')) ?></h2>
 	<ul>
-	<?php foreach ($_["errors"] as $error):?>
+	<?php foreach ($_['errors'] as $error):?>
 		<li>
 			<p><?php p($error['error']) ?></p>
 			<?php if (isset($error['hint']) && $error['hint']): ?>

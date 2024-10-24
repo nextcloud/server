@@ -26,6 +26,6 @@ class Errorlog extends LogDetails implements IWriter {
 	 * @param string|array $message
 	 */
 	public function write(string $app, $message, int $level): void {
-		error_log('[' . $this->tag . ']['.$app.']['.$level.'] '.$this->logDetailsAsJSON($app, $message, $level));
+		error_log('[' . $this->tag . '][' . $app . '][' . $level . '] ' . $this->logDetailsAsJSON($app, $message, $level));
 	}
 }

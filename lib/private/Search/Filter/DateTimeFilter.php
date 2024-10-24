@@ -17,7 +17,7 @@ class DateTimeFilter implements IFilter {
 
 	public function __construct(string $value) {
 		if (filter_var($value, FILTER_VALIDATE_INT)) {
-			$value = '@'.$value;
+			$value = '@' . $value;
 		}
 
 		$this->value = new DateTimeImmutable($value);

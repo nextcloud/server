@@ -7,6 +7,7 @@ namespace OCA\Files_Trashbin\Command;
 
 use OC\Core\Command\Base;
 use OCA\Files_Trashbin\Trash\ITrashManager;
+use OCA\Files_Trashbin\Trash\TrashItem;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -31,17 +32,6 @@ class RestoreAllFiles extends Base {
 		'all' => self::SCOPE_ALL
 	];
 
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IRootFolder */
-	protected $rootFolder;
-
-	/** @var \OCP\IDBConnection */
-	protected $dbConnection;
-
-	protected ITrashManager $trashManager;
-
 	/** @var IL10N */
 	protected $l10n;
 
@@ -52,12 +42,14 @@ class RestoreAllFiles extends Base {
 	 * @param ITrashManager $trashManager
 	 * @param IFactory $l10nFactory
 	 */
-	public function __construct(IRootFolder $rootFolder, IUserManager $userManager, IDBConnection $dbConnection, ITrashManager $trashManager, IFactory $l10nFactory) {
+	public function __construct(
+		protected IRootFolder $rootFolder,
+		protected IUserManager $userManager,
+		protected IDBConnection $dbConnection,
+		protected ITrashManager $trashManager,
+		IFactory $l10nFactory,
+	) {
 		parent::__construct();
-		$this->userManager = $userManager;
-		$this->rootFolder = $rootFolder;
-		$this->dbConnection = $dbConnection;
-		$this->trashManager = $trashManager;
 		$this->l10n = $l10nFactory->get('files_trashbin');
 	}
 
@@ -167,13 +159,13 @@ class RestoreAllFiles extends Base {
 
 		$trashCount = count($userTrashItems);
 		if ($trashCount == 0) {
-			$output->writeln("User has no deleted files in the trashbin matching the given filters");
+			$output->writeln('User has no deleted files in the trashbin matching the given filters');
 			return;
 		}
 		$prepMsg = $dryRun ? 'Would restore' : 'Preparing to restore';
 		$output->writeln("$prepMsg <info>$trashCount</info> files...");
 		$count = 0;
-		foreach($userTrashItems as $trashItem) {
+		foreach ($userTrashItems as $trashItem) {
 			$filename = $trashItem->getName();
 			$humanTime = $this->l10n->l('datetime', $trashItem->getDeletedTime());
 			// We use getTitle() here instead of getOriginalLocation() because
@@ -191,13 +183,13 @@ class RestoreAllFiles extends Base {
 			try {
 				$trashItem->getTrashBackend()->restoreItem($trashItem);
 			} catch (\Throwable $e) {
-				$output->writeln(" <error>Failed: " . $e->getMessage() . "</error>");
-				$output->writeln(" <error>" . $e->getTraceAsString() . "</error>", OutputInterface::VERBOSITY_VERY_VERBOSE);
+				$output->writeln(' <error>Failed: ' . $e->getMessage() . '</error>');
+				$output->writeln(' <error>' . $e->getTraceAsString() . '</error>', OutputInterface::VERBOSITY_VERY_VERBOSE);
 				continue;
 			}
 
 			$count++;
-			$output->writeln(" <info>success</info>");
+			$output->writeln(' <info>success</info>');
 		}
 
 		if (!$dryRun) {
@@ -246,8 +238,8 @@ class RestoreAllFiles extends Base {
 			$trashItemClass = get_class($trashItem);
 
 			// Check scope with exact class name for locally deleted files
-			if ($scope === self::SCOPE_USER && $trashItemClass !== \OCA\Files_Trashbin\Trash\TrashItem::class) {
-				$output->writeln("Skipping <info>" . $trashItem->getName() . "</info> because it is not a user trash item", OutputInterface::VERBOSITY_VERBOSE);
+			if ($scope === self::SCOPE_USER && $trashItemClass !== TrashItem::class) {
+				$output->writeln('Skipping <info>' . $trashItem->getName() . '</info> because it is not a user trash item', OutputInterface::VERBOSITY_VERBOSE);
 				continue;
 			}
 
@@ -257,19 +249,19 @@ class RestoreAllFiles extends Base {
 			 * @psalm-suppress RedundantCondition
 			 */
 			if ($scope === self::SCOPE_GROUPFOLDERS && $trashItemClass !== 'OCA\GroupFolders\Trash\GroupTrashItem') {
-				$output->writeln("Skipping <info>" . $trashItem->getName() . "</info> because it is not a groupfolders trash item", OutputInterface::VERBOSITY_VERBOSE);
+				$output->writeln('Skipping <info>' . $trashItem->getName() . '</info> because it is not a groupfolders trash item', OutputInterface::VERBOSITY_VERBOSE);
 				continue;
 			}
 
 			// Check left timestamp boundary
 			if ($since !== null && $trashItem->getDeletedTime() <= $since) {
-				$output->writeln("Skipping <info>" . $trashItem->getName() . "</info> because it was deleted before the 'since' timestamp", OutputInterface::VERBOSITY_VERBOSE);
+				$output->writeln('Skipping <info>' . $trashItem->getName() . "</info> because it was deleted before the 'since' timestamp", OutputInterface::VERBOSITY_VERBOSE);
 				continue;
 			}
 
 			// Check right timestamp boundary
 			if ($until !== null && $trashItem->getDeletedTime() >= $until) {
-				$output->writeln("Skipping <info>" . $trashItem->getName() . "</info> because it was deleted after the 'until' timestamp", OutputInterface::VERBOSITY_VERBOSE);
+				$output->writeln('Skipping <info>' . $trashItem->getName() . "</info> because it was deleted after the 'until' timestamp", OutputInterface::VERBOSITY_VERBOSE);
 				continue;
 			}
 

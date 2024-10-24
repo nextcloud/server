@@ -10,6 +10,7 @@ OC.L10N.register(
     "Delete version" : "Kustuta versioo",
     "Version name" : "Versiooni nimi",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Nimelised versioonid hoitakse alles ja ei kustutata automaatselt, kui salvestusruum on täis.",
+    "Cancel" : "Tühista",
     "Remove version name" : "Eemalda versiooni nimi",
     "Save version name" : "Salvesta versiooni nimi",
     "Initial version restored" : "Algne versioon taastatud",

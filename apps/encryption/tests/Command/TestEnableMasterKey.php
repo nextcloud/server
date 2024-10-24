@@ -17,22 +17,22 @@ use Test\TestCase;
 
 class TestEnableMasterKey extends TestCase {
 
-	/** @var  EnableMasterKey */
+	/** @var EnableMasterKey */
 	protected $enableMasterKey;
 
-	/** @var  Util | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Util | \PHPUnit\Framework\MockObject\MockObject */
 	protected $util;
 
-	/** @var \OCP\IConfig | \PHPUnit\Framework\MockObject\MockObject  */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
 	/** @var \Symfony\Component\Console\Helper\QuestionHelper | \PHPUnit\Framework\MockObject\MockObject */
 	protected $questionHelper;
 
-	/** @var  \Symfony\Component\Console\Output\OutputInterface | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var \Symfony\Component\Console\Output\OutputInterface | \PHPUnit\Framework\MockObject\MockObject */
 	protected $output;
 
-	/** @var  \Symfony\Component\Console\Input\InputInterface | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var \Symfony\Component\Console\Input\InputInterface | \PHPUnit\Framework\MockObject\MockObject */
 	protected $input;
 
 	protected function setUp(): void {
@@ -58,7 +58,7 @@ class TestEnableMasterKey extends TestCase {
 	 * @param bool $isAlreadyEnabled
 	 * @param string $answer
 	 */
-	public function testExecute($isAlreadyEnabled, $answer) {
+	public function testExecute($isAlreadyEnabled, $answer): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn($isAlreadyEnabled);
 

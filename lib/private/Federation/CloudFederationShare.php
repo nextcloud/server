@@ -48,7 +48,7 @@ class CloudFederationShare implements ICloudFederationShare {
 		$sharedByDisplayName = '',
 		$shareType = '',
 		$resourceType = '',
-		$sharedSecret = ''
+		$sharedSecret = '',
 	) {
 		$this->setShareWith($shareWith);
 		$this->setResourceName($name);

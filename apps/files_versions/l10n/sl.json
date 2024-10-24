@@ -9,6 +9,7 @@
     "Current version" : "Trenutna različica",
     "Version name" : "Ime različice",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Poimenovane različice so trajne in niso vključene v samodejno čiščenje, če je prostora v oblaku malo.",
+    "Cancel" : "Prekliči",
     "Remove version name" : "Odstrani ime različice",
     "Save version name" : "Shrani ime različice",
     "Initial version restored" : "Začetna različica je obnovljena",

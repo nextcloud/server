@@ -114,7 +114,7 @@ class ManagerTest extends \Test\TestCase {
 	/**
 	 * @dataProvider dnProvider
 	 */
-	public function testGetByDNExisting(string $inputDN) {
+	public function testGetByDNExisting(string $inputDN): void {
 		$uid = '563418fc-423b-1033-8d1c-ad5f418ee02e';
 
 		$this->access->expects($this->once())
@@ -139,7 +139,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertInstanceOf(User::class, $user);
 	}
 
-	public function testGetByDNNotExisting() {
+	public function testGetByDNNotExisting(): void {
 		$inputDN = 'cn=gone,dc=foobar,dc=bar';
 
 		$this->access->expects($this->once())
@@ -161,7 +161,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertNull($user);
 	}
 
-	public function testGetByUidExisting() {
+	public function testGetByUidExisting(): void {
 		$dn = 'cn=foo,dc=foobar,dc=bar';
 		$uid = '563418fc-423b-1033-8d1c-ad5f418ee02e';
 
@@ -187,7 +187,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertInstanceOf(User::class, $user);
 	}
 
-	public function testGetByUidNotExisting() {
+	public function testGetByUidNotExisting(): void {
 		$uid = 'gone';
 
 		$this->access->expects($this->never())
@@ -213,7 +213,7 @@ class ManagerTest extends \Test\TestCase {
 	/**
 	 * @dataProvider attributeRequestProvider
 	 */
-	public function testGetAttributes($minimal) {
+	public function testGetAttributes($minimal): void {
 		$this->connection->setConfiguration([
 			'ldapEmailAttribute' => 'MAIL',
 			'ldapUserAvatarRule' => 'default',

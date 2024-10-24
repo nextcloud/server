@@ -6,11 +6,7 @@
  */
 
 function loadDirectory($path): void {
-	if (strpos($path, 'integration')) {
-		return;
-	}
-
-	if (strpos($path, 'Integration')) {
+	if (strpos($path, 'apps/user_ldap/tests/Integration')) {
 		return;
 	}
 
@@ -44,10 +40,15 @@ function getSubclasses($parentClassName): array {
 }
 
 $apps = OC_App::getEnabledApps();
+$appManager = \OCP\Server::get(\OCP\App\IAppManager::class);
 
 foreach ($apps as $app) {
-	$dir = OC_App::getAppPath($app);
-	if (is_dir($dir . '/tests')) {
-		loadDirectory($dir . '/tests');
+	try {
+		$dir = $appManager->getAppPath($app);
+		if (is_dir($dir . '/tests')) {
+			loadDirectory($dir . '/tests');
+		}
+	} catch (\OCP\App\AppPathNotFoundException) {
+		/* ignore */
 	}
 }

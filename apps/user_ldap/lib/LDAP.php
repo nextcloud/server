@@ -12,18 +12,18 @@ use OCA\User_LDAP\DataCollector\LdapDataCollector;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
 use OCP\IConfig;
 use OCP\Profiler\IProfiler;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class LDAP implements ILDAPWrapper {
-	protected string $logFile = '';
 	protected array $curArgs = [];
 	protected LoggerInterface $logger;
 
 	private ?LdapDataCollector $dataCollector = null;
 
-	public function __construct(string $logFile = '') {
-		$this->logFile = $logFile;
-
+	public function __construct(
+		protected string $logFile = '',
+	) {
 		/** @var IProfiler $profiler */
 		$profiler = \OC::$server->get(IProfiler::class);
 		if ($profiler->isEnabled()) {
@@ -31,7 +31,7 @@ class LDAP implements ILDAPWrapper {
 			$profiler->add($this->dataCollector);
 		}
 
-		$this->logger = \OCP\Server::get(LoggerInterface::class);
+		$this->logger = Server::get(LoggerInterface::class);
 	}
 
 	/**
@@ -293,7 +293,7 @@ class LDAP implements ILDAPWrapper {
 
 	private function preFunctionCall(string $functionName, array $args): void {
 		$this->curArgs = $args;
-		if(strcasecmp($functionName, 'ldap_bind') === 0 || strcasecmp($functionName, 'ldap_exop_passwd') === 0) {
+		if (strcasecmp($functionName, 'ldap_bind') === 0 || strcasecmp($functionName, 'ldap_exop_passwd') === 0) {
 			// The arguments are not key value pairs
 			// \OCA\User_LDAP\LDAP::bind passes 3 arguments, the 3rd being the pw
 			// Remove it via direct array access for now, although a better solution could be found mebbe?
@@ -312,8 +312,8 @@ class LDAP implements ILDAPWrapper {
 				if ($this->isResource($item)) {
 					return '(resource)';
 				}
-				if (isset($item[0]['value']['cookie']) && $item[0]['value']['cookie'] !== "") {
-					$item[0]['value']['cookie'] = "*opaque cookie*";
+				if (isset($item[0]['value']['cookie']) && $item[0]['value']['cookie'] !== '') {
+					$item[0]['value']['cookie'] = '*opaque cookie*';
 				}
 				return $item;
 			}, $this->curArgs);
@@ -369,7 +369,7 @@ class LDAP implements ILDAPWrapper {
 
 	/**
 	 * Called after an ldap method is run to act on LDAP error if necessary
-	 * @throw \Exception
+	 * @throws \Exception
 	 */
 	private function postFunctionCall(string $functionName): void {
 		if ($this->isResource($this->curArgs[0])) {

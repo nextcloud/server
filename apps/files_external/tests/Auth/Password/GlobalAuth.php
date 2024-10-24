@@ -7,6 +7,7 @@
 namespace OCA\Files_External\Tests\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
+use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_external\Lib\StorageConfig;
 use OCP\IL10N;
 use OCP\Security\ICredentialsManager;
@@ -14,12 +15,12 @@ use Test\TestCase;
 
 class GlobalAuthTest extends TestCase {
 	/**
-	 * @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject
+	 * @var IL10N|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $l10n;
 
 	/**
-	 * @var \OCP\Security\ICredentialsManager|\PHPUnit\Framework\MockObject\MockObject
+	 * @var ICredentialsManager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $credentialsManager;
 
@@ -53,14 +54,14 @@ class GlobalAuthTest extends TestCase {
 			});
 		$storageConfig->expects($this->any())
 			->method('setBackendOption')
-			->willReturnCallback(function ($key, $value) use (&$config) {
+			->willReturnCallback(function ($key, $value) use (&$config): void {
 				$config[$key] = $value;
 			});
 
 		return $storageConfig;
 	}
 
-	public function testNoCredentials() {
+	public function testNoCredentials(): void {
 		$this->credentialsManager->expects($this->once())
 			->method('retrieve')
 			->willReturn(null);
@@ -71,7 +72,7 @@ class GlobalAuthTest extends TestCase {
 		$this->assertEquals([], $storage->getBackendOptions());
 	}
 
-	public function testSavedCredentials() {
+	public function testSavedCredentials(): void {
 		$this->credentialsManager->expects($this->once())
 			->method('retrieve')
 			->willReturn([
@@ -89,8 +90,8 @@ class GlobalAuthTest extends TestCase {
 	}
 
 
-	public function testNoCredentialsPersonal() {
-		$this->expectException(\OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException::class);
+	public function testNoCredentialsPersonal(): void {
+		$this->expectException(InsufficientDataForMeaningfulAnswerException::class);
 
 		$this->credentialsManager->expects($this->never())
 			->method('retrieve');

@@ -46,6 +46,7 @@ OC.L10N.register(
     "Nextcloud workflow engine" : "Motor de flux de treball de Nextcloud",
     "Select a filter" : "Seleccioneu un filtre",
     "Select a comparator" : "Seleccioneu un comparador",
+    "Remove filter" : "Suprimeix el filtre",
     "Select a file type" : "Seleccioneu un tipus de fitxer",
     "e.g. httpd/unix-directory" : "p. ex. httpd/unix-directory",
     "Folder" : "Carpeta",

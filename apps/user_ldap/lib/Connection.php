@@ -8,6 +8,7 @@
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
+use OCP\ICache;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -85,11 +86,10 @@ use Psr\Log\LoggerInterface;
  * @property string $ldapAttributeBiography
  * @property string $ldapAdminGroup
  * @property string $ldapAttributeBirthDate
+ * @property string $ldapAttributePronouns
  */
 class Connection extends LDAPUtility {
 	private ?\LDAP\Connection $ldapConnectionRes = null;
-	private string $configPrefix;
-	private ?string $configID;
 	private bool $configured = false;
 
 	/**
@@ -108,11 +108,11 @@ class Connection extends LDAPUtility {
 	public $hasGidNumber = true;
 
 	/**
-	 * @var \OCP\ICache|null
+	 * @var ICache|null
 	 */
 	protected $cache = null;
 
-	/** @var Configuration settings handler **/
+	/** @var Configuration settings handler * */
 	protected $configuration;
 
 	/**
@@ -138,11 +138,13 @@ class Connection extends LDAPUtility {
 	 * @param string $configPrefix a string with the prefix for the configkey column (appconfig table)
 	 * @param string|null $configID a string with the value for the appid column (appconfig table) or null for on-the-fly connections
 	 */
-	public function __construct(ILDAPWrapper $ldap, string $configPrefix = '', ?string $configID = 'user_ldap') {
+	public function __construct(
+		ILDAPWrapper $ldap,
+		private string $configPrefix = '',
+		private ?string $configID = 'user_ldap',
+	) {
 		parent::__construct($ldap);
-		$this->configPrefix = $configPrefix;
-		$this->configID = $configID;
-		$this->configuration = new Configuration($configPrefix, !is_null($configID));
+		$this->configuration = new Configuration($this->configPrefix, !is_null($this->configID));
 		$memcache = \OC::$server->getMemCacheFactory();
 		if ($memcache->isAvailable()) {
 			$this->cache = $memcache->createDistributed();
@@ -258,11 +260,11 @@ class Connection extends LDAPUtility {
 	 * @param string|null $key
 	 */
 	private function getCacheKey($key): string {
-		$prefix = 'LDAP-'.$this->configID.'-'.$this->configPrefix.'-';
+		$prefix = 'LDAP-' . $this->configID . '-' . $this->configPrefix . '-';
 		if (is_null($key)) {
 			return $prefix;
 		}
-		return $prefix.hash('sha256', $key);
+		return $prefix . hash('sha256', $key);
 	}
 
 	/**
@@ -313,7 +315,7 @@ class Connection extends LDAPUtility {
 	/**
 	 * Caches the general LDAP configuration.
 	 * @param bool $force optional. true, if the re-read should be forced. defaults
-	 * to false.
+	 *                    to false.
 	 */
 	private function readConfiguration(bool $force = false): void {
 		if ((!$this->configured || $force) && !is_null($this->configID)) {
@@ -397,8 +399,7 @@ class Connection extends LDAPUtility {
 		}
 
 		foreach (['ldapExpertUUIDUserAttr' => 'ldapUuidUserAttribute',
-			'ldapExpertUUIDGroupAttr' => 'ldapUuidGroupAttribute']
-				as $expertSetting => $effectiveSetting) {
+			'ldapExpertUUIDGroupAttr' => 'ldapUuidGroupAttribute'] as $expertSetting => $effectiveSetting) {
 			$uuidOverride = $this->configuration->$expertSetting;
 			if (!empty($uuidOverride)) {
 				$this->configuration->$effectiveSetting = $uuidOverride;
@@ -410,7 +411,7 @@ class Connection extends LDAPUtility {
 					$this->configuration->$effectiveSetting = 'auto';
 					$this->configuration->saveConfiguration();
 					$this->logger->info(
-						'Illegal value for the '.$effectiveSetting.', reset to autodetect.',
+						'Illegal value for the ' . $effectiveSetting . ', reset to autodetect.',
 						['app' => 'user_ldap']
 					);
 				}
@@ -480,7 +481,7 @@ class Connection extends LDAPUtility {
 				}
 				$configurationOK = false;
 				$this->logger->warning(
-					$errorStr.'No '.$subj.' given!',
+					$errorStr . 'No ' . $subj . ' given!',
 					['app' => 'user_ldap']
 				);
 			}
@@ -494,7 +495,7 @@ class Connection extends LDAPUtility {
 			|| ($agent !== '' && $pwd === '')
 		) {
 			$this->logger->warning(
-				$errorStr.'either no password is given for the user ' .
+				$errorStr . 'either no password is given for the user ' .
 					'agent or a password is given, but not an LDAP agent.',
 				['app' => 'user_ldap']
 			);
@@ -507,7 +508,7 @@ class Connection extends LDAPUtility {
 
 		if (empty($base) && empty($baseUsers) && empty($baseGroups)) {
 			$this->logger->warning(
-				$errorStr.'Not a single Base DN given.',
+				$errorStr . 'Not a single Base DN given.',
 				['app' => 'user_ldap']
 			);
 			$configurationOK = false;
@@ -516,7 +517,7 @@ class Connection extends LDAPUtility {
 		if (mb_strpos((string)$this->configuration->ldapLoginFilter, '%uid', 0, 'UTF-8')
 		   === false) {
 			$this->logger->warning(
-				$errorStr.'login filter does not contain %uid place holder.',
+				$errorStr . 'login filter does not contain %uid place holder.',
 				['app' => 'user_ldap']
 			);
 			$configurationOK = false;

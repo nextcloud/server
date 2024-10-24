@@ -13,6 +13,7 @@ use OCP\App\IAppManager;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -26,6 +27,8 @@ use Test\TestCase;
  */
 class RouterTest extends TestCase {
 	private Router $router;
+	private IAppManager&MockObject $appManager;
+
 	protected function setUp(): void {
 		parent::setUp();
 		/** @var LoggerInterface $logger */
@@ -33,16 +36,19 @@ class RouterTest extends TestCase {
 		$logger->method('info')
 			->willReturnCallback(
 				function (string $message, array $data) {
-					$this->fail('Unexpected info log: '.(string)($data['exception'] ?? $message));
+					$this->fail('Unexpected info log: ' . (string)($data['exception'] ?? $message));
 				}
 			);
+
+		$this->appManager = $this->createMock(IAppManager::class);
+
 		$this->router = new Router(
 			$logger,
 			$this->createMock(IRequest::class),
 			$this->createMock(IConfig::class),
 			$this->createMock(IEventLogger::class),
 			$this->createMock(ContainerInterface::class),
-			$this->createMock(IAppManager::class),
+			$this->appManager,
 		);
 	}
 
@@ -51,6 +57,12 @@ class RouterTest extends TestCase {
 	}
 
 	public function testGenerateConsecutively(): void {
+		$this->appManager->expects(self::atLeastOnce())
+			->method('cleanAppId')
+			->willReturnArgument(0);
+		$this->appManager->expects(self::atLeastOnce())
+			->method('getAppPath')
+			->willReturnCallback(fn (string $appid): string => \OC::$SERVERROOT . '/apps/' . $appid);
 
 		$this->assertEquals('/index.php/apps/files/', $this->router->generate('files.view.index'));
 

@@ -102,11 +102,23 @@ const genericProperties = ['Location', 'X (formerly Twitter)', 'Fediverse']
 const nonfederatedProperties = ['Organisation', 'Role', 'Headline', 'About']
 
 describe('Settings: Change personal information', { testIsolation: true }, () => {
+	let snapshot: string = ''
 
 	before(() => {
 		// ensure we can set locale and language
 		cy.runOccCommand('config:system:delete force_language')
 		cy.runOccCommand('config:system:delete force_locale')
+		cy.createRandomUser().then(($user) => {
+			user = $user
+			cy.modifyUser(user, 'language', 'en')
+			cy.modifyUser(user, 'locale', 'en_US')
+		})
+
+		cy.wait(500)
+
+		cy.backupDB().then(($snapshot) => {
+			snapshot = $snapshot
+		})
 	})
 
 	after(() => {
@@ -115,14 +127,13 @@ describe('Settings: Change personal information', { testIsolation: true }, () =>
 	})
 
 	beforeEach(() => {
-		cy.createRandomUser().then(($user) => {
-			user = $user
-			cy.modifyUser(user, 'language', 'en')
-			cy.modifyUser(user, 'locale', 'en_US')
-			cy.login($user)
-			cy.visit('/settings/user')
-		})
+		cy.login(user)
+		cy.visit('/settings/user')
 		cy.intercept('PUT', /ocs\/v2.php\/cloud\/users\//).as('submitSetting')
+	})
+
+	afterEach(() => {
+		cy.restoreDB(snapshot)
 	})
 
 	it('Can dis- and enable the profile', () => {
@@ -132,6 +143,7 @@ describe('Settings: Change personal information', { testIsolation: true }, () =>
 		cy.visit('/settings/user')
 		cy.contains('Enable profile').click()
 		handlePasswordConfirmation(user.password)
+		cy.wait('@submitSetting')
 
 		cy.visit(`/u/${user.userId}`, { failOnStatusCode: false })
 		cy.contains('h2', 'Profile not found').should('be.visible')
@@ -139,6 +151,7 @@ describe('Settings: Change personal information', { testIsolation: true }, () =>
 		cy.visit('/settings/user')
 		cy.contains('Enable profile').click()
 		handlePasswordConfirmation(user.password)
+		cy.wait('@submitSetting')
 
 		cy.visit(`/u/${user.userId}`, { failOnStatusCode: false })
 		cy.contains('h2', user.userId).should('be.visible')

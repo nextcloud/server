@@ -138,13 +138,13 @@ EOF;
 			->method('setCurrentPrincipal')
 			->with($this->calendar->getPrincipalURI());
 
-		/** @var \Sabre\DAVACL\Plugin|MockObject $aclPlugin*/
+		/** @var \Sabre\DAVACL\Plugin|MockObject $aclPlugin */
 		$aclPlugin = $this->createMock(\Sabre\DAVACL\Plugin::class);
 
 		/** @var Plugin|MockObject $schedulingPlugin */
 		$schedulingPlugin = $this->createMock(Plugin::class);
 		$iTipMessage = $this->getITipMessage($message);
-		$iTipMessage->recipient = "mailto:lewis@stardew-tent-living.com";
+		$iTipMessage->recipient = 'mailto:lewis@stardew-tent-living.com';
 
 		$server = $this->createMock(Server::class);
 		$server->expects($this->any())

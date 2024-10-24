@@ -35,6 +35,7 @@ OC.L10N.register(
     "{temperature} {unit} heavy rainfall showers" : "{temperature} {unit} spēcīgas nokrišņu gāzmas",
     "More weather for {adr}" : "Vairāk laikapstākļu datu par {adr}",
     "Loading weather" : "Ielādē laikapstākļus",
+    "Set location for weather" : "Iestatīt atrašanās vietu laikapstākļiem",
     "Remove from favorites" : "Noņemt no izlases",
     "Add as favorite" : "Pievienot izlasei",
     "You are not logged in." : "Tu neesi pieteicies.",
@@ -45,7 +46,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Atgadījās kļūda atrašanās vietas iestatīšanā.",
     "There was an error saving the mode." : "Atgadījās kļūda režīma saglabāšanā.",
     "There was an error using personal address." : "Atgadījās kļūda personīgās adreses izmantošanā.",
-    "Set location for weather" : "Iestatīt atrašanās vietu laikapstākļiem",
     "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Laikapstākļu stāvoklis iekļauts informācijas paneļa lietotnē.\nLietotāja atrašanās vieta var tikt automātiski noteikta vai pašrocīgi norādīta. Tad tiek attēlota 6 stundu prognoze.\nŠis stāvoklis var tikt ievietots arī citās vietās, piemēram, kalendāra lietotnē."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

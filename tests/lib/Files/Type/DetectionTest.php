@@ -117,7 +117,7 @@ class DetectionTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->detection->getSecureMimeType($mimeType));
 	}
 
-	public function testMimeTypeIcon() {
+	public function testMimeTypeIcon(): void {
 		if (!class_exists('org\\bovigo\\vfs\\vfsStream')) {
 			$this->markTestSkipped('Package vfsStream not installed');
 		}

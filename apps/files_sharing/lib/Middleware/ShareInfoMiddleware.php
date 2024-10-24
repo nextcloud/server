@@ -15,11 +15,9 @@ use OCP\AppFramework\Middleware;
 use OCP\Share\IManager;
 
 class ShareInfoMiddleware extends Middleware {
-	/** @var IManager */
-	private $shareManager;
-
-	public function __construct(IManager $shareManager) {
-		$this->shareManager = $shareManager;
+	public function __construct(
+		private IManager $shareManager,
+	) {
 	}
 
 	/**

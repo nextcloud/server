@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\TwoFactorBackupCodes\Tests\Service;
 
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
+use OCP\IUser;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use Test\TestCase;
@@ -38,8 +39,8 @@ class BackupCodeStorageTest extends TestCase {
 		$this->overwriteService(IManager::class, $this->notificationManager);
 	}
 
-	public function testSimpleWorkFlow() {
-		$user = $this->getMockBuilder(\OCP\IUser::class)->getMock();
+	public function testSimpleWorkFlow(): void {
+		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->any())
 			->method('getUID')
 			->willReturn($this->testUID);

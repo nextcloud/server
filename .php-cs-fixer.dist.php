@@ -14,29 +14,23 @@ $config = new Config();
 $config
 	->setParallelConfig(ParallelConfigFactory::detect())
 	->getFinder()
-	->ignoreVCSIgnored(true)
 	->exclude('config')
-	->exclude('data')
-	->notPath('3rdparty')
-	->notPath('build/integration/vendor')
-	->notPath('build/lib')
-	->notPath('build/node_modules')
-	->notPath('build/stubs')
-	->notPath('composer')
-	->notPath('node_modules')
-	->notPath('vendor')
-	->in('apps')
+	->exclude('3rdparty')
+	->exclude('build/stubs')
+	->exclude('composer')
 	->in(__DIR__);
 
-// Ignore additional app directories
-$rootDir = new \DirectoryIterator(__DIR__);
-foreach ($rootDir as $node) {
-	if (str_starts_with($node->getFilename(), 'apps')) {
-		$return = shell_exec('git check-ignore ' . escapeshellarg($node->getFilename() . '/'));
+$ignoredEntries = shell_exec('git status --porcelain --ignored ' . escapeshellarg(__DIR__));
+$ignoredEntries = explode("\n", $ignoredEntries);
+$ignoredEntries = array_filter($ignoredEntries, static fn (string $line) => str_starts_with($line, '!! '));
+$ignoredEntries = array_map(static fn (string $line) => substr($line, 3), $ignoredEntries);
+$ignoredEntries = array_values($ignoredEntries);
 
-		if ($return !== null) {
-			$config->getFinder()->exclude($node->getFilename());
-		}
+foreach ($ignoredEntries as $ignoredEntry) {
+	if (str_ends_with($ignoredEntry, '/')) {
+		$config->getFinder()->exclude($ignoredEntry);
+	} else {
+		$config->getFinder()->notPath($ignoredEntry);
 	}
 }
 

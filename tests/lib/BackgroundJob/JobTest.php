@@ -24,7 +24,7 @@ class JobTest extends \Test\TestCase {
 		\OC::$server->registerService(LoggerInterface::class, fn ($c) => $this->logger);
 	}
 
-	public function testRemoveAfterException() {
+	public function testRemoveAfterException(): void {
 		$jobList = new DummyJobList();
 		$e = new \Exception();
 		$job = new TestJob($this->timeFactory, $this, function () use ($e) {
@@ -41,7 +41,7 @@ class JobTest extends \Test\TestCase {
 		$this->assertCount(1, $jobList->getAll());
 	}
 
-	public function testRemoveAfterError() {
+	public function testRemoveAfterError(): void {
 		$jobList = new DummyJobList();
 		$job = new TestJob($this->timeFactory, $this, function () {
 			$test = null;

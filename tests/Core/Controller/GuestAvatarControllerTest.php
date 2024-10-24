@@ -71,7 +71,7 @@ class GuestAvatarControllerTest extends \Test\TestCase {
 	/**
 	 * Tests getAvatar returns the guest avatar.
 	 */
-	public function testGetAvatar() {
+	public function testGetAvatar(): void {
 		$this->avatarManager->expects($this->once())
 			->method('getGuestAvatar')
 			->with('Peter')

@@ -26,12 +26,10 @@ use function OCP\Log\logger;
 
 /**
  * This class manages the apps. It allows them to register and integrate in the
- * ownCloud ecosystem. Furthermore, this class is responsible for installing,
+ * Nextcloud ecosystem. Furthermore, this class is responsible for installing,
  * upgrading and removing apps.
  */
 class OC_App {
-	private static $adminForms = [];
-	private static $personalForms = [];
 	private static $altLogin = [];
 	private static $alreadyRegistered = [];
 	public const supportedApp = 300;
@@ -45,8 +43,7 @@ class OC_App {
 	 * @psalm-taint-escape html
 	 * @psalm-taint-escape has_quotes
 	 *
-	 * @param string $app AppId that needs to be cleaned
-	 * @return string
+	 * @deprecated 31.0.0 use IAppManager::cleanAppId
 	 */
 	public static function cleanAppId(string $app): string {
 		return str_replace(['<', '>', '"', "'", '\0', '/', '\\', '..'], '', $app);
@@ -69,7 +66,7 @@ class OC_App {
 	 * @param string[] $types
 	 * @return bool
 	 *
-	 * This function walks through the ownCloud directory and loads all apps
+	 * This function walks through the Nextcloud directory and loads all apps
 	 * it can find. A directory contains an app if the file /appinfo/info.xml
 	 * exists.
 	 *
@@ -171,7 +168,7 @@ class OC_App {
 	 *
 	 * @param bool $forceRefresh whether to refresh the cache
 	 * @param bool $all whether to return apps for all users, not only the
-	 * currently logged in one
+	 *                  currently logged in one
 	 * @return string[]
 	 */
 	public static function getEnabledApps(bool $forceRefresh = false, bool $all = false): array {
@@ -242,7 +239,7 @@ class OC_App {
 	/**
 	 * Get the path where to install apps
 	 */
-	public static function getInstallPath(): string|null {
+	public static function getInstallPath(): ?string {
 		foreach (OC::$APPSROOTS as $dir) {
 			if (isset($dir['writable']) && $dir['writable'] === true) {
 				return $dir['path'];
@@ -316,7 +313,8 @@ class OC_App {
 	 * @deprecated 11.0.0 use \OCP\Server::get(IAppManager)->getAppPath()
 	 */
 	public static function getAppPath(string $appId, bool $refreshAppPath = false) {
-		if ($appId === null || trim($appId) === '') {
+		$appId = self::cleanAppId($appId);
+		if ($appId === '') {
 			return false;
 		}
 
@@ -349,7 +347,7 @@ class OC_App {
 	 */
 	public static function getAppVersionByPath(string $path): string {
 		$infoFile = $path . '/appinfo/info.xml';
-		$appData = \OC::$server->getAppManager()->getAppInfo($infoFile, true);
+		$appData = \OCP\Server::get(IAppManager::class)->getAppInfoByPath($infoFile);
 		return $appData['version'] ?? '';
 	}
 
@@ -387,33 +385,11 @@ class OC_App {
 	}
 
 	/**
-	 * @param string $type
-	 * @return array
-	 */
-	public static function getForms(string $type): array {
-		$forms = [];
-		switch ($type) {
-			case 'admin':
-				$source = self::$adminForms;
-				break;
-			case 'personal':
-				$source = self::$personalForms;
-				break;
-			default:
-				return [];
-		}
-		foreach ($source as $form) {
-			$forms[] = include $form;
-		}
-		return $forms;
-	}
-
-	/**
 	 * @param array $entry
 	 * @deprecated 20.0.0 Please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface
 	 */
 	public static function registerLogIn(array $entry) {
-		\OC::$server->getLogger()->debug('OC_App::registerLogIn() is deprecated, please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface');
+		\OCP\Server::get(LoggerInterface::class)->debug('OC_App::registerLogIn() is deprecated, please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface');
 		self::$altLogin[] = $entry;
 	}
 
@@ -426,7 +402,7 @@ class OC_App {
 
 		foreach ($bootstrapCoordinator->getRegistrationContext()->getAlternativeLogins() as $registration) {
 			if (!in_array(IAlternativeLogin::class, class_implements($registration->getService()), true)) {
-				\OC::$server->getLogger()->error('Alternative login option {option} does not implement {interface} and is therefore ignored.', [
+				\OCP\Server::get(LoggerInterface::class)->error('Alternative login option {option} does not implement {interface} and is therefore ignored.', [
 					'option' => $registration->getService(),
 					'interface' => IAlternativeLogin::class,
 					'app' => $registration->getAppId(),
@@ -438,11 +414,12 @@ class OC_App {
 				/** @var IAlternativeLogin $provider */
 				$provider = \OCP\Server::get($registration->getService());
 			} catch (ContainerExceptionInterface $e) {
-				\OC::$server->getLogger()->logException($e, [
-					'message' => 'Alternative login option {option} can not be initialised.',
-					'option' => $registration->getService(),
-					'app' => $registration->getAppId(),
-				]);
+				\OCP\Server::get(LoggerInterface::class)->error('Alternative login option {option} can not be initialized.',
+					[
+						'exception' => $e,
+						'option' => $registration->getService(),
+						'app' => $registration->getAppId(),
+					]);
 			}
 
 			try {
@@ -454,11 +431,12 @@ class OC_App {
 					'class' => $provider->getClass(),
 				];
 			} catch (Throwable $e) {
-				\OC::$server->getLogger()->logException($e, [
-					'message' => 'Alternative login option {option} had an error while loading.',
-					'option' => $registration->getService(),
-					'app' => $registration->getAppId(),
-				]);
+				\OCP\Server::get(LoggerInterface::class)->error('Alternative login option {option} had an error while loading.',
+					[
+						'exception' => $e,
+						'option' => $registration->getService(),
+						'app' => $registration->getAppId(),
+					]);
 			}
 		}
 
@@ -469,30 +447,10 @@ class OC_App {
 	 * get a list of all apps in the apps folder
 	 *
 	 * @return string[] an array of app names (string IDs)
-	 * @todo: change the name of this method to getInstalledApps, which is more accurate
+	 * @deprecated 31.0.0 Use IAppManager::getAllAppsInAppsFolders instead
 	 */
 	public static function getAllApps(): array {
-		$apps = [];
-
-		foreach (OC::$APPSROOTS as $apps_dir) {
-			if (!is_readable($apps_dir['path'])) {
-				\OCP\Server::get(LoggerInterface::class)->warning('unable to read app folder : ' . $apps_dir['path'], ['app' => 'core']);
-				continue;
-			}
-			$dh = opendir($apps_dir['path']);
-
-			if (is_resource($dh)) {
-				while (($file = readdir($dh)) !== false) {
-					if ($file[0] != '.' and is_dir($apps_dir['path'] . '/' . $file) and is_file($apps_dir['path'] . '/' . $file . '/appinfo/info.xml')) {
-						$apps[] = $file;
-					}
-				}
-			}
-		}
-
-		$apps = array_unique($apps);
-
-		return $apps;
+		return \OCP\Server::get(IAppManager::class)->getAllAppsInAppsFolders();
 	}
 
 	/**
@@ -513,9 +471,9 @@ class OC_App {
 	 * @return array
 	 */
 	public function listAllApps(): array {
-		$installedApps = OC_App::getAllApps();
-
 		$appManager = \OC::$server->getAppManager();
+
+		$installedApps = $appManager->getAllAppsInAppsFolders();
 		//we don't want to show configuration for these
 		$blacklist = $appManager->getAlwaysEnabledApps();
 		$appList = [];
@@ -632,7 +590,7 @@ class OC_App {
 	}
 
 	/**
-	 * Check whether the current ownCloud version matches the given
+	 * Check whether the current Nextcloud version matches the given
 	 * application's version requirements.
 	 *
 	 * The comparison is made based on the number of parts that the
@@ -642,7 +600,7 @@ class OC_App {
 	 * This means that it's possible to specify "requiremin" => 6
 	 * and "requiremax" => 6 and it will still match ownCloud 6.0.3.
 	 *
-	 * @param string $ocVersion ownCloud version to check against
+	 * @param string $ocVersion Nextcloud version to check against
 	 * @param array $appInfo app info (from xml)
 	 *
 	 * @return boolean true if compatible, otherwise false
@@ -712,7 +670,7 @@ class OC_App {
 		}
 
 		if (is_file($appPath . '/appinfo/database.xml')) {
-			\OC::$server->getLogger()->error('The appinfo/database.xml file is not longer supported. Used in ' . $appId);
+			\OCP\Server::get(LoggerInterface::class)->error('The appinfo/database.xml file is not longer supported. Used in ' . $appId);
 			return false;
 		}
 
@@ -886,7 +844,7 @@ class OC_App {
 		} elseif ($englishFallback !== false) {
 			return $englishFallback;
 		}
-		return (string) $fallback;
+		return (string)$fallback;
 	}
 
 	/**

@@ -13,6 +13,7 @@ OC.L10N.register(
     "Initial version" : "초기 버전",
     "Version name" : "버전 이름",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "이름이 지정된 버전은 유지되며, 저장 공간 할당량이 가득 찼을 때의 자동 정리 목록에서 제외됩니다.",
+    "Cancel" : "취소",
     "Remove version name" : "버전 이름 제거",
     "Save version name" : "버전 이름 저장",
     "Initial version restored" : "초기 버전이 복원됨",

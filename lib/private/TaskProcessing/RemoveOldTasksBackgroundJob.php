@@ -16,7 +16,7 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use Psr\Log\LoggerInterface;
 
 class RemoveOldTasksBackgroundJob extends TimedJob {
-	public const MAX_TASK_AGE_SECONDS = 60 * 50 * 24 * 7 * 4; // 4 weeks
+	public const MAX_TASK_AGE_SECONDS = 60 * 60 * 24 * 7 * 4; // 4 weeks
 	private \OCP\Files\IAppData $appData;
 
 	public function __construct(
@@ -28,7 +28,7 @@ class RemoveOldTasksBackgroundJob extends TimedJob {
 		parent::__construct($timeFactory);
 		$this->setInterval(60 * 60 * 24);
 		// can be deferred to maintenance window
-		$this->setTimeSensitivity(TimedJob::TIME_INSENSITIVE);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 		$this->appData = $appDataFactory->get('core');
 	}
 
@@ -65,7 +65,7 @@ class RemoveOldTasksBackgroundJob extends TimedJob {
 	 * @return void
 	 */
 	private function clearFilesOlderThan(ISimpleFolder $folder, int $ageInSeconds): void {
-		foreach($folder->getDirectoryListing() as $file) {
+		foreach ($folder->getDirectoryListing() as $file) {
 			if ($file->getMTime() < time() - $ageInSeconds) {
 				try {
 					$file->delete();

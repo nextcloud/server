@@ -11,6 +11,7 @@ use OCP\Federation\ICloudIdManager;
 use OCP\HintException;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\Util;
 
 /**
  * Class AddressHandler - parse, modify and construct federated sharing addresses
@@ -19,30 +20,18 @@ use OCP\IURLGenerator;
  */
 class AddressHandler {
 
-	/** @var IL10N */
-	private $l;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
-
 	/**
 	 * AddressHandler constructor.
 	 *
 	 * @param IURLGenerator $urlGenerator
-	 * @param IL10N $il10n
+	 * @param IL10N $l
 	 * @param ICloudIdManager $cloudIdManager
 	 */
 	public function __construct(
-		IURLGenerator $urlGenerator,
-		IL10N $il10n,
-		ICloudIdManager $cloudIdManager
+		private IURLGenerator $urlGenerator,
+		private IL10N $l,
+		private ICloudIdManager $cloudIdManager,
 	) {
-		$this->l = $il10n;
-		$this->urlGenerator = $urlGenerator;
-		$this->cloudIdManager = $cloudIdManager;
 	}
 
 	/**
@@ -86,12 +75,12 @@ class AddressHandler {
 
 		if (rtrim($normalizedServer1, '/') === rtrim($normalizedServer2, '/')) {
 			// FIXME this should be a method in the user management instead
-			\OCP\Util::emitHook(
+			Util::emitHook(
 				'\OCA\Files_Sharing\API\Server2Server',
 				'preLoginNameUsedAsUserName',
 				['uid' => &$user1]
 			);
-			\OCP\Util::emitHook(
+			Util::emitHook(
 				'\OCA\Files_Sharing\API\Server2Server',
 				'preLoginNameUsedAsUserName',
 				['uid' => &$user2]

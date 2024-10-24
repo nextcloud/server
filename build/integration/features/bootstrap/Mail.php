@@ -20,7 +20,7 @@ trait Mail {
 			return;
 		}
 
-		exec("kill " . $this->fakeSmtpServerPid);
+		exec('kill ' . $this->fakeSmtpServerPid);
 
 		$this->invokingTheCommand('config:system:delete mail_smtpport');
 	}
@@ -33,6 +33,6 @@ trait Mail {
 		// FakeSMTP uses 2525 instead.
 		$this->invokingTheCommand('config:system:set mail_smtpport --value=2525 --type integer');
 
-		$this->fakeSmtpServerPid = exec("php features/bootstrap/FakeSMTPHelper.php >/dev/null 2>&1 & echo $!");
+		$this->fakeSmtpServerPid = exec('php features/bootstrap/FakeSMTPHelper.php >/dev/null 2>&1 & echo $!');
 	}
 }

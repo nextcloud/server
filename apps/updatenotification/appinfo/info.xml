@@ -24,11 +24,11 @@
 		<job>OCA\UpdateNotification\BackgroundJob\UpdateAvailableNotifications</job>
 	</background-jobs>
 
-	<settings>
-		<admin>OCA\UpdateNotification\Settings\Admin</admin>
-	</settings>
-
 	<commands>
 		<command>OCA\UpdateNotification\Command\Check</command>
 	</commands>
+
+	<settings>
+		<admin>OCA\UpdateNotification\Settings\Admin</admin>
+	</settings>
 </info>

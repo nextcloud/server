@@ -38,7 +38,7 @@ class ManagerTest extends TestCase {
 	/** @var Manager */
 	private $manager;
 
-	/** @var ITimeFactory|ITimeFactory&MockObject|MockObject  */
+	/** @var ITimeFactory|ITimeFactory&MockObject|MockObject */
 	private $time;
 
 	protected function setUp(): void {
@@ -60,7 +60,7 @@ class ManagerTest extends TestCase {
 	/**
 	 * @dataProvider searchProvider
 	 */
-	public function testSearch($search1, $search2, $expected) {
+	public function testSearch($search1, $search2, $expected): void {
 		/** @var ICalendar | MockObject $calendar1 */
 		$calendar1 = $this->createMock(ICalendar::class);
 		$calendar1->method('getKey')->willReturn('simple:1');
@@ -87,7 +87,7 @@ class ManagerTest extends TestCase {
 	/**
 	 * @dataProvider searchProvider
 	 */
-	public function testSearchOptions($search1, $search2, $expected) {
+	public function testSearchOptions($search1, $search2, $expected): void {
 		/** @var ICalendar | MockObject $calendar1 */
 		$calendar1 = $this->createMock(ICalendar::class);
 		$calendar1->method('getKey')->willReturn('simple:1');
@@ -168,7 +168,7 @@ class ManagerTest extends TestCase {
 		];
 	}
 
-	public function testRegisterUnregister() {
+	public function testRegisterUnregister(): void {
 		/** @var ICalendar | MockObject $calendar1 */
 		$calendar1 = $this->createMock(ICalendar::class);
 		$calendar1->method('getKey')->willReturn('key1');
@@ -192,7 +192,7 @@ class ManagerTest extends TestCase {
 		$this->assertContains($calendar2, $result);
 	}
 
-	public function testGetCalendars() {
+	public function testGetCalendars(): void {
 		/** @var ICalendar | MockObject $calendar1 */
 		$calendar1 = $this->createMock(ICalendar::class);
 		$calendar1->method('getKey')->willReturn('key1');
@@ -216,12 +216,12 @@ class ManagerTest extends TestCase {
 		$this->assertCount(0, $result);
 	}
 
-	public function testEnabledIfNot() {
+	public function testEnabledIfNot(): void {
 		$isEnabled = $this->manager->isEnabled();
 		$this->assertFalse($isEnabled);
 	}
 
-	public function testIfEnabledIfSo() {
+	public function testIfEnabledIfSo(): void {
 		/** @var ICalendar | MockObject $calendar */
 		$calendar = $this->createMock(ICalendar::class);
 		$this->manager->registerCalendar($calendar);

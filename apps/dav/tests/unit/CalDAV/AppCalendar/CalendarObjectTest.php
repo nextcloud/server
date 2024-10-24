@@ -33,15 +33,15 @@ class CalendarObjectTest extends TestCase {
 		$this->calendarObject = new CalendarObject($this->calendar, $this->backend, $this->vobject);
 	}
 
-	public function testGetOwner() {
+	public function testGetOwner(): void {
 		$this->assertEquals($this->calendarObject->getOwner(), 'owner');
 	}
 
-	public function testGetGroup() {
+	public function testGetGroup(): void {
 		$this->assertEquals($this->calendarObject->getGroup(), 'group');
 	}
 
-	public function testGetACL() {
+	public function testGetACL(): void {
 		$this->calendar->expects($this->exactly(2))
 			->method('getPermissions')
 			->willReturnOnConsecutiveCalls(Constants::PERMISSION_READ, Constants::PERMISSION_ALL);
@@ -70,17 +70,17 @@ class CalendarObjectTest extends TestCase {
 		]);
 	}
 
-	public function testSetACL() {
+	public function testSetACL(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 		$this->calendarObject->setACL([]);
 	}
 
-	public function testPut_readOnlyBackend() {
+	public function testPut_readOnlyBackend(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 		$this->calendarObject->put('foo');
 	}
 
-	public function testPut_noPermissions() {
+	public function testPut_noPermissions(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$backend = $this->createMock(ICreateFromString::class);
@@ -93,7 +93,7 @@ class CalendarObjectTest extends TestCase {
 		$calendarObject->put('foo');
 	}
 
-	public function testPut() {
+	public function testPut(): void {
 		$backend = $this->createMock(ICreateFromString::class);
 		$calendarObject = new CalendarObject($this->calendar, $backend, $this->vobject);
 
@@ -110,19 +110,19 @@ class CalendarObjectTest extends TestCase {
 		$calendarObject->put('foo');
 	}
 
-	public function testGet() {
+	public function testGet(): void {
 		$this->vobject->expects($this->once())
 			->method('serialize')
 			->willReturn('foo');
 		$this->assertEquals($this->calendarObject->get(), 'foo');
 	}
 
-	public function testDelete_notWriteable() {
+	public function testDelete_notWriteable(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 		$this->calendarObject->delete();
 	}
 
-	public function testDelete_noPermission() {
+	public function testDelete_noPermission(): void {
 		$backend = $this->createMock(ICreateFromString::class);
 		$calendarObject = new CalendarObject($this->calendar, $backend, $this->vobject);
 
@@ -130,7 +130,7 @@ class CalendarObjectTest extends TestCase {
 		$calendarObject->delete();
 	}
 
-	public function testDelete() {
+	public function testDelete(): void {
 		$backend = $this->createMock(ICreateFromString::class);
 		$calendarObject = new CalendarObject($this->calendar, $backend, $this->vobject);
 
@@ -153,7 +153,7 @@ class CalendarObjectTest extends TestCase {
 		$calendarObject->delete();
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->vobject->expects($this->exactly(2))
 			->method('getBaseComponent')
 			->willReturnOnConsecutiveCalls((object)['UID' => 'someid'], (object)['UID' => 'someid', 'X-FILENAME' => 'real-filename.ics']);
@@ -162,7 +162,7 @@ class CalendarObjectTest extends TestCase {
 		$this->assertEquals($this->calendarObject->getName(), 'real-filename.ics');
 	}
 
-	public function testSetName() {
+	public function testSetName(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 		$this->calendarObject->setName('Some name');
 	}

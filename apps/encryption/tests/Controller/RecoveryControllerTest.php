@@ -18,13 +18,13 @@ use Test\TestCase;
 class RecoveryControllerTest extends TestCase {
 	/** @var RecoveryController */
 	private $controller;
-	/** @var \OCP\IRequest|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $requestMock;
-	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $configMock;
-	/** @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10nMock;
-	/** @var \OCA\Encryption\Recovery|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Recovery|\PHPUnit\Framework\MockObject\MockObject */
 	private $recoveryMock;
 
 	public function adminRecoveryProvider() {
@@ -45,7 +45,7 @@ class RecoveryControllerTest extends TestCase {
 	 * @param $expectedMessage
 	 * @param $expectedStatus
 	 */
-	public function testAdminRecovery($recoveryPassword, $passConfirm, $enableRecovery, $expectedMessage, $expectedStatus) {
+	public function testAdminRecovery($recoveryPassword, $passConfirm, $enableRecovery, $expectedMessage, $expectedStatus): void {
 		$this->recoveryMock->expects($this->any())
 			->method('enableAdminRecovery')
 			->willReturn(true);
@@ -81,7 +81,7 @@ class RecoveryControllerTest extends TestCase {
 	 * @param $expectedMessage
 	 * @param $expectedStatus
 	 */
-	public function testChangeRecoveryPassword($password, $confirmPassword, $oldPassword, $expectedMessage, $expectedStatus) {
+	public function testChangeRecoveryPassword($password, $confirmPassword, $oldPassword, $expectedMessage, $expectedStatus): void {
 		$this->recoveryMock->expects($this->any())
 			->method('changeRecoveryKeyPassword')
 			->with($password, $oldPassword)
@@ -111,7 +111,7 @@ class RecoveryControllerTest extends TestCase {
 	 * @param $expectedMessage
 	 * @param $expectedStatus
 	 */
-	public function testUserSetRecovery($enableRecovery, $expectedMessage, $expectedStatus) {
+	public function testUserSetRecovery($enableRecovery, $expectedMessage, $expectedStatus): void {
 		$this->recoveryMock->expects($this->any())
 			->method('setRecoveryForUser')
 			->with($enableRecovery)

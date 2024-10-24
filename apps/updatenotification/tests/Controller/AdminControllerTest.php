@@ -55,7 +55,7 @@ class AdminControllerTest extends TestCase {
 		);
 	}
 
-	public function testCreateCredentials() {
+	public function testCreateCredentials(): void {
 		$this->jobList
 			->expects($this->once())
 			->method('add')

@@ -47,7 +47,7 @@ class RequestTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public function testRequestAccessors() {
+	public function testRequestAccessors(): void {
 		$vars = [
 			'get' => ['name' => 'John Q. Public', 'nickname' => 'Joey'],
 			'method' => 'GET',
@@ -77,7 +77,7 @@ class RequestTest extends \Test\TestCase {
 	}
 
 	// urlParams has precedence over POST which has precedence over GET
-	public function testPrecedence() {
+	public function testPrecedence(): void {
 		$vars = [
 			'get' => ['name' => 'John Q. Public', 'nickname' => 'Joey'],
 			'post' => ['name' => 'Jane Doe', 'nickname' => 'Janey'],
@@ -100,7 +100,7 @@ class RequestTest extends \Test\TestCase {
 
 
 
-	public function testImmutableArrayAccess() {
+	public function testImmutableArrayAccess(): void {
 		$this->expectException(\RuntimeException::class);
 
 		$vars = [
@@ -120,7 +120,7 @@ class RequestTest extends \Test\TestCase {
 	}
 
 
-	public function testImmutableMagicAccess() {
+	public function testImmutableMagicAccess(): void {
 		$this->expectException(\RuntimeException::class);
 
 		$vars = [
@@ -140,7 +140,7 @@ class RequestTest extends \Test\TestCase {
 	}
 
 
-	public function testGetTheMethodRight() {
+	public function testGetTheMethodRight(): void {
 		$this->expectException(\LogicException::class);
 
 		$vars = [
@@ -159,7 +159,7 @@ class RequestTest extends \Test\TestCase {
 		$request->post;
 	}
 
-	public function testTheMethodIsRight() {
+	public function testTheMethodIsRight(): void {
 		$vars = [
 			'get' => ['name' => 'John Q. Public', 'nickname' => 'Joey'],
 			'method' => 'GET',
@@ -179,7 +179,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('Joey', $result['nickname']);
 	}
 
-	public function testJsonPost() {
+	public function testJsonPost(): void {
 		global $data;
 		$data = '{"name": "John Q. Public", "nickname": "Joey"}';
 		$vars = [
@@ -203,7 +203,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('Joey', $request['nickname']);
 	}
 
-	public function testScimJsonPost() {
+	public function testScimJsonPost(): void {
 		global $data;
 		$data = '{"userName":"testusername", "displayName":"Example User"}';
 		$vars = [
@@ -227,7 +227,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('Example User', $request['displayName']);
 	}
 
-	public function testCustomJsonPost() {
+	public function testCustomJsonPost(): void {
 		global $data;
 		$data = '{"propertyA":"sometestvalue", "propertyB":"someothertestvalue"}';
 
@@ -262,7 +262,7 @@ class RequestTest extends \Test\TestCase {
 	/**
 	 * @dataProvider notJsonDataProvider
 	 */
-	public function testNotJsonPost($testData) {
+	public function testNotJsonPost($testData): void {
 		global $data;
 		$data = $testData;
 		$vars = [
@@ -283,7 +283,7 @@ class RequestTest extends \Test\TestCase {
 		// ensure there's no error attempting to decode the content
 	}
 
-	public function testNotScimJsonPost() {
+	public function testNotScimJsonPost(): void {
 		global $data;
 		$data = 'this is not valid scim json';
 		$vars = [
@@ -304,7 +304,7 @@ class RequestTest extends \Test\TestCase {
 		// ensure there's no error attempting to decode the content
 	}
 
-	public function testNotCustomJsonPost() {
+	public function testNotCustomJsonPost(): void {
 		global $data;
 		$data = 'this is not valid json';
 		$vars = [
@@ -325,7 +325,7 @@ class RequestTest extends \Test\TestCase {
 		// ensure there's no error attempting to decode the content
 	}
 
-	public function testPatch() {
+	public function testPatch(): void {
 		global $data;
 		$data = http_build_query(['name' => 'John Q. Public', 'nickname' => 'Joey'], '', '&');
 
@@ -349,7 +349,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('Joey', $result['nickname']);
 	}
 
-	public function testJsonPatchAndPut() {
+	public function testJsonPatchAndPut(): void {
 		global $data;
 
 		// PUT content
@@ -395,7 +395,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame(null, $result['nickname']);
 	}
 
-	public function testScimJsonPatchAndPut() {
+	public function testScimJsonPatchAndPut(): void {
 		global $data;
 
 		// PUT content
@@ -441,7 +441,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame(null, $result['displayName']);
 	}
 
-	public function testCustomJsonPatchAndPut() {
+	public function testCustomJsonPatchAndPut(): void {
 		global $data;
 
 		// PUT content
@@ -487,7 +487,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame(null, $result['propertyB']);
 	}
 
-	public function testPutStream() {
+	public function testPutStream(): void {
 		global $data;
 		$data = file_get_contents(__DIR__ . '/../../../data/testimage.png');
 
@@ -522,7 +522,7 @@ class RequestTest extends \Test\TestCase {
 	}
 
 
-	public function testSetUrlParameters() {
+	public function testSetUrlParameters(): void {
 		$vars = [
 			'post' => [],
 			'method' => 'POST',
@@ -771,7 +771,7 @@ class RequestTest extends \Test\TestCase {
 	 * @param mixed $input
 	 * @param string $expected
 	 */
-	public function testGetHttpProtocol($input, $expected) {
+	public function testGetHttpProtocol($input, $expected): void {
 		$request = new Request(
 			[
 				'server' => [
@@ -787,7 +787,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame($expected, $request->getHttpProtocol());
 	}
 
-	public function testGetServerProtocolWithOverride() {
+	public function testGetServerProtocolWithOverride(): void {
 		$this->config
 			->expects($this->exactly(3))
 			->method('getSystemValueString')
@@ -807,7 +807,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('customProtocol', $request->getServerProtocol());
 	}
 
-	public function testGetServerProtocolWithProtoValid() {
+	public function testGetServerProtocolWithProtoValid(): void {
 		$this->config
 			->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
@@ -848,7 +848,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('http', $requestHttp->getServerProtocol());
 	}
 
-	public function testGetServerProtocolWithHttpsServerValueOn() {
+	public function testGetServerProtocolWithHttpsServerValueOn(): void {
 		$this->config
 			->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
@@ -869,7 +869,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('https', $request->getServerProtocol());
 	}
 
-	public function testGetServerProtocolWithHttpsServerValueOff() {
+	public function testGetServerProtocolWithHttpsServerValueOff(): void {
 		$this->config
 			->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
@@ -890,7 +890,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('http', $request->getServerProtocol());
 	}
 
-	public function testGetServerProtocolWithHttpsServerValueEmpty() {
+	public function testGetServerProtocolWithHttpsServerValueEmpty(): void {
 		$this->config
 			->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
@@ -911,7 +911,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('http', $request->getServerProtocol());
 	}
 
-	public function testGetServerProtocolDefault() {
+	public function testGetServerProtocolDefault(): void {
 		$this->config
 			->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
@@ -928,7 +928,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('http', $request->getServerProtocol());
 	}
 
-	public function testGetServerProtocolBehindLoadBalancers() {
+	public function testGetServerProtocolBehindLoadBalancers(): void {
 		$this->config
 			->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
@@ -961,7 +961,7 @@ class RequestTest extends \Test\TestCase {
 	 * @param array $userAgent
 	 * @param bool $matches
 	 */
-	public function testUserAgent($testAgent, $userAgent, $matches) {
+	public function testUserAgent($testAgent, $userAgent, $matches): void {
 		$request = new Request(
 			[
 				'server' => [
@@ -983,7 +983,7 @@ class RequestTest extends \Test\TestCase {
 	 * @param array $userAgent
 	 * @param bool $matches
 	 */
-	public function testUndefinedUserAgent($testAgent, $userAgent, $matches) {
+	public function testUndefinedUserAgent($testAgent, $userAgent, $matches): void {
 		$request = new Request(
 			[],
 			$this->requestId,
@@ -1174,7 +1174,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame($version, $matches[1]);
 	}
 
-	public function testInsecureServerHostServerNameHeader() {
+	public function testInsecureServerHostServerNameHeader(): void {
 		$request = new Request(
 			[
 				'server' => [
@@ -1190,7 +1190,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('from.server.name:8080', $request->getInsecureServerHost());
 	}
 
-	public function testInsecureServerHostHttpHostHeader() {
+	public function testInsecureServerHostHttpHostHeader(): void {
 		$request = new Request(
 			[
 				'server' => [
@@ -1207,7 +1207,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('from.host.header:8080', $request->getInsecureServerHost());
 	}
 
-	public function testInsecureServerHostHttpFromForwardedHeaderSingle() {
+	public function testInsecureServerHostHttpFromForwardedHeaderSingle(): void {
 		$this->config
 			->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
@@ -1236,7 +1236,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('from.forwarded.host:8080', $request->getInsecureServerHost());
 	}
 
-	public function testInsecureServerHostHttpFromForwardedHeaderStacked() {
+	public function testInsecureServerHostHttpFromForwardedHeaderStacked(): void {
 		$this->config
 			->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
@@ -1265,7 +1265,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('from.forwarded.host2:8080', $request->getInsecureServerHost());
 	}
 
-	public function testGetServerHostWithOverwriteHost() {
+	public function testGetServerHostWithOverwriteHost(): void {
 		$this->config
 			->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
@@ -1289,7 +1289,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('my.overwritten.host', $request->getServerHost());
 	}
 
-	public function testGetServerHostWithTrustedDomain() {
+	public function testGetServerHostWithTrustedDomain(): void {
 		$this->config
 			->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
@@ -1318,7 +1318,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('my.trusted.host', $request->getServerHost());
 	}
 
-	public function testGetServerHostWithUntrustedDomain() {
+	public function testGetServerHostWithUntrustedDomain(): void {
 		$this->config
 			->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
@@ -1347,7 +1347,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('my.trusted.host', $request->getServerHost());
 	}
 
-	public function testGetServerHostWithNoTrustedDomain() {
+	public function testGetServerHostWithNoTrustedDomain(): void {
 		$this->config
 			->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
@@ -1390,7 +1390,7 @@ class RequestTest extends \Test\TestCase {
 	 * @param $expected
 	 * @param $trustedDomain
 	 */
-	public function testGetServerHostTrustedDomain($expected, $trustedDomain) {
+	public function testGetServerHostTrustedDomain($expected, $trustedDomain): void {
 		$this->config
 			->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) use ($trustedDomain) {
@@ -1419,7 +1419,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame($expected, $request->getServerHost());
 	}
 
-	public function testGetOverwriteHostDefaultNull() {
+	public function testGetOverwriteHostDefaultNull(): void {
 		$this->config
 			->expects($this->once())
 			->method('getSystemValueString')
@@ -1436,7 +1436,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertNull(self::invokePrivate($request, 'getOverwriteHost'));
 	}
 
-	public function testGetOverwriteHostWithOverwrite() {
+	public function testGetOverwriteHostWithOverwrite(): void {
 		$this->config
 			->expects($this->exactly(3))
 			->method('getSystemValueString')
@@ -1457,7 +1457,7 @@ class RequestTest extends \Test\TestCase {
 	}
 
 
-	public function testGetPathInfoNotProcessible() {
+	public function testGetPathInfoNotProcessible(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('The requested uri(/foo.php) cannot be processed by the script \'/var/www/index.php\')');
 
@@ -1478,7 +1478,7 @@ class RequestTest extends \Test\TestCase {
 	}
 
 
-	public function testGetRawPathInfoNotProcessible() {
+	public function testGetRawPathInfoNotProcessible(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('The requested uri(/foo.php) cannot be processed by the script \'/var/www/index.php\')');
 
@@ -1504,7 +1504,7 @@ class RequestTest extends \Test\TestCase {
 	 * @param string $scriptName
 	 * @param string $expected
 	 */
-	public function testGetPathInfoWithoutSetEnvGeneric($requestUri, $scriptName, $expected) {
+	public function testGetPathInfoWithoutSetEnvGeneric($requestUri, $scriptName, $expected): void {
 		$request = new Request(
 			[
 				'server' => [
@@ -1527,7 +1527,7 @@ class RequestTest extends \Test\TestCase {
 	 * @param string $scriptName
 	 * @param string $expected
 	 */
-	public function testGetRawPathInfoWithoutSetEnvGeneric($requestUri, $scriptName, $expected) {
+	public function testGetRawPathInfoWithoutSetEnvGeneric($requestUri, $scriptName, $expected): void {
 		$request = new Request(
 			[
 				'server' => [
@@ -1550,7 +1550,7 @@ class RequestTest extends \Test\TestCase {
 	 * @param string $scriptName
 	 * @param string $expected
 	 */
-	public function testGetRawPathInfoWithoutSetEnv($requestUri, $scriptName, $expected) {
+	public function testGetRawPathInfoWithoutSetEnv($requestUri, $scriptName, $expected): void {
 		$request = new Request(
 			[
 				'server' => [
@@ -1573,7 +1573,7 @@ class RequestTest extends \Test\TestCase {
 	 * @param string $scriptName
 	 * @param string $expected
 	 */
-	public function testGetPathInfoWithoutSetEnv($requestUri, $scriptName, $expected) {
+	public function testGetPathInfoWithoutSetEnv($requestUri, $scriptName, $expected): void {
 		$request = new Request(
 			[
 				'server' => [
@@ -1623,7 +1623,7 @@ class RequestTest extends \Test\TestCase {
 		];
 	}
 
-	public function testGetRequestUriWithoutOverwrite() {
+	public function testGetRequestUriWithoutOverwrite(): void {
 		$this->config
 			->expects($this->once())
 			->method('getSystemValueString')
@@ -1655,7 +1655,7 @@ class RequestTest extends \Test\TestCase {
 	/**
 	 * @dataProvider providesGetRequestUriWithOverwriteData
 	 */
-	public function testGetRequestUriWithOverwrite($expectedUri, $overwriteWebRoot, $overwriteCondAddr, $remoteAddr = '') {
+	public function testGetRequestUriWithOverwrite($expectedUri, $overwriteWebRoot, $overwriteCondAddr, $remoteAddr = ''): void {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getSystemValueString')
@@ -1688,7 +1688,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame($expectedUri, $request->getRequestUri());
 	}
 
-	public function testPassesCSRFCheckWithGet() {
+	public function testPassesCSRFCheckWithGet(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -1718,7 +1718,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertTrue($request->passesCSRFCheck());
 	}
 
-	public function testPassesCSRFCheckWithPost() {
+	public function testPassesCSRFCheckWithPost(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -1748,7 +1748,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertTrue($request->passesCSRFCheck());
 	}
 
-	public function testPassesCSRFCheckWithHeader() {
+	public function testPassesCSRFCheckWithHeader(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -1778,7 +1778,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertTrue($request->passesCSRFCheck());
 	}
 
-	public function testPassesCSRFCheckWithGetAndWithoutCookies() {
+	public function testPassesCSRFCheckWithGetAndWithoutCookies(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -1802,7 +1802,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertTrue($request->passesCSRFCheck());
 	}
 
-	public function testPassesCSRFCheckWithPostAndWithoutCookies() {
+	public function testPassesCSRFCheckWithPostAndWithoutCookies(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -1826,7 +1826,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertTrue($request->passesCSRFCheck());
 	}
 
-	public function testPassesCSRFCheckWithHeaderAndWithoutCookies() {
+	public function testPassesCSRFCheckWithHeaderAndWithoutCookies(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -1850,7 +1850,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertTrue($request->passesCSRFCheck());
 	}
 
-	public function testFailsCSRFCheckWithHeaderAndNotAllChecksPassing() {
+	public function testFailsCSRFCheckWithHeaderAndNotAllChecksPassing(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -1877,7 +1877,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertFalse($request->passesCSRFCheck());
 	}
 
-	public function testPassesStrictCookieCheckWithAllCookiesAndStrict() {
+	public function testPassesStrictCookieCheckWithAllCookiesAndStrict(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName', 'getCookieParams'])
@@ -1909,7 +1909,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertTrue($request->passesStrictCookieCheck());
 	}
 
-	public function testFailsStrictCookieCheckWithAllCookiesAndMissingStrict() {
+	public function testFailsStrictCookieCheckWithAllCookiesAndMissingStrict(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName', 'getCookieParams'])
@@ -1941,7 +1941,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertFalse($request->passesStrictCookieCheck());
 	}
 
-	public function testGetCookieParams() {
+	public function testGetCookieParams(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder(Request::class)
 			->setMethods(['getScriptName'])
@@ -1957,7 +1957,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame(session_get_cookie_params(), $actual);
 	}
 
-	public function testPassesStrictCookieCheckWithAllCookies() {
+	public function testPassesStrictCookieCheckWithAllCookies(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -1982,7 +1982,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertTrue($request->passesStrictCookieCheck());
 	}
 
-	public function testPassesStrictCookieCheckWithRandomCookies() {
+	public function testPassesStrictCookieCheckWithRandomCookies(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -2005,7 +2005,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertTrue($request->passesStrictCookieCheck());
 	}
 
-	public function testFailsStrictCookieCheckWithSessionCookie() {
+	public function testFailsStrictCookieCheckWithSessionCookie(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -2028,7 +2028,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertFalse($request->passesStrictCookieCheck());
 	}
 
-	public function testFailsStrictCookieCheckWithRememberMeCookie() {
+	public function testFailsStrictCookieCheckWithRememberMeCookie(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -2051,7 +2051,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertFalse($request->passesStrictCookieCheck());
 	}
 
-	public function testFailsCSRFCheckWithPostAndWithCookies() {
+	public function testFailsCSRFCheckWithPostAndWithCookies(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -2078,7 +2078,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertFalse($request->passesCSRFCheck());
 	}
 
-	public function testFailStrictCookieCheckWithOnlyLaxCookie() {
+	public function testFailStrictCookieCheckWithOnlyLaxCookie(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -2102,7 +2102,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertFalse($request->passesStrictCookieCheck());
 	}
 
-	public function testFailStrictCookieCheckWithOnlyStrictCookie() {
+	public function testFailStrictCookieCheckWithOnlyStrictCookie(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -2126,7 +2126,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertFalse($request->passesStrictCookieCheck());
 	}
 
-	public function testPassesLaxCookieCheck() {
+	public function testPassesLaxCookieCheck(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -2150,7 +2150,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertTrue($request->passesLaxCookieCheck());
 	}
 
-	public function testFailsLaxCookieCheckWithOnlyStrictCookie() {
+	public function testFailsLaxCookieCheckWithOnlyStrictCookie(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -2174,7 +2174,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertFalse($request->passesLaxCookieCheck());
 	}
 
-	public function testSkipCookieCheckForOCSRequests() {
+	public function testSkipCookieCheckForOCSRequests(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -2214,7 +2214,7 @@ class RequestTest extends \Test\TestCase {
 	 * @dataProvider invalidTokenDataProvider
 	 * @param string $invalidToken
 	 */
-	public function testPassesCSRFCheckWithInvalidToken($invalidToken) {
+	public function testPassesCSRFCheckWithInvalidToken($invalidToken): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -2241,7 +2241,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertFalse($request->passesCSRFCheck());
 	}
 
-	public function testPassesCSRFCheckWithoutTokenFail() {
+	public function testPassesCSRFCheckWithoutTokenFail(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -2257,7 +2257,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertFalse($request->passesCSRFCheck());
 	}
 
-	public function testPassesCSRFCheckWithOCSAPIRequestHeader() {
+	public function testPassesCSRFCheckWithOCSAPIRequestHeader(): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])

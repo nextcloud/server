@@ -26,7 +26,7 @@ class IconControllerTest extends TestCase {
 	private $request;
 	/** @var ThemingDefaults|\PHPUnit\Framework\MockObject\MockObject */
 	private $themingDefaults;
-	/** @var \OCP\AppFramework\Utility\ITimeFactory */
+	/** @var ITimeFactory */
 	private $timeFactory;
 	/** @var IconController|\PHPUnit\Framework\MockObject\MockObject */
 	private $iconController;
@@ -80,7 +80,7 @@ class IconControllerTest extends TestCase {
 		return new SimpleFile($icon);
 	}
 
-	public function testGetThemedIcon() {
+	public function testGetThemedIcon(): void {
 		$file = $this->iconFileMock('icon-core-filetypes_folder.svg', 'filecontent');
 		$this->imageManager->expects($this->once())
 			->method('getCachedImage')
@@ -91,7 +91,7 @@ class IconControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->iconController->getThemedIcon('core', 'filetypes/folder.svg'));
 	}
 
-	public function testGetFaviconDefault() {
+	public function testGetFaviconDefault(): void {
 		if (!extension_loaded('imagick')) {
 			$this->markTestSkipped('Imagemagick is required for dynamic icon generation.');
 		}
@@ -123,7 +123,7 @@ class IconControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->iconController->getFavicon());
 	}
 
-	public function testGetFaviconFail() {
+	public function testGetFaviconFail(): void {
 		$this->imageManager->expects($this->once())
 			->method('getImage')
 			->with('favicon', false)
@@ -141,7 +141,7 @@ class IconControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->iconController->getFavicon());
 	}
 
-	public function testGetTouchIconDefault() {
+	public function testGetTouchIconDefault(): void {
 		if (!extension_loaded('imagick')) {
 			$this->markTestSkipped('Imagemagick is required for dynamic icon generation.');
 		}
@@ -173,7 +173,7 @@ class IconControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->iconController->getTouchIcon());
 	}
 
-	public function testGetTouchIconFail() {
+	public function testGetTouchIconFail(): void {
 		$this->imageManager->expects($this->once())
 			->method('getImage')
 			->with('favicon')

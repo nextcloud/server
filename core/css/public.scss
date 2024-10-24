@@ -3,19 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 #body-public {
-	--footer-height: calc(var(--default-line-height) + 2 * var(--default-grid-baseline));;
+	--footer-height: calc(2lh + 2 * var(--default-grid-baseline)); // Set the initial value, will be updated programmatically to match the actual height
 
-	&:has(.footer__legal-links),
-	&:has(.footer__simple-sign-up) {
-		--footer-height: calc(2 * var(--default-line-height) + 3 * var(--default-grid-baseline));;
-	}
-
-	&:has(.footer__legal-links):has(.footer__simple-sign-up) {
-		--footer-height: calc(3 * var(--default-line-height) + 3 * var(--default-grid-baseline));
-	}
-
-	.header-right {
-
+	.header-end {
 		#header-primary-action a {
 			color: var(--color-primary-element-text);
 		}
@@ -51,6 +41,7 @@
 
 	#content {
 		min-height: var(--body-height, calc(100% - var(--footer-height)));
+		padding-block-end: var(--footer-height);
 	}
 
 	#app-content-vue {
@@ -89,7 +80,6 @@
 		align-items: center;
 		justify-content: center;
 
-		height: var(--footer-height);
 		width: calc(100% - 2 * var(--body-container-margin));
 		margin-inline: var(--body-container-margin);
 		padding-block: var(--default-grid-baseline);

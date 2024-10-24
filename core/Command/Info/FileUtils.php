@@ -84,18 +84,18 @@ class FileUtils {
 
 	public function formatPermissions(string $type, int $permissions): string {
 		if ($permissions == Constants::PERMISSION_ALL || ($type === 'file' && $permissions == (Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE))) {
-			return "full permissions";
+			return 'full permissions';
 		}
 
 		$perms = [];
-		$allPerms = [Constants::PERMISSION_READ => "read", Constants::PERMISSION_UPDATE => "update", Constants::PERMISSION_CREATE => "create", Constants::PERMISSION_DELETE => "delete", Constants::PERMISSION_SHARE => "share"];
+		$allPerms = [Constants::PERMISSION_READ => 'read', Constants::PERMISSION_UPDATE => 'update', Constants::PERMISSION_CREATE => 'create', Constants::PERMISSION_DELETE => 'delete', Constants::PERMISSION_SHARE => 'share'];
 		foreach ($allPerms as $perm => $name) {
 			if (($permissions & $perm) === $perm) {
 				$perms[] = $name;
 			}
 		}
 
-		return implode(", ", $perms);
+		return implode(', ', $perms);
 	}
 
 	/**
@@ -105,29 +105,29 @@ class FileUtils {
 	public function formatMountType(IMountPoint $mountPoint): string {
 		$storage = $mountPoint->getStorage();
 		if ($storage && $storage->instanceOfStorage(IHomeStorage::class)) {
-			return "home storage";
+			return 'home storage';
 		} elseif ($mountPoint instanceof SharedMount) {
 			$share = $mountPoint->getShare();
 			$shares = $mountPoint->getGroupedShares();
 			$sharedBy = array_map(function (IShare $share) {
 				$shareType = $this->formatShareType($share);
 				if ($shareType) {
-					return $share->getSharedBy() . " (via " . $shareType . " " . $share->getSharedWith() . ")";
+					return $share->getSharedBy() . ' (via ' . $shareType . ' ' . $share->getSharedWith() . ')';
 				} else {
 					return $share->getSharedBy();
 				}
 			}, $shares);
-			$description = "shared by " . implode(', ', $sharedBy);
+			$description = 'shared by ' . implode(', ', $sharedBy);
 			if ($share->getSharedBy() !== $share->getShareOwner()) {
-				$description .= " owned by " . $share->getShareOwner();
+				$description .= ' owned by ' . $share->getShareOwner();
 			}
 			return $description;
 		} elseif ($mountPoint instanceof GroupMountPoint) {
-			return "groupfolder " . $mountPoint->getFolderId();
+			return 'groupfolder ' . $mountPoint->getFolderId();
 		} elseif ($mountPoint instanceof ExternalMountPoint) {
-			return "external storage " . $mountPoint->getStorageConfig()->getId();
+			return 'external storage ' . $mountPoint->getStorageConfig()->getId();
 		} elseif ($mountPoint instanceof CircleMount) {
-			return "circle";
+			return 'circle';
 		}
 		return get_class($mountPoint);
 	}
@@ -135,17 +135,17 @@ class FileUtils {
 	public function formatShareType(IShare $share): ?string {
 		switch ($share->getShareType()) {
 			case IShare::TYPE_GROUP:
-				return "group";
+				return 'group';
 			case IShare::TYPE_CIRCLE:
-				return "circle";
+				return 'circle';
 			case IShare::TYPE_DECK:
-				return "deck";
+				return 'deck';
 			case IShare::TYPE_ROOM:
-				return "room";
+				return 'room';
 			case IShare::TYPE_USER:
 				return null;
 			default:
-				return "Unknown (" . $share->getShareType() . ")";
+				return 'Unknown (' . $share->getShareType() . ')';
 		}
 	}
 
@@ -197,7 +197,7 @@ class FileUtils {
 			$count += 1;
 
 			/** @var Node $child */
-			$output->writeln("$prefix- " . $child->getName() . ": <info>" . Util::humanFileSize($child->getSize()) . "</info>");
+			$output->writeln("$prefix- " . $child->getName() . ': <info>' . Util::humanFileSize($child->getSize()) . '</info>');
 			if ($child instanceof Folder) {
 				$recurseSizeLimits = $sizeLimits;
 				if (!$all) {
@@ -212,7 +212,7 @@ class FileUtils {
 					}
 					sort($recurseSizeLimits);
 				}
-				$recurseCount = $this->outputLargeFilesTree($output, $child, $prefix . "  ", $recurseSizeLimits, $all);
+				$recurseCount = $this->outputLargeFilesTree($output, $child, $prefix . '  ', $recurseSizeLimits, $all);
 				$sizeLimits = array_slice($sizeLimits, $recurseCount);
 				$count += $recurseCount;
 			}

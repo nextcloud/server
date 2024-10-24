@@ -83,7 +83,7 @@ class L10N implements IL10N {
 			$parameters = [$parameters];
 		}
 
-		return (string) new L10NString($this, $text, $parameters);
+		return (string)new L10NString($this, $text, $parameters);
 	}
 
 	/**
@@ -104,14 +104,14 @@ class L10N implements IL10N {
 	public function n(string $text_singular, string $text_plural, int $count, array $parameters = []): string {
 		$identifier = "_{$text_singular}_::_{$text_plural}_";
 		if (isset($this->translations[$identifier])) {
-			return (string) new L10NString($this, $identifier, $parameters, $count);
+			return (string)new L10NString($this, $identifier, $parameters, $count);
 		}
 
 		if ($count === 1) {
-			return (string) new L10NString($this, $text_singular, $parameters, $count);
+			return (string)new L10NString($this, $text_singular, $parameters, $count);
 		}
 
-		return (string) new L10NString($this, $text_plural, $parameters, $count);
+		return (string)new L10NString($this, $text_plural, $parameters, $count);
 	}
 
 	/**
@@ -146,10 +146,10 @@ class L10N implements IL10N {
 		}
 
 		if ($type === 'firstday') {
-			return (int) Calendar::getFirstWeekday($this->locale);
+			return (int)Calendar::getFirstWeekday($this->locale);
 		}
 		if ($type === 'jsdate') {
-			return (string) Calendar::getDateFormat('short', $this->locale);
+			return (string)Calendar::getDateFormat('short', $this->locale);
 		}
 
 		$value = new \DateTime();
@@ -167,13 +167,13 @@ class L10N implements IL10N {
 		$width = $options['width'];
 		switch ($type) {
 			case 'date':
-				return (string) Calendar::formatDate($value, $width, $this->locale);
+				return (string)Calendar::formatDate($value, $width, $this->locale);
 			case 'datetime':
-				return (string) Calendar::formatDatetime($value, $width, $this->locale);
+				return (string)Calendar::formatDatetime($value, $width, $this->locale);
 			case 'time':
-				return (string) Calendar::formatTime($value, $width, $this->locale);
+				return (string)Calendar::formatTime($value, $width, $this->locale);
 			case 'weekdayName':
-				return (string) Calendar::getWeekdayName($value, $width, $this->locale);
+				return (string)Calendar::getWeekdayName($value, $width, $this->locale);
 			default:
 				return false;
 		}

@@ -29,31 +29,13 @@ class FileSystemTags implements ICheck, IFileCheck {
 	/** @var array */
 	protected $fileSystemTags;
 
-	/** @var IL10N */
-	protected $l;
-
-	/** @var ISystemTagManager */
-	protected $systemTagManager;
-
-	/** @var ISystemTagObjectMapper */
-	protected $systemTagObjectMapper;
-	/** @var IUserSession */
-	protected $userSession;
-	/** @var IGroupManager */
-	protected $groupManager;
-
 	public function __construct(
-		IL10N $l,
-		ISystemTagManager $systemTagManager,
-		ISystemTagObjectMapper $systemTagObjectMapper,
-		IUserSession $userSession,
-		IGroupManager $groupManager
+		protected IL10N $l,
+		protected ISystemTagManager $systemTagManager,
+		protected ISystemTagObjectMapper $systemTagObjectMapper,
+		protected IUserSession $userSession,
+		protected IGroupManager $groupManager,
 	) {
-		$this->l = $l;
-		$this->systemTagManager = $systemTagManager;
-		$this->systemTagObjectMapper = $systemTagObjectMapper;
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
 	}
 
 	/**

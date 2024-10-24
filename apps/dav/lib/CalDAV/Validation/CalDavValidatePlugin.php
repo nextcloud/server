@@ -19,7 +19,7 @@ use Sabre\HTTP\ResponseInterface;
 class CalDavValidatePlugin extends ServerPlugin {
 
 	public function __construct(
-		private IAppConfig $config
+		private IAppConfig $config,
 	) {
 	}
 
@@ -30,7 +30,7 @@ class CalDavValidatePlugin extends ServerPlugin {
 	public function beforePut(RequestInterface $request, ResponseInterface $response): bool {
 		// evaluate if card size exceeds defined limit
 		$eventSizeLimit = $this->config->getValueInt(Application::APP_ID, 'event_size_limit', 10485760);
-		if ((int) $request->getRawServerValue('CONTENT_LENGTH') > $eventSizeLimit) {
+		if ((int)$request->getRawServerValue('CONTENT_LENGTH') > $eventSizeLimit) {
 			throw new Forbidden("VEvent or VTodo object exceeds $eventSizeLimit bytes");
 		}
 		// all tests passed return true

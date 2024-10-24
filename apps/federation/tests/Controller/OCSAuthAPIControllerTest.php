@@ -23,7 +23,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IRequest */
 	private $request;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject|ISecureRandom  */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|ISecureRandom */
 	private $secureRandom;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject|JobList */

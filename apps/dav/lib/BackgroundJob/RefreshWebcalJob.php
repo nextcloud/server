@@ -104,7 +104,7 @@ class RefreshWebcalJob extends Job {
 
 		foreach ($forceInt as $column) {
 			if (isset($row[$column])) {
-				$row[$column] = (int) $row[$column];
+				$row[$column] = (int)$row[$column];
 			}
 		}
 	}

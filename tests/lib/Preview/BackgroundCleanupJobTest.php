@@ -96,7 +96,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 
 		$files = [];
 		for ($i = 0; $i < 11; $i++) {
-			$file = $userFolder->newFile($i.'.txt');
+			$file = $userFolder->newFile($i . '.txt');
 			$file->putContent('hello world!');
 			$this->previewManager->getPreview($file);
 			$files[] = $file;
@@ -121,7 +121,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		return $i;
 	}
 
-	public function testCleanupSystemCron() {
+	public function testCleanupSystemCron(): void {
 		$files = $this->setup11Previews();
 		$fileIds = array_map(function (File $f) {
 			return $f->getId();
@@ -145,7 +145,11 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$this->assertSame(0, $this->countPreviews($root, $fileIds));
 	}
 
-	public function testCleanupAjax() {
+	public function testCleanupAjax(): void {
+		if ($this->connection->getShardDefinition('filecache')) {
+			$this->markTestSkipped('ajax cron is not supported for sharded setups');
+			return;
+		}
 		$files = $this->setup11Previews();
 		$fileIds = array_map(function (File $f) {
 			return $f->getId();
@@ -173,7 +177,11 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$this->assertSame(0, $this->countPreviews($root, $fileIds));
 	}
 
-	public function testOldPreviews() {
+	public function testOldPreviews(): void {
+		if ($this->connection->getShardDefinition('filecache')) {
+			$this->markTestSkipped('old previews are not supported for sharded setups');
+			return;
+		}
 		$appdata = \OC::$server->getAppDataDir('preview');
 
 		$f1 = $appdata->newFolder('123456781');

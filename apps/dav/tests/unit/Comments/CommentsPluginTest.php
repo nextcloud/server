@@ -29,7 +29,7 @@ class CommentsPluginTest extends \Test\TestCase {
 	/** @var ICommentsManager */
 	private $commentsManager;
 
-	/** @var  IUserSession */
+	/** @var IUserSession */
 	private $userSession;
 
 	/** @var CommentsPluginImplementation */

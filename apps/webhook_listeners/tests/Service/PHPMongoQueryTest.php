@@ -14,7 +14,7 @@ use OCP\Files\Events\Node\NodeWrittenEvent;
 use Test\TestCase;
 
 class PHPMongoQueryTest extends TestCase {
-	private function dataExecuteQuery() {
+	public static function dataExecuteQuery(): array {
 		$event = [
 			'event' => [
 				'class' => NodeWrittenEvent::class,
@@ -41,7 +41,7 @@ class PHPMongoQueryTest extends TestCase {
 	/**
 	 * @dataProvider dataExecuteQuery
 	 */
-	public function testExecuteQuery(array $query, array $document, bool $matches) {
+	public function testExecuteQuery(array $query, array $document, bool $matches): void {
 		$this->assertEquals($matches, PHPMongoQuery::executeQuery($query, $document));
 	}
 }

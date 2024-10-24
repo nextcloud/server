@@ -44,7 +44,7 @@ OC.L10N.register(
     "Create" : "Crea",
     "Update" : "Agiorna",
     "Delete" : "Cantzella",
-    "Reset" : "Torra a impostare",
+    "Reset" : "Ripristina",
     "Loading …" : "Carrigamentu …",
     "Public" : "Pùblicu",
     "Restricted" : "Limitadu",

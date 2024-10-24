@@ -326,14 +326,14 @@ $toolbar-height: 44px + $toolbar-padding * 2;
 	}
 
 	#app-list-update-all {
-		margin-left: 10px;
+		margin-inline-start: 10px;
 	}
 
 	&__toolbar {
 		height: $toolbar-height;
 		padding: $toolbar-padding;
 		// Leave room for app-navigation-toggle
-		padding-left: $toolbar-height;
+		padding-inline-start: $toolbar-height;
 		width: 100%;
 		background-color: var(--color-main-background);
 		position: sticky;
@@ -361,11 +361,13 @@ $toolbar-height: 44px + $toolbar-padding * 2;
 	&__bundle-heading {
 		display: flex;
 		align-items: center;
-		margin: 20px 10px 20px 0;
+		margin-block: 20px;
+		margin-inline: 0 10px;
 	}
 
 	&__bundle-header {
-		margin: 0 10px 0 50px;
+		margin-block: 0;
+		margin-inline: 50px 10px;
 		font-weight: bold;
 		font-size: 20px;
 		line-height: 30px;

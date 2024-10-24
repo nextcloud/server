@@ -38,13 +38,13 @@ use Psr\Log\LoggerInterface;
  */
 class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	public function __construct(
-		string                     $appName,
-		IRequest                   $request,
-		private IManager           $textProcessingManager,
-		private IL10N              $l,
-		private ?string            $userId,
+		string $appName,
+		IRequest $request,
+		private IManager $textProcessingManager,
+		private IL10N $l,
+		private ?string $userId,
 		private ContainerInterface $container,
-		private LoggerInterface    $logger,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -109,7 +109,7 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 		try {
 			try {
 				$this->textProcessingManager->runOrScheduleTask($task);
-			} catch(TaskFailureException) {
+			} catch (TaskFailureException) {
 				// noop, because the task object has the failure status set already, we just return the task json
 			}
 
@@ -193,7 +193,7 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @param string|null $identifier An arbitrary identifier for the task
 	 * @return DataResponse<Http::STATUS_OK, array{tasks: CoreTextProcessingTask[]}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
-	 *  200: Task list returned
+	 * 200: Task list returned
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks/app/{appId}', root: '/textprocessing')]

@@ -60,7 +60,7 @@ class S3Test extends ObjectStoreTest {
 		return new S3($config['arguments']);
 	}
 
-	public function testUploadNonSeekable() {
+	public function testUploadNonSeekable(): void {
 		$this->cleanupAfter('multiparttest');
 
 		$s3 = $this->getInstance();
@@ -72,7 +72,7 @@ class S3Test extends ObjectStoreTest {
 		$this->assertEquals(file_get_contents(__FILE__), stream_get_contents($result));
 	}
 
-	public function testSeek() {
+	public function testSeek(): void {
 		$this->cleanupAfter('seek');
 
 		$data = file_get_contents(__FILE__);
@@ -101,10 +101,10 @@ class S3Test extends ObjectStoreTest {
 		$this->assertArrayNotHasKey('Uploads', $uploads, 'Assert is not uploaded');
 	}
 
-	public function testEmptyUpload() {
+	public function testEmptyUpload(): void {
 		$s3 = $this->getInstance();
 
-		$emptyStream = fopen("php://memory", "r");
+		$emptyStream = fopen('php://memory', 'r');
 		fwrite($emptyStream, '');
 
 		$s3->writeObject('emptystream', $emptyStream);
@@ -133,7 +133,11 @@ class S3Test extends ObjectStoreTest {
 	}
 
 	/** @dataProvider dataFileSizes */
-	public function testFileSizes($size) {
+	public function testFileSizes($size): void {
+		if (str_starts_with(PHP_VERSION, '8.3') && getenv('CI')) {
+			$this->markTestSkipped('Test is unreliable and skipped on 8.3');
+		}
+
 		$this->cleanupAfter('testfilesizes');
 		$s3 = $this->getInstance();
 

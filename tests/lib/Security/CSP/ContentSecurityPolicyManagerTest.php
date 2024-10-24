@@ -28,12 +28,12 @@ class ContentSecurityPolicyManagerTest extends TestCase {
 		$this->contentSecurityPolicyManager = new ContentSecurityPolicyManager($this->dispatcher);
 	}
 
-	public function testAddDefaultPolicy() {
+	public function testAddDefaultPolicy(): void {
 		$this->contentSecurityPolicyManager->addDefaultPolicy(new \OCP\AppFramework\Http\ContentSecurityPolicy());
 		$this->addToAssertionCount(1);
 	}
 
-	public function testGetDefaultPolicyWithPolicies() {
+	public function testGetDefaultPolicyWithPolicies(): void {
 		$policy = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 		$policy->addAllowedFontDomain('mydomain.com');
 		$policy->addAllowedImageDomain('anotherdomain.de');
@@ -64,7 +64,7 @@ class ContentSecurityPolicyManagerTest extends TestCase {
 		$this->assertSame($expectedStringPolicy, $this->contentSecurityPolicyManager->getDefaultPolicy()->buildPolicy());
 	}
 
-	public function testGetDefaultPolicyWithPoliciesViaEvent() {
+	public function testGetDefaultPolicyWithPoliciesViaEvent(): void {
 		$this->dispatcher->addListener(AddContentSecurityPolicyEvent::class, function (AddContentSecurityPolicyEvent $e) {
 			$policy = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 			$policy->addAllowedFontDomain('mydomain.com');

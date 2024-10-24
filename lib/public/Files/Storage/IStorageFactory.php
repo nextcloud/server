@@ -19,20 +19,15 @@ interface IStorageFactory {
 	 *
 	 * $callback should be a function of type (string $mountPoint, Storage $storage) => Storage
 	 *
-	 * @param string $wrapperName
-	 * @param callable $callback
 	 * @return bool true if the wrapper was added, false if there was already a wrapper with this
-	 * name registered
+	 *              name registered
 	 * @since 8.0.0
 	 */
-	public function addStorageWrapper($wrapperName, $callback);
+	public function addStorageWrapper(string $wrapperName, callable $callback);
 
 	/**
-	 * @param \OCP\Files\Mount\IMountPoint $mountPoint
-	 * @param string $class
-	 * @param array $arguments
-	 * @return \OCP\Files\Storage
+	 * @return IStorage
 	 * @since 8.0.0
 	 */
-	public function getInstance(IMountPoint $mountPoint, $class, $arguments);
+	public function getInstance(IMountPoint $mountPoint, string $class, array $arguments);
 }

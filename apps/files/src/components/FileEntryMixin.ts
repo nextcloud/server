@@ -10,6 +10,7 @@ import { showError } from '@nextcloud/dialogs'
 import { FileType, Permission, Folder, File as NcFile, NodeStatus, Node, getFileActions } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
+import { isPublicShare } from '@nextcloud/sharing/public'
 import { vOnClickOutside } from '@vueuse/components'
 import { extname } from 'path'
 import Vue, { defineComponent } from 'vue'
@@ -19,6 +20,7 @@ import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
 import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
 import logger from '../logger.ts'
+import { isDownloadable } from '../utils/permissions.ts'
 
 Vue.directive('onClickOutside', vOnClickOutside)
 
@@ -71,8 +73,9 @@ export default defineComponent({
 		uniqueId() {
 			return hashCode(this.source.source)
 		},
+
 		isLoading() {
-			return this.source.status === NodeStatus.LOADING
+			return this.source.status === NodeStatus.LOADING || this.loading !== ''
 		},
 
 		/**
@@ -80,7 +83,8 @@ export default defineComponent({
 		 * Either the nodes filename or a custom display name (e.g. for shares)
 		 */
 		displayName() {
-			return this.source.displayname
+			// basename fallback needed for apps using old `@nextcloud/files` prior 3.6.0
+			return this.source.displayname || this.source.basename
 		},
 		/**
 		 * The display name without extension
@@ -217,6 +221,25 @@ export default defineComponent({
 				this.resetState()
 			}
 		},
+
+		openedMenu() {
+			if (this.openedMenu === false) {
+				// TODO: This timeout can be removed once `close` event only triggers after the transition
+				// ref: https://github.com/nextcloud-libraries/nextcloud-vue/pull/6065
+				window.setTimeout(() => {
+					if (this.openedMenu) {
+						// was reopened while the animation run
+						return
+					}
+					// Reset any right menu position potentially set
+					const root = document.getElementById('app-content-vue')
+					if (root !== null) {
+						root.style.removeProperty('--mouse-pos-x')
+						root.style.removeProperty('--mouse-pos-y')
+					}
+				}, 300)
+			}
+		},
 	},
 
 	beforeDestroy() {
@@ -268,33 +291,40 @@ export default defineComponent({
 			event.stopPropagation()
 		},
 
-		execDefaultAction(event) {
+		execDefaultAction(event: MouseEvent) {
 			// Ignore click if we are renaming
 			if (this.isRenaming) {
 				return
 			}
 
-			// Ignore right click.
-			if (event.button > 1) {
+			// Ignore right click (button & 2) and any auxillary button expect mouse-wheel (button & 4)
+			if (Boolean(event.button & 2) || event.button > 4) {
 				return
 			}
 
-			// if ctrl+click or middle mouse button, open in new tab
-			if (event.ctrlKey || event.metaKey || event.button === 1) {
-				event.preventDefault()
-				window.open(generateUrl('/f/{fileId}', { fileId: this.fileid }))
-				return false
-			}
+			// if ctrl+click / cmd+click (MacOS uses the meta key) or middle mouse button (button & 4), open in new tab
+			// also if there is no default action use this as a fallback
+			const metaKeyPressed = event.ctrlKey || event.metaKey || Boolean(event.button & 4)
+			if (metaKeyPressed || !this.defaultFileAction) {
+				// If no download permission, then we can not allow to download (direct link) the files
+				if (isPublicShare() && !isDownloadable(this.source)) {
+					return
+				}
 
-			if (this.defaultFileAction) {
+				const url = isPublicShare()
+					? this.source.encodedSource
+					: generateUrl('/f/{fileId}', { fileId: this.fileid })
 				event.preventDefault()
 				event.stopPropagation()
-				// Execute the first default action if any
-				this.defaultFileAction.exec(this.source, this.currentView, this.currentDir)
-			} else {
-				// fallback to open in current tab
-				window.open(generateUrl('/f/{fileId}', { fileId: this.fileid }), '_self')
+				window.open(url, metaKeyPressed ? '_self' : undefined)
+				return
 			}
+
+			// every special case handled so just execute the default action
+			event.preventDefault()
+			event.stopPropagation()
+			// Execute the first default action if any
+			this.defaultFileAction.exec(this.source, this.currentView, this.currentDir)
 		},
 
 		openDetailsIfAvailable(event) {

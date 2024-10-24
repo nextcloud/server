@@ -27,21 +27,6 @@ use Sabre\Xml\XmlSerializable;
 class Invite implements XmlSerializable {
 
 	/**
-	 * The list of users a calendar has been shared to.
-	 *
-	 * @var array
-	 */
-	protected $users;
-
-	/**
-	 * The organizer contains information about the person who shared the
-	 * object.
-	 *
-	 * @var array|null
-	 */
-	protected $organizer;
-
-	/**
 	 * Creates the property.
 	 *
 	 * Users is an array. Each element of the array has the following
@@ -67,9 +52,17 @@ class Invite implements XmlSerializable {
 	 *
 	 * @param array $users
 	 */
-	public function __construct(array $users, ?array $organizer = null) {
-		$this->users = $users;
-		$this->organizer = $organizer;
+	public function __construct(
+		/**
+		 * The list of users a calendar has been shared to.
+		 */
+		protected array $users,
+		/**
+		 * The organizer contains information about the person who shared the
+		 * object.
+		 */
+		protected ?array $organizer = null,
+	) {
 	}
 
 	/**

@@ -7,6 +7,7 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Memcache\NullCache;
+use OC\Share20\Share;
 use OCA\Files_Sharing\MountProvider;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
@@ -113,7 +114,7 @@ class MountProviderTest extends \Test\TestCase {
 	 * - shares that were opted out of (permissions === 0)
 	 * - shares with a group in which the owner is already in
 	 */
-	public function testExcludeShares() {
+	public function testExcludeShares(): void {
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userManager = $this->createMock(IUserManager::class);
 		$attr1 = [];
@@ -165,7 +166,7 @@ class MountProviderTest extends \Test\TestCase {
 		$this->shareManager->expects($this->any())
 			->method('newShare')
 			->willReturnCallback(function () use ($rootFolder, $userManager) {
-				return new \OC\Share20\Share($rootFolder, $userManager);
+				return new Share($rootFolder, $userManager);
 			});
 		$mounts = $this->provider->getMountsForUser($this->user, $this->loader);
 		$this->assertCount(4, $mounts);
@@ -346,7 +347,7 @@ class MountProviderTest extends \Test\TestCase {
 	 * @param array $groupShares array of group share specs
 	 * @param array $expectedShares array of expected supershare specs
 	 */
-	public function testMergeShares($userShares, $groupShares, $expectedShares, $moveFails = false) {
+	public function testMergeShares($userShares, $groupShares, $expectedShares, $moveFails = false): void {
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userManager = $this->createMock(IUserManager::class);
 
@@ -386,7 +387,7 @@ class MountProviderTest extends \Test\TestCase {
 		$this->shareManager->expects($this->any())
 			->method('newShare')
 			->willReturnCallback(function () use ($rootFolder, $userManager) {
-				return new \OC\Share20\Share($rootFolder, $userManager);
+				return new Share($rootFolder, $userManager);
 			});
 
 		if ($moveFails) {

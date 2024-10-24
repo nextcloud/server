@@ -17,19 +17,19 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DecryptAll {
-	/** @var  OutputInterface */
+	/** @var OutputInterface */
 	protected $output;
 
-	/** @var  InputInterface */
+	/** @var InputInterface */
 	protected $input;
 
-	/** @var  array files which couldn't be decrypted */
+	/** @var array files which couldn't be decrypted */
 	protected $failed;
 
 	public function __construct(
 		protected IManager $encryptionManager,
 		protected IUserManager $userManager,
-		protected View $rootView
+		protected View $rootView,
 	) {
 		$this->failed = [];
 	}
@@ -114,7 +114,7 @@ class DecryptAll {
 			$fetchUsersProgress = new ProgressBar($this->output);
 			$fetchUsersProgress->setFormat(" %message% \n [%bar%]");
 			$fetchUsersProgress->start();
-			$fetchUsersProgress->setMessage("Fetch list of users...");
+			$fetchUsersProgress->setMessage('Fetch list of users...');
 			$fetchUsersProgress->advance();
 
 			foreach ($this->userManager->getBackends() as $backend) {
@@ -128,7 +128,7 @@ class DecryptAll {
 					$offset += $limit;
 					$fetchUsersProgress->advance();
 				} while (count($users) >= $limit);
-				$fetchUsersProgress->setMessage("Fetch list of users... finished");
+				$fetchUsersProgress->setMessage('Fetch list of users... finished');
 				$fetchUsersProgress->finish();
 			}
 		} else {
@@ -140,7 +140,7 @@ class DecryptAll {
 		$progress = new ProgressBar($this->output);
 		$progress->setFormat(" %message% \n [%bar%]");
 		$progress->start();
-		$progress->setMessage("starting to decrypt files...");
+		$progress->setMessage('starting to decrypt files...');
 		$progress->advance();
 
 		$numberOfUsers = count($userList);
@@ -151,7 +151,7 @@ class DecryptAll {
 			$userNo++;
 		}
 
-		$progress->setMessage("starting to decrypt files... finished");
+		$progress->setMessage('starting to decrypt files... finished');
 		$progress->finish();
 
 		$this->output->writeln("\n\n");

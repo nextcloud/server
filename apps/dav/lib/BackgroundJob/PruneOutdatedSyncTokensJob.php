@@ -18,24 +18,21 @@ use Psr\Log\LoggerInterface;
 
 class PruneOutdatedSyncTokensJob extends TimedJob {
 
-	private IConfig $config;
-	private LoggerInterface $logger;
-	private CardDavBackend $cardDavBackend;
-	private CalDavBackend $calDavBackend;
-
-	public function __construct(ITimeFactory $timeFactory, CalDavBackend $calDavBackend, CardDavBackend $cardDavBackend, IConfig $config, LoggerInterface $logger) {
+	public function __construct(
+		ITimeFactory $timeFactory,
+		private CalDavBackend $calDavBackend,
+		private CardDavBackend $cardDavBackend,
+		private IConfig $config,
+		private LoggerInterface $logger,
+	) {
 		parent::__construct($timeFactory);
-		$this->calDavBackend = $calDavBackend;
-		$this->cardDavBackend = $cardDavBackend;
-		$this->config = $config;
-		$this->logger = $logger;
 		$this->setInterval(60 * 60 * 24); // One day
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 	public function run($argument) {
-		$limit = max(1, (int) $this->config->getAppValue(Application::APP_ID, 'totalNumberOfSyncTokensToKeep', '10000'));
-		$retention = max(7, (int) $this->config->getAppValue(Application::APP_ID, 'syncTokensRetentionDays', '60')) * 24 * 3600;
+		$limit = max(1, (int)$this->config->getAppValue(Application::APP_ID, 'totalNumberOfSyncTokensToKeep', '10000'));
+		$retention = max(7, (int)$this->config->getAppValue(Application::APP_ID, 'syncTokensRetentionDays', '60')) * 24 * 3600;
 
 		$prunedCalendarSyncTokens = $this->calDavBackend->pruneOutdatedSyncTokens($limit, $retention);
 		$prunedAddressBookSyncTokens = $this->cardDavBackend->pruneOutdatedSyncTokens($limit, $retention);

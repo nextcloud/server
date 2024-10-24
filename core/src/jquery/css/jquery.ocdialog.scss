@@ -13,7 +13,7 @@
 	box-sizing: border-box;
 	min-width: 200px;
 	top: 50%;
-	left: 50%;
+	inset-inline-start: 50%;
 	transform: translate(-50%, -50%);
 	max-height: calc(100% - 20px);
 	max-width: calc(100% - 20px);

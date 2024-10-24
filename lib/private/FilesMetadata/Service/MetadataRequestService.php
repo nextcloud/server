@@ -24,7 +24,7 @@ class MetadataRequestService {
 
 	public function __construct(
 		private IDBConnection $dbConnection,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -38,10 +38,10 @@ class MetadataRequestService {
 	public function store(IFilesMetadata $filesMetadata): void {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert(self::TABLE_METADATA)
-		   ->setValue('file_id', $qb->createNamedParameter($filesMetadata->getFileId(), IQueryBuilder::PARAM_INT))
-		   ->setValue('json', $qb->createNamedParameter(json_encode($filesMetadata->jsonSerialize())))
-		   ->setValue('sync_token', $qb->createNamedParameter($this->generateSyncToken()))
-		   ->setValue('last_update', (string) $qb->createFunction('NOW()'));
+			->setValue('file_id', $qb->createNamedParameter($filesMetadata->getFileId(), IQueryBuilder::PARAM_INT))
+			->setValue('json', $qb->createNamedParameter(json_encode($filesMetadata->jsonSerialize())))
+			->setValue('sync_token', $qb->createNamedParameter($this->generateSyncToken()))
+			->setValue('last_update', (string)$qb->createFunction('NOW()'));
 		$qb->executeStatement();
 	}
 
@@ -92,7 +92,7 @@ class MetadataRequestService {
 		$list = [];
 		$result = $qb->executeQuery();
 		while ($data = $result->fetch()) {
-			$fileId = (int) $data['file_id'];
+			$fileId = (int)$data['file_id'];
 			$metadata = new FilesMetadata($fileId);
 			try {
 				$metadata->importFromDatabase($data);
@@ -117,7 +117,7 @@ class MetadataRequestService {
 	public function dropMetadata(int $fileId): void {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete(self::TABLE_METADATA)
-		   ->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+			->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
 		$qb->executeStatement();
 	}
 
@@ -134,15 +134,15 @@ class MetadataRequestService {
 		$expr = $qb->expr();
 
 		$qb->update(self::TABLE_METADATA)
-		   ->set('json', $qb->createNamedParameter(json_encode($filesMetadata->jsonSerialize())))
-		   ->set('sync_token', $qb->createNamedParameter($this->generateSyncToken()))
-		   ->set('last_update', $qb->createFunction('NOW()'))
-		   ->where(
-		   	$expr->andX(
-		   		$expr->eq('file_id', $qb->createNamedParameter($filesMetadata->getFileId(), IQueryBuilder::PARAM_INT)),
-		   		$expr->eq('sync_token', $qb->createNamedParameter($filesMetadata->getSyncToken()))
-		   	)
-		   );
+			->set('json', $qb->createNamedParameter(json_encode($filesMetadata->jsonSerialize())))
+			->set('sync_token', $qb->createNamedParameter($this->generateSyncToken()))
+			->set('last_update', $qb->createFunction('NOW()'))
+			->where(
+				$expr->andX(
+					$expr->eq('file_id', $qb->createNamedParameter($filesMetadata->getFileId(), IQueryBuilder::PARAM_INT)),
+					$expr->eq('sync_token', $qb->createNamedParameter($filesMetadata->getSyncToken()))
+				)
+			);
 
 		return $qb->executeStatement();
 	}

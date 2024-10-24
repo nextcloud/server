@@ -21,44 +21,29 @@ use OCA\User_LDAP\LDAP;
  *
  */
 class ExceptionOnLostConnection {
-	/** @var  string */
-	private $toxiProxyHost;
-
-	/** @var  string */
-	private $toxiProxyName;
-
-	/** @var  string */
-	private $ldapBase;
-
-	/** @var string|null  */
-	private $ldapBindDN;
-
-	/** @var string|null  */
-	private $ldapBindPwd;
-
-	/** @var  string */
+	/** @var string */
 	private $ldapHost;
 
-	/** @var  \OCA\User_LDAP\LDAP */
+	/** @var LDAP */
 	private $ldap;
 
-	/** @var  bool */
+	/** @var bool */
 	private $originalProxyState;
 
 	/**
-	 * @param string $proxyHost host of toxiproxy as url, like http://localhost:8474
-	 * @param string $proxyName name of the LDAP proxy service as configured in toxiProxy
+	 * @param string $toxiProxyHost host of toxiproxy as url, like http://localhost:8474
+	 * @param string $toxiProxyName name of the LDAP proxy service as configured in toxiProxy
 	 * @param string $ldapBase any valid LDAP base DN
-	 * @param null $bindDN optional, bind DN if anonymous bind is not possible
-	 * @param null $bindPwd optional
+	 * @param null $ldapBindDN optional, bind DN if anonymous bind is not possible
+	 * @param null $ldapBindPwd optional
 	 */
-	public function __construct($proxyHost, $proxyName, $ldapBase, $bindDN = null, $bindPwd = null) {
-		$this->toxiProxyHost = $proxyHost;
-		$this->toxiProxyName = $proxyName;
-		$this->ldapBase = $ldapBase;
-		$this->ldapBindDN = $bindDN;
-		$this->ldapBindPwd = $bindPwd;
-
+	public function __construct(
+		private $toxiProxyHost,
+		private $toxiProxyName,
+		private $ldapBase,
+		private $ldapBindDN = null,
+		private $ldapBindPwd = null,
+	) {
 		$this->setUp();
 	}
 
@@ -77,7 +62,7 @@ class ExceptionOnLostConnection {
 	 * @throws \Exception
 	 */
 	public function setUp(): void {
-		require_once __DIR__  . '/../../../../lib/base.php';
+		require_once __DIR__ . '/../../../../lib/base.php';
 		\OC_App::loadApps(['user_ldap']);
 
 		$ch = $this->getCurl();
@@ -117,10 +102,10 @@ class ExceptionOnLostConnection {
 		try {
 			$this->ldap->search($cr, $this->ldapBase, 'objectClass=*', ['dn'], true, 5);
 		} catch (ServerNotAvailableException $e) {
-			print("Test PASSED" . PHP_EOL);
+			print('Test PASSED' . PHP_EOL);
 			exit(0);
 		}
-		print("Test FAILED" . PHP_EOL);
+		print('Test FAILED' . PHP_EOL);
 		exit(1);
 	}
 

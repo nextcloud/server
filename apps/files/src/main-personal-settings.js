@@ -12,8 +12,6 @@ import PersonalSettings from './components/PersonalSettings.vue'
 __webpack_nonce__ = getCSPNonce()
 
 Vue.prototype.t = t
-
-if (!window.TESTING) {
-	const View = Vue.extend(PersonalSettings)
-	new View().$mount('#files-personal-settings')
-}
+const View = Vue.extend(PersonalSettings)
+const instance = new View()
+instance.$mount('#files-personal-settings')

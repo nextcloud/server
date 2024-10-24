@@ -7,6 +7,7 @@ namespace OCA\OAuth2\Tests\Db;
 
 use OCA\OAuth2\Db\AccessToken;
 use OCA\OAuth2\Db\AccessTokenMapper;
+use OCA\OAuth2\Exceptions\AccessTokenNotFoundException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use Test\TestCase;
 
@@ -22,7 +23,7 @@ class AccessTokenMapperTest extends TestCase {
 		$this->accessTokenMapper = new AccessTokenMapper(\OC::$server->getDatabaseConnection(), \OC::$server->get(ITimeFactory::class));
 	}
 
-	public function testGetByCode() {
+	public function testGetByCode(): void {
 		$this->accessTokenMapper->deleteByClientId(1234);
 		$token = new AccessToken();
 		$token->setClientId(1234);
@@ -38,8 +39,8 @@ class AccessTokenMapperTest extends TestCase {
 	}
 
 
-	public function testDeleteByClientId() {
-		$this->expectException(\OCA\OAuth2\Exceptions\AccessTokenNotFoundException::class);
+	public function testDeleteByClientId(): void {
+		$this->expectException(AccessTokenNotFoundException::class);
 
 		$this->accessTokenMapper->deleteByClientId(1234);
 		$token = new AccessToken();

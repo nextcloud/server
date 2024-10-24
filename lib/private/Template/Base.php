@@ -46,15 +46,15 @@ class Base {
 	 */
 	protected function getAppTemplateDirs($theme, $app, $serverRoot, $app_dir) {
 		// Check if the app is in the app folder or in the root
-		if ($app_dir !== false && file_exists($app_dir.'/templates/')) {
+		if ($app_dir !== false && file_exists($app_dir . '/templates/')) {
 			return [
-				$serverRoot.'/themes/'.$theme.'/apps/'.$app.'/templates/',
-				$app_dir.'/templates/',
+				$serverRoot . '/themes/' . $theme . '/apps/' . $app . '/templates/',
+				$app_dir . '/templates/',
 			];
 		}
 		return [
-			$serverRoot.'/themes/'.$theme.'/'.$app.'/templates/',
-			$serverRoot.'/'.$app.'/templates/',
+			$serverRoot . '/themes/' . $theme . '/' . $app . '/templates/',
+			$serverRoot . '/' . $app . '/templates/',
 		];
 	}
 
@@ -65,8 +65,8 @@ class Base {
 	 */
 	protected function getCoreTemplateDirs($theme, $serverRoot) {
 		return [
-			$serverRoot.'/themes/'.$theme.'/core/templates/',
-			$serverRoot.'/core/templates/',
+			$serverRoot . '/themes/' . $theme . '/core/templates/',
+			$serverRoot . '/core/templates/',
 		];
 	}
 

@@ -23,9 +23,9 @@ interface IAttachment {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string $value     file name (e.g example.txt)
+	 * @param string $value file name (e.g example.txt)
 	 *
-	 * @return self             return this object for command chaining
+	 * @return self return this object for command chaining
 	 */
 	public function setName(string $value): self;
 
@@ -34,18 +34,18 @@ interface IAttachment {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return string | null	returns the attachment file name or null if one is not set
+	 * @return string | null returns the attachment file name or null if one is not set
 	 */
-	public function getName(): string | null;
+	public function getName(): ?string;
 
 	/**
 	 * sets the attachment mime type
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string $value     mime type (e.g. text/plain)
+	 * @param string $value mime type (e.g. text/plain)
 	 *
-	 * @return self             return this object for command chaining
+	 * @return self return this object for command chaining
 	 */
 	public function setType(string $value): self;
 
@@ -54,18 +54,18 @@ interface IAttachment {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return string | null	returns the attachment mime type or null if not set
+	 * @return string | null returns the attachment mime type or null if not set
 	 */
-	public function getType(): string | null;
+	public function getType(): ?string;
 
 	/**
 	 * sets the attachment contents (actual data)
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string $value     binary contents of file
+	 * @param string $value binary contents of file
 	 *
-	 * @return self             return this object for command chaining
+	 * @return self return this object for command chaining
 	 */
 	public function setContents(string $value): self;
 
@@ -74,18 +74,18 @@ interface IAttachment {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return string | null	returns the attachment contents or null if not set
+	 * @return string | null returns the attachment contents or null if not set
 	 */
-	public function getContents(): string | null;
+	public function getContents(): ?string;
 
 	/**
 	 * sets the embedded status of the attachment
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param bool $value		true - embedded / false - not embedded
+	 * @param bool $value true - embedded / false - not embedded
 	 *
-	 * @return self             return this object for command chaining
+	 * @return self return this object for command chaining
 	 */
 	public function setEmbedded(bool $value): self;
 
@@ -94,7 +94,7 @@ interface IAttachment {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return bool			embedded status of the attachment
+	 * @return bool embedded status of the attachment
 	 */
 	public function getEmbedded(): bool;
 

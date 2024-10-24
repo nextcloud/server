@@ -14,21 +14,20 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
 	/** @var \OC\Activity\Manager */
 	private $activityManager;
 
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	protected $request;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	protected $session;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var IValidator|\PHPUnit\Framework\MockObject\MockObject */
-	protected $validator;
+	protected IRequest&MockObject $request;
+	protected IUserSession&MockObject $session;
+	protected IConfig&MockObject $config;
+	protected IValidator&MockObject $validator;
+	protected IRichTextFormatter&MockObject $richTextFormatter;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -37,12 +36,14 @@ class ManagerTest extends TestCase {
 		$this->session = $this->createMock(IUserSession::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->validator = $this->createMock(IValidator::class);
+		$this->richTextFormatter = $this->createMock(IRichTextFormatter::class);
 
 		$this->activityManager = new \OC\Activity\Manager(
 			$this->request,
 			$this->session,
 			$this->config,
 			$this->validator,
+			$this->richTextFormatter,
 			$this->createMock(IL10N::class)
 		);
 
@@ -56,14 +57,14 @@ class ManagerTest extends TestCase {
 		$this->assertNotEmpty(self::invokePrivate($this->activityManager, 'getConsumers'));
 	}
 
-	public function testGetConsumers() {
+	public function testGetConsumers(): void {
 		$consumers = self::invokePrivate($this->activityManager, 'getConsumers');
 
 		$this->assertNotEmpty($consumers);
 	}
 
 
-	public function testGetConsumersInvalidConsumer() {
+	public function testGetConsumersInvalidConsumer(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->activityManager->registerConsumer(function () {
@@ -90,7 +91,7 @@ class ManagerTest extends TestCase {
 	 * @param string $token
 	 * @param array $users
 	 */
-	public function testGetUserFromTokenThrowInvalidToken($token, $users) {
+	public function testGetUserFromTokenThrowInvalidToken($token, $users): void {
 		$this->expectException(\UnexpectedValueException::class);
 
 		$this->mockRSSToken($token, $token, $users);
@@ -112,7 +113,7 @@ class ManagerTest extends TestCase {
 	 * @param string $token
 	 * @param string $expected
 	 */
-	public function testGetUserFromToken($userLoggedIn, $token, $expected) {
+	public function testGetUserFromToken($userLoggedIn, $token, $expected): void {
 		if ($userLoggedIn !== null) {
 			$this->mockUserSession($userLoggedIn);
 		}
@@ -152,7 +153,7 @@ class ManagerTest extends TestCase {
 	}
 
 
-	public function testPublishExceptionNoApp() {
+	public function testPublishExceptionNoApp(): void {
 		$this->expectException(IncompleteActivityException::class);
 
 		$event = $this->activityManager->generateEvent();
@@ -160,7 +161,7 @@ class ManagerTest extends TestCase {
 	}
 
 
-	public function testPublishExceptionNoType() {
+	public function testPublishExceptionNoType(): void {
 		$this->expectException(IncompleteActivityException::class);
 
 		$event = $this->activityManager->generateEvent();
@@ -169,7 +170,7 @@ class ManagerTest extends TestCase {
 	}
 
 
-	public function testPublishExceptionNoAffectedUser() {
+	public function testPublishExceptionNoAffectedUser(): void {
 		$this->expectException(IncompleteActivityException::class);
 
 		$event = $this->activityManager->generateEvent();
@@ -179,7 +180,7 @@ class ManagerTest extends TestCase {
 	}
 
 
-	public function testPublishExceptionNoSubject() {
+	public function testPublishExceptionNoSubject(): void {
 		$this->expectException(IncompleteActivityException::class);
 
 		$event = $this->activityManager->generateEvent();
@@ -201,7 +202,7 @@ class ManagerTest extends TestCase {
 	 * @param string|null $author
 	 * @param string $expected
 	 */
-	public function testPublish($author, $expected) {
+	public function testPublish($author, $expected): void {
 		if ($author !== null) {
 			$authorObject = $this->getMockBuilder(IUser::class)
 				->disableOriginalConstructor()
@@ -239,7 +240,7 @@ class ManagerTest extends TestCase {
 		$this->activityManager->publish($event);
 	}
 
-	public function testPublishAllManually() {
+	public function testPublishAllManually(): void {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('test_app')
 			->setType('test_type')

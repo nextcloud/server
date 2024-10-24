@@ -52,7 +52,7 @@ class CapabilitiesTest extends TestCase {
 	/**
 	 * @dataProvider getCapabilitiesProvider
 	 */
-	public function testGetCapabilities($federationAppEnabled, $federatedFileSharingAppEnabled, $lookupServerEnabled, $expectedFederatedScopeEnabled, $expectedPublishedScopeEnabled) {
+	public function testGetCapabilities($federationAppEnabled, $federatedFileSharingAppEnabled, $lookupServerEnabled, $expectedFederatedScopeEnabled, $expectedPublishedScopeEnabled): void {
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')
 			->will($this->returnValueMap([
@@ -64,8 +64,8 @@ class CapabilitiesTest extends TestCase {
 		$this->overwriteService(FederatedShareProvider::class, $federatedShareProvider);
 
 		$federatedShareProvider->expects($this->any())
-			 ->method('isLookupServerUploadEnabled')
-			 ->willReturn($lookupServerEnabled);
+			->method('isLookupServerUploadEnabled')
+			->willReturn($lookupServerEnabled);
 
 		$expected = [
 			'provisioning_api' => [

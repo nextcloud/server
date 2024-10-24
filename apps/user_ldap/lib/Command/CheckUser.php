@@ -18,15 +18,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CheckUser extends Command {
-	protected User_Proxy $backend;
-
 	public function __construct(
-		User_Proxy $uBackend,
+		protected User_Proxy $backend,
 		protected Helper $helper,
 		protected DeletedUsersIndex $dui,
 		protected UserMapping $mapping,
 	) {
-		$this->backend = $uBackend;
 		parent::__construct();
 	}
 
@@ -84,7 +81,7 @@ class CheckUser extends Command {
 
 			throw new \Exception('The given user is not a recognized LDAP user.');
 		} catch (\Exception $e) {
-			$output->writeln('<error>' . $e->getMessage(). '</error>');
+			$output->writeln('<error>' . $e->getMessage() . '</error>');
 			return self::FAILURE;
 		}
 	}

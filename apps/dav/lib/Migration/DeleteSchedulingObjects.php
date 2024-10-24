@@ -16,9 +16,10 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class DeleteSchedulingObjects implements IRepairStep {
-	public function __construct(private IJobList $jobList,
+	public function __construct(
+		private IJobList $jobList,
 		private ITimeFactory $time,
-		private CalDavBackend $calDavBackend
+		private CalDavBackend $calDavBackend,
 	) {
 	}
 

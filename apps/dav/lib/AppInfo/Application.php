@@ -19,8 +19,8 @@ use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
 use OCA\DAV\CalDAV\Reminder\Notifier;
-
 use OCA\DAV\Capabilities;
+
 use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\SyncService;
@@ -85,6 +85,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\IUser;
+use OCP\Server;
 use OCP\User\Events\OutOfOfficeChangedEvent;
 use OCP\User\Events\OutOfOfficeClearedEvent;
 use OCP\User\Events\OutOfOfficeScheduledEvent;
@@ -214,20 +215,20 @@ class Application extends App implements IBootstrap {
 		$hm->setup();
 
 		// first time login event setup
-		$dispatcher->addListener(IUser::class . '::firstLogin', function ($event) use ($hm) {
+		$dispatcher->addListener(IUser::class . '::firstLogin', function ($event) use ($hm): void {
 			if ($event instanceof GenericEvent) {
 				$hm->firstLogin($event->getSubject());
 			}
 		});
 
-		$dispatcher->addListener(UserUpdatedEvent::class, function (UserUpdatedEvent $event) use ($container) {
+		$dispatcher->addListener(UserUpdatedEvent::class, function (UserUpdatedEvent $event) use ($container): void {
 			/** @var SyncService $syncService */
-			$syncService = \OCP\Server::get(SyncService::class);
+			$syncService = Server::get(SyncService::class);
 			$syncService->updateUser($event->getUser());
 		});
 
 
-		$dispatcher->addListener(CalendarShareUpdatedEvent::class, function (CalendarShareUpdatedEvent $event) use ($container) {
+		$dispatcher->addListener(CalendarShareUpdatedEvent::class, function (CalendarShareUpdatedEvent $event) use ($container): void {
 			/** @var Backend $backend */
 			$backend = $container->query(Backend::class);
 			$backend->onCalendarUpdateShares(
@@ -272,7 +273,7 @@ class Application extends App implements IBootstrap {
 
 	public function registerCalendarManager(ICalendarManager $calendarManager,
 		IAppContainer $container): void {
-		$calendarManager->register(function () use ($container, $calendarManager) {
+		$calendarManager->register(function () use ($container, $calendarManager): void {
 			$user = \OC::$server->getUserSession()->getUser();
 			if ($user !== null) {
 				$this->setupCalendarProvider($calendarManager, $container, $user->getUID());

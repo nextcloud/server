@@ -94,7 +94,7 @@ class GetConfigTest extends TestCase {
 	 * @param int $expectedReturn
 	 * @param string $expectedMessage
 	 */
-	public function testGet($configName, $value, $configExists, $defaultValue, $hasDefault, $outputFormat, $expectedReturn, $expectedMessage) {
+	public function testGet($configName, $value, $configExists, $defaultValue, $hasDefault, $outputFormat, $expectedReturn, $expectedMessage): void {
 		if (!$expectedReturn) {
 			if ($configExists) {
 				$this->config->expects($this->once())
@@ -106,9 +106,9 @@ class GetConfigTest extends TestCase {
 
 		if (!$configExists) {
 			$this->config->expects($this->once())
-						 ->method('getDetails')
-						 ->with('app-name', $configName)
-						 ->willThrowException(new AppConfigUnknownKeyException());
+				->method('getDetails')
+				->with('app-name', $configName)
+				->willThrowException(new AppConfigUnknownKeyException());
 		}
 
 		$this->consoleInput->expects($this->exactly(2))

@@ -41,7 +41,7 @@ class RemoteContext implements Context {
 	 * @param string $remoteServer "NON_EXISTING" or "REMOTE"
 	 */
 	public function selectRemoteInstance($remoteServer) {
-		if ($remoteServer == "REMOTE") {
+		if ($remoteServer == 'REMOTE') {
 			$baseUri = $this->remoteUrl;
 		} else {
 			$baseUri = 'nonexistingnextcloudserver.local';

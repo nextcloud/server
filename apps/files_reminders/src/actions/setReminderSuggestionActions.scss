@@ -10,14 +10,14 @@
 
 	&::before {
 		content: "";
-		margin: 3px 10px 3px 15px;
+		margin-block: 3px;
+		margin-inline: 15px 10px;
 		border-bottom: 1px solid var(--color-border-dark);
 		cursor: default;
 		display: flex;
 		height: 0;
 		position: absolute;
-		left: 0;
-		right: 0;
+		inset-inline: 0;
 		top: -10px;
 	}
 }

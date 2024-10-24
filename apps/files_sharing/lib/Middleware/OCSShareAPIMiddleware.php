@@ -14,15 +14,10 @@ use OCP\IL10N;
 use OCP\Share\IManager;
 
 class OCSShareAPIMiddleware extends Middleware {
-	/** @var IManager */
-	private $shareManager;
-	/** @var IL10N */
-	private $l;
-
-	public function __construct(IManager $shareManager,
-		IL10N $l) {
-		$this->shareManager = $shareManager;
-		$this->l = $l;
+	public function __construct(
+		private IManager $shareManager,
+		private IL10N $l,
+	) {
 	}
 
 	/**

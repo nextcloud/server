@@ -58,7 +58,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	public function __construct(
 		IStorageFactory $loader,
 		IUserMountCache $mountCache,
-		IEventLogger $eventLogger
+		IEventLogger $eventLogger,
 	) {
 		$this->loader = $loader;
 		$this->mountCache = $mountCache;
@@ -131,9 +131,9 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		}
 
 		$lateMounts = $this->filterMounts($user, $lateMounts);
-		$this->eventLogger->start("fs:setup:add-mounts", "Add mounts to the filesystem");
+		$this->eventLogger->start('fs:setup:add-mounts', 'Add mounts to the filesystem');
 		array_walk($lateMounts, [$mountManager, 'addMount']);
-		$this->eventLogger->end("fs:setup:add-mounts");
+		$this->eventLogger->end('fs:setup:add-mounts');
 
 		return array_merge($lateMounts, $firstMounts);
 	}
@@ -223,7 +223,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		}, []);
 
 		if (count($mounts) === 0) {
-			throw new \Exception("No root mounts provided by any provider");
+			throw new \Exception('No root mounts provided by any provider');
 		}
 
 		return $mounts;

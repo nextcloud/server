@@ -27,11 +27,6 @@ use Sabre\DAV\PropPatch;
 class EntityCollection extends RootCollection implements IProperties {
 	public const PROPERTY_NAME_READ_MARKER = '{http://owncloud.org/ns}readMarker';
 
-	/** @var  string */
-	protected $id;
-
-	protected LoggerInterface $logger;
-
 	/**
 	 * @param string $id
 	 * @param string $name
@@ -41,12 +36,12 @@ class EntityCollection extends RootCollection implements IProperties {
 	 * @param LoggerInterface $logger
 	 */
 	public function __construct(
-		$id,
+		protected $id,
 		$name,
 		ICommentsManager $commentsManager,
 		IUserManager $userManager,
 		IUserSession $userSession,
-		LoggerInterface $logger
+		protected LoggerInterface $logger,
 	) {
 		foreach (['id', 'name'] as $property) {
 			$$property = trim($$property);
@@ -54,10 +49,8 @@ class EntityCollection extends RootCollection implements IProperties {
 				throw new \InvalidArgumentException('"' . $property . '" parameter must be non-empty string');
 			}
 		}
-		$this->id = $id;
 		$this->name = $name;
 		$this->commentsManager = $commentsManager;
-		$this->logger = $logger;
 		$this->userManager = $userManager;
 		$this->userSession = $userSession;
 	}

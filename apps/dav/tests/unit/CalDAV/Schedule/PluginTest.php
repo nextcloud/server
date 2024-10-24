@@ -41,7 +41,7 @@ class PluginTest extends TestCase {
 	/** @var Server|MockObject */
 	private $server;
 
-	/** @var IConfig|MockObject  */
+	/** @var IConfig|MockObject */
 	private $config;
 
 	/** @var LoggerInterface&MockObject */
@@ -347,10 +347,10 @@ class PluginTest extends TestCase {
 		if (!$exists || $deleted) {
 			if (!$hasExistingCalendars) {
 				$calendarBackend->expects($this->once())
-				->method('createCalendar')
-				->with($principalUri, $calendarUri, [
-					'{DAV:}displayname' => $displayName,
-				]);
+					->method('createCalendar')
+					->with($principalUri, $calendarUri, [
+						'{DAV:}displayname' => $displayName,
+					]);
 
 				$calendarHomeObject->expects($this->once())
 					->method('getCalDAVBackend')
@@ -380,7 +380,7 @@ class PluginTest extends TestCase {
 
 		$this->server->expects($this->once())
 			->method('getPropertiesForPath')
-			->with($calendarHome .'/' . $calendarUri, [], 1)
+			->with($calendarHome . '/' . $calendarUri, [], 1)
 			->willReturn($properties);
 
 		$this->plugin->propFindDefaultCalendarUrl($propFind, $node);
@@ -392,7 +392,7 @@ class PluginTest extends TestCase {
 
 		/** @var LocalHref $result */
 		$result = $propFind->get(Plugin::SCHEDULE_DEFAULT_CALENDAR_URL);
-		$this->assertEquals('/remote.php/dav/'. $calendarHome . '/' . $calendarUri, $result->getHref());
+		$this->assertEquals('/remote.php/dav/' . $calendarHome . '/' . $calendarUri, $result->getHref());
 	}
 
 	/**
@@ -400,7 +400,7 @@ class PluginTest extends TestCase {
 	 *
 	 * Should generate 2 messages for attendees User 2 and User External
 	 */
-	public function testCalendarObjectChangePersonalCalendarCreate() {
+	public function testCalendarObjectChangePersonalCalendarCreate(): void {
 
 		// define place holders
 		/** @var Message[] $iTipMessages */
@@ -504,7 +504,7 @@ class PluginTest extends TestCase {
 	 *
 	 * Should generate 3 messages for attendees User 2 (Sharee), User 3 (Non-Sharee) and User External
 	 */
-	public function testCalendarObjectChangeSharedCalendarSharerCreate() {
+	public function testCalendarObjectChangeSharedCalendarSharerCreate(): void {
 
 		// define place holders
 		/** @var Message[] $iTipMessages */
@@ -620,7 +620,7 @@ class PluginTest extends TestCase {
 	 *
 	 * Should generate 3 messages for attendees User 1 (Sharer/Owner), User 3 (Non-Sharee) and User External
 	 */
-	public function testCalendarObjectChangeSharedCalendarShreeCreate() {
+	public function testCalendarObjectChangeSharedCalendarShreeCreate(): void {
 
 		// define place holders
 		/** @var Message[] $iTipMessages */

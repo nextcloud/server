@@ -27,7 +27,7 @@ class QueuedJobTest extends \Test\TestCase {
 		$this->jobList = new DummyJobList();
 	}
 
-	public function testJobShouldBeRemovedNew() {
+	public function testJobShouldBeRemovedNew(): void {
 		$job = new TestQueuedJobNew(\OCP\Server::get(ITimeFactory::class));
 		$job->setId(42);
 		$this->jobList->add($job);

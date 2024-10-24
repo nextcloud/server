@@ -49,7 +49,6 @@ package: clean build-js-production
 	--exclude=/SECURITY.md \
 	--exclude=/.gitignore \
 	--exclude=/.scrutinizer.yml \
-	--exclude=/.travis.yml \
 	--exclude=/.drone.yml \
 	--exclude=/node_modules \
 	--exclude=/npm-debug.log \

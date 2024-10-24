@@ -18,8 +18,8 @@ use OC\Group\Database;
  * Base class for sharing tests.
  */
 abstract class TestCase extends \Test\TestCase {
-	public const TEST_FILES_SHARING_API_USER1 = "test-share-user1";
-	public const TEST_FILES_SHARING_API_USER2 = "test-share-user2";
+	public const TEST_FILES_SHARING_API_USER1 = 'test-share-user1';
+	public const TEST_FILES_SHARING_API_USER2 = 'test-share-user2';
 
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
@@ -90,7 +90,7 @@ abstract class TestCase extends \Test\TestCase {
 
 		\OC_Util::tearDownFS();
 		\OC::$server->getUserSession()->setUser(null);
-		\OC\Files\Filesystem::tearDown();
+		Filesystem::tearDown();
 		\OC::$server->getUserSession()->login($user, $password);
 		\OC::$server->getUserFolder($user);
 

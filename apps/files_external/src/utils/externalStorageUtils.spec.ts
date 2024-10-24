@@ -2,8 +2,8 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { expect } from '@jest/globals'
 import { File, Folder, Permission } from '@nextcloud/files'
+import { describe, expect, test } from 'vitest'
 import { isNodeExternalStorage } from './externalStorageUtils'
 
 describe('Is node an external storage', () => {

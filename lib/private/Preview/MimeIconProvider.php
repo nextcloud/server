@@ -22,7 +22,7 @@ class MimeIconProvider implements IMimeIconProvider {
 	) {
 	}
 
-	public function getMimeIconUrl(string $mime): null|string {
+	public function getMimeIconUrl(string $mime): ?string {
 		if (!$mime) {
 			return null;
 		}
@@ -55,7 +55,7 @@ class MimeIconProvider implements IMimeIconProvider {
 		return null;
 	}
 	
-	private function searchfileName(string $fileName): null|string {
+	private function searchfileName(string $fileName): ?string {
 		// If the file exists in the current enabled legacy
 		// custom theme, let's return it
 		$theme = $this->config->getSystemValue('theme', '');

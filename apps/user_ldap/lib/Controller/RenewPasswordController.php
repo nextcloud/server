@@ -23,17 +23,6 @@ use OCP\IUserManager;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class RenewPasswordController extends Controller {
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IConfig */
-	private $config;
-	/** @var IL10N */
-	protected $l10n;
-	/** @var ISession */
-	private $session;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -41,14 +30,16 @@ class RenewPasswordController extends Controller {
 	 * @param IConfig $config
 	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct($appName, IRequest $request, IUserManager $userManager,
-		IConfig $config, IL10N $l10n, ISession $session, IURLGenerator $urlGenerator) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		private IUserManager $userManager,
+		private IConfig $config,
+		protected IL10N $l10n,
+		private ISession $session,
+		private IURLGenerator $urlGenerator,
+	) {
 		parent::__construct($appName, $request);
-		$this->userManager = $userManager;
-		$this->config = $config;
-		$this->l10n = $l10n;
-		$this->session = $session;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -127,7 +118,7 @@ class RenewPasswordController extends Controller {
 		try {
 			if (!is_null($newPassword) && \OC_User::setPassword($user, $newPassword)) {
 				$this->session->set('loginMessages', [
-					[], [$this->l10n->t("Please login with the new password")]
+					[], [$this->l10n->t('Please login with the new password')]
 				]);
 				$this->config->setUserValue($user, 'user_ldap', 'needsPasswordReset', 'false');
 				return new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm', $args));

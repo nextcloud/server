@@ -86,6 +86,9 @@ class FreePromptProvider implements IProvider {
 	}
 }
 
+/**
+ * @group DB
+ */
 class TextProcessingTest extends \Test\TestCase {
 	private IManager $manager;
 	private Coordinator $coordinator;
@@ -176,11 +179,12 @@ class TextProcessingTest extends \Test\TestCase {
 			\OC::$server->get(LoggerInterface::class),
 			$this->jobList,
 			$this->taskMapper,
-			$config
+			$config,
+			\OC::$server->get(\OCP\TaskProcessing\IManager::class),
 		);
 	}
 
-	public function testShouldNotHaveAnyProviders() {
+	public function testShouldNotHaveAnyProviders(): void {
 		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([]);
 		$this->assertCount(0, $this->manager->getAvailableTaskTypes());
 		$this->assertFalse($this->manager->hasProviders());
@@ -188,7 +192,7 @@ class TextProcessingTest extends \Test\TestCase {
 		$this->manager->runTask(new \OCP\TextProcessing\Task(FreePromptTaskType::class, 'Hello', 'test', null));
 	}
 
-	public function testProviderShouldBeRegisteredAndRun() {
+	public function testProviderShouldBeRegisteredAndRun(): void {
 		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([
 			new ServiceRegistration('test', SuccessfulSummaryProvider::class)
 		]);
@@ -201,7 +205,7 @@ class TextProcessingTest extends \Test\TestCase {
 		$this->manager->runTask(new Task(FreePromptTaskType::class, 'Hello', 'test', null));
 	}
 
-	public function testProviderShouldBeRegisteredAndScheduled() {
+	public function testProviderShouldBeRegisteredAndScheduled(): void {
 		// register provider
 		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([
 			new ServiceRegistration('test', SuccessfulSummaryProvider::class)
@@ -252,7 +256,7 @@ class TextProcessingTest extends \Test\TestCase {
 		$this->assertEquals(Task::STATUS_SUCCESSFUL, $task3->getStatus());
 	}
 
-	public function testMultipleProvidersShouldBeRegisteredAndRunCorrectly() {
+	public function testMultipleProvidersShouldBeRegisteredAndRunCorrectly(): void {
 		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([
 			new ServiceRegistration('test', SuccessfulSummaryProvider::class),
 			new ServiceRegistration('test', FreePromptProvider::class),
@@ -271,12 +275,12 @@ class TextProcessingTest extends \Test\TestCase {
 		$this->manager->runTask(new Task(TopicsTaskType::class, 'Hello', 'test', null));
 	}
 
-	public function testNonexistentTask() {
+	public function testNonexistentTask(): void {
 		$this->expectException(NotFoundException::class);
 		$this->manager->getTask(2147483646);
 	}
 
-	public function testTaskFailure() {
+	public function testTaskFailure(): void {
 		// register provider
 		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([
 			new ServiceRegistration('test', FailingSummaryProvider::class),
@@ -327,7 +331,7 @@ class TextProcessingTest extends \Test\TestCase {
 		$this->assertEquals(Task::STATUS_FAILED, $task3->getStatus());
 	}
 
-	public function testOldTasksShouldBeCleanedUp() {
+	public function testOldTasksShouldBeCleanedUp(): void {
 		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([
 			new ServiceRegistration('test', SuccessfulSummaryProvider::class)
 		]);

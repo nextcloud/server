@@ -2,11 +2,14 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { beforeEach, describe, expect, it, jest } from '@jest/globals'
-import nextcloudFiles, { Navigation, View } from '@nextcloud/files'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { defineComponent } from 'vue'
+
 import { useNavigation } from './useNavigation'
+import * as nextcloudFiles from '@nextcloud/files'
+
+const { Navigation, View } = nextcloudFiles
 
 // Just a wrapper so we can test the composable
 const TestComponent = defineComponent({
@@ -21,7 +24,7 @@ const TestComponent = defineComponent({
 })
 
 describe('Composables: useNavigation', () => {
-	const spy = jest.spyOn(nextcloudFiles, 'getNavigation')
+	const spy = vi.spyOn(nextcloudFiles, 'getNavigation')
 	let navigation: Navigation
 
 	describe('currentView', () => {

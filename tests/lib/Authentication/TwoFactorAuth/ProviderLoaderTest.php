@@ -47,7 +47,7 @@ class ProviderLoaderTest extends TestCase {
 	}
 
 
-	public function testFailHardIfProviderCanNotBeLoaded() {
+	public function testFailHardIfProviderCanNotBeLoaded(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Could not load two-factor auth provider \\OCA\\MyFaulty2faApp\\DoesNotExist');
 
@@ -69,7 +69,7 @@ class ProviderLoaderTest extends TestCase {
 		$this->loader->getProviders($this->user);
 	}
 
-	public function testGetProviders() {
+	public function testGetProviders(): void {
 		$provider = $this->createMock(IProvider::class);
 		$provider->method('getId')->willReturn('test');
 		\OC::$server->registerService('\\OCA\\TwoFactorTest\\Provider', function () use ($provider) {
@@ -93,7 +93,7 @@ class ProviderLoaderTest extends TestCase {
 		$this->assertSame($provider, $providers['test']);
 	}
 
-	public function testGetProvidersBootstrap() {
+	public function testGetProvidersBootstrap(): void {
 		$provider = $this->createMock(IProvider::class);
 		$provider->method('getId')->willReturn('test');
 

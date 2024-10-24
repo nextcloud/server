@@ -51,7 +51,7 @@ class DeleteOrphanedItemsJobTest extends \Test\TestCase {
 	/**
 	 * Test clearing orphaned system tag mappings
 	 */
-	public function testClearSystemTagMappings() {
+	public function testClearSystemTagMappings(): void {
 		$this->cleanMapping('systemtag_object_mapping');
 
 		$query = $this->connection->getQueryBuilder();
@@ -100,7 +100,7 @@ class DeleteOrphanedItemsJobTest extends \Test\TestCase {
 	/**
 	 * Test clearing orphaned system tag mappings
 	 */
-	public function testClearUserTagMappings() {
+	public function testClearUserTagMappings(): void {
 		$this->cleanMapping('vcategory_to_object');
 
 		$query = $this->connection->getQueryBuilder();
@@ -149,7 +149,7 @@ class DeleteOrphanedItemsJobTest extends \Test\TestCase {
 	/**
 	 * Test clearing orphaned system tag mappings
 	 */
-	public function testClearComments() {
+	public function testClearComments(): void {
 		$this->cleanMapping('comments');
 
 		$query = $this->connection->getQueryBuilder();
@@ -200,7 +200,7 @@ class DeleteOrphanedItemsJobTest extends \Test\TestCase {
 	/**
 	 * Test clearing orphaned system tag mappings
 	 */
-	public function testClearCommentReadMarks() {
+	public function testClearCommentReadMarks(): void {
 		$this->cleanMapping('comments_read_markers');
 
 		$query = $this->connection->getQueryBuilder();

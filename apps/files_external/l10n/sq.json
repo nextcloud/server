@@ -79,6 +79,7 @@
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Mbështetja e FTP në PHP nuk është e aktivizuar ose instaluar.Lidhja e %s nuk është e mundur.Ju lutem kërkojini administratorit të sistemit tuaj që ta instalojë.",
     "External storage" : "Depozitë e jashtme",
     "External storage support" : "Suport i kujtesë së jashtme",
+    "Submit" : "Dërgo",
     "External mount error" : "Gabim i jashtëm montimi",
     "Storage type" : "Lloj depozite",
     "Unknown" : "I panjohur",

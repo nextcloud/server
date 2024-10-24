@@ -3,7 +3,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace Test\TextProcessing;
+namespace Test\TaskProcessing;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Bootstrap\RegistrationContext;
@@ -26,7 +26,6 @@ use OCP\IDBConnection;
 use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Events\TaskFailedEvent;
 use OCP\TaskProcessing\Events\TaskSuccessfulEvent;
@@ -352,7 +351,7 @@ class SuccessfulTextToImageProvider implements \OCP\TextToImage\IProvider {
 
 	public function generate(string $prompt, array $resources): void {
 		$this->ran = true;
-		foreach($resources as $resource) {
+		foreach ($resources as $resource) {
 			fwrite($resource, 'test');
 		}
 	}
@@ -450,15 +449,6 @@ class TaskProcessingTest extends \Test\TestCase {
 
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
-		$textProcessingManager = new \OC\TextProcessing\Manager(
-			$this->serverContainer,
-			$this->coordinator,
-			\OC::$server->get(LoggerInterface::class),
-			$this->jobList,
-			\OC::$server->get(\OC\TextProcessing\Db\TaskMapper::class),
-			\OC::$server->get(IConfig::class),
-		);
-
 		$text2imageManager = new \OC\TextToImage\Manager(
 			$this->serverContainer,
 			$this->coordinator,
@@ -481,9 +471,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			$this->eventDispatcher,
 			\OC::$server->get(IAppDataFactory::class),
 			\OC::$server->get(IRootFolder::class),
-			$textProcessingManager,
 			$text2imageManager,
-			\OC::$server->get(ISpeechToTextManager::class),
 			$this->userMountCache,
 			\OC::$server->get(IClientService::class),
 			\OC::$server->get(IAppManager::class),
@@ -496,7 +484,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		return $file;
 	}
 
-	public function testShouldNotHaveAnyProviders() {
+	public function testShouldNotHaveAnyProviders(): void {
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([]);
 		self::assertCount(0, $this->manager->getAvailableTaskTypes());
 		self::assertFalse($this->manager->hasProviders());
@@ -504,7 +492,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->manager->scheduleTask(new Task(TextToText::ID, ['input' => 'Hello'], 'test', null));
 	}
 
-	public function testProviderShouldBeRegisteredAndTaskFailValidation() {
+	public function testProviderShouldBeRegisteredAndTaskFailValidation(): void {
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
 			new ServiceRegistration('test', BrokenSyncProvider::class)
 		]);
@@ -516,7 +504,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->manager->scheduleTask($task);
 	}
 
-	public function testProviderShouldBeRegisteredAndTaskWithFilesFailValidation() {
+	public function testProviderShouldBeRegisteredAndTaskWithFilesFailValidation(): void {
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingTaskTypes')->willReturn([
 			new ServiceRegistration('test', AudioToImage::class)
 		]);
@@ -540,7 +528,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->manager->scheduleTask($task);
 	}
 
-	public function testProviderShouldBeRegisteredAndFail() {
+	public function testProviderShouldBeRegisteredAndFail(): void {
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
 			new ServiceRegistration('test', FailingSyncProvider::class)
 		]);
@@ -568,7 +556,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertEquals(FailingSyncProvider::ERROR_MESSAGE, $task->getErrorMessage());
 	}
 
-	public function testProviderShouldBeRegisteredAndFailOutputValidation() {
+	public function testProviderShouldBeRegisteredAndFailOutputValidation(): void {
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
 			new ServiceRegistration('test', BrokenSyncProvider::class)
 		]);
@@ -596,7 +584,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertEquals('The task was processed successfully but the provider\'s output doesn\'t pass validation against the task type\'s outputShape spec and/or the provider\'s own optionalOutputShape spec', $task->getErrorMessage());
 	}
 
-	public function testProviderShouldBeRegisteredAndRun() {
+	public function testProviderShouldBeRegisteredAndRun(): void {
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
 			new ServiceRegistration('test', SuccessfulSyncProvider::class)
 		]);
@@ -637,12 +625,12 @@ class TaskProcessingTest extends \Test\TestCase {
 		$backgroundJob->start($this->jobList);
 
 		$task = $this->manager->getTask($task->getId());
-		self::assertEquals(Task::STATUS_SUCCESSFUL, $task->getStatus(), 'Status is '. $task->getStatus() . ' with error message: ' . $task->getErrorMessage());
+		self::assertEquals(Task::STATUS_SUCCESSFUL, $task->getStatus(), 'Status is ' . $task->getStatus() . ' with error message: ' . $task->getErrorMessage());
 		self::assertEquals(['output' => 'Hello'], $task->getOutput());
 		self::assertEquals(1, $task->getProgress());
 	}
 
-	public function testAsyncProviderWithFilesShouldBeRegisteredAndRunReturningRawFileData() {
+	public function testAsyncProviderWithFilesShouldBeRegisteredAndRunReturningRawFileData(): void {
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingTaskTypes')->willReturn([
 			new ServiceRegistration('test', AudioToImage::class)
 		]);
@@ -694,7 +682,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertEquals('World', $node->getContent());
 	}
 
-	public function testAsyncProviderWithFilesShouldBeRegisteredAndRunReturningFileIds() {
+	public function testAsyncProviderWithFilesShouldBeRegisteredAndRunReturningFileIds(): void {
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingTaskTypes')->willReturn([
 			new ServiceRegistration('test', AudioToImage::class)
 		]);
@@ -741,17 +729,17 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertEquals(1, $task->getProgress());
 		self::assertTrue(isset($task->getOutput()['spectrogram']));
 		$node = $this->rootFolder->getFirstNodeById($task->getOutput()['spectrogram']);
-		self::assertNotNull($node, 'fileId:'  . $task->getOutput()['spectrogram']);
+		self::assertNotNull($node, 'fileId:' . $task->getOutput()['spectrogram']);
 		self::assertInstanceOf(\OCP\Files\File::class, $node);
 		self::assertEquals('World', $node->getContent());
 	}
 
-	public function testNonexistentTask() {
+	public function testNonexistentTask(): void {
 		$this->expectException(\OCP\TaskProcessing\Exception\NotFoundException::class);
 		$this->manager->getTask(2147483646);
 	}
 
-	public function testOldTasksShouldBeCleanedUp() {
+	public function testOldTasksShouldBeCleanedUp(): void {
 		$currentTime = new \DateTime('now');
 		$timeFactory = $this->createMock(ITimeFactory::class);
 		$timeFactory->expects($this->any())->method('getDateTime')->willReturnCallback(fn () => $currentTime);
@@ -797,7 +785,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->manager->getTask($task->getId());
 	}
 
-	public function testShouldTransparentlyHandleTextProcessingProviders() {
+	public function testShouldTransparentlyHandleTextProcessingProviders(): void {
 		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([
 			new ServiceRegistration('test', SuccessfulTextProcessingSummaryProvider::class)
 		]);
@@ -828,7 +816,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertTrue($this->providers[SuccessfulTextProcessingSummaryProvider::class]->ran);
 	}
 
-	public function testShouldTransparentlyHandleFailingTextProcessingProviders() {
+	public function testShouldTransparentlyHandleFailingTextProcessingProviders(): void {
 		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([
 			new ServiceRegistration('test', FailingTextProcessingSummaryProvider::class)
 		]);
@@ -858,7 +846,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertTrue($this->providers[FailingTextProcessingSummaryProvider::class]->ran);
 	}
 
-	public function testShouldTransparentlyHandleText2ImageProviders() {
+	public function testShouldTransparentlyHandleText2ImageProviders(): void {
 		$this->registrationContext->expects($this->any())->method('getTextToImageProviders')->willReturn([
 			new ServiceRegistration('test', SuccessfulTextToImageProvider::class)
 		]);
@@ -894,7 +882,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertEquals('test', $node->getContent());
 	}
 
-	public function testShouldTransparentlyHandleFailingText2ImageProviders() {
+	public function testShouldTransparentlyHandleFailingText2ImageProviders(): void {
 		$this->registrationContext->expects($this->any())->method('getTextToImageProviders')->willReturn([
 			new ServiceRegistration('test', FailingTextToImageProvider::class)
 		]);

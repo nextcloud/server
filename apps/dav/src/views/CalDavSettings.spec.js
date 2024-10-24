@@ -3,39 +3,32 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { render } from '@testing-library/vue'
-import CalDavSettings from './CalDavSettings.vue'
-// eslint-disable-next-line no-unused-vars
-import { generateUrl } from '@nextcloud/router'
+import { beforeEach, describe, expect, test, vi } from 'vitest'
 
-jest.mock('@nextcloud/axios')
-jest.mock('@nextcloud/router', () => {
+import CalDavSettings from './CalDavSettings.vue'
+
+vi.mock('@nextcloud/axios')
+vi.mock('@nextcloud/router', () => {
 	return {
 		generateUrl(url) {
 			return url
 		},
 	}
 })
-jest.mock('@nextcloud/initial-state', () => {
+vi.mock('@nextcloud/initial-state', () => {
 	return {
-		loadState: jest.fn(() => 'https://docs.nextcloud.com/server/23/go.php?to=user-sync-calendars'),
+		loadState: vi.fn(() => 'https://docs.nextcloud.com/server/23/go.php?to=user-sync-calendars'),
 	}
 })
 
 describe('CalDavSettings', () => {
-	const originalOC = global.OC
-	const originalOCP = global.OCP
-
 	beforeEach(() => {
-		global.OC = { requestToken: 'secret' }
-		global.OCP = {
+		window.OC = { requestToken: 'secret' }
+		window.OCP = {
 			AppConfig: {
-				setValue: jest.fn(),
+				setValue: vi.fn(),
 			},
 		}
-	})
-	afterAll(() => {
-		global.OC = originalOC
-		global.OCP = originalOCP
 	})
 
 	test('interactions', async () => {
@@ -53,7 +46,7 @@ describe('CalDavSettings', () => {
 				},
 			},
 			Vue => {
-				Vue.prototype.$t = jest.fn((app, text) => text)
+				Vue.prototype.$t = vi.fn((app, text) => text)
 			},
 		)
 		expect(TLUtils.container).toMatchSnapshot()

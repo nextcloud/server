@@ -46,7 +46,7 @@ class DependencyAnalyzerTest extends TestCase {
 			->method('getLibraryVersion')
 			->willReturnCallback(function ($lib) {
 				if ($lib === 'curl') {
-					return "2.3.4";
+					return '2.3.4';
 				}
 				return null;
 			});
@@ -74,7 +74,7 @@ class DependencyAnalyzerTest extends TestCase {
 	 * @param string $maxVersion
 	 * @param string $intSize
 	 */
-	public function testPhpVersion($expectedMissing, $minVersion, $maxVersion, $intSize) {
+	public function testPhpVersion($expectedMissing, $minVersion, $maxVersion, $intSize): void {
 		$app = [
 			'dependencies' => [
 				'php' => []
@@ -100,7 +100,7 @@ class DependencyAnalyzerTest extends TestCase {
 	 * @param $expectedMissing
 	 * @param $databases
 	 */
-	public function testDatabases($expectedMissing, $databases) {
+	public function testDatabases($expectedMissing, $databases): void {
 		$app = [
 			'dependencies' => [
 			]
@@ -120,7 +120,7 @@ class DependencyAnalyzerTest extends TestCase {
 	 * @param string $expectedMissing
 	 * @param string|null $commands
 	 */
-	public function testCommand($expectedMissing, $commands) {
+	public function testCommand($expectedMissing, $commands): void {
 		$app = [
 			'dependencies' => [
 			]
@@ -139,7 +139,7 @@ class DependencyAnalyzerTest extends TestCase {
 	 * @param $expectedMissing
 	 * @param $libs
 	 */
-	public function testLibs($expectedMissing, $libs) {
+	public function testLibs($expectedMissing, $libs): void {
 		$app = [
 			'dependencies' => [
 			]
@@ -159,7 +159,7 @@ class DependencyAnalyzerTest extends TestCase {
 	 * @param $expectedMissing
 	 * @param $oss
 	 */
-	public function testOS($expectedMissing, $oss) {
+	public function testOS($expectedMissing, $oss): void {
 		$app = [
 			'dependencies' => []
 		];
@@ -178,7 +178,7 @@ class DependencyAnalyzerTest extends TestCase {
 	 * @param $expectedMissing
 	 * @param $oc
 	 */
-	public function testOC($expectedMissing, $oc) {
+	public function testOC($expectedMissing, $oc): void {
 		$app = [
 			'dependencies' => []
 		];

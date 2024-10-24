@@ -41,7 +41,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		$this->registerMount($this->username, $storage, '/' . $this->username . '/');
 
 		\OC_Util::tearDownFS();
-		\OC_User::setUserId('');
+		\OC_User::setUserId($this->username);
 		\OC\Files\Filesystem::tearDown();
 		\OC_Util::setupFS($this->username);
 
@@ -76,7 +76,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testListCertificates() {
+	public function testListCertificates(): void {
 		// Test empty certificate bundle
 		$this->assertSame([], $this->certificateManager->listCertificates());
 
@@ -93,7 +93,7 @@ class CertificateManagerTest extends \Test\TestCase {
 	}
 
 
-	public function testAddInvalidCertificate() {
+	public function testAddInvalidCertificate(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Certificate could not get parsed.');
 
@@ -115,21 +115,21 @@ class CertificateManagerTest extends \Test\TestCase {
 	 * @dataProvider dangerousFileProvider
 	 * @param string $filename
 	 */
-	public function testAddDangerousFile($filename) {
+	public function testAddDangerousFile($filename): void {
 		$this->expectException(InvalidPathException::class);
 		$this->certificateManager->addCertificate(file_get_contents(__DIR__ . '/../../data/certificates/expiredCertificate.crt'), $filename);
 	}
 
-	public function testRemoveDangerousFile() {
+	public function testRemoveDangerousFile(): void {
 		$this->assertFalse($this->certificateManager->removeCertificate('../../foo.txt'));
 	}
 
-	public function testRemoveExistingFile() {
+	public function testRemoveExistingFile(): void {
 		$this->certificateManager->addCertificate(file_get_contents(__DIR__ . '/../../data/certificates/goodCertificate.crt'), 'GoodCertificate');
 		$this->assertTrue($this->certificateManager->removeCertificate('GoodCertificate'));
 	}
 
-	public function testGetCertificateBundle() {
+	public function testGetCertificateBundle(): void {
 		$this->assertSame('/files_external/rootcerts.crt', $this->certificateManager->getCertificateBundle());
 	}
 
@@ -144,8 +144,8 @@ class CertificateManagerTest extends \Test\TestCase {
 	public function testNeedRebundling($CaBundleMtime,
 		$targetBundleMtime,
 		$targetBundleExists,
-		$expected
-	) {
+		$expected,
+	): void {
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()->getMock();
 		$config = $this->createMock(IConfig::class);
