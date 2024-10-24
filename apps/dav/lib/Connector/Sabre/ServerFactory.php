@@ -136,7 +136,7 @@ class ServerFactory {
 			));
 
 			if ($this->userSession->isLoggedIn()) {
-				$server->addPlugin(new TagsPlugin($objectTree, $this->tagManager));
+				$server->addPlugin(new TagsPlugin($objectTree, $this->tagManager, $this->eventDispatcher, $this->userSession));
 				$server->addPlugin(new SharesPlugin(
 					$objectTree,
 					$this->userSession,
