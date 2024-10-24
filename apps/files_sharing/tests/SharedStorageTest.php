@@ -579,4 +579,30 @@ class SharedStorageTest extends TestCase {
 		$this->assertInstanceOf(FailedStorage::class, $storage->getSourceStorage());
 		$this->assertInstanceOf(FailedCache::class, $storage->getCache());
 	}
+
+	public function testCopyPermissions(): void {
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		$share = $this->share(
+			IShare::TYPE_USER,
+			$this->filename,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE - Constants::PERMISSION_DELETE
+		);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$view = new View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
+		$this->assertTrue($view->file_exists($this->filename));
+
+		$this->assertTrue($view->copy($this->filename, '/target.txt'));
+
+		$this->assertTrue($view->file_exists('/target.txt'));
+
+		$info = $view->getFileInfo('/target.txt');
+		$this->assertEquals(Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE, $info->getPermissions());
+
+		$this->view->unlink($this->filename);
+		$this->shareManager->deleteShare($share);
+	}
 }
