@@ -77,6 +77,7 @@ jobs:
           MYSQL_PASSWORD: nextcloud
           MYSQL_DATABASE: oc_autotest
         options: --health-cmd="mysqladmin ping" --health-interval 5s --health-timeout 2s --health-retries 10
+        command: --default-auth=mysql_native_password
       shard1:
         image: ghcr.io/nextcloud/continuous-integration-mysql-${{ matrix.mysql-versions }}:latest
         ports:
@@ -87,6 +88,7 @@ jobs:
           MYSQL_PASSWORD: nextcloud
           MYSQL_DATABASE: nextcloud
         options: --health-cmd="mysqladmin ping" --health-interval 5s --health-timeout 2s --health-retries 10
+        command: --default-auth=mysql_native_password
       shard2:
         image: ghcr.io/nextcloud/continuous-integration-mysql-${{ matrix.mysql-versions }}:latest
         ports:
@@ -97,6 +99,7 @@ jobs:
           MYSQL_PASSWORD: nextcloud
           MYSQL_DATABASE: nextcloud
         options: --health-cmd="mysqladmin ping" --health-interval 5s --health-timeout 2s --health-retries 10
+        command: --default-auth=mysql_native_password
       shard3:
         image: ghcr.io/nextcloud/continuous-integration-mysql-${{ matrix.mysql-versions }}:latest
         ports:
@@ -107,6 +110,7 @@ jobs:
           MYSQL_PASSWORD: nextcloud
           MYSQL_DATABASE: nextcloud
         options: --health-cmd="mysqladmin ping" --health-interval 5s --health-timeout 2s --health-retries 10
+        command: --default-auth=mysql_native_password
       shard4:
         image: ghcr.io/nextcloud/continuous-integration-mysql-${{ matrix.mysql-versions }}:latest
         ports:
@@ -117,6 +121,7 @@ jobs:
           MYSQL_PASSWORD: nextcloud
           MYSQL_DATABASE: nextcloud
         options: --health-cmd="mysqladmin ping" --health-interval 5s --health-timeout 2s --health-retries 10
+        command: --default-auth=mysql_native_password
 
     steps:
       - name: Checkout server
