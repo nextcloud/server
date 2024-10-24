@@ -219,7 +219,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		}
 
 		$propFind->handle(FilesPlugin::GETETAG_PROPERTYNAME, function () use ($node): string|null {
-			return $node->getSystemTag()->getETag();
+			return '"' . $node->getSystemTag()->getETag() . '"';
 		});
 
 		$propFind->handle(self::ID_PROPERTYNAME, function () use ($node) {

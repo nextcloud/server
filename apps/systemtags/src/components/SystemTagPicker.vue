@@ -23,22 +23,28 @@
 			<!-- Search or create input -->
 			<form class="systemtags-picker__create" @submit.stop.prevent="onNewTag">
 				<NcTextField :value.sync="input"
-					:label="t('systemtags', 'Search or create tag')">
+					:label="t('systemtags', 'Search or create tag')"
+					data-cy-systemtags-picker-input>
 					<TagIcon :size="20" />
 				</NcTextField>
-				<NcButton :disabled="status === Status.CREATING_TAG" native-type="submit">
+				<NcButton :disabled="status === Status.CREATING_TAG"
+					native-type="submit"
+					data-cy-systemtags-picker-input-submit>
 					{{ t('systemtags', 'Create tag') }}
 				</NcButton>
 			</form>
 
 			<!-- Tags list -->
-			<div v-if="filteredTags.length > 0" class="systemtags-picker__tags">
+			<div v-if="filteredTags.length > 0"
+				class="systemtags-picker__tags"
+				data-cy-systemtags-picker-tags>
 				<NcCheckboxRadioSwitch v-for="tag in filteredTags"
 					:key="tag.id"
 					:label="tag.displayName"
 					:checked="isChecked(tag)"
 					:indeterminate="isIndeterminate(tag)"
 					:disabled="!tag.canAssign"
+					:data-cy-systemtags-picker-tag="tag.id"
 					@update:checked="onCheckUpdate(tag, $event)">
 					{{ formatTagName(tag) }}
 				</NcCheckboxRadioSwitch>
@@ -61,10 +67,15 @@
 		</template>
 
 		<template #actions>
-			<NcButton :disabled="status !== Status.BASE" type="tertiary" @click="onCancel">
+			<NcButton :disabled="status !== Status.BASE"
+				type="tertiary"
+				data-cy-systemtags-picker-button-cancel
+				@click="onCancel">
 				{{ t('systemtags', 'Cancel') }}
 			</NcButton>
-			<NcButton :disabled="!hasChanges || status !== Status.BASE" @click="onSubmit">
+			<NcButton :disabled="!hasChanges || status !== Status.BASE"
+				data-cy-systemtags-picker-button-submit
+				@click="onSubmit">
 				{{ t('systemtags', 'Apply changes') }}
 			</NcButton>
 		</template>
@@ -270,11 +281,11 @@ export default defineComponent({
 		},
 
 		formatTagName(tag: TagWithId): string {
-			if (tag.userVisible) {
+			if (!tag.userVisible) {
 				return t('systemtags', '{displayName} (hidden)', { displayName: tag.displayName })
 			}
 
-			if (tag.userAssignable) {
+			if (!tag.userAssignable) {
 				return t('systemtags', '{displayName} (restricted)', { displayName: tag.displayName })
 			}
 
@@ -317,6 +328,9 @@ export default defineComponent({
 				const tag = await fetchTag(id)
 				this.tags.push(tag)
 				this.input = ''
+
+				// Check the newly created tag
+				this.onCheckUpdate(tag, true)
 			} catch (error) {
 				showError((error as Error)?.message || t('systemtags', 'Failed to create tag'))
 			} finally {

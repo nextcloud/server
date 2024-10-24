@@ -14,11 +14,15 @@ export const getActionButtonForFile = (filename: string) => getActionsForFile(fi
 
 export const triggerActionForFileId = (fileid: number, actionId: string) => {
 	getActionButtonForFileId(fileid).click()
-	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`).should('exist').click()
+	// Getting the last button to avoid the one from popup fading out
+	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`).last()
+		.should('exist').click()
 }
 export const triggerActionForFile = (filename: string, actionId: string) => {
 	getActionButtonForFile(filename).click()
-	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`).should('exist').click()
+	// Getting the last button to avoid the one from popup fading out
+	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`).last()
+		.should('exist').click()
 }
 
 export const triggerInlineActionForFileId = (fileid: number, actionId: string) => {
@@ -26,6 +30,25 @@ export const triggerInlineActionForFileId = (fileid: number, actionId: string) =
 }
 export const triggerInlineActionForFile = (filename: string, actionId: string) => {
 	getActionsForFile(filename).get(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`).should('exist').click()
+}
+
+export const selectAllFiles = () => {
+	cy.get('[data-cy-files-list-selection-checkbox]').findByRole('checkbox').click({ force: true })
+}
+export const selectRowForFile = (filename: string) => {
+	getRowForFile(filename)
+		.find('[data-cy-files-list-row-checkbox]')
+		.findByRole('checkbox')
+		.click({ force: true })
+		.should('be.checked')
+	cy.get('[data-cy-files-list-selection-checkbox]').findByRole('checkbox').should('satisfy', (elements) => {
+		return elements.length === 1 && (elements[0].checked === true || elements[0].indeterminate === true)
+	})
+
+}
+
+export const triggerSelectionAction = (actionId: string) => {
+	cy.get(`button[data-cy-files-list-selection-action="${CSS.escape(actionId)}"]`).should('exist').click()
 }
 
 export const moveFile = (fileName: string, dirPath: string) => {

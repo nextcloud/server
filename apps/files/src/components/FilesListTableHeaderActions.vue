@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div class="files-list__column files-list__row-actions-batch">
+	<div class="files-list__column files-list__row-actions-batch" data-cy-files-list-selection-actions>
 		<NcActions ref="actionsMenu"
 			container="#app-content-vue"
 			:disabled="!!loading || areSomeNodesLoading"
@@ -15,6 +15,7 @@
 				:key="action.id"
 				:aria-label="action.displayName(nodes, currentView) + ' ' + t('files', '(selected)') /** TRANSLATORS: Selected like 'selected files and folders' */"
 				:class="'files-list__row-actions-batch-' + action.id"
+				:data-cy-files-list-selection-action="action.id"
 				@click="onActionClick(action)">
 				<template #icon>
 					<NcLoadingIcon v-if="loading === action.id" :size="18" />
