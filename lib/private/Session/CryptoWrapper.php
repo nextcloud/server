@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -28,8 +30,10 @@ use OCP\Security\ISecureRandom;
  * https://github.com/owncloud/core/pull/17866
  *
  * @package OC\Session
+ * @deprecated
  */
 class CryptoWrapper {
+	/** @deprecated 31.0.0 */
 	public const COOKIE_NAME = 'oc_sessionPassphrase';
 
 	/** @var IConfig */
@@ -48,6 +52,7 @@ class CryptoWrapper {
 	 * @param ICrypto $crypto
 	 * @param ISecureRandom $random
 	 * @param IRequest $request
+	 * @depreacted 31.0.0
 	 */
 	public function __construct(IConfig $config,
 		ICrypto $crypto,
@@ -61,37 +66,17 @@ class CryptoWrapper {
 			$this->passphrase = $request->getCookie(self::COOKIE_NAME);
 		} else {
 			$this->passphrase = $this->random->generate(128);
-			$secureCookie = $request->getServerProtocol() === 'https';
-			// FIXME: Required for CI
-			if (!defined('PHPUNIT_RUN')) {
-				$webRoot = \OC::$WEBROOT;
-				if ($webRoot === '') {
-					$webRoot = '/';
-				}
-
-				setcookie(
-					self::COOKIE_NAME,
-					$this->passphrase,
-					[
-						'expires' => 0,
-						'path' => $webRoot,
-						'domain' => '',
-						'secure' => $secureCookie,
-						'httponly' => true,
-						'samesite' => 'Lax',
-					]
-				);
-			}
 		}
 	}
 
 	/**
 	 * @param ISession $session
 	 * @return ISession
+	 * @deprecated 31.0.0
 	 */
 	public function wrapSession(ISession $session) {
-		if (!($session instanceof CryptoSessionData)) {
-			return new CryptoSessionData($session, $this->crypto, $this->passphrase);
+		if (!($session instanceof LegacyCryptoSessionData)) {
+			return new LegacyCryptoSessionData($session, $this->crypto, $this->passphrase);
 		}
 
 		return $session;

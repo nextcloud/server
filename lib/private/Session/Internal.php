@@ -11,6 +11,7 @@ namespace OC\Session;
 
 use OC\Authentication\Token\IProvider;
 use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
@@ -155,7 +156,8 @@ class Internal extends Session {
 		if ($id === '') {
 			throw new SessionNotAvailableException();
 		}
-		return $id;
+		// Only return the ID part, not the passphrase
+		return CryptoSessionHandler::parseId($id)[0];
 	}
 
 	/**
