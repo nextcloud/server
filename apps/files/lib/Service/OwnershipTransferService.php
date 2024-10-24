@@ -150,16 +150,6 @@ class OwnershipTransferService {
 			$output
 		);
 
-		$destinationPath = $finalTarget . '/' . $path;
-		// restore the shares
-		$this->restoreShares(
-			$sourceUid,
-			$destinationUid,
-			$destinationPath,
-			$shares,
-			$output
-		);
-
 		// transfer the incoming shares
 		if ($transferIncomingShares === true) {
 			$sourceShares = $this->collectIncomingShares(
@@ -184,6 +174,16 @@ class OwnershipTransferService {
 				$move
 			);
 		}
+
+		$destinationPath = $finalTarget . '/' . $path;
+		// restore the shares
+		$this->restoreShares(
+			$sourceUid,
+			$destinationUid,
+			$destinationPath,
+			$shares,
+			$output
+		);
 	}
 
 	private function sanitizeFolderName(string $name): string {
