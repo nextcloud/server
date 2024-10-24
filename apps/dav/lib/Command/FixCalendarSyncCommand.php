@@ -54,7 +54,8 @@ class FixCalendarSyncCommand extends Command {
 			});
 			$progress->finish();
 		}
-		return 0;
+		$output->writeln('');
+		return self::SUCCESS;
 	}
 
 	private function fixUserCalendars(IUser $user, ?ProgressBar $progress = null): void {
