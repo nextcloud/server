@@ -488,7 +488,7 @@ class UsersController extends AUserData {
 				$group = $this->groupManager->get($groupid);
 				// Check if group exists
 				if ($group === null) {
-					throw new OCSException($this->l10n->t('Sub-admin group does not exist'), 102);
+					throw new OCSException($this->l10n->t('Sub-admin group does not exist'), 109);
 				}
 				// Check if trying to make subadmin of admin group
 				if ($group->getGID() === 'admin') {
@@ -508,7 +508,7 @@ class UsersController extends AUserData {
 		}
 		if ($password === '') {
 			if ($email === '') {
-				throw new OCSException($this->l10n->t('To send a password link to the user an email address is required.'), 108);
+				throw new OCSException($this->l10n->t('An email address is required, to send a password link to the user.'), 108);
 			}
 
 			$passwordEvent = new GenerateSecurePasswordEvent();
@@ -1007,7 +1007,7 @@ class UsersController extends AUserData {
 		}
 		// Check if permitted to edit this field
 		if (!in_array($key, $permittedFields)) {
-			throw new OCSException('', 103);
+			throw new OCSException('', 113);
 		}
 		// Process the edit
 		switch ($key) {
@@ -1028,14 +1028,14 @@ class UsersController extends AUserData {
 						$quota = \OCP\Util::computerFileSize($quota);
 					}
 					if ($quota === false) {
-						throw new OCSException($this->l10n->t('Invalid quota value: %1$s', [$value]), 102);
+						throw new OCSException($this->l10n->t('Invalid quota value: %1$s', [$value]), 101);
 					}
 					if ($quota === -1) {
 						$quota = 'none';
 					} else {
 						$maxQuota = (int) $this->config->getAppValue('files', 'max_quota', '-1');
 						if ($maxQuota !== -1 && $quota > $maxQuota) {
-							throw new OCSException($this->l10n->t('Invalid quota value. %1$s is exceeding the maximum quota', [$value]), 102);
+							throw new OCSException($this->l10n->t('Invalid quota value. %1$s is exceeding the maximum quota', [$value]), 101);
 						}
 						$quota = \OCP\Util::humanFileSize($quota);
 					}
@@ -1044,7 +1044,7 @@ class UsersController extends AUserData {
 				if ($quota === 'none') {
 					$allowUnlimitedQuota = $this->config->getAppValue('files', 'allow_unlimited_quota', '1') === '1';
 					if (!$allowUnlimitedQuota) {
-						throw new OCSException($this->l10n->t('Unlimited quota is forbidden on this instance'), 102);
+						throw new OCSException($this->l10n->t('Unlimited quota is forbidden on this instance'), 101);
 					}
 				}
 				$targetUser->setQuota($quota);
@@ -1055,33 +1055,33 @@ class UsersController extends AUserData {
 			case self::USER_FIELD_PASSWORD:
 				try {
 					if (strlen($value) > IUserManager::MAX_PASSWORD_LENGTH) {
-						throw new OCSException($this->l10n->t('Invalid password value'), 102);
+						throw new OCSException($this->l10n->t('Invalid password value'), 101);
 					}
 					if (!$targetUser->canChangePassword()) {
-						throw new OCSException($this->l10n->t('Setting the password is not supported by the users backend'), 103);
+						throw new OCSException($this->l10n->t('Setting the password is not supported by the users backend'), 112);
 					}
 					$targetUser->setPassword($value);
 				} catch (HintException $e) { // password policy error
-					throw new OCSException($e->getMessage(), 103);
+					throw new OCSException($e->getMessage(), 107);
 				}
 				break;
 			case self::USER_FIELD_LANGUAGE:
 				$languagesCodes = $this->l10nFactory->findAvailableLanguages();
 				if (!in_array($value, $languagesCodes, true) && $value !== 'en') {
-					throw new OCSException($this->l10n->t('Invalid language'), 102);
+					throw new OCSException($this->l10n->t('Invalid language'), 101);
 				}
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'lang', $value);
 				break;
 			case self::USER_FIELD_LOCALE:
 				if (!$this->l10nFactory->localeExists($value)) {
-					throw new OCSException($this->l10n->t('Invalid locale'), 102);
+					throw new OCSException($this->l10n->t('Invalid locale'), 101);
 				}
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'locale', $value);
 				break;
 			case self::USER_FIELD_FIRST_DAY_OF_WEEK:
 				$intValue = (int)$value;
 				if ($intValue < -1 || $intValue > 6) {
-					throw new OCSException($this->l10n->t('Invalid first day of week'), 102);
+					throw new OCSException($this->l10n->t('Invalid first day of week'), 101);
 				}
 				if ($intValue === -1) {
 					$this->config->deleteUserValue($targetUser->getUID(), 'core', AUserData::USER_FIELD_FIRST_DAY_OF_WEEK);
@@ -1106,14 +1106,14 @@ class UsersController extends AUserData {
 					}
 				}
 				if (!$success) {
-					throw new OCSException('', 102);
+					throw new OCSException('', 101);
 				}
 				break;
 			case IAccountManager::PROPERTY_EMAIL:
 				if (filter_var($value, FILTER_VALIDATE_EMAIL) || $value === '') {
 					$targetUser->setEMailAddress($value);
 				} else {
-					throw new OCSException('', 102);
+					throw new OCSException('', 101);
 				}
 				break;
 			case IAccountManager::COLLECTION_EMAIL:
@@ -1122,13 +1122,13 @@ class UsersController extends AUserData {
 					$mailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
 
 					if ($mailCollection->getPropertyByValue($value)) {
-						throw new OCSException('', 102);
+						throw new OCSException('', 101);
 					}
 
 					$mailCollection->addPropertyWithDefaults($value);
 					$this->accountManager->updateAccount($userAccount);
 				} else {
-					throw new OCSException('', 102);
+					throw new OCSException('', 101);
 				}
 				break;
 			case IAccountManager::PROPERTY_PHONE:
@@ -1151,7 +1151,7 @@ class UsersController extends AUserData {
 								$this->knownUserService->deleteByContactUserId($targetUser->getUID());
 							}
 						} catch (InvalidArgumentException $e) {
-							throw new OCSException('Invalid ' . $e->getMessage(), 102);
+							throw new OCSException('Invalid ' . $e->getMessage(), 101);
 						}
 					}
 				} catch (PropertyDoesNotExistException $e) {
@@ -1160,7 +1160,7 @@ class UsersController extends AUserData {
 				try {
 					$this->accountManager->updateAccount($userAccount);
 				} catch (InvalidArgumentException $e) {
-					throw new OCSException('Invalid ' . $e->getMessage(), 102);
+					throw new OCSException('Invalid ' . $e->getMessage(), 101);
 				}
 				break;
 			case IAccountManager::PROPERTY_PROFILE_ENABLED:
@@ -1197,12 +1197,12 @@ class UsersController extends AUserData {
 						$userProperty->setScope($value);
 						$this->accountManager->updateAccount($userAccount);
 					} catch (InvalidArgumentException $e) {
-						throw new OCSException('Invalid ' . $e->getMessage(), 102);
+						throw new OCSException('Invalid ' . $e->getMessage(), 101);
 					}
 				}
 				break;
 			default:
-				throw new OCSException('', 103);
+				throw new OCSException('', 113);
 		}
 		return new DataResponse();
 	}
