@@ -96,7 +96,7 @@
     "p-queue": "^7.4.1",
     "path": "^0.12.7",
     "pinia": "^2.1.7",
-    "query-string": "^9.1.0",
+    "query-string": "^9.1.1",
     "regenerator-runtime": "^0.14.1",
     "select2": "3.5.1",
     "snap.js": "^2.0.9",
