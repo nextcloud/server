@@ -673,7 +673,7 @@ class ManagerTest extends TestCase {
 		$manager = \OCP\Server::get(IUserManager::class);
 
 		// Create some users
-		$now = (string)time();
+		$now = (string)(time() * 1000);
 		$user1 = $manager->createUser('test_active_1', 'test_active_1');
 		$config->setUserValue('test_active_1', 'login', 'lastLogin', $now);
 		$user1->setDisplayName('test active 1');
@@ -722,6 +722,12 @@ class ManagerTest extends TestCase {
 		$user3->delete();
 		$user4->delete();
 		$user5->delete();
+
+		$config->deleteAllUserValues($user1->getUID());
+		$config->deleteAllUserValues($user2->getUID());
+		$config->deleteAllUserValues($user3->getUID());
+		$config->deleteAllUserValues($user4->getUID());
+		$config->deleteAllUserValues($user5->getUID());
 	}
 
 	public function testDeleteUser(): void {
