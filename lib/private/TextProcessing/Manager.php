@@ -44,6 +44,13 @@ class Manager implements IManager {
 	/** @var ?IProvider[] */
 	private ?array $providers = null;
 
+	private static array $taskProcessingCompatibleTaskTypes = [
+		FreePromptTaskType::class => TextToText::ID,
+		HeadlineTaskType::class => TextToTextHeadline::ID,
+		SummaryTaskType::class => TextToTextSummary::ID,
+		TopicsTaskType::class => TextToTextTopics::ID,
+	];
+
 	public function __construct(
 		private IServerContainer $serverContainer,
 		private Coordinator $coordinator,
@@ -84,13 +91,7 @@ class Manager implements IManager {
 	public function hasProviders(): bool {
 		// check if task processing equivalent types are available
 		$taskTaskTypes = $this->taskProcessingManager->getAvailableTaskTypes();
-		$taskProcessingCompatibleTaskTypes = [
-			FreePromptTaskType::class => TextToText::ID,
-			HeadlineTaskType::class => TextToTextHeadline::ID,
-			SummaryTaskType::class => TextToTextSummary::ID,
-			TopicsTaskType::class => TextToTextTopics::ID,
-		];
-		foreach ($taskProcessingCompatibleTaskTypes as $textTaskTypeClass => $taskTaskTypeId) {
+		foreach (self::$taskProcessingCompatibleTaskTypes as $textTaskTypeClass => $taskTaskTypeId) {
 			if (isset($taskTaskTypes[$taskTaskTypeId])) {
 				return true;
 			}
@@ -114,13 +115,7 @@ class Manager implements IManager {
 
 		// check if task processing equivalent types are available
 		$taskTaskTypes = $this->taskProcessingManager->getAvailableTaskTypes();
-		$taskProcessingCompatibleTaskTypes = [
-			FreePromptTaskType::class => TextToText::ID,
-			HeadlineTaskType::class => TextToTextHeadline::ID,
-			SummaryTaskType::class => TextToTextSummary::ID,
-			TopicsTaskType::class => TextToTextTopics::ID,
-		];
-		foreach ($taskProcessingCompatibleTaskTypes as $textTaskTypeClass => $taskTaskTypeId) {
+		foreach (self::$taskProcessingCompatibleTaskTypes as $textTaskTypeClass => $taskTaskTypeId) {
 			if (isset($taskTaskTypes[$taskTaskTypeId])) {
 				$tasks[$textTaskTypeClass] = true;
 			}
@@ -139,15 +134,9 @@ class Manager implements IManager {
 	public function runTask(OCPTask $task): string {
 		// try to run a task processing task if possible
 		$taskTypeClass = $task->getType();
-		$taskProcessingCompatibleTaskTypes = [
-			FreePromptTaskType::class => TextToText::ID,
-			HeadlineTaskType::class => TextToTextHeadline::ID,
-			SummaryTaskType::class => TextToTextSummary::ID,
-			TopicsTaskType::class => TextToTextTopics::ID,
-		];
-		if (isset($taskProcessingCompatibleTaskTypes[$taskTypeClass]) && isset($this->taskProcessingManager->getAvailableTaskTypes()[$taskProcessingCompatibleTaskTypes[$taskTypeClass]])) {
+		if (isset(self::$taskProcessingCompatibleTaskTypes[$taskTypeClass]) && isset($this->taskProcessingManager->getAvailableTaskTypes()[self::$taskProcessingCompatibleTaskTypes[$taskTypeClass]])) {
 			try {
-				$taskProcessingTaskTypeId = $taskProcessingCompatibleTaskTypes[$taskTypeClass];
+				$taskProcessingTaskTypeId = self::$taskProcessingCompatibleTaskTypes[$taskTypeClass];
 				$taskProcessingTask = new \OCP\TaskProcessing\Task(
 					$taskProcessingTaskTypeId,
 					['input' => $task->getInput()],
