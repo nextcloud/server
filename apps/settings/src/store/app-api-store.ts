@@ -56,6 +56,7 @@ export const useAppApiStore = defineStore('app-api-apps', {
 	},
 
 	actions: {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		appsApiFailure(error: any) {
 			showError(t('settings', 'An error occurred during the request. Unable to proceed.') + '<br>' + error.error.response.data.data.message, { isHTML: true })
 			logger.error(error)
