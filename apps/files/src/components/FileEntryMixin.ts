@@ -97,7 +97,8 @@ export default defineComponent({
 		 * Either the nodes filename or a custom display name (e.g. for shares)
 		 */
 		displayName() {
-			return this.source.displayname
+			// basename fallback needed for apps using old `@nextcloud/files` prior 3.6.0
+			return this.source.displayname || this.source.basename
 		},
 		/**
 		 * The display name without extension
