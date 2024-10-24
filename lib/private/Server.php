@@ -846,7 +846,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(\OC\Security\Bruteforce\Backend\IBackend::class, function ($c) {
 			$config = $c->get(\OCP\IConfig::class);
-			if (ltrim($config->getSystemValueString('memcache.distributed', ''), '\\') === \OC\Memcache\Redis::class) {
+			if (!$config->getSystemValueBool('auth.bruteforce.protection.force.database', false)
+				&& ltrim($config->getSystemValueString('memcache.distributed', ''), '\\') === \OC\Memcache\Redis::class) {
 				$backend = $c->get(\OC\Security\Bruteforce\Backend\MemoryCacheBackend::class);
 			} else {
 				$backend = $c->get(\OC\Security\Bruteforce\Backend\DatabaseBackend::class);
