@@ -342,7 +342,7 @@ $CONFIG = [
 
 /**
  * The timeout in seconds for synchronizing address books, e.g. federated system address books (as run by `occ federation:sync-addressbooks`).
- * 
+ *
  * Defaults to ``30`` seconds
  */
 'carddav_sync_request_timeout' => 30,
@@ -404,6 +404,17 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'auth.bruteforce.protection.enabled' => true,
+
+/**
+ * Whether the brute force protection should write into the database even when a memory cache is available
+ *
+ * Using the database is most likely worse for performance, but makes investigating
+ * issues a lot easier as it's possible to look directly at the table to see all
+ * logged remote addresses and actions.
+ *
+ * Defaults to ``false``
+ */
+'auth.bruteforce.protection.force.database' => false,
 
 /**
  * Whether the brute force protection shipped with Nextcloud should be set to testing mode.
