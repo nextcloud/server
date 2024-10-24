@@ -305,7 +305,6 @@ OC.L10N.register(
     "Circle" : "Kör",
     "Allow download" : "Letöltés engedélyezése",
     "No other users with access found" : "Nincs más felhasználó, aki hozzáféréssel rendelkezik",
-    "Share {propertyName} saved" : "A(z) {propertyName} megosztás mentve",
     "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
     "Name" : "Név",
     "Share time" : "Megosztás időpontja",

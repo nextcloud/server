@@ -289,7 +289,6 @@ OC.L10N.register(
     "Circle" : "Круг",
     "Allow download" : "Дозволи преземање",
     "No other users with access found" : "Не се пројандени други корисници со простап",
-    "Share {propertyName} saved" : "Зачувано е споделувањето {propertyName}",
     "No entries found in this folder" : "Нема ништо во оваа папка",
     "Name" : "Име",
     "Share time" : "Време на споделување",

@@ -307,7 +307,6 @@ OC.L10N.register(
     "Circle" : "Kruh",
     "Allow download" : "Povoliť sťahovanie",
     "No other users with access found" : "Neboli nájdení ďalší používatelia s prístupom",
-    "Share {propertyName} saved" : "Zdieľanie {propertyName} bolo uložené",
     "No entries found in this folder" : "V tomto priečinku nebolo nič nájdené",
     "Name" : "Názov",
     "Share time" : "Čas sprístupnenia",

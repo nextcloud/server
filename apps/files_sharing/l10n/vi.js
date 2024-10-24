@@ -283,7 +283,6 @@ OC.L10N.register(
     "Circle" : "Vòng kết nối",
     "Allow download" : "Cho phép tải xuống",
     "No other users with access found" : "Không tìm thấy người dùng khác có quyền truy cập",
-    "Share {propertyName} saved" : "Đã lưu chia sẻ {propertyName}",
     "No entries found in this folder" : "Chưa có mục nào trong thư mục",
     "Name" : "Tên",
     "Share time" : "Chia sẻ thời gian",

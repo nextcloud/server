@@ -401,7 +401,7 @@
     "Circle" : "Circle",
     "Allow download" : "Allow download",
     "No other users with access found" : "No other users with access found",
-    "Share {propertyName} saved" : "Share {propertyName} saved",
+    "Share expire date saved" : "Share expire date saved",
     "No entries found in this folder" : "No entries found in this folder",
     "Name" : "Name",
     "Share time" : "Share time",
@@ -411,7 +411,6 @@
     "the link expired" : "the link expired",
     "sharing is disabled" : "sharing is disabled",
     "For more info, please ask the person who sent this link." : "For more info, please ask the person who sent this link.",
-    "Share expire date saved" : "Share expire date saved",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 email address already added","{count} email addresses already added"],
     "_1 email address added_::_{count} email addresses added_" : ["1 email address added","{count} email addresses added"],
     "Enter your name" : "Enter your name"

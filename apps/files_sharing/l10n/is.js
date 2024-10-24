@@ -289,7 +289,6 @@ OC.L10N.register(
     "Circle" : "Hringur",
     "Allow download" : "Leyfa niðurhal",
     "No other users with access found" : "Engir aðrir notendur með aðgang fundust",
-    "Share {propertyName} saved" : "Sameignin {propertyName} vistuð",
     "No entries found in this folder" : "Engar skrár fundust í þessari möppu",
     "Name" : "Nafn",
     "Share time" : "Deilingartími",

@@ -404,7 +404,7 @@ OC.L10N.register(
     "Circle" : "Círculo",
     "Allow download" : "Permitir a descarga",
     "No other users with access found" : "Non se atoparon outros usuarios con acceso",
-    "Share {propertyName} saved" : "A compartición {propertyName} foi gardada",
+    "Share expire date saved" : "Gardouse a data de caducidade da compartición",
     "No entries found in this folder" : "Non se atoparon entradas neste cartafol",
     "Name" : "Nome",
     "Share time" : "Compartido hai",
@@ -414,7 +414,6 @@ OC.L10N.register(
     "the link expired" : "a ligazón caducou",
     "sharing is disabled" : "foi desactivada a compartición",
     "For more info, please ask the person who sent this link." : "Para obter máis información, pregúntelle á persoa que lle enviou a ligazón.",
-    "Share expire date saved" : "Gardouse a data de caducidade da compartición",
     "_1 email address already added_::_{count} email addresses already added_" : ["Xa foi engadido 1 enderezo de correo","Xa foron engadidos {count} enderezos de correo"],
     "_1 email address added_::_{count} email addresses added_" : ["Foi engadido 1 enderezo de correo","Foron engadidos {count} enderezos de correo"],
     "Enter your name" : "Introduza o seu nome"

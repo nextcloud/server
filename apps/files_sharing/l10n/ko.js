@@ -295,7 +295,6 @@ OC.L10N.register(
     "Circle" : "서클",
     "Allow download" : "다운로드 허용",
     "No other users with access found" : "액세스 권한이 있는 사용자 없음",
-    "Share {propertyName} saved" : "{propertyName} 공유 저장됨",
     "No entries found in this folder" : "이 폴더에 항목 없음",
     "Name" : "이름",
     "Share time" : "공유 시간",

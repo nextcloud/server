@@ -403,7 +403,7 @@ OC.L10N.register(
     "Circle" : "サークル",
     "Allow download" : "ダウンロードを許可",
     "No other users with access found" : "アクセス権を持つ他のユーザーは見つかりませんでした",
-    "Share {propertyName} saved" : "共有の {propertyName} が保存されました",
+    "Share expire date saved" : "共有の有効期限が保存されました",
     "No entries found in this folder" : "このフォルダーにはエントリーがありません",
     "Name" : "名前",
     "Share time" : "共有した時刻",
@@ -413,7 +413,6 @@ OC.L10N.register(
     "the link expired" : "リンクの期限が切れています",
     "sharing is disabled" : "共有は無効になっています",
     "For more info, please ask the person who sent this link." : "不明な点は、こちらのリンクの提供者に確認をお願いします。",
-    "Share expire date saved" : "共有の有効期限が保存されました",
     "_1 email address already added_::_{count} email addresses already added_" : ["{count} メールアドレスはすでに追加されています"],
     "_1 email address added_::_{count} email addresses added_" : ["{count} メールアドレスが追加されました"],
     "Enter your name" : "あなたの名前を入力"

@@ -282,7 +282,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "هل تقبل الدعوة؟",
     "Tentative" : "مبدئي",
     "Your attendance was updated successfully." : "حضورك تم تحديثه بنجاحٍ",
-    "To-dos" : "قائمة الواجبات",
+    "To-dos" : "قائمة المهام",
     "Time:" : "الوقت:",
     "Invalid chunk name" : "اسم كتلة chunk غير صحيح",
     "Could not rename part file assembled from chunks" : "تعذّرت إعادة تسمية ملف جزئي مُجمّعٍ من كُتلٍ chunks",
