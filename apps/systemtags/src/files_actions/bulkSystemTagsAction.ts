@@ -19,7 +19,7 @@ export const action = new FileAction({
 
 	// If the app is disabled, the action is not available anyway
 	enabled(nodes) {
-		if (nodes.length > 0) {
+		if (nodes.length === 0) {
 			return false
 		}
 

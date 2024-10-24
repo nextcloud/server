@@ -204,7 +204,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * Update the etag for the given tags.
 	 *
-	 * @param int[] $tagIds
+	 * @param string[] $tagIds
 	 */
 	private function updateEtagForTags(array $tagIds): void {
 		// Update etag after assigning tags

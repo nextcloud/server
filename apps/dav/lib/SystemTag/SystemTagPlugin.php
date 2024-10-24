@@ -21,7 +21,6 @@ use OCP\Util;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Conflict;
 use Sabre\DAV\Exception\Forbidden;
-use Sabre\DAV\Exception\PreconditionFailed;
 use Sabre\DAV\Exception\UnsupportedMediaType;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
@@ -218,8 +217,8 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			$propFind->setPath(str_replace('systemtags-assigned/', 'systemtags/', $propFind->getPath()));
 		}
 
-		$propFind->handle(FilesPlugin::GETETAG_PROPERTYNAME, function () use ($node): string|null {
-			return $node->getSystemTag()->getETag();
+		$propFind->handle(FilesPlugin::GETETAG_PROPERTYNAME, function () use ($node): string {
+			return '"' . ($node->getSystemTag()->getETag() ?? '') . '"';
 		});
 
 		$propFind->handle(self::ID_PROPERTYNAME, function () use ($node) {
@@ -379,7 +378,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 
 			if (isset($props[self::OBJECTIDS_PROPERTYNAME])) {
 				$propValue = $props[self::OBJECTIDS_PROPERTYNAME];
-				if (!($propValue instanceof SystemTagsObjectList) || count($propValue?->getObjects() ?: []) === 0) {
+				if (!($propValue instanceof SystemTagsObjectList) || count($propValue->getObjects()) === 0) {
 					throw new BadRequest('Invalid object-ids property');
 				}
 

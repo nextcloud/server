@@ -129,7 +129,7 @@ interface ISystemTagObjectMapper {
 	 * @param string $tagId tag id
 	 * @param string $objectType object type
 	 * @param string[] $objectIds list of object ids
-	 * 
+	 *
 	 * @throws TagNotFoundException if the tag does not exist
 	 * @since 31.0.0
 	 */
