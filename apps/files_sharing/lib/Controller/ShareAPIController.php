@@ -659,7 +659,16 @@ class ShareAPIController extends OCSController {
 		$this->checkInheritedAttributes($share);
 
 		// Handle mail send
-		if ($sendMail === 'true' || $sendMail === 'false') {
+		if (is_null($sendMail)) {
+			// Define a default behavior when sendMail is not provided
+			if ($shareType === IShare::TYPE_EMAIL && strlen($shareWith) !== 0) {
+				// For email shares, the default is to send the mail
+				$share->setMailSend(true);
+			} else {
+				// For all other share types, the default is to not send the mail
+				$share->setMailSend(false);
+			}
+		} else {
 			$share->setMailSend($sendMail === 'true');
 		}
 
