@@ -8,6 +8,7 @@ namespace OC\Core\Command\SystemTag;
 use OC\Core\Command\Base;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,6 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ListCommand extends Base {
 	public function __construct(
 		protected ISystemTagManager $systemTagManager,
+		protected ISystemTagObjectMapper $systemTagObjectMapper,
 	) {
 		parent::__construct();
 	}
@@ -34,6 +36,12 @@ class ListCommand extends Base {
 				null,
 				InputOption::VALUE_OPTIONAL,
 				'optional search pattern for the tag name (infix)'
+			)
+			->addOption(
+				'notUsedByFiles',
+				null,
+				InputOption::VALUE_OPTIONAL,
+				'not used by files (1,0)'
 			);
 		parent::configure();
 	}
@@ -43,6 +51,17 @@ class ListCommand extends Base {
 			$input->getOption('visibilityFilter'),
 			$input->getOption('nameSearchPattern')
 		);
+
+		if ($input->getOption('notUsedByFiles') == 1) {
+			$result = [];
+			foreach ($tags as $tag) {
+				$objId = $this->systemTagObjectMapper->getObjectIdsForTags((string)$tag->getId(), 'files', 1);
+				if ($objId == null) {
+					$result[] = $tag;
+				}
+			}
+			$tags = $result;
+		}
 
 		$this->writeArrayInOutputFormat($input, $output, $this->formatTags($tags));
 		return 0;
