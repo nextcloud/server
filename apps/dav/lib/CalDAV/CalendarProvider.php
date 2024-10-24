@@ -24,16 +24,14 @@ class CalendarProvider implements ICalendarProvider {
 	}
 
 	public function getCalendars(string $principalUri, array $calendarUris = []): array {
-		$calendarInfos = [];
-		if (empty($calendarUris)) {
-			$calendarInfos = $this->calDavBackend->getCalendarsForUser($principalUri);
-		} else {
-			foreach ($calendarUris as $calendarUri) {
-				$calendarInfos[] = $this->calDavBackend->getCalendarByUri($principalUri, $calendarUri);
-			}
-		}
 
-		$calendarInfos = array_filter($calendarInfos);
+		$calendarInfos = $this->calDavBackend->getCalendarsForUser($principalUri) ?? [];
+
+		if (!empty($calendarUris)) {
+			$calendarInfos = array_filter($calendarInfos, function ($calendar) use ($calendarUris) {
+				return in_array($calendar['uri'], $calendarUris);
+			});
+		}
 
 		$iCalendars = [];
 		foreach ($calendarInfos as $calendarInfo) {
