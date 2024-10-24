@@ -284,6 +284,8 @@ class LoginController extends Controller {
 		?string $redirect_url = null,
 		string $timezone = '',
 		string $timezone_offset = ''): RedirectResponse {
+		/** @psalm-suppress RedundantCast Cast $user to string to prevent unexpected logs due to wrong type */
+		$user = (string)$user;
 		if (!$this->request->passesCSRFCheck()) {
 			if ($this->userSession->isLoggedIn()) {
 				// If the user is already logged in and the CSRF check does not pass then
