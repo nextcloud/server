@@ -1248,7 +1248,7 @@ class IMipServiceTest extends TestCase {
 
 	}
 
-	public function testGenerateOccurringString(): void {
+	public function testGenerateOccurringStringWithRrule(): void {
 		
 		// construct l10n return(s)
 		$this->l10n->method('l')->willReturnCallback(
@@ -1285,7 +1285,7 @@ class IMipServiceTest extends TestCase {
 			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
 		);
 
-		/** test patrial day recurring event in 1 day with single occurance remaining */
+		/** test patrial day recurring event in 1 day with single occurrence remaining */
 		$vCalendar = clone $this->vCalendar1a;
 		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=1');
 		// construct event reader
@@ -1296,7 +1296,7 @@ class IMipServiceTest extends TestCase {
 			$this->service->generateOccurringString($eventReader)
 		);
 
-		/** test patrial day recurring event in 1 day with two occurances remaining */
+		/** test patrial day recurring event in 1 day with two occurrences remaining */
 		$vCalendar = clone $this->vCalendar1a;
 		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=2');
 		// construct event reader
@@ -1307,7 +1307,7 @@ class IMipServiceTest extends TestCase {
 			$this->service->generateOccurringString($eventReader)
 		);
 
-		/** test patrial day recurring event in 1 day with three occurances remaining */
+		/** test patrial day recurring event in 1 day with three occurrences remaining */
 		$vCalendar = clone $this->vCalendar1a;
 		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=3');
 		// construct event reader
@@ -1318,7 +1318,7 @@ class IMipServiceTest extends TestCase {
 			$this->service->generateOccurringString($eventReader)
 		);
 
-		/** test patrial day recurring event in 2 days with single occurance remaining */
+		/** test patrial day recurring event in 2 days with single occurrence remaining */
 		$vCalendar = clone $this->vCalendar1a;
 		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=1');
 		// construct event reader
@@ -1329,7 +1329,7 @@ class IMipServiceTest extends TestCase {
 			$this->service->generateOccurringString($eventReader)
 		);
 
-		/** test patrial day recurring event in 2 days with two occurances remaining */
+		/** test patrial day recurring event in 2 days with two occurrences remaining */
 		$vCalendar = clone $this->vCalendar1a;
 		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=2');
 		// construct event reader
@@ -1340,7 +1340,7 @@ class IMipServiceTest extends TestCase {
 			$this->service->generateOccurringString($eventReader)
 		);
 
-		/** test patrial day recurring event in 2 days with three occurances remaining */
+		/** test patrial day recurring event in 2 days with three occurrences remaining */
 		$vCalendar = clone $this->vCalendar1a;
 		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=3');
 		// construct event reader
@@ -1349,6 +1349,419 @@ class IMipServiceTest extends TestCase {
 		$this->assertEquals(
 			'In 2 days on July 1, 2024 then on July 3, 2024 and July 5, 2024',
 			$this->service->generateOccurringString($eventReader)
+		);
+	}
+
+	public function testGenerateOccurringStringWithRdate(): void {
+		
+		// construct l10n return(s)
+		$this->l10n->method('l')->willReturnCallback(
+			function ($v1, $v2, $v3) {
+				return match (true) {
+					$v1 === 'date' && $v2 == (new \DateTime('20240701T080000', (new \DateTimeZone('America/Toronto')))) && $v3 == ['width' => 'long'] => 'July 1, 2024',
+					$v1 === 'date' && $v2 == (new \DateTime('20240703T080000', (new \DateTimeZone('America/Toronto')))) && $v3 == ['width' => 'long'] => 'July 3, 2024',
+					$v1 === 'date' && $v2 == (new \DateTime('20240705T080000', (new \DateTimeZone('America/Toronto')))) && $v3 == ['width' => 'long'] => 'July 5, 2024'
+				};
+			}
+		);
+		$this->l10n->method('t')->willReturnMap([
+			['In a %1$s on %2$s', ['day', 'July 1, 2024'], 'In a day on July 1, 2024'],
+			['In a %1$s on %2$s then on %3$s', ['day', 'July 1, 2024', 'July 3, 2024'], 'In a day on July 1, 2024 then on July 3, 2024'],
+			['In a %1$s on %2$s then on %3$s and %4$s', ['day', 'July 1, 2024', 'July 3, 2024', 'July 5, 2024'], 'In a day on July 1, 2024 then on July 3, 2024 and July 5, 2024'],
+			['In %1$s %2$s on %3$s', [2, 'days', 'July 1, 2024'], 'In 2 days on July 1, 2024'],
+			['In %1$s %2$s on %3$s then on %4$s', [2, 'days', 'July 1, 2024', 'July 3, 2024'], 'In 2 days on July 1, 2024 then on July 3, 2024'],
+			['In %1$s %2$s on %3$s then on %4$s and %5$s', [2, 'days', 'July 1, 2024', 'July 3, 2024', 'July 5, 2024'], 'In 2 days on July 1, 2024 then on July 3, 2024 and July 5, 2024'],
+		]);
+
+		// construct time factory return(s)
+		$this->timeFactory->method('getDateTime')->willReturnOnConsecutiveCalls(
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+		);
+
+		/** test patrial day recurring event in 1 day with single occurrence remaining */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RDATE', '20240701T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In a day on July 1, 2024',
+			$this->service->generateOccurringString($eventReader),
+			'test patrial day recurring event in 1 day with single occurrence remaining'
+		);
+
+		/** test patrial day recurring event in 1 day with two occurrences remaining */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RDATE', '20240701T080000,20240703T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In a day on July 1, 2024 then on July 3, 2024',
+			$this->service->generateOccurringString($eventReader),
+			'test patrial day recurring event in 1 day with two occurrences remaining'
+		);
+
+		/** test patrial day recurring event in 1 day with three occurrences remaining */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RDATE', '20240701T080000,20240703T080000,20240705T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In a day on July 1, 2024 then on July 3, 2024 and July 5, 2024',
+			$this->service->generateOccurringString($eventReader),
+			''
+		);
+
+		/** test patrial day recurring event in 2 days with single occurrences remaining */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RDATE', '20240701T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In 2 days on July 1, 2024',
+			$this->service->generateOccurringString($eventReader),
+			''
+		);
+
+		/** test patrial day recurring event in 2 days with two occurrences remaining */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RDATE', '20240701T080000');
+		$vCalendar->VEVENT[0]->add('RDATE', '20240703T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In 2 days on July 1, 2024 then on July 3, 2024',
+			$this->service->generateOccurringString($eventReader),
+			''
+		);
+
+		/** test patrial day recurring event in 2 days with three occurrences remaining */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RDATE', '20240701T080000');
+		$vCalendar->VEVENT[0]->add('RDATE', '20240703T080000');
+		$vCalendar->VEVENT[0]->add('RDATE', '20240705T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In 2 days on July 1, 2024 then on July 3, 2024 and July 5, 2024',
+			$this->service->generateOccurringString($eventReader),
+			'test patrial day recurring event in 2 days with three occurrences remaining'
+		);
+	}
+
+	public function testGenerateOccurringStringWithOneExdate(): void {
+		
+		// construct l10n return(s)
+		$this->l10n->method('l')->willReturnCallback(
+			function ($v1, $v2, $v3) {
+				return match (true) {
+					$v1 === 'date' && $v2 == (new \DateTime('20240701T080000', (new \DateTimeZone('America/Toronto')))) && $v3 == ['width' => 'long'] => 'July 1, 2024',
+					$v1 === 'date' && $v2 == (new \DateTime('20240705T080000', (new \DateTimeZone('America/Toronto')))) && $v3 == ['width' => 'long'] => 'July 5, 2024',
+					$v1 === 'date' && $v2 == (new \DateTime('20240707T080000', (new \DateTimeZone('America/Toronto')))) && $v3 == ['width' => 'long'] => 'July 7, 2024'
+				};
+			}
+		);
+		$this->l10n->method('t')->willReturnMap([
+			['In a %1$s on %2$s', ['day', 'July 1, 2024'], 'In a day on July 1, 2024'],
+			['In a %1$s on %2$s then on %3$s', ['day', 'July 1, 2024', 'July 5, 2024'], 'In a day on July 1, 2024 then on July 5, 2024'],
+			['In a %1$s on %2$s then on %3$s and %4$s', ['day', 'July 1, 2024', 'July 5, 2024', 'July 7, 2024'], 'In a day on July 1, 2024 then on July 5, 2024 and July 7, 2024'],
+			['In %1$s %2$s on %3$s', [2, 'days', 'July 1, 2024'], 'In 2 days on July 1, 2024'],
+			['In %1$s %2$s on %3$s then on %4$s', [2, 'days', 'July 1, 2024', 'July 5, 2024'], 'In 2 days on July 1, 2024 then on July 5, 2024'],
+			['In %1$s %2$s on %3$s then on %4$s and %5$s', [2, 'days', 'July 1, 2024', 'July 5, 2024', 'July 7, 2024'], 'In 2 days on July 1, 2024 then on July 5, 2024 and July 7, 2024'],
+		]);
+
+		// construct time factory return(s)
+		$this->timeFactory->method('getDateTime')->willReturnOnConsecutiveCalls(
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+		);
+
+		/** test patrial day recurring event in 1 day with single occurrence remaining and one exception */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=1');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240703T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In a day on July 1, 2024',
+			$this->service->generateOccurringString($eventReader),
+			'test patrial day recurring event in 1 day with single occurrence remaining and one exception'
+		);
+
+		/** test patrial day recurring event in 1 day with two occurrences remaining and one exception */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=2');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240703T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In a day on July 1, 2024',
+			$this->service->generateOccurringString($eventReader),
+			'test patrial day recurring event in 1 day with two occurrences remaining and one exception'
+		);
+
+		/** test patrial day recurring event in 1 day with three occurrences remaining and one exception */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=3');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240703T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In a day on July 1, 2024 then on July 5, 2024',
+			$this->service->generateOccurringString($eventReader),
+			'test patrial day recurring event in 1 day with three occurrences remaining and one exception'
+		);
+
+		/** test patrial day recurring event in 1 day with four occurrences remaining and one exception */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=4');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240703T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In a day on July 1, 2024 then on July 5, 2024 and July 7, 2024',
+			$this->service->generateOccurringString($eventReader),
+			'test patrial day recurring event in 1 day with four occurrences remaining and one exception'
+		);
+
+		/** test patrial day recurring event in 2 days with single occurrences remaining and one exception */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=1');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240703T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In 2 days on July 1, 2024',
+			$this->service->generateOccurringString($eventReader),
+			'test patrial day recurring event in 2 days with single occurrences remaining and one exception'
+		);
+
+		/** test patrial day recurring event in 2 days with two occurrences remaining and one exception */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=2');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240703T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In 2 days on July 1, 2024',
+			$this->service->generateOccurringString($eventReader),
+			'test patrial day recurring event in 2 days with two occurrences remaining and one exception'
+		);
+
+		/** test patrial day recurring event in 2 days with three occurrences remaining and one exception */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=3');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240703T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In 2 days on July 1, 2024 then on July 5, 2024',
+			$this->service->generateOccurringString($eventReader),
+			'test patrial day recurring event in 2 days with three occurrences remaining and one exception'
+		);
+
+		/** test patrial day recurring event in 2 days with four occurrences remaining and one exception */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=4');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240703T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In 2 days on July 1, 2024 then on July 5, 2024 and July 7, 2024',
+			$this->service->generateOccurringString($eventReader),
+			'test patrial day recurring event in 2 days with four occurrences remaining and one exception'
+		);
+	}
+
+	public function testGenerateOccurringStringWithTwoExdate(): void {
+		
+		// construct l10n return(s)
+		$this->l10n->method('l')->willReturnCallback(
+			function ($v1, $v2, $v3) {
+				return match (true) {
+					$v1 === 'date' && $v2 == (new \DateTime('20240701T080000', (new \DateTimeZone('America/Toronto')))) && $v3 == ['width' => 'long'] => 'July 1, 2024',
+					$v1 === 'date' && $v2 == (new \DateTime('20240705T080000', (new \DateTimeZone('America/Toronto')))) && $v3 == ['width' => 'long'] => 'July 5, 2024',
+					$v1 === 'date' && $v2 == (new \DateTime('20240709T080000', (new \DateTimeZone('America/Toronto')))) && $v3 == ['width' => 'long'] => 'July 9, 2024'
+				};
+			}
+		);
+		$this->l10n->method('t')->willReturnMap([
+			['In a %1$s on %2$s', ['day', 'July 1, 2024'], 'In a day on July 1, 2024'],
+			['In a %1$s on %2$s then on %3$s', ['day', 'July 1, 2024', 'July 5, 2024'], 'In a day on July 1, 2024 then on July 5, 2024'],
+			['In a %1$s on %2$s then on %3$s and %4$s', ['day', 'July 1, 2024', 'July 5, 2024', 'July 9, 2024'], 'In a day on July 1, 2024 then on July 5, 2024 and July 9, 2024'],
+			['In %1$s %2$s on %3$s', [2, 'days', 'July 1, 2024'], 'In 2 days on July 1, 2024'],
+			['In %1$s %2$s on %3$s then on %4$s', [2, 'days', 'July 1, 2024', 'July 5, 2024'], 'In 2 days on July 1, 2024 then on July 5, 2024'],
+			['In %1$s %2$s on %3$s then on %4$s and %5$s', [2, 'days', 'July 1, 2024', 'July 5, 2024', 'July 9, 2024'], 'In 2 days on July 1, 2024 then on July 5, 2024 and July 9, 2024'],
+		]);
+
+		// construct time factory return(s)
+		$this->timeFactory->method('getDateTime')->willReturnOnConsecutiveCalls(
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+		);
+
+		/** test patrial day recurring event in 1 day with single occurrence remaining and two exception */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=1');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240703T080000');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240707T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In a day on July 1, 2024',
+			$this->service->generateOccurringString($eventReader),
+			'test patrial day recurring event in 1 day with single occurrence remaining and two exception'
+		);
+
+		/** test patrial day recurring event in 1 day with two occurrences remaining and two exception */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=2');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240703T080000');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240707T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In a day on July 1, 2024',
+			$this->service->generateOccurringString($eventReader),
+			'test patrial day recurring event in 1 day with two occurrences remaining and two exception'
+		);
+
+		/** test patrial day recurring event in 1 day with three occurrences remaining and two exception */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=3');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240703T080000');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240707T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In a day on July 1, 2024 then on July 5, 2024',
+			$this->service->generateOccurringString($eventReader),
+			'test patrial day recurring event in 1 day with three occurrences remaining and two exception'
+		);
+
+		/** test patrial day recurring event in 1 day with four occurrences remaining and two exception */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=5');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240703T080000');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240707T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In a day on July 1, 2024 then on July 5, 2024 and July 9, 2024',
+			$this->service->generateOccurringString($eventReader),
+			'test patrial day recurring event in 1 day with four occurrences remaining and two exception'
+		);
+
+		/** test patrial day recurring event in 2 days with single occurrences remaining and two exception */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=1');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240703T080000');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240707T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In 2 days on July 1, 2024',
+			$this->service->generateOccurringString($eventReader),
+			'test patrial day recurring event in 2 days with single occurrences remaining and two exception'
+		);
+
+		/** test patrial day recurring event in 2 days with two occurrences remaining and two exception */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=2');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240703T080000');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240707T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In 2 days on July 1, 2024',
+			$this->service->generateOccurringString($eventReader),
+			'test patrial day recurring event in 2 days with two occurrences remaining and two exception'
+		);
+
+		/** test patrial day recurring event in 2 days with three occurrences remaining and two exception */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=3');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240703T080000');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240707T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In 2 days on July 1, 2024 then on July 5, 2024',
+			$this->service->generateOccurringString($eventReader),
+			'test patrial day recurring event in 2 days with three occurrences remaining and two exception'
+		);
+
+		/** test patrial day recurring event in 2 days with five occurrences remaining and two exception */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=DAILY;INTERVAL=2;COUNT=5');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240703T080000');
+		$vCalendar->VEVENT[0]->add('EXDATE', '20240707T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'In 2 days on July 1, 2024 then on July 5, 2024 and July 9, 2024',
+			$this->service->generateOccurringString($eventReader),
+			'test patrial day recurring event in 2 days with five occurrences remaining and two exception'
 		);
 	}
 
