@@ -79,6 +79,8 @@ class AppSettingsController extends Controller {
 	}
 
 	/**
+	 * @psalm-suppress UndefinedClass AppAPI is shipped since 30.0.1
+	 *
 	 * @return TemplateResponse
 	 */
 	#[NoCSRFRequired]
