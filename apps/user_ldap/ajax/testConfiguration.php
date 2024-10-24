@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use OCA\User_LDAP\LDAP;
 use OCP\Util;
 
