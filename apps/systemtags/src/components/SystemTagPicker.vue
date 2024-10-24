@@ -409,7 +409,7 @@ export default defineComponent({
 			this.status = Status.DONE
 			setTimeout(() => {
 				this.opened = false
-				this.$emit('close', null)
+				this.$emit('close', true)
 			}, 2000)
 		},
 

@@ -12,6 +12,17 @@ import { t } from '@nextcloud/l10n'
 
 import TagMultipleSvg from '@mdi/svg/svg/tag-multiple.svg?raw'
 
+async function execBatch(nodes: Node[]): Promise<(null|boolean)[]> {
+	const response = await new Promise<null|boolean>((resolve) => {
+		spawnDialog(defineAsyncComponent(() => import('../components/SystemTagPicker.vue')), {
+			nodes,
+		}, (status) => {
+			resolve(status as null|boolean)
+		})
+	})
+	return Array(nodes.length).fill(response)
+}
+
 export const action = new FileAction({
 	id: 'systemtags:bulk',
 	displayName: () => t('systemtags', 'Manage tags'),
@@ -27,18 +38,9 @@ export const action = new FileAction({
 		return getCurrentUser() !== null
 	},
 
-	async exec() {
-		return null
+	async exec(node: Node) {
+		return execBatch([node])[0]
 	},
 
-	async execBatch(nodes: Node[]) {
-		const response = await new Promise<null|boolean>((resolve) => {
-			spawnDialog(defineAsyncComponent(() => import('../components/SystemTagPicker.vue')), {
-				nodes,
-			}, (status) => {
-				resolve(status as null|boolean)
-			})
-		})
-		return Array(nodes.length).fill(response)
-	},
+	execBatch,
 })
