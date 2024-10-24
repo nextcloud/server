@@ -2988,20 +2988,21 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$classification = self::CLASSIFICATION_PUBLIC;
 		$hasDTSTART = false;
 		foreach ($vObject->getComponents() as $component) {
-			if ($component->name !== 'VTIMEZONE') {
-				// Finding all VEVENTs, and track them
-				if ($component->name === 'VEVENT') {
-					$vEvents[] = $component;
-					if ($component->DTSTART) {
-						$hasDTSTART = true;
-					}
-				}
-				// Track first component type and uid
-				if ($uid === null) {
-					$componentType = $component->name;
-					$uid = (string)$component->UID;
-				}
+			if (!in_array($component->name, ['VEVENT', 'VJOURNAL', 'VTODO'])) {
+				continue;
 			}
+
+			$vEvents[] = $component;
+			if ($component->DTSTART) {
+				$hasDTSTART = true;
+			}
+
+			// Track first component type and uid
+			if ($uid === null) {
+				$componentType = $component->name;
+				$uid = (string)$component->UID;
+			}
+
 		}
 		if (!$componentType) {
 			throw new BadRequest('Calendar objects must have a VJOURNAL, VEVENT or VTODO component');
