@@ -58,9 +58,6 @@ return array(
     'OCA\\Files\\Event\\LoadSidebar' => $baseDir . '/../lib/Event/LoadSidebar.php',
     'OCA\\Files\\Exception\\TransferOwnershipException' => $baseDir . '/../lib/Exception/TransferOwnershipException.php',
     'OCA\\Files\\Helper' => $baseDir . '/../lib/Helper.php',
-    'OCA\\Files\\Listener\\DeclarativeSettingsGetValueEventListener' => $baseDir . '/../lib/Listener/DeclarativeSettingsGetValueEventListener.php',
-    'OCA\\Files\\Listener\\DeclarativeSettingsRegisterFormEventListener' => $baseDir . '/../lib/Listener/DeclarativeSettingsRegisterFormEventListener.php',
-    'OCA\\Files\\Listener\\DeclarativeSettingsSetValueEventListener' => $baseDir . '/../lib/Listener/DeclarativeSettingsSetValueEventListener.php',
     'OCA\\Files\\Listener\\LoadSearchPluginsListener' => $baseDir . '/../lib/Listener/LoadSearchPluginsListener.php',
     'OCA\\Files\\Listener\\LoadSidebarListener' => $baseDir . '/../lib/Listener/LoadSidebarListener.php',
     'OCA\\Files\\Listener\\RenderReferenceEventListener' => $baseDir . '/../lib/Listener/RenderReferenceEventListener.php',
@@ -79,5 +76,6 @@ return array(
     'OCA\\Files\\Service\\TagService' => $baseDir . '/../lib/Service/TagService.php',
     'OCA\\Files\\Service\\UserConfig' => $baseDir . '/../lib/Service/UserConfig.php',
     'OCA\\Files\\Service\\ViewConfig' => $baseDir . '/../lib/Service/ViewConfig.php',
+    'OCA\\Files\\Settings\\DeclarativeAdminSettings' => $baseDir . '/../lib/Settings/DeclarativeAdminSettings.php',
     'OCA\\Files\\Settings\\PersonalSettings' => $baseDir . '/../lib/Settings/PersonalSettings.php',
 );
