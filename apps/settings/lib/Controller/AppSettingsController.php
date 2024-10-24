@@ -575,6 +575,8 @@ class AppSettingsController extends Controller {
 		$appId = $this->appManager->cleanAppId($appId);
 		$result = $this->installer->removeApp($appId);
 		if ($result !== false) {
+			// If this app was force enabled, remove the force-enabled-state
+			$this->appManager->ignoreNextcloudRequirementForApp($appId, false);
 			$this->appManager->clearAppsCache();
 			return new JSONResponse(['data' => ['appid' => $appId]]);
 		}

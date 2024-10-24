@@ -1029,6 +1029,7 @@
   <file src="apps/settings/lib/Controller/AppSettingsController.php">
     <UndefinedInterfaceMethod>
       <code><![CDATA[ignoreNextcloudRequirementForApp]]></code>
+      <code><![CDATA[ignoreNextcloudRequirementForApp]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/settings/lib/Hooks.php">

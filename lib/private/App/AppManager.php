@@ -410,12 +410,14 @@ class AppManager implements IAppManager {
 		return isset($installedApps[$appId]);
 	}
 
-	public function ignoreNextcloudRequirementForApp(string $appId): void {
+	public function ignoreNextcloudRequirementForApp(string $appId, bool $enabled = true): void {
 		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
-		if (!in_array($appId, $ignoreMaxApps, true)) {
+		if ($enabled && !in_array($appId, $ignoreMaxApps, true)) {
 			$ignoreMaxApps[] = $appId;
-			$this->config->setSystemValue('app_install_overwrite', $ignoreMaxApps);
+		} elseif ($enabled === false) {
+			$ignoreMaxApps = array_filter($ignoreMaxApps, fn (string $id) => $id !== $appId);
 		}
+		$this->config->setSystemValue('app_install_overwrite', $ignoreMaxApps);
 	}
 
 	public function loadApp(string $app): void {
