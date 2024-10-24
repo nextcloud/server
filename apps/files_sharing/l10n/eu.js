@@ -381,7 +381,6 @@ OC.L10N.register(
     "Circle" : "Zirkulua",
     "Allow download" : "Baimendu deskarga",
     "No other users with access found" : "Ez da sarbidea duen erabiltzailerik aurkitu",
-    "Share {propertyName} saved" : "Partekatu {propertyName} gordeta",
     "No entries found in this folder" : "Karpeta honetan ez da sarreraik aurkitu",
     "Name" : "Izena",
     "Share time" : "Partekatzearen ordua",

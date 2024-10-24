@@ -303,6 +303,7 @@
     "Storage connection error. %s" : "Lagringsutrymme lyckas inte ansluta. %s",
     "Storage is temporarily not available" : "Lagringsutrymme är för tillfället inte tillgängligt",
     "Storage connection timeout. %s" : "Lagringsutrymme lyckas inte ansluta \"timeout\". %s",
+    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "För att denna kontroll ska kunna köra måste du se till att webbservern kan ansluta till sig själv. Den måste alltså kunna finna och ansluta till minst en av sina \"trusted_domains\" eller \"overwrite.cli.url\":en. Detta misslyckande kan vara resultatet av en DNS missmatch på serversidan eller utgående brandväggs-regler.",
     "Transcribe audio" : "Transkribera ljud",
     "Transcribe the things said in an audio" : "Transkribera det som sägs i ljud",
     "Audio input" : "Ljudinmatning",

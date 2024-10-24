@@ -282,7 +282,6 @@ OC.L10N.register(
     "Circle" : "Piiri",
     "Allow download" : "Salli lataus",
     "No other users with access found" : "Ei löytynyt muita käyttäjiä, joilla olisi käyttöoikeus",
-    "Share {propertyName} saved" : "Jako {propertyName} tallennettu",
     "No entries found in this folder" : "Ei kohteita tässä kansiossa",
     "Name" : "Nimi",
     "Share time" : "Jakamisen ajankohta",

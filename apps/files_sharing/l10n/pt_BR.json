@@ -402,7 +402,7 @@
     "Circle" : "Círculo",
     "Allow download" : "Permitir baixar",
     "No other users with access found" : "Nenhum usuário com acesso encontrado",
-    "Share {propertyName} saved" : "Compartilhe {propertyName} salvo",
+    "Share expire date saved" : "Data de validade do compartilhamento salva",
     "No entries found in this folder" : "Nenhuma entrada foi encontrada nesta pasta",
     "Name" : "Nome",
     "Share time" : "Compartilhamento",
@@ -412,7 +412,6 @@
     "the link expired" : "o link expirou",
     "sharing is disabled" : "o compartilhamento está desativado",
     "For more info, please ask the person who sent this link." : "Para mais informações, pergunte à pessoa que lhe enviou o link.",
-    "Share expire date saved" : "Data de validade do compartilhamento salva",
     "_1 email address already added_::_{count} email addresses already added_" : ["endereço1 email address already added","{count} endereços de e-mail já adicionados","{count} endereços de e-mail já adicionados"],
     "_1 email address added_::_{count} email addresses added_" : ["1  endereços de e-mail adicionados","{count} endereços de e-mail adicionados","{count} endereços de e-mail adicionados"],
     "Enter your name" : "Digite seu nome"

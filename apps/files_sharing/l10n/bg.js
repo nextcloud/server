@@ -263,7 +263,6 @@ OC.L10N.register(
     "Circle" : "Кръг",
     "Allow download" : "Позволяване на изтегляне/сваляне/",
     "No other users with access found" : "Няма намерени други потребители с достъп",
-    "Share {propertyName} saved" : "Споделянето на {propertyName} е записано",
     "No entries found in this folder" : "Папката е празна",
     "Name" : "Име",
     "Share time" : "Споделено на",

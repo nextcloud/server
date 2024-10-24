@@ -377,7 +377,6 @@ OC.L10N.register(
     "Circle" : "Sirkel",
     "Allow download" : "Tillat nedlasting",
     "No other users with access found" : "Ingen andre brukere med tilgang funnet",
-    "Share {propertyName} saved" : "Deling {propertyName} er lagret",
     "No entries found in this folder" : "Ingen oppføringer funnet i denne mappen",
     "Name" : "Navn",
     "Share time" : "Delingstidspunkt",

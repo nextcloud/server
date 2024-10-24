@@ -169,7 +169,7 @@ OC.L10N.register(
     "WebDAV URL" : "URL de WebDAV",
     "Copy to clipboard" : "Copiar no portapapeis.",
     "Use this address to access your Files via WebDAV" : "Empregue este enderezo para acceder ao seu Ficheiros mediante WebDAV",
-    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "Se activou A2F, debe crear e utilizar un novo contrasinal de aplicación premendo aquí.",
+    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "Se activou 2FA, debe crear e utilizar un novo contrasinal de aplicación premendo aquí.",
     "Clipboard is not available" : "O portapapeis non está dispoñíbel",
     "WebDAV URL copied to clipboard" : "O URL de WebDAV foi copiado no portapapeis",
     "Owner" : "Propietario",

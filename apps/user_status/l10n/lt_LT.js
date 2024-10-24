@@ -16,6 +16,7 @@ OC.L10N.register(
     "Set status" : "Nustatyti būseną",
     "Online status" : "Prisijungimo būsena",
     "Status message" : "Būsenos žinutė",
+    "Your status was set automatically" : "Jūsų būsena buvo nustatyta automatiškai",
     "Clear status message" : "Išvalyti būsenos žinutę",
     "Set status message" : "Nustatyti būsenos žinutę",
     "There was an error saving the status" : "Įrašant būseną, įvyko klaida",

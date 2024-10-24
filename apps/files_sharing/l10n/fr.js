@@ -404,7 +404,7 @@ OC.L10N.register(
     "Circle" : "Cercle",
     "Allow download" : "Autoriser le téléchargement",
     "No other users with access found" : "Aucun autre utilisateur ayant un accès n'a été trouvé",
-    "Share {propertyName} saved" : "{propertyName} du partage enregistré(e)(s)",
+    "Share expire date saved" : "Le partage expirât à la date enregistrée",
     "No entries found in this folder" : "Aucune entrée trouvée dans ce dossier",
     "Name" : "Nom",
     "Share time" : "Date de partage",
@@ -414,7 +414,6 @@ OC.L10N.register(
     "the link expired" : "le lien a expiré",
     "sharing is disabled" : "le partage est désactivé",
     "For more info, please ask the person who sent this link." : "Pour plus d'informations, veuillez contacter la personne qui vous a envoyé ce lien.",
-    "Share expire date saved" : "Le partage expirât à la date enregistrée",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 adresse mail déjà ajoutée"," {count}adresses email déjà ajoutées","{count} adresses e-mail déjà ajoutées"],
     "_1 email address added_::_{count} email addresses added_" : [" 1 adresse mail ajoutée","{count} adresses mail ajoutées","{count} adresses mail ajoutées"],
     "Enter your name" : "Saisissez votre nom"
