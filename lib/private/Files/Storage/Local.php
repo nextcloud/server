@@ -538,11 +538,13 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, bool $preserveMtime = false): bool {
 		if ($this->canDoCrossStorageMove($sourceStorage)) {
-			if ($sourceStorage->instanceOfStorage(Jail::class)) {
+			// resolve any jailed paths
+			while ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
 				 * @var \OC\Files\Storage\Wrapper\Jail $sourceStorage
 				 */
 				$sourceInternalPath = $sourceStorage->getUnjailedPath($sourceInternalPath);
+				$sourceStorage = $sourceStorage->getUnjailedStorage();
 			}
 			/**
 			 * @var \OC\Files\Storage\Local $sourceStorage
@@ -556,11 +558,13 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		if ($this->canDoCrossStorageMove($sourceStorage)) {
-			if ($sourceStorage->instanceOfStorage(Jail::class)) {
+			// resolve any jailed paths
+			while ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
 				 * @var \OC\Files\Storage\Wrapper\Jail $sourceStorage
 				 */
 				$sourceInternalPath = $sourceStorage->getUnjailedPath($sourceInternalPath);
+				$sourceStorage = $sourceStorage->getUnjailedStorage();
 			}
 			/**
 			 * @var \OC\Files\Storage\Local $sourceStorage
