@@ -404,7 +404,7 @@ OC.L10N.register(
     "Circle" : "Ciorcal",
     "Allow download" : "Ceadaigh íoslódáil",
     "No other users with access found" : "Níor aimsíodh aon úsáideoir eile a bhfuil rochtain acu",
-    "Share {propertyName} saved" : "Roinn {propertyName} sábháilte",
+    "Share expire date saved" : "Comhroinn dáta éaga sábháilte",
     "No entries found in this folder" : "Níor aimsíodh aon iontrálacha san fhillteán seo",
     "Name" : "Ainm",
     "Share time" : "Roinn am",
@@ -414,7 +414,6 @@ OC.L10N.register(
     "the link expired" : "chuaigh an nasc in éag",
     "sharing is disabled" : "tá comhroinnt díchumasaithe",
     "For more info, please ask the person who sent this link." : "Le haghaidh tuilleadh eolais, cuir ceist ar an té a sheol an nasc seo le do thoil.",
-    "Share expire date saved" : "Comhroinn dáta éaga sábháilte",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 seoladh ríomhphoist curtha leis cheana féin","{count} seoladh ríomhphoist curtha leis cheana","{count} seoladh ríomhphoist curtha leis cheana","{count} seoladh ríomhphoist curtha leis cheana","{count} seoladh ríomhphoist curtha leis cheana"],
     "_1 email address added_::_{count} email addresses added_" : ["Cuireadh 1 seoladh ríomhphoist leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis"],
     "Enter your name" : "Cuir isteach d'ainm"

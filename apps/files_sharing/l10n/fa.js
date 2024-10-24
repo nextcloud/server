@@ -241,7 +241,6 @@ OC.L10N.register(
     "Circle" : "حلقه",
     "Allow download" : "Allow download",
     "No other users with access found" : "هیچ کاربر دیگری با دسترسی یافت نشد",
-    "Share {propertyName} saved" : "Share {propertyName} saved",
     "No entries found in this folder" : "هیچ ورودی‌ای در این پوشه وجود ندارد",
     "Name" : "نام",
     "Share time" : "زمان به اشتراک گذاری",

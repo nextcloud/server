@@ -289,7 +289,6 @@ OC.L10N.register(
     "Circle" : "Krog",
     "Allow download" : "Dovoli prejem datotek",
     "No other users with access found" : "Ni najdenih drugih uporabnikov z dostopom",
-    "Share {propertyName} saved" : "Lastnost mesta souporabe {propertyName} je shranjena",
     "No entries found in this folder" : "V tej mapi ni najdenih predmetov.",
     "Name" : "Ime",
     "Share time" : "Čas souporabe",

@@ -296,7 +296,6 @@ OC.L10N.register(
     "Circle" : "Krąg",
     "Allow download" : "Zezwól na pobieranie",
     "No other users with access found" : "Nie znaleziono innych użytkowników z dostępem",
-    "Share {propertyName} saved" : "Zapisano udostępnienie {propertyName}",
     "No entries found in this folder" : "Brak wpisów w tym katalogu",
     "Name" : "Nazwa",
     "Share time" : "Czas udostępnienia",

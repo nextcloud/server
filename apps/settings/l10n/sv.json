@@ -764,6 +764,7 @@
     "Nextcloud help resources" : "Nextcloud hjälpresurser",
     "SMTP Username" : "SMTP-användarnamn",
     "Follow us on Twitter" : "Följ oss på Twitter",
-    "Active accounts" : "Aktiva konton"
+    "Active accounts" : "Aktiva konton",
+    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "För att denna kontroll ska kunna köra måste du se till att webbservern kan ansluta till sig själv. Den måste alltså kunna finna och ansluta till minst en av sina \"trusted_domains\" eller \"overwrite.cli.url\":en. Detta misslyckande kan vara resultatet av en DNS missmatch på serversidan eller utgående brandväggs-regler."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -402,7 +402,7 @@ OC.L10N.register(
     "Circle" : "Коло",
     "Allow download" : "Дозволити звантаження",
     "No other users with access found" : "Більше немає користувачів, які мають доступ",
-    "Share {propertyName} saved" : "Спільний ресурс {propertyName} збережено",
+    "Share expire date saved" : "Збережено термін доступности спільного ресурсу",
     "No entries found in this folder" : "Записів не знайдено в цьому каталозі",
     "Name" : "Ім’я",
     "Share time" : "Поділилися",
@@ -412,7 +412,6 @@ OC.L10N.register(
     "the link expired" : "термін дії посилання вичерпано",
     "sharing is disabled" : "спільний доступ заборонено",
     "For more info, please ask the person who sent this link." : "За додатковою інформацією, будь ласка, зверніться до особи, від якої ви отримали це посилання.",
-    "Share expire date saved" : "Збережено термін доступности спільного ресурсу",
     "_1 email address already added_::_{count} email addresses already added_" : ["Вже додано 1 адресу ел. пошти","Вже додано {count} адреси ел. пошти","Вже додано {count} адрес ел. пошти","Вже додано {count} адрес ел. пошти"],
     "_1 email address added_::_{count} email addresses added_" : ["Додано 1 адресу ел. пошти","Додано {count} адреси ел. пошти","Додано {count} адрес ел. пошти","Додано {count} адрес ел. пошти"],
     "Enter your name" : "Зазначте ваше ім'я"
