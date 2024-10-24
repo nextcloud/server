@@ -27,8 +27,12 @@ namespace OCA\DAV\Connector\Sabre;
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\NodeAddedToFavorite;
+use OCP\Files\Events\NodeRemovedFromFavorite;
 use OCP\ITagManager;
 use OCP\ITags;
+use OCP\IUserSession;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 
@@ -67,6 +71,8 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	public function __construct(
 		private \Sabre\DAV\Tree $tree,
 		private ITagManager $tagManager,
+		private IEventDispatcher $eventDispatcher,
+		private IUserSession $userSession,
 	) {
 		$this->tagger = null;
 		$this->cachedTags = [];
@@ -251,11 +257,13 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 			return true;
 		});
 
-		$propPatch->handle(self::FAVORITE_PROPERTYNAME, function ($favState) use ($node) {
+		$propPatch->handle(self::FAVORITE_PROPERTYNAME, function ($favState) use ($node, $path) {
 			if ((int)$favState === 1 || $favState === 'true') {
 				$this->getTagger()->tagAs($node->getId(), self::TAG_FAVORITE);
+				$this->eventDispatcher->dispatchTyped(new NodeAddedToFavorite($this->userSession->getUser(), $node->getId(), $path));
 			} else {
 				$this->getTagger()->unTag($node->getId(), self::TAG_FAVORITE);
+				$this->eventDispatcher->dispatchTyped(new NodeRemovedFromFavorite($this->userSession->getUser(), $node->getId(), $path));
 			}
 
 			if (is_null($favState)) {
