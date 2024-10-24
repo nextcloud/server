@@ -5,7 +5,6 @@
 
 import { showError } from '@nextcloud/dialogs'
 import rebuildNavigation from '../service/rebuild-navigation.js'
-import { useAppApiStore } from '../store/app-api-store'
 
 export default {
 	computed: {
