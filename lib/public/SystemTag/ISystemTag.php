@@ -88,5 +88,5 @@ interface ISystemTag {
 	 *
 	 * @since 31.0.0
 	 */
-	public function getEtag(): ?string;
+	public function getETag(): ?string;
 }

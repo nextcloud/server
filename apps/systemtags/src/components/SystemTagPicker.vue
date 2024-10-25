@@ -7,6 +7,7 @@
 	<NcDialog data-cy-systemtags-picker
 		:name="t('systemtags', 'Manage tags')"
 		:open="opened"
+		:class="'systemtags-picker--' + status"
 		class="systemtags-picker"
 		close-on-click-outside
 		out-transition
@@ -99,7 +100,7 @@ import { defineComponent } from 'vue'
 import { emit } from '@nextcloud/event-bus'
 import { sanitize } from 'dompurify'
 import { showError, showInfo } from '@nextcloud/dialogs'
-import { getLanguage, t } from '@nextcloud/l10n'
+import { getLanguage, n, t } from '@nextcloud/l10n'
 import escapeHTML from 'escape-html'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -122,10 +123,10 @@ type TagListCount = {
 }
 
 enum Status {
-	BASE,
-	LOADING,
-	CREATING_TAG,
-	DONE,
+	BASE = 'base',
+	LOADING = 'loading',
+	CREATING_TAG = 'creating-tag',
+	DONE = 'done',
 }
 
 export default defineComponent({
@@ -190,15 +191,23 @@ export default defineComponent({
 
 		statusMessage(): string {
 			if (this.toAdd.length === 0 && this.toRemove.length === 0) {
+				// should not happen™
 				return ''
 			}
 
 			if (this.toAdd.length === 1 && this.toRemove.length === 1) {
-				return t('systemtags', '{tag1} will be set and {tag2} will be removed from {count} files.', {
-					tag1: this.formatTagChip(this.toAdd[0]),
-					tag2: this.formatTagChip(this.toRemove[0]),
-					count: this.nodes.length,
-				}, undefined, { escape: false })
+				return n(
+					'systemtags',
+					'{tag1} will be set and {tag2} will be removed from 1 file.',
+					'{tag1} and {tag2} will be set and removed from {count} files.',
+					this.nodes.length,
+					{
+						tag1: this.formatTagChip(this.toAdd[0]),
+						tag2: this.formatTagChip(this.toRemove[0]),
+						count: this.nodes.length,
+					},
+					{ escape: false },
+				)
 			}
 
 			const tagsAdd = this.toAdd.map(this.formatTagChip)
@@ -206,27 +215,55 @@ export default defineComponent({
 			const tagsRemove = this.toRemove.map(this.formatTagChip)
 			const lastTagRemove = tagsRemove.pop() as string
 
-			const addStringSingular = t('systemtags', '{tag} will be set to {count} files.', {
-				tag: lastTagAdd,
-				count: this.nodes.length,
-			}, undefined, { escape: false })
+			const addStringSingular = n(
+				'systemtags',
+				'{tag} will be set to 1 file.',
+				'{tag} will be set to {count} files.',
+				this.nodes.length,
+				{
+					tag: lastTagAdd,
+					count: this.nodes.length,
+				},
+				{ escape: false },
+			)
 
-			const removeStringSingular = t('systemtags', '{tag} will be removed from {count} files.', {
-				tag: lastTagRemove,
-				count: this.nodes.length,
-			}, undefined, { escape: false })
+			const removeStringSingular = n(
+				'systemtags',
+				'{tag} will be removed from 1 file.',
+				'{tag} will be removed from {count} files.',
+				this.nodes.length,
+				{
+					tag: lastTagRemove,
+					count: this.nodes.length,
+				},
+				{ escape: false },
+			)
 
-			const addStringPlural = t('systemtags', '{tags} and {lastTag} will be set to {count} files.', {
-				tags: tagsAdd.join(', '),
-				lastTag: lastTagAdd,
-				count: this.nodes.length,
-			}, undefined, { escape: false })
+			const addStringPlural = n(
+				'systemtags',
+				'{tags} and {lastTag} will be set to 1 file.',
+				'{tags} and {lastTag} will be set to {count} files.',
+				this.nodes.length,
+				{
+					tags: tagsAdd.join(', '),
+					lastTag: lastTagAdd,
+					count: this.nodes.length,
+				},
+				{ escape: false },
+			)
 
-			const removeStringPlural = t('systemtags', '{tags} and {lastTag} will be removed from {count} files.', {
-				tags: tagsRemove.join(', '),
-				lastTag: lastTagRemove,
-				count: this.nodes.length,
-			}, undefined, { escape: false })
+			const removeStringPlural = n(
+				'systemtags',
+				'{tags} and {lastTag} will be removed from 1 file.',
+				'{tags} and {lastTag} will be removed from {count} files.',
+				this.nodes.length,
+				{
+					tags: tagsRemove.join(', '),
+					lastTag: lastTagRemove,
+					count: this.nodes.length,
+				},
+				{ escape: false },
+			)
 
 			// Singular
 			if (this.toAdd.length === 1 && this.toRemove.length === 0) {
@@ -246,14 +283,14 @@ export default defineComponent({
 
 			// Mixed
 			if (this.toAdd.length > 1 && this.toRemove.length === 1) {
-				return `${addStringPlural}<br>${removeStringSingular}`
+				return `${addStringPlural} ${removeStringSingular}`
 			}
 			if (this.toAdd.length === 1 && this.toRemove.length > 1) {
-				return `${addStringSingular}<br>${removeStringPlural}`
+				return `${addStringSingular} ${removeStringPlural}`
 			}
 
 			// Both plural
-			return `${addStringPlural}<br>${removeStringPlural}`
+			return `${addStringPlural} ${removeStringPlural}`
 		},
 	},
 
@@ -450,6 +487,10 @@ export default defineComponent({
 	& > div {
 		margin: 0 !important;
 	}
+}
+
+.systemtags-picker--done :deep(.empty-content__icon) {
+	opacity:  1;
 }
 
 // Rendered chip in note

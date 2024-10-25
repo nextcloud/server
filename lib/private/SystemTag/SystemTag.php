@@ -66,7 +66,7 @@ class SystemTag implements ISystemTag {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getEtag(): ?string {
+	public function getETag(): ?string {
 		return $this->etag;
 	}
 }
