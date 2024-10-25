@@ -99,7 +99,7 @@ OC.L10N.register(
     "Line height" : "Zeilenhöhe",
     "Warmth" : "Wärme",
     "+ Add watermark" : "+ Wasserzeichen hinzufügen",
-    "+ Add text watermark" : "+ Wasserzeichen hinzufügen",
+    "+ Add text watermark" : "+ Text-Wasserzeichen hinzufügen",
     "Choose watermark type" : "Wasserzeichentyp auswählen",
     "Upload watermark" : "Wasserzeichen hochladen",
     "Add as text" : "Als Text hinzufügen",
