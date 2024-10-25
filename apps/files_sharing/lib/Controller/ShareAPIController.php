@@ -660,13 +660,10 @@ class ShareAPIController extends OCSController {
 		// Handle mail send
 		if (is_null($sendMail)) {
 			// Define a default behavior when sendMail is not provided
-			if ($shareType === IShare::TYPE_EMAIL && strlen($shareWith) !== 0) {
-				// For email shares, the default is to send the mail
-				$share->setMailSend(true);
-			} else {
-				// For all other share types, the default is to not send the mail
-				$share->setMailSend(false);
-			}
+			// For email shares with a valid recipient, the default is to send the mail
+			// For all other share types, the default is to not send the mail
+			$allowSendMail = ($shareType === IShare::TYPE_EMAIL && $shareWith !== null && $shareWith !== '');
+			$share->setMailSend($allowSendMail);
 		} else {
 			$share->setMailSend($sendMail === 'true');
 		}
