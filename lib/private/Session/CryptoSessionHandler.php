@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Session;
 
+use Exception;
 use OCP\IRequest;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
@@ -57,7 +58,15 @@ class CryptoSessionHandler extends SessionHandler {
 		if ($encryptedData === '') {
 			return '';
 		}
-		return $this->crypto->decrypt($encryptedData, $passphrase);
+		try {
+			return $this->crypto->decrypt($encryptedData, $passphrase);
+		} catch (Exception $e) {
+			$this->logger->error('Failed to decrypt session data', [
+				'exception' => $e,
+				'sessionId' => $sessionId,
+			]);
+			return '';
+		}
 	}
 
 	/**
