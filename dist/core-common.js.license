@@ -243,9 +243,6 @@ This file is generated from multiple sources. Included packages:
 - call-bind
 	- version: 1.0.7
 	- license: MIT
-- camelcase
-	- version: 8.0.0
-	- license: MIT
 - cancelable-promise
 	- version: 4.3.1
 	- license: MIT
