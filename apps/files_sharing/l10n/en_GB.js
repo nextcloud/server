@@ -350,6 +350,7 @@ OC.L10N.register(
     "Folder \"{path}\" has been unshared" : "Folder \"{path}\" has been unshared",
     "Could not update share" : "Could not update share",
     "Share saved" : "Share saved",
+    "Share expiry date saved" : "Share expiry date saved",
     "Share hide-download state saved" : "Share hide-download state saved",
     "Share label saved" : "Share label saved",
     "Share note for recipient saved" : "Share note for recipient saved",
