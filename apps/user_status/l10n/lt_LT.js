@@ -13,6 +13,7 @@ OC.L10N.register(
     "User status" : "Naudotojo būsena",
     "Clear status after" : "Išvalyti būseną po",
     "What is your status?" : "Kokia jūsų būsena?",
+    "Predefined statuses" : "Iš anksto apibrėžtos būsenos",
     "Set status" : "Nustatyti būseną",
     "Online status" : "Prisijungimo būsena",
     "Status message" : "Būsenos žinutė",
