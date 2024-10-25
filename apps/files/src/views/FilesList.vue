@@ -75,16 +75,32 @@
 
 		<!-- Empty content placeholder -->
 		<template v-else-if="!loading && isEmptyDir">
-			<div v-if="currentView?.emptyView" class="files-list__empty-view-wrapper">
+			<!-- Empty due to error -->
+			<NcEmptyContent v-if="error" :name="error" data-cy-files-content-error>
+				<template #action>
+					<NcButton type="secondary" @click="fetchContent">
+						<template #icon>
+							<IconReload :size="20" />
+						</template>
+						{{ t('files', 'Retry') }}
+					</NcButton>
+				</template>
+				<template #icon>
+					<IconAlertCircleOutline />
+				</template>
+			</NcEmptyContent>
+			<!-- Custom empty view -->
+			<div v-else-if="currentView?.emptyView" class="files-list__empty-view-wrapper">
 				<div ref="customEmptyView" />
 			</div>
+			<!-- Default empty directory view -->
 			<NcEmptyContent v-else
 				:name="currentView?.emptyTitle || t('files', 'No files in here')"
 				:description="currentView?.emptyCaption || t('files', 'Upload some content or sync with your devices!')"
 				data-cy-files-content-empty>
 				<template v-if="directory !== '/'" #action>
 					<!-- Uploader -->
-					<UploadPicker v-if="currentFolder && canUpload && !isQuotaExceeded"
+					<UploadPicker v-if="canUpload && !isQuotaExceeded"
 						allow-folders
 						class="files-list__header-upload-button"
 						:content="getContent"
@@ -93,10 +109,7 @@
 						multiple
 						@failed="onUploadFail"
 						@uploaded="onUpload" />
-					<NcButton v-else
-						:aria-label="t('files', 'Go to the previous folder')"
-						:to="toPreviousDir"
-						type="primary">
+					<NcButton v-else :to="toPreviousDir" type="primary">
 						{{ t('files', 'Go back') }}
 					</NcButton>
 				</template>
@@ -134,6 +147,8 @@ import { UploadPicker, UploadStatus } from '@nextcloud/upload'
 import { loadState } from '@nextcloud/initial-state'
 import { defineComponent } from 'vue'
 
+import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
+import IconReload from 'vue-material-design-icons/Reload.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
@@ -161,6 +176,7 @@ import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.ts'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
+import { humanizeWebDAVError } from '../utils/davUtils.ts'
 
 const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
 
@@ -182,6 +198,8 @@ export default defineComponent({
 		AccountPlusIcon,
 		UploadPicker,
 		ViewGridIcon,
+		IconAlertCircleOutline,
+		IconReload,
 	},
 
 	mixins: [
@@ -227,6 +245,7 @@ export default defineComponent({
 	data() {
 		return {
 			loading: true,
+			error: null as string | null,
 			promise: null as CancelablePromise<ContentsWithRoot> | Promise<ContentsWithRoot> | null,
 
 			dirContentsFiltered: [] as INode[],
@@ -482,6 +501,7 @@ export default defineComponent({
 	methods: {
 		async fetchContent() {
 			this.loading = true
+			this.error = null
 			const dir = this.directory
 			const currentView = this.currentView
 
@@ -530,6 +550,7 @@ export default defineComponent({
 				})
 			} catch (error) {
 				logger.error('Error while fetching content', { error })
+				this.error = humanizeWebDAVError(error)
 			} finally {
 				this.loading = false
 			}
