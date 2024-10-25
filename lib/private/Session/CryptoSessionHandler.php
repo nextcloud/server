@@ -54,12 +54,16 @@ class CryptoSessionHandler extends SessionHandler {
 			}
 		}
 
-		$encryptedData = parent::read($sessionId);
-		if ($encryptedData === '') {
+		$possiblyEncryptedData = parent::read($sessionId);
+		if ($possiblyEncryptedData === '') {
 			return '';
 		}
+		if (str_contains($possiblyEncryptedData, 'encrypted_session_data')) {
+			// This data is not encrypted
+			return $possiblyEncryptedData;
+		}
 		try {
-			return $this->crypto->decrypt($encryptedData, $passphrase);
+			return $this->crypto->decrypt($possiblyEncryptedData, $passphrase);
 		} catch (Exception $e) {
 			$this->logger->error('Failed to decrypt session data', [
 				'exception' => $e,
