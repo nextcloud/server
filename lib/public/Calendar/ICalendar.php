@@ -59,7 +59,8 @@ interface ICalendar {
 	public function getPermissions(): int;
 
 	/**
-	 * Whether the calendar is deleted
+	 * Indicates whether the calendar is in the trash bin
+	 *
 	 * @since 26.0.0
 	 */
 	public function isDeleted(): bool;
