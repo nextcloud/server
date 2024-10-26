@@ -1,0 +1,13 @@
+SPDX-License-Identifier: MIT
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-FileCopyrightText: Tobias Koppers @sokra
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+
+
+This file is generated from multiple sources. Included packages:
+- webpack
+	- version: 5.94.0
+	- license: MIT
+- nextcloud
+	- version: 1.0.0
+	- license: AGPL-3.0-or-later

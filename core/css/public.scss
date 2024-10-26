@@ -1,0 +1,108 @@
+/*!
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+#body-public {
+	--footer-height: calc(2lh + 2 * var(--default-grid-baseline)); // Set the initial value, will be updated programmatically to match the actual height
+
+	.header-end {
+		#header-primary-action a {
+			color: var(--color-primary-element-text);
+		}
+
+		#header-secondary-action {
+			ul li {
+				min-width: 270px;
+			}
+			#header-actions-toggle {
+				background-color: transparent;
+				border-color: transparent;
+				filter: var(--background-invert-if-dark);
+
+				&:hover,
+				&:focus,
+				&:active {
+					opacity: 1;
+				}
+			}
+			#external-share-menu-item {
+				form {
+					display: flex;
+				}
+				.hidden {
+					display: none;
+				}
+				#save-button-confirm {
+					flex-grow: 0;
+				}
+			}
+		}
+	}
+
+	#content {
+		min-height: var(--body-height, calc(100% - var(--footer-height)));
+		padding-block-end: var(--footer-height);
+	}
+
+	#app-content-vue {
+		padding-block-end: var(--footer-height);
+	}
+
+	/** don't apply content header padding on the base layout */
+	&.layout-base #content {
+		padding-top: 0;
+	}
+
+	p.info {
+		margin: 20px auto;
+		text-shadow: 0 0 2px rgba(0, 0, 0, .4);
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+	p.info, form fieldset legend,
+	#datadirContent label,
+	form fieldset .warning-info,
+	form input[type='checkbox']+label {
+		text-align: center;
+	}
+
+	/* public footer */
+	footer {
+		position: fixed;
+		bottom: var(--body-container-margin);;
+		background-color: var(--color-main-background);
+		border-radius: var(--body-container-radius);
+		box-sizing: border-box;
+
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
+		width: calc(100% - 2 * var(--body-container-margin));
+		margin-inline: var(--body-container-margin);
+		padding-block: var(--default-grid-baseline);
+
+		.footer__legal-links {
+			margin-block-end: var(--default-grid-baseline);
+		}
+
+		p {
+			text-align: center;
+			color: var(--color-text-maxcontrast);
+			margin-block: 0 var(--default-grid-baseline);
+			width: 100%;
+
+			a {
+				display: inline-block;
+				font-size: var(--default-font-size);
+				font-weight: bold;
+				line-height: var(--default-line-height);
+				height: var(--default-line-height);
+				color: var(--color-text-maxcontrast);
+				white-space: nowrap;
+			}
+		}
+	}
+}

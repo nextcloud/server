@@ -1,0 +1,27 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "Табло",
+    "Dashboard app" : "Приложение за Табло",
+    "\"{title} icon\"" : "„икона {title}“",
+    "Customize" : "Персонизиране",
+    "Edit widgets" : "Редактиране на изпълнимите модули",
+    "Get more widgets from the App Store" : "Вземете повече приспособления от  App Store",
+    "Weather service" : "Метеорологична услуга",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "За вашата поверителност данните за времето се изискват от Nextcloud  сървъра ви от ваше име, така че метеорологичната служба не получава лична информация.",
+    "Weather data from Met.no" : "Данни за времето от Met.no",
+    "geocoding with Nominatim" : "геокодиране с Nominatim",
+    "elevation data from OpenTopoData" : " кота данни от OpenTopoData",
+    "Weather" : "Време",
+    "Status" : "Състояние",
+    "Good morning" : "Добро утро",
+    "Good morning, {name}" : "Добро утро, {name}",
+    "Good afternoon" : "Добър ден",
+    "Good afternoon, {name}" : "Добър ден, {name}",
+    "Good evening" : "Добър вечер",
+    "Good evening, {name}" : "Добър вечер, {name}",
+    "Hello" : "Здравейте",
+    "Hello, {name}" : "Здравейте, {name}",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Започнете деня си информиран\n\nТаблото за управление на Nextcloud е ваша отправна точка за деня, което ви дава възможност за преглед на предстоящите ви срещи, спешни имейли, съобщения в чат, входящи билети, най-новите туитове и много повече! Потребителите могат да добавят изпълними модули, които те харесват и да променят фона по свой вкус."
+},
+"nplurals=2; plural=(n != 1);");

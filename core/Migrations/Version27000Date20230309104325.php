@@ -1,0 +1,74 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace OC\Core\Migrations;
+
+use Closure;
+use OCP\DB\ISchemaWrapper;
+use OCP\DB\Types;
+use OCP\IDBConnection;
+use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
+
+/**
+ * Migrate oc_file_metadata.metadata as JSON type to oc_file_metadata.value a STRING type
+ * @see \OC\Metadata\FileMetadata
+ */
+class Version27000Date20230309104325 extends SimpleMigrationStep {
+	public function __construct(
+		private IDBConnection $connection,
+	) {
+	}
+
+	/**
+	 * @param IOutput $output
+	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param array $options
+	 * @return null|ISchemaWrapper
+	 */
+	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
+		// /** @var ISchemaWrapper $schema */
+		// $schema = $schemaClosure();
+		// $metadataTable = $schema->getTable('file_metadata');
+
+		// if ($metadataTable->hasColumn('value')) {
+		// 	return null;
+		// }
+
+		// $metadataTable->addColumn('value', Types::TEXT, [
+		// 	'notnull' => false,
+		// 	'default' => '',
+		// ]);
+		// return $schema;
+		return null;
+	}
+
+
+	/**
+	 * @param IOutput $output
+	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param array $options
+	 * @return void
+	 */
+	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
+		/** @var ISchemaWrapper $schema */
+		// $schema = $schemaClosure();
+		// $metadataTable = $schema->getTable('file_metadata');
+
+		// if (!$metadataTable->hasColumn('metadata')) {
+		// 	return;
+		// }
+
+		// $this->connection
+		// 	->getQueryBuilder()
+		// 	->update('file_metadata')
+		// 	->set('value', 'metadata')
+		// 	->executeStatement();
+	}
+}

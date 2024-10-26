@@ -1,0 +1,28 @@
+OC.L10N.register(
+    "files_versions",
+    {
+    "Versions" : "Versies",
+    "This application automatically maintains older versions of files that are changed." : "Deze applicatie beheert automatisch oudere versies van gewijzigde bestanden.",
+    "This application automatically maintains older versions of files that are changed. When enabled, a hidden versions folder is provisioned in every user's directory and is used to store old file versions. A user can revert to an older version through the web interface at any time, with the replaced file becoming a version. The app automatically manages the versions folder to ensure the account does not run out of Quota because of versions.\n\t\tIn addition to the expiry of versions, the versions app makes certain never to use more than 50% of the account's currently available free space. If stored versions exceed this limit, the app will delete the oldest versions first until it meets this limit. More information is available in the Versions documentation." : "Deze applicatie bewaart automatisch oudere versies van bestanden die gewijzigd zijn. Als dit is ingeschakeld, wordt er in de map van elke gebruiker een map met verborgen versies gemaakt waarin oude bestandsversies worden opgeslagen. Een gebruiker kan op elk moment teruggaan naar een oudere versie via de webinterface, waarbij het vervangen bestand een versie wordt. De app beheert de versie map automatisch om ervoor te zorgen dat het account niet zonder quota komt te zitten door versies.\n\t\tNaast het verlopen van versies zorgt de versies-app ervoor dat nooit meer dan 50% van de op dat moment beschikbare vrije ruimte van het account wordt gebruikt. Als opgeslagen versies deze limiet overschrijden, zal de app eerst de oudste versies verwijderen totdat deze limiet is bereikt. Meer informatie is beschikbaar in de documentatie over versies.",
+    "Name this version" : "Geef deze versie een naam",
+    "Edit version name" : "Bewerk versie naam",
+    "Compare to current version" : "Vergelijk met huidige versie",
+    "Restore version" : "Herstel versie",
+    "Download version" : "Download versie",
+    "Delete version" : "Verwijder versie",
+    "Current version" : "Huidige versie",
+    "Initial version" : "Initiële versie",
+    "Version name" : "Versie naam",
+    "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Versies met naam worden bewaard en uitgesloten van automatische opschoning wanneer je opslagquota vol is.",
+    "Cancel" : "Annuleren",
+    "Remove version name" : "Verwijder versie naam",
+    "Save version name" : "Sla versie naam op",
+    "Initial version restored" : "Initiële versie hersteld",
+    "Version restored" : "Versie hersteld",
+    "Could not restore version" : "Kon versie niet herstellen",
+    "Could not set version label" : "Kon versie label niet instellen",
+    "Could not delete version" : "Kon versie niet verwijderen",
+    "${version.label} restored" : "${version.label} hersteld",
+    "This application automatically maintains older versions of files that are changed. When enabled, a hidden versions folder is provisioned in every user's directory and is used to store old file versions. A user can revert to an older version through the web interface at any time, with the replaced file becoming a version. The app automatically manages the versions folder to ensure the user does not run out of Quota because of versions.\n\t\tIn addition to the expiry of versions, the versions app makes certain never to use more than 50% of the user's currently available free space. If stored versions exceed this limit, the app will delete the oldest versions first until it meets this limit. More information is available in the Versions documentation." : "Deze applicatie bewaart automatisch oudere versies van bestanden die gewijzigd zijn. Als dit is ingeschakeld, wordt er in de map van elke gebruiker een map met verborgen versies gemaakt waarin oude bestandsversies worden opgeslagen. Een gebruiker kan op elk moment via de webinterface terugkeren naar een oudere versie, waarbij het vervangen bestand een versie wordt. De app beheert de versie map automatisch om ervoor te zorgen dat de gebruiker niet zonder quota komt te zitten door versies.\n\t\tNaast het verlopen van versies zorgt de versies-app ervoor dat nooit meer dan 50% van de op dat moment beschikbare vrije ruimte van de gebruiker wordt gebruikt. Als opgeslagen versies deze limiet overschrijden, zal de app eerst de oudste versies verwijderen totdat deze limiet is bereikt. Meer informatie is beschikbaar in de Versions documentatie."
+},
+"nplurals=2; plural=(n != 1);");

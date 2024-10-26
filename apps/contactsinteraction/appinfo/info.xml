@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>contactsinteraction</id>
+	<name>Contacts Interaction</name>
+	<summary>Manages interaction between accounts and contacts</summary>
+	<description>Collect data about accounts and contacts interactions and provide an address book for the data</description>
+	<version>1.12.0</version>
+	<licence>agpl</licence>
+	<author>Christoph Wurst</author>
+	<author homepage="https://github.com/nextcloud/groupware">Nextcloud Groupware Team</author>
+	<namespace>ContactsInteraction</namespace>
+	<types>
+		<dav/>
+	</types>
+	<category>integration</category>
+	<category>social</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+	<dependencies>
+		<nextcloud min-version="31" max-version="31"/>
+	</dependencies>
+	<background-jobs>
+		<job>OCA\ContactsInteraction\BackgroundJob\CleanupJob</job>
+	</background-jobs>
+	<sabre>
+		<address-book-plugins>
+			<plugin>OCA\ContactsInteraction\AddressBookProvider</plugin>
+		</address-book-plugins>
+	</sabre>
+</info>

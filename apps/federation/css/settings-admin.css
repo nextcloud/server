@@ -1,0 +1,45 @@
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2015-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+#ocFederationSettings p {
+	padding-bottom: 10px;
+}
+
+#listOfTrustedServers li {
+	padding-bottom: 10px;
+}
+
+.removeTrustedServer {
+	display: none;
+	vertical-align:middle;
+	padding-inline-start: 10px;
+}
+
+#ocFederationAddServerButton {
+	cursor: pointer;
+}
+
+#listOfTrustedServers .status {
+	margin-inline-end: 10px;
+}
+
+#listOfTrustedServers .icon {
+	cursor: pointer;
+	display: inline-block;
+	vertical-align: middle;
+	margin-inline-start: 10px;
+}
+
+#ocFederationAddServer #serverUrl {
+	width: 270px;
+}
+
+.serverUrl-block {
+	max-width: 310px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}

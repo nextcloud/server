@@ -1,0 +1,189 @@
+[main]
+host     = https://www.transifex.com
+lang_map = fi_FI: fi, hu_HU: hu, nb_NO: nb, sk_SK: sk, th_TH: th, ja_JP: ja, bg_BG: bg, cs_CZ: cs
+
+[o:nextcloud:p:nextcloud:r:admin_audit]
+file_filter = translationfiles/<lang>/admin_audit.po
+source_file = translationfiles/templates/admin_audit.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:cloud_federation_api]
+file_filter = translationfiles/<lang>/cloud_federation_api.po
+source_file = translationfiles/templates/cloud_federation_api.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:comments]
+file_filter = translationfiles/<lang>/comments.po
+source_file = translationfiles/templates/comments.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:contactsinteraction]
+file_filter = translationfiles/<lang>/contactsinteraction.po
+source_file = translationfiles/templates/contactsinteraction.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:core]
+file_filter = translationfiles/<lang>/core.po
+source_file = translationfiles/templates/core.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:dashboard-shipped-with-server]
+file_filter = translationfiles/<lang>/dashboard.po
+source_file = translationfiles/templates/dashboard.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:dav]
+file_filter = translationfiles/<lang>/dav.po
+source_file = translationfiles/templates/dav.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:federatedfilesharing]
+file_filter = translationfiles/<lang>/federatedfilesharing.po
+source_file = translationfiles/templates/federatedfilesharing.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:federation]
+file_filter = translationfiles/<lang>/federation.po
+source_file = translationfiles/templates/federation.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:files]
+file_filter = translationfiles/<lang>/files.po
+source_file = translationfiles/templates/files.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:files_encryption]
+file_filter = translationfiles/<lang>/encryption.po
+source_file = translationfiles/templates/encryption.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:files_external]
+file_filter = translationfiles/<lang>/files_external.po
+source_file = translationfiles/templates/files_external.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:files_reminders]
+file_filter = translationfiles/<lang>/files_reminders.po
+source_file = translationfiles/templates/files_reminders.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:files_sharing]
+file_filter = translationfiles/<lang>/files_sharing.po
+source_file = translationfiles/templates/files_sharing.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:files_trashbin]
+file_filter = translationfiles/<lang>/files_trashbin.po
+source_file = translationfiles/templates/files_trashbin.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:files_versions]
+file_filter = translationfiles/<lang>/files_versions.po
+source_file = translationfiles/templates/files_versions.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:lib]
+file_filter = translationfiles/<lang>/lib.po
+source_file = translationfiles/templates/lib.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:lookup_server_connector]
+file_filter = translationfiles/<lang>/lookup_server_connector.po
+source_file = translationfiles/templates/lookup_server_connector.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:oauth2]
+file_filter = translationfiles/<lang>/oauth2.po
+source_file = translationfiles/templates/oauth2.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:provisioning_api]
+file_filter = translationfiles/<lang>/provisioning_api.po
+source_file = translationfiles/templates/provisioning_api.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:settings-1]
+file_filter = translationfiles/<lang>/settings.po
+source_file = translationfiles/templates/settings.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:sharebymail]
+file_filter = translationfiles/<lang>/sharebymail.po
+source_file = translationfiles/templates/sharebymail.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:systemtags]
+file_filter = translationfiles/<lang>/systemtags.po
+source_file = translationfiles/templates/systemtags.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:theming]
+file_filter = translationfiles/<lang>/theming.po
+source_file = translationfiles/templates/theming.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:twofactor_backupcodes]
+file_filter = translationfiles/<lang>/twofactor_backupcodes.po
+source_file = translationfiles/templates/twofactor_backupcodes.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:updatenotification]
+file_filter = translationfiles/<lang>/updatenotification.po
+source_file = translationfiles/templates/updatenotification.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:user_ldap]
+file_filter = translationfiles/<lang>/user_ldap.po
+source_file = translationfiles/templates/user_ldap.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:user_status]
+file_filter = translationfiles/<lang>/user_status.po
+source_file = translationfiles/templates/user_status.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:weather_status]
+file_filter = translationfiles/<lang>/weather_status.po
+source_file = translationfiles/templates/weather_status.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:webhook_listeners]
+file_filter = translationfiles/<lang>/webhook_listeners.po
+source_file = translationfiles/templates/webhook_listeners.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:workflowengine]
+file_filter = translationfiles/<lang>/workflowengine.po
+source_file = translationfiles/templates/workflowengine.pot
+source_lang = en
+type        = PO

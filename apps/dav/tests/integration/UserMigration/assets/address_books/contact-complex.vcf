@@ -1,0 +1,26 @@
+BEGIN:VCARD
+VERSION:4.0
+PRODID:-//Nextcloud Contacts v4.2.0
+UID:382b9c30-2529-40a6-babb-b23d588c0643
+FN:Bob McPherson
+ADR;TYPE=HOME:ABC;123 River St. Unit #5;123 River St.;Los Angeles;Californi
+ a;TLN 223;US
+EMAIL;TYPE=HOME:bob@example.org
+TEL;TYPE="HOME,VOICE":+1 505-644-0462
+TITLE:Engineer
+PHOTO;VALUE=URI:
+PHOTO;VALUE=URI:
+CATEGORIES:People with Pictures,Family
+BDAY;VALUE=DATE:19800325
+GEO:geo:92.000\,7.280
+NICKNAME:B
+NOTE:This is Bob\n\nBob is a McPherson
+RELATIONSHIP:RELATIVE
+LANG:en
+LANG:de
+LANG:fr
+TZ:America/Los_Angeles
+URL;VALUE=URI:https://example.org
+ORG:Earth
+REV;VALUE=DATE-AND-OR-TIME:20220324T042023Z
+END:VCARD

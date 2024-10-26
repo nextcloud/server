@@ -1,0 +1,26 @@
+{ "translations": {
+    "restored" : "已恢复",
+    "Deleted files" : "回收站",
+    "Deleted files and folders in the trash bin (may expire during export if you are low on storage space)" : "回收站中已删除的文件与文件夹（如果您的存储空间不足，导出过程中可能会过期）",
+    "This application enables people to restore files that were deleted from the system." : "此应用程序使人们能够恢复从系统中删除的文件。",
+    "This application enables people to restore files that were deleted from the system. It displays a list of deleted files in the web interface, and has options to restore those deleted files back to the people file directories or remove them permanently from the system. Restoring a file also restores related file versions, if the versions application is enabled. When a file is deleted from a share, it can be restored in the same manner, though it is no longer shared. By default, these files remain in the trash bin for 30 days.\nTo prevent an account from running out of disk space, the Deleted files app will not utilize more than 50% of the currently available free quota for deleted files. If the deleted files exceed this limit, the app deletes the oldest files until it gets below this limit. More information is available in the Deleted Files documentation." : "此应用程序使人们能够恢复从系统中删除的文件。它在web界面中显示已删除文件的列表，并可以选择将这些已删除的文件还原回人员文件目录或从系统中永久删除这些文件。如果启用了版本应用程序，恢复文件也会恢复相关的文件版本。当文件从共享中删除时，可以以相同的方式恢复，尽管不再共享。默认情况下，这些文件将在垃圾桶中保留30天。\n为了防止帐户磁盘空间不足，“已删除文件”应用程序将不会为已删除文件使用超过当前可用可用配额的50%。如果删除的文件超过此限制，应用程序将删除最旧的文件，直到其低于此限制。有关详细信息，请参阅“已删除的文件”文档。",
+    "Restore" : "恢复",
+    "Unknown" : "未知",
+    "All files" : "全部文件",
+    "You" : "你",
+    "Original location" : "初始位置",
+    "Deleted by" : "删除者",
+    "Deleted" : "已删除",
+    "A long time ago" : "很久之前",
+    "List of files that have been deleted." : "已被删除的文件清单",
+    "No deleted files" : "无已删除文件",
+    "Files and folders you have deleted will show up here" : "此处将显示您删除的文件和文件夹",
+    "This application enables users to restore files that were deleted from the system." : "此应用允许用户恢复从系统中删除的文件。",
+    "This application enables users to restore files that were deleted from the system. It displays a list of deleted files in the web interface, and has options to restore those deleted files back to the users file directories or remove them permanently from the system. Restoring a file also restores related file versions, if the versions application is enabled. When a file is deleted from a share, it can be restored in the same manner, though it is no longer shared. By default, these files remain in the trash bin for 30 days.\nTo prevent a user from running out of disk space, the Deleted files app will not utilize more than 50% of the currently available free quota for deleted files. If the deleted files exceed this limit, the app deletes the oldest files until it gets below this limit. More information is available in the Deleted Files documentation." : "此应用允许用户恢复从系统中删除的文件。它会在 web 界面上显示已删除文件的列表，且可以选择将这些已删除文件恢复到用户的文件目录中或者将其永久地从系统删除。如果版本应用启用的话，恢复文件同时也会恢复相关的文件副本。当文件从共享中删除时，它可以用同样的方法恢复，但它不会再被共享。默认情况下，这些文件将会在回收站中保留 30 天。\n为防止用户把磁盘空间用完，文件删除应用用于保存已删除文件的空间将不会超过当前可用空闲配额的 50%。当已删除文件的容量超过这一限制时，应用将删除最旧的文件直到容量低于限制。更多信息请参考文件删除应用文档。",
+    "You will be able to recover deleted files from here" : "您可以在此处恢复已删除的文件",
+    "No entries found in this folder" : "此文件夹中无项目",
+    "Select all" : "全部选择",
+    "Name" : "名称",
+    "Actions" : "操作"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

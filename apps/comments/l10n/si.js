@@ -1,0 +1,20 @@
+OC.L10N.register(
+    "comments",
+    {
+    "Comments" : "අදහස්",
+    "You commented" : "ඔබ අදහස් දැක්වා ඇත ",
+    "{author} commented" : "{author} අදහස් දැක්වා ඇත",
+    "You commented on {file}" : "ඔබ {file} හි අදහස් දැක්වා ඇත",
+    "<strong>Comments</strong> for files" : "ගොනු සඳහා <strong>අදහස්</strong>",
+    "Edit comment" : "අදහස සංස්කරණය",
+    "Post comment" : "අදහසක් පළ කරන්න",
+    "No comments yet, start the conversation!" : "තවම අදහස් නැත, සංවාදය ආරම්භ කරන්න!",
+    "No more messages" : "තවත් පණිවිඩ නැත",
+    "Retry" : "නැවත උත්සාහ කරන්න",
+    "Unable to load the comments list" : "අදහස් ලැයිස්තුව පූරණය කළ නොහැකිය",
+    "Comment" : "අදහස",
+    "An error occurred while trying to edit the comment" : "අදහස සංස්කරණය කිරීමට උත්සාහ කිරීමේදී දෝෂයක් ඇතිවිය",
+    "An error occurred while trying to create the comment" : "අදහස සෑදීමට උත්සාහ කිරීමේදී දෝෂයක් ඇතිවිය",
+    "%1$s commented" : "%1$s අදහස් දැක්වා ඇත"
+},
+"nplurals=2; plural=(n != 1);");

@@ -1,0 +1,39 @@
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+.files-list__row-status {
+	display: flex;
+	width: 44px;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+
+	svg {
+		width: 24px;
+		height: 24px;
+
+		path {
+			fill: currentColor;
+		}
+	}
+
+	&--error,
+	&--warning {
+		position: absolute;
+		display: block;
+		top: 0;
+		inset-inline: 0;
+		bottom: 0;
+		opacity: .1;
+		z-index: -1;
+	}
+
+	&--error {
+		background: var(--color-error);
+	}
+
+	&--warning {
+		background: var(--color-warning);
+	}
+}

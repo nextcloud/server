@@ -1,0 +1,35 @@
+SPDX-License-Identifier: MIT
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: Tobias Koppers @sokra
+SPDX-FileCopyrightText: Roeland Jago Douma
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Christoph Wurst
+
+
+This file is generated from multiple sources. Included packages:
+- @nextcloud/capabilities
+	- version: 1.2.0
+	- license: GPL-3.0-or-later
+- @nextcloud/initial-state
+	- version: 2.2.0
+	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.2.3
+	- license: GPL-3.0-or-later
+- css-loader
+	- version: 7.1.2
+	- license: MIT
+- escape-html
+	- version: 1.0.3
+	- license: MIT
+- style-loader
+	- version: 4.0.0
+	- license: MIT
+- webpack
+	- version: 5.94.0
+	- license: MIT
+- nextcloud
+	- version: 1.0.0
+	- license: AGPL-3.0-or-later

@@ -1,0 +1,40 @@
+# https://editorconfig.org
+
+# SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+indent_style = tab
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.feature]
+indent_size = 2
+indent_style = space
+
+[*.yml]
+indent_size = 2
+indent_style = space
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.svg]
+insert_final_newline = false
+
+[package*.json]
+indent_size = 2
+indent_style = space
+
+[build/psalm-baseline.xml]
+indent_size = 2
+indent_style = space
+
+[config/*config.php]
+indent_size = 2
+indent_style = space

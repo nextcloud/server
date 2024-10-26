@@ -1,0 +1,25 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "แดชบอร์ด",
+    "Dashboard app" : "แอปแดชบอร์ด",
+    "Customize" : "ปรับแต่ง",
+    "Edit widgets" : "แก้ไขวิดเจ็ต",
+    "Get more widgets from the App Store" : "เลือกวิดเจ็ตจาก App Store",
+    "Weather service" : "บริการสภาพอากาศ",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "เพื่อความเป็นส่วนตัวของคุณ ข้อมูลสภาพอากาศถูกขอโดยเซิร์ฟเวอร์ Nextcloud ในนามของคุณ ดังนั้นบริการสภาพอากาศจึงไม่ได้รับข้อมูลส่วนบุคคลใด ๆ",
+    "Weather data from Met.no" : "ข้อมูลสภาพอากาศจาก Met.no",
+    "geocoding with Nominatim" : "พิกัดภูมิศาสตร์จาก Nominatim",
+    "elevation data from OpenTopoData" : "ข้อมูลความสูงจาก OpenTopoData",
+    "Weather" : "สภาพอากาศ",
+    "Status" : "สถานะ",
+    "Good morning" : "สวัสดีตอนเช้า",
+    "Good morning, {name}" : "สวัสดีตอนเช้า {name}",
+    "Good afternoon" : "สวัสดีตอนบ่าย",
+    "Good afternoon, {name}" : "สวัสดีตอนบ่าย {name}",
+    "Good evening" : "สวัสดีตอนเย็น",
+    "Good evening, {name}" : "สวัสดีตอนเย็น {name}",
+    "Hello" : "สวัสดี",
+    "Hello, {name}" : "สวัสดี {name}"
+},
+"nplurals=1; plural=0;");

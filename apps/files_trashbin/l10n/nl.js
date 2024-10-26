@@ -1,0 +1,20 @@
+OC.L10N.register(
+    "files_trashbin",
+    {
+    "restored" : "hersteld",
+    "Deleted files" : "Verwijderde bestanden",
+    "Restore" : "Herstellen",
+    "Unknown" : "Onbekend",
+    "All files" : "Alle bestanden",
+    "You" : "Je",
+    "Deleted" : "Verwijderd",
+    "No deleted files" : "Geen verwijderde bestanden",
+    "This application enables users to restore files that were deleted from the system." : "Deze applicatie stelt gebruikers in staat om verwijderde bestanden te herstellen.",
+    "This application enables users to restore files that were deleted from the system. It displays a list of deleted files in the web interface, and has options to restore those deleted files back to the users file directories or remove them permanently from the system. Restoring a file also restores related file versions, if the versions application is enabled. When a file is deleted from a share, it can be restored in the same manner, though it is no longer shared. By default, these files remain in the trash bin for 30 days.\nTo prevent a user from running out of disk space, the Deleted files app will not utilize more than 50% of the currently available free quota for deleted files. If the deleted files exceed this limit, the app deletes the oldest files until it gets below this limit. More information is available in the Deleted Files documentation." : "Met deze applicatie kunnen gebruikers bestanden herstellen die uit het systeem zijn verwijderd. Het toont in de webinterface een lijst met verwijderde bestanden en heeft opties om die verwijderde bestanden terug te zetten naar de bestandsmappen van de gebruikers of ze permanent uit het systeem te verwijderen. Het herstellen van een bestand herstelt ook gerelateerde bestandsversies, als de versiebeheer-applicatie is ingeschakeld. Wanneer een bestand uit een share wordt verwijderd, kan het op dezelfde manier worden hersteld, hoewel het niet langer wordt gedeeld. Standaard blijven deze bestanden 30 dagen in de prullenbak staan.\nOm te voorkomen dat een gebruiker onvoldoende schijfruimte heeft, gebruikt de app Verwijderde bestanden niet meer dan 50% van de momenteel beschikbare vrije quota voor verwijderde bestanden. Als de verwijderde bestanden deze limiet overschrijden, verwijdert de app de oudste bestanden totdat deze de limiet is bereikt. Meer informatie is beschikbaar in de documentatie voor Verwijderde bestanden.",
+    "You will be able to recover deleted files from here" : "Van hieruit kun je verwijderde bestanden terugzetten",
+    "No entries found in this folder" : "Niets gevonden in deze map",
+    "Select all" : "Alles selecteren",
+    "Name" : "Naam",
+    "Actions" : "Acties"
+},
+"nplurals=2; plural=(n != 1);");

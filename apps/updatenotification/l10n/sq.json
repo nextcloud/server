@@ -1,0 +1,24 @@
+{ "translations": {
+    "{version} is available. Get more information on how to update." : "Është gati {version}. Merrni më tepër informacion se si ta përditësoni.",
+    "Update notifications" : "Njoftime përditësimesh",
+    "Channel updated" : "Kanali u përditësua",
+    "The update server could not be reached since %d days to check for new updates." : "Përditësimi i serverit nuk mund të arrihej deri sa %dtë kontrollohen për përditësime të reja.",
+    "Please check the Nextcloud and server log files for errors." : "Ju lutemi kontrolloni dosjet e Nextcloud dhe te server log-ut per gabimet",
+    "Update to %1$s is available." : "Përditësimi te%1$s është në dispozicion.",
+    "Update for %1$s to version %2$s is available." : "Është gati përditësimi për %1$s në version %2$s.",
+    "Update for {app} to version %s is available." : "Përditësimi për {app} në versionin %s është në dispozicion",
+    "Open updater" : "Hape përditësuesin",
+    "Download now" : "Shkarko tani",
+    "Your version is up to date." : "Versioni juaj është i përditësuar.",
+    "Update channel:" : "Kanal përditësimesh:",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Mundeni përherë ta përditësoni me një version të ri / kanal eksperimental. Por nuk mund ta ulni kurrë versionin në një version më të qëndrueshëm.",
+    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Vini re se pas një lëshimi të ri mund të duhet pak kohë para se të shfaqet këtu. Ne hapim versione të reja të shpërndara me kalimin e kohës tek përdoruesit tanë dhe nganjëherë kalojmë një version kur gjenden çështjet.",
+    "Notify members of the following groups about available updates:" : "Njoftoji anëtarët e grupeve vijues për përditësime të gatshme:",
+    "Only notification for app updates are available." : "Vetëm njoftime për përditësime aplikacionesh janë të disponueshme.",
+    "The selected update channel makes dedicated notifications for the server obsolete." : "Kanali i zgjedhur i përditësimit i bën njoftimet për shërbyesin të papërdorshme.",
+    "The selected update channel does not support updates of the server." : "Kanali i zgjdhur i përditësimit nuk mbështet përditësime të shvrbyesit.",
+    "Could not start updater, please try the manual update" : "Nuk mundi të filloj përditësuesi, ju lutemi të provoni përditësimin manual",
+    "A new version is available: %s" : "Ka gati një version të ri: %s",
+    "Checked on %s" : "Kontrolluar më %s"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

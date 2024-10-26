@@ -1,0 +1,27 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "Tổng quan",
+    "Dashboard app" : "Ứng dụng Tổng quan",
+    "\"{title} icon\"" : "\"{title} icon\"",
+    "Customize" : "Tuỳ chỉnh",
+    "Edit widgets" : "Chỉnh sửa widget",
+    "Get more widgets from the App Store" : "Tải thêm widget từ App Store",
+    "Weather service" : "Dịch vụ thời tiết",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Vì quyền riêng tư của bạn, dữ liệu thời tiết được yêu cầu bởi máy chủ Nextcloud thay mặt bạn để dịch vụ thời tiết không nhận được thông tin cá nhân.",
+    "Weather data from Met.no" : "Dữ liệu thời tiết từ Met.no",
+    "geocoding with Nominatim" : "mã hóa địa lý với Nominatim",
+    "elevation data from OpenTopoData" : "dữ liệu độ cao từ OpenTopoData",
+    "Weather" : "Thời tiết",
+    "Status" : "Trạng thái",
+    "Good morning" : "Chào buổi sáng",
+    "Good morning, {name}" : "Chào buổi sáng, {name}",
+    "Good afternoon" : "Chào buổi chiều",
+    "Good afternoon, {name}" : "Chào buổi chiều, {name}",
+    "Good evening" : "Chào buổi tối",
+    "Good evening, {name}" : "Chào buổi tối, {name}",
+    "Hello" : "Xin chào",
+    "Hello, {name}" : "Xin chào, {name}",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Bắt đầu ngày mới của bạn được thông báo\n\nBảng điều khiển Nextcloud là điểm khởi đầu trong ngày của bạn, cung cấp cho bạn cái nhìn tổng quan về các cuộc hẹn sắp tới, email khẩn cấp, tin nhắn trò chuyện, vé đến, tweet mới nhất và hơn thế nữa! Người dùng có thể thêm các widget mình thích và thay đổi nền theo ý thích."
+},
+"nplurals=1; plural=0;");

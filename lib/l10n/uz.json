@@ -1,0 +1,23 @@
+{ "translations": {
+    "Cannot write into \"config\" directory!" : "Cannot write into \"config\" directory!",
+    "Unknown filetype" : "Unknown filetype",
+    "Invalid image" : "Invalid image",
+    "Files" : "Files",
+    "View profile" : "View profile",
+    "last month" : "last month",
+    "seconds ago" : "seconds ago",
+    "Apps" : "Apps",
+    "Settings" : "Settings",
+    "Address" : "Address",
+    "Profile picture" : "Profil rasmi",
+    "About" : "About",
+    "Set an admin password." : "Set an admin password.",
+    "January" : "January",
+    "Authentication error" : "Authentication error",
+    "Storage is temporarily not available" : "Storage is temporarily not available",
+    "File name is too long" : "File name is too long",
+    "Help" : "Help",
+    "Users" : "Users",
+    "Unknown user" : "Unknown user"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

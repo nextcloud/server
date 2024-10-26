@@ -1,0 +1,26 @@
+{ "translations": {
+    "Dashboard" : "Pano",
+    "Dashboard app" : "Pano uygulaması",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Güne bilgilenerek başlayın\n\nNextcloud Pano, gününüzün başlangıç noktasıdır ve size yaklaşan randevularınız, acil e-postalarınız, sohbet iletileri, gelen destek istekleri, son tweetler gibi pek çok bilgi verir! Kişiler istedikleri başka pano bileşenlerini ekleyebilir ve arka planı değiştirebilir.",
+    "\"{title} icon\"" : "\"{title} simgesi\"",
+    "Customize" : "Özelleştir",
+    "Edit widgets" : "Pano bileşenlerini düzenle",
+    "Get more widgets from the App Store" : "Uygulama mağazasından başka pano bileşenleri alın",
+    "Weather service" : "Hava durumu",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Kişisel gizliliğinizi korumak için Nextcloud sunucunuz hava durumu verilerini sizin adınıza ister. Böylece hava durumu hizmetine hiçbir kişisel bilgi aktarılmaz.",
+    "Weather data from Met.no" : "Hava durumu verileri Met.no tarafından sağlanıyor",
+    "geocoding with Nominatim" : "Nominatim ile coğrafi kodlama",
+    "elevation data from OpenTopoData" : "yükseklik verileri OpenTopoData tarafından sağlanıyor",
+    "Weather" : "Hava durumu",
+    "Status" : "Durum",
+    "Good morning" : "Günaydın",
+    "Good morning, {name}" : "Günaydın, {name}",
+    "Good afternoon" : "Tünaydın",
+    "Good afternoon, {name}" : "Tünaydın, {name}",
+    "Good evening" : "İyi geceler",
+    "Good evening, {name}" : "İyi geceler, {name}",
+    "Hello" : "Merhaba",
+    "Hello, {name}" : "Merhaba {name}",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Güne bilgilenerek başlayın\n\nNextcloud Pano, gününüzün başlangıç noktasıdır ve size yaklaşan randevularınız, acil e-postalarınız, sohbet iletileri, gelen destek istekleri, son tweetler gibi pek çok bilgi verir! Kullanıcılar istedikleri başka pano bileşenlerini ekleyebilir ve arka planı değiştirebilir."
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
+}

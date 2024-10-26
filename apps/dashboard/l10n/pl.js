@@ -1,0 +1,28 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "Pulpit",
+    "Dashboard app" : "Aplikacja Pulpit",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Rozpocznij dzień świadomie\n\nPulpit nawigacyjny Nextcloud to punkt wyjścia dnia, zapewniający przegląd nadchodzących spotkań, pilnych e-maili, wiadomości na czacie, przychodzących zgłoszeń, najnowszych tweetów i wiele więcej! Ludzie mogą dodawać widżety, które im się podobają i zmieniać tło według własnych upodobań.",
+    "\"{title} icon\"" : "\"ikona {title}\"",
+    "Customize" : "Dostosuj",
+    "Edit widgets" : "Edytuj widżety",
+    "Get more widgets from the App Store" : "Pobierz więcej widżetów z Nextcloud App Store",
+    "Weather service" : "Serwis pogodowy",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Ze względu na Twoją prywatność dane pogodowe są pobierane przez serwer Nextcloud w Twoim imieniu. Usługa pogodowa nie otrzymuje żadnych danych osobowych.",
+    "Weather data from Met.no" : "Dane pogodowe z Met.no",
+    "geocoding with Nominatim" : "geokodowanie z Nominatim",
+    "elevation data from OpenTopoData" : "dane wysokościowe z OpenTopoData",
+    "Weather" : "Pogoda",
+    "Status" : "Status",
+    "Good morning" : "Dzień dobry",
+    "Good morning, {name}" : "Dzień dobry, {name}",
+    "Good afternoon" : "Dzień dobry",
+    "Good afternoon, {name}" : "Dzień dobry, {name}",
+    "Good evening" : "Dobry wieczór",
+    "Good evening, {name}" : "Dobry wieczór, {name}",
+    "Hello" : "Witaj",
+    "Hello, {name}" : "Witaj {name}",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Rozpocznij dzień poinformowany\n\nPulpit nawigacyjny Nextcloud to Twój punkt wyjścia w ciągu dnia, dający przegląd nadchodzących spotkań, pilnych e-maili, wiadomości na czacie, przychodzących zgłoszeń, najnowszych tweetów i wiele więcej! Użytkownicy mogą dodawać widżety, które im się podobają i zmieniać tło według własnych upodobań."
+},
+"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

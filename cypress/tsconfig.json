@@ -1,0 +1,13 @@
+{
+	"extends": "../tsconfig.json",
+	"include": ["./**/*.ts"],
+	"compilerOptions": {
+		"types": [
+			"@testing-library/cypress",
+			"cypress",
+			"cypress-axe",
+			"cypress-wait-until",
+			"dockerode"
+		],
+	}
+}

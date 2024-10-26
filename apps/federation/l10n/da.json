@@ -1,0 +1,18 @@
+{ "translations": {
+    "Added to the list of trusted servers" : "Tilføjet listen af godkendte servere",
+    "Server is already in the list of trusted servers." : "Serveren står allerede på listen over sikre servere",
+    "No server to federate with found" : "Ingen server at forbinde til blev fundet",
+    "Could not add server" : "Kunne ikke tilføje server",
+    "Trusted servers" : "Pålidelige servere",
+    "Federation" : "Datafællesskab",
+    "Federation allows you to connect with other trusted servers to exchange the account directory." : "Federation giver dig mulighed for at oprette forbindelse til andre betroede servere for at udveksle kontobiblioteket.",
+    "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing." : "Federation giver dig mulighed for at oprette forbindelse til andre betroede servere for at udveksle kontobiblioteket. For eksempel vil dette blive brugt til automatisk at fuldføre eksterne konti til deling.",
+    "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Federation giver dig mulighed for at oprette forbindelse til andre betroede servere for at udveksle kontobiblioteket. For eksempel vil dette blive brugt til automatisk at fuldføre eksterne konti til forbundsdeling. Det er ikke nødvendigt at tilføje en server som betroet server for at oprette en normal deling.",
+    "+ Add trusted server" : "+ Tilføj pålidelig server",
+    "Trusted server" : "Pålidelig server",
+    "Add" : "Tilføj",
+    "Federation allows you to connect with other trusted servers to exchange the user directory." : "Datafællesskab gør dig i stand til at forbinde med andre serveren du stoler på og udveksle brugerdatabaser.",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federation gør dig i stand til at forbinde med andre serveren du stoler på og udveksle brugerdatabaser. F. eks. dette kan blive bruge til at auto complete  eksterne brugere når du laver federated deling.",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Federation giver dig mulighed for at oprette forbindelse til andre betroede servere for at udveksle brugerkataloget. For eksempel vil dette blive brugt til automatisk at udfylde eksterne brugere til fødereret deling. Det er ikke nødvendigt at tilføje en server som betroet server for at oprette en sammensat deling."
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

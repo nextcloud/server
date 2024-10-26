@@ -1,0 +1,141 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "files_versions",
+        "version": "0.0.1",
+        "description": "This application automatically maintains older versions of files that are changed.",
+        "license": {
+            "name": "agpl"
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "basic_auth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "bearer_auth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "schemas": {
+            "Capabilities": {
+                "type": "object",
+                "required": [
+                    "files"
+                ],
+                "properties": {
+                    "files": {
+                        "type": "object",
+                        "required": [
+                            "versioning",
+                            "version_labeling",
+                            "version_deletion"
+                        ],
+                        "properties": {
+                            "versioning": {
+                                "type": "boolean"
+                            },
+                            "version_labeling": {
+                                "type": "boolean"
+                            },
+                            "version_deletion": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "paths": {
+        "/index.php/apps/files_versions/preview": {
+            "get": {
+                "operationId": "preview-get-preview",
+                "summary": "Get the preview for a file version",
+                "tags": [
+                    "preview"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "file",
+                        "in": "query",
+                        "description": "Path of the file",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
+                        "name": "x",
+                        "in": "query",
+                        "description": "Width of the preview",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 44
+                        }
+                    },
+                    {
+                        "name": "y",
+                        "in": "query",
+                        "description": "Height of the preview",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 44
+                        }
+                    },
+                    {
+                        "name": "version",
+                        "in": "query",
+                        "description": "Version of the file to get the preview for",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Preview returned",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Getting preview is not possible",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Preview not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": []
+}

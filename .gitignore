@@ -1,0 +1,185 @@
+# SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2011-2016 ownCloud contributors
+# SPDX-FileCopyrightText: 2010 ownCloud contributors
+# SPDX-License-Identifier: AGPL-3.0-only
+# the default generated dir + db file
+/data
+/config/config.php
+/config/*.config.php
+/config/mimetype*.json
+/config/mount.php
+/apps/inc.php
+/assets
+/.htaccess
+/node_modules
+/translationfiles
+/translationtool.phar
+
+# ignore all apps except core ones
+/apps*/*
+!/apps/cloud_federation_api
+!/apps/comments
+!/apps/contactsinteraction
+!/apps/dashboard
+!/apps/dav
+!/apps/files
+!/apps/federation
+!/apps/federatedfilesharing
+!/apps/sharebymail
+!/apps/encryption
+!/apps/files_external
+!/apps/files_reminders
+!/apps/files_sharing
+!/apps/files_trashbin
+!/apps/files_versions
+!/apps/lookup_server_connector
+!/apps/user_ldap
+!/apps/oauth2
+!/apps/provisioning_api
+!/apps/settings
+!/apps/systemtags
+!/apps/testing
+!/apps/admin_audit
+!/apps/updatenotification
+!/apps/theming
+!/apps/twofactor_backupcodes
+!/apps/user_status
+!/apps/weather_status
+!/apps/webhook_listeners
+!/apps/workflowengine
+/apps/files_external/3rdparty/irodsphp/PHPUnitTest
+/apps/files_external/3rdparty/irodsphp/web
+/apps/files_external/3rdparty/irodsphp/prods/test
+/apps/files_external/3rdparty/irodsphp/prods/tutorials
+/apps/files_external/3rdparty/irodsphp/prods/test*
+/apps/files_external/tests/config.*.php
+
+# apps modules
+/apps/*/node_modules
+
+
+# ignore themes except the example and the README
+/themes/*
+!/themes/example
+!/themes/README
+
+# Love to people that develop the updater
+/updater
+
+# just sane ignores
+.*.sw[po]
+*.bak
+*.BAK
+*~
+*.orig
+*.class
+.cvsignore
+Thumbs.db
+*.py[co]
+_darcs/*
+CVS/*
+.svn/*
+RCS/*
+*.backup*
+.php_cs.cache
+.php-cs-fixer.cache
+
+# kdevelop
+.kdev
+*.kdev4
+*.kate-swp
+
+# Lokalize
+*lokalize*
+
+# eclipse
+.project
+.settings
+
+# netbeans
+nbproject
+
+# phpStorm
+.idea
+*.iml
+
+# vscode
+.vscode
+*.code-workspace
+
+# geany
+*.geany
+
+# Cloud9IDE
+.settings.xml
+.c9revisions
+
+# vim ex mode
+.vimrc
+
+# ack(-grep)
+.ackrc
+
+# Mac OS
+.DS_Store
+
+# WebFinger
+.well-known
+/.buildpath
+
+# Tests
+/tests/phpunit.xml
+
+# Node Modules
+/build/node_modules/
+
+# nodejs
+/build/bin
+/build/lib/
+/build/jsdocs/
+/build/integration/output/
+/build/integration/phpserver.log
+/npm-debug.log
+/PhantomJS_*
+
+# puphpet
+puphpet
+
+# vagrant
+.vagrant
+Vagrantfile
+
+# Tests - auto-generated files
+/data-autotest
+/results.sarif
+/tests/.phpunit.result.cache
+/tests/coverage*
+/tests/css
+/tests/karma-coverage
+/tests/autoconfig*
+/tests/autotest*
+/tests/data/lorem-copy.txt
+/tests/data/testimage-copy.png
+/tests/ui-regression/out/
+/tests/ui-regression/node_modules/
+/tests/ui-regression/package-lock.json
+/config/config-autotest-backup.php
+/config/autoconfig.php
+clover.xml
+/coverage
+
+# Tests - dependencies
+tests/acceptance/vendor/
+
+composer.phar
+/lib/composer/bin
+/lib/composer/bamarni
+/vendor-bin/**/vendor
+
+./.htaccess
+core/js/mimetypelist.js
+
+# Tests - cypress
+cypress/downloads
+cypress/snapshots
+cypress/videos

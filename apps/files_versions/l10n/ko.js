@@ -1,0 +1,26 @@
+OC.L10N.register(
+    "files_versions",
+    {
+    "Versions" : "버전",
+    "This application automatically maintains older versions of files that are changed." : "이 앱은 변경된 파일의 이전 버전을 관리합니다.",
+    "Name this version" : "버전 이름 지정",
+    "Edit version name" : "버전 이름 수정",
+    "Compare to current version" : "현재 버전과 비교하기",
+    "Restore version" : "버전 복원",
+    "Download version" : "버전 다운로드",
+    "Delete version" : "버전 삭제",
+    "Current version" : "현재 버전",
+    "Initial version" : "초기 버전",
+    "Version name" : "버전 이름",
+    "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "이름이 지정된 버전은 유지되며, 저장 공간 할당량이 가득 찼을 때의 자동 정리 목록에서 제외됩니다.",
+    "Cancel" : "취소",
+    "Remove version name" : "버전 이름 제거",
+    "Save version name" : "버전 이름 저장",
+    "Initial version restored" : "초기 버전이 복원됨",
+    "Version restored" : "버전이 복원됨",
+    "Could not restore version" : "버전을 복원할 수 없음",
+    "Could not delete version" : "버전을 삭제할 수 없음",
+    "${version.label} restored" : "${version.label} 복원됨",
+    "This application automatically maintains older versions of files that are changed. When enabled, a hidden versions folder is provisioned in every user's directory and is used to store old file versions. A user can revert to an older version through the web interface at any time, with the replaced file becoming a version. The app automatically manages the versions folder to ensure the user does not run out of Quota because of versions.\n\t\tIn addition to the expiry of versions, the versions app makes certain never to use more than 50% of the user's currently available free space. If stored versions exceed this limit, the app will delete the oldest versions first until it meets this limit. More information is available in the Versions documentation." : "이 애플리케이션은 변경된 파일의 이전 버전을 자동으로 유지합니다. 활성화되면 각 사용자 디렉토리에 숨겨진 버전 폴더가 생성되며 이전 파일 버전을 저장하는 데 사용됩니다. 사용자는 웹 인터페이스를 통해 언제든지 이전 버전으로 복원할 수 있으며 교체된 파일이 버전으로 변합니다. 이 앱은 사용자가 버전으로 인해 할당량을 모두 사용하지 않도록 버전 폴더를 자동으로 관리합니다. 또한 버전의 만료 외에도, 버전 앱은 사용 가능한 무료 공간의 50%를 초과하여 사용하지 않도록 합니다. 저장된 버전이 이 제한을 초과하는 경우, 앱은 가장 오래된 버전을 먼저 삭제하여 이 제한을 준수하도록 합니다. 더 자세한 정보는 버전 문서에서 확인할 수 있습니다."
+},
+"nplurals=1; plural=0;");

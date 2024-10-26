@@ -1,0 +1,40 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: Block merges for EOL
+
+on: pull_request
+
+permissions:
+  contents: read
+
+concurrency:
+  group: block-merge-eol-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  block-merges-eol:
+    name: Block merges for EOL branches
+
+    # Only run on stableXX branches
+    if: startsWith( github.base_ref, 'stable')
+    runs-on: ubuntu-latest-low
+
+    steps:
+      - name: Set server major version environment
+        run: |
+          # retrieve version number from branch reference
+          server_major=$(echo "${{ github.base_ref }}" | sed -En 's/stable//p')
+          echo "server_major=$server_major" >> $GITHUB_ENV
+          echo "current_month=$(date +%Y-%m)" >> $GITHUB_ENV
+
+      - name: Checking if ${{ env.server_major }} is EOL
+        run: |
+          curl -s https://raw.githubusercontent.com/nextcloud-releases/updater_server/production/config/major_versions.json \
+            | jq '.["${{ env.server_major }}"]["eol"] // "9999-99" | . >= "${{ env.current_month }}"' \
+            | grep -q true

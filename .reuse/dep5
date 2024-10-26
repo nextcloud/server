@@ -1,0 +1,332 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: nextcloud
+Upstream-Contact: Nextcloud <info@nextcloud.com>
+Source: https://github.com/nextcloud/server
+
+Files: lib/l10n/*.js lib/l10n/*.json core/l10n/*.js core/l10n/*.json apps/admin_audit/l10n/*.js apps/admin_audit/l10n/*.json apps/comments/l10n/*.js apps/comments/l10n/*.json apps/dav/l10n/*.js apps/dav/l10n/*.json apps/encryption/l10n/*.js apps/encryption/l10n/*.json apps/federatedfilesharing/l10n/*.js apps/federatedfilesharing/l10n/*.json apps/federation/l10n/*.js apps/federation/l10n/*.json apps/files/l10n/*.js apps/files/l10n/*.json apps/files_external/l10n/*.js apps/files_external/l10n/*.json apps/files_sharing/l10n/*.js apps/files_sharing/l10n/*.json apps/files_trashbin/l10n/*.js apps/files_trashbin/l10n/*.json apps/files_versions/l10n/*.js apps/files_versions/l10n/*.json apps/provisioning_api/l10n/*.js apps/provisioning_api/l10n/*.json apps/settings/l10n/*.js apps/settings/l10n/*.json apps/systemtags/l10n/*.js apps/systemtags/l10n/*.json apps/testing/l10n/*.js apps/testing/l10n/*.json apps/updatenotification/l10n/*.js apps/updatenotification/l10n/*.json apps/user_ldap/l10n/*.js apps/user_ldap/l10n/*.json lib/l10nm/*.js lib/l10nm/*.json
+Copyright: 2016 ownCloud, Inc., 2016-2024 Nextcloud translators
+License: AGPL-3.0-only OR AGPL-3.0-or-later
+
+Files: tests/data/block-aligned-plus-one.txt tests/data/block-aligned.txt tests/data/data.tar.gz tests/data/data.zip tests/data/desktopapp.png tests/data/desktopapp.svg tests/data/certificates/badCertificate.crt tests/data/certificates/expiredCertificate.crt tests/data/certificates/goodCertificate.crt tests/data/certificates/openSslTrustedCertificate.crt tests/data/integritycheck/app/AnotherFile.txt tests/data/integritycheck/app/subfolder/file.txt tests/data/integritycheck/appWithInvalidData/AnotherFile.txt tests/data/integritycheck/appWithInvalidData/UnecessaryFile apps/user_ldap/tests/Integration/data/avatar-invalid.gif apps/user_ldap/tests/Integration/data/avatar-valid.jpg apps/user_ldap/img/copy.png apps/user_ldap/img/copy.svg
+Copyright: 2015 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: .tx/config
+Copyright: 2011-2012 ownCloud, Inc., 2017-2023 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: .htaccess
+Copyright: 2011-2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: core/templates/filetemplates/template.odp core/templates/filetemplates/template.ods core/templates/filetemplates/template.odt
+Copyright: 2013-2016 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: core/skeleton/welcome.txt
+Copyright: 2013 ownCloud, Inc., 2016 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: .jshintrc
+Copyright: 2014 ownCloud, Inc., 2017 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: .mailmap
+Copyright: 2015-2016 ownCloud, Inc., 2016-2021 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: tests/data/integritycheck/htaccessUnmodified/.htaccess tests/data/integritycheck/htaccessUnmodified/subfolder/.htaccess tests/data/integritycheck/htaccessWithInvalidModifiedContent/.htaccess tests/data/integritycheck/htaccessWithValidModifiedContent/subfolder/.htaccess
+Copyright: 2016 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: tests/data/l10n/cs.json tests/data/l10n/de.json tests/data/l10n/ru.json
+Copyright: 2015 ownCloud, Inc., 2021 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: tests/data/lorem.txt apps/files/l10n/xgettextfiles
+Copyright: 2012 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: robots.txt tests/data/testavatar.png tests/data/testimage.gif tests/data/testimage.jpg tests/data/testimage.png
+Copyright: 2013 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: .tag tests/data/lorem-big.txt tests/data/strängé*filename*(duplicate*#2).txt tests/data/strõngÚ*filename*(duplicate*#2).txt
+Copyright: 2014 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: tests/data/testimagelarge.svg
+Copyright: 2015 ownCloud, Inc., 2016 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: tests/data/setUploadLimit/htaccess tests/data/setUploadLimit/user.ini
+Copyright: 2015 ownCloud, Inc., 2018 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: tests/data/testimage-wide.png tests/data/testimage.eps tests/data/testimage.mp3 tests/data/testimage.mp4 tests/data/testimage.odt
+Copyright: 2015 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: themes/example/core/img/favicon-touch.png themes/example/core/img/favicon-touch.svg themes/example/core/img/favicon.ico themes/example/core/img/favicon.png themes/example/core/img/favicon.svg themes/example/core/img/logo-icon.png themes/example/core/img/logo-icon.svg themes/example/core/img/logo-mail.gif themes/example/core/img/logo.png themes/example/core/img/logo.svg
+Copyright: 2015 ownCloud, Inc., 2016 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: tests/data/testapp.zip tests/data/testapp2.zip tests/docker/mariadb/oc.cnf apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/reports/put/1.txt apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/reports/put/2.txt apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/reports/put/3.txt apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/reports/put/4.txt apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/reports/put/5.txt apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/reports/put/6.txt apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/sharing/calendars/read-write/5.ics apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/sharing/calendars/read-write/6.ics apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/sharing/calendars/read-write/7.ics apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/sharing/calendars/read-write/8.ics apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/sharing/calendars/read-write/9.ics apps/dav/tests/testsuits/caldavtest/data/Resource/CardDAV/sharing/read-write/6.vcf apps/dav/tests/testsuits/caldavtest/data/Resource/CardDAV/sharing/read-write/7.vcf apps/dav/tests/testsuits/caldavtest/data/Resource/CardDAV/sharing/read-write/8.vcf apps/dav/tests/testsuits/caldavtest/data/Resource/CardDAV/sharing/read-write/9.vcf apps/dav/tests/testsuits/caldavtest/data/Resource/CardDAV/vreports/put/1.vcf apps/dav/tests/testsuits/caldavtest/data/Resource/CardDAV/vreports/put/2.vcf apps/dav/tests/testsuits/caldavtest/data/Resource/CardDAV/vreports/put/3.vcf
+Copyright: 2016 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: core/img/loading-dark.gif core/img/loading-small-dark.gif core/img/loading-small.gif core/img/loading.gif
+Copyright: 2016 ownCloud, Inc., 2016 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: apps/settings/js/templates.js
+Copyright: 2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: tests/docker/mysqlmb4/mb4.cnf
+Copyright: 2016 ownCloud, Inc., 2017 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: tests/data/integritycheck/htaccessWithValidModifiedContent/.htaccess
+Copyright: 2016 ownCloud, Inc., 2019 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: core/img/favicon*.* core/img/logo/logo*.* tests/data/testimage.webp apps/testing/img/logo.png core/img/apps/spreed.svg
+Copyright: 2016-2024 Nextcloud GmbH
+License: LicenseRef-NextcloudTrademarks
+
+Files: apps/settings/data/Reasons to use Nextcloud.pdf
+Copyright: 2020 Nextcloud GmbH
+License: LicenseRef-NextcloudTrademarks
+
+Files: core/img/desktopapp.svg
+Copyright: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: build/psalm-baseline-ocp.xml build/psalm-baseline-security.xml build/psalm-baseline.xml build/stubs/xsl.php build/stubs/gd.php build/stubs/imagick.php build/stubs/intl.php build/stubs/IntlChar.php build/stubs/ldap.php build/stubs/memcached.php build/stubs/redis.php build/stubs/redis_cluster.php build/stubs/sftp.php build/stubs/ssh2.php build/stubs/apcu.php
+Copyright: 2020 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: cypress/tsconfig.json dist/icons.css
+Copyright: 2022 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: build/stubs/pcntl.php build/stubs/zip.php
+Copyright: 2022 JetBrains
+License: Apache-2.0
+
+Files: core/js/mimetypelist.js core/js/core.json themes/example/core/img
+Copyright: 2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: tests/data/testapp.0.8.tar.gz tests/data/testapp.tar.gz tests/data/testapp1.tar.gz apps/theming/tests/data/favicon-original.ico apps/theming/tests/data/touch-comments.png apps/theming/tests/data/touch-core-red.png apps/theming/tests/data/touch-original-png.png apps/theming/tests/data/touch-original.png apps/theming/tests/data/touch-testing-red.png core/img/filetypes/package-x-generic.svg
+Copyright: 2016 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: core/js/merged-template-prepend.json tests/data/certificates/goodCertificate.crt tests/data/emails/new-account-email-custom-text-alternative.txt tests/data/emails/new-account-email-custom.html tests/data/emails/new-account-email-custom.txt tests/data/emails/new-account-email-single-button.html tests/data/emails/new-account-email-single-button.txt tests/data/emails/new-account-email.html tests/data/emails/new-account-email.txt core/img/actions/checkbox-mixed.svg core/img/actions/checkmark-white.svg core/img/actions/checkbox-mark-dark.svg core/img/actions/checkbox-mark-white.svg core/img/actions/checkbox-mark.svg core/img/actions/checkbox-mixed-dark.svg core/img/actions/checkbox-mixed-white.svg core/img/actions/checkbox-mixed.svgcore/img/actions/checkmark-white.svg core/img/actions/checkmark.png core/img/actions/checkmark.svg
+Copyright: 2017 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: core/src/systemtags/templates/result.handlebars core/src/systemtags/templates/result_form.handlebars core/src/systemtags/templates/selection.handlebars apps/files/js/templates.js apps/files/js/templates/detailsview.handlebars apps/files/js/templates/favorite_mark.handlebars apps/files/js/templates/file_action_trigger.handlebars apps/files/js/templates/fileactionsmenu.handlebars apps/files/js/templates/filemultiselectmenu.handlebars apps/files/js/templates/filesummary.handlebars apps/files/js/templates/mainfileinfodetailsview.handlebars apps/files/js/templates/newfilemenu.handlebars apps/files/js/templates/newfilemenu_filename_form.handlebars apps/files/js/templates/operationprogressbar.handlebars apps/files/js/templates/operationprogressbarlabel.handlebars apps/files/js/templates/template_addbutton.handlebars apps/files_external/js/templates.js apps/files_external/js/templates/credentialsDialog.handlebars apps/files_external/js/templates/mountOptionsDropDown.handlebars apps/files_external/js/templates.js apps/files_sharing/js/templates/files_drop.handlebars apps/files_sharing/js/templates.js tests/data/testimage.heic package.json package-lock.json
+Copyright: 2018 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: core/src/jquery/contactsmenu/jquery_entry.handlebars tests/data/integritycheck/mimetypeListModified/core/js/mimetypelist.js tests/data/integritycheck/mimetypeListModified/core/signature.json tests/data/guest_avatar_einstein_32.png tests/data/guest_avatar_einstein_32.svg tests/data/test.pdf apps/workflowengine/img/app.svg apps/workflowengine/img/app-dark.svg apps/settings/js/templates/federationscopemenu.handlebars
+Copyright: 2019 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: .npmignore tests/data/testimage-badheader.jpg
+Copyright: 2021 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: apps/theming/img/dark-highcontrast.jpg apps/theming/img/dark.jpg apps/theming/img/default-source.svg apps/theming/img/default.jpg apps/theming/img/light-highcontrast.jpg apps/theming/img/light.jpg apps/theming/img/opendyslexic.jpg build/stubs/ftp.php tests/data/integritycheck/mimetypeListModified/coresignature.json apps/settings/tests/UserMigration/assets/account-complex-config.json apps/settings/tests/UserMigration/assets/account-complex.json apps/settings/tests/UserMigration/assets/account-config.json apps/settings/tests/UserMigration/assets/account.json
+Copyright: 2022 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: build/stubs/app_api.php build/stubs/SensitiveParameter.phpstub build/stubs/psr_container.php tests/data/testimage-large.jpg apps/dav/tests/integration/UserMigration/assets/address_books/contact-complex.vcf apps/dav/tests/integration/UserMigration/assets/address_books/contact-multiple-complex.vcf apps/dav/tests/integration/UserMigration/assets/address_books/contact-multiple.vcf apps/dav/tests/integration/UserMigration/assets/address_books/contact.vcf apps/dav/tests/integration/UserMigration/assets/calendars/event-alarms.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-attendees.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-categories.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-complex-alarm-recurring.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-complex-recurrence.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-custom-color.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-multiple-recurring.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-multiple.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-recurring.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-timed.ics apps/dav/tests/integration/UserMigration/assets/calendars/journal-todo-event.ics apps/dav/tests/integration/UserMigration/assets/calendars/journal.ics apps/dav/tests/integration/UserMigration/assets/calendars/todo.ics apps/workflowengine/img/workflow-off.svg core/img/filetypes/font.svg core/img/actions/star-rounded.svg
+Copyright: 2023 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: apps/dav/tests/unit/test_fixtures/caldav-search-limit-timerange-1.ics apps/dav/tests/unit/test_fixtures/caldav-search-limit-timerange-2.ics apps/dav/tests/unit/test_fixtures/caldav-search-limit-timerange-3.ics apps/dav/tests/unit/test_fixtures/caldav-search-limit-timerange-4.ics apps/dav/tests/unit/test_fixtures/caldav-search-limit-timerange-5.ics apps/dav/tests/unit/test_fixtures/caldav-search-limit-timerange-6.ics apps/dav/tests/unit/test_fixtures/caldav-search-missing-start-1.ics apps/dav/tests/unit/test_fixtures/caldav-search-missing-start-2.ics
+Copyright: 2023 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: apps/cloud_federation_api/l10n/*.js apps/cloud_federation_api/l10n/*.json apps/contactsinteraction/l10n/*.js apps/contactsinteraction/l10n/*.json apps/dashboard/l10n/*.js apps/dashboard/l10n/*.json apps/files_reminders/l10n/*.js apps/files_reminders/l10n/*.json apps/lookup_server_connector/l10n/*.js apps/lookup_server_connector/l10n/*.json apps/sharebymail/l10n/*.js apps/oauth2/l10n/*.js apps/oauth2/l10n/*.json apps/sharebymail/l10n/*.json apps/theming/l10n/*.js apps/theming/l10n/*.json apps/twofactor_backupcodes/l10n/*.js apps/twofactor_backupcodes/l10n/*.json apps/user_status/l10n/*.js apps/user_status/l10n/*.json apps/weather_status/l10n/*.js apps/weather_status/l10n/*.json apps/workflowengine/l10n/*.js apps/workflowengine/l10n/*.json
+Copyright: 2016-2024 Nextcloud translators
+License: AGPL-3.0-or-later
+
+Files: composer.json composer.lock .github/CODEOWNERS __tests__/tsconfig.json tsconfig.json build/integration/composer.* vendor-bin/*/composer.json vendor-bin/*/composer.lock apps/*/composer/composer.json apps/*/composer/composer.lock apps/*/composer/composer/installed.json
+Copyright: 2011-2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only OR AGPL-3.0-or-later
+
+Files: vendor-bin/*/composer.json vendor-bin/*/composer.lock
+Copyright: 2021 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: apps/encryption/img/app.svg apps/federation/img/app.svg apps/files/img/add-color.png apps/files/img/add-color.svg apps/files/img/app-dark.svg apps/files/img/app.svg apps/files/img/change.png apps/files/img/change.svg apps/files/img/delete-color.png apps/files/img/delete-color.svg apps/files/img/folder.svg apps/files/img/folder-move.svg apps/files_external/img/app-dark.svg apps/files_external/img/app.svg apps/user_ldap/img/app-dark.svg apps/user_ldap/img/app.svg apps/comments/img/comments-dark.svg apps/comments/img/comments.svg apps/files_reminders/img/alarm.svg apps/files_reminders/img/app-dark.svg apps/files_reminders/img/app.svg apps/files_versions/img/app-dark.svg apps/files_versions/img/app.svg apps/files_trashbin/img/app-dark.svg apps/files_trashbin/img/app.svg apps/theming/img/accessibility-dark.svg apps/testing/img/app.svg apps/sharebymail/img/app.svg apps/systemtags/img/app.svg apps/provisioning_api/img/app.svg apps/settings/img/apps.svg apps/settings/img/change.svg apps/settings/img/help.svg apps/settings/img/password.svg apps/settings/img/personal.png apps/settings/img/personal.svg apps/settings/img/share.svg apps/settings/img/users-white.svg apps/settings/img/users.svg apps/files_sharing/img/app.svg apps/settings/img/admin.svg apps/settings/img/settings.svg apps/settings/img/settings_apps.svg apps/settings/img/toggle-filelist.svg apps/webhook_listeners/img/app-dark.svg apps/webhook_listeners/img/app.svg core/img/filetypes/application-pdf.svg core/img/breadcrumb.svg core/img/filetypes/application.svg core/img/filetypes/audio.svg core/img/filetypes/file.svg core/img/filetypes/folder-drag-accept.svg core/img/filetypes/folder-encrypted.svg core/img/filetypes/folder-external.svg core/img/filetypes/folder-public.svg core/img/filetypes/folder-shared.svg core/img/filetypes/folder-starred.svg core/img/filetypes/folder.svg core/img/filetypes/image.svg core/img/filetypes/link.svg core/img/filetypes/location.svg core/img/filetypes/mindmap.svg core/img/filetypes/text-calendar.svg core/img/filetypes/text-code.svg core/img/filetypes/text-vcard.svg core/img/filetypes/text.svg core/img/filetypes/video.svg core/img/filetypes/x-office-document.svg core/img/filetypes/x-office-drawing.svg core/img/filetypes/x-office-form-template.svg core/img/filetypes/x-office-form.svg core/img/filetypes/x-office-presentation.svg core/img/filetypes/x-office-spreadsheet.svg core/img/places/calendar-dark.png core/img/places/calendar.png core/img/places/calendar.svg core/img/places/contacts-dark.png core/img/places/contacts.svg core/img/places/default-app-icon.svg core/img/places/files.svg core/img/places/home.svg core/img/places/link.svg core/img/places/music.svg core/img/places/picture.svg core/img/rating/s0.svg core/img/rating/s1.svg core/img/rating/s10.svg core/img/rating/s2.svg core/img/rating/s3.svg core/img/rating/s4.svg core/img/rating/s5.svg core/img/rating/s6.svg core/img/rating/s7.svg core/img/rating/s8.svg core/img/rating/s9.svg core/img/mail.svg core/img/rss.svg core/img/clients/desktop.svg core/img/clients/phone.svg core/img/clients/tablet.svg core/img/categories/auth.svg core/img/categories/bundles.svg core/img/categories/customization.svg core/img/categories/files.svg core/img/categories/games.svg core/img/categories/integration.svg core/img/categories/monitoring.svg core/img/categories/multimedia.svg core/img/categories/office.svg core/img/categories/organization.svg core/img/categories/social.svg core/img/categories/workflow.svg core/img/apps/circles.svg core/img/apps/notes.svg core/img/apps/richdocuments.svg core/img/caldav/attendees.png core/img/caldav/attendees.svg core/img/caldav/description.png core/img/caldav/description.svg core/img/caldav/link.png core/img/caldav/link.svg core/img/caldav/location.png core/img/caldav/location.svg core/img/caldav/organizer.png core/img/caldav/organizer.svg core/img/caldav/time.png core/img/caldav/time.svg core/img/caldav/title.png core/img/caldav/title.svg core/img/actions/add-folder-description.svg core/img/actions/add.svg core/img/actions/address.png core/img/actions/address.svg core/img/actions/alert-outline.svg core/img/actions/arrow-left.svg core/img/actions/arrow-right.svg core/img/actions/audio-off.svg core/img/actions/audio.svg core/img/actions/caret-white.svg core/img/actions/caret.svg core/img/actions/change.svg core/img/actions/clippy.svg core/img/actions/close.svg core/img/actions/comment.png core/img/actions/comment.svg core/img/actions/confirm-fade.svg core/img/actions/confirm-white.svg core/img/actions/confirm.svg core/img/actions/delete.png core/img/actions/delete.svg core/img/actions/details.svg core/img/actions/disabled-user.svg core/img/actions/disabled-users.svg core/img/actions/download.png core/img/actions/download.svg core/img/actions/edit.svg core/img/actions/error-white.svg core/img/actions/error.svg core/img/actions/external.svg core/img/actions/filter.svg core/img/actions/fullscreen.svg core/img/actions/group.svg core/img/actions/history.png core/img/actions/history.svg core/img/actions/info-white.svg core/img/actions/info.png core/img/actions/info.svg core/img/actions/logout.svg core/img/actions/mail.svg core/img/actions/menu-sidebar.svg core/img/actions/menu.svg core/img/actions/more-white.svg core/img/actions/more.png core/img/actions/more.svg core/img/actions/password-white.svg core/img/actions/password.png core/img/actions/password.svg core/img/actions/pause.svg core/img/actions/phone.svg core/img/actions/play-add.svg core/img/actions/play-next.svg core/img/actions/play-previous.svg core/img/actions/play.svg core/img/actions/profile.svg core/img/actions/projects.svg core/img/actions/public-white.svg core/img/actions/public.svg core/img/actions/quota.svg core/img/actions/recent.svg core/img/actions/rename.svg core/img/actions/screen-off.svg core/img/actions/screen.svg core/img/actions/search.svg core/img/actions/settings-dark.svg core/img/actions/settings.svg core/img/actions/share.png core/img/actions/share.svg core/img/actions/shared.svg core/img/actions/sound-off.svg core/img/actions/sound.svg core/img/actions/star-dark.svg core/img/actions/star.png core/img/actions/star.svg core/img/actions/starred.png core/img/actions/starred.svg core/img/actions/tag.png core/img/actions/tag.svg core/img/actions/template-add.svg core/img/actions/timezone.svg core/img/actions/toggle-background.svg core/img/actions/toggle-filelist.svg core/img/actions/toggle-pictures.svg core/img/actions/toggle.svg core/img/actions/triangle-e.svg core/img/actions/triangle-n.svg core/img/actions/triangle-s.svg core/img/actions/unshare.svg core/img/actions/upload.svg core/img/actions/user-admin.svg core/img/actions/user.svg core/img/actions/verified.svg core/img/actions/verify.svg core/img/actions/verifying.svg core/img/actions/video-off.svg core/img/actions/video-switch.svg core/img/actions/video.svg core/img/actions/view-close.svg core/img/actions/view-download.svg core/img/actions/view-next.svg core/img/actions/view-pause.svg core/img/actions/view-play.svg core/img/actions/view-previous.svg core/img/places/contacts-dark.png core/img/places/contacts.svg apps/user_status/img/app-dark.svg apps/user_status/img/app.svg apps/theming/img/app-dark.svg apps/theming/img/app.svg apps/updatenotification/img/app.svg apps/weather_status/img/app-dark.svg apps/weather_status/img/app.svg apps/updatenotification/img/notification.svg
+Copyright: 2018-2024 Google LLC
+License: Apache-2.0
+
+Files: core/fonts/NotoSans-Bold-cyrillic-ext.woff2 core/fonts/NotoSans-Bold-cyrillic.woff2 core/fonts/NotoSans-Bold-devanagari.woff2 core/fonts/NotoSans-Bold-greek-ext.woff2 core/fonts/NotoSans-Bold-greek.woff2 core/fonts/NotoSans-Bold-latin-ext.woff2 core/fonts/NotoSans-Bold-latin.woff2 core/fonts/NotoSans-Bold-vietnamese.woff2 core/fonts/NotoSans-Bold.ttf core/fonts/NotoSans-Regular-cyrillic-ext.woff2 core/fonts/NotoSans-Regular-cyrillic.woff2 core/fonts/NotoSans-Regular-devanagari.woff2 core/fonts/NotoSans-Regular-greek-ext.woff2 core/fonts/NotoSans-Regular-greek.woff2 core/fonts/NotoSans-Regular-latin-ext.woff2 core/fonts/NotoSans-Regular-latin.woff2 core/fonts/NotoSans-Regular-vietnamese.woff2 core/fonts/NotoSans-Regular.ttf core/fonts/LICENSE_OFL.txt
+Copyright: 2012-2024 Google LLC
+License: OFL-1.1
+
+Files: apps/settings/img/ai.svg
+Copyright: 2019 GreenTurtwig <https://pictogrammers.com/contributor/GreenTurtwig/>
+License: Apache-2.0
+
+Files: core/img/filetypes/whiteboard.svg
+Copyright: 2019 Simran-B <https://pictogrammers.com/contributor/Simran-B/>
+License: Apache-2.0
+
+Files: lib/composer/* apps/*/composer/autoload.php apps/*/composer/composer/*.php apps/files_external/3rdparty/autoload.php apps/files_external/3rdparty/composer/*
+Copyright: Nils Adermann, Jordi Boggiano
+License: MIT
+
+Files: core/vendor/zxcvbn/dist/zxcvbn.js
+Copyright: 2012-2016 Dan Wheeler and Dropbox, Inc.
+License: MIT
+
+Files: core/src/jquery/css/images/ui-bg_diagonals-thick_20_666666_40x40.png core/src/jquery/css/images/ui-bg_flat_10_000000_40x100.png core/src/jquery/css/images/ui-bg_flat_35_1d2d44_40x100.png core/src/jquery/css/images/ui-icons_1d2d44_256x240.png core/src/jquery/css/images/ui-icons_ffd27a_256x240.png core/src/jquery/css/images/ui-icons_ffffff_256x240.png
+Copyright: 2013 jQuery Foundation and other contributors <http://jqueryui.com/>, 2022 OpenJS Foundation and other contributors <https://openjsf.org/>
+License: MIT
+
+Files: dist/preview-service-worker.js
+Copyright: 2018 Google LLC (generated with workbox <https://developer.chrome.com/docs/workbox>)
+License: MIT
+
+Files: core/img/actions/clippy.svg
+Copyright: 2017-2024 Michael Richins
+License: Apache-2.0
+
+Files: core/img/apps/richdocumentscode.svg
+Copyright: 2016-2024 Collabora Ltd.
+License: LicenseRef-CollaboraTrademarks
+
+Files: core/img/x.svg core/img/twitter.svg core/img/actions/twitter.svg apps/federatedfilesharing/img/social-twitter.svg
+Copyright: X Corp.
+License: LicenseRef-XTrademarks
+
+Files: core/img/facebook.svg apps/federatedfilesharing/img/social-facebook.svg
+Copyright: 2024 Meta
+License: LicenseRef-FacebookTrademarks
+
+Files: apps/federatedfilesharing/img/social-diaspora.svg
+Copyright: 2024 Diaspora
+License: LicenseRef-DiasporaTrademarks
+
+Files: core/img/mastodon.svg core/img/actions/mastodon.svg
+Copyright: 2024 Mastodon gGmbH
+License: LicenseRef-MastodonTrademarks
+
+Files: core/img/googleplay.png
+Copyright: 2024 Google LLC.
+License: LicenseRef-GooglePlayBadge
+
+Files: core/img/appstore.svg
+Copyright: 2024 Apple Inc.
+License: LicenseRef-AppleAppStoreBadge
+
+Files: apps/weather_status/img/met.no.icons/*.svg
+Copyright: 2015-2017 NRK og Meteorologisk institutt <https://github.com/metno/weathericons>
+License: MIT
+
+Files: core/img/f-droid.svg
+Copyright: 2016 Andrew Nayenko <relan@airpost.net>
+License: CC-BY-SA-3.0 OR GPL-3.0-or-later
+
+Files: cypress/fixtures/image.jpg
+Copyright: 2019 Tom Gainor <https://unsplash.com/@its_tgain> <https://unsplash.com/photos/mountain-cliff-under-starry-night-KidY3t8O4PE>
+License: LicenseRef-Unsplash
+
+Files: apps/theming/img/background/jenna-kim-the-globe.webp apps/theming/img/background/jenna-kim-the-globe-dark.webp apps/theming/img/background/preview/jenna-kim-the-globe.jpg
+Copyright: 2024 Nextcloud GmbH
+License: CC-BY-SA-4.0
+
+Files: apps/theming/img/background/anatoly-mikhaltsov-butterfly-wing-scale.jpg apps/theming/img/background/preview/anatoly-mikhaltsov-butterfly-wing-scale.jpg
+Copyright: 2015 Anatoly Mikhaltsov <https://commons.wikimedia.org/wiki/File:%D0%A7%D0%B5%D1%88%D1%83%D0%B9%D0%BA%D0%B8_%D0%BA%D1%80%D1%8B%D0%BB%D0%B0_%D0%B1%D0%B0%D0%B1%D0%BE%D1%87%D0%BA%D0%B8.jpg>
+License: CC-BY-SA-4.0
+
+Files: apps/theming/img/background/bernard-spragg-new-zealand-fern.jpg apps/theming/img/background/preview/bernard-spragg-new-zealand-fern.jpg
+Copyright: 2013 Bernard Spragg <https://commons.wikimedia.org/wiki/File:NZ_Fern.(Blechnum_chambersii)_(11263534936).jpg>
+License: CC0-1.0
+
+Files: apps/theming/img/background/bernie-cetonia-aurata-take-off-composition.jpg apps/theming/img/background/preview/bernie-cetonia-aurata-take-off-composition.jpg
+Copyright: Bernie Kohl <https://commons.wikimedia.org/wiki/File:Cetonia_aurata_take_off_composition_05172009.jpg>
+License: CC0-1.0
+
+Files: apps/theming/img/background/dejan-krsmanovic-ribbed-red-metal.jpg apps/theming/img/background/preview/dejan-krsmanovic-ribbed-red-metal.jpg
+Copyright: 2018 Dejan Krsmanovic <https://www.flickr.com/photos/dejankrsmanovic/42971456774/>
+License: CC-BY-2.0
+
+Files: apps/theming/img/background/eduardo-neves-pedra-azul.jpg apps/theming/img/background/preview/eduardo-neves-pedra-azul.jpg
+Copyright: 2017 Eduardo Menezes dos Santos Neves <https://commons.wikimedia.org/wiki/File:Pedra_Azul_Milky_Way.jpg>
+License: CC-BY-SA-4.0
+
+Files: apps/theming/img/background/european-space-agency-barents-bloom.jpg apps/theming/img/background/preview/european-space-agency-barents-bloom.jpg
+Copyright: 2016 Contains modified Copernicus Sentinel data (2016), processed by ESA <https://www.esa.int/ESA_Multimedia/Images/2016/08/Barents_bloom>
+License: CC-BY-SA-3.0-IGO
+
+Files: apps/theming/img/background/hannah-maclean-soft-floral.jpg apps/theming/img/background/preview/hannah-maclean-soft-floral.jpg
+Copyright: Hannah MacLean <https://stocksnap.io/photo/soft-floral-XOYWCCW5PA>
+License: CC0-1.0
+
+Files: apps/theming/img/background/hannes-fritz-flippity-floppity.jpg apps/theming/img/background/preview/hannes-fritz-flippity-floppity.jpg
+Copyright: 2015 Hannes Fritz <http://hannes.photos/flippity-floppity>
+License: CC-BY-SA-4.0
+
+Files: apps/theming/img/background/hannes-fritz-roulette.jpg apps/theming/img/background/preview/hannes-fritz-roulette.jpg
+Copyright: 2015 Hannes Fritz <http://hannes.photos/roulette>
+License: CC-BY-SA-4.0
+
+Files: apps/theming/img/background/hannes-fritz-sea-spray.jpg apps/theming/img/background/preview/hannes-fritz-sea-spray.jpg
+Copyright: 2015 Hannes Fritz <http://hannes.photos/sea-spray>
+License: CC-BY-SA-4.0
+
+Files: apps/theming/img/background/kamil-porembinski-clouds.jpg apps/theming/img/background/preview/kamil-porembinski-clouds.jpg
+Copyright: 2013 Kamil Porembiński <https://www.flickr.com/photos/paszczak000>
+License: CC-BY-SA-2.0
+
+Files: apps/theming/img/background/lali-masriera-yellow-bricks.jpg apps/theming/img/background/preview/lali-masriera-yellow-bricks.jpg
+Copyright: 2009 Lali Masriera <https://www.flickr.com/photos/visualpanic/3982464447>
+License: CC-BY-2.0
+
+Files: apps/theming/img/background/nasa-waxing-crescent-moon.jpg apps/theming/img/background/preview/nasa-waxing-crescent-moon.jpg
+Copyright: 2020 Nasa <https://www.nasa.gov/image-article/waxing-crescent-moon-2/>
+License: LicenseRef-Nasa
+
+Files: apps/theming/img/background/rawpixel-pink-tapioca-bubbles.jpg apps/theming/img/background/preview/rawpixel-pink-tapioca-bubbles.jpg
+Copyright: 2018 Rawpixel Ltd <https://www.flickr.com/photos/byrawpixel/27665140298/in/photostream/>
+License: CC-BY-2.0
+
+Files: apps/theming/img/background/stefanus-martanto-setyo-husodo-underwater-ocean.jpg apps/theming/img/background/preview/stefanus-martanto-setyo-husodo-underwater-ocean.jpg
+Copyright: Stefanus Martanto Setyo Husodo <https://stocksnap.io/photo/underwater-ocean-TJA9LBH4WS>
+License: CC0-1.0
+
+Files: apps/theming/img/background/ted-moravec-morning-fog.jpg apps/theming/img/background/preview/ted-moravec-morning-fog.jpg
+Copyright: 2022 Ted Moravec <https://flickr.com/photos/tmoravec/52392410261>
+License: CC0-1.0
+
+Files: apps/theming/img/background/tommy-chau-already.jpg apps/theming/img/background/preview/tommy-chau-already.jpg
+Copyright: 2015 tommy@chau <https://www.flickr.com/photos/90975693@N05/16910999368>
+License: CC-BY-2.0
+
+Files: apps/theming/img/background/tommy-chau-lion-rock-hill.jpg apps/theming/img/background/preview/tommy-chau-lion-rock-hill.jpg
+Copyright: 2015 tommy@chau <https://www.flickr.com/photos/90975693@N05/17136440246>
+License: CC-BY-2.0
+
+Files: apps/theming/img/background/zoltan-voros-rhythm-and-blues.jpg apps/theming/img/background/preview/zoltan-voros-rhythm-and-blues.jpg
+Copyright: 2021 Zoltán Vörös <https://flickr.com/photos/v923z/51634409289/>
+License: CC-BY-2.0
+
+Files: apps/settings/tests/UserMigration/assets/account-complex.jpg
+Copyright: 2017 Fabian Wiktor <https://www.pexels.com/photo/seaside-994605/>
+License: CC0-1.0
+
+Files: apps/settings/tests/UserMigration/assets/account.png
+Copyright: 2019 Fabian Wiktor <https://www.pexels.com/photo/green-and-brown-island-on-blue-sea-under-blue-sky-4011450/>
+License: CC0-1.0
+
+Files: apps/theming/fonts/OpenDyslexic-Bold.otf apps/theming/fonts/OpenDyslexic-Regular.otf
+Copyright: 2012-2019 Abbie Gonzalez <https://abbiecod.es|support@abbiecod.es>, with Reserved Font Name OpenDyslexic.
+License: OFL-1.1-RFN

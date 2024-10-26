@@ -1,0 +1,23 @@
+OC.L10N.register(
+    "oauth2",
+    {
+    "Your client is not authorized to connect. Please inform the administrator of your client." : "عميلك ليس مُخوّلاً بالربط. رجاءً، أبلغ مسؤول النظام.",
+    "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "عنوان URL المُعاد توجيهه يجب أن يكون عنواناً كاملاً كما في المثال التالي:  https://yourdomain.com/path",
+    "OAuth 2.0" : "OAuth 2.0",
+    "Allows OAuth2 compatible authentication from other web applications." : "يسمح بالتحقّق من الهويّة عن طريق تطبيقات وب أخرى متوافقة مع OAuth2.",
+    "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "التطبيق OAuth2 يسمح لمسؤولي النظام بتهيئة الإجراء الأساسي للتحقّق من الهويّةبحيث يسمح بالتحقّق من الهويّة عن طريق تطبيقات ويب أخرى متوافقة مع OAuth2.",
+    "OAuth 2.0 clients" : "عملاء OAuth2.0",
+    "OAuth 2.0 allows external services to request access to {instanceName}." : "يسمح OAuth2.0 لخدمات خارجية بطلب الوصول إلى {instanceName}",
+    "Name" : "الاسم",
+    "Redirection URI" : "رابط إعادة التوجيه",
+    "Client Identifier" : "مُعرِّف العميل",
+    "Secret key" : "المفتاح السّرّي",
+    "Delete client" : "حذف عميل ",
+    "Make sure you store the secret key, it cannot be recovered." : "تأكد من تخزين المفتاح السري، إذ أنه لا يمكن استعادته.",
+    "Add client" : "إضافة عميل",
+    "Add" : "إضافة",
+    "Delete" : "حذف",
+    "Show client secret" : "عرض كلمة سر العميل",
+    "Hide client secret" : "إخْفِ سِرَّ العميل"
+},
+"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

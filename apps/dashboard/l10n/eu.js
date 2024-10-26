@@ -1,0 +1,28 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "Panela",
+    "Dashboard app" : "Panela aplikazioa",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Hasi zure eguna informatuta\n\nNextcloud Panela da zure eguneko abiapuntua, eta zure hurrengo hitzorduen, premiazko mezu elektronikoen, txat-mezuen, sarrerako txartelen, azken txioen eta askoz gehiagoren ikuspegi orokorra eskaintzen dizu! Erabiltzaileek gogoko trepetak gehi ditzakete eta atzealdea nahieran aldatu.",
+    "\"{title} icon\"" : "\"{title} ikonoa\"",
+    "Customize" : "Pertsonalizatu",
+    "Edit widgets" : "Editatu trepetak",
+    "Get more widgets from the App Store" : "Lortu trepeta (widget) gehiago Aplikazioen Dendatik",
+    "Weather service" : "Eguraldi zerbitzua",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Zure pribatutasunaren mesedetan, eguraldiaren datuak  Nextcloud zerbitzariak eskatzen ditu zure izenean, eguraldi zerbitzuak informazio pertsonalik ez jasotzeko.",
+    "Weather data from Met.no" : "Met.no-ko eguraldiaren datuak",
+    "geocoding with Nominatim" : "geokodetzea Nominatim-ekin",
+    "elevation data from OpenTopoData" : "altitude datuak OpenTopoData-tik",
+    "Weather" : "Eguraldia",
+    "Status" : "Egoera",
+    "Good morning" : "Egun on",
+    "Good morning, {name}" : "Egun on, {name}",
+    "Good afternoon" : "Arratsalde on",
+    "Good afternoon, {name}" : "Arratsalde on, {name}",
+    "Good evening" : "Gabon",
+    "Good evening, {name}" : "Gabon, {name}",
+    "Hello" : "Kaixo",
+    "Hello, {name}" : "Kaixo, {name}",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Hasi zure eguna informatuta\n\nNextcloud Panela da zure eguneko abiapuntua, eta zure hurrengo hitzorduen, premiazko mezu elektronikoen, txat-mezuen, sarrerako txartelen, azken txioen eta askoz gehiagoren ikuspegi orokorra eskaintzen dizu! Erabiltzaileek gogoko trepetak gehi ditzakete eta atzealdea nahieran aldatu."
+},
+"nplurals=2; plural=(n != 1);");

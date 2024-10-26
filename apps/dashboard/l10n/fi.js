@@ -1,0 +1,25 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "Kojelauta",
+    "Dashboard app" : "Kojelautasovellus",
+    "Customize" : "Mukauta",
+    "Edit widgets" : "Muokkaa pienoissovelluksia",
+    "Get more widgets from the App Store" : "Hae lisää pienoissovelluksia sovelluskaupasta",
+    "Weather service" : "Sääpalvelu",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Yksityisyytesi vuoksi Nextcloud-palvelin hakee säätiedot, joten sääpalvelulle ei lähetetä henkilökohtaisia tietojasi.",
+    "Weather data from Met.no" : "Säätiedot tarjoaa Met.no",
+    "geocoding with Nominatim" : "geokoodauksen Nominatim",
+    "elevation data from OpenTopoData" : "korkeustiedot OpenTopoData",
+    "Weather" : "Sää",
+    "Status" : "Tila",
+    "Good morning" : "Hyvää huomenta",
+    "Good morning, {name}" : "Hyvää huomenta, {name}",
+    "Good afternoon" : "Hyvää iltapäivää",
+    "Good afternoon, {name}" : "Hyvää iltapäivää, {name}",
+    "Good evening" : "Hyvää iltaa",
+    "Good evening, {name}" : "Hyvää iltaa, {name}",
+    "Hello" : "Hei",
+    "Hello, {name}" : "Hei {name}"
+},
+"nplurals=2; plural=(n != 1);");

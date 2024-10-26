@@ -1,0 +1,12 @@
+{ "translations": {
+    "Couldn't delete %s permanently" : "%s স্থায়ীভাবে মুছে ফেলা গেলনা",
+    "Couldn't restore %s" : "%s ফেরত আনা গেলনা",
+    "Deleted files" : "মুছে ফেলা ফাইলসমূহ",
+    "Restore" : "ফিরিয়ে দাও",
+    "Delete" : "মুছে",
+    "Error" : "সমস্যা",
+    "restored" : "পূণঃসংরক্ষিত",
+    "Name" : "নাম",
+    "Deleted" : "মুছে ফেলা"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

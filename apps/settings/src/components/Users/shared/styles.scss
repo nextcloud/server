@@ -1,0 +1,110 @@
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+@mixin row {
+	position: relative;
+	display: flex;
+	min-width: 100%;
+	width: fit-content;
+	height: var(--row-height);
+	background-color: var(--color-main-background);
+}
+
+@mixin cell {
+	&__cell {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding: 0 var(--cell-padding);
+		min-width: var(--cell-width);
+		width: var(--cell-width);
+		color: var(--color-main-text);
+
+		strong,
+		span,
+		label {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow-wrap: anywhere;
+		}
+
+		@media (min-width: 670px) { /* Show one &--large column between stickied columns */
+			&--avatar,
+			&--displayname {
+				position: sticky;
+				z-index: var(--sticky-column-z-index);
+				background-color: var(--color-main-background);
+			}
+
+			&--avatar {
+				inset-inline-start: 0;
+			}
+
+			&--displayname {
+				inset-inline-start: var(--avatar-cell-width);
+				border-inline-end: 1px solid var(--color-border);
+			}
+		}
+
+		&--username {
+			padding-inline-start: calc(var(--default-grid-baseline) * 3);
+		}
+
+		&--avatar {
+			min-width: var(--avatar-cell-width);
+			width: var(--avatar-cell-width);
+			align-items: center;
+			padding: 0;
+			user-select: none;
+		}
+
+		&--multiline {
+			span {
+				line-height: 1.3em;
+				white-space: unset;
+
+				@supports (-webkit-line-clamp: 2) {
+					display: -webkit-box;
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
+				}
+			}
+		}
+
+		&--large {
+			min-width: var(--cell-width-large);
+			width: var(--cell-width-large);
+		}
+
+		&--obfuscated {
+			min-width: 400px;
+			width: 400px;
+		}
+
+		// Fill remaining row space with cell
+		&--fill {
+			min-width: var(--cell-width-large);
+			width: 100%;
+		}
+
+		&--actions {
+			position: sticky;
+			inset-inline-end: 0;
+			z-index: var(--sticky-column-z-index);
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			min-width: 110px;
+			width: 110px;
+			background-color: var(--color-main-background);
+			border-inline-start: 1px solid var(--color-border);
+		}
+	}
+
+	&__subtitle {
+		color: var(--color-text-maxcontrast);
+	}
+}

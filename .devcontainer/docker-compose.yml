@@ -1,0 +1,38 @@
+# SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+version: '3'
+services:
+  nextclouddev:
+    build: .
+    volumes:
+      - .:/workspace:cached
+      - /var/run/docker.sock:/var/run/docker-host.sock
+      - ..:/var/www/html
+    command: /var/www/html/.devcontainer/entrypoint.sh
+    ports:
+      - 80:80
+      - 8080:8080
+      - 8025:8025
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+    volumes:
+      - db:/data/postgres
+    network_mode: service:nextclouddev
+
+  adminer:
+    image: adminer
+    restart: always
+    network_mode: service:nextclouddev
+
+  mailhog:
+    image: mailhog/mailhog
+    restart: always
+    network_mode: service:nextclouddev
+
+volumes:
+  db:

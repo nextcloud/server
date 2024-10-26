@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
+  <file src="lib/private/legacy/OC_Template.php">
+    <UndefinedClass>
+      <code><![CDATA[OC]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/AppFramework/ApiController.php">
+    <NoInterfaceProperties>
+      <code><![CDATA[$this->request->server]]></code>
+    </NoInterfaceProperties>
+  </file>
+  <file src="lib/public/AppFramework/App.php">
+    <InternalMethod>
+      <code><![CDATA[new RouteConfig($this->container, $router, $routes)]]></code>
+    </InternalMethod>
+    <UndefinedClass>
+      <code><![CDATA[\OC]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/AppFramework/Http/RedirectToDefaultAppResponse.php">
+    <UndefinedClass>
+      <code><![CDATA[\OC]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/AppFramework/Http/Response.php">
+    <UndefinedClass>
+      <code><![CDATA[\OC]]></code>
+      <code><![CDATA[\OC]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/Defaults.php">
+    <UndefinedClass>
+      <code><![CDATA[\OC]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/Diagnostics/IQueryLogger.php">
+    <LessSpecificImplementedReturnType>
+      <code><![CDATA[mixed]]></code>
+    </LessSpecificImplementedReturnType>
+  </file>
+  <file src="lib/public/EventDispatcher/GenericEvent.php">
+    <MissingTemplateParam>
+      <code><![CDATA[ArrayAccess]]></code>
+      <code><![CDATA[IteratorAggregate]]></code>
+    </MissingTemplateParam>
+  </file>
+  <file src="lib/public/Files.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[\OC_App::getStorage($app)]]></code>
+    </FalsableReturnStatement>
+    <UndefinedClass>
+      <code><![CDATA[\OC]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/public/L10N/ILanguageIterator.php">
+    <MissingTemplateParam>
+      <code><![CDATA[\Iterator]]></code>
+    </MissingTemplateParam>
+  </file>
+  <file src="lib/public/Template.php">
+    <UndefinedFunction>
+      <code><![CDATA[\html_select_options($options, $selected, $params)]]></code>
+      <code><![CDATA[\human_file_size($bytes)]]></code>
+      <code><![CDATA[\image_path($app, $image)]]></code>
+      <code><![CDATA[\mimetype_icon($mimetype)]]></code>
+      <code><![CDATA[\preview_icon($path)]]></code>
+      <code><![CDATA[\publicPreview_icon($path, $token)]]></code>
+      <code><![CDATA[\relative_modified_date($timestamp, null, $dateOnly)]]></code>
+    </UndefinedFunction>
+  </file>
+  <file src="lib/public/Util.php">
+    <UndefinedClass>
+      <code><![CDATA[\OC]]></code>
+      <code><![CDATA[\OC]]></code>
+      <code><![CDATA[\OC]]></code>
+      <code><![CDATA[\OC]]></code>
+      <code><![CDATA[\OC]]></code>
+      <code><![CDATA[\OC]]></code>
+      <code><![CDATA[\OC]]></code>
+      <code><![CDATA[\OC]]></code>
+      <code><![CDATA[\OC]]></code>
+      <code><![CDATA[\OC]]></code>
+      <code><![CDATA[\OC]]></code>
+      <code><![CDATA[\OC]]></code>
+      <code><![CDATA[\OC]]></code>
+      <code><![CDATA[\OC]]></code>
+    </UndefinedClass>
+  </file>
+</files>

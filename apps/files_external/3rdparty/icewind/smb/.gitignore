@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: 2012 Robin Appelman <robin@icewind.nl>
+# SPDX-License-Identifier: MIT
+.idea
+vendor
+composer.lock
+.php_cs.cache
+listen.php
+test.php
+*.cache

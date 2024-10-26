@@ -1,0 +1,59 @@
+SPDX-License-Identifier: MIT
+SPDX-License-Identifier: ISC
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
+SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: Tobias Koppers @sokra
+SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
+SPDX-FileCopyrightText: OpenJS Foundation and other contributors
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Morris Jobke
+SPDX-FileCopyrightText: GitHub Inc.
+SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
+SPDX-FileCopyrightText: Christoph Wurst
+
+
+This file is generated from multiple sources. Included packages:
+- semver
+	- version: 7.6.3
+	- license: ISC
+- @nextcloud/event-bus
+	- version: 3.3.1
+	- license: GPL-3.0-or-later
+- @nextcloud/l10n
+	- version: 3.1.0
+	- license: GPL-3.0-or-later
+- @nextcloud/router
+	- version: 3.0.1
+	- license: GPL-3.0-or-later
+- css-loader
+	- version: 7.1.2
+	- license: MIT
+- dompurify
+	- version: 3.1.7
+	- license: (MPL-2.0 OR Apache-2.0)
+- escape-html
+	- version: 1.0.3
+	- license: MIT
+- jquery-ui
+	- version: 1.13.3
+	- license: MIT
+- jquery
+	- version: 3.7.1
+	- license: MIT
+- process
+	- version: 0.11.10
+	- license: MIT
+- strengthify
+	- version: 0.5.9
+	- license: MIT
+- style-loader
+	- version: 4.0.0
+	- license: MIT
+- webpack
+	- version: 5.94.0
+	- license: MIT
+- nextcloud
+	- version: 1.0.0
+	- license: AGPL-3.0-or-later

@@ -1,0 +1,26 @@
+{ "translations": {
+    "Dashboard" : "Виджеты",
+    "Dashboard app" : "Приложение Виджеты",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Начните свой день информированным\n\nПанель инструментов Nextcloud — это ваша отправная точка дня, дающая вам обзор предстоящих встреч, срочных писем, сообщений чата, входящих тикетов, последних твитов и многого другого! Люди могут добавлять виджеты, которые им нравятся, и менять фон по своему вкусу.",
+    "\"{title} icon\"" : "\"{title} иконка\"",
+    "Customize" : "Настроить",
+    "Edit widgets" : "Редактировать виджеты",
+    "Get more widgets from the App Store" : "Загрузить виджеты из магазина приложений",
+    "Weather service" : "Погода",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "В целях вашей конфиденциальности данные о погоде запрашиваются вашим сервером Nextcloud от вашего имени, поэтому служба погоды не получает никакой личной информации.",
+    "Weather data from Met.no" : "Погода от Met.no",
+    "geocoding with Nominatim" : "геокодирование с Nominatim",
+    "elevation data from OpenTopoData" : "данные о высоте из OpenTopoData",
+    "Weather" : "Прогноз погоды",
+    "Status" : "Состояние",
+    "Good morning" : "Доброе утро",
+    "Good morning, {name}" : "Доброе утро, {name}",
+    "Good afternoon" : "Добрый день",
+    "Good afternoon, {name}" : "Добрый день, {name}",
+    "Good evening" : "Добрый вечер",
+    "Good evening, {name}" : "Добрый вечер, {name}",
+    "Hello" : "Здравствуйте",
+    "Hello, {name}" : "Здравствуйте, {name}!",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Начните свой день будучи информированным\n\nПриборная панель Nextcloud - это ваша отправная точка дня, дающая вам обзор предстоящих встреч, срочных электронных писем, сообщений чата, назначенных задач, последних твитов и многое другое! Пользователи могут добавлять виджеты и менять фон на свой вкус."
+},"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
+}

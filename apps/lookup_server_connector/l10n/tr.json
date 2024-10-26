@@ -1,0 +1,6 @@
+{ "translations": {
+    "Lookup Server Connector" : "Tarama Sunucusu Bağlantısı",
+    "Sync public account information with the lookup server" : "Herkese açık hesap bilgilerini tarama sunucusu ile eşitler",
+    "Sync public user information with the lookup server" : "Herkese açık kullanıcı bilgilerini tarama sunucusu ile eşitler"
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
+}

@@ -1,0 +1,28 @@
+OC.L10N.register(
+    "files_versions",
+    {
+    "Versions" : "Versiones",
+    "This application automatically maintains older versions of files that are changed." : "Esta aplicación caltién automáticamente les versiones antigües de los ficheros que camudaron.",
+    "This application automatically maintains older versions of files that are changed. When enabled, a hidden versions folder is provisioned in every user's directory and is used to store old file versions. A user can revert to an older version through the web interface at any time, with the replaced file becoming a version. The app automatically manages the versions folder to ensure the account does not run out of Quota because of versions.\n\t\tIn addition to the expiry of versions, the versions app makes certain never to use more than 50% of the account's currently available free space. If stored versions exceed this limit, the app will delete the oldest versions first until it meets this limit. More information is available in the Versions documentation." : "Esta aplicación caltién automáticamente les versiones antigües de los ficheros que camudaron. Cuando s'activa, crease una carpeta de versiones anubrida p'atroxar les versiones antigües de los ficheros. Los usuarios puen recuperar una versión anterior pente la interfaz web en cualesquier momentu y el ficheru trocáu conviértese nun versión. L'aplicación xestiona automáticamente la carpeta de versiones p'asegurar de que la cuenta nun escosa la cuota pola mor de les versiones.\n\t\tAmás de la caducidá de les versiones, l'aplicación Versiones garantiza qu'enxamás nun s'usa más del 50% d'espaciu llibre disponible pa la cuenta. Si les versiones atroxaes superen esta llende, l'aplicación va desaniciar les primeres versiones más antigües hasta que se respete esta llende. Tienes más información disponible na documentación de Versiones.",
+    "Name this version" : "Nomar esta versión",
+    "Edit version name" : "Editar el nome de la versión",
+    "Compare to current version" : "Comparar cola versión actual",
+    "Restore version" : "Restaurar la versión",
+    "Download version" : "Baxar la versión",
+    "Delete version" : "Desaniciar la versión",
+    "Current version" : "Versión actual",
+    "Initial version" : "Versión inicial",
+    "Version name" : "Nome de la versión",
+    "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Les versiones con nome caltiénense y esclúinse de los borraos automáticos cuando la cuota del discu ta completa.",
+    "Cancel" : "Encaboxar",
+    "Remove version name" : "Quitar el nome de la versión",
+    "Save version name" : "Guardar el nome de la versiones",
+    "Initial version restored" : "Restauróse la versión inicial",
+    "Version restored" : "Restauróse la versión",
+    "Could not restore version" : "Nun se pudo restaurar la versión",
+    "Could not set version label" : "Nun se pudo afitar la etiqueta de la versión",
+    "Could not delete version" : "Nun se pudo desaniciar la versión",
+    "${version.label} restored" : "Restauróse «${version.label}»",
+    "This application automatically maintains older versions of files that are changed. When enabled, a hidden versions folder is provisioned in every user's directory and is used to store old file versions. A user can revert to an older version through the web interface at any time, with the replaced file becoming a version. The app automatically manages the versions folder to ensure the user does not run out of Quota because of versions.\n\t\tIn addition to the expiry of versions, the versions app makes certain never to use more than 50% of the user's currently available free space. If stored versions exceed this limit, the app will delete the oldest versions first until it meets this limit. More information is available in the Versions documentation." : "Esta aplicación caltién automáticamente les versiones antigües de los ficheros que camudaron. Cuando s'activa, crease una carpeta de versiones anubrida p'atroxar les versiones antigües de los ficheros. Los usuarios puen recuperar una versión anterior pente la interfaz web en cualesquier momentu y el ficheru trocáu conviértese nun versión. L'aplicación xestiona automáticamente la carpeta de versiones p'asegurar de que l'usuariu nun escosa la cuota pola mor de les versiones.\n\t\tAmás de la caducidá de les versiones, l'aplicación Versiones garantiza qu'enxamás nun s'usa más del 50% d'espaciu llibre disponible pal usuariu. Si les versiones atroxaes superen esta llende, l'aplicación va desaniciar les primeres versiones más antigües hasta que se respete esta llende. Tienes más información disponible na documentación de Versiones."
+},
+"nplurals=2; plural=(n != 1);");
