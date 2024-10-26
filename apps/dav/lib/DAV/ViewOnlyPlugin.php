@@ -14,6 +14,7 @@ use OCA\Files_Versions\Sabre\VersionFile;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
+use OCP\IConfig;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
@@ -27,6 +28,7 @@ class ViewOnlyPlugin extends ServerPlugin {
 
 	public function __construct(
 		private ?Folder $userFolder,
+		private IConfig $config,
 	) {
 	}
 
@@ -89,6 +91,11 @@ class ViewOnlyPlugin extends ServerPlugin {
 
 			$attributes = $share->getAttributes();
 			if ($attributes === null) {
+				return true;
+			}
+
+			$allowedFileExtensions = $this->config->getSystemValue('allowed_view_extensions', []);
+			if ($allowedFileExtensions && in_array($node->getExtension(), $allowedFileExtensions, true)) {
 				return true;
 			}
 

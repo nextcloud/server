@@ -131,6 +131,7 @@ class ServerFactory {
 			// Allow view-only plugin for webdav requests
 			$server->addPlugin(new ViewOnlyPlugin(
 				$userFolder,
+				$this->config,
 			));
 
 			if ($this->userSession->isLoggedIn()) {

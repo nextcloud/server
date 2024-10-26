@@ -15,6 +15,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\Storage\IStorage;
+use OCP\IConfig;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\Preview\IMimeIconProvider;
@@ -45,7 +46,8 @@ class PreviewControllerTest extends \Test\TestCase {
 			$this->previewManager,
 			$this->rootFolder,
 			$this->userId,
-			$this->createMock(IMimeIconProvider::class)
+			$this->createMock(IMimeIconProvider::class),
+			$this->createMock(IConfig::class),
 		);
 	}
 

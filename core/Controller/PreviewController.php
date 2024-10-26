@@ -21,6 +21,7 @@ use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\IConfig;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\Preview\IMimeIconProvider;
@@ -33,6 +34,7 @@ class PreviewController extends Controller {
 		private IRootFolder $root,
 		private ?string $userId,
 		private IMimeIconProvider $mimeIconProvider,
+		private IConfig $config,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -145,12 +147,16 @@ class PreviewController extends Controller {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
+		/** @var SharedStorage $storage */
 		$storage = $node->getStorage();
 		if ($storage->instanceOfStorage(SharedStorage::class)) {
-			/** @var SharedStorage $storage */
 			$share = $storage->getShare();
-			$attributes = $share->getAttributes();
-			if ($attributes !== null && $attributes->getAttribute('permissions', 'download') === false) {
+			$allowedFileExtensions = $this->config->getSystemValue('allowed_view_extensions', []);
+			$isAllowedToViewForExtension = $allowedFileExtensions && in_array($node->getExtension(), $allowedFileExtensions, true);
+			$shareAttributes = $share->getAttributes();
+			$isAllowedByShare = $shareAttributes === null || $shareAttributes->getAttribute('permissions', 'download') !== false;
+
+			if (!$isAllowedToViewForExtension && !$isAllowedByShare) {
 				return new DataResponse([], Http::STATUS_FORBIDDEN);
 			}
 		}
