@@ -1,0 +1,23 @@
+{ "translations": {
+    "File reminders" : "Promemoria file",
+    "Reminder for {name}" : "Promemoria per {name}",
+    "View file" : "Visualizza file",
+    "View folder" : "Visualizza cartella",
+    "Set file reminders" : "Imposta promemoria per i file",
+    "We will remind you of this file" : "Ti ricorderemo questo file",
+    "Please choose a valid date & time" : "Si prega di scegliere una data valida & ora",
+    "Cancel" : "Annulla",
+    "Set reminder" : "Imposta promemoria",
+    "Reminder cleared for \"{fileName}\"" : "Promemoria cancellato per \"{fileName}\"",
+    "Failed to clear reminder" : "Impossibile cancellare il promemoria",
+    "Set custom reminder" : "Imposta promemoria personalizzato",
+    "Later today" : "Più tardi oggi",
+    "Set reminder for later today" : "Imposta promemoria per più tardi oggi",
+    "Tomorrow" : "Domani",
+    "Set reminder for tomorrow" : "Imposta promemoria per domani",
+    "This weekend" : "Questo fine settimana",
+    "Set reminder for this weekend" : "Imposta promemoria per questo fine settimana",
+    "Next week" : "Settimana successiva",
+    "Set reminder for next week" : "Imposta promemoria per la prossima settimana"
+},"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
+}

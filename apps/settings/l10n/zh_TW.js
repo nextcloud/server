@@ -121,6 +121,7 @@ OC.L10N.register(
     "Personal info" : "個人資訊",
     "Mobile & desktop" : "行動裝置及桌面",
     "Email server" : "電子郵件伺服器",
+    "Security & setup checks" : "安全與設定檢查",
     "Background jobs" : "背景工作",
     "Unlimited" : "無限制",
     "Verifying" : "正在驗證",

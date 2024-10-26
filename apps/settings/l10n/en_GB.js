@@ -121,6 +121,7 @@ OC.L10N.register(
     "Personal info" : "Personal info",
     "Mobile & desktop" : "Mobile & desktop",
     "Email server" : "Email server",
+    "Security & setup checks" : "Security & setup checks",
     "Background jobs" : "Background jobs",
     "Unlimited" : "Unlimited",
     "Verifying" : "Verifying",

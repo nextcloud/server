@@ -121,6 +121,7 @@ OC.L10N.register(
     "Personal info" : "المعلومات الشخصية",
     "Mobile & desktop" : "الجوال وسطح المكتب",
     "Email server" : "خادم البريد الإلكتروني",
+    "Security & setup checks" : "فحوصات الأمن و الإعدادات",
     "Background jobs" : "المهام التي تعمل في الخلفية بالخادم",
     "Unlimited" : "غير محدود",
     "Verifying" : "التحقق",
