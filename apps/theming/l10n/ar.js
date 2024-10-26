@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "The given name is too long" : "هذا الاسم أطول مما يجب",
     "The given web address is too long" : "هذا العنوان أطول مما يجب",
-    "The given web address is not a valid URL" : "عنوان الوب هذا ليس عنوان URL صحيح",
+    "The given web address is not a valid URL" : "عنوان الويب هذا ليس عنوان URL صحيح",
     "The given legal notice address is too long" : "هذه الملاحظة القانونية أطول مما يجب",
     "The given legal notice address is not a valid URL" : "عنوان الملاحظة القانونية هذه ليس عنوان URL صحيح",
     "The given privacy policy address is too long" : "عنوان سياسة الخصوصية هذا أطول مما يجب",
