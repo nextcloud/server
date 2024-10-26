@@ -265,7 +265,7 @@ OC.L10N.register(
     "Set password" : "تعيين كلمة المرور",
     "Password expires {passwordExpirationTime}" : "صلاحية كلمة المرور تنتهي في {passwordExpirationTime}",
     "Password expired" : "كلمة المرور إنتهت صلاحيتها",
-    "Video verification" : "التحقُّق من الفيديو",
+    "Video verification" : "التحقق بواسطة الفيديو",
     "Set expiration date" : "تعيين تاريخ إنتهاء الصلاحية",
     "Hide download" : "إخفاء التنزيل",
     "Allow download and sync" : "السماح بالتنزيل و المزامنة",

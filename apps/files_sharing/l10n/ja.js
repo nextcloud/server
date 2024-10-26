@@ -350,6 +350,7 @@ OC.L10N.register(
     "Folder \"{path}\" has been unshared" : "フォルダーパス \"{path}\" が共有解除されました",
     "Could not update share" : "共有を更新できませんでした",
     "Share saved" : "共有を保存しました",
+    "Share expiry date saved" : "共有の有効期限が保存されました",
     "Share hide-download state saved" : "ダウンロードを隠す状態の共有が保存されました",
     "Share label saved" : "共有ラベルが保存されました",
     "Share note for recipient saved" : "共有の受取人への注意が保存されました",

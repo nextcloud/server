@@ -349,6 +349,7 @@ OC.L10N.register(
     "Folder \"{path}\" has been unshared" : "Каталог \"{path}\" було вилучено зі спільного доступу",
     "Could not update share" : "Не вдалося оновити спільний ресурс",
     "Share saved" : "Спільний ресурс збережено",
+    "Share expiry date saved" : "Збережено термін дії спільного доступу до ресурсу",
     "Share hide-download state saved" : "Збережено статус прихованого звантаження спільного ресурсу",
     "Share label saved" : "Збережено ярлик спільного ресурсу",
     "Share note for recipient saved" : "Збережено примітку отримувачеві спільного ресурсу",
