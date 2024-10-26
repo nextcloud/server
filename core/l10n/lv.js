@@ -192,6 +192,7 @@ OC.L10N.register(
     "Internal Server Error" : "Iekšēja servera kļūda",
     "The server was unable to complete your request." : "Serveris nevarēja izpildīt tavu pieprasījumu.",
     "More details can be found in the server log." : "Vairāk informācijas var atrast servera žurnālā.",
+    "For more details see the documentation ↗." : "Vairāk informācijas var atrast dokumentācijā ↗.",
     "Technical details" : "Tehniskās detaļas",
     "Remote Address: %s" : "Attālinātā adrese: %s",
     "Request ID: %s" : "Pieprasījuma ID: %s",

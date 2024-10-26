@@ -15,6 +15,8 @@ OC.L10N.register(
     "{temperature} {unit} clear sky" : "{temperature} {unit} cielo sereno",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} nuvoloso più tardi in giornata",
     "{temperature} {unit} cloudy" : "{temperature} {unit} nuvoloso",
+    "{temperature} {unit} snow later today" : "{temperature} {unit} neve più tardi oggi",
+    "{temperature} {unit} snow" : "{temperature} {unit} neve",
     "{temperature} {unit} fair weather later today" : "{temperature} {unit} bel tempo più tardi in giornata",
     "{temperature} {unit} fair weather" : "{temperature} {unit} bel tempo",
     "{temperature} {unit} partly cloudy later today" : "{temperature} {unit} parzialmente nuvoloso più tardi in giornata",
@@ -46,6 +48,7 @@ OC.L10N.register(
     "There was an error setting the location." : "Si è verificato un errore durante l'impostazione della località.",
     "There was an error saving the mode." : "Si è verificato un errore durante il salvataggio della modalità.",
     "There was an error using personal address." : "Si è verificato un errore usando l'indirizzo personale.",
+    "Unknown weather code" : "Codice meteo sconosciuto",
     "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Meteo integrato nell'applicazione del cruscotto.\n    La posizione dell'utente può essere determinata automaticamente o definita a mano. Vengono poi mostrate previsioni per 6 ore.\n    Questo stato può anche essere integrato in altri posti come nell'applicazione Calendario."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

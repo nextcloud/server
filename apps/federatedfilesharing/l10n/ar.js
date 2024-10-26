@@ -39,7 +39,7 @@ OC.L10N.register(
     "X (formerly Twitter)" : "منصة X (تويتر سابقاً)",
     "formerly Twitter" : "تويتر سابقاً",
     "Mastodon" : "برنامج ماستودون Mastodon",
-    "Add to your website" : "أضف إلى موقعك على الوب",
+    "Add to your website" : "أضف إلى موقعك على الويب",
     "Share with me via Nextcloud" : "شاركه معي عبر النكست كلاود",
     "HTML Code:" : "كود HTML: ",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "شارك معي عبر #مُعرّف سحابة نكست كلاود الموحدة Nextcloud Federated Cloud ID، أنظر {url} ",
