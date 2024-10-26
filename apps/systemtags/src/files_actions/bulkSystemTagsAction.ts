@@ -5,8 +5,8 @@
 import { type Node } from '@nextcloud/files'
 
 import { defineAsyncComponent } from 'vue'
-import { getCurrentUser } from '@nextcloud/auth'
 import { FileAction } from '@nextcloud/files'
+import { isPublicShare } from '@nextcloud/sharing/public'
 import { spawnDialog } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 
@@ -30,12 +30,16 @@ export const action = new FileAction({
 
 	// If the app is disabled, the action is not available anyway
 	enabled(nodes) {
+		if (isPublicShare()) {
+			return false
+		}
+
 		if (nodes.length === 0) {
 			return false
 		}
 
 		// If the user is not logged in, the action is not available
-		return getCurrentUser() !== null
+		return true
 	},
 
 	async exec(node: Node) {
