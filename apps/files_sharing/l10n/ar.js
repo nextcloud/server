@@ -102,7 +102,7 @@ OC.L10N.register(
     "Error while sending mail notification" : "حدث خطأ أثناء إرسال إشعار بإيميل",
     "This share does not exist or is no longer available" : "هذه المشاركة غير موجودة أو لم تعد متاحة بعدُ",
     "shared by %s" : "تمّت مشاركته مِن قبل %s",
-    "Download" : "تحميل",
+    "Download" : "تنزيل",
     "Add to your %s" : "أضاف إليك %s",
     "Direct link" : "رابط مباشر",
     "Share API is disabled" : "المشاركة عبر واجهة برمجة التطبيقات API مُعطّلة",

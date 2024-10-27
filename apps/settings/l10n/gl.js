@@ -121,6 +121,7 @@ OC.L10N.register(
     "Personal info" : "Información persoal",
     "Mobile & desktop" : "Móbil e escritorio",
     "Email server" : "Servidor de correo",
+    "Security & setup checks" : "Comprobacións de seguranza e configuración",
     "Background jobs" : "Traballos en segundo plano",
     "Unlimited" : "Sen límites",
     "Verifying" : "Verificando",

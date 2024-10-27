@@ -265,6 +265,7 @@
     "This operation is forbidden" : "This operation is forbidden",
     "This directory is unavailable, please check the logs or contact the administrator" : "This directory is unavailable, please check the logs or contact the administrator",
     "Storage is temporarily not available" : "Storage is temporarily not available",
+    "Unexpected error: {error}" : "Unexpected error: {error}",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} folder","{folderCount} folders"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} file","{fileCount} files"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 file and {folderCount} folder","1 file and {folderCount} folders"],

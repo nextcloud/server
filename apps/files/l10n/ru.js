@@ -172,6 +172,7 @@ OC.L10N.register(
     "If you have enabled 2FA, you must create and use a new app password by clicking here." : "Если вы включили двухфакторную аутентификацию, то нажмите здесь, чтобы создать пароль приложения.",
     "Clipboard is not available" : "Буфер обмена недоступен",
     "WebDAV URL copied to clipboard" : "Ссылка CalDAV скопирована в буфер обмена",
+    "Owner" : "Владелец",
     "Remove from favorites" : "Удалить из избранных",
     "Add to favorites" : "Добавить в избранное",
     "Tags" : "Метки",

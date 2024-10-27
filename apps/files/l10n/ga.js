@@ -267,6 +267,7 @@ OC.L10N.register(
     "This operation is forbidden" : "Tá an oibríocht seo toirmiscthe",
     "This directory is unavailable, please check the logs or contact the administrator" : "Níl an t-eolaire seo ar fáil, seiceáil na logaí nó déan teagmháil leis an riarthóir le do thoil",
     "Storage is temporarily not available" : "Níl stóráil ar fáil go sealadach",
+    "Unexpected error: {error}" : "Earráid gan choinne: {error}",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} fillteán","{folderCount} fillteáin","{folderCount} fillteáin","{folderCount} fillteáin","{folderCount} fillteáin"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} comhad","{fileCount} comhaid","{fileCount} comhaid","{fileCount} comhaid","{fileCount} comhaid"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 chomhad agus {folderCount} fillteán","1 chomhad agus {folderCount} fillteáin","1 chomhad agus {folderCount} fillteáin","1 chomhad agus {folderCount} fillteáin","1 chomhad agus {folderCount} fillteáin"],

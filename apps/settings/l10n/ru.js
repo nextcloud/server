@@ -783,6 +783,7 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "Причины использовать Nextcloud в организации",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Разработано {communityopen}сообществом Nextcloud{linkclose}, {githubopen}исходный код{linkclose} лицензируется в соответствии с {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Посмотрите нашу страницу на Facebook",
+    "Follow us on X" : "Следите за нашими новостями в X",
     "Follow us on Mastodon" : "Следите за нашими новостями в Mastodon",
     "Check out our blog" : "Просмотрите наш блог",
     "Subscribe to our newsletter" : "Подписывайтесь на нашу новостную рассылку",
