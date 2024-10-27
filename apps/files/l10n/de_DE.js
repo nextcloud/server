@@ -267,6 +267,7 @@ OC.L10N.register(
     "This operation is forbidden" : "Diese Operation ist nicht erlaubt",
     "This directory is unavailable, please check the logs or contact the administrator" : "Dieses Verzeichnis ist nicht verfügbar, bitte überprüfen Sie die Protokolldateien oder kontaktieren Sie die Administration",
     "Storage is temporarily not available" : "Speicher ist vorübergehend nicht verfügbar",
+    "Unexpected error: {error}" : "Unerwarteter Fehler: {error}",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} Ordner","{folderCount} Ordner"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} Datei","{fileCount} Dateien"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 Datei und {folderCount} Ordner","1 Datei und {folderCount} Ordner"],
