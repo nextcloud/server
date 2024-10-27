@@ -240,7 +240,7 @@ OC.L10N.register(
     "Out of office replacement (optional)" : "البديل لمن هو خارج المكتب (إختياري)",
     "Name of the replacement" : "اسم البديل",
     "No results." : "لا نتائج",
-    "Start typing." : "إبدإٍ الطباعة.",
+    "Start typing." : "أبدا الكتابة",
     "Short absence status" : "حالة الغياب القصير",
     "Long absence Message" : "رسالة الغياب الطويل",
     "Save" : "حفظ",

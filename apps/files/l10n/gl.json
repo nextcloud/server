@@ -265,6 +265,7 @@
     "This operation is forbidden" : "Esta operación está prohibida",
     "This directory is unavailable, please check the logs or contact the administrator" : "Este directorio non está dispoñíbel, comprobe os rexistros ou póñase en contacto coa administración desta instancia.",
     "Storage is temporarily not available" : "O almacenamento non está dispoñíbel temporalmente",
+    "Unexpected error: {error}" : "Produciuse un erro non agardado: {error}",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} cartafol","{folderCount} cartafoles"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} ficheiro","{fileCount} ficheiros"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 ficheiro e {folderCount} cartafol","1 ficheiro e {folderCount} cartafoles"],
