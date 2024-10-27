@@ -121,6 +121,7 @@ OC.L10N.register(
     "Personal info" : "Eolas pearsanta",
     "Mobile & desktop" : "Soghluaiste agus deasc",
     "Email server" : "Freastalaí ríomhphoist",
+    "Security & setup checks" : "Seiceálacha slándála & socraithe",
     "Background jobs" : "Cúlra poist",
     "Unlimited" : "Gan teorainn",
     "Verifying" : "Ag fíorú",

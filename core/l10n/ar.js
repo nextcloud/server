@@ -184,7 +184,7 @@ OC.L10N.register(
     "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "مستندات و جداول و عروض تعاونية، بناءً على تطبيق كولابورا Collabora Online.",
     "Distraction free note taking app." : "تطبيق تسجيل الملاحظات دون تشتيت",
     "Settings menu" : "قائمة الإعدادات",
-    "Avatar of {displayName}" : "صورة رمزية avatar لـ {displayName}",
+    "Avatar of {displayName}" : "صورة الملف الشخصي الرمزية لـ {displayName}",
     "Search contacts" : "بحث جهات الاتصال",
     "Reset search" : "إعادة تعيين البحث",
     "Search contacts …" : "البحث عن جهات الإتصال",

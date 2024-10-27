@@ -265,6 +265,7 @@
     "This operation is forbidden" : "Denna operation är förbjuden",
     "This directory is unavailable, please check the logs or contact the administrator" : "Denna katalog är inte tillgänglig, kontrollera loggarna eller kontakta administratören",
     "Storage is temporarily not available" : "Lagring är tillfälligt inte tillgänglig",
+    "Unexpected error: {error}" : "Oväntat fel: {error}",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} mapp","{folderCount} mappar"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} fil","{fileCount} filer"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 fil och {folderCount} mapp","1 fil och {folderCount} mappar"],
