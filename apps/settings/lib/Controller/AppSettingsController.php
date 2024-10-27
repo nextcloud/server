@@ -245,9 +245,15 @@ class AppSettingsController extends Controller {
 		$apps = $appClass->listAllApps();
 		foreach ($apps as $app) {
 			$app['installed'] = true;
-			// locally installed apps have a flatted screenshot property
+
 			if (isset($app['screenshot'][0])) {
-				$app['screenshot'] = $this->createProxyPreviewUrl($app['screenshot'][0]);
+				$appScreenshot = $app['screenshot'][0] ?? null;
+				if (is_array($appScreenshot)) {
+					// Screenshot with thumbnail
+					$appScreenshot = $appScreenshot['@value'];
+				}
+
+				$app['screenshot'] = $this->createProxyPreviewUrl($appScreenshot);
 			}
 			$this->allApps[$app['id']] = $app;
 		}
