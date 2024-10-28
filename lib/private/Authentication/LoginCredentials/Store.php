@@ -52,6 +52,7 @@ class Store implements IStore {
 	public function __construct(
 		ISession $session,
 		LoggerInterface $logger,
+		private ICrypto $crypto,
 		IProvider $tokenProvider = null) {
 		$this->session = $session;
 		$this->logger = $logger;
