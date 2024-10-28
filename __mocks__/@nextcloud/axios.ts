@@ -19,8 +19,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+import type { AxiosInterceptorManager, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
+
 export default {
 	get: async () => ({ status: 200, data: {} }),
 	delete: async () => ({ status: 200, data: {} }),
 	post: async () => ({ status: 200, data: {} }),
+
+	interceptors: {
+		request: {
+			use: () => {},
+		} as AxiosInterceptorManager<InternalAxiosRequestConfig>,
+		response: {
+			use: () => {},
+		} as AxiosInterceptorManager<AxiosResponse>,
+	}
 }
