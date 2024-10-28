@@ -13,8 +13,10 @@ use OC\Authentication\LoginCredentials\Credentials;
 use OC\Authentication\LoginCredentials\Store;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OC\Security\Crypto;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\ISession;
+use OCP\Security\ICrypto;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -29,6 +31,8 @@ class StoreTest extends TestCase {
 
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
+	/** @var ICrypto|\PHPUnit\Framework\MockObject\MockObject */
+	private $crypto;
 
 	/** @var Store */
 	private $store;
@@ -39,20 +43,24 @@ class StoreTest extends TestCase {
 		$this->session = $this->createMock(ISession::class);
 		$this->tokenProvider = $this->createMock(IProvider::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->crypto = $this->createMock(Crypto::class);
 
-		$this->store = new Store($this->session, $this->logger, $this->tokenProvider);
+		$this->store = new Store($this->session, $this->logger, $this->tokenProvider, $this->crypto);
 	}
 
 	public function testAuthenticate(): void {
 		$params = [
 			'run' => true,
 			'uid' => 'user123',
-			'password' => 123456,
+			'password' => '123456',
 		];
 
 		$this->session->expects($this->once())
 			->method('set')
 			->with($this->equalTo('login_credentials'), $this->equalTo(json_encode($params)));
+		$this->crypto->expects($this->once())
+			->method('encrypt')
+			->willReturn($params['password']);
 
 		$this->store->authenticate($params);
 	}
@@ -65,7 +73,7 @@ class StoreTest extends TestCase {
 	}
 
 	public function testGetLoginCredentialsNoTokenProvider(): void {
-		$this->store = new Store($this->session, $this->logger, null);
+		$this->store = new Store($this->session, $this->logger, null, $this->crypto);
 
 		$this->expectException(CredentialsUnavailableException::class);
 
@@ -139,6 +147,9 @@ class StoreTest extends TestCase {
 			->method('exists')
 			->with($this->equalTo('login_credentials'))
 			->willReturn(true);
+		$this->crypto->expects($this->once())
+			->method('decrypt')
+			->willReturn($password);
 		$this->session->expects($this->exactly(2))
 			->method('get')
 			->willReturnMap([
@@ -176,6 +187,9 @@ class StoreTest extends TestCase {
 			->method('exists')
 			->with($this->equalTo('login_credentials'))
 			->willReturn(true);
+		$this->crypto->expects($this->once())
+			->method('decrypt')
+			->willReturn($password);
 		$this->session->expects($this->exactly(2))
 			->method('get')
 			->willReturnMap([
@@ -214,6 +228,9 @@ class StoreTest extends TestCase {
 			->method('exists')
 			->with($this->equalTo('login_credentials'))
 			->willReturn(true);
+		$this->crypto->expects($this->once())
+			->method('decrypt')
+			->willReturn($password);
 		$this->session->expects($this->once())
 			->method('get')
 			->with($this->equalTo('login_credentials'))
