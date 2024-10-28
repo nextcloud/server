@@ -89,17 +89,10 @@ class ViewOnly {
 		/** @var SharedStorage $storage */
 		$share = $storage->getShare();
 
-		$canDownload = true;
-
-		// Check if read-only and on whether permission can download is both set and disabled.
+		// Check whether download-permission was denied (granted if not set)
 		$attributes = $share->getAttributes();
-		if ($attributes !== null) {
-			$canDownload = $attributes->getAttribute('permissions', 'download');
-		}
+		$canDownload = $attributes?->getAttribute('permissions', 'download');
 
-		if ($canDownload !== null && !$canDownload) {
-			return false;
-		}
-		return true;
+		return $canDownload !== false;
 	}
 }
