@@ -743,7 +743,7 @@ OC.L10N.register(
     "Featured apps" : "تطبيقات مميزة",
     "Supported apps" : "التطبيقات المدعومة",
     "Show to everyone" : "عرض للكل",
-    "Show to logged in accounts only" : "عرض للحسابات المسجل دخولها فقط",
+    "Show to logged in accounts only" : "عرض للمسجل دخولهم فقط",
     "Hide" : "إخفاء",
     "Download and enable" : "تنزيل وتمكين",
     "Allow untested app" : "إسمَح للتطبيقات غير المُجازة untested app",
