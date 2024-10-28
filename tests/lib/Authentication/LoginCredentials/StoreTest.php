@@ -89,7 +89,7 @@ class StoreTest extends TestCase {
 	}
 
 	public function testGetLoginCredentialsNoTokenProvider() {
-		$this->store = new Store($this->session, $this->logger, null);
+		$this->store = new Store($this->session, $this->logger, $this->crypto, null);
 
 		$this->expectException(CredentialsUnavailableException::class);
 
