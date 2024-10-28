@@ -253,6 +253,7 @@ class Server {
 			// Allow view-only plugin for webdav requests
 			$this->server->addPlugin(new ViewOnlyPlugin(
 				\OC::$server->getUserFolder(),
+				\OCP\Server::get(IConfig::class),
 			));
 
 			// custom properties plugin must be the last one

@@ -17,6 +17,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\Storage\IStorage;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
@@ -39,6 +40,7 @@ class ViewOnlyPluginTest extends TestCase {
 		$this->userFolder = $this->createMock(Folder::class);
 		$this->plugin = new ViewOnlyPlugin(
 			$this->userFolder,
+			$this->createMock(IConfig::class),
 		);
 		$this->request = $this->createMock(RequestInterface::class);
 		$this->tree = $this->createMock(Tree::class);
