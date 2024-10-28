@@ -111,6 +111,8 @@
 </template>
 
 <script>
+import { useAppsStore } from '../../store/apps-store.js'
+
 import AppScore from './AppScore.vue'
 import AppLevelBadge from './AppLevelBadge.vue'
 import AppManagement from '../../mixins/AppManagement.js'
@@ -150,6 +152,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+	},
+	setup() {
+		const store = useAppsStore()
+		return { store }
 	},
 	data() {
 		return {
