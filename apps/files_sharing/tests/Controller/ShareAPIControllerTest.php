@@ -2212,7 +2212,7 @@ class ShareAPIControllerTest extends TestCase {
 
 	public function testCreateShareInvalidExpireDate() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSNotFoundException::class);
-		$this->expectExceptionMessage('Invalid date, date format must be YYYY-MM-DD');
+		$this->expectExceptionMessage('Invalid date. Format must be YYYY-MM-DD');
 
 		$ocs = $this->mockFormatShare();
 
