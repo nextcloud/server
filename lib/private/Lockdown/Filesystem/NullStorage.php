@@ -12,7 +12,7 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\Storage\IStorage;
 
 class NullStorage extends Common {
-	public function __construct($parameters) {
+	public function __construct(array $parameters) {
 		parent::__construct($parameters);
 	}
 

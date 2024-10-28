@@ -122,44 +122,44 @@ class Swift extends Common {
 		return $this->fetchObject($path) !== false;
 	}
 
-	public function __construct($params) {
-		if ((empty($params['key']) and empty($params['password']))
-			or (empty($params['user']) && empty($params['userid'])) or empty($params['bucket'])
-			or empty($params['region'])
+	public function __construct(array $parameters) {
+		if ((empty($parameters['key']) and empty($parameters['password']))
+			or (empty($parameters['user']) && empty($parameters['userid'])) or empty($parameters['bucket'])
+			or empty($parameters['region'])
 		) {
 			throw new StorageBadConfigException('API Key or password, Login, Bucket and Region have to be configured.');
 		}
 
-		$user = $params['user'];
-		$this->id = 'swift::' . $user . md5($params['bucket']);
+		$user = $parameters['user'];
+		$this->id = 'swift::' . $user . md5($parameters['bucket']);
 
-		$bucketUrl = new Uri($params['bucket']);
+		$bucketUrl = new Uri($parameters['bucket']);
 		if ($bucketUrl->getHost()) {
-			$params['bucket'] = basename($bucketUrl->getPath());
-			$params['endpoint_url'] = (string)$bucketUrl->withPath(dirname($bucketUrl->getPath()));
+			$parameters['bucket'] = basename($bucketUrl->getPath());
+			$parameters['endpoint_url'] = (string)$bucketUrl->withPath(dirname($bucketUrl->getPath()));
 		}
 
-		if (empty($params['url'])) {
-			$params['url'] = 'https://identity.api.rackspacecloud.com/v2.0/';
+		if (empty($parameters['url'])) {
+			$parameters['url'] = 'https://identity.api.rackspacecloud.com/v2.0/';
 		}
 
-		if (empty($params['service_name'])) {
-			$params['service_name'] = 'cloudFiles';
+		if (empty($parameters['service_name'])) {
+			$parameters['service_name'] = 'cloudFiles';
 		}
 
-		$params['autocreate'] = true;
+		$parameters['autocreate'] = true;
 
-		if (isset($params['domain'])) {
-			$params['user'] = [
-				'name' => $params['user'],
-				'password' => $params['password'],
+		if (isset($parameters['domain'])) {
+			$parameters['user'] = [
+				'name' => $parameters['user'],
+				'password' => $parameters['password'],
 				'domain' => [
-					'name' => $params['domain'],
+					'name' => $parameters['domain'],
 				]
 			];
 		}
 
-		$this->params = $params;
+		$this->params = $parameters;
 		// FIXME: private class...
 		$this->objectCache = new CappedMemoryCache();
 		$this->connectionFactory = new SwiftFactory(
@@ -168,7 +168,7 @@ class Swift extends Common {
 			\OC::$server->get(LoggerInterface::class)
 		);
 		$this->objectStore = new \OC\Files\ObjectStore\Swift($this->params, $this->connectionFactory);
-		$this->bucket = $params['bucket'];
+		$this->bucket = $parameters['bucket'];
 		$this->mimeDetector = \OC::$server->get(IMimeTypeDetector::class);
 	}
 

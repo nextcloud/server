@@ -29,23 +29,23 @@ class FTP extends Common {
 	/** @var FtpConnection|null */
 	private $connection;
 
-	public function __construct($params) {
-		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
-			$this->host = $params['host'];
-			$this->username = $params['user'];
-			$this->password = $params['password'];
-			if (isset($params['secure'])) {
-				if (is_string($params['secure'])) {
-					$this->secure = ($params['secure'] === 'true');
+	public function __construct(array $parameters) {
+		if (isset($parameters['host']) && isset($parameters['user']) && isset($parameters['password'])) {
+			$this->host = $parameters['host'];
+			$this->username = $parameters['user'];
+			$this->password = $parameters['password'];
+			if (isset($parameters['secure'])) {
+				if (is_string($parameters['secure'])) {
+					$this->secure = ($parameters['secure'] === 'true');
 				} else {
-					$this->secure = (bool)$params['secure'];
+					$this->secure = (bool)$parameters['secure'];
 				}
 			} else {
 				$this->secure = false;
 			}
-			$this->root = isset($params['root']) ? '/' . ltrim($params['root']) : '/';
-			$this->port = $params['port'] ?? 21;
-			$this->utf8Mode = isset($params['utf8']) && $params['utf8'];
+			$this->root = isset($parameters['root']) ? '/' . ltrim($parameters['root']) : '/';
+			$this->port = $parameters['port'] ?? 21;
+			$this->utf8Mode = isset($parameters['utf8']) && $parameters['utf8'];
 		} else {
 			throw new \Exception('Creating ' . self::class . ' storage failed, required parameters not set');
 		}

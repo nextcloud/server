@@ -83,14 +83,14 @@ class DAV extends Common {
 	];
 
 	/**
-	 * @param array $params
+	 * @param array $parameters
 	 * @throws \Exception
 	 */
-	public function __construct($params) {
+	public function __construct(array $parameters) {
 		$this->statCache = new ArrayCache();
 		$this->httpClientService = Server::get(IClientService::class);
-		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
-			$host = $params['host'];
+		if (isset($parameters['host']) && isset($parameters['user']) && isset($parameters['password'])) {
+			$host = $parameters['host'];
 			//remove leading http[s], will be generated in createBaseUri()
 			if (str_starts_with($host, 'https://')) {
 				$host = substr($host, 8);
@@ -98,16 +98,16 @@ class DAV extends Common {
 				$host = substr($host, 7);
 			}
 			$this->host = $host;
-			$this->user = $params['user'];
-			$this->password = $params['password'];
-			if (isset($params['authType'])) {
-				$this->authType = $params['authType'];
+			$this->user = $parameters['user'];
+			$this->password = $parameters['password'];
+			if (isset($parameters['authType'])) {
+				$this->authType = $parameters['authType'];
 			}
-			if (isset($params['secure'])) {
-				if (is_string($params['secure'])) {
-					$this->secure = ($params['secure'] === 'true');
+			if (isset($parameters['secure'])) {
+				if (is_string($parameters['secure'])) {
+					$this->secure = ($parameters['secure'] === 'true');
 				} else {
-					$this->secure = (bool)$params['secure'];
+					$this->secure = (bool)$parameters['secure'];
 				}
 			} else {
 				$this->secure = false;
@@ -116,7 +116,7 @@ class DAV extends Common {
 				// inject mock for testing
 				$this->certManager = \OC::$server->getCertificateManager();
 			}
-			$this->root = $params['root'] ?? '/';
+			$this->root = $parameters['root'] ?? '/';
 			$this->root = '/' . ltrim($this->root, '/');
 			$this->root = rtrim($this->root, '/') . '/';
 		} else {

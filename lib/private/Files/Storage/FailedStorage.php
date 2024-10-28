@@ -20,10 +20,10 @@ class FailedStorage extends Common {
 	protected $e;
 
 	/**
-	 * @param array $params ['exception' => \Exception]
+	 * @param array $parameters ['exception' => \Exception]
 	 */
-	public function __construct($params) {
-		$this->e = $params['exception'];
+	public function __construct(array $parameters) {
+		$this->e = $parameters['exception'];
 		if (!$this->e) {
 			throw new \InvalidArgumentException('Missing "exception" argument in FailedStorage constructor');
 		}
