@@ -366,6 +366,8 @@ class Manager {
 		$tokensNeeding2FA = $this->config->getUserKeys($userId, 'login_token_2fa');
 
 		foreach ($tokensNeeding2FA as $tokenId) {
+			$this->config->deleteUserValue($userId, 'login_token_2fa', $tokenId);
+
 			$this->tokenProvider->invalidateTokenById($userId, (int)$tokenId);
 		}
 	}
