@@ -89,22 +89,38 @@
 			:name="t('files', 'Loading current folder')" />
 
 		<!-- Empty content placeholder -->
-		<NcEmptyContent v-else-if="!loading && isEmptyDir"
-			:name="currentView?.emptyTitle || t('files', 'No files in here')"
-			:description="currentView?.emptyCaption || t('files', 'Upload some content or sync with your devices!')"
-			data-cy-files-content-empty>
-			<template #action>
-				<NcButton v-if="dir !== '/'"
-					:aria-label="t('files', 'Go to the previous folder')"
-					type="primary"
-					:to="toPreviousDir">
-					{{ t('files', 'Go back') }}
-				</NcButton>
-			</template>
-			<template #icon>
-				<NcIconSvgWrapper :svg="currentView.icon" />
-			</template>
-		</NcEmptyContent>
+		<template v-else-if="!loading && isEmptyDir">
+			<!-- Empty due to error -->
+			<NcEmptyContent v-if="error" :name="error" data-cy-files-content-error>
+				<template #action>
+					<NcButton type="secondary" @click="fetchContent">
+						<template #icon>
+							<IconReload :size="20" />
+						</template>
+						{{ t('files', 'Retry') }}
+					</NcButton>
+				</template>
+				<template #icon>
+					<IconAlertCircleOutline />
+				</template>
+			</NcEmptyContent>
+			<!-- Default empty directory view -->
+			<NcEmptyContent v-else
+				:name="currentView?.emptyTitle || t('files', 'No files in here')"
+				:description="currentView?.emptyCaption || t('files', 'Upload some content or sync with your devices!')"
+				data-cy-files-content-empty>
+				<template v-if="dir !== '/'" #action>
+					<NcButton :aria-label="t('files', 'Go to the previous folder')"
+						type="primary"
+						:to="toPreviousDir">
+						{{ t('files', 'Go back') }}
+					</NcButton>
+				</template>
+				<template #icon>
+					<NcIconSvgWrapper :svg="currentView.icon" />
+				</template>
+			</NcEmptyContent>
+		</template>
 
 		<!-- File list -->
 		<FilesListVirtual v-else
@@ -135,6 +151,8 @@ import { join, dirname } from 'path'
 import { Parser } from 'xml2js'
 import { defineComponent } from 'vue'
 
+import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
+import IconReload from 'vue-material-design-icons/Reload.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
@@ -160,6 +178,8 @@ import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.js'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
+import { humanizeWebDAVError } from '../utils/davUtils.ts'
+
 import debounce from 'debounce'
 
 const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
@@ -182,6 +202,8 @@ export default defineComponent({
 		AccountPlusIcon,
 		UploadPicker,
 		ViewGridIcon,
+		IconAlertCircleOutline,
+		IconReload,
 	},
 
 	mixins: [
@@ -221,8 +243,8 @@ export default defineComponent({
 		return {
 			filterText: '',
 			loading: true,
+			error: null as string | null,
 			promise: null as Promise<ContentsWithRoot> | CancelablePromise<ContentsWithRoot> | null,
-
 			unsubscribeStoreCallback: () => {},
 		}
 	},
@@ -475,6 +497,7 @@ export default defineComponent({
 	methods: {
 		async fetchContent() {
 			this.loading = true
+			this.error = null
 			const dir = this.dir
 			const currentView = this.currentView
 
@@ -523,6 +546,7 @@ export default defineComponent({
 				})
 			} catch (error) {
 				logger.error('Error while fetching content', { error })
+				this.error = humanizeWebDAVError(error)
 			} finally {
 				this.loading = false
 			}
