@@ -35,7 +35,7 @@ class TwoFactor implements ISettings {
 		MandatoryTwoFactor $mandatoryTwoFactor,
 		private IUserSession $userSession,
 		private IConfig $config,
-		private ?string $uid,
+		private ?string $userId,
 	) {
 		$this->providerLoader = $providerLoader;
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;

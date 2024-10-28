@@ -16,12 +16,12 @@ class Password implements ISettings {
 
 	public function __construct(
 		private IUserManager $userManager,
-		private ?string $uid,
+		private ?string $userId,
 	) {
 	}
 
 	public function getForm(): TemplateResponse {
-		$user = $this->userManager->get($this->uid);
+		$user = $this->userManager->get($this->userId);
 		$passwordChangeSupported = false;
 		if ($user !== null) {
 			$passwordChangeSupported = $user->canChangePassword();
