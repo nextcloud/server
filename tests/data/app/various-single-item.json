@@ -1,0 +1,50 @@
+{
+	"id": "notifications",
+	"name": "Notifications",
+	"description": "A single screenshot should be an array",
+	"version": "1.0.0",
+	"licence": "agpl",
+	"author": [
+		"Joas Schilling"
+	],
+	"dependencies": {
+		"nextcloud": {
+			"@attributes": {
+				"min-version": "16",
+				"max-version": "16"
+			}
+		},
+		"backend": []
+	},
+	"screenshot": [
+		"https://raw.githubusercontent.com/nextcloud/notifications/refs/heads/master/docs/screenshot.png"
+	],
+	"category": [
+		"monitoring"
+	],
+	"info": [],
+	"background-jobs": [],
+	"activity": {
+		"filters": [],
+		"settings": [],
+		"providers": []
+	},
+	"commands": [],
+	"remote": [],
+	"public": [],
+	"repair-steps": {
+		"install": [],
+		"pre-migration": [],
+		"post-migration": [],
+		"live-migration": [],
+		"uninstall": []
+	},
+	"settings": {
+		"admin": [],
+		"admin-section": [],
+		"personal": [],
+		"personal-section": []
+	},
+	"two-factor-providers": [],
+	"types": []
+}
