@@ -28,6 +28,7 @@ namespace OC\Authentication\LoginCredentials;
 
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IProvider;
+use OC\Security\Crypto;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\LoginCredentials\ICredentials;
@@ -47,12 +48,17 @@ class Store implements IStore {
 	/** @var IProvider|null */
 	private $tokenProvider;
 
+	/** @var Crypto|null */
+	private $crypto;
+
 	public function __construct(ISession $session,
 		LoggerInterface $logger,
-		?IProvider $tokenProvider = null) {
+		?IProvider $tokenProvider = null,
+		?Crypto $crypto = null) {
 		$this->session = $session;
 		$this->logger = $logger;
 		$this->tokenProvider = $tokenProvider;
+		$this->crypto = $crypto;
 
 		Util::connectHook('OC_User', 'post_login', $this, 'authenticate');
 	}
@@ -63,6 +69,7 @@ class Store implements IStore {
 	 * @param array $params
 	 */
 	public function authenticate(array $params) {
+		$params['password'] = $this->crypto->encrypt((string)$params['password']);
 		$this->session->set('login_credentials', json_encode($params));
 	}
 
@@ -109,6 +116,7 @@ class Store implements IStore {
 		if ($trySession && $this->session->exists('login_credentials')) {
 			/** @var array $creds */
 			$creds = json_decode($this->session->get('login_credentials'), true);
+			$creds['password'] = $this->crypto->decrypt($creds['password']);
 			return new Credentials(
 				$creds['uid'],
 				$creds['loginName'] ?? $this->session->get('loginname') ?? $creds['uid'], // Pre 20 didn't have a loginName property, hence fall back to the session value and then to the UID
