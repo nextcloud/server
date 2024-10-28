@@ -267,6 +267,7 @@ OC.L10N.register(
     "This operation is forbidden" : "Операцію заборонено",
     "This directory is unavailable, please check the logs or contact the administrator" : "Каталог недоступний, будь ласка, перевірте файл журналу або зверніться до адміністратора  ",
     "Storage is temporarily not available" : "Сховище тимчасово недоступне",
+    "Unexpected error: {error}" : "Неочікувана помилка: {error}",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} каталог","{folderCount} каталоги","{folderCount} каталогів","{folderCount} каталогів"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} файл","{fileCount} файли","{fileCount} файлів","{fileCount} файлів"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 файл та {folderCount} каталог","1 файл та {folderCount} каталоги","1 файл та {folderCount} каталогів","1 файл та {folderCount} каталогів"],
