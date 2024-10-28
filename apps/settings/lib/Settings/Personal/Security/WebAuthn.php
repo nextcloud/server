@@ -25,7 +25,7 @@ class WebAuthn implements ISettings {
 
 	public function __construct(
 		PublicKeyCredentialMapper $mapper,
-		private string $uid,
+		private string $userId,
 		private IInitialStateService $initialStateService,
 		Manager $manager,
 	) {
@@ -37,7 +37,7 @@ class WebAuthn implements ISettings {
 		$this->initialStateService->provideInitialState(
 			Application::APP_ID,
 			'webauthn-devices',
-			$this->mapper->findAllForUid($this->uid)
+			$this->mapper->findAllForUid($this->userId)
 		);
 
 		return new TemplateResponse('settings', 'settings/personal/security/webauthn', [
