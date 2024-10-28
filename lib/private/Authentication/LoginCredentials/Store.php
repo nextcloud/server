@@ -49,7 +49,8 @@ class Store implements IStore {
 	/** @var IProvider|null */
 	private $tokenProvider;
 
-	public function __construct(ISession $session,
+	public function __construct(
+		ISession $session,
 		LoggerInterface $logger,
 		IProvider $tokenProvider = null) {
 		$this->session = $session;
