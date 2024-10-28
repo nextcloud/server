@@ -46,6 +46,7 @@ class ViewOnlyPlugin extends ServerPlugin {
 		//Sabre\DAV\CorePlugin::httpGet
 		$this->server->on('method:GET', [$this, 'checkViewOnly'], 90);
 		$this->server->on('method:COPY', [$this, 'checkViewOnly'], 90);
+		$this->server->on('method:MOVE', [$this, 'checkViewOnly'], 90);
 	}
 
 	/**
