@@ -13,7 +13,6 @@ use OC\Authentication\LoginCredentials\Credentials;
 use OC\Authentication\LoginCredentials\Store;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
-use OC\Security\Crypto;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\ISession;
 use OCP\Security\ICrypto;
@@ -43,9 +42,9 @@ class StoreTest extends TestCase {
 		$this->session = $this->createMock(ISession::class);
 		$this->tokenProvider = $this->createMock(IProvider::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->crypto = $this->createMock(Crypto::class);
+		$this->crypto = $this->createMock(ICrypto::class);
 
-		$this->store = new Store($this->session, $this->logger, $this->tokenProvider, $this->crypto);
+		$this->store = new Store($this->session, $this->logger, $this->crypto, $this->tokenProvider);
 	}
 
 	public function testAuthenticate() {
@@ -60,7 +59,7 @@ class StoreTest extends TestCase {
 			->with($this->equalTo('login_credentials'), $this->equalTo(json_encode($params)));
 		$this->crypto->expects($this->once())
 			->method('encrypt')
-			->willReturn($params['password']);
+			->willReturn('123456');
 
 		$this->store->authenticate($params);
 	}
