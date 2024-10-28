@@ -31,10 +31,12 @@ class Store implements IStore {
 	/** @var IProvider|null */
 	private $tokenProvider;
 
-	public function __construct(ISession $session,
+	public function __construct(
+		ISession $session,
 		LoggerInterface $logger,
 		private readonly ICrypto $crypto,
-		?IProvider $tokenProvider = null) {
+		?IProvider $tokenProvider = null,
+	) {
 		$this->session = $session;
 		$this->logger = $logger;
 		$this->tokenProvider = $tokenProvider;
