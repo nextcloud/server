@@ -240,7 +240,7 @@
     "Folders" : "المجلدات",
     "Audio" : "صوت",
     "Photos and images" : "الصور ",
-    "Videos" : "ملفات فيديو",
+    "Videos" : "مقاطع فيديو",
     "New folder creation cancelled" : "تمّ إلغاء عملية إنشاء مجلد جديد",
     "Created new folder \"{name}\"" : "تمّ إنشاء مجلد جديد باسم \"{name}\"",
     "Unable to initialize the templates directory" : "تعذر تهيئة دليل القوالب",

@@ -798,6 +798,7 @@
     "Nextcloud help resources" : "Посібники та допомога у користуванні Nextcloud",
     "SMTP Username" : "Ім'я користувача SMTP",
     "Follow us on Twitter" : "Слідкуйте за нами в Twitter",
-    "Active accounts" : "Активні облікові записи"
+    "Active accounts" : "Активні облікові записи",
+    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Щоби дозволити запуск цієї перевірки, потрібно пересвідчитися, що ваш вебсервер може з'єднуватися з самим собою, що передбачає можливість резолвити та з'єднуватися з одним з `trusted_domains` або `overwrite.cli.url`. Неможливість цього може бути результатом незбігу DNS на стороні сервера або встановленими правилами брандмауера."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

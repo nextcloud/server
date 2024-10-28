@@ -158,7 +158,7 @@ OC.L10N.register(
     "User Display Name Field" : "Champ « nom d'affichage » de l'utilisateur",
     "The LDAP attribute to use to generate the user's display name." : "L'attribut LDAP utilisé pour générer le nom d'affichage de l'utilisateur.",
     "2nd User Display Name Field" : "Second attribut pour le nom d'affichage",
-    "Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«." : "Optionnel. Attribut LDAP à ajouter au nom d'affichage, entre parenthèses. Cela donnera par exemple : « John Doe (john.doe@example.com) ».",
+    "Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«." : "Optionnel. Attribut LDAP à ajouter au nom affiché, entre parenthèses. Cela donnera par exemple: »John Doe (john.doe@example.org)«.",
     "Base User Tree" : "DN racine de l'arbre utilisateurs",
     "One User Base DN per line" : "Un DN de base utilisateur par ligne",
     "User Search Attributes" : "Attributs de recherche utilisateurs",
