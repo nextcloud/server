@@ -125,6 +125,7 @@ class SystemConfig {
 		'onlyoffice' => [
 			'jwt_secret' => true,
 		],
+		'PASS' => true,
 	];
 
 	public function __construct(
