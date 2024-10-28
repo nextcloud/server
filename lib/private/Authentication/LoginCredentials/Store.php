@@ -48,7 +48,7 @@ class Store implements IStore {
 	/** @var IProvider|null */
 	private $tokenProvider;
 
-	/** @var Crypto|null */
+	/** @var Crypto */
 	private $crypto;
 
 	public function __construct(ISession $session,
