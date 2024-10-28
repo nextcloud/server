@@ -1459,9 +1459,15 @@ class AppConfig implements IAppConfig {
 				'/^key_pairs$/',
 				'/^local_gskey$/',
 			],
+			'call_summary_bot' => [
+				'/^secret_(.*)$/',
+			],
 			'external' => [
 				'/^sites$/',
 				'/^jwt_token_privkey_(.*)$/',
+			],
+			'globalsiteselector' => [
+				'/^gss\.jwt\.key$/',
 			],
 			'integration_discourse' => [
 				'/^private_key$/',
@@ -1562,6 +1568,9 @@ class AppConfig implements IAppConfig {
 			],
 			'user_saml' => [
 				'/^idp-x509cert$/',
+			],
+			'whiteboard' => [
+				'/^jwt_secret_key$/',
 			],
 		];
 
