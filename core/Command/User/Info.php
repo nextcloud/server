@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -32,6 +33,11 @@ class Info extends Base {
 				InputArgument::REQUIRED,
 				'user to show'
 			)->addOption(
+				'human',
+				null,
+				InputOption::VALUE_NONE,
+				'Print storage values in human-readable format'
+			)->addOption(
 				'output',
 				null,
 				InputOption::VALUE_OPTIONAL,
@@ -55,7 +61,7 @@ class Info extends Base {
 			'enabled' => $user->isEnabled(),
 			'groups' => $groups,
 			'quota' => $user->getQuota(),
-			'storage' => $this->getStorageInfo($user),
+			'storage' => $this->getStorageInfo($user, $input),
 			'last_seen' => date(\DateTimeInterface::ATOM, $user->getLastLogin()), // ISO-8601
 			'user_directory' => $user->getHome(),
 			'backend' => $user->getBackendClassName()
@@ -68,7 +74,7 @@ class Info extends Base {
 	 * @param IUser $user
 	 * @return array
 	 */
-	protected function getStorageInfo(IUser $user): array {
+	protected function getStorageInfo(IUser $user, InputInterface $input): array {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($user->getUID());
 		try {
@@ -76,13 +82,23 @@ class Info extends Base {
 		} catch (\OCP\Files\NotFoundException $e) {
 			return [];
 		}
-		return [
-			'free' => $storage['free'],
-			'used' => $storage['used'],
-			'total' => $storage['total'],
-			'relative' => $storage['relative'],
-			'quota' => $storage['quota'],
-		];
+		if ($input->getOption('human')) {
+			return [
+				'free' => \OC_Helper::humanFileSize($storage['free']),
+				'used' => \OC_Helper::humanFileSize($storage['used']),
+				'total' => \OC_Helper::humanFileSize($storage['total']),
+				'relative' => $storage['relative'] . '%',
+				'quota' => ($storage['quota'] >= 0) ? \OC_Helper::humanFileSize($storage['quota']) : $storage['quota'],
+			];
+		} else {
+			return [
+				'free' => $storage['free'],
+				'used' => $storage['used'],
+				'total' => $storage['total'],
+				'relative' => $storage['relative'],
+				'quota' => $storage['quota'],
+			];
+		}
 	}
 
 	/**
