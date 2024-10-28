@@ -182,7 +182,7 @@ class Quota extends Wrapper {
 	/**
 	 * Only apply quota for files, not metadata, trash or others
 	 */
-	private function shouldApplyQuota(string $path): bool {
+	protected function shouldApplyQuota(string $path): bool {
 		return str_starts_with(ltrim($path, '/'), 'files/');
 	}
 
