@@ -701,4 +701,30 @@ class ManagerTest extends TestCase {
 
 		$this->assertFalse($this->manager->needsSecondFactor($user));
 	}
+
+	public function testClearTwoFactorPending() {
+		$this->config->method('getUserKeys')
+			->with('theUserId', 'login_token_2fa')
+			->willReturn([
+				'42', '43', '44'
+			]);
+
+		$this->config->expects($this->exactly(3))
+			->method('deleteUserValue')
+			->withConsecutive(
+				['theUserId', 'login_token_2fa', '42'],
+				['theUserId', 'login_token_2fa', '43'],
+				['theUserId', 'login_token_2fa', '44'],
+			);
+
+		$this->tokenProvider->expects($this->exactly(3))
+			->method('invalidateTokenById')
+			->withConsecutive(
+				['theUserId', 42],
+				['theUserId', 43],
+				['theUserId', 44],
+			);
+
+		$this->manager->clearTwoFactorPending('theUserId');
+	}
 }
