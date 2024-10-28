@@ -28,12 +28,12 @@ namespace OC\Authentication\LoginCredentials;
 
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IProvider;
-use OC\Security\Crypto;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\LoginCredentials\ICredentials;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\ISession;
+use OCP\Security\ICrypto;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -48,7 +48,7 @@ class Store implements IStore {
 	/** @var IProvider|null */
 	private $tokenProvider;
 
-	/** @var Crypto */
+	/** @var ICrypto */
 	private $crypto;
 
 	public function __construct(ISession $session,
