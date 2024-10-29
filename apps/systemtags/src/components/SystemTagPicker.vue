@@ -484,6 +484,12 @@ export default defineComponent({
 	bottom: 0;
 	padding-block: 8px;
 
+	:deep(.notecard) {
+		// min 2 lines of text to avoid jumping
+		min-height: 2lh;
+		align-items: center;
+	}
+
 	& > div {
 		margin: 0 !important;
 	}
