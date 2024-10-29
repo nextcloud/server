@@ -15,7 +15,7 @@ import api from './api'
 import logger from '../logger'
 
 import type { IAppstoreExApp, IDeployDaemon, IExAppStatus } from '../app-types'
-import { reactive } from 'vue'
+import Vue from 'vue'
 
 interface AppApiState {
 	apps: IAppstoreExApp[]
@@ -31,7 +31,7 @@ export const useAppApiStore = defineStore('app-api-apps', {
 	state: (): AppApiState => ({
 		apps: [],
 		updateCount: loadState('settings', 'appstoreExAppUpdateCount', 0),
-		loading: reactive({}),
+		loading: {},
 		loadingList: false,
 		statusUpdater: null,
 		daemonAccessible: loadState('settings', 'defaultDaemonConfigAccessible', false),
@@ -62,6 +62,10 @@ export const useAppApiStore = defineStore('app-api-apps', {
 			logger.error(error)
 		},
 
+		setLoading(id: string, value: boolean) {
+			Vue.set(this.loading, id, value)
+		},
+
 		setError(appId: string | string[], error: string) {
 			const appIds = Array.isArray(appId) ? appId : [appId]
 			appIds.forEach((_id) => {
@@ -73,14 +77,14 @@ export const useAppApiStore = defineStore('app-api-apps', {
 		},
 
 		enableApp(appId: string) {
-			this.loading[appId] = true
-			this.loading.install = true
+			this.setLoading(appId, true)
+			this.setLoading('install', true)
 			return confirmPassword().then(() => {
 
 				return axios.post(generateUrl(`/apps/app_api/apps/enable/${appId}`))
 					.then((response) => {
-						this.loading[appId] = false
-						this.loading.install = false
+						this.setLoading(appId, false)
+						this.setLoading('install', false)
 
 						const app = this.apps.find((app) => app.id === appId)
 						if (app) {
@@ -123,8 +127,8 @@ export const useAppApiStore = defineStore('app-api-apps', {
 							})
 					})
 					.catch((error) => {
-						this.loading[appId] = false
-						this.loading.install = false
+						this.setLoading(appId, false)
+						this.setLoading('install', false)
 						this.setError(appId, error.response.data.data.message)
 						this.appsApiFailure({ appId, error })
 					})
@@ -132,8 +136,8 @@ export const useAppApiStore = defineStore('app-api-apps', {
 		},
 
 		forceEnableApp(appId: string) {
-			this.loading[appId] = true
-			this.loading.install = true
+			this.setLoading(appId, true)
+			this.setLoading('install', true)
 			return confirmPassword().then(() => {
 
 				return api.post(generateUrl('/apps/app_api/apps/force'), { appId })
@@ -141,8 +145,8 @@ export const useAppApiStore = defineStore('app-api-apps', {
 						location.reload()
 					})
 					.catch((error) => {
-						this.loading[appId] = false
-						this.loading.install = false
+						this.setLoading(appId, false)
+						this.setLoading('install', false)
 						this.setError(appId, error.response.data.data.message)
 						this.appsApiFailure({ appId, error })
 					})
@@ -150,12 +154,12 @@ export const useAppApiStore = defineStore('app-api-apps', {
 		},
 
 		disableApp(appId: string) {
-			this.loading[appId] = true
+			this.setLoading(appId, true)
 			return confirmPassword().then(() => {
 
 				return api.get(generateUrl(`apps/app_api/apps/disable/${appId}`))
 					.then(() => {
-						this.loading[appId] = false
+						this.setLoading(appId, false)
 						const app = this.apps.find((app) => app.id === appId)
 						if (app) {
 							app.active = false
@@ -166,19 +170,19 @@ export const useAppApiStore = defineStore('app-api-apps', {
 						return true
 					})
 					.catch((error) => {
-						this.loading[appId] = false
+						this.setLoading(appId, false)
 						this.appsApiFailure({ appId, error })
 					})
 			})
 		},
 
 		uninstallApp(appId: string, removeData: boolean) {
-			this.loading[appId] = true
+			this.setLoading(appId, true)
 			return confirmPassword().then(() => {
 
 				return api.get(generateUrl(`/apps/app_api/apps/uninstall/${appId}?removeData=${removeData}`))
 					.then(() => {
-						this.loading[appId] = false
+						this.setLoading(appId, false)
 						const app = this.apps.find((app) => app.id === appId)
 						if (app) {
 							app.active = false
@@ -196,21 +200,21 @@ export const useAppApiStore = defineStore('app-api-apps', {
 						return true
 					})
 					.catch((error) => {
-						this.loading[appId] = false
+						this.setLoading(appId, false)
 						this.appsApiFailure({ appId, error })
 					})
 			})
 		},
 
 		updateApp(appId: string) {
-			this.loading[appId] = true
-			this.loading.install = true
+			this.setLoading(appId, true)
+			this.setLoading('install', true)
 			return confirmPassword().then(() => {
 
 				return api.get(generateUrl(`/apps/app_api/apps/update/${appId}`))
 					.then(() => {
-						this.loading.install = false
-						this.loading[appId] = false
+						this.setLoading(appId, false)
+						this.setLoading('install', false)
 						const app = this.apps.find((app) => app.id === appId)
 						if (app) {
 							const version = app.update
@@ -229,8 +233,8 @@ export const useAppApiStore = defineStore('app-api-apps', {
 						return true
 					})
 					.catch((error) => {
-						this.loading[appId] = false
-						this.loading.install = false
+						this.setLoading(appId, false)
+						this.setLoading('install', false)
 						this.appsApiFailure({ appId, error })
 					})
 			})
