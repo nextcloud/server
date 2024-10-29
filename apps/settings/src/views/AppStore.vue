@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import { translate as t } from '@nextcloud/l10n'
-import { computed, getCurrentInstance, onBeforeMount, watchEffect } from 'vue'
+import { computed, getCurrentInstance, onBeforeMount, onBeforeUnmount, watchEffect } from 'vue'
 import { useRoute } from 'vue-router/composables'
 
 import { useAppsStore } from '../store/apps-store'
@@ -34,9 +34,11 @@ import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import AppList from '../components/AppList.vue'
 import AppStoreDiscoverSection from '../components/AppStoreDiscover/AppStoreDiscoverSection.vue'
+import { useAppApiStore } from '../store/app-api-store.ts'
 
 const route = useRoute()
 const store = useAppsStore()
+const appApiStore = useAppApiStore()
 
 /**
  * ID of the current active category, default is `discover`
@@ -60,6 +62,14 @@ onBeforeMount(() => {
 	(instance?.proxy as any).$store.dispatch('getCategories', { shouldRefetchCategories: true });
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	(instance?.proxy as any).$store.dispatch('getAllApps')
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	if ((instance?.proxy as any).$store.getters.isAppApiEnabled) {
+		appApiStore.fetchAllApps()
+		appApiStore.updateAppsStatus()
+	}
+})
+onBeforeUnmount(() => {
+	clearInterval(appApiStore.getStatusUpdater)
 })
 </script>
 

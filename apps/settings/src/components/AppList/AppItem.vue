@@ -14,9 +14,13 @@
 		<component :is="dataItemTag"
 			class="app-image app-image-icon"
 			:headers="getDataItemHeaders(`app-table-col-icon`)">
-			<div v-if="(listView && !app.preview) || (!listView && !screenshotLoaded)" class="icon-settings-dark" />
+			<div v-if="!app?.app_api && shouldDisplayDefaultIcon" class="icon-settings-dark" />
+			<NcIconSvgWrapper v-else-if="app.app_api && shouldDisplayDefaultIcon"
+				:path="mdiCogOutline"
+				:size="listView ? 24 : 48"
+				style="min-width: auto; min-height: auto; height: 100%;" />
 
-			<svg v-else-if="listView && app.preview"
+			<svg v-else-if="listView && app.preview && !app.app_api"
 				width="32"
 				height="32"
 				viewBox="0 0 32 32">
@@ -71,10 +75,11 @@
 			<div v-if="app.error" class="warning">
 				{{ app.error }}
 			</div>
-			<div v-if="isLoading" class="icon icon-loading-small" />
+			<div v-if="isLoading || isInitializing" class="icon icon-loading-small" />
 			<NcButton v-if="app.update"
 				type="primary"
-				:disabled="installing || isLoading"
+				:disabled="installing || isLoading || !defaultDeployDaemonAccessible || isManualInstall"
+				:title="updateButtonText"
 				@click.stop="update(app.id)">
 				{{ t('settings', 'Update to {update}', {update:app.update}) }}
 			</NcButton>
@@ -86,15 +91,15 @@
 				{{ t('settings', 'Remove') }}
 			</NcButton>
 			<NcButton v-if="app.active"
-				:disabled="installing || isLoading"
+				:disabled="installing || isLoading || isInitializing || isDeploying"
 				@click.stop="disable(app.id)">
-				{{ t('settings','Disable') }}
+				{{ disableButtonText }}
 			</NcButton>
 			<NcButton v-if="!app.active && (app.canInstall || app.isCompatible)"
 				:title="enableButtonTooltip"
 				:aria-label="enableButtonTooltip"
 				type="primary"
-				:disabled="!app.canInstall || installing || isLoading"
+				:disabled="!app.canInstall || installing || isLoading || !defaultDeployDaemonAccessible || isInitializing || isDeploying"
 				@click.stop="enable(app.id)">
 				{{ enableButtonText }}
 			</NcButton>
@@ -102,7 +107,7 @@
 				:title="forceEnableButtonTooltip"
 				:aria-label="forceEnableButtonTooltip"
 				type="secondary"
-				:disabled="installing || isLoading"
+				:disabled="installing || isLoading || !defaultDeployDaemonAccessible"
 				@click.stop="forceEnable(app.id)">
 				{{ forceEnableButtonText }}
 			</NcButton>
@@ -118,6 +123,9 @@ import AppLevelBadge from './AppLevelBadge.vue'
 import AppManagement from '../../mixins/AppManagement.js'
 import SvgFilterMixin from '../SvgFilterMixin.vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import { mdiCogOutline } from '@mdi/js'
+import { useAppApiStore } from '../../store/app-api-store.ts'
 
 export default {
 	name: 'AppItem',
@@ -125,6 +133,7 @@ export default {
 		AppLevelBadge,
 		AppScore,
 		NcButton,
+		NcIconSvgWrapper,
 	},
 	mixins: [AppManagement, SvgFilterMixin],
 	props: {
@@ -155,7 +164,13 @@ export default {
 	},
 	setup() {
 		const store = useAppsStore()
-		return { store }
+		const appApiStore = useAppApiStore()
+
+		return {
+			store,
+			appApiStore,
+			mdiCogOutline,
+		}
 	},
 	data() {
 		return {
@@ -173,6 +188,9 @@ export default {
 		},
 		withSidebar() {
 			return !!this.$route.params.id
+		},
+		shouldDisplayDefaultIcon() {
+			return (this.listView && !this.app.preview) || (!this.listView && !this.screenshotLoaded)
 		},
 	},
 	watch: {
