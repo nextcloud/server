@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\Core\Migrations;
 
 use Closure;
+use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -41,7 +42,7 @@ class Version31000Date20241018063111 extends SimpleMigrationStep {
 			$table = $schema->getTable('systemtag');
 
 			if (!$table->hasColumn('etag')) {
-				$table->addColumn('etag', 'string', [
+				$table->addColumn('etag', Types::STRING, [
 					'notnull' => false,
 					'length' => 32,
 				]);
