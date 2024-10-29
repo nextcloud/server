@@ -342,7 +342,7 @@ $CONFIG = [
  * keepalive is enabled. This will make sure that an inactive browser will log itself out
  * even if requests to the server might extend the session lifetime. Note: the logout is   
  * handled on the client side. This is not a way to limit the duration of potentially
- * compromized sessions.
+ * compromised sessions.
  *
  * Defaults to ``false``
  */
