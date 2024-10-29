@@ -2791,19 +2791,6 @@
       <code><![CDATA[$script]]></code>
     </ParamNameMismatch>
   </file>
-  <file src="lib/private/TemplateLayout.php">
-    <InvalidParamDefault>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-    </InvalidParamDefault>
-    <InvalidScalarArgument>
-      <code><![CDATA[$appName]]></code>
-      <code><![CDATA[$appName]]></code>
-    </InvalidScalarArgument>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getInitialStates]]></code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="lib/private/URLGenerator.php">
     <InvalidReturnStatement>
       <code><![CDATA[$path]]></code>
