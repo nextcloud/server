@@ -754,27 +754,10 @@ class Manager extends PublicEmitter implements IUserManager {
 
 		$connection = \OC::$server->getDatabaseConnection();
 		$queryBuilder = $connection->getQueryBuilder();
-		$queryBuilder->selectDistinct('uid')
-			->from('users', 'u')
-			->leftJoin('u', 'preferences', 'p', $queryBuilder->expr()->andX(
-				$queryBuilder->expr()->eq('p.userid', 'uid'),
-				$queryBuilder->expr()->eq('p.appid', $queryBuilder->expr()->literal('login')),
-				$queryBuilder->expr()->eq('p.configkey', $queryBuilder->expr()->literal('lastLogin')))
-			);
-		if($search !== '') {
-			$queryBuilder->leftJoin('u', 'preferences', 'p1', $queryBuilder->expr()->andX(
-				$queryBuilder->expr()->eq('p1.userid', 'uid'),
-				$queryBuilder->expr()->eq('p1.appid', $queryBuilder->expr()->literal('settings')),
-				$queryBuilder->expr()->eq('p1.configkey', $queryBuilder->expr()->literal('email')))
-			)
-				// sqlite doesn't like re-using a single named parameter here
-				->where($queryBuilder->expr()->iLike('uid', $queryBuilder->createPositionalParameter('%' . $connection->escapeLikeParameter($search) . '%')))
-				->orWhere($queryBuilder->expr()->iLike('displayname', $queryBuilder->createPositionalParameter('%' . $connection->escapeLikeParameter($search) . '%')))
-				->orWhere($queryBuilder->expr()->iLike('p1.configvalue', $queryBuilder->createPositionalParameter('%' . $connection->escapeLikeParameter($search) . '%'))
-				);
-		}
-		$queryBuilder->orderBy($queryBuilder->func()->lower('p.configvalue'), 'DESC')
-			->addOrderBy('uid_lower', 'ASC')
+		$queryBuilder->select('pref_login.userid')
+			->from('preferences', 'pref_login')
+			->where($queryBuilder->expr()->eq('pref_login.appid', $queryBuilder->expr()->literal('login')))
+			->andWhere($queryBuilder->expr()->eq('pref_login.configkey', $queryBuilder->expr()->literal('lastLogin')))
 			->setFirstResult($offset)
 			->setMaxResults($limit)
 		;

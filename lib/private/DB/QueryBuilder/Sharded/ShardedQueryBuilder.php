@@ -277,7 +277,7 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 
 	public function addOrderBy($sort, $order = null) {
 		$this->registerOrder((string)$sort, (string)$order ?? 'ASC');
-		return parent::orderBy($sort, $order);
+		return parent::addOrderBy($sort, $order);
 	}
 
 	public function orderBy($sort, $order = null) {
