@@ -35,12 +35,12 @@
 					<NcIconSvgWrapper :path="APPSTORE_CATEGORY_ICONS.disabled" />
 				</template>
 			</NcAppNavigationItem>
-			<NcAppNavigationItem v-if="updateCount > 0"
+			<NcAppNavigationItem v-if="store.updateCount > 0"
 				id="app-category-updates"
 				:to="{ name: 'apps-category', params: { category: 'updates' } }"
 				:name="APPS_SECTION_ENUM.updates">
 				<template #counter>
-					<NcCounterBubble>{{ updateCount }}</NcCounterBubble>
+					<NcCounterBubble>{{ store.updateCount }}</NcCounterBubble>
 				</template>
 				<template #icon>
 					<NcIconSvgWrapper :path="APPSTORE_CATEGORY_ICONS.updates" />
@@ -114,7 +114,6 @@ import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
 import APPSTORE_CATEGORY_ICONS from '../constants/AppstoreCategoryIcons.ts'
 
-const updateCount = loadState<number>('settings', 'appstoreUpdateCount', 0)
 const appstoreEnabled = loadState<boolean>('settings', 'appstoreEnabled', true)
 const developerDocsUrl = loadState<string>('settings', 'appstoreDeveloperDocs', '')
 
