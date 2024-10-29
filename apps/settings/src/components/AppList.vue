@@ -317,14 +317,9 @@ export default {
 			const limit = pLimit(1)
 			this.apps
 				.filter(app => app.update)
-				.map(app => limit(() => {
-						let type = 'updateApp'
-						if (app?.app_api) {
-							type = 'app_api_apps/updateApp'
-						}
-						this.$store.dispatch(type, { appId: app.id })
-					}),
-				)
+				.map((app) => limit(() => {
+					this.update(app.id)
+				}))
 		},
 	},
 }
