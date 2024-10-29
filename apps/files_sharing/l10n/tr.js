@@ -66,7 +66,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Yol yanlış. Dosya ya da klasör bulunamadı",
     "Could not create share" : "Paylaşılamadı",
     "Invalid permissions" : "İzinler geçersiz",
-    "Invalid date, date format must be YYYY-MM-DD" : "Tarih geçersiz. Tarih biçimi YYYY-AA-GG olmalıdır",
     "Please specify a valid account to share with" : "Lütfen paylaşılacak geçerli bir hesap belirtin",
     "Group sharing is disabled by the administrator" : "Grup paylaşımı BT yöneticisi tarafından devre dışı bırakılmış",
     "Please specify a valid group" : "Lütfen geçerli bir grup belirtin",

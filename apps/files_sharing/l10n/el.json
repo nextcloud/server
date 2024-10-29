@@ -63,7 +63,6 @@
     "Wrong path, file/folder does not exist" : "Λάθος διαδρομή, το αρχείο/φάκελος δεν υπάρχει",
     "Could not create share" : "Αδυναμία δημιουργίας κοινόχρηστου",
     "Invalid permissions" : "Μη έγκυρα δικαιώματα",
-    "Invalid date, date format must be YYYY-MM-DD" : "Μη έγκυρη ημερομηνία, η μορφή της ημερομηνίας πρέπει να είναι YYYY-MM-DD",
     "Please specify a valid account to share with" : "Παρακαλούμε καθορίστε έναν έγκυρο λογαριασμό για κοινή χρήση",
     "Group sharing is disabled by the administrator" : "Διαμοιρασμός σε ομάδες είναι απενεργοποιημένος από τον διαχειρηστή",
     "Please specify a valid group" : "Παρακαλούμε καθορίστε μια έγκυρη ομάδα",

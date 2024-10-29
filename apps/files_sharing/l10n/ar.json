@@ -64,7 +64,6 @@
     "Wrong path, file/folder does not exist" : "مسار الملف أو المجلد غير موجود",
     "Could not create share" : "لا يمكن انشاء مشاركة",
     "Invalid permissions" : "الأذونات لا تكفي",
-    "Invalid date, date format must be YYYY-MM-DD" : "تاريخ غير صحيح. يجب أن يكون تنسيق التاريخ خانتين لليوم و خانتين للشهر و أربع خانات للسنة",
     "Please specify a valid account to share with" : "رجاءً، قم بتحديد حساب صحيح للمشاركة معه",
     "Group sharing is disabled by the administrator" : "مشاركة المجموعة معطّلة من قِبَل مسؤول النظام",
     "Please specify a valid group" : "يرجى تحديد مجموعة صحيحة",

@@ -66,7 +66,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Неправильний шлях, такий файл або каталог відсутні",
     "Could not create share" : "Неможливо створити спільний ресурс",
     "Invalid permissions" : "Некоректні повноваження",
-    "Invalid date, date format must be YYYY-MM-DD" : "Недійсна дата, формат дати має бути РРРР-ММ-ДД",
     "Please specify a valid account to share with" : "Зазначте дійсний обліковий запис, з яким ви хочете поділитися",
     "Group sharing is disabled by the administrator" : "Груповий спільний доступ вимкнено адміністратором",
     "Please specify a valid group" : "Будь ласка, зазначте дійсну групу",

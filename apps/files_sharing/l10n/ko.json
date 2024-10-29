@@ -63,7 +63,6 @@
     "Wrong path, file/folder does not exist" : "경로가 잘못됨, 파일 또는 폴더가 존재하지 않음",
     "Could not create share" : "공유를 만들 수 없음",
     "Invalid permissions" : "권한이 유효하지 않음",
-    "Invalid date, date format must be YYYY-MM-DD" : "잘못된 날짜, YYYY-MM-DD 형식이어야 합니다.",
     "Please specify a valid account to share with" : "올바른 공유 대상 계정을 입력하십시오",
     "Group sharing is disabled by the administrator" : "관리자가 그룹 공유를 비활성화함",
     "Please specify a valid group" : "올바른 그룹을 지정하십시오",

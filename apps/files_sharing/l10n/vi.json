@@ -63,7 +63,6 @@
     "Wrong path, file/folder does not exist" : "Đường dẫn sai, tập tin/thư mục không tồn tại",
     "Could not create share" : "Không thể tạo chia sẻ",
     "Invalid permissions" : "Quyền không hợp lệ",
-    "Invalid date, date format must be YYYY-MM-DD" : "Định dạng ngày không hợp lệ phải là YYYY-MM-DD",
     "Group sharing is disabled by the administrator" : "Chia sẻ nhóm bị quản trị viên vô hiệu hóa",
     "Please specify a valid group" : "Vui lòng chỉ định một nhóm hợp lệ",
     "Public link sharing is disabled by the administrator" : "Chia sẻ liên kết công khai bị quản trị viên vô hiệu hóa",

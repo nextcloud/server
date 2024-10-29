@@ -63,7 +63,6 @@
     "Wrong path, file/folder does not exist" : "Hibás útvonal, a fájl/mappa nem létezik",
     "Could not create share" : "A megosztás nem hozható létre",
     "Invalid permissions" : "Érvénytelen jogosultságok",
-    "Invalid date, date format must be YYYY-MM-DD" : "Érvénytelen dátum, a dátumnak YYYY-MM-DD formátumúnak kell lennie",
     "Please specify a valid account to share with" : "Adjon meg egy érvényes fiókot a megosztáshoz",
     "Group sharing is disabled by the administrator" : "A csoportos megosztást letiltotta a rendszergazda",
     "Please specify a valid group" : "Adjon meg egy érvényes csoportot",
