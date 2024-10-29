@@ -637,6 +637,10 @@ class ShareAPIController extends OCSController {
 
 		if ($attributes !== null) {
 			$share = $this->setShareAttributes($share, $attributes);
+			if ($shareAttributes = $share->getAttributes()) {
+				$downloadPermission = (bool) $shareAttributes->getAttribute('permissions', 'download');
+				$share->setHideDownload(!$downloadPermission);
+			}
 		}
 
 		// Expire date
