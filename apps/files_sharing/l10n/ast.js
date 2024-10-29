@@ -65,7 +65,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "El camín ye incorreutu, el ficheru/carpeta nun esiste",
     "Could not create share" : "Nun se pudo crear la compartición",
     "Invalid permissions" : "Los permisos son inválidos",
-    "Invalid date, date format must be YYYY-MM-DD" : "La data ye inválida, el so formatu ha ser AAAA-MM-DD",
     "Please specify a valid account to share with" : "Especifica una cuenta válida cola que compartir",
     "Group sharing is disabled by the administrator" : "L'alministración desactivó la compartición grupal",
     "Please specify a valid group" : "Especifica un grupu válidu",

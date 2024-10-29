@@ -63,7 +63,6 @@
     "Wrong path, file/folder does not exist" : "Ubicación incorrecta, el archivo/carpeta no existe",
     "Could not create share" : "No se ha podido compartir",
     "Invalid permissions" : "Permisos no válidos",
-    "Invalid date, date format must be YYYY-MM-DD" : "Fecha inválida, el formato de las fechas debe ser YYYY-MM-DD",
     "Please specify a valid account to share with" : "Por favor, especifique una cuenta válida con la que compartirla",
     "Group sharing is disabled by the administrator" : "Compartir en grupo está deshabilitado por el administrador",
     "Please specify a valid group" : "Por favor, especifica un grupo válido",

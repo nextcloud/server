@@ -325,7 +325,7 @@
     "The generated emoji based on the input text" : "Émoji généré en fonction du texte saisi",
     "Generate image" : "Générer l'image",
     "Generate an image from a text prompt" : "Générer une image à partir d'un texte",
-    "Prompt" : "Invite de commande",
+    "Prompt" : "Prompt",
     "Describe the image you want to generate" : "Décrivez l'image que vous souhaitez générer",
     "Number of images" : "Nombre d'images",
     "How many images to generate" : "Nombre d'images à générer",

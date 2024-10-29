@@ -65,7 +65,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Neteisingas kelias, failo/aplanko nėra",
     "Could not create share" : "Nepavyko sukurti viešinio",
     "Invalid permissions" : "Neteisingi leidimai",
-    "Invalid date, date format must be YYYY-MM-DD" : "Netinkamas datos formavimas. Privaloma: YYYY-MM-DD",
     "Please specify a valid account to share with" : "Nurodykite tinkamą paskyrą, su kuria bendrinti",
     "Group sharing is disabled by the administrator" : "Administratorius išjungė bendrinimą su grupėmis",
     "Please specify a valid group" : "Nurodykite teisingą grupę",

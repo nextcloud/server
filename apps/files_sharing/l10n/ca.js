@@ -65,7 +65,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "El camí és incorrecte, el fitxer o la carpeta no existeix",
     "Could not create share" : "No s'ha pogut crear l'element compartit",
     "Invalid permissions" : "Els permisos no són vàlids",
-    "Invalid date, date format must be YYYY-MM-DD" : "La data no és vàlida, el format de la data ha de ser AAAA-MM-DD",
     "Please specify a valid account to share with" : "Especifiqueu un compte vàlid amb qui compartir",
     "Group sharing is disabled by the administrator" : "L'administrador ha inhabilitat l'ús compartit en grup",
     "Please specify a valid group" : "Especifiqueu un grup vàlid",

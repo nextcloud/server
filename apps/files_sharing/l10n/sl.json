@@ -63,7 +63,6 @@
     "Wrong path, file/folder does not exist" : "Napačna pot; datoteka ali mapa ne obstaja",
     "Could not create share" : "Mesta souporabe ni mogoče ustvariti",
     "Invalid permissions" : "Neustrezna dovoljenja",
-    "Invalid date, date format must be YYYY-MM-DD" : "Neveljaven zapis časa; biti mora v zapisu YYYY-MM-DD",
     "Please specify a valid account to share with" : "Navesti je treba veljaven račun za omogočanje souporabe",
     "Group sharing is disabled by the administrator" : "Skupinska souporaba je skrbniško onemogočena",
     "Please specify a valid group" : "Navesti je treba veljavno skupino",

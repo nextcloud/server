@@ -66,7 +66,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Wrong path, file/folder does not exist",
     "Could not create share" : "Could not create share",
     "Invalid permissions" : "Invalid permissions",
-    "Invalid date, date format must be YYYY-MM-DD" : "Invalid date, date format must be YYYY-MM-DD",
     "Please specify a valid account to share with" : "Please specify a valid account to share with",
     "Group sharing is disabled by the administrator" : "Group sharing is disabled by the administrator",
     "Please specify a valid group" : "Please specify a valid group",

@@ -65,7 +65,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Cale eronată, fișier/folder inexistent",
     "Could not create share" : "Nu s-a putut crea partajarea",
     "Invalid permissions" : "Permisiuni invalide",
-    "Invalid date, date format must be YYYY-MM-DD" : "Dată invalidă, formatul trebuie să fie AAAA-LL-ZZ",
     "Group sharing is disabled by the administrator" : "Partajarea de grup este dezactivată de administrator",
     "Please specify a valid group" : "Specifică un grup valid",
     "Public link sharing is disabled by the administrator" : "Partajarea prin link public este dezactivată de administrator",

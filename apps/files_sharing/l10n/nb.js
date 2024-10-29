@@ -66,7 +66,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Feil bane, fil/mappe eksisterer ikke",
     "Could not create share" : "Kunne ikke opprette ressurs",
     "Invalid permissions" : "Ugyldig rettigheter",
-    "Invalid date, date format must be YYYY-MM-DD" : "Feil dato, dato må være i formatet YYYY-MM-DD",
     "Please specify a valid account to share with" : "Spesifiser en gyldig konto å dele med",
     "Group sharing is disabled by the administrator" : "Gruppedeling er deaktivert av administratoren",
     "Please specify a valid group" : "Oppgi en gyldig gruppe",

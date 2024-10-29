@@ -63,7 +63,6 @@
     "Wrong path, file/folder does not exist" : "slecht path, file/folder bestaat niet",
     "Could not create share" : "Kan gedeelde folder niet aanmaken",
     "Invalid permissions" : "Ongeldige machtigingen",
-    "Invalid date, date format must be YYYY-MM-DD" : "Ongeldige datum, datumnotatie moet in de vorm YYYY-MM-DD",
     "Group sharing is disabled by the administrator" : "Delen voor groepen is uitgeschakeld door de beheerder",
     "Please specify a valid group" : "Geef een geldige groep op",
     "Public link sharing is disabled by the administrator" : "Delen van openbare links is uitgeschakeld door de beheerder",
