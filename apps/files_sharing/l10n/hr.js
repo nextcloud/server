@@ -63,7 +63,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Navedite put datoteke ili mape",
     "Could not create share" : "Nije moguće stvoriti dijeljenje",
     "Invalid permissions" : "Nevažeća dopuštenja",
-    "Invalid date, date format must be YYYY-MM-DD" : "Nevažeći datum, oblik datuma mora biti GGGG-MM-DD",
     "Group sharing is disabled by the administrator" : "Administrator je onemogućio grupno dijeljenje",
     "Please specify a valid group" : "Navedite valjanu grupu",
     "Public link sharing is disabled by the administrator" : "Administrator je onemogućio dijeljenje javnih poveznica",

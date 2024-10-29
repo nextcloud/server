@@ -64,7 +64,6 @@
     "Wrong path, file/folder does not exist" : "Неверный путь, файл или каталог не существует",
     "Could not create share" : "Не удалось создать общий ресурс",
     "Invalid permissions" : "Неверные права доступа",
-    "Invalid date, date format must be YYYY-MM-DD" : "Недопустимая дата. Дата должна быть указана в формате ГГГГ-ММ-ДД",
     "Please specify a valid account to share with" : "Пожалуйста, укажите действительную учетную запись, к которой вы хотите предоставить доступ",
     "Group sharing is disabled by the administrator" : "Возможность делиться с группами отключена администратором",
     "Please specify a valid group" : "Укажите верную группу",

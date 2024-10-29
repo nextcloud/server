@@ -66,7 +66,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Falscher Pfad, Datei/Ordner existiert nicht",
     "Could not create share" : "Freigabe konnte nicht erstellt werden",
     "Invalid permissions" : "Ungültige Berechtigungen",
-    "Invalid date, date format must be YYYY-MM-DD" : "Ungültiges Datum, zulässiges Datumsformat: JJJJ-MM-TT",
     "Please specify a valid account to share with" : "Bitte ein gültiges Konto angeben, um mit ihm zu teilen",
     "Group sharing is disabled by the administrator" : "Die Gruppenfreigabe ist durch den Administrator deaktiviert",
     "Please specify a valid group" : "Bitte gib eine gültige Gruppe an",

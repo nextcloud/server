@@ -65,7 +65,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Röng slóð, skráin/mappan er ekki til",
     "Could not create share" : "Ekki tókst að búa til sameign",
     "Invalid permissions" : "Ógildar aðgangsheimildir",
-    "Invalid date, date format must be YYYY-MM-DD" : "Ógild dagsetning, dagsetningasniðið verður að vera ÁÁÁÁ-MM-DD",
     "Group sharing is disabled by the administrator" : "Deiling innan hóps hefur verið gerð óvirk af kerfisstjóra.",
     "Please specify a valid group" : "Settu inn gildan hóp",
     "Public link sharing is disabled by the administrator" : "Deiling opinberra sameignartengla hefur verið gerð óvirk af kerfisstjóra.",

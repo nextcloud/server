@@ -265,6 +265,7 @@
     "This operation is forbidden" : "此動作被禁止",
     "This directory is unavailable, please check the logs or contact the administrator" : "這個目錄無法存取，請檢查伺服器記錄檔或聯絡管理員",
     "Storage is temporarily not available" : "儲存空間暫時無法使用",
+    "Unexpected error: {error}" : "意外錯誤：{error}",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} 個資料夾"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} 個檔案"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 個檔案與 {folderCount} 個資料夾"],

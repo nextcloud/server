@@ -65,7 +65,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "错误的路径，文件/文件夹不存在",
     "Could not create share" : "无法创建共享",
     "Invalid permissions" : "无效的权限 ",
-    "Invalid date, date format must be YYYY-MM-DD" : "无效的日期，日期格式必须是 YYYY-MM-DD",
     "Please specify a valid account to share with" : "请指定要分享的有效账号",
     "Group sharing is disabled by the administrator" : "群组共享已被管理员禁用",
     "Please specify a valid group" : "请指定一个有效的组",
