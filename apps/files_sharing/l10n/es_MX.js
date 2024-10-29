@@ -66,7 +66,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Ruta incorrecta, el archivo/carpeta no existe",
     "Could not create share" : "No fue posible crear el elemento compartido",
     "Invalid permissions" : "Permisos inválidos",
-    "Invalid date, date format must be YYYY-MM-DD" : "La fecha es inválida, por favor sigue el formato AAAA-MM-DD",
     "Please specify a valid account to share with" : "Por favor, especifique una cuenta válida para compartir",
     "Group sharing is disabled by the administrator" : "Compartir en grupos está deshabilitado por el administrador",
     "Please specify a valid group" : "Por favor especifica un grupo válido",

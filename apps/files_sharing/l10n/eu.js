@@ -66,7 +66,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Bide okerra, fitxategia/karpeta ez da existitzen",
     "Could not create share" : "Ezin izan da partekatzea sortu",
     "Invalid permissions" : "Baimen baliogabeak",
-    "Invalid date, date format must be YYYY-MM-DD" : "Data baliogabea, dataren formatuak UUUU-HH-EE izan behar du",
     "Please specify a valid account to share with" : "Zehaztu baliozko kontu bat partekatzeko",
     "Group sharing is disabled by the administrator" : "Administratzaileak taldeekin partekatzea desgaitu du",
     "Please specify a valid group" : "Zehaztu baliozko talde bat",

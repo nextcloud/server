@@ -65,7 +65,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Forkert sti, fil/mappe findes ikke",
     "Could not create share" : "Kunne ikke oprette deling",
     "Invalid permissions" : "Ugyldige rettigheder",
-    "Invalid date, date format must be YYYY-MM-DD" : "Ugyldig dato. Brug formatet ÅÅÅÅ-MM-DD",
     "Please specify a valid account to share with" : "Præciser venligst en gyldig konto at dele med",
     "Group sharing is disabled by the administrator" : "Gruppedeling er deaktiveret af administratoren",
     "Please specify a valid group" : "Angiv en gyldig gruppe",

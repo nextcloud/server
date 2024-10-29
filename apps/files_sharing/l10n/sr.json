@@ -64,7 +64,6 @@
     "Wrong path, file/folder does not exist" : "Погрешна путања, фајл/фолдер не постоји",
     "Could not create share" : "Не могу да направим дељење",
     "Invalid permissions" : "Неисправне дозволе",
-    "Invalid date, date format must be YYYY-MM-DD" : "Неисправан датим, формат датума мора бити ГГГГ-ММ-ДД",
     "Please specify a valid account to share with" : "Молимо вас да наведете исправни налог којем се дели",
     "Group sharing is disabled by the administrator" : "Администратор је забранио дељење са групом",
     "Please specify a valid group" : "Одаберите исправну групу",

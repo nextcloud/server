@@ -66,7 +66,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "パスが間違っています。ファイル/フォルダーがありません",
     "Could not create share" : "共有を作成できませんでした",
     "Invalid permissions" : "無効な権限",
-    "Invalid date, date format must be YYYY-MM-DD" : "無効な日付です。YYYY-MM-DDのフォーマットで日付を指定してください。",
     "Please specify a valid account to share with" : "共有する有効なアカウントを指定してください",
     "Group sharing is disabled by the administrator" : "グループ共有が管理者によって無効にされています。",
     "Please specify a valid group" : "正しいグループを指定してください",

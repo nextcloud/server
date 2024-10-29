@@ -65,7 +65,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Błędna ścieżka, plik/katalog nie istnieje",
     "Could not create share" : "Nie można utworzyć udostępnienia",
     "Invalid permissions" : "Nieprawidłowe uprawnienia",
-    "Invalid date, date format must be YYYY-MM-DD" : "Nieprawidłowa data, data musi być w formacie RRRR-MM-DD",
     "Please specify a valid account to share with" : "Podaj prawidłowe konto, któremu chcesz udostępnić",
     "Group sharing is disabled by the administrator" : "Udostępnianie grupowe jest wyłączone przez administratora",
     "Please specify a valid group" : "Podaj prawidłową grupę",

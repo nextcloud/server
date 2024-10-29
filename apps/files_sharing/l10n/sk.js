@@ -65,7 +65,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Neplatná cesta, súbor alebo priečinok neexistuje",
     "Could not create share" : "Nie je možné sprístupniť",
     "Invalid permissions" : "Neplatné oprávnenia",
-    "Invalid date, date format must be YYYY-MM-DD" : "Neplatný dátum, formát musí byť v tvare YYYY-MM-DD",
     "Please specify a valid account to share with" : "Prosím, uveďte platný účet, s ktorým chcete zdieľať",
     "Group sharing is disabled by the administrator" : "Skupinové zdieľanie je zakázané administrátorom",
     "Please specify a valid group" : "Zvoľte prosím platnú skupinu",

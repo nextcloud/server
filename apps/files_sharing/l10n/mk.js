@@ -65,7 +65,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Погрешна патека, датотеката/папката не постои",
     "Could not create share" : "Неможе да се креира споделување",
     "Invalid permissions" : "Неважечки дозволи",
-    "Invalid date, date format must be YYYY-MM-DD" : "Невалиден датум, форматот мора да биде ГГГГ-ММ-ДД",
     "Group sharing is disabled by the administrator" : "Споделување во групата е оневозможено од страна на администраторот",
     "Please specify a valid group" : "Изберете група",
     "Public link sharing is disabled by the administrator" : "Споделување со јавен линк е оневозможено од страна на администраторот",

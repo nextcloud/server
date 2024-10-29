@@ -64,7 +64,6 @@
     "Wrong path, file/folder does not exist" : "Caminho errado, arquivo/pasta não existe",
     "Could not create share" : "Não foi possível criar o compartilhamento",
     "Invalid permissions" : "Permissões inválidas",
-    "Invalid date, date format must be YYYY-MM-DD" : "Data inválida, o formato da data deve ser YYYY-MM-DD",
     "Please specify a valid account to share with" : "Especifique uma conta válida com a qual compartilhar",
     "Group sharing is disabled by the administrator" : "O compartilhamento para grupos foi desabilitado pelo administrador",
     "Please specify a valid group" : "Por favor especifique um grupo válido",

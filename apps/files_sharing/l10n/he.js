@@ -62,7 +62,6 @@ OC.L10N.register(
     "Could not delete share" : "לא ניתן היה למחוק את השיתוף",
     "Please specify a file or folder path" : "יש לספק נתיב לקובץ או תיקייה",
     "Could not create share" : "לא ניתן ליצור שיתוף",
-    "Invalid date, date format must be YYYY-MM-DD" : "תאריך לא חוקי, תבנית התאריך חייבת להיות YYYY-MM-DD",
     "Group sharing is disabled by the administrator" : "שיתוף קבוצתי מנוטרל על ידי המנהל",
     "Please specify a valid group" : "יש לספק קבוצה חוקית",
     "Public link sharing is disabled by the administrator" : "שיתוף ציבורי מנוטרל על ידי המנהל",

@@ -66,7 +66,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Fel sökväg, fil/mapp finns inte",
     "Could not create share" : "Kunde inte skapa delning",
     "Invalid permissions" : "Ogiltiga behörigheter",
-    "Invalid date, date format must be YYYY-MM-DD" : "Ogiltigt datum, måste anges: ÅÅÅÅ-MM-DD",
     "Please specify a valid account to share with" : "Ange ett giltigt konto att dela med",
     "Group sharing is disabled by the administrator" : "Gruppdelning är avstängt",
     "Please specify a valid group" : "Ange en giltig grupp",

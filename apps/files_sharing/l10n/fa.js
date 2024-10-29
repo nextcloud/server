@@ -26,7 +26,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Wrong path, file/folder does not exist",
     "Could not create share" : "امکان ایجاد اشتراک گذاری وجود ندارد",
     "Invalid permissions" : "دسترسی نامعتبر",
-    "Invalid date, date format must be YYYY-MM-DD" : "تاریخ نامعتبر است ، قالب تاریخ باید YYYY-MM-DD باشد",
     "Group sharing is disabled by the administrator" : "اشتراک گروه توسط مدیر غیرفعال شده است.",
     "Please specify a valid group" : "لطفا یک گروه معتبر انتخاب کنید",
     "Public link sharing is disabled by the administrator" : "اشتراک پیوندهای عمومی توسط مدیر غیرفعال شده است",

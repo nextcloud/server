@@ -65,7 +65,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Väärä polku, tiedostoa/kansiota ei ole olemassa",
     "Could not create share" : "Jaon luominen epäonnistui",
     "Invalid permissions" : "Virheelliset käyttöoikeudet",
-    "Invalid date, date format must be YYYY-MM-DD" : "Virheellinen päiväys, päivämäärän muodon tulee olla VVVV-KK-PP",
     "Group sharing is disabled by the administrator" : "Ylläpitäjä on estänyt ryhmäjakamisen",
     "Please specify a valid group" : "Määritä kelvollinen ryhmä",
     "Public link sharing is disabled by the administrator" : "Ylläpitäjä on estänyt julkisen linkin jakamisen",

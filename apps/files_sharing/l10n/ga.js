@@ -66,7 +66,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Cosán mícheart, níl an comhad/fillteán ann",
     "Could not create share" : "Níorbh fhéidir sciar a chruthú",
     "Invalid permissions" : "Ceadanna neamhbhailí",
-    "Invalid date, date format must be YYYY-MM-DD" : "Dáta neamhbhailí, caithfidh formáid an dáta a bheith BBBB-MM-DD",
     "Please specify a valid account to share with" : "Sonraigh cuntas bailí le roinnt leis le do thoil",
     "Group sharing is disabled by the administrator" : "Tá comhroinnt grúpa díchumasaithe ag an riarthóir",
     "Please specify a valid group" : "Sonraigh grúpa bailí",

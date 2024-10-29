@@ -64,7 +64,6 @@
     "Wrong path, file/folder does not exist" : "Ruta errónea, o ficheiro/cartafol non existe",
     "Could not create share" : "Non foi posíbel crear a compartición",
     "Invalid permissions" : "Permisos incorrectos",
-    "Invalid date, date format must be YYYY-MM-DD" : "Data incorrecta, o formato da data debe ser AAAA-MM-DD",
     "Please specify a valid account to share with" : "Especifique unha conta válida coa que compartir",
     "Group sharing is disabled by the administrator" : "A opción de compartir en grupo foi desactivada pola administración desta instancia.",
     "Please specify a valid group" : "Especifique un grupo correcto",
