@@ -5,7 +5,7 @@
 
 <template>
 	<div class="headerbar-label" :class="{ 'setting-property': isSettingProperty, 'profile-property': isProfileProperty }">
-		<h3 v-if="isHeading">
+		<h3 v-if="isHeading" class="headerbar__heading">
 			<!-- Already translated as required by prop validator -->
 			{{ readable }}
 		</h3>
@@ -136,6 +136,10 @@ export default {
 		label {
 			cursor: pointer;
 		}
+	}
+
+	.headerbar__heading {
+		margin: 0;
 	}
 
 	.federation-control {
