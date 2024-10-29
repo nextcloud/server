@@ -114,6 +114,26 @@ class MailerTest extends TestCase {
 		$this->assertEquals($sendmail, self::invokePrivate($this->mailer, 'getSendMailInstance'));
 	}
 
+	public function testEventForNullTransport(): void {
+		$this->config
+			->expects($this->exactly(1))
+			->method('getSystemValueString')
+			->with('mail_smtpmode', 'smtp')
+			->willReturn('null');
+
+		$message = $this->createMock(Message::class);
+		$message->expects($this->once())
+			->method('getSymfonyEmail')
+			->willReturn((new Email())->to('foo@bar.com')->from('bar@foo.com')->text(''));
+
+		$event = new BeforeMessageSent($message);
+		$this->dispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->equalTo($event));
+
+		$this->mailer->send($message);
+	}
+
 	public function testGetInstanceDefault(): void {
 		$this->config
 			->method('getSystemValue')
