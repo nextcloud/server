@@ -42,6 +42,7 @@ OC.L10N.register(
     "Restricted" : "აკრძალული",
     "Invisible" : "უჩინარი",
     "No tags found" : "ტეგები ვერ მოიძებნა",
+    "Cancel" : "გაუქმება",
     "No files in here" : "აქ ფაილები არაა",
     "No entries found in this folder" : "ამ დირექტორიაში შენატანების მოძებნა ვერ მოხერხდა",
     "Name" : "სახელი",

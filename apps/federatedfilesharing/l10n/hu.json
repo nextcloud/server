@@ -22,7 +22,6 @@
     "Unable to update federated files sharing config" : "A föderált fájlmegosztási konfiguráció nem frissíthető",
     "Federated Cloud" : "Föderált felhő",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Bármelyik Nextcloud-kiszolgálót vagy egyéb Open Cloud Mesh-kompatibilis (OCM) kiszolgálót és szolgáltatást használó felhasználóval megoszthatja adatait. Csak tegye a föderált felhőazonosítóját a megosztási párbeszédablakba. Hasonlóan néz ki: person@cloud.example.com",
-    "Your Federated Cloud ID:" : "Az Ön föderált felhőazonosítója:",
     "Share it so your friends can share files with you:" : "Ossza meg, hogy a barátai is oszthassanak meg Önnel fájlokat:",
     "Facebook" : "Facebook",
     "X (formerly Twitter)" : "X (korábban Twitter)",
@@ -34,11 +33,12 @@
     "Share with me through my #Nextcloud Federated Cloud ID" : "Ossza meg velem a #Nextcloud föderált felhőazonosítóm segítségével ",
     "Cloud ID copied to the clipboard" : "Felhőazonosító a vágólapra másolva",
     "Copy to clipboard" : "Másolás a vágólapra",
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Hozzáadja a(z) {name} távoli megosztást innen: {owner}@{remote}?",
-    "Remote share" : "Távoli megosztás",
-    "Remote share password" : "Jelszó a távoli megosztáshoz",
+    "Copied!" : "Másolva!",
     "Cancel" : "Mégse",
     "Add remote share" : "Távoli megosztás hozzáadása",
+    "Remote share" : "Távoli megosztás",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Hozzáadja a(z) {name} távoli megosztást innen: {owner}@{remote}?",
+    "Remote share password" : "Jelszó a távoli megosztáshoz",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "A(z) %1$s megosztása sikertelen, mert már meg van osztva %2$s felhasználóval",
     "Not allowed to create a federated share with the same user" : "Azonos felhasználóval nem lehet föderált megosztást létrehozni",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Állítsa be, hogy az emberek hogyan oszthatnak meg kiszolgálók között. Ebbe beleértendők a kiszolgálón lévő felhasználók közti megosztások és a föderált megosztások is.",
@@ -48,9 +48,9 @@
     "Allow users on this server to receive group shares from other servers" : "Engedélyezi ezen kiszolgáló felhasználóinak, hogy csoportmegosztásokat fogadjanak más kiszolgálóktól",
     "Search global and public address book for users" : "Felhasználók keresése a globális és a nyilvános címjegyzékben",
     "Allow users to publish their data to a global and public address book" : "A felhasználók közzétehetik az adataikat a globális és nyilvános címjegyzékben",
+    "Your Federated Cloud ID:" : "Az Ön föderált felhőazonosítója:",
     "Twitter" : "Twitter",
     "Diaspora" : "Diaspora",
-    "Clipboard is not available" : "A vágólap nem érhető el",
-    "Copied!" : "Másolva!"
+    "Clipboard is not available" : "A vágólap nem érhető el"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -20,7 +20,6 @@
     "Provide federated file sharing across servers" : "Mahdollistaa federoidun tiedostojaon palvelinten välillä",
     "Federated Cloud" : "Federoitu pilvi",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Voit jakaa kenelle tahansa, joka käyttää Nextcloud-palvelinta tai muuta Open Cloud Mesh (OCM) -yhteensopivaa palvelinta tai palvelua! Kirjoita heidän federoidun pilven tunniste jaon kohteeksi. Se on muodossa henkilö@cloud.example.com",
-    "Your Federated Cloud ID:" : "Federoidun pilvesi tunniste:",
     "Share it so your friends can share files with you:" : "Jaa se, jotta ystäväsi voivat jakaa tiedostoja kanssasi:",
     "Facebook" : "Facebook",
     "X (formerly Twitter)" : "X (aiemmin Twitter)",
@@ -30,11 +29,12 @@
     "HTML Code:" : "HTML-koodi:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta",
     "Copy to clipboard" : "Kopioi leikepöydälle",
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Haluatko lisätä etäjaon {name} kohteesta {owner}@{remote}?",
-    "Remote share" : "Etäjako",
-    "Remote share password" : "Etäjaon salasana",
+    "Copied!" : "Kopioitu!",
     "Cancel" : "Peruuta",
     "Add remote share" : "Lisää etäjako",
+    "Remote share" : "Etäjako",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Haluatko lisätä etäjaon {name} kohteesta {owner}@{remote}?",
+    "Remote share password" : "Etäjaon salasana",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Kohteen %1$s jakaminen epäonnistui, koska tämä kohde on jo jaettu käyttäjän %2$s kanssa",
     "Not allowed to create a federated share with the same user" : "Saman käyttäjän kanssa ei ole sallittua luoda federoitua jakoa",
     "Allow users on this server to receive shares from other servers" : "Salli tämän palvelimen käyttäjien vastaanottaa jakoja muilta palvelimilta",
@@ -42,9 +42,9 @@
     "Allow users on this server to receive group shares from other servers" : "Salli käyttäjien tällä palvelimella vastaanottaa ryhmäjakoja toisilta palvelimilta",
     "Search global and public address book for users" : "Etsi käyttäjiä maailmanlaajuisesta ja julkisesta osoitekirjasta",
     "Allow users to publish their data to a global and public address book" : "Salli käyttäjien julkaista tietojaan maailmanlaajuisessa ja julkisessa osoitekirjassa",
+    "Your Federated Cloud ID:" : "Federoidun pilvesi tunniste:",
     "Twitter" : "Twitter",
     "Diaspora" : "Diaspora",
-    "Clipboard is not available" : "Leikepöytä ei ole käytettävissä",
-    "Copied!" : "Kopioitu!"
+    "Clipboard is not available" : "Leikepöytä ei ole käytettävissä"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
