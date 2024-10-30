@@ -116,8 +116,8 @@
 							autocomplete="new-password"
 							:value="hasUnsavedPassword ? share.newPassword : ''"
 							:error="passwordError"
-							:helper-text="errorPasswordLabel"
-							:required="isPasswordEnforced"
+							:helper-text="errorPasswordLabel || passwordHint"
+							:required="isPasswordEnforced && isNewShare"
 							:label="t('files_sharing', 'Password')"
 							@update:value="onPasswordChange" />
 
@@ -713,6 +713,13 @@ export default {
 			return undefined
 		},
 
+		passwordHint() {
+			if (this.isNewShare || this.hasUnsavedPassword) {
+				return undefined
+			}
+			return t('files_sharing', 'Replace current password')
+		},
+
 		/**
 		 * Additional actions for the menu
 		 *
@@ -877,7 +884,7 @@ export default {
 				if (this.hasUnsavedPassword && this.isValidShareAttribute(this.share.newPassword)) {
 					this.share.password = this.share.newPassword
 					this.$delete(this.share, 'newPassword')
-				} else if (this.isPasswordEnforced && !this.isValidShareAttribute(this.share.password)) {
+				} else if (this.isPasswordEnforced && this.isNewShare && !this.isValidShareAttribute(this.share.password)) {
 					this.passwordError = true
 				}
 			} else {
@@ -971,6 +978,11 @@ export default {
 		 * @param {string} password the changed password
 		 */
 		onPasswordChange(password) {
+			if (password === '') {
+				this.$delete(this.share, 'newPassword')
+				this.passwordError = this.isNewShare && this.isPasswordEnforced
+				return
+			}
 			this.passwordError = !this.isValidShareAttribute(password)
 			this.$set(this.share, 'newPassword', password)
 		},
