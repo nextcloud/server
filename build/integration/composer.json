@@ -6,7 +6,7 @@
 		"sort-packages": true
 	},
 	"require-dev": {
-		"behat/behat": "^3.14",
+		"behat/behat": "^3.15",
 		"dms/phpunit-arraysubset-asserts": "^0.5",
 		"guzzlehttp/guzzle": "^7.9",
 		"phpunit/phpunit": "^9.6",
