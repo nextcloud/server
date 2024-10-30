@@ -5,7 +5,7 @@
 /apps/contactsinteraction/appinfo/info.xml    @kesselb @SebastianKrupinski
 /apps/contactsinteraction/lib                 @kesselb @SebastianKrupinski
 /apps/contactsinteraction/tests               @kesselb @SebastianKrupinski
-/apps/dashboard/appinfo/info.xml              @julien-nc @juliushaertl
+/apps/dashboard/appinfo/info.xml              @julien-nc @juliusknorr
 /apps/dav/lib/CalDAV                          @miaulalala @st3iny @SebastianKrupinski
 /apps/dav/lib/CardDAV                         @miaulalala @st3iny @SebastianKrupinski
 /apps/dav/tests/unit/CalDAV                   @miaulalala @st3iny @SebastianKrupinski
@@ -24,13 +24,13 @@
 /apps/settings/appinfo/info.xml               @Pytal @JuliaKirschenheuter
 /apps/sharebymail/appinfo/info.xml            @Altahrim
 /apps/systemtags/appinfo/info.xml             @Antreesy @marcelklehr
-/apps/theming/appinfo/info.xml                @skjnldsv @juliushaertl
+/apps/theming/appinfo/info.xml                @skjnldsv @juliusknorr
 /apps/twofactor_backupcodes/appinfo/info.xml  @st3iny @miaulalala @ChristophWurst
 /apps/updatenotification/appinfo/info.xml     @Pytal @JuliaKirschenheuter
 /apps/user_ldap/appinfo/info.xml              @come-nc @blizzz
 /apps/user_status/appinfo/info.xml            @Antreesy @nickvergessen
-/apps/weather_status/appinfo/info.xml         @julien-nc @juliushaertl
-/apps/workflowengine/appinfo/info.xml         @blizzz @juliushaertl
+/apps/weather_status/appinfo/info.xml         @julien-nc @juliusknorr
+/apps/workflowengine/appinfo/info.xml         @blizzz @juliusknorr
 
 # Frontend expertise
 /apps/files/src*                  @skjnldsv
