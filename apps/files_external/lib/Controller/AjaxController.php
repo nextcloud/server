@@ -10,6 +10,7 @@ use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
 use OCA\Files_External\Lib\Auth\PublicKey\RSA;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IGroupManager;
 use OCP\IRequest;
@@ -82,6 +83,7 @@ class AjaxController extends Controller {
 	 * @return bool
 	 */
 	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	public function saveGlobalCredentials($uid, $user, $password) {
 		$currentUser = $this->userSession->getUser();
 		if ($currentUser === null) {
