@@ -13,7 +13,7 @@
 				:title="copyLinkTooltip"
 				:aria-label="copyLinkTooltip"
 				class="clipboard"
-				type="tertiary-no-background"
+				type="tertiary"
 				@click.prevent="copyCloudId">
 				<template #icon>
 					<Clipboard :size="20" />
@@ -26,22 +26,20 @@
 			<NcButton @click="goTo(shareFacebookUrl)">
 				{{ t('federatedfilesharing', 'Facebook') }}
 				<template #icon>
-					<Facebook :size="20" />
+					<img class="social-button__icon social-button__icon--bright" :src="urlFacebookIcon">
 				</template>
 			</NcButton>
-			<NcButton @click="goTo(shareTwitterUrl)">
-				{{ t('federatedfilesharing', 'Twitter') }}
+			<NcButton :aria-label="t('federatedfilesharing', 'X (formerly Twitter)')"
+				@click="goTo(shareXUrl)">
+				{{ t('federatedfilesharing', 'formerly Twitter') }}
 				<template #icon>
-					<Twitter :size="20" />
+					<img class="social-button__icon" :src="urlXIcon">
 				</template>
 			</NcButton>
-			<NcButton @click="goTo(shareDiasporaUrl)">
-				{{ t('federatedfilesharing', 'Diaspora') }}
+			<NcButton @click="goTo(shareMastodonUrl)">
+				{{ t('federatedfilesharing', 'Mastodon') }}
 				<template #icon>
-					<svg width="20"
-						height="20"
-						viewBox="-10 -5 1034 1034"
-						xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M502 197q-96 0-96.5 1.5t-1.5 137-1.5 138-2 2.5T266 432.5 132.5 390t-30 94T74 578l232 77q21 8 21 10t-79.5 117.5T168 899t79.5 56.5T328 1011t81-110 82-110 41 55l83 115q43 60 44 60t79.5-58 79-59-76-112.5-76-113.5T795 632.5t129.5-44-28-94T867 400t-128 42-128.5 43-2.5-7.5-1-38.5l-3-108q-4-133-5-133.5t-97-.5z" /></svg>
+					<img class="social-button__icon" :src="urlMastodonIcon">
 				</template>
 			</NcButton>
 			<NcButton class="social-button__website-button"
@@ -73,13 +71,13 @@
 	</NcSettingsSection>
 </template>
 
-<script>
-import { showError, showSuccess } from '@nextcloud/dialogs'
+<script lang="ts">
+import { showSuccess } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { imagePath } from '@nextcloud/router'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import Twitter from 'vue-material-design-icons/Twitter.vue'
-import Facebook from 'vue-material-design-icons/Facebook.vue'
 import Web from 'vue-material-design-icons/Web.vue'
 import Clipboard from 'vue-material-design-icons/ContentCopy.vue'
 
@@ -88,18 +86,25 @@ export default {
 	components: {
 		NcButton,
 		NcSettingsSection,
-		Twitter,
-		Facebook,
 		Web,
 		Clipboard,
+	},
+	setup() {
+		return {
+			t,
+
+			cloudId: loadState<string>('federatedfilesharing', 'cloudId'),
+			reference: loadState<string>('federatedfilesharing', 'reference'),
+			urlFacebookIcon: imagePath('core', 'facebook'),
+			urlMastodonIcon: imagePath('core', 'mastodon'),
+			urlXIcon: imagePath('core', 'x'),
+		}
 	},
 	data() {
 		return {
 			color: loadState('federatedfilesharing', 'color'),
 			textColor: loadState('federatedfilesharing', 'textColor'),
 			logoPath: loadState('federatedfilesharing', 'logoPath'),
-			reference: loadState('federatedfilesharing', 'reference'),
-			cloudId: loadState('federatedfilesharing', 'cloudId'),
 			docUrlFederated: loadState('federatedfilesharing', 'docUrlFederated'),
 			showHtml: false,
 			isCopied: false,
@@ -112,11 +117,11 @@ export default {
 		messageWithoutURL() {
 			return t('federatedfilesharing', 'Share with me through my #Nextcloud Federated Cloud ID')
 		},
-		shareDiasporaUrl() {
-			return `https://share.diasporafoundation.org/?title=${encodeURIComponent(this.messageWithoutURL)}&url=${encodeURIComponent(this.reference)}`
+		shareMastodonUrl() {
+			return `https://mastodon.social/?text=${encodeURIComponent(this.messageWithoutURL)}&url=${encodeURIComponent(this.reference)}`
 		},
-		shareTwitterUrl() {
-			return `https://twitter.com/intent/tweet?text=${encodeURIComponent(this.messageWithURL)}`
+		shareXUrl() {
+			return `https://x.com/intent/tweet?text=${encodeURIComponent(this.messageWithURL)}`
 		},
 		shareFacebookUrl() {
 			return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.reference)}`
@@ -141,18 +146,18 @@ export default {
 		},
 	},
 	methods: {
-		async copyCloudId() {
-			if (!navigator.clipboard) {
-				// Clipboard API not available
-				showError(t('federatedfilesharing', 'Clipboard is not available'))
-				return
+		async copyCloudId(): Promise<void> {
+			try {
+				await navigator.clipboard.writeText(this.cloudId)
+				showSuccess(t('federatedfilesharing', 'Cloud ID copied to the clipboard'))
+			} catch (e) {
+				// no secure context or really old browser - need a fallback
+				window.prompt(t('federatedfilesharing', 'Clipboard not available. Please copy the cloud ID manually.'), this.reference)
 			}
-			await navigator.clipboard.writeText(this.cloudId)
 			this.isCopied = true
-			showSuccess(t('federatedfilesharing', 'Copied!'))
-			this.$refs.clipboard.$el.focus()
 		},
-		goTo(url) {
+
+		goTo(url: string): void {
 			window.location.href = url
 		},
 	},
@@ -162,13 +167,26 @@ export default {
 <style lang="scss" scoped>
 	.social-button {
 		margin-top: 0.5rem;
+
 		button {
 			display: inline-flex;
 			margin-left: 0.5rem;
 			margin-top: 1rem;
 		}
+
 		&__website-button {
 			width: min(100%, 400px) !important;
+		}
+
+		&__icon {
+			height: 20px;
+			width: 20px;
+			filter: var(--background-invert-if-dark);
+
+			&--bright {
+				// Some logos like the Facebook logo have bright color schema
+				filter: var(--background-invert-if-bright);
+			}
 		}
 	}
 	.cloud-id-text {
