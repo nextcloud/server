@@ -32,9 +32,16 @@ describe('OCA.Files_External.Settings tests', function() {
 	var clock;
 	var select2Stub;
 	var select2ApplicableUsers;
+	var passwordConfirmationStub;
+
+	beforeAll(() => {
+		clock = sinon.useFakeTimers();
+		passwordConfirmationStub = sinon.stub(window.OC.PasswordConfirmation, 'requirePasswordConfirmation');
+		passwordConfirmationStub.callsArg(0);
+	})
 
 	beforeEach(function() {
-		clock = sinon.useFakeTimers();
+		passwordConfirmationStub.resetHistory()
 		select2ApplicableUsers = [];
 		select2Stub = sinon.stub($.fn, 'select2').callsFake(function(args) {
 			if (args === 'val') {
@@ -236,6 +243,8 @@ describe('OCA.Files_External.Settings tests', function() {
 				var $saveButton = $tr.find('td.save .icon-checkmark');
 				$saveButton.click();
 
+				sinon.assert.calledOnce(passwordConfirmationStub);
+
 				expect(fakeServer.requests.length).toEqual(1);
 				var request = fakeServer.requests[0];
 				expect(request.url).toEqual(OC.getRootPath() + '/index.php/apps/files_external/globalstorages');
@@ -269,6 +278,8 @@ describe('OCA.Files_External.Settings tests', function() {
 
 				var $saveButton = $tr.find('td.save .icon-checkmark');
 				$saveButton.click();
+
+				sinon.assert.calledOnce(passwordConfirmationStub);
 
 				expect(fakeServer.requests.length).toEqual(1);
 				var request = fakeServer.requests[0];
