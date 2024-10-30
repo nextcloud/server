@@ -57,10 +57,16 @@ class DnsPinMiddleware {
 
 		$soaDnsEntry = $this->soaRecord($target);
 		$dnsNegativeTtl = $soaDnsEntry['minimum-ttl'] ?? null;
-
+		// we only bother with A/AAAA records (not CNAME) because get_dns_record in PHP loops through to return the final A for a CNAME by default
+		// see https://github.com/php/php-src/blob/23afe57f01e0915eef246eba60e60fda74fd2dcf/ext/standard/dns.c#L873-L874
+		// also avoids some problematic retrieval attempts of CNAME for localhost in some (buggy) environments and other weirdness
+		// we may also want to consider suppressing @dns_get_record to avoid filling logs during transient issues since we already check for the false return value
+		// we can always add more logging later if desired
+		// alternatively: we modify dnsGetRecord() to call dns_check_record()/checkdnsrr() to confirm existence before querying for the actual RRs. This avoids calling
+		// the noisier dns_get_record() (which returns E_WARNINGs in addition to false when there are problems)
 		$dnsTypes = \defined('AF_INET6') || @inet_pton('::1')
-			? [DNS_A, DNS_AAAA, DNS_CNAME]
-			: [DNS_A, DNS_CNAME];
+			? [DNS_A, DNS_AAAA]
+			: [DNS_A];
 		foreach ($dnsTypes as $dnsType) {
 			if ($this->negativeDnsCache->isNegativeCached($target, $dnsType)) {
 				continue;
@@ -93,7 +99,12 @@ class DnsPinMiddleware {
 	 * Wrapper for dns_get_record
 	 */
 	protected function dnsGetRecord(string $hostname, int $type): array|false {
-		return \dns_get_record($hostname, $type);
+		// don't bother retreiving RRs via the noiser dns_get_record() if there aren't any to retrieve
+		if (\checkdnsrr($hostname, "ANY") !== false) {
+			return \dns_get_record($hostname, $type);
+		} else {
+			return false;
+		}
 	}
 
 	public function addDnsPinning() {
