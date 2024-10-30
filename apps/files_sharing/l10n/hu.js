@@ -225,6 +225,7 @@ OC.L10N.register(
     "_Restore share_::_Restore shares_" : ["Megosztás helyreállítása","Megosztások helyreállítása"],
     "Shared" : "Megosztva",
     "Shared by {ownerDisplayName}" : "Megosztotta: {ownerDisplayName}",
+    "Shared multiple times with different people" : "Többször megosztva különböző személyekkel",
     "Show sharing options" : "Megosztási beállítások megjelenítése",
     "Shared with others" : "Megosztva másokkal",
     "No file" : "Nincs fájl",
