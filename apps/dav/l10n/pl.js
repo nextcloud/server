@@ -114,6 +114,8 @@ OC.L10N.register(
     "December" : "Grudzień",
     "First" : "Pierwsza",
     "Last" : "Ostatnia",
+    "Fourth Last" : "Czwarty ostatni",
+    "Fifty Last" : "Pięćdziesiąt Ostatni",
     "Contacts" : "Kontakty",
     "{actor} created address book {addressbook}" : "{actor} utworzył książkę adresową {addressbook}",
     "You created address book {addressbook}" : "Utworzyłeś książkę adresową {addressbook}",

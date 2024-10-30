@@ -31,7 +31,6 @@
     "Unable to update federated files sharing config" : "Einstellungen zum Federated-Teilen konnten nicht aktualisiert werden",
     "Federated Cloud" : "Federated Cloud",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Sie können mit jedem teilen, der einen Nextcloud-Server oder andere Open Cloud Mesh (OCM) kompatible Server und Dienste verwendet! Geben Sie einfach deren Federated-Cloud-ID in den Teilen-Dialog ein. Diese sieht wie folgt aus: person@cloud.example.com",
-    "Your Federated Cloud ID:" : "Ihre Federated-Cloud-ID:",
     "Share it so your friends can share files with you:" : "Teilen Sie es, so dass Ihre Freunde Dateien mit Ihnen teilen können:",
     "Facebook" : "Facebook",
     "X (formerly Twitter)" : "X (früher Twitter)",
@@ -45,11 +44,12 @@
     "Cloud ID copied to the clipboard" : "Cloud-ID wurde in die Zwischenablage kopiert",
     "Copy to clipboard" : "In die Zwischenablage kopieren",
     "Clipboard not available. Please copy the cloud ID manually." : "Zwischenablage nicht verfügbar. Bitte die Cloud-ID manuell kopieren.",
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Möchten Sie die externe Freigabe {name} von {owner}@{remote} hinzufügen?",
-    "Remote share" : "Externe Freigabe",
-    "Remote share password" : "Passwort für die externe Freigabe",
+    "Copied!" : "Kopiert!",
     "Cancel" : "Abbrechen",
     "Add remote share" : "Externe Freigabe hinzufügen",
+    "Remote share" : "Externe Freigabe",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Möchten Sie die externe Freigabe {name} von {owner}@{remote} hinzufügen?",
+    "Remote share password" : "Passwort für die externe Freigabe",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Freigabe von %1$s fehlgeschlagen, da dieses Element schon mit dem Benutzer %2$s geteilt wird.",
     "Not allowed to create a federated share with the same user" : "Das Erstellen einer Federated Cloud Freigabe mit dem gleichen Benutzer ist nicht erlaubt",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Legt fest, wie Personen zwischen Servern teilen können. Dies gilt auch für Freigaben zwischen Benutzern auf diesem Server, wenn sie die Federated-Sharing verwenden.",
@@ -59,9 +59,9 @@
     "Allow users on this server to receive group shares from other servers" : "Ermöglichen Sie Nutzern dieses Servers, Gruppen-Freigaben von anderen Servern zu erhalten",
     "Search global and public address book for users" : "Durchsuche globales und öffentliches Adressbuch nach Nutzern",
     "Allow users to publish their data to a global and public address book" : "Erlaube Benutzern, ihre Daten in einem globalen und öffentlichen Adressbuch zu veröffentlichen",
+    "Your Federated Cloud ID:" : "Ihre Federated-Cloud-ID:",
     "Twitter" : "Twitter",
     "Diaspora" : "Diaspora",
-    "Clipboard is not available" : "Zwischenablage ist nicht verfügbar",
-    "Copied!" : "Kopiert!"
+    "Clipboard is not available" : "Zwischenablage ist nicht verfügbar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
