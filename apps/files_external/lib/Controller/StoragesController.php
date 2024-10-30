@@ -37,6 +37,7 @@ use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\StoragesService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
@@ -387,6 +388,7 @@ abstract class StoragesController extends Controller {
 	 *
 	 * @return DataResponse
 	 */
+	#[PasswordConfirmationRequired]
 	public function destroy($id) {
 		try {
 			$this->service->removeStorage($id);
