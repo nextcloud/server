@@ -23,6 +23,7 @@ use OCP\Accounts\IAccountPropertyCollection;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\ISubAdmin;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IL10N;
@@ -57,6 +58,8 @@ class UsersControllerTest extends TestCase {
 	protected $api;
 	/** @var IAccountManager|MockObject */
 	protected $accountManager;
+	/** @var ISubAdmin|MockObject */
+	protected $subAdminManager;
 	/** @var IURLGenerator|MockObject */
 	protected $urlGenerator;
 	/** @var IRequest|MockObject */
@@ -86,6 +89,7 @@ class UsersControllerTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->accountManager = $this->createMock(IAccountManager::class);
+		$this->subAdminManager = $this->createMock(ISubAdmin::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->newUserMailHelper = $this->createMock(NewUserMailHelper::class);
@@ -108,6 +112,7 @@ class UsersControllerTest extends TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
+				$this->subAdminManager,
 				$this->l10nFactory,
 				$this->urlGenerator,
 				$this->logger,
@@ -501,6 +506,7 @@ class UsersControllerTest extends TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
+				$this->subAdminManager,
 				$this->l10nFactory,
 				$this->urlGenerator,
 				$this->logger,
@@ -1056,7 +1062,6 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('admin');
 		$targetUser = $this->getMockBuilder(IUser::class)
@@ -1066,16 +1071,13 @@ class UsersControllerTest extends TestCase {
 			->method('getSystemEMailAddress')
 			->willReturn('demo@nextcloud.com');
 		$this->userSession
-			->expects($this->once())
 			->method('getUser')
 			->willReturn($loggedInUser);
 		$this->userManager
-			->expects($this->exactly(2))
 			->method('get')
 			->with('UID')
 			->willReturn($targetUser);
 		$this->groupManager
-			->expects($this->once())
 			->method('isAdmin')
 			->with('admin')
 			->willReturn(true);
@@ -1202,7 +1204,6 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('subadmin');
 		$targetUser = $this->getMockBuilder(IUser::class)
@@ -1213,16 +1214,13 @@ class UsersControllerTest extends TestCase {
 			->method('getSystemEMailAddress')
 			->willReturn('demo@nextcloud.com');
 		$this->userSession
-			->expects($this->once())
 			->method('getUser')
 			->willReturn($loggedInUser);
 		$this->userManager
-			->expects($this->exactly(2))
 			->method('get')
 			->with('UID')
 			->willReturn($targetUser);
 		$this->groupManager
-			->expects($this->once())
 			->method('isAdmin')
 			->with('subadmin')
 			->willReturn(false);
@@ -1388,23 +1386,19 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('UID');
 		$targetUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->userSession
-			->expects($this->once())
 			->method('getUser')
 			->willReturn($loggedInUser);
 		$this->userManager
-			->expects($this->exactly(2))
 			->method('get')
 			->with('UID')
 			->willReturn($targetUser);
 		$this->groupManager
-			->expects($this->once())
 			->method('isAdmin')
 			->with('UID')
 			->willReturn(false);
@@ -3784,6 +3778,7 @@ class UsersControllerTest extends TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
+				$this->subAdminManager,
 				$this->l10nFactory,
 				$this->urlGenerator,
 				$this->logger,
@@ -3871,6 +3866,7 @@ class UsersControllerTest extends TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
+				$this->subAdminManager,
 				$this->l10nFactory,
 				$this->urlGenerator,
 				$this->logger,
