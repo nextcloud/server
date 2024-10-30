@@ -53,7 +53,6 @@ use OC\Files\Node\File;
 use OC\Files\Node\Folder;
 use OC\Files\Node\NonExistingFile;
 use OC\Files\Node\NonExistingFolder;
-use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\View;
 use OC_User;
 use OCA\Files_Trashbin\AppInfo\Application;
@@ -67,6 +66,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\Storage\ILockingStorage;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
@@ -290,11 +290,10 @@ class Trashbin {
 		$trashPath = '/files_trashbin/files/' . static::getTrashFilename($filename, $timestamp);
 		$gotLock = false;
 
-		while (!$gotLock) {
+		do {
+			/** @var ILockingStorage & Storage $trashStorage */
+			[$trashStorage, $trashInternalPath] = $ownerView->resolvePath($trashPath);
 			try {
-				/** @var \OC\Files\Storage\Storage $trashStorage */
-				[$trashStorage, $trashInternalPath] = $ownerView->resolvePath($trashPath);
-
 				$trashStorage->acquireLock($trashInternalPath, ILockingProvider::LOCK_EXCLUSIVE, $lockingProvider);
 				$gotLock = true;
 			} catch (LockedException $e) {
@@ -305,7 +304,7 @@ class Trashbin {
 
 				$trashPath = '/files_trashbin/files/' . static::getTrashFilename($filename, $timestamp);
 			}
-		}
+		} while (!$gotLock);
 
 		$sourceStorage = $sourceInfo->getStorage();
 		$sourceInternalPath = $sourceInfo->getInternalPath();
@@ -319,14 +318,12 @@ class Trashbin {
 			return false;
 		}
 
-		$trashStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
-
 		try {
 			$moveSuccessful = true;
 
-			// when moving within the same object store, the cache update done above is enough to move the file
-			if (!($trashStorage->instanceOfStorage(ObjectStoreStorage::class) && $trashStorage->getId() === $sourceStorage->getId())) {
-				$trashStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
+			$trashStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
+			if ($sourceStorage->getCache()->inCache($sourceInternalPath)) {
+				$trashStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
 			}
 		} catch (\OCA\Files_Trashbin\Exceptions\CopyRecursiveException $e) {
 			$moveSuccessful = false;
