@@ -92,6 +92,7 @@ class ErrorPagePlugin extends ServerPlugin {
 	 */
 	public function sendResponse() {
 		$this->server->sapi->sendResponse($this->server->httpResponse);
+		exit();
 	}
 
 	private function acceptHtml(): bool {
