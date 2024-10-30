@@ -981,7 +981,7 @@ class UsersController extends AUserData {
 		}
 		// Check if permitted to edit this field
 		if (!in_array($key, $permittedFields)) {
-			throw new OCSException('', 103);
+			throw new OCSException('', 113);
 		}
 		// Process the edit
 		switch ($key) {
@@ -1036,7 +1036,7 @@ class UsersController extends AUserData {
 					}
 					$targetUser->setPassword($value);
 				} catch (HintException $e) { // password policy error
-					throw new OCSException($e->getMessage(), 103);
+					throw new OCSException($e->getMessage(), 107);
 				}
 				break;
 			case self::USER_FIELD_LANGUAGE:
@@ -1069,14 +1069,14 @@ class UsersController extends AUserData {
 					}
 				}
 				if (!$success) {
-					throw new OCSException('', 102);
+					throw new OCSException('', 101);
 				}
 				break;
 			case IAccountManager::PROPERTY_EMAIL:
 				if (filter_var($value, FILTER_VALIDATE_EMAIL) || $value === '') {
 					$targetUser->setEMailAddress($value);
 				} else {
-					throw new OCSException('', 102);
+					throw new OCSException('', 101);
 				}
 				break;
 			case IAccountManager::COLLECTION_EMAIL:
@@ -1085,13 +1085,13 @@ class UsersController extends AUserData {
 					$mailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
 
 					if ($mailCollection->getPropertyByValue($value)) {
-						throw new OCSException('', 102);
+						throw new OCSException('', 101);
 					}
 
 					$mailCollection->addPropertyWithDefaults($value);
 					$this->accountManager->updateAccount($userAccount);
 				} else {
-					throw new OCSException('', 102);
+					throw new OCSException('', 101);
 				}
 				break;
 			case IAccountManager::PROPERTY_PHONE:
@@ -1113,7 +1113,7 @@ class UsersController extends AUserData {
 								$this->knownUserService->deleteByContactUserId($targetUser->getUID());
 							}
 						} catch (InvalidArgumentException $e) {
-							throw new OCSException('Invalid ' . $e->getMessage(), 102);
+							throw new OCSException('Invalid ' . $e->getMessage(), 101);
 						}
 					}
 				} catch (PropertyDoesNotExistException $e) {
@@ -1122,7 +1122,7 @@ class UsersController extends AUserData {
 				try {
 					$this->accountManager->updateAccount($userAccount);
 				} catch (InvalidArgumentException $e) {
-					throw new OCSException('Invalid ' . $e->getMessage(), 102);
+					throw new OCSException('Invalid ' . $e->getMessage(), 101);
 				}
 				break;
 			case IAccountManager::PROPERTY_PROFILE_ENABLED:
@@ -1158,12 +1158,12 @@ class UsersController extends AUserData {
 						$userProperty->setScope($value);
 						$this->accountManager->updateAccount($userAccount);
 					} catch (InvalidArgumentException $e) {
-						throw new OCSException('Invalid ' . $e->getMessage(), 102);
+						throw new OCSException('Invalid ' . $e->getMessage(), 101);
 					}
 				}
 				break;
 			default:
-				throw new OCSException('', 103);
+				throw new OCSException('', 113);
 		}
 		return new DataResponse();
 	}
