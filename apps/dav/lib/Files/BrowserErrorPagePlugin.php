@@ -7,22 +7,17 @@
  */
 namespace OCA\DAV\Files;
 
+use OC\AppFramework\Http\Request;
 use OC_Template;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
-use OCP\IConfig;
 use OCP\IRequest;
 use Sabre\DAV\Exception;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 
-class ErrorPagePlugin extends ServerPlugin {
-	private ?Server $server = null;
-
-	public function __construct(
-		private IRequest $request,
-		private IConfig $config,
-	) {
-	}
+class BrowserErrorPagePlugin extends ServerPlugin {
+	/** @var Server */
+	private $server;
 
 	/**
 	 * This initializes the plugin.
@@ -31,12 +26,35 @@ class ErrorPagePlugin extends ServerPlugin {
 	 * addPlugin is called.
 	 *
 	 * This method should set up the required event subscriptions.
+	 *
+	 * @param Server $server
+	 * @return void
 	 */
-	public function initialize(Server $server): void {
+	public function initialize(Server $server) {
 		$this->server = $server;
 		$server->on('exception', [$this, 'logException'], 1000);
 	}
 
+	/**
+	 * @param IRequest $request
+	 * @return bool
+	 */
+	public static function isBrowserRequest(IRequest $request) {
+		if ($request->getMethod() !== 'GET') {
+			return false;
+		}
+		return $request->isUserAgent([
+			Request::USER_AGENT_IE,
+			Request::USER_AGENT_MS_EDGE,
+			Request::USER_AGENT_CHROME,
+			Request::USER_AGENT_FIREFOX,
+			Request::USER_AGENT_SAFARI,
+		]);
+	}
+
+	/**
+	 * @param \Throwable $ex
+	 */
 	public function logException(\Throwable $ex): void {
 		if ($ex instanceof Exception) {
 			$httpCode = $ex->getHTTPCode();
@@ -47,7 +65,7 @@ class ErrorPagePlugin extends ServerPlugin {
 		}
 		$this->server->httpResponse->addHeaders($headers);
 		$this->server->httpResponse->setStatus($httpCode);
-		$body = $this->generateBody($ex, $httpCode);
+		$body = $this->generateBody($httpCode);
 		$this->server->httpResponse->setBody($body);
 		$csp = new ContentSecurityPolicy();
 		$this->server->httpResponse->addHeader('Content-Security-Policy', $csp->buildPolicy());
@@ -58,32 +76,18 @@ class ErrorPagePlugin extends ServerPlugin {
 	 * @codeCoverageIgnore
 	 * @return bool|string
 	 */
-	public function generateBody(\Throwable $ex, int $httpCode): mixed {
-		if ($this->acceptHtml()) {
-			$templateName = 'exception';
-			$renderAs = 'guest';
-			if ($httpCode === 403 || $httpCode === 404) {
-				$templateName = (string)$httpCode;
-			}
-		} else {
-			$templateName = 'xml_exception';
-			$renderAs = null;
-			$this->server->httpResponse->setHeader('Content-Type', 'application/xml; charset=utf-8');
+	public function generateBody(int $httpCode) {
+		$request = \OC::$server->getRequest();
+
+		$templateName = 'exception';
+		if ($httpCode === 403 || $httpCode === 404) {
+			$templateName = (string)$httpCode;
 		}
 
-		$debug = $this->config->getSystemValueBool('debug', false);
-
-		$content = new OC_Template('core', $templateName, $renderAs);
+		$content = new OC_Template('core', $templateName, 'guest');
 		$content->assign('title', $this->server->httpResponse->getStatusText());
-		$content->assign('remoteAddr', $this->request->getRemoteAddress());
-		$content->assign('requestID', $this->request->getId());
-		$content->assign('debugMode', $debug);
-		$content->assign('errorClass', get_class($ex));
-		$content->assign('errorMsg', $ex->getMessage());
-		$content->assign('errorCode', $ex->getCode());
-		$content->assign('file', $ex->getFile());
-		$content->assign('line', $ex->getLine());
-		$content->assign('exception', $ex);
+		$content->assign('remoteAddr', $request->getRemoteAddress());
+		$content->assign('requestID', $request->getId());
 		return $content->fetchPage();
 	}
 
@@ -93,15 +97,5 @@ class ErrorPagePlugin extends ServerPlugin {
 	public function sendResponse() {
 		$this->server->sapi->sendResponse($this->server->httpResponse);
 		exit();
-	}
-
-	private function acceptHtml(): bool {
-		foreach (explode(',', $this->request->getHeader('Accept')) as $part) {
-			$subparts = explode(';', $part);
-			if (str_ends_with($subparts[0], '/html')) {
-				return true;
-			}
-		}
-		return false;
 	}
 }
