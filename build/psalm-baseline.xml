@@ -2910,19 +2910,6 @@
       <code>$script</code>
     </ParamNameMismatch>
   </file>
-  <file src="lib/private/TemplateLayout.php">
-    <InvalidParamDefault>
-      <code>string</code>
-      <code>string</code>
-    </InvalidParamDefault>
-    <InvalidScalarArgument>
-      <code>$appName</code>
-      <code>$appName</code>
-    </InvalidScalarArgument>
-    <UndefinedInterfaceMethod>
-      <code>getInitialStates</code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="lib/private/URLGenerator.php">
     <InvalidReturnStatement>
       <code>$path</code>
