@@ -5,6 +5,7 @@
 
 import type { User } from '@nextcloud/cypress'
 import { getRowForFile, renameFile, triggerActionForFile } from './FilesUtils'
+import { assertNotExistOrNotVisible } from '../settings/usersUtils'
 
 const haveValidity = (validity: string | RegExp) => {
 	if (typeof validity === 'string') {
@@ -139,11 +140,15 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 		getRowForFile('file.txt').should('be.visible')
 		// Z so it is shown last
 		renameFile('file.txt', 'zzz.txt')
+
 		// not visible any longer
-		getRowForFile('zzz.txt').should('not.be.visible')
+		getRowForFile('zzz.txt')
+			.should(assertNotExistOrNotVisible)
+
 		// scroll file list to bottom
 		cy.get('[data-cy-files-list]').scrollTo('bottom')
 		cy.screenshot()
+
 		// The file is no longer in rename state
 		getRowForFile('zzz.txt')
 			.should('be.visible')

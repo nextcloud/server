@@ -19,6 +19,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+// TODO: Drop once we use Node 22
+import 'core-js/stable/index.js'
+
+// Commands
 import 'cypress-axe'
 
 /* eslint-disable */
