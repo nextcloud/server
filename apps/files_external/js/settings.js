@@ -1492,30 +1492,37 @@ window.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 
-	$('#global_credentials').on('submit', function() {
-		var $form = $(this);
+	function _submitCredentials(success) {
 		var uid = $form.find('[name=uid]').val();
 		var user = $form.find('[name=username]').val();
 		var password = $form.find('[name=password]').val();
-		var $submit = $form.find('[type=submit]');
-		$submit.val(t('files_external', 'Saving …'));
 		$.ajax({
 			type: 'POST',
 			contentType: 'application/json',
 			data: JSON.stringify({
-					uid: uid,
-					user: user,
-				password: password
+				uid,
+				user,
+				password,
 			}),
 				url: OC.generateUrl('apps/files_external/globalcredentials'),
 				dataType: 'json',
-			success: function() {
+				success,
+		});
+	}
+
+	$('#global_credentials').on('submit', function() {
+		var $form = $(this);
+		var $submit = $form.find('[type=submit]');
+		$submit.val(t('files_external', 'Saving …'));
+
+		window.OC.PasswordConfirmation
+			.requirePasswordConfirmation(() => _submitCredentials(function() {
 				$submit.val(t('files_external', 'Saved'));
 				setTimeout(function(){
 					$submit.val(t('files_external', 'Save'));
 				}, 2500);
-			}
-		});
+			}));
+
 		return false;
 	});
 
