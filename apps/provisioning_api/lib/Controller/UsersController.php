@@ -231,21 +231,21 @@ class UsersController extends AUserData {
 			/* We have to handle offset ourselve for correctness */
 			$tempLimit = ($limit === null ? null : $limit + $offset);
 			foreach ($subAdminOfGroups as $group) {
-				$users = array_merge(
+				$users = array_unique(array_merge(
 					$users,
 					array_map(
 						fn (IUser $user): string => $user->getUID(),
 						array_filter(
-							$group->searchUsers($search, ($tempLimit === null ? null : $tempLimit - count($users))),
+							$group->searchUsers($search),
 							fn (IUser $user): bool => !$user->isEnabled()
 						)
 					)
-				);
+				));
 				if (($tempLimit !== null) && (count($users) >= $tempLimit)) {
 					break;
 				}
 			}
-			$users = array_slice($users, $offset);
+			$users = array_slice($users, $offset, $limit);
 		}
 
 		$usersDetails = [];
