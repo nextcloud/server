@@ -17,7 +17,6 @@
     "Sharing" : "Duomenų bendrinimas",
     "Federated file sharing" : "Federacinis failų bendrinimas",
     "Federated Cloud" : "Federacinė debesija",
-    "Your Federated Cloud ID:" : "Jūsų federacinės debesijos ID:",
     "Share it so your friends can share files with you:" : "Pasidalinkite juo, kad jūsų draugai galėtų bendrinti failus kartu su jumis:",
     "Facebook" : "„Facebook“",
     "HTML Code:" : "HTML kodas:",
@@ -25,11 +24,12 @@
     "Cloud ID copied to the clipboard" : "Debesijos ID nukopijuotas į iškarpinę",
     "Copy to clipboard" : "Kopijuoti į iškarpinę",
     "Clipboard not available. Please copy the cloud ID manually." : "Iškarpinė neprieinama. Nukopijuokite debesijos ID rankiniu būdu.",
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ar norite pridėti nuotolinį viešinį {name} iš {owner}@{remote}?",
-    "Remote share" : "Nuotolinis viešinys",
-    "Remote share password" : "Nuotolinio viešinio slaptažodis",
+    "Copied!" : "Nukopijuota!",
     "Cancel" : "Atsisakyti",
     "Add remote share" : "Pridėti nuotolinį viešinį",
+    "Remote share" : "Nuotolinis viešinys",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ar norite pridėti nuotolinį viešinį {name} iš {owner}@{remote}?",
+    "Remote share password" : "Nuotolinio viešinio slaptažodis",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Nepavyko bendrinti %1$s, nes šis elementas jau yra bendrinamas su naudotoju %2$s",
     "Not allowed to create a federated share with the same user" : "Negalima sukurti federacinį viešinį su tuo pačiu naudotoju",
     "Allow users on this server to receive shares from other servers" : "Leisti naudotojams šiame serveryje gauti viešinius iš kitų serverių",
@@ -37,8 +37,8 @@
     "Allow users on this server to receive group shares from other servers" : "Leisti naudotojams šiame serveryje gauti grupių viešinius iš kitų serverių",
     "Search global and public address book for users" : "Ieškoti naudotojų visuotinėje ir viešoje adresų knygoje",
     "Allow users to publish their data to a global and public address book" : "Leisti naudotojams paskelbti savo duomenis visuotinėje ir viešoje adresų knygoje",
+    "Your Federated Cloud ID:" : "Jūsų federacinės debesijos ID:",
     "Twitter" : "Twitter",
-    "Clipboard is not available" : "Iškarpinė neprieinama",
-    "Copied!" : "Nukopijuota!"
+    "Clipboard is not available" : "Iškarpinė neprieinama"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

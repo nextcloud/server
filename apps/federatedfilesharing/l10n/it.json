@@ -31,7 +31,6 @@
     "Unable to update federated files sharing config" : "Impossibile aggiornare la configurazione della condivisione federata dei file",
     "Federated Cloud" : "Cloud federata",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Puoi condividere con chiunque utilizzi server Nextcloud o altri server e servizi Open Cloud Mesh (OCM) compatibili. Ti basta inserire il loro ID di cloud federata nella finestra di condivisione. Assomiglia a persona@cloud.esempio.com ",
-    "Your Federated Cloud ID:" : "Il tuo ID di cloud federata:",
     "Share it so your friends can share files with you:" : "Condividilo in modo che i tuoi amici possano condividere file con te:",
     "Facebook" : "Facebook",
     "X (formerly Twitter)" : "X (ex Twitter)",
@@ -43,11 +42,12 @@
     "Share with me through my #Nextcloud Federated Cloud ID" : "Condividi con me attraverso il mio ID di cloud federata #Nextcloud",
     "Cloud ID copied to the clipboard" : "ID di cloud copiato negli appunti",
     "Copy to clipboard" : "Copia negli appunti",
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Vuoi aggiungere la condivisione remota {name} da {owner}@{remote}?",
-    "Remote share" : "Condivisione remota",
-    "Remote share password" : "Password della condivisione remota",
+    "Copied!" : "Copiato!",
     "Cancel" : "Annulla",
     "Add remote share" : "Aggiungi condivisione remota",
+    "Remote share" : "Condivisione remota",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Vuoi aggiungere la condivisione remota {name} da {owner}@{remote}?",
+    "Remote share password" : "Password della condivisione remota",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Condivisione di %1$s non riuscita, poiché l'elemento è già condiviso con l'utente %2$s",
     "Not allowed to create a federated share with the same user" : "Non è consentito creare una condivisione federata con lo stesso utente",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Regola come le persone possono condividere tra i server. Ciò include anche le condivisioni tra utenti in questo server se usano la condivisione federata.",
@@ -57,9 +57,9 @@
     "Allow users on this server to receive group shares from other servers" : "Consenti agli utenti su questo server di ricevere condivisioni di gruppo da altri server",
     "Search global and public address book for users" : "Cerca gli utenti nella rubrica globale e pubblica",
     "Allow users to publish their data to a global and public address book" : "Consenti agli utenti di pubblicare i propri dati in una rubrica globale e pubblica",
+    "Your Federated Cloud ID:" : "Il tuo ID di cloud federata:",
     "Twitter" : "Twitter",
     "Diaspora" : "Diaspora",
-    "Clipboard is not available" : "Appunti non disponibili",
-    "Copied!" : "Copiato!"
+    "Clipboard is not available" : "Appunti non disponibili"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

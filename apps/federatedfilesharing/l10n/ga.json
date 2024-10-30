@@ -31,7 +31,6 @@
     "Unable to update federated files sharing config" : "Ní féidir an chumraíocht chomhroinnte comhad a nuashonrú",
     "Federated Cloud" : "Scamall Cónaidhme",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Is féidir leat a roinnt le duine ar bith a úsáideann freastalaí Nextcloud nó freastalaithe agus seirbhísí comhoiriúnacha Open Cloud Mesh (OCM) eile! Níl le déanamh ach a n-ID Cloud Cónaidhme a chur sa dialóg scaireanna. Breathnaíonn sé cosúil le person@cloud.example.com",
-    "Your Federated Cloud ID:" : "D'aitheantas scamall Cónaidhme:",
     "Share it so your friends can share files with you:" : "Roinn é ionas gur féidir le do chairde comhaid a roinnt leat:",
     "Facebook" : "Facebook",
     "X (formerly Twitter)" : "X (Twitter roimhe seo)",
@@ -45,11 +44,12 @@
     "Cloud ID copied to the clipboard" : "Cóipeáladh Cloud ID chuig an ngearrthaisce",
     "Copy to clipboard" : "Cóipeáil chuig an ngearrthaisce",
     "Clipboard not available. Please copy the cloud ID manually." : "Níl an gearrthaisce ar fáil. Cóipeáil an t-aitheantas néil de láimh.",
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ar mhaith leat an sciar cianda {name} ó {owner}@{remote} a chur leis?",
-    "Remote share" : "Comhroinnt iargúlta",
-    "Remote share password" : "Pasfhocal comhroinnte cianda",
+    "Copied!" : "Cóipeáladh!",
     "Cancel" : "Cealaigh",
     "Add remote share" : "Cuir cianroinnte leis",
+    "Remote share" : "Comhroinnt iargúlta",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ar mhaith leat an sciar cianda {name} ó {owner}@{remote} a chur leis?",
+    "Remote share password" : "Pasfhocal comhroinnte cianda",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Theip ar chomhroinnt %1$s, toisc go bhfuil an mhír seo roinnte cheana féin le húsáideoir %2$s",
     "Not allowed to create a federated share with the same user" : "Ní cheadaítear sciar cónasctha a chruthú leis an úsáideoir céanna",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Coigeartaigh conas is féidir le daoine roinnt idir freastalaithe. Áirítear leis seo scaireanna idir úsáideoirí ar an bhfreastalaí seo freisin má tá comhroinnt chónaidhmeach á úsáid acu.",
@@ -59,9 +59,9 @@
     "Allow users on this server to receive group shares from other servers" : "Lig d'úsáideoirí ar an bhfreastalaí seo scaireanna grúpa a fháil ó fhreastalaithe eile",
     "Search global and public address book for users" : "Cuardaigh leabhar seoltaí domhanda agus poiblí le haghaidh úsáideoirí",
     "Allow users to publish their data to a global and public address book" : "Lig d’úsáideoirí a gcuid sonraí a fhoilsiú i leabhar seoltaí domhanda agus poiblí",
+    "Your Federated Cloud ID:" : "D'aitheantas scamall Cónaidhme:",
     "Twitter" : "Twitter",
     "Diaspora" : "Diaspóra",
-    "Clipboard is not available" : "Níl fáil ar an ngearrthaisce",
-    "Copied!" : "Cóipeáladh!"
+    "Clipboard is not available" : "Níl fáil ar an ngearrthaisce"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }
