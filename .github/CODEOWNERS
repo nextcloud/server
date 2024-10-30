@@ -20,14 +20,14 @@
 /apps/settings/appinfo/info.xml               @Pytal @JuliaKirschenheuter
 /apps/sharebymail/appinfo/info.xml            @Altahrim
 /apps/systemtags/appinfo/info.xml             @Antreesy @marcelklehr
-/apps/theming/appinfo/info.xml                @skjnldsv @juliushaertl
+/apps/theming/appinfo/info.xml                @skjnldsv @juliusknorr
 /apps/twofactor_backupcodes/appinfo/info.xml  @st3iny @miaulalala @ChristophWurst
 /apps/updatenotification/appinfo/info.xml     @Pytal @JuliaKirschenheuter
 /apps/user_ldap/appinfo/info.xml              @come-nc @blizzz
 /apps/user_status/appinfo/info.xml            @Antreesy @nickvergessen
-/apps/weather_status/appinfo/info.xml         @julien-nc @juliushaertl
+/apps/weather_status/appinfo/info.xml         @julien-nc @juliusknorr
 /apps/webhook_listeners/appinfo/info.xml      @come-nc @julien-nc
-/apps/workflowengine/appinfo/info.xml         @blizzz @juliushaertl
+/apps/workflowengine/appinfo/info.xml         @blizzz @juliusknorr
 
 # Frontend expertise
 /apps/files/src*                  @skjnldsv
