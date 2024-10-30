@@ -126,7 +126,6 @@ OC.L10N.register(
     "Menu" : "Meny",
     "Width" : "Bredd",
     "Height" : "Höjd",
-    "No preview available for this crop item" : "Ingen förhandsgranskning tillgänglig för detta beskärningsobjekt",
-    "Continue" : "Fortsätt"
+    "No preview available for this crop item" : "Ingen förhandsgranskning tillgänglig för detta beskärningsobjekt"
 },
 "nplurals=2; plural=(n != 1);");

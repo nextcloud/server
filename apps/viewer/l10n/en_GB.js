@@ -126,7 +126,6 @@ OC.L10N.register(
     "Menu" : "Menu",
     "Width" : "Width",
     "Height" : "Height",
-    "No preview available for this crop item" : "No preview available for this crop item",
-    "Continue" : "Continue"
+    "No preview available for this crop item" : "No preview available for this crop item"
 },
 "nplurals=2; plural=(n != 1);");

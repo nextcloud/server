@@ -32,7 +32,6 @@ OC.L10N.register(
     "Text" : "Văn bản",
     "Size" : "Kích cỡ",
     "Extension" : "Tiện ích",
-    "Name is required." : "Tên là bắt buộc.",
-    "Continue" : "Tiếp tục"
+    "Name is required." : "Tên là bắt buộc."
 },
 "nplurals=1; plural=0;");

@@ -115,7 +115,6 @@ OC.L10N.register(
     "Actual size (100%)" : "Dimensione effettiva (100%)",
     "Fit size" : "Adatta dimensione",
     "Menu" : "Menu",
-    "Height" : "Altezza",
-    "Continue" : "Continua"
+    "Height" : "Altezza"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

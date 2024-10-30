@@ -27,7 +27,6 @@ OC.L10N.register(
     "Size" : "Grootte",
     "Position" : "Posisie",
     "Quality" : "Kwaliteit",
-    "Menu" : "Kieslys",
-    "Continue" : "Gaan voort"
+    "Menu" : "Kieslys"
 },
 "nplurals=2; plural=(n != 1);");

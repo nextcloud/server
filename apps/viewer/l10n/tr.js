@@ -126,7 +126,6 @@ OC.L10N.register(
     "Menu" : "Menü",
     "Width" : "Genişlik",
     "Height" : "Yükseklik",
-    "No preview available for this crop item" : "Bu kırpılmış ögenin ön izlemesi yok",
-    "Continue" : "Sürdür"
+    "No preview available for this crop item" : "Bu kırpılmış ögenin ön izlemesi yok"
 },
 "nplurals=2; plural=(n > 1);");

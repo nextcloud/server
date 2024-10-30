@@ -108,7 +108,6 @@ OC.L10N.register(
     "Actual size (100%)" : "Todellinen koko (100 %)",
     "Fit size" : "Sovita koko",
     "Menu" : "Valikko",
-    "Height" : "Pituus",
-    "Continue" : "Jatka"
+    "Height" : "Pituus"
 },
 "nplurals=2; plural=(n != 1);");

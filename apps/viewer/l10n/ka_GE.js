@@ -19,7 +19,6 @@ OC.L10N.register(
     "Text" : "ტექსტი",
     "Size" : "ზომა",
     "Position" : "პოზიცია",
-    "Menu" : "მენიუ",
-    "Continue" : "გაგრძელება"
+    "Menu" : "მენიუ"
 },
 "nplurals=2; plural=(n!=1);");

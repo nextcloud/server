@@ -35,7 +35,6 @@
     "Position" : "Position",
     "Extension" : "Filtype",
     "Name is required." : "Navn er påkrævet.",
-    "Menu" : "Menu",
-    "Continue" : "Fortsæt"
+    "Menu" : "Menu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

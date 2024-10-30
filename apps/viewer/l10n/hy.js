@@ -8,7 +8,6 @@ OC.L10N.register(
     "Save" : "Պահպանել",
     "Cancel" : "ընդհատել",
     "Warning" : "Զգուշացում",
-    "Size" : "Չափս",
-    "Continue" : "Շարունակել"
+    "Size" : "Չափս"
 },
 "nplurals=2; plural=(n != 1);");

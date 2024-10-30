@@ -32,7 +32,6 @@ OC.L10N.register(
     "Size" : "Talha",
     "Position" : "Posicion",
     "Extension" : "Extension",
-    "Menu" : "Menú",
-    "Continue" : "Contunhar"
+    "Menu" : "Menú"
 },
 "nplurals=2; plural=(n > 1);");

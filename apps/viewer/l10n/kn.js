@@ -9,7 +9,6 @@ OC.L10N.register(
     "Reset" : "ಮರುಹೊಂದಿಸಿ",
     "Cancel" : "﻿ರದ್ದು",
     "Warning" : "﻿ಎಚ್ಚರಿಕೆ",
-    "Size" : "﻿ ಗಾತ್ರ",
-    "Continue" : "﻿ಮುಂದುವರಿಸಿ"
+    "Size" : "﻿ ಗಾತ್ರ"
 },
 "nplurals=2; plural=(n > 1);");

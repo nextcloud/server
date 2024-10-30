@@ -24,7 +24,6 @@ OC.L10N.register(
     "Text" : "Text",
     "Size" : "Size",
     "Position" : "Position",
-    "Menu" : "Menu",
-    "Continue" : "Continue"
+    "Menu" : "Menu"
 },
 "nplurals=2; plural=(n!=1);");

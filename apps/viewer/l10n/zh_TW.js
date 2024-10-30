@@ -126,7 +126,6 @@ OC.L10N.register(
     "Menu" : "選單",
     "Width" : "寬度",
     "Height" : "高度",
-    "No preview available for this crop item" : "此裁剪項目沒有可用的預覽",
-    "Continue" : "繼續"
+    "No preview available for this crop item" : "此裁剪項目沒有可用的預覽"
 },
 "nplurals=1; plural=0;");

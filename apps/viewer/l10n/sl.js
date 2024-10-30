@@ -113,7 +113,6 @@ OC.L10N.register(
     "Actual size (100%)" : "Prava velikost (100%)",
     "Fit size" : "Prilagodi velikosti",
     "Menu" : "Meni",
-    "Height" : "Višina",
-    "Continue" : "Nadaljuj"
+    "Height" : "Višina"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -114,7 +114,6 @@ OC.L10N.register(
     "Actual size (100%)" : "实际尺寸（100%）",
     "Fit size" : "适合尺寸",
     "Menu" : "菜单",
-    "Height" : "身高",
-    "Continue" : "继续"
+    "Height" : "身高"
 },
 "nplurals=1; plural=0;");

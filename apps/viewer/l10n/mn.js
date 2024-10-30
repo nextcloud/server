@@ -16,7 +16,6 @@ OC.L10N.register(
     "Custom" : "Дурын",
     "Value" : "Үнийн дүн",
     "Size" : "Хэмжээ",
-    "Position" : "Байр",
-    "Continue" : "үргэлжлүүлэх"
+    "Position" : "Байр"
 },
 "nplurals=2; plural=(n != 1);");

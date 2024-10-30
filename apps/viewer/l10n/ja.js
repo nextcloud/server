@@ -126,7 +126,6 @@ OC.L10N.register(
     "Menu" : "メニュー",
     "Width" : "幅",
     "Height" : "身長",
-    "No preview available for this crop item" : "このクロップアイテムにはプレビューはありません",
-    "Continue" : "続ける"
+    "No preview available for this crop item" : "このクロップアイテムにはプレビューはありません"
 },
 "nplurals=1; plural=0;");

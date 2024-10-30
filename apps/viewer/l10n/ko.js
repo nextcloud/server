@@ -110,7 +110,6 @@ OC.L10N.register(
     "Actual size (100%)" : "실제 크기 (100%)",
     "Fit size" : "크기 맞추기",
     "Menu" : "메뉴",
-    "Height" : "신장",
-    "Continue" : "계속"
+    "Height" : "신장"
 },
 "nplurals=1; plural=0;");

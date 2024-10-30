@@ -76,7 +76,6 @@ OC.L10N.register(
     "Actual size (100%)" : "Ware grootte (100%)",
     "Fit size" : "Passend maken",
     "Menu" : "Menu",
-    "Height" : "Lengte",
-    "Continue" : "Doorgaan"
+    "Height" : "Lengte"
 },
 "nplurals=2; plural=(n != 1);");

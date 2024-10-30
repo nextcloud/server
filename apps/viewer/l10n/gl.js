@@ -126,7 +126,6 @@ OC.L10N.register(
     "Menu" : "Menú",
     "Width" : "Largo",
     "Height" : "Altura",
-    "No preview available for this crop item" : "Non hai ningunha vista previa dispoñíbel para este elemento de recorte",
-    "Continue" : "Continuar"
+    "No preview available for this crop item" : "Non hai ningunha vista previa dispoñíbel para este elemento de recorte"
 },
 "nplurals=2; plural=(n != 1);");

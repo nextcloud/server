@@ -115,7 +115,6 @@ OC.L10N.register(
     "Actual size (100%)" : "Tényleges méret (100%)",
     "Fit size" : "Illeszkedő méret",
     "Menu" : "Menü",
-    "Height" : "Magasság",
-    "Continue" : "Folytatás"
+    "Height" : "Magasság"
 },
 "nplurals=2; plural=(n != 1);");

@@ -110,7 +110,6 @@ OC.L10N.register(
     "Actual size (100%)" : "Действителен размер (100%)",
     "Fit size" : "Подходящ размер",
     "Menu" : "Меню",
-    "Height" : "Ръст",
-    "Continue" : "Продължаване"
+    "Height" : "Ръст"
 },
 "nplurals=2; plural=(n != 1);");

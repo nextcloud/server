@@ -6,7 +6,6 @@ OC.L10N.register(
     "Name" : "Nombre",
     "Back" : "Dezaga",
     "Cancel" : "Canzelar",
-    "Size" : "Grandario",
-    "Continue" : "Continar"
+    "Size" : "Grandario"
 },
 "nplurals=2; plural=(n != 1);");

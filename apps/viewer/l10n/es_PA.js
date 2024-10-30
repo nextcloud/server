@@ -10,6 +10,7 @@ OC.L10N.register(
     "Back" : "Atrás",
     "Reset" : "Restablecer",
     "Cancel" : "Cancelar",
+    "Apply" : "Aplicar",
     "Confirm" : "Confirmar",
     "Undo" : "Deshacer",
     "Custom" : "Personalizado",
@@ -17,7 +18,6 @@ OC.L10N.register(
     "Text" : "Texto",
     "Size" : "Tamaño",
     "Position" : "Posición",
-    "Menu" : "Menú",
-    "Continue" : "Continuar"
+    "Menu" : "Menú"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -12,7 +12,6 @@ OC.L10N.register(
     "Warning" : "បម្រាម",
     "Value" : "តម្លៃ",
     "Line" : "បន្ទាត់",
-    "Size" : "ទំហំ",
-    "Continue" : "បន្ត"
+    "Size" : "ទំហំ"
 },
 "nplurals=1; plural=0;");

@@ -113,7 +113,6 @@ OC.L10N.register(
     "Actual size (100%)" : "Tamañu actual (100%)",
     "Fit size" : "Axustar el tamañu",
     "Menu" : "Menú",
-    "Height" : "Altor",
-    "Continue" : "Siguir"
+    "Height" : "Altor"
 },
 "nplurals=2; plural=(n != 1);");

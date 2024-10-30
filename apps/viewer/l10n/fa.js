@@ -114,7 +114,6 @@ OC.L10N.register(
     "Actual size (100%)" : "Actual size (100%)",
     "Fit size" : "Fit size",
     "Menu" : "منو",
-    "Height" : "Height",
-    "Continue" : "ادامه دادن"
+    "Height" : "Height"
 },
 "nplurals=2; plural=(n > 1);");

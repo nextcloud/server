@@ -26,7 +26,6 @@ OC.L10N.register(
     "Text" : "Teksto",
     "Size" : "Grando",
     "Position" : "Loko",
-    "Extension" : "Dosiersufikso",
-    "Continue" : "Daŭrigi"
+    "Extension" : "Dosiersufikso"
 },
 "nplurals=2; plural=(n != 1);");

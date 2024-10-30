@@ -100,7 +100,6 @@ OC.L10N.register(
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Zona de decupare selectată este mai mică decât redimensionarea aplicată, ceea ce poate scădea calitatea",
     "Actual size (100%)" : "Mărimea reală (100%)",
     "Fit size" : "Potrivește mărimea",
-    "Menu" : "Meniu",
-    "Continue" : "Continuă"
+    "Menu" : "Meniu"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

@@ -38,7 +38,6 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Saglabātā attēla izmērs (platums x augstums)",
     "Actual size (100%)" : "Faktiskais izmērs (100%)",
     "Fit size" : "Atbilst izmēram",
-    "Menu" : "Izvēlne",
-    "Continue" : "Turpināt"
+    "Menu" : "Izvēlne"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -112,7 +112,6 @@ OC.L10N.register(
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Athugaðu að valið afskurðarsvæði er minna en virkjuð stærðarbreyting gefur, sem gæti komið niður á gæðum",
     "Actual size (100%)" : "Raunstærð (100%)",
     "Fit size" : "Aðlaga stærð",
-    "Menu" : "Valmynd",
-    "Continue" : "Halda áfram"
+    "Menu" : "Valmynd"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

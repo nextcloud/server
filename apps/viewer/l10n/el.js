@@ -63,7 +63,6 @@ OC.L10N.register(
     "Quality" : "Ποιότητα",
     "Fit size" : "Προσαρμογή στο μέγεθος",
     "Menu" : "Μενού",
-    "Height" : "Ύψος",
-    "Continue" : "Συνεχίστε"
+    "Height" : "Ύψος"
 },
 "nplurals=2; plural=(n != 1);");

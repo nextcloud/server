@@ -11,7 +11,6 @@ OC.L10N.register(
     "Cancel" : "Sefsex",
     "Warning" : "Alɣu",
     "Confirm" : "Serggeg",
-    "Size" : "Teɣzi",
-    "Continue" : "Continuer"
+    "Size" : "Teɣzi"
 },
 "nplurals=2; plural=(n != 1);");

@@ -11,13 +11,13 @@ OC.L10N.register(
     "Back" : "Tagasi",
     "Reset" : "Lähtesta",
     "Cancel" : "Loobu",
+    "Apply" : "Rakenda",
     "Warning" : "Hoiatus",
     "Confirm" : "Kinnita",
     "Undo" : "Tühista",
     "Custom" : "Kohandatud",
     "Size" : "Suurus",
     "Position" : "Asukoht",
-    "Menu" : "Menüü",
-    "Continue" : "Jätka"
+    "Menu" : "Menüü"
 },
 "nplurals=2; plural=(n != 1);");

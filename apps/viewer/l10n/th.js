@@ -19,7 +19,6 @@ OC.L10N.register(
     "Text" : "ข้อความ",
     "Size" : "ขนาด",
     "Position" : "ตำแหน่ง",
-    "Menu" : "เมนู",
-    "Continue" : "ดำเนินการต่อ"
+    "Menu" : "เมนู"
 },
 "nplurals=1; plural=0;");

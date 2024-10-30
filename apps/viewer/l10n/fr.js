@@ -126,7 +126,6 @@ OC.L10N.register(
     "Menu" : "Menu",
     "Width" : "Largeur",
     "Height" : "Taille",
-    "No preview available for this crop item" : "Aucun aperçu disponible pour cet élément de recadrage",
-    "Continue" : "Continuer"
+    "No preview available for this crop item" : "Aucun aperçu disponible pour cet élément de recadrage"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -37,7 +37,6 @@ OC.L10N.register(
     "Name is required." : "Su nùmene est rechertu: ",
     "Quality" : "Calidade",
     "Menu" : "Menu",
-    "Height" : "Altezza",
-    "Continue" : "Sighi"
+    "Height" : "Altezza"
 },
 "nplurals=2; plural=(n != 1);");

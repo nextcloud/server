@@ -12,7 +12,6 @@ OC.L10N.register(
     "Warning" : "Xəbərdarlıq",
     "Confirm" : "Təsdiq edin",
     "Size" : "Həcm",
-    "Menu" : "Menyu",
-    "Continue" : "Davam et"
+    "Menu" : "Menyu"
 },
 "nplurals=2; plural=(n != 1);");

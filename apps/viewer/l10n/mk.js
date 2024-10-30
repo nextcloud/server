@@ -66,7 +66,6 @@ OC.L10N.register(
     "Name is required." : "Потребно е име.",
     "Quality" : "Квалитет",
     "Actual size (100%)" : "Актуелна големина (100%)",
-    "Fit size" : "Соодветна големина",
-    "Continue" : "Продолжи"
+    "Fit size" : "Соодветна големина"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

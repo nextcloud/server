@@ -126,7 +126,6 @@ OC.L10N.register(
     "Menu" : "Roghchlár",
     "Width" : "Leithead",
     "Height" : "Airde",
-    "No preview available for this crop item" : "Níl réamhamharc ar fáil don mhír bharr seo",
-    "Continue" : "Leanúint ar aghaidh"
+    "No preview available for this crop item" : "Níl réamhamharc ar fáil don mhír bharr seo"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

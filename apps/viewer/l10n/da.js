@@ -37,7 +37,6 @@ OC.L10N.register(
     "Position" : "Position",
     "Extension" : "Filtype",
     "Name is required." : "Navn er påkrævet.",
-    "Menu" : "Menu",
-    "Continue" : "Fortsæt"
+    "Menu" : "Menu"
 },
 "nplurals=2; plural=(n != 1);");

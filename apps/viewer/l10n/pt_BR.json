@@ -124,7 +124,6 @@
     "Menu" : "Menu",
     "Width" : "Largura",
     "Height" : "Altura",
-    "No preview available for this crop item" : "Nenhuma visualização disponível para este item de corte",
-    "Continue" : "Continuar"
+    "No preview available for this crop item" : "Nenhuma visualização disponível para este item de corte"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -115,7 +115,6 @@ OC.L10N.register(
     "Actual size (100%)" : "Faktisk størrelse (100%)",
     "Fit size" : "Tilpass størrelse",
     "Menu" : "Meny",
-    "Height" : "Høyde",
-    "Continue" : "Fortsett"
+    "Height" : "Høyde"
 },
 "nplurals=2; plural=(n != 1);");

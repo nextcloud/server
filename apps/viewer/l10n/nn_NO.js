@@ -12,7 +12,6 @@ OC.L10N.register(
     "Apply" : "Anvend",
     "Warning" : "Åtvaring",
     "Value" : "Verdi",
-    "Size" : "Storleik",
-    "Continue" : "Gå vidare"
+    "Size" : "Storleik"
 },
 "nplurals=2; plural=(n != 1);");

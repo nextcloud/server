@@ -21,7 +21,6 @@ OC.L10N.register(
     "Line" : "Garis",
     "Text" : "Teks",
     "Size" : "Ukuran",
-    "Menu" : "Menu",
-    "Continue" : "Lanjutkan"
+    "Menu" : "Menu"
 },
 "nplurals=1; plural=0;");

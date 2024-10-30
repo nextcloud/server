@@ -14,7 +14,6 @@ OC.L10N.register(
     "Confirm" : "Konfirméieren",
     "Custom" : "Individualiséier",
     "Size" : "Gréisst",
-    "Menu" : "Menü",
-    "Continue" : "Weider"
+    "Menu" : "Menü"
 },
 "nplurals=2; plural=(n != 1);");

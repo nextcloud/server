@@ -9,7 +9,6 @@ OC.L10N.register(
     "Back" : "பின்னுக்கு",
     "Cancel" : "இரத்து செய்க",
     "Value" : "Value",
-    "Size" : "அளவு",
-    "Continue" : "Continue"
+    "Size" : "அளவு"
 },
 "nplurals=2; plural=(n != 1);");

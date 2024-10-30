@@ -31,6 +31,7 @@ OC.L10N.register(
     "All changes will be lost." : "Aldaketa guztiak galduko dira.",
     "Are you sure you want to continue?" : "Ziur zaude jarraitu nahi duzula?",
     "Cancel" : "Utzi",
+    "Apply" : "Aplikatu",
     "Warning" : "Abisua",
     "Confirm" : "Berretsi",
     "Discard changes" : "Baztertu aldaketak",
@@ -114,7 +115,6 @@ OC.L10N.register(
     "Actual size (100%)" : "Benetako tamaina (% 100)",
     "Fit size" : "Egokitu tamaina",
     "Menu" : "Menua",
-    "Height" : "Altuera",
-    "Continue" : "Jarraitu"
+    "Height" : "Altuera"
 },
 "nplurals=2; plural=(n != 1);");

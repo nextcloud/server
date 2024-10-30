@@ -113,7 +113,6 @@ OC.L10N.register(
     "Actual size (100%)" : "Mida real (100%)",
     "Fit size" : "Mida ajustada",
     "Menu" : "Menú",
-    "Height" : "Alçada",
-    "Continue" : "Continua"
+    "Height" : "Alçada"
 },
 "nplurals=2; plural=(n != 1);");

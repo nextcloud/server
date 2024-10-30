@@ -12,7 +12,6 @@ OC.L10N.register(
     "Cancel" : "ຍົກເລີກ",
     "Confirm" : "ຢືນຢັນ",
     "Original" : "ຕົ້ນສະບັບ",
-    "Size" : "ຂະຫນາດ",
-    "Continue" : "ສືບຕໍ່"
+    "Size" : "ຂະຫນາດ"
 },
 "nplurals=1; plural=0;");

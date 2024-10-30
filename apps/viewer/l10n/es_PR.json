@@ -8,6 +8,7 @@
     "Back" : "Atrás",
     "Reset" : "Restablecer",
     "Cancel" : "Cancelar",
+    "Apply" : "Aplicar",
     "Confirm" : "Confirmar",
     "Undo" : "Deshacer",
     "Custom" : "Personalizado",
@@ -15,7 +16,6 @@
     "Text" : "Texto",
     "Size" : "Tamaño",
     "Position" : "Posición",
-    "Menu" : "Menú",
-    "Continue" : "Continuar"
+    "Menu" : "Menú"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

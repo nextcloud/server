@@ -24,7 +24,6 @@ OC.L10N.register(
     "Size" : "Madhësi",
     "Position" : "Pozicion",
     "Name is required." : "Emri është i domosdoshëm",
-    "Menu" : "Menu",
-    "Continue" : "Vazhdo"
+    "Menu" : "Menu"
 },
 "nplurals=2; plural=(n != 1);");
