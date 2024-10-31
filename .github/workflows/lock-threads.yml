@@ -1,4 +1,6 @@
-name: 'Lock Threads olders than 120 days'
+# SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+name: 'Lock threads older than 120 days'
 
 on:
   schedule:
