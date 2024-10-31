@@ -1,6 +1,6 @@
 { "translations": {
     "Unknown address" : "عنوان غير معروف",
-    "No result." : "لا توجد أية نتيجة",
+    "No result." : "لا توجد أي نتيجة",
     "Malformed JSON data." : "بيانات JSON غير مكونة بشكل صحيح",
     "Error" : "خطأ",
     "Weather status" : "حالة الطقس",

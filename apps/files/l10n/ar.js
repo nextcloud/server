@@ -290,7 +290,7 @@ OC.L10N.register(
     "Files that are not shared will show up here." : "الملفات التي لم تتم مشاركتها ستُعرض هنا",
     "Recent" : "آخر الملفات",
     "List of recently modified files and folders." : "قائمة بالملفات والمجلدات التي تمّ تعديلها مؤخراً.",
-    "No recently modified files" : "لا توجد أية ملفات تمّ تعديلها مؤخراً",
+    "No recently modified files" : "لا توجد أي ملفات تمّ تعديلها مؤخراً",
     "Files and folders you recently modified will show up here." : "الملفات و المجلدات التي تمّ تعديلها مؤخراً ستظهر هنا.",
     "You do not have permission to upload or create files here" : "لا يوجد تخويل برفع أو إنشاء ملفات هنا",
     "No entries found in this folder" : "لا يوجد مدخلات في هذا المجلد ",
