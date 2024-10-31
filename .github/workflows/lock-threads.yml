@@ -1,0 +1,25 @@
+name: 'Lock Threads olders than 120 days'
+
+on:
+  schedule:
+    - cron: '17 3 * * 7'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: lock-threads
+
+jobs:
+  action:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dessant/lock-threads@v5
+        with:
+          issue-inactive-days: '120'
+          issue-comment: 'This issue has been inactive for 120 days, we're locking it to keep discussions tidy and focused. If this issue is still relevant, we encourage you to update Nextcloud to the latest supported version first. If needed, feel free to create a new issue, and we'll be happy to help.'
+          issue-lock-reason: 'resolved'
+          pr-inactive-days: '120'
+          pr-comment: 'This PR has been inactive for 120 days, we're locking it to keep discussions tidy and focused. If this PR is causing any issues, feel free to create a new issue, and we'll be happy to help.'
