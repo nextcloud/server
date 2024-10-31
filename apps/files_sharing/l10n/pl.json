@@ -214,6 +214,7 @@
     "_Restore share_::_Restore shares_" : ["Przywróć udostępnienie","Przywróć udostępnienia","Przywróć udostępnienia","Przywróć udostępnienia"],
     "Shared" : "Udostępniono",
     "Shared by {ownerDisplayName}" : "Udostępnione przez {ownerDisplayName}",
+    "Shared multiple times with different people" : "Udostępniony wiele razy różnym osobom",
     "Show sharing options" : "Pokaż opcje udostępniania",
     "Shared with others" : "Udostępnione innym",
     "No file" : "Brak pliku",
