@@ -74,6 +74,7 @@ OC.L10N.register(
     "Image" : "Obraz",
     "Importing …" : "Importowanie…",
     "+ Add image" : "+ Dodaj obraz",
+    "Upload image" : "Prześlij obraz",
     "Line" : "Linia",
     "Pen" : "Długopis",
     "Polygon" : "Wielokąt",
