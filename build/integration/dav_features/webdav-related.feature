@@ -48,6 +48,33 @@ Feature: webdav-related
     When User "user0" moves file "/test/test" to "/test"
     Then the HTTP status code should be "403"
 
+	Scenario: Moving a file from shared folder to root folder
+		Given using old dav path
+		And user "user0" exists
+		And user "user1" exists
+		And user "user0" created a folder "/testshare"
+		And User "user0" copies file "/welcome.txt" to "/testshare/welcome.txt"
+		And as "user0" creating a share with
+			| path | testshare |
+			| shareType | 0 |
+			| shareWith | user1 |
+		When User "user1" moves file "/testshare/welcome.txt" to "/movedwelcome.txt"
+		Then As an "user1"
+		And Downloaded content when downloading file "/movedwelcome.txt" with range "bytes=0-6" should be "Welcome"
+
+	Scenario: Moving a file from root folder to shared folder
+		Given using old dav path
+		And user "user0" exists
+		And user "user1" exists
+		And user "user0" created a folder "/testshare"
+		And as "user0" creating a share with
+			| path | testshare |
+			| shareType | 0 |
+			| shareWith | user1 |
+		When User "user1" moves file "/welcome.txt" to "/testshare/movedwelcome.txt"
+		Then As an "user1"
+		And Downloaded content when downloading file "/testshare/movedwelcome.txt" with range "bytes=0-6" should be "Welcome"
+
 	Scenario: Moving a file to a folder with no permissions
 		Given using old dav path
 		And As an "admin"
