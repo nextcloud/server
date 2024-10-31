@@ -10,6 +10,7 @@ namespace OC\Security\Ip;
 
 use InvalidArgumentException;
 use IPLib\Factory;
+use IPLib\ParseStringFlag;
 use IPLib\Range\RangeInterface;
 use OCP\Security\Ip\IAddress;
 use OCP\Security\Ip\IRange;
