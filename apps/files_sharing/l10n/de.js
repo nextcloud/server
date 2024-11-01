@@ -285,6 +285,7 @@ OC.L10N.register(
     "Share with guest" : "Mit Gast teilen",
     "Update share" : "Freigabe aktualisieren",
     "Save share" : "Freigabe speichern",
+    "Replace current password" : "Aktuelles Passwort ersetzen",
     "Others with access" : "Andere mit Zugriff",
     "No other accounts with access found" : "Keine anderen Konten mit Zugriffsberechtigung gefunden",
     "Toggle list of others with access to this directory" : "Liste anderer Benutzer mit Zugriff auf dieses Verzeichnis umschalten",
