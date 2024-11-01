@@ -101,7 +101,7 @@ OC.L10N.register(
     "Actions" : "الإجراءات",
     "(selected)" : "(تم اختياره)",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" فشل في بعض العناصر",
-    "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" حزمة الأوامر نُفّذت بنجاح",
+    "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" حزمة الأوامر تم تنفيذها بنجاح",
     "{count} selected" : "{count} تم تحديده",
     "List of files and folders." : "قائمة الملفات والمجلدات",
     "Column headers with buttons are sortable." : "ترويسات الأعمدة ذات الأزرار قابلة للترتيب.",

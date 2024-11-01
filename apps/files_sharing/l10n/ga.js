@@ -285,6 +285,7 @@ OC.L10N.register(
     "Share with guest" : "Roinn leis an aoi",
     "Update share" : "Nuashonraigh sciar",
     "Save share" : "Sábháil sciar",
+    "Replace current password" : "Ionadaigh an pasfhocal reatha",
     "Others with access" : "Daoine eile a bhfuil rochtain acu",
     "No other accounts with access found" : "Níor aimsíodh aon chuntais eile a bhfuil rochtain acu",
     "Toggle list of others with access to this directory" : "Scoránaigh liosta de na cinn eile a bhfuil rochtain acu ar an eolaire seo",

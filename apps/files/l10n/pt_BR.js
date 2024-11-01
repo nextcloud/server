@@ -267,6 +267,7 @@ OC.L10N.register(
     "This operation is forbidden" : "Esta operação é proibida",
     "This directory is unavailable, please check the logs or contact the administrator" : "Este diretório não está disponível, por favor verifique os logs ou contacte o administrador",
     "Storage is temporarily not available" : "O armazenamento está temporariamente indisponível",
+    "Unexpected error: {error}" : "Erro inesperado: {error}",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} pastas","{folderCount} pastas","{folderCount} pastas"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} arquivos","{fileCount} arquivos","{fileCount} arquivos"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 arquivo e {folderCount} pastas","1 arquivo e {folderCount} pastas","1 arquivo e {folderCount} pastas"],
