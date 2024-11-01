@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: MIT
+
 name: 'Lock threads older than 120 days'
 
 on:
@@ -21,7 +22,13 @@ jobs:
       - uses: dessant/lock-threads@v5
         with:
           issue-inactive-days: '120'
-          issue-comment: 'This issue has been inactive for 120 days, we're locking it to keep discussions tidy and focused. If this issue is still relevant, we encourage you to update Nextcloud to the latest supported version first. If needed, feel free to create a new issue, and we'll be happy to help.'
           issue-lock-reason: 'resolved'
+          issue-comment: >
+            This issue has been inactive for 120 days, we're locking it to keep discussions tidy and focused.
+            If you believe this issue is still relevant, we encourage you to update Nextcloud to the latest supported version first.
+            If needed, feel free to create a new issue, and we'll be happy to help.
           pr-inactive-days: '120'
-          pr-comment: 'This PR has been inactive for 120 days, we're locking it to keep discussions tidy and focused. If this PR is causing any issues, feel free to create a new issue, and we'll be happy to help.'
+          pr-lock-reason: 'resolved'
+          pr-comment: >
+            This PR has been inactive for 120 days, we're locking it to keep discussions tidy and focused.
+            If this PR is causing any issues, feel free to create a new issue, and we'll be happy to help.
