@@ -284,6 +284,7 @@ OC.L10N.register(
     "Share with guest" : "Поділитися з гостем",
     "Update share" : "Оновити спільний ресурс",
     "Save share" : "Зберегти спільний ресурс",
+    "Replace current password" : "Замінити поточний пароль",
     "Others with access" : "Доступ для інших",
     "No other accounts with access found" : "Більше не знайдено користувачів, які мають доступ",
     "Toggle list of others with access to this directory" : "Перемкнути подання списку інших користувачів, які мають доступ до цього каталогу",
