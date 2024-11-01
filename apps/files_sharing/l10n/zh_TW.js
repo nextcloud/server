@@ -285,6 +285,7 @@ OC.L10N.register(
     "Share with guest" : "與訪客分享",
     "Update share" : "更新分享",
     "Save share" : "儲存分享",
+    "Replace current password" : "取代目前密碼",
     "Others with access" : "擁有存取權的其他人",
     "No other accounts with access found" : "找不到其他有存取權的使用者",
     "Toggle list of others with access to this directory" : "切換有權存取此目錄的其他人列表",

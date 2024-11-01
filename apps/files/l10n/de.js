@@ -136,6 +136,7 @@ OC.L10N.register(
     "Choose {file}" : "{file} auswählen",
     "New" : "Neu",
     "Loading current folder" : "Lade aktuellen Ordner",
+    "Retry" : "Wiederholen",
     "No files in here" : "Keine Dateien vorhanden",
     "Upload some content or sync with your devices!" : "Lade Inhalte hoch oder synchronisiere sie mit deinen Geräten!",
     "Go back" : "Zurückgehen",
