@@ -82,7 +82,7 @@
     "handlebars": "^4.7.7",
     "is-svg": "^5.1.0",
     "jquery": "~3.7",
-    "jquery-ui": "^1.13.3",
+    "jquery-ui": "^1.14.1",
     "jquery-ui-dist": "^1.13.3",
     "libphonenumber-js": "^1.11.9",
     "lodash": "^4.17.21",
