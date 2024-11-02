@@ -146,7 +146,7 @@
     "babel-plugin-module-resolver": "^5.0.2",
     "colord": "^2.9.3",
     "css-loader": "^6.8.1",
-    "cypress": "^13.13.1",
+    "cypress": "^13.13.3",
     "cypress-axe": "^1.5.0",
     "cypress-delete-downloads-folder": "^0.0.6",
     "cypress-if": "^1.12.6",
