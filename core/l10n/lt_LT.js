@@ -91,6 +91,7 @@ OC.L10N.register(
     "Yes" : "Taip",
     "Create share" : "Sukurti viešinį",
     "Failed to add the public link to your Nextcloud" : "Nepavyko pridėti viešosios nuorodos į jūsų Nextcloud",
+    "Clear search" : "Išvalyti paiešką",
     "Date" : "Data",
     "Today" : "Šiandien",
     "People" : "Žmonės",
