@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Skydelis",
     "Dashboard app" : "Skydelio programėlė",
-    "Customize" : "Personalizuoti",
+    "Customize" : "Tinkinti",
     "Edit widgets" : "Taisyti valdiklius",
     "Get more widgets from the App Store" : "Parsisiųsti įskiepių iš App Store",
     "Weather service" : "Orų tarnyba",
