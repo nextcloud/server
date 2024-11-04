@@ -65,7 +65,7 @@ OC.L10N.register(
     "Failed to update tag" : "Schlagwort konnte nicht aktualisiert werden",
     "Deleted tag" : "Schlagwort gelöscht",
     "Failed to delete tag" : "Fehler beim Löschen des Schlagwortes",
-    "Manage tags" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
+    "Manage tags" : "Schlagworte verwalten",
     "Applying tags changes…" : "Schlagwort-Änderungen werden angewendet…",
     "Search or create tag" : "Schlagwort suchen oder erstellen",
     "Create tag" : "Schlagwort erstellen",

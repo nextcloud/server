@@ -216,7 +216,7 @@ OC.L10N.register(
     "Your browser is not supported. Please upgrade to a newer version or a supported one." : "Zure nabigatzailea ez da onartzen. Mesedez, eguneratu bertsio berriago batera edo onartzen den batera.",
     "Continue with this unsupported browser" : "Jarraitu onartzen ez den arakatzaile honekin",
     "Supported versions" : "Onartutako bertsioak",
-    "{name} version {version} and above" : "{name} {bertsioa} bertsioa eta hortik gorakoak",
+    "{name} version {version} and above" : "{name} {version} bertsioa eta hortik gorakoak",
     "Search {types} …" : "Bilatu  {types} …",
     "Choose {file}" : "Aukeratu {file}",
     "Choose" : "Aukeratu",

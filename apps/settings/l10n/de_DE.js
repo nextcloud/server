@@ -423,7 +423,7 @@ OC.L10N.register(
     "Deploy Daemon" : "Daemon bereitstellen",
     "Type" : "Typ",
     "Display Name" : "Anzeigename",
-    "GPUs support" : "GPUs Unterstützung",
+    "GPUs support" : "GPUs-Unterstützung",
     "Compute device" : "Compute-Gerät",
     "Description" : "Beschreibung",
     "Details" : "Details",
