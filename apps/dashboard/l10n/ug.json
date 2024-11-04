@@ -1,0 +1,26 @@
+{ "translations": {
+    "Dashboard" : "باش تاختا",
+    "Dashboard app" : "باش تاختا دېتالى",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "ئۇچۇرلىرىڭىزنى باشلاڭ\n\nNextcloud باش تاختا سىزنىڭ شۇ كۈندىكى باشلىنىش نۇقتىڭىز بولۇپ ، سىزگە كەلگۈسىدىكى ئۇچرىشىشلىرىڭىز ، جىددى ئېلېكترونلۇق خەتلەر ، پاراڭلىشىش ئۇچۇرلىرى ، كەلگەن بېلەتلەر ، ئەڭ يېڭى tweet ۋە باشقىلار ھەققىدە ئومۇمىي چۈشەنچە بېرىدۇ. كىشىلەر ئۆزى ياقتۇرىدىغان كىچىك قوراللارنى قوشالايدۇ ۋە تەگلىكىنى خالىغانچە ئۆزگەرتەلەيدۇ.",
+    "\"{title} icon\"" : "\"{title} سىنبەلگىسى\"",
+    "Customize" : "Customize",
+    "Edit widgets" : "كىچىك قوراللارنى تەھرىرلەش",
+    "Get more widgets from the App Store" : "ئەپ دۇكىنىدىن تېخىمۇ كۆپ كىچىك قوراللارغا ئېرىشىڭ",
+    "Weather service" : "ھاۋارايى مۇلازىمىتى",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "شەخسىي مەخپىيەتلىكىڭىز ئۈچۈن ھاۋارايى سانلىق مەلۇماتلىرىڭىزنى Nextcloud مۇلازىمېتىرىڭىز تەلەپ قىلىدۇ ، شۇڭا ھاۋارايى مۇلازىمىتى ھېچقانداق شەخسىي ئۇچۇرغا ئېرىشەلمەيدۇ.",
+    "Weather data from Met.no" : "Met.no دىن كەلگەن ھاۋارايى سانلىق مەلۇماتلىرى",
+    "geocoding with Nominatim" : "Nominatim بىلەن جۇغراپىيىلىك كودلاش",
+    "elevation data from OpenTopoData" : "OpenTopoData دىن ئېگىزلىك سانلىق مەلۇماتلىرى",
+    "Weather" : "ھاۋارايى",
+    "Status" : "ھالەت",
+    "Good morning" : "خەيرلىك ئەتىگەن!",
+    "Good morning, {name}" : "خەيرلىك ئەتىگەن ، {name}",
+    "Good afternoon" : "خەيرلىك چۈشتىن كېيىن",
+    "Good afternoon, {name}" : "خەيرلىك چۈشتىن كېيىن ، {name}",
+    "Good evening" : "خەيرلىك كەچ!",
+    "Good evening, {name}" : "خەيرلىك كەچ ، {name}",
+    "Hello" : "ياخشىمۇسىز",
+    "Hello, {name}" : "ياخشىمۇسىز ، {name}",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "ئۇچۇرلىرىڭىزنى باشلاڭ\n\nNextcloud باش تاختا سىزنىڭ شۇ كۈندىكى باشلىنىش نۇقتىڭىز بولۇپ ، سىزگە كەلگۈسىدىكى ئۇچرىشىشلىرىڭىز ، جىددى ئېلېكترونلۇق خەتلەر ، پاراڭلىشىش ئۇچۇرلىرى ، كەلگەن بېلەتلەر ، ئەڭ يېڭى tweet ۋە باشقىلار ھەققىدە ئومۇمىي چۈشەنچە بېرىدۇ. ئىشلەتكۈچىلەر ئۆزلىرى ياقتۇرىدىغان كىچىك قوراللارنى قوشالايدۇ ۋە تەگلىكنى خالىغانچە ئۆزگەرتەلەيدۇ."
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
