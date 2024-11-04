@@ -45,49 +45,21 @@ use Psr\Log\LoggerInterface;
  * Convert target path to source path and pass the function call to the correct storage provider
  */
 class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage, IDisableEncryptionStorage {
-	/** @var IShare */
-	private $superShare;
-
-	/** @var IShare[] */
-	private $groupedShares;
-
-	/**
-	 * @var View
-	 */
-	private $ownerView;
-
-	private $initialized = false;
-
-	/**
-	 * @var ICacheEntry
-	 */
-	private $sourceRootInfo;
-
-	/** @var string */
-	private $user;
-
+	private IShare $superShare;
+	/** @var list<IShare> */
+	private array $groupedShares;
+	private View $ownerView;
+	private bool $initialized = false;
+	private ICacheEntry|false|null $sourceRootInfo = null;
+	private string $user;
 	private LoggerInterface $logger;
-
-	/** @var IStorage */
-	private $nonMaskedStorage;
-
+	private ?IStorage $nonMaskedStorage = null;
 	private array $mountOptions = [];
-
-	/** @var boolean */
-	private $sharingDisabledForUser;
-
-	/** @var ?Folder $ownerUserFolder */
-	private $ownerUserFolder = null;
-
+	private bool $sharingDisabledForUser;
+	private ?Folder $ownerUserFolder = null;
 	private string $sourcePath = '';
-
 	private static int $initDepth = 0;
-
-	/**
-	 * @psalm-suppress NonInvariantDocblockPropertyType
-	 * @var ?Storage $storage
-	 */
-	protected $storage;
+	protected ?Storage $storage;
 
 	public function __construct(array $parameters) {
 		$this->ownerView = $parameters['ownerView'];
@@ -105,14 +77,11 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 
 		parent::__construct([
 			'storage' => null,
-			'root' => null,
+			'root' => '',
 		]);
 	}
 
-	/**
-	 * @return ICacheEntry
-	 */
-	private function getSourceRootInfo() {
+	private function getSourceRootInfo(): ICacheEntry|false|null {
 		if (is_null($this->sourceRootInfo)) {
 			if (is_null($this->superShare->getNodeCacheEntry())) {
 				$this->init();
@@ -127,7 +96,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	/**
 	 * @psalm-assert Storage $this->storage
 	 */
-	private function init() {
+	private function init(): void {
 		if ($this->initialized) {
 			if (!$this->storage) {
 				// marked as initialized but no storage set
@@ -508,7 +477,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		// shares do not participate in availability logic
 	}
 
-	public function getSourceStorage() {
+	public function getSourceStorage(): ?IStorage {
 		$this->init();
 		return $this->nonMaskedStorage;
 	}

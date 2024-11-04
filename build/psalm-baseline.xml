@@ -907,17 +907,6 @@
       <code><![CDATA[bool]]></code>
     </InvalidReturnType>
   </file>
-  <file src="apps/files_sharing/lib/SharedStorage.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[$this->sourceRootInfo]]></code>
-    </FalsableReturnStatement>
-    <InvalidNullableReturnType>
-      <code><![CDATA[ICacheEntry]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$this->sourceRootInfo]]></code>
-    </NullableReturnStatement>
-  </file>
   <file src="apps/files_sharing/lib/Updater.php">
     <UndefinedMethod>
       <code><![CDATA[moveMount]]></code>
