@@ -1488,6 +1488,15 @@ class Manager implements IManager {
 			$this->deleteShare($share);
 			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 		}
+
+		try {
+			$share->getNode();
+			// Ignore share, file is still accessible
+		} catch (NotFoundException) {
+			// Access lost, but maybe only temporarily, so don't delete the share right away
+			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
+		}
+
 		if ($this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'no') === 'yes') {
 			$uids = array_unique([$share->getShareOwner(),$share->getSharedBy()]);
 			foreach ($uids as $uid) {
