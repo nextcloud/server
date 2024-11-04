@@ -73,7 +73,7 @@
     "Your have used your space quota and cannot upload files anymore" : "Ha utilizado su cuota de espacio y ya no puede subir más archivos",
     "You don’t have permission to upload or create files here" : "No tiene permisos para subir o crear archivos aquí",
     "Favorite" : "Favorito",
-    "\"{displayName}\" action executed successfully" : "la acción \"{displayName}\" se ejecutó exitósamente",
+    "\"{displayName}\" action executed successfully" : "la acción \"{displayName}\" se ejecutó exitosamente",
     "\"{displayName}\" action failed" : "la acción \"{displayName}\" falló",
     "Toggle selection for file \"{displayName}\"" : "Alternar selección para archivo \"{displayName}\"",
     "Toggle selection for folder \"{displayName}\"" : "Alternar selección para la carpeta \"{displayName}\"",
@@ -265,6 +265,7 @@
     "This operation is forbidden" : "Esta operación está prohibida",
     "This directory is unavailable, please check the logs or contact the administrator" : "Esta carpeta no está disponible, por favor verifique los registros o contacte con el administrador",
     "Storage is temporarily not available" : "El almacenamiento no está disponible temporalmente",
+    "Unexpected error: {error}" : "Error inesperado: {error}",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} carpeta","{folderCount} carpetas","{folderCount} carpetas"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} archivo","{fileCount} archivos","{fileCount} archivos"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 archivo y {folderCount} carpeta","1 archivo y {folderCount} carpetas","1 archivo y {folderCount} carpetas"],
@@ -396,6 +397,9 @@
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo archivo.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "El enlace directo fue copiado (solo funciona para usuarios que tienen acceso a este archivo/carpeta)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "El enlace directo fue copiado (solo funciona para usuarios que tienen acceso a este archivo/carpeta)"
+    "Copy direct link (only works for people who have access to this file/folder)" : "El enlace directo fue copiado (solo funciona para usuarios que tienen acceso a este archivo/carpeta)",
+    "Favored" : "Favorecido",
+    "Favor" : "Favorecer",
+    "Not favored" : "No favorecido"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

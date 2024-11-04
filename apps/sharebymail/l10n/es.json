@@ -17,6 +17,7 @@
     "Failed to send share by email. Got an invalid email address" : "No se ha podido enviar el vínculo por correo electrónico. La dirección de correo electrónico no es válida",
     "Failed to send share by email" : "Fallo al enviar compartido por correo electrónico",
     "Note:" : "Nota:",
+    "Expiration:" : "Caduca el:",
     "Click the button below to open it." : "Haga click en el botón debajo para abrirlo.",
     "%1$s via %2$s" : "%1$s vía %2$s",
     "It is protected with the following password:" : "Está protegido con la siguiente contraseña:",
