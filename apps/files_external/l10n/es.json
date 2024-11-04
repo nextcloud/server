@@ -118,7 +118,7 @@
     "Enter the storage password" : "Ingrese la contraseña de almacenamiento",
     "Submit" : "Enviar",
     "Unable to update this external storage config. {statusMessage}" : "No fue posible actualizar la configuración de este almacenamiento externo {statusMessage}",
-    "New configuration successfully saved" : "La nueva configuración se guardó exitósamente",
+    "New configuration successfully saved" : "La nueva configuración se ha guardado con éxito",
     "Enter missing credentials" : "Introduzca las credenciales requeridas",
     "There was an error with this external storage." : "Se presentó un problema con este almacenamiento externo.",
     "We were unable to check the external storage {basename}" : "No nos fue posible chequear el almacenamiento externo {basename}",
