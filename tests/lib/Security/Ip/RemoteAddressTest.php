@@ -52,6 +52,8 @@ class RemoteAddressTest extends \Test\TestCase {
 			// No configuration
 			['1.2.3.4', false, true],
 			['1234:4567:8910::', false, true],
+			// v6 Zone ID
+			['fe80::1fc4:15d8:78db:2319%enp4s0', false, true],
 			// Empty configuration
 			['1.2.3.4', [], true],
 			['1234:4567:8910::', [], true],
