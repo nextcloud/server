@@ -24,6 +24,7 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
 use OCP\IConfig;
+use OCP\Lock\LockedException;
 use OCP\Server;
 use OCP\Util;
 use Psr\Http\Message\ResponseInterface;
@@ -40,36 +41,22 @@ use Sabre\HTTP\RequestInterface;
  * @package OC\Files\Storage
  */
 class DAV extends Common {
-	/** @var string */
-	protected $password;
-	/** @var string */
-	protected $user;
-	/** @var string|null */
-	protected $authType;
-	/** @var string */
-	protected $host;
-	/** @var bool */
-	protected $secure;
-	/** @var string */
-	protected $root;
-	/** @var string */
-	protected $certPath;
-	/** @var bool */
-	protected $ready;
-	/** @var Client */
-	protected $client;
-	/** @var ArrayCache */
-	protected $statCache;
-	/** @var IClientService */
-	protected $httpClientService;
-	/** @var ICertificateManager */
-	protected $certManager;
+	protected string $password;
+	protected string $user;
+	protected ?string $authType;
+	protected string $host;
+	protected bool $secure;
+	protected string $root;
+	protected string $certPath;
+	protected bool $ready = false;
+	protected Client $client;
+	protected ArrayCache $statCache;
+	protected IClientService $httpClientService;
+	protected ICertificateManager $certManager;
 	protected LoggerInterface $logger;
 	protected IEventLogger $eventLogger;
 	protected IMimeTypeDetector $mimeTypeDetector;
-
-	/** @var int */
-	private $timeout;
+	private int $timeout;
 
 	protected const PROPFIND_PROPS = [
 		'{DAV:}getlastmodified',
@@ -163,12 +150,12 @@ class DAV extends Common {
 		}
 
 		$lastRequestStart = 0;
-		$this->client->on('beforeRequest', function (RequestInterface $request) use (&$lastRequestStart) {
+		$this->client->on('beforeRequest', function (RequestInterface $request) use (&$lastRequestStart): void {
 			$this->logger->debug('sending dav ' . $request->getMethod() . ' request to external storage: ' . $request->getAbsoluteUrl(), ['app' => 'dav']);
 			$lastRequestStart = microtime(true);
 			$this->eventLogger->start('fs:storage:dav:request', 'Sending dav request to external storage');
 		});
-		$this->client->on('afterRequest', function (RequestInterface $request) use (&$lastRequestStart) {
+		$this->client->on('afterRequest', function (RequestInterface $request) use (&$lastRequestStart): void {
 			$elapsed = microtime(true) - $lastRequestStart;
 			$this->logger->debug('dav ' . $request->getMethod() . ' request to external storage: ' . $request->getAbsoluteUrl() . ' took ' . round($elapsed * 1000, 1) . 'ms', ['app' => 'dav']);
 			$this->eventLogger->end('fs:storage:dav:request');
@@ -343,7 +330,7 @@ class DAV extends Common {
 
 				if ($response->getStatusCode() !== Http::STATUS_OK) {
 					if ($response->getStatusCode() === Http::STATUS_LOCKED) {
-						throw new \OCP\Lock\LockedException($path);
+						throw new LockedException($path);
 					} else {
 						Server::get(LoggerInterface::class)->error('Guzzle get returned status code ' . $response->getStatusCode(), ['app' => 'webdav client']);
 					}
@@ -385,7 +372,7 @@ class DAV extends Common {
 					$tmpFile = $tempManager->getTemporaryFile($ext);
 				}
 				$handle = fopen($tmpFile, $mode);
-				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
+				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile): void {
 					$this->writeBack($tmpFile, $path);
 				});
 		}
@@ -775,7 +762,7 @@ class DAV extends Common {
 		Server::get(LoggerInterface::class)->debug($e->getMessage(), ['app' => 'files_external', 'exception' => $e]);
 		if ($e instanceof ClientHttpException) {
 			if ($e->getHttpStatus() === Http::STATUS_LOCKED) {
-				throw new \OCP\Lock\LockedException($path);
+				throw new LockedException($path);
 			}
 			if ($e->getHttpStatus() === Http::STATUS_UNAUTHORIZED) {
 				// either password was changed or was invalid all along

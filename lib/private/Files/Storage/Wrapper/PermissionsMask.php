@@ -9,6 +9,8 @@ namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Cache\Wrapper\CachePermissionsMask;
 use OCP\Constants;
+use OCP\Files\Cache\ICache;
+use OCP\Files\Cache\IScanner;
 use OCP\Files\Storage\IStorage;
 
 /**
@@ -19,10 +21,7 @@ use OCP\Files\Storage\IStorage;
  * Note that the read permissions can't be masked
  */
 class PermissionsMask extends Wrapper {
-	/**
-	 * @var int the permissions bits we want to keep
-	 */
-	private $mask;
+	private int $mask;
 
 	/**
 	 * @param array $parameters ['storage' => $storage, 'mask' => $mask]
@@ -102,7 +101,7 @@ class PermissionsMask extends Wrapper {
 		}
 	}
 
-	public function getCache(string $path = '', ?IStorage $storage = null): \OCP\Files\Cache\ICache {
+	public function getCache(string $path = '', ?IStorage $storage = null): ICache {
 		if (!$storage) {
 			$storage = $this;
 		}
@@ -120,7 +119,7 @@ class PermissionsMask extends Wrapper {
 		return $data;
 	}
 
-	public function getScanner(string $path = '', ?IStorage $storage = null): \OCP\Files\Cache\IScanner {
+	public function getScanner(string $path = '', ?IStorage $storage = null): IScanner {
 		if (!$storage) {
 			$storage = $this->storage;
 		}

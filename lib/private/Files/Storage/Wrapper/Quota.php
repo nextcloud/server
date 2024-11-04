@@ -8,18 +8,14 @@
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Filesystem;
-use OC\SystemConfig;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
 use OCP\Files\Storage\IStorage;
 
 class Quota extends Wrapper {
-	/** @var callable|null */
-	protected $quotaCallback;
-	/** @var int|float|null int on 64bits, float on 32bits for bigint */
+	protected ?\Closure $quotaCallback;
 	protected int|float|null $quota;
 	protected string $sizeRoot;
-	private SystemConfig $config;
 	private bool $quotaIncludeExternalStorage;
 
 	/**

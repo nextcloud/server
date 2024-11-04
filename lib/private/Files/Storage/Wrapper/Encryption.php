@@ -18,6 +18,7 @@ use OC\Files\Storage\Common;
 use OC\Files\Storage\LocalTempFileTrait;
 use OC\Memcache\ArrayCache;
 use OCP\Cache\CappedMemoryCache;
+use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IFile;
 use OCP\Encryption\IManager;
 use OCP\Encryption\Keys\IStorage;
@@ -32,7 +33,10 @@ class Encryption extends Wrapper {
 	private string $mountPoint;
 	protected array $unencryptedSize = [];
 	private IMountPoint $mount;
-	/** for which path we execute the repair step to avoid recursions */
+	/**
+	 * @var array<string, bool>
+	 *                          for which path we execute the repair step to avoid recursions
+	 */
 	private array $fixUnencryptedSizeOf = [];
 	/** @var CappedMemoryCache<bool> */
 	private CappedMemoryCache $encryptedPaths;
@@ -803,7 +807,7 @@ class Encryption extends Wrapper {
 	 * @throws ModuleDoesNotExistsException
 	 * @throws \Exception
 	 */
-	protected function getEncryptionModule(string $path): ?\OCP\Encryption\IEncryptionModule {
+	protected function getEncryptionModule(string $path): ?IEncryptionModule {
 		$encryptionModule = null;
 		$header = $this->getHeader($path);
 		$encryptionModuleId = $this->util->getEncryptionModuleId($header);

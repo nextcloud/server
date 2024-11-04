@@ -20,10 +20,7 @@ use OCP\ICache;
  * the actual given name and then try its NFD form.
  */
 class Encoding extends Wrapper {
-	/**
-	 * @var ICache
-	 */
-	private $namesCache;
+	private ICache $namesCache;
 
 	/**
 	 * @param array $parameters

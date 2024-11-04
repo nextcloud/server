@@ -16,8 +16,7 @@ use OCP\Lock\ILockingProvider;
  * Storage placeholder to represent a missing precondition, storage unavailable
  */
 class FailedStorage extends Common {
-	/** @var \Exception */
-	protected $e;
+	protected \Exception $e;
 
 	/**
 	 * @param array $parameters ['exception' => \Exception]

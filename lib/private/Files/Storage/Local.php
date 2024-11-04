@@ -10,7 +10,10 @@ namespace OC\Files\Storage;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\Storage\Wrapper\Jail;
+use OC\LargeFileHelper;
+use OCA\FilesAccessControl\StorageWrapper;
 use OCP\Constants;
+use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
 use OCP\Files\IMimeTypeDetector;
@@ -23,21 +26,14 @@ use Psr\Log\LoggerInterface;
 /**
  * for local filestore, we only have to map the paths
  */
-class Local extends \OC\Files\Storage\Common {
-	protected $datadir;
-
-	protected $dataDirLength;
-
-	protected $realDataDir;
-
+class Local extends Common {
+	protected string $datadir;
+	protected int $dataDirLength;
+	protected string $realDataDir;
 	private IConfig $config;
-
 	private IMimeTypeDetector $mimeTypeDetector;
-
-	private $defUMask;
-
+	private int $defUMask;
 	protected bool $unlinkOnTruncate;
-
 	protected bool $caseInsensitive = false;
 
 	public function __construct(array $parameters) {
@@ -227,7 +223,7 @@ class Local extends \OC\Files\Storage\Common {
 		}
 		$fullPath = $this->getSourcePath($path);
 		if (PHP_INT_SIZE === 4) {
-			$helper = new \OC\LargeFileHelper;
+			$helper = new LargeFileHelper;
 			return $helper->getFileSize($fullPath);
 		}
 		return filesize($fullPath);
@@ -262,7 +258,7 @@ class Local extends \OC\Files\Storage\Common {
 			return false;
 		}
 		if (PHP_INT_SIZE === 4) {
-			$helper = new \OC\LargeFileHelper();
+			$helper = new LargeFileHelper();
 			return $helper->getFileMtime($fullPath);
 		}
 		return filemtime($fullPath);
@@ -412,7 +408,7 @@ class Local extends \OC\Files\Storage\Common {
 		}
 		$space = (function_exists('disk_free_space') && is_dir($sourcePath)) ? disk_free_space($sourcePath) : false;
 		if ($space === false || is_null($space)) {
-			return \OCP\Files\FileInfo::SPACE_UNKNOWN;
+			return FileInfo::SPACE_UNKNOWN;
 		}
 		return Util::numericToNumber($space);
 	}
@@ -429,7 +425,7 @@ class Local extends \OC\Files\Storage\Common {
 		$files = [];
 		$physicalDir = $this->getSourcePath($dir);
 		foreach (scandir($physicalDir) as $item) {
-			if (\OC\Files\Filesystem::isIgnoredDir($item)) {
+			if (Filesystem::isIgnoredDir($item)) {
 				continue;
 			}
 			$physicalItem = $physicalDir . '/' . $item;
@@ -531,7 +527,7 @@ class Local extends \OC\Files\Storage\Common {
 			// more permissions checks.
 			&& !$sourceStorage->instanceOfStorage('OCA\GroupFolders\ACL\ACLStorageWrapper')
 			// Same for access control
-			&& !$sourceStorage->instanceOfStorage(\OCA\FilesAccessControl\StorageWrapper::class)
+			&& !$sourceStorage->instanceOfStorage(StorageWrapper::class)
 			// when moving encrypted files we have to handle keys and the target might not be encrypted
 			&& !$sourceStorage->instanceOfStorage(Encryption::class);
 	}
@@ -541,7 +537,7 @@ class Local extends \OC\Files\Storage\Common {
 			// resolve any jailed paths
 			while ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
-				 * @var \OC\Files\Storage\Wrapper\Jail $sourceStorage
+				 * @var Jail $sourceStorage
 				 */
 				$sourceInternalPath = $sourceStorage->getUnjailedPath($sourceInternalPath);
 				$sourceStorage = $sourceStorage->getUnjailedStorage();
@@ -561,7 +557,7 @@ class Local extends \OC\Files\Storage\Common {
 			// resolve any jailed paths
 			while ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
-				 * @var \OC\Files\Storage\Wrapper\Jail $sourceStorage
+				 * @var Jail $sourceStorage
 				 */
 				$sourceInternalPath = $sourceStorage->getUnjailedPath($sourceInternalPath);
 				$sourceStorage = $sourceStorage->getUnjailedStorage();

@@ -24,10 +24,7 @@ use OCP\Lock\ILockingProvider;
  * This restricts access to a subfolder of the wrapped storage with the subfolder becoming the root folder new storage
  */
 class Jail extends Wrapper {
-	/**
-	 * @var string
-	 */
-	protected $rootPath;
+	protected string $rootPath;
 
 	/**
 	 * @param array $parameters ['storage' => $storage, 'root' => $root]
@@ -47,7 +44,7 @@ class Jail extends Wrapper {
 	/**
 	 * This is separate from Wrapper::getWrapperStorage so we can get the jailed storage consistently even if the jail is inside another wrapper
 	 */
-	public function getUnjailedStorage(): IStorage {
+	public function getUnjailedStorage(): ?IStorage {
 		return $this->storage;
 	}
 

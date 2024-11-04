@@ -19,16 +19,14 @@ use OCP\IConfig;
  */
 class Availability extends Wrapper {
 	public const RECHECK_TTL_SEC = 600; // 10 minutes
-
-	/** @var IConfig */
-	protected $config;
+	protected IConfig $config;
 
 	public function __construct(array $parameters) {
 		$this->config = $parameters['config'] ?? \OC::$server->getConfig();
 		parent::__construct($parameters);
 	}
 
-	public static function shouldRecheck($availability): bool {
+	public static function shouldRecheck(array $availability): bool {
 		if (!$availability['available']) {
 			// trigger a recheck if TTL reached
 			if ((time() - $availability['last_checked']) > self::RECHECK_TTL_SEC) {

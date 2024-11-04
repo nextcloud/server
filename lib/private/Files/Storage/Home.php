@@ -7,25 +7,21 @@
  */
 namespace OC\Files\Storage;
 
+use OC\Files\Cache\HomeCache;
 use OC\Files\Cache\HomePropagator;
+use OC\User\User;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IPropagator;
+use OCP\Files\IHomeStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 
 /**
  * Specialized version of Local storage for home directory usage
  */
-class Home extends Local implements \OCP\Files\IHomeStorage {
-	/**
-	 * @var string
-	 */
-	protected $id;
-
-	/**
-	 * @var \OC\User\User $user
-	 */
-	protected $user;
+class Home extends Local implements IHomeStorage {
+	protected string $id;
+	protected User $user;
 
 	/**
 	 * Construct a Home storage instance
@@ -50,7 +46,7 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 			$storage = $this;
 		}
 		if (!isset($this->cache)) {
-			$this->cache = new \OC\Files\Cache\HomeCache($storage, $this->getCacheDependencies());
+			$this->cache = new HomeCache($storage, $this->getCacheDependencies());
 		}
 		return $this->cache;
 	}

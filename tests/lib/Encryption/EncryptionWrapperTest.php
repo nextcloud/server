@@ -9,9 +9,9 @@ namespace Test\Encryption;
 
 use OC\Encryption\EncryptionWrapper;
 use OC\Encryption\Manager;
+use OC\Files\Storage\Storage;
 use OC\Memcache\ArrayCache;
 use OCP\Files\Storage\IDisableEncryptionStorage;
-use OCP\Files\Storage\IStorage;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -43,7 +43,7 @@ class EncryptionWrapperTest extends TestCase {
 	 * @dataProvider provideWrapStorage
 	 */
 	public function testWrapStorage($expectedWrapped, $wrappedStorages): void {
-		$storage = $this->getMockBuilder(IStorage::class)
+		$storage = $this->getMockBuilder(Storage::class)
 			->disableOriginalConstructor()
 			->getMock();
 
