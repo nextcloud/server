@@ -14,23 +14,12 @@ use phpseclib\Net\SSH2;
 class SFTPWriteStream implements File {
 	/** @var resource */
 	public $context;
-
-	/** @var \phpseclib\Net\SFTP */
-	private $sftp;
-
-	/** @var string */
-	private $handle;
-
-	/** @var int */
-	private $internalPosition = 0;
-
-	/** @var int */
-	private $writePosition = 0;
-
-	/** @var bool */
-	private $eof = false;
-
-	private $buffer = '';
+	private \phpseclib\Net\SFTP $sftp;
+	private ?string $handle = null;
+	private int $internalPosition = 0;
+	private int $writePosition = 0;
+	private bool $eof = false;
+	private string $buffer = '';
 
 	public static function register($protocol = 'sftpwrite') {
 		if (in_array($protocol, stream_get_wrappers(), true)) {
@@ -59,7 +48,7 @@ class SFTPWriteStream implements File {
 		return $context;
 	}
 
-	public function stream_open($path, $mode, $options, &$opened_path) {
+	public function stream_open($path, $mode, $options, &$opened_path): bool {
 		[, $path] = explode('://', $path);
 		$path = '/' . ltrim($path);
 		$path = str_replace('//', '/', $path);
@@ -96,19 +85,19 @@ class SFTPWriteStream implements File {
 		return true;
 	}
 
-	public function stream_seek($offset, $whence = SEEK_SET) {
+	public function stream_seek($offset, $whence = SEEK_SET): bool {
 		return false;
 	}
 
-	public function stream_tell() {
+	public function stream_tell(): int {
 		return $this->writePosition;
 	}
 
-	public function stream_read($count) {
+	public function stream_read($count): bool {
 		return false;
 	}
 
-	public function stream_write($data) {
+	public function stream_write($data): false|int {
 		$written = strlen($data);
 		$this->writePosition += $written;
 
@@ -123,19 +112,19 @@ class SFTPWriteStream implements File {
 		return $written;
 	}
 
-	public function stream_set_option($option, $arg1, $arg2) {
+	public function stream_set_option($option, $arg1, $arg2): bool {
 		return false;
 	}
 
-	public function stream_truncate($size) {
+	public function stream_truncate($size): bool {
 		return false;
 	}
 
-	public function stream_stat() {
+	public function stream_stat(): bool {
 		return false;
 	}
 
-	public function stream_lock($operation) {
+	public function stream_lock($operation): bool {
 		return false;
 	}
 
@@ -151,11 +140,11 @@ class SFTPWriteStream implements File {
 		return $this->sftp->_read_put_responses(1);
 	}
 
-	public function stream_eof() {
+	public function stream_eof(): bool {
 		return $this->eof;
 	}
 
-	public function stream_close() {
+	public function stream_close(): bool {
 		$this->stream_flush();
 		if (!$this->sftp->_close_handle($this->handle)) {
 			return false;

@@ -18,16 +18,14 @@ use Psr\Log\LoggerInterface;
 class FTP extends Common {
 	use CopyDirectory;
 
-	private $root;
-	private $host;
-	private $password;
-	private $username;
-	private $secure;
-	private $port;
-	private $utf8Mode;
-
-	/** @var FtpConnection|null */
-	private $connection;
+	private ?string $root = null;
+	private string $host;
+	private string $password;
+	private string $username;
+	private bool $secure;
+	private int $port;
+	private ?bool $utf8Mode = null;
+	private ?FtpConnection $connection = null;
 
 	public function __construct(array $parameters) {
 		if (isset($parameters['host']) && isset($parameters['user']) && isset($parameters['password'])) {
@@ -104,7 +102,7 @@ class FTP extends Common {
 					\OC::$server->get(LoggerInterface::class)->warning("Unable to get last modified date for ftp folder ($path), failed to list folder contents");
 					return time();
 				}
-				$currentDir = current(array_filter($list, function ($item) {
+				$currentDir = current(array_filter($list, function (array $item): bool {
 					return $item['type'] === 'cdir';
 				}));
 				if ($currentDir) {
