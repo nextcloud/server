@@ -368,8 +368,10 @@ $CONFIG = [
 
 /**
  * Enable or disable the automatic logout after session_lifetime, even if session
- * keepalive is enabled. This will make sure that an inactive browser will be logged out
- * even if requests to the server might extend the session lifetime.
+ * keepalive is enabled. This will make sure that an inactive browser will log itself out
+ * even if requests to the server might extend the session lifetime. Note: the logout is   
+ * handled on the client side. This is not a way to limit the duration of potentially
+ * compromised sessions.
  *
  * Defaults to ``false``
  */
@@ -672,6 +674,8 @@ $CONFIG = [
  * are generated within Nextcloud using any kind of command line tools (cron or
  * occ). The value should contain the full base URL:
  * ``https://www.example.com/nextcloud``
+ * Please make sure to set the value to the URL that your users mainly use to access this Nextcloud. 
+ * Otherwise there might be problems with the URL generation via cron.
  *
  * Defaults to ``''`` (empty string)
  */

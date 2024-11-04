@@ -16,6 +16,7 @@ const state = {
 	updateCount: loadState('settings', 'appstoreUpdateCount', 0),
 	loading: {},
 	gettingCategoriesPromise: null,
+	appApiEnabled: loadState('settings', 'appApiEnabled', false),
 }
 
 const mutations = {
@@ -70,6 +71,9 @@ const mutations = {
 		const app = state.apps.find(app => app.id === appId)
 		app.active = true
 		app.groups = groups
+		if (app.id === 'app_api') {
+			state.appApiEnabled = true
+		}
 	},
 
 	setInstallState(state, { appId, canInstall }) {
@@ -86,6 +90,9 @@ const mutations = {
 		if (app.removable) {
 			app.canUnInstall = true
 		}
+		if (app.id === 'app_api') {
+			state.appApiEnabled = false
+		}
 	},
 
 	uninstallApp(state, appId) {
@@ -95,6 +102,9 @@ const mutations = {
 		state.apps.find(app => app.id === appId).installed = false
 		state.apps.find(app => app.id === appId).canUnInstall = false
 		state.apps.find(app => app.id === appId).canInstall = true
+		if (appId === 'app_api') {
+			state.appApiEnabled = false
+		}
 	},
 
 	updateApp(state, appId) {
@@ -135,6 +145,9 @@ const mutations = {
 }
 
 const getters = {
+	isAppApiEnabled(state) {
+		return state.appApiEnabled
+	},
 	loading(state) {
 		return function(id) {
 			return state.loading[id]

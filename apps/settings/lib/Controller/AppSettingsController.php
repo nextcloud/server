@@ -43,6 +43,7 @@ use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use OCP\Server;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -78,6 +79,8 @@ class AppSettingsController extends Controller {
 	}
 
 	/**
+	 * @psalm-suppress UndefinedClass AppAPI is shipped since 30.0.1
+	 *
 	 * @return TemplateResponse
 	 */
 	#[NoCSRFRequired]
@@ -88,6 +91,13 @@ class AppSettingsController extends Controller {
 		$this->initialState->provideInitialState('appstoreBundles', $this->getBundles());
 		$this->initialState->provideInitialState('appstoreDeveloperDocs', $this->urlGenerator->linkToDocs('developer-manual'));
 		$this->initialState->provideInitialState('appstoreUpdateCount', count($this->getAppsWithUpdates()));
+
+		if ($this->appManager->isInstalled('app_api')) {
+			try {
+				Server::get(\OCA\AppAPI\Service\ExAppsPageService::class)->provideAppApiState($this->initialState);
+			} catch (\Psr\Container\NotFoundExceptionInterface|\Psr\Container\ContainerExceptionInterface $e) {
+			}
+		}
 
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
@@ -438,6 +448,7 @@ class AppSettingsController extends Controller {
 
 			$formattedApps[] = [
 				'id' => $app['id'],
+				'app_api' => false,
 				'name' => $app['translations'][$currentLanguage]['name'] ?? $app['translations']['en']['name'],
 				'description' => $app['translations'][$currentLanguage]['description'] ?? $app['translations']['en']['description'],
 				'summary' => $app['translations'][$currentLanguage]['summary'] ?? $app['translations']['en']['summary'],

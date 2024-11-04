@@ -105,11 +105,7 @@ class RootCollection extends SimpleCollection {
 
 		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend, $l10n, $config, $logger);
 
-		$systemTagCollection = new SystemTagsByIdCollection(
-			\OC::$server->getSystemTagManager(),
-			\OC::$server->getUserSession(),
-			$groupManager
-		);
+		$systemTagCollection = Server::get(SystemTagsByIdCollection::class);
 		$systemTagRelationsCollection = new SystemTagsRelationsCollection(
 			\OC::$server->getSystemTagManager(),
 			\OC::$server->getSystemTagObjectMapper(),

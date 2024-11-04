@@ -12,6 +12,7 @@ use OCA\DAV\SystemTag\SystemTagNode;
 use OCP\IUser;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagAlreadyExistsException;
 use OCP\SystemTag\TagNotFoundException;
 use Sabre\DAV\Exception\Forbidden;
@@ -24,6 +25,11 @@ class SystemTagNodeTest extends \Test\TestCase {
 	private $tagManager;
 
 	/**
+	 * @var ISystemTagObjectMapper|\PHPUnit\Framework\MockObject\MockObject
+	 */
+	private $tagMapper;
+
+	/**
 	 * @var IUser
 	 */
 	private $user;
@@ -32,6 +38,8 @@ class SystemTagNodeTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->tagManager = $this->getMockBuilder(ISystemTagManager::class)
+			->getMock();
+		$this->tagMapper = $this->getMockBuilder(ISystemTagObjectMapper::class)
 			->getMock();
 		$this->user = $this->getMockBuilder(IUser::class)
 			->getMock();
@@ -45,7 +53,8 @@ class SystemTagNodeTest extends \Test\TestCase {
 			$tag,
 			$this->user,
 			$isAdmin,
-			$this->tagManager
+			$this->tagManager,
+			$this->tagMapper,
 		);
 	}
 

@@ -16,6 +16,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\SimpleCollection;
@@ -28,6 +29,7 @@ class SystemTagsInUseCollection extends SimpleCollection {
 		protected IUserSession $userSession,
 		protected IRootFolder $rootFolder,
 		protected ISystemTagManager $systemTagManager,
+		protected ISystemTagObjectMapper $tagMapper,
 		SystemTagsInFilesDetector $systemTagsInFilesDetector,
 		protected string $mediaType = '',
 	) {
@@ -46,7 +48,7 @@ class SystemTagsInUseCollection extends SimpleCollection {
 		if ($this->mediaType !== '') {
 			throw new NotFound('Invalid media type');
 		}
-		return new self($this->userSession, $this->rootFolder, $this->systemTagManager, $this->systemTagsInFilesDetector, $name);
+		return new self($this->userSession, $this->rootFolder, $this->systemTagManager, $this->tagMapper, $this->systemTagsInFilesDetector, $name);
 	}
 
 	/**
@@ -71,9 +73,9 @@ class SystemTagsInUseCollection extends SimpleCollection {
 		$result = $this->systemTagsInFilesDetector->detectAssignedSystemTagsIn($userFolder, $this->mediaType);
 		$children = [];
 		foreach ($result as $tagData) {
-			$tag = new SystemTag((string)$tagData['id'], $tagData['name'], (bool)$tagData['visibility'], (bool)$tagData['editable']);
+			$tag = new SystemTag((string)$tagData['id'], $tagData['name'], (bool)$tagData['visibility'], (bool)$tagData['editable'], $tagData['etag']);
 			// read only, so we can submit the isAdmin parameter as false generally
-			$node = new SystemTagNode($tag, $user, false, $this->systemTagManager);
+			$node = new SystemTagNode($tag, $user, false, $this->systemTagManager, $this->tagMapper);
 			$node->setNumberOfFiles((int)$tagData['number_files']);
 			$node->setReferenceFileId((int)$tagData['ref_file_id']);
 			$children[] = $node;

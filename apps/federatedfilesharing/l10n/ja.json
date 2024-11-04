@@ -31,7 +31,6 @@
     "Unable to update federated files sharing config" : "クラウド共有設定を更新できませんでした",
     "Federated Cloud" : "クラウド共有",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud サーバーまたはその他の Open Cloud Mesh (OCM) 互換のサーバーとサービスを使用しているユーザーであれば、共有ダイアログに Federated Cloud ID を入力するだけで誰とでも共有できます。例: person@cloud.example.com",
-    "Your Federated Cloud ID:" : "あなたのクラウド共有ID：",
     "Share it so your friends can share files with you:" : "友達があなたとファイルを共有できるよう、シェアしましょう:",
     "Facebook" : "Facebook",
     "X (formerly Twitter)" : "X (旧 Twitter)",
@@ -45,11 +44,12 @@
     "Cloud ID copied to the clipboard" : "クリップボードにクラウドIDをコピーしました",
     "Copy to clipboard" : "クリップボードにコピー",
     "Clipboard not available. Please copy the cloud ID manually." : "クリップボードが使用できません。手動でクラウドIDをコピーしてください。",
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote} からのリモート共有 {name} を追加してもよろしいですか？",
-    "Remote share" : "リモート共有",
-    "Remote share password" : "リモート共有のパスワード",
+    "Copied!" : "コピーしました！",
     "Cancel" : "キャンセル",
     "Add remote share" : "リモート共有を追加",
+    "Remote share" : "リモート共有",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote} からのリモート共有 {name} を追加してもよろしいですか？",
+    "Remote share password" : "リモート共有のパスワード",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "ユーザー%2$sによりすでに共有されているため%1$s を共有できませんでした。",
     "Not allowed to create a federated share with the same user" : "同じユーザーでクラウド共有は作成できません。",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "ユーザーがサーバー間で共有する方法を調整します。フェデレーション共有を使用している場合、このサーバー上のユーザー間の共有も含まれます。",
@@ -59,9 +59,9 @@
     "Allow users on this server to receive group shares from other servers" : "ユーザーが他のサーバーからこのサーバーにグループ共有することを許可する",
     "Search global and public address book for users" : "グローバルまたはユーザーの公開アドレス帳を検索する",
     "Allow users to publish their data to a global and public address book" : "公開アドレス帳をグローバルに公開することをユーザーに許可する",
+    "Your Federated Cloud ID:" : "あなたのクラウド共有ID：",
     "Twitter" : "Twitter",
     "Diaspora" : "Diaspora",
-    "Clipboard is not available" : "クリップボードは利用できません",
-    "Copied!" : "コピーしました！"
+    "Clipboard is not available" : "クリップボードは利用できません"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

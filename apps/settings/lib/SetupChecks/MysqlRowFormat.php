@@ -40,7 +40,7 @@ class MysqlRowFormat implements ISetupCheck {
 
 		$wrongRowFormatTables = $this->getRowNotDynamicTables();
 		if (empty($wrongRowFormatTables)) {
-			return SetupResult::success($this->l10n->t('None of your table use ROW_FORMAT=Compressed'));
+			return SetupResult::success($this->l10n->t('None of your tables use ROW_FORMAT=Compressed'));
 		}
 
 		return SetupResult::warning(
