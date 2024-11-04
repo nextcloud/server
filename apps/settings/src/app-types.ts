@@ -87,8 +87,31 @@ export interface IExAppStatus {
 	type: string
 }
 
+export interface IDeployEnv {
+	envName: string
+	displayName: string
+	description: string
+	default?: string
+}
+
+export interface IDeployMount {
+	hostPath: string
+	containerPath: string
+	readOnly: boolean
+}
+
+export interface IDeployOptions {
+	environment_variables: IDeployEnv[]
+	mounts: IDeployMount[]
+}
+
+export interface IAppstoreExAppRelease extends IAppstoreAppRelease {
+	environmentVariables?: IDeployEnv[]
+}
+
 export interface IAppstoreExApp extends IAppstoreApp {
 	daemon: IDeployDaemon | null | undefined
 	status: IExAppStatus | Record<string, never>
 	error: string
+	releases: IAppstoreExAppRelease[]
 }

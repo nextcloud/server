@@ -14,7 +14,7 @@ import { defineStore } from 'pinia'
 import api from './api'
 import logger from '../logger'
 
-import type { IAppstoreExApp, IDeployDaemon, IExAppStatus } from '../app-types'
+import type { IAppstoreExApp, IDeployDaemon, IDeployOptions, IExAppStatus } from '../app-types.ts'
 import Vue from 'vue'
 
 interface AppApiState {
@@ -76,12 +76,12 @@ export const useAppApiStore = defineStore('app-api-apps', {
 			})
 		},
 
-		enableApp(appId: string) {
+		enableApp(appId: string, deployOptions: IDeployOptions[] = []) {
 			this.setLoading(appId, true)
 			this.setLoading('install', true)
 			return confirmPassword().then(() => {
 
-				return axios.post(generateUrl(`/apps/app_api/apps/enable/${appId}`))
+				return axios.post(generateUrl(`/apps/app_api/apps/enable/${appId}`), { deployOptions })
 					.then((response) => {
 						this.setLoading(appId, false)
 						this.setLoading('install', false)
@@ -132,6 +132,9 @@ export const useAppApiStore = defineStore('app-api-apps', {
 						this.setError(appId, error.response.data.data.message)
 						this.appsApiFailure({ appId, error })
 					})
+			}).catch(() => {
+				this.setLoading(appId, false)
+				this.setLoading('install', false)
 			})
 		},
 
@@ -150,6 +153,9 @@ export const useAppApiStore = defineStore('app-api-apps', {
 						this.setError(appId, error.response.data.data.message)
 						this.appsApiFailure({ appId, error })
 					})
+			}).catch(() => {
+				this.setLoading(appId, false)
+				this.setLoading('install', false)
 			})
 		},
 
@@ -173,6 +179,8 @@ export const useAppApiStore = defineStore('app-api-apps', {
 						this.setLoading(appId, false)
 						this.appsApiFailure({ appId, error })
 					})
+			}).catch(() => {
+				this.setLoading(appId, false)
 			})
 		},
 
@@ -237,6 +245,9 @@ export const useAppApiStore = defineStore('app-api-apps', {
 						this.setLoading('install', false)
 						this.appsApiFailure({ appId, error })
 					})
+			}).catch(() => {
+				this.setLoading(appId, false)
+				this.setLoading('install', false)
 			})
 		},
 

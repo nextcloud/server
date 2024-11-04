@@ -77,6 +77,15 @@
 						:value="forceEnableButtonText"
 						:disabled="installing || isLoading"
 						@click="forceEnable(app.id)">
+					<NcButton v-if="app?.app_api && (app.canInstall || app.isCompatible)"
+						:aria-label="t('settings', 'Advanced deploy options')"
+						type="secondary"
+						@click="() => showDeployOptionsModal = true">
+						<template #icon>
+							<NcIconSvgWrapper :path="mdiToyBrickPlus" />
+						</template>
+						{{ t('settings', 'Deploy options') }}
+					</NcButton>
 				</div>
 				<p v-if="!defaultDeployDaemonAccessible" class="warning">
 					{{ t('settings', 'Default Deploy daemon is not accessible') }}
@@ -182,6 +191,10 @@
 					</NcButton>
 				</div>
 			</div>
+
+			<AppDeployOptionsModal v-if="app?.app_api"
+				:show.sync="showDeployOptionsModal"
+				:app="app" />
 		</div>
 	</NcAppSidebarTab>
 </template>
@@ -193,9 +206,10 @@ import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import AppDeployOptionsModal from './AppDeployOptionsModal.vue'
 
 import AppManagement from '../../mixins/AppManagement.js'
-import { mdiBug, mdiFeatureSearch, mdiStar, mdiTextBox, mdiTooltipQuestion } from '@mdi/js'
+import { mdiBug, mdiFeatureSearch, mdiStar, mdiTextBox, mdiTooltipQuestion, mdiToyBrickPlus } from '@mdi/js'
 import { useAppsStore } from '../../store/apps-store'
 import { useAppApiStore } from '../../store/app-api-store'
 
@@ -209,6 +223,7 @@ export default {
 		NcIconSvgWrapper,
 		NcSelect,
 		NcCheckboxRadioSwitch,
+		AppDeployOptionsModal,
 	},
 	mixins: [AppManagement],
 
@@ -232,6 +247,7 @@ export default {
 			mdiStar,
 			mdiTextBox,
 			mdiTooltipQuestion,
+			mdiToyBrickPlus,
 		}
 	},
 
@@ -239,6 +255,7 @@ export default {
 		return {
 			groupCheckedAppsData: false,
 			removeData: false,
+			showDeployOptionsModal: false,
 		}
 	},
 
@@ -370,6 +387,7 @@ export default {
 		&-manage {
 			// if too many, shrink them and ellipsis
 			display: flex;
+			align-items: center;
 			input {
 				flex: 0 1 auto;
 				min-width: 0;
