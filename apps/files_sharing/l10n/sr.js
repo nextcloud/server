@@ -285,6 +285,7 @@ OC.L10N.register(
     "Share with guest" : "Подели са гостом",
     "Update share" : "Ажурирај дељење",
     "Save share" : "Сачувај дељење",
+    "Replace current password" : "Замени текућу лозинку",
     "Others with access" : "Остали са приступом",
     "No other accounts with access found" : "Није пронађен ниједан други налог са приступом",
     "Toggle list of others with access to this directory" : "Укључи/искључи списак осталих са приступом овом директоријуму",

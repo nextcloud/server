@@ -604,7 +604,7 @@ OC.L10N.register(
     "Send welcome email to new users" : "Send velkomst e-mail til nye brugere",
     "Name your device" : "Navngiv din enhed",
     "Server error while trying to add WebAuthn device" : "Serverfejl under forsøg på at tilføje WebAuthn-enhed",
-    "by {author}\n{license}" : "af {author}\n{licens}",
+    "by {author}\n{license}" : "af {author}\n{license}",
     "Active users" : "Aktive brugere",
     "Disabled users" : "Deaktiverede brugere",
     "Creating group …" : "Opretter gruppe ...",
