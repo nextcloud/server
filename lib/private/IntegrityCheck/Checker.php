@@ -213,7 +213,7 @@ class Checker {
 				json_encode($signature, JSON_PRETTY_PRINT)
 			);
 		} catch (\Exception $e) {
-			if (!$this->fileAccessHelper->is_writable($appInfoDir)) {
+			if ($this->fileAccessHelper->is_writable($appInfoDir) === false) {
 				throw new \Exception($appInfoDir . ' is not writable');
 			}
 			throw $e;

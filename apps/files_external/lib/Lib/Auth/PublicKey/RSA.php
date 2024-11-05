@@ -66,7 +66,8 @@ class RSA extends AuthMechanism {
 			$keyLength = 1024;
 		}
 
+		$secret = $this->config->getSystemValue('secret', '');
 		return $rsa->createKey($keyLength)
-			->withPassword($this->config->getSystemValue('secret', ''));
+			->withPassword($secret);
 	}
 }
