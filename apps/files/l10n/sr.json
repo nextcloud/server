@@ -265,6 +265,7 @@
     "This operation is forbidden" : "Ова радња је забрањена",
     "This directory is unavailable, please check the logs or contact the administrator" : "Овај директоријум није доступан, проверите дневник или контактирајте администратора",
     "Storage is temporarily not available" : "Складиште привремено није  доступно",
+    "Unexpected error: {error}" : "Неочекивана грешка: {error}",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} фолдер","{folderCount} фолдера","{folderCount} фолдера"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} фајл","{fileCount} фајла","{fileCount} фајлова"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 фајл и {folderCount} фолдер","1 фајл и {folderCount} фолдера","1 фајл и {folderCount} фолдера"],

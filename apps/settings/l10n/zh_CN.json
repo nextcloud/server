@@ -208,7 +208,6 @@
     "One or more mimetype migrations are available. Occasionally new mimetypes are added to better handle certain file types. Migrating the mimetypes take a long time on larger instances so this is not done automatically during upgrades. Use the command `occ maintenance:repair --include-expensive` to perform the migrations." : "有一个或多个 mimetype 迁移可用。有时会添加新的 mimetype 以更好地处理某些文件类型。在较大的实例上迁移 mimetype 需要很长时间，因此升级期间不会自动完成此操作。使用命令 \"occ Maintenance:repair --include-expensive\" 执行迁移。",
     "MySQL row format" : "MySQL 行格式",
     "You are not using MySQL" : "您没有使用MySQL",
-    "None of your table use ROW_FORMAT=Compressed" : "您的数据库表中没有使用 ROW_FORMAT=Compressed。",
     "_Table %s is not using ROW_FORMAT=Dynamic. This format offers the best database performances for Nextcloud. Please change the row format to Dynamic._::_Some tables are not using ROW_FORMAT=Dynamic. This format offers the best database performances for Nextcloud. Please change the row format to Dynamic on the following tables: %s._" : ["某些数据库表未使用 ROW_FORMAT=Dynamic。此格式为 Nextcloud 提供最佳的数据库性能。请将以下数据库表的行格式更改为 Dynamic：%s。"],
     "MySQL Unicode support" : "MySQL Unicode 支持",
     "MySQL is used as database and does support 4-byte characters" : "MySQL用作数据库并且支持4字节字符",
