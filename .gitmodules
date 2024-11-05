@@ -31,3 +31,6 @@
 [submodule "custom-npms/nc-vue-material-design-icons"]
 	path = custom-npms/nc-vue-material-design-icons
 	url = git@github.com:IONOS-Productivity/nc-vue-material-design-icons.git
+[submodule "custom-npms/nc-mdi-svg"]
+	path = custom-npms/nc-mdi-svg
+	url = git@github.com:IONOS-Productivity/nc-MaterialDesign-SVG.git

@@ -193,7 +193,8 @@
     "webpack-cli": "^5.0.2",
     "webpack-merge": "^6.0.1",
     "workbox-webpack-plugin": "^7.1.0",
-    "vue-material-design-icons": "file:./custom-npms/nc-vue-material-design-icons/dist"
+    "vue-material-design-icons": "file:./custom-npms/nc-vue-material-design-icons/dist",
+    "@mdi/svg": "file:./custom-npms/nc-mdi-svg"
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"
@@ -204,6 +205,7 @@
   },
   "overrides": {
     "colors": "1.4.0",
-    "vue-material-design-icons" : "$vue-material-design-icons"
+    "vue-material-design-icons" : "$vue-material-design-icons",
+    "@mdi/svg" : "$@mdi/svg"
     }
 }
