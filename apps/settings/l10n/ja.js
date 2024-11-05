@@ -211,7 +211,6 @@ OC.L10N.register(
     "One or more mimetype migrations are available. Occasionally new mimetypes are added to better handle certain file types. Migrating the mimetypes take a long time on larger instances so this is not done automatically during upgrades. Use the command `occ maintenance:repair --include-expensive` to perform the migrations." : "1つ以上のmimetypeマイグレーションが利用できます。時折、特定のファイルタイプをよりよく扱うために新しいmimetypesが追加されます。大規模なインスタンスではmimetypesの移行に時間がかかるため、アップグレード時には自動的には行われません。移行を行うには `occ maintenance:repair --include-expensive` コマンドを使用してください。",
     "MySQL row format" : "MySQLの行フォーマット",
     "You are not using MySQL" : "あなたは MySQL を使用していません",
-    "None of your table use ROW_FORMAT=Compressed" : "ROW_FORMAT=Compressed を使用しているテーブルはありません",
     "_Table %s is not using ROW_FORMAT=Dynamic. This format offers the best database performances for Nextcloud. Please change the row format to Dynamic._::_Some tables are not using ROW_FORMAT=Dynamic. This format offers the best database performances for Nextcloud. Please change the row format to Dynamic on the following tables: %s._" : ["ROW_FORMAT=Dynamicを使用していないテーブルがあります。このフォーマットはNextcloudで最高のデータベース・パフォーマンスを提供します。以下のテーブルで行の形式をダイナミックに変更してください: %s"],
     "MySQL Unicode support" : "MySQL Unicode サポート",
     "MySQL is used as database and does support 4-byte characters" : "MySQL はデータベースとして使用され、4バイト文字をサポートしています",
