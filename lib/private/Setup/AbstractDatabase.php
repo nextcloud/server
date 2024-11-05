@@ -77,7 +77,6 @@ abstract class AbstractDatabase {
 		$this->config->setValues([
 			'dbname' => $dbName,
 			'dbhost' => $dbHost,
-			'dbport' => $dbPort,
 			'dbtableprefix' => $dbTablePrefix,
 		]);
 
