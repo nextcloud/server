@@ -18,7 +18,7 @@ use OCP\AppFramework\QueryException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IL10N;
 use OCP\Util;
-use phpseclib\Crypt\AES;
+use phpseclib3\Crypt\AES;
 use Psr\Log\LoggerInterface;
 
 /**

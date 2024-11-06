@@ -13,28 +13,27 @@ use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use phpseclib3\Crypt\RSA as CryptRSA;
+use phpseclib3\Crypt\RSA\PrivateKey;
+use phpseclib3\Crypt\RSA\PublicKey;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AjaxControllerTest extends TestCase {
-	/** @var IRequest */
-	private $request;
-	/** @var RSA */
-	private $rsa;
-	/** @var GlobalAuth */
-	private $globalAuth;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IGroupManager */
-	private $groupManager;
-	/** @var AjaxController */
-	private $ajaxController;
+	private IRequest&MockObject $request;
+	private RSA&MockObject $rsa;
+	private GlobalAuth&MockObject $globalAuth;
+	private IUserSession&MockObject $userSession;
+	private IGroupManager&MockObject $groupManager;
+
+	private AjaxController $ajaxController;
 
 	protected function setUp(): void {
 		$this->request = $this->createMock(IRequest::class);
-		$this->rsa = $this->getMockBuilder('\\OCA\\Files_External\\Lib\\Auth\\PublicKey\\RSA')
+		$this->rsa = $this->getMockBuilder(RSA::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->globalAuth = $this->getMockBuilder('\\OCA\\Files_External\\Lib\\Auth\\Password\GlobalAuth')
+		$this->globalAuth = $this->getMockBuilder(GlobalAuth::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->userSession = $this->createMock(IUserSession::class);
@@ -53,12 +52,29 @@ class AjaxControllerTest extends TestCase {
 	}
 
 	public function testGetSshKeys(): void {
+		$keyImpl = $this->createMock(CryptRSA::class);
+		$keyImpl->expects(self::once())
+			->method('toString')
+			->with('OpenSSH')
+			->willReturn('MyPublicKey');
+
+		$publicKey = $this->createMock(PublicKey::class);
+		$publicKey->expects(self::once())
+			->method('getPublicKey')
+			->willReturn($keyImpl);
+
+		$privateKey = $this->createMock(PrivateKey::class);
+		$privateKey->expects(self::once())
+			->method('toString')
+			->with('PKCS1')
+			->willReturn('MyPrivatekey');
+
 		$this->rsa
 			->expects($this->once())
 			->method('createKey')
 			->willReturn([
-				'privatekey' => 'MyPrivateKey',
-				'publickey' => 'MyPublicKey',
+				'privatekey' => $privateKey,
+				'publickey' => $publicKey,
 			]);
 
 		$expected = new JSONResponse(

@@ -14,7 +14,7 @@ use OC\Files\View;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
-use phpseclib\Net\SFTP\Stream;
+use phpseclib3\Net\SFTP\Stream;
 
 /**
  * Uses phpseclib's Net\SFTP class and the Net\SFTP\Stream stream wrapper to
@@ -29,7 +29,7 @@ class SFTP extends Common {
 	private $auth = [];
 
 	/**
-	 * @var \phpseclib\Net\SFTP
+	 * @var \phpseclib3\Net\SFTP
 	 */
 	protected $client;
 	private IMimeTypeDetector $mimeTypeDetector;
@@ -93,16 +93,16 @@ class SFTP extends Common {
 	/**
 	 * Returns the connection.
 	 *
-	 * @return \phpseclib\Net\SFTP connected client instance
+	 * @return \phpseclib3\Net\SFTP connected client instance
 	 * @throws \Exception when the connection failed
 	 */
-	public function getConnection(): \phpseclib\Net\SFTP {
+	public function getConnection(): \phpseclib3\Net\SFTP {
 		if (!is_null($this->client)) {
 			return $this->client;
 		}
 
 		$hostKeys = $this->readHostKeys();
-		$this->client = new \phpseclib\Net\SFTP($this->host, $this->port);
+		$this->client = new \phpseclib3\Net\SFTP($this->host, $this->port);
 
 		// The SSH Host Key MUST be verified before login().
 		$currentHostKey = $this->client->getServerPublicHostKey();
@@ -453,7 +453,7 @@ class SFTP extends Common {
 					return false;
 				}
 				/** @psalm-suppress InternalMethod */
-				if (!$connection->put($absTarget, $chunk, \phpseclib\Net\SFTP::SOURCE_STRING, $i)) {
+				if (!$connection->put($absTarget, $chunk, \phpseclib3\Net\SFTP::SOURCE_STRING, $i)) {
 					return false;
 				}
 			}

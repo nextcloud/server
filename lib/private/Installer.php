@@ -24,7 +24,7 @@ use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ITempManager;
 use OCP\Migration\IOutput;
-use phpseclib\File\X509;
+use phpseclib3\File\X509;
 use Psr\Log\LoggerInterface;
 
 /**
