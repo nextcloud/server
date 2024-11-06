@@ -698,6 +698,7 @@ return array(
     'OCP\\Settings\\Events\\DeclarativeSettingsSetValueEvent' => $baseDir . '/lib/public/Settings/Events/DeclarativeSettingsSetValueEvent.php',
     'OCP\\Settings\\IDeclarativeManager' => $baseDir . '/lib/public/Settings/IDeclarativeManager.php',
     'OCP\\Settings\\IDeclarativeSettingsForm' => $baseDir . '/lib/public/Settings/IDeclarativeSettingsForm.php',
+    'OCP\\Settings\\IDeclarativeSettingsFormWithHandlers' => $baseDir . '/lib/public/Settings/IDeclarativeSettingsFormWithHandlers.php',
     'OCP\\Settings\\IDelegatedSettings' => $baseDir . '/lib/public/Settings/IDelegatedSettings.php',
     'OCP\\Settings\\IIconSection' => $baseDir . '/lib/public/Settings/IIconSection.php',
     'OCP\\Settings\\IManager' => $baseDir . '/lib/public/Settings/IManager.php',

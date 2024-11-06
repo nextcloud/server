@@ -16,9 +16,6 @@ use OCA\Files\Controller\ApiController;
 use OCA\Files\DirectEditingCapabilities;
 use OCA\Files\Event\LoadSearchPlugins;
 use OCA\Files\Event\LoadSidebar;
-use OCA\Files\Listener\DeclarativeSettingsGetValueEventListener;
-use OCA\Files\Listener\DeclarativeSettingsRegisterFormEventListener;
-use OCA\Files\Listener\DeclarativeSettingsSetValueEventListener;
 use OCA\Files\Listener\LoadSearchPluginsListener;
 use OCA\Files\Listener\LoadSidebarListener;
 use OCA\Files\Listener\RenderReferenceEventListener;
@@ -28,6 +25,7 @@ use OCA\Files\Search\FilesSearchProvider;
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
+use OCA\Files\Settings\DeclarativeAdminSettings;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -49,9 +47,6 @@ use OCP\IRequest;
 use OCP\IServerContainer;
 use OCP\ITagManager;
 use OCP\IUserSession;
-use OCP\Settings\Events\DeclarativeSettingsGetValueEvent;
-use OCP\Settings\Events\DeclarativeSettingsRegisterFormEvent;
-use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
 use OCP\Share\IManager as IShareManager;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
@@ -111,6 +106,8 @@ class Application extends App implements IBootstrap {
 		$context->registerCapability(Capabilities::class);
 		$context->registerCapability(DirectEditingCapabilities::class);
 
+		$context->registerDeclarativeSettings(DeclarativeAdminSettings::class);
+
 		$context->registerEventListener(LoadSidebar::class, LoadSidebarListener::class);
 		$context->registerEventListener(RenderReferenceEvent::class, RenderReferenceEventListener::class);
 		$context->registerEventListener(BeforeNodeRenamedEvent::class, SyncLivePhotosListener::class);
@@ -119,9 +116,6 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeNodeCopiedEvent::class, SyncLivePhotosListener::class);
 		$context->registerEventListener(NodeCopiedEvent::class, SyncLivePhotosListener::class);
 		$context->registerEventListener(LoadSearchPlugins::class, LoadSearchPluginsListener::class);
-		$context->registerEventListener(DeclarativeSettingsRegisterFormEvent::class, DeclarativeSettingsRegisterFormEventListener::class);
-		$context->registerEventListener(DeclarativeSettingsGetValueEvent::class, DeclarativeSettingsGetValueEventListener::class);
-		$context->registerEventListener(DeclarativeSettingsSetValueEvent::class, DeclarativeSettingsSetValueEventListener::class);
 
 		$context->registerSearchProvider(FilesSearchProvider::class);
 
