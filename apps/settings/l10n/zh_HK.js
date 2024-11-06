@@ -211,7 +211,7 @@ OC.L10N.register(
     "One or more mimetype migrations are available. Occasionally new mimetypes are added to better handle certain file types. Migrating the mimetypes take a long time on larger instances so this is not done automatically during upgrades. Use the command `occ maintenance:repair --include-expensive` to perform the migrations." : "有一個或多個 MIME 類型的遷移可用。有時會添加新的 MIME 類型以更好地處理某些檔案類型。在較大的實例上遷移 MIME 類型需要很長時間，因此在升級過程中不會自動執行。請使用命令 `occ maintenance:repair --include-expensive` 來執行遷移。",
     "MySQL row format" : "MySQL 行格式",
     "You are not using MySQL" : "您並未使用 MySQL",
-    "_Table %s is not using ROW_FORMAT=Dynamic. This format offers the best database performances for Nextcloud. Please change the row format to Dynamic._::_Some tables are not using ROW_FORMAT=Dynamic. This format offers the best database performances for Nextcloud. Please change the row format to Dynamic on the following tables: %s._" : ["某些數據庫表未使用 ROW_FORMAT=Dynamic。此格式為 Nextcloud 提供最佳的數據庫性能。請將以下數據庫表的行格式更改為 Dynamic：%s。"],
+    "None of your tables use ROW_FORMAT=Compressed" : "您的數據庫表中沒有使用 ROW_FORMAT=Compressed",
     "MySQL Unicode support" : "MySQL Unicode 支援",
     "MySQL is used as database and does support 4-byte characters" : "MySQL 用作資料庫並支援 4 位元組字元",
     "MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL." : "MySQL 用作數據庫，但不支持4-byte字符。為了能夠處理4字節字符（如表情符號）而不會出現文件名或註釋問題，建議在MySQL中啟用4字節支持。",
