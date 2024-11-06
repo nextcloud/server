@@ -72,7 +72,7 @@ class RequestHandlerController extends OCSController {
 	 * @param int|null $remoteId ID of the remote
 	 * @param string|null $sharedByFederatedId Federated ID of the sender
 	 * @param string|null $ownerFederatedId Federated ID of the receiver
-	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return Http\DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSException
 	 *
 	 * 200: Share created successfully
@@ -186,7 +186,7 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * @param int $id ID of the remote share
 	 * @param string|null $token Shared secret between servers
-	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return Http\DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSException
 	 * @throws ShareNotFound
 	 * @throws HintException
@@ -221,7 +221,7 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * @param int $id ID of the remote share
 	 * @param string|null $token Shared secret between servers
-	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return Http\DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSException
 	 *
 	 * 200: Share declined successfully
@@ -254,7 +254,7 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * @param int $id ID of the share
 	 * @param string|null $token Shared secret between servers
-	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return Http\DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSException
 	 *
 	 * 200: Share unshared successfully
@@ -290,7 +290,7 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * @param int $id ID of the share
 	 * @param string|null $token Shared secret between servers
-	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return Http\DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSBadRequestException Revoking the share is not possible
 	 *
 	 * 200: Share revoked successfully
@@ -332,7 +332,7 @@ class RequestHandlerController extends OCSController {
 	 * @param int $id ID of the share
 	 * @param string|null $token Shared secret between servers
 	 * @param int|null $permissions New permissions
-	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return Http\DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSBadRequestException Updating permissions is not possible
 	 *
 	 * 200: Permissions updated successfully

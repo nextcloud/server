@@ -143,7 +143,7 @@ class UserStatusWidget implements IAPIWidget, IAPIWidgetV2, IIconWidget, IOption
 	public function getItems(string $userId, ?string $since = null, int $limit = 7): array {
 		$widgetItemsData = $this->getWidgetData($userId, $since, $limit);
 
-		return array_map(function (array $widgetData) {
+		return array_values(array_map(function (array $widgetData) {
 			$formattedDate = $this->dateTimeFormatter->formatTimeSpan($widgetData['timestamp']);
 			return new WidgetItem(
 				$widgetData['displayName'],
@@ -157,7 +157,7 @@ class UserStatusWidget implements IAPIWidget, IAPIWidgetV2, IIconWidget, IOption
 				),
 				(string)$widgetData['timestamp']
 			);
-		}, $widgetItemsData);
+		}, $widgetItemsData));
 	}
 
 	/**

@@ -61,7 +61,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * Poll the login flow credentials
 	 *
 	 * @param string $token Token of the flow
-	 * @return JSONResponse<Http::STATUS_OK, CoreLoginFlowV2Credentials, array{}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @return JSONResponse<Http::STATUS_OK, CoreLoginFlowV2Credentials, array{}>|JSONResponse<Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
 	 * 200: Login flow credentials returned
 	 * 404: Login flow not found or completed

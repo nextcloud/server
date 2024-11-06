@@ -638,6 +638,10 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		return false;
 	}
 
+	/**
+	 * @param string $uid
+	 * @return list<string>
+	 */
 	protected function getCachedGroupsForUserId(string $uid): array {
 		$groupStr = $this->config->getUserValue($uid, 'user_ldap', 'cached-group-memberships-' . $this->access->connection->getConfigPrefix(), '[]');
 		return json_decode($groupStr, true) ?? [];
@@ -650,7 +654,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * This function includes groups based on dynamic group membership.
 	 *
 	 * @param string $uid Name of the user
-	 * @return string[] Group names
+	 * @return list<string> Group names
 	 * @throws Exception
 	 * @throws ServerNotAvailableException
 	 */

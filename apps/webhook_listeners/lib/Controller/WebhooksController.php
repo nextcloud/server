@@ -50,7 +50,7 @@ class WebhooksController extends OCSController {
 	 * List registered webhooks
 	 *
 	 * @param string|null $uri The callback URI to filter by
-	 * @return DataResponse<Http::STATUS_OK, WebhookListenersWebhookInfo[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<WebhookListenersWebhookInfo>, array{}>
 	 * @throws OCSException Other internal error
 	 *
 	 * 200: Webhook registrations returned
@@ -66,12 +66,10 @@ class WebhooksController extends OCSController {
 				$webhookListeners = $this->mapper->getAll();
 			}
 
-			return new DataResponse(
-				array_map(
-					fn (WebhookListener $listener): array => $listener->jsonSerialize(),
-					$webhookListeners
-				)
-			);
+			return new DataResponse(array_values(array_map(
+				fn (WebhookListener $listener): array => $listener->jsonSerialize(),
+				$webhookListeners
+			)));
 		} catch (\Exception $e) {
 			$this->logger->error('Error when listing webhooks', ['exception' => $e]);
 			throw new OCSException('An internal error occurred', Http::STATUS_INTERNAL_SERVER_ERROR, $e);

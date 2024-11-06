@@ -52,7 +52,7 @@ class OCSAuthAPIController extends OCSController {
 	 *
 	 * @param string $url URL of the server
 	 * @param string $token Token of the server
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSForbiddenException Requesting shared secret is not allowed
 	 *
 	 * 200: Shared secret requested successfully
@@ -87,7 +87,7 @@ class OCSAuthAPIController extends OCSController {
 	 *
 	 * @param string $url URL of the server
 	 * @param string $token Token of the server
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSForbiddenException Requesting shared secret is not allowed
 	 *
 	 * 200: Shared secret requested successfully

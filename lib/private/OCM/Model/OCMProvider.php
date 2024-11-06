@@ -194,12 +194,12 @@ class OCMProvider implements IOCMProvider {
 	 *     enabled: bool,
 	 *     apiVersion: string,
 	 *     endPoint: string,
-	 *     resourceTypes: array{
-	 *              name: string,
-	 *              shareTypes: string[],
-	 *              protocols: array<string, string>
-	 *            }[]
-	 *   }
+	 *     resourceTypes: list<array{
+	 *         name: string,
+	 *         shareTypes: list<string>,
+	 *         protocols: array<string, string>
+	 *     }>,
+	 * }
 	 */
 	public function jsonSerialize(): array {
 		$resourceTypes = [];

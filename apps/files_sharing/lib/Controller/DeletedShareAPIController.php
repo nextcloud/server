@@ -135,7 +135,7 @@ class DeletedShareAPIController extends OCSController {
 	/**
 	 * Get a list of all deleted shares
 	 *
-	 * @return DataResponse<Http::STATUS_OK, Files_SharingDeletedShare[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<Files_SharingDeletedShare>, array{}>
 	 *
 	 * 200: Deleted shares returned
 	 */
@@ -148,9 +148,9 @@ class DeletedShareAPIController extends OCSController {
 
 		$shares = array_merge($groupShares, $roomShares, $deckShares, $sciencemeshShares);
 
-		$shares = array_map(function (IShare $share) {
+		$shares = array_values(array_map(function (IShare $share) {
 			return $this->formatShare($share);
-		}, $shares);
+		}, $shares));
 
 		return new DataResponse($shares);
 	}
@@ -159,7 +159,7 @@ class DeletedShareAPIController extends OCSController {
 	 * Undelete a deleted share
 	 *
 	 * @param string $id ID of the share
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSException
 	 * @throws OCSNotFoundException Share not found
 	 *

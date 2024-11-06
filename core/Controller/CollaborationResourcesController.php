@@ -59,7 +59,7 @@ class CollaborationResourcesController extends OCSController {
 	 * Get a collection
 	 *
 	 * @param int $collectionId ID of the collection
-	 * @return DataResponse<Http::STATUS_OK, CoreCollection, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CoreCollection, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, list<empty>, array{}>
 	 *
 	 * 200: Collection returned
 	 * 404: Collection not found
@@ -80,7 +80,7 @@ class CollaborationResourcesController extends OCSController {
 	 * Search for collections
 	 *
 	 * @param string $filter Filter collections
-	 * @return DataResponse<Http::STATUS_OK, CoreCollection[], array{}>|DataResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<CoreCollection>, array{}>|DataResponse<Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
 	 * 200: Collections returned
 	 * 404: Collection not found
@@ -103,7 +103,7 @@ class CollaborationResourcesController extends OCSController {
 	 * @param int $collectionId ID of the collection
 	 * @param string $resourceType Name of the resource
 	 * @param string $resourceId ID of the resource
-	 * @return DataResponse<Http::STATUS_OK, CoreCollection, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CoreCollection, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, list<empty>, array{}>
 	 *
 	 * 200: Collection returned
 	 * 404: Collection not found or resource inaccessible
@@ -137,7 +137,7 @@ class CollaborationResourcesController extends OCSController {
 	 * @param int $collectionId ID of the collection
 	 * @param string $resourceType Name of the resource
 	 * @param string $resourceId ID of the resource
-	 * @return DataResponse<Http::STATUS_OK, CoreCollection, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CoreCollection, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, list<empty>, array{}>
 	 *
 	 * 200: Collection returned
 	 * 404: Collection or resource not found
@@ -167,7 +167,7 @@ class CollaborationResourcesController extends OCSController {
 	 *
 	 * @param string $resourceType Type of the resource
 	 * @param string $resourceId ID of the resource
-	 * @return DataResponse<Http::STATUS_OK, CoreCollection[], array{}>|DataResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<CoreCollection>, array{}>|DataResponse<Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
 	 * 200: Collections returned
 	 * 404: Resource not accessible
@@ -194,7 +194,7 @@ class CollaborationResourcesController extends OCSController {
 	 * @param string $baseResourceType Type of the base resource
 	 * @param string $baseResourceId ID of the base resource
 	 * @param string $name Name of the collection
-	 * @return DataResponse<Http::STATUS_OK, CoreCollection, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CoreCollection, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, list<empty>, array{}>
 	 *
 	 * 200: Collection returned
 	 * 400: Creating collection is not possible
@@ -228,7 +228,7 @@ class CollaborationResourcesController extends OCSController {
 	 *
 	 * @param int $collectionId ID of the collection
 	 * @param string $collectionName New name
-	 * @return DataResponse<Http::STATUS_OK, CoreCollection, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CoreCollection, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, list<empty>, array{}>
 	 *
 	 * 200: Collection returned
 	 * 404: Collection not found
@@ -248,7 +248,7 @@ class CollaborationResourcesController extends OCSController {
 	}
 
 	/**
-	 * @return DataResponse<Http::STATUS_OK, CoreCollection, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CoreCollection, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, list<empty>, array{}>
 	 */
 	protected function respondCollection(ICollection $collection): DataResponse {
 		try {
@@ -262,7 +262,7 @@ class CollaborationResourcesController extends OCSController {
 	}
 
 	/**
-	 * @return CoreCollection[]
+	 * @return list<CoreCollection>
 	 */
 	protected function prepareCollections(array $collections): array {
 		$result = [];
@@ -295,7 +295,7 @@ class CollaborationResourcesController extends OCSController {
 	}
 
 	/**
-	 * @return CoreResource[]
+	 * @return list<CoreResource>
 	 */
 	protected function prepareResources(array $resources): array {
 		$result = [];

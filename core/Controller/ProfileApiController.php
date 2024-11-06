@@ -44,7 +44,7 @@ class ProfileApiController extends OCSController {
 	 * @param string $targetUserId ID of the user
 	 * @param string $paramId ID of the parameter
 	 * @param string $visibility New visibility
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSBadRequestException Updating visibility is not possible
 	 * @throws OCSForbiddenException Not allowed to edit other users visibility
 	 * @throws OCSNotFoundException Account not found

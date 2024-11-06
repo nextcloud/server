@@ -74,7 +74,7 @@ class ApiController extends OCSController {
 	/**
 	 * Get the mount points visible for this user
 	 *
-	 * @return DataResponse<Http::STATUS_OK, Files_ExternalMount[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<Files_ExternalMount>, array{}>
 	 *
 	 * 200: User mounts returned
 	 */

@@ -86,7 +86,7 @@ interface GroupInterface {
 	/**
 	 * Get all groups a user belongs to
 	 * @param string $uid Name of the user
-	 * @return array an array of group names
+	 * @return list<string> an array of group names
 	 * @since 4.5.0
 	 *
 	 * This function fetches all groups a user belongs to. It does not check
