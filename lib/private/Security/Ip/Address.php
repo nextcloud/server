@@ -11,6 +11,7 @@ namespace OC\Security\Ip;
 use InvalidArgumentException;
 use IPLib\Address\AddressInterface;
 use IPLib\Factory;
+use IPLib\ParseStringFlag;
 use OCP\Security\Ip\IAddress;
 use OCP\Security\Ip\IRange;
 
@@ -21,7 +22,7 @@ class Address implements IAddress {
 	private readonly AddressInterface $ip;
 
 	public function __construct(string $ip) {
-		$ip = Factory::parseAddressString($ip);
+		$ip = Factory::parseAddressString($ip, ParseStringFlag::MAY_INCLUDE_ZONEID);
 		if ($ip === null) {
 			throw new InvalidArgumentException('Given IP address can’t be parsed');
 		}
@@ -29,7 +30,7 @@ class Address implements IAddress {
 	}
 
 	public static function isValid(string $ip): bool {
-		return Factory::parseAddressString($ip) !== null;
+		return Factory::parseAddressString($ip, ParseStringFlag::MAY_INCLUDE_ZONEID) !== null;
 	}
 
 	public function matches(IRange ... $ranges): bool {
