@@ -96,9 +96,9 @@
 			</NcActionCheckbox>
 
 			<!-- expiration date -->
-			<NcActionInput v-if="pendingExpirationDate"
+			<NcActionInput v-if="(hasDefaultExpirationDate || pendingEnforcedExpirationDate) && defaultExpirationDateEnabled"
 				class="share-link-expire-date"
-				:label="t('files_sharing', 'Expiration date (enforced)')"
+				:label="pendingEnforcedExpirationDate ? t('files_sharing', 'Enter expiration date (enforced)') : t('files_sharing', 'Enter expiration date')"
 				:disabled="saving"
 				:is-native-picker="true"
 				:hide-label="true"
@@ -537,6 +537,10 @@ export default {
 			this.defaultExpirationDateEnabled = this.config.defaultExpirationDate instanceof Date
 			this.share.expireDate = this.defaultExpirationDateEnabled ? this.formatDateToString(this.config.defaultExpirationDate) : ''
 		}
+	},
+	mounted() {
+		this.defaultExpirationDateEnabled = this.config.defaultExpirationDate instanceof Date
+		this.share.expireDate = this.defaultExpirationDateEnabled ? this.formatDateToString(this.config.defaultExpirationDate) : ''
 	},
 
 	methods: {
