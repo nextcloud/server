@@ -283,6 +283,7 @@
     "Share with guest" : "ゲストと共有する",
     "Update share" : "共有設定の更新",
     "Save share" : "共有を保存",
+    "Replace current password" : "現在のパスワードを置き換える",
     "Others with access" : "アクセス権を持つ他のユーザー",
     "No other accounts with access found" : "アクセス可能な他のアカウントは見つかりませんでした",
     "Toggle list of others with access to this directory" : "このフォルダーへのアクセス権を持つ他のユーザーリストを切り替えます",
