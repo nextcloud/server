@@ -255,8 +255,6 @@ class Mailer implements IMailer {
 			return $this->instance;
 		}
 
-		$transport = null;
-
 		switch ($this->config->getSystemValueString('mail_smtpmode', 'smtp')) {
 			case 'sendmail':
 				$transport = $this->getSendMailInstance();
