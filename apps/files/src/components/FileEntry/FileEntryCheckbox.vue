@@ -22,7 +22,7 @@
 <template>
 	<td class="files-list__row-checkbox"
 		@keyup.esc.exact="resetSelection">
-		<NcLoadingIcon v-if="isLoading" />
+		<NcLoadingIcon v-if="isLoading" :name="loadingLabel" />
 		<NcCheckboxRadioSwitch v-else
 			:aria-label="ariaLabel"
 			:checked="isSelected"
@@ -91,6 +91,11 @@ export default defineComponent({
 		},
 		isFile() {
 			return this.source.type === FileType.File
+		},
+		loadingLabel() {
+			return this.isFile
+				? t('files', 'File is loading')
+				: t('files', 'Folder is loading')
 		},
 		ariaLabel() {
 			return this.isFile
