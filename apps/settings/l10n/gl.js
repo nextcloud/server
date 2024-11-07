@@ -212,6 +212,7 @@ OC.L10N.register(
     "MySQL row format" : "Formato de fila MySQL",
     "You are not using MySQL" : "Non está a usar MySQL",
     "None of your tables use ROW_FORMAT=Compressed" : "Ningunha das súas táboas emprega ROW_FORMAT=Compressed",
+    "Incorrect row format found in your database. ROW_FORMAT=Dynamic offers the best database performances for Nextcloud. Please update row format on the following list: %s." : "Atopouse un formato de fila incorrecto na súa base de datos. ROW_FORMAT=Dynamic ofrece o mellor rendemento da base de datos para Nextcloud. Actualide o formato de fila na seguinte lista: %s.",
     "MySQL Unicode support" : "Compatibilidade con MySQL Unicode",
     "MySQL is used as database and does support 4-byte characters" : "MySQL úsase como base de datos e admite caracteres de 4 bytes",
     "MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL." : "MySQL utilízase como base de datos, mais non admite caracteres de 4 bytes. Para poder manexar caracteres de 4 bytes (coma os «emojis») sen problemas nos nomes de ficheiros ou comentarios, por exemplo, recoméndase activar a compatibilidade de 4 bytes en MySQL.",

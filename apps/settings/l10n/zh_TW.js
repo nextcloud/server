@@ -212,6 +212,7 @@ OC.L10N.register(
     "MySQL row format" : "MySQL 列格式",
     "You are not using MySQL" : "您並未使用 MySQL",
     "None of your tables use ROW_FORMAT=Compressed" : "您的資料表中並未使用 ROW_FORMAT=Compressed",
+    "Incorrect row format found in your database. ROW_FORMAT=Dynamic offers the best database performances for Nextcloud. Please update row format on the following list: %s." : "在您的資料庫中找到不正確的列格式。ROW_FORMAT=Dynamic 可為 Nextcloud 提供最佳的資料庫效能。請更新下列清單中的列格式：%s",
     "MySQL Unicode support" : "MySQL Unicode 支援",
     "MySQL is used as database and does support 4-byte characters" : "MySQL 用作資料庫並支援 4 位元組字元",
     "MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL." : "MySQL 用作資料庫但並不支援 4 位元組字元。例如，為了能處理檔案名稱或是留言中的 4 位元組字元（例如表情符號）。建議您啟用 MySQL 中支援 4 位元組字元的功能。",
