@@ -27,7 +27,7 @@ class Validator implements IValidator {
 
 	/**
 	 * @param string $subject
-	 * @param array<non-empty-string, array> $parameters
+	 * @param array<non-empty-string, array<non-empty-string, string>> $parameters
 	 * @throws InvalidObjectExeption
 	 * @since 11.0.0
 	 */
