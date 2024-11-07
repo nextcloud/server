@@ -783,4 +783,23 @@ class IMipPluginTest extends TestCase {
 		$this->plugin->schedule($message);
 		$this->assertEquals('1.1', $message->getScheduleStatus());
 	}
+
+	public function testImipDisabledForEvent(): void {
+		// construct iTip message with event and attendees
+		$calendar = new VCalendar();
+		$calendar->add('VEVENT', ['UID' => 'uid-1234']);
+		$event = $calendar->VEVENT;
+		$event->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$event->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE',  'CN' => 'Frodo']);
+		$event->add('X-NC-DISABLE-SCHEDULING', 'true');
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$message->message = $calendar;
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
+		$message->recipient = 'mailto:' . 'frodo@hobb.it';
+		
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.0;We got the message, but iMip messages are disabled for this event', $message->scheduleStatus);
+	}
 }
