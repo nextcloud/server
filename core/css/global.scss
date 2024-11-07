@@ -53,6 +53,13 @@ body[dir='rtl'] {
 	.clear-end {
 		clear: left;
 	}
+	.input-field .input-field__trailing-button {
+		right: auto;
+		left: 0;
+	}
+	.input-field svg {
+		transform: scaleX(-1);
+	}
 }
 
 .clear-both {
