@@ -82,7 +82,6 @@ class DnsPinMiddleware {
 						$canHaveCnameRecord = false;
 					} elseif (isset($dnsResponse['target']) && $canHaveCnameRecord) {
 						$targetIps = array_merge($targetIps, $this->dnsResolve($dnsResponse['target'], $recursionCount));
-						$canHaveCnameRecord = true;
 					}
 				}
 			} elseif ($dnsNegativeTtl !== null) {
