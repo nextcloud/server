@@ -267,7 +267,9 @@ class Mailer implements IMailer {
 				break;
 		}
 
-		return new SymfonyMailer($transport);
+		$this->instance = new SymfonyMailer($transport);
+
+		return $this->instance;
 	}
 
 	/**
