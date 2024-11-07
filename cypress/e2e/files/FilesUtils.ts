@@ -28,6 +28,30 @@ export const triggerInlineActionForFile = (filename: string, actionId: string) =
 	getActionsForFile(filename).get(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`).should('exist').click()
 }
 
+export const selectAllFiles = () => {
+	cy.get('[data-cy-files-list-selection-checkbox]')
+		.findByRole('checkbox', { checked: false })
+		.click({ force: true })
+}
+export const deselectAllFiles = () => {
+	cy.get('[data-cy-files-list-selection-checkbox]')
+		.findByRole('checkbox', { checked: true })
+		.click({ force: true })
+}
+
+export const selectRowForFile = (filename: string, options: Partial<Cypress.ClickOptions> = {}) => {
+	getRowForFile(filename)
+		.find('[data-cy-files-list-row-checkbox]')
+		.findByRole('checkbox')
+		// don't use click to avoid triggering side effects events
+		.trigger('change', { ...options, force: true })
+		.should('be.checked')
+	cy.get('[data-cy-files-list-selection-checkbox]').findByRole('checkbox').should('satisfy', (elements) => {
+		return elements.length === 1 && (elements[0].checked === true || elements[0].indeterminate === true)
+	})
+
+}
+
 export const moveFile = (fileName: string, dirPath: string) => {
 	getRowForFile(fileName).should('be.visible')
 	triggerActionForFile(fileName, 'move-copy')
