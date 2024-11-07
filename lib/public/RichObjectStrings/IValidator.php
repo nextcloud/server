@@ -15,7 +15,7 @@ namespace OCP\RichObjectStrings;
  */
 interface IValidator {
 	/**
-	 * Only alphanumeric, dash, underscore and got are allowed, starting with a character
+	 * Only alphanumeric, dash, underscore and dot are allowed, starting with a character
 	 * @since 31.0.0
 	 */
 	public const PLACEHOLDER_REGEX = '[A-Za-z][A-Za-z0-9\-_.]+';
