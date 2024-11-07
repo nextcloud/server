@@ -59,13 +59,12 @@
 			<hr>
 			<h3>External shares</h3>
 
-			<!-- link shares list -->
-			<SharingLinkList v-if="!loading"
-				ref="linkShareList"
+			<!-- ***** DISSOLVED OUT FROM ShareLinkList ***** -->
+			<SharingEntryLink v-if="!hasLinkShares && canReshare"
 				:can-reshare="canReshare"
 				:file-info="fileInfo"
-				:shares="linkShares"
-				@open-sharing-details="toggleShareDetailsView" />
+				@add:share="addShare" />
+			<!-- ***** DISSOLVED OUT FROM ShareLinkList ***** -->
 
 			<!-- TODO: component must either be configurable or diffentiated into two -->
 			<!-- add new email/federated share input -->
@@ -77,7 +76,22 @@
 				:shares="shares"
 				@open-sharing-details="toggleShareDetailsView" />
 
-			<!-- projects -->
+			<!-- ***** DISSOLVED OUT FROM ShareLinkList ***** -->
+			<template v-if="hasShares">
+				<!-- using shares[index] to work with .sync -->
+				<SharingEntryLink v-for="(share, index) in shares"
+					:key="share.id"
+					:index="shares.length > 1 ? index + 1 : null"
+					:can-reshare="canReshare"
+					:share.sync="shares[index]"
+					:file-info="fileInfo"
+					@add:share="addShare(...arguments)"
+					@update:share="awaitForShare(...arguments)"
+					@remove:share="removeShare"
+					@open-sharing-details="openSharingDetails(share)" />
+			</template>
+			<!-- ***** DISSOLVED OUT FROM ShareLinkList ***** -->
+
 			<CollectionList v-if="projectsEnabled && fileInfo"
 				:id="`${fileInfo.id}`"
 				type="file"
@@ -132,24 +146,28 @@ import SharingEntrySimple from '../components/SharingEntrySimple.vue'
 import SharingInput from '../components/SharingInput.vue'
 
 import SharingInherited from './SharingInherited.vue'
-import SharingLinkList from './SharingLinkList.vue'
 import SharingList from './SharingList.vue'
 import SharingDetailsTab from './SharingDetailsTab.vue'
+import { getCapabilities } from '@nextcloud/capabilities'
+import SharingEntryLink from '../components/SharingEntryLink.vue'
+import ShareDetails from '../mixins/ShareDetails.js'
 
 export default {
 	name: 'SharingTab',
 
 	components: {
+		SharingEntryLink,
 		NcAvatar,
 		CollectionList,
 		SharingEntryInternal,
 		SharingEntrySimple,
 		SharingInherited,
 		SharingInput,
-		SharingLinkList,
 		SharingList,
 		SharingDetailsTab,
 	},
+
+	mixins: [ShareDetails],
 
 	data() {
 		return {
@@ -172,6 +190,7 @@ export default {
 			showSharingDetailsView: false,
 			shareDetailsData: {},
 			returnFocusElement: null,
+			canLinkShare: getCapabilities().files_sharing.public.enabled,
 		}
 	},
 
@@ -188,6 +207,26 @@ export default {
 		canReshare() {
 			return !!(this.fileInfo.permissions & OC.PERMISSION_SHARE)
 				|| !!(this.reshare && this.reshare.hasSharePermission && this.config.isResharingAllowed)
+		},
+
+		/**
+		 * Do we have link shares?
+		 * Using this to still show the `new link share`
+		 * button regardless of mail shares
+		 *
+		 * @return {Array}
+		 */
+		hasLinkShares() {
+			return this.shares.filter(share => share.type === ShareType.Link).length > 0
+		},
+
+		/**
+		 * Do we have any link or email shares?
+		 *
+		 * @return {boolean}
+		 */
+		hasShares() {
+			return this.shares.length > 0
 		},
 	},
 
@@ -403,6 +442,7 @@ export default {
 		awaitForShare(share, resolve) {
 			this.$nextTick(() => {
 				let listComponent = this.$refs.shareList
+				// TODO since we've dissolved SharingLinkList handle this:
 				// Only mail shares comes from the input, link shares
 				// are managed internally in the SharingLinkList component
 				if (share.type === ShareType.Email) {
