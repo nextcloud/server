@@ -336,4 +336,10 @@ class MailerTest extends TestCase {
 		self::assertInstanceOf(EsmtpTransport::class, $transport);
 		self::assertEquals('[127.0.0.1]', $transport->getLocalDomain());
 	}
+
+	public function testCaching(): void {
+		$symfonyMailer1 = self::invokePrivate($this->mailer, 'getInstance');
+		$symfonyMailer2 = self::invokePrivate($this->mailer, 'getInstance');
+		self::assertSame($symfonyMailer1, $symfonyMailer2);
+	}
 }
