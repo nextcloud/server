@@ -54,12 +54,6 @@
 
 			<!-- internal link copy -->
 			<SharingEntryInternal :file-info="fileInfo" />
-
-			<!-- projects -->
-			<CollectionList v-if="projectsEnabled && fileInfo"
-				:id="`${fileInfo.id}`"
-				type="file"
-				:name="fileInfo.name" />
 		</div>
 
 		<!-- additional entries, use it with cautious -->
@@ -69,6 +63,15 @@
 			:key="index"
 			class="sharingTab__additionalContent">
 			<component :is="section($refs['section-'+index], fileInfo)" :file-info="fileInfo" />
+		</div>
+
+		<!-- projects (deprecated as of NC25 (replaced by related_resources) - see instance config "projects.enabled" ; ignore this / remove it / move into own section) -->
+		<div v-show="!showSharingDetailsView && projectsEnabled && fileInfo"
+			 class="sharingTab__additionalContent">
+			<CollectionList
+				:id="`${fileInfo.id}`"
+				type="file"
+				:name="fileInfo.name" />
 		</div>
 
 		<!-- share details -->
