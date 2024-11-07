@@ -26,6 +26,8 @@
 			</ul>
 
 			<h3>Internal shares</h3>
+
+			<!-- TODO: component must either be configurable or diffentiated into two -->
 			<!-- add new share input -->
 			<SharingInput v-if="!loading"
 				:can-reshare="canReshare"
@@ -64,6 +66,22 @@
 				:file-info="fileInfo"
 				:shares="linkShares"
 				@open-sharing-details="toggleShareDetailsView" />
+
+			<!-- TODO: component must either be configurable or diffentiated into two -->
+			<!-- add new email/federated share input -->
+			<SharingInput v-if="!loading"
+				:can-reshare="canReshare"
+				:file-info="fileInfo"
+				:link-shares="linkShares"
+				:reshare="reshare"
+				:shares="shares"
+				@open-sharing-details="toggleShareDetailsView" />
+
+			<!-- projects -->
+			<CollectionList v-if="projectsEnabled && fileInfo"
+				:id="`${fileInfo.id}`"
+				type="file"
+				:name="fileInfo.name" />
 		</div>
 
 		<!-- additional entries, use it with cautious -->
