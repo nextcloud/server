@@ -22,21 +22,8 @@
 						</template>
 					</NcButton>
 
-					<!-- Disabled upload button -->
-					<NcButton v-if="!canUpload || isQuotaExceeded"
-						:aria-label="cantUploadLabel"
-						:title="cantUploadLabel"
-						class="files-list__header-upload-button--disabled"
-						:disabled="true"
-						type="secondary">
-						<template #icon>
-							<PlusIcon :size="20" />
-						</template>
-						{{ t('files', 'New') }}
-					</NcButton>
-
 					<!-- Uploader -->
-					<UploadPicker v-else-if="currentFolder"
+					<UploadPicker v-if="canUpload && !isQuotaExceeded && currentFolder"
 						allow-folders
 						class="files-list__header-upload-button"
 						:content="getContent"
@@ -429,12 +416,6 @@ export default defineComponent({
 		},
 		isQuotaExceeded() {
 			return this.currentFolder?.attributes?.['quota-available-bytes'] === 0
-		},
-		cantUploadLabel() {
-			if (this.isQuotaExceeded) {
-				return t('files', 'Your have used your space quota and cannot upload files anymore')
-			}
-			return t('files', 'You don’t have permission to upload or create files here')
 		},
 
 		/**

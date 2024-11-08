@@ -62,7 +62,7 @@ import type { Node as NcNode } from '@nextcloud/files'
 import type { ComponentPublicInstance, PropType } from 'vue'
 import type { UserConfig } from '../types'
 
-import { getFileListHeaders, Folder, View, getFileActions, FileType } from '@nextcloud/files'
+import { getFileListHeaders, Folder, Permission, View, getFileActions, FileType } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
@@ -170,12 +170,28 @@ export default defineComponent({
 			return [...this.headers].sort((a, b) => a.order - b.order)
 		},
 
+		cantUpload() {
+			return this.currentFolder && (this.currentFolder.permissions & Permission.CREATE) === 0
+		},
+
+		isQuotaExceeded() {
+			return this.currentFolder?.attributes?.['quota-available-bytes'] === 0
+		},
+
 		caption() {
 			const defaultCaption = t('files', 'List of files and folders.')
 			const viewCaption = this.currentView.caption || defaultCaption
+			const cantUploadCaption = this.cantUpload ? t('files', 'You don’t have permission to upload or create files here.') : null
+			const quotaExceededCaption = this.isQuotaExceeded ? t('files', 'You have used your space quota and cannot upload files anymore.') : null
 			const sortableCaption = t('files', 'Column headers with buttons are sortable.')
 			const virtualListNote = t('files', 'This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.')
-			return `${viewCaption}\n${sortableCaption}\n${virtualListNote}`
+			return [
+				viewCaption,
+				cantUploadCaption,
+				quotaExceededCaption,
+				sortableCaption,
+				virtualListNote,
+			].filter(Boolean).join('\n')
 		},
 
 		selectedNodes() {
