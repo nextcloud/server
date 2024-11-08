@@ -539,8 +539,10 @@ export default {
 		}
 	},
 	mounted() {
-		this.defaultExpirationDateEnabled = this.config.defaultExpirationDate instanceof Date
-		this.share.expireDate = this.defaultExpirationDateEnabled ? this.formatDateToString(this.config.defaultExpirationDate) : ''
+		if (this.share) {
+			this.defaultExpirationDateEnabled = this.config.defaultExpirationDate instanceof Date
+			this.share.expireDate = this.defaultExpirationDateEnabled ? this.formatDateToString(this.config.defaultExpirationDate) : ''
+		}
 	},
 
 	methods: {
