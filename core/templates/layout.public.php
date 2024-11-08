@@ -9,8 +9,9 @@
 <head data-requesttoken="<?php p($_['requesttoken']); ?>">
 	<meta charset="utf-8">
 	<title>
-		<?php
-			p(!empty($_['application']) ? $_['application'] . ' - ' : '');
+	<?php
+				p(!empty($_['pageTitle']) && $_['pageTitle'] !== $_['application'] ? $_['pageTitle'] . ' - ' : '');
+p(!empty($_['application']) ? $_['application'] . ' - ' : '');
 p($theme->getTitle());
 ?>
 	</title>
