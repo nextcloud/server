@@ -66,6 +66,8 @@ jobs:
             php-versions: '8.2'
           - oracle-versions: '23'
             php-versions: '8.3'
+          - oracle-versions: '23'
+            php-versions: '8.4'
 
     name: Oracle ${{ matrix.oracle-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
