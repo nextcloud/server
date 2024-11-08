@@ -346,7 +346,7 @@ class DAV extends Common {
 					if ($response->getStatusCode() === Http::STATUS_LOCKED) {
 						throw new \OCP\Lock\LockedException($path);
 					} else {
-						Server::get(LoggerInterface::class)->error('Guzzle get returned status code ' . $response->getStatusCode(), ['app' => 'webdav client']);
+						$this->logger->error('Guzzle get returned status code ' . $response->getStatusCode(), ['app' => 'webdav client']);
 					}
 				}
 
@@ -773,7 +773,7 @@ class DAV extends Common {
 	 * @throws ForbiddenException if the action is not allowed
 	 */
 	protected function convertException(Exception $e, string $path = ''): void {
-		Server::get(LoggerInterface::class)->debug($e->getMessage(), ['app' => 'files_external', 'exception' => $e]);
+		$this->logger->debug($e->getMessage(), ['app' => 'files_external', 'exception' => $e]);
 		if ($e instanceof ClientHttpException) {
 			if ($e->getHttpStatus() === Http::STATUS_LOCKED) {
 				throw new \OCP\Lock\LockedException($path);
