@@ -41,7 +41,7 @@
 		</div>
 
 		<!-- pending actions -->
-		<NcActions v-if="!pending && (pendingPassword || pendingEnforcedPassword || pendingExpirationDate)"
+		<NcActions v-if="!pending && pendingDataIsMissing"
 			class="sharing-entry__actions"
 			:aria-label="actionsTooltip"
 			menu-align="right"
@@ -82,10 +82,18 @@
 				</template>
 			</NcActionInput>
 
+			<NcActionCheckbox v-if="hasDefaultExpirationDate"
+				:checked.sync="defaultExpirationDateEnabled"
+				:disabled="pendingEnforcedExpirationDate || saving"
+				class="share-link-expiration-date-checkbox"
+				@change="onDefaultExpirationDateEnabledChange">
+				{{ config.enforcePasswordForPublicLink ? t('files_sharing', 'Enable link expiration (enforced)') : t('files_sharing', 'Enable link expiration') }}
+			</NcActionCheckbox>
+
 			<!-- expiration date -->
-			<NcActionInput v-if="pendingExpirationDate"
+			<NcActionInput v-if="(hasDefaultExpirationDate || pendingEnforcedExpirationDate) && defaultExpirationDateEnabled"
 				class="share-link-expire-date"
-				:label="t('files_sharing', 'Expiration date (enforced)')"
+				:label="pendingEnforcedExpirationDate ? t('files_sharing', 'Enter expiration date (enforced)') : t('files_sharing', 'Enter expiration date')"
 				:disabled="saving"
 				:is-native-picker="true"
 				:hide-label="true"
@@ -289,6 +297,7 @@ export default {
 			shareCreationComplete: false,
 			copySuccess: true,
 			copied: false,
+			defaultExpirationDateEnabled: false,
 
 			// Are we waiting for password/expiration date
 			pending: false,
@@ -462,14 +471,28 @@ export default {
 		 *
 		 * @return {boolean}
 		 */
+		pendingDataIsMissing() {
+			return this.pendingPassword || this.pendingEnforcedPassword || this.pendingEnforcedExpirationDate
+		},
 		pendingPassword() {
-			return this.config.enableLinkPasswordByDefault && this.share && !this.share.id
+			return this.config.enableLinkPasswordByDefault && this.isPendingShare
 		},
 		pendingEnforcedPassword() {
-			return this.config.enforcePasswordForPublicLink && this.share && !this.share.id
+			return this.config.enforcePasswordForPublicLink && this.isPendingShare
 		},
-		pendingExpirationDate() {
-			return this.config.isDefaultExpireDateEnforced && this.share && !this.share.id
+		pendingEnforcedExpirationDate() {
+			return this.config.isDefaultExpireDateEnforced && this.isPendingShare
+		},
+		hasDefaultExpirationDate() {
+			return (this.config.defaultExpirationDate instanceof Date || !isNaN(new Date(this.config.defaultExpirationDate).getTime())) && this.isPendingShare
+		},
+
+		isPendingShare() {
+			return !!(this.share && !this.share.id)
+		},
+
+		shareRequiresReview() {
+			return this.defaultExpirationDateEnabled || this.config.enableLinkPasswordByDefault
 		},
 
 		sharePolicyHasRequiredProperties() {
@@ -572,6 +595,10 @@ export default {
 			return this.share.isFileRequest
 		},
 	},
+	mounted() {
+		this.defaultExpirationDateEnabled = this.config.defaultExpirationDate instanceof Date
+		this.share.expireDate = this.defaultExpirationDateEnabled ? this.formatDateToString(this.config.defaultExpirationDate) : ''
+	},
 
 	methods: {
 		/**
@@ -594,8 +621,10 @@ export default {
 			}
 
 			this.logger.debug('Missing required properties?', this.requiredPropertiesMissing)
-			// do not push yet if we need a password or an expiration date: show pending menu
-			if (this.sharePolicyHasRequiredProperties && this.requiredPropertiesMissing) {
+			// Do not push yet if we need a password or an expiration date: show pending menu
+			// A share would require a review for example is default expiration date is set but not enforced, this allows
+			// the user to review the share and remove the expiration date if they don't want it
+			if ((this.sharePolicyHasRequiredProperties && this.requiredPropertiesMissing) || this.shareRequiresReview) {
 				this.pending = true
 				this.shareCreationComplete = false
 
@@ -828,6 +857,9 @@ export default {
 		onMenuClose() {
 			this.onPasswordSubmit()
 			this.onNoteSubmit()
+		},
+		onDefaultExpirationDateEnabledChange(enabled) {
+			this.share.expireDate = enabled ? this.formatDateToString(this.config.defaultExpirationDate) : ''
 		},
 
 		/**
