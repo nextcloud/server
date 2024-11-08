@@ -55,6 +55,10 @@ class FileSearchBackendTest extends TestCase {
 	private $davFolder;
 
 	protected function setUp(): void {
+		if (PHP_VERSION_ID >= 80400) {
+			$this->markTestSkipped('SearchDAV is not yet PHP 8.4 compatible');
+		}
+
 		parent::setUp();
 
 		$this->user = $this->createMock(IUser::class);
