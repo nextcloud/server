@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { expect } from '@jest/globals'
-import { File, Permission, View, FileAction } from '@nextcloud/files'
+import { File, Permission, View, FileAction, Folder } from '@nextcloud/files'
 
 import { action } from './sidebarAction'
 import logger from '../logger'
@@ -108,7 +108,9 @@ describe('Open sidebar action enabled tests', () => {
 describe('Open sidebar action exec tests', () => {
 	test('Open sidebar', async () => {
 		const openMock = jest.fn()
-		window.OCA = { Files: { Sidebar: { open: openMock } } }
+		const defaultTabMock = jest.fn()
+		window.OCA = { Files: { Sidebar: { open: openMock, setActiveTab: defaultTabMock } } }
+
 		const goToRouteMock = jest.fn()
 		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
@@ -124,6 +126,36 @@ describe('Open sidebar action exec tests', () => {
 		// Silent action
 		expect(exec).toBe(null)
 		expect(openMock).toBeCalledWith('/foobar.txt')
+		expect(defaultTabMock).toBeCalledWith('sharing')
+		expect(goToRouteMock).toBeCalledWith(
+			null,
+			{ view: view.id, fileid: '1' },
+			{ dir: '/' },
+			true,
+		)
+	})
+
+	test('Open sidebar for folder', async () => {
+		const openMock = jest.fn()
+		const defaultTabMock = jest.fn()
+		window.OCA = { Files: { Sidebar: { open: openMock, setActiveTab: defaultTabMock } } }
+
+		const goToRouteMock = jest.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
+		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
+
+		const file = new Folder({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar',
+			owner: 'admin',
+			mime: 'httpd/unix-directory',
+		})
+
+		const exec = await action.exec(file, view, '/')
+		// Silent action
+		expect(exec).toBe(null)
+		expect(openMock).toBeCalledWith('/foobar')
+		expect(defaultTabMock).toBeCalledWith('sharing')
 		expect(goToRouteMock).toBeCalledWith(
 			null,
 			{ view: view.id, fileid: '1' },
@@ -134,7 +166,9 @@ describe('Open sidebar action exec tests', () => {
 
 	test('Open sidebar fails', async () => {
 		const openMock = jest.fn(() => { throw new Error('Mock error') })
-		window.OCA = { Files: { Sidebar: { open: openMock } } }
+		const defaultTabMock = jest.fn()
+		window.OCA = { Files: { Sidebar: { open: openMock, setActiveTab: defaultTabMock } } }
+
 		jest.spyOn(logger, 'error').mockImplementation(() => jest.fn())
 
 		const file = new File({
