@@ -43,7 +43,7 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['8.1', '8.3']
+        php-versions: ['8.1', '8.4']
         sftpd: ['openssh']
         include:
           - php-versions: '8.1'

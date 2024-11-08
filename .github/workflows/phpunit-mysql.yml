@@ -61,6 +61,8 @@ jobs:
           - mysql-versions: '8.0'
             php-versions: '8.3'
             coverage: ${{ github.event_name != 'pull_request' }}
+          - mysql-versions: '8.4'
+            php-versions: '8.4'
 
     name: MySQL ${{ matrix.mysql-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
