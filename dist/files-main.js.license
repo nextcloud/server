@@ -121,7 +121,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 8.0.1
 	- license: MIT
 - @nextcloud/upload
-	- version: 1.6.0
+	- version: 1.6.1
 	- license: AGPL-3.0-or-later
 - @nextcloud/vue
 	- version: 8.17.1
