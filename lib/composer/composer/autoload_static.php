@@ -196,6 +196,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Calendar\\BackendTemporarilyUnavailableException' => __DIR__ . '/../../..' . '/lib/public/Calendar/BackendTemporarilyUnavailableException.php',
         'OCP\\Calendar\\Exceptions\\CalendarException' => __DIR__ . '/../../..' . '/lib/public/Calendar/Exceptions/CalendarException.php',
         'OCP\\Calendar\\ICalendar' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendar.php',
+        'OCP\\Calendar\\ICalendarIsShared' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarIsShared.php',
+        'OCP\\Calendar\\ICalendarIsWritable' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarIsWritable.php',
         'OCP\\Calendar\\ICalendarProvider' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarProvider.php',
         'OCP\\Calendar\\ICalendarQuery' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarQuery.php',
         'OCP\\Calendar\\ICreateFromString' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICreateFromString.php',

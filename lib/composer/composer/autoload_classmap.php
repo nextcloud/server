@@ -163,6 +163,8 @@ return array(
     'OCP\\Calendar\\BackendTemporarilyUnavailableException' => $baseDir . '/lib/public/Calendar/BackendTemporarilyUnavailableException.php',
     'OCP\\Calendar\\Exceptions\\CalendarException' => $baseDir . '/lib/public/Calendar/Exceptions/CalendarException.php',
     'OCP\\Calendar\\ICalendar' => $baseDir . '/lib/public/Calendar/ICalendar.php',
+    'OCP\\Calendar\\ICalendarIsShared' => $baseDir . '/lib/public/Calendar/ICalendarIsShared.php',
+    'OCP\\Calendar\\ICalendarIsWritable' => $baseDir . '/lib/public/Calendar/ICalendarIsWritable.php',
     'OCP\\Calendar\\ICalendarProvider' => $baseDir . '/lib/public/Calendar/ICalendarProvider.php',
     'OCP\\Calendar\\ICalendarQuery' => $baseDir . '/lib/public/Calendar/ICalendarQuery.php',
     'OCP\\Calendar\\ICreateFromString' => $baseDir . '/lib/public/Calendar/ICreateFromString.php',
