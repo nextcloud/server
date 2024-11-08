@@ -340,10 +340,23 @@ class OwnershipTransferService {
 		$progress->finish();
 		$output->writeln('');
 
-		return array_map(fn (IShare $share) => [
-			'share' => $share,
-			'suffix' => substr(Filesystem::normalizePath($view->getPath($share->getNodeId())), strlen($normalizedPath)),
-		], $shares);
+		$accessibleShares = [];
+
+		foreach ($shares as $share) {
+			try {
+				$normalizedSharePath = Filesystem::normalizePath($view->getPath($share->getNodeId()));
+			} catch (NotFoundException $e) {
+				$output->writeln(sprintf('Unable to transfer share "%s" with error "%s"', $share->getId(), $e->getMessage()));
+				continue;
+			}
+
+			$accessibleShares[] = [
+				'share' => $share,
+				'suffix' => substr($normalizedSharePath, strlen($normalizedPath)),
+			];
+		}
+
+		return $accessibleShares;
 	}
 
 	private function collectIncomingShares(string $sourceUid,
