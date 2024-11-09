@@ -19,7 +19,7 @@ OC.L10N.register(
     "Reminder cleared for \"{fileName}\"" : "تمّ إلغاء التذكير للملف \"{fileName}\"",
     "Failed to clear reminder" : "تعذّرت إزالة التذكير",
     "Reminder set" : "تمّ وضع تذكير",
-    "Set custom reminder" : "تعيين تذكير مُخصّص",
+    "Set custom reminder" : "تعيين تذكير مخصص",
     "Later today" : "في وقت لاحقٍ اليوم",
     "Set reminder for later today" : "عيّن التذكير لوقت لاحقٍ اليوم",
     "Tomorrow" : "غدا",
