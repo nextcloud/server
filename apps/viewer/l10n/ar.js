@@ -55,7 +55,7 @@ OC.L10N.register(
     "to be uploaded" : "ليتم تحميلها",
     "Crop" : "قص",
     "Original" : "أصلي",
-    "Custom" : "مُخصّص",
+    "Custom" : "مخصص",
     "Square" : "مُربّع",
     "Landscape" : "وضع أُفُقي",
     "Portrait" : "وضع رأسي",
