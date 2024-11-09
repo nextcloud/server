@@ -4,10 +4,12 @@
  */
 
 /*!
- * pinia v2.1.7
- * (c) 2023 Eduardo San Martin Morote
+ * pinia v2.2.6
+ * (c) 2024 Eduardo San Martin Morote
  * @license MIT
  */
+
+/*! #__NO_SIDE_EFFECTS__ */
 
 /*! http://mths.be/fromcodepoint v0.1.0 by @mathias */
 

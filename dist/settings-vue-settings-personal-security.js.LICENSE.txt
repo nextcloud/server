@@ -1,6 +1,6 @@
 /*!
- * pinia v2.1.7
- * (c) 2023 Eduardo San Martin Morote
+ * pinia v2.2.6
+ * (c) 2024 Eduardo San Martin Morote
  * @license MIT
  */
 
@@ -13,6 +13,8 @@
  *
  * Date: 2020-01-18T06:04:33.222Z
  */
+
+/*! #__NO_SIDE_EFFECTS__ */
 
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
