@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { type Node } from '@nextcloud/files'
+import { Permission, type Node } from '@nextcloud/files'
 
 import { defineAsyncComponent } from 'vue'
 import { FileAction } from '@nextcloud/files'
@@ -38,8 +38,13 @@ export const action = new FileAction({
 			return false
 		}
 
-		// If the user is not logged in, the action is not available
-		return true
+		// Disabled for non dav resources
+		if (nodes.some((node) => !node.isDavRessource)) {
+			return false
+		}
+
+		// We need to have the update permission on all nodes
+		return !nodes.some((node) => (node.permissions & Permission.UPDATE) === 0)
 	},
 
 	async exec(node: Node) {
