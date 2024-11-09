@@ -302,7 +302,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.12.7
 	- license: MIT
 - pinia
-	- version: 2.2.2
+	- version: 2.2.6
 	- license: MIT
 - possible-typed-array-names
 	- version: 1.0.0
