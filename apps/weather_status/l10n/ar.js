@@ -9,7 +9,7 @@ OC.L10N.register(
     "Weather status in your dashboard" : "حالة الطقس على لوحتك",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "حالة الطقس مدمجة في تطبيق لوحة المعلومات Dashboard في نكست كلاود. يمكن تحديد الموقع الجغرافي تلقائياً أو تحديده يدوياً. يتم بعد ذلك عرض توقعات الطقس لـ 6 ساعات قادمة. يمكن أيضًا دمج هذه الحالة في أماكن أخرى مثل تطبيق التقويم.",
     "Detect location" : "تحديد الموقع الجغرافي",
-    "Set custom address" : "تعيين عنوان مُخصّص",
+    "Set custom address" : "تعيين عنوان مخصص",
     "Favorites" : "المُفضّلة",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} سماءٌ صَحْوٌ في وقتٍ لاحقٍ من اليوم",
     "{temperature} {unit} clear sky" : "{temperature} {unit} سماءٌ صَحْوُ",

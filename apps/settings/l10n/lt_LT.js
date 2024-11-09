@@ -71,6 +71,8 @@ OC.L10N.register(
     "Settings saved" : "Nustatymai įrašyti",
     "Unable to change full name" : "Nepavyko pakeisti vardo ir pavardės",
     "Unable to change email address" : "Nepavyko pakeisti el. pašto adresą",
+    "Unable to set invalid phone number" : "Nepavyko nustatyti netinkamo telefono numerio",
+    "Unable to set invalid website" : "Nepavyko nustatyti netinkamos internetinės svetainės",
     "Some account data was invalid" : "Kai kurie paskyros duomenys buvo neteisingi",
     "In order to verify your Twitter account, post the following tweet on Twitter (please make sure to post it without any line breaks):" : "Norėdami patvirtinti savo „Twitter“ paskyrą, paskelbkite šį trumpą įrašą  „Twitter“ programoje (prašome, įsitikinkite kad įrašas neturi jokių jokių eilutės pertraukų):\n  ",
     "In order to verify your Website, store the following content in your web-root at '.well-known/CloudIdVerificationCode.txt' (please make sure that the complete text is in one line):" : "Norėdami patvirtinti savo Saityną, išsaugokite turinį web-root aplanke: „.well-know/CloudIdVerificationCode.txt“ (Prašome įsitikinkite, kad visas tekstas yra vienoje eilutėje):",
