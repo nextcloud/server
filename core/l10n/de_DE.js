@@ -268,6 +268,7 @@ OC.L10N.register(
     "Rename" : "Umbenennen",
     "Collaborative tags" : "Kollaborative Schlagworte",
     "No tags found" : "Keine Schlagworte gefunden",
+    "Clipboard not available, please copy manually" : "Zwischenablage nicht verfügbar, bitte manuell kopieren",
     "Personal" : "Persönlich",
     "Accounts" : "Konten",
     "Admin" : "Administration",
