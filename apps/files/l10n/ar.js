@@ -202,6 +202,8 @@ OC.L10N.register(
     "Confirm deletion" : "تأكيد الحذف",
     "Cancel" : "إلغاء",
     "Edit file locally" : "تحرير الملف محليّاً",
+    "The file should now open on your device. If it doesn't, please check that you have the desktop app installed." : "يجب أن يفتح الملف الآن على جهازك. إذا لم يحدث ذلك، فيرجى التأكد من تثبيت تطبيق سطح المكتب.",
+    "Retry and close" : "أعِد المحاولة ثم أغلِق",
     "Edit online" : "التحرير عبر الإنترنت",
     "Failed to redirect to client" : "فشل في التحويل الى العميل",
     "Edit locally" : "تحرير الملف محليّاً",
