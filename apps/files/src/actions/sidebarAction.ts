@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { Permission, type Node, View, FileAction, FileType } from '@nextcloud/files'
+import { Permission, type Node, View, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import InformationSvg from '@mdi/svg/svg/information-variant.svg?raw'
 
