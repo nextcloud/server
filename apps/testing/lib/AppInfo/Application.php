@@ -18,6 +18,7 @@ use OCA\Testing\Settings\DeclarativeSettingsForm;
 use OCA\Testing\TaskProcessing\FakeContextWriteProvider;
 use OCA\Testing\TaskProcessing\FakeTextToImageProvider;
 use OCA\Testing\TaskProcessing\FakeTextToTextProvider;
+use OCA\Testing\TaskProcessing\FakeTextToTextSummaryProvider;
 use OCA\Testing\TaskProcessing\FakeTranscribeProvider;
 use OCA\Testing\TaskProcessing\FakeTranslateProvider;
 use OCP\AppFramework\App;
@@ -42,6 +43,7 @@ class Application extends App implements IBootstrap {
 		$context->registerTextToImageProvider(FakeText2ImageProvider::class);
 
 		$context->registerTaskProcessingProvider(FakeTextToTextProvider::class);
+		$context->registerTaskProcessingProvider(FakeTextToTextSummaryProvider::class);
 		$context->registerTaskProcessingProvider(FakeTextToImageProvider::class);
 		$context->registerTaskProcessingProvider(FakeTranslateProvider::class);
 		$context->registerTaskProcessingProvider(FakeTranscribeProvider::class);
