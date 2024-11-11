@@ -120,7 +120,7 @@ describe('Edit locally action enabled tests', () => {
 describe('Edit locally action execute tests', () => {
 	test('Edit locally opens proper URL', async () => {
 		jest.spyOn(axios, 'post').mockImplementation(async () => ({
-			data: { ocs: { data: { token: 'foobar' } } }
+			data: { ocs: { data: { token: 'foobar' } } },
 		}))
 		const mockedShowError = jest.mocked(showError)
 		const spyDialogBuilder = jest.spyOn(dialogBuilder, 'build')
