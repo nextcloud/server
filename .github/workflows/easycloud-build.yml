@@ -19,6 +19,7 @@ on:
       - 'apps-custom/**'
       - 'package.json'
       - 'package-lock.json'
+      - 'themes/**'
       - 'tsconfig.json'
       - '**.js'
       - '**.ts'
