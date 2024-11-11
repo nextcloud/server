@@ -99,6 +99,7 @@ export default {
 			logger.debug('No encryption module loaded or enabled')
 		}
 		return {
+			encryptionIsAvailable: loadState('settings', 'encryption-available', false),
 			encryptionReady: loadState('settings', 'encryption-ready', false),
 			encryptionEnabled: loadState('settings', 'encryption-enabled', false),
 			externalBackendsEnabled: loadState('settings', 'external-backends-enabled'),
@@ -112,12 +113,15 @@ export default {
 	},
 	methods: {
 		displayWarning() {
+			if (encryptionIsAvailable) {
+				this.encryptionEnabledToggleEffect()
+				showError(t('settings', 'File encryption is not allowed by system administrator.'))
+				logger.debug('File encryption is not allowed by system administrator.')
+				return
+			}
 			if (!this.hasEncryptionModules || !this.encryptionReady) {
-				this.encryptionEnabled = true
+				this.encryptionEnabledToggleEffect()
 				showError(t('settings', 'Encryption is not ready, please enable an encryption module/app.'))
-				setTimeout(() => {
-					this.encryptionEnabled = false
-				}, 1000)
 				return
 			}
 			if (!this.encryptionEnabled) {
@@ -126,6 +130,12 @@ export default {
 				this.encryptionEnabled = false
 				this.shouldDisplayWarning = false
 			}
+		},
+		encryptionEnabledToggleEffect() {
+			this.encryptionEnabled = true
+			setTimeout(() => {
+				this.encryptionEnabled = false
+			}, 1000)
 		},
 		async update(key, value) {
 			await confirmPassword()

@@ -9,6 +9,7 @@ use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Encryption\IManager;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Settings\ISettings;
@@ -22,6 +23,7 @@ class Security implements ISettings {
 		MandatoryTwoFactor $mandatoryTwoFactor,
 		private IInitialState $initialState,
 		private IURLGenerator $urlGenerator,
+		private IConfig $config,
 	) {
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
 	}
@@ -43,6 +45,7 @@ class Security implements ISettings {
 
 		$this->initialState->provideInitialState('mandatory2FAState', $this->mandatoryTwoFactor->getState());
 		$this->initialState->provideInitialState('two-factor-admin-doc', $this->urlGenerator->linkToDocs('admin-2fa'));
+		$this->initialState->provideInitialState('encryption-available', $this->config->getSystemValue('encryption.available', true));
 		$this->initialState->provideInitialState('encryption-enabled', $this->manager->isEnabled());
 		$this->initialState->provideInitialState('encryption-ready', $this->manager->isReady());
 		$this->initialState->provideInitialState('external-backends-enabled', count($this->userManager->getBackends()) > 1);
