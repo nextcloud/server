@@ -355,6 +355,7 @@ OC.L10N.register(
     "Groups allowed to share" : "允許分享的群組",
     "Groups excluded from sharing" : "排除分享的群組",
     "Not allowed groups will still be able to receive shares, but not to initiate them." : "禁止的群組仍然可以接收分享，但無法主動發起分享。",
+    "Set default expiration date for internal shares" : "設定內部分享的默認到期日",
     "Enforce expiration date" : "強制設定到期日",
     "Default expiration time of new shares in days" : "新分享預設到期時間（天）",
     "Expire shares after x days" : "x天後分享過期",
