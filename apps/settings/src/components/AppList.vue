@@ -140,10 +140,12 @@
 
 <script>
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import AppItem from './AppList/AppItem.vue'
 import pLimit from 'p-limit'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import AppItem from './AppList/AppItem.vue'
+import AppManagement from '../mixins/AppManagement'
 import { useAppApiStore } from '../store/app-api-store'
+import { useAppsStore } from '../store/apps-store'
 
 export default {
 	name: 'AppList',
@@ -151,6 +153,8 @@ export default {
 		AppItem,
 		NcButton,
 	},
+
+	mixins: [AppManagement],
 
 	props: {
 		category: {
@@ -161,8 +165,11 @@ export default {
 
 	setup() {
 		const appApiStore = useAppApiStore()
+		const store = useAppsStore()
+
 		return {
 			appApiStore,
+			store,
 		}
 	},
 
