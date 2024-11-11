@@ -8,7 +8,6 @@
 		:description="t('settings', 'Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed.')"
 		:doc-url="encryptionAdminDoc">
 		<NcCheckboxRadioSwitch :checked="encryptionEnabled || shouldDisplayWarning"
-			:disabled="encryptionEnabled"
 			type="switch"
 			@update:checked="displayWarning">
 			{{ t('settings', 'Enable server-side encryption') }}
@@ -34,7 +33,7 @@
 
 		<div v-if="encryptionEnabled">
 			<div v-if="encryptionReady">
-				<p v-if="encryptionModules.length === 0">
+				<p v-if="!hasEncryptionModules">
 					{{ t('settings', 'No encryption module loaded, please enable an encryption module in the app menu.') }}
 				</p>
 				<template v-else>
@@ -89,8 +88,9 @@ export default {
 	},
 	data() {
 		const encryptionModules = loadState('settings', 'encryption-modules')
+		const hasEncryptionModules = encryptionModules instanceof Array && encryptionModules.length > 0
 		let defaultCheckedModule = ''
-		if (encryptionModules instanceof Array && encryptionModules.length > 0) {
+		if (hasEncryptionModules) {
 			const defaultModule = Object.entries(encryptionModules).find((module) => module[1].default)
 			if (defaultModule) {
 				defaultCheckedModule = foundModule[0]
@@ -107,10 +107,19 @@ export default {
 			shouldDisplayWarning: false,
 			migrating: false,
 			defaultCheckedModule,
+			hasEncryptionModules,
 		}
 	},
 	methods: {
 		displayWarning() {
+			if (!this.hasEncryptionModules || !this.encryptionReady) {
+				this.encryptionEnabled = true
+				showError(t('settings', 'Encryption is not ready, please enable an encryption module/app.'))
+				setTimeout(() => {
+					this.encryptionEnabled = false
+				}, 1000)
+				return
+			}
 			if (!this.encryptionEnabled) {
 				this.shouldDisplayWarning = !this.shouldDisplayWarning
 			} else {
