@@ -89,15 +89,24 @@ export default {
 	},
 	data() {
 		const encryptionModules = loadState('settings', 'encryption-modules')
+		let defaultCheckedModule = ''
+		if (encryptionModules instanceof Array && encryptionModules.length > 0) {
+			const defaultModule = Object.entries(encryptionModules).find((module) => module[1].default)
+			if (defaultModule) {
+				defaultCheckedModule = foundModule[0]
+			}
+		} else {
+			logger.debug('No encryption module loaded or enabled')
+		}
 		return {
-			encryptionReady: loadState('settings', 'encryption-ready'),
-			encryptionEnabled: loadState('settings', 'encryption-enabled'),
+			encryptionReady: loadState('settings', 'encryption-ready', false),
+			encryptionEnabled: loadState('settings', 'encryption-enabled', false),
 			externalBackendsEnabled: loadState('settings', 'external-backends-enabled'),
 			encryptionAdminDoc: loadState('settings', 'encryption-admin-doc'),
 			encryptionModules,
 			shouldDisplayWarning: false,
 			migrating: false,
-			defaultCheckedModule: Object.entries(encryptionModules).find((module) => module[1].default)[0],
+			defaultCheckedModule,
 		}
 	},
 	methods: {
