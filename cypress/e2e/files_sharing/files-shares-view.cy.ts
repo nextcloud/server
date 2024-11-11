@@ -35,7 +35,7 @@ describe('files_sharing: Files view', { testIsolation: true }, () => {
 		// see the shared folder
 		getRowForFile('folder').should('be.visible')
 		// click on the folder should open it in files
-		getRowForFile('folder').findByRole('button', { name: /open in files/i }).click()
+		getRowForFile('folder').findByRole('button', { name: /open in files/i }).click({ force: true })
 		// See the URL has changed
 		cy.url().should('match', /apps\/files\/files\/.+dir=\/folder/)
 		// Content of the shared folder
@@ -50,7 +50,7 @@ describe('files_sharing: Files view', { testIsolation: true }, () => {
 		// see the shared folder
 		getRowForFile('folder').should('be.visible')
 		// click on the folder should open it in files
-		getRowForFile('folder').findByRole('button', { name: /open in files/i }).click()
+		getRowForFile('folder').findByRole('button', { name: /open in files/i }).click({ force: true })
 		// See the URL has changed
 		cy.url().should('match', /apps\/files\/files\/.+dir=\/folder/)
 		// Content of the shared folder

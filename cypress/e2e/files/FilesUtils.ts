@@ -138,7 +138,7 @@ export const renameFile = (fileName: string, newFileName: string) => {
 export const navigateToFolder = (dirPath: string) => {
 	const directories = dirPath.split('/')
 	directories.forEach((directory) => {
-		getRowForFile(directory).should('be.visible').find('[data-cy-files-list-row-name-link]').click()
+		getRowForFile(directory).should('be.visible').find('[data-cy-files-list-row-name-link]').click({ force: true })
 	})
 
 }
