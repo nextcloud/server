@@ -268,6 +268,7 @@ OC.L10N.register(
     "Rename" : "Byt namn",
     "Collaborative tags" : "Samverkanstaggar",
     "No tags found" : "Hittade inga taggar",
+    "Clipboard not available, please copy manually" : "Urklipp är inte tillgängligt, kopiera manuellt",
     "Personal" : "Personliga Inställningar",
     "Accounts" : "Konton",
     "Admin" : "Admin",

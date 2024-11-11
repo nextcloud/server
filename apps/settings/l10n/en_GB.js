@@ -355,6 +355,7 @@ OC.L10N.register(
     "Groups allowed to share" : "Groups allowed to share",
     "Groups excluded from sharing" : "Groups excluded from sharing",
     "Not allowed groups will still be able to receive shares, but not to initiate them." : "Not allowed groups will still be able to receive shares, but not to initiate them.",
+    "Set default expiration date for internal shares" : "Set default expiration date for internal shares",
     "Enforce expiration date" : "Enforce expiry date",
     "Default expiration time of new shares in days" : "Default expiration time of new shares in days",
     "Expire shares after x days" : "Expire shares after x days",

@@ -48,7 +48,7 @@
     "Set location for weather" : "تعيين المكان لمعرفة الطقس",
     "Remove from favorites" : "إزالة من المُفضّلة",
     "Add as favorite" : "إضافة إلى المُفضّلة",
-    "You are not logged in." : "أنت لست داخلاً بعدُ",
+    "You are not logged in." : "لم تقم بتسجيل الدخول.",
     "There was an error getting the weather status information." : "حدث خطأ أثناء محاولة الحصول على معلومات عن حالة الطقس",
     "No weather information found" : "لا توجد أيّ معلومات عن الطقس",
     "Location not found" : "الموقع الجغرافي غير موجود",
