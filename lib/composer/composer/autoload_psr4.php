@@ -9,5 +9,6 @@ return array(
     'OC\\Core\\' => array($baseDir . '/core'),
     'OC\\' => array($baseDir . '/lib/private'),
     'OCP\\' => array($baseDir . '/lib/public'),
+    'NCU\\' => array($baseDir . '/lib/unstable'),
     '' => array($baseDir . '/lib/private/legacy'),
 );
