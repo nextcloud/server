@@ -202,6 +202,8 @@ OC.L10N.register(
     "Confirm deletion" : "Bekräfta radering",
     "Cancel" : "Avbryt",
     "Edit file locally" : "Redigera filen lokalt",
+    "The file should now open on your device. If it doesn't, please check that you have the desktop app installed." : "Filen bör nu öppnas på din enhet. Om den inte gör det, kontrollera att du har installerat skrivbordsappen.",
+    "Retry and close" : "Försök igen och stäng",
     "Edit online" : "Redigera online",
     "Failed to redirect to client" : "Det gick inte att omdirigera till klienten",
     "Edit locally" : "Redigera lokalt",

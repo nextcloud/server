@@ -200,6 +200,8 @@
     "Confirm deletion" : "Deimhnigh scriosadh",
     "Cancel" : "Cealaigh",
     "Edit file locally" : "Cuir an comhad in eagar go háitiúil",
+    "The file should now open on your device. If it doesn't, please check that you have the desktop app installed." : "Ba cheart an comhad a oscailt anois ar do ghléas. Mura ndéanann sé, seiceáil le do thoil go bhfuil an aip deisce suiteáilte agat.",
+    "Retry and close" : "Bain triail eile as agus dún",
     "Edit online" : "Cuir in eagar ar líne",
     "Failed to redirect to client" : "Theip ar atreorú chuig an gcliant",
     "Edit locally" : "Cuir in eagar go háitiúil",

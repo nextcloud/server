@@ -353,6 +353,7 @@
     "Groups allowed to share" : "Gruppen, die teilen dürfen",
     "Groups excluded from sharing" : "Von der Linkfreigabe ausgeschlossene Gruppen",
     "Not allowed groups will still be able to receive shares, but not to initiate them." : "Nicht zugelassene Gruppen können zwar weiterhin Freigaben empfangen, aber nicht erstellen.",
+    "Set default expiration date for internal shares" : "Legen Sie das Standardablaufdatum für interne Freigaben fest",
     "Enforce expiration date" : "Ablaufdatum erzwingen",
     "Default expiration time of new shares in days" : "Standardablaufzeit neuer Freigaben in Tagen",
     "Expire shares after x days" : "Freigaben laufen nach x Tagen ab",

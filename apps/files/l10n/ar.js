@@ -72,7 +72,7 @@ OC.L10N.register(
     "Reload current directory" : "إعادة تحميل المجلد الحالي",
     "Go to the \"{dir}\" directory" : "إنتقل إلى المجلد \"{dir}\"",
     "Drag and drop files here to upload" : "إسحب وأفلت الملفات هنا لرفعها",
-    "Your have used your space quota and cannot upload files anymore" : "لقد استنفذت حصتك التخزينية و لم يعد بإمكانك رفع أي ملفات بعدُ",
+    "Your have used your space quota and cannot upload files anymore" : "لقد استنفذت حصتك التخزينية و لم يعد بإمكانك رفع أي ملفات الآن",
     "You don’t have permission to upload or create files here" : "لا تملك الصلاحية لرفع او انشاء ملف هنا ",
     "Favorite" : "المفضلة",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\" الأمر نُفّذ بنجاح",
