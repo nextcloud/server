@@ -355,6 +355,7 @@ OC.L10N.register(
     "Groups allowed to share" : "Ceadaítear do ghrúpaí a roinnt",
     "Groups excluded from sharing" : "Grúpaí eisiata ó chomhroinnt",
     "Not allowed groups will still be able to receive shares, but not to initiate them." : "Beidh grúpaí nach bhfuil ceadaithe fós in ann scaireanna a fháil, ach gan iad a thionscnamh.",
+    "Set default expiration date for internal shares" : "Socraigh dáta éaga réamhshocraithe do scaireanna inmheánacha",
     "Enforce expiration date" : "Cuir dáta éaga i bhfeidhm",
     "Default expiration time of new shares in days" : "Am éagtha réamhshocraithe scaireanna nua i laethanta",
     "Expire shares after x days" : "Rachaidh scaireanna in éag tar éis x lá",

@@ -202,6 +202,8 @@ OC.L10N.register(
     "Confirm deletion" : "Confirm deletion",
     "Cancel" : "Cancel",
     "Edit file locally" : "Edit file locally",
+    "The file should now open on your device. If it doesn't, please check that you have the desktop app installed." : "The file should now open on your device. If it doesn't, please check that you have the desktop app installed.",
+    "Retry and close" : "Retry and close",
     "Edit online" : "Edit online",
     "Failed to redirect to client" : "Failed to redirect to client",
     "Edit locally" : "Edit locally",

@@ -46,7 +46,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Comparta comigo a través do meu ID de nube federada de #Nextcloud",
     "Cloud ID copied to the clipboard" : "O identificador de nube (Cloud ID) (foi copiado no portapapeis",
     "Copy to clipboard" : "Copiar no portapapeis.",
-    "Clipboard not available. Please copy the cloud ID manually." : "O  portapaapeis non está dispoñíbel. Copie o ID da nube manualmente.",
+    "Clipboard not available. Please copy the cloud ID manually." : "O portapapeis non está dispoñíbel. Copie o ID da nube manualmente.",
     "Copied!" : "Copiado!",
     "Cancel" : "Cancelar",
     "Add remote share" : "Engadir unha compartición remota",

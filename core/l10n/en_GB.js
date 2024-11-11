@@ -268,6 +268,7 @@ OC.L10N.register(
     "Rename" : "Rename",
     "Collaborative tags" : "Collaborative tags",
     "No tags found" : "No tags found",
+    "Clipboard not available, please copy manually" : "Clipboard not available, please copy manually",
     "Personal" : "Personal",
     "Accounts" : "Accounts",
     "Admin" : "Admin",
