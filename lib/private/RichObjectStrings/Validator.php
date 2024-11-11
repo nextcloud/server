@@ -14,6 +14,7 @@ use OCP\RichObjectStrings\IValidator;
 /**
  * Class Validator
  *
+ * @psalm-import-type RichObjectParameter from IValidator
  * @package OCP\RichObjectStrings
  * @since 11.0.0
  */
@@ -27,7 +28,7 @@ class Validator implements IValidator {
 
 	/**
 	 * @param string $subject
-	 * @param array<non-empty-string, array<non-empty-string, string>> $parameters
+	 * @param array<non-empty-string, RichObjectParameter> $parameters
 	 * @throws InvalidObjectExeption
 	 * @since 11.0.0
 	 */
