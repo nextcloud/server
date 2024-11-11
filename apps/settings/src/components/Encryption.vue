@@ -14,6 +14,10 @@
 			{{ t('settings', 'Enable server-side encryption') }}
 		</NcCheckboxRadioSwitch>
 
+		<div v-if="!hasEncryptionModules || !encryptionReady" class="notecard warning" role="alert">
+			<p>{{ t('settings', 'Encryption is not available. Please enable the Encryption app or an encryption module.') }}</p>
+		</div>
+
 		<div v-if="shouldDisplayWarning && !encryptionEnabled" class="notecard warning" role="alert">
 			<p>{{ t('settings', 'Please read carefully before activating server-side encryption:') }}</p>
 			<ul>
@@ -34,7 +38,7 @@
 
 		<div v-if="encryptionEnabled">
 			<div v-if="encryptionReady">
-				<p v-if="encryptionModules.length === 0">
+				<p v-if="!hasEncryptionModules">
 					{{ t('settings', 'No encryption module loaded, please enable an encryption module in the app menu.') }}
 				</p>
 				<template v-else>
@@ -89,8 +93,9 @@ export default {
 	},
 	data() {
 		const encryptionModules = loadState('settings', 'encryption-modules')
+		const hasEncryptionModules = encryptionModules instanceof Array && encryptionModules.length > 0
 		let defaultCheckedModule = ''
-		if (encryptionModules instanceof Array && encryptionModules.length > 0) {
+		if (hasEncryptionModules) {
 			const defaultModule = Object.entries(encryptionModules).find((module) => module[1].default)
 			if (defaultModule) {
 				defaultCheckedModule = foundModule[0]
@@ -107,6 +112,7 @@ export default {
 			shouldDisplayWarning: false,
 			migrating: false,
 			defaultCheckedModule,
+			hasEncryptionModules,
 		}
 	},
 	methods: {
