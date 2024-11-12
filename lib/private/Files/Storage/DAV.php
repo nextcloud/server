@@ -283,6 +283,7 @@ class DAV extends Common {
 		// we either don't know it, or we know it exists but need more details
 		if (is_null($cachedResponse) || $cachedResponse === true) {
 			$this->init();
+			$response = false;
 			try {
 				$response = $this->client->propFind(
 					$this->encodePath($path),
@@ -293,9 +294,9 @@ class DAV extends Common {
 				if ($e->getHttpStatus() === 404 || $e->getHttpStatus() === 405) {
 					$this->statCache->clear($path . '/');
 					$this->statCache->set($path, false);
-					return false;
+				} else {
+					$this->convertException($e, $path);
 				}
-				$this->convertException($e, $path);
 			} catch (\Exception $e) {
 				$this->convertException($e, $path);
 			}
