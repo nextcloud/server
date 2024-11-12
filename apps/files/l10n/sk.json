@@ -334,7 +334,7 @@
     "{newName} already exists" : "{newName} už existuje",
     "Could not rename \"{fileName}\", it does not exist any more" : "Nie je možné premenovať \"{fileName}\", cieľ už neexistuje",
     "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Názov \"{targetName}\" je už použitý v priečinku \"{dir}\". Zvoľte prosím iný názov.",
-    "Could not rename \"{fileName}\"" : "Nie je možné premenovať \"{file}\"",
+    "Could not rename \"{fileName}\"" : "Nie je možné premenovať \"{fileName}\"",
     "Could not create file \"{file}\"" : "Nie je možné vytvoriť súbor \"{file}\"",
     "Could not create file \"{file}\" because it already exists" : "Nie je možné vytvoriť súbor \"{file}\" lebo už existuje",
     "Could not create folder \"{dir}\" because it already exists" : "Nie je možné vytvoriť priečinok \"{dir}\" lebo už existuje",

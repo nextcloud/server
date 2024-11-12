@@ -185,7 +185,7 @@ OC.L10N.register(
     "remote" : "на другом сервере",
     "remote group" : "группа на другом сервере",
     "guest" : "Гость",
-    "Shared with the group {user} by {owner}" : "{owner} предоставил(а) доступ группе {group}",
+    "Shared with the group {user} by {owner}" : "{owner} предоставил(а) доступ группе {user}",
     "Shared with the conversation {user} by {owner}" : "Пользователь {owner} предоставил(а) {user} доступ во время беседы",
     "Shared with {user} by {owner}" : "{owner} предоставил(а) доступ {user} ",
     "Added by {initiator}" : "Добавлено пользователем {initiator}",

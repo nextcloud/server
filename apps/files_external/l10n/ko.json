@@ -104,7 +104,7 @@
     "External storage support" : "외부 저장소 지원",
     "Adds basic external storage support" : "기본적인 외부 저장소 지원 추가",
     "Submit" : "제출",
-    "Unable to update this external storage config. {statusMessage}" : "이 외부 저장소의 설정을 갱신할 수 없음. {status Message}",
+    "Unable to update this external storage config. {statusMessage}" : "이 외부 저장소의 설정을 갱신할 수 없음. {statusMessage}",
     "New configuration successfully saved" : "새로운 설정이 성공적으로 저장됨",
     "Enter missing credentials" : "유실된 인증 정보 입력",
     "There was an error with this external storage." : "이 외부 저장소에서 오류가 발생했습니다",

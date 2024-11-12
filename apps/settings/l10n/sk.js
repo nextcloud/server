@@ -21,7 +21,7 @@ OC.L10N.register(
     "Group list is empty" : "Zoznam skupín je prázdny",
     "Unable to retrieve the group list" : "Nie je možné načítať zoznam skupín",
     "{actor} added you to group {group}" : "používateľ {actor} vás pridal do skupiny {group}",
-    "You added {user} to group {group}" : "Pridali ste používateľa {actor} do skupiny {group}",
+    "You added {user} to group {group}" : "Pridali ste používateľa {user} do skupiny {group}",
     "{actor} added {user} to group {group}" : "{actor} pridal(a) používateľa {user} do skupiny {group}",
     "An administrator added you to group {group}" : "Správca vás pridal do skupiny {group}",
     "An administrator added {user} to group {group}" : "Správca pridal používateľa {user} do skupiny {group}",

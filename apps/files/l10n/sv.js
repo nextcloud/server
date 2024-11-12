@@ -339,7 +339,7 @@ OC.L10N.register(
     "Could not rename \"{fileName}\", it does not exist any more" : "Kunde inte döpa om \"{fileName}\", filen existerar inte mer",
     "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Namnet \"{targetName}\" används redan i mappen \"{dir}\". Välj ett annat namn.",
     "Could not rename \"{fileName}\"" : "Kan inte döpa om \"{fileName}\"",
-    "Could not create file \"{file}\"" : "Kunde inte skapa fil \"{fileName}\"",
+    "Could not create file \"{file}\"" : "Kunde inte skapa fil \"{file}\"",
     "Could not create file \"{file}\" because it already exists" : "Kunde inte skapa fil \"{file}\" därför att den redan existerar",
     "Could not create folder \"{dir}\" because it already exists" : "Kunde inte skapa \"{dir}\" därför att den redan existerar",
     "Could not fetch file details \"{file}\"" : "Kunde inte hämta filinformation \"{file}\"",

@@ -12,7 +12,7 @@
     "Set reminder" : "Emlékeztető beállítása",
     "Set reminder for \"{fileName}\"" : "Emlékeztető beállítása a következőhöz: „{fileName}”",
     "Set reminder at custom date & time" : "Emlékeztető beállítása tetszőleges időpontra",
-    "Reminder set for \"{fileName}\"" : "Emlékeztető beállítva a következőhöz: {name}",
+    "Reminder set for \"{fileName}\"" : "Emlékeztető beállítva a következőhöz: {fileName}",
     "Failed to set reminder" : "Nem sikerült beállítani az emlékeztetőt",
     "Reminder cleared for \"{fileName}\"" : "Emlékeztető törlése a következőhöz: „{fileName}”",
     "Failed to clear reminder" : "Nem sikerült törölni az emlékeztetőt",
