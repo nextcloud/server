@@ -3,12 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getGuestNickname, setGuestNickname } from '@nextcloud/auth'
-import { spawnDialog } from '@nextcloud/dialogs'
-import { getUploader } from '@nextcloud/upload'
 import { defineAsyncComponent } from 'vue'
-import logger from './services/logger'
 import { getBuilder } from '@nextcloud/browser-storage'
+import { getGuestNickname, setGuestNickname } from '@nextcloud/auth'
+import { getUploader } from '@nextcloud/upload'
+import { spawnDialog } from '@nextcloud/dialogs'
+
+import logger from './services/logger'
 
 const storage = getBuilder('files_sharing').build()
 
@@ -18,7 +19,7 @@ const storage = getBuilder('files_sharing').build()
  */
 function registerFileRequestHeader(nickname: string) {
 	const uploader = getUploader()
-	uploader.setCustomHeader('X-NC-Nickname', nickname)
+	uploader.setCustomHeader('X-NC-Nickname', encodeURIComponent(nickname))
 	logger.debug('Nickname header registered for uploader', { headers: uploader.customHeaders })
 }
 
