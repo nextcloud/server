@@ -194,7 +194,7 @@
     "webpack-merge": "^6.0.1",
     "workbox-webpack-plugin": "^7.1.0",
     "vue-material-design-icons": "file:./custom-npms/nc-vue-material-design-icons/dist",
-    "@mdi/svg": "file:./custom-npms/nc-mdi-svg"
+    "@mdi/svg": "file:./custom-npms/nc-mdi-svg/dist"
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"
