@@ -32,7 +32,7 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 		];
 
 		if ($nickName) {
-			$options['headers']['X-NC-NICKNAME'] = $nickName;
+			$options['headers']['X-NC-NICKNAME'] = urlencode($nickName);
 		}
 
 		$options['body'] = \GuzzleHttp\Psr7\Utils::streamFor($content);
