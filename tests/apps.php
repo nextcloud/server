@@ -19,7 +19,7 @@ function loadDirectory($path): void {
 		return;
 	}
 
-	while ($name = readdir($dh)) {
+	while (($name = readdir($dh)) !== false) {
 		if ($name[0] === '.') {
 			continue;
 		}
