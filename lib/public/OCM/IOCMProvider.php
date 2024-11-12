@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCP\OCM;
 
 use JsonSerializable;
+use NCU\Security\Signature\Model\ISignatory;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
 
@@ -121,6 +122,22 @@ interface IOCMProvider extends JsonSerializable {
 	public function extractProtocolEntry(string $resourceName, string $protocol): string;
 
 	/**
+	 * store signatory (public/private key pair) to sign outgoing/incoming request
+	 *
+	 * @param ISignatory $signatory
+	 * @since 31.0.0
+	 */
+	public function setSignatory(ISignatory $signatory): void;
+
+	/**
+	 * signatory (public/private key pair) used to sign outgoing/incoming request
+	 *
+	 * @return ISignatory|null returns null if no ISignatory available
+	 * @since 31.0.0
+	 */
+	public function getSignatory(): ?ISignatory;
+
+	/**
 	 * import data from an array
 	 *
 	 * @param array<string, int|string|bool|array> $data
@@ -134,13 +151,15 @@ interface IOCMProvider extends JsonSerializable {
 	/**
 	 * @return array{
 	 *     enabled: bool,
-	 *     apiVersion: string,
+	 *     apiVersion: '1.0-proposal1',
 	 *     endPoint: string,
-	 *     resourceTypes: list<array{
+	 *     publicKey: ISignatory|null,
+	 *     resourceTypes: array{
 	 *         name: string,
 	 *         shareTypes: list<string>,
 	 *         protocols: array<string, string>
-	 *     }>,
+	 *     }[],
+	 *     version: string
 	 * }
 	 * @since 28.0.0
 	 */

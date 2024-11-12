@@ -8,6 +8,8 @@ namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use NCU\Config\IUserConfig;
+use NCU\Security\PublicPrivateKeyPairs\IKeyPairManager;
+use NCU\Security\Signature\ISignatureManager;
 use OC\Accounts\AccountManager;
 use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
@@ -101,8 +103,10 @@ use OC\Security\CSRF\CsrfTokenManager;
 use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OC\Security\Hasher;
 use OC\Security\Ip\RemoteAddress;
+use OC\Security\PublicPrivateKeyPairs\KeyPairManager;
 use OC\Security\RateLimiting\Limiter;
 use OC\Security\SecureRandom;
+use OC\Security\Signature\SignatureManager;
 use OC\Security\TrustedDomainHelper;
 use OC\Security\VerificationToken\VerificationToken;
 use OC\Session\CryptoWrapper;
@@ -1180,18 +1184,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerAlias(\OCP\GlobalScale\IConfig::class, \OC\GlobalScale\Config::class);
-
-		$this->registerService(ICloudFederationProviderManager::class, function (ContainerInterface $c) {
-			return new CloudFederationProviderManager(
-				$c->get(\OCP\IConfig::class),
-				$c->get(IAppManager::class),
-				$c->get(IClientService::class),
-				$c->get(ICloudIdManager::class),
-				$c->get(IOCMDiscoveryService::class),
-				$c->get(LoggerInterface::class)
-			);
-		});
-
+		$this->registerAlias(ICloudFederationProviderManager::class, CloudFederationProviderManager::class);
 		$this->registerService(ICloudFederationFactory::class, function (Server $c) {
 			return new CloudFederationFactory();
 		});
@@ -1296,6 +1289,9 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Security\Ip\IFactory::class, \OC\Security\Ip\Factory::class);
 
 		$this->registerAlias(IRichTextFormatter::class, \OC\RichObjectStrings\RichTextFormatter::class);
+
+		$this->registerAlias(IKeyPairManager::class, KeyPairManager::class);
+		$this->registerAlias(ISignatureManager::class, SignatureManager::class);
 
 		$this->connectDispatcher();
 	}

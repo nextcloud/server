@@ -35,6 +35,9 @@ Feature: cleanup-remote-storage
     # server may have its own /textfile0.txt" file)
     And User "user1" copies file "/textfile0.txt" to "/remote-share.txt"
     And User "user1" from server "REMOTE" shares "/remote-share.txt" with user "user0" from server "LOCAL"
+    And As an "user1"
+    And sending "GET" to "/apps/files_sharing/api/v1/shares"
+    And the list of returned shares has 1 shares
     And Using server "LOCAL"
     # Accept and download the file to ensure that a storage is created for the
     # federated share

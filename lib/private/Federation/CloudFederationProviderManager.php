@@ -8,7 +8,9 @@ declare(strict_types=1);
  */
 namespace OC\Federation;
 
+use NCU\Security\Signature\ISignatureManager;
 use OC\AppFramework\Http;
+use OC\OCM\OCMSignatoryManager;
 use OCP\App\IAppManager;
 use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
 use OCP\Federation\ICloudFederationNotification;
@@ -18,6 +20,7 @@ use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMDiscoveryService;
@@ -37,9 +40,12 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	public function __construct(
 		private IConfig $config,
 		private IAppManager $appManager,
+		private IAppConfig $appConfig,
 		private IClientService $httpClientService,
 		private ICloudIdManager $cloudIdManager,
 		private IOCMDiscoveryService $discoveryService,
+		private readonly ISignatureManager $signatureManager,
+		private readonly OCMSignatoryManager $signatoryManager,
 		private LoggerInterface $logger,
 	) {
 	}
@@ -106,9 +112,17 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 
 		$client = $this->httpClientService->newClient();
 		try {
-			$response = $client->post($ocmProvider->getEndPoint() . '/shares', array_merge($this->getDefaultRequestOptions(), [
-				'body' => json_encode($share->getShare()),
-			]));
+			// signing the payload using OCMSignatoryManager before initializing the request
+			$uri = $ocmProvider->getEndPoint() . '/shares';
+			$payload = array_merge($this->getDefaultRequestOptions(), ['body' => json_encode($share->getShare())]);
+			if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+				$signedPayload = $this->signatureManager->signOutgoingRequestIClientPayload(
+					$this->signatoryManager,
+					$payload,
+					'post', $uri
+				);
+			}
+			$response = $client->post($uri, $signedPayload ?? $payload);
 
 			if ($response->getStatusCode() === Http::STATUS_CREATED) {
 				$result = json_decode($response->getBody(), true);
@@ -139,9 +153,18 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 
 		$client = $this->httpClientService->newClient();
 		try {
-			return $client->post($ocmProvider->getEndPoint() . '/shares', array_merge($this->getDefaultRequestOptions(), [
-				'body' => json_encode($share->getShare()),
-			]));
+			// signing the payload using OCMSignatoryManager before initializing the request
+			$uri = $ocmProvider->getEndPoint() . '/shares';
+			$payload = array_merge($this->getDefaultRequestOptions(), ['body' => json_encode($share->getShare())]);
+			if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+				$signedPayload = $this->signatureManager->signOutgoingRequestIClientPayload(
+					$this->signatoryManager,
+					$payload,
+					'post', $uri
+				);
+			}
+
+			return $client->post($uri, $signedPayload ?? $payload);
 		} catch (\Throwable $e) {
 			$this->logger->error('Error while sending share to federation server: ' . $e->getMessage(), ['exception' => $e]);
 			try {
@@ -167,9 +190,19 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 
 		$client = $this->httpClientService->newClient();
 		try {
-			$response = $client->post($ocmProvider->getEndPoint() . '/notifications', array_merge($this->getDefaultRequestOptions(), [
-				'body' => json_encode($notification->getMessage()),
-			]));
+
+			// signing the payload using OCMSignatoryManager before initializing the request
+			$uri = $ocmProvider->getEndPoint() . '/notifications';
+			$payload = array_merge($this->getDefaultRequestOptions(), ['body' => json_encode($notification->getMessage())]);
+			if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+				$signedPayload = $this->signatureManager->signOutgoingRequestIClientPayload(
+					$this->signatoryManager,
+					$payload,
+					'post', $uri
+				);
+			}
+			$response = $client->post($uri, $signedPayload ?? $payload);
+
 			if ($response->getStatusCode() === Http::STATUS_CREATED) {
 				$result = json_decode($response->getBody(), true);
 				return (is_array($result)) ? $result : [];
@@ -193,9 +226,17 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 
 		$client = $this->httpClientService->newClient();
 		try {
-			return $client->post($ocmProvider->getEndPoint() . '/notifications', array_merge($this->getDefaultRequestOptions(), [
-				'body' => json_encode($notification->getMessage()),
-			]));
+			// signing the payload using OCMSignatoryManager before initializing the request
+			$uri = $ocmProvider->getEndPoint() . '/notifications';
+			$payload = array_merge($this->getDefaultRequestOptions(), ['body' => json_encode($notification->getMessage())]);
+			if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+				$signedPayload = $this->signatureManager->signOutgoingRequestIClientPayload(
+					$this->signatoryManager,
+					$payload,
+					'post', $uri
+				);
+			}
+			return $client->post($uri, $signedPayload ?? $payload);
 		} catch (\Throwable $e) {
 			$this->logger->error('Error while sending notification to federation server: ' . $e->getMessage(), ['exception' => $e]);
 			try {
@@ -216,15 +257,11 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	}
 
 	private function getDefaultRequestOptions(): array {
-		$options = [
+		return [
 			'headers' => ['content-type' => 'application/json'],
 			'timeout' => 10,
 			'connect_timeout' => 10,
+			'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
 		];
-
-		if ($this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates')) {
-			$options['verify'] = false;
-		}
-		return $options;
 	}
 }

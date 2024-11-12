@@ -25,12 +25,6 @@ use Psr\Log\LoggerInterface;
  */
 class OCMDiscoveryService implements IOCMDiscoveryService {
 	private ICache $cache;
-	private array $supportedAPIVersion =
-		[
-			'1.0-proposal1',
-			'1.0',
-			'1.1'
-		];
 
 	public function __construct(
 		ICacheFactory $cacheFactory,
@@ -61,9 +55,7 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 				}
 
 				$this->provider->import(json_decode($cached ?? '', true, 8, JSON_THROW_ON_ERROR) ?? []);
-				if ($this->supportedAPIVersion($this->provider->getApiVersion())) {
-					return $this->provider; // if cache looks valid, we use it
-				}
+				return $this->provider;
 			} catch (JsonException|OCMProviderException $e) {
 				// we ignore cache on issues
 			}
@@ -101,31 +93,6 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 			throw new OCMProviderException('error while requesting remote ocm provider');
 		}
 
-		if (!$this->supportedAPIVersion($this->provider->getApiVersion())) {
-			$this->cache->set($remote, false, 5 * 60);
-			throw new OCMProviderException('API version not supported');
-		}
-
 		return $this->provider;
-	}
-
-	/**
-	 * Check the version from remote is supported.
-	 * The minor version of the API will be ignored:
-	 *    1.0.1 is identified as 1.0
-	 *
-	 * @param string $version
-	 *
-	 * @return bool
-	 */
-	private function supportedAPIVersion(string $version): bool {
-		$dot1 = strpos($version, '.');
-		$dot2 = strpos($version, '.', $dot1 + 1);
-
-		if ($dot2 > 0) {
-			$version = substr($version, 0, $dot2);
-		}
-
-		return (in_array($version, $this->supportedAPIVersion));
 	}
 }
