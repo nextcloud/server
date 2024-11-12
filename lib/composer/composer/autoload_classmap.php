@@ -7,6 +7,11 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'NCU\\Config\\Exceptions\\IncorrectTypeException' => $baseDir . '/lib/unstable/Config/Exceptions/IncorrectTypeException.php',
+    'NCU\\Config\\Exceptions\\TypeConflictException' => $baseDir . '/lib/unstable/Config/Exceptions/TypeConflictException.php',
+    'NCU\\Config\\Exceptions\\UnknownKeyException' => $baseDir . '/lib/unstable/Config/Exceptions/UnknownKeyException.php',
+    'NCU\\Config\\IUserPreferences' => $baseDir . '/lib/unstable/Config/IUserPreferences.php',
+    'NCU\\Config\\ValueType' => $baseDir . '/lib/unstable/Config/ValueType.php',
     'OCP\\Accounts\\IAccount' => $baseDir . '/lib/public/Accounts/IAccount.php',
     'OCP\\Accounts\\IAccountManager' => $baseDir . '/lib/public/Accounts/IAccountManager.php',
     'OCP\\Accounts\\IAccountProperty' => $baseDir . '/lib/public/Accounts/IAccountProperty.php',
@@ -223,11 +228,6 @@ return array(
     'OCP\\Common\\Exception\\NotFoundException' => $baseDir . '/lib/public/Common/Exception/NotFoundException.php',
     'OCP\\Config\\BeforePreferenceDeletedEvent' => $baseDir . '/lib/public/Config/BeforePreferenceDeletedEvent.php',
     'OCP\\Config\\BeforePreferenceSetEvent' => $baseDir . '/lib/public/Config/BeforePreferenceSetEvent.php',
-    'OCP\\Config\\Exceptions\\IncorrectTypeException' => $baseDir . '/lib/public/Config/Exceptions/IncorrectTypeException.php',
-    'OCP\\Config\\Exceptions\\TypeConflictException' => $baseDir . '/lib/public/Config/Exceptions/TypeConflictException.php',
-    'OCP\\Config\\Exceptions\\UnknownKeyException' => $baseDir . '/lib/public/Config/Exceptions/UnknownKeyException.php',
-    'OCP\\Config\\IUserPreferences' => $baseDir . '/lib/public/Config/IUserPreferences.php',
-    'OCP\\Config\\ValueType' => $baseDir . '/lib/public/Config/ValueType.php',
     'OCP\\Console\\ConsoleEvent' => $baseDir . '/lib/public/Console/ConsoleEvent.php',
     'OCP\\Console\\ReservedOptions' => $baseDir . '/lib/public/Console/ReservedOptions.php',
     'OCP\\Constants' => $baseDir . '/lib/public/Constants.php',

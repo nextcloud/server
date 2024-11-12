@@ -7,11 +7,11 @@ declare(strict_types=1);
  */
 namespace lib;
 
+use NCU\Config\Exceptions\TypeConflictException;
+use NCU\Config\Exceptions\UnknownKeyException;
+use NCU\Config\IUserPreferences;
+use NCU\Config\ValueType;
 use OC\Config\UserPreferences;
-use OCP\Config\Exceptions\TypeConflictException;
-use OCP\Config\Exceptions\UnknownKeyException;
-use OCP\Config\IUserPreferences;
-use OCP\Config\ValueType;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
 use Psr\Log\LoggerInterface;

@@ -48,6 +48,11 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'NCU\\Config\\Exceptions\\IncorrectTypeException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/IncorrectTypeException.php',
+        'NCU\\Config\\Exceptions\\TypeConflictException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/TypeConflictException.php',
+        'NCU\\Config\\Exceptions\\UnknownKeyException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/UnknownKeyException.php',
+        'NCU\\Config\\IUserPreferences' => __DIR__ . '/../../..' . '/lib/unstable/Config/IUserPreferences.php',
+        'NCU\\Config\\ValueType' => __DIR__ . '/../../..' . '/lib/unstable/Config/ValueType.php',
         'OCP\\Accounts\\IAccount' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccount.php',
         'OCP\\Accounts\\IAccountManager' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccountManager.php',
         'OCP\\Accounts\\IAccountProperty' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccountProperty.php',
@@ -264,11 +269,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Common\\Exception\\NotFoundException' => __DIR__ . '/../../..' . '/lib/public/Common/Exception/NotFoundException.php',
         'OCP\\Config\\BeforePreferenceDeletedEvent' => __DIR__ . '/../../..' . '/lib/public/Config/BeforePreferenceDeletedEvent.php',
         'OCP\\Config\\BeforePreferenceSetEvent' => __DIR__ . '/../../..' . '/lib/public/Config/BeforePreferenceSetEvent.php',
-        'OCP\\Config\\Exceptions\\IncorrectTypeException' => __DIR__ . '/../../..' . '/lib/public/Config/Exceptions/IncorrectTypeException.php',
-        'OCP\\Config\\Exceptions\\TypeConflictException' => __DIR__ . '/../../..' . '/lib/public/Config/Exceptions/TypeConflictException.php',
-        'OCP\\Config\\Exceptions\\UnknownKeyException' => __DIR__ . '/../../..' . '/lib/public/Config/Exceptions/UnknownKeyException.php',
-        'OCP\\Config\\IUserPreferences' => __DIR__ . '/../../..' . '/lib/public/Config/IUserPreferences.php',
-        'OCP\\Config\\ValueType' => __DIR__ . '/../../..' . '/lib/public/Config/ValueType.php',
         'OCP\\Console\\ConsoleEvent' => __DIR__ . '/../../..' . '/lib/public/Console/ConsoleEvent.php',
         'OCP\\Console\\ReservedOptions' => __DIR__ . '/../../..' . '/lib/public/Console/ReservedOptions.php',
         'OCP\\Constants' => __DIR__ . '/../../..' . '/lib/public/Constants.php',

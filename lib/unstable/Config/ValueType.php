@@ -6,9 +6,9 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCP\Config;
+namespace NCU\Config;
 
-use OCP\Config\Exceptions\IncorrectTypeException;
+use NCU\Config\Exceptions\IncorrectTypeException;
 use UnhandledMatchError;
 
 /**

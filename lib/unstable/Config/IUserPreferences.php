@@ -6,11 +6,11 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCP\Config;
+namespace NCU\Config;
 
 use Generator;
-use OCP\Config\Exceptions\IncorrectTypeException;
-use OCP\Config\Exceptions\UnknownKeyException;
+use NCU\Config\Exceptions\IncorrectTypeException;
+use NCU\Config\Exceptions\UnknownKeyException;
 
 /**
  * This class provides an easy way for apps to store user preferences in the
