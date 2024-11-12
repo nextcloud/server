@@ -83,7 +83,7 @@ OC.L10N.register(
     "New owner" : "Pemilik baru",
     "Choose a file or folder to transfer" : "Pilih berkas atau folder untuk ditransfer",
     "Transfer" : "Transfer",
-    "Transfer {path} to {userid}" : "Transfer {path} ke {user}",
+    "Transfer {path} to {userid}" : "Transfer {path} ke {userid}",
     "Invalid path selected" : "Jalur terpilih invalid",
     "Unknown error" : "Kesalahan tidak diketahui",
     "Ownership transfer request sent" : "Permintaan transfer kepemilikan terkirim",
