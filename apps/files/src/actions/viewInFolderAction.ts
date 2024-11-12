@@ -30,6 +30,11 @@ export const action = new FileAction({
 			return false
 		}
 
+		// Can only view files that are in the user root folder
+		if (!node.root?.startsWith('/files')) {
+			return false
+		}
+
 		if (node.permissions === Permission.NONE) {
 			return false
 		}
