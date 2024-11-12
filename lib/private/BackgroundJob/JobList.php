@@ -307,6 +307,7 @@ class JobList implements IJobList {
 					$class = $row['class'];
 					$job = new $class();
 				} else {
+					$this->logger->warning('failed to create instance of background job: ' . $row['class'], ['app' => 'cron', 'exception' => $e]);
 					// Remove job from disabled app or old version of an app
 					$this->removeById($row['id']);
 					return null;
