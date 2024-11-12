@@ -200,6 +200,8 @@
     "Confirm deletion" : "確認刪除",
     "Cancel" : "取消",
     "Edit file locally" : "本機編輯檔案",
+    "The file should now open on your device. If it doesn't, please check that you have the desktop app installed." : "檔案現在應該可以在您的裝置上開啟。如果打不開，請檢查您是否有安裝桌面應用程式。",
+    "Retry and close" : "重試並關閉",
     "Edit online" : "線上編輯",
     "Failed to redirect to client" : "重新導向到客戶端失敗",
     "Edit locally" : "在本機編輯",

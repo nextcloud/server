@@ -215,7 +215,7 @@
     "{shareWith} by {initiator}" : "{shareWith} av {initiator}",
     "Shared via link by {initiator}" : "Delad via länk av {initiator}",
     "File request ({label})" : "Filförfrågan ({label})",
-    "Mail share ({label})" : "E-postdelning ({labe})",
+    "Mail share ({label})" : "E-postdelning ({label})",
     "Share link ({label})" : "Dela länk ({label})",
     "Mail share" : "E-postdelning",
     "Share link ({index})" : "Dela länk ({index})",
