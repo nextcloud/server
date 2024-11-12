@@ -84,7 +84,8 @@
 			class="files-list__row-mtime"
 			data-cy-files-list-row-mtime
 			@click="openDetailsIfAvailable">
-			<NcDateTime v-if="source.mtime" :timestamp="source.mtime" :ignore-seconds="true" />
+			<NcDateTime v-if="mtime" :timestamp="mtime" :ignore-seconds="true" />
+			<span v-else>{{ t('files', 'Unknown date') }}</span>
 		</td>
 
 		<!-- View columns -->
