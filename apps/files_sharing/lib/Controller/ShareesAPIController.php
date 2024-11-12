@@ -197,6 +197,27 @@ class ShareesAPIController extends OCSController {
 			$result['exact'] = array_merge($this->result['exact'], $result['exact']);
 		}
 		$this->result = array_merge($this->result, $result);
+
+		// Get a list of groups to exclude from search results
+		$blacklisted_groups = $this->config->getSystemValue('blacklisted_groups', true);
+
+		// Check and filter normal 'groups' array at the top level and the nested 'exact' level
+		if (isset($this->result['groups'])) {
+		    $this->result['groups'] = array_filter($this->result['groups'], function($group) use ($blacklisted_groups) {
+		        return !in_array($group['label'], $blacklisted_groups);
+		    });
+		    // Reindex array to maintain sequential numeric keys
+		    $this->result['groups'] = array_values($this->result['groups']);
+		}
+
+		if (isset($this->result['exact']['groups'])) {
+		    $this->result['exact']['groups'] = array_filter($this->result['exact']['groups'], function($group) use ($blacklisted_groups) {
+		        return !in_array($group['label'], $blacklisted_groups);
+		    });
+		    // Reindex array to maintain sequential numeric keys
+		    $this->result['exact']['groups'] = array_values($this->result['exact']['groups']);
+		}
+
 		$response = new DataResponse($this->result);
 
 		if ($hasMoreResults) {
