@@ -3,7 +3,7 @@
     "Web updater is disabled" : "Tá an nuashonrú Gréasáin díchumasaithe",
     "App updated" : "Nuashonraíodh an app",
     "See what's new" : "Féach cad atá nua",
-    "{app} updated to version {version}" : "Nuashonraíodh {app} go leagan {leagan}",
+    "{app} updated to version {version}" : "Nuashonraíodh {app} go leagan {version}",
     "Update notifications" : "Nuashonraigh fógraí",
     "The update server could not be reached since %d days to check for new updates." : "Níorbh fhéidir an freastalaí nuashonraithe a bhaint amach ó %d lá chun seiceáil le haghaidh nuashonruithe nua.",
     "Please check the Nextcloud and server log files for errors." : "Seiceáil an Nextcloud agus comhaid logála an fhreastalaí le haghaidh earráidí le do thoil.",

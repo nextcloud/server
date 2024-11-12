@@ -28,7 +28,7 @@
     "Please specify the port, it could not be auto-detected." : "Sonraigh an port le do thoil, níorbh fhéidir é a bhrath go huathoibríoch.",
     "Base DN could not be auto-detected, please revise credentials, host and port." : "Níorbh fhéidir an bonn DN a bhrath go huathoibríoch, athbhreithnigh dintiúir, óstach agus port le do thoil.",
     "Could not detect Base DN, please enter it manually." : "Níorbh fhéidir Bonn DN a bhrath, cuir isteach é de láimh le do thoil.",
-    "{nthServer}. Server" : "{nthFreastalaí}. Freastalaí",
+    "{nthServer}. Server" : "{nthServer}. Freastalaí",
     "No object found in the given Base DN. Please revise." : "Níor aimsíodh aon réad sa Bhonn DN a thugtar. Athbhreithnigh le do thoil.",
     "More than 1,000 directory entries available." : "Níos mó ná 1,000 iontráil eolaire ar fáil.",
     "_{objectsFound} entry available within the provided Base DN_::_{objectsFound} entries available within the provided Base DN_" : ["Tá iontráil {objectsFound} ar fáil laistigh den Bhunáit DN a soláthraíodh","{objectsFound} iontrálacha ar fáil laistigh den Bhunáit DN a soláthraíodh","{objectsFound} iontrálacha ar fáil laistigh den Bhunáit DN a soláthraíodh","{objectsFound} iontrálacha ar fáil laistigh den Bhunáit DN a soláthraíodh","{objectsFound} iontrálacha ar fáil laistigh den Bhunáit DN a soláthraíodh"],
