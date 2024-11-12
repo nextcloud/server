@@ -6,11 +6,11 @@
  */
 namespace OC;
 
+use NCU\Config\Exceptions\TypeConflictException;
+use NCU\Config\IUserPreferences;
+use NCU\Config\ValueType;
 use OC\Config\UserPreferences;
 use OCP\Cache\CappedMemoryCache;
-use OCP\Config\Exceptions\TypeConflictException;
-use OCP\Config\IUserPreferences;
-use OCP\Config\ValueType;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\PreConditionNotMetException;
