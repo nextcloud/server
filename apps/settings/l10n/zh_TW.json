@@ -353,6 +353,7 @@
     "Groups allowed to share" : "允許分享的群組",
     "Groups excluded from sharing" : "被排除而不能分享的群組",
     "Not allowed groups will still be able to receive shares, but not to initiate them." : "不允許的群組仍然可以接收分享，但無法發起分享。",
+    "Set default expiration date for internal shares" : "設定內部分享的預設到期日",
     "Enforce expiration date" : "強制設定到期日",
     "Default expiration time of new shares in days" : "新分享預設到期時間（天）",
     "Expire shares after x days" : "x 天後分享過期",

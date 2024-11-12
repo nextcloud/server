@@ -6,10 +6,10 @@
 /apps/contactsinteraction/lib                 @kesselb @SebastianKrupinski
 /apps/contactsinteraction/tests               @kesselb @SebastianKrupinski
 /apps/dashboard/appinfo/info.xml              @julien-nc @juliusknorr
-/apps/dav/lib/CalDAV                          @miaulalala @st3iny @SebastianKrupinski
-/apps/dav/lib/CardDAV                         @miaulalala @st3iny @SebastianKrupinski
-/apps/dav/tests/unit/CalDAV                   @miaulalala @st3iny @SebastianKrupinski
-/apps/dav/tests/unit/CardDAV                  @miaulalala @st3iny @SebastianKrupinski
+/apps/dav/lib/CalDAV                          @st3iny @SebastianKrupinski @tcitworld
+/apps/dav/lib/CardDAV                         @hamza221 @SebastianKrupinski
+/apps/dav/tests/unit/CalDAV                   @st3iny @SebastianKrupinski @tcitworld
+/apps/dav/tests/unit/CardDAV                  @hamza221 @SebastianKrupinski
 /apps/encryption/appinfo/info.xml             @come-nc @icewind1991
 /apps/federatedfilesharing/appinfo/info.xml   @icewind1991 @danxuliu
 /apps/federation/appinfo/info.xml             @nfebe
@@ -43,7 +43,7 @@
 # Security team
 /build/psalm-baseline-security.xml  @nickvergessen
 /resources/codesigning              @mgallien @miaulalala @nickvergessen
-/resources/config/ca-bundle.crt     @ChristophWurst @miaulalala @nickvergessen
+/resources/config/ca-bundle.crt     @miaulalala @nickvergessen
 
 # Two-Factor Authentication
 # https://github.com/nextcloud/wg-two-factor-authentication#members

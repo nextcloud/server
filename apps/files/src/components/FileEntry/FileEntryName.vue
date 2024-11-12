@@ -26,10 +26,9 @@
 		:aria-hidden="isRenaming"
 		class="files-list__row-name-link"
 		data-cy-files-list-row-name-link
-		v-bind="linkTo.params"
-		dir="auto">
+		v-bind="linkTo.params">
 		<!-- Filename -->
-		<span class="files-list__row-name-text">
+		<span class="files-list__row-name-text" dir="auto">
 			<!-- Keep the filename stuck to the extension to avoid whitespace rendering issues-->
 			<span class="files-list__row-name-" v-text="basename" />
 			<span class="files-list__row-name-ext" v-text="extension" />

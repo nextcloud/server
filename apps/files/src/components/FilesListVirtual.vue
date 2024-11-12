@@ -641,7 +641,7 @@ export default defineComponent({
 			flex: 1 1 auto;
 
 			button.files-list__row-name-link {
-				display: contents;
+				display: flex;
 				align-items: center;
 				text-align: start;
 				// Fill cell height and width

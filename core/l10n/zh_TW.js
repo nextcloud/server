@@ -268,6 +268,7 @@ OC.L10N.register(
     "Rename" : "重新命名",
     "Collaborative tags" : "協作標籤",
     "No tags found" : "找不到標籤",
+    "Clipboard not available, please copy manually" : "無法使用剪貼簿，請手動複製",
     "Personal" : "個人",
     "Accounts" : "帳號",
     "Admin" : "管理",

@@ -529,7 +529,7 @@ OC.L10N.register(
     "Send welcome email to new users" : "Gửi email chào mừng tới người dùng mới",
     "Name your device" : "Đặt tên cho thiết bị của bạn",
     "Server error while trying to add WebAuthn device" : "Lỗi máy chủ khi cố gắng thêm thiết bị WebAuthn",
-    "by {author}\n{license}" : "bởi {tác giả}{giấy phép}",
+    "by {author}\n{license}" : "bởi {author}\n{license}",
     "Active users" : "Người dùng hoạt động",
     "Disabled users" : "Người dùng đã bị vô hiệu hóa",
     "Creating group …" : "Đang tạo nhóm…",

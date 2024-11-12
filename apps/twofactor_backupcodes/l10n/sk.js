@@ -9,7 +9,7 @@ OC.L10N.register(
     "Use backup code" : "Použiť záložný kód",
     "Two factor backup codes" : "Záložné kódy pre dvojfaktorové overovanie",
     "A two-factor auth backup codes provider" : "Poskytovateľ záložných kódov pre dvojfaktorové overovanie",
-    "Backup codes have been generated. {used} of {total} codes have been used." : "Boli vygenerované záložné kódy. Boli použité {použité} z {celkom} kódov.",
+    "Backup codes have been generated. {used} of {total} codes have been used." : "Boli vygenerované záložné kódy. Boli použité {used} z {total} kódov.",
     "Save backup codes" : "Uložiť záložné kódy",
     "Print backup codes" : "Vytlačiť záložné kódy",
     "Regenerate backup codes" : "Vytvoriť nové záložné kódy",

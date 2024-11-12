@@ -381,7 +381,7 @@ OC.L10N.register(
     "\"{segment}\" is not allowed inside a filename." : "檔案名稱中不允許出現「{segment}」",
     "\"{segment}\" is a forbidden file or folder name." : "「{segment}」是禁止使用的檔案或資料夾名稱。",
     "\"{segment}\" is not an allowed filetype." : "「{segment}」是不允許的檔案類型。",
-    "Filenames must not end with \"{segment}\"." : "檔案名稱不能以「{extension}」結尾。",
+    "Filenames must not end with \"{segment}\"." : "檔案名稱不能以「{segment}」結尾。",
     "Name cannot be empty" : "名稱不能空白",
     "Another entry with the same name already exists" : "另一個同名的條目已經存在",
     "Could not rename \"{oldName}\", it does not exist any more" : "無法命名檔案「{oldName}」，因為此檔案已經不存在",
