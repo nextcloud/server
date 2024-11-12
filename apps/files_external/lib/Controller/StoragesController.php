@@ -270,7 +270,7 @@ abstract class StoragesController extends Controller {
 	 *
 	 * @return DataResponse
 	 */
-	public function show($id, $testOnly = true) {
+	public function show(int $id, $testOnly = true) {
 		try {
 			$storage = $this->service->getStorage($id);
 
@@ -302,7 +302,7 @@ abstract class StoragesController extends Controller {
 	 * @return DataResponse
 	 */
 	#[PasswordConfirmationRequired]
-	public function destroy($id) {
+	public function destroy(int $id) {
 		try {
 			$this->service->removeStorage($id);
 		} catch (NotFoundException $e) {
