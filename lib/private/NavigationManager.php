@@ -233,7 +233,7 @@ class NavigationManager implements INavigationManager {
 				'id' => 'profile',
 				'order' => 1,
 				'href' => $this->urlGenerator->linkToRoute(
-					'core.ProfilePage.index',
+					'profile.ProfilePage.index',
 					['targetUserId' => $this->userSession->getUser()->getUID()],
 				),
 				'name' => $l->t('View profile'),

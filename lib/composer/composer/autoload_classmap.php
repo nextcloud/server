@@ -1280,7 +1280,6 @@ return array(
     'OC\\Core\\Controller\\OCSController' => $baseDir . '/core/Controller/OCSController.php',
     'OC\\Core\\Controller\\PreviewController' => $baseDir . '/core/Controller/PreviewController.php',
     'OC\\Core\\Controller\\ProfileApiController' => $baseDir . '/core/Controller/ProfileApiController.php',
-    'OC\\Core\\Controller\\ProfilePageController' => $baseDir . '/core/Controller/ProfilePageController.php',
     'OC\\Core\\Controller\\RecommendedAppsController' => $baseDir . '/core/Controller/RecommendedAppsController.php',
     'OC\\Core\\Controller\\ReferenceApiController' => $baseDir . '/core/Controller/ReferenceApiController.php',
     'OC\\Core\\Controller\\ReferenceController' => $baseDir . '/core/Controller/ReferenceController.php',

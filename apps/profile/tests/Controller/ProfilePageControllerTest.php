@@ -7,11 +7,11 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace Core\Controller;
+namespace OCA\Profile\Tests\Controller;
 
-use OC\Core\Controller\ProfilePageController;
 use OC\Profile\ProfileManager;
 use OC\UserStatus\Manager;
+use OCA\Profile\Controller\ProfilePageController;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\INavigationManager;
@@ -41,7 +41,7 @@ class ProfilePageControllerTest extends TestCase {
 		$eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->controller = new ProfilePageController(
-			'core',
+			'profile',
 			$request,
 			$initialStateService,
 			$profileManager,

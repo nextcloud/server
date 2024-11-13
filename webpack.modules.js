@@ -18,7 +18,6 @@ module.exports = {
 		login: path.join(__dirname, 'core/src', 'login.js'),
 		main: path.join(__dirname, 'core/src', 'main.js'),
 		maintenance: path.join(__dirname, 'core/src', 'maintenance.js'),
-		profile: path.join(__dirname, 'core/src', 'profile.ts'),
 		'public-page-menu': path.resolve(__dirname, 'core/src', 'public-page-menu.ts'),
 		recommendedapps: path.join(__dirname, 'core/src', 'recommendedapps.js'),
 		systemtags: path.resolve(__dirname, 'core/src', 'systemtags/merged-systemtags.js'),
@@ -72,6 +71,9 @@ module.exports = {
 		external: path.join(__dirname, 'apps/federatedfilesharing/src', 'external.js'),
 		'vue-settings-admin': path.join(__dirname, 'apps/federatedfilesharing/src', 'main-admin.js'),
 		'vue-settings-personal': path.join(__dirname, 'apps/federatedfilesharing/src', 'main-personal.js'),
+	},
+	profile: {
+		main: path.join(__dirname, 'apps/profile/src', 'main.ts'),
 	},
 	settings: {
 		apps: path.join(__dirname, 'apps/settings/src', 'apps.js'),

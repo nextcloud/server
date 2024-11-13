@@ -7,9 +7,8 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OC\Core\Controller;
+namespace OCA\Profile\Controller;
 
-use OC\Profile\ProfileManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
@@ -26,6 +25,7 @@ use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Profile\BeforeTemplateRenderedEvent;
+use OCP\Profile\IProfileManager;
 use OCP\Share\IManager as IShareManager;
 use OCP\UserStatus\IManager as IUserStatusManager;
 
@@ -35,7 +35,7 @@ class ProfilePageController extends Controller {
 		string $appName,
 		IRequest $request,
 		private IInitialState $initialStateService,
-		private ProfileManager $profileManager,
+		private IProfileManager $profileManager,
 		private IShareManager $shareManager,
 		private IUserManager $userManager,
 		private IUserSession $userSession,
@@ -48,13 +48,13 @@ class ProfilePageController extends Controller {
 
 	#[PublicPage]
 	#[NoCSRFRequired]
-	#[FrontpageRoute(verb: 'GET', url: '/u/{targetUserId}')]
+	#[FrontpageRoute(verb: 'GET', url: '/u/{targetUserId}', root: '')]
 	#[BruteForceProtection(action: 'user')]
 	#[UserRateLimit(limit: 30, period: 120)]
 	#[AnonRateLimit(limit: 30, period: 120)]
 	public function index(string $targetUserId): TemplateResponse {
 		$profileNotFoundTemplate = new TemplateResponse(
-			'core',
+			'profile',
 			'404-profile',
 			[],
 			TemplateResponse::RENDER_AS_GUEST,
@@ -103,10 +103,10 @@ class ProfilePageController extends Controller {
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($targetUserId));
 
-		\OCP\Util::addScript('core', 'profile');
+		\OCP\Util::addScript('profile', 'main');
 
 		return new TemplateResponse(
-			'core',
+			'profile',
 			'profile',
 			[],
 			$this->userSession->isLoggedIn() ? TemplateResponse::RENDER_AS_USER : TemplateResponse::RENDER_AS_PUBLIC,
