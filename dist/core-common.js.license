@@ -415,7 +415,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.3
 	- license: MIT
 - marked
-	- version: 13.0.3
+	- version: 15.0.0
 	- license: MIT
 - md5
 	- version: 2.3.0
