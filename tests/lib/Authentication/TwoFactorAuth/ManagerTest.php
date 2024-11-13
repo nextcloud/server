@@ -29,6 +29,7 @@ use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OC\Authentication\TwoFactorAuth\ProviderLoader;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
 use OCP\Authentication\TwoFactorAuth\IProvider;
@@ -714,5 +715,62 @@ class ManagerTest extends TestCase {
 			]);
 
 		$this->assertFalse($this->manager->needsSecondFactor($user));
+	}
+
+	public function testClearTwoFactorPending() {
+		$this->config->method('getUserKeys')
+			->with('theUserId', 'login_token_2fa')
+			->willReturn([
+				'42', '43', '44'
+			]);
+
+		$this->config->expects($this->exactly(3))
+			->method('deleteUserValue')
+			->withConsecutive(
+				['theUserId', 'login_token_2fa', '42'],
+				['theUserId', 'login_token_2fa', '43'],
+				['theUserId', 'login_token_2fa', '44'],
+			);
+
+		$this->tokenProvider->expects($this->exactly(3))
+			->method('invalidateTokenById')
+			->withConsecutive(
+				['theUserId', 42],
+				['theUserId', 43],
+				['theUserId', 44],
+			);
+
+		$this->manager->clearTwoFactorPending('theUserId');
+	}
+
+	public function testClearTwoFactorPendingTokenDoesNotExist() {
+		$this->config->method('getUserKeys')
+			->with('theUserId', 'login_token_2fa')
+			->willReturn([
+				'42', '43', '44'
+			]);
+
+		$this->config->expects($this->exactly(3))
+			->method('deleteUserValue')
+			->withConsecutive(
+				['theUserId', 'login_token_2fa', '42'],
+				['theUserId', 'login_token_2fa', '43'],
+				['theUserId', 'login_token_2fa', '44'],
+			);
+
+		$this->tokenProvider->expects($this->exactly(3))
+			->method('invalidateTokenById')
+			->withConsecutive(
+				['theUserId', 42],
+				['theUserId', 43],
+				['theUserId', 44],
+			)
+			->willReturnCallback(function ($user, $tokenId) {
+				if ($tokenId === 43) {
+					throw new DoesNotExistException('token does not exist');
+				}
+			});
+
+		$this->manager->clearTwoFactorPending('theUserId');
 	}
 }
