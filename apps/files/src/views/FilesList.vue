@@ -45,6 +45,18 @@
 						multiple
 						@failed="onUploadFail"
 						@uploaded="onUpload" />
+
+					<NcActions :inline="1" force-name>
+						<NcActionButton v-for="action in enabledFileListActions"
+							:key="action.id"
+							close-after-click
+							@click="() => action.exec(currentView, dirContents, { folder: currentFolder })">
+							<template #icon>
+								<NcIconSvgWrapper :svg="action.iconSvgInline(currentView)" />
+							</template>
+							{{ action.displayName(currentView) }}
+						</NcActionButton>
+					</NcActions>
 				</template>
 			</BreadCrumbs>
 
@@ -138,7 +150,7 @@ import type { UserConfig } from '../types.ts'
 
 import { getCapabilities } from '@nextcloud/capabilities'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { Folder, Node, Permission, sortNodes } from '@nextcloud/files'
+import { Folder, Node, Permission, sortNodes, getFileListActions } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { join, dirname, normalize } from 'path'
 import { showError, showWarning } from '@nextcloud/dialogs'
@@ -152,6 +164,8 @@ import IconReload from 'vue-material-design-icons/Reload.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
@@ -190,6 +204,8 @@ export default defineComponent({
 		LinkIcon,
 		ListViewIcon,
 		NcAppContent,
+		NcActions,
+		NcActionButton,
 		NcButton,
 		NcEmptyContent,
 		NcIconSvgWrapper,
@@ -429,6 +445,19 @@ export default defineComponent({
 
 		showCustomEmptyView() {
 			return !this.loading && this.isEmptyDir && this.currentView?.emptyView !== undefined
+		},
+
+		enabledFileListActions() {
+			const actions = getFileListActions()
+			const enabledActions = actions
+				.filter(action => {
+					if (action.enabled === undefined) {
+						return true
+					}
+					return action.enabled(this.currentView, this.dirContents, { folder: this.currentFolder })
+				})
+				.toSorted((a, b) => a.order - b.order)
+			return enabledActions
 		},
 	},
 
