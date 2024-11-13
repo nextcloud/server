@@ -4,7 +4,6 @@
  */
 import type { IFileListFilterChip, INode } from '@nextcloud/files'
 
-import { subscribe } from '@nextcloud/event-bus'
 import { FileListFilter, registerFileListFilter } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import Vue from 'vue'
@@ -58,7 +57,6 @@ class ModifiedFilter extends FileListFilter {
 
 	constructor() {
 		super('files:modified', 50)
-		subscribe('files:navigation:changed', () => this.setPreset())
 	}
 
 	public mount(el: HTMLElement) {
@@ -83,6 +81,10 @@ class ModifiedFilter extends FileListFilter {
 		}
 
 		return nodes.filter((node) => node.mtime === undefined || this.currentPreset!.filter(node.mtime.getTime()))
+	}
+
+	public reset(): void {
+		this.setPreset()
 	}
 
 	public setPreset(preset?: ITimePreset) {
