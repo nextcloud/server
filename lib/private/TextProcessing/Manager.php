@@ -221,7 +221,11 @@ class Manager implements IManager {
 		}
 		$task->setStatus(OCPTask::STATUS_SCHEDULED);
 		$providers = $this->getPreferredProviders($task);
-		if (count($providers) === 0) {
+		$equivalentTaskProcessingTypeAvailable = (
+			isset(self::$taskProcessingCompatibleTaskTypes[$task->getType()])
+			&& isset($this->taskProcessingManager->getAvailableTaskTypes()[self::$taskProcessingCompatibleTaskTypes[$task->getType()]])
+		);
+		if (count($providers) === 0 && !$equivalentTaskProcessingTypeAvailable) {
 			throw new PreConditionNotMetException('No LanguageModel provider is installed that can handle this task');
 		}
 		[$provider,] = $providers;
