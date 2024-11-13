@@ -202,6 +202,7 @@ OC.L10N.register(
     "Confirm deletion" : "Confirmer la suppression",
     "Cancel" : "Annuler",
     "Edit file locally" : "Éditer le fichier localement",
+    "Retry and close" : "Réessayer et fermer",
     "Edit online" : "Éditer en ligne",
     "Failed to redirect to client" : "Échec de la redirection vers le client",
     "Edit locally" : "Éditer localement",
