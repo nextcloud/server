@@ -168,7 +168,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.1.2
 	- license: MIT
 - debounce
-	- version: 2.1.0
+	- version: 2.2.0
 	- license: MIT
 - define-data-property
 	- version: 1.1.4
