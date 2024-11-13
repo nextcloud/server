@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
-  - SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
-  - SPDX-License-Identifier: AGPL-3.0-only
+  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
@@ -11,7 +11,7 @@
 	<description>Provides a customisable user profile interface.</description>
 	<version>1.0.0</version>
 	<licence>agpl</licence>
-	<author>Chris Ng</author>
+	<author>Nextcloud GmbH</author>
 	<namespace>Profile</namespace>
 	<category>social</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
