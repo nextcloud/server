@@ -268,6 +268,7 @@ OC.L10N.register(
     "Rename" : "Renommer",
     "Collaborative tags" : "Étiquettes collaboratives ",
     "No tags found" : "Aucune étiquette n’a été trouvée",
+    "Clipboard not available, please copy manually" : "Le presse-papier n'est pas disponible, veuillez copier manuellement",
     "Personal" : "Personnel",
     "Accounts" : "Comptes",
     "Admin" : "Administration",
