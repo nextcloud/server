@@ -4,7 +4,6 @@
  */
 import type { IFileListFilterChip, INode } from '@nextcloud/files'
 
-import { subscribe } from '@nextcloud/event-bus'
 import { FileListFilter, registerFileListFilter } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import Vue from 'vue'
@@ -89,12 +88,12 @@ const getTypePresets = async () => [
 class TypeFilter extends FileListFilter {
 
 	private currentInstance?: Vue
-	private currentPresets?: ITypePreset[]
+	private currentPresets: ITypePreset[]
 	private allPresets?: ITypePreset[]
 
 	constructor() {
 		super('files:type', 10)
-		subscribe('files:navigation:changed', () => this.setPreset())
+		this.currentPresets = []
 	}
 
 	public async mount(el: HTMLElement) {
@@ -103,18 +102,21 @@ class TypeFilter extends FileListFilter {
 			this.allPresets = await getTypePresets()
 		}
 
+		// Already mounted
 		if (this.currentInstance) {
 			this.currentInstance.$destroy()
+			delete this.currentInstance
 		}
 
 		const View = Vue.extend(FileListFilterType as never)
 		this.currentInstance = new View({
 			propsData: {
+				presets: this.currentPresets,
 				typePresets: this.allPresets!,
 			},
 			el,
 		})
-			.$on('update:preset', this.setPreset.bind(this))
+			.$on('update:presets', this.setPresets.bind(this))
 			.$mount()
 	}
 
@@ -141,8 +143,9 @@ class TypeFilter extends FileListFilter {
 		})
 	}
 
-	public setPreset(presets?: ITypePreset[]) {
-		this.currentPresets = presets
+	public setPresets(presets?: ITypePreset[]) {
+		this.currentPresets = presets ?? []
+		this.currentInstance!.$props.presets = presets
 		this.filterUpdated()
 
 		const chips: IFileListFilterChip[] = []
@@ -151,13 +154,23 @@ class TypeFilter extends FileListFilter {
 				chips.push({
 					icon: preset.icon,
 					text: preset.label,
-					onclick: () => this.setPreset(presets.filter(({ id }) => id !== preset.id)),
+					onclick: () => this.removeFilterPreset(preset.id),
 				})
 			}
 		} else {
 			(this.currentInstance as { resetFilter: () => void } | undefined)?.resetFilter()
 		}
 		this.updateChips(chips)
+	}
+
+	/**
+	 * Helper callback that removed a preset from selected.
+	 * This is used when clicking on "remove" on a filter-chip.
+	 * @param presetId Id of preset to remove
+	 */
+	private removeFilterPreset(presetId: string) {
+		const filtered = this.currentPresets.filter(({ id }) => id !== presetId)
+		this.setPresets(filtered)
 	}
 
 }
