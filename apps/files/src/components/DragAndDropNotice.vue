@@ -4,9 +4,12 @@
 -->
 <template>
 	<div v-show="dragover"
-		data-cy-files-drag-drop-area
 		class="files-list__drag-drop-notice"
-		@drop="onDrop">
+		data-cy-files-drag-drop-area
+		v-files-drop.stop.prevent="{
+			enable: canUpload,
+			targetFolder: currentFolder,
+		}">
 		<div class="files-list__drag-drop-notice-wrapper">
 			<template v-if="canUpload && !isQuotaExceeded">
 				<TrayArrowDownIcon :size="48" />
@@ -27,20 +30,19 @@
 
 <script lang="ts">
 import type { Folder } from '@nextcloud/files'
+import type { PropType } from 'vue'
 
 import { Permission } from '@nextcloud/files'
-import { showError } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
-import { UploadStatus } from '@nextcloud/upload'
-import { defineComponent, type PropType } from 'vue'
+import { t } from '@nextcloud/l10n'
+import { Upload, UploadStatus } from '@nextcloud/upload'
+import { defineComponent } from 'vue'
 import debounce from 'debounce'
 
 import TrayArrowDownIcon from 'vue-material-design-icons/TrayArrowDown.vue'
 
 import { useNavigation } from '../composables/useNavigation'
-import { dataTransferToFileTree, onDropExternalFiles } from '../services/DropService'
+import vFilesDrop from '../directives/vFilesDrop.ts'
 import logger from '../logger.ts'
-import type { RawLocation } from 'vue-router'
 
 export default defineComponent({
 	name: 'DragAndDropNotice',
@@ -61,6 +63,7 @@ export default defineComponent({
 
 		return {
 			currentView,
+			vFilesDrop,
 		}
 	},
 
@@ -77,6 +80,7 @@ export default defineComponent({
 		canUpload() {
 			return this.currentFolder && (this.currentFolder.permissions & Permission.CREATE) !== 0
 		},
+
 		isQuotaExceeded() {
 			return this.currentFolder?.attributes?.['quota-available-bytes'] === 0
 		},
@@ -145,6 +149,10 @@ export default defineComponent({
 			}
 		},
 
+		/**
+		 * Event handler for dropping on unsupported elements
+		 * @param event The drop event
+		 */
 		onContentDrop(event: DragEvent) {
 			logger.debug('Drag and drop cancelled, dropped on empty space', { event })
 			event.preventDefault()
@@ -154,56 +162,28 @@ export default defineComponent({
 			}
 		},
 
-		async onDrop(event: DragEvent) {
-			// cantUploadLabel is null if we can upload
-			if (this.cantUploadLabel) {
-				showError(this.cantUploadLabel)
+		/**
+		 * Callback after drop was handled.
+		 * @param uploads Uploaded files
+		 */
+		onFilesUploaded(uploads: Upload[]): void {
+			if (uploads.length === 0) {
+				// upload was aborted or no files dropped
+				this.dragover = false
+				this.resetDragOver.clear()
 				return
 			}
-
-			if (this.$el.querySelector('tbody')?.contains(event.target as Node)) {
-				return
-			}
-
-			event.preventDefault()
-			event.stopPropagation()
-
-			// Caching the selection
-			const items: DataTransferItem[] = [...event.dataTransfer?.items || []]
-
-			// We need to process the dataTransfer ASAP before the
-			// browser clears it. This is why we cache the items too.
-			const fileTree = await dataTransferToFileTree(items)
-
-			// We might not have the target directory fetched yet
-			const contents = await this.currentView?.getContents(this.currentFolder.path)
-			const folder = contents?.folder
-			if (!folder) {
-				showError(this.t('files', 'Target folder does not exist any more'))
-				return
-			}
-
-			// If another button is pressed, cancel it. This
-			// allows cancelling the drag with the right click.
-			if (event.button) {
-				return
-			}
-
-			logger.debug('Dropped', { event, folder, fileTree })
-
-			// Check whether we're uploading files
-			const uploads = await onDropExternalFiles(fileTree, folder, contents.contents)
 
 			// Scroll to last successful upload in current directory if terminated
 			const lastUpload = uploads.findLast((upload) => upload.status !== UploadStatus.FAILED
 				&& !upload.file.webkitRelativePath.includes('/')
 				&& upload.response?.headers?.['oc-fileid']
 				// Only use the last ID if it's in the current folder
-				&& upload.source.replace(folder.source, '').split('/').length === 2)
+				&& upload.source.replace(this.currentFolder.source, '').split('/').length === 2)
 
 			if (lastUpload !== undefined) {
 				logger.debug('Scrolling to last upload in current folder', { lastUpload })
-				const location: RawLocation = {
+				const location = {
 					path: this.$route.path,
 					// Keep params but change file id
 					params: {
