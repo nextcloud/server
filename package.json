@@ -63,7 +63,6 @@
     "@nextcloud/upload": "^1.7.0",
     "@nextcloud/vue": "^8.17.1",
     "@simplewebauthn/browser": "^10.0.0",
-    "@skjnldsv/sanitize-svg": "^1.0.2",
     "@vueuse/components": "^11.1.0",
     "@vueuse/core": "^11.0.1",
     "@vueuse/integrations": "^11.1.0",
