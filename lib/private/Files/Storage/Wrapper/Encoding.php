@@ -280,7 +280,9 @@ class Encoding extends Wrapper {
 
 	public function getMetaData(string $path): ?array {
 		$entry = $this->storage->getMetaData($this->findPathToUse($path));
-		$entry['name'] = trim(Filesystem::normalizePath($entry['name']), '/');
+		if ($entry !== null) {
+			$entry['name'] = trim(Filesystem::normalizePath($entry['name']), '/');
+		}
 		return $entry;
 	}
 
