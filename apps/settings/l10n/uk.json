@@ -168,7 +168,6 @@
     "Your \"trusted_proxies\" setting is not correctly set, it should be an array." : "Ваш параметр \"trusted_proxies\" встановлено неправильно, це має бути масив.",
     "The reverse proxy header configuration is incorrect. This is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud." : "Конфігурація заголовка зворотного проксі неправильна. Це є проблемою безпеки і може дозволити зловмиснику надати Nextcloud оманливу IP-адресу.",
     "Your IP address was resolved as %s" : "Ваша IP-адреса була визначена як %s",
-    "The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud." : "Конфігурація зворотного заголовка проксі-сервера неправильна, або ви отримуєте доступ до Nextcloud з надійного проксі-сервера. Якщо це не так, то є проблема безпеки, яка може дозволити зловмиснику надати Nextcloud оманливу IP-адресу. Додаткову інформацію можна знайти в {linkstart}документації ↗{linkend}.",
     "Accessing site insecurely via HTTP." : "Небезпечний доступ до сайту через HTTP.",
     "Internet connectivity" : "З'єднання з мережею Інтернет",
     "Internet connectivity is disabled in configuration file." : "З'єднання з мережею Інтернет вимкнено у файлі конфігурації",
