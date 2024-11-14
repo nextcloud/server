@@ -978,7 +978,6 @@
   </file>
   <file src="apps/files_versions/appinfo/routes.php">
     <InvalidScope>
-      <code><![CDATA[$this]]></code>
       <code><![CDATA[$this->create('files_versions_download', 'apps/files_versions/download.php')]]></code>
     </InvalidScope>
   </file>
