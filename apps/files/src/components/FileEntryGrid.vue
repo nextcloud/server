@@ -107,7 +107,8 @@ export default defineComponent({
 		const filesStore = useFilesStore()
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
-		const { currentView } = useNavigation()
+		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
+		const { currentView } = useNavigation(true)
 		const {
 			directory: currentDir,
 			fileId: currentFileId,
