@@ -36,7 +36,7 @@ class MailProvider implements IDeclarativeSettingsForm {
 					'default' => 1,
 					'options' => [
 						[
-							'name' => $this->l->t('Users\'s email account'),
+							'name' => $this->l->t('User\'s email account'),
 							'value' => 1
 						],
 						[
