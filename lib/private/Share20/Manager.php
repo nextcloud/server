@@ -786,13 +786,13 @@ class Manager implements IManager {
 	 * @throws \InvalidArgumentException
 	 * @throws GenericShareException
 	 */
-	public function updateShare(IShare $share) {
+	public function updateShare(IShare $share, bool $onlyValid = true) {
 		$expirationDateUpdated = false;
 
 		$this->canShare($share);
 
 		try {
-			$originalShare = $this->getShareById($share->getFullId());
+			$originalShare = $this->getShareById($share->getFullId(), onlyValid: $onlyValid);
 		} catch (\UnexpectedValueException $e) {
 			throw new \InvalidArgumentException($this->l->t('Share does not have a full ID'));
 		}
@@ -1241,7 +1241,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritdoc
 	 */
-	public function getSharesBy($userId, $shareType, $path = null, $reshares = false, $limit = 50, $offset = 0) {
+	public function getSharesBy($userId, $shareType, $path = null, $reshares = false, $limit = 50, $offset = 0, bool $onlyValid = true) {
 		if ($path !== null &&
 			!($path instanceof \OCP\Files\File) &&
 			!($path instanceof \OCP\Files\Folder)) {
@@ -1270,11 +1270,13 @@ class Manager implements IManager {
 		while (true) {
 			$added = 0;
 			foreach ($shares as $share) {
-				try {
-					$this->checkShare($share);
-				} catch (ShareNotFound $e) {
-					// Ignore since this basically means the share is deleted
-					continue;
+				if ($onlyValid) {
+					try {
+						$this->checkShare($share);
+					} catch (ShareNotFound $e) {
+						// Ignore since this basically means the share is deleted
+						continue;
+					}
 				}
 
 				$added++;
@@ -1366,7 +1368,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritdoc
 	 */
-	public function getShareById($id, $recipient = null) {
+	public function getShareById($id, $recipient = null, bool $onlyValid = true) {
 		if ($id === null) {
 			throw new ShareNotFound();
 		}
@@ -1381,7 +1383,9 @@ class Manager implements IManager {
 
 		$share = $provider->getShareById($id, $recipient);
 
-		$this->checkShare($share);
+		if ($onlyValid) {
+			$this->checkShare($share);
+		}
 
 		return $share;
 	}
