@@ -14,6 +14,10 @@
 		:data-cy-files-list-row-name="source.basename"
 		:draggable="canDrag"
 		class="files-list__row"
+		v-files-drop="{
+			enabled: isFolder,
+			targetFolder: source,
+		}"
 		v-on="rowListeners">
 		<!-- Failed indicator -->
 		<span v-if="isFailedSource" class="files-list__row--failed" />
@@ -174,7 +178,6 @@ export default defineComponent({
 				contextmenu: this.onRightClick,
 				dragleave: this.onDragLeave,
 				dragend: this.onDragEnd,
-				drop: this.onDrop,
 			}
 		},
 		columns() {

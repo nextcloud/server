@@ -15,7 +15,10 @@
 		@dragleave="onDragLeave"
 		@dragstart="onDragStart"
 		@dragend="onDragEnd"
-		@drop="onDrop">
+		v-files-drop="{
+			enabled: isFolder,
+			targetFolder: source,
+		}">
 		<!-- Failed indicator -->
 		<span v-if="isFailedSource" class="files-list__row--failed" />
 

@@ -6,7 +6,6 @@
 import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
-import { showError } from '@nextcloud/dialogs'
 import { FileType, Permission, Folder, File as NcFile, NodeStatus, Node, getFileActions } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
@@ -18,15 +17,17 @@ import Vue, { computed, defineComponent } from 'vue'
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
-import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
-import logger from '../logger.ts'
 import { isDownloadable } from '../utils/permissions.ts'
-
-Vue.directive('onClickOutside', vOnClickOutside)
+import logger from '../logger.ts'
+import vFilesDrop from '../directives/vFilesDrop.ts'
 
 const actions = getFileActions()
 
+Vue.directive('onClickOutside', vOnClickOutside)
+Vue.directive('filesDrop', vFilesDrop)
+
 export default defineComponent({
+
 	props: {
 		source: {
 			type: [Folder, NcFile, Node] as PropType<Node>,
@@ -78,6 +79,10 @@ export default defineComponent({
 			return this.source.status === NodeStatus.LOADING || this.loading !== ''
 		},
 
+		isFolder() {
+			return this.source.type === FileType.Folder
+		},
+
 		/**
 		 * The display name of the current node
 		 * Either the nodes filename or a custom display name (e.g. for shares)
@@ -99,7 +104,7 @@ export default defineComponent({
 		 * The extension of the file
 		 */
 		extension() {
-			if (this.source.type === FileType.Folder) {
+			if (this.isFolder) {
 				return ''
 			}
 
@@ -349,6 +354,7 @@ export default defineComponent({
 				event.dataTransfer.dropEffect = 'move'
 			}
 		},
+
 		onDragLeave(event: DragEvent) {
 			// Counter bubbling, make sure we're ending the drag
 			// only when we're leaving the current element
@@ -390,64 +396,11 @@ export default defineComponent({
 			const image = await getDragAndDropPreview(nodes)
 			event.dataTransfer?.setDragImage(image, -10, -10)
 		},
+
 		onDragEnd() {
 			this.draggingStore.reset()
 			this.dragover = false
 			logger.debug('Drag ended')
-		},
-
-		async onDrop(event: DragEvent) {
-			// skip if native drop like text drag and drop from files names
-			if (!this.draggingFiles && !event.dataTransfer?.items?.length) {
-				return
-			}
-
-			event.preventDefault()
-			event.stopPropagation()
-
-			// Caching the selection
-			const selection = this.draggingFiles
-			const items = [...event.dataTransfer?.items || []] as DataTransferItem[]
-
-			// We need to process the dataTransfer ASAP before the
-			// browser clears it. This is why we cache the items too.
-			const fileTree = await dataTransferToFileTree(items)
-
-			// We might not have the target directory fetched yet
-			const contents = await this.currentView?.getContents(this.source.path)
-			const folder = contents?.folder
-			if (!folder) {
-				showError(this.t('files', 'Target folder does not exist any more'))
-				return
-			}
-
-			// If another button is pressed, cancel it. This
-			// allows cancelling the drag with the right click.
-			if (!this.canDrop || event.button) {
-				return
-			}
-
-			const isCopy = event.ctrlKey
-			this.dragover = false
-
-			logger.debug('Dropped', { event, folder, selection, fileTree })
-
-			// Check whether we're uploading files
-			if (fileTree.contents.length > 0) {
-				await onDropExternalFiles(fileTree, folder, contents.contents)
-				return
-			}
-
-			// Else we're moving/copying files
-			const nodes = selection.map(source => this.filesStore.getNode(source)) as Node[]
-			await onDropInternalFiles(nodes, folder, contents.contents, isCopy)
-
-			// Reset selection after we dropped the files
-			// if the dropped files are within the selection
-			if (selection.some(source => this.selectedFiles.includes(source))) {
-				logger.debug('Dropped selection, resetting select store...')
-				this.selectionStore.reset()
-			}
 		},
 
 		t,
