@@ -19,7 +19,7 @@
 							<template #icon>
 								<PencilIcon :size="20" />
 							</template>
-							{{ t('core', 'Edit Profile') }}
+							{{ t('profile', 'Edit Profile') }}
 						</NcButton>
 					</div>
 					<NcButton v-if="status.icon || status.message"
@@ -107,7 +107,7 @@
 						<NcEmptyContent v-else
 							class="profile__blocks-empty-info"
 							:name="emptyProfileMessage"
-							:description="t('core', 'The headline and about sections will show up here')">
+							:description="t('profile', 'The headline and about sections will show up here')">
 							<template #icon>
 								<AccountIcon :size="60" />
 							</template>
@@ -120,13 +120,13 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from 'vue'
+import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
+import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
-import { generateUrl } from '@nextcloud/router'
-import { defineComponent } from 'vue'
 
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
@@ -168,8 +168,14 @@ export default defineComponent({
 		PencilIcon,
 	},
 
+	setup() {
+		return {
+			t,
+		}
+	},
+
 	data() {
-		const profileParameters = loadState('core', 'profileParameters', {
+		const profileParameters = loadState('profile', 'profileParameters', {
 			userId: null as string|null,
 			displayname: null as string|null,
 			address: null as string|null,
@@ -184,7 +190,7 @@ export default defineComponent({
 
 		return {
 			...profileParameters,
-			status: loadState<Partial<IStatus>>('core', 'status', {}),
+			status: loadState<Partial<IStatus>>('profile', 'status', {}),
 			sections: window.OCA.Core.ProfileSections.getSections(),
 		}
 	},
@@ -206,7 +212,6 @@ export default defineComponent({
 		},
 
 		otherActions() {
-			console.warn(this.allActions)
 			if (this.allActions.length > 1) {
 				return this.allActions.slice(1)
 			}
@@ -219,8 +224,8 @@ export default defineComponent({
 
 		emptyProfileMessage() {
 			return this.isCurrentUser
-				? t('core', 'You have not added any info yet')
-				: t('core', '{user} has not added any info yet', { user: (this.displayname || this.userId!) })
+				? t('profile', 'You have not added any info yet')
+				: t('profile', '{user} has not added any info yet', { user: (this.displayname || this.userId || '') })
 		},
 	},
 
@@ -235,8 +240,6 @@ export default defineComponent({
 	},
 
 	methods: {
-		t,
-
 		handleStatusUpdate(status: IStatus) {
 			if (this.isCurrentUser && status.userId === this.userId) {
 				this.status = status
@@ -250,7 +253,7 @@ export default defineComponent({
 				if (statusMenuItem) {
 					statusMenuItem.click()
 				} else {
-					showError(t('core', 'Error opening the user status modal, try hard refreshing the page'))
+					showError(t('profile', 'Error opening the user status modal, try hard refreshing the page'))
 				}
 			}
 		},

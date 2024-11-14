@@ -7,7 +7,7 @@ import { getCSPNonce } from '@nextcloud/auth'
 import Vue from 'vue'
 
 import Profile from './views/Profile.vue'
-import ProfileSections from './profile/ProfileSections.js'
+import ProfileSections from './services/ProfileSections.js'
 
 __webpack_nonce__ = getCSPNonce()
 

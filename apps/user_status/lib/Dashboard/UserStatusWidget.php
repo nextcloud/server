@@ -150,7 +150,7 @@ class UserStatusWidget implements IAPIWidget, IAPIWidgetV2, IIconWidget, IOption
 				$widgetData['icon'] . ($widgetData['icon'] ? ' ' : '') . $widgetData['message'] . ', ' . $formattedDate,
 				// https://nextcloud.local/index.php/u/julien
 				$this->urlGenerator->getAbsoluteURL(
-					$this->urlGenerator->linkToRoute('core.ProfilePage.index', ['targetUserId' => $widgetData['userId']])
+					$this->urlGenerator->linkToRoute('profile.ProfilePage.index', ['targetUserId' => $widgetData['userId']])
 				),
 				$this->urlGenerator->getAbsoluteURL(
 					$this->urlGenerator->linkToRoute('core.avatar.getAvatar', ['userId' => $widgetData['userId'], 'size' => 44])

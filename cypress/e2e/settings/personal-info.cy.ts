@@ -112,12 +112,15 @@ describe('Settings: Change personal information', { testIsolation: true }, () =>
 			user = $user
 			cy.modifyUser(user, 'language', 'en')
 			cy.modifyUser(user, 'locale', 'en_US')
-		})
 
-		cy.wait(500)
+			// Make sure the user is logged in at least once
+			// before the snapshot is taken to speed up the tests
+			cy.login(user)
+			cy.visit('/settings/user')
 
-		cy.backupDB().then(($snapshot) => {
-			snapshot = $snapshot
+			cy.backupDB().then(($snapshot) => {
+				snapshot = $snapshot
+			})
 		})
 	})
 
