@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV;
 
 use DateTime;
+use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 use InvalidArgumentException;
@@ -109,7 +110,7 @@ class EventReader {
 				unset($events[$key]);
 			}
 		}
-		
+
 		// No base event was found. CalDAV does allow cases where only
 		// overridden instances are stored.
 		//
@@ -173,15 +174,17 @@ class EventReader {
 		// evaluate if duration exists
 		// extract duration and calculate end date
 		elseif (isset($this->baseEvent->DURATION)) {
-			$this->baseEventDuration = $this->baseEvent->DURATION->getDateInterval();
-			$this->baseEventEndDate = ((clone $this->baseEventStartDate)->add($this->baseEventDuration));
+			$this->baseEventEndDate = DateTimeImmutable::createFromInterface($this->baseEventStartDate)
+				->add($this->baseEvent->DURATION->getDateInterval());
+			$this->baseEventDuration = $this->baseEventEndDate->getTimestamp() - $this->baseEventStartDate->getTimestamp();
 		}
 		// evaluate if start date is floating
 		// set duration to 24 hours and calculate the end date
 		// according to the rfc any event without a end date or duration is a complete day
 		elseif ($this->baseEventStartDateFloating == true) {
 			$this->baseEventDuration = 86400;
-			$this->baseEventEndDate = ((clone $this->baseEventStartDate)->add($this->baseEventDuration));
+			$this->baseEventEndDate = DateTimeImmutable::createFromInterface($this->baseEventStartDate)
+				->setTimestamp($this->baseEventStartDate->getTimestamp() + $this->baseEventDuration);
 		}
 		// otherwise, set duration to zero this should never happen
 		else {
@@ -220,7 +223,7 @@ class EventReader {
 		foreach ($events as $vevent) {
 			$this->recurrenceModified[$vevent->{'RECURRENCE-ID'}->getDateTime($this->baseEventStartTimeZone)->getTimeStamp()] = $vevent;
 		}
-		
+
 		$this->recurrenceCurrentDate = clone $this->baseEventStartDate;
 	}
 
