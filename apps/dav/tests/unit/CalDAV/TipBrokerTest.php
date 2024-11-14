@@ -50,9 +50,9 @@ class TipBrokerTest extends TestCase {
 			'significantChangeHash' => '',
 			'attendees' => [],
 		];
-		$currentEventInfo = $this->callMethod($this->broker, 'parseEventInfo', [$calendar]);
+		$currentEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$calendar]);
 		// test iTip generation
-		$messages = $this->callMethod($this->broker, 'parseEventForOrganizer', [$calendar, $currentEventInfo, $previousEventInfo]);
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$calendar, $currentEventInfo, $previousEventInfo]);
 		$this->assertCount(1, $messages);
 		$this->assertEquals('REQUEST', $messages[0]->method);
 		$this->assertEquals($calendar->VEVENT->ORGANIZER->getValue(), $messages[0]->sender);
@@ -64,13 +64,13 @@ class TipBrokerTest extends TestCase {
 		
 		// construct calendar and generate event info for modified event with one attendee
 		$calendar = clone $this->vCalendar1a;
-		$previousEventInfo = $this->callMethod($this->broker, 'parseEventInfo', [$calendar]);
+		$previousEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$calendar]);
 		$calendar->VEVENT->{'LAST-MODIFIED'}->setValue('20240701T020000Z');
 		$calendar->VEVENT->SEQUENCE->setValue(2);
 		$calendar->VEVENT->SUMMARY->setValue('Test Event Modified');
-		$currentEventInfo = $this->callMethod($this->broker, 'parseEventInfo', [$calendar]);
+		$currentEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$calendar]);
 		// test iTip generation
-		$messages = $this->callMethod($this->broker, 'parseEventForOrganizer', [$calendar, $currentEventInfo, $previousEventInfo]);
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$calendar, $currentEventInfo, $previousEventInfo]);
 		$this->assertCount(1, $messages);
 		$this->assertEquals('REQUEST', $messages[0]->method);
 		$this->assertEquals($calendar->VEVENT->ORGANIZER->getValue(), $messages[0]->sender);
@@ -82,12 +82,12 @@ class TipBrokerTest extends TestCase {
 		
 		// construct calendar and generate event info for modified event with one attendee
 		$calendar = clone $this->vCalendar1a;
-		$previousEventInfo = $this->callMethod($this->broker, 'parseEventInfo', [$calendar]);
+		$previousEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$calendar]);
 		$currentEventInfo = $previousEventInfo;
 		$currentEventInfo['attendees'] = [];
 		++$currentEventInfo['sequence'];
 		// test iTip generation
-		$messages = $this->callMethod($this->broker, 'parseEventForOrganizer', [$calendar, $currentEventInfo, $previousEventInfo]);
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$calendar, $currentEventInfo, $previousEventInfo]);
 		$this->assertCount(1, $messages);
 		$this->assertEquals('CANCEL', $messages[0]->method);
 		$this->assertEquals($calendar->VEVENT->ORGANIZER->getValue(), $messages[0]->sender);
@@ -99,13 +99,13 @@ class TipBrokerTest extends TestCase {
 		
 		// construct calendar and generate event info for modified event with one attendee
 		$calendar = clone $this->vCalendar1a;
-		$previousEventInfo = $this->callMethod($this->broker, 'parseEventInfo', [$calendar]);
+		$previousEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$calendar]);
 		$calendar->VEVENT->{'LAST-MODIFIED'}->setValue('20240701T020000Z');
 		$calendar->VEVENT->SEQUENCE->setValue(2);
 		$calendar->VEVENT->STATUS->setValue('CANCELLED');
-		$currentEventInfo = $this->callMethod($this->broker, 'parseEventInfo', [$calendar]);
+		$currentEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$calendar]);
 		// test iTip generation
-		$messages = $this->callMethod($this->broker, 'parseEventForOrganizer', [$calendar, $currentEventInfo, $previousEventInfo]);
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$calendar, $currentEventInfo, $previousEventInfo]);
 		$this->assertCount(1, $messages);
 		$this->assertEquals('CANCEL', $messages[0]->method);
 		$this->assertEquals($calendar->VEVENT->ORGANIZER->getValue(), $messages[0]->sender);
@@ -117,7 +117,7 @@ class TipBrokerTest extends TestCase {
 		
 		// construct calendar and generate event info for modified event with two attendees
 		$calendar = clone $this->vCalendar1a;
-		$previousEventInfo = $this->callMethod($this->broker, 'parseEventInfo', [$calendar]);
+		$previousEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$calendar]);
 		$calendar->VEVENT->{'LAST-MODIFIED'}->setValue('20240701T020000Z');
 		$calendar->VEVENT->SEQUENCE->setValue(2);
 		$calendar->VEVENT->add('ATTENDEE', 'mailto:attendee2@testing.com', [
@@ -127,9 +127,9 @@ class TipBrokerTest extends TestCase {
 			'ROLE' => 'REQ-PARTICIPANT',
 			'RSVP' => 'TRUE'
 		]);
-		$currentEventInfo = $this->callMethod($this->broker, 'parseEventInfo', [$calendar]);
+		$currentEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$calendar]);
 		// test iTip generation
-		$messages = $this->callMethod($this->broker, 'parseEventForOrganizer', [$calendar, $currentEventInfo, $previousEventInfo]);
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$calendar, $currentEventInfo, $previousEventInfo]);
 		$this->assertCount(2, $messages);
 		$this->assertEquals('REQUEST', $messages[0]->method);
 		$this->assertEquals($calendar->VEVENT->ORGANIZER->getValue(), $messages[0]->sender);
@@ -151,7 +151,7 @@ class TipBrokerTest extends TestCase {
 			'ROLE' => 'REQ-PARTICIPANT',
 			'RSVP' => 'TRUE'
 		]);
-		$previousEventInfo = $this->callMethod($this->broker, 'parseEventInfo', [$calendar]);
+		$previousEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$calendar]);
 		$calendar->VEVENT->{'LAST-MODIFIED'}->setValue('20240701T020000Z');
 		$calendar->VEVENT->SEQUENCE->setValue(2);
 		$calendar->VEVENT->remove('ATTENDEE');
@@ -162,9 +162,9 @@ class TipBrokerTest extends TestCase {
 			'ROLE' => 'REQ-PARTICIPANT',
 			'RSVP' => 'TRUE'
 		]);
-		$currentEventInfo = $this->callMethod($this->broker, 'parseEventInfo', [$calendar]);
+		$currentEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$calendar]);
 		// test iTip generation
-		$messages = $this->callMethod($this->broker, 'parseEventForOrganizer', [$calendar, $currentEventInfo, $previousEventInfo]);
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$calendar, $currentEventInfo, $previousEventInfo]);
 		$this->assertCount(2, $messages);
 		$this->assertEquals('REQUEST', $messages[0]->method);
 		$this->assertEquals($calendar->VEVENT->ORGANIZER->getValue(), $messages[0]->sender);
@@ -175,9 +175,4 @@ class TipBrokerTest extends TestCase {
 
 	}
 
-	public static function callMethod($obj, $name, array $args) {
-		$class = new \ReflectionClass($obj);
-		$method = $class->getMethod($name);
-		return $method->invokeArgs($obj, $args);
-	}
 }
