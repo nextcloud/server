@@ -29,7 +29,7 @@ import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { vOnClickOutside } from '@vueuse/components'
 import { extname } from 'path'
-import Vue, { defineComponent } from 'vue'
+import Vue, { computed, defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
@@ -59,8 +59,8 @@ export default defineComponent({
 
 	provide() {
 		return {
-			defaultFileAction: this.defaultFileAction,
-			enabledFileActions: this.enabledFileActions,
+			defaultFileAction: computed(() => this.defaultFileAction),
+			enabledFileActions: computed(() => this.enabledFileActions),
 		}
 	},
 
