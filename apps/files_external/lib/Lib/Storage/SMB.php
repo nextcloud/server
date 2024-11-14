@@ -205,7 +205,12 @@ class SMB extends Common implements INotifyStorage {
 	 * @return ACL|null
 	 */
 	private function getACL(IFileInfo $file): ?ACL {
-		$acls = $file->getAcls();
+		try {
+			$acls = $file->getAcls();
+		} catch (Exception $e) {
+			$this->logger->error('Error while getting file acls', ['exception' => $e]);
+			return null;
+		}
 		foreach ($acls as $user => $acl) {
 			[, $user] = $this->splitUser($user); // strip domain
 			if ($user === $this->server->getAuth()->getUsername()) {
