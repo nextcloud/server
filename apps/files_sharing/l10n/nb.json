@@ -209,7 +209,7 @@
     "Mail share ({label})" : "Deling via e-post ({label})",
     "Share link ({label})" : "Del lenke ({label})",
     "Mail share" : "E-postdeling",
-    "Share link ({index})" : "Del lenke ({indeks})",
+    "Share link ({index})" : "Del lenke ({index})",
     "Actions for \"{title}\"" : "Valg for \"{title}\"",
     "Copy public link of \"{title}\" to clipboard" : "Kopier den offentlige lenken til \"{title}\" til utklippstavlen",
     "Error, please enter proper password and/or expiration date" : "Feil, vennligst skriv inn riktig passord og/eller utløpsdato",

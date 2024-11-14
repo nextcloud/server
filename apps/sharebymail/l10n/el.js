@@ -11,7 +11,7 @@ OC.L10N.register(
     "{actor} shared {file} with {email} by mail" : "{actor} διαμοίρασε {file} με {email} μέσω mail",
     "You unshared {file} from {email} by mail" : "Διακόψατε διαμοιρασμό {file} από {email} με mail",
     "{actor} unshared {file} from {email} by mail" : "Ο {actor} διέκοψε τον διαμοιρασμό το {file} από {email} με mail",
-    "Password to access {file} was sent to {email}" : "Ο κωδικός πρόσβασης για πρόσβαση στο {αρχείο} έχει αποσταλεί στο {email}",
+    "Password to access {file} was sent to {email}" : "Ο κωδικός πρόσβασης για πρόσβαση στο {file} έχει αποσταλεί στο {email}",
     "Password to access {file} was sent to you" : "Σας έχει αποσταλεί στο συνθηματικό για πρόσβαση {file}",
     "Share by mail" : "Διαμοιρασμός με ηλεκτρονική αλληλογραφία",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Δεν μπορούμε να σας στείλουμε τον κωδικό πρόσβασης που δημιουργείται αυτόματα. Ορίστε μια έγκυρη διεύθυνση email στις προσωπικές σας ρυθμίσεις και δοκιμάστε ξανά.",
