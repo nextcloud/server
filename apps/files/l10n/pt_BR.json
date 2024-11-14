@@ -200,6 +200,8 @@
     "Confirm deletion" : "Confirmar exclusão",
     "Cancel" : "Cancelar",
     "Edit file locally" : "Editar arquivo localmente",
+    "The file should now open on your device. If it doesn't, please check that you have the desktop app installed." : "O arquivo agora deve abrir no seu dispositivo. Caso contrário, verifique se você tem o aplicativo para desktop instalado.",
+    "Retry and close" : "Tente novamente e feche",
     "Edit online" : "Editar on-line",
     "Failed to redirect to client" : "Falha ao redirecionar para o cliente",
     "Edit locally" : "Editar localmente",

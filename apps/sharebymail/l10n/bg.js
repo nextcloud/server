@@ -1,13 +1,13 @@
 OC.L10N.register(
     "sharebymail",
     {
-    "Shared with {email}" : "Споделено с (мейл)",
+    "Shared with {email}" : "Споделено с ({email})",
     "Shared with {email} by {actor}" : "Споделено с {email} от {actor}",
     "Unshared from {email}" : "Прекратено споделяне от {email}",
     "Unshared from {email} by {actor}" : "Прекратено споделяне с {email} от {actor}",
     "Password for mail share sent to {email}" : "Паролата за мейл споделяне е изпратена до {email}",
     "Password for mail share sent to you" : "Паролата за мейл споделяне е изпратена до вас",
-    "You shared {file} with {email} by mail" : "Споделихте {файл} с {имейл} чрез имейл",
+    "You shared {file} with {email} by mail" : "Споделихте {file} с {email} чрез имейл",
     "{actor} shared {file} with {email} by mail" : "{actor} сподели {file} с {email} чрез имейл",
     "You unshared {file} from {email} by mail" : "Вие прекратихте споделяне от {file} с {email} по имейл",
     "{actor} unshared {file} from {email} by mail" : "{actor} прекрати споделянето на {file} от {email} по имейл",

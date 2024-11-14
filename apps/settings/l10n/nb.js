@@ -290,7 +290,6 @@ OC.L10N.register(
     "MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "MariaDB-versjon 10.3 oppdaget, denne versjonen har nådd slutten av levetiden og støttes bare som en del av Ubuntu 20.04. MariaDB >=%1$s og <=%2$s foreslås for best ytelse, stabilitet og funksjonalitet med denne versjonen av Nextcloud.",
     "MariaDB version \"%1$s\" detected. MariaDB >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "MariaDB-versjon \"%1$s\" oppdaget. MariaDB >=%2$s og <=%3$s foreslås for best ytelse, stabilitet og funksjonalitet med denne versjonen av Nextcloud.",
     "MySQL version \"%1$s\" detected. MySQL >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "MySQL-versjon \"%1$s\" oppdaget. MySQL >=%2$s og <=%3$s foreslås for best ytelse, stabilitet og funksjonalitet med denne versjonen av Nextcloud.",
-    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQL-versjon \"%s\" oppdaget. PostgreSQL >=12 og <=16 foreslås for best ytelse, stabilitet og funksjonalitet med denne versjonen av Nextcloud.",
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend. This is particularly recommended when using the desktop client for file synchronisation. To migrate to another database use the command line tool: \"occ db:convert-type\"." : "SQLite brukes for tiden som backend-database. For større installasjoner anbefaler vi at du bytter til en annen database-backend. Dette anbefales spesielt når du bruker skrivebordsklienten til filsynkronisering. For å migrere til en annen database, bruk kommandolinjeverktøyet: \"occ db:convert-type\".",
     "Unknown database platform" : "Ukjent databaseplattform",
     "Architecture" : "Arkitektur",
@@ -487,7 +486,7 @@ OC.L10N.register(
     "Could not copy app password. Please copy it manually." : "Kunne ikke kopiere passord. Venligst kopier manuelt.",
     "Could not copy login name. Please copy it manually." : "Kunne ikke kopiere påloggingsnavnet. Vennligst kopier det manuelt.",
     "For the server to work properly, it's important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information." : "For at serveren skal fungere ordentlig, er det viktig å konfigurere bakgrunnsjobber riktig. Cron er den anbefalte innstillingen. Vennligst se dokumentasjonen for mer informasjon.",
-    "Last job execution ran {time}. Something seems wrong." : "Siste jobb kjørte {tid}. Noe virker galt.",
+    "Last job execution ran {time}. Something seems wrong." : "Siste jobb kjørte {time}. Noe virker galt.",
     "Last job ran {relativeTime}." : "Siste jobb kjørte {relativeTime}.",
     "Background job did not run yet!" : "Bakgrunnsjobben er ikke kjørt ennå!",
     "AJAX" : "AJAX",
@@ -558,7 +557,7 @@ OC.L10N.register(
     "This address is not confirmed" : "Denne adressen er ikke bekreftet",
     "Unset as primary email" : "Deaktivert som primær e-post",
     "Set as primary email" : "Angi som primær e-post",
-    "Additional email address {index}" : "Ekstra e-postadresse {indeks}",
+    "Additional email address {index}" : "Ekstra e-postadresse {index}",
     "Unable to delete primary email address" : "Kan ikke slette primær e-postadresse",
     "Unable to update primary email address" : "Kan ikke oppdatere primær e-postadresse",
     "Unable to add additional email address" : "Kan ikke legge til ytterligere e-postadresse",
@@ -903,6 +902,7 @@ OC.L10N.register(
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "For å la denne kontrollen kjøre, må du sørge for at webserveren din kan koble til seg selv. Derfor må den kunne løse og koble til minst en sin 'trusted_domains' eller 'overwrite.cli.url'.",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Kunne ikke se etter JavaScript-støtte via noen av dine 'trusted_domains' eller 'overwrite.cli.url'. Dette kan være et resultat av DNS-avvik på serversiden eller en regel for utgående brannmur. Kontroller manuelt om webserveren din tjener .mjs-filer ved hjelp av JavaScript MIME-typen.",
     "Active accounts" : "Aktive kontoer",
-    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "For å la denne kontrollen kjøre, må du sørge for at webserveren din kan koble til seg selv. Derfor må den kunne løse og koble til minst en dens 'trusted_domains' eller 'overwrite.cli.url'. Denne feilen kan være et resultat av ikke-DNS-samsvar på serversiden eller en regel for utgående brannmur."
+    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "For å la denne kontrollen kjøre, må du sørge for at webserveren din kan koble til seg selv. Derfor må den kunne løse og koble til minst en dens 'trusted_domains' eller 'overwrite.cli.url'. Denne feilen kan være et resultat av ikke-DNS-samsvar på serversiden eller en regel for utgående brannmur.",
+    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQL-versjon \"%s\" oppdaget. PostgreSQL >=12 og <=16 foreslås for best ytelse, stabilitet og funksjonalitet med denne versjonen av Nextcloud."
 },
 "nplurals=2; plural=(n != 1);");

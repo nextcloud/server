@@ -232,7 +232,7 @@
     "Could not copy app password. Please copy it manually." : "نمی توان رمزعبور برنامه را کپی کرد. لطفاً آن را به صورت دستی کپی کنید.",
     "For the server to work properly, it's important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information." : "For the server to work properly, it's important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information.",
     "Last job execution ran {time}. Something seems wrong." : "آخرین کار در {time} اجرا شد. به نظر چیزی اشتباه است.",
-    "Last job ran {relativeTime}." : "آخرین کار در {time} اجرا شد.",
+    "Last job ran {relativeTime}." : "آخرین کار در {relativeTime} اجرا شد.",
     "Background job did not run yet!" : "هنوز کار پس‌زمینه‌ای اجار نشده!",
     "AJAX" : "ای‌جکس",
     "Webcron" : "وب‌کرون",
