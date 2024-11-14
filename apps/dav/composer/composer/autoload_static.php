@@ -126,6 +126,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CalDAV\\Sharing\\Service' => __DIR__ . '/..' . '/../lib/CalDAV/Sharing/Service.php',
         'OCA\\DAV\\CalDAV\\Status\\StatusService' => __DIR__ . '/..' . '/../lib/CalDAV/Status/StatusService.php',
         'OCA\\DAV\\CalDAV\\TimezoneService' => __DIR__ . '/..' . '/../lib/CalDAV/TimezoneService.php',
+        'OCA\\DAV\\CalDAV\\TipBroker' => __DIR__ . '/..' . '/../lib/CalDAV/TipBroker.php',
         'OCA\\DAV\\CalDAV\\Trashbin\\DeletedCalendarObject' => __DIR__ . '/..' . '/../lib/CalDAV/Trashbin/DeletedCalendarObject.php',
         'OCA\\DAV\\CalDAV\\Trashbin\\DeletedCalendarObjectsCollection' => __DIR__ . '/..' . '/../lib/CalDAV/Trashbin/DeletedCalendarObjectsCollection.php',
         'OCA\\DAV\\CalDAV\\Trashbin\\Plugin' => __DIR__ . '/..' . '/../lib/CalDAV/Trashbin/Plugin.php',

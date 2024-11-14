@@ -10,6 +10,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
+use OCA\DAV\CalDAV\TipBroker;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\ICalendar;
@@ -82,6 +83,13 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 			$server->protectedProperties,
 			static fn (string $property) => $property !== self::SCHEDULE_DEFAULT_CALENDAR_URL,
 		);
+	}
+
+	/**
+	 * Returns an instance of the iTip\Broker.
+	 */
+	protected function createITipBroker(): TipBroker {
+		return new TipBroker();
 	}
 
 	/**
@@ -167,7 +175,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 			$calendarNode = $this->server->tree->getNodeForPath($calendarPath);
 			// extract addresses for owner
 			$addresses = $this->getAddressesForPrincipal($calendarNode->getOwner());
-			// determain if request is from a sharee
+			// determine if request is from a sharee
 			if ($calendarNode->isShared()) {
 				// extract addresses for sharee and add to address collection
 				$addresses = array_merge(
