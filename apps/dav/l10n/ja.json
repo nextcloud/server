@@ -62,7 +62,7 @@
     "_%n month_::_%n months_" : ["%nヶ月"],
     "_%n day_::_%n days_" : ["%n日"],
     "_%n hour_::_%n hours_" : ["%n時間"],
-    "_%n minute_::_%n minutes_" : ["%n秒"],
+    "_%n minute_::_%n minutes_" : ["%n分钟"],
     "%s (in %s)" : "%s（%s後）",
     "%s (%s ago)" : "%s（%s前）",
     "Calendar: %s" : "カレンダー:%s",

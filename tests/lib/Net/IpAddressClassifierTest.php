@@ -43,6 +43,7 @@ class IpAddressClassifierTest extends TestCase {
 		return [
 			['192.168.0.1'],
 			['fe80::200:5aee:feaa:20a2'],
+			['fe80::1fc4:15d8:78db:2319%enp4s0'], // v6 zone ID
 			['0:0:0:0:0:ffff:10.0.0.1'],
 			['0:0:0:0:0:ffff:127.0.0.0'],
 			['10.0.0.1'],

@@ -26,7 +26,7 @@ OC.L10N.register(
     "{temperature} {unit} light rainfall later today" : "{temperature} {unit} deboli precipitazioni più tardi oggi",
     "{temperature} {unit} light rainfall" : "{temperature} {unit} precipitazioni deboli",
     "{temperature} {unit} rainfall later today" : "{temperature} {unit} pioggia più tardi oggi",
-    "{temperature} {unit} rainfall" : "{temperature} {unità} precipitazioni",
+    "{temperature} {unit} rainfall" : "{temperature} {unit} precipitazioni",
     "{temperature} {unit} heavy rainfall later today" : "{temperature} {unit} forti precipitazioni più tardi oggi",
     "{temperature} {unit} heavy rainfall" : "{temperature} {unit} forti precipitazioni",
     "{temperature} {unit} rainfall showers later today" : "{temperature} {unit} rovesci di pioggia più tardi oggi",

@@ -268,6 +268,7 @@ OC.L10N.register(
     "Rename" : "Переименовать",
     "Collaborative tags" : "Совместные теги",
     "No tags found" : "Метки не найдены",
+    "Clipboard not available, please copy manually" : "Буфер обмена недоступен, пожалуйста, скопируйте вручную",
     "Personal" : "Личное",
     "Accounts" : "Учётные записи",
     "Admin" : "Администрирование",

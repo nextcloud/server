@@ -210,8 +210,6 @@ OC.L10N.register(
     "One or more mimetype migrations are available. Occasionally new mimetypes are added to better handle certain file types. Migrating the mimetypes take a long time on larger instances so this is not done automatically during upgrades. Use the command `occ maintenance:repair --include-expensive` to perform the migrations." : "有一个或多个 mimetype 迁移可用。有时会添加新的 mimetype 以更好地处理某些文件类型。在较大的实例上迁移 mimetype 需要很长时间，因此升级期间不会自动完成此操作。使用命令 \"occ Maintenance:repair --include-expensive\" 执行迁移。",
     "MySQL row format" : "MySQL 行格式",
     "You are not using MySQL" : "您没有使用MySQL",
-    "None of your table use ROW_FORMAT=Compressed" : "您的数据库表中没有使用 ROW_FORMAT=Compressed。",
-    "_Table %s is not using ROW_FORMAT=Dynamic. This format offers the best database performances for Nextcloud. Please change the row format to Dynamic._::_Some tables are not using ROW_FORMAT=Dynamic. This format offers the best database performances for Nextcloud. Please change the row format to Dynamic on the following tables: %s._" : ["某些数据库表未使用 ROW_FORMAT=Dynamic。此格式为 Nextcloud 提供最佳的数据库性能。请将以下数据库表的行格式更改为 Dynamic：%s。"],
     "MySQL Unicode support" : "MySQL Unicode 支持",
     "MySQL is used as database and does support 4-byte characters" : "MySQL用作数据库并且支持4字节字符",
     "MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL." : "MySQL 用作数据库，但不支持 4 字节字符。为了能够处理 4 字节字符（如表情符号），而不会在文件名或注释中出现问题，建议在 MySQL 中启用 4 字节支持。",
@@ -292,7 +290,6 @@ OC.L10N.register(
     "MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "检测到 MariaDB 版本 10.3，此版本已停用，仅作为 Ubuntu 20.04 的一部分受支持。建议使用 MariaDB >=%1$s 和 <=%2$s 以获得此版本 Nextcloud 的最佳性能、稳定性和功能。",
     "MariaDB version \"%1$s\" detected. MariaDB >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "检测到 MariaDB 版本\"%1$s\"。建议使用 MariaDB >=%2$s 和 <=%3$s，以获得此版本 Nextcloud 的最佳性能、稳定性和功能。",
     "MySQL version \"%1$s\" detected. MySQL >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "检测到 MySQL 版本\"%1$s\"。建议使用 MySQL >=%2$s 和 <=%3$s，以获得此版本 Nextcloud 的最佳性能、稳定性和功能。",
-    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "检测到 PostgreSQL 版本\"%s\"。建议使用 PostgreSQL >=12 和 <=16，以获得此版本 Nextcloud 的最佳性能、稳定性和功能。",
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend. This is particularly recommended when using the desktop client for file synchronisation. To migrate to another database use the command line tool: \"occ db:convert-type\"." : "目前使用 SQLite 作为后端数据库。 对于大型安装，我们建议您切换到不同的数据库后端。 当使用桌面客户端进行文件同步时，特别建议这样做。 要迁移到另一个数据库，请使用命令行工具：\"occ db:convert-type\"。",
     "Unknown database platform" : "未知的数据库软件",
     "Architecture" : "建筑风格",
@@ -354,7 +351,6 @@ OC.L10N.register(
     "Groups allowed to share" : "允许共享的组",
     "Groups excluded from sharing" : "排除共享的群组",
     "Not allowed groups will still be able to receive shares, but not to initiate them." : "不允许的组仍然可以接收共享，但不能发起共享。",
-    "Set default expiration date for shares" : "设置共享的默认截止日期",
     "Enforce expiration date" : "强制过期日期",
     "Default expiration time of new shares in days" : "新建共享的默认过期时间（天）",
     "Expire shares after x days" : "共享在X天后过期",
@@ -838,6 +834,7 @@ OC.L10N.register(
     "None of your currently installed apps provide Text processing functionality" : "您当前安装的应用程序均不提供文本处理功能",
     "Exclude groups from sharing" : "在共享中排除组",
     "These groups will still be able to receive shares, but not to initiate them." : "这些组将仍可以获取共享，但无法向他人共享。",
+    "Set default expiration date for shares" : "设置共享的默认截止日期",
     "Allow username autocompletion in share dialog and allow access to the system address book" : "允许在分享对话框中自动补全用户名并访问系统通讯录",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "两步验证可以对于所有用户和特定分组启用。如果没有设置两步验证提供者，他们则不能登录到系统。",
     "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "当分组被选择/排除时，将使用以下逻辑来确定一个用户是否强制启用两步验证：如果没有选择分组，两步验证将对被排除分组成员外的所有用户启用。如果选择了分组，两步验证将对被选择分组的成员启用。如果一个用户同时属于被选择和被排除分组，被选择分组将拥有优先权，两步验证将对该用户强制启用。",
@@ -899,6 +896,7 @@ OC.L10N.register(
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "要允许此检查运行，您必须确保您的网络服务器可以连接到自身。 因此，它必须能够解析并连接到至少一个 `trusted_domains` 或 `overwrite.cli.url`。",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "无法通过您的任何 “trusted_domains\" 或 \"overwrite.cli.url\" 检查 JavaScript 支持。 这可能是服务器端 DNS 不匹配或出站防火墙规则造成的。 请手动检查您的网络服务器是否使用 JavaScript MIME 类型提供 \".mjs\" 文件。",
     "Active accounts" : "活跃账号",
-    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "要允许此检查运行，您必须确保您的 Web 服务器可以连接到自身。因此，它必须能够解析并连接到其 \"trusted_domains\" 或 \"overwrite.cli.url\" 中的至少一个。此失败可能是服务器端 DNS 不匹配或出站防火墙规则的结果。"
+    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "要允许此检查运行，您必须确保您的 Web 服务器可以连接到自身。因此，它必须能够解析并连接到其 \"trusted_domains\" 或 \"overwrite.cli.url\" 中的至少一个。此失败可能是服务器端 DNS 不匹配或出站防火墙规则的结果。",
+    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "检测到 PostgreSQL 版本\"%s\"。建议使用 PostgreSQL >=12 和 <=16，以获得此版本 Nextcloud 的最佳性能、稳定性和功能。"
 },
 "nplurals=1; plural=0;");

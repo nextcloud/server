@@ -159,7 +159,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.4
+	- version: 1.7.7
 	- license: MIT
 - bail
 	- version: 2.0.2
@@ -459,7 +459,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.1.5
 	- license: MIT
 - pinia
-	- version: 2.2.2
+	- version: 2.2.6
 	- license: MIT
 - possible-typed-array-names
 	- version: 1.0.0

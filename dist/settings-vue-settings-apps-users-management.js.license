@@ -64,7 +64,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.0.0
+	- version: 6.0.1
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
@@ -73,7 +73,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.1
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.9.0
+	- version: 3.9.2
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -118,7 +118,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.4
+	- version: 1.7.7
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -238,7 +238,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.12.7
 	- license: MIT
 - pinia
-	- version: 2.2.2
+	- version: 2.2.6
 	- license: MIT
 - possible-typed-array-names
 	- version: 1.0.0

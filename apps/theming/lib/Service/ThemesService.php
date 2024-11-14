@@ -126,7 +126,7 @@ class ThemesService {
 			$this->setEnabledThemes($enabledThemes);
 			return $enabledThemes;
 		}
-		
+
 		return $themesIds;
 	}
 
@@ -159,7 +159,7 @@ class ThemesService {
 		}
 
 		$enforcedTheme = $this->config->getSystemValueString('enforce_theme', '');
-		$enabledThemes = json_decode($this->config->getUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', '[]'));
+		$enabledThemes = json_decode($this->config->getUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', '["default"]'));
 		if ($enforcedTheme !== '') {
 			return array_merge([$enforcedTheme], $enabledThemes);
 		}

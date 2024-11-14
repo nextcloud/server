@@ -268,6 +268,7 @@ OC.L10N.register(
     "Rename" : "Athainmnigh",
     "Collaborative tags" : "Clibeanna comhoibríocha",
     "No tags found" : "Níor aimsíodh clibeanna",
+    "Clipboard not available, please copy manually" : "Níl an gearrthaisce ar fáil, cóipeáil de láimh",
     "Personal" : "Pearsanta",
     "Accounts" : "Cuntais",
     "Admin" : "Riarachán",

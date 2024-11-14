@@ -9,9 +9,8 @@ import { FileAction, Permission, type Node } from '@nextcloud/files'
 import { showError, DialogBuilder } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
+import IconWeb from '@mdi/svg/svg/web.svg?raw'
 import LaptopSvg from '@mdi/svg/svg/laptop.svg?raw'
-import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
-import IconCheck from '@mdi/svg/svg/check.svg?raw'
 
 const confirmLocalEditDialog = (
 	localEditCallback: (openingLocally: boolean) => void = () => {},
@@ -20,23 +19,23 @@ const confirmLocalEditDialog = (
 
 	return (new DialogBuilder())
 		.setName(t('files', 'Edit file locally'))
-		.setText(t('files', 'The file should now open locally. If you don\'t see this happening, make sure that the desktop client is installed on your system.'))
+		.setText(t('files', 'The file should now open on your device. If it doesn\'t, please check that you have the desktop app installed.'))
 		.setButtons([
 			{
-				label: t('files', 'Retry local edit'),
-				icon: IconCancel,
+				label: t('files', 'Retry and close'),
+				type: 'secondary',
 				callback: () => {
 					callbackCalled = true
-					localEditCallback(false)
+					localEditCallback(true)
 				},
 			},
 			{
 				label: t('files', 'Edit online'),
-				icon: IconCheck,
+				icon: IconWeb,
 				type: 'primary',
 				callback: () => {
 					callbackCalled = true
-					localEditCallback(true)
+					localEditCallback(false)
 				},
 			},
 		])
