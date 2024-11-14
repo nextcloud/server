@@ -268,6 +268,7 @@ OC.L10N.register(
     "Rename" : "Renomear",
     "Collaborative tags" : "Etiquetas colaborativas",
     "No tags found" : "Nenhuma etiqueta encontrada",
+    "Clipboard not available, please copy manually" : "Área de transferência não disponível, copie manualmente",
     "Personal" : "Pessoal",
     "Accounts" : "Contas",
     "Admin" : "Administrar",

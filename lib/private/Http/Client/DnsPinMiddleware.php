@@ -57,17 +57,21 @@ class DnsPinMiddleware {
 
 		$soaDnsEntry = $this->soaRecord($target);
 		$dnsNegativeTtl = $soaDnsEntry['minimum-ttl'] ?? null;
+		$canHaveCnameRecord = true;
 
 		$dnsTypes = \defined('AF_INET6') || @inet_pton('::1')
 			? [DNS_A, DNS_AAAA, DNS_CNAME]
 			: [DNS_A, DNS_CNAME];
 		foreach ($dnsTypes as $dnsType) {
+			if ($canHaveCnameRecord === false && $dnsType === DNS_CNAME) {
+				continue;
+			}
+
 			if ($this->negativeDnsCache->isNegativeCached($target, $dnsType)) {
 				continue;
 			}
 
 			$dnsResponses = $this->dnsGetRecord($target, $dnsType);
-			$canHaveCnameRecord = true;
 			if ($dnsResponses !== false && count($dnsResponses) > 0) {
 				foreach ($dnsResponses as $dnsResponse) {
 					if (isset($dnsResponse['ip'])) {
@@ -78,7 +82,6 @@ class DnsPinMiddleware {
 						$canHaveCnameRecord = false;
 					} elseif (isset($dnsResponse['target']) && $canHaveCnameRecord) {
 						$targetIps = array_merge($targetIps, $this->dnsResolve($dnsResponse['target'], $recursionCount));
-						$canHaveCnameRecord = true;
 					}
 				}
 			} elseif ($dnsNegativeTtl !== null) {

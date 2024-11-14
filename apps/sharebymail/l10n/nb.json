@@ -8,7 +8,7 @@
     "You shared {file} with {email} by mail" : "Du delte {file} med {email} via e-post",
     "{actor} shared {file} with {email} by mail" : "{actor} delte {file} med {email} via e-post",
     "You unshared {file} from {email} by mail" : "Du opphevde delingen {file} med {email} via e-post",
-    "{actor} unshared {file} from {email} by mail" : "{actor} opphevde deling av {fil} fra {email} via e-post",
+    "{actor} unshared {file} from {email} by mail" : "{actor} opphevde deling av {file} fra {email} via e-post",
     "Password to access {file} was sent to {email}" : "Passord for tilgang til {file} ble sendt til {email}",
     "Password to access {file} was sent to you" : "Du ble tildelt passord for å benytte {file}",
     "Share by mail" : "Del via e-post",

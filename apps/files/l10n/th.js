@@ -184,7 +184,7 @@ OC.L10N.register(
     "Details" : "รายละเอียด",
     "Please select tag(s) to add to the selection" : "กรุณาเลือกแท็กเพื่อเพิ่มเข้าไปในรายการที่เลือก",
     "Apply tag(s) to selection" : "นำแท็กไปใช้ในรายการที่เลือก",
-    "Select directory \"{dirName}\"" : "เลือกไดเร็กทอรี \"{dirname}\"",
+    "Select directory \"{dirName}\"" : "เลือกไดเร็กทอรี \"{dirName}\"",
     "Select file \"{fileName}\"" : "เลือกไฟล์ \"{fileName}\"",
     "Unable to determine date" : "ไม่สามารถระบุวัน",
     "Could not move \"{file}\", target exists" : "ไม่สามารถย้าย \"{file}\" เป้าหมายมีอยู่แล้ว",
