@@ -554,10 +554,11 @@ class DnsPinMiddlewareTest extends TestCase {
 			['nextcloud' => ['allow_local_address' => false]]
 		);
 
-		$this->assertCount(4, $dnsQueries);
+		$this->assertCount(3, $dnsQueries);
 		$this->assertContains('example.com' . DNS_SOA, $dnsQueries);
 		$this->assertContains('subsubdomain.subdomain.example.com' . DNS_A, $dnsQueries);
 		$this->assertContains('subsubdomain.subdomain.example.com' . DNS_AAAA, $dnsQueries);
-		$this->assertContains('subsubdomain.subdomain.example.com' . DNS_CNAME, $dnsQueries);
+		// CNAME should not be queried if A or AAAA succeeded already
+		$this->assertNotContains('subsubdomain.subdomain.example.com' . DNS_CNAME, $dnsQueries);
 	}
 }
