@@ -53,6 +53,7 @@
     "Share for file {file} with {user} expired" : "与 {user} 的文件共享 {file} 已过期",
     "Share for file {file} expired" : "文件 {file} 的共享已过期",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "通过邮件或公共链接共享的文件或文件夹<strong>已下载</strong>",
+    "Files have been <strong>uploaded</strong> to a folder shared by mail or by public link" : "文件<strong>已上传</strong>到通过邮件或公共链接共享的文件夹",
     "A file or folder was shared from <strong>another server</strong>" : "<strong>其它服务器</strong> 中一个文件或者文件夹被共享 ",
     "Sharing" : "共享",
     "A file or folder has been <strong>shared</strong>" : "一个文件或文件夹已<strong>共享</strong>",
