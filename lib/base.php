@@ -515,7 +515,9 @@ class OC {
 			$processingScript = $processingScript[count($processingScript) - 1];
 
 			// index.php routes are handled in the middleware
-			if ($processingScript === 'index.php') {
+			// and cron.php does not need any authentication at all
+			if ($processingScript === 'index.php'
+				|| $processingScript === 'cron.php') {
 				return;
 			}
 
