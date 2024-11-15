@@ -220,7 +220,7 @@ OC.L10N.register(
     "Select directory \"{dirName}\"" : "دایرکتوری \"{dirName}\" را انتخاب کنید",
     "Select file \"{fileName}\"" : "فایل \"{fileName}\" را انتخاب کنید",
     "Unable to determine date" : "امکان تعیین تاریخ وجود ندارد",
-    "Could not move \"{file}\", target exists" : "انتقال\"{پرونده}\" امکان پذیر نیست ، هدف وجود دارد",
+    "Could not move \"{file}\", target exists" : "انتقال\"{file}\" امکان پذیر نیست ، هدف وجود دارد",
     "Could not move \"{file}\"" : "پروندهٔ \"{file}\" منتقل نمی‌شود",
     "copy" : "کپی",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "رونوشت شده از {origin} و {nbfiles} پرونده‌های دیگر در {destination}",

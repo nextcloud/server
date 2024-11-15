@@ -202,6 +202,7 @@ OC.L10N.register(
     "Confirm deletion" : "Підтвердіть вилучення",
     "Cancel" : "Скасувати",
     "Edit file locally" : "Редагувати файл на пристрої",
+    "Retry and close" : "Спробувати ще раз та закрити",
     "Edit online" : "Редагувати в онлайні",
     "Failed to redirect to client" : "Не вдалося перенаправити на клієнта",
     "Edit locally" : "Редагувати локально",
