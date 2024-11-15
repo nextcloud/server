@@ -13,6 +13,7 @@ use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagAlreadyExistsException;
 use OCP\SystemTag\TagNotFoundException;
+use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Conflict;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
@@ -109,6 +110,11 @@ class SystemTagNode implements \Sabre\DAV\ICollection {
 				) {
 					throw new Forbidden('No permission to update permissions for tag ' . $this->tag->getId());
 				}
+			}
+
+			// Make sure color is a proper hex
+			if ($color !== null && (strlen($color) !== 6 || !ctype_xdigit($color))) {
+				throw new BadRequest('Color must be a 6-digit hexadecimal value');
 			}
 
 			$this->tagManager->updateTag($this->tag->getId(), $name, $userVisible, $userAssignable, $color);

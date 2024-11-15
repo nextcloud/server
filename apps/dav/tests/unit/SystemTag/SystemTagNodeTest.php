@@ -85,19 +85,19 @@ class SystemTagNodeTest extends \Test\TestCase {
 			[
 				true,
 				new SystemTag(1, 'Original', true, true),
-				['Renamed', true, true, '']
+				['Renamed', true, true, null]
 			],
 			[
 				true,
 				new SystemTag(1, 'Original', true, true),
-				['Original', false, false, '']
+				['Original', false, false, null]
 			],
 			// non-admin
 			[
 				// renaming allowed
 				false,
 				new SystemTag(1, 'Original', true, true),
-				['Rename', true, true, '#0082c9']
+				['Rename', true, true, '0082c9']
 			],
 		];
 	}
@@ -206,7 +206,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 			->method('updateTag')
 			->with(1, 'Renamed', true, true)
 			->will($this->throwException(new TagAlreadyExistsException()));
-		$this->getTagNode(false, $tag)->update('Renamed', true, true, '');
+		$this->getTagNode(false, $tag)->update('Renamed', true, true, null);
 	}
 
 
@@ -226,7 +226,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 			->method('updateTag')
 			->with(1, 'Renamed', true, true)
 			->will($this->throwException(new TagNotFoundException()));
-		$this->getTagNode(false, $tag)->update('Renamed', true, true, '');
+		$this->getTagNode(false, $tag)->update('Renamed', true, true, null);
 	}
 
 	/**
