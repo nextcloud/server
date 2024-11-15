@@ -120,3 +120,14 @@ export type Capabilities = {
 		versioning: boolean
 	}
 }
+
+export enum MoveCopyAction {
+	MOVE = 'Move',
+	COPY = 'Copy',
+	MOVE_OR_COPY = 'move-or-copy',
+}
+
+export type MoveCopyResult = {
+	destination: Folder
+	action: MoveCopyAction.COPY | MoveCopyAction.MOVE
+}

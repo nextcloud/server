@@ -15,8 +15,8 @@ import { translate as t } from '@nextcloud/l10n'
 import Vue from 'vue'
 
 import { Directory, traverseTree, resolveConflict, createDirectoryIfNotExists } from './DropServiceUtils'
-import { handleCopyMoveNodeTo } from '../actions/moveOrCopyAction'
-import { MoveCopyAction } from '../actions/moveOrCopyActionUtils'
+import { handleCopyMoveNode } from './MoveOrCopyService.ts'
+import { MoveCopyAction } from '../types.ts'
 import logger from '../logger.ts'
 
 /**
@@ -178,7 +178,7 @@ export const onDropInternalFiles = async (nodes: Node[], destination: Folder, co
 
 	for (const node of nodes) {
 		Vue.set(node, 'status', NodeStatus.LOADING)
-		queue.push(handleCopyMoveNodeTo(node, destination, isCopy ? MoveCopyAction.COPY : MoveCopyAction.MOVE, true))
+		queue.push(handleCopyMoveNode(node, destination, isCopy ? MoveCopyAction.COPY : MoveCopyAction.MOVE, true))
 	}
 
 	// Wait for all promises to settle

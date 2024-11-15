@@ -17,7 +17,12 @@ export default defineConfig({
 		},
 		coverage: {
 			include: ['apps/*/src/**', 'core/src/**'],
-			exclude: ['**.spec.*', '**.test.*', '**.cy.*', 'core/src/tests/**'],
+			exclude: [
+				'**/*.spec.*',
+				'**/*.test.*',
+				'**/*.cy.*',
+				'core/src/tests/**',
+			],
 			provider: 'v8',
 			reporter: ['lcov', 'text'],
 		},
