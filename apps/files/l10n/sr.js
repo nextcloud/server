@@ -202,6 +202,8 @@ OC.L10N.register(
     "Confirm deletion" : "Потврди брисање",
     "Cancel" : "Поништи",
     "Edit file locally" : "Уреди фајл локално",
+    "The file should now open on your device. If it doesn't, please check that you have the desktop app installed." : "Фајл би сада требало да се отвори на вашем уређају. Ако се не отвори, проверите да ли сте инсталирали декстоп апликацију.",
+    "Retry and close" : "Покушај поново и затвори",
     "Edit online" : "Уреди на мрежи",
     "Failed to redirect to client" : "Преусмеравање на клијента није успело",
     "Edit locally" : "Уреди локално",
