@@ -43,10 +43,10 @@ import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
-import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import logger from '../logger.ts'
 
 // The registered actions list
@@ -61,10 +61,6 @@ export default defineComponent({
 		NcIconSvgWrapper,
 		NcLoadingIcon,
 	},
-
-	mixins: [
-		filesListWidthMixin,
-	],
 
 	props: {
 		currentView: {
@@ -81,10 +77,12 @@ export default defineComponent({
 		const actionsMenuStore = useActionsMenuStore()
 		const filesStore = useFilesStore()
 		const selectionStore = useSelectionStore()
+		const fileListWidth = useFileListWidth()
 		const { directory } = useRouteParameters()
 
 		return {
 			directory,
+			fileListWidth,
 
 			actionsMenuStore,
 			filesStore,
@@ -126,13 +124,13 @@ export default defineComponent({
 		},
 
 		inlineActions() {
-			if (this.filesListWidth < 512) {
+			if (this.fileListWidth < 512) {
 				return 0
 			}
-			if (this.filesListWidth < 768) {
+			if (this.fileListWidth < 768) {
 				return 1
 			}
-			if (this.filesListWidth < 1024) {
+			if (this.fileListWidth < 1024) {
 				return 2
 			}
 			return 3

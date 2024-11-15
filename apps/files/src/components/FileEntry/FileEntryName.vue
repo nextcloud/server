@@ -48,6 +48,7 @@ import { defineComponent, inject } from 'vue'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 import { useNavigation } from '../../composables/useNavigation'
+import { useFileListWidth } from '../../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../../composables/useRouteParameters.ts'
 import { useRenamingStore } from '../../store/renaming.ts'
 import { getFilenameValidity } from '../../utils/filenameValidity.ts'
@@ -75,10 +76,6 @@ export default defineComponent({
 			type: String,
 			required: true,
 		},
-		filesListWidth: {
-			type: Number,
-			required: true,
-		},
 		nodes: {
 			type: Array as PropType<Node[]>,
 			required: true,
@@ -97,6 +94,7 @@ export default defineComponent({
 		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
 		const { currentView } = useNavigation(true)
 		const { directory } = useRouteParameters()
+		const filesListWidth = useFileListWidth()
 		const renamingStore = useRenamingStore()
 
 		const defaultFileAction = inject<FileAction | undefined>('defaultFileAction')
@@ -105,6 +103,7 @@ export default defineComponent({
 			currentView,
 			defaultFileAction,
 			directory,
+			filesListWidth,
 
 			renamingStore,
 		}
