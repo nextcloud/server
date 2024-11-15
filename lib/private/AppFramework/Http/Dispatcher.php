@@ -208,6 +208,10 @@ class Dispatcher {
 		$response = \call_user_func_array([$controller, $methodName], $arguments);
 		$this->eventLogger->end('controller:' . get_class($controller) . '::' . $methodName);
 
+		if (!($response instanceof Response)) {
+			$this->logger->debug($controller::class . '::' . $methodName . ' returned raw data. Please wrap it in a Response or one of it\'s inheritors.');
+		}
+
 		// format response
 		if ($response instanceof DataResponse || !($response instanceof Response)) {
 			// get format from the url format or request format parameter
