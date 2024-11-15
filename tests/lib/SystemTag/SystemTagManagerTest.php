@@ -72,7 +72,7 @@ class SystemTagManagerTest extends TestCase {
 		$query->delete(SystemTagManager::TAG_TABLE)->execute();
 	}
 
-	public function getAllTagsDataProvider() {
+	public static function getAllTagsDataProvider() {
 		return [
 			[
 				// no tags at all
@@ -119,7 +119,7 @@ class SystemTagManagerTest extends TestCase {
 		}
 	}
 
-	public function getAllTagsFilteredDataProvider() {
+	public static function getAllTagsFilteredDataProvider() {
 		return [
 			[
 				[
@@ -232,7 +232,7 @@ class SystemTagManagerTest extends TestCase {
 		}
 	}
 
-	public function oneTagMultipleFlagsProvider() {
+	public static function oneTagMultipleFlagsProvider() {
 		return [
 			['one', false, false],
 			['one', true, false],
@@ -305,27 +305,27 @@ class SystemTagManagerTest extends TestCase {
 		$this->tagManager->getTagsByIds([$tag1->getId() . 'suffix']);
 	}
 
-	public function updateTagProvider() {
+	public static function updateTagProvider() {
 		return [
 			[
 				// update name
-				['one', true, true],
-				['two', true, true]
+				['one', true, true, '0082c9'],
+				['two', true, true, '0082c9']
 			],
 			[
 				// update one flag
-				['one', false, true],
-				['one', true, true]
+				['one', false, true, null],
+				['one', true, true, '0082c9']
 			],
 			[
 				// update all flags
-				['one', false, false],
-				['one', true, true]
+				['one', false, false, '0082c9'],
+				['one', true, true, null]
 			],
 			[
 				// update all
-				['one', false, false],
-				['two', true, true]
+				['one', false, false, '0082c9'],
+				['two', true, true, '0082c9']
 			],
 		];
 	}
@@ -337,24 +337,29 @@ class SystemTagManagerTest extends TestCase {
 		$tag1 = $this->tagManager->createTag(
 			$tagCreate[0],
 			$tagCreate[1],
-			$tagCreate[2]
+			$tagCreate[2],
+			$tagCreate[3],
 		);
 		$this->tagManager->updateTag(
 			$tag1->getId(),
 			$tagUpdated[0],
 			$tagUpdated[1],
-			$tagUpdated[2]
+			$tagUpdated[2],
+			$tagUpdated[3],
 		);
 		$tag2 = $this->tagManager->getTag(
 			$tagUpdated[0],
 			$tagUpdated[1],
-			$tagUpdated[2]
+			$tagUpdated[2],
+			$tagUpdated[3],
 		);
 
 		$this->assertEquals($tag2->getId(), $tag1->getId());
 		$this->assertEquals($tag2->getName(), $tagUpdated[0]);
 		$this->assertEquals($tag2->isUserVisible(), $tagUpdated[1]);
 		$this->assertEquals($tag2->isUserAssignable(), $tagUpdated[2]);
+		$this->assertEquals($tag2->getColor(), $tagUpdated[3]);
+
 	}
 
 	/**
@@ -366,12 +371,14 @@ class SystemTagManagerTest extends TestCase {
 		$this->tagManager->createTag(
 			$tagCreate[0],
 			$tagCreate[1],
-			$tagCreate[2]
+			$tagCreate[2],
+			$tagCreate[3],
 		);
 		$tag2 = $this->tagManager->createTag(
 			$tagUpdated[0],
 			$tagUpdated[1],
-			$tagUpdated[2]
+			$tagUpdated[2],
+			$tagUpdated[3],
 		);
 
 		// update to match the first tag
@@ -379,7 +386,8 @@ class SystemTagManagerTest extends TestCase {
 			$tag2->getId(),
 			$tagCreate[0],
 			$tagCreate[1],
-			$tagCreate[2]
+			$tagCreate[2],
+			$tagCreate[3],
 		);
 	}
 
@@ -422,7 +430,7 @@ class SystemTagManagerTest extends TestCase {
 		], $tagIdMapping);
 	}
 
-	public function visibilityCheckProvider() {
+	public static function visibilityCheckProvider() {
 		return [
 			[false, false, false, false],
 			[true, false, false, true],
@@ -449,7 +457,7 @@ class SystemTagManagerTest extends TestCase {
 		$this->assertEquals($expectedResult, $this->tagManager->canUserSeeTag($tag1, $user));
 	}
 
-	public function assignabilityCheckProvider() {
+	public static function assignabilityCheckProvider() {
 		return [
 			// no groups
 			[false, false, false, false],

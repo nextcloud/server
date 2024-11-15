@@ -49,6 +49,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	public const NUM_FILES_PROPERTYNAME = '{http://nextcloud.org/ns}files-assigned';
 	public const REFERENCE_FILEID_PROPERTYNAME = '{http://nextcloud.org/ns}reference-fileid';
 	public const OBJECTIDS_PROPERTYNAME = '{http://nextcloud.org/ns}object-ids';
+	public const COLOR_PROPERTYNAME = '{http://nextcloud.org/ns}color';
 
 	/**
 	 * @var \Sabre\DAV\Server $server
@@ -243,6 +244,10 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			return $this->tagManager->canUserAssignTag($node->getSystemTag(), $this->userSession->getUser()) ? 'true' : 'false';
 		});
 
+		$propFind->handle(self::COLOR_PROPERTYNAME, function () use ($node) {
+			return $node->getSystemTag()->getColor() ?? '';
+		});
+
 		$propFind->handle(self::GROUPS_PROPERTYNAME, function () use ($node) {
 			if (!$this->groupManager->isAdmin($this->userSession->getUser()->getUID())) {
 				// property only available for admins
@@ -406,6 +411,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			self::GROUPS_PROPERTYNAME,
 			self::NUM_FILES_PROPERTYNAME,
 			self::REFERENCE_FILEID_PROPERTYNAME,
+			self::COLOR_PROPERTYNAME,
 		], function ($props) use ($node) {
 			if (!($node instanceof SystemTagNode)) {
 				return false;
@@ -415,6 +421,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			$name = $tag->getName();
 			$userVisible = $tag->isUserVisible();
 			$userAssignable = $tag->isUserAssignable();
+			$color = $tag->getColor();
 
 			$updateTag = false;
 
@@ -435,6 +442,11 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 				$updateTag = true;
 			}
 
+			if (isset($props[self::COLOR_PROPERTYNAME])) {
+				$color = $props[self::COLOR_PROPERTYNAME];
+				$updateTag = true;
+			}
+
 			if (isset($props[self::GROUPS_PROPERTYNAME])) {
 				if (!$this->groupManager->isAdmin($this->userSession->getUser()->getUID())) {
 					// property only available for admins
@@ -452,7 +464,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			}
 
 			if ($updateTag) {
-				$node->update($name, $userVisible, $userAssignable);
+				$node->update($name, $userVisible, $userAssignable, $color);
 			}
 
 			return true;

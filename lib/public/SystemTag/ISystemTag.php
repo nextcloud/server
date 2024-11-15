@@ -89,4 +89,11 @@ interface ISystemTag {
 	 * @since 31.0.0
 	 */
 	public function getETag(): ?string;
+
+	/**
+	 * Returns the color of the tag
+	 *
+	 * @since 31.0.0
+	 */
+	public function getColor(): ?string;
 }

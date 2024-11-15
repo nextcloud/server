@@ -81,14 +81,16 @@ interface ISystemTagManager {
 	 * @param string $newName the new tag name
 	 * @param bool $userVisible whether the tag is visible by users
 	 * @param bool $userAssignable whether the tag is assignable by users
+	 * @param string $color color
 	 *
 	 * @throws TagNotFoundException if tag with the given id does not exist
 	 * @throws TagAlreadyExistsException if there is already another tag
 	 *                                   with the same attributes
 	 *
 	 * @since 9.0.0
+	 * @since 31.0.0 `$color` parameter added
 	 */
-	public function updateTag(string $tagId, string $newName, bool $userVisible, bool $userAssignable);
+	public function updateTag(string $tagId, string $newName, bool $userVisible, bool $userAssignable, ?string $color);
 
 	/**
 	 * Delete the given tags from the database and all their relationships.
