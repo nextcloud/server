@@ -3,10 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { action } from './inlineSystemTagsAction'
-import { describe, expect, test } from 'vitest'
-import { File, Permission, View, FileAction } from '@nextcloud/files'
+import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { emit, subscribe } from '@nextcloud/event-bus'
+import { File, Permission, View, FileAction } from '@nextcloud/files'
 import { setNodeSystemTags } from '../utils'
+import * as serviceTagApi from '../services/api'
+import { set } from 'lodash'
 
 const view = {
 	id: 'files',
@@ -53,6 +55,13 @@ describe('Inline system tags action conditions tests', () => {
 })
 
 describe('Inline system tags action render tests', () => {
+
+	beforeEach(() => {
+		vi.spyOn(serviceTagApi, 'fetchTags').mockImplementation(async () => {
+			return []
+		})
+	})
+
 	test('Render something even when Node does not have system tags', async () => {
 		const file = new File({
 			id: 1,
@@ -165,7 +174,9 @@ describe('Inline system tags action render tests', () => {
 
 		// Subscribe to the event
 		const eventPromise = new Promise((resolve) => {
-			subscribe('systemtags:node:updated', resolve)
+			subscribe('systemtags:node:updated', () => {
+				setTimeout(resolve, 100)
+			})
 		})
 
 		// Change tags

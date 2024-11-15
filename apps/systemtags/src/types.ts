@@ -8,6 +8,8 @@ export interface BaseTag {
 	userVisible: boolean
 	userAssignable: boolean
 	readonly canAssign: boolean // Computed server-side
+	etag?: string
+	color?: string
 }
 
 export type Tag = BaseTag & {
