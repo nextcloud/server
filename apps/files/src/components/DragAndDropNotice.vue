@@ -4,12 +4,13 @@
 -->
 <template>
 	<div v-show="dragover"
-		class="files-list__drag-drop-notice"
-		data-cy-files-drag-drop-area
 		v-files-drop.stop.prevent="{
 			enable: canUpload,
 			targetFolder: currentFolder,
-		}">
+			callback: onFilesUploaded,
+		}"
+		class="files-list__drag-drop-notice"
+		data-cy-files-drag-drop-area>
 		<div class="files-list__drag-drop-notice-wrapper">
 			<template v-if="canUpload && !isQuotaExceeded">
 				<TrayArrowDownIcon :size="48" />
@@ -29,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import type { Folder } from '@nextcloud/files'
+import { File, Folder } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
 import { Permission } from '@nextcloud/files'
@@ -43,6 +44,8 @@ import TrayArrowDownIcon from 'vue-material-design-icons/TrayArrowDown.vue'
 import { useNavigation } from '../composables/useNavigation'
 import vFilesDrop from '../directives/vFilesDrop.ts'
 import logger from '../logger.ts'
+import { getCurrentUser } from '@nextcloud/auth'
+import { emit } from '@nextcloud/event-bus'
 
 export default defineComponent({
 	name: 'DragAndDropNotice',
@@ -174,12 +177,30 @@ export default defineComponent({
 				return
 			}
 
+			// uploads in the current folder with file id returned
+			const localFileUploads = uploads.filter((upload) => (
+				upload.source.replace(this.currentFolder.source, '').split('/').length === 2
+				&& upload.response?.headers?.['oc-fileid'] !== undefined
+			))
+
+			for (const upload of localFileUploads) {
+				const Cls = upload.file.type === 'httpd/unix-directory'
+					? Folder
+					: File
+				emit('files:node:created', new Cls({
+					owner: getCurrentUser()?.uid ?? 'anonymous',
+					source: upload.source,
+					root: this.currentFolder.root!,
+					id: Number.parseInt(upload.response?.headers?.['oc-fileid']),
+					permissions: this.currentFolder.permissions,
+					crtime: new Date(),
+					mtime: new Date(),
+				}))
+			}
+
 			// Scroll to last successful upload in current directory if terminated
-			const lastUpload = uploads.findLast((upload) => upload.status !== UploadStatus.FAILED
-				&& !upload.file.webkitRelativePath.includes('/')
-				&& upload.response?.headers?.['oc-fileid']
-				// Only use the last ID if it's in the current folder
-				&& upload.source.replace(this.currentFolder.source, '').split('/').length === 2)
+			const lastUpload = localFileUploads.findLast((upload) => upload.status !== UploadStatus.FAILED
+				&& !upload.file.webkitRelativePath.includes('/'))
 
 			if (lastUpload !== undefined) {
 				logger.debug('Scrolling to last upload in current folder', { lastUpload })

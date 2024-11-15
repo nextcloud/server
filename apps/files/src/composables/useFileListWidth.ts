@@ -5,46 +5,34 @@
 import type { Ref } from 'vue'
 import { onMounted, readonly, ref } from 'vue'
 
-/** The element we observe */
+// Currently observed element
 let element: HTMLElement | undefined
-
-/** The current width of the element */
+// Reactive width
 const width = ref(0)
-
-const observer = new ResizeObserver((elements) => {
-	if (elements[0].contentBoxSize) {
-		// use the newer `contentBoxSize` property if available
-		width.value = elements[0].contentBoxSize[0].inlineSize
-	} else {
-		// fall back to `contentRect`
-		width.value = elements[0].contentRect.width
-	}
+// The resize observer for the file list
+const observer = new ResizeObserver(([el]) => {
+	width.value = el.contentRect.width
 })
-
-/**
- * Update the observed element if needed and reconfigure the observer
- */
-function updateObserver() {
-	const el = document.querySelector<HTMLElement>('#app-content-vue') ?? document.body
-	if (el !== element) {
-		// if already observing: stop observing the old element
-		if (element) {
-			observer.unobserve(element)
-		}
-		// observe the new element if needed
-		observer.observe(el)
-		element = el
-	}
-}
 
 /**
  * Get the reactive width of the file list
  */
 export function useFileListWidth(): Readonly<Ref<number>> {
-	// Update the observer when the component is mounted (e.g. because this is the files app)
-	onMounted(updateObserver)
-	// Update the observer also in setup context, so we already have an initial value
-	updateObserver()
+	onMounted(() => {
+		// Check if the element for the file list has changed
+		// this can only happen if this composable is used within the files root app
+		// or the root app was recreated for some reason
+		const el = document.querySelector<HTMLElement>('#app-content-vue') ?? document.body
+		// If the element changed (or initial call) we need to observe it
+		if (el !== element) {
+			observer.observe(el)
+			// If there was a previous element we need to unobserve it
+			if (element) {
+				observer.unobserve(element)
+			}
+			element = el
+		}
+	})
 
 	return readonly(width)
 }
