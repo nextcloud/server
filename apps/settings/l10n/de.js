@@ -121,6 +121,7 @@ OC.L10N.register(
     "Personal info" : "Persönliche Informationen",
     "Mobile & desktop" : "Mobil & Desktop",
     "Email server" : "E-Mail-Server",
+    "Mail Providers" : "E-Mail-Anbieter",
     "Security & setup checks" : "Sicherheits- & Einrichtungsüberprüfungen",
     "Background jobs" : "Hintergrund-Jobs",
     "Unlimited" : "Unbegrenzt",
