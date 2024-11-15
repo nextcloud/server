@@ -8,11 +8,77 @@ import type { RenamingStore } from '../types'
 import axios, { isAxiosError } from '@nextcloud/axios'
 import { emit, subscribe } from '@nextcloud/event-bus'
 import { NodeStatus } from '@nextcloud/files'
+import { DialogBuilder } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
-import { basename, dirname } from 'path'
+import { basename, dirname, extname } from 'path'
 import { defineStore } from 'pinia'
 import logger from '../logger'
 import Vue from 'vue'
+import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
+import IconCheck from '@mdi/svg/svg/check.svg?raw'
+
+let isDialogVisible = false
+
+const showWarningDialog = (oldExtension: string, newExtension: string): Promise<boolean> => {
+	if (isDialogVisible) {
+		return Promise.resolve(false)
+	}
+
+	isDialogVisible = true
+
+	let message
+
+	if (!oldExtension && newExtension) {
+		message = t(
+			'files',
+			'Adding the file extension "{new}" may render the file unreadable.',
+			{ new: newExtension },
+		)
+	} else if (!newExtension) {
+		message = t(
+			'files',
+			'Removing the file extension "{old}" may render the file unreadable.',
+			{ old: oldExtension },
+		)
+	} else {
+		message = t(
+			'files',
+			'Changing the file extension from "{old}" to "{new}" may render the file unreadable.',
+			{ old: oldExtension, new: newExtension },
+		)
+	}
+
+	return new Promise((resolve) => {
+		const dialog = new DialogBuilder()
+			.setName(t('files', 'Change file extension'))
+			.setText(message)
+			.setButtons([
+				{
+					label: t('files', 'Keep {oldextension}', { oldextension: oldExtension }),
+					icon: IconCancel,
+					type: 'secondary',
+					callback: () => {
+						isDialogVisible = false
+						resolve(false)
+					},
+				},
+				{
+					label: newExtension.length ? t('files', 'Use {newextension}', { newextension: newExtension }) : t('files', 'Remove extension'),
+					icon: IconCheck,
+					type: 'primary',
+					callback: () => {
+						isDialogVisible = false
+						resolve(true)
+					},
+				},
+			])
+			.build()
+
+		dialog.show().then(() => {
+			dialog.hide()
+		})
+	})
+}
 
 export const useRenamingStore = function(...args) {
 	const store = defineStore('renaming', {
@@ -36,6 +102,17 @@ export const useRenamingStore = function(...args) {
 				const newName = this.newName.trim?.() || ''
 				const oldName = this.renamingNode.basename
 				const oldEncodedSource = this.renamingNode.encodedSource
+
+				// Check for extension change
+				const oldExtension = extname(oldName)
+				const newExtension = extname(newName)
+				if (oldExtension !== newExtension) {
+					const proceed = await showWarningDialog(oldExtension, newExtension)
+					if (!proceed) {
+						return false
+					}
+				}
+
 				if (oldName === newName) {
 					return false
 				}
