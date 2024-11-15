@@ -423,4 +423,15 @@ interface IRegistrationContext {
 	 */
 	public function registerMailProvider(string $class): void;
 
+
+	/**
+	 * Register an implementation of \OCP\ConfigLexicon\IConfigLexicon that
+	 * will handle the implementation of config lexicon
+	 *
+	 * @param string $configLexiconClass
+	 *
+	 * @psalm-param class-string<\NCU\Config\Lexicon\IConfigLexicon> $configLexiconClass
+	 * @since 31.0.0
+	 */
+	public function registerConfigLexicon(string $configLexiconClass): void;
 }
