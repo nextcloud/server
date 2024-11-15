@@ -15,6 +15,7 @@ use OC\Server;
 use OCA\Settings\Hooks;
 use OCA\Settings\Listener\AppPasswordCreatedActivityListener;
 use OCA\Settings\Listener\GroupRemovedListener;
+use OCA\Settings\Listener\MailProviderListener;
 use OCA\Settings\Listener\UserAddedToGroupActivityListener;
 use OCA\Settings\Listener\UserRemovedFromGroupActivityListener;
 use OCA\Settings\Mailer\NewUserMailHelper;
@@ -22,6 +23,7 @@ use OCA\Settings\Middleware\SubadminMiddleware;
 use OCA\Settings\Search\AppSearch;
 use OCA\Settings\Search\SectionSearch;
 use OCA\Settings\Search\UserSearch;
+use OCA\Settings\Settings\Admin\MailProvider;
 use OCA\Settings\SetupChecks\AllowedAdminRanges;
 use OCA\Settings\SetupChecks\AppDirsWithDifferentOwner;
 use OCA\Settings\SetupChecks\BruteForceThrottler;
@@ -83,6 +85,8 @@ use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IServerContainer;
+use OCP\Settings\Events\DeclarativeSettingsGetValueEvent;
+use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
 use OCP\Settings\IManager;
 use OCP\Util;
 
@@ -110,9 +114,16 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(UserRemovedEvent::class, UserRemovedFromGroupActivityListener::class);
 		$context->registerEventListener(GroupDeletedEvent::class, GroupRemovedListener::class);
 
+		// Register Mail Provider listeners
+		$context->registerEventListener(DeclarativeSettingsGetValueEvent::class, MailProviderListener::class);
+		$context->registerEventListener(DeclarativeSettingsSetValueEvent::class, MailProviderListener::class);
+
 		// Register well-known handlers
 		$context->registerWellKnownHandler(SecurityTxtHandler::class);
 		$context->registerWellKnownHandler(ChangePasswordHandler::class);
+
+		// Register Settings Form(s)
+		$context->registerDeclarativeSettings(MailProvider::class);
 
 		/**
 		 * Core class wrappers
