@@ -53,7 +53,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.17.1
+	- version: 8.20.0
 	- license: AGPL-3.0-or-later
 - @vueuse/core
 	- version: 11.1.0
@@ -71,7 +71,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.1.2
 	- license: MIT
 - debounce
-	- version: 2.1.0
+	- version: 2.2.0
 	- license: MIT
 - dompurify
 	- version: 3.1.7
