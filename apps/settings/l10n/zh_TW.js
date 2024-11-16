@@ -124,6 +124,7 @@ OC.L10N.register(
     "Mail Providers" : "郵件提供者",
     "Mail provider enables sending emails directly through the user's personal email account. At present, this functionality is limited to calendar invitations. It requires Nextcloud Mail 4.1 and an email account in Nextcloud Mail that matches the user's email address in Nextcloud." : "郵件提供者可直接透過使用者的個人電子郵件帳號傳送電子郵件。目前，此功能僅限於行事曆邀請。它需要 Nextcloud Mail 4.1，以及 Nextcloud Mail 中與使用者在 Nextcloud 中的電子郵件位址相符的電子郵件帳號。",
     "Send emails using" : "傳送電子郵件，使用",
+    "User's email account" : "使用者的電子郵件帳號",
     "System email account" : "系統電子郵件帳號",
     "Security & setup checks" : "安全與設定檢查",
     "Background jobs" : "背景作業",
@@ -915,6 +916,7 @@ OC.L10N.register(
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "要執行此檢查，您必須確保您的網路伺服器可以連線到其自身。因此，其必須至少能解析並連線至 `trusted_domains` 或 `overwrite.cli.url` 其中一個。",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "無法透過您的任何「trusted_domains」或「overwrite.cli.url」檢查 JavaScript 支援。這可能是伺服器端 DNS 不符或連出防火牆規則造成的。請手動檢查您的網頁伺服器是否使用 JavaScript MIME 類型提供「.mjs」檔案。",
     "Active accounts" : "活躍帳號",
+    "Users's email account" : "使用者的電子郵件帳號",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "若要允許執行此檢查，您必須確保您的網路伺服器可以連線到其自身。因此，其必須可以解析並連線到 `trusted_domains` 或 `overwrite.cli.url` 至少其中一個。此失敗可能是因為伺服器端 DNS 不符或連出防火牆規則造成的。",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "偵測到 PostgreSQL 版本「%s」。建議使用 PostgreSQL >=12 且 <=16 以取得此版本 Nextcloud 的最佳效能、穩定性與功能。"
 },

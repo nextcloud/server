@@ -86,6 +86,7 @@
     "Another entry with the same name already exists." : "Ein anderer Eintrag mit diesem Namen existiert bereits.",
     "Invalid filename." : "Ungültiger Dateiname.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" in \"{newName}\" umbenannt",
+    "Unknown date" : "Unbekanntes Datum",
     "Pending" : "Ausstehend",
     "Clear filter" : "Filter zurücksetzen",
     "Modified" : "Geändert",

@@ -263,6 +263,7 @@ OC.L10N.register(
     "Rename" : "名前の変更",
     "Collaborative tags" : "コラボタグ",
     "No tags found" : "タグが見つかりません",
+    "Clipboard not available, please copy manually" : "クリップボードが使用できません。手動でコピーしてください",
     "Personal" : "個人",
     "Accounts" : "アカウント",
     "Admin" : "管理",
