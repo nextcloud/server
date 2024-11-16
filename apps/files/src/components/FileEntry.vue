@@ -74,7 +74,7 @@
 		<!-- View columns -->
 		<td v-for="column in columns"
 			:key="column.id"
-			:class="`files-list__row-${currentView?.id}-${column.id}`"
+			:class="`files-list__row-${currentView.id}-${column.id}`"
 			class="files-list__row-column-custom"
 			:data-cy-files-list-row-column-custom="column.id"
 			@click="openDetailsIfAvailable">
@@ -135,7 +135,8 @@ export default defineComponent({
 		const filesStore = useFilesStore()
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
-		const { currentView } = useNavigation()
+		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
+		const { currentView } = useNavigation(true)
 		const {
 			directory: currentDir,
 			fileId: currentFileId,
@@ -180,7 +181,7 @@ export default defineComponent({
 			if (this.filesListWidth < 512 || this.compact) {
 				return []
 			}
-			return this.currentView?.columns || []
+			return this.currentView.columns || []
 		},
 
 		size() {

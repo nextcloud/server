@@ -77,8 +77,8 @@
 </template>
 
 <script lang="ts">
-import type { PropType, ShallowRef } from 'vue'
-import type { FileAction, Node, View } from '@nextcloud/files'
+import type { PropType } from 'vue'
+import type { FileAction, Node } from '@nextcloud/files'
 
 import { DefaultType, NodeStatus } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
@@ -133,12 +133,12 @@ export default defineComponent({
 	},
 
 	setup() {
-		const { currentView } = useNavigation()
+		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
+		const { currentView } = useNavigation(true)
 		const enabledFileActions = inject<FileAction[]>('enabledFileActions', [])
 
 		return {
-			// The file list is guaranteed to be only shown with active view
-			currentView: currentView as ShallowRef<View>,
+			currentView,
 			enabledFileActions,
 		}
 	},
