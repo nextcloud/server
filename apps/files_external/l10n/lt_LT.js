@@ -6,7 +6,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Prašome naudoti teisingus trečiųjų šalių programinės įrangos identifikacijos numerį ir slaptažodį.",
     "Error configuring OAuth2" : "Klaida, konfigūruojant OAuth2",
     "Generate keys" : "Generuoti raktus",
-    "Error generating key pair" : "Klaida kuriant raktus",
+    "Error generating key pair" : "Klaida generuojant raktų porą",
     "(Group)" : "(Grupė)",
     "Compatibility with Mac NFD encoding (slow)" : "Suderinamumas su Mac NFD koduote (lėtai)",
     "Enable encryption" : "Įjungti šifravimą",

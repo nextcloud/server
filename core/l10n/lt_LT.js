@@ -40,6 +40,7 @@ OC.L10N.register(
     "Task not found" : "Užduotis nerasta",
     "Internal error" : "Vidinė klaida",
     "Not found" : "Nerasta",
+    "Bad request" : "Bloga užklausa",
     "Image not found" : "Paveikslėlis nerastas",
     "Could not detect language" : "Nepavyko aptikti kalbos",
     "Unable to translate" : "Nepavyko išversti",
