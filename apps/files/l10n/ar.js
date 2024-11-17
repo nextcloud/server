@@ -88,6 +88,7 @@ OC.L10N.register(
     "Another entry with the same name already exists." : "توجد سلفاً إدخالية أخرى بنفس هذا الاسم.",
     "Invalid filename." : "اسم ملف غير صحيح.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "تمت إعادة تسمية \"{oldName}\" إلى \"{newName}\"",
+    "Unknown date" : "تاريخ غير معروف",
     "Pending" : "قيد الانتظار",
     "Clear filter" : "إزالة التصفية",
     "Modified" : "التعديل",
