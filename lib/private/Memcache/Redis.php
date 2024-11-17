@@ -94,7 +94,12 @@ class Redis extends Cache implements IMemcacheTTL {
 		// Use SCAN to iterate over keys
 		$cursor = 0;
 		do {
-			[$cursor, $keys] = $cache->scan($cursor, $prefix);
+			$arr_keys = $cache->scan($cursor, $prefix);
+			if ($arr_keys === false) {
+				return false;
+			}
+
+			[$cursor, $keys] = $arr_keys;
 			if (!empty($keys)) {
 				$deletedCount += $cache->unlink($keys);
 			}
