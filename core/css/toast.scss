@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 @use 'variables';
-@import 'functions';
+@use 'functions';
 
 .toastify.toast {
 	min-width: 200px;
@@ -25,7 +25,7 @@
 		width: 38px;
 		opacity: 0.4;
 		padding: 12px;
-		@include icon-color('close', 'actions', variables.$color-black, 2, true);
+		@include functions.icon-color('close', 'actions', variables.$color-black, 2, true);
 		background-position: center;
 		background-repeat: no-repeat;
 		text-indent: 200%;
