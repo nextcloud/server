@@ -36,7 +36,7 @@ OC.L10N.register(
     "This week" : "Diese Woche",
     "Online" : "Online",
     "Away" : "Abwesend",
-    "Do not disturb" : "Bitte nicht stören",
+    "Do not disturb" : "Nicht stören",
     "Invisible" : "Unsichtbar",
     "Offline" : "Offline",
     "There was an error saving the new status" : "Es gab einen Fehler beim Speichern des neuen Status",

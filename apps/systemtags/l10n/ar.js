@@ -68,6 +68,7 @@ OC.L10N.register(
     "Manage tags" : "إدارة الوسوم",
     "Applying tags changes…" : "يتم تطبيق التغييرات في الوسوم ...",
     "Search or create tag" : "إنشاء أو بحث عن وسم",
+    "Create new tag" : "إنشاء وسم جديد",
     "Select or create tags to apply to all selected files" : "إختيار أو إنشاء وسوم لتطبيقها على جميع الملفات المحددة",
     "Cancel" : "إلغاء",
     "Apply changes" : "تطبيق التغييرات",
