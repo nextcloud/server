@@ -9,7 +9,9 @@ declare(strict_types=1);
 namespace OCA\Testing\TaskProcessing;
 
 use OCA\Testing\AppInfo\Application;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\Files\File;
+use OCP\TaskProcessing\Exception\ProcessingException;
 use OCP\TaskProcessing\ISynchronousProvider;
 use OCP\TaskProcessing\TaskTypes\AudioToText;
 use RuntimeException;
@@ -17,6 +19,7 @@ use RuntimeException;
 class FakeTranscribeProvider implements ISynchronousProvider {
 
 	public function __construct(
+		protected IAppConfig $appConfig,
 	) {
 	}
 
@@ -72,6 +75,10 @@ class FakeTranscribeProvider implements ISynchronousProvider {
 		if (!isset($input['input']) || !$input['input'] instanceof File || !$input['input']->isReadable()) {
 			throw new RuntimeException('Invalid input file');
 		}
+		if ($this->appConfig->getAppValueBool('fail-' . $this->getId())) {
+			throw new ProcessingException('Failing as set by AppConfig');
+		}
+
 		$inputFile = $input['input'];
 		$transcription = 'Fake transcription result';
 
