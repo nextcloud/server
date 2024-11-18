@@ -18,7 +18,7 @@
 				<img :src="customIcon(app.id)" alt="">
 				<div class="info">
 					<h3>{{ customName(app) }}</h3>
-					<p v-html="customDescription(app.id)" />
+					<p v-text="customDescription(app.id)" />
 					<p v-if="app.installationError">
 						<strong>{{ t('core', 'App download or installation failed') }}</strong>
 					</p>
