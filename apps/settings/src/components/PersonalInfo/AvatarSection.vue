@@ -259,7 +259,7 @@ section {
 }
 .avatar {
 	&__container {
-		margin: 0 auto;
+		margin: calc(var(--default-grid-baseline) * 2) auto 0 auto;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
