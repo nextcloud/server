@@ -102,9 +102,22 @@ class ExpressionBuilderDBTest extends TestCase {
 		$this->assertEquals($match, $column);
 	}
 
-	public function testCastColumn(): void {
+
+	public static function dataCastColumn(): array {
+		return [
+			['4', 5],
+			['9.8', 10],
+			['3,3', 4],
+			['1integer with other stuff', 2],
+		];
+	}
+
+	/**
+	 * @dataProvider dataCastColumn
+	 */
+	public function testCastColumn(string $value, int $expectedIncrementedResult): void {
 		$appId = $this->getUniqueID('testing');
-		$this->createConfig($appId, '1', '4');
+		$this->createConfig($appId, '1', $value);
 
 		$query = $this->connection->getQueryBuilder();
 		$query->update('appconfig')
@@ -121,6 +134,15 @@ class ExpressionBuilderDBTest extends TestCase {
 
 		$result = $query->executeStatement();
 		$this->assertEquals(1, $result);
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select('configvalue')
+			->from('appconfig')
+			->where($query->expr()->eq('appid', $query->createNamedParameter($appId)))
+			->andWhere($query->expr()->eq('configkey', $query->createNamedParameter('1')));
+
+		$result = $query->executeQuery();
+		$this->assertEquals($expectedIncrementedResult, $result->fetchOne());
 	}
 
 	public function testLongText(): void {
