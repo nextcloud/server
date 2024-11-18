@@ -27,6 +27,7 @@
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError, showSuccess } from '@nextcloud/dialogs'
+import { ShareType } from '@nextcloud/sharing'
 import { emit } from '@nextcloud/event-bus'
 import { fetchNode } from '../services/WebdavClient.ts'
 
@@ -35,7 +36,6 @@ import debounce from 'debounce'
 
 import Share from '../models/Share.js'
 import SharesRequests from './ShareRequests.js'
-import ShareTypes from './ShareTypes.js'
 import Config from '../services/ConfigService.js'
 import logger from '../services/logger.ts'
 
@@ -44,7 +44,7 @@ import {
 } from '../lib/SharePermissionsToolBox.js'
 
 export default {
-	mixins: [SharesRequests, ShareTypes],
+	mixins: [SharesRequests],
 
 	props: {
 		fileInfo: {
@@ -66,6 +66,7 @@ export default {
 		return {
 			config: new Config(),
 			node: null,
+			ShareType,
 
 			// errors helpers
 			errors: {},
@@ -136,10 +137,10 @@ export default {
 		},
 		isPublicShare() {
 			const shareType = this.share.shareType ?? this.share.type
-			return [this.SHARE_TYPES.SHARE_TYPE_LINK, this.SHARE_TYPES.SHARE_TYPE_EMAIL].includes(shareType)
+			return [ShareType.Link, ShareType.Email].includes(shareType)
 		},
 		isRemoteShare() {
-			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP || this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE
+			return this.share.type === ShareType.RemoteGroup || this.share.type === ShareType.Remote
 		},
 		isShareOwner() {
 			return this.share && this.share.owner === getCurrentUser().uid

@@ -22,7 +22,7 @@
 
 import { getCurrentUser } from '@nextcloud/auth'
 import type { Node } from '@nextcloud/files'
-import { Type } from '@nextcloud/sharing'
+import { ShareType } from '@nextcloud/sharing'
 
 type Share = {
 	/** The recipient display name */
@@ -30,7 +30,7 @@ type Share = {
 	/** The recipient user id */
 	id: string
 	/** The share type */
-	type: Type
+	type: ShareType
 }
 
 const getSharesAttribute = function(node: Node) {
@@ -48,10 +48,10 @@ export const isNodeSharedWithMe = function(node: Node) {
 
 	return shares.length > 0 && (
 		// If some shares are shared with you as a direct user share
-		shares.some(share => share.id === uid && share.type === Type.SHARE_TYPE_USER)
+		shares.some(share => share.id === uid && share.type === ShareType.User)
 		// Or of the file is shared with a group you're in
 		// (if it's returned by the backend, we assume you're in it)
-		|| shares.some(share => share.type === Type.SHARE_TYPE_GROUP)
+		|| shares.some(share => share.type === ShareType.Group)
 	)
 }
 
@@ -66,7 +66,7 @@ export const isNodeSharedWithOthers = function(node: Node) {
 
 	return shares.length > 0
 		// If some shares are shared with you as a direct user share
-		&& shares.some(share => share.id !== uid && share.type !== Type.SHARE_TYPE_GROUP)
+		&& shares.some(share => share.id !== uid && share.type !== ShareType.Group)
 }
 
 export const isNodeShared = function(node: Node) {
