@@ -80,7 +80,7 @@ const recommended = {
 		icon: imagePath('core', 'actions/mail.svg'),
 	},
 	spreed: {
-		description: t('core', 'Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps.'),
+		description: t('core', 'Chatting, video calls, screen sharing, online meetings and web conferencing – in your browser and with mobile apps.'),
 		icon: imagePath('core', 'apps/spreed.svg'),
 	},
 	richdocuments: {
