@@ -88,6 +88,7 @@ OC.L10N.register(
     "Another entry with the same name already exists." : "Tá iontráil eile leis an ainm céanna ann cheana féin.",
     "Invalid filename." : "Ainm comhaid neamhbhailí.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Athainmnithe \"{oldName}\" go \"{newName}\"",
+    "Unknown date" : "Dáta anaithnid",
     "Pending" : "Ar feitheamh",
     "Clear filter" : "Glan an scagaire",
     "Modified" : "Athraithe",

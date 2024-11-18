@@ -124,6 +124,7 @@ OC.L10N.register(
     "Mail Providers" : "Soláthraithe Ríomhphoist",
     "Mail provider enables sending emails directly through the user's personal email account. At present, this functionality is limited to calendar invitations. It requires Nextcloud Mail 4.1 and an email account in Nextcloud Mail that matches the user's email address in Nextcloud." : "Cuireann an soláthraí ríomhphoist ar chumas ríomhphoist a sheoladh go díreach trí chuntas ríomhphoist pearsanta an úsáideora. Faoi láthair, tá an fheidhmiúlacht seo teoranta do chuirí féilire. Éilíonn sé Nextcloud Mail 4.1 agus cuntas ríomhphoist i Nextcloud Mail a mheaitseálann seoladh ríomhphoist an úsáideora i Nextcloud.",
     "Send emails using" : "Seol ríomhphoist ag baint úsáide as",
+    "User's email account" : "Cuntas ríomhphoist úsáideora",
     "System email account" : "Cuntas ríomhphoist córais",
     "Security & setup checks" : "Seiceálacha slándála & socraithe",
     "Background jobs" : "Cúlra poist",
