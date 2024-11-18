@@ -26,5 +26,5 @@ interface IProvider {
 	 *   when they did not handle the event. Throwing \InvalidArgumentException directly is deprecated and will
 	 *   be logged as an error in Nextcloud 39.
 	 */
-	public function parse($language, IEvent $event, ?IEvent $previousEvent = null);
+	public function parse(string $language, IEvent $event, ?IEvent $previousEvent = null);
 }

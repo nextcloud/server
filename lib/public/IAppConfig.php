@@ -492,7 +492,7 @@ interface IAppConfig {
 	 * @since 7.0.0
 	 * @deprecated 29.0.0 Use {@see getAllValues()} or {@see searchValues()}
 	 */
-	public function getValues($app, $key);
+	public function getValues(string|false $app, string|false $key);
 
 	/**
 	 * get all values of the app or and filters out sensitive data
@@ -503,5 +503,5 @@ interface IAppConfig {
 	 * @since 12.0.0
 	 * @deprecated 29.0.0 Use {@see getAllValues()} or {@see searchValues()}
 	 */
-	public function getFilteredValues($app);
+	public function getFilteredValues(string $app);
 }
