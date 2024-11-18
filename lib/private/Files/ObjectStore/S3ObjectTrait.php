@@ -140,20 +140,33 @@ trait S3ObjectTrait {
 	 * @since 7.0.0
 	 */
 	public function writeObject($urn, $stream, ?string $mimetype = null) {
+		$canSeek = fseek($stream, 0, SEEK_CUR) === 0;
 		$psrStream = Utils::streamFor($stream);
 
-		// ($psrStream->isSeekable() && $psrStream->getSize() !== null) evaluates to true for a On-Seekable stream
-		// so the optimisation does not apply
-		$buffer = new Psr7\Stream(fopen('php://temp', 'rwb+'));
-		Utils::copyToStream($psrStream, $buffer, $this->putSizeLimit);
-		$buffer->seek(0);
-		if ($buffer->getSize() < $this->putSizeLimit) {
-			// buffer is fully seekable, so use it directly for the small upload
-			$this->writeSingle($urn, $buffer, $mimetype);
+
+		$size = $psrStream->getSize();
+		if ($size === null || !$canSeek) {
+			// The s3 single-part upload requires the size to be known for the stream.
+			// So for input streams that don't have a known size, we need to copy (part of)
+			// the input into a temporary stream so the size can be determined
+			$buffer = new Psr7\Stream(fopen('php://temp', 'rw+'));
+			Utils::copyToStream($psrStream, $buffer, $this->putSizeLimit);
+			$buffer->seek(0);
+			if ($buffer->getSize() < $this->putSizeLimit) {
+				// buffer is fully seekable, so use it directly for the small upload
+				$this->writeSingle($urn, $buffer, $mimetype);
+			} else {
+				$loadStream = new Psr7\AppendStream([$buffer, $psrStream]);
+				$this->writeMultiPart($urn, $loadStream, $mimetype);
+			}
 		} else {
-			$loadStream = new Psr7\AppendStream([$buffer, $psrStream]);
-			$this->writeMultiPart($urn, $loadStream, $mimetype);
+			if ($size < $this->putSizeLimit) {
+				$this->writeSingle($urn, $psrStream, $mimetype);
+			} else {
+				$this->writeMultiPart($urn, $psrStream, $mimetype);
+			}
 		}
+		$psrStream->close();
 	}
 
 	/**
