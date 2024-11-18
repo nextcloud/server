@@ -91,7 +91,6 @@ class TagServiceTest extends \Test\TestCase {
 				$this->activityManager,
 				$this->tagger,
 				$this->root,
-				$this->dispatcher,
 			])
 			->setMethods($methods)
 			->getMock();

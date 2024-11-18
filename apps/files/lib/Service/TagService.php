@@ -8,9 +8,6 @@
 namespace OCA\Files\Service;
 
 use OCP\Activity\IManager;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Events\NodeAddedToFavorite;
-use OCP\Files\Events\NodeRemovedFromFavorite;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\ITags;
@@ -26,7 +23,6 @@ class TagService {
 		private IManager $activityManager,
 		private ?ITags $tagger,
 		private ?Folder $homeFolder,
-		private IEventDispatcher $dispatcher,
 	) {
 	}
 
@@ -58,16 +54,10 @@ class TagService {
 
 		$newTags = array_diff($tags, $currentTags);
 		foreach ($newTags as $tag) {
-			if ($tag === ITags::TAG_FAVORITE) {
-				$this->dispatcher->dispatchTyped(new NodeAddedToFavorite($this->userSession->getUser(), $fileId, $path));
-			}
 			$this->tagger->tagAs($fileId, $tag);
 		}
 		$deletedTags = array_diff($currentTags, $tags);
 		foreach ($deletedTags as $tag) {
-			if ($tag === ITags::TAG_FAVORITE) {
-				$this->dispatcher->dispatchTyped(new NodeRemovedFromFavorite($this->userSession->getUser(), $fileId, $path));
-			}
 			$this->tagger->unTag($fileId, $tag);
 		}
 
