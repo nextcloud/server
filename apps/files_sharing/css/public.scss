@@ -63,10 +63,6 @@ $download-button-section-height: 200px;
     margin-top: 400px;
 }
 
-#imgframe .plyr {
-    top: 0px !important;
-}
-
 #imgframe .text-preview {
 	display: inline-block;
 	position: relative;
@@ -88,9 +84,9 @@ $download-button-section-height: 200px;
 }
 
 #imgframe .plyr {
+	top: 0px !important;
 	max-height: 100%;
 }
-
 
 .app-files_sharing #app-content footer {
 	position: sticky !important;
@@ -131,12 +127,14 @@ thead {
 #details {
 	display: inline-flex;
 }
+
 #details button,
 #details input,
 #details .button {
 	margin: 0 5px;
 	line-height: normal;
 }
+
 #details button:hover,
 #details input:hover,
 #details .button:hover {

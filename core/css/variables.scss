@@ -6,7 +6,7 @@
  */
 // SCSS darken/lighten function override
 @function nc-darken($color, $value) {
-	@return color.adjust($color, $lightness: -$value, $space: hsl);
+	@return color.adjust($color, $lightness: - $value, $space: hsl);
 }
 
 @function nc-lighten($color, $value) {

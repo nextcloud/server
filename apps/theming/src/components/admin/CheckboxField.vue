@@ -75,7 +75,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './shared/field.scss';
+@use './shared/field' as *;
 
 .field {
 	&__description {

@@ -261,7 +261,7 @@ export default {
 		&__picker {
 			flex: 1 auto;
 
-			::v-deep .native-datetime-picker--input {
+			:deep(.native-datetime-picker--input) {
 				margin-bottom: 0;
 			}
 		}

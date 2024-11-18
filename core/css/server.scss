@@ -2,15 +2,15 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-@use 'styles.scss';
-@use 'inputs.scss';
-@use 'header.scss';
-@use 'icons.scss';
-@use 'apps.scss';
-@use 'global.scss';
-@use 'fixes.scss';
-@use 'mobile.scss';
-@use 'tooltip.scss';
+@use 'styles';
+@use 'inputs';
+@use 'header';
+@use 'icons';
+@use 'apps';
+@use 'global';
+@use 'fixes';
+@use 'mobile';
+@use 'tooltip';
 // If you include .css, it will be imported as url
 @use '../../node_modules/@nextcloud/dialogs/dist/style';
-@use 'public.scss';
+@use 'public';

@@ -93,7 +93,6 @@ function clearAndCloseSearch() {
 <style scoped lang="scss">
 .local-unified-search {
 	--local-search-width: min(calc(250px + v-bind('searchGlobalButtonCSSWidth')), 95vw);
-
 	box-sizing: border-box;
 	position: relative;
 	height: var(--header-height);

@@ -398,7 +398,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './Users/shared/styles.scss';
+@use './Users/shared/styles' as *;
 
 .empty {
 	:deep {

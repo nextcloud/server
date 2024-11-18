@@ -140,9 +140,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+	@use "./../styles/operation";
+
 	#workflowengine {
 		border-bottom: 1px solid var(--color-border);
 	}
+
 	.section {
 		max-width: 100vw;
 
@@ -151,6 +154,7 @@ export default {
 			margin-bottom: 0;
 		}
 	}
+
 	.actions {
 		display: flex;
 		flex-wrap: wrap;
@@ -160,6 +164,7 @@ export default {
 			flex-basis: 250px;
 		}
 	}
+
 	.actions__more {
 		margin-bottom: 10px;
 	}
@@ -197,8 +202,6 @@ export default {
 		padding-top: 0;
 		padding-bottom: 0;
 	}
-
-	@import "./../styles/operation";
 
 	.actions__item.more {
 		background-color: var(--color-background-dark);

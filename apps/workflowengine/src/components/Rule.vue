@@ -233,6 +233,7 @@ export default {
 			margin-inline-end: 20px;
 		}
 	}
+
 	.trigger p, .action p {
 		min-height: 34px;
 		display: flex;
@@ -249,9 +250,11 @@ export default {
 			max-width: 300px;
 		}
 	}
+
 	.trigger p:first-child span {
 			padding-top: 3px;
 	}
+
 	.trigger p:last-child {
 			padding-top: 8px;
 	}
