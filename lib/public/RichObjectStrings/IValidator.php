@@ -39,6 +39,7 @@ namespace OCP\RichObjectStrings;
  *     permissions?: string,
  *     width?: string,
  *     height?: string,
+ *     blurhash?: string,
  * }
  *
  * @since 11.0.0
