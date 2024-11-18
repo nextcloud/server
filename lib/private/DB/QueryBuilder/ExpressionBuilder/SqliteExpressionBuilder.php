@@ -63,6 +63,9 @@ class SqliteExpressionBuilder extends ExpressionBuilder {
 			case IQueryBuilder::PARAM_TIME_IMMUTABLE:
 				$column = $this->helper->quoteColumnName($column);
 				return new QueryFunction('TIME(' . $column . ')');
+			case IQueryBuilder::PARAM_INT:
+				$column = $this->helper->quoteColumnName($column);
+				return new QueryFunction('CAST(' . $column . ' AS INTEGER)');
 		}
 
 		return parent::castColumn($column, $type);
