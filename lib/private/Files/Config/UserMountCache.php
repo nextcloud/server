@@ -168,7 +168,6 @@ class UserMountCache implements IUserMountCache {
 			->set('mount_provider_class', $builder->createNamedParameter($mount->getMountProvider()))
 			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($mount->getUser()->getUID())))
 			->andWhere($builder->expr()->eq('root_id', $builder->createNamedParameter($mount->getRootId(), IQueryBuilder::PARAM_INT)));
-
 		$query->executeStatement();
 	}
 
@@ -232,7 +231,7 @@ class UserMountCache implements IUserMountCache {
 				->where($builder->expr()->eq('user_id', $builder->createNamedParameter($userUID)));
 
 			$result = $query->executeQuery();
-			$rows = $result->fetchAll();
+			$rows = $result->fetchAllAssociative();
 			$result->closeCursor();
 
 			/** @var array<string, ICachedMountInfo> $mounts */
@@ -277,7 +276,7 @@ class UserMountCache implements IUserMountCache {
 		}
 
 		$result = $query->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		return array_filter(array_map([$this, 'dbRowToMountInfo'], $rows));
@@ -295,7 +294,7 @@ class UserMountCache implements IUserMountCache {
 			->where($builder->expr()->eq('root_id', $builder->createNamedParameter($rootFileId, IQueryBuilder::PARAM_INT)));
 
 		$result = $query->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		return array_filter(array_map([$this, 'dbRowToMountInfo'], $rows));
@@ -314,7 +313,7 @@ class UserMountCache implements IUserMountCache {
 				->where($builder->expr()->eq('fileid', $builder->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
 
 			$result = $query->executeQuery();
-			$row = $result->fetch();
+			$row = $result->fetchOne();
 			$result->closeCursor();
 
 			if (is_array($row)) {
@@ -433,7 +432,7 @@ class UserMountCache implements IUserMountCache {
 		$result = $query->executeQuery();
 
 		$results = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchOne()) {
 			$results[$row['user_id']] = $row['size'];
 		}
 		$result->closeCursor();
