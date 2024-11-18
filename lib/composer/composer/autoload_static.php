@@ -1943,8 +1943,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Security\\Ip\\Range' => __DIR__ . '/../../..' . '/lib/private/Security/Ip/Range.php',
         'OC\\Security\\Ip\\RemoteAddress' => __DIR__ . '/../../..' . '/lib/private/Security/Ip/RemoteAddress.php',
         'OC\\Security\\Normalizer\\IpAddress' => __DIR__ . '/../../..' . '/lib/private/Security/Normalizer/IpAddress.php',
-        'OC\\Security\\PublicPrivateKeyPairs\\KeyPairManager' => __DIR__ . '/../../..' . '/lib/private/Security/PublicPrivateKeyPairs/KeyPairManager.php',
-        'OC\\Security\\PublicPrivateKeyPairs\\Model\\KeyPair' => __DIR__ . '/../../..' . '/lib/private/Security/PublicPrivateKeyPairs/Model/KeyPair.php',
         'OC\\Security\\RateLimiting\\Backend\\DatabaseBackend' => __DIR__ . '/../../..' . '/lib/private/Security/RateLimiting/Backend/DatabaseBackend.php',
         'OC\\Security\\RateLimiting\\Backend\\IBackend' => __DIR__ . '/../../..' . '/lib/private/Security/RateLimiting/Backend/IBackend.php',
         'OC\\Security\\RateLimiting\\Backend\\MemoryCacheBackend' => __DIR__ . '/../../..' . '/lib/private/Security/RateLimiting/Backend/MemoryCacheBackend.php',

@@ -46,6 +46,14 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 	 */
 	public function discover(string $remote, bool $skipCache = false): IOCMProvider {
 		$remote = rtrim($remote, '/');
+		if (!str_starts_with($remote, 'http://') && !str_starts_with($remote, 'https://')) {
+			// if scheme not specified, we test both;
+			try {
+				return $this->discover('https://' . $remote, $skipCache);
+			} catch (OCMProviderException) {
+				return $this->discover('http://' . $remote, $skipCache);
+			}
+		}
 
 		if (!$skipCache) {
 			try {
@@ -70,10 +78,7 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 			if ($this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates') === true) {
 				$options['verify'] = false;
 			}
-			$response = $client->get(
-				$remote . '/ocm-provider/',
-				$options,
-			);
+			$response = $client->get($remote . '/ocm-provider/', $options);
 
 			if ($response->getStatusCode() === Http::STATUS_OK) {
 				$body = $response->getBody();

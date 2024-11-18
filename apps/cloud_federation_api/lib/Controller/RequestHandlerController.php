@@ -5,6 +5,7 @@
  */
 namespace OCA\CloudFederationAPI\Controller;
 
+use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
 use NCU\Security\Signature\Exceptions\IncomingRequestException;
 use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
 use NCU\Security\Signature\Exceptions\SignatureException;
@@ -14,6 +15,7 @@ use NCU\Security\Signature\Model\IIncomingSignedRequest;
 use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\ResponseDefinitions;
+use OCA\FederatedFileSharing\AddressHandler;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
@@ -60,6 +62,7 @@ class RequestHandlerController extends Controller {
 		private IURLGenerator $urlGenerator,
 		private ICloudFederationProviderManager $cloudFederationProviderManager,
 		private Config $config,
+		private readonly AddressHandler $addressHandler,
 		private readonly IAppConfig $appConfig,
 		private ICloudFederationFactory $factory,
 		private ICloudIdManager $cloudIdManager,
@@ -289,6 +292,7 @@ class RequestHandlerController extends Controller {
 			$response->throttle();
 			return $response;
 		} catch (\Exception $e) {
+			$this->logger->warning('incoming notification exception', ['exception' => $e]);
 			return new JSONResponse(
 				[
 					'message' => 'Internal error at ' . $this->urlGenerator->getBaseUrl(),
@@ -376,7 +380,7 @@ class RequestHandlerController extends Controller {
 		$body = json_decode($signedRequest->getBody(), true) ?? [];
 		$entry = trim($body[$key] ?? '', '@');
 		if ($this->getHostFromFederationId($entry) !== $signedRequest->getOrigin()) {
-			throw new IncomingRequestException('share initiation from different instance');
+			throw new IncomingRequestException('share initiation (' . $signedRequest->getOrigin() . ') from different instance (' . $entry . ') [key=' . $key . ']');
 		}
 	}
 
@@ -391,7 +395,6 @@ class RequestHandlerController extends Controller {
 	 * @param IIncomingSignedRequest|null $signedRequest
 	 * @param string $token
 	 *
-	 * @return void
 	 * @throws IncomingRequestException
 	 */
 	private function confirmShareOrigin(?IIncomingSignedRequest $signedRequest, string $token): void {
@@ -401,8 +404,23 @@ class RequestHandlerController extends Controller {
 
 		$provider = $this->shareProviderFactory->getProviderForType(IShare::TYPE_REMOTE);
 		$share = $provider->getShareByToken($token);
-		$entry = $share->getSharedWith();
+		try {
+			$this->confirmShareEntry($signedRequest, $share->getSharedWith());
+		} catch (IncomingRequestException) {
+			// notification might come from the instance that owns the share
+			$this->logger->debug('could not confirm origin on sharedWith (' . $share->getSharedWIth() . '); going with shareOwner (' . $share->getShareOwner() . ')');
+			$this->confirmShareEntry($signedRequest, $share->getShareOwner());
+		}
+	}
 
+	/**
+	 * @param IIncomingSignedRequest|null $signedRequest
+	 * @param string $entry
+	 *
+	 * @return void
+	 * @throws IncomingRequestException
+	 */
+	private function confirmShareEntry(?IIncomingSignedRequest $signedRequest, string $entry): void {
 		$instance = $this->getHostFromFederationId($entry);
 		if ($signedRequest === null) {
 			try {
@@ -412,7 +430,7 @@ class RequestHandlerController extends Controller {
 				return;
 			}
 		} elseif ($instance !== $signedRequest->getOrigin()) {
-			throw new IncomingRequestException('token sharedWith from different instance');
+			throw new IncomingRequestException('token sharedWith (' . $instance . ') not linked to origin (' . $signedRequest->getOrigin() . ')');
 		}
 	}
 
@@ -423,20 +441,16 @@ class RequestHandlerController extends Controller {
 	 */
 	private function getHostFromFederationId(string $entry): string {
 		if (!str_contains($entry, '@')) {
-			throw new IncomingRequestException('entry does not contains @');
+			throw new IncomingRequestException('entry ' . $entry . ' does not contains @');
 		}
-		[, $rightPart] = explode('@', $entry, 2);
+		$rightPart = substr($entry, strrpos($entry, '@') + 1);
 
-		$host = parse_url($rightPart, PHP_URL_HOST);
-		$port = parse_url($rightPart, PHP_URL_PORT);
-		if ($port !== null && $port !== false) {
-			$host .= ':' . $port;
+		// in case the full scheme is sent; getting rid of it
+		$rightPart = $this->addressHandler->removeProtocolFromUrl($rightPart);
+		try {
+			return $this->signatureManager->extractIdentityFromUri('https://' . $rightPart);
+		} catch (IdentityNotFoundException) {
+			throw new IncomingRequestException('invalid host within federation id: ' . $entry);
 		}
-
-		if (is_string($host) && $host !== '') {
-			return $host;
-		}
-
-		throw new IncomingRequestException('host is empty');
 	}
 }

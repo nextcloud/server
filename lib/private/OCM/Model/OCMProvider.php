@@ -210,11 +210,11 @@ class OCMProvider implements IOCMProvider {
 	 *      apiVersion: '1.0-proposal1',
 	 *      endPoint: string,
 	 *      publicKey: ISignatory|null,
-	 *      resourceTypes: array{
+	 *      resourceTypes: list<array{
 	 *          name: string,
 	 *          shareTypes: list<string>,
 	 *          protocols: array<string, string>
-	 *      }[],
+	 *      }>,
 	 *      version: string
 	 *  }
 	 */

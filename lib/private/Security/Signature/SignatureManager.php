@@ -112,9 +112,7 @@ class SignatureManager implements ISignatureManager {
 			$this->prepIncomingSignatureHeader($signedRequest);
 			$this->verifyIncomingSignatureHeader($signedRequest);
 			$this->prepEstimatedSignature($signedRequest, $options['extraSignatureHeaders'] ?? []);
-			$this->verifyIncomingRequestSignature(
-				$signedRequest, $signatoryManager, $options['ttlSignatory'] ?? self::SIGNATORY_TTL
-			);
+			$this->verifyIncomingRequestSignature($signedRequest, $signatoryManager, $options['ttlSignatory'] ?? self::SIGNATORY_TTL);
 		} catch (SignatureException $e) {
 			$this->logger->warning(
 				'signature could not be verified', [
@@ -724,7 +722,6 @@ class SignatureManager implements ISignatureManager {
 			case SignatoryType::FORGIVABLE:
 				$this->deleteSignatory($knownSignatory->getKeyId());
 				$this->insertSignatory($signatory);
-
 				return;
 
 			case SignatoryType::REFRESHABLE:
@@ -735,12 +732,10 @@ class SignatureManager implements ISignatureManager {
 			case SignatoryType::TRUSTED:
 				// TODO: send notice to admin
 				throw new SignatoryConflictException();
-				break;
 
 			case SignatoryType::STATIC:
 				// TODO: send warning to admin
 				throw new SignatoryConflictException();
-				break;
 		}
 	}
 

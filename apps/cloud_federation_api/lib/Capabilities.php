@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\CloudFederationAPI;
 
-use NCU\Security\PublicPrivateKeyPairs\Exceptions\KeyPairException;
+use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
 use NCU\Security\Signature\Exceptions\SignatoryException;
 use OC\OCM\OCMSignatoryManager;
 use OCP\Capabilities\ICapability;
@@ -79,7 +79,7 @@ class Capabilities implements ICapability {
 			} else {
 				$this->logger->debug('ocm public key feature disabled');
 			}
-		} catch (SignatoryException|KeyPairException $e) {
+		} catch (SignatoryException|IdentityNotFoundException $e) {
 			$this->logger->warning('cannot generate local signatory', ['exception' => $e]);
 		}
 

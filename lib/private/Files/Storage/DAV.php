@@ -64,7 +64,6 @@ class DAV extends Common {
 	protected $httpClientService;
 	/** @var ICertificateManager */
 	protected $certManager;
-	protected bool $verify = true;
 	protected LoggerInterface $logger;
 	protected IEventLogger $eventLogger;
 	protected IMimeTypeDetector $mimeTypeDetector;
@@ -104,7 +103,6 @@ class DAV extends Common {
 			if (isset($parameters['authType'])) {
 				$this->authType = $parameters['authType'];
 			}
-			$this->verify = (($parameters['verify'] ?? true) !== false);
 			if (isset($parameters['secure'])) {
 				if (is_string($parameters['secure'])) {
 					$this->secure = ($parameters['secure'] === 'true');
@@ -162,11 +160,6 @@ class DAV extends Common {
 			if ($this->certPath) {
 				$this->client->addCurlSetting(CURLOPT_CAINFO, $this->certPath);
 			}
-		}
-
-		if (!$this->verify) {
-			$this->client->addCurlSetting(CURLOPT_SSL_VERIFYHOST, 0);
-			$this->client->addCurlSetting(CURLOPT_SSL_VERIFYPEER, false);
 		}
 
 		$lastRequestStart = 0;

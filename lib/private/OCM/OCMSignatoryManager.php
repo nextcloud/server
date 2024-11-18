@@ -8,15 +8,13 @@ declare(strict_types=1);
  */
 namespace OC\OCM;
 
-use NCU\Security\PublicPrivateKeyPairs\Exceptions\KeyPairConflictException;
-use NCU\Security\PublicPrivateKeyPairs\Exceptions\KeyPairNotFoundException;
-use NCU\Security\PublicPrivateKeyPairs\IKeyPairManager;
 use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
 use NCU\Security\Signature\ISignatoryManager;
 use NCU\Security\Signature\ISignatureManager;
 use NCU\Security\Signature\Model\IIncomingSignedRequest;
 use NCU\Security\Signature\Model\ISignatory;
 use NCU\Security\Signature\Model\SignatoryType;
+use OC\Security\IdentityProof\Manager;
 use OC\Security\Signature\Model\Signatory;
 use OCP\IAppConfig;
 use OCP\IURLGenerator;
@@ -40,7 +38,7 @@ class OCMSignatoryManager implements ISignatoryManager {
 		private readonly IAppConfig $appConfig,
 		private readonly ISignatureManager $signatureManager,
 		private readonly IURLGenerator $urlGenerator,
-		private readonly IKeyPairManager $keyPairManager,
+		private readonly Manager $identityProofManager,
 		private readonly OCMDiscoveryService $ocmDiscoveryService,
 	) {
 	}
@@ -69,7 +67,6 @@ class OCMSignatoryManager implements ISignatoryManager {
 	 * @inheritDoc
 	 *
 	 * @return ISignatory
-	 * @throws KeyPairConflictException
 	 * @throws IdentityNotFoundException
 	 * @since 31.0.0
 	 */
@@ -85,13 +82,16 @@ class OCMSignatoryManager implements ISignatoryManager {
 			$keyId = $this->generateKeyId();
 		}
 
-		try {
-			$keyPair = $this->keyPairManager->getKeyPair('core', 'ocm_external');
-		} catch (KeyPairNotFoundException) {
-			$keyPair = $this->keyPairManager->generateKeyPair('core', 'ocm_external');
+		if (!$this->identityProofManager->hasAppKey('core', 'ocm_external')) {
+			$this->identityProofManager->generateAppKey('core', 'ocm_external', [
+				'algorithm' => 'rsa',
+				'private_key_bits' => 2048,
+				'private_key_type' => OPENSSL_KEYTYPE_RSA,
+			]);
 		}
+		$keyPair = $this->identityProofManager->getAppKey('core', 'ocm_external');
 
-		return new Signatory($keyId, $keyPair->getPublicKey(), $keyPair->getPrivateKey(), local: true);
+		return new Signatory($keyId, $keyPair->getPublic(), $keyPair->getPrivate(), local: true);
 	}
 
 	/**

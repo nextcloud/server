@@ -103,7 +103,6 @@ use OC\Security\CSRF\CsrfTokenManager;
 use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OC\Security\Hasher;
 use OC\Security\Ip\RemoteAddress;
-use OC\Security\PublicPrivateKeyPairs\KeyPairManager;
 use OC\Security\RateLimiting\Limiter;
 use OC\Security\SecureRandom;
 use OC\Security\Signature\SignatureManager;
@@ -1290,7 +1289,6 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IRichTextFormatter::class, \OC\RichObjectStrings\RichTextFormatter::class);
 
-		$this->registerAlias(IKeyPairManager::class, KeyPairManager::class);
 		$this->registerAlias(ISignatureManager::class, SignatureManager::class);
 
 		$this->connectDispatcher();
