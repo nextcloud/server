@@ -5,7 +5,7 @@
  */
 @use 'variables';
 @use 'sass:math';
-@import 'functions';
+@use 'functions';
 
 @media screen and (max-width: variables.$breakpoint-mobile) {
 	// Make the body full width on mobile
@@ -449,7 +449,7 @@ kbd {
 			margin: 0;
 			padding: 0;
 			background: none;
-			@include icon-color('triangle-s', 'actions', variables.$color-black, 1, true);
+			@include functions.icon-color('triangle-s', 'actions', variables.$color-black, 1, true);
 			background-size: 16px;
 			background-repeat: no-repeat;
 			background-position: center;
@@ -517,7 +517,7 @@ kbd {
 		.app-navigation-entry-utils-menu-button {
 			/* Prevent bg img override if an icon class is set */
 			button:not([class^='icon-']):not([class*=' icon-']) {
-				@include icon-color('more', 'actions', variables.$color-black, 1, true);
+				@include functions.icon-color('more', 'actions', variables.$color-black, 1, true);
 			}
 			&:hover button,
 			&:focus button {

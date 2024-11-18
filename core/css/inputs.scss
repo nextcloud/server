@@ -5,7 +5,7 @@
  */
 @use 'variables';
 @use 'sass:color';
-@import 'functions';
+@use 'functions';
 
  /* Specifically override browser styles */
 input, textarea, select, button, div[contenteditable=true], div[contenteditable=false] {
@@ -377,7 +377,7 @@ input {
 			margin-inline-end: 0;
 			&:disabled {
 				cursor: default;
-				@include icon-color('confirm-fade', 'actions', variables.$color-black, 2, true);
+				@include functions.icon-color('confirm-fade', 'actions', variables.$color-black, 2, true);
 			}
 		}
 
