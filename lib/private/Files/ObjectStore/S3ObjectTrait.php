@@ -144,7 +144,7 @@ trait S3ObjectTrait {
 
 		// ($psrStream->isSeekable() && $psrStream->getSize() !== null) evaluates to true for a On-Seekable stream
 		// so the optimisation does not apply
-		$buffer = new Psr7\Stream(fopen('php://memory', 'rwb+'));
+		$buffer = new Psr7\Stream(fopen('php://temp', 'rwb+'));
 		Utils::copyToStream($psrStream, $buffer, $this->putSizeLimit);
 		$buffer->seek(0);
 		if ($buffer->getSize() < $this->putSizeLimit) {
