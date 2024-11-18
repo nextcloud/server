@@ -541,6 +541,9 @@ export default {
 			return t('files_sharing', 'Update share')
 
 		},
+		resharingIsPossible() {
+			return this.config.isResharingAllowed && this.share.type !== ShareType.Link && this.share.type !== ShareType.Email
+		},
 		/**
 		 * Can the sharer set whether the sharee can edit the file ?
 		 *
@@ -690,7 +693,7 @@ export default {
 				[ATOMIC_PERMISSIONS.DELETE]: this.t('files_sharing', 'Delete'),
 			}
 
-			return [ATOMIC_PERMISSIONS.READ, ATOMIC_PERMISSIONS.CREATE, ATOMIC_PERMISSIONS.UPDATE, ATOMIC_PERMISSIONS.SHARE, ATOMIC_PERMISSIONS.DELETE]
+			return [ATOMIC_PERMISSIONS.READ, ATOMIC_PERMISSIONS.CREATE, ATOMIC_PERMISSIONS.UPDATE, ...(this.resharingIsPossible ? [ATOMIC_PERMISSIONS.SHARE] : []), ATOMIC_PERMISSIONS.DELETE]
 				.filter((permission) => hasPermissions(this.share.permissions, permission))
 				.map((permission, index) => index === 0
 					? translatedPermissions[permission]
