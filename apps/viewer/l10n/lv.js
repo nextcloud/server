@@ -35,6 +35,7 @@ OC.L10N.register(
     "Text" : "Teksts",
     "Size" : "Izmērs",
     "Save image as" : "Saglabāt attēlu kā",
+    "Name is required." : "Vārds ir nepieciešams.",
     "Quality" : "Kvalitāte",
     "Saved image size (width x height)" : "Saglabātā attēla izmērs (platums x augstums)",
     "Actual size (100%)" : "Faktiskais izmērs (100%)",
