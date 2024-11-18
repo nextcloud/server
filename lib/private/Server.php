@@ -7,7 +7,7 @@
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
-use NCU\Config\IUserPreferences;
+use NCU\Config\IUserConfig;
 use OC\Accounts\AccountManager;
 use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
@@ -568,7 +568,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerAlias(IAppConfig::class, \OC\AppConfig::class);
-		$this->registerAlias(IUserPreferences::class, \OC\Config\UserPreferences::class);
+		$this->registerAlias(IUserConfig::class, \OC\Config\UserConfig::class);
 
 		$this->registerService(IFactory::class, function (Server $c) {
 			return new \OC\L10N\Factory(

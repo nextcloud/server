@@ -5,13 +5,13 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-namespace lib;
+namespace lib\Config;
 
 use NCU\Config\Exceptions\TypeConflictException;
 use NCU\Config\Exceptions\UnknownKeyException;
-use NCU\Config\IUserPreferences;
+use NCU\Config\IUserConfig;
 use NCU\Config\ValueType;
-use OC\Config\UserPreferences;
+use OC\Config\UserConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
 use Psr\Log\LoggerInterface;
@@ -24,7 +24,7 @@ use Test\TestCase;
  *
  * @package Test
  */
-class UserPreferencesTest extends TestCase {
+class UserConfigTest extends TestCase {
 	protected IDBConnection $connection;
 	private LoggerInterface $logger;
 	private ICrypto $crypto;
@@ -43,30 +43,30 @@ class UserPreferencesTest extends TestCase {
 						'fast_string' => ['fast_string', 'f_value', ValueType::STRING],
 						'lazy_string' => ['lazy_string', 'l_value', ValueType::STRING, true],
 						'fast_string_sensitive' => [
-							'fast_string_sensitive', 'fs_value', ValueType::STRING, false, UserPreferences::FLAG_SENSITIVE
+							'fast_string_sensitive', 'fs_value', ValueType::STRING, false, UserConfig::FLAG_SENSITIVE
 						],
 						'lazy_string_sensitive' => [
-							'lazy_string_sensitive', 'ls_value', ValueType::STRING, true, UserPreferences::FLAG_SENSITIVE
+							'lazy_string_sensitive', 'ls_value', ValueType::STRING, true, UserConfig::FLAG_SENSITIVE
 						],
 						'fast_int' => ['fast_int', 11, ValueType::INT],
 						'lazy_int' => ['lazy_int', 12, ValueType::INT, true],
-						'fast_int_sensitive' => ['fast_int_sensitive', 2024, ValueType::INT, false, UserPreferences::FLAG_SENSITIVE],
-						'lazy_int_sensitive' => ['lazy_int_sensitive', 2048, ValueType::INT, true, UserPreferences::FLAG_SENSITIVE],
+						'fast_int_sensitive' => ['fast_int_sensitive', 2024, ValueType::INT, false, UserConfig::FLAG_SENSITIVE],
+						'lazy_int_sensitive' => ['lazy_int_sensitive', 2048, ValueType::INT, true, UserConfig::FLAG_SENSITIVE],
 						'fast_float' => ['fast_float', 3.14, ValueType::FLOAT],
 						'lazy_float' => ['lazy_float', 3.14159, ValueType::FLOAT, true],
 						'fast_float_sensitive' => [
-							'fast_float_sensitive', 1.41, ValueType::FLOAT, false, UserPreferences::FLAG_SENSITIVE
+							'fast_float_sensitive', 1.41, ValueType::FLOAT, false, UserConfig::FLAG_SENSITIVE
 						],
 						'lazy_float_sensitive' => [
-							'lazy_float_sensitive', 1.4142, ValueType::FLOAT, true, UserPreferences::FLAG_SENSITIVE
+							'lazy_float_sensitive', 1.4142, ValueType::FLOAT, true, UserConfig::FLAG_SENSITIVE
 						],
 						'fast_array' => ['fast_array', ['year' => 2024], ValueType::ARRAY],
 						'lazy_array' => ['lazy_array', ['month' => 'October'], ValueType::ARRAY, true],
 						'fast_array_sensitive' => [
-							'fast_array_sensitive', ['password' => 'pwd'], ValueType::ARRAY, false, UserPreferences::FLAG_SENSITIVE
+							'fast_array_sensitive', ['password' => 'pwd'], ValueType::ARRAY, false, UserConfig::FLAG_SENSITIVE
 						],
 						'lazy_array_sensitive' => [
-							'lazy_array_sensitive', ['password' => 'qwerty'], ValueType::ARRAY, true, UserPreferences::FLAG_SENSITIVE
+							'lazy_array_sensitive', ['password' => 'qwerty'], ValueType::ARRAY, true, UserConfig::FLAG_SENSITIVE
 						],
 						'fast_boolean' => ['fast_boolean', true, ValueType::BOOL],
 						'fast_boolean_0' => ['fast_boolean_0', false, ValueType::BOOL],
@@ -76,20 +76,20 @@ class UserPreferencesTest extends TestCase {
 					'app2' => [
 						'key2' => ['key2', 'value2a', ValueType::STRING, false, 0, true],
 						'key3' => ['key3', 'value3', ValueType::STRING, true],
-						'key4' => ['key4', 'value4', ValueType::STRING, false, UserPreferences::FLAG_SENSITIVE],
+						'key4' => ['key4', 'value4', ValueType::STRING, false, UserConfig::FLAG_SENSITIVE],
 						'key8' => ['key8', 11, ValueType::INT, false, 0, true],
 						'key9' => ['key9', 'value9a', ValueType::STRING],
 					],
 					'app3' => [
 						'key1' => ['key1', 'value123'],
 						'key3' => ['key3', 'value3'],
-						'key8' => ['key8', 12, ValueType::INT, false, UserPreferences::FLAG_SENSITIVE, true],
-						'key9' => ['key9', 'value9b', ValueType::STRING, false, UserPreferences::FLAG_SENSITIVE],
+						'key8' => ['key8', 12, ValueType::INT, false, UserConfig::FLAG_SENSITIVE, true],
+						'key9' => ['key9', 'value9b', ValueType::STRING, false, UserConfig::FLAG_SENSITIVE],
 						'key10' => ['key10', true, ValueType::BOOL, false, 0, true],
 					],
 					'only-lazy' => [
 						'key1' => ['key1', 'value456', ValueType::STRING, true, 0, true],
-						'key2' => ['key2', 'value2c', ValueType::STRING, true, UserPreferences::FLAG_SENSITIVE],
+						'key2' => ['key2', 'value2c', ValueType::STRING, true, UserConfig::FLAG_SENSITIVE],
 						'key3' => ['key3', 42, ValueType::INT, true],
 						'key4' => ['key4', 17.42, ValueType::FLOAT, true],
 						'key5' => ['key5', true, ValueType::BOOL, true],
@@ -99,16 +99,16 @@ class UserPreferencesTest extends TestCase {
 				[
 					'app1' => [
 						'1' => ['1', 'value1'],
-						'2' => ['2', 'value2', ValueType::STRING, true, UserPreferences::FLAG_SENSITIVE],
+						'2' => ['2', 'value2', ValueType::STRING, true, UserConfig::FLAG_SENSITIVE],
 						'3' => ['3', 17, ValueType::INT, true],
-						'4' => ['4', 42, ValueType::INT, false, UserPreferences::FLAG_SENSITIVE],
+						'4' => ['4', 42, ValueType::INT, false, UserConfig::FLAG_SENSITIVE],
 						'5' => ['5', 17.42, ValueType::FLOAT, false],
 						'6' => ['6', true, ValueType::BOOL, false],
 					],
 					'app2' => [
 						'key2' => ['key2', 'value2b', ValueType::STRING, false, 0, true],
 						'key3' => ['key3', 'value3', ValueType::STRING, true],
-						'key4' => ['key4', 'value4', ValueType::STRING, false, UserPreferences::FLAG_SENSITIVE],
+						'key4' => ['key4', 'value4', ValueType::STRING, false, UserConfig::FLAG_SENSITIVE],
 						'key8' => ['key8', 12, ValueType::INT, false, 0, true],
 					],
 					'app3' => [
@@ -123,12 +123,12 @@ class UserPreferencesTest extends TestCase {
 					'app2' => [
 						'key2' => ['key2', 'value2c', ValueType::MIXED, false, 0, true],
 						'key3' => ['key3', 'value3', ValueType::STRING, true, ],
-						'key4' => ['key4', 'value4', ValueType::STRING, false, UserPreferences::FLAG_SENSITIVE],
+						'key4' => ['key4', 'value4', ValueType::STRING, false, UserConfig::FLAG_SENSITIVE],
 						'fast_string_sensitive' => [
-							'fast_string_sensitive', 'fs_value', ValueType::STRING, false, UserPreferences::FLAG_SENSITIVE
+							'fast_string_sensitive', 'fs_value', ValueType::STRING, false, UserConfig::FLAG_SENSITIVE
 						],
 						'lazy_string_sensitive' => [
-							'lazy_string_sensitive', 'ls_value', ValueType::STRING, true, UserPreferences::FLAG_SENSITIVE
+							'lazy_string_sensitive', 'ls_value', ValueType::STRING, true, UserConfig::FLAG_SENSITIVE
 						],
 					],
 					'only-lazy' => [
@@ -141,7 +141,7 @@ class UserPreferencesTest extends TestCase {
 						'key1' => ['key1', 'value1'],
 						'key2' => ['key2', 'value2A', ValueType::MIXED, false, 0, true],
 						'key3' => ['key3', 'value3', ValueType::STRING, true,],
-						'key4' => ['key4', 'value4', ValueType::STRING, false, UserPreferences::FLAG_SENSITIVE],
+						'key4' => ['key4', 'value4', ValueType::STRING, false, UserConfig::FLAG_SENSITIVE],
 					],
 					'app3' => [
 						'key10' => ['key10', true, ValueType::BOOL, false, 0, true],
@@ -214,8 +214,8 @@ class UserPreferencesTest extends TestCase {
 					}
 
 					$flags = $row[4] ?? 0;
-					if ((UserPreferences::FLAG_SENSITIVE & $flags) !== 0) {
-						$value = self::invokePrivate(UserPreferences::class, 'ENCRYPTION_PREFIX')
+					if ((UserConfig::FLAG_SENSITIVE & $flags) !== 0) {
+						$value = self::invokePrivate(UserConfig::class, 'ENCRYPTION_PREFIX')
 								 . $this->crypto->encrypt((string)$value);
 					} else {
 						$indexed = (($row[5] ?? false) === true) ? $value : '';
@@ -272,28 +272,28 @@ class UserPreferencesTest extends TestCase {
 	/**
 	 * @param array $preLoading preload the 'fast' cache for a list of users)
 	 *
-	 * @return IUserPreferences
+	 * @return IUserConfig
 	 */
-	private function generateUserPreferences(array $preLoading = []): IUserPreferences {
-		$preferences = new \OC\Config\UserPreferences(
+	private function generateUserConfig(array $preLoading = []): IUserConfig {
+		$userConfig = new \OC\Config\UserConfig(
 			$this->connection,
 			$this->logger,
 			$this->crypto,
 		);
-		$msg = ' generateUserPreferences() failed to confirm cache status';
+		$msg = ' generateUserConfig() failed to confirm cache status';
 
 		// confirm cache status
-		$status = $preferences->statusCache();
+		$status = $userConfig->statusCache();
 		$this->assertSame([], $status['fastLoaded'], $msg);
 		$this->assertSame([], $status['lazyLoaded'], $msg);
 		$this->assertSame([], $status['fastCache'], $msg);
 		$this->assertSame([], $status['lazyCache'], $msg);
 		foreach ($preLoading as $preLoadUser) {
 			// simple way to initiate the load of non-lazy preferences values in cache
-			$preferences->getValueString($preLoadUser, 'core', 'preload');
+			$userConfig->getValueString($preLoadUser, 'core', 'preload');
 
 			// confirm cache status
-			$status = $preferences->statusCache();
+			$status = $userConfig->statusCache();
 			$this->assertSame(true, $status['fastLoaded'][$preLoadUser], $msg);
 			$this->assertSame(false, $status['lazyLoaded'][$preLoadUser], $msg);
 
@@ -302,30 +302,30 @@ class UserPreferencesTest extends TestCase {
 			$this->assertSame([], array_keys($status['lazyCache'][$preLoadUser]), $msg);
 		}
 
-		return $preferences;
+		return $userConfig;
 	}
 
 	public function testGetUserIdsEmpty(): void {
-		$preferences = $this->generateUserPreferences();
-		$this->assertEqualsCanonicalizing(array_keys($this->basePreferences), $preferences->getUserIds());
+		$userConfig = $this->generateUserConfig();
+		$this->assertEqualsCanonicalizing(array_keys($this->basePreferences), $userConfig->getUserIds());
 	}
 
 	public function testGetUserIds(): void {
-		$preferences = $this->generateUserPreferences();
-		$this->assertEqualsCanonicalizing(['user1', 'user2', 'user5'], $preferences->getUserIds('app1'));
+		$userConfig = $this->generateUserConfig();
+		$this->assertEqualsCanonicalizing(['user1', 'user2', 'user5'], $userConfig->getUserIds('app1'));
 	}
 
 	public function testGetApps(): void {
-		$preferences = $this->generateUserPreferences();
+		$userConfig = $this->generateUserConfig();
 		$this->assertEqualsCanonicalizing(
-			array_keys($this->basePreferences['user1']), $preferences->getApps('user1')
+			array_keys($this->basePreferences['user1']), $userConfig->getApps('user1')
 		);
 	}
 
 	public function testGetKeys(): void {
-		$preferences = $this->generateUserPreferences(['user1']);
+		$userConfig = $this->generateUserConfig(['user1']);
 		$this->assertEqualsCanonicalizing(
-			array_keys($this->basePreferences['user1']['app1']), $preferences->getKeys('user1', 'app1')
+			array_keys($this->basePreferences['user1']['app1']), $userConfig->getKeys('user1', 'app1')
 		);
 	}
 
@@ -350,8 +350,8 @@ class UserPreferencesTest extends TestCase {
 	 * @dataProvider providerHasKey
 	 */
 	public function testHasKey(string $userId, string $appId, string $key, ?bool $lazy, bool $result): void {
-		$preferences = $this->generateUserPreferences();
-		$this->assertEquals($result, $preferences->hasKey($userId, $appId, $key, $lazy));
+		$userConfig = $this->generateUserConfig();
+		$this->assertEquals($result, $userConfig->hasKey($userId, $appId, $key, $lazy));
 	}
 
 	/**
@@ -387,12 +387,12 @@ class UserPreferencesTest extends TestCase {
 		bool $result,
 		bool $exception,
 	): void {
-		$preferences = $this->generateUserPreferences();
+		$userConfig = $this->generateUserConfig();
 		if ($exception) {
 			$this->expectException(UnknownKeyException::class);
 		}
 
-		$this->assertEquals($result, $preferences->isSensitive($userId, $appId, $key, $lazy));
+		$this->assertEquals($result, $userConfig->isSensitive($userId, $appId, $key, $lazy));
 	}
 
 	/**
@@ -420,12 +420,12 @@ class UserPreferencesTest extends TestCase {
 		bool $result,
 		bool $exception,
 	): void {
-		$preferences = $this->generateUserPreferences();
+		$userConfig = $this->generateUserConfig();
 		if ($exception) {
 			$this->expectException(UnknownKeyException::class);
 		}
 
-		$this->assertEquals($result, $preferences->isLazy($userId, $appId, $key));
+		$this->assertEquals($result, $userConfig->isLazy($userId, $appId, $key));
 	}
 
 	public function providerGetValues(): array {
@@ -555,9 +555,9 @@ class UserPreferencesTest extends TestCase {
 		bool $filtered,
 		array $result,
 	): void {
-		$preferences = $this->generateUserPreferences();
+		$userConfig = $this->generateUserConfig();
 		$this->assertJsonStringEqualsJsonString(
-			json_encode($result), json_encode($preferences->getValues($userId, $appId, $prefix, $filtered))
+			json_encode($result), json_encode($userConfig->getValues($userId, $appId, $prefix, $filtered))
 		);
 	}
 
@@ -654,8 +654,8 @@ class UserPreferencesTest extends TestCase {
 		bool $filtered,
 		array $result,
 	): void {
-		$preferences = $this->generateUserPreferences();
-		$this->assertEqualsCanonicalizing($result, $preferences->getAllValues($userId, $filtered));
+		$userConfig = $this->generateUserConfig();
+		$this->assertEqualsCanonicalizing($result, $userConfig->getAllValues($userId, $filtered));
 	}
 
 	public function providerSearchValuesByApps(): array {
@@ -700,8 +700,8 @@ class UserPreferencesTest extends TestCase {
 		?ValueType $typedAs,
 		array $result,
 	): void {
-		$preferences = $this->generateUserPreferences();
-		$this->assertEquals($result, $preferences->getValuesByApps($userId, $key, $lazy, $typedAs));
+		$userConfig = $this->generateUserConfig();
+		$this->assertEquals($result, $userConfig->getValuesByApps($userId, $key, $lazy, $typedAs));
 	}
 
 	public function providerSearchValuesByUsers(): array {
@@ -750,9 +750,9 @@ class UserPreferencesTest extends TestCase {
 		?array $userIds = null,
 		array $result,
 	): void {
-		$preferences = $this->generateUserPreferences();
+		$userConfig = $this->generateUserConfig();
 		$this->assertEqualsCanonicalizing(
-			$result, $preferences->getValuesByUsers($app, $key, $typedAs, $userIds)
+			$result, $userConfig->getValuesByUsers($app, $key, $typedAs, $userIds)
 		);
 	}
 
@@ -774,8 +774,8 @@ class UserPreferencesTest extends TestCase {
 		bool $ci,
 		array $result,
 	): void {
-		$preferences = $this->generateUserPreferences();
-		$this->assertEqualsCanonicalizing($result, iterator_to_array($preferences->searchUsersByValueString($app, $key, $value, $ci)));
+		$userConfig = $this->generateUserConfig();
+		$this->assertEqualsCanonicalizing($result, iterator_to_array($userConfig->searchUsersByValueString($app, $key, $value, $ci)));
 	}
 
 	public function providerSearchValuesByValueInt(): array {
@@ -795,8 +795,8 @@ class UserPreferencesTest extends TestCase {
 		int $value,
 		array $result,
 	): void {
-		$preferences = $this->generateUserPreferences();
-		$this->assertEqualsCanonicalizing($result, iterator_to_array($preferences->searchUsersByValueInt($app, $key, $value)));
+		$userConfig = $this->generateUserConfig();
+		$this->assertEqualsCanonicalizing($result, iterator_to_array($userConfig->searchUsersByValueInt($app, $key, $value)));
 	}
 
 	public function providerSearchValuesByValues(): array {
@@ -815,8 +815,8 @@ class UserPreferencesTest extends TestCase {
 		array $values,
 		array $result,
 	): void {
-		$preferences = $this->generateUserPreferences();
-		$this->assertEqualsCanonicalizing($result, iterator_to_array($preferences->searchUsersByValues($app, $key, $values)));
+		$userConfig = $this->generateUserConfig();
+		$this->assertEqualsCanonicalizing($result, iterator_to_array($userConfig->searchUsersByValues($app, $key, $values)));
 	}
 
 	public function providerSearchValuesByValueBool(): array {
@@ -835,8 +835,8 @@ class UserPreferencesTest extends TestCase {
 		bool $value,
 		array $result,
 	): void {
-		$preferences = $this->generateUserPreferences();
-		$this->assertEqualsCanonicalizing($result, iterator_to_array($preferences->searchUsersByValueBool($app, $key, $value)));
+		$userConfig = $this->generateUserConfig();
+		$this->assertEqualsCanonicalizing($result, iterator_to_array($userConfig->searchUsersByValueBool($app, $key, $value)));
 	}
 
 	public function providerGetValueMixed(): array {
@@ -919,8 +919,8 @@ class UserPreferencesTest extends TestCase {
 		bool $lazy,
 		string $result,
 	): void {
-		$preferences = $this->generateUserPreferences($preload ?? []);
-		$this->assertEquals($result, $preferences->getValueMixed($userId, $app, $key, $default, $lazy));
+		$userConfig = $this->generateUserConfig($preload ?? []);
+		$this->assertEquals($result, $userConfig->getValueMixed($userId, $app, $key, $default, $lazy));
 	}
 
 	/**
@@ -935,8 +935,8 @@ class UserPreferencesTest extends TestCase {
 		bool $lazy,
 		string $result,
 	): void {
-		$preferences = $this->generateUserPreferences($preload ?? []);
-		$this->assertEquals($result, $preferences->getValueString($userId, $app, $key, $default, $lazy));
+		$userConfig = $this->generateUserConfig($preload ?? []);
+		$this->assertEquals($result, $userConfig->getValueString($userId, $app, $key, $default, $lazy));
 	}
 
 	public function providerGetValueInt(): array {
@@ -977,8 +977,8 @@ class UserPreferencesTest extends TestCase {
 		bool $lazy,
 		int $result,
 	): void {
-		$preferences = $this->generateUserPreferences($preload ?? []);
-		$this->assertEquals($result, $preferences->getValueInt($userId, $app, $key, $default, $lazy));
+		$userConfig = $this->generateUserConfig($preload ?? []);
+		$this->assertEquals($result, $userConfig->getValueInt($userId, $app, $key, $default, $lazy));
 	}
 
 	public function providerGetValueFloat(): array {
@@ -1018,8 +1018,8 @@ class UserPreferencesTest extends TestCase {
 		bool $lazy,
 		float $result,
 	): void {
-		$preferences = $this->generateUserPreferences($preload ?? []);
-		$this->assertEquals($result, $preferences->getValueFloat($userId, $app, $key, $default, $lazy));
+		$userConfig = $this->generateUserConfig($preload ?? []);
+		$this->assertEquals($result, $userConfig->getValueFloat($userId, $app, $key, $default, $lazy));
 	}
 
 	public function providerGetValueBool(): array {
@@ -1079,8 +1079,8 @@ class UserPreferencesTest extends TestCase {
 		bool $lazy,
 		bool $result,
 	): void {
-		$preferences = $this->generateUserPreferences($preload ?? []);
-		$this->assertEquals($result, $preferences->getValueBool($userId, $app, $key, $default, $lazy));
+		$userConfig = $this->generateUserConfig($preload ?? []);
+		$this->assertEquals($result, $userConfig->getValueBool($userId, $app, $key, $default, $lazy));
 	}
 
 	public function providerGetValueArray(): array {
@@ -1116,9 +1116,9 @@ class UserPreferencesTest extends TestCase {
 		bool $lazy,
 		array $result,
 	): void {
-		$preferences = $this->generateUserPreferences($preload ?? []);
+		$userConfig = $this->generateUserConfig($preload ?? []);
 		$this->assertEqualsCanonicalizing(
-			$result, $preferences->getValueArray($userId, $app, $key, $default, $lazy)
+			$result, $userConfig->getValueArray($userId, $app, $key, $default, $lazy)
 		);
 	}
 
@@ -1172,12 +1172,12 @@ class UserPreferencesTest extends TestCase {
 		?ValueType $result,
 		?string $exception = null,
 	): void {
-		$preferences = $this->generateUserPreferences($preload ?? []);
+		$userConfig = $this->generateUserConfig($preload ?? []);
 		if ($exception !== null) {
 			$this->expectException($exception);
 		}
 
-		$type = $preferences->getValueType($userId, $app, $key, $lazy);
+		$type = $userConfig->getValueType($userId, $app, $key, $lazy);
 		if ($exception === null) {
 			$this->assertEquals($result->value, $type->value);
 		}
@@ -1233,12 +1233,12 @@ class UserPreferencesTest extends TestCase {
 		bool $result,
 		?string $exception = null,
 	): void {
-		$preferences = $this->generateUserPreferences($preload ?? []);
+		$userConfig = $this->generateUserConfig($preload ?? []);
 		if ($exception !== null) {
 			$this->expectException($exception);
 		}
 
-		$edited = $preferences->setValueMixed($userId, $app, $key, $value, $lazy, ($sensitive) ? 1 : 0);
+		$edited = $userConfig->setValueMixed($userId, $app, $key, $value, $lazy, ($sensitive) ? 1 : 0);
 
 		if ($exception === null) {
 			$this->assertEquals($result, $edited);
@@ -1303,21 +1303,21 @@ class UserPreferencesTest extends TestCase {
 		bool $result,
 		?string $exception = null,
 	): void {
-		$preferences = $this->generateUserPreferences($preload ?? []);
+		$userConfig = $this->generateUserConfig($preload ?? []);
 		if ($exception !== null) {
 			$this->expectException($exception);
 		}
 
-		$edited = $preferences->setValueString($userId, $app, $key, $value, $lazy, ($sensitive) ? 1 : 0);
+		$edited = $userConfig->setValueString($userId, $app, $key, $value, $lazy, ($sensitive) ? 1 : 0);
 		if ($exception !== null) {
 			return;
 		}
 
 		$this->assertEquals($result, $edited);
 		if ($result) {
-			$this->assertEquals($value, $preferences->getValueString($userId, $app, $key, $value, $lazy));
-			$preferences = $this->generateUserPreferences($preload ?? []);
-			$this->assertEquals($value, $preferences->getValueString($userId, $app, $key, $value, $lazy));
+			$this->assertEquals($value, $userConfig->getValueString($userId, $app, $key, $value, $lazy));
+			$userConfig = $this->generateUserConfig($preload ?? []);
+			$this->assertEquals($value, $userConfig->getValueString($userId, $app, $key, $value, $lazy));
 		}
 	}
 
@@ -1366,12 +1366,12 @@ class UserPreferencesTest extends TestCase {
 		bool $result,
 		?string $exception = null,
 	): void {
-		$preferences = $this->generateUserPreferences($preload ?? []);
+		$userConfig = $this->generateUserConfig($preload ?? []);
 		if ($exception !== null) {
 			$this->expectException($exception);
 		}
 
-		$edited = $preferences->setValueInt($userId, $app, $key, $value, $lazy, ($sensitive) ? 1 : 0);
+		$edited = $userConfig->setValueInt($userId, $app, $key, $value, $lazy, ($sensitive) ? 1 : 0);
 
 		if ($exception !== null) {
 			return;
@@ -1379,9 +1379,9 @@ class UserPreferencesTest extends TestCase {
 
 		$this->assertEquals($result, $edited);
 		if ($result) {
-			$this->assertEquals($value, $preferences->getValueInt($userId, $app, $key, $value, $lazy));
-			$preferences = $this->generateUserPreferences($preload ?? []);
-			$this->assertEquals($value, $preferences->getValueInt($userId, $app, $key, $value, $lazy));
+			$this->assertEquals($value, $userConfig->getValueInt($userId, $app, $key, $value, $lazy));
+			$userConfig = $this->generateUserConfig($preload ?? []);
+			$this->assertEquals($value, $userConfig->getValueInt($userId, $app, $key, $value, $lazy));
 		}
 	}
 
@@ -1429,12 +1429,12 @@ class UserPreferencesTest extends TestCase {
 		bool $result,
 		?string $exception = null,
 	): void {
-		$preferences = $this->generateUserPreferences($preload ?? []);
+		$userConfig = $this->generateUserConfig($preload ?? []);
 		if ($exception !== null) {
 			$this->expectException($exception);
 		}
 
-		$edited = $preferences->setValueFloat($userId, $app, $key, $value, $lazy, ($sensitive) ? 1 : 0);
+		$edited = $userConfig->setValueFloat($userId, $app, $key, $value, $lazy, ($sensitive) ? 1 : 0);
 
 		if ($exception !== null) {
 			return;
@@ -1442,9 +1442,9 @@ class UserPreferencesTest extends TestCase {
 
 		$this->assertEquals($result, $edited);
 		if ($result) {
-			$this->assertEquals($value, $preferences->getValueFloat($userId, $app, $key, $value, $lazy));
-			$preferences = $this->generateUserPreferences($preload ?? []);
-			$this->assertEquals($value, $preferences->getValueFloat($userId, $app, $key, $value, $lazy));
+			$this->assertEquals($value, $userConfig->getValueFloat($userId, $app, $key, $value, $lazy));
+			$userConfig = $this->generateUserConfig($preload ?? []);
+			$this->assertEquals($value, $userConfig->getValueFloat($userId, $app, $key, $value, $lazy));
 		}
 	}
 
@@ -1493,12 +1493,12 @@ class UserPreferencesTest extends TestCase {
 		bool $result,
 		?string $exception = null,
 	): void {
-		$preferences = $this->generateUserPreferences($preload ?? []);
+		$userConfig = $this->generateUserConfig($preload ?? []);
 		if ($exception !== null) {
 			$this->expectException($exception);
 		}
 
-		$edited = $preferences->setValueArray($userId, $app, $key, $value, $lazy, ($sensitive) ? 1 : 0);
+		$edited = $userConfig->setValueArray($userId, $app, $key, $value, $lazy, ($sensitive) ? 1 : 0);
 
 		if ($exception !== null) {
 			return;
@@ -1507,11 +1507,11 @@ class UserPreferencesTest extends TestCase {
 		$this->assertEquals($result, $edited);
 		if ($result) {
 			$this->assertEqualsCanonicalizing(
-				$value, $preferences->getValueArray($userId, $app, $key, $value, $lazy)
+				$value, $userConfig->getValueArray($userId, $app, $key, $value, $lazy)
 			);
-			$preferences = $this->generateUserPreferences($preload ?? []);
+			$userConfig = $this->generateUserConfig($preload ?? []);
 			$this->assertEqualsCanonicalizing(
-				$value, $preferences->getValueArray($userId, $app, $key, $value, $lazy)
+				$value, $userConfig->getValueArray($userId, $app, $key, $value, $lazy)
 			);
 		}
 	}
@@ -1537,26 +1537,26 @@ class UserPreferencesTest extends TestCase {
 		bool $result,
 		?string $exception = null,
 	): void {
-		$preferences = $this->generateUserPreferences($preload ?? []);
+		$userConfig = $this->generateUserConfig($preload ?? []);
 		if ($exception !== null) {
 			$this->expectException($exception);
 		}
 
-		$edited = $preferences->updateSensitive($userId, $app, $key, $sensitive);
+		$edited = $userConfig->updateSensitive($userId, $app, $key, $sensitive);
 		if ($exception !== null) {
 			return;
 		}
 
 		$this->assertEquals($result, $edited);
 		if ($result) {
-			$this->assertEquals($sensitive, $preferences->isSensitive($userId, $app, $key));
-			$preferences = $this->generateUserPreferences($preload ?? []);
-			$this->assertEquals($sensitive, $preferences->isSensitive($userId, $app, $key));
+			$this->assertEquals($sensitive, $userConfig->isSensitive($userId, $app, $key));
+			$userConfig = $this->generateUserConfig($preload ?? []);
+			$this->assertEquals($sensitive, $userConfig->isSensitive($userId, $app, $key));
 			if ($sensitive) {
 				$this->assertEquals(true, str_starts_with(
-					$preferences->statusCache()['fastCache'][$userId][$app][$key] ??
-					$preferences->statusCache()['lazyCache'][$userId][$app][$key],
-					'$UserPreferencesEncryption$')
+					$userConfig->statusCache()['fastCache'][$userId][$app][$key] ??
+					$userConfig->statusCache()['lazyCache'][$userId][$app][$key],
+					'$UserConfigEncryption$')
 				);
 			}
 		}
@@ -1570,7 +1570,7 @@ class UserPreferencesTest extends TestCase {
 	 * @dataProvider providerUpdateGlobalSensitive
 	 */
 	public function testUpdateGlobalSensitive(bool $sensitive): void {
-		$preferences = $this->generateUserPreferences($preload ?? []);
+		$userConfig = $this->generateUserConfig($preload ?? []);
 		$app = 'app2';
 		if ($sensitive) {
 			$key = 'key2';
@@ -1580,28 +1580,28 @@ class UserPreferencesTest extends TestCase {
 			$value = 'value4';
 		}
 
-		$this->assertEquals($value, $preferences->getValueString('user1', $app, $key));
+		$this->assertEquals($value, $userConfig->getValueString('user1', $app, $key));
 		foreach (['user1', 'user2', 'user3', 'user4'] as $userId) {
-			$preferences->getValueString($userId, $app, $key); // cache loading for userId
+			$userConfig->getValueString($userId, $app, $key); // cache loading for userId
 			$this->assertEquals(
 				!$sensitive, str_starts_with(
-					$preferences->statusCache()['fastCache'][$userId][$app][$key] ??
-					$preferences->statusCache()['lazyCache'][$userId][$app][$key],
-					'$UserPreferencesEncryption$'
+					$userConfig->statusCache()['fastCache'][$userId][$app][$key] ??
+					$userConfig->statusCache()['lazyCache'][$userId][$app][$key],
+					'$UserConfigEncryption$'
 				)
 			);
 		}
 
-		$preferences->updateGlobalSensitive($app, $key, $sensitive);
+		$userConfig->updateGlobalSensitive($app, $key, $sensitive);
 
-		$this->assertEquals($value, $preferences->getValueString('user1', $app, $key));
+		$this->assertEquals($value, $userConfig->getValueString('user1', $app, $key));
 		foreach (['user1', 'user2', 'user3', 'user4'] as $userId) {
-			$this->assertEquals($sensitive, $preferences->isSensitive($userId, $app, $key));
+			$this->assertEquals($sensitive, $userConfig->isSensitive($userId, $app, $key));
 			// should only work if updateGlobalSensitive drop cache
 			$this->assertEquals($sensitive, str_starts_with(
-				$preferences->statusCache()['fastCache'][$userId][$app][$key] ??
-				$preferences->statusCache()['lazyCache'][$userId][$app][$key],
-				'$UserPreferencesEncryption$')
+				$userConfig->statusCache()['fastCache'][$userId][$app][$key] ??
+				$userConfig->statusCache()['lazyCache'][$userId][$app][$key],
+				'$UserConfigEncryption$')
 			);
 		}
 	}
@@ -1627,21 +1627,21 @@ class UserPreferencesTest extends TestCase {
 		bool $result,
 		?string $exception = null,
 	): void {
-		$preferences = $this->generateUserPreferences($preload ?? []);
+		$userConfig = $this->generateUserConfig($preload ?? []);
 		if ($exception !== null) {
 			$this->expectException($exception);
 		}
 
-		$edited = $preferences->updateLazy($userId, $app, $key, $lazy);
+		$edited = $userConfig->updateLazy($userId, $app, $key, $lazy);
 		if ($exception !== null) {
 			return;
 		}
 
 		$this->assertEquals($result, $edited);
 		if ($result) {
-			$this->assertEquals($lazy, $preferences->isLazy($userId, $app, $key));
-			$preferences = $this->generateUserPreferences($preload ?? []);
-			$this->assertEquals($lazy, $preferences->isLazy($userId, $app, $key));
+			$this->assertEquals($lazy, $userConfig->isLazy($userId, $app, $key));
+			$userConfig = $this->generateUserConfig($preload ?? []);
+			$this->assertEquals($lazy, $userConfig->isLazy($userId, $app, $key));
 		}
 	}
 
@@ -1653,7 +1653,7 @@ class UserPreferencesTest extends TestCase {
 	 * @dataProvider providerUpdateGlobalLazy
 	 */
 	public function testUpdateGlobalLazy(bool $lazy): void {
-		$preferences = $this->generateUserPreferences($preload ?? []);
+		$userConfig = $this->generateUserConfig($preload ?? []);
 		$app = 'app2';
 		if ($lazy) {
 			$key = 'key4';
@@ -1663,15 +1663,15 @@ class UserPreferencesTest extends TestCase {
 			$value = 'value3';
 		}
 
-		$this->assertEquals($value, $preferences->getValueString('user1', $app, $key, '', !$lazy));
+		$this->assertEquals($value, $userConfig->getValueString('user1', $app, $key, '', !$lazy));
 		foreach (['user1', 'user2', 'user3', 'user4'] as $userId) {
-			$this->assertEquals(!$lazy, $preferences->isLazy($userId, $app, $key));
+			$this->assertEquals(!$lazy, $userConfig->isLazy($userId, $app, $key));
 		}
 
-		$preferences->updateGlobalLazy($app, $key, $lazy);
-		$this->assertEquals($value, $preferences->getValueString('user1', $app, $key, '', $lazy));
+		$userConfig->updateGlobalLazy($app, $key, $lazy);
+		$this->assertEquals($value, $userConfig->getValueString('user1', $app, $key, '', $lazy));
 		foreach (['user1', 'user2', 'user3', 'user4'] as $userId) {
-			$this->assertEquals($lazy, $preferences->isLazy($userId, $app, $key));
+			$this->assertEquals($lazy, $userConfig->isLazy($userId, $app, $key));
 		}
 	}
 
@@ -1723,8 +1723,8 @@ class UserPreferencesTest extends TestCase {
 	 * @dataProvider providerGetDetails
 	 */
 	public function testGetDetails(string $userId, string $app, string $key, array $result): void {
-		$preferences = $this->generateUserPreferences($preload ?? []);
-		$this->assertEqualsCanonicalizing($result, $preferences->getDetails($userId, $app, $key));
+		$userConfig = $this->generateUserConfig($preload ?? []);
+		$this->assertEqualsCanonicalizing($result, $userConfig->getDetails($userId, $app, $key));
 	}
 
 
@@ -1748,15 +1748,15 @@ class UserPreferencesTest extends TestCase {
 		string $app,
 		string $key,
 	): void {
-		$preferences = $this->generateUserPreferences($preload ?? []);
-		$lazy = $preferences->isLazy($userId, $app, $key);
+		$userConfig = $this->generateUserConfig($preload ?? []);
+		$lazy = $userConfig->isLazy($userId, $app, $key);
 
-		$preferences = $this->generateUserPreferences($preload ?? []);
-		$this->assertEquals(true, $preferences->hasKey($userId, $app, $key, $lazy));
-		$preferences->deletePreference($userId, $app, $key);
-		$this->assertEquals(false, $preferences->hasKey($userId, $app, $key, $lazy));
-		$preferences = $this->generateUserPreferences($preload ?? []);
-		$this->assertEquals(false, $preferences->hasKey($userId, $app, $key, $lazy));
+		$userConfig = $this->generateUserConfig($preload ?? []);
+		$this->assertEquals(true, $userConfig->hasKey($userId, $app, $key, $lazy));
+		$userConfig->deleteUserConfig($userId, $app, $key);
+		$this->assertEquals(false, $userConfig->hasKey($userId, $app, $key, $lazy));
+		$userConfig = $this->generateUserConfig($preload ?? []);
+		$this->assertEquals(false, $userConfig->hasKey($userId, $app, $key, $lazy));
 	}
 
 	public function providerDeleteKey(): array {
@@ -1778,50 +1778,50 @@ class UserPreferencesTest extends TestCase {
 		string $app,
 		string $key,
 	): void {
-		$preferences = $this->generateUserPreferences($preload ?? []);
-		$preferences->deleteKey($app, $key);
+		$userConfig = $this->generateUserConfig($preload ?? []);
+		$userConfig->deleteKey($app, $key);
 
 		foreach (['user1', 'user2', 'user3', 'user4'] as $userId) {
-			$this->assertEquals(false, $preferences->hasKey($userId, $app, $key, null));
-			$preferencesTemp = $this->generateUserPreferences($preload ?? []);
-			$this->assertEquals(false, $preferencesTemp->hasKey($userId, $app, $key, null));
+			$this->assertEquals(false, $userConfig->hasKey($userId, $app, $key, null));
+			$userConfigTemp = $this->generateUserConfig($preload ?? []);
+			$this->assertEquals(false, $userConfigTemp->hasKey($userId, $app, $key, null));
 		}
 	}
 
 	public function testDeleteApp(): void {
-		$preferences = $this->generateUserPreferences();
-		$preferences->deleteApp('only-lazy');
+		$userConfig = $this->generateUserConfig();
+		$userConfig->deleteApp('only-lazy');
 
 		foreach (['user1', 'user2', 'user3', 'user4'] as $userId) {
-			$this->assertEquals(false, in_array('only-lazy', $preferences->getApps($userId)));
-			$preferencesTemp = $this->generateUserPreferences();
-			$this->assertEquals(false, in_array('only-lazy', $preferencesTemp->getApps($userId)));
+			$this->assertEquals(false, in_array('only-lazy', $userConfig->getApps($userId)));
+			$userConfigTemp = $this->generateUserConfig();
+			$this->assertEquals(false, in_array('only-lazy', $userConfigTemp->getApps($userId)));
 		}
 	}
 
 	public function testDeleteAllPreferences(): void {
-		$preferences = $this->generateUserPreferences();
-		$preferences->deleteAllPreferences('user1');
+		$userConfig = $this->generateUserConfig();
+		$userConfig->deleteAllUserConfig('user1');
 
-		$this->assertEqualsCanonicalizing([], $preferences->getApps('user1'));
-		$preferences = $this->generateUserPreferences();
-		$this->assertEqualsCanonicalizing([], $preferences->getApps('user1'));
+		$this->assertEqualsCanonicalizing([], $userConfig->getApps('user1'));
+		$userConfig = $this->generateUserConfig();
+		$this->assertEqualsCanonicalizing([], $userConfig->getApps('user1'));
 	}
 
 	public function testClearCache(): void {
-		$preferences = $this->generateUserPreferences(['user1', 'user2']);
-		$preferences->clearCache('user1');
+		$userConfig = $this->generateUserConfig(['user1', 'user2']);
+		$userConfig->clearCache('user1');
 
-		$this->assertEquals(true, $preferences->statusCache()['fastLoaded']['user2']);
-		$this->assertEquals(false, $preferences->statusCache()['fastLoaded']['user1']);
-		$this->assertEquals('value2a', $preferences->getValueString('user1', 'app2', 'key2'));
-		$this->assertEquals(false, $preferences->statusCache()['lazyLoaded']['user1']);
-		$this->assertEquals(true, $preferences->statusCache()['fastLoaded']['user1']);
+		$this->assertEquals(true, $userConfig->statusCache()['fastLoaded']['user2']);
+		$this->assertEquals(false, $userConfig->statusCache()['fastLoaded']['user1']);
+		$this->assertEquals('value2a', $userConfig->getValueString('user1', 'app2', 'key2'));
+		$this->assertEquals(false, $userConfig->statusCache()['lazyLoaded']['user1']);
+		$this->assertEquals(true, $userConfig->statusCache()['fastLoaded']['user1']);
 	}
 
 	public function testClearCacheAll(): void {
-		$preferences = $this->generateUserPreferences(['user1', 'user2']);
-		$preferences->clearCacheAll();
+		$userConfig = $this->generateUserConfig(['user1', 'user2']);
+		$userConfig->clearCacheAll();
 		$this->assertEqualsCanonicalizing(
 			[
 				'fastLoaded' => [],
@@ -1830,7 +1830,7 @@ class UserPreferencesTest extends TestCase {
 				'lazyCache' => [],
 				'valueTypes' => [],
 			],
-			$preferences->statusCache()
+			$userConfig->statusCache()
 		);
 	}
 }

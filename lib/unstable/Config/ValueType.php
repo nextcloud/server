@@ -14,6 +14,7 @@ use UnhandledMatchError;
 /**
  * Listing of available value type for typed config value
  *
+ * @experimental 31.0.0
  * @since 31.0.0
  */
 enum ValueType: int {

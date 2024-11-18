@@ -14,7 +14,7 @@ use JsonException;
 use NCU\Config\Exceptions\IncorrectTypeException;
 use NCU\Config\Exceptions\TypeConflictException;
 use NCU\Config\Exceptions\UnknownKeyException;
-use NCU\Config\IUserPreferences;
+use NCU\Config\IUserConfig;
 use NCU\Config\ValueType;
 use OCP\DB\Exception as DBException;
 use OCP\DB\IResult;
@@ -25,12 +25,12 @@ use OCP\Security\ICrypto;
 use Psr\Log\LoggerInterface;
 
 /**
- * This class provides an easy way for apps to store user preferences in the
+ * This class provides an easy way for apps to store user config in the
  * database.
  * Supports **lazy loading**
  *
  * ### What is lazy loading ?
- * In order to avoid loading useless user preferences into memory for each request,
+ * In order to avoid loading useless user config into memory for each request,
  * only non-lazy values are now loaded.
  *
  * Once a value that is lazy is requested, all lazy values will be loaded.
@@ -41,24 +41,24 @@ use Psr\Log\LoggerInterface;
  *
  * @since 31.0.0
  */
-class UserPreferences implements IUserPreferences {
+class UserConfig implements IUserConfig {
 	private const USER_MAX_LENGTH = 64;
 	private const APP_MAX_LENGTH = 32;
 	private const KEY_MAX_LENGTH = 64;
 	private const INDEX_MAX_LENGTH = 64;
-	private const ENCRYPTION_PREFIX = '$UserPreferencesEncryption$';
-	private const ENCRYPTION_PREFIX_LENGTH = 27; // strlen(self::ENCRYPTION_PREFIX)
+	private const ENCRYPTION_PREFIX = '$UserConfigEncryption$';
+	private const ENCRYPTION_PREFIX_LENGTH = 22; // strlen(self::ENCRYPTION_PREFIX)
 
 	/** @var array<string, array<string, array<string, mixed>>> [ass'user_id' => ['app_id' => ['key' => 'value']]] */
-	private array $fastCache = [];   // cache for normal preference keys
+	private array $fastCache = [];   // cache for normal config keys
 	/** @var array<string, array<string, array<string, mixed>>> ['user_id' => ['app_id' => ['key' => 'value']]] */
-	private array $lazyCache = [];   // cache for lazy preference keys
+	private array $lazyCache = [];   // cache for lazy config keys
 	/** @var array<string, array<string, array<string, array<string, mixed>>>> ['user_id' => ['app_id' => ['key' => ['type' => ValueType, 'flags' => bitflag]]]] */
-	private array $valueDetails = [];  // type for all preference values
+	private array $valueDetails = [];  // type for all config values
 	/** @var array<string, array<string, array<string, ValueType>>> ['user_id' => ['app_id' => ['key' => bitflag]]] */
-	private array $valueTypes = [];  // type for all preference values
+	private array $valueTypes = [];  // type for all config values
 	/** @var array<string, array<string, array<string, int>>> ['user_id' => ['app_id' => ['key' => bitflag]]] */
-	private array $valueFlags = [];  // type for all preference values
+	private array $valueFlags = [];  // type for all config values
 	/** @var array<string, boolean> ['user_id' => bool] */
 	private array $fastLoaded = [];
 	/** @var array<string, boolean> ['user_id' => bool] */
@@ -108,7 +108,7 @@ class UserPreferences implements IUserPreferences {
 	 */
 	public function getApps(string $userId): array {
 		$this->assertParams($userId, allowEmptyApp: true);
-		$this->loadPreferencesAll($userId);
+		$this->loadConfigAll($userId);
 		$apps = array_merge(array_keys($this->fastCache[$userId] ?? []), array_keys($this->lazyCache[$userId] ?? []));
 		sort($apps);
 
@@ -121,13 +121,13 @@ class UserPreferences implements IUserPreferences {
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
 	 *
-	 * @return list<string> list of stored preference keys
+	 * @return list<string> list of stored config keys
 	 * @since 31.0.0
 	 */
 	public function getKeys(string $userId, string $app): array {
 		$this->assertParams($userId, $app);
-		$this->loadPreferencesAll($userId);
-		// array_merge() will remove numeric keys (here preference keys), so addition arrays instead
+		$this->loadConfigAll($userId);
+		// array_merge() will remove numeric keys (here config keys), so addition arrays instead
 		$keys = array_map('strval', array_keys(($this->fastCache[$userId][$app] ?? []) + ($this->lazyCache[$userId][$app] ?? [])));
 		sort($keys);
 
@@ -139,15 +139,15 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
-	 * @param bool|null $lazy TRUE to search within lazy loaded preferences, NULL to search within all preferences
+	 * @param string $key config key
+	 * @param bool|null $lazy TRUE to search within lazy loaded config, NULL to search within all config
 	 *
 	 * @return bool TRUE if key exists
 	 * @since 31.0.0
 	 */
 	public function hasKey(string $userId, string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($userId, $app, $key);
-		$this->loadPreferences($userId, $lazy);
+		$this->loadConfig($userId, $lazy);
 
 		if ($lazy === null) {
 			$appCache = $this->getValues($userId, $app);
@@ -166,19 +166,19 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
-	 * @param bool|null $lazy TRUE to search within lazy loaded preferences, NULL to search within all preferences
+	 * @param string $key config key
+	 * @param bool|null $lazy TRUE to search within lazy loaded config, NULL to search within all config
 	 *
 	 * @return bool
-	 * @throws UnknownKeyException if preference key is not known
+	 * @throws UnknownKeyException if config key is not known
 	 * @since 31.0.0
 	 */
 	public function isSensitive(string $userId, string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($userId, $app, $key);
-		$this->loadPreferences($userId, $lazy);
+		$this->loadConfig($userId, $lazy);
 
 		if (!isset($this->valueDetails[$userId][$app][$key])) {
-			throw new UnknownKeyException('unknown preference key');
+			throw new UnknownKeyException('unknown config key');
 		}
 
 		return $this->isFlagged(self::FLAG_SENSITIVE, $this->valueDetails[$userId][$app][$key]['flags']);
@@ -189,19 +189,19 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
-	 * @param bool|null $lazy TRUE to search within lazy loaded preferences, NULL to search within all preferences
+	 * @param string $key config key
+	 * @param bool|null $lazy TRUE to search within lazy loaded config, NULL to search within all config
 	 *
 	 * @return bool
-	 * @throws UnknownKeyException if preference key is not known
+	 * @throws UnknownKeyException if config key is not known
 	 * @since 31.0.0
 	 */
 	public function isIndexed(string $userId, string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($userId, $app, $key);
-		$this->loadPreferences($userId, $lazy);
+		$this->loadConfig($userId, $lazy);
 
 		if (!isset($this->valueDetails[$userId][$app][$key])) {
-			throw new UnknownKeyException('unknown preference key');
+			throw new UnknownKeyException('unknown config key');
 		}
 
 		return $this->isFlagged(self::FLAG_INDEXED, $this->valueDetails[$userId][$app][$key]['flags']);
@@ -212,26 +212,26 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app if of the app
-	 * @param string $key preference key
+	 * @param string $key config key
 	 *
-	 * @return bool TRUE if preference is lazy loaded
-	 * @throws UnknownKeyException if preference key is not known
-	 * @see IUserPreferences for details about lazy loading
+	 * @return bool TRUE if config is lazy loaded
+	 * @throws UnknownKeyException if config key is not known
+	 * @see IUserConfig for details about lazy loading
 	 * @since 31.0.0
 	 */
 	public function isLazy(string $userId, string $app, string $key): bool {
-		// there is a huge probability the non-lazy preferences are already loaded
+		// there is a huge probability the non-lazy config are already loaded
 		// meaning that we can start by only checking if a current non-lazy key exists
 		if ($this->hasKey($userId, $app, $key, false)) {
 			return false; // meaning key is not lazy.
 		}
 
-		// as key is not found as non-lazy, we load and search in the lazy preferences
+		// as key is not found as non-lazy, we load and search in the lazy config
 		if ($this->hasKey($userId, $app, $key, true)) {
 			return true;
 		}
 
-		throw new UnknownKeyException('unknown preference key');
+		throw new UnknownKeyException('unknown config key');
 	}
 
 	/**
@@ -239,8 +239,8 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $prefix preference keys prefix to search
-	 * @param bool $filtered TRUE to hide sensitive preference values. Value are replaced by {@see IConfig::SENSITIVE_VALUE}
+	 * @param string $prefix config keys prefix to search
+	 * @param bool $filtered TRUE to hide sensitive config values. Value are replaced by {@see IConfig::SENSITIVE_VALUE}
 	 *
 	 * @return array<string, string|int|float|bool|array> [key => value]
 	 * @since 31.0.0
@@ -253,8 +253,8 @@ class UserPreferences implements IUserPreferences {
 	): array {
 		$this->assertParams($userId, $app, $prefix);
 		// if we want to filter values, we need to get sensitivity
-		$this->loadPreferencesAll($userId);
-		// array_merge() will remove numeric keys (here preference keys), so addition arrays instead
+		$this->loadConfigAll($userId);
+		// array_merge() will remove numeric keys (here config keys), so addition arrays instead
 		$values = array_filter(
 			$this->formatAppValues($userId, $app, ($this->fastCache[$userId][$app] ?? []) + ($this->lazyCache[$userId][$app] ?? []), $filtered),
 			function (string $key) use ($prefix): bool {
@@ -269,18 +269,18 @@ class UserPreferences implements IUserPreferences {
 	 * @inheritDoc
 	 *
 	 * @param string $userId id of the user
-	 * @param bool $filtered TRUE to hide sensitive preference values. Value are replaced by {@see IConfig::SENSITIVE_VALUE}
+	 * @param bool $filtered TRUE to hide sensitive config values. Value are replaced by {@see IConfig::SENSITIVE_VALUE}
 	 *
 	 * @return array<string, array<string, string|int|float|bool|array>> [appId => [key => value]]
 	 * @since 31.0.0
 	 */
 	public function getAllValues(string $userId, bool $filtered = false): array {
 		$this->assertParams($userId, allowEmptyApp: true);
-		$this->loadPreferencesAll($userId);
+		$this->loadConfigAll($userId);
 
 		$result = [];
 		foreach ($this->getApps($userId) as $app) {
-			// array_merge() will remove numeric keys (here preference keys), so addition arrays instead
+			// array_merge() will remove numeric keys (here config keys), so addition arrays instead
 			$cached = ($this->fastCache[$userId][$app] ?? []) + ($this->lazyCache[$userId][$app] ?? []);
 			$result[$app] = $this->formatAppValues($userId, $app, $cached, $filtered);
 		}
@@ -292,8 +292,8 @@ class UserPreferences implements IUserPreferences {
 	 * @inheritDoc
 	 *
 	 * @param string $userId id of the user
-	 * @param string $key preference key
-	 * @param bool $lazy search within lazy loaded preferences
+	 * @param string $key config key
+	 * @param bool $lazy search within lazy loaded config
 	 * @param ValueType|null $typedAs enforce type for the returned values
 	 *
 	 * @return array<string, string|int|float|bool|array> [appId => value]
@@ -301,7 +301,7 @@ class UserPreferences implements IUserPreferences {
 	 */
 	public function getValuesByApps(string $userId, string $key, bool $lazy = false, ?ValueType $typedAs = null): array {
 		$this->assertParams($userId, '', $key, allowEmptyApp: true);
-		$this->loadPreferences($userId, $lazy);
+		$this->loadConfig($userId, $lazy);
 
 		/** @var array<array-key, array<array-key, mixed>> $cache */
 		if ($lazy) {
@@ -331,7 +331,7 @@ class UserPreferences implements IUserPreferences {
 	 * @inheritDoc
 	 *
 	 * @param string $app id of the app
-	 * @param string $key preference key
+	 * @param string $key config key
 	 * @param ValueType|null $typedAs enforce type for the returned values
 	 * @param array|null $userIds limit to a list of user ids
 	 *
@@ -390,8 +390,8 @@ class UserPreferences implements IUserPreferences {
 	 * @inheritDoc
 	 *
 	 * @param string $app id of the app
-	 * @param string $key preference key
-	 * @param string $value preference value
+	 * @param string $key config key
+	 * @param string $value config value
 	 * @param bool $caseInsensitive non-case-sensitive search, only works if $value is a string
 	 *
 	 * @return Generator<string>
@@ -405,8 +405,8 @@ class UserPreferences implements IUserPreferences {
 	 * @inheritDoc
 	 *
 	 * @param string $app id of the app
-	 * @param string $key preference key
-	 * @param int $value preference value
+	 * @param string $key config key
+	 * @param int $value config value
 	 *
 	 * @return Generator<string>
 	 * @since 31.0.0
@@ -419,8 +419,8 @@ class UserPreferences implements IUserPreferences {
 	 * @inheritDoc
 	 *
 	 * @param string $app id of the app
-	 * @param string $key preference key
-	 * @param array $values list of preference values
+	 * @param string $key config key
+	 * @param array $values list of config values
 	 *
 	 * @return Generator<string>
 	 * @since 31.0.0
@@ -433,8 +433,8 @@ class UserPreferences implements IUserPreferences {
 	 * @inheritDoc
 	 *
 	 * @param string $app id of the app
-	 * @param string $key preference key
-	 * @param bool $value preference value
+	 * @param string $key config key
+	 * @param bool $value config value
 	 *
 	 * @return Generator<string>
 	 * @since 31.0.0
@@ -448,7 +448,7 @@ class UserPreferences implements IUserPreferences {
 	}
 
 	/**
-	 * returns a list of users with preference key set to a specific value, or within the list of
+	 * returns a list of users with config key set to a specific value, or within the list of
 	 * possible values
 	 *
 	 * @param string $app
@@ -506,7 +506,7 @@ class UserPreferences implements IUserPreferences {
 	}
 
 	/**
-	 * Get the preference value as string.
+	 * Get the config value as string.
 	 * If the value does not exist the given default will be returned.
 	 *
 	 * Set lazy to `null` to ignore it and get the value from either source.
@@ -515,15 +515,15 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
-	 * @param string $default preference value
-	 * @param null|bool $lazy get preference as lazy loaded or not. can be NULL
+	 * @param string $key config key
+	 * @param string $default config value
+	 * @param null|bool $lazy get config as lazy loaded or not. can be NULL
 	 *
 	 * @return string the value or $default
 	 * @throws TypeConflictException
 	 * @internal
 	 * @since 31.0.0
-	 * @see IUserPreferences for explanation about lazy loading
+	 * @see IUserConfig for explanation about lazy loading
 	 * @see getValueString()
 	 * @see getValueInt()
 	 * @see getValueFloat()
@@ -558,15 +558,15 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
+	 * @param string $key config key
 	 * @param string $default default value
-	 * @param bool $lazy search within lazy loaded preferences
+	 * @param bool $lazy search within lazy loaded config
 	 *
-	 * @return string stored preference value or $default if not set in database
+	 * @return string stored config value or $default if not set in database
 	 * @throws InvalidArgumentException if one of the argument format is invalid
 	 * @throws TypeConflictException in case of conflict with the value type set in database
 	 * @since 31.0.0
-	 * @see IUserPreferences for explanation about lazy loading
+	 * @see IUserConfig for explanation about lazy loading
 	 */
 	public function getValueString(
 		string $userId,
@@ -583,15 +583,15 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
+	 * @param string $key config key
 	 * @param int $default default value
-	 * @param bool $lazy search within lazy loaded preferences
+	 * @param bool $lazy search within lazy loaded config
 	 *
-	 * @return int stored preference value or $default if not set in database
+	 * @return int stored config value or $default if not set in database
 	 * @throws InvalidArgumentException if one of the argument format is invalid
 	 * @throws TypeConflictException in case of conflict with the value type set in database
 	 * @since 31.0.0
-	 * @see IUserPreferences for explanation about lazy loading
+	 * @see IUserConfig for explanation about lazy loading
 	 */
 	public function getValueInt(
 		string $userId,
@@ -608,15 +608,15 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
+	 * @param string $key config key
 	 * @param float $default default value
-	 * @param bool $lazy search within lazy loaded preferences
+	 * @param bool $lazy search within lazy loaded config
 	 *
-	 * @return float stored preference value or $default if not set in database
+	 * @return float stored config value or $default if not set in database
 	 * @throws InvalidArgumentException if one of the argument format is invalid
 	 * @throws TypeConflictException in case of conflict with the value type set in database
 	 * @since 31.0.0
-	 * @see IUserPreferences for explanation about lazy loading
+	 * @see IUserConfig for explanation about lazy loading
 	 */
 	public function getValueFloat(
 		string $userId,
@@ -633,15 +633,15 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
+	 * @param string $key config key
 	 * @param bool $default default value
-	 * @param bool $lazy search within lazy loaded preferences
+	 * @param bool $lazy search within lazy loaded config
 	 *
-	 * @return bool stored preference value or $default if not set in database
+	 * @return bool stored config value or $default if not set in database
 	 * @throws InvalidArgumentException if one of the argument format is invalid
 	 * @throws TypeConflictException in case of conflict with the value type set in database
 	 * @since 31.0.0
-	 * @see IUserPreferences for explanation about lazy loading
+	 * @see IUserConfig for explanation about lazy loading
 	 */
 	public function getValueBool(
 		string $userId,
@@ -659,15 +659,15 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
+	 * @param string $key config key
 	 * @param array $default default value
-	 * @param bool $lazy search within lazy loaded preferences
+	 * @param bool $lazy search within lazy loaded config
 	 *
-	 * @return array stored preference value or $default if not set in database
+	 * @return array stored config value or $default if not set in database
 	 * @throws InvalidArgumentException if one of the argument format is invalid
 	 * @throws TypeConflictException in case of conflict with the value type set in database
 	 * @since 31.0.0
-	 * @see IUserPreferences for explanation about lazy loading
+	 * @see IUserConfig for explanation about lazy loading
 	 */
 	public function getValueArray(
 		string $userId,
@@ -689,9 +689,9 @@ class UserPreferences implements IUserPreferences {
 	/**
 	 * @param string $userId
 	 * @param string $app id of the app
-	 * @param string $key preference key
+	 * @param string $key config key
 	 * @param string $default default value
-	 * @param bool $lazy search within lazy loaded preferences
+	 * @param bool $lazy search within lazy loaded config
 	 * @param ValueType $type value type
 	 *
 	 * @return string
@@ -706,7 +706,7 @@ class UserPreferences implements IUserPreferences {
 		ValueType $type,
 	): string {
 		$this->assertParams($userId, $app, $key);
-		$this->loadPreferences($userId, $lazy);
+		$this->loadConfig($userId, $lazy);
 
 		/**
 		 * We ignore check if mixed type is requested.
@@ -727,7 +727,7 @@ class UserPreferences implements IUserPreferences {
 		 * - we should still return an existing non-lazy value even if current method
 		 *   is called with $lazy is true
 		 *
-		 * This way, lazyCache will be empty until the load for lazy preferences value is requested.
+		 * This way, lazyCache will be empty until the load for lazy config value is requested.
 		 */
 		if (isset($this->lazyCache[$userId][$app][$key])) {
 			$value = $this->lazyCache[$userId][$app][$key];
@@ -746,19 +746,19 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
+	 * @param string $key config key
 	 *
 	 * @return ValueType type of the value
-	 * @throws UnknownKeyException if preference key is not known
-	 * @throws IncorrectTypeException if preferences value type is not known
+	 * @throws UnknownKeyException if config key is not known
+	 * @throws IncorrectTypeException if config value type is not known
 	 * @since 31.0.0
 	 */
 	public function getValueType(string $userId, string $app, string $key, ?bool $lazy = null): ValueType {
 		$this->assertParams($userId, $app, $key);
-		$this->loadPreferences($userId, $lazy);
+		$this->loadConfig($userId, $lazy);
 
 		if (!isset($this->valueDetails[$userId][$app][$key]['type'])) {
-			throw new UnknownKeyException('unknown preference key');
+			throw new UnknownKeyException('unknown config key');
 		}
 
 		return $this->valueDetails[$userId][$app][$key]['type'];
@@ -769,42 +769,42 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
+	 * @param string $key config key
 	 * @param bool $lazy lazy loading
 	 *
 	 * @return int flags applied to value
-	 * @throws UnknownKeyException if preference key is not known
-	 * @throws IncorrectTypeException if preferences value type is not known
+	 * @throws UnknownKeyException if config key is not known
+	 * @throws IncorrectTypeException if config value type is not known
 	 * @since 31.0.0
 	 */
 	public function getValueFlags(string $userId, string $app, string $key, bool $lazy = false): int {
 		$this->assertParams($userId, $app, $key);
-		$this->loadPreferences($userId, $lazy);
+		$this->loadConfig($userId, $lazy);
 
 		if (!isset($this->valueDetails[$userId][$app][$key])) {
-			throw new UnknownKeyException('unknown preference key');
+			throw new UnknownKeyException('unknown config key');
 		}
 
 		return $this->valueDetails[$userId][$app][$key]['flags'];
 	}
 
 	/**
-	 * Store a preference key and its value in database as VALUE_MIXED
+	 * Store a config key and its value in database as VALUE_MIXED
 	 *
 	 * **WARNING:** Method is internal and **MUST** not be used as it is best to set a real value type
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
-	 * @param string $value preference value
-	 * @param bool $lazy set preference as lazy loaded
-	 * @param bool $sensitive if TRUE value will be hidden when listing preference values.
+	 * @param string $key config key
+	 * @param string $value config value
+	 * @param bool $lazy set config as lazy loaded
+	 * @param bool $sensitive if TRUE value will be hidden when listing config values.
 	 *
 	 * @return bool TRUE if value was different, therefor updated in database
 	 * @throws TypeConflictException if type from database is not VALUE_MIXED
 	 * @internal
 	 * @since 31.0.0
-	 * @see IUserPreferences for explanation about lazy loading
+	 * @see IUserConfig for explanation about lazy loading
 	 * @see setValueString()
 	 * @see setValueInt()
 	 * @see setValueFloat()
@@ -836,15 +836,15 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
-	 * @param string $value preference value
-	 * @param bool $lazy set preference as lazy loaded
-	 * @param bool $sensitive if TRUE value will be hidden when listing preference values.
+	 * @param string $key config key
+	 * @param string $value config value
+	 * @param bool $lazy set config as lazy loaded
+	 * @param bool $sensitive if TRUE value will be hidden when listing config values.
 	 *
 	 * @return bool TRUE if value was different, therefor updated in database
 	 * @throws TypeConflictException if type from database is not VALUE_MIXED and different from the requested one
 	 * @since 31.0.0
-	 * @see IUserPreferences for explanation about lazy loading
+	 * @see IUserConfig for explanation about lazy loading
 	 */
 	public function setValueString(
 		string $userId,
@@ -870,15 +870,15 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
-	 * @param int $value preference value
-	 * @param bool $lazy set preference as lazy loaded
-	 * @param bool $sensitive if TRUE value will be hidden when listing preference values.
+	 * @param string $key config key
+	 * @param int $value config value
+	 * @param bool $lazy set config as lazy loaded
+	 * @param bool $sensitive if TRUE value will be hidden when listing config values.
 	 *
 	 * @return bool TRUE if value was different, therefor updated in database
 	 * @throws TypeConflictException if type from database is not VALUE_MIXED and different from the requested one
 	 * @since 31.0.0
-	 * @see IUserPreferences for explanation about lazy loading
+	 * @see IUserConfig for explanation about lazy loading
 	 */
 	public function setValueInt(
 		string $userId,
@@ -908,15 +908,15 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
-	 * @param float $value preference value
-	 * @param bool $lazy set preference as lazy loaded
-	 * @param bool $sensitive if TRUE value will be hidden when listing preference values.
+	 * @param string $key config key
+	 * @param float $value config value
+	 * @param bool $lazy set config as lazy loaded
+	 * @param bool $sensitive if TRUE value will be hidden when listing config values.
 	 *
 	 * @return bool TRUE if value was different, therefor updated in database
 	 * @throws TypeConflictException if type from database is not VALUE_MIXED and different from the requested one
 	 * @since 31.0.0
-	 * @see IUserPreferences for explanation about lazy loading
+	 * @see IUserConfig for explanation about lazy loading
 	 */
 	public function setValueFloat(
 		string $userId,
@@ -942,14 +942,14 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
-	 * @param bool $value preference value
-	 * @param bool $lazy set preference as lazy loaded
+	 * @param string $key config key
+	 * @param bool $value config value
+	 * @param bool $lazy set config as lazy loaded
 	 *
 	 * @return bool TRUE if value was different, therefor updated in database
 	 * @throws TypeConflictException if type from database is not VALUE_MIXED and different from the requested one
 	 * @since 31.0.0
-	 * @see IUserPreferences for explanation about lazy loading
+	 * @see IUserConfig for explanation about lazy loading
 	 */
 	public function setValueBool(
 		string $userId,
@@ -975,16 +975,16 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
-	 * @param array $value preference value
-	 * @param bool $lazy set preference as lazy loaded
-	 * @param bool $sensitive if TRUE value will be hidden when listing preference values.
+	 * @param string $key config key
+	 * @param array $value config value
+	 * @param bool $lazy set config as lazy loaded
+	 * @param bool $sensitive if TRUE value will be hidden when listing config values.
 	 *
 	 * @return bool TRUE if value was different, therefor updated in database
 	 * @throws TypeConflictException if type from database is not VALUE_MIXED and different from the requested one
 	 * @throws JsonException
 	 * @since 31.0.0
-	 * @see IUserPreferences for explanation about lazy loading
+	 * @see IUserConfig for explanation about lazy loading
 	 */
 	public function setValueArray(
 		string $userId,
@@ -1011,22 +1011,22 @@ class UserPreferences implements IUserPreferences {
 	}
 
 	/**
-	 * Store a preference key and its value in database
+	 * Store a config key and its value in database
 	 *
-	 * If preference key is already known with the exact same preference value and same sensitive/lazy status, the
-	 * database is not updated. If preference value was previously stored as sensitive, status will not be
+	 * If config key is already known with the exact same config value and same sensitive/lazy status, the
+	 * database is not updated. If config value was previously stored as sensitive, status will not be
 	 * altered.
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
-	 * @param string $value preference value
-	 * @param bool $lazy preferences set as lazy loaded
+	 * @param string $key config key
+	 * @param string $value config value
+	 * @param bool $lazy config set as lazy loaded
 	 * @param ValueType $type value type
 	 *
 	 * @return bool TRUE if value was updated in database
 	 * @throws TypeConflictException if type from database is not VALUE_MIXED and different from the requested one
-	 * @see IUserPreferences for explanation about lazy loading
+	 * @see IUserConfig for explanation about lazy loading
 	 */
 	private function setTypedValue(
 		string $userId,
@@ -1038,14 +1038,14 @@ class UserPreferences implements IUserPreferences {
 		ValueType $type,
 	): bool {
 		$this->assertParams($userId, $app, $key);
-		$this->loadPreferences($userId, $lazy);
+		$this->loadConfig($userId, $lazy);
 
 		$inserted = $refreshCache = false;
 		$origValue = $value;
 		$sensitive = $this->isFlagged(self::FLAG_SENSITIVE, $flags);
 		if ($sensitive || ($this->hasKey($userId, $app, $key, $lazy) && $this->isSensitive($userId, $app, $key, $lazy))) {
 			$value = self::ENCRYPTION_PREFIX . $this->crypto->encrypt($value);
-			$flags |= UserPreferences::FLAG_SENSITIVE;
+			$flags |= UserConfig::FLAG_SENSITIVE;
 		}
 
 		// if requested, we fill the 'indexed' field with current value
@@ -1100,7 +1100,7 @@ class UserPreferences implements IUserPreferences {
 		if (!$inserted) {
 			$currType = $this->valueDetails[$userId][$app][$key]['type'] ?? null;
 			if ($currType === null) { // this might happen when switching lazy loading status
-				$this->loadPreferencesAll($userId);
+				$this->loadConfigAll($userId);
 				$currType = $this->valueDetails[$userId][$app][$key]['type'];
 			}
 
@@ -1166,13 +1166,13 @@ class UserPreferences implements IUserPreferences {
 	}
 
 	/**
-	 * Change the type of preference value.
+	 * Change the type of config value.
 	 *
 	 * **WARNING:** Method is internal and **MUST** not be used as it may break things.
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
+	 * @param string $key config key
 	 * @param ValueType $type value type
 	 *
 	 * @return bool TRUE if database update were necessary
@@ -1183,7 +1183,7 @@ class UserPreferences implements IUserPreferences {
 	 */
 	public function updateType(string $userId, string $app, string $key, ValueType $type = ValueType::MIXED): bool {
 		$this->assertParams($userId, $app, $key);
-		$this->loadPreferencesAll($userId);
+		$this->loadConfigAll($userId);
 		$this->isLazy($userId, $app, $key); // confirm key exists
 
 		$update = $this->connection->getQueryBuilder();
@@ -1204,7 +1204,7 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
+	 * @param string $key config key
 	 * @param bool $sensitive TRUE to set as sensitive, FALSE to unset
 	 *
 	 * @return bool TRUE if entry was found in database and an update was necessary
@@ -1212,7 +1212,7 @@ class UserPreferences implements IUserPreferences {
 	 */
 	public function updateSensitive(string $userId, string $app, string $key, bool $sensitive): bool {
 		$this->assertParams($userId, $app, $key);
-		$this->loadPreferencesAll($userId);
+		$this->loadConfigAll($userId);
 
 		try {
 			if ($sensitive === $this->isSensitive($userId, $app, $key, null)) {
@@ -1230,7 +1230,7 @@ class UserPreferences implements IUserPreferences {
 		}
 
 		if (!isset($cache[$userId][$app][$key])) {
-			throw new UnknownKeyException('unknown preference key');
+			throw new UnknownKeyException('unknown config key');
 		}
 
 		$value = $cache[$userId][$app][$key];
@@ -1295,7 +1295,7 @@ class UserPreferences implements IUserPreferences {
 	 */
 	public function updateIndexed(string $userId, string $app, string $key, bool $indexed): bool {
 		$this->assertParams($userId, $app, $key);
-		$this->loadPreferencesAll($userId);
+		$this->loadConfigAll($userId);
 
 		try {
 			if ($indexed === $this->isIndexed($userId, $app, $key, null)) {
@@ -1313,7 +1313,7 @@ class UserPreferences implements IUserPreferences {
 		}
 
 		if (!isset($cache[$userId][$app][$key])) {
-			throw new UnknownKeyException('unknown preference key');
+			throw new UnknownKeyException('unknown config key');
 		}
 
 		$value = $cache[$userId][$app][$key];
@@ -1367,7 +1367,7 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
+	 * @param string $key config key
 	 * @param bool $lazy TRUE to set as lazy loaded, FALSE to unset
 	 *
 	 * @return bool TRUE if entry was found in database and an update was necessary
@@ -1375,7 +1375,7 @@ class UserPreferences implements IUserPreferences {
 	 */
 	public function updateLazy(string $userId, string $app, string $key, bool $lazy): bool {
 		$this->assertParams($userId, $app, $key);
-		$this->loadPreferencesAll($userId);
+		$this->loadConfigAll($userId);
 
 		try {
 			if ($lazy === $this->isLazy($userId, $app, $key)) {
@@ -1403,7 +1403,7 @@ class UserPreferences implements IUserPreferences {
 	 * @inheritDoc
 	 *
 	 * @param string $app id of the app
-	 * @param string $key preference key
+	 * @param string $key config key
 	 * @param bool $lazy TRUE to set as lazy loaded, FALSE to unset
 	 *
 	 * @since 31.0.0
@@ -1426,15 +1426,15 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
+	 * @param string $key config key
 	 *
 	 * @return array
-	 * @throws UnknownKeyException if preference key is not known in database
+	 * @throws UnknownKeyException if config key is not known in database
 	 * @since 31.0.0
 	 */
 	public function getDetails(string $userId, string $app, string $key): array {
 		$this->assertParams($userId, $app, $key);
-		$this->loadPreferencesAll($userId);
+		$this->loadConfigAll($userId);
 		$lazy = $this->isLazy($userId, $app, $key);
 
 		if ($lazy) {
@@ -1452,7 +1452,7 @@ class UserPreferences implements IUserPreferences {
 		}
 
 		if (!isset($cache[$app][$key])) {
-			throw new UnknownKeyException('unknown preference key');
+			throw new UnknownKeyException('unknown config key');
 		}
 
 		$value = $cache[$app][$key];
@@ -1476,11 +1476,11 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param string $key preference key
+	 * @param string $key config key
 	 *
 	 * @since 31.0.0
 	 */
-	public function deletePreference(string $userId, string $app, string $key): void {
+	public function deleteUserConfig(string $userId, string $app, string $key): void {
 		$this->assertParams($userId, $app, $key);
 		$qb = $this->connection->getQueryBuilder();
 		$qb->delete('preferences')
@@ -1497,7 +1497,7 @@ class UserPreferences implements IUserPreferences {
 	 * @inheritDoc
 	 *
 	 * @param string $app id of the app
-	 * @param string $key preference key
+	 * @param string $key config key
 	 *
 	 * @since 31.0.0
 	 */
@@ -1529,7 +1529,7 @@ class UserPreferences implements IUserPreferences {
 		$this->clearCacheAll();
 	}
 
-	public function deleteAllPreferences(string $userId): void {
+	public function deleteAllUserConfig(string $userId): void {
 		$this->assertParams($userId, '', allowEmptyApp: true);
 		$qb = $this->connection->getQueryBuilder();
 		$qb->delete('preferences')
@@ -1556,7 +1556,7 @@ class UserPreferences implements IUserPreferences {
 			return;
 		}
 
-		$this->loadPreferencesAll($userId);
+		$this->loadConfigAll($userId);
 	}
 
 	/**
@@ -1602,7 +1602,7 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId
 	 * @param string $app assert $app fit in database
-	 * @param string $prefKey assert preference key fit in database
+	 * @param string $prefKey assert config key fit in database
 	 * @param bool $allowEmptyUser
 	 * @param bool $allowEmptyApp $app can be empty string
 	 * @param ValueType|null $valueType assert value type is only one type
@@ -1631,22 +1631,22 @@ class UserPreferences implements IUserPreferences {
 		}
 	}
 
-	private function loadPreferencesAll(string $userId): void {
-		$this->loadPreferences($userId, null);
+	private function loadConfigAll(string $userId): void {
+		$this->loadConfig($userId, null);
 	}
 
 	/**
-	 * Load normal preferences or preferences set as lazy loaded
+	 * Load normal config or config set as lazy loaded
 	 *
-	 * @param bool|null $lazy set to TRUE to load preferences set as lazy loaded, set to NULL to load all preferences
+	 * @param bool|null $lazy set to TRUE to load config set as lazy loaded, set to NULL to load all config
 	 */
-	private function loadPreferences(string $userId, ?bool $lazy = false): void {
+	private function loadConfig(string $userId, ?bool $lazy = false): void {
 		if ($this->isLoaded($userId, $lazy)) {
 			return;
 		}
 
 		if (($lazy ?? true) !== false) { // if lazy is null or true, we debug log
-			$this->logger->debug('The loading of lazy UserPreferences values have been requested', ['exception' => new \RuntimeException('ignorable exception')]);
+			$this->logger->debug('The loading of lazy UserConfig values have been requested', ['exception' => new \RuntimeException('ignorable exception')]);
 		}
 
 		$qb = $this->connection->getQueryBuilder();
@@ -1654,7 +1654,7 @@ class UserPreferences implements IUserPreferences {
 		$qb->select('appid', 'configkey', 'configvalue', 'type', 'flags');
 		$qb->where($qb->expr()->eq('userid', $qb->createNamedParameter($userId)));
 
-		// we only need value from lazy when loadPreferences does not specify it
+		// we only need value from lazy when loadConfig does not specify it
 		if ($lazy !== null) {
 			$qb->andWhere($qb->expr()->eq('lazy', $qb->createNamedParameter($lazy ? 1 : 0, IQueryBuilder::PARAM_INT)));
 		} else {
@@ -1677,9 +1677,9 @@ class UserPreferences implements IUserPreferences {
 
 	/**
 	 * if $lazy is:
-	 *  - false: will returns true if fast preferences are loaded
-	 *  - true : will returns true if lazy preferences are loaded
-	 *  - null : will returns true if both preferences are loaded
+	 *  - false: will returns true if fast config are loaded
+	 *  - true : will returns true if lazy config are loaded
+	 *  - null : will returns true if both config are loaded
 	 *
 	 * @param string $userId
 	 * @param bool $lazy
@@ -1696,9 +1696,9 @@ class UserPreferences implements IUserPreferences {
 
 	/**
 	 * if $lazy is:
-	 * - false: set fast preferences as loaded
-	 * - true : set lazy preferences as loaded
-	 * - null : set both preferences as loaded
+	 * - false: set fast config as loaded
+	 * - true : set lazy config as loaded
+	 * - null : set both config as loaded
 	 *
 	 * @param string $userId
 	 * @param bool $lazy
@@ -1726,7 +1726,7 @@ class UserPreferences implements IUserPreferences {
 	 *
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
-	 * @param bool $filtered TRUE to hide sensitive preference values. Value are replaced by {@see IConfig::SENSITIVE_VALUE}
+	 * @param bool $filtered TRUE to hide sensitive config values. Value are replaced by {@see IConfig::SENSITIVE_VALUE}
 	 *
 	 * @return array<string, string|int|float|bool|array>
 	 */
