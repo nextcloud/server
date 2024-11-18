@@ -169,7 +169,7 @@ OC.L10N.register(
     "Second Last" : "Penúltimo",
     "Third Last" : "Antepenúltimo",
     "Fourth Last" : "Trasantepenúltimo",
-    "Fifty Last" : "Quinto dende o final",
+    "Fifty Last" : "Quinto desde o final",
     "Contacts" : "Contactos",
     "{actor} created address book {addressbook}" : "{actor} creou o caderno de enderezos {addressbook}",
     "You created address book {addressbook}" : "Vde. creou o caderno de enderezos {addressbook}",
