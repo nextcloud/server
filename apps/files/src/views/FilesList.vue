@@ -17,7 +17,7 @@
 						type="tertiary"
 						@click="openSharingSidebar">
 						<template #icon>
-							<LinkIcon v-if="shareButtonType === Type.SHARE_TYPE_LINK" />
+							<LinkIcon v-if="shareButtonType === ShareType.Link" />
 							<AccountPlusIcon v-else :size="20" />
 						</template>
 					</NcButton>
@@ -141,7 +141,7 @@
 </template>
 
 <script lang="ts">
-import type { ContentsWithRoot, INode } from '@nextcloud/files'
+import type { ContentsWithRoot, Folder, INode } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
 import type { CancelablePromise } from 'cancelable-promise'
 import type { ComponentPublicInstance } from 'vue'
@@ -150,11 +150,11 @@ import type { UserConfig } from '../types.ts'
 
 import { getCapabilities } from '@nextcloud/capabilities'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { Folder, Node, Permission, sortNodes, getFileListActions } from '@nextcloud/files'
+import { Node, Permission, sortNodes, getFileListActions } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { join, dirname, normalize } from 'path'
 import { showError, showWarning } from '@nextcloud/dialogs'
-import { Type } from '@nextcloud/sharing'
+import { ShareType } from '@nextcloud/sharing'
 import { UploadPicker, UploadStatus } from '@nextcloud/upload'
 import { loadState } from '@nextcloud/initial-state'
 import { defineComponent } from 'vue'
@@ -261,7 +261,7 @@ export default defineComponent({
 			// non reactive data
 			enableGridView,
 			forbiddenCharacters,
-			Type,
+			ShareType,
 		}
 	},
 
@@ -391,22 +391,22 @@ export default defineComponent({
 				return t('files', 'Share')
 			}
 
-			if (this.shareButtonType === Type.SHARE_TYPE_LINK) {
+			if (this.shareButtonType === ShareType.Link) {
 				return t('files', 'Shared by link')
 			}
 			return t('files', 'Shared')
 		},
-		shareButtonType(): Type | null {
+		shareButtonType(): ShareType | null {
 			if (!this.shareTypesAttributes) {
 				return null
 			}
 
 			// If all types are links, show the link icon
-			if (this.shareTypesAttributes.some(type => type === Type.SHARE_TYPE_LINK)) {
-				return Type.SHARE_TYPE_LINK
+			if (this.shareTypesAttributes.some(type => type === ShareType.Link)) {
+				return ShareType.Link
 			}
 
-			return Type.SHARE_TYPE_USER
+			return ShareType.User
 		},
 
 		gridViewButtonLabel() {
@@ -454,7 +454,11 @@ export default defineComponent({
 					if (action.enabled === undefined) {
 						return true
 					}
-					return action.enabled(this.currentView, this.dirContents, { folder: this.currentFolder })
+					return action.enabled(
+						this.currentView!,
+						this.dirContents,
+						{ folder: this.currentFolder! },
+					)
 				})
 				.toSorted((a, b) => a.order - b.order)
 			return enabledActions
