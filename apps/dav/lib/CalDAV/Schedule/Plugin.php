@@ -33,6 +33,7 @@ use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
+use OCA\DAV\CalDAV\TipBroker;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\ICalendar;
@@ -95,6 +96,13 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 		$server->on('propFind', [$this, 'propFindDefaultCalendarUrl'], 90);
 		$server->on('afterWriteContent', [$this, 'dispatchSchedulingResponses']);
 		$server->on('afterCreateFile', [$this, 'dispatchSchedulingResponses']);
+	}
+
+	/**
+	 * Returns an instance of the iTip\Broker.
+	 */
+	protected function createITipBroker(): TipBroker {
+		return new TipBroker();
 	}
 
 	/**
