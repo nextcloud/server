@@ -7,7 +7,7 @@ OC.L10N.register(
     "See what's new" : "Olle as novidades",
     "{app} updated to version {version}" : "{app} foi actualizada á versión {version}",
     "Update notifications" : "Actualizar as notificacións",
-    "The update server could not be reached since %d days to check for new updates." : "Non foi posíbel acadar o servidor de actualizacións dende hai %d días para comprobar se hai novas actualizacións.",
+    "The update server could not be reached since %d days to check for new updates." : "Non foi posíbel acadar o servidor de actualizacións desde hai %d días para comprobar se hai novas actualizacións.",
     "Please check the Nextcloud and server log files for errors." : "Revise os ficheiros de rexistro de Nextcloud e do servidor na busca de erros.",
     "Update to {serverAndVersion} is available." : "Está dispoñíbel a actualización para {serverAndVersion}.",
     "Update for {app} to version %s is available." : "Está dispoñíbel unha actualización para {app} á versión %s.",

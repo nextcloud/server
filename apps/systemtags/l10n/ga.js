@@ -68,6 +68,7 @@ OC.L10N.register(
     "Manage tags" : "Bainistigh clibeanna",
     "Applying tags changes…" : "Athruithe clibeanna á gcur i bhfeidhm…",
     "Search or create tag" : "Cuardaigh nó cruthaigh clib",
+    "Create new tag" : "Cruthaigh clib nua",
     "Select or create tags to apply to all selected files" : "Roghnaigh nó cruthaigh clibeanna le cur i bhfeidhm ar gach comhad roghnaithe",
     "Cancel" : "Cealaigh",
     "Apply changes" : "Cuir athruithe i bhfeidhm",
