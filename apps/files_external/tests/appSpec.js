@@ -2,6 +2,7 @@
  * SPDX-FileCopyrightText: 2014 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import $ from 'jquery'
 
 describe('OCA.Files_External.App tests', function() {
 	const App = OCA.Files_External.App
