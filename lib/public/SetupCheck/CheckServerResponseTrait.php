@@ -148,15 +148,17 @@ trait CheckServerResponseTrait {
 	 * @since 31.0.0
 	 */
 	private function normalizeUrl(string $url, bool $removeWebroot): string {
-		if ($removeWebroot) {
-			$segments = parse_url($url);
-			if (!isset($segments['scheme']) || !isset($segments['host'])) {
-				throw new \InvalidArgumentException('URL is missing scheme or host');
+		if (filter_var($url, FILTER_VALIDATE_URL)) { // reasonable URL?
+			if (!$removeWebroot) { // no need to do anything else
+				return rtrim($url, '/');
+			} else {
+				$segments = parse_url($url); // parse the url
+				if (is_array($segments) && isset($segments['scheme']) && isset($segments['host'])) { // if we have the minimum required
+					$port = isset($segments['port']) ? (':' . $segments['port']) : '';
+					return $segments['scheme'] . '://' . $segments['host'] . $port;
+				}
 			}
-
-			$port = isset($segments['port']) ? (':' . $segments['port']) : '';
-			return $segments['scheme'] . '://' . $segments['host'] . $port;
 		}
-		return rtrim($url, '/');
+		throw new \InvalidArgumentException("URL ($url) is invalid - Please verify syntax of all URLs / domains / IP addresses in your config");
 	}
 }
