@@ -80,6 +80,7 @@ OC.L10N.register(
     "No apps found for your version" : "Neatrada lietotnes jūsu versijai",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n lietotnēm ir pieejams atjauninājums","%n lietotnei ir pieejams atjauninājums","%n lietotnēm ir pieejams atjauninājums"],
     "_Update_::_Update all_" : ["Atjaunināt visas","Atjaunināt","Atjaunināt visas"],
+    "Loading" : "Ielādē",
     "Type" : "Veids",
     "Display Name" : "Attēlojamais vārds",
     "Description" : "Apraksts",
