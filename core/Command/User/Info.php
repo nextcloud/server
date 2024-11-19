@@ -56,6 +56,7 @@ class Info extends Base {
 			'groups' => $groups,
 			'quota' => $user->getQuota(),
 			'storage' => $this->getStorageInfo($user),
+			'first_seen' => date(\DateTimeInterface::ATOM, $user->getFirstLogin()), // ISO-8601
 			'last_seen' => date(\DateTimeInterface::ATOM, $user->getLastLogin()), // ISO-8601
 			'user_directory' => $user->getHome(),
 			'backend' => $user->getBackendClassName()
