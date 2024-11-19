@@ -114,6 +114,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\PhpDisabledFunctions' => $baseDir . '/../lib/SetupChecks/PhpDisabledFunctions.php',
     'OCA\\Settings\\SetupChecks\\PhpFreetypeSupport' => $baseDir . '/../lib/SetupChecks/PhpFreetypeSupport.php',
     'OCA\\Settings\\SetupChecks\\PhpGetEnv' => $baseDir . '/../lib/SetupChecks/PhpGetEnv.php',
+    'OCA\\Settings\\SetupChecks\\PhpMaxFileSize' => $baseDir . '/../lib/SetupChecks/PhpMaxFileSize.php',
     'OCA\\Settings\\SetupChecks\\PhpMemoryLimit' => $baseDir . '/../lib/SetupChecks/PhpMemoryLimit.php',
     'OCA\\Settings\\SetupChecks\\PhpModules' => $baseDir . '/../lib/SetupChecks/PhpModules.php',
     'OCA\\Settings\\SetupChecks\\PhpOpcacheSetup' => $baseDir . '/../lib/SetupChecks/PhpOpcacheSetup.php',
