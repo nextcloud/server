@@ -246,7 +246,7 @@ class AllConfig implements IConfig {
 		$userPreferences = \OCP\Server::get(IUserConfig::class);
 		if ($preCondition !== null) {
 			try {
-				if ($userPreferences->getValueMixed($userId, $appName, $key) !== (string)$preCondition) {
+				if ($userPreferences->hasKey($userId, $appName, $key) && $userPreferences->getValueMixed($userId, $appName, $key) !== (string)$preCondition) {
 					throw new PreConditionNotMetException();
 				}
 			} catch (TypeConflictException) {
