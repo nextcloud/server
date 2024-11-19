@@ -79,6 +79,7 @@ use OCA\Settings\SetupChecks\PhpDefaultCharset;
 use OCA\Settings\SetupChecks\PhpDisabledFunctions;
 use OCA\Settings\SetupChecks\PhpFreetypeSupport;
 use OCA\Settings\SetupChecks\PhpGetEnv;
+use OCA\Settings\SetupChecks\PhpMaxFileSize;
 use OCA\Settings\SetupChecks\PhpMemoryLimit;
 use OCA\Settings\SetupChecks\PhpModules;
 use OCA\Settings\SetupChecks\PhpOpcacheSetup;
@@ -211,6 +212,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(PhpDisabledFunctions::class);
 		$context->registerSetupCheck(PhpFreetypeSupport::class);
 		$context->registerSetupCheck(PhpGetEnv::class);
+		$context->registerSetupCheck(PhpMaxFileSize::class);
 		$context->registerSetupCheck(PhpMemoryLimit::class);
 		$context->registerSetupCheck(PhpModules::class);
 		$context->registerSetupCheck(PhpOpcacheSetup::class);
