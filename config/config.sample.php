@@ -521,7 +521,7 @@ $CONFIG = [
 'mail_smtpdebug' => false,
 
 /**
- * Which mode to use for sending mail: ``sendmail``, ``smtp`` or ``qmail``.
+ * Which mode to use for sending mail: ``sendmail``, ``smtp``, ``qmail`` or ``null``.
  *
  * If you are using local or remote SMTP, set this to ``smtp``.
  *
@@ -530,6 +530,9 @@ $CONFIG = [
  *
  * For ``qmail`` the binary is /var/qmail/bin/sendmail, and it must be installed
  * on your Unix system.
+ *
+ * Use the string ``null`` to send no mails (disable mail delivery). This can be
+ * useful if mails should be sent via APIs and rendering messages is not necessary.
  *
  * Defaults to ``smtp``
  */
