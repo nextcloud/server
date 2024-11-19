@@ -69,6 +69,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\HintException;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IGroupManager;
@@ -80,7 +81,6 @@ use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Server;
-use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -824,7 +824,7 @@ class ShareAPIController extends OCSController {
 
 		try {
 			$share = $this->shareManager->createShare($share);
-		} catch (GenericShareException $e) {
+		} catch (HintException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), $code);
 		} catch (\Exception $e) {
@@ -1358,7 +1358,7 @@ class ShareAPIController extends OCSController {
 
 		try {
 			$share = $this->shareManager->updateShare($share);
-		} catch (GenericShareException $e) {
+		} catch (HintException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), (int)$code);
 		} catch (\Exception $e) {
