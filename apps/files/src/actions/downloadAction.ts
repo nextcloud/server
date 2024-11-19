@@ -112,7 +112,7 @@ export const action = new FileAction({
 		return nodes.every(isDownloadable)
 	},
 
-	async exec(node: Node, view: View, dir: string) {
+	async exec(node: Node) {
 		if (node.type === FileType.Folder) {
 			downloadNodes([node])
 			return null

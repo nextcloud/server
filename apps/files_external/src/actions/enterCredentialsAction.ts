@@ -23,6 +23,12 @@ type CredentialResponse = {
 	password?: string,
 }
 
+/**
+ *
+ * @param node
+ * @param login
+ * @param password
+ */
 async function setCredentials(node: Node, login: string, password: string): Promise<null|true> {
 	const configResponse = await axios.put(generateUrl('apps/files_external/userglobalstorages/{id}', node.attributes), {
 		backendOptions: { user: login, password },
