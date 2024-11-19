@@ -97,7 +97,7 @@ class Manager implements IManager {
 	 * Verify if a password meets all requirements
 	 *
 	 * @param string $password
-	 * @throws \Exception
+	 * @throws HintException
 	 */
 	protected function verifyPassword($password) {
 		if ($password === null) {
@@ -110,11 +110,7 @@ class Manager implements IManager {
 		}
 
 		// Let others verify the password
-		try {
-			$this->dispatcher->dispatchTyped(new ValidatePasswordPolicyEvent($password));
-		} catch (HintException $e) {
-			throw new \Exception($e->getHint());
-		}
+		$this->dispatcher->dispatchTyped(new ValidatePasswordPolicyEvent($password));
 	}
 
 	/**
