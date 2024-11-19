@@ -68,6 +68,7 @@ OC.L10N.register(
     "Manage tags" : "Xestionar as etiquetas",
     "Applying tags changes…" : "Aplicando os cambios das etiquetas…",
     "Search or create tag" : "Buscar ou crear unha etiqueta",
+    "Create new tag" : "Crear unha nova etiqueta",
     "Select or create tags to apply to all selected files" : "Seleccionar ou crear etiquetas para aplicalas a todos os ficheiros seleccionados",
     "Cancel" : "Cancelar",
     "Apply changes" : "Aplicar os cambios",
