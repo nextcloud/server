@@ -84,11 +84,11 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-@import './shared/styles.scss';
+@use './shared/styles';
 
 .footer {
-	@include row;
-	@include cell;
+	@include styles.row;
+	@include styles.cell;
 
 	&__cell {
 		position: sticky;

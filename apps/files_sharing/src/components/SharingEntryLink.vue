@@ -917,7 +917,7 @@ export default {
 		}
 	}
 
-	::v-deep .avatar-link-share {
+	:deep(.avatar-link-share) {
 		background-color: var(--color-primary-element);
 	}
 

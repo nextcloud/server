@@ -114,7 +114,6 @@ kbd {
 #app-navigation:not(.vue) {
 	// Ensure the maxcontrast color is set for the background
 	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
-
 	width: variables.$navigation-width;
 	z-index: 500;
 	overflow-y: auto;
@@ -454,7 +453,6 @@ kbd {
 			background-repeat: no-repeat;
 			background-position: center;
 			border: none;
-			border-radius: 0;
 			outline: none !important;
 			box-shadow: none;
 			content: ' ';
@@ -677,6 +675,7 @@ body[dir='ltr'] {
 		}
 	}
 }
+
 body[dir='rtl'] {
 	.app-navigation-personal,
 	.app-navigation-administration {
@@ -912,6 +911,7 @@ body[dir='ltr'] #app-settings-header .settings-button {
 		background-position: left 12px center;
 	}
 }
+
 body[dir='rtl'] #app-settings-header .settings-button {
 	&::before {
 		background-position: right 14px center;
@@ -937,6 +937,7 @@ body[dir='rtl'] #app-settings-header .settings-button {
 		}
 	}
 }
+
 .sub-section {
 	position: relative;
 	margin-top: 10px;
@@ -1016,6 +1017,7 @@ body[dir='rtl'] #app-settings-header .settings-button {
 		}
 	}
 }
+
 .tabsContainer {
 	.tab {
 		padding: 0 15px 15px;
@@ -1026,6 +1028,7 @@ body[dir='rtl'] #app-settings-header .settings-button {
 body[dir='ltr'] .tabsContainer {
 	clear: left;
 }
+
 body[dir='rtl'] .tabsContainer {
 	clear: right;
 }
@@ -1486,6 +1489,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 		display: flex;
 	}
 }
+
 .button.primary.skip-navigation:focus-visible {
 	box-shadow: 0 0 0 4px var(--color-main-background) !important;
 	outline: 2px solid var(--color-main-text) !important;

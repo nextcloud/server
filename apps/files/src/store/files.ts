@@ -58,7 +58,7 @@ export const useFilesStore = function(...args) {
 			 *
 			 * @param service The service (files view)
 			 * @param path The path relative within the service
-			 * @returns Array of cached nodes within the path
+			 * @return Array of cached nodes within the path
 			 */
 			getNodesByPath(service: string, path?: string): Node[] {
 				const pathsStore = usePathsStore()

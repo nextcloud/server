@@ -38,6 +38,7 @@
 		}
 	}
 }
+
 .toastify.toastify-top {
 	inset-inline-end: 10px;
 }
@@ -45,12 +46,15 @@
 .toast-error {
 	border-inline-start: 3px solid var(--color-error);
 }
+
 .toast-info {
 	border-inline-start: 3px solid var(--color-primary-element);
 }
+
 .toast-warning {
 	border-inline-start: 3px solid var(--color-warning);
 }
+
 .toast-success {
 	border-inline-start: 3px solid var(--color-success);
 }

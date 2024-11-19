@@ -343,15 +343,15 @@ export default {
 				.sort((a, b) => a.name.localeCompare(b.name))
 		},
 	},
-	mounted() {
-		if (this.app.groups.length > 0) {
-			this.groupCheckedAppsData = true
-		}
-	},
 	watch: {
 		'app.id'() {
 			this.removeData = false
 		},
+	},
+	mounted() {
+		if (this.app.groups.length > 0) {
+			this.groupCheckedAppsData = true
+		}
 	},
 	methods: {
 		toggleRemoveData() {
@@ -427,6 +427,7 @@ export default {
 	border-color: var(--color-error);
 	background: var(--color-main-background);
 }
+
 .force:hover,
 .force:active {
 	color: var(--color-main-background);
