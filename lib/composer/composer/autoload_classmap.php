@@ -7,6 +7,11 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'NCU\\Config\\Exceptions\\IncorrectTypeException' => $baseDir . '/lib/unstable/Config/Exceptions/IncorrectTypeException.php',
+    'NCU\\Config\\Exceptions\\TypeConflictException' => $baseDir . '/lib/unstable/Config/Exceptions/TypeConflictException.php',
+    'NCU\\Config\\Exceptions\\UnknownKeyException' => $baseDir . '/lib/unstable/Config/Exceptions/UnknownKeyException.php',
+    'NCU\\Config\\IUserConfig' => $baseDir . '/lib/unstable/Config/IUserConfig.php',
+    'NCU\\Config\\ValueType' => $baseDir . '/lib/unstable/Config/ValueType.php',
     'OCP\\Accounts\\IAccount' => $baseDir . '/lib/public/Accounts/IAccount.php',
     'OCP\\Accounts\\IAccountManager' => $baseDir . '/lib/public/Accounts/IAccountManager.php',
     'OCP\\Accounts\\IAccountProperty' => $baseDir . '/lib/public/Accounts/IAccountProperty.php',
@@ -1118,6 +1123,7 @@ return array(
     'OC\\Comments\\Manager' => $baseDir . '/lib/private/Comments/Manager.php',
     'OC\\Comments\\ManagerFactory' => $baseDir . '/lib/private/Comments/ManagerFactory.php',
     'OC\\Config' => $baseDir . '/lib/private/Config.php',
+    'OC\\Config\\UserConfig' => $baseDir . '/lib/private/Config/UserConfig.php',
     'OC\\Console\\Application' => $baseDir . '/lib/private/Console/Application.php',
     'OC\\Console\\TimestampFormatter' => $baseDir . '/lib/private/Console/TimestampFormatter.php',
     'OC\\ContactsManager' => $baseDir . '/lib/private/ContactsManager.php',
@@ -1386,6 +1392,7 @@ return array(
     'OC\\Core\\Migrations\\Version30000Date20240814180800' => $baseDir . '/core/Migrations/Version30000Date20240814180800.php',
     'OC\\Core\\Migrations\\Version30000Date20240815080800' => $baseDir . '/core/Migrations/Version30000Date20240815080800.php',
     'OC\\Core\\Migrations\\Version30000Date20240906095113' => $baseDir . '/core/Migrations/Version30000Date20240906095113.php',
+    'OC\\Core\\Migrations\\Version31000Date20240814184402' => $baseDir . '/core/Migrations/Version31000Date20240814184402.php',
     'OC\\Core\\Migrations\\Version31000Date20241018063111' => $baseDir . '/core/Migrations/Version31000Date20241018063111.php',
     'OC\\Core\\Notification\\CoreNotifier' => $baseDir . '/core/Notification/CoreNotifier.php',
     'OC\\Core\\ResponseDefinitions' => $baseDir . '/core/ResponseDefinitions.php',

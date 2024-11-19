@@ -6,8 +6,11 @@
  */
 namespace OC;
 
+use NCU\Config\Exceptions\TypeConflictException;
+use NCU\Config\IUserConfig;
+use NCU\Config\ValueType;
+use OC\Config\UserConfig;
 use OCP\Cache\CappedMemoryCache;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\PreConditionNotMetException;
@@ -224,64 +227,33 @@ class AllConfig implements IConfig {
 	 * @param string $key the key under which the value is being stored
 	 * @param string|float|int $value the value that you want to store
 	 * @param string $preCondition only update if the config value was previously the value passed as $preCondition
+	 *
 	 * @throws \OCP\PreConditionNotMetException if a precondition is specified and is not met
 	 * @throws \UnexpectedValueException when trying to store an unexpected value
+	 * @deprecated 31.0.0 - use {@see IUserConfig} directly
+	 * @see IUserConfig::getValueString
+	 * @see IUserConfig::getValueInt
+	 * @see IUserConfig::getValueFloat
+	 * @see IUserConfig::getValueArray
+	 * @see IUserConfig::getValueBool
 	 */
 	public function setUserValue($userId, $appName, $key, $value, $preCondition = null) {
 		if (!is_int($value) && !is_float($value) && !is_string($value)) {
 			throw new \UnexpectedValueException('Only integers, floats and strings are allowed as value');
 		}
 
-		// TODO - FIXME
-		$this->fixDIInit();
-
-		if ($appName === 'settings' && $key === 'email') {
-			$value = strtolower((string)$value);
-		}
-
-		$prevValue = $this->getUserValue($userId, $appName, $key, null);
-
-		if ($prevValue !== null) {
-			if ($preCondition !== null && $prevValue !== (string)$preCondition) {
-				throw new PreConditionNotMetException();
-			} elseif ($prevValue === (string)$value) {
-				return;
-			} else {
-				$qb = $this->connection->getQueryBuilder();
-				$qb->update('preferences')
-					->set('configvalue', $qb->createNamedParameter($value))
-					->where($qb->expr()->eq('userid', $qb->createNamedParameter($userId)))
-					->andWhere($qb->expr()->eq('appid', $qb->createNamedParameter($appName)))
-					->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($key)));
-				$qb->executeStatement();
-
-				$this->userCache[$userId][$appName][$key] = (string)$value;
-				return;
+		/** @var UserConfig $userPreferences */
+		$userPreferences = \OCP\Server::get(IUserConfig::class);
+		if ($preCondition !== null) {
+			try {
+				if ($userPreferences->getValueMixed($userId, $appName, $key) !== (string)$preCondition) {
+					throw new PreConditionNotMetException();
+				}
+			} catch (TypeConflictException) {
 			}
 		}
 
-		$preconditionArray = [];
-		if (isset($preCondition)) {
-			$preconditionArray = [
-				'configvalue' => $preCondition,
-			];
-		}
-
-		$this->connection->setValues('preferences', [
-			'userid' => $userId,
-			'appid' => $appName,
-			'configkey' => $key,
-		], [
-			'configvalue' => $value,
-		], $preconditionArray);
-
-		// only add to the cache if we already loaded data for the user
-		if (isset($this->userCache[$userId])) {
-			if (!isset($this->userCache[$userId][$appName])) {
-				$this->userCache[$userId][$appName] = [];
-			}
-			$this->userCache[$userId][$appName][$key] = (string)$value;
-		}
+		$userPreferences->setValueMixed($userId, $appName, $key, (string)$value);
 	}
 
 	/**
@@ -291,15 +263,26 @@ class AllConfig implements IConfig {
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key under which the value is being stored
 	 * @param mixed $default the default value to be returned if the value isn't set
+	 *
 	 * @return string
+	 * @deprecated 31.0.0 - use {@see IUserConfig} directly
+	 * @see IUserConfig::getValueString
+	 * @see IUserConfig::getValueInt
+	 * @see IUserConfig::getValueFloat
+	 * @see IUserConfig::getValueArray
+	 * @see IUserConfig::getValueBool
 	 */
 	public function getUserValue($userId, $appName, $key, $default = '') {
-		$data = $this->getAllUserValues($userId);
-		if (isset($data[$appName][$key])) {
-			return $data[$appName][$key];
-		} else {
+		if ($userId === null || $userId === '') {
 			return $default;
 		}
+		/** @var UserConfig $userPreferences */
+		$userPreferences = \OCP\Server::get(IUserConfig::class);
+		// because $default can be null ...
+		if (!$userPreferences->hasKey($userId, $appName, $key)) {
+			return $default;
+		}
+		return $userPreferences->getValueMixed($userId, $appName, $key, $default ?? '');
 	}
 
 	/**
@@ -307,15 +290,12 @@ class AllConfig implements IConfig {
 	 *
 	 * @param string $userId the userId of the user that we want to store the value under
 	 * @param string $appName the appName that we stored the value under
+	 *
 	 * @return string[]
+	 * @deprecated 31.0.0 - use {@see IUserConfig::getKeys} directly
 	 */
 	public function getUserKeys($userId, $appName) {
-		$data = $this->getAllUserValues($userId);
-		if (isset($data[$appName])) {
-			return array_map('strval', array_keys($data[$appName]));
-		} else {
-			return [];
-		}
+		return \OCP\Server::get(IUserConfig::class)->getKeys($userId, $appName);
 	}
 
 	/**
@@ -324,96 +304,63 @@ class AllConfig implements IConfig {
 	 * @param string $userId the userId of the user that we want to store the value under
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key under which the value is being stored
+	 *
+	 * @deprecated 31.0.0 - use {@see IUserConfig::deleteUserConfig} directly
 	 */
 	public function deleteUserValue($userId, $appName, $key) {
-		// TODO - FIXME
-		$this->fixDIInit();
-
-		$qb = $this->connection->getQueryBuilder();
-		$qb->delete('preferences')
-			->where($qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)))
-			->andWhere($qb->expr()->eq('appid', $qb->createNamedParameter($appName, IQueryBuilder::PARAM_STR)))
-			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR)))
-			->executeStatement();
-
-		if (isset($this->userCache[$userId][$appName])) {
-			unset($this->userCache[$userId][$appName][$key]);
-		}
+		\OCP\Server::get(IUserConfig::class)->deleteUserConfig($userId, $appName, $key);
 	}
 
 	/**
 	 * Delete all user values
 	 *
 	 * @param string $userId the userId of the user that we want to remove all values from
+	 *
+	 * @deprecated 31.0.0 - use {@see IUserConfig::deleteAllUserConfig} directly
 	 */
 	public function deleteAllUserValues($userId) {
-		// TODO - FIXME
-		$this->fixDIInit();
-		$qb = $this->connection->getQueryBuilder();
-		$qb->delete('preferences')
-			->where($qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)))
-			->executeStatement();
-
-		unset($this->userCache[$userId]);
+		if ($userId === null) {
+			return;
+		}
+		\OCP\Server::get(IUserConfig::class)->deleteAllUserConfig($userId);
 	}
 
 	/**
 	 * Delete all user related values of one app
 	 *
 	 * @param string $appName the appName of the app that we want to remove all values from
+	 *
+	 * @deprecated 31.0.0 - use {@see IUserConfig::deleteApp} directly
 	 */
 	public function deleteAppFromAllUsers($appName) {
-		// TODO - FIXME
-		$this->fixDIInit();
-
-		$qb = $this->connection->getQueryBuilder();
-		$qb->delete('preferences')
-			->where($qb->expr()->eq('appid', $qb->createNamedParameter($appName, IQueryBuilder::PARAM_STR)))
-			->executeStatement();
-
-		foreach ($this->userCache as &$userCache) {
-			unset($userCache[$appName]);
-		}
+		\OCP\Server::get(IUserConfig::class)->deleteApp($appName);
 	}
 
 	/**
 	 * Returns all user configs sorted by app of one user
 	 *
 	 * @param ?string $userId the user ID to get the app configs from
+	 *
 	 * @psalm-return array<string, array<string, string>>
 	 * @return array[] - 2 dimensional array with the following structure:
 	 *                 [ $appId =>
 	 *                 [ $key => $value ]
 	 *                 ]
+	 * @deprecated 31.0.0 - use {@see IUserConfig::getAllValues} directly
 	 */
 	public function getAllUserValues(?string $userId): array {
-		if (isset($this->userCache[$userId])) {
-			return $this->userCache[$userId];
-		}
 		if ($userId === null || $userId === '') {
-			$this->userCache[''] = [];
-			return $this->userCache[''];
+			return [];
 		}
 
-		// TODO - FIXME
-		$this->fixDIInit();
-
-		$data = [];
-
-		$qb = $this->connection->getQueryBuilder();
-		$result = $qb->select('appid', 'configkey', 'configvalue')
-			->from('preferences')
-			->where($qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)))
-			->executeQuery();
-		while ($row = $result->fetch()) {
-			$appId = $row['appid'];
-			if (!isset($data[$appId])) {
-				$data[$appId] = [];
+		$values = \OCP\Server::get(IUserConfig::class)->getAllValues($userId);
+		$result = [];
+		foreach ($values as $app => $list) {
+			foreach ($list as $key => $value) {
+				$result[$app][$key] = (string)$value;
 			}
-			$data[$appId][$row['configkey']] = $row['configvalue'];
 		}
-		$this->userCache[$userId] = $data;
-		return $data;
+		return $result;
 	}
 
 	/**
@@ -422,38 +369,12 @@ class AllConfig implements IConfig {
 	 * @param string $appName app to get the value for
 	 * @param string $key the key to get the value for
 	 * @param array $userIds the user IDs to fetch the values for
+	 *
 	 * @return array Mapped values: userId => value
+	 * @deprecated 31.0.0 - use {@see IUserConfig::getValuesByUsers} directly
 	 */
 	public function getUserValueForUsers($appName, $key, $userIds) {
-		// TODO - FIXME
-		$this->fixDIInit();
-
-		if (empty($userIds) || !is_array($userIds)) {
-			return [];
-		}
-
-		$chunkedUsers = array_chunk($userIds, 50, true);
-
-		$qb = $this->connection->getQueryBuilder();
-		$qb->select('userid', 'configvalue')
-			->from('preferences')
-			->where($qb->expr()->eq('appid', $qb->createParameter('appName')))
-			->andWhere($qb->expr()->eq('configkey', $qb->createParameter('configKey')))
-			->andWhere($qb->expr()->in('userid', $qb->createParameter('userIds')));
-
-		$userValues = [];
-		foreach ($chunkedUsers as $chunk) {
-			$qb->setParameter('appName', $appName, IQueryBuilder::PARAM_STR);
-			$qb->setParameter('configKey', $key, IQueryBuilder::PARAM_STR);
-			$qb->setParameter('userIds', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
-			$result = $qb->executeQuery();
-
-			while ($row = $result->fetch()) {
-				$userValues[$row['userid']] = $row['configvalue'];
-			}
-		}
-
-		return $userValues;
+		return \OCP\Server::get(IUserConfig::class)->getValuesByUsers($appName, $key, ValueType::MIXED, $userIds);
 	}
 
 	/**
@@ -462,32 +383,14 @@ class AllConfig implements IConfig {
 	 * @param string $appName the app to get the user for
 	 * @param string $key the key to get the user for
 	 * @param string $value the value to get the user for
+	 *
 	 * @return list<string> of user IDs
+	 * @deprecated 31.0.0 - use {@see IUserConfig::searchUsersByValueString} directly
 	 */
 	public function getUsersForUserValue($appName, $key, $value) {
-		// TODO - FIXME
-		$this->fixDIInit();
-
-		$qb = $this->connection->getQueryBuilder();
-		$configValueColumn = ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE)
-			? $qb->expr()->castColumn('configvalue', IQueryBuilder::PARAM_STR)
-			: 'configvalue';
-		$result = $qb->select('userid')
-			->from('preferences')
-			->where($qb->expr()->eq('appid', $qb->createNamedParameter($appName, IQueryBuilder::PARAM_STR)))
-			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR)))
-			->andWhere($qb->expr()->eq(
-				$configValueColumn,
-				$qb->createNamedParameter($value, IQueryBuilder::PARAM_STR))
-			)->orderBy('userid')
-			->executeQuery();
-
-		$userIDs = [];
-		while ($row = $result->fetch()) {
-			$userIDs[] = $row['userid'];
-		}
-
-		return $userIDs;
+		/** @var list<string> $result */
+		$result = iterator_to_array(\OCP\Server::get(IUserConfig::class)->searchUsersByValueString($appName, $key, $value));
+		return $result;
 	}
 
 	/**
@@ -496,38 +399,18 @@ class AllConfig implements IConfig {
 	 * @param string $appName the app to get the user for
 	 * @param string $key the key to get the user for
 	 * @param string $value the value to get the user for
+	 *
 	 * @return list<string> of user IDs
+	 * @deprecated 31.0.0 - use {@see IUserConfig::searchUsersByValueString} directly
 	 */
 	public function getUsersForUserValueCaseInsensitive($appName, $key, $value) {
-		// TODO - FIXME
-		$this->fixDIInit();
-
 		if ($appName === 'settings' && $key === 'email') {
-			// Email address is always stored lowercase in the database
 			return $this->getUsersForUserValue($appName, $key, strtolower($value));
 		}
 
-		$qb = $this->connection->getQueryBuilder();
-		$configValueColumn = ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE)
-			? $qb->expr()->castColumn('configvalue', IQueryBuilder::PARAM_STR)
-			: 'configvalue';
-
-		$result = $qb->select('userid')
-			->from('preferences')
-			->where($qb->expr()->eq('appid', $qb->createNamedParameter($appName, IQueryBuilder::PARAM_STR)))
-			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR)))
-			->andWhere($qb->expr()->eq(
-				$qb->func()->lower($configValueColumn),
-				$qb->createNamedParameter(strtolower($value), IQueryBuilder::PARAM_STR))
-			)->orderBy('userid')
-			->executeQuery();
-
-		$userIDs = [];
-		while ($row = $result->fetch()) {
-			$userIDs[] = $row['userid'];
-		}
-
-		return $userIDs;
+		/** @var list<string> $result */
+		$result = iterator_to_array(\OCP\Server::get(IUserConfig::class)->searchUsersByValueString($appName, $key, $value, true));
+		return $result;
 	}
 
 	public function getSystemConfig() {

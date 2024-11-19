@@ -48,6 +48,11 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'NCU\\Config\\Exceptions\\IncorrectTypeException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/IncorrectTypeException.php',
+        'NCU\\Config\\Exceptions\\TypeConflictException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/TypeConflictException.php',
+        'NCU\\Config\\Exceptions\\UnknownKeyException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/UnknownKeyException.php',
+        'NCU\\Config\\IUserConfig' => __DIR__ . '/../../..' . '/lib/unstable/Config/IUserConfig.php',
+        'NCU\\Config\\ValueType' => __DIR__ . '/../../..' . '/lib/unstable/Config/ValueType.php',
         'OCP\\Accounts\\IAccount' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccount.php',
         'OCP\\Accounts\\IAccountManager' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccountManager.php',
         'OCP\\Accounts\\IAccountProperty' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccountProperty.php',
@@ -1159,6 +1164,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Comments\\Manager' => __DIR__ . '/../../..' . '/lib/private/Comments/Manager.php',
         'OC\\Comments\\ManagerFactory' => __DIR__ . '/../../..' . '/lib/private/Comments/ManagerFactory.php',
         'OC\\Config' => __DIR__ . '/../../..' . '/lib/private/Config.php',
+        'OC\\Config\\UserConfig' => __DIR__ . '/../../..' . '/lib/private/Config/UserConfig.php',
         'OC\\Console\\Application' => __DIR__ . '/../../..' . '/lib/private/Console/Application.php',
         'OC\\Console\\TimestampFormatter' => __DIR__ . '/../../..' . '/lib/private/Console/TimestampFormatter.php',
         'OC\\ContactsManager' => __DIR__ . '/../../..' . '/lib/private/ContactsManager.php',
@@ -1427,6 +1433,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Migrations\\Version30000Date20240814180800' => __DIR__ . '/../../..' . '/core/Migrations/Version30000Date20240814180800.php',
         'OC\\Core\\Migrations\\Version30000Date20240815080800' => __DIR__ . '/../../..' . '/core/Migrations/Version30000Date20240815080800.php',
         'OC\\Core\\Migrations\\Version30000Date20240906095113' => __DIR__ . '/../../..' . '/core/Migrations/Version30000Date20240906095113.php',
+        'OC\\Core\\Migrations\\Version31000Date20240814184402' => __DIR__ . '/../../..' . '/core/Migrations/Version31000Date20240814184402.php',
         'OC\\Core\\Migrations\\Version31000Date20241018063111' => __DIR__ . '/../../..' . '/core/Migrations/Version31000Date20241018063111.php',
         'OC\\Core\\Notification\\CoreNotifier' => __DIR__ . '/../../..' . '/core/Notification/CoreNotifier.php',
         'OC\\Core\\ResponseDefinitions' => __DIR__ . '/../../..' . '/core/ResponseDefinitions.php',

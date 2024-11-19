@@ -1328,9 +1328,6 @@
     <MoreSpecificImplementedParamType>
       <code><![CDATA[$key]]></code>
     </MoreSpecificImplementedParamType>
-    <TypeDoesNotContainType>
-      <code><![CDATA[!is_array($userIds)]]></code>
-    </TypeDoesNotContainType>
   </file>
   <file src="lib/private/App/AppStore/Fetcher/Fetcher.php">
     <TooManyArguments>
