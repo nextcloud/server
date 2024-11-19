@@ -33,8 +33,8 @@ class PhpMaxFileSize implements ISetupCheck {
 	}
 
 	public function run(): SetupResult {
-		$upload_max_filesize = Util::computerFileSize((string)$this->iniGetWrapper->getString('upload_max_filesize'));
-		$post_max_size = Util::computerFileSize((string)$this->iniGetWrapper->getString('post_max_size'));
+		$upload_max_filesize = (string)$this->iniGetWrapper->getString('upload_max_filesize');
+		$post_max_size = (string)$this->iniGetWrapper->getString('post_max_size');
 		$max_input_time = (int)$this->iniGetWrapper->getString('max_input_time');
 		$max_execution_time = (int)$this->iniGetWrapper->getString('max_execution_time');
 
@@ -43,16 +43,16 @@ class PhpMaxFileSize implements ISetupCheck {
 		$recommendedTime = 3600;
 
 		// Check if the PHP upload limit is too low
-		if ($upload_max_filesize < $recommendedSize) {
+		if (Util::computerFileSize($upload_max_filesize) < $recommendedSize) {
 			$warnings[] = $this->l10n->t('The PHP upload_max_filesize is too low. A size of at least %1$s is recommended. Current value: %2$s.', [
 				Util::humanFileSize($recommendedSize),
-				Util::humanFileSize($upload_max_filesize),
+				$upload_max_filesize,
 			]);
 		}
-		if ($post_max_size < $recommendedSize) {
+		if (Util::computerFileSize($post_max_size) < $recommendedSize) {
 			$warnings[] = $this->l10n->t('The PHP post_max_size is too low. A size of at least %1$s is recommended. Current value: %2$s.', [
 				Util::humanFileSize($recommendedSize),
-				Util::humanFileSize($post_max_size),
+				$post_max_size,
 			]);
 		}
 
