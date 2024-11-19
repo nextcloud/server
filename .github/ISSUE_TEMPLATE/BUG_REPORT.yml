@@ -27,7 +27,7 @@ body:
       options:
         - label: This is a **bug**, not a question or a configuration/webserver/proxy issue.
           required: true
-        - label: This issue is **not** already reported on [Github](https://github.com/nextcloud/server/issues?q=is%3Aopen+is%3Aissue+label%3Abug) OR [Nextcloud Community Forum](https://help.nextcloud.com/) _(I've searched it)_.
+        - label: This issue is **not** already reported on [Github](https://github.com/nextcloud/server/issues?q=is%3Aissue+label%3Abug) OR [Nextcloud Community Forum](https://help.nextcloud.com/) _(I've searched it)_.
           required: true
         - label: Nextcloud Server **is** up to date. See [Maintenance and Release Schedule](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule) for supported versions.
           required: true
