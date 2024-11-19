@@ -1149,6 +1149,10 @@ class UsersControllerTest extends TestCase {
 			->willReturn(1521191471);
 		$targetUser
 			->expects($this->once())
+			->method('getFirstLogin')
+			->willReturn(1511191471);
+		$targetUser
+			->expects($this->once())
 			->method('getBackendClassName')
 			->willReturn('Database');
 		$targetUser
@@ -1169,6 +1173,7 @@ class UsersControllerTest extends TestCase {
 			'id' => 'UID',
 			'enabled' => true,
 			'storageLocation' => '/var/www/newtcloud/data/UID',
+			'firstLogin' => 1511191471000,
 			'lastLogin' => 1521191471000,
 			'backend' => 'Database',
 			'subadmin' => ['group3'],
@@ -1275,6 +1280,10 @@ class UsersControllerTest extends TestCase {
 			->willReturn(1521191471);
 		$targetUser
 			->expects($this->once())
+			->method('getFirstLogin')
+			->willReturn(1511191471);
+		$targetUser
+			->expects($this->once())
 			->method('getBackendClassName')
 			->willReturn('Database');
 		$targetUser
@@ -1308,6 +1317,7 @@ class UsersControllerTest extends TestCase {
 		$expected = [
 			'id' => 'UID',
 			'enabled' => true,
+			'firstLogin' => 1511191471000,
 			'lastLogin' => 1521191471000,
 			'backend' => 'Database',
 			'subadmin' => [],
@@ -1457,6 +1467,10 @@ class UsersControllerTest extends TestCase {
 			->willReturn(1521191471);
 		$targetUser
 			->expects($this->once())
+			->method('getFirstLogin')
+			->willReturn(1511191471);
+		$targetUser
+			->expects($this->once())
 			->method('getBackendClassName')
 			->willReturn('Database');
 		$targetUser
@@ -1485,6 +1499,7 @@ class UsersControllerTest extends TestCase {
 
 		$expected = [
 			'id' => 'UID',
+			'firstLogin' => 1511191471000,
 			'lastLogin' => 1521191471000,
 			'backend' => 'Database',
 			'subadmin' => [],
