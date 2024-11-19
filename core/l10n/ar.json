@@ -310,7 +310,7 @@
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "يجب استخدام SQLite فقط في حالات الحد الأدنى من التطوير. للنسخة النهائية، نوصي باستخدام خلفية قاعدة بيانات مختلفة.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "إذا كنت تستخدم عملاء لمزامنة الملفات ، فإن استخدام SQLite لا ينصح به بشدة.",
     "Install" : "تثبيت",
-    "Installing …" : "جاري التثبيت ...",
+    "Installing …" : "جاري التثبيت...",
     "Need help?" : "تحتاج إلى مساعدة؟",
     "See the documentation" : "اطلع على التعليمات",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "يبدو أنك تحاول إعادة تثبيت نكست كلاود الخاص بك. ومع ذلك ، فإن الملف CAN_INSTALL مفقود من دليل التثبيت الخاص بك. يرجى إنشاء الملف CAN_INSTALL في مجلد التثبيت الخاص بك للمتابعة.",
