@@ -366,12 +366,12 @@ export default {
 			case this.SHARE_TYPES.SHARE_TYPE_GUEST:
 				return t('files_sharing', 'Share with guest')
 			default: {
-					if (this.share.id) {
-						// Share already exists
-						return t('files_sharing', 'Update share')
-					} else {
-						return t('files_sharing', 'Create share')
-					}
+				if (this.share.id) {
+					// Share already exists
+					return t('files_sharing', 'Update share')
+				} else {
+					return t('files_sharing', 'Create share')
+				}
 			}
 			}
 		},
