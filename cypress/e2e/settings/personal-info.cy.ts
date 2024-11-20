@@ -118,7 +118,7 @@ describe('Settings: Change personal information', { testIsolation: true }, () =>
 			cy.login(user)
 			cy.visit('/settings/user')
 
-			cy.backupDB().then(($snapshot) => {
+			cy.saveState().then(($snapshot) => {
 				snapshot = $snapshot
 			})
 		})
@@ -136,7 +136,7 @@ describe('Settings: Change personal information', { testIsolation: true }, () =>
 	})
 
 	afterEach(() => {
-		cy.restoreDB(snapshot)
+		cy.restoreState(snapshot)
 	})
 
 	it('Can dis- and enable the profile', () => {
