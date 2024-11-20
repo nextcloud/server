@@ -314,7 +314,7 @@ export default class Share {
 
 	/**
 	 * Get the shared item id
-		 */
+	 */
 	get fileSource(): number {
 		return this._share.file_source
 	}
