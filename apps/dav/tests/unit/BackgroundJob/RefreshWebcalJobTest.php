@@ -78,7 +78,7 @@ class RefreshWebcalJobTest extends TestCase {
 
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('dav', 'calendarSubscriptionRefreshRate', 'P1W')
+			->with('dav', 'calendarSubscriptionRefreshRate', 'P1D')
 			->willReturn('P1W');
 
 		$this->timeFactory->method('getTime')
