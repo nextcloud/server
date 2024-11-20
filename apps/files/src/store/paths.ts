@@ -21,7 +21,8 @@
  */
 import type { FileSource, PathsStore, PathOptions, ServicesState, Service } from '../types'
 import { defineStore } from 'pinia'
-import { FileType, Folder, Node, getNavigation } from '@nextcloud/files'
+import { dirname } from '@nextcloud/paths'
+import { File, FileType, Folder, Node, getNavigation } from '@nextcloud/files'
 import { subscribe } from '@nextcloud/event-bus'
 import Vue from 'vue'
 import logger from '../logger'
@@ -68,48 +69,6 @@ export const usePathsStore = function(...args) {
 				Vue.delete(this.paths[service], path)
 			},
 
-			onDeletedNode(node: Node) {
-				const service = getNavigation()?.active?.id || 'files'
-
-				if (node.type === FileType.Folder) {
-					// Delete the path
-					this.deletePath(
-						service,
-						node.path,
-					)
-				}
-
-				// Remove node from children
-				if (node.dirname === '/') {
-					const root = files.getRoot(service) as Folder & { _children?: string[] }
-					// ensure sources are unique
-					const children = new Set(root._children ?? [])
-					children.delete(node.source)
-					Vue.set(root, '_children', [...children.values()])
-					return
-				}
-
-				if (this.paths[service][node.dirname]) {
-					const parentSource = this.paths[service][node.dirname]
-					const parentFolder = files.getNode(parentSource) as Folder & { _children?: string[] }
-
-					if (!parentFolder) {
-						logger.error('Parent folder not found', { parentSource })
-						return
-					}
-
-					logger.debug('Path exists, removing from children', { parentFolder, node })
-
-					// ensure sources are unique
-					const children = new Set(parentFolder._children ?? [])
-					children.delete(node.source)
-					Vue.set(parentFolder, '_children', [...children.values()])
-					return
-				}
-
-				logger.debug('Parent path does not exists, skipping children update', { node })
-			},
-
 			onCreatedNode(node: Node) {
 				const service = getNavigation()?.active?.id || 'files'
 				if (!node.fileid) {
@@ -128,46 +87,94 @@ export const usePathsStore = function(...args) {
 
 				// Update parent folder children if exists
 				// If the folder is the root, get it and update it
-				if (node.dirname === '/') {
-					const root = files.getRoot(service) as Folder & { _children?: string[] }
-					// ensure sources are unique
-					const children = new Set(root._children ?? [])
-					children.add(node.source)
-					Vue.set(root, '_children', [...children.values()])
-					return
+				this.addNodeToParentChildren(node)
+			},
+
+			onDeletedNode(node: Node) {
+				const service = getNavigation()?.active?.id || 'files'
+
+				if (node.type === FileType.Folder) {
+					// Delete the path
+					this.deletePath(
+						service,
+						node.path,
+					)
 				}
 
-				// If the folder doesn't exists yet, it will be
-				// fetched later and its children updated anyway.
-				if (this.paths[service][node.dirname]) {
-					const parentSource = this.paths[service][node.dirname]
-					const parentFolder = files.getNode(parentSource) as Folder & { _children?: string[] }
-					logger.debug('Path already exists, updating children', { parentFolder, node })
+				this.deleteNodeFromParentChildren(node)
+			},
 
-					if (!parentFolder) {
-						logger.error('Parent folder not found', { parentSource })
-						return
+			onMovedNode({ node, oldSource }: { node: Node, oldSource: string }) {
+				const service = getNavigation()?.active?.id || 'files'
+
+				// Update the path of the node
+				if (node.type === FileType.Folder) {
+					// Delete the old path if it exists
+					const oldPath = Object.entries(this.paths[service]).find(([, source]) => source === oldSource)
+					if (oldPath?.[0]) {
+						this.deletePath(service, oldPath[0])
 					}
 
+					// Add the new path
+					this.addPath({
+						service,
+						path: node.path,
+						source: node.source,
+					})
+				}
+
+				// Dummy simple clone of the renamed node from a previous state
+				const oldNode = new File({ source: oldSource, owner: node.owner, mime: node.mime })
+
+				this.deleteNodeFromParentChildren(oldNode)
+				this.addNodeToParentChildren(node)
+			},
+
+			deleteNodeFromParentChildren(node: Node) {
+				const service = getNavigation()?.active?.id || 'files'
+
+				// Update children of a root folder
+				const parentSource = dirname(node.source)
+				const folder = (node.dirname === '/' ? files.getRoot(service) : files.getNode(parentSource)) as Folder & { _children?: string[] }
+				if (folder) {
 					// ensure sources are unique
-					const children = new Set(parentFolder._children ?? [])
-					children.add(node.source)
-					Vue.set(parentFolder, '_children', [...children.values()])
+					const children = new Set(folder._children ?? [])
+					children.delete(node.source)
+					Vue.set(folder, '_children', [...children.values()])
+					logger.debug('Children updated', { parent: folder, node, children: folder._children })
 					return
 				}
 
 				logger.debug('Parent path does not exists, skipping children update', { node })
 			},
+
+			addNodeToParentChildren(node: Node) {
+				const service = getNavigation()?.active?.id || 'files'
+
+				// Update children of a root folder
+				const parentSource = dirname(node.source)
+				const folder = (node.dirname === '/' ? files.getRoot(service) : files.getNode(parentSource)) as Folder & { _children?: string[] }
+				if (folder) {
+					// ensure sources are unique
+					const children = new Set(folder._children ?? [])
+					children.add(node.source)
+					Vue.set(folder, '_children', [...children.values()])
+					logger.debug('Children updated', { parent: folder, node, children: folder._children })
+					return
+				}
+
+				logger.debug('Parent path does not exists, skipping children update', { node })
+			},
+
 		},
 	})
 
 	const pathsStore = store(...args)
 	// Make sure we only register the listeners once
 	if (!pathsStore._initialized) {
-		// TODO: watch folders to update paths?
 		subscribe('files:node:created', pathsStore.onCreatedNode)
 		subscribe('files:node:deleted', pathsStore.onDeletedNode)
-		// subscribe('files:node:moved', pathsStore.onMovedNode)
+		subscribe('files:node:moved', pathsStore.onMovedNode)
 
 		pathsStore._initialized = true
 	}
