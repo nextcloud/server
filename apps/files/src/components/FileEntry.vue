@@ -36,7 +36,6 @@
 			<FileEntryName ref="name"
 				:basename="basename"
 				:extension="extension"
-				:files-list-width="filesListWidth"
 				:nodes="nodes"
 				:source="source"
 				@auxclick.native="execDefaultAction"
@@ -47,7 +46,6 @@
 		<FileEntryActions v-show="!isRenamingSmallScreen"
 			ref="actions"
 			:class="`files-list__row-actions-${uniqueId}`"
-			:files-list-width="filesListWidth"
 			:loading.sync="loading"
 			:opened.sync="openedMenu"
 			:source="source" />
@@ -91,6 +89,7 @@ import { formatFileSize } from '@nextcloud/files'
 import moment from '@nextcloud/moment'
 
 import { useNavigation } from '../composables/useNavigation.ts'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
@@ -135,6 +134,7 @@ export default defineComponent({
 		const filesStore = useFilesStore()
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
+		const filesListWidth = useFileListWidth()
 		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
 		const { currentView } = useNavigation(true)
 		const {
@@ -152,6 +152,7 @@ export default defineComponent({
 			currentDir,
 			currentFileId,
 			currentView,
+			filesListWidth,
 		}
 	},
 

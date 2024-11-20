@@ -38,7 +38,6 @@
 			<FileEntryName ref="name"
 				:basename="basename"
 				:extension="extension"
-				:files-list-width="filesListWidth"
 				:grid-mode="true"
 				:nodes="nodes"
 				:source="source"
@@ -58,7 +57,6 @@
 		<!-- Actions -->
 		<FileEntryActions ref="actions"
 			:class="`files-list__row-actions-${uniqueId}`"
-			:files-list-width="filesListWidth"
 			:grid-mode="true"
 			:loading.sync="loading"
 			:opened.sync="openedMenu"

@@ -9,7 +9,7 @@
 			<BreadCrumbs :path="directory" @reload="fetchContent">
 				<template #actions>
 					<!-- Sharing button -->
-					<NcButton v-if="canShare && filesListWidth >= 512"
+					<NcButton v-if="canShare && fileListWidth >= 512"
 						:aria-label="shareButtonLabel"
 						:class="{ 'files-list__header-share-button--shared': shareButtonType }"
 						:title="shareButtonLabel"
@@ -63,7 +63,7 @@
 			<!-- Secondary loading indicator -->
 			<NcLoadingIcon v-if="isRefreshing" class="files-list__refresh-icon" />
 
-			<NcButton v-if="filesListWidth >= 512 && enableGridView"
+			<NcButton v-if="fileListWidth >= 512 && enableGridView"
 				:aria-label="gridViewButtonLabel"
 				:title="gridViewButtonLabel"
 				class="files-list__header-grid-button"
@@ -176,6 +176,7 @@ import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { useNavigation } from '../composables/useNavigation.ts'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useFiltersStore } from '../store/filters.ts'
@@ -186,7 +187,6 @@ import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
-import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.ts'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
@@ -219,7 +219,6 @@ export default defineComponent({
 	},
 
 	mixins: [
-		filesListWidthMixin,
 		filesSortingMixin,
 	],
 
@@ -239,6 +238,7 @@ export default defineComponent({
 		const userConfigStore = useUserConfigStore()
 		const viewConfigStore = useViewConfigStore()
 		const { currentView } = useNavigation()
+		const fileListWidth = useFileListWidth()
 		const { directory, fileId } = useRouteParameters()
 
 		const enableGridView = (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true)
@@ -248,6 +248,7 @@ export default defineComponent({
 			currentView,
 			directory,
 			fileId,
+			fileListWidth,
 			t,
 
 			filesStore,
