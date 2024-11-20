@@ -55,46 +55,107 @@ class Scan extends Base {
 
 		$this
 			->setName('files:scan')
-			->setDescription('rescan filesystem')
+			->setDescription('Scans the filesystem for new files and updates the file cache')
+			->setHelp('You can rescan all files or only those of select user(s) or a select path. Statistics will be shown at the end of the scan by default.')
 			->addArgument(
 				'user_id',
 				InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
-				'will rescan all files of the given user(s)'
+				'Rescan all files of the specified user(s)'
 			)
 			->addOption(
 				'path',
 				'p',
 				InputOption::VALUE_REQUIRED,
-				'limit rescan to this path, eg. --path="/alice/files/Music", the user_id is determined by the path and the user_id parameter and --all are ignored'
+				'Limit rescan to the specified path, eg. --path="/alice/files/Music". Overrides the user_id and --all parameters; the user_id is determined from the path.'
 			)
 			->addOption(
 				'generate-metadata',
 				null,
 				InputOption::VALUE_OPTIONAL,
-				'Generate metadata for all scanned files; if specified only generate for named value',
+				'Generate metadata for all scanned files; if specified only generate for named value.',
 				''
 			)
 			->addOption(
 				'all',
 				null,
 				InputOption::VALUE_NONE,
-				'will rescan all files of all known users'
+				'Rescan all files of all known users'
 			)->addOption(
 				'unscanned',
 				null,
 				InputOption::VALUE_NONE,
-				'only scan files which are marked as not fully scanned'
+				'Only scan files which are marked as not fully scanned'
 			)->addOption(
 				'shallow',
 				null,
 				InputOption::VALUE_NONE,
-				'do not scan folders recursively'
+				'Do not scan folders recursively'
 			)->addOption(
 				'home-only',
 				null,
 				InputOption::VALUE_NONE,
-				'only scan the home storage, ignoring any mounted external storage or share'
+				'Only scan the home storage, ignoring any mounted external storage or share'
 			);
+	}
+
+	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$inputPath = $input->getOption('path');
+		if ($inputPath) {
+			$inputPath = '/' . trim($inputPath, '/');
+			[, $user,] = explode('/', $inputPath, 3);
+			$users = [$user];
+		} elseif ($input->getOption('all')) {
+			$users = $this->userManager->search('');
+		} else {
+			$users = $input->getArgument('user_id');
+		}
+
+		# check quantity of users to be process and show it on the command line
+		$users_total = count($users);
+		if ($users_total === 0) {
+			$output->writeln('<error>Please specify the user id to scan, --all to scan for all users or --path=...</error>');
+			return self::FAILURE;
+		}
+
+		$this->initTools($output);
+
+		// getOption() logic on VALUE_OPTIONAL
+		$metadata = null; // null if --generate-metadata is not set, empty if option have no value, value if set
+		if ($input->getOption('generate-metadata') !== '') {
+			$metadata = $input->getOption('generate-metadata') ?? '';
+		}
+
+		$user_count = 0;
+		foreach ($users as $user) {
+			if (is_object($user)) {
+				$user = $user->getUID();
+			}
+			$path = $inputPath ?: '/' . $user;
+			++$user_count;
+			if ($this->userManager->userExists($user)) {
+				$output->writeln("Starting scan for user $user_count out of $users_total ($user)");
+				$this->scanFiles($user, $path, $metadata, $output, $input->getOption('unscanned'), !$input->getOption('shallow'), $input->getOption('home-only'));
+				$output->writeln('', OutputInterface::VERBOSITY_VERBOSE);
+			} else {
+				$output->writeln("<error>User $user_count out of $users_total not found ($user)</error>");
+				$output->writeln('', OutputInterface::VERBOSITY_VERBOSE);
+				++$this->errorsCounter;
+			}
+
+			try {
+				$this->abortIfInterrupted();
+			} catch (InterruptedException $e) {
+				break;
+			}
+		}
+
+		$this->presentStats($output);
+		
+		if ($this->errorsCounter > 0) {
+			return self::FAILURE;
+		}
+		
+		return self::SUCCESS;
 	}
 
 	protected function scanFiles(string $user, string $path, ?string $scanMetadata, OutputInterface $output, bool $backgroundScan = false, bool $recursive = true, bool $homeOnly = false): void {
@@ -174,60 +235,6 @@ class Scan extends Base {
 	public function filterHomeMount(IMountPoint $mountPoint): bool {
 		// any mountpoint inside '/$user/files/'
 		return substr_count($mountPoint->getMountPoint(), '/') <= 3;
-	}
-
-	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$inputPath = $input->getOption('path');
-		if ($inputPath) {
-			$inputPath = '/' . trim($inputPath, '/');
-			[, $user,] = explode('/', $inputPath, 3);
-			$users = [$user];
-		} elseif ($input->getOption('all')) {
-			$users = $this->userManager->search('');
-		} else {
-			$users = $input->getArgument('user_id');
-		}
-
-		# check quantity of users to be process and show it on the command line
-		$users_total = count($users);
-		if ($users_total === 0) {
-			$output->writeln('<error>Please specify the user id to scan, --all to scan for all users or --path=...</error>');
-			return self::FAILURE;
-		}
-
-		$this->initTools($output);
-
-		// getOption() logic on VALUE_OPTIONAL
-		$metadata = null; // null if --generate-metadata is not set, empty if option have no value, value if set
-		if ($input->getOption('generate-metadata') !== '') {
-			$metadata = $input->getOption('generate-metadata') ?? '';
-		}
-
-		$user_count = 0;
-		foreach ($users as $user) {
-			if (is_object($user)) {
-				$user = $user->getUID();
-			}
-			$path = $inputPath ?: '/' . $user;
-			++$user_count;
-			if ($this->userManager->userExists($user)) {
-				$output->writeln("Starting scan for user $user_count out of $users_total ($user)");
-				$this->scanFiles($user, $path, $metadata, $output, $input->getOption('unscanned'), !$input->getOption('shallow'), $input->getOption('home-only'));
-				$output->writeln('', OutputInterface::VERBOSITY_VERBOSE);
-			} else {
-				$output->writeln("<error>Unknown user $user_count $user</error>");
-				$output->writeln('', OutputInterface::VERBOSITY_VERBOSE);
-			}
-
-			try {
-				$this->abortIfInterrupted();
-			} catch (InterruptedException $e) {
-				break;
-			}
-		}
-
-		$this->presentStats($output);
-		return self::SUCCESS;
 	}
 
 	/**
