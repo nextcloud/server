@@ -451,25 +451,35 @@ class Tags implements ITags {
 	/**
 	 * Get favorites for an object type
 	 *
-	 * @return array|false An array of object ids.
+	 * @return list<int> An array of object ids.
 	 */
-	public function getFavorites() {
-		if (!$this->userHasTag(ITags::TAG_FAVORITE, $this->user)) {
-			return [];
+	public function getFavorites(): array {
+		$select = $this->db->getQueryBuilder();
+		$subSelect = $this->db->getQueryBuilder();
+
+		$subSelect->select('id')
+			->from(self::TAG_TABLE)
+			->where($subSelect->expr()->eq('uid', $select->createNamedParameter($this->user, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR))
+			->andWhere($subSelect->expr()->eq('type', $select->createNamedParameter($this->type, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR))
+			->andWhere($subSelect->expr()->eq('category', $select->createNamedParameter(self::TAG_FAVORITE, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR))
+			->orderBy('id');
+
+		$select->select('objid')
+			->from(self::RELATION_TABLE)
+			->where($select->expr()->in('categoryid', $select->createFunction($subSelect->getSQL()), IQueryBuilder::PARAM_INT_ARRAY))
+			->andWhere($select->expr()->eq('type', $select->createNamedParameter($this->type, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR))
+			->orderBy('objid');
+
+		$result = $select->executeQuery();
+
+		$ids = [];
+		while ($row = $result->fetch()) {
+			$ids[] = (int)$row['objid'];
 		}
 
-		try {
-			return $this->getIdsForTag(ITags::TAG_FAVORITE);
-		} catch (\Exception $e) {
-			\OCP\Server::get(LoggerInterface::class)->error(
-				$e->getMessage(),
-				[
-					'app' => 'core',
-					'exception' => $e,
-				]
-			);
-			return [];
-		}
+		$result->closeCursor();
+
+		return $ids;
 	}
 
 	/**
