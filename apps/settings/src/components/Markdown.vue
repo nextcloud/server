@@ -100,7 +100,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.settings-markdown::v-deep {
+.settings-markdown :deep {
 	a {
 		text-decoration: underline;
 		&::after {

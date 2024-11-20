@@ -111,7 +111,7 @@
     "vue-frag": "^1.4.2",
     "vue-infinite-loading": "^2.4.5",
     "vue-localstorage": "^0.6.2",
-    "vue-material-design-icons": "^5.0.0",
+    "vue-material-design-icons": "^5.3.1",
     "vue-router": "^3.6.5",
     "vuedraggable": "^2.24.3",
     "vuex": "^3.6.2",
@@ -120,7 +120,7 @@
   },
   "devDependencies": {
     "@babel/node": "^7.25.7",
-    "@babel/plugin-transform-private-methods": "^7.25.7",
+    "@babel/plugin-transform-private-methods": "^7.25.9",
     "@babel/preset-typescript": "^7.24.7",
     "@cypress/vue2": "^2.1.1",
     "@cypress/webpack-preprocessor": "^6.0.2",
@@ -139,10 +139,10 @@
     "@types/dockerode": "^3.3.29",
     "@types/wait-on": "^5.3.4",
     "@vitejs/plugin-vue2": "^2.3.1",
-    "@vitest/coverage-v8": "^2.1.1",
+    "@vitest/coverage-v8": "^2.1.5",
     "@vue/test-utils": "^1.3.5",
     "@vue/tsconfig": "^0.5.1",
-    "@zip.js/zip.js": "^2.7.52",
+    "@zip.js/zip.js": "^2.7.53",
     "babel-loader": "^9.2.1",
     "babel-loader-exclude-node-modules-except": "^1.2.1",
     "babel-plugin-module-resolver": "^5.0.2",
@@ -174,7 +174,7 @@
     "puppeteer": "^23.5.0",
     "raw-loader": "^4.0.2",
     "regextras": "^0.8.0",
-    "sass": "^1.79.3",
+    "sass": "^1.81.0",
     "sass-loader": "^16.0.2",
     "sinon": "<= 5.0.7",
     "style-loader": "^4.0.0",
@@ -192,7 +192,7 @@
     "webpack": "^5.94.0",
     "webpack-cli": "^5.0.2",
     "webpack-merge": "^6.0.1",
-    "workbox-webpack-plugin": "^7.1.0"
+    "workbox-webpack-plugin": "^7.3.0"
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"

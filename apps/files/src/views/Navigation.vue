@@ -201,19 +201,15 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-// TODO: remove when https://github.com/nextcloud/nextcloud-vue/pull/3539 is in
-.app-navigation::v-deep .app-navigation-entry-icon {
-	background-repeat: no-repeat;
-	background-position: center;
-}
+.app-navigation {
+	:deep(.app-navigation-entry.active .button-vue.icon-collapse:not(:hover)) {
+		color: var(--color-primary-element-text);
+	}
 
-.app-navigation::v-deep .app-navigation-entry.active .button-vue.icon-collapse:not(:hover) {
-	color: var(--color-primary-element-text);
-}
-
-.app-navigation > ul.app-navigation__list {
-	// Use flex gap value for more elegant spacing
-	padding-bottom: var(--default-grid-baseline, 4px);
+	> ul.app-navigation__list {
+		// Use flex gap value for more elegant spacing
+		padding-bottom: var(--default-grid-baseline, 4px);
+	}
 }
 
 .app-navigation-entry__settings {

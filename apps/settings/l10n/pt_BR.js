@@ -122,7 +122,9 @@ OC.L10N.register(
     "Mobile & desktop" : "Móvel & desktop",
     "Email server" : "Servidor de e-mail",
     "Mail Providers" : "Provedores de correio eletrônico",
+    "Mail provider enables sending emails directly through the user's personal email account. At present, this functionality is limited to calendar invitations. It requires Nextcloud Mail 4.1 and an email account in Nextcloud Mail that matches the user's email address in Nextcloud." : "O provedor de e-mail permite o envio de e-mails diretamente pela conta de e-mail pessoal do usuário. No momento, essa funcionalidade está limitada a convites de calendário. Ele requer o Nextcloud Mail 4.1 e uma conta de e-mail no Nextcloud Mail que corresponda ao endereço de e-mail do usuário no Nextcloud.",
     "Send emails using" : "Envie e-mails via",
+    "User's email account" : "Conta de e-mail do usuário",
     "System email account" : "Conta de e-mail do sistema",
     "Security & setup checks" : "Verificações de segurança & configuração",
     "Background jobs" : "Tarefas em segundo plano",
@@ -914,6 +916,7 @@ OC.L10N.register(
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Para permitir que esta verificação seja executada, você deve garantir que seu servidor web possa se conectar a si mesmo. Portanto, ele deve ser capaz de resolver e se conectar a pelo menos um de seus `trusted_domains` ou ao `overwrite.cli.url`.",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Não foi possível verificar o suporte a JavaScript por meio de nenhum dos seus `trusted_domains` nem `overwrite.cli.url`. Isso pode ser o resultado de uma incompatibilidade de DNS no servidor ou de uma regra de firewall de saída. Verifique manualmente se o seu servidor web serve arquivos `.mjs` usando o tipo JavaScript MIME.",
     "Active accounts" : "Contas ativas",
+    "Users's email account" : "Conta de e-mail do usuário",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Para permitir que esta verificação seja executada, você deve certificar-se de que seu servidor Web pode se conectar a si mesmo. Portanto, ele deve ser capaz de resolver e conectar-se a pelo menos um de seus `trusted_domains` ou `overwrite.cli.url`. Essa falha pode ser o resultado de uma incompatibilidade de DNS no servidor ou de uma regra de firewall de saída.",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Versão PostgreSQL \"%s\" detectou. PostgreSQL >=12 e <=16 é sugerido para melhor desempenho, estabilidade e funcionalidade com esta versão do Nextcloud."
 },

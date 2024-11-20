@@ -106,68 +106,67 @@ $clickable-area: 44px;
 $margin: 10px;
 
 .result-items {
-    &__item {
+	&__item:deep {
 
-    ::v-deep a {
-            border-radius: 12px;
-            border: 2px solid transparent;
-            border-radius: var(--border-radius-large) !important;
+		a {
+			border: 2px solid transparent;
+			border-radius: var(--border-radius-large) !important;
 
-            &--focused {
-                background-color: var(--color-background-hover);
-            }
+			&--focused {
+				background-color: var(--color-background-hover);
+			}
 
-            &:active,
-            &:hover,
-            &:focus {
-                background-color: var(--color-background-hover);
-                border: 2px solid var(--color-border-maxcontrast);
-            }
+			&:active,
+			&:hover,
+			&:focus {
+				background-color: var(--color-background-hover);
+				border: 2px solid var(--color-border-maxcontrast);
+			}
 
-            * {
-                cursor: pointer;
-            }
+			* {
+				cursor: pointer;
+			}
 
-        }
+		}
 
-        &-icon {
-            overflow: hidden;
-            width: $clickable-area;
-            height: $clickable-area;
-            border-radius: var(--border-radius);
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-size: 32px;
+		&-icon {
+			overflow: hidden;
+			width: $clickable-area;
+			height: $clickable-area;
+			border-radius: var(--border-radius);
+			background-repeat: no-repeat;
+			background-position: center center;
+			background-size: 32px;
 
-            &--rounded {
-                border-radius: math.div($clickable-area, 2);
-            }
+			&--rounded {
+				border-radius: math.div($clickable-area, 2);
+			}
 
-            &--no-preview {
-                background-size: 32px;
-            }
+			&--no-preview {
+				background-size: 32px;
+			}
 
-            &--with-thumbnail {
-                background-size: cover;
-            }
+			&--with-thumbnail {
+				background-size: cover;
+			}
 
-            &--with-thumbnail:not(&--rounded) {
-                // compensate for border
-                max-width: $clickable-area - 2px;
-                max-height: $clickable-area - 2px;
-                border: 1px solid var(--color-border);
-            }
+			&--with-thumbnail:not(&--rounded) {
+				// compensate for border
+				max-width: $clickable-area - 2px;
+				max-height: $clickable-area - 2px;
+				border: 1px solid var(--color-border);
+			}
 
-            img {
-                // Make sure to keep ratio
-                width: 100%;
-                height: 100%;
+			img {
+				// Make sure to keep ratio
+				width: 100%;
+				height: 100%;
 
-                object-fit: cover;
-                object-position: center;
-            }
-        }
+				object-fit: cover;
+				object-position: center;
+			}
+		}
 
-    }
+	}
 }
 </style>

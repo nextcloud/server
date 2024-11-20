@@ -115,6 +115,7 @@ export default defineComponent({
 h3, h4 {
 	font-weight: bold;
 }
+
 h4, h5 {
 	margin-block-start: 12px;
 }

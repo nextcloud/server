@@ -350,7 +350,7 @@ export default {
 			case this.SHARE_TYPES.SHARE_TYPE_USER:
 				return t('files_sharing', 'Share with {userName}', { userName: this.share.shareWithDisplayName })
 			case this.SHARE_TYPES.SHARE_TYPE_EMAIL:
-			    return t('files_sharing', 'Share with email {email}', { email: this.share.shareWith })
+				return t('files_sharing', 'Share with email {email}', { email: this.share.shareWith })
 			case this.SHARE_TYPES.SHARE_TYPE_LINK:
 				return t('files_sharing', 'Share link')
 			case this.SHARE_TYPES.SHARE_TYPE_GROUP:
@@ -366,12 +366,12 @@ export default {
 			case this.SHARE_TYPES.SHARE_TYPE_GUEST:
 				return t('files_sharing', 'Share with guest')
 			default: {
-			        if (this.share.id) {
-					    // Share already exists
-					    return t('files_sharing', 'Update share')
-				    } else {
-					    return t('files_sharing', 'Create share')
-				    }
+				if (this.share.id) {
+					// Share already exists
+					return t('files_sharing', 'Update share')
+				} else {
+					return t('files_sharing', 'Create share')
+				}
 			}
 			}
 		},
@@ -1104,12 +1104,9 @@ export default {
 					padding: 0.1em;
 				}
 
-				::v-deep label {
-
-					span {
-						display: flex;
-						flex-direction: column;
-					}
+				:deep(label span) {
+					display: flex;
+					flex-direction: column;
 				}
 
 				/* Target component based style in NcCheckboxRadioSwitch slot content*/
@@ -1154,20 +1151,18 @@ export default {
 			}
 
 			/*
-              The following style is applied out of the component's scope
-              to remove padding from the label.checkbox-radio-switch__label,
-              which is used to group radio checkbox items. The use of ::v-deep
-              ensures that the padding is modified without being affected by
-              the component's scoping.
-              Without this achieving left alignment for the checkboxes would not
-              be possible.
-            */
-			span {
-				::v-deep label {
-					padding-inline-start: 0 !important;
-					background-color: initial !important;
-					border: none !important;
-				}
+			  The following style is applied out of the component's scope
+			  to remove padding from the label.checkbox-radio-switch__label,
+			  which is used to group radio checkbox items. The use of ::v-deep
+			  ensures that the padding is modified without being affected by
+			  the component's scoping.
+			  Without this achieving left alignment for the checkboxes would not
+			  be possible.
+			*/
+			span :deep(label) {
+				padding-inline-start: 0 !important;
+				background-color: initial !important;
+				border: none !important;
 			}
 
 			section.custom-permissions-group {
@@ -1177,7 +1172,7 @@ export default {
 	}
 
 	&__delete {
-		>button:first-child {
+		> button:first-child {
 			color: rgb(223, 7, 7);
 		}
 	}

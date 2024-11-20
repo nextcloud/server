@@ -12,6 +12,10 @@ import { t } from '@nextcloud/l10n'
 
 import TagMultipleSvg from '@mdi/svg/svg/tag-multiple.svg?raw'
 
+/**
+ *
+ * @param nodes
+ */
 async function execBatch(nodes: Node[]): Promise<(null|boolean)[]> {
 	const response = await new Promise<null|boolean>((resolve) => {
 		spawnDialog(defineAsyncComponent(() => import('../components/SystemTagPicker.vue')), {

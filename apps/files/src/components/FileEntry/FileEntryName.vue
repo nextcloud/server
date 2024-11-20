@@ -94,7 +94,8 @@ export default defineComponent({
 	},
 
 	setup() {
-		const { currentView } = useNavigation()
+		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
+		const { currentView } = useNavigation(true)
 		const { directory } = useRouteParameters()
 		const renamingStore = useRenamingStore()
 
@@ -143,7 +144,7 @@ export default defineComponent({
 				}
 			}
 
-			if (this.defaultFileAction && this.currentView) {
+			if (this.defaultFileAction) {
 				const displayName = this.defaultFileAction.displayName([this.source], this.currentView)
 				return {
 					is: 'button',
@@ -247,8 +248,8 @@ export default defineComponent({
 				if (status) {
 					showSuccess(t('files', 'Renamed "{oldName}" to "{newName}"', { oldName, newName }))
 					this.$nextTick(() => {
-						const nameContainter = this.$refs.basename as HTMLElement | undefined
-						nameContainter?.focus()
+						const nameContainer = this.$refs.basename as HTMLElement | undefined
+						nameContainer?.focus()
 					})
 				} else {
 					// Was cancelled - meaning the renaming state is just reset

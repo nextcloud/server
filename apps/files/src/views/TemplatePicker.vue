@@ -313,7 +313,7 @@ export default defineComponent({
 		padding: calc(var(--margin) * 2) var(--margin);
 		position: sticky;
 		bottom: 0;
-		background-image: linear-gradient(0, var(--gradient-main-background));
+		background-image: linear-gradient(0deg, var(--gradient-main-background));
 
 		button, input[type='submit'] {
 			height: 44px;
@@ -321,7 +321,7 @@ export default defineComponent({
 	}
 
 	// Make sure we're relative for the loading emptycontent on top
-	::v-deep .modal-container {
+	:deep(.modal-container) {
 		position: relative;
 	}
 

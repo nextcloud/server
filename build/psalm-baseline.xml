@@ -1025,11 +1025,6 @@
       <code><![CDATA[getSettingsManager]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/settings/lib/Controller/AppSettingsController.php">
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[ignoreNextcloudRequirementForApp]]></code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="apps/settings/lib/Hooks.php">
     <InvalidArrayOffset>
       <code><![CDATA[[$user->getEMailAddress() => $user->getDisplayName()]]]></code>
@@ -1333,15 +1328,6 @@
     <MoreSpecificImplementedParamType>
       <code><![CDATA[$key]]></code>
     </MoreSpecificImplementedParamType>
-    <TypeDoesNotContainType>
-      <code><![CDATA[!is_array($userIds)]]></code>
-    </TypeDoesNotContainType>
-  </file>
-  <file src="lib/private/App/AppManager.php">
-    <LessSpecificImplementedReturnType>
-      <code><![CDATA[array]]></code>
-      <code><![CDATA[array]]></code>
-    </LessSpecificImplementedReturnType>
   </file>
   <file src="lib/private/App/AppStore/Fetcher/Fetcher.php">
     <TooManyArguments>

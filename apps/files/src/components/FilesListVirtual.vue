@@ -350,7 +350,6 @@ export default defineComponent({
 	--icon-preview-size: 32px;
 
 	--fixed-block-start-position: var(--default-clickable-area);
-
 	overflow: auto;
 	height: 100%;
 	will-change: scroll-position;
@@ -453,7 +452,6 @@ export default defineComponent({
 			display: flex;
 			align-items: center;
 			width: 100%;
-			user-select: none;
 			border-block-end: 1px solid var(--color-border);
 			box-sizing: border-box;
 			user-select: none;
@@ -764,7 +762,6 @@ tbody.files-list__tbody.files-list__tbody--grid {
 	--row-width: calc(var(--icon-preview-size) + var(--item-padding) * 2);
 	--row-height: calc(var(--icon-preview-size) + var(--name-height) + var(--mtime-height) + var(--item-padding) * 2);
 	--checkbox-padding: 0px;
-
 	display: grid;
 	grid-template-columns: repeat(auto-fill, var(--row-width));
 
@@ -787,8 +784,8 @@ tbody.files-list__tbody.files-list__tbody--grid {
 	.files-list__row-checkbox {
 		position: absolute;
 		z-index: 9;
-		top: calc(var(--item-padding)/2);
-		inset-inline-start: calc(var(--item-padding)/2);
+		top: calc(var(--item-padding) / 2);
+		inset-inline-start: calc(var(--item-padding) / 2);
 		overflow: hidden;
 		--checkbox-container-size: 44px;
 		width: var(--checkbox-container-size);

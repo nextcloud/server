@@ -122,7 +122,7 @@
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "أكثر فئات الكائنات شيوعًا بالنسبة للمستخدمين هي:  الشخص التنظيمي \"organizationalPerson\" والشخص \"person\" والمستخدم \"user\"وinetOrgPerson. إذا لم تكن متأكدًا من فئة الكائن التي تريد تحديدها، فيرجى استشارة مسئول الدليل الخاص بك.",
     "The filter specifies which LDAP users shall have access to the %s instance." : "يُحدِّد عامل التصفية أيّ مستخدمي LDAP يمكنه الوصول إلى الخادم %s.",
     "Verify settings and count users" : "التّحقق من الإعدادات وعدد المستخدمين",
-    "Saving" : "الحفظ جارٍ ...",
+    "Saving" : "الحفظ جارٍ...",
     "Back" : "رجوع",
     "Continue" : "متابعة",
     "Please renew your password." : "الرجاء تجديد كلمة مرورك.",
