@@ -66,7 +66,7 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "Ierobežot lietotājiem koplietot tikai ar lietotājiem savās grupās",
     "Allow public uploads" : "Atļaut publisko augšupielādi",
     "Enforce password protection" : "Ieviest paroles aizsardzību",
-    "Enforce expiration date" : "Uzspiest beigu termiņu",
+    "Enforce expiration date" : "Uzspiest beigu datumu",
     "Privacy settings for sharing" : "Kopīgošanas privātuma iestatījumi",
     "Limit to groups" : "Ierobežot kopām",
     "Save changes" : "Saglabāt izmaiņas",
