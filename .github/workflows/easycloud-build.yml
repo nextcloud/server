@@ -42,7 +42,7 @@ permissions:
 
 jobs:
   easycloud-build:
-    runs-on: ubuntu-latest
+    runs-on: [ arc-runners-hdrive-nc, ubuntu-latest ]
 
     permissions:
       contents: read
