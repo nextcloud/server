@@ -29,7 +29,8 @@ class DeleteOrphanedFiles extends Command {
 	protected function configure(): void {
 		$this
 			->setName('files:cleanup')
-			->setDescription('cleanup filecache')
+			->setDescription('Clean up orphaned filecache and mount entries')
+			->setHelp('Deletes orphaned filecache and mount entries (those without an existing storage).')
 			->addOption('skip-filecache-extended', null, InputOption::VALUE_NONE, 'don\'t remove orphaned entries from filecache_extended');
 	}
 
