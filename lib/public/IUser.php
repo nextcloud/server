@@ -53,7 +53,7 @@ interface IUser {
 	public function getLastLogin(): int;
 
 	/**
-	 * Returns the timestamp of the user's first login or 0 if the user did never login
+	 * Returns the timestamp of the user's first login, 0 if the user did never login, or -1 if the data is unknown (first login was on an older version)
 	 *
 	 * @since 31.0.0
 	 */
