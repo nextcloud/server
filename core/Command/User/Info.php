@@ -47,6 +47,22 @@ class Info extends Base {
 			return 1;
 		}
 		$groups = $this->groupManager->getUserGroupIds($user);
+		$firstLogin = $user->getFirstLogin();
+		$lastLogin = $user->getLastLogin();
+		if ($firstLogin < 0) {
+			$firstSeen = 'unknown';
+		} elseif ($firstLogin === 0) {
+			$firstSeen = 'never';
+		} else {
+			$firstSeen = date(\DateTimeInterface::ATOM, $firstLogin); // ISO-8601
+		}
+		if ($lastLogin < 0) {
+			$lastSeen = 'unknown';
+		} elseif ($lastLogin === 0) {
+			$lastSeen = 'never';
+		} else {
+			$lastSeen = date(\DateTimeInterface::ATOM, $lastLogin); // ISO-8601
+		}
 		$data = [
 			'user_id' => $user->getUID(),
 			'display_name' => $user->getDisplayName(),
@@ -56,8 +72,8 @@ class Info extends Base {
 			'groups' => $groups,
 			'quota' => $user->getQuota(),
 			'storage' => $this->getStorageInfo($user),
-			'first_seen' => date(\DateTimeInterface::ATOM, $user->getFirstLogin()), // ISO-8601
-			'last_seen' => date(\DateTimeInterface::ATOM, $user->getLastLogin()), // ISO-8601
+			'first_seen' => $firstSeen,
+			'last_seen' => $lastSeen,
 			'user_directory' => $user->getHome(),
 			'backend' => $user->getBackendClassName()
 		];
