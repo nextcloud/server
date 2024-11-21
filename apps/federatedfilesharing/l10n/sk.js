@@ -36,6 +36,7 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Dajte vedieť vašim priateľom ako s vami môžu zdieľať súbory:",
     "Facebook" : "Facebook",
     "X (formerly Twitter)" : "X (predtým Twitter)",
+    "formerly Twitter" : "predtým Twitter",
     "Mastodon" : "Mastodon",
     "Add to your website" : "Pridať na svoju webstránku",
     "Share with me via Nextcloud" : "Sprístupnené cez Nextcloud",
