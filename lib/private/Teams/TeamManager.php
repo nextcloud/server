@@ -18,6 +18,7 @@ use OCP\Teams\ITeamResourceProvider;
 use OCP\Teams\Team;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 class TeamManager implements ITeamManager {
 
@@ -28,6 +29,7 @@ class TeamManager implements ITeamManager {
 		private Coordinator $bootContext,
 		private IURLGenerator $urlGenerator,
 		private ?CirclesManager $circlesManager,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -88,7 +90,12 @@ class TeamManager implements ITeamManager {
 			return [];
 		}
 
-		$provider = $this->getProvider($providerId);
+		try {
+			$provider = $this->getProvider($providerId);
+		} catch (\RuntimeException $e) {
+			$this->logger->info($e->getMessage(), ['exception' => $e]);
+			return [];
+		}
 		return array_values(array_filter(array_map(function ($teamId) use ($userId) {
 			$team = $this->getTeam($teamId, $userId);
 			if ($team === null) {

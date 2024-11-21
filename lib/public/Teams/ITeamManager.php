@@ -6,6 +6,8 @@
 
 namespace OCP\Teams;
 
+use RuntimeException;
+
 /**
  * @since 29.0.0
  */
@@ -21,6 +23,7 @@ interface ITeamManager {
 	/**
 	 * Get a specific team resource provider by its id
 	 *
+	 * @throws RuntimeException
 	 * @since 29.0.0
 	 */
 	public function getProvider(string $providerId): ITeamResourceProvider;
