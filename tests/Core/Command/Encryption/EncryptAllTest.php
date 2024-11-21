@@ -71,15 +71,6 @@ class EncryptAllTest extends TestCase {
 		// trash bin needs to be disabled in order to avoid adding dummy files to the users
 		// trash bin which gets deleted during the encryption process
 		$this->appManager->expects($this->once())->method('disableApp')->with('files_trashbin');
-		// enable single user mode to avoid that other user login during encryption
-		// destructor should disable the single user mode again
-		$this->config->expects($this->once())->method('getSystemValueBool')->with('maintenance', false)->willReturn(false);
-		$this->config->expects($this->exactly(2))
-			->method('setSystemValue')
-			->withConsecutive(
-				['maintenance', true],
-				['maintenance', false],
-			);
 
 		$instance = new EncryptAll($this->encryptionManager, $this->appManager, $this->config, $this->questionHelper);
 		$this->invokePrivate($instance, 'forceMaintenanceAndTrashbin');

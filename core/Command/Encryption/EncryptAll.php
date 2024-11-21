@@ -17,7 +17,6 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class EncryptAll extends Command {
 	protected bool $wasTrashbinEnabled = false;
-	protected bool $wasMaintenanceModeEnabled = false;
 
 	public function __construct(
 		protected IManager $encryptionManager,
@@ -33,7 +32,6 @@ class EncryptAll extends Command {
 	 */
 	protected function forceMaintenanceAndTrashbin(): void {
 		$this->wasTrashbinEnabled = (bool)$this->appManager->isEnabledForUser('files_trashbin');
-		$this->wasMaintenanceModeEnabled = $this->config->getSystemValueBool('maintenance');
 		$this->config->setSystemValue('maintenance', true);
 		$this->appManager->disableApp('files_trashbin');
 	}
@@ -42,7 +40,7 @@ class EncryptAll extends Command {
 	 * Reset the maintenance mode and re-enable the trashbin app
 	 */
 	protected function resetMaintenanceAndTrashbin(): void {
-		$this->config->setSystemValue('maintenance', $this->wasMaintenanceModeEnabled);
+		$this->config->setSystemValue('maintenance', false);
 		if ($this->wasTrashbinEnabled) {
 			$this->appManager->enableApp('files_trashbin');
 		}
@@ -73,6 +71,11 @@ class EncryptAll extends Command {
 			throw new \Exception('Server side encryption is not enabled');
 		}
 
+		if ($this->config->getSystemValueBool('maintenance')) {
+			$output->writeln('<error>This command cannot be run with maintenance mode enabled.</error>');
+			return self::FAILURE;
+		}
+
 		$output->writeln("\n");
 		$output->writeln('You are about to encrypt all files stored in your Nextcloud installation.');
 		$output->writeln('Depending on the number of available files, and their size, this may take quite some time.');
@@ -92,9 +95,9 @@ class EncryptAll extends Command {
 			}
 
 			$this->resetMaintenanceAndTrashbin();
-			return 0;
+			return self::SUCCESS;
 		}
 		$output->writeln('aborted');
-		return 1;
+		return self::FAILURE;
 	}
 }
