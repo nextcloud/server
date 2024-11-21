@@ -19,7 +19,7 @@ OC.L10N.register(
     "Disconnect" : "Rozłącz się",
     "Admin defined" : "Zdefiniowane przez Administratora",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatyczne sprawdzanie statusu jest wyłączone z powodu dużej liczby skonfigurowanych magazynów, kliknij, aby sprawdzić status",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Czy na pewno chcesz odłączyć tę pamięć zewnętrzną? Spowoduje to, że pamięć będzie niedostępna w Nextcloud i doprowadzi do usunięcia tych plików i folderów na dowolnym kliencie synchronizacji, który jest aktualnie podłączony, ale nie usunie żadnych plików i folderów z samej pamięci zewnętrznej.",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Czy na pewno chcesz odłączyć tę pamięć zewnętrzną? Spowoduje to, że pamięć będzie niedostępna w Nextcloud i doprowadzi do usunięcia tych plików i katalogów na dowolnym kliencie synchronizacji, który jest aktualnie podłączony, ale nie usunie żadnych plików i katalogów z samej pamięci zewnętrznej.",
     "Delete storage?" : "Usunąć magazyn?",
     "Click to recheck the configuration" : "Kliknij, aby ponownie sprawdzić konfigurację",
     "Saved" : "Zapisano",

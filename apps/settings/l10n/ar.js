@@ -241,6 +241,8 @@ OC.L10N.register(
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "لا يحتوي PHP على دعم FreeType ، مما يؤدي إلى كسر صور الملف الشخصي وواجهة الإعدادات.",
     "PHP getenv" : "PHP getenv",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "يبدو أن PHP لم يتم إعدادها بشكل صحيح للاستعلام عن متغيرات بيئة النظام. يقوم الاختبار باستخدام getenv (\"PATH\") بإرجاع استجابة فارغة فقط.",
+    "PHP file size upload limit" : "الحد الأقصى لحجم تحميل ملف PHP",
+    "The PHP upload_max_filesize is too low. A size of at least %1$s is recommended. Current value: %2$s." : "الحد الأقصى لحجم تحميل ملف \"بي إتش بي\" upload_max_filesize ضعيف جداً. يُوصى بألاّ يقل الحجم عن %1$s. القيمة الحالية: %2$s.",
     "PHP memory limit" : "PHP memory limit",
     "The PHP memory limit is below the recommended value of %s." : "حد ذاكرة PHP أقل من القيمة الموصى بها وهي %s.",
     "PHP modules" : "وحدات الـ PHP",

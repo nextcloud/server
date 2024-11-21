@@ -191,7 +191,7 @@ OC.L10N.register(
     "Wipe device" : "Cantzella dispositivu",
     "Google Chrome for Android" : "Google Chrome pro Android",
     "{productName} iOS app" : "{productName} aplicatzione iOS ",
-    "{productName} Android app" : "{productName} aplicatzione Android",
+    "{productName} Android app" : "Aplicatzione de {productName} pro Android",
     "{productName} Talk for iOS" : "{productName} Talk pro iOS",
     "{productName} Talk for Android" : "{productName} Talk pro Android",
     "This session" : "Custa sessione",
