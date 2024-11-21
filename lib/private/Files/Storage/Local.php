@@ -380,10 +380,12 @@ class Local extends \OC\Files\Storage\Common {
 			return false;
 		}
 
-		if ($this->is_dir($target)) {
-			$this->rmdir($target);
-		} elseif ($this->is_file($target)) {
-			$this->unlink($target);
+		if ($this->file_exists($target)) {
+			if ($this->is_dir($target)) {
+				$this->rmdir($target);
+			} elseif ($this->is_file($target)) {
+				$this->unlink($target);
+			}
 		}
 
 		if ($this->is_dir($source)) {
