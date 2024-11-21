@@ -228,15 +228,20 @@ class User implements IUser {
 		$previousLogin = $this->getLastLogin();
 		$firstLogin = $this->getFirstLogin();
 		$now = time();
-		$firstTimeLogin = $firstLogin === 0;
+		$firstTimeLogin = $previousLogin === 0;
 
 		if ($now - $previousLogin > 60) {
 			$this->lastLogin = $now;
 			$this->config->setUserValue($this->uid, 'login', 'lastLogin', (string)$this->lastLogin);
 		}
 
-		if ($firstTimeLogin) {
-			$this->firstLogin = $now;
+		if ($firstLogin === 0) {
+			if ($firstTimeLogin) {
+				$this->firstLogin = $now;
+			} else {
+				/* Unknown first login, most likely was before upgrade to Nextcloud 31 */
+				$this->firstLogin = -1;
+			}
 			$this->config->setUserValue($this->uid, 'login', 'firstLogin', (string)$this->firstLogin);
 		}
 
