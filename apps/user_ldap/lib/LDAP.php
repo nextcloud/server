@@ -187,6 +187,8 @@ class LDAP implements ILDAPWrapper {
 			return true;
 		});
 		try {
+			// Escape the filter before use to avoid issues with special characters
+			$filter = ldap_escape($filter, "", LDAP_ESCAPE_FILTER);
 			$result = $this->invokeLDAPMethod('search', $link, $baseDN, $filter, $attr, $attrsOnly, $limit, -1, LDAP_DEREF_NEVER, $serverControls);
 
 			restore_error_handler();
