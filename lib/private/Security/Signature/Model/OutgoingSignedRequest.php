@@ -9,8 +9,11 @@ declare(strict_types=1);
 namespace OC\Security\Signature\Model;
 
 use JsonSerializable;
+use NCU\Security\Signature\ISignatoryManager;
 use NCU\Security\Signature\ISignatureManager;
 use NCU\Security\Signature\Model\IOutgoingSignedRequest;
+use NCU\Security\Signature\SignatureAlgorithm;
+use OC\Security\Signature\SignatureManager;
 
 /**
  * extends ISignedRequest to add info requested at the generation of the signature
@@ -23,8 +26,44 @@ class OutgoingSignedRequest extends SignedRequest implements
 	JsonSerializable {
 	private string $host = '';
 	private array $headers = [];
-	private string $clearSignature = '';
-	private string $algorithm;
+	/** @var list<string> $headerList */
+	private array $headerList = [];
+	private SignatureAlgorithm $algorithm;
+	public function __construct(
+		string $body,
+		ISignatoryManager $signatoryManager,
+		private readonly string $identity,
+		private readonly string $method,
+		private readonly string $path,
+	) {
+		parent::__construct($body);
+
+		$options = $signatoryManager->getOptions();
+		$this->setHost($identity)
+			->setAlgorithm(SignatureAlgorithm::from($options['algorithm'] ?? 'sha256'))
+			->setSignatory($signatoryManager->getLocalSignatory());
+
+		$headers = array_merge([
+			'(request-target)' => strtolower($method) . ' ' . $path,
+			'content-length' => strlen($this->getBody()),
+			'date' => gmdate($options['dateHeader'] ?? SignatureManager::DATE_HEADER),
+			'digest' => $this->getDigest(),
+			'host' => $this->getHost()
+		], $options['extraSignatureHeaders'] ?? []);
+
+		$signing = $headerList = [];
+		foreach ($headers as $element => $value) {
+			$value = $headers[$element];
+			$signing[] = $element . ': ' . $value;
+			$headerList[] = $element;
+			if ($element !== '(request-target)') {
+				$this->addHeader($element, $value);
+			}
+		}
+
+		$this->setHeaderList($headerList)
+			->setClearSignature(implode("\n", $signing));
+	}
 
 	/**
 	 * @inheritDoc
@@ -52,12 +91,12 @@ class OutgoingSignedRequest extends SignedRequest implements
 	 * @inheritDoc
 	 *
 	 * @param string $key
-	 * @param string|int|float|bool|array $value
+	 * @param string|int|float $value
 	 *
 	 * @return IOutgoingSignedRequest
 	 * @since 31.0.0
 	 */
-	public function addHeader(string $key, string|int|float|bool|array $value): IOutgoingSignedRequest {
+	public function addHeader(string $key, string|int|float $value): IOutgoingSignedRequest {
 		$this->headers[$key] = $value;
 		return $this;
 	}
@@ -73,37 +112,37 @@ class OutgoingSignedRequest extends SignedRequest implements
 	}
 
 	/**
-	 * @inheritDoc
+	 * set the ordered list of used headers in the Signature
 	 *
-	 * @param string $estimated
+	 * @param list<string> $list
 	 *
 	 * @return IOutgoingSignedRequest
 	 * @since 31.0.0
 	 */
-	public function setClearSignature(string $estimated): IOutgoingSignedRequest {
-		$this->clearSignature = $estimated;
+	public function setHeaderList(array $list): IOutgoingSignedRequest {
+		$this->headerList = $list;
 		return $this;
 	}
 
 	/**
-	 * @inheritDoc
+	 * returns ordered list of used headers in the Signature
 	 *
-	 * @return string
+	 * @return list<string>
 	 * @since 31.0.0
 	 */
-	public function getClearSignature(): string {
-		return $this->clearSignature;
+	public function getHeaderList(): array {
+		return $this->headerList;
 	}
 
 	/**
 	 * @inheritDoc
 	 *
-	 * @param string $algorithm
+	 * @param SignatureAlgorithm $algorithm
 	 *
 	 * @return IOutgoingSignedRequest
 	 * @since 31.0.0
 	 */
-	public function setAlgorithm(string $algorithm): IOutgoingSignedRequest {
+	public function setAlgorithm(SignatureAlgorithm $algorithm): IOutgoingSignedRequest {
 		$this->algorithm = $algorithm;
 		return $this;
 	}
@@ -111,10 +150,10 @@ class OutgoingSignedRequest extends SignedRequest implements
 	/**
 	 * @inheritDoc
 	 *
-	 * @return string
+	 * @return SignatureAlgorithm
 	 * @since 31.0.0
 	 */
-	public function getAlgorithm(): string {
+	public function getAlgorithm(): SignatureAlgorithm {
 		return $this->algorithm;
 	}
 
@@ -122,9 +161,12 @@ class OutgoingSignedRequest extends SignedRequest implements
 		return array_merge(
 			parent::jsonSerialize(),
 			[
+				'host' => $this->host,
 				'headers' => $this->headers,
-				'host' => $this->getHost(),
-				'clearSignature' => $this->getClearSignature(),
+				'algorithm' => $this->algorithm->value,
+				'method' => $this->method,
+				'identity' => $this->identity,
+				'path' => $this->path,
 			]
 		);
 	}

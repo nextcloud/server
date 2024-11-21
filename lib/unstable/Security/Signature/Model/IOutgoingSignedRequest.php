@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace NCU\Security\Signature\Model;
 
 use NCU\Security\Signature\ISignatureManager;
+use NCU\Security\Signature\SignatureAlgorithm;
 
 /**
  * extends ISignedRequest to add info requested at the generation of the signature
@@ -41,12 +42,12 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 * add a key/value pair to the headers of the request
 	 *
 	 * @param string $key
-	 * @param string|int|float|bool|array $value
+	 * @param string|int|float $value
 	 *
 	 * @return IOutgoingSignedRequest
 	 * @since 31.0.0
 	 */
-	public function addHeader(string $key, string|int|float|bool|array $value): IOutgoingSignedRequest;
+	public function addHeader(string $key, string|int|float $value): IOutgoingSignedRequest;
 
 	/**
 	 * returns list of headers value that will be added to the base request
@@ -57,38 +58,38 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	public function getHeaders(): array;
 
 	/**
-	 * store a clear version of the signature
+	 * set the ordered list of used headers in the Signature
 	 *
-	 * @param string $estimated
+	 * @param list<string> $list
 	 *
 	 * @return IOutgoingSignedRequest
 	 * @since 31.0.0
 	 */
-	public function setClearSignature(string $estimated): IOutgoingSignedRequest;
+	public function setHeaderList(array $list): IOutgoingSignedRequest;
 
 	/**
-	 * returns the clear version of the signature
+	 * returns ordered list of used headers in the Signature
 	 *
-	 * @return string
+	 * @return list<string>
 	 * @since 31.0.0
 	 */
-	public function getClearSignature(): string;
+	public function getHeaderList(): array;
 
 	/**
 	 * set algorithm to be used to sign the signature
 	 *
-	 * @param string $algorithm
+	 * @param SignatureAlgorithm $algorithm
 	 *
 	 * @return IOutgoingSignedRequest
 	 * @since 31.0.0
 	 */
-	public function setAlgorithm(string $algorithm): IOutgoingSignedRequest;
+	public function setAlgorithm(SignatureAlgorithm $algorithm): IOutgoingSignedRequest;
 
 	/**
 	 * returns the algorithm set to sign the signature
 	 *
-	 * @return string
+	 * @return SignatureAlgorithm
 	 * @since 31.0.0
 	 */
-	public function getAlgorithm(): string;
+	public function getAlgorithm(): SignatureAlgorithm;
 }

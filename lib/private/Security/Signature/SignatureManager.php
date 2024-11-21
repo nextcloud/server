@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -16,6 +15,7 @@ use NCU\Security\Signature\Exceptions\InvalidSignatureException;
 use NCU\Security\Signature\Exceptions\SignatoryConflictException;
 use NCU\Security\Signature\Exceptions\SignatoryException;
 use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
+use NCU\Security\Signature\Exceptions\SignatureElementNotFoundException;
 use NCU\Security\Signature\Exceptions\SignatureException;
 use NCU\Security\Signature\Exceptions\SignatureNotFoundException;
 use NCU\Security\Signature\ISignatoryManager;
@@ -45,7 +45,7 @@ use Psr\Log\LoggerInterface;
  *     "date": "Mon, 08 Jul 2024 14:16:20 GMT",
  *     "digest": "SHA-256=U7gNVUQiixe5BRbp4Tg0xCZMTcSWXXUZI2\\/xtHM40S0=",
  *     "host": "hostname.of.the.recipient",
- *     "Signature": "keyId=\"https://author.hostname/key\",algorithm=\"ras-sha256\",headers=\"content-length
+ *     "Signature": "keyId=\"https://author.hostname/key\",algorithm=\"sha256\",headers=\"content-length
  * date digest host\",signature=\"DzN12OCS1rsA[...]o0VmxjQooRo6HHabg==\""
  * }
  *
@@ -66,11 +66,11 @@ use Psr\Log\LoggerInterface;
  * @since 31.0.0
  */
 class SignatureManager implements ISignatureManager {
-	private const DATE_HEADER = 'D, d M Y H:i:s T';
-	private const DATE_TTL = 300;
-	private const SIGNATORY_TTL = 86400 * 3;
-	private const TABLE_SIGNATORIES = 'sec_signatory';
-	private const BODY_MAXSIZE = 50000; // max size of the payload of the request
+	public const DATE_HEADER = 'D, d M Y H:i:s T';
+	public const DATE_TTL = 300;
+	public const SIGNATORY_TTL = 86400 * 3;
+	public const TABLE_SIGNATORIES = 'sec_signatory';
+	public const BODY_MAXSIZE = 50000; // max size of the payload of the request
 	public const APPCONFIG_IDENTITY = 'security.signature.identity';
 
 	public function __construct(
@@ -98,25 +98,29 @@ class SignatureManager implements ISignatureManager {
 		?string $body = null,
 	): IIncomingSignedRequest {
 		$body = $body ?? file_get_contents('php://input');
-		if (strlen($body) > self::BODY_MAXSIZE) {
+		$options = $signatoryManager->getOptions();
+		if (strlen($body) > ($options['bodyMaxSize'] ?? self::BODY_MAXSIZE)) {
 			throw new IncomingRequestException('content of request is too big');
 		}
 
-		$signedRequest = new IncomingSignedRequest($body);
-		$signedRequest->setRequest($this->request);
-		$options = $signatoryManager->getOptions();
+		// generate IncomingSignedRequest based on body and request
+		$signedRequest = new IncomingSignedRequest($body, $this->request, $options);
+		try {
+			// we set origin based on the keyId defined in the Signature header of the request
+			$signedRequest->setOrigin($this->extractIdentityFromUri($signedRequest->getSignatureElement('keyId')));
+		} catch (IdentityNotFoundException $e) {
+			throw new IncomingRequestException($e->getMessage());
+		}
 
 		try {
-			$this->verifyIncomingRequestTime($signedRequest, $options['ttl'] ?? self::DATE_TTL);
-			$this->verifyIncomingRequestContent($signedRequest);
-			$this->prepIncomingSignatureHeader($signedRequest);
-			$this->verifyIncomingSignatureHeader($signedRequest);
-			$this->prepEstimatedSignature($signedRequest, $options['extraSignatureHeaders'] ?? []);
-			$this->verifyIncomingRequestSignature($signedRequest, $signatoryManager, $options['ttlSignatory'] ?? self::SIGNATORY_TTL);
+			// confirm the validity of content and identity of the incoming request
+			$this->generateExpectedClearSignatureFromRequest($signedRequest, $options['extraSignatureHeaders'] ?? []);
+			$this->confirmIncomingRequestSignature($signedRequest, $signatoryManager, $options['ttlSignatory'] ?? self::SIGNATORY_TTL);
 		} catch (SignatureException $e) {
 			$this->logger->warning(
 				'signature could not be verified', [
-					'exception' => $e, 'signedRequest' => $signedRequest,
+					'exception' => $e,
+					'signedRequest' => $signedRequest,
 					'signatoryManager' => get_class($signatoryManager)
 				]
 			);
@@ -124,6 +128,95 @@ class SignatureManager implements ISignatureManager {
 		}
 
 		return $signedRequest;
+	}
+
+	/**
+	 * generating the expected signature (clear version) sent by the remote instance
+	 * based on the data available in the Signature header.
+	 *
+	 * @param IIncomingSignedRequest $signedRequest
+	 * @param array $extraSignatureHeaders
+	 *
+	 * @throws SignatureException
+	 */
+	private function generateExpectedClearSignatureFromRequest(
+		IIncomingSignedRequest $signedRequest,
+		array $extraSignatureHeaders = [],
+	): void {
+		$request = $signedRequest->getRequest();
+		$usedHeaders = explode(' ', $signedRequest->getSignatureElement('headers'));
+		$neededHeaders = array_merge(['date', 'host', 'content-length', 'digest'], array_keys($extraSignatureHeaders));
+
+		$missingHeaders = array_diff($neededHeaders, $usedHeaders);
+		if ($missingHeaders !== []) {
+			throw new SignatureException('missing entries in Signature.headers: ' . json_encode($missingHeaders));
+		}
+
+		$estimated = ['(request-target): ' . strtolower($request->getMethod()) . ' ' . $request->getRequestUri()];
+		foreach ($usedHeaders as $key) {
+			if ($key === '(request-target)') {
+				continue;
+			}
+			$value = (strtolower($key) === 'host') ? $request->getServerHost() : $request->getHeader($key);
+			if ($value === '') {
+				throw new SignatureException('missing header ' . $key . ' in request');
+			}
+
+			$estimated[] = $key . ': ' . $value;
+		}
+
+		$signedRequest->setClearSignature(implode("\n", $estimated));
+	}
+
+	/**
+	 * confirm that the Signature is signed using the correct private key, using
+	 * clear version of the Signature and the public key linked to the keyId
+	 *
+	 * @param IIncomingSignedRequest $signedRequest
+	 * @param ISignatoryManager $signatoryManager
+	 *
+	 * @throws SignatoryNotFoundException
+	 * @throws SignatureException
+	 */
+	private function confirmIncomingRequestSignature(
+		IIncomingSignedRequest $signedRequest,
+		ISignatoryManager $signatoryManager,
+		int $ttlSignatory,
+	): void {
+		$knownSignatory = null;
+		try {
+			$knownSignatory = $this->getStoredSignatory($signedRequest->getKeyId());
+			// refreshing ttl and compare with previous public key
+			if ($ttlSignatory > 0 && $knownSignatory->getLastUpdated() < (time() - $ttlSignatory)) {
+				$signatory = $this->getSaneRemoteSignatory($signatoryManager, $signedRequest);
+				$this->updateSignatoryMetadata($signatory);
+				$knownSignatory->setMetadata($signatory->getMetadata());
+			}
+
+			$signedRequest->setSignatory($knownSignatory);
+			$this->verifySignedRequest($signedRequest);
+		} catch (InvalidKeyOriginException $e) {
+			throw $e; // issue while requesting remote instance also means there is no 2nd try
+		} catch (SignatoryNotFoundException) {
+			// if no signatory in cache, we retrieve the one from the remote instance (using
+			// $signatoryManager), check its validity with current signature and store it
+			$signatory = $this->getSaneRemoteSignatory($signatoryManager, $signedRequest);
+			$signedRequest->setSignatory($signatory);
+			$this->verifySignedRequest($signedRequest);
+			$this->storeSignatory($signatory);
+		} catch (SignatureException) {
+			// if public key (from cache) is not valid, we try to refresh it (based on SignatoryType)
+			try {
+				$signatory = $this->getSaneRemoteSignatory($signatoryManager, $signedRequest);
+			} catch (SignatoryNotFoundException $e) {
+				$this->manageDeprecatedSignatory($knownSignatory);
+				throw $e;
+			}
+
+			$signedRequest->setSignatory($signatory);
+			$this->verifySignedRequest($signedRequest);
+			$this->storeSignatory($signatory);
+		}
 	}
 
 	/**
@@ -135,6 +228,9 @@ class SignatureManager implements ISignatureManager {
 	 * @param string $uri needed in the signature
 	 *
 	 * @return IOutgoingSignedRequest
+	 * @throws IdentityNotFoundException
+	 * @throws SignatoryException
+	 * @throws SignatoryNotFoundException
 	 * @since 31.0.0
 	 */
 	public function getOutgoingSignedRequest(
@@ -143,24 +239,41 @@ class SignatureManager implements ISignatureManager {
 		string $method,
 		string $uri,
 	): IOutgoingSignedRequest {
-		$signedRequest = new OutgoingSignedRequest($content);
-		$options = $signatoryManager->getOptions();
-
-		$signedRequest->setHost($this->getHostFromUri($uri))
-			->setAlgorithm($options['algorithm'] ?? 'sha256')
-			->setSignatory($signatoryManager->getLocalSignatory());
-
-		$this->setOutgoingSignatureHeader(
-			$signedRequest,
-			strtolower($method),
-			parse_url($uri, PHP_URL_PATH) ?? '/',
-			$options['dateHeader'] ?? self::DATE_HEADER
+		$signedRequest = new OutgoingSignedRequest(
+			$content,
+			$signatoryManager,
+			$this->extractIdentityFromUri($uri),
+			$method,
+			parse_url($uri, PHP_URL_PATH) ?? '/'
 		);
-		$this->setOutgoingClearSignature($signedRequest);
-		$this->setOutgoingSignedSignature($signedRequest);
-		$this->signingOutgoingRequest($signedRequest);
+
+		$this->signOutgoingRequest($signedRequest);
 
 		return $signedRequest;
+	}
+
+	/**
+	 * signing clear version of the Signature header
+	 *
+	 * @param IOutgoingSignedRequest $signedRequest
+	 *
+	 * @throws SignatoryException
+	 * @throws SignatoryNotFoundException
+	 */
+	private function signOutgoingRequest(IOutgoingSignedRequest $signedRequest): void {
+		$clear = $signedRequest->getClearSignature();
+		$signed = $this->signString($clear, $signedRequest->getSignatory()->getPrivateKey(), $signedRequest->getAlgorithm());
+
+		$signatory = $signedRequest->getSignatory();
+		$signatureElements = [
+			'keyId="' . $signatory->getKeyId() . '"',
+			'algorithm="' . $signedRequest->getAlgorithm()->value . '"',
+			'headers="' . implode(' ', $signedRequest->getHeaderList()) . '"',
+			'signature="' . $signed . '"'
+		];
+
+		$signedRequest->setSignedSignature($signed);
+		$signedRequest->addHeader('Signature', implode(',', $signatureElements));
 	}
 
 	/**
@@ -267,291 +380,35 @@ class SignatureManager implements ISignatureManager {
 	}
 
 	/**
-	 * using the requested 'date' entry from header to confirm request is not older than ttl
+	 * get remote signatory using the ISignatoryManager
+	 * and confirm the validity of the keyId
 	 *
-	 * @param IIncomingSignedRequest $signedRequest
-	 * @param int $ttl
-	 *
-	 * @throws IncomingRequestException
-	 * @throws SignatureNotFoundException
-	 */
-	private function verifyIncomingRequestTime(IIncomingSignedRequest $signedRequest, int $ttl): void {
-		$request = $signedRequest->getRequest();
-		$date = $request->getHeader('date');
-		if ($date === '') {
-			throw new SignatureNotFoundException('missing date in header');
-		}
-
-		try {
-			$dTime = new \DateTime($date);
-			$signedRequest->setTime($dTime->getTimestamp());
-		} catch (\Exception $e) {
-			$this->logger->warning(
-				'datetime exception', ['exception' => $e, 'header' => $request->getHeader('date')]
-			);
-			throw new IncomingRequestException('datetime exception');
-		}
-
-		if ($signedRequest->getTime() < (time() - $ttl)) {
-			throw new IncomingRequestException('object is too old');
-		}
-	}
-
-
-	/**
-	 * confirm the values of 'content-length' and 'digest' from header
-	 * is related to request content
-	 *
-	 * @param IIncomingSignedRequest $signedRequest
-	 *
-	 * @throws IncomingRequestException
-	 * @throws SignatureNotFoundException
-	 */
-	private function verifyIncomingRequestContent(IIncomingSignedRequest $signedRequest): void {
-		$request = $signedRequest->getRequest();
-		$contentLength = $request->getHeader('content-length');
-		if ($contentLength === '') {
-			throw new SignatureNotFoundException('missing content-length in header');
-		}
-
-		if (strlen($signedRequest->getBody()) !== (int)$request->getHeader('content-length')) {
-			throw new IncomingRequestException(
-				'inexact content-length in header: ' . strlen($signedRequest->getBody()) . ' vs '
-				. (int)$request->getHeader('content-length')
-			);
-		}
-
-		$digest = $request->getHeader('digest');
-		if ($digest === '') {
-			throw new SignatureNotFoundException('missing digest in header');
-		}
-
-		if ($digest !== $signedRequest->getDigest()) {
-			throw new IncomingRequestException('invalid value for digest in header');
-		}
-	}
-
-	/**
-	 * preparing a clear version of the signature based on list of metadata from the
-	 * Signature entry in header
-	 *
-	 * @param IIncomingSignedRequest $signedRequest
-	 *
-	 * @throws SignatureNotFoundException
-	 */
-	private function prepIncomingSignatureHeader(IIncomingSignedRequest $signedRequest): void {
-		$sign = [];
-		$request = $signedRequest->getRequest();
-		$signature = $request->getHeader('Signature');
-		if ($signature === '') {
-			throw new SignatureNotFoundException('missing Signature in header');
-		}
-
-		foreach (explode(',', $signature) as $entry) {
-			if ($entry === '' || !strpos($entry, '=')) {
-				continue;
-			}
-
-			[$k, $v] = explode('=', $entry, 2);
-			preg_match('/"([^"]+)"/', $v, $var);
-			if ($var[0] !== '') {
-				$v = trim($var[0], '"');
-			}
-			$sign[$k] = $v;
-		}
-
-		$signedRequest->setSignatureHeader($sign);
-	}
-
-
-	/**
-	 * @param IIncomingSignedRequest $signedRequest
-	 *
-	 * @throws IncomingRequestException
-	 * @throws InvalidKeyOriginException
-	 */
-	private function verifyIncomingSignatureHeader(IIncomingSignedRequest $signedRequest): void {
-		$data = $signedRequest->getSignatureHeader();
-		if (!array_key_exists('keyId', $data) || !array_key_exists('headers', $data)
-			|| !array_key_exists('signature', $data)) {
-			throw new IncomingRequestException('missing keys in signature headers: ' . json_encode($data));
-		}
-
-		try {
-			$signedRequest->setOrigin($this->getHostFromUri($data['keyId']));
-		} catch (\Exception) {
-			throw new InvalidKeyOriginException('cannot retrieve origin from ' . $data['keyId']);
-		}
-
-		$signedRequest->setSignedSignature($data['signature']);
-	}
-
-
-	/**
-	 * @param IIncomingSignedRequest $signedRequest
-	 * @param array $extraSignatureHeaders
-	 *
-	 * @throws IncomingRequestException
-	 */
-	private function prepEstimatedSignature(
-		IIncomingSignedRequest $signedRequest,
-		array $extraSignatureHeaders = [],
-	): void {
-		$request = $signedRequest->getRequest();
-		$headers = explode(' ', $signedRequest->getSignatureHeader()['headers'] ?? []);
-
-		$enforceHeaders = array_merge(
-			['date', 'host', 'content-length', 'digest'],
-			$extraSignatureHeaders
-		);
-
-		$missingHeaders = array_diff($enforceHeaders, $headers);
-		if ($missingHeaders !== []) {
-			throw new IncomingRequestException(
-				'missing elements in headers: ' . json_encode($missingHeaders)
-			);
-		}
-
-		$target = strtolower($request->getMethod()) . ' ' . $request->getRequestUri();
-		$estimated = ['(request-target): ' . $target];
-
-		foreach ($headers as $key) {
-			$value = $request->getHeader($key);
-			if (strtolower($key) === 'host') {
-				$value = $request->getServerHost();
-			}
-			if ($value === '') {
-				throw new IncomingRequestException('empty elements in header ' . $key);
-			}
-
-			$estimated[] = $key . ': ' . $value;
-		}
-
-		$signedRequest->setEstimatedSignature(implode("\n", $estimated));
-	}
-
-
-	/**
-	 * @param IIncomingSignedRequest $signedRequest
-	 * @param ISignatoryManager $signatoryManager
-	 *
-	 * @throws SignatoryNotFoundException
-	 * @throws SignatureException
-	 */
-	private function verifyIncomingRequestSignature(
-		IIncomingSignedRequest $signedRequest,
-		ISignatoryManager $signatoryManager,
-		int $ttlSignatory,
-	): void {
-		$knownSignatory = null;
-		try {
-			$knownSignatory = $this->getStoredSignatory($signedRequest->getKeyId());
-			if ($ttlSignatory > 0 && $knownSignatory->getLastUpdated() < (time() - $ttlSignatory)) {
-				$signatory = $this->getSafeRemoteSignatory($signatoryManager, $signedRequest);
-				$this->updateSignatoryMetadata($signatory);
-				$knownSignatory->setMetadata($signatory->getMetadata());
-			}
-
-			$signedRequest->setSignatory($knownSignatory);
-			$this->verifySignedRequest($signedRequest);
-		} catch (InvalidKeyOriginException $e) {
-			throw $e; // issue while requesting remote instance also means there is no 2nd try
-		} catch (SignatoryNotFoundException|SignatureException) {
-			try {
-				$signatory = $this->getSafeRemoteSignatory($signatoryManager, $signedRequest);
-			} catch (SignatoryNotFoundException $e) {
-				$this->manageDeprecatedSignatory($knownSignatory);
-				throw $e;
-			}
-
-			$signedRequest->setSignatory($signatory);
-			$this->storeSignatory($signatory);
-			$this->verifySignedRequest($signedRequest);
-		}
-	}
-
-
-	/**
 	 * @param ISignatoryManager $signatoryManager
 	 * @param IIncomingSignedRequest $signedRequest
 	 *
 	 * @return ISignatory
 	 * @throws InvalidKeyOriginException
 	 * @throws SignatoryNotFoundException
+	 * @see ISignatoryManager::getRemoteSignatory
 	 */
-	private function getSafeRemoteSignatory(
+	private function getSaneRemoteSignatory(
 		ISignatoryManager $signatoryManager,
 		IIncomingSignedRequest $signedRequest,
 	): ISignatory {
-		$signatory = $signatoryManager->getRemoteSignatory($signedRequest);
+		$signatory = $signatoryManager->getRemoteSignatory($signedRequest->getOrigin());
 		if ($signatory === null) {
 			throw new SignatoryNotFoundException('empty result from getRemoteSignatory');
 		}
-		if ($signatory->getKeyId() !== $signedRequest->getKeyId()) {
-			throw new InvalidKeyOriginException('keyId from signatory not related to the one from request');
+		try {
+			if ($signatory->getKeyId() !== $signedRequest->getKeyId()) {
+				throw new InvalidKeyOriginException('keyId from signatory not related to the one from request');
+			}
+		} catch (SignatureElementNotFoundException) {
+			throw new InvalidKeyOriginException('missing keyId');
 		}
 
 		return $signatory->setProviderId($signatoryManager->getProviderId());
 	}
-
-	private function setOutgoingSignatureHeader(
-		IOutgoingSignedRequest $signedRequest,
-		string $method,
-		string $path,
-		string $dateHeader,
-	): void {
-		$header = [
-			'(request-target)' => $method . ' ' . $path,
-			'content-length' => strlen($signedRequest->getBody()),
-			'date' => gmdate($dateHeader),
-			'digest' => $signedRequest->getDigest(),
-			'host' => $signedRequest->getHost()
-		];
-
-		$signedRequest->setSignatureHeader($header);
-	}
-
-
-	/**
-	 * @param IOutgoingSignedRequest $signedRequest
-	 */
-	private function setOutgoingClearSignature(IOutgoingSignedRequest $signedRequest): void {
-		$signing = [];
-		$header = $signedRequest->getSignatureHeader();
-		foreach (array_keys($header) as $element) {
-			$value = $header[$element];
-			$signing[] = $element . ': ' . $value;
-			if ($element !== '(request-target)') {
-				$signedRequest->addHeader($element, $value);
-			}
-		}
-
-		$signedRequest->setClearSignature(implode("\n", $signing));
-	}
-
-
-	private function setOutgoingSignedSignature(IOutgoingSignedRequest $signedRequest): void {
-		$clear = $signedRequest->getClearSignature();
-		$signed = $this->signString(
-			$clear, $signedRequest->getSignatory()->getPrivateKey(), $signedRequest->getAlgorithm()
-		);
-		$signedRequest->setSignedSignature($signed);
-	}
-
-	private function signingOutgoingRequest(IOutgoingSignedRequest $signedRequest): void {
-		$signatureHeader = $signedRequest->getSignatureHeader();
-		$headers = array_diff(array_keys($signatureHeader), ['(request-target)']);
-		$signatory = $signedRequest->getSignatory();
-		$signatureElements = [
-			'keyId="' . $signatory->getKeyId() . '"',
-			'algorithm="' . $this->getChosenEncryption($signedRequest->getAlgorithm()) . '"',
-			'headers="' . implode(' ', $headers) . '"',
-			'signature="' . $signedRequest->getSignedSignature() . '"'
-		];
-
-		$signedRequest->addHeader('Signature', implode(',', $signatureElements));
-	}
-
 
 	/**
 	 * @param IIncomingSignedRequest $signedRequest
@@ -568,10 +425,10 @@ class SignatureManager implements ISignatureManager {
 
 		try {
 			$this->verifyString(
-				$signedRequest->getEstimatedSignature(),
+				$signedRequest->getClearSignature(),
 				$signedRequest->getSignedSignature(),
 				$publicKey,
-				$this->getUsedEncryption($signedRequest)
+				SignatureAlgorithm::tryFrom($signedRequest->getSignatureElement('algorithm')) ?? SignatureAlgorithm::SHA256
 			);
 		} catch (InvalidSignatureException $e) {
 			$this->logger->debug('signature issue', ['signed' => $signedRequest, 'exception' => $e]);
@@ -579,45 +436,20 @@ class SignatureManager implements ISignatureManager {
 		}
 	}
 
-
-	private function getUsedEncryption(IIncomingSignedRequest $signedRequest): SignatureAlgorithm {
-		$data = $signedRequest->getSignatureHeader();
-
-		return match ($data['algorithm']) {
-			'rsa-sha512' => SignatureAlgorithm::SHA512,
-			default => SignatureAlgorithm::SHA256,
-		};
-	}
-
-	private function getChosenEncryption(string $algorithm): string {
-		return match ($algorithm) {
-			'sha512' => 'ras-sha512',
-			default => 'ras-sha256',
-		};
-	}
-
-	public function getOpenSSLAlgo(string $algorithm): int {
-		return match ($algorithm) {
-			'sha512' => OPENSSL_ALGO_SHA512,
-			default => OPENSSL_ALGO_SHA256,
-		};
-	}
-
-
 	/**
 	 * @param string $clear
 	 * @param string $privateKey
-	 * @param string $algorithm
+	 * @param SignatureAlgorithm $algorithm
 	 *
 	 * @return string
 	 * @throws SignatoryException
 	 */
-	private function signString(string $clear, string $privateKey, string $algorithm): string {
+	private function signString(string $clear, string $privateKey, SignatureAlgorithm $algorithm): string {
 		if ($privateKey === '') {
 			throw new SignatoryException('empty private key');
 		}
 
-		openssl_sign($clear, $signed, $privateKey, $this->getOpenSSLAlgo($algorithm));
+		openssl_sign($clear, $signed, $privateKey, $algorithm->value);
 
 		return base64_encode($signed);
 	}
@@ -626,19 +458,18 @@ class SignatureManager implements ISignatureManager {
 	 * @param string $clear
 	 * @param string $encoded
 	 * @param string $publicKey
-	 * @param SignatureAlgorithm $algo
+	 * @param SignatureAlgorithm $algorithm
 	 *
-	 * @return void
 	 * @throws InvalidSignatureException
 	 */
 	private function verifyString(
 		string $clear,
 		string $encoded,
 		string $publicKey,
-		SignatureAlgorithm $algo = SignatureAlgorithm::SHA256,
+		SignatureAlgorithm $algorithm = SignatureAlgorithm::SHA256,
 	): void {
 		$signed = base64_decode($encoded);
-		if (openssl_verify($clear, $signed, $publicKey, $algo->value) !== 1) {
+		if (openssl_verify($clear, $signed, $publicKey, $algorithm->value) !== 1) {
 			throw new InvalidSignatureException('signature issue');
 		}
 	}
@@ -692,11 +523,15 @@ class SignatureManager implements ISignatureManager {
 		}
 	}
 
+	/**
+	 * @param ISignatory $signatory
+	 * @throws DBException
+	 */
 	private function insertSignatory(ISignatory $signatory): void {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert(self::TABLE_SIGNATORIES)
 			->setValue('provider_id', $qb->createNamedParameter($signatory->getProviderId()))
-			->setValue('host', $qb->createNamedParameter($this->getHostFromUri($signatory->getKeyId())))
+			->setValue('host', $qb->createNamedParameter($this->extractIdentityFromUri($signatory->getKeyId())))
 			->setValue('account', $qb->createNamedParameter($signatory->getAccount()))
 			->setValue('key_id', $qb->createNamedParameter($signatory->getKeyId()))
 			->setValue('key_id_sum', $qb->createNamedParameter($this->hashKeyId($signatory->getKeyId())))
@@ -755,12 +590,12 @@ class SignatureManager implements ISignatureManager {
 
 			case SignatoryType::REFRESHABLE:
 				// TODO: send notice to admin
-				throw new SignatoryConflictException();
+				throw new SignatoryConflictException(); // while it can be refreshed, it must exist
 
 			case SignatoryType::TRUSTED:
 			case SignatoryType::STATIC:
 				// TODO: send warning to admin
-				throw new SignatoryConflictException();
+				throw new SignatoryConflictException(); // no way.
 		}
 	}
 
@@ -794,27 +629,6 @@ class SignatureManager implements ISignatureManager {
 		$qb->delete(self::TABLE_SIGNATORIES)
 			->where($qb->expr()->eq('key_id_sum', $qb->createNamedParameter($this->hashKeyId($keyId))));
 		$qb->executeStatement();
-	}
-
-
-	/**
-	 * @param string $uri
-	 *
-	 * @return string
-	 * @throws InvalidKeyOriginException
-	 */
-	private function getHostFromUri(string $uri): string {
-		$host = parse_url($uri, PHP_URL_HOST);
-		$port = parse_url($uri, PHP_URL_PORT);
-		if ($port !== null && $port !== false) {
-			$host .= ':' . $port;
-		}
-
-		if (is_string($host) && $host !== '') {
-			return $host;
-		}
-
-		throw new \Exception('invalid/empty uri');
 	}
 
 	private function hashKeyId(string $keyId): string {

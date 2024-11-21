@@ -28,7 +28,7 @@ use NCU\Security\Signature\Model\ISignatory;
  *     "date": "Mon, 08 Jul 2024 14:16:20 GMT",
  *     "digest": "SHA-256=U7gNVUQiixe5BRbp4Tg0xCZMTcSWXXUZI2\\/xtHM40S0=",
  *     "host": "hostname.of.the.recipient",
- *     "Signature": "keyId=\"https://author.hostname/key\",algorithm=\"ras-sha256\",headers=\"content-length date digest host\",signature=\"DzN12OCS1rsA[...]o0VmxjQooRo6HHabg==\""
+ *     "Signature": "keyId=\"https://author.hostname/key\",algorithm=\"sha256\",headers=\"content-length date digest host\",signature=\"DzN12OCS1rsA[...]o0VmxjQooRo6HHabg==\""
  * }
  *
  * 'content-length' is the total length of the data/content

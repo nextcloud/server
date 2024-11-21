@@ -6,12 +6,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\OCM;
 
 use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
 use NCU\Security\Signature\ISignatoryManager;
 use NCU\Security\Signature\ISignatureManager;
-use NCU\Security\Signature\Model\IIncomingSignedRequest;
 use NCU\Security\Signature\Model\ISignatory;
 use NCU\Security\Signature\Model\SignatoryType;
 use OC\Security\IdentityProof\Manager;
@@ -19,6 +19,7 @@ use OC\Security\Signature\Model\Signatory;
 use OCP\IAppConfig;
 use OCP\IURLGenerator;
 use OCP\OCM\Exceptions\OCMProviderException;
+use Psr\Log\LoggerInterface;
 
 /**
  * @inheritDoc
@@ -40,14 +41,15 @@ class OCMSignatoryManager implements ISignatoryManager {
 		private readonly IURLGenerator $urlGenerator,
 		private readonly Manager $identityProofManager,
 		private readonly OCMDiscoveryService $ocmDiscoveryService,
+		private readonly LoggerInterface $logger,
 	) {
 	}
 
 	/**
 	 * @inheritDoc
 	 *
-	 * @since 31.0.0
 	 * @return string
+	 * @since 31.0.0
 	 */
 	public function getProviderId(): string {
 		return self::PROVIDER_ID;
@@ -56,8 +58,8 @@ class OCMSignatoryManager implements ISignatoryManager {
 	/**
 	 * @inheritDoc
 	 *
-	 * @since 31.0.0
 	 * @return array
+	 * @since 31.0.0
 	 */
 	public function getOptions(): array {
 		return [];
@@ -121,14 +123,18 @@ class OCMSignatoryManager implements ISignatoryManager {
 	/**
 	 * @inheritDoc
 	 *
-	 * @param IIncomingSignedRequest $signedRequest
+	 * @param string $remote
 	 *
 	 * @return ISignatory|null must be NULL if no signatory is found
-	 * @throws OCMProviderException on fail to discover ocm services
 	 * @since 31.0.0
 	 */
-	public function getRemoteSignatory(IIncomingSignedRequest $signedRequest): ?ISignatory {
-		return $this->getRemoteSignatoryFromHost($signedRequest->getOrigin());
+	public function getRemoteSignatory(string $remote): ?ISignatory {
+		try {
+			return $this->getRemoteSignatoryFromHost($remote);
+		} catch (OCMProviderException $e) {
+			$this->logger->warning('fail to get remote signatory', ['exception' => $e, 'remote' => $remote]);
+			return null;
+		}
 	}
 
 	/**

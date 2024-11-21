@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace NCU\Security\Signature\Model;
 
 use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
+use NCU\Security\Signature\Exceptions\SignatureElementNotFoundException;
 
 /**
  * model that store data related to a possible signature.
@@ -39,19 +40,47 @@ interface ISignedRequest {
 	/**
 	 * set the list of headers related to the signature of the request
 	 *
-	 * @param array $signatureHeader
+	 * @param array $elements
+	 *
 	 * @return ISignedRequest
 	 * @since 31.0.0
 	 */
-	public function setSignatureHeader(array $signatureHeader): ISignedRequest;
+	public function setSignatureElements(array $elements): ISignedRequest;
 
 	/**
-	 * get the list of headers related to the signature of the request
+	 * get the list of elements in the Signature header of the request
 	 *
 	 * @return array
 	 * @since 31.0.0
 	 */
-	public function getSignatureHeader(): array;
+	public function getSignatureElements(): array;
+
+	/**
+	 * @param string $key
+	 *
+	 * @return string
+	 * @throws SignatureElementNotFoundException
+	 * @since 31.0.0
+	 */
+	public function getSignatureElement(string $key): string;
+
+	/**
+	 * store a clear version of the signature
+	 *
+	 * @param string $clearSignature
+	 *
+	 * @return ISignedRequest
+	 * @since 31.0.0
+	 */
+	public function setClearSignature(string $clearSignature): ISignedRequest;
+
+	/**
+	 * returns the clear version of the signature
+	 *
+	 * @return string
+	 * @since 31.0.0
+	 */
+	public function getClearSignature(): string;
 
 	/**
 	 * set the signed version of the signature

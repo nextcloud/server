@@ -10,11 +10,14 @@ namespace OC\Security\Signature\Model;
 
 use JsonSerializable;
 use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
-use NCU\Security\Signature\Exceptions\IncomingRequestNotFoundException;
+use NCU\Security\Signature\Exceptions\IncomingRequestException;
 use NCU\Security\Signature\Exceptions\SignatoryException;
+use NCU\Security\Signature\Exceptions\SignatureElementNotFoundException;
+use NCU\Security\Signature\Exceptions\SignatureNotFoundException;
 use NCU\Security\Signature\ISignatureManager;
 use NCU\Security\Signature\Model\IIncomingSignedRequest;
 use NCU\Security\Signature\Model\ISignatory;
+use OC\Security\Signature\SignatureManager;
 use OCP\IRequest;
 
 /**
@@ -26,10 +29,114 @@ use OCP\IRequest;
 class IncomingSignedRequest extends SignedRequest implements
 	IIncomingSignedRequest,
 	JsonSerializable {
-	private ?IRequest $request = null;
-	private int $time = 0;
 	private string $origin = '';
-	private string $estimatedSignature = '';
+
+	/**
+	 * @throws IncomingRequestException if incoming request is wrongly signed
+	 * @throws SignatureNotFoundException if signature is not fully implemented
+	 */
+	public function __construct(
+		string $body,
+		private readonly IRequest $request,
+		private readonly array $options = [],
+	) {
+		parent::__construct($body);
+		$this->verifyHeadersFromRequest();
+		$this->extractSignatureHeaderFromRequest();
+	}
+
+	/**
+	 * confirm that:
+	 *
+	 * - date is available in the header and its value is less than 5 minutes old
+	 * - content-length is available and is the same as the payload size
+	 * - digest is available and fit the checksum of the payload
+	 *
+	 * @throws IncomingRequestException
+	 * @throws SignatureNotFoundException
+	 */
+	private function verifyHeadersFromRequest(): void {
+		// confirm presence of date, content-length, digest and Signature
+		$date = $this->getRequest()->getHeader('date');
+		if ($date === '') {
+			throw new SignatureNotFoundException('missing date in header');
+		}
+		$contentLength = $this->getRequest()->getHeader('content-length');
+		if ($contentLength === '') {
+			throw new SignatureNotFoundException('missing content-length in header');
+		}
+		$digest = $this->getRequest()->getHeader('digest');
+		if ($digest === '') {
+			throw new SignatureNotFoundException('missing digest in header');
+		}
+		if ($this->getRequest()->getHeader('Signature') === '') {
+			throw new SignatureNotFoundException('missing Signature in header');
+		}
+
+		// confirm date
+		try {
+			$dTime = new \DateTime($date);
+			$requestTime = $dTime->getTimestamp();
+		} catch (\Exception) {
+			throw new IncomingRequestException('datetime exception');
+		}
+		if ($requestTime < (time() - ($this->options['ttl'] ?? SignatureManager::DATE_TTL))) {
+			throw new IncomingRequestException('object is too old');
+		}
+
+		// confirm validity of content-length
+		if (strlen($this->getBody()) !== (int)$contentLength) {
+			throw new IncomingRequestException('inexact content-length in header');
+		}
+
+		// confirm digest value, based on body
+		if ($digest !== $this->getDigest()) {
+			throw new IncomingRequestException('invalid value for digest in header');
+		}
+	}
+
+	/**
+	 * extract data from the header entry 'Signature' and convert its content from string to an array
+	 * also confirm that it contains the minimum mandatory information
+	 *
+	 * @throws IncomingRequestException
+	 */
+	private function extractSignatureHeaderFromRequest(): void {
+		$sign = [];
+		foreach (explode(',', $this->getRequest()->getHeader('Signature')) as $entry) {
+			if ($entry === '' || !strpos($entry, '=')) {
+				continue;
+			}
+
+			[$k, $v] = explode('=', $entry, 2);
+			preg_match('/"([^"]+)"/', $v, $var);
+			if ($var[0] !== '') {
+				$v = trim($var[0], '"');
+			}
+			$sign[$k] = $v;
+		}
+
+		$this->setSignatureElements($sign);
+
+		try {
+			// confirm keys are in the Signature header
+			$this->getSignatureElement('keyId');
+			$this->getSignatureElement('headers');
+			$this->setSignedSignature($this->getSignatureElement('signature'));
+		} catch (SignatureElementNotFoundException $e) {
+			throw new IncomingRequestException($e->getMessage());
+		}
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * @return IRequest
+	 * @since 31.0.0
+	 */
+	public function getRequest(): IRequest {
+		return $this->request;
+	}
 
 	/**
 	 * @inheritDoc
@@ -37,8 +144,9 @@ class IncomingSignedRequest extends SignedRequest implements
 	 * @param ISignatory $signatory
 	 *
 	 * @return $this
-	 * @throws SignatoryException
 	 * @throws IdentityNotFoundException
+	 * @throws IncomingRequestException
+	 * @throws SignatoryException
 	 * @since 31.0.0
 	 */
 	public function setSignatory(ISignatory $signatory): self {
@@ -49,54 +157,6 @@ class IncomingSignedRequest extends SignedRequest implements
 
 		parent::setSignatory($signatory);
 		return $this;
-	}
-
-	/**
-	 * @inheritDoc
-	 *
-	 * @param IRequest $request
-	 * @return IIncomingSignedRequest
-	 * @since 31.0.0
-	 */
-	public function setRequest(IRequest $request): IIncomingSignedRequest {
-		$this->request = $request;
-		return $this;
-	}
-
-	/**
-	 * @inheritDoc
-	 *
-	 * @return IRequest
-	 * @throws IncomingRequestNotFoundException
-	 * @since 31.0.0
-	 */
-	public function getRequest(): IRequest {
-		if ($this->request === null) {
-			throw new IncomingRequestNotFoundException();
-		}
-		return $this->request;
-	}
-
-	/**
-	 * @inheritDoc
-	 *
-	 * @param int $time
-	 * @return IIncomingSignedRequest
-	 * @since 31.0.0
-	 */
-	public function setTime(int $time): IIncomingSignedRequest {
-		$this->time = $time;
-		return $this;
-	}
-
-	/**
-	 * @inheritDoc
-	 *
-	 * @return int
-	 * @since 31.0.0
-	 */
-	public function getTime(): int {
-		return $this->time;
 	}
 
 	/**
@@ -115,9 +175,13 @@ class IncomingSignedRequest extends SignedRequest implements
 	 * @inheritDoc
 	 *
 	 * @return string
+	 * @throws IncomingRequestException
 	 * @since 31.0.0
 	 */
 	public function getOrigin(): string {
+		if ($this->origin === '') {
+			throw new IncomingRequestException('empty origin');
+		}
 		return $this->origin;
 	}
 
@@ -126,44 +190,19 @@ class IncomingSignedRequest extends SignedRequest implements
 	 * keyId is a mandatory entry in the headers of a signed request.
 	 *
 	 * @return string
+	 * @throws SignatureElementNotFoundException
 	 * @since 31.0.0
 	 */
 	public function getKeyId(): string {
-		return $this->getSignatureHeader()['keyId'] ?? '';
-	}
-
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $signature
-	 * @return IIncomingSignedRequest
-	 * @since 31.0.0
-	 */
-	public function setEstimatedSignature(string $signature): IIncomingSignedRequest {
-		$this->estimatedSignature = $signature;
-		return $this;
-	}
-
-	/**
-	 * @inheritDoc
-	 *
-	 * @return string
-	 * @since 31.0.0
-	 */
-	public function getEstimatedSignature(): string {
-		return $this->estimatedSignature;
+		return $this->getSignatureElement('keyId');
 	}
 
 	public function jsonSerialize(): array {
 		return array_merge(
 			parent::jsonSerialize(),
 			[
-				'body' => $this->getBody(),
-				'time' => $this->getTime(),
-				'incomingRequest' => $this->request ?? false,
-				'origin' => $this->getOrigin(),
-				'keyId' => $this->getKeyId(),
-				'estimatedSignature' => $this->getEstimatedSignature(),
+				'options' => $this->options,
+				'origin' => $this->origin,
 			]
 		);
 	}

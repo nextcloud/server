@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace NCU\Security\Signature;
 
-use NCU\Security\Signature\Model\IIncomingSignedRequest;
 use NCU\Security\Signature\Model\ISignatory;
 
 /**
@@ -34,6 +33,7 @@ interface ISignatoryManager {
 	/**
 	 * options that might affect the way the whole process is handled:
 	 * [
+	 *   'bodyMaxSize' => 10000,
 	 *   'ttl' => 300,
 	 *   'ttlSignatory' => 86400*3,
 	 *   'extraSignatureHeaders' => [],
@@ -62,10 +62,10 @@ interface ISignatoryManager {
 	 *
 	 * Used to confirm authenticity of incoming request.
 	 *
-	 * @param IIncomingSignedRequest $signedRequest
+	 * @param string $remote
 	 *
 	 * @return ISignatory|null must be NULL if no signatory is found
 	 * @since 31.0.0
 	 */
-	public function getRemoteSignatory(IIncomingSignedRequest $signedRequest): ?ISignatory;
+	public function getRemoteSignatory(string $remote): ?ISignatory;
 }

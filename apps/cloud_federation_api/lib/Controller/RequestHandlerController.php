@@ -336,8 +336,11 @@ class RequestHandlerController extends Controller {
 	 */
 	private function getSignedRequest(): ?IIncomingSignedRequest {
 		try {
-			return $this->signatureManager->getIncomingSignedRequest($this->signatoryManager);
+			$signedRequest = $this->signatureManager->getIncomingSignedRequest($this->signatoryManager);
+			$this->logger->debug('signed request available', ['signedRequest' => $signedRequest]);
+			return $signedRequest;
 		} catch (SignatureNotFoundException|SignatoryNotFoundException $e) {
+			$this->logger->debug('remote does not support signed request', ['exception' => $e]);
 			// remote does not support signed request.
 			// currently we still accept unsigned request until lazy appconfig
 			// core.enforce_signed_ocm_request is set to true (default: false)
@@ -346,7 +349,7 @@ class RequestHandlerController extends Controller {
 				throw new IncomingRequestException('Unsigned request');
 			}
 		} catch (SignatureException $e) {
-			$this->logger->notice('wrongly signed request', ['exception' => $e]);
+			$this->logger->warning('wrongly signed request', ['exception' => $e]);
 			throw new IncomingRequestException('Invalid signature');
 		}
 		return null;
@@ -406,10 +409,17 @@ class RequestHandlerController extends Controller {
 		$share = $provider->getShareByToken($token);
 		try {
 			$this->confirmShareEntry($signedRequest, $share->getSharedWith());
-		} catch (IncomingRequestException) {
+		} catch (IncomingRequestException $e) {
 			// notification might come from the instance that owns the share
-			$this->logger->debug('could not confirm origin on sharedWith (' . $share->getSharedWIth() . '); going with shareOwner (' . $share->getShareOwner() . ')');
-			$this->confirmShareEntry($signedRequest, $share->getShareOwner());
+			$this->logger->debug('could not confirm origin on sharedWith (' . $share->getSharedWIth() . '); going with shareOwner (' . $share->getShareOwner() . ')', ['exception' => $e]);
+			try {
+				$this->confirmShareEntry($signedRequest, $share->getShareOwner());
+			} catch (IncomingRequestException $f) {
+				// if both entry are failing, we log first exception as warning and second exception
+				// will be logged as warning by the controller
+				$this->logger->warning('could not confirm origin on sharedWith (' . $share->getSharedWIth() . '); going with shareOwner (' . $share->getShareOwner() . ')', ['exception' => $e]);
+				throw $f;
+			}
 		}
 	}
 

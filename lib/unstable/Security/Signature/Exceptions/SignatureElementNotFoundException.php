@@ -12,5 +12,5 @@ namespace NCU\Security\Signature\Exceptions;
  * @since 31.0.0
  * @experimental 31.0.0
  */
-class IncomingRequestNotFoundException extends SignatureException {
+class SignatureElementNotFoundException extends SignatureException {
 }

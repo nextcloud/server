@@ -8,7 +8,6 @@ namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use NCU\Config\IUserConfig;
-use NCU\Security\PublicPrivateKeyPairs\IKeyPairManager;
 use NCU\Security\Signature\ISignatureManager;
 use OC\Accounts\AccountManager;
 use OC\App\AppManager;

@@ -10,6 +10,7 @@ namespace OC\Security\Signature\Model;
 
 use JsonSerializable;
 use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
+use NCU\Security\Signature\Exceptions\SignatureElementNotFoundException;
 use NCU\Security\Signature\Model\ISignatory;
 use NCU\Security\Signature\Model\ISignedRequest;
 
@@ -20,8 +21,9 @@ use NCU\Security\Signature\Model\ISignedRequest;
  */
 class SignedRequest implements ISignedRequest, JsonSerializable {
 	private string $digest;
+	private array $signatureElements = [];
+	private string $clearSignature = '';
 	private string $signedSignature = '';
-	private array $signatureHeader = [];
 	private ?ISignatory $signatory = null;
 
 	public function __construct(
@@ -54,12 +56,13 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	/**
 	 * @inheritDoc
 	 *
-	 * @param array $signatureHeader
+	 * @param array $elements
+	 *
 	 * @return ISignedRequest
 	 * @since 31.0.0
 	 */
-	public function setSignatureHeader(array $signatureHeader): ISignedRequest {
-		$this->signatureHeader = $signatureHeader;
+	public function setSignatureElements(array $elements): ISignedRequest {
+		$this->signatureElements = $elements;
 		return $this;
 	}
 
@@ -69,8 +72,47 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	 * @return array
 	 * @since 31.0.0
 	 */
-	public function getSignatureHeader(): array {
-		return $this->signatureHeader;
+	public function getSignatureElements(): array {
+		return $this->signatureElements;
+	}
+
+	/**
+	 * @param string $key
+	 *
+	 * @return string
+	 * @throws SignatureElementNotFoundException
+	 * @since 31.0.0
+	 *
+	 */
+	public function getSignatureElement(string $key): string {
+		if (!array_key_exists($key, $this->signatureElements)) {
+			throw new SignatureElementNotFoundException('missing element ' . $key . ' in Signature header');
+		}
+
+		return $this->signatureElements[$key];
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * @param string $clearSignature
+	 *
+	 * @return ISignedRequest
+	 * @since 31.0.0
+	 */
+	public function setClearSignature(string $clearSignature): ISignedRequest {
+		$this->clearSignature = $clearSignature;
+		return $this;
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * @return string
+	 * @since 31.0.0
+	 */
+	public function getClearSignature(): string {
+		return $this->clearSignature;
 	}
 
 	/**
@@ -134,9 +176,11 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 
 	public function jsonSerialize(): array {
 		return [
-			'body' => $this->getBody(),
-			'signatureHeader' => $this->getSignatureHeader(),
-			'signedSignature' => $this->getSignedSignature(),
+			'body' => $this->body,
+			'digest' => $this->digest,
+			'signatureElements' => $this->signatureElements,
+			'clearSignature' => $this->clearSignature,
+			'signedSignature' => $this->signedSignature,
 			'signatory' => $this->signatory ?? false,
 		];
 	}
