@@ -187,6 +187,7 @@ class LDAP implements ILDAPWrapper {
 			return true;
 		});
 		try {
+			$filter = ldap_escape($filter, '', LDAP_ESCAPE_FILTER);
 			$result = $this->invokeLDAPMethod('search', $link, $baseDN, $filter, $attr, $attrsOnly, $limit, -1, LDAP_DEREF_NEVER, $serverControls);
 
 			restore_error_handler();
