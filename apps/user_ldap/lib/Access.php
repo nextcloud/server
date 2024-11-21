@@ -1298,7 +1298,6 @@ class Access extends LDAPUtility {
 		$iFoundItems = 0;
 
 		do {
-			// Escape the filter before use to avoid issues with special characters
 			$filter = escapeFilterPart($filter);
 			$search = $this->executeSearch($filter, $base, $attr, $limitPerPage, $offset);
 			if ($search === false) {
