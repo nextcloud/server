@@ -1299,7 +1299,7 @@ class Access extends LDAPUtility {
 
 		do {
 			// Escape the filter before use to avoid issues with special characters
-			$filter = ldap_escape($filter, "", LDAP_ESCAPE_FILTER);
+			$filter = escapeFilterPart($filter);
 			$search = $this->executeSearch($filter, $base, $attr, $limitPerPage, $offset);
 			if ($search === false) {
 				return [];
