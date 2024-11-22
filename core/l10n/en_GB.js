@@ -180,6 +180,7 @@ OC.L10N.register(
     "Schedule work & meetings, synced with all your devices." : "Schedule work & meetings, synced with all your devices.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Keep your colleagues and friends in one place without leaking their private info.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Simple email app nicely integrated with Files, Contacts and Calendar.",
+    "Chatting, video calls, screen sharing, online meetings and web conferencing – in your browser and with mobile apps." : "Chatting, video calls, screen sharing, online meetings and web conferencing – in your browser and with mobile apps.",
     "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "Collaborative documents, spreadsheets and presentations, built on Collabora Online.",
     "Distraction free note taking app." : "Distraction free note taking app.",
     "Settings menu" : "Settings menu",

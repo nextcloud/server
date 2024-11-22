@@ -68,6 +68,7 @@ OC.L10N.register(
     "Manage tags" : "Manage tags",
     "Applying tags changes…" : "Applying tags changes…",
     "Search or create tag" : "Search or create tag",
+    "Create new tag" : "Create new tag",
     "Select or create tags to apply to all selected files" : "Select or create tags to apply to all selected files",
     "Cancel" : "Cancel",
     "Apply changes" : "Apply changes",

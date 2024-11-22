@@ -239,6 +239,7 @@
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "O seu PHP non é compatíbel con FreeType, o que supón a quebra das imaxes do perfil e a interface dos axustes.",
     "PHP getenv" : "PHP getenv",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "Semella que PHP non está configurado correctamente para consultar as variábeis de contorno do sistema. A proba con getenv(\"PATH\") só devolve unha resposta baleira. ",
+    "PHP file size upload limit" : "Límite de envío de ficheiros PHP",
     "PHP memory limit" : "Límite de memoria PHP",
     "The PHP memory limit is below the recommended value of %s." : "O límite de memoria de PHP está por baixo do valor recomendado de %s.",
     "PHP modules" : "PHP modules",
