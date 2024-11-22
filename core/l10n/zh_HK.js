@@ -180,6 +180,7 @@ OC.L10N.register(
     "Schedule work & meetings, synced with all your devices." : "排定工作和會議時間，並與您的所有裝置同步",
     "Keep your colleagues and friends in one place without leaking their private info." : "將您的同事和朋友的聯繫整合在一處，且不洩漏他們的個人資訊",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "簡潔的電子郵件應用程式，與檔案瀏覽器、通訊錄、行事曆完美整合",
+    "Chatting, video calls, screen sharing, online meetings and web conferencing – in your browser and with mobile apps." : "對話、視訊電話、螢幕分享、線上會議、網路研討會等 - 在您的瀏覽器與手機應用程式之中實現。",
     "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "基於 Collabora Online 構建的協作文件、試算表和演講文稿。",
     "Distraction free note taking app." : "無干擾的筆記應用程式。",
     "Settings menu" : "設定選項單",
