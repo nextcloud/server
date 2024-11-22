@@ -37,3 +37,6 @@
 [submodule "custom-npms/nc-mdi-js"]
 	path = custom-npms/nc-mdi-js
 	url = git@github.com:IONOS-Productivity/nc-MaterialDesign-JS.git
+[submodule "custom-npms/nc-nextcloud-vue"]
+	path = custom-npms/nc-nextcloud-vue
+	url = git@github.com:IONOS-Productivity/nc-nextcloud-vue.git
