@@ -1,10 +1,10 @@
-name: EasyCloud Build
+name: HiDrive Next Build
 
 # SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
 # SPDX-FileCopyrightText: 2024 STRATO AG
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-# The EasyCloud source is packaged as a container image.
+# The HiDrive Next source is packaged as a container image.
 # This is a workaround because releases can not be created without tags
 # and we want to be able to create snapshots from branches.
 
@@ -33,7 +33,7 @@ on:
       - ionos-dev30
 
 env:
-  TARGET_PACKAGE_NAME: easy-storage.zip
+  TARGET_PACKAGE_NAME: hidrive-next.zip
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
@@ -41,14 +41,14 @@ permissions:
   contents: read
 
 jobs:
-  easycloud-build:
+  hidrive-next-build:
     runs-on: ubuntu-latest
 
     permissions:
       contents: read
       packages: write
 
-    name: easycloud-build
+    name: hidrive-next-build
     steps:
       - name: Checkout server
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 #v4.1.7
