@@ -110,6 +110,10 @@ trait CheckServerResponseTrait {
 	protected function normalizeUrl(string $url, bool $removeWebroot): string {
 		if ($removeWebroot) {
 			$segments = parse_url($url);
+			if (!isset($segments['scheme']) || !isset($segments['host'])) {
+				throw new \InvalidArgumentException('URL is missing scheme or host');
+			}
+
 			$port = isset($segments['port']) ? (':' . $segments['port']) : '';
 			return $segments['scheme'] . '://' . $segments['host'] . $port;
 		}
