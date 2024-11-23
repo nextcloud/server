@@ -3531,7 +3531,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$cmd->delete($this->dbObjectInvitationsTable)
 			->where($cmd->expr()->in('uid', $cmd->createParameter('uids'), IQueryBuilder::PARAM_STR_ARRAY));
 		foreach (array_chunk($allIds, 1000) as $chunkIds) {
-			$cmd->setParameter('uids', $chunkIds, IQueryBuilder::PARAM_INT_ARRAY);
+			$cmd->setParameter('uids', $chunkIds, IQueryBuilder::PARAM_STR_ARRAY);
 			$cmd->executeStatement();
 		}
 	}
@@ -3548,7 +3548,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	protected function purgeObjectInvitations(string $eventId): void {
 		$cmd = $this->db->getQueryBuilder();
 		$cmd->delete($this->dbObjectInvitationsTable)
-			->where($cmd->expr()->eq('uid', $cmd->createNamedParameter($eventId)));
+			->where($cmd->expr()->eq('uid', $cmd->createNamedParameter($eventId, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
 		$cmd->executeStatement();
 	}
 }
