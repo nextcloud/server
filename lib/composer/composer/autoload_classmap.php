@@ -1335,6 +1335,7 @@ return array(
     'OC\\Core\\Controller\\TextProcessingApiController' => $baseDir . '/core/Controller/TextProcessingApiController.php',
     'OC\\Core\\Controller\\TextToImageApiController' => $baseDir . '/core/Controller/TextToImageApiController.php',
     'OC\\Core\\Controller\\TranslationApiController' => $baseDir . '/core/Controller/TranslationApiController.php',
+    'OC\\Core\\Controller\\TwoFactorApiController' => $baseDir . '/core/Controller/TwoFactorApiController.php',
     'OC\\Core\\Controller\\TwoFactorChallengeController' => $baseDir . '/core/Controller/TwoFactorChallengeController.php',
     'OC\\Core\\Controller\\UnifiedSearchController' => $baseDir . '/core/Controller/UnifiedSearchController.php',
     'OC\\Core\\Controller\\UnsupportedBrowserController' => $baseDir . '/core/Controller/UnsupportedBrowserController.php',
