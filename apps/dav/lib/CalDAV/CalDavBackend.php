@@ -213,7 +213,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	protected array $userDisplayNames;
 
 	private Backend $calendarSharingBackend;
+	private string $dbObjectsTable = 'calendarobjects';
 	private string $dbObjectPropertiesTable = 'calendarobjects_props';
+	private string $dbObjectInvitationsTable = 'calendar_invitations';
 	private array $cachedObjects = [];
 
 	public function __construct(
@@ -901,6 +903,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$calendarData = $this->getCalendarById($calendarId);
 				$shares = $this->getShares($calendarId);
 
+				$this->purgeCalendarInvitations($calendarId);
+
 				$qbDeleteCalendarObjectProps = $this->db->getQueryBuilder();
 				$qbDeleteCalendarObjectProps->delete($this->dbObjectPropertiesTable)
 					->where($qbDeleteCalendarObjectProps->expr()->eq('calendarid', $qbDeleteCalendarObjectProps->createNamedParameter($calendarId)))
@@ -1131,7 +1135,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			return $this->cachedObjects[$key];
 		}
 		$query = $this->db->getQueryBuilder();
-		$query->select(['id', 'uri', 'lastmodified', 'etag', 'calendarid', 'size', 'calendardata', 'componenttype', 'classification', 'deleted_at'])
+		$query->select(['id', 'uri', 'uid', 'lastmodified', 'etag', 'calendarid', 'size', 'calendardata', 'componenttype', 'classification', 'deleted_at'])
 			->from('calendarobjects')
 			->where($query->expr()->eq('calendarid', $query->createNamedParameter($calendarId)))
 			->andWhere($query->expr()->eq('uri', $query->createNamedParameter($objectUri)))
@@ -1153,6 +1157,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		return [
 			'id' => $row['id'],
 			'uri' => $row['uri'],
+			'uid' => $row['uid'],
 			'lastmodified' => $row['lastmodified'],
 			'etag' => '"' . $row['etag'] . '"',
 			'calendarid' => $row['calendarid'],
@@ -1473,6 +1478,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 				$this->purgeProperties($calendarId, $data['id']);
 
+				$this->purgeObjectInvitations($data['uid']);
+
 				if ($calendarType === self::CALENDAR_TYPE_CALENDAR) {
 					$calendarRow = $this->getCalendarById($calendarId);
 					$shares = $this->getShares($calendarId);
@@ -1669,7 +1676,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			}
 		}
 		$query = $this->db->getQueryBuilder();
-		$query->select(['id', 'uri', 'lastmodified', 'etag', 'calendarid', 'size', 'calendardata', 'componenttype', 'classification', 'deleted_at'])
+		$query->select(['id', 'uri', 'uid', 'lastmodified', 'etag', 'calendarid', 'size', 'calendardata', 'componenttype', 'classification', 'deleted_at'])
 			->from('calendarobjects')
 			->where($query->expr()->eq('calendarid', $query->createNamedParameter($calendarId)))
 			->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter($calendarType)))
@@ -3501,5 +3508,47 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$subscription[$xmlName] = $value;
 		}
 		return $subscription;
+	}
+
+	/**
+	 * delete all invitations from a given calendar
+	 *
+	 * @since 31.0.0
+	 *
+	 * @param int $calendarId
+	 *
+	 * @return void
+	 */
+	protected function purgeCalendarInvitations(int $calendarId): void {
+		// select all calendar object uid's
+		$cmd = $this->db->getQueryBuilder();
+		$cmd->select('uid')
+			->from($this->dbObjectsTable)
+			->where($cmd->expr()->eq('calendarid', $cmd->createNamedParameter($calendarId)));
+		$allIds = $cmd->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+		// delete all links that match object uid's
+		$cmd = $this->db->getQueryBuilder();
+		$cmd->delete($this->dbObjectInvitationsTable)
+			->where($cmd->expr()->in('uid', $cmd->createNamedParameter('uids'), IQueryBuilder::PARAM_STR_ARRAY));
+		foreach (array_chunk($allIds, 1000) as $chunckIds) {
+			$cmd->setParameter('uids', $chunckIds, IQueryBuilder::PARAM_INT_ARRAY);
+			$cmd->executeStatement();
+		}
+	}
+
+	/**
+	 * Delete all invitations from a given calendar event
+	 *
+	 * @since 31.0.0
+	 *
+	 * @param string $eventId UID of the event
+	 *
+	 * @return void
+	 */
+	protected function purgeObjectInvitations(string $eventId): void {
+		$cmd = $this->db->getQueryBuilder();
+		$cmd->delete($this->dbObjectInvitationsTable)
+			->where($cmd->expr()->eq('uid', $cmd->createNamedParameter($eventId)));
+		$cmd->executeStatement();
 	}
 }
