@@ -163,7 +163,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "jest-fetch-mock": "^3.0.3",
     "jest-location-mock": "^1.0.9",
-    "jsdoc": "^4.0.3",
+    "jsdoc": "^4.0.4",
     "karma": "^6.4.3",
     "karma-chrome-launcher": "^3.1.1",
     "karma-coverage": "2.2.1",
