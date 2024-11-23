@@ -55,6 +55,7 @@
     "Profile picture" : "Profila attēls",
     "About" : "Par",
     "Display name" : "Attēlojamais vārds",
+    "Role" : "Loma",
     "Additional settings" : "Papildu iestatījumi",
     "Oracle connection could not be established" : "Nevar izveidot savienojumu ar Oracle",
     "Set an admin password." : "Iestatīt pārvaldītāja paroli.",
