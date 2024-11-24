@@ -180,6 +180,7 @@ OC.L10N.register(
     "Schedule work & meetings, synced with all your devices." : "Sceidealaigh obair & cruinnithe, sioncronaithe le do ghléasanna go léir.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Coinnigh do chomhghleacaithe agus do chairde in aon áit amháin gan a gcuid faisnéise príobháideacha a sceitheadh.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Feidhmchlár ríomhphoist simplí atá comhtháite go deas le Comhaid, Teagmhálaithe agus Féilire.",
+    "Chatting, video calls, screen sharing, online meetings and web conferencing – in your browser and with mobile apps." : "Comhrá, físghlaonna, comhroinnt scáileáin, cruinnithe ar líne agus comhdháil gréasáin – i do bhrabhsálaí agus le haipeanna móibíleacha.",
     "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "Doiciméid chomhoibríocha, scarbhileoga agus cur i láthair, tógtha ar Collabora Online.",
     "Distraction free note taking app." : "Clár chun nótaí a tharraingt saor in aisce,.",
     "Settings menu" : "Roghchlár socruithe",

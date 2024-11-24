@@ -180,6 +180,7 @@ OC.L10N.register(
     "Schedule work & meetings, synced with all your devices." : "Planera arbete och möten, synkronisera med alla dina enheter.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Håll dina kollegor och vänner på ett ställe utan att läcka deras privata info.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Enkel e-post app integrerad med filer, kontakter och kalender.",
+    "Chatting, video calls, screen sharing, online meetings and web conferencing – in your browser and with mobile apps." : "Chatt, videosamtal, skärmdelning, onlinemöten och webbkonferenser – i din webbläsare och med mobilappar.",
     "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "Kollaborativa dokument, kalkylark och presentationer, byggt på Collabora Online",
     "Distraction free note taking app." : "Distraktionsfri anteckningsapp.",
     "Settings menu" : "Inställningsmeny",
