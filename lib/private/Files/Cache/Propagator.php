@@ -80,7 +80,7 @@ class Propagator implements IPropagator {
 		$builder->update('filecache')
 			->set('mtime', $builder->func()->greatest('mtime', $builder->createNamedParameter((int)$time, IQueryBuilder::PARAM_INT)))
 			->where($builder->expr()->eq('storage', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
-			->andWhere($builder->expr()->in('path_hash', $hashParams));
+			->andWhere($builder->expr()->in('path_hash', $builder->createNamedParameter($hashParams, IQueryBuilder::PARAM_STR_ARRAY)));
 		if (!$this->storage->instanceOfStorage(IReliableEtagStorage::class)) {
 			$builder->set('etag', $builder->createNamedParameter($etag, IQueryBuilder::PARAM_STR));
 		}
