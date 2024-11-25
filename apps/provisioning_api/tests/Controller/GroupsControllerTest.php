@@ -66,6 +66,8 @@ class GroupsControllerTest extends \Test\TestCase {
 	/** @var GroupsController|\PHPUnit\Framework\MockObject\MockObject */
 	protected $api;
 
+	private IRootFolder $rootFolder;
+
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -78,6 +80,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->rootFolder = $this->createMock(IRootFolder::class);
 
 		$this->subAdminManager = $this->createMock(SubAdmin::class);
 
@@ -95,6 +98,7 @@ class GroupsControllerTest extends \Test\TestCase {
 				$this->userSession,
 				$this->accountManager,
 				$this->l10nFactory,
+				$this->rootFolder,
 				$this->logger
 			])
 			->setMethods(['fillStorageInfo'])

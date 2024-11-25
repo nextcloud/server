@@ -95,6 +95,7 @@ class UsersController extends AUserData {
 		IUserSession $userSession,
 		IAccountManager $accountManager,
 		IFactory $l10nFactory,
+		IRootFolder $rootFolder,
 		private IURLGenerator $urlGenerator,
 		private LoggerInterface $logger,
 		private NewUserMailHelper $newUserMailHelper,

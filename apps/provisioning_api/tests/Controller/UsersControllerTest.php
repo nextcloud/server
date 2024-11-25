@@ -107,6 +107,7 @@ class UsersControllerTest extends TestCase {
 	private $knownUserService;
 	/** @var IEventDispatcher|MockObject */
 	private $eventDispatcher;
+	private IRootFolder $rootFolder;
 	/** @var IPhoneNumberUtil */
 	private $phoneNumberUtil;
 
@@ -128,6 +129,7 @@ class UsersControllerTest extends TestCase {
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->phoneNumberUtil = new PhoneNumberUtil();
+		$this->rootFolder = $this->createMock(IRootFolder::class);
 
 		$l10n = $this->createMock(IL10N::class);
 		$l10n->method('t')->willReturnCallback(fn (string $txt, array $replacement = []) => sprintf($txt, ...$replacement));
@@ -143,6 +145,7 @@ class UsersControllerTest extends TestCase {
 				$this->userSession,
 				$this->accountManager,
 				$this->l10nFactory,
+				$this->rootFolder,
 				$this->urlGenerator,
 				$this->logger,
 				$this->newUserMailHelper,
@@ -536,6 +539,7 @@ class UsersControllerTest extends TestCase {
 				$this->userSession,
 				$this->accountManager,
 				$this->l10nFactory,
+				$this->rootFolder,
 				$this->urlGenerator,
 				$this->logger,
 				$this->newUserMailHelper,
@@ -1158,7 +1162,7 @@ class UsersControllerTest extends TestCase {
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
-			->with('UID')
+			->with($targetUser)
 			->willReturn(['DummyValue']);
 
 		$backend = $this->createMock(UserInterface::class);
@@ -1288,7 +1292,7 @@ class UsersControllerTest extends TestCase {
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
-			->with('UID')
+			->with($targetUser)
 			->willReturn(['DummyValue']);
 
 		$backend = $this->createMock(UserInterface::class);
@@ -1465,7 +1469,7 @@ class UsersControllerTest extends TestCase {
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
-			->with('UID')
+			->with($targetUser)
 			->willReturn(['DummyValue']);
 
 		$backend = $this->createMock(UserInterface::class);
@@ -3819,6 +3823,7 @@ class UsersControllerTest extends TestCase {
 				$this->userSession,
 				$this->accountManager,
 				$this->l10nFactory,
+				$this->rootFolder,
 				$this->urlGenerator,
 				$this->logger,
 				$this->newUserMailHelper,
@@ -3906,6 +3911,7 @@ class UsersControllerTest extends TestCase {
 				$this->userSession,
 				$this->accountManager,
 				$this->l10nFactory,
+				$this->rootFolder,
 				$this->urlGenerator,
 				$this->logger,
 				$this->newUserMailHelper,
