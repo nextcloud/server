@@ -3805,10 +3805,5 @@
             }
         }
     },
-    "tags": [
-        {
-            "name": "external_shares",
-            "description": "Class ExternalSharesController"
-        }
-    ]
+    "tags": []
 }
