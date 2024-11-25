@@ -107,6 +107,7 @@ class UsersControllerTest extends TestCase {
 	private $knownUserService;
 	/** @var IEventDispatcher|MockObject */
 	private $eventDispatcher;
+	private IRootFolder $rootFolder;
 	/** @var IPhoneNumberUtil */
 	private $phoneNumberUtil;
 
@@ -128,6 +129,7 @@ class UsersControllerTest extends TestCase {
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->phoneNumberUtil = new PhoneNumberUtil();
+		$this->rootFolder = $this->createMock(IRootFolder::class);
 
 		$this->api = $this->getMockBuilder(UsersController::class)
 			->setConstructorArgs([
@@ -1157,7 +1159,7 @@ class UsersControllerTest extends TestCase {
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
-			->with('UID')
+			->with($targetUser)
 			->willReturn(['DummyValue']);
 
 		$backend = $this->createMock(UserInterface::class);
@@ -1287,7 +1289,7 @@ class UsersControllerTest extends TestCase {
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
-			->with('UID')
+			->with($targetUser)
 			->willReturn(['DummyValue']);
 
 		$backend = $this->createMock(UserInterface::class);
@@ -1464,7 +1466,7 @@ class UsersControllerTest extends TestCase {
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
-			->with('UID')
+			->with($targetUser)
 			->willReturn(['DummyValue']);
 
 		$backend = $this->createMock(UserInterface::class);
