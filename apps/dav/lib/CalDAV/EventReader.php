@@ -94,7 +94,7 @@ class EventReader {
 			}
 			// extract calendar timezone
 			if (isset($input->VTIMEZONE) && isset($input->VTIMEZONE->TZID)) {
-				$calendarTimeZone = new DateTimeZone($input->VTIMEZONE->TZID->getValue());
+				$calendarTimeZone = TimeZoneFactory::fromName($input->VTIMEZONE->TZID->getValue());
 			}
 		}
 		// evaluate if input is a collection of event vobjects
@@ -121,15 +121,15 @@ class EventReader {
 			$this->baseEvent = array_shift($events);
 		}
 
-		// determain the event starting time zone
+		// determine the event starting time zone
 		// we require this to align all other dates times
-		// evaluate if timezone paramater was used (treat this as a override)
+		// evaluate if timezone parameter was used (treat this as a override)
 		if ($timeZone !== null) {
 			$this->baseEventStartTimeZone = $timeZone;
 		}
 		// evaluate if event start date has a timezone parameter
 		elseif (isset($this->baseEvent->DTSTART->parameters['TZID'])) {
-			$this->baseEventStartTimeZone = new DateTimeZone($this->baseEvent->DTSTART->parameters['TZID']->getValue());
+			$this->baseEventStartTimeZone = TimeZoneFactory::fromName($this->baseEvent->DTSTART->parameters['TZID']->getValue());
 		}
 		// evaluate if event parent calendar has a time zone
 		elseif (isset($calendarTimeZone)) {
@@ -140,15 +140,15 @@ class EventReader {
 			$this->baseEventStartTimeZone = new DateTimeZone('UTC');
 		}
 
-		// determain the event end time zone
+		// determine the event end time zone
 		// we require this to align all other dates and times
-		// evaluate if timezone paramater was used (treat this as a override)
+		// evaluate if timezone parameter was used (treat this as a override)
 		if ($timeZone !== null) {
 			$this->baseEventEndTimeZone = $timeZone;
 		}
 		// evaluate if event end date has a timezone parameter
 		elseif (isset($this->baseEvent->DTEND->parameters['TZID'])) {
-			$this->baseEventEndTimeZone = new DateTimeZone($this->baseEvent->DTEND->parameters['TZID']->getValue());
+			$this->baseEventEndTimeZone = TimeZoneFactory::fromName($this->baseEvent->DTEND->parameters['TZID']->getValue());
 		}
 		// evaluate if event parent calendar has a time zone
 		elseif (isset($calendarTimeZone)) {
