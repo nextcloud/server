@@ -233,7 +233,7 @@ class UserStoragesController extends StoragesController {
 	 */
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
-	public function destroy($id) {
+	public function destroy(int $id) {
 		return parent::destroy($id);
 	}
 }
