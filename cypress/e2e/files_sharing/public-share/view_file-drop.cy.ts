@@ -144,7 +144,7 @@ describe('files_sharing: Public share - File drop', { testIsolation: true }, () 
 	})
 
 	describe('Terms of service', { testIsolation: true }, () => {
-		before(() => cy.runOccCommand('config:app:set --value "TEST: Some disclaimer text" --type string core shareapi_public_link_disclaimertext'))
+		before(() => cy.runOccCommand('config:app:set --value \'TEST: Some disclaimer text\' --type string core shareapi_public_link_disclaimertext'))
 		beforeEach(() => cy.visit(shareUrl))
 		after(() => cy.runOccCommand('config:app:delete core shareapi_public_link_disclaimertext'))
 
