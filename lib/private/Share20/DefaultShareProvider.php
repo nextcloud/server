@@ -805,6 +805,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
 			))
+			->orderBy('id', 'ASC')
 			->executeQuery();
 
 		$shares = [];
