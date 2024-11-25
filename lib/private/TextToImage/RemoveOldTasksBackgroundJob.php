@@ -37,7 +37,7 @@ use OCP\Files\NotPermittedException;
 use Psr\Log\LoggerInterface;
 
 class RemoveOldTasksBackgroundJob extends TimedJob {
-	public const MAX_TASK_AGE_SECONDS = 60 * 50 * 24 * 7; // 1 week
+	public const MAX_TASK_AGE_SECONDS = 60 * 60 * 24 * 7; // 1 week
 
 	private IAppData $appData;
 
@@ -50,6 +50,7 @@ class RemoveOldTasksBackgroundJob extends TimedJob {
 		parent::__construct($timeFactory);
 		$this->appData = $appDataFactory->get('core');
 		$this->setInterval(60 * 60 * 24);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 	/**

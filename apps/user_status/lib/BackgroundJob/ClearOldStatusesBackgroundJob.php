@@ -52,7 +52,7 @@ class ClearOldStatusesBackgroundJob extends TimedJob {
 		$this->mapper = $mapper;
 
 		// Run every time the cron is run
-		$this->setInterval(60);
+		$this->setInterval(0);
 	}
 
 	/**
