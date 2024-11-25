@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use OCA\User_LDAP\AccessFactory;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\LDAP;

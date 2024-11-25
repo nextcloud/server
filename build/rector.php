@@ -12,6 +12,7 @@ use Rector\CodingStyle\Contract\ClassNameImport\ClassNameImportSkipVoterInterfac
 use Rector\Config\RectorConfig;
 use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
+use Rector\TypeDeclaration\Rector\StmtsAwareInterface\DeclareStrictTypesRector;
 use Rector\ValueObject\Application\File;
 
 $nextcloudDir = dirname(__DIR__);
@@ -72,6 +73,8 @@ $config = RectorConfig::configure()
 	->withConfiguredRule(ClassPropertyAssignToConstructorPromotionRector::class, [
 		'inline_public' => true,
 		'rename_property' => true,
+	])->withRules([
+		DeclareStrictTypesRector::class,
 	]);
 
 $config->registerService(NextcloudNamespaceSkipVoter::class, tag:ClassNameImportSkipVoterInterface::class);
