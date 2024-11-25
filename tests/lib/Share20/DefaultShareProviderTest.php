@@ -7,6 +7,7 @@
 
 namespace Test\Share20;
 
+use OC\Files\Node\Node;
 use OC\Share20\DefaultShareProvider;
 use OC\Share20\ShareAttributes;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -3012,5 +3013,89 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(17, $share->getPermissions());
 		$this->assertEquals('token5', $share->getToken());
 		$this->assertEquals('myTarget5', $share->getTarget());
+	}
+
+
+	public function testGetSharesByPath(): void {
+		$qb = $this->dbConn->getQueryBuilder();
+
+		$qb->insert('share')
+			->values([
+				'share_type' => $qb->expr()->literal(IShare::TYPE_USER),
+				'uid_owner' => $qb->expr()->literal('user1'),
+				'uid_initiator' => $qb->expr()->literal('user1'),
+				'share_with' => $qb->expr()->literal('user2'),
+				'item_type' => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal(1),
+			]);
+		$qb->execute();
+
+		$id1 = $qb->getLastInsertId();
+
+		$qb->insert('share')
+			->values([
+				'share_type' => $qb->expr()->literal(IShare::TYPE_GROUP),
+				'uid_owner' => $qb->expr()->literal('user1'),
+				'uid_initiator' => $qb->expr()->literal('user1'),
+				'share_with' => $qb->expr()->literal('user2'),
+				'item_type' => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal(1),
+			]);
+		$qb->execute();
+
+		$id2 = $qb->getLastInsertId();
+
+		$qb->insert('share')
+			->values([
+				'share_type' => $qb->expr()->literal(IShare::TYPE_LINK),
+				'uid_owner' => $qb->expr()->literal('user1'),
+				'uid_initiator' => $qb->expr()->literal('user1'),
+				'share_with' => $qb->expr()->literal('user2'),
+				'item_type' => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal(1),
+			]);
+		$qb->execute();
+
+		$id3 = $qb->getLastInsertId();
+
+		$ownerPath1 = $this->createMock(File::class);
+		$shareOwner1Folder = $this->createMock(Folder::class);
+		$shareOwner1Folder->method('getFirstNodeById')->willReturn($ownerPath1);
+
+		$ownerPath2 = $this->createMock(File::class);
+		$shareOwner2Folder = $this->createMock(Folder::class);
+		$shareOwner2Folder->method('getFirstNodeById')->willReturn($ownerPath2);
+
+		$ownerPath3 = $this->createMock(File::class);
+		$shareOwner3Folder = $this->createMock(Folder::class);
+		$shareOwner3Folder->method('getFirstNodeById')->willReturn($ownerPath3);
+
+		$this->rootFolder
+			->method('getUserFolder')
+			->willReturnMap(
+				[
+					['shareOwner1', $shareOwner1Folder],
+					['shareOwner2', $shareOwner2Folder],
+					['shareOwner3', $shareOwner3Folder],
+				]
+			);
+
+		$node = $this->createMock(Node::class);
+		$node
+			->expects($this->once())
+			->method('getId')
+			->willReturn(1);
+
+		$shares = $this->provider->getSharesByPath($node);
+		$this->assertCount(3, $shares);
+
+		$this->assertEquals($id1, $shares[0]->getId());
+		$this->assertEquals(IShare::TYPE_USER, $shares[0]->getShareType());
+
+		$this->assertEquals($id2, $shares[1]->getId());
+		$this->assertEquals(IShare::TYPE_GROUP, $shares[1]->getShareType());
+
+		$this->assertEquals($id3, $shares[2]->getId());
+		$this->assertEquals(IShare::TYPE_LINK, $shares[2]->getShareType());
 	}
 }

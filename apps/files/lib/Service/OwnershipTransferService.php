@@ -310,7 +310,7 @@ class OwnershipTransferService {
 		foreach ($supportedShareTypes as $shareType) {
 			$offset = 0;
 			while (true) {
-				$sharePage = $this->shareManager->getSharesBy($sourceUid, $shareType, null, true, 50, $offset);
+				$sharePage = $this->shareManager->getSharesBy($sourceUid, $shareType, null, true, 50, $offset, onlyValid: false);
 				$progress->advance(count($sharePage));
 				if (empty($sharePage)) {
 					break;
@@ -464,7 +464,7 @@ class OwnershipTransferService {
 						}
 						$share->setNodeId($newNodeId);
 
-						$this->shareManager->updateShare($share);
+						$this->shareManager->updateShare($share, onlyValid: false);
 					}
 				}
 			} catch (NotFoundException $e) {

@@ -18,6 +18,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Mount\IShareOwnerlessMount;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
@@ -232,9 +233,19 @@ class ShareAPIControllerTest extends TestCase {
 		$this->expectExceptionMessage('Could not delete share');
 
 		$node = $this->getMockBuilder(File::class)->getMock();
+		$node->method('getId')->willReturn(1);
 
 		$share = $this->newShare();
 		$share->setNode($node);
+
+		$userFolder = $this->getMockBuilder(Folder::class)->getMock();
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getFirstNodeById')
+			->with($share->getNodeId())
+			->willReturn($node);
 
 		$this->shareManager
 			->expects($this->once())
@@ -474,6 +485,62 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertFalse($this->invokePrivate($this->ocs, 'canDeleteShare', [$share]));
 
 		$this->ocs->deleteShare(42);
+	}
+
+	public function testDeleteShareOwnerless(): void {
+		$ocs = $this->mockFormatShare();
+
+		$mount = $this->createMock(IShareOwnerlessMount::class);
+
+		$file = $this->createMock(File::class);
+		$file
+			->expects($this->exactly(2))
+			->method('getPermissions')
+			->willReturn(Constants::PERMISSION_SHARE);
+		$file
+			->expects($this->once())
+			->method('getMountPoint')
+			->willReturn($mount);
+
+		$userFolder = $this->createMock(Folder::class);
+		$userFolder
+			->expects($this->exactly(2))
+			->method('getFirstNodeById')
+			->with(2)
+			->willReturn($file);
+
+		$this->rootFolder
+			->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$share = $this->createMock(IShare::class);
+		$share
+			->expects($this->once())
+			->method('getNode')
+			->willReturn($file);
+		$share
+			->expects($this->exactly(2))
+			->method('getNodeId')
+			->willReturn(2);
+		$share
+			->expects($this->exactly(2))
+			->method('getPermissions')
+			->willReturn(Constants::PERMISSION_SHARE);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareById')
+			->with('ocinternal:1', $this->currentUser)
+			->willReturn($share);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('deleteShare')
+			->with($share);
+
+		$result = $ocs->deleteShare(1);
+		$this->assertInstanceOf(DataResponse::class, $result);
 	}
 
 	/*
@@ -3745,6 +3812,63 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturn(42);
 
 		$result = $ocs->updateShare(42, 31);
+		$this->assertInstanceOf(DataResponse::class, $result);
+	}
+
+	public function testUpdateShareOwnerless(): void {
+		$ocs = $this->mockFormatShare();
+
+		$mount = $this->createMock(IShareOwnerlessMount::class);
+
+		$file = $this->createMock(File::class);
+		$file
+			->expects($this->exactly(2))
+			->method('getPermissions')
+			->willReturn(Constants::PERMISSION_SHARE);
+		$file
+			->expects($this->once())
+			->method('getMountPoint')
+			->willReturn($mount);
+
+		$userFolder = $this->createMock(Folder::class);
+		$userFolder
+			->expects($this->exactly(2))
+			->method('getFirstNodeById')
+			->with(2)
+			->willReturn($file);
+
+		$this->rootFolder
+			->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$share = $this->createMock(IShare::class);
+		$share
+			->expects($this->once())
+			->method('getNode')
+			->willReturn($file);
+		$share
+			->expects($this->exactly(2))
+			->method('getNodeId')
+			->willReturn(2);
+		$share
+			->expects($this->exactly(2))
+			->method('getPermissions')
+			->willReturn(Constants::PERMISSION_SHARE);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareById')
+			->with('ocinternal:1', $this->currentUser)
+			->willReturn($share);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('updateShare')
+			->with($share)
+			->willReturn($share);
+
+		$result = $ocs->updateShare(1, Constants::PERMISSION_ALL);
 		$this->assertInstanceOf(DataResponse::class, $result);
 	}
 

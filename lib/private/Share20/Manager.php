@@ -17,6 +17,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\Mount\IShareOwnerlessMount;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\HintException;
@@ -785,13 +786,13 @@ class Manager implements IManager {
 	 * @throws \InvalidArgumentException
 	 * @throws GenericShareException
 	 */
-	public function updateShare(IShare $share) {
+	public function updateShare(IShare $share, bool $onlyValid = true) {
 		$expirationDateUpdated = false;
 
 		$this->canShare($share);
 
 		try {
-			$originalShare = $this->getShareById($share->getFullId());
+			$originalShare = $this->getShareById($share->getFullId(), onlyValid: $onlyValid);
 		} catch (\UnexpectedValueException $e) {
 			throw new \InvalidArgumentException($this->l->t('Share does not have a full ID'));
 		}
@@ -1215,23 +1216,32 @@ class Manager implements IManager {
 			throw new \Exception('non-shallow getSharesInFolder is no longer supported');
 		}
 
-		return array_reduce($providers, function ($shares, IShareProvider $provider) use ($userId, $node, $reshares) {
-			$newShares = $provider->getSharesInFolder($userId, $node, $reshares);
-			foreach ($newShares as $fid => $data) {
-				if (!isset($shares[$fid])) {
-					$shares[$fid] = [];
-				}
+		$isOwnerless = $node->getMountPoint() instanceof IShareOwnerlessMount;
 
-				$shares[$fid] = array_merge($shares[$fid], $data);
+		$shares = [];
+		foreach ($providers as $provider) {
+			if ($isOwnerless) {
+				foreach ($node->getDirectoryListing() as $childNode) {
+					$data = $provider->getSharesByPath($childNode);
+					$fid = $childNode->getId();
+					$shares[$fid] ??= [];
+					$shares[$fid] = array_merge($shares[$fid], $data);
+				}
+			} else {
+				foreach ($provider->getSharesInFolder($userId, $node, $reshares) as $fid => $data) {
+					$shares[$fid] ??= [];
+					$shares[$fid] = array_merge($shares[$fid], $data);
+				}
 			}
-			return $shares;
-		}, []);
+		}
+
+		return $shares;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getSharesBy($userId, $shareType, $path = null, $reshares = false, $limit = 50, $offset = 0) {
+	public function getSharesBy($userId, $shareType, $path = null, $reshares = false, $limit = 50, $offset = 0, bool $onlyValid = true) {
 		if ($path !== null &&
 			!($path instanceof \OCP\Files\File) &&
 			!($path instanceof \OCP\Files\Folder)) {
@@ -1244,7 +1254,11 @@ class Manager implements IManager {
 			return [];
 		}
 
-		$shares = $provider->getSharesBy($userId, $shareType, $path, $reshares, $limit, $offset);
+		if ($path?->getMountPoint() instanceof IShareOwnerlessMount) {
+			$shares = array_filter($provider->getSharesByPath($path), static fn (IShare $share) => $share->getShareType() === $shareType);
+		} else {
+			$shares = $provider->getSharesBy($userId, $shareType, $path, $reshares, $limit, $offset);
+		}
 
 		/*
 		 * Work around so we don't return expired shares but still follow
@@ -1256,11 +1270,13 @@ class Manager implements IManager {
 		while (true) {
 			$added = 0;
 			foreach ($shares as $share) {
-				try {
-					$this->checkShare($share);
-				} catch (ShareNotFound $e) {
-					// Ignore since this basically means the share is deleted
-					continue;
+				if ($onlyValid) {
+					try {
+						$this->checkShare($share);
+					} catch (ShareNotFound $e) {
+						// Ignore since this basically means the share is deleted
+						continue;
+					}
 				}
 
 				$added++;
@@ -1288,7 +1304,12 @@ class Manager implements IManager {
 			$offset += $added;
 
 			// Fetch again $limit shares
-			$shares = $provider->getSharesBy($userId, $shareType, $path, $reshares, $limit, $offset);
+			if ($path?->getMountPoint() instanceof IShareOwnerlessMount) {
+				// We already fetched all shares, so end here
+				$shares = [];
+			} else {
+				$shares = $provider->getSharesBy($userId, $shareType, $path, $reshares, $limit, $offset);
+			}
 
 			// No more shares means we are done
 			if (empty($shares)) {
@@ -1347,7 +1368,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritdoc
 	 */
-	public function getShareById($id, $recipient = null) {
+	public function getShareById($id, $recipient = null, bool $onlyValid = true) {
 		if ($id === null) {
 			throw new ShareNotFound();
 		}
@@ -1362,7 +1383,9 @@ class Manager implements IManager {
 
 		$share = $provider->getShareById($id, $recipient);
 
-		$this->checkShare($share);
+		if ($onlyValid) {
+			$this->checkShare($share);
+		}
 
 		return $share;
 	}
@@ -1469,6 +1492,15 @@ class Manager implements IManager {
 			$this->deleteShare($share);
 			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 		}
+
+		try {
+			$share->getNode();
+			// Ignore share, file is still accessible
+		} catch (NotFoundException) {
+			// Access lost, but maybe only temporarily, so don't delete the share right away
+			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
+		}
+
 		if ($this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'no') === 'yes') {
 			$uids = array_unique([$share->getShareOwner(),$share->getSharedBy()]);
 			foreach ($uids as $uid) {
