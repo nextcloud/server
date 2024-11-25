@@ -31,6 +31,7 @@ use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IRootFolder;
 use OCP\Group\ISubAdmin;
 use OCP\HintException;
 use OCP\IConfig;
@@ -67,6 +68,7 @@ class UsersController extends AUserDataOCSController {
 		IAccountManager $accountManager,
 		ISubAdmin $subAdminManager,
 		IFactory $l10nFactory,
+		IRootFolder $rootFolder,
 		private IURLGenerator $urlGenerator,
 		private LoggerInterface $logger,
 		private NewUserMailHelper $newUserMailHelper,
@@ -85,7 +87,8 @@ class UsersController extends AUserDataOCSController {
 			$userSession,
 			$accountManager,
 			$subAdminManager,
-			$l10nFactory
+			$l10nFactory,
+			$rootFolder,
 		);
 
 		$this->l10n = $l10nFactory->get($appName);

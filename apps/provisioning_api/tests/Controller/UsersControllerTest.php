@@ -23,6 +23,7 @@ use OCP\Accounts\IAccountPropertyCollection;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IRootFolder;
 use OCP\Group\ISubAdmin;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -76,6 +77,7 @@ class UsersControllerTest extends TestCase {
 	private $knownUserService;
 	/** @var IEventDispatcher|MockObject */
 	private $eventDispatcher;
+	private IRootFolder $rootFolder;
 	/** @var IPhoneNumberUtil */
 	private $phoneNumberUtil;
 
@@ -98,6 +100,7 @@ class UsersControllerTest extends TestCase {
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->phoneNumberUtil = new PhoneNumberUtil();
+		$this->rootFolder = $this->createMock(IRootFolder::class);
 
 		$l10n = $this->createMock(IL10N::class);
 		$l10n->method('t')->willReturnCallback(fn (string $txt, array $replacement = []) => sprintf($txt, ...$replacement));
@@ -114,6 +117,7 @@ class UsersControllerTest extends TestCase {
 				$this->accountManager,
 				$this->subAdminManager,
 				$this->l10nFactory,
+				$this->rootFolder,
 				$this->urlGenerator,
 				$this->logger,
 				$this->newUserMailHelper,
@@ -508,6 +512,7 @@ class UsersControllerTest extends TestCase {
 				$this->accountManager,
 				$this->subAdminManager,
 				$this->l10nFactory,
+				$this->rootFolder,
 				$this->urlGenerator,
 				$this->logger,
 				$this->newUserMailHelper,
@@ -1127,7 +1132,7 @@ class UsersControllerTest extends TestCase {
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
-			->with('UID')
+			->with($targetUser)
 			->willReturn(['DummyValue']);
 
 		$backend = $this->createMock(UserInterface::class);
@@ -1254,7 +1259,7 @@ class UsersControllerTest extends TestCase {
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
-			->with('UID')
+			->with($targetUser)
 			->willReturn(['DummyValue']);
 
 		$backend = $this->createMock(UserInterface::class);
@@ -1429,7 +1434,7 @@ class UsersControllerTest extends TestCase {
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
-			->with('UID')
+			->with($targetUser)
 			->willReturn(['DummyValue']);
 
 		$backend = $this->createMock(UserInterface::class);
@@ -3788,6 +3793,7 @@ class UsersControllerTest extends TestCase {
 				$this->accountManager,
 				$this->subAdminManager,
 				$this->l10nFactory,
+				$this->rootFolder,
 				$this->urlGenerator,
 				$this->logger,
 				$this->newUserMailHelper,
@@ -3878,6 +3884,7 @@ class UsersControllerTest extends TestCase {
 				$this->accountManager,
 				$this->subAdminManager,
 				$this->l10nFactory,
+				$this->rootFolder,
 				$this->urlGenerator,
 				$this->logger,
 				$this->newUserMailHelper,
