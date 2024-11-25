@@ -79,7 +79,7 @@ class TimeZoneFactory {
 		'Greenwich Standard Time' => 'Atlantic/Reykjavik',
 		'Haiti Standard Time' => 'America/Port-au-Prince',
 		'Hawaiian Standard Time' => 'Pacific/Honolulu',
-		'India Standard Time' => 'Asia/Calcutta',
+		'India Standard Time' => 'Asia/Kolkata',
 		'Iran Standard Time' => 'Asia/Tehran',
 		'Israel Standard Time' => 'Asia/Jerusalem',
 		'Jordan Standard Time' => 'Asia/Amman',
@@ -103,7 +103,7 @@ class TimeZoneFactory {
 		'Myanmar Standard Time' => 'Asia/Rangoon',
 		'N. Central Asia Standard Time' => 'Asia/Novosibirsk',
 		'Namibia Standard Time' => 'Africa/Windhoek',
-		'Nepal Standard Time' => 'Asia/Katmandu',
+		'Nepal Standard Time' => 'Asia/Kathmandu',
 		'New Zealand Standard Time' => 'Pacific/Auckland',
 		'Newfoundland Standard Time' => 'America/St_Johns',
 		'Norfolk Standard Time' => 'Pacific/Norfolk',
@@ -164,8 +164,10 @@ class TimeZoneFactory {
 		'West Asia Standard Time' => 'Asia/Tashkent',
 		'West Bank Standard Time' => 'Asia/Hebron',
 		'West Pacific Standard Time' => 'Pacific/Port_Moresby',
+		'West Samoa Standard Time' => 'Pacific/Apia',
 		'Yakutsk Standard Time' => 'Asia/Yakutsk',
 		'Yukon Standard Time' => 'America/Whitehorse',
+		'Yekaterinburg Standard Time' => 'Asia/Yekaterinburg',
 	];
 
 	/**
