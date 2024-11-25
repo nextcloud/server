@@ -174,6 +174,7 @@ OC.L10N.register(
     "Email" : "El. paštas",
     "Team" : "Komanda",
     "on {server}" : "serveryje {server}",
+    "Note:" : "Pastaba:",
     "Terms of service" : "Naudojimosi sąlygos",
     "Nickname" : "Slapyvardis",
     "Enter your nickname" : "Įveskite savo slapyvardį",
