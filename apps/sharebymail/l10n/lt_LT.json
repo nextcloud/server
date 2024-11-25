@@ -13,6 +13,7 @@
     "Password to access {file} was sent to you" : "Jums buvo išsiųstas slaptažodis, skirtas prieigai prie {file}",
     "Share by mail" : "Bendrinimas el. paštu",
     "Failed to send share by email" : "Nepavyko pasidalinti el. paštu",
+    "Note:" : "Pastaba:",
     "Click the button below to open it." : "Norėdami atverti failą, spustelėkite žemiau esantį mygtuką.",
     "%1$s via %2$s" : "%1$s per %2$s",
     "It is protected with the following password:" : "Apsaugota šiuo slaptažodžiu:",

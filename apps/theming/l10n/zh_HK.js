@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "The given name is too long" : "指定的名稱太長",
     "The given web address is too long" : "提供的網址太長",
-    "The given web address is not a valid URL" : "指定的網址不是有效的 URL",
+    "The given web address is not a valid URL" : "提供的網址不是有效的 URL",
     "The given legal notice address is too long" : "指定的法律聲明網址太長",
     "The given legal notice address is not a valid URL" : "指定的法律聲明網址不是有效的 URL",
     "The given privacy policy address is too long" : "指定的隱私權政策網址太長",
