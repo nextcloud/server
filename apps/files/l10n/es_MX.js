@@ -208,7 +208,7 @@ OC.L10N.register(
     "Edit online" : "Editar en línea",
     "Failed to redirect to client" : "Fallo al redirigir al cliente",
     "Edit locally" : "Editar localmente",
-    "Moving \"{source}\" to \"{destination}\" …" : "Moviendo \"{source}\" a \"{destination}\" …|",
+    "Moving \"{source}\" to \"{destination}\" …" : "Moviendo \"{source}\" a \"{destination}\" …",
     "Copying \"{source}\" to \"{destination}\" …" : "Copiando \"{source}\" a \"{destination}\" …",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "No puede mover un archivo/carpeta a sí mismo o a una subcarpeta de sí mismo",
     "(copy)" : "(copiar)",
