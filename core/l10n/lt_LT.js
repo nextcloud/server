@@ -103,6 +103,7 @@ OC.L10N.register(
     "Load more results" : "Įkelti daugiau rezultatų",
     "Searching …" : "Ieškoma…",
     "Start typing to search" : "Rašykite norėdami atlikti paiešką",
+    "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "Tarp ${this.dateFilter.startFrom.toLocaleDateString()} ir ${this.dateFilter.endAt.toLocaleDateString()}",
     "Log in" : "Prisijungti",
     "Logging in …" : "Prisijungiama …",
     "Server side authentication failed!" : "Autentikacija serveryje nepavyko!",
