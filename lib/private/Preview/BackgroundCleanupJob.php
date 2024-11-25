@@ -54,7 +54,8 @@ class BackgroundCleanupJob extends TimedJob {
 		bool $isCLI) {
 		parent::__construct($timeFactory);
 		// Run at most once an hour
-		$this->setInterval(3600);
+		$this->setInterval(60 * 60);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 
 		$this->connection = $connection;
 		$this->previewFolder = $previewFolder;

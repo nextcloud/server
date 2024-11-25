@@ -57,6 +57,7 @@ class UpdateAvailableNotifications extends TimedJob {
 		parent::__construct($timeFactory);
 		// Run once a day
 		$this->setInterval(60 * 60 * 24);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 	protected function run($argument) {

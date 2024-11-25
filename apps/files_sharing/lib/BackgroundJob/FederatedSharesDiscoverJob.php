@@ -45,7 +45,8 @@ class FederatedSharesDiscoverJob extends TimedJob {
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($time);
-		$this->setInterval(86400);
+		$this->setInterval(24 * 60 * 60);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 	public function run($argument) {
