@@ -11,7 +11,6 @@ namespace OCA\Provisioning_API\Controller;
 use OC\Group\Manager as GroupManager;
 use OC\User\Backend;
 use OC\User\NoUserException;
-use OC_Helper;
 use OCA\Provisioning_API\ResponseDefinitions;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
@@ -19,6 +18,8 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
+use OCP\Files\FileInfo;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Group\ISubAdmin;
 use OCP\IConfig;
@@ -29,6 +30,7 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
+use OCP\Util;
 
 /**
  * @psalm-import-type Provisioning_APIUserDetails from ResponseDefinitions
@@ -56,6 +58,7 @@ abstract class AUserData extends OCSController {
 		protected IAccountManager $accountManager,
 		protected ISubAdmin $subAdminManager,
 		protected IFactory $l10nFactory,
+		protected IRootFolder $rootFolder,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -119,7 +122,7 @@ abstract class AUserData extends OCSController {
 		$data['lastLogin'] = $targetUserObject->getLastLogin() * 1000;
 		$data['backend'] = $targetUserObject->getBackendClassName();
 		$data['subadmin'] = $this->getUserSubAdminGroupsData($targetUserObject->getUID());
-		$data[self::USER_FIELD_QUOTA] = $this->fillStorageInfo($targetUserObject->getUID());
+		$data[self::USER_FIELD_QUOTA] = $this->fillStorageInfo($targetUserObject);
 		$managers = $this->getManagers($targetUserObject);
 		$data[self::USER_FIELD_MANAGER] = empty($managers) ? '' : $managers[0];
 
@@ -242,34 +245,62 @@ abstract class AUserData extends OCSController {
 	}
 
 	/**
-	 * @param string $userId
+	 * @param IUser $user
 	 * @return Provisioning_APIUserDetailsQuota
 	 * @throws OCSException
 	 */
-	protected function fillStorageInfo(string $userId): array {
+	protected function fillStorageInfo(IUser $user): array {
+		$includeExternal = $this->config->getSystemValueBool('quota_include_external_storage');
+		$userId = $user->getUID();
+
+		$quota = $user->getQuota();
+		if ($quota === 'none') {
+			$quota = FileInfo::SPACE_UNLIMITED;
+		} else {
+			$quota = Util::computerFileSize($quota);
+			if ($quota === false) {
+				$quota = FileInfo::SPACE_UNLIMITED;
+			}
+		}
+
 		try {
-			\OC_Util::tearDownFS();
-			\OC_Util::setupFS($userId);
-			$storage = OC_Helper::getStorageInfo('/', null, true, false);
-			$data = [
-				'free' => $storage['free'],
-				'used' => $storage['used'],
-				'total' => $storage['total'],
-				'relative' => $storage['relative'],
-				self::USER_FIELD_QUOTA => $storage['quota'],
-			];
+			if ($includeExternal) {
+				\OC_Util::tearDownFS();
+				\OC_Util::setupFS($user->getUID());
+				$storage = \OC_Helper::getStorageInfo('/', null, true, false);
+				$data = [
+					'free' => $storage['free'],
+					'used' => $storage['used'],
+					'total' => $storage['total'],
+					'relative' => $storage['relative'],
+					self::USER_FIELD_QUOTA => $storage['quota'],
+				];
+			} else {
+				$userFileInfo = $this->rootFolder->getUserFolder($userId)->getStorage()->getCache()->get('');
+				$used = $userFileInfo->getSize();
+
+				if ($quota > 0) {
+					// prevent division by zero or error codes (negative values)
+					$relative = round(($used / $quota) * 10000) / 100;
+					$free = $quota - $used;
+					$total = $quota;
+				} else {
+					$relative = 0;
+					$free = FileInfo::SPACE_UNLIMITED;
+					$total = FileInfo::SPACE_UNLIMITED;
+				}
+
+				$data = [
+					'free' => $free,
+					'used' => $used,
+					'total' => $total,
+					'relative' => $relative,
+					self::USER_FIELD_QUOTA => $quota,
+				];
+			}
 		} catch (NotFoundException $ex) {
-			// User fs is not setup yet
-			$user = $this->userManager->get($userId);
-			if ($user === null) {
-				throw new OCSException('User does not exist', 101);
-			}
-			$quota = $user->getQuota();
-			if ($quota !== 'none') {
-				$quota = OC_Helper::computerFileSize($quota);
-			}
 			$data = [
-				self::USER_FIELD_QUOTA => $quota !== false ? $quota : 'none',
+				self::USER_FIELD_QUOTA => $quota >= 0 ? $quota : 'none',
 				'used' => 0
 			];
 		} catch (\Exception $e) {
@@ -281,8 +312,6 @@ abstract class AUserData extends OCSController {
 					'exception' => $e,
 				]
 			);
-			/* In case the Exception left things in a bad state */
-			\OC_Util::tearDownFS();
 			return [];
 		}
 		return $data;

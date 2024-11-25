@@ -43,6 +43,8 @@ class GroupsControllerTest extends \Test\TestCase {
 	/** @var GroupsController|\PHPUnit\Framework\MockObject\MockObject */
 	protected $api;
 
+	private IRootFolder $rootFolder;
+
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -56,6 +58,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->subAdminManager = $this->createMock(ISubAdmin::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->rootFolder = $this->createMock(IRootFolder::class);
 
 		$this->groupManager
 				->method('getSubAdmin')
@@ -72,6 +75,7 @@ class GroupsControllerTest extends \Test\TestCase {
 				$this->accountManager,
 				$this->subAdminManager,
 				$this->l10nFactory,
+				$this->rootFolder,
 				$this->logger
 			])
 			->setMethods(['fillStorageInfo'])
