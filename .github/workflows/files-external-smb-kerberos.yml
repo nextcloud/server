@@ -53,6 +53,12 @@ jobs:
           repository: nextcloud/user_saml
           path: apps/user_saml
 
+      - name: Install user_saml
+        run: |
+          cd apps/user_saml
+          composer i
+          cd ../..
+
       - name: Pull images
         run: |
           docker pull ghcr.io/icewind1991/samba-krb-test-dc
