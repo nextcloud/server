@@ -13,6 +13,7 @@ use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\RejectedPromise;
+use OCP\Files\StorageNotAvailableException;
 use OCP\ICertificateManager;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -132,7 +133,7 @@ trait S3ConnectionTrait {
 				try {
 					$logger->info('Bucket "' . $this->bucket . '" does not exist - creating it.', ['app' => 'objectstore']);
 					if (!$this->connection::isBucketDnsCompatible($this->bucket)) {
-						throw new \Exception('The bucket will not be created because the name is not dns compatible, please correct it: ' . $this->bucket);
+						throw new StorageNotAvailableException('The bucket will not be created because the name is not dns compatible, please correct it: ' . $this->bucket);
 					}
 					$this->connection->createBucket(['Bucket' => $this->bucket]);
 					$this->testTimeout();
@@ -142,17 +143,17 @@ trait S3ConnectionTrait {
 						'app' => 'objectstore',
 					]);
 					if ($e->getAwsErrorCode() !== 'BucketAlreadyOwnedByYou') {
-						throw new \Exception('Creation of bucket "' . $this->bucket . '" failed. ' . $e->getMessage());
+						throw new StorageNotAvailableException('Creation of bucket "' . $this->bucket . '" failed. ' . $e->getMessage());
 					}
 				}
 			}
-	
+
 			// google cloud's s3 compatibility doesn't like the EncodingType parameter
 			if (strpos($base_url, 'storage.googleapis.com')) {
 				$this->connection->getHandlerList()->remove('s3.auto_encode');
 			}
 		} catch (S3Exception $e) {
-			throw new \Exception('S3 service is unable to handle request: ' . $e->getMessage());
+			throw new StorageNotAvailableException('S3 service is unable to handle request: ' . $e->getMessage());
 		}
 
 		return $this->connection;
