@@ -55,7 +55,8 @@ class ClientService implements IClientService {
 	 * @return Client
 	 */
 	public function newClient(): IClient {
-		$stack = HandlerStack::create();
+		$handler = \GuzzleHttp\Utils::chooseHandler();
+		$stack = HandlerStack::create($handler);
 		if ($this->config->getSystemValueBool('dns_pinning', true)) {
 			$stack->push($this->dnsPinMiddleware->addDnsPinning());
 		}
