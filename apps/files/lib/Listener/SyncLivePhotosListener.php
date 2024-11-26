@@ -18,7 +18,6 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Exceptions\AbortedEventException;
 use OCP\Files\Cache\CacheEntryRemovedEvent;
-use OCP\Files\Events\Node\AbstractNodesEvent;
 use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
@@ -78,7 +77,8 @@ class SyncLivePhotosListener implements IEventListener {
 			}
 
 			if ($event instanceof BeforeNodeRenamedEvent) {
-				$this->handleMove($event->getSource(), $event->getTarget(), $peerFile, false);
+				$this->runMoveOrCopyChecks($event->getSource(), $event->getTarget(), $peerFile);
+				$this->handleMove($event->getSource(), $event->getTarget(), $peerFile);
 			} elseif ($event instanceof BeforeNodeDeletedEvent) {
 				$this->handleDeletion($event, $peerFile);
 			} elseif ($event instanceof CacheEntryRemovedEvent) {
@@ -87,18 +87,12 @@ class SyncLivePhotosListener implements IEventListener {
 		}
 	}
 
-	/**
-	 * During rename events, which also include move operations,
-	 * we rename the peer file using the same name.
-	 * The event listener being singleton, we can store the current state
-	 * of pending renames inside the 'pendingRenames' property,
-	 * to prevent infinite recursive.
-	 */
-	private function handleMove(Node $sourceFile, Node $targetFile, Node $peerFile, bool $prepForCopyOnly = false): void {
+	private function runMoveOrCopyChecks(Node $sourceFile, Node $targetFile, Node $peerFile): void {
 		$targetParent = $targetFile->getParent();
 		$sourceExtension = $sourceFile->getExtension();
 		$peerFileExtension = $peerFile->getExtension();
 		$targetName = $targetFile->getName();
+		$peerTargetName = substr($targetName, 0, -strlen($sourceExtension)) . $peerFileExtension;
 
 		if (!str_ends_with($targetName, "." . $sourceExtension)) {
 			throw new AbortedEventException('Cannot change the extension of a Live Photo');
@@ -110,7 +104,6 @@ class SyncLivePhotosListener implements IEventListener {
 		} catch (NotFoundException) {
 		}
 
-		$peerTargetName = substr($targetName, 0, -strlen($sourceExtension)) . $peerFileExtension;
 		if (!($targetParent instanceof NonExistingFolder)) {
 			try {
 				$targetParent->get($peerTargetName);
@@ -118,9 +111,24 @@ class SyncLivePhotosListener implements IEventListener {
 			} catch (NotFoundException) {
 			}
 		}
+	}
+
+	/**
+	 * During rename events, which also include move operations,
+	 * we rename the peer file using the same name.
+	 * The event listener being singleton, we can store the current state
+	 * of pending renames inside the 'pendingRenames' property,
+	 * to prevent infinite recursive.
+	 */
+	private function handleMove(Node $sourceFile, Node $targetFile, Node $peerFile): void {
+		$targetParent = $targetFile->getParent();
+		$sourceExtension = $sourceFile->getExtension();
+		$peerFileExtension = $peerFile->getExtension();
+		$targetName = $targetFile->getName();
+		$peerTargetName = substr($targetName, 0, -strlen($sourceExtension)) . $peerFileExtension;
 
 		// in case the rename was initiated from this listener, we stop right now
-		if ($prepForCopyOnly || in_array($peerFile->getId(), $this->pendingRenames)) {
+		if (in_array($peerFile->getId(), $this->pendingRenames)) {
 			return;
 		}
 
@@ -131,7 +139,7 @@ class SyncLivePhotosListener implements IEventListener {
 			throw new AbortedEventException($ex->getMessage());
 		}
 
-		array_diff($this->pendingRenames, [$sourceFile->getId()]);
+		$this->pendingRenames = array_diff($this->pendingRenames, [$sourceFile->getId()]);
 	}
 
 
@@ -227,7 +235,7 @@ class SyncLivePhotosListener implements IEventListener {
 			}
 
 			if ($event instanceof BeforeNodeCopiedEvent) {
-				$this->handleMove($sourceNode, $targetNode, $peerFile, true);
+				$this->runMoveOrCopyChecks($sourceNode, $targetNode, $peerFile);
 			} elseif ($event instanceof NodeCopiedEvent) {
 				$this->handleCopy($sourceNode, $targetNode, $peerFile);
 			}
