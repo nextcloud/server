@@ -68,21 +68,33 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 			getRowForFile(`${randomFileName} (copy).mov`).should('have.length', 1)
 		})
 
-		it.only('Keeps live photo link when copying folder', () => {
-			setShowHiddenFiles(false)
-
+		it('Keeps live photo link when copying folder', () => {
 			createFolder('folder')
 			moveFile(`${randomFileName}.jpg`, 'folder')
 			copyFile('folder', '.')
 			navigateToFolder('folder (copy)')
 
 			getRowForFile(`${randomFileName}.jpg`).should('have.length', 1)
-			getRowForFile(`${randomFileName}.mov`).should('have.length', 0)
+			getRowForFile(`${randomFileName}.mov`).should('have.length', 1)
 
-			setShowHiddenFiles(true)
+			setShowHiddenFiles(false)
 
 			getRowForFile(`${randomFileName}.jpg`).should('have.length', 1)
+			getRowForFile(`${randomFileName}.mov`).should('have.length', 0)
+		})
+
+		it('Block copying live photo in a folder containing a mov file with the same name', () => {
+			createFolder('folder')
+			cy.uploadContent(user, new Blob(['mov file'], { type: 'video/mov' }), 'video/mov', `/folder/${randomFileName}.mov`)
+			cy.login(user)
+			cy.visit('/apps/files')
+			copyFile(`${randomFileName}.jpg`, 'folder')
+			navigateToFolder('folder')
+
+			cy.get('[data-cy-files-list-row-fileid]').should('have.length', 1)
 			getRowForFile(`${randomFileName}.mov`).should('have.length', 1)
+			getRowForFile(`${randomFileName}.jpg`).should('have.length', 0)
+			getRowForFile(`${randomFileName} (copy).jpg`).should('have.length', 0)
 		})
 
 		it('Moves files when moving the .jpg', () => {
