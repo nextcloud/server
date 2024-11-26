@@ -96,6 +96,35 @@ jobs:
       - name: Zip dependencies
         run: make -f IONOS/Makefile zip_dependencies TARGET_PACKAGE_NAME=${{ env.TARGET_PACKAGE_NAME }}
 
+      - name: Upload artifact result for job hidrive-next-build
+        uses: actions/upload-artifact@v4
+        with:
+          name: hidrive_next_build_zip
+          path: ${{ env.TARGET_PACKAGE_NAME }}
+
+      - name: Show changes on failure
+        if: failure()
+        run: |
+          git status
+          git --no-pager diff
+          exit 1 # make it red to grab attention
+
+  hidirve-next-artifact-to-ghcr_io:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    name: Push artifact to ghcr.io
+    needs: hidrive-next-build
+
+    steps:
+      - name: Download artifact zip
+        uses: actions/download-artifact@v4
+        with:
+          name: hidrive_next_build_zip
+
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
@@ -134,6 +163,4 @@ jobs:
       - name: Show changes on failure
         if: failure()
         run: |
-          git status
-          git --no-pager diff
           exit 1 # make it red to grab attention
