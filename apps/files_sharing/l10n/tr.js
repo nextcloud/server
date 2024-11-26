@@ -88,7 +88,6 @@ OC.L10N.register(
     "no sharing rights on this item" : "bu ögenin herhangi bir paylaşım izni yok",
     "You are not allowed to edit incoming shares" : "Gelen paylaşımları düzenleme izniniz yok",
     "Wrong or no update parameter given" : "Parametre yanlış ya da herhangi bir parametre belirtilmemiş",
-    "You are not allowed to edit link shares that you don't own" : "Sahibi olmadığınız bağlantı paylaşımlarını düzenleme izniniz yok",
     "Share must at least have READ or CREATE permissions" : "Paylaşım için en az OKUMA ve OLUŞTURMA izinleri olmalıdır",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "UPDATE ya da DELETE izinleri verilmiş ise paylaşıma READ izni verilmelidir",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Nextcloud Konuş kullanıma alınmamış olduğundan, paylaşım parolası Nextcloud Konuş uygulaması ile gönderilemedi.",
@@ -414,6 +413,7 @@ OC.L10N.register(
     "the link expired" : "bağlantının geçerlilik süresi dolmuş",
     "sharing is disabled" : "paylaşım kullanımdan kaldırılmış",
     "For more info, please ask the person who sent this link." : "Ayrıntılı bilgi almak için bu bağlantıyı aldığınız kişi ile görüşün.",
+    "You are not allowed to edit link shares that you don't own" : "Sahibi olmadığınız bağlantı paylaşımlarını düzenleme izniniz yok",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 e-posta adresi zaten eklenmiş","{count} e-posta adresi zaten eklenmiş"],
     "_1 email address added_::_{count} email addresses added_" : ["1 e-posta adresi eklendi","{count} e-posta adresi eklendi"],
     "Enter your name" : "Adınızı yazın"
