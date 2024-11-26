@@ -86,7 +86,6 @@
     "no sharing rights on this item" : "no sharing rights on this item",
     "You are not allowed to edit incoming shares" : "You are not allowed to edit incoming shares",
     "Wrong or no update parameter given" : "Wrong or no update parameter given",
-    "You are not allowed to edit link shares that you don't own" : "You are not allowed to edit link shares that you don't own",
     "Share must at least have READ or CREATE permissions" : "Share must at least have READ or CREATE permissions",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "Share must have READ permission if UPDATE or DELETE permission is set",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled.",
@@ -416,6 +415,7 @@
     "the link expired" : "the link expired",
     "sharing is disabled" : "sharing is disabled",
     "For more info, please ask the person who sent this link." : "For more info, please ask the person who sent this link.",
+    "You are not allowed to edit link shares that you don't own" : "You are not allowed to edit link shares that you don't own",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 email address already added","{count} email addresses already added"],
     "_1 email address added_::_{count} email addresses added_" : ["1 email address added","{count} email addresses added"],
     "Enter your name" : "Enter your name"

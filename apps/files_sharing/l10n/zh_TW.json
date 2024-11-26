@@ -86,7 +86,6 @@
     "no sharing rights on this item" : "沒有此項目的分享權限",
     "You are not allowed to edit incoming shares" : "您無權編輯收到的分享",
     "Wrong or no update parameter given" : "更新參數不正確或未提供",
-    "You are not allowed to edit link shares that you don't own" : "您無權編輯不屬於您的連結分享",
     "Share must at least have READ or CREATE permissions" : "分享必須至少具備 READ 或 CREATE 權能",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "若設定了 UPDATE 或 DELETE 權能，則分享必須具備 READ 權能",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "「透過 Nextcloud Talk 傳送密碼」分享檔案或資料夾失敗，因為未啟用 Nextcloud Talk。",
@@ -416,6 +415,7 @@
     "the link expired" : "連結已過期",
     "sharing is disabled" : "分享功能已停用",
     "For more info, please ask the person who sent this link." : "若要了解更多資訊，請詢問傳送此連結給您的人。",
+    "You are not allowed to edit link shares that you don't own" : "您無權編輯不屬於您的連結分享",
     "_1 email address already added_::_{count} email addresses already added_" : ["已新增 {count} 個電子郵件地址"],
     "_1 email address added_::_{count} email addresses added_" : ["已新增 {count} 個電子郵件地址"],
     "Enter your name" : "輸入您的名稱"

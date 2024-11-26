@@ -65,7 +65,7 @@ OC.L10N.register(
     "a safe home for all your data" : "مكان آمن لكل معلوماتك",
     "Slogan" : "الشعار",
     "Primary color" : "اللون الأساسي",
-    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "يستعمل الِلون الأساسي لإبراز بعض العناصر مثل الأزرار الهامة. و قد يتم ضبطه قليلاً اعتماداً على مخطط الألوان الحالي.",
+    "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "يستعمل اللون الأساسي لإبراز بعض العناصر مثل الأزرار الهامة. و قد يتم ضبطه قليلاً اعتماداً على مخطط الألوان الحالي.",
     "Legal notice link" : "رابط الإشعار القانوني",
     "Privacy policy link" : "رابط سياسة الخصوصية",
     "Header logo" : "شعار رأس الصفحة",

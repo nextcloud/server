@@ -88,7 +88,6 @@ OC.L10N.register(
     "no sharing rights on this item" : "この項目には共有権限はありません",
     "You are not allowed to edit incoming shares" : "受信した共有を編集は許可されていません",
     "Wrong or no update parameter given" : "間違っているか、またはパラメータが更新されていません",
-    "You are not allowed to edit link shares that you don't own" : "あなたが所有していない共有リンクを編集することは許可されていません",
     "Share must at least have READ or CREATE permissions" : "共有には少なくとも 読み込み または 作成の権限が必要です",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "更新 または 削除権限が設定されている場合、共有者は 読み込み権限を持っている必要があります。",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Nextcloud Talkが有効になっていないため、ファイルまたはフォルダーを共有するための「NextcloudTalkによるパスワードの送信」ができませんでした。",
@@ -418,6 +417,7 @@ OC.L10N.register(
     "the link expired" : "リンクの期限が切れています",
     "sharing is disabled" : "共有は無効になっています",
     "For more info, please ask the person who sent this link." : "不明な点は、こちらのリンクの提供者に確認をお願いします。",
+    "You are not allowed to edit link shares that you don't own" : "あなたが所有していない共有リンクを編集することは許可されていません",
     "_1 email address already added_::_{count} email addresses already added_" : ["{count} メールアドレスはすでに追加されています"],
     "_1 email address added_::_{count} email addresses added_" : ["{count} メールアドレスが追加されました"],
     "Enter your name" : "あなたの名前を入力"
