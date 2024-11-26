@@ -11,8 +11,12 @@ use Test\TestCase;
 
 class TimeZoneFactoryTest extends TestCase {
 
+	private TimeZoneFactory $factory;
+
 	protected function setUp(): void {
 		parent::setUp();
+
+		$this->factory = new TimeZoneFactory();
 	}
 
 	public function testIsMS(): void {
@@ -35,11 +39,11 @@ class TimeZoneFactoryTest extends TestCase {
 
 	public function testFromName(): void {
 		// test Microsoft time zone
-		$this->assertEquals(new DateTimeZone('America/Toronto'), TimeZoneFactory::fromName('Eastern Standard Time'));
+		$this->assertEquals(new DateTimeZone('America/Toronto'), $this->factory->fromName('Eastern Standard Time'));
 		// test IANA time zone
-		$this->assertEquals(new DateTimeZone('America/Toronto'), TimeZoneFactory::fromName('America/Toronto'));
+		$this->assertEquals(new DateTimeZone('America/Toronto'), $this->factory->fromName('America/Toronto'));
 		// test Fake time zone
-		$this->assertEquals(new DateTimeZone('UTC'), TimeZoneFactory::fromName('Fake Eastern Time'));
+		$this->assertEquals(null, $this->factory->fromName('Fake Eastern Time'));
 	}
 
 }

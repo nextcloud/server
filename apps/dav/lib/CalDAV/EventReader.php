@@ -72,6 +72,8 @@ class EventReader {
 	 */
 	public function __construct(VCalendar|VEvent|array|string $input, ?string $uid = null, ?DateTimeZone $timeZone = null) {
 
+		$timeZoneFactory = new TimeZoneFactory();
+
 		// evaluate if the input is a string and convert it to and vobject if required
 		if (is_string($input)) {
 			$input = Reader::read($input);
@@ -94,7 +96,7 @@ class EventReader {
 			}
 			// extract calendar timezone
 			if (isset($input->VTIMEZONE) && isset($input->VTIMEZONE->TZID)) {
-				$calendarTimeZone = TimeZoneFactory::fromName($input->VTIMEZONE->TZID->getValue());
+				$calendarTimeZone = $timeZoneFactory->fromName($input->VTIMEZONE->TZID->getValue());
 			}
 		}
 		// evaluate if input is a collection of event vobjects
@@ -129,7 +131,7 @@ class EventReader {
 		}
 		// evaluate if event start date has a timezone parameter
 		elseif (isset($this->baseEvent->DTSTART->parameters['TZID'])) {
-			$this->baseEventStartTimeZone = TimeZoneFactory::fromName($this->baseEvent->DTSTART->parameters['TZID']->getValue());
+			$this->baseEventStartTimeZone = $timeZoneFactory->fromName($this->baseEvent->DTSTART->parameters['TZID']->getValue()) ?? new DateTimeZone('UTC');
 		}
 		// evaluate if event parent calendar has a time zone
 		elseif (isset($calendarTimeZone)) {
@@ -148,7 +150,7 @@ class EventReader {
 		}
 		// evaluate if event end date has a timezone parameter
 		elseif (isset($this->baseEvent->DTEND->parameters['TZID'])) {
-			$this->baseEventEndTimeZone = TimeZoneFactory::fromName($this->baseEvent->DTEND->parameters['TZID']->getValue());
+			$this->baseEventEndTimeZone = $timeZoneFactory->fromName($this->baseEvent->DTEND->parameters['TZID']->getValue()) ?? new DateTimeZone('UTC');
 		}
 		// evaluate if event parent calendar has a time zone
 		elseif (isset($calendarTimeZone)) {

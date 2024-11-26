@@ -11,14 +11,19 @@ namespace OCA\DAV\CalDAV;
 
 use DateTimeZone;
 
+/**
+ * Class to generate DateTimeZone object with automated Microsoft and IANA handling
+ *
+ * @since 31.0.0
+ */
 class TimeZoneFactory {
 
 	/**
 	 * conversion table of Microsoft time zones to IANA time zones
 	 *
-	 * @var array $ms2iana
+	 * @var array<string,string> MS2IANA
 	 */
-	private static $ms2iana = [
+	const MS2IANA = [
 		'AUS Central Standard Time' => 'Australia/Darwin',
 		'Aus Central W. Standard Time' => 'Australia/Eucla',
 		'AUS Eastern Standard Time' => 'Australia/Sydney',
@@ -166,28 +171,28 @@ class TimeZoneFactory {
 	/**
 	 * Determines if given time zone name is a Microsoft time zone
 	 *
-	 * @since Release 31.0.0
+	 * @since 31.0.0
 	 *
 	 * @param string $name time zone name
 	 *
 	 * @return bool
 	 */
 	public static function isMS(string $name): bool {
-		return isset(self::$ms2iana[$name]);
+		return isset(self::MS2IANA[$name]);
 	}
 
 	/**
 	 * Converts Microsoft time zone name to IANA time zone name
 	 *
-	 * @since Release 31.0.0
+	 * @since 31.0.0
 	 *
 	 * @param string $name microsoft time zone
 	 *
 	 * @return string|null valid IANA time zone name on success, or null on failure
 	 */
 	public static function toIANA(string $name): ?string {
-		if (isset(self::$ms2iana[$name])) {
-			return self::$ms2iana[$name];
+		if (isset(self::MS2IANA[$name])) {
+			return self::MS2IANA[$name];
 		} else {
 			return null;
 		}
@@ -196,13 +201,13 @@ class TimeZoneFactory {
 	/**
 	 * Generates DateTimeZone object for given time zone name
 	 *
-	 * @since Release 31.0.0
+	 * @since 31.0.0
 	 *
 	 * @param string $name time zone name
 	 *
-	 * @return DateTimeZone
+	 * @return DateTimeZone|null
 	 */
-	public static function fromName(string $name): DateTimeZone {
+	public function fromName(string $name): DateTimeZone|null {
 		// if zone name is MS convert to IANA, otherwise just assume the zone is IANA
 		if (self::isMS($name)) {
 			$zone = @timezone_open(self::toIANA($name));
@@ -212,7 +217,7 @@ class TimeZoneFactory {
 		if ($zone instanceof DateTimeZone) {
 			return $zone;
 		} else {
-			return new DateTimeZone('UTC');
+			return null;
 		}
 	}
 }
