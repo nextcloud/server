@@ -111,12 +111,6 @@ class ViewTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		\OC_Hook::clear();
-		/* Disable encryption, this is not what we want to test */
-		$encryptionManager = Server::get(\OCP\Encryption\IManager::class);
-		$encryptionModules = $encryptionManager->getEncryptionModules();
-		foreach (array_keys($encryptionModules) as $encryptionModuleId) {
-			$encryptionManager->unregisterEncryptionModule($encryptionModuleId);
-		}
 
 		Server::get(IUserManager::class)->clearBackends();
 		Server::get(IUserManager::class)->registerBackend(new \Test\Util\User\Dummy());
@@ -524,10 +518,10 @@ class ViewTest extends \Test\TestCase {
 	}
 
 	public function moveBetweenStorages($storage1, $storage2) {
-		Filesystem::mount($storage1, [], '/');
-		Filesystem::mount($storage2, [], '/substorage');
+		Filesystem::mount($storage1, [], '/' . $this->user . '/');
+		Filesystem::mount($storage2, [], '/' . $this->user . '/substorage');
 
-		$rootView = new View('');
+		$rootView = new View('/' . $this->user);
 		$rootView->rename('foo.txt', 'substorage/folder/foo.txt');
 		$this->assertFalse($rootView->file_exists('foo.txt'));
 		$this->assertTrue($rootView->file_exists('substorage/folder/foo.txt'));
@@ -947,14 +941,16 @@ class ViewTest extends \Test\TestCase {
 		$storage = new Temporary([]);
 		$scanner = $storage->getScanner();
 		Filesystem::mount($storage, [], '/test/');
-		$storage->file_put_contents('test.part', 'foobar');
+		$sizeWritten = $storage->file_put_contents('test.part', 'foobar');
 		$scanner->scan('');
 		$view = new View('/test');
 		$info = $view->getFileInfo('test.part');
 
 		$this->assertInstanceOf('\OCP\Files\FileInfo', $info);
 		$this->assertNull($info->getId());
+		$this->assertEquals(6, $sizeWritten);
 		$this->assertEquals(6, $info->getSize());
+		$this->assertEquals('foobar', $view->file_get_contents('test.part'));
 	}
 
 	public static function absolutePathProvider(): array {
