@@ -83,7 +83,10 @@ class VersioningTest extends \Test\TestCase {
 		parent::setUp();
 
 		$config = Server::get(IConfig::class);
-		$mockConfig = $this->createMock(IConfig::class);
+		$mockConfig = $this->getMockBuilder(AllConfig::class)
+			->onlyMethods(['getSystemValue'])
+			->setConstructorArgs([Server::get(\OC\SystemConfig::class)])
+			->getMock();
 		$mockConfig->expects($this->any())
 			->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) use ($config) {
