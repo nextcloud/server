@@ -65,7 +65,8 @@ class Encryption extends Wrapper {
 
 		$info = $this->getCache()->get($path);
 		if ($info === false) {
-			return false;
+			/* Pass call to wrapped storage, it may be a special file like a part file */
+			return $this->storage->filesize($path);
 		}
 		if (isset($this->unencryptedSize[$fullPath])) {
 			$size = $this->unencryptedSize[$fullPath];
@@ -319,7 +320,7 @@ class Encryption extends Wrapper {
 					if (!empty($encryptionModuleId)) {
 						$encryptionModule = $this->encryptionManager->getEncryptionModule($encryptionModuleId);
 						$shouldEncrypt = true;
-					} elseif (empty($encryptionModuleId) && $info['encrypted'] === true) {
+					} elseif ($info !== false && $info['encrypted'] === true) {
 						// we come from a old installation. No header and/or no module defined
 						// but the file is encrypted. In this case we need to use the
 						// OC_DEFAULT_MODULE to read the file
