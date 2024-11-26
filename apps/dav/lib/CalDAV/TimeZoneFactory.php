@@ -23,7 +23,7 @@ class TimeZoneFactory {
 	 *
 	 * @var array<string,string> MS2IANA
 	 */
-	public const MS2IANA = [
+	private const MS2IANA = [
 		'AUS Central Standard Time' => 'Australia/Darwin',
 		'Aus Central W. Standard Time' => 'Australia/Eucla',
 		'AUS Eastern Standard Time' => 'Australia/Sydney',
@@ -191,11 +191,7 @@ class TimeZoneFactory {
 	 * @return string|null valid IANA time zone name on success, or null on failure
 	 */
 	public static function toIANA(string $name): ?string {
-		if (isset(self::MS2IANA[$name])) {
-			return self::MS2IANA[$name];
-		} else {
-			return null;
-		}
+		return isset(self::MS2IANA[$name]) ? self::MS2IANA[$name] : null;
 	}
 
 	/**
@@ -209,15 +205,7 @@ class TimeZoneFactory {
 	 */
 	public function fromName(string $name): ?DateTimeZone {
 		// if zone name is MS convert to IANA, otherwise just assume the zone is IANA
-		if (self::isMS($name)) {
-			$zone = @timezone_open(self::toIANA($name));
-		} else {
-			$zone = @timezone_open($name);
-		}
-		if ($zone instanceof DateTimeZone) {
-			return $zone;
-		} else {
-			return null;
-		}
+		$zone = @timezone_open(self::toIANA($name) ?? $name);
+		return ($zone instanceof DateTimeZone) ? $zone : null;
 	}
 }
