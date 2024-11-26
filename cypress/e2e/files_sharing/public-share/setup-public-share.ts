@@ -92,16 +92,12 @@ export function setupPublicShare(): Cypress.Chainable<string> {
 	return cy.task('getVariable', { key: 'public-share-data' })
 		.then((data) => {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			const { dataSnapshot, dbSnapshot, shareUrl } = data as any || {}
-			if (dataSnapshot && dbSnapshot) {
-				cy.restoreDB(dbSnapshot)
-				cy.restoreData(dataSnapshot)
+			const { dataSnapshot, shareUrl } = data as any || {}
+			if (dataSnapshot) {
+				cy.restoreState(dataSnapshot)
 				url = shareUrl
 				return cy.wrap(shareUrl as string)
 			} else {
-				cy.restoreData()
-				cy.restoreDB()
-
 				const shareData: Record<string, unknown> = {}
 				return cy.createRandomUser()
 					.then(($user) => { user = $user })
@@ -109,8 +105,7 @@ export function setupPublicShare(): Cypress.Chainable<string> {
 					.then(() => createShare(shareName))
 					.then((value) => { shareData.shareUrl = value })
 					.then(() => adjustSharePermission())
-					.then(() => cy.backupDB().then((value) => { shareData.dbSnapshot = value }))
-					.then(() => cy.backupData([user.userId]).then((value) => { shareData.dataSnapshot = value }))
+					.then(() => cy.saveState().then((value) => { shareData.dataSnapshot = value }))
 					.then(() => cy.task('setVariable', { key: 'public-share-data', value: shareData }))
 					.then(() => cy.log(`Public share setup, URL: ${shareData.shareUrl}`))
 					.then(() => cy.wrap(url))

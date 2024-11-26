@@ -53,27 +53,7 @@ declare global {
 			 */
 			resetUserTheming(user?: User): Cypress.Chainable<void>,
 
-			/**
-			 * Run an occ command in the docker container.
-			 */
-			runOccCommand(command: string, options?: Partial<Cypress.ExecOptions>): Cypress.Chainable<Cypress.Exec>,
-
 			userFileExists(user: string, path: string): Cypress.Chainable<number>
-
-			/**
-			 * Create a snapshot of the current database
-			 */
-			backupDB(): Cypress.Chainable<string>,
-
-			/**
-			 * Restore a snapshot of the database
-			 * Default is the post-setup state
-			 */
-			restoreDB(snapshot?: string): Cypress.Chainable
-
-			backupData(users?: string[]): Cypress.Chainable<string>
-
-			restoreData(snapshot?: string): Cypress.Chainable
 		}
 	}
 }

@@ -162,7 +162,7 @@ jobs:
 
       - name: Create data dir archive
         if: failure() && matrix.containers != 'component'
-        run: docker exec nextcloud-cypress-tests-server tar -cvjf - data > data.tar
+        run: docker exec nextcloud-cypress-tests_server tar -cvjf - data > data.tar
 
       - name: Upload data dir archive
         uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
