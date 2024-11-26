@@ -86,7 +86,6 @@
     "no sharing rights on this item" : "нема права за дељење ове ставке",
     "You are not allowed to edit incoming shares" : "Није вам дозвољено да уређујете долазна дељења",
     "Wrong or no update parameter given" : "Погрешан или ненаведен параметер",
-    "You are not allowed to edit link shares that you don't own" : "Није вам дозвољено да уређујете дељења линком која нису ваше власништво",
     "Share must at least have READ or CREATE permissions" : "Deljenje mora da ima bar dozvole ČITANJE ili KREIRANJE",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "Deljenje mora da ima dozvolu za ČITANJE ako je podešena dozvola UPDATE ili DELETE",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "„Slanje lozinke putem Nextcloud Talk-a“ za deljenje datoteke ili fascikle nije uspelo jer Nextcloud Talk nije omogućen.",
@@ -416,6 +415,7 @@
     "the link expired" : "веза је истекла",
     "sharing is disabled" : "дељење је искључено",
     "For more info, please ask the person who sent this link." : "За више информација, питајте особу која вам је послала везу.",
+    "You are not allowed to edit link shares that you don't own" : "Није вам дозвољено да уређујете дељења линком која нису ваше власништво",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 и-мејл адреса је већ додата","{count} и-мејл адресе су већ додате","{count} и-мејл адреса је већ додато"],
     "_1 email address added_::_{count} email addresses added_" : ["Додата је 1 и-мејл адреса","Додате су {count} и-мејл адресе","Додато је {count} и-мејл адреса"],
     "Enter your name" : "Унесите Ваше име"

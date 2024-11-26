@@ -88,7 +88,6 @@ OC.L10N.register(
     "no sharing rights on this item" : "gan cearta comhroinnte ar an mír seo",
     "You are not allowed to edit incoming shares" : "Níl cead agat scaireanna isteach a chur in eagar",
     "Wrong or no update parameter given" : "Paraiméadar nuashonraithe mícheart nó gan aon tugtha",
-    "You are not allowed to edit link shares that you don't own" : "Níl cead agat scaireanna naisc nach leatsa a chur in eagar",
     "Share must at least have READ or CREATE permissions" : "Caithfidh ceadanna READ nó CREATE a bheith ag sciar ar a laghad",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "Ní mór cead READ a bheith ag sciar má shocraítear cead UPDATE nó DELETE",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Theip ar \"an focal faire a sheoladh ag Nextcloud Talk\" chun comhad nó fillteán a roinnt toisc nach bhfuil Nextcloud Talk cumasaithe.",
@@ -418,6 +417,7 @@ OC.L10N.register(
     "the link expired" : "chuaigh an nasc in éag",
     "sharing is disabled" : "tá comhroinnt díchumasaithe",
     "For more info, please ask the person who sent this link." : "Le haghaidh tuilleadh eolais, cuir ceist ar an té a sheol an nasc seo le do thoil.",
+    "You are not allowed to edit link shares that you don't own" : "Níl cead agat scaireanna naisc nach leatsa a chur in eagar",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 seoladh ríomhphoist curtha leis cheana féin","{count} seoladh ríomhphoist curtha leis cheana","{count} seoladh ríomhphoist curtha leis cheana","{count} seoladh ríomhphoist curtha leis cheana","{count} seoladh ríomhphoist curtha leis cheana"],
     "_1 email address added_::_{count} email addresses added_" : ["Cuireadh 1 seoladh ríomhphoist leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis"],
     "Enter your name" : "Cuir isteach d'ainm"
