@@ -40,7 +40,7 @@ script('core', 'install');
 	<fieldset id="adminaccount">
 		<legend><?php print_unescaped($l->t('Create an <strong>admin account</strong>')); ?></legend>
 		<p>
-			<label for="adminlogin"><?php p($l->t('Login')); ?></label>
+			<label for="adminlogin"><?php p($l->t('Username')); ?></label>
 			<input type="text" name="adminlogin" id="adminlogin"
 				value="<?php p($_['adminlogin']); ?>"
 				autocomplete="off" autocapitalize="none" spellcheck="false" autofocus required>
