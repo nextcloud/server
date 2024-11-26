@@ -351,6 +351,9 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 		if (!in_array($fileId, $ids)) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
 		}
+		if ($task->getUserId() !== null) {
+			\OC_Util::setupFS($task->getUserId());
+		}
 		$node = $this->rootFolder->getFirstNodeById($fileId);
 		if ($node === null) {
 			$node = $this->rootFolder->getFirstNodeByIdInPath($fileId, '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
