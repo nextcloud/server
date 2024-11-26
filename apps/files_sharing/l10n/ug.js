@@ -88,7 +88,6 @@ OC.L10N.register(
     "no sharing rights on this item" : "بۇ تۈردە ئورتاقلىشىش ھوقۇقى يوق",
     "You are not allowed to edit incoming shares" : "كەلگەن پايلارنى تەھرىرلىشىڭىزگە رۇخسەت قىلىنمايدۇ",
     "Wrong or no update parameter given" : "يېڭىلاش پارامېتىرى خاتا ياكى يوق",
-    "You are not allowed to edit link shares that you don't own" : "ئۆزىڭىز ئىگە بولمىغان ئۇلىنىش ھەمبەھىرلىرىنى تەھرىرلىشىڭىزگە رۇخسەت قىلىنمايدۇ",
     "Share must at least have READ or CREATE permissions" : "ھەمبەھىرلىنىشتە ھېچ بولمىغاندا ئوقۇش ياكى ئىجاد قىلىش ھوقۇقى بولۇشى كېرەك",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "UPDATE ياكى DELETE ئىجازىتى تەڭشەلگەن بولسا ، ئورتاقلىشىش چوقۇم ئوقۇش رۇخسىتى بولۇشى كېرەك",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Nextcloud Talk قوزغىتىلمىغانلىقتىن ھۆججەت ياكى ھۆججەت قىسقۇچنى ئورتاقلىشىش ئۈچۈن «Nextcloud Talk ئارقىلىق پارول ئەۋەتىش» مەغلۇپ بولدى.",
@@ -406,6 +405,7 @@ OC.L10N.register(
     "the link expired" : "ئۇلىنىش ۋاقتى توشتى",
     "sharing is disabled" : "ئورتاقلىشىش چەكلەنگەن",
     "For more info, please ask the person who sent this link." : "تېخىمۇ كۆپ ئۇچۇرغا ئېرىشىش ئۈچۈن بۇ ئۇلىنىشنى ئەۋەتكەن كىشىدىن سوراڭ.",
+    "You are not allowed to edit link shares that you don't own" : "ئۆزىڭىز ئىگە بولمىغان ئۇلىنىش ھەمبەھىرلىرىنى تەھرىرلىشىڭىزگە رۇخسەت قىلىنمايدۇ",
     "Enter your name" : "ئىسمىڭىزنى كىرگۈزۈڭ"
 },
 "nplurals=2; plural=(n != 1);");

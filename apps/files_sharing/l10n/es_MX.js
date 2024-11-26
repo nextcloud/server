@@ -88,7 +88,6 @@ OC.L10N.register(
     "no sharing rights on this item" : "sin permisos para compartir este elemento",
     "You are not allowed to edit incoming shares" : "No tiene permitido editar los recursos compartidos entrantes",
     "Wrong or no update parameter given" : "El parametro de actualización está erróneo o falta",
-    "You are not allowed to edit link shares that you don't own" : "No tiene permitido editar los enlaces compartidos que no le pertenecen",
     "Share must at least have READ or CREATE permissions" : "El recurso compartido debe tener al menos el permiso de LECTURA o CREACIÓN",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "El recurso compartido debe tener el permiso de LECTURA si el permiso de ACTUALIZAR o ELIMINAR está configurado",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Enviar la contraseña por Nextcloud Talk\" para compartir un archivo o carpeta falló porque Nextcloud Talk no está habilitado.",
@@ -383,6 +382,7 @@ OC.L10N.register(
     "the link expired" : "la liga expiró",
     "sharing is disabled" : "compartir está deshabilitado",
     "For more info, please ask the person who sent this link." : "Para mayores informes, contacta a la persona que le envió esta liga.",
+    "You are not allowed to edit link shares that you don't own" : "No tiene permitido editar los enlaces compartidos que no le pertenecen",
     "_1 email address already added_::_{count} email addresses already added_" : ["Ya se ha añadido 1 dirección de correo electrónico","Ya se han añadido {count} direcciones de correo electrónico","Ya se han añadido {count} direcciones de correo electrónico"],
     "_1 email address added_::_{count} email addresses added_" : ["Se añadió 1 dirección de correo electrónico","Se añadieron {count} direcciones de correo electrónico","Se añadieron {count} direcciones de correo electrónico"],
     "Enter your name" : "Ingrese su nombre"

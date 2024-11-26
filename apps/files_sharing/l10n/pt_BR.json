@@ -86,7 +86,6 @@
     "no sharing rights on this item" : "sem direitos de compartilhamento sobre este item",
     "You are not allowed to edit incoming shares" : "Você não tem permissão para editar compartilhamentos recebidos",
     "Wrong or no update parameter given" : "O parâmetro da atualização fornecido está errado ou não existe",
-    "You are not allowed to edit link shares that you don't own" : "Você não tem permissão para editar compartilhamentos de links que não são de sua propriedade",
     "Share must at least have READ or CREATE permissions" : "O compartilhamento deve ter pelo menos permissões de LER ou CRIAR",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "O compartilhamento deve ter permissão de LEITURA se a permissão ATUALIZAÇÃO ou EXCLUSÃO estiver definida",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "O \"envio da senha pelo Bate Papo Nextcloud\" para compartilhar um arquivo ou pasta falhou porque o Bate Papo Nextcloud não está habilitado. ",
@@ -416,6 +415,7 @@
     "the link expired" : "o link expirou",
     "sharing is disabled" : "o compartilhamento está desativado",
     "For more info, please ask the person who sent this link." : "Para mais informações, pergunte à pessoa que lhe enviou o link.",
+    "You are not allowed to edit link shares that you don't own" : "Você não tem permissão para editar compartilhamentos de links que não são de sua propriedade",
     "_1 email address already added_::_{count} email addresses already added_" : ["endereço1 email address already added","{count} endereços de e-mail já adicionados","{count} endereços de e-mail já adicionados"],
     "_1 email address added_::_{count} email addresses added_" : ["1  endereços de e-mail adicionados","{count} endereços de e-mail adicionados","{count} endereços de e-mail adicionados"],
     "Enter your name" : "Digite seu nome"

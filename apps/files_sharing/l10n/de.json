@@ -86,7 +86,6 @@
     "no sharing rights on this item" : "Hierfür bestehen keine Freigaberechte",
     "You are not allowed to edit incoming shares" : "Du darfst eingehende Freigaben nicht bearbeiten",
     "Wrong or no update parameter given" : "Es wurde ein falscher oder kein Updateparameter angegeben",
-    "You are not allowed to edit link shares that you don't own" : "Du darfst keine Linkfreigaben bearbeiten, die du nicht besitzst",
     "Share must at least have READ or CREATE permissions" : "Freigabe muss mindestens Lese- oder Erstell-Rechte haben",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "Die Freigabe muss das Recht Lesen haben, wenn das Recht für Aktualisieren oder Löschen gesetzt ist",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Senden des Passwortes über Nextcloud Talk\" zum Teilen einer Datei  gescheitert, da Nextcloud Talk nicht verfügbar ist.",
@@ -416,6 +415,7 @@
     "the link expired" : "Der Link ist abgelaufen",
     "sharing is disabled" : "Teilen ist deaktiviert",
     "For more info, please ask the person who sent this link." : "Um nähere Informationen zu erhalten, wende dich bitte an die Person, die dir diesen Link geschickt hat.",
+    "You are not allowed to edit link shares that you don't own" : "Du darfst keine Linkfreigaben bearbeiten, die du nicht besitzst",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 E-Mail-Adresse bereits hinzugefügt","{count} E-Mail-Adressen bereits hinzugefügt"],
     "_1 email address added_::_{count} email addresses added_" : ["1 E-Mail-Adresse hinzugefügt","{count} E-Mail-Adressen hinzugefügt"],
     "Enter your name" : "Gib deinen Namen ein"
