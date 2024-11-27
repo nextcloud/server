@@ -34,6 +34,12 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\HTTP\RequestInterface;
 use Test\TestCase;
 
+enum ERROR_TYPE {
+	case MIN_ERROR;
+	case MAX_ERROR;
+	case NONE;
+}
+
 /**
  * Class BlockLegacyClientPluginTest
  *
@@ -54,8 +60,12 @@ class BlockLegacyClientPluginTest extends TestCase {
 
 	public function oldDesktopClientProvider(): array {
 		return [
-			['Mozilla/5.0 (Windows) mirall/1.5.0'],
-			['Mozilla/5.0 (Bogus Text) mirall/1.6.9'],
+			['Mozilla/5.0 (Windows) mirall/1.5.0', ERROR_TYPE::MIN_ERROR],
+			['Mozilla/5.0 (Bogus Text) mirall/1.6.9', ERROR_TYPE::MIN_ERROR],
+			['Mozilla/5.0 (Windows) mirall/2.5.0', ERROR_TYPE::MAX_ERROR],
+			['Mozilla/5.0 (Bogus Text) mirall/2.0.1', ERROR_TYPE::MAX_ERROR],
+			['Mozilla/5.0 (Windows) mirall/2.0.0', ERROR_TYPE::NONE],
+			['Mozilla/5.0 (Bogus Text) mirall/2.0.0', ERROR_TYPE::NONE],
 		];
 	}
 
@@ -75,19 +85,26 @@ class BlockLegacyClientPluginTest extends TestCase {
 			->willReturn($userAgent);
 
 		$this->config
-			->expects($this->once())
-			->method('getSystemValue')
-			->with('minimum.supported.desktop.version', '2.3.0')
-			->willReturn('1.7.0');
+			->expects($this->exactly(2))
+			->method('getSystemValueString')
+			->willReturnCallback(function (string $key) {
+				if ($key === 'minimum.supported.desktop.version') {
+					return '1.7.0';
+				}
+				return '2.0.0';
+			});
 
 		$this->blockLegacyClientVersionPlugin->beforeHandler($request);
 	}
 
-	public function newAndAlternateDesktopClientProvider(): array {
+	public static function newAndAlternateDesktopClientProvider(): array {
 		return [
 			['Mozilla/5.0 (Windows) mirall/1.7.0'],
 			['Mozilla/5.0 (Bogus Text) mirall/1.9.3'],
 			['Mozilla/5.0 (Not Our Client But Old Version) LegacySync/1.1.0'],
+			['Mozilla/5.0 (Windows) mirall/4.7.0'],
+			['Mozilla/5.0 (Bogus Text) mirall/3.9.3'],
+			['Mozilla/5.0 (Not Our Client But Old Version) LegacySync/45.0.0'],
 		];
 	}
 
@@ -104,10 +121,14 @@ class BlockLegacyClientPluginTest extends TestCase {
 			->willReturn($userAgent);
 
 		$this->config
-			->expects($this->once())
-			->method('getSystemValue')
-			->with('minimum.supported.desktop.version', '2.3.0')
-			->willReturn('1.7.0');
+			->expects($this->exactly(2))
+			->method('getSystemValueString')
+			->willReturnCallback(function (string $key) {
+				if ($key === 'minimum.supported.desktop.version') {
+					return '1.7.0';
+				}
+				return '10.0.0';
+			});
 
 		$this->blockLegacyClientVersionPlugin->beforeHandler($request);
 	}
@@ -120,6 +141,7 @@ class BlockLegacyClientPluginTest extends TestCase {
 			->method('getHeader')
 			->with('User-Agent')
 			->willReturn(null);
+
 		$this->blockLegacyClientVersionPlugin->beforeHandler($request);
 	}
 }
