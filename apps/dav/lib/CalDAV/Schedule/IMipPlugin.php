@@ -111,14 +111,6 @@ class IMipPlugin extends SabreIMipPlugin {
 	 */
 	public function schedule(Message $iTipMessage) {
 
-		// do not send imip messages if external system already did
-		/** @psalm-suppress UndefinedPropertyFetch */
-		if ($iTipMessage->message?->VEVENT?->{'X-NC-DISABLE-SCHEDULING'}?->getValue() === 'true') {
-			if (!$iTipMessage->scheduleStatus) {
-				$iTipMessage->scheduleStatus = '1.0;We got the message, but iMip messages are disabled for this event';
-			}
-			return;
-		}
 		// Not sending any emails if the system considers the update insignificant
 		if (!$iTipMessage->significantChange) {
 			if (!$iTipMessage->scheduleStatus) {
