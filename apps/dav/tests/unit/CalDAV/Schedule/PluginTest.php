@@ -738,4 +738,62 @@ class PluginTest extends TestCase {
 
 	}
 
+	/**
+	 * Test Calendar Event Creation with iTip and iMip disabled
+	 *
+	 * Should generate 2 messages for attendees User 2 and User External
+	 */
+	public function testCalendarObjectChangeWithSchedulingDisabled(): void {
+
+		// construct server request object
+		$request = new Request(
+			'PUT',
+			'/remote.php/dav/calendars/user1/personal/B0DC78AE-6DD7-47E3-80BE-89F23E6D5383.ics'
+		);
+		$request->setBaseUrl('/remote.php/dav/');
+		// construct server response object
+		$response = new Response();
+		// construct server tree object
+		$tree = $this->createMock(Tree::class);
+		$tree->expects($this->never())
+			->method('getNodeForPath');
+		// construct server properties and returns
+		$this->server->httpRequest = $request;
+		$this->server->tree = $tree;
+		// construct calendar with a 1 hour event and same start/end time zones
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('SUMMARY', 'Test Recurring Event');
+		$vEvent->add('ORGANIZER', 'mailto:user1@testing.local', ['CN' => 'User One']);
+		$vEvent->add('ATTENDEE', 'mailto:user2@testing.local', [
+			'CN' => 'User Two',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'NEEDS-ACTION',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE'
+		]);
+		$vEvent->add('ATTENDEE', 'mailto:user@external.local', [
+			'CN' => 'User External',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'NEEDS-ACTION',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE'
+		]);
+		$vEvent->add('X-NC-DISABLE-SCHEDULING', 'true');
+		// define flags
+		$newFlag = true;
+		$modifiedFlag = false;
+		// execute method
+		$this->plugin->calendarObjectChange(
+			$request,
+			$response,
+			$vCalendar,
+			'calendars/user1/personal',
+			$modifiedFlag,
+			$newFlag
+		);
+	}
 }
