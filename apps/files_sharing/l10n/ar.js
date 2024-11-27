@@ -188,6 +188,7 @@ OC.L10N.register(
     "remote" : "قَصِيٌّ remote",
     "remote group" : "مجموعة قَصِيّة remote",
     "guest" : "ضيف",
+    "by {initiator}" : "من قِبَل{initiator}",
     "Shared with the group {user} by {owner}" : "تمّت مشاركته مع المجموعة {user} من قِبَل {owner}",
     "Shared with the conversation {user} by {owner}" : "تمّت مشاركته مع المحادثة {user} من قِبَل {owner}",
     "Shared with {user} by {owner}" : "تمّت مشاركته مع {user} من قِبَل {owner}",
