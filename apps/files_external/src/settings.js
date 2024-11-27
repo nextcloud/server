@@ -4,7 +4,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-(function(){
+import axios from '@nextcloud/axios'
+import { t } from '@nextcloud/l10n'
+import { addPasswordConfirmationInterceptors, PwdConfirmationMode } from '@nextcloud/password-confirmation'
+
+addPasswordConfirmationInterceptors(axios)
 
 /**
  * Returns the selection of applicable users in the given configuration row
@@ -274,7 +278,7 @@ StorageConfig.prototype = {
 			url = OC.generateUrl(this._url + '/{id}', {id: this.id});
 		}
 
-		window.OC.PasswordConfirmation.requirePasswordConfirmation(() => this._save(method, url, options), options.error);
+		this._save(method, url, options);
 	},
 
 	/**
@@ -283,22 +287,20 @@ StorageConfig.prototype = {
 	 * @param {string} url 
 	 * @param {{success: Function, error: Function}} options 
 	 */
-	_save: function(method, url, options) {
-		self = this;
-
-		$.ajax({
-			type: method,
-			url: url,
-			contentType: 'application/json',
-			data: JSON.stringify(this.getData()),
-			success: function(result) {
-				self.id = result.id;
-				if (_.isFunction(options.success)) {
-					options.success(result);
-				}
-			},
-			error: options.error
-		});
+	_save: async function(method, url, options) {
+		try {
+			const response = await axios.request({
+				confirmPassword: PwdConfirmationMode.Strict,
+				method: method,
+				url: url,
+				data: this.getData(),
+			})
+			const result = response.data
+			this.id = result.id
+			options.success(result)
+		} catch (error) {
+			options.error(error)
+		}
 	},
 
 	/**
@@ -351,7 +353,7 @@ StorageConfig.prototype = {
 	 * @param {Function} [options.success] success callback
 	 * @param {Function} [options.error] error callback
 	 */
-	destroy: function(options) {
+	destroy: async function(options) {
 		if (!_.isNumber(this.id)) {
 			// the storage hasn't even been created => success
 			if (_.isFunction(options.success)) {
@@ -360,20 +362,16 @@ StorageConfig.prototype = {
 			return;
 		}
 
-		window.OC.PasswordConfirmation.requirePasswordConfirmation(() => this._destroy(options), options.error)
-	},
-
-	/**
-	 * Private implementation of the DELETE method called after password confirmation
-	 * @param {{ success: Function, error: Function }} options 
-	 */
-	_destroy: function(options) {
-		$.ajax({
-			type: 'DELETE',
-			url: OC.generateUrl(this._url + '/{id}', {id: this.id}),
-			success: options.success,
-			error: options.error
-		});
+		try {
+			await axios.request({
+				method: 'DELETE',
+				url: OC.generateUrl(this._url + '/{id}', {id: this.id}),
+				confirmPassword: PwdConfirmationMode.Strict,
+			})
+			options.success()
+		} catch (e) {
+			options.error(e)
+		}
 	},
 
 	/**
@@ -1486,38 +1484,32 @@ window.addEventListener('DOMContentLoaded', function() {
 			$allowUserMounting.trigger('change');
 
 		}
-	});
+	})
 
-	function _submitCredentials(success) {
+	$('#global_credentials').on('submit', async function (event) {
+		event.preventDefault();
+		var $form = $(this);
+		var $submit = $form.find('[type=submit]');
+		$submit.val(t('files_external', 'Saving …'));
+
 		var uid = $form.find('[name=uid]').val();
 		var user = $form.find('[name=username]').val();
 		var password = $form.find('[name=password]').val();
-		$.ajax({
-			type: 'POST',
-			contentType: 'application/json',
+		await axios.request({
+			method: 'POST',
 			data: JSON.stringify({
 				uid,
 				user,
 				password,
 			}),
-				url: OC.generateUrl('apps/files_external/globalcredentials'),
-				dataType: 'json',
-				success,
-		});
-	}
+			url: OC.generateUrl('apps/files_external/globalcredentials'),
+			confirmPassword: PwdConfirmationMode.Strict,
+		})
 
-	$('#global_credentials').on('submit', function() {
-		var $form = $(this);
-		var $submit = $form.find('[type=submit]');
-		$submit.val(t('files_external', 'Saving …'));
-
-		window.OC.PasswordConfirmation
-			.requirePasswordConfirmation(() => _submitCredentials(function() {
-				$submit.val(t('files_external', 'Saved'));
-				setTimeout(function(){
-					$submit.val(t('files_external', 'Save'));
-				}, 2500);
-			}));
+		$submit.val(t('files_external', 'Saved'));
+		setTimeout(function(){
+			$submit.val(t('files_external', 'Save'));
+		}, 2500);
 
 		return false;
 	});
@@ -1547,5 +1539,3 @@ OCA.Files_External.Settings = OCA.Files_External.Settings || {};
 OCA.Files_External.Settings.GlobalStorageConfig = GlobalStorageConfig;
 OCA.Files_External.Settings.UserStorageConfig = UserStorageConfig;
 OCA.Files_External.Settings.MountConfigListView = MountConfigListView;
-
-})();
