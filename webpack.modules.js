@@ -60,6 +60,7 @@ module.exports = {
 	},
 	files_external: {
 		init: path.join(__dirname, 'apps/files_external/src', 'init.ts'),
+		settings: path.join(__dirname, 'apps/files_external/src', 'settings.js'),
 	},
 	files_reminders: {
 		init: path.join(__dirname, 'apps/files_reminders/src', 'init.ts'),
