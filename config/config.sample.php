@@ -2132,9 +2132,9 @@ $CONFIG = [
  * client may not function as expected, and could lead to permanent data loss for
  * clients or other unexpected results.
  *
- * Defaults to ``2.3.0``
+ * Defaults to ``2.7.0``
  */
-'minimum.supported.desktop.version' => '2.3.0',
+'minimum.supported.desktop.version' => '2.7.0',
 
 /**
  * The maximum Nextcloud desktop client version that will be allowed to sync with
