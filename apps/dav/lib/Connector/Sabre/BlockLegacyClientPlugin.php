@@ -49,14 +49,26 @@ class BlockLegacyClientPlugin extends ServerPlugin {
 			return;
 		}
 
-		$minimumSupportedDesktopVersion = $this->config->getSystemValue('minimum.supported.desktop.version', '2.3.0');
+		$minimumSupportedDesktopVersion = $this->config->getSystemValueString('minimum.supported.desktop.version', '2.3.0');
+		$maximumSupportedDesktopVersion = $this->config->getSystemValueString('maximum.supported.desktop.version', '99.99.99');
+
+		// Check if the client is a desktop client
 		preg_match(IRequest::USER_AGENT_CLIENT_DESKTOP, $userAgent, $versionMatches);
-		if (isset($versionMatches[1]) &&
-			version_compare($versionMatches[1], $minimumSupportedDesktopVersion) === -1) {
+
+		// If the client is a desktop client and the version is too old, block it
+		if (isset($versionMatches[1]) && version_compare($versionMatches[1], $minimumSupportedDesktopVersion) === -1) {
 			$customClientDesktopLink = htmlspecialchars($this->themingDefaults->getSyncClientUrl());
 			$minimumSupportedDesktopVersion = htmlspecialchars($minimumSupportedDesktopVersion);
 
 			throw new \Sabre\DAV\Exception\Forbidden("This version of the client is unsupported. Upgrade to <a href=\"$customClientDesktopLink\">version $minimumSupportedDesktopVersion or later</a>.");
+		}
+
+		// If the client is a desktop client and the version is too new, block it
+		if (isset($versionMatches[1]) && version_compare($versionMatches[1], $maximumSupportedDesktopVersion) === 1) {
+			$customClientDesktopLink = htmlspecialchars($this->themingDefaults->getSyncClientUrl());
+			$maximumSupportedDesktopVersion = htmlspecialchars($maximumSupportedDesktopVersion);
+
+			throw new \Sabre\DAV\Exception\Forbidden("This version of the client is unsupported. Downgrade to <a href=\"$customClientDesktopLink\">version $maximumSupportedDesktopVersion or earlier</a>.");
 		}
 	}
 }
