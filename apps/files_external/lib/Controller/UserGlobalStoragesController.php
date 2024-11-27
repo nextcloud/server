@@ -137,7 +137,7 @@ class UserGlobalStoragesController extends StoragesController {
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
-	#[PasswordConfirmationRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function update(
 		$id,
 		$backendOptions,

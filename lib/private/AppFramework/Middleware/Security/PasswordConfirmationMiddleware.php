@@ -8,6 +8,7 @@ namespace OC\AppFramework\Middleware\Security;
 use OC\AppFramework\Middleware\Security\Exceptions\NotConfirmedException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Authentication\Token\IProvider;
+use OC\User\Manager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Middleware;
@@ -16,6 +17,7 @@ use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IToken;
+use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
@@ -24,75 +26,67 @@ use Psr\Log\LoggerInterface;
 use ReflectionMethod;
 
 class PasswordConfirmationMiddleware extends Middleware {
-	/** @var ControllerMethodReflector */
-	private $reflector;
-	/** @var ISession */
-	private $session;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var ITimeFactory */
-	private $timeFactory;
-	/** @var array */
-	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
-	private IProvider $tokenProvider;
+	private array $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
 
-	/**
-	 * PasswordConfirmationMiddleware constructor.
-	 *
-	 * @param ControllerMethodReflector $reflector
-	 * @param ISession $session
-	 * @param IUserSession $userSession
-	 * @param ITimeFactory $timeFactory
-	 */
-	public function __construct(ControllerMethodReflector $reflector,
-		ISession $session,
-		IUserSession $userSession,
-		ITimeFactory $timeFactory,
-		IProvider $tokenProvider,
+	public function __construct(
+		private ControllerMethodReflector $reflector,
+		private ISession $session,
+		private IUserSession $userSession,
+		private ITimeFactory $timeFactory,
+		private IProvider $tokenProvider,
 		private readonly LoggerInterface $logger,
+		private readonly IRequest $request,
+		private readonly Manager $userManager,
 	) {
-		$this->reflector = $reflector;
-		$this->session = $session;
-		$this->userSession = $userSession;
-		$this->timeFactory = $timeFactory;
-		$this->tokenProvider = $tokenProvider;
 	}
 
 	/**
-	 * @param Controller $controller
-	 * @param string $methodName
 	 * @throws NotConfirmedException
 	 */
-	public function beforeController($controller, $methodName) {
+	public function beforeController(Controller $controller, string $methodName) {
 		$reflectionMethod = new ReflectionMethod($controller, $methodName);
 
-		if ($this->hasAnnotationOrAttribute($reflectionMethod, 'PasswordConfirmationRequired', PasswordConfirmationRequired::class)) {
-			$user = $this->userSession->getUser();
-			$backendClassName = '';
-			if ($user !== null) {
-				$backend = $user->getBackend();
-				if ($backend instanceof IPasswordConfirmationBackend) {
-					if (!$backend->canConfirmPassword($user->getUID())) {
-						return;
-					}
+		if (!$this->needsPasswordConfirmation($reflectionMethod)) {
+			return;
+		}
+
+		$user = $this->userSession->getUser();
+		$backendClassName = '';
+		if ($user !== null) {
+			$backend = $user->getBackend();
+			if ($backend instanceof IPasswordConfirmationBackend) {
+				if (!$backend->canConfirmPassword($user->getUID())) {
+					return;
 				}
-
-				$backendClassName = $user->getBackendClassName();
 			}
 
-			try {
-				$sessionId = $this->session->getId();
-				$token = $this->tokenProvider->getToken($sessionId);
-			} catch (SessionNotAvailableException|InvalidTokenException|WipeTokenException|ExpiredTokenException) {
-				// States we do not deal with here.
-				return;
-			}
-			$scope = $token->getScopeAsArray();
-			if (isset($scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION]) && $scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION] === true) {
-				// Users logging in from SSO backends cannot confirm their password by design
-				return;
+			$backendClassName = $user->getBackendClassName();
+		}
+
+		try {
+			$sessionId = $this->session->getId();
+			$token = $this->tokenProvider->getToken($sessionId);
+		} catch (SessionNotAvailableException|InvalidTokenException|WipeTokenException|ExpiredTokenException) {
+			// States we do not deal with here.
+			return;
+		}
+
+		$scope = $token->getScopeAsArray();
+		if (isset($scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION]) && $scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION] === true) {
+			// Users logging in from SSO backends cannot confirm their password by design
+			return;
+		}
+
+		if ($this->isPasswordConfirmationStrict($reflectionMethod)) {
+			$authHeader = $this->request->getHeader('Authorization');
+			[, $password] = explode(':', base64_decode(substr($authHeader, 6)), 2);
+			$loginResult = $this->userManager->checkPassword($user->getUid(), $password);
+			if ($loginResult === false) {
+				throw new NotConfirmedException();
 			}
 
+			$this->session->set('last-password-confirm', $this->timeFactory->getTime());
+		} else {
 			$lastConfirm = (int) $this->session->get('last-password-confirm');
 			// TODO: confirm excludedUserBackEnds can go away and remove it
 			if (!isset($this->excludedUserBackEnds[$backendClassName]) && $lastConfirm < ($this->timeFactory->getTime() - (30 * 60 + 15))) { // allow 15 seconds delay
@@ -101,24 +95,22 @@ class PasswordConfirmationMiddleware extends Middleware {
 		}
 	}
 
-	/**
-	 * @template T
-	 *
-	 * @param ReflectionMethod $reflectionMethod
-	 * @param string $annotationName
-	 * @param class-string<T> $attributeClass
-	 * @return boolean
-	 */
-	protected function hasAnnotationOrAttribute(ReflectionMethod $reflectionMethod, string $annotationName, string $attributeClass): bool {
-		if (!empty($reflectionMethod->getAttributes($attributeClass))) {
+	private function needsPasswordConfirmation(ReflectionMethod $reflectionMethod): bool {
+		$attributes = $reflectionMethod->getAttributes(PasswordConfirmationRequired::class);
+		if (!empty($attributes)) {
 			return true;
 		}
 
-		if ($this->reflector->hasAnnotation($annotationName)) {
-			$this->logger->debug($reflectionMethod->getDeclaringClass()->getName() . '::' . $reflectionMethod->getName() . ' uses the @' . $annotationName . ' annotation and should use the #[' . $attributeClass . '] attribute instead');
+		if ($this->reflector->hasAnnotation('PasswordConfirmationRequired')) {
+			$this->logger->debug($reflectionMethod->getDeclaringClass()->getName() . '::' . $reflectionMethod->getName() . ' uses the @' . 'PasswordConfirmationRequired' . ' annotation and should use the #[PasswordConfirmationRequired] attribute instead');
 			return true;
 		}
 
 		return false;
+	}
+
+	private function isPasswordConfirmationStrict(ReflectionMethod $reflectionMethod): bool {
+		$attributes = $reflectionMethod->getAttributes(PasswordConfirmationRequired::class);
+		return !empty($attributes) && ($attributes[0]->newInstance()->getStrict());
 	}
 }
