@@ -124,7 +124,7 @@ class UserStoragesController extends StoragesController {
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
-	#[PasswordConfirmationRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function create(
 		$mountPoint,
 		$backend,
@@ -180,7 +180,7 @@ class UserStoragesController extends StoragesController {
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
-	#[PasswordConfirmationRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function update(
 		$id,
 		$mountPoint,
@@ -232,7 +232,7 @@ class UserStoragesController extends StoragesController {
 	 * {@inheritdoc}
 	 */
 	#[NoAdminRequired]
-	#[PasswordConfirmationRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function destroy($id) {
 		return parent::destroy($id);
 	}
