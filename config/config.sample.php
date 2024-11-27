@@ -2137,6 +2137,15 @@ $CONFIG = [
 'minimum.supported.desktop.version' => '2.3.0',
 
 /**
+ * The maximum Nextcloud desktop client version that will be allowed to sync with
+ * this server instance. All connections made from later clients will be denied
+ * by the server.
+ *
+ * Defaults to 99.99.99
+ */
+'maximum.supported.desktop.version' => '99.99.99',
+
+/**
  * Option to allow local storage to contain symlinks.
  * WARNING: Not recommended. This would make it possible for Nextcloud to access
  * files outside the data directory and could be considered a security risk.
