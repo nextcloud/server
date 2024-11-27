@@ -188,6 +188,7 @@ OC.L10N.register(
     "remote" : "遠端",
     "remote group" : "遠端群組",
     "guest" : "訪客",
+    "by {initiator}" : "由 {initiator}",
     "Shared with the group {user} by {owner}" : "由 {owner} 分享予群組 {user}",
     "Shared with the conversation {user} by {owner}" : "{owner}與{user}共享",
     "Shared with {user} by {owner}" : "{user}與{owner}共享",
