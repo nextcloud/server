@@ -57,8 +57,10 @@ interface ISystemTagManager {
 	 * @return ISystemTag system tag
 	 *
 	 * @throws TagAlreadyExistsException if tag already exists
+	 * @throws TagCreationForbiddenException if user doesn't have the right to create a new tag
 	 *
 	 * @since 9.0.0
+	 * @since 31.0.0 Can throw TagCreationForbiddenExceptionif user doesn't have the right to create a new tag
 	 */
 	public function createTag(string $tagName, bool $userVisible, bool $userAssignable): ISystemTag;
 
@@ -116,6 +118,16 @@ interface ISystemTagManager {
 	 * @since 31.0.0 `$user` can be null to check anonymous permissions
 	 */
 	public function canUserAssignTag(ISystemTag $tag, ?IUser $user): bool;
+
+	/**
+	 * Checks whether the given user is allowed to create new tags
+	 *
+	 * @param IUser|null $user user to check permission for
+	 * @return bool true if the user is allowed to create a new tag, false otherwise
+	 *
+	 * @since 31.0.0
+	 */
+	public function canUserCreateTag(?IUser $user): bool;
 
 	/**
 	 * Checks whether the given user is allowed to see the tag with the given id.
