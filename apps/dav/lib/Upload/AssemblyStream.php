@@ -75,6 +75,10 @@ class AssemblyStream implements \Icewind\Streams\File {
 			$offset = $this->size + $offset;
 		}
 
+		if ($offset === $this->pos) {
+			return true;
+		}
+
 		if ($offset > $this->size) {
 			return false;
 		}
@@ -95,7 +99,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 
 		$stream = $this->getStream($this->nodes[$nodeIndex]);
 		$nodeOffset = $offset - $nodeStart;
-		if (fseek($stream, $nodeOffset) === -1) {
+		if ($nodeOffset > 0 && fseek($stream, $nodeOffset) === -1) {
 			return false;
 		}
 		$this->currentNode = $nodeIndex;
@@ -126,9 +130,14 @@ class AssemblyStream implements \Icewind\Streams\File {
 			}
 		}
 
-		do {
+		$collectedData = '';
+		// read data until we either got all the data requested or there is no more stream left
+		while ($count > 0 && !is_null($this->currentStream)) {
 			$data = fread($this->currentStream, $count);
 			$read = strlen($data);
+
+			$count -= $read;
+			$collectedData .= $data;
 			$this->currentNodeRead += $read;
 
 			if (feof($this->currentStream)) {
@@ -145,14 +154,11 @@ class AssemblyStream implements \Icewind\Streams\File {
 					$this->currentStream = null;
 				}
 			}
-			// if no data read, try again with the next node because
-			// returning empty data can make the caller think there is no more
-			// data left to read
-		} while ($read === 0 && !is_null($this->currentStream));
+		}
 
 		// update position
-		$this->pos += $read;
-		return $data;
+		$this->pos += strlen($collectedData);
+		return $collectedData;
 	}
 
 	/**
