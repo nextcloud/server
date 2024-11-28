@@ -88,6 +88,19 @@ class CryptoTest extends \Test\TestCase {
 		);
 	}
 
+	/**
+	 * Test data taken from https://github.com/owncloud/core/blob/9deb8196b20354c8de0cd720ad4d18d52ccc96d8/tests/lib/Security/CryptoTest.php#L56-L60
+	 */
+	public function testOcVersion2CiphertextDecryptsToCorrectPlaintext(): void {
+		$this->assertSame(
+			'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.',
+			$this->crypto->decrypt(
+				'v2|d57dbe4d1317cdf19d4ddc2df807f6b5d63ab1e119c46590ce54bae56a9cd3969168c4ec1600ac9758dd7e7afb9c4c962dd23072c1463add1d9c77c467723b37bb768ef00e3c50898e59247cbb59ce56b74ce5990648ffe9e40d0e95076c27a785bdcf32c219ea4ad5c316b1f12f48c1|6bd21db258a5e406a2c288a444de195f|a19111a4cf1a11ee95fc1734699c20964eaa05bb007e1cecc4cc6872f827a4b7deedc977c13b138d728d68116aa3d82f9673e20c7e447a9788aa3be994b67cd6',
+				'ThisIsAVeryS3cur3P4ssw0rd'
+			)
+		);
+	}
+
 	public function testVersion3CiphertextDecryptsToCorrectPlaintext(): void {
 		$this->assertSame(
 			'Another plaintext value that will be encrypted with version 3. It addresses the related key issue. Old ciphertexts should be decrypted properly, but only use the better version for encryption.',
