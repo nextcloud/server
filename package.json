@@ -52,7 +52,7 @@
     "@nextcloud/l10n": "^3.1.0",
     "@nextcloud/logger": "^3.0.2",
     "@nextcloud/moment": "^1.3.1",
-    "@nextcloud/password-confirmation": "^5.0.1",
+    "@nextcloud/password-confirmation": "^5.3.0",
     "@nextcloud/paths": "^2.1.0",
     "@nextcloud/router": "^3.0.1",
     "@nextcloud/sharing": "^0.2.3",
@@ -117,7 +117,7 @@
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
-    "@babel/node": "^7.22.10",
+    "@babel/node": "^7.26.0",
     "@babel/preset-typescript": "^7.23.2",
     "@cypress/vue2": "^2.1.1",
     "@cypress/webpack-preprocessor": "^6.0.2",
