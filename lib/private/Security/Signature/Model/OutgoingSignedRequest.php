@@ -9,10 +9,12 @@ declare(strict_types=1);
 namespace OC\Security\Signature\Model;
 
 use JsonSerializable;
+use NCU\Security\Signature\Enum\SignatureAlgorithm;
+use NCU\Security\Signature\Exceptions\SignatoryException;
+use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
+use NCU\Security\Signature\IOutgoingSignedRequest;
 use NCU\Security\Signature\ISignatoryManager;
 use NCU\Security\Signature\ISignatureManager;
-use NCU\Security\Signature\Model\IOutgoingSignedRequest;
-use NCU\Security\Signature\SignatureAlgorithm;
 use OC\Security\Signature\SignatureManager;
 
 /**
@@ -53,7 +55,6 @@ class OutgoingSignedRequest extends SignedRequest implements
 
 		$signing = $headerList = [];
 		foreach ($headers as $element => $value) {
-			$value = $headers[$element];
 			$signing[] = $element . ': ' . $value;
 			$headerList[] = $element;
 			if ($element !== '(request-target)') {
@@ -62,17 +63,17 @@ class OutgoingSignedRequest extends SignedRequest implements
 		}
 
 		$this->setHeaderList($headerList)
-			->setClearSignature(implode("\n", $signing));
+			->setSignatureData($signing);
 	}
 
 	/**
 	 * @inheritDoc
 	 *
 	 * @param string $host
-	 * @return IOutgoingSignedRequest
+	 * @return $this
 	 * @since 31.0.0
 	 */
-	public function setHost(string $host): IOutgoingSignedRequest {
+	public function setHost(string $host): self {
 		$this->host = $host;
 		return $this;
 	}
@@ -93,10 +94,10 @@ class OutgoingSignedRequest extends SignedRequest implements
 	 * @param string $key
 	 * @param string|int|float $value
 	 *
-	 * @return IOutgoingSignedRequest
+	 * @return self
 	 * @since 31.0.0
 	 */
-	public function addHeader(string $key, string|int|float $value): IOutgoingSignedRequest {
+	public function addHeader(string $key, string|int|float $value): self {
 		$this->headers[$key] = $value;
 		return $this;
 	}
@@ -116,10 +117,10 @@ class OutgoingSignedRequest extends SignedRequest implements
 	 *
 	 * @param list<string> $list
 	 *
-	 * @return IOutgoingSignedRequest
+	 * @return self
 	 * @since 31.0.0
 	 */
-	public function setHeaderList(array $list): IOutgoingSignedRequest {
+	public function setHeaderList(array $list): self {
 		$this->headerList = $list;
 		return $this;
 	}
@@ -139,10 +140,10 @@ class OutgoingSignedRequest extends SignedRequest implements
 	 *
 	 * @param SignatureAlgorithm $algorithm
 	 *
-	 * @return IOutgoingSignedRequest
+	 * @return self
 	 * @since 31.0.0
 	 */
-	public function setAlgorithm(SignatureAlgorithm $algorithm): IOutgoingSignedRequest {
+	public function setAlgorithm(SignatureAlgorithm $algorithm): self {
 		$this->algorithm = $algorithm;
 		return $this;
 	}
@@ -155,6 +156,59 @@ class OutgoingSignedRequest extends SignedRequest implements
 	 */
 	public function getAlgorithm(): SignatureAlgorithm {
 		return $this->algorithm;
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * @return self
+	 * @throws SignatoryException
+	 * @throws SignatoryNotFoundException
+	 * @since 31.0.0
+	 */
+	public function sign(): self {
+		$privateKey = $this->getSignatory()->getPrivateKey();
+		if ($privateKey === '') {
+			throw new SignatoryException('empty private key');
+		}
+
+		openssl_sign(
+			implode("\n", $this->getSignatureData()),
+			$signed,
+			$privateKey,
+			$this->getAlgorithm()->value
+		);
+
+		$this->setSignature(base64_encode($signed));
+		$this->setSigningElements(
+			[
+				'keyId="' . $this->getSignatory()->getKeyId() . '"',
+				'algorithm="' . $this->getAlgorithm()->value . '"',
+				'headers="' . implode(' ', $this->getHeaderList()) . '"',
+				'signature="' . $this->getSignature() . '"'
+			]
+		);
+		$this->addHeader('Signature', implode(',', $this->getSigningElements()));
+
+		return $this;
+	}
+
+	/**
+	 * @param string $clear
+	 * @param string $privateKey
+	 * @param SignatureAlgorithm $algorithm
+	 *
+	 * @return string
+	 * @throws SignatoryException
+	 */
+	private function signString(string $clear, string $privateKey, SignatureAlgorithm $algorithm): string {
+		if ($privateKey === '') {
+			throw new SignatoryException('empty private key');
+		}
+
+		openssl_sign($clear, $signed, $privateKey, $algorithm->value);
+
+		return base64_encode($signed);
 	}
 
 	public function jsonSerialize(): array {

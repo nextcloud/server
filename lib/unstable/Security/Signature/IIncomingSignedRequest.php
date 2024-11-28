@@ -6,10 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace NCU\Security\Signature\Model;
+namespace NCU\Security\Signature;
 
+use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
 use NCU\Security\Signature\Exceptions\SignatureElementNotFoundException;
-use NCU\Security\Signature\ISignatureManager;
+use NCU\Security\Signature\Exceptions\SignatureException;
 use OCP\IRequest;
 
 /**
@@ -57,4 +58,13 @@ interface IIncomingSignedRequest extends ISignedRequest {
 	 * @since 31.0.0
 	 */
 	public function getKeyId(): string;
+
+	/**
+	 * confirm the current signed request's identity is correct
+	 *
+	 * @throws SignatureException
+	 * @throws SignatoryNotFoundException
+	 * @since 31.0.0
+	 */
+	public function verify(): void;
 }

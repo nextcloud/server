@@ -9,8 +9,7 @@ declare(strict_types=1);
 
 namespace OC\OCM\Model;
 
-use NCU\Security\Signature\Model\ISignatory;
-use OC\Security\Signature\Model\Signatory;
+use NCU\Security\Signature\Model\Signatory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\OCM\Events\ResourceTypeRegisterEvent;
 use OCP\OCM\Exceptions\OCMArgumentException;
@@ -27,7 +26,7 @@ class OCMProvider implements IOCMProvider {
 	private string $endPoint = '';
 	/** @var IOCMResource[] */
 	private array $resourceTypes = [];
-	private ?ISignatory $signatory = null;
+	private ?Signatory $signatory = null;
 	private bool $emittedEvent = false;
 
 	public function __construct(
@@ -154,11 +153,11 @@ class OCMProvider implements IOCMProvider {
 		throw new OCMArgumentException('resource not found');
 	}
 
-	public function setSignatory(ISignatory $signatory): void {
+	public function setSignatory(Signatory $signatory): void {
 		$this->signatory = $signatory;
 	}
 
-	public function getSignatory(): ?ISignatory {
+	public function getSignatory(): ?Signatory {
 		return $this->signatory;
 	}
 
@@ -209,7 +208,7 @@ class OCMProvider implements IOCMProvider {
 	 *      enabled: bool,
 	 *      apiVersion: '1.0-proposal1',
 	 *      endPoint: string,
-	 *      publicKey: ISignatory|null,
+	 *      publicKey: Signatory|null,
 	 *      resourceTypes: list<array{
 	 *          name: string,
 	 *          shareTypes: list<string>,

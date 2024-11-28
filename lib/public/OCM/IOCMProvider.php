@@ -6,11 +6,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 namespace OCP\OCM;
 
 use JsonSerializable;
-use NCU\Security\Signature\Model\ISignatory;
+use NCU\Security\Signature\Model\Signatory;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
 
@@ -124,18 +123,18 @@ interface IOCMProvider extends JsonSerializable {
 	/**
 	 * store signatory (public/private key pair) to sign outgoing/incoming request
 	 *
-	 * @param ISignatory $signatory
+	 * @param Signatory $signatory
 	 * @since 31.0.0
 	 */
-	public function setSignatory(ISignatory $signatory): void;
+	public function setSignatory(Signatory $signatory): void;
 
 	/**
 	 * signatory (public/private key pair) used to sign outgoing/incoming request
 	 *
-	 * @return ISignatory|null returns null if no ISignatory available
+	 * @return Signatory|null returns null if no Signatory available
 	 * @since 31.0.0
 	 */
-	public function getSignatory(): ?ISignatory;
+	public function getSignatory(): ?Signatory;
 
 	/**
 	 * import data from an array
@@ -153,7 +152,7 @@ interface IOCMProvider extends JsonSerializable {
 	 *     enabled: bool,
 	 *     apiVersion: '1.0-proposal1',
 	 *     endPoint: string,
-	 *     publicKey: ISignatory|null,
+	 *     publicKey: Signatory|null,
 	 *     resourceTypes: list<array{
 	 *         name: string,
 	 *         shareTypes: list<string>,

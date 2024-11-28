@@ -133,8 +133,8 @@ class Manager {
 	public function hasAppKey(string $app, string $name): bool {
 		$id = $this->generateAppKeyId($app, $name);
 		try {
-			$this->appData->getFolder($id);
-			return true;
+			$folder = $this->appData->getFolder($id);
+			return ($folder->fileExists('public') && $folder->fileExists('private'));
 		} catch (NotFoundException) {
 			return false;
 		}
@@ -151,11 +151,11 @@ class Manager {
 	public function deleteAppKey(string $app, string $name): bool {
 		try {
 			$folder = $this->appData->getFolder($this->generateAppKeyId($app, $name));
+			$folder->delete();
+			return true;
 		} catch (NotFoundException) {
 			return false;
 		}
-		$folder->delete();
-		return true;
 	}
 
 	private function generateAppKeyId(string $app, string $name): string {

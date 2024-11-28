@@ -6,10 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace NCU\Security\Signature\Model;
+namespace NCU\Security\Signature;
 
-use NCU\Security\Signature\ISignatureManager;
-use NCU\Security\Signature\SignatureAlgorithm;
+use NCU\Security\Signature\Enum\SignatureAlgorithm;
+use NCU\Security\Signature\Exceptions\SignatoryException;
+use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
 
 /**
  * extends ISignedRequest to add info requested at the generation of the signature
@@ -23,10 +24,10 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 * set the host of the recipient of the request.
 	 *
 	 * @param string $host
-	 * @return IOutgoingSignedRequest
+	 * @return self
 	 * @since 31.0.0
 	 */
-	public function setHost(string $host): IOutgoingSignedRequest;
+	public function setHost(string $host): self;
 
 	/**
 	 * get the host of the recipient of the request.
@@ -44,10 +45,10 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 * @param string $key
 	 * @param string|int|float $value
 	 *
-	 * @return IOutgoingSignedRequest
+	 * @return self
 	 * @since 31.0.0
 	 */
-	public function addHeader(string $key, string|int|float $value): IOutgoingSignedRequest;
+	public function addHeader(string $key, string|int|float $value): self;
 
 	/**
 	 * returns list of headers value that will be added to the base request
@@ -62,10 +63,10 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 *
 	 * @param list<string> $list
 	 *
-	 * @return IOutgoingSignedRequest
+	 * @return self
 	 * @since 31.0.0
 	 */
-	public function setHeaderList(array $list): IOutgoingSignedRequest;
+	public function setHeaderList(array $list): self;
 
 	/**
 	 * returns ordered list of used headers in the Signature
@@ -80,10 +81,10 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 *
 	 * @param SignatureAlgorithm $algorithm
 	 *
-	 * @return IOutgoingSignedRequest
+	 * @return self
 	 * @since 31.0.0
 	 */
-	public function setAlgorithm(SignatureAlgorithm $algorithm): IOutgoingSignedRequest;
+	public function setAlgorithm(SignatureAlgorithm $algorithm): self;
 
 	/**
 	 * returns the algorithm set to sign the signature
@@ -92,4 +93,14 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 * @since 31.0.0
 	 */
 	public function getAlgorithm(): SignatureAlgorithm;
+
+	/**
+	 * sign outgoing request providing a certificate that it emanate from this instance
+	 *
+	 * @return self
+	 * @throws SignatoryException
+	 * @throws SignatoryNotFoundException
+	 * @since 31.0.0
+	 */
+	public function sign(): self;
 }

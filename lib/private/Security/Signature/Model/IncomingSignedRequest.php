@@ -9,14 +9,18 @@ declare(strict_types=1);
 namespace OC\Security\Signature\Model;
 
 use JsonSerializable;
+use NCU\Security\Signature\Enum\SignatureAlgorithm;
 use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
 use NCU\Security\Signature\Exceptions\IncomingRequestException;
+use NCU\Security\Signature\Exceptions\InvalidSignatureException;
 use NCU\Security\Signature\Exceptions\SignatoryException;
+use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
 use NCU\Security\Signature\Exceptions\SignatureElementNotFoundException;
+use NCU\Security\Signature\Exceptions\SignatureException;
 use NCU\Security\Signature\Exceptions\SignatureNotFoundException;
+use NCU\Security\Signature\IIncomingSignedRequest;
 use NCU\Security\Signature\ISignatureManager;
-use NCU\Security\Signature\Model\IIncomingSignedRequest;
-use NCU\Security\Signature\Model\ISignatory;
+use NCU\Security\Signature\Model\Signatory;
 use OC\Security\Signature\SignatureManager;
 use OCP\IRequest;
 
@@ -102,27 +106,27 @@ class IncomingSignedRequest extends SignedRequest implements
 	 * @throws IncomingRequestException
 	 */
 	private function extractSignatureHeaderFromRequest(): void {
-		$sign = [];
+		$details = [];
 		foreach (explode(',', $this->getRequest()->getHeader('Signature')) as $entry) {
 			if ($entry === '' || !strpos($entry, '=')) {
 				continue;
 			}
 
 			[$k, $v] = explode('=', $entry, 2);
-			preg_match('/"([^"]+)"/', $v, $var);
+			preg_match('/^"([^"]+)"$/', $v, $var);
 			if ($var[0] !== '') {
 				$v = trim($var[0], '"');
 			}
-			$sign[$k] = $v;
+			$details[$k] = $v;
 		}
 
-		$this->setSignatureElements($sign);
+		$this->setSigningElements($details);
 
 		try {
 			// confirm keys are in the Signature header
-			$this->getSignatureElement('keyId');
-			$this->getSignatureElement('headers');
-			$this->setSignedSignature($this->getSignatureElement('signature'));
+			$this->getSigningElement('keyId');
+			$this->getSigningElement('headers');
+			$this->setSignature($this->getSigningElement('signature'));
 		} catch (SignatureElementNotFoundException $e) {
 			throw new IncomingRequestException($e->getMessage());
 		}
@@ -141,7 +145,7 @@ class IncomingSignedRequest extends SignedRequest implements
 	/**
 	 * @inheritDoc
 	 *
-	 * @param ISignatory $signatory
+	 * @param Signatory $signatory
 	 *
 	 * @return $this
 	 * @throws IdentityNotFoundException
@@ -149,7 +153,7 @@ class IncomingSignedRequest extends SignedRequest implements
 	 * @throws SignatoryException
 	 * @since 31.0.0
 	 */
-	public function setSignatory(ISignatory $signatory): self {
+	public function setSignatory(Signatory $signatory): self {
 		$identity = \OCP\Server::get(ISignatureManager::class)->extractIdentityFromUri($signatory->getKeyId());
 		if ($identity !== $this->getOrigin()) {
 			throw new SignatoryException('keyId from provider is different from the one from signed request');
@@ -194,7 +198,31 @@ class IncomingSignedRequest extends SignedRequest implements
 	 * @since 31.0.0
 	 */
 	public function getKeyId(): string {
-		return $this->getSignatureElement('keyId');
+		return $this->getSigningElement('keyId');
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * @throws SignatureException
+	 * @throws SignatoryNotFoundException
+	 * @since 31.0.0
+	 */
+	public function verify(): void {
+		$publicKey = $this->getSignatory()->getPublicKey();
+		if ($publicKey === '') {
+			throw new SignatoryNotFoundException('empty public key');
+		}
+
+		$algorithm = SignatureAlgorithm::tryFrom($this->getSigningElement('algorithm')) ?? SignatureAlgorithm::SHA256;
+		if (openssl_verify(
+			implode("\n", $this->getSignatureData()),
+			base64_decode($this->getSignature()),
+			$publicKey,
+			$algorithm->value
+		) !== 1) {
+			throw new InvalidSignatureException('signature issue');
+		}
 	}
 
 	public function jsonSerialize(): array {

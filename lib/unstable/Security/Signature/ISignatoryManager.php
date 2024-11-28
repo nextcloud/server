@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 namespace NCU\Security\Signature;
 
-use NCU\Security\Signature\Model\ISignatory;
+use NCU\Security\Signature\Model\Signatory;
 
 /**
  * ISignatoryManager contains a group of method that will help
@@ -51,10 +51,10 @@ interface ISignatoryManager {
 	 *
 	 * Used to sign outgoing request
 	 *
-	 * @return ISignatory
+	 * @return Signatory
 	 * @since 31.0.0
 	 */
-	public function getLocalSignatory(): ISignatory;
+	public function getLocalSignatory(): Signatory;
 
 	/**
 	 * retrieve details and generate signatory from remote instance.
@@ -64,8 +64,8 @@ interface ISignatoryManager {
 	 *
 	 * @param string $remote
 	 *
-	 * @return ISignatory|null must be NULL if no signatory is found
+	 * @return Signatory|null must be NULL if no signatory is found
 	 * @since 31.0.0
 	 */
-	public function getRemoteSignatory(string $remote): ?ISignatory;
+	public function getRemoteSignatory(string $remote): ?Signatory;
 }

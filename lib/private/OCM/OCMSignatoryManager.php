@@ -9,13 +9,12 @@ declare(strict_types=1);
 
 namespace OC\OCM;
 
+use NCU\Security\Signature\Enum\SignatoryType;
 use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
 use NCU\Security\Signature\ISignatoryManager;
 use NCU\Security\Signature\ISignatureManager;
-use NCU\Security\Signature\Model\ISignatory;
-use NCU\Security\Signature\Model\SignatoryType;
+use NCU\Security\Signature\Model\Signatory;
 use OC\Security\IdentityProof\Manager;
-use OC\Security\Signature\Model\Signatory;
 use OCP\IAppConfig;
 use OCP\IURLGenerator;
 use OCP\OCM\Exceptions\OCMProviderException;
@@ -68,11 +67,11 @@ class OCMSignatoryManager implements ISignatoryManager {
 	/**
 	 * @inheritDoc
 	 *
-	 * @return ISignatory
+	 * @return Signatory
 	 * @throws IdentityNotFoundException
 	 * @since 31.0.0
 	 */
-	public function getLocalSignatory(): ISignatory {
+	public function getLocalSignatory(): Signatory {
 		/**
 		 * TODO: manage multiple identity (external, internal, ...) to allow a limitation
 		 * based on the requested interface (ie. only accept shares from globalscale)
@@ -125,10 +124,10 @@ class OCMSignatoryManager implements ISignatoryManager {
 	 *
 	 * @param string $remote
 	 *
-	 * @return ISignatory|null must be NULL if no signatory is found
+	 * @return Signatory|null must be NULL if no signatory is found
 	 * @since 31.0.0
 	 */
-	public function getRemoteSignatory(string $remote): ?ISignatory {
+	public function getRemoteSignatory(string $remote): ?Signatory {
 		try {
 			return $this->getRemoteSignatoryFromHost($remote);
 		} catch (OCMProviderException $e) {
@@ -142,14 +141,14 @@ class OCMSignatoryManager implements ISignatoryManager {
 	 *
 	 * @param string $host
 	 *
-	 * @return ISignatory|null
+	 * @return Signatory|null
 	 * @throws OCMProviderException on fail to discover ocm services
 	 * @since 31.0.0
 	 */
-	public function getRemoteSignatoryFromHost(string $host): ?ISignatory {
+	public function getRemoteSignatoryFromHost(string $host): ?Signatory {
 		$ocmProvider = $this->ocmDiscoveryService->discover($host, true);
 		$signatory = $ocmProvider->getSignatory();
-
-		return $signatory?->setType(SignatoryType::TRUSTED);
+		$signatory?->setType(SignatoryType::TRUSTED);
+		return $signatory;
 	}
 }

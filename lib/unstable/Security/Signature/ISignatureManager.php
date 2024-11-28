@@ -13,9 +13,7 @@ use NCU\Security\Signature\Exceptions\IncomingRequestException;
 use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
 use NCU\Security\Signature\Exceptions\SignatureException;
 use NCU\Security\Signature\Exceptions\SignatureNotFoundException;
-use NCU\Security\Signature\Model\IIncomingSignedRequest;
-use NCU\Security\Signature\Model\IOutgoingSignedRequest;
-use NCU\Security\Signature\Model\ISignatory;
+use NCU\Security\Signature\Model\Signatory;
 
 /**
  * ISignatureManager is a service integrated to core that provide tools
@@ -99,11 +97,11 @@ interface ISignatureManager {
 	 * @param string $host remote host
 	 * @param string $account linked account, should be used when multiple signature can exist for the same host
 	 *
-	 * @return ISignatory
+	 * @return Signatory
 	 * @throws SignatoryNotFoundException if entry does not exist in local database
 	 * @since 31.0.0
 	 */
-	public function searchSignatory(string $host, string $account = ''): ISignatory;
+	public function getSignatory(string $host, string $account = ''): Signatory;
 
 	/**
 	 * returns a fully formatted keyId, based on a fix hostname and path

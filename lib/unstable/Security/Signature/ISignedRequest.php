@@ -6,10 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace NCU\Security\Signature\Model;
+namespace NCU\Security\Signature;
 
 use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
 use NCU\Security\Signature\Exceptions\SignatureElementNotFoundException;
+use NCU\Security\Signature\Model\Signatory;
 
 /**
  * model that store data related to a possible signature.
@@ -42,10 +43,10 @@ interface ISignedRequest {
 	 *
 	 * @param array $elements
 	 *
-	 * @return ISignedRequest
+	 * @return self
 	 * @since 31.0.0
 	 */
-	public function setSignatureElements(array $elements): ISignedRequest;
+	public function setSigningElements(array $elements): self;
 
 	/**
 	 * get the list of elements in the Signature header of the request
@@ -53,7 +54,7 @@ interface ISignedRequest {
 	 * @return array
 	 * @since 31.0.0
 	 */
-	public function getSignatureElements(): array;
+	public function getSigningElements(): array;
 
 	/**
 	 * @param string $key
@@ -62,34 +63,35 @@ interface ISignedRequest {
 	 * @throws SignatureElementNotFoundException
 	 * @since 31.0.0
 	 */
-	public function getSignatureElement(string $key): string;
+	public function getSigningElement(string $key): string;
 
 	/**
-	 * store a clear version of the signature
+	 * store data used to generate signature
 	 *
-	 * @param string $clearSignature
+	 * @param array $data
 	 *
-	 * @return ISignedRequest
+	 * @return self
 	 * @since 31.0.0
 	 */
-	public function setClearSignature(string $clearSignature): ISignedRequest;
+	public function setSignatureData(array $data): self;
 
 	/**
-	 * returns the clear version of the signature
+	 * returns data used to generate signature
 	 *
-	 * @return string
+	 * @return array
 	 * @since 31.0.0
 	 */
-	public function getClearSignature(): string;
+	public function getSignatureData(): array;
 
 	/**
 	 * set the signed version of the signature
 	 *
-	 * @param string $signedSignature
-	 * @return ISignedRequest
+	 * @param string $signature
+	 *
+	 * @return self
 	 * @since 31.0.0
 	 */
-	public function setSignedSignature(string $signedSignature): ISignedRequest;
+	public function setSignature(string $signature): self;
 
 	/**
 	 * get the signed version of the signature
@@ -97,25 +99,25 @@ interface ISignedRequest {
 	 * @return string
 	 * @since 31.0.0
 	 */
-	public function getSignedSignature(): string;
+	public function getSignature(): string;
 
 	/**
 	 * set the signatory, containing keys and details, related to this request
 	 *
-	 * @param ISignatory $signatory
-	 * @return ISignedRequest
+	 * @param Signatory $signatory
+	 * @return self
 	 * @since 31.0.0
 	 */
-	public function setSignatory(ISignatory $signatory): ISignedRequest;
+	public function setSignatory(Signatory $signatory): self;
 
 	/**
 	 * get the signatory, containing keys and details, related to this request
 	 *
-	 * @return ISignatory
+	 * @return Signatory
 	 * @throws SignatoryNotFoundException
 	 * @since 31.0.0
 	 */
-	public function getSignatory(): ISignatory;
+	public function getSignatory(): Signatory;
 
 	/**
 	 * returns if a signatory related to this request have been found and defined

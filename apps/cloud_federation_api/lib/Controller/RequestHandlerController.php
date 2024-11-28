@@ -10,8 +10,8 @@ use NCU\Security\Signature\Exceptions\IncomingRequestException;
 use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
 use NCU\Security\Signature\Exceptions\SignatureException;
 use NCU\Security\Signature\Exceptions\SignatureNotFoundException;
+use NCU\Security\Signature\IIncomingSignedRequest;
 use NCU\Security\Signature\ISignatureManager;
-use NCU\Security\Signature\Model\IIncomingSignedRequest;
 use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\ResponseDefinitions;
@@ -373,7 +373,7 @@ class RequestHandlerController extends Controller {
 		if ($signedRequest === null) {
 			$instance = $this->getHostFromFederationId($value);
 			try {
-				$this->signatureManager->searchSignatory($instance);
+				$this->signatureManager->getSignatory($instance);
 				throw new IncomingRequestException('instance is supposed to sign its request');
 			} catch (SignatoryNotFoundException) {
 				return;
@@ -434,7 +434,7 @@ class RequestHandlerController extends Controller {
 		$instance = $this->getHostFromFederationId($entry);
 		if ($signedRequest === null) {
 			try {
-				$this->signatureManager->searchSignatory($instance);
+				$this->signatureManager->getSignatory($instance);
 				throw new IncomingRequestException('instance is supposed to sign its request');
 			} catch (SignatoryNotFoundException) {
 				return;

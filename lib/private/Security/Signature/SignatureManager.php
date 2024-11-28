@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OC\Security\Signature;
 
+use NCU\Security\Signature\Enum\SignatoryType;
 use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
 use NCU\Security\Signature\Exceptions\IncomingRequestException;
 use NCU\Security\Signature\Exceptions\InvalidKeyOriginException;
@@ -18,19 +19,16 @@ use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
 use NCU\Security\Signature\Exceptions\SignatureElementNotFoundException;
 use NCU\Security\Signature\Exceptions\SignatureException;
 use NCU\Security\Signature\Exceptions\SignatureNotFoundException;
+use NCU\Security\Signature\IIncomingSignedRequest;
+use NCU\Security\Signature\IOutgoingSignedRequest;
 use NCU\Security\Signature\ISignatoryManager;
 use NCU\Security\Signature\ISignatureManager;
-use NCU\Security\Signature\Model\IIncomingSignedRequest;
-use NCU\Security\Signature\Model\IOutgoingSignedRequest;
-use NCU\Security\Signature\Model\ISignatory;
-use NCU\Security\Signature\Model\SignatoryType;
-use NCU\Security\Signature\SignatureAlgorithm;
+use NCU\Security\Signature\Model\Signatory;
+use OC\Security\Signature\Db\SignatoryMapper;
 use OC\Security\Signature\Model\IncomingSignedRequest;
 use OC\Security\Signature\Model\OutgoingSignedRequest;
-use OC\Security\Signature\Model\Signatory;
 use OCP\DB\Exception as DBException;
 use OCP\IAppConfig;
-use OCP\IDBConnection;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
@@ -69,13 +67,12 @@ class SignatureManager implements ISignatureManager {
 	public const DATE_HEADER = 'D, d M Y H:i:s T';
 	public const DATE_TTL = 300;
 	public const SIGNATORY_TTL = 86400 * 3;
-	public const TABLE_SIGNATORIES = 'sec_signatory';
 	public const BODY_MAXSIZE = 50000; // max size of the payload of the request
 	public const APPCONFIG_IDENTITY = 'security.signature.identity';
 
 	public function __construct(
 		private readonly IRequest $request,
-		private readonly IDBConnection $connection,
+		private readonly SignatoryMapper $mapper,
 		private readonly IAppConfig $appConfig,
 		private readonly LoggerInterface $logger,
 	) {
@@ -107,7 +104,7 @@ class SignatureManager implements ISignatureManager {
 		$signedRequest = new IncomingSignedRequest($body, $this->request, $options);
 		try {
 			// we set origin based on the keyId defined in the Signature header of the request
-			$signedRequest->setOrigin($this->extractIdentityFromUri($signedRequest->getSignatureElement('keyId')));
+			$signedRequest->setOrigin($this->extractIdentityFromUri($signedRequest->getSigningElement('keyId')));
 		} catch (IdentityNotFoundException $e) {
 			throw new IncomingRequestException($e->getMessage());
 		}
@@ -144,7 +141,7 @@ class SignatureManager implements ISignatureManager {
 		array $extraSignatureHeaders = [],
 	): void {
 		$request = $signedRequest->getRequest();
-		$usedHeaders = explode(' ', $signedRequest->getSignatureElement('headers'));
+		$usedHeaders = explode(' ', $signedRequest->getSigningElement('headers'));
 		$neededHeaders = array_merge(['date', 'host', 'content-length', 'digest'], array_keys($extraSignatureHeaders));
 
 		$missingHeaders = array_diff($neededHeaders, $usedHeaders);
@@ -165,7 +162,7 @@ class SignatureManager implements ISignatureManager {
 			$estimated[] = $key . ': ' . $value;
 		}
 
-		$signedRequest->setClearSignature(implode("\n", $estimated));
+		$signedRequest->setSignatureData($estimated);
 	}
 
 	/**
@@ -194,7 +191,7 @@ class SignatureManager implements ISignatureManager {
 			}
 
 			$signedRequest->setSignatory($knownSignatory);
-			$this->verifySignedRequest($signedRequest);
+			$signedRequest->verify();
 		} catch (InvalidKeyOriginException $e) {
 			throw $e; // issue while requesting remote instance also means there is no 2nd try
 		} catch (SignatoryNotFoundException) {
@@ -202,7 +199,7 @@ class SignatureManager implements ISignatureManager {
 			// $signatoryManager), check its validity with current signature and store it
 			$signatory = $this->getSaneRemoteSignatory($signatoryManager, $signedRequest);
 			$signedRequest->setSignatory($signatory);
-			$this->verifySignedRequest($signedRequest);
+			$signedRequest->verify();
 			$this->storeSignatory($signatory);
 		} catch (SignatureException) {
 			// if public key (from cache) is not valid, we try to refresh it (based on SignatoryType)
@@ -214,7 +211,13 @@ class SignatureManager implements ISignatureManager {
 			}
 
 			$signedRequest->setSignatory($signatory);
-			$this->verifySignedRequest($signedRequest);
+			try {
+				$signedRequest->verify();
+			} catch (InvalidSignatureException $e) {
+				$this->logger->debug('signature issue', ['signed' => $signedRequest, 'exception' => $e]);
+				throw $e;
+			}
+
 			$this->storeSignatory($signatory);
 		}
 	}
@@ -247,33 +250,9 @@ class SignatureManager implements ISignatureManager {
 			parse_url($uri, PHP_URL_PATH) ?? '/'
 		);
 
-		$this->signOutgoingRequest($signedRequest);
+		$signedRequest->sign();
 
 		return $signedRequest;
-	}
-
-	/**
-	 * signing clear version of the Signature header
-	 *
-	 * @param IOutgoingSignedRequest $signedRequest
-	 *
-	 * @throws SignatoryException
-	 * @throws SignatoryNotFoundException
-	 */
-	private function signOutgoingRequest(IOutgoingSignedRequest $signedRequest): void {
-		$clear = $signedRequest->getClearSignature();
-		$signed = $this->signString($clear, $signedRequest->getSignatory()->getPrivateKey(), $signedRequest->getAlgorithm());
-
-		$signatory = $signedRequest->getSignatory();
-		$signatureElements = [
-			'keyId="' . $signatory->getKeyId() . '"',
-			'algorithm="' . $signedRequest->getAlgorithm()->value . '"',
-			'headers="' . implode(' ', $signedRequest->getHeaderList()) . '"',
-			'signature="' . $signed . '"'
-		];
-
-		$signedRequest->setSignedSignature($signed);
-		$signedRequest->addHeader('Signature', implode(',', $signatureElements));
 	}
 
 	/**
@@ -307,31 +286,12 @@ class SignatureManager implements ISignatureManager {
 	 * @param string $account linked account, should be used when multiple signature can exist for the same
 	 *                        host
 	 *
-	 * @return ISignatory
+	 * @return Signatory
 	 * @throws SignatoryNotFoundException if entry does not exist in local database
 	 * @since 31.0.0
 	 */
-	public function searchSignatory(string $host, string $account = ''): ISignatory {
-		$qb = $this->connection->getQueryBuilder();
-		$qb->select(
-			'id', 'provider_id', 'host', 'account', 'key_id', 'key_id_sum', 'public_key', 'metadata', 'type',
-			'status', 'creation', 'last_updated'
-		);
-		$qb->from(self::TABLE_SIGNATORIES);
-		$qb->where($qb->expr()->eq('host', $qb->createNamedParameter($host)));
-		$qb->andWhere($qb->expr()->eq('account', $qb->createNamedParameter($account)));
-
-		$result = $qb->executeQuery();
-		$row = $result->fetch();
-		$result->closeCursor();
-
-		if (!$row) {
-			throw new SignatoryNotFoundException('no signatory found');
-		}
-
-		$signature = new Signatory($row['key_id'], $row['public_key']);
-
-		return $signature->importFromDatabase($row);
+	public function getSignatory(string $host, string $account = ''): Signatory {
+		return $this->mapper->getByHost($host, $account);
 	}
 
 
@@ -386,7 +346,7 @@ class SignatureManager implements ISignatureManager {
 	 * @param ISignatoryManager $signatoryManager
 	 * @param IIncomingSignedRequest $signedRequest
 	 *
-	 * @return ISignatory
+	 * @return Signatory
 	 * @throws InvalidKeyOriginException
 	 * @throws SignatoryNotFoundException
 	 * @see ISignatoryManager::getRemoteSignatory
@@ -394,7 +354,7 @@ class SignatureManager implements ISignatureManager {
 	private function getSaneRemoteSignatory(
 		ISignatoryManager $signatoryManager,
 		IIncomingSignedRequest $signedRequest,
-	): ISignatory {
+	): Signatory {
 		$signatory = $signatoryManager->getRemoteSignatory($signedRequest->getOrigin());
 		if ($signatory === null) {
 			throw new SignatoryNotFoundException('empty result from getRemoteSignatory');
@@ -406,107 +366,25 @@ class SignatureManager implements ISignatureManager {
 		} catch (SignatureElementNotFoundException) {
 			throw new InvalidKeyOriginException('missing keyId');
 		}
+		$signatory->setProviderId($signatoryManager->getProviderId());
 
-		return $signatory->setProviderId($signatoryManager->getProviderId());
-	}
-
-	/**
-	 * @param IIncomingSignedRequest $signedRequest
-	 *
-	 * @return void
-	 * @throws SignatureException
-	 * @throws SignatoryNotFoundException
-	 */
-	private function verifySignedRequest(IIncomingSignedRequest $signedRequest): void {
-		$publicKey = $signedRequest->getSignatory()->getPublicKey();
-		if ($publicKey === '') {
-			throw new SignatoryNotFoundException('empty public key');
-		}
-
-		try {
-			$this->verifyString(
-				$signedRequest->getClearSignature(),
-				$signedRequest->getSignedSignature(),
-				$publicKey,
-				SignatureAlgorithm::tryFrom($signedRequest->getSignatureElement('algorithm')) ?? SignatureAlgorithm::SHA256
-			);
-		} catch (InvalidSignatureException $e) {
-			$this->logger->debug('signature issue', ['signed' => $signedRequest, 'exception' => $e]);
-			throw $e;
-		}
-	}
-
-	/**
-	 * @param string $clear
-	 * @param string $privateKey
-	 * @param SignatureAlgorithm $algorithm
-	 *
-	 * @return string
-	 * @throws SignatoryException
-	 */
-	private function signString(string $clear, string $privateKey, SignatureAlgorithm $algorithm): string {
-		if ($privateKey === '') {
-			throw new SignatoryException('empty private key');
-		}
-
-		openssl_sign($clear, $signed, $privateKey, $algorithm->value);
-
-		return base64_encode($signed);
-	}
-
-	/**
-	 * @param string $clear
-	 * @param string $encoded
-	 * @param string $publicKey
-	 * @param SignatureAlgorithm $algorithm
-	 *
-	 * @throws InvalidSignatureException
-	 */
-	private function verifyString(
-		string $clear,
-		string $encoded,
-		string $publicKey,
-		SignatureAlgorithm $algorithm = SignatureAlgorithm::SHA256,
-	): void {
-		$signed = base64_decode($encoded);
-		if (openssl_verify($clear, $signed, $publicKey, $algorithm->value) !== 1) {
-			throw new InvalidSignatureException('signature issue');
-		}
+		return $signatory;
 	}
 
 	/**
 	 * @param string $keyId
 	 *
-	 * @return ISignatory
+	 * @return Signatory
 	 * @throws SignatoryNotFoundException
 	 */
-	private function getStoredSignatory(string $keyId): ISignatory {
-		$qb = $this->connection->getQueryBuilder();
-		$qb->select(
-			'id', 'provider_id', 'host', 'account', 'key_id', 'key_id_sum', 'public_key', 'metadata', 'type',
-			'status', 'creation', 'last_updated'
-		);
-		$qb->from(self::TABLE_SIGNATORIES);
-		$qb->where($qb->expr()->eq('key_id_sum', $qb->createNamedParameter($this->hashKeyId($keyId))));
-
-		$result = $qb->executeQuery();
-		$row = $result->fetch();
-		$result->closeCursor();
-
-		if (!$row) {
-			throw new SignatoryNotFoundException('no signatory found in local');
-		}
-
-		$signature = new Signatory($row['key_id'], $row['public_key']);
-		$signature->importFromDatabase($row);
-
-		return $signature;
+	private function getStoredSignatory(string $keyId): Signatory {
+		return $this->mapper->getByKeyId($keyId);
 	}
 
 	/**
-	 * @param ISignatory $signatory
+	 * @param Signatory $signatory
 	 */
-	private function storeSignatory(ISignatory $signatory): void {
+	private function storeSignatory(Signatory $signatory): void {
 		try {
 			$this->insertSignatory($signatory);
 		} catch (DBException $e) {
@@ -524,34 +402,20 @@ class SignatureManager implements ISignatureManager {
 	}
 
 	/**
-	 * @param ISignatory $signatory
+	 * @param Signatory $signatory
 	 * @throws DBException
 	 */
-	private function insertSignatory(ISignatory $signatory): void {
-		$qb = $this->connection->getQueryBuilder();
-		$qb->insert(self::TABLE_SIGNATORIES)
-			->setValue('provider_id', $qb->createNamedParameter($signatory->getProviderId()))
-			->setValue('host', $qb->createNamedParameter($this->extractIdentityFromUri($signatory->getKeyId())))
-			->setValue('account', $qb->createNamedParameter($signatory->getAccount()))
-			->setValue('key_id', $qb->createNamedParameter($signatory->getKeyId()))
-			->setValue('key_id_sum', $qb->createNamedParameter($this->hashKeyId($signatory->getKeyId())))
-			->setValue('public_key', $qb->createNamedParameter($signatory->getPublicKey()))
-			->setValue('metadata', $qb->createNamedParameter(json_encode($signatory->getMetadata())))
-			->setValue('type', $qb->createNamedParameter($signatory->getType()->value))
-			->setValue('status', $qb->createNamedParameter($signatory->getStatus()->value))
-			->setValue('creation', $qb->createNamedParameter(time()))
-			->setValue('last_updated', $qb->createNamedParameter(time()));
-
-		$qb->executeStatement();
+	private function insertSignatory(Signatory $signatory): void {
+		$this->mapper->insert($signatory);
 	}
 
 	/**
-	 * @param ISignatory $signatory
+	 * @param Signatory $signatory
 	 *
 	 * @throws SignatoryNotFoundException
 	 * @throws SignatoryConflictException
 	 */
-	private function updateKnownSignatory(ISignatory $signatory): void {
+	private function updateKnownSignatory(Signatory $signatory): void {
 		$knownSignatory = $this->getStoredSignatory($signatory->getKeyId());
 		switch ($signatory->getType()) {
 			case SignatoryType::FORGIVABLE:
@@ -577,12 +441,12 @@ class SignatureManager implements ISignatureManager {
 	/**
 	 * This is called when a remote signatory does not exist anymore
 	 *
-	 * @param ISignatory|null $knownSignatory NULL is not known
+	 * @param Signatory|null $knownSignatory NULL is not known
 	 *
 	 * @throws SignatoryConflictException
 	 * @throws SignatoryNotFoundException
 	 */
-	private function manageDeprecatedSignatory(?ISignatory $knownSignatory): void {
+	private function manageDeprecatedSignatory(?Signatory $knownSignatory): void {
 		switch ($knownSignatory?->getType()) {
 			case null: // unknown in local database
 			case SignatoryType::FORGIVABLE: // who cares ?
@@ -600,38 +464,15 @@ class SignatureManager implements ISignatureManager {
 	}
 
 
-	private function updateSignatoryPublicKey(ISignatory $signatory): void {
-		$qb = $this->connection->getQueryBuilder();
-		$qb->update(self::TABLE_SIGNATORIES)
-			->set('signatory', $qb->createNamedParameter($signatory->getPublicKey()))
-			->set('last_updated', $qb->createNamedParameter(time()));
-
-		$qb->where(
-			$qb->expr()->eq('key_id_sum', $qb->createNamedParameter($this->hashKeyId($signatory->getKeyId())))
-		);
-		$qb->executeStatement();
+	private function updateSignatoryPublicKey(Signatory $signatory): void {
+		$this->mapper->updatePublicKey($signatory);
 	}
 
-	private function updateSignatoryMetadata(ISignatory $signatory): void {
-		$qb = $this->connection->getQueryBuilder();
-		$qb->update(self::TABLE_SIGNATORIES)
-			->set('metadata', $qb->createNamedParameter(json_encode($signatory->getMetadata())))
-			->set('last_updated', $qb->createNamedParameter(time()));
-
-		$qb->where(
-			$qb->expr()->eq('key_id_sum', $qb->createNamedParameter($this->hashKeyId($signatory->getKeyId())))
-		);
-		$qb->executeStatement();
+	private function updateSignatoryMetadata(Signatory $signatory): void {
+		$this->mapper->updateMetadata($signatory);
 	}
 
 	private function deleteSignatory(string $keyId): void {
-		$qb = $this->connection->getQueryBuilder();
-		$qb->delete(self::TABLE_SIGNATORIES)
-			->where($qb->expr()->eq('key_id_sum', $qb->createNamedParameter($this->hashKeyId($keyId))));
-		$qb->executeStatement();
-	}
-
-	private function hashKeyId(string $keyId): string {
-		return hash('sha256', $keyId);
+		$this->mapper->deleteByKeyId($keyId);
 	}
 }
