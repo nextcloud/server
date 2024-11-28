@@ -328,7 +328,7 @@ class DispatcherTest extends \Test\TestCase {
 		$this->dispatcherPassthrough();
 		$response = $this->dispatcher->dispatch($controller, 'exec');
 
-		$this->assertEquals('[3,true,4,1]', $response[3]);
+		$this->assertEquals('[3,false,4,1]', $response[3]);
 	}
 
 
@@ -361,7 +361,7 @@ class DispatcherTest extends \Test\TestCase {
 		$this->dispatcherPassthrough();
 		$response = $this->dispatcher->dispatch($controller, 'exec');
 
-		$this->assertEquals('[3,true,4,7]', $response[3]);
+		$this->assertEquals('[3,false,4,7]', $response[3]);
 	}
 
 
@@ -471,6 +471,41 @@ class DispatcherTest extends \Test\TestCase {
 		$this->assertEquals('{"text":[3,false,4,1]}', $response[3]);
 	}
 
+	public function testResponseTransformedBySendingMultipartFormData(): void {
+		$this->request = new Request(
+			[
+				'post' => [
+					'int' => '3',
+					'bool' => 'false',
+					'double' => 1.2,
+				],
+				'server' => [
+					'HTTP_ACCEPT' => 'application/text, test',
+					'HTTP_CONTENT_TYPE' => 'multipart/form-data'
+				],
+				'method' => 'POST'
+			],
+			$this->createMock(IRequestId::class),
+			$this->createMock(IConfig::class)
+		);
+		$this->dispatcher = new Dispatcher(
+			$this->http, $this->middlewareDispatcher, $this->reflector,
+			$this->request,
+			$this->config,
+			\OC::$server->getDatabaseConnection(),
+			$this->logger,
+			$this->eventLogger,
+			$this->container
+		);
+		$controller = new TestController('app', $this->request);
+
+		// reflector is supposed to be called once
+		$this->dispatcherPassthrough();
+		$response = $this->dispatcher->dispatch($controller, 'exec');
+
+		$this->assertEquals('{"text":[3,false,4,1]}', $response[3]);
+	}
+
 
 	public function testResponsePrimarilyTransformedByParameterFormat(): void {
 		$this->request = new Request(
@@ -506,7 +541,7 @@ class DispatcherTest extends \Test\TestCase {
 		$this->dispatcherPassthrough();
 		$response = $this->dispatcher->dispatch($controller, 'exec');
 
-		$this->assertEquals('{"text":[3,true,4,1]}', $response[3]);
+		$this->assertEquals('{"text":[3,false,4,1]}', $response[3]);
 	}
 
 
