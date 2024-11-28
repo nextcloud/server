@@ -188,6 +188,7 @@ OC.L10N.register(
     "remote" : "vzdálené",
     "remote group" : "federovaná skupina",
     "guest" : "host",
+    "by {initiator}" : "od {initiator}",
     "Shared with the group {user} by {owner}" : "{owner} sdílí se skupinou {user}",
     "Shared with the conversation {user} by {owner}" : "{owner} sdílí konverzaci {user}",
     "Shared with {user} by {owner}" : "{owner} sdílí s {user}",

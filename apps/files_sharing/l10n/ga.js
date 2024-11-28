@@ -188,6 +188,7 @@ OC.L10N.register(
     "remote" : "iargúlta",
     "remote group" : "grúpa iargúlta",
     "guest" : "aoi",
+    "by {initiator}" : "le {initiator}",
     "Shared with the group {user} by {owner}" : "Roinnte leis an ngrúpa {user} ag {owner}",
     "Shared with the conversation {user} by {owner}" : "Roinnte leis an gcomhrá {user} ag {owner}",
     "Shared with {user} by {owner}" : "Roinnte le {user} ag {owner}",
