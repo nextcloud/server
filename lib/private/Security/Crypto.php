@@ -146,6 +146,25 @@ class Crypto implements ICrypto {
 			throw new Exception('Authenticated ciphertext could not be decoded.');
 		}
 
+		/*
+		 * Rearrange arguments for legacy ownCloud migrations
+		 *
+		 * The original scheme consistent of three parts. Nextcloud added a
+		 * fourth at the end as "2" or later "3", ownCloud added "v2" at the
+		 * beginning.
+		 */
+		$originalParts = $parts;
+		$isOwnCloudV2Migration = $partCount === 4 && $originalParts[0] === 'v2';
+		if ($isOwnCloudV2Migration) {
+			$parts = [
+				$parts[1],
+				$parts[2],
+				$parts[3],
+				'2'
+			];
+		}
+
+		// Convert hex-encoded values to binary
 		$ciphertext = $this->hex2bin($parts[0]);
 		$iv = $parts[1];
 		$hmac = $this->hex2bin($parts[2]);
@@ -156,7 +175,7 @@ class Crypto implements ICrypto {
 				$iv = $this->hex2bin($iv);
 			}
 
-			if ($version === '3') {
+			if ($version === '3' || $isOwnCloudV2Migration) {
 				$keyMaterial = hash_hkdf('sha512', $password);
 				$encryptionKey = substr($keyMaterial, 0, 32);
 				$hmacKey = substr($keyMaterial, 32);
@@ -165,8 +184,15 @@ class Crypto implements ICrypto {
 		$this->cipher->setPassword($encryptionKey);
 		$this->cipher->setIV($iv);
 
-		if (!hash_equals($this->calculateHMAC($parts[0] . $parts[1], $hmacKey), $hmac)) {
-			throw new Exception('HMAC does not match.');
+		if ($isOwnCloudV2Migration) {
+			// ownCloud uses the binary IV for HMAC calculation
+			if (!hash_equals($this->calculateHMAC($parts[0] . $iv, $hmacKey), $hmac)) {
+				throw new Exception('HMAC does not match.');
+			}
+		} else {
+			if (!hash_equals($this->calculateHMAC($parts[0] . $parts[1], $hmacKey), $hmac)) {
+				throw new Exception('HMAC does not match.');
+			}
 		}
 
 		$result = $this->cipher->decrypt($ciphertext);
