@@ -48,7 +48,7 @@ trait ExternalStorage {
 	 * @param TableNode $fields
 	 */
 	public function loggedInUserCreatesExternalGlobalStorage(TableNode $fields): void {
-		$this->sendJsonWithRequestToken('POST', '/index.php/apps/files_external/globalstorages', $fields);
+		$this->sendJsonWithRequestTokenAndBasicAuth('POST', '/index.php/apps/files_external/globalstorages', $fields);
 		$this->theHTTPStatusCodeShouldBe('201');
 
 		$this->lastExternalStorageData = json_decode($this->response->getBody(), $asAssociativeArray = true);
@@ -62,7 +62,7 @@ trait ExternalStorage {
 	 * @param TableNode $fields
 	 */
 	public function loggedInUserUpdatesLastExternalUserglobalStorage(TableNode $fields): void {
-		$this->sendJsonWithRequestToken('PUT', '/index.php/apps/files_external/userglobalstorages/' . $this->lastExternalStorageData['id'], $fields);
+		$this->sendJsonWithRequestTokenAndBasicAuth('PUT', '/index.php/apps/files_external/userglobalstorages/' . $this->lastExternalStorageData['id'], $fields);
 		$this->theHTTPStatusCodeShouldBe('200');
 
 		$this->lastExternalStorageData = json_decode($this->response->getBody(), $asAssociativeArray = true);
@@ -95,6 +95,25 @@ trait ExternalStorage {
 		$body = [
 			'headers' => [
 				'Content-Type' => 'application/json',
+			],
+			'body' => $fieldsAsJsonString,
+		];
+		$this->sendingAToWithRequesttoken($method, $url, $body);
+	}
+
+	private function sendJsonWithRequestTokenAndBasicAuth(string $method, string $url, TableNode $fields): void {
+		$isFirstField = true;
+		$fieldsAsJsonString = '{';
+		foreach ($fields->getRowsHash() as $key => $value) {
+			$fieldsAsJsonString .= ($isFirstField ? '' : ',') . '"' . $key . '":' . $value;
+			$isFirstField = false;
+		}
+		$fieldsAsJsonString .= '}';
+
+		$body = [
+			'headers' => [
+				'Content-Type' => 'application/json',
+				'Authorization' => 'Basic ' . base64_encode('admin:admin'),
 			],
 			'body' => $fieldsAsJsonString,
 		];

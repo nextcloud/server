@@ -14,14 +14,14 @@ Feature: external-storage
     And As an "user1"
     And accepting last share
     When creating a share with
-      | path | foo |
-      | shareType | 3 |
+      | path      | foo |
+      | shareType | 3   |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And Share fields of last share match with
-      | id | A_NUMBER |
-      | url | AN_URL |
-      | token | A_TOKEN |
+      | id       | A_NUMBER             |
+      | url      | AN_URL               |
+      | token    | A_TOKEN              |
       | mimetype | httpd/unix-directory |
 
   Scenario: Shares don't overwrite external storage
@@ -66,9 +66,9 @@ Feature: external-storage
   Scenario: Save an external storage with password provided by user
     Given Logging in using web as "admin"
     And logged in user creates external global storage
-      | mountPoint     | "ExternalStorageTest" |
-      | backend        | "owncloud" |
-      | authMechanism  | "password::userprovided" |
+      | mountPoint     | "ExternalStorageTest"                           |
+      | backend        | "owncloud"                                      |
+      | authMechanism  | "password::userprovided"                        |
       | backendOptions | {"host":"http://localhost:8080","secure":false} |
     And fields of last external storage match with
       | status | 2 |
@@ -80,9 +80,9 @@ Feature: external-storage
   Scenario: Save an external storage again with an unmodified password provided by user
     Given Logging in using web as "admin"
     And logged in user creates external global storage
-      | mountPoint     | "ExternalStorageTest" |
-      | backend        | "owncloud" |
-      | authMechanism  | "password::userprovided" |
+      | mountPoint     | "ExternalStorageTest"                           |
+      | backend        | "owncloud"                                      |
+      | authMechanism  | "password::userprovided"                        |
       | backendOptions | {"host":"http://localhost:8080","secure":false} |
     And fields of last external storage match with
       | status | 2 |
@@ -96,9 +96,9 @@ Feature: external-storage
   Scenario: Save an external storage with global credentials provided by user
     Given Logging in using web as "admin"
     And logged in user creates external global storage
-      | mountPoint     | "ExternalStorageTest" |
-      | backend        | "owncloud" |
-      | authMechanism  | "password::global::user" |
+      | mountPoint     | "ExternalStorageTest"                           |
+      | backend        | "owncloud"                                      |
+      | authMechanism  | "password::global::user"                        |
       | backendOptions | {"host":"http://localhost:8080","secure":false} |
     And fields of last external storage match with
       | status | 2 |
@@ -110,9 +110,9 @@ Feature: external-storage
   Scenario: Save an external storage again with unmodified global credentials provided by user
     Given Logging in using web as "admin"
     And logged in user creates external global storage
-      | mountPoint     | "ExternalStorageTest" |
-      | backend        | "owncloud" |
-      | authMechanism  | "password::global::user" |
+      | mountPoint     | "ExternalStorageTest"                           |
+      | backend        | "owncloud"                                      |
+      | authMechanism  | "password::global::user"                        |
       | backendOptions | {"host":"http://localhost:8080","secure":false} |
     And fields of last external storage match with
       | status | 2 |
