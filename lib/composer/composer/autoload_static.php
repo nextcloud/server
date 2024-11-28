@@ -1917,6 +1917,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Repair\\Owncloud\\MoveAvatarsBackgroundJob' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/MoveAvatarsBackgroundJob.php',
         'OC\\Repair\\Owncloud\\SaveAccountsTableData' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/SaveAccountsTableData.php',
         'OC\\Repair\\Owncloud\\UpdateLanguageCodes' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/UpdateLanguageCodes.php',
+        'OC\\Repair\\RemoveBrokenProperties' => __DIR__ . '/../../..' . '/lib/private/Repair/RemoveBrokenProperties.php',
         'OC\\Repair\\RemoveLinkShares' => __DIR__ . '/../../..' . '/lib/private/Repair/RemoveLinkShares.php',
         'OC\\Repair\\RepairDavShares' => __DIR__ . '/../../..' . '/lib/private/Repair/RepairDavShares.php',
         'OC\\Repair\\RepairInvalidShares' => __DIR__ . '/../../..' . '/lib/private/Repair/RepairInvalidShares.php',
