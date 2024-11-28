@@ -1384,9 +1384,6 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/AppFramework/Http/Dispatcher.php">
-    <NoInterfaceProperties>
-      <code><![CDATA[$this->request->method]]></code>
-    </NoInterfaceProperties>
     <NullArgument>
       <code><![CDATA[null]]></code>
     </NullArgument>
