@@ -186,6 +186,7 @@
     "remote" : "extern",
     "remote group" : "extern grupp",
     "guest" : "gäst",
+    "by {initiator}" : "av {initiator}",
     "Shared with the group {user} by {owner}" : "Delad med gruppen {user} av {owner}",
     "Shared with the conversation {user} by {owner}" : "Delad med konversationen {user} av {owner}",
     "Shared with {user} by {owner}" : "Delad med {user} av {owner}",
