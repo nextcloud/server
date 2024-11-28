@@ -8,6 +8,7 @@ SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: assert developers
+SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
@@ -28,7 +29,7 @@ SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Andris Reinman
-SPDX-FileCopyrightText: @nextcloud/password-confirmation developers
+SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 
 This file is generated from multiple sources. Included packages:
@@ -41,6 +42,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/browser-storage
 	- version: 0.4.0
 	- license: GPL-3.0-or-later
+- @nextcloud/dialogs
+	- version: 6.0.1
+	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
 	- license: ISC
@@ -57,7 +61,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.2
 	- license: GPL-3.0-or-later
 - @nextcloud/password-confirmation
-	- version: 5.1.1
+	- version: 5.3.0
 	- license: MIT
 - @nextcloud/router
 	- version: 3.0.1
@@ -185,6 +189,15 @@ This file is generated from multiple sources. Included packages:
 - object.assign
 	- version: 4.1.5
 	- license: MIT
+- inherits
+	- version: 2.0.3
+	- license: ISC
+- util
+	- version: 0.10.4
+	- license: MIT
+- path
+	- version: 0.12.7
+	- license: MIT
 - possible-typed-array-names
 	- version: 1.0.0
 	- license: MIT
@@ -199,6 +212,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - tabbable
 	- version: 6.2.0
+	- license: MIT
+- toastify-js
+	- version: 1.12.0
 	- license: MIT
 - util
 	- version: 0.12.5
