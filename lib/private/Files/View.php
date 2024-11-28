@@ -856,6 +856,34 @@ class View {
 		return $result;
 	}
 
+	private function validateMountMove(array $mounts, IMountPoint $sourceMount, IMountPoint $targetMount, bool $targetIsShared): void {
+		$targetType = 'storage';
+		if ($targetMount instanceof SharedMount) {
+			$targetType = 'share';
+		}
+		$targetPath = rtrim($targetMount->getMountPoint(), '/');
+
+		foreach ($mounts as $mount) {
+			$sourcePath = rtrim($mount->getMountPoint(), '/');
+			$sourceType = 'storage';
+			if ($mount instanceof SharedMount) {
+				$sourceType = 'share';
+			}
+
+			if (!$mount instanceof MoveableMount) {
+				throw new ForbiddenException("Storage {$sourcePath} cannot be moved", false);
+			}
+
+			if ($targetIsShared) {
+				throw new ForbiddenException("Moving a $sourceType ($sourcePath) into shared folder is not allowed", false);
+			}
+
+			if ($sourceMount !== $targetMount) {
+				throw new ForbiddenException("Moving a $sourceType ($sourcePath) into another $targetType ($targetPath) is not allowed", false);
+			}
+		}
+	}
+
 	/**
 	 * @throws ForbiddenException
 	 */
