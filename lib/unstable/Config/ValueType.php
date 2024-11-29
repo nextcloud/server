@@ -38,6 +38,8 @@ enum ValueType: int {
 	 *
 	 * @return self
 	 * @throws IncorrectTypeException
+	 *
+	 * @experimental 31.0.0
 	 * @since 31.0.0
 	 */
 	public static function fromStringDefinition(string $definition): self {
@@ -60,6 +62,8 @@ enum ValueType: int {
 	 *
 	 * @return string
 	 * @throws IncorrectTypeException
+	 *
+	 * @experimental 31.0.0
 	 * @since 31.0.0
 	 */
 	public function getDefinition(): string {
