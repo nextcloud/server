@@ -76,7 +76,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Non ten permiso para enviar ou crear ficheiros aquí.",
     "Favorite" : "Favorito",
     "\"{displayName}\" action executed successfully" : "A acción «{displayName}» executouse correctamente",
-    "\"{displayName}\" action failed" : "A acción «{displayName}» fallou",
+    "\"{displayName}\" action failed" : "Produciuse un fallo na acción «{displayName}»",
     "Toggle selection for file \"{displayName}\"" : "Conmutar a selección para o ficheiro «{displayName}»",
     "Toggle selection for folder \"{displayName}\"" : "Conmutar a selección para o cartafol «{displayName}»",
     "File is loading" : "Estase a cargar o ficheiro",

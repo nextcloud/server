@@ -100,10 +100,11 @@ class ExternalSharesController extends Controller {
 	 *
 	 * @param string $remote
 	 * @return DataResponse
+	 * @AnonRateThrottle(limit=5, period=120)
 	 */
 	#[PublicPage]
 	public function testRemote($remote) {
-		if (str_contains($remote, '#') || str_contains($remote, '?') || str_contains($remote, ';')) {
+		if (preg_match('%[!#$&\'()*+,;=?@[\]]%', $remote)) {
 			return new DataResponse(false);
 		}
 

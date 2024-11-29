@@ -70,7 +70,7 @@ class GlobalStoragesController extends StoragesController {
 	 *
 	 * @return DataResponse
 	 */
-	#[PasswordConfirmationRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function create(
 		$mountPoint,
 		$backend,
@@ -136,7 +136,7 @@ class GlobalStoragesController extends StoragesController {
 	 *
 	 * @return DataResponse
 	 */
-	#[PasswordConfirmationRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function update(
 		$id,
 		$mountPoint,
