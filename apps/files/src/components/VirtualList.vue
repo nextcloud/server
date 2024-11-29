@@ -128,20 +128,22 @@ export default Vue.extend({
 		// Items to render before and after the visible area
 		bufferItems() {
 			if (this.gridMode) {
+				// 1 row before and after in grid mode
 				return this.columnCount
 			}
+			// 3 rows before and after
 			return 3
 		},
 
 		itemHeight() {
 			// Align with css in FilesListVirtual
-			// 166px + 32px (name) + 16px (mtime) + 16px (padding)
-			return this.gridMode ? (166 + 32 + 16 + 16) : 55
+			// 166px + 32px (name) + 16px (mtime) + 16px (padding top and bottom)
+			return this.gridMode ? (166 + 32 + 16 + 16 + 16) : 55
 		},
 		// Grid mode only
 		itemWidth() {
-			// 166px + 16px padding
-			return 166 + 16
+			// 166px + 16px x 2 (padding left and right)
+			return 166 + 16 + 16
 		},
 
 		rowCount() {
@@ -156,9 +158,13 @@ export default Vue.extend({
 
 		/**
 		 * Index of the first item to be rendered
+		 * The index can be any file, not just the first one
+		 * But the start index is the first item to be rendered,
+		 * which needs to align with the column count
 		 */
 		startIndex() {
-			return Math.max(0, this.index - this.bufferItems)
+			const firstColumnIndex = this.index - (this.index % this.columnCount)
+			return Math.max(0, firstColumnIndex - this.bufferItems)
 		},
 
 		/**
@@ -281,7 +287,7 @@ export default Vue.extend({
 		scrollTo(index: number) {
 			const targetRow = Math.ceil(this.dataSources.length / this.columnCount)
 			if (targetRow < this.rowCount) {
-				logger.debug('VirtualList: Skip scrolling. nothing to scroll', { index, targetRow, rowCount: this.rowCount })
+				logger.debug('VirtualList: Skip scrolling, nothing to scroll', { index, targetRow, rowCount: this.rowCount })
 				return
 			}
 			this.index = index
