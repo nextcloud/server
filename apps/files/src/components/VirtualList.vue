@@ -121,6 +121,13 @@ export default defineComponent({
 			headerHeight: 0,
 			tableHeight: 0,
 			resizeObserver: null as ResizeObserver | null,
+
+			$_scrollRAF: null as number | null,
+			$_recycledPool: {} as Record<string, DataSource[DataSourceKey]>,
+			$_renderCache: {
+				items: null as RecycledPoolItem[] | null,
+				cacheKey: null as string | null,
+			},
 		}
 	},
 
@@ -185,32 +192,26 @@ export default defineComponent({
 			return this.rowCount
 		},
 
-		renderedItems(): RecycledPoolItem[] {
-			if (!this.isReady) {
-				return []
+		renderedItems() {
+			// Generate a cache key based on critical rendering parameters
+			const cacheKey = `${this.startIndex}-${this.shownItems}-${this.dataSources.length}`
+
+			// Check if we can use cached result
+			if (this.$_renderCache?.cacheKey === cacheKey && this.$_renderCache?.items) {
+				return this.$_renderCache.items
 			}
 
-			const items = this.dataSources.slice(this.startIndex, this.startIndex + this.shownItems) as Node[]
+			// Compute and cache the result
+			const items = this.computeRenderedItems()
 
-			const oldItems = items.filter(item => Object.values(this.$_recycledPool).includes(item[this.dataKey]))
-			const oldItemsKeys = oldItems.map(item => item[this.dataKey] as string)
-			const unusedKeys = Object.keys(this.$_recycledPool).filter(key => !oldItemsKeys.includes(this.$_recycledPool[key]))
+			// Store in cache
+			// eslint-disable-next-line vue/no-side-effects-in-computed-properties
+			this.$_renderCache = {
+				items,
+				cacheKey,
+			}
 
-			return items.map(item => {
-				const index = Object.values(this.$_recycledPool).indexOf(item[this.dataKey])
-				// If defined, let's keep the key
-				if (index !== -1) {
-					return {
-						key: Object.keys(this.$_recycledPool)[index],
-						item,
-					}
-				}
-
-				// Get and consume reusable key or generate a new one
-				const key = unusedKeys.pop() || Math.random().toString(36).substr(2)
-				this.$_recycledPool[key] = item[this.dataKey]
-				return { key, item }
-			})
+			return items
 		},
 
 		/**
@@ -260,13 +261,15 @@ export default defineComponent({
 		const root = this.$el as HTMLElement
 		const thead = this.$refs?.thead as HTMLElement
 
-		this.resizeObserver = new ResizeObserver(debounce(() => {
-			this.beforeHeight = before?.clientHeight ?? 0
-			this.headerHeight = thead?.clientHeight ?? 0
-			this.tableHeight = root?.clientHeight ?? 0
-			logger.debug('VirtualList: resizeObserver updated')
-			this.onScroll()
-		}, 100, { immediate: false }))
+		this.resizeObserver = new ResizeObserver(() => {
+			requestAnimationFrame(() => {
+				this.beforeHeight = before?.clientHeight ?? 0
+				this.headerHeight = thead?.clientHeight ?? 0
+				this.tableHeight = root?.clientHeight ?? 0
+				logger.debug('VirtualList: resizeObserver updated')
+				this.onScroll()
+			})
+		})
 
 		this.resizeObserver.observe(before)
 		this.resizeObserver.observe(root)
@@ -279,7 +282,11 @@ export default defineComponent({
 		// Adding scroll listener AFTER the initial scroll to index
 		this.$el.addEventListener('scroll', this.onScroll, { passive: true })
 
-		this.$_recycledPool = {} as Record<string, DataSource[DataSourceKey]>
+		this.$_recycledPool = {}
+		this.$_renderCache = {
+			items: null,
+			cacheKey: null,
+		}
 	},
 
 	beforeDestroy() {
@@ -308,9 +315,12 @@ export default defineComponent({
 		},
 
 		onScroll() {
-			this._onScrollHandle ??= requestAnimationFrame(() => {
-				this._onScrollHandle = null
+			// Use requestAnimationFrame more efficiently
+			if (this.$_scrollRAF) {
+				cancelAnimationFrame(this.$_scrollRAF)
+			}
 
+			this.$_scrollRAF = requestAnimationFrame(() => {
 				const index = this.scrollPosToIndex(this.$el.scrollTop)
 				if (index === this.index) {
 					return
@@ -334,6 +344,35 @@ export default defineComponent({
 		// It should be the opposite of `scrollPosToIndex`
 		indexToScrollPos(index: number): number {
 			return (Math.floor(index / this.columnCount) - 0.5) * this.itemHeight + this.beforeHeight
+		},
+
+		computeRenderedItems(): RecycledPoolItem[] {
+			// Extract the original complex rendering logic
+			if (!this.isReady) {
+				return []
+			}
+
+			const items = this.dataSources.slice(this.startIndex, this.startIndex + this.shownItems) as Node[]
+
+			const oldItems = items.filter(item => Object.values(this.$_recycledPool).includes(item[this.dataKey]))
+			const oldItemsKeys = oldItems.map(item => item[this.dataKey] as string)
+			const unusedKeys = Object.keys(this.$_recycledPool).filter(key => !oldItemsKeys.includes(this.$_recycledPool[key]))
+
+			return items.map(item => {
+				const index = Object.values(this.$_recycledPool).indexOf(item[this.dataKey])
+				// If defined, let's keep the key
+				if (index !== -1) {
+					return {
+						key: Object.keys(this.$_recycledPool)[index],
+						item,
+					}
+				}
+
+				// Get and consume reusable key or generate a new one
+				const key = unusedKeys.pop() || Math.random().toString(36).substr(2)
+				this.$_recycledPool[key] = item[this.dataKey]
+				return { key, item }
+			})
 		},
 	},
 })
