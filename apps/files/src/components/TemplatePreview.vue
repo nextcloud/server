@@ -13,7 +13,7 @@
 			name="template-picker"
 			@change="onCheck">
 
-		<label :for="id" class="template-picker__label">
+		<label :for="id" class="template-picker__label" @click="onClick">
 			<div class="template-picker__preview"
 				:class="failedPreview ? 'template-picker__preview--failed' : ''">
 				<img class="template-picker__image"
@@ -127,6 +127,11 @@ export default {
 		},
 		focus() {
 			this.$refs.input?.focus()
+		},
+		onClick() {
+			if (this.checked) {
+				this.$emit('confirm-click', this.fileid)
+			}
 		},
 	},
 }

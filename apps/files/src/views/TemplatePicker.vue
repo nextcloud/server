@@ -19,6 +19,7 @@
 				<TemplatePreview v-bind="emptyTemplate"
 					ref="emptyTemplatePreview"
 					:checked="checked === emptyTemplate.fileid"
+					@confirm-click="onConfirmClick"
 					@check="onCheck" />
 
 				<TemplatePreview v-for="template in provider.templates"
@@ -26,6 +27,7 @@
 					v-bind="template"
 					:checked="checked === template.fileid"
 					:ratio="provider.ratio"
+					@confirm-click="onConfirmClick"
 					@check="onCheck" />
 			</ul>
 
@@ -205,6 +207,12 @@ export default defineComponent({
 		 */
 		onCheck(fileid: number) {
 			this.checked = fileid
+		},
+
+		onConfirmClick(fileid: number) {
+			if (fileid === this.checked) {
+				this.onSubmit()
+			}
 		},
 
 		async createFile(templateFields) {
