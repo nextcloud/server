@@ -68,6 +68,7 @@ OC.L10N.register(
     "Manage tags" : "タグを管理",
     "Applying tags changes…" : "タグの変更を適用しています...",
     "Search or create tag" : "タグを検索または作成する",
+    "Create new tag" : "新しいタグを作成",
     "Select or create tags to apply to all selected files" : "選択した全てのファイルに適用するタグを選択または作成する",
     "Cancel" : "キャンセル",
     "Apply changes" : "変更を適用する",
