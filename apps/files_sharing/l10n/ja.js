@@ -188,6 +188,7 @@ OC.L10N.register(
     "remote" : "リモート",
     "remote group" : "リモートグループ",
     "guest" : "ゲスト",
+    "by {initiator}" : "{initiator}記載",
     "Shared with the group {user} by {owner}" : "{owner}によってグループ{user}と共有されました",
     "Shared with the conversation {user} by {owner}" : "{owner}が{user}との会話を共有しました",
     "Shared with {user} by {owner}" : "{owner}が{user}と共有",

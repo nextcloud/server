@@ -158,7 +158,7 @@ OC.L10N.register(
     "User Display Name Field" : "Campo de nome de usuario para amosar",
     "The LDAP attribute to use to generate the user's display name." : "O atributo LDAP a empregar para xerar o nome de usuario para amosar.",
     "2nd User Display Name Field" : "2.º campo de nome de usuario para amosar",
-    "Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«." : "Opcional. Un atributo LDAP para ser engadido no nome para amosar entre parénteses. Resulta en p. ex. «Xan Carallás (xan.carallas@exemplo.org)».",
+    "Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«." : "Opcional. Un atributo LDAP para ser engadido no nome para amosar entre parénteses. Resulta en p. ex. «Xan Carallás (xan.carallas@example.org)».",
     "Base User Tree" : "Base da árbore de usuarios",
     "One User Base DN per line" : "Un DN base de usuario por liña",
     "User Search Attributes" : "Atributos de busca do usuario",
