@@ -222,7 +222,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0
 	- license: ISC
 - pinia
-	- version: 2.2.4
+	- version: 2.2.8
 	- license: MIT
 - possible-typed-array-names
 	- version: 1.0.0
