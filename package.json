@@ -64,7 +64,7 @@
     "@nextcloud/vue": "^8.20.0",
     "@simplewebauthn/browser": "^10.0.0",
     "@vueuse/components": "^11.1.0",
-    "@vueuse/core": "^11.0.1",
+    "@vueuse/core": "^12.0.0",
     "@vueuse/integrations": "^11.1.0",
     "backbone": "^1.4.1",
     "blueimp-md5": "^2.19.0",
