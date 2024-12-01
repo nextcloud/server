@@ -19,7 +19,7 @@ class Capabilities implements ICapability {
 	}
 
 	/**
-	 * @return array{dav: array{chunking: string, bulkupload?: string, absence-supported?: bool}}
+	 * @return array{dav: array{chunking: string, bulkupload?: string, absence-supported?: bool, absence-replacement?: bool}}
 	 */
 	public function getCapabilities() {
 		$capabilities = [
@@ -32,6 +32,7 @@ class Capabilities implements ICapability {
 		}
 		if ($this->coordinator->isEnabled()) {
 			$capabilities['dav']['absence-supported'] = true;
+			$capabilities['dav']['absence-replacement'] = true;
 		}
 		return $capabilities;
 	}

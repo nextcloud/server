@@ -40,6 +40,9 @@
                             },
                             "absence-supported": {
                                 "type": "boolean"
+                            },
+                            "absence-replacement": {
+                                "type": "boolean"
                             }
                         }
                     }
