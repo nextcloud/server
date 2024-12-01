@@ -47,7 +47,10 @@ class CheckApp extends Base {
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appid = $input->getArgument('appid');
-		$path = (string)$input->getOption('path') ?? $this->appLocator->getAppPath($appid);
+		$path = (string)$input->getOption('path');
+		if ($path === '') {
+			$path = $this->appLocator->getAppPath($appid);
+		}
 		if ($this->fileAccessHelper->file_exists($path . '/appinfo/signature.json')) {
 			// Only verify if the application explicitly ships a signature.json file
 			$result = $this->checker->verifyAppSignature($appid, $path, true);
