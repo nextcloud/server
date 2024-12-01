@@ -17,6 +17,7 @@ OC.L10N.register(
     "New comment" : "Uusi kommentti",
     "Write a comment …" : "Kirjoita kommentti…",
     "Post comment" : "Lähetä viesti",
+    "Could not reload comments" : "Kommenttien lataus epäonnistui",
     "No comments yet, start the conversation!" : "Ei kommentteja vielä. Aloita keskustelu!",
     "No more messages" : "Ei enempää viestejä",
     "Retry" : "Yritä uudelleen",
