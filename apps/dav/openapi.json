@@ -37,6 +37,9 @@
                             },
                             "bulkupload": {
                                 "type": "string"
+                            },
+                            "absence-supported": {
+                                "type": "boolean"
                             }
                         }
                     }
