@@ -69,6 +69,14 @@
 		<directory name="lib/public/SystemReport"/>
 		<directory name="lib/private/SystemReport"/>
 		<directory name="tests/lib/SystemReport"/>
+		<file name="apps/files/lib/Controller/ResumableUploadController.php"/>
+		<file name="apps/files/lib/Db/ResumableUpload.php"/>
+		<file name="apps/files/lib/Db/ResumableUploadMapper.php"/>
+		<file name="apps/files/lib/Migration/Version2003Date20241126094807.php"/>
+		<file name="apps/files/lib/Response/AProblemResponse.php"/>
+		<file name="apps/files/lib/Response/CompleteUploadResponse.php"/>
+		<file name="apps/files/lib/Response/MismatchingOffsetResponse.php"/>
+		<file name="apps/files/tests/Controller/ResumableUploadControllerTest.php"/>
 		<ignoreFiles>
 			<!-- Circles internals are used -->
 			<file name="core/Sharing/Recipient/TeamShareRecipientType.php"/>
