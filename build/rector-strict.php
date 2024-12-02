@@ -10,7 +10,14 @@ $nextcloudDir = dirname(__DIR__);
 return (require __DIR__ . '/rector-shared.php')
 	->withPaths([
 		$nextcloudDir . '/build/rector-strict.php',
-		// TODO: Add more files. The entry above is just there to stop rector from complaining about the fact that it ran without checking any files.
+		$nextcloudDir . '/apps/files/lib/Controller/ResumableUploadController.php',
+		$nextcloudDir . '/apps/files/lib/Db/ResumableUpload.php',
+		$nextcloudDir . '/apps/files/lib/Db/ResumableUploadMapper.php',
+		$nextcloudDir . '/apps/files/lib/Migration/Version2003Date20241126094807.php',
+		$nextcloudDir . '/apps/files/lib/Response/AProblemResponse.php',
+		$nextcloudDir . '/apps/files/lib/Response/CompleteUploadResponse.php',
+		$nextcloudDir . '/apps/files/lib/Response/MismatchingOffsetResponse.php',
+		$nextcloudDir . '/apps/files/tests/Controller/ResumableUploadControllerTest.php',
 	])
 	->withPreparedSets(
 		deadCode: true,

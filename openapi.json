@@ -50,6 +50,10 @@
             "description": "Class OCSAuthAPI OCS API end-points to exchange shared secret between two connected Nextclouds"
         },
         {
+            "name": "files/resumable_upload",
+            "description": "Implementation of https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-resumable-upload-05 All functionality described by the draft RFC is excluded from OpenAPI."
+        },
+        {
             "name": "theming/theming",
             "description": "Class ThemingController handle ajax requests to update the theme"
         }
@@ -1664,6 +1668,7 @@
                             "forbidden_filename_extensions",
                             "chunked_upload",
                             "file_conversions",
+                            "resumable_upload",
                             "directEditing"
                         ],
                         "properties": {
@@ -1747,6 +1752,21 @@
                                         "displayName": {
                                             "type": "string"
                                         }
+                                    }
+                                }
+                            },
+                            "resumable_upload": {
+                                "type": "object",
+                                "required": [
+                                    "supported",
+                                    "interop_version"
+                                ],
+                                "properties": {
+                                    "supported": {
+                                        "type": "boolean"
+                                    },
+                                    "interop_version": {
+                                        "type": "string"
                                     }
                                 }
                             },

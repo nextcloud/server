@@ -16,11 +16,20 @@
 	phpVersion="8.2"
 >
 	<projectFiles>
+		<file name="apps/files/lib/Controller/ResumableUploadController.php"/>
+		<file name="apps/files/lib/Db/ResumableUpload.php"/>
+		<file name="apps/files/lib/Db/ResumableUploadMapper.php"/>
+		<file name="apps/files/lib/Migration/Version2003Date20241126094807.php"/>
+		<file name="apps/files/lib/Response/AProblemResponse.php"/>
+		<file name="apps/files/lib/Response/CompleteUploadResponse.php"/>
+		<file name="apps/files/lib/Response/MismatchingOffsetResponse.php"/>
+		<file name="apps/files/tests/Controller/ResumableUploadControllerTest.php"/>
 		<ignoreFiles>
 			<directory name="apps/**/composer"/>
 			<directory name="apps/**/tests"/>
 			<directory name="lib/composer"/>
 			<directory name="lib/l10n"/>
+			<directory name="lib/public"/>
 			<directory name="3rdparty"/>
 		</ignoreFiles>
 	</projectFiles>
