@@ -17,6 +17,9 @@ use OCA\DAV\Capabilities;
 use OCP\AppFramework\QueryException;
 use Test\TestCase;
 
+/**
+ * @group DB
+ */
 class NotificationProviderManagerTest extends TestCase {
 
 	/** @var NotificationProviderManager|\PHPUnit\Framework\MockObject\MockObject */
