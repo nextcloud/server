@@ -747,6 +747,7 @@ OC.L10N.register(
     "Save" : "Guardar",
     "Test and verify email settings" : "Probar y verificar la configuración del correo electrónico",
     "Security & setup warnings" : "Advertencias de seguridad y configuración",
+    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Es importante para la seguridad y rendimiento de su instancia que todo esté correctamente configurado. Para ayudarle en ello estamos haciendo algunas comprobaciones automáticas. Para más información, por favor compruebe la documentación enlazada.",
     "All checks passed." : "Pasaron todas las verificaciones. ",
     "There are some errors regarding your setup." : "Hay algunos errores referentes a su configuración.",
     "There are some warnings regarding your setup." : "Hay algunas advertencias referentes a su configuración.",
