@@ -117,7 +117,7 @@ abstract class StoragesService {
 	 * @return StorageConfig
 	 * @throws NotFoundException if the storage with the given id was not found
 	 */
-	public function getStorage($id) {
+	public function getStorage(int $id) {
 		$mount = $this->dbConfig->getMountById($id);
 
 		if (!is_array($mount)) {
@@ -433,7 +433,7 @@ abstract class StoragesService {
 	 *
 	 * @throws NotFoundException if no storage was found with the given id
 	 */
-	public function removeStorage($id) {
+	public function removeStorage(int $id) {
 		$existingMount = $this->dbConfig->getMountById($id);
 
 		if (!is_array($existingMount)) {
