@@ -211,7 +211,7 @@ export default {
 		 */
 		onExitWithoutSaving() {
 			OC.dialogs.confirmDestructive(
-				translations.changesLoseConfirmation + '\n\n' + translations.changesLoseConfirmationHint,
+				translations.changesLoseWarningHint + '\n\n' + translations.discardChangesWarningHint,
 				t('viewer', 'Unsaved changes'),
 				{
 					type: OC.dialogs.YES_NO_BUTTONS,
