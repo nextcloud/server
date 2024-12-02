@@ -6,6 +6,7 @@
 namespace OCA\Files\Service;
 
 use OCA\Files\AppInfo\Application;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -53,7 +54,7 @@ class UserConfig {
 	protected IConfig $config;
 	protected ?IUser $user = null;
 
-	public function __construct(IConfig $config, IUserSession $userSession) {
+	public function __construct(IConfig $config, IUserSession $userSession, protected IAppConfig $appConfig) {
 		$this->config = $config;
 		$this->user = $userSession->getUser();
 	}
@@ -143,8 +144,12 @@ class UserConfig {
 
 		$userId = $this->user->getUID();
 		$userConfigs = array_map(function (string $key) use ($userId) {
-			$value = $this->config->getUserValue($userId, Application::APP_ID, $key, $this->getDefaultConfigValue($key));
-			// If the default is expected to be a boolean, we need to cast the value
+			$value = $this->config->getUserValue($userId, Application::APP_ID, $key, null);
+			// If the default value is expected to be a boolean, we need to cast the value
+			if ($value === null) {
+				$value = $this->appConfig->getAppValueBool($key, $this->getDefaultConfigValue($key));
+			}
+
 			if (is_bool($this->getDefaultConfigValue($key)) && is_string($value)) {
 				return $value === '1';
 			}
