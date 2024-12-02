@@ -17,15 +17,14 @@ namespace NCU\Security\Signature\Enum;
  * - STATIC = error will be issued on conflict,  assume keypair cannot be reset.
  *
  * @experimental 31.0.0
- * @since 31.0.0
  */
 enum SignatoryType: int {
-	/** @since 31.0.0 */
+	/** @experimental 31.0.0 */
 	case FORGIVABLE = 1; // no notice on refresh
-	/** @since 31.0.0 */
+	/** @experimental 31.0.0 */
 	case REFRESHABLE = 4; // notice on refresh
-	/** @since 31.0.0 */
+	/** @experimental 31.0.0 */
 	case TRUSTED = 8; // warning on refresh
-	/** @since 31.0.0 */
+	/** @experimental 31.0.0 */
 	case STATIC = 9; // error on refresh
 }

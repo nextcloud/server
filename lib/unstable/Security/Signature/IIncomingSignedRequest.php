@@ -19,14 +19,13 @@ use OCP\IRequest;
  *
  * @see ISignatureManager for details on signature
  * @experimental 31.0.0
- * @since 31.0.0
  */
 interface IIncomingSignedRequest extends ISignedRequest {
 	/**
 	 * returns the base IRequest
 	 *
 	 * @return IRequest
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function getRequest(): IRequest;
 
@@ -36,7 +35,7 @@ interface IIncomingSignedRequest extends ISignedRequest {
 	 *
 	 * @param string $origin
 	 * @return IIncomingSignedRequest
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function setOrigin(string $origin): IIncomingSignedRequest;
 
@@ -45,7 +44,7 @@ interface IIncomingSignedRequest extends ISignedRequest {
 	 * based on the keyId defined in the signature header.
 	 *
 	 * @return string
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function getOrigin(): string;
 
@@ -55,7 +54,7 @@ interface IIncomingSignedRequest extends ISignedRequest {
 	 *
 	 * @return string
 	 * @throws SignatureElementNotFoundException
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function getKeyId(): string;
 
@@ -64,7 +63,7 @@ interface IIncomingSignedRequest extends ISignedRequest {
 	 *
 	 * @throws SignatureException
 	 * @throws SignatoryNotFoundException
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function verify(): void;
 }

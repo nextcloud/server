@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Security\Signature\Model;
 
 use JsonSerializable;
+use NCU\Security\Signature\Enum\DigestAlgorithm;
 use NCU\Security\Signature\Enum\SignatureAlgorithm;
 use NCU\Security\Signature\Exceptions\SignatoryException;
 use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
@@ -42,8 +43,9 @@ class OutgoingSignedRequest extends SignedRequest implements
 
 		$options = $signatoryManager->getOptions();
 		$this->setHost($identity)
-			->setAlgorithm(SignatureAlgorithm::from($options['algorithm'] ?? 'sha256'))
-			->setSignatory($signatoryManager->getLocalSignatory());
+			->setAlgorithm($options['algorithm'] ?? SignatureAlgorithm::RSA_SHA256)
+			->setSignatory($signatoryManager->getLocalSignatory())
+			->setDigestAlgorithm($options['digestAlgorithm'] ?? DigestAlgorithm::SHA256);
 
 		$headers = array_merge([
 			'(request-target)' => strtolower($method) . ' ' . $path,

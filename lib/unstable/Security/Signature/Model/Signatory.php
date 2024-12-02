@@ -11,6 +11,7 @@ namespace NCU\Security\Signature\Model;
 use JsonSerializable;
 use NCU\Security\Signature\Enum\SignatoryStatus;
 use NCU\Security\Signature\Enum\SignatoryType;
+use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
 use OCP\AppFramework\Db\Entity;
 
 /**
@@ -21,18 +22,23 @@ use OCP\AppFramework\Db\Entity;
  * the pair providerId+host is unique, meaning only one signatory can exist for each host
  * and protocol
  *
- * @since 31.0.0
  * @experimental 31.0.0
  *
  * @method void setProviderId(string $providerId)
  * @method string getProviderId()
  * @method string getKeyId()
+ * @method void setKeyIdSum(string $keyIdSum)
+ * @method string getKeyIdSum()
  * @method void setPublicKey(string $publicKey)
  * @method string getPublicKey()
  * @method void setPrivateKey(string $privateKey)
  * @method string getPrivateKey()
  * @method void setHost(string $host)
  * @method string getHost()
+ * @method int getType()
+ * @method void setType(int $type)
+ * @method int getStatus()
+ * @method void setStatus(int $status)
  * @method void setAccount(string $account)
  * @method string getAccount()
  * @method void setMetadata(array $metadata)
@@ -41,12 +47,15 @@ use OCP\AppFramework\Db\Entity;
  * @method int getCreation()
  * @method void setLastUpdated(int $creation)
  * @method int getLastUpdated()
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 class Signatory extends Entity implements JsonSerializable {
 	protected string $keyId = '';
 	protected string $keyIdSum = '';
 	protected string $providerId = '';
 	protected string $host = '';
+	protected string $publicKey = '';
+	protected string $privateKey = '';
 	protected string $account = '';
 	protected int $type = 9;
 	protected int $status = 1;
@@ -55,17 +64,11 @@ class Signatory extends Entity implements JsonSerializable {
 	protected int $lastUpdated = 0;
 
 	/**
-	 * @param string $keyId
-	 * @param string $publicKey
-	 * @param string $privateKey
-	 * @param bool $local
+	 * @param bool $local only set to TRUE when managing local signatory
 	 *
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function __construct(
-		string $keyId = '',
-		protected string $publicKey = '',
-		protected string $privateKey = '',
 		private readonly bool $local = false,
 	) {
 		$this->addType('providerId', 'string');
@@ -79,14 +82,13 @@ class Signatory extends Entity implements JsonSerializable {
 		$this->addType('status', 'integer');
 		$this->addType('creation', 'integer');
 		$this->addType('lastUpdated', 'integer');
-
-		$this->setKeyId($keyId);
 	}
 
 	/**
 	 * @param string $keyId
 	 *
-	 * @since 31.0.0
+	 * @experimental 31.0.0
+	 * @throws IdentityNotFoundException if identity cannot be extracted from keyId
 	 */
 	public function setKeyId(string $keyId): void {
 		// if set as local (for current instance), we apply some filters.
@@ -105,40 +107,42 @@ class Signatory extends Entity implements JsonSerializable {
 				}
 			}
 		}
-		$this->keyId = $keyId;
-		$this->keyIdSum = hash('sha256', $keyId);
+		$this->setter('keyId', [$keyId]); // needed to trigger the update in database
+		$this->setKeyIdSum(hash('sha256', $keyId));
+
+		$this->setHost(self::extractIdentityFromUri($this->getKeyId()));
 	}
 
 	/**
 	 * @param SignatoryType $type
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
-	public function setType(SignatoryType $type): void {
-		$this->type = $type->value;
+	public function setSignatoryType(SignatoryType $type): void {
+		$this->setType($type->value);
 	}
 
 	/**
 	 * @return SignatoryType
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
-	public function getType(): SignatoryType {
-		return SignatoryType::from($this->type);
+	public function getSignatoryType(): SignatoryType {
+		return SignatoryType::from($this->getType());
 	}
 
 	/**
 	 * @param SignatoryStatus $status
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
-	public function setStatus(SignatoryStatus $status): void {
-		$this->status = $status->value;
+	public function setSignatoryStatus(SignatoryStatus $status): void {
+		$this->setStatus($status->value);
 	}
 
 	/**
 	 * @return SignatoryStatus
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
-	public function getStatus(): SignatoryStatus {
-		return SignatoryStatus::from($this->status);
+	public function getSignatoryStatus(): SignatoryStatus {
+		return SignatoryStatus::from($this->getStatus());
 	}
 
 	/**
@@ -146,7 +150,7 @@ class Signatory extends Entity implements JsonSerializable {
 	 *
 	 * @param string $key
 	 * @param string|int|float|bool|array $value
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function setMetaValue(string $key, string|int|float|bool|array $value): void {
 		$this->metadata[$key] = $value;
@@ -154,7 +158,7 @@ class Signatory extends Entity implements JsonSerializable {
 
 	/**
 	 * @return array
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function jsonSerialize(): array {
 		return [
@@ -162,4 +166,28 @@ class Signatory extends Entity implements JsonSerializable {
 			'publicKeyPem' => $this->getPublicKey()
 		];
 	}
+
+	/**
+	 * static is needed to make this easily callable from outside the model
+	 *
+	 * @param string $uri
+	 *
+	 * @return string
+	 * @throws IdentityNotFoundException if identity cannot be extracted
+	 * @since 31.0.0
+	 */
+	public static function extractIdentityFromUri(string $uri): string {
+		$identity = parse_url($uri, PHP_URL_HOST);
+		$port = parse_url($uri, PHP_URL_PORT);
+		if ($identity === null || $identity === false) {
+			throw new IdentityNotFoundException('cannot extract identity from ' . $uri);
+		}
+
+		if ($port !== null && $port !== false) {
+			$identity .= ':' . $port;
+		}
+
+		return $identity;
+	}
+
 }

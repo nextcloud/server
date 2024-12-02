@@ -16,7 +16,6 @@ use NCU\Security\Signature\Model\Signatory;
  *   - confirm the authenticity of incoming signed request.
  *
  * @experimental 31.0.0
- * @since 31.0.0
  */
 interface ISignatoryManager {
 	/**
@@ -26,7 +25,7 @@ interface ISignatoryManager {
 	 * Must be unique.
 	 *
 	 * @return string
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function getProviderId(): string;
 
@@ -42,7 +41,7 @@ interface ISignatoryManager {
 	 * ]
 	 *
 	 * @return array
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function getOptions(): array;
 
@@ -52,7 +51,7 @@ interface ISignatoryManager {
 	 * Used to sign outgoing request
 	 *
 	 * @return Signatory
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function getLocalSignatory(): Signatory;
 
@@ -65,7 +64,7 @@ interface ISignatoryManager {
 	 * @param string $remote
 	 *
 	 * @return Signatory|null must be NULL if no signatory is found
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function getRemoteSignatory(string $remote): ?Signatory;
 }

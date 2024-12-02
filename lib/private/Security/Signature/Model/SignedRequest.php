@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Security\Signature\Model;
 
 use JsonSerializable;
+use NCU\Security\Signature\Enum\DigestAlgorithm;
 use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
 use NCU\Security\Signature\Exceptions\SignatureElementNotFoundException;
 use NCU\Security\Signature\ISignedRequest;
@@ -20,7 +21,8 @@ use NCU\Security\Signature\Model\Signatory;
  * @since 31.0.0
  */
 class SignedRequest implements ISignedRequest, JsonSerializable {
-	private string $digest;
+	private string $digest = '';
+	private DigestAlgorithm $digestAlgorithm = DigestAlgorithm::SHA256;
 	private array $signingElements = [];
 	private array $signatureData = [];
 	private string $signature = '';
@@ -29,8 +31,6 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	public function __construct(
 		private readonly string $body,
 	) {
-		// digest is created on the fly using $body
-		$this->digest = 'SHA-256=' . base64_encode(hash('sha256', mb_convert_encoding($body, 'UTF-8', mb_detect_encoding($body)), true));
 	}
 
 	/**
@@ -46,10 +46,36 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	/**
 	 * @inheritDoc
 	 *
+	 * @param DigestAlgorithm $algorithm
+	 *
+	 * @return self
+	 * @since 31.0.0
+	 */
+	public function setDigestAlgorithm(DigestAlgorithm $algorithm): self {
+		return $this;
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * @return DigestAlgorithm
+	 * @since 31.0.0
+	 */
+	public function getDigestAlgorithm(): DigestAlgorithm {
+		return $this->digestAlgorithm;
+	}
+
+	/**
+	 * @inheritDoc
+	 *
 	 * @return string
 	 * @since 31.0.0
 	 */
 	public function getDigest(): string {
+		if ($this->digest === '') {
+			$this->digest = $this->digestAlgorithm->value . '=' .
+							base64_encode(hash($this->digestAlgorithm->getHashingAlgorithm(), $this->body, true));
+		}
 		return $this->digest;
 	}
 
@@ -178,10 +204,11 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	public function jsonSerialize(): array {
 		return [
 			'body' => $this->body,
-			'digest' => $this->digest,
-			'signatureElements' => $this->signingElements,
-			'clearSignature' => $this->signatureData,
-			'signedSignature' => $this->signature,
+			'digest' => $this->getDigest(),
+			'digestAlgorithm' => $this->getDigestAlgorithm()->value,
+			'signingElements' => $this->signingElements,
+			'signatureData' => $this->signatureData,
+			'signature' => $this->signature,
 			'signatory' => $this->signatory ?? false,
 		];
 	}

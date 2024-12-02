@@ -183,7 +183,9 @@ class OCMProvider implements IOCMProvider {
 		$this->setResourceTypes($resources);
 
 		// import details about the remote request signing public key, if available
-		$signatory = new Signatory($data['publicKey']['keyId'] ?? '', $data['publicKey']['publicKeyPem'] ?? '');
+		$signatory = new Signatory();
+		$signatory->setKeyId($data['publicKey']['keyId'] ?? '');
+		$signatory->setPublicKey($data['publicKey']['publicKeyPem'] ?? '');
 		if ($signatory->getKeyId() !== '' && $signatory->getPublicKey() !== '') {
 			$this->setSignatory($signatory);
 		}

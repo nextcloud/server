@@ -36,8 +36,13 @@ class IncomingSignedRequest extends SignedRequest implements
 	private string $origin = '';
 
 	/**
+	 * @param string $body
+	 * @param IRequest $request
+	 * @param array $options
+	 *
 	 * @throws IncomingRequestException if incoming request is wrongly signed
-	 * @throws SignatureNotFoundException if signature is not fully implemented
+	 * @throws SignatureException if signature is faulty
+	 * @throws SignatureNotFoundException if signature is not implemented
 	 */
 	public function __construct(
 		string $body,
@@ -45,8 +50,9 @@ class IncomingSignedRequest extends SignedRequest implements
 		private readonly array $options = [],
 	) {
 		parent::__construct($body);
-		$this->verifyHeadersFromRequest();
-		$this->extractSignatureHeaderFromRequest();
+		$this->verifyHeaders();
+		$this->extractSignatureHeader();
+		$this->reconstructSignatureData();
 	}
 
 	/**
@@ -59,7 +65,7 @@ class IncomingSignedRequest extends SignedRequest implements
 	 * @throws IncomingRequestException
 	 * @throws SignatureNotFoundException
 	 */
-	private function verifyHeadersFromRequest(): void {
+	private function verifyHeaders(): void {
 		// confirm presence of date, content-length, digest and Signature
 		$date = $this->getRequest()->getHeader('date');
 		if ($date === '') {
@@ -105,7 +111,7 @@ class IncomingSignedRequest extends SignedRequest implements
 	 *
 	 * @throws IncomingRequestException
 	 */
-	private function extractSignatureHeaderFromRequest(): void {
+	private function extractSignatureHeader(): void {
 		$details = [];
 		foreach (explode(',', $this->getRequest()->getHeader('Signature')) as $entry) {
 			if ($entry === '' || !strpos($entry, '=')) {
@@ -130,6 +136,36 @@ class IncomingSignedRequest extends SignedRequest implements
 		} catch (SignatureElementNotFoundException $e) {
 			throw new IncomingRequestException($e->getMessage());
 		}
+	}
+
+	/**
+	 * @throws SignatureException
+	 * @throws SignatureElementNotFoundException
+	 */
+	private function reconstructSignatureData(): void {
+		$usedHeaders = explode(' ', $this->getSigningElement('headers'));
+		$neededHeaders = array_merge(['date', 'host', 'content-length', 'digest'],
+			array_keys($this->options['extraSignatureHeaders'] ?? []));
+
+		$missingHeaders = array_diff($neededHeaders, $usedHeaders);
+		if ($missingHeaders !== []) {
+			throw new SignatureException('missing entries in Signature.headers: ' . json_encode($missingHeaders));
+		}
+
+		$estimated = ['(request-target): ' . strtolower($this->request->getMethod()) . ' ' . $this->request->getRequestUri()];
+		foreach ($usedHeaders as $key) {
+			if ($key === '(request-target)') {
+				continue;
+			}
+			$value = (strtolower($key) === 'host') ? $this->request->getServerHost() : $this->request->getHeader($key);
+			if ($value === '') {
+				throw new SignatureException('missing header ' . $key . ' in request');
+			}
+
+			$estimated[] = $key . ': ' . $value;
+		}
+
+		$this->setSignatureData($estimated);
 	}
 
 	/**
@@ -214,7 +250,7 @@ class IncomingSignedRequest extends SignedRequest implements
 			throw new SignatoryNotFoundException('empty public key');
 		}
 
-		$algorithm = SignatureAlgorithm::tryFrom($this->getSigningElement('algorithm')) ?? SignatureAlgorithm::SHA256;
+		$algorithm = SignatureAlgorithm::tryFrom($this->getSigningElement('algorithm')) ?? SignatureAlgorithm::RSA_SHA256;
 		if (openssl_verify(
 			implode("\n", $this->getSignatureData()),
 			base64_decode($this->getSignature()),

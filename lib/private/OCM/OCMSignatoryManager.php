@@ -9,7 +9,9 @@ declare(strict_types=1);
 
 namespace OC\OCM;
 
+use NCU\Security\Signature\Enum\DigestAlgorithm;
 use NCU\Security\Signature\Enum\SignatoryType;
+use NCU\Security\Signature\Enum\SignatureAlgorithm;
 use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
 use NCU\Security\Signature\ISignatoryManager;
 use NCU\Security\Signature\ISignatureManager;
@@ -61,7 +63,15 @@ class OCMSignatoryManager implements ISignatoryManager {
 	 * @since 31.0.0
 	 */
 	public function getOptions(): array {
-		return [];
+		return [
+			'algorithm' => SignatureAlgorithm::RSA_SHA512,
+			'digestAlgorithm' => DigestAlgorithm::SHA512,
+			'extraSignatureHeaders' => [],
+			'ttl' => 300,
+			'dateHeader' => 'D, d M Y H:i:s T',
+			'ttlSignatory' => 86400 * 3,
+			'bodyMaxSize' => 50000,
+		];
 	}
 
 	/**
@@ -92,7 +102,12 @@ class OCMSignatoryManager implements ISignatoryManager {
 		}
 		$keyPair = $this->identityProofManager->getAppKey('core', 'ocm_external');
 
-		return new Signatory($keyId, $keyPair->getPublic(), $keyPair->getPrivate(), local: true);
+		$signatory = new Signatory(true);
+		$signatory->setKeyId($keyId);
+		$signatory->setPublicKey($keyPair->getPublic());
+		$signatory->setPrivateKey($keyPair->getPrivate());
+		return $signatory;
+
 	}
 
 	/**
@@ -148,7 +163,7 @@ class OCMSignatoryManager implements ISignatoryManager {
 	public function getRemoteSignatoryFromHost(string $host): ?Signatory {
 		$ocmProvider = $this->ocmDiscoveryService->discover($host, true);
 		$signatory = $ocmProvider->getSignatory();
-		$signatory?->setType(SignatoryType::TRUSTED);
+		$signatory?->setSignatoryType(SignatoryType::TRUSTED);
 		return $signatory;
 	}
 }

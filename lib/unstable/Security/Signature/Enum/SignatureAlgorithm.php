@@ -12,11 +12,10 @@ namespace NCU\Security\Signature\Enum;
  * list of available algorithm when signing payload
  *
  * @experimental 31.0.0
- * @since 31.0.0
  */
 enum SignatureAlgorithm: string {
-	/** @since 31.0.0 */
-	case SHA256 = 'sha256';
-	/** @since 31.0.0 */
-	case SHA512 = 'sha512';
+	/** @experimental 31.0.0 */
+	case RSA_SHA256 = 'rsa-sha256';
+	/** @experimental 31.0.0 */
+	case RSA_SHA512 = 'rsa-sha512';
 }

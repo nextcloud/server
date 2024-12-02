@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace NCU\Security\Signature;
 
+use NCU\Security\Signature\Enum\DigestAlgorithm;
 use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
 use NCU\Security\Signature\Exceptions\SignatureElementNotFoundException;
 use NCU\Security\Signature\Model\Signatory;
@@ -19,22 +20,39 @@ use NCU\Security\Signature\Model\Signatory;
  * - to sign an outgoing request
  *
  * @experimental 31.0.0
- * @since 31.0.0
  */
 interface ISignedRequest {
 	/**
 	 * payload of the request
 	 *
 	 * @return string
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function getBody(): string;
+
+	/**
+	 * set algorithm used to generate digest
+	 *
+	 * @param DigestAlgorithm $algorithm
+	 *
+	 * @return self
+	 * @experimental 31.0.0
+	 */
+	public function setDigestAlgorithm(DigestAlgorithm $algorithm): self;
+
+	/**
+	 * get algorithm used to generate digest
+	 *
+	 * @return DigestAlgorithm
+	 * @experimental 31.0.0
+	 */
+	public function getDigestAlgorithm(): DigestAlgorithm;
 
 	/**
 	 * checksum of the payload of the request
 	 *
 	 * @return string
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function getDigest(): string;
 
@@ -44,7 +62,7 @@ interface ISignedRequest {
 	 * @param array $elements
 	 *
 	 * @return self
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function setSigningElements(array $elements): self;
 
@@ -52,7 +70,7 @@ interface ISignedRequest {
 	 * get the list of elements in the Signature header of the request
 	 *
 	 * @return array
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function getSigningElements(): array;
 
@@ -61,7 +79,7 @@ interface ISignedRequest {
 	 *
 	 * @return string
 	 * @throws SignatureElementNotFoundException
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function getSigningElement(string $key): string;
 
@@ -71,7 +89,7 @@ interface ISignedRequest {
 	 * @param array $data
 	 *
 	 * @return self
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function setSignatureData(array $data): self;
 
@@ -79,7 +97,7 @@ interface ISignedRequest {
 	 * returns data used to generate signature
 	 *
 	 * @return array
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function getSignatureData(): array;
 
@@ -89,7 +107,7 @@ interface ISignedRequest {
 	 * @param string $signature
 	 *
 	 * @return self
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function setSignature(string $signature): self;
 
@@ -97,7 +115,7 @@ interface ISignedRequest {
 	 * get the signed version of the signature
 	 *
 	 * @return string
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function getSignature(): string;
 
@@ -106,7 +124,7 @@ interface ISignedRequest {
 	 *
 	 * @param Signatory $signatory
 	 * @return self
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function setSignatory(Signatory $signatory): self;
 
@@ -115,7 +133,7 @@ interface ISignedRequest {
 	 *
 	 * @return Signatory
 	 * @throws SignatoryNotFoundException
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function getSignatory(): Signatory;
 
@@ -123,7 +141,7 @@ interface ISignedRequest {
 	 * returns if a signatory related to this request have been found and defined
 	 *
 	 * @return bool
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function hasSignatory(): bool;
 }

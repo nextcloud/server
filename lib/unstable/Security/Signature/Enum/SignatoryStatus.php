@@ -15,11 +15,10 @@ namespace NCU\Security\Signature\Enum;
  * - BROKEN = the remote instance does not use the same key pairs than previously
  *
  * @experimental 31.0.0
- * @since 31.0.0
  */
 enum SignatoryStatus: int {
-	/** @since 31.0.0 */
+	/** @experimental 31.0.0 */
 	case SYNCED = 1;
-	/** @since 31.0.0 */
+	/** @experimental 31.0.0 */
 	case BROKEN = 9;
 }

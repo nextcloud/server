@@ -111,7 +111,6 @@ class SignatureManager implements ISignatureManager {
 
 		try {
 			// confirm the validity of content and identity of the incoming request
-			$this->generateExpectedClearSignatureFromRequest($signedRequest, $options['extraSignatureHeaders'] ?? []);
 			$this->confirmIncomingRequestSignature($signedRequest, $signatoryManager, $options['ttlSignatory'] ?? self::SIGNATORY_TTL);
 		} catch (SignatureException $e) {
 			$this->logger->warning(
@@ -125,44 +124,6 @@ class SignatureManager implements ISignatureManager {
 		}
 
 		return $signedRequest;
-	}
-
-	/**
-	 * generating the expected signature (clear version) sent by the remote instance
-	 * based on the data available in the Signature header.
-	 *
-	 * @param IIncomingSignedRequest $signedRequest
-	 * @param array $extraSignatureHeaders
-	 *
-	 * @throws SignatureException
-	 */
-	private function generateExpectedClearSignatureFromRequest(
-		IIncomingSignedRequest $signedRequest,
-		array $extraSignatureHeaders = [],
-	): void {
-		$request = $signedRequest->getRequest();
-		$usedHeaders = explode(' ', $signedRequest->getSigningElement('headers'));
-		$neededHeaders = array_merge(['date', 'host', 'content-length', 'digest'], array_keys($extraSignatureHeaders));
-
-		$missingHeaders = array_diff($neededHeaders, $usedHeaders);
-		if ($missingHeaders !== []) {
-			throw new SignatureException('missing entries in Signature.headers: ' . json_encode($missingHeaders));
-		}
-
-		$estimated = ['(request-target): ' . strtolower($request->getMethod()) . ' ' . $request->getRequestUri()];
-		foreach ($usedHeaders as $key) {
-			if ($key === '(request-target)') {
-				continue;
-			}
-			$value = (strtolower($key) === 'host') ? $request->getServerHost() : $request->getHeader($key);
-			if ($value === '') {
-				throw new SignatureException('missing header ' . $key . ' in request');
-			}
-
-			$estimated[] = $key . ': ' . $value;
-		}
-
-		$signedRequest->setSignatureData($estimated);
 	}
 
 	/**
@@ -326,17 +287,7 @@ class SignatureManager implements ISignatureManager {
 	 * @since 31.0.0
 	 */
 	public function extractIdentityFromUri(string $uri): string {
-		$identity = parse_url($uri, PHP_URL_HOST);
-		$port = parse_url($uri, PHP_URL_PORT);
-		if ($identity === null || $identity === false) {
-			throw new IdentityNotFoundException('cannot extract identity from ' . $uri);
-		}
-
-		if ($port !== null && $port !== false) {
-			$identity .= ':' . $port;
-		}
-
-		return $identity;
+		return Signatory::extractIdentityFromUri($uri);
 	}
 
 	/**
@@ -403,9 +354,11 @@ class SignatureManager implements ISignatureManager {
 
 	/**
 	 * @param Signatory $signatory
-	 * @throws DBException
 	 */
 	private function insertSignatory(Signatory $signatory): void {
+		$time = time();
+		$signatory->setCreation($time);
+		$signatory->setLastUpdated($time);
 		$this->mapper->insert($signatory);
 	}
 

@@ -42,7 +42,6 @@ use NCU\Security\Signature\Model\Signatory;
  *      to ensure authenticity override protection.
  *
  * @experimental 31.0.0
- * @since 31.0.0
  */
 interface ISignatureManager {
 	/**
@@ -59,7 +58,7 @@ interface ISignatureManager {
 	 * @throws IncomingRequestException if anything looks wrong with the incoming request
 	 * @throws SignatureNotFoundException if incoming request is not signed
 	 * @throws SignatureException if signature could not be confirmed
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function getIncomingSignedRequest(ISignatoryManager $signatoryManager, ?string $body = null): IIncomingSignedRequest;
 
@@ -73,7 +72,7 @@ interface ISignatureManager {
 	 * @param string $uri needed in the signature
 	 *
 	 * @return IOutgoingSignedRequest
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function getOutgoingSignedRequest(ISignatoryManager $signatoryManager, string $content, string $method, string $uri): IOutgoingSignedRequest;
 
@@ -87,7 +86,7 @@ interface ISignatureManager {
 	 * @param string $uri needed in the signature
 	 *
 	 * @return array new payload to be sent, including original payload and signature elements in headers
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function signOutgoingRequestIClientPayload(ISignatoryManager $signatoryManager, array $payload, string $method, string $uri): array;
 
@@ -99,7 +98,7 @@ interface ISignatureManager {
 	 *
 	 * @return Signatory
 	 * @throws SignatoryNotFoundException if entry does not exist in local database
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function getSignatory(string $host, string $account = ''): Signatory;
 
@@ -110,7 +109,7 @@ interface ISignatureManager {
 	 *
 	 * @return string
 	 * @throws IdentityNotFoundException if hostname is not set
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function generateKeyIdFromConfig(string $path): string;
 
@@ -121,7 +120,7 @@ interface ISignatureManager {
 	 *
 	 * @return string
 	 * @throws IdentityNotFoundException if identity cannot be extracted
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public function extractIdentityFromUri(string $uri): string;
 }

@@ -11,7 +11,6 @@ namespace NCU\Security\Signature\Exceptions;
 use Exception;
 
 /**
- * @since 31.0.0
  * @experimental 31.0.0
  */
 class SignatureException extends Exception {
