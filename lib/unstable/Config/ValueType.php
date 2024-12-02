@@ -18,17 +18,35 @@ use UnhandledMatchError;
  * @since 31.0.0
  */
 enum ValueType: int {
-	/** @since 31.0.0 */
+	/**
+	 * @experimental 31.0.0
+	 * @since 31.0.0
+	 */
 	case MIXED = 0;
-	/** @since 31.0.0 */
+	/**
+	 * @experimental 31.0.0
+	 * @since 31.0.0
+	 */
 	case STRING = 1;
-	/** @since 31.0.0 */
+	/**
+	 * @experimental 31.0.0
+	 * @since 31.0.0
+	 */
 	case INT = 2;
-	/** @since 31.0.0 */
+	/**
+	 * @experimental 31.0.0
+	 * @since 31.0.0
+	 */
 	case FLOAT = 3;
-	/** @since 31.0.0 */
+	/**
+	 * @experimental 31.0.0
+	 * @since 31.0.0
+	 */
 	case BOOL = 4;
-	/** @since 31.0.0 */
+	/**
+	 * @experimental 31.0.0
+	 * @since 31.0.0
+	 */
 	case ARRAY = 5;
 
 	/**
