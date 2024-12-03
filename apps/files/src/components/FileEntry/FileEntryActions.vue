@@ -77,8 +77,8 @@
 </template>
 
 <script lang="ts">
-import type { PropType, ShallowRef } from 'vue'
-import type { FileAction, Node, View } from '@nextcloud/files'
+import type { PropType } from 'vue'
+import type { FileAction, Node } from '@nextcloud/files'
 
 import { DefaultType, NodeStatus } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
@@ -94,6 +94,7 @@ import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
 import CustomElementRender from '../CustomElementRender.vue'
 
 import { useNavigation } from '../../composables/useNavigation'
+import { useFileListWidth } from '../../composables/useFileListWidth.ts'
 import logger from '../../logger.ts'
 
 export default defineComponent({
@@ -110,10 +111,6 @@ export default defineComponent({
 	},
 
 	props: {
-		filesListWidth: {
-			type: Number,
-			required: true,
-		},
 		loading: {
 			type: String,
 			required: true,
@@ -133,13 +130,16 @@ export default defineComponent({
 	},
 
 	setup() {
-		const { currentView } = useNavigation()
+		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
+		const { currentView } = useNavigation(true)
+
+		const filesListWidth = useFileListWidth()
 		const enabledFileActions = inject<FileAction[]>('enabledFileActions', [])
 
 		return {
-			// The file list is guaranteed to be only shown with active view
-			currentView: currentView as ShallowRef<View>,
+			currentView,
 			enabledFileActions,
+			filesListWidth,
 		}
 	},
 

@@ -29,7 +29,7 @@ class CSRFTokenController extends Controller {
 	/**
 	 * Returns a new CSRF token.
 	 *
-	 * @return JSONResponse<Http::STATUS_OK, array{token: string}, array{}>|JSONResponse<Http::STATUS_FORBIDDEN, array<empty>, array{}>
+	 * @return JSONResponse<Http::STATUS_OK, array{token: string}, array{}>|JSONResponse<Http::STATUS_FORBIDDEN, list<empty>, array{}>
 	 *
 	 * 200: CSRF token returned
 	 * 403: Strict cookie check failed

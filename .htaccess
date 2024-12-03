@@ -103,7 +103,7 @@
 #  - https://docs.cyberduck.io/mountainduck/issues/fastcgi/
 #  - https://docs.nextcloud.com/server/latest/admin_manual/issues/general_troubleshooting.html#troubleshooting-webdav
 <IfModule mod_setenvif.c>
-  SetEnvIf Transfer-Encoding "chunked" proxy-sendcl=1
+  SetEnvIfNoCase Transfer-Encoding "chunked" proxy-sendcl=1
 </IfModule>
 
 # Apache disabled the sending of the server-side content-length header

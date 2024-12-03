@@ -28,7 +28,7 @@ interface ISynchronousProvider extends IProvider {
 	 * @param callable(float):bool $reportProgress Report the task progress. If this returns false, that means the task was cancelled and processing should be stopped.
 	 * @psalm-return array<string, list<numeric|string>|numeric|string>
 	 * @throws ProcessingException
-	 *@since 30.0.0
+	 * @since 30.0.0
 	 */
 	public function process(?string $userId, array $input, callable $reportProgress): array;
 }

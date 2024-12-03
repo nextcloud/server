@@ -249,14 +249,14 @@ class Cache implements ICache {
 		$file = $this->normalize($file);
 
 		if (isset($this->partial[$file])) { //add any saved partial data
-			$data = array_merge($this->partial[$file], $data);
+			$data = array_merge($this->partial[$file]->getData(), $data);
 			unset($this->partial[$file]);
 		}
 
 		$requiredFields = ['size', 'mtime', 'mimetype'];
 		foreach ($requiredFields as $field) {
 			if (!isset($data[$field])) { //data not complete save as partial and return
-				$this->partial[$file] = $data;
+				$this->partial[$file] = new CacheEntry($data);
 				return -1;
 			}
 		}

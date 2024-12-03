@@ -521,7 +521,7 @@ $CONFIG = [
 'mail_smtpdebug' => false,
 
 /**
- * Which mode to use for sending mail: ``sendmail``, ``smtp`` or ``qmail``.
+ * Which mode to use for sending mail: ``sendmail``, ``smtp``, ``qmail`` or ``null``.
  *
  * If you are using local or remote SMTP, set this to ``smtp``.
  *
@@ -530,6 +530,9 @@ $CONFIG = [
  *
  * For ``qmail`` the binary is /var/qmail/bin/sendmail, and it must be installed
  * on your Unix system.
+ *
+ * Use the string ``null`` to send no mails (disable mail delivery). This can be
+ * useful if mails should be sent via APIs and rendering messages is not necessary.
  *
  * Defaults to ``smtp``
  */
@@ -674,6 +677,8 @@ $CONFIG = [
  * are generated within Nextcloud using any kind of command line tools (cron or
  * occ). The value should contain the full base URL:
  * ``https://www.example.com/nextcloud``
+ * Please make sure to set the value to the URL that your users mainly use to access this Nextcloud. 
+ * Otherwise there might be problems with the URL generation via cron.
  *
  * Defaults to ``''`` (empty string)
  */
@@ -2127,9 +2132,18 @@ $CONFIG = [
  * client may not function as expected, and could lead to permanent data loss for
  * clients or other unexpected results.
  *
- * Defaults to ``2.3.0``
+ * Defaults to ``2.7.0``
  */
-'minimum.supported.desktop.version' => '2.3.0',
+'minimum.supported.desktop.version' => '2.7.0',
+
+/**
+ * The maximum Nextcloud desktop client version that will be allowed to sync with
+ * this server instance. All connections made from later clients will be denied
+ * by the server.
+ *
+ * Defaults to 99.99.99
+ */
+'maximum.supported.desktop.version' => '99.99.99',
 
 /**
  * Option to allow local storage to contain symlinks.
@@ -2288,21 +2302,6 @@ $CONFIG = [
  * Defaults to ``10`` megabytes
  */
 'max_filesize_animated_gifs_public_sharing' => 10,
-
-
-/**
- * Enables transactional file locking.
- * This is enabled by default.
- *
- * Prevents concurrent processes from accessing the same files
- * at the same time. Can help prevent side effects that would
- * be caused by concurrent operations. Mainly relevant for
- * very large installations with many users working with
- * shared files.
- *
- * Defaults to ``true``
- */
-'filelocking.enabled' => true,
 
 /**
  * Set the lock's time-to-live in seconds.

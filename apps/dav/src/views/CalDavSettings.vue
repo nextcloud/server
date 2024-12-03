@@ -156,6 +156,7 @@ export default {
 	* :deep(a) {
 		text-decoration: underline;
 	}
+
 	.settings-hint {
 		margin-top: -.2em;
 		margin-bottom: 1em;

@@ -9,6 +9,7 @@ namespace Test\Share20;
 
 use DateTimeZone;
 use OC\Files\Mount\MoveableMount;
+use OC\Files\Utils\PathHelper;
 use OC\KnownUser\KnownUserService;
 use OC\Share20\DefaultShareProvider;
 use OC\Share20\Exception;
@@ -22,7 +23,9 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Mount\IShareOwnerlessMount;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\HintException;
 use OCP\IConfig;
@@ -46,6 +49,7 @@ use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\Share\Exceptions\AlreadySharedException;
+use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
@@ -198,6 +202,14 @@ class ManagerTest extends \Test\TestCase {
 			]);
 	}
 
+	private function createFolderMock(string $folderPath): MockObject&Folder {
+		$folder = $this->createMock(Folder::class);
+		$folder->method('getPath')->willReturn($folderPath);
+		$folder->method('getRelativePath')->willReturnCallback(
+			fn (string $path): ?string => PathHelper::getRelativePath($folderPath, $path)
+		);
+		return $folder;
+	}
 
 	public function testDeleteNoShareId(): void {
 		$this->expectException(\InvalidArgumentException::class);
@@ -227,7 +239,7 @@ class ManagerTest extends \Test\TestCase {
 	 */
 	public function testDelete($shareType, $sharedWith): void {
 		$manager = $this->createManagerMock()
-			->setMethods(['getShareById', 'deleteChildren'])
+			->setMethods(['getShareById', 'deleteChildren', 'promoteReshares'])
 			->getMock();
 
 		$manager->method('deleteChildren')->willReturn([]);
@@ -245,6 +257,7 @@ class ManagerTest extends \Test\TestCase {
 			->setTarget('myTarget');
 
 		$manager->expects($this->once())->method('deleteChildren')->with($share);
+		$manager->expects($this->once())->method('promoteReshares')->with($share);
 
 		$this->defaultProvider
 			->expects($this->once())
@@ -269,7 +282,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testDeleteLazyShare(): void {
 		$manager = $this->createManagerMock()
-			->setMethods(['getShareById', 'deleteChildren'])
+			->setMethods(['getShareById', 'deleteChildren', 'promoteReshares'])
 			->getMock();
 
 		$manager->method('deleteChildren')->willReturn([]);
@@ -288,6 +301,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->rootFolder->expects($this->never())->method($this->anything());
 
 		$manager->expects($this->once())->method('deleteChildren')->with($share);
+		$manager->expects($this->once())->method('promoteReshares')->with($share);
 
 		$this->defaultProvider
 			->expects($this->once())
@@ -312,7 +326,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testDeleteNested(): void {
 		$manager = $this->createManagerMock()
-			->setMethods(['getShareById'])
+			->setMethods(['getShareById', 'promoteReshares'])
 			->getMock();
 
 		$path = $this->createMock(File::class);
@@ -469,6 +483,178 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertSame($shares, $result);
 	}
 
+	public function testPromoteReshareFile(): void {
+		$manager = $this->createManagerMock()
+			->setMethods(['updateShare', 'getSharesInFolder', 'generalCreateChecks'])
+			->getMock();
+
+		$file = $this->createMock(File::class);
+
+		$share = $this->createMock(IShare::class);
+		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$share->method('getNodeType')->willReturn('folder');
+		$share->method('getSharedWith')->willReturn('userB');
+		$share->method('getNode')->willReturn($file);
+
+		$reShare = $this->createMock(IShare::class);
+		$reShare->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$reShare->method('getSharedBy')->willReturn('userB');
+		$reShare->method('getSharedWith')->willReturn('userC');
+		$reShare->method('getNode')->willReturn($file);
+
+		$this->defaultProvider->method('getSharesBy')
+			->willReturnCallback(function ($userId, $shareType, $node, $reshares, $limit, $offset) use ($reShare, $file) {
+				$this->assertEquals($file, $node);
+				if ($shareType === IShare::TYPE_USER) {
+					return match($userId) {
+						'userB' => [$reShare],
+					};
+				} else {
+					return [];
+				}
+			});
+		$manager->method('generalCreateChecks')->willThrowException(new GenericShareException());
+
+		$manager->expects($this->exactly(1))->method('updateShare')->with($reShare);
+
+		self::invokePrivate($manager, 'promoteReshares', [$share]);
+	}
+
+	public function testPromoteReshare(): void {
+		$manager = $this->createManagerMock()
+			->setMethods(['updateShare', 'getSharesInFolder', 'generalCreateChecks'])
+			->getMock();
+
+		$folder = $this->createFolderMock('/path/to/folder');
+
+		$subFolder = $this->createFolderMock('/path/to/folder/sub');
+
+		$otherFolder = $this->createFolderMock('/path/to/otherfolder/');
+
+		$share = $this->createMock(IShare::class);
+		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$share->method('getNodeType')->willReturn('folder');
+		$share->method('getSharedWith')->willReturn('userB');
+		$share->method('getNode')->willReturn($folder);
+
+		$reShare = $this->createMock(IShare::class);
+		$reShare->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$reShare->method('getSharedBy')->willReturn('userB');
+		$reShare->method('getSharedWith')->willReturn('userC');
+		$reShare->method('getNode')->willReturn($folder);
+
+		$reShareInSubFolder = $this->createMock(IShare::class);
+		$reShareInSubFolder->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$reShareInSubFolder->method('getSharedBy')->willReturn('userB');
+		$reShareInSubFolder->method('getNode')->willReturn($subFolder);
+
+		$reShareInOtherFolder = $this->createMock(IShare::class);
+		$reShareInOtherFolder->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$reShareInOtherFolder->method('getSharedBy')->willReturn('userB');
+		$reShareInOtherFolder->method('getNode')->willReturn($otherFolder);
+
+		$this->defaultProvider->method('getSharesBy')
+			->willReturnCallback(function ($userId, $shareType, $node, $reshares, $limit, $offset) use ($reShare, $reShareInSubFolder, $reShareInOtherFolder) {
+				if ($shareType === IShare::TYPE_USER) {
+					return match($userId) {
+						'userB' => [$reShare,$reShareInSubFolder,$reShareInOtherFolder],
+					};
+				} else {
+					return [];
+				}
+			});
+		$manager->method('generalCreateChecks')->willThrowException(new GenericShareException());
+
+		$manager->expects($this->exactly(2))->method('updateShare')->withConsecutive([$reShare], [$reShareInSubFolder]);
+
+		self::invokePrivate($manager, 'promoteReshares', [$share]);
+	}
+
+	public function testPromoteReshareWhenUserHasAnotherShare(): void {
+		$manager = $this->createManagerMock()
+			->setMethods(['updateShare', 'getSharesInFolder', 'getSharedWith', 'generalCreateChecks'])
+			->getMock();
+
+		$folder = $this->createFolderMock('/path/to/folder');
+
+		$share = $this->createMock(IShare::class);
+		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$share->method('getNodeType')->willReturn('folder');
+		$share->method('getSharedWith')->willReturn('userB');
+		$share->method('getNode')->willReturn($folder);
+
+		$reShare = $this->createMock(IShare::class);
+		$reShare->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$reShare->method('getNodeType')->willReturn('folder');
+		$reShare->method('getSharedBy')->willReturn('userB');
+		$reShare->method('getNode')->willReturn($folder);
+
+		$this->defaultProvider->method('getSharesBy')->willReturn([$reShare]);
+		$manager->method('generalCreateChecks')->willReturn(true);
+
+		/* No share is promoted because generalCreateChecks does not throw */
+		$manager->expects($this->never())->method('updateShare');
+
+		self::invokePrivate($manager, 'promoteReshares', [$share]);
+	}
+
+	public function testPromoteReshareOfUsersInGroupShare(): void {
+		$manager = $this->createManagerMock()
+			->setMethods(['updateShare', 'getSharesInFolder', 'getSharedWith', 'generalCreateChecks'])
+			->getMock();
+
+		$folder = $this->createFolderMock('/path/to/folder');
+
+		$userA = $this->createMock(IUser::class);
+		$userA->method('getUID')->willReturn('userA');
+
+		$share = $this->createMock(IShare::class);
+		$share->method('getShareType')->willReturn(IShare::TYPE_GROUP);
+		$share->method('getNodeType')->willReturn('folder');
+		$share->method('getSharedWith')->willReturn('Group');
+		$share->method('getNode')->willReturn($folder);
+		$share->method('getShareOwner')->willReturn($userA);
+
+		$reShare1 = $this->createMock(IShare::class);
+		$reShare1->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$reShare1->method('getNodeType')->willReturn('folder');
+		$reShare1->method('getSharedBy')->willReturn('userB');
+		$reShare1->method('getNode')->willReturn($folder);
+
+		$reShare2 = $this->createMock(IShare::class);
+		$reShare2->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$reShare2->method('getNodeType')->willReturn('folder');
+		$reShare2->method('getSharedBy')->willReturn('userC');
+		$reShare2->method('getNode')->willReturn($folder);
+
+		$userB = $this->createMock(IUser::class);
+		$userB->method('getUID')->willReturn('userB');
+		$userC = $this->createMock(IUser::class);
+		$userC->method('getUID')->willReturn('userC');
+		$group = $this->createMock(IGroup::class);
+		$group->method('getUsers')->willReturn([$userB, $userC]);
+		$this->groupManager->method('get')->with('Group')->willReturn($group);
+
+		$this->defaultProvider->method('getSharesBy')
+			->willReturnCallback(function ($userId, $shareType, $node, $reshares, $limit, $offset) use ($reShare1, $reShare2) {
+				if ($shareType === IShare::TYPE_USER) {
+					return match($userId) {
+						'userB' => [$reShare1],
+						'userC' => [$reShare2],
+					};
+				} else {
+					return [];
+				}
+			});
+		$manager->method('generalCreateChecks')->willThrowException(new GenericShareException());
+
+		$manager->method('getSharedWith')->willReturn([]);
+
+		$manager->expects($this->exactly(2))->method('updateShare')->withConsecutive([$reShare1], [$reShare2]);
+
+		self::invokePrivate($manager, 'promoteReshares', [$share]);
+	}
+
 	public function testGetShareById(): void {
 		$share = $this->createMock(IShare::class);
 
@@ -479,6 +665,24 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($share);
 
 		$this->assertEquals($share, $this->manager->getShareById('default:42'));
+	}
+
+
+	public function testGetShareByIdNodeAccessible(): void {
+		$share = $this->createMock(IShare::class);
+		$share
+			->expects($this->once())
+			->method('getNode')
+			->willThrowException(new NotFoundException());
+
+		$this->defaultProvider
+			->expects($this->once())
+			->method('getShareById')
+			->with(42)
+			->willReturn($share);
+
+		$this->expectException(ShareNotFound::class);
+		$this->manager->getShareById('default:42');
 	}
 
 
@@ -2690,9 +2894,10 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetSharesBy(): void {
-		$share = $this->manager->newShare();
-
 		$node = $this->createMock(Folder::class);
+
+		$share = $this->manager->newShare();
+		$share->setNode($node);
 
 		$this->defaultProvider->expects($this->once())
 			->method('getSharesBy')
@@ -2711,6 +2916,31 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertSame($share, $shares[0]);
 	}
 
+	public function testGetSharesByOwnerless(): void {
+		$mount = $this->createMock(IShareOwnerlessMount::class);
+
+		$node = $this->createMock(Folder::class);
+		$node
+			->expects($this->once())
+			->method('getMountPoint')
+			->willReturn($mount);
+
+		$share = $this->manager->newShare();
+		$share->setNode($node);
+		$share->setShareType(IShare::TYPE_USER);
+
+		$this->defaultProvider
+			->expects($this->once())
+			->method('getSharesByPath')
+			->with($this->equalTo($node))
+			->willReturn([$share]);
+
+		$shares = $this->manager->getSharesBy('user', IShare::TYPE_USER, $node, true, 1, 1);
+
+		$this->assertCount(1, $shares);
+		$this->assertSame($share, $shares[0]);
+	}
+
 	/**
 	 * Test to ensure we correctly remove expired link shares
 	 *
@@ -2720,6 +2950,8 @@ class ManagerTest extends \Test\TestCase {
 	 * deleted (as they are evaluated). but share 8 should still be there.
 	 */
 	public function testGetSharesByExpiredLinkShares(): void {
+		$node = $this->createMock(File::class);
+
 		$manager = $this->createManagerMock()
 			->setMethods(['deleteShare'])
 			->getMock();
@@ -2733,6 +2965,7 @@ class ManagerTest extends \Test\TestCase {
 		for ($i = 0; $i < 8; $i++) {
 			$share = $this->manager->newShare();
 			$share->setId($i);
+			$share->setNode($node);
 			$shares[] = $share;
 		}
 
@@ -2752,8 +2985,6 @@ class ManagerTest extends \Test\TestCase {
 		for ($i = 0; $i < 8; $i++) {
 			$shares2[] = clone $shares[$i];
 		}
-
-		$node = $this->createMock(File::class);
 
 		/*
 		 * Simulate the getSharesBy call.
@@ -2916,8 +3147,10 @@ class ManagerTest extends \Test\TestCase {
 		$date = new \DateTime();
 		$date->setTime(0, 0, 0);
 		$date->add(new \DateInterval('P2D'));
+		$node = $this->createMock(File::class);
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($date);
+		$share->setNode($node);
 		$share->setShareOwner('owner');
 		$share->setSharedBy('sharedBy');
 
@@ -2995,8 +3228,10 @@ class ManagerTest extends \Test\TestCase {
 		$date = new \DateTime();
 		$date->setTime(0, 0, 0);
 		$date->add(new \DateInterval('P2D'));
+		$node = $this->createMock(Folder::class);
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($date);
+		$share->setNode($node);
 
 		$this->defaultProvider->expects($this->once())
 			->method('getShareByToken')
@@ -4308,6 +4543,49 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->assertSame($expects, $result);
 	}
+
+	public function testGetSharesInFolderOwnerless(): void {
+		$factory = new DummyFactory2($this->createMock(IServerContainer::class));
+
+		$manager = $this->createManager($factory);
+
+		$factory->setProvider($this->defaultProvider);
+		$extraProvider = $this->createMock(IShareProvider::class);
+		$factory->setSecondProvider($extraProvider);
+
+		$share1 = $this->createMock(IShare::class);
+		$share2 = $this->createMock(IShare::class);
+
+		$mount = $this->createMock(IShareOwnerlessMount::class);
+
+		$file = $this->createMock(File::class);
+		$file
+			->method('getId')
+			->willReturn(1);
+
+		$folder = $this->createMock(Folder::class);
+		$folder
+			->method('getMountPoint')
+			->willReturn($mount);
+		$folder
+			->method('getDirectoryListing')
+			->willReturn([$file]);
+
+		$this->defaultProvider
+			->method('getSharesByPath')
+			->with($file)
+			->willReturn([$share1]);
+
+		$extraProvider
+			->method('getSharesByPath')
+			->with($file)
+			->willReturn([$share2]);
+
+		$this->assertSame([
+			1 => [$share1, $share2],
+		], $manager->getSharesInFolder('user', $folder));
+	}
+
 
 	public function testGetAccessList(): void {
 		$factory = new DummyFactory2($this->createMock(IServerContainer::class));

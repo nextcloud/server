@@ -13,6 +13,7 @@ OC.L10N.register(
     "Client Identifier" : "Identifikátor klienta",
     "Secret key" : "Tajný kľúč",
     "Delete client" : "Odstrániť klienta",
+    "Make sure you store the secret key, it cannot be recovered." : "Uistite sa, že ste uložili tajný kľúč. Nedá sa obnoviť.",
     "Add client" : "Pridať klienta",
     "Add" : "Pridať",
     "Delete" : "Zmazať",

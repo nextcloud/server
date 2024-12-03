@@ -317,8 +317,8 @@ class AllConfigTest extends \Test\TestCase {
 
 		// preparation - add something to the database
 		$data = [
-			['userFetch', 'appFetch1', '123', 'value'],
-			['userFetch', 'appFetch1', '456', 'value'],
+			['userFetch8', 'appFetch1', '123', 'value'],
+			['userFetch8', 'appFetch1', '456', 'value'],
 		];
 		foreach ($data as $entry) {
 			$this->connection->executeUpdate(
@@ -328,7 +328,7 @@ class AllConfigTest extends \Test\TestCase {
 			);
 		}
 
-		$value = $config->getUserKeys('userFetch', 'appFetch1');
+		$value = $config->getUserKeys('userFetch8', 'appFetch1');
 		$this->assertEquals(['123', '456'], $value);
 		$this->assertIsString($value[0]);
 		$this->assertIsString($value[1]);

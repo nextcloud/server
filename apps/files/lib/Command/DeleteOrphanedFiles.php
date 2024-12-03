@@ -29,12 +29,12 @@ class DeleteOrphanedFiles extends Command {
 	protected function configure(): void {
 		$this
 			->setName('files:cleanup')
-			->setDescription('cleanup filecache')
+			->setDescription('Clean up orphaned filecache and mount entries')
+			->setHelp('Deletes orphaned filecache and mount entries (those without an existing storage).')
 			->addOption('skip-filecache-extended', null, InputOption::VALUE_NONE, 'don\'t remove orphaned entries from filecache_extended');
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
-		$deletedEntries = 0;
 		$fileIdsByStorage = [];
 
 		$deletedStorages = array_diff($this->getReferencedStorages(), $this->getExistingStorages());
@@ -44,16 +44,7 @@ class DeleteOrphanedFiles extends Command {
 			$fileIdsByStorage = $this->getFileIdsForStorages($deletedStorages);
 		}
 
-		$deleteQuery = $this->connection->getQueryBuilder();
-		$deleteQuery->delete('filecache')
-			->where($deleteQuery->expr()->in('storage', $deleteQuery->createParameter('storage_ids')));
-
-		$deletedStorageChunks = array_chunk($deletedStorages, self::CHUNK_SIZE);
-		foreach ($deletedStorageChunks as $deletedStorageChunk) {
-			$deleteQuery->setParameter('storage_ids', $deletedStorageChunk, IQueryBuilder::PARAM_INT_ARRAY);
-			$deletedEntries += $deleteQuery->executeStatement();
-		}
-
+		$deletedEntries = $this->cleanupOrphanedFileCache($deletedStorages);
 		$output->writeln("$deletedEntries orphaned file cache entries deleted");
 
 		if ($deleteExtended) {
@@ -61,9 +52,9 @@ class DeleteOrphanedFiles extends Command {
 			$output->writeln("$deletedFileCacheExtended orphaned file cache extended entries deleted");
 		}
 
-
 		$deletedMounts = $this->cleanupOrphanedMounts();
 		$output->writeln("$deletedMounts orphaned mount entries deleted");
+		
 		return self::SUCCESS;
 	}
 
@@ -106,6 +97,22 @@ class DeleteOrphanedFiles extends Command {
 		return $result;
 	}
 
+	private function cleanupOrphanedFileCache(array $deletedStorages): int {
+		$deletedEntries = 0;
+
+		$deleteQuery = $this->connection->getQueryBuilder();
+		$deleteQuery->delete('filecache')
+			->where($deleteQuery->expr()->in('storage', $deleteQuery->createParameter('storage_ids')));
+
+		$deletedStorageChunks = array_chunk($deletedStorages, self::CHUNK_SIZE);
+		foreach ($deletedStorageChunks as $deletedStorageChunk) {
+			$deleteQuery->setParameter('storage_ids', $deletedStorageChunk, IQueryBuilder::PARAM_INT_ARRAY);
+			$deletedEntries += $deleteQuery->executeStatement();
+		}
+
+		return $deletedEntries;
+	}
+	
 	/**
 	 * @param array<int, int[]> $fileIdsByStorage
 	 * @return int

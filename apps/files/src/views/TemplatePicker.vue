@@ -19,6 +19,7 @@
 				<TemplatePreview v-bind="emptyTemplate"
 					ref="emptyTemplatePreview"
 					:checked="checked === emptyTemplate.fileid"
+					@confirm-click="onConfirmClick"
 					@check="onCheck" />
 
 				<TemplatePreview v-for="template in provider.templates"
@@ -26,6 +27,7 @@
 					v-bind="template"
 					:checked="checked === template.fileid"
 					:ratio="provider.ratio"
+					@confirm-click="onConfirmClick"
 					@check="onCheck" />
 			</ul>
 
@@ -207,6 +209,12 @@ export default defineComponent({
 			this.checked = fileid
 		},
 
+		onConfirmClick(fileid: number) {
+			if (fileid === this.checked) {
+				this.onSubmit()
+			}
+		},
+
 		async createFile(templateFields) {
 			const currentDirectory = new URL(window.location.href).searchParams.get('dir') || '/'
 
@@ -313,7 +321,7 @@ export default defineComponent({
 		padding: calc(var(--margin) * 2) var(--margin);
 		position: sticky;
 		bottom: 0;
-		background-image: linear-gradient(0, var(--gradient-main-background));
+		background-image: linear-gradient(0deg, var(--gradient-main-background));
 
 		button, input[type='submit'] {
 			height: 44px;
@@ -321,7 +329,7 @@ export default defineComponent({
 	}
 
 	// Make sure we're relative for the loading emptycontent on top
-	::v-deep .modal-container {
+	:deep(.modal-container) {
 		position: relative;
 	}
 

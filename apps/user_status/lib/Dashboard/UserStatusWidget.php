@@ -143,21 +143,21 @@ class UserStatusWidget implements IAPIWidget, IAPIWidgetV2, IIconWidget, IOption
 	public function getItems(string $userId, ?string $since = null, int $limit = 7): array {
 		$widgetItemsData = $this->getWidgetData($userId, $since, $limit);
 
-		return array_map(function (array $widgetData) {
+		return array_values(array_map(function (array $widgetData) {
 			$formattedDate = $this->dateTimeFormatter->formatTimeSpan($widgetData['timestamp']);
 			return new WidgetItem(
 				$widgetData['displayName'],
 				$widgetData['icon'] . ($widgetData['icon'] ? ' ' : '') . $widgetData['message'] . ', ' . $formattedDate,
 				// https://nextcloud.local/index.php/u/julien
 				$this->urlGenerator->getAbsoluteURL(
-					$this->urlGenerator->linkToRoute('core.ProfilePage.index', ['targetUserId' => $widgetData['userId']])
+					$this->urlGenerator->linkToRoute('profile.ProfilePage.index', ['targetUserId' => $widgetData['userId']])
 				),
 				$this->urlGenerator->getAbsoluteURL(
 					$this->urlGenerator->linkToRoute('core.avatar.getAvatar', ['userId' => $widgetData['userId'], 'size' => 44])
 				),
 				(string)$widgetData['timestamp']
 			);
-		}, $widgetItemsData);
+		}, $widgetItemsData));
 	}
 
 	/**

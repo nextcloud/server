@@ -130,12 +130,16 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 			'index',
 		);
 		$response->setContentSecurityPolicy($csp);
+
 		// If the share has a label, use it as the title
 		if ($share->getLabel() !== '') {
 			$response->setHeaderTitle($share->getLabel());
+			$response->setParams(['pageTitle' => $share->getLabel()]);
 		} else {
 			$response->setHeaderTitle($shareNode->getName());
+			$response->setParams(['pageTitle' => $shareNode->getName()]);
 		}
+
 		if ($ownerName !== '') {
 			$response->setHeaderDetails($this->l10n->t('shared by %s', [$ownerName]));
 		}

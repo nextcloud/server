@@ -9,7 +9,7 @@
 			<BreadCrumbs :path="directory" @reload="fetchContent">
 				<template #actions>
 					<!-- Sharing button -->
-					<NcButton v-if="canShare && filesListWidth >= 512"
+					<NcButton v-if="canShare && fileListWidth >= 512"
 						:aria-label="shareButtonLabel"
 						:class="{ 'files-list__header-share-button--shared': shareButtonType }"
 						:title="shareButtonLabel"
@@ -17,7 +17,7 @@
 						type="tertiary"
 						@click="openSharingSidebar">
 						<template #icon>
-							<LinkIcon v-if="shareButtonType === Type.SHARE_TYPE_LINK" />
+							<LinkIcon v-if="shareButtonType === ShareType.Link" />
 							<AccountPlusIcon v-else :size="20" />
 						</template>
 					</NcButton>
@@ -45,13 +45,25 @@
 						multiple
 						@failed="onUploadFail"
 						@uploaded="onUpload" />
+
+					<NcActions :inline="1" force-name>
+						<NcActionButton v-for="action in enabledFileListActions"
+							:key="action.id"
+							close-after-click
+							@click="() => action.exec(currentView, dirContents, { folder: currentFolder })">
+							<template #icon>
+								<NcIconSvgWrapper :svg="action.iconSvgInline(currentView)" />
+							</template>
+							{{ action.displayName(currentView) }}
+						</NcActionButton>
+					</NcActions>
 				</template>
 			</BreadCrumbs>
 
 			<!-- Secondary loading indicator -->
 			<NcLoadingIcon v-if="isRefreshing" class="files-list__refresh-icon" />
 
-			<NcButton v-if="filesListWidth >= 512 && enableGridView"
+			<NcButton v-if="fileListWidth >= 512 && enableGridView"
 				:aria-label="gridViewButtonLabel"
 				:title="gridViewButtonLabel"
 				class="files-list__header-grid-button"
@@ -129,7 +141,7 @@
 </template>
 
 <script lang="ts">
-import type { ContentsWithRoot, INode } from '@nextcloud/files'
+import type { ContentsWithRoot, Folder, INode } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
 import type { CancelablePromise } from 'cancelable-promise'
 import type { ComponentPublicInstance } from 'vue'
@@ -138,11 +150,11 @@ import type { UserConfig } from '../types.ts'
 
 import { getCapabilities } from '@nextcloud/capabilities'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { Folder, Node, Permission, sortNodes } from '@nextcloud/files'
+import { Node, Permission, sortNodes, getFileListActions } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { join, dirname, normalize } from 'path'
 import { showError, showWarning } from '@nextcloud/dialogs'
-import { Type } from '@nextcloud/sharing'
+import { ShareType } from '@nextcloud/sharing'
 import { UploadPicker, UploadStatus } from '@nextcloud/upload'
 import { loadState } from '@nextcloud/initial-state'
 import { defineComponent } from 'vue'
@@ -152,6 +164,8 @@ import IconReload from 'vue-material-design-icons/Reload.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
@@ -162,6 +176,7 @@ import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { useNavigation } from '../composables/useNavigation.ts'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useFiltersStore } from '../store/filters.ts'
@@ -172,7 +187,6 @@ import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
-import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.ts'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
@@ -190,6 +204,8 @@ export default defineComponent({
 		LinkIcon,
 		ListViewIcon,
 		NcAppContent,
+		NcActions,
+		NcActionButton,
 		NcButton,
 		NcEmptyContent,
 		NcIconSvgWrapper,
@@ -203,7 +219,6 @@ export default defineComponent({
 	},
 
 	mixins: [
-		filesListWidthMixin,
 		filesSortingMixin,
 	],
 
@@ -223,6 +238,7 @@ export default defineComponent({
 		const userConfigStore = useUserConfigStore()
 		const viewConfigStore = useViewConfigStore()
 		const { currentView } = useNavigation()
+		const fileListWidth = useFileListWidth()
 		const { directory, fileId } = useRouteParameters()
 
 		const enableGridView = (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true)
@@ -232,6 +248,7 @@ export default defineComponent({
 			currentView,
 			directory,
 			fileId,
+			fileListWidth,
 			t,
 
 			filesStore,
@@ -245,7 +262,7 @@ export default defineComponent({
 			// non reactive data
 			enableGridView,
 			forbiddenCharacters,
-			Type,
+			ShareType,
 		}
 	},
 
@@ -284,7 +301,12 @@ export default defineComponent({
 		},
 
 		pageHeading(): string {
-			return this.currentView?.name ?? t('files', 'Files')
+			const title = this.currentView?.name ?? t('files', 'Files')
+
+			if (this.currentFolder === undefined || this.directory === '/') {
+				return title
+			}
+			return `${this.currentFolder.displayname} - ${title}`
 		},
 
 		/**
@@ -375,22 +397,22 @@ export default defineComponent({
 				return t('files', 'Share')
 			}
 
-			if (this.shareButtonType === Type.SHARE_TYPE_LINK) {
+			if (this.shareButtonType === ShareType.Link) {
 				return t('files', 'Shared by link')
 			}
 			return t('files', 'Shared')
 		},
-		shareButtonType(): Type | null {
+		shareButtonType(): ShareType | null {
 			if (!this.shareTypesAttributes) {
 				return null
 			}
 
 			// If all types are links, show the link icon
-			if (this.shareTypesAttributes.some(type => type === Type.SHARE_TYPE_LINK)) {
-				return Type.SHARE_TYPE_LINK
+			if (this.shareTypesAttributes.some(type => type === ShareType.Link)) {
+				return ShareType.Link
 			}
 
-			return Type.SHARE_TYPE_USER
+			return ShareType.User
 		},
 
 		gridViewButtonLabel() {
@@ -430,9 +452,33 @@ export default defineComponent({
 		showCustomEmptyView() {
 			return !this.loading && this.isEmptyDir && this.currentView?.emptyView !== undefined
 		},
+
+		enabledFileListActions() {
+			const actions = getFileListActions()
+			const enabledActions = actions
+				.filter(action => {
+					if (action.enabled === undefined) {
+						return true
+					}
+					return action.enabled(
+						this.currentView!,
+						this.dirContents,
+						{ folder: this.currentFolder! },
+					)
+				})
+				.toSorted((a, b) => a.order - b.order)
+			return enabledActions
+		},
 	},
 
 	watch: {
+		/**
+		 * Update the window title to match the page heading
+		 */
+		pageHeading() {
+			document.title = `${this.pageHeading} - ${getCapabilities().theming?.productName ?? 'Nextcloud'}`
+		},
+
 		/**
 		 * Handle rendering the custom empty view
 		 * @param show The current state if the custom empty view should be rendered

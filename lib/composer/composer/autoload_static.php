@@ -17,6 +17,10 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
+        'N' => 
+        array (
+            'NCU\\' => 4,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -32,6 +36,10 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
+        'NCU\\' => 
+        array (
+            0 => __DIR__ . '/../../..' . '/lib/unstable',
+        ),
     );
 
     public static $fallbackDirsPsr4 = array (
@@ -40,6 +48,11 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'NCU\\Config\\Exceptions\\IncorrectTypeException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/IncorrectTypeException.php',
+        'NCU\\Config\\Exceptions\\TypeConflictException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/TypeConflictException.php',
+        'NCU\\Config\\Exceptions\\UnknownKeyException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/UnknownKeyException.php',
+        'NCU\\Config\\IUserConfig' => __DIR__ . '/../../..' . '/lib/unstable/Config/IUserConfig.php',
+        'NCU\\Config\\ValueType' => __DIR__ . '/../../..' . '/lib/unstable/Config/ValueType.php',
         'OCP\\Accounts\\IAccount' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccount.php',
         'OCP\\Accounts\\IAccountManager' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccountManager.php',
         'OCP\\Accounts\\IAccountProperty' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccountProperty.php',
@@ -196,6 +209,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Calendar\\BackendTemporarilyUnavailableException' => __DIR__ . '/../../..' . '/lib/public/Calendar/BackendTemporarilyUnavailableException.php',
         'OCP\\Calendar\\Exceptions\\CalendarException' => __DIR__ . '/../../..' . '/lib/public/Calendar/Exceptions/CalendarException.php',
         'OCP\\Calendar\\ICalendar' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendar.php',
+        'OCP\\Calendar\\ICalendarIsShared' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarIsShared.php',
+        'OCP\\Calendar\\ICalendarIsWritable' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarIsWritable.php',
         'OCP\\Calendar\\ICalendarProvider' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarProvider.php',
         'OCP\\Calendar\\ICalendarQuery' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarQuery.php',
         'OCP\\Calendar\\ICreateFromString' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICreateFromString.php',
@@ -435,6 +450,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\Mount\\IMountManager' => __DIR__ . '/../../..' . '/lib/public/Files/Mount/IMountManager.php',
         'OCP\\Files\\Mount\\IMountPoint' => __DIR__ . '/../../..' . '/lib/public/Files/Mount/IMountPoint.php',
         'OCP\\Files\\Mount\\IMovableMount' => __DIR__ . '/../../..' . '/lib/public/Files/Mount/IMovableMount.php',
+        'OCP\\Files\\Mount\\IShareOwnerlessMount' => __DIR__ . '/../../..' . '/lib/public/Files/Mount/IShareOwnerlessMount.php',
         'OCP\\Files\\Mount\\ISystemMountPoint' => __DIR__ . '/../../..' . '/lib/public/Files/Mount/ISystemMountPoint.php',
         'OCP\\Files\\Node' => __DIR__ . '/../../..' . '/lib/public/Files/Node.php',
         'OCP\\Files\\NotEnoughSpaceException' => __DIR__ . '/../../..' . '/lib/public/Files/NotEnoughSpaceException.php',
@@ -731,6 +747,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Settings\\Events\\DeclarativeSettingsSetValueEvent' => __DIR__ . '/../../..' . '/lib/public/Settings/Events/DeclarativeSettingsSetValueEvent.php',
         'OCP\\Settings\\IDeclarativeManager' => __DIR__ . '/../../..' . '/lib/public/Settings/IDeclarativeManager.php',
         'OCP\\Settings\\IDeclarativeSettingsForm' => __DIR__ . '/../../..' . '/lib/public/Settings/IDeclarativeSettingsForm.php',
+        'OCP\\Settings\\IDeclarativeSettingsFormWithHandlers' => __DIR__ . '/../../..' . '/lib/public/Settings/IDeclarativeSettingsFormWithHandlers.php',
         'OCP\\Settings\\IDelegatedSettings' => __DIR__ . '/../../..' . '/lib/public/Settings/IDelegatedSettings.php',
         'OCP\\Settings\\IIconSection' => __DIR__ . '/../../..' . '/lib/public/Settings/IIconSection.php',
         'OCP\\Settings\\IManager' => __DIR__ . '/../../..' . '/lib/public/Settings/IManager.php',
@@ -1148,6 +1165,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Comments\\Manager' => __DIR__ . '/../../..' . '/lib/private/Comments/Manager.php',
         'OC\\Comments\\ManagerFactory' => __DIR__ . '/../../..' . '/lib/private/Comments/ManagerFactory.php',
         'OC\\Config' => __DIR__ . '/../../..' . '/lib/private/Config.php',
+        'OC\\Config\\UserConfig' => __DIR__ . '/../../..' . '/lib/private/Config/UserConfig.php',
         'OC\\Console\\Application' => __DIR__ . '/../../..' . '/lib/private/Console/Application.php',
         'OC\\Console\\TimestampFormatter' => __DIR__ . '/../../..' . '/lib/private/Console/TimestampFormatter.php',
         'OC\\ContactsManager' => __DIR__ . '/../../..' . '/lib/private/ContactsManager.php',
@@ -1310,7 +1328,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Controller\\OCSController' => __DIR__ . '/../../..' . '/core/Controller/OCSController.php',
         'OC\\Core\\Controller\\PreviewController' => __DIR__ . '/../../..' . '/core/Controller/PreviewController.php',
         'OC\\Core\\Controller\\ProfileApiController' => __DIR__ . '/../../..' . '/core/Controller/ProfileApiController.php',
-        'OC\\Core\\Controller\\ProfilePageController' => __DIR__ . '/../../..' . '/core/Controller/ProfilePageController.php',
         'OC\\Core\\Controller\\RecommendedAppsController' => __DIR__ . '/../../..' . '/core/Controller/RecommendedAppsController.php',
         'OC\\Core\\Controller\\ReferenceApiController' => __DIR__ . '/../../..' . '/core/Controller/ReferenceApiController.php',
         'OC\\Core\\Controller\\ReferenceController' => __DIR__ . '/../../..' . '/core/Controller/ReferenceController.php',
@@ -1417,6 +1434,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Migrations\\Version30000Date20240814180800' => __DIR__ . '/../../..' . '/core/Migrations/Version30000Date20240814180800.php',
         'OC\\Core\\Migrations\\Version30000Date20240815080800' => __DIR__ . '/../../..' . '/core/Migrations/Version30000Date20240815080800.php',
         'OC\\Core\\Migrations\\Version30000Date20240906095113' => __DIR__ . '/../../..' . '/core/Migrations/Version30000Date20240906095113.php',
+        'OC\\Core\\Migrations\\Version31000Date20240814184402' => __DIR__ . '/../../..' . '/core/Migrations/Version31000Date20240814184402.php',
         'OC\\Core\\Migrations\\Version31000Date20241018063111' => __DIR__ . '/../../..' . '/core/Migrations/Version31000Date20241018063111.php',
         'OC\\Core\\Notification\\CoreNotifier' => __DIR__ . '/../../..' . '/core/Notification/CoreNotifier.php',
         'OC\\Core\\ResponseDefinitions' => __DIR__ . '/../../..' . '/core/ResponseDefinitions.php',

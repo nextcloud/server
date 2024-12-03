@@ -16,6 +16,7 @@ OC.L10N.register(
     "Cancel edit" : "Annulla modìfica",
     "New comment" : "Cummentu nou",
     "Post comment" : "Pùblica cummentu",
+    "@ for mentions, : for emoji, / for smart picker" : "@ pro mèntovos, : pro emojis, / pro su seletzionadore inteligente",
     "No comments yet, start the conversation!" : "Ancora perunu cummentu, cumintza sa cunversatzione!",
     "No more messages" : "Perunu àteru messàgiu",
     "Retry" : "Torra a proare",

@@ -47,7 +47,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.17.1
+	- version: 8.20.0
 	- license: AGPL-3.0-or-later
 - @vueuse/core
 	- version: 11.1.0
@@ -83,7 +83,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.4.2
 	- license: MIT
 - marked
-	- version: 13.0.3
+	- version: 15.0.0
 	- license: MIT
 - node-gettext
 	- version: 3.0.0

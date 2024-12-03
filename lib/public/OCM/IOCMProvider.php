@@ -136,11 +136,11 @@ interface IOCMProvider extends JsonSerializable {
 	 *     enabled: bool,
 	 *     apiVersion: string,
 	 *     endPoint: string,
-	 *     resourceTypes: array{
+	 *     resourceTypes: list<array{
 	 *         name: string,
-	 *         shareTypes: string[],
+	 *         shareTypes: list<string>,
 	 *         protocols: array<string, string>
-	 *     }[]
+	 *     }>,
 	 * }
 	 * @since 28.0.0
 	 */

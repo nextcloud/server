@@ -301,7 +301,7 @@ export default {
 	}
 
 	// Proper highlight for links and focus feedback
-	&::v-deep a {
+	:deep(a) {
 		font-weight: bold;
 
 		&:hover,
@@ -312,7 +312,6 @@ export default {
 
 	&__preview-list {
 		--gap: 30px;
-
 		display: grid;
 		margin-top: var(--gap);
 		column-gap: var(--gap);

@@ -338,6 +338,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
 		$expectedResponse = new PublicTemplateResponse('files', 'index');
+		$expectedResponse->setParams(['pageTitle' => $filename]);
 		$expectedResponse->setContentSecurityPolicy($csp);
 		$expectedResponse->setHeaderTitle($filename);
 		$expectedResponse->setHeaderDetails('shared by ownerDisplay');
@@ -477,6 +478,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
 		$expectedResponse = new PublicTemplateResponse('files', 'index');
+		$expectedResponse->setParams(['pageTitle' => $filename]);
 		$expectedResponse->setContentSecurityPolicy($csp);
 		$expectedResponse->setHeaderTitle($filename);
 		$expectedResponse->setHeaderDetails('shared by ownerDisplay');
@@ -604,6 +606,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
 		$expectedResponse = new PublicTemplateResponse('files', 'index');
+		$expectedResponse->setParams(['pageTitle' => $filename]);
 		$expectedResponse->setContentSecurityPolicy($csp);
 		$expectedResponse->setHeaderTitle($filename);
 		$expectedResponse->setHeaderDetails('');

@@ -15,6 +15,7 @@ use OC\Server;
 use OCA\Settings\Hooks;
 use OCA\Settings\Listener\AppPasswordCreatedActivityListener;
 use OCA\Settings\Listener\GroupRemovedListener;
+use OCA\Settings\Listener\MailProviderListener;
 use OCA\Settings\Listener\UserAddedToGroupActivityListener;
 use OCA\Settings\Listener\UserRemovedFromGroupActivityListener;
 use OCA\Settings\Mailer\NewUserMailHelper;
@@ -22,6 +23,7 @@ use OCA\Settings\Middleware\SubadminMiddleware;
 use OCA\Settings\Search\AppSearch;
 use OCA\Settings\Search\SectionSearch;
 use OCA\Settings\Search\UserSearch;
+use OCA\Settings\Settings\Admin\MailProvider;
 use OCA\Settings\SetupChecks\AllowedAdminRanges;
 use OCA\Settings\SetupChecks\AppDirsWithDifferentOwner;
 use OCA\Settings\SetupChecks\BruteForceThrottler;
@@ -56,6 +58,7 @@ use OCA\Settings\SetupChecks\PhpDefaultCharset;
 use OCA\Settings\SetupChecks\PhpDisabledFunctions;
 use OCA\Settings\SetupChecks\PhpFreetypeSupport;
 use OCA\Settings\SetupChecks\PhpGetEnv;
+use OCA\Settings\SetupChecks\PhpMaxFileSize;
 use OCA\Settings\SetupChecks\PhpMemoryLimit;
 use OCA\Settings\SetupChecks\PhpModules;
 use OCA\Settings\SetupChecks\PhpOpcacheSetup;
@@ -86,6 +89,8 @@ use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IServerContainer;
+use OCP\Settings\Events\DeclarativeSettingsGetValueEvent;
+use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
 use OCP\Settings\IManager;
 use OCP\Util;
 
@@ -113,9 +118,16 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(UserRemovedEvent::class, UserRemovedFromGroupActivityListener::class);
 		$context->registerEventListener(GroupDeletedEvent::class, GroupRemovedListener::class);
 
+		// Register Mail Provider listeners
+		$context->registerEventListener(DeclarativeSettingsGetValueEvent::class, MailProviderListener::class);
+		$context->registerEventListener(DeclarativeSettingsSetValueEvent::class, MailProviderListener::class);
+
 		// Register well-known handlers
 		$context->registerWellKnownHandler(SecurityTxtHandler::class);
 		$context->registerWellKnownHandler(ChangePasswordHandler::class);
+
+		// Register Settings Form(s)
+		$context->registerDeclarativeSettings(MailProvider::class);
 
 		/**
 		 * Core class wrappers
@@ -192,6 +204,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(PhpFreetypeSupport::class);
 		$context->registerSetupCheck(PhpApcuConfig::class);
 		$context->registerSetupCheck(PhpGetEnv::class);
+		$context->registerSetupCheck(PhpMaxFileSize::class);
 		$context->registerSetupCheck(PhpMemoryLimit::class);
 		$context->registerSetupCheck(PhpModules::class);
 		$context->registerSetupCheck(PhpOpcacheSetup::class);

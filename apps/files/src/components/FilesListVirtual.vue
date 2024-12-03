@@ -12,7 +12,7 @@
 			isMtimeAvailable,
 			isSizeAvailable,
 			nodes,
-			filesListWidth,
+			fileListWidth,
 		}"
 		:scroll-to-index="scrollToIndex"
 		:caption="caption">
@@ -39,7 +39,7 @@
 		<template #header>
 			<!-- Table header and sort buttons -->
 			<FilesListTableHeader ref="thead"
-				:files-list-width="filesListWidth"
+				:files-list-width="fileListWidth"
 				:is-mtime-available="isMtimeAvailable"
 				:is-size-available="isSizeAvailable"
 				:nodes="nodes" />
@@ -48,7 +48,7 @@
 		<!-- Tfoot-->
 		<template #footer>
 			<FilesListTableFooter :current-view="currentView"
-				:files-list-width="filesListWidth"
+				:files-list-width="fileListWidth"
 				:is-mtime-available="isMtimeAvailable"
 				:is-size-available="isSizeAvailable"
 				:nodes="nodes"
@@ -69,6 +69,7 @@ import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { getSummaryFor } from '../utils/fileUtils'
 import { useSelectionStore } from '../store/selection.js'
@@ -79,7 +80,6 @@ import FileEntryGrid from './FileEntryGrid.vue'
 import FilesListHeader from './FilesListHeader.vue'
 import FilesListTableFooter from './FilesListTableFooter.vue'
 import FilesListTableHeader from './FilesListTableHeader.vue'
-import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import VirtualList from './VirtualList.vue'
 import logger from '../logger.ts'
 import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
@@ -96,10 +96,6 @@ export default defineComponent({
 		VirtualList,
 		FilesListTableHeaderActions,
 	},
-
-	mixins: [
-		filesListWidthMixin,
-	],
 
 	props: {
 		currentView: {
@@ -119,10 +115,12 @@ export default defineComponent({
 	setup() {
 		const userConfigStore = useUserConfigStore()
 		const selectionStore = useSelectionStore()
+		const fileListWidth = useFileListWidth()
 		const { fileId, openFile } = useRouteParameters()
 
 		return {
 			fileId,
+			fileListWidth,
 			openFile,
 
 			userConfigStore,
@@ -151,14 +149,14 @@ export default defineComponent({
 
 		isMtimeAvailable() {
 			// Hide mtime column on narrow screens
-			if (this.filesListWidth < 768) {
+			if (this.fileListWidth < 768) {
 				return false
 			}
 			return this.nodes.some(node => node.mtime !== undefined)
 		},
 		isSizeAvailable() {
 			// Hide size column on narrow screens
-			if (this.filesListWidth < 768) {
+			if (this.fileListWidth < 768) {
 				return false
 			}
 			return this.nodes.some(node => node.size !== undefined)
@@ -350,7 +348,6 @@ export default defineComponent({
 	--icon-preview-size: 32px;
 
 	--fixed-block-start-position: var(--default-clickable-area);
-
 	overflow: auto;
 	height: 100%;
 	will-change: scroll-position;
@@ -453,7 +450,6 @@ export default defineComponent({
 			display: flex;
 			align-items: center;
 			width: 100%;
-			user-select: none;
 			border-block-end: 1px solid var(--color-border);
 			box-sizing: border-box;
 			user-select: none;
@@ -764,7 +760,6 @@ tbody.files-list__tbody.files-list__tbody--grid {
 	--row-width: calc(var(--icon-preview-size) + var(--item-padding) * 2);
 	--row-height: calc(var(--icon-preview-size) + var(--name-height) + var(--mtime-height) + var(--item-padding) * 2);
 	--checkbox-padding: 0px;
-
 	display: grid;
 	grid-template-columns: repeat(auto-fill, var(--row-width));
 
@@ -787,8 +782,8 @@ tbody.files-list__tbody.files-list__tbody--grid {
 	.files-list__row-checkbox {
 		position: absolute;
 		z-index: 9;
-		top: calc(var(--item-padding)/2);
-		inset-inline-start: calc(var(--item-padding)/2);
+		top: calc(var(--item-padding) / 2);
+		inset-inline-start: calc(var(--item-padding) / 2);
 		overflow: hidden;
 		--checkbox-container-size: 44px;
 		width: var(--checkbox-container-size);

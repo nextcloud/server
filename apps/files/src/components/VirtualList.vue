@@ -55,10 +55,9 @@
 import type { File, Folder, Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
+import { defineComponent } from 'vue'
 import debounce from 'debounce'
-import Vue from 'vue'
-
-import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import logger from '../logger.ts'
 
 interface RecycledPoolItem {
@@ -70,10 +69,8 @@ type DataSource = File | Folder
 
 type DataSourceKey = keyof DataSource
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'VirtualList',
-
-	mixins: [filesListWidthMixin],
 
 	props: {
 		dataComponent: {
@@ -101,12 +98,20 @@ export default Vue.extend({
 			default: false,
 		},
 		/**
-		 * Visually hidden caption for the table accesibility
+		 * Visually hidden caption for the table accessibility
 		 */
 		caption: {
 			type: String,
 			default: '',
 		},
+	},
+
+	setup() {
+		const fileListWidth = useFileListWidth()
+
+		return {
+			fileListWidth,
+		}
 	},
 
 	data() {
@@ -151,7 +156,7 @@ export default Vue.extend({
 			if (!this.gridMode) {
 				return 1
 			}
-			return Math.floor(this.filesListWidth / this.itemWidth)
+			return Math.floor(this.fileListWidth / this.itemWidth)
 		},
 
 		/**

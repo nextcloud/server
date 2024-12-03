@@ -35,7 +35,7 @@ class LocalTimeProvider implements IProvider {
 		$targetUserId = $entry->getProperty('UID');
 		$targetUser = $this->userManager->get($targetUserId);
 		if (!empty($targetUser)) {
-			$timezone = $this->config->getUserValue($targetUser->getUID(), 'core', 'timezone') ?: date_default_timezone_get();
+			$timezone = $this->config->getUserValue($targetUser->getUID(), 'core', 'timezone') ?: $this->config->getSystemValueString('default_timezone', 'UTC');
 			$dateTimeZone = new \DateTimeZone($timezone);
 			$localTime = $this->dateTimeFormatter->formatTime($this->timeFactory->getDateTime(), 'short', $dateTimeZone);
 

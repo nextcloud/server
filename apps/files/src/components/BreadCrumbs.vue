@@ -14,7 +14,7 @@
 			v-bind="section"
 			dir="auto"
 			:to="section.to"
-			:force-icon-text="index === 0 && filesListWidth >= 486"
+			:force-icon-text="index === 0 && fileListWidth >= 486"
 			:title="titleForSection(index, section)"
 			:aria-description="ariaForSection(section)"
 			@click.native="onClick(section.to)"
@@ -46,15 +46,15 @@ import NcBreadcrumb from '@nextcloud/vue/dist/Components/NcBreadcrumb.js'
 import NcBreadcrumbs from '@nextcloud/vue/dist/Components/NcBreadcrumbs.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 
-import { useNavigation } from '../composables/useNavigation'
-import { onDropInternalFiles, dataTransferToFileTree, onDropExternalFiles } from '../services/DropService'
+import { useNavigation } from '../composables/useNavigation.ts'
+import { onDropInternalFiles, dataTransferToFileTree, onDropExternalFiles } from '../services/DropService.ts'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { showError } from '@nextcloud/dialogs'
 import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUploaderStore } from '../store/uploader.ts'
-import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import logger from '../logger'
 
 export default defineComponent({
@@ -65,10 +65,6 @@ export default defineComponent({
 		NcBreadcrumb,
 		NcIconSvgWrapper,
 	},
-
-	mixins: [
-		filesListWidthMixin,
-	],
 
 	props: {
 		path: {
@@ -83,6 +79,7 @@ export default defineComponent({
 		const pathsStore = usePathsStore()
 		const selectionStore = useSelectionStore()
 		const uploaderStore = useUploaderStore()
+		const fileListWidth = useFileListWidth()
 		const { currentView, views } = useNavigation()
 
 		return {
@@ -93,6 +90,7 @@ export default defineComponent({
 			uploaderStore,
 
 			currentView,
+			fileListWidth,
 			views,
 		}
 	},
@@ -129,7 +127,7 @@ export default defineComponent({
 		wrapUploadProgressBar(): boolean {
 			// if an upload is ongoing, and on small screens / mobile, then
 			// show the progress bar for the upload below breadcrumbs
-			return this.isUploadInProgress && this.filesListWidth < 512
+			return this.isUploadInProgress && this.fileListWidth < 512
 		},
 
 		// used to show the views icon for the first breadcrumb

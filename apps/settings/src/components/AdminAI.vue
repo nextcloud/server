@@ -112,7 +112,7 @@ import DragVerticalIcon from 'vue-material-design-icons/DragVertical.vue'
 import ArrowDownIcon from 'vue-material-design-icons/ArrowDown.vue'
 import ArrowUpIcon from 'vue-material-design-icons/ArrowUp.vue'
 import { loadState } from '@nextcloud/initial-state'
-
+import { nextTick } from 'vue'
 import { generateUrl } from '@nextcloud/router'
 
 export default {
@@ -185,6 +185,7 @@ export default {
 		},
 		async saveChanges() {
 			this.loading = true
+			await nextTick()
 			const data = { settings: this.settings }
 			try {
 				await axios.put(generateUrl('/settings/api/admin/ai'), data)

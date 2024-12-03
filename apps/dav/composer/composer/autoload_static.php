@@ -291,7 +291,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Events\\SubscriptionUpdatedEvent' => __DIR__ . '/..' . '/../lib/Events/SubscriptionUpdatedEvent.php',
         'OCA\\DAV\\Exception\\ServerMaintenanceMode' => __DIR__ . '/..' . '/../lib/Exception/ServerMaintenanceMode.php',
         'OCA\\DAV\\Exception\\UnsupportedLimitOnInitialSyncException' => __DIR__ . '/..' . '/../lib/Exception/UnsupportedLimitOnInitialSyncException.php',
-        'OCA\\DAV\\Files\\ErrorPagePlugin' => __DIR__ . '/..' . '/../lib/Files/ErrorPagePlugin.php',
+        'OCA\\DAV\\Files\\BrowserErrorPagePlugin' => __DIR__ . '/..' . '/../lib/Files/BrowserErrorPagePlugin.php',
         'OCA\\DAV\\Files\\FileSearchBackend' => __DIR__ . '/..' . '/../lib/Files/FileSearchBackend.php',
         'OCA\\DAV\\Files\\FilesHome' => __DIR__ . '/..' . '/../lib/Files/FilesHome.php',
         'OCA\\DAV\\Files\\LazySearchBackend' => __DIR__ . '/..' . '/../lib/Files/LazySearchBackend.php',

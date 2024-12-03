@@ -33,7 +33,7 @@ class WipeController extends Controller {
 	 *
 	 * @param string $token App password
 	 *
-	 * @return JSONResponse<Http::STATUS_OK, array{wipe: bool}, array{}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @return JSONResponse<Http::STATUS_OK, array{wipe: bool}, array{}>|JSONResponse<Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
 	 * 200: Device should be wiped
 	 * 404: Device should not be wiped
@@ -62,7 +62,7 @@ class WipeController extends Controller {
 	 *
 	 * @param string $token App password
 	 *
-	 * @return JSONResponse<Http::STATUS_OK|Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @return JSONResponse<Http::STATUS_OK|Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
 	 * 200: Wipe finished successfully
 	 * 404: Device should not be wiped

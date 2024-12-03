@@ -76,7 +76,7 @@ class AppConfig implements IAppConfig {
 	/**
 	 * @inheritDoc
 	 *
-	 * @return string[] list of app ids
+	 * @return list<string> list of app ids
 	 * @since 7.0.0
 	 */
 	public function getApps(): array {
@@ -92,12 +92,12 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @param string $app id of the app
 	 *
-	 * @return string[] list of stored config keys
+	 * @return list<string> list of stored config keys
 	 * @since 29.0.0
 	 */
 	public function getKeys(string $app): array {
 		$this->assertParams($app);
-		$this->loadConfigAll();
+		$this->loadConfigAll($app);
 		$keys = array_merge(array_keys($this->fastCache[$app] ?? []), array_keys($this->lazyCache[$app] ?? []));
 		sort($keys);
 
@@ -117,7 +117,7 @@ class AppConfig implements IAppConfig {
 	 */
 	public function hasKey(string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($app, $key);
-		$this->loadConfig($lazy);
+		$this->loadConfig($app, $lazy);
 
 		if ($lazy === null) {
 			$appCache = $this->getAllValues($app);
@@ -142,7 +142,7 @@ class AppConfig implements IAppConfig {
 	 */
 	public function isSensitive(string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($app, $key);
-		$this->loadConfig($lazy);
+		$this->loadConfig(null, $lazy);
 
 		if (!isset($this->valueTypes[$app][$key])) {
 			throw new AppConfigUnknownKeyException('unknown config key');
@@ -190,7 +190,7 @@ class AppConfig implements IAppConfig {
 	public function getAllValues(string $app, string $prefix = '', bool $filtered = false): array {
 		$this->assertParams($app, $prefix);
 		// if we want to filter values, we need to get sensitivity
-		$this->loadConfigAll();
+		$this->loadConfigAll($app);
 		// array_merge() will remove numeric keys (here config keys), so addition arrays instead
 		$values = $this->formatAppValues($app, ($this->fastCache[$app] ?? []) + ($this->lazyCache[$app] ?? []));
 		$values = array_filter(
@@ -234,7 +234,7 @@ class AppConfig implements IAppConfig {
 	 */
 	public function searchValues(string $key, bool $lazy = false, ?int $typedAs = null): array {
 		$this->assertParams('', $key, true);
-		$this->loadConfig($lazy);
+		$this->loadConfig(null, $lazy);
 
 		/** @var array<array-key, array<array-key, mixed>> $cache */
 		if ($lazy) {
@@ -430,7 +430,7 @@ class AppConfig implements IAppConfig {
 		int $type,
 	): string {
 		$this->assertParams($app, $key, valueType: $type);
-		$this->loadConfig($lazy);
+		$this->loadConfig($app, $lazy);
 
 		/**
 		 * We ignore check if mixed type is requested.
@@ -487,7 +487,7 @@ class AppConfig implements IAppConfig {
 	 */
 	public function getValueType(string $app, string $key, ?bool $lazy = null): int {
 		$this->assertParams($app, $key);
-		$this->loadConfig($lazy);
+		$this->loadConfig($app, $lazy);
 
 		if (!isset($this->valueTypes[$app][$key])) {
 			throw new AppConfigUnknownKeyException('unknown config key');
@@ -721,7 +721,7 @@ class AppConfig implements IAppConfig {
 		int $type,
 	): bool {
 		$this->assertParams($app, $key);
-		$this->loadConfig($lazy);
+		$this->loadConfig(null, $lazy);
 
 		$sensitive = $this->isTyped(self::VALUE_SENSITIVE, $type);
 		$inserted = $refreshCache = false;
@@ -1176,8 +1176,8 @@ class AppConfig implements IAppConfig {
 		}
 	}
 
-	private function loadConfigAll(): void {
-		$this->loadConfig(null);
+	private function loadConfigAll(?string $app = null): void {
+		$this->loadConfig($app, null);
 	}
 
 	/**
@@ -1185,20 +1185,22 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @param bool|null $lazy set to TRUE to load config set as lazy loaded, set to NULL to load all config
 	 */
-	private function loadConfig(?bool $lazy = false): void {
+	private function loadConfig(?string $app = null, ?bool $lazy = false): void {
 		if ($this->isLoaded($lazy)) {
 			return;
 		}
 
-		if (($lazy ?? true) !== false) { // if lazy is null or true, we debug log
-			$this->logger->debug('The loading of lazy AppConfig values have been requested', ['exception' => new \RuntimeException('ignorable exception')]);
+		// if lazy is null or true, we debug log
+		if (($lazy ?? true) !== false && $app !== null) {
+			$exception = new \RuntimeException('The loading of lazy AppConfig values have been triggered by app "' . $app . '"');
+			$this->logger->debug($exception->getMessage(), ['exception' => $exception, 'app' => $app]);
 		}
 
 		$qb = $this->connection->getQueryBuilder();
 		$qb->from('appconfig');
 
 		/**
-		 * The use of $this->>migrationCompleted is only needed to manage the
+		 * The use of $this->migrationCompleted is only needed to manage the
 		 * database during the upgrading process to nc29.
 		 */
 		if (!$this->migrationCompleted) {
@@ -1227,7 +1229,7 @@ class AppConfig implements IAppConfig {
 			}
 
 			$this->migrationCompleted = false;
-			$this->loadConfig($lazy);
+			$this->loadConfig($app, $lazy);
 
 			return;
 		}
@@ -1301,7 +1303,7 @@ class AppConfig implements IAppConfig {
 	 * not exist the default value will be returned
 	 */
 	public function getValue($app, $key, $default = null) {
-		$this->loadConfig();
+		$this->loadConfig($app);
 
 		return $this->fastCache[$app][$key] ?? $default;
 	}

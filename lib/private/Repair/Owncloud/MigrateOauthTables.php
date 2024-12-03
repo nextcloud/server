@@ -37,7 +37,6 @@ class MigrateOauthTables implements IRepairStep {
 		}
 
 		$output->info('Update the oauth2_access_tokens table schema.');
-		$schema = new SchemaWrapper($this->db);
 		$table = $schema->getTable('oauth2_access_tokens');
 		if (!$table->hasColumn('hashed_code')) {
 			$table->addColumn('hashed_code', 'string', [
@@ -59,7 +58,6 @@ class MigrateOauthTables implements IRepairStep {
 		}
 
 		$output->info('Update the oauth2_clients table schema.');
-		$schema = new SchemaWrapper($this->db);
 		$table = $schema->getTable('oauth2_clients');
 		if ($table->getColumn('name')->getLength() !== 64) {
 			// shorten existing values before resizing the column
@@ -103,7 +101,8 @@ class MigrateOauthTables implements IRepairStep {
 
 		$this->db->migrateToSchema($schema->getWrappedSchema());
 
-
+		// Regenerate schema after migrating to it
+		$schema = new SchemaWrapper($this->db);
 		if ($schema->getTable('oauth2_clients')->hasColumn('identifier')) {
 			$output->info("Move identifier column's data to the new client_identifier column.");
 			// 1. Fetch all [id, identifier] couple.
@@ -123,7 +122,6 @@ class MigrateOauthTables implements IRepairStep {
 			}
 
 			$output->info('Drop the identifier column.');
-			$schema = new SchemaWrapper($this->db);
 			$table = $schema->getTable('oauth2_clients');
 			$table->dropColumn('identifier');
 			$this->db->migrateToSchema($schema->getWrappedSchema());

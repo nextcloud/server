@@ -9,7 +9,7 @@ OC.L10N.register(
     "Restore" : "إستعادة",
     "Unknown" : "غير معروف",
     "All files" : "كل الملفات",
-    "You" : "أنتَ",
+    "You" : "أنت",
     "Original location" : "الموقع الأصلي",
     "Deleted by" : "محذوف من قِبَل",
     "Deleted" : "محذوفة",

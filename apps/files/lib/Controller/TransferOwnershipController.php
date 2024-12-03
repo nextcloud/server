@@ -47,7 +47,7 @@ class TransferOwnershipController extends OCSController {
 	 * @param string $recipient Username of the recipient
 	 * @param string $path Path of the file
 	 *
-	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN, list<empty>, array{}>
 	 *
 	 * 200: Ownership transferred successfully
 	 * 400: Transferring ownership is not possible
@@ -101,7 +101,7 @@ class TransferOwnershipController extends OCSController {
 	 *
 	 * @param int $id ID of the ownership transfer
 	 *
-	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
 	 * 200: Ownership transfer accepted successfully
 	 * 403: Accepting ownership transfer is not allowed
@@ -136,7 +136,7 @@ class TransferOwnershipController extends OCSController {
 	 *
 	 * @param int $id ID of the ownership transfer
 	 *
-	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
 	 * 200: Ownership transfer rejected successfully
 	 * 403: Rejecting ownership transfer is not allowed

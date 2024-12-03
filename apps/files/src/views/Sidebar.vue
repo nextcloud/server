@@ -612,7 +612,7 @@ export default {
 	}
 
 	.svg-icon {
-		::v-deep svg {
+		:deep(svg) {
 			width: 20px;
 			height: 20px;
 			fill: currentColor;

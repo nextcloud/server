@@ -6,13 +6,13 @@
  */
 namespace OCA\Settings\Tests\Controller;
 
+use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\App\AppStore\Fetcher\AppDiscoverFetcher;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\Installer;
 use OCA\Settings\Controller\AppSettingsController;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -47,8 +47,7 @@ class AppSettingsControllerTest extends TestCase {
 	private $config;
 	/** @var INavigationManager|MockObject */
 	private $navigationManager;
-	/** @var IAppManager|MockObject */
-	private $appManager;
+	private AppManager&MockObject $appManager;
 	/** @var CategoryFetcher|MockObject */
 	private $categoryFetcher;
 	/** @var AppFetcher|MockObject */
@@ -83,7 +82,7 @@ class AppSettingsControllerTest extends TestCase {
 			->willReturnArgument(0);
 		$this->config = $this->createMock(IConfig::class);
 		$this->navigationManager = $this->createMock(INavigationManager::class);
-		$this->appManager = $this->createMock(IAppManager::class);
+		$this->appManager = $this->createMock(AppManager::class);
 		$this->categoryFetcher = $this->createMock(CategoryFetcher::class);
 		$this->appFetcher = $this->createMock(AppFetcher::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);

@@ -507,7 +507,6 @@ export default {
 .panel, .panels > div {
 	// Ensure the maxcontrast color is set for the background
 	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
-
 	width: 320px;
 	max-width: 100%;
 	margin: 16px;
@@ -532,7 +531,8 @@ export default {
 		padding: 16px;
 		cursor: grab;
 
-		&, ::v-deep * {
+		&,
+		:deep(*) {
 			-webkit-touch-callout: none;
 			-webkit-user-select: none;
 			-khtml-user-select: none;
@@ -618,11 +618,10 @@ export default {
 .button,
 .button-vue,
 .edit-panels,
-.statuses ::v-deep .action-item .action-item__menutoggle,
-.statuses ::v-deep .action-item.action-item--open .action-item__menutoggle {
+.statuses :deep(.action-item .action-item__menutoggle),
+.statuses :deep(.action-item.action-item--open .action-item__menutoggle) {
 	// Ensure the maxcontrast color is set for the background
 	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
-
 	background-color: var(--color-main-background-blur);
 	-webkit-backdrop-filter: var(--filter-background-blur);
 	backdrop-filter: var(--filter-background-blur);

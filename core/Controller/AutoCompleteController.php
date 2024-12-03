@@ -43,10 +43,10 @@ class AutoCompleteController extends OCSController {
 	 * @param string|null $itemType Type of the items to search for
 	 * @param string|null $itemId ID of the items to search for
 	 * @param string|null $sorter can be piped, top prio first, e.g.: "commenters|share-recipients"
-	 * @param int[] $shareTypes Types of shares to search for
+	 * @param list<int> $shareTypes Types of shares to search for
 	 * @param int $limit Maximum number of results to return
 	 *
-	 * @return DataResponse<Http::STATUS_OK, CoreAutocompleteResult[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<CoreAutocompleteResult>, array{}>
 	 *
 	 * 200: Autocomplete results returned
 	 */
@@ -100,7 +100,7 @@ class AutoCompleteController extends OCSController {
 	}
 
 	/**
-	 * @return CoreAutocompleteResult[]
+	 * @return list<CoreAutocompleteResult>
 	 */
 	protected function prepareResultArray(array $results): array {
 		$output = [];

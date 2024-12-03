@@ -46,7 +46,7 @@ export const fetchTag = async (tagId: number): Promise<TagWithId> => {
 	try {
 		const { data: tag } = await davClient.stat(path, {
 			data: fetchTagsPayload,
-			details: true
+			details: true,
 		}) as ResponseDataDetailed<Required<FileStat>>
 		return parseTags([tag])[0]
 	} catch (error) {

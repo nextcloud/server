@@ -15,7 +15,7 @@ OC.L10N.register(
     "Displays update notifications for Nextcloud, app updates, and provides the SSO for the updater." : "يعرض إشعارات التحديث لنكست كلاود، وتحديثات التطبيقات، و يوفر تسجيل الدخول الموحّد SSO للمُحدِّث.",
     "What's new in {app} {version}" : "ما هو الجديد في {app} {version}",
     "Give feedback" : "سجِّل انطباعك",
-    "Get started" : "إبدأ ...",
+    "Get started" : "البدء...",
     "No changelog available" : "لا يوجد سجل بالتغييرات",
     "Update" : "تحديث",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "لم يعد الإصدار الذي تقوم بتشغيله قيد الصيانة. يرجى التأكد من التحديث إلى إصدار مدعوم في أقرب وقت ممكن.",

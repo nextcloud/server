@@ -78,6 +78,11 @@ export default {
 			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GUEST) {
 				title += ` (${t('files_sharing', 'guest')})`
 			}
+			if (!this.isShareOwner && this.share.ownerDisplayName) {
+				title += ' ' + t('files_sharing', 'by {initiator}', {
+					initiator: this.share.ownerDisplayName,
+				})
+			}
 			return title
 		},
 		tooltip() {
