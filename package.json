@@ -38,8 +38,6 @@
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "@chenfengyuan/vue-qrcode": "^1.0.2",
-    "@mdi/js": "^7.4.47",
-    "@mdi/svg": "^7.4.47",
     "@nextcloud/auth": "^2.4.0",
     "@nextcloud/axios": "^2.5.0",
     "@nextcloud/browser-storage": "^0.4.0",
@@ -108,7 +106,6 @@
     "vue-frag": "^1.4.2",
     "vue-infinite-loading": "^2.4.5",
     "vue-localstorage": "^0.6.2",
-    "vue-material-design-icons": "^5.0.0",
     "vue-router": "^3.6.5",
     "vuedraggable": "^2.24.3",
     "vuex": "^3.6.2",
