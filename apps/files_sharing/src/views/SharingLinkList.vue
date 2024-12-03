@@ -32,12 +32,13 @@
 
 <script>
 import { getCapabilities } from '@nextcloud/capabilities'
+
 import { t } from '@nextcloud/l10n'
 
 import Share from '../models/Share.js'
-import ShareTypes from '../mixins/ShareTypes.js'
 import SharingEntryLink from '../components/SharingEntryLink.vue'
 import ShareDetails from '../mixins/ShareDetails.js'
+import { ShareType } from '@nextcloud/sharing'
 
 export default {
 	name: 'SharingLinkList',
@@ -46,7 +47,7 @@ export default {
 		SharingEntryLink,
 	},
 
-	mixins: [ShareTypes, ShareDetails],
+	mixins: [ShareDetails],
 
 	props: {
 		fileInfo: {
@@ -80,7 +81,7 @@ export default {
 		 * @return {Array}
 		 */
 		hasLinkShares() {
-			return this.shares.filter(share => share.type === this.SHARE_TYPES.SHARE_TYPE_LINK).length > 0
+			return this.shares.filter(share => share.type === ShareType.Link).length > 0
 		},
 
 		/**

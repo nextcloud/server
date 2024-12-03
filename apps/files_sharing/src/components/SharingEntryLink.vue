@@ -446,7 +446,7 @@ export default {
 		 */
 		isEmailShareType() {
 			return this.share
-				? this.share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL
+				? this.share.type === ShareType.Email
 				: false
 		},
 
