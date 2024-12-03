@@ -10,7 +10,6 @@ SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
-SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
@@ -18,6 +17,7 @@ SPDX-FileCopyrightText: Jordan Harband
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
+SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Alkemics
 
@@ -38,6 +38,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/event-bus
 	- version: 3.3.1
 	- license: GPL-3.0-or-later
+- @nextcloud/files
+	- version: 3.10.0
+	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
@@ -166,9 +169,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - util
 	- version: 0.12.5
-	- license: MIT
-- webdav
-	- version: 5.7.1
 	- license: MIT
 - webpack
 	- version: 5.94.0
