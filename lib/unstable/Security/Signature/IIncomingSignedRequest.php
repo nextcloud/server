@@ -17,6 +17,13 @@ use OCP\IRequest;
  * model wrapping an actual incoming request, adding details about the signature and the
  * authenticity of the origin of the request.
  *
+ * This interface must not be implemented in your application but
+ * instead obtained from {@see ISignatureManager::getIncomingSignedRequest}.
+ *
+ *  ```php
+ *  $signedRequest = $this->signatureManager->getIncomingSignedRequest($mySignatoryManager);
+ *  ```
+ *
  * @see ISignatureManager for details on signature
  * @experimental 31.0.0
  */
@@ -28,16 +35,6 @@ interface IIncomingSignedRequest extends ISignedRequest {
 	 * @experimental 31.0.0
 	 */
 	public function getRequest(): IRequest;
-
-	/**
-	 * set the hostname at the source of the request,
-	 * based on the keyId defined in the signature header.
-	 *
-	 * @param string $origin
-	 * @return IIncomingSignedRequest
-	 * @experimental 31.0.0
-	 */
-	public function setOrigin(string $origin): IIncomingSignedRequest;
 
 	/**
 	 * get the hostname at the source of the base request.

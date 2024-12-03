@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Security\Signature\Model;
 
 use JsonSerializable;
+use NCU\Security\Signature\Enum\DigestAlgorithm;
 use NCU\Security\Signature\Enum\SignatureAlgorithm;
 use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
 use NCU\Security\Signature\Exceptions\IncomingRequestException;
@@ -22,6 +23,7 @@ use NCU\Security\Signature\ISignatureManager;
 use NCU\Security\Signature\Model\Signatory;
 use OC\Security\Signature\SignatureManager;
 use OCP\IRequest;
+use ValueError;
 
 /**
  * @inheritDoc
@@ -107,6 +109,12 @@ class IncomingSignedRequest extends SignedRequest implements
 		}
 
 		// confirm digest value, based on body
+		[$algo, ] = explode('=', $digest);
+		try {
+			$this->setDigestAlgorithm(DigestAlgorithm::from($algo));
+		} catch (ValueError) {
+			throw new IncomingRequestException('unknown digest algorithm');
+		}
 		if ($digest !== $this->getDigest()) {
 			throw new IncomingRequestException('invalid value for digest in header');
 		}
@@ -188,15 +196,14 @@ class IncomingSignedRequest extends SignedRequest implements
 	}
 
 	/**
-	 * @inheritDoc
+	 * set the hostname at the source of the request,
+	 * based on the keyId defined in the signature header.
 	 *
 	 * @param string $origin
-	 * @return IIncomingSignedRequest
 	 * @since 31.0.0
 	 */
-	public function setOrigin(string $origin): IIncomingSignedRequest {
+	private function setOrigin(string $origin): void {
 		$this->origin = $origin;
-		return $this;
 	}
 
 	/**

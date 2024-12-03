@@ -41,6 +41,16 @@ use NCU\Security\Signature\Model\Signatory;
  *      listed in 'headers' and their value. Some elements (content-length date digest host) are mandatory
  *      to ensure authenticity override protection.
  *
+ * This interface can be used to inject {@see SignatureManager} in your code:
+ *
+ * ```php
+ *    public function __construct(
+ *        private ISignatureManager $signatureManager,
+ *    ) {}
+ *  ```
+ *
+ *   instead obtained from {@see ISignatureManager::getIncomingSignedRequest}.
+ *
  * @experimental 31.0.0
  */
 interface ISignatureManager {

@@ -44,14 +44,15 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	}
 
 	/**
-	 * @inheritDoc
+	 * set algorithm used to generate digest
 	 *
 	 * @param DigestAlgorithm $algorithm
 	 *
 	 * @return self
 	 * @since 31.0.0
 	 */
-	public function setDigestAlgorithm(DigestAlgorithm $algorithm): self {
+	protected function setDigestAlgorithm(DigestAlgorithm $algorithm): self {
+		$this->digestAlgorithm = $algorithm;
 		return $this;
 	}
 
@@ -119,14 +120,14 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	}
 
 	/**
-	 * @inheritDoc
+	 * store data used to generate signature
 	 *
 	 * @param array $data
 	 *
 	 * @return self
 	 * @since 31.0.0
 	 */
-	public function setSignatureData(array $data): self {
+	protected function setSignatureData(array $data): self {
 		$this->signatureData = $data;
 		return $this;
 	}
@@ -142,14 +143,14 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	}
 
 	/**
-	 * @inheritDoc
+	 * set the signed version of the signature
 	 *
 	 * @param string $signature
 	 *
 	 * @return self
 	 * @since 31.0.0
 	 */
-	public function setSignature(string $signature): self {
+	protected function setSignature(string $signature): self {
 		$this->signature = $signature;
 		return $this;
 	}

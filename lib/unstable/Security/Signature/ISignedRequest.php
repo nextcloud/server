@@ -19,6 +19,10 @@ use NCU\Security\Signature\Model\Signatory;
  * - to confirm authenticity of a signed incoming request
  * - to sign an outgoing request
  *
+ * This interface must not be implemented in your application:
+ * @see IIncomingSignedRequest
+ * @see IOutgoingSignedRequest
+ *
  * @experimental 31.0.0
  */
 interface ISignedRequest {
@@ -29,16 +33,6 @@ interface ISignedRequest {
 	 * @experimental 31.0.0
 	 */
 	public function getBody(): string;
-
-	/**
-	 * set algorithm used to generate digest
-	 *
-	 * @param DigestAlgorithm $algorithm
-	 *
-	 * @return self
-	 * @experimental 31.0.0
-	 */
-	public function setDigestAlgorithm(DigestAlgorithm $algorithm): self;
 
 	/**
 	 * get algorithm used to generate digest
@@ -84,32 +78,12 @@ interface ISignedRequest {
 	public function getSigningElement(string $key): string;
 
 	/**
-	 * store data used to generate signature
-	 *
-	 * @param array $data
-	 *
-	 * @return self
-	 * @experimental 31.0.0
-	 */
-	public function setSignatureData(array $data): self;
-
-	/**
 	 * returns data used to generate signature
 	 *
 	 * @return array
 	 * @experimental 31.0.0
 	 */
 	public function getSignatureData(): array;
-
-	/**
-	 * set the signed version of the signature
-	 *
-	 * @param string $signature
-	 *
-	 * @return self
-	 * @experimental 31.0.0
-	 */
-	public function setSignature(string $signature): self;
 
 	/**
 	 * get the signed version of the signature

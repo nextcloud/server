@@ -15,6 +15,9 @@ use NCU\Security\Signature\Model\Signatory;
  *   - signing outgoing request
  *   - confirm the authenticity of incoming signed request.
  *
+ * This interface must be implemented to generate a `SignatoryManager` to
+ *  be used with {@see ISignatureManager}
+ *
  * @experimental 31.0.0
  */
 interface ISignatoryManager {

@@ -15,6 +15,13 @@ use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
 /**
  * extends ISignedRequest to add info requested at the generation of the signature
  *
+ *  This interface must not be implemented in your application but
+ *  instead obtained from {@see ISignatureManager::getIncomingSignedRequest}.
+ *
+ *   ```php
+ *   $signedRequest = $this->signatureManager->getIncomingSignedRequest($mySignatoryManager);
+ *   ```
+ *
  * @see ISignatureManager for details on signature
  * @experimental 31.0.0
  */
