@@ -2831,4 +2831,12 @@ class ViewTest extends \Test\TestCase {
 		$this->assertEquals('foo.png', $folderData[1]['name']);
 		$this->assertEquals('foo.txt', $folderData[2]['name']);
 	}
+
+	public function testCopyPreservesContent() {
+		$viewUser1 = new View('/' . 'userId' . '/files');
+		$viewUser1->mkdir('');
+		$viewUser1->file_put_contents('foo.txt', 'foo');
+		$viewUser1->copy('foo.txt', 'bar.txt');
+		$this->assertEquals('foo', $viewUser1->file_get_contents('bar.txt'));
+	}
 }
