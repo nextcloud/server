@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace OCP\OCM;
 
 use JsonSerializable;
-use NCU\Security\Signature\Model\Signatory;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
 
@@ -120,21 +119,21 @@ interface IOCMProvider extends JsonSerializable {
 	 */
 	public function extractProtocolEntry(string $resourceName, string $protocol): string;
 
-	/**
-	 * store signatory (public/private key pair) to sign outgoing/incoming request
-	 *
-	 * @param Signatory $signatory
-	 * @since 31.0.0
-	 */
-	public function setSignatory(Signatory $signatory): void;
+	//	/**
+	//	 * store signatory (public/private key pair) to sign outgoing/incoming request
+	//	 *
+	//	 * @param Signatory $signatory
+	//	 * @experimental 31.0.0
+	//	 */
+	//	public function setSignatory(Signatory $signatory): void;
 
-	/**
-	 * signatory (public/private key pair) used to sign outgoing/incoming request
-	 *
-	 * @return Signatory|null returns null if no Signatory available
-	 * @since 31.0.0
-	 */
-	public function getSignatory(): ?Signatory;
+	//	/**
+	//	 * signatory (public/private key pair) used to sign outgoing/incoming request
+	//	 *
+	//	 * @return Signatory|null returns null if no Signatory available
+	//	 * @experimental 31.0.0
+	//	 */
+	//	public function getSignatory(): ?Signatory;
 
 	/**
 	 * import data from an array
@@ -152,7 +151,10 @@ interface IOCMProvider extends JsonSerializable {
 	 *     enabled: bool,
 	 *     apiVersion: '1.0-proposal1',
 	 *     endPoint: string,
-	 *     publicKey: Signatory|null,
+	 *     publicKey: array{
+	 *         keyId: string,
+	 *         publicKeyPem: string
+	 *	   },
 	 *     resourceTypes: list<array{
 	 *         name: string,
 	 *         shareTypes: list<string>,

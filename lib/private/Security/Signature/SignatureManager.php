@@ -102,12 +102,6 @@ class SignatureManager implements ISignatureManager {
 
 		// generate IncomingSignedRequest based on body and request
 		$signedRequest = new IncomingSignedRequest($body, $this->request, $options);
-		try {
-			// we set origin based on the keyId defined in the Signature header of the request
-			$signedRequest->setOrigin($this->extractIdentityFromUri($signedRequest->getSigningElement('keyId')));
-		} catch (IdentityNotFoundException $e) {
-			throw new IncomingRequestException($e->getMessage());
-		}
 
 		try {
 			// confirm the validity of content and identity of the incoming request

@@ -75,6 +75,10 @@ class Capabilities implements ICapability {
 		// Adding a public key to the ocm discovery
 		try {
 			if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+				/**
+				 * @experimental 31.0.0
+				 * @psalm-suppress UndefinedInterfaceMethod
+				 */
 				$this->provider->setSignatory($this->ocmSignatoryManager->getLocalSignatory());
 			} else {
 				$this->logger->debug('ocm public key feature disabled');

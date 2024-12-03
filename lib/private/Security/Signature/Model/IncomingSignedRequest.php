@@ -13,7 +13,6 @@ use NCU\Security\Signature\Enum\SignatureAlgorithm;
 use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
 use NCU\Security\Signature\Exceptions\IncomingRequestException;
 use NCU\Security\Signature\Exceptions\InvalidSignatureException;
-use NCU\Security\Signature\Exceptions\SignatoryException;
 use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
 use NCU\Security\Signature\Exceptions\SignatureElementNotFoundException;
 use NCU\Security\Signature\Exceptions\SignatureException;
@@ -53,6 +52,13 @@ class IncomingSignedRequest extends SignedRequest implements
 		$this->verifyHeaders();
 		$this->extractSignatureHeader();
 		$this->reconstructSignatureData();
+
+		try {
+			// we set origin based on the keyId defined in the Signature header of the request
+			$this->setOrigin(Signatory::extractIdentityFromUri($this->getSigningElement('keyId')));
+		} catch (IdentityNotFoundException $e) {
+			throw new IncomingRequestException($e->getMessage());
+		}
 	}
 
 	/**
@@ -66,21 +72,22 @@ class IncomingSignedRequest extends SignedRequest implements
 	 * @throws SignatureNotFoundException
 	 */
 	private function verifyHeaders(): void {
-		// confirm presence of date, content-length, digest and Signature
-		$date = $this->getRequest()->getHeader('date');
-		if ($date === '') {
-			throw new SignatureNotFoundException('missing date in header');
-		}
-		$contentLength = $this->getRequest()->getHeader('content-length');
-		if ($contentLength === '') {
-			throw new SignatureNotFoundException('missing content-length in header');
-		}
-		$digest = $this->getRequest()->getHeader('digest');
-		if ($digest === '') {
-			throw new SignatureNotFoundException('missing digest in header');
-		}
-		if ($this->getRequest()->getHeader('Signature') === '') {
+		if ($this->request->getHeader('Signature') === '') {
 			throw new SignatureNotFoundException('missing Signature in header');
+		}
+
+		// confirm presence of date, content-length, digest and Signature
+		$date = $this->request->getHeader('date');
+		if ($date === '') {
+			throw new IncomingRequestException('missing date in header');
+		}
+		$contentLength = $this->request->getHeader('content-length');
+		if ($contentLength === '') {
+			throw new IncomingRequestException('missing content-length in header');
+		}
+		$digest = $this->request->getHeader('digest');
+		if ($digest === '') {
+			throw new IncomingRequestException('missing digest in header');
 		}
 
 		// confirm date
@@ -113,7 +120,7 @@ class IncomingSignedRequest extends SignedRequest implements
 	 */
 	private function extractSignatureHeader(): void {
 		$details = [];
-		foreach (explode(',', $this->getRequest()->getHeader('Signature')) as $entry) {
+		foreach (explode(',', $this->request->getHeader('Signature')) as $entry) {
 			if ($entry === '' || !strpos($entry, '=')) {
 				continue;
 			}
@@ -139,6 +146,8 @@ class IncomingSignedRequest extends SignedRequest implements
 	}
 
 	/**
+	 * reconstruct signature data based on signature's metadata stored in the 'Signature' header
+	 *
 	 * @throws SignatureException
 	 * @throws SignatureElementNotFoundException
 	 */
@@ -176,27 +185,6 @@ class IncomingSignedRequest extends SignedRequest implements
 	 */
 	public function getRequest(): IRequest {
 		return $this->request;
-	}
-
-	/**
-	 * @inheritDoc
-	 *
-	 * @param Signatory $signatory
-	 *
-	 * @return $this
-	 * @throws IdentityNotFoundException
-	 * @throws IncomingRequestException
-	 * @throws SignatoryException
-	 * @since 31.0.0
-	 */
-	public function setSignatory(Signatory $signatory): self {
-		$identity = \OCP\Server::get(ISignatureManager::class)->extractIdentityFromUri($signatory->getKeyId());
-		if ($identity !== $this->getOrigin()) {
-			throw new SignatoryException('keyId from provider is different from the one from signed request');
-		}
-
-		parent::setSignatory($signatory);
-		return $this;
 	}
 
 	/**

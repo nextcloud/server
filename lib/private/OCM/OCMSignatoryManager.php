@@ -144,26 +144,17 @@ class OCMSignatoryManager implements ISignatoryManager {
 	 */
 	public function getRemoteSignatory(string $remote): ?Signatory {
 		try {
-			return $this->getRemoteSignatoryFromHost($remote);
+			$ocmProvider = $this->ocmDiscoveryService->discover($remote, true);
+			/**
+			 * @experimental 31.0.0
+			 * @psalm-suppress UndefinedInterfaceMethod
+			 */
+			$signatory = $ocmProvider->getSignatory();
+			$signatory?->setSignatoryType(SignatoryType::TRUSTED);
+			return $signatory;
 		} catch (OCMProviderException $e) {
 			$this->logger->warning('fail to get remote signatory', ['exception' => $e, 'remote' => $remote]);
 			return null;
 		}
-	}
-
-	/**
-	 * As host is enough to generate signatory using OCMDiscoveryService
-	 *
-	 * @param string $host
-	 *
-	 * @return Signatory|null
-	 * @throws OCMProviderException on fail to discover ocm services
-	 * @since 31.0.0
-	 */
-	public function getRemoteSignatoryFromHost(string $host): ?Signatory {
-		$ocmProvider = $this->ocmDiscoveryService->discover($host, true);
-		$signatory = $ocmProvider->getSignatory();
-		$signatory?->setSignatoryType(SignatoryType::TRUSTED);
-		return $signatory;
 	}
 }

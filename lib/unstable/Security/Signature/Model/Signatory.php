@@ -154,6 +154,7 @@ class Signatory extends Entity implements JsonSerializable {
 	 */
 	public function setMetaValue(string $key, string|int|float|bool|array $value): void {
 		$this->metadata[$key] = $value;
+		$this->setter('metadata', [$this->metadata]);
 	}
 
 	/**
@@ -174,7 +175,7 @@ class Signatory extends Entity implements JsonSerializable {
 	 *
 	 * @return string
 	 * @throws IdentityNotFoundException if identity cannot be extracted
-	 * @since 31.0.0
+	 * @experimental 31.0.0
 	 */
 	public static function extractIdentityFromUri(string $uri): string {
 		$identity = parse_url($uri, PHP_URL_HOST);
