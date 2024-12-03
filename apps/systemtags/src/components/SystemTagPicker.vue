@@ -5,6 +5,7 @@
 
 <template>
 	<NcDialog data-cy-systemtags-picker
+		:can-close="status !== Status.LOADING"
 		:name="t('systemtags', 'Manage tags')"
 		:open="opened"
 		:class="'systemtags-picker--' + status"
@@ -125,9 +126,10 @@ import type { Tag, TagWithId } from '../types'
 
 import { defineComponent } from 'vue'
 import { emit } from '@nextcloud/event-bus'
+import { getLanguage, n, t } from '@nextcloud/l10n'
 import { sanitize } from 'dompurify'
 import { showError, showInfo } from '@nextcloud/dialogs'
-import { getLanguage, n, t } from '@nextcloud/l10n'
+import debounce from 'debounce'
 import escapeHTML from 'escape-html'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -151,6 +153,7 @@ import { getNodeSystemTags, setNodeSystemTags } from '../utils'
 import { elementColor, invertTextColor, isDarkModeEnabled } from '../utils/colorUtils'
 import logger from '../services/logger'
 
+const debounceUpdateTag = debounce(updateTag, 500)
 const mainBackgroundColor = getComputedStyle(document.body)
 	.getPropertyValue('--color-main-background')
 	.replace('#', '') || (isDarkModeEnabled() ? '000000' : 'ffffff')
@@ -389,9 +392,9 @@ export default defineComponent({
 			return tag.displayName
 		},
 
-		onColorChange(tag: TagWithId, color: string) {
+		onColorChange(tag: TagWithId, color: `#${string}`) {
 			tag.color = color.replace('#', '')
-			updateTag(tag)
+			debounceUpdateTag(tag)
 		},
 
 		isChecked(tag: TagWithId): boolean {

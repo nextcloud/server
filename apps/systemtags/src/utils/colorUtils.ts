@@ -67,12 +67,12 @@ export function elementColor(
 
 	let iteration = 0
 	let result = color
-	const epsilon = 1.0 / 255.0
+	const epsilon = (brightBackground ? -100 : 100) / 255
 	while (contrast < minContrast && iteration++ < 100) {
 		const hsl = hexToHSL(result)
 		const l = Math.max(
 			0,
-			Math.min(255, hsl.l + (brightBackground ? -epsilon : epsilon)),
+			Math.min(255, hsl.l + epsilon),
 		)
 		result = hslToHex({ h: hsl.h, s: hsl.s, l })
 		contrast = colorContrast(result, blurredBackground)
