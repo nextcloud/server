@@ -157,7 +157,6 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
@@ -197,7 +196,6 @@ export default defineComponent({
 		NcEmptyContent,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
-		PlusIcon,
 		AccountPlusIcon,
 		UploadPicker,
 		ViewGridIcon,
