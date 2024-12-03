@@ -115,7 +115,12 @@ class UserConfig {
 			throw new \InvalidArgumentException('Unknown config key');
 		}
 
-		if (!in_array($value, $this->getAllowedConfigValues($key))) {
+		$isBoolValue = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        if ($isBoolValue !== null) {
+            $value = $isBoolValue;
+        }
+
+		if (!in_array($value, $this->getAllowedConfigValues($key), true)) {
 			throw new \InvalidArgumentException('Invalid config value');
 		}
 
