@@ -112,12 +112,37 @@ class UserConfigTest extends \Test\TestCase {
 		$userConfig->setConfig('unknown_key', true);
 	}
 
-	public function testSetsConfigSuccessfully(): void {
+	public function testThrowsInvalidArgumentExceptionForInvalidConfigValue(): void {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Invalid config value');
+
+		$userConfig = new UserConfig($this->configMock, $this->userSessionMock);
+		$userConfig->setConfig('crop_image_previews', 'foo');
+	}
+
+	public static function validBoolConfigValues(): array {
+		return [
+			['true', '1'],
+			['false', '0'],
+			['1', '1'],
+			['0', '0'],
+			['yes', '1'],
+			['no', '0'],
+			[true, '1'],
+			[false, '0'],
+		];
+	}
+
+	/**
+	 * @dataProvider validBoolConfigValues
+	 */
+	public function testSetsConfigWithBooleanValuesSuccessfully($boolValue, $expectedValue): void {
 		$this->configMock->expects($this->once())
 			->method('setUserValue')
-			->with($this->userUID, Application::APP_ID, 'crop_image_previews', '1');
+			->with($this->userUID, Application::APP_ID, 'crop_image_previews', $expectedValue);
+
 		$userConfig = new UserConfig($this->configMock, $this->userSessionMock);
-		$userConfig->setConfig('crop_image_previews', true);
+		$userConfig->setConfig('crop_image_previews', $boolValue);
 	}
 
 	public function testGetsConfigsWithDefaultValuesSuccessfully(): void {
