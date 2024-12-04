@@ -142,7 +142,7 @@ class SignatureManager implements ISignatureManager {
 			if ($ttlSignatory > 0 && $knownSignatory->getLastUpdated() < (time() - $ttlSignatory)) {
 				$signatory = $this->getSaneRemoteSignatory($signatoryManager, $signedRequest);
 				$this->updateSignatoryMetadata($signatory);
-				$knownSignatory->setMetadata($signatory->getMetadata());
+				$knownSignatory->setMetadata($signatory->getMetadata() ?? []);
 			}
 
 			$signedRequest->setSignatory($knownSignatory);
@@ -353,6 +353,7 @@ class SignatureManager implements ISignatureManager {
 		$time = time();
 		$signatory->setCreation($time);
 		$signatory->setLastUpdated($time);
+		$signatory->setMetadata($signatory->getMetadata() ?? []); // trigger insert on field metadata using current or default value
 		$this->mapper->insert($signatory);
 	}
 
