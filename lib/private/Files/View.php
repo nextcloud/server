@@ -28,7 +28,9 @@ use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
+use OCP\IL10N;
 use OCP\IUser;
+use OCP\L10N\IFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Server;
@@ -59,6 +61,7 @@ class View {
 	private bool $updaterEnabled = true;
 	private UserManager $userManager;
 	private LoggerInterface $logger;
+	private IL10N $l10n;
 
 	/**
 	 * @throws \Exception If $root contains an invalid path
@@ -73,6 +76,7 @@ class View {
 		$this->lockingEnabled = !($this->lockingProvider instanceof \OC\Lock\NoopLockingProvider);
 		$this->userManager = \OC::$server->getUserManager();
 		$this->logger = \OC::$server->get(LoggerInterface::class);
+		$this->l10n = \OC::$server->get(IFactory::class)->get('files');
 	}
 
 	/**
@@ -839,30 +843,51 @@ class View {
 		return $result;
 	}
 
+	/**
+	 * @throws ForbiddenException
+	 */
 	private function validateMountMove(array $mounts, IMountPoint $sourceMount, IMountPoint $targetMount, bool $targetIsShared): void {
-		$targetType = 'storage';
-		if ($targetMount instanceof SharedMount) {
-			$targetType = 'share';
+		$targetPath = $this->getRelativePath($targetMount->getMountPoint());
+		if ($targetPath) {
+			$targetPath = trim($targetPath, '/');
+		} else {
+			$targetPath = $targetMount->getMountPoint();
 		}
-		$targetPath = rtrim($targetMount->getMountPoint(), '/');
 
 		foreach ($mounts as $mount) {
-			$sourcePath = rtrim($mount->getMountPoint(), '/');
-			$sourceType = 'storage';
-			if ($mount instanceof SharedMount) {
-				$sourceType = 'share';
+			$sourcePath = $this->getRelativePath($mount->getMountPoint());
+			if ($sourcePath) {
+				$sourcePath = trim($sourcePath, '/');
+			} else {
+				$sourcePath = $mount->getMountPoint();
 			}
 
 			if (!$mount instanceof MoveableMount) {
-				throw new ForbiddenException("Storage {$sourcePath} cannot be moved", false);
+				throw new ForbiddenException($this->l10n->t('Storage %s cannot be moved', [$sourcePath]), false);
 			}
 
 			if ($targetIsShared) {
-				throw new ForbiddenException("Moving a $sourceType ($sourcePath) into shared folder is not allowed", false);
+				if ($sourceMount instanceof SharedMount) {
+					throw new ForbiddenException($this->l10n->t('Moving a share (%s) into a shared folder is not allowed', [$sourcePath]), false);
+				} else {
+					throw new ForbiddenException($this->l10n->t('Moving a storage (%s) into a shared folder is not allowed', [$sourcePath]), false);
+				}
 			}
 
 			if ($sourceMount !== $targetMount) {
-				throw new ForbiddenException("Moving a $sourceType ($sourcePath) into another $targetType ($targetPath) is not allowed", false);
+				if ($sourceMount instanceof SharedMount) {
+					if ($targetMount instanceof SharedMount) {
+						throw new ForbiddenException($this->l10n->t('Moving a share (%s) into another share (%s) is not allowed', [$sourcePath, $targetPath]), false);
+					} else {
+						throw new ForbiddenException($this->l10n->t('Moving a share (%s) into another storage (%s) is not allowed', [$sourcePath, $targetPath]), false);
+					}
+				} else {
+					if ($targetMount instanceof SharedMount) {
+						throw new ForbiddenException($this->l10n->t('Moving a storage (%s) into a share (%s) is not allowed', [$sourcePath, $targetPath]), false);
+					} else {
+						throw new ForbiddenException($this->l10n->t('Moving a storage (%s) into another storage (%s) is not allowed', [$sourcePath, $targetPath]), false);
+					}
+				}
 			}
 		}
 	}
