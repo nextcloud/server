@@ -395,10 +395,12 @@ class AppManager implements IAppManager {
 	 * Notice: This actually checks if the app is enabled and not only if it is installed.
 	 *
 	 * @param string $appId
-	 * @param IGroup[]|String[] $groups
-	 * @return bool
 	 */
-	public function isInstalled($appId) {
+	public function isInstalled($appId): bool {
+		return $this->isEnabledForAnyone($appId);
+	}
+
+	public function isEnabledForAnyone(string $appId): bool {
 		$installedApps = $this->getInstalledAppsValues();
 		return isset($installedApps[$appId]);
 	}

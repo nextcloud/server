@@ -79,8 +79,16 @@ interface IAppManager {
 	 * @param string $appId
 	 * @return bool
 	 * @since 8.0.0
+	 * @deprecated 31.0.0 Use either {@see self::isEnabledForUser} or {@see self::isEnabledForAnyone}
 	 */
 	public function isInstalled($appId);
+
+	/**
+	 * Check if an app is enabled in the instance, either for everyone or for specific groups
+	 *
+	 * @since 31.0.0
+	 */
+	public function isEnabledForAnyone(string $appId): bool;
 
 	/**
 	 * Check if an app should be enabled by default
