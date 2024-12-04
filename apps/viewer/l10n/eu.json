@@ -74,6 +74,7 @@
     "Image" : "Irudia",
     "Importing …" : "Inportatzen ...",
     "+ Add image" : "+ Gehitu irudia",
+    "Upload image" : "Igo irudia",
     "Line" : "Lerro",
     "Pen" : "Boligrafoa",
     "Polygon" : "Poligonoa",
@@ -98,14 +99,17 @@
     "Upload watermark" : "Igo ur-marka",
     "Add as text" : "Gehitu testu gisa",
     "Padding" : "Betegarria",
+    "Paddings" : "Betegarriak",
     "Shadow" : "Itzala",
     "Horizontal" : "Horizontala",
     "Vertical" : "Bertikala",
     "Opacity" : "Opakotasuna",
+    "Transparency" : "Gardentasuna",
     "Position" : "Kokalekua",
     "Stroke" : "Trazua",
     "Save image as" : "Gorde irudia honela:",
     "Extension" : "Hedapena",
+    "Format" : "Formatua",
     "Name is required." : "Izena beharrezkoa da",
     "Quality" : "Kalitatea",
     "Saved image size (width x height)" : "Gordetako irudiaren tamaina (zabalera x altuera)",
@@ -113,6 +117,7 @@
     "Actual size (100%)" : "Benetako tamaina (% 100)",
     "Fit size" : "Egokitu tamaina",
     "Menu" : "Menua",
+    "Width" : "Zabalera",
     "Height" : "Altuera"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
