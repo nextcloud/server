@@ -250,7 +250,8 @@ class FederatedShareProvider implements IShareProvider {
 			$remote,
 			$shareWith,
 			$share->getPermissions(),
-			$share->getNode()->getName()
+			$share->getNode()->getName(),
+			$share->getShareType(),
 		);
 
 		return [$token, $remoteId];
