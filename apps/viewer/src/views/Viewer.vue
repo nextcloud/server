@@ -179,7 +179,7 @@ import Vue, { defineComponent } from 'vue'
 
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
-import { File as NcFile, Node, davRemoteURL, davRootPath } from '@nextcloud/files'
+import { File as NcFile, Node, davRemoteURL, davRootPath, davGetRootPath } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 
@@ -202,7 +202,6 @@ import Download from 'vue-material-design-icons/Download.vue'
 import Fullscreen from 'vue-material-design-icons/Fullscreen.vue'
 import FullscreenExit from 'vue-material-design-icons/FullscreenExit.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
-import { davGetRootPath } from '@nextcloud/files'
 
 // Dynamic loading
 const NcModal = () => import('@nextcloud/vue/dist/Components/NcModal.js')
