@@ -4,7 +4,6 @@
     "View file" : "ھۆججەتنى كۆرۈش",
     "View folder" : "ھۆججەت قىسقۇچنى كۆرۈش",
     "Set file reminders" : "ھۆججەت ئەسكەرتىشلىرىنى بەلگىلەڭ",
-    "**📣 File reminders**\n\nSet file reminders." : "** 📣 ھۆججەت ئەسكەرتىشلىرى **\n\nھۆججەت ئەسكەرتىشلىرىنى بەلگىلەڭ.",
     "We will remind you of this file" : "بۇ ھۆججەتنى ئەسكەرتىمىز",
     "Please choose a valid date & time" : "ئىناۋەتلىك چېسلا ۋە ۋاقىتنى تاللاڭ",
     "Cancel" : "بىكار قىلىش",
@@ -25,6 +24,7 @@
     "This weekend" : "بۇ ھەپتە ئاخىرى",
     "Set reminder for this weekend" : "بۇ ھەپتە ئاخىرىدا ئەسكەرتىش بەلگىلەڭ",
     "Next week" : "كېلەر ھەپتە",
-    "Set reminder for next week" : "كېلەر ھەپتە ئەسكەرتىش بەلگىلەڭ"
+    "Set reminder for next week" : "كېلەر ھەپتە ئەسكەرتىش بەلگىلەڭ",
+    "**📣 File reminders**\n\nSet file reminders." : "** 📣 ھۆججەت ئەسكەرتىشلىرى **\n\nھۆججەت ئەسكەرتىشلىرىنى بەلگىلەڭ."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

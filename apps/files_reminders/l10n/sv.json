@@ -4,7 +4,6 @@
     "View file" : "Visa fil",
     "View folder" : "Visa mapp",
     "Set file reminders" : "Ställ in filpåminnelser",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Filpåminnelser**\n\nStäll in filpåminnelser.",
     "We will remind you of this file" : "Vi kommer att påminna dig om denna fil",
     "Please choose a valid date & time" : "Välj ett giltigt datum och tid",
     "Cancel" : "Avbryt",
@@ -25,6 +24,7 @@
     "This weekend" : "Denna helgen",
     "Set reminder for this weekend" : "Ställ in påminnelse för denna helg",
     "Next week" : "Nästa vecka",
-    "Set reminder for next week" : "Ställ in påminnelse för nästa vecka"
+    "Set reminder for next week" : "Ställ in påminnelse för nästa vecka",
+    "**📣 File reminders**\n\nSet file reminders." : "**📣 Filpåminnelser**\n\nStäll in filpåminnelser."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -4,7 +4,6 @@
     "View file" : "Ver archivo",
     "View folder" : "Ver carpeta",
     "Set file reminders" : "Establecer recordatorios de archivo",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Recordatorios de archivo**\n\nEstablecer recordatorios de archivo.",
     "We will remind you of this file" : "Le recordaremos de este archivo",
     "Please choose a valid date & time" : "Por favor, escoja una fecha y hora válidas",
     "Cancel" : "Cancelar",
@@ -25,6 +24,7 @@
     "This weekend" : "Este fin de semana",
     "Set reminder for this weekend" : "Configurar recordatorio para este fin de semana",
     "Next week" : "Semana siguiente",
-    "Set reminder for next week" : "Configurar recordatorio para la semana que viene"
+    "Set reminder for next week" : "Configurar recordatorio para la semana que viene",
+    "**📣 File reminders**\n\nSet file reminders." : "**📣 Recordatorios de archivo**\n\nEstablecer recordatorios de archivo."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -70,6 +70,8 @@
     "Description: %s" : "Deskripzioa: %s",
     "Where: %s" : "Non: %s",
     "%1$s via %2$s" : "%2$s bidez, %1$s",
+    "In a %1$s on %2$s for the entire day" : " %1$s batean %2$s(e)n egun osorako",
+    "In a %1$s on %2$s between %3$s - %4$s" : "%1$s batean %2$s(e)n %3$s eta %4$s artean",
     "Every Day for the entire day" : "Egunero egun osoan",
     "Every Day for the entire day until %1$s" : "Egunero egun osoan  %1$s arte",
     "Every Day between %1$s - %2$s" : "Egunero %1$setatik %2$setara",
