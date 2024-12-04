@@ -1,6 +1,5 @@
 { "translations": {
     "Set file reminders" : "Cunfigura apuntos de archìviu",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Apuntos de archìviu**\n\nCunfigura apuntos de archìviu.",
     "Cancel" : "Annulla",
     "Set reminder" : "Cunfigura un'apuntu",
     "Set reminder for \"{fileName}\"" : "Cunfigura un'apuntu pro \"{fileName}\"",
@@ -13,6 +12,7 @@
     "Set reminder for tomorrow" : "Cunfigura un'apuntu pro cras",
     "Set reminder for this weekend" : "Cunfigura un'apuntu pro custu fine de chida",
     "Next week" : "Sa chida chi benit",
-    "Set reminder for next week" : "Cunfigura un'apuntu pro chida chi benit"
+    "Set reminder for next week" : "Cunfigura un'apuntu pro chida chi benit",
+    "**📣 File reminders**\n\nSet file reminders." : "**📣 Apuntos de archìviu**\n\nCunfigura apuntos de archìviu."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

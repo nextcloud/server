@@ -6,7 +6,6 @@ OC.L10N.register(
     "View file" : "파일 보기",
     "View folder" : "폴더 보기",
     "Set file reminders" : "파일 알림 설정",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 파일 알림**\n\n파일 알림을 설정하세요.",
     "We will remind you of this file" : "이 파일에 대해 알림을 드립니다",
     "Please choose a valid date & time" : "유효한 날짜와 시간을 지정하십시오",
     "Cancel" : "취소",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "This weekend" : "이번 주말",
     "Set reminder for this weekend" : "알림을 주말로 설정",
     "Next week" : "다음주",
-    "Set reminder for next week" : "알림을 다음주로 설정"
+    "Set reminder for next week" : "알림을 다음주로 설정",
+    "**📣 File reminders**\n\nSet file reminders." : "**📣 파일 알림**\n\n파일 알림을 설정하세요."
 },
 "nplurals=1; plural=0;");

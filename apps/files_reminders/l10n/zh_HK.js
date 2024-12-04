@@ -6,7 +6,6 @@ OC.L10N.register(
     "View file" : "檢視檔案",
     "View folder" : "檢視資料夾",
     "Set file reminders" : "設定檔案提醒",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 檔案提醒**\n\n設定檔案提醒。",
     "We will remind you of this file" : "我們會提醒您該檔案",
     "Please choose a valid date & time" : "請選擇有效的日期與時間",
     "Cancel" : "取消",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "This weekend" : "本週末",
     "Set reminder for this weekend" : "設定本週末的提醒",
     "Next week" : "下星期",
-    "Set reminder for next week" : "設定下星期的提醒"
+    "Set reminder for next week" : "設定下星期的提醒",
+    "**📣 File reminders**\n\nSet file reminders." : "**📣 檔案提醒**\n\n設定檔案提醒。"
 },
 "nplurals=1; plural=0;");
