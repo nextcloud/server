@@ -13,7 +13,7 @@ type hexColor = `#${string & (
  * Is the current theme dark?
  */
 export function isDarkModeEnabled() {
-	const darkModePreference = window.matchMedia('(prefers-color-scheme: dark)').matches
+	const darkModePreference = window?.matchMedia?.('(prefers-color-scheme: dark)')?.matches
 	const darkModeSetting = document.body.getAttribute('data-themes')?.includes('dark')
 	return darkModeSetting || darkModePreference || false
 }
@@ -22,7 +22,7 @@ export function isDarkModeEnabled() {
  * Is the current theme high contrast?
  */
 export function isHighContrastModeEnabled() {
-	const highContrastPreference = window.matchMedia('(forced-colors: active)').matches
+	const highContrastPreference = window?.matchMedia?.('(forced-colors: active)')?.matches
 	const highContrastSetting = document.body.getAttribute('data-themes')?.includes('highcontrast')
 	return highContrastSetting || highContrastPreference || false
 }
