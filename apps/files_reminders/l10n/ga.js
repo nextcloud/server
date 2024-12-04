@@ -6,7 +6,6 @@ OC.L10N.register(
     "View file" : "Féach ar chomhad",
     "View folder" : "Féach ar fhillteán",
     "Set file reminders" : "Socraigh meabhrúcháin comhaid",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Meabhrúcháin comhaid**\n\nSocraigh meabhrúcháin comhaid.",
     "We will remind you of this file" : "Cuirfimid an comhad seo i gcuimhne duit",
     "Please choose a valid date & time" : "Roghnaigh dáta agus am bailí le do thoil",
     "Cancel" : "Cealaigh",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "This weekend" : "An deireadh seachtaine seo",
     "Set reminder for this weekend" : "Socraigh meabhrúchán don deireadh seachtaine seo",
     "Next week" : "An tseachtain seo chugainn",
-    "Set reminder for next week" : "Socraigh meabhrúchán don tseachtain seo chugainn"
+    "Set reminder for next week" : "Socraigh meabhrúchán don tseachtain seo chugainn",
+    "**📣 File reminders**\n\nSet file reminders." : "**📣 Meabhrúcháin comhaid**\n\nSocraigh meabhrúcháin comhaid."
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

@@ -6,7 +6,6 @@ OC.L10N.register(
     "View file" : "Vezi fișierul",
     "View folder" : "Vezi dosarul",
     "Set file reminders" : "Setează memo pentru fișier",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Mementouri fișier**\n\nSetează mementorui fișier.",
     "We will remind you of this file" : "Vă vom reaminti despre acest fișier",
     "Please choose a valid date & time" : "Selectați o dată și o oră valide",
     "Cancel" : "Anulare",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "This weekend" : "În acest weekend",
     "Set reminder for this weekend" : "Setează memo pentru acest weekend",
     "Next week" : "Saptămâna următoare",
-    "Set reminder for next week" : "Setează memo pentru săptămâna viitoare"
+    "Set reminder for next week" : "Setează memo pentru săptămâna viitoare",
+    "**📣 File reminders**\n\nSet file reminders." : "**📣 Mementouri fișier**\n\nSetează mementorui fișier."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

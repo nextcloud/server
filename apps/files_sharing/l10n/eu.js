@@ -138,6 +138,8 @@ OC.L10N.register(
     "Link copied to clipboard" : "Arbelara kopiatutako esteka",
     "Email already added" : "Helbide elektronikoa dagoeneko gehituta dago",
     "Invalid email address" : "Baliogabeko helbide elektronikoa",
+    "_{count} email address already added_::_{count} email addresses already added_" : ["Helbide elektroniko {count} gehitu da dagoeneko","{count} helbide elektroniko gehitu dira dagoeneko"],
+    "_{count} email address added_::_{count} email addresses added_" : ["Helbide elektroniko {count} gehitu da","{count} helbide elektroniko gehitu dira"],
     "What are you requesting?" : "Zer eskatu nahi duzu?",
     "Request subject" : "Eskaeraren gaia",
     "Birthday party photos, History assignment…" : "Urtebetetze festako argazkiak, Historiako apunteak...",
