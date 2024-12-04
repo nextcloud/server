@@ -6,7 +6,6 @@ OC.L10N.register(
     "View file" : "Näytä tiedosto",
     "View folder" : "Näytä kansio",
     "Set file reminders" : "Aseta tiedostomuistutuksia",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Tiedostomuistutukset**\n\nAseta tiedostomuistutuksia.",
     "We will remind you of this file" : "Muistutamme sinua tästä tiedostosta",
     "Please choose a valid date & time" : "Valitse kelvollinen päivä ja aika",
     "Cancel" : "Peruuta",
@@ -26,6 +25,7 @@ OC.L10N.register(
     "This weekend" : "Tämä viikonloppu",
     "Set reminder for this weekend" : "Aseta muistutus tälle viikonlopulle",
     "Next week" : "Seuraava viikko",
-    "Set reminder for next week" : "Aseta muistutus seuraavalle viikolle"
+    "Set reminder for next week" : "Aseta muistutus seuraavalle viikolle",
+    "**📣 File reminders**\n\nSet file reminders." : "**📣 Tiedostomuistutukset**\n\nAseta tiedostomuistutuksia."
 },
 "nplurals=2; plural=(n != 1);");

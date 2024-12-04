@@ -64,6 +64,7 @@ OC.L10N.register(
     "Deleted tag" : "删除标签",
     "Failed to delete tag" : "删除标签失败",
     "Manage tags" : "管理标签",
+    "Create new tag" : "创建新标签",
     "Cancel" : "取消",
     "Loading collaborative tags …" : "正在加载协作标签 ...",
     "Search or create collaborative tags" : "搜索或创建协作标签",

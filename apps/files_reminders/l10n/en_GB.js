@@ -6,7 +6,6 @@ OC.L10N.register(
     "View file" : "View file",
     "View folder" : "View folder",
     "Set file reminders" : "Set file reminders",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 File reminders**\n\nSet file reminders.",
     "We will remind you of this file" : "We will remind you of this file",
     "Please choose a valid date & time" : "Please choose a valid date & time",
     "Cancel" : "Cancel",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "This weekend" : "This weekend",
     "Set reminder for this weekend" : "Set reminder for this weekend",
     "Next week" : "Next week",
-    "Set reminder for next week" : "Set reminder for next week"
+    "Set reminder for next week" : "Set reminder for next week",
+    "**📣 File reminders**\n\nSet file reminders." : "**📣 File reminders**\n\nSet file reminders."
 },
 "nplurals=2; plural=(n != 1);");

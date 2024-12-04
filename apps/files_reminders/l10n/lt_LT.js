@@ -6,7 +6,6 @@ OC.L10N.register(
     "View file" : "Rodyti failą",
     "View folder" : "Rodyti aplanką",
     "Set file reminders" : "Nustatyti priminimus apie failus",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Priminimai apie failus**\n\nNustatyti priminimus apie failus.",
     "Please choose a valid date & time" : "Pasirinkite tinkamą datą ir laiką",
     "Cancel" : "Atsisakyti",
     "Clear reminder" : "Panaikinti priminimą",
@@ -23,6 +22,7 @@ OC.L10N.register(
     "This weekend" : "Šį savaitgalį",
     "Set reminder for this weekend" : "Nustatyti priminimą šį savaitgalį",
     "Next week" : "Kitą savaitę",
-    "Set reminder for next week" : "Nustatyti priminimą kitą savaitę"
+    "Set reminder for next week" : "Nustatyti priminimą kitą savaitę",
+    "**📣 File reminders**\n\nSet file reminders." : "**📣 Priminimai apie failus**\n\nNustatyti priminimus apie failus."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
