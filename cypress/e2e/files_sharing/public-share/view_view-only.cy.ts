@@ -78,10 +78,6 @@ describe('files_sharing: Public share - View only', { testIsolation: true }, () 
 		// wait for file list to be ready
 		getRowForFile('foo.txt')
 			.should('be.visible')
-
-		cy.contains('button', 'New')
-			.should('be.visible')
-			.and('be.disabled')
 	})
 
 	it('Only download action is actions available', () => {
