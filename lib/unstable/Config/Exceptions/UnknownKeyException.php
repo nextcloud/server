@@ -12,7 +12,6 @@ use Exception;
 
 /**
  * @experimental 31.0.0
- * @since 31.0.0
  */
 class UnknownKeyException extends Exception {
 }
