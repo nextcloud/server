@@ -149,11 +149,20 @@ class AppManager implements IAppManager {
 	}
 
 	/**
-	 * List all installed apps
+	 * Deprecated alias
 	 *
 	 * @return string[]
 	 */
 	public function getInstalledApps() {
+		return $this->getEnabledApps();
+	}
+
+	/**
+	 * List all enabled apps, either for everyone or for some groups
+	 *
+	 * @return list<string>
+	 */
+	public function getEnabledApps(): array {
 		return array_keys($this->getInstalledAppsValues());
 	}
 
