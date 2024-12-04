@@ -167,7 +167,17 @@ export default {
 				lookup = true
 			}
 
-			const shareType = Object.values(ShareType)
+			const shareType = [
+				ShareType.User,
+				ShareType.Group,
+				ShareType.Remote,
+				ShareType.RemoteGroup,
+				ShareType.Team,
+				ShareType.Room,
+				ShareType.Guest,
+				ShareType.Deck,
+				ShareType.ScienceMesh,
+			]
 
 			if (getCapabilities().files_sharing.public.enabled === true) {
 				shareType.push(ShareType.Email)
