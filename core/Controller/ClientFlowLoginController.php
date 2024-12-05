@@ -26,6 +26,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -55,6 +56,7 @@ class ClientFlowLoginController extends Controller {
 		private ICrypto $crypto,
 		private IEventDispatcher $eventDispatcher,
 		private ITimeFactory $timeFactory,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -157,9 +159,11 @@ class ClientFlowLoginController extends Controller {
 	#[NoCSRFRequired]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'GET', url: '/login/flow/grant')]
-	public function grantPage(string $stateToken = '',
+	public function grantPage(
+		string $stateToken = '',
 		string $clientIdentifier = '',
-		int $direct = 0): StandaloneTemplateResponse {
+		int $direct = 0,
+	): Response {
 		if (!$this->isValidToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
@@ -180,6 +184,10 @@ class ClientFlowLoginController extends Controller {
 
 		/** @var IUser $user */
 		$user = $this->userSession->getUser();
+
+		if (in_array($clientName, $this->appConfig->getValueArray('oauth2', 'autoGrantApplications', []))) {
+			return $this->generateAppPassword($stateToken, $clientIdentifier);
+		}
 
 		$response = new StandaloneTemplateResponse(
 			$this->appName,
@@ -203,14 +211,13 @@ class ClientFlowLoginController extends Controller {
 		return $response;
 	}
 
-	/**
-	 * @return Http\RedirectResponse|Response
-	 */
 	#[NoAdminRequired]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'POST', url: '/login/flow')]
-	public function generateAppPassword(string $stateToken,
-		string $clientIdentifier = '') {
+	public function generateAppPassword(
+		string $stateToken,
+		string $clientIdentifier = '',
+	): Response {
 		if (!$this->isValidToken($stateToken)) {
 			$this->session->remove(self::STATE_NAME);
 			return $this->stateTokenForbiddenResponse();
