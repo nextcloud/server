@@ -2035,6 +2035,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\TagManager' => __DIR__ . '/../../..' . '/lib/private/TagManager.php',
         'OC\\Tagging\\Tag' => __DIR__ . '/../../..' . '/lib/private/Tagging/Tag.php',
         'OC\\Tagging\\TagMapper' => __DIR__ . '/../../..' . '/lib/private/Tagging/TagMapper.php',
+        'OC\\Tagging\\TagRelation' => __DIR__ . '/../../..' . '/lib/private/Tagging/TagRelation.php',
+        'OC\\Tagging\\TagRelationMapper' => __DIR__ . '/../../..' . '/lib/private/Tagging/TagRelationMapper.php',
         'OC\\Tags' => __DIR__ . '/../../..' . '/lib/private/Tags.php',
         'OC\\Talk\\Broker' => __DIR__ . '/../../..' . '/lib/private/Talk/Broker.php',
         'OC\\Talk\\ConversationOptions' => __DIR__ . '/../../..' . '/lib/private/Talk/ConversationOptions.php',

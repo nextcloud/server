@@ -1994,6 +1994,8 @@ return array(
     'OC\\TagManager' => $baseDir . '/lib/private/TagManager.php',
     'OC\\Tagging\\Tag' => $baseDir . '/lib/private/Tagging/Tag.php',
     'OC\\Tagging\\TagMapper' => $baseDir . '/lib/private/Tagging/TagMapper.php',
+    'OC\\Tagging\\TagRelation' => $baseDir . '/lib/private/Tagging/TagRelation.php',
+    'OC\\Tagging\\TagRelationMapper' => $baseDir . '/lib/private/Tagging/TagRelationMapper.php',
     'OC\\Tags' => $baseDir . '/lib/private/Tags.php',
     'OC\\Talk\\Broker' => $baseDir . '/lib/private/Talk/Broker.php',
     'OC\\Talk\\ConversationOptions' => $baseDir . '/lib/private/Talk/ConversationOptions.php',
