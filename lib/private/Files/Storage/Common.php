@@ -16,6 +16,7 @@ use OC\Files\Cache\Watcher;
 use OC\Files\FilenameValidator;
 use OC\Files\Filesystem;
 use OC\Files\ObjectStore\ObjectStoreStorage;
+use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Files\Cache\ICache;
@@ -547,7 +548,10 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 	}
 
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
-		if ($this->isSameStorage($sourceStorage)) {
+		if (
+			!$sourceStorage->instanceOfStorage(Encryption::class) &&
+			$this->isSameStorage($sourceStorage)
+		) {
 			// resolve any jailed paths
 			while ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
