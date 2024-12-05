@@ -439,7 +439,7 @@ class Local extends \OC\Files\Storage\Common {
 		return $result;
 	}
 
-	public function hash($type, $path, $raw = false) {
+	public function hash($type, $path, $raw = false): string|false {
 		return hash_file($type, $this->getSourcePath($path), $raw);
 	}
 
