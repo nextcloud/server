@@ -196,7 +196,7 @@ class MigrationService {
 		$rows = $result->fetchAll(\PDO::FETCH_COLUMN);
 		$result->closeCursor();
 
-		usort($rows, $this->sortMigrations(...));
+		usort($rows, [$this, 'sortMigrations']);
 
 		return $rows;
 	}
@@ -208,7 +208,7 @@ class MigrationService {
 	public function getAvailableVersions(): array {
 		$this->ensureMigrationsAreLoaded();
 		$versions = array_map('strval', array_keys($this->migrations));
-		usort($versions, $this->sortMigrations(...));
+		usort($versions, [$this, 'sortMigrations']);
 		return $versions;
 	}
 
@@ -244,7 +244,7 @@ class MigrationService {
 			\RegexIterator::GET_MATCH);
 
 		$files = array_keys(iterator_to_array($iterator));
-		usort($files, $this->sortMigrations(...));
+		usort($files, [$this, 'sortMigrations']);
 
 		$migrations = [];
 
