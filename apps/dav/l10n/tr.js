@@ -207,7 +207,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Parça dosyası sonuç dosyası olarak yeniden adlandırılamadı, bağlantı tarafından iptal edildi",
     "Could not rename part file to final file" : "Parça dosyası sonuç dosyası olarak yeniden adlandırılamadı",
     "Failed to check file size: %1$s" : "Dosya boyutu denetlenemedi: %1$s",
-    "Could not open file" : "Dosya açılamadı",
     "Encryption not ready: %1$s" : "Şifreleme hazır değil: %1$s",
     "Failed to open file: %1$s" : "Dosya açılamadı: %1$s",
     "Failed to unlink: %1$s" : "Bağlantı kaldırılamadı: %1$s",
@@ -284,6 +283,7 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Katılımınız güncellendi.",
     "To-dos" : "Yapılacak işler",
     "Time:" : "Zaman:",
+    "Could not open file" : "Dosya açılamadı",
     "Invalid chunk name" : "Parça adı geçersiz",
     "Could not rename part file assembled from chunks" : "Parçalardan oluşturulan parça dosyası yeniden adlandırılamadı ",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Çalışma saatlerinizi ayarlarsanız, diğer kullanıcılar bir toplantı ayarladıklarında ofis dışında olduğunuzu görürler."

@@ -209,6 +209,8 @@
     "Memcached is configured as distributed cache, but the wrong PHP module (\"memcache\") is installed. Please install the PHP module \"memcached\"." : "已設定 Memcached 為分散式快取，但安裝了錯誤的 PHP 模組「memcache」。請安裝 PHP 模組「memcached」。",
     "Memcached is configured as distributed cache, but the PHP module \"memcached\" is not installed. Please install the PHP module \"memcached\"." : "已設定 Memcached 為分散式快取，但未安裝 PHP 模組「memcached」。請安裝 PHP 模組「memcached」。",
     "No memory cache has been configured. To enhance performance, please configure a memcache, if available." : "未設定記憶體快取。要強化效能，請設定記憶體快取（若可用）。",
+    "Failed to write and read a value from local cache." : "無法從本機快取寫入或讀取值。",
+    "Failed to write and read a value from distributed cache." : "無法從分散式快取寫入或讀取值。",
     "Configured" : "已設定",
     "Mimetype migrations available" : "有可用的 MIME 類型遷移",
     "One or more mimetype migrations are available. Occasionally new mimetypes are added to better handle certain file types. Migrating the mimetypes take a long time on larger instances so this is not done automatically during upgrades. Use the command `occ maintenance:repair --include-expensive` to perform the migrations." : "有一個或多個 MIME 類型的遷移可用。有時候會新增 MIME 類型以更好地處理特定檔案類型。在較大的站台上遷移 MIME 類型需要較長時間，因此在升級流程中不會自動執行。請使用命令 `occ maintenance:repair --include-expensive` 來執行遷移。",

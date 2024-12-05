@@ -147,7 +147,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Nun se pudo renomar el ficheru parcial al ficheru final, el ganchu encaboxó l'aición",
     "Could not rename part file to final file" : "Nun se pudo renomar el ficheru parcial al ficheru final, el ganchu encaboxó l'aición",
     "Failed to check file size: %1$s" : "Nun se pue comprobar el tamañu del ficheru: %1$s",
-    "Could not open file" : "Nun se pudo abrir el ficheru",
     "Encryption not ready: %1$s" : "El cifráu nun ta preparáu: %1$s",
     "Failed to open file: %1$s" : "Nun se pue abrir el ficheru: %1$s",
     "Failed to unlink: %1$s" : "Nun se pue desenllaciar: %1$s",
@@ -219,6 +218,7 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "La to asistencia anovóse correutamente.",
     "To-dos" : "Xeres pendientes",
     "Time:" : "Hora:",
+    "Could not open file" : "Nun se pudo abrir el ficheru",
     "Invalid chunk name" : "El nome del cachu ye inválidu",
     "Could not rename part file assembled from chunks" : "Nun se pudo renomar el ficheru parcial ensambláu de los cachos",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configures les hores llaborales, los demás usuarios van ver cuando coles de la oficina al acutar una reunión."

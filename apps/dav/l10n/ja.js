@@ -207,7 +207,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "最終ファイルの名前の変更が出来なかったため、フックによりキャンセルされました",
     "Could not rename part file to final file" : "最終ファイルの名前の変更が出来ませんでした",
     "Failed to check file size: %1$s" : "ファイルサイズの確認に失敗: %1$s",
-    "Could not open file" : "ファイルを開くことができませんでした",
     "Encryption not ready: %1$s" : "暗号化の準備が出来ていません: %1$s",
     "Failed to open file: %1$s" : "ファイルを開くのに失敗: %1$s",
     "Failed to unlink: %1$s" : "リンクの解除に失敗: %1$s",
@@ -284,6 +283,7 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "出席は正常に更新されました。",
     "To-dos" : "To-dos",
     "Time:" : "時刻:",
+    "Could not open file" : "ファイルを開くことができませんでした",
     "Invalid chunk name" : "無効なチャンク名",
     "Could not rename part file assembled from chunks" : "チャンクから構成されている部分ファイルの名前の変更ができませんでした",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "勤務時間を設定すると、他のユーザが会議を予約する際に、あなたがいつ不在であるかがわかります。"

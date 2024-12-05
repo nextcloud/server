@@ -154,7 +154,6 @@
     "Could not rename part file to final file, canceled by hook" : "Не удалось переименовать временный файл в результирующий, операция отменена вызовом обработчика",
     "Could not rename part file to final file" : "Не удалось переименовать временный файл в результирующий",
     "Failed to check file size: %1$s" : "Не удалось проверить размер файла: %1$s",
-    "Could not open file" : "Не удалось открыть файл",
     "Encryption not ready: %1$s" : "Подсистема шифрования не готова: %1$s",
     "Failed to open file: %1$s" : "Не удалось открыть файл: %1$s",
     "Failed to unlink: %1$s" : "Не удалось разорвать связь: %1$s",
@@ -231,6 +230,7 @@
     "Your attendance was updated successfully." : "Статус участия обновлён.",
     "To-dos" : "Задачи",
     "Time:" : "Время:",
+    "Could not open file" : "Не удалось открыть файл",
     "Invalid chunk name" : "Недопустимое имя сегмента",
     "Could not rename part file assembled from chunks" : "Не удалось переименовать временный файл, сформированный из сегментов",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Если вы настроите свое рабочее время, другие пользователи будут видеть, когда вас нет в офисе, когда они планируют встречу."
