@@ -766,10 +766,16 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		$provider = $this->shareProviderFactory->getProviderForType(IShare::TYPE_REMOTE);
 		try {
 			$share = $provider->getShareByToken($sharedSecret);
-		} catch (ShareNotFound $e) {
+		} catch (ShareNotFound) {
 			return '';
 		}
 
-		return $share->getSharedWith();
+		// if uid_owner is a local account, the request comes from the recipient
+		// if not, request comes from the instance that owns the share and recipient is the re-sharer
+		if ($this->userManager->get($share->getShareOwner()) !== null) {
+			return $share->getSharedWith();
+		} else {
+			return $share->getShareOwner();
+		}
 	}
 }

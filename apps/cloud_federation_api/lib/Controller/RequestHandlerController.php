@@ -441,7 +441,7 @@ class RequestHandlerController extends Controller {
 				return;
 			}
 		} elseif ($instance !== $signedRequest->getOrigin()) {
-			throw new IncomingRequestException('remote instance {instance} not linked to origin {origin}', ['instance' => $instance, 'origin' => $signedRequest->getOrigin()]);
+			throw new IncomingRequestException('remote instance ' . $instance . ' not linked to origin ' . $signedRequest->getOrigin());
 		}
 	}
 
