@@ -150,7 +150,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "无法将部分文件重命名为最终文件，操作被插件取消",
     "Could not rename part file to final file" : "无法将部分文件重命名为最终文件",
     "Failed to check file size: %1$s" : "检查文件大小失败：%1$s",
-    "Could not open file" : "无法打开文件",
     "Encryption not ready: %1$s" : "加密不可用：%1$s",
     "Failed to open file: %1$s" : "打开文件失败：%1$s",
     "Failed to unlink: %1$s" : "解除链接失败：%1$s",
@@ -225,6 +224,7 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "您的出席状态更新成功。",
     "To-dos" : "待办事项",
     "Time:" : "时间：",
+    "Could not open file" : "无法打开文件",
     "Invalid chunk name" : "分片名称无效",
     "Could not rename part file assembled from chunks" : "无法重命名从分片组合的部分文件",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "如果您配置了工作时间，其他用户在预订会议时就会了解您何时不在办公室。"

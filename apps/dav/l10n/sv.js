@@ -174,7 +174,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Kunde inte byta namn på filfragment till slutgiltigt filnamn, avbröts av en kopplad åtgärd.",
     "Could not rename part file to final file" : "Kunde inte ändra namn från temporära filen till slutliga filen",
     "Failed to check file size: %1$s" : "Kunde inte kontrollera filstorleken: %1$s",
-    "Could not open file" : "Kunde inte öppna fil",
     "Encryption not ready: %1$s" : "Kryptering ej redo: %1$s",
     "Failed to open file: %1$s" : "Kunde inte öppna fil: %1$s",
     "Failed to unlink: %1$s" : "Kunde inte ta bort: %1$s",
@@ -249,6 +248,7 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Dina närvaro uppdaterades.",
     "To-dos" : "Uppgifter",
     "Time:" : "Tid:",
+    "Could not open file" : "Kunde inte öppna fil",
     "Invalid chunk name" : "Ogiltigt delnamn",
     "Could not rename part file assembled from chunks" : "Kunde inte ändra namn på temporära filen ihopsatt från delar",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Om du konfigurerar dina arbetstimmar kan andra användare se när du inte är på jobbet när de bokar ett möte."

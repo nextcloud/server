@@ -148,7 +148,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Kunne ikke omdøbe delfilen til den endelige fil, annulleret af hook",
     "Could not rename part file to final file" : "Delfilen kunne ikke omdøbes til den endelige fil",
     "Failed to check file size: %1$s" : "Kunne ikke kontrollere filstørrelsen: %1$s",
-    "Could not open file" : "Kunne ikke åbne fil",
     "Encryption not ready: %1$s" : "Kryptering ikke klar: %1$s",
     "Failed to open file: %1$s" : "Kunne ikke åbne fil: %1$s",
     "Failed to unlink: %1$s" : "Tilknytningen kunne ikke fjernes: %1$s",
@@ -221,6 +220,7 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Dit tilstedeværelse blev opdateret.",
     "To-dos" : "Opgaver",
     "Time:" : "Tid:",
+    "Could not open file" : "Kunne ikke åbne fil",
     "Invalid chunk name" : "Ugyldigt stykke navn",
     "Could not rename part file assembled from chunks" : "Kunne ikke omdøbe delfilen samlet fra stykker",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Hvis du konfigurerer din arbejdstid, vil andre brugere se, når du er fraværende, når de booker et møde."

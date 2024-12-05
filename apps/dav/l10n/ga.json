@@ -205,7 +205,6 @@
     "Could not rename part file to final file, canceled by hook" : "Níorbh fhéidir páirtchomhad a athainmniú go comhad deiridh, curtha ar ceal le hook",
     "Could not rename part file to final file" : "Níorbh fhéidir páirtchomhad a athainmniú go dtí an comhad deiridh",
     "Failed to check file size: %1$s" : "Níorbh fhéidir méid an chomhaid a sheiceáil: %1$s",
-    "Could not open file" : "Níorbh fhéidir an comhad a oscailt",
     "Encryption not ready: %1$s" : "Níl an criptiúchán réidh: %1$s",
     "Failed to open file: %1$s" : "Níorbh fhéidir an comhad a oscailt: %1$s",
     "Failed to unlink: %1$s" : "Theip ar dhínascadh: %1$s",
@@ -282,6 +281,7 @@
     "Your attendance was updated successfully." : "D'éirigh le do thinreamh a nuashonrú.",
     "To-dos" : "Rudaí le déanamh",
     "Time:" : "Am:",
+    "Could not open file" : "Níorbh fhéidir an comhad a oscailt",
     "Invalid chunk name" : "Ainm smután neamhbhailí",
     "Could not rename part file assembled from chunks" : "Níorbh fhéidir páirtchomhad a athainmniú as smután",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Má dhéanann tú d’uaireanta oibre a chumrú, feicfidh úsáideoirí eile nuair a bhíonn tú as oifig nuair a chuirfidh siad cruinniú in áirithe."
