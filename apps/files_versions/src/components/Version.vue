@@ -209,18 +209,26 @@ export default defineComponent({
 		},
 
 		versionLabel(): string {
-			const label = this.version.label ?? ''
+			const label = this.version?.label ?? ''
 
-			if (this.isCurrent) {
-				if (label === '') {
-					return t('files_versions', 'Current version')
-				} else {
-					return `${label} (${t('files_versions', 'Current version')})`
-				}
+			// Current but empty label
+			if (this.isCurrent && label === '') {
+				return t('files_versions', 'Current version')
 			}
 
+			// Current with label
+			if (this.isCurrent) {
+				return `${label} (${t('files_versions', 'Current version')})`
+			}
+
+			// First version with empty label
 			if (this.isFirstVersion && label === '') {
 				return t('files_versions', 'Initial version')
+			}
+
+			// Unknown version with empty label
+			if (label === '') {
+				return t('files_versions', 'Unnamed version')
 			}
 
 			return label
