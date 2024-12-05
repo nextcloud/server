@@ -5,6 +5,7 @@
  */
 namespace OCA\CloudFederationAPI\Controller;
 
+use NCU\Federation\ISignedCloudFederationProvider;
 use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
 use NCU\Security\Signature\Exceptions\IncomingRequestException;
 use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
@@ -37,8 +38,6 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Share\Exceptions\ShareNotFound;
-use OCP\Share\IProviderFactory;
-use OCP\Share\IShare;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -68,7 +67,6 @@ class RequestHandlerController extends Controller {
 		private ICloudIdManager $cloudIdManager,
 		private readonly ISignatureManager $signatureManager,
 		private readonly OCMSignatoryManager $signatoryManager,
-		private readonly IProviderFactory $shareProviderFactory,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -234,16 +232,6 @@ class RequestHandlerController extends Controller {
 	#[PublicPage]
 	#[BruteForceProtection(action: 'receiveFederatedShareNotification')]
 	public function receiveNotification($notificationType, $resourceType, $providerId, ?array $notification) {
-		try {
-			// if request is signed and well signed, no exception are thrown
-			// if request is not signed and host is known for not supporting signed request, no exception are thrown
-			$signedRequest = $this->getSignedRequest();
-			$this->confirmShareOrigin($signedRequest, $notification['sharedSecret'] ?? '');
-		} catch (IncomingRequestException $e) {
-			$this->logger->warning('incoming request exception', ['exception' => $e]);
-			return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
-		}
-
 		// check if all required parameters are set
 		if ($notificationType === null ||
 			$resourceType === null ||
@@ -257,6 +245,16 @@ class RequestHandlerController extends Controller {
 				],
 				Http::STATUS_BAD_REQUEST
 			);
+		}
+
+		try {
+			// if request is signed and well signed, no exception are thrown
+			// if request is not signed and host is known for not supporting signed request, no exception are thrown
+			$signedRequest = $this->getSignedRequest();
+			$this->confirmNotificationIdentity($signedRequest, $resourceType, $notification);
+		} catch (IncomingRequestException $e) {
+			$this->logger->warning('incoming request exception', ['exception' => $e]);
+			return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
 		}
 
 		try {
@@ -387,41 +385,44 @@ class RequestHandlerController extends Controller {
 		}
 	}
 
-
 	/**
-	 *  confirm that the value related to share token is in format userid@hostname
-	 *  and compare hostname with the origin of the signed request.
+	 *  confirm identity of the remote instance on notification, based on the share token.
 	 *
 	 *  If request is not signed, we still verify that the hostname from the extracted value does,
 	 *  actually, not support signed request
 	 *
 	 * @param IIncomingSignedRequest|null $signedRequest
-	 * @param string $token
+	 * @param string $resourceType
+	 * @param string $sharedSecret
 	 *
 	 * @throws IncomingRequestException
+	 * @throws BadRequestException
 	 */
-	private function confirmShareOrigin(?IIncomingSignedRequest $signedRequest, string $token): void {
-		if ($token === '') {
+	private function confirmNotificationIdentity(
+		?IIncomingSignedRequest $signedRequest,
+		string $resourceType,
+		array $notification,
+	): void {
+		$sharedSecret = $notification['sharedSecret'] ?? '';
+		if ($sharedSecret === '') {
 			throw new BadRequestException(['sharedSecret']);
 		}
 
-		$provider = $this->shareProviderFactory->getProviderForType(IShare::TYPE_REMOTE);
-		$share = $provider->getShareByToken($token);
 		try {
-			$this->confirmShareEntry($signedRequest, $share->getSharedWith());
-		} catch (IncomingRequestException $e) {
-			// notification might come from the instance that owns the share
-			$this->logger->debug('could not confirm origin on sharedWith (' . $share->getSharedWIth() . '); going with shareOwner (' . $share->getShareOwner() . ')', ['exception' => $e]);
-			try {
-				$this->confirmShareEntry($signedRequest, $share->getShareOwner());
-			} catch (IncomingRequestException $f) {
-				// if both entry are failing, we log first exception as warning and second exception
-				// will be logged as warning by the controller
-				$this->logger->warning('could not confirm origin on sharedWith (' . $share->getSharedWIth() . '); going with shareOwner (' . $share->getShareOwner() . ')', ['exception' => $e]);
-				throw $f;
+			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
+			if ($provider instanceof ISignedCloudFederationProvider) {
+				$identity = $provider->getFederationIdFromSharedSecret($sharedSecret, $notification);
+			} else {
+				$this->logger->debug('cloud federation provider {provider} does not implements ISignedCloudFederationProvider', ['provider' => $provider::class]);
+				return;
 			}
+		} catch (\Exception $e) {
+			throw new IncomingRequestException($e->getMessage());
 		}
+
+		$this->confirmNotificationEntry($signedRequest, $identity);
 	}
+
 
 	/**
 	 * @param IIncomingSignedRequest|null $signedRequest
@@ -430,7 +431,7 @@ class RequestHandlerController extends Controller {
 	 * @return void
 	 * @throws IncomingRequestException
 	 */
-	private function confirmShareEntry(?IIncomingSignedRequest $signedRequest, string $entry): void {
+	private function confirmNotificationEntry(?IIncomingSignedRequest $signedRequest, string $entry): void {
 		$instance = $this->getHostFromFederationId($entry);
 		if ($signedRequest === null) {
 			try {
@@ -440,7 +441,7 @@ class RequestHandlerController extends Controller {
 				return;
 			}
 		} elseif ($instance !== $signedRequest->getOrigin()) {
-			throw new IncomingRequestException('token sharedWith (' . $instance . ') not linked to origin (' . $signedRequest->getOrigin() . ')');
+			throw new IncomingRequestException('remote instance ' . $instance . ' not linked to origin ' . $signedRequest->getOrigin());
 		}
 	}
 

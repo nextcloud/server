@@ -42,7 +42,7 @@ use OCP\AppFramework\Db\Entity;
  * @method void setAccount(string $account)
  * @method string getAccount()
  * @method void setMetadata(array $metadata)
- * @method array getMetadata()
+ * @method ?array getMetadata()
  * @method void setCreation(int $creation)
  * @method int getCreation()
  * @method void setLastUpdated(int $creation)
@@ -59,7 +59,7 @@ class Signatory extends Entity implements JsonSerializable {
 	protected string $account = '';
 	protected int $type = 9;
 	protected int $status = 1;
-	protected array $metadata = [];
+	protected ?array $metadata = null;
 	protected int $creation = 0;
 	protected int $lastUpdated = 0;
 

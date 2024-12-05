@@ -12,6 +12,7 @@ return array(
     'NCU\\Config\\Exceptions\\UnknownKeyException' => $baseDir . '/lib/unstable/Config/Exceptions/UnknownKeyException.php',
     'NCU\\Config\\IUserConfig' => $baseDir . '/lib/unstable/Config/IUserConfig.php',
     'NCU\\Config\\ValueType' => $baseDir . '/lib/unstable/Config/ValueType.php',
+    'NCU\\Federation\\ISignedCloudFederationProvider' => $baseDir . '/lib/unstable/Federation/ISignedCloudFederationProvider.php',
     'NCU\\Security\\Signature\\Enum\\DigestAlgorithm' => $baseDir . '/lib/unstable/Security/Signature/Enum/DigestAlgorithm.php',
     'NCU\\Security\\Signature\\Enum\\SignatoryStatus' => $baseDir . '/lib/unstable/Security/Signature/Enum/SignatoryStatus.php',
     'NCU\\Security\\Signature\\Enum\\SignatoryType' => $baseDir . '/lib/unstable/Security/Signature/Enum/SignatoryType.php',
