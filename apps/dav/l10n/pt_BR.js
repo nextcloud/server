@@ -207,7 +207,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Não foi possível renomear o arquivo de parte para o arquivo final, cancelado pelo gancho",
     "Could not rename part file to final file" : "Não foi possível renomear o arquivo de parte para o arquivo final",
     "Failed to check file size: %1$s" : "Falha ao verificar o tamanho do arquivo: %1$s",
-    "Could not open file" : "Não pode abrir o arquivo",
     "Encryption not ready: %1$s" : "A criptografia não está pronta: %1$s",
     "Failed to open file: %1$s" : "Falha ao abrir arquivo: %1$s",
     "Failed to unlink: %1$s" : "Falha ao desvincular: %1$s",
@@ -284,6 +283,7 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Sua presença foi atualizada com sucesso.",
     "To-dos" : "Tarefas",
     "Time:" : "Horário:",
+    "Could not open file" : "Não pode abrir o arquivo",
     "Invalid chunk name" : "Nome do bloco inválido",
     "Could not rename part file assembled from chunks" : "Não foi possível renomear parte do arquivo montado a partir de pedaços",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Se você configurar seu horário de trabalho, outros usuários verão quando você estiver fora do escritório quando marcarem uma reunião. "

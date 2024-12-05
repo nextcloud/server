@@ -148,7 +148,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Gat ekki endurnefnt hlutaskrá sem endanlega skrá, hætt við af tengikrækju",
     "Could not rename part file to final file" : "Gat ekki endurnefnt hlutaskrá sem endanlega skrá",
     "Failed to check file size: %1$s" : "Mistókst að athuga skráarstærð: %1$s",
-    "Could not open file" : "Gat ekki opnað skrá",
     "Encryption not ready: %1$s" : "Dulritun ekki tilbúin: %1$s",
     "Failed to open file: %1$s" : "Mistókst að opna skrá: %1$s",
     "Failed to unlink: %1$s" : "Mistókst að aftengja: %1$s",
@@ -216,6 +215,7 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Mætingarstaða þín var uppfærð.",
     "To-dos" : "Verkþættir",
     "Time:" : "Tími:",
+    "Could not open file" : "Gat ekki opnað skrá",
     "Invalid chunk name" : "Ógilt heiti á bút",
     "Could not rename part file assembled from chunks" : "Ekki var hægt að endurnefna hlutaskrá setta saman úr bútum",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ef þú stillir vinnutímana þína, geta aðrir séð hvenæt þú sért fjarverandi þegar þeir bóka fundi með þér."

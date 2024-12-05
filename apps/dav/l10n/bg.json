@@ -145,7 +145,6 @@
     "Could not rename part file to final file, canceled by hook" : "Не можа да се преименува частичен файл в краен файл, анулиран е от кука",
     "Could not rename part file to final file" : "Не можа да се преименува частичен файл в краен файл",
     "Failed to check file size: %1$s" : "Неуспешна проверка на размера на файла: %1$s",
-    "Could not open file" : "Файлът не можа да се отвори",
     "Encryption not ready: %1$s" : "Криптирането не е готово: %1$s",
     "Failed to open file: %1$s" : "Неуспешно отваряне на файл: %1$s",
     "Failed to unlink: %1$s" : "Неуспешно прекратяване на връзката: %1$s",
@@ -198,6 +197,7 @@
     "Your attendance was updated successfully." : "Вашето присъствие е актуализирано успешно.",
     "To-dos" : "Задачи за изпълнение",
     "Time:" : "Час:",
+    "Could not open file" : "Файлът не можа да се отвори",
     "Invalid chunk name" : "Невалидно име на блок",
     "Could not rename part file assembled from chunks" : "Не можа да се преименува частичен файл, сглобен от блок",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ако конфигурирате работното си време, другите потребители ще виждат кога сте извън офиса, при резервиране на среща."
