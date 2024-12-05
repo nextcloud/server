@@ -77,6 +77,12 @@
 			scope="col">
 			<span>{{ t('settings', 'Last login') }}</span>
 		</th>
+		<th v-if="showConfig.showFirstLogin"
+			class="header__cell"
+			data-cy-user-list-header-first-login
+			scope="col">
+			<span>{{ t('settings', 'First login') }}</span>
+		</th>
 		<th class="header__cell header__cell--large header__cell--fill"
 			data-cy-user-list-header-manager
 			scope="col">

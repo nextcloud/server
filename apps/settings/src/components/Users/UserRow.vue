@@ -236,6 +236,12 @@
 			<span v-if="!isObfuscated">{{ userLastLogin }}</span>
 		</td>
 
+		<td v-if="showConfig.showFirstLogin"
+			class="row__cell"
+			data-cy-user-list-cell-first-login>
+			<span v-if="!isObfuscated">{{ userFirstLogin }}</span>
+		</td>
+
 		<td class="row__cell row__cell--large row__cell--fill" data-cy-user-list-cell-manager>
 			<template v-if="editing">
 				<label class="hidden-visually"

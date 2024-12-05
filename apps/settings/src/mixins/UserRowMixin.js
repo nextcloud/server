@@ -4,6 +4,7 @@
  */
 
 import { formatFileSize } from '@nextcloud/files'
+import { useFormatDateTime } from '@nextcloud/vue'
 
 export default {
 	props: {
@@ -35,6 +36,12 @@ export default {
 			type: Array,
 			default: () => [],
 		},
+	},
+	setup(props) {
+		const { formattedFullTime } = useFormatDateTime(props.user.firstLogin, { relativeTime: false })
+		return {
+			formattedFullTime,
+		}
 	},
 	computed: {
 		showConfig() {
@@ -130,6 +137,16 @@ export default {
 		userLastLogin() {
 			if (this.user.lastLogin > 0) {
 				return OC.Util.relativeModifiedDate(this.user.lastLogin)
+			}
+			return t('settings', 'Never')
+		},
+
+		userFirstLogin() {
+			if (this.user.firstLogin > 0) {
+				return this.formattedFullTime
+			}
+			if (this.user.firstLogin < 0) {
+				return t('settings', 'Unknown')
 			}
 			return t('settings', 'Never')
 		},

@@ -41,6 +41,7 @@ const state = {
 		showStoragePath: localStorage.getItem('account_settings__showStoragePath') === 'true',
 		showUserBackend: localStorage.getItem('account_settings__showUserBackend') === 'true',
 		showLastLogin: localStorage.getItem('account_settings__showLastLogin') === 'true',
+		showFirstLogin: localStorage.getItem('account_settings__showFirstLogin') === 'true',
 		showNewUserForm: localStorage.getItem('account_settings__showNewUserForm') === 'true',
 		showLanguages: localStorage.getItem('account_settings__showLanguages') === 'true',
 	},

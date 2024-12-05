@@ -29,6 +29,11 @@
 				:checked.sync="showLastLogin">
 				{{ t('settings', 'Show last login') }}
 			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch type="switch"
+				data-test="showFirstLogin"
+				:checked.sync="showFirstLogin">
+				{{ t('settings', 'Show first login') }}
+			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
 
 		<NcAppSettingsSection id="groups-sorting"
@@ -170,6 +175,15 @@ export default {
 			},
 			set(status) {
 				this.setShowConfig('showLastLogin', status)
+			},
+		},
+
+		showFirstLogin: {
+			get() {
+				return this.showConfig.showFirstLogin
+			},
+			set(status) {
+				this.setShowConfig('showFirstLogin', status)
 			},
 		},
 
