@@ -187,6 +187,7 @@ OC.L10N.register(
     "remote" : "віддалений",
     "remote group" : "віддалена група",
     "guest" : "гість",
+    "by {initiator}" : "{initiator}",
     "Shared with the group {user} by {owner}" : "Надав доступ групі {user} {owner}",
     "Shared with the conversation {user} by {owner}" : "{owner} поділив(-ла-)ся в чаті {user}",
     "Shared with {user} by {owner}" : "{owner} поділив(-ла-)ся з {user}",

@@ -199,7 +199,6 @@
     "Could not rename part file to final file, canceled by hook" : "بۆلەك ھۆججىتىنى ئاخىرقى ھۆججەتكە ئۆزگەرتەلمىدى ، قارماق تەرىپىدىن ئەمەلدىن قالدۇرۇلدى",
     "Could not rename part file to final file" : "قىسمەن ھۆججەتنى ئاخىرقى ھۆججەتكە ئۆزگەرتەلمىدى",
     "Failed to check file size: %1$s" : "ھۆججەتنىڭ چوڭ-كىچىكلىكىنى تەكشۈرەلمىدى:% 1 $ s",
-    "Could not open file" : "ھۆججەت ئاچالمىدى",
     "Encryption not ready: %1$s" : "شىفىرلاش تەييار ئەمەس:% 1 $ s",
     "Failed to open file: %1$s" : "ھۆججەت ئېچىلمىدى:% 1 $ s",
     "Failed to unlink: %1$s" : "ئۇلانمىدى:% 1 $ s",
@@ -276,6 +275,7 @@
     "Your attendance was updated successfully." : "سىزنىڭ قاتنىشىشىڭىز مۇۋەپپەقىيەتلىك يېڭىلاندى.",
     "To-dos" : "To-dos",
     "Time:" : "ۋاقىت:",
+    "Could not open file" : "ھۆججەت ئاچالمىدى",
     "Invalid chunk name" : "ئىناۋەتسىز",
     "Could not rename part file assembled from chunks" : "بۆلەكلەردىن يىغىلغان قىسمەن ھۆججەتنىڭ نامىنى ئۆزگەرتەلمىدى",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "ئەگەر خىزمەت ۋاقتىڭىزنى تەڭشىسىڭىز ، باشقا ئىشلەتكۈچىلەر يىغىن زاكاز قىلغاندا ئىشخانىدىن چىققان ۋاقتىڭىزنى كۆرىدۇ."

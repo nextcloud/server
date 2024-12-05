@@ -207,7 +207,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "تعذّرت إعادة تسمية ملف جزئي إلى ملف نهائي. تمّ الإلغاء من قِبَل الخطّاف hook.",
     "Could not rename part file to final file" : "تعذّرت إعادة تسمية ملف جزئي إلى ملف نهائي",
     "Failed to check file size: %1$s" : "فشل في تحديد حجم الملف: %1$s",
-    "Could not open file" : "تعذّر فتح الملف",
     "Encryption not ready: %1$s" : "التشفير غير جاهز: %1$s",
     "Failed to open file: %1$s" : "تعذّر فتح الملف: %1$s",
     "Failed to unlink: %1$s" : "تعذّر فك الارتباط: %1$s",
@@ -284,6 +283,7 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "حضورك تم تحديثه بنجاحٍ",
     "To-dos" : "قائمة المهام",
     "Time:" : "الوقت:",
+    "Could not open file" : "تعذّر فتح الملف",
     "Invalid chunk name" : "اسم كتلة chunk غير صحيح",
     "Could not rename part file assembled from chunks" : "تعذّرت إعادة تسمية ملف جزئي مُجمّعٍ من كُتلٍ chunks",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "إذا قمت بتهيئة ساعات العمل الخاصة بك، فسيظهر للمستخدمين الآخرين عندما يحجزون معك موعداً إذا ما كنت في المكتب أو خارجه."
