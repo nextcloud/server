@@ -5,6 +5,8 @@
  */
 namespace OCA\FederatedFileSharing\OCM;
 
+use NCU\Security\Signature\Exceptions\IncomingRequestException;
+use NCU\Security\Signature\IIncomingSignedRequest;
 use OC\AppFramework\Http;
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\AddressHandler;
@@ -37,6 +39,7 @@ use OCP\Notification\IManager as INotificationManager;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
+use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -63,6 +66,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		private Manager $externalShareManager,
 		private LoggerInterface $logger,
 		private IFilenameValidator $filenameValidator,
+		private readonly IProviderFactory $shareProviderFactory,
 	) {
 	}
 
@@ -746,5 +750,19 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		}
 
 		return $slaveService->getUserDisplayName($this->cloudIdManager->removeProtocolFromUrl($userId), false);
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * @param string $token
+	 * @return string|array
+	 */
+	public function getFederationIdFromToken(string $token): string|array {
+		$provider = $this->shareProviderFactory->getProviderForType(IShare::TYPE_REMOTE);
+		$share = $provider->getShareByToken($token);
+
+		// in case of reshare, notification comes from the instance that owns the share
+		return [$share->getSharedWith(), $share->getShareOwner()];
 	}
 }

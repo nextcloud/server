@@ -37,8 +37,6 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Share\Exceptions\ShareNotFound;
-use OCP\Share\IProviderFactory;
-use OCP\Share\IShare;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -68,7 +66,6 @@ class RequestHandlerController extends Controller {
 		private ICloudIdManager $cloudIdManager,
 		private readonly ISignatureManager $signatureManager,
 		private readonly OCMSignatoryManager $signatoryManager,
-		private readonly IProviderFactory $shareProviderFactory,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -238,7 +235,7 @@ class RequestHandlerController extends Controller {
 			// if request is signed and well signed, no exception are thrown
 			// if request is not signed and host is known for not supporting signed request, no exception are thrown
 			$signedRequest = $this->getSignedRequest();
-			$this->confirmShareOrigin($signedRequest, $notification['sharedSecret'] ?? '');
+			$this->confirmNotificationIdentity($signedRequest, $resourceType, $notification['sharedSecret'] ?? '');
 		} catch (IncomingRequestException $e) {
 			$this->logger->warning('incoming request exception', ['exception' => $e]);
 			return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
@@ -387,41 +384,51 @@ class RequestHandlerController extends Controller {
 		}
 	}
 
-
 	/**
-	 *  confirm that the value related to share token is in format userid@hostname
-	 *  and compare hostname with the origin of the signed request.
+	 *  confirm identity of the remote instance on notification, based on the share token.
 	 *
 	 *  If request is not signed, we still verify that the hostname from the extracted value does,
 	 *  actually, not support signed request
 	 *
 	 * @param IIncomingSignedRequest|null $signedRequest
+	 * @param string $resourceType
 	 * @param string $token
 	 *
 	 * @throws IncomingRequestException
+	 * @throws BadRequestException
 	 */
-	private function confirmShareOrigin(?IIncomingSignedRequest $signedRequest, string $token): void {
+	private function confirmNotificationIdentity(?IIncomingSignedRequest $signedRequest, string $resourceType, string $token): void {
 		if ($token === '') {
 			throw new BadRequestException(['sharedSecret']);
 		}
 
-		$provider = $this->shareProviderFactory->getProviderForType(IShare::TYPE_REMOTE);
-		$share = $provider->getShareByToken($token);
 		try {
-			$this->confirmShareEntry($signedRequest, $share->getSharedWith());
-		} catch (IncomingRequestException $e) {
-			// notification might come from the instance that owns the share
-			$this->logger->debug('could not confirm origin on sharedWith (' . $share->getSharedWIth() . '); going with shareOwner (' . $share->getShareOwner() . ')', ['exception' => $e]);
+			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
+			$identities = $provider->getFederationIdFromToken($token);
+		} catch (\Exception $e) {
+			throw new IncomingRequestException($e->getMessage());
+		}
+
+		if (!is_array($identities)) {
+			$identities = [$identities];
+		}
+
+		$confirmed = false;
+		foreach ($identities as $identity) {
 			try {
-				$this->confirmShareEntry($signedRequest, $share->getShareOwner());
-			} catch (IncomingRequestException $f) {
-				// if both entry are failing, we log first exception as warning and second exception
-				// will be logged as warning by the controller
-				$this->logger->warning('could not confirm origin on sharedWith (' . $share->getSharedWIth() . '); going with shareOwner (' . $share->getShareOwner() . ')', ['exception' => $e]);
-				throw $f;
+				$this->confirmNotificationEntry($signedRequest, $identity);
+				$confirmed = true;
+				continue;
+			} catch (IncomingRequestException $e) {
+				$this->logger->notice('could not confirm notification entry', ['exception' => $e, 'identity' => $identity, $signedRequest => $signedRequest]);
 			}
 		}
+
+		if (!$confirmed) {
+			throw new IncomingRequestException('cannot confirm identity');
+		}
 	}
+
 
 	/**
 	 * @param IIncomingSignedRequest|null $signedRequest
@@ -430,7 +437,7 @@ class RequestHandlerController extends Controller {
 	 * @return void
 	 * @throws IncomingRequestException
 	 */
-	private function confirmShareEntry(?IIncomingSignedRequest $signedRequest, string $entry): void {
+	private function confirmNotificationEntry(?IIncomingSignedRequest $signedRequest, string $entry): void {
 		$instance = $this->getHostFromFederationId($entry);
 		if ($signedRequest === null) {
 			try {

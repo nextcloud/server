@@ -67,4 +67,12 @@ interface ICloudFederationProvider {
 	 * @since 14.0.0
 	 */
 	public function getSupportedShareTypes();
+
+	/**
+	 * get federationId (one or multiple) in direct relation (recipient, author) of a share token
+	 *
+	 * @param string $token
+	 * @return string|array
+	 */
+	public function getFederationIdFromToken(string $token): string|array;
 }
