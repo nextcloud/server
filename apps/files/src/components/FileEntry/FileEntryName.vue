@@ -241,6 +241,10 @@ export default defineComponent({
 			}
 
 			const oldName = this.source.basename
+			if (newName === oldName) {
+				this.stopRenaming()
+				return
+			}
 
 			try {
 				const status = await this.renamingStore.rename()
