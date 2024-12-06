@@ -108,7 +108,7 @@ class UserStoragesController extends StoragesController {
 	 *
 	 * {@inheritdoc}
 	 */
-	public function show($id, $testOnly = true) {
+	public function show(int $id, $testOnly = true) {
 		return parent::show($id, $testOnly);
 	}
 
