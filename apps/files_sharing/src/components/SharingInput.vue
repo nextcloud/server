@@ -39,6 +39,7 @@ import Share from '../models/Share.ts'
 import ShareRequests from '../mixins/ShareRequests.js'
 import ShareDetails from '../mixins/ShareDetails.js'
 import { ShareType } from '@nextcloud/sharing'
+import { internal as internalShareTypes } from '../utils/ShareTypes.js';
 
 export default {
 	name: 'SharingInput',
@@ -110,7 +111,7 @@ export default {
 				return t('files_sharing', 'Name or email …')
 			}
 
-			return t('files_sharing', 'Name, email, or Federated Cloud ID …')
+			return t('files_sharing', 'Name …')
 		},
 
 		isValidQuery() {
@@ -160,28 +161,8 @@ export default {
 		 * @param {string} search the search query
 		 * @param {boolean} [lookup] search on lookup server
 		 */
-		async getSuggestions(search, lookup = false) {
+		async getSuggestions(search) {
 			this.loading = true
-
-			if (getCapabilities().files_sharing.sharee.query_lookup_default === true) {
-				lookup = true
-			}
-
-			const shareType = [
-				ShareType.User,
-				ShareType.Group,
-				ShareType.Remote,
-				ShareType.RemoteGroup,
-				ShareType.Team,
-				ShareType.Room,
-				ShareType.Guest,
-				ShareType.Deck,
-				ShareType.ScienceMesh,
-			]
-
-			if (getCapabilities().files_sharing.public.enabled === true) {
-				shareType.push(ShareType.Email)
-			}
 
 			let request = null
 			try {
@@ -190,9 +171,9 @@ export default {
 						format: 'json',
 						itemType: this.fileInfo.type === 'dir' ? 'folder' : 'file',
 						search,
-						lookup,
+						lookup: false,
 						perPage: this.config.maxAutocompleteResults,
-						shareType,
+						shareType: internalShareTypes,
 					},
 				})
 			} catch (error) {
@@ -218,22 +199,10 @@ export default {
 				// sort by type so we can get user&groups first...
 				.sort((a, b) => a.shareType - b.shareType)
 
-			// lookup clickable entry
-			// show if enabled and not already requested
-			const lookupEntry = []
-			if (data.lookupEnabled && !lookup) {
-				lookupEntry.push({
-					id: 'global-lookup',
-					isNoUser: true,
-					displayName: t('files_sharing', 'Search globally'),
-					lookup: true,
-				})
-			}
-
 			// if there is a condition specified, filter it
 			const externalResults = this.externalResults.filter(result => !result.condition || result.condition(this))
 
-			const allSuggestions = exactSuggestions.concat(suggestions).concat(externalResults).concat(lookupEntry)
+			const allSuggestions = exactSuggestions.concat(suggestions).concat(externalResults)
 
 			// Count occurrences of display names in order to provide a distinguishable description if needed
 			const nameCounts = allSuggestions.reduce((nameCounts, result) => {
@@ -280,6 +249,7 @@ export default {
 					params: {
 						format: 'json',
 						itemType: this.fileInfo.type,
+						shareType: internalShareTypes,
 					},
 				})
 			} catch (error) {
