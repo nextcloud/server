@@ -188,6 +188,7 @@ OC.L10N.register(
     "remote" : "remoto",
     "remote group" : "grupo remoto",
     "guest" : "convidado",
+    "by {initiator}" : "por {initiator}",
     "Shared with the group {user} by {owner}" : "Compartilhado com o grupo {user} por {owner}",
     "Shared with the conversation {user} by {owner}" : "Compartilhado com a conversa {user} por {owner}",
     "Shared with {user} by {owner}" : "Compartilhado com {user} por {owner}",
