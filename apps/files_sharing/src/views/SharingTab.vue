@@ -69,7 +69,7 @@
 
 			<!-- TODO: component must either be configurable or diffentiated into two -->
 			<!-- add new email/federated share input -->
-			<SharingInput v-if="!loading"
+			<ExternalShareeSearch v-if="!loading"
 				:can-reshare="canReshare"
 				:file-info="fileInfo"
 				:link-shares="linkShares"
@@ -142,6 +142,7 @@ import Share from '../models/Share.ts'
 import SharingEntryInternal from '../components/SharingEntryInternal.vue'
 import SharingEntrySimple from '../components/SharingEntrySimple.vue'
 import SharingInput from '../components/SharingInput.vue'
+import ExternalShareeSearch from '../components/ExternalShareeSearch.vue'
 
 import SharingInherited from './SharingInherited.vue'
 import SharingList from './SharingList.vue'
@@ -162,6 +163,7 @@ export default {
 		SharingEntrySimple,
 		SharingInherited,
 		SharingInput,
+		ExternalShareeSearch,
 		SharingList,
 		SharingListExternal,
 		SharingDetailsTab,
