@@ -338,7 +338,7 @@ export default {
 					} else { // filter out existing shares
 						// creating an object of uid => type
 						const sharesObj = this.shares.reduce((obj, elem) => {
-							obj[elem.shareWith] = elem.type
+							obj[elem.shareWith.trim()] = elem.type
 							return obj
 						}, {})
 
