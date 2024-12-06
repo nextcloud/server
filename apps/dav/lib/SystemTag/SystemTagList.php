@@ -54,6 +54,7 @@ class SystemTagList implements Element {
 				SystemTagPlugin::ID_PROPERTYNAME => $tag->getId(),
 				SystemTagPlugin::USERASSIGNABLE_PROPERTYNAME => $tag->isUserAssignable() ? 'true' : 'false',
 				SystemTagPlugin::USERVISIBLE_PROPERTYNAME => $tag->isUserVisible() ? 'true' : 'false',
+				SystemTagPlugin::COLOR_PROPERTYNAME => $tag->getColor() ?? '',
 			]);
 			$writer->write($tag->getName());
 			$writer->endElement();
