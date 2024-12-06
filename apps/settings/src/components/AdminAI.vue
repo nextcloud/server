@@ -10,10 +10,14 @@
 				<div :key="type">
 					<h3>{{ t('settings', 'Task:') }} {{ type.name }}</h3>
 					<p>{{ type.description }}</p>
-					<p>&nbsp;</p>
+					<NcCheckboxRadioSwitch type="switch"
+						v-model="taskEnabled" >
+						{{ t('settings', 'Enable') }}
+					</NcCheckboxRadioSwitch>
 					<NcSelect v-model="settings['ai.taskprocessing_provider_preferences'][type.id]"
 						class="provider-select"
 						:clearable="false"
+						:disabled="!taskEnabled"
 						:options="taskProcessingProviders.filter(p => p.taskType === type.id).map(p => p.id)"
 						@input="saveChanges">
 						<template #option="{label}">
@@ -142,6 +146,7 @@ export default {
 			taskProcessingProviders: loadState('settings', 'ai-task-processing-providers'),
 			taskProcessingTaskTypes: loadState('settings', 'ai-task-processing-task-types'),
 			settings: loadState('settings', 'ai-settings'),
+			taskEnabled: true,
 		}
 	},
 	computed: {
