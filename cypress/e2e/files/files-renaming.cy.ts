@@ -155,4 +155,43 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 			.findByRole('textbox', { name: 'Filename' })
 			.should('not.exist')
 	})
+
+	it('cancel renaming on esc press', () => {
+		// All are visible by default
+		getRowForFile('file.txt').should('be.visible')
+
+		triggerActionForFile('file.txt', 'rename')
+
+		getRowForFile('file.txt')
+			.findByRole('textbox', { name: 'Filename' })
+			.should('be.visible')
+			.type('{selectAll}other.txt')
+			.should(haveValidity(''))
+			.type('{esc}')
+
+		// See it is not renamed
+		getRowForFile('other.txt').should('not.exist')
+		getRowForFile('file.txt')
+			.should('be.visible')
+			.find('input[type="text"]')
+			.should('not.exist')
+	})
+
+	it('cancel on enter if no new name is entered', () => {
+		// All are visible by default
+		getRowForFile('file.txt').should('be.visible')
+
+		triggerActionForFile('file.txt', 'rename')
+
+		getRowForFile('file.txt')
+			.findByRole('textbox', { name: 'Filename' })
+			.should('be.visible')
+			.type('{enter}')
+
+		// See it is not renamed
+		getRowForFile('file.txt')
+			.should('be.visible')
+			.find('input[type="text"]')
+			.should('not.exist')
+	})
 })
