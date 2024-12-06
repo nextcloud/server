@@ -48,7 +48,7 @@
 
 			<!-- other shares list -->
 			<SharingList v-if="!loading"
-				ref="shareList"
+				ref="internalShareList"
 				:shares="shares"
 				:file-info="fileInfo"
 				@open-sharing-details="toggleShareDetailsView" />
@@ -56,6 +56,7 @@
 			<!-- inherited shares -->
 			<SharingInherited v-if="canReshare && !loading" :file-info="fileInfo" />
 
+		<template v-if="config.isRemoteShareAllowed">
 			<hr>
 			<h3>External shares</h3>
 
@@ -63,7 +64,7 @@
 			<SharingEntryLink v-if="!hasLinkShares && canReshare"
 				:can-reshare="canReshare"
 				:file-info="fileInfo"
-				@add:share="addShare" />
+				@add:share="addExternalShare" />
 			<!-- ***** DISSOLVED OUT FROM ShareLinkList ***** -->
 
 			<!-- TODO: component must either be configurable or diffentiated into two -->
@@ -77,20 +78,17 @@
 				@open-sharing-details="toggleShareDetailsView" />
 
 			<!-- ***** DISSOLVED OUT FROM ShareLinkList ***** -->
-			<template v-if="hasShares">
-				<!-- using shares[index] to work with .sync -->
-				<SharingEntryLink v-for="(share, index) in shares"
-					:key="share.id"
-					:index="shares.length > 1 ? index + 1 : null"
-					:can-reshare="canReshare"
-					:share.sync="shares[index]"
-					:file-info="fileInfo"
-					@add:share="addShare(...arguments)"
-					@update:share="awaitForShare(...arguments)"
-					@remove:share="removeShare"
-					@open-sharing-details="openSharingDetails(share)" />
-			</template>
+			<SharingListExternal v-if="hasShares"
+				ref="externalShareList"
+				:can-reshare="canReshare"
+				:shares="shares"
+				:file-info="fileInfo"
+				@add:share="addShare(...arguments)"
+				@update:share="awaitForShare(...arguments)"
+				@remove:share="removeShare"
+				@open-sharing-details="openSharingDetails(share)" />
 			<!-- ***** DISSOLVED OUT FROM ShareLinkList ***** -->
+		</template>
 
 			<CollectionList v-if="projectsEnabled && fileInfo"
 				:id="`${fileInfo.id}`"
@@ -120,7 +118,7 @@
 			:file-info="shareDetailsData.fileInfo"
 			:share="shareDetailsData.share"
 			@close-sharing-details="toggleShareDetailsView"
-			@add:share="addShare"
+			@add:share="addInternalShare"
 			@remove:share="removeShare" />
 	</div>
 </template>
@@ -147,6 +145,7 @@ import SharingInput from '../components/SharingInput.vue'
 
 import SharingInherited from './SharingInherited.vue'
 import SharingList from './SharingList.vue'
+import SharingListExternal from './SharingListExternal.vue'
 import SharingDetailsTab from './SharingDetailsTab.vue'
 import { getCapabilities } from '@nextcloud/capabilities'
 import SharingEntryLink from '../components/SharingEntryLink.vue'
@@ -164,6 +163,7 @@ export default {
 		SharingInherited,
 		SharingInput,
 		SharingList,
+		SharingListExternal,
 		SharingDetailsTab,
 	},
 
@@ -404,7 +404,18 @@ export default {
 		 * @param {Share} share the share to add to the array
 		 * @param {Function} [resolve] a function to run after the share is added and its component initialized
 		 */
-		addShare(share, resolve = () => { }) {
+		addInternalShare(share, resolve = () => { }) {
+			this.shares.unshift(share)
+			this.awaitForInternalShare(share, resolve)
+		},
+		/**
+		 * Add a new share into the shares list
+		 * and return the newly created share component
+		 *
+		 * @param {Share} share the share to add to the array
+		 * @param {Function} [resolve] a function to run after the share is added and its component initialized
+		 */
+		addExternalShare(share, resolve = () => { }) {
 			// only catching share type MAIL as link shares are added differently
 			// meaning: not from the ShareInput
 			if (share.type === ShareType.Email) {
@@ -412,7 +423,7 @@ export default {
 			} else {
 				this.shares.unshift(share)
 			}
-			this.awaitForShare(share, resolve)
+			this.awaitForExternalShare(share, resolve)
 		},
 		/**
 		 * Remove a share from the shares list
@@ -439,22 +450,32 @@ export default {
 		 * @param {Share} share newly created share
 		 * @param {Function} resolve a function to execute after
 		 */
-		awaitForShare(share, resolve) {
+		awaitForInternalShare(share, resolve) {
 			this.$nextTick(() => {
-				let listComponent = this.$refs.shareList
-				// TODO since we've dissolved SharingLinkList handle this:
-				// Only mail shares comes from the input, link shares
-				// are managed internally in the SharingLinkList component
-				if (share.type === ShareType.Email) {
-					listComponent = this.$refs.linkShareList
-				}
+				let listComponent = this.$refs.internalShareList
 				const newShare = listComponent.$children.find(component => component.share === share)
 				if (newShare) {
 					resolve(newShare)
 				}
 			})
 		},
-
+		/**
+		 * Await for next tick and render after the list updated
+		 * Then resolve with the matched vue component of the
+		 * provided share object
+		 *
+		 * @param {Share} share newly created share
+		 * @param {Function} resolve a function to execute after
+		 */
+		awaitForExternalShare(share, resolve) {
+			this.$nextTick(() => {
+				let listComponent = this.$refs.externalShareList
+				const newShare = listComponent.$children.find(component => component.share === share)
+				if (newShare) {
+					resolve(newShare)
+				}
+			})
+		},
 		toggleShareDetailsView(eventData) {
 			if (!this.showSharingDetailsView) {
 				const isAction = Array.from(document.activeElement.classList)
