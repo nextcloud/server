@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace NCU\Config;
 
 use NCU\Config\Exceptions\IncorrectTypeException;
+use OCP\IAppConfig;
 use UnhandledMatchError;
 
 /**
@@ -89,4 +90,28 @@ enum ValueType: int {
 			throw new IncorrectTypeException('unknown type definition ' . $this->value);
 		}
 	}
+
+	/**
+	 * get corresponding AppConfig flag value
+	 *
+	 * @return int
+	 * @throws IncorrectTypeException
+	 *
+	 * @experimental 31.0.0
+	 */
+	public function toAppConfigFlag(): int {
+		try {
+			return match ($this) {
+				self::MIXED => IAppConfig::VALUE_MIXED,
+				self::STRING => IAppConfig::VALUE_STRING,
+				self::INT => IAppConfig::VALUE_INT,
+				self::FLOAT => IAppConfig::VALUE_FLOAT,
+				self::BOOL => IAppConfig::VALUE_BOOL,
+				self::ARRAY => IAppConfig::VALUE_ARRAY,
+			};
+		} catch (UnhandledMatchError) {
+			throw new IncorrectTypeException('unknown type definition ' . $this->value);
+		}
+	}
+
 }
