@@ -696,9 +696,8 @@ export default {
 		 * accordingly
 		 *
 		 * @param {Share} share the new share
-		 * @param {boolean} [update] do we update the current share ?
 		 */
-		async pushNewLinkShare(share, update) {
+		async pushNewLinkShare(share) {
 			try {
 				// do nothing if we're already pending creation
 				if (this.loading) {
@@ -728,20 +727,13 @@ export default {
 				this.open = false
 				this.shareCreationComplete = true
 				console.debug('Link share created', newShare)
-				// if share already exists, copy link directly on next tick
-				let component
-				if (update) {
-					component = await new Promise(resolve => {
-						this.$emit('update:share', newShare, resolve)
-					})
-				} else {
-					// adding new share to the array and copying link to clipboard
-					// using promise so that we can copy link in the same click function
-					// and avoid firefox copy permissions issue
-					component = await new Promise(resolve => {
-						this.$emit('add:share', newShare, resolve)
-					})
-				}
+
+				// adding new share to the array and copying link to clipboard
+				// using promise so that we can copy link in the same click function
+				// and avoid firefox copy permissions issue
+				const component = await new Promise(resolve => {
+					this.$emit('add:share', newShare, resolve)
+				})
 
 				await this.getNode()
 				emit('files:node:updated', this.node)
