@@ -14,11 +14,12 @@ use OCP\IUserBackend;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ICountUsersBackend;
+use OCP\User\Backend\IGetUserCreationDateBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
-class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
+class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend, IGetUserCreationDateBackend {
 	/** @var User_LDAP[] */
 	private array $backends = [];
 	private ?User_LDAP $refBackend = null;
@@ -442,5 +443,9 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 				$limit
 			)
 		);
+	}
+
+	public function getUserCreationDate(string $uid): ?\DateTime {
+		return $this->handleRequest($uid, 'getUserCreationDate', [$uid]) ?: null;
 	}
 }

@@ -634,4 +634,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	public function getDisabledUserList(?int $limit = null, int $offset = 0, string $search = ''): array {
 		throw new \Exception('This is implemented directly in User_Proxy');
 	}
+
+	public function getUserCreationDate(string $uid): ?\DateTime {
+	}
 }
