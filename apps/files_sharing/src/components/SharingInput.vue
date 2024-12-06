@@ -290,9 +290,7 @@ export default {
 			// Add external results from the OCA.Sharing.ShareSearch api
 			const externalResults = this.externalResults.filter(result => !result.condition || result.condition(this))
 
-			// flatten array of arrays
-			const rawRecommendations = Object.values(request.data.ocs.data.exact)
-				.reduce((arr, elem) => arr.concat(elem), [])
+			const rawRecommendations = Object.values(request.data.ocs.data.exact).flat()
 
 			// remove invalid data and format to user-select layout
 			this.recommendations = this.filterOutExistingShares(rawRecommendations)
