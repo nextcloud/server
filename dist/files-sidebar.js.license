@@ -18,6 +18,7 @@ SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
 SPDX-FileCopyrightText: Thorsten Lünborg
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
+SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
@@ -166,6 +167,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - call-bind
 	- version: 1.0.7
+	- license: MIT
+- camelcase
+	- version: 8.0.0
 	- license: MIT
 - cancelable-promise
 	- version: 4.3.1
