@@ -432,6 +432,17 @@ $CONFIG = [
 'auth.bruteforce.protection.testing' => false,
 
 /**
+ * Brute force protection: maximum number of attempts before blocking
+ *
+ * When more than max-attempts login requests are sent to Nextcloud, requests
+ * will abort with "429 Too Many Requests".
+ * For security reasons, change it only if you know what you are doing.
+ *
+ * Defaults to ``10``
+ */
+'auth.bruteforce.max-attempts' => 10,
+
+/**
  * Whether the rate limit protection shipped with Nextcloud should be enabled or not.
  *
  * Disabling this is discouraged for security reasons.
