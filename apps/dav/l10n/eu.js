@@ -207,6 +207,8 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Ezin izan da zati-fitxategiaren izena aldatu azken fitxategira, kakoak bertan behera utzi du",
     "Could not rename part file to final file" : "Ezin izan da zati-fitxategia azken fitxategira aldatu",
     "Failed to check file size: %1$s" : "Ezin izan da egiaztatu fitxategiaren tamaina:%1$s",
+    "Could not open file: %1$s, file does seem to exist" : "Ezin da fitxategi hau ireki: %1$s, badirudi fitxategia existitzen dela",
+    "Could not open file: %1$s, file doesn't seem to exist" : "Ezin da fitxategi hau ireki: %1$s, badirudi fitxategia ez dela existitzen",
     "Encryption not ready: %1$s" : "Enkriptatzea ez dago prest:%1$s",
     "Failed to open file: %1$s" : "Ezin izan da fitxategia ireki:%1$s",
     "Failed to unlink: %1$s" : "Ezin izan da deskonektatu:%1$s",

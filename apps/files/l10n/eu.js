@@ -105,6 +105,8 @@ OC.L10N.register(
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" multzoko ekintza behar bezala exekutatu da",
     "{count} selected" : "{count} hautatuta",
     "List of files and folders." : "Fitxategi eta karpeten zerrenda.",
+    "You don’t have permission to upload or create files here." : "Ez duzu baimenik fitxategiak hona kargatu edo hemen sortzeko.",
+    "You have used your space quota and cannot upload files anymore." : "Zure espazio-kuota erabili duzu eta ezin duzu fitxategi gehiago kargatu.",
     "Column headers with buttons are sortable." : "Botoiak dituzten zutabeen goiburuak ordena daitezke.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Zerrenda hau ez da guztiz ikusten errendimendu arrazoiengatik. Fitxategiak zerrendan zehar nabigatzen duten heinean bistaratuko dira.",
     "File not found" : "Ez da fitxategia aurkitu",
