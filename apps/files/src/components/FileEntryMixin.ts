@@ -19,7 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
@@ -193,7 +192,20 @@ export default defineComponent({
 			}
 
 			return actions
-				.filter(action => !action.enabled || action.enabled([this.source], this.currentView))
+				.filter(action => {
+					if (!action.enabled) {
+						return true
+					}
+
+					// In case something goes wrong, since we don't want to break
+					// the entire list, we filter out actions that throw an error.
+					try {
+						return action.enabled([this.source], this.currentView)
+					} catch (error) {
+						logger.error('Error while checking action', { action, error })
+						return false
+					}
+				})
 				.sort((a, b) => (a.order || 0) - (b.order || 0))
 		},
 
