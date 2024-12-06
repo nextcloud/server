@@ -13,6 +13,7 @@ use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagAlreadyExistsException;
 use OCP\SystemTag\TagNotFoundException;
+use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Conflict;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
@@ -86,12 +87,13 @@ class SystemTagNode implements \Sabre\DAV\ICollection {
 	 * @param string $name new tag name
 	 * @param bool $userVisible user visible
 	 * @param bool $userAssignable user assignable
+	 * @param string $color color
 	 *
 	 * @throws NotFound whenever the given tag id does not exist
 	 * @throws Forbidden whenever there is no permission to update said tag
 	 * @throws Conflict whenever a tag already exists with the given attributes
 	 */
-	public function update($name, $userVisible, $userAssignable): void {
+	public function update($name, $userVisible, $userAssignable, $color): void {
 		try {
 			if (!$this->tagManager->canUserSeeTag($this->tag, $this->user)) {
 				throw new NotFound('Tag with id ' . $this->tag->getId() . ' does not exist');
@@ -110,7 +112,12 @@ class SystemTagNode implements \Sabre\DAV\ICollection {
 				}
 			}
 
-			$this->tagManager->updateTag($this->tag->getId(), $name, $userVisible, $userAssignable);
+			// Make sure color is a proper hex
+			if ($color !== null && (strlen($color) !== 6 || !ctype_xdigit($color))) {
+				throw new BadRequest('Color must be a 6-digit hexadecimal value');
+			}
+
+			$this->tagManager->updateTag($this->tag->getId(), $name, $userVisible, $userAssignable, $color);
 		} catch (TagNotFoundException $e) {
 			throw new NotFound('Tag with id ' . $this->tag->getId() . ' does not exist');
 		} catch (TagAlreadyExistsException $e) {

@@ -40,6 +40,12 @@ class Edit extends Base {
 				null,
 				InputOption::VALUE_OPTIONAL,
 				'sets the access control level (public, restricted, invisible)',
+			)
+			->addOption(
+				'color',
+				null,
+				InputOption::VALUE_OPTIONAL,
+				'set the tag color',
 			);
 	}
 
@@ -80,9 +86,24 @@ class Edit extends Base {
 			}
 		}
 
+		$color = $tag->getColor();
+		if ($input->hasOption('color')) {
+			$color = $input->getOption('color');
+			if (substr($color, 0, 1) === '#') {
+				$color = substr($color, 1);
+			}
+
+			if ($input->getOption('color') === '') {
+				$color = null;
+			} elseif (strlen($color) !== 6 || !ctype_xdigit($color)) {
+				$output->writeln('<error>Color must be a 6-digit hexadecimal value</error>');
+				return 2;
+			}
+		}
+
 		try {
-			$this->systemTagManager->updateTag($input->getArgument('id'), $name, $userVisible, $userAssignable);
-			$output->writeln('<info>Tag updated ("' . $name . '", ' . $userVisible . ', ' . $userAssignable . ')</info>');
+			$this->systemTagManager->updateTag($input->getArgument('id'), $name, $userVisible, $userAssignable, $color);
+			$output->writeln('<info>Tag updated ("' . $name . '", ' . json_encode($userVisible) . ', ' . json_encode($userAssignable) . ', "' . ($color ? "#$color" : '') . '")</info>');
 			return 0;
 		} catch (TagNotFoundException $e) {
 			$output->writeln('<error>Tag not found</error>');

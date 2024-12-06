@@ -81,13 +81,14 @@ class EditTest extends TestCase {
 				$tagId,
 				$newTagName,
 				$newTagUserVisible,
-				$newTagUserAssignable
+				$newTagUserAssignable,
+				''
 			);
 
 		$this->output->expects($this->once())
 			->method('writeln')
 			->with(
-				'<info>Tag updated ("' . $newTagName . '", ' . $newTagUserVisible . ', ' . $newTagUserAssignable . ')</info>'
+				'<info>Tag updated ("' . $newTagName . '", ' . json_encode($newTagUserVisible) . ', ' . json_encode($newTagUserAssignable) . ', "")</info>'
 			);
 
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
@@ -145,7 +146,8 @@ class EditTest extends TestCase {
 				$tagId,
 				$newTagName,
 				$newTagUserVisible,
-				$newTagUserAssignable
+				$newTagUserAssignable,
+				''
 			);
 
 		$this->output->expects($this->once())
