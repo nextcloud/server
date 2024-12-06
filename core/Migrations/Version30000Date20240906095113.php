@@ -28,11 +28,13 @@ class Version30000Date20240906095113 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		$table = $schema->getTable('taskprocessing_tasks');
-		$column = $table->getColumn('error_message');
-
-		if ($column->getLength() < 4000) {
-			$column->setLength(4000);
+		if ($schema->hasTable('taskprocessing_tasks')) {
+			$table = $schema->getTable('taskprocessing_tasks');
+			$column = $table->getColumn('error_message');
+	
+			if ($column->getLength() < 4000) {
+				$column->setLength(4000);
+			}
 		}
 
 		return $schema;
