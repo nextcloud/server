@@ -47,6 +47,7 @@ OC.L10N.register(
     "Watermark" : "Ur-marka",
     "Draw" : "Margotu",
     "Resize" : "Tamaina aldatu",
+    "Image name" : "Irudiaren izena",
     "Invalid image." : "Irudi baliogabea.",
     "Error while uploading the image." : "Errorea irudia igotzean.",
     "are not images" : "ez da irudirik",
@@ -77,6 +78,7 @@ OC.L10N.register(
     "Importing …" : "Inportatzen ...",
     "+ Add image" : "+ Gehitu irudia",
     "Upload image" : "Igo irudia",
+    "From gallery" : "Galeriatik",
     "Line" : "Lerro",
     "Pen" : "Boligrafoa",
     "Polygon" : "Poligonoa",
@@ -97,6 +99,7 @@ OC.L10N.register(
     "Line height" : "Lerroaren altuera",
     "Warmth" : "Epeltasuna",
     "+ Add watermark" : "+ Gehitu ur-marka",
+    "+ Add text watermark" : "+ Gehitu testu ur-marka",
     "Choose watermark type" : "Aukeratu ur-marka mota",
     "Upload watermark" : "Igo ur-marka",
     "Add as text" : "Gehitu testu gisa",
@@ -118,8 +121,11 @@ OC.L10N.register(
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Kontuan izan hautatutako mozte-eremua aplikatutako tamaina baino txikiagoa dela eta horrek kalitatea gutxitzea eragin dezakeela",
     "Actual size (100%)" : "Benetako tamaina (% 100)",
     "Fit size" : "Egokitu tamaina",
+    "Select image to add …" : "Hautatu gehitzeko irudia ...",
+    "Failed to load image." : "Irudia kargatzeak huts egin du.",
     "Menu" : "Menua",
     "Width" : "Zabalera",
-    "Height" : "Altuera"
+    "Height" : "Altuera",
+    "No preview available for this crop item" : "Ez dago aurreikuspenik eskuragarri ebakitako elementu honentzat"
 },
 "nplurals=2; plural=(n != 1);");
