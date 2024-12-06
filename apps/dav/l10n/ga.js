@@ -207,6 +207,8 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Níorbh fhéidir páirtchomhad a athainmniú go comhad deiridh, curtha ar ceal le hook",
     "Could not rename part file to final file" : "Níorbh fhéidir páirtchomhad a athainmniú go dtí an comhad deiridh",
     "Failed to check file size: %1$s" : "Níorbh fhéidir méid an chomhaid a sheiceáil: %1$s",
+    "Could not open file: %1$s, file does seem to exist" : "Níorbh fhéidir comhad a oscailt: %1$s, is cosúil go bhfuil an comhad ann",
+    "Could not open file: %1$s, file doesn't seem to exist" : "Níorbh fhéidir comhad a oscailt: %1$s, is cosúil nach bhfuil an comhad ann",
     "Encryption not ready: %1$s" : "Níl an criptiúchán réidh: %1$s",
     "Failed to open file: %1$s" : "Níorbh fhéidir an comhad a oscailt: %1$s",
     "Failed to unlink: %1$s" : "Theip ar dhínascadh: %1$s",

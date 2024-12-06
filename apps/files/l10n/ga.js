@@ -105,6 +105,8 @@ OC.L10N.register(
     "\"{displayName}\" batch action executed successfully" : "D'éirigh le beart baisce \"{displayName}\" a rith",
     "{count} selected" : "{count} roghnaithe",
     "List of files and folders." : "Liosta de chomhaid agus fillteáin.",
+    "You don’t have permission to upload or create files here." : "Níl cead agat comhaid a uaslódáil nó a chruthú anseo.",
+    "You have used your space quota and cannot upload files anymore." : "D'úsáid tú do chuóta spáis agus ní féidir leat comhaid a uaslódáil a thuilleadh.",
     "Column headers with buttons are sortable." : "Is féidir ceanntásca colún le cnaipí a shórtáil.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Níl an liosta seo le fáil go hiomlán ar chúiseanna feidhmíochta. Déanfar na comhaid a rindreáil agus tú ag dul tríd an liosta.",
     "File not found" : "Comhad gan aimsiú",

@@ -105,6 +105,8 @@ OC.L10N.register(
     "\"{displayName}\" batch action executed successfully" : "成功執行 “{displayName}” 批處理操作",
     "{count} selected" : "已選擇 {count} 項",
     "List of files and folders." : "檔案與資料夾清單。",
+    "You don’t have permission to upload or create files here." : "您無權在此上傳或建立檔案。",
+    "You have used your space quota and cannot upload files anymore." : "您已用完您的空間配額，無法再上傳檔案。",
     "Column headers with buttons are sortable." : "具有按鈕的縱列標題可排序。",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "出於性能考慮，此清單未完全呈現。檔案將在您瀏覽清單時呈現。",
     "File not found" : "找不到檔案",

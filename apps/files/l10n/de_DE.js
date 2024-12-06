@@ -105,6 +105,8 @@ OC.L10N.register(
     "\"{displayName}\" batch action executed successfully" : "Stapelaktion \"{displayName}\" erfolgreich ausgeführt",
     "{count} selected" : "{count} ausgewählt",
     "List of files and folders." : "Liste der Dateien und Ordner.",
+    "You don’t have permission to upload or create files here." : "Sie haben keine Berechtigung, hier Dateien hochzuladen oder zu erstellen.",
+    "You have used your space quota and cannot upload files anymore." : "Ihr Speicherplatzkontigent ist aufgebraucht, Sie können keine weiteren Dateien hochladen.",
     "Column headers with buttons are sortable." : "Spaltenüberschriften mit Schaltflächen sind sortierbar.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Diese Liste ist aus Performance-Gründen nicht vollständig gerendert. Die Dateien werden gerendert, wenn Sie durch die Liste navigieren.",
     "File not found" : "Datei nicht gefunden",

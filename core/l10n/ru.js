@@ -180,6 +180,7 @@ OC.L10N.register(
     "Schedule work & meetings, synced with all your devices." : "Составляйте графики работы и встреч, синхронизированные со всеми своими устройствами.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Храните информацию о своих коллегах и друзьях в одном месте без утечки их личных данных.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Простое приложение электронной почты, прекрасно интегрированное с приложениями Файлы, Контакты и Календарь.",
+    "Chatting, video calls, screen sharing, online meetings and web conferencing – in your browser and with mobile apps." : "Общение в чате, видеозвонки, демонстрация экрана, онлайн-встречи и веб-конференции - в вашем браузере и на мобильных устройствах.",
     "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "Совместная работа с документами, таблицами и презентациями, основанная на Collabora Online.",
     "Distraction free note taking app." : "Простые приложение для ведения заметок.",
     "Settings menu" : "Меню настроек",

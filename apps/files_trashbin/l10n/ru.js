@@ -10,7 +10,7 @@ OC.L10N.register(
     "Unknown" : "Неизвестно",
     "All files" : "Все файлы",
     "You" : "Вы",
-    "Original location" : "Первоначальное местоположение",
+    "Original location" : "Исходный путь",
     "Deleted by" : "Удалено",
     "Deleted" : "Удалён",
     "A long time ago" : "Очень давно",
