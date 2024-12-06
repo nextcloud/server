@@ -188,6 +188,7 @@ OC.L10N.register(
     "remote" : "удаљени",
     "remote group" : "удаљена група",
     "guest" : "гост",
+    "by {initiator}" : "од {initiator}",
     "Shared with the group {user} by {owner}" : "{owner} поделио са групом {user}",
     "Shared with the conversation {user} by {owner}" : "{owner} поделио са разговором {user}",
     "Shared with {user} by {owner}" : "{owner} поделио са корисником {user}",
