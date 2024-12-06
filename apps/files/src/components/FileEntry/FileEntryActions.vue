@@ -163,7 +163,14 @@ export default defineComponent({
 			if (this.filesListWidth < 768 || this.gridMode) {
 				return []
 			}
-			return this.enabledFileActions.filter(action => action?.inline?.(this.source, this.currentView))
+			return this.enabledFileActions.filter(action => {
+				try {
+					return action?.inline?.(this.source, this.currentView)
+				} catch (error) {
+					logger.error('Error while checking if action is inline', { action, error })
+					return false
+				}
+			})
 		},
 
 		// Enabled action that are displayed inline with a custom render function
@@ -236,13 +243,19 @@ export default defineComponent({
 
 	methods: {
 		actionDisplayName(action: FileAction) {
-			if ((this.gridMode || (this.filesListWidth < 768 && action.inline)) && typeof action.title === 'function') {
-				// if an inline action is rendered in the menu for
-				// lack of space we use the title first if defined
-				const title = action.title([this.source], this.currentView)
-				if (title) return title
+			try {
+				if ((this.gridMode || (this.filesListWidth < 768 && action.inline)) && typeof action.title === 'function') {
+					// if an inline action is rendered in the menu for
+					// lack of space we use the title first if defined
+					const title = action.title([this.source], this.currentView)
+					if (title) return title
+				}
+				return action.displayName([this.source], this.currentView)
+			} catch (error) {
+				logger.error('Error while getting action display name', { action, error })
+				// Not ideal, but better than nothing
+				return action.id
 			}
-			return action.displayName([this.source], this.currentView)
 		},
 
 		async onActionClick(action, isSubmenu = false) {
@@ -257,7 +270,13 @@ export default defineComponent({
 				return
 			}
 
-			const displayName = action.displayName([this.source], this.currentView)
+			let displayName = action.id
+			try {
+				displayName = action.displayName([this.source], this.currentView)
+			} catch (error) {
+				logger.error('Error while getting action display name', { action, error })
+			}
+
 			try {
 				// Set the loading marker
 				this.$emit('update:loading', action.id)
@@ -275,8 +294,8 @@ export default defineComponent({
 					return
 				}
 				showError(t('files', '"{displayName}" action failed', { displayName }))
-			} catch (e) {
-				logger.error('Error while executing action', { action, e })
+			} catch (error) {
+				logger.error('Error while executing action', { action, error })
 				showError(t('files', '"{displayName}" action failed', { displayName }))
 			} finally {
 				// Reset the loading marker
