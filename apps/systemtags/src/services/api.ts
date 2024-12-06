@@ -107,7 +107,7 @@ export const updateTag = async (tag: TagWithId): Promise<void> => {
 				<oc:display-name>${tag.displayName}</oc:display-name>
 				<oc:user-visible>${tag.userVisible}</oc:user-visible>
 				<oc:user-assignable>${tag.userAssignable}</oc:user-assignable>
-				<nc:color>${tag.color}</nc:color>
+				<nc:color>${tag?.color || null}</nc:color>
 			</d:prop>
 		</d:set>
 	</d:propertyupdate>`

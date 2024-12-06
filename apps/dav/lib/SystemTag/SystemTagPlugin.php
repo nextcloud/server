@@ -443,7 +443,11 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			}
 
 			if (isset($props[self::COLOR_PROPERTYNAME])) {
-				$color = $props[self::COLOR_PROPERTYNAME];
+				$propValue = $props[self::COLOR_PROPERTYNAME];
+				if ($propValue === '' || $propValue === 'null') {
+					$propValue = null;
+				}
+				$color = $propValue;
 				$updateTag = true;
 			}
 
