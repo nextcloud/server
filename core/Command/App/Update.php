@@ -10,6 +10,7 @@ namespace OC\Core\Command\App;
 
 use OC\Installer;
 use OCP\App\IAppManager;
+use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,8 +19,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Update extends Command {
+	public const APP_STORE_URL = 'https://apps.nextcloud.com/api/v1';
+
 	public function __construct(
 		protected IAppManager $manager,
+		protected IConfig $config,
 		private Installer $installer,
 		private LoggerInterface $logger,
 	) {
@@ -57,6 +61,19 @@ class Update extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$appStoreEnabled = $this->config->getSystemValueBool('appstoreenabled', true);
+		if ($appStoreEnabled === false) {
+			$output->writeln('App store access is disabled');
+			return 1;
+		}
+
+		$internetAvailable = $this->config->getSystemValueBool('has_internet_connection', true);
+		$isDefaultAppStore = $this->config->getSystemValueString('appstoreurl', self::APP_STORE_URL) === self::APP_STORE_URL;
+		if ($internetAvailable === false && $isDefaultAppStore === true) {
+			$output->writeln('Internet connection is disabled, and therefore the default public App store is not reachable');
+			return 1;
+		}
+
 		$singleAppId = $input->getArgument('app-id');
 		$updateFound = false;
 
