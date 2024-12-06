@@ -99,52 +99,106 @@ class Movie extends ProviderV2 {
 
 	private function generateThumbNail(int $maxX, int $maxY, string $absPath, int $second): ?IImage {
 		$tmpPath = \OC::$server->getTempManager()->getTemporaryFile();
-
 		$binaryType = substr(strrchr($this->binary, '/'), 1);
-
-		if ($binaryType === 'avconv') {
-			$cmd = [$this->binary, '-y', '-ss', (string)$second,
-				'-i', $absPath,
-				'-an', '-f', 'mjpeg', '-vframes', '1', '-vsync', '1',
-				$tmpPath];
-		} elseif ($binaryType === 'ffmpeg') {
-			$cmd = [$this->binary, '-y', '-ss', (string)$second,
-				'-i', $absPath,
-				'-f', 'mjpeg', '-vframes', '1',
-				$tmpPath];
-		} else {
-			// Not supported
+	
+		$cmd = $this->buildCommand($binaryType, $absPath, $second, $tmpPath);
+		if ($cmd === null) {
 			unlink($tmpPath);
 			return null;
 		}
+	
+		$timeout = 10; // set ffmpeg timeout
+		[$returnCode, $output] = $this->executeCommand($cmd, $timeout);
+	
+		$image = $this->processThumbnailResult($returnCode, $tmpPath, $maxX, $maxY);
+		if ($image === null && $second === 0) {
+			$logger = \OC::$server->get(LoggerInterface::class);
+			$logger->info('Movie preview generation failed. Output: {output}', ['app' => 'core','output' => $output]);
+		}
+	
+		if (file_exists($tmpPath)) {
+			unlink($tmpPath);
+		}
+	
+		return $image;
+	}
+	
+	private function buildCommand(string $binaryType, string $absPath, int $second, string $tmpPath): ?array {
+		if ($binaryType === 'avconv') {
+			return [
+				$this->binary,'-y', '-ss', (string)$second, '-i',  $absPath, '-an',
+				'-f', 'mjpeg', '-vframes', '1', '-vsync', '1', $tmpPath
+			];
+		} elseif ($binaryType === 'ffmpeg') {
+			return [
+				$this->binary,  '-y', '-ss', (string)$second, 
+				'-i', $absPath, '-f', 'mjpeg', '-vframes', '1', $tmpPath
+			];
+		}
+		return null;
+	}
 
-		$proc = proc_open($cmd, [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes);
+	private function executeCommand(array $cmd, int $timeout): array {
+		$descriptorspec = [
+			1 => ['pipe', 'w'],
+			2 => ['pipe', 'w']
+		];
+	
+		$proc = proc_open($cmd, $descriptorspec, $pipes);
 		$returnCode = -1;
 		$output = '';
+	
 		if (is_resource($proc)) {
-			$stdout = trim(stream_get_contents($pipes[1]));
-			$stderr = trim(stream_get_contents($pipes[2]));
-			$returnCode = proc_close($proc);
+			$startTime = time();
+			$running = true;
+	
+			while ($running) {
+				$status = proc_get_status($proc);
+				if (!$status['running']) {
+					$running = false;
+					break;
+				}
+	
+				if ((time() - $startTime) > $timeout) {
+					proc_terminate($proc);
+					usleep(500000);
+					$status = proc_get_status($proc);
+					if ($status['running']) {
+						proc_terminate($proc, 9); 
+					}
+					$running = false;
+					break;
+				}
+	
+				usleep(100000); 
+			}
+	
+			$stdout = isset($pipes[1]) ? trim(stream_get_contents($pipes[1])) : '';
+			if (isset($pipes[1])) fclose($pipes[1]);
+	
+			$stderr = isset($pipes[2]) ? trim(stream_get_contents($pipes[2])) : '';
+			if (isset($pipes[2])) fclose($pipes[2]);
+	
+			$returnCode = isset($status['exitcode']) && $status['exitcode'] !== -1
+				? $status['exitcode']
+				: proc_close($proc);
+	
 			$output = $stdout . $stderr;
 		}
+	
+		return [$returnCode, $output];
+	}
 
-		if ($returnCode === 0) {
+	private function processThumbnailResult(int $returnCode, string $tmpPath, int $maxX, int $maxY): ?\OCP\IImage {
+		if ($returnCode === 0 && file_exists($tmpPath)) {
 			$image = new \OCP\Image();
 			$image->loadFromFile($tmpPath);
 			if ($image->valid()) {
-				unlink($tmpPath);
 				$image->scaleDownToFit($maxX, $maxY);
-
 				return $image;
 			}
 		}
-
-		if ($second === 0) {
-			$logger = \OC::$server->get(LoggerInterface::class);
-			$logger->info('Movie preview generation failed Output: {output}', ['app' => 'core', 'output' => $output]);
-		}
-
-		unlink($tmpPath);
 		return null;
 	}
+	
 }
