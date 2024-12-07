@@ -43,7 +43,7 @@ export default {
 		},
 		updateButtonText() {
 			if (this.app?.app_api && this.app?.daemon?.accepts_deploy_id === 'manual-install') {
-				return t('settings', 'manual-install apps cannot be updated')
+				return t('settings', 'Manually installed apps cannot be updated')
 			}
 			return t('settings', 'Update to {version}', { version: this.app?.update })
 		},
