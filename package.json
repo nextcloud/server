@@ -106,7 +106,7 @@
     "vue-frag": "^1.4.2",
     "vue-infinite-loading": "^2.4.5",
     "vue-localstorage": "^0.6.2",
-    "vue-material-design-icons": "^5.0.0",
+    "vue-material-design-icons": "^5.3.1",
     "vue-multiselect": "^2.1.9",
     "vue-observe-visibility": "^1.0.0",
     "vue-router": "^3.6.5",
