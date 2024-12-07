@@ -103,6 +103,8 @@
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" حزمة الأوامر تم تنفيذها بنجاح",
     "{count} selected" : "{count} تم تحديده",
     "List of files and folders." : "قائمة الملفات والمجلدات",
+    "You don’t have permission to upload or create files here." : "ليس لديك الإذن لتحميل أو إنشاء ملفات هنا.",
+    "You have used your space quota and cannot upload files anymore." : "لقد قمت باستنفاذ كامل حصتك التخزينية و لايمكنك تحميل المزيد من الملفات.",
     "Column headers with buttons are sortable." : "ترويسات الأعمدة ذات الأزرار قابلة للترتيب.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "لم يتم عرض هذه القائمة بالكامل لأسباب تتعلق بالأداء. سيتم عرض الملفات تباعاً أثناء التنقل عبر القائمة.",
     "File not found" : "تعذر العثور على الملف",

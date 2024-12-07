@@ -211,6 +211,8 @@ OC.L10N.register(
     "Memcached is configured as distributed cache, but the wrong PHP module (\"memcache\") is installed. Please install the PHP module \"memcached\"." : "Memcachedは分散キャッシュとして設定されていますが、間違ったPHPモジュール（\"memcache\"）がインストールされています。PHPモジュール \"memcached \"をインストールしてください。",
     "Memcached is configured as distributed cache, but the PHP module \"memcached\" is not installed. Please install the PHP module \"memcached\"." : "Memcached は分散キャッシュとして設定されていますが、PHP モジュール \"memcached\" がインストールされていません。PHPモジュール \"memcached \"をインストールしてください。",
     "No memory cache has been configured. To enhance performance, please configure a memcache, if available." : "メモリキャッシュが設定されていません。パフォーマンスを向上させるため、利用可能であればメモリキャッシュを設定してください。",
+    "Failed to write and read a value from local cache." : "ローカルキャッシュからの値の書き込みと読み取りに失敗しました。",
+    "Failed to write and read a value from distributed cache." : "分散キャッシュからの値の書き込みと読み取りに失敗しました。",
     "Configured" : "設定済み",
     "Mimetype migrations available" : "Mimetypeの移行が可能",
     "One or more mimetype migrations are available. Occasionally new mimetypes are added to better handle certain file types. Migrating the mimetypes take a long time on larger instances so this is not done automatically during upgrades. Use the command `occ maintenance:repair --include-expensive` to perform the migrations." : "1つ以上のmimetypeマイグレーションが利用できます。時折、特定のファイルタイプをよりよく扱うために新しいmimetypesが追加されます。大規模なインスタンスではmimetypesの移行に時間がかかるため、アップグレード時には自動的には行われません。移行を行うには `occ maintenance:repair --include-expensive` コマンドを使用してください。",

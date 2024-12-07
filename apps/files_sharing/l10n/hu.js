@@ -228,6 +228,7 @@ OC.L10N.register(
     "Shared multiple times with different people" : "Többször megosztva különböző személyekkel",
     "Show sharing options" : "Megosztási beállítások megjelenítése",
     "Shared with others" : "Megosztva másokkal",
+    "Create file request" : "Fájlkérés létrehozása",
     "No file" : "Nincs fájl",
     "Public share" : "Nyilvános megosztás",
     "Overview of shared files." : "Megosztott fájlok áttekintése.",
