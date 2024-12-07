@@ -207,6 +207,8 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "تعذّرت إعادة تسمية ملف جزئي إلى ملف نهائي. تمّ الإلغاء من قِبَل الخطّاف hook.",
     "Could not rename part file to final file" : "تعذّرت إعادة تسمية ملف جزئي إلى ملف نهائي",
     "Failed to check file size: %1$s" : "فشل في تحديد حجم الملف: %1$s",
+    "Could not open file: %1$s, file does seem to exist" : "يتعذّر فتح الملف: %1$s, يبدو أن الملف غير موجود",
+    "Could not open file: %1$s, file doesn't seem to exist" : "يتعذّر فتح الملف: %1$s, يبدو أن الملف غير موجود",
     "Encryption not ready: %1$s" : "التشفير غير جاهز: %1$s",
     "Failed to open file: %1$s" : "تعذّر فتح الملف: %1$s",
     "Failed to unlink: %1$s" : "تعذّر فك الارتباط: %1$s",

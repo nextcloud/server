@@ -207,6 +207,8 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Could not rename part file to final file, cancelled by hook",
     "Could not rename part file to final file" : "Could not rename part file to final file",
     "Failed to check file size: %1$s" : "Failed to check file size: %1$s",
+    "Could not open file: %1$s, file does seem to exist" : "Could not open file: %1$s, file does seem to exist",
+    "Could not open file: %1$s, file doesn't seem to exist" : "Could not open file: %1$s, file doesn't seem to exist",
     "Encryption not ready: %1$s" : "Encryption not ready: %1$s",
     "Failed to open file: %1$s" : "Failed to open file: %1$s",
     "Failed to unlink: %1$s" : "Failed to unlink: %1$s",
