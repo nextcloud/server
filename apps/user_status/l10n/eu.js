@@ -20,6 +20,8 @@ OC.L10N.register(
     "Set status" : "Ezarri egoera",
     "Online status" : "Lineako egoera",
     "Status message" : "Egoera-mezua",
+    "Set absence period" : "Ezarri absentzia aldia",
+    "Set absence period and replacement" : "Ezarri absentzia aldia eta ordezkoa",
     "Your status was set automatically" : "Zure egoera automatikoki ezarriko dira",
     "Clear status message" : "Garbitu egoera-mezua",
     "Set status message" : "Ezarri egoera-mezua",
