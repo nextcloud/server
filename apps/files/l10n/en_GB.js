@@ -105,6 +105,8 @@ OC.L10N.register(
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" batch action executed successfully",
     "{count} selected" : "{count} selected",
     "List of files and folders." : "List of files and folders.",
+    "You don’t have permission to upload or create files here." : "You don’t have permission to upload or create files here.",
+    "You have used your space quota and cannot upload files anymore." : "You have used your space quota and cannot upload files anymore.",
     "Column headers with buttons are sortable." : "Column headers with buttons are sortable.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.",
     "File not found" : "File not found",
