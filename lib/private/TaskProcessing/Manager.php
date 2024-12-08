@@ -565,6 +565,14 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * @return array
+	 */
+	private function _getTaskTypeSettings(): array {
+		$json = $this->config->getAppValue('core', 'ai.taskprocessing_type_preferences', '');
+		return json_decode($json, true);
+	}
+
+	/**
 	 * @param ShapeDescriptor[] $spec
 	 * @param array<array-key, string|numeric> $defaults
 	 * @param array<array-key, ShapeEnumValue[]> $enumValues
@@ -721,12 +729,16 @@ class Manager implements IManager {
 		throw new \OCP\TaskProcessing\Exception\Exception('No matching provider found');
 	}
 
-	public function getAvailableTaskTypes(): array {
+	public function getAvailableTaskTypes(bool $showDisabled = false): array {
 		if ($this->availableTaskTypes === null) {
 			$taskTypes = $this->_getTaskTypes();
+			$taskTypeSettings = $this->_getTaskTypeSettings();
 
 			$availableTaskTypes = [];
 			foreach ($taskTypes as $taskType) {
+				if ((!$showDisabled) && isset($taskTypeSettings[$taskType->getId()]) && !$taskTypeSettings[$taskType->getId()]) {
+					continue;
+				}
 				try {
 					$provider = $this->getPreferredProvider($taskType->getId());
 				} catch (\OCP\TaskProcessing\Exception\Exception $e) {

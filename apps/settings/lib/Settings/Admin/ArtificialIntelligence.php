@@ -114,7 +114,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 		}
 		$taskProcessingTaskTypes = [];
 		$taskProcessingTypeSettings = [];
-		foreach ($this->taskProcessingManager->getAvailableTaskTypes() as $taskTypeId => $taskTypeDefinition) {
+		foreach ($this->taskProcessingManager->getAvailableTaskTypes(true) as $taskTypeId => $taskTypeDefinition) {
 			$taskProcessingTaskTypes[] = [
 				'id' => $taskTypeId,
 				'name' => $taskTypeDefinition['name'],

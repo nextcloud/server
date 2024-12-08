@@ -46,10 +46,11 @@ interface IManager {
 	public function getPreferredProvider(string $taskTypeId);
 
 	/**
+	 * @param bool $showDisabled if false, disabled task types will be filtered
 	 * @return array<string, array{name: string, description: string, inputShape: ShapeDescriptor[], inputShapeEnumValues: ShapeEnumValue[][], inputShapeDefaults: array<array-key, numeric|string>, optionalInputShape: ShapeDescriptor[], optionalInputShapeEnumValues: ShapeEnumValue[][], optionalInputShapeDefaults: array<array-key, numeric|string>, outputShape: ShapeDescriptor[], outputShapeEnumValues: ShapeEnumValue[][], optionalOutputShape: ShapeDescriptor[], optionalOutputShapeEnumValues: ShapeEnumValue[][]}>
 	 * @since 30.0.0
 	 */
-	public function getAvailableTaskTypes(): array;
+	public function getAvailableTaskTypes(bool $showDisabled = false): array;
 
 	/**
 	 * @param Task $task The task to run
