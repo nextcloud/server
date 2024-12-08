@@ -103,6 +103,8 @@
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" バッチアクションが正常に実行されました。",
     "{count} selected" : "{count} 選択",
     "List of files and folders." : "ファイルとフォルダの一覧。",
+    "You don’t have permission to upload or create files here." : "ここにファイルをアップロードまたは作成する権限がありません",
+    "You have used your space quota and cannot upload files anymore." : "あなたのクォータ容量を使い果たし、ファイルをアップロードできなくなりました。",
     "Column headers with buttons are sortable." : "ボタン付きの列ヘッダはソート可能です。",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "このリストはパフォーマンスの都合上、すべてレンダリングされているわけではありません。リスト内を移動すると、ファイルが次々と表示されていきます。",
     "File not found" : "ファイルが見つかりません",

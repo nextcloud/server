@@ -17,40 +17,26 @@ class SystemTag implements ISystemTag {
 		private bool $userVisible,
 		private bool $userAssignable,
 		private ?string $etag = null,
+		private ?string $color = null,
 	) {
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getId(): string {
 		return $this->id;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getName(): string {
 		return $this->name;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function isUserVisible(): bool {
 		return $this->userVisible;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function isUserAssignable(): bool {
 		return $this->userAssignable;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getAccessLevel(): int {
 		if (!$this->userVisible) {
 			return self::ACCESS_LEVEL_INVISIBLE;
@@ -63,10 +49,11 @@ class SystemTag implements ISystemTag {
 		return self::ACCESS_LEVEL_PUBLIC;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getETag(): ?string {
 		return $this->etag;
+	}
+
+	public function getColor(): ?string {
+		return $this->color;
 	}
 }

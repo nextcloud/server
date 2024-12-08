@@ -161,6 +161,7 @@
     "Delete slot" : "Verwijder slot",
     "No working hours set" : "Geen werkuren ingesteld",
     "Add slot" : "Voeg slot toe",
+    "Weekdays" : "Weekdagen",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Stel de gebruikersstatus automatisch in op \"Niet storen\" buiten de beschikbaarheid om alle meldingen te dempen.",
     "Failed to load availability" : "Kon beschikbaarheid niet laden",
     "Availability" : "Beschikbaarheid",
