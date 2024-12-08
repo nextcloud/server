@@ -105,6 +105,8 @@ OC.L10N.register(
     "\"{displayName}\" batch action executed successfully" : "A acción por lotes «{displayName}» executouse correctamente",
     "{count} selected" : "{count} seleccionados",
     "List of files and folders." : "Lista de ficheiros e cartafoles",
+    "You don’t have permission to upload or create files here." : "Non ten permiso para enviar ou crear ficheiros aquí.",
+    "You have used your space quota and cannot upload files anymore." : "Vde. usou a súa cota de espazo e xa non pode enviar ningún ficheiro más",
     "Column headers with buttons are sortable." : "As cabeceiras das columnas con botóns pódense ordenar.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Esta lista non se representa de xeito completo por mor do rendemento. Os ficheiros represéntanse mentres se despraza pola lista.",
     "File not found" : "Ficheiro non atopado",

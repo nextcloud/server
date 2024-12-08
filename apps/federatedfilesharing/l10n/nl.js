@@ -48,6 +48,7 @@ OC.L10N.register(
     "Allow users to publish their data to a global and public address book" : "Publiek maken van data met een openbaar adresboek toestaan",
     "Your Federated Cloud ID:" : "Je gefedereerde Cloud ID:",
     "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Diaspora" : "Diaspora",
+    "Clipboard is not available" : "Klembord niet beschikbaar"
 },
 "nplurals=2; plural=(n != 1);");
