@@ -6,7 +6,7 @@ OC.L10N.register(
     "You added {file} to your favorites" : "您已经添加 {file} 到您的收藏夹",
     "You removed {file} from your favorites" : "您已从收藏夹中移除 {file}",
     "Favorites" : "收藏",
-    "File changes" : "文件发生变化",
+    "File changes" : "文件变动",
     "Created by {user}" : "由 {user} 创建",
     "Changed by {user}" : "由 {user} 更改",
     "Deleted by {user}" : "由 {user} 删除",

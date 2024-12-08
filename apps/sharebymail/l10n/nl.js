@@ -17,6 +17,7 @@ OC.L10N.register(
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "We kunnen je geen automatisch gegenereerd wachtwoord toesturen. Vermeld een geldig e-mailadres in je persoonlijke instellingen en probeer het nogmaals.",
     "Failed to send share by email. Got an invalid email address" : "Het delen van het bestand per e-mail is mislukt. Ongeldig e-mailadres",
     "Failed to send share by email" : "Versturen share per e-mail is mislukt",
+    "Note:" : "Notitie:",
     "Click the button below to open it." : "Klik op onderstaande link om te openen.",
     "%1$s via %2$s" : "%1$s via %2$s",
     "It is protected with the following password:" : "Het is beveiligd met het volgende wachtwoord:",
