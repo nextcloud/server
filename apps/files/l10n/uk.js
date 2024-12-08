@@ -105,6 +105,8 @@ OC.L10N.register(
     "\"{displayName}\" batch action executed successfully" : "Операцію \"{displayName}\" успішно виконано",
     "{count} selected" : "{count} вибрано",
     "List of files and folders." : "Список файлів та каталогів",
+    "You don’t have permission to upload or create files here." : "У вас відсутні повноваження для завантаження або створення файлів тут.",
+    "You have used your space quota and cannot upload files anymore." : "Ви вже використали ліміт сховища та більше не зможете завантажувати файли.",
     "Column headers with buttons are sortable." : "Назви стовпців з кнопками можна впорядковувати",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Список не подається повністю з міркувань обчислювальних потужностей. Файли показуватимуться під час прокручування списку.",
     "File not found" : "Файл не знайдено",

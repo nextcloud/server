@@ -207,6 +207,8 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Non foi posíbel cambiar o nome do ficheiro parcial ao ficheiro final,  foi cancelado polo sistema",
     "Could not rename part file to final file" : "Non foi posíbel cambiar o nome do ficheiro parcial ao ficheiro final",
     "Failed to check file size: %1$s" : "Produciuse un erro ao comprobar o tamaño do ficheiro: %1$s",
+    "Could not open file: %1$s, file does seem to exist" : "Non foi posíbel abrir o ficheiro: %1$s, semella o ficheiro existe",
+    "Could not open file: %1$s, file doesn't seem to exist" : "Non foi posíbel abrir o ficheiro: %1$s, semella o ficheiro non existe",
     "Encryption not ready: %1$s" : "O cifrado non está preparado: %1$s",
     "Failed to open file: %1$s" : "Produciuse un erro ao abrir o ficheiro: %1$s",
     "Failed to unlink: %1$s" : "Produciuse un erro ao desligar: %1$s",

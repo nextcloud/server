@@ -68,6 +68,7 @@ OC.L10N.register(
     "Manage tags" : "Gérer les étiquettes",
     "Applying tags changes…" : "Changement des tags appliquer…",
     "Search or create tag" : "Rechercher ou créer un tag",
+    "Change tag color" : "Changer la couleur de l'étiquette",
     "Create new tag" : "Créer une nouvelle étiquette",
     "Select or create tags to apply to all selected files" : "Sélectionnez ou créez des tags à appliquer à tous les fichiers sélectionnés",
     "Cancel" : "Annuler",
