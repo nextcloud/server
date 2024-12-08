@@ -103,6 +103,8 @@
     "\"{displayName}\" batch action executed successfully" : "Hromadná operácia \"{displayName}\" bola úspešne vykonaná",
     "{count} selected" : "{count} vybraných",
     "List of files and folders." : "Zoznam súborov a priečinkov.",
+    "You don’t have permission to upload or create files here." : "Nemáte oprávnenie nahrávať alebo vytvárať súbory na toto umiestnenie.",
+    "You have used your space quota and cannot upload files anymore." : "Už ste využili kapacitu úložného priestoru a nie je možné nahrávať ďalšie súbory.",
     "Column headers with buttons are sortable." : "Stĺpce hlavičiek s tlačidlami sú triediteľné.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Tento zoznam nie je úplne vykreslený z dôvodov výkonu. Súbory budú vykreslené, keď budete prechádzať zoznamom.",
     "File not found" : "Súbor nenájdený",

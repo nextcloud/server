@@ -68,6 +68,7 @@ OC.L10N.register(
     "Manage tags" : "Hantera taggar",
     "Applying tags changes…" : "Tillämpar taggändringar...",
     "Search or create tag" : "Sök eller skapa tagg",
+    "Change tag color" : "Ändra färg på tagg",
     "Create new tag" : "Skapa ny tagg",
     "Select or create tags to apply to all selected files" : "Välj eller skapa taggar som ska tillämpas på alla valda filer",
     "Cancel" : "Avbryt",

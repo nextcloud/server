@@ -207,6 +207,8 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Konnte temporäre Datei nicht in die endgültige Datei umbenennen, wurde durch einen Hook abgebrochen",
     "Could not rename part file to final file" : "Konnte temporäre Datei nicht in die endgültige Datei umbenennen",
     "Failed to check file size: %1$s" : "Dateigröße konnte nicht überprüft werden: %1$s",
+    "Could not open file: %1$s, file does seem to exist" : "Datei konnte nicht geöffnet werden: %1$s, Datei scheint aber zu existieren.",
+    "Could not open file: %1$s, file doesn't seem to exist" : "Datei konnte nicht geöffnet werden: %1$s, Datei scheint nicht zu existieren.",
     "Encryption not ready: %1$s" : "Verschlüsselung nicht bereit: %1$s",
     "Failed to open file: %1$s" : "Datei konnte nicht geöffnet werden: %1$s",
     "Failed to unlink: %1$s" : "Fehler beim Aufheben der Verknüpfung: %1$s",
