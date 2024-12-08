@@ -113,12 +113,14 @@ class ArtificialIntelligence implements IDelegatedSettings {
 			}
 		}
 		$taskProcessingTaskTypes = [];
+		$taskProcessingTypeSettings = [];
 		foreach ($this->taskProcessingManager->getAvailableTaskTypes() as $taskTypeId => $taskTypeDefinition) {
 			$taskProcessingTaskTypes[] = [
 				'id' => $taskTypeId,
 				'name' => $taskTypeDefinition['name'],
 				'description' => $taskTypeDefinition['description'],
 			];
+			$taskProcessingTypeSettings[$taskTypeId] = true;
 		}
 
 		$this->initialState->provideInitialState('ai-stt-providers', $sttProviders);
@@ -135,6 +137,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 			'ai.textprocessing_provider_preferences' => $textProcessingSettings,
 			'ai.text2image_provider' => count($text2imageProviders) > 0 ? $text2imageProviders[0]['id'] : null,
 			'ai.taskprocessing_provider_preferences' => $taskProcessingSettings,
+			'ai.taskprocessing_type_preferences' => $taskProcessingTypeSettings,
 		];
 		foreach ($settings as $key => $defaultValue) {
 			$value = $defaultValue;
@@ -143,6 +146,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 				$value = json_decode($json, true);
 				switch ($key) {
 					case 'ai.taskprocessing_provider_preferences':
+					case 'ai.taskprocessing_type_preferences':
 					case 'ai.textprocessing_provider_preferences':
 						// fill $value with $defaultValue values
 						$value = array_merge($defaultValue, $value);
