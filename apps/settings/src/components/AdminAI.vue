@@ -10,9 +10,9 @@
 				<div :key="type">
 					<h3>{{ t('settings', 'Task:') }} {{ type.name }}</h3>
 					<p>{{ type.description }}</p>
-					<NcCheckboxRadioSwitch type="switch"
-						v-model="settings['ai.taskprocessing_type_preferences'][type.id]"
-						@update:modelValue="saveChanges" >
+					<NcCheckboxRadioSwitch v-model="settings['ai.taskprocessing_type_preferences'][type.id]"
+						type="switch"
+						@update:modelValue="saveChanges">
 						{{ t('settings', 'Enable') }}
 					</NcCheckboxRadioSwitch>
 					<NcSelect v-model="settings['ai.taskprocessing_provider_preferences'][type.id]"
