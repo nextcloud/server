@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -19,6 +22,7 @@ use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -28,38 +32,26 @@ use OCP\IUserSession;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ClientFlowLoginControllerTest extends TestCase {
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	private $userSession;
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-	/** @var Defaults|\PHPUnit\Framework\MockObject\MockObject */
-	private $defaults;
-	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
-	private $session;
-	/** @var IProvider|\PHPUnit\Framework\MockObject\MockObject */
-	private $tokenProvider;
-	/** @var ISecureRandom|\PHPUnit\Framework\MockObject\MockObject */
-	private $random;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-	/** @var ClientMapper|\PHPUnit\Framework\MockObject\MockObject */
-	private $clientMapper;
-	/** @var AccessTokenMapper|\PHPUnit\Framework\MockObject\MockObject */
-	private $accessTokenMapper;
-	/** @var ICrypto|\PHPUnit\Framework\MockObject\MockObject */
-	private $crypto;
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
-	private $eventDispatcher;
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
+	private IRequest&MockObject $request;
+	private IUserSession&MockObject $userSession;
+	private IL10N&MockObject $l10n;
+	private Defaults&MockObject $defaults;
+	private ISession&MockObject $session;
+	private IProvider&MockObject $tokenProvider;
+	private ISecureRandom&MockObject $random;
+	private IURLGenerator&MockObject $urlGenerator;
+	private ClientMapper&MockObject $clientMapper;
+	private AccessTokenMapper&MockObject $accessTokenMapper;
+	private ICrypto&MockObject $crypto;
+	private IEventDispatcher&MockObject $eventDispatcher;
+	private ITimeFactory&MockObject $timeFactory;
+	private IAppConfig&MockObject $appConfig;
 
-	/** @var ClientFlowLoginController */
-	private $clientFlowLoginController;
+	private ClientFlowLoginController $clientFlowLoginController;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -83,6 +75,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 
 		$this->clientFlowLoginController = new ClientFlowLoginController(
 			'core',
@@ -98,7 +91,8 @@ class ClientFlowLoginControllerTest extends TestCase {
 			$this->accessTokenMapper,
 			$this->crypto,
 			$this->eventDispatcher,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->appConfig,
 		);
 	}
 
