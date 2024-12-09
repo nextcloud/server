@@ -172,7 +172,8 @@ class OCMProvider implements IOCMProvider {
 	 */
 	public function import(array $data): static {
 		$this->setEnabled(is_bool($data['enabled'] ?? '') ? $data['enabled'] : false)
-			->setApiVersion((string)($data['version'] ?? ''))
+			// Fall back to old apiVersion for Nextcloud 30 compatibility
+			->setApiVersion((string)($data['version'] ?? $data['apiVersion'] ?? ''))
 			->setEndPoint($data['endPoint'] ?? '');
 
 		$resources = [];
