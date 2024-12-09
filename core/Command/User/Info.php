@@ -47,22 +47,6 @@ class Info extends Base {
 			return 1;
 		}
 		$groups = $this->groupManager->getUserGroupIds($user);
-		$firstLogin = $user->getFirstLogin();
-		$lastLogin = $user->getLastLogin();
-		if ($firstLogin < 0) {
-			$firstSeen = 'unknown';
-		} elseif ($firstLogin === 0) {
-			$firstSeen = 'never';
-		} else {
-			$firstSeen = date(\DateTimeInterface::ATOM, $firstLogin); // ISO-8601
-		}
-		if ($lastLogin < 0) {
-			$lastSeen = 'unknown';
-		} elseif ($lastLogin === 0) {
-			$lastSeen = 'never';
-		} else {
-			$lastSeen = date(\DateTimeInterface::ATOM, $lastLogin); // ISO-8601
-		}
 		$data = [
 			'user_id' => $user->getUID(),
 			'display_name' => $user->getDisplayName(),
@@ -72,13 +56,23 @@ class Info extends Base {
 			'groups' => $groups,
 			'quota' => $user->getQuota(),
 			'storage' => $this->getStorageInfo($user),
-			'first_seen' => $firstSeen,
-			'last_seen' => $lastSeen,
+			'first_seen' => $this->formatLoginDate($user->getFirstLogin()),
+			'last_seen' => $this->formatLoginDate($user->getLastLogin()),
 			'user_directory' => $user->getHome(),
 			'backend' => $user->getBackendClassName()
 		];
 		$this->writeArrayInOutputFormat($input, $output, $data);
 		return 0;
+	}
+
+	private function formatLoginDate(int $timestamp): string {
+		if ($timestamp < 0) {
+			return 'unknown';
+		} elseif ($timestamp === 0) {
+			return 'never';
+		} else {
+			return date(\DateTimeInterface::ATOM, $timestamp); // ISO-8601
+		}
 	}
 
 	/**
