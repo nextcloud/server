@@ -147,6 +147,7 @@ import ApiDashboardWidget from './components/ApiDashboardWidget.vue'
 
 const panels = loadState('dashboard', 'panels')
 const firstRun = loadState('dashboard', 'firstRun')
+const birthdate = new Date(loadState('dashboard', 'birthdate'))
 
 const statusInfo = {
 	weather: {
@@ -194,15 +195,21 @@ export default {
 			apiWidgets: [],
 			apiWidgetItems: {},
 			loadingItems: true,
+			birthdate,
 		}
 	},
 	computed: {
 		greeting() {
 			const time = this.timer.getHours()
+			const isBirthday = this.birthdate instanceof Date
+				&& this.birthdate.getMonth() === this.timer.getMonth()
+				&& this.birthdate.getDate() === this.timer.getDate()
 
 			// Determine part of the day
 			let partOfDay
-			if (time >= 22 || time < 5) {
+			if (isBirthday) {
+				partOfDay = 'birthday'
+			} else if (time >= 22 || time < 5) {
 				partOfDay = 'night'
 			} else if (time >= 18) {
 				partOfDay = 'evening'
@@ -230,6 +237,10 @@ export default {
 					// Don't use "Good night" as it's not a greeting
 					generic: t('dashboard', 'Hello'),
 					withName: t('dashboard', 'Hello, {name}', { name: this.displayName }, undefined, { escape: false }),
+				},
+				birthday: {
+					generic: t('dashboard', 'Happy birthday 🥳🤩🎂🎉'),
+					withName: t('dashboard', 'Happy birthday, {name} 🥳🤩🎂🎉', { name: this.displayName }, undefined, { escape: false }),
 				},
 			}
 
