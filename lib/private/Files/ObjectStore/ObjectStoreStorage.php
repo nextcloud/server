@@ -478,7 +478,6 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			$stats = fstat($stream);
 			if (is_array($stats) && isset($stats['size'])) {
 				$size = $stats['size'];
-				$this->logger->warning("stream size $size");
 			}
 		}
 
