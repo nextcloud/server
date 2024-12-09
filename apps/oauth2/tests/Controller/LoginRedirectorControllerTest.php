@@ -5,6 +5,7 @@
  */
 namespace OCA\OAuth2\Tests\Controller;
 
+use OC\Core\Controller\ClientFlowLoginController;
 use OCA\OAuth2\Controller\LoginRedirectorController;
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
@@ -75,6 +76,53 @@ class LoginRedirectorControllerTest extends TestCase {
 			->with(
 				'core.ClientFlowLogin.showAuthPickerPage',
 				[
+					'clientIdentifier' => 'MyClientIdentifier',
+				]
+			)
+			->willReturn('https://example.com/?clientIdentifier=foo');
+
+		$expected = new RedirectResponse('https://example.com/?clientIdentifier=foo');
+		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'code'));
+	}
+
+	public function testAuthorizeSkipGrant(): void {
+		$client = new Client();
+		$client->setName('MyClientName');
+		$client->setClientIdentifier('MyClientIdentifier');
+		$this->clientMapper
+			->expects($this->once())
+			->method('getByIdentifier')
+			->with('MyClientId')
+			->willReturn($client);
+		$this->session
+			->expects(static::exactly(2))
+			->method('set')
+			->willReturnCallback(function (string $key, string $value): void {
+				switch ([$key, $value]) {
+					case ['oauth.state', 'MyState']:
+					case [ClientFlowLoginController::STATE_NAME, 'MyStateToken']:
+						/* Expected */
+						break;
+					default:
+						throw new LogicException();
+				}
+			});
+		$this->appConfig
+			->expects(static::once())
+			->method('getValueArray')
+			->with('oauth2', 'autoGrantApplications', [])
+			->willReturn(['MyClientName']);
+		$this->random
+			->expects(static::once())
+			->method('generate')
+			->willReturn('MyStateToken');
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkToRouteAbsolute')
+			->with(
+				'core.ClientFlowLogin.grantPage',
+				[
+					'stateToken' => 'MyStateToken',
 					'clientIdentifier' => 'MyClientIdentifier',
 				]
 			)
