@@ -569,6 +569,9 @@ class Manager implements IManager {
 	 */
 	private function _getTaskTypeSettings(): array {
 		$json = $this->config->getAppValue('core', 'ai.taskprocessing_type_preferences', '');
+		if ($json === '') {
+			return [];
+		}
 		return json_decode($json, true);
 	}
 
