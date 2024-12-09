@@ -100,6 +100,7 @@ OC.L10N.register(
     "Every %1$d Months on the %2$s for the entire day until %3$s" : "Varje %1$d månad på den %2$s hela dagen till %3$s",
     "Every %1$d Months on the %2$s between %3$s - %4$s" : "Varje %1$d månad på den %2$s mellan %3$s - %4$s",
     "Every %1$d Months on the %2$s between %3$s - %4$s until %5$s" : "Varje %1$d månad på den %2$s mellan %3$s - %4$s till %5$s",
+    "Every Year in %1$s on the %2$s for the entire day" : "Varje år %1$s på den %2$s hela dagen",
     "On specific dates for the entire day until %1$s" : "På specifika datum hela dagen fram till kl %1$s",
     "On specific dates between %1$s - %2$s until %3$s" : "På specifika datum mellan %1$s - %2$s tills %3$s",
     "In a %1$s on %2$s" : "I en %1$s på %2$s",
