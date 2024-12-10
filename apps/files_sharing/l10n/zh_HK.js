@@ -404,7 +404,6 @@ OC.L10N.register(
     "Bundled permissions" : "權限包",
     "Only works for users with access to this folder" : "只對可以存取此資料夾的用戶生效",
     "Only works for users with access to this file" : "僅適用於有權存取此檔案的用戶",
-    "Enter a date" : "輸入日期",
     "Circle" : "社交圈子",
     "Allow download" : "允許下載",
     "No other users with access found" : "找不到其他擁有存取權限的用戶",

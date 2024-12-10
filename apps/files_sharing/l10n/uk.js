@@ -403,7 +403,6 @@ OC.L10N.register(
     "Bundled permissions" : "Збірні дозволи",
     "Only works for users with access to this folder" : "Стосується користувачів, які мають доступ до цього каталогу",
     "Only works for users with access to this file" : "Стосується користувачів, які мають доступ до цього файлу",
-    "Enter a date" : "Зазначте дату",
     "Circle" : "Коло",
     "Allow download" : "Дозволити звантаження",
     "No other users with access found" : "Більше немає користувачів, які мають доступ",

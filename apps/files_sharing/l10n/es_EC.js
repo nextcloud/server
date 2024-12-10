@@ -267,7 +267,6 @@ OC.L10N.register(
     "Bundled permissions" : "Permisos integrados",
     "Only works for users with access to this folder" : "Solo funciona para usuarios con acceso a esta carpeta",
     "Only works for users with access to this file" : "Solo funciona para usuarios con acceso a este archivo",
-    "Enter a date" : "Ingresa una fecha",
     "Circle" : "Círculo",
     "Allow download" : "Permitir descarga",
     "No other users with access found" : "No se encontraron otros usuarios con acceso",

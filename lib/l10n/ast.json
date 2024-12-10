@@ -204,6 +204,7 @@
     "Authentication failed, wrong token or provider ID given" : "L'autenticación falló, apurriéronse un pase o una ID de fornidor incorreutos",
     "Parameters missing in order to complete the request. Missing Parameters: \"%s\"" : "Falten parámetros pa completar la solicitú. Los parámetros que falten: «%s»",
     "Storage is temporarily not available" : "L'almacenamientu nun ta disponible temporalmente",
+    "Confirmation" : "Confirmación",
     "Writing style" : "Estilu d'escritura",
     "Source material" : "Material d'orixe",
     "Generate image" : "Xenerar una imaxe",

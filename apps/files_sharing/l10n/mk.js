@@ -360,7 +360,6 @@ OC.L10N.register(
     "Bundled permissions" : "Пакет дозволи",
     "Only works for users with access to this folder" : "Функционира само за корисници со пристап до оваа папка",
     "Only works for users with access to this file" : "Функционира само за корисници со пристап до оваа датотека",
-    "Enter a date" : "Внесете датум",
     "Circle" : "Круг",
     "Allow download" : "Дозволи преземање",
     "No other users with access found" : "Не се пројандени други корисници со простап",

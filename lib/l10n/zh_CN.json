@@ -292,6 +292,7 @@
     "Transcribe the things said in an audio" : "将音频中的内容转录下来",
     "Audio input" : "音频输入",
     "The audio to transcribe" : "要转录的音频",
+    "Confirmation" : "确认",
     "Context write" : "文本撰写",
     "Writes text in a given style based on the provided source material." : "通过给出语料的风格生成文字",
     "Writing style" : "撰写风格",

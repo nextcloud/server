@@ -399,7 +399,6 @@ OC.L10N.register(
     "Bundled permissions" : "Bağlı izinler",
     "Only works for users with access to this folder" : "Yalnızca bu klasöre erişebilen kullanıcılar için geçerlidir",
     "Only works for users with access to this file" : "Yalnızca bu dosyaya erişebilen kullanıcılar için geçerlidir",
-    "Enter a date" : "Bir tarih yazın",
     "Circle" : "Takım",
     "Allow download" : "İndirilebilsin",
     "No other users with access found" : "Erişebilen başka bir kullanıcı bulunamadı",

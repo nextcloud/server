@@ -239,6 +239,7 @@
     "Storage is temporarily not available" : "저장소를 임시로 사용할 수 없음",
     "Storage connection timeout. %s" : "저장소 연결 시간이 초과되었습니다. %s",
     "Audio input" : "음성 입력",
+    "Confirmation" : "확인",
     "Context write" : "컨텍스트 쓰기",
     "Writes text in a given style based on the provided source material." : "제공된 소스 자료를 기반으로 특정 스타일로 텍스트를 작성합니다.",
     "Writing style" : "작문 스타일",
