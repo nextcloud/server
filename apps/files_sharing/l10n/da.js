@@ -201,7 +201,6 @@ OC.L10N.register(
     "Upload" : "Send",
     "Only works for users with access to this folder" : "Virker kun for brugere med adgang til denne folder",
     "Only works for users with access to this file" : "Virker kun for brugere med adgang til denne fil",
-    "Enter a date" : "Indtast en dato",
     "Circle" : "Cirkel",
     "No other users with access found" : "Ingen andre brugere med adgang fundet",
     "No entries found in this folder" : "Der blev ikke fundet poster i denne mappe",

@@ -205,6 +205,7 @@
     "Storage connection error. %s" : "Tallennustilan yhteysvirhe. %s",
     "Storage is temporarily not available" : "Tallennustila on tilapäisesti pois käytöstä",
     "Storage connection timeout. %s" : "Tallennustilan yhteyden aikakatkaisu. %s",
+    "Confirmation" : "Vahvistus",
     "Generate image" : "Luo kuva",
     "Generate an image from a text prompt" : "Luo kuva tekstikehotteen perusteella",
     "Prompt" : "Kehote",

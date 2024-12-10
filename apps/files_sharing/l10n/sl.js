@@ -284,7 +284,6 @@ OC.L10N.register(
     "Bundled permissions" : "Paket dovoljenj",
     "Only works for users with access to this folder" : "Možnost deluje le za uporabnike, ki imajo dostop do te mape",
     "Only works for users with access to this file" : "Deluje le za uporabnike z dostopom do te datoteke",
-    "Enter a date" : "Vpis datuma ...",
     "Circle" : "Krog",
     "Allow download" : "Dovoli prejem datotek",
     "No other users with access found" : "Ni najdenih drugih uporabnikov z dostopom",

@@ -139,7 +139,7 @@
     "Wrong login or password." : "El nomatu o la contraseña nun son correutos.",
     "This account is disabled" : "Esta cuenta ta desactivada",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Dende la to IP, detectemos múltiples intentos d'aniciar la sesión que son inválidos. Poro, el próximu aniciu de la sesión va tardar 30 segundos.",
-    "Account name or email" : "Nome de la cuenta o direición de corréu electrónicu",
+    "Account name or email" : "Nome o direición de corréu de la cuenta",
     "Log in with a device" : "Aniciar la sesión con un preséu",
     "Login or email" : "Cuenta o direición de corréu electrónicu",
     "Your account is not setup for passwordless login." : "La cuenta nun ta configurada p'aniciar la sesión ensin contraseñes.",

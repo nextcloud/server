@@ -404,7 +404,6 @@ OC.L10N.register(
     "Bundled permissions" : "Permisos agrupados",
     "Only works for users with access to this folder" : "Só funciona para usuarios con acceso a este cartafol",
     "Only works for users with access to this file" : "Só funciona para usuarios con acceso a este ficheiro",
-    "Enter a date" : "Introduza unha data",
     "Circle" : "Círculo",
     "Allow download" : "Permitir a descarga",
     "No other users with access found" : "Non se atoparon outros usuarios con acceso",

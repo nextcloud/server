@@ -283,7 +283,6 @@ OC.L10N.register(
     "Upload" : "Įkelti",
     "Only works for users with access to this folder" : "Veikia tik naudotojams, turintiems prieigą prie šio aplanko",
     "Only works for users with access to this file" : "Veikia tik naudotojams, turintiems prieigą prie šio failo",
-    "Enter a date" : "Įveskite datą",
     "Circle" : "Ratas",
     "Allow download" : "Leisti atsisiųsti",
     "No other users with access found" : "Nerasta kitų naudotojų, turinčių prieigą",

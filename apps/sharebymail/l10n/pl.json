@@ -16,6 +16,7 @@
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nie można wysłać automatycznie wygenerowanego hasła. Proszę ustawić prawidłowy adres e-mail w ustawieniach osobistych i spróbować ponownie.",
     "Failed to send share by email. Got an invalid email address" : "Nie udało się wysłać udostępnienia pocztą e-mail. Masz nieprawidłowy adres e-mail",
     "Failed to send share by email" : "Nie udało się wysłać linku udostępnienia e-mailem",
+    "Note:" : "Notatka:",
     "Click the button below to open it." : "Kliknij przycisk poniżej, aby go otworzyć.",
     "%1$s via %2$s" : "%1$s przez %2$s",
     "It is protected with the following password:" : "Zasób jest chroniony następującym hasłem:",

@@ -404,7 +404,6 @@ OC.L10N.register(
     "Bundled permissions" : "Baimen multzoak",
     "Only works for users with access to this folder" : "Karpeta atzitu dezaketen erabiltzaileentzat bakarrik funtzionatzen du",
     "Only works for users with access to this file" : "Fitxategi hau atzitu dezaketen erabiltzaileentzat bakarrik funtzionatzen du",
-    "Enter a date" : "Sartu data bat",
     "Circle" : "Zirkulua",
     "Allow download" : "Baimendu deskarga",
     "No other users with access found" : "Ez da sarbidea duen erabiltzailerik aurkitu",

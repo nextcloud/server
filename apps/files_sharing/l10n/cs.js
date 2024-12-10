@@ -404,7 +404,6 @@ OC.L10N.register(
     "Bundled permissions" : "Předvolená oprávnění",
     "Only works for users with access to this folder" : "Funguje pouze pro uživatele, kteří mají přístup k této složce",
     "Only works for users with access to this file" : "Funguje pouze pro uživatele, kteří mají přístup k tomuto souboru",
-    "Enter a date" : "Zadejte datum",
     "Circle" : "Okruh",
     "Allow download" : "Umožnit stahování",
     "No other users with access found" : "Nenalezeni žádní další uživatelé, kteří mají přístup",

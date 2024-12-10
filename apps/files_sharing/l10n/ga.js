@@ -404,7 +404,6 @@ OC.L10N.register(
     "Bundled permissions" : "Ceadanna cuachta",
     "Only works for users with access to this folder" : "Ní oibríonn sé ach d’úsáideoirí a bhfuil rochtain acu ar an bhfillteán seo",
     "Only works for users with access to this file" : "Ní oibríonn ach d’úsáideoirí a bhfuil rochtain acu ar an gcomhad seo",
-    "Enter a date" : "Cuir isteach dáta",
     "Circle" : "Ciorcal",
     "Allow download" : "Ceadaigh íoslódáil",
     "No other users with access found" : "Níor aimsíodh aon úsáideoir eile a bhfuil rochtain acu",

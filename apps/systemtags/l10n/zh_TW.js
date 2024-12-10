@@ -68,6 +68,7 @@ OC.L10N.register(
     "Manage tags" : "管理標籤",
     "Applying tags changes…" : "正在套用標籤變更……",
     "Search or create tag" : "搜尋或建立標籤",
+    "Change tag color" : "變更標籤顏色",
     "Create new tag" : "建立新標籤",
     "Select or create tags to apply to all selected files" : "選取或建立標籤以套用至所有選定的檔案",
     "Cancel" : "取消",

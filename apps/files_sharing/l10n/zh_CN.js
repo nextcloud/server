@@ -335,7 +335,6 @@ OC.L10N.register(
     "Bundled permissions" : "权限包",
     "Only works for users with access to this folder" : "仅适用于有权限访问此文件夹的用户",
     "Only works for users with access to this file" : "仅适用于有权限访问此文件的用户",
-    "Enter a date" : "输入日期",
     "Circle" : "圈子",
     "Allow download" : "允许下载",
     "No other users with access found" : "找不到其他具有访问权限的用户",

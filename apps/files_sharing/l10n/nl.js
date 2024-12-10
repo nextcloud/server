@@ -371,7 +371,6 @@ OC.L10N.register(
     "Upload" : "Uploaden",
     "Only works for users with access to this folder" : "Dit werkt alleen voor gebruikers met toegang tot deze map",
     "Only works for users with access to this file" : "Dit werkt alleen voor gebruikers met toegang tot dit bestand",
-    "Enter a date" : "Voeg een datum toe",
     "Circle" : "Kring",
     "Allow download" : "Downloaden toestaan",
     "No other users with access found" : "Geen andere gebruikers met toegang gevonden",

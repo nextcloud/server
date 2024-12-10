@@ -221,6 +221,7 @@
     "Storage connection error. %s" : "Opslag verbindingsfout. %s",
     "Storage is temporarily not available" : "Opslag is tijdelijk niet beschikbaar",
     "Storage connection timeout. %s" : "Opslag verbinding time-out. %s",
+    "Confirmation" : "Bevestiging",
     "Summary" : "Samenvatting",
     "Translate" : "Vertaal",
     "Result" : "Resultaat",
