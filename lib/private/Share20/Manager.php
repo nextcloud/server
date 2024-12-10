@@ -112,7 +112,12 @@ class Manager implements IManager {
 		}
 
 		// Let others verify the password
-		$this->dispatcher->dispatchTyped(new ValidatePasswordPolicyEvent($password));
+		try {
+			$this->dispatcher->dispatchTyped(new ValidatePasswordPolicyEvent($password));
+		} catch (HintException $e) {
+			/* Wrap in a 400 bad request error */
+			throw new HintException($e->getMessage(), $e->getHint(), 400, $e);
+		}
 	}
 
 	/**
@@ -780,7 +785,7 @@ class Manager implements IManager {
 	 * @param IShare $share
 	 * @return IShare The share object
 	 * @throws \InvalidArgumentException
-	 * @throws GenericShareException
+	 * @throws HintException
 	 */
 	public function updateShare(IShare $share, bool $onlyValid = true) {
 		$expirationDateUpdated = false;
