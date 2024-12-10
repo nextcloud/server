@@ -38,7 +38,7 @@ export default {
 		},
 	},
 	setup(props) {
-		const { formattedFullTime } = useFormatDateTime(props.user.firstLogin, { relativeTime: false })
+		const { formattedFullTime } = useFormatDateTime(props.user.firstLoginTimestamp * 1000, { relativeTime: false })
 		return {
 			formattedFullTime,
 		}
@@ -128,10 +128,10 @@ export default {
 		},
 
 		userFirstLogin() {
-			if (this.user.firstLogin > 0) {
+			if (this.user.firstLoginTimestamp > 0) {
 				return this.formattedFullTime
 			}
-			if (this.user.firstLogin < 0) {
+			if (this.user.firstLoginTimestamp < 0) {
 				return t('settings', 'Unknown')
 			}
 			return t('settings', 'Never')
@@ -139,14 +139,14 @@ export default {
 
 		/* LAST LOGIN */
 		userLastLoginTooltip() {
-			if (this.user.lastLogin > 0) {
-				return OC.Util.formatDate(this.user.lastLogin)
+			if (this.user.lastLoginTimestamp > 0) {
+				return OC.Util.formatDate(this.user.lastLoginTimestamp * 1000)
 			}
 			return ''
 		},
 		userLastLogin() {
-			if (this.user.lastLogin > 0) {
-				return OC.Util.relativeModifiedDate(this.user.lastLogin)
+			if (this.user.lastLoginTimestamp > 0) {
+				return OC.Util.relativeModifiedDate(this.user.lastLoginTimestamp * 1000)
 			}
 			return t('settings', 'Never')
 		},
