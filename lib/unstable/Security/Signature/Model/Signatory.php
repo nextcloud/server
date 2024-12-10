@@ -39,8 +39,7 @@ use OCP\AppFramework\Db\Entity;
  * @method void setType(int $type)
  * @method int getStatus()
  * @method void setStatus(int $status)
- * @method void setAccount(string $account)
- * @method string getAccount()
+ * @method void setAccount(?string $account)
  * @method void setMetadata(array $metadata)
  * @method ?array getMetadata()
  * @method void setCreation(int $creation)
@@ -56,7 +55,7 @@ class Signatory extends Entity implements JsonSerializable {
 	protected string $host = '';
 	protected string $publicKey = '';
 	protected string $privateKey = '';
-	protected string $account = '';
+	protected ?string $account = '';
 	protected int $type = 9;
 	protected int $status = 1;
 	protected ?array $metadata = null;
@@ -143,6 +142,13 @@ class Signatory extends Entity implements JsonSerializable {
 	 */
 	public function getSignatoryStatus(): SignatoryStatus {
 		return SignatoryStatus::from($this->getStatus());
+	}
+
+	/**
+	 * @experimental 31.0.0
+	 */
+	public function getAccount(): string {
+		return $this->account ?? '';
 	}
 
 	/**
