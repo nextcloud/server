@@ -9,6 +9,7 @@ declare module '@nextcloud/event-bus' {
 		'files:node:deleted': Node
 		'files:node:renamed': Node
 		'files:node:updated': Node
+		'files:node:moved': { node: Node, oldSource: string }
 		'nextcloud:unified-search.search': { query: string }
 	}
 }

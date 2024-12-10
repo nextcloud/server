@@ -23,14 +23,14 @@ import type { ContentsWithRoot } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { CancelablePromise } from 'cancelable-promise'
-import { File, Folder, davGetClient, davGetDefaultPropfind, davResultToNode, davRootPath } from '@nextcloud/files'
+import { type Node, File, Folder, davGetClient, davGetDefaultPropfind, davResultToNode, davRootPath } from '@nextcloud/files'
 import logger from '../logger'
 
 /**
  * Slim wrapper over `@nextcloud/files` `davResultToNode` to allow using the function with `Array.map`
  * @param node The node returned by the webdav library
  */
-export const resultToNode = (node: FileStat): File | Folder => {
+export const resultToNode = (node: FileStat): Node => {
 	return davResultToNode(node)
 }
 
