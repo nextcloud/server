@@ -92,7 +92,8 @@
                     "headline",
                     "id",
                     "language",
-                    "firstLogin",
+                    "firstLoginTimestamp",
+                    "lastLoginTimestamp",
                     "lastLogin",
                     "locale",
                     "manager",
@@ -196,7 +197,11 @@
                     "language": {
                         "type": "string"
                     },
-                    "firstLogin": {
+                    "firstLoginTimestamp": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "lastLoginTimestamp": {
                         "type": "integer",
                         "format": "int64"
                     },
