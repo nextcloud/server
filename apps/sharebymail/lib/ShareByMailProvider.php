@@ -342,8 +342,7 @@ class ShareByMailProvider implements IShareProvider {
 			$emailTemplate->addBodyText(htmlspecialchars($note), $note);
 		}
 		$emailTemplate->addBodyText(
-			htmlspecialchars($text . ' ' . $this->l->t('Click the button below to open it.')),
-			$text
+			$this->l->t('Click the button below to open it.')
 		);
 		$emailTemplate->addBodyButton(
 			$this->l->t('Open »%s«', [$filename]),
