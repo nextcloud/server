@@ -5,7 +5,7 @@
 import type { FileSource, PathOptions, ServicesState, Service } from '../types'
 import { defineStore } from 'pinia'
 import { dirname } from '@nextcloud/paths'
-import { File, FileType, Folder, Node, getNavigation } from '@nextcloud/files'
+import { type Node, File, FileType, Folder, getNavigation } from '@nextcloud/files'
 import { subscribe } from '@nextcloud/event-bus'
 import Vue from 'vue'
 import logger from '../logger'
