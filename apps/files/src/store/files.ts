@@ -113,6 +113,17 @@ export const useFilesStore = function(...args) {
 				this.updateNodes([node])
 			},
 
+			onMovedNode({ node, oldSource }: { node: Node, oldSource: string }) {
+				if (!node.fileid) {
+					logger.error('Trying to update/set a node without fileid', { node })
+					return
+				}
+
+				// Update the path of the node
+				Vue.delete(this.files, oldSource)
+				this.updateNodes([node])
+			},
+
 			async onUpdatedNode(node: Node) {
 				if (!node.fileid) {
 					logger.error('Trying to update/set a node without fileid', { node })
@@ -145,6 +156,7 @@ export const useFilesStore = function(...args) {
 		subscribe('files:node:created', fileStore.onCreatedNode)
 		subscribe('files:node:deleted', fileStore.onDeletedNode)
 		subscribe('files:node:updated', fileStore.onUpdatedNode)
+		subscribe('files:node:moved', fileStore.onMovedNode)
 
 		fileStore._initialized = true
 	}
