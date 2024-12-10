@@ -404,7 +404,6 @@ OC.L10N.register(
     "Bundled permissions" : "Medföljande behörigheter",
     "Only works for users with access to this folder" : "Fungerar bara för användare med åtkomst till den här mappen",
     "Only works for users with access to this file" : "Fungerar bara för användare med åtkomst till den här mappen",
-    "Enter a date" : "Ange datum",
     "Circle" : "Cirkel",
     "Allow download" : "Tillåt nedladdning",
     "No other users with access found" : "Inga andra användare med åtkomst hittades",

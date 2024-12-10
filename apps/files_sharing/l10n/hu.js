@@ -302,7 +302,6 @@ OC.L10N.register(
     "Bundled permissions" : "Összetartozó jogosultságok",
     "Only works for users with access to this folder" : "Csak azoknál a felhasználóknál működik, akiknek hozzáférésük van ehhez a mappához",
     "Only works for users with access to this file" : "Csak azoknál a felhasználóknál működik, akiknek hozzáférésük van ehhez a fájlhoz",
-    "Enter a date" : "Adjon meg egy dátumot",
     "Circle" : "Kör",
     "Allow download" : "Letöltés engedélyezése",
     "No other users with access found" : "Nincs más felhasználó, aki hozzáféréssel rendelkezik",

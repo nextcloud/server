@@ -391,7 +391,6 @@ OC.L10N.register(
     "Bundled permissions" : "باغلانغان ئىجازەتنامە",
     "Only works for users with access to this folder" : "پەقەت بۇ ھۆججەت قىسقۇچنى زىيارەت قىلالايدىغان ئىشلەتكۈچىلەر ئۈچۈن ئىشلەيدۇ",
     "Only works for users with access to this file" : "پەقەت بۇ ھۆججەتنى زىيارەت قىلالايدىغان ئىشلەتكۈچىلەر ئۈچۈن ئىشلەيدۇ",
-    "Enter a date" : "چېسلانى كىرگۈزۈڭ",
     "Circle" : "Circle",
     "Allow download" : "چۈشۈرۈشكە يول قويۇڭ",
     "No other users with access found" : "باشقا ئىشلەتكۈچىلەر تېپىلمىدى",

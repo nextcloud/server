@@ -229,6 +229,7 @@
     "Storage connection error. %s" : "Грешка при свързването с хранилище. %s",
     "Storage is temporarily not available" : "Временно хранилището не е налично",
     "Storage connection timeout. %s" : "Време за изчакване при свързването с хранилище. %s",
+    "Confirmation" : "Потвърждение",
     "Prompt" : "Подкана",
     "Summary" : "Резюме",
     "Translate" : "Превод",

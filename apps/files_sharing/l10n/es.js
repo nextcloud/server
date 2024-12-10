@@ -365,7 +365,6 @@ OC.L10N.register(
     "Bundled permissions" : "Permisos agrupados",
     "Only works for users with access to this folder" : "Sólo funciona para usuarios con acceso a esta carpeta",
     "Only works for users with access to this file" : "Sólo funciona para usuarios con acceso a este archivo",
-    "Enter a date" : "Introduzca una fecha",
     "Circle" : "Círculo",
     "Allow download" : "Permitir descarga",
     "No other users with access found" : "No se encontraron otros usuarios con acceso",

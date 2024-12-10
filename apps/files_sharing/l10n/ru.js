@@ -398,7 +398,6 @@ OC.L10N.register(
     "Bundled permissions" : "Связанные права доступа",
     "Only works for users with access to this folder" : "Только для пользователей с доступом к этой папке",
     "Only works for users with access to this file" : "Только для пользователей с доступом к этому файлу",
-    "Enter a date" : "Введите дату",
     "Circle" : "Круг",
     "Allow download" : "Разрешить скачивать",
     "No other users with access found" : "Не найдено пользователей, имеющих доступ",

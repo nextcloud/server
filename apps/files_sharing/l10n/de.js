@@ -403,7 +403,6 @@ OC.L10N.register(
     "Bundled permissions" : "Gebündelte Berechtigungen",
     "Only works for users with access to this folder" : "Funktioniert nur für Benutzer, die Zugriff auf diesen Ordner haben",
     "Only works for users with access to this file" : "Funktioniert nur für Benutzer, die Zugriff auf diese Datei haben",
-    "Enter a date" : "Datum eingeben",
     "Circle" : "Kreis",
     "Allow download" : "Download erlauben",
     "No other users with access found" : "Keine anderen Benutzer mit Zugriff gefunden",
