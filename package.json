@@ -156,7 +156,7 @@
     "cypress-split": "^1.24.0",
     "cypress-wait-until": "^3.0.2",
     "dockerode": "^4.0.2",
-    "eslint-plugin-cypress": "^3.5.0",
+    "eslint-plugin-cypress": "^4.1.0",
     "eslint-plugin-es": "^4.1.0",
     "exports-loader": "^5.0.0",
     "file-loader": "^6.2.0",
