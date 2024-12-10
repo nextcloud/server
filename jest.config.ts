@@ -57,7 +57,7 @@ const config: Config = {
 	clearMocks: true,
 	setupFilesAfterEnv: ['<rootDir>/__tests__/jest-setup.ts'],
 
-	testEnvironment: 'jest-environment-jsdom',
+	testEnvironment: './__tests__/FixJSDOMEnvironment.ts',
 	preset: 'ts-jest/presets/js-with-ts',
 
 	roots: [
