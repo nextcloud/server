@@ -1,5 +1,6 @@
 <template>
-	<div ref="quickShareDropdownContainer"
+	<div v-if="share.canEdit"
+		ref="quickShareDropdownContainer"
 		:class="{ 'active': showDropdown, 'share-select': true }">
 		<span :id="dropdownId"
 			class="trigger-text"
