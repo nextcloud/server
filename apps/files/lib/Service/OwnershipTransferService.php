@@ -340,10 +340,19 @@ class OwnershipTransferService {
 		$progress->finish();
 		$output->writeln('');
 
-		return array_map(fn (IShare $share) => [
-			'share' => $share,
-			'suffix' => substr(Filesystem::normalizePath($view->getPath($share->getNodeId())), strlen($normalizedPath)),
-		], $shares);
+		return array_values(array_filter(array_map(function (IShare $share) use ($view, $normalizedPath, $output, $sourceUid) {
+			try {
+				$nodePath = $view->getPath($share->getNodeId());
+			} catch (NotFoundException $e) {
+				$output->writeln("<error>Failed to find path for shared file {$share->getNodeId()} for user $sourceUid, skipping</error>");
+				return null;
+			}
+
+			return [
+				'share' => $share,
+				'suffix' => substr(Filesystem::normalizePath($nodePath), strlen($normalizedPath)),
+			];
+		}, $shares)));
 	}
 
 	private function collectIncomingShares(string $sourceUid,
