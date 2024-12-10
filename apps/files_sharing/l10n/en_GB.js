@@ -404,7 +404,6 @@ OC.L10N.register(
     "Bundled permissions" : "Bundled permissions",
     "Only works for users with access to this folder" : "Only works for users with access to this folder",
     "Only works for users with access to this file" : "Only works for users with access to this file",
-    "Enter a date" : "Enter a date",
     "Circle" : "Circle",
     "Allow download" : "Allow download",
     "No other users with access found" : "No other users with access found",

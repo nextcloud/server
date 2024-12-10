@@ -367,7 +367,6 @@ OC.L10N.register(
     "Bundled permissions" : "Združené práva",
     "Only works for users with access to this folder" : "Funguje len pre používateľov s prístupom k tomuto priečinku",
     "Only works for users with access to this file" : "Funguje iba pre pužívateľov, ktorí majú prístup k tomuto súboru",
-    "Enter a date" : "Zadajte dátum",
     "Circle" : "Kruh",
     "Allow download" : "Povoliť sťahovanie",
     "No other users with access found" : "Neboli nájdení ďalší používatelia s prístupom",

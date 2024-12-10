@@ -224,7 +224,6 @@ OC.L10N.register(
     "Bundled permissions" : "Bundled permissions",
     "Only works for users with access to this folder" : "فقط برای کاربران دارای دسترسی به این پوشه کار می کند",
     "Only works for users with access to this file" : "فقط برای کاربران با دسترسی به این پرونده کار می کند",
-    "Enter a date" : "تاریخ را وارد کنید",
     "Circle" : "حلقه",
     "Allow download" : "Allow download",
     "No other users with access found" : "هیچ کاربر دیگری با دسترسی یافت نشد",

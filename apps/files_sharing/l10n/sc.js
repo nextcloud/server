@@ -244,7 +244,6 @@ OC.L10N.register(
     "Upload" : "Càrriga",
     "Only works for users with access to this folder" : "Funtzionat isceti pro utentes cun atzessu a custa cartella",
     "Only works for users with access to this file" : "Funtzionat isceti pro utentes cun atzessu a custu archìviu",
-    "Enter a date" : "Inserta una data",
     "Circle" : "Giru",
     "No other users with access found" : "Peruna utèntzia cun atzessu agatada",
     "No entries found in this folder" : "Perunu elementu agatadu in custa cartella",

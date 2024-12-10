@@ -404,7 +404,6 @@ OC.L10N.register(
     "Bundled permissions" : "أذونات مجمعة",
     "Only works for users with access to this folder" : "صالحٌ فقط للمستخدمين الذين لديهم حق الوصول إلى هذا المجلد",
     "Only works for users with access to this file" : "صالحٌ فقط للمستخدمين الذين لديهم حق الوصول إلى هذا الملف",
-    "Enter a date" : "أدخِل تاريخاً",
     "Circle" : "الدائرة ",
     "Allow download" : "السماح بالتنزيل",
     "No other users with access found" : "لم يتم العثور على مستخدمين آخرين لهم حق الوصول",

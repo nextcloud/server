@@ -371,7 +371,6 @@ OC.L10N.register(
     "Bundled permissions" : "Medfølgende tillatelser",
     "Only works for users with access to this folder" : "Virker kun for brukere med tilgang til mappen",
     "Only works for users with access to this file" : "Virker kun for brukere med tilgang til denne filen",
-    "Enter a date" : "Skriv inn dato",
     "Circle" : "Sirkel",
     "Allow download" : "Tillat nedlasting",
     "No other users with access found" : "Ingen andre brukere med tilgang funnet",
