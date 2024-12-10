@@ -20,12 +20,15 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Response;
+use OCP\Files\IMimeTypeDetector;
+use OCP\Files\IRootFolder;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Server;
 
 /**
  * Implementation of https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-resumable-upload-05
- * All functionality described by the draft RFC is excluded from OpenAPI.
+ * All functionality described by the draft RFC is excluded from OpenAPI, only the custom endpoint to finish the upload is included.
  */
 class ResumableUploadController extends Controller {
 	// https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-resumable-upload-05#section-4.2-2
@@ -384,5 +387,74 @@ class ResumableUploadController extends Controller {
 
 		// https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-resumable-upload-05#section-7-4
 		return new Response(Http::STATUS_NO_CONTENT, self::BASE_HEADERS);
+	}
+
+	/**
+	 * Finish the upload.
+	 *
+	 * @param string $token The token of the upload
+	 * @param string $path The final path where the file will be moved to
+	 * @param int $createdTimestamp The unix timestamp of when the file was created
+	 * @param int $lastModifiedTimestamp The unix timestamp of when the file was last modified
+	 * @param bool $overwrite Whether an existing file should be overwritten
+	 * @return Response<Http::STATUS_NO_CONTENT|Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED|Http::STATUS_NOT_FOUND|Http::STATUS_CONFLICT|Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
+	 *
+	 * 204: Upload finished successfully
+	 * 400: Upload not complete
+	 * 401: User is unauthorized
+	 * 404: Upload not found
+	 * 409: File already exists
+	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[FrontpageRoute(verb: 'POST', url: '/upload/{token}/finish')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	public function finishUpload(
+		string $token,
+		string $path,
+		int $createdTimestamp,
+		int $lastModifiedTimestamp,
+		bool $overwrite = false,
+	): Response {
+		if ($this->userId === null) {
+			return new Response(Http::STATUS_UNAUTHORIZED); // @codeCoverageIgnore
+		}
+
+		$upload = $this->mapper->findByToken($this->userId, $token);
+		if (!$upload instanceof ResumableUpload) {
+			return new Response(Http::STATUS_NOT_FOUND);
+		}
+
+		if (!$upload->getComplete()) {
+			return new Response(Http::STATUS_BAD_REQUEST);
+		}
+
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder($this->userId);
+
+		if ($userFolder->nodeExists($path)) {
+			if (!$overwrite) {
+				return new Response(Http::STATUS_CONFLICT);
+			}
+
+			$userFolder->get($path)->delete();
+		}
+
+		$tmpFileHandle = fopen($upload->getPath(), 'rb');
+		$outFile = $userFolder->newFile($path);
+
+		$outFile->putContent($tmpFileHandle);
+
+		$userFolder->getStorage()->getCache()->put($outFile->getInternalPath(), [
+			'creation_time' => $createdTimestamp,
+			'upload_time' => time(),
+			'mtime' => $lastModifiedTimestamp,
+			// TODO: https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-resumable-upload-05#name-upload-metadata
+			'mimetype' => Server::get(IMimeTypeDetector::class)->detectPath($path),
+		]);
+
+		unlink($upload->getPath());
+		$this->mapper->delete($upload);
+
+		return new Response(Http::STATUS_NO_CONTENT);
 	}
 }

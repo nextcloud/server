@@ -13,15 +13,29 @@ use OCA\Files\Db\ResumableUploadMapper;
 use OCA\Files\Response\AProblemResponse;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Response;
+use OCP\Files\File;
+use OCP\Files\IRootFolder;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Server;
 use Test\TestCase;
+use Test\Traits\UserTrait;
 
 /**
  * @group DB
  */
 class ResumableUploadControllerTest extends TestCase {
+	use UserTrait;
+
+	private const username = 'user';
+
+	public function setUp(): void {
+		parent::setUp();
+
+		$this->createUser(self::username, '');
+		self::loginAsUser(self::username);
+	}
+
 	/**
 	 * @psalm-param Callable(ResumableUploadController):Response $method
 	 * @param array<string, string> $requestHeaders
@@ -50,7 +64,7 @@ class ResumableUploadControllerTest extends TestCase {
 		$controller = new ResumableUploadController(
 			'files',
 			$request,
-			'user',
+			self::username,
 			Server::get(IURLGenerator::class),
 			Server::get(ResumableUploadMapper::class),
 			$inputHandle,
@@ -79,6 +93,7 @@ class ResumableUploadControllerTest extends TestCase {
 		unset(
 			$responseHeaders[ResumableUploadController::HTTP_HEADER_LOCATION],
 			$headers[ResumableUploadController::HTTP_HEADER_LOCATION],
+			$headers['X-User-Id'],
 		);
 
 		$this->assertEquals($responseStatusCode, $response->getStatus());
@@ -1129,6 +1144,308 @@ class ResumableUploadControllerTest extends TestCase {
 			],
 			'',
 			fn (ResumableUploadController $controller): Response => $controller->deleteResource('404'),
+		);
+	}
+
+	public function testFinish(): void {
+		$response = $this->performRequest(
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_COMPLETE => '0',
+				ResumableUploadController::HTTP_HEADER_UPLOAD_LENGTH => '9',
+			],
+			'abc',
+			Http::STATUS_CREATED,
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_COMPLETE => '0',
+				ResumableUploadController::HTTP_HEADER_UPLOAD_OFFSET => 3,
+				ResumableUploadController::HTTP_HEADER_LOCATION => true,
+			],
+			'',
+			fn (ResumableUploadController $controller): Response => $controller->createResource(),
+		);
+		$token = $this->getTokenFromResponse($response);
+		$this->performRequest(
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+			],
+			'',
+			Http::STATUS_NO_CONTENT,
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_COMPLETE => '0',
+				ResumableUploadController::HTTP_HEADER_UPLOAD_OFFSET => 3,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_LENGTH => 9,
+				ResumableUploadController::HTTP_HEADER_CACHE_CONTROL => 'no-store',
+			],
+			'',
+			fn (ResumableUploadController $controller): Response => $controller->checkResource($token),
+		);
+
+		$this->performRequest(
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_OFFSET => '3',
+				ResumableUploadController::HTTP_HEADER_CONTENT_TYPE => ResumableUploadController::MEDIA_TYPE_PARTIAL_UPLOAD,
+			],
+			'def',
+			Http::STATUS_CREATED,
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_COMPLETE => '0',
+				ResumableUploadController::HTTP_HEADER_UPLOAD_OFFSET => 6,
+			],
+			'',
+			fn (ResumableUploadController $controller): Response => $controller->appendResource($token),
+		);
+		$this->performRequest(
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+			],
+			'',
+			Http::STATUS_NO_CONTENT,
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_COMPLETE => '0',
+				ResumableUploadController::HTTP_HEADER_UPLOAD_OFFSET => 6,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_LENGTH => 9,
+				ResumableUploadController::HTTP_HEADER_CACHE_CONTROL => 'no-store',
+			],
+			'',
+			fn (ResumableUploadController $controller): Response => $controller->checkResource($token),
+		);
+
+		$this->performRequest(
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_COMPLETE => '1',
+				ResumableUploadController::HTTP_HEADER_UPLOAD_OFFSET => '6',
+				ResumableUploadController::HTTP_HEADER_CONTENT_TYPE => ResumableUploadController::MEDIA_TYPE_PARTIAL_UPLOAD,
+			],
+			'ghi',
+			Http::STATUS_CREATED,
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_COMPLETE => '1',
+				ResumableUploadController::HTTP_HEADER_UPLOAD_OFFSET => 9,
+			],
+			'',
+			fn (ResumableUploadController $controller): Response => $controller->appendResource($token),
+		);
+		$this->performRequest(
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+			],
+			'',
+			Http::STATUS_NO_CONTENT,
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_COMPLETE => '1',
+				ResumableUploadController::HTTP_HEADER_UPLOAD_OFFSET => 9,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_LENGTH => 9,
+				ResumableUploadController::HTTP_HEADER_CACHE_CONTROL => 'no-store',
+			],
+			'',
+			fn (ResumableUploadController $controller): Response => $controller->checkResource($token),
+		);
+
+		$start = time();
+		$this->performRequest(
+			[],
+			'',
+			Http::STATUS_NO_CONTENT,
+			[],
+			'',
+			fn (ResumableUploadController $controller): Response => $controller->finishUpload($token, '/test.txt', 123, 456),
+		);
+		$end = time();
+
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder('user');
+
+		/** @var File $file */
+		$file = $userFolder->get('test.txt');
+		$this->assertEquals('abcdefghi', $file->getContent());
+		$cacheEntry = $userFolder->getStorage()->getCache()->get($file->getInternalPath());
+		$this->assertNotFalse($cacheEntry);
+		$this->assertEquals('files/test.txt', $cacheEntry->getPath());
+		$this->assertEquals(9, $cacheEntry->getSize());
+		$this->assertEquals(123, $cacheEntry->getCreationTime());
+		$this->assertEquals(456, $cacheEntry->getMTime());
+		$this->assertGreaterThanOrEqual($start, $cacheEntry->getUploadTime());
+		$this->assertLessThanOrEqual($end, $cacheEntry->getUploadTime());
+		$this->assertEquals('text/plain', $cacheEntry->getMimetype());
+	}
+
+	public function testFinishIncomplete(): void {
+		$response = $this->performRequest(
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_COMPLETE => '0',
+				ResumableUploadController::HTTP_HEADER_UPLOAD_LENGTH => '9',
+			],
+			'abc',
+			Http::STATUS_CREATED,
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_COMPLETE => '0',
+				ResumableUploadController::HTTP_HEADER_UPLOAD_OFFSET => 3,
+				ResumableUploadController::HTTP_HEADER_LOCATION => true,
+			],
+			'',
+			fn (ResumableUploadController $controller): Response => $controller->createResource(),
+		);
+		$token = $this->getTokenFromResponse($response);
+		$this->performRequest(
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+			],
+			'',
+			Http::STATUS_NO_CONTENT,
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_COMPLETE => '0',
+				ResumableUploadController::HTTP_HEADER_UPLOAD_OFFSET => 3,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_LENGTH => 9,
+				ResumableUploadController::HTTP_HEADER_CACHE_CONTROL => 'no-store',
+			],
+			'',
+			fn (ResumableUploadController $controller): Response => $controller->checkResource($token),
+		);
+
+		$this->performRequest(
+			[],
+			'',
+			Http::STATUS_BAD_REQUEST,
+			[],
+			'',
+			fn (ResumableUploadController $controller): Response => $controller->finishUpload($token, '/test.txt', 123, 456),
+		);
+	}
+
+	public function testFinishExistingFile(): void {
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder('user');
+
+		$this->assertEquals(1, $userFolder->newFile('test.txt', 'z')->getSize());
+
+		$response = $this->performRequest(
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_COMPLETE => '1',
+				ResumableUploadController::HTTP_HEADER_UPLOAD_LENGTH => '3',
+			],
+			'abc',
+			Http::STATUS_CREATED,
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_COMPLETE => '1',
+				ResumableUploadController::HTTP_HEADER_UPLOAD_OFFSET => 3,
+				ResumableUploadController::HTTP_HEADER_LOCATION => true,
+			],
+			'',
+			fn (ResumableUploadController $controller): Response => $controller->createResource(),
+		);
+		$token = $this->getTokenFromResponse($response);
+		$this->performRequest(
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+			],
+			'',
+			Http::STATUS_NO_CONTENT,
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_COMPLETE => '1',
+				ResumableUploadController::HTTP_HEADER_UPLOAD_OFFSET => 3,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_LENGTH => 3,
+				ResumableUploadController::HTTP_HEADER_CACHE_CONTROL => 'no-store',
+			],
+			'',
+			fn (ResumableUploadController $controller): Response => $controller->checkResource($token),
+		);
+
+		$this->performRequest(
+			[],
+			'',
+			Http::STATUS_CONFLICT,
+			[],
+			'',
+			fn (ResumableUploadController $controller): Response => $controller->finishUpload($token, '/test.txt', 123, 456),
+		);
+	}
+
+	public function testFinishExistingFileOverwrite(): void {
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder('user');
+
+		$this->assertEquals(1, $userFolder->newFile('test.txt', 'z')->getSize());
+
+		$response = $this->performRequest(
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_COMPLETE => '1',
+				ResumableUploadController::HTTP_HEADER_UPLOAD_LENGTH => '3',
+			],
+			'abc',
+			Http::STATUS_CREATED,
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_COMPLETE => '1',
+				ResumableUploadController::HTTP_HEADER_UPLOAD_OFFSET => 3,
+				ResumableUploadController::HTTP_HEADER_LOCATION => true,
+			],
+			'',
+			fn (ResumableUploadController $controller): Response => $controller->createResource(),
+		);
+		$token = $this->getTokenFromResponse($response);
+		$this->performRequest(
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+			],
+			'',
+			Http::STATUS_NO_CONTENT,
+			[
+				ResumableUploadController::HTTP_HEADER_UPLOAD_DRAFT_INTEROP_VERSION => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_COMPLETE => '1',
+				ResumableUploadController::HTTP_HEADER_UPLOAD_OFFSET => 3,
+				ResumableUploadController::HTTP_HEADER_UPLOAD_LENGTH => 3,
+				ResumableUploadController::HTTP_HEADER_CACHE_CONTROL => 'no-store',
+			],
+			'',
+			fn (ResumableUploadController $controller): Response => $controller->checkResource($token),
+		);
+
+		$start = time();
+		$this->performRequest(
+			[],
+			'',
+			Http::STATUS_NO_CONTENT,
+			[],
+			'',
+			fn (ResumableUploadController $controller): Response => $controller->finishUpload($token, '/test.txt', 123, 456, true),
+		);
+		$end = time();
+
+		/** @var File $file */
+		$file = $userFolder->get('test.txt');
+		$this->assertEquals('abc', $file->getContent());
+		$cacheEntry = $userFolder->getStorage()->getCache()->get($file->getInternalPath());
+		$this->assertNotFalse($cacheEntry);
+		$this->assertEquals('files/test.txt', $cacheEntry->getPath());
+		$this->assertEquals(3, $cacheEntry->getSize());
+		$this->assertEquals(123, $cacheEntry->getCreationTime());
+		$this->assertEquals(456, $cacheEntry->getMTime());
+		$this->assertGreaterThanOrEqual($start, $cacheEntry->getUploadTime());
+		$this->assertLessThanOrEqual($end, $cacheEntry->getUploadTime());
+		$this->assertEquals('text/plain', $cacheEntry->getMimetype());
+	}
+
+	public function testFinishNonExistent(): void {
+		$this->performRequest(
+			[],
+			'',
+			Http::STATUS_NOT_FOUND,
+			[],
+			'',
+			fn (ResumableUploadController $controller): Response => $controller->finishUpload('404', '/test.txt', 123, 456),
 		);
 	}
 }
