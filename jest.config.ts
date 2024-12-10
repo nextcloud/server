@@ -43,7 +43,7 @@ const config: Config = {
 		'<rootDir>/__tests__/mock-window.js',
 	],
 
-	testEnvironment: 'jest-environment-jsdom',
+	testEnvironment: './__tests__/FixJSDOMEnvironment.ts',
 	preset: 'ts-jest/presets/js-with-ts',
 
 	roots: [
