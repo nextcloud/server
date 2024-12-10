@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -738,4 +739,42 @@ class PluginTest extends TestCase {
 
 	}
 
+	/**
+	 * Test Calendar Event Creation with iTip and iMip disabled
+	 *
+	 * Should generate 2 messages for attendees User 2 and User External
+	 */
+	public function testCalendarObjectChangeWithSchedulingDisabled(): void {
+		// construct server request
+		$request = new Request(
+			'PUT',
+			'/remote.php/dav/calendars/user1/personal/B0DC78AE-6DD7-47E3-80BE-89F23E6D5383.ics',
+			['x-nc-scheduling' => 'false']
+		);
+		$request->setBaseUrl('/remote.php/dav/');
+		// construct server response
+		$response = new Response();
+		// construct server tree
+		$tree = $this->createMock(Tree::class);
+		$tree->expects($this->never())
+			->method('getNodeForPath');
+		// construct server properties and returns
+		$this->server->httpRequest = $request;
+		$this->server->tree = $tree;
+		// construct empty calendar event
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', []);
+		// define flags
+		$newFlag = true;
+		$modifiedFlag = false;
+		// execute method
+		$this->plugin->calendarObjectChange(
+			$request,
+			$response,
+			$vCalendar,
+			'calendars/user1/personal',
+			$modifiedFlag,
+			$newFlag
+		);
+	}
 }
