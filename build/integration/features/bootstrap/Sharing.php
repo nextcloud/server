@@ -373,6 +373,13 @@ trait Sharing {
 		Assert::assertEquals(false, $this->isFieldInResponse('share_with', "$user"));
 	}
 
+	/**
+	 * @Then /^Share type "([^"]*)" should not be included in the response$/
+	 */
+	public function checkShareTypeNotInResponse(int $shareType) {
+		Assert::assertEquals(false, $this->isFieldInResponse('share_type', $shareType));
+	}
+
 	public function isUserOrGroupInSharedData($userOrGroup, $permissions = null) {
 		$data = simplexml_load_string($this->response->getBody())->data[0];
 		foreach ($data as $element) {

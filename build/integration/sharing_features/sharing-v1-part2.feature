@@ -23,6 +23,34 @@ Feature: sharing
     And User "user2" should be included in the response
     And User "user3" should not be included in the response
 
+  Scenario: getting all shares of a file with reshares with link share
+    Given user "user0" exists
+    And user "user1" exists
+    When as "user0" creating a share with
+      | path | textfile0.txt |
+      | shareType | 0 |
+      | shareWith | user1 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    When as "user0" creating a share with
+      | path | textfile0.txt |
+      | shareType | 3 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last link share can be downloaded
+    When As an "user1"
+    And sending "GET" to "/apps/files_sharing/api/v1/shares?reshares=true&path=textfile0 (2).txt"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And User "user1" should not be included in the response
+    And Share type "3" should not be included in the response
+    When As an "user1"
+    And sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true&path=textfile0 (2).txt"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And User "user1" should be included in the response
+    And Share type "3" should not be included in the response
+
   Scenario: getting all shares of a file with a received share after revoking the resharing rights
     Given user "user0" exists
     And user "user1" exists
