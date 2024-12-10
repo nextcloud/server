@@ -45,7 +45,8 @@
 				:file-info="fileInfo"
 				@open-sharing-details="openShareDetailsForCustomSettings(share)" />
 		</div>
-		<NcButton class="sharing-entry__action"
+		<NcButton v-if="share.canEdit"
+			class="sharing-entry__action"
 			data-cy-files-sharing-share-actions
 			:aria-label="t('files_sharing', 'Open Sharing Details')"
 			type="tertiary"
