@@ -116,7 +116,8 @@ abstract class AUserDataOCSController extends OCSController {
 
 		// Find the data
 		$data['id'] = $targetUserObject->getUID();
-		$data['firstLogin'] = $targetUserObject->getFirstLogin() * 1000;
+		$data['firstLoginTimestamp'] = $targetUserObject->getFirstLogin();
+		$data['lastLoginTimestamp'] = $targetUserObject->getLastLogin();
 		$data['lastLogin'] = $targetUserObject->getLastLogin() * 1000;
 		$data['backend'] = $targetUserObject->getBackendClassName();
 		$data['subadmin'] = $this->getUserSubAdminGroupsData($targetUserObject->getUID());
