@@ -128,7 +128,7 @@
     "@nextcloud/stylelint-config": "^2.4.0",
     "@nextcloud/typings": "^1.8.0",
     "@nextcloud/webpack-vue-config": "^6.0.1",
-    "@pinia/testing": "^0.1.2",
+    "@pinia/testing": "^0.1.7",
     "@testing-library/cypress": "^10.0.2",
     "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/user-event": "^14.4.3",
