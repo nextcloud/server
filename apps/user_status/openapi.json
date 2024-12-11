@@ -442,7 +442,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "minimum": 0
                         }
                     },
                     {
