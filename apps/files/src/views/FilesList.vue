@@ -32,23 +32,27 @@
 						multiple
 						@failed="onUploadFail"
 						@uploaded="onUpload" />
-
-					<NcActions :inline="1" force-name>
-						<NcActionButton v-for="action in enabledFileListActions"
-							:key="action.id"
-							close-after-click
-							@click="() => action.exec(currentView, dirContents, { folder: currentFolder })">
-							<template #icon>
-								<NcIconSvgWrapper :svg="action.iconSvgInline(currentView)" />
-							</template>
-							{{ action.displayName(currentView) }}
-						</NcActionButton>
-					</NcActions>
 				</template>
 			</BreadCrumbs>
 
 			<!-- Secondary loading indicator -->
 			<NcLoadingIcon v-if="isRefreshing" class="files-list__refresh-icon" />
+
+			<NcActions class="files-list__header-actions"
+				:inline="1"
+				type="tertiary"
+				force-name>
+				<NcActionButton v-for="action in enabledFileListActions"
+					:key="action.id"
+					close-after-click
+					@click="action.exec(currentView, dirContents, { folder: currentFolder })">
+					<template #icon>
+						<NcIconSvgWrapper v-if="action.iconSvgInline !== undefined"
+							:svg="action.iconSvgInline(currentView)" />
+					</template>
+					{{ action.displayName(currentView) }}
+				</NcActionButton>
+			</NcActions>
 
 			<NcButton v-if="fileListWidth >= 512 && enableGridView"
 				:aria-label="gridViewButtonLabel"
@@ -759,6 +763,11 @@ export default defineComponent({
 			&--shared {
 				color: var(--color-main-text) !important;
 			}
+		}
+
+		&-actions {
+			min-width: fit-content !important;
+			margin-inline: calc(var(--default-grid-baseline) * 2);
 		}
 	}
 
