@@ -111,8 +111,7 @@
                     "id",
                     "icon",
                     "message",
-                    "clearAt",
-                    "visible"
+                    "clearAt"
                 ],
                 "properties": {
                     "id": {
@@ -126,10 +125,6 @@
                     },
                     "clearAt": {
                         "$ref": "#/components/schemas/ClearAt",
-                        "nullable": true
-                    },
-                    "visible": {
-                        "type": "boolean",
                         "nullable": true
                     }
                 }
