@@ -73,7 +73,7 @@ OC.L10N.register(
     "Where: %s" : "Hely: %s",
     "%1$s via %2$s" : "%1$s – %2$s",
     "In %1$s %2$s on %3$s for the entire day" : "%1$s-en %2$s %3$s-kor az teljes napra",
-    "In %1$s %2$s on %3$s between %4$s - %5$s" : "%1$s-en %2$s %3$s-kor %4$s - %5$sközött",
+    "In %1$s %2$s on %3$s between %4$s - %5$s" : "%1$s %2$s múlva, %3$s napon %4$s - %5$s",
     "Could not generate when statement" : "Nem sikerlt létrehozni a mikor állítást",
     "Every Day for the entire day" : "Minden Nap a teljes napra",
     "Every Day for the entire day until %1$s" : "Minden Nap a teljes napon eddig %1$s",
