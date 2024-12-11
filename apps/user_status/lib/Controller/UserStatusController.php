@@ -36,7 +36,7 @@ class UserStatusController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private string $userId,
+		private ?string $userId,
 		private LoggerInterface $logger,
 		private StatusService $service,
 		private CalendarStatusService $calendarStatusService,
