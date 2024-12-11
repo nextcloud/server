@@ -7,7 +7,7 @@ OC.L10N.register(
     "Allows OAuth2 compatible authentication from other web applications." : "מאפשר אימות תואם OAuth2 מיישומי אינטרנט אחרים.",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "יישומון OAuth2 מאפשר למנהלים להגדיר את הסדר האימות המובנה כדי לאפשר אימות תואם OAuth2 מיישומים אחרים.",
     "OAuth 2.0 clients" : "לקוחות OAuth 2.0",
-    "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 מאפשר לשירותים חיצוניים לבקש גישה אל {instanceName}.",
+    "OAuth 2.0 allows external services to request access to" : "OAuth 2.0 מאפשר לשירותים חיצוניים לבקש גישה אל",
     "Name" : "שם",
     "Redirection URI" : "כתובת הפנייה",
     "Client Identifier" : "זיהוי לקו",

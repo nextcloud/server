@@ -7,7 +7,7 @@ OC.L10N.register(
     "Allows OAuth2 compatible authentication from other web applications." : "Beste web aplikazio batzuen bidez egindako OAuth2 erako autentikazioa egitea baimentzen du",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "OAuth2 aplikazioak, zerbitzu hori eskaintzen duten beste web aplikazio batzuen bidez autentikazioa egiten konfiguratzeko aukera eskaintzen die sistemaren kudeatzaileei.",
     "OAuth 2.0 clients" : "OAuth 2.0 bezeroak",
-    "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0k kanpo zerbitzuei {instanceName} instantziara sartzeko baimena eskatzea baimentzen die.",
+    "OAuth 2.0 allows external services to request access to" : "OAuth 2.0k kanpo zerbitzuei {instanceName} instantziara sartzeko baimena eskatzea baimentzen die.",
     "Name" : "Izena",
     "Redirection URI" : "Birbideraketaren URI",
     "Client Identifier" : "Bezeroaren Identifikadorea",

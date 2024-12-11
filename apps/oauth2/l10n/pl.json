@@ -5,7 +5,7 @@
     "Allows OAuth2 compatible authentication from other web applications." : "Umożliwia uwierzytelnianie zgodne z OAuth2 innych aplikacji internetowych.",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "Aplikacja OAuth2 umożliwia administratorom modyfikację wbudowanego uwierzytelnienia, pozwalając na korzystanie z OAuth2 innych aplikacji internetowych.",
     "OAuth 2.0 clients" : "Klienci OAuth 2.0",
-    "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 pozwala zewnętrznym serwisom na korzystanie z dostępu do {instanceName}.",
+    "OAuth 2.0 allows external services to request access to" : "OAuth 2.0 pozwala zewnętrznym serwisom na korzystanie z dostępu do",
     "Name" : "Nazwa",
     "Redirection URI" : "URI przekierowania",
     "Client Identifier" : "Identyfikator Klienta",

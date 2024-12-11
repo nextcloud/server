@@ -7,7 +7,7 @@ OC.L10N.register(
     "Allows OAuth2 compatible authentication from other web applications." : "다른 웹 애플리케이션에서 OAuth2 호환 인증을 허용합니다.",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "OAuth2 앱을 사용하면 관리자가 기본 인증 작업 과정을 통해서 다른 웹 애플리케이션에서 OAuth2 호환 인증을 허용합니다.",
     "OAuth 2.0 clients" : "OAuth 2.0 클라이언트",
-    "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0을 사용하여 외부 서비스에서 {instanceName}에 접근할 수 있습니다.",
+    "OAuth 2.0 allows external services to request access to" : "OAuth 2.0을 사용하여 외부 서비스에서 {instanceName}에 접근할 수 있습니다.",
     "Name" : "이름",
     "Redirection URI" : "전환될 URI",
     "Client Identifier" : "클라이언트 식별자",
