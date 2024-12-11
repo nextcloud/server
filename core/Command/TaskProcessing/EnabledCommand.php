@@ -22,7 +22,7 @@ class EnabledCommand extends Base {
 
 	protected function configure() {
 		$this
-			->setName('taskprocessing:task:set-enabled')
+			->setName('taskprocessing:task-type:set-enabled')
 			->setDescription('Enable or disable a task type')
 			->addArgument(
 				'task-type-id',
@@ -44,14 +44,10 @@ class EnabledCommand extends Base {
 		if ($json === '') {
 			$taskTypeSettings = [];
 		} else {
-			$taskTypeSettings = json_decode($json, true);
-		}
-		if ($enabled) {
-			$taskTypeSettings[$taskType] = true;
-		} else {
-			$taskTypeSettings[$taskType] = false;
+			$taskTypeSettings = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
 		}
 		
+		$taskTypeSettings[$taskType] = $enabled;
 		
 		$this->config->setAppValue('core', 'ai.taskprocessing_type_preferences', json_encode($taskTypeSettings));
 		$this->writeArrayInOutputFormat($input, $output, $taskTypeSettings);
