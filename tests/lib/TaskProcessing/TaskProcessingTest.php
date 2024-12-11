@@ -187,6 +187,8 @@ class SuccessfulSyncProvider implements IProvider, ISynchronousProvider {
 	}
 }
 
+
+
 class FailingSyncProvider implements IProvider, ISynchronousProvider {
 	public const ERROR_MESSAGE = 'Failure';
 	public function getId(): string {
@@ -387,6 +389,7 @@ class FailingTextToImageProvider implements \OCP\TextToImage\IProvider {
  */
 class TaskProcessingTest extends \Test\TestCase {
 	private IManager $manager;
+	private IManager $disabledTypeManager;
 	private Coordinator $coordinator;
 	private array $providers;
 	private IServerContainer $serverContainer;
@@ -396,6 +399,7 @@ class TaskProcessingTest extends \Test\TestCase {
 	private IJobList $jobList;
 	private IUserMountCache $userMountCache;
 	private IRootFolder $rootFolder;
+	private IConfig $config;
 
 	public const TEST_USER = 'testuser';
 
@@ -442,11 +446,6 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->jobList->expects($this->any())->method('add')->willReturnCallback(function () {
 		});
 
-		$config = $this->createMock(IConfig::class);
-		$config->method('getAppValue')
-			->with('core', 'ai.textprocessing_provider_preferences', '')
-			->willReturn('');
-
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$text2imageManager = new \OC\TextToImage\Manager(
@@ -460,9 +459,9 @@ class TaskProcessingTest extends \Test\TestCase {
 		);
 
 		$this->userMountCache = $this->createMock(IUserMountCache::class);
-
+		$this->config = \OC::$server->get(IConfig::class);
 		$this->manager = new Manager(
-			\OC::$server->get(IConfig::class),
+			$this->config,
 			$this->coordinator,
 			$this->serverContainer,
 			\OC::$server->get(LoggerInterface::class),
@@ -492,7 +491,25 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->manager->scheduleTask(new Task(TextToText::ID, ['input' => 'Hello'], 'test', null));
 	}
 
+	public function testProviderShouldBeRegisteredAndTaskTypeDisabled(): void {
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', SuccessfulSyncProvider::class)
+		]);
+		$taskProcessingTypeSettings = [
+			TextToText::ID => false,
+		];
+		$this->config->setAppValue('core', 'ai.taskprocessing_type_preferences', json_encode($taskProcessingTypeSettings));
+		$context = $this->coordinator->getRegistrationContext();
+		self::assertCount(0, $this->manager->getAvailableTaskTypes());
+		self::assertCount(1, $this->manager->getAvailableTaskTypes(true));
+		self::assertTrue($this->manager->hasProviders());
+		self::expectException(\OCP\TaskProcessing\Exception\PreConditionNotMetException::class);
+		$this->manager->scheduleTask(new Task(TextToText::ID, ['input' => 'Hello'], 'test', null));
+	}
+
+
 	public function testProviderShouldBeRegisteredAndTaskFailValidation(): void {
+		$this->config->setAppValue('core', 'ai.taskprocessing_type_preferences', '');
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
 			new ServiceRegistration('test', BrokenSyncProvider::class)
 		]);
