@@ -23,6 +23,7 @@
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Je kunt met iedereen delen die Nextcloud, ownCloud of een ander Open Cloud Mesh (OCM) compatible server of services gebruikt! Gebruik simpelweg hun gefedereerde Cloud ID in de deel-dialoog. Het ziet eruit als iemand@cloud.voorbeeld.com",
     "Share it so your friends can share files with you:" : "Deel het, zodat anderen bestanden met jou kunnen delen:",
     "Facebook" : "Facebook",
+    "X (formerly Twitter)" : "X (voorheen Twitter)",
     "Mastodon" : "Mastodon",
     "Add to your website" : "Toevoegen aan je website",
     "Share with me via Nextcloud" : "Deel met mij via Nextcloud",
