@@ -733,42 +733,41 @@ class Manager implements IManager {
 	}
 
 	public function getAvailableTaskTypes(bool $showDisabled = false): array {
-		if ($this->availableTaskTypes === null) {
-			$taskTypes = $this->_getTaskTypes();
-			$taskTypeSettings = $this->_getTaskTypeSettings();
+		$taskTypes = $this->_getTaskTypes();
+		$taskTypeSettings = $this->_getTaskTypeSettings();
 
-			$availableTaskTypes = [];
-			foreach ($taskTypes as $taskType) {
-				if ((!$showDisabled) && isset($taskTypeSettings[$taskType->getId()]) && !$taskTypeSettings[$taskType->getId()]) {
-					continue;
-				}
-				try {
-					$provider = $this->getPreferredProvider($taskType->getId());
-				} catch (\OCP\TaskProcessing\Exception\Exception $e) {
-					continue;
-				}
-				try {
-					$availableTaskTypes[$provider->getTaskTypeId()] = [
-						'name' => $taskType->getName(),
-						'description' => $taskType->getDescription(),
-						'optionalInputShape' => $provider->getOptionalInputShape(),
-						'inputShapeEnumValues' => $provider->getInputShapeEnumValues(),
-						'inputShapeDefaults' => $provider->getInputShapeDefaults(),
-						'inputShape' => $taskType->getInputShape(),
-						'optionalInputShapeEnumValues' => $provider->getOptionalInputShapeEnumValues(),
-						'optionalInputShapeDefaults' => $provider->getOptionalInputShapeDefaults(),
-						'outputShape' => $taskType->getOutputShape(),
-						'outputShapeEnumValues' => $provider->getOutputShapeEnumValues(),
-						'optionalOutputShape' => $provider->getOptionalOutputShape(),
-						'optionalOutputShapeEnumValues' => $provider->getOptionalOutputShapeEnumValues(),
-					];
-				} catch (\Throwable $e) {
-					$this->logger->error('Failed to set up TaskProcessing provider ' . $provider::class, ['exception' => $e]);
-				}
+		$availableTaskTypes = [];
+		foreach ($taskTypes as $taskType) {
+			if ((!$showDisabled) && isset($taskTypeSettings[$taskType->getId()]) && !$taskTypeSettings[$taskType->getId()]) {
+				continue;
 			}
-
-			$this->availableTaskTypes = $availableTaskTypes;
+			try {
+				$provider = $this->getPreferredProvider($taskType->getId());
+			} catch (\OCP\TaskProcessing\Exception\Exception $e) {
+				continue;
+			}
+			try {
+				$availableTaskTypes[$provider->getTaskTypeId()] = [
+					'name' => $taskType->getName(),
+					'description' => $taskType->getDescription(),
+					'optionalInputShape' => $provider->getOptionalInputShape(),
+					'inputShapeEnumValues' => $provider->getInputShapeEnumValues(),
+					'inputShapeDefaults' => $provider->getInputShapeDefaults(),
+					'inputShape' => $taskType->getInputShape(),
+					'optionalInputShapeEnumValues' => $provider->getOptionalInputShapeEnumValues(),
+					'optionalInputShapeDefaults' => $provider->getOptionalInputShapeDefaults(),
+					'outputShape' => $taskType->getOutputShape(),
+					'outputShapeEnumValues' => $provider->getOutputShapeEnumValues(),
+					'optionalOutputShape' => $provider->getOptionalOutputShape(),
+					'optionalOutputShapeEnumValues' => $provider->getOptionalOutputShapeEnumValues(),
+				];
+			} catch (\Throwable $e) {
+				$this->logger->error('Failed to set up TaskProcessing provider ' . $provider::class, ['exception' => $e]);
+			}
 		}
+
+		$this->availableTaskTypes = $availableTaskTypes;
+		
 
 		return $this->availableTaskTypes;
 	}
