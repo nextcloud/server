@@ -1266,6 +1266,7 @@ return array(
     'OC\\Core\\Command\\SystemTag\\Delete' => $baseDir . '/core/Command/SystemTag/Delete.php',
     'OC\\Core\\Command\\SystemTag\\Edit' => $baseDir . '/core/Command/SystemTag/Edit.php',
     'OC\\Core\\Command\\SystemTag\\ListCommand' => $baseDir . '/core/Command/SystemTag/ListCommand.php',
+    'OC\\Core\\Command\\TaskProcessing\\EnabledCommand' => $baseDir . '/core/Command/TaskProcessing/EnabledCommand.php',
     'OC\\Core\\Command\\TaskProcessing\\GetCommand' => $baseDir . '/core/Command/TaskProcessing/GetCommand.php',
     'OC\\Core\\Command\\TaskProcessing\\ListCommand' => $baseDir . '/core/Command/TaskProcessing/ListCommand.php',
     'OC\\Core\\Command\\TaskProcessing\\Statistics' => $baseDir . '/core/Command/TaskProcessing/Statistics.php',
