@@ -123,6 +123,7 @@ class UserStatusController extends OCSController {
 	 * @param int|null $clearAt When the message should be cleared
 	 * @return DataResponse<Http::STATUS_OK, UserStatusPrivate, array{}>
 	 * @throws OCSBadRequestException The clearAt or icon is invalid or the message is too long
+	 * @throws OCSNotFoundException No status for the current user
 	 *
 	 * 200: The message was updated successfully
 	 */
@@ -149,6 +150,8 @@ class UserStatusController extends OCSController {
 		} catch (StatusMessageTooLongException $ex) {
 			$this->logger->debug('New user-status for "' . $this->userId . '" was rejected due to a too long status message.');
 			throw new OCSBadRequestException($ex->getMessage(), $ex);
+		} catch (DoesNotExistException $ex) {
+			throw new OCSNotFoundException('No status for the current user');
 		}
 	}
 
