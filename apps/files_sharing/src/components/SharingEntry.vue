@@ -46,7 +46,8 @@
 				:toggle="showDropdown"
 				@open-sharing-details="openShareDetailsForCustomSettings(share)" />
 		</div>
-		<NcButton class="sharing-entry__action"
+		<NcButton v-if="share.canEdit"
+			class="sharing-entry__action"
 			:aria-label="t('files_sharing', 'Open Sharing Details')"
 			type="tertiary-no-background"
 			@click="openSharingDetails(share)">
