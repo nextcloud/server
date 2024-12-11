@@ -1292,10 +1292,7 @@ class ShareByMailProviderTest extends TestCase {
 		$template
 			->expects($this->once())
 			->method('addBodyText')
-			->with(
-				'Mrs. Owner User shared file.txt with you. Click the button below to open it.',
-				'Mrs. Owner User shared file.txt with you.'
-			);
+			->with('Click the button below to open it.');
 		$template
 			->expects($this->once())
 			->method('addBodyButton')
@@ -1405,7 +1402,7 @@ class ShareByMailProviderTest extends TestCase {
 		$template
 			->expects($this->once())
 			->method('addBodyText')
-			->with('Mrs. Owner User shared file.txt with you. Click the button below to open it.', 'Mrs. Owner User shared file.txt with you.');
+			->with('Click the button below to open it.');
 
 		$this->urlGenerator->expects($this->once())->method('imagePath')
 			->with('core', 'caldav/description.png')
@@ -1531,7 +1528,7 @@ class ShareByMailProviderTest extends TestCase {
 		$template
 			->expects($this->once())
 			->method('addBodyText')
-			->with('Mrs. Owner User shared file.txt with you. Click the button below to open it.', 'Mrs. Owner User shared file.txt with you.');
+			->with('Click the button below to open it.');
 
 		$expiration = new DateTime('2001-01-01');
 		$this->l->expects($this->once())
@@ -1663,10 +1660,7 @@ class ShareByMailProviderTest extends TestCase {
 		$template
 			->expects($this->once())
 			->method('addBodyText')
-			->with(
-				'Mr. Initiator User shared file.txt with you. Click the button below to open it.',
-				'Mr. Initiator User shared file.txt with you.'
-			);
+			->with('Click the button below to open it.');
 		$template
 			->expects($this->once())
 			->method('addBodyButton')
@@ -1767,10 +1761,7 @@ class ShareByMailProviderTest extends TestCase {
 		$template
 			->expects($this->once())
 			->method('addBodyText')
-			->with(
-				'Mrs. Owner User shared file.txt with you. Click the button below to open it.',
-				'Mrs. Owner User shared file.txt with you.'
-			);
+			->with('Click the button below to open it.');
 		$template
 			->expects($this->once())
 			->method('addBodyButton')
@@ -1875,10 +1866,7 @@ class ShareByMailProviderTest extends TestCase {
 		$template
 			->expects($this->once())
 			->method('addBodyText')
-			->with(
-				'Mr. Initiator User shared file.txt with you. Click the button below to open it.',
-				'Mr. Initiator User shared file.txt with you.'
-			);
+			->with('Click the button below to open it.');
 		$template
 			->expects($this->once())
 			->method('addBodyButton')
