@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { ContentsWithRoot, File, Folder } from '@nextcloud/files'
+import type { ContentsWithRoot, File, Folder, Node } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { CancelablePromise } from 'cancelable-promise'
@@ -14,7 +14,7 @@ import logger from '../logger.ts'
  * Slim wrapper over `@nextcloud/files` `davResultToNode` to allow using the function with `Array.map`
  * @param node The node returned by the webdav library
  */
-export const resultToNode = (node: FileStat): File | Folder => davResultToNode(node)
+export const resultToNode = (node: FileStat): Node => davResultToNode(node)
 
 export const getContents = (path = '/'): CancelablePromise<ContentsWithRoot> => {
 	const controller = new AbortController()

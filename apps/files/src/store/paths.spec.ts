@@ -127,4 +127,40 @@ describe('Path store', () => {
 		// See the child is removed
 		expect(root._children).toEqual([])
 	})
+
+	test('Folder is moved', () => {
+		const node = new Folder({ owner: 'test', source: 'http://example.com/remote.php/dav/files/test/folder', id: 2 })
+		emit('files:node:created', node)
+		// see that the path is added and the children are set-up
+		expect(store.paths).toEqual({ files: { [node.path]: node.source } })
+		expect(root._children).toEqual([node.source])
+
+		const renamedNode = node.clone()
+		renamedNode.rename('new-folder')
+
+		expect(renamedNode.path).toBe('/new-folder')
+		expect(renamedNode.source).toBe('http://example.com/remote.php/dav/files/test/new-folder')
+
+		emit('files:node:moved', { node: renamedNode, oldSource: node.source })
+		// See the path is updated
+		expect(store.paths).toEqual({ files: { [renamedNode.path]: renamedNode.source } })
+		// See the child is updated
+		expect(root._children).toEqual([renamedNode.source])
+	})
+
+	test('File is moved', () => {
+		const node = new File({ owner: 'test', source: 'http://example.com/remote.php/dav/files/test/file.txt', id: 2, mime: 'text/plain' })
+		emit('files:node:created', node)
+		// see that the children are set-up
+		expect(root._children).toEqual([node.source])
+		expect(store.paths).toEqual({})
+
+		const renamedNode = node.clone()
+		renamedNode.rename('new-file.txt')
+
+		emit('files:node:moved', { node: renamedNode, oldSource: node.source })
+		// See the child is updated
+		expect(root._children).toEqual([renamedNode.source])
+		expect(store.paths).toEqual({})
+	})
 })
