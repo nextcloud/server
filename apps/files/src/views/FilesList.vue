@@ -32,23 +32,30 @@
 						multiple
 						@failed="onUploadFail"
 						@uploaded="onUpload" />
-
-					<NcActions :inline="1" force-name>
-						<NcActionButton v-for="action in enabledFileListActions"
-							:key="action.id"
-							close-after-click
-							@click="() => action.exec(currentView, dirContents, { folder: currentFolder })">
-							<template #icon>
-								<NcIconSvgWrapper :svg="action.iconSvgInline(currentView)" />
-							</template>
-							{{ action.displayName(currentView) }}
-						</NcActionButton>
-					</NcActions>
 				</template>
 			</BreadCrumbs>
 
 			<!-- Secondary loading indicator -->
 			<NcLoadingIcon v-if="isRefreshing" class="files-list__refresh-icon" />
+
+			<NcActions class="files-list__header-actions"
+				:inline="1"
+				type="tertiary"
+				force-name>
+				<NcActionButton v-for="action in enabledFileListActions"
+					:key="action.id"
+					:disabled="!!loadingAction"
+					:data-cy-files-list-action="action.id"
+					close-after-click
+					@click="execFileListAction(action)">
+					<template #icon>
+						<NcLoadingIcon v-if="loadingAction === action.id" :size="18" />
+						<NcIconSvgWrapper v-else-if="action.iconSvgInline !== undefined && currentView"
+							:svg="action.iconSvgInline(currentView)" />
+					</template>
+					{{ actionDisplayName(action) }}
+				</NcActionButton>
+			</NcActions>
 
 			<NcButton v-if="fileListWidth >= 512 && enableGridView"
 				:aria-label="gridViewButtonLabel"
@@ -128,7 +135,7 @@
 </template>
 
 <script lang="ts">
-import type { ContentsWithRoot, Folder, INode } from '@nextcloud/files'
+import type { ContentsWithRoot, FileListAction, Folder, INode } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
 import type { CancelablePromise } from 'cancelable-promise'
 import type { ComponentPublicInstance } from 'vue'
@@ -140,7 +147,7 @@ import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Node, Permission, sortNodes, getFileListActions } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { join, dirname, normalize } from 'path'
-import { showError, showWarning } from '@nextcloud/dialogs'
+import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { ShareType } from '@nextcloud/sharing'
 import { UploadPicker, UploadStatus } from '@nextcloud/upload'
 import { loadState } from '@nextcloud/initial-state'
@@ -254,6 +261,7 @@ export default defineComponent({
 	data() {
 		return {
 			loading: true,
+			loadingAction: null as string | null,
 			error: null as string | null,
 			promise: null as CancelablePromise<ContentsWithRoot> | Promise<ContentsWithRoot> | null,
 
@@ -433,6 +441,10 @@ export default defineComponent({
 		},
 
 		enabledFileListActions() {
+			if (!this.currentView || !this.currentFolder) {
+				return []
+			}
+
 			const actions = getFileListActions()
 			const enabledActions = actions
 				.filter(action => {
@@ -442,7 +454,7 @@ export default defineComponent({
 					return action.enabled(
 						this.currentView!,
 						this.dirContents,
-						{ folder: this.currentFolder! },
+						this.currentFolder as Folder,
 					)
 				})
 				.toSorted((a, b) => a.order - b.order)
@@ -710,6 +722,40 @@ export default defineComponent({
 			}
 			this.dirContentsFiltered = nodes
 		},
+
+		actionDisplayName(action: FileListAction): string {
+			let displayName = action.id
+			try {
+				displayName = action.displayName(this.currentView!)
+			} catch (error) {
+				logger.error('Error while getting action display name', { action, error })
+			}
+			return displayName
+		},
+
+		async execFileListAction(action: FileListAction) {
+			this.loadingAction = action.id
+
+			const displayName = this.actionDisplayName(action)
+			try {
+				const success = await action.exec(this.source, this.dirContents, this.currentDir)
+				// If the action returns null, we stay silent
+				if (success === null || success === undefined) {
+					return
+				}
+
+				if (success) {
+					showSuccess(t('files', '"{displayName}" action executed successfully', { displayName }))
+					return
+				}
+				showError(t('files', '"{displayName}" action failed', { displayName }))
+			} catch (error) {
+				logger.error('Error while executing action', { action, error })
+				showError(t('files', '"{displayName}" action failed', { displayName }))
+			} finally {
+				this.loadingAction = null
+			}
+		},
 	},
 })
 </script>
@@ -759,6 +805,11 @@ export default defineComponent({
 			&--shared {
 				color: var(--color-main-text) !important;
 			}
+		}
+
+		&-actions {
+			min-width: fit-content !important;
+			margin-inline: calc(var(--default-grid-baseline) * 2);
 		}
 	}
 
