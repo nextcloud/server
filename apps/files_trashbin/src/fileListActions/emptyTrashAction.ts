@@ -23,11 +23,11 @@ import { emit } from '@nextcloud/event-bus'
 const emptyTrash = async (): Promise<boolean> => {
 	try {
 		await axios.delete(generateRemoteUrl('dav') + `/trashbin/${getCurrentUser()?.uid}/trash`)
-		showSuccess(t('files_trashbin', 'Permanently deleted all previously deleted files'))
+		showSuccess(t('files_trashbin', 'All files have been permanently deleted'))
 		return true
 	} catch (error) {
-		showError(t('files_trashbin', 'Failed to delete all previously deleted files'))
-		logger.error('Failed to delete all previously deleted files', { error })
+		showError(t('files_trashbin', 'Failed to empty deleted files'))
+		logger.error('Failed to empty deleted files', { error })
 		return false
 	}
 }
@@ -50,7 +50,7 @@ export const emptyTrashAction = new FileListAction({
 			const dialog = getDialogBuilder(t('files_trashbin', 'Confirm permanent deletion'))
 				.setSeverity(DialogSeverity.Warning)
 				// TODO Add note for groupfolders
-				.setText(t('files_trashbin', 'Are you sure you want to permanently delete all previously deleted files? This cannot be undone.'))
+				.setText(t('files_trashbin', 'Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone.'))
 				.setButtons([
 					{
 						label: t('files_trashbin', 'Cancel'),
