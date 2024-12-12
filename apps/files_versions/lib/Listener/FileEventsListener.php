@@ -384,16 +384,7 @@ class FileEventsListener implements IEventListener {
 
 		$owner = $node->getOwner()?->getUid();
 
-		// If no owner, extract it from the path.
-		// e.g. /user/files/foobar.txt
-		if (!$owner) {
-			$parts = explode('/', $node->getPath(), 4);
-			if (count($parts) === 4) {
-				$owner = $parts[1];
-			}
-		}
-
-		if ($owner) {
+		if ($owner !== null) {
 			$path = $this->rootFolder
 				->getUserFolder($owner)
 				->getRelativePath($node->getPath());
@@ -403,6 +394,22 @@ class FileEventsListener implements IEventListener {
 			}
 		}
 
-		return null;
+		// If no owner, or didn't find a path for the owner,
+		// extract the owner name from the path and try again
+		// Happens when a file version is owned by a different user than the owner of
+		// the original file
+		// @see https://github.com/nextcloud/server/issues/40090
+		$parts = explode('/', $node->getPath(), 4);
+		if (count($parts) === 4) {
+			$owner = $parts[1];
+		}
+
+		if ($owner === '' || $owner === null) {
+			return null;
+		}
+
+		return $this->rootFolder
+					->getUserFolder($owner)
+					->getRelativePath($node->getPath());
 	}
 }
