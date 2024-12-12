@@ -19,7 +19,6 @@ OC.L10N.register(
     "Failed to send share by email. Got an invalid email address" : "Failed to send share by email. Got an invalid email address",
     "Failed to send share by email" : "Failed to send share by email",
     "%1$s shared %2$s with you" : "%1$s shared %2$s with you",
-    "%1$s shared %2$s with you." : "%1$s shared %2$s with you.",
     "Note:" : "Note:",
     "This share is valid until %s at midnight" : "This share is valid until %s at midnight",
     "Expiration:" : "Expiration:",
@@ -58,6 +57,7 @@ OC.L10N.register(
     "»%s« added a note to a file shared with you" : "»%s« added a note to a file shared with you",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient.",
     "Password to access »%1$s« shared by you with %2$s" : "Password to access »%1$s« shared by you with %2$s",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Allows users to share a personalised link to a file or folder by putting in an email address."
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Allows users to share a personalised link to a file or folder by putting in an email address.",
+    "%1$s shared %2$s with you." : "%1$s shared %2$s with you."
 },
 "nplurals=2; plural=(n != 1);");
