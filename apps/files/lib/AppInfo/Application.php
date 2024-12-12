@@ -18,6 +18,8 @@ use OCA\Files\Event\LoadSearchPlugins;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files\Listener\LoadSearchPluginsListener;
 use OCA\Files\Listener\LoadSidebarListener;
+use OCA\Files\Listener\NodeAddedToFavoriteListener;
+use OCA\Files\Listener\NodeRemovedFromFavoriteListener;
 use OCA\Files\Listener\RenderReferenceEventListener;
 use OCA\Files\Listener\SyncLivePhotosListener;
 use OCA\Files\Notification\Notifier;
@@ -33,12 +35,13 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\Collaboration\Resources\IProviderManager;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntryRemovedEvent;
 use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
+use OCP\Files\Events\NodeAddedToFavorite;
+use OCP\Files\Events\NodeRemovedFromFavorite;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -96,7 +99,6 @@ class Application extends App implements IBootstrap {
 				$c->get(IActivityManager::class),
 				$c->get(ITagManager::class)->load(self::APP_ID),
 				$server->getUserFolder(),
-				$c->get(IEventDispatcher::class),
 			);
 		});
 
@@ -116,7 +118,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeNodeCopiedEvent::class, SyncLivePhotosListener::class);
 		$context->registerEventListener(NodeCopiedEvent::class, SyncLivePhotosListener::class);
 		$context->registerEventListener(LoadSearchPlugins::class, LoadSearchPluginsListener::class);
-
+		$context->registerEventListener(NodeAddedToFavorite::class, NodeAddedToFavoriteListener::class);
+		$context->registerEventListener(NodeRemovedFromFavorite::class, NodeRemovedFromFavoriteListener::class);
 		$context->registerSearchProvider(FilesSearchProvider::class);
 
 		$context->registerNotifierService(Notifier::class);
