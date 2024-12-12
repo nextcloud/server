@@ -4,7 +4,7 @@
  */
 import type { Node, View, Folder } from '@nextcloud/files'
 
-import PQueue from 'p-queue'
+import axios from '@nextcloud/axios'
 import { FileListAction } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import {
@@ -13,57 +13,23 @@ import {
 	showError,
 	showInfo,
 	showSuccess,
-	TOAST_PERMANENT_TIMEOUT,
 } from '@nextcloud/dialogs'
 
-import { deleteNode } from '../../../files/src/actions/deleteUtils.ts'
 import { logger } from '../logger.ts'
+import { generateRemoteUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
+import { emit } from '@nextcloud/event-bus'
 
-type Toast = ReturnType<typeof showInfo>
-
-const queue = new PQueue({ concurrency: 5 })
-
-const showLoadingToast = (): null | Toast => {
-	const message = t('files_trashbin', 'Deleting files…')
-	let toast: null | Toast = null
-	toast = showInfo(
-		`<span class="icon icon-loading-small toast-loading-icon"></span> ${message}`,
-		{
-			isHTML: true,
-			timeout: TOAST_PERMANENT_TIMEOUT,
-			onRemove: () => {
-				toast?.hideToast()
-				toast = null
-			},
-		},
-	)
-	return toast
-}
-
-const emptyTrash = async (nodes: Node[]) => {
-	const promises = nodes.map((node) => {
-		const { promise, resolve, reject } = Promise.withResolvers<void>()
-		queue.add(async () => {
-			try {
-				await deleteNode(node)
-				resolve()
-			} catch (error) {
-				logger.error('Failed to delete node', { error, node })
-				reject(error)
-			}
-		})
-		return promise
-	})
-
-	const toast = showLoadingToast()
-	const results = await Promise.allSettled(promises)
-	if (results.some((result) => result.status === 'rejected')) {
-		toast?.hideToast()
+const emptyTrash = async (): Promise<boolean> => {
+	try {
+		await axios.delete(generateRemoteUrl('dav') + `/trashbin/${getCurrentUser()?.uid}/trash`)
+		showSuccess(t('files_trashbin', 'Permanently deleted all previously deleted files'))
+		return true
+	} catch (error) {
 		showError(t('files_trashbin', 'Failed to delete all previously deleted files'))
-		return
+		logger.error('Failed to delete all previously deleted files', { error })
+		return false
 	}
-	toast?.hideToast()
-	showSuccess(t('files_trashbin', 'Permanently deleted all previously deleted files'))
 }
 
 export const emptyTrashAction = new FileListAction({
@@ -79,31 +45,37 @@ export const emptyTrashAction = new FileListAction({
 		return nodes.length > 0 && folder.path === '/'
 	},
 
-	async exec(view: View, nodes: Node[]) {
-		const dialog = getDialogBuilder(t('files_trashbin', 'Confirm permanent deletion'))
-			.setSeverity(DialogSeverity.Warning)
-			// TODO Add note for groupfolders
-			.setText(t('files_trashbin', 'Are you sure you want to permanently delete all previously deleted files? This cannot be undone.'))
-			.setButtons([
-				{
-					label: t('files_trashbin', 'Cancel'),
-					type: 'secondary',
-					callback: () => {},
-				},
-				{
-					label: t('files_trashbin', 'Empty deleted files'),
-					type: 'error',
-					callback: () => {
-						emptyTrash(nodes)
+	async exec(view: View, nodes: Node[]): Promise<void> {
+		const askConfirmation = new Promise((resolve) => {
+			const dialog = getDialogBuilder(t('files_trashbin', 'Confirm permanent deletion'))
+				.setSeverity(DialogSeverity.Warning)
+				// TODO Add note for groupfolders
+				.setText(t('files_trashbin', 'Are you sure you want to permanently delete all previously deleted files? This cannot be undone.'))
+				.setButtons([
+					{
+						label: t('files_trashbin', 'Cancel'),
+						type: 'secondary',
+						callback: () => resolve(false),
 					},
-				},
-			])
-			.build()
+					{
+						label: t('files_trashbin', 'Empty deleted files'),
+						type: 'error',
+						callback: () => resolve(true),
+					},
+				])
+				.build()
+			dialog.show().then(() => {
+				dialog.hide()
+			})
+		})
 
-		try {
-			await dialog.show()
-		} catch (error) {
-			// Allow throw on dialog close
+		const result = await askConfirmation
+		if (result === true) {
+			await emptyTrash()
+			nodes.forEach((node) => emit('files:node:deleted', node))
+			return
 		}
+
+		showInfo(t('files_trashbin', 'Deletion cancelled'))
 	},
 })

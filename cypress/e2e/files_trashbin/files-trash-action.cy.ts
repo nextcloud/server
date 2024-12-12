@@ -67,7 +67,7 @@ describe('files_trashbin: Empty trashbin action', { testIsolation: true }, () =>
 
 		// Wait for the request to finish
 		cy.wait('@emptyTrash').its('response.statusCode').should('eq', 204)
-		cy.get('@emptyTrash.all').should('have.length', FILE_COUNT)
+		cy.get('@emptyTrash.all').should('have.length', 1)
 
 		// Trashbin should be empty
 		cy.get('[data-cy-files-list-row-fileid]').should('not.exist')
