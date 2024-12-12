@@ -827,7 +827,9 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	margin-bottom: calc(var(--default-grid-baseline) * 8);
 
 	> h2 {
-		margin-bottom: 0px;
+		margin: 0;
+		font-size: 20px;
+		font-weight: bold;
 	}
 
 	> a {
