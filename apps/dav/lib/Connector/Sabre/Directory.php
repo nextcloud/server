@@ -445,13 +445,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 					throw new InvalidPath($ex->getMessage());
 				}
 
-				$copyOkay = $this->fileView->copy($sourcePath, $destinationPath);
-
-				if (!$copyOkay) {
-					throw new \Sabre\DAV\Exception\Forbidden('Copy did not proceed');
-				}
-
-				return true;
+				return $this->fileView->copy($sourcePath, $destinationPath);
 			} catch (StorageNotAvailableException $e) {
 				throw new ServiceUnavailable($e->getMessage(), $e->getCode(), $e);
 			} catch (ForbiddenException $ex) {
