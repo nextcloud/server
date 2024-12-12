@@ -75,7 +75,7 @@
 				:required="config.enableLinkPasswordByDefault || config.enforcePasswordForPublicLink"
 				:minlength="isPasswordPolicyEnabled && config.passwordPolicy.minLength"
 				autocomplete="new-password"
-				@submit="onNewLinkShare">
+				@submit="onNewLinkShare(true)">
 				<template #icon>
 					<LockIcon :size="20" />
 				</template>
