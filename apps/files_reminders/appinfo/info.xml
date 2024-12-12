@@ -7,6 +7,9 @@
 	<description><![CDATA[**📣 File reminders**
 
 Set file reminders.
+
+Note: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly.
+
 	]]></description>
 	<version>1.1.0</version>
 	<licence>agpl</licence>
