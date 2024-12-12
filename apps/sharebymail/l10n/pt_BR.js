@@ -19,7 +19,6 @@ OC.L10N.register(
     "Failed to send share by email. Got an invalid email address" : "Compartilhamento por email falhou. Endereço de email inválido",
     "Failed to send share by email" : "Falha ao enviar compartilhamento via e-mail",
     "%1$s shared %2$s with you" : "%1$s compartilhou %2$s com você",
-    "%1$s shared %2$s with you." : "%1$s compartilhou %2$s com você.",
     "Note:" : "Anotação:",
     "This share is valid until %s at midnight" : "Esta partilha é válida até %s à meia-noite",
     "Expiration:" : "Expiração:",
@@ -58,6 +57,7 @@ OC.L10N.register(
     "»%s« added a note to a file shared with you" : "»%s« adicionou uma anotação num arquivo compartilhado com você",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Você compartilhou »%1$s« com %2$s. O compartilhamento já foi enviado para o destinatário. Devido às políticas de segurança definidas pelo administrador de %3$scada compartilhamento precisa ser protegido por senha e não é permitido enviá-la diretamente ao destinatário. Portanto, você precisa encaminhar a senha manualmente. ",
     "Password to access »%1$s« shared by you with %2$s" : "A senha para acessar »%1$s« compartilhada por você com %2$s",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite que os usuários compartilhem um link personalizado para um arquivo ou pasta, inserindo um endereço de e-mail."
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite que os usuários compartilhem um link personalizado para um arquivo ou pasta, inserindo um endereço de e-mail.",
+    "%1$s shared %2$s with you." : "%1$s compartilhou %2$s com você."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
