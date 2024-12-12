@@ -110,6 +110,7 @@ return array(
     'OCA\\DAV\\CalDAV\\Sharing\\Backend' => $baseDir . '/../lib/CalDAV/Sharing/Backend.php',
     'OCA\\DAV\\CalDAV\\Sharing\\Service' => $baseDir . '/../lib/CalDAV/Sharing/Service.php',
     'OCA\\DAV\\CalDAV\\Status\\StatusService' => $baseDir . '/../lib/CalDAV/Status/StatusService.php',
+    'OCA\\DAV\\CalDAV\\TimeZoneFactory' => $baseDir . '/../lib/CalDAV/TimeZoneFactory.php',
     'OCA\\DAV\\CalDAV\\TimezoneService' => $baseDir . '/../lib/CalDAV/TimezoneService.php',
     'OCA\\DAV\\CalDAV\\TipBroker' => $baseDir . '/../lib/CalDAV/TipBroker.php',
     'OCA\\DAV\\CalDAV\\Trashbin\\DeletedCalendarObject' => $baseDir . '/../lib/CalDAV/Trashbin/DeletedCalendarObject.php',
