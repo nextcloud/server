@@ -19,7 +19,6 @@ OC.L10N.register(
     "Failed to send share by email. Got an invalid email address" : "Nepodařilo se odeslat sdílení e-mailem. Obdržena neplatná e-mailová adresa",
     "Failed to send share by email" : "Sdílení e-mailem se nezdařilo",
     "%1$s shared %2$s with you" : "%1$s vám nasdílel(a) %2$s",
-    "%1$s shared %2$s with you." : "%1$s vám nasdílel(a) %2$s.",
     "Note:" : "Poznámka:",
     "This share is valid until %s at midnight" : "Toto sdílení je platné do půlnoci %s",
     "Expiration:" : "Konec platnosti:",
@@ -58,6 +57,7 @@ OC.L10N.register(
     "»%s« added a note to a file shared with you" : "„%s“ dodává poznámku k nasdílenému souboru",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Právě jste s „%1$s“ nasdílel(a) %2$s. Sdílení bylo už příjemci zasláno. Kvůli bezpečnostní politice nastavené administrátorem %3$s musí být každé sdílení chráněno heslem a toto heslo nemůže být příjemci zasláno přímo. Kvůli tomu ho budete muset ručně přeposlat.",
     "Password to access »%1$s« shared by you with %2$s" : "Heslo pro přístup k „%1$s“ nasdílenému vámi pro %2$s",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Dovoluje uživatelům odeslat personalizovaný odkaz na soubor nebo složku po zadání e-mailové adresy."
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Dovoluje uživatelům odeslat personalizovaný odkaz na soubor nebo složku po zadání e-mailové adresy.",
+    "%1$s shared %2$s with you." : "%1$s vám nasdílel(a) %2$s."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

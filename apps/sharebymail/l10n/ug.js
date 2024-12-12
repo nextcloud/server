@@ -19,7 +19,6 @@ OC.L10N.register(
     "Failed to send share by email. Got an invalid email address" : "ئېلېكترونلۇق خەت ئارقىلىق ھەمبەھىرلەش مەغلۇپ بولدى. ئىناۋەتسىز ئېلېكترونلۇق خەت ئادرېسىغا ئېرىشتى",
     "Failed to send share by email" : "ئېلېكترونلۇق خەت ئارقىلىق ھەمبەھىرلەش مەغلۇپ بولدى",
     "%1$s shared %2$s with you" : "% 1 $ s سىز بىلەن% 2 $ s ئورتاقلاشتى",
-    "%1$s shared %2$s with you." : "% 1 $ s سىز بىلەن% 2 $ s ئورتاقلاشتى.",
     "Note:" : "ئەسكەرتىش:",
     "This share is valid until %s at midnight" : "بۇ ئۈلۈش يېرىم كېچىدە% s گىچە كۈچكە ئىگە",
     "Expiration:" : "ۋاقتى:",
@@ -58,6 +57,7 @@ OC.L10N.register(
     "»%s« added a note to a file shared with you" : "»% S« سىز بىلەن ئورتاقلاشقان ھۆججەتكە خاتىرە قوشتى",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "سىز پەقەت% 2 $ s بىلەن ئورتاقلاشتىڭىز. بۇ ئۈلۈش ئاللىبۇرۇن تاپشۇرۇۋالغۇچىغا ئەۋەتىلگەن. باشقۇرغۇچى تەرىپىدىن بېكىتىلگەن بىخەتەرلىك سىياسىتى سەۋەبىدىن% 3 $ s ھەر بىر پاينى مەخپىي نومۇر بىلەن قوغداش كېرەك ، پارولنى تاپشۇرۇۋالغۇچىغا بىۋاسىتە ئەۋەتىشكە بولمايدۇ. شۇڭلاشقا پارولنى تاپشۇرۇۋالغۇچىغا قولدا يوللىشىڭىز كېرەك.",
     "Password to access »%1$s« shared by you with %2$s" : "زىيارەت قىلىش پارولى »% 1 $ s« سىز بىلەن ئورتاقلاشقان% 2 $ s",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "ئىشلەتكۈچىلەرنىڭ ئېلېكترونلۇق خەت ئادرېسى ئارقىلىق ھۆججەت ياكى ھۆججەت قىسقۇچقا خاسلاشتۇرۇلغان ئۇلىنىشنى ھەمبەھىرلىشىگە يول قويىدۇ."
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "ئىشلەتكۈچىلەرنىڭ ئېلېكترونلۇق خەت ئادرېسى ئارقىلىق ھۆججەت ياكى ھۆججەت قىسقۇچقا خاسلاشتۇرۇلغان ئۇلىنىشنى ھەمبەھىرلىشىگە يول قويىدۇ.",
+    "%1$s shared %2$s with you." : "% 1 $ s سىز بىلەن% 2 $ s ئورتاقلاشتى."
 },
 "nplurals=2; plural=(n != 1);");

@@ -15,7 +15,6 @@
     "Address" : "Adres",
     "Profile picture" : "Profielprent",
     "About" : "Oor",
-    "Open »%s«" : "Open »%s«",
     "Sunday" : "Sondag",
     "Monday" : "Maandag",
     "Tuesday" : "Dinsdag",
@@ -28,6 +27,7 @@
     "Summary" : "Opsomming",
     "Help" : "Hulp",
     "Users" : "Gebruikers",
-    "Unknown user" : "Onbekende gebruiker"
+    "Unknown user" : "Onbekende gebruiker",
+    "Open »%s«" : "Open »%s«"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
