@@ -2,8 +2,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
-import type { Node } from '@nextcloud/files'
+import type { Node, View, Folder } from '@nextcloud/files'
 
 import PQueue from 'p-queue'
 import { FileListAction } from '@nextcloud/files'
@@ -73,14 +72,14 @@ export const emptyTrashAction = new FileListAction({
 	displayName: () => t('files_trashbin', 'Empty deleted files'),
 	order: 0,
 
-	enabled: (view, nodes, folder) => {
+	enabled(view: View, nodes: Node[], folder: Folder) {
 		if (view.id !== 'trashbin') {
 			return false
 		}
 		return nodes.length > 0 && folder.path === '/'
 	},
 
-	exec: async (view, nodes) => {
+	async exec(view: View, nodes: Node[]) {
 		const dialog = getDialogBuilder(t('files_trashbin', 'Confirm permanent deletion'))
 			.setSeverity(DialogSeverity.Warning)
 			// TODO Add note for groupfolders
