@@ -102,16 +102,33 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 	 *
 	 * This is mainly used to ensure that the returned rows from both sides of a partition contains the columns of the join predicate
 	 *
-	 * @param string $column
+	 * @param string|IQueryFunction $column
 	 * @return void
 	 */
 	private function ensureSelect(string|IQueryFunction $column, ?string $alias = null): void {
 		$checkColumn = $alias ?: $column;
 		if (str_contains($checkColumn, '.')) {
-			[, $checkColumn] = explode('.', $checkColumn);
+			[$table, $checkColumn] = explode('.', $checkColumn);
+			$partition = $this->getPartition($table);
+		} else {
+			$partition = null;
 		}
 		foreach ($this->selects as $select) {
-			if ($select['select'] === $checkColumn || $select['select'] === '*' || str_ends_with($select['select'], '.' . $checkColumn)) {
+			$select = $select['select'];
+			if (!is_string($select)) {
+				continue;
+			}
+
+			if (str_contains($select, '.')) {
+				[$table, $select] = explode('.', $select);
+				$selectPartition = $this->getPartition($table);
+			} else {
+				$selectPartition = null;
+			}
+			if (
+				($select === $checkColumn || $select === '*') &&
+				$selectPartition === $partition
+			) {
 				return;
 			}
 		}
@@ -287,6 +304,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 
 	/**
 	 * Split an array of predicates (WHERE query parts) by the partition they reference
+	 *
 	 * @param array $predicates
 	 * @return array<string, array>
 	 */
