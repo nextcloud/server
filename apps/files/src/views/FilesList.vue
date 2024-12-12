@@ -45,7 +45,7 @@
 				<NcActionButton v-for="action in enabledFileListActions"
 					:key="action.id"
 					close-after-click
-					@click="action.exec(currentView, dirContents, { folder: currentFolder })">
+					@click="action.exec(currentView, dirContents, currentFolder)">
 					<template #icon>
 						<NcIconSvgWrapper v-if="action.iconSvgInline !== undefined"
 							:svg="action.iconSvgInline(currentView)" />

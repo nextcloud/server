@@ -7,6 +7,7 @@ import type { Node } from '@nextcloud/files'
 
 import PQueue from 'p-queue'
 import { FileListAction } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
 import {
 	DialogSeverity,
 	getDialogBuilder,
@@ -72,7 +73,7 @@ export const emptyTrashAction = new FileListAction({
 	displayName: () => t('files_trashbin', 'Empty deleted files'),
 	order: 0,
 
-	enabled: (view, nodes, { folder }) => {
+	enabled: (view, nodes, folder) => {
 		if (view.id !== 'trashbin') {
 			return false
 		}
