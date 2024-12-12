@@ -572,7 +572,7 @@ class Manager implements IManager {
 		if ($json === '') {
 			return [];
 		}
-		return json_decode($json, true);
+		return json_decode($json, true, flags: JSON_THROW_ON_ERROR);
 	}
 
 	/**
