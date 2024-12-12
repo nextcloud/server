@@ -121,6 +121,8 @@ OC.L10N.register(
     "Personal info" : "个人信息",
     "Mobile & desktop" : "手机与电脑",
     "Email server" : "电子邮件服务器",
+    "Mail Providers" : "邮件提供商",
+    "Mail provider enables sending emails directly through the user's personal email account. At present, this functionality is limited to calendar invitations. It requires Nextcloud Mail 4.1 and an email account in Nextcloud Mail that matches the user's email address in Nextcloud." : "邮件提供商允许直接通过用户的个人电子邮件帐户发送电子邮件。目前，此功能仅限于日历邀请。它需要 Nextcloud Mail 4.1 和 Nextcloud Mail 中与用户在 Nextcloud 中的电子邮件地址匹配的电子邮件帐户。",
     "Background jobs" : "后台任务",
     "Unlimited" : "无限",
     "Verifying" : "正在验证",

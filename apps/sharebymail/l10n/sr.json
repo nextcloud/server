@@ -17,7 +17,6 @@
     "Failed to send share by email. Got an invalid email address" : "Слање дељења и-мејлом није успело. Добијена је неисправна и-мејл адреса",
     "Failed to send share by email" : "Грешка у слању дељења е-поштом",
     "%1$s shared %2$s with you" : "%1$s је поделио „%2$s” са вама",
-    "%1$s shared %2$s with you." : "%1$s је поделио „%2$s” са вама",
     "Note:" : "Белешка:",
     "This share is valid until %s at midnight" : "Ово дељење важи до %s у поноћ",
     "Expiration:" : "Истек:",
@@ -56,6 +55,7 @@
     "»%s« added a note to a file shared with you" : "„%s“ је додао белешку на фајл који дели са Вама",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Управо сте поделили „%1$s“ са корисником %2$s. Дељење је већ послато примаоцу. Због безбедоносне политике коју је дефинисао администратор инстанце %3$s, свако дељење мора бити заштићено лозинком и није дозвољено да пошаљете лозинку директно кориснику. Због тога морате ручно послати лозинку примаоцу.",
     "Password to access »%1$s« shared by you with %2$s" : "Корисник %2$s је поделио са Вама лозинку за приступ „%1$s“",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Дозволи корисницима да поделе персонализовану везу до фајла или фасцикле уносом е-адресе."
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Дозволи корисницима да поделе персонализовану везу до фајла или фасцикле уносом е-адресе.",
+    "%1$s shared %2$s with you." : "%1$s је поделио „%2$s” са вама"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

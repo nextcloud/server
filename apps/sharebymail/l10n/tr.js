@@ -19,7 +19,6 @@ OC.L10N.register(
     "Failed to send share by email. Got an invalid email address" : "Paylaşım e-posta ile gönderilemedi. Bir e-posta adresi geçersiz",
     "Failed to send share by email" : "Paylaşım e-postası gönderilemedi",
     "%1$s shared %2$s with you" : "%1$s, sizinle %2$s ögesini paylaştı",
-    "%1$s shared %2$s with you." : "%1$s, sizinle %2$s ögesini paylaştı.",
     "Note:" : "Not:",
     "This share is valid until %s at midnight" : "Bu paylaşım %s gece yarısına kadar kullanılabilir",
     "Expiration:" : "Geçerlilik süresi sonu:",
@@ -58,6 +57,7 @@ OC.L10N.register(
     "»%s« added a note to a file shared with you" : "»%s« sizinle paylaştığı bir dosyaya bir not ekledi",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "»%1$s« ögesini %2$s ile paylaştınız. Paylaşım alıcıya gönderildi. %3$s yöneticisi tarafından belirlenmiş güvenlik ilkelerine göre her bir paylaşım için bir parola belirtilmesi ve bu parolanın alıcıya doğrudan gönderilmemesi gerekiyor. Bu nedenle parolayı alıcıya el ile siz iletmelisiniz.",
     "Password to access »%1$s« shared by you with %2$s" : "»%1$s« için %2$s üzerinden paylaştığınız erişim parolası",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Kullanıcıların bir e-posta adresi yazarak bir dosya ya da klasör için kişisel bir bağlantı paylaşmasını sağlar."
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Kullanıcıların bir e-posta adresi yazarak bir dosya ya da klasör için kişisel bir bağlantı paylaşmasını sağlar.",
+    "%1$s shared %2$s with you." : "%1$s, sizinle %2$s ögesini paylaştı."
 },
 "nplurals=2; plural=(n > 1);");
