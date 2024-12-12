@@ -8,6 +8,7 @@
 		:menu-name="selectedOption"
 		:aria-label="ariaLabel"
 		type="tertiary-no-background"
+		:disabled="!share.canEdit"
 		force-name>
 		<template #icon>
 			<DropdownIcon :size="15" />
