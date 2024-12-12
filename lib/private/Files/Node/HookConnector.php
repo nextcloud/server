@@ -171,7 +171,7 @@ class HookConnector {
 
 	public function copy($arguments) {
 		$source = $this->getNodeForPath($arguments['oldpath']);
-		$target = $this->getNodeForPath($arguments['newpath'], $source instanceof Folder);
+		$target = $this->getNodeForPath($arguments['newpath']);
 		$this->root->emit('\OC\Files', 'preCopy', [$source, $target]);
 		$this->dispatcher->dispatch('\OCP\Files::preCopy', new GenericEvent([$source, $target]));
 
@@ -203,7 +203,7 @@ class HookConnector {
 		$this->dispatcher->dispatchTyped($event);
 	}
 
-	private function getNodeForPath(string $path, bool $isDir = false): Node {
+	private function getNodeForPath(string $path): Node {
 		$info = Filesystem::getView()->getFileInfo($path);
 		if (!$info) {
 			$fullPath = Filesystem::getView()->getAbsolutePath($path);
@@ -212,7 +212,7 @@ class HookConnector {
 			} else {
 				$info = null;
 			}
-			if ($isDir || Filesystem::is_dir($path)) {
+			if (Filesystem::is_dir($path)) {
 				return new NonExistingFolder($this->root, $this->view, $fullPath, $info);
 			} else {
 				return new NonExistingFile($this->root, $this->view, $fullPath, $info);
