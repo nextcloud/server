@@ -176,6 +176,10 @@ class Updater implements IUpdater {
 
 		$sourceInfo = $sourceCache->get($source);
 
+		$sourceExtension = pathinfo($source, PATHINFO_EXTENSION);
+		$targetExtension = pathinfo($target, PATHINFO_EXTENSION);
+		$targetIsTrash = preg_match("/^d\d+$/", $targetExtension);
+
 		if ($sourceInfo !== false) {
 			if ($this->cache->inCache($target)) {
 				$this->cache->remove($target);
@@ -187,16 +191,16 @@ class Updater implements IUpdater {
 				$this->cache->moveFromCache($sourceCache, $source, $target);
 			}
 
-			$sourceExtension = pathinfo($source, PATHINFO_EXTENSION);
-			$targetExtension = pathinfo($target, PATHINFO_EXTENSION);
-			$targetIsTrash = preg_match("/d\d+/", $targetExtension);
+			$isDir = $sourceInfo->getMimeType() === FileInfo::MIMETYPE_FOLDER;
+		} else {
+			$isDir = $this->storage->is_dir($target);
+		}
 
-			if ($sourceExtension !== $targetExtension && $sourceInfo->getMimeType() !== FileInfo::MIMETYPE_FOLDER && !$targetIsTrash) {
-				// handle mime type change
-				$mimeType = $this->storage->getMimeType($target);
-				$fileId = $this->cache->getId($target);
-				$this->cache->update($fileId, ['mimetype' => $mimeType]);
-			}
+		if ($sourceExtension !== $targetExtension && !$isDir && !$targetIsTrash) {
+			// handle mime type change
+			$mimeType = $this->storage->getMimeType($target);
+			$fileId = $this->cache->getId($target);
+			$this->cache->update($fileId, ['mimetype' => $mimeType]);
 		}
 
 		if ($sourceCache instanceof Cache) {
