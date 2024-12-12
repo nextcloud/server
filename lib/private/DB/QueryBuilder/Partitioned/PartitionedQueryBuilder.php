@@ -76,6 +76,9 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 
 	// we need to save selects until we know all the table aliases
 	public function select(...$selects) {
+		if (count($selects) === 1 && is_array($selects[0])) {
+			$selects = $selects[0];
+		}
 		$this->selects = [];
 		$this->addSelect(...$selects);
 		return $this;
