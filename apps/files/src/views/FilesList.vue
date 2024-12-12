@@ -45,6 +45,7 @@
 				<NcActionButton v-for="action in enabledFileListActions"
 					:key="action.id"
 					:disabled="!!loadingAction"
+					:data-cy-files-list-action="action.id"
 					close-after-click
 					@click="execFileListAction(action)">
 					<template #icon>
