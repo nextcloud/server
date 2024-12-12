@@ -18,13 +18,13 @@ namespace NCU\Config\Lexicon;
  *
  * @experimental 31.0.0
  */
-enum ConfigLexiconStrictness: int {
+enum ConfigLexiconStrictness {
 	/** @experimental 31.0.0 */
-	case IGNORE = 0; // fully ignore
+	case IGNORE; // fully ignore
 	/** @experimental 31.0.0 */
-	case NOTICE = 2; // ignore and report
+	case NOTICE; // ignore and report
 	/** @experimental 31.0.0 */
-	case WARNING = 3; // silently block (returns $default) and report
+	case WARNING; // silently block (returns $default) and report
 	/** @experimental 31.0.0 */
-	case EXCEPTION = 5; // block (throws exception) and report
+	case EXCEPTION; // block (throws exception) and report
 }

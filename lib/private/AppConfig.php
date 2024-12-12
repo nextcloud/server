@@ -436,7 +436,7 @@ class AppConfig implements IAppConfig {
 		int $type,
 	): string {
 		$this->assertParams($app, $key, valueType: $type);
-		if (!$this->compareRegisteredConfigValues($app, $key, $lazy, $type, $default)) {
+		if (!$this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type, $default)) {
 			return $default; // returns default if strictness of lexicon is set to WARNING (block and report)
 		}
 		$this->loadConfig($app, $lazy);
@@ -730,7 +730,7 @@ class AppConfig implements IAppConfig {
 		int $type,
 	): bool {
 		$this->assertParams($app, $key);
-		if (!$this->compareRegisteredConfigValues($app, $key, $lazy, $type)) {
+		if (!$this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type)) {
 			return false; // returns false as database is not updated
 		}
 		$this->loadConfig(null, $lazy);
@@ -1573,13 +1573,13 @@ class AppConfig implements IAppConfig {
 	}
 
 	/**
-	 * verify and compare current use of config values with defined lexicon
+	 * match and apply current use of config values with defined lexicon
 	 *
 	 * @throws AppConfigUnknownKeyException
 	 * @throws AppConfigTypeConflictException
 	 * @return bool TRUE if everything is fine compared to lexicon or lexicon does not exist
 	 */
-	private function compareRegisteredConfigValues(
+	private function matchAndApplyLexiconDefinition(
 		string $app,
 		string $key,
 		bool &$lazy,

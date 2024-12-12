@@ -174,7 +174,7 @@ class ConfigLexiconEntry {
 	 * @experimental 31.0.0
 	 */
 	public function isFlagged(int $flag): bool {
-		return (bool)($flag & $this->getFlags());
+		return (($flag & $this->getFlags()) === $flag);
 	}
 
 	/**

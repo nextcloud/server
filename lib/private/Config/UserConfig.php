@@ -711,7 +711,7 @@ class UserConfig implements IUserConfig {
 		ValueType $type,
 	): string {
 		$this->assertParams($userId, $app, $key);
-		if (!$this->compareRegisteredConfigValues($app, $key, $lazy, $type, default: $default)) {
+		if (!$this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type, default: $default)) {
 			return $default; // returns default if strictness of lexicon is set to WARNING (block and report)
 		}
 		$this->loadConfig($userId, $lazy);
@@ -1046,7 +1046,7 @@ class UserConfig implements IUserConfig {
 		ValueType $type,
 	): bool {
 		$this->assertParams($userId, $app, $key);
-		if (!$this->compareRegisteredConfigValues($app, $key, $lazy, $type, $flags)) {
+		if (!$this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type, $flags)) {
 			return false; // returns false as database is not updated
 		}
 		$this->loadConfig($userId, $lazy);
@@ -1816,12 +1816,12 @@ class UserConfig implements IUserConfig {
 	}
 
 	/**
-	 * verify and compare current use of config values with defined lexicon
+	 * match and apply current use of config values with defined lexicon
 	 *
 	 * @throws UnknownKeyException
 	 * @throws TypeConflictException
 	 */
-	private function compareRegisteredConfigValues(
+	private function matchAndApplyLexiconDefinition(
 		string $app,
 		string $key,
 		bool &$lazy,
@@ -1837,7 +1837,7 @@ class UserConfig implements IUserConfig {
 		/** @var ConfigLexiconEntry $configValue */
 		$configValue = $configDetails['entries'][$key];
 		if ($type === ValueType::MIXED) {
-			$type = $configValue->getValueType()->value; // we overwrite if value was requested as mixed
+			$type = $configValue->getValueType(); // we overwrite if value was requested as mixed
 		} elseif ($configValue->getValueType() !== $type) {
 			throw new TypeConflictException('The user config key ' . $app . '/' . $key . ' is typed incorrectly in relation to the config lexicon');
 		}
