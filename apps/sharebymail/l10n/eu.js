@@ -19,7 +19,6 @@ OC.L10N.register(
     "Failed to send share by email. Got an invalid email address" : "Ezin izan da partekaturikoa posta elektronikoz bidali. Helbide elektroniko baliogabea lortu du",
     "Failed to send share by email" : "Ezin izan da e-posta bidez partekatu",
     "%1$s shared %2$s with you" : "%1$sk %2$s partekatu du zurekin",
-    "%1$s shared %2$s with you." : "%1$sk %2$s partekatu du zurekin.",
     "Note:" : "Oharra:",
     "This share is valid until %s at midnight" : "Partaidetza honek %sko gauerdira arte balio du",
     "Expiration:" : "Iraungitzea:",
@@ -58,6 +57,7 @@ OC.L10N.register(
     "»%s« added a note to a file shared with you" : "»%s« erabiltzaileak nota bat gehitu dio partekatu dizun fitxategi batean",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "%1$spartekatu duzu %2$s-(a)rekin. Partekatzea dgoeneko hartzaileari bidali zaio. %3$s-(e)ko administratzaileak zehaztutako segurtasun politikak direla eta, partekatze bakoitza pasahitz bidez babestu behar da eta ezin da pasahitza zuzenean hartzaileari bidali. Beraz, pasahitza eskuz birbidali behar diozu hartzaileari.",
     "Password to access »%1$s« shared by you with %2$s" : "»%1$s«  atzitzeko pasahitza partekatu duzu %2$s-(a)rekin",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Erabiltzaileei fitxategi edo karpeta baterako esteka pertsonalizatua partekatzeko aukera ematen die helbide elektronikoa jarriz."
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Erabiltzaileei fitxategi edo karpeta baterako esteka pertsonalizatua partekatzeko aukera ematen die helbide elektronikoa jarriz.",
+    "%1$s shared %2$s with you." : "%1$sk %2$s partekatu du zurekin."
 },
 "nplurals=2; plural=(n != 1);");
