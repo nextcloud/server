@@ -97,7 +97,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.1
 	- license: MIT
 - @nextcloud/upload
-	- version: 1.7.0
+	- version: 1.7.1
 	- license: AGPL-3.0-or-later
 - @vueuse/core
 	- version: 11.0.1
@@ -118,7 +118,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.7
+	- version: 1.7.9
 	- license: MIT
 - base64-js
 	- version: 1.5.1
