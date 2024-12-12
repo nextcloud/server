@@ -46,7 +46,7 @@ export const emptyTrashAction = new FileListAction({
 	},
 
 	async exec(view: View, nodes: Node[]): Promise<void> {
-		const askConfirmation = new Promise((resolve) => {
+		const askConfirmation = new Promise<boolean>((resolve) => {
 			const dialog = getDialogBuilder(t('files_trashbin', 'Confirm permanent deletion'))
 				.setSeverity(DialogSeverity.Warning)
 				// TODO Add note for groupfolders
@@ -65,7 +65,7 @@ export const emptyTrashAction = new FileListAction({
 				])
 				.build()
 			dialog.show().then(() => {
-				dialog.hide()
+				resolve(false)
 			})
 		})
 
