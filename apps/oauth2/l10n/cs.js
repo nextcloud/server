@@ -7,7 +7,7 @@ OC.L10N.register(
     "Allows OAuth2 compatible authentication from other web applications." : "Umožní ověřování kompatibilní s OAuth2 z ostatních webových aplikací.",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "Aplikace OAuth2 umožňuje správcům nastavit vestavěný postup ověřování tak, aby podporoval také OAuth2 kompatibilní ověřování z ostatních webových aplikací.",
     "OAuth 2.0 clients" : "OAuth 2.0 klienti",
-    "OAuth 2.0 allows external services to request access to" : "OAuth 2.0 umožňuje externím službám vyžádat si přístup k",
+    "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 umožňuje externím službám vyžádat si přístup k {instanceName}.",
     "Name" : "Název",
     "Redirection URI" : "URL pro přesměrování",
     "Client Identifier" : "Identifikátor klienta",

@@ -7,7 +7,7 @@ OC.L10N.register(
     "Allows OAuth2 compatible authentication from other web applications." : "Omogućuje autentifikaciju kompatibilnu s OAuth2 iz drugih web aplikacija.",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "Aplikacija OAuth2 omogućuje administratorima da konfiguriraju ugrađeni tijek autentifikacije kako bi također omogućili autentifikaciju kompatibilnu s OAuth2 iz drugih web aplikacija.",
     "OAuth 2.0 clients" : "OAuth 2.0 klijenti",
-    "OAuth 2.0 allows external services to request access to" : "OAuth 2.0 omogućuje vanjskim servisima da zahtijevaju pristup",
+    "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 omogućuje vanjskim servisima da zahtijevaju pristup {instanceName}.",
     "Name" : "Naziv",
     "Redirection URI" : "URL za preusmjeravanje",
     "Client Identifier" : "Identifikator klijenta",

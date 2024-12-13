@@ -5,7 +5,7 @@
     "Allows OAuth2 compatible authentication from other web applications." : "允許來自其他網路應用程式的 OAuth2 相容身份認證。",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "OAuth2 應用程式讓管理員可以設定內建的身份認證工作流程，以讓其他網路應用程式可以進行相容於 OAuth2 的身份認證。",
     "OAuth 2.0 clients" : "OAuth 2.0 客戶端",
-    "OAuth 2.0 allows external services to request access to" : "OAuth 2.0 讓外部服務請求能存取 {instanceName}。",
+    "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 讓外部服務請求能存取 {instanceName}。",
     "Name" : "名稱",
     "Redirection URI" : "重新導向 URI",
     "Client Identifier" : "客戶端識別",

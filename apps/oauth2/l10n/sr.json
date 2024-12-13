@@ -5,7 +5,7 @@
     "Allows OAuth2 compatible authentication from other web applications." : "Дозвољава OAuth2 компатибилну идентификацију са других веб апликација,",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "OAuth2 апликација дозвољава администраторима да подесе уграђени след индетификације тако да дозвољава и OAuth2 компатибилну идентификацију са других веб апликација.",
     "OAuth 2.0 clients" : "OAuth 2.0 клијенти",
-    "OAuth 2.0 allows external services to request access to" : "OAuth 2.0 омогућава спољним сервисима да захтевају приступ инстанци",
+    "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 омогућава спољним сервисима да захтевају приступ инстанци {instanceName}.",
     "Name" : "Име",
     "Redirection URI" : "Адреса за преусмеравање",
     "Client Identifier" : "Идентификација клијента",

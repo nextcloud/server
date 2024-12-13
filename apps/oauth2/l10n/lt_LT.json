@@ -3,7 +3,7 @@
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "Jūsų nukreipimo adresas (redirect URL) turi būti pilnas, pavyzdžiui: https://jusuadresas.com/path",
     "OAuth 2.0" : "OAuth 2.0",
     "OAuth 2.0 clients" : "OAuth 2.0 klientai",
-    "OAuth 2.0 allows external services to request access to" : "OAuth 2.0 leidžia išorinėms tarnyboms užklausti prieigą prie",
+    "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 leidžia išorinėms tarnyboms užklausti prieigą prie {instanceName}.",
     "Name" : "Pavadinimas",
     "Redirection URI" : "Peradresavimo URI",
     "Client Identifier" : "Kliento identifikatorius",
