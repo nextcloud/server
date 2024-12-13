@@ -16,7 +16,7 @@
 			</NcAppNavigationList>
 
 			<!-- Settings modal-->
-			<SettingsModal :open="settingsOpened"
+			<SettingsModal :open.sync="settingsOpened"
 				data-cy-files-navigation-settings
 				@close="onSettingsClose" />
 		</template>
