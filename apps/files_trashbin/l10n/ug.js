@@ -14,6 +14,8 @@ OC.L10N.register(
     "Deleted by" : "ئۆچۈرۈلدى",
     "Deleted" : "ئۆچۈرۈلدى",
     "A long time ago" : "خېلى بۇرۇن",
+    "Cancel" : "بىكار قىلىش",
+    "Deletion cancelled" : "ئۆچۈرۈش ئەمەلدىن قالدۇرۇلدى",
     "List of files that have been deleted." : "ئۆچۈرۈلگەن ھۆججەتلەرنىڭ تىزىملىكى.",
     "No deleted files" : "ئۆچۈرۈلگەن ھۆججەت يوق",
     "Files and folders you have deleted will show up here" : "سىز ئۆچۈرگەن ھۆججەت ۋە ھۆججەت قىسقۇچلار بۇ يەردە كۆرۈنىدۇ",

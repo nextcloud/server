@@ -13,6 +13,8 @@ OC.L10N.register(
     "Original location" : "Llocalización orixinal",
     "Deleted" : "Desanicióse",
     "A long time ago" : "Hai cuantayá",
+    "Cancel" : "Encaboxar",
+    "Deletion cancelled" : "Anulóse'l desaniciu",
     "List of files that have been deleted." : "Una llista de ficheros que se desaniciaron.",
     "No deleted files" : "Nun hai nengún ficheros desnaiciáu",
     "Files and folders you have deleted will show up here" : "Equí apaecen los ficheros y les carpetes que desaniciares",

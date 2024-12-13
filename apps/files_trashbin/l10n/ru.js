@@ -14,6 +14,8 @@ OC.L10N.register(
     "Deleted by" : "Удалено",
     "Deleted" : "Удалён",
     "A long time ago" : "Очень давно",
+    "Cancel" : "Отмена",
+    "Deletion cancelled" : "Удаление отменено",
     "List of files that have been deleted." : "Список файлов, которые были удалены.",
     "No deleted files" : "Нет удалённых файлов",
     "Files and folders you have deleted will show up here" : "Файлы и каталоги, которые вы удалили, будут отображаться здесь",

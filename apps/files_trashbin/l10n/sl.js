@@ -9,6 +9,8 @@ OC.L10N.register(
     "All files" : "Vse datoteke",
     "You" : "Jaz",
     "Deleted" : "Izbrisano",
+    "Cancel" : "Prekliči",
+    "Deletion cancelled" : "Brisanje je bilo preklicano",
     "List of files that have been deleted." : "Seznam datotek, ki so bile izbrisane.",
     "No deleted files" : "Ni izbrisanih datotek",
     "This application enables users to restore files that were deleted from the system." : "Program omogoča uporabniku obnovitev datotek, ki so bile predhodno izbrisane iz sistema.",
