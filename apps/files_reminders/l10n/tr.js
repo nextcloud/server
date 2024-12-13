@@ -26,7 +26,6 @@ OC.L10N.register(
     "This weekend" : "Bu hafta sonu",
     "Set reminder for this weekend" : "Bu hafta sonu için anımsatıcı ayarla",
     "Next week" : "Sonraki hafta",
-    "Set reminder for next week" : "Gelecek hafta için anımsatıcı ayarla",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Dosya anımsatıcıları**\n\nDosya anımsatıcıları ayarla."
+    "Set reminder for next week" : "Gelecek hafta için anımsatıcı ayarla"
 },
 "nplurals=2; plural=(n > 1);");

@@ -9,6 +9,7 @@ OC.L10N.register(
     "All files" : "Todos los archivos",
     "Deleted" : "Borrado",
     "A long time ago" : "Hace mucho tiempo.",
+    "Cancel" : "Cancelar",
     "List of files that have been deleted." : "Lista de archivos que han sido eliminados.",
     "No deleted files" : "No hay archivos borrados",
     "Files and folders you have deleted will show up here" : "Los archivos y carpetas que has eliminado aparecerán aquí. ",

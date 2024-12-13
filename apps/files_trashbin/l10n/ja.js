@@ -14,6 +14,8 @@ OC.L10N.register(
     "Deleted by" : "削除者",
     "Deleted" : "削除日時",
     "A long time ago" : "ずっと以前に",
+    "Cancel" : "キャンセル",
+    "Deletion cancelled" : "削除はキャンセルされました",
     "List of files that have been deleted." : "削除されたファイルのリスト",
     "No deleted files" : "削除されたファイルはありません",
     "Files and folders you have deleted will show up here" : "削除したファイルとフォルダーがここに表示されます",

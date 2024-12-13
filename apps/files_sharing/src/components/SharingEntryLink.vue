@@ -76,7 +76,7 @@
 				:required="config.enableLinkPasswordByDefault || config.enforcePasswordForPublicLink"
 				:minlength="isPasswordPolicyEnabled && config.passwordPolicy.minLength"
 				autocomplete="new-password"
-				@submit="onNewLinkShare">
+				@submit="onNewLinkShare(true)">
 				<template #icon>
 					<LockIcon :size="20" />
 				</template>
@@ -486,23 +486,22 @@ export default {
 		pendingDefaultExpirationDate() {
 			return (this.config.defaultExpirationDate instanceof Date || !isNaN(new Date(this.config.defaultExpirationDate).getTime())) && this.isPendingShare
 		},
-
 		isPendingShare() {
 			return !!(this.share && !this.share.id)
 		},
-		sharePolicyHasRequiredProperties() {
+		sharePolicyHasEnforcedProperties() {
 			return this.config.enforcePasswordForPublicLink || this.config.isDefaultExpireDateEnforced
 		},
 
-		requiredPropertiesMissing() {
+		enforcedPropertiesMissing() {
 			// Ensure share exist and the share policy has required properties
-			if (!this.sharePolicyHasRequiredProperties) {
+			if (!this.sharePolicyHasEnforcedProperties) {
 				return false
 			}
 
 			if (!this.share) {
 				// if no share, we can't tell if properties are missing or not so we assume properties are missing
-			    return true
+				return true
 			}
 
 			// If share has ID, then this is an incoming link share created from the existing link share
@@ -604,7 +603,7 @@ export default {
 		 * @param {boolean} shareReviewComplete if the share was reviewed
 		 * @return {boolean}
 		 */
-		 shareRequiresReview(shareReviewComplete) {
+		shareRequiresReview(shareReviewComplete) {
 			// If a user clicks 'Create share' it means they have reviewed the share
 			if (shareReviewComplete) {
 				return false
@@ -615,7 +614,7 @@ export default {
 		 * Create a new share link and append it to the list
 		 * @param {boolean} shareReviewComplete if the share was reviewed
 		 */
-		 async onNewLinkShare(shareReviewComplete = false) {
+		async onNewLinkShare(shareReviewComplete = false) {
 			this.logger.debug('onNewLinkShare called (with this.share)', this.share)
 			// do not run again if already loading
 			if (this.loading) {
@@ -631,7 +630,7 @@ export default {
 				shareDefaults.expiration = this.formatDateToString(this.config.defaultExpirationDate)
 			}
 
-			this.logger.debug('Missing required properties?', this.requiredPropertiesMissing)
+			this.logger.debug('Missing required properties?', this.enforcedPropertiesMissing)
 			// Do not push yet if we need a password or an expiration date: show pending menu
 			// A share would require a review for example is default expiration date is set but not enforced, this allows
 			// the user to review the share and remove the expiration date if they don't want it

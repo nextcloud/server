@@ -6,6 +6,7 @@
 import './trashbin.scss'
 
 import { translate as t } from '@nextcloud/l10n'
+import { View, getNavigation, registerFileListAction } from '@nextcloud/files'
 import DeleteSvg from '@mdi/svg/svg/delete.svg?raw'
 
 import { getContents } from './services/trashbin'
@@ -13,7 +14,8 @@ import { columns } from './columns.ts'
 
 // Register restore action
 import './actions/restoreAction'
-import { View, getNavigation } from '@nextcloud/files'
+
+import { emptyTrashAction } from './fileListActions/emptyTrashAction.ts'
 
 const Navigation = getNavigation()
 Navigation.register(new View({
@@ -34,3 +36,5 @@ Navigation.register(new View({
 
 	getContents,
 }))
+
+registerFileListAction(emptyTrashAction)

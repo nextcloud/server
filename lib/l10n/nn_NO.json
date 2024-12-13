@@ -24,7 +24,6 @@
     "About" : "Om",
     "Additional settings" : "Tilleggsinnstillingar",
     "Set an admin password." : "Vel eit admin-passord.",
-    "Open »%s«" : "Opna »%s«",
     "Sunday" : "Søndag",
     "Monday" : "Måndag",
     "Tuesday" : "Tysdag",
@@ -78,6 +77,7 @@
     "Help" : "Hjelp",
     "Users" : "Brukarar",
     "Unknown user" : "Ukjend brukar",
+    "Open »%s«" : "Opna »%s«",
     "A valid username must be provided" : "Du må oppgje eit gyldig brukarnamn",
     "User disabled" : "Brukar deaktivert"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -14,6 +14,8 @@ OC.L10N.register(
     "Deleted by" : "刪除者",
     "Deleted" : "已刪除",
     "A long time ago" : "很久以前",
+    "Cancel" : "取消",
+    "Deletion cancelled" : "刪除已取消",
     "List of files that have been deleted." : "刪除的檔案清單。",
     "No deleted files" : "沒有刪除的檔案",
     "Files and folders you have deleted will show up here" : "您刪除的檔案與資料夾將會在此處顯示",

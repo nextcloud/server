@@ -295,7 +295,7 @@ class Server {
 				}
 				$this->server->addPlugin(
 					new TagsPlugin(
-						$this->server->tree, \OC::$server->getTagManager()
+						$this->server->tree, \OC::$server->getTagManager(), \OC::$server->get(IEventDispatcher::class), \OC::$server->get(IUserSession::class)
 					)
 				);
 

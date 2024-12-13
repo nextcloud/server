@@ -27,8 +27,10 @@ namespace OCA\DAV\Connector\Sabre;
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ITagManager;
 use OCP\ITags;
+use OCP\IUserSession;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 
@@ -67,6 +69,8 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	public function __construct(
 		private \Sabre\DAV\Tree $tree,
 		private ITagManager $tagManager,
+		private IEventDispatcher $eventDispatcher,
+		private IUserSession $userSession,
 	) {
 		$this->tagger = null;
 		$this->cachedTags = [];
@@ -251,7 +255,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 			return true;
 		});
 
-		$propPatch->handle(self::FAVORITE_PROPERTYNAME, function ($favState) use ($node) {
+		$propPatch->handle(self::FAVORITE_PROPERTYNAME, function ($favState) use ($node, $path) {
 			if ((int)$favState === 1 || $favState === 'true') {
 				$this->getTagger()->tagAs($node->getId(), self::TAG_FAVORITE);
 			} else {
