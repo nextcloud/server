@@ -139,30 +139,37 @@ export default {
 	padding: 0 10px 0 10px;
 	position: absolute;
 }
+
 :deep(.availability-slots) {
 	display: flex;
 	white-space: normal;
 }
+
 :deep(.availability-slot) {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	flex-wrap: wrap;
 }
+
 :deep(.availability-slot-group) {
 	display: flex;
 	flex-direction: column;
 }
+
 :deep(.mx-input-wrapper) {
 	width: 85px;
 }
+
 :deep(.mx-datepicker) {
 	width: 97px;
 }
+
 :deep(.multiselect) {
 	border: 1px solid var(--color-border-dark);
 	width: 120px;
 }
+
 .time-zone {
 	padding-block: 32px 12px;
 	padding-inline: 0 12px;
@@ -175,6 +182,7 @@ export default {
 		font-weight: bold;
 	}
 }
+
 .grid-table {
 	display: grid;
 	margin-bottom: 32px;
@@ -183,9 +191,11 @@ export default {
 	grid-template-columns: min-content auto min-content;
 	max-width: 500px;
 }
+
 .button {
 	align-self: flex-end;
 }
+
 :deep(.label-weekday) {
 	position: relative;
 	display: inline-flex;

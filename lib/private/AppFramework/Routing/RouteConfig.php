@@ -36,6 +36,7 @@ class RouteConfig {
 		'core',
 		'files_sharing',
 		'files',
+		'profile',
 		'settings',
 		'spreed',
 	];

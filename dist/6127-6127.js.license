@@ -27,7 +27,6 @@ SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Richie Bendall
 SPDX-FileCopyrightText: Philipp Kewisch
-SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
 SPDX-FileCopyrightText: OpenJS Foundation and other contributors
@@ -127,7 +126,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.1
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.9.0
+	- version: 3.10.1
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -145,13 +144,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
-	- version: 0.2.3
+	- version: 0.2.4
 	- license: GPL-3.0-or-later
 - @nextcloud/vue-select
 	- version: 3.25.1
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.17.1
+	- version: 8.20.0
 	- license: AGPL-3.0-or-later
 - @ungap/structured-clone
 	- version: 1.2.0
@@ -199,7 +198,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.7
 	- license: MIT
 - debounce
-	- version: 2.1.0
+	- version: 2.2.0
 	- license: MIT
 - decode-named-character-reference
 	- version: 1.0.2
@@ -500,9 +499,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - web-namespaces
 	- version: 2.0.1
-	- license: MIT
-- webdav
-	- version: 5.7.1
 	- license: MIT
 - zwitch
 	- version: 2.0.4

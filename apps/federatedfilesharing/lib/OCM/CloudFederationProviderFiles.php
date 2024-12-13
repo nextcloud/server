@@ -5,6 +5,7 @@
  */
 namespace OCA\FederatedFileSharing\OCM;
 
+use NCU\Federation\ISignedCloudFederationProvider;
 use OC\AppFramework\Http;
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\AddressHandler;
@@ -21,7 +22,6 @@ use OCP\Federation\Exceptions\AuthenticationFailedException;
 use OCP\Federation\Exceptions\BadRequestException;
 use OCP\Federation\Exceptions\ProviderCouldNotAddShareException;
 use OCP\Federation\ICloudFederationFactory;
-use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
@@ -37,11 +37,13 @@ use OCP\Notification\IManager as INotificationManager;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
+use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
+use SensitiveParameter;
 
-class CloudFederationProviderFiles implements ICloudFederationProvider {
+class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 	/**
 	 * CloudFederationProvider constructor.
 	 */
@@ -63,6 +65,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		private Manager $externalShareManager,
 		private LoggerInterface $logger,
 		private IFilenameValidator $filenameValidator,
+		private readonly IProviderFactory $shareProviderFactory,
 	) {
 	}
 
@@ -746,5 +749,33 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		}
 
 		return $slaveService->getUserDisplayName($this->cloudIdManager->removeProtocolFromUrl($userId), false);
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * @param string $sharedSecret
+	 * @param array $payload
+	 * @return string
+	 */
+	public function getFederationIdFromSharedSecret(
+		#[SensitiveParameter]
+		string $sharedSecret,
+		array $payload,
+	): string {
+		$provider = $this->shareProviderFactory->getProviderForType(IShare::TYPE_REMOTE);
+		try {
+			$share = $provider->getShareByToken($sharedSecret);
+		} catch (ShareNotFound) {
+			return '';
+		}
+
+		// if uid_owner is a local account, the request comes from the recipient
+		// if not, request comes from the instance that owns the share and recipient is the re-sharer
+		if ($this->userManager->get($share->getShareOwner()) !== null) {
+			return $share->getSharedWith();
+		} else {
+			return $share->getShareOwner();
+		}
 	}
 }

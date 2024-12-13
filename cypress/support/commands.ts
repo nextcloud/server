@@ -216,41 +216,9 @@ Cypress.Commands.add('resetUserTheming', (user?: User) => {
 	}
 })
 
-Cypress.Commands.add('runOccCommand', (command: string, options?: Partial<Cypress.ExecOptions>) => {
-	const env = Object.entries(options?.env ?? {}).map(([name, value]) => `-e '${name}=${value}'`).join(' ')
-	return cy.exec(`docker exec --user www-data ${env} nextcloud-cypress-tests-server php ./occ ${command}`, options)
-})
-
 Cypress.Commands.add('userFileExists', (user: string, path: string) => {
 	user.replaceAll('"', '\\"')
 	path.replaceAll('"', '\\"').replaceAll(/^\/+/gm, '')
-	return cy.exec(`docker exec --user www-data nextcloud-cypress-tests-server stat --printf="%s" "data/${user}/files/${path}"`, { failOnNonZeroExit: true })
+	return cy.runCommand(`stat --printf="%s" "data/${user}/files/${path}"`, { failOnNonZeroExit: true })
 		.then((exec) => Number.parseInt(exec.stdout || '0'))
-})
-
-Cypress.Commands.add('backupDB', (): Cypress.Chainable<string> => {
-	const randomString = Math.random().toString(36).substring(7)
-	cy.exec(`docker exec --user www-data nextcloud-cypress-tests-server cp /var/www/html/data/owncloud.db /var/www/html/data/owncloud.db-${randomString}`)
-	cy.log(`Created snapshot ${randomString}`)
-	return cy.wrap(randomString)
-})
-
-Cypress.Commands.add('restoreDB', (snapshot: string = 'init') => {
-	cy.exec(`docker exec --user www-data nextcloud-cypress-tests-server cp /var/www/html/data/owncloud.db-${snapshot} /var/www/html/data/owncloud.db`)
-	cy.log(`Restored snapshot ${snapshot}`)
-})
-
-Cypress.Commands.add('backupData', (users: string[] = ['admin']) => {
-	const snapshot = Math.random().toString(36).substring(7)
-	const toBackup = users.map((user) => `'${user.replaceAll('\\', '').replaceAll('\'', '\\\'')}'`).join(' ')
-	cy.exec(`docker exec --user www-data rm /var/www/html/data/data-${snapshot}.tar`, { failOnNonZeroExit: false })
-	cy.exec(`docker exec --user www-data --workdir /var/www/html/data nextcloud-cypress-tests-server tar cf /var/www/html/data/data-${snapshot}.tar ${toBackup}`)
-	return cy.wrap(snapshot as string)
-})
-
-Cypress.Commands.add('restoreData', (snapshot?: string) => {
-	snapshot = snapshot ?? 'init'
-	snapshot.replaceAll('\\', '').replaceAll('"', '\\"')
-	cy.exec(`docker exec --user www-data --workdir /var/www/html/data nextcloud-cypress-tests-server rm -vfr $(tar --exclude='*/*' -tf '/var/www/html/data/data-${snapshot}.tar')`)
-	cy.exec(`docker exec --user www-data --workdir /var/www/html/data nextcloud-cypress-tests-server tar -xf '/var/www/html/data/data-${snapshot}.tar'`)
 })

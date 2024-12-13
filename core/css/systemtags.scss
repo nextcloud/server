@@ -6,6 +6,8 @@
 
 .systemtags-select2-dropdown {
 	.select2-result-label {
+		height: 25px;
+
 		.checkmark {
 			visibility: hidden;
 			margin-inline: -5px 5px;
@@ -56,9 +58,6 @@
 		display: inline-block;
 		height: 25px;
 		width: 100%;
-	}
-	.select2-result-label {
-		height: 25px;
 	}
 }
 

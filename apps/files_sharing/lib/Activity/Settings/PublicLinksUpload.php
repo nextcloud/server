@@ -61,6 +61,6 @@ class PublicLinksUpload extends ShareActivitySettings {
 	 * @since 11.0.0
 	 */
 	public function isDefaultEnabledMail() {
-		return false;
+		return true;
 	}
 }

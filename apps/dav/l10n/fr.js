@@ -207,7 +207,8 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Impossible de renommer le fichier partiel en fichier final, annulé par le hook",
     "Could not rename part file to final file" : "Impossible de renommer le fichier partiel en fichier définitif.",
     "Failed to check file size: %1$s" : "Échec à la vérification de la taille du fichier : %1$s",
-    "Could not open file" : "Impossible d'ouvrir le fichier",
+    "Could not open file: %1$s, file does seem to exist" : "Impossible d'ouvrir le fichier %1$s, le fichier semble présent.",
+    "Could not open file: %1$s, file doesn't seem to exist" : "Impossible d'ouvrir le fichier %1$s, le fichier ne semble pas présent.",
     "Encryption not ready: %1$s" : "Encryption pas prête : %1$s",
     "Failed to open file: %1$s" : "Échec à l'ouverture du fichier : %1$s",
     "Failed to unlink: %1$s" : "Échec à la suppression :%1$s",
@@ -284,6 +285,7 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Votre présence a été mise à jour avec succès.",
     "To-dos" : "Tâches à faire",
     "Time:" : "Heure :",
+    "Could not open file" : "Impossible d'ouvrir le fichier",
     "Invalid chunk name" : "Nom de morceau invalide",
     "Could not rename part file assembled from chunks" : "Impossible de renommer le fichier partiel à partir des morceaux",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si vous configurez vos heures de travail, les autres utilisateurs verront si vous êtes disponible quand ils planifient une réunion."

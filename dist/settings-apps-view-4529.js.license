@@ -16,7 +16,6 @@ SPDX-FileCopyrightText: Thorsten Lünborg
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
-SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
@@ -46,7 +45,6 @@ SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Andris Reinman
 SPDX-FileCopyrightText: Alkemics
-SPDX-FileCopyrightText: @nextcloud/password-confirmation developers
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 
@@ -85,7 +83,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.1
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.9.0
+	- version: 3.10.1
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -97,7 +95,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.2
 	- license: GPL-3.0-or-later
 - @nextcloud/password-confirmation
-	- version: 5.1.1
+	- version: 5.3.0
 	- license: MIT
 - @nextcloud/paths
 	- version: 2.2.1
@@ -106,13 +104,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
-	- version: 0.2.3
+	- version: 0.2.4
 	- license: GPL-3.0-or-later
 - @nextcloud/vue-select
 	- version: 3.25.1
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.17.1
+	- version: 8.20.0
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 6.6.3
@@ -145,7 +143,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.1.2
 	- license: MIT
 - debounce
-	- version: 2.1.0
+	- version: 2.2.0
 	- license: MIT
 - dompurify
 	- version: 3.1.7
@@ -172,7 +170,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.4.2
 	- license: MIT
 - marked
-	- version: 13.0.3
+	- version: 15.0.0
 	- license: MIT
 - md5
 	- version: 2.3.0
@@ -193,7 +191,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.12.7
 	- license: MIT
 - pinia
-	- version: 2.2.4
+	- version: 2.2.8
 	- license: MIT
 - process
 	- version: 0.11.10
@@ -239,9 +237,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - vuex
 	- version: 3.6.2
-	- license: MIT
-- webdav
-	- version: 5.7.1
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

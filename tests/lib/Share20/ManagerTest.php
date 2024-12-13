@@ -23,7 +23,9 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Mount\IShareOwnerlessMount;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\HintException;
 use OCP\IConfig;
@@ -666,6 +668,24 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 
+	public function testGetShareByIdNodeAccessible(): void {
+		$share = $this->createMock(IShare::class);
+		$share
+			->expects($this->once())
+			->method('getNode')
+			->willThrowException(new NotFoundException());
+
+		$this->defaultProvider
+			->expects($this->once())
+			->method('getShareById')
+			->with(42)
+			->willReturn($share);
+
+		$this->expectException(ShareNotFound::class);
+		$this->manager->getShareById('default:42');
+	}
+
+
 	public function testGetExpiredShareById(): void {
 		$this->expectException(\OCP\Share\Exceptions\ShareNotFound::class);
 
@@ -778,7 +798,7 @@ class ManagerTest extends \Test\TestCase {
 				$this->assertInstanceOf(ValidatePasswordPolicyEvent::class, $event);
 				/** @var ValidatePasswordPolicyEvent $event */
 				$this->assertSame('password', $event->getPassword());
-				throw new HintException('message', 'password not accepted');
+				throw new HintException('password not accepted');
 			}
 			);
 
@@ -2874,9 +2894,10 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetSharesBy(): void {
-		$share = $this->manager->newShare();
-
 		$node = $this->createMock(Folder::class);
+
+		$share = $this->manager->newShare();
+		$share->setNode($node);
 
 		$this->defaultProvider->expects($this->once())
 			->method('getSharesBy')
@@ -2895,6 +2916,31 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertSame($share, $shares[0]);
 	}
 
+	public function testGetSharesByOwnerless(): void {
+		$mount = $this->createMock(IShareOwnerlessMount::class);
+
+		$node = $this->createMock(Folder::class);
+		$node
+			->expects($this->once())
+			->method('getMountPoint')
+			->willReturn($mount);
+
+		$share = $this->manager->newShare();
+		$share->setNode($node);
+		$share->setShareType(IShare::TYPE_USER);
+
+		$this->defaultProvider
+			->expects($this->once())
+			->method('getSharesByPath')
+			->with($this->equalTo($node))
+			->willReturn([$share]);
+
+		$shares = $this->manager->getSharesBy('user', IShare::TYPE_USER, $node, true, 1, 1);
+
+		$this->assertCount(1, $shares);
+		$this->assertSame($share, $shares[0]);
+	}
+
 	/**
 	 * Test to ensure we correctly remove expired link shares
 	 *
@@ -2904,6 +2950,8 @@ class ManagerTest extends \Test\TestCase {
 	 * deleted (as they are evaluated). but share 8 should still be there.
 	 */
 	public function testGetSharesByExpiredLinkShares(): void {
+		$node = $this->createMock(File::class);
+
 		$manager = $this->createManagerMock()
 			->setMethods(['deleteShare'])
 			->getMock();
@@ -2917,6 +2965,7 @@ class ManagerTest extends \Test\TestCase {
 		for ($i = 0; $i < 8; $i++) {
 			$share = $this->manager->newShare();
 			$share->setId($i);
+			$share->setNode($node);
 			$shares[] = $share;
 		}
 
@@ -2936,8 +2985,6 @@ class ManagerTest extends \Test\TestCase {
 		for ($i = 0; $i < 8; $i++) {
 			$shares2[] = clone $shares[$i];
 		}
-
-		$node = $this->createMock(File::class);
 
 		/*
 		 * Simulate the getSharesBy call.
@@ -3100,8 +3147,10 @@ class ManagerTest extends \Test\TestCase {
 		$date = new \DateTime();
 		$date->setTime(0, 0, 0);
 		$date->add(new \DateInterval('P2D'));
+		$node = $this->createMock(File::class);
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($date);
+		$share->setNode($node);
 		$share->setShareOwner('owner');
 		$share->setSharedBy('sharedBy');
 
@@ -3179,8 +3228,10 @@ class ManagerTest extends \Test\TestCase {
 		$date = new \DateTime();
 		$date->setTime(0, 0, 0);
 		$date->add(new \DateInterval('P2D'));
+		$node = $this->createMock(Folder::class);
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($date);
+		$share->setNode($node);
 
 		$this->defaultProvider->expects($this->once())
 			->method('getShareByToken')
@@ -4492,6 +4543,49 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->assertSame($expects, $result);
 	}
+
+	public function testGetSharesInFolderOwnerless(): void {
+		$factory = new DummyFactory2($this->createMock(IServerContainer::class));
+
+		$manager = $this->createManager($factory);
+
+		$factory->setProvider($this->defaultProvider);
+		$extraProvider = $this->createMock(IShareProvider::class);
+		$factory->setSecondProvider($extraProvider);
+
+		$share1 = $this->createMock(IShare::class);
+		$share2 = $this->createMock(IShare::class);
+
+		$mount = $this->createMock(IShareOwnerlessMount::class);
+
+		$file = $this->createMock(File::class);
+		$file
+			->method('getId')
+			->willReturn(1);
+
+		$folder = $this->createMock(Folder::class);
+		$folder
+			->method('getMountPoint')
+			->willReturn($mount);
+		$folder
+			->method('getDirectoryListing')
+			->willReturn([$file]);
+
+		$this->defaultProvider
+			->method('getSharesByPath')
+			->with($file)
+			->willReturn([$share1]);
+
+		$extraProvider
+			->method('getSharesByPath')
+			->with($file)
+			->willReturn([$share2]);
+
+		$this->assertSame([
+			1 => [$share1, $share2],
+		], $manager->getSharesInFolder('user', $folder));
+	}
+
 
 	public function testGetAccessList(): void {
 		$factory = new DummyFactory2($this->createMock(IServerContainer::class));

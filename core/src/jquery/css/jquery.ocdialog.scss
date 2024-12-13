@@ -19,14 +19,16 @@
 	max-width: calc(100% - 20px);
 	overflow: auto;
 }
+
 .oc-dialog-title {
 	background: var(--color-main-background);
 }
+
 .oc-dialog-buttonrow {
 	position: relative;
 	display: flex;
 	background: transparent;
-	right: 0;
+	inset-inline-end: 0;
 	bottom: 0;
 	padding: 0;
 	padding-top: 10px;
@@ -57,7 +59,7 @@
 	width: 44px !important;
 	height: 44px !important;
 	top: 4px;
-	right: 4px;
+	inset-inline-end: 4px;
 	padding: 25px;
 	background: var(--icon-close-dark) no-repeat center;
 	opacity: .5;
@@ -76,7 +78,7 @@
 	z-index: 100001;
 	position: fixed;
 	top: 0;
-	left: 0;
+	inset-inline-start: 0;
 	width: 100%;
 	height: 100%;
 }

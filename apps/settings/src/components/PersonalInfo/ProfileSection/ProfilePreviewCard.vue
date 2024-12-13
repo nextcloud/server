@@ -104,7 +104,7 @@ export default {
 		box-shadow: 0 0 3px var(--color-box-shadow);
 
 		& *,
-		&::v-deep * {
+		&:deep(*) {
 			cursor: default;
 		}
 	}

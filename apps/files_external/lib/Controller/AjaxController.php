@@ -72,7 +72,7 @@ class AjaxController extends Controller {
 	 * @return bool
 	 */
 	#[NoAdminRequired]
-	#[PasswordConfirmationRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function saveGlobalCredentials($uid, $user, $password) {
 		$currentUser = $this->userSession->getUser();
 		if ($currentUser === null) {

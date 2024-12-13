@@ -457,6 +457,13 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	}
 
 	public function writeStream(string $path, $stream, ?int $size = null): int {
+		if ($size === null) {
+			$stats = fstat($stream);
+			if (is_array($stats) && isset($stats['size'])) {
+				$size = $stats['size'];
+			}
+		}
+
 		$stat = $this->stat($path);
 		if (empty($stat)) {
 			// create new file

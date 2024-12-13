@@ -83,7 +83,7 @@ describe('User theming set app order with default app', () => {
 		// install a third app
 		installTestApp()
 		// set files as default app
-		cy.runOccCommand('config:system:set --value "files" defaultapp')
+		cy.runOccCommand('config:system:set --value \'files\' defaultapp')
 
 		// Create random user for this test
 		cy.createRandomUser().then(($user) => {

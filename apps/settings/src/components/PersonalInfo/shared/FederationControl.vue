@@ -146,7 +146,7 @@ export default {
 			}
 
 			// TODO: provide focus method from NcActions
-			this.$refs.federationActions.$refs.menuButton.$el.focus()
+			this.$refs.federationActions.$refs?.triggerButton?.$el?.focus?.()
 		},
 
 		async updatePrimaryScope(scope) {

@@ -185,6 +185,7 @@ export default {
 	background-color: var(--color-error);
 	width: initial;
 }
+
 .warning {
 	margin-top: 8px;
 	padding: 5px;
@@ -193,6 +194,7 @@ export default {
 	background-color: var(--color-warning);
 	width: initial;
 }
+
 .ajaxSwitch {
 	margin-top: 1rem;
 }

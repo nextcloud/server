@@ -300,7 +300,6 @@ OC.L10N.register(
     "Bundled permissions" : "Permisos agrupats",
     "Only works for users with access to this folder" : "Només funciona per als usuaris amb accés a aquesta carpeta",
     "Only works for users with access to this file" : "Només funciona per als usuaris amb accés a aquest fitxer",
-    "Enter a date" : "Introduïu una data",
     "Circle" : "Cercle",
     "Allow download" : "Permet la baixada",
     "No other users with access found" : "No s'ha trobat cap altre usuari amb accés",

@@ -35,8 +35,10 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IShareOwnerlessMount;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\HintException;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IGroupManager;
@@ -49,7 +51,6 @@ use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Mail\IMailer;
 use OCP\Server;
-use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
@@ -811,7 +812,7 @@ class ShareAPIController extends OCSController {
 
 		try {
 			$share = $this->shareManager->createShare($share);
-		} catch (GenericShareException $e) {
+		} catch (HintException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), $code);
 		} catch (\Exception $e) {
@@ -1235,18 +1236,6 @@ class ShareAPIController extends OCSController {
 		if ($share->getShareType() === IShare::TYPE_LINK
 			|| $share->getShareType() === IShare::TYPE_EMAIL) {
 
-			/**
-			 * We do not allow editing link shares that the current user
-			 * doesn't own. This is confusing and lead to errors when
-			 * someone else edit a password or expiration date without
-			 * the share owner knowing about it.
-			 * We only allow deletion
-			 */
-
-			if ($share->getSharedBy() !== $this->userId) {
-				throw new OCSForbiddenException($this->l->t('You are not allowed to edit link shares that you don\'t own'));
-			}
-
 			// Update hide download state
 			$attributes = $share->getAttributes() ?? $share->newAttributes();
 			if ($hideDownload === 'true') {
@@ -1357,7 +1346,7 @@ class ShareAPIController extends OCSController {
 
 		try {
 			$share = $this->shareManager->updateShare($share);
-		} catch (GenericShareException $e) {
+		} catch (HintException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), (int)$code);
 		} catch (\Exception $e) {
@@ -1445,7 +1434,7 @@ class ShareAPIController extends OCSController {
 
 		try {
 			$this->shareManager->acceptShare($share, $this->userId);
-		} catch (GenericShareException $e) {
+		} catch (HintException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), (int)$code);
 		} catch (\Exception $e) {
@@ -1553,6 +1542,12 @@ class ShareAPIController extends OCSController {
 			return true;
 		}
 
+		$userFolder = $this->rootFolder->getUserFolder($this->userId);
+		$file = $userFolder->getFirstNodeById($share->getNodeId());
+		if ($file?->getMountPoint() instanceof IShareOwnerlessMount && $this->shareProviderResharingRights($this->userId, $share, $file)) {
+			return true;
+		}
+
 		//! we do NOT support some kind of `admin` in groups.
 		//! You cannot edit shares shared to a group you're
 		//! a member of if you're not the share owner or the file owner!
@@ -1585,6 +1580,12 @@ class ShareAPIController extends OCSController {
 		if ($share->getShareOwner() === $this->userId ||
 			$share->getSharedBy() === $this->userId
 		) {
+			return true;
+		}
+
+		$userFolder = $this->rootFolder->getUserFolder($this->userId);
+		$file = $userFolder->getFirstNodeById($share->getNodeId());
+		if ($file?->getMountPoint() instanceof IShareOwnerlessMount && $this->shareProviderResharingRights($this->userId, $share, $file)) {
 			return true;
 		}
 

@@ -40,12 +40,6 @@ return [
 			'verb' => 'GET',
 			'root' => '',
 		],
-
-		[
-			'name' => 'externalShares#testRemote',
-			'url' => '/testremote',
-			'verb' => 'GET'
-		],
 		[
 			'name' => 'PublicPreview#getPreview',
 			'url' => '/publicpreview/{token}',

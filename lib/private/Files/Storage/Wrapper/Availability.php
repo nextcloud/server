@@ -24,7 +24,7 @@ class Availability extends Wrapper {
 	protected $config;
 
 	public function __construct(array $parameters) {
-		$this->config = $parameters['config'] ?? \OC::$server->getConfig();
+		$this->config = $parameters['config'] ?? \OCP\Server::get(IConfig::class);
 		parent::__construct($parameters);
 	}
 
@@ -70,277 +70,128 @@ class Availability extends Wrapper {
 		}
 	}
 
-	public function mkdir(string $path): bool {
+	/**
+	 * Handles availability checks and delegates method calls dynamically
+	 */
+	private function handleAvailability(string $method, mixed ...$args): mixed {
 		$this->checkAvailability();
 		try {
-			return parent::mkdir($path);
+			return call_user_func_array([parent::class, $method], $args);
 		} catch (StorageNotAvailableException $e) {
 			$this->setUnavailable($e);
 			return false;
 		}
+	}
+
+	public function mkdir(string $path): bool {
+		return $this->handleAvailability('mkdir', $path);
 	}
 
 	public function rmdir(string $path): bool {
-		$this->checkAvailability();
-		try {
-			return parent::rmdir($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('rmdir', $path);
 	}
 
 	public function opendir(string $path) {
-		$this->checkAvailability();
-		try {
-			return parent::opendir($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('opendir', $path);
 	}
 
 	public function is_dir(string $path): bool {
-		$this->checkAvailability();
-		try {
-			return parent::is_dir($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('is_dir', $path);
 	}
 
 	public function is_file(string $path): bool {
-		$this->checkAvailability();
-		try {
-			return parent::is_file($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('is_file', $path);
 	}
 
 	public function stat(string $path): array|false {
-		$this->checkAvailability();
-		try {
-			return parent::stat($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('stat', $path);
 	}
 
 	public function filetype(string $path): string|false {
-		$this->checkAvailability();
-		try {
-			return parent::filetype($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('filetype', $path);
 	}
 
 	public function filesize(string $path): int|float|false {
-		$this->checkAvailability();
-		try {
-			return parent::filesize($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('filesize', $path);
 	}
 
 	public function isCreatable(string $path): bool {
-		$this->checkAvailability();
-		try {
-			return parent::isCreatable($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('isCreatable', $path);
 	}
 
 	public function isReadable(string $path): bool {
-		$this->checkAvailability();
-		try {
-			return parent::isReadable($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('isReadable', $path);
 	}
 
 	public function isUpdatable(string $path): bool {
-		$this->checkAvailability();
-		try {
-			return parent::isUpdatable($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('isUpdatable', $path);
 	}
 
 	public function isDeletable(string $path): bool {
-		$this->checkAvailability();
-		try {
-			return parent::isDeletable($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('isDeletable', $path);
 	}
 
 	public function isSharable(string $path): bool {
-		$this->checkAvailability();
-		try {
-			return parent::isSharable($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('isSharable', $path);
 	}
 
 	public function getPermissions(string $path): int {
-		$this->checkAvailability();
-		try {
-			return parent::getPermissions($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return 0;
-		}
+		return $this->handleAvailability('getPermissions', $path);
 	}
 
 	public function file_exists(string $path): bool {
 		if ($path === '') {
 			return true;
 		}
-		$this->checkAvailability();
-		try {
-			return parent::file_exists($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('file_exists', $path);
 	}
 
 	public function filemtime(string $path): int|false {
-		$this->checkAvailability();
-		try {
-			return parent::filemtime($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('filemtime', $path);
 	}
 
 	public function file_get_contents(string $path): string|false {
-		$this->checkAvailability();
-		try {
-			return parent::file_get_contents($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('file_get_contents', $path);
 	}
 
 	public function file_put_contents(string $path, mixed $data): int|float|false {
-		$this->checkAvailability();
-		try {
-			return parent::file_put_contents($path, $data);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('file_put_contents', $path, $data);
 	}
 
 	public function unlink(string $path): bool {
-		$this->checkAvailability();
-		try {
-			return parent::unlink($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('unlink', $path);
 	}
 
 	public function rename(string $source, string $target): bool {
-		$this->checkAvailability();
-		try {
-			return parent::rename($source, $target);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('rename', $source, $target);
 	}
 
 	public function copy(string $source, string $target): bool {
-		$this->checkAvailability();
-		try {
-			return parent::copy($source, $target);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('copy', $source, $target);
 	}
 
 	public function fopen(string $path, string $mode) {
-		$this->checkAvailability();
-		try {
-			return parent::fopen($path, $mode);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('fopen', $path, $mode);
 	}
 
 	public function getMimeType(string $path): string|false {
-		$this->checkAvailability();
-		try {
-			return parent::getMimeType($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('getMimeType', $path);
 	}
 
 	public function hash(string $type, string $path, bool $raw = false): string|false {
-		$this->checkAvailability();
-		try {
-			return parent::hash($type, $path, $raw);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('hash', $type, $path, $raw);
 	}
 
 	public function free_space(string $path): int|float|false {
-		$this->checkAvailability();
-		try {
-			return parent::free_space($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('free_space', $path);
 	}
 
 	public function touch(string $path, ?int $mtime = null): bool {
-		$this->checkAvailability();
-		try {
-			return parent::touch($path, $mtime);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('touch', $path, $mtime);
 	}
 
 	public function getLocalFile(string $path): string|false {
-		$this->checkAvailability();
-		try {
-			return parent::getLocalFile($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('getLocalFile', $path);
 	}
 
 	public function hasUpdated(string $path, int $time): bool {
@@ -366,43 +217,19 @@ class Availability extends Wrapper {
 	}
 
 	public function getETag(string $path): string|false {
-		$this->checkAvailability();
-		try {
-			return parent::getETag($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('getETag', $path);
 	}
 
 	public function getDirectDownload(string $path): array|false {
-		$this->checkAvailability();
-		try {
-			return parent::getDirectDownload($path);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('getDirectDownload', $path);
 	}
 
 	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
-		$this->checkAvailability();
-		try {
-			return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('copyFromStorage', $sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
-		$this->checkAvailability();
-		try {
-			return parent::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
-		} catch (StorageNotAvailableException $e) {
-			$this->setUnavailable($e);
-			return false;
-		}
+		return $this->handleAvailability('moveFromStorage', $sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
 	public function getMetaData(string $path): ?array {

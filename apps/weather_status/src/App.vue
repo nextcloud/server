@@ -570,6 +570,7 @@ export default {
 	align-items: center;
 	justify-content: center;
 }
+
 .weather-image {
 	width: calc(var(--default-clickable-area) - 2 * var(--default-grid-baseline));
 }

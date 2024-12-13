@@ -58,4 +58,11 @@ interface IUpdater {
 	 * @since 9.0.0
 	 */
 	public function renameFromStorage(IStorage $sourceStorage, $source, $target);
+
+	/**
+	 * Copy a file or folder in the cache and update the size, etag and mtime of the parent folders
+	 *
+	 * @since 31.0.0
+	 */
+	public function copyFromStorage(IStorage $sourceStorage, string $source, string $target): void;
 }

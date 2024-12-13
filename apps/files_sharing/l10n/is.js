@@ -284,7 +284,6 @@ OC.L10N.register(
     "Bundled permissions" : "Meðfylgjandi heimildir",
     "Only works for users with access to this folder" : "Virkar bara fyrir notendur sem hafa aðgang að þessari möppu",
     "Only works for users with access to this file" : "Virkar bara fyrir notendur sem hafa aðgang að þessari skrá",
-    "Enter a date" : "Settu inn dagsetningu",
     "Circle" : "Hringur",
     "Allow download" : "Leyfa niðurhal",
     "No other users with access found" : "Engir aðrir notendur með aðgang fundust",

@@ -22,10 +22,8 @@ $l->t('Never');
 $l->t('Once every direct access');
 $l->t('Read only');
 
-script('files_external', [
-	'settings',
-	'templates'
-]);
+\OCP\Util::addScript('files_external', 'settings');
+\OCP\Util::addScript('files_external', 'templates');
 style('files_external', 'settings');
 
 // load custom JS

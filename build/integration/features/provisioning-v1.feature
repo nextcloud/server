@@ -599,6 +599,7 @@ Feature: provisioning
       | files_trashbin |
       | files_versions |
       | lookup_server_connector |
+      | profile |
       | provisioning_api |
       | settings |
       | sharebymail |

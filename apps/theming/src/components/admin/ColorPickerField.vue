@@ -136,7 +136,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './shared/field.scss';
+@use './shared/field' as *;
+
 .description {
 	color: var(--color-text-maxcontrast);
 }

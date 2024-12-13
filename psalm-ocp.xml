@@ -19,7 +19,6 @@
 	</plugins>
 	<projectFiles>
 		<directory name="lib/public"/>
-		<directory name="lib/unstable"/>
 		<ignoreFiles>
 			<directory name="lib/composer/bin"/>
 		</ignoreFiles>

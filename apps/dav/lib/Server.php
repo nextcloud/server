@@ -54,7 +54,7 @@ use OCA\DAV\DAV\PublicAuth;
 use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\DAV\Events\SabrePluginAddEvent;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
-use OCA\DAV\Files\ErrorPagePlugin;
+use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCA\DAV\Files\FileSearchBackend;
 use OCA\DAV\Files\LazySearchBackend;
 use OCA\DAV\Profiler\ProfilerPlugin;
@@ -70,6 +70,7 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IFilenameValidator;
 use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IPreview;
@@ -243,7 +244,9 @@ class Server {
 			$this->server->addPlugin(new FakeLockerPlugin());
 		}
 
-		$this->server->addPlugin(new ErrorPagePlugin($this->request, \OC::$server->getConfig()));
+		if (BrowserErrorPagePlugin::isBrowserRequest($request)) {
+			$this->server->addPlugin(new BrowserErrorPagePlugin());
+		}
 
 		$lazySearchBackend = new LazySearchBackend();
 		$this->server->addPlugin(new SearchPlugin($lazySearchBackend));
@@ -292,7 +295,7 @@ class Server {
 				}
 				$this->server->addPlugin(
 					new TagsPlugin(
-						$this->server->tree, \OC::$server->getTagManager()
+						$this->server->tree, \OC::$server->getTagManager(), \OC::$server->get(IEventDispatcher::class), \OC::$server->get(IUserSession::class)
 					)
 				);
 
@@ -311,7 +314,7 @@ class Server {
 				));
 				if (\OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
 					$this->server->addPlugin(new IMipPlugin(
-						\OC::$server->get(IConfig::class),
+						\OC::$server->get(IAppConfig::class),
 						\OC::$server->get(IMailer::class),
 						\OC::$server->get(LoggerInterface::class),
 						\OC::$server->get(ITimeFactory::class),

@@ -146,7 +146,6 @@
     "Could not rename part file to final file, canceled by hook" : "후크에 의해 취소되어 부분 파일의 이름을 최종 파일로 바꿀 수 없음",
     "Could not rename part file to final file" : "부분 파일의 이름을 최종 파일로 바꿀 수 없음",
     "Failed to check file size: %1$s" : "파일 크기 확인 실패: %1$s",
-    "Could not open file" : "파일을 열 수 없음",
     "Encryption not ready: %1$s" : "암호화가 준비되지 않음: %1$s",
     "Failed to open file: %1$s" : "파일을 열 수 없음: %1$s",
     "Failed to unlink: %1$s" : "파일을 삭제할 수 없음: %1$s",
@@ -214,6 +213,7 @@
     "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다.",
     "To-dos" : "할 일",
     "Time:" : "시간:",
+    "Could not open file" : "파일을 열 수 없음",
     "Invalid chunk name" : "잘못된 청크 이름",
     "Could not rename part file assembled from chunks" : "청크에서 조합 된 부분 파일의 이름을 바꿀 수 없음",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "업무 시간을 설정하면, 회의를 예약할 때 다른 사용자가 부재 중 시간을 볼 수 있습니다."

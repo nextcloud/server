@@ -409,7 +409,7 @@ OC.L10N.register(
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Παρακαλώ ελέγξτε τις <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">οδηγίες εγκατάστασης ↗</a>, και ελέγξτε για σφάλματα ή προειδοποιήσεις στα <a href=\"%2$s\">αρχεία καταγραφής</a>.",
     "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Ελέγξτε την ασφάλεια του Nextcloud σας μέσω <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">της σάρωσης ασφαλείας μας ↗</a>.",
     "Reasons to use Nextcloud in your organization" : "Λόγοι για να χρησιμοποιήσετε το Nextcloud στον οργανισμό σας",
-    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Αναπτύχθηκε από τη {communityopen}Κοινότητα του Nextcloud {linkclose}, ο πηγαίος κώδικας {githubopen} {linkclose}  είναι αδειοδοτημένος υπό την άδεια {icenseopen}AGPL{linkclose}.",
+    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Αναπτύχθηκε από τη {communityopen}Κοινότητα του Nextcloud {linkclose}, ο πηγαίος κώδικας {githubopen} {linkclose}  είναι αδειοδοτημένος υπό την άδεια {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Ακολουθήστε μας στην σελίδα μας στο facebook!",
     "Follow us on Mastodon" : "Ακολουθήστε μας στο Mastodon",
     "Check out our blog" : "Επισκεφθείτε το ιστολόγιό μας!",

@@ -94,6 +94,7 @@ export default {
 			max-width: 550px;
 		}
 	}
+
 	.isComplex {
 		img {
 			vertical-align: text-top;

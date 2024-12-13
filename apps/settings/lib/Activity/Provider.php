@@ -129,7 +129,7 @@ class Provider implements IProvider {
 				return [
 					'token' => [
 						'type' => 'highlight',
-						'id' => $event->getObjectId(),
+						'id' => (string)$event->getObjectId(),
 						'name' => $parameters['name'],
 					]
 				];
@@ -137,12 +137,12 @@ class Provider implements IProvider {
 				return [
 					'token' => [
 						'type' => 'highlight',
-						'id' => $event->getObjectId(),
+						'id' => (string)$event->getObjectId(),
 						'name' => $parameters['name'],
 					],
 					'newToken' => [
 						'type' => 'highlight',
-						'id' => $event->getObjectId(),
+						'id' => (string)$event->getObjectId(),
 						'name' => $parameters['newName'],
 					]
 				];

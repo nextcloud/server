@@ -326,7 +326,10 @@ describe('Systemtags: Files bulk action', { testIsolation: false }, () => {
 
 			const newTag = randomBytes(8).toString('base64').slice(0, 6)
 			cy.get('[data-cy-systemtags-picker-input]').type(newTag)
-			cy.get('[data-cy-systemtags-picker-input-submit]').click()
+
+			cy.get('[data-cy-systemtags-picker-tag]').should('have.length', 0)
+			cy.get('[data-cy-systemtags-picker-button-create]').should('be.visible')
+			cy.get('[data-cy-systemtags-picker-button-create]').click()
 
 			cy.wait('@createTag')
 			cy.get('[data-cy-systemtags-picker-tag]').should('have.length', 6)

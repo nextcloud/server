@@ -119,6 +119,12 @@
     "Personal info" : "Личная информация",
     "Mobile & desktop" : "Клиенты для ПК и мобильных устройств",
     "Email server" : "Почтовый сервер",
+    "Mail Providers" : "Почтовые провайдеры",
+    "Mail provider enables sending emails directly through the user's personal email account. At present, this functionality is limited to calendar invitations. It requires Nextcloud Mail 4.1 and an email account in Nextcloud Mail that matches the user's email address in Nextcloud." : "Почтовый провайдер позволяет отправлять электронные письма непосредственно через личную учетную запись электронной почты пользователя. В настоящее время эта функциональность ограничена приглашениями из календаря. Для этого требуется Nextcloud Mail 4.1 и учетная запись электронной почты в Nextcloud Mail, которая соответствует адресу электронной почты пользователя в Nextcloud.",
+    "Send emails using" : "Отправляйте электронные письма с помощью",
+    "User's email account" : "Учетная запись электронной почты пользователя",
+    "System email account" : "Системная учетная запись электронной почты",
+    "Security & setup checks" : "Проверка безопасности и настроек",
     "Background jobs" : "Фоновые задания",
     "Unlimited" : "Неограничено",
     "Verifying" : "Проверка",
@@ -285,7 +291,6 @@
     "MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "Обнаружена версия MariaDB 10.3. Эта версия является устаревшей и поддерживается только как часть Ubuntu 20.04. MariaDB >=%1$s и <=%2$s рекомендована для лучшей производительности, стабильности и функциональности с этой версией Nextcloud.",
     "MariaDB version \"%1$s\" detected. MariaDB >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "Обнаружена версия MariaDB \"%1$s\". MariaDB версий >=%2$s и <=%3$s рекомендована для лучшей производительности, стабильности и функциональности с этой версией Nextcloud.",
     "MySQL version \"%1$s\" detected. MySQL >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "Обнаружена версия MySQL \"%1$s\". MySQL версий >=%2$s и <=%3$s рекомендован для лучшей производительности, стабильности и функциональности с этой версией Nextcloud.",
-    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Обнаружена версия PostgreSQL \"%s\". Для лучшей производительности, стабильности и функциональности с этой версией Nextcloud рекомендуется использовать PostgreSQL >=12 и <=16.",
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend. This is particularly recommended when using the desktop client for file synchronisation. To migrate to another database use the command line tool: \"occ db:convert-type\"." : "В настоящее время в качестве серверной базы данных используется SQLite. Для более крупных установок рекомендуется переключиться на другую серверную базу данных. Это особенно рекомендуется при использовании настольного клиента для синхронизации файлов. Для перехода на другую базу данных используйте инструмент командной строки: \"occ db:convert-type\".",
     "Unknown database platform" : "Неизвестная платформа базы данных",
     "Architecture" : "Архитектура",
@@ -575,6 +580,9 @@
     "Unable to update profile enabled state" : "Не удалось обновить состояние профиля",
     "The more restrictive setting of either visibility or scope is respected on your Profile. For example, if visibility is set to \"Show to everyone\" and scope is set to \"Private\", \"Private\" is respected." : "В профиле устанавливаются более строгие настройки видимости или области действия. Например, если для видимости установлено значение «Видно всем», а для области действия установлено значение «Скрыто», будет использоваться значение «Скрыто».",
     "Unable to update visibility of {displayId}" : "Не удалось изменить видимость {displayId}",
+    "she/her" : "она/её",
+    "he/him" : "он/его",
+    "they/them" : "они/их",
     "Your role" : "Ваша роль",
     "Your X (formerly Twitter) handle" : "Ваше имя в сети X (ранее — Твиттер)",
     "Your website" : "Ваш сайт",
@@ -691,6 +699,7 @@
     "Loading categories" : "Загрузка категорий",
     "Developer documentation ↗" : "Документация разработчика ↗",
     "Version {version}, {license}-licensed" : "Версия:  {version}, лицензия: {license}",
+    "Version {version}" : "Версия {version}",
     "All accounts" : "Все аккаунты",
     "Admins" : "Администраторы",
     "Account group: {group}" : "Группа учётных записей: {group}",
@@ -887,6 +896,7 @@
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Чтобы разрешить выполнение этой проверки, вы должны убедиться, что ваш веб-сервер может подключаться к самому себе. Для этого он должен иметь возможность разрешать и подключаться по крайней мере к одному из своих `trusted_domains\" или \"overwrite.cli.url\".",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Не удалось проверить поддержку JavaScript ни в одном из ваших `trusted_domains`, ни в `overwrite.cli.url`. Это может быть результатом несоответствия DNS на стороне сервера или правила исходящего брандмауэра. Пожалуйста, проверьте вручную, обслуживает ли ваш веб-сервер файлы `.mjs`, используя MIME-тип JavaScript.",
     "Active accounts" : "Активные учётные записи",
-    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Чтобы разрешить эту проверку, вам нужно убедиться, что ваш веб-сервер может подключаться к себе. Поэтому он должен иметь возможность разрешать и подключаться по крайней мере к одному из своих `trusted_domains` или `overwrite.cli.url`. Эта ошибка может быть результатом несоответствия DNS на стороне сервера или исходящего правила брандмауэра."
+    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Чтобы разрешить эту проверку, вам нужно убедиться, что ваш веб-сервер может подключаться к себе. Поэтому он должен иметь возможность разрешать и подключаться по крайней мере к одному из своих `trusted_domains` или `overwrite.cli.url`. Эта ошибка может быть результатом несоответствия DNS на стороне сервера или исходящего правила брандмауэра.",
+    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Обнаружена версия PostgreSQL \"%s\". Для лучшей производительности, стабильности и функциональности с этой версией Nextcloud рекомендуется использовать PostgreSQL >=12 и <=16."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

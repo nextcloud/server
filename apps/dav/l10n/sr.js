@@ -207,7 +207,8 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Делимични фајл не може да се преименује у коначни фајл, отказала је кука",
     "Could not rename part file to final file" : "Делимични фајл не може да се преименује у коначни фајл",
     "Failed to check file size: %1$s" : "Није успела провера величине фајла: %1$s",
-    "Could not open file" : "Фајл не може да се отвори",
+    "Could not open file: %1$s, file does seem to exist" : "Фајл не може да се отвори: %1$s, изгледа да фајл постоји",
+    "Could not open file: %1$s, file doesn't seem to exist" : "Фајл не може да се отвори: %1$s, изгледа да фајл не постоји",
     "Encryption not ready: %1$s" : "Шифрирање није спремно: %1$s",
     "Failed to open file: %1$s" : "Фајл не може да се отвори: %1$s",
     "Failed to unlink: %1$s" : "Није успело уклањање линка: %1$s",
@@ -284,6 +285,7 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Ваше присуство је успешно ажурирано.",
     "To-dos" : "Обавезе",
     "Time:" : "Време:",
+    "Could not open file" : "Фајл не може да се отвори",
     "Invalid chunk name" : "Неисправни назив комада",
     "Could not rename part file assembled from chunks" : "Име делимичног фајла састављеног од комада не може да се промени",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ако подесите своје радне сате, када буду заказивали састанак, остали корисници ће видети када сте ван канцеларије."

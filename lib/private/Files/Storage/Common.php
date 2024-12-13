@@ -16,6 +16,7 @@ use OC\Files\Cache\Watcher;
 use OC\Files\FilenameValidator;
 use OC\Files\Filesystem;
 use OC\Files\ObjectStore\ObjectStoreStorage;
+use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Files\Cache\ICache;
@@ -32,6 +33,7 @@ use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Server;
@@ -69,13 +71,14 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 	}
 
 	protected function remove(string $path): bool {
-		if ($this->is_dir($path)) {
-			return $this->rmdir($path);
-		} elseif ($this->is_file($path)) {
-			return $this->unlink($path);
-		} else {
-			return false;
+		if ($this->file_exists($path)) {
+			if ($this->is_dir($path)) {
+				return $this->rmdir($path);
+			} elseif ($this->is_file($path)) {
+				return $this->unlink($path);
+			}
 		}
+		return false;
 	}
 
 	public function is_dir(string $path): bool {
@@ -91,11 +94,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 			return 0; //by definition
 		} else {
 			$stat = $this->stat($path);
-			if (isset($stat['size'])) {
-				return $stat['size'];
-			} else {
-				return 0;
-			}
+			return isset($stat['size']) ? $stat['size'] : 0;
 		}
 	}
 
@@ -208,7 +207,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 			$targetStream = $this->fopen($target, 'w');
 			[, $result] = \OC_Helper::streamCopy($sourceStream, $targetStream);
 			if (!$result) {
-				\OCP\Server::get(LoggerInterface::class)->warning("Failed to write data while copying $source to $target");
+				Server::get(LoggerInterface::class)->warning("Failed to write data while copying $source to $target");
 			}
 			$this->removeCachedFile($target);
 			return $result;
@@ -227,6 +226,9 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 
 	public function hash(string $type, string $path, bool $raw = false): string|false {
 		$fh = $this->fopen($path, 'rb');
+		if (!$fh) {
+			return false;
+		}
 		$ctx = hash_init($type);
 		hash_update_stream($ctx, $fh);
 		fclose($fh);
@@ -241,7 +243,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 		$dh = $this->opendir($path);
 		if (is_resource($dh)) {
 			while (($file = readdir($dh)) !== false) {
-				if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
+				if (!Filesystem::isIgnoredDir($file)) {
 					if ($this->is_dir($path . '/' . $file)) {
 						mkdir($target . '/' . $file);
 						$this->addLocalFolder($path . '/' . $file, $target . '/' . $file);
@@ -259,7 +261,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 		$dh = $this->opendir($dir);
 		if (is_resource($dh)) {
 			while (($item = readdir($dh)) !== false) {
-				if (\OC\Files\Filesystem::isIgnoredDir($item)) {
+				if (Filesystem::isIgnoredDir($item)) {
 					continue;
 				}
 				if (strstr(strtolower($item), strtolower($query)) !== false) {
@@ -325,7 +327,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 		}
 		if (!isset($this->watcher)) {
 			$this->watcher = new Watcher($storage);
-			$globalPolicy = \OC::$server->getConfig()->getSystemValue('filesystem_check_changes', Watcher::CHECK_NEVER);
+			$globalPolicy = Server::get(IConfig::class)->getSystemValueInt('filesystem_check_changes', Watcher::CHECK_NEVER);
 			$this->watcher->setPolicy((int)$this->getMountOption('filesystem_check_changes', $globalPolicy));
 		}
 		return $this->watcher;
@@ -340,8 +342,8 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 		}
 		/** @var self $storage */
 		if (!isset($storage->propagator)) {
-			$config = \OC::$server->getSystemConfig();
-			$storage->propagator = new Propagator($storage, \OC::$server->getDatabaseConnection(), ['appdata_' . $config->getValue('instanceid')]);
+			$config = Server::get(IConfig::class);
+			$storage->propagator = new Propagator($storage, \OC::$server->getDatabaseConnection(), ['appdata_' . $config->getSystemValueString('instanceid')]);
 		}
 		return $storage->propagator;
 	}
@@ -386,7 +388,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 	 * @return string cleaned path
 	 */
 	public function cleanPath(string $path): string {
-		if (strlen($path) == 0 or $path[0] != '/') {
+		if (strlen($path) == 0 || $path[0] != '/') {
 			$path = '/' . $path;
 		}
 
@@ -410,10 +412,10 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 			if ($this->stat('')) {
 				return true;
 			}
-			\OC::$server->get(LoggerInterface::class)->info('External storage not available: stat() failed');
+			Server::get(LoggerInterface::class)->info('External storage not available: stat() failed');
 			return false;
 		} catch (\Exception $e) {
-			\OC::$server->get(LoggerInterface::class)->warning(
+			Server::get(LoggerInterface::class)->warning(
 				'External storage not available: ' . $e->getMessage(),
 				['exception' => $e]
 			);
@@ -475,7 +477,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 	 */
 	protected function getFilenameValidator(): IFilenameValidator {
 		if ($this->filenameValidator === null) {
-			$this->filenameValidator = \OCP\Server::get(IFilenameValidator::class);
+			$this->filenameValidator = Server::get(IFilenameValidator::class);
 		}
 		return $this->filenameValidator;
 	}
@@ -498,7 +500,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 			$result = $this->mkdir($targetInternalPath);
 			if (is_resource($dh)) {
 				$result = true;
-				while ($result and ($file = readdir($dh)) !== false) {
+				while ($result && ($file = readdir($dh)) !== false) {
 					if (!Filesystem::isIgnoredDir($file)) {
 						$result &= $this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file);
 					}
@@ -512,7 +514,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 					$this->writeStream($targetInternalPath, $source);
 					$result = true;
 				} catch (\Exception $e) {
-					\OC::$server->get(LoggerInterface::class)->warning('Failed to copy stream to storage', ['exception' => $e]);
+					Server::get(LoggerInterface::class)->warning('Failed to copy stream to storage', ['exception' => $e]);
 				}
 			}
 
@@ -546,7 +548,10 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 	}
 
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
-		if ($this->isSameStorage($sourceStorage)) {
+		if (
+			!$sourceStorage->instanceOfStorage(Encryption::class) &&
+			$this->isSameStorage($sourceStorage)
+		) {
 			// resolve any jailed paths
 			while ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
@@ -698,8 +703,8 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 
 	private function getLockLogger(): ?LoggerInterface {
 		if (is_null($this->shouldLogLocks)) {
-			$this->shouldLogLocks = \OC::$server->getConfig()->getSystemValueBool('filelocking.debug', false);
-			$this->logger = $this->shouldLogLocks ? \OC::$server->get(LoggerInterface::class) : null;
+			$this->shouldLogLocks = Server::get(IConfig::class)->getSystemValueBool('filelocking.debug', false);
+			$this->logger = $this->shouldLogLocks ? Server::get(LoggerInterface::class) : null;
 		}
 		return $this->logger;
 	}

@@ -6,7 +6,6 @@ OC.L10N.register(
     "View file" : "Dosyayı görüntüle",
     "View folder" : "Klasörü görüntüle",
     "Set file reminders" : "Dosya anımsatıcıları ayarla",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Dosya anımsatıcıları**\n\nDosya anımsatıcıları ayarla.",
     "We will remind you of this file" : "Size bu dosyayı anımsatacağız",
     "Please choose a valid date & time" : "Lütfen geçerli bir tarih ve saat seçin",
     "Cancel" : "İptal",

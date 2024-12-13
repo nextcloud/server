@@ -16,7 +16,6 @@ SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Rubén Norte <ruben.norte@softonic.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
-SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Joyent
@@ -62,7 +61,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.1
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.9.0
+	- version: 3.10.1
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -80,11 +79,8 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
-	- version: 0.2.3
+	- version: 0.2.4
 	- license: GPL-3.0-or-later
-- @nextcloud/dialogs
-	- version: 5.3.7
-	- license: AGPL-3.0-or-later
 - eventemitter3
 	- version: 5.0.1
 	- license: MIT
@@ -92,10 +88,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 8.0.1
 	- license: MIT
 - @nextcloud/upload
-	- version: 1.6.1
+	- version: 1.7.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.17.1
+	- version: 8.20.0
 	- license: AGPL-3.0-or-later
 - @vueuse/core
 	- version: 11.1.0
@@ -177,9 +173,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - vue
 	- version: 2.7.16
-	- license: MIT
-- webdav
-	- version: 5.7.1
 	- license: MIT
 - webpack
 	- version: 5.94.0

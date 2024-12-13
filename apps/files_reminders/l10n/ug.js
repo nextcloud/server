@@ -6,7 +6,6 @@ OC.L10N.register(
     "View file" : "ھۆججەتنى كۆرۈش",
     "View folder" : "ھۆججەت قىسقۇچنى كۆرۈش",
     "Set file reminders" : "ھۆججەت ئەسكەرتىشلىرىنى بەلگىلەڭ",
-    "**📣 File reminders**\n\nSet file reminders." : "** 📣 ھۆججەت ئەسكەرتىشلىرى **\n\nھۆججەت ئەسكەرتىشلىرىنى بەلگىلەڭ.",
     "We will remind you of this file" : "بۇ ھۆججەتنى ئەسكەرتىمىز",
     "Please choose a valid date & time" : "ئىناۋەتلىك چېسلا ۋە ۋاقىتنى تاللاڭ",
     "Cancel" : "بىكار قىلىش",

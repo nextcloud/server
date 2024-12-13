@@ -117,7 +117,6 @@ export default {
 .theming__preview {
 	// We make previews on 16/10 screens
 	--ratio: 16;
-
 	position: relative;
 	display: flex;
 	justify-content: flex-start;

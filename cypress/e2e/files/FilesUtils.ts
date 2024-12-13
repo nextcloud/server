@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { User } from "@nextcloud/cypress"
+
 export const getRowForFileId = (fileid: number) => cy.get(`[data-cy-files-list-row-fileid="${fileid}"]`)
 export const getRowForFile = (filename: string) => cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"]`)
 
@@ -13,16 +15,16 @@ export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(
 export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).findByRole('button', { name: 'Actions' })
 
 export const triggerActionForFileId = (fileid: number, actionId: string) => {
-	getActionButtonForFileId(fileid).click()
+	getActionButtonForFileId(fileid).click({ force: true })
 	// Getting the last button to avoid the one from popup fading out
 	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`).last()
-		.should('exist').click()
+		.should('exist').click({ force: true })
 }
 export const triggerActionForFile = (filename: string, actionId: string) => {
-	getActionButtonForFile(filename).click()
+	getActionButtonForFile(filename).click({ force: true })
 	// Getting the last button to avoid the one from popup fading out
 	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`).last()
-		.should('exist').click()
+		.should('exist').click({ force: true })
 }
 
 export const triggerInlineActionForFileId = (fileid: number, actionId: string) => {
@@ -159,7 +161,7 @@ export const createFolder = (folderName: string) => {
 
 	// TODO: replace by proper data-cy selectors
 	cy.get('[data-cy-upload-picker] .action-item__menutoggle').first().click()
-	cy.contains('.upload-picker__menu-entry button', 'New folder').click()
+	cy.get('[data-cy-upload-picker-menu-entry="newFolder"] button').click()
 	cy.get('[data-cy-files-new-node-dialog]').should('be.visible')
 	cy.get('[data-cy-files-new-node-dialog-input]').type(`{selectall}${folderName}`)
 	cy.get('[data-cy-files-new-node-dialog-submit]').click()
@@ -183,4 +185,26 @@ export const haveValidity = (validity: string | RegExp) => {
 		return (el: JQuery<HTMLElement>) => expect((el.get(0) as HTMLInputElement).validationMessage).to.equal(validity)
 	}
 	return (el: JQuery<HTMLElement>) => expect((el.get(0) as HTMLInputElement).validationMessage).to.match(validity)
+}
+
+export const deleteFileWithRequest = (user: User, path: string) => {
+	// Ensure path starts with a slash and has no double slashes
+	path = `/${path}`.replace(/\/+/g, '/')
+
+	cy.request('/csrftoken').then(({ body }) => {
+		const requestToken = body.token
+		cy.request({
+			method: 'DELETE',
+			url: `${Cypress.env('baseUrl')}/remote.php/dav/files/${user.userId}` + path,
+			headers: {
+				requestToken,
+			},
+			retryOnStatusCodeFailure: true,
+		})
+	})
+}
+
+export const triggerFileListAction = (actionId: string) => {
+	cy.get(`button[data-cy-files-list-action="${CSS.escape(actionId)}"]`).last()
+		.should('exist').click({ force: true })
 }

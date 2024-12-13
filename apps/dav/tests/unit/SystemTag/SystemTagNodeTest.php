@@ -85,19 +85,19 @@ class SystemTagNodeTest extends \Test\TestCase {
 			[
 				true,
 				new SystemTag(1, 'Original', true, true),
-				['Renamed', true, true]
+				['Renamed', true, true, null]
 			],
 			[
 				true,
 				new SystemTag(1, 'Original', true, true),
-				['Original', false, false]
+				['Original', false, false, null]
 			],
 			// non-admin
 			[
 				// renaming allowed
 				false,
 				new SystemTag(1, 'Original', true, true),
-				['Rename', true, true]
+				['Rename', true, true, '0082c9']
 			],
 		];
 	}
@@ -116,9 +116,9 @@ class SystemTagNodeTest extends \Test\TestCase {
 			->willReturn($originalTag->isUserAssignable() || $isAdmin);
 		$this->tagManager->expects($this->once())
 			->method('updateTag')
-			->with(1, $changedArgs[0], $changedArgs[1], $changedArgs[2]);
+			->with(1, $changedArgs[0], $changedArgs[1], $changedArgs[2], $changedArgs[3]);
 		$this->getTagNode($isAdmin, $originalTag)
-			->update($changedArgs[0], $changedArgs[1], $changedArgs[2]);
+			->update($changedArgs[0], $changedArgs[1], $changedArgs[2], $changedArgs[3]);
 	}
 
 	public function tagNodeProviderPermissionException() {
@@ -126,37 +126,37 @@ class SystemTagNodeTest extends \Test\TestCase {
 			[
 				// changing permissions not allowed
 				new SystemTag(1, 'Original', true, true),
-				['Original', false, true],
+				['Original', false, true, ''],
 				'Sabre\DAV\Exception\Forbidden',
 			],
 			[
 				// changing permissions not allowed
 				new SystemTag(1, 'Original', true, true),
-				['Original', true, false],
+				['Original', true, false, ''],
 				'Sabre\DAV\Exception\Forbidden',
 			],
 			[
 				// changing permissions not allowed
 				new SystemTag(1, 'Original', true, true),
-				['Original', false, false],
+				['Original', false, false, ''],
 				'Sabre\DAV\Exception\Forbidden',
 			],
 			[
 				// changing non-assignable not allowed
 				new SystemTag(1, 'Original', true, false),
-				['Rename', true, false],
+				['Rename', true, false, ''],
 				'Sabre\DAV\Exception\Forbidden',
 			],
 			[
 				// changing non-assignable not allowed
 				new SystemTag(1, 'Original', true, false),
-				['Original', true, true],
+				['Original', true, true, ''],
 				'Sabre\DAV\Exception\Forbidden',
 			],
 			[
 				// invisible tag does not exist
 				new SystemTag(1, 'Original', false, false),
-				['Rename', false, false],
+				['Rename', false, false, ''],
 				'Sabre\DAV\Exception\NotFound',
 			],
 		];
@@ -181,7 +181,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 
 		try {
 			$this->getTagNode(false, $originalTag)
-				->update($changedArgs[0], $changedArgs[1], $changedArgs[2]);
+				->update($changedArgs[0], $changedArgs[1], $changedArgs[2], $changedArgs[3]);
 		} catch (\Exception $e) {
 			$thrown = $e;
 		}
@@ -206,7 +206,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 			->method('updateTag')
 			->with(1, 'Renamed', true, true)
 			->will($this->throwException(new TagAlreadyExistsException()));
-		$this->getTagNode(false, $tag)->update('Renamed', true, true);
+		$this->getTagNode(false, $tag)->update('Renamed', true, true, null);
 	}
 
 
@@ -226,7 +226,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 			->method('updateTag')
 			->with(1, 'Renamed', true, true)
 			->will($this->throwException(new TagNotFoundException()));
-		$this->getTagNode(false, $tag)->update('Renamed', true, true);
+		$this->getTagNode(false, $tag)->update('Renamed', true, true, null);
 	}
 
 	/**

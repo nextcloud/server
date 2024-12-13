@@ -210,15 +210,16 @@ export default {
 					.catch((error) => { showError(error) })
 			}
 		},
-		remove(appId, removeData = false) {
-			if (this.app?.app_api) {
-				this.appApiStore.uninstallApp(appId, removeData)
-					.then(() => { rebuildNavigation() })
-					.catch((error) => { showError(error) })
-			} else {
-				this.$store.dispatch('appApiApps/uninstallApp', { appId, removeData })
-					.then((response) => { rebuildNavigation() })
-					.catch((error) => { showError(error) })
+		async remove(appId, removeData = false) {
+			try {
+				if (this.app?.app_api) {
+					await this.appApiStore.uninstallApp(appId, removeData)
+				} else {
+					await this.$store.dispatch('uninstallApp', { appId, removeData })
+				}
+				await rebuildNavigation()
+			} catch (error) {
+				showError(error)
 			}
 		},
 		install(appId) {

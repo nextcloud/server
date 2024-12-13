@@ -5,7 +5,7 @@
  */
 @use 'variables';
 @use 'sass:math';
-@import 'functions';
+@use 'functions';
 
 input {
 	&#openid, &#webdav {
@@ -20,23 +20,23 @@ input {
 
 /* icons for sidebar */
 .nav-icon-personal-settings {
-	@include icon-color('personal', 'settings', variables.$color-black);
+	@include functions.icon-color('personal', 'settings', variables.$color-black);
 }
 
 .nav-icon-security {
-	@include icon-color('toggle-filelist', 'settings', variables.$color-black);
+	@include functions.icon-color('toggle-filelist', 'settings', variables.$color-black);
 }
 
 .nav-icon-clientsbox {
-	@include icon-color('change', 'settings', variables.$color-black);
+	@include functions.icon-color('change', 'settings', variables.$color-black);
 }
 
 .nav-icon-federated-cloud {
-	@include icon-color('share', 'settings', variables.$color-black);
+	@include functions.icon-color('share', 'settings', variables.$color-black);
 }
 
 .nav-icon-second-factor-backup-codes, .nav-icon-ssl-root-certificate {
-	@include icon-color('password', 'settings', variables.$color-black);
+	@include functions.icon-color('password', 'settings', variables.$color-black);
 }
 
 #personal-settings-avatar-container {

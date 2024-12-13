@@ -432,6 +432,17 @@ $CONFIG = [
 'auth.bruteforce.protection.testing' => false,
 
 /**
+ * Brute force protection: maximum number of attempts before blocking
+ *
+ * When more than max-attempts login requests are sent to Nextcloud, requests
+ * will abort with "429 Too Many Requests".
+ * For security reasons, change it only if you know what you are doing.
+ *
+ * Defaults to ``10``
+ */
+'auth.bruteforce.max-attempts' => 10,
+
+/**
  * Whether the rate limit protection shipped with Nextcloud should be enabled or not.
  *
  * Disabling this is discouraged for security reasons.
@@ -521,7 +532,7 @@ $CONFIG = [
 'mail_smtpdebug' => false,
 
 /**
- * Which mode to use for sending mail: ``sendmail``, ``smtp`` or ``qmail``.
+ * Which mode to use for sending mail: ``sendmail``, ``smtp``, ``qmail`` or ``null``.
  *
  * If you are using local or remote SMTP, set this to ``smtp``.
  *
@@ -530,6 +541,9 @@ $CONFIG = [
  *
  * For ``qmail`` the binary is /var/qmail/bin/sendmail, and it must be installed
  * on your Unix system.
+ *
+ * Use the string ``null`` to send no mails (disable mail delivery). This can be
+ * useful if mails should be sent via APIs and rendering messages is not necessary.
  *
  * Defaults to ``smtp``
  */
@@ -2129,9 +2143,18 @@ $CONFIG = [
  * client may not function as expected, and could lead to permanent data loss for
  * clients or other unexpected results.
  *
- * Defaults to ``2.3.0``
+ * Defaults to ``2.7.0``
  */
-'minimum.supported.desktop.version' => '2.3.0',
+'minimum.supported.desktop.version' => '2.7.0',
+
+/**
+ * The maximum Nextcloud desktop client version that will be allowed to sync with
+ * this server instance. All connections made from later clients will be denied
+ * by the server.
+ *
+ * Defaults to 99.99.99
+ */
+'maximum.supported.desktop.version' => '99.99.99',
 
 /**
  * Option to allow local storage to contain symlinks.
@@ -2290,21 +2313,6 @@ $CONFIG = [
  * Defaults to ``10`` megabytes
  */
 'max_filesize_animated_gifs_public_sharing' => 10,
-
-
-/**
- * Enables transactional file locking.
- * This is enabled by default.
- *
- * Prevents concurrent processes from accessing the same files
- * at the same time. Can help prevent side effects that would
- * be caused by concurrent operations. Mainly relevant for
- * very large installations with many users working with
- * shared files.
- *
- * Defaults to ``true``
- */
-'filelocking.enabled' => true,
 
 /**
  * Set the lock's time-to-live in seconds.

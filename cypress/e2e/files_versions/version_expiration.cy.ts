@@ -21,7 +21,7 @@ describe('Versions expiration', () => {
 	})
 
 	it('Expire all versions', () => {
-		cy.runOccCommand('config:system:set versions_retention_obligation --value "0, 0"')
+		cy.runOccCommand('config:system:set versions_retention_obligation --value \'0, 0\'')
 		cy.runOccCommand('versions:expire')
 		cy.runOccCommand('config:system:set versions_retention_obligation --value auto')
 		cy.visit('/apps/files')
@@ -38,7 +38,7 @@ describe('Versions expiration', () => {
 	it('Expire versions v2', () => {
 		nameVersion(2, 'v1')
 
-		cy.runOccCommand('config:system:set versions_retention_obligation --value "0, 0"')
+		cy.runOccCommand('config:system:set versions_retention_obligation --value \'0, 0\'')
 		cy.runOccCommand('versions:expire')
 		cy.runOccCommand('config:system:set versions_retention_obligation --value auto')
 		cy.visit('/apps/files')

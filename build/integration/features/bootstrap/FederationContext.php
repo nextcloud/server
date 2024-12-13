@@ -38,7 +38,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 
 		$port = getenv('PORT_FED');
 
-		self::$phpFederatedServerPid = exec('php -S localhost:' . $port . ' -t ../../ >/dev/null & echo $!');
+		self::$phpFederatedServerPid = exec('PHP_CLI_SERVER_WORKERS=2 php -S localhost:' . $port . ' -t ../../ >/dev/null & echo $!');
 	}
 
 	/**

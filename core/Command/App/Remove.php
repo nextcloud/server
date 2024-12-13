@@ -49,9 +49,9 @@ class Remove extends Command implements CompletionAwareInterface {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appId = $input->getArgument('app-id');
 
-		// Check if the app is installed
+		// Check if the app is enabled
 		if (!$this->manager->isInstalled($appId)) {
-			$output->writeln($appId . ' is not installed');
+			$output->writeln($appId . ' is not enabled');
 			return 1;
 		}
 

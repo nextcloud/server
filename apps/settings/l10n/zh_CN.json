@@ -119,6 +119,8 @@
     "Personal info" : "个人信息",
     "Mobile & desktop" : "手机与电脑",
     "Email server" : "电子邮件服务器",
+    "Mail Providers" : "邮件提供商",
+    "Mail provider enables sending emails directly through the user's personal email account. At present, this functionality is limited to calendar invitations. It requires Nextcloud Mail 4.1 and an email account in Nextcloud Mail that matches the user's email address in Nextcloud." : "邮件提供商允许直接通过用户的个人电子邮件帐户发送电子邮件。目前，此功能仅限于日历邀请。它需要 Nextcloud Mail 4.1 和 Nextcloud Mail 中与用户在 Nextcloud 中的电子邮件地址匹配的电子邮件帐户。",
     "Background jobs" : "后台任务",
     "Unlimited" : "无限",
     "Verifying" : "正在验证",
@@ -288,7 +290,6 @@
     "MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "检测到 MariaDB 版本 10.3，此版本已停用，仅作为 Ubuntu 20.04 的一部分受支持。建议使用 MariaDB >=%1$s 和 <=%2$s 以获得此版本 Nextcloud 的最佳性能、稳定性和功能。",
     "MariaDB version \"%1$s\" detected. MariaDB >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "检测到 MariaDB 版本\"%1$s\"。建议使用 MariaDB >=%2$s 和 <=%3$s，以获得此版本 Nextcloud 的最佳性能、稳定性和功能。",
     "MySQL version \"%1$s\" detected. MySQL >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "检测到 MySQL 版本\"%1$s\"。建议使用 MySQL >=%2$s 和 <=%3$s，以获得此版本 Nextcloud 的最佳性能、稳定性和功能。",
-    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "检测到 PostgreSQL 版本\"%s\"。建议使用 PostgreSQL >=12 和 <=16，以获得此版本 Nextcloud 的最佳性能、稳定性和功能。",
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend. This is particularly recommended when using the desktop client for file synchronisation. To migrate to another database use the command line tool: \"occ db:convert-type\"." : "目前使用 SQLite 作为后端数据库。 对于大型安装，我们建议您切换到不同的数据库后端。 当使用桌面客户端进行文件同步时，特别建议这样做。 要迁移到另一个数据库，请使用命令行工具：\"occ db:convert-type\"。",
     "Unknown database platform" : "未知的数据库软件",
     "Architecture" : "建筑风格",
@@ -303,9 +304,9 @@
     "Temporary directory is correctly configured:\n%s" : "临时目录配置正确:\n%s",
     "This instance uses an S3 based object store as primary storage, and has enough space in the temporary directory.\n%s" : "该实例使用基于S3的对象存储作为主存储，并且临时目录中有足够的空间。\n%s",
     "This instance uses an S3 based object store as primary storage. The uploaded files are stored temporarily on the server and thus it is recommended to have 50 GiB of free space available in the temp directory of PHP. To improve this please change the temporary directory in the php.ini or make more space available in that path. \nChecking the available space in the temporary path resulted in %.1f GiB instead of the recommended 50 GiB. Path: %s" : "此实例使用基于 S3 的对象存储作为主存储。上传的文件临时存储在服务器上，因此建议在 PHP 的临时目录中留出 50 GiB 的可用空间。为了改善这一点，请更改 php.ini 中的临时目录或在该路径中留出更多可用空间。\n检查临时路径中的可用空间为 %.1f GiB，而不是建议的 50 GiB。路径：%s",
-    "Database transaction isolation level" : "数据库事务隔离等级",
+    "Database transaction isolation level" : "数据库事务隔离级别",
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "数据库没有运行在“READ COMMITTED”事务隔离级别。当多项操作同时执行时将产生问题。",
-    "Was not able to get transaction isolation level: %s" : "未能获取事务隔离等级：%s",
+    "Was not able to get transaction isolation level: %s" : "未能获取事务隔离级别：%s",
     ".well-known URLs" : ".well-known URL",
     "`check_for_working_wellknown_setup` is set to false in your configuration, so this check was skipped." : "您的配置中的 `check_for_working_wellknown_setup` 设置为 false，因此跳过了此检查。",
     "Could not check that your web server serves `.well-known` correctly. Please check manually." : "无法检查您的网络服务器是否正确服务 `.well-known`。 请手动检查。",
@@ -895,6 +896,7 @@
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "要允许此检查运行，您必须确保您的网络服务器可以连接到自身。 因此，它必须能够解析并连接到至少一个 `trusted_domains` 或 `overwrite.cli.url`。",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "无法通过您的任何 “trusted_domains\" 或 \"overwrite.cli.url\" 检查 JavaScript 支持。 这可能是服务器端 DNS 不匹配或出站防火墙规则造成的。 请手动检查您的网络服务器是否使用 JavaScript MIME 类型提供 \".mjs\" 文件。",
     "Active accounts" : "活跃账号",
-    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "要允许此检查运行，您必须确保您的 Web 服务器可以连接到自身。因此，它必须能够解析并连接到其 \"trusted_domains\" 或 \"overwrite.cli.url\" 中的至少一个。此失败可能是服务器端 DNS 不匹配或出站防火墙规则的结果。"
+    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "要允许此检查运行，您必须确保您的 Web 服务器可以连接到自身。因此，它必须能够解析并连接到其 \"trusted_domains\" 或 \"overwrite.cli.url\" 中的至少一个。此失败可能是服务器端 DNS 不匹配或出站防火墙规则的结果。",
+    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "检测到 PostgreSQL 版本\"%s\"。建议使用 PostgreSQL >=12 和 <=16，以获得此版本 Nextcloud 的最佳性能、稳定性和功能。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

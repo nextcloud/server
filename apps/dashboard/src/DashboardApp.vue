@@ -147,6 +147,7 @@ import ApiDashboardWidget from './components/ApiDashboardWidget.vue'
 
 const panels = loadState('dashboard', 'panels')
 const firstRun = loadState('dashboard', 'firstRun')
+const birthdate = new Date(loadState('dashboard', 'birthdate'))
 
 const statusInfo = {
 	weather: {
@@ -194,15 +195,21 @@ export default {
 			apiWidgets: [],
 			apiWidgetItems: {},
 			loadingItems: true,
+			birthdate,
 		}
 	},
 	computed: {
 		greeting() {
 			const time = this.timer.getHours()
+			const isBirthday = this.birthdate instanceof Date
+				&& this.birthdate.getMonth() === this.timer.getMonth()
+				&& this.birthdate.getDate() === this.timer.getDate()
 
 			// Determine part of the day
 			let partOfDay
-			if (time >= 22 || time < 5) {
+			if (isBirthday) {
+				partOfDay = 'birthday'
+			} else if (time >= 22 || time < 5) {
 				partOfDay = 'night'
 			} else if (time >= 18) {
 				partOfDay = 'evening'
@@ -230,6 +237,10 @@ export default {
 					// Don't use "Good night" as it's not a greeting
 					generic: t('dashboard', 'Hello'),
 					withName: t('dashboard', 'Hello, {name}', { name: this.displayName }, undefined, { escape: false }),
+				},
+				birthday: {
+					generic: t('dashboard', 'Happy birthday 🥳🤩🎂🎉'),
+					withName: t('dashboard', 'Happy birthday, {name} 🥳🤩🎂🎉', { name: this.displayName }, undefined, { escape: false }),
 				},
 			}
 
@@ -507,7 +518,6 @@ export default {
 .panel, .panels > div {
 	// Ensure the maxcontrast color is set for the background
 	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
-
 	width: 320px;
 	max-width: 100%;
 	margin: 16px;
@@ -532,7 +542,8 @@ export default {
 		padding: 16px;
 		cursor: grab;
 
-		&, ::v-deep * {
+		&,
+		:deep(*) {
 			-webkit-touch-callout: none;
 			-webkit-user-select: none;
 			-khtml-user-select: none;
@@ -618,11 +629,10 @@ export default {
 .button,
 .button-vue,
 .edit-panels,
-.statuses ::v-deep .action-item .action-item__menutoggle,
-.statuses ::v-deep .action-item.action-item--open .action-item__menutoggle {
+.statuses :deep(.action-item .action-item__menutoggle),
+.statuses :deep(.action-item.action-item--open .action-item__menutoggle) {
 	// Ensure the maxcontrast color is set for the background
 	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
-
 	background-color: var(--color-main-background-blur);
 	-webkit-backdrop-filter: var(--filter-background-blur);
 	backdrop-filter: var(--filter-background-blur);
