@@ -19,6 +19,8 @@ import StarSvg from '@mdi/svg/svg/star.svg?raw'
 
 import logger from '../logger.ts'
 
+export const ACTION_FAVORITE = 'favorite'
+
 const queue = new PQueue({ concurrency: 5 })
 
 // If any of the nodes is not favorited, we display the favorite action.
@@ -62,7 +64,7 @@ export const favoriteNode = async (node: Node, view: View, willFavorite: boolean
 }
 
 export const action = new FileAction({
-	id: 'favorite',
+	id: ACTION_FAVORITE,
 	displayName(nodes: Node[]) {
 		return shouldFavorite(nodes)
 			? t('files', 'Add to favorites')

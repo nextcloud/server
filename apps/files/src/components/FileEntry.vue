@@ -46,7 +46,6 @@
 		<FileEntryActions v-show="!isRenamingSmallScreen"
 			ref="actions"
 			:class="`files-list__row-actions-${uniqueId}`"
-			:loading.sync="loading"
 			:opened.sync="openedMenu"
 			:source="source" />
 
@@ -86,7 +85,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { formatFileSize } from '@nextcloud/files'
+import { useHotKey } from '@nextcloud/vue/dist/Composables/useHotKey.js'
 import moment from '@nextcloud/moment'
+import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 
 import { useNavigation } from '../composables/useNavigation.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
@@ -97,11 +98,10 @@ import { useFilesStore } from '../store/files.ts'
 import { useRenamingStore } from '../store/renaming.ts'
 import { useSelectionStore } from '../store/selection.ts'
 
-import FileEntryMixin from './FileEntryMixin.ts'
-import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import CustomElementRender from './CustomElementRender.vue'
 import FileEntryActions from './FileEntry/FileEntryActions.vue'
 import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
+import FileEntryMixin from './FileEntryMixin.ts'
 import FileEntryName from './FileEntry/FileEntryName.vue'
 import FileEntryPreview from './FileEntry/FileEntryPreview.vue'
 
@@ -228,8 +228,24 @@ export default defineComponent({
 		},
 	},
 
+	created() {
+		useHotKey('Enter', this.triggerDefaultAction, {
+			stop: true,
+			prevent: true,
+		})
+	},
+
 	methods: {
 		formatFileSize,
+
+		triggerDefaultAction() {
+			// Don't react to the event if the file row is not active
+			if (!this.isActive) {
+				return
+			}
+
+			this.defaultFileAction?.exec(this.source, this.currentView, this.currentDir)
+		},
 	},
 })
 </script>
