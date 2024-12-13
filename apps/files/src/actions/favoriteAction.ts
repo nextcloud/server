@@ -11,12 +11,15 @@ import { encodePath } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import axios from '@nextcloud/axios'
+import PQueue from 'p-queue'
 import Vue from 'vue'
 
 import StarOutlineSvg from '@mdi/svg/svg/star-outline.svg?raw'
 import StarSvg from '@mdi/svg/svg/star.svg?raw'
 
 import logger from '../logger.ts'
+
+const queue = new PQueue({ concurrency: 5 })
 
 // If any of the nodes is not favorited, we display the favorite action.
 const shouldFavorite = (nodes: Node[]): boolean => {
@@ -89,7 +92,25 @@ export const action = new FileAction({
 	},
 	async execBatch(nodes: Node[], view: View) {
 		const willFavorite = shouldFavorite(nodes)
-		return Promise.all(nodes.map(async node => await favoriteNode(node, view, willFavorite)))
+
+		// Map each node to a promise that resolves with the result of exec(node)
+		const promises = nodes.map(node => {
+			// Create a promise that resolves with the result of exec(node)
+			const promise = new Promise<boolean>(resolve => {
+				queue.add(async () => {
+					try {
+						await favoriteNode(node, view, willFavorite)
+						resolve(true)
+					} catch (error) {
+						logger.error('Error while adding file to favorite', { error, source: node.source, node })
+						resolve(false)
+					}
+				})
+			})
+			return promise
+		})
+
+		return Promise.all(promises)
 	},
 
 	order: -50,
