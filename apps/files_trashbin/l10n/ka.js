@@ -9,6 +9,7 @@ OC.L10N.register(
     "All files" : "All files",
     "You" : "You",
     "Deleted" : "Deleted",
+    "Cancel" : "Cancel",
     "List of files that have been deleted." : "List of files that have been deleted.",
     "No deleted files" : "No deleted files",
     "Files and folders you have deleted will show up here" : "Files and folders you have deleted will show up here",

@@ -8,6 +8,7 @@ OC.L10N.register(
     "Unknown" : "Teadmata",
     "All files" : "Kõik failid",
     "Deleted" : "Kustutatud",
+    "Cancel" : "Tühista",
     "List of files that have been deleted." : "Kustutatud failide loend.",
     "No deleted files" : "Kustutatud faile pole",
     "This application enables users to restore files that were deleted from the system." : "See rakendus võimaldab kasutajatel kustutatud faile taastada.",

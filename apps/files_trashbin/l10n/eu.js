@@ -14,6 +14,8 @@ OC.L10N.register(
     "Deleted by" : "Honek ezabatuta",
     "Deleted" : "Ezabatuta",
     "A long time ago" : "Orain dela denbora asko",
+    "Cancel" : "Utzi",
+    "Deletion cancelled" : "Ezabatzea bertan behera utzi da",
     "List of files that have been deleted." : "Ezabatu diren fitxategien zerrenda.",
     "No deleted files" : "Ez dago ezabatutako fitxategirik",
     "Files and folders you have deleted will show up here" : "Ezabatu dituzun fitxategi eta karpetak hemen agertuko dira",

@@ -26,7 +26,6 @@ OC.L10N.register(
     "This weekend" : "Tento víkend",
     "Set reminder for this weekend" : "Nastavit připomínku na tento víkend",
     "Next week" : "Příští týden",
-    "Set reminder for next week" : "Nastavit připomínku pro příští týden",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Připomínky souborů**\n\nNastavte připomínky souborů."
+    "Set reminder for next week" : "Nastavit připomínku pro příští týden"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

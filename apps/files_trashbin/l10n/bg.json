@@ -6,6 +6,7 @@
     "Unknown" : "Неизвестен",
     "All files" : "Всички файлове",
     "Deleted" : "Изтрито",
+    "Cancel" : "Отказ",
     "List of files that have been deleted." : "Списък на файловете, които са били изтрити.",
     "No deleted files" : "Няма изтрити файлове",
     "This application enables users to restore files that were deleted from the system." : "Това приложение позволява на потребителите да възстановяват файлове, които са изтрити от системата.",
