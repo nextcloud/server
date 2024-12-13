@@ -222,6 +222,9 @@ export default defineComponent({
 	},
 
 	setup() {
+		const { currentView } = useNavigation()
+		const { directory, fileId } = useRouteParameters()
+		const fileListWidth = useFileListWidth()
 		const filesStore = useFilesStore()
 		const filtersStore = useFiltersStore()
 		const pathsStore = usePathsStore()
@@ -229,9 +232,6 @@ export default defineComponent({
 		const uploaderStore = useUploaderStore()
 		const userConfigStore = useUserConfigStore()
 		const viewConfigStore = useViewConfigStore()
-		const { currentView } = useNavigation()
-		const fileListWidth = useFileListWidth()
-		const { directory, fileId } = useRouteParameters()
 
 		const enableGridView = (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true)
 		const forbiddenCharacters = loadState<string[]>('files', 'forbiddenCharacters', [])

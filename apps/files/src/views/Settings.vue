@@ -90,31 +90,41 @@
 			<h3>{{ t('files', 'Actions') }}</h3>
 			<dl>
 				<div>
-					<dt class="shortcut-key"><kbd>a</kbd></dt>
+					<dt class="shortcut-key">
+						<kbd>a</kbd>
+					</dt>
 					<dd class="shortcut-description">
 						{{ t('files', 'Open the actions menu for a file') }}
 					</dd>
 				</div>
 				<div>
-					<dt class="shortcut-key"><kbd>F2</kbd></dt>
+					<dt class="shortcut-key">
+						<kbd>F2</kbd>
+					</dt>
 					<dd class="shortcut-description">
 						{{ t('files', 'Rename a file') }}
 					</dd>
 				</div>
 				<div>
-					<dt class="shortcut-key"><kbd>Del</kbd></dt>
+					<dt class="shortcut-key">
+						<kbd>Del</kbd>
+					</dt>
 					<dd class="shortcut-description">
 						{{ t('files', 'Delete a file') }}
 					</dd>
 				</div>
 				<div>
-					<dt class="shortcut-key"><kbd>s</kbd></dt>
+					<dt class="shortcut-key">
+						<kbd>s</kbd>
+					</dt>
 					<dd class="shortcut-description">
 						{{ t('files', 'Favorite or remove a file from favorites') }}
 					</dd>
 				</div>
-				<div>
-					<dt class="shortcut-key"><kbd>t</kbd></dt>
+				<div v-if="isSystemtagsEnabled">
+					<dt class="shortcut-key">
+						<kbd>t</kbd>
+					</dt>
 					<dd class="shortcut-description">
 						{{ t('files', 'Manage tags for a file') }}
 					</dd>
@@ -124,25 +134,33 @@
 			<h3>{{ t('files', 'Selection') }}</h3>
 			<dl>
 				<div>
-					<dt class="shortcut-key"><kbd>Ctrl</kbd> + <kbd>A</kbd></dt>
+					<dt class="shortcut-key">
+						<kbd>Ctrl</kbd> + <kbd>A</kbd>
+					</dt>
 					<dd class="shortcut-description">
 						{{ t('files', 'Select all files') }}
 					</dd>
 				</div>
 				<div>
-					<dt class="shortcut-key"><kbd>ESC</kbd></dt>
+					<dt class="shortcut-key">
+						<kbd>ESC</kbd>
+					</dt>
 					<dd class="shortcut-description">
 						{{ t('files', 'Deselect all files') }}
 					</dd>
 				</div>
 				<div>
-					<dt class="shortcut-key"><kbd>Ctrl</kbd> + <kbd>Space</kbd></dt>
+					<dt class="shortcut-key">
+						<kbd>Ctrl</kbd> + <kbd>Space</kbd>
+					</dt>
 					<dd class="shortcut-description">
 						{{ t('files', 'Select or deselect a file') }}
 					</dd>
 				</div>
 				<div>
-					<dt class="shortcut-key"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> <span>+ <kbd>Space</kbd></span></dt>
+					<dt class="shortcut-key">
+						<kbd>Ctrl</kbd> + <kbd>Shift</kbd> <span>+ <kbd>Space</kbd></span>
+					</dt>
 					<dd class="shortcut-description">
 						{{ t('files', 'Select a range of files') }}
 					</dd>
@@ -152,31 +170,41 @@
 			<h3>{{ t('files', 'Navigation') }}</h3>
 			<dl>
 				<div>
-					<dt class="shortcut-key"><kbd>↑</kbd></dt>
-					<dd class="shortcut-description">
-						{{ t('files', 'Navigate to the file above') }}
-					</dd>
-				</div>
-				<div>
-					<dt class="shortcut-key"><kbd>Alt</kbd> + <kbd>↑</kbd></dt>
+					<dt class="shortcut-key">
+						<kbd>Alt</kbd> + <kbd>↑</kbd>
+					</dt>
 					<dd class="shortcut-description">
 						{{ t('files', 'Navigate to the parent folder') }}
 					</dd>
 				</div>
 				<div>
-					<dt class="shortcut-key"><kbd>↓</kbd></dt>
+					<dt class="shortcut-key">
+						<kbd>↑</kbd>
+					</dt>
+					<dd class="shortcut-description">
+						{{ t('files', 'Navigate to the file above') }}
+					</dd>
+				</div>
+				<div>
+					<dt class="shortcut-key">
+						<kbd>↓</kbd>
+					</dt>
 					<dd class="shortcut-description">
 						{{ t('files', 'Navigate to the file below') }}
 					</dd>
 				</div>
 				<div>
-					<dt class="shortcut-key"><kbd>←</kbd></dt>
+					<dt class="shortcut-key">
+						<kbd>←</kbd>
+					</dt>
 					<dd class="shortcut-description">
 						{{ t('files', 'Navigate to the file on the left (in grid mode)') }}
 					</dd>
 				</div>
 				<div>
-					<dt class="shortcut-key"><kbd>→</kbd></dt>
+					<dt class="shortcut-key">
+						<kbd>→</kbd>
+					</dt>
 					<dd class="shortcut-description">
 						{{ t('files', 'Navigate to the file on the right (in grid mode)') }}
 					</dd>
@@ -186,19 +214,25 @@
 			<h3>{{ t('files', 'View') }}</h3>
 			<dl>
 				<div>
-					<dt class="shortcut-key"><kbd>V</kbd></dt>
+					<dt class="shortcut-key">
+						<kbd>V</kbd>
+					</dt>
 					<dd class="shortcut-description">
 						{{ t('files', 'Toggle the grid view') }}
 					</dd>
 				</div>
 				<div>
-					<dt class="shortcut-key"><kbd>D</kbd></dt>
+					<dt class="shortcut-key">
+						<kbd>D</kbd>
+					</dt>
 					<dd class="shortcut-description">
 						{{ t('files', 'Open the sidebar for a file') }}
 					</dd>
 				</div>
 				<div>
-					<dt class="shortcut-key"><kbd>?</kbd></dt>
+					<dt class="shortcut-key">
+						<kbd>?</kbd>
+					</dt>
 					<dd class="shortcut-description">
 						{{ t('files', 'Show those shortcuts') }}
 					</dd>
@@ -209,12 +243,12 @@
 </template>
 
 <script>
+import { getCapabilities } from '@nextcloud/capabilities'
+import Clipboard from 'vue-material-design-icons/ContentCopy.vue'
 import NcAppSettingsDialog from '@nextcloud/vue/dist/Components/NcAppSettingsDialog.js'
 import NcAppSettingsSection from '@nextcloud/vue/dist/Components/NcAppSettingsSection.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import Clipboard from 'vue-material-design-icons/ContentCopy.vue'
 import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
-import Setting from '../components/Setting.vue'
 
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -222,7 +256,9 @@ import { loadState } from '@nextcloud/initial-state'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { useHotKey } from '@nextcloud/vue/dist/Composables/useHotKey.js'
+
 import { useUserConfigStore } from '../store/userconfig.ts'
+import Setting from '../components/Setting.vue'
 
 export default {
 	name: 'Settings',
@@ -244,7 +280,9 @@ export default {
 
 	setup() {
 		const userConfigStore = useUserConfigStore()
+		const isSystemtagsEnabled = getCapabilities()?.systemtags?.enabled === true
 		return {
+			isSystemtagsEnabled,
 			userConfigStore,
 			t,
 		}

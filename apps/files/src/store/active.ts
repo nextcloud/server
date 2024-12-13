@@ -11,7 +11,6 @@ import { getNavigation } from '@nextcloud/files'
 import { subscribe } from '@nextcloud/event-bus'
 
 import logger from '../logger.ts'
-import type { set } from 'lodash'
 
 export const useActiveStore = function(...args) {
 	const store = defineStore('active', {
