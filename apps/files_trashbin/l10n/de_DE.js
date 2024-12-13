@@ -14,6 +14,8 @@ OC.L10N.register(
     "Deleted by" : "Gelöscht von",
     "Deleted" : "Gelöscht",
     "A long time ago" : "Vor langer Zeit",
+    "Cancel" : "Abbrechen",
+    "Deletion cancelled" : "Löschen abgebrochen",
     "List of files that have been deleted." : "Liste der gelöschten Dateien.",
     "No deleted files" : "Keine gelöschten Dateien",
     "Files and folders you have deleted will show up here" : "Die von Ihnen gelöschten Dateien und Ordner werden hier angezeigt",

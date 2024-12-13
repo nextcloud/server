@@ -24,7 +24,6 @@ OC.L10N.register(
     "This weekend" : "이번 주말",
     "Set reminder for this weekend" : "알림을 주말로 설정",
     "Next week" : "다음주",
-    "Set reminder for next week" : "알림을 다음주로 설정",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 파일 알림**\n\n파일 알림을 설정하세요."
+    "Set reminder for next week" : "알림을 다음주로 설정"
 },
 "nplurals=1; plural=0;");

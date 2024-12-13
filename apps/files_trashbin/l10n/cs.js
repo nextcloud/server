@@ -14,6 +14,8 @@ OC.L10N.register(
     "Deleted by" : "Smazal(a)",
     "Deleted" : "Smazáno",
     "A long time ago" : "Před dlouhou dobou",
+    "Cancel" : "Storno",
+    "Deletion cancelled" : "Mazání zrušeno",
     "List of files that have been deleted." : "Seznam souborů, které byly smazány",
     "No deleted files" : "Žádné smazané soubory",
     "Files and folders you have deleted will show up here" : "Zde budou zobrazeny soubory a složky, které jste smazali",

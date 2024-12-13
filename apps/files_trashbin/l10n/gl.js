@@ -14,6 +14,8 @@ OC.L10N.register(
     "Deleted by" : "Eliminado por",
     "Deleted" : "Eliminado",
     "A long time ago" : "Hai moito tempo",
+    "Cancel" : "Cancelar",
+    "Deletion cancelled" : "Foi cancelada a eliminación",
     "List of files that have been deleted." : "Lista de ficheiros que foron eliminados.",
     "No deleted files" : "Non hai ficheiros eliminados",
     "Files and folders you have deleted will show up here" : "Os ficheiros e cartafoles que eliminou amosaranse aquí",
