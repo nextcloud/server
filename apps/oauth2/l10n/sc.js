@@ -7,7 +7,7 @@ OC.L10N.register(
     "Allows OAuth2 compatible authentication from other web applications." : "Cunsenti s'autenticatzione cumpatìbile cun OAuth2 dae àteras aplicatziones in sa rete.",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "S'aplicatzione OAuth2 cunsentit a is amministradores de cunfigurare sa protzedura de autenticatzione integrada pro cunsentire fintzas s'autenticatzione cumpatìbile cun OAuth2 dae àteras aplicatziones in sa rete.",
     "OAuth 2.0 clients" : "Clientes de OAuth 2.0 ",
-    "OAuth 2.0 allows external services to request access to" : "OAuth 2.0 cunsentit a is zservìtzios de foras de pedire s'atzessu a",
+    "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 cunsentit a is zservìtzios de foras de pedire s'atzessu a {instanceName}.",
     "Name" : "Nùmene",
     "Redirection URI" : "URI de torrada a deretare",
     "Client Identifier" : "Identificadore cliente",

@@ -4,7 +4,7 @@
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "වෙනත් වියමන යෙදුම් වලින් OAuth2 අනුකූල සත්‍යාපනය සඳහා ඉඩ ලබා දේ.",
     "OAuth 2.0 clients" : "OAuth 2.0 අනුග්‍රාහකයින්",
-    "OAuth 2.0 allows external services to request access to" : "OAuth 2.0 බාහිර සේවාවන්ට {instanceName} වෙත ප්‍රවේශය ඉල්ලීමට ඉඩ දෙයි.",
+    "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 බාහිර සේවාවන්ට {instanceName} වෙත ප්‍රවේශය ඉල්ලීමට ඉඩ දෙයි.",
     "Name" : "නම",
     "Client Identifier" : "අනුග්‍රාහක හඳුන්වනය",
     "Secret key" : "රහස්‍ය යතුර",

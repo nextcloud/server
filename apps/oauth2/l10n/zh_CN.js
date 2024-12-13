@@ -7,7 +7,7 @@ OC.L10N.register(
     "Allows OAuth2 compatible authentication from other web applications." : "允许其它网站应用的 OAuth2 兼容验证。",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "OAuth2 应用允许管理员配置内置的验证工作流，同时允许其它网站应用的OAuth2 兼容验证。",
     "OAuth 2.0 clients" : "OAuth 2.0 客户端",
-    "OAuth 2.0 allows external services to request access to" : "OAuth 2.0 允许外部服务请求访问 {instanceName}。",
+    "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 允许外部服务请求访问 {instanceName}。",
     "Name" : "名称",
     "Redirection URI" : "跳转URI",
     "Client Identifier" : "客户端标识",
