@@ -14,6 +14,8 @@ OC.L10N.register(
     "Deleted by" : "Обрисао је",
     "Deleted" : "Обрисано",
     "A long time ago" : "Пре доста времена",
+    "Cancel" : "Откажи",
+    "Deletion cancelled" : "Брисање је отказано",
     "List of files that have been deleted." : "Листа фајлова који су обрисани.",
     "No deleted files" : "Нема обрисаних фајлова",
     "Files and folders you have deleted will show up here" : "Фајлови и фолдери које обришете ће се појавити овде",

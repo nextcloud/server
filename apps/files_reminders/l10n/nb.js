@@ -26,7 +26,6 @@ OC.L10N.register(
     "This weekend" : "Denne helgen",
     "Set reminder for this weekend" : "Sett påminnelse for denne helgen",
     "Next week" : "Neste uke",
-    "Set reminder for next week" : "Sett påminnelse for neste uke",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Filpåminnelser**\n\nAngi filpåminnelser."
+    "Set reminder for next week" : "Sett påminnelse for neste uke"
 },
 "nplurals=2; plural=(n != 1);");

@@ -60,6 +60,8 @@ return array(
     'OCA\\Files\\Helper' => $baseDir . '/../lib/Helper.php',
     'OCA\\Files\\Listener\\LoadSearchPluginsListener' => $baseDir . '/../lib/Listener/LoadSearchPluginsListener.php',
     'OCA\\Files\\Listener\\LoadSidebarListener' => $baseDir . '/../lib/Listener/LoadSidebarListener.php',
+    'OCA\\Files\\Listener\\NodeAddedToFavoriteListener' => $baseDir . '/../lib/Listener/NodeAddedToFavoriteListener.php',
+    'OCA\\Files\\Listener\\NodeRemovedFromFavoriteListener' => $baseDir . '/../lib/Listener/NodeRemovedFromFavoriteListener.php',
     'OCA\\Files\\Listener\\RenderReferenceEventListener' => $baseDir . '/../lib/Listener/RenderReferenceEventListener.php',
     'OCA\\Files\\Listener\\SyncLivePhotosListener' => $baseDir . '/../lib/Listener/SyncLivePhotosListener.php',
     'OCA\\Files\\Migration\\Version11301Date20191205150729' => $baseDir . '/../lib/Migration/Version11301Date20191205150729.php',

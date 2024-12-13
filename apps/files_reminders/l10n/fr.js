@@ -26,7 +26,6 @@ OC.L10N.register(
     "This weekend" : "Ce week-end",
     "Set reminder for this weekend" : "Définir un rappel pour ce week-end",
     "Next week" : "Semaine suivante",
-    "Set reminder for next week" : "Définir un rappel pour la semaine prochaine",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Rappels de fichiers**\n\nDéfinissez des rappels de fichiers."
+    "Set reminder for next week" : "Définir un rappel pour la semaine prochaine"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
