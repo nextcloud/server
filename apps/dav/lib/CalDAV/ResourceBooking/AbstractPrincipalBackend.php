@@ -41,7 +41,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	private $cuType;
 
 	public function __construct(
-		private IDBConnection $dbConnection,
+		private IDBConnection $db,
 		private IUserSession $userSession,
 		private IGroupManager $groupManager,
 		private LoggerInterface $logger,
