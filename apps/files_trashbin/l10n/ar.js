@@ -14,6 +14,8 @@ OC.L10N.register(
     "Deleted by" : "محذوف من قِبَل",
     "Deleted" : "محذوفة",
     "A long time ago" : "منذ وقت طويل",
+    "Cancel" : "إلغاء",
+    "Deletion cancelled" : "تمّ إلغاء الحذف",
     "List of files that have been deleted." : "قائمة بجميع الملفات المحذوفة",
     "No deleted files" : "لا توجد ملفات محذوفة",
     "Files and folders you have deleted will show up here" : "الملفات و المجلدات التي قمت بحذفها ستظهر هنا",

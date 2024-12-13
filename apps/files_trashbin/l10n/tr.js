@@ -14,6 +14,8 @@ OC.L10N.register(
     "Deleted by" : "Silen",
     "Deleted" : "Silindi",
     "A long time ago" : "Uzun süre önce",
+    "Cancel" : "İptal",
+    "Deletion cancelled" : "Silme iptal edildi",
     "List of files that have been deleted." : "Silinmiş dosyaların listesi",
     "No deleted files" : "Silinmiş bir dosya yok",
     "Files and folders you have deleted will show up here" : "Sildiğiniz dosya ve klasörler burada görüntülenir",
