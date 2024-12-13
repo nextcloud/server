@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -180,8 +181,14 @@ class IMipServiceTest extends TestCase {
 				};
 			}
 		);
-		$this->l10n->method('t')->willReturnMap([
-			['In a %1$s on %2$s between %3$s - %4$s', ['day', 'July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'], 'In a day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)']
+		$this->l10n->method('n')->willReturnMap([
+			[
+				'In a day on %1$s between %2$s - %3$s',
+				'In %n days on %1$s between %2$s - %3$s',
+				1,
+				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
+				'In a day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+			]
 		]);
 		// construct time factory return(s)
 		$this->timeFactory->method('getDateTime')->willReturnCallback(
@@ -222,8 +229,14 @@ class IMipServiceTest extends TestCase {
 				};
 			}
 		);
-		$this->l10n->method('t')->willReturnMap([
-			['In a %1$s on %2$s between %3$s - %4$s', ['day', 'July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'], 'In a day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)']
+		$this->l10n->method('n')->willReturnMap([
+			[
+				'In a day on %1$s between %2$s - %3$s',
+				'In %n days on %1$s between %2$s - %3$s',
+				1,
+				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
+				'In a day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+			]
 		]);
 		// construct time factory return(s)
 		$this->timeFactory->method('getDateTime')->willReturnCallback(
@@ -349,42 +362,325 @@ class IMipServiceTest extends TestCase {
 			}
 		);
 		$this->l10n->method('t')->willReturnMap([
-			['In a %1$s on %2$s for the entire day', ['day', 'July 1, 2024'], 'In a day on July 1, 2024 for the entire day'],
-			['In a %1$s on %2$s between %3$s - %4$s', ['day', 'July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'], 'In a day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'],
-			['In %1$s %2$s on %3$s for the entire day', [2, 'days', 'July 1, 2024'], 'In 2 days on July 1, 2024 for the entire day'],
-			['In %1$s %2$s on %3$s between %4$s - %5$s', [2, 'days', 'July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'], 'In 2 days on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'],
-			['In a %1$s on %2$s for the entire day', ['week', 'July 1, 2024'], 'In a week on July 1, 2024 for the entire day'],
-			['In a %1$s on %2$s between %3$s - %4$s', ['week', 'July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'], 'In a week on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'],
-			['In %1$s %2$s on %3$s for the entire day', [2, 'weeks', 'July 1, 2024'], 'In 2 weeks on July 1, 2024 for the entire day'],
-			['In %1$s %2$s on %3$s between %4$s - %5$s', [2, 'weeks', 'July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'], 'In 2 weeks on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'],
-			['In a %1$s on %2$s for the entire day', ['month', 'July 1, 2024'], 'In a month on July 1, 2024 for the entire day'],
-			['In a %1$s on %2$s between %3$s - %4$s', ['month', 'July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'], 'In a month on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'],
-			['In %1$s %2$s on %3$s for the entire day', [2, 'months', 'July 1, 2024'], 'In 2 months on July 1, 2024 for the entire day'],
-			['In %1$s %2$s on %3$s between %4$s - %5$s', [2, 'months', 'July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'], 'In 2 months on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'],
-			['In a %1$s on %2$s for the entire day', ['year', 'July 1, 2024'], 'In a year on July 1, 2024 for the entire day'],
-			['In a %1$s on %2$s between %3$s - %4$s', ['year', 'July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'], 'In a year on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'],
-			['In %1$s %2$s on %3$s for the entire day', [2, 'years', 'July 1, 2024'], 'In 2 years on July 1, 2024 for the entire day'],
-			['In %1$s %2$s on %3$s between %4$s - %5$s', [2, 'years', 'July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'], 'In 2 years on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)']
+			[
+				'In the past on %1$s for the entire day',
+				['July 1, 2024'],
+				'In the past on July 1, 2024 for the entire day'
+			],
+			[
+				'In the past on %1$s between %2$s - %3$s',
+				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
+				'In the past on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+			],
+		]);
+		$this->l10n->method('n')->willReturnMap([
+			// singular entire day
+			[
+				'In a minute on %1$s for the entire day',
+				'In %n minutes on %1$s for the entire day',
+				1,
+				['July 1, 2024'],
+				'In a minute on July 1, 2024 for the entire day'
+			],
+			[
+				'In a hour on %1$s for the entire day',
+				'In %n hours on %1$s for the entire day',
+				1,
+				['July 1, 2024'],
+				'In a hour on July 1, 2024 for the entire day'
+			],
+			[
+				'In a day on %1$s for the entire day',
+				'In %n days on %1$s for the entire day',
+				1,
+				['July 1, 2024'],
+				'In a day on July 1, 2024 for the entire day'
+			],
+			[
+				'In a week on %1$s for the entire day',
+				'In %n weeks on %1$s for the entire day',
+				1,
+				['July 1, 2024'],
+				'In a week on July 1, 2024 for the entire day'
+			],
+			[
+				'In a month on %1$s for the entire day',
+				'In %n months on %1$s for the entire day',
+				1,
+				['July 1, 2024'],
+				'In a month on July 1, 2024 for the entire day'
+			],
+			[
+				'In a year on %1$s for the entire day',
+				'In %n years on %1$s for the entire day',
+				1,
+				['July 1, 2024'],
+				'In a year on July 1, 2024 for the entire day'
+			],
+			// plural entire day
+			[
+				'In a minute on %1$s for the entire day',
+				'In %n minutes on %1$s for the entire day',
+				2,
+				['July 1, 2024'],
+				'In 2 minutes on July 1, 2024 for the entire day'
+			],
+			[
+				'In a hour on %1$s for the entire day',
+				'In %n hours on %1$s for the entire day',
+				2,
+				['July 1, 2024'],
+				'In 2 hours on July 1, 2024 for the entire day'
+			],
+			[
+				'In a day on %1$s for the entire day',
+				'In %n days on %1$s for the entire day',
+				2,
+				['July 1, 2024'],
+				'In 2 days on July 1, 2024 for the entire day'
+			],
+			[
+				'In a week on %1$s for the entire day',
+				'In %n weeks on %1$s for the entire day',
+				2,
+				['July 1, 2024'],
+				'In 2 weeks on July 1, 2024 for the entire day'
+			],
+			[
+				'In a month on %1$s for the entire day',
+				'In %n months on %1$s for the entire day',
+				2,
+				['July 1, 2024'],
+				'In 2 months on July 1, 2024 for the entire day'
+			],
+			[
+				'In a year on %1$s for the entire day',
+				'In %n years on %1$s for the entire day',
+				2,
+				['July 1, 2024'],
+				'In 2 years on July 1, 2024 for the entire day'
+			],
+			// singular partial day
+			[
+				'In a minute on %1$s between %2$s - %3$s',
+				'In %n minutes on %1$s between %2$s - %3$s',
+				1,
+				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
+				'In a minute on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+			],
+			[
+				'In a hour on %1$s between %2$s - %3$s',
+				'In %n hours on %1$s between %2$s - %3$s',
+				1,
+				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
+				'In a hour on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+			],
+			[
+				'In a day on %1$s between %2$s - %3$s',
+				'In %n days on %1$s between %2$s - %3$s',
+				1,
+				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
+				'In a day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+			],
+			[
+				'In a week on %1$s between %2$s - %3$s',
+				'In %n weeks on %1$s between %2$s - %3$s',
+				1,
+				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
+				'In a week on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+			],
+			[
+				'In a month on %1$s between %2$s - %3$s',
+				'In %n months on %1$s between %2$s - %3$s',
+				1,
+				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
+				'In a month on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+			],
+			[
+				'In a year on %1$s between %2$s - %3$s',
+				'In %n years on %1$s between %2$s - %3$s',
+				1,
+				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
+				'In a year on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+			],
+			// plural partial day
+			[
+				'In a minute on %1$s between %2$s - %3$s',
+				'In %n minutes on %1$s between %2$s - %3$s',
+				2,
+				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
+				'In 2 minutes on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+			],
+			[
+				'In a hour on %1$s between %2$s - %3$s',
+				'In %n hours on %1$s between %2$s - %3$s',
+				2,
+				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
+				'In 2 hours on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+			],
+			[
+				'In a day on %1$s between %2$s - %3$s',
+				'In %n days on %1$s between %2$s - %3$s',
+				2,
+				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
+				'In 2 days on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+			],
+			[
+				'In a week on %1$s between %2$s - %3$s',
+				'In %n weeks on %1$s between %2$s - %3$s',
+				2,
+				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
+				'In 2 weeks on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+			],
+			[
+				'In a month on %1$s between %2$s - %3$s',
+				'In %n months on %1$s between %2$s - %3$s',
+				2,
+				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
+				'In 2 months on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+			],
+			[
+				'In a year on %1$s between %2$s - %3$s',
+				'In %n years on %1$s between %2$s - %3$s',
+				2,
+				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
+				'In 2 years on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+			],
 		]);
 
 		// construct time factory return(s)
 		$this->timeFactory->method('getDateTime')->willReturnOnConsecutiveCalls(
+			// past interval test dates
+			(new \DateTime('20240702T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240703T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240702T170000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240703T170000', (new \DateTimeZone('America/Toronto')))),
+			// minute interval test dates
+			(new \DateTime('20240701T075900', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240630T235900', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240701T075800', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240630T235800', (new \DateTimeZone('America/Toronto')))),
+			// hour interval test dates
+			(new \DateTime('20240701T070000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240630T230000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240701T060000', (new \DateTimeZone('America/Toronto')))),
+			(new \DateTime('20240630T220000', (new \DateTimeZone('America/Toronto')))),
+			// day interval test dates
 			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
 			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
 			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
 			(new \DateTime('20240628T170000', (new \DateTimeZone('America/Toronto')))),
+			// week interval test dates
 			(new \DateTime('20240621T170000', (new \DateTimeZone('America/Toronto')))),
 			(new \DateTime('20240621T170000', (new \DateTimeZone('America/Toronto')))),
 			(new \DateTime('20240614T170000', (new \DateTimeZone('America/Toronto')))),
 			(new \DateTime('20240614T170000', (new \DateTimeZone('America/Toronto')))),
+			// month interval test dates
 			(new \DateTime('20240530T170000', (new \DateTimeZone('America/Toronto')))),
 			(new \DateTime('20240530T170000', (new \DateTimeZone('America/Toronto')))),
 			(new \DateTime('20240430T170000', (new \DateTimeZone('America/Toronto')))),
 			(new \DateTime('20240430T170000', (new \DateTimeZone('America/Toronto')))),
+			// year interval test dates
 			(new \DateTime('20230630T170000', (new \DateTimeZone('America/Toronto')))),
 			(new \DateTime('20230630T170000', (new \DateTimeZone('America/Toronto')))),
 			(new \DateTime('20220630T170000', (new \DateTimeZone('America/Toronto')))),
 			(new \DateTime('20220630T170000', (new \DateTimeZone('America/Toronto'))))
+		);
+
+		/** test partial day event in 1 day in the past*/
+		$vCalendar = clone $this->vCalendar1a;
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		$this->assertEquals(
+			'In the past on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
+			$this->service->generateWhenString($eventReader)
+		);
+
+		/** test entire day event in 1 day in the past*/
+		$vCalendar = clone $this->vCalendar2;
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		$this->assertEquals(
+			'In the past on July 1, 2024 for the entire day',
+			$this->service->generateWhenString($eventReader)
+		);
+
+		/** test partial day event in 2 days in the past*/
+		$vCalendar = clone $this->vCalendar1a;
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		$this->assertEquals(
+			'In the past on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
+			$this->service->generateWhenString($eventReader)
+		);
+
+		/** test entire day event in 2 days in the past*/
+		$vCalendar = clone $this->vCalendar2;
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		$this->assertEquals(
+			'In the past on July 1, 2024 for the entire day',
+			$this->service->generateWhenString($eventReader)
+		);
+
+		/** test partial day event in 1 minute*/
+		$vCalendar = clone $this->vCalendar1a;
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		$this->assertEquals(
+			'In a minute on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
+			$this->service->generateWhenString($eventReader)
+		);
+
+		/** test entire day event in 1 minute*/
+		$vCalendar = clone $this->vCalendar2;
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		$this->assertEquals(
+			'In a minute on July 1, 2024 for the entire day',
+			$this->service->generateWhenString($eventReader)
+		);
+
+		/** test partial day event in 2 minutes*/
+		$vCalendar = clone $this->vCalendar1a;
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		$this->assertEquals(
+			'In 2 minutes on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
+			$this->service->generateWhenString($eventReader)
+		);
+
+		/** test entire day event in 2 minutes*/
+		$vCalendar = clone $this->vCalendar2;
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		$this->assertEquals(
+			'In 2 minutes on July 1, 2024 for the entire day',
+			$this->service->generateWhenString($eventReader)
+		);
+
+		/** test partial day event in 1 hour*/
+		$vCalendar = clone $this->vCalendar1a;
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		$this->assertEquals(
+			'In a hour on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
+			$this->service->generateWhenString($eventReader)
+		);
+
+		/** test entire day event in 1 hour*/
+		$vCalendar = clone $this->vCalendar2;
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		$this->assertEquals(
+			'In a hour on July 1, 2024 for the entire day',
+			$this->service->generateWhenString($eventReader)
+		);
+
+		/** test partial day event in 2 hours*/
+		$vCalendar = clone $this->vCalendar1a;
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		$this->assertEquals(
+			'In 2 hours on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
+			$this->service->generateWhenString($eventReader)
+		);
+
+		/** test entire day event in 2 hours*/
+		$vCalendar = clone $this->vCalendar2;
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		$this->assertEquals(
+			'In 2 hours on July 1, 2024 for the entire day',
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test patrial day event in 1 day*/
@@ -1260,15 +1556,53 @@ class IMipServiceTest extends TestCase {
 				};
 			}
 		);
-		$this->l10n->method('t')->willReturnMap([
-			['In a %1$s on %2$s', ['day', 'July 1, 2024'], 'In a day on July 1, 2024'],
-			['In a %1$s on %2$s then on %3$s', ['day', 'July 1, 2024', 'July 3, 2024'], 'In a day on July 1, 2024 then on July 3, 2024'],
-			['In a %1$s on %2$s then on %3$s and %4$s', ['day', 'July 1, 2024', 'July 3, 2024', 'July 5, 2024'], 'In a day on July 1, 2024 then on July 3, 2024 and July 5, 2024'],
-			['In %1$s %2$s on %3$s', [2, 'days', 'July 1, 2024'], 'In 2 days on July 1, 2024'],
-			['In %1$s %2$s on %3$s then on %4$s', [2, 'days', 'July 1, 2024', 'July 3, 2024'], 'In 2 days on July 1, 2024 then on July 3, 2024'],
-			['In %1$s %2$s on %3$s then on %4$s and %5$s', [2, 'days', 'July 1, 2024', 'July 3, 2024', 'July 5, 2024'], 'In 2 days on July 1, 2024 then on July 3, 2024 and July 5, 2024'],
+		$this->l10n->method('n')->willReturnMap([
+			// singular
+			[
+				'In a day on %1$s',
+				'In %n days on %1$s',
+				1,
+				['July 1, 2024'],
+				'In a day on July 1, 2024'
+			],
+			[
+				'In a day on %1$s then on %2$s',
+				'In %n days on %1$s then on %2$s',
+				1,
+				['July 1, 2024', 'July 3, 2024'],
+				'In a day on July 1, 2024 then on July 3, 2024'
+			],
+			[
+				'In a day on %1$s then on %2$s and %3$s',
+				'In %n days on %1$s then on %2$s and %3$s',
+				1,
+				['July 1, 2024', 'July 3, 2024', 'July 5, 2024'],
+				'In a day on July 1, 2024 then on July 3, 2024 and July 5, 2024'
+			],
+			// plural
+			[
+				'In a day on %1$s',
+				'In %n days on %1$s',
+				2,
+				['July 1, 2024'],
+				'In 2 days on July 1, 2024'
+			],
+			[
+				'In a day on %1$s then on %2$s',
+				'In %n days on %1$s then on %2$s',
+				2,
+				['July 1, 2024', 'July 3, 2024'],
+				'In 2 days on July 1, 2024 then on July 3, 2024'
+			],
+			[
+				'In a day on %1$s then on %2$s and %3$s',
+				'In %n days on %1$s then on %2$s and %3$s',
+				2,
+				['July 1, 2024', 'July 3, 2024', 'July 5, 2024'],
+				'In 2 days on July 1, 2024 then on July 3, 2024 and July 5, 2024'
+			],
 		]);
-
+		
 		// construct time factory return(s)
 		$this->timeFactory->method('getDateTime')->willReturnOnConsecutiveCalls(
 			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
@@ -1364,13 +1698,51 @@ class IMipServiceTest extends TestCase {
 				};
 			}
 		);
-		$this->l10n->method('t')->willReturnMap([
-			['In a %1$s on %2$s', ['day', 'July 1, 2024'], 'In a day on July 1, 2024'],
-			['In a %1$s on %2$s then on %3$s', ['day', 'July 1, 2024', 'July 3, 2024'], 'In a day on July 1, 2024 then on July 3, 2024'],
-			['In a %1$s on %2$s then on %3$s and %4$s', ['day', 'July 1, 2024', 'July 3, 2024', 'July 5, 2024'], 'In a day on July 1, 2024 then on July 3, 2024 and July 5, 2024'],
-			['In %1$s %2$s on %3$s', [2, 'days', 'July 1, 2024'], 'In 2 days on July 1, 2024'],
-			['In %1$s %2$s on %3$s then on %4$s', [2, 'days', 'July 1, 2024', 'July 3, 2024'], 'In 2 days on July 1, 2024 then on July 3, 2024'],
-			['In %1$s %2$s on %3$s then on %4$s and %5$s', [2, 'days', 'July 1, 2024', 'July 3, 2024', 'July 5, 2024'], 'In 2 days on July 1, 2024 then on July 3, 2024 and July 5, 2024'],
+		$this->l10n->method('n')->willReturnMap([
+			// singular
+			[
+				'In a day on %1$s',
+				'In %n days on %1$s',
+				1,
+				['July 1, 2024'],
+				'In a day on July 1, 2024'
+			],
+			[
+				'In a day on %1$s then on %2$s',
+				'In %n days on %1$s then on %2$s',
+				1,
+				['July 1, 2024', 'July 3, 2024'],
+				'In a day on July 1, 2024 then on July 3, 2024'
+			],
+			[
+				'In a day on %1$s then on %2$s and %3$s',
+				'In %n days on %1$s then on %2$s and %3$s',
+				1,
+				['July 1, 2024', 'July 3, 2024', 'July 5, 2024'],
+				'In a day on July 1, 2024 then on July 3, 2024 and July 5, 2024'
+			],
+			// plural
+			[
+				'In a day on %1$s',
+				'In %n days on %1$s',
+				2,
+				['July 1, 2024'],
+				'In 2 days on July 1, 2024'
+			],
+			[
+				'In a day on %1$s then on %2$s',
+				'In %n days on %1$s then on %2$s',
+				2,
+				['July 1, 2024', 'July 3, 2024'],
+				'In 2 days on July 1, 2024 then on July 3, 2024'
+			],
+			[
+				'In a day on %1$s then on %2$s and %3$s',
+				'In %n days on %1$s then on %2$s and %3$s',
+				2,
+				['July 1, 2024', 'July 3, 2024', 'July 5, 2024'],
+				'In 2 days on July 1, 2024 then on July 3, 2024 and July 5, 2024'
+			],
 		]);
 
 		// construct time factory return(s)
@@ -1477,13 +1849,51 @@ class IMipServiceTest extends TestCase {
 				};
 			}
 		);
-		$this->l10n->method('t')->willReturnMap([
-			['In a %1$s on %2$s', ['day', 'July 1, 2024'], 'In a day on July 1, 2024'],
-			['In a %1$s on %2$s then on %3$s', ['day', 'July 1, 2024', 'July 5, 2024'], 'In a day on July 1, 2024 then on July 5, 2024'],
-			['In a %1$s on %2$s then on %3$s and %4$s', ['day', 'July 1, 2024', 'July 5, 2024', 'July 7, 2024'], 'In a day on July 1, 2024 then on July 5, 2024 and July 7, 2024'],
-			['In %1$s %2$s on %3$s', [2, 'days', 'July 1, 2024'], 'In 2 days on July 1, 2024'],
-			['In %1$s %2$s on %3$s then on %4$s', [2, 'days', 'July 1, 2024', 'July 5, 2024'], 'In 2 days on July 1, 2024 then on July 5, 2024'],
-			['In %1$s %2$s on %3$s then on %4$s and %5$s', [2, 'days', 'July 1, 2024', 'July 5, 2024', 'July 7, 2024'], 'In 2 days on July 1, 2024 then on July 5, 2024 and July 7, 2024'],
+		$this->l10n->method('n')->willReturnMap([
+			// singular
+			[
+				'In a day on %1$s',
+				'In %n days on %1$s',
+				1,
+				['July 1, 2024'],
+				'In a day on July 1, 2024'
+			],
+			[
+				'In a day on %1$s then on %2$s',
+				'In %n days on %1$s then on %2$s',
+				1,
+				['July 1, 2024', 'July 5, 2024'],
+				'In a day on July 1, 2024 then on July 5, 2024'
+			],
+			[
+				'In a day on %1$s then on %2$s and %3$s',
+				'In %n days on %1$s then on %2$s and %3$s',
+				1,
+				['July 1, 2024', 'July 5, 2024', 'July 7, 2024'],
+				'In a day on July 1, 2024 then on July 5, 2024 and July 7, 2024'
+			],
+			// plural
+			[
+				'In a day on %1$s',
+				'In %n days on %1$s',
+				2,
+				['July 1, 2024'],
+				'In 2 days on July 1, 2024'
+			],
+			[
+				'In a day on %1$s then on %2$s',
+				'In %n days on %1$s then on %2$s',
+				2,
+				['July 1, 2024', 'July 5, 2024'],
+				'In 2 days on July 1, 2024 then on July 5, 2024'
+			],
+			[
+				'In a day on %1$s then on %2$s and %3$s',
+				'In %n days on %1$s then on %2$s and %3$s',
+				2,
+				['July 1, 2024', 'July 5, 2024', 'July 7, 2024'],
+				'In 2 days on July 1, 2024 then on July 5, 2024 and July 7, 2024'
+			],
 		]);
 
 		// construct time factory return(s)
@@ -1623,13 +2033,51 @@ class IMipServiceTest extends TestCase {
 				};
 			}
 		);
-		$this->l10n->method('t')->willReturnMap([
-			['In a %1$s on %2$s', ['day', 'July 1, 2024'], 'In a day on July 1, 2024'],
-			['In a %1$s on %2$s then on %3$s', ['day', 'July 1, 2024', 'July 5, 2024'], 'In a day on July 1, 2024 then on July 5, 2024'],
-			['In a %1$s on %2$s then on %3$s and %4$s', ['day', 'July 1, 2024', 'July 5, 2024', 'July 9, 2024'], 'In a day on July 1, 2024 then on July 5, 2024 and July 9, 2024'],
-			['In %1$s %2$s on %3$s', [2, 'days', 'July 1, 2024'], 'In 2 days on July 1, 2024'],
-			['In %1$s %2$s on %3$s then on %4$s', [2, 'days', 'July 1, 2024', 'July 5, 2024'], 'In 2 days on July 1, 2024 then on July 5, 2024'],
-			['In %1$s %2$s on %3$s then on %4$s and %5$s', [2, 'days', 'July 1, 2024', 'July 5, 2024', 'July 9, 2024'], 'In 2 days on July 1, 2024 then on July 5, 2024 and July 9, 2024'],
+		$this->l10n->method('n')->willReturnMap([
+			// singular
+			[
+				'In a day on %1$s',
+				'In %n days on %1$s',
+				1,
+				['July 1, 2024'],
+				'In a day on July 1, 2024'
+			],
+			[
+				'In a day on %1$s then on %2$s',
+				'In %n days on %1$s then on %2$s',
+				1,
+				['July 1, 2024', 'July 5, 2024'],
+				'In a day on July 1, 2024 then on July 5, 2024'
+			],
+			[
+				'In a day on %1$s then on %2$s and %3$s',
+				'In %n days on %1$s then on %2$s and %3$s',
+				1,
+				['July 1, 2024', 'July 5, 2024', 'July 9, 2024'],
+				'In a day on July 1, 2024 then on July 5, 2024 and July 9, 2024'
+			],
+			// plural
+			[
+				'In a day on %1$s',
+				'In %n days on %1$s',
+				2,
+				['July 1, 2024'],
+				'In 2 days on July 1, 2024'
+			],
+			[
+				'In a day on %1$s then on %2$s',
+				'In %n days on %1$s then on %2$s',
+				2,
+				['July 1, 2024', 'July 5, 2024'],
+				'In 2 days on July 1, 2024 then on July 5, 2024'
+			],
+			[
+				'In a day on %1$s then on %2$s and %3$s',
+				'In %n days on %1$s then on %2$s and %3$s',
+				2,
+				['July 1, 2024', 'July 5, 2024', 'July 9, 2024'],
+				'In 2 days on July 1, 2024 then on July 5, 2024 and July 9, 2024'
+			],
 		]);
 
 		// construct time factory return(s)
