@@ -90,7 +90,7 @@ class ImageExportPlugin extends ServerPlugin {
 
 			$response->setBody($file->getContent());
 		} catch (NotFoundException $e) {
-			$response->setStatus(404);
+			$response->setStatus(\OCP\AppFramework\Http::STATUS_NO_CONTENT);
 		}
 
 		return false;
