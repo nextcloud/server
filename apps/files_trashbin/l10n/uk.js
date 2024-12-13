@@ -13,6 +13,8 @@ OC.L10N.register(
     "Deleted by" : "Вилучено",
     "Deleted" : "Вилучено",
     "A long time ago" : "Давно",
+    "Cancel" : "Скасувати",
+    "Deletion cancelled" : "Вилучення скасовано",
     "List of files that have been deleted." : "Список файлів, які було вилучено.",
     "No deleted files" : "Кошик порожній",
     "Files and folders you have deleted will show up here" : "Тут показуватимуться файли та каталоги, які ви вилучили",

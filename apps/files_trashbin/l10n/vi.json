@@ -8,6 +8,8 @@
     "You" : "You",
     "Deleted" : "Đã xóa",
     "A long time ago" : "Một khoảng thời gian trước",
+    "Cancel" : "Hủy bỏ",
+    "Deletion cancelled" : "Thao tác xóa bị hủy",
     "List of files that have been deleted." : "Danh sách các tập tin đã bị xóa.",
     "No deleted files" : "Không có tập tin bị xóa",
     "Files and folders you have deleted will show up here" : "Các tập tin và thư mục bạn đã xóa sẽ hiển thị ở đây",

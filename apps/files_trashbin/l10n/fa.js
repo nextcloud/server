@@ -9,6 +9,7 @@ OC.L10N.register(
     "All files" : "تمامی فایل‌ها",
     "Deleted" : "حذف شده",
     "A long time ago" : "مدت ها پیش",
+    "Cancel" : "منصرف شدن",
     "List of files that have been deleted." : "List of files that have been deleted.",
     "No deleted files" : "هیچ فایل حذف شده وجود ندارد",
     "Files and folders you have deleted will show up here" : "Files and folders you have deleted will show up here",

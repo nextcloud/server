@@ -10,6 +10,8 @@ OC.L10N.register(
     "You" : "당신",
     "Deleted" : "삭제됨",
     "A long time ago" : "오래 전",
+    "Cancel" : "취소",
+    "Deletion cancelled" : "삭제가 취소됨",
     "List of files that have been deleted." : "삭제된 파일들의 목록입니다.",
     "No deleted files" : "삭제된 파일 없음",
     "Files and folders you have deleted will show up here" : "삭제된 파일 및 폴더가 여기에 나타납니다",

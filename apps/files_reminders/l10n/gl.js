@@ -27,7 +27,6 @@ OC.L10N.register(
     "This weekend" : "Este fin de semana",
     "Set reminder for this weekend" : "Definir un lembrete para este fin de semana",
     "Next week" : "Semana seguinte",
-    "Set reminder for next week" : "Definir un lembrete para a semana seguinte",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Lembretes de ficheiros**\n\nDefinir lembretes de ficheiros."
+    "Set reminder for next week" : "Definir un lembrete para a semana seguinte"
 },
 "nplurals=2; plural=(n != 1);");
