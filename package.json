@@ -172,7 +172,7 @@
     "karma-spec-reporter": "^0.0.36",
     "karma-viewport": "^1.0.9",
     "mime": "^4.0.3",
-    "puppeteer": "^23.5.0",
+    "puppeteer": "^23.10.4",
     "raw-loader": "^4.0.2",
     "regextras": "^0.8.0",
     "sass": "^1.81.0",
