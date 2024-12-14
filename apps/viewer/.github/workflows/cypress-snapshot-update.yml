@@ -50,7 +50,7 @@ jobs:
 
       - name: Create Pull Request
         if: always()
-        uses: peter-evans/create-pull-request@c5a7806660adbe173f04e3e038b0ccdcd758773c # v5
+        uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f # v5
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           commit-message: "chore(deps): cypress snapshot update"
