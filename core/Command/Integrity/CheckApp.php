@@ -11,6 +11,7 @@ use OC\Core\Command\Base;
 use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
+use OCP\App\IAppManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -24,6 +25,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CheckApp extends Base {
 	public function __construct(
 		private Checker $checker,
+		private ?IAppManager $appManager,
 		private AppLocator $appLocator,
 		private FileAccessHelper $fileAccessHelper,
 	) {
@@ -51,7 +53,7 @@ class CheckApp extends Base {
 		if ($path === '') {
 			$path = $this->appLocator->getAppPath($appid);
 		}
-		if ($this->fileAccessHelper->file_exists($path . '/appinfo/signature.json')) {
+		if ($this->appManager->isShipped($appid) || $this->fileAccessHelper->file_exists($path . '/appinfo/signature.json')) {
 			// Only verify if the application explicitly ships a signature.json file
 			$result = $this->checker->verifyAppSignature($appid, $path, true);
 			$this->writeArrayInOutputFormat($input, $output, $result);
