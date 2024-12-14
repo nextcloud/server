@@ -132,7 +132,7 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "後端系統不詳：{backendName}",
     "Admin defined" : "管理員定義",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "由於配置的存儲數量過多，自動狀態檢查被禁用，點擊查看狀態",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "您確定要斷開此外部存儲嗎？ 這將使該外部存儲在 Nextcloud 中不可用，將導致在當前連接的任何同步客戶端上刪除這些檔案件和資料夾，但不會刪除外部存儲本身上的任何檔案和資料夾。",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "您確定要斷開此外部存儲嗎？ 這將使該外部存儲在 Nextcloud 中不可用，將導致在目前連接的任何同步客戶端上刪除這些檔案件和資料夾，但不會刪除外部存儲本身上的任何檔案和資料夾。",
     "Delete storage?" : "刪除空間",
     "Click to recheck the configuration" : "單擊以重新檢查配置",
     "Saved" : "已儲存",

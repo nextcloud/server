@@ -23,6 +23,8 @@ OC.L10N.register(
     "Good evening, {name}" : "晚安，{name}",
     "Hello" : "哈囉",
     "Hello, {name}" : "哈囉，{name}",
+    "Happy birthday 🥳🤩🎂🎉" : "生日快樂 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "生日快樂，{name} 🥳🤩🎂🎉",
     "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "開始您新的一天\n\nNextcloud 儀表板是您一天的起點，為您提供您即將到來的約會概覽、緊急電郵、聊天訊息、新到的工單、最新的推文以及更多！用戶可以新增他們喜愛的小工具與變更他們喜愛的背景。"
 },
 "nplurals=1; plural=0;");
