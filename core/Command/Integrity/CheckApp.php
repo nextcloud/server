@@ -25,7 +25,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CheckApp extends Base {
 	public function __construct(
 		private Checker $checker,
-		private ?IAppManager $appManager,
+		private IAppManager $appManager,
 		private AppLocator $appLocator,
 		private FileAccessHelper $fileAccessHelper,
 	) {
