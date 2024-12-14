@@ -50,6 +50,7 @@ use OC\Repair\Owncloud\MigrateOauthTables;
 use OC\Repair\Owncloud\MoveAvatars;
 use OC\Repair\Owncloud\SaveAccountsTableData;
 use OC\Repair\Owncloud\UpdateLanguageCodes;
+use OC\Repair\RemoveBrokenProperties;
 use OC\Repair\RemoveLinkShares;
 use OC\Repair\RepairDavShares;
 use OC\Repair\RepairInvalidShares;
@@ -206,6 +207,7 @@ class Repair implements IOutput {
 	public static function getExpensiveRepairSteps() {
 		return [
 			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager()),
+			new RemoveBrokenProperties(\OCP\Server::get(IDBConnection::class)),
 			new RepairMimeTypes(
 				\OCP\Server::get(IConfig::class),
 				\OCP\Server::get(IAppConfig::class),

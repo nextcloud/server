@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -458,4 +459,21 @@ class CustomPropertiesBackendTest extends TestCase {
 			[str_repeat('long_path1', 100), str_repeat('long_path2', 100)]
 		];
 	}
+
+	public function testDecodeValueFromDatabaseObjectCurrent(): void {
+		$propertyValue = 'O:48:"Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp":1:{s:8:"\x00*\x00value";s:6:"opaque";}';
+		$propertyType = 3;
+		$decodeValue = $this->invokePrivate($this->backend, 'decodeValueFromDatabase', [$propertyValue, $propertyType]);
+		$this->assertInstanceOf(\Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp::class, $decodeValue);
+		$this->assertEquals('opaque', $decodeValue->getValue());
+	}
+
+	public function testDecodeValueFromDatabaseObjectLegacy(): void {
+		$propertyValue = 'O:48:"Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp":1:{s:8:"' . chr(0) . '*' . chr(0) . 'value";s:6:"opaque";}';
+		$propertyType = 3;
+		$decodeValue = $this->invokePrivate($this->backend, 'decodeValueFromDatabase', [$propertyValue, $propertyType]);
+		$this->assertInstanceOf(\Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp::class, $decodeValue);
+		$this->assertEquals('opaque', $decodeValue->getValue());
+	}
+
 }
