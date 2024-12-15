@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ["master", "stable30", "stable29", "stable28"]
+        branches: ["master", "stable30", "stable29"]
   
     name: cypress-snapshot-update-${{ matrix.branches }}
 
