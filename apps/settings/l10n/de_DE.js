@@ -45,7 +45,7 @@ OC.L10N.register(
     "You granted filesystem access to app password \"{token}\"" : "Sie haben Dateisystemzugriff für App-Passwort \"{token}\" erlaubt",
     "You revoked filesystem access from app password \"{token}\"" : "Sie haben Dateisystemzugriff für App-Passwort \"{token}\" widerrufen",
     "Security" : "Sicherheit",
-    "You successfully logged in using two-factor authentication (%1$s)" : "Sie haben sich erfolgreich mittels Zwei-Faktor-Authentifizierung angemeldet (%1$s)",
+    "You successfully logged in using two-factor authentication (%1$s)" : "Sie haben sich mittels Zwei-Faktor-Authentifizierung angemeldet (%1$s)",
     "A login attempt using two-factor authentication failed (%1$s)" : "Ein Anmeldeversuch mittels Zwei-Faktor-Authentifizierung schlug fehl (%1$s)",
     "Remote wipe was started on %1$s" : "Fernlöschung wurde am %1$s gestartet",
     "Remote wipe has finished on %1$s" : "Fernlöschung wurde am %1$s abgeschlossen",
