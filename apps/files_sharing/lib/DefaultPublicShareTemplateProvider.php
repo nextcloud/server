@@ -236,8 +236,20 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		Util::addHeader('meta', ['property' => 'og:description', 'content' => $description]);
 		Util::addHeader('meta', ['property' => 'og:site_name', 'content' => $siteName]);
 		Util::addHeader('meta', ['property' => 'og:url', 'content' => $shareUrl]);
-		Util::addHeader('meta', ['property' => 'og:type', 'content' => 'object']);
-		Util::addHeader('meta', ['property' => 'og:image', 'content' => $ogPreview]);
+		Util::addHeader('meta', ['property' => 'og:type', 'content' => 'website']);
+		Util::addHeader('meta', ['property' => 'og:image', 'content' => $ogPreview]); // recommended to always have the image
+		if ($shareNode->getMimePart() === 'image') {
+			Util::addHeader('meta', ['property' => 'og:image:type', 'content' => $shareNode->getMimeType()]);
+		} elseif ($shareNode->getMimePart() === 'audio') {
+			$audio = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.downloadshare', ['token' => $token]);
+			Util::addHeader('meta', ['property' => 'og:audio', 'content' => $audio]);
+			Util::addHeader('meta', ['property' => 'og:audio:type', 'content' => $shareNode->getMimeType()]);
+		} elseif ($shareNode->getMimePart() === 'video') {
+			$video = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.downloadshare', ['token' => $token]);
+			Util::addHeader('meta', ['property' => 'og:video', 'content' => $video]);
+			Util::addHeader('meta', ['property' => 'og:video:type', 'content' => $shareNode->getMimeType()]);
+		}
+
 
 		// Twitter Support: https://developer.x.com/en/docs/x-for-websites/cards/overview/markup
 		Util::addHeader('meta', ['property' => 'twitter:title', 'content' => $title]);
