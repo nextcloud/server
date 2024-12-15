@@ -1830,6 +1830,11 @@
       <code><![CDATA[self::getGlobalCache()->getStorageInfo($storageId)]]></code>
     </NullableReturnStatement>
   </file>
+  <file src="lib/private/Files/Cache/Updater.php">
+    <RedundantCondition>
+      <code><![CDATA[$this->cache instanceof Cache]]></code>
+    </RedundantCondition>
+  </file>
   <file src="lib/private/Files/Cache/Wrapper/CacheWrapper.php">
     <LessSpecificImplementedReturnType>
       <code><![CDATA[array]]></code>

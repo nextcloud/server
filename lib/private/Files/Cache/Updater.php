@@ -152,6 +152,9 @@ class Updater implements IUpdater {
 			$this->propagator->propagateChange($path, time(), -$entry->getSize());
 		} else {
 			$this->propagator->propagateChange($path, time());
+			if ($this->cache instanceof Cache) {
+				$this->cache->correctFolderSize($parent);
+			}
 		}
 	}
 
