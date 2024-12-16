@@ -70,6 +70,7 @@ abstract class Fetcher {
 		];
 
 		if ($ETag !== '') {
+			$ETag = trim($ETag, '"');
 			$options['headers'] = [
 				'If-None-Match' => $ETag,
 			];
@@ -105,6 +106,7 @@ abstract class Fetcher {
 		$responseJson['timestamp'] = $this->timeFactory->getTime();
 		$responseJson['ncversion'] = $this->getVersion();
 		if ($ETag !== '') {
+			$ETag = trim($ETag, '"');
 			$responseJson['ETag'] = $ETag;
 		}
 
