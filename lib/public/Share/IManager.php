@@ -464,6 +464,14 @@ interface IManager {
 	 */
 	public function ignoreSecondDisplayName(): bool;
 
+
+	/**
+	 * Check if custom tokens are allowed
+	 *
+	 * @since 31.0.0
+	 */
+	public function allowCustomTokens(): bool;
+
 	/**
 	 * Check if the current user can enumerate the target user
 	 *
