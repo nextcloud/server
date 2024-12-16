@@ -1331,6 +1331,9 @@ class ShareAPIController extends OCSController {
 			}
 
 			if ($token !== null) {
+				if (!$this->shareManager->allowCustomTokens()) {
+					throw new OCSForbiddenException($this->l->t('Custom share link tokens have been disabled by the administrator'));
+				}
 				if (!$this->validateToken($token)) {
 					throw new OCSBadRequestException($this->l->t('Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen'));
 				}
