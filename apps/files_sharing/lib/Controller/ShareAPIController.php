@@ -1164,6 +1164,7 @@ class ShareAPIController extends OCSController {
 	 *                              Considering the share already exists, no mail will be send after the share is updated.
 	 *                              You will have to use the sendMail action to send the mail.
 	 * @param string|null $shareWith New recipient for email shares
+	 * @param string|null $token New token
 	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare, array{}>
 	 * @throws OCSBadRequestException Share could not be updated because the requested changes are invalid
 	 * @throws OCSForbiddenException Missing permissions to update the share
@@ -1184,6 +1185,7 @@ class ShareAPIController extends OCSController {
 		?string $hideDownload = null,
 		?string $attributes = null,
 		?string $sendMail = null,
+		?string $token = null,
 	): DataResponse {
 		try {
 			$share = $this->getShareById($id);
@@ -1211,7 +1213,8 @@ class ShareAPIController extends OCSController {
 			$label === null &&
 			$hideDownload === null &&
 			$attributes === null &&
-			$sendMail === null
+			$sendMail === null &&
+			$token === null
 		) {
 			throw new OCSBadRequestException($this->l->t('Wrong or no update parameter given'));
 		}
@@ -1324,6 +1327,13 @@ class ShareAPIController extends OCSController {
 			} elseif ($sendPasswordByTalk !== null) {
 				$share->setSendPasswordByTalk(false);
 			}
+
+			if ($token !== null) {
+				if (!$this->validateToken($token)) {
+					throw new OCSBadRequestException($this->l->t('Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen'));
+				}
+				$share->setToken($token);
+			}
 		}
 
 		// NOT A LINK SHARE
@@ -1355,6 +1365,16 @@ class ShareAPIController extends OCSController {
 		}
 
 		return new DataResponse($this->formatShare($share));
+	}
+
+	private function validateToken(string $token): bool {
+		if (mb_strlen($token) === 0) {
+			return false;
+		}
+		if (!preg_match('/^[a-z0-9-]+$/i', $token)) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
