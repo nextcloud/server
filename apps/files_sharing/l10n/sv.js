@@ -252,7 +252,7 @@ OC.L10N.register(
     "Upload files to {foldername}." : "Ladda upp filer till {foldername}.",
     "By uploading files, you agree to the terms of service." : "Genom att ladda upp filer godkänner du användarvillkoren.",
     "View terms of service" : "Visa användarvillkoren",
-    "Terms of service" : "Användarvilkor",
+    "Terms of service" : "Användarvillkor",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} delade en mapp med dig.",
     "To upload files, you need to provide your name first." : "För att ladda upp filer måste du först ange ditt namn.",
     "Nickname" : "Smeknamn",
