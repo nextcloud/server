@@ -14,6 +14,7 @@ use OCP\Calendar\ICalendarIsShared;
 use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IHandleImipMessage;
+use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -44,6 +45,9 @@ class ManagerTest extends TestCase {
 	/** @var ITimeFactory&MockObject */
 	private $time;
 
+	/** @var ISecureRandom&MockObject */
+	private ISecureRandom $secureRandom;
+
 	private VCalendar $vCalendar1a;
 
 	protected function setUp(): void {
@@ -53,12 +57,14 @@ class ManagerTest extends TestCase {
 		$this->container = $this->createMock(ContainerInterface::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->time = $this->createMock(ITimeFactory::class);
+		$this->secureRandom = $this->createMock(ISecureRandom::class);
 
 		$this->manager = new Manager(
 			$this->coordinator,
 			$this->container,
 			$this->logger,
 			$this->time,
+			$this->secureRandom,
 		);
 
 		// construct calendar with a 1 hour event and same start/end time zones
@@ -260,7 +266,8 @@ class ManagerTest extends TestCase {
 				$this->coordinator,
 				$this->container,
 				$this->logger,
-				$this->time
+				$this->time,
+				$this->secureRandom,
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -291,7 +298,8 @@ class ManagerTest extends TestCase {
 				$this->coordinator,
 				$this->container,
 				$this->logger,
-				$this->time
+				$this->time,
+				$this->secureRandom,
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -321,7 +329,8 @@ class ManagerTest extends TestCase {
 				$this->coordinator,
 				$this->container,
 				$this->logger,
-				$this->time
+				$this->time,
+				$this->secureRandom,
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -352,7 +361,8 @@ class ManagerTest extends TestCase {
 				$this->coordinator,
 				$this->container,
 				$this->logger,
-				$this->time
+				$this->time,
+				$this->secureRandom,
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -384,7 +394,8 @@ class ManagerTest extends TestCase {
 				$this->coordinator,
 				$this->container,
 				$this->logger,
-				$this->time
+				$this->time,
+				$this->secureRandom,
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -416,7 +427,8 @@ class ManagerTest extends TestCase {
 				$this->coordinator,
 				$this->container,
 				$this->logger,
-				$this->time
+				$this->time,
+				$this->secureRandom,
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -448,7 +460,8 @@ class ManagerTest extends TestCase {
 				$this->coordinator,
 				$this->container,
 				$this->logger,
-				$this->time
+				$this->time,
+				$this->secureRandom,
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -491,7 +504,8 @@ class ManagerTest extends TestCase {
 				$this->coordinator,
 				$this->container,
 				$this->logger,
-				$this->time
+				$this->time,
+				$this->secureRandom,
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -534,7 +548,8 @@ class ManagerTest extends TestCase {
 				$this->coordinator,
 				$this->container,
 				$this->logger,
-				$this->time
+				$this->time,
+				$this->secureRandom,
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -612,7 +627,8 @@ class ManagerTest extends TestCase {
 				$this->coordinator,
 				$this->container,
 				$this->logger,
-				$this->time
+				$this->time,
+				$this->secureRandom,
 			])
 			->setMethods([
 				'getCalendarsForPrincipal'
@@ -643,7 +659,8 @@ class ManagerTest extends TestCase {
 				$this->coordinator,
 				$this->container,
 				$this->logger,
-				$this->time
+				$this->time,
+				$this->secureRandom,
 			])
 			->setMethods([
 				'getCalendarsForPrincipal'
@@ -680,7 +697,8 @@ class ManagerTest extends TestCase {
 				$this->coordinator,
 				$this->container,
 				$this->logger,
-				$this->time
+				$this->time,
+				$this->secureRandom,
 			])
 			->setMethods([
 				'getCalendarsForPrincipal'
@@ -767,7 +785,8 @@ class ManagerTest extends TestCase {
 				$this->coordinator,
 				$this->container,
 				$this->logger,
-				$this->time
+				$this->time,
+				$this->secureRandom,
 			])
 			->setMethods([
 				'getCalendarsForPrincipal'
@@ -800,7 +819,8 @@ class ManagerTest extends TestCase {
 				$this->coordinator,
 				$this->container,
 				$this->logger,
-				$this->time
+				$this->time,
+				$this->secureRandom,
 			])
 			->setMethods([
 				'getCalendarsForPrincipal'
@@ -837,7 +857,8 @@ class ManagerTest extends TestCase {
 				$this->coordinator,
 				$this->container,
 				$this->logger,
-				$this->time
+				$this->time,
+				$this->secureRandom,
 			])
 			->setMethods([
 				'getCalendarsForPrincipal'
@@ -866,7 +887,7 @@ class ManagerTest extends TestCase {
 		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
 		$this->assertTrue($result);
 	}
-	
+
 	private function getVCalendarReply(): Document {
 		$data = <<<EOF
 BEGIN:VCALENDAR
