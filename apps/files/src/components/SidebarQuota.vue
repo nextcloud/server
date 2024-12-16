@@ -61,14 +61,14 @@ export default {
 
 	computed: {
 		storageStatsTitle() {
-			return this.t('files', 'Storage used')
+			return this.t('core', 'Storage used')
 		},
 		storageStatsTextUsed() {
 			return formatFileSize(this.storageStats?.used, false, false)
 		},
 		storageStatsTextOf() {
 			return this.storageStats?.quota >= 0
-				? this.t('files', 'of {quota}', { quota: formatFileSize(this.storageStats?.quota, false, false) })
+				? this.t('core', 'of {quota}', { quota: formatFileSize(this.storageStats?.quota, false, false) })
 				: ''
 		},
 	},
