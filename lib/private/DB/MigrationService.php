@@ -180,7 +180,7 @@ class MigrationService {
 	/**
 	 * Returns all versions which have already been applied
 	 *
-	 * @return string[]
+	 * @return list<string>
 	 * @codeCoverageIgnore - no need to test this
 	 */
 	public function getMigratedVersions() {
@@ -196,6 +196,8 @@ class MigrationService {
 		$rows = $result->fetchAll(\PDO::FETCH_COLUMN);
 		$result->closeCursor();
 
+		usort($rows, [$this, 'sortMigrations']);
+
 		return $rows;
 	}
 
@@ -205,7 +207,23 @@ class MigrationService {
 	 */
 	public function getAvailableVersions(): array {
 		$this->ensureMigrationsAreLoaded();
-		return array_map('strval', array_keys($this->migrations));
+		$versions = array_map('strval', array_keys($this->migrations));
+		usort($versions, [$this, 'sortMigrations']);
+		return $versions;
+	}
+
+	protected function sortMigrations(string $a, string $b): int {
+		preg_match('/(\d+)Date(\d+)/', basename($a), $matchA);
+		preg_match('/(\d+)Date(\d+)/', basename($b), $matchB);
+		if (!empty($matchA) && !empty($matchB)) {
+			$versionA = (int)$matchA[1];
+			$versionB = (int)$matchB[1];
+			if ($versionA !== $versionB) {
+				return ($versionA < $versionB) ? -1 : 1;
+			}
+			return ($matchA[2] < $matchB[2]) ? -1 : 1;
+		}
+		return (basename($a) < basename($b)) ? -1 : 1;
 	}
 
 	/**
@@ -226,17 +244,7 @@ class MigrationService {
 			\RegexIterator::GET_MATCH);
 
 		$files = array_keys(iterator_to_array($iterator));
-		uasort($files, function ($a, $b) {
-			preg_match('/^Version(\d+)Date(\d+)\\.php$/', basename($a), $matchA);
-			preg_match('/^Version(\d+)Date(\d+)\\.php$/', basename($b), $matchB);
-			if (!empty($matchA) && !empty($matchB)) {
-				if ($matchA[1] !== $matchB[1]) {
-					return ($matchA[1] < $matchB[1]) ? -1 : 1;
-				}
-				return ($matchA[2] < $matchB[2]) ? -1 : 1;
-			}
-			return (basename($a) < basename($b)) ? -1 : 1;
-		});
+		usort($files, [$this, 'sortMigrations']);
 
 		$migrations = [];
 
