@@ -109,7 +109,7 @@
 						autocomplete="off"
 						:label="t('files_sharing', 'Share label')"
 						:value.sync="share.label" />
-					<NcInputField v-if="isPublicShare && !isNewShare"
+					<NcInputField v-if="config.allowCustomTokens && isPublicShare && !isNewShare"
 						autocomplete="off"
 						:label="t('files_sharing', 'Share link token')"
 						:helper-text="t('files_sharing', 'Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information.')"
