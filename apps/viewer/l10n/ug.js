@@ -119,7 +119,7 @@ OC.L10N.register(
     "Quality" : "سۈپەت",
     "Saved image size (width x height)" : "ساقلانغان رەسىم چوڭلۇقى (كەڭلىكى x ئېگىزلىكى)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "شۇنىڭغا دىققەت قىلىڭكى ، تاللانغان زىرائەت رايونى قوللىنىلغان ئۆلچەمدىن تۆۋەن بولۇپ ، سۈپەتنىڭ تۆۋەنلىشىنى كەلتۈرۈپ چىقىرىشى مۇمكىن",
-    "Actual size (100%)" : "ئەمەلىي چوڭلۇقى (100%)",
+    "Actual size (100%)" : "ئەمەلىي چوڭلۇقى (%100)",
     "Fit size" : "ماس كېلىدىغان چوڭلۇقى",
     "Select image to add …" : "قوشۇش ئۈچۈن رەسىم تاللاڭ…",
     "Failed to load image." : "رەسىم يۈكلەنمىدى.",
