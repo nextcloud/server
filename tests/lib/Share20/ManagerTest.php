@@ -608,7 +608,7 @@ class ManagerTest extends \Test\TestCase {
 				$this->assertInstanceOf(ValidatePasswordPolicyEvent::class, $event);
 				/** @var ValidatePasswordPolicyEvent $event */
 				$this->assertSame('password', $event->getPassword());
-				throw new HintException('message', 'password not accepted');
+				throw new HintException('password not accepted');
 			}
 			);
 

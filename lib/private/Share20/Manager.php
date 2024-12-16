@@ -129,7 +129,7 @@ class Manager implements IManager {
 	 * Verify if a password meets all requirements
 	 *
 	 * @param string $password
-	 * @throws \Exception
+	 * @throws HintException
 	 */
 	protected function verifyPassword($password) {
 		if ($password === null) {
@@ -145,7 +145,8 @@ class Manager implements IManager {
 		try {
 			$this->dispatcher->dispatchTyped(new ValidatePasswordPolicyEvent($password));
 		} catch (HintException $e) {
-			throw new \Exception($e->getHint());
+			/* Wrap in a 400 bad request error */
+			throw new HintException($e->getMessage(), $e->getHint(), 400, $e);
 		}
 	}
 
@@ -904,6 +905,7 @@ class Manager implements IManager {
 	 * @param IShare $share
 	 * @return IShare The share object
 	 * @throws \InvalidArgumentException
+	 * @throws HintException
 	 */
 	public function updateShare(IShare $share) {
 		$expirationDateUpdated = false;
