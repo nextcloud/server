@@ -7,7 +7,7 @@ OC.L10N.register(
     "Allows OAuth2 compatible authentication from other web applications." : "باشقا تور پروگراممىلىرىدىن OAuth2 ماسلاشتۇرۇلغان دەلىللەشكە يول قويىدۇ.",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "OAuth2 دېتالى باشقۇرغۇچىنىڭ ئىچىگە دەلىللەش خىزمەت ئېقىمىنى سەپلەپ ، باشقا تور قوللىنىشچان پروگراممىلىرىنىڭ OAuth2 ماسلاشتۇرۇلغان دەلىللىشىگە يول قويىدۇ.",
     "OAuth 2.0 clients" : "OAuth 2.0 خېرىدارى",
-    "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 سىرتقى مۇلازىمەتلەرنىڭ {exampleName access نى زىيارەت قىلىشىنى تەلەپ قىلىدۇ.",
+    "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 سىرتقى مۇلازىمەتلەرنىڭ {instanceName} access نى زىيارەت قىلىشىنى تەلەپ قىلىدۇ.",
     "Name" : "ئاتى",
     "Redirection URI" : "قايتا نىشانلاش URI",
     "Client Identifier" : "Client Identifier",
