@@ -21,6 +21,7 @@ use OCA\Files_Sharing\SharedStorage;
 use OCA\GlobalSiteSelector\Service\SlaveService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
@@ -52,6 +53,7 @@ use OCP\Lock\LockedException;
 use OCP\Mail\IMailer;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\Exceptions\ShareTokenException;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
@@ -2170,6 +2172,28 @@ class ShareAPIController extends OCSController {
 
 		} catch (ShareNotFound $e) {
 			throw new OCSNotFoundException($this->l->t('Wrong share ID, share does not exist'));
+		}
+	}
+
+	/**
+	 * Get a unique share token
+	 *
+	 * @throws OCSException Failed to generate a unique token
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{token: string}, array{}>
+	 *
+	 * 200: Token generated successfully
+	 */
+	#[ApiRoute(verb: 'GET', url: '/api/v1/token')]
+	#[NoAdminRequired]
+	public function generateToken(): DataResponse {
+		try {
+			$token = $this->shareManager->generateToken();
+			return new DataResponse([
+				'token' => $token,
+			]);
+		} catch (ShareTokenException $e) {
+			throw new OCSException($this->l->t('Failed to generate a unique token'));
 		}
 	}
 }
