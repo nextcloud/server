@@ -9,6 +9,7 @@ namespace Test\Collaboration\Collaborators;
 use OC\Collaboration\Collaborators\GroupPlugin;
 use OC\Collaboration\Collaborators\SearchResult;
 use OCP\Collaboration\Collaborators\ISearchResult;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -17,9 +18,14 @@ use OCP\IUserSession;
 use OCP\Share\IShare;
 use Test\TestCase;
 
+use function PHPUnit\Framework\isEmpty;
+
 class GroupPluginTest extends TestCase {
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
+
+	/** @var IAppConfig|\PHPUnit\Framework\MockObject\MockObject */
+	protected $appConfig;
 
 	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
@@ -47,6 +53,8 @@ class GroupPluginTest extends TestCase {
 
 		$this->config = $this->createMock(IConfig::class);
 
+		$this->appConfig = $this->createMock(IAppConfig::class);
+
 		$this->groupManager = $this->createMock(IGroupManager::class);
 
 		$this->session = $this->createMock(IUserSession::class);
@@ -61,6 +69,7 @@ class GroupPluginTest extends TestCase {
 		// up with configuration etc. first
 		$this->plugin = new GroupPlugin(
 			$this->config,
+			$this->appConfig,
 			$this->groupManager,
 			$this->session
 		);
@@ -402,16 +411,23 @@ class GroupPluginTest extends TestCase {
 				$this->getGroupMock('test'),
 			],
 			[
-				'test', false, false, false,
+				'test', true, true, false,
 				[
-					$this->getGroupMock('test', null, true),
+					$this->getGroupMock('test0'),
 					$this->getGroupMock('test1'),
 				],
+				[
+					$this->getGroupMock('test'), 
+					$this->getGroupMock('test0'), 
+					$this->getGroupMock('test1')
+				],
 				[],
-				[],
-				[],
-				true,
+				[
+					['label' => 'test1', 'value' => ['shareType' => IShare::TYPE_GROUP, 'shareWith' => 'test1']],
+				],
 				false,
+				false,
+				['test0'],
 			],
 		];
 	}
@@ -429,6 +445,7 @@ class GroupPluginTest extends TestCase {
 	 * @param array $expected
 	 * @param bool $reachedEnd
 	 * @param bool|IGroup $singleGroup
+	 * @param array $groupsBlockList
 	 */
 	public function testSearch(
 		string $searchTerm,
@@ -441,6 +458,7 @@ class GroupPluginTest extends TestCase {
 		array $expected,
 		bool $reachedEnd,
 		$singleGroup,
+		array $groupsBlockList = [],
 	): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
@@ -461,6 +479,15 @@ class GroupPluginTest extends TestCase {
 					}
 				}
 			);
+
+		if(count($groupsBlockList) > 0) {
+			/** setup blocked groups list */
+			$appConfig = $this->createMock(IAppConfig::class);
+			$appConfig->method('getValueArray')
+				->with('files_sharing', 'groups_block_list')
+				->willReturn($groupsBlockList);
+			$this->appConfig = $appConfig;
+		}
 
 		$this->instantiatePlugin();
 
