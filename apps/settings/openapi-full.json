@@ -221,7 +221,10 @@
                         "headers": {
                             "Content-Disposition": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "enum": [
+                                        "attachment; filename=\"nextcloud.log\""
+                                    ]
                                 }
                             }
                         },
