@@ -250,7 +250,8 @@ export default {
 			if (this.search === '') {
 				return []
 			}
-			return this.$store.getters.getAllApps
+			const exApps = this.$store.getters.isAppApiEnabled ? this.appApiStore.getAllApps : []
+			return [...this.$store.getters.getAllApps, ...exApps]
 				.filter(app => {
 					if (app.name.toLowerCase().search(this.search.toLowerCase()) !== -1) {
 						return (!this.apps.find(_app => _app.id === app.id))
