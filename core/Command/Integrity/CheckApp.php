@@ -63,7 +63,7 @@ class CheckApp extends Base {
 			}
 			$output->writeln('<info>No errors found</info>', OutputInterface::VERBOSITY_VERBOSE);
 		} else {
-			$output->writeln('<info>App signature not found, skipping app integrity check</info>', OutputInterface::VERBOSITY_VERBOSE);
+			$output->writeln('<comment>App signature not found, skipping app integrity check</comment>');
 		}
 		return 0;
 	}
