@@ -7,6 +7,8 @@ declare(strict_types=1);
  */
 namespace OCP\AppFramework\Http;
 
+use OCP\AppFramework\Http;
+
 /**
  * A template response that does not emit the loadAdditionalScripts events.
  *
@@ -14,9 +16,9 @@ namespace OCP\AppFramework\Http;
  * full nextcloud UI. Like the 2FA page, or the grant page in the login flow.
  *
  * @since 16.0.0
- * @template S of int
+ * @template S of Http::STATUS_*
  * @template H of array<string, mixed>
- * @template-extends TemplateResponse<int, array<string, mixed>>
+ * @template-extends TemplateResponse<Http::STATUS_*, array<string, mixed>>
  */
 class StandaloneTemplateResponse extends TemplateResponse {
 }
