@@ -12,6 +12,7 @@ use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\DAV\Sharing\Xml\Invite;
 use OCA\DAV\DAV\Sharing\Xml\ShareRequest;
+use OCP\AppFramework\Http;
 use OCP\IConfig;
 use OCP\IRequest;
 use Sabre\DAV\Exception\NotFound;
@@ -157,7 +158,7 @@ class Plugin extends ServerPlugin {
 
 				$node->updateShares($message->set, $message->remove);
 
-				$response->setStatus(200);
+				$response->setStatus(Http::STATUS_OK);
 				// Adding this because sending a response body may cause issues,
 				// and I wanted some type of indicator the response was handled.
 				$response->setHeader('X-Sabre-Status', 'everything-went-well');

@@ -10,6 +10,7 @@ namespace OCA\DAV\SystemTag;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\Node;
+use OCP\AppFramework\Http;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -127,7 +128,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			$response->setHeader('Content-Location', $url . $tag->getId());
 
 			// created
-			$response->setStatus(201);
+			$response->setStatus(Http::STATUS_CREATED);
 			return false;
 		}
 	}
@@ -209,7 +210,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			return;
 		}
 
-		if (!($node instanceof SystemTagNode) && !($node instanceof SystemTagMappingNode) && !($node instanceof SystemTagObjectType)) {
+		if (!$node instanceof SystemTagNode && !$node instanceof SystemTagMappingNode && !$node instanceof SystemTagObjectType) {
 			return;
 		}
 
@@ -372,18 +373,18 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	public function handleUpdateProperties($path, PropPatch $propPatch) {
 		$node = $this->server->tree->getNodeForPath($path);
-		if (!($node instanceof SystemTagNode) && !($node instanceof SystemTagObjectType)) {
+		if (!$node instanceof SystemTagNode && !$node instanceof SystemTagObjectType) {
 			return;
 		}
 		
 		$propPatch->handle([self::OBJECTIDS_PROPERTYNAME], function ($props) use ($node) {
-			if (!($node instanceof SystemTagObjectType)) {
+			if (!$node instanceof SystemTagObjectType) {
 				return false;
 			}
 
 			if (isset($props[self::OBJECTIDS_PROPERTYNAME])) {
 				$propValue = $props[self::OBJECTIDS_PROPERTYNAME];
-				if (!($propValue instanceof SystemTagsObjectList) || count($propValue->getObjects()) === 0) {
+				if (!$propValue instanceof SystemTagsObjectList || count($propValue->getObjects()) === 0) {
 					throw new BadRequest('Invalid object-ids property');
 				}
 
@@ -413,7 +414,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			self::REFERENCE_FILEID_PROPERTYNAME,
 			self::COLOR_PROPERTYNAME,
 		], function ($props) use ($node) {
-			if (!($node instanceof SystemTagNode)) {
+			if (!$node instanceof SystemTagNode) {
 				return false;
 			}
 

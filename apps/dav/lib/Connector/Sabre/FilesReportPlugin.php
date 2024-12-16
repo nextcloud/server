@@ -10,6 +10,7 @@ namespace OCA\DAV\Connector\Sabre;
 use OC\Files\View;
 use OCA\Circles\Api\v1\Circles;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Http;
 use OCP\Files\Folder;
 use OCP\Files\Node as INode;
 use OCP\IGroupManager;
@@ -183,7 +184,7 @@ class FilesReportPlugin extends ServerPlugin {
 			new MultiStatus($responses)
 		);
 
-		$this->server->httpResponse->setStatus(207);
+		$this->server->httpResponse->setStatus(Http::STATUS_MULTI_STATUS);
 		$this->server->httpResponse->setHeader('Content-Type', 'application/xml; charset=utf-8');
 		$this->server->httpResponse->setBody($xml);
 

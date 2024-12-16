@@ -7,6 +7,7 @@
  */
 namespace OCA\DAV\Comments;
 
+use OCP\AppFramework\Http;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\MessageTooLongException;
@@ -108,7 +109,7 @@ class CommentsPlugin extends ServerPlugin {
 		$response->setHeader('Content-Location', $url);
 
 		// created
-		$response->setStatus(201);
+		$response->setStatus(Http::STATUS_CREATED);
 		return false;
 	}
 
@@ -177,7 +178,7 @@ class CommentsPlugin extends ServerPlugin {
 			new MultiStatus($responses)
 		);
 
-		$this->server->httpResponse->setStatus(207);
+		$this->server->httpResponse->setStatus(Http::STATUS_MULTI_STATUS);
 		$this->server->httpResponse->setHeader('Content-Type', 'application/xml; charset=utf-8');
 		$this->server->httpResponse->setBody($xml);
 

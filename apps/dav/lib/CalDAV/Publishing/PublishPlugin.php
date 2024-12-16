@@ -7,6 +7,7 @@ namespace OCA\DAV\CalDAV\Publishing;
 
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\Publishing\Xml\Publisher;
+use OCP\AppFramework\Http;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use Sabre\CalDAV\Xml\Property\AllowedSharingModes;
@@ -179,7 +180,7 @@ class PublishPlugin extends ServerPlugin {
 				$node->setPublishStatus(true);
 
 				// iCloud sends back the 202, so we will too.
-				$response->setStatus(202);
+				$response->setStatus(Http::STATUS_ACCEPTED);
 
 				// Adding this because sending a response body may cause issues,
 				// and I wanted some type of indicator the response was handled.
@@ -213,7 +214,7 @@ class PublishPlugin extends ServerPlugin {
 
 				$node->setPublishStatus(false);
 
-				$response->setStatus(200);
+				$response->setStatus(Http::STATUS_OK);
 
 				// Adding this because sending a response body may cause issues,
 				// and I wanted some type of indicator the response was handled.

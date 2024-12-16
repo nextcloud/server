@@ -5,6 +5,7 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OCP\AppFramework\Http;
 use OCP\Defaults;
 use OCP\IRequest;
 use OCP\ISession;
@@ -56,6 +57,6 @@ class BearerAuth extends AbstractBearer {
 	 * @param ResponseInterface $response
 	 */
 	public function challenge(RequestInterface $request, ResponseInterface $response): void {
-		$response->setStatus(401);
+		$response->setStatus(Http::STATUS_UNAUTHORIZED);
 	}
 }

@@ -13,6 +13,7 @@ use OC\Authentication\TwoFactorAuth\Manager;
 use OC\User\Session;
 use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
 use OCA\DAV\Connector\Sabre\Exception\TooManyRequests;
+use OCP\AppFramework\Http;
 use OCP\Defaults;
 use OCP\IRequest;
 use OCP\ISession;
@@ -27,20 +28,16 @@ use Sabre\HTTP\ResponseInterface;
 
 class Auth extends AbstractBasic {
 	public const DAV_AUTHENTICATED = 'AUTHENTICATED_TO_DAV_BACKEND';
-	private Session $userSession;
 	private ?string $currentUser = null;
-	private Manager $twoFactorManager;
 
 	public function __construct(
 		private ISession $session,
-		Session $userSession,
+		private Session $userSession,
 		private IRequest $request,
-		Manager $twoFactorManager,
+		private Manager $twoFactorManager,
 		private IThrottler $throttler,
 		string $principalPrefix = 'principals/users/',
 	) {
-		$this->userSession = $userSession;
-		$this->twoFactorManager = $twoFactorManager;
 		$this->principalPrefix = $principalPrefix;
 
 		// setup realm
@@ -111,7 +108,7 @@ class Auth extends AbstractBasic {
 		} catch (Exception $e) {
 			$class = get_class($e);
 			$msg = $e->getMessage();
-			\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
+			\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 			throw new ServiceUnavailable("$class: $msg");
 		}
 	}
@@ -166,7 +163,7 @@ class Auth extends AbstractBasic {
 			if ($this->request->getMethod() === 'POST') {
 				$forcedLogout = true;
 			} else {
-				$response->setStatus(401);
+				$response->setStatus(Http::STATUS_UNAUTHORIZED);
 				throw new \Sabre\DAV\Exception\NotAuthenticated('CSRF check not passed.');
 			}
 		}
@@ -199,7 +196,7 @@ class Auth extends AbstractBasic {
 		} elseif (in_array('XMLHttpRequest', explode(',', $request->getHeader('X-Requested-With') ?? ''))) {
 			// For ajax requests use dummy auth name to prevent browser popup in case of invalid creditials
 			$response->addHeader('WWW-Authenticate', 'DummyBasic realm="' . $this->realm . '"');
-			$response->setStatus(401);
+			$response->setStatus(Http::STATUS_UNAUTHORIZED);
 			throw new \Sabre\DAV\Exception\NotAuthenticated('Cannot authenticate over ajax calls');
 		}
 		return $data;

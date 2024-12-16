@@ -5,6 +5,7 @@
  */
 namespace OCA\DAV\Provisioning\Apple;
 
+use OCP\AppFramework\Http;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -66,7 +67,7 @@ class AppleProvisioningPlugin extends ServerPlugin {
 		$useSSL = ($serverProtocol === 'https');
 
 		if (!$useSSL) {
-			$response->setStatus(200);
+			$response->setStatus(Http::STATUS_OK);
 			$response->setHeader('Content-Type', 'text/plain; charset=utf-8');
 			$response->setBody($this->l10n->t('Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS.', [$this->themingDefaults->getName()]));
 
@@ -75,11 +76,7 @@ class AppleProvisioningPlugin extends ServerPlugin {
 
 		$absoluteURL = $this->urlGenerator->getBaseUrl();
 		$parsedUrl = parse_url($absoluteURL);
-		if (isset($parsedUrl['port'])) {
-			$serverPort = $parsedUrl['port'];
-		} else {
-			$serverPort = 443;
-		}
+		$serverPort = $parsedUrl['port'] ?? 443;
 		$server_url = $parsedUrl['host'];
 
 		$description = $this->themingDefaults->getName();
@@ -128,7 +125,7 @@ class AppleProvisioningPlugin extends ServerPlugin {
 		]
 		));
 
-		$response->setStatus(200);
+		$response->setStatus(Http::STATUS_OK);
 		$response->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
 		$response->setHeader('Content-Type', 'application/xml; charset=utf-8');
 		$response->setBody($body);
