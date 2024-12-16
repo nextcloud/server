@@ -32,9 +32,9 @@ use OCP\Files\SimpleFS\ISimpleFile;
  * Class FileDisplayResponse
  *
  * @since 11.0.0
- * @template S of int
+ * @template S of Http::STATUS_*
  * @template H of array<string, mixed>
- * @template-extends Response<int, array<string, mixed>>
+ * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class FileDisplayResponse extends Response implements ICallbackResponse {
 	/** @var File|ISimpleFile */

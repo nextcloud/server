@@ -34,8 +34,8 @@ use OCP\AppFramework\Http\TemplateResponse;
  *
  * @since 14.0.0
  * @template H of array<string, mixed>
- * @template S of int
- * @template-extends TemplateResponse<int, array<string, mixed>>
+ * @template S of Http::STATUS_*
+ * @template-extends TemplateResponse<Http::STATUS_*, array<string, mixed>>
  */
 class PublicTemplateResponse extends TemplateResponse {
 	private $headerTitle = '';

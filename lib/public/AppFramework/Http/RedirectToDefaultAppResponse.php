@@ -35,9 +35,9 @@ use OCP\IURLGenerator;
  *
  * @since 16.0.0
  * @deprecated 23.0.0 Use RedirectResponse() with IURLGenerator::linkToDefaultPageUrl() instead
- * @template S of int
+ * @template S of Http::STATUS_*
  * @template H of array<string, mixed>
- * @template-extends RedirectResponse<int, array<string, mixed>>
+ * @template-extends RedirectResponse<Http::STATUS_*, array<string, mixed>>
  */
 class RedirectToDefaultAppResponse extends RedirectResponse {
 	/**
