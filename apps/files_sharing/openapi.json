@@ -129,6 +129,9 @@
                                     },
                                     "upload_files_drop": {
                                         "type": "boolean"
+                                    },
+                                    "custom_tokens": {
+                                        "type": "boolean"
                                     }
                                 }
                             },
