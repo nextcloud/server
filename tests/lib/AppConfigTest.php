@@ -28,6 +28,7 @@ class AppConfigTest extends TestCase {
 	protected IDBConnection $connection;
 	private LoggerInterface $logger;
 	private ICrypto $crypto;
+
 	private array $originalConfig;
 
 	/**

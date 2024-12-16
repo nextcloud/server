@@ -15,7 +15,10 @@ use NCU\Config\Exceptions\IncorrectTypeException;
 use NCU\Config\Exceptions\TypeConflictException;
 use NCU\Config\Exceptions\UnknownKeyException;
 use NCU\Config\IUserConfig;
+use NCU\Config\Lexicon\ConfigLexiconEntry;
+use NCU\Config\Lexicon\ConfigLexiconStrictness;
 use NCU\Config\ValueType;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\DB\Exception as DBException;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -63,6 +66,8 @@ class UserConfig implements IUserConfig {
 	private array $fastLoaded = [];
 	/** @var array<string, boolean> ['user_id' => bool] */
 	private array $lazyLoaded = [];
+	/** @var array<array-key, array{entries: array<array-key, ConfigLexiconEntry>, strictness: ConfigLexiconStrictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
+	private array $configLexiconDetails = [];
 
 	public function __construct(
 		protected IDBConnection $connection,
@@ -706,6 +711,9 @@ class UserConfig implements IUserConfig {
 		ValueType $type,
 	): string {
 		$this->assertParams($userId, $app, $key);
+		if (!$this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type, default: $default)) {
+			return $default; // returns default if strictness of lexicon is set to WARNING (block and report)
+		}
 		$this->loadConfig($userId, $lazy);
 
 		/**
@@ -1038,6 +1046,9 @@ class UserConfig implements IUserConfig {
 		ValueType $type,
 	): bool {
 		$this->assertParams($userId, $app, $key);
+		if (!$this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type, $flags)) {
+			return false; // returns false as database is not updated
+		}
 		$this->loadConfig($userId, $lazy);
 
 		$inserted = $refreshCache = false;
@@ -1045,7 +1056,7 @@ class UserConfig implements IUserConfig {
 		$sensitive = $this->isFlagged(self::FLAG_SENSITIVE, $flags);
 		if ($sensitive || ($this->hasKey($userId, $app, $key, $lazy) && $this->isSensitive($userId, $app, $key, $lazy))) {
 			$value = self::ENCRYPTION_PREFIX . $this->crypto->encrypt($value);
-			$flags |= UserConfig::FLAG_SENSITIVE;
+			$flags |= self::FLAG_SENSITIVE;
 		}
 
 		// if requested, we fill the 'indexed' field with current value
@@ -1802,5 +1813,99 @@ class UserConfig implements IUserConfig {
 				'exception' => $e
 			]);
 		}
+	}
+
+	/**
+	 * match and apply current use of config values with defined lexicon
+	 *
+	 * @throws UnknownKeyException
+	 * @throws TypeConflictException
+	 */
+	private function matchAndApplyLexiconDefinition(
+		string $app,
+		string $key,
+		bool &$lazy,
+		ValueType &$type,
+		int &$flags = 0,
+		string &$default = '',
+	): bool {
+		$configDetails = $this->getConfigDetailsFromLexicon($app);
+		if (!array_key_exists($key, $configDetails['entries'])) {
+			return $this->applyLexiconStrictness($configDetails['strictness'], 'The user config key ' . $app . '/' . $key . ' is not defined in the config lexicon');
+		}
+
+		/** @var ConfigLexiconEntry $configValue */
+		$configValue = $configDetails['entries'][$key];
+		if ($type === ValueType::MIXED) {
+			$type = $configValue->getValueType(); // we overwrite if value was requested as mixed
+		} elseif ($configValue->getValueType() !== $type) {
+			throw new TypeConflictException('The user config key ' . $app . '/' . $key . ' is typed incorrectly in relation to the config lexicon');
+		}
+
+		$lazy = $configValue->isLazy();
+		$default = $configValue->getDefault() ?? $default; // default from Lexicon got priority
+		$flags = $configValue->getFlags();
+
+		if ($configValue->isDeprecated()) {
+			$this->logger->notice('User config key ' . $app . '/' . $key . ' is set as deprecated.');
+		}
+
+		return true;
+	}
+
+	/**
+	 * manage ConfigLexicon behavior based on strictness set in IConfigLexicon
+	 *
+	 * @see IConfigLexicon::getStrictness()
+	 * @param ConfigLexiconStrictness|null $strictness
+	 * @param string $line
+	 *
+	 * @return bool TRUE if conflict can be fully ignored
+	 * @throws UnknownKeyException
+	 */
+	private function applyLexiconStrictness(?ConfigLexiconStrictness $strictness, string $line = ''): bool {
+		if ($strictness === null) {
+			return true;
+		}
+
+		switch ($strictness) {
+			case ConfigLexiconStrictness::IGNORE:
+				return true;
+			case ConfigLexiconStrictness::NOTICE:
+				$this->logger->notice($line);
+				return true;
+			case ConfigLexiconStrictness::WARNING:
+				$this->logger->warning($line);
+				return false;
+			case ConfigLexiconStrictness::EXCEPTION:
+				throw new UnknownKeyException($line);
+		}
+
+		throw new UnknownKeyException($line);
+	}
+
+	/**
+	 * extract details from registered $appId's config lexicon
+	 *
+	 * @param string $appId
+	 *
+	 * @return array{entries: array<array-key, ConfigLexiconEntry>, strictness: ConfigLexiconStrictness}
+	 */
+	private function getConfigDetailsFromLexicon(string $appId): array {
+		if (!array_key_exists($appId, $this->configLexiconDetails)) {
+			$entries = [];
+			$bootstrapCoordinator = \OCP\Server::get(Coordinator::class);
+			$configLexicon = $bootstrapCoordinator->getRegistrationContext()?->getConfigLexicon($appId);
+			foreach ($configLexicon?->getUserConfigs() ?? [] as $configEntry) {
+				$entries[$configEntry->getKey()] = $configEntry;
+			}
+
+			$this->configLexiconDetails[$appId] = [
+				'entries' => $entries,
+				'strictness' => $configLexicon?->getStrictness() ?? ConfigLexiconStrictness::IGNORE
+			];
+		}
+
+		return $this->configLexiconDetails[$appId];
 	}
 }
