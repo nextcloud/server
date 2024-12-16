@@ -11,10 +11,10 @@ use OCP\AppFramework\Http\Response;
 
 /**
  * @psalm-import-type DataResponseType from DataResponse
- * @template S of int
+ * @template S of Http::STATUS_*
  * @template-covariant T of DataResponseType
  * @template H of array<string, mixed>
- * @template-extends Response<int, array<string, mixed>>
+ * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 abstract class BaseResponse extends Response {
 	/** @var array */
