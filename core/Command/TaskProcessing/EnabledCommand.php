@@ -41,16 +41,21 @@ class EnabledCommand extends Base {
 		$enabled = (bool)$input->getArgument('enabled');
 		$taskType = $input->getArgument('task-type-id');
 		$json = $this->config->getAppValue('core', 'ai.taskprocessing_type_preferences');
-		if ($json === '') {
-			$taskTypeSettings = [];
-		} else {
-			$taskTypeSettings = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+		try {
+			if ($json === '') {
+				$taskTypeSettings = [];
+			} else {
+				$taskTypeSettings = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+			}
+			
+			$taskTypeSettings[$taskType] = $enabled;
+			
+			$this->config->setAppValue('core', 'ai.taskprocessing_type_preferences', json_encode($taskTypeSettings));
+			$this->writeArrayInOutputFormat($input, $output, $taskTypeSettings);
+			return 0;
+		} catch (\JsonException $e) {
+			throw new \JsonException('Error in TaskType DB entry');
 		}
 		
-		$taskTypeSettings[$taskType] = $enabled;
-		
-		$this->config->setAppValue('core', 'ai.taskprocessing_type_preferences', json_encode($taskTypeSettings));
-		$this->writeArrayInOutputFormat($input, $output, $taskTypeSettings);
-		return 0;
 	}
 }

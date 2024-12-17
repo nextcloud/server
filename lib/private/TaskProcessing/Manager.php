@@ -568,11 +568,23 @@ class Manager implements IManager {
 	 * @return array
 	 */
 	private function _getTaskTypeSettings(): array {
-		$json = $this->config->getAppValue('core', 'ai.taskprocessing_type_preferences', '');
-		if ($json === '') {
-			return [];
+		try {
+			$json = $this->config->getAppValue('core', 'ai.taskprocessing_type_preferences', '');
+			if ($json === '') {
+				return [];
+			}
+			return json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+		} catch (\JsonException $e) {
+			$this->logger->error('Failed to get settings. JSON Error in ai.taskprocessing_type_preferences', ['exception' => $e]);
+			$taskTypeSettings = [];
+			$taskTypes = $this->_getTaskTypes();
+			foreach ($taskTypes as $taskType) {
+				$taskTypeSettings[$taskType->getId()] = false;
+			};
+			
+			return $taskTypeSettings;
 		}
-		return json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+		
 	}
 
 	/**

@@ -24,6 +24,7 @@ use OCP\Translation\ITranslationProviderWithId;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 class ArtificialIntelligence implements IDelegatedSettings {
 	public function __construct(
@@ -36,6 +37,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 		private ContainerInterface $container,
 		private \OCP\TextToImage\IManager $text2imageManager,
 		private \OCP\TaskProcessing\IManager $taskProcessingManager,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -143,7 +145,20 @@ class ArtificialIntelligence implements IDelegatedSettings {
 			$value = $defaultValue;
 			$json = $this->config->getAppValue('core', $key, '');
 			if ($json !== '') {
-				$value = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+				try {
+					$value = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+				} catch (\JsonException $e) {
+					$this->logger->error('Failed to get settings. JSON Error in ' . $key, ['exception' => $e]);
+					if ($key === 'ai.taskprocessing_type_preferences') {
+						$value = [];
+						foreach ($taskProcessingTypeSettings as $taskTypeId => $taskTypeValue) {
+							$value[$taskTypeId] = false;
+						}
+						$settings[$key] = $value;
+					}
+					continue;
+				}
+				
 				switch ($key) {
 					case 'ai.taskprocessing_provider_preferences':
 					case 'ai.taskprocessing_type_preferences':
