@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OC\OCM;
 
+use GuzzleHttp\Exception\ConnectException;
 use JsonException;
 use OCP\AppFramework\Http;
 use OCP\Http\Client\IClientService;
@@ -69,6 +70,14 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 	 */
 	public function discover(string $remote, bool $skipCache = false): IOCMProvider {
 		$remote = rtrim($remote, '/');
+		if (!str_starts_with($remote, 'http://') && !str_starts_with($remote, 'https://')) {
+			// if scheme not specified, we test both;
+			try {
+				return $this->discover('https://' . $remote, $skipCache);
+			} catch (OCMProviderException|ConnectException) {
+				return $this->discover('http://' . $remote, $skipCache);
+			}
+		}
 
 		if (!$skipCache) {
 			try {
