@@ -7,6 +7,7 @@ namespace OCA\Files_Sharing\Controller;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -71,6 +72,7 @@ class PublicPreviewController extends PublicShareController {
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getPreview(
 		string $token,
 		string $file = '',
@@ -143,6 +145,7 @@ class PublicPreviewController extends PublicShareController {
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function directLink(string $token) {
 		// No token no image
 		if ($token === '') {

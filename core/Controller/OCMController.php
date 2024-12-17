@@ -14,6 +14,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Capabilities\ICapability;
@@ -51,6 +52,7 @@ class OCMController extends Controller {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/ocm-provider/')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function discovery(): DataResponse {
 		try {
 			$cap = Server::get(
