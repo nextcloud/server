@@ -142,9 +142,13 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 		it('Restores files when restoring the .jpg', () => {
 			triggerActionForFile(`${randomFileName}.jpg`, 'delete')
 			cy.visit('/apps/files/trashbin')
-			triggerInlineActionForFileId(jpgFileId, 'restore')
-			clickOnBreadcrumbs('Deleted files')
 
+			cy.intercept('MOVE', '/remote.php/dav/trashbin/*/trash/*').as('restoreFile')
+			triggerInlineActionForFileId(jpgFileId, 'restore')
+			cy.wait('@restoreFile')
+			cy.get('@restoreFile').its('response.statusCode').should('equal', 201)
+
+			clickOnBreadcrumbs('Deleted files')
 			getRowForFile(`${randomFileName}.jpg`).should('have.length', 0)
 			getRowForFile(`${randomFileName}.mov`).should('have.length', 0)
 
@@ -157,9 +161,13 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 		it('Blocks restoration when restoring the .mov', () => {
 			triggerActionForFile(`${randomFileName}.jpg`, 'delete')
 			cy.visit('/apps/files/trashbin')
-			triggerInlineActionForFileId(movFileId, 'restore')
-			clickOnBreadcrumbs('Deleted files')
 
+			cy.intercept('MOVE', '/remote.php/dav/trashbin/*/trash/*').as('restoreFile')
+			triggerInlineActionForFileId(movFileId, 'restore')
+			cy.wait('@restoreFile')
+			cy.get('@restoreFile').its('response.statusCode').should('equal', 500)
+
+			clickOnBreadcrumbs('Deleted files')
 			getRowForFileId(jpgFileId).should('have.length', 1)
 			getRowForFileId(movFileId).should('have.length', 1)
 
