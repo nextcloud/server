@@ -1498,10 +1498,17 @@ class View {
 						$entryName = substr($relativePath, 0, $pos);
 
 						// Create parent folders if the mountpoint is inside a subfolder that doesn't exist yet
-						if (!isset($files[$entryName]) && $this->mkdir($path . '/' . $entryName) !== false) {
-							$info = $this->getFileInfo($path . '/' . $entryName);
-							if ($info !== false) {
-								$files[$entryName] = $info;
+						if (!isset($files[$entryName])) {
+							try {
+								if ($this->mkdir($path . '/' . $entryName) !== false) {
+									$info = $this->getFileInfo($path . '/' . $entryName);
+									if ($info !== false) {
+										$files[$entryName] = $info;
+									}
+								}
+							} catch (\Exception $e) {
+								// Creating the parent folder might not be possible, for example due to a lack of permissions.
+								$this->logger->debug('Failed to create non-existent parent', ['exception' => $e, 'path' => $path . '/' . $entryName]);
 							}
 						}
 
