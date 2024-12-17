@@ -389,7 +389,6 @@ class FailingTextToImageProvider implements \OCP\TextToImage\IProvider {
  */
 class TaskProcessingTest extends \Test\TestCase {
 	private IManager $manager;
-	private IManager $disabledTypeManager;
 	private Coordinator $coordinator;
 	private array $providers;
 	private IServerContainer $serverContainer;
