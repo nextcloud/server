@@ -151,7 +151,7 @@ import TagIcon from 'vue-material-design-icons/Tag.vue'
 import { createTag, fetchTag, fetchTags, getTagObjects, setTagObjects, updateTag } from '../services/api'
 import { getNodeSystemTags, setNodeSystemTags } from '../utils'
 import { elementColor, invertTextColor, isDarkModeEnabled } from '../utils/colorUtils'
-import logger from '../services/logger'
+import logger from '../logger.ts'
 
 const debounceUpdateTag = debounce(updateTag, 500)
 const mainBackgroundColor = getComputedStyle(document.body)

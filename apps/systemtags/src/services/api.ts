@@ -12,7 +12,7 @@ import { t } from '@nextcloud/l10n'
 
 import { davClient } from './davClient.js'
 import { formatTag, parseIdFromLocation, parseTags } from '../utils'
-import { logger } from '../logger.js'
+import logger from '../logger.ts'
 import { emit } from '@nextcloud/event-bus'
 
 export const fetchTagsPayload = `<?xml version="1.0"?>

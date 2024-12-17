@@ -7,10 +7,11 @@ import type { FileStat, ResponseDataDetailed } from 'webdav'
 import type { ServerTagWithId, Tag, TagWithId } from '../types.js'
 
 import { t } from '@nextcloud/l10n'
-import { davClient } from './davClient.js'
+
 import { createTag, fetchTagsPayload } from './api.js'
+import { davClient } from './davClient.js'
 import { formatTag, parseTags } from '../utils.js'
-import { logger } from '../logger.js'
+import logger from '../logger.ts'
 
 export const fetchTagsForFile = async (fileId: number): Promise<TagWithId[]> => {
 	const path = '/systemtags-relations/files/' + fileId

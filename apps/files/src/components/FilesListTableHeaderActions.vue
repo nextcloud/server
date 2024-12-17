@@ -148,7 +148,13 @@ export default defineComponent({
 		},
 
 		async onActionClick(action) {
-			const displayName = action.displayName(this.nodes, this.currentView)
+			let displayName = action.id
+			try {
+				displayName = action.displayName(this.nodes, this.currentView)
+			} catch (error) {
+				logger.error('Error while getting action display name', { action, error })
+			}
+
 			const selectionSources = this.selectedNodes
 			try {
 				// Set loading markers
