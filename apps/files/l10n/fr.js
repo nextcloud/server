@@ -212,7 +212,7 @@ OC.L10N.register(
     "Moving \"{source}\" to \"{destination}\" …" : "Déplacement de \"{source}\" vers \"{destination}\" …",
     "Copying \"{source}\" to \"{destination}\" …" : "Copie de \"{source}\" vers \"{destination}\" …",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Vous ne pouvez pas déplacer un fichier/dossier sur lui-même ou dans un sous-dossier de celui-ci",
-    "(copy)" : "(copier)",
+    "(copy)" : "(copie)",
     "(copy %n)" : "(copier %n)",
     "Move cancelled" : "Déplacement annulé",
     "A file or folder with that name already exists in this folder" : "Un fichier ou un dossier portant ce nom existe déjà dans ce dossier",
