@@ -11,6 +11,7 @@ use OC\App\AppManager;
 use OC\Group\Manager;
 use OC\NavigationManager;
 use OC\SubAdmin;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -18,6 +19,8 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class NavigationManagerTest extends TestCase {
@@ -34,6 +37,8 @@ class NavigationManagerTest extends TestCase {
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
+	protected IEVentDispatcher|MockObject $dispatcher;
+
 	/** @var \OC\NavigationManager */
 	protected $navigationManager;
 	protected LoggerInterface $logger;
@@ -48,6 +53,7 @@ class NavigationManagerTest extends TestCase {
 		$this->groupManager = $this->createMock(Manager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->navigationManager = new NavigationManager(
 			$this->appManager,
 			$this->urlGenerator,
@@ -56,6 +62,7 @@ class NavigationManagerTest extends TestCase {
 			$this->groupManager,
 			$this->config,
 			$this->logger,
+			$this->dispatcher,
 		);
 
 		$this->navigationManager->clear(false);
@@ -256,6 +263,11 @@ class NavigationManagerTest extends TestCase {
 		$this->groupManager->expects($this->any())->method('getSubAdmin')->willReturn($subadmin);
 
 		$this->navigationManager->clear();
+		$this->dispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function ($event) {
+				$this->assertInstanceOf(LoadAdditionalEntriesEvent::class, $event);
+			});
 		$entries = $this->navigationManager->getAll('all');
 		$this->assertEquals($expected, $entries);
 	}
@@ -558,6 +570,11 @@ class NavigationManagerTest extends TestCase {
 		$this->groupManager->expects($this->any())->method('getSubAdmin')->willReturn($subadmin);
 
 		$this->navigationManager->clear();
+		$this->dispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function ($event) {
+				$this->assertInstanceOf(LoadAdditionalEntriesEvent::class, $event);
+			});
 		$entries = $this->navigationManager->getAll();
 		$this->assertEquals($expected, $entries);
 	}

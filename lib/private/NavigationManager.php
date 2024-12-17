@@ -11,6 +11,7 @@ use InvalidArgumentException;
 use OC\App\AppManager;
 use OC\Group\Manager;
 use OCP\App\IAppManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\INavigationManager;
@@ -18,6 +19,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -56,6 +58,7 @@ class NavigationManager implements INavigationManager {
 		IGroupManager $groupManager,
 		IConfig $config,
 		LoggerInterface $logger,
+		protected IEventDispatcher $eventDispatcher,
 	) {
 		$this->appManager = $appManager;
 		$this->urlGenerator = $urlGenerator;
@@ -318,6 +321,7 @@ class NavigationManager implements INavigationManager {
 				]);
 			}
 		}
+		$this->eventDispatcher->dispatchTyped(new LoadAdditionalEntriesEvent());
 
 		if ($this->userSession->isLoggedIn()) {
 			$user = $this->userSession->getUser();
