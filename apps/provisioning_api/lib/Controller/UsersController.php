@@ -53,7 +53,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @psalm-import-type Provisioning_APIUserDetails from ResponseDefinitions
  */
-class UsersController extends AUserData {
+class UsersController extends AUserDataOCSController {
 
 	private IL10N $l10n;
 
@@ -1092,9 +1092,9 @@ class UsersController extends AUserData {
 					throw new OCSException($this->l10n->t('Invalid first day of week'), 101);
 				}
 				if ($intValue === -1) {
-					$this->config->deleteUserValue($targetUser->getUID(), 'core', AUserData::USER_FIELD_FIRST_DAY_OF_WEEK);
+					$this->config->deleteUserValue($targetUser->getUID(), 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK);
 				} else {
-					$this->config->setUserValue($targetUser->getUID(), 'core', AUserData::USER_FIELD_FIRST_DAY_OF_WEEK, $value);
+					$this->config->setUserValue($targetUser->getUID(), 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK, $value);
 				}
 				break;
 			case self::USER_FIELD_NOTIFICATION_EMAIL:

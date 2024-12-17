@@ -36,7 +36,7 @@ use Psr\Log\LoggerInterface;
  * @psalm-import-type Provisioning_APIGroupDetails from ResponseDefinitions
  * @psalm-import-type Provisioning_APIUserDetails from ResponseDefinitions
  */
-class GroupsController extends AUserData {
+class GroupsController extends AUserDataOCSController {
 
 	public function __construct(
 		string $appName,
