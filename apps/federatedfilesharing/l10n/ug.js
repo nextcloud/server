@@ -15,7 +15,6 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "%1 $ s نى ئورتاقلىشىش مەغلۇب بولدى ،%2 $ s نى تاپالمىدى ، بەلكىم مۇلازىمېتىر ھازىرچە ئېرىشكىلى بولمايدۇ ياكى ئۆزى ئىمزا قويغان گۇۋاھنامىنى ئىشلىتىشى مۇمكىن.",
     "Could not find share" : "ئورتاقلىشالمىدى",
     "Federated sharing" : "فېدېراتسىيە ئورتاقلىشىش",
-    "You received {share} as a remote share from {user} (on behalf of {behalf})" : "سىز {ئىشلەتكۈچى} نىڭ نامىدىن يىراقتىن ئورتاق بەھرىلىنىش سۈپىتىدە {ھەمبەھىر} نى تاپشۇرۇۋالدىڭىز.",
     "You received {share} as a remote share from {user}" : "{share} دىن يىراقتىن ئورتاقلىشىش سۈپىتىدە {user} نى تاپشۇرۇۋالدىڭىز",
     "Accept" : "قوبۇل قىلىڭ",
     "Decline" : "رەت قىلىش",
