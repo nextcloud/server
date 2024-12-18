@@ -104,6 +104,8 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Copy to clipboard" : "คัดลอกไปยังคลิปบอร์ด",
     "Use this address to access your Files via WebDAV" : "ใช้ที่อยู่นี้เพื่อเข้าถึงไฟล์ของคุณผ่าน WebDAV",
+    "Keyboard shortcuts" : "แป้นพิมพ์ลัด",
+    "View" : "มุมมอง",
     "Clipboard is not available" : "คลิปบอร์ดไม่พร้อมใช้งาน",
     "Owner" : "เจ้าของ",
     "Remove from favorites" : "เอาออกจากรายการโปรด",

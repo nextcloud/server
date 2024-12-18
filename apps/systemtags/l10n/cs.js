@@ -68,6 +68,7 @@ OC.L10N.register(
     "Manage tags" : "Spravovat štítky",
     "Applying tags changes…" : "Uplatňování směn štítků…",
     "Search or create tag" : "Hledat nebo vytvořit štítek",
+    "Change tag color" : "Změnit barvu štítku",
     "Create new tag" : "Vytvořit nový  štítek",
     "Select or create tags to apply to all selected files" : "Vyberte nebo vytvořte štítky které uplatnit ne všechny označené soubory",
     "Cancel" : "Storno",

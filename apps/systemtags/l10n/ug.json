@@ -26,7 +26,7 @@
     "You added system tag %2$s to %1$s" : "سىستېما بەلگىسى%2 $ s نى%1 $ s غا قوشتىڭىز",
     "You added system tag {systemtag} to {file}" : "{file} گە سىستېما بەلگىسى {systemtag} نى قوشتىڭىز",
     "%1$s added system tag %3$s to %2$s" : "%1 $ s قوشۇلغان سىستېما بەلگىسى%3 $ s دىن%2 $ s",
-    "{actor} added system tag {systemtag} to {file}" : "{ئارتىس} ھۆججەت بەلگىسىگە سىستېما بەلگىسى {systemtag} قوشۇلدى",
+    "{actor} added system tag {systemtag} to {file}" : "{actor} {file} بەلگىسىگە سىستېما بەلگىسى {systemtag} قوشۇلدى",
     "System tag %2$s was removed from %1$s by the system" : "سىستېما بەلگىسى%2 $ s سىستېما تەرىپىدىن%1 $ s دىن چىقىرىۋېتىلدى",
     "System tag {systemtag} was removed from {file} by the system" : "سىستېما بەلگىسى {systemtag} سىستېما تەرىپىدىن {file} دىن ئۆچۈرۈلدى",
     "You removed system tag %2$s from %1$s" : "سىستېما بەلگىسىنى%1 $ s دىن ئۆچۈردىڭىز",

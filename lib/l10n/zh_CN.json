@@ -298,7 +298,7 @@
     "Storage connection error. %s" : "存储连接错误。%s",
     "Storage is temporarily not available" : "存储暂时不可用",
     "Storage connection timeout. %s" : "存储连接超时。%s",
-    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "要允许此检查运行，您必须确保您的 Web 服务器可以连接到自身。因此，它必须能够解析并连接到其 \"trusted_domains\" 或 \"overwrite.cli.url\" 中的至少一个。此失败可能是服务器端 DNS 不匹配或出站防火墙规则的结果。",
+    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "要允许此检查运行，您必须确保您的 Web 服务器可以连接到自身。因此，它必须能够解析并连接到其 \"trusted_domains\" 或 \"overwrite.cli.url\" 中的至少一个。此失败可能是服务端 DNS 不匹配或出站防火墙规则的结果。",
     "Transcribe audio" : "转写音频",
     "Transcribe the things said in an audio" : "将音频中的内容转录下来",
     "Audio input" : "音频输入",

@@ -119,7 +119,7 @@ OC.L10N.register(
     "Enable server-side encryption" : "Ieslēgt servera šifrēšanu",
     "Encryption alone does not guarantee security of the system. Please see documentation for more information about how the encryption app works, and the supported use cases." : "Šifrēšana vien negarantē sistēmas drošību. Skatiet dokumentāciju, lai iegūtu papildinformāciju par šifrēšanas lietotnes izmantošanu un atbalstītajiem izmantošanas veidiem.",
     "Be aware that encryption always increases the file size." : "Jāapzinās, ka šifrēšanas vienmēr palielina datnes lielumu.",
-    "It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data." : "Vienmēr ir ieteicams regulāri veidot dublējumkopijas datu šifrēšanas gadījumam, pārliecinieties, lai dublētu, šifrēšanas atslēgas ir kopā ar jūsu datiem.",
+    "It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data." : "Vienmēr ir ieteicams regulāri veidot datu rezerves kopijas, un šifrēšanas gadījumā jāpārliecinās, ka līdz ar datiem rezerves kopijas ir izveidotas arī šifrēšanas atslēgām.",
     "This is the final warning: Do you really want to enable encryption?" : "Šis ir pēdējais brīdinājums: vai tiešām iespējot šifrēšanu?",
     "No encryption module loaded, please enable an encryption module in the app menu." : "Nav ielādēts šifrēšanas moduļis, lūdzu, aktivizējiet šifrēšanas moduli lietotņu izvēlnē.",
     "Select default encryption module:" : "Atlasiet noklusēto šifrēšanas moduli:",
