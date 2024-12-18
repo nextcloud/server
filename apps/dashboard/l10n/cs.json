@@ -21,6 +21,8 @@
     "Good evening, {name}" : "Dobrý večer, {name}",
     "Hello" : "Dobrý den",
     "Hello, {name}" : "Dobrý den, {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "Všechno nejlepší k narozeninám 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Všechno nejlepší k narozeninám, {name} 🥳🤩🎂🎉",
     "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Začněte svůj den informovaní\n\nNextcloud Nástěnka je váš úvodní bod dne, který vám podává přehled\nnadcházejících schůzek, neodkladných e-mailů, zpráv v chatech, příchozích\npožadavků, nejnovějších tweetů a mnoha dalšího! Uživatelé si\nmohou přidávat ovládací prvky, které chtějí a měnit pozadí dle své libosti."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }
