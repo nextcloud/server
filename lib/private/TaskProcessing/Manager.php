@@ -565,6 +565,29 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * @return array
+	 */
+	private function _getTaskTypeSettings(): array {
+		try {
+			$json = $this->config->getAppValue('core', 'ai.taskprocessing_type_preferences', '');
+			if ($json === '') {
+				return [];
+			}
+			return json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+		} catch (\JsonException $e) {
+			$this->logger->error('Failed to get settings. JSON Error in ai.taskprocessing_type_preferences', ['exception' => $e]);
+			$taskTypeSettings = [];
+			$taskTypes = $this->_getTaskTypes();
+			foreach ($taskTypes as $taskType) {
+				$taskTypeSettings[$taskType->getId()] = false;
+			};
+			
+			return $taskTypeSettings;
+		}
+		
+	}
+
+	/**
 	 * @param ShapeDescriptor[] $spec
 	 * @param array<array-key, string|numeric> $defaults
 	 * @param array<array-key, ShapeEnumValue[]> $enumValues
@@ -721,12 +744,17 @@ class Manager implements IManager {
 		throw new \OCP\TaskProcessing\Exception\Exception('No matching provider found');
 	}
 
-	public function getAvailableTaskTypes(): array {
-		if ($this->availableTaskTypes === null) {
+	public function getAvailableTaskTypes(bool $showDisabled = false): array {
+		// Either we have no cache or showDisabled is turned on, which we don't want to cache, ever.
+		if ($this->availableTaskTypes === null || $showDisabled) {
 			$taskTypes = $this->_getTaskTypes();
+			$taskTypeSettings = $this->_getTaskTypeSettings();
 
 			$availableTaskTypes = [];
 			foreach ($taskTypes as $taskType) {
+				if ((!$showDisabled) && isset($taskTypeSettings[$taskType->getId()]) && !$taskTypeSettings[$taskType->getId()]) {
+					continue;
+				}
 				try {
 					$provider = $this->getPreferredProvider($taskType->getId());
 				} catch (\OCP\TaskProcessing\Exception\Exception $e) {
@@ -752,8 +780,14 @@ class Manager implements IManager {
 				}
 			}
 
+			if ($showDisabled) {
+				// Do not cache showDisabled, ever.
+				return $availableTaskTypes;
+			}
+
 			$this->availableTaskTypes = $availableTaskTypes;
 		}
+
 
 		return $this->availableTaskTypes;
 	}
