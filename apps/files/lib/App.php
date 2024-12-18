@@ -10,6 +10,7 @@ namespace OCA\Files;
 use OC\NavigationManager;
 use OCA\Files\Service\ChunkedUploadConfig;
 use OCP\App\IAppManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\INavigationManager;
@@ -36,6 +37,7 @@ class App {
 				Server::get(IGroupManager::class),
 				Server::get(IConfig::class),
 				Server::get(LoggerInterface::class),
+				Server::get(IEventDispatcher::class),
 			);
 			self::$navigationManager->clear(false);
 		}

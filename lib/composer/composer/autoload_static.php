@@ -681,6 +681,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Migration\\IOutput' => __DIR__ . '/../../..' . '/lib/public/Migration/IOutput.php',
         'OCP\\Migration\\IRepairStep' => __DIR__ . '/../../..' . '/lib/public/Migration/IRepairStep.php',
         'OCP\\Migration\\SimpleMigrationStep' => __DIR__ . '/../../..' . '/lib/public/Migration/SimpleMigrationStep.php',
+        'OCP\\Navigation\\Events\\LoadAdditionalEntriesEvent' => __DIR__ . '/../../..' . '/lib/public/Navigation/Events/LoadAdditionalEntriesEvent.php',
         'OCP\\Notification\\AlreadyProcessedException' => __DIR__ . '/../../..' . '/lib/public/Notification/AlreadyProcessedException.php',
         'OCP\\Notification\\IAction' => __DIR__ . '/../../..' . '/lib/public/Notification/IAction.php',
         'OCP\\Notification\\IApp' => __DIR__ . '/../../..' . '/lib/public/Notification/IApp.php',
