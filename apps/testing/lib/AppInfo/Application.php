@@ -7,6 +7,7 @@
 namespace OCA\Testing\AppInfo;
 
 use OCA\Testing\AlternativeHomeUserBackend;
+use OCA\Testing\Conversion\ConversionProvider;
 use OCA\Testing\Listener\GetDeclarativeSettingsValueListener;
 use OCA\Testing\Listener\RegisterDeclarativeSettingsListener;
 use OCA\Testing\Listener\SetDeclarativeSettingsValueListener;
@@ -48,6 +49,8 @@ class Application extends App implements IBootstrap {
 		$context->registerTaskProcessingProvider(FakeTranslateProvider::class);
 		$context->registerTaskProcessingProvider(FakeTranscribeProvider::class);
 		$context->registerTaskProcessingProvider(FakeContextWriteProvider::class);
+
+		$context->registerFileConversionProvider(ConversionProvider::class);
 
 		$context->registerDeclarativeSettings(DeclarativeSettingsForm::class);
 		$context->registerEventListener(DeclarativeSettingsRegisterFormEvent::class, RegisterDeclarativeSettingsListener::class);

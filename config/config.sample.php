@@ -1429,6 +1429,14 @@ $CONFIG = [
 'metadata_max_filesize' => 256,
 
 /**
+ * Maximum file size for file conversion.
+ * If a file exceeds this size, the file will not be converted.
+ *
+ * Default: 100 MiB
+ */
+'max_file_conversion_filesize' => 100,
+
+/**
  * LDAP
  *
  * Global settings used by LDAP User and Group Backend

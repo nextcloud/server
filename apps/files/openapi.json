@@ -37,6 +37,7 @@
                             "forbidden_filename_characters",
                             "forbidden_filename_extensions",
                             "chunked_upload",
+                            "file_conversions",
                             "directEditing"
                         ],
                         "properties": {
@@ -91,6 +92,27 @@
                                     "max_parallel_count": {
                                         "type": "integer",
                                         "format": "int64"
+                                    }
+                                }
+                            },
+                            "file_conversions": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "required": [
+                                        "from",
+                                        "to"
+                                    ],
+                                    "properties": {
+                                        "from": {
+                                            "type": "string"
+                                        },
+                                        "to": {
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "type": "string"
+                                            }
+                                        }
                                     }
                                 }
                             },
@@ -2213,6 +2235,133 @@
                                     "properties": {
                                         "message": {
                                             "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/files/api/v1/convert": {
+            "post": {
+                "operationId": "conversion_api-convert",
+                "summary": "Converts a file from one MIME type to another",
+                "tags": [
+                    "conversion_api"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "fileId",
+                                    "targetMimeType"
+                                ],
+                                "properties": {
+                                    "fileId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "description": "ID of the file to be converted"
+                                    },
+                                    "targetMimeType": {
+                                        "type": "string",
+                                        "description": "The MIME type to which you want to convert the file"
+                                    },
+                                    "destination": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "The target path of the converted file. Written to a temporary file if left empty"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "File was converted and written to the destination or temporary file",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "path"
+                                                    ],
+                                                    "properties": {
+                                                        "path": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "The file to be converted was not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
                                         }
                                     }
                                 }
