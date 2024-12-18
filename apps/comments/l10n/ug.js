@@ -7,7 +7,7 @@ OC.L10N.register(
     "You commented on %1$s" : "سىز%1 $ s غا باھا بەردىڭىز",
     "You commented on {file}" : "سىز {file} گە باھا بەردىڭىز",
     "%1$s commented on %2$s" : "%1 $ s%2 $ s غا باھا بەردى",
-    "{author} commented on {file}" : "{ئاپتور} ھۆججەتكە باھا بەردى}",
+    "{author} commented on {file}" : "{author} {{file} گە باھا بەردى",
     "<strong>Comments</strong> for files" : "ھۆججەتلەر ئۈچۈن <strong> باھا </ strong>",
     "Files" : "ھۆججەتلەر",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "سىز ئۆچۈرۈلگەن ھېساباتنىڭ ئىزاھاتىدا سىز «{file}» دە تىلغا ئېلىندى",

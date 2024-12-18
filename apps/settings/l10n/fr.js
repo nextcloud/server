@@ -444,7 +444,7 @@ OC.L10N.register(
     "No results" : "Aucun résultat",
     "Update to {version}" : "Mettre à jour vers {version}",
     "Default Deploy daemon is not accessible" : "Le service de déploiement par défaut n'est pas accessible",
-    "Delete data on remove" : "Suppression des données retirer",
+    "Delete data on remove" : "Supprimer les données lors de la désinstallation",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Cette application n’a pas de version minimum Nextcloud exigée. Ce sera considéré comme une erreur à l’avenir.",
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Cette application n’a pas de version maximum Nextcloud exigée. Ce sera considéré comme une erreur à l’avenir.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Cette application ne peut être installée à cause de ces dépendances non satisfaites :",

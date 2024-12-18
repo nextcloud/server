@@ -137,7 +137,7 @@
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "介于 ${this.dateFilter.startFrom.toLocaleDateString()} 到 ${this.dateFilter.endAt.toLocaleDateString()} 之间",
     "Log in" : "登录",
     "Logging in …" : "正在登录……",
-    "Server side authentication failed!" : "服务器端身份验证失败！",
+    "Server side authentication failed!" : "服务端身份验证失败！",
     "Please contact your administrator." : "请联系您的管理员。",
     "Temporary error" : "临时错误",
     "Please try again." : "请重试。",
