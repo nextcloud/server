@@ -214,7 +214,10 @@ class ManagerTest extends \Test\TestCase {
 			]);
 	}
 
-	private function createFolderMock(string $folderPath): MockObject&Folder {
+	/**
+	 * @return MockObject&Folder
+	 */
+	private function createFolderMock(string $folderPath) {
 		$folder = $this->createMock(Folder::class);
 		$folder->method('getPath')->willReturn($folderPath);
 		$folder->method('getRelativePath')->willReturnCallback(
@@ -4772,7 +4775,7 @@ class ManagerTest extends \Test\TestCase {
 				'limitEnumerationToPhone',
 				'limitEnumerationToGroups',
 			])
-		->getMock();
+			->getMock();
 
 		$manager->method('allowEnumerationFullMatch')
 			->willReturn($allowEnumerationFullMatch);
