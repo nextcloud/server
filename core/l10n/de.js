@@ -108,7 +108,7 @@ OC.L10N.register(
     "Create share" : "Freigabe erstellen",
     "The remote URL must include the user." : "Die entfernte URL muss den Benutzer enthalten.",
     "Invalid remote URL." : "Ungültige entfernte URL.",
-    "Failed to add the public link to your Nextcloud" : "Fehler beim Hinzufügen des öffentlichen Links zu Ihrer Nextcloud",
+    "Failed to add the public link to your Nextcloud" : "Fehler beim Hinzufügen des öffentlichen Links zu deiner Nextcloud",
     "Direct link copied to clipboard" : "Direkter Link in die Zwischenablage kopiert",
     "Please copy the link manually:" : "Bitte den Link manuell kopieren:",
     "Custom date range" : "Benutzerdefinierter Zeitbereich",
