@@ -484,7 +484,7 @@ class GroupPluginTest extends TestCase {
 			/** setup blocked groups list */
 			$appConfig = $this->createMock(IAppConfig::class);
 			$appConfig->method('getValueArray')
-				->with('files_sharing', 'groups_block_list')
+				->with('core', 'shareapi_groups_block_list')
 				->willReturn($groupsBlockList);
 			$this->appConfig = $appConfig;
 		}

@@ -72,7 +72,7 @@ class GroupPlugin implements ISearchPlugin {
 		}
 
 		// Check for blocked groups
-		$groupsBlockList = $this->appConfig->getValueArray('files_sharing', 'groups_block_list', [], true);
+		$groupsBlockList = $this->appConfig->getValueArray('core', 'shareapi_groups_block_list', []);
 		if (!empty($groupsBlockList)) {
 			$groupIds = array_diff($groupIds, $groupsBlockList);
 		}

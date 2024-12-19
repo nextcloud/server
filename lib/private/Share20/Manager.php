@@ -65,7 +65,6 @@ class Manager implements IManager {
 	public function __construct(
 		private LoggerInterface $logger,
 		private IConfig $config,
-		private IAppConfig $appConfig,
 		private ISecureRandom $secureRandom,
 		private IHasher $hasher,
 		private IMountManager $mountManager,
@@ -515,7 +514,7 @@ class Manager implements IManager {
 		}
 
 		// Check if sharing with this group is blocked
-		$groupsBlockList = $this->appConfig->getValueArray('files_sharing', 'groups_block_list', [], true);
+		$groupsBlockList = $this->appConfig->getValueArray('core', 'shareapi_groups_block_list', []);
 		if(array_search($share->getSharedWith(), $groupsBlockList) !== false) {
 			throw new \InvalidArgumentException('Sharing with group ' . $share->getSharedWith() . ' is not allowed.');
 		}

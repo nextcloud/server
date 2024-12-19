@@ -2489,7 +2489,7 @@ class ManagerTest extends \Test\TestCase {
 		/** setup blocked groups list */
 		$appConfig = $this->createMock(IAppConfig::class);
 		$appConfig->method('getValueArray')
-			->with('files_sharing', 'groups_block_list')
+			->with('core', 'shareapi_groups_block_list')
 			->willReturn(['blocked-group-1', 'blocked-group-2']);
 		$this->appConfig = $appConfig;
 
