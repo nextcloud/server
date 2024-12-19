@@ -26,7 +26,6 @@ use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Token\IToken;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IAppConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -56,7 +55,6 @@ class ClientFlowLoginController extends Controller {
 		private ICrypto $crypto,
 		private IEventDispatcher $eventDispatcher,
 		private ITimeFactory $timeFactory,
-		private IAppConfig $appConfig,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -184,10 +182,6 @@ class ClientFlowLoginController extends Controller {
 
 		/** @var IUser $user */
 		$user = $this->userSession->getUser();
-
-		if (in_array($clientName, $this->appConfig->getValueArray('oauth2', 'autoGrantApplications', []))) {
-			return $this->generateAppPassword($stateToken, $clientIdentifier);
-		}
 
 		$response = new StandaloneTemplateResponse(
 			$this->appName,

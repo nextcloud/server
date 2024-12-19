@@ -22,7 +22,6 @@ use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IAppConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -49,7 +48,6 @@ class ClientFlowLoginControllerTest extends TestCase {
 	private ICrypto&MockObject $crypto;
 	private IEventDispatcher&MockObject $eventDispatcher;
 	private ITimeFactory&MockObject $timeFactory;
-	private IAppConfig&MockObject $appConfig;
 
 	private ClientFlowLoginController $clientFlowLoginController;
 
@@ -75,7 +73,6 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->appConfig = $this->createMock(IAppConfig::class);
 
 		$this->clientFlowLoginController = new ClientFlowLoginController(
 			'core',
@@ -92,7 +89,6 @@ class ClientFlowLoginControllerTest extends TestCase {
 			$this->crypto,
 			$this->eventDispatcher,
 			$this->timeFactory,
-			$this->appConfig,
 		);
 	}
 
