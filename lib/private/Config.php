@@ -124,6 +124,12 @@ class Config {
 	 */
 	protected function set($key, $value) {
 		if (!isset($this->cache[$key]) || $this->cache[$key] !== $value) {
+			foreach ($this->cachePaths as $file => $keys) {
+				if ($file !== $this->configFilePath && in_array($key, $keys)) {
+					throw new HintException('The config key "' . $key . '" is already specified in "' . $file . '" and thus can not be overwritten.');
+				}
+			}
+
 			// Add change
 			$this->cache[$key] = $value;
 			return true;
@@ -154,6 +160,12 @@ class Config {
 	 */
 	protected function delete($key) {
 		if (isset($this->cache[$key])) {
+			foreach ($this->cachePaths as $file => $keys) {
+				if ($file !== $this->configFilePath && in_array($key, $keys)) {
+					throw new HintException('The config key "' . $key . '" is already specified in "' . $file . '" and thus can not be overwritten.');
+				}
+			}
+
 			// Delete key from cache
 			unset($this->cache[$key]);
 			return true;

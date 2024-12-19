@@ -8,6 +8,7 @@
 namespace Test;
 
 use OC\Config;
+use OCP\HintException;
 
 class ConfigTest extends TestCase {
 	public const TESTCONTENT = '<?php $CONFIG=array("foo"=>"bar", "beers" => array("Appenzeller", "Guinness", "Kölsch"), "alcohol_free" => false);';
@@ -173,6 +174,27 @@ class ConfigTest extends TestCase {
 		$this->assertEquals($expected, file_get_contents($this->configFile));
 
 		// Cleanup
+		unlink($additionalConfigPath);
+	}
+
+	public function testConfigAdditionalSetDelete(): void {
+		$additionalConfig = '<?php $CONFIG=array("php53"=>"totallyOutdated");';
+		$additionalConfigPath = $this->randomTmpDir . 'additionalConfig.testconfig.php';
+		file_put_contents($additionalConfigPath, $additionalConfig);
+
+		$config = new Config($this->randomTmpDir, 'testconfig.php');
+
+		$this->assertSame('totallyOutdated', $config->getValue('php53', 'bogusValue'));
+		$this->assertEquals(self::TESTCONTENT, file_get_contents($this->configFile));
+
+		$this->expectException(HintException::class);
+
+		$this->expectExceptionMessage('The config key "php53" is already specified in "' . $additionalConfigPath . '" and thus can not be overwritten.');
+		$config->setValue('php53', 'actuallyNew');
+
+		$this->expectExceptionMessage('The config key "php53" is specified in "' . $additionalConfigPath . '" and thus can not be deleted.');
+		$config->deleteKey('php53');
+
 		unlink($additionalConfigPath);
 	}
 }
