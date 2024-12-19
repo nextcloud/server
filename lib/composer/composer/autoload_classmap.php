@@ -824,6 +824,7 @@ return array(
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextChatWithTools' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextChatWithTools.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextFormalization' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextFormalization.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextHeadline' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextHeadline.php',
+    'OCP\\TaskProcessing\\TaskTypes\\TextToTextProofread' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextProofread.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextReformulation' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextReformulation.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextSimplification' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextSimplification.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextSummary' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextSummary.php',
