@@ -30,7 +30,7 @@ The Nextcloud Dashboard is your starting point of the day, giving you an overvie
 			<name>Dashboard</name>
 			<route>dashboard.dashboard.index</route>
 			<icon>dashboard.svg</icon>
-			<order>-1</order>
+			<order>-10</order>
 		</navigation>
 	</navigations>
 </info>
