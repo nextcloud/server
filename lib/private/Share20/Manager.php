@@ -18,6 +18,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
@@ -1031,6 +1032,89 @@ class Manager implements IManager {
 		return $deletedShares;
 	}
 
+	/** Promote re-shares into direct shares so that target user keeps access */
+	protected function promoteReshares(IShare $share): void {
+		try {
+			$node = $share->getNode();
+		} catch (NotFoundException) {
+			/* Skip if node not found */
+			return;
+		}
+
+		$userIds = [];
+
+		if ($share->getShareType() === IShare::TYPE_USER) {
+			$userIds[] = $share->getSharedWith();
+		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
+			$group = $this->groupManager->get($share->getSharedWith());
+			$users = $group?->getUsers() ?? [];
+
+			foreach ($users as $user) {
+				/* Skip share owner */
+				if ($user->getUID() === $share->getShareOwner() || $user->getUID() === $share->getSharedBy()) {
+					continue;
+				}
+				$userIds[] = $user->getUID();
+			}
+		} else {
+			/* We only support user and group shares */
+			return;
+		}
+
+		$reshareRecords = [];
+		$shareTypes = [
+			IShare::TYPE_GROUP,
+			IShare::TYPE_USER,
+			IShare::TYPE_LINK,
+			IShare::TYPE_REMOTE,
+			IShare::TYPE_EMAIL,
+		];
+
+		foreach ($userIds as $userId) {
+			foreach ($shareTypes as $shareType) {
+				$provider = $this->factory->getProviderForType($shareType);
+				if ($node instanceof Folder) {
+					/* We need to get all shares by this user to get subshares */
+					$shares = $provider->getSharesBy($userId, $shareType, null, false, -1, 0);
+
+					foreach ($shares as $share) {
+						try {
+							$path = $share->getNode()->getPath();
+						} catch (NotFoundException) {
+							/* Ignore share of non-existing node */
+							continue;
+						}
+						if ($node->getRelativePath($path) !== null) {
+							/* If relative path is not null it means the shared node is the same or in a subfolder */
+							$reshareRecords[] = $share;
+						}
+					}
+				} else {
+					$shares = $provider->getSharesBy($userId, $shareType, $node, false, -1, 0);
+					foreach ($shares as $child) {
+						$reshareRecords[] = $child;
+					}
+				}
+			}
+		}
+
+		foreach ($reshareRecords as $child) {
+			try {
+				/* Check if the share is still valid (means the resharer still has access to the file through another mean) */
+				$this->generalCreateChecks($child);
+			} catch (GenericShareException $e) {
+				/* The check is invalid, promote it to a direct share from the sharer of parent share */
+				$this->logger->debug('Promote reshare because of exception ' . $e->getMessage(), ['exception' => $e, 'fullId' => $child->getFullId()]);
+				try {
+					$child->setSharedBy($share->getSharedBy());
+					$this->updateShare($child);
+				} catch (GenericShareException|\InvalidArgumentException $e) {
+					$this->logger->warning('Failed to promote reshare because of exception ' . $e->getMessage(), ['exception' => $e, 'fullId' => $child->getFullId()]);
+				}
+			}
+		}
+	}
+
 	/**
 	 * Delete a share
 	 *
@@ -1055,6 +1139,9 @@ class Manager implements IManager {
 		$provider->delete($share);
 
 		$this->dispatcher->dispatchTyped(new ShareDeletedEvent($share));
+
+		// Promote reshares of the deleted share
+		$this->promoteReshares($share);
 	}
 
 
