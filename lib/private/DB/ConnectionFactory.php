@@ -215,7 +215,7 @@ class ConnectionFactory {
 			'tablePrefix' => $connectionParams['tablePrefix']
 		];
 
-		if ($this->config->getValue('mysql.utf8mb4', false) && $type==="mysql") {
+		if ($this->config->getValue('mysql.utf8mb4', false) && $type === 'mysql') {
 			$connectionParams['defaultTableOptions'] = [
 				'collate' => 'utf8mb4_bin',
 				'charset' => 'utf8mb4',
