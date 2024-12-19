@@ -21,7 +21,7 @@ use OCP\TaskProcessing\ShapeDescriptor;
  */
 class TextToTextProofread implements ITaskType {
 	/**
-	 * @since 30.0.0
+	 * @since 31.0.0
 	 */
 	public const ID = 'core:text2text:proofread';
 	private IL10N $l;
