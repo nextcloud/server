@@ -83,8 +83,8 @@ class LoginRedirectorController extends Controller {
 
 		$this->session->set('oauth.state', $state);
 
-		if (in_array($client->getName(), $this->appConfig->getValueArray('oauth2', 'autoGrantApplications', []))) {
-			/* See ClientFlowLoginController::showAuthPickerPage */
+		if (in_array($client->getName(), $this->appConfig->getValueArray('oauth2', 'skipAuthPickerApplications', []))) {
+			/** @see ClientFlowLoginController::showAuthPickerPage **/
 			$stateToken = $this->random->generate(
 				64,
 				ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS

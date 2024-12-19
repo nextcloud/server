@@ -85,7 +85,7 @@ class LoginRedirectorControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'code'));
 	}
 
-	public function testAuthorizeSkipGrant(): void {
+	public function testAuthorizeSkipPicker(): void {
 		$client = new Client();
 		$client->setName('MyClientName');
 		$client->setClientIdentifier('MyClientIdentifier');
@@ -110,7 +110,7 @@ class LoginRedirectorControllerTest extends TestCase {
 		$this->appConfig
 			->expects(static::once())
 			->method('getValueArray')
-			->with('oauth2', 'autoGrantApplications', [])
+			->with('oauth2', 'skipAuthPickerApplications', [])
 			->willReturn(['MyClientName']);
 		$this->random
 			->expects(static::once())
