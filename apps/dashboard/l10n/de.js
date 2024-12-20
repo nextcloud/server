@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Dashboard",
     "Dashboard app" : "Dashboard-App",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Starte informiert in den Tag\n\nDas Nextcloud Dashboard ist Ihr Ausgangspunkt für den Tag und gibt dir einen Überblick über deine anstehenden Termine, dringende E-Mails, Chatnachrichten, eingehende Tickets, neueste Tweets und vieles mehr! Benutzer können die gewünschten Widgets hinzufügen und den Hintergrund nach Belieben ändern.",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Starte informiert in den Tag\n\nDas Nextcloud Dashboard ist dein Ausgangspunkt für den Tag und gibt dir einen Überblick über deine anstehenden Termine, dringende E-Mails, Chatnachrichten, eingehende Tickets, neueste Tweets und vieles mehr! Benutzer können die gewünschten Widgets hinzufügen und den Hintergrund nach Belieben ändern.",
     "\"{title} icon\"" : "\"{title}-Symbol\"",
     "Customize" : "Anpassen",
     "Edit widgets" : "Widgets bearbeiten",
