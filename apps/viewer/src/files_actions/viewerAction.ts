@@ -22,6 +22,13 @@ function pushToHistory(node: Node, view: View, dir: string) {
 	)
 }
 
+const onPopState = () => {
+	if (window.OCP.Files.Router.query.openfile !== 'true') {
+		window.OCA.Viewer.close()
+		window.removeEventListener('popstate', onPopState)
+	}
+}
+
 /**
  * Execute the viewer files action
  * @param node The active node
@@ -35,6 +42,8 @@ async function execAction(node: Node, view: View, dir: string): Promise<boolean|
 		delete newQuery.openfile
 		window.OCP.Files.Router.goToRoute(null, window.OCP.Files.Router.params, newQuery)
 	}
+
+	window.addEventListener('popstate', onPopState)
 
 	pushToHistory(node, view, dir)
 	window.OCA.Viewer.open({
