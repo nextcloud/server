@@ -279,7 +279,8 @@ trait BasicStructure {
 	 * @param string $user
 	 */
 	public function loggingInUsingWebAs($user) {
-		$loginUrl = substr($this->baseUrl, 0, -5) . '/index.php/login';
+		$baseUrl = substr($this->baseUrl, 0, -5);
+		$loginUrl = $baseUrl . '/index.php/login';
 		// Request a new session and extract CSRF token
 		$client = new Client();
 		$response = $client->get(
@@ -302,6 +303,9 @@ trait BasicStructure {
 					'requesttoken' => $this->requestToken,
 				],
 				'cookies' => $this->cookieJar,
+				'headers' => [
+					'Origin' => $baseUrl,
+				],
 			]
 		);
 		$this->extracRequestTokenFromResponse($response);
