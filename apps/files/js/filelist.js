@@ -3034,7 +3034,7 @@
 
 			self.filesClient.putFileContents(
 					targetPath,
-					' ', // dont create empty files which fails on some storage backends
+					'',
 					{
 						contentType: 'text/plain',
 						overwrite: true
