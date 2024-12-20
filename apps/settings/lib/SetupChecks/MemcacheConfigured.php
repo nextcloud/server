@@ -25,6 +25,7 @@ declare(strict_types=1);
  */
 namespace OCA\Settings\SetupChecks;
 
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -36,6 +37,7 @@ class MemcacheConfigured implements ISetupCheck {
 		private IL10N $l10n,
 		private IConfig $config,
 		private IURLGenerator $urlGenerator,
+		private ICacheFactory $cacheFactory,
 	) {
 	}
 
@@ -72,6 +74,41 @@ class MemcacheConfigured implements ISetupCheck {
 				$this->urlGenerator->linkToDocs('admin-performance')
 			);
 		}
+
+		if ($this->cacheFactory->isLocalCacheAvailable()) {
+			$random = random_bytes(64);
+			$local = $this->cacheFactory->createLocal('setupcheck.local');
+			try {
+				$local->set('test', $random);
+				$local2 = $this->cacheFactory->createLocal('setupcheck.local');
+				$actual = $local2->get('test');
+				$local->remove('test');
+			} catch (\Throwable) {
+				$actual = null;
+			}
+
+			if ($actual !== $random) {
+				return SetupResult::error($this->l10n->t('Failed to write and read a value from local cache.'));
+			}
+		}
+
+		if ($this->cacheFactory->isAvailable()) {
+			$random = random_bytes(64);
+			$distributed = $this->cacheFactory->createDistributed('setupcheck');
+			try {
+				$distributed->set('test', $random);
+				$distributed2 = $this->cacheFactory->createDistributed('setupcheck');
+				$actual = $distributed2->get('test');
+				$distributed->remove('test');
+			} catch (\Throwable) {
+				$actual = null;
+			}
+
+			if ($actual !== $random) {
+				return SetupResult::error($this->l10n->t('Failed to write and read a value from distributed cache.'));
+			}
+		}
+
 		return SetupResult::success($this->l10n->t('Configured'));
 	}
 }
