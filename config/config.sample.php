@@ -1881,6 +1881,15 @@ $CONFIG = [
 'transferIncomingShares' => false,
 
 /**
+ * Federated Cloud Sharing
+ */
+
+ /**
+  * Allow self-signed certificates for federated shares
+  */
+'sharing.federation.allowSelfSignedCertificates' => false,
+
+/**
  * Hashing
  */
 

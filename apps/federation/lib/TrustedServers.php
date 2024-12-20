@@ -138,6 +138,7 @@ class TrustedServers {
 				[
 					'timeout' => 3,
 					'connect_timeout' => 3,
+					'verify' => !$this->config->getSystemValue('sharing.federation.allowSelfSignedCertificates', false),
 				]
 			);
 			if ($result->getStatusCode() === Http::STATUS_OK) {

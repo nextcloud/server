@@ -34,8 +34,8 @@ class SettingsController extends Controller {
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
 	public function addServer(string $url): DataResponse {
-		$this->checkServer($url);
-		$id = $this->trustedServers->addServer($url);
+		$this->checkServer(trim($url));
+		$id = $this->trustedServers->addServer(trim($url));
 
 		return new DataResponse([
 			'url' => $url,

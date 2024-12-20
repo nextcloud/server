@@ -91,10 +91,14 @@ class AdminTest extends TestCase {
 			->expects($this->once())
 			->method('isIncomingServer2serverGroupShareEnabled')
 			->willReturn($state);
+		$this->federatedShareProvider
+			->expects($this->once())
+			->method('isFederatedTrustedShareAutoAccept')
+			->willReturn($state);
 		$this->gsConfig->expects($this->once())->method('onlyInternalFederation')
 			->willReturn($state);
 
-		$this->initialState->expects($this->exactly(9))
+		$this->initialState->expects($this->exactly(10))
 			->method('provideInitialState')
 			->withConsecutive(
 				['internalOnly', $state],
@@ -106,6 +110,7 @@ class AdminTest extends TestCase {
 				['incomingServer2serverGroupShareEnabled', $state],
 				['lookupServerEnabled', $state],
 				['lookupServerUploadEnabled', $state],
+				['federatedTrustedShareAutoAccept', $state]
 			);
 
 		$expected = new TemplateResponse('federatedfilesharing', 'settings-admin', [], '');

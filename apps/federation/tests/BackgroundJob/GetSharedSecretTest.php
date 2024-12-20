@@ -17,6 +17,7 @@ use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\OCS\IDiscoveryService;
 use Psr\Log\LoggerInterface;
@@ -57,6 +58,9 @@ class GetSharedSecretTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|ITimeFactory */
 	private $timeFactory;
 
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IConfig */
+	private $config;
+
 	private GetSharedSecret $getSharedSecret;
 
 	protected function setUp(): void {
@@ -72,6 +76,7 @@ class GetSharedSecretTest extends TestCase {
 		$this->response = $this->getMockBuilder(IResponse::class)->getMock();
 		$this->discoverService = $this->getMockBuilder(IDiscoveryService::class)->getMock();
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->discoverService->expects($this->any())->method('discover')->willReturn([]);
 		$this->httpClientService->expects($this->any())->method('newClient')->willReturn($this->httpClient);
@@ -83,7 +88,8 @@ class GetSharedSecretTest extends TestCase {
 			$this->trustedServers,
 			$this->logger,
 			$this->discoverService,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->config
 		);
 	}
 
@@ -104,7 +110,8 @@ class GetSharedSecretTest extends TestCase {
 					$this->trustedServers,
 					$this->logger,
 					$this->discoverService,
-					$this->timeFactory
+					$this->timeFactory,
+					$this->config,
 				]
 			)->setMethods(['parentStart'])->getMock();
 		$this->invokePrivate($getSharedSecret, 'argument', [['url' => 'url', 'token' => 'token']]);
@@ -176,6 +183,7 @@ class GetSharedSecretTest extends TestCase {
 						],
 					'timeout' => 3,
 					'connect_timeout' => 3,
+					'verify' => true,
 				]
 			)->willReturn($this->response);
 
@@ -267,6 +275,7 @@ class GetSharedSecretTest extends TestCase {
 						],
 					'timeout' => 3,
 					'connect_timeout' => 3,
+					'verify' => true,
 				]
 			)->willThrowException($this->createMock(ConnectException::class));
 
