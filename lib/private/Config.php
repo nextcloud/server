@@ -197,31 +197,42 @@ class Config {
 				}
 
 				http_response_code(500);
-				die(sprintf('FATAL: Could not open the config file %s', $file));
+				die(sprintf('FATAL: Could not open the config file: %s' . PHP_EOL, basename($file)));
 			}
 
 			// Try to acquire a file lock
 			if (!flock($filePointer, LOCK_SH)) {
-				throw new \Exception(sprintf('Could not acquire a shared lock on the config file %s', $file));
+				http_response_code(500);
+				die(sprintf('FATAL: Could not acquire a shared lock on the config file: %s' . PHP_EOL, basename($file)));
 			}
 
 			try {
+				// wrap with output buffer to catch some problems and avoid generating uncontrolled output
+				ob_start();
 				include $file;
+				$ob_length = ob_get_length();
+				ob_end_clean();
+				// syntax issues in the config file like leading spaces cause PHP to send output
+				if ($ob_length > 0 && !defined('PHPUNIT_RUN')) { // indicator of leading content discovered
+					$errorMessage = sprintf('FATAL: Config file has leading content, please remove everything before "<?php" in: %s' . PHP_EOL, basename($file));
+					if (!defined('OC_CONSOLE')) {
+						die(\OCP\Util::sanitizeHTML($errorMessage));
+					} else {
+						die($errorMessage);
+					}
+				}	
 			} finally {
 				// Close the file pointer and release the lock
 				flock($filePointer, LOCK_UN);
 				fclose($filePointer);
 			}
 
-			if (!defined('PHPUNIT_RUN') && headers_sent()) {
-				// syntax issues in the config file like leading spaces causing PHP to send output
-				$errorMessage = sprintf('Config file has leading content, please remove everything before "<?php" in %s', basename($file));
-				if (!defined('OC_CONSOLE')) {
-					print(\OCP\Util::sanitizeHTML($errorMessage));
-				}
-				throw new \Exception($errorMessage);
-			}
 			if (isset($CONFIG) && is_array($CONFIG)) {
+				// try to detect unintentionally overlapping config files (which will break things like upgrades) 
+				if (isset($CONFIG['version']) && $file !== $this->configFilePath) {
+					http_response_code(500);
+					die(sprintf('FATAL: Conflicting version value in the loaded config file: %s' . PHP_EOL, basename($file)));
+				}
 				$this->cache = array_merge($this->cache, $CONFIG);
 			}
 		}
