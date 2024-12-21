@@ -170,8 +170,9 @@
     "Storage incomplete configuration. %s" : "Configuração incompleta do armazenamento. %s",
     "Storage connection error. %s" : "Erro de ligação ao armazenamento. %s",
     "Storage is temporarily not available" : "Armazenamento temporariamente indisponível",
-    "Storage connection timeout. %s" : "Tempo de ligação ao armazenamento expirou. %s",
+    "Storage connection timeout. %s" : "A ligação ao armazenamento expirou. %s",
     "Chat" : "Chat",
+    "Text" : "Texto",
     "Summary" : "Resumo",
     "Translate" : "Traduzir",
     "Education Edition" : "Edição Educação",
@@ -200,6 +201,7 @@
     "Username must not consist of dots only" : "O utilizador não pode consistir de apenas pontos",
     "User disabled" : "Utilizador desativado",
     "File is currently busy, please try again later" : "O ficheiro está ocupado, por favor, tente mais tarde",
+    "Cannot download file" : "Não é possível transferir o ficheiro",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Por favor altere as permissões para 0770 para que esse directório não possa ser listado por outros utilizadores.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Garanta que existe um ficheiro chamado \".occdata\" na raiz do directório de dados"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

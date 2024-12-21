@@ -228,6 +228,7 @@
     "Storage connection timeout. %s" : "Storage connection timeout. %s",
     "Chat" : "Chat",
     "Generates a possible headline for a text." : "Generates a possible headline for a text.",
+    "Text" : "Text",
     "Summarize" : "Summarize",
     "Summary" : "Summary",
     "Extract topics" : "Extract topics",

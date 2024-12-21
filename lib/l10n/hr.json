@@ -195,6 +195,7 @@
     "Storage connection error. %s" : "Pogreška veze pohrane. %s",
     "Storage is temporarily not available" : "Pohrana privremeno nije dostupna",
     "Storage connection timeout. %s" : "Istek veze pohrane. %s",
+    "Text" : "Tekst",
     "Summary" : "Sažetak",
     "Translate" : "Prevedi",
     "Result" : "Rezultat",

@@ -133,6 +133,7 @@
     "Storage connection error. %s" : "Se presentó un error con la conexión al almacenamiento. %s",
     "Storage is temporarily not available" : "El almacenamieto se encuentra temporalmente no disponible",
     "Storage connection timeout. %s" : "Se agotó el tiempo de conexión del almacenamiento. %s",
+    "Text" : "Texto",
     "Summary" : "Resumen",
     "Translate" : "Traducir",
     "Result" : "Resultado",
