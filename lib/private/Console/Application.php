@@ -125,7 +125,7 @@ class Application {
 				$errorOutput->writeln('Nextcloud is not installed - only a limited number of commands are available');
 			}
 		} catch (NeedsUpdateException) {
-			if ($input->getArgument('command') !== '_completion') {
+			if ($input->getArgument('command') !== '_completion' && $input->getArgument('command') !== 'upgrade') {
 				$errorOutput = $output->getErrorOutput();
 				$errorOutput->writeln('Nextcloud or one of the apps require upgrade - only a limited number of commands are available');
 				$errorOutput->writeln('You may use your browser or the occ upgrade command to do the upgrade');
