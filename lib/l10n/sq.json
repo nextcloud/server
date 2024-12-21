@@ -136,6 +136,7 @@
     "Storage connection error. %s" : "Gabim lidhje te depozita. %s",
     "Storage is temporarily not available" : "Hapsira ruajtëse nuk është në dispozicion përkohësisht",
     "Storage connection timeout. %s" : "Mbarim kohe lidhjeje për depozitën. %s",
+    "Text" : "Tekst",
     "Summary" : "Përmbledhje",
     "Translate" : "Përkthe",
     "Result" : "Rezultatet",

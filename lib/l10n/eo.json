@@ -177,6 +177,7 @@
     "Storage connection error. %s" : "Konekta eraro al konservejo. %s",
     "Storage is temporarily not available" : "Konservejo provizore ne disponeblas",
     "Storage connection timeout. %s" : "Konekto al konservejo eltempiĝis. %s",
+    "Text" : "Teksto",
     "Summary" : "Resumo",
     "Translate" : "Traduku",
     "Education Edition" : "Eldono por edukado",

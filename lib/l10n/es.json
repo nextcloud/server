@@ -350,6 +350,7 @@
     "Original text" : "Texto original",
     "The original text to generate a headline for" : "El texto original para el cual generar un titular",
     "The generated headline" : "El titular generado",
+    "Text" : "Texto",
     "Reformulate text" : "Reformular texto",
     "Takes a text and reformulates it" : "Toma un texto y lo reformula",
     "Write a text that you want the assistant to reformulate" : "Escriba un texto que quiere que el asistente reformule",

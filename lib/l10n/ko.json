@@ -242,6 +242,7 @@
     "Prompt" : "프롬프트",
     "Chat" : "대화",
     "Generates a possible headline for a text." : "내용에 대한 헤드라인을 생성하십시오.",
+    "Text" : "텍스트",
     "Summarize" : "요약",
     "Summary" : "요약",
     "Extract topics" : "주제 추출",

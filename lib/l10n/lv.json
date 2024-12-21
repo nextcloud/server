@@ -123,6 +123,7 @@
     "Storage connection error. %s" : "Datu savienojuma kļūda. %s",
     "Storage is temporarily not available" : "Glabātuve īslaicīgi nav pieejama",
     "Storage connection timeout. %s" : "Datu savienojuma taimauts. %s",
+    "Text" : "Teksts",
     "Summary" : "Kopsavilkums",
     "Translate" : "Tulkot",
     "File name is a reserved word" : "Datnes nosaukums ir aizņemts vārds",

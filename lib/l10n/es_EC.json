@@ -227,6 +227,7 @@
     "Storage connection timeout. %s" : "El tiempo de la conexión del almacenamiento se agotó. %s",
     "Confirmation" : "Confirmación",
     "Prompt" : "Promoción",
+    "Text" : "Texto",
     "Summary" : "Resumen",
     "Translate" : "Traducir",
     "Target language" : "Lenguaje de destino",

@@ -145,6 +145,7 @@
     "Storage connection error. %s" : "საცავის კავშირის შეცდომა. %s",
     "Storage is temporarily not available" : "საცავი დროებით ხელმიუწვდომელია",
     "Storage connection timeout. %s" : "საცავის კავშირის დროის ამოწურვა. %s",
+    "Text" : "ტექსტი",
     "Summary" : "შეჯამება",
     "Translate" : "გადათარგმნეთ",
     "Result" : "შედეგი",

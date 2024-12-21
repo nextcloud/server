@@ -251,6 +251,7 @@
     "Storage connection timeout. %s" : "S'ha superat el temps d'espera de la connexió d'emmagatzematge. %s",
     "Confirmation" : "Confirmació",
     "Generates a possible headline for a text." : "Genera un titular possible per a un text.",
+    "Text" : "Text",
     "Summarize" : "Resumeix",
     "Summary" : "Resum",
     "Extract topics" : "Extreu els temes",
