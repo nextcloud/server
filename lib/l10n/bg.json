@@ -225,6 +225,7 @@
     "Storage connection timeout. %s" : "Време за изчакване при свързването с хранилище. %s",
     "Confirmation" : "Потвърждение",
     "Prompt" : "Подкана",
+    "Text" : "Текст",
     "Summary" : "Резюме",
     "Translate" : "Превод",
     "Target language" : "Целеви език",

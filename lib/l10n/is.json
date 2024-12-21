@@ -227,6 +227,7 @@
     "Storage is temporarily not available" : "Gagnageymsla ekki tiltæk í augnablikinu",
     "Storage connection timeout. %s" : "Gagnageymsla féll á tíma. %s",
     "Generates a possible headline for a text." : "Útbýr mögulega fyrirsögn fyrir texta.",
+    "Text" : "Texti",
     "Summarize" : "Gera samantekt",
     "Summary" : "Samantekt",
     "Extract topics" : "Taka út efnisflokka",

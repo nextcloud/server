@@ -208,6 +208,7 @@
     "How many images to generate" : "Kuinka monta kuvaa luodaan",
     "Output images" : "Valmiit kuvat",
     "The generated images" : "Luodut kuvat",
+    "Text" : "Teksti",
     "Summarize" : "Luo yhteenveto",
     "Summarizes a text" : "Luo yhteenvedon tekstistä",
     "The original text to summarize" : "Alkuperäinen teksti, josta yhteenveto muodostetaan",

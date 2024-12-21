@@ -382,6 +382,7 @@
     "Original text" : "Originaltext",
     "The original text to generate a headline for" : "Der Originaltext, für den eine Überschrift erstellt werden soll",
     "The generated headline" : "Die erstellte Überschrift",
+    "Text" : "Text",
     "Reformulate text" : "Text umformulieren",
     "Takes a text and reformulates it" : "Formuliert einen Text um",
     "Write a text that you want the assistant to reformulate" : "Text schreiben, den der Assistent umformulieren soll",

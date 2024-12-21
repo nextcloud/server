@@ -336,6 +336,7 @@
     "Original text" : "Оригинальный текст",
     "The original text to generate a headline for" : "Исходный текст для создания заголовка для",
     "The generated headline" : "Сгенерированный заголовок",
+    "Text" : "Текст",
     "Reformulate text" : "Переформулировать текст",
     "Takes a text and reformulates it" : "Берет текст и переформулирует его",
     "Write a text that you want the assistant to reformulate" : "Напишите текст, который вы хотите, чтобы ассистент переформулировал",
