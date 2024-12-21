@@ -382,6 +382,7 @@
     "Original text" : "Jatorrizko testua",
     "The original text to generate a headline for" : "Izenburu bat sortzeko jatorrizko testua",
     "The generated headline" : "Sortutako izenburua",
+    "Text" : "Testua",
     "Reformulate text" : "Birformulatu testua",
     "Takes a text and reformulates it" : "Testu bat hartu eta birformulatu egiten du",
     "Write a text that you want the assistant to reformulate" : "Idatz ezazu laguntzaileak birformulatzea nahi duzun testu bat",

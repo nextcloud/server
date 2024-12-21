@@ -126,6 +126,7 @@
     "Storage connection error. %s" : "Koneksi penyimpanan bermasalah. %s",
     "Storage is temporarily not available" : "Penyimpanan sementara tidak tersedia",
     "Storage connection timeout. %s" : "Koneksi penyimpanan waktu-habis. %s",
+    "Text" : "Teks",
     "Summary" : "Kesimpulan",
     "Translate" : "Terjemahkan",
     "File name is a reserved word" : "Nama berkas merupakan kata yang disediakan",
