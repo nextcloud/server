@@ -54,7 +54,7 @@ use OCA\DAV\DAV\PublicAuth;
 use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\DAV\Events\SabrePluginAddEvent;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
-use OCA\DAV\Files\BrowserErrorPagePlugin;
+use OCA\DAV\Files\ErrorPagePlugin;
 use OCA\DAV\Files\FileSearchBackend;
 use OCA\DAV\Files\LazySearchBackend;
 use OCA\DAV\Paginate\PaginatePlugin;
@@ -246,9 +246,7 @@ class Server {
 			$this->server->addPlugin(new FakeLockerPlugin());
 		}
 
-		if (BrowserErrorPagePlugin::isBrowserRequest($request)) {
-			$this->server->addPlugin(new BrowserErrorPagePlugin());
-		}
+		$this->server->addPlugin(new ErrorPagePlugin($this->request, \OC::$server->getConfig()));
 
 		$lazySearchBackend = new LazySearchBackend();
 		$this->server->addPlugin(new SearchPlugin($lazySearchBackend));

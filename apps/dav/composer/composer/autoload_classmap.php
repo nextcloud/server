@@ -277,7 +277,7 @@ return array(
     'OCA\\DAV\\Events\\SubscriptionUpdatedEvent' => $baseDir . '/../lib/Events/SubscriptionUpdatedEvent.php',
     'OCA\\DAV\\Exception\\ServerMaintenanceMode' => $baseDir . '/../lib/Exception/ServerMaintenanceMode.php',
     'OCA\\DAV\\Exception\\UnsupportedLimitOnInitialSyncException' => $baseDir . '/../lib/Exception/UnsupportedLimitOnInitialSyncException.php',
-    'OCA\\DAV\\Files\\BrowserErrorPagePlugin' => $baseDir . '/../lib/Files/BrowserErrorPagePlugin.php',
+    'OCA\\DAV\\Files\\ErrorPagePlugin' => $baseDir . '/../lib/Files/ErrorPagePlugin.php',
     'OCA\\DAV\\Files\\FileSearchBackend' => $baseDir . '/../lib/Files/FileSearchBackend.php',
     'OCA\\DAV\\Files\\FilesHome' => $baseDir . '/../lib/Files/FilesHome.php',
     'OCA\\DAV\\Files\\LazySearchBackend' => $baseDir . '/../lib/Files/LazySearchBackend.php',
