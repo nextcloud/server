@@ -124,7 +124,7 @@ OC.L10N.register(
     "Select file or folder to link to" : "Izbor datoteke ali mape za povezavo",
     "Choose {file}" : "Izberite datoteko {file}",
     "Loading current folder" : "Poteka nalaganje trenutne mape",
-    "Retry" : "Poskusi znova",
+    "Retry" : "Poskusi znova     ",
     "No files in here" : "V mapi ni datotek",
     "Upload some content or sync with your devices!" : "Uvozite vsebino, ali pa omogočite usklajevanje z napravami!",
     "Go back" : "Skoči nazaj",
