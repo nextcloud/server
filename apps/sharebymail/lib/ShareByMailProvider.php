@@ -352,10 +352,6 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			);
 		}
 
-		$emailTemplate->addBodyText(
-			$this->l->t('Click the button below to open it.')
-		);
-
 		$emailTemplate->addBodyButton(
 			$this->l->t('Open %s', [$filename]),
 			$link
