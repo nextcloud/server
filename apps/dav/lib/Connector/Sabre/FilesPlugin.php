@@ -199,6 +199,11 @@ class FilesPlugin extends ServerPlugin {
 				throw new Forbidden($source . " cannot be deleted");
 			}
 		}
+
+		// The source is not allowed to be the parent of the target
+		if (str_starts_with($source, $destination . '/')) {
+			throw new Forbidden($source . ' cannot be moved to it\'s parent');
+		}
 	}
 
 	/**
