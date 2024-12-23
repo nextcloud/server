@@ -170,7 +170,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.4.2
 	- license: MIT
 - marked
-	- version: 15.0.0
+	- version: 15.0.4
 	- license: MIT
 - md5
 	- version: 2.3.0
