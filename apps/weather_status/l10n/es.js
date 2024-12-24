@@ -1,7 +1,7 @@
 OC.L10N.register(
     "weather_status",
     {
-    "Unknown address" : "Direcciones desconocidas",
+    "Unknown address" : "Dirección desconocida",
     "No result." : "Sin resultados.",
     "Malformed JSON data." : "Datos JSON mal formados.",
     "Error" : "Error",
