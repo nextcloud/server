@@ -126,6 +126,7 @@ OC.L10N.register(
     "Send emails using" : "使用 email 发送",
     "User's email account" : "用户的 email 账号",
     "System email account" : "系统 email 账号",
+    "Security & setup checks" : "安全性与设置检查",
     "Background jobs" : "后台任务",
     "Unlimited" : "无限",
     "Verifying" : "正在验证",
