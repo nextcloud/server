@@ -17,6 +17,7 @@
     "Failed to send share by email. Got an invalid email address" : "无法通过邮箱发送分享。无效邮箱",
     "Failed to send share by email" : "通过邮件发送共享失败",
     "%1$s shared %2$s with you" : "%1$s 与您分享了 %2$s ",
+    "Note:" : "说明：",
     "Open %s" : "打开 %s",
     "%1$s via %2$s" : "%1$s 通过 %2$s",
     "It is protected with the following password:" : "其已被以下密码保护：",

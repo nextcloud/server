@@ -206,6 +206,7 @@ OC.L10N.register(
     "Deck board" : "看板",
     "ScienceMesh" : "ScienceMesh",
     "on {server}" : "在 {server} 上",
+    "Note:" : "说明：",
     "File drop" : "文件拖放",
     "Terms of service" : "服务条款",
     "Submit name" : "提交名称",
