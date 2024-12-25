@@ -28,7 +28,6 @@ namespace OCA\TwoFactorBackupCodes\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
-use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IUserManager;
@@ -61,7 +60,7 @@ class RememberBackupCodesJob extends TimedJob {
 		$this->jobList = $jobList;
 
 		$this->setInterval(60 * 60 * 24 * 14);
-		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 	protected function run($argument) {

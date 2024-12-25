@@ -6,7 +6,6 @@ OC.L10N.register(
     "View file" : "Zobrazit soubor",
     "View folder" : "Zobrazit složku",
     "Set file reminders" : "Nastavit připomínky souborů",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Připomínky souborů**\n\nNastavte připomínky souborů.",
     "We will remind you of this file" : "Připomeneme vám tento soubor",
     "Please choose a valid date & time" : "Zvolte platný datum a čas",
     "Cancel" : "Storno",

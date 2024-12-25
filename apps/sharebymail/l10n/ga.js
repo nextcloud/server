@@ -19,11 +19,9 @@ OC.L10N.register(
     "Failed to send share by email. Got an invalid email address" : "Theip ar roinnt a sheoladh trí ríomhphost. Fuair ​​tú seoladh ríomhphoist neamhbhailí",
     "Failed to send share by email" : "Theip ar roinnt a sheoladh trí ríomhphost",
     "%1$s shared %2$s with you" : "%1$s roinnte %2$s leat",
-    "%1$s shared %2$s with you." : "%1$s roinnte %2$s leat.",
     "Note:" : "Nóta:",
     "This share is valid until %s at midnight" : "Tá an sciar seo bailí go dtí%sag meán oíche",
     "Expiration:" : "Dul in éag:",
-    "Click the button below to open it." : "Cliceáil ar an gcnaipe thíos chun é a oscailt.",
     "Open %s" : "Oscailte %s",
     "%1$s via %2$s" : "%1$s trí %2$s",
     "%1$s shared %2$s with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s roinnte %2$s leat.\nBa chóir go mbeadh post ar leith faighte agat cheana féin le nasc chun rochtain a fháil air.\n",
@@ -48,6 +46,7 @@ OC.L10N.register(
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Theip ar chomhroinnt %1$s, toisc go bhfuil an mhír seo roinnte cheana féin le húsáideoir %2$s",
     "%1$s shared »%2$s« with you" : "Roinn %1$s »%2$s« leat",
     "%1$s shared »%2$s« with you." : "Roinn %1$s »%2$s« leat.",
+    "Click the button below to open it." : "Cliceáil ar an gcnaipe thíos chun é a oscailt.",
     "Open »%s«" : "Oscail »%s«",
     "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "Roinn %1$s »%2$s« leat.\nBa cheart go mbeadh ríomhphost ar leith faighte agat cheana féin le nasc chun é a rochtain.\n",
     "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "Roinn %1$s »%2$s« leat. Ba cheart go mbeadh ríomhphost ar leith faighte agat cheana féin le nasc chun é a rochtain.",
@@ -58,6 +57,7 @@ OC.L10N.register(
     "»%s« added a note to a file shared with you" : "Chuir »%s« nóta le comhad a roinntear leat",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Roinn tú »%1$s« le %2$s. Seoladh an sciar chuig an bhfaighteoir cheana féin. De bharr na bpolasaithe slándála atá sainmhínithe ag riarthóir %3$s ní mór gach sciar a chosaint le pasfhocal agus ní cheadaítear an pasfhocal a sheoladh go díreach chuig an bhfaighteoir. Mar sin ní mór duit an pasfhocal a chur ar aghaidh de láimh chuig an bhfaighteoir.",
     "Password to access »%1$s« shared by you with %2$s" : "Pasfocal chun rochtain a fháil ar »%1$s« arna chomhroinnt agat le %2$s",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Ligeann sé d’úsáideoirí nasc pearsantaithe chuig comhad nó fillteán a roinnt trí sheoladh ríomhphoist a chur isteach."
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Ligeann sé d’úsáideoirí nasc pearsantaithe chuig comhad nó fillteán a roinnt trí sheoladh ríomhphoist a chur isteach.",
+    "%1$s shared %2$s with you." : "%1$s roinnte %2$s leat."
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

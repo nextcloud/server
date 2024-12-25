@@ -6,7 +6,6 @@ OC.L10N.register(
     "View file" : "Vezi fișierul",
     "View folder" : "Vezi dosarul",
     "Set file reminders" : "Setează memo pentru fișier",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Mementouri fișier**\n\nSetează mementorui fișier.",
     "We will remind you of this file" : "Vă vom reaminti despre acest fișier",
     "Please choose a valid date & time" : "Selectați o dată și o oră valide",
     "Cancel" : "Anulare",

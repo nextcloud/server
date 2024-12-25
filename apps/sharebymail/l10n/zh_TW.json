@@ -17,11 +17,9 @@
     "Failed to send share by email. Got an invalid email address" : "經由電子郵件傳送分享失敗。收到無效的電子郵件地址",
     "Failed to send share by email" : "經由電子郵件寄送分享失敗",
     "%1$s shared %2$s with you" : "%1$s 與您分享了 %2$s",
-    "%1$s shared %2$s with you." : "%1$s 與您分享了 %2$s。",
     "Note:" : "備註：",
     "This share is valid until %s at midnight" : "此分享有效期限至 %s 午夜",
     "Expiration:" : "過期於：",
-    "Click the button below to open it." : "點擊下方的按鈕將其打開。",
     "Open %s" : "開啟 %s",
     "%1$s via %2$s" : "%1$s 經由 %2$s",
     "%1$s shared %2$s with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s 與您分享了 %2$s。\n您應該已經收到一封包含了可以存取它的連結的單獨郵件。\n",
@@ -46,6 +44,7 @@
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "此項目已經與使用者 %2$s 分享，%1$s 分享失敗",
     "%1$s shared »%2$s« with you" : "%1$s 與您分享了「%2$s」",
     "%1$s shared »%2$s« with you." : "%1$s 與您分享了「%2$s」。",
+    "Click the button below to open it." : "點擊下方的按鈕將其打開。",
     "Open »%s«" : "開啟「%s」",
     "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s 與您分享了「%2$s」。\n您應該已收到一封包含存取連結的單獨郵件。\n",
     "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s 與您分享了「%2$s」。您應該已收到一封包含存取連結的單獨郵件。",
@@ -56,6 +55,7 @@
     "»%s« added a note to a file shared with you" : "「%s」在與您分享的檔案中加入了備註",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "您剛與 %2$s 分享了「%1$s」。分享已寄送給收件者。由於管理員定義的安全策略 %3$s，每個分享都需要使用密碼保護，且不允許將密碼直接傳送給收件者。因此，您必須手動將密碼轉寄給收件者。",
     "Password to access »%1$s« shared by you with %2$s" : "您與 %2$s 分享了存取「%1$s」的密碼",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "允許使用者透過輸入電子郵件地址，來分享檔案或資料夾的個人化連結。"
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "允許使用者透過輸入電子郵件地址，來分享檔案或資料夾的個人化連結。",
+    "%1$s shared %2$s with you." : "%1$s 與您分享了 %2$s。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -88,7 +88,6 @@ OC.L10N.register(
     "no sharing rights on this item" : "Ingen delingsrettigheter på dette elementet",
     "You are not allowed to edit incoming shares" : "Du har ikke lov til å redigere innkommende delinger",
     "Wrong or no update parameter given" : "Feil eller ingen parametre for oppdatering er angitt",
-    "You are not allowed to edit link shares that you don't own" : "Du har ikke lov til å redigere delte lenker du ikke eier",
     "Share must at least have READ or CREATE permissions" : "Deling må minst ha READ- eller CREATE-tillatelser",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "Del må ha READ-tillatelse hvis UPDATE eller DELETE-tillatelse er angitt",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Sende passordet av Nextcloud Talk\" for deling av en fil eller mappe mislyktes fordi Nextcloud Talk ikke er aktivert.",
@@ -372,7 +371,6 @@ OC.L10N.register(
     "Bundled permissions" : "Medfølgende tillatelser",
     "Only works for users with access to this folder" : "Virker kun for brukere med tilgang til mappen",
     "Only works for users with access to this file" : "Virker kun for brukere med tilgang til denne filen",
-    "Enter a date" : "Skriv inn dato",
     "Circle" : "Sirkel",
     "Allow download" : "Tillat nedlasting",
     "No other users with access found" : "Ingen andre brukere med tilgang funnet",
@@ -385,6 +383,7 @@ OC.L10N.register(
     "the link expired" : "lenken er utløpt",
     "sharing is disabled" : "deling er avskrudd",
     "For more info, please ask the person who sent this link." : "For mer informasjon, spør personen som sendte lenken.",
+    "You are not allowed to edit link shares that you don't own" : "Du har ikke lov til å redigere delte lenker du ikke eier",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 e-postadresse allerede lagt til","{count} e-postadresser allerede lagt til"],
     "_1 email address added_::_{count} email addresses added_" : ["1 e-postadresse lagt til","{count} e-postadresser lagt til"],
     "Enter your name" : "Skriv inn navnet ditt"

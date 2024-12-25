@@ -39,7 +39,7 @@ use OC\Share20\ShareDisableChecker;
 use OC_App;
 use OC_Hook;
 use OC_Util;
-use OCA\Files_External\Config\ConfigAdapter;
+use OCA\Files_External\Config\ExternalMountPoint;
 use OCA\Files_Sharing\External\Mount;
 use OCA\Files_Sharing\ISharedMountPoint;
 use OCA\Files_Sharing\SharedMount;
@@ -149,7 +149,7 @@ class SetupManager {
 
 		// install storage availability wrapper, before most other wrappers
 		Filesystem::addStorageWrapper('oc_availability', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
-			$externalMount = $mount instanceof ConfigAdapter || $mount instanceof Mount;
+			$externalMount = $mount instanceof ExternalMountPoint || $mount instanceof Mount;
 			if ($externalMount && !$storage->isLocal()) {
 				return new Availability(['storage' => $storage]);
 			}

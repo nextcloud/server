@@ -21,7 +21,6 @@
     "Address" : "хаяг",
     "Profile picture" : "Профайл зураг",
     "About" : "Тухай",
-    "Open »%s«" : "»%s« нээх",
     "Sunday" : "ням гариг",
     "Monday" : "даваа",
     "Tuesday" : "мягмар",
@@ -41,6 +40,7 @@
     "File name is too long" : "Файлын нэр хэтэрхий урт байна",
     "Help" : "Туслах",
     "Users" : "хэрэглэгч",
-    "Unknown user" : "Тодорхойгүй хэрэглэгч"
+    "Unknown user" : "Тодорхойгүй хэрэглэгч",
+    "Open »%s«" : "»%s« нээх"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

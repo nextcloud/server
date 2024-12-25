@@ -37,6 +37,9 @@ use OCA\DAV\CalDAV\Reminder\NotificationTypeDoesNotExistException;
 use OCA\DAV\Capabilities;
 use Test\TestCase;
 
+/**
+ * @group DB
+ */
 class NotificationProviderManagerTest extends TestCase {
 
 	/** @var NotificationProviderManager|\PHPUnit\Framework\MockObject\MockObject */

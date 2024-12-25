@@ -6,7 +6,6 @@ OC.L10N.register(
     "View file" : "Visa fil",
     "View folder" : "Visa mapp",
     "Set file reminders" : "Ställ in filpåminnelser",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Filpåminnelser**\n\nStäll in filpåminnelser.",
     "We will remind you of this file" : "Vi kommer att påminna dig om denna fil",
     "Please choose a valid date & time" : "Välj ett giltigt datum och tid",
     "Cancel" : "Avbryt",

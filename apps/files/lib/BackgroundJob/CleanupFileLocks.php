@@ -32,19 +32,11 @@ use OCP\BackgroundJob\TimedJob;
  */
 class CleanupFileLocks extends TimedJob {
 	/**
-	 * Default interval in minutes
-	 *
-	 * @var int $defaultIntervalMin
-	 **/
-	protected $defaultIntervalMin = 5;
-
-	/**
 	 * sets the correct interval for this timed job
 	 */
 	public function __construct(ITimeFactory $time) {
 		parent::__construct($time);
-
-		$this->interval = $this->defaultIntervalMin * 60;
+		$this->setInterval(5 * 60);
 	}
 
 	/**

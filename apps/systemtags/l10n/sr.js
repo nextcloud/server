@@ -68,6 +68,8 @@ OC.L10N.register(
     "Manage tags" : "Управљање ознакама",
     "Applying tags changes…" : "Примењују се измене ознака…",
     "Search or create tag" : "Претражи или креирај ознаку",
+    "Change tag color" : "Промени боју ознаке",
+    "Create new tag" : "Креирај нову ознаку",
     "Select or create tags to apply to all selected files" : "Избор или креирање ознака које ће се применити на све изабране фајлове",
     "Cancel" : "Откажи",
     "Apply changes" : "Примени измене",

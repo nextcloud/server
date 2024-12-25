@@ -159,7 +159,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Nepodarilo sa premenovať dočasný súbor na finálny, zrušené háčikom (hook)",
     "Could not rename part file to final file" : "Nepodarilo sa premenovať dočasný súbor na finálny.",
     "Failed to check file size: %1$s" : "Kontrola veľkosti súboru zlyhala: %1$s",
-    "Could not open file" : "Súbor sa nepodarilo otvoriť",
     "Encryption not ready: %1$s" : "Šifrovanie nie je dostupné: %1$s",
     "Failed to open file: %1$s" : "Otvorenie súboru zlyhalo: %1$s",
     "Failed to unlink: %1$s" : "Odpojenie zlyhalo: %1$s",
@@ -233,6 +232,7 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Vaša účasť bola aktualizovaná úspešne.",
     "To-dos" : "Úlohy",
     "Time:" : "Čas:",
+    "Could not open file" : "Súbor sa nepodarilo otvoriť",
     "Invalid chunk name" : "Neplatný názov bloku",
     "Could not rename part file assembled from chunks" : "Nepodarilo sa premenovať dočasný súbor vytvorený z blokov",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ak nakonfigurujete svoj pracovný čas, ostatní používatelia uvidia, keď si rezervujete schôdzku, keď nebudete v práci."

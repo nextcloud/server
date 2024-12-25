@@ -561,7 +561,9 @@ class CustomPropertiesBackend implements BackendInterface {
 			$value = $value->getHref();
 		} else {
 			$valueType = self::PROPERTY_TYPE_OBJECT;
-			$value = serialize($value);
+			// serialize produces null character
+			// these can not be properly stored in some databases and need to be replaced
+			$value = str_replace(chr(0), '\x00', serialize($value));
 		}
 		return [$value, $valueType];
 	}
@@ -576,7 +578,9 @@ class CustomPropertiesBackend implements BackendInterface {
 			case self::PROPERTY_TYPE_HREF:
 				return new Href($value);
 			case self::PROPERTY_TYPE_OBJECT:
-				return unserialize($value);
+				// some databases can not handel null characters, these are custom encoded during serialization
+				// this custom encoding needs to be first reversed before unserializing
+				return unserialize(str_replace('\x00', chr(0), $value));
 			case self::PROPERTY_TYPE_STRING:
 			default:
 				return $value;

@@ -68,6 +68,8 @@ OC.L10N.register(
     "Manage tags" : "Schlagworte verwalten",
     "Applying tags changes…" : "Schlagwort-Änderungen werden angewendet…",
     "Search or create tag" : "Schlagwort suchen oder erstellen",
+    "Change tag color" : "Schlagwortfarbe ändern",
+    "Create new tag" : "Neues Schlagwort erstellen",
     "Select or create tags to apply to all selected files" : "Schlagwort auswählen oder erstellen, die auf alle ausgewählten Dateien angewendet werden sollen",
     "Cancel" : "Abbrechen",
     "Apply changes" : "Änderungen anwenden",

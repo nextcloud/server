@@ -6,7 +6,6 @@ OC.L10N.register(
     "View file" : "Rodyti failą",
     "View folder" : "Rodyti aplanką",
     "Set file reminders" : "Nustatyti priminimus apie failus",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Priminimai apie failus**\n\nNustatyti priminimus apie failus.",
     "Please choose a valid date & time" : "Pasirinkite tinkamą datą ir laiką",
     "Cancel" : "Atsisakyti",
     "Clear reminder" : "Panaikinti priminimą",

@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OC\OCM;
 
+use GuzzleHttp\Exception\ConnectException;
 use JsonException;
 use OCP\AppFramework\Http;
 use OCP\Http\Client\IClientService;
@@ -69,10 +70,23 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 	 */
 	public function discover(string $remote, bool $skipCache = false): IOCMProvider {
 		$remote = rtrim($remote, '/');
+		if (!str_starts_with($remote, 'http://') && !str_starts_with($remote, 'https://')) {
+			// if scheme not specified, we test both;
+			try {
+				return $this->discover('https://' . $remote, $skipCache);
+			} catch (OCMProviderException|ConnectException) {
+				return $this->discover('http://' . $remote, $skipCache);
+			}
+		}
 
 		if (!$skipCache) {
 			try {
-				$this->provider->import(json_decode($this->cache->get($remote) ?? '', true, 8, JSON_THROW_ON_ERROR) ?? []);
+				$cached = $this->cache->get($remote);
+				if ($cached === false) {
+					throw new OCMProviderException('Previous discovery failed.');
+				}
+
+				$this->provider->import(json_decode($cached ?? '', true, 8, JSON_THROW_ON_ERROR) ?? []);
 				if ($this->supportedAPIVersion($this->provider->getApiVersion())) {
 					return $this->provider; // if cache looks valid, we use it
 				}
@@ -99,8 +113,10 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 				$this->cache->set($remote, $body, 60 * 60 * 24);
 			}
 		} catch (JsonException|OCMProviderException $e) {
+			$this->cache->set($remote, false, 5 * 60);
 			throw new OCMProviderException('data returned by remote seems invalid - ' . ($body ?? ''));
 		} catch (\Exception $e) {
+			$this->cache->set($remote, false, 5 * 60);
 			$this->logger->warning('error while discovering ocm provider', [
 				'exception' => $e,
 				'remote' => $remote
@@ -109,6 +125,7 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 		}
 
 		if (!$this->supportedAPIVersion($this->provider->getApiVersion())) {
+			$this->cache->set($remote, false, 5 * 60);
 			throw new OCMProviderException('API version not supported');
 		}
 

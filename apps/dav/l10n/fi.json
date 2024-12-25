@@ -120,7 +120,6 @@
     "File is not updatable: %1$s" : "Tiedosto ei ole päivitettävissä: %1$s",
     "_%n byte_::_%n bytes_" : ["%n tavu","%n tavua"],
     "Failed to check file size: %1$s" : "Tiedoston koon tarkistaminen epäonnistui: %1$s",
-    "Could not open file" : "Tiedoston avaaminen ei onnistunut",
     "Encryption not ready: %1$s" : "Salaus ei ole valmis: %1$s",
     "Failed to open file: %1$s" : "Tiedoston avaaminen epäonnistui: %1$s",
     "File not found: %1$s" : "Tiedostoa ei löydy: %1$s",
@@ -159,6 +158,7 @@
     "Tentative" : "Alustava",
     "Your attendance was updated successfully." : "Osallistumisesi päivitettiin onnistuneesti.",
     "To-dos" : "Tehtävät",
-    "Time:" : "Aika:"
+    "Time:" : "Aika:",
+    "Could not open file" : "Tiedoston avaaminen ei onnistunut"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

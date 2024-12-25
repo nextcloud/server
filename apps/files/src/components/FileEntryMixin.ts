@@ -19,22 +19,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
-import { showError } from '@nextcloud/dialogs'
+import { extname } from 'path'
 import { FileType, Permission, Folder, File as NcFile, NodeStatus, Node, getFileActions } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
+import { showError } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
 import { vOnClickOutside } from '@vueuse/components'
 import { extname } from 'path'
 import Vue, { computed, defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
-import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
 import logger from '../logger.js'
 
 Vue.directive('onClickOutside', vOnClickOutside)
@@ -193,7 +193,20 @@ export default defineComponent({
 			}
 
 			return actions
-				.filter(action => !action.enabled || action.enabled([this.source], this.currentView))
+				.filter(action => {
+					if (!action.enabled) {
+						return true
+					}
+
+					// In case something goes wrong, since we don't want to break
+					// the entire list, we filter out actions that throw an error.
+					try {
+						return action.enabled([this.source], this.currentView)
+					} catch (error) {
+						logger.error('Error while checking action', { action, error })
+						return false
+					}
+				})
 				.sort((a, b) => (a.order || 0) - (b.order || 0))
 		},
 

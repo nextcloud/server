@@ -13,6 +13,8 @@ OC.L10N.register(
     "Original location" : "Pradinė vieta",
     "Deleted" : "Ištrinta",
     "A long time ago" : "Prieš ilgą laiką",
+    "Cancel" : "Atsisakyti",
+    "Deletion cancelled" : "Ištrynimo atsisakyta",
     "List of files that have been deleted." : "Ištrintų failų sąrašas.",
     "No deleted files" : "Ištrintų failų nėra",
     "Files and folders you have deleted will show up here" : "Čia bus rodomi failai ir aplankai, kuriuos ištrynėte",

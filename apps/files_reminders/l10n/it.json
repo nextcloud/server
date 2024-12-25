@@ -4,7 +4,7 @@
     "View file" : "Visualizza file",
     "View folder" : "Visualizza cartella",
     "Set file reminders" : "Imposta promemoria per i file",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Promemoria file**\n\nImposta promemoria per i file.",
+    "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 File reminders**I\n\nImposta promemoria file.\n\nNota: per usare l'app `Promemoria file`, assicurati che l'app `Notifiche` sia installata e abilitata. L'app `Notifiche` fornisce le API necessarie per il corretto funzionamento dell'app `File reminders`.",
     "We will remind you of this file" : "Ti ricorderemo questo file",
     "Please choose a valid date & time" : "Si prega di scegliere una data valida & ora",
     "Cancel" : "Annulla",

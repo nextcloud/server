@@ -189,7 +189,7 @@ class ImageExportPluginTest extends TestCase {
 				->willThrowException(new NotFoundException());
 			$this->response->expects($this->once())
 				->method('setStatus')
-				->with(404);
+				->with(\OCP\AppFramework\Http::STATUS_NO_CONTENT);
 		}
 
 		$result = $this->plugin->httpGet($this->request, $this->response);

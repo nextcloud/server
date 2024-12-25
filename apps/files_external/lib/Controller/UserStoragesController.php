@@ -108,7 +108,7 @@ class UserStoragesController extends StoragesController {
 	 *
 	 * {@inheritdoc}
 	 */
-	public function show($id, $testOnly = true) {
+	public function show(int $id, $testOnly = true) {
 		return parent::show($id, $testOnly);
 	}
 
@@ -233,7 +233,7 @@ class UserStoragesController extends StoragesController {
 	 */
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
-	public function destroy($id) {
+	public function destroy(int $id) {
 		return parent::destroy($id);
 	}
 }

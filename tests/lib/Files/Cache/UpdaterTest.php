@@ -9,7 +9,10 @@
 namespace Test\Files\Cache;
 
 use OC\Files\Filesystem;
+use OC\Files\ObjectStore\ObjectStoreStorage;
+use OC\Files\ObjectStore\StorageObjectStore;
 use OC\Files\Storage\Temporary;
+use OCP\Files\Storage\IStorage;
 
 /**
  * Class UpdaterTest
@@ -301,5 +304,37 @@ class UpdaterTest extends \Test\TestCase {
 			$this->assertEquals($old['fileid'], $new['fileid']);
 			$this->assertEquals($old['mimetype'], $new['mimetype']);
 		}
+	}
+
+	public function changeExtensionProvider(): array {
+		return [
+			[new Temporary()],
+			[new ObjectStoreStorage(['objectstore' => new StorageObjectStore(new Temporary())])]
+		];
+	}
+
+	/**
+	 * @dataProvider changeExtensionProvider
+	 */
+	public function testChangeExtension(IStorage $storage) {
+		$updater = $storage->getUpdater();
+		$cache = $storage->getCache();
+		$storage->file_put_contents('foo', 'qwerty');
+		$updater->update('foo');
+
+		$bareCached = $cache->get('foo');
+		$this->assertEquals('application/octet-stream', $bareCached->getMimeType());
+
+		$storage->rename('foo', 'foo.txt');
+		$updater->renameFromStorage($storage, 'foo', 'foo.txt');
+
+		$cached = $cache->get('foo.txt');
+		$this->assertEquals('text/plain', $cached->getMimeType());
+
+		$storage->rename('foo.txt', 'foo.md');
+		$updater->renameFromStorage($storage, 'foo.txt', 'foo.md');
+
+		$cachedTarget = $cache->get('foo.md');
+		$this->assertEquals('text/markdown', $cachedTarget->getMimeType());
 	}
 }

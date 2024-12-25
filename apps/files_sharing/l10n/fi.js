@@ -277,7 +277,6 @@ OC.L10N.register(
     "Upload" : "Lähetä",
     "Only works for users with access to this folder" : "Toimii vain käyttäjille, joilla on oikeus tähän kansioon",
     "Only works for users with access to this file" : "Toimii vain käyttäjille, joilla on käyttöoikeus tähän tiedostoon",
-    "Enter a date" : "Syötä päivämäärä",
     "Circle" : "Piiri",
     "Allow download" : "Salli lataus",
     "No other users with access found" : "Ei löytynyt muita käyttäjiä, joilla olisi käyttöoikeus",

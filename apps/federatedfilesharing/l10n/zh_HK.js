@@ -12,7 +12,7 @@ OC.L10N.register(
     "Not allowed to create a federated share to the same account" : "不允許與同一個帳戶建立聯邦分享",
     "Federated shares require read permissions" : "聯合分享需要讀取權限",
     "File is already shared with %s" : "檔案已和 %s 分享",
-    "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "%1$s 分享失敗，無法找到 %2$s，可能該伺服器當前無法訪問或者使用了自簽名證書。",
+    "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "%1$s 分享失敗，無法找到 %2$s，可能該伺服器目前無法訪問或者使用了自簽名證書。",
     "Could not find share" : "沒有發現分享 ",
     "Federated sharing" : "聯盟式分享",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "您得到 {share} 是從 {user} 的遠程分享（代替 {behalf}）",

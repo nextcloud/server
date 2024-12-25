@@ -6,7 +6,7 @@ OC.L10N.register(
     "View file" : "Dosyayı görüntüle",
     "View folder" : "Klasörü görüntüle",
     "Set file reminders" : "Dosya anımsatıcıları ayarla",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Dosya anımsatıcıları**\n\nDosya anımsatıcıları ayarla.",
+    "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 Dosya anımsatıcıları**\n\nDosya anımsatıcıları ayarlayın.\n\nNot: `Dosya anımsatıcıları` uygulamasını kullanmak için `Bildirimler` uygulamasının kurulmuş ve etkinleştirilmiş olduğundan emin olun. `Bildirimler` uygulaması `Dosya anımsatıcıları` uygulamasının doğru çalışması için gerekli API uygulamalarını sağlar.",
     "We will remind you of this file" : "Size bu dosyayı anımsatacağız",
     "Please choose a valid date & time" : "Lütfen geçerli bir tarih ve saat seçin",
     "Cancel" : "İptal",
