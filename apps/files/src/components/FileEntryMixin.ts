@@ -28,7 +28,6 @@ import { generateUrl } from '@nextcloud/router'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { vOnClickOutside } from '@vueuse/components'
-import { extname } from 'path'
 import Vue, { computed, defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
