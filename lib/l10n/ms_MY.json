@@ -49,6 +49,7 @@
     "Dec." : "Dis.",
     "Authentication error" : "Ralat pengesahan",
     "Help" : "Bantuan",
-    "Users" : "Pengguna"
+    "Users" : "Pengguna",
+    "Open »%s«" : "Buka %s"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
