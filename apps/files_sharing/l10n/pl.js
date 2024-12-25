@@ -109,6 +109,7 @@ OC.L10N.register(
     "Send link via email" : "Wyślij link mailem",
     "Link copied to clipboard" : "Link skopiowany do schowka",
     "Select" : "Wybierz",
+    "Create a file request" : "Utwórz żądanie pliku",
     "Cancel" : "Anuluj",
     "Close" : "Zamknij",
     "Continue" : "Kontynuuj",
