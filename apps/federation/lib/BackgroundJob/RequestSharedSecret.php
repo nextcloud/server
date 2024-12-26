@@ -48,7 +48,7 @@ class RequestSharedSecret extends Job {
 		private IDiscoveryService $ocsDiscoveryService,
 		private LoggerInterface $logger,
 		ITimeFactory $timeFactory,
-		private IConfig $config
+		private IConfig $config,
 	) {
 		parent::__construct($timeFactory);
 		$this->httpClient = $httpClientService->newClient();

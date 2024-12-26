@@ -40,6 +40,7 @@ class Admin implements IDelegatedSettings {
 		$this->initialState->provideInitialState('incomingServer2serverGroupShareEnabled', $this->fedShareProvider->isIncomingServer2serverGroupShareEnabled());
 		$this->initialState->provideInitialState('lookupServerEnabled', $this->fedShareProvider->isLookupServerQueriesEnabled());
 		$this->initialState->provideInitialState('lookupServerUploadEnabled', $this->fedShareProvider->isLookupServerUploadEnabled());
+		$this->initialState->provideInitialState('federatedTrustedShareAutoAccept', $this->fedShareProvider->isFederatedTrustedShareAutoAccept());
 
 		return new TemplateResponse('federatedfilesharing', 'settings-admin', [], '');
 	}
@@ -76,6 +77,7 @@ class Admin implements IDelegatedSettings {
 				'incomingServer2serverGroupShareEnabled',
 				'lookupServerEnabled',
 				'lookupServerUploadEnabled',
+				'federatedTrustedShareAutoAccept',
 			],
 		];
 	}

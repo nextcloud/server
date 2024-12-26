@@ -999,6 +999,11 @@ class FederatedShareProvider implements IShareProvider {
 		return ($result === 'yes');
 	}
 
+	public function isFederatedTrustedShareAutoAccept() {
+		$result = $this->config->getAppValue('files_sharing', 'federatedTrustedShareAutoAccept', 'yes');
+		return ($result === 'yes');
+	}
+
 	/**
 	 * @inheritdoc
 	 */

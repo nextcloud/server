@@ -43,6 +43,12 @@
 			@update:checked="update('lookupServerUploadEnabled', lookupServerUploadEnabled)">
 			{{ t('federatedfilesharing', 'Allow people to publish their data to a global and public address book') }}
 		</NcCheckboxRadioSwitch>
+
+		<NcCheckboxRadioSwitch type="switch"
+			:checked.sync="federatedTrustedShareAutoAccept"
+			@update:checked="update('federatedTrustedShareAutoAccept', federatedTrustedShareAutoAccept)">
+			{{ t('federatedfilesharing', 'Automatically accept shares from federated accounts and groups by default') }}
+		</NcCheckboxRadioSwitch>
 	</NcSettingsSection>
 </template>
 
@@ -74,6 +80,7 @@ export default {
 			federatedGroupSharingSupported: loadState('federatedfilesharing', 'federatedGroupSharingSupported'),
 			lookupServerEnabled: loadState('federatedfilesharing', 'lookupServerEnabled'),
 			lookupServerUploadEnabled: loadState('federatedfilesharing', 'lookupServerUploadEnabled'),
+			federatedTrustedShareAutoAccept: loadState('federatedfilesharing', 'federatedTrustedShareAutoAccept'),
 			internalOnly: loadState('federatedfilesharing', 'internalOnly'),
 			sharingFederatedDocUrl: loadState('federatedfilesharing', 'sharingFederatedDocUrl'),
 		}
