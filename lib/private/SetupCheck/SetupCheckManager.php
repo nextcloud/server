@@ -23,14 +23,14 @@ class SetupCheckManager implements ISetupCheckManager {
 	) {
 	}
 	
-	public function runClass(): array {
+	public function runClass(string $limitClass): array {
 		if (str_starts_with($limitClass, '\\')) {
 			$limitClass = substr($limitClass, 1);
 		}
 		return $this->run($limitClass);
 	}
 	
-	public function runCategory(): array {
+	public function runCategory(string $limitCategory): array {
 		return $this->run($limitCategory);
 	}
 	
