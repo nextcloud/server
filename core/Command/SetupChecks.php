@@ -11,6 +11,7 @@ namespace OC\Core\Command;
 
 use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\SetupCheck\ISetupCheckManager;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -28,11 +29,41 @@ class SetupChecks extends Base {
 		$this
 			->setName('setupchecks')
 			->setDescription('Run setup checks and output the results')
+			->addArgument(
+				'type',
+				InputArgument::OPTIONAL,
+				'Category (or class) of setup checks to run ' . "\n" . '(e.g. "network" to run all the network-related checks or "OCA\\Settings\\SetupChecks\\InternetConnectivity" to run only the InternetConnectivity check)',
+				'all'
+			)
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$results = $this->setupCheckManager->runAll();
+		$limit = $input->getArgument('type');
+
+		if (!is_string($limit)) {
+			$output->writeln('<error>Invalid type specified</error>');
+			return self::FAILURE;
+		}
+
+		switch ($limit) {
+			case 'all': // run all checks (the default)
+				$results = $this->setupCheckManager->runAll();
+				break;
+
+			default: // limit checks to a specific category or class
+				if (substr_count($limit, '\\') > 1) {
+					$results = $this->setupCheckManager->runClass($limit);
+				} else {
+					$results = $this->setupCheckManager->runCategory($limit);
+				}
+
+				if (empty($results)) {
+					$output->writeln('<error>Invalid type specified (or no results for that type)</error>');
+					return self::FAILURE;
+				}
+		}
+
 		switch ($input->getOption('output')) {
 			case self::OUTPUT_FORMAT_JSON:
 			case self::OUTPUT_FORMAT_JSON_PRETTY:
