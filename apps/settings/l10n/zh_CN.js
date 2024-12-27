@@ -218,6 +218,7 @@ OC.L10N.register(
     "One or more mimetype migrations are available. Occasionally new mimetypes are added to better handle certain file types. Migrating the mimetypes take a long time on larger instances so this is not done automatically during upgrades. Use the command `occ maintenance:repair --include-expensive` to perform the migrations." : "有一个或多个 mimetype 迁移可用。有时会添加新的 mimetype 以更好地处理某些文件类型。在较大的实例上迁移 mimetype 需要很长时间，因此升级期间不会自动完成此操作。使用命令 \"occ Maintenance:repair --include-expensive\" 执行迁移。",
     "MySQL row format" : "MySQL 行格式",
     "You are not using MySQL" : "您没有使用MySQL",
+    "None of your tables use ROW_FORMAT=Compressed" : "没有表使用行格式压缩",
     "MySQL Unicode support" : "MySQL Unicode 支持",
     "MySQL is used as database and does support 4-byte characters" : "MySQL用作数据库并且支持4字节字符",
     "MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL." : "MySQL 用作数据库，但不支持 4 字节字符。为了能够处理 4 字节字符（如表情符号），而不会在文件名或注释中出现问题，建议在 MySQL 中启用 4 字节支持。",
