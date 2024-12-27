@@ -32,6 +32,11 @@ return [
 			'verb' => 'POST',
 		],
 		[
+			'name' => 'Settings#getServers',
+			'url' => '/trusted-servers',
+			'verb' => 'GET'
+		],
+		[
 			'name' => 'Settings#addServer',
 			'url' => '/trusted-servers',
 			'verb' => 'POST'

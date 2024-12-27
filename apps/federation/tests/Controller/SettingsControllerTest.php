@@ -9,8 +9,7 @@ namespace OCA\Federation\Tests\Controller;
 
 use OCA\Federation\Controller\SettingsController;
 use OCA\Federation\TrustedServers;
-use OCP\AppFramework\Http\DataResponse;
-use OCP\HintException;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\IL10N;
 use OCP\IRequest;
 use Test\TestCase;
@@ -56,20 +55,18 @@ class SettingsControllerTest extends TestCase {
 			->willReturn(true);
 
 		$result = $this->controller->addServer('url');
-		$this->assertTrue($result instanceof DataResponse);
+		$this->assertTrue($result instanceof JSONResponse);
 
 		$data = $result->getData();
 		$this->assertSame(200, $result->getStatus());
-		$this->assertSame('url', $data['url']);
-		$this->assertArrayHasKey('id', $data);
+		$this->assertSame('url', $data['data']['url']);
+		$this->assertArrayHasKey('id', $data['data']);
 	}
 
 	/**
 	 * @dataProvider checkServerFails
 	 */
 	public function testAddServerFail(bool $isTrustedServer, bool $isNextcloud): void {
-		$this->expectException(HintException::class);
-
 		$this->trustedServers
 			->expects($this->any())
 			->method('isTrustedServer')
@@ -81,7 +78,15 @@ class SettingsControllerTest extends TestCase {
 			->with('url')
 			->willReturn($isNextcloud);
 
-		$this->controller->addServer('url');
+		$result = $this->controller->addServer('url');
+		$this->assertTrue($result instanceof JSONResponse);
+		if ($isTrustedServer) {
+			$this->assertSame(409, $result->getStatus());
+		}
+
+		if (!$isNextcloud) {
+			$this->assertSame(404, $result->getStatus());
+		}
 	}
 
 	public function testRemoveServer(): void {
@@ -89,7 +94,7 @@ class SettingsControllerTest extends TestCase {
 			->method('removeServer')
 			->with(1);
 		$result = $this->controller->removeServer(1);
-		$this->assertTrue($result instanceof DataResponse);
+		$this->assertTrue($result instanceof JSONResponse);
 		$this->assertSame(200, $result->getStatus());
 	}
 
@@ -106,7 +111,7 @@ class SettingsControllerTest extends TestCase {
 			->willReturn(true);
 
 		$this->assertTrue(
-			$this->invokePrivate($this->controller, 'checkServer', ['url'])
+			$this->invokePrivate($this->controller, 'checkServer', ['url']) === null
 		);
 	}
 
@@ -114,8 +119,6 @@ class SettingsControllerTest extends TestCase {
 	 * @dataProvider checkServerFails
 	 */
 	public function testCheckServerFail(bool $isTrustedServer, bool $isNextcloud): void {
-		$this->expectException(HintException::class);
-
 		$this->trustedServers
 			->expects($this->any())
 			->method('isTrustedServer')
@@ -128,7 +131,7 @@ class SettingsControllerTest extends TestCase {
 			->willReturn($isNextcloud);
 
 		$this->assertTrue(
-			$this->invokePrivate($this->controller, 'checkServer', ['url'])
+			$this->invokePrivate($this->controller, 'checkServer', ['url']) instanceof JSONResponse
 		);
 	}
 

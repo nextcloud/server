@@ -11,10 +11,8 @@ use OCA\Federation\Settings\Admin;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
-use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\OCSController;
-use OCP\HintException;
 use OCP\IL10N;
 use OCP\IRequest;
 
@@ -30,26 +28,26 @@ class SettingsController extends OCSController {
 
 
 	/**
-	 * Add server to the list of trusted Nextclouds.
+	 * Add server to the list of trusted Nextcloud servers
+	 *
+	 * @param string $url The URL of the server to add
+	 * @return JSONResponse<Http::STATUS_OK, array{data: array{id: int, message: string, url: string}, status: 'ok'}, array{}>|JSONResponse<Http::STATUS_NOT_FOUND|Http::STATUS_CONFLICT, array{data: array{hint: string, message: string}, status: 'error'}, array{}>
+	 *
+	 * 200: Server added successfully
+	 * 404: Server not found at the given URL
+	 * 409: Server is already in the list of trusted servers
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
 	public function addServer(string $url): JSONResponse {
-		try {
-			$this->checkServer(trim($url));
-		} catch (HintException $e) {
-			return new JSONResponse([
-				'message' => 'error',
-				'data' => [
-					'message' => $e->getMessage(),
-					'hint' => $e->getHint(),
-				],
-			], $e->getCode());
+		$check = $this->checkServer(trim($url));
+		if ($check instanceof JSONResponse) {
+			return $check;
 		}
 
 		// Add the server to the list of trusted servers, all is well
 		$id = $this->trustedServers->addServer(trim($url));
 		return new JSONResponse([
-			'message' => 'ok',
+			'status' => 'ok',
 			'data' => [
 				'url' => $url,
 				'id' => $id,
@@ -59,36 +57,94 @@ class SettingsController extends OCSController {
 	}
 
 	/**
-	 * Add server to the list of trusted Nextclouds.
+	 * Add server to the list of trusted Nextcloud servers
+	 *
+	 * @param int $id The ID of the trusted server to remove
+	 * @return JSONResponse<Http::STATUS_OK, array{data: array{id: int}, status: 'ok'}, array{}>|JSONResponse<Http::STATUS_NOT_FOUND, array{data: array{message: string}, status: 'error'}, array{}>
+	 *
+	 * 200: Server removed successfully
+	 * 404: Server not found at the given ID
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
 	public function removeServer(int $id): JSONResponse {
-		$this->trustedServers->removeServer($id);
+		try {
+			$this->trustedServers->removeServer($id);
+			return new JSONResponse([
+				'status' => 'ok',
+				'data' => ['id' => $id],
+			]);
+		} catch (\Exception $e) {
+			return new JSONResponse([
+				'status' => 'error',
+				'data' => [
+					'message' => $e->getMessage(),
+				],
+			], Http::STATUS_NOT_FOUND);
+		}
+	}
+
+	/**
+	 * List all trusted servers
+	 *
+	 * @return JSONResponse<Http::STATUS_OK, array{data: list<array{id: int, status: int, url: string}>, status: 'ok'}, array{}>
+	 *
+	 * 200: List of trusted servers
+	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
+	public function getServers(): JSONResponse {
+		$servers = $this->trustedServers->getServers();
+
+		// obfuscate the shared secret
+		$servers = array_map(function ($server) {
+			return [
+				'url' => $server['url'],
+				'id' => $server['id'],
+				'status' => $server['status'],
+			];
+		}, $servers);
+
+		// return the list of trusted servers
 		return new JSONResponse([
-			'message' => 'ok',
-			'data' => ['id' => $id],
+			'status' => 'ok',
+			'data' => $servers,
 		]);
 	}
+
 
 	/**
 	 * Check if the server should be added to the list of trusted servers or not.
 	 *
-	 * @throws HintException
+	 * @return JSONResponse<Http::STATUS_NOT_FOUND|Http::STATUS_CONFLICT, array{data: array{hint: string, message: string}, status: 'error'}, array{}>|null
+	 *
+	 * 404: Server not found at the given URL
+	 * 409: Server is already in the list of trusted servers
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
-	protected function checkServer(string $url): bool {
+	protected function checkServer(string $url): ?JSONResponse {
 		if ($this->trustedServers->isTrustedServer($url) === true) {
 			$message = 'Server is already in the list of trusted servers.';
 			$hint = $this->l->t('Server is already in the list of trusted servers.');
-			throw new HintException($message, $hint, Http::STATUS_CONFLICT);
+			return new JSONResponse([
+				'status' => 'error',
+				'data' => [
+					'message' => $message,
+					'hint' => $hint,
+				],
+			], Http::STATUS_CONFLICT);
 		}
 
 		if ($this->trustedServers->isNextcloudServer($url) === false) {
 			$message = 'No server to federate with found';
 			$hint = $this->l->t('No server to federate with found');
-			throw new HintException($message, $hint, Http::STATUS_NOT_FOUND);
+			return new JSONResponse([
+				'status' => 'error',
+				'data' => [
+					'message' => $message,
+					'hint' => $hint,
+				],
+			], Http::STATUS_NOT_FOUND);
 		}
 
-		return true;
+		return null;
 	}
 }
