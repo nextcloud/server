@@ -9,14 +9,16 @@ namespace OCA\Federation\Controller;
 
 use OCA\Federation\Settings\Admin;
 use OCA\Federation\TrustedServers;
-use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\OCSController;
 use OCP\HintException;
 use OCP\IL10N;
 use OCP\IRequest;
 
-class SettingsController extends Controller {
+class SettingsController extends OCSController {
 	public function __construct(
 		string $AppName,
 		IRequest $request,
@@ -29,18 +31,30 @@ class SettingsController extends Controller {
 
 	/**
 	 * Add server to the list of trusted Nextclouds.
-	 *
-	 * @throws HintException
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
-	public function addServer(string $url): DataResponse {
-		$this->checkServer(trim($url));
-		$id = $this->trustedServers->addServer(trim($url));
+	public function addServer(string $url): JSONResponse {
+		try {
+			$this->checkServer(trim($url));
+		} catch (HintException $e) {
+			return new JSONResponse([
+				'message' => 'error',
+				'data' => [
+					'message' => $e->getMessage(),
+					'hint' => $e->getHint(),
+				],
+			], $e->getCode());
+		}
 
-		return new DataResponse([
-			'url' => $url,
-			'id' => $id,
-			'message' => $this->l->t('Added to the list of trusted servers')
+		// Add the server to the list of trusted servers, all is well
+		$id = $this->trustedServers->addServer(trim($url));
+		return new JSONResponse([
+			'message' => 'ok',
+			'data' => [
+				'url' => $url,
+				'id' => $id,
+				'message' => $this->l->t('Added to the list of trusted servers')
+			],
 		]);
 	}
 
@@ -48,9 +62,12 @@ class SettingsController extends Controller {
 	 * Add server to the list of trusted Nextclouds.
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
-	public function removeServer(int $id): DataResponse {
+	public function removeServer(int $id): JSONResponse {
 		$this->trustedServers->removeServer($id);
-		return new DataResponse();
+		return new JSONResponse([
+			'message' => 'ok',
+			'data' => ['id' => $id],
+		]);
 	}
 
 	/**
@@ -63,13 +80,13 @@ class SettingsController extends Controller {
 		if ($this->trustedServers->isTrustedServer($url) === true) {
 			$message = 'Server is already in the list of trusted servers.';
 			$hint = $this->l->t('Server is already in the list of trusted servers.');
-			throw new HintException($message, $hint);
+			throw new HintException($message, $hint, Http::STATUS_CONFLICT);
 		}
 
 		if ($this->trustedServers->isNextcloudServer($url) === false) {
 			$message = 'No server to federate with found';
 			$hint = $this->l->t('No server to federate with found');
-			throw new HintException($message, $hint);
+			throw new HintException($message, $hint, Http::STATUS_NOT_FOUND);
 		}
 
 		return true;
