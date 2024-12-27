@@ -22,13 +22,31 @@ class SetupCheckManager implements ISetupCheckManager {
 		private LoggerInterface $logger,
 	) {
 	}
-
+	
+	public function runClass(): array {
+		if (str_starts_with($limitClass, '\\')) {
+			$limitClass = substr($limitClass, 1);
+		}
+		return $this->run($limitClass);
+	}
+	
+	public function runCategory(): array {
+		return $this->run($limitCategory);
+	}
+	
 	public function runAll(): array {
+		return $this->run();
+	}
+	
+	private function run(?string $limit = null): array {
 		$results = [];
 		$setupChecks = $this->coordinator->getRegistrationContext()->getSetupChecks();
 		foreach ($setupChecks as $setupCheck) {
 			/** @var ISetupCheck $setupCheckObject */
 			$setupCheckObject = Server::get($setupCheck->getService());
+			if (isset($limit) && $limit !== $setupCheckObject->getCategory() && $limit !== get_class($setupCheckObject)) {
+				continue;
+			}
 			$this->logger->debug('Running check ' . get_class($setupCheckObject));
 			try {
 				$setupResult = $setupCheckObject->run();
