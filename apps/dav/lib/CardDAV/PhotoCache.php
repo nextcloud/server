@@ -27,6 +27,7 @@ class PhotoCache {
 		'image/gif' => 'gif',
 		'image/vnd.microsoft.icon' => 'ico',
 		'image/webp' => 'webp',
+		'image/avif' => 'avif',
 	];
 
 	/**
