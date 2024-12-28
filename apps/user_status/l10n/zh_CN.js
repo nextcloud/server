@@ -40,7 +40,7 @@ OC.L10N.register(
     "Invisible" : "隐身",
     "Offline" : "离线",
     "There was an error saving the new status" : "保存新状态时出错",
-    "30 minutes" : "30分钟",
+    "30 minutes" : "30 分钟",
     "1 hour" : "1小时",
     "4 hours" : "4小时",
     "Mute all notifications" : "静音所有通知",
