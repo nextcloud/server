@@ -274,7 +274,7 @@ export default {
 	},
 	computed: {
 		useFahrenheitLocale() {
-			return ['en_US', 'en_MH', 'en_FM', 'en_PW', 'en_KY', 'en_LR'].includes(this.locale)
+			return ['en', 'en_US', 'en_MH', 'en_FM', 'en_PW', 'en_KY', 'en_LR'].includes(this.locale)
 		},
 		temperatureUnit() {
 			return this.useFahrenheitLocale ? '°F' : '°C'
