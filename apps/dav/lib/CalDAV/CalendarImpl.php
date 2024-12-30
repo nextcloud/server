@@ -8,12 +8,16 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV;
 
+use Exception;
+use InvalidArgumentException;
 use Generator;
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCP\Calendar\CalendarExportOptions;
+use OCP\Calendar\CalendarImportOptions;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICalendarExport;
+use OCP\Calendar\ICalendarImport;
 use OCP\Calendar\ICalendarIsEnabled;
 use OCP\Calendar\ICalendarIsShared;
 use OCP\Calendar\ICalendarIsWritable;
@@ -26,11 +30,14 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\ITip\Message;
+use Sabre\VObject\Node;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
+use Sabre\VObject\UUIDUtil;
+
 use function Sabre\Uri\split as uriSplit;
 
-class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIsWritable, ICalendarIsShared, ICalendarExport, ICalendarIsEnabled {
+class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIsWritable, ICalendarIsShared, ICalendarImport, ICalendarExport, ICalendarIsEnabled {
 	public function __construct(
 		private Calendar $calendar,
 		/** @var array<string, mixed> */
