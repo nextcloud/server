@@ -11,7 +11,7 @@ OC.L10N.register(
     "{actor} shared with group {group}" : "{actor} group گۇرۇپپا {group} بىلەن ئورتاقلاشتى",
     "{actor} removed share for group {group}" : "{actor} group گۇرۇپپا {group} ئۈلۈشىنى ئېلىۋەتتى",
     "Share for group {group} expired" : "گۇرۇپپا {group} ئۈچۈن ئورتاقلىشىش ۋاقتى توشتى",
-    "You shared {file} with group {group}" : "گۇرۇپپا ھۆججىتى بىلەن {ھۆججەت} نى ئورتاقلاشتىڭىز",
+    "You shared {file} with group {group}" : "سىز {file} نى گۇرۇپپا {group} بىلەن ئورتاقلاشتىڭىز",
     "You removed group {group} from {file}" : "گۇرۇپپا {group} نى {file} ئۆچۈردىڭىز",
     "{actor} shared {file} with group {group}" : "{actor} گۇرۇپپا {file} بىلەن ئورتاقلاشقان {group}",
     "{actor} removed group {group} from {file}" : "{actor} گۇرۇپپا {group} {file} چىقىرىۋېتىلدى",

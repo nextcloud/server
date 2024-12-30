@@ -16,6 +16,7 @@ OC.L10N.register(
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Automaattisesti muodostettua salasanaa ei voi lähettää sinulle. Aseta kelvollinen sähköpostiosoite henkilökohtaisiin asetuksiisi ja yritä uudelleen.",
     "Failed to send share by email. Got an invalid email address" : "Jaon lähettäminen sähköpostitse epäonnistui. Virheellinen sähköpostiosoite",
     "Failed to send share by email" : "Jaon lähettäminen sähköpostitse epäonnistui",
+    "Note:" : "Huomioi:",
     "%1$s via %2$s" : "%1$s palvelun %2$s kautta",
     "It is protected with the following password:" : "Se on suojattu seuraavalla salasanalla:",
     "This password will expire at %s" : "Tämä salasana vanhenee %s",
