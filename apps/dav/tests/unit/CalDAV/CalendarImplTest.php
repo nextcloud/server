@@ -5,6 +5,7 @@
  */
 namespace OCA\DAV\Tests\unit\CalDAV;
 
+use Generator;
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
@@ -12,32 +13,31 @@ use OCA\DAV\CalDAV\CalendarImpl;
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCA\DAV\CalDAV\Schedule\Plugin;
 use OCA\DAV\Connector\Sabre\Server;
+use OCP\Calendar\CalendarImportOptions;
 use OCP\Calendar\Exceptions\CalendarException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Reader;
+use Sabre\VObject\UUIDUtil;
 
 class CalendarImplTest extends \Test\TestCase {
-	/** @var CalendarImpl */
-	private $calendarImpl;
 
-	/** @var Calendar | \PHPUnit\Framework\MockObject\MockObject */
-	private $calendar;
-
-	/** @var array */
-	private $calendarInfo;
-
-	/** @var CalDavBackend | \PHPUnit\Framework\MockObject\MockObject */
-	private $backend;
+	private Calendar|MockObject $calendar;
+	private array $calendarInfo;
+	private CalDavBackend|MockObject $backend;
+	private CalendarImpl|MockObject $calendarImpl;
+	private UUIDUtil|MockObject $uuidUtil;
+	private array $mockImportCollection;
+	private array $mockExportCollection;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->calendar = $this->createMock(Calendar::class);
 		$this->calendarInfo = [
-			'id' => 'fancy_id_123',
+			'id' => 1,
 			'{DAV:}displayname' => 'user readable name 123',
 			'{http://apple.com/ns/ical/}calendar-color' => '#AABBCC',
 			'uri' => '/this/is/a/uri',
@@ -45,13 +45,18 @@ class CalendarImplTest extends \Test\TestCase {
 		];
 		$this->backend = $this->createMock(CalDavBackend::class);
 
-		$this->calendarImpl = new CalendarImpl($this->calendar,
-			$this->calendarInfo, $this->backend);
+		$this->calendarImpl = new CalendarImpl(
+			$this->calendar,
+			$this->calendarInfo,
+			$this->backend
+		);
+
+		$this->uuidUtil = $this->createMock(UUIDUtil::class);
 	}
 
 
 	public function testGetKey(): void {
-		$this->assertEquals($this->calendarImpl->getKey(), 'fancy_id_123');
+		$this->assertEquals($this->calendarImpl->getKey(), 1);
 	}
 
 	public function testGetDisplayname(): void {
@@ -261,4 +266,239 @@ EOF;
 		$iTipMessage->message = $vObject;
 		return $iTipMessage;
 	}
+
+	protected function mockImportGenerator(CalendarImportOptions $options): Generator {
+		foreach ($this->mockImportCollection as $entry) {
+			yield $entry;
+		}
+	}
+
+	protected function mockExportGenerator(): Generator {
+		foreach ($this->mockExportCollection as $entry) {
+			yield $entry;
+		}
+	}
+
+	public function testExport(): void {
+		// construct calendar with a 1 hour event and same start/end time zones
+		$vCalendar = new VCalendar();
+		/** @var VEvent $vEvent */
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('SUMMARY', 'Test Recurrence Event');
+		$vEvent->add('ORGANIZER', 'mailto:organizer@testing.com', ['CN' => 'Organizer']);
+		$vEvent->add('ATTENDEE', 'mailto:attendee1@testing.com', [
+			'CN' => 'Attendee One',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'NEEDS-ACTION',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE'
+		]);
+		// construct data store return
+		$this->mockExportCollection[] = [
+			'id' => 1,
+			'calendardata' => $vCalendar->serialize()
+		];
+		$this->backend->expects($this->once())
+			->method('exportCalendar')
+			->with(1, $this->backend::CALENDAR_TYPE_CALENDAR, null)
+			->willReturn($this->mockExportGenerator());
+		// test export
+		foreach ($this->calendarImpl->export(null) as $entry) {
+			$exported[] = $entry;
+		}
+		$this->assertCount(1, $exported, 'Invalid exported items count');
+	}
+
+	public function testImportNewObject(): void {
+
+		// construct calendar with a 1 hour event and same start/end time zones
+		$vCalendar = new VCalendar();
+		/** @var VEvent $vEvent */
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('SUMMARY', 'Test Recurrence Event');
+		$vEvent->add('ORGANIZER', 'mailto:organizer@testing.com', ['CN' => 'Organizer']);
+		$vEvent->add('ATTENDEE', 'mailto:attendee1@testing.com', [
+			'CN' => 'Attendee One',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'NEEDS-ACTION',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE'
+		]);
+		$this->mockImportCollection[] = $vCalendar;
+		// construct mock backend
+		$this->backend->expects($this->once())
+			->method('getCalendarObjectByUID')
+			->with(
+				$this->calendarInfo['principaluri'],
+				$vEvent->UID->getValue()
+			)
+			->willReturn(null);
+		$this->backend->expects($this->once())
+			->method('createCalendarObject')
+			->withAnyParameters();
+
+		$options = new CalendarImportOptions();
+		// test import
+		$outcome = $this->calendarImpl->import($options, $this->mockImportGenerator(...));
+		$this->assertCount(1, $outcome, 'No import status returned');
+		$this->assertArrayHasKey('96a0e6b1-d886-4a55-a60d-152b31401dcc', $outcome, 'No import status returned for object');
+		$this->assertEquals('created', $outcome['96a0e6b1-d886-4a55-a60d-152b31401dcc']['outcome'], 'Invalid import status returned for object');
+
+	}
+
+	public function testImportExistingObjectUpdated(): void {
+
+		// construct calendar with a 1 hour event and same start/end time zones
+		$vCalendar = new VCalendar();
+		/** @var VEvent $vEvent */
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('SUMMARY', 'Test Recurrence Event');
+		$vEvent->add('ORGANIZER', 'mailto:organizer@testing.com', ['CN' => 'Organizer']);
+		$vEvent->add('ATTENDEE', 'mailto:attendee1@testing.com', [
+			'CN' => 'Attendee One',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'NEEDS-ACTION',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE'
+		]);
+		$this->mockImportCollection[] = $vCalendar;
+		// construct mock backend
+		$this->backend->expects($this->once())
+			->method('getCalendarObjectByUID')
+			->with(
+				$this->calendarInfo['principaluri'],
+				$vEvent->UID->getValue()
+			)
+			->willReturn($this->calendarInfo['id'] . '/' . $vEvent->UID->getValue());
+		$this->backend->expects($this->once())
+			->method('updateCalendarObject')
+			->withAnyParameters();
+
+		$options = new CalendarImportOptions();
+		$options->supersede = true;
+		// test import
+		$outcome = $this->calendarImpl->import($options, $this->mockImportGenerator(...));
+		$this->assertCount(1, $outcome, 'No import status returned');
+		$this->assertArrayHasKey('96a0e6b1-d886-4a55-a60d-152b31401dcc', $outcome, 'No import status returned for object');
+		$this->assertEquals('updated', $outcome['96a0e6b1-d886-4a55-a60d-152b31401dcc']['outcome'], 'Invalid import status returned for object');
+	
+	}
+
+	public function testImportExistingObjectExists(): void {
+
+		// construct calendar with a 1 hour event and same start/end time zones
+		$vCalendar = new VCalendar();
+		/** @var VEvent $vEvent */
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('SUMMARY', 'Test Recurrence Event');
+		$vEvent->add('ORGANIZER', 'mailto:organizer@testing.com', ['CN' => 'Organizer']);
+		$vEvent->add('ATTENDEE', 'mailto:attendee1@testing.com', [
+			'CN' => 'Attendee One',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'NEEDS-ACTION',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE'
+		]);
+		$this->mockImportCollection[] = $vCalendar;
+		// construct mock backend
+		$this->backend->expects($this->once())
+			->method('getCalendarObjectByUID')
+			->with(
+				$this->calendarInfo['principaluri'],
+				$vEvent->UID->getValue()
+			)
+			->willReturn($this->calendarInfo['id'] . '/' . $vEvent->UID->getValue());
+
+		$options = new CalendarImportOptions();
+		// test import
+		$outcome = $this->calendarImpl->import($options, $this->mockImportGenerator(...));
+		$this->assertCount(1, $outcome, 'No import status returned');
+		$this->assertArrayHasKey('96a0e6b1-d886-4a55-a60d-152b31401dcc', $outcome, 'No import status returned for object');
+		$this->assertEquals('exists', $outcome['96a0e6b1-d886-4a55-a60d-152b31401dcc']['outcome'], 'Invalid import status returned for object');
+	
+	}
+
+	public function testImportErrorNoBaseObject(): void {
+
+		// construct calendar object
+		$vCalendar = new VCalendar();
+		$this->mockImportCollection[] = $vCalendar;
+
+		$options = new CalendarImportOptions();
+		$options->errors = 0;
+		// test import
+		$outcome = $this->calendarImpl->import($options, $this->mockImportGenerator(...));
+		$this->assertCount(1, $outcome, 'No import status returned');
+		$this->assertArrayHasKey('nbct', $outcome, 'No import status returned for object');
+		$this->assertEquals('error', $outcome['nbct']['outcome'], 'Invalid import status returned for object');
+
+	}
+
+	public function testImportErrorMultipleBaseObjects(): void {
+
+		// construct calendar object
+		$vCalendar = new VCalendar();
+		$vCalendar->add('VEVENT', []);
+		$vCalendar->add('VTODO', []);
+		$this->mockImportCollection[] = $vCalendar;
+
+		$options = new CalendarImportOptions();
+		$options->errors = 0;
+		// test import
+		$outcome = $this->calendarImpl->import($options, $this->mockImportGenerator(...));
+		$this->assertCount(1, $outcome, 'No import status returned');
+		$this->assertArrayHasKey('mbct', $outcome, 'No import status returned for object');
+		$this->assertEquals('error', $outcome['mbct']['outcome'], 'Invalid import status returned for object');
+
+	}
+
+	public function testImportErrorNoUid(): void {
+
+		// construct calendar object
+		$vCalendar = new VCalendar();
+		$vCalendar->add('VEVENT', []);
+		$vCalendar->VEVENT->remove('UID');
+		$this->mockImportCollection[] = $vCalendar;
+
+		$options = new CalendarImportOptions();
+		$options->errors = 0;
+		// test import
+		$outcome = $this->calendarImpl->import($options, $this->mockImportGenerator(...));
+		$this->assertCount(1, $outcome, 'No import status returned');
+		$this->assertArrayHasKey('noid', $outcome, 'No import status returned for object');
+		$this->assertEquals('error', $outcome['noid']['outcome'], 'Invalid import status returned for object');
+
+	}
+
+	public function testImportErrorValidation(): void {
+
+		// construct calendar object
+		$vCalendar = new VCalendar();
+		/** @var VEvent $vEvent */
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$this->mockImportCollection[] = $vCalendar;
+
+		$options = new CalendarImportOptions();
+		$options->errors = 0;
+		// test import
+		$outcome = $this->calendarImpl->import($options, $this->mockImportGenerator(...));
+		$this->assertCount(1, $outcome, 'No import status returned');
+		$this->assertArrayHasKey('96a0e6b1-d886-4a55-a60d-152b31401dcc', $outcome, 'No import status returned for object');
+		$this->assertEquals('error', $outcome['96a0e6b1-d886-4a55-a60d-152b31401dcc']['outcome'], 'Invalid import status returned for object');
+
+	}
+
 }
