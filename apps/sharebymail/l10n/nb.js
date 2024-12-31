@@ -57,7 +57,6 @@ OC.L10N.register(
     "»%s« added a note to a file shared with you" : "»%s« la til en melding til en fil delt med deg",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Du har nettopp delt »%1$s« med %2$s. Delingen er allerede sendt til mottakeren. På grunn av sikkerhetsreglene som er definert av administratoren for %3$s, må hver delt passord beskyttes og det er ikke tillatt å sende passordet direkte til mottakeren. Derfor må du videresende passordet manuelt til mottakeren.",
     "Password to access »%1$s« shared by you with %2$s" : "Passord for å få tilgang til »%1$s« delt av deg med %2$s",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Tillater brukere å dele en personalisert lenke til ei fil eller mappe ved å skrive inn en e-postadresse.",
-    "%1$s shared %2$s with you." : "%1$s delte %2$s med deg."
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Tillater brukere å dele en personalisert lenke til ei fil eller mappe ved å skrive inn en e-postadresse."
 },
 "nplurals=2; plural=(n != 1);");

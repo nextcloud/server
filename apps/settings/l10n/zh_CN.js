@@ -923,7 +923,6 @@ OC.L10N.register(
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "要允许此检查运行，您必须确保您的网络服务器可以连接到自身。 因此，它必须能够解析并连接到至少一个 `trusted_domains` 或 `overwrite.cli.url`。",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "无法通过您的任何 “trusted_domains\" 或 \"overwrite.cli.url\" 检查 JavaScript 支持。 这可能是服务端 DNS 不匹配或出站防火墙规则造成的。 请手动检查您的网络服务器是否使用 JavaScript MIME 类型提供 \".mjs\" 文件。",
     "Active accounts" : "活跃账号",
-    "Users's email account" : "用户的 email 帐号",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "要允许此检查运行，您必须确保您的 Web 服务器可以连接到自身。因此，它必须能够解析并连接到其 \"trusted_domains\" 或 \"overwrite.cli.url\" 中的至少一个。此失败可能是服务端 DNS 不匹配或出站防火墙规则的结果。",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "检测到 PostgreSQL 版本\"%s\"。建议使用 PostgreSQL >=12 和 <=16，以获得此版本 Nextcloud 的最佳性能、稳定性和功能。"
 },

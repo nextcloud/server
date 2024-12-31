@@ -57,7 +57,6 @@ OC.L10N.register(
     "»%s« added a note to a file shared with you" : "«%s» engadiu unha nota a un ficheiro compartido con Vde.",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Vén de de compartir «%1$s» con %2$s. A compartición xa foi enviada ao destinatario. Por mor das directivas de seguranza definidas polo administrador de %3$s cada compartición necesita ser protexida por un contrasinal e non está permitido que Vde. envíe o contrasinal directamente ao destinatario. Daquela, necesita enviar manualmente o contrasinal ao destinatario.",
     "Password to access »%1$s« shared by you with %2$s" : "Contrasinal para acceder a «%1$s» compartida por Vde. con %2$s",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite que os usuarios compartan unha ligazón personalizada ou un ficheiro ou cartafol enviándoo a un enderezo de correo.",
-    "%1$s shared %2$s with you." : "%1$s compartiu %2$s con Vde."
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite que os usuarios compartan unha ligazón personalizada ou un ficheiro ou cartafol enviándoo a un enderezo de correo."
 },
 "nplurals=2; plural=(n != 1);");
