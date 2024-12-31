@@ -57,7 +57,6 @@ OC.L10N.register(
     "»%s« added a note to a file shared with you" : "»%s« あなたと共有しているファイルにノートを追加しました。 ",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "%1$sを%2$sと共有しました。共有は受信者に送信されています。セキュリティポリシーにより%3$sの管理者が共有はパスワードで保護されるべきで、直接受信者に送信するべきではないと定めている場合、手動で受信者にメールを転送する必要があります。",
     "Password to access »%1$s« shared by you with %2$s" : "%2$s と共有した »%1$s« にアクセスするパスワード",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "ユーザーがメールアドレスを使ってファイルやフォルダーへの個人リンクを共有することを許可します。",
-    "%1$s shared %2$s with you." : "%1$s は %2$s をあなたと共有しました。"
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "ユーザーがメールアドレスを使ってファイルやフォルダーへの個人リンクを共有することを許可します。"
 },
 "nplurals=1; plural=0;");

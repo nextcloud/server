@@ -57,7 +57,6 @@ OC.L10N.register(
     "»%s« added a note to a file shared with you" : "Chuir »%s« nóta le comhad a roinntear leat",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Roinn tú »%1$s« le %2$s. Seoladh an sciar chuig an bhfaighteoir cheana féin. De bharr na bpolasaithe slándála atá sainmhínithe ag riarthóir %3$s ní mór gach sciar a chosaint le pasfhocal agus ní cheadaítear an pasfhocal a sheoladh go díreach chuig an bhfaighteoir. Mar sin ní mór duit an pasfhocal a chur ar aghaidh de láimh chuig an bhfaighteoir.",
     "Password to access »%1$s« shared by you with %2$s" : "Pasfocal chun rochtain a fháil ar »%1$s« arna chomhroinnt agat le %2$s",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Ligeann sé d’úsáideoirí nasc pearsantaithe chuig comhad nó fillteán a roinnt trí sheoladh ríomhphoist a chur isteach.",
-    "%1$s shared %2$s with you." : "%1$s roinnte %2$s leat."
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Ligeann sé d’úsáideoirí nasc pearsantaithe chuig comhad nó fillteán a roinnt trí sheoladh ríomhphoist a chur isteach."
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

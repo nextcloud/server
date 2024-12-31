@@ -695,7 +695,6 @@ OC.L10N.register(
     "Nextcloud help resources" : "Nextcloud hulpbronnen",
     "SMTP Username" : "SMTP gebruikersnaam",
     "Follow us on Twitter" : "Volg ons op Twitter",
-    "Active accounts" : "Actieve accounts",
-    "Users's email account" : "E-mailaccount gebruiker"
+    "Active accounts" : "Actieve accounts"
 },
 "nplurals=2; plural=(n != 1);");

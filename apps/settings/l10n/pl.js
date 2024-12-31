@@ -840,7 +840,6 @@ OC.L10N.register(
     "Nextcloud help resources" : "Zasoby pomocy Nextcloud",
     "SMTP Username" : "Użytkownik SMTP",
     "Follow us on Twitter" : "Bądź z nami na Twitterze",
-    "Active accounts" : "Aktywne konta",
-    "Users's email account" : "Konto e-mail użytkowników"
+    "Active accounts" : "Aktywne konta"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
