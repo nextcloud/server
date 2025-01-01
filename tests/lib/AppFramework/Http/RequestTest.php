@@ -1155,7 +1155,7 @@ class RequestTest extends \Test\TestCase {
 				'1.0.0',
 			],
 			[
-				'Mozilla/5.0 (Linux) Nextcloud-Thunderbird v1.0.0',
+				'Fielink for *cloud/1.0.0',
 				Request::USER_AGENT_THUNDERBIRD_ADDON,
 				'1.0.0',
 			],
