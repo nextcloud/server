@@ -217,7 +217,7 @@
 import { emit } from '@nextcloud/event-bus'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { Type as ShareTypes } from '@nextcloud/sharing'
+import { ShareType } from '@nextcloud/sharing'
 import Vue from 'vue'
 import VueQrcode from '@chenfengyuan/vue-qrcode'
 
@@ -444,7 +444,7 @@ export default {
 		 */
 		isEmailShareType() {
 			return this.share
-				? this.share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL
+				? this.share.type === ShareType.Email
 				: false
 		},
 

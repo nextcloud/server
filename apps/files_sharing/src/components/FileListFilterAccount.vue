@@ -39,6 +39,7 @@
 import type { IAccountData } from '../filters/AccountFilter.ts'
 
 import { translate as t } from '@nextcloud/l10n'
+import { ShareType } from '@nextcloud/sharing'
 import { mdiAccountMultiple } from '@mdi/js'
 import { useBrowserLocation } from '@vueuse/core'
 import { computed, ref, watch } from 'vue'
@@ -49,7 +50,6 @@ import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import { ShareType } from '@nextcloud/sharing'
 
 interface IUserSelectData {
 	id: string
