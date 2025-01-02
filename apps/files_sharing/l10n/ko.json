@@ -306,7 +306,7 @@
     "_Reject share_::_Reject shares_" : ["공유 거절"],
     "_Restore share_::_Restore shares_" : ["공유 복원"],
     "Shared" : "공유됨",
-    "Shared by {ownerDisplayName}" : "{ownerDisplayName}이 변경함",
+    "Shared by {ownerDisplayName}" : "{ownerDisplayName}님이 공유함",
     "Shared multiple times with different people" : "여러 사용자와 공유됨",
     "Show sharing options" : "공유 옵션 표시",
     "Shared with others" : "다른 사람과 공유됨",
