@@ -342,9 +342,9 @@ export default {
 			switch (this.share.type) {
 			case ShareType.User:
 				return t('files_sharing', 'Share with {userName}', { userName: this.share.shareWithDisplayName })
-			case this.SHARE_TYPES.SHARE_TYPE_EMAIL:
+			case ShareType.Email:
 			    return t('files_sharing', 'Share with email {email}', { email: this.share.shareWith })
-			case this.SHARE_TYPES.SHARE_TYPE_LINK:
+			case ShareType.Link:
 				return t('files_sharing', 'Share link')
 			case ShareType.Group:
 				return t('files_sharing', 'Share with group')
