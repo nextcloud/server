@@ -767,7 +767,13 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		try {
 			$share = $provider->getShareByToken($sharedSecret);
 		} catch (ShareNotFound) {
-			return '';
+			// Maybe we're dealing with a share federated from another server
+			$share = $this->externalShareManager->getShareByToken($sharedSecret);
+			if ($share === false) {
+				return '';
+			}
+
+			return $share['user'] . '@' . $share['remote'];
 		}
 
 		// if uid_owner is a local account, the request comes from the recipient

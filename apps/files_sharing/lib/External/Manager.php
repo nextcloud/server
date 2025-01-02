@@ -177,6 +177,23 @@ class Manager {
 		return $share;
 	}
 
+	/**
+	 * get share by token
+	 *
+	 * @param string $token
+	 * @return mixed share of false
+	 */
+	private function fetchShareByToken($token) {
+		$getShare = $this->connection->prepare('
+			SELECT `id`, `remote`, `remote_id`, `share_token`, `name`, `owner`, `user`, `mountpoint`, `accepted`, `parent`, `share_type`, `password`, `mountpoint_hash`
+			FROM  `*PREFIX*share_external`
+			WHERE `share_token` = ?');
+		$result = $getShare->execute([$token]);
+		$share = $result->fetch();
+		$result->closeCursor();
+		return $share;
+	}
+
 	private function fetchUserShare($parentId, $uid) {
 		$getShare = $this->connection->prepare('
 			SELECT `id`, `remote`, `remote_id`, `share_token`, `name`, `owner`, `user`, `mountpoint`, `accepted`, `parent`, `share_type`, `password`, `mountpoint_hash`
@@ -199,12 +216,48 @@ class Manager {
 	 */
 	public function getShare($id) {
 		$share = $this->fetchShare($id);
-		$validShare = is_array($share) && isset($share['share_type']) && isset($share['user']);
 
 		// check if the user is allowed to access it
-		if ($validShare && (int)$share['share_type'] === IShare::TYPE_USER && $share['user'] === $this->uid) {
+		if ($this->canAccessShare($share)) {
 			return $share;
-		} elseif ($validShare && (int)$share['share_type'] === IShare::TYPE_GROUP) {
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get share by token
+	 *
+	 * @param string $token
+	 * @return array|false
+	 */
+	public function getShareByToken(string $token): array|false {
+		$share = $this->fetchShareByToken($token);
+
+		// We do not check if the user is allowed to access it here,
+		// as this is not used from a user context.
+		if ($share === false) {
+			return false;
+		}
+
+		return $share;
+	}
+
+	private function canAccessShare(array $share): bool {
+		$validShare = isset($share['share_type']) && isset($share['user']);
+
+		if (!$validShare) {
+			return false;
+		}
+
+		// If the share is a user share, check if the user is the recipient
+		if ((int)$share['share_type'] === IShare::TYPE_USER
+			&& $share['user'] === $this->uid) {
+			return true;
+		}
+		
+		// If the share is a group share, check if the user is in the group
+		if ((int)$share['share_type'] === IShare::TYPE_GROUP) {
 			$parentId = (int)$share['parent'];
 			if ($parentId !== -1) {
 				// we just retrieved a sub-share, switch to the parent entry for verification
@@ -212,9 +265,10 @@ class Manager {
 			} else {
 				$groupShare = $share;
 			}
+
 			$user = $this->userManager->get($this->uid);
 			if ($this->groupManager->get($groupShare['user'])->inGroup($user)) {
-				return $share;
+				return true;
 			}
 		}
 
