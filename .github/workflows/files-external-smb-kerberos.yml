@@ -32,7 +32,7 @@ jobs:
               - '**.php'
 
   files-external-smb-kerberos:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     needs: changes
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
