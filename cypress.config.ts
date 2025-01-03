@@ -34,8 +34,10 @@ export default defineConfig({
 	// Needed to trigger `after:run` events with cypress open
 	experimentalInteractiveRunEvents: true,
 
+	// disabled if running in CI but enabled in debug mode
+	video: !process.env.CI || !!process.env.RUNNER_DEBUG,
+
 	// faster video processing
-	video: !process.env.CI,
 	videoCompression: false,
 
 	// Prevent elements to be scrolled under a top bar during actions (click, clear, type, etc). Default is 'top'.
