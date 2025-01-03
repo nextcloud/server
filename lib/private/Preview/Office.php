@@ -12,6 +12,7 @@ use OCP\Files\FileInfo;
 use OCP\IImage;
 use OCP\ITempManager;
 use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 abstract class Office extends ProviderV2 {
 	/**
@@ -33,6 +34,13 @@ abstract class Office extends ProviderV2 {
 
 		// The file to generate the preview for.
 		$absPath = $this->getLocalFile($file);
+		if ($absPath === false) {
+			Server::get(LoggerInterface::class)->error(
+				'Failed to get local file to generate thumbnail for: ' . $file->getPath(),
+				['app' => 'core']
+			);
+			return null;
+		}
 
 		// The destination for the LibreOffice user profile.
 		// LibreOffice can rune once per user profile and therefore instance id and file id are included.
