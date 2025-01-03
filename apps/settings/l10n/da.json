@@ -56,7 +56,7 @@
     "Saved" : "Gemt",
     "No Login supplied" : "Intet login angivet",
     "Unable to change password. Password too long." : "Kunne ikke ændre adgangskode. Adgangskode for lang.",
-    "Authentication error" : "Adgangsfejl",
+    "Authentication error" : "Autentificerings fejl",
     "Please provide an admin recovery password; otherwise, all account data will be lost." : "Angiv venligst en adgangskode til administratorgendannelse; ellers vil alle kontodata gå tabt.",
     "Wrong admin recovery password. Please check the password and try again." : "Forkert admin gendannelseskode. Se venligst koden efter og prøv igen.",
     "Backend does not support password change, but the encryption of the account key was updated." : "Backend understøtter ikke adgangskodeændringer, men krypteringen af kontonøglen blev opdateret.",
