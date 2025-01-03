@@ -156,7 +156,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.6
 	- license: MIT
 - libphonenumber-js
-	- version: 1.11.9
+	- version: 1.11.17
 	- license: MIT
 - linkify-string
 	- version: 4.1.3
