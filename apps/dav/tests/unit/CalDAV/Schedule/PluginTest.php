@@ -353,7 +353,7 @@ class PluginTest extends TestCase {
 					'{DAV:}displayname' => $displayName,
 				]);
 
-				$calendarHomeObject->expects($this->once())
+				$calendarHomeObject->expects($this->exactly($deleted ? 2 : 1))
 					->method('getCalDAVBackend')
 					->with()
 					->willReturn($calendarBackend);
