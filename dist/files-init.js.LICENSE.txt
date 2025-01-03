@@ -4,7 +4,7 @@
  */
 
 /*!
- * pinia v2.2.6
+ * pinia v2.2.8
  * (c) 2024 Eduardo San Martin Morote
  * @license MIT
  */
