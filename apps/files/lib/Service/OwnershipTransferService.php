@@ -397,7 +397,7 @@ class OwnershipTransferService {
 			$view->mkdir($finalTarget);
 			$finalTarget = $finalTarget . '/' . basename($sourcePath);
 		}
-		if ($view->rename($sourcePath, $finalTarget) === false) {
+		if ($view->rename($sourcePath, $finalTarget, ['checkSubMounts' => false]) === false) {
 			throw new TransferOwnershipException('Could not transfer files.', 1);
 		}
 		if (!is_dir("$sourceUid/files")) {
