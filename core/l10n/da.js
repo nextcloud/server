@@ -263,7 +263,7 @@ OC.L10N.register(
     "Rename" : "Omdøb",
     "Collaborative tags" : "Collaborative tags",
     "No tags found" : "Ingen tags fundet",
-    "Clipboard not available, please copy manually" : "Klippebord ikke tilgængeligt, kopier venligst manuelt",
+    "Clipboard not available, please copy manually" : "Udklipsholderen er ikke tilgængeligt, kopier venligst manuelt",
     "Personal" : "Personligt",
     "Accounts" : "Konti",
     "Admin" : "Admin",
