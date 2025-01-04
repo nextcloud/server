@@ -84,7 +84,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/calendar-availability-vue
-	- version: 2.2.4
+	- version: 2.2.5
 	- license: MIT
 - @nextcloud/capabilities
 	- version: 1.2.0
@@ -117,7 +117,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.25.1
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.20.0
+	- version: 8.22.0
 	- license: AGPL-3.0-or-later
 - @vueuse/components
 	- version: 11.1.0
@@ -231,7 +231,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0
 	- license: MIT
 - ical.js
-	- version: 2.0.1
+	- version: 2.1.0
 	- license: MPL-2.0
 - icalzone
 	- version: 0.0.1
@@ -384,7 +384,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.12.5
 	- license: MIT
 - uuid
-	- version: 10.0.0
+	- version: 11.0.3
 	- license: MIT
 - vue-loader
 	- version: 15.11.1

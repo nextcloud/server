@@ -190,7 +190,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.25.1
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.20.0
+	- version: 8.22.0
 	- license: AGPL-3.0-or-later
 - @ungap/structured-clone
 	- version: 1.2.0
@@ -364,7 +364,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0
 	- license: MIT
 - ical.js
-	- version: 2.0.1
+	- version: 2.1.0
 	- license: MPL-2.0
 - ieee754
 	- version: 1.2.1
