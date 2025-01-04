@@ -78,5 +78,6 @@ const toggleGridView = function() {
 	const userConfigStore = useUserConfigStore()
 	const value = userConfigStore?.userConfig?.grid_view
 	logger.debug('Toggling grid view', { old: value, new: !value })
+	window.alert('Hotkey GridView')
 	userConfigStore.update('grid_view', !value)
 }

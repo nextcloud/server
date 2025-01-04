@@ -35,7 +35,7 @@ export default defineConfig({
 	experimentalInteractiveRunEvents: true,
 
 	// disabled if running in CI but enabled in debug mode
-	video: !process.env.CI || !!process.env.RUNNER_DEBUG,
+	video: true,
 
 	// faster video processing
 	videoCompression: false,

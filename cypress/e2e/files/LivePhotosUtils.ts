@@ -49,6 +49,7 @@ function setMetadata(user: User, fileName: string, requesttoken: string, metadat
  * @param enable
  */
 export function setShowHiddenFiles(enable: boolean) {
+	/*
 	cy.request('/csrftoken').then(({ body }) => {
 		const requestToken = body.token
 		const url = `${Cypress.config('baseUrl')}/apps/files/api/v1/config/show_hidden`
@@ -63,6 +64,16 @@ export function setShowHiddenFiles(enable: boolean) {
 		})
 	})
 	cy.reload()
+	*/
+
+	cy.get('[data-cy-files-navigation-settings-button]').click()
+	// Force:true because the checkbox is hidden by the pretty UI.
+	if (enable) {
+		cy.get('[data-cy-files-settings-setting="show_hidden"] input').check({ force: true })
+	} else {
+		cy.get('[data-cy-files-settings-setting="show_hidden"] input').uncheck({ force: true })
+	}
+	cy.get('[data-cy-files-navigation-settings]').type('{esc}')
 }
 
 /**
