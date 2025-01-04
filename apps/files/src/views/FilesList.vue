@@ -712,7 +712,7 @@ export default defineComponent({
 		},
 
 		toggleGridView() {
-			this.userConfigStore.update('grid_view', !this.userConfig.grid_view)
+			// this.userConfigStore.update('grid_view', !this.userConfig.grid_view)
 		},
 
 		filterDirContent() {
