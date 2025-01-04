@@ -115,9 +115,9 @@ export default defineConfig({
 			await waitOnNextcloud(ip)
 			await configureNextcloud()
 
-			if (!process.env.CI) {
+			// if (!process.env.CI) {
 				await applyChangesToNextcloud()
-			}
+			// }
 
 			// IMPORTANT: return the config otherwise cypress-split will not work
 			return config
