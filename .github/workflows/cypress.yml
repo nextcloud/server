@@ -86,7 +86,7 @@ jobs:
           path: ./
 
   cypress:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: init
 
     strategy:
