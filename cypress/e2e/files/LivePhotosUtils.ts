@@ -26,7 +26,7 @@ function setMetadata(user: User, fileName: string, requesttoken: string, metadat
 		const hostname = new URL(url).hostname
 		cy.request({
 			method: 'PROPPATCH',
-			url: `http://${hostname}:7474/remote.php/dav/files/${user.userId}/${fileName}`,
+			url: `http://${hostname}/remote.php/dav/files/${user.userId}/${fileName}`,
 			auth: { user: user.userId, pass: user.password },
 			headers: {
 				requesttoken,
