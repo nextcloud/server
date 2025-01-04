@@ -94,10 +94,10 @@ jobs:
       matrix:
         # Run multiple copies of the current job in parallel
         # Please increase the number or runners as your tests suite grows (0 based index for e2e tests)
-        containers: ["component", '0', '1', '2', '3', '4', '5', '6', '7']
+        containers: ["component", '0']
         # Hack as strategy.job-total includes the component and GitHub does not allow math expressions
         # Always align this number with the total of e2e runners (max. index + 1)
-        total-containers: [8]
+        total-containers: [1]
 
     name: runner ${{ matrix.containers }}
 
@@ -142,14 +142,12 @@ jobs:
           SPLIT: ${{ matrix.total-containers }}
           SPLIT_INDEX: ${{ matrix.containers == 'component' && 0 || matrix.containers }}
 
-      - name: Upload snapshots and videos
+      - name: Upload snapshots
         uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
         if: always()
         with:
-          name: snapshots_videos_${{ matrix.containers }}
-          path: |
-            cypress/snapshots
-            cypress/videos
+          name: snapshots_${{ matrix.containers }}
+          path: cypress/snapshots
 
       - name: Extract NC logs
         if: failure() && matrix.containers != 'component'
