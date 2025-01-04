@@ -59,7 +59,7 @@ export function setShowHiddenFiles(enable: boolean) {
 				'Content-Type': 'application/json',
 				requesttoken: requestToken,
 			},
-			body: { value: true },
+			body: { value: enable },
 		})
 	})
 
