@@ -29,14 +29,6 @@
 				@update:checked="setConfig('crop_image_previews', $event)">
 				{{ t('files', 'Crop image previews') }}
 			</NcCheckboxRadioSwitch>
-			<!--
-			<NcCheckboxRadioSwitch v-if="enableGridView"
-				data-cy-files-settings-setting="grid_view"
-				:checked="userConfig.grid_view"
-				@update:checked="setConfig('grid_view', $event)">
-				{{ t('files', 'Enable the grid view') }}
-			</NcCheckboxRadioSwitch>
-			-->
 			<NcCheckboxRadioSwitch data-cy-files-settings-setting="folder_tree"
 				:checked="userConfig.folder_tree"
 				@update:checked="setConfig('folder_tree', $event)">
