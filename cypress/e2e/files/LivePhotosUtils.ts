@@ -59,7 +59,21 @@ export function setShowHiddenFiles(enable: boolean) {
 				'Content-Type': 'application/json',
 				requesttoken: requestToken,
 			},
-			body: { value: enable },
+			body: { value: true },
+		})
+	})
+
+	cy.request('/csrftoken').then(({ body }) => {
+		const requestToken = body.token
+		const url = `${Cypress.config('baseUrl')}/apps/files/api/v1/config/folder_tree`
+		cy.request({
+			method: 'PUT',
+			url,
+			headers: {
+				'Content-Type': 'application/json',
+				requesttoken: requestToken,
+			},
+			body: { value: false },
 		})
 	})
 	cy.reload()
