@@ -59,8 +59,8 @@
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Reparationssteg: ",
     "Repair info:" : "Reparationsinfo:",
-    "Repair warning:" : "Reperationsvarning:",
-    "Repair error:" : "Reperationsfel:",
+    "Repair warning:" : "Reparationsvarning:",
+    "Repair error:" : "Reparationsfel:",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Var vänlig och uppdatera via kommandotolken då uppdatering via webbläsaren är inaktiverat i config.php",
     "Turned on maintenance mode" : "Aktiverade underhållsläge",
     "Turned off maintenance mode" : "Inaktivera underhållsläge",
@@ -240,8 +240,8 @@
     "Rename project" : "Byt namn på projekt",
     "Failed to rename the project" : "Kunde inte byta namn på projektet",
     "Failed to create a project" : "Kunde inte skapa projekt",
-    "Failed to add the item to the project" : "Kunde inte att lägga till objektet i projektet",
-    "Connect items to a project to make them easier to find" : "Länka objekt till ett projekt för att göra dem enklare att hitta",
+    "Failed to add the item to the project" : "Kunde inte lägga till objektet i projektet",
+    "Connect items to a project to make them easier to find" : "Koppla objekt till ett projekt för att göra dem enklare att hitta",
     "Type to search for existing projects" : "Skriv för att söka efter befintliga projekt",
     "New in" : "Ny i",
     "View changelog" : "Visa ändringslogg",
@@ -410,6 +410,6 @@
     "Confirm" : "Bekräfta",
     "App token" : "Apptoken",
     "Alternative log in using app token" : "Alternativ inloggning med apptoken",
-    "Please use the command line updater because you have a big instance with more than 50 users." : "Vänligen uppdatera med kommando eftersom du har en stor instans med mer än 50 användare."
+    "Please use the command line updater because you have a big instance with more than 50 users." : "Vänligen uppdatera via kommandoraden eftersom du har en stor instans med fler än 50 användare."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
