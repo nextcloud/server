@@ -91,7 +91,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.5.1
 	- license: MIT
 - core-js
-	- version: 3.38.1
+	- version: 3.39.0
 	- license: MIT
 - css-loader
 	- version: 7.1.2
