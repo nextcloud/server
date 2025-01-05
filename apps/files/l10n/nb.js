@@ -86,6 +86,7 @@ OC.L10N.register(
     "Another entry with the same name already exists." : "En annen oppføring med samme navnet finnes allerede.",
     "Invalid filename." : "Ugyldig filnavn.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Omdøpte \"{oldName}\" tl \"{newName}\"",
+    "Unknown date" : "Ukjent dato",
     "Pending" : "Venter",
     "Clear filter" : "Tøm filter",
     "Modified" : "Endret",
