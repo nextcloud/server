@@ -100,6 +100,9 @@ abstract class AUserData extends OCSController {
 		$groups = $this->groupManager->getUserGroups($targetUserObject);
 		$gids = [];
 		foreach ($groups as $group) {
+			if (!$this->groupManager->getSubAdmin()->isSubAdminOfGroup($currentLoggedInUser, $group)) {
+				continue;
+			};
 			$gids[] = $group->getGID();
 		}
 
