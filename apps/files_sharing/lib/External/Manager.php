@@ -160,13 +160,7 @@ class Manager {
 		$query->execute([$remote, $token, $password, $name, $owner, $user, $mountPoint, $hash, $accepted, $remoteId, $parent, $shareType]);
 	}
 
-	/**
-	 * get share
-	 *
-	 * @param int $id share id
-	 * @return mixed share of false
-	 */
-	private function fetchShare($id) {
+	private function fetchShare(int $id): array|false {
 		$getShare = $this->connection->prepare('
 			SELECT `id`, `remote`, `remote_id`, `share_token`, `name`, `owner`, `user`, `mountpoint`, `accepted`, `parent`, `share_type`, `password`, `mountpoint_hash`
 			FROM  `*PREFIX*share_external`
@@ -208,15 +202,12 @@ class Manager {
 		return null;
 	}
 
-	/**
-	 * get share
-	 *
-	 * @param int $id share id
-	 * @return mixed share of false
-	 */
 	public function getShare(int $id, ?string $user = null): array|false {
 		$user = $user ?? $this->uid;
 		$share = $this->fetchShare($id);
+		if ($share === false) {
+			return false;
+		}
 
 		// check if the user is allowed to access it
 		if ($this->canAccessShare($share, $user)) {
@@ -256,7 +247,7 @@ class Manager {
 			&& $share['user'] === $user) {
 			return true;
 		}
-		
+
 		// If the share is a group share, check if the user is in the group
 		if ((int)$share['share_type'] === IShare::TYPE_GROUP) {
 			$parentId = (int)$share['parent'];
