@@ -69,6 +69,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'POST', url: '/login/v2/poll')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function poll(string $token): JSONResponse {
 		try {
 			$creds = $this->loginFlowV2Service->poll($token);
@@ -275,6 +276,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'POST', url: '/login/v2')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function init(): JSONResponse {
 		// Get client user agent
 		$userAgent = $this->request->getHeader('USER_AGENT');

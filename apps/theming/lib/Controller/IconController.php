@@ -13,6 +13,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -51,6 +52,7 @@ class IconController extends Controller {
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getThemedIcon(string $app, string $image): Response {
 		if ($app !== 'core' && !$this->appManager->isEnabledForUser($app)) {
 			$app = 'core';
@@ -84,6 +86,7 @@ class IconController extends Controller {
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getFavicon(string $app = 'core'): Response {
 		if ($app !== 'core' && !$this->appManager->isEnabledForUser($app)) {
 			$app = 'core';
@@ -129,6 +132,7 @@ class IconController extends Controller {
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getTouchIcon(string $app = 'core'): Response {
 		if ($app !== 'core' && !$this->appManager->isEnabledForUser($app)) {
 			$app = 'core';

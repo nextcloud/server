@@ -85,6 +85,7 @@ class ApiController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[StrictCookiesRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getThumbnail($x, $y, $file) {
 		if ($x < 1 || $y < 1) {
 			return new DataResponse(['message' => 'Requested size must be numeric and a positive value.'], Http::STATUS_BAD_REQUEST);
@@ -277,6 +278,7 @@ class ApiController extends Controller {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/folder-tree')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getFolderTree(string $path = '/', int $depth = 1): JSONResponse {
 		$user = $this->userSession->getUser();
 		if (!($user instanceof IUser)) {

@@ -13,6 +13,7 @@ use OCA\OAuth2\Exceptions\ClientNotFoundException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -22,6 +23,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 class LoginRedirectorController extends Controller {
 	/**
 	 * @param string $appName

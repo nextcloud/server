@@ -34,7 +34,7 @@ use OCP\User\Backend\ISetPasswordBackend;
  * @psalm-import-type Provisioning_APIUserDetails from ResponseDefinitions
  * @psalm-import-type Provisioning_APIUserDetailsQuota from ResponseDefinitions
  */
-abstract class AUserData extends OCSController {
+abstract class AUserDataOCSController extends OCSController {
 	public const SCOPE_SUFFIX = 'Scope';
 
 	public const USER_FIELD_DISPLAYNAME = 'display';

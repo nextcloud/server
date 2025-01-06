@@ -13,6 +13,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
@@ -37,6 +38,7 @@ class CSRFTokenController extends Controller {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/csrftoken')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function index(): JSONResponse {
 		if (!$this->request->passesStrictCookieCheck()) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);

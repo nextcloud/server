@@ -13,6 +13,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -24,6 +25,7 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUserSession;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 class PreviewController extends Controller {
 	public function __construct(
 		string $appName,
