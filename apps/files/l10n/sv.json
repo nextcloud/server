@@ -405,7 +405,7 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopiera direktlänk (fungerar endast för användare som har åtkomst till denna fil eller mapp)",
     "Upload file" : "Ladda upp fil",
     "Not favorited" : "Inte favoriserade",
-    "An error occurred while trying to update the tags" : "Ett fel uppstod när uppdatera taggarna",
+    "An error occurred while trying to update the tags" : "Fel vid uppdatering av taggarna",
     "\"remote user\"" : "\"extern användare\"",
     "{newName} already exists." : "{newName} finns redan.",
     "\"{segment}\" is not allowed inside a filename." : "\"{segment}\" är inte tillåtet i ett filnamn.",
