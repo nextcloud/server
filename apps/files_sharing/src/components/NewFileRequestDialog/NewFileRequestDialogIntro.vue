@@ -34,6 +34,10 @@
 				:show-trailing-button="destination !== context.path"
 				:trailing-button-icon="'undo'"
 				:trailing-button-label="t('files_sharing', 'Revert to default')"
+				:error="(destination === '/' || destination === '')"
+				:helper-text="(destination === '/' || destination === '') ? 
+				t('files_sharing', 'Please select a folder, you cannot share the root directory.'):
+				''"
 				name="destination"
 				@click="onPickDestination"
 				@keypress.prevent.stop="/* prevent typing in the input, we use the picker */"

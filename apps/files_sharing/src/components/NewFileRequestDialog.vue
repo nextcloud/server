@@ -88,7 +88,7 @@
 			<!-- Next -->
 			<NcButton v-if="currentStep !== STEP.LAST"
 				:aria-label="t('files_sharing', 'Continue')"
-				:disabled="loading"
+				:disabled="loading || (destination === '/' || destination === '')"
 				data-cy-file-request-dialog-controls="next"
 				@click="onPageNext">
 				<template #icon>
@@ -223,14 +223,6 @@ export default defineComponent({
 				return
 			}
 
-			// custom destination validation
-			// cannot share root
-			if (this.destination === '/' || this.destination === '') {
-				const destinationInput = form.querySelector('input[name="destination"]') as HTMLInputElement
-				destinationInput?.setCustomValidity(t('files_sharing', 'Please select a folder, you cannot share the root directory.'))
-				form.reportValidity()
-				return
-			}
 
 			if (this.currentStep === STEP.FIRST) {
 				this.currentStep = STEP.SECOND
