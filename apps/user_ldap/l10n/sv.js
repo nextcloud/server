@@ -158,7 +158,7 @@ OC.L10N.register(
     "User Display Name Field" : "Attribut för användarnamn",
     "The LDAP attribute to use to generate the user's display name." : "LDAP-attributet som ska användas för att generera användarens visningsnamn.",
     "2nd User Display Name Field" : "2:a Visningsnamns Fält",
-    "Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«." : "Frivilligt. Ett LDAP-attribut att läggas till visningsnamnet i parentes. Resulterar i t.ex. »John Doe (john.doe@example.org)«.",
+    "Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«." : "Frivilligt. Ett LDAP-attribut att läggas till visningsnamnet i parentes. Resulterar i t.ex. \"John Doe (john.doe@example.org)\".",
     "Base User Tree" : "Bas för användare i katalogtjänst",
     "One User Base DN per line" : "En användarstart-DN per rad",
     "User Search Attributes" : "Användarsökningsattribut",
