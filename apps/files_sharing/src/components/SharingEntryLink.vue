@@ -568,7 +568,7 @@ export default {
 		 * @return {Array}
 		 */
 		externalLinkActions() {
-			const filterValidAction = (action) => (action.shareType.includes(ShareTypes.SHARE_TYPE_LINK) || action.shareType.includes(ShareTypes.SHARE_TYPE_EMAIL)) && !action.advanced
+			const filterValidAction = (action) => (action.shareType.includes(ShareType.Link) || action.shareType.includes(ShareType.Email)) && !action.advanced
 			// filter only the registered actions for said link
 			return this.ExternalShareActions.actions
 				.filter(filterValidAction)
@@ -620,7 +620,7 @@ export default {
 			}
 
 			const shareDefaults = {
-				share_type: ShareTypes.SHARE_TYPE_LINK,
+				share_type: ShareType.Link,
 			}
 			if (this.config.isDefaultExpireDateEnforced) {
 				// default is empty string if not set
@@ -708,7 +708,7 @@ export default {
 				const path = (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
 				const options = {
 					path,
-					shareType: ShareTypes.SHARE_TYPE_LINK,
+					shareType: ShareType.Link,
 					password: share.password,
 					expireDate: share.expireDate,
 					attributes: JSON.stringify(this.fileInfo.shareAttributes),
