@@ -71,6 +71,12 @@
 				{{ t('settings', 'Storage location') }}
 			</span>
 		</th>
+		<th v-if="showConfig.showFirstLogin"
+			class="header__cell"
+			data-cy-user-list-header-first-login
+			scope="col">
+			<span>{{ t('settings', 'First login') }}</span>
+		</th>
 		<th v-if="showConfig.showLastLogin"
 			class="header__cell"
 			data-cy-user-list-header-last-login

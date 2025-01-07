@@ -1144,9 +1144,13 @@ class UsersControllerTest extends TestCase {
 			->method('getHome')
 			->willReturn('/var/www/newtcloud/data/UID');
 		$targetUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getLastLogin')
 			->willReturn(1521191471);
+		$targetUser
+			->expects($this->once())
+			->method('getFirstLogin')
+			->willReturn(1511191471);
 		$targetUser
 			->expects($this->once())
 			->method('getBackendClassName')
@@ -1169,6 +1173,8 @@ class UsersControllerTest extends TestCase {
 			'id' => 'UID',
 			'enabled' => true,
 			'storageLocation' => '/var/www/newtcloud/data/UID',
+			'firstLoginTimestamp' => 1511191471,
+			'lastLoginTimestamp' => 1521191471,
 			'lastLogin' => 1521191471000,
 			'backend' => 'Database',
 			'subadmin' => ['group3'],
@@ -1270,9 +1276,13 @@ class UsersControllerTest extends TestCase {
 			->expects($this->never())
 			->method('getHome');
 		$targetUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getLastLogin')
 			->willReturn(1521191471);
+		$targetUser
+			->expects($this->once())
+			->method('getFirstLogin')
+			->willReturn(1511191471);
 		$targetUser
 			->expects($this->once())
 			->method('getBackendClassName')
@@ -1308,6 +1318,8 @@ class UsersControllerTest extends TestCase {
 		$expected = [
 			'id' => 'UID',
 			'enabled' => true,
+			'firstLoginTimestamp' => 1511191471,
+			'lastLoginTimestamp' => 1521191471,
 			'lastLogin' => 1521191471000,
 			'backend' => 'Database',
 			'subadmin' => [],
@@ -1452,9 +1464,13 @@ class UsersControllerTest extends TestCase {
 			->expects($this->never())
 			->method('getHome');
 		$targetUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getLastLogin')
 			->willReturn(1521191471);
+		$targetUser
+			->expects($this->once())
+			->method('getFirstLogin')
+			->willReturn(1511191471);
 		$targetUser
 			->expects($this->once())
 			->method('getBackendClassName')
@@ -1485,6 +1501,8 @@ class UsersControllerTest extends TestCase {
 
 		$expected = [
 			'id' => 'UID',
+			'firstLoginTimestamp' => 1511191471,
+			'lastLoginTimestamp' => 1521191471,
 			'lastLogin' => 1521191471000,
 			'backend' => 'Database',
 			'subadmin' => [],

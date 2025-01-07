@@ -25,6 +25,11 @@
 				{{ t('settings', 'Show storage path') }}
 			</NcCheckboxRadioSwitch>
 			<NcCheckboxRadioSwitch type="switch"
+				data-test="showFirstLogin"
+				:checked.sync="showFirstLogin">
+				{{ t('settings', 'Show first login') }}
+			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch type="switch"
 				data-test="showLastLogin"
 				:checked.sync="showLastLogin">
 				{{ t('settings', 'Show last login') }}
@@ -161,6 +166,15 @@ export default {
 			},
 			set(status) {
 				this.setShowConfig('showLanguages', status)
+			},
+		},
+
+		showFirstLogin: {
+			get() {
+				return this.showConfig.showFirstLogin
+			},
+			set(status) {
+				this.setShowConfig('showFirstLogin', status)
 			},
 		},
 
