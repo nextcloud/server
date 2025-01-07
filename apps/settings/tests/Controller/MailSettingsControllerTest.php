@@ -70,7 +70,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 					'mail_smtphost' => 'mx.nextcloud.org',
 					'mail_smtpauth' => 1,
 					'mail_smtpport' => '25',
-					'mail_sendmailmode' => null,
+					'mail_sendmailmode' => 'smtp',
 				]],
 				[[
 					'mail_domain' => 'nextcloud.com',
@@ -82,7 +82,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 					'mail_smtpport' => '25',
 					'mail_smtpname' => null,
 					'mail_smtppassword' => null,
-					'mail_sendmailmode' => null,
+					'mail_sendmailmode' => 'smtp',
 				]]
 			);
 
@@ -95,7 +95,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			'mx.nextcloud.org',
 			1,
 			'25',
-			null
+			'smtp'
 		);
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 
@@ -108,7 +108,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			'mx.nextcloud.org',
 			0,
 			'25',
-			null
+			'smtp'
 		);
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 	}
