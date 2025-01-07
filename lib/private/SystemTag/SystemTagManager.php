@@ -145,6 +145,7 @@ class SystemTagManager implements ISystemTagManager {
 	}
 
 	public function createTag(string $tagName, bool $userVisible, bool $userAssignable): ISystemTag {
+		$tagName = trim($tagName);
 		// Length of name column is 64
 		$truncatedTagName = substr($tagName, 0, 64);
 		$query = $this->connection->getQueryBuilder();
@@ -199,6 +200,7 @@ class SystemTagManager implements ISystemTagManager {
 
 		$beforeUpdate = array_shift($tags);
 		// Length of name column is 64
+		$newName = trim($newName);
 		$truncatedNewName = substr($newName, 0, 64);
 		$afterUpdate = new SystemTag(
 			$tagId,
