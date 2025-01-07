@@ -70,11 +70,14 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/l10n
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
+- @nextcloud/logger
+	- version: 3.0.2
+	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.20.0
+	- version: 8.22.0
 	- license: AGPL-3.0-or-later
 - @vueuse/components
 	- version: 11.1.0
