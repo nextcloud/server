@@ -127,6 +127,22 @@ describe('Delete action conditions tests', () => {
 })
 
 describe('Delete action enabled tests', () => {
+	let initialState: HTMLInputElement
+
+	afterEach(() => {
+		document.body.removeChild(initialState)
+	})
+
+	beforeEach(() => {
+		initialState = document.createElement('input')
+		initialState.setAttribute('type', 'hidden')
+		initialState.setAttribute('id', 'initial-state-files_trashbin-config')
+		initialState.setAttribute('value', btoa(JSON.stringify({
+			allow_delete: true,
+		})))
+		document.body.appendChild(initialState)
+	})
+
 	test('Enabled with DELETE permissions', () => {
 		const file = new File({
 			id: 1,
@@ -176,6 +192,15 @@ describe('Delete action enabled tests', () => {
 		expect(action.enabled!([folder1], view)).toBe(true)
 		expect(action.enabled!([folder2], view)).toBe(false)
 		expect(action.enabled!([folder1, folder2], view)).toBe(false)
+	})
+
+	test('Disabled if not allowed', () => {
+		initialState.setAttribute('value', btoa(JSON.stringify({
+			allow_delete: false,
+		})))
+
+		expect(action.enabled).toBeDefined()
+		expect(action.enabled!([], view)).toBe(false)
 	})
 })
 

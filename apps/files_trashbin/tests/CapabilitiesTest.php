@@ -17,11 +17,12 @@ class CapabilitiesTest extends TestCase {
 		parent::setUp();
 		$this->capabilities = new Capabilities();
 	}
-	
+
 	public function testGetCapabilities(): void {
 		$capabilities = [
 			'files' => [
-				'undelete' => true
+				'undelete' => true,
+				'delete_from_trash' => true,
 			]
 		];
 

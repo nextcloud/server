@@ -19,6 +19,11 @@ import { logger } from '../logger.ts'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { emit } from '@nextcloud/event-bus'
+import { loadState } from '@nextcloud/initial-state'
+
+export type FilesTrashbinConfigState = {
+	allow_delete: boolean;
+}
 
 const emptyTrash = async (): Promise<boolean> => {
 	try {
@@ -42,6 +47,12 @@ export const emptyTrashAction = new FileListAction({
 		if (view.id !== 'trashbin') {
 			return false
 		}
+
+		const config = loadState<FilesTrashbinConfigState>('files_trashbin', 'config')
+		if (!config.allow_delete) {
+			return false
+		}
+
 		return nodes.length > 0 && folder.path === '/'
 	},
 
