@@ -12,6 +12,16 @@ Feature: dav-v2
 		When User "user0" moves file "/textfile0.txt" to "/FOLDER/textfile0.txt"
 		Then the HTTP status code should be "201"
 
+  Scenario: Moving and overwriting it's parent
+    Given using new dav path
+    And As an "admin"
+    And user "user0" exists
+    And As an "user0"
+    And user "user0" created a folder "/test"
+    And user "user0" created a folder "/test/test"
+    When User "user0" moves file "/test/test" to "/test"
+    Then the HTTP status code should be "403"
+
 	Scenario: download a file with range using new endpoint
 		Given using new dav path
 		And As an "admin"
