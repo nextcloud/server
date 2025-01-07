@@ -42,6 +42,7 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Aukera hau gaituz gero, biltegi orokorreko fitxategi guztiak zifratuko dira, bestela kanpo biltegian daudenak bakarrik zifratuko dira",
     "Enable recovery key" : "Berreskuratze gakoa gaitu",
     "Disable recovery key" : "Berreskuratze gakoa desgaitu",
+    "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "Berreskuratze-gakoa fitxategiak zifratzeko erabiltzen den zifratze-gako gehigarria da. Pasahitza ahazten bada kontu bateko fitxategiak berreskuratzeko erabiltzen da.",
     "Recovery key password" : "Berreskuratze gako pasahitza",
     "Repeat recovery key password" : "Berreskuratze gakoaren pasahitza errepikatu",
     "Change recovery key password:" : "Aldatu berreskuratze gako pasahitza:",
