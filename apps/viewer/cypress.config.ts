@@ -64,6 +64,10 @@ export default defineConfig({
 				}
 			})
 
+			if (process.env.CYPRESS_baseUrl) {
+				return config
+			}
+
 			// Remove container after run
 			on('after:run', () => {
 				if (!process.env.CI) {
