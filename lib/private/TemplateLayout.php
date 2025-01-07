@@ -158,6 +158,14 @@ class TemplateLayout extends \OC_Template {
 			$this->assign('appid', $appId);
 			$this->assign('bodyid', 'body-public');
 
+			// Set body data-theme
+			$this->assign('enabledThemes', []);
+			if ($this->appManager->isEnabledForUser('theming') && class_exists('\OCA\Theming\Service\ThemesService')) {
+				/** @var \OCA\Theming\Service\ThemesService $themesService */
+				$themesService = \OC::$server->get(\OCA\Theming\Service\ThemesService::class);
+				$this->assign('enabledThemes', $themesService->getEnabledThemes());
+			}
+
 			// Set logo link target
 			$logoUrl = $this->config->getSystemValueString('logo_url', '');
 			$this->assign('logoUrl', $logoUrl);
