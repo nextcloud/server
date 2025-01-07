@@ -164,6 +164,7 @@
     "Database missing primary keys" : "W bazie danych brakuje kluczy podstawowych",
     "Missing primary key on table \"%s\"." : "Brak klucza podstawowego w tabeli „%s”.",
     "The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running \"occ db:add-missing-primary-keys\" those missing primary keys could be added manually while the instance keeps running." : "W bazie danych brakuje niektórych kluczy podstawowych. Ze względu na fakt, że dodanie kluczy głównych może zająć trochę czasu, dlatego nie zostały one dodane automatycznie. Brakujące klucze podstawowe można dodać ręcznie, w trakcie pracy instancji uruchamiając \"occ db:add-missing-primary-keys\".",
+    "Database pending bigint migrations" : "Baza danych oczekująca na migracje bigint",
     "Debug mode" : "Tryb debugowania",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Instancja działa w trybie debugowania. Włącz to tylko dla wersji lokalnej, a nie w środowiskach produkcyjnych.",
     "Debug mode is disabled." : "Tryb debugowania jest wyłączony.",
