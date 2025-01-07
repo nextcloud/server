@@ -878,11 +878,6 @@
       <code><![CDATA[$cacheData]]></code>
     </MoreSpecificImplementedParamType>
   </file>
-  <file src="apps/files_sharing/lib/Middleware/SharingCheckMiddleware.php">
-    <InvalidArgument>
-      <code><![CDATA[$exception->getMessage()]]></code>
-    </InvalidArgument>
-  </file>
   <file src="apps/files_sharing/lib/MountProvider.php">
     <RedundantFunctionCall>
       <code><![CDATA[array_values]]></code>
