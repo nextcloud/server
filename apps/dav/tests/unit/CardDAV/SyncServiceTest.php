@@ -108,7 +108,7 @@ class SyncServiceTest extends TestCase {
 			'1',
 			'principals/system/system',
 			[]
-		);
+		)['token'];
 
 		$this->assertEquals('http://sabre.io/ns/sync/1', $token);
 	}
@@ -179,7 +179,7 @@ END:VCARD';
 			'1',
 			'principals/system/system',
 			[]
-		);
+		)['token'];
 
 		$this->assertEquals('http://sabre.io/ns/sync/2', $token);
 	}
@@ -250,7 +250,7 @@ END:VCARD';
 			'1',
 			'principals/system/system',
 			[]
-		);
+		)['token'];
 
 		$this->assertEquals('http://sabre.io/ns/sync/3', $token);
 	}
@@ -291,7 +291,7 @@ END:VCARD';
 			'1',
 			'principals/system/system',
 			[]
-		);
+		)['token'];
 
 		$this->assertEquals('http://sabre.io/ns/sync/4', $token);
 	}
@@ -422,7 +422,7 @@ END:VCARD';
 			'1',
 			'principals/system/system',
 			[]
-		);
+		)['token'];
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('providerUseAbsoluteUriReport')]
@@ -462,7 +462,7 @@ END:VCARD';
 			'1',
 			'principals/system/system',
 			[]
-		);
+		)['token'];
 	}
 
 	public static function providerUseAbsoluteUriReport(): array {
