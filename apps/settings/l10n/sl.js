@@ -630,6 +630,7 @@ OC.L10N.register(
     "Allow untested app" : "Omogoči nepreizkušen program",
     "The app will be downloaded from the App Store" : "Program bo prejet iz zbirke programov",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Ta program ni označen kot skladen z nameščeno različico oblaka Nextcloud. Če nameravate nadaljevati, boste program lahko namestili, vendar ta morda ne bo deloval po pričakovanjih, ali pa bo vplival na stabilnost sistema.",
+    "Unknown" : "Neznano",
     "Never" : "Nikoli",
     "Could not register device: Network error" : "Naprave ni mogoče vpisati: napaka omrežja",
     "Could not register device: Probably already registered" : "Naprave ni mogoče vpisati: najverjetneje je že vpisana",

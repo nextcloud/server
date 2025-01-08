@@ -332,6 +332,7 @@ OC.L10N.register(
     "Disable" : "Disativa",
     "The app will be downloaded from the App Store" : "S'aplicatzione s'at a iscarrigare dae sa butega de is aplicatziones",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Custa aplicatzione no est marcada comente cumpatìbile cun sa versione tua de Nextcloud. Si sighis, as a pòdere installare s'aplicatzione. Càstia ca podet èssere chi non funtzionet comente prevìdidu.",
+    "Unknown" : "Disconnotu",
     "Never" : "Mai",
     "Error: This app cannot be enabled because it makes the server unstable" : "Errore: Custa aplicatzione non si podet ativare ca faghet su serbidore no istàbile",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "S'aplicatzione est istada ativada ma tenet bisòngiu de un'agiornamentu. T'amus a deretare a sa pàgina de agiornamentu tra 5 segundos.",

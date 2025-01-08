@@ -754,6 +754,7 @@ OC.L10N.register(
     "Allow untested app" : "Tillatt utestet app",
     "The app will be downloaded from the App Store" : "Appen vil bli lastet ned fra app-butikken",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Denne appen er ikke merket som kompatibel med Nextcloud-versjonen. Hvis du fortsetter, vil du fortsatt kunne installere appen. Vær oppmerksom på at appen kanskje ikke fungerer som forventet.",
+    "Unknown" : "Ukjent",
     "Never" : "Aldri",
     "Could not register device: Network error" : "Kunne ikke registrere enheten: nettverksfeil",
     "Could not register device: Probably already registered" : "Kunne ikke registrere enheten: trolig allerede registrert",

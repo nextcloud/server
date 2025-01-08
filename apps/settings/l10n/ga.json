@@ -773,6 +773,7 @@
     "Allow untested app" : "Ceadaigh aip neamhthástáilte",
     "The app will be downloaded from the App Store" : "Déanfar an aip a íoslódáil ón Siopa Aip",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Níl an aip seo marcáilte mar chomhoiriúnach le do leagan Nextcloud. Má leanann tú ar aghaidh beidh tú fós in ann an aip a shuiteáil. Tabhair faoi deara go bhféadfadh sé nach n-oibreoidh an aip mar a bhíothas ag súil leis.",
+    "Unknown" : "Anaithnid",
     "Never" : "Riamh",
     "Could not register device: Network error" : "Níorbh fhéidir gléas a chlárú: Earráid líonra",
     "Could not register device: Probably already registered" : "Níorbh fhéidir gléas a chlárú: cláraithe cheana féin is dócha",

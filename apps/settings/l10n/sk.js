@@ -775,6 +775,7 @@ OC.L10N.register(
     "Allow untested app" : "Povoliť netestovanú aplikáciu",
     "The app will be downloaded from the App Store" : "Aplikácia bude stiahnutá z obchodu",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Táto aplikácia nie je označená ako kompatibilná s vašou verziou Nextcloud. Ak budete pokračovať, aplikáciu budete môcť stále nainštalovať. Aplikácia nemusí fungovať podľa očakávania.",
+    "Unknown" : "Neznámy",
     "Never" : "Nikdy",
     "Could not register device: Network error" : "Zariadenie sa nepodarilo zaregistrovať: Chyba siete",
     "Could not register device: Probably already registered" : "Zariadenie sa nepodarilo zaregistrovať: Pravdepodobne je už zaregistrované",

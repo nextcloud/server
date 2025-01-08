@@ -472,6 +472,7 @@
     "Allow untested app" : "Leyfa óprófuð forrit",
     "The app will be downloaded from the App Store" : "Forritið verður sótt úr forritabúðinni",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Þetta forrit er merkt sem ekki samhæft við þína útgáfu af Nextcloud. Ef þú heldur áfram er mögulegt að þú getir samt sett forritið upp. En athugaðu þá að ekki er víst að forritið virki eins og skyldi.",
+    "Unknown" : "Óþekkt",
     "Never" : "Aldrei",
     "An error occurred during the request. Unable to proceed." : "Villa kom upp við beiðnina. Get ekki haldið áfram.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Villa: Ekki er hægt að virkja þetta forrit því það gerir þjóninn óstöðugan",

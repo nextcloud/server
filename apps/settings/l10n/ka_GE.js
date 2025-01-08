@@ -198,6 +198,7 @@ OC.L10N.register(
     "App bundles" : "აპლიკაციის შეკვრები",
     "Hide" : "დამალვა",
     "Disable" : "გამორთვა",
+    "Unknown" : "უცნობია",
     "Never" : "არასდროს",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "აპლიკაცია ამოქმედდა, თუმცა საჭიროებს განახლებას. 5 წამში გადამისამართდებით განახლების გვერდზე.",
     "Error" : "შეცდომა",

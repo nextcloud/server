@@ -775,6 +775,7 @@ OC.L10N.register(
     "Allow untested app" : "Baimendu probatu gabeko aplikazioa",
     "The app will be downloaded from the App Store" : "Aplikazioa aplikazio biltegitik deskargatuko da",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Aplikazio hau ez dago zure Nextcloud bertsioarekin bateragarri bezala markatuta. Jarraitzen baduzu aplikazioa instalatu egingo duzu. Kontuan izan agian aplikazioak ez duela ondo funtzionatuko.",
+    "Unknown" : "Ezezaguna",
     "Never" : "Inoiz ez",
     "Could not register device: Network error" : "Ezin izan da gailua erregistratu: Sare errorea",
     "Could not register device: Probably already registered" : "Ezin izan da gailua erregistratu: ziurrenik dagoeneko erregistratuta",

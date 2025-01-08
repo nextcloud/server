@@ -512,6 +512,7 @@ OC.L10N.register(
     "Allow untested app" : "Allow untested app",
     "The app will be downloaded from the App Store" : "The app will be downloaded from the App Store",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected.",
+    "Unknown" : "Unknown",
     "Never" : "Never",
     "An error occurred during the request. Unable to proceed." : "An error occurred during the request. Unable to proceed.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Error: This app cannot be enabled because it makes the server unstable",

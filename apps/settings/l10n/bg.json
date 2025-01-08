@@ -389,6 +389,7 @@
     "Disable" : "Изключване",
     "The app will be downloaded from the App Store" : "Приложението ще бъде изтеглено от App Store",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Приложението не е маркирано като съвместимо с вашата версия на Nextcloud. Можете да инсталирате приложението, но е вероятно да не работи безпроблемно.",
+    "Unknown" : "Неизвестен",
     "Never" : "Никога",
     "An error occurred during the request. Unable to proceed." : "Възникна грешка по време на заявката. Не може да се продължи.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Грешка: Това приложение не може да бъде активирано, защото прави сървъра нестабилен",

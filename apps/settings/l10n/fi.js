@@ -472,6 +472,7 @@ OC.L10N.register(
     "Allow untested app" : "Salli testaamaton sovellus",
     "The app will be downloaded from the App Store" : "Sovellus ladataan sovelluskaupasta",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Sovellusta ei ole merkattu yhteensopivaksi Nextcloud-versiosi kanssa. Voit kuitenkin jatkaa ja asentaa sovelluksen. Huomioi, että sovellus ei välttämättä toimi odotetusti.",
+    "Unknown" : "Tuntematon",
     "Never" : "Ei koskaan",
     "Could not register device: Network error" : "Laitetta ei voitu rekisteröidä: verkkovirhe",
     "Could not register device: Probably already registered" : "Laitetta ei voitu rekisteröidä: luultavasti jo rekisteröity",
