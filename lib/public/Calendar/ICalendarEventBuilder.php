@@ -16,7 +16,11 @@ use OCP\Calendar\Exceptions\CalendarException;
 /**
  * The calendar event builder can be used to conveniently build a calendar event and then serialize
  * it to a ICS string. The ICS string can be submitted to calendar instances implementing the
- * \OCP\Calendar\ICreateFromString interface.
+ * {@see \OCP\Calendar\ICreateFromString} interface.
+ *
+ * Also note this class can not be injected directly with dependency injection.
+ * Instead, inject {@see \OCP\Calendar\IManager} and use
+ * {@see \OCP\Calendar\IManager::createEventBuilder()} afterwards.
  *
  * All setters return self to allow chaining method calls.
  *
