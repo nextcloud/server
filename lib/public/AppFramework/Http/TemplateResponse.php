@@ -13,9 +13,9 @@ use OCP\AppFramework\Http;
  * Response for a normal template
  * @since 6.0.0
  *
- * @template S of int
+ * @template S of Http::STATUS_*
  * @template H of array<string, mixed>
- * @template-extends Response<int, array<string, mixed>>
+ * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class TemplateResponse extends Response {
 	/**
