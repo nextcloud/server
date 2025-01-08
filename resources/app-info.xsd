@@ -370,6 +370,15 @@
 
     <xs:simpleType name="licence">
         <xs:restriction base="xs:string">
+            <xs:enumeration value="AGPL-3.0-only"/>
+            <xs:enumeration value="AGPL-3.0-or-later"/>
+            <xs:enumeration value="Apache-2.0"/>
+            <xs:enumeration value="GPL-3.0-only"/>
+            <xs:enumeration value="GPL-3.0-or-later"/>
+            <xs:enumeration value="MIT"/>
+            <xs:enumeration value="MPL-2.0"/>
+
+            <!-- Deprecated -->
             <xs:enumeration value="agpl"/>
             <xs:enumeration value="mpl"/>
             <xs:enumeration value="apache"/>
