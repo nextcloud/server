@@ -82,8 +82,9 @@ export const emptyTrashAction = new FileListAction({
 
 		const result = await askConfirmation
 		if (result === true) {
-			await emptyTrash()
-			nodes.forEach((node) => emit('files:node:deleted', node))
+			if (await emptyTrash()) {
+				nodes.forEach((node) => emit('files:node:deleted', node))
+			}
 			return
 		}
 
