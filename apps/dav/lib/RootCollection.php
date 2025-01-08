@@ -132,6 +132,7 @@ class RootCollection extends SimpleCollection {
 			$userManager,
 			$dispatcher,
 			$contactsSharingBackend,
+			$config
 		);
 		$usersAddressBookRoot = new AddressBookRoot($userPrincipalBackend, $usersCardDavBackend, $pluginManager, $userSession->getUser(), $groupManager, 'principals/users');
 		$usersAddressBookRoot->disableListing = $disableListing;
@@ -142,6 +143,7 @@ class RootCollection extends SimpleCollection {
 			$userManager,
 			$dispatcher,
 			$contactsSharingBackend,
+			$config
 		);
 		$systemAddressBookRoot = new AddressBookRoot(new SystemPrincipalBackend(), $systemCardDavBackend, $pluginManager, $userSession->getUser(), $groupManager, 'principals/system');
 		$systemAddressBookRoot->disableListing = $disableListing;
