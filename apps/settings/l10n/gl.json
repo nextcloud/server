@@ -773,6 +773,7 @@
     "Allow untested app" : "Permitir aplicación non probada",
     "The app will be downloaded from the App Store" : "A aplicación descargarase da tenda de aplicacións",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Esta aplicación non está marcado como compatíbel coa súa versión de Nextcloud. Se continúa, poderá instalar a aplicación. Teña en conta que é probábel que a aplicación non funcione como se agarda.",
+    "Unknown" : "Descoñecido",
     "Never" : "Nunca",
     "Could not register device: Network error" : "Non foi posíbel rexistrar o dispositivo: Produciuse un erro de rede",
     "Could not register device: Probably already registered" : "Non foi posíbel rexistrar o dispositivo: Probabelmente xa estea rexistrado",

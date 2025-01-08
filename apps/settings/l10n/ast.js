@@ -486,6 +486,7 @@ OC.L10N.register(
     "Download and enable" : "Baxar y activar",
     "Disable" : "Desactivar",
     "Allow untested app" : "Permitir l'aplicación ensin probar",
+    "Unknown" : "Desconocí­u",
     "Never" : "Enxamás",
     "An error occurred during the request. Unable to proceed." : "Prodúxose un error demientres la solicitú. Nun ye posible siguir.",
     "The app has been enabled but needs to be updated." : "Activóse l'aplicación mas tien que s'anovar.",

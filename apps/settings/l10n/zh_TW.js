@@ -775,6 +775,7 @@ OC.L10N.register(
     "Allow untested app" : "允許未經測試的應用程式",
     "The app will be downloaded from the App Store" : "將會從應用程式商店下載這個應用程式",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "此應用程式未被標記為與您的 Nextcloud 版本相容。如果繼續，您仍可安裝應用程式。但請注意應用程式可能無法正常運作。",
+    "Unknown" : "未知",
     "Never" : "永不",
     "Could not register device: Network error" : "無法註冊裝置：網路錯誤",
     "Could not register device: Probably already registered" : "無法註冊裝置：可能已註冊",

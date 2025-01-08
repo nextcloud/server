@@ -577,6 +577,7 @@ OC.L10N.register(
     "Allow untested app" : "Tillad ikke-testet app",
     "The app will be downloaded from the App Store" : "Appen vil blive downloadet fra App Store",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Denne app er ikke markeret som kompatibel med din Nextcloud-version. Hvis du fortsætter, vil du stadig være i stand til at installere appen. Bemærk, at appen muligvis ikke fungerer som forventet.",
+    "Unknown" : "Ukendt",
     "Never" : "Aldrig",
     "Error: This app cannot be enabled because it makes the server unstable" : "Fejl: Denne app kan ikke aktiveres, fordi den gør serveren ustabil",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Appen er blevet aktiveret, men skal opdateres. Du vil blive omdirigeret til opdateringssiden om 5 sekunder.",

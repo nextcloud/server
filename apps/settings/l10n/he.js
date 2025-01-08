@@ -288,6 +288,7 @@ OC.L10N.register(
     "Download and enable" : "להוריד ולהפעיל",
     "Disable" : "ניטרול",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "היישומון הזה לא מסומן כנתמך בגרסת ה־Nextcloud. עדיין יתאפשר לך להמשיך ולהתקין את היישומון. נא לשים לב שיכול להיות שהיישומון לא יעבוד כצפוי.",
+    "Unknown" : "לא ידוע",
     "Never" : "מעולם לא",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "היישומון הופעל אך יש לעדכן אותו. ההפניה לעמוד העדכון תחל בעוד 5 שניות.",
     "Do you really want to wipe your data from this device?" : "להשמיד את הנתונים שלך במכשיר הזה?",

@@ -423,6 +423,7 @@
     "Allow untested app" : "Cho phép ứng dụng chưa được kiểm tra",
     "The app will be downloaded from the App Store" : "Ứng dụng sẽ được tải xuống từ App Store",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Ứng dụng này không được đánh dấu là tương thích với phiên bản Nextcloud của bạn. Nếu bạn tiếp tục, bạn vẫn có thể cài đặt ứng dụng. Lưu ý rằng ứng dụng có thể không hoạt động như mong đợi.",
+    "Unknown" : "Không xác định",
     "Never" : "Không bao giờ",
     "An error occurred during the request. Unable to proceed." : "Đã xảy ra lỗi trong quá trình yêu cầu. Không thể tiếp tục.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Lỗi: Không thể kích hoạt ứng dụng này vì nó khiến máy chủ không ổn định",
