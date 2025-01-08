@@ -237,6 +237,7 @@ OC.L10N.register(
     "Featured apps" : "Aplicații recomandate",
     "Hide" : "Ascunde",
     "Disable" : "Dezactivați",
+    "Unknown" : "Necunoscut",
     "Never" : "Niciodată",
     "Do you really want to wipe your data from this device?" : "Chiar doriți să vă ștergeți datele de pe acest dispozitiv?",
     "Confirm wipe" : "Confirmați ștergerea",

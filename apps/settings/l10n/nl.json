@@ -574,6 +574,7 @@
     "Allow untested app" : "Niet-geteste apps toestaan",
     "The app will be downloaded from the App Store" : "De app zal worden gedownload van de App Store",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Deze is niet aangeduid als compatibel met jouw versie van Nextcloud. Als je verdergaat, zal je de app kunnen installeren. Let op dat de app misschien niet werkt zoals verwacht.",
+    "Unknown" : "Onbekend",
     "Never" : "Nooit",
     "Could not register device: Network error" : "Kon apparaat niet registreren: netwerkfout",
     "Could not register device: Probably already registered" : "Kon apparaat niet registreren: waarschijnlijk al geregistreerd",

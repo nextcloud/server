@@ -236,6 +236,7 @@ OC.L10N.register(
     "Disable" : "ปิดใช้งาน",
     "The app will be downloaded from the App Store" : "แอปจะถูกดาวน์โหลดจากร้านค้าแอป",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "แอปนี้ยังไม่ถูกระบุว่ารองรับกับรุ่น Nextcloud ของคุณ หากคุณดำเนินการต่อ คุณจะสามารถติดตั้งแอปได้ แต่แอปอาจไม่ทำงานอย่างที่คาดหวังไว้",
+    "Unknown" : "ไม่ทราบ",
     "Never" : "ไม่เคย",
     "Error: This app cannot be enabled because it makes the server unstable" : "ข้อผิดพลาด: ไม่สามารถเปิดใช้งานแอปนี้เพราะทำให้เซิร์ฟเวอร์ไม่เสถียร",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "แอปเปิดใช้งานแล้ว แต่ต้องทำการอัปเดต คุณจะถูกนำไปยังหน้าอัปเดตใน 5 วินาที",

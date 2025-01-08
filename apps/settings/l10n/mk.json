@@ -400,6 +400,7 @@
     "Allow untested app" : "Дозволи не тестирана апликација",
     "The app will be downloaded from the App Store" : "Апликацијата ќе биде преземена преку продавницата за апликации",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Апликацијата не е означена дека е компатибилна со вашата верзија на Nextcloud. Доколку продолжите апликацијата ќе се инсталира. Имајте на ум дека апликацијата може да не работи како што очекувате.",
+    "Unknown" : "Непознат",
     "Never" : "Никогаш",
     "An error occurred during the request. Unable to proceed." : "Настана грешка во процесот. Не може да продолжи.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Грешка: Оваа апликација неможе да се овозможи бидејќи ќе го направи серверот нестабилен",

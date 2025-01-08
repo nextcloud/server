@@ -191,6 +191,7 @@ OC.L10N.register(
     "App bundles" : "Paquetes de aplicacion",
     "Hide" : "Ocultar",
     "Disable" : "Deshabilitar",
+    "Unknown" : "Desconocido",
     "Never" : "Nunca",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "La aplicación está habilitada pero necesita ser actualizada. Usted será redireccionado a la página de actualización en 5 segundos. ",
     "Error" : "Error",

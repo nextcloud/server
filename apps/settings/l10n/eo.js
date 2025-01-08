@@ -257,6 +257,7 @@ OC.L10N.register(
     "Download and enable" : "Elŝuti kaj ŝalti",
     "Disable" : "Malŝalti",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Tiu aplikaĵo ne kongruas kun via Nextcloud-versio. Se vi daŭrigas, vi tamen povos instali ĝin, sed eble tiu aplikaĵo ne funkcios bone.",
+    "Unknown" : "Nekonata",
     "Never" : "Neniam",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "La aplikaĵo estis ŝaltita, sed ĝi bezonas ĝisdatiĝi. Vi estos direktita al ĝisdatiga paĝon post 5 sekundoj.",
     "Do you really want to wipe your data from this device?" : "Ĉu vi vere volas forviŝi viajn datumojn el tiu ĉi aparato?",
