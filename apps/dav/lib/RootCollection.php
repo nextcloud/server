@@ -132,6 +132,7 @@ class RootCollection extends SimpleCollection {
 		);
 
 		$contactsSharingBackend = Server::get(\OCA\DAV\CardDAV\Sharing\Backend::class);
+		$config = Server::get(IConfig::class);
 
 		$pluginManager = new PluginManager(\OC::$server, Server::get(IAppManager::class));
 		$usersCardDavBackend = new CardDavBackend(
@@ -140,6 +141,7 @@ class RootCollection extends SimpleCollection {
 			$userManager,
 			$dispatcher,
 			$contactsSharingBackend,
+			$config
 		);
 		$usersAddressBookRoot = new AddressBookRoot($userPrincipalBackend, $usersCardDavBackend, $pluginManager, $userSession->getUser(), $groupManager, 'principals/users');
 		$usersAddressBookRoot->disableListing = $disableListing;
@@ -150,6 +152,7 @@ class RootCollection extends SimpleCollection {
 			$userManager,
 			$dispatcher,
 			$contactsSharingBackend,
+			$config
 		);
 		$systemAddressBookRoot = new AddressBookRoot(new SystemPrincipalBackend(), $systemCardDavBackend, $pluginManager, $userSession->getUser(), $groupManager, 'principals/system');
 		$systemAddressBookRoot->disableListing = $disableListing;
