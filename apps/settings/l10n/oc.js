@@ -202,6 +202,7 @@ OC.L10N.register(
     "Show to everyone" : "Afichar a tot lo monde",
     "Hide" : "Amagar",
     "Disable" : "Desactivar",
+    "Unknown" : "Desconegut",
     "Never" : "Pas jamais",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "I a agut tròp de requèstas a partir de vòstre ret. Tornatz ensajar mai tard o contactatz vòstre administrator s’aquò es una error.",
     "Error" : "Error",

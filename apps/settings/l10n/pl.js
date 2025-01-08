@@ -699,6 +699,7 @@ OC.L10N.register(
     "Allow untested app" : "Zezwól na nietestowane aplikacje",
     "The app will be downloaded from the App Store" : "Aplikacja zostanie pobrana ze sklepu z aplikacjami",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Ta aplikacja jest niezgodna z wersją Nextcloud. Przy dalszej kontynuacji, możesz pozwolić na zainstalowanie tej aplikacji. Pamiętaj, że aplikacja może nie działać zgodnie z oczekiwaniami.",
+    "Unknown" : "Nieznany",
     "Never" : "Nigdy",
     "Could not register device: Network error" : "Nie można zarejestrować urządzenia: błąd sieci",
     "Could not register device: Probably already registered" : "Nie można zarejestrować urządzenia: Prawdopodobnie zostało już zarejestrowane",

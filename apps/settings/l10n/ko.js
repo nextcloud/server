@@ -669,6 +669,7 @@ OC.L10N.register(
     "Allow untested app" : "확인되지 않은 앱 허용",
     "The app will be downloaded from the App Store" : "이 앱이 앱 스토어에서 다운로드됩니다.",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "이 앱은 현재 Nextcloud 버젼과 호환되지 않습니다.  이 앱을 설치하면, 제대로 작동하지 않을 수 있습니다.",
+    "Unknown" : "알 수 없음",
     "Never" : "하지 않음",
     "Could not register device: Network error" : "기기를 등록할 수 없음: 네트워크 오류",
     "Could not register device: Probably already registered" : "기기를 등록할 수 없음: 이미 등록된 기기인 것 같습니다",

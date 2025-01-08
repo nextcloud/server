@@ -280,6 +280,7 @@ OC.L10N.register(
     "Download and enable" : "Unduh dan hidupkan",
     "Disable" : "Nonaktifkan",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Aplikasi ini tidak ditandai sebagai versi Nextcloud Anda yang kompatibel. Jika Anda tetap ingin melanjutkannya, Anda tetap dapat memasang aplikasi. Catatan bahwa aplikasinya mungkin tidak akan berjalan seperti yang diharapkan.",
+    "Unknown" : "Tidak diketahui",
     "Never" : "Tidak pernah",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikasi diaktifkan namun butuh diperbarui. Anda akan dialihkan ke halaman pembaruan dalam 5 detik.",
     "Do you really want to wipe your data from this device?" : "Yakin ingin menghapus data Anda dari perangkat ini?",

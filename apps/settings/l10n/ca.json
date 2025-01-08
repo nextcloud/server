@@ -517,6 +517,7 @@
     "Allow untested app" : "Permet l'aplicació no provada",
     "The app will be downloaded from the App Store" : "L'aplicació es baixarà des del Magatzem d'aplicacions",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Aquesta aplicació no està marcada com a compatible amb la vostra versió de Nextcloud. Si continueu, encara podreu instal·lar l’aplicació. Tingueu en compte que pot ser que l’aplicació no funcioni correctament.",
+    "Unknown" : "Desconegut",
     "Never" : "Mai",
     "An error occurred during the request. Unable to proceed." : "S'ha produït un error durant la sol·licitud. No es pot continuar.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Error: aquesta aplicació no es pot habilitar perquè fa que el servidor sigui inestable",

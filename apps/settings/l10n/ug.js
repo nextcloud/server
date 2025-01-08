@@ -756,6 +756,7 @@ OC.L10N.register(
     "Allow untested app" : "سىناق قىلىنمىغان ئەپكە يول قويۇڭ",
     "The app will be downloaded from the App Store" : "بۇ ئەپ ئەپ دۇكىنىدىن چۈشۈرۈلىدۇ",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "بۇ ئەپ سىزنىڭ Nextcloud نەشرىڭىزگە ماس كەلمەيدۇ. داۋاملاشتۇرسىڭىز يەنىلا ئەپنى قاچىلىيالايسىز. شۇنىڭغا دىققەت قىلىڭكى ، بۇ دېتال مۆلچەردىكىدەك ئىشلىمەسلىكى مۇمكىن.",
+    "Unknown" : "نامەلۇم",
     "Never" : "ھەرگىز بولمايدۇ",
     "Could not register device: Network error" : "ئۈسكۈنىنى تىزىملىيالمىدى: تور خاتالىقى",
     "Could not register device: Probably already registered" : "ئۈسكۈنىنى تىزىملىيالمىدى: بەلكىم تىزىملاتقان بولۇشى مۇمكىن",

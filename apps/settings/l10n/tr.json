@@ -773,6 +773,7 @@
     "Allow untested app" : "Denenmemiş uygulamalar kullanılabilsin",
     "The app will be downloaded from the App Store" : "Uygulama uygulama mağazasından indirilecek",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Bu uygulamanın kullandığınız Nextcloud sürümü ile uyumluluğu denetlenmemiş. İşlemi sürdürerek uygulamayı kurabilirsiniz. Ancak uygulama beklendiği gibi çalışmayabilir.",
+    "Unknown" : "Bilinmiyor",
     "Never" : "Asla",
     "Could not register device: Network error" : "Aygıt kaydedilemedi: Ağ sorunu",
     "Could not register device: Probably already registered" : "Aygıt kaydedilemedi: Büyük olasılıkla zaten kayıtlı",

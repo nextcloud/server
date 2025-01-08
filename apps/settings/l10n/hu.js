@@ -573,6 +573,7 @@ OC.L10N.register(
     "Allow untested app" : "Teszteletlen alkalmazás engedélyezése",
     "The app will be downloaded from the App Store" : "Az alkalmazás letöltésre kerül az alkalmazástárból",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Ez az alkalmazás nincs megjelölve, hogy kompatibilis lenne a jelenlegi Nextcloud verzióval. Ha folytatja, telepítheti az alkalmazást. Azonban az alkalmazás lehet, hogy nem fog rendeltetés szerint működni.",
+    "Unknown" : "Ismeretlen",
     "Never" : "Soha",
     "An error occurred during the request. Unable to proceed." : "Hiba történt a kérés során. Nem lehet folytatni.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Hiba: az alkalmazás nem nem engedélyezhető, mert instabillá tenné a kiszolgálót",

@@ -334,6 +334,7 @@
     "Disable" : "Onemogući",
     "The app will be downloaded from the App Store" : "Aplikacija će se preuzeti iz trgovine aplikacijama",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Ova aplikacija nije označena kao kompatibilna s vašom inačicom Nextclouda. Ako odlučite nastaviti, moći ćete instalirati aplikaciju. Imajte na umu da aplikacija možda neće raditi kako očekujete.",
+    "Unknown" : "Nepoznata pogreška",
     "Never" : "Nikad",
     "Error: This app cannot be enabled because it makes the server unstable" : "Pogreška: ova aplikacija ne može biti omogućena jer čini poslužitelj nestabilnim",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikacija je omogućena, ali je treba ažurirati. Za 5 sekundi bit ćete preusmjereni na stranicu za ažuriranje.",
