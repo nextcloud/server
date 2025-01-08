@@ -27,6 +27,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use PDO;
+use Psr\Log\LoggerInterface;
 use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Backend\SyncSupport;
 use Sabre\CardDAV\Plugin;
@@ -60,6 +61,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		private IUserManager $userManager,
 		private IEventDispatcher $dispatcher,
 		private Sharing\Backend $sharingBackend,
+		private LoggerInterface $logger,
 		private IConfig $config,
 	) {
 	}
@@ -897,10 +899,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					$result['result_truncated'] = false;
 					$result['added'] = [];
 				} else {
-					$lastID = $values[array_key_last($values)]['id'];
+					$lastID = end($values)['id'];
 					$result['added'] = array_column($values, 'uri');
-					$result['syncToken'] = count($result['added']) >= $limit ? "init_{$lastID}_$initialSyncToken" : $initialSyncToken ;
-					$result['result_truncated'] = count($result['added']) >= $limit;
+					$result['syncToken'] = count($result['added']) === $limit ? "init_{$lastID}_$initialSyncToken" : $initialSyncToken ;
+					$result['result_truncated'] = count($result['added']) === $limit;
 				}
 			} elseif ($syncToken) {
 				$qb = $this->db->getQueryBuilder();
@@ -931,11 +933,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					$result['syncToken'] = $row['synctoken'];
 				}
 				$stmt->closeCursor();
-				
-				// No changes found, use current token
-				if (empty($changes)) {
-					$result['syncToken'] = $currentToken;
-				}
 
 				foreach ($changes as $uri => $operation) {
 					switch ($operation) {
@@ -961,12 +958,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				$qb->setMaxResults($limit);
 				$stmt = $qb->executeQuery();
 				$values = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-				if (empty($values)) {
-					$result['added'] = [];
-					return $result;
-				}
 				$lastID = $values[array_key_last($values)]['id'];
-				if (count($values) >= $limit) {
+				if (count(array_values($values)) >= $limit) {
 					$result['syncToken'] = 'init_' . $lastID . '_' . $currentToken;
 					$result['result_truncated'] = true;
 				}

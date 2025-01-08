@@ -175,7 +175,6 @@ class Server {
 
 		$this->server->addPlugin(new ExceptionLoggerPlugin('webdav', $logger));
 		$this->server->addPlugin(new LockPlugin());
-		$this->server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 
 		// acl
 		$acl = new DavAclPlugin();
