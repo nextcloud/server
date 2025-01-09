@@ -22,6 +22,8 @@ if [ "$INSTALLED" == "true" ]; then
     $OCC config:system:set auth.bruteforce.protection.enabled --value false --type bool
     # Allow local remote urls otherwise we can not share
     $OCC config:system:set allow_local_remote_servers --value true --type bool
+    # Allow self signed certificates
+    $OCC config:system:set sharing.federation.allowSelfSignedCertificates --value true --type bool
 else
     if [ "$SCENARIO_TO_RUN" != "setup_features/setup.feature" ]; then
         echo "Nextcloud instance needs to be installed" >&2
@@ -38,6 +40,7 @@ if [ -z "$EXECUTOR_NUMBER" ]; then
 fi
 PORT=$((8080 + $EXECUTOR_NUMBER))
 echo $PORT
+export PORT
 
 echo "" > "${NC_DATADIR}/nextcloud.log"
 echo "" > phpserver.log

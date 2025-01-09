@@ -6,18 +6,6 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 return [
-	'routes' => [
-		[
-			'name' => 'Settings#addServer',
-			'url' => '/trusted-servers',
-			'verb' => 'POST'
-		],
-		[
-			'name' => 'Settings#removeServer',
-			'url' => '/trusted-servers/{id}',
-			'verb' => 'DELETE'
-		],
-	],
 	'ocs' => [
 		// old endpoints, only used by Nextcloud and ownCloud
 		[
