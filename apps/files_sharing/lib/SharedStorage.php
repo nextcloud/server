@@ -33,6 +33,7 @@
 namespace OCA\Files_Sharing;
 
 use OC\Files\Cache\CacheDependencies;
+use OC\Files\Cache\CacheEntry;
 use OC\Files\Cache\FailedCache;
 use OC\Files\Cache\NullWatcher;
 use OC\Files\Cache\Watcher;
@@ -43,14 +44,11 @@ use OC\Files\Storage\Home;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OC\User\NoUserException;
-use OCA\Files_External\Config\ConfigAdapter;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
-use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Folder;
 use OCP\Files\IHomeStorage;
 use OCP\Files\IRootFolder;
-use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IStorage;
@@ -481,17 +479,13 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 
 		// Get node information
 		$node = $this->getShare()->getNodeCacheEntry();
-		if ($node) {
-			/** @var IUserMountCache $userMountCache */
-			$userMountCache = \OC::$server->get(IUserMountCache::class);
-			$mounts = $userMountCache->getMountsForStorageId($node->getStorageId());
-			foreach ($mounts as $mount) {
-				// If the share is originating from an external storage
-				if ($mount->getMountProvider() === ConfigAdapter::class) {
-					// Propagate original storage scan
-					$this->watcher = parent::getWatcher($path, $storage);
-					return $this->watcher;
-				}
+		if ($node instanceof CacheEntry) {
+			$storageId = $node->getData()['storage_string_id'];
+			// for shares from the home storage we can rely on the home storage to keep itself up to date
+			// for other storages we need use the proper watcher
+			if (!(str_starts_with($storageId, 'home::') || str_starts_with($storageId, 'object::user'))) {
+				$this->watcher = parent::getWatcher($path, $storage);
+				return $this->watcher;
 			}
 		}
 
