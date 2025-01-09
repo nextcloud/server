@@ -11,6 +11,7 @@ namespace OC\OCM;
 
 use GuzzleHttp\Exception\ConnectException;
 use JsonException;
+use OC\OCM\Model\OCMProvider;
 use OCP\AppFramework\Http;
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
@@ -31,7 +32,6 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 		ICacheFactory $cacheFactory,
 		private IClientService $clientService,
 		private IConfig $config,
-		private IOCMProvider $provider,
 		private LoggerInterface $logger,
 	) {
 		$this->cache = $cacheFactory->createDistributed('ocm-discovery');
@@ -56,6 +56,7 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 			}
 		}
 
+		$provider = new OCMProvider(null);
 		if (!$skipCache) {
 			try {
 				$cached = $this->cache->get($remote);
@@ -63,8 +64,8 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 					throw new OCMProviderException('Previous discovery failed.');
 				}
 
-				$this->provider->import(json_decode($cached ?? '', true, 8, JSON_THROW_ON_ERROR) ?? []);
-				return $this->provider;
+				$provider->import(json_decode($cached ?? '', true, 8, JSON_THROW_ON_ERROR) ?? []);
+				return $provider;
 			} catch (JsonException|OCMProviderException $e) {
 				// we ignore cache on issues
 			}
@@ -84,7 +85,7 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 			if ($response->getStatusCode() === Http::STATUS_OK) {
 				$body = $response->getBody();
 				// update provider with data returned by the request
-				$this->provider->import(json_decode($body, true, 8, JSON_THROW_ON_ERROR) ?? []);
+				$provider->import(json_decode($body, true, 8, JSON_THROW_ON_ERROR) ?? []);
 				$this->cache->set($remote, $body, 60 * 60 * 24);
 			}
 		} catch (JsonException|OCMProviderException $e) {
@@ -99,6 +100,6 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 			throw new OCMProviderException('error while requesting remote ocm provider');
 		}
 
-		return $this->provider;
+		return $provider;
 	}
 }
