@@ -245,8 +245,8 @@ export default {
 					},
 					compact: this.hasLowHeight || !this.fileInfo.hasPreview || this.isFullScreen,
 					loading: this.loading,
-					name: this.fileInfo.name,
-					title: this.fileInfo.name,
+					name: this.node?.displayname ?? this.fileInfo.name,
+					title: this.node?.displayname ?? this.fileInfo.name,
 				}
 			} else if (this.error) {
 				return {
