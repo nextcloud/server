@@ -295,6 +295,10 @@ export default {
 		for (const widget of Object.values(this.apiWidgets)) {
 			if (widget.reload_interval > 0) {
 				setInterval(async () => {
+					if (!this.layout.includes(widget.id)) {
+						return
+					}
+
 					await this.fetchApiWidgetItems([widget.id], true)
 				}, widget.reload_interval * 1000)
 			}
