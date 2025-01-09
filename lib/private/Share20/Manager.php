@@ -21,6 +21,7 @@ use OCP\Files\Mount\IShareOwnerlessMount;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\HintException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IGroupManager;
@@ -78,6 +79,7 @@ class Manager implements IManager {
 		private KnownUserService $knownUserService,
 		private ShareDisableChecker $shareDisableChecker,
 		private IDateTimeZone $dateTimeZone,
+		private IAppConfig $appConfig,
 	) {
 		$this->l = $this->l10nFactory->get('lib');
 		// The constructor of LegacyHooks registers the listeners of share events
@@ -300,7 +302,7 @@ class Manager implements IManager {
 			if ($fullId === null && $expirationDate === null && $defaultExpireDate) {
 				$expirationDate = new \DateTime('now', $this->dateTimeZone->getTimeZone());
 				$expirationDate->setTime(0, 0, 0);
-				$days = (int)$this->config->getAppValue('core', $configProp, (string)$defaultExpireDays);
+				$days = $this->appConfig->getValueInt('core', $configProp, $defaultExpireDays);
 				if ($days > $defaultExpireDays) {
 					$days = $defaultExpireDays;
 				}
@@ -379,7 +381,7 @@ class Manager implements IManager {
 				$expirationDate = new \DateTime('now', $this->dateTimeZone->getTimeZone());
 				$expirationDate->setTime(0, 0, 0);
 
-				$days = (int)$this->config->getAppValue('core', 'link_defaultExpDays', (string)$this->shareApiLinkDefaultExpireDays());
+				$days = $this->appConfig->getValueInt('core', 'link_defaultExpDays', $this->shareApiLinkDefaultExpireDays());
 				if ($days > $this->shareApiLinkDefaultExpireDays()) {
 					$days = $this->shareApiLinkDefaultExpireDays();
 				}
@@ -1502,7 +1504,7 @@ class Manager implements IManager {
 			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 		}
 
-		if ($this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'no') === 'yes') {
+		if ($this->appConfig->getValueBool('files_sharing', 'hide_disabled_user_shares', false)) {
 			$uids = array_unique([$share->getShareOwner(),$share->getSharedBy()]);
 			foreach ($uids as $uid) {
 				$user = $this->userManager->get($uid);
@@ -1570,18 +1572,13 @@ class Manager implements IManager {
 		$provider = $this->factory->getProviderForType(IShare::TYPE_GROUP);
 		$provider->groupDeleted($gid);
 
-		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
-		if ($excludedGroups === '') {
-			return;
-		}
-
-		$excludedGroups = json_decode($excludedGroups, true);
-		if (json_last_error() !== JSON_ERROR_NONE) {
+		$excludedGroups = $this->appConfig->getValueArray('core', 'shareapi_exclude_groups_list');
+		if (empty($excludedGroups)) {
 			return;
 		}
 
 		$excludedGroups = array_diff($excludedGroups, [$gid]);
-		$this->config->setAppValue('core', 'shareapi_exclude_groups_list', json_encode($excludedGroups));
+		$this->appConfig->setValueArray('core', 'shareapi_exclude_groups_list', $excludedGroups);
 	}
 
 	/**
@@ -1739,7 +1736,7 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function shareApiEnabled() {
-		return $this->config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes';
+		return $this->appConfig->getValueBool('core', 'shareapi_enabled', true);
 	}
 
 	/**
@@ -1748,14 +1745,14 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function shareApiAllowLinks() {
-		if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
+		if ($this->appConfig->getValueBool('core', 'shareapi_allow_links', true)) {
 			return false;
 		}
 
 		$user = $this->userSession->getUser();
 		if ($user) {
-			$excludedGroups = json_decode($this->config->getAppValue('core', 'shareapi_allow_links_exclude_groups', '[]'));
-			if ($excludedGroups) {
+			$excludedGroups = $this->appConfig->getValueArray('core', 'shareapi_allow_links_exclude_groups');
+			if (!empty($excludedGroups)) {
 				$userGroups = $this->groupManager->getUserGroupIds($user);
 				return !(bool)array_intersect($excludedGroups, $userGroups);
 			}
@@ -1771,9 +1768,8 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function shareApiLinkEnforcePassword(bool $checkGroupMembership = true) {
-		$excludedGroups = $this->config->getAppValue('core', 'shareapi_enforce_links_password_excluded_groups', '');
-		if ($excludedGroups !== '' && $checkGroupMembership) {
-			$excludedGroups = json_decode($excludedGroups);
+		$excludedGroups = $this->appConfig->getValueArray('core', 'shareapi_enforce_links_password_excluded_groups');
+		if (!empty($excludedGroups) && $checkGroupMembership) {
 			$user = $this->userSession->getUser();
 			if ($user) {
 				$userGroups = $this->groupManager->getUserGroupIds($user);
@@ -1782,7 +1778,7 @@ class Manager implements IManager {
 				}
 			}
 		}
-		return $this->config->getAppValue('core', 'shareapi_enforce_links_password', 'no') === 'yes';
+		return $this->appConfig->getValueBool('core', 'shareapi_enforce_links_password', false);
 	}
 
 	/**
@@ -1791,7 +1787,7 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function shareApiLinkDefaultExpireDate() {
-		return $this->config->getAppValue('core', 'shareapi_default_expire_date', 'no') === 'yes';
+		return $this->appConfig->getValueBool('core', 'shareapi_default_expire_date', false);
 	}
 
 	/**
@@ -1802,7 +1798,7 @@ class Manager implements IManager {
 	 */
 	public function shareApiLinkDefaultExpireDateEnforced() {
 		return $this->shareApiLinkDefaultExpireDate() &&
-			$this->config->getAppValue('core', 'shareapi_enforce_expire_date', 'no') === 'yes';
+			$this->appConfig->getValueBool('core', 'shareapi_enforce_expire_date', false);
 	}
 
 
@@ -1812,7 +1808,7 @@ class Manager implements IManager {
 	 * @return int
 	 */
 	public function shareApiLinkDefaultExpireDays() {
-		return (int)$this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7');
+		return $this->appConfig->getValueInt('core', 'shareapi_expire_after_n_days', 7);
 	}
 
 	/**
@@ -1821,7 +1817,7 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function shareApiInternalDefaultExpireDate(): bool {
-		return $this->config->getAppValue('core', 'shareapi_default_internal_expire_date', 'no') === 'yes';
+		return $this->appConfig->getValueBool('core', 'shareapi_default_internal_expire_date', false);
 	}
 
 	/**
@@ -1830,7 +1826,7 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function shareApiRemoteDefaultExpireDate(): bool {
-		return $this->config->getAppValue('core', 'shareapi_default_remote_expire_date', 'no') === 'yes';
+		return $this->appConfig->getValueBool('core', 'shareapi_default_remote_expire_date', false);
 	}
 
 	/**
@@ -1840,7 +1836,7 @@ class Manager implements IManager {
 	 */
 	public function shareApiInternalDefaultExpireDateEnforced(): bool {
 		return $this->shareApiInternalDefaultExpireDate() &&
-			$this->config->getAppValue('core', 'shareapi_enforce_internal_expire_date', 'no') === 'yes';
+			$this->appConfig->getValueBool('core', 'shareapi_enforce_internal_expire_date', false);
 	}
 
 	/**
@@ -1850,7 +1846,7 @@ class Manager implements IManager {
 	 */
 	public function shareApiRemoteDefaultExpireDateEnforced(): bool {
 		return $this->shareApiRemoteDefaultExpireDate() &&
-			$this->config->getAppValue('core', 'shareapi_enforce_remote_expire_date', 'no') === 'yes';
+			$this->appConfig->getValueBool('core', 'shareapi_enforce_remote_expire_date', false);
 	}
 
 	/**
@@ -1859,7 +1855,7 @@ class Manager implements IManager {
 	 * @return int
 	 */
 	public function shareApiInternalDefaultExpireDays(): int {
-		return (int)$this->config->getAppValue('core', 'shareapi_internal_expire_after_n_days', '7');
+		return $this->appConfig->getValueInt('core', 'shareapi_internal_expire_after_n_days', 7);
 	}
 
 	/**
@@ -1868,7 +1864,7 @@ class Manager implements IManager {
 	 * @return int
 	 */
 	public function shareApiRemoteDefaultExpireDays(): int {
-		return (int)$this->config->getAppValue('core', 'shareapi_remote_expire_after_n_days', '7');
+		return $this->appConfig->getValueInt('core', 'shareapi_remote_expire_after_n_days', 7);
 	}
 
 	/**
@@ -1877,7 +1873,7 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function shareApiLinkAllowPublicUpload() {
-		return $this->config->getAppValue('core', 'shareapi_allow_public_upload', 'yes') === 'yes';
+		return $this->appConfig->getValueBool('core', 'shareapi_allow_public_upload', true);
 	}
 
 	/**
@@ -1886,7 +1882,7 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function shareWithGroupMembersOnly() {
-		return $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
+		return $this->appConfig->getValueBool('core', 'shareapi_only_share_with_group_members', false);
 	}
 
 	/**
@@ -1900,8 +1896,8 @@ class Manager implements IManager {
 		if (!$this->shareWithGroupMembersOnly()) {
 			return [];
 		}
-		$excludeGroups = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', '');
-		return json_decode($excludeGroups, true) ?? [];
+		$excludeGroups = $this->appConfig->getValueArray('core', 'shareapi_only_share_with_group_members_exclude_group_list');
+		return $excludeGroups;
 	}
 
 	/**
@@ -1910,33 +1906,33 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function allowGroupSharing() {
-		return $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes') === 'yes';
+		return $this->appConfig->getValueBool('core', 'shareapi_allow_group_sharing', true);
 	}
 
 	public function allowEnumeration(): bool {
-		return $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+		return $this->appConfig->getValueBool('core', 'shareapi_allow_share_dialog_user_enumeration', true);
 	}
 
 	public function limitEnumerationToGroups(): bool {
 		return $this->allowEnumeration() &&
-			$this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+			$this->appConfig->getValueBool('core', 'shareapi_restrict_user_enumeration_to_group', false);
 	}
 
 	public function limitEnumerationToPhone(): bool {
 		return $this->allowEnumeration() &&
-			$this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+			$this->appConfig->getValueBool('core', 'shareapi_restrict_user_enumeration_to_phone', false);
 	}
 
 	public function allowEnumerationFullMatch(): bool {
-		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
+		return $this->appConfig->getValueBool('core', 'shareapi_restrict_user_enumeration_full_match', true);
 	}
 
 	public function matchEmail(): bool {
-		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes') === 'yes';
+		return $this->appConfig->getValueBool('core', 'shareapi_restrict_user_enumeration_full_match_email', true);
 	}
 
 	public function ignoreSecondDisplayName(): bool {
-		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn', 'no') === 'yes';
+		return $this->appConfig->getValueBool('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn', false);
 	}
 
 	public function currentUserCanEnumerateTargetUser(?IUser $currentUser, IUser $targetUser): bool {
@@ -1991,14 +1987,14 @@ class Manager implements IManager {
 	 * @inheritdoc
 	 */
 	public function outgoingServer2ServerSharesAllowed() {
-		return $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
+		return $this->appConfig->getValueBool('files_sharing', 'outgoing_server2server_share_enabled', true);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function outgoingServer2ServerGroupSharesAllowed() {
-		return $this->config->getAppValue('files_sharing', 'outgoing_server2server_group_share_enabled', 'no') === 'yes';
+		return $this->appConfig->getValueBool('files_sharing', 'outgoing_server2server_group_share_enabled', false);
 	}
 
 	/**
