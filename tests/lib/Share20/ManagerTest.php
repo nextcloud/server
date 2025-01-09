@@ -28,6 +28,7 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\HintException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IGroup;
@@ -109,6 +110,8 @@ class ManagerTest extends \Test\TestCase {
 	private DateTimeZone $timezone;
 	/** @var IDateTimeZone|MockObject */
 	protected $dateTimeZone;
+	/** @var IAppConfig|MockObject */
+	protected $appConfig;
 
 	protected function setUp(): void {
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -130,6 +133,8 @@ class ManagerTest extends \Test\TestCase {
 		$this->dateTimeZone = $this->createMock(IDateTimeZone::class);
 		$this->timezone = new \DateTimeZone('Pacific/Auckland');
 		$this->dateTimeZone->method('getTimeZone')->willReturnCallback(fn () => $this->timezone);
+
+		$this->appConfig = $this->createMock(IAppConfig::class);
 
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->l = $this->createMock(IL10N::class);
@@ -172,6 +177,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->knownUserService,
 			$this->shareDisabledChecker,
 			$this->dateTimeZone,
+			$this->appConfig,
 		);
 	}
 
@@ -199,6 +205,7 @@ class ManagerTest extends \Test\TestCase {
 				$this->knownUserService,
 				$this->shareDisabledChecker,
 				$this->dateTimeZone,
+				$this->appConfig,
 			]);
 	}
 
