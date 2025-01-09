@@ -171,16 +171,16 @@ namespace OC\Core;
  * @psalm-type CoreTaskProcessingTaskType = array{
  *     name: string,
  *     description: string,
- *     inputShape: list<CoreTaskProcessingShape>,
- *     inputShapeEnumValues: list<list<array{name: string, value: string}>>,
+ *     inputShape: array<string, CoreTaskProcessingShape>,
+ *     inputShapeEnumValues: array<string, list<array{name: string, value: string}>>,
  *     inputShapeDefaults: array<string, numeric|string>,
- *     optionalInputShape: list<CoreTaskProcessingShape>,
- *     optionalInputShapeEnumValues: list<list<array{name: string, value: string}>>,
+ *     optionalInputShape: array<string, CoreTaskProcessingShape>,
+ *     optionalInputShapeEnumValues: array<string, list<array{name: string, value: string}>>,
  *     optionalInputShapeDefaults: array<string, numeric|string>,
- *     outputShape: list<CoreTaskProcessingShape>,
- *     outputShapeEnumValues: list<list<array{name: string, value: string}>>,
- *     optionalOutputShape: list<CoreTaskProcessingShape>,
- *     optionalOutputShapeEnumValues: list<list<array{name: string, value: string}>>,
+ *     outputShape: array<string, CoreTaskProcessingShape>,
+ *     outputShapeEnumValues: array<string, list<array{name: string, value: string}>>,
+ *     optionalOutputShape: array<string, CoreTaskProcessingShape>,
+ *     optionalOutputShapeEnumValues: array<string, list<array{name: string, value: string}>>,
  * }
  *
  * @psalm-type CoreTaskProcessingIO = array<string, numeric|list<numeric>|string|list<string>>
