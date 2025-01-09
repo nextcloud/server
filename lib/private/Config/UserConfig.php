@@ -71,6 +71,7 @@ class UserConfig implements IUserConfig {
 
 	public function __construct(
 		protected IDBConnection $connection,
+		protected IConfig $config,
 		protected LoggerInterface $logger,
 		protected ICrypto $crypto,
 	) {
@@ -711,7 +712,7 @@ class UserConfig implements IUserConfig {
 		ValueType $type,
 	): string {
 		$this->assertParams($userId, $app, $key);
-		if (!$this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type, default: $default)) {
+		if (!$this->matchAndApplyLexiconDefinition($userId, $app, $key, $lazy, $type, default: $default)) {
 			return $default; // returns default if strictness of lexicon is set to WARNING (block and report)
 		}
 		$this->loadConfig($userId, $lazy);
@@ -1046,7 +1047,7 @@ class UserConfig implements IUserConfig {
 		ValueType $type,
 	): bool {
 		$this->assertParams($userId, $app, $key);
-		if (!$this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type, $flags)) {
+		if (!$this->matchAndApplyLexiconDefinition($userId, $app, $key, $lazy, $type, $flags)) {
 			return false; // returns false as database is not updated
 		}
 		$this->loadConfig($userId, $lazy);
@@ -1822,6 +1823,7 @@ class UserConfig implements IUserConfig {
 	 * @throws TypeConflictException
 	 */
 	private function matchAndApplyLexiconDefinition(
+		string $userId,
 		string $app,
 		string $key,
 		bool &$lazy,
@@ -1837,20 +1839,54 @@ class UserConfig implements IUserConfig {
 		/** @var ConfigLexiconEntry $configValue */
 		$configValue = $configDetails['entries'][$key];
 		if ($type === ValueType::MIXED) {
-			$type = $configValue->getValueType(); // we overwrite if value was requested as mixed
+			// we overwrite if value was requested as mixed
+			$type = $configValue->getValueType();
 		} elseif ($configValue->getValueType() !== $type) {
 			throw new TypeConflictException('The user config key ' . $app . '/' . $key . ' is typed incorrectly in relation to the config lexicon');
 		}
 
 		$lazy = $configValue->isLazy();
-		$default = $configValue->getDefault() ?? $default; // default from Lexicon got priority
 		$flags = $configValue->getFlags();
-
 		if ($configValue->isDeprecated()) {
 			$this->logger->notice('User config key ' . $app . '/' . $key . ' is set as deprecated.');
 		}
 
-		return true;
+		$enforcedValue = $this->config->getSystemValue('lexicon.default.userconfig.enforced', [])[$app][$key] ?? false;
+		if (!$enforcedValue && $this->hasKey($userId, $app, $key, $lazy)) {
+			// if key exists there should be no need to extract default
+			return true;
+		}
+
+		// default from Lexicon got priority but it can still be overwritten by admin
+		$default = $this->getSystemDefault($app, $configValue) ?? $configValue->getDefault() ?? $default;
+
+		// returning false will make get() returning $default and set() not changing value in database
+		return !$enforcedValue;
+	}
+
+	/**
+	 * get default value set in config/config.php if stored in key:
+	 *
+	 * 'lexicon.default.userconfig' => [
+	 *        <appId> => [
+	 *           <configKey> => 'my value',
+	 *        ]
+	 *     ],
+	 *
+	 * The entry is converted to string to fit the expected type when managing default value
+	 *
+	 * @param string $appId
+	 * @param ConfigLexiconEntry $configValue
+	 *
+	 * @return string|null
+	 */
+	private function getSystemDefault(string $appId, ConfigLexiconEntry $configValue): ?string {
+		$default = $this->config->getSystemValue('lexicon.default.userconfig', [])[$appId][$configValue->getKey()] ?? null;
+		if ($default === null) {
+			return null; // no system default, using default default.
+		}
+
+		return $configValue->convertToString($default);
 	}
 
 	/**

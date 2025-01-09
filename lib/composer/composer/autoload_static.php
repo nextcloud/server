@@ -1198,6 +1198,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Comments\\Manager' => __DIR__ . '/../../..' . '/lib/private/Comments/Manager.php',
         'OC\\Comments\\ManagerFactory' => __DIR__ . '/../../..' . '/lib/private/Comments/ManagerFactory.php',
         'OC\\Config' => __DIR__ . '/../../..' . '/lib/private/Config.php',
+        'OC\\Config\\Lexicon\\CoreConfigLexicon' => __DIR__ . '/../../..' . '/lib/private/Config/Lexicon/CoreConfigLexicon.php',
         'OC\\Config\\UserConfig' => __DIR__ . '/../../..' . '/lib/private/Config/UserConfig.php',
         'OC\\Console\\Application' => __DIR__ . '/../../..' . '/lib/private/Console/Application.php',
         'OC\\Console\\TimestampFormatter' => __DIR__ . '/../../..' . '/lib/private/Console/TimestampFormatter.php',
