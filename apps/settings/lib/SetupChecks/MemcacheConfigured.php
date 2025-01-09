@@ -60,7 +60,7 @@ class MemcacheConfigured implements ISetupCheck {
 		}
 
 		if ($this->cacheFactory->isLocalCacheAvailable()) {
-			$random = random_bytes(64);
+			$random = bin2hex(random_bytes(64));
 			$local = $this->cacheFactory->createLocal('setupcheck.local');
 			try {
 				$local->set('test', $random);
@@ -77,7 +77,7 @@ class MemcacheConfigured implements ISetupCheck {
 		}
 
 		if ($this->cacheFactory->isAvailable()) {
-			$random = random_bytes(64);
+			$random = bin2hex(random_bytes(64));
 			$distributed = $this->cacheFactory->createDistributed('setupcheck');
 			try {
 				$distributed->set('test', $random);
