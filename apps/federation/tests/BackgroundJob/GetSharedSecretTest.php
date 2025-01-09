@@ -20,6 +20,7 @@ use OCP\Http\Client\IResponse;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\OCS\IDiscoveryService;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -31,35 +32,16 @@ use Psr\Log\LoggerInterface;
  */
 class GetSharedSecretTest extends TestCase {
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IClient */
-	private $httpClient;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IClientService */
-	private $httpClientService;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IJobList */
-	private $jobList;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IURLGenerator */
-	private $urlGenerator;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|TrustedServers */
-	private $trustedServers;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|LoggerInterface */
-	private $logger;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IResponse */
-	private $response;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IDiscoveryService */
-	private $discoverService;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|ITimeFactory */
-	private $timeFactory;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IConfig */
-	private $config;
+	private MockObject&IClient $httpClient;
+	private MockObject&IClientService $httpClientService;
+	private MockObject&IJobList $jobList;
+	private MockObject&IURLGenerator $urlGenerator;
+	private MockObject&TrustedServers $trustedServers;
+	private MockObject&LoggerInterface $logger;
+	private MockObject&IResponse $response;
+	private MockObject&IDiscoveryService $discoverService;
+	private MockObject&ITimeFactory $timeFactory;
+	private MockObject&IConfig $config;
 
 	private GetSharedSecret $getSharedSecret;
 
@@ -89,7 +71,7 @@ class GetSharedSecretTest extends TestCase {
 			$this->logger,
 			$this->discoverService,
 			$this->timeFactory,
-			$this->config
+			$this->config,
 		);
 	}
 

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,22 +8,22 @@ namespace OCA\Federation\Tests\Controller;
 
 use OCA\Federation\Controller\SettingsController;
 use OCA\Federation\TrustedServers;
-use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCS\OCSException;
+use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\IL10N;
 use OCP\IRequest;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class SettingsControllerTest extends TestCase {
 	private SettingsController $controller;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IRequest */
-	private $request;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IL10N */
-	private $l10n;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|TrustedServers */
-	private $trustedServers;
+	private MockObject&IRequest $request;
+	private MockObject&IL10N $l10n;
+	private MockObject&TrustedServers $trustedServers;
+	private MockObject&LoggerInterface $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -33,12 +32,14 @@ class SettingsControllerTest extends TestCase {
 		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
 		$this->trustedServers = $this->getMockBuilder(TrustedServers::class)
 			->disableOriginalConstructor()->getMock();
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 
 		$this->controller = new SettingsController(
 			'SettingsControllerTest',
 			$this->request,
 			$this->l10n,
-			$this->trustedServers
+			$this->trustedServers,
+			$this->logger,
 		);
 	}
 
@@ -55,12 +56,12 @@ class SettingsControllerTest extends TestCase {
 			->willReturn(true);
 
 		$result = $this->controller->addServer('url');
-		$this->assertTrue($result instanceof JSONResponse);
+		$this->assertTrue($result instanceof DataResponse);
 
 		$data = $result->getData();
 		$this->assertSame(200, $result->getStatus());
-		$this->assertSame('url', $data['data']['url']);
-		$this->assertArrayHasKey('id', $data['data']);
+		$this->assertSame('url', $data['url']);
+		$this->assertArrayHasKey('id', $data);
 	}
 
 	/**
@@ -78,15 +79,13 @@ class SettingsControllerTest extends TestCase {
 			->with('url')
 			->willReturn($isNextcloud);
 
-		$result = $this->controller->addServer('url');
-		$this->assertTrue($result instanceof JSONResponse);
 		if ($isTrustedServer) {
-			$this->assertSame(409, $result->getStatus());
+			$this->expectException(OCSException::class);
+		} else {
+			$this->expectException(OCSNotFoundException::class);
 		}
 
-		if (!$isNextcloud) {
-			$this->assertSame(404, $result->getStatus());
-		}
+		$this->controller->addServer('url');
 	}
 
 	public function testRemoveServer(): void {
@@ -94,7 +93,7 @@ class SettingsControllerTest extends TestCase {
 			->method('removeServer')
 			->with(1);
 		$result = $this->controller->removeServer(1);
-		$this->assertTrue($result instanceof JSONResponse);
+		$this->assertTrue($result instanceof DataResponse);
 		$this->assertSame(200, $result->getStatus());
 	}
 
@@ -110,8 +109,8 @@ class SettingsControllerTest extends TestCase {
 			->with('url')
 			->willReturn(true);
 
-		$this->assertTrue(
-			$this->invokePrivate($this->controller, 'checkServer', ['url']) === null
+		$this->assertNull(
+			$this->invokePrivate($this->controller, 'checkServer', ['url'])
 		);
 	}
 
@@ -130,8 +129,14 @@ class SettingsControllerTest extends TestCase {
 			->with('url')
 			->willReturn($isNextcloud);
 
+		if ($isTrustedServer) {
+			$this->expectException(OCSException::class);
+		} else {
+			$this->expectException(OCSNotFoundException::class);
+		}
+
 		$this->assertTrue(
-			$this->invokePrivate($this->controller, 'checkServer', ['url']) instanceof JSONResponse
+			$this->invokePrivate($this->controller, 'checkServer', ['url'])
 		);
 	}
 

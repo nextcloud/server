@@ -79,8 +79,11 @@
             OC.getRootPath() + '/ocs/v2.php/apps/federation/trusted-servers',
             {
                 url: url
-            }
-        ).done(function({data}) {
+            },
+            null,
+            'json'
+        ).done(function({ ocs }) {
+            var data = ocs.data;
             $("#serverUrl").attr('value', '');
             $("#listOfTrustedServers").prepend(
                 $('<li>')
@@ -92,7 +95,7 @@
             OC.msg.finishedSuccess('#ocFederationAddServer .msg', data.message);
         })
         .fail(function (jqXHR) {
-            OC.msg.finishedError('#ocFederationAddServer .msg', JSON.parse(jqXHR.responseText).data.message);
+            OC.msg.finishedError('#ocFederationAddServer .msg', JSON.parse(jqXHR.responseText).ocs.meta.message);
         });
     };
 

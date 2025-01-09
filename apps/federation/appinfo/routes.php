@@ -31,20 +31,5 @@ return [
 			'url' => '/shared-secret',
 			'verb' => 'POST',
 		],
-		[
-			'name' => 'Settings#getServers',
-			'url' => '/trusted-servers',
-			'verb' => 'GET'
-		],
-		[
-			'name' => 'Settings#addServer',
-			'url' => '/trusted-servers',
-			'verb' => 'POST'
-		],
-		[
-			'name' => 'Settings#removeServer',
-			'url' => '/trusted-servers/{id}',
-			'verb' => 'DELETE'
-		],
 	],
 ];

@@ -195,7 +195,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 		$this->usingServer('LOCAL');
 		$this->sendRequestForJSON('GET', '/apps/federation/trusted-servers');
 		$this->theHTTPStatusCodeShouldBe('200');
-		$trustedServersIDs = array_map(fn ($server) => $server->id, json_decode($this->response->getBody())->data);
+		$trustedServersIDs = array_map(fn ($server) => $server->id, json_decode($this->response->getBody())->ocs->data);
 		foreach ($trustedServersIDs as $id) {
 			$this->sendRequestForJSON('DELETE', '/apps/federation/trusted-servers/' . $id);
 			$this->theHTTPStatusCodeShouldBe('200');
@@ -205,7 +205,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 		$this->usingServer('REMOTE');
 		$this->sendRequestForJSON('GET', '/apps/federation/trusted-servers');
 		$this->theHTTPStatusCodeShouldBe('200');
-		$trustedServersIDs = array_map(fn ($server) => $server->id, json_decode($this->response->getBody())->data);
+		$trustedServersIDs = array_map(fn ($server) => $server->id, json_decode($this->response->getBody())->ocs->data);
 		foreach ($trustedServersIDs as $id) {
 			$this->sendRequestForJSON('DELETE', '/apps/federation/trusted-servers/' . $id);
 			$this->theHTTPStatusCodeShouldBe('200');

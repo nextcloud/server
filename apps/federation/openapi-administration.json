@@ -19,86 +19,35 @@
                 "scheme": "bearer"
             }
         },
-        "schemas": {}
+        "schemas": {
+            "OCSMeta": {
+                "type": "object",
+                "required": [
+                    "status",
+                    "statuscode"
+                ],
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    },
+                    "statuscode": {
+                        "type": "integer"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "totalitems": {
+                        "type": "string"
+                    },
+                    "itemsperpage": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
     },
     "paths": {
         "/ocs/v2.php/apps/federation/trusted-servers": {
-            "get": {
-                "operationId": "settings-get-servers",
-                "summary": "List all trusted servers",
-                "description": "This endpoint requires admin access",
-                "tags": [
-                    "settings"
-                ],
-                "security": [
-                    {
-                        "bearer_auth": []
-                    },
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "description": "Required to be true for the API request to pass",
-                        "required": true,
-                        "schema": {
-                            "type": "boolean",
-                            "default": true
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "List of trusted servers",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "data",
-                                        "status"
-                                    ],
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "required": [
-                                                    "id",
-                                                    "status",
-                                                    "url"
-                                                ],
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "format": "int64"
-                                                    },
-                                                    "status": {
-                                                        "type": "integer",
-                                                        "format": "int64"
-                                                    },
-                                                    "url": {
-                                                        "type": "string"
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        "status": {
-                                            "type": "string",
-                                            "enum": [
-                                                "ok"
-                                            ]
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
             "post": {
                 "operationId": "settings-add-server",
                 "summary": "Add server to the list of trusted Nextcloud servers",
@@ -153,35 +102,40 @@
                                 "schema": {
                                     "type": "object",
                                     "required": [
-                                        "data",
-                                        "status"
+                                        "ocs"
                                     ],
                                     "properties": {
-                                        "data": {
+                                        "ocs": {
                                             "type": "object",
                                             "required": [
-                                                "id",
-                                                "message",
-                                                "url"
+                                                "meta",
+                                                "data"
                                             ],
                                             "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "format": "int64"
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "message": {
-                                                    "type": "string"
-                                                },
-                                                "url": {
-                                                    "type": "string"
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "id",
+                                                        "message",
+                                                        "url"
+                                                    ],
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "format": "int64"
+                                                        },
+                                                        "message": {
+                                                            "type": "string"
+                                                        },
+                                                        "url": {
+                                                            "type": "string"
+                                                        }
+                                                    }
                                                 }
                                             }
-                                        },
-                                        "status": {
-                                            "type": "string",
-                                            "enum": [
-                                                "ok"
-                                            ]
                                         }
                                     }
                                 }
@@ -195,30 +149,31 @@
                                 "schema": {
                                     "type": "object",
                                     "required": [
-                                        "data",
-                                        "status"
+                                        "ocs"
                                     ],
                                     "properties": {
-                                        "data": {
+                                        "ocs": {
                                             "type": "object",
                                             "required": [
-                                                "hint",
-                                                "message"
+                                                "meta",
+                                                "data"
                                             ],
                                             "properties": {
-                                                "hint": {
-                                                    "type": "string"
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "message": {
-                                                    "type": "string"
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "message"
+                                                    ],
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string"
+                                                        }
+                                                    }
                                                 }
                                             }
-                                        },
-                                        "status": {
-                                            "type": "string",
-                                            "enum": [
-                                                "error"
-                                            ]
                                         }
                                     }
                                 }
@@ -232,30 +187,112 @@
                                 "schema": {
                                     "type": "object",
                                     "required": [
-                                        "data",
-                                        "status"
+                                        "ocs"
                                     ],
                                     "properties": {
-                                        "data": {
+                                        "ocs": {
                                             "type": "object",
                                             "required": [
-                                                "hint",
-                                                "message"
+                                                "meta",
+                                                "data"
                                             ],
                                             "properties": {
-                                                "hint": {
-                                                    "type": "string"
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "message": {
-                                                    "type": "string"
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "message"
+                                                    ],
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string"
+                                                        }
+                                                    }
                                                 }
                                             }
-                                        },
-                                        "status": {
-                                            "type": "string",
-                                            "enum": [
-                                                "error"
-                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "operationId": "settings-get-servers",
+                "summary": "List all trusted servers",
+                "description": "This endpoint requires admin access",
+                "tags": [
+                    "settings"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of trusted servers",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "required": [
+                                                            "id",
+                                                            "status",
+                                                            "url"
+                                                        ],
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "format": "int64"
+                                                            },
+                                                            "status": {
+                                                                "type": "integer",
+                                                                "format": "int64"
+                                                            },
+                                                            "url": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -311,27 +348,32 @@
                                 "schema": {
                                     "type": "object",
                                     "required": [
-                                        "data",
-                                        "status"
+                                        "ocs"
                                     ],
                                     "properties": {
-                                        "data": {
+                                        "ocs": {
                                             "type": "object",
                                             "required": [
-                                                "id"
+                                                "meta",
+                                                "data"
                                             ],
                                             "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "format": "int64"
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "id"
+                                                    ],
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "format": "int64"
+                                                        }
+                                                    }
                                                 }
                                             }
-                                        },
-                                        "status": {
-                                            "type": "string",
-                                            "enum": [
-                                                "ok"
-                                            ]
                                         }
                                     }
                                 }
@@ -345,26 +387,31 @@
                                 "schema": {
                                     "type": "object",
                                     "required": [
-                                        "data",
-                                        "status"
+                                        "ocs"
                                     ],
                                     "properties": {
-                                        "data": {
+                                        "ocs": {
                                             "type": "object",
                                             "required": [
-                                                "message"
+                                                "meta",
+                                                "data"
                                             ],
                                             "properties": {
-                                                "message": {
-                                                    "type": "string"
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "message"
+                                                    ],
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string"
+                                                        }
+                                                    }
                                                 }
                                             }
-                                        },
-                                        "status": {
-                                            "type": "string",
-                                            "enum": [
-                                                "error"
-                                            ]
                                         }
                                     }
                                 }

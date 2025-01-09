@@ -909,104 +909,90 @@ class FederatedShareProvider implements IShareProvider {
 	}
 
 	/**
-	 * check if users from other Nextcloud instances are allowed to mount public links share by this instance
-	 *
-	 * @return bool
+	 * Check if users from other Nextcloud instances are allowed to mount public links share by this instance
 	 */
-	public function isOutgoingServer2serverShareEnabled() {
+	public function isOutgoingServer2serverShareEnabled(): bool {
 		if ($this->gsConfig->onlyInternalFederation()) {
 			return false;
 		}
 		$result = $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
-		return ($result === 'yes');
+		return $result === 'yes';
 	}
 
 	/**
-	 * check if users are allowed to mount public links from other Nextclouds
-	 *
-	 * @return bool
+	 * Check if users are allowed to mount public links from other Nextclouds
 	 */
-	public function isIncomingServer2serverShareEnabled() {
+	public function isIncomingServer2serverShareEnabled(): bool {
 		if ($this->gsConfig->onlyInternalFederation()) {
 			return false;
 		}
 		$result = $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes');
-		return ($result === 'yes');
+		return $result === 'yes';
 	}
 
 
 	/**
-	 * check if users from other Nextcloud instances are allowed to send federated group shares
-	 *
-	 * @return bool
+	 * Check if users from other Nextcloud instances are allowed to send federated group shares
 	 */
-	public function isOutgoingServer2serverGroupShareEnabled() {
+	public function isOutgoingServer2serverGroupShareEnabled(): bool {
 		if ($this->gsConfig->onlyInternalFederation()) {
 			return false;
 		}
 		$result = $this->config->getAppValue('files_sharing', 'outgoing_server2server_group_share_enabled', 'no');
-		return ($result === 'yes');
+		return $result === 'yes';
 	}
 
 	/**
-	 * check if users are allowed to receive federated group shares
-	 *
-	 * @return bool
+	 * Check if users are allowed to receive federated group shares
 	 */
-	public function isIncomingServer2serverGroupShareEnabled() {
+	public function isIncomingServer2serverGroupShareEnabled(): bool {
 		if ($this->gsConfig->onlyInternalFederation()) {
 			return false;
 		}
 		$result = $this->config->getAppValue('files_sharing', 'incoming_server2server_group_share_enabled', 'no');
-		return ($result === 'yes');
+		return $result === 'yes';
 	}
 
 	/**
-	 * check if federated group sharing is supported, therefore the OCM API need to be enabled
-	 *
-	 * @return bool
+	 * Check if federated group sharing is supported, therefore the OCM API need to be enabled
 	 */
-	public function isFederatedGroupSharingSupported() {
+	public function isFederatedGroupSharingSupported(): bool {
 		return $this->cloudFederationProviderManager->isReady();
 	}
 
 	/**
 	 * Check if querying sharees on the lookup server is enabled
-	 *
-	 * @return bool
 	 */
-	public function isLookupServerQueriesEnabled() {
+	public function isLookupServerQueriesEnabled(): bool {
 		// in a global scale setup we should always query the lookup server
 		if ($this->gsConfig->isGlobalScaleEnabled()) {
 			return true;
 		}
 		$result = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'yes');
-		return ($result === 'yes');
+		return $result === 'yes';
 	}
 
 
 	/**
 	 * Check if it is allowed to publish user specific data to the lookup server
-	 *
-	 * @return bool
 	 */
-	public function isLookupServerUploadEnabled() {
+	public function isLookupServerUploadEnabled(): bool {
 		// in a global scale setup the admin is responsible to keep the lookup server up-to-date
 		if ($this->gsConfig->isGlobalScaleEnabled()) {
 			return false;
 		}
 		$result = $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes');
-		return ($result === 'yes');
-	}
-
-	public function isFederatedTrustedShareAutoAccept() {
-		$result = $this->config->getAppValue('files_sharing', 'federatedTrustedShareAutoAccept', 'yes');
-		return ($result === 'yes');
+		return $result === 'yes';
 	}
 
 	/**
-	 * @inheritdoc
+	 * Check if auto accepting incoming shares from trusted servers is enabled
 	 */
+	public function isFederatedTrustedShareAutoAccept(): bool {
+		$result = $this->config->getAppValue('files_sharing', 'federatedTrustedShareAutoAccept', 'yes');
+		return $result === 'yes';
+	}
+
 	public function getAccessList($nodes, $currentAccess) {
 		$ids = [];
 		foreach ($nodes as $node) {
