@@ -198,7 +198,7 @@ export default {
 		 * @return {string}
 		 */
 		davPath() {
-			return `${davRemoteURL}/${davRootPath}${encodePath(this.file)}`
+			return `${davRemoteURL}${davRootPath}${encodePath(this.file)}`
 		},
 
 		/**
