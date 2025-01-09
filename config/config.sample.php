@@ -936,16 +936,16 @@ $CONFIG = [
  *
  * Defaults to the following domains:
  *
- *  - www.nextcloud.com
- *  - www.startpage.com
- *  - www.eff.org
- *  - www.edri.org
+ *  - https://www.nextcloud.com
+ *  - https://www.startpage.com
+ *  - https://www.eff.org
+ *  - https://www.edri.org
  */
 'connectivity_check_domains' => [
-	'www.nextcloud.com',
-	'www.startpage.com',
-	'www.eff.org',
-	'www.edri.org'
+	'https://www.nextcloud.com',
+	'https://www.startpage.com',
+	'https://www.eff.org',
+	'https://www.edri.org'
 ],
 
 /**
