@@ -369,7 +369,7 @@ OC.L10N.register(
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Mir ist bekannt, dass die Durchführung der Aktualisierung über die Web-Oberfläche das Risiko birgt, dass der Aktualisierungsprozess abgebrochen wird, was zu Datenverlust führen kann. Ich habe eine Sicherung und ich weiss, wie ich im Falle eines Fehlers beim Aktualisieren meine Installation wieder herstellen kann.",
     "Upgrade via web on my own risk" : "Aktualisierung über die Web-Oberfläche auf eigenes Risiko",
     "Maintenance mode" : "Wartungsmodus",
-    "This %s instance is currently in maintenance mode, which may take a while." : "Diese %s-Instanz befindet sich gerade im Wartungsmodus, was eine Weile dauern kann.",
+    "This %s instance is currently in maintenance mode, which may take a while." : "Diese Instanz der %s - befindet sich gerade im Wartungsmodus, was eine Weile dauern kann.",
     "This page will refresh itself when the instance is available again." : "Diese Seite aktualisiert sich automatisch, sobald die Nextcloud-Instanz wieder verfügbar ist.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktiere den Systemadministrator, wenn diese Meldung dauerhaft oder unerwartet erscheint.",
     "The user limit of this instance is reached." : "Die Benutzergrenze dieser Instanz ist erreicht.",
