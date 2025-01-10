@@ -78,12 +78,16 @@ class ConversionApiControllerTest extends TestCase {
 
 		$this->userFolder->method('getFirstNodeById')->with(42)->willReturn($this->file);
 		$this->userFolder->method('getRelativePath')->with($convertedFileAbsolutePath)->willReturn('/test.png');
+		$this->userFolder->method('get')->with('/test.png')->willReturn($this->file);
+
+		$this->file->method('getId')->willReturn(42);
 
 		$this->fileConversionManager->method('convert')->with($this->file, 'image/png', null)->willReturn($convertedFileAbsolutePath);
 
 		$actual = $this->conversionApiController->convert(42, 'image/png', null);
 		$expected = new DataResponse([
 			'path' => '/test.png',
+			'fileId' => 42,
 		], Http::STATUS_CREATED);
 
 		$this->assertEquals($expected, $actual);

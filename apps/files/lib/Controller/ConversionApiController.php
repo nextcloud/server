@@ -48,7 +48,7 @@ class ConversionApiController extends OCSController {
 	 * @param string $targetMimeType The MIME type to which you want to convert the file
 	 * @param string|null $destination The target path of the converted file. Written to a temporary file if left empty
 	 *
-	 * @return DataResponse<Http::STATUS_CREATED, array{path: string}, array{}>
+	 * @return DataResponse<Http::STATUS_CREATED, array{path: string, fileId: int}, array{}>
 	 *
 	 * 201: File was converted and written to the destination or temporary file
 	 *
@@ -98,8 +98,12 @@ class ConversionApiController extends OCSController {
 			throw new OCSNotFoundException($this->l10n->t('Could not get relative path to converted file'));
 		}
 
+		$file = $userFolder->get($convertedFileRelativePath);
+		$fileId = $file->getId();
+
 		return new DataResponse([
 			'path' => $convertedFileRelativePath,
+			'fileId' => $fileId,
 		], Http::STATUS_CREATED);
 	}
 }

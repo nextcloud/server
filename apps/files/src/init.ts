@@ -32,8 +32,10 @@ import registerPreviewServiceWorker from './services/ServiceWorker.js'
 
 import { initLivePhotos } from './services/LivePhotos'
 import { isPublicShare } from '@nextcloud/sharing/public'
+import { registerConvertActions } from './actions/convertAction.ts'
 
 // Register file actions
+registerConvertActions()
 registerFileAction(deleteAction)
 registerFileAction(downloadAction)
 registerFileAction(editLocallyAction)
