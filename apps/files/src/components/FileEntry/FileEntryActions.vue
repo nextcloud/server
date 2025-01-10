@@ -68,7 +68,7 @@
 					<template #icon>
 						<ArrowLeftIcon />
 					</template>
-					{{ actionDisplayName(openedSubmenu) }}
+					{{ t('files', 'Back') }}
 				</NcActionButton>
 				<NcActionSeparator />
 
