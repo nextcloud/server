@@ -374,7 +374,7 @@ export default defineComponent({
 			const providersToSearch = this.filteredProviders.length > 0 ? this.filteredProviders : this.providers
 			const searchProvider = (provider, filters) => {
 				const params = {
-					type: provider.id,
+					type: provider.appId,
 					query,
 					cursor: null,
 					extraQueries: provider.extraParams,
@@ -397,6 +397,7 @@ export default defineComponent({
 
 				if (this.providerResultLimit > 5) {
 					params.limit = this.providerResultLimit
+					unifiedSearchLogger.debug('Limiting search to', params.limit)
 				}
 
 				const request = unifiedSearch(params).request
@@ -404,6 +405,7 @@ export default defineComponent({
 				request().then((response) => {
 					newResults.push({
 						id: provider.id,
+						appId: provider.appId,
 						provider: provider.name,
 						inAppSearch: provider.inAppSearch,
 						results: response.data.ocs.data.entries,
@@ -500,11 +502,13 @@ export default defineComponent({
 		},
 		loadMoreResultsForProvider(providerId) {
 			this.providerResultLimit += 5
-			this.filters = this.filters.filter(filter => filter.type !== 'provider')
+			// If user wants more result for a particular filter remove other filters???
+			this.filters = this.filters.filter(filter => filter.id === providerId)
 			const provider = this.providers.find(provider => provider.id === providerId)
 			this.addProviderFilter(provider, true)
 		},
 		addProviderFilter(providerFilter, loadMoreResultsForProvider = false) {
+			unifiedSearchLogger.debug('Applying provider filter', { providerFilter, loadMoreResultsForProvider })
 			if (!providerFilter.id) return
 			if (providerFilter.isPluginFilter) {
 				providerFilter.callback()
@@ -521,6 +525,7 @@ export default defineComponent({
 			}
 			this.filteredProviders.push({
 				id: providerFilter.id,
+				appId: providerFilter.appId,
 				name: providerFilter.name,
 				icon: providerFilter.icon,
 				type: providerFilter.type || 'provider',
@@ -649,6 +654,7 @@ export default defineComponent({
 			this.updateDateFilter()
 		},
 		handlePluginFilter(addFilterEvent) {
+			unifiedSearchLogger.debug('Handling plugin filter', { addFilterEvent })
 			for (let i = 0; i < this.filteredProviders.length; i++) {
 				const provider = this.filteredProviders[i]
 				if (provider.id === addFilterEvent.id) {
