@@ -257,6 +257,13 @@ export default defineComponent({
 		},
 	},
 
+	watch: {
+		// Close any submenu when the menu is closed
+		openedMenu() {
+			this.openedSubmenu = null
+		},
+	},
+
 	methods: {
 		actionDisplayName(action: FileAction) {
 			try {
