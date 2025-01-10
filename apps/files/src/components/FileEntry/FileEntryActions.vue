@@ -244,6 +244,13 @@ export default defineComponent({
 		},
 	},
 
+	watch: {
+		// Close any submenu when the menu is closed
+		openedMenu() {
+			this.openedSubmenu = null
+		},
+	},
+
 	created() {
 		useHotKey('Escape', this.onKeyDown, {
 			stop: true,
