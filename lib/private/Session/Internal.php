@@ -83,18 +83,23 @@ class Internal extends Session {
 	 * @param string $key
 	 */
 	public function remove(string $key) {
-		if (isset($_SESSION[$key])) {
-			unset($_SESSION[$key]);
+		$reopened = $this->reopen();
+		unset($_SESSION[$key]);
+		if ($reopened) {
+			$this->close();
 		}
 	}
 
 	public function clear() {
-		$this->reopen();
+		$reopened = $this->reopen();
 		$this->invoke('session_unset');
 		$this->regenerateId();
 		$this->invoke('session_write_close');
 		$this->startSession(true);
 		$_SESSION = [];
+		if ($reopened) {
+			$this->close();
+		}
 	}
 
 	public function close() {
