@@ -21,7 +21,7 @@ function init() {
 
 	logger.info('Initializing unified search plugin: folder search from files app')
 	OCA.UnifiedSearch.registerFilterAction({
-		id: 'files',
+		id: 'in-folder',
 		appId: 'files',
 		label: t('files', 'In folder'),
 		icon: imagePath('files', 'app.svg'),
@@ -35,7 +35,8 @@ function init() {
 						logger.info('Folder picked', { folder: nodes[0] })
 						const folder = nodes[0]
 						emit('nextcloud:unified-search:add-filter', {
-							id: 'files',
+							id: 'in-folder',
+							appId: 'files',
 							payload: folder,
 							filterUpdateText: t('files', 'Search in folder: {folder}', { folder: folder.basename }),
 							filterParams: { path: folder.path },
