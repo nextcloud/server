@@ -39,7 +39,7 @@ class ApiController extends OCSController {
 	 * Get a reminder
 	 *
 	 * @param int $fileId ID of the file
-	 * @return DataResponse<Http::STATUS_OK, array{dueDate: ?string}, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{dueDate: ?string}, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED, list<empty>, array{}>
 	 *
 	 * 200: Reminder returned
 	 * 401: Account not found
@@ -71,7 +71,7 @@ class ApiController extends OCSController {
 	 * @param int $fileId ID of the file
 	 * @param string $dueDate ISO 8601 formatted date time string
 	 *
-	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_CREATED|Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED|Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_CREATED|Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED|Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
 	 * 200: Reminder updated
 	 * 201: Reminder created successfully
@@ -109,7 +109,7 @@ class ApiController extends OCSController {
 	 *
 	 * @param int $fileId ID of the file
 	 *
-	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_UNAUTHORIZED|Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_UNAUTHORIZED|Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
 	 * 200: Reminder deleted successfully
 	 * 401: Account not found

@@ -11,12 +11,15 @@ SPDX-FileCopyrightText: jden <jason@denizac.org>
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: defunctzombie
+SPDX-FileCopyrightText: color developers
+SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
+SPDX-FileCopyrightText: Qix (http://github.com/qix-)
 SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
@@ -31,20 +34,31 @@ SPDX-FileCopyrightText: José F. Romaniello <jfromaniello@gmail.com> (http://jos
 SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jordan Harband
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
+SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)
+SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
 SPDX-FileCopyrightText: John Hiesey
 SPDX-FileCopyrightText: James Halliday
 SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me)
 SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
+SPDX-FileCopyrightText: Heather Arthur <fayearthur@gmail.com>
+SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
+SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Dylan Piercey <pierceydylan@gmail.com>
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
+SPDX-FileCopyrightText: David Clark
+SPDX-FileCopyrightText: DY <dfcreative@gmail.com>
+SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Ben Drucker
 SPDX-FileCopyrightText: Arnout Kazemier
+SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Andris Reinman
 SPDX-FileCopyrightText: Amit Gupta (https://solothought.com)
 SPDX-FileCopyrightText: Amit Gupta (https://amitkumargupta.work/)
 SPDX-FileCopyrightText: Alkemics
+SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 
 This file is generated from multiple sources. Included packages:
@@ -60,12 +74,18 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/capabilities
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
+- @nextcloud/dialogs
+	- version: 6.0.1
+	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.1
 	- license: GPL-3.0-or-later
+- @nextcloud/files
+	- version: 3.10.1
+	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
@@ -82,8 +102,17 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
-	- version: 0.2.3
+	- version: 0.2.4
 	- license: GPL-3.0-or-later
+- @nextcloud/vue
+	- version: 8.20.0
+	- license: AGPL-3.0-or-later
+- @vueuse/core
+	- version: 11.1.0
+	- license: MIT
+- @vueuse/shared
+	- version: 11.1.0
+	- license: MIT
 - available-typed-arrays
 	- version: 1.0.7
 	- license: MIT
@@ -123,6 +152,18 @@ This file is generated from multiple sources. Included packages:
 - charenc
 	- version: 0.0.2
 	- license: BSD-3-Clause
+- color-convert
+	- version: 2.0.1
+	- license: MIT
+- color-name
+	- version: 1.1.4
+	- license: MIT
+- color-string
+	- version: 1.9.1
+	- license: MIT
+- color
+	- version: 4.2.3
+	- license: MIT
 - crypt
 	- version: 0.0.2
 	- license: BSD-3-Clause
@@ -149,6 +190,12 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - fast-xml-parser
 	- version: 4.4.1
+	- license: MIT
+- floating-vue
+	- version: 1.0.0-beta.19
+	- license: MIT
+- focus-trap
+	- version: 7.6.0
 	- license: MIT
 - for-each
 	- version: 0.3.3
@@ -207,6 +254,9 @@ This file is generated from multiple sources. Included packages:
 - layerr
 	- version: 3.0.0
 	- license: MIT
+- lodash.get
+	- version: 4.4.2
+	- license: MIT
 - md5
 	- version: 2.3.0
 	- license: BSD-3-Clause
@@ -215,6 +265,9 @@ This file is generated from multiple sources. Included packages:
 	- license: ISC
 - nested-property
 	- version: 4.0.0
+	- license: MIT
+- node-gettext
+	- version: 3.0.0
 	- license: MIT
 - buffer
 	- version: 6.0.3
@@ -261,6 +314,12 @@ This file is generated from multiple sources. Included packages:
 - side-channel
 	- version: 1.0.6
 	- license: MIT
+- is-arrayish
+	- version: 0.3.2
+	- license: MIT
+- simple-swizzle
+	- version: 0.2.2
+	- license: MIT
 - readable-stream
 	- version: 3.6.2
 	- license: MIT
@@ -282,6 +341,12 @@ This file is generated from multiple sources. Included packages:
 - style-loader
 	- version: 4.0.0
 	- license: MIT
+- tabbable
+	- version: 6.2.0
+	- license: MIT
+- toastify-js
+	- version: 1.12.0
+	- license: MIT
 - typescript-event-target
 	- version: 1.1.1
 	- license: MIT
@@ -299,6 +364,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - util
 	- version: 0.12.5
+	- license: MIT
+- vue
+	- version: 2.7.16
 	- license: MIT
 - webdav
 	- version: 5.7.1

@@ -10,7 +10,9 @@ namespace OC\Cache;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\ICache;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class File implements ICache {
@@ -28,17 +30,18 @@ class File implements ICache {
 		if ($this->storage !== null) {
 			return $this->storage;
 		}
-		if (\OC::$server->getUserSession()->isLoggedIn()) {
+		$session = Server::get(IUserSession::class);
+		if ($session->isLoggedIn()) {
 			$rootView = new View();
-			$user = \OC::$server->getUserSession()->getUser();
-			Filesystem::initMountPoints($user->getUID());
-			if (!$rootView->file_exists('/' . $user->getUID() . '/cache')) {
-				$rootView->mkdir('/' . $user->getUID() . '/cache');
+			$userId = $session->getUser()->getUID();
+			Filesystem::initMountPoints($userId);
+			if (!$rootView->file_exists('/' . $userId . '/cache')) {
+				$rootView->mkdir('/' . $userId . '/cache');
 			}
-			$this->storage = new View('/' . $user->getUID() . '/cache');
+			$this->storage = new View('/' . $userId . '/cache');
 			return $this->storage;
 		} else {
-			\OCP\Server::get(LoggerInterface::class)->error('Can\'t get cache storage, user not logged in', ['app' => 'core']);
+			Server::get(LoggerInterface::class)->error('Can\'t get cache storage, user not logged in', ['app' => 'core']);
 			throw new \OC\ForbiddenException('Can\t get cache storage, user not logged in');
 		}
 	}
@@ -83,7 +86,7 @@ class File implements ICache {
 		$storage = $this->getStorage();
 		$result = false;
 		// unique id to avoid chunk collision, just in case
-		$uniqueId = \OC::$server->get(ISecureRandom::class)->generate(
+		$uniqueId = Server::get(ISecureRandom::class)->generate(
 			16,
 			ISecureRandom::CHAR_ALPHANUMERIC
 		);
@@ -91,7 +94,7 @@ class File implements ICache {
 		// use part file to prevent hasKey() to find the key
 		// while it is being written
 		$keyPart = $key . '.' . $uniqueId . '.part';
-		if ($storage and $storage->file_put_contents($keyPart, $value)) {
+		if ($storage && $storage->file_put_contents($keyPart, $value)) {
 			if ($ttl === 0) {
 				$ttl = 86400; // 60*60*24
 			}
@@ -134,11 +137,11 @@ class File implements ICache {
 	 */
 	public function clear($prefix = '') {
 		$storage = $this->getStorage();
-		if ($storage and $storage->is_dir('/')) {
+		if ($storage && $storage->is_dir('/')) {
 			$dh = $storage->opendir('/');
 			if (is_resource($dh)) {
 				while (($file = readdir($dh)) !== false) {
-					if ($file != '.' and $file != '..' and ($prefix === '' || str_starts_with($file, $prefix))) {
+					if ($file !== '.' && $file !== '..' && ($prefix === '' || str_starts_with($file, $prefix))) {
 						$storage->unlink('/' . $file);
 					}
 				}
@@ -162,7 +165,7 @@ class File implements ICache {
 				return null;
 			}
 			while (($file = readdir($dh)) !== false) {
-				if ($file != '.' and $file != '..') {
+				if ($file !== '.' && $file !== '..') {
 					try {
 						$mtime = $storage->filemtime('/' . $file);
 						if ($mtime < $now) {
@@ -170,11 +173,11 @@ class File implements ICache {
 						}
 					} catch (\OCP\Lock\LockedException $e) {
 						// ignore locked chunks
-						\OCP\Server::get(LoggerInterface::class)->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
+						Server::get(LoggerInterface::class)->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
 					} catch (\OCP\Files\ForbiddenException $e) {
-						\OCP\Server::get(LoggerInterface::class)->debug('Could not cleanup forbidden chunk "' . $file . '"', ['app' => 'core']);
+						Server::get(LoggerInterface::class)->debug('Could not cleanup forbidden chunk "' . $file . '"', ['app' => 'core']);
 					} catch (\OCP\Files\LockNotAcquiredException $e) {
-						\OCP\Server::get(LoggerInterface::class)->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
+						Server::get(LoggerInterface::class)->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
 					}
 				}
 			}

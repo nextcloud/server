@@ -11,8 +11,12 @@ use OC\Tagging\Tag;
 use OC\Tagging\TagMapper;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\NodeAddedToFavorite;
+use OCP\Files\Events\NodeRemovedFromFavorite;
 use OCP\IDBConnection;
 use OCP\ITags;
+use OCP\IUserSession;
 use OCP\Share_Backend;
 use Psr\Log\LoggerInterface;
 
@@ -21,10 +25,6 @@ class Tags implements ITags {
 	 * Used for storing objectid/categoryname pairs while rescanning.
 	 */
 	private static array $relations = [];
-	private string $type;
-	private string $user;
-	private IDBConnection $db;
-	private LoggerInterface $logger;
 	private array $tags = [];
 
 	/**
@@ -37,11 +37,6 @@ class Tags implements ITags {
 	 * user, if $this->includeShared === true.
 	 */
 	private array $owners = [];
-
-	/**
-	 * The Mapper we are using to communicate our Tag objects to the database.
-	 */
-	private TagMapper $mapper;
 
 	/**
 	 * The sharing backend for objects of $this->type. Required if
@@ -62,14 +57,18 @@ class Tags implements ITags {
 	 *
 	 * since 20.0.0 $includeShared isn't used anymore
 	 */
-	public function __construct(TagMapper $mapper, string $user, string $type, LoggerInterface $logger, IDBConnection $connection, array $defaultTags = []) {
-		$this->mapper = $mapper;
-		$this->user = $user;
-		$this->type = $type;
+	public function __construct(
+		private TagMapper $mapper,
+		private string $user,
+		private string $type,
+		private LoggerInterface $logger,
+		private IDBConnection $db,
+		private IEventDispatcher $dispatcher,
+		private IUserSession $userSession,
+		array $defaultTags = [],
+	) {
 		$this->owners = [$this->user];
 		$this->tags = $this->mapper->loadTags($this->owners, $this->type);
-		$this->db = $connection;
-		$this->logger = $logger;
 
 		if (count($defaultTags) > 0 && count($this->tags) === 0) {
 			$this->addMultiple($defaultTags, true);
@@ -147,9 +146,9 @@ class Tags implements ITags {
 	/**
 	 * Get the list of tags for the given ids.
 	 *
-	 * @param array $objIds array of object ids
-	 * @return array|false of tags id as key to array of tag names
-	 *                     or false if an error occurred
+	 * @param list<int> $objIds array of object ids
+	 * @return array<int, list<string>>|false of tags id as key to array of tag names
+	 *                                        or false if an error occurred
 	 */
 	public function getTagsForObjects(array $objIds) {
 		$entries = [];
@@ -502,7 +501,7 @@ class Tags implements ITags {
 	 * @param string $tag The id or name of the tag
 	 * @return boolean Returns false on error.
 	 */
-	public function tagAs($objid, $tag) {
+	public function tagAs($objid, $tag, string $path = '') {
 		if (is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
 			if ($tag === '') {
@@ -532,6 +531,9 @@ class Tags implements ITags {
 			]);
 			return false;
 		}
+		if ($tag === ITags::TAG_FAVORITE) {
+			$this->dispatcher->dispatchTyped(new NodeAddedToFavorite($this->userSession->getUser(), $objid, $path));
+		}
 		return true;
 	}
 
@@ -542,7 +544,7 @@ class Tags implements ITags {
 	 * @param string $tag The id or name of the tag
 	 * @return boolean
 	 */
-	public function unTag($objid, $tag) {
+	public function unTag($objid, $tag, string $path = '') {
 		if (is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
 			if ($tag === '') {
@@ -568,6 +570,9 @@ class Tags implements ITags {
 				'exception' => $e,
 			]);
 			return false;
+		}
+		if ($tag === ITags::TAG_FAVORITE) {
+			$this->dispatcher->dispatchTyped(new NodeRemovedFromFavorite($this->userSession->getUser(), $objid, $path));
 		}
 		return true;
 	}

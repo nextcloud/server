@@ -64,7 +64,7 @@ class FilesDropPlugin extends ServerPlugin {
 		// Extract the attributes for the file request
 		$isFileRequest = false;
 		$attributes = $this->share->getAttributes();
-		$nickName = $request->getHeader('X-NC-Nickname');
+		$nickName = $request->hasHeader('X-NC-Nickname') ? urldecode($request->getHeader('X-NC-Nickname')) : null;
 		if ($attributes !== null) {
 			$isFileRequest = $attributes->getAttribute('fileRequest', 'enabled') === true;
 		}

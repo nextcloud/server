@@ -56,12 +56,14 @@ jobs:
     strategy:
       matrix:
         php-versions: ['8.1']
-        # To keep the matrix smaller we ignore PostgreSQL '13', '14', and '15' as we already test 12 and 16 as lower and upper bound
-        postgres-versions: ['12', '16']
+        # To keep the matrix smaller we ignore PostgreSQL versions in between as we already test the minimum and the maximum
+        postgres-versions: ['13', '17']
         include:
           - php-versions: '8.3'
-            postgres-versions: '16'
+            postgres-versions: '17'
             coverage: ${{ github.event_name != 'pull_request' }}
+          - php-versions: '8.4'
+            postgres-versions: '17'
 
     name: PostgreSQL ${{ matrix.postgres-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
@@ -84,7 +86,7 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           submodules: true
 
@@ -117,7 +119,7 @@ jobs:
 
       - name: Upload db code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@v4.5.0
+        uses: codecov/codecov-action@v5.0.7
         with:
           files: ./clover.db.xml
           flags: phpunit-postgres

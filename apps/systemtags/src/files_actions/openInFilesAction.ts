@@ -2,8 +2,12 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { translate as t } from '@nextcloud/l10n'
-import { type Node, FileType, FileAction, DefaultType } from '@nextcloud/files'
+import { type Node } from '@nextcloud/files'
+
+import { FileType, FileAction, DefaultType } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
+
+import { systemTagsViewId } from '../files_views/systemtagsView'
 
 export const action = new FileAction({
 	id: 'systemtags:open-in-files',
@@ -12,7 +16,7 @@ export const action = new FileAction({
 
 	enabled(nodes, view) {
 		// Only for the system tags view
-		if (view.id !== 'tags') {
+		if (view.id !== systemTagsViewId) {
 			return false
 		}
 		// Only for single nodes

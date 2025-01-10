@@ -6,6 +6,7 @@
  */
 namespace OCA\Settings\Controller;
 
+use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\App\AppStore\Fetcher\AppDiscoverFetcher;
 use OC\App\AppStore\Fetcher\AppFetcher;
@@ -15,7 +16,6 @@ use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
 use OC\Installer;
 use OCP\App\AppPathNotFoundException;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
@@ -43,6 +43,7 @@ use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use OCP\Server;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -61,7 +62,7 @@ class AppSettingsController extends Controller {
 		private IL10N $l10n,
 		private IConfig $config,
 		private INavigationManager $navigationManager,
-		private IAppManager $appManager,
+		private AppManager $appManager,
 		private CategoryFetcher $categoryFetcher,
 		private AppFetcher $appFetcher,
 		private IFactory $l10nFactory,
@@ -78,6 +79,8 @@ class AppSettingsController extends Controller {
 	}
 
 	/**
+	 * @psalm-suppress UndefinedClass AppAPI is shipped since 30.0.1
+	 *
 	 * @return TemplateResponse
 	 */
 	#[NoCSRFRequired]
@@ -88,6 +91,13 @@ class AppSettingsController extends Controller {
 		$this->initialState->provideInitialState('appstoreBundles', $this->getBundles());
 		$this->initialState->provideInitialState('appstoreDeveloperDocs', $this->urlGenerator->linkToDocs('developer-manual'));
 		$this->initialState->provideInitialState('appstoreUpdateCount', count($this->getAppsWithUpdates()));
+
+		if ($this->appManager->isInstalled('app_api')) {
+			try {
+				Server::get(\OCA\AppAPI\Service\ExAppsPageService::class)->provideAppApiState($this->initialState);
+			} catch (\Psr\Container\NotFoundExceptionInterface|\Psr\Container\ContainerExceptionInterface $e) {
+			}
+		}
 
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
@@ -245,9 +255,15 @@ class AppSettingsController extends Controller {
 		$apps = $appClass->listAllApps();
 		foreach ($apps as $app) {
 			$app['installed'] = true;
-			// locally installed apps have a flatted screenshot property
+
 			if (isset($app['screenshot'][0])) {
-				$app['screenshot'] = $this->createProxyPreviewUrl($app['screenshot'][0]);
+				$appScreenshot = $app['screenshot'][0] ?? null;
+				if (is_array($appScreenshot)) {
+					// Screenshot with thumbnail
+					$appScreenshot = $appScreenshot['@value'];
+				}
+
+				$app['screenshot'] = $this->createProxyPreviewUrl($appScreenshot);
 			}
 			$this->allApps[$app['id']] = $app;
 		}
@@ -432,6 +448,7 @@ class AppSettingsController extends Controller {
 
 			$formattedApps[] = [
 				'id' => $app['id'],
+				'app_api' => false,
 				'name' => $app['translations'][$currentLanguage]['name'] ?? $app['translations']['en']['name'],
 				'description' => $app['translations'][$currentLanguage]['description'] ?? $app['translations']['en']['description'],
 				'summary' => $app['translations'][$currentLanguage]['summary'] ?? $app['translations']['en']['summary'],
@@ -575,6 +592,8 @@ class AppSettingsController extends Controller {
 		$appId = $this->appManager->cleanAppId($appId);
 		$result = $this->installer->removeApp($appId);
 		if ($result !== false) {
+			// If this app was force enabled, remove the force-enabled-state
+			$this->appManager->removeOverwriteNextcloudRequirement($appId);
 			$this->appManager->clearAppsCache();
 			return new JSONResponse(['data' => ['appid' => $appId]]);
 		}
@@ -614,7 +633,7 @@ class AppSettingsController extends Controller {
 
 	public function force(string $appId): JSONResponse {
 		$appId = $this->appManager->cleanAppId($appId);
-		$this->appManager->ignoreNextcloudRequirementForApp($appId);
+		$this->appManager->overwriteNextcloudRequirement($appId);
 		return new JSONResponse();
 	}
 }

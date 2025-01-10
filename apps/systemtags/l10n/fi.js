@@ -58,6 +58,8 @@ OC.L10N.register(
     "Failed to create tag" : "Tunnisteen luominen epäonnistui",
     "Failed to update tag" : "Tunnisteen päivittäminen epäonnistui",
     "Failed to delete tag" : "Tunnisteen poistaminen epäonnistui",
+    "Manage tags" : "Hallitse tunnisteita",
+    "Cancel" : "Peruuta",
     "Loading collaborative tags …" : "Ladataan yhteistyöllisiä tunnisteita…",
     "Search or create collaborative tags" : "Etsi tai luo yhteistyötunnisteita",
     "Failed to load tags" : "Tunnisteiden lataaminen epäonnistui",

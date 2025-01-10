@@ -63,6 +63,8 @@ OC.L10N.register(
     "Failed to update tag" : "Mistókst að uppfæra merki",
     "Deleted tag" : "Eyddi merki",
     "Failed to delete tag" : "Mistókst að eyða merki",
+    "Manage tags" : "Sýsla með merki",
+    "Cancel" : "Hætta við",
     "Loading collaborative tags …" : "Hleð inn samstarfsmerkjum …",
     "Search or create collaborative tags" : "Búa til eða breyta samstarfsmerkjum",
     "No tags to select, type to create a new tag" : "Engin merki til að velja, skrifaðu til að útbúa nýtt merki",

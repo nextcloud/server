@@ -24,6 +24,8 @@ class SupportedDatabase implements ISetupCheck {
 	private const MAX_MARIADB = '11.4';
 	private const MIN_MYSQL = '8.0';
 	private const MAX_MYSQL = '8.4';
+	private const MIN_POSTGRES = '13';
+	private const MAX_POSTGRES = '17';
 
 	public function __construct(
 		private IL10N $l10n,
@@ -98,8 +100,16 @@ class SupportedDatabase implements ISetupCheck {
 			// we only care about X not X.Y or X.Y.Z differences
 			[$major, ] = explode('.', $versionlc);
 			$versionConcern = $major;
-			if (version_compare($versionConcern, '12', '<') || version_compare($versionConcern, '16', '>')) {
-				return SetupResult::warning($this->l10n->t('PostgreSQL version "%s" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
+			if (version_compare($versionConcern, self::MIN_POSTGRES, '<') || version_compare($versionConcern, self::MAX_POSTGRES, '>')) {
+				return SetupResult::warning(
+					$this->l10n->t(
+						'PostgreSQL version "%1$s" detected. PostgreSQL >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud.',
+						[
+							$version,
+							self::MIN_POSTGRES,
+							self::MAX_POSTGRES,
+						])
+				);
 			}
 		} elseif ($databasePlatform instanceof OraclePlatform) {
 			$version = 'Oracle';

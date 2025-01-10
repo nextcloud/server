@@ -2170,7 +2170,10 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "$ref": "#/components/schemas/Share"
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Share"
+                                                    }
                                                 }
                                             }
                                         }
@@ -3802,10 +3805,5 @@
             }
         }
     },
-    "tags": [
-        {
-            "name": "external_shares",
-            "description": "Class ExternalSharesController"
-        }
-    ]
+    "tags": []
 }

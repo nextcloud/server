@@ -65,6 +65,8 @@ OC.L10N.register(
     "Failed to update tag" : "Oppdatering av merkelapp feilet",
     "Deleted tag" : "Slettet merkelappen",
     "Failed to delete tag" : "Sletting av merkelapp feilet",
+    "Manage tags" : "Håndtere etiketter",
+    "Cancel" : "Avbryt",
     "Loading collaborative tags …" : "Laster samarbeidende merkelapper...",
     "Search or create collaborative tags" : "Søk etter eller opprett samarbeidende merkelapper",
     "No tags to select, type to create a new tag" : "Ingen merkelapper å velge, skriv for å opprette en ny merkelapp",

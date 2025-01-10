@@ -94,7 +94,7 @@ class ShareesAPIController extends OCSController {
 	 * @param string|null $itemType Limit to specific item types
 	 * @param int $page Page offset for searching
 	 * @param int $perPage Limit amount of search results per page
-	 * @param int|int[]|null $shareType Limit to specific share types
+	 * @param int|list<int>|null $shareType Limit to specific share types
 	 * @param bool $lookup If a global lookup should be performed too
 	 * @return DataResponse<Http::STATUS_OK, Files_SharingShareesSearchResult, array{Link?: string}>
 	 * @throws OCSBadRequestException Invalid search parameters
@@ -300,7 +300,7 @@ class ShareesAPIController extends OCSController {
 	 * Find recommended sharees
 	 *
 	 * @param string $itemType Limit to specific item types
-	 * @param int|int[]|null $shareType Limit to specific share types
+	 * @param int|list<int>|null $shareType Limit to specific share types
 	 * @return DataResponse<Http::STATUS_OK, Files_SharingShareesRecommendedResult, array{}>
 	 *
 	 * 200: Recommended sharees returned

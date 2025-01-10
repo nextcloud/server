@@ -8,7 +8,7 @@
 			<span>
 				<NcAvatar v-if="isUserShare"
 					class="sharing-entry__avatar"
-					:is-no-user="share.shareType !== SHARE_TYPES.SHARE_TYPE_USER"
+					:is-no-user="share.shareType !== ShareType.User"
 					:user="share.shareWith"
 					:display-name="share.shareWithDisplayName"
 					:menu-position="'left'"
@@ -116,8 +116,8 @@
 							autocomplete="new-password"
 							:value="hasUnsavedPassword ? share.newPassword : ''"
 							:error="passwordError"
-							:helper-text="errorPasswordLabel"
-							:required="isPasswordEnforced"
+							:helper-text="errorPasswordLabel || passwordHint"
+							:required="isPasswordEnforced && isNewShare"
 							:label="t('files_sharing', 'Password')"
 							@update:value="onPasswordChange" />
 
@@ -195,7 +195,7 @@
 							data-cy-files-sharing-share-permissions-checkbox="update">
 							{{ t('files_sharing', 'Edit') }}
 						</NcCheckboxRadioSwitch>
-						<NcCheckboxRadioSwitch v-if="config.isResharingAllowed && share.type !== SHARE_TYPES.SHARE_TYPE_LINK"
+						<NcCheckboxRadioSwitch v-if="resharingIsPossible"
 							:disabled="!canSetReshare"
 							:checked.sync="canReshare"
 							data-cy-files-sharing-share-permissions-checkbox="share">
@@ -277,7 +277,6 @@ import ExternalShareAction from '../components/ExternalShareAction.vue'
 import GeneratePassword from '../utils/GeneratePassword.ts'
 import Share from '../models/Share.ts'
 import ShareRequests from '../mixins/ShareRequests.js'
-import ShareTypes from '../mixins/ShareTypes.js'
 import SharesMixin from '../mixins/SharesMixin.js'
 import logger from '../services/logger.ts'
 
@@ -312,7 +311,7 @@ export default {
 		MenuUpIcon,
 		DotsHorizontalIcon,
 	},
-	mixins: [ShareTypes, ShareRequests, SharesMixin],
+	mixins: [ShareRequests, SharesMixin],
 	props: {
 		shareRequestValue: {
 			type: Object,
@@ -347,31 +346,31 @@ export default {
 	computed: {
 		title() {
 			switch (this.share.type) {
-			case this.SHARE_TYPES.SHARE_TYPE_USER:
+			case ShareType.User:
 				return t('files_sharing', 'Share with {userName}', { userName: this.share.shareWithDisplayName })
-			case this.SHARE_TYPES.SHARE_TYPE_EMAIL:
+			case ShareType.Email:
 			    return t('files_sharing', 'Share with email {email}', { email: this.share.shareWith })
-			case this.SHARE_TYPES.SHARE_TYPE_LINK:
+			case ShareType.Link:
 				return t('files_sharing', 'Share link')
-			case this.SHARE_TYPES.SHARE_TYPE_GROUP:
+			case ShareType.Group:
 				return t('files_sharing', 'Share with group')
-			case this.SHARE_TYPES.SHARE_TYPE_ROOM:
+			case ShareType.Room:
 				return t('files_sharing', 'Share in conversation')
-			case this.SHARE_TYPES.SHARE_TYPE_REMOTE: {
+			case ShareType.Remote: {
 				const [user, server] = this.share.shareWith.split('@')
 				return t('files_sharing', 'Share with {user} on remote server {server}', { user, server })
 			}
-			case this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP:
+			case ShareType.RemoteGroup:
 				return t('files_sharing', 'Share with remote group')
-			case this.SHARE_TYPES.SHARE_TYPE_GUEST:
+			case ShareType.Guest:
 				return t('files_sharing', 'Share with guest')
 			default: {
-			        if (this.share.id) {
-					    // Share already exists
-					    return t('files_sharing', 'Update share')
-				    } else {
-					    return t('files_sharing', 'Create share')
-				    }
+				if (this.share.id) {
+					// Share already exists
+					return t('files_sharing', 'Update share')
+				} else {
+					return t('files_sharing', 'Create share')
+				}
 			}
 			}
 		},
@@ -531,17 +530,17 @@ export default {
 			return new Date(new Date().setDate(new Date().getDate() + 1))
 		},
 		isUserShare() {
-			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_USER
+			return this.share.type === ShareType.User
 		},
 		isGroupShare() {
-			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP
+			return this.share.type === ShareType.Group
 		},
 		isNewShare() {
 			return !this.share.id
 		},
 		allowsFileDrop() {
 			if (this.isFolder && this.config.isPublicUploadEnabled) {
-				if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_LINK || this.share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
+				if (this.share.type === ShareType.Link || this.share.type === ShareType.Email) {
 					return true
 				}
 			}
@@ -556,6 +555,9 @@ export default {
 			}
 			return t('files_sharing', 'Update share')
 
+		},
+		resharingIsPossible() {
+			return this.config.isResharingAllowed && this.share.type !== ShareType.Link && this.share.type !== ShareType.Email
 		},
 		/**
 		 * Can the sharer set whether the sharee can edit the file ?
@@ -616,8 +618,8 @@ export default {
 		},
 		canRemoveReadPermission() {
 			return this.allowsFileDrop && (
-				this.share.type === this.SHARE_TYPES.SHARE_TYPE_LINK
-					|| this.share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL
+				this.share.type === ShareType.Link
+					|| this.share.type === ShareType.Email
 			)
 		},
 		// if newPassword exists, but is empty, it means
@@ -676,7 +678,7 @@ export default {
 		 */
 		isEmailShareType() {
 			return this.share
-				? this.share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL
+				? this.share.type === ShareType.Email
 				: false
 		},
 		canTogglePasswordProtectedByTalkAvailable() {
@@ -706,7 +708,7 @@ export default {
 				[ATOMIC_PERMISSIONS.DELETE]: this.t('files_sharing', 'Delete'),
 			}
 
-			return [ATOMIC_PERMISSIONS.READ, ATOMIC_PERMISSIONS.CREATE, ATOMIC_PERMISSIONS.UPDATE, ATOMIC_PERMISSIONS.SHARE, ATOMIC_PERMISSIONS.DELETE]
+			return [ATOMIC_PERMISSIONS.READ, ATOMIC_PERMISSIONS.CREATE, ATOMIC_PERMISSIONS.UPDATE, ...(this.resharingIsPossible ? [ATOMIC_PERMISSIONS.SHARE] : []), ATOMIC_PERMISSIONS.DELETE]
 				.filter((permission) => hasPermissions(this.share.permissions, permission))
 				.map((permission, index) => index === 0
 					? translatedPermissions[permission]
@@ -721,6 +723,13 @@ export default {
 				return t('files_sharing', "Password field can't be empty")
 			}
 			return undefined
+		},
+
+		passwordHint() {
+			if (this.isNewShare || this.hasUnsavedPassword) {
+				return undefined
+			}
+			return t('files_sharing', 'Replace current password')
 		},
 
 		/**
@@ -887,7 +896,7 @@ export default {
 				if (this.hasUnsavedPassword && this.isValidShareAttribute(this.share.newPassword)) {
 					this.share.password = this.share.newPassword
 					this.$delete(this.share, 'newPassword')
-				} else if (this.isPasswordEnforced && !this.isValidShareAttribute(this.share.password)) {
+				} else if (this.isPasswordEnforced && this.isNewShare && !this.isValidShareAttribute(this.share.password)) {
 					this.passwordError = true
 				}
 			} else {
@@ -981,6 +990,11 @@ export default {
 		 * @param {string} password the changed password
 		 */
 		onPasswordChange(password) {
+			if (password === '') {
+				this.$delete(this.share, 'newPassword')
+				this.passwordError = this.isNewShare && this.isPasswordEnforced
+				return
+			}
 			this.passwordError = !this.isValidShareAttribute(password)
 			this.$set(this.share, 'newPassword', password)
 		},
@@ -1012,22 +1026,22 @@ export default {
 		},
 		getShareTypeIcon(type) {
 			switch (type) {
-			case this.SHARE_TYPES.SHARE_TYPE_LINK:
+			case ShareType.Link:
 				return LinkIcon
-			case this.SHARE_TYPES.SHARE_TYPE_GUEST:
+			case ShareType.Guest:
 				return UserIcon
-			case this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP:
-			case this.SHARE_TYPES.SHARE_TYPE_GROUP:
+			case ShareType.RemoteGroup:
+			case ShareType.Group:
 				return GroupIcon
-			case this.SHARE_TYPES.SHARE_TYPE_EMAIL:
+			case ShareType.Email:
 				return EmailIcon
-			case this.SHARE_TYPES.SHARE_TYPE_CIRCLE:
+			case ShareType.Team:
 				return CircleIcon
-			case this.SHARE_TYPES.SHARE_TYPE_ROOM:
+			case ShareType.Room:
 				return ShareIcon
-			case this.SHARE_TYPES.SHARE_TYPE_DECK:
+			case ShareType.Deck:
 				return ShareIcon
-			case this.SHARE_TYPES.SHARE_TYPE_SCIENCEMESH:
+			case ShareType.ScienceMesh:
 				return ShareIcon
 			default:
 				return null // Or a default icon component if needed
@@ -1092,12 +1106,9 @@ export default {
 					padding: 0.1em;
 				}
 
-				::v-deep label {
-
-					span {
-						display: flex;
-						flex-direction: column;
-					}
+				:deep(label span) {
+					display: flex;
+					flex-direction: column;
 				}
 
 				/* Target component based style in NcCheckboxRadioSwitch slot content*/
@@ -1142,20 +1153,18 @@ export default {
 			}
 
 			/*
-              The following style is applied out of the component's scope
-              to remove padding from the label.checkbox-radio-switch__label,
-              which is used to group radio checkbox items. The use of ::v-deep
-              ensures that the padding is modified without being affected by
-              the component's scoping.
-              Without this achieving left alignment for the checkboxes would not
-              be possible.
-            */
-			span {
-				::v-deep label {
-					padding-inline-start: 0 !important;
-					background-color: initial !important;
-					border: none !important;
-				}
+			  The following style is applied out of the component's scope
+			  to remove padding from the label.checkbox-radio-switch__label,
+			  which is used to group radio checkbox items. The use of ::v-deep
+			  ensures that the padding is modified without being affected by
+			  the component's scoping.
+			  Without this achieving left alignment for the checkboxes would not
+			  be possible.
+			*/
+			span :deep(label) {
+				padding-inline-start: 0 !important;
+				background-color: initial !important;
+				border: none !important;
 			}
 
 			section.custom-permissions-group {
@@ -1165,7 +1174,7 @@ export default {
 	}
 
 	&__delete {
-		>button:first-child {
+		> button:first-child {
 			color: rgb(223, 7, 7);
 		}
 	}

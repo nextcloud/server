@@ -31,7 +31,7 @@
     "Unable to update federated files sharing config" : "Nedaří se aktualizovat nastavení federovaného sdílení souborů",
     "Federated Cloud" : "Federovaný cloud",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Můžete sdílet s kýmkoliv, kdo používá Nextcloud nebo jiný server či služby, kompatibilní se standardem Open Cloud Mesh (OCM)! Stačí do dialogu pro sdílení zadat jejich jejich identif. v rámci sdruženého cloudu. Má podobu person@cloud.example.com",
-    "Your Federated Cloud ID:" : "Váš identifikátor v rámci federovaného cloudu:",
+    "Your Federated Cloud ID" : "Váš identifikátor v rámci fedorovaného cloudu",
     "Share it so your friends can share files with you:" : "Podělte se o to, aby mohli vaši přátelé s vámi mohli sdílet soubory:",
     "Facebook" : "Facebook",
     "X (formerly Twitter)" : "X (dříve Twitter)",
@@ -45,11 +45,13 @@
     "Cloud ID copied to the clipboard" : "Cloudový identifikátor zkopírován do schránky",
     "Copy to clipboard" : "Zkopírovat do schránky",
     "Clipboard not available. Please copy the cloud ID manually." : "Schránka není k dispozici. Zkopírujte cloudový identifikátor ručně.",
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Chcete přidat vzdálené sdílení {name} od {owner}@{remote}?",
-    "Remote share" : "Vzdálené sdílení",
-    "Remote share password" : "Heslo ke vzdálenému sdílení",
+    "Copied!" : "Zkopírováno",
     "Cancel" : "Storno",
     "Add remote share" : "Přidat vzdálené sdílení",
+    "Remote share" : "Vzdálené sdílení",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Chcete přidat vzdálené sdílení {name} od {owner}@{remote}?",
+    "Remote share password" : "Heslo ke vzdálenému sdílení",
+    "Incoming share could not be processed" : "Příchozí sdílení se nepodařilo zpracovat",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Sdílení položky %1$s se nezdařilo, protože ta je už s uživatelem %2$s sdílena",
     "Not allowed to create a federated share with the same user" : "Není možné vytvářet federované sdílení mezi jedním a tím samým uživatelem",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Upravte to, jak lidé mohou sdílet mezi servery. Součástí toho jsou také i sdílení mezi uživateli na tomto serveru, pokud používají federované sdílení.",
@@ -59,9 +61,9 @@
     "Allow users on this server to receive group shares from other servers" : "Povolit uživatelům na tomto serveru přijímat skupinová sdílení z jiných serverů",
     "Search global and public address book for users" : "Hledat uživatele v globálním a veřejném adresáři kontaktů",
     "Allow users to publish their data to a global and public address book" : "Povolit uživatelům publikování jejich dat do globálního a sdíleného adresáře kontaktů",
+    "Your Federated Cloud ID:" : "Váš identifikátor v rámci federovaného cloudu:",
     "Twitter" : "Twitter",
     "Diaspora" : "Diaspora",
-    "Clipboard is not available" : "Schránka není k dispozici",
-    "Copied!" : "Zkopírováno"
+    "Clipboard is not available" : "Schránka není k dispozici"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

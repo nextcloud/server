@@ -69,6 +69,7 @@ OC.L10N.register(
     "Custom user agent" : "Власний user agent",
     "Select groups" : "Виберіть групи",
     "Groups" : "Групи",
+    "Type to search for group …" : "Почніть вводити, щод знайти групу ...",
     "Select a trigger" : "Виберіть умову початку виконання",
     "At least one event must be selected" : "Потрібно вибрати принаймні одну подію",
     "Add new flow" : "Додати новий процес",
@@ -115,6 +116,7 @@ OC.L10N.register(
     "between" : "між",
     "not between" : "не між",
     "Request user agent" : "Запит агента користувача",
+    "Group membership" : "Участь в групах",
     "is member of" : "є учасником",
     "is not member of" : "не є учасником",
     "User group membership" : "Участь користувача в групі"

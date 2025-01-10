@@ -118,11 +118,11 @@ class TemplateManager implements ITemplateManager {
 	}
 
 	public function listTemplates(): array {
-		return array_map(function (TemplateFileCreator $entry) {
+		return array_values(array_map(function (TemplateFileCreator $entry) {
 			return array_merge($entry->jsonSerialize(), [
 				'templates' => $this->getTemplateFiles($entry)
 			]);
-		}, $this->listCreators());
+		}, $this->listCreators()));
 	}
 
 	/**
@@ -180,6 +180,9 @@ class TemplateManager implements ITemplateManager {
 		throw new NotFoundException();
 	}
 
+	/**
+	 * @return list<Template>
+	 */
 	private function getTemplateFiles(TemplateFileCreator $type): array {
 		$templates = [];
 		foreach ($this->getRegisteredProviders() as $provider) {

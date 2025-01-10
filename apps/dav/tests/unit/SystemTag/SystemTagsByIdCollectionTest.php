@@ -13,7 +13,9 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class SystemTagsByIdCollectionTest extends \Test\TestCase {
 
@@ -40,21 +42,31 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn('testuser');
+
+		/** @var IUserSession|MockObject */
 		$userSession = $this->getMockBuilder(IUserSession::class)
 			->getMock();
 		$userSession->expects($this->any())
 			->method('getUser')
 			->willReturn($this->user);
+
+		/** @var IGroupManager|MockObject */
 		$groupManager = $this->getMockBuilder(IGroupManager::class)
 			->getMock();
 		$groupManager->expects($this->any())
 			->method('isAdmin')
 			->with('testuser')
 			->willReturn($isAdmin);
+
+		/** @var ISystemTagObjectMapper|MockObject */
+		$tagMapper = $this->getMockBuilder(ISystemTagObjectMapper::class)
+			->getMock();
+
 		return new SystemTagsByIdCollection(
 			$this->tagManager,
 			$userSession,
-			$groupManager
+			$groupManager,
+			$tagMapper,
 		);
 	}
 

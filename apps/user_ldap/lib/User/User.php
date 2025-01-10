@@ -154,7 +154,14 @@ class User {
 		//change event that will trigger fetching the display name again
 		$attr = strtolower($this->connection->ldapEmailAttribute);
 		if (isset($ldapEntry[$attr])) {
-			$this->updateEmail($ldapEntry[$attr][0]);
+			$mailValue = 0;
+			for ($x = 0; $x < count($ldapEntry[$attr]); $x++) {
+				if (filter_var($ldapEntry[$attr][$x], FILTER_VALIDATE_EMAIL)) {
+					$mailValue = $x;
+					break;
+				}
+			}
+			$this->updateEmail($ldapEntry[$attr][$mailValue]);
 		}
 		unset($attr);
 

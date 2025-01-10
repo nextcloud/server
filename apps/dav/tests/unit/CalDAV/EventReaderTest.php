@@ -16,18 +16,13 @@ use Test\TestCase;
 
 class EventReaderTest extends TestCase {
 
-	/** @var VCalendar */
-	private $vCalendar1a;
-	/** @var VCalendar */
-	private $vCalendar1b;
-	/** @var VCalendar */
-	private $vCalendar1c;
-	/** @var VCalendar */
-	private $vCalendar1d;
-	/** @var VCalendar */
-	private $vCalendar2;
-	/** @var VCalendar */
-	private $vCalendar3;
+	private VCalendar $vCalendar1a;
+	private VCalendar $vCalendar1b;
+	private VCalendar $vCalendar1c;
+	private VCalendar $vCalendar1d;
+	private VCalendar $vCalendar1e;
+	private VCalendar $vCalendar2;
+	private VCalendar $vCalendar3;
 	
 	protected function setUp(): void {
 
@@ -39,7 +34,7 @@ class EventReaderTest extends TestCase {
 		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
 		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
 		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'America/Toronto']);
-		$vEvent->add('SUMMARY', 'Test Recurrance Event');
+		$vEvent->add('SUMMARY', 'Test Recurrence Event');
 		$vEvent->add('ORGANIZER', 'mailto:organizer@testing.com', ['CN' => 'Organizer']);
 		$vEvent->add('ATTENDEE', 'mailto:attendee1@testing.com', [
 			'CN' => 'Attendee One',
@@ -55,7 +50,7 @@ class EventReaderTest extends TestCase {
 		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
 		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
 		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'America/Vancouver']);
-		$vEvent->add('SUMMARY', 'Test Recurrance Event');
+		$vEvent->add('SUMMARY', 'Test Recurrence Event');
 		$vEvent->add('ORGANIZER', 'mailto:organizer@testing.com', ['CN' => 'Organizer']);
 		$vEvent->add('ATTENDEE', 'mailto:attendee1@testing.com', [
 			'CN' => 'Attendee One',
@@ -75,7 +70,7 @@ class EventReaderTest extends TestCase {
 		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
 		$vEvent->add('DTSTART', '20240701T080000');
 		$vEvent->add('DTEND', '20240701T090000');
-		$vEvent->add('SUMMARY', 'Test Recurrance Event');
+		$vEvent->add('SUMMARY', 'Test Recurrence Event');
 		$vEvent->add('ORGANIZER', 'mailto:organizer@testing.com', ['CN' => 'Organizer']);
 		$vEvent->add('ATTENDEE', 'mailto:attendee1@testing.com', [
 			'CN' => 'Attendee One',
@@ -91,7 +86,23 @@ class EventReaderTest extends TestCase {
 		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
 		$vEvent->add('DTSTART', '20240701T080000');
 		$vEvent->add('DTEND', '20240701T090000');
-		$vEvent->add('SUMMARY', 'Test Recurrance Event');
+		$vEvent->add('SUMMARY', 'Test Recurrence Event');
+		$vEvent->add('ORGANIZER', 'mailto:organizer@testing.com', ['CN' => 'Organizer']);
+		$vEvent->add('ATTENDEE', 'mailto:attendee1@testing.com', [
+			'CN' => 'Attendee One',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'NEEDS-ACTION',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE'
+		]);
+
+		// construct calendar with a 1 hour event and Microsoft time zone
+		$this->vCalendar1e = new VCalendar();
+		$vEvent = $this->vCalendar1e->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'Eastern Standard Time']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'Eastern Standard Time']);
+		$vEvent->add('SUMMARY', 'Test Recurrence Event');
 		$vEvent->add('ORGANIZER', 'mailto:organizer@testing.com', ['CN' => 'Organizer']);
 		$vEvent->add('ATTENDEE', 'mailto:attendee1@testing.com', [
 			'CN' => 'Attendee One',
@@ -111,7 +122,7 @@ class EventReaderTest extends TestCase {
 		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
 		$vEvent->add('DTSTART', '20240701');
 		$vEvent->add('DTEND', '20240702');
-		$vEvent->add('SUMMARY', 'Test Recurrance Event');
+		$vEvent->add('SUMMARY', 'Test Recurrence Event');
 		$vEvent->add('ORGANIZER', 'mailto:organizer@testing.com', ['CN' => 'Organizer']);
 		$vEvent->add('ATTENDEE', 'mailto:attendee1@testing.com', [
 			'CN' => 'Attendee One',
@@ -131,7 +142,7 @@ class EventReaderTest extends TestCase {
 		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
 		$vEvent->add('DTSTART', '20240701');
 		$vEvent->add('DTEND', '20240706');
-		$vEvent->add('SUMMARY', 'Test Recurrance Event');
+		$vEvent->add('SUMMARY', 'Test Recurrence Event');
 		$vEvent->add('ORGANIZER', 'mailto:organizer@testing.com', ['CN' => 'Organizer']);
 		$vEvent->add('ATTENDEE', 'mailto:attendee1@testing.com', [
 			'CN' => 'Attendee One',
@@ -195,6 +206,12 @@ class EventReaderTest extends TestCase {
 		$er = new EventReader($this->vCalendar1d, $this->vCalendar1d->VEVENT[0]->UID->getValue());
 		// test set by constructor
 		$this->assertEquals((new \DateTime('20240701T080000', (new DateTimeZone('UTC')))), $er->startDateTime());
+
+		/** test day part event with microsoft time zone */
+		// construct event reader
+		$er = new EventReader($this->vCalendar1e, $this->vCalendar1e->VEVENT[0]->UID->getValue());
+		// test set by constructor
+		$this->assertEquals((new \DateTime('20240701T080000', (new DateTimeZone('America/Toronto')))), $er->startDateTime());
 		
 		/** test full day event */
 		// construct event reader
@@ -236,6 +253,12 @@ class EventReaderTest extends TestCase {
 		// test set by constructor
 		$this->assertEquals((new DateTimeZone('UTC')), $er->startTimeZone());
 
+		/** test day part event with microsoft time zone */
+		// construct event reader
+		$er = new EventReader($this->vCalendar1e, $this->vCalendar1e->VEVENT[0]->UID->getValue());
+		// test set by constructor
+		$this->assertEquals((new DateTimeZone('America/Toronto')), $er->startTimeZone());
+
 		/** test full day event */
 		// construct event reader
 		$er = new EventReader($this->vCalendar2, $this->vCalendar2->VEVENT[0]->UID->getValue());
@@ -275,6 +298,12 @@ class EventReaderTest extends TestCase {
 		$er = new EventReader($this->vCalendar1d, $this->vCalendar1d->VEVENT[0]->UID->getValue());
 		// test set by constructor
 		$this->assertEquals((new \DateTime('20240701T090000', (new DateTimeZone('UTC')))), $er->endDateTime());
+
+		/** test day part event with microsoft time zone */
+		// construct event reader
+		$er = new EventReader($this->vCalendar1e, $this->vCalendar1e->VEVENT[0]->UID->getValue());
+		// test set by constructor
+		$this->assertEquals((new \DateTime('20240701T090000', (new DateTimeZone('America/Toronto')))), $er->endDateTime());
 		
 		/** test full day event */
 		// construct event reader
@@ -315,6 +344,12 @@ class EventReaderTest extends TestCase {
 		$er = new EventReader($this->vCalendar1d, $this->vCalendar1d->VEVENT[0]->UID->getValue());
 		// test set by constructor
 		$this->assertEquals((new DateTimeZone('UTC')), $er->endTimeZone());
+
+		/** test day part event with microsoft time zone */
+		// construct event reader
+		$er = new EventReader($this->vCalendar1e, $this->vCalendar1e->VEVENT[0]->UID->getValue());
+		// test set by constructor
+		$this->assertEquals((new DateTimeZone('America/Toronto')), $er->endTimeZone());
 
 		/** test full day event */
 		// construct event reader
@@ -533,6 +568,15 @@ class EventReaderTest extends TestCase {
 		// test set by constructor
 		$this->assertTrue($er->recurringConcludes());
 
+		/** test rdate (multiple property instances) recurrance */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RDATE', '20240703');
+		$vCalendar->VEVENT[0]->add('RDATE', '20240705');
+		// construct event reader
+		$er = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test set by constructor
+		$this->assertTrue($er->recurringConcludes());
+
 		/** test rrule and rdate recurrance with rdate as last date */
 		$vCalendar = clone $this->vCalendar1a;
 		$vCalendar->VEVENT[0]->add('RRULE', 'FREQ=WEEKLY;COUNT=6;BYDAY=MO,WE,FR');
@@ -573,6 +617,15 @@ class EventReaderTest extends TestCase {
 		/** test rdate recurrance */
 		$vCalendar = clone $this->vCalendar1a;
 		$vCalendar->VEVENT[0]->add('RDATE', '20240703,20240705');
+		// construct event reader
+		$er = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test set by constructor
+		$this->assertEquals(2, $er->recurringConcludesAfter());
+
+		/** test rdate (multiple property instances) recurrance */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RDATE', '20240703');
+		$vCalendar->VEVENT[0]->add('RDATE', '20240705');
 		// construct event reader
 		$er = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test set by constructor
@@ -619,6 +672,15 @@ class EventReaderTest extends TestCase {
 		/** test rdate recurrance */
 		$vCalendar = clone $this->vCalendar1a;
 		$vCalendar->VEVENT[0]->add('RDATE', '20240703,20240705');
+		// construct event reader
+		$er = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test set by constructor
+		$this->assertEquals((new \DateTime('20240705T000000', (new DateTimeZone('America/Toronto')))), $er->recurringConcludesOn());
+
+		/** test rdate (multiple property instances) recurrance */
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RDATE', '20240703');
+		$vCalendar->VEVENT[0]->add('RDATE', '20240705');
 		// construct event reader
 		$er = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test set by constructor

@@ -65,6 +65,8 @@ OC.L10N.register(
     "Failed to update tag" : "Nun se pue anovar la etiqueta",
     "Deleted tag" : "Desaniciar la etiqueta",
     "Failed to delete tag" : "Nun se pue desaniciar la etiqueta",
+    "Manage tags" : "Xestionar les etiquetes",
+    "Cancel" : "Encaboxar",
     "Loading collaborative tags …" : "Cargando les etiquetes collaboratives…",
     "Search or create collaborative tags" : "Buscar o crear etiquetes collaboratives",
     "No tags to select, type to create a new tag" : "Nun hai nenguna etiqueta pa seleicionar, escribir pa crear una etiqueta",

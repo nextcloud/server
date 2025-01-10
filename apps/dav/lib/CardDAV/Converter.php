@@ -76,7 +76,7 @@ class Converter {
 							new Text(
 								$vCard,
 								'X-SOCIALPROFILE',
-								$this->urlGenerator->linkToRouteAbsolute('core.ProfilePage.index', ['targetUserId' => $user->getUID()]),
+								$this->urlGenerator->linkToRouteAbsolute('profile.ProfilePage.index', ['targetUserId' => $user->getUID()]),
 								[
 									'TYPE' => 'NEXTCLOUD',
 									'X-NC-SCOPE' => IAccountManager::SCOPE_PUBLISHED

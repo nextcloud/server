@@ -8,7 +8,7 @@ import { getFileListFilters } from '@nextcloud/files'
 import { defineStore } from 'pinia'
 import logger from '../logger'
 
-export const useFiltersStore = defineStore('keyboard', {
+export const useFiltersStore = defineStore('filters', {
 	state: () => ({
 		chips: {} as Record<string, IFileListFilterChip[]>,
 		filters: [] as IFileListFilter[],

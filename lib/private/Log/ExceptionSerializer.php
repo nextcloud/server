@@ -34,6 +34,7 @@ class ExceptionSerializer {
 		'validateUserPass',
 		'loginWithToken',
 		'{closure}',
+		'{closure:*',
 		'createSessionToken',
 
 		// Provisioning
@@ -200,7 +201,9 @@ class ExceptionSerializer {
 				return $this->editTrace($sensitiveValues, $traceLine);
 			}
 			foreach (self::methodsWithSensitiveParameters as $sensitiveMethod) {
-				if (str_contains($traceLine['function'], $sensitiveMethod)) {
+				if (str_contains($traceLine['function'], $sensitiveMethod)
+					|| (str_ends_with($sensitiveMethod, '*')
+						&& str_starts_with($traceLine['function'], substr($sensitiveMethod, 0, -1)))) {
 					return $this->editTrace($sensitiveValues, $traceLine);
 				}
 			}

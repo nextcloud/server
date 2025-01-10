@@ -17,6 +17,7 @@ use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
+use OCP\Server;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -40,11 +41,11 @@ class Local extends \OC\Files\Storage\Common {
 
 	protected bool $caseInsensitive = false;
 
-	public function __construct($arguments) {
-		if (!isset($arguments['datadir']) || !is_string($arguments['datadir'])) {
+	public function __construct(array $parameters) {
+		if (!isset($parameters['datadir']) || !is_string($parameters['datadir'])) {
 			throw new \InvalidArgumentException('No data directory set for local storage');
 		}
-		$this->datadir = str_replace('//', '/', $arguments['datadir']);
+		$this->datadir = str_replace('//', '/', $parameters['datadir']);
 		// some crazy code uses a local storage on root...
 		if ($this->datadir === '/') {
 			$this->realDataDir = $this->datadir;
@@ -56,15 +57,15 @@ class Local extends \OC\Files\Storage\Common {
 			$this->datadir .= '/';
 		}
 		$this->dataDirLength = strlen($this->realDataDir);
-		$this->config = \OC::$server->get(IConfig::class);
-		$this->mimeTypeDetector = \OC::$server->get(IMimeTypeDetector::class);
+		$this->config = Server::get(IConfig::class);
+		$this->mimeTypeDetector = Server::get(IMimeTypeDetector::class);
 		$this->defUMask = $this->config->getSystemValue('localstorage.umask', 0022);
 		$this->caseInsensitive = $this->config->getSystemValueBool('localstorage.case_insensitive', false);
 
 		// support Write-Once-Read-Many file systems
 		$this->unlinkOnTruncate = $this->config->getSystemValueBool('localstorage.unlink_on_truncate', false);
 
-		if (isset($arguments['isExternal']) && $arguments['isExternal'] && !$this->stat('')) {
+		if (isset($parameters['isExternal']) && $parameters['isExternal'] && !$this->stat('')) {
 			// data dir not accessible or available, can happen when using an external storage of type Local
 			// on an unmounted system mount point
 			throw new StorageNotAvailableException('Local storage path does not exist "' . $this->getSourcePath('') . '"');
@@ -272,7 +273,7 @@ class Local extends \OC\Files\Storage\Common {
 		// sets the modification time of the file to the given value.
 		// If mtime is nil the current time is set.
 		// note that the access time of the file always changes to the current time.
-		if ($this->file_exists($path) and !$this->isUpdatable($path)) {
+		if ($this->file_exists($path) && !$this->isUpdatable($path)) {
 			return false;
 		}
 		$oldMask = umask($this->defUMask);
@@ -328,24 +329,26 @@ class Local extends \OC\Files\Storage\Common {
 		$dstParent = dirname($target);
 
 		if (!$this->isUpdatable($srcParent)) {
-			\OC::$server->get(LoggerInterface::class)->error('unable to rename, source directory is not writable : ' . $srcParent, ['app' => 'core']);
+			Server::get(LoggerInterface::class)->error('unable to rename, source directory is not writable : ' . $srcParent, ['app' => 'core']);
 			return false;
 		}
 
 		if (!$this->isUpdatable($dstParent)) {
-			\OC::$server->get(LoggerInterface::class)->error('unable to rename, destination directory is not writable : ' . $dstParent, ['app' => 'core']);
+			Server::get(LoggerInterface::class)->error('unable to rename, destination directory is not writable : ' . $dstParent, ['app' => 'core']);
 			return false;
 		}
 
 		if (!$this->file_exists($source)) {
-			\OC::$server->get(LoggerInterface::class)->error('unable to rename, file does not exists : ' . $source, ['app' => 'core']);
+			Server::get(LoggerInterface::class)->error('unable to rename, file does not exists : ' . $source, ['app' => 'core']);
 			return false;
 		}
 
-		if ($this->is_dir($target)) {
-			$this->rmdir($target);
-		} elseif ($this->is_file($target)) {
-			$this->unlink($target);
+		if ($this->file_exists($target)) {
+			if ($this->is_dir($target)) {
+				$this->rmdir($target);
+			} elseif ($this->is_file($target)) {
+				$this->unlink($target);
+			}
 		}
 
 		if ($this->is_dir($source)) {
@@ -485,7 +488,7 @@ class Local extends \OC\Files\Storage\Common {
 			return $fullPath;
 		}
 
-		\OC::$server->get(LoggerInterface::class)->error("Following symlinks is not allowed ('$fullPath' -> '$realPath' not inside '{$this->realDataDir}')", ['app' => 'core']);
+		Server::get(LoggerInterface::class)->error("Following symlinks is not allowed ('$fullPath' -> '$realPath' not inside '{$this->realDataDir}')", ['app' => 'core']);
 		throw new ForbiddenException('Following symlinks is not allowed', false);
 	}
 
@@ -538,11 +541,13 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, bool $preserveMtime = false): bool {
 		if ($this->canDoCrossStorageMove($sourceStorage)) {
-			if ($sourceStorage->instanceOfStorage(Jail::class)) {
+			// resolve any jailed paths
+			while ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
 				 * @var \OC\Files\Storage\Wrapper\Jail $sourceStorage
 				 */
 				$sourceInternalPath = $sourceStorage->getUnjailedPath($sourceInternalPath);
+				$sourceStorage = $sourceStorage->getUnjailedStorage();
 			}
 			/**
 			 * @var \OC\Files\Storage\Local $sourceStorage
@@ -556,11 +561,13 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		if ($this->canDoCrossStorageMove($sourceStorage)) {
-			if ($sourceStorage->instanceOfStorage(Jail::class)) {
+			// resolve any jailed paths
+			while ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
 				 * @var \OC\Files\Storage\Wrapper\Jail $sourceStorage
 				 */
 				$sourceInternalPath = $sourceStorage->getUnjailedPath($sourceInternalPath);
+				$sourceStorage = $sourceStorage->getUnjailedStorage();
 			}
 			/**
 			 * @var \OC\Files\Storage\Local $sourceStorage

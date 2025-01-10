@@ -21,8 +21,8 @@ namespace OCA\Provisioning_API;
  * @psalm-type Provisioning_APIUserDetailsScope = 'v2-private'|'v2-local'|'v2-federated'|'v2-published'|'private'|'contacts'|'public'
  *
  * @psalm-type Provisioning_APIUserDetails = array{
- *     additional_mail: string[],
- *     additional_mailScope?: Provisioning_APIUserDetailsScope[],
+ *     additional_mail: list<string>,
+ *     additional_mailScope?: list<Provisioning_APIUserDetailsScope>,
  *     address: string,
  *     addressScope?: Provisioning_APIUserDetailsScope,
  *     avatarScope?: Provisioning_APIUserDetailsScope,
@@ -41,7 +41,7 @@ namespace OCA\Provisioning_API;
  *     enabled?: bool,
  *     fediverse: string,
  *     fediverseScope?: Provisioning_APIUserDetailsScope,
- *     groups: string[],
+ *     groups: list<string>,
  *     headline: string,
  *     headlineScope?: Provisioning_APIUserDetailsScope,
  *     id: string,
@@ -62,7 +62,7 @@ namespace OCA\Provisioning_API;
  *     role: string,
  *     roleScope?: Provisioning_APIUserDetailsScope,
  *     storageLocation?: string,
- *     subadmin: string[],
+ *     subadmin: list<string>,
  *     twitter: string,
  *     twitterScope?: Provisioning_APIUserDetailsScope,
  *     website: string,

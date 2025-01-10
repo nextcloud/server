@@ -44,7 +44,6 @@
     "Role" : "Ròtle",
     "Additional settings" : "Paramètres addicionals",
     "Set an admin password." : "Definir un senhal admin.",
-    "Open »%s«" : "Dobrir « %s »",
     "Sunday" : "dimenge",
     "Monday" : "diluns",
     "Tuesday" : "dimars",
@@ -72,6 +71,7 @@
     "Translate" : "Tradurre",
     "Help" : "Ajuda",
     "Users" : "Utilizaires",
+    "Open »%s«" : "Dobrir « %s »",
     "User disabled" : "Utilizaire desactivat"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

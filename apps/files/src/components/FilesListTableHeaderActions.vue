@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div class="files-list__column files-list__row-actions-batch">
+	<div class="files-list__column files-list__row-actions-batch" data-cy-files-list-selection-actions>
 		<NcActions ref="actionsMenu"
 			container="#app-content-vue"
 			:disabled="!!loading || areSomeNodesLoading"
@@ -15,6 +15,7 @@
 				:key="action.id"
 				:aria-label="action.displayName(nodes, currentView) + ' ' + t('files', '(selected)') /** TRANSLATORS: Selected like 'selected files and folders' */"
 				:class="'files-list__row-actions-batch-' + action.id"
+				:data-cy-files-list-selection-action="action.id"
 				@click="onActionClick(action)">
 				<template #icon>
 					<NcLoadingIcon v-if="loading === action.id" :size="18" />
@@ -42,10 +43,10 @@ import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
-import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import logger from '../logger.ts'
 
 // The registered actions list
@@ -60,10 +61,6 @@ export default defineComponent({
 		NcIconSvgWrapper,
 		NcLoadingIcon,
 	},
-
-	mixins: [
-		filesListWidthMixin,
-	],
 
 	props: {
 		currentView: {
@@ -80,10 +77,12 @@ export default defineComponent({
 		const actionsMenuStore = useActionsMenuStore()
 		const filesStore = useFilesStore()
 		const selectionStore = useSelectionStore()
+		const fileListWidth = useFileListWidth()
 		const { directory } = useRouteParameters()
 
 		return {
 			directory,
+			fileListWidth,
 
 			actionsMenuStore,
 			filesStore,
@@ -125,13 +124,13 @@ export default defineComponent({
 		},
 
 		inlineActions() {
-			if (this.filesListWidth < 512) {
+			if (this.fileListWidth < 512) {
 				return 0
 			}
-			if (this.filesListWidth < 768) {
+			if (this.fileListWidth < 768) {
 				return 1
 			}
-			if (this.filesListWidth < 1024) {
+			if (this.fileListWidth < 1024) {
 				return 2
 			}
 			return 3

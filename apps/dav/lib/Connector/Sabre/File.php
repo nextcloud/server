@@ -458,14 +458,19 @@ class File extends Node implements IFile {
 				// do a if the file did not exist
 				throw new NotFound();
 			}
+			$path = ltrim($this->path, '/');
 			try {
-				$res = $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
+				$res = $this->fileView->fopen($path, 'rb');
 			} catch (\Exception $e) {
 				$this->convertToSabreException($e);
 			}
 
 			if ($res === false) {
-				throw new ServiceUnavailable($this->l10n->t('Could not open file'));
+				if ($this->fileView->file_exists($path)) {
+					throw new ServiceUnavailable($this->l10n->t('Could not open file: %1$s, file does seem to exist', [$path]));
+				} else {
+					throw new ServiceUnavailable($this->l10n->t('Could not open file: %1$s, file doesn\'t seem to exist', [$path]));
+				}
 			}
 
 			// comparing current file size with the one in DB

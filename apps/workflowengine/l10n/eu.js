@@ -111,6 +111,7 @@ OC.L10N.register(
     "between" : "bitarte honetan",
     "not between" : "ez dago bitarte honetan",
     "Request user agent" : "Eskatu erabiltzaile-agentea",
+    "Group membership" : "Taldearen kidetza",
     "is member of" : "hemengo kide da:",
     "is not member of" : "ez da hemengo kide:",
     "User group membership" : "Erabiltzailearen talde-kidetza"

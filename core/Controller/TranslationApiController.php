@@ -36,7 +36,7 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * Get the list of supported languages
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{languages: array{from: string, fromLabel: string, to: string, toLabel: string}[], languageDetection: bool}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{languages: list<array{from: string, fromLabel: string, to: string, toLabel: string}>, languageDetection: bool}, array{}>
 	 *
 	 * 200: Supported languages returned
 	 */
@@ -44,7 +44,7 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 	#[ApiRoute(verb: 'GET', url: '/languages', root: '/translation')]
 	public function languages(): DataResponse {
 		return new DataResponse([
-			'languages' => array_map(fn ($lang) => $lang->jsonSerialize(), $this->translationManager->getLanguages()),
+			'languages' => array_values(array_map(fn ($lang) => $lang->jsonSerialize(), $this->translationManager->getLanguages())),
 			'languageDetection' => $this->translationManager->canDetectLanguage(),
 		]);
 	}

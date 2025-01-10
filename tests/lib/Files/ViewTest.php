@@ -2386,6 +2386,7 @@ class ViewTest extends \Test\TestCase {
 		Filesystem::mount($storage2, [], $this->user . '/files/substorage');
 		$storage->mkdir('files');
 		$view->file_put_contents($sourcePath, 'meh');
+		$storage2->getUpdater()->update('');
 
 		$storage->expects($this->never())
 			->method($storageOperation);
@@ -2829,5 +2830,13 @@ class ViewTest extends \Test\TestCase {
 		$this->assertEquals('folder', $folderData[0]['name']);
 		$this->assertEquals('foo.png', $folderData[1]['name']);
 		$this->assertEquals('foo.txt', $folderData[2]['name']);
+	}
+
+	public function testCopyPreservesContent() {
+		$viewUser1 = new View('/' . 'userId' . '/files');
+		$viewUser1->mkdir('');
+		$viewUser1->file_put_contents('foo.txt', 'foo');
+		$viewUser1->copy('foo.txt', 'bar.txt');
+		$this->assertEquals('foo', $viewUser1->file_get_contents('bar.txt'));
 	}
 }

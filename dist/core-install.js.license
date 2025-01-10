@@ -37,7 +37,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.3
 	- license: MIT
 - jquery-ui
-	- version: 1.13.3
+	- version: 1.14.1
 	- license: MIT
 - jquery
 	- version: 3.7.1

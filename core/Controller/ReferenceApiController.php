@@ -141,7 +141,7 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * Resolve multiple references
 	 *
-	 * @param string[] $references References to resolve
+	 * @param list<string> $references References to resolve
 	 * @param int $limit Maximum amount of references to resolve
 	 * @return DataResponse<Http::STATUS_OK, array{references: array<string, CoreReference|null>}, array{}>
 	 *
@@ -168,7 +168,7 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * Resolve multiple references from a public page
 	 *
-	 * @param string[] $references References to resolve
+	 * @param list<string> $references References to resolve
 	 * @param string $sharingToken Token of the public share
 	 * @param int $limit Maximum amount of references to resolve, limited to 15
 	 * @return DataResponse<Http::STATUS_OK, array{references: array<string, CoreReference|null>}, array{}>
@@ -197,7 +197,7 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * Get the providers
 	 *
-	 * @return DataResponse<Http::STATUS_OK, CoreReferenceProvider[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<CoreReferenceProvider>, array{}>
 	 *
 	 * 200: Providers returned
 	 */
@@ -205,9 +205,9 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	#[ApiRoute(verb: 'GET', url: '/providers', root: '/references')]
 	public function getProvidersInfo(): DataResponse {
 		$providers = $this->referenceManager->getDiscoverableProviders();
-		$jsonProviders = array_map(static function (IDiscoverableReferenceProvider $provider) {
+		$jsonProviders = array_values(array_map(static function (IDiscoverableReferenceProvider $provider) {
 			return $provider->jsonSerialize();
-		}, $providers);
+		}, $providers));
 		return new DataResponse($jsonProviders);
 	}
 

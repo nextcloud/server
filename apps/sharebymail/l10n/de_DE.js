@@ -19,7 +19,6 @@ OC.L10N.register(
     "Failed to send share by email. Got an invalid email address" : "Die Freigabe per E-Mail konnte nicht gesendet werden. Habe eine ungültige E-Mail-Adresse erhalten.",
     "Failed to send share by email" : "Fehler beim Senden der Freigabe per E-Mail",
     "%1$s shared %2$s with you" : "%1$s hat %2$s mit Ihnen geteilt",
-    "%1$s shared %2$s with you." : "%1$s hat %2$s mit Ihnen geteilt.",
     "Note:" : "Anmerkung:",
     "This share is valid until %s at midnight" : "Diese Freigabe ist bis zum %s um Mitternacht gültig",
     "Expiration:" : "Ablauf:",
@@ -53,11 +52,12 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s hat »%2$s« mit Ihnen geteilt. Sie sollten bereits eine weitere E-Mail mit einem Link für den Zugriff erhalten haben.",
     "Password to access »%1$s« shared to you by %2$s" : "Das Passwort zum Zugriff auf %1$s wurde durch %2$s mit Ihnen geteilt.",
     "Password to access »%s«" : "Passwort für den Zugriff auf »%s«",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s hat » %2$s« mit Ihnen geteilt und möchte folgendes hinzufügen:",
+    "%1$s shared »%2$s« with you and wants to add:" : "%1$s hat »%2$s« mit Ihnen geteilt und möchte folgendes hinzufügen:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s hat »%2$s« mit Ihnen geteilt und möchte folgendes hinzufügen",
     "»%s« added a note to a file shared with you" : "»%s« hat eine Bemerkung zu einer mit Ihnen geteilten Datei hinzugefügt",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Sie haben »%1$s« mit %2$s geteilt. Die Freigabe wurde an den Empfänger gesandt. Aufgrund der Sicherheits-Richtlinien, die der Administrator von %3$s vorgegeben hat, benötigt jede Freigabe einen Passwortschutz und es ist nicht zulässig, ein Passwort direkt an den Empfänger zu versenden. Aus diesem Grund müssen Sie das Passwort selbst an den Empfänger senden.",
     "Password to access »%1$s« shared by you with %2$s" : "Passwort zum Zugriff auf »%1$s« wurde von Ihnen mit %2$s geteilt",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Ermöglicht Benutzern, einen personalisierten Link zu einer Datei oder einem Ordner durch Eingabe einer E-Mail-Adresse zu teilen."
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Ermöglicht Benutzern, einen personalisierten Link zu einer Datei oder einem Ordner durch Eingabe einer E-Mail-Adresse zu teilen.",
+    "%1$s shared %2$s with you." : "%1$s hat %2$s mit Ihnen geteilt."
 },
 "nplurals=2; plural=(n != 1);");

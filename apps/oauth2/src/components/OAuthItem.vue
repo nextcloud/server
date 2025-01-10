@@ -90,13 +90,16 @@ export default {
 		display: flex;
 		align-items: center;
 	}
+
 	.action-secret code {
 		padding-top: 5px;
 	}
+
 	td code {
 		display: inline-block;
 		vertical-align: middle;
 	}
+
 	table.inline td {
 		border: none;
 		padding: 5px;

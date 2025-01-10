@@ -141,7 +141,7 @@ export default {
 		 async getSuggestions(search) {
 
 			const shareType = [
-				ShareType.SHARE_TYPE_USER,
+				ShareType.User,
 			]
 
 			let request = null
@@ -261,7 +261,7 @@ export default {
 		&__picker {
 			flex: 1 auto;
 
-			::v-deep .native-datetime-picker--input {
+			:deep(.native-datetime-picker--input) {
 				margin-bottom: 0;
 			}
 		}

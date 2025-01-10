@@ -49,6 +49,8 @@ OC.L10N.register(
     "Public" : "Javna",
     "Restricted" : "Ograničena",
     "Invisible" : "Nevidljiva",
+    "Manage tags" : "Upravljaj oznakama",
+    "Cancel" : "Odustani",
     "Failed to load tags" : "Učitavanje oznaka nije uspjelo",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Oznake za suradnju dostupne su svim korisnicima. Ograničene oznake vidljive su korisnicima, ali ih ne mogu dodijeliti. Nevidljive oznake služe za internu uporabu jer ih korisnici ne mogu vidjeti niti dodijeliti.",
     "No tags found" : "Nema pronađenih oznaka",

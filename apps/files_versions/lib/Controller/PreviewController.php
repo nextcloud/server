@@ -38,7 +38,7 @@ class PreviewController extends Controller {
 	 * @param int $x Width of the preview
 	 * @param int $y Height of the preview
 	 * @param string $version Version of the file to get the preview for
-	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
 	 * 200: Preview returned
 	 * 400: Getting preview is not possible

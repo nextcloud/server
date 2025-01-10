@@ -42,7 +42,7 @@ class Encryption extends Wrapper {
 	 * @param array $parameters
 	 */
 	public function __construct(
-		$parameters,
+		array $parameters,
 		private IManager $encryptionManager,
 		private Util $util,
 		private LoggerInterface $logger,
@@ -628,7 +628,6 @@ class Encryption extends Wrapper {
 						$info->getUnencryptedSize()
 					);
 				}
-				$this->updateEncryptedVersion($sourceStorage, $sourceInternalPath, $targetInternalPath, $isRename, true);
 			}
 			return $result;
 		}
@@ -652,7 +651,7 @@ class Encryption extends Wrapper {
 				$result = true;
 			}
 			if (is_resource($dh)) {
-				while ($result and ($file = readdir($dh)) !== false) {
+				while ($result && ($file = readdir($dh)) !== false) {
 					if (!Filesystem::isIgnoredDir($file)) {
 						$result &= $this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file, false, $isRename);
 					}

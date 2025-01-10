@@ -58,7 +58,7 @@ class UserThemeController extends OCSController {
 	 * Enable theme
 	 *
 	 * @param string $themeId the theme ID
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSBadRequestException Enabling theme is not possible
 	 * @throws PreConditionNotMetException
 	 *
@@ -77,7 +77,7 @@ class UserThemeController extends OCSController {
 	 * Disable theme
 	 *
 	 * @param string $themeId the theme ID
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSBadRequestException Disabling theme is not possible
 	 * @throws PreConditionNotMetException
 	 *

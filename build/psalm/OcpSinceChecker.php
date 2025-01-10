@@ -17,17 +17,23 @@ use Psalm\Plugin\EventHandler\Event\AfterClassLikeVisitEvent;
 
 class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitInterface {
 	public static function afterClassLikeVisit(AfterClassLikeVisitEvent $event): void {
-		$stmt = $event->getStmt();
+		$classLike = $event->getStmt();
 		$statementsSource = $event->getStatementsSource();
 
-		self::checkClassComment($stmt, $statementsSource);
+		self::checkClassComment($classLike, $statementsSource);
 
-		foreach ($stmt->getMethods() as $method) {
-			self::checkMethodOrConstantComment($method, $statementsSource, 'method');
-		}
+		foreach ($classLike->stmts as $stmt) {
+			if ($stmt instanceof ClassConst) {
+				self::checkStatementComment($stmt, $statementsSource, 'constant');
+			}
 
-		foreach ($stmt->getConstants() as $constant) {
-			self::checkMethodOrConstantComment($constant, $statementsSource, 'constant');
+			if ($stmt instanceof ClassMethod) {
+				self::checkStatementComment($stmt, $statementsSource, 'method');
+			}
+
+			if ($stmt instanceof EnumCase) {
+				self::checkStatementComment($stmt, $statementsSource, 'enum');
+			}
 		}
 	}
 
@@ -75,7 +81,7 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 		}
 	}
 
-	private static function checkMethodOrConstantComment(Stmt $stmt, FileSource $statementsSource, string $type): void {
+	private static function checkStatementComment(Stmt $stmt, FileSource $statementsSource, string $type): void {
 		$docblock = $stmt->getDocComment();
 
 		if ($docblock === null) {

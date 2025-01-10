@@ -41,27 +41,27 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	private bool $preserveCacheItemsOnDelete = false;
 
 	/**
-	 * @param array $params
+	 * @param array $parameters
 	 * @throws \Exception
 	 */
-	public function __construct($params) {
-		if (isset($params['objectstore']) && $params['objectstore'] instanceof IObjectStore) {
-			$this->objectStore = $params['objectstore'];
+	public function __construct(array $parameters) {
+		if (isset($parameters['objectstore']) && $parameters['objectstore'] instanceof IObjectStore) {
+			$this->objectStore = $parameters['objectstore'];
 		} else {
 			throw new \Exception('missing IObjectStore instance');
 		}
-		if (isset($params['storageid'])) {
-			$this->id = 'object::store:' . $params['storageid'];
+		if (isset($parameters['storageid'])) {
+			$this->id = 'object::store:' . $parameters['storageid'];
 		} else {
 			$this->id = 'object::store:' . $this->objectStore->getStorageId();
 		}
-		if (isset($params['objectPrefix'])) {
-			$this->objectPrefix = $params['objectPrefix'];
+		if (isset($parameters['objectPrefix'])) {
+			$this->objectPrefix = $parameters['objectPrefix'];
 		}
-		if (isset($params['validateWrites'])) {
-			$this->validateWrites = (bool)$params['validateWrites'];
+		if (isset($parameters['validateWrites'])) {
+			$this->validateWrites = (bool)$parameters['validateWrites'];
 		}
-		$this->handleCopiesAsOwned = (bool)($params['handleCopiesAsOwned'] ?? false);
+		$this->handleCopiesAsOwned = (bool)($parameters['handleCopiesAsOwned'] ?? false);
 
 		$this->logger = \OCP\Server::get(LoggerInterface::class);
 	}
@@ -457,6 +457,13 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	}
 
 	public function writeStream(string $path, $stream, ?int $size = null): int {
+		if ($size === null) {
+			$stats = fstat($stream);
+			if (is_array($stats) && isset($stats['size'])) {
+				$size = $stats['size'];
+			}
+		}
+
 		$stat = $this->stat($path);
 		if (empty($stat)) {
 			// create new file

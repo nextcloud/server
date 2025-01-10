@@ -10,6 +10,7 @@ namespace OCA\DAV\CardDAV;
 
 use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Http;
+use OCP\DB\Exception;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
@@ -89,15 +90,33 @@ class SyncService {
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
 	public function ensureSystemAddressBookExists(string $principal, string $uri, array $properties): ?array {
-		return $this->atomic(function () use ($principal, $uri, $properties) {
-			$book = $this->backend->getAddressBooksByUri($principal, $uri);
-			if (!is_null($book)) {
-				return $book;
-			}
-			$this->backend->createAddressBook($principal, $uri, $properties);
+		try {
+			return $this->atomic(function () use ($principal, $uri, $properties) {
+				$book = $this->backend->getAddressBooksByUri($principal, $uri);
+				if (!is_null($book)) {
+					return $book;
+				}
+				$this->backend->createAddressBook($principal, $uri, $properties);
 
-			return $this->backend->getAddressBooksByUri($principal, $uri);
-		}, $this->dbConnection);
+				return $this->backend->getAddressBooksByUri($principal, $uri);
+			}, $this->dbConnection);
+		} catch (Exception $e) {
+			// READ COMMITTED doesn't prevent a nonrepeatable read above, so
+			// two processes might create an address book here. Ignore our
+			// failure and continue loading the entry written by the other process
+			if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw $e;
+			}
+
+			// If this fails we might have hit a replication node that does not
+			// have the row written in the other process.
+			// TODO: find an elegant way to handle this
+			$ab = $this->backend->getAddressBooksByUri($principal, $uri);
+			if ($ab === null) {
+				throw new Exception('Could not create system address book', $e->getCode(), $e);
+			}
+			return $ab;
+		}
 	}
 
 	private function prepareUri(string $host, string $path): string {

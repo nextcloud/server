@@ -24,7 +24,7 @@ class Capabilities implements ICapability {
 
 	/**
 	 * @return array{
-	 *     files_sharing: array{
+	 *     files_sharing?: array{
 	 *         sharebymail: array{
 	 *             enabled: bool,
 	 *             send_password_by_mail: bool,
@@ -41,7 +41,7 @@ class Capabilities implements ICapability {
 	 *             },
 	 *         }
 	 *     }
-	 * }|array<empty>
+	 * }
 	 */
 	public function getCapabilities(): array {
 		if (!$this->appManager->isEnabledForUser('files_sharing')) {

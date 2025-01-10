@@ -222,7 +222,7 @@ abstract class AUserData extends OCSController {
 	 * Get the groups a user is a subadmin of
 	 *
 	 * @param string $userId
-	 * @return string[]
+	 * @return list<string>
 	 * @throws OCSException
 	 */
 	protected function getUserSubAdminGroupsData(string $userId): array {

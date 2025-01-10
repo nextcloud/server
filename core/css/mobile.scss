@@ -4,7 +4,7 @@
  */
 @use 'variables';
 
-@media only screen and (width < variables.$breakpoint-mobile) {
+@media only screen and (width < #{variables.$breakpoint-mobile}) {
 
 	/* position share dropdown */
 	#dropdown {

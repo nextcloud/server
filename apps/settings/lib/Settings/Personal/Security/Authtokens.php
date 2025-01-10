@@ -27,7 +27,7 @@ class Authtokens implements ISettings {
 		private ISession $session,
 		private IUserSession $userSession,
 		private IInitialState $initialState,
-		private ?string $uid,
+		private ?string $userId,
 	) {
 	}
 
@@ -54,7 +54,7 @@ class Authtokens implements ISettings {
 	}
 
 	private function getAppTokens(): array {
-		$tokens = $this->tokenProvider->getTokenByUser($this->uid);
+		$tokens = $this->tokenProvider->getTokenByUser($this->userId);
 
 		try {
 			$sessionId = $this->session->getId();

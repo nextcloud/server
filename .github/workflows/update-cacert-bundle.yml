@@ -19,7 +19,7 @@ jobs:
     name: update-ca-certificate-bundle-${{ matrix.branches }}
 
     steps:
-      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           ref: ${{ matrix.branches }}
           submodules: true

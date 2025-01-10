@@ -168,7 +168,7 @@ body:
         ./occ config:list system
         ```
         > NOTE: This will be automatically formatted into code for better readability.
-      render: shell
+      render: json
   - type: textarea
     id: apps
     attributes:
@@ -200,10 +200,10 @@ body:
     attributes:
       label: Nextcloud Logs
       description: |
-        Provide Nextcloud logs lines.
-        Copy all contents from `data/nextcloud.log` or a RAW from `/settings/admin/logging` section:
+        Provide relevant Nextcloud log entries (e.g. from the time period you reproduced the problem).
+        Copy full individual entries from `data/nextcloud.log` or use `Copy raw entry` from `/settings/admin/logging` section:
         > NOTE: This will be automatically formatted into code for better readability.
-      render: shell
+      render: json
   - type: textarea
     id: additional-info
     attributes:

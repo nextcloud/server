@@ -5,15 +5,15 @@
 /apps/contactsinteraction/appinfo/info.xml    @kesselb @SebastianKrupinski
 /apps/contactsinteraction/lib                 @kesselb @SebastianKrupinski
 /apps/contactsinteraction/tests               @kesselb @SebastianKrupinski
-/apps/dashboard/appinfo/info.xml              @julien-nc @juliushaertl
-/apps/dav/lib/CalDAV                          @miaulalala @st3iny @SebastianKrupinski
-/apps/dav/lib/CardDAV                         @miaulalala @st3iny @SebastianKrupinski
-/apps/dav/tests/unit/CalDAV                   @miaulalala @st3iny @SebastianKrupinski
-/apps/dav/tests/unit/CardDAV                  @miaulalala @st3iny @SebastianKrupinski
+/apps/dashboard/appinfo/info.xml              @julien-nc @juliusknorr
+/apps/dav/lib/CalDAV                          @st3iny @SebastianKrupinski @tcitworld
+/apps/dav/lib/CardDAV                         @hamza221 @SebastianKrupinski
+/apps/dav/tests/unit/CalDAV                   @st3iny @SebastianKrupinski @tcitworld
+/apps/dav/tests/unit/CardDAV                  @hamza221 @SebastianKrupinski
 /apps/encryption/appinfo/info.xml             @come-nc @icewind1991
 /apps/federatedfilesharing/appinfo/info.xml   @icewind1991 @danxuliu
-/apps/federation/appinfo/info.xml             @datenangebot
-/apps/files/appinfo/info.xml                  @skjnldsv @Pytal @ArtificialOwl @come-nc @artonge @icewind1991 @szaimen @susnux @Fenn-CS
+/apps/federation/appinfo/info.xml             @nfebe
+/apps/files/appinfo/info.xml                  @skjnldsv @Pytal @ArtificialOwl @come-nc @artonge @icewind1991 @szaimen @susnux @nfebe
 /apps/files_external/appinfo/info.xml         @icewind1991 @artonge
 /apps/files_reminders/appinfo/info.xml        @Pytal
 /apps/files_sharing/appinfo/info.xml          @skjnldsv @come-nc
@@ -24,14 +24,14 @@
 /apps/settings/appinfo/info.xml               @Pytal @JuliaKirschenheuter
 /apps/sharebymail/appinfo/info.xml            @Altahrim
 /apps/systemtags/appinfo/info.xml             @Antreesy @marcelklehr
-/apps/theming/appinfo/info.xml                @skjnldsv @juliushaertl
+/apps/theming/appinfo/info.xml                @skjnldsv @juliusknorr
 /apps/twofactor_backupcodes/appinfo/info.xml  @st3iny @miaulalala @ChristophWurst
 /apps/updatenotification/appinfo/info.xml     @Pytal @JuliaKirschenheuter
 /apps/user_ldap/appinfo/info.xml              @come-nc @blizzz
 /apps/user_status/appinfo/info.xml            @Antreesy @nickvergessen
-/apps/weather_status/appinfo/info.xml         @julien-nc @juliushaertl
+/apps/weather_status/appinfo/info.xml         @julien-nc @juliusknorr
 /apps/webhook_listeners/appinfo/info.xml      @come-nc @julien-nc
-/apps/workflowengine/appinfo/info.xml         @blizzz @juliushaertl
+/apps/workflowengine/appinfo/info.xml         @blizzz @juliusknorr
 
 # Frontend expertise
 /apps/files/src*                  @skjnldsv
@@ -43,7 +43,7 @@
 # Security team
 /build/psalm-baseline-security.xml  @nickvergessen
 /resources/codesigning              @mgallien @miaulalala @nickvergessen
-/resources/config/ca-bundle.crt     @ChristophWurst @miaulalala @nickvergessen
+/resources/config/ca-bundle.crt     @miaulalala @nickvergessen
 
 # Two-Factor Authentication
 # https://github.com/nextcloud/wg-two-factor-authentication#members

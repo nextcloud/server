@@ -213,7 +213,7 @@ describe.only('Settings: Sort groups in the UI', () => {
 		cy.runOccCommand('group:list --output json').then((output) => {
 			const groups = Object.keys(JSON.parse(output.stdout)).filter((group) => group !== 'admin')
 			groups.forEach((group) => {
-				cy.runOccCommand(`group:delete "${group}"`)
+				cy.runOccCommand(`group:delete '${group}'`)
 			})
 		})
 
@@ -221,7 +221,7 @@ describe.only('Settings: Sort groups in the UI', () => {
 		cy.runOccCommand('group:add A')
 		cy.runOccCommand('group:add B')
 		cy.createRandomUser().then((user) => {
-			cy.runOccCommand(`group:adduser B "${user.userId}"`)
+			cy.runOccCommand(`group:adduser B '${user.userId}'`)
 		})
 
 		// Visit the settings as admin

@@ -20,6 +20,8 @@ OC.L10N.register(
     "Set status" : "Встановити статус",
     "Online status" : "Статус онлайну",
     "Status message" : "Повідомлення про статус",
+    "Set absence period" : "Встановити період відсутности",
+    "Set absence period and replacement" : "Встановити період відсутности та тимчасово виконуючого обов'язки",
     "Your status was set automatically" : "Ваш статус встановлено автоматично",
     "Clear status message" : "Очистити повідомлення про стан",
     "Set status message" : "Встановити повідомлення про стан",

@@ -65,6 +65,8 @@ OC.L10N.register(
     "Failed to update tag" : "No s'ha pogut actualitzar l'etiqueta",
     "Deleted tag" : "S'ha suprimit l'etiqueta",
     "Failed to delete tag" : "No s'ha pogut suprimir l'etiqueta",
+    "Manage tags" : "Gestiona les etiquetes",
+    "Cancel" : "Cancel·la",
     "Loading collaborative tags …" : "S'estan carregant les etiquetes col·laboratives…",
     "Search or create collaborative tags" : "Cerqueu o creeu etiquetes col·laboratives",
     "No tags to select, type to create a new tag" : "No hi ha cap etiqueta per seleccionar, escriviu per a crear una etiqueta nova",

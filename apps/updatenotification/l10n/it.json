@@ -11,7 +11,7 @@
     "Update for {app} to version %s is available." : "È disponibile l'aggiornamento di {app} alla versione %s.",
     "Update notification" : "Notifica di aggiornamento",
     "Displays update notifications for Nextcloud, app updates, and provides the SSO for the updater." : "Visualizza le notifiche di aggiornamento per Nextcloud, gli aggiornamenti dell'app e fornisce l'SSO per l'aggiornamento.",
-    "What's new in {app} {version}" : "Novità in {app} {versione}",
+    "What's new in {app} {version}" : "Novità in {app} {version}",
     "Give feedback" : "Dai un feedback",
     "Get started" : "Cominciamo",
     "No changelog available" : "Nessuna nota di rilascio disponibile",

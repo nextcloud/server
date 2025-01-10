@@ -320,8 +320,8 @@ abstract class QBMapper {
 	 * Runs a sql query and returns an array of entities
 	 *
 	 * @param IQueryBuilder $query
-	 * @return Entity[] all fetched entities
-	 * @psalm-return T[] all fetched entities
+	 * @return list<Entity> all fetched entities
+	 * @psalm-return list<T> all fetched entities
 	 * @throws Exception
 	 * @since 14.0.0
 	 */

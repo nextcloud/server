@@ -41,7 +41,7 @@ class RemoteController extends OCSController {
 	/**
 	 * Get list of pending remote shares
 	 *
-	 * @return DataResponse<Http::STATUS_OK, Files_SharingRemoteShare[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<Files_SharingRemoteShare>, array{}>
 	 *
 	 * 200: Pending remote shares returned
 	 */
@@ -54,7 +54,7 @@ class RemoteController extends OCSController {
 	 * Accept a remote share
 	 *
 	 * @param int $id ID of the share
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSNotFoundException Share not found
 	 *
 	 * 200: Share accepted successfully
@@ -75,7 +75,7 @@ class RemoteController extends OCSController {
 	 * Decline a remote share
 	 *
 	 * @param int $id ID of the share
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSNotFoundException Share not found
 	 *
 	 * 200: Share declined successfully
@@ -116,14 +116,14 @@ class RemoteController extends OCSController {
 	/**
 	 * Get a list of accepted remote shares
 	 *
-	 * @return DataResponse<Http::STATUS_OK, Files_SharingRemoteShare[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<Files_SharingRemoteShare>, array{}>
 	 *
 	 * 200: Accepted remote shares returned
 	 */
 	#[NoAdminRequired]
 	public function getShares() {
 		$shares = $this->externalManager->getAcceptedShares();
-		$shares = array_map('self::extendShareInfo', $shares);
+		$shares = array_map(self::extendShareInfo(...), $shares);
 
 		return new DataResponse($shares);
 	}
@@ -153,7 +153,7 @@ class RemoteController extends OCSController {
 	 * Unshare a remote share
 	 *
 	 * @param int $id ID of the share
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSNotFoundException Share not found
 	 * @throws OCSForbiddenException Unsharing is not possible
 	 *

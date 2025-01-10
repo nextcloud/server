@@ -17,7 +17,7 @@ use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Capabilities\ICapability;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IRequest;
 use OCP\Server;
 use Psr\Container\ContainerExceptionInterface;
@@ -31,7 +31,7 @@ use Psr\Log\LoggerInterface;
 class OCMController extends Controller {
 	public function __construct(
 		IRequest $request,
-		private IConfig $config,
+		private readonly IAppConfig $appConfig,
 		private LoggerInterface $logger,
 	) {
 		parent::__construct('core', $request);
@@ -43,7 +43,7 @@ class OCMController extends Controller {
 	 *
 	 * @psalm-suppress MoreSpecificReturnType
 	 * @psalm-suppress LessSpecificReturnStatement
-	 * @return DataResponse<Http::STATUS_OK, array{enabled: bool, apiVersion: string, endPoint: string, resourceTypes: array{name: string, shareTypes: string[], protocols: array{webdav: string}}[]}, array{X-NEXTCLOUD-OCM-PROVIDERS: true, Content-Type: 'application/json'}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{enabled: bool, apiVersion: string, endPoint: string, resourceTypes: list<array{name: string, shareTypes: list<string>, protocols: array{webdav: string}}>}, array{X-NEXTCLOUD-OCM-PROVIDERS: true, Content-Type: 'application/json'}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
 	 * 200: OCM Provider details returned
 	 * 500: OCM not supported
@@ -54,10 +54,10 @@ class OCMController extends Controller {
 	public function discovery(): DataResponse {
 		try {
 			$cap = Server::get(
-				$this->config->getAppValue(
-					'core',
-					'ocm_providers',
-					'\OCA\CloudFederationAPI\Capabilities'
+				$this->appConfig->getValueString(
+					'core', 'ocm_providers',
+					\OCA\CloudFederationAPI\Capabilities::class,
+					lazy: true
 				)
 			);
 

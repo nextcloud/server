@@ -39,6 +39,7 @@ fi
 PORT=$((8080 + $EXECUTOR_NUMBER))
 echo $PORT
 
+echo "" > "${NC_DATADIR}/nextcloud.log"
 echo "" > phpserver.log
 
 PHP_CLI_SERVER_WORKERS=2 php -S localhost:$PORT -t ../.. &> phpserver.log &
@@ -47,6 +48,14 @@ echo $PHPPID
 
 # Output filtered php server logs
 tail -f phpserver.log | grep --line-buffered -v -E ":[0-9]+ Accepted$" | grep --line-buffered -v -E ":[0-9]+ Closing$" &
+LOGPID=$!
+echo $LOGPID
+
+function cleanup() {
+    kill $PHPPID
+    kill $LOGPID
+}
+trap cleanup EXIT
 
 # The federated server is started and stopped by the tests themselves
 PORT_FED=$((8180 + $EXECUTOR_NUMBER))
@@ -72,8 +81,6 @@ fi
 
 vendor/bin/behat --strict --colors -f junit -f pretty $TAGS $SCENARIO_TO_RUN
 RESULT=$?
-
-kill $PHPPID
 
 if [ "$INSTALLED" == "true" ]; then
 

@@ -44,7 +44,7 @@ class HeartbeatController extends OCSController {
 	 *
 	 * @param string $status Only online, away
 	 *
-	 * @return DataResponse<Http::STATUS_OK, UserStatusPrivate, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NO_CONTENT, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, UserStatusPrivate, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NO_CONTENT, list<empty>, array{}>
 	 *
 	 * 200: Status successfully updated
 	 * 204: User has no status to keep alive

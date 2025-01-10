@@ -32,8 +32,9 @@ final class DeclarativeSettingsTypes {
 	/**
 	 * IDeclarativeSettingsForm storage_type which is determines where and how the config value is stored
 	 *
-	 *
-	 * For `external` storage_type the app implementing \OCP\Settings\SetDeclarativeSettingsValueEvent and \OCP\Settings\GetDeclarativeSettingsValueEvent events is responsible for storing and retrieving the config value.
+	 * For `external` storage_type the app needs to either implement event listeners for \OCP\Settings\SetDeclarativeSettingsValueEvent
+	 * and \OCP\Settings\GetDeclarativeSettingsValueEvent or the IDeclarativeSettingsForm also needs to implement
+	 * IDeclarativeSettingsFormWithHandlers for storing and retrieving the config value.
 	 *
 	 * @since 29.0.0
 	 */
@@ -43,7 +44,6 @@ final class DeclarativeSettingsTypes {
 	 * IDeclarativeSettingsForm storage_type which is determines where and how the config value is stored
 	 *
 	 * For `internal` storage_type the config value is stored in default `appconfig` and `preferences` tables.
-	 * For `external` storage_type the app implementing \OCP\Settings\SetDeclarativeSettingsValueEvent and \OCP\Settings\GetDeclarativeSettingsValueEvent events is responsible for storing and retrieving the config value.
 	 *
 	 * @since 29.0.0
 	 */

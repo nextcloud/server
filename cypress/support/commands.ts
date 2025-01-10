@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 // eslint-disable-next-line n/no-extraneous-import
-import axios, { type AxiosResponse } from 'axios'
+import axios from 'axios'
 import { addCommands, User } from '@nextcloud/cypress'
 import { basename } from 'path'
 
@@ -12,79 +12,6 @@ import '@testing-library/cypress/add-commands'
 import 'cypress-if'
 import 'cypress-wait-until'
 addCommands()
-
-// Register this file's custom commands types
-declare global {
-	// eslint-disable-next-line @typescript-eslint/no-namespace
-	namespace Cypress {
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-		interface Chainable<Subject = any> {
-			/**
-			 * Enable or disable a given user
-			 */
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			enableUser(user: User, enable?: boolean): Cypress.Chainable<Cypress.Response<any>>,
-
-			/**
-			 * Upload a file from the fixtures folder to a given user storage.
-			 * **Warning**: Using this function will reset the previous session
-			 */
-			uploadFile(user: User, fixture?: string, mimeType?: string, target?: string): Cypress.Chainable<void>,
-
-			/**
-			 * Upload a raw content to a given user storage.
-			 * **Warning**: Using this function will reset the previous session
-			 */
-			uploadContent(user: User, content: Blob, mimeType: string, target: string, mtime?: number): Cypress.Chainable<AxiosResponse>,
-
-			/**
-			 * Create a new directory
-			 * **Warning**: Using this function will reset the previous session
-			 */
-			mkdir(user: User, target: string): Cypress.Chainable<void>,
-
-			/**
-			 * Set a file as favorite (or remove from favorite)
-			 */
-			setFileAsFavorite(user: User, target: string, favorite?: boolean): Cypress.Chainable<void>,
-
-			/**
-			 * Reset the admin theming entirely.
-			 * **Warning**: Using this function will reset the previous session
-			 */
-			resetAdminTheming(): Cypress.Chainable<void>,
-
-			/**
-			 * Reset the user theming settings.
-			 * If provided, will clear session and login as the given user.
-			 * **Warning**:  Providing a user will reset the previous session.
-			 */
-			resetUserTheming(user?: User): Cypress.Chainable<void>,
-
-			/**
-			 * Run an occ command in the docker container.
-			 */
-			runOccCommand(command: string, options?: Partial<Cypress.ExecOptions>): Cypress.Chainable<Cypress.Exec>,
-
-			userFileExists(user: string, path: string): Cypress.Chainable<number>
-
-			/**
-			 * Create a snapshot of the current database
-			 */
-			backupDB(): Cypress.Chainable<string>,
-
-			/**
-			 * Restore a snapshot of the database
-			 * Default is the post-setup state
-			 */
-			restoreDB(snapshot?: string): Cypress.Chainable
-
-			backupData(users?: string[]): Cypress.Chainable<string>
-
-			restoreData(snapshot?: string): Cypress.Chainable
-		}
-	}
-}
 
 const url = (Cypress.config('baseUrl') || '').replace(/\/index.php\/?$/g, '')
 Cypress.env('baseUrl', url)
@@ -289,41 +216,9 @@ Cypress.Commands.add('resetUserTheming', (user?: User) => {
 	}
 })
 
-Cypress.Commands.add('runOccCommand', (command: string, options?: Partial<Cypress.ExecOptions>) => {
-	const env = Object.entries(options?.env ?? {}).map(([name, value]) => `-e '${name}=${value}'`).join(' ')
-	return cy.exec(`docker exec --user www-data ${env} nextcloud-cypress-tests-server php ./occ ${command}`, options)
-})
-
 Cypress.Commands.add('userFileExists', (user: string, path: string) => {
 	user.replaceAll('"', '\\"')
 	path.replaceAll('"', '\\"').replaceAll(/^\/+/gm, '')
-	return cy.exec(`docker exec --user www-data nextcloud-cypress-tests-server stat --printf="%s" "data/${user}/files/${path}"`, { failOnNonZeroExit: true })
+	return cy.runCommand(`stat --printf="%s" "data/${user}/files/${path}"`, { failOnNonZeroExit: true })
 		.then((exec) => Number.parseInt(exec.stdout || '0'))
-})
-
-Cypress.Commands.add('backupDB', (): Cypress.Chainable<string> => {
-	const randomString = Math.random().toString(36).substring(7)
-	cy.exec(`docker exec --user www-data nextcloud-cypress-tests-server cp /var/www/html/data/owncloud.db /var/www/html/data/owncloud.db-${randomString}`)
-	cy.log(`Created snapshot ${randomString}`)
-	return cy.wrap(randomString)
-})
-
-Cypress.Commands.add('restoreDB', (snapshot: string = 'init') => {
-	cy.exec(`docker exec --user www-data nextcloud-cypress-tests-server cp /var/www/html/data/owncloud.db-${snapshot} /var/www/html/data/owncloud.db`)
-	cy.log(`Restored snapshot ${snapshot}`)
-})
-
-Cypress.Commands.add('backupData', (users: string[] = ['admin']) => {
-	const snapshot = Math.random().toString(36).substring(7)
-	const toBackup = users.map((user) => `'${user.replaceAll('\\', '').replaceAll('\'', '\\\'')}'`).join(' ')
-	cy.exec(`docker exec --user www-data rm /var/www/html/data/data-${snapshot}.tar`, { failOnNonZeroExit: false })
-	cy.exec(`docker exec --user www-data --workdir /var/www/html/data nextcloud-cypress-tests-server tar cf /var/www/html/data/data-${snapshot}.tar ${toBackup}`)
-	return cy.wrap(snapshot as string)
-})
-
-Cypress.Commands.add('restoreData', (snapshot?: string) => {
-	snapshot = snapshot ?? 'init'
-	snapshot.replaceAll('\\', '').replaceAll('"', '\\"')
-	cy.exec(`docker exec --user www-data --workdir /var/www/html/data nextcloud-cypress-tests-server rm -vfr $(tar --exclude='*/*' -tf '/var/www/html/data/data-${snapshot}.tar')`)
-	cy.exec(`docker exec --user www-data --workdir /var/www/html/data nextcloud-cypress-tests-server tar -xf '/var/www/html/data/data-${snapshot}.tar'`)
 })
