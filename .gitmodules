@@ -43,3 +43,6 @@
 [submodule "apps-custom/nc_ionos_processes"]
 	path = apps-custom/nc_ionos_processes
 	url = git@github.com:IONOS-Productivity/nc_ionos_processes.git
+[submodule "apps-external/serverinfo"]
+	path = apps-external/serverinfo
+	url = git@github.com:nextcloud/serverinfo.git
