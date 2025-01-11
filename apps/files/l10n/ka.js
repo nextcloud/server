@@ -64,6 +64,7 @@ OC.L10N.register(
     "Your have used your space quota and cannot upload files anymore" : "Your have used your space quota and cannot upload files anymore",
     "You don’t have permission to upload or create files here" : "You don’t have permission to upload or create files here",
     "Favorite" : "Favorite",
+    "Back" : "Back",
     "Rename file" : "Rename file",
     "Filename" : "Filename",
     "Folder name" : "Folder name",

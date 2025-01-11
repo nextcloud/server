@@ -75,6 +75,7 @@ OC.L10N.register(
     "Your have used your space quota and cannot upload files anymore" : "Zure espazio-kuota erabili duzu eta ezin duzu fitxategi gehiago kargatu",
     "You don’t have permission to upload or create files here" : "Ez duzu baimenik fitxategiak hona kargatu edo hemen sortzeko",
     "Favorite" : "Gogokoa",
+    "Back" : "Itzuli",
     "Toggle selection for file \"{displayName}\"" : "Ordeztu hautatutakoa  \"{displayName}\" fitxategiarekin",
     "Toggle selection for folder \"{displayName}\"" : "Ordeztu hautatutakoa  \"{displayName}\" karpetarekin",
     "File is loading" : "Fitxategia kargatzen ari da",

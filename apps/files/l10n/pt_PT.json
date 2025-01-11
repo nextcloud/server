@@ -73,6 +73,7 @@
     "Your have used your space quota and cannot upload files anymore" : "Utilizou a sua quota de espaço e já não pode carregar mais ficheiros",
     "You don’t have permission to upload or create files here" : "Não tem permissão para enviar ou criar ficheiros aqui",
     "Favorite" : "Favorito",
+    "Back" : "Voltar",
     "Toggle selection for file \"{displayName}\"" : "Alternar a seleção para o ficheiro \"{displayName}\"",
     "Toggle selection for folder \"{displayName}\"" : "Alternar a seleção para a pasta \"{displayName}\"",
     "File is loading" : "Ficheiro está a carregar",

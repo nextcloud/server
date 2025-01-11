@@ -30,6 +30,8 @@ OC.L10N.register(
     "Allow people on this server to receive group shares from other servers" : "Lig do dhaoine ar an bhfreastalaí seo scaireanna grúpa a fháil ó fhreastalaithe eile",
     "Search global and public address book for people" : "Cuardaigh leabhar seoltaí domhanda agus poiblí do dhaoine",
     "Allow people to publish their data to a global and public address book" : "Lig do dhaoine a gcuid sonraí a fhoilsiú i leabhar aitheasc domhanda agus poiblí",
+    "Trusted federation" : "Cónaidhm iontaofa",
+    "Automatically accept shares from trusted federated accounts and groups by default" : "Glac go huathoibríoch le scaireanna ó chuntais chónaidhme iontaofa agus ó ghrúpaí de réir réamhshocraithe",
     "Unable to update federated files sharing config" : "Ní féidir an chumraíocht chomhroinnte comhad a nuashonrú",
     "Federated Cloud" : "Scamall Cónaidhme",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Is féidir leat a roinnt le duine ar bith a úsáideann freastalaí Nextcloud nó freastalaithe agus seirbhísí comhoiriúnacha Open Cloud Mesh (OCM) eile! Níl le déanamh ach a n-ID Cloud Cónaidhme a chur sa dialóg scaireanna. Breathnaíonn sé cosúil le person@cloud.example.com",

@@ -75,6 +75,7 @@ OC.L10N.register(
     "Your have used your space quota and cannot upload files anymore" : "Depolama alanınızın tümünü kullandığınız için başka dosya yüklemezsiniz",
     "You don’t have permission to upload or create files here" : "Buraya dosya yükleme ya da ekleme izniniz yok",
     "Favorite" : "Sık kullanılanlara ekle",
+    "Back" : "Geri",
     "Toggle selection for file \"{displayName}\"" : "\"{displayName}\" dosyasını seç/bırak",
     "Toggle selection for folder \"{displayName}\"" : "\"{displayName}\" klasörünü seç/bırak",
     "File is loading" : "Dosya yükleniyor",

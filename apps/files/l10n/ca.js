@@ -73,6 +73,7 @@ OC.L10N.register(
     "Your have used your space quota and cannot upload files anymore" : "Heu utilitzat la quota d'espai i ja no podeu pujar fitxers",
     "You don’t have permission to upload or create files here" : "No teniu permís per a pujar o crear fitxers aquí",
     "Favorite" : "En els preferits",
+    "Back" : "Torna",
     "Toggle selection for file \"{displayName}\"" : "Canvia la selecció per al fitxer «{displayName}»",
     "Toggle selection for folder \"{displayName}\"" : "Canvia la selecció per a la carpeta «{displayName}»",
     "File is loading" : "S'està carregant el fitxer",
