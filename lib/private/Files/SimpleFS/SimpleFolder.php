@@ -44,6 +44,21 @@ class SimpleFolder implements ISimpleFolder {
 		return array_values($fileListing);
 	}
 
+	public function getFullDirectoryListing(): array {
+		$listing = $this->folder->getDirectoryListing();
+	
+		$nodeListing = array_map(function (Node $node) {
+			if ($node instanceof File) {
+				return new SimpleFile($node);
+			} elseif ($node instanceof Folder) {
+				return new SimpleFolder($node);
+			}
+			return null;
+		}, $listing);
+	
+		return array_values(array_filter($nodeListing));
+	}
+
 	public function delete(): void {
 		$this->folder->delete();
 	}
