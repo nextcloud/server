@@ -73,6 +73,7 @@
     "Your have used your space quota and cannot upload files anymore" : "Využili jste celou svou kvótu na prostor a už nemůžete nahrávat další soubory",
     "You don’t have permission to upload or create files here" : "Nemáte oprávnění sem nahrávat nebo zde vytvářet soubory",
     "Favorite" : "Oblíbené",
+    "Back" : "Zpět",
     "Toggle selection for file \"{displayName}\"" : "Vybrat / zrušit výběr souboru „{displayName}“",
     "Toggle selection for folder \"{displayName}\"" : "Vybrat / zrušit výběr složky „{displayName}“",
     "File is loading" : "Soubor je načítán",

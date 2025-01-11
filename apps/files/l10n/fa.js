@@ -62,6 +62,7 @@ OC.L10N.register(
     "Drag and drop files here to upload" : "برای بارگذاری، فایل‌ها را بکشید و اینجا بیاندازید",
     "You don’t have permission to upload or create files here" : "شما دسترسی مجاز برای آپلود یا ایجاد فایل در اینجا را ندارید",
     "Favorite" : "برگزیده",
+    "Back" : "Back",
     "Rename file" : "تغییر نام فایل",
     "Filename" : "نام پرونده",
     "Folder name" : "نام پوشه",

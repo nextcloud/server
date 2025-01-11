@@ -66,6 +66,7 @@ OC.L10N.register(
     "Your have used your space quota and cannot upload files anymore" : "Olet käyttänyt tilakiintiösi, joten et voi lähettää enempää tiedostoja",
     "You don’t have permission to upload or create files here" : "Käyttöoikeutesi eivät riitä tiedostojen lähettämiseen tai kansioiden luomiseen tähän sijaintiin",
     "Favorite" : "Suosikki",
+    "Back" : "Takaisin",
     "File is loading" : "Tiedostoa ladataan",
     "Folder is loading" : "Kansiota ladataan",
     "Rename file" : "Nimeä tiedosto uudelleen",

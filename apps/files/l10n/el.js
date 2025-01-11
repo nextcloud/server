@@ -69,6 +69,7 @@ OC.L10N.register(
     "Your have used your space quota and cannot upload files anymore" : "Έχετε χρησιμοποιήσει το όριο χώρου σας και δεν μπορείτε να μεταφορτώσετε αρχεία πλέον",
     "You don’t have permission to upload or create files here" : "Δεν έχετε δικαιώματα μεταφόρτωσης ή δημιουργίας αρχείων εδώ",
     "Favorite" : "Αγαπημένο",
+    "Back" : "Επιστροφή",
     "Toggle selection for file \"{displayName}\"" : "Εναλλαγή επιλογής για το αρχείο \"{displayName}\"",
     "Toggle selection for folder \"{displayName}\"" : "Εναλλαγή επιλογής για τον φάκελο \"{displayName}\"",
     "Rename file" : "Μετονομασία αρχείου",

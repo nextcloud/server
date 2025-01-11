@@ -73,6 +73,7 @@
     "Your have used your space quota and cannot upload files anymore" : "Vde. usou a súa cota de espazo e xa non pode enviar ningún ficheiro más",
     "You don’t have permission to upload or create files here" : "Non ten permiso para enviar ou crear ficheiros aquí.",
     "Favorite" : "Favorito",
+    "Back" : "Atras",
     "Toggle selection for file \"{displayName}\"" : "Conmutar a selección para o ficheiro «{displayName}»",
     "Toggle selection for folder \"{displayName}\"" : "Conmutar a selección para o cartafol «{displayName}»",
     "File is loading" : "Estase a cargar o ficheiro",

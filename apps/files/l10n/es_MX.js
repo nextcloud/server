@@ -75,6 +75,7 @@ OC.L10N.register(
     "Your have used your space quota and cannot upload files anymore" : "Ha utilizado su cuota de espacio y ya no puede subir más archivos",
     "You don’t have permission to upload or create files here" : "No cuentas con los permisos para cargar o crear archivos aquí",
     "Favorite" : "Favorito",
+    "Back" : "Atrás",
     "Toggle selection for file \"{displayName}\"" : "Alternar selección para archivo \"{displayName}\"",
     "Toggle selection for folder \"{displayName}\"" : "Alternar selección para la carpeta \"{displayName}\"",
     "File is loading" : "El archivo se está cargando",

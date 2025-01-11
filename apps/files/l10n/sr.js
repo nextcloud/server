@@ -75,6 +75,7 @@ OC.L10N.register(
     "Your have used your space quota and cannot upload files anymore" : "Искористили сте квоту простора и више не можете да отпремате фајлове",
     "You don’t have permission to upload or create files here" : "Немате дозволе да овде отпремате или стварате фајлове",
     "Favorite" : "Омиљено",
+    "Back" : "Назад",
     "Toggle selection for file \"{displayName}\"" : "Укљ./искљ. избор за фајл „{displayName}”",
     "Toggle selection for folder \"{displayName}\"" : "Укљ./искљ. избор за фолдер „{displayName}”",
     "File is loading" : "Фајл се учитава",

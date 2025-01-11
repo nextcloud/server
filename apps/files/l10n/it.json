@@ -73,6 +73,7 @@
     "Your have used your space quota and cannot upload files anymore" : "Hai esaurito la tua quota di spazio e non puoi più caricare file",
     "You don’t have permission to upload or create files here" : "Qui non hai i permessi per caricare o creare file",
     "Favorite" : "Preferito",
+    "Back" : "Indietro",
     "Toggle selection for file \"{displayName}\"" : "Attiva/disattiva la selezione per il file \"{displayName}\"",
     "Toggle selection for folder \"{displayName}\"" : "Attiva/disattiva la selezione per la cartella \"{displayName}\"",
     "File is loading" : "Il file è in caricamento",

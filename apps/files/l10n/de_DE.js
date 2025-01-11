@@ -75,6 +75,7 @@ OC.L10N.register(
     "Your have used your space quota and cannot upload files anymore" : "Ihr Speicherplatzkontigent ist aufgebraucht, Sie können keine weiteren Dateien hochladen",
     "You don’t have permission to upload or create files here" : "Sie haben keine Berechtigung, hier Dateien hochzuladen oder zu erstellen",
     "Favorite" : "Favorit",
+    "Back" : "Zurück",
     "Toggle selection for file \"{displayName}\"" : "Auswahl für die Datei \"{displayName}\" umschalten",
     "Toggle selection for folder \"{displayName}\"" : "Auswahl für den Ordner \"{displayName}\" umschalten",
     "File is loading" : "Datei wird geladen",
