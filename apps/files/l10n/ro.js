@@ -62,6 +62,7 @@ OC.L10N.register(
     "Drag and drop files here to upload" : "Faceți Drag and drop cu fișierele aici pentru upload",
     "You don’t have permission to upload or create files here" : "Nu aveți permisiunea de a încărca sau crea fișiere aici",
     "Favorite" : "Favorit",
+    "Back" : "Înapoi",
     "Rename file" : "Redenumire fișier",
     "Filename" : "Nume fișier",
     "Folder name" : "Denumire director",

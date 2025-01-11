@@ -28,6 +28,8 @@
     "Allow people on this server to receive group shares from other servers" : "このサーバーにいる人が他のサーバーからグループ共有を受信できるようにする",
     "Search global and public address book for people" : "グローバル・アドレス帳と公開アドレス帳を検索",
     "Allow people to publish their data to a global and public address book" : "グローバルで公開されたアドレス帳に自分のデータを公開できるようにする",
+    "Trusted federation" : "信頼済フェデレーション",
+    "Automatically accept shares from trusted federated accounts and groups by default" : "信頼できるフェデレーションアカウントとグループからの共有をデフォルトで自動的に受け入れる",
     "Unable to update federated files sharing config" : "クラウド共有設定を更新できませんでした",
     "Federated Cloud" : "クラウド共有",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud サーバーまたはその他の Open Cloud Mesh (OCM) 互換のサーバーとサービスを使用しているユーザーであれば、共有ダイアログに Federated Cloud ID を入力するだけで誰とでも共有できます。例: person@cloud.example.com",

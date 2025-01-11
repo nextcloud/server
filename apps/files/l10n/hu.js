@@ -75,6 +75,7 @@ OC.L10N.register(
     "Your have used your space quota and cannot upload files anymore" : "Már felhasználta a tárhelykvótáját, így már nem tölthet fel fájlokat",
     "You don’t have permission to upload or create files here" : "Nincs jogosultsága ahhoz, hogy fájlokat töltsön fel ide vagy hozzon létre itt",
     "Favorite" : "Kedvenc",
+    "Back" : "Vissza",
     "Toggle selection for file \"{displayName}\"" : "„{displayName}” fájl kijelölésének átváltása",
     "Toggle selection for folder \"{displayName}\"" : "„{displayName}” mappa kijelölésének átváltása",
     "File is loading" : "A fájl épp betöltődik",

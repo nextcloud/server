@@ -73,6 +73,7 @@
     "Your have used your space quota and cannot upload files anymore" : "Ви вже використали квоту на місце та не можете завантажувати файли",
     "You don’t have permission to upload or create files here" : "У вас недостатньо прав для завантаження або створення файлів тут",
     "Favorite" : "Додати зірочку",
+    "Back" : "Назад",
     "Toggle selection for file \"{displayName}\"" : "Перемкнути вибір для файлу \"{displayName}\"",
     "Toggle selection for folder \"{displayName}\"" : "Перемкнути вибір для каталогу \"{displayName}\"",
     "File is loading" : "Завантаження файлу",

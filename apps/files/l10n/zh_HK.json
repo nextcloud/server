@@ -73,6 +73,7 @@
     "Your have used your space quota and cannot upload files anymore" : "您已用完您的空間配額，無法再上傳檔案",
     "You don’t have permission to upload or create files here" : "您無權限上傳或建立檔案",
     "Favorite" : "我的最愛",
+    "Back" : "上星期",
     "Toggle selection for file \"{displayName}\"" : "切換對檔案 \"{displayName}\" 的選擇",
     "Toggle selection for folder \"{displayName}\"" : "切換對資料夾 \"{displayName}\" 的選擇",
     "File is loading" : "正在加載檔案",

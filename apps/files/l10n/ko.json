@@ -73,6 +73,7 @@
     "Your have used your space quota and cannot upload files anymore" : "저장소 할당량을 모두 사용하여 더 이상 파일을 업로드할 수 없습니다",
     "You don’t have permission to upload or create files here" : "여기에 파일을 업로드하거나 만들 권한이 없습니다",
     "Favorite" : "즐겨찾기",
+    "Back" : "뒤로",
     "Toggle selection for file \"{displayName}\"" : "파일 \"{displayName}\" 선택/선택해제",
     "Toggle selection for folder \"{displayName}\"" : "폴더 \"{displayName}\" 선택/선택해제",
     "File is loading" : "파일 불러오는 중",

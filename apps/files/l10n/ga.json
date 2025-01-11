@@ -73,6 +73,7 @@
     "Your have used your space quota and cannot upload files anymore" : "D'úsáid tú do chuóta spáis agus ní féidir leat comhaid a uaslódáil a thuilleadh",
     "You don’t have permission to upload or create files here" : "Níl cead agat comhaid a uaslódáil nó a chruthú anseo",
     "Favorite" : "is fearr leat",
+    "Back" : "Ar ais",
     "Toggle selection for file \"{displayName}\"" : "Scoránaigh an roghnúchán don chomhad \"{displayName}\"",
     "Toggle selection for folder \"{displayName}\"" : "Scoránaigh an roghnúchán don fhillteán \"{displayName}\"",
     "File is loading" : "Comhad á luchtú",

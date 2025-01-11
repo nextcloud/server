@@ -75,6 +75,7 @@ OC.L10N.register(
     "Your have used your space quota and cannot upload files anymore" : "Bạn đã sử dụng hết hạn mức dung lượng và không thể tải tệp lên nữa",
     "You don’t have permission to upload or create files here" : "Bạn không có quyền tải lên hoặc tạo tập tin ở đây",
     "Favorite" : "Ưa thích",
+    "Back" : "Trở lại",
     "Toggle selection for file \"{displayName}\"" : "Lựa chọn tập tin \"{displayName}\"",
     "Toggle selection for folder \"{displayName}\"" : "Lựa chọn thư mục \"{displayName}\"",
     "File is loading" : "Đang tải tập tin",
