@@ -75,6 +75,7 @@ OC.L10N.register(
     "Your have used your space quota and cannot upload files anymore" : "あなたのクォータ容量を使い果たし、ファイルをアップロードできなくなりました。",
     "You don’t have permission to upload or create files here" : "ここにファイルをアップロードまたは作成する権限がありません",
     "Favorite" : "お気に入り",
+    "Back" : "戻る",
     "Toggle selection for file \"{displayName}\"" : "ファイル \"{displayName}\" の選択を切り替える",
     "Toggle selection for folder \"{displayName}\"" : "フォルダ \"{displayName}\" の選択を切り替える",
     "File is loading" : "ファイル読み込み中",

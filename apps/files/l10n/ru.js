@@ -75,6 +75,7 @@ OC.L10N.register(
     "Your have used your space quota and cannot upload files anymore" : "Вы использовали всё доступное вам место и не можете больше загружать файлы",
     "You don’t have permission to upload or create files here" : "У вас нет прав на создание или загрузку файлов в эту папку.",
     "Favorite" : "Добавить в избранное",
+    "Back" : "Назад",
     "Toggle selection for file \"{displayName}\"" : "Установить или снять выделение файла «{displayName}»",
     "Toggle selection for folder \"{displayName}\"" : "Установить или снять выделение папки «{displayName}»",
     "File is loading" : "Файл загружается",

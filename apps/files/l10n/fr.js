@@ -75,6 +75,7 @@ OC.L10N.register(
     "Your have used your space quota and cannot upload files anymore" : "Vous avez utilisé votre quota d'espace et vous ne pouvez plus téléverser de fichiers",
     "You don’t have permission to upload or create files here" : "Vous n'avez pas la permission de téléverser ou de créer des fichiers ici",
     "Favorite" : "Favoris",
+    "Back" : "Retour",
     "Toggle selection for file \"{displayName}\"" : "Basculer la sélection pour le fichier \"{displayName}\"",
     "Toggle selection for folder \"{displayName}\"" : "Basculer la sélection pour le dossier \"{displayName}\"",
     "File is loading" : "Fichier en cours de chargement",

@@ -64,6 +64,7 @@ OC.L10N.register(
     "Your have used your space quota and cannot upload files anymore" : "Го имате искористено лимитот на просторот за прикачување и повеќе неможете да прикачувате датотеки",
     "You don’t have permission to upload or create files here" : "Немате дозвола да прикачувате или да креирате датотеки",
     "Favorite" : "Омилени",
+    "Back" : "Назад",
     "Rename file" : "Преименувај датотека",
     "Filename" : "Име на датотека",
     "Folder name" : "Име на папка",

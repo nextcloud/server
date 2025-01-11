@@ -73,6 +73,7 @@
     "Your have used your space quota and cannot upload files anymore" : "Du har brukt opp plasskvoten og kan ikke laste opp filer lenger",
     "You don’t have permission to upload or create files here" : "Du har ikke tillatelse til å laste opp eller opprette filer her",
     "Favorite" : "Gjør til favoritt",
+    "Back" : "Tilbake",
     "Toggle selection for file \"{displayName}\"" : "Veksle valg for fil \"{displayName}\"",
     "Toggle selection for folder \"{displayName}\"" : "Veksle valg for mappe \"{displayName}\"",
     "File is loading" : "Filen lastes inn",

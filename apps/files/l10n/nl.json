@@ -73,6 +73,7 @@
     "Your have used your space quota and cannot upload files anymore" : "Je hebt je ruimtequotum gebruikt en kan geen bestanden meer uploaden",
     "You don’t have permission to upload or create files here" : "Je hebt geen toestemming om hier te uploaden of bestanden te maken",
     "Favorite" : "Favoriet",
+    "Back" : "Terug",
     "Toggle selection for file \"{displayName}\"" : "Wijzig selectie voor bestand \"{displayName}\"",
     "Toggle selection for folder \"{displayName}\"" : "Wijzig selectie voor map \"{displayName}\"",
     "File is loading" : "Bestand is aan het laden",

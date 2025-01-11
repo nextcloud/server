@@ -67,6 +67,7 @@ OC.L10N.register(
     "Your have used your space quota and cannot upload files anymore" : "Usesti la to cuota d'espaciu y yá nun pues xubir ficheros",
     "You don’t have permission to upload or create files here" : "Nun tienes permisu pa xubir o crear ficheros equí",
     "Favorite" : "Meter en Favoritos",
+    "Back" : "Atrás",
     "Toggle selection for file \"{displayName}\"" : "Alternar la seleición del ficheru «{displayName}»",
     "Toggle selection for folder \"{displayName}\"" : "Alternar la seleición de la carpeta «{displayName}»",
     "Rename file" : "Renomar el ficheru",

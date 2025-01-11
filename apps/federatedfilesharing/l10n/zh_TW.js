@@ -30,6 +30,8 @@ OC.L10N.register(
     "Allow people on this server to receive group shares from other servers" : "允許此伺服器上的使用者接收來自其他伺服器的群組分享",
     "Search global and public address book for people" : "搜尋全域與公開通訊錄中的使用者",
     "Allow people to publish their data to a global and public address book" : "允許使用者將其資料發佈到全域且公開的通訊錄",
+    "Trusted federation" : "信任的聯邦",
+    "Automatically accept shares from trusted federated accounts and groups by default" : "預設自動接受來自受信任的聯邦帳號與群組的分享",
     "Unable to update federated files sharing config" : "無法更新聯邦檔案分享組態設定",
     "Federated Cloud" : "聯邦雲端",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "您可以與任何使用 Nextcloud 伺服器，或其他相容於 Open Cloud Mesh (OCM) 的伺服器與服務分享！只要把他們的聯邦雲端 ID 放在分享對話方塊中。ID 看起來會像 person@cloud.example.com",

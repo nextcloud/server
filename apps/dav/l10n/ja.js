@@ -72,6 +72,8 @@ OC.L10N.register(
     "Description: %s" : "説明:%s",
     "Where: %s" : "場所:%s",
     "%1$s via %2$s" : "%1$s に %2$s から",
+    "In the past on %1$s for the entire day" : "過去に%1$sで終日",
+    "_In a minute on %1$s for the entire day_::_In %n minutes on %1$s for the entire day_" : ["終日%1$sの%n分"],
     "Could not generate when statement" : "when文を生成できませんでした",
     "Every Day for the entire day" : "毎日、終日",
     "Every Day for the entire day until %1$s" : "%1$sまでの終日、毎日",

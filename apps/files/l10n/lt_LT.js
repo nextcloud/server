@@ -64,6 +64,7 @@ OC.L10N.register(
     "Reload current directory" : "Įkelti dabartinį katalogą iš naujo",
     "You don’t have permission to upload or create files here" : "Jūs neturite leidimo čia įkelti arba kurti failus",
     "Favorite" : "Mėgstamas",
+    "Back" : "Atgal",
     "File is loading" : "Failas yra įkeliamas",
     "Folder is loading" : "Aplankas yra įkeliamas",
     "Rename file" : "Pervadinti failą",

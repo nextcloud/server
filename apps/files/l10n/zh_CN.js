@@ -75,6 +75,7 @@ OC.L10N.register(
     "Your have used your space quota and cannot upload files anymore" : "你已用完你的空间配额，无法再上传更多文件",
     "You don’t have permission to upload or create files here" : "你没有权限在此上传或创建文件",
     "Favorite" : "收藏",
+    "Back" : "返回",
     "Toggle selection for file \"{displayName}\"" : "切换文件 “{displayName}” 的选择",
     "Toggle selection for folder \"{displayName}\"" : "切换文件夹 “{displayName}” 的选择",
     "File is loading" : "正在加载文件",

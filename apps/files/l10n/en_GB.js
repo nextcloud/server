@@ -75,6 +75,7 @@ OC.L10N.register(
     "Your have used your space quota and cannot upload files anymore" : "Your have used your space quota and cannot upload files anymore",
     "You don’t have permission to upload or create files here" : "You don’t have permission to upload or create files here",
     "Favorite" : "Favourite",
+    "Back" : "Back",
     "Toggle selection for file \"{displayName}\"" : "Toggle selection for file \"{displayName}\"",
     "Toggle selection for folder \"{displayName}\"" : "Toggle selection for folder \"{displayName}\"",
     "File is loading" : "File is loading",

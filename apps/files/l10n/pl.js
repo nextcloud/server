@@ -75,6 +75,7 @@ OC.L10N.register(
     "Your have used your space quota and cannot upload files anymore" : "Wykorzystałeś limit miejsca i nie możesz już wysyłać plików.",
     "You don’t have permission to upload or create files here" : "Nie masz uprawnień do wysyłania lub tworzenia plików w tym miejscu",
     "Favorite" : "Ulubiony",
+    "Back" : "Poprzednia",
     "Toggle selection for file \"{displayName}\"" : "Przełącz zaznaczenie dla pliku \"{displayName}\"",
     "Toggle selection for folder \"{displayName}\"" : "Przełącz zaznaczenie dla katalogu \"{displayName}\"",
     "File is loading" : "Plik jest wczytywany",

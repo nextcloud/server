@@ -73,6 +73,7 @@
     "Your have used your space quota and cannot upload files anymore" : "Du har använt din utrymmeskvot och kan inte längre ladda upp filer",
     "You don’t have permission to upload or create files here" : "Du har inte tillåtelse att ladda upp eller skapa filer här",
     "Favorite" : "Favorit",
+    "Back" : "Tillbaka",
     "Toggle selection for file \"{displayName}\"" : "Växla markering för filen \"{displayName}\"",
     "Toggle selection for folder \"{displayName}\"" : "Växla markering för mappen \"{displayName}\"",
     "File is loading" : "Filen laddas",

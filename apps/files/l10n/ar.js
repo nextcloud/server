@@ -75,6 +75,7 @@ OC.L10N.register(
     "Your have used your space quota and cannot upload files anymore" : "لقد استنفذت حصتك التخزينية و لم يعد بإمكانك رفع أي ملفات الآن",
     "You don’t have permission to upload or create files here" : "لا تملك الصلاحية لرفع او انشاء ملف هنا ",
     "Favorite" : "المفضلة",
+    "Back" : "عودة",
     "Toggle selection for file \"{displayName}\"" : "تبديل الاختيار للملف \"{displayName}\"",
     "Toggle selection for folder \"{displayName}\"" : "تبديل الاختيار للمجلد \"{displayName}\"",
     "File is loading" : "يتم تحميل الملف...",

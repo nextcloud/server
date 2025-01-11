@@ -73,6 +73,7 @@
     "Your have used your space quota and cannot upload files anymore" : "بوشلۇق نورمىسىنى ئىشلىتىپ ، ھۆججەتلەرنى ئەمدى يۈكلىيەلمەيسىز",
     "You don’t have permission to upload or create files here" : "بۇ يەرگە ھۆججەت يوللاش ياكى قۇرۇش ھوقۇقىڭىز يوق",
     "Favorite" : "يىغقۇچ",
+    "Back" : "قايتىش",
     "Toggle selection for file \"{displayName}\"" : "«{displayName}» ھۆججىتىنى تاللاڭ.",
     "Toggle selection for folder \"{displayName}\"" : "ھۆججەت قىسقۇچنى تاللاش \"{displayName}\"",
     "File is loading" : "ھۆججەت يۈكلىنىۋاتىدۇ",
