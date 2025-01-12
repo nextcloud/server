@@ -28,6 +28,8 @@
     "Allow people on this server to receive group shares from other servers" : "السماح للأشخاص على هذا الخادم بإستقبال مشاركات لمجموعات من خوادم أخرى",
     "Search global and public address book for people" : "البحث في دفتر العناوين الشامل و دفاتر العناوين العامة للأشخاص",
     "Allow people to publish their data to a global and public address book" : "السماح للأشخاص بنشر بياناتهم إلى دفتر العناوين الشامل و دفتر العناوين العامة للأشخاص",
+    "Trusted federation" : "إتحاد موثوق",
+    "Automatically accept shares from trusted federated accounts and groups by default" : "يتم آليّاً قبول المشاركات من حسابات ومجموعات الاتحادات الموثوقة بشكل تلقائي ",
     "Unable to update federated files sharing config" : "تعذر تحديث تهيئة مشاركة الملفات عبر السحابة الموحدة",
     "Federated Cloud" : "السحابة الموحدة",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "يُمكنك المشاركة مع أي شخص يستخدم خادم نكست كلاود أو خوادم وخدمات أخرى متوافقة مع بروتوكول Open Cloud Mesh (OCM)! فقط ضع مُعرّف السحابة الموحدة Federated Cloud في مربع حوار المُشاركة؛ و الذي سيكون شكله على هذا النسق: person@cloud.example.com",
