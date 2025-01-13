@@ -766,15 +766,9 @@
             "Sharee": {
                 "type": "object",
                 "required": [
-                    "count",
                     "label"
                 ],
                 "properties": {
-                    "count": {
-                        "type": "integer",
-                        "format": "int64",
-                        "nullable": true
-                    },
                     "label": {
                         "type": "string"
                     }
@@ -844,6 +838,24 @@
                             "shareWithDisplayNameUnique": {
                                 "type": "string"
                             },
+                            "value": {
+                                "$ref": "#/components/schemas/ShareeValue"
+                            }
+                        }
+                    }
+                ]
+            },
+            "ShareeGroup": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Sharee"
+                    },
+                    {
+                        "type": "object",
+                        "required": [
+                            "value"
+                        ],
+                        "properties": {
                             "value": {
                                 "$ref": "#/components/schemas/ShareeValue"
                             }
@@ -1027,6 +1039,24 @@
                     }
                 ]
             },
+            "ShareeRoom": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Sharee"
+                    },
+                    {
+                        "type": "object",
+                        "required": [
+                            "value"
+                        ],
+                        "properties": {
+                            "value": {
+                                "$ref": "#/components/schemas/ShareeValue"
+                            }
+                        }
+                    }
+                ]
+            },
             "ShareeUser": {
                 "allOf": [
                     {
@@ -1129,7 +1159,7 @@
                             "groups": {
                                 "type": "array",
                                 "items": {
-                                    "$ref": "#/components/schemas/Sharee"
+                                    "$ref": "#/components/schemas/ShareeGroup"
                                 }
                             },
                             "remote_groups": {
@@ -1161,7 +1191,7 @@
                     "groups": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/Sharee"
+                            "$ref": "#/components/schemas/ShareeGroup"
                         }
                     },
                     "remote_groups": {
@@ -1226,7 +1256,7 @@
                             "groups": {
                                 "type": "array",
                                 "items": {
-                                    "$ref": "#/components/schemas/Sharee"
+                                    "$ref": "#/components/schemas/ShareeGroup"
                                 }
                             },
                             "remote_groups": {
@@ -1244,7 +1274,7 @@
                             "rooms": {
                                 "type": "array",
                                 "items": {
-                                    "$ref": "#/components/schemas/Sharee"
+                                    "$ref": "#/components/schemas/ShareeRoom"
                                 }
                             },
                             "users": {
@@ -1270,7 +1300,7 @@
                     "groups": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/Sharee"
+                            "$ref": "#/components/schemas/ShareeGroup"
                         }
                     },
                     "lookup": {
@@ -1294,7 +1324,7 @@
                     "rooms": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/Sharee"
+                            "$ref": "#/components/schemas/ShareeRoom"
                         }
                     },
                     "users": {
