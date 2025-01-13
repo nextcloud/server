@@ -2606,4 +2606,11 @@ $CONFIG = [
  * Defaults to 5.
  */
 'files.chunked_upload.max_parallel_count' => 5,
+
+/**
+ * Allow server-side encryption.
+ * 
+ * Default is true, indicating that encryption is available or permitted by the system administrator.
+ */
+'encryption.available' => true,
 ];

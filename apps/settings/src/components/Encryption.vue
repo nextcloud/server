@@ -8,7 +8,6 @@
 		:description="t('settings', 'Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed.')"
 		:doc-url="encryptionAdminDoc">
 		<NcCheckboxRadioSwitch :checked="encryptionEnabled || shouldDisplayWarning"
-			:disabled="encryptionEnabled"
 			type="switch"
 			@update:checked="displayWarning">
 			{{ t('settings', 'Enable server-side encryption') }}
@@ -34,7 +33,7 @@
 
 		<div v-if="encryptionEnabled">
 			<div v-if="encryptionReady">
-				<p v-if="encryptionModules.length === 0">
+				<p v-if="!hasEncryptionModules">
 					{{ t('settings', 'No encryption module loaded, please enable an encryption module in the app menu.') }}
 				</p>
 				<template v-else>
@@ -89,25 +88,54 @@ export default {
 	},
 	data() {
 		const encryptionModules = loadState('settings', 'encryption-modules')
+		const hasEncryptionModules = encryptionModules instanceof Array && encryptionModules.length > 0
+		let defaultCheckedModule = ''
+		if (hasEncryptionModules) {
+			const defaultModule = Object.entries(encryptionModules).find((module) => module[1].default)
+			if (defaultModule) {
+				defaultCheckedModule = foundModule[0]
+			}
+		} else {
+			logger.debug('No encryption module loaded or enabled')
+		}
 		return {
-			encryptionReady: loadState('settings', 'encryption-ready'),
-			encryptionEnabled: loadState('settings', 'encryption-enabled'),
+			encryptionIsAvailable: loadState('settings', 'encryption-available', false),
+			encryptionReady: loadState('settings', 'encryption-ready', false),
+			encryptionEnabled: loadState('settings', 'encryption-enabled', false),
 			externalBackendsEnabled: loadState('settings', 'external-backends-enabled'),
 			encryptionAdminDoc: loadState('settings', 'encryption-admin-doc'),
 			encryptionModules,
 			shouldDisplayWarning: false,
 			migrating: false,
-			defaultCheckedModule: Object.entries(encryptionModules).find((module) => module[1].default)[0],
+			defaultCheckedModule,
+			hasEncryptionModules,
 		}
 	},
 	methods: {
 		displayWarning() {
+			if (encryptionIsAvailable) {
+				this.encryptionEnabledToggleEffect()
+				showError(t('settings', 'File encryption is not allowed by system administrator.'))
+				logger.debug('File encryption is not allowed by system administrator.')
+				return
+			}
+			if (!this.hasEncryptionModules || !this.encryptionReady) {
+				this.encryptionEnabledToggleEffect()
+				showError(t('settings', 'Encryption is not ready, please enable an encryption module/app.'))
+				return
+			}
 			if (!this.encryptionEnabled) {
 				this.shouldDisplayWarning = !this.shouldDisplayWarning
 			} else {
 				this.encryptionEnabled = false
 				this.shouldDisplayWarning = false
 			}
+		},
+		encryptionEnabledToggleEffect() {
+			this.encryptionEnabled = true
+			setTimeout(() => {
+				this.encryptionEnabled = false
+			}, 1000)
 		},
 		async update(key, value) {
 			await confirmPassword()
