@@ -7,7 +7,6 @@
  */
 namespace OCA\User_LDAP\Tests\Integration\Lib\User;
 
-use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 use OCA\User_LDAP\User\DeletedUsersIndex;
@@ -115,7 +114,6 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 	protected function initUserManager() {
 		$this->userManager = new Manager(
 			\OC::$server->getConfig(),
-			new FilesystemHelper(),
 			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->get(IAvatarManager::class),
 			new Image(),

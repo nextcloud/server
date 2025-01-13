@@ -9,7 +9,6 @@ namespace OCA\User_LDAP\Tests\Integration;
 
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
-use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\GroupPluginManager;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
@@ -110,7 +109,6 @@ abstract class AbstractIntegrationTest {
 	protected function initUserManager() {
 		$this->userManager = new Manager(
 			\OC::$server->getConfig(),
-			new FilesystemHelper(),
 			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->get(IAvatarManager::class),
 			new Image(),

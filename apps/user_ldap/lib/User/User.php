@@ -12,7 +12,6 @@ use OC\Accounts\AccountManager;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Exceptions\AttributeNotSet;
-use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Service\BirthdateParserService;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
@@ -56,7 +55,6 @@ class User {
 		protected string $dn,
 		protected Access $access,
 		protected IConfig $config,
-		protected FilesystemHelper $fs,
 		protected Image $image,
 		protected LoggerInterface $logger,
 		protected IAvatarManager $avatarManager,
