@@ -33,30 +33,12 @@ use Psr\Log\LoggerInterface;
  * represents an LDAP user, gets and holds user-specific information from LDAP
  */
 class User {
+	protected Connection $connection;
 	/**
-	 * @var Connection
+	 * @var array<string,1>
 	 */
-	protected $connection;
-	/**
-	 * @var LoggerInterface
-	 */
-	protected $logger;
-	/**
-	 * @var string
-	 */
-	protected $dn;
-	/**
-	 * @var string
-	 */
-	protected $uid;
-	/**
-	 * @var string[]
-	 */
-	protected $refreshedFeatures = [];
-	/**
-	 * @var string
-	 */
-	protected $avatarImage;
+	protected array $refreshedFeatures = [];
+	protected string|false|null $avatarImage = null;
 
 	protected BirthdateParserService $birthdateParser;
 
@@ -67,32 +49,24 @@ class User {
 
 	/**
 	 * @brief constructor, make sure the subclasses call this one!
-	 * @param string $username the internal username
-	 * @param string $dn the LDAP DN
 	 */
 	public function __construct(
-		$username,
-		$dn,
+		protected string $uid,
+		protected string $dn,
 		protected Access $access,
 		protected IConfig $config,
 		protected FilesystemHelper $fs,
 		protected Image $image,
-		LoggerInterface $logger,
+		protected LoggerInterface $logger,
 		protected IAvatarManager $avatarManager,
 		protected IUserManager $userManager,
 		protected INotificationManager $notificationManager,
 	) {
-		if ($username === null) {
-			$logger->error("uid for '$dn' must not be null!", ['app' => 'user_ldap']);
-			throw new \InvalidArgumentException('uid must not be null!');
-		} elseif ($username === '') {
+		if ($uid === '') {
 			$logger->error("uid for '$dn' must not be an empty string", ['app' => 'user_ldap']);
 			throw new \InvalidArgumentException('uid must not be an empty string!');
 		}
 		$this->connection = $this->access->getConnection();
-		$this->dn = $dn;
-		$this->uid = $username;
-		$this->logger = $logger;
 		$this->birthdateParser = new BirthdateParserService();
 
 		Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry');
@@ -420,9 +394,9 @@ class User {
 
 	/**
 	 * @brief reads the image from LDAP that shall be used as Avatar
-	 * @return string data (provided by LDAP) | false
+	 * @return string|false data (provided by LDAP)
 	 */
-	public function getAvatarImage() {
+	public function getAvatarImage(): string|false {
 		if (!is_null($this->avatarImage)) {
 			return $this->avatarImage;
 		}
@@ -433,7 +407,7 @@ class User {
 		$attributes = $connection->resolveRule('avatar');
 		foreach ($attributes as $attribute) {
 			$result = $this->access->readAttribute($this->dn, $attribute);
-			if ($result !== false && is_array($result) && isset($result[0])) {
+			if ($result !== false && isset($result[0])) {
 				$this->avatarImage = $result[0];
 				break;
 			}
@@ -444,7 +418,7 @@ class User {
 
 	/**
 	 * @brief marks the user as having logged in at least once
-	 * @return null
+	 * @return void
 	 */
 	public function markLogin() {
 		$this->config->setUserValue(
@@ -457,7 +431,7 @@ class User {
 	 * @param string $key
 	 * @param string $value
 	 */
-	private function store($key, $value) {
+	private function store($key, $value): void {
 		$this->config->setUserValue($this->uid, 'user_ldap', $key, $value);
 	}
 
@@ -500,9 +474,8 @@ class User {
 	 * already. If not, it will marked like this, because it is expected that
 	 * the method will be run, when false is returned.
 	 * @param string $feature email | quota | avatar | profile (can be extended)
-	 * @return bool
 	 */
-	private function wasRefreshed($feature) {
+	private function wasRefreshed($feature): bool {
 		if (isset($this->refreshedFeatures[$feature])) {
 			return true;
 		}
@@ -513,7 +486,7 @@ class User {
 	/**
 	 * fetches the email from LDAP and stores it as Nextcloud user value
 	 * @param string $valueFromLDAP if known, to save an LDAP read request
-	 * @return null
+	 * @return void
 	 */
 	public function updateEmail($valueFromLDAP = null) {
 		if ($this->wasRefreshed('email')) {
@@ -601,7 +574,7 @@ class User {
 		}
 	}
 
-	private function verifyQuotaValue(string $quotaValue) {
+	private function verifyQuotaValue(string $quotaValue): bool {
 		return $quotaValue === 'none' || $quotaValue === 'default' || \OC_Helper::computerFileSize($quotaValue) !== false;
 	}
 
