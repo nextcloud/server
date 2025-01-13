@@ -30,6 +30,8 @@ OC.L10N.register(
     "Allow people on this server to receive group shares from other servers" : "Baimendu zerbitzari honetako pertsonei beste zerbitzarietatik taldeko partekatutakoak jasotzeko",
     "Search global and public address book for people" : "Bilatu pertsonak helbide-liburu global eta publikoan",
     "Allow people to publish their data to a global and public address book" : "Baimena eman pertsonei beren datuak helbide-liburu global eta publikoan argitaratzeko",
+    "Trusted federation" : "Federazio fidagarria",
+    "Automatically accept shares from trusted federated accounts and groups by default" : "Onartu federatutako kontu eta talde fidagarrien partekatzeak modu lehenetsian",
     "Unable to update federated files sharing config" : "Ezin da eguneratu fitxategi partekatze federatuaren konfigurazioa",
     "Federated Cloud" : "Hodei Federatua",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud zerbitzaria darabilen edo Open Cloud Mesh (OCM) zerbitzuarekin bateragarri den zerbitzua erabiltzen duen edonorekin partekatu dezakezu! Ipini beren Federatutako Hodei IDa partekatze leihoan. Horrelako zerbait izan ohi da: erabiltzailea@nextcloud.zerbitzaria.com",
