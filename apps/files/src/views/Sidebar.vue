@@ -487,10 +487,10 @@ export default {
 			this.loading = true
 
 			try {
-				this.fileInfo = await FileInfo(this.davPath)
+				this.node = await fetchNode({ path: this.file })
+				this.fileInfo = FileInfo(this.node)
 				// adding this as fallback because other apps expect it
 				this.fileInfo.dir = this.file.split('/').slice(0, -1).join('/')
-				this.node = await fetchNode({ path: (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/') })
 
 				// DEPRECATED legacy views
 				// TODO: remove
