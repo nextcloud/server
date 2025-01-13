@@ -16,6 +16,7 @@ OC.L10N.register(
     "Share by mail" : "Bendrinimas el. paštu",
     "Failed to send share by email" : "Nepavyko pasidalinti el. paštu",
     "Note:" : "Pastaba:",
+    "Open %s" : "Atverti %s",
     "%1$s via %2$s" : "%1$s per %2$s",
     "It is protected with the following password:" : "Apsaugota šiuo slaptažodžiu:",
     "This is the password:" : "Štai yra slaptažodis:",

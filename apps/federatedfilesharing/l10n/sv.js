@@ -30,6 +30,8 @@ OC.L10N.register(
     "Allow people on this server to receive group shares from other servers" : "Tillåt användare på denna server att ta emot gruppdelningar från andra servrar",
     "Search global and public address book for people" : "Sök global och offentlig adressbok för användare",
     "Allow people to publish their data to a global and public address book" : "Tillåt användare att publicera sin data till en global och publik adressbok",
+    "Trusted federation" : "Betrodd federation",
+    "Automatically accept shares from trusted federated accounts and groups by default" : "Acceptera automatiskt delningar från betrodda federerade konton och grupper som standard",
     "Unable to update federated files sharing config" : "Kunde inte uppdatera konfigurationen för federerad fildelning",
     "Federated Cloud" : "Federerat moln",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Du kan dela med alla som använder en Nextcloud-server eller andra Open Cloud Mesh (OCM) -kompatibla servrar och tjänster! Anger bara sitt federerade moln-ID i delningsrutan. Det ser ut som person@cloud.example.com",

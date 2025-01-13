@@ -197,6 +197,8 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Не вдалося перейменувати файл частини на остаточний файл, скасовано підхопленням",
     "Could not rename part file to final file" : "Не вдалося перейменувати файл частини на остаточний файл",
     "Failed to check file size: %1$s" : "Не вдалося перевірити розмір файлу: %1$s",
+    "Could not open file: %1$s, file does seem to exist" : "Неможливо відкрити файл: %1$s, хоча файл скоріше за все присутній",
+    "Could not open file: %1$s, file doesn't seem to exist" : "Неможливо відкрити файл: %1$s, скоріше за все файл відсутній",
     "Encryption not ready: %1$s" : "Шифрування не готове: %1$s",
     "Failed to open file: %1$s" : "Не вдалося відкрити файл: %1$s",
     "Failed to unlink: %1$s" : "Не вдалося від’єднати: %1$s",
