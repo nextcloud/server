@@ -691,7 +691,7 @@ class User {
 			return true;
 		}
 
-		$isSet = $this->setOwnCloudAvatar();
+		$isSet = $this->setNextcloudAvatar();
 
 		if ($isSet) {
 			// save checksum only after successful setting
@@ -712,9 +712,8 @@ class User {
 
 	/**
 	 * @brief sets an image as Nextcloud avatar
-	 * @return bool
 	 */
-	private function setOwnCloudAvatar() {
+	private function setNextcloudAvatar(): bool {
 		if (!$this->image->valid()) {
 			$this->logger->error('avatar image data from LDAP invalid for ' . $this->dn, ['app' => 'user_ldap']);
 			return false;
@@ -726,10 +725,6 @@ class User {
 		if (!$this->image->centerCrop($size)) {
 			$this->logger->error('croping image for avatar failed for ' . $this->dn, ['app' => 'user_ldap']);
 			return false;
-		}
-
-		if (!$this->fs->isLoaded()) {
-			$this->fs->setup($this->uid);
 		}
 
 		try {
