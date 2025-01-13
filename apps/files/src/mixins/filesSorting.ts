@@ -23,15 +23,19 @@ import Vue from 'vue'
 
 import { mapState } from 'pinia'
 import { useViewConfigStore } from '../store/viewConfig'
-import { Navigation, View } from '@nextcloud/files'
+import { useNavigation } from '../composables/useNavigation'
 
 export default Vue.extend({
+	setup() {
+		const { currentView } = useNavigation()
+
+		return {
+			currentView,
+		}
+	},
+
 	computed: {
 		...mapState(useViewConfigStore, ['getConfig', 'setSortingBy', 'toggleSortingDirection']),
-
-		currentView(): View {
-			return (this.$navigation as Navigation).active as View
-		},
 
 		/**
 		 * Get the sorting mode for the current view

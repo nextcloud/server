@@ -75,7 +75,7 @@
 </template>
 
 <script lang="ts">
-import type { View } from '@nextcloud/files'
+import { getNavigation, type View } from '@nextcloud/files'
 
 import { emit } from '@nextcloud/event-bus'
 import { translate as t } from '@nextcloud/l10n'
@@ -196,7 +196,7 @@ export default defineComponent({
 		showView(view: View) {
 			// Closing any opened sidebar
 			window.OCA?.Files?.Sidebar?.close?.()
-			this.$navigation.setActive(view)
+			getNavigation().setActive(view)
 			emit('files:navigation:changed', view)
 		},
 

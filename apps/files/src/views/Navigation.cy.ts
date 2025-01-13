@@ -11,7 +11,6 @@ import NavigationView from './Navigation.vue'
 import { useViewConfigStore } from '../store/viewConfig'
 import { Folder, View, getNavigation } from '@nextcloud/files'
 
-import Vue from 'vue'
 import router from '../router/router'
 
 const resetNavigation = () => {
@@ -30,12 +29,8 @@ const createView = (id: string, name: string, parent?: string) => new View({
 })
 
 describe('Navigation renders', () => {
-	let Navigation: Navigation
-
 	before(() => {
 		delete window._nc_navigation
-		Navigation = getNavigation()
-		Vue.prototype.$navigation = Navigation
 
 		cy.mockInitialState('files', 'storageStats', {
 			used: 1000 * 1000 * 1000,
@@ -67,7 +62,6 @@ describe('Navigation API', () => {
 		delete window._nc_navigation
 		Navigation = getNavigation()
 
-		Vue.prototype.$navigation = Navigation
 		await router.replace({ name: 'filelist', params: { view: 'files' } })
 	})
 
@@ -159,12 +153,8 @@ describe('Navigation API', () => {
 })
 
 describe('Quota rendering', () => {
-	let Navigation: Navigation
-
 	before(() => {
 		delete window._nc_navigation
-		Navigation = getNavigation()
-		Vue.prototype.$navigation = Navigation
 	})
 
 	afterEach(() => cy.unmockInitialState())
