@@ -305,11 +305,7 @@ class User {
 		foreach ($attributes as $attribute) {
 			if (isset($ldapEntry[$attribute])) {
 				$this->avatarImage = $ldapEntry[$attribute][0];
-				// the call to the method that saves the avatar in the file
-				// system must be postponed after the login. It is to ensure
-				// external mounts are mounted properly (e.g. with login
-				// credentials from the session).
-				Util::connectHook('OC_User', 'post_login', $this, 'updateAvatarPostLogin');
+				$this->updateAvatar();
 				break;
 			}
 		}
@@ -625,17 +621,6 @@ class User {
 		} catch (\InvalidArgumentException $e) {
 			$this->logger->error('invalid data from LDAP: for uid=' . $this->uid . '', ['app' => 'user_ldap', 'func' => 'updateProfile'
 				, 'exception' => $e]);
-		}
-	}
-
-	/**
-	 * called by a post_login hook to save the avatar picture
-	 *
-	 * @param array $params
-	 */
-	public function updateAvatarPostLogin($params) {
-		if (isset($params['uid']) && $params['uid'] === $this->getUsername()) {
-			$this->updateAvatar();
 		}
 	}
 
