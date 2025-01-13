@@ -8,7 +8,10 @@ declare(strict_types=1);
  */
 namespace OC\Calendar;
 
+use DateTimeInterface;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
+use OCA\DAV\ServerFactory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICalendar;
@@ -20,11 +23,16 @@ use OCP\Calendar\ICalendarQuery;
 use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IHandleImipMessage;
 use OCP\Calendar\IManager;
+use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Sabre\HTTP\Request;
+use Sabre\HTTP\Response;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Component\VFreeBusy;
 use Sabre\VObject\Property\VCard\DateTime;
 use Sabre\VObject\Reader;
 use Throwable;
@@ -48,6 +56,8 @@ class Manager implements IManager {
 		private LoggerInterface $logger,
 		private ITimeFactory $timeFactory,
 		private ISecureRandom $random,
+		private IUserManager $userManager,
+		private ServerFactory $serverFactory,
 	) {
 	}
 
@@ -471,5 +481,88 @@ class Manager implements IManager {
 	public function createEventBuilder(): ICalendarEventBuilder {
 		$uid = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
 		return new CalendarEventBuilder($uid, $this->timeFactory);
+	}
+
+	public function checkAvailability(
+		DateTimeInterface $start,
+		DateTimeInterface $end,
+		IUser $organizer,
+		array $attendees,
+	): array {
+		$organizerMailto = 'mailto:' . $organizer->getEMailAddress();
+		$request = new VCalendar();
+		$request->METHOD = 'REQUEST';
+		$request->add('VFREEBUSY', [
+			'DTSTART' => $start,
+			'DTEND' => $end,
+			'ORGANIZER' => $organizerMailto,
+			'ATTENDEE' => $organizerMailto,
+		]);
+
+		$mailtoLen = strlen('mailto:');
+		foreach ($attendees as $attendee) {
+			if (str_starts_with($attendee, 'mailto:')) {
+				$attendee = substr($attendee, $mailtoLen);
+			}
+
+			$attendeeUsers = $this->userManager->getByEmail($attendee);
+			if ($attendeeUsers === []) {
+				continue;
+			}
+
+			$request->VFREEBUSY->add('ATTENDEE', "mailto:$attendee");
+		}
+
+		$organizerUid = $organizer->getUID();
+		$server = $this->serverFactory->createAttendeeAvailabilityServer();
+		/** @var CustomPrincipalPlugin $plugin */
+		$plugin = $server->getPlugin('auth');
+		$plugin->setCurrentPrincipal("principals/users/$organizerUid");
+
+		$request = new Request(
+			'POST',
+			"/calendars/$organizerUid/outbox/",
+			[
+				'Content-Type' => 'text/calendar',
+				'Depth' => 0,
+			],
+			$request->serialize(),
+		);
+		$response = new Response();
+		$server->invokeMethod($request, $response, false);
+
+		$xmlService = new \Sabre\Xml\Service();
+		$xmlService->elementMap = [
+			'{urn:ietf:params:xml:ns:caldav}response' => 'Sabre\Xml\Deserializer\keyValue',
+			'{urn:ietf:params:xml:ns:caldav}recipient' => 'Sabre\Xml\Deserializer\keyValue',
+		];
+		$parsedResponse = $xmlService->parse($response->getBodyAsString());
+
+		$result = [];
+		foreach ($parsedResponse as $freeBusyResponse) {
+			$freeBusyResponse = $freeBusyResponse['value'];
+			if ($freeBusyResponse['{urn:ietf:params:xml:ns:caldav}request-status'] !== '2.0;Success') {
+				continue;
+			}
+
+			$freeBusyResponseData = \Sabre\VObject\Reader::read(
+				$freeBusyResponse['{urn:ietf:params:xml:ns:caldav}calendar-data']
+			);
+
+			$attendee = substr(
+				$freeBusyResponse['{urn:ietf:params:xml:ns:caldav}recipient']['{DAV:}href'],
+				$mailtoLen,
+			);
+
+			$vFreeBusy = $freeBusyResponseData->VFREEBUSY;
+			if (!($vFreeBusy instanceof VFreeBusy)) {
+				continue;
+			}
+
+			// TODO: actually check values of FREEBUSY properties to find a free slot
+			$result[] = new AvailabilityResult($attendee, $vFreeBusy->isFree($start, $end));
+		}
+
+		return $result;
 	}
 }
