@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { getCSPNonce } from '@nextcloud/auth'
-import { getNavigation } from '@nextcloud/files'
 import { PiniaVuePlugin } from 'pinia'
 import Vue from 'vue'
 
@@ -35,11 +34,6 @@ Object.assign(window.OCP.Files, { Router })
 
 // Init Pinia store
 Vue.use(PiniaVuePlugin)
-
-// Init Navigation Service
-// This only works with Vue 2 - with Vue 3 this will not modify the source but return just a observer
-const Navigation = Vue.observable(getNavigation())
-Vue.prototype.$navigation = Navigation
 
 // Init Files App Settings Service
 const Settings = new SettingsService()
