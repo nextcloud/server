@@ -369,7 +369,7 @@ $CONFIG = [
 /**
  * Enable or disable the automatic logout after session_lifetime, even if session
  * keepalive is enabled. This will make sure that an inactive browser will log itself out
- * even if requests to the server might extend the session lifetime. Note: the logout is   
+ * even if requests to the server might extend the session lifetime. Note: the logout is
  * handled on the client side. This is not a way to limit the duration of potentially
  * compromised sessions.
  *
@@ -688,7 +688,7 @@ $CONFIG = [
  * are generated within Nextcloud using any kind of command line tools (cron or
  * occ). The value should contain the full base URL:
  * ``https://www.example.com/nextcloud``
- * Please make sure to set the value to the URL that your users mainly use to access this Nextcloud. 
+ * Please make sure to set the value to the URL that your users mainly use to access this Nextcloud.
  * Otherwise there might be problems with the URL generation via cron.
  *
  * Defaults to ``''`` (empty string)
@@ -2606,4 +2606,12 @@ $CONFIG = [
  * Defaults to 5.
  */
 'files.chunked_upload.max_parallel_count' => 5,
+
+/**
+ * Allow users to manually delete files from their trashbin.
+ * Automated deletions are not affected and will continue to work in cases like low remaining quota for example.
+ *
+ * Defaults to true.
+ */
+'files.trash.delete' => true,
 ];
