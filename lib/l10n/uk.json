@@ -90,6 +90,7 @@
     "Invalid path" : "Недійсний шлях",
     "Failed to create file from template" : "Не вдалося створити файл із шаблону",
     "Templates" : "Шаблони",
+    "Storage %s cannot be moved" : "Неможливо перемістити сховище даних %s",
     "Path contains invalid segments" : "Шлях містить недійсні елементи в назві",
     "Filename is a reserved word" : "Ім'я файлу є зарезервованим словом",
     "Filename contains at least one invalid character" : "У назві файлу міститься щонайменше один неправильний символ",
