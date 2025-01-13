@@ -44,6 +44,7 @@ class User {
 
 	/**
 	 * DB config keys for user preferences
+	 * @var string
 	 */
 	public const USER_PREFKEY_FIRSTLOGIN = 'firstLoginAccomplished';
 
@@ -77,7 +78,7 @@ class User {
 	 *
 	 * @throws PreConditionNotMetException
 	 */
-	public function markUser() {
+	public function markUser(): void {
 		$curValue = $this->config->getUserValue($this->getUsername(), 'user_ldap', 'isDeleted', '0');
 		if ($curValue === '1') {
 			// the user is already marked, do not write to DB again
@@ -91,7 +92,7 @@ class User {
 	 * processes results from LDAP for attributes as returned by getAttributesToRead()
 	 * @param array $ldapEntry the user entry as retrieved from LDAP
 	 */
-	public function processAttributes($ldapEntry) {
+	public function processAttributes(array $ldapEntry): void {
 		//Quota
 		$attr = strtolower($this->connection->ldapQuotaAttribute);
 		if (isset($ldapEntry[$attr])) {
@@ -329,11 +330,9 @@ class User {
 
 	/**
 	 * returns the home directory of the user if specified by LDAP settings
-	 * @param ?string $valueFromLDAP
-	 * @return false|string
 	 * @throws \Exception
 	 */
-	public function getHomePath($valueFromLDAP = null) {
+	public function getHomePath(?string $valueFromLDAP = null): string|false {
 		$path = (string)$valueFromLDAP;
 		$attr = null;
 
@@ -341,8 +340,12 @@ class User {
 		   && str_starts_with($this->access->connection->homeFolderNamingRule, 'attr:')
 		   && $this->access->connection->homeFolderNamingRule !== 'attr:') {
 			$attr = substr($this->access->connection->homeFolderNamingRule, strlen('attr:'));
-			$homedir = $this->access->readAttribute($this->access->username2dn($this->getUsername()), $attr);
-			if ($homedir && isset($homedir[0])) {
+			$dn = $this->access->username2dn($this->getUsername());
+			if ($dn === false) {
+				return false;
+			}
+			$homedir = $this->access->readAttribute($dn, $attr);
+			if ($homedir !== false && isset($homedir[0])) {
 				$path = $homedir[0];
 			}
 		}
@@ -377,7 +380,7 @@ class User {
 		return false;
 	}
 
-	public function getMemberOfGroups() {
+	public function getMemberOfGroups(): array|false {
 		$cacheKey = 'getMemberOf' . $this->getUsername();
 		$memberOfGroups = $this->connection->getFromCache($cacheKey);
 		if (!is_null($memberOfGroups)) {
@@ -414,20 +417,16 @@ class User {
 
 	/**
 	 * @brief marks the user as having logged in at least once
-	 * @return void
 	 */
-	public function markLogin() {
+	public function markLogin(): void {
 		$this->config->setUserValue(
 			$this->uid, 'user_ldap', self::USER_PREFKEY_FIRSTLOGIN, '1');
 	}
 
 	/**
 	 * Stores a key-value pair in relation to this user
-	 *
-	 * @param string $key
-	 * @param string $value
 	 */
-	private function store($key, $value): void {
+	private function store(string $key, string $value): void {
 		$this->config->setUserValue($this->uid, 'user_ldap', $key, $value);
 	}
 
@@ -435,12 +434,9 @@ class User {
 	 * Composes the display name and stores it in the database. The final
 	 * display name is returned.
 	 *
-	 * @param string $displayName
-	 * @param string $displayName2
 	 * @return string the effective display name
 	 */
-	public function composeAndStoreDisplayName($displayName, $displayName2 = '') {
-		$displayName2 = (string)$displayName2;
+	public function composeAndStoreDisplayName(string $displayName, string $displayName2 = ''): string {
 		if ($displayName2 !== '') {
 			$displayName .= ' (' . $displayName2 . ')';
 		}
@@ -459,9 +455,8 @@ class User {
 
 	/**
 	 * Stores the LDAP Username in the Database
-	 * @param string $userName
 	 */
-	public function storeLDAPUserName($userName) {
+	public function storeLDAPUserName(string $userName): void {
 		$this->store('uid', $userName);
 	}
 
@@ -471,7 +466,7 @@ class User {
 	 * the method will be run, when false is returned.
 	 * @param string $feature email | quota | avatar | profile (can be extended)
 	 */
-	private function wasRefreshed($feature): bool {
+	private function wasRefreshed(string $feature): bool {
 		if (isset($this->refreshedFeatures[$feature])) {
 			return true;
 		}
@@ -481,10 +476,9 @@ class User {
 
 	/**
 	 * fetches the email from LDAP and stores it as Nextcloud user value
-	 * @param string $valueFromLDAP if known, to save an LDAP read request
-	 * @return void
+	 * @param ?string $valueFromLDAP if known, to save an LDAP read request
 	 */
-	public function updateEmail($valueFromLDAP = null) {
+	public function updateEmail(?string $valueFromLDAP = null): void {
 		if ($this->wasRefreshed('email')) {
 			return;
 		}
@@ -503,7 +497,7 @@ class User {
 			if (!is_null($user)) {
 				$currentEmail = (string)$user->getSystemEMailAddress();
 				if ($currentEmail !== $email) {
-					$user->setEMailAddress($email);
+					$user->setSystemEMailAddress($email);
 				}
 			}
 		}
@@ -527,9 +521,8 @@ class User {
 	 * fetches the quota from LDAP and stores it as Nextcloud user value
 	 * @param ?string $valueFromLDAP the quota attribute's value can be passed,
 	 *                               to save the readAttribute request
-	 * @return void
 	 */
-	public function updateQuota($valueFromLDAP = null) {
+	public function updateQuota(?string $valueFromLDAP = null): void {
 		if ($this->wasRefreshed('quota')) {
 			return;
 		}
@@ -543,7 +536,7 @@ class User {
 		$quota = false;
 		if (is_null($valueFromLDAP) && $quotaAttribute !== '') {
 			$aQuota = $this->access->readAttribute($this->dn, $quotaAttribute);
-			if ($aQuota && (count($aQuota) > 0) && $this->verifyQuotaValue($aQuota[0])) {
+			if ($aQuota !== false && isset($aQuota[0]) && $this->verifyQuotaValue($aQuota[0])) {
 				$quota = $aQuota[0];
 			} elseif (is_array($aQuota) && isset($aQuota[0])) {
 				$this->logger->debug('no suitable LDAP quota found for user ' . $this->uid . ': [' . $aQuota[0] . ']', ['app' => 'user_ldap']);
@@ -551,7 +544,7 @@ class User {
 		} elseif (!is_null($valueFromLDAP) && $this->verifyQuotaValue($valueFromLDAP)) {
 			$quota = $valueFromLDAP;
 		} else {
-			$this->logger->debug('no suitable LDAP quota found for user ' . $this->uid . ': [' . $valueFromLDAP . ']', ['app' => 'user_ldap']);
+			$this->logger->debug('no suitable LDAP quota found for user ' . $this->uid . ': [' . ($valueFromLDAP ?? '') . ']', ['app' => 'user_ldap']);
 		}
 
 		if ($quota === false && $this->verifyQuotaValue($defaultQuota)) {
@@ -726,7 +719,7 @@ class User {
 		} else {
 			$extHomeValues = [$valueFromLDAP];
 		}
-		if ($extHomeValues && isset($extHomeValues[0])) {
+		if ($extHomeValues !== false && isset($extHomeValues[0])) {
 			$extHome = $extHomeValues[0];
 			$this->config->setUserValue($this->getUsername(), 'user_ldap', 'extStorageHome', $extHome);
 			return $extHome;
@@ -738,13 +731,12 @@ class User {
 
 	/**
 	 * called by a post_login hook to handle password expiry
-	 *
-	 * @param array $params
 	 */
-	public function handlePasswordExpiry($params) {
+	public function handlePasswordExpiry(array $params): void {
 		$ppolicyDN = $this->connection->ldapDefaultPPolicyDN;
 		if (empty($ppolicyDN) || ((int)$this->connection->turnOnPasswordChange !== 1)) {
-			return;//password expiry handling disabled
+			//password expiry handling disabled
+			return;
 		}
 		$uid = $params['uid'];
 		if (isset($uid) && $uid === $this->getUsername()) {

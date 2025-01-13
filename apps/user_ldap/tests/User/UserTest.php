@@ -109,7 +109,7 @@ class UserTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$coreUser->expects($this->once())
-			->method('setEMailAddress')
+			->method('setSystemEMailAddress')
 			->with('alice@foo.bar');
 
 		$this->userManager->expects($this->any())
@@ -1042,7 +1042,6 @@ class UserTest extends \Test\TestCase {
 		return [
 			['Roland Deschain', '', 'Roland Deschain', false],
 			['Roland Deschain', '', 'Roland Deschain', true],
-			['Roland Deschain', null, 'Roland Deschain', false],
 			['Roland Deschain', 'gunslinger@darktower.com', 'Roland Deschain (gunslinger@darktower.com)', false],
 			['Roland Deschain', 'gunslinger@darktower.com', 'Roland Deschain (gunslinger@darktower.com)', true],
 		];
