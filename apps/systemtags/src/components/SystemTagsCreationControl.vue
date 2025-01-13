@@ -39,7 +39,8 @@ export default {
 
 	data() {
 		return {
-			systemTagsCreationRestrictedToAdmin: loadState('settings', 'restrictSystemTagsCreationToAdmin', '1') === '1',
+			// By default, system tags creation is not restricted to admins
+			systemTagsCreationRestrictedToAdmin: loadState('settings', 'restrictSystemTagsCreationToAdmin', '0') === '1',
 		}
 	},
 	methods: {
