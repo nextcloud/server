@@ -1105,20 +1105,6 @@
       <code><![CDATA[public function setLdapAccess(Access $access) {]]></code>
     </InvalidDocblock>
   </file>
-  <file src="apps/user_ldap/lib/User/User.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[$this->avatarImage]]></code>
-    </FalsableReturnStatement>
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->refreshedFeatures]]></code>
-    </InvalidPropertyAssignmentValue>
-    <InvalidReturnType>
-      <code><![CDATA[null]]></code>
-    </InvalidReturnType>
-    <RedundantCondition>
-      <code><![CDATA[$aQuota && (count($aQuota) > 0)]]></code>
-    </RedundantCondition>
-  </file>
   <file src="apps/user_ldap/lib/User_LDAP.php">
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[string|false]]></code>
