@@ -80,7 +80,7 @@ p($theme->getTitle());
 		</div>
 	</header>
 
-	<main id="content" class="app-<?php p($_['appid']) ?>">
+	<div id="content" class="app-<?php p($_['appid']) ?>">
 		<h1 class="hidden-visually">
 			<?php
 		if (isset($template) && $template->getHeaderTitle() !== '') {
@@ -90,7 +90,8 @@ p($theme->getTitle());
 		} ?>
 		</h1>
 		<?php print_unescaped($_['content']); ?>
-	</main>
+	</div>
+
 	<?php if (isset($template) && $template->getFooterVisible() && ($theme->getLongFooter() !== '' || $_['showSimpleSignUpLink'])) { ?>
 	<footer>
 		<p><?php print_unescaped($theme->getLongFooter()); ?></p>

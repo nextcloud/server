@@ -3,7 +3,7 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
  -->
 <template>
-	<div id="app-dashboard">
+	<main id="app-dashboard">
 		<h2>{{ greeting.text }}</h2>
 		<ul class="statuses">
 			<li v-for="status in sortedRegisteredStatus"
@@ -127,7 +127,7 @@
 				</div>
 			</div>
 		</NcModal>
-	</div>
+	</main>
 </template>
 
 <script>
