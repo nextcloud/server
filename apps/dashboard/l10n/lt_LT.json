@@ -1,6 +1,7 @@
 { "translations": {
     "Dashboard" : "Skydelis",
     "Dashboard app" : "Skydelio programėlė",
+    "\"{title} icon\"" : "„{title} piktograma“",
     "Customize" : "Tinkinti",
     "Edit widgets" : "Taisyti valdiklius",
     "Get more widgets from the App Store" : "Parsisiųsti įskiepių iš App Store",
@@ -18,6 +19,8 @@
     "Good evening" : "Labas vakaras",
     "Good evening, {name}" : "Labas vakaras, {name}",
     "Hello" : "Sveiki",
-    "Hello, {name}" : "Sveiki, {name},"
+    "Hello, {name}" : "Sveiki, {name},",
+    "Happy birthday 🥳🤩🎂🎉" : "Su gimtadieniu 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Su gimtadieniu, {name} 🥳🤩🎂🎉"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }
