@@ -75,13 +75,14 @@
 		<NcAppSettingsSection id="default-settings"
 			:name="t('settings', 'Defaults')">
 			<NcSelect v-model="defaultQuota"
-				:input-label="t('settings', 'Default quota')"
-				placement="top"
-				:taggable="true"
-				:options="quotaOptions"
-				:create-option="validateQuota"
-				:placeholder="t('settings', 'Select default quota')"
 				:clearable="false"
+				:create-option="validateQuota"
+				:filter-by="filterQuotas"
+				:input-label="t('settings', 'Default quota')"
+				:options="quotaOptions"
+				placement="top"
+				:placeholder="t('settings', 'Select default quota')"
+				taggable
 				@option:selected="setDefaultQuota" />
 		</NcAppSettingsSection>
 	</NcAppSettingsDialog>
@@ -100,6 +101,7 @@ import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 
 import { GroupSorting } from '../../constants/GroupManagement.ts'
 import { unlimitedQuota } from '../../utils/userUtils.ts'
+import logger from '../../logger.ts'
 
 export default {
 	name: 'UserSettingsDialog',
@@ -243,8 +245,8 @@ export default {
 						newUserSendEmail: value,
 					})
 					await axios.post(generateUrl('/settings/users/preferences/newUser.sendEmail'), { value: value ? 'yes' : 'no' })
-				} catch (e) {
-					console.error('could not update newUser.sendEmail preference: ' + e.message, e)
+				} catch (error) {
+					logger.error('Could not update newUser.sendEmail preference', { error })
 				} finally {
 					this.loadingSendMail = false
 				}
@@ -253,6 +255,22 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Check if a quota matches the current search.
+		 * This is a custom filter function to allow to map "1GB" to the label "1 GB" (ignoring whitespaces).
+		 *
+		 * @param option The quota to check
+		 * @param label The label of the quota
+		 * @param search The search string
+		 */
+		filterQuotas(option, label, search) {
+			const searchValue = search.toLocaleLowerCase().replaceAll(/\s/g, '')
+			return (label || '')
+				.toLocaleLowerCase()
+				.replaceAll(/\s/g, '')
+				.indexOf(searchValue) > -1
+		},
+
 		setShowConfig(key, status) {
 			this.$store.commit('setShowConfig', { key, value: status })
 		},
@@ -268,14 +286,13 @@ export default {
 				quota = quota?.id || quota.label
 			}
 			// only used for new presets sent through @Tag
-			const validQuota = parseFileSize(quota)
+			const validQuota = parseFileSize(quota, true)
 			if (validQuota === null) {
 				return unlimitedQuota
-			} else {
-				// unify format output
-				quota = formatFileSize(parseFileSize(quota))
-				return { id: quota, label: quota }
 			}
+			// unify format output
+			quota = formatFileSize(validQuota)
+			return { id: quota, label: quota }
 		},
 
 		/**
