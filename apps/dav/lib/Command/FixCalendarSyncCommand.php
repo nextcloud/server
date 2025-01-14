@@ -43,7 +43,7 @@ class FixCalendarSyncCommand extends Command {
 			$user = $this->userManager->get($userArg);
 			if ($user === null) {
 				$output->writeln("<error>User $userArg does not exist</error>");
-				return 1;
+				return self::FAILURE;
 			}
 
 			$this->fixUserCalendars($user);
