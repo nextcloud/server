@@ -30,6 +30,8 @@ OC.L10N.register(
     "Allow people on this server to receive group shares from other servers" : "Bu sunucudaki kişiler diğer sunuculardaki grup paylaşımlarını alabilsin",
     "Search global and public address book for people" : "Genel ve herkese açık adres defterindeki kişiler aranabilsin",
     "Allow people to publish their data to a global and public address book" : "Kişiler bilgilerini genel ve herkese açık bir adres defterinde paylaşabilsin",
+    "Trusted federation" : "Güvenilen birleşim",
+    "Automatically accept shares from trusted federated accounts and groups by default" : "Varsayılan olarak güvenilir birleşim hesaplarından ve gruplardan gelen paylaşımlar otomatik olarak kabul edilsin",
     "Unable to update federated files sharing config" : "Birleşik dosya paylaşımı yapılandırması güncellenemedi",
     "Federated Cloud" : "Birleşik bulut",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud ya da Open Cloud Mesh (OCM) ile uyumlu sunucu ve hizmetler ile paylaşım yapılabilir. Paylaşım penceresine person@cloud.example.com gibi birleşik bulut kimliğini yazmanız yeterlidir.",

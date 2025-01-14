@@ -72,6 +72,7 @@ OC.L10N.register(
     "Tags you have created will show up here." : "Čia bus rodomos jūsų sukurtos žymės.",
     "Failed to load tag" : "Nepavyko įkelti žymės",
     "Failed to load last used tags" : "Nepavyko įkelti paskutinių naudotų žymų",
+    "Failed to load tags for file" : "Nepavyko įkelti failo žymių",
     "This file has the tag {tag}" : "Šis failas turi žymą {tag}",
     "No files in here" : "Čia failų nėra",
     "No entries found in this folder" : "Šiame aplanke nerasta jokių įrašų",
