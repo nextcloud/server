@@ -125,6 +125,7 @@ OC.L10N.register(
     "Failed to load image." : "Chyba pri načítavaní obrázku.",
     "Menu" : "Menu",
     "Width" : "Šírka",
-    "Height" : "Výška"
+    "Height" : "Výška",
+    "No preview available for this crop item" : "Pre túto položku orezania nie je k dispozícii žiadna ukážka"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

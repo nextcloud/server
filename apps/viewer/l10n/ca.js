@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error saving image" : "S'ha produït un error en desar la imatge",
     "Unsaved changes" : "Hi ha canvis sense desar",
     "Drop changes" : "Suprimeix els canvis",
+    "LIVE" : "DIRECTE",
     "Your browser does not support videos." : "El vostre navegador no és compatible amb els vídeos.",
     "Edit" : "Edita",
     "Exit full screen" : "Surt de la pantalla completa",
