@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace OC\Support\Subscription;
 
-use OC\User\Backend;
 use OCP\AppFramework\QueryException;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -19,8 +18,6 @@ use OCP\Support\Subscription\Exception\AlreadyRegisteredException;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Support\Subscription\ISubscription;
 use OCP\Support\Subscription\ISupportedApps;
-use OCP\User\Backend\ICountMappedUsersBackend;
-use OCP\User\Backend\ICountUsersBackend;
 use Psr\Log\LoggerInterface;
 
 class Registry implements IRegistry {
@@ -167,22 +164,8 @@ class Registry implements IRegistry {
 	}
 
 	private function getUserCount(): int {
-		$userCount = 0;
-		$backends = $this->userManager->getBackends();
-		foreach ($backends as $backend) {
-			if ($backend instanceof ICountMappedUsersBackend) {
-				$userCount += $backend->countMappedUsers();
-			} elseif ($backend->implementsActions(Backend::COUNT_USERS)) {
-				/** @var ICountUsersBackend $backend */
-				$backendUsers = $backend->countUsers();
-				if ($backendUsers !== false) {
-					$userCount += $backendUsers;
-				} else {
-					// TODO what if the user count can't be determined?
-					$this->logger->warning('Can not determine user count for ' . get_class($backend), ['app' => 'lib']);
-				}
-			}
-		}
+		/* We cannot limit because we substract disabled users afterward. But we limit to mapped users so should be not too expensive. */
+		$userCount = (int)$this->userManager->countUsersTotal(0, true);
 
 		$disabledUsers = $this->config->getUsersForUserValue('core', 'enabled', 'false');
 		$disabledUsersCount = count($disabledUsers);

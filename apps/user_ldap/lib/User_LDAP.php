@@ -17,12 +17,12 @@ use OCA\User_LDAP\User\User;
 use OCP\IUserBackend;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
-use OCP\User\Backend\ICountUsersBackend;
+use OCP\User\Backend\ILimitAwareCountUsersBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
-class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
+class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ILimitAwareCountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
 	public function __construct(
 		Access $access,
 		protected INotificationManager $notificationManager,
@@ -528,20 +528,18 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 
 	/**
 	 * counts the users in LDAP
-	 *
-	 * @return int|false
 	 */
-	public function countUsers() {
+	public function countUsers(int $limit = 0): int|false {
 		if ($this->userPluginManager->implementsActions(Backend::COUNT_USERS)) {
 			return $this->userPluginManager->countUsers();
 		}
 
 		$filter = $this->access->getFilterForUserCount();
-		$cacheKey = 'countUsers-' . $filter;
+		$cacheKey = 'countUsers-' . $filter . '-' . $limit;
 		if (!is_null($entries = $this->access->connection->getFromCache($cacheKey))) {
 			return $entries;
 		}
-		$entries = $this->access->countUsers($filter);
+		$entries = $this->access->countUsers($filter, limit:$limit);
 		$this->access->connection->writeToCache($cacheKey, $entries);
 		return $entries;
 	}

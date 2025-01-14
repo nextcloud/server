@@ -24,8 +24,10 @@ use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\Support\Subscription\IAssertion;
 use OCP\User\Backend\ICheckPasswordBackend;
+use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ICountUsersBackend;
 use OCP\User\Backend\IGetRealUIDBackend;
+use OCP\User\Backend\ILimitAwareCountUsersBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Events\BeforeUserCreatedEvent;
@@ -486,6 +488,35 @@ class Manager extends PublicEmitter implements IUserManager {
 			}
 		}
 		return $userCountStatistics;
+	}
+
+	public function countUsersTotal(int $limit = 0, bool $onlyMappedUsers = false): int|false {
+		$userCount = false;
+		foreach ($this->backends as $backend) {
+			if ($onlyMappedUsers && $backend instanceof ICountMappedUsersBackend) {
+				$backendUsers = $backend->countMappedUsers();
+			} elseif ($backend instanceof ILimitAwareCountUsersBackend) {
+				$backendUsers = $backend->countUsers($limit);
+			} elseif ($backend instanceof ICountUsersBackend || $backend->implementsActions(Backend::COUNT_USERS)) {
+				/** @var ICountUsersBackend $backend */
+				$backendUsers = $backend->countUsers();
+			} else {
+				$this->logger->debug('Skip backend for user count: ' . get_class($backend));
+				continue;
+			}
+			if ($backendUsers !== false) {
+				$userCount += $backendUsers;
+				if ($limit > 0) {
+					if ($userCount >= $limit) {
+						break;
+					}
+					$limit -= $userCount;
+				}
+			} else {
+				$this->logger->warning('Can not determine user count for ' . get_class($backend));
+			}
+		}
+		return $userCount;
 	}
 
 	/**
