@@ -101,11 +101,6 @@ class GetConfigTest extends TestCase {
 					->method('getDetails')
 					->with('app-name', $configName)
 					->willReturn(['value' => $value]);
-			} else {
-				$this->config->expects($this->once())
-					->method('getValueMixed')
-					->with('app-name', $configName, $defaultValue)
-					->willReturn($defaultValue);
 			}
 		}
 

@@ -229,7 +229,8 @@ class UserConfig implements IUserConfig {
 		// there is a huge probability the non-lazy config are already loaded
 		// meaning that we can start by only checking if a current non-lazy key exists
 		if ($this->hasKey($userId, $app, $key, false)) {
-			return false; // meaning key is not lazy.
+			// meaning key is not lazy.
+			return false;
 		}
 
 		// as key is not found as non-lazy, we load and search in the lazy config
@@ -264,7 +265,8 @@ class UserConfig implements IUserConfig {
 		$values = array_filter(
 			$this->formatAppValues($userId, $app, ($this->fastCache[$userId][$app] ?? []) + ($this->lazyCache[$userId][$app] ?? []), $filtered),
 			function (string $key) use ($prefix): bool {
-				return str_starts_with($key, $prefix); // filter values based on $prefix
+				// filter values based on $prefix
+				return str_starts_with($key, $prefix);
 			}, ARRAY_FILTER_USE_KEY
 		);
 
@@ -713,7 +715,8 @@ class UserConfig implements IUserConfig {
 	): string {
 		$this->assertParams($userId, $app, $key);
 		if (!$this->matchAndApplyLexiconDefinition($userId, $app, $key, $lazy, $type, default: $default)) {
-			return $default; // returns default if strictness of lexicon is set to WARNING (block and report)
+			// returns default if strictness of lexicon is set to WARNING (block and report)
+			return $default;
 		}
 		$this->loadConfig($userId, $lazy);
 
@@ -1048,7 +1051,8 @@ class UserConfig implements IUserConfig {
 	): bool {
 		$this->assertParams($userId, $app, $key);
 		if (!$this->matchAndApplyLexiconDefinition($userId, $app, $key, $lazy, $type, $flags)) {
-			return false; // returns false as database is not updated
+			// returns false as database is not updated
+			return false;
 		}
 		$this->loadConfig($userId, $lazy);
 
@@ -1101,7 +1105,8 @@ class UserConfig implements IUserConfig {
 				$inserted = true;
 			} catch (DBException $e) {
 				if ($e->getReason() !== DBException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
-					throw $e; // TODO: throw exception or just log and returns false !?
+					// TODO: throw exception or just log and returns false !?
+					throw $e;
 				}
 			}
 		}
@@ -1196,7 +1201,8 @@ class UserConfig implements IUserConfig {
 	public function updateType(string $userId, string $app, string $key, ValueType $type = ValueType::MIXED): bool {
 		$this->assertParams($userId, $app, $key);
 		$this->loadConfigAll($userId);
-		$this->isLazy($userId, $app, $key); // confirm key exists
+		// confirm key exists
+		$this->isLazy($userId, $app, $key);
 
 		$update = $this->connection->getQueryBuilder();
 		$update->update('preferences')
@@ -1288,7 +1294,8 @@ class UserConfig implements IUserConfig {
 			}
 		}
 
-		$this->clearCacheAll(); // we clear all cache
+		// we clear all cache
+		$this->clearCacheAll();
 	}
 
 	/**
@@ -1371,7 +1378,8 @@ class UserConfig implements IUserConfig {
 			}
 		}
 
-		$this->clearCacheAll(); // we clear all cache
+		// we clear all cache
+		$this->clearCacheAll();
 	}
 
 	/**
@@ -1794,6 +1802,14 @@ class UserConfig implements IUserConfig {
 	}
 
 
+	/**
+	 * will change referenced $value with the decrypted value in case of encrypted (sensitive value)
+	 *
+	 * @param string $userId
+	 * @param string $app
+	 * @param string $key
+	 * @param string $value
+	 */
 	private function decryptSensitiveValue(string $userId, string $app, string $key, string &$value): void {
 		if (!$this->isFlagged(self::FLAG_SENSITIVE, $this->valueDetails[$userId][$app][$key]['flags'] ?? 0)) {
 			return;
@@ -1821,6 +1837,7 @@ class UserConfig implements IUserConfig {
 	 *
 	 * @throws UnknownKeyException
 	 * @throws TypeConflictException
+	 * @return bool FALSE if conflict with defined lexicon were observed in the process
 	 */
 	private function matchAndApplyLexiconDefinition(
 		string $userId,
@@ -1874,16 +1891,12 @@ class UserConfig implements IUserConfig {
 	 *     ],
 	 *
 	 * The entry is converted to string to fit the expected type when managing default value
-	 *
-	 * @param string $appId
-	 * @param ConfigLexiconEntry $configValue
-	 *
-	 * @return string|null
 	 */
 	private function getSystemDefault(string $appId, ConfigLexiconEntry $configValue): ?string {
 		$default = $this->config->getSystemValue('lexicon.default.userconfig', [])[$appId][$configValue->getKey()] ?? null;
 		if ($default === null) {
-			return null; // no system default, using default default.
+			// no system default, using default default.
+			return null;
 		}
 
 		return $configValue->convertToString($default);
