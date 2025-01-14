@@ -492,6 +492,7 @@ class Manager extends PublicEmitter implements IUserManager {
 
 	public function countUsersTotal(int $limit = 0, bool $onlyMappedUsers = false): int|false {
 		$userCount = false;
+
 		foreach ($this->backends as $backend) {
 			if ($onlyMappedUsers && $backend instanceof ICountMappedUsersBackend) {
 				$backendUsers = $backend->countMappedUsers();
@@ -505,7 +506,7 @@ class Manager extends PublicEmitter implements IUserManager {
 				continue;
 			}
 			if ($backendUsers !== false) {
-				$userCount += $backendUsers;
+				$userCount = (int)$userCount + $backendUsers;
 				if ($limit > 0) {
 					if ($userCount >= $limit) {
 						break;
