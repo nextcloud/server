@@ -8,7 +8,6 @@
 namespace Test\Support\Subscription;
 
 use OC\Support\Subscription\Registry;
-use OC\User\Database;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -17,33 +16,19 @@ use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\Support\Subscription\ISubscription;
 use OCP\Support\Subscription\ISupportedApps;
-use OCP\User\Backend\ICountUsersBackend;
-use OCP\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RegistryTest extends TestCase {
-	/** @var Registry */
-	private $registry;
+	private Registry $registry;
 
-	/** @var MockObject|IConfig */
-	private $config;
-
-	/** @var MockObject|IServerContainer */
-	private $serverContainer;
-
-	/** @var MockObject|IUserManager */
-	private $userManager;
-
-	/** @var MockObject|IGroupManager */
-	private $groupManager;
-
-	/** @var MockObject|LoggerInterface */
-	private $logger;
-
-	/** @var MockObject|IManager */
-	private $notificationManager;
+	private MockObject&IConfig $config;
+	private MockObject&IServerContainer $serverContainer;
+	private MockObject&IUserManager $userManager;
+	private MockObject&IGroupManager $groupManager;
+	private MockObject&LoggerInterface $logger;
+	private MockObject&IManager $notificationManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -198,17 +183,9 @@ class RegistryTest extends TestCase {
 			->method('getUsersForUserValue')
 			->with('core', 'enabled', 'false')
 			->willReturn(array_fill(0, $disabledUsers, ''));
-		/* @var UserInterface|ICountUsersBackend|\PHPUnit\Framework\MockObject\MockObject $dummyBackend */
-		$dummyBackend = $this->createMock(Database::class);
-		$dummyBackend->expects($this->once())
-			->method('implementsActions')
-			->willReturn(true);
-		$dummyBackend->expects($this->once())
-			->method('countUsers')
-			->willReturn($userCount);
 		$this->userManager->expects($this->once())
-			->method('getBackends')
-			->willReturn([$dummyBackend]);
+			->method('countUsersTotal')
+			->willReturn($userCount);
 
 		if ($expectedResult) {
 			$dummyGroup = $this->createMock(IGroup::class);
