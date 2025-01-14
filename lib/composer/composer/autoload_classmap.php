@@ -1157,6 +1157,7 @@ return array(
     'OC\\Comments\\Manager' => $baseDir . '/lib/private/Comments/Manager.php',
     'OC\\Comments\\ManagerFactory' => $baseDir . '/lib/private/Comments/ManagerFactory.php',
     'OC\\Config' => $baseDir . '/lib/private/Config.php',
+    'OC\\Config\\Lexicon\\CoreConfigLexicon' => $baseDir . '/lib/private/Config/Lexicon/CoreConfigLexicon.php',
     'OC\\Config\\UserConfig' => $baseDir . '/lib/private/Config/UserConfig.php',
     'OC\\Console\\Application' => $baseDir . '/lib/private/Console/Application.php',
     'OC\\Console\\TimestampFormatter' => $baseDir . '/lib/private/Console/TimestampFormatter.php',
