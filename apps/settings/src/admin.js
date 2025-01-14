@@ -5,6 +5,7 @@
 
 import { generateUrl } from '@nextcloud/router'
 import $ from 'jquery'
+import axios from '@nextcloud/axios'
 
 window.addEventListener('DOMContentLoaded', () => {
 	$('#loglevel').change(function() {
@@ -48,17 +49,12 @@ window.addEventListener('DOMContentLoaded', () => {
 		}
 
 		OC.msg.startSaving('#mail_settings_msg')
-		$.ajax({
-			url: generateUrl('/settings/admin/mailsettings'),
-			type: 'POST',
-			data: $('#mail_general_settings_form').serialize(),
-			success: () => {
+		axios.post(generateUrl('/settings/admin/mailsettings'), $('#mail_general_settings_form').serialize())
+			.then(() => {
 				OC.msg.finishedSuccess('#mail_settings_msg', t('settings', 'Saved'))
-			},
-			error: (xhr) => {
-				OC.msg.finishedError('#mail_settings_msg', xhr.responseJSON)
-			},
-		})
+			}).catch((error) => {
+				OC.msg.finishedError('#mail_settings_msg', error)
+			})
 	}
 
 	const toggleEmailCredentials = function() {
@@ -68,17 +64,12 @@ window.addEventListener('DOMContentLoaded', () => {
 		}
 
 		OC.msg.startSaving('#mail_settings_msg')
-		$.ajax({
-			url: generateUrl('/settings/admin/mailsettings/credentials'),
-			type: 'POST',
-			data: $('#mail_credentials_settings').serialize(),
-			success: () => {
+		axios.post(generateUrl('/settings/admin/mailsettings/credentials'), $('#mail_credentials_settings').serialize())
+			.then(() => {
 				OC.msg.finishedSuccess('#mail_settings_msg', t('settings', 'Saved'))
-			},
-			error: (xhr) => {
-				OC.msg.finishedError('#mail_settings_msg', xhr.responseJSON)
-			},
-		})
+			}).catch((error) => {
+				OC.msg.finishedError('#mail_settings_msg', error)
+			})
 	}
 
 	$('#mail_general_settings_form').change(changeEmailSettings)
@@ -94,16 +85,12 @@ window.addEventListener('DOMContentLoaded', () => {
 		event.preventDefault()
 		OC.msg.startAction('#sendtestmail_msg', t('settings', 'Sending…'))
 
-		$.ajax({
-			url: generateUrl('/settings/admin/mailtest'),
-			type: 'POST',
-			success: () => {
+		axios.post(generateUrl('/settings/admin/mailtest'))
+			.then(() => {
 				OC.msg.finishedSuccess('#sendtestmail_msg', t('settings', 'Email sent'))
-			},
-			error: (xhr) => {
-				OC.msg.finishedError('#sendtestmail_msg', xhr.responseJSON)
-			},
-		})
+			}).catch((error) => {
+				OC.msg.finishedError('#sendtestmail_msg', error)
+			})
 	})
 
 	const setupChecks = () => {
