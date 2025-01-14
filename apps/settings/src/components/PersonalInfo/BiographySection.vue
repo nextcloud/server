@@ -5,7 +5,7 @@
 
 <template>
 	<AccountPropertySection v-bind.sync="biography"
-		:placeholder="t('settings', 'Your biography')"
+		:placeholder="t('settings', 'Your biography. Markdown is supported.')"
 		:multi-line="true" />
 </template>
 
