@@ -128,6 +128,25 @@ const icons = {
 	'view-previous': path.join(__dirname, '../img', 'actions', 'arrow-left.svg'),
 }
 
+const customIconPath = '../../custom-npms/nc-mdi-svg/dist/svg/'
+
+icons.add = path.join(__dirname, customIconPath, 'plus.svg')
+icons.confirm = path.join(__dirname, customIconPath, 'arrow-right.svg')
+icons.rename = path.join(__dirname, customIconPath, 'pencil.svg')
+icons.external = path.join(__dirname, customIconPath, 'folder-move.svg')
+icons.download = path.join(__dirname, customIconPath, 'download.svg')
+icons.upload = path.join(__dirname, customIconPath, 'upload.svg')
+icons.delete = path.join(__dirname, customIconPath, 'trash-can.svg')
+icons.more = path.join(__dirname, customIconPath, 'dots-horizontal.svg')
+icons.public = path.join(__dirname, customIconPath, 'link.svg')
+icons.comment = path.join(__dirname, customIconPath, 'comment.svg')
+icons.home = path.join(__dirname, customIconPath, 'home.svg')
+icons['triangle-s'] = path.join(__dirname, customIconPath, 'chevron-down.svg')
+icons['triangle-n'] = path.join(__dirname, customIconPath, 'chevron-up.svg')
+icons['triangle-e'] = path.join(__dirname, customIconPath, 'chevron-right.svg')
+icons['toggle-pictures'] = path.join(__dirname, customIconPath, 'view-grid.svg')
+icons['toggle-filelist'] = path.join(__dirname, customIconPath, 'format-list-bulleted-square.svg')
+
 const iconsColor = {
 	'add-folder-description': {
 		path: path.join(__dirname, '../img', 'actions', 'add-folder-description.svg'),
@@ -154,7 +173,7 @@ const iconsColor = {
 		color: 'grey',
 	},
 	'delete-color': {
-		path: path.join(__dirname, '../img', 'actions', 'delete.svg'),
+		path: icons.delete,
 		color: 'red',
 	},
 	'file': {
