@@ -102,7 +102,7 @@ jobs:
       - name: Checkout ${{ needs.init.outputs.head_ref }}
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-          persist-credentials: false
+          persist-credentials: true
           token: ${{ secrets.COMMAND_BOT_PAT }}
           fetch-depth: 0
           ref: ${{ needs.init.outputs.head_ref }}
