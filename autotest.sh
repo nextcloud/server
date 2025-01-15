@@ -389,6 +389,7 @@ function execute_tests {
 	COVER=''
 	if [ -z "$NOCOVERAGE" ]; then
 		COVER="--coverage-clover autotest-clover-$DB.xml --coverage-html coverage-html-$DB"
+		export XDEBUG_MODE=coverage
 	else
 		echo "No coverage"
 	fi

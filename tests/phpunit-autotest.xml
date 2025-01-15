@@ -14,13 +14,11 @@
 		 convertDeprecationsToExceptions="true"
 		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd">
 	<testsuite name="Nextcloud Server">
-		<directory suffix=".php">lib/</directory>
-		<directory suffix=".php">Core/</directory>
-		<file>apps.php</file>
+		<directory suffix=".php">../apps/files/tests/Controller/ResumableUploadControllerTest.php</directory>
 	</testsuite>
 	<coverage>
 		<include>
-			<directory suffix=".php">..</directory>
+			<directory suffix=".php">../apps/files</directory>
 		</include>
 		<exclude>
 			<directory suffix=".php">../3rdparty</directory>

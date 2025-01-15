@@ -8,6 +8,7 @@
 namespace OCA\Files;
 
 use OC\Files\FilenameValidator;
+use OCA\Files\Controller\ResumableUploadController;
 use OCA\Files\Service\ChunkedUploadConfig;
 use OCP\Capabilities\ICapability;
 
@@ -21,7 +22,7 @@ class Capabilities implements ICapability {
 	/**
 	 * Return this classes capabilities
 	 *
-	 * @return array{files: array{'$comment': ?string, bigfilechunking: bool, blacklisted_files: list<mixed>, forbidden_filenames: list<string>, forbidden_filename_basenames: list<string>, forbidden_filename_characters: list<string>, forbidden_filename_extensions: list<string>, chunked_upload: array{max_size: int, max_parallel_count: int}}}
+	 * @return array{files: array{'$comment': ?string, bigfilechunking: bool, blacklisted_files: list<mixed>, forbidden_filenames: list<string>, forbidden_filename_basenames: list<string>, forbidden_filename_characters: list<string>, forbidden_filename_extensions: list<string>, chunked_upload: array{max_size: int, max_parallel_count: int}, resumable_upload: array{supported: bool, interop_version: string}}}
 	 */
 	public function getCapabilities(): array {
 		return [
@@ -37,6 +38,11 @@ class Capabilities implements ICapability {
 				'chunked_upload' => [
 					'max_size' => ChunkedUploadConfig::getMaxChunkSize(),
 					'max_parallel_count' => ChunkedUploadConfig::getMaxParallelCount(),
+				],
+				// https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-resumable-upload-05#section-4.1-3
+				'resumable_upload' => [
+					'supported' => true,
+					'interop_version' => ResumableUploadController::UPLOAD_DRAFT_INTEROP_VERSION,
 				],
 			],
 		];
