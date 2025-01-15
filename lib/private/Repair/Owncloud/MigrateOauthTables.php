@@ -25,7 +25,6 @@ use OC\DB\SchemaWrapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
-use OCP\Security\ICrypto;
 
 class MigrateOauthTables implements IRepairStep {
 	/** @var Connection */
@@ -34,10 +33,7 @@ class MigrateOauthTables implements IRepairStep {
 	/**
 	 * @param Connection $db
 	 */
-	public function __construct(
-		Connection $db,
-		private readonly ICrypto $crypto,
-	) {
+	public function __construct(Connection $db) {
 		$this->db = $db;
 	}
 
