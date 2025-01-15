@@ -149,7 +149,7 @@ export default {
 				return this.config.isDefaultExpireDateEnforced
 			}
 			if (this.isRemoteShare) {
-			    return this.config.isDefaultRemoteExpireDateEnforced
+				return this.config.isDefaultRemoteExpireDateEnforced
 			}
 			return this.config.isDefaultInternalExpireDateEnforced
 		},
@@ -230,9 +230,10 @@ export default {
 		 *
 		 * @param {Date} date
 		 */
-		onExpirationChange: debounce(function(date) {
+		onExpirationChange(date) {
 			this.share.expireDate = this.formatDateToString(new Date(date))
-		}, 500),
+		},
+
 		/**
 		 * Uncheck expire date
 		 * We need this method because @update:checked
