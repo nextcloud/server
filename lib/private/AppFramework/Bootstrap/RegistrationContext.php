@@ -154,6 +154,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<\OCP\TaskProcessing\ITaskType>[] */
 	private array $taskProcessingTaskTypes = [];
+
+	/** @var ServiceRegistration<\OCP\Files\Conversion\IConversionProvider>[] */
+	private array $fileConversionProviders = [];
 	
 	/** @var ServiceRegistration<IMailProvider>[] */
 	private $mailProviders = [];
@@ -421,6 +424,13 @@ class RegistrationContext {
 				);
 			}
 
+			public function registerFileConversionProvider(string $class): void {
+				$this->context->registerFileConversionProvider(
+					$this->appId,
+					$class
+				);
+			}
+
 			public function registerMailProvider(string $class): void {
 				$this->context->registerMailProvider(
 					$this->appId,
@@ -626,6 +636,14 @@ class RegistrationContext {
 	public function registerTaskProcessingTaskType(string $appId, string $taskProcessingTaskTypeClass) {
 		$this->taskProcessingTaskTypes[] = new ServiceRegistration($appId, $taskProcessingTaskTypeClass);
 	}
+
+	/**
+	 * @psalm-param class-string<\OCP\Files\Conversion\IConversionProvider> $class
+	 */
+	public function registerFileConversionProvider(string $appId, string $class): void {
+		$this->fileConversionProviders[] = new ServiceRegistration($appId, $class);
+	}
+
 	/**
 	 * @psalm-param class-string<IMailProvider> $migratorClass
 	 */
@@ -983,6 +1001,13 @@ class RegistrationContext {
 	 */
 	public function getTaskProcessingTaskTypes(): array {
 		return $this->taskProcessingTaskTypes;
+	}
+
+	/**
+	 * @return ServiceRegistration<\OCP\Files\Conversion\IConversionProvider>[]
+	 */
+	public function getFileConversionProviders(): array {
+		return $this->fileConversionProviders;
 	}
 
 	/**
