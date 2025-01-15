@@ -20,6 +20,11 @@
  *
  */
 
+export const closeSidebar = () => {
+	// {force: true} as it might be hidden behind toasts
+	cy.get('[data-cy-sidebar] .app-sidebar__close').click({ force: true })
+}
+
 export const getRowForFile = (filename: string) => cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"]`)
 
 export const getActionsForFile = (filename: string) => getRowForFile(filename).find('[data-cy-files-list-row-actions]')
