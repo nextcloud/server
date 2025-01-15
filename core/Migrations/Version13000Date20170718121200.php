@@ -732,6 +732,8 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['systemtagid', 'objecttype'], 'systag_by_tagid');
 			// systag_by_objectid was added later and might be missing in older deployments
 			$table->addIndex(['objectid'], 'systag_by_objectid');
+			// systag_objecttype was added later and might be missing in older deployments
+			$table->addIndex(['objecttype'], 'systag_objecttype');
 		}
 
 		if (!$schema->hasTable('systemtag_group')) {

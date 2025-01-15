@@ -235,6 +235,12 @@ class Application extends App {
 				'systag_by_objectid',
 				['objectid']
 			);
+
+			$event->addMissingIndex(
+				'systemtag_object_mapping',
+				'systag_objecttype',
+				['objecttype']
+			);
 		});
 
 		$eventDispatcher->addListener(AddMissingPrimaryKeyEvent::class, function (AddMissingPrimaryKeyEvent $event) {
