@@ -48,6 +48,7 @@ return array(
     'OCA\\Files\\Controller\\TemplateController' => $baseDir . '/../lib/Controller/TemplateController.php',
     'OCA\\Files\\Controller\\TransferOwnershipController' => $baseDir . '/../lib/Controller/TransferOwnershipController.php',
     'OCA\\Files\\Controller\\ViewController' => $baseDir . '/../lib/Controller/ViewController.php',
+    'OCA\\Files\\Dashboard\\FavoriteWidget' => $baseDir . '/../lib/Dashboard/FavoriteWidget.php',
     'OCA\\Files\\Db\\OpenLocalEditor' => $baseDir . '/../lib/Db/OpenLocalEditor.php',
     'OCA\\Files\\Db\\OpenLocalEditorMapper' => $baseDir . '/../lib/Db/OpenLocalEditorMapper.php',
     'OCA\\Files\\Db\\TransferOwnership' => $baseDir . '/../lib/Db/TransferOwnership.php',

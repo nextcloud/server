@@ -461,8 +461,8 @@ export default {
 			}
 		},
 		async fetchApiWidgets() {
-			const response = await axios.get(generateOcsUrl('/apps/dashboard/api/v1/widgets'))
-			this.apiWidgets = response.data.ocs.data
+			const { data } = await axios.get(generateOcsUrl('/apps/dashboard/api/v1/widgets'))
+			this.apiWidgets = data.ocs.data
 		},
 		async fetchApiWidgetItems(widgetIds, merge = false) {
 			try {

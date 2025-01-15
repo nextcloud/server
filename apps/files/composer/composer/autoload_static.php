@@ -63,6 +63,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Controller\\TemplateController' => __DIR__ . '/..' . '/../lib/Controller/TemplateController.php',
         'OCA\\Files\\Controller\\TransferOwnershipController' => __DIR__ . '/..' . '/../lib/Controller/TransferOwnershipController.php',
         'OCA\\Files\\Controller\\ViewController' => __DIR__ . '/..' . '/../lib/Controller/ViewController.php',
+        'OCA\\Files\\Dashboard\\FavoriteWidget' => __DIR__ . '/..' . '/../lib/Dashboard/FavoriteWidget.php',
         'OCA\\Files\\Db\\OpenLocalEditor' => __DIR__ . '/..' . '/../lib/Db/OpenLocalEditor.php',
         'OCA\\Files\\Db\\OpenLocalEditorMapper' => __DIR__ . '/..' . '/../lib/Db/OpenLocalEditorMapper.php',
         'OCA\\Files\\Db\\TransferOwnership' => __DIR__ . '/..' . '/../lib/Db/TransferOwnership.php',
