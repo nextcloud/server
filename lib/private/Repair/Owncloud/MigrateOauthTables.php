@@ -25,6 +25,7 @@ use OC\DB\SchemaWrapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use OCP\Security\ICrypto;
 
 class MigrateOauthTables implements IRepairStep {
 	/** @var Connection */
@@ -33,7 +34,10 @@ class MigrateOauthTables implements IRepairStep {
 	/**
 	 * @param Connection $db
 	 */
-	public function __construct(Connection $db) {
+	public function __construct(
+		Connection $db,
+		private readonly ICrypto $crypto,
+	) {
 		$this->db = $db;
 	}
 
@@ -70,6 +74,22 @@ class MigrateOauthTables implements IRepairStep {
 		}
 		if (!$table->hasIndex('oauth2_access_client_id_idx')) {
 			$table->addIndex(['client_id'], 'oauth2_access_client_id_idx');
+		}
+		if (!$table->hasColumn('token_id')) {
+			$table->addColumn('token_id', 'integer', [
+				'notnull' => true,
+			]);
+		}
+		if ($table->hasColumn('user_id')) {
+			$table->dropColumn('user_id');
+		}
+		if ($table->hasColumn('expires')) {
+			$table->dropColumn('expires');
+		}
+		if ($table->hasColumn('token')) {
+			// Warning: We are dropping auth tokens. However, they should only be valid for an hour,
+			// and we can't really migrate them to oc_authtoken anyway.
+			$table->dropColumn('token');
 		}
 
 		$output->info('Update the oauth2_clients table schema.');
@@ -114,10 +134,10 @@ class MigrateOauthTables implements IRepairStep {
 			$table->addIndex(['client_identifier'], 'oauth2_client_id_idx');
 		}
 
-		$this->db->migrateToSchema($schema->getWrappedSchema());
-
 		// Regenerate schema after migrating to it
+		$this->db->migrateToSchema($schema->getWrappedSchema());
 		$schema = new SchemaWrapper($this->db);
+
 		if ($schema->getTable('oauth2_clients')->hasColumn('identifier')) {
 			$output->info("Move identifier column's data to the new client_identifier column.");
 			// 1. Fetch all [id, identifier] couple.
@@ -139,7 +159,10 @@ class MigrateOauthTables implements IRepairStep {
 			$output->info('Drop the identifier column.');
 			$table = $schema->getTable('oauth2_clients');
 			$table->dropColumn('identifier');
+
+			// Regenerate schema after migrating to it
 			$this->db->migrateToSchema($schema->getWrappedSchema());
+			$schema = new SchemaWrapper($this->db);
 		}
 
 		$output->info('Delete clients (and their related access tokens) with the redirect_uri starting with oc:// or ending with *');
@@ -172,5 +195,37 @@ class MigrateOauthTables implements IRepairStep {
 				$qbDeleteClients->expr()->iLike('redirect_uri', $qbDeleteClients->createNamedParameter('%*', IQueryBuilder::PARAM_STR))
 			);
 		$qbDeleteClients->executeStatement();
+
+		// Migrate plain client secrets and widen the column
+		$clientsTable = $schema->getTable('oauth2_clients');
+		if ($clientsTable->getColumn('secret')->getLength() === 64) {
+			$output->info("Migrate client secrets.");
+
+			// Widen the column first
+			$clientsTable->getColumn('secret')->setLength(512);
+
+			// Regenerate schema after migrating to it
+			$this->db->migrateToSchema($schema->getWrappedSchema());
+			$schema = new SchemaWrapper($this->db);
+
+			$qb = $this->db->getQueryBuilder();
+			$qb->update('oauth2_clients')
+				->set('secret', $qb->createParameter('secret'))
+				->where($qb->expr()->eq('id', $qb->createParameter('id')));
+
+			$qbSelect = $this->db->getQueryBuilder();
+			$qbSelect->select('id', 'secret')
+				->from('oauth2_clients');
+			$result = $qbSelect->executeQuery();
+			while ($row = $result->fetch()) {
+				$id = $row['id'];
+				$secret = $row['secret'];
+				$encryptedSecret = bin2hex($this->crypto->calculateHMAC($secret));
+				$qb->setParameter('id', $id);
+				$qb->setParameter('secret', $encryptedSecret);
+				$qb->executeStatement();
+			}
+			$result->closeCursor();
+		}
 	}
 }
