@@ -28,6 +28,7 @@ namespace OCA\OAuth2\Migration;
 
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OCA\OAuth2\Db\AccessToken;
+use OCA\OAuth2\Db\AccessTokenMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\IDBConnection;
@@ -59,7 +60,7 @@ class SetTokenExpiration implements IRepairStep {
 
 	public function run(IOutput $output) {
 		$qb = $this->connection->getQueryBuilder();
-		$qb->select('*')
+		$qb->select(...AccessTokenMapper::COLUMN_LIST)
 			->from('oauth2_access_tokens');
 
 		$cursor = $qb->execute();

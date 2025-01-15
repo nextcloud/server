@@ -89,7 +89,7 @@ class MigrateOauthTables implements IRepairStep {
 		if ($table->hasColumn('token')) {
 			// Warning: We are dropping auth tokens. However, they should only be valid for an hour,
 			// and we can't really migrate them to oc_authtoken anyway.
-			$table->dropColumn('token');
+			//$table->dropColumn('token');
 		}
 
 		$output->info('Update the oauth2_clients table schema.');
@@ -195,37 +195,5 @@ class MigrateOauthTables implements IRepairStep {
 				$qbDeleteClients->expr()->iLike('redirect_uri', $qbDeleteClients->createNamedParameter('%*', IQueryBuilder::PARAM_STR))
 			);
 		$qbDeleteClients->executeStatement();
-
-		// Migrate plain client secrets and widen the column
-		$clientsTable = $schema->getTable('oauth2_clients');
-		if ($clientsTable->getColumn('secret')->getLength() === 64) {
-			$output->info("Migrate client secrets.");
-
-			// Widen the column first
-			$clientsTable->getColumn('secret')->setLength(512);
-
-			// Regenerate schema after migrating to it
-			$this->db->migrateToSchema($schema->getWrappedSchema());
-			$schema = new SchemaWrapper($this->db);
-
-			$qb = $this->db->getQueryBuilder();
-			$qb->update('oauth2_clients')
-				->set('secret', $qb->createParameter('secret'))
-				->where($qb->expr()->eq('id', $qb->createParameter('id')));
-
-			$qbSelect = $this->db->getQueryBuilder();
-			$qbSelect->select('id', 'secret')
-				->from('oauth2_clients');
-			$result = $qbSelect->executeQuery();
-			while ($row = $result->fetch()) {
-				$id = $row['id'];
-				$secret = $row['secret'];
-				$encryptedSecret = bin2hex($this->crypto->calculateHMAC($secret));
-				$qb->setParameter('id', $id);
-				$qb->setParameter('secret', $encryptedSecret);
-				$qb->executeStatement();
-			}
-			$result->closeCursor();
-		}
 	}
 }

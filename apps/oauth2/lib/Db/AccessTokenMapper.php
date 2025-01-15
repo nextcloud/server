@@ -41,6 +41,16 @@ use OCP\IDBConnection;
  * @template-extends QBMapper<AccessToken>
  */
 class AccessTokenMapper extends QBMapper {
+	// Ignore potential legacy column 'token' from oc for now until it is migrated properly
+	public const COLUMN_LIST = [
+		'id',
+		'token_id',
+		'client_id',
+		'hashed_code',
+		'encrypted_token',
+		'code_created_at',
+		'token_count',
+	];
 
 	public function __construct(
 		IDBConnection $db,
@@ -57,7 +67,7 @@ class AccessTokenMapper extends QBMapper {
 	public function getByCode(string $code): AccessToken {
 		$qb = $this->db->getQueryBuilder();
 		$qb
-			->select('*')
+			->select(...self::COLUMN_LIST)
 			->from($this->tableName)
 			->where($qb->expr()->eq('hashed_code', $qb->createNamedParameter(hash('sha512', $code))));
 
