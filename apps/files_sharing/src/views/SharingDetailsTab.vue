@@ -144,7 +144,8 @@
 						:value="new Date(share.expireDate ?? dateTomorrow)"
 						:min="dateTomorrow"
 						:max="maxExpirationDateEnforced"
-						:hide-label="true"
+						hide-label
+						:label="t('files_sharing', 'Expiration date')"
 						:placeholder="t('files_sharing', 'Expiration date')"
 						type="date"
 						@input="onExpirationChange" />
