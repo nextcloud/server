@@ -108,9 +108,21 @@
                                             "type": "string"
                                         },
                                         "to": {
-                                            "type": "object",
-                                            "additionalProperties": {
-                                                "type": "string"
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "required": [
+                                                    "mime",
+                                                    "name"
+                                                ],
+                                                "properties": {
+                                                    "mime": {
+                                                        "type": "string"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    }
+                                                }
                                             }
                                         }
                                     }
