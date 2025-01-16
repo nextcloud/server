@@ -40,7 +40,8 @@ class CalendarImplTest extends \Test\TestCase {
 			'id' => 'fancy_id_123',
 			'{DAV:}displayname' => 'user readable name 123',
 			'{http://apple.com/ns/ical/}calendar-color' => '#AABBCC',
-			'uri' => '/this/is/a/uri'
+			'uri' => '/this/is/a/uri',
+			'principaluri' => 'principal/users/foobar'
 		];
 		$this->backend = $this->createMock(CalDavBackend::class);
 
@@ -76,7 +77,10 @@ class CalendarImplTest extends \Test\TestCase {
 			->method('getACL')
 			->with()
 			->willReturn([
-				['privilege' => '{DAV:}read']
+				['privilege' => '{DAV:}read', 'principal' => 'principal/users/foobar'],
+				['privilege' => '{DAV:}read', 'principal' => 'principal/users/other'],
+				['privilege' => '{DAV:}write', 'principal' => 'principal/users/other'],
+				['privilege' => '{DAV:}all', 'principal' => 'principal/users/other'],
 			]);
 
 		$this->assertEquals(1, $this->calendarImpl->getPermissions());
@@ -87,7 +91,9 @@ class CalendarImplTest extends \Test\TestCase {
 			->method('getACL')
 			->with()
 			->willReturn([
-				['privilege' => '{DAV:}write']
+				['privilege' => '{DAV:}write', 'principal' => 'principal/users/foobar'],
+				['privilege' => '{DAV:}read', 'principal' => 'principal/users/other'],
+				['privilege' => '{DAV:}all', 'principal' => 'principal/users/other'],
 			]);
 
 		$this->assertEquals(6, $this->calendarImpl->getPermissions());
@@ -98,8 +104,9 @@ class CalendarImplTest extends \Test\TestCase {
 			->method('getACL')
 			->with()
 			->willReturn([
-				['privilege' => '{DAV:}read'],
-				['privilege' => '{DAV:}write']
+				['privilege' => '{DAV:}write', 'principal' => 'principal/users/foobar'],
+				['privilege' => '{DAV:}read', 'principal' => 'principal/users/foobar'],
+				['privilege' => '{DAV:}all', 'principal' => 'principal/users/other'],
 			]);
 
 		$this->assertEquals(7, $this->calendarImpl->getPermissions());
@@ -110,7 +117,7 @@ class CalendarImplTest extends \Test\TestCase {
 			->method('getACL')
 			->with()
 			->willReturn([
-				['privilege' => '{DAV:}all']
+				['privilege' => '{DAV:}all', 'principal' => 'principal/users/foobar'],
 			]);
 
 		$this->assertEquals(31, $this->calendarImpl->getPermissions());

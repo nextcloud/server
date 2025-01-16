@@ -1,5 +1,4 @@
 <?php
-
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,22 +9,21 @@ namespace OCA\Federation\Tests\Controller;
 use OCA\Federation\Controller\SettingsController;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\HintException;
+use OCP\AppFramework\OCS\OCSException;
+use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\IL10N;
 use OCP\IRequest;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class SettingsControllerTest extends TestCase {
 	private SettingsController $controller;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IRequest */
-	private $request;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IL10N */
-	private $l10n;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|TrustedServers */
-	private $trustedServers;
+	private MockObject&IRequest $request;
+	private MockObject&IL10N $l10n;
+	private MockObject&TrustedServers $trustedServers;
+	private MockObject&LoggerInterface $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -34,12 +32,14 @@ class SettingsControllerTest extends TestCase {
 		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
 		$this->trustedServers = $this->getMockBuilder(TrustedServers::class)
 			->disableOriginalConstructor()->getMock();
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 
 		$this->controller = new SettingsController(
 			'SettingsControllerTest',
 			$this->request,
 			$this->l10n,
-			$this->trustedServers
+			$this->trustedServers,
+			$this->logger,
 		);
 	}
 
@@ -68,8 +68,6 @@ class SettingsControllerTest extends TestCase {
 	 * @dataProvider checkServerFails
 	 */
 	public function testAddServerFail(bool $isTrustedServer, bool $isNextcloud): void {
-		$this->expectException(HintException::class);
-
 		$this->trustedServers
 			->expects($this->any())
 			->method('isTrustedServer')
@@ -80,6 +78,12 @@ class SettingsControllerTest extends TestCase {
 			->method('isNextcloudServer')
 			->with('url')
 			->willReturn($isNextcloud);
+
+		if ($isTrustedServer) {
+			$this->expectException(OCSException::class);
+		} else {
+			$this->expectException(OCSNotFoundException::class);
+		}
 
 		$this->controller->addServer('url');
 	}
@@ -105,7 +109,7 @@ class SettingsControllerTest extends TestCase {
 			->with('url')
 			->willReturn(true);
 
-		$this->assertTrue(
+		$this->assertNull(
 			$this->invokePrivate($this->controller, 'checkServer', ['url'])
 		);
 	}
@@ -114,8 +118,6 @@ class SettingsControllerTest extends TestCase {
 	 * @dataProvider checkServerFails
 	 */
 	public function testCheckServerFail(bool $isTrustedServer, bool $isNextcloud): void {
-		$this->expectException(HintException::class);
-
 		$this->trustedServers
 			->expects($this->any())
 			->method('isTrustedServer')
@@ -126,6 +128,12 @@ class SettingsControllerTest extends TestCase {
 			->method('isNextcloudServer')
 			->with('url')
 			->willReturn($isNextcloud);
+
+		if ($isTrustedServer) {
+			$this->expectException(OCSException::class);
+		} else {
+			$this->expectException(OCSNotFoundException::class);
+		}
 
 		$this->assertTrue(
 			$this->invokePrivate($this->controller, 'checkServer', ['url'])

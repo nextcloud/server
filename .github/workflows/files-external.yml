@@ -74,7 +74,7 @@ jobs:
           ./occ app:enable --force files_external
 
       - name: PHPUnit
-        run: composer run test:files_external \
+        run: composer run test:files_external -- \
           ${{ matrix.coverage && ' --coverage-clover ./clover.xml' || '' }}
 
       - name: Upload code coverage

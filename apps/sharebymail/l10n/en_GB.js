@@ -22,7 +22,6 @@ OC.L10N.register(
     "Note:" : "Note:",
     "This share is valid until %s at midnight" : "This share is valid until %s at midnight",
     "Expiration:" : "Expiration:",
-    "Click the button below to open it." : "Click the button below to open it.",
     "Open %s" : "Open %s",
     "%1$s via %2$s" : "%1$s via %2$s",
     "%1$s shared %2$s with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s shared %2$s with you.\nYou should have already received a separate mail with a link to access it.\n",
@@ -47,6 +46,7 @@ OC.L10N.register(
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Sharing %1$s failed, because this item is already shared with user %2$s",
     "%1$s shared »%2$s« with you" : "%1$s shared »%2$s« with you",
     "%1$s shared »%2$s« with you." : "%1$s shared »%2$s« with you.",
+    "Click the button below to open it." : "Click the button below to open it.",
     "Open »%s«" : "Open »%s«",
     "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n",
     "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it.",
@@ -57,7 +57,6 @@ OC.L10N.register(
     "»%s« added a note to a file shared with you" : "»%s« added a note to a file shared with you",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient.",
     "Password to access »%1$s« shared by you with %2$s" : "Password to access »%1$s« shared by you with %2$s",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Allows users to share a personalised link to a file or folder by putting in an email address.",
-    "%1$s shared %2$s with you." : "%1$s shared %2$s with you."
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Allows users to share a personalised link to a file or folder by putting in an email address."
 },
 "nplurals=2; plural=(n != 1);");

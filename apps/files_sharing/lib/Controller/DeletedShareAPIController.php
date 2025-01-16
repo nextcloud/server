@@ -38,7 +38,7 @@ class DeletedShareAPIController extends OCSController {
 		string $appName,
 		IRequest $request,
 		private ShareManager $shareManager,
-		private string $userId,
+		private ?string $userId,
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
 		private IRootFolder $rootFolder,

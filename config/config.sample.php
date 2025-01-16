@@ -369,7 +369,7 @@ $CONFIG = [
 /**
  * Enable or disable the automatic logout after session_lifetime, even if session
  * keepalive is enabled. This will make sure that an inactive browser will log itself out
- * even if requests to the server might extend the session lifetime. Note: the logout is   
+ * even if requests to the server might extend the session lifetime. Note: the logout is
  * handled on the client side. This is not a way to limit the duration of potentially
  * compromised sessions.
  *
@@ -688,7 +688,7 @@ $CONFIG = [
  * are generated within Nextcloud using any kind of command line tools (cron or
  * occ). The value should contain the full base URL:
  * ``https://www.example.com/nextcloud``
- * Please make sure to set the value to the URL that your users mainly use to access this Nextcloud. 
+ * Please make sure to set the value to the URL that your users mainly use to access this Nextcloud.
  * Otherwise there might be problems with the URL generation via cron.
  *
  * Defaults to ``''`` (empty string)
@@ -936,16 +936,16 @@ $CONFIG = [
  *
  * Defaults to the following domains:
  *
- *  - www.nextcloud.com
- *  - www.startpage.com
- *  - www.eff.org
- *  - www.edri.org
+ *  - https://www.nextcloud.com
+ *  - https://www.startpage.com
+ *  - https://www.eff.org
+ *  - https://www.edri.org
  */
 'connectivity_check_domains' => [
-	'www.nextcloud.com',
-	'www.startpage.com',
-	'www.eff.org',
-	'www.edri.org'
+	'https://www.nextcloud.com',
+	'https://www.startpage.com',
+	'https://www.eff.org',
+	'https://www.edri.org'
 ],
 
 /**
@@ -1429,6 +1429,14 @@ $CONFIG = [
 'metadata_max_filesize' => 256,
 
 /**
+ * Maximum file size for file conversion.
+ * If a file exceeds this size, the file will not be converted.
+ *
+ * Default: 100 MiB
+ */
+'max_file_conversion_filesize' => 100,
+
+/**
  * LDAP
  *
  * Global settings used by LDAP User and Group Backend
@@ -1879,6 +1887,15 @@ $CONFIG = [
  * by a command line argument.
  */
 'transferIncomingShares' => false,
+
+/**
+ * Federated Cloud Sharing
+ */
+
+ /**
+  * Allow self-signed certificates for federated shares
+  */
+'sharing.federation.allowSelfSignedCertificates' => false,
 
 /**
  * Hashing
@@ -2558,7 +2575,7 @@ $CONFIG = [
 'unified_search.enabled' => false,
 
 /**
- * Enable features that are do respect accessibility standards yet.
+ * Enable features that don't respect accessibility standards yet.
  *
  * Defaults to ``true``
  */
@@ -2597,4 +2614,12 @@ $CONFIG = [
  * Defaults to 5.
  */
 'files.chunked_upload.max_parallel_count' => 5,
+
+/**
+ * Allow users to manually delete files from their trashbin.
+ * Automated deletions are not affected and will continue to work in cases like low remaining quota for example.
+ *
+ * Defaults to true.
+ */
+'files.trash.delete' => true,
 ];

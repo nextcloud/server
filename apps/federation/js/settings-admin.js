@@ -51,9 +51,6 @@
         });
 
         $inpServerUrl.on("change keyup", function (e) {
-
-            console.log("typing away");
-
             var url = $(this).val();
 
             // toggle add-button visibility based on input length
@@ -79,11 +76,14 @@
         OC.msg.startSaving('#ocFederationAddServer .msg');
 
         $.post(
-            OC.generateUrl('/apps/federation/trusted-servers'),
+            OC.getRootPath() + '/ocs/v2.php/apps/federation/trusted-servers',
             {
                 url: url
-            }
-        ).done(function (data) {
+            },
+            null,
+            'json'
+        ).done(function({ ocs }) {
+            var data = ocs.data;
             $("#serverUrl").attr('value', '');
             $("#listOfTrustedServers").prepend(
                 $('<li>')
@@ -95,13 +95,13 @@
             OC.msg.finishedSuccess('#ocFederationAddServer .msg', data.message);
         })
         .fail(function (jqXHR) {
-            OC.msg.finishedError('#ocFederationAddServer .msg', JSON.parse(jqXHR.responseText).message);
+            OC.msg.finishedError('#ocFederationAddServer .msg', JSON.parse(jqXHR.responseText).ocs.meta.message);
         });
     };
 
     function removeServer( id ) {
         $.ajax({
-            url: OC.generateUrl('/apps/federation/trusted-servers/' + id),
+            url: OC.getRootPath() + '/ocs/v2.php/apps/federation/trusted-servers/' + id,
             type: 'DELETE',
             success: function(response) {
                 $("#ocFederationSettings").find("#" + id).remove();

@@ -153,6 +153,7 @@ OC.L10N.register(
     "Guest" : "Invitado",
     "Group" : "Grupo",
     "Email" : "Correo electrónico",
+    "Note:" : "Nota:",
     "File drop" : "Entrega de archivos",
     "Terms of service" : "Términos de servicio",
     "Allow upload and editing" : "Permitir cargar y editar",

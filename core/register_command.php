@@ -147,6 +147,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\FilesMetadata\Get::class));
 
 	$application->add(Server::get(Command\TaskProcessing\GetCommand::class));
+	$application->add(Server::get(Command\TaskProcessing\EnabledCommand::class));
 	$application->add(Server::get(Command\TaskProcessing\ListCommand::class));
 	$application->add(Server::get(Command\TaskProcessing\Statistics::class));
 

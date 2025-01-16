@@ -130,7 +130,7 @@ describe('Open sidebar action exec tests', () => {
 		expect(goToRouteMock).toBeCalledWith(
 			null,
 			{ view: view.id, fileid: '1' },
-			{ dir: '/' },
+			{ dir: '/', opendetails: 'true' },
 			true,
 		)
 	})
@@ -159,7 +159,7 @@ describe('Open sidebar action exec tests', () => {
 		expect(goToRouteMock).toBeCalledWith(
 			null,
 			{ view: view.id, fileid: '1' },
-			{ dir: '/' },
+			{ dir: '/', opendetails: 'true' },
 			true,
 		)
 	})

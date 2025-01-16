@@ -30,6 +30,8 @@ OC.L10N.register(
     "Allow people on this server to receive group shares from other servers" : "Allow people on this server to receive group shares from other servers",
     "Search global and public address book for people" : "Search global and public address book for people",
     "Allow people to publish their data to a global and public address book" : "Allow people to publish their data to a global and public address book",
+    "Trusted federation" : "Trusted federation",
+    "Automatically accept shares from trusted federated accounts and groups by default" : "Automatically accept shares from trusted federated accounts and groups by default",
     "Unable to update federated files sharing config" : "Unable to update federated files sharing config",
     "Federated Cloud" : "Federated Cloud",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialogue. It looks like person@cloud.example.com",

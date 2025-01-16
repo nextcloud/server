@@ -46,7 +46,7 @@ class StatusesController extends OCSController {
 	 * Find statuses of users
 	 *
 	 * @param int|null $limit Maximum number of statuses to find
-	 * @param int|null $offset Offset for finding statuses
+	 * @param non-negative-int|null $offset Offset for finding statuses
 	 * @return DataResponse<Http::STATUS_OK, list<UserStatusPublic>, array{}>
 	 *
 	 * 200: Statuses returned

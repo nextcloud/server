@@ -24,7 +24,7 @@ OC.L10N.register(
     "Could not write file to disk" : "Die Datei konnte nicht auf die Festplatte geschrieben werden",
     "A PHP extension stopped the file upload" : "Eine PHP-Erweiterung hat das Hochladen der Datei gestoppt",
     "No file uploaded" : "Keine Datei hochgeladen",
-    "You are already using a custom theme. Theming app settings might be overwritten by that." : "Sie benutzen bereits ein benutzerdefiniertes Design. Die App \"Theming\" würde dies überschreiben.",
+    "You are already using a custom theme. Theming app settings might be overwritten by that." : "Sie benutzen bereits ein benutzerdefiniertes Design. Die Einstellungen dieser App könnten dadurch überschrieben werden.",
     "Theming" : "Design",
     "Appearance and accessibility" : "Aussehen und Barrierefreiheit",
     "PHP Imagick module" : "PHP Imagick-Modul",

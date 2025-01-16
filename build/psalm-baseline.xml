@@ -878,11 +878,6 @@
       <code><![CDATA[$cacheData]]></code>
     </MoreSpecificImplementedParamType>
   </file>
-  <file src="apps/files_sharing/lib/Middleware/SharingCheckMiddleware.php">
-    <InvalidArgument>
-      <code><![CDATA[$exception->getMessage()]]></code>
-    </InvalidArgument>
-  </file>
   <file src="apps/files_sharing/lib/MountProvider.php">
     <RedundantFunctionCall>
       <code><![CDATA[array_values]]></code>
@@ -1830,6 +1825,11 @@
       <code><![CDATA[self::getGlobalCache()->getStorageInfo($storageId)]]></code>
     </NullableReturnStatement>
   </file>
+  <file src="lib/private/Files/Cache/Updater.php">
+    <RedundantCondition>
+      <code><![CDATA[$this->cache instanceof Cache]]></code>
+    </RedundantCondition>
+  </file>
   <file src="lib/private/Files/Cache/Wrapper/CacheWrapper.php">
     <LessSpecificImplementedReturnType>
       <code><![CDATA[array]]></code>
@@ -2095,14 +2095,6 @@
     <ParamNameMismatch>
       <code><![CDATA[$mimetype]]></code>
     </ParamNameMismatch>
-  </file>
-  <file src="lib/private/Files/Utils/Scanner.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$mounts]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[\OC\Files\Mount\MountPoint[]]]></code>
-    </MoreSpecificReturnType>
   </file>
   <file src="lib/private/Files/View.php">
     <InvalidScalarArgument>

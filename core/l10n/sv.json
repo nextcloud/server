@@ -59,8 +59,8 @@
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Reparationssteg: ",
     "Repair info:" : "Reparationsinfo:",
-    "Repair warning:" : "Reperationsvarning:",
-    "Repair error:" : "Reperationsfel:",
+    "Repair warning:" : "Reparationsvarning:",
+    "Repair error:" : "Reparationsfel:",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Var vänlig och uppdatera via kommandotolken då uppdatering via webbläsaren är inaktiverat i config.php",
     "Turned on maintenance mode" : "Aktiverade underhållsläge",
     "Turned off maintenance mode" : "Inaktivera underhållsläge",
@@ -240,8 +240,8 @@
     "Rename project" : "Byt namn på projekt",
     "Failed to rename the project" : "Kunde inte byta namn på projektet",
     "Failed to create a project" : "Kunde inte skapa projekt",
-    "Failed to add the item to the project" : "Kunde inte att lägga till objektet i projektet",
-    "Connect items to a project to make them easier to find" : "Länka objekt till ett projekt för att göra dem enklare att hitta",
+    "Failed to add the item to the project" : "Kunde inte lägga till objektet i projektet",
+    "Connect items to a project to make them easier to find" : "Koppla objekt till ett projekt för att göra dem enklare att hitta",
     "Type to search for existing projects" : "Skriv för att söka efter befintliga projekt",
     "New in" : "Ny i",
     "View changelog" : "Visa ändringslogg",
@@ -290,7 +290,9 @@
     "Security warning" : "Säkerhetsvarning",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Din datakatalog och filer är förmodligen tillgängliga från Internet eftersom filen .htaccess inte fungerar.",
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">documentation</a>." : "Information hur din server bäst konfigureras kan hittas i <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">dokumentationen</a>.",
-    "Create an <strong>admin account</strong>" : "Skapa ett <strong>administratörskonto</strong>",
+    "<strong>Create an admin account</strong>" : "<strong>Skapa ett administratörskonto</strong>",
+    "New admin account name" : "Namn på administratörskonto",
+    "New admin password" : "Lösenord för administratörskonto",
     "Show password" : "Visa lösenord",
     "Toggle password visibility" : "Växla lösenordsynlighet",
     "Storage & database" : "Lagring & databas",
@@ -403,6 +405,7 @@
     "Users" : "Användare",
     "Profile not found" : "Profil kunde inte hittas",
     "The profile does not exist." : "Profilen existerar inte.",
+    "Create an <strong>admin account</strong>" : "Skapa ett <strong>administratörskonto</strong>",
     "Username" : "Användarnamn",
     "Database user" : "Databasanvändare",
     "This action requires you to confirm your password" : "Denna åtgärd kräver att du bekräftar ditt lösenord",
@@ -410,6 +413,6 @@
     "Confirm" : "Bekräfta",
     "App token" : "Apptoken",
     "Alternative log in using app token" : "Alternativ inloggning med apptoken",
-    "Please use the command line updater because you have a big instance with more than 50 users." : "Vänligen uppdatera med kommando eftersom du har en stor instans med mer än 50 användare."
+    "Please use the command line updater because you have a big instance with more than 50 users." : "Vänligen uppdatera via kommandoraden eftersom du har en stor instans med fler än 50 användare."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -198,7 +198,7 @@ export default {
 		 * @return {string}
 		 */
 		davPath() {
-			return `${davRemoteURL}/${davRootPath}${encodePath(this.file)}`
+			return `${davRemoteURL}${davRootPath}${encodePath(this.file)}`
 		},
 
 		/**
@@ -245,8 +245,8 @@ export default {
 					},
 					compact: this.hasLowHeight || !this.fileInfo.hasPreview || this.isFullScreen,
 					loading: this.loading,
-					name: this.fileInfo.name,
-					title: this.fileInfo.name,
+					name: this.node?.displayname ?? this.fileInfo.name,
+					title: this.node?.displayname ?? this.fileInfo.name,
 				}
 			} else if (this.error) {
 				return {
@@ -487,10 +487,10 @@ export default {
 			this.loading = true
 
 			try {
-				this.fileInfo = await FileInfo(this.davPath)
+				this.node = await fetchNode({ path: this.file })
+				this.fileInfo = FileInfo(this.node)
 				// adding this as fallback because other apps expect it
 				this.fileInfo.dir = this.file.split('/').slice(0, -1).join('/')
-				this.node = await fetchNode({ path: (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/') })
 
 				// DEPRECATED legacy views
 				// TODO: remove

@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_Trashbin;
 
+use OCA\Files_Trashbin\Service\ConfigService;
 use OCP\Capabilities\ICapability;
 
 /**
@@ -18,12 +19,18 @@ class Capabilities implements ICapability {
 	/**
 	 * Return this classes capabilities
 	 *
-	 * @return array{files: array{undelete: bool}}
+	 * @return array{
+	 *     files: array{
+	 *         undelete: bool,
+	 *         delete_from_trash: bool
+	 *     }
+	 * }
 	 */
 	public function getCapabilities() {
 		return [
 			'files' => [
-				'undelete' => true
+				'undelete' => true,
+				'delete_from_trash' => ConfigService::getDeleteFromTrashEnabled(),
 			]
 		];
 	}

@@ -70,8 +70,8 @@ ResponseDefinitions.php @provokateurin
 /lib/public/UserStatus              @nickvergessen
 
 # Groupware
-/build/integration/dav_features/caldav.feature    @miaulalala @st3iny @SebastianKrupinski
-/build/integration/dav_features/carddav.feature   @miaulalala @st3iny @SebastianKrupinski
+/build/integration/dav_features/caldav.feature    @st3iny @SebastianKrupinski
+/build/integration/dav_features/carddav.feature   @st3iny @SebastianKrupinski
 
 # Personal interest
 */Activity/*                        @nickvergessen

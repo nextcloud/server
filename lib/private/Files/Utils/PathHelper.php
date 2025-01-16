@@ -37,6 +37,8 @@ class PathHelper {
 		if ($path === '' or $path === '/') {
 			return '/';
 		}
+		// No null bytes
+		$path = str_replace(chr(0), '', $path);
 		//no windows style slashes
 		$path = str_replace('\\', '/', $path);
 		//add leading slash

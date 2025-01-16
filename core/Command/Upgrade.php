@@ -20,6 +20,7 @@ use OC\Updater;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\IURLGenerator;
 use OCP\Util;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -36,6 +37,7 @@ class Upgrade extends Command {
 
 	public function __construct(
 		private IConfig $config,
+		private IURLGenerator $urlGenerator,
 	) {
 		parent::__construct();
 	}
@@ -205,7 +207,11 @@ class Upgrade extends Command {
 				. 'config.php and call this script again.</comment>', true);
 			return self::ERROR_MAINTENANCE_MODE;
 		} else {
-			$output->writeln('<info>Nextcloud is already latest version</info>');
+			$output->writeln('<info>No upgrade required.</info>');
+			$output->writeln('');
+			$output->writeln('Note: This command triggers the upgrade actions associated with a new version. The new version\'s updated source files must be deployed in advance.');
+			$doc = $this->urlGenerator->linkToDocs('admin-update');
+			$output->writeln('See the upgrade documentation: ' . $doc . ' for more information.');
 			return self::ERROR_UP_TO_DATE;
 		}
 	}

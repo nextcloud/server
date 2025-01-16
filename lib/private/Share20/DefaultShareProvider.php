@@ -1520,10 +1520,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 			$emailTemplate->addBodyText(htmlspecialchars($note), $note);
 		}
 
-		$emailTemplate->addBodyText(
-			$l->t('Click the button below to open it.')
-		);
-
 		$emailTemplate->addBodyButton(
 			$l->t('Open %s', [$filename]),
 			$link

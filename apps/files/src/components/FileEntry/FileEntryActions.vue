@@ -39,7 +39,7 @@
 				:title="action.title?.([source], currentView)"
 				@click="onActionClick(action)">
 				<template #icon>
-					<NcLoadingIcon v-if="loading === action.id" :size="18" />
+					<NcLoadingIcon v-if="isLoadingAction(action)" :size="18" />
 					<NcIconSvgWrapper v-else :svg="action.iconSvgInline([source], currentView)" />
 				</template>
 				{{ mountType === 'shared' && action.id === 'sharing-status' ? '' : actionDisplayName(action) }}
@@ -52,7 +52,7 @@
 					<template #icon>
 						<ArrowLeftIcon />
 					</template>
-					{{ actionDisplayName(openedSubmenu) }}
+					{{ t('files', 'Back') }}
 				</NcActionButton>
 				<NcActionSeparator />
 
@@ -66,7 +66,7 @@
 					:title="action.title?.([source], currentView)"
 					@click="onActionClick(action)">
 					<template #icon>
-						<NcLoadingIcon v-if="loading === action.id" :size="18" />
+						<NcLoadingIcon v-if="isLoadingAction(action)" :size="18" />
 						<NcIconSvgWrapper v-else :svg="action.iconSvgInline([source], currentView)" />
 					</template>
 					{{ actionDisplayName(action) }}
@@ -81,20 +81,23 @@ import type { PropType } from 'vue'
 import type { FileAction, Node } from '@nextcloud/files'
 
 import { DefaultType, NodeStatus } from '@nextcloud/files'
-import { showError, showSuccess } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
 import { defineComponent, inject } from 'vue'
+import { translate as t } from '@nextcloud/l10n'
 
+import { useHotKey } from '@nextcloud/vue/dist/Composables/useHotKey.js'
+import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
+import CustomElementRender from '../CustomElementRender.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
-import CustomElementRender from '../CustomElementRender.vue'
 
-import { useNavigation } from '../../composables/useNavigation'
+import { executeAction } from '../../utils/actionUtils.ts'
+import { useActiveStore } from '../../store/active.ts'
 import { useFileListWidth } from '../../composables/useFileListWidth.ts'
+import { useNavigation } from '../../composables/useNavigation'
+import { useRouteParameters } from '../../composables/useRouteParameters.ts'
 import logger from '../../logger.ts'
 
 export default defineComponent({
@@ -111,10 +114,6 @@ export default defineComponent({
 	},
 
 	props: {
-		loading: {
-			type: String,
-			required: true,
-		},
 		opened: {
 			type: Boolean,
 			default: false,
@@ -132,14 +131,18 @@ export default defineComponent({
 	setup() {
 		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
 		const { currentView } = useNavigation(true)
+		const { directory: currentDir } = useRouteParameters()
 
+		const activeStore = useActiveStore()
 		const filesListWidth = useFileListWidth()
 		const enabledFileActions = inject<FileAction[]>('enabledFileActions', [])
-
 		return {
+			activeStore,
+			currentDir,
 			currentView,
 			enabledFileActions,
 			filesListWidth,
+			t,
 		}
 	},
 
@@ -150,10 +153,10 @@ export default defineComponent({
 	},
 
 	computed: {
-		currentDir() {
-			// Remove any trailing slash but leave root slash
-			return (this.$route?.query?.dir?.toString() || '/').replace(/^(.+)\/$/, '$1')
+		isActive() {
+			return this.activeStore?.activeNode?.source === this.source.source
 		},
+
 		isLoading() {
 			return this.source.status === NodeStatus.LOADING
 		},
@@ -241,6 +244,25 @@ export default defineComponent({
 		},
 	},
 
+	watch: {
+		// Close any submenu when the menu is closed
+		openedMenu() {
+			this.openedSubmenu = null
+		},
+	},
+
+	created() {
+		useHotKey('Escape', this.onKeyDown, {
+			stop: true,
+			prevent: true,
+		})
+
+		useHotKey('a', this.onKeyDown, {
+			stop: true,
+			prevent: true,
+		})
+	},
+
 	methods: {
 		actionDisplayName(action: FileAction) {
 			try {
@@ -258,54 +280,29 @@ export default defineComponent({
 			}
 		},
 
-		async onActionClick(action, isSubmenu = false) {
-			// Skip click on loading
-			if (this.isLoading || this.loading !== '') {
-				return
+		isLoadingAction(action: FileAction) {
+			if (!this.isActive) {
+				return false
 			}
+			return this.activeStore?.activeAction?.id === action.id
+		},
 
+		async onActionClick(action, isSubmenu = false) {
 			// If the action is a submenu, we open it
 			if (this.enabledSubmenuActions[action.id]) {
 				this.openedSubmenu = action
 				return
 			}
 
-			let displayName = action.id
-			try {
-				displayName = action.displayName([this.source], this.currentView)
-			} catch (error) {
-				logger.error('Error while getting action display name', { action, error })
-			}
+			// Make sure we set the node as active
+			this.activeStore.setActiveNode(this.source)
 
-			try {
-				// Set the loading marker
-				this.$emit('update:loading', action.id)
-				this.$set(this.source, 'status', NodeStatus.LOADING)
+			// Execute the action
+			await executeAction(action)
 
-				const success = await action.exec(this.source, this.currentView, this.currentDir)
-
-				// If the action returns null, we stay silent
-				if (success === null || success === undefined) {
-					return
-				}
-
-				if (success) {
-					showSuccess(t('files', '"{displayName}" action executed successfully', { displayName }))
-					return
-				}
-				showError(t('files', '"{displayName}" action failed', { displayName }))
-			} catch (error) {
-				logger.error('Error while executing action', { action, error })
-				showError(t('files', '"{displayName}" action failed', { displayName }))
-			} finally {
-				// Reset the loading marker
-				this.$emit('update:loading', '')
-				this.$set(this.source, 'status', undefined)
-
-				// If that was a submenu, we just go back after the action
-				if (isSubmenu) {
-					this.openedSubmenu = null
-				}
+			// If that was a submenu, we just go back after the action
+			if (isSubmenu) {
+				this.openedSubmenu = null
 			}
 		},
 
@@ -328,7 +325,22 @@ export default defineComponent({
 			})
 		},
 
-		t,
+		onKeyDown(event: KeyboardEvent) {
+			// Don't react to the event if the file row is not active
+			if (!this.isActive) {
+				return
+			}
+
+			// ESC close the action menu if opened
+			if (event.key === 'Escape' && this.openedMenu) {
+				this.openedMenu = false
+			}
+
+			// a open the action menu
+			if (event.key === 'a' && !this.openedMenu) {
+				this.openedMenu = true
+			}
+		},
 	},
 })
 </script>

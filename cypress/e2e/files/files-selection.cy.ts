@@ -66,9 +66,9 @@ describe('files: Select all files', { testIsolation: true }, () => {
 	it('Can select range of files with shift key', () => {
 		cy.get('[data-cy-files-list-row-checkbox]').should('have.length', filesCount)
 		selectRowForFile('audio.mp3')
-		cy.window().trigger('keydown', { shiftKey: true })
-		selectRowForFile('readme.md', { shiftKey: true })
-		cy.window().trigger('keyup', { shiftKey: false })
+		cy.window().trigger('keydown', { key: 'ShiftLeft', shiftKey: true })
+		selectRowForFile('readme.md')
+		cy.window().trigger('keyup', { key: 'ShiftLeft', shiftKey: true })
 
 		cy.get('.files-list__selected').should('have.text', '4 selected')
 		cy.get('[data-cy-files-list-row-checkbox] input[type="checkbox"]:checked').should('have.length', 4)

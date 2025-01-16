@@ -18,6 +18,7 @@ use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\Job;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\OCS\IDiscoveryService;
 use Psr\Log\LoggerInterface;
@@ -47,6 +48,7 @@ class RequestSharedSecret extends Job {
 		private IDiscoveryService $ocsDiscoveryService,
 		private LoggerInterface $logger,
 		ITimeFactory $timeFactory,
+		private IConfig $config,
 	) {
 		parent::__construct($timeFactory);
 		$this->httpClient = $httpClientService->newClient();
@@ -116,6 +118,7 @@ class RequestSharedSecret extends Job {
 					],
 					'timeout' => 3,
 					'connect_timeout' => 3,
+					'verify' => !$this->config->getSystemValue('sharing.federation.allowSelfSignedCertificates', false),
 				]
 			);
 

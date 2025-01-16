@@ -10,6 +10,7 @@ namespace OC\Preview;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\IImage;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Movie extends ProviderV2 {
@@ -75,6 +76,13 @@ class Movie extends ProviderV2 {
 
 		foreach ($sizeAttempts as $size) {
 			$absPath = $this->getLocalFile($file, $size);
+			if ($absPath === false) {
+				Server::get(LoggerInterface::class)->error(
+					'Failed to get local file to generate thumbnail for: ' . $file->getPath(),
+					['app' => 'core']
+				);
+				return null;
+			}
 
 			$result = null;
 			if (is_string($absPath)) {

@@ -18,7 +18,7 @@ use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 /**
- * Add objecttype index to systemtag_object_mapping
+ * Add color column to systemtag
  */
 #[AddColumn(table: 'systemtag', name: 'color', type: ColumnType::STRING, description: 'Adding color for systemtag table')]
 class Version31000Date20241114171300 extends SimpleMigrationStep {

@@ -8,10 +8,14 @@ declare(strict_types=1);
  */
 namespace OC\Calendar;
 
+use DateTimeInterface;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
+use OCA\DAV\ServerFactory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarEventBuilder;
 use OCP\Calendar\ICalendarIsShared;
 use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\ICalendarProvider;
@@ -19,10 +23,16 @@ use OCP\Calendar\ICalendarQuery;
 use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IHandleImipMessage;
 use OCP\Calendar\IManager;
+use OCP\IUser;
+use OCP\IUserManager;
+use OCP\Security\ISecureRandom;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Sabre\HTTP\Request;
+use Sabre\HTTP\Response;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Component\VFreeBusy;
 use Sabre\VObject\Property\VCard\DateTime;
 use Sabre\VObject\Reader;
 use Throwable;
@@ -45,6 +55,9 @@ class Manager implements IManager {
 		private ContainerInterface $container,
 		private LoggerInterface $logger,
 		private ITimeFactory $timeFactory,
+		private ISecureRandom $random,
+		private IUserManager $userManager,
+		private ServerFactory $serverFactory,
 	) {
 	}
 
@@ -216,21 +229,21 @@ class Manager implements IManager {
 		string $recipient,
 		string $calendarData,
 	): bool {
-		
+
 		$userCalendars = $this->getCalendarsForPrincipal($principalUri);
 		if (empty($userCalendars)) {
 			$this->logger->warning('iMip message could not be processed because user has no calendars');
 			return false;
 		}
-		
+
 		/** @var VCalendar $vObject|null */
 		$calendarObject = Reader::read($calendarData);
-		
+
 		if (!isset($calendarObject->METHOD) || $calendarObject->METHOD->getValue() !== 'REQUEST') {
 			$this->logger->warning('iMip message contains an incorrect or invalid method');
 			return false;
 		}
-		
+
 		if (!isset($calendarObject->VEVENT)) {
 			$this->logger->warning('iMip message contains no event');
 			return false;
@@ -242,12 +255,12 @@ class Manager implements IManager {
 			$this->logger->warning('iMip message event dose not contains a UID');
 			return false;
 		}
-		
+
 		if (!isset($eventObject->ATTENDEE)) {
 			$this->logger->warning('iMip message event dose not contains any attendees');
 			return false;
 		}
-		
+
 		foreach ($eventObject->ATTENDEE as $entry) {
 			$address = trim(str_replace('mailto:', '', $entry->getValue()));
 			if ($address === $recipient) {
@@ -259,17 +272,17 @@ class Manager implements IManager {
 			$this->logger->warning('iMip message event does not contain a attendee that matches the recipient');
 			return false;
 		}
-		
+
 		foreach ($userCalendars as $calendar) {
-			
+
 			if (!$calendar instanceof ICalendarIsWritable && !$calendar instanceof ICalendarIsShared) {
 				continue;
 			}
-			
+
 			if ($calendar->isDeleted() || !$calendar->isWritable() || $calendar->isShared()) {
 				continue;
 			}
-			
+
 			if (!empty($calendar->search($recipient, ['ATTENDEE'], ['uid' => $eventObject->UID->getValue()]))) {
 				try {
 					if ($calendar instanceof IHandleImipMessage) {
@@ -282,7 +295,7 @@ class Manager implements IManager {
 				}
 			}
 		}
-		
+
 		$this->logger->warning('iMip message event could not be processed because the no corresponding event was found in any calendar');
 		return false;
 	}
@@ -463,5 +476,93 @@ class Manager implements IManager {
 			$this->logger->error('Could not update calendar for iMIP processing', ['exception' => $e]);
 			return false;
 		}
+	}
+
+	public function createEventBuilder(): ICalendarEventBuilder {
+		$uid = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
+		return new CalendarEventBuilder($uid, $this->timeFactory);
+	}
+
+	public function checkAvailability(
+		DateTimeInterface $start,
+		DateTimeInterface $end,
+		IUser $organizer,
+		array $attendees,
+	): array {
+		$organizerMailto = 'mailto:' . $organizer->getEMailAddress();
+		$request = new VCalendar();
+		$request->METHOD = 'REQUEST';
+		$request->add('VFREEBUSY', [
+			'DTSTART' => $start,
+			'DTEND' => $end,
+			'ORGANIZER' => $organizerMailto,
+			'ATTENDEE' => $organizerMailto,
+		]);
+
+		$mailtoLen = strlen('mailto:');
+		foreach ($attendees as $attendee) {
+			if (str_starts_with($attendee, 'mailto:')) {
+				$attendee = substr($attendee, $mailtoLen);
+			}
+
+			$attendeeUsers = $this->userManager->getByEmail($attendee);
+			if ($attendeeUsers === []) {
+				continue;
+			}
+
+			$request->VFREEBUSY->add('ATTENDEE', "mailto:$attendee");
+		}
+
+		$organizerUid = $organizer->getUID();
+		$server = $this->serverFactory->createAttendeeAvailabilityServer();
+		/** @var CustomPrincipalPlugin $plugin */
+		$plugin = $server->getPlugin('auth');
+		$plugin->setCurrentPrincipal("principals/users/$organizerUid");
+
+		$request = new Request(
+			'POST',
+			"/calendars/$organizerUid/outbox/",
+			[
+				'Content-Type' => 'text/calendar',
+				'Depth' => 0,
+			],
+			$request->serialize(),
+		);
+		$response = new Response();
+		$server->invokeMethod($request, $response, false);
+
+		$xmlService = new \Sabre\Xml\Service();
+		$xmlService->elementMap = [
+			'{urn:ietf:params:xml:ns:caldav}response' => 'Sabre\Xml\Deserializer\keyValue',
+			'{urn:ietf:params:xml:ns:caldav}recipient' => 'Sabre\Xml\Deserializer\keyValue',
+		];
+		$parsedResponse = $xmlService->parse($response->getBodyAsString());
+
+		$result = [];
+		foreach ($parsedResponse as $freeBusyResponse) {
+			$freeBusyResponse = $freeBusyResponse['value'];
+			if ($freeBusyResponse['{urn:ietf:params:xml:ns:caldav}request-status'] !== '2.0;Success') {
+				continue;
+			}
+
+			$freeBusyResponseData = \Sabre\VObject\Reader::read(
+				$freeBusyResponse['{urn:ietf:params:xml:ns:caldav}calendar-data']
+			);
+
+			$attendee = substr(
+				$freeBusyResponse['{urn:ietf:params:xml:ns:caldav}recipient']['{DAV:}href'],
+				$mailtoLen,
+			);
+
+			$vFreeBusy = $freeBusyResponseData->VFREEBUSY;
+			if (!($vFreeBusy instanceof VFreeBusy)) {
+				continue;
+			}
+
+			// TODO: actually check values of FREEBUSY properties to find a free slot
+			$result[] = new AvailabilityResult($attendee, $vFreeBusy->isFree($start, $end));
+		}
+
+		return $result;
 	}
 }

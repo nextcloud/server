@@ -90,7 +90,7 @@ OC.L10N.register(
     "Request timeout (seconds)" : "تەلەپ قىلىش ۋاقتى (سېكۇنت)",
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "PHP دىكى CURL قوللاش ئىقتىدارى قوزغىتىلمىغان ياكى ئورنىتىلمىغان. % S نى ئورنىتىش مۇمكىن ئەمەس. ئۇنى قاچىلاشنى سىستېما باشقۇرغۇچىڭىزدىن سوراڭ.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "PHP دىكى FTP قوللاش ئىقتىدارى قوزغىتىلمىغان ياكى ئورنىتىلمىغان. % S نى ئورنىتىش مۇمكىن ئەمەس. ئۇنى قاچىلاشنى سىستېما باشقۇرغۇچىڭىزدىن سوراڭ.",
-    "\"%1$s\" is not installed. Mounting of %2$s is not possible. Please ask your system administrator to install it." : "\"% 1 $ s\" ئورنىتىلمىدى. % 2 $ s نى ئورنىتىش مۇمكىن ئەمەس. ئۇنى قاچىلاشنى سىستېما باشقۇرغۇچىڭىزدىن سوراڭ.",
+    "\"%1$s\" is not installed. Mounting of %2$s is not possible. Please ask your system administrator to install it." : "\"%1 $ s\" ئورنىتىلمىدى. %2 $ s نى ئورنىتىش مۇمكىن ئەمەس. ئۇنى قاچىلاشنى سىستېما باشقۇرغۇچىڭىزدىن سوراڭ.",
     "External storage" : "سىرتقى ساقلىغۇچ",
     "External storage support" : "سىرتقى ساقلاش ياردىمى",
     "Adds basic external storage support" : "ئاساسىي تاشقى ساقلاش قوللايدۇ",

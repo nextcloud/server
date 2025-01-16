@@ -23,9 +23,11 @@ import { FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 
+import { useHotKey } from '@nextcloud/vue/dist/Composables/useHotKey.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
+import { useActiveStore } from '../../store/active.ts'
 import { useKeyboardStore } from '../../store/keyboard.ts'
 import { useSelectionStore } from '../../store/selection.ts'
 import logger from '../../logger.ts'
@@ -60,13 +62,21 @@ export default defineComponent({
 	setup() {
 		const selectionStore = useSelectionStore()
 		const keyboardStore = useKeyboardStore()
+		const activeStore = useActiveStore()
+
 		return {
+			activeStore,
 			keyboardStore,
 			selectionStore,
+			t,
 		}
 	},
 
 	computed: {
+		isActive() {
+			return this.activeStore.activeNode?.source === this.source.source
+		},
+
 		selectedFiles() {
 			return this.selectionStore.selected
 		},
@@ -89,6 +99,23 @@ export default defineComponent({
 				? t('files', 'File is loading')
 				: t('files', 'Folder is loading')
 		},
+	},
+
+	created() {
+		// ctrl+space toggle selection
+		useHotKey(' ', this.onToggleSelect, {
+			stop: true,
+			prevent: true,
+			ctrl: true,
+		})
+
+		// ctrl+shift+space toggle range selection
+		useHotKey(' ', this.onToggleSelect, {
+			stop: true,
+			prevent: true,
+			ctrl: true,
+			shift: true,
+		})
 	},
 
 	methods: {
@@ -132,7 +159,15 @@ export default defineComponent({
 			this.selectionStore.reset()
 		},
 
-		t,
+		onToggleSelect() {
+			// Don't react if the node is not active
+			if (!this.isActive) {
+				return
+			}
+
+			logger.debug('Toggling selection for file', { source: this.source })
+			this.onSelectionChange(!this.isSelected)
+		},
 	},
 })
 </script>

@@ -9,7 +9,7 @@ OC.L10N.register(
     "Use backup code" : "زاپاسلاش كودىنى ئىشلىتىڭ",
     "Two factor backup codes" : "ئىككى ئامىل زاپاسلاش كودى",
     "A two-factor auth backup codes provider" : "ئىككى ئامىللىق ئاپتوماتىك زاپاسلاش كودى بىلەن تەمىنلىگۈچى",
-    "Backup codes have been generated. {used} of {total} codes have been used." : "زاپاسلاش كودى بارلىققا كەلدى. {ئىشلىتىلگەن} ئومۇمىي} كودلار ئىشلىتىلگەن.",
+    "Backup codes have been generated. {used} of {total} codes have been used." : "زاپاسلاش كودى بارلىققا كەلدى. {used}{total} كودلار ئىشلىتىلگەن.",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "بۇلار سىزنىڭ زاپاسلاش كودىڭىز. كېيىن كودلارنى قايتا ئوقۇيالمىغاچقا ساقلىۋېلىڭ ۋە ياكى بېسىڭ.",
     "Save backup codes" : "زاپاسلاش كودىنى ساقلاڭ",
     "Print backup codes" : "زاپاسلاش كودىنى بېسىڭ",

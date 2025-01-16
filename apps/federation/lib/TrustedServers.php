@@ -96,13 +96,32 @@ class TrustedServers {
 	 * Get all trusted servers
 	 *
 	 * @return list<array{id: int, url: string, url_hash: string, shared_secret: ?string, status: int, sync_token: ?string}>
-	 * @throws Exception
+	 * @throws \Exception
 	 */
-	public function getServers() {
+	public function getServers(): ?array {
 		if ($this->trustedServersCache === null) {
 			$this->trustedServersCache = $this->dbHandler->getAllServer();
 		}
 		return $this->trustedServersCache;
+	}
+
+	/**
+	 * Get a trusted server
+	 *
+	 * @return array{id: int, url: string, url_hash: string, shared_secret: ?string, status: int, sync_token: ?string}
+	 * @throws Exception
+	 */
+	public function getServer(int $id): ?array {
+		if ($this->trustedServersCache === null) {
+			$this->trustedServersCache = $this->dbHandler->getAllServer();
+		}
+
+		$server = array_filter($this->trustedServersCache, fn ($server) => $server['id'] === $id);
+		if (empty($server)) {
+			throw new \Exception('No server found with ID: ' . $id);
+		}
+
+		return $server[0];
 	}
 
 	/**
@@ -138,6 +157,7 @@ class TrustedServers {
 				[
 					'timeout' => 3,
 					'connect_timeout' => 3,
+					'verify' => !$this->config->getSystemValue('sharing.federation.allowSelfSignedCertificates', false),
 				]
 			);
 			if ($result->getStatusCode() === Http::STATUS_OK) {

@@ -7,10 +7,10 @@ import { Permission, type Node, FileAction, View } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import PencilSvg from '@mdi/svg/svg/pencil.svg?raw'
 
-export const ACTION_DETAILS = 'details'
+export const ACTION_RENAME = 'rename'
 
 export const action = new FileAction({
-	id: 'rename',
+	id: ACTION_RENAME,
 	displayName: () => t('files', 'Rename'),
 	iconSvgInline: () => PencilSvg,
 

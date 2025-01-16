@@ -22,7 +22,6 @@ OC.L10N.register(
     "Note:" : "Note :",
     "This share is valid until %s at midnight" : "Cette action est valable jusqu'à minuit le %s",
     "Expiration:" : "Expiration:",
-    "Click the button below to open it." : "Cliquez sur le bouton ci-dessous pour l'ouvrir.",
     "Open %s" : "Ouvrir %s",
     "%1$s via %2$s" : "%1$s via %2$s",
     "%1$s shared %2$s with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s à partagé %2$s avec vous.\n Vous devriez déjà avoir reçu un e-mail séparé avec un lien pour y accéder.\n",
@@ -47,6 +46,7 @@ OC.L10N.register(
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Le partage de %1$s a échoué, parce que cet élément est déjà partagé avec l'utilisateur %2$s",
     "%1$s shared »%2$s« with you" : "%1$s a partagé « %2$s » avec vous",
     "%1$s shared »%2$s« with you." : "%1$s a partagé « %2$s » avec vous.",
+    "Click the button below to open it." : "Cliquez sur le bouton ci-dessous pour l'ouvrir.",
     "Open »%s«" : "Ouvrir « %s »",
     "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s a partagé « %2$s » avec vous.\nVous avez normalement déjà reçu un autre e-mail avec un lien pour y accéder.\n",
     "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s a partagé « %2$s » avec vous. Vous avez normalement déjà reçu un autre e-mail avec un lien pour y accéder.",
@@ -57,7 +57,6 @@ OC.L10N.register(
     "»%s« added a note to a file shared with you" : "%s a ajouté une note à un fichier partagé avec vous.",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Vous venez de partager « %1$s » avec %2$s. Le partage a déjà été envoyé au destinataire. En raison de la politique de sécurité définie par l'administrateur de %3$s, chaque partage doit être protégé par mot de passe et il n'est pas autorisé d'envoyer le mot de passe directement au destinataire. C'est pourquoi vous devez transmettre le mot de passe manuellement au destinataire.",
     "Password to access »%1$s« shared by you with %2$s" : "Mot de passe pour accéder à « %1$s » partagé par vous avec %2$s",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Autoriser les utilisateurs de partager un lien personnalisé vers un fichier ou un dossier en renseignant une adresse e-mail.",
-    "%1$s shared %2$s with you." : "%1$s à partagé %2$s avec vous."
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Autoriser les utilisateurs de partager un lien personnalisé vers un fichier ou un dossier en renseignant une adresse e-mail."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

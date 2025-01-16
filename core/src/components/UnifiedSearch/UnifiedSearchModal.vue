@@ -34,6 +34,7 @@
 					provider.id concatenated to provider.name is used to create the item id, if same then, there should be an issue. -->
 					<NcActionButton v-for="provider in providers"
 						:key="`${provider.id}-${provider.name.replace(/\s/g, '')}`"
+						:disabled="provider.disabled"
 						@click="addProviderFilter(provider)">
 						<template #icon>
 							<img :src="provider.icon" class="filter-button__icon" alt="">
@@ -378,22 +379,18 @@ export default defineComponent({
 					extraQueries: provider.extraParams,
 				}
 
+				// This block of filter checks should be dynamic somehow and should be handled in
+				// nextcloud/search lib
 				if (filters.dateFilterIsApplied) {
 					if (provider.filters?.since && provider.filters?.until) {
 						params.since = this.dateFilter.startFrom
 						params.until = this.dateFilter.endAt
-					} else {
-						// Date filter is applied but provider does not support it, no need to search provider
-						return
 					}
 				}
 
 				if (filters.personFilterIsApplied) {
 					if (provider.filters?.person) {
 						params.person = this.personFilter.user
-					} else {
-						// Person filter is applied but provider does not support it, no need to search provider
-						return
 					}
 				}
 
@@ -493,6 +490,10 @@ export default defineComponent({
 				this.filters[existingPersonFilter].name = person.displayName
 			}
 
+			this.providers.forEach(async (provider, index) => {
+				this.providers[index].disabled = !(await this.providerIsCompatibleWithFilters(provider, ['person']))
+			})
+
 			this.debouncedFind(this.searchQuery)
 			unifiedSearchLogger.debug('Person filter applied', { person })
 		},
@@ -549,6 +550,7 @@ export default defineComponent({
 						if (filter.type === 'person') {
 							this.personFilterIsApplied = false
 						}
+						this.enableAllProviders()
 						break
 					}
 				}
@@ -587,6 +589,9 @@ export default defineComponent({
 				this.filters.push(this.dateFilter)
 			}
 			this.dateFilterIsApplied = true
+			this.providers.forEach(async (provider, index) => {
+				this.providers[index].disabled = !(await this.providerIsCompatibleWithFilters(provider, ['since', 'until']))
+			})
 			this.debouncedFind(this.searchQuery)
 		},
 		applyQuickDateRange(range) {
@@ -676,6 +681,14 @@ export default defineComponent({
 			})
 
 			return flattenedArray
+		},
+		async providerIsCompatibleWithFilters(provider, filterIds) {
+			return filterIds.every(filterId => provider.filters?.[filterId] !== undefined)
+		},
+		async enableAllProviders() {
+			this.providers.forEach(async (_, index) => {
+				this.providers[index].disabled = false
+			})
 		},
 	},
 })

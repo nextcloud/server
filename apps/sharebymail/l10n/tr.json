@@ -20,7 +20,6 @@
     "Note:" : "Not:",
     "This share is valid until %s at midnight" : "Bu paylaşım %s gece yarısına kadar kullanılabilir",
     "Expiration:" : "Geçerlilik süresi sonu:",
-    "Click the button below to open it." : "Açmak için aşağıdaki düğmeye tıklayın.",
     "Open %s" : "%s aç",
     "%1$s via %2$s" : "%1$s, %2$s aracılığıyla",
     "%1$s shared %2$s with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s sizinle %2$s ögesini paylaştı.\nErişim bağlantısını içeren başka bir e-posta daha almış olmalısınız.\n",
@@ -45,6 +44,7 @@
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "%1$s ögesi %2$s kullanıcısı ile zaten paylaşılmış olduğundan paylaşılamadı",
     "%1$s shared »%2$s« with you" : "%1$s, sizinle »%2$s« ögesini paylaştı",
     "%1$s shared »%2$s« with you." : "%1$s, sizinle »%2$s« ögesini paylaştı.",
+    "Click the button below to open it." : "Açmak için aşağıdaki düğmeye tıklayın.",
     "Open »%s«" : "»%s« aç",
     "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s sizinle »%2$s« ögesini paylaştı.\nErişim bağlantısını içeren başka bir e-posta daha almış olmalısınız.\n",
     "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s sizinle »%2$s« ögesini paylaştı. Erişim bağlantısını içeren başka bir e-posta daha almış olmalısınız.",
@@ -55,7 +55,6 @@
     "»%s« added a note to a file shared with you" : "»%s« sizinle paylaştığı bir dosyaya bir not ekledi",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "»%1$s« ögesini %2$s ile paylaştınız. Paylaşım alıcıya gönderildi. %3$s yöneticisi tarafından belirlenmiş güvenlik ilkelerine göre her bir paylaşım için bir parola belirtilmesi ve bu parolanın alıcıya doğrudan gönderilmemesi gerekiyor. Bu nedenle parolayı alıcıya el ile siz iletmelisiniz.",
     "Password to access »%1$s« shared by you with %2$s" : "»%1$s« için %2$s üzerinden paylaştığınız erişim parolası",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Kullanıcıların bir e-posta adresi yazarak bir dosya ya da klasör için kişisel bir bağlantı paylaşmasını sağlar.",
-    "%1$s shared %2$s with you." : "%1$s, sizinle %2$s ögesini paylaştı."
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Kullanıcıların bir e-posta adresi yazarak bir dosya ya da klasör için kişisel bir bağlantı paylaşmasını sağlar."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

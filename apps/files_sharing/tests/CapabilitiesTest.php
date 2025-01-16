@@ -13,6 +13,7 @@ use OCA\Files_Sharing\Capabilities;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IGroupManager;
@@ -75,6 +76,7 @@ class CapabilitiesTest extends \Test\TestCase {
 			$this->createMock(KnownUserService::class),
 			$this->createMock(ShareDisableChecker::class),
 			$this->createMock(IDateTimeZone::class),
+			$this->createMock(IAppConfig::class),
 		);
 		$cap = new Capabilities($config, $shareManager);
 		$result = $this->getFilesSharingPart($cap->getCapabilities());

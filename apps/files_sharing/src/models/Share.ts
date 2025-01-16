@@ -193,6 +193,13 @@ export default class Share {
 	}
 
 	/**
+	 * Set the public share token
+	 */
+	set token(token: string) {
+		this._share.token = token
+	}
+
+	/**
 	 * Get the share note if any
 	 */
 	get note(): string {

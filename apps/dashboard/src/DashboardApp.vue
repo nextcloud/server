@@ -3,7 +3,7 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
  -->
 <template>
-	<div id="app-dashboard">
+	<main id="app-dashboard">
 		<h2>{{ greeting.text }}</h2>
 		<ul class="statuses">
 			<li v-for="status in sortedRegisteredStatus"
@@ -127,7 +127,7 @@
 				</div>
 			</div>
 		</NcModal>
-	</div>
+	</main>
 </template>
 
 <script>
@@ -299,13 +299,17 @@ export default {
 
 		const apiWidgetIdsToFetch = Object
 			.values(this.apiWidgets)
-			.filter(widget => this.isApiWidgetV2(widget.id))
+			.filter(widget => this.isApiWidgetV2(widget.id) && this.layout.includes(widget.id))
 			.map(widget => widget.id)
 		await Promise.all(apiWidgetIdsToFetch.map(id => this.fetchApiWidgetItems([id], true)))
 
 		for (const widget of Object.values(this.apiWidgets)) {
 			if (widget.reload_interval > 0) {
 				setInterval(async () => {
+					if (!this.layout.includes(widget.id)) {
+						return
+					}
+
 					await this.fetchApiWidgetItems([widget.id], true)
 				}, widget.reload_interval * 1000)
 			}
@@ -393,9 +397,11 @@ export default {
 			const index = this.layout.indexOf(panel.id)
 			if (!currentValue && index > -1) {
 				this.layout.splice(index, 1)
-
 			} else {
 				this.layout.push(panel.id)
+				if (this.isApiWidgetV2(panel.id)) {
+					this.fetchApiWidgetItems([panel.id], true)
+				}
 			}
 			Vue.set(this.panels[panel.id], 'mounted', false)
 			this.saveLayout()
@@ -455,8 +461,8 @@ export default {
 			}
 		},
 		async fetchApiWidgets() {
-			const response = await axios.get(generateOcsUrl('/apps/dashboard/api/v1/widgets'))
-			this.apiWidgets = response.data.ocs.data
+			const { data } = await axios.get(generateOcsUrl('/apps/dashboard/api/v1/widgets'))
+			this.apiWidgets = data.ocs.data
 		},
 		async fetchApiWidgetItems(widgetIds, merge = false) {
 			try {

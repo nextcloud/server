@@ -8,20 +8,25 @@ declare(strict_types=1);
  */
 namespace OCA\OAuth2\Controller;
 
+use OC\Core\Controller\ClientFlowLoginController;
 use OCA\OAuth2\Db\ClientMapper;
 use OCA\OAuth2\Exceptions\ClientNotFoundException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IAppConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use OCP\Security\ISecureRandom;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 class LoginRedirectorController extends Controller {
 	/**
 	 * @param string $appName
@@ -38,6 +43,8 @@ class LoginRedirectorController extends Controller {
 		private ClientMapper $clientMapper,
 		private ISession $session,
 		private IL10N $l,
+		private ISecureRandom $random,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -76,12 +83,28 @@ class LoginRedirectorController extends Controller {
 
 		$this->session->set('oauth.state', $state);
 
-		$targetUrl = $this->urlGenerator->linkToRouteAbsolute(
-			'core.ClientFlowLogin.showAuthPickerPage',
-			[
-				'clientIdentifier' => $client->getClientIdentifier(),
-			]
-		);
+		if (in_array($client->getName(), $this->appConfig->getValueArray('oauth2', 'skipAuthPickerApplications', []))) {
+			/** @see ClientFlowLoginController::showAuthPickerPage **/
+			$stateToken = $this->random->generate(
+				64,
+				ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS
+			);
+			$this->session->set(ClientFlowLoginController::STATE_NAME, $stateToken);
+			$targetUrl = $this->urlGenerator->linkToRouteAbsolute(
+				'core.ClientFlowLogin.grantPage',
+				[
+					'stateToken' => $stateToken,
+					'clientIdentifier' => $client->getClientIdentifier(),
+				]
+			);
+		} else {
+			$targetUrl = $this->urlGenerator->linkToRouteAbsolute(
+				'core.ClientFlowLogin.showAuthPickerPage',
+				[
+					'clientIdentifier' => $client->getClientIdentifier(),
+				]
+			);
+		}
 		return new RedirectResponse($targetUrl);
 	}
 }

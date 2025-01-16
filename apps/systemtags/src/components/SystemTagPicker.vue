@@ -51,9 +51,10 @@
 					<!-- Color picker -->
 					<NcColorPicker :data-cy-systemtags-picker-tag-color="tag.id"
 						:value="`#${tag.color}`"
-						:shown.sync="openedPicker"
+						:shown="openedPicker === tag.id"
 						class="systemtags-picker__tag-color"
 						@update:value="onColorChange(tag, $event)"
+						@update:shown="openedPicker = $event ? tag.id : false"
 						@submit="openedPicker = false">
 						<NcButton :aria-label="t('systemtags', 'Change tag color')" type="tertiary">
 							<template #icon>
@@ -151,7 +152,7 @@ import TagIcon from 'vue-material-design-icons/Tag.vue'
 import { createTag, fetchTag, fetchTags, getTagObjects, setTagObjects, updateTag } from '../services/api'
 import { getNodeSystemTags, setNodeSystemTags } from '../utils'
 import { elementColor, invertTextColor, isDarkModeEnabled } from '../utils/colorUtils'
-import logger from '../services/logger'
+import logger from '../logger.ts'
 
 const debounceUpdateTag = debounce(updateTag, 500)
 const mainBackgroundColor = getComputedStyle(document.body)
@@ -210,7 +211,7 @@ export default defineComponent({
 		return {
 			status: Status.BASE,
 			opened: true,
-			openedPicker: false,
+			openedPicker: false as number | false,
 
 			input: '',
 			tags: [] as TagWithId[],

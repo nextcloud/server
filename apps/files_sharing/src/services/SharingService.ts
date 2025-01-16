@@ -36,6 +36,10 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 			ocsEntry.item_mtime = ocsEntry.mtime
 			ocsEntry.file_target = ocsEntry.file_target || ocsEntry.mountpoint
 
+			if (ocsEntry.file_target.includes('TemporaryMountPointName')) {
+				ocsEntry.file_target = ocsEntry.name
+			}
+
 			// Need to set permissions to NONE for federated shares
 			ocsEntry.item_permissions = Permission.NONE
 			ocsEntry.permissions = Permission.NONE

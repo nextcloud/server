@@ -43,6 +43,18 @@
 			@update:checked="update('lookupServerUploadEnabled', lookupServerUploadEnabled)">
 			{{ t('federatedfilesharing', 'Allow people to publish their data to a global and public address book') }}
 		</NcCheckboxRadioSwitch>
+
+		<!-- Trusted server handling -->
+		<div class="settings-subsection">
+			<h3 class="settings-subsection__name">
+				{{ t('federatedfilesharing', 'Trusted federation') }}
+			</h3>
+			<NcCheckboxRadioSwitch type="switch"
+				:checked.sync="federatedTrustedShareAutoAccept"
+				@update:checked="update('federatedTrustedShareAutoAccept', federatedTrustedShareAutoAccept)">
+				{{ t('federatedfilesharing', 'Automatically accept shares from trusted federated accounts and groups by default') }}
+			</NcCheckboxRadioSwitch>
+		</div>
 	</NcSettingsSection>
 </template>
 
@@ -74,6 +86,7 @@ export default {
 			federatedGroupSharingSupported: loadState('federatedfilesharing', 'federatedGroupSharingSupported'),
 			lookupServerEnabled: loadState('federatedfilesharing', 'lookupServerEnabled'),
 			lookupServerUploadEnabled: loadState('federatedfilesharing', 'lookupServerUploadEnabled'),
+			federatedTrustedShareAutoAccept: loadState('federatedfilesharing', 'federatedTrustedShareAutoAccept'),
 			internalOnly: loadState('federatedfilesharing', 'internalOnly'),
 			sharingFederatedDocUrl: loadState('federatedfilesharing', 'sharingFederatedDocUrl'),
 		}
@@ -111,3 +124,18 @@ export default {
 	},
 }
 </script>
+<style scoped>
+.settings-subsection {
+	margin-top: 20px;
+}
+
+.settings-subsection__name {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 16px;
+	font-weight: bold;
+	max-width: 900px;
+	margin-top: 0;
+}
+</style>

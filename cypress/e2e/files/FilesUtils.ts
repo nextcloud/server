@@ -208,3 +208,9 @@ export const triggerFileListAction = (actionId: string) => {
 	cy.get(`button[data-cy-files-list-action="${CSS.escape(actionId)}"]`).last()
 		.should('exist').click({ force: true })
 }
+
+export const reloadCurrentFolder = () => {
+	cy.intercept('PROPFIND', /\/remote.php\/dav\//).as('propfind')
+	cy.get('[data-cy-files-content-breadcrumbs]').findByRole('button', { description: 'Reload current directory' }).click()
+	cy.wait('@propfind')
+}

@@ -7,6 +7,7 @@
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\TableNode;
+use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -168,8 +169,52 @@ class FederationContext implements Context, SnippetAcceptingContext {
 		self::$phpFederatedServerPid = '';
 	}
 
+	/**
+	 * @BeforeScenario @TrustedFederation
+	 */
+	public function theServersAreTrustingEachOther() {
+		$this->asAn('admin');
+		// Trust the remote server on the local server
+		$this->usingServer('LOCAL');
+		$this->sendRequestForJSON('POST', '/apps/federation/trusted-servers', ['url' => 'http://localhost:' . getenv('PORT')]);
+		Assert::assertTrue(($this->response->getStatusCode() === 200 || $this->response->getStatusCode() === 409));
+
+		// Trust the local server on the remote server
+		$this->usingServer('REMOTE');
+		$this->sendRequestForJSON('POST', '/apps/federation/trusted-servers', ['url' => 'http://localhost:' . getenv('PORT_FED')]);
+		// If the server is already trusted, we expect a 409
+		Assert::assertTrue(($this->response->getStatusCode() === 200 || $this->response->getStatusCode() === 409));
+	}
+
+	/**
+	 * @AfterScenario @TrustedFederation
+	 */
+	public function theServersAreNoLongerTrustingEachOther() {
+		$this->asAn('admin');
+		// Untrust the remote servers on the local server
+		$this->usingServer('LOCAL');
+		$this->sendRequestForJSON('GET', '/apps/federation/trusted-servers');
+		$this->theHTTPStatusCodeShouldBe('200');
+		$trustedServersIDs = array_map(fn ($server) => $server->id, json_decode($this->response->getBody())->ocs->data);
+		foreach ($trustedServersIDs as $id) {
+			$this->sendRequestForJSON('DELETE', '/apps/federation/trusted-servers/' . $id);
+			$this->theHTTPStatusCodeShouldBe('200');
+		}
+
+		// Untrust the local server on the remote server
+		$this->usingServer('REMOTE');
+		$this->sendRequestForJSON('GET', '/apps/federation/trusted-servers');
+		$this->theHTTPStatusCodeShouldBe('200');
+		$trustedServersIDs = array_map(fn ($server) => $server->id, json_decode($this->response->getBody())->ocs->data);
+		foreach ($trustedServersIDs as $id) {
+			$this->sendRequestForJSON('DELETE', '/apps/federation/trusted-servers/' . $id);
+			$this->theHTTPStatusCodeShouldBe('200');
+		}
+	}
+
 	protected function resetAppConfigs() {
 		$this->deleteServerConfig('files_sharing', 'incoming_server2server_group_share_enabled');
 		$this->deleteServerConfig('files_sharing', 'outgoing_server2server_group_share_enabled');
+		$this->deleteServerConfig('files_sharing', 'federated_trusted_share_auto_accept');
 	}
 }

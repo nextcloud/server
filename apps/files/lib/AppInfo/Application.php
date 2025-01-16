@@ -13,6 +13,7 @@ use OCA\Files\Capabilities;
 use OCA\Files\Collaboration\Resources\Listener;
 use OCA\Files\Collaboration\Resources\ResourceProvider;
 use OCA\Files\Controller\ApiController;
+use OCA\Files\Dashboard\FavoriteWidget;
 use OCA\Files\DirectEditingCapabilities;
 use OCA\Files\Event\LoadSearchPlugins;
 use OCA\Files\Event\LoadSidebar;
@@ -123,6 +124,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSearchProvider(FilesSearchProvider::class);
 
 		$context->registerNotifierService(Notifier::class);
+		$context->registerDashboardWidget(FavoriteWidget::class);
 	}
 
 	public function boot(IBootContext $context): void {

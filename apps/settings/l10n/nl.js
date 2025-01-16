@@ -195,6 +195,7 @@ OC.L10N.register(
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Profielfoto, volledige naam, e-mailadres, telefoonnummer, adres, website, Twitter, organisatie, rol, kop, biografie en of je profiel is ingeschakeld",
     "Nextcloud settings" : "Nextcloud instellingen",
     "Task:" : "Taak:",
+    "Enable" : "Inschakelen",
     "Here you can decide which group can access certain sections of the administration settings." : "Hier kun je beslissen welke groep toegang heeft tot bepaalde onderdelen van de beheerders instellingen.",
     "None" : "Geen",
     "Unable to modify setting" : "Kan instelling niet aanpassen",
@@ -344,7 +345,6 @@ OC.L10N.register(
     "Webcron" : "Webcron",
     "Use system cron service to call the cron.php file every 5 minutes." : "Gebruik de systeemcron service om cron.php elke 5 minuten aan te roepen.",
     "Profile" : "Profiel",
-    "Enable" : "Inschakelen",
     "Server-side encryption" : "Server-side versleuteling",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "Server-side versleuteling maakt het mogelijk om bestanden te versleutelen die worden geüploaded. Dit betekent wel enig prestatieverlies, dus schakel het alleen in als het nodig is.",
     "Enable server-side encryption" : "Server-side versleuteling inschakelen",
@@ -377,7 +377,6 @@ OC.L10N.register(
     "Error cropping profile picture" : "Fout bij aanpassen profielafbeelding",
     "Error saving profile picture" : "Fout bij opslaan profielafbeelding",
     "Error removing profile picture" : "Fout bij verwijderen profielafbeelding",
-    "Your biography" : "Jouw biografie",
     "Enter your date of birth" : "Voer je geboortedatum in",
     "Unable to update date of birth" : "Kan geboortedatum niet aanpassen",
     "You are a member of the following groups:" : "Je bent lid van de volgende groepen:",
@@ -576,6 +575,7 @@ OC.L10N.register(
     "Allow untested app" : "Niet-geteste apps toestaan",
     "The app will be downloaded from the App Store" : "De app zal worden gedownload van de App Store",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Deze is niet aangeduid als compatibel met jouw versie van Nextcloud. Als je verdergaat, zal je de app kunnen installeren. Let op dat de app misschien niet werkt zoals verwacht.",
+    "Unknown" : "Onbekend",
     "Never" : "Nooit",
     "Could not register device: Network error" : "Kon apparaat niet registreren: netwerkfout",
     "Could not register device: Probably already registered" : "Kon apparaat niet registreren: waarschijnlijk al geregistreerd",
@@ -650,6 +650,7 @@ OC.L10N.register(
     "Username" : "Gebruikersnaam",
     "Execute one task with each page loaded. Use case: Single user instance." : "Een taak uitvoeren bij het laden van iedere pagina. Use case: voor een enkele gebruiker.",
     "Enable or disable profile by default for new users." : "Profiel standaard in- of uitschakelen voor nieuwe gebruikers.",
+    "Your biography" : "Jouw biografie",
     "You are using <strong>{usage}</strong>" : "Je gebruikt <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Je gebruikt <strong>{usage}</strong> van <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
     "Additional emails" : "Extra e-mailadressen",
@@ -695,7 +696,6 @@ OC.L10N.register(
     "Nextcloud help resources" : "Nextcloud hulpbronnen",
     "SMTP Username" : "SMTP gebruikersnaam",
     "Follow us on Twitter" : "Volg ons op Twitter",
-    "Active accounts" : "Actieve accounts",
-    "Users's email account" : "E-mailaccount gebruiker"
+    "Active accounts" : "Actieve accounts"
 },
 "nplurals=2; plural=(n != 1);");

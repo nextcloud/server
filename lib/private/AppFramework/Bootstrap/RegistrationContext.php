@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace OC\AppFramework\Bootstrap;
 
 use Closure;
+use NCU\Config\Lexicon\IConfigLexicon;
+use OC\Config\Lexicon\CoreConfigLexicon;
 use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
@@ -141,6 +143,9 @@ class RegistrationContext {
 	/** @var ServiceRegistration<IDeclarativeSettingsForm>[] */
 	private array $declarativeSettings = [];
 
+	/** @var array<array-key, string> */
+	private array $configLexiconClasses = ['core' => CoreConfigLexicon::class];
+
 	/** @var ServiceRegistration<ITeamResourceProvider>[] */
 	private array $teamResourceProviders = [];
 
@@ -149,6 +154,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<\OCP\TaskProcessing\ITaskType>[] */
 	private array $taskProcessingTaskTypes = [];
+
+	/** @var ServiceRegistration<\OCP\Files\Conversion\IConversionProvider>[] */
+	private array $fileConversionProviders = [];
 	
 	/** @var ServiceRegistration<IMailProvider>[] */
 	private $mailProviders = [];
@@ -416,10 +424,24 @@ class RegistrationContext {
 				);
 			}
 
+			public function registerFileConversionProvider(string $class): void {
+				$this->context->registerFileConversionProvider(
+					$this->appId,
+					$class
+				);
+			}
+
 			public function registerMailProvider(string $class): void {
 				$this->context->registerMailProvider(
 					$this->appId,
 					$class
+				);
+			}
+
+			public function registerConfigLexicon(string $configLexiconClass): void {
+				$this->context->registerConfigLexicon(
+					$this->appId,
+					$configLexiconClass
 				);
 			}
 		};
@@ -614,11 +636,26 @@ class RegistrationContext {
 	public function registerTaskProcessingTaskType(string $appId, string $taskProcessingTaskTypeClass) {
 		$this->taskProcessingTaskTypes[] = new ServiceRegistration($appId, $taskProcessingTaskTypeClass);
 	}
+
+	/**
+	 * @psalm-param class-string<\OCP\Files\Conversion\IConversionProvider> $class
+	 */
+	public function registerFileConversionProvider(string $appId, string $class): void {
+		$this->fileConversionProviders[] = new ServiceRegistration($appId, $class);
+	}
+
 	/**
 	 * @psalm-param class-string<IMailProvider> $migratorClass
 	 */
 	public function registerMailProvider(string $appId, string $class): void {
 		$this->mailProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	/**
+	 * @psalm-param class-string<IConfigLexicon> $configLexiconClass
+	 */
+	public function registerConfigLexicon(string $appId, string $configLexiconClass): void {
+		$this->configLexiconClasses[$appId] = $configLexiconClass;
 	}
 
 	/**
@@ -967,9 +1004,32 @@ class RegistrationContext {
 	}
 
 	/**
+	 * @return ServiceRegistration<\OCP\Files\Conversion\IConversionProvider>[]
+	 */
+	public function getFileConversionProviders(): array {
+		return $this->fileConversionProviders;
+	}
+
+	/**
 	 * @return ServiceRegistration<IMailProvider>[]
 	 */
 	public function getMailProviders(): array {
 		return $this->mailProviders;
+	}
+
+	/**
+	 * returns IConfigLexicon registered by the app.
+	 * null if none registered.
+	 *
+	 * @param string $appId
+	 *
+	 * @return IConfigLexicon|null
+	 */
+	public function getConfigLexicon(string $appId): ?IConfigLexicon {
+		if (!array_key_exists($appId, $this->configLexiconClasses)) {
+			return null;
+		}
+
+		return \OCP\Server::get($this->configLexiconClasses[$appId]);
 	}
 }

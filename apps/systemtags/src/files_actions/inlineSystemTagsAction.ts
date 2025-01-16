@@ -12,7 +12,7 @@ import '../css/fileEntryInlineSystemTags.scss'
 import { elementColor, isDarkModeEnabled } from '../utils/colorUtils'
 import { fetchTags } from '../services/api'
 import { getNodeSystemTags } from '../utils'
-import logger from '../services/logger'
+import logger from '../logger.ts'
 
 // Init tag cache
 const cache: TagWithId[] = []

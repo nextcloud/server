@@ -122,7 +122,7 @@ describe('Accessibility of Nextcloud theming colors', () => {
 					// Unset background image and thus use background-color for testing blur background (images do not work with axe-core)
 					doc.body.style.backgroundImage = 'unset'
 
-					const root = doc.querySelector('main')
+					const root = doc.querySelector('#content')
 					if (root === null) {
 						throw new Error('No test root found')
 					}
@@ -137,7 +137,7 @@ describe('Accessibility of Nextcloud theming colors', () => {
 							it(`color contrast of ${foreground} on ${background}`, () => {
 								cy.document().then(doc => {
 									const element = createTestCase(foreground, background)
-									const root = doc.querySelector('main')
+									const root = doc.querySelector('#content')
 									// eslint-disable-next-line no-unused-expressions
 									expect(root).not.to.be.undefined
 									// eslint-disable-next-line @typescript-eslint/no-non-null-assertion

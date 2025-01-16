@@ -30,6 +30,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\Security\Bruteforce\IThrottler;
+use OCP\Security\ITrustedDomainHelper;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -105,6 +106,9 @@ class LoginControllerTest extends TestCase {
 
 		$this->request->method('getRemoteAddress')
 			->willReturn('1.2.3.4');
+		$this->request->method('getHeader')
+			->with('Origin')
+			->willReturn('domain.example.com');
 		$this->throttler->method('getDelay')
 			->with(
 				$this->equalTo('1.2.3.4'),
@@ -437,6 +441,8 @@ class LoginControllerTest extends TestCase {
 		$password = 'secret';
 		$loginPageUrl = '/login?redirect_url=/apps/files';
 		$loginChain = $this->createMock(LoginChain::class);
+		$trustedDomainHelper = $this->createMock(ITrustedDomainHelper::class);
+		$trustedDomainHelper->method('isTrustedUrl')->willReturn(true);
 		$this->request
 			->expects($this->once())
 			->method('passesCSRFCheck')
@@ -463,7 +469,7 @@ class LoginControllerTest extends TestCase {
 		$expected = new RedirectResponse($loginPageUrl);
 		$expected->throttle(['user' => 'MyUserName']);
 
-		$response = $this->loginController->tryLogin($loginChain, $user, $password, '/apps/files');
+		$response = $this->loginController->tryLogin($loginChain, $trustedDomainHelper, $user, $password, '/apps/files');
 
 		$this->assertEquals($expected, $response);
 	}
@@ -472,6 +478,8 @@ class LoginControllerTest extends TestCase {
 		$user = 'MyUserName';
 		$password = 'secret';
 		$loginChain = $this->createMock(LoginChain::class);
+		$trustedDomainHelper = $this->createMock(ITrustedDomainHelper::class);
+		$trustedDomainHelper->method('isTrustedUrl')->willReturn(true);
 		$this->request
 			->expects($this->once())
 			->method('passesCSRFCheck')
@@ -492,7 +500,7 @@ class LoginControllerTest extends TestCase {
 			->willReturn('/default/foo');
 
 		$expected = new RedirectResponse('/default/foo');
-		$this->assertEquals($expected, $this->loginController->tryLogin($loginChain, $user, $password));
+		$this->assertEquals($expected, $this->loginController->tryLogin($loginChain, $trustedDomainHelper, $user, $password));
 	}
 
 	public function testLoginWithoutPassedCsrfCheckAndNotLoggedIn(): void {
@@ -504,6 +512,8 @@ class LoginControllerTest extends TestCase {
 		$password = 'secret';
 		$originalUrl = 'another%20url';
 		$loginChain = $this->createMock(LoginChain::class);
+		$trustedDomainHelper = $this->createMock(ITrustedDomainHelper::class);
+		$trustedDomainHelper->method('isTrustedUrl')->willReturn(true);
 		$this->request
 			->expects($this->once())
 			->method('passesCSRFCheck')
@@ -517,9 +527,10 @@ class LoginControllerTest extends TestCase {
 		$this->userSession->expects($this->never())
 			->method('createRememberMeToken');
 
-		$response = $this->loginController->tryLogin($loginChain, 'Jane', $password, $originalUrl);
+		$response = $this->loginController->tryLogin($loginChain, $trustedDomainHelper, 'Jane', $password, $originalUrl);
 
 		$expected = new RedirectResponse('');
+		$expected->throttle(['user' => 'Jane']);
 		$this->assertEquals($expected, $response);
 	}
 
@@ -533,6 +544,8 @@ class LoginControllerTest extends TestCase {
 		$originalUrl = 'another url';
 		$redirectUrl = 'http://localhost/another url';
 		$loginChain = $this->createMock(LoginChain::class);
+		$trustedDomainHelper = $this->createMock(ITrustedDomainHelper::class);
+		$trustedDomainHelper->method('isTrustedUrl')->willReturn(true);
 		$this->request
 			->expects($this->once())
 			->method('passesCSRFCheck')
@@ -554,7 +567,7 @@ class LoginControllerTest extends TestCase {
 			->with('remember_login_cookie_lifetime')
 			->willReturn(1234);
 
-		$response = $this->loginController->tryLogin($loginChain, 'Jane', $password, $originalUrl);
+		$response = $this->loginController->tryLogin($loginChain, $trustedDomainHelper, 'Jane', $password, $originalUrl);
 
 		$expected = new RedirectResponse($redirectUrl);
 		$this->assertEquals($expected, $response);
@@ -565,6 +578,8 @@ class LoginControllerTest extends TestCase {
 		$password = 'secret';
 		$redirectUrl = 'https://next.cloud/apps/mail';
 		$loginChain = $this->createMock(LoginChain::class);
+		$trustedDomainHelper = $this->createMock(ITrustedDomainHelper::class);
+		$trustedDomainHelper->method('isTrustedUrl')->willReturn(true);
 		$this->request
 			->expects($this->once())
 			->method('passesCSRFCheck')
@@ -589,13 +604,15 @@ class LoginControllerTest extends TestCase {
 			->willReturn($redirectUrl);
 		$expected = new RedirectResponse($redirectUrl);
 
-		$response = $this->loginController->tryLogin($loginChain, $user, $password, '/apps/mail');
+		$response = $this->loginController->tryLogin($loginChain, $trustedDomainHelper, $user, $password, '/apps/mail');
 
 		$this->assertEquals($expected, $response);
 	}
 
 	public function testToNotLeakLoginName(): void {
 		$loginChain = $this->createMock(LoginChain::class);
+		$trustedDomainHelper = $this->createMock(ITrustedDomainHelper::class);
+		$trustedDomainHelper->method('isTrustedUrl')->willReturn(true);
 		$this->request
 			->expects($this->once())
 			->method('passesCSRFCheck')
@@ -628,6 +645,7 @@ class LoginControllerTest extends TestCase {
 
 		$response = $this->loginController->tryLogin(
 			$loginChain,
+			$trustedDomainHelper,
 			'john@doe.com',
 			'just wrong',
 			'/apps/files'

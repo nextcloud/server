@@ -13,6 +13,7 @@ use OCP\Files\Node;
 use OCP\IUser;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\Exceptions\ShareTokenException;
 
 /**
  * This interface allows to manage sharing files between users and groups.
@@ -463,6 +464,14 @@ interface IManager {
 	 */
 	public function ignoreSecondDisplayName(): bool;
 
+
+	/**
+	 * Check if custom tokens are allowed
+	 *
+	 * @since 31.0.0
+	 */
+	public function allowCustomTokens(): bool;
+
 	/**
 	 * Check if the current user can enumerate the target user
 	 *
@@ -522,4 +531,12 @@ interface IManager {
 	 * @since 18.0.0
 	 */
 	public function getAllShares(): iterable;
+
+	/**
+	 * Generate a unique share token
+	 *
+	 * @throws ShareTokenException Failed to generate a unique token
+	 * @since 31.0.0
+	 */
+	public function generateToken(): string;
 }
