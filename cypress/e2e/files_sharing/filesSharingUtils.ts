@@ -95,6 +95,17 @@ export function updateShare(fileName: string, index: number, shareSettings: Part
 			}
 		}
 
+		if (shareSettings.create !== undefined) {
+			cy.get('[data-cy-files-sharing-share-permissions-checkbox="create"]').find('input').as('createCheckbox')
+			if (shareSettings.create) {
+				// Force:true because the checkbox is hidden by the pretty UI.
+				cy.get('@createCheckbox').check({ force: true, scrollBehavior: 'nearest' })
+			} else {
+				// Force:true because the checkbox is hidden by the pretty UI.
+				cy.get('@createCheckbox').uncheck({ force: true, scrollBehavior: 'nearest' })
+			}
+		}
+
 		if (shareSettings.delete !== undefined) {
 			cy.get('[data-cy-files-sharing-share-permissions-checkbox="delete"]').find('input').as('deleteCheckbox')
 			if (shareSettings.delete) {
