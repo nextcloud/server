@@ -10,7 +10,7 @@ namespace OCA\Files;
 use OC\Files\FilenameValidator;
 use OCA\Files\Service\ChunkedUploadConfig;
 use OCP\Capabilities\ICapability;
-use OCP\Files\Conversion\ConversionMimeTuple;
+use OCP\Files\Conversion\ConversionMimeProvider;
 use OCP\Files\Conversion\IConversionManager;
 
 class Capabilities implements ICapability {
@@ -24,7 +24,7 @@ class Capabilities implements ICapability {
 	/**
 	 * Return this classes capabilities
 	 *
-	 * @return array{files: array{'$comment': ?string, bigfilechunking: bool, blacklisted_files: list<mixed>, forbidden_filenames: list<string>, forbidden_filename_basenames: list<string>, forbidden_filename_characters: list<string>, forbidden_filename_extensions: list<string>, chunked_upload: array{max_size: int, max_parallel_count: int}, file_conversions: list<array{from: string, to: list<array{mime: string, name: string}>}>}}
+	 * @return array{files: array{'$comment': ?string, bigfilechunking: bool, blacklisted_files: list<mixed>, forbidden_filenames: list<string>, forbidden_filename_basenames: list<string>, forbidden_filename_characters: list<string>, forbidden_filename_extensions: list<string>, chunked_upload: array{max_size: int, max_parallel_count: int}, file_conversions: list<array{from: string, to: string, extension: string, displayName: string}>}}
 	 */
 	public function getCapabilities(): array {
 		return [
@@ -42,9 +42,9 @@ class Capabilities implements ICapability {
 					'max_parallel_count' => ChunkedUploadConfig::getMaxParallelCount(),
 				],
 
-				'file_conversions' => array_map(function (ConversionMimeTuple $mimeTuple) {
-					return $mimeTuple->jsonSerialize();
-				}, $this->fileConversionManager->getMimeTypes()),
+				'file_conversions' => array_map(function (ConversionMimeProvider $mimeProvider) {
+					return $mimeProvider->jsonSerialize();
+				}, $this->fileConversionManager->getProviders()),
 			],
 		];
 	}

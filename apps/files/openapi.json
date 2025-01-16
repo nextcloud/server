@@ -101,29 +101,22 @@
                                     "type": "object",
                                     "required": [
                                         "from",
-                                        "to"
+                                        "to",
+                                        "extension",
+                                        "displayName"
                                     ],
                                     "properties": {
                                         "from": {
                                             "type": "string"
                                         },
                                         "to": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "required": [
-                                                    "mime",
-                                                    "name"
-                                                ],
-                                                "properties": {
-                                                    "mime": {
-                                                        "type": "string"
-                                                    },
-                                                    "name": {
-                                                        "type": "string"
-                                                    }
-                                                }
-                                            }
+                                            "type": "string"
+                                        },
+                                        "extension": {
+                                            "type": "string"
+                                        },
+                                        "displayName": {
+                                            "type": "string"
                                         }
                                     }
                                 }

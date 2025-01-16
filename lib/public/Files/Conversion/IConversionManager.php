@@ -25,11 +25,11 @@ interface IConversionManager {
 	/**
 	 * Gets all supported MIME type conversions
 	 *
-	 * @return list<ConversionMimeTuple>
+	 * @return list<ConversionMimeProvider>
 	 *
 	 * @since 31.0.0
 	 */
-	public function getMimeTypes(): array;
+	public function getProviders(): array;
 
 	/**
 	 * Convert a file to a given MIME type
