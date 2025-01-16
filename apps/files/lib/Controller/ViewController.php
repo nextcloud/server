@@ -3,6 +3,7 @@
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-FileCopyrightText: 2025 Informatyka Boguslawski sp. z o.o. sp.k.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files\Controller;
@@ -194,6 +195,7 @@ class ViewController extends Controller {
 			$this->eventDispatcher->dispatchTyped(new LoadViewer());
 		}
 
+		$this->initialState->provideInitialState('templates_enabled', ($this->config->getSystemValueString('skeletondirectory', '') !== '') || ($this->config->getSystemValueString('templatedirectory', '') !== ''));
 		$this->initialState->provideInitialState('templates_path', $this->templateManager->hasTemplateDirectory() ? $this->templateManager->getTemplatePath() : false);
 		$this->initialState->provideInitialState('templates', $this->templateManager->listCreators());
 
