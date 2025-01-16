@@ -29,6 +29,8 @@ export interface ShareSetting {
 	delete: boolean
 	share: boolean
 	download: boolean
+	note: string
+	expiryDate: Date
 }
 
 export function createShare(fileName: string, username: string, shareSettings: Partial<ShareSetting> = {}) {
@@ -48,13 +50,18 @@ export function createShare(fileName: string, username: string, shareSettings: P
 	updateShare(fileName, 0, shareSettings)
 }
 
-export function updateShare(fileName: string, index: number, shareSettings: Partial<ShareSetting> = {}) {
-	openSharingPanel(fileName)
-
+export function openSharingDetails(index: number) {
 	cy.get('#app-sidebar-vue').within(() => {
 		cy.get('[data-cy-files-sharing-share-actions]').eq(index).click()
 		cy.get('[data-cy-files-sharing-share-permissions-bundle="custom"]').click()
+	})
+}
 
+export function updateShare(fileName: string, index: number, shareSettings: Partial<ShareSetting> = {}) {
+	openSharingPanel(fileName)
+	openSharingDetails(index)
+
+	cy.get('#app-sidebar-vue').within(() => {
 		if (shareSettings.download !== undefined) {
 			cy.get('[data-cy-files-sharing-share-permissions-checkbox="download"]').find('input').as('downloadCheckbox')
 			if (shareSettings.download) {
@@ -99,8 +106,22 @@ export function updateShare(fileName: string, index: number, shareSettings: Part
 			}
 		}
 
+		if (shareSettings.note !== undefined) {
+			cy.findByRole('checkbox', { name: /note to recipient/i }).check({ force: true, scrollBehavior: 'nearest' })
+			cy.findByRole('textbox', { name: /note for the share recipient/i }).type(shareSettings.note)
+		}
+
+		if (shareSettings.expiryDate !== undefined) {
+			cy.findByRole('checkbox', { name: /expiration date/i })
+				.check({ force: true, scrollBehavior: 'nearest' })
+			cy.get('#share-date-picker')
+				.type(`${shareSettings.expiryDate.getFullYear()}-${String(shareSettings.expiryDate.getMonth() + 1).padStart(2, '0')}-${String(shareSettings.expiryDate.getDate()).padStart(2, '0')}`)
+		}
+
 		cy.get('[data-cy-files-sharing-share-editor-action="save"]').click({ scrollBehavior: 'nearest' })
 	})
+	// close all toasts
+	cy.get('.toast-success').findAllByRole('button').click({ force: true, multiple: true })
 }
 
 export function openSharingPanel(fileName: string) {
