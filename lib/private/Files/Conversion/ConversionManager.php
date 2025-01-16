@@ -11,7 +11,6 @@ namespace OC\Files\Conversion;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\SystemConfig;
-use OCP\Files\Conversion\ConversionMimeProvider;
 use OCP\Files\Conversion\IConversionManager;
 use OCP\Files\Conversion\IConversionProvider;
 use OCP\Files\File;
@@ -59,22 +58,6 @@ class ConversionManager implements IConversionManager {
 			$providers = array_merge($providers, $provider->getSupportedMimeTypes());
 		}
 		return $providers;
-	}
-
-	/**
-	 * @param string $mime
-	 * @return list<ConversionMimeProvider>
-	 */
-	private function getProvidersForMime(string $mime): array {
-		$mimeTypes = $this->getProviders();
-		$filtered = array_filter(
-			$mimeTypes,
-			function (ConversionMimeProvider $mimeProvider) use ($mime) {
-				return $mimeProvider->getFrom() === $mime;
-			}
-		);
-
-		return array_values($filtered);
 	}
 
 	public function convert(File $file, string $targetMimeType, ?string $destination = null): string {
