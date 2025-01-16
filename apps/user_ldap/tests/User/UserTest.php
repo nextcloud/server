@@ -9,7 +9,6 @@ namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
-use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\User\User;
 use OCP\IAvatar;
 use OCP\IAvatarManager;
@@ -36,8 +35,6 @@ class UserTest extends \Test\TestCase {
 	protected $connection;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var FilesystemHelper|\PHPUnit\Framework\MockObject\MockObject */
-	protected $filesystemhelper;
 	/** @var INotificationManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $notificationManager;
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
@@ -67,7 +64,6 @@ class UserTest extends \Test\TestCase {
 			->willReturn($this->connection);
 
 		$this->config = $this->createMock(IConfig::class);
-		$this->filesystemhelper = $this->createMock(FilesystemHelper::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->avatarManager = $this->createMock(IAvatarManager::class);
 		$this->image = $this->createMock(Image::class);
@@ -79,7 +75,6 @@ class UserTest extends \Test\TestCase {
 			$this->dn,
 			$this->access,
 			$this->config,
-			$this->filesystemhelper,
 			$this->image,
 			$this->logger,
 			$this->avatarManager,
@@ -109,7 +104,7 @@ class UserTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$coreUser->expects($this->once())
-			->method('setEMailAddress')
+			->method('setSystemEMailAddress')
 			->with('alice@foo.bar');
 
 		$this->userManager->expects($this->any())
@@ -508,10 +503,6 @@ class UserTest extends \Test\TestCase {
 			->method('setUserValue')
 			->with($this->uid, 'user_ldap', 'lastAvatarChecksum', md5('this is a photo'));
 
-		$this->filesystemhelper->expects($this->once())
-			->method('isLoaded')
-			->willReturn(true);
-
 		$avatar = $this->createMock(IAvatar::class);
 		$avatar->expects($this->once())
 			->method('set')
@@ -558,9 +549,6 @@ class UserTest extends \Test\TestCase {
 			->willReturn(md5('this is a photo'));
 		$this->config->expects($this->never())
 			->method('setUserValue');
-
-		$this->filesystemhelper->expects($this->never())
-			->method('isLoaded');
 
 		$avatar = $this->createMock(IAvatar::class);
 		$avatar->expects($this->never())
@@ -626,10 +614,6 @@ class UserTest extends \Test\TestCase {
 			->method('setUserValue')
 			->with($this->uid, 'user_ldap', 'lastAvatarChecksum', md5('this is a photo'));
 
-		$this->filesystemhelper->expects($this->once())
-			->method('isLoaded')
-			->willReturn(true);
-
 		$avatar = $this->createMock(IAvatar::class);
 		$avatar->expects($this->once())
 			->method('set')
@@ -680,9 +664,6 @@ class UserTest extends \Test\TestCase {
 			->method('getUserValue');
 		$this->config->expects($this->never())
 			->method('setUserValue');
-
-		$this->filesystemhelper->expects($this->never())
-			->method('isLoaded');
 
 		$avatar = $this->createMock(IAvatar::class);
 		$avatar->expects($this->never())
@@ -739,10 +720,6 @@ class UserTest extends \Test\TestCase {
 		$this->config->expects($this->never())
 			->method('setUserValue');
 
-		$this->filesystemhelper->expects($this->once())
-			->method('isLoaded')
-			->willReturn(true);
-
 		$avatar = $this->createMock(IAvatar::class);
 		$avatar->expects($this->once())
 			->method('set')
@@ -791,9 +768,6 @@ class UserTest extends \Test\TestCase {
 			->method('getUserValue');
 		$this->config->expects($this->never())
 			->method('setUserValue');
-
-		$this->filesystemhelper->expects($this->never())
-			->method('isLoaded');
 
 		$this->avatarManager->expects($this->never())
 			->method('getAvatar');
@@ -917,7 +891,6 @@ class UserTest extends \Test\TestCase {
 				$this->dn,
 				$this->access,
 				$this->config,
-				$this->filesystemhelper,
 				$this->image,
 				$this->logger,
 				$this->avatarManager,
@@ -1042,7 +1015,6 @@ class UserTest extends \Test\TestCase {
 		return [
 			['Roland Deschain', '', 'Roland Deschain', false],
 			['Roland Deschain', '', 'Roland Deschain', true],
-			['Roland Deschain', null, 'Roland Deschain', false],
 			['Roland Deschain', 'gunslinger@darktower.com', 'Roland Deschain (gunslinger@darktower.com)', false],
 			['Roland Deschain', 'gunslinger@darktower.com', 'Roland Deschain (gunslinger@darktower.com)', true],
 		];

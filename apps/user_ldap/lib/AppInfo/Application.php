@@ -10,7 +10,6 @@ use OCA\Files_External\Service\BackendService;
 use OCA\User_LDAP\Controller\RenewPasswordController;
 use OCA\User_LDAP\Events\GroupBackendRegistered;
 use OCA\User_LDAP\Events\UserBackendRegistered;
-use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\GroupPluginManager;
 use OCA\User_LDAP\Handler\ExtStorageConfigHandler;
@@ -85,7 +84,6 @@ class Application extends App implements IBootstrap {
 			function (ContainerInterface $c) {
 				return new Manager(
 					$c->get(IConfig::class),
-					$c->get(FilesystemHelper::class),
 					$c->get(LoggerInterface::class),
 					$c->get(IAvatarManager::class),
 					$c->get(Image::class),

@@ -10,7 +10,6 @@ use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
-use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LDAP;
@@ -111,7 +110,6 @@ class AccessTest extends TestCase {
 		$um = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
 				$this->createMock(IConfig::class),
-				$this->createMock(FilesystemHelper::class),
 				$this->createMock(LoggerInterface::class),
 				$this->createMock(IAvatarManager::class),
 				$this->createMock(Image::class),

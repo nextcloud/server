@@ -450,7 +450,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 
 			$user = $this->access->userManager->get($uid);
 			if ($user instanceof User) {
-				$displayName = $user->composeAndStoreDisplayName($displayName, $displayName2);
+				$displayName = $user->composeAndStoreDisplayName($displayName, (string)$displayName2);
 				$this->access->connection->writeToCache($cacheKey, $displayName);
 			}
 			if ($user instanceof OfflineUser) {
