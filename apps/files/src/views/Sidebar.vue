@@ -404,10 +404,10 @@ export default {
 		},
 
 		/**
-		 * Toggle favourite state
+		 * Toggle favorite state
 		 * TODO: better implementation
 		 *
-		 * @param {boolean} state favourited or not
+		 * @param {boolean} state is favorite or not
 		 */
 		async toggleStarred(state) {
 			try {
@@ -430,17 +430,21 @@ export default {
 				 */
 				const isDir = this.fileInfo.type === 'dir'
 				const Node = isDir ? Folder : File
-				emit(state ? 'files:favorites:added' : 'files:favorites:removed', new Node({
+				const node = new Node({
 					fileid: this.fileInfo.id,
-					source: this.davPath,
-					root: `/files/${getCurrentUser().uid}`,
+					source: `${davRemoteURL}${davRootPath}${this.file}`,
+					root: davRootPath,
 					mime: isDir ? undefined : this.fileInfo.mimetype,
-				}))
+					attributes: {
+						favorite: 1,
+					},
+				})
+				emit(state ? 'files:favorites:added' : 'files:favorites:removed', node)
 
 				this.fileInfo.isFavourited = state
 			} catch (error) {
-				showError(t('files', 'Unable to change the favourite state of the file'))
-				logger.error('Unable to change favourite state', { error })
+				showError(t('files', 'Unable to change the favorite state of the file'))
+				logger.error('Unable to change favorite state', { error })
 			}
 		},
 
