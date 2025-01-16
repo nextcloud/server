@@ -34,6 +34,7 @@
  */
 namespace OC;
 
+use OC\Authentication\Token\IProvider as ITokenProvider;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
 use OC\Repair\AddAppConfigLazyMigration;
@@ -85,6 +86,7 @@ use OC\Repair\RepairLogoDimension;
 use OC\Repair\RepairMimeTypes;
 use OC\Template\JSCombiner;
 use OCA\DAV\Migration\DeleteSchedulingObjects;
+use OCA\OAuth2\Db\AccessTokenMapper;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\Resources\IManager;
