@@ -92,16 +92,16 @@ class ConversionManager implements IConversionManager {
 		$fileMimeType = $file->getMimetype();
 		$validProvider = $this->getValidProvider($fileMimeType, $targetMimeType);
 
-		$targetExtension = '';
-		foreach ($this->getProvidersForMime($fileMimeType) as $mimeProvider) {
-			if ($mimeProvider->getTo() === $targetMimeType) {
-				$targetExtension = $mimeProvider->getExtension();
-				break;
-			}
-		}
-
 		if ($validProvider !== null) {
 			$convertedFile = $validProvider->convertFile($file, $targetMimeType);
+			
+			$targetExtension = '';
+			foreach ($validProvider->getSupportedMimeTypes() as $mimeProvider) {
+				if ($mimeProvider->getTo() === $targetMimeType) {
+					$targetExtension = $mimeProvider->getExtension();
+					break;
+				}
+			}
 
 			// If destination not provided, we use the same path
 			// as the original file, but with the new extension
@@ -122,10 +122,6 @@ class ConversionManager implements IConversionManager {
 	 * @return list<IConversionProvider>
 	 */
 	private function getRegisteredProviders(): array {
-		if (count($this->providers) > 0) {
-			return $this->providers;
-		}
-
 		$context = $this->coordinator->getRegistrationContext();
 		foreach ($context->getFileConversionProviders() as $providerRegistration) {
 			$class = $providerRegistration->getService();
