@@ -559,6 +559,7 @@ OC.L10N.register(
     "Error cropping profile picture" : "حدث خطأُ أثناء قصقصة cropping صورة الملف الشخصي",
     "Error saving profile picture" : "حدث خطأُ أثناء حفظ صورة الملف الشخصي",
     "Error removing profile picture" : "حدث خطأُ أثناء حذف صورة الملف الشخصي",
+    "Your biography. Markdown is supported." : "سيرتك الذاتية. تنسيق \"ماركداون\" مدعوم أيضاً.",
     "Enter your date of birth" : "أدخل تاريخ ميلادك",
     "Unable to update date of birth" : "يتعذّر تحديث تاريخ الميلاد",
     "You are a member of the following groups:" : "أنت عضو في المجموعات التالية:",

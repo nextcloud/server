@@ -44,6 +44,7 @@
     "Failed to authorize" : "授權失敗",
     "Invalid folder path" : "無效的資料夾路徑",
     "Folder not found" : "找不到資料夾",
+    "No favorites" : "沒有最愛",
     "Upload (max. %s)" : "上傳（最多 %s）",
     "Accept" : "接受",
     "Reject" : "拒絕",

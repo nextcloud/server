@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "Fallo al autorizar",
     "Invalid folder path" : "Ruta de carpeta inválida",
     "Folder not found" : "No se encontró la carpeta",
+    "No favorites" : "No hay favoritos",
     "Upload (max. %s)" : "Cargar (max. %s)",
     "Accept" : "Aceptar",
     "Reject" : "Rechazar",

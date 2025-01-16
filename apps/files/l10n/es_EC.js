@@ -42,6 +42,7 @@ OC.L10N.register(
     "Files" : "Archivos",
     "A file or folder has been <strong>changed</strong>" : "Un archivo o carpeta ha sido <strong>modificado</strong>.",
     "A favorite file or folder has been <strong>changed</strong>" : "Un archivo o carpeta favorito ha sido <strong>modificado</strong>.",
+    "No favorites" : "No hay favoritos",
     "Upload (max. %s)" : "Cargar (max. %s)",
     "Accept" : "Aceptar",
     "Reject" : "Rechazar",

@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "Kunne ikke godkende",
     "Invalid folder path" : "Ugyldig mappesti",
     "Folder not found" : "Mappe ikke fundet",
+    "No favorites" : "Ingen foretrukne",
     "Upload (max. %s)" : "Upload (max. %s)",
     "Accept" : "Accepter",
     "Reject" : "Afvis",

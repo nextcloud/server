@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "Sikertelen hitelesítés",
     "Invalid folder path" : "Érvénytelen mappaútvonal",
     "Folder not found" : "A mappa nem található",
+    "No favorites" : "Nincsenek kedvencek",
     "Upload (max. %s)" : "Feltöltés (legfeljebb %s)",
     "Accept" : "Elfogadás",
     "Reject" : "Elutasítás",
