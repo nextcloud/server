@@ -288,7 +288,7 @@ export default {
 
 		const apiWidgetIdsToFetch = Object
 			.values(this.apiWidgets)
-			.filter(widget => this.isApiWidgetV2(widget.id))
+			.filter(widget => this.isApiWidgetV2(widget.id) && this.layout.includes(widget.id))
 			.map(widget => widget.id)
 		await Promise.all(apiWidgetIdsToFetch.map(id => this.fetchApiWidgetItems([id], true)))
 
@@ -382,9 +382,11 @@ export default {
 			const index = this.layout.indexOf(panel.id)
 			if (!currentValue && index > -1) {
 				this.layout.splice(index, 1)
-
 			} else {
 				this.layout.push(panel.id)
+				if (this.isApiWidgetV2(panel.id)) {
+					this.fetchApiWidgetItems([panel.id], true)
+				}
 			}
 			Vue.set(this.panels[panel.id], 'mounted', false)
 			this.saveLayout()
