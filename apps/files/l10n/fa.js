@@ -42,6 +42,7 @@ OC.L10N.register(
     "Files" : "پرونده‌ها",
     "A file or folder has been <strong>changed</strong>" : "یک فایل یا پوشه تغییر کرده است",
     "A favorite file or folder has been <strong>changed</strong>" : "یک فایل یا پوشه مورد علاقه تغییر کرده است",
+    "No favorites" : "هیچ برگزیده",
     "Upload (max. %s)" : "آپلود (بیشترین سایز %s)",
     "Accept" : "قبول",
     "Reject" : "رد کردن",

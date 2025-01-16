@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "Kon niet autoriseren",
     "Invalid folder path" : "Ongeldig pad",
     "Folder not found" : "Map niet gevonden",
+    "No favorites" : "Geen favorieten",
     "Upload (max. %s)" : "Upload (max. %s)",
     "Accept" : "Accepteren",
     "Reject" : "Afwijzen",

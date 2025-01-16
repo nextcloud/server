@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "Autorizácia zlyhala",
     "Invalid folder path" : "Neplatná cesta k priečinku",
     "Folder not found" : "Priečinok nebol nájdený",
+    "No favorites" : "Žiadne obľúbené",
     "Upload (max. %s)" : "Nahrať (max. %s)",
     "Accept" : "Prijať",
     "Reject" : "Odmietnuť",

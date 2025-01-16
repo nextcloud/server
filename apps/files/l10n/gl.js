@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "Produciuse un fallo ao autorizar",
     "Invalid folder path" : "A ruta ao cartafol non é correcta.",
     "Folder not found" : "Non se atopou o cartafolNon se atopou o cartafol",
+    "No favorites" : "Non hai favoritos",
     "Upload (max. %s)" : "Envío (máx. %s)",
     "Accept" : "Aceptar",
     "Reject" : "Rexeitar",

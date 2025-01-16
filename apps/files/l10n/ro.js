@@ -42,6 +42,7 @@ OC.L10N.register(
     "Files" : "Fișiere",
     "A file or folder has been <strong>changed</strong>" : "Un nou fișier sau dosar a fost <strong>modificat</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Un fișier sau dosar favorit a fost <strong>schimbat</strong>",
+    "No favorites" : "Fără favorite",
     "Upload (max. %s)" : "Încarcă (max. %s)",
     "Accept" : "Accept",
     "Reject" : "Respinge",

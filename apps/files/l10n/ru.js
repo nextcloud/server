@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "Не удалось авторизовать",
     "Invalid folder path" : "Неверный путь к папке",
     "Folder not found" : "Папка не найдена",
+    "No favorites" : "Нет избранного",
     "Upload (max. %s)" : "Загрузка (максимум %s)",
     "Accept" : "Принять",
     "Reject" : "Отклонить",

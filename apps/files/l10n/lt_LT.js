@@ -45,6 +45,7 @@ OC.L10N.register(
     "A favorite file or folder has been <strong>changed</strong>" : "Buvo <strong>pakeistas</strong> mėgstamas failas ar aplankas",
     "Invalid folder path" : "Neteisingas aplanko kelias",
     "Folder not found" : "Aplankas nerastas",
+    "No favorites" : "Nėra mėgstamiausių",
     "Upload (max. %s)" : "Įkelti (maks. %s)",
     "Accept" : "Priimti",
     "Reject" : "Atmesti",

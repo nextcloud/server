@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "認証に失敗しました",
     "Invalid folder path" : "無効なフォルダーパス",
     "Folder not found" : "フォルダーが見つかりません",
+    "No favorites" : "お気に入りなし",
     "Upload (max. %s)" : "アップロード ( 最大 %s )",
     "Accept" : "承諾",
     "Reject" : "拒否",

@@ -43,6 +43,7 @@ OC.L10N.register(
     "Files" : "Ficheros",
     "A file or folder has been <strong>changed</strong>" : "Hai un ficheru o una carpeta que <strong>camudó</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Hai un ficheru o una carpeta de Favoritos que <strong>camudó</strong>",
+    "No favorites" : "Nengún favoritu",
     "Upload (max. %s)" : "Xubir (%s como máximu)",
     "Accept" : "Aceptar",
     "Reject" : "Refugar",

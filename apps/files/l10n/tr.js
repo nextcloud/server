@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "İzin verilemedi",
     "Invalid folder path" : "Klasör yolu geçersiz",
     "Folder not found" : "Klasör bulunamadı",
+    "No favorites" : "Sık kullanılan bir öge yok",
     "Upload (max. %s)" : "Yükle (en büyük: %s)",
     "Accept" : "Kabul et",
     "Reject" : "Reddet",

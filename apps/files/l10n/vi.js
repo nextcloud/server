@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "Không thể xác minh",
     "Invalid folder path" : "Đường dẫn tới thư mục không hợp lệ",
     "Folder not found" : "Không thể tìm thấy thư mục",
+    "No favorites" : "Không có mục ưa thích nào",
     "Upload (max. %s)" : "Tải lên (tối đa %s)",
     "Accept" : "Đồng ý",
     "Reject" : "Từ chối",

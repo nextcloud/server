@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "Није успело добијање дозволе",
     "Invalid folder path" : "Неисправна путања фолдера",
     "Folder not found" : "Није пронађен фолдер",
+    "No favorites" : "Нема омиљених",
     "Upload (max. %s)" : "Отпремање (макс. %s)",
     "Accept" : "Прихвати",
     "Reject" : "Одбаци",

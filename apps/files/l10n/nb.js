@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "Autorisering feilet",
     "Invalid folder path" : "Ugyldig mappebane",
     "Folder not found" : "Mappe ikke funnet",
+    "No favorites" : "Ingen favoritter",
     "Upload (max. %s)" : "Opplasting (maks %s)",
     "Accept" : "Aksepter",
     "Reject" : "Avvis",

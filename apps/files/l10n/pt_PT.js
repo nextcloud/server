@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "Falhou a autorização",
     "Invalid folder path" : "Caminho da pasta inválido",
     "Folder not found" : "Pasta não encontrada",
+    "No favorites" : "Sem favoritos",
     "Upload (max. %s)" : "Envio (máx. %s)",
     "Accept" : "Aceitar",
     "Reject" : "Rejeitar",

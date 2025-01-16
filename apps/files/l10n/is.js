@@ -42,6 +42,7 @@ OC.L10N.register(
     "Files" : "Skráaforrit",
     "A file or folder has been <strong>changed</strong>" : "Skjali eða möppu hefur verið <strong>breytt</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Skrá eða möppu í eftirlætum hefur verið <strong>breytt</strong>",
+    "No favorites" : "Engin eftirlæti",
     "Upload (max. %s)" : "Senda inn (hám. %s)",
     "Accept" : "Samþykkja",
     "Reject" : "Hafna",
