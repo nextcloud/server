@@ -11,7 +11,7 @@ namespace OC\Files\Conversion;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\SystemConfig;
-use OCP\Files\Conversion\ConversionMimeTuple;
+use OCP\Files\Conversion\ConversionMimeProvider;
 use OCP\Files\Conversion\IConversionManager;
 use OCP\Files\Conversion\IConversionProvider;
 use OCP\Files\File;
@@ -32,10 +32,10 @@ class ConversionManager implements IConversionManager {
 		'richdocuments',
 	];
 
-	/** @var IConversionProvider[] */
+	/** @var list<IConversionProvider> */
 	private array $preferredProviders = [];
 
-	/** @var IConversionProvider[] */
+	/** @var list<IConversionProvider> */
 	private array $providers = [];
 
 	public function __construct(
@@ -53,16 +53,28 @@ class ConversionManager implements IConversionManager {
 		return !empty($context->getFileConversionProviders());
 	}
 
-	public function getMimeTypes(): array {
-		$mimeTypes = [];
-
-		foreach ($this->getProviders() as $provider) {
-			$mimeTypes[] = $provider->getSupportedMimetypes();
+	public function getProviders(): array {
+		$providers = [];
+		foreach ($this->getRegisteredProviders() as $provider) {
+			$providers = array_merge($providers, $provider->getSupportedMimeTypes());
 		}
+		return $providers;
+	}
 
-		/** @var list<ConversionMimeTuple> */
-		$mimeTypes = array_merge(...$mimeTypes);
-		return $mimeTypes;
+	/**
+	 * @param string $mime
+	 * @return list<ConversionMimeProvider>
+	 */
+	private function getProvidersForMime(string $mime): array {
+		$mimeTypes = $this->getProviders();
+		$filtered = array_filter(
+			$mimeTypes,
+			function (ConversionMimeProvider $mimeProvider) use ($mime) {
+				return $mimeProvider->getFrom() === $mime;
+			}
+		);
+
+		return array_values($filtered);
 	}
 
 	public function convert(File $file, string $targetMimeType, ?string $destination = null): string {
@@ -80,24 +92,36 @@ class ConversionManager implements IConversionManager {
 		$fileMimeType = $file->getMimetype();
 		$validProvider = $this->getValidProvider($fileMimeType, $targetMimeType);
 
+		$targetExtension = '';
+		foreach ($this->getProvidersForMime($fileMimeType) as $mimeProvider) {
+			if ($mimeProvider->getTo() === $targetMimeType) {
+				$targetExtension = $mimeProvider->getExtension();
+				break;
+			}
+		}
+
 		if ($validProvider !== null) {
 			$convertedFile = $validProvider->convertFile($file, $targetMimeType);
 
-			if ($destination !== null) {
-				$convertedFile = $this->writeToDestination($destination, $convertedFile);
-				return $convertedFile->getPath();
+			// If destination not provided, we use the same path
+			// as the original file, but with the new extension
+			if ($destination === null) {
+				$basename = pathinfo($file->getPath(), PATHINFO_FILENAME);
+				$parent = $file->getParent();
+				$destination = $parent->getFullPath($basename . '.' . $targetExtension);
 			}
 
-			$tmp = $this->tempManager->getTemporaryFile();
-			file_put_contents($tmp, $convertedFile);
-
-			return $tmp;
+			$convertedFile = $this->writeToDestination($destination, $convertedFile);
+			return $convertedFile->getPath();
 		}
 
 		throw new RuntimeException('Could not convert file');
 	}
 
-	public function getProviders(): array {
+	/**
+	 * @return list<IConversionProvider>
+	 */
+	private function getRegisteredProviders(): array {
 		if (count($this->providers) > 0) {
 			return $this->providers;
 		}
@@ -121,32 +145,33 @@ class ConversionManager implements IConversionManager {
 			}
 		}
 
-		return array_merge([], $this->preferredProviders, $this->providers);
+		return array_values(array_merge([], $this->preferredProviders, $this->providers));
 	}
 
 	private function writeToDestination(string $destination, mixed $content): File {
+		if ($this->rootFolder->nodeExists($destination)) {
+			$file = $this->rootFolder->get($destination);
+			$parent = $file->getParent();
+			if (!$parent->isCreatable()) {
+				throw new GenericFileException('Destination is not creatable');
+			}
+
+			$newName = $parent->getNonExistingName(basename($destination));
+			$destination = $parent->getFullPath($newName);
+		}
+
 		return $this->rootFolder->newFile($destination, $content);
 	}
 
 	private function getValidProvider(string $fileMimeType, string $targetMimeType): ?IConversionProvider {
-		$validProvider = null;
-		foreach ($this->getProviders() as $provider) {
-			$suitableMimeTypes = array_filter(
-				$provider->getSupportedMimeTypes(),
-				function (ConversionMimeTuple $mimeTuple) use ($fileMimeType, $targetMimeType) {
-					['from' => $from, 'to' => $to] = $mimeTuple->jsonSerialize();
-					
-					$supportsTargetMimeType = in_array($targetMimeType, array_column($to, 'mime'));
-					return ($from === $fileMimeType) && $supportsTargetMimeType;
+		foreach ($this->getRegisteredProviders() as $provider) {
+			foreach ($provider->getSupportedMimeTypes() as $mimeProvider) {
+				if ($mimeProvider->getFrom() === $fileMimeType && $mimeProvider->getTo() === $targetMimeType) {
+					return $provider;
 				}
-			);
-
-			if (!empty($suitableMimeTypes)) {
-				$validProvider = $provider;
-				break;
 			}
 		}
-
-		return $validProvider;
+		
+		return null;
 	}
 }

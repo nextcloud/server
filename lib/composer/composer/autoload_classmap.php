@@ -377,7 +377,7 @@ return array(
     'OCP\\Files\\Config\\IRootMountProvider' => $baseDir . '/lib/public/Files/Config/IRootMountProvider.php',
     'OCP\\Files\\Config\\IUserMountCache' => $baseDir . '/lib/public/Files/Config/IUserMountCache.php',
     'OCP\\Files\\ConnectionLostException' => $baseDir . '/lib/public/Files/ConnectionLostException.php',
-    'OCP\\Files\\Conversion\\ConversionMimeTuple' => $baseDir . '/lib/public/Files/Conversion/ConversionMimeTuple.php',
+    'OCP\\Files\\Conversion\\ConversionMimeProvider' => $baseDir . '/lib/public/Files/Conversion/ConversionMimeProvider.php',
     'OCP\\Files\\Conversion\\IConversionManager' => $baseDir . '/lib/public/Files/Conversion/IConversionManager.php',
     'OCP\\Files\\Conversion\\IConversionProvider' => $baseDir . '/lib/public/Files/Conversion/IConversionProvider.php',
     'OCP\\Files\\DavUtil' => $baseDir . '/lib/public/Files/DavUtil.php',

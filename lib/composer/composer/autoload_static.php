@@ -21,6 +21,10 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         array (
             'NCU\\' => 4,
         ),
+        'B' => 
+        array (
+            'Bamarni\\Composer\\Bin\\' => 21,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -39,6 +43,10 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'NCU\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/unstable',
+        ),
+        'Bamarni\\Composer\\Bin\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src',
         ),
     );
 
@@ -418,7 +426,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\Config\\IRootMountProvider' => __DIR__ . '/../../..' . '/lib/public/Files/Config/IRootMountProvider.php',
         'OCP\\Files\\Config\\IUserMountCache' => __DIR__ . '/../../..' . '/lib/public/Files/Config/IUserMountCache.php',
         'OCP\\Files\\ConnectionLostException' => __DIR__ . '/../../..' . '/lib/public/Files/ConnectionLostException.php',
-        'OCP\\Files\\Conversion\\ConversionMimeTuple' => __DIR__ . '/../../..' . '/lib/public/Files/Conversion/ConversionMimeTuple.php',
+        'OCP\\Files\\Conversion\\ConversionMimeProvider' => __DIR__ . '/../../..' . '/lib/public/Files/Conversion/ConversionMimeProvider.php',
         'OCP\\Files\\Conversion\\IConversionManager' => __DIR__ . '/../../..' . '/lib/public/Files/Conversion/IConversionManager.php',
         'OCP\\Files\\Conversion\\IConversionProvider' => __DIR__ . '/../../..' . '/lib/public/Files/Conversion/IConversionProvider.php',
         'OCP\\Files\\DavUtil' => __DIR__ . '/../../..' . '/lib/public/Files/DavUtil.php',

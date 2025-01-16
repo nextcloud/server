@@ -8,6 +8,7 @@ use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
 
@@ -169,6 +170,8 @@ trait BasicStructure {
 		try {
 			$this->response = $client->request($verb, $fullUrl, $options);
 		} catch (ClientException $ex) {
+			$this->response = $ex->getResponse();
+		} catch (ServerException $ex) {
 			$this->response = $ex->getResponse();
 		}
 	}

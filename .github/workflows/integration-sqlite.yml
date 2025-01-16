@@ -61,6 +61,7 @@ jobs:
           - 'federation_features'
           - '--tags ~@large files_features'
           - 'filesdrop_features'
+          - 'file_conversions'
           - 'openldap_features'
           - 'openldap_numerical_features'
           - 'ldap_features'

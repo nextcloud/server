@@ -21,7 +21,7 @@ interface IConversionProvider {
 	/**
 	 * Get an array of MIME type tuples this conversion provider supports
 	 *
-	 * @return list<ConversionMimeTuple>
+	 * @return list<ConversionMimeProvider>
 	 *
 	 * @since 31.0.0
 	 */
