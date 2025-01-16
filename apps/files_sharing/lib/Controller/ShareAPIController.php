@@ -21,6 +21,7 @@ use OCA\Files_Sharing\SharedStorage;
 use OCA\GlobalSiteSelector\Service\SlaveService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
@@ -52,6 +53,7 @@ use OCP\Lock\LockedException;
 use OCP\Mail\IMailer;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\Exceptions\ShareTokenException;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
@@ -1164,6 +1166,7 @@ class ShareAPIController extends OCSController {
 	 *                              Considering the share already exists, no mail will be send after the share is updated.
 	 *                              You will have to use the sendMail action to send the mail.
 	 * @param string|null $shareWith New recipient for email shares
+	 * @param string|null $token New token
 	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare, array{}>
 	 * @throws OCSBadRequestException Share could not be updated because the requested changes are invalid
 	 * @throws OCSForbiddenException Missing permissions to update the share
@@ -1184,6 +1187,7 @@ class ShareAPIController extends OCSController {
 		?string $hideDownload = null,
 		?string $attributes = null,
 		?string $sendMail = null,
+		?string $token = null,
 	): DataResponse {
 		try {
 			$share = $this->getShareById($id);
@@ -1211,7 +1215,8 @@ class ShareAPIController extends OCSController {
 			$label === null &&
 			$hideDownload === null &&
 			$attributes === null &&
-			$sendMail === null
+			$sendMail === null &&
+			$token === null
 		) {
 			throw new OCSBadRequestException($this->l->t('Wrong or no update parameter given'));
 		}
@@ -1324,6 +1329,16 @@ class ShareAPIController extends OCSController {
 			} elseif ($sendPasswordByTalk !== null) {
 				$share->setSendPasswordByTalk(false);
 			}
+
+			if ($token !== null) {
+				if (!$this->shareManager->allowCustomTokens()) {
+					throw new OCSForbiddenException($this->l->t('Custom share link tokens have been disabled by the administrator'));
+				}
+				if (!$this->validateToken($token)) {
+					throw new OCSBadRequestException($this->l->t('Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen'));
+				}
+				$share->setToken($token);
+			}
 		}
 
 		// NOT A LINK SHARE
@@ -1355,6 +1370,16 @@ class ShareAPIController extends OCSController {
 		}
 
 		return new DataResponse($this->formatShare($share));
+	}
+
+	private function validateToken(string $token): bool {
+		if (mb_strlen($token) === 0) {
+			return false;
+		}
+		if (!preg_match('/^[a-z0-9-]+$/i', $token)) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -2150,6 +2175,28 @@ class ShareAPIController extends OCSController {
 
 		} catch (ShareNotFound $e) {
 			throw new OCSNotFoundException($this->l->t('Wrong share ID, share does not exist'));
+		}
+	}
+
+	/**
+	 * Get a unique share token
+	 *
+	 * @throws OCSException Failed to generate a unique token
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{token: string}, array{}>
+	 *
+	 * 200: Token generated successfully
+	 */
+	#[ApiRoute(verb: 'GET', url: '/api/v1/token')]
+	#[NoAdminRequired]
+	public function generateToken(): DataResponse {
+		try {
+			$token = $this->shareManager->generateToken();
+			return new DataResponse([
+				'token' => $token,
+			]);
+		} catch (ShareTokenException $e) {
+			throw new OCSException($this->l->t('Failed to generate a unique token'));
 		}
 	}
 }

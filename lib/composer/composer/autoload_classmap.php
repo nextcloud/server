@@ -758,6 +758,7 @@ return array(
     'OCP\\Share\\Exceptions\\GenericShareException' => $baseDir . '/lib/public/Share/Exceptions/GenericShareException.php',
     'OCP\\Share\\Exceptions\\IllegalIDChangeException' => $baseDir . '/lib/public/Share/Exceptions/IllegalIDChangeException.php',
     'OCP\\Share\\Exceptions\\ShareNotFound' => $baseDir . '/lib/public/Share/Exceptions/ShareNotFound.php',
+    'OCP\\Share\\Exceptions\\ShareTokenException' => $baseDir . '/lib/public/Share/Exceptions/ShareTokenException.php',
     'OCP\\Share\\IAttributes' => $baseDir . '/lib/public/Share/IAttributes.php',
     'OCP\\Share\\IManager' => $baseDir . '/lib/public/Share/IManager.php',
     'OCP\\Share\\IProviderFactory' => $baseDir . '/lib/public/Share/IProviderFactory.php',

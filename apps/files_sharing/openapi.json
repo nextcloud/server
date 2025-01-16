@@ -129,6 +129,9 @@
                                     },
                                     "upload_files_drop": {
                                         "type": "boolean"
+                                    },
+                                    "custom_tokens": {
+                                        "type": "boolean"
                                     }
                                 }
                             },
@@ -2313,6 +2316,11 @@
                                         "type": "string",
                                         "nullable": true,
                                         "description": "if the share should be send by mail. Considering the share already exists, no mail will be send after the share is updated. You will have to use the sendMail action to send the mail."
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "New token"
                                     }
                                 }
                             }
@@ -3824,6 +3832,75 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/files_sharing/api/v1/token": {
+            "get": {
+                "operationId": "shareapi-generate-token",
+                "summary": "Get a unique share token",
+                "tags": [
+                    "shareapi"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Token generated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "token"
+                                                    ],
+                                                    "properties": {
+                                                        "token": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                     }

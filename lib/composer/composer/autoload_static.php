@@ -799,6 +799,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Share\\Exceptions\\GenericShareException' => __DIR__ . '/../../..' . '/lib/public/Share/Exceptions/GenericShareException.php',
         'OCP\\Share\\Exceptions\\IllegalIDChangeException' => __DIR__ . '/../../..' . '/lib/public/Share/Exceptions/IllegalIDChangeException.php',
         'OCP\\Share\\Exceptions\\ShareNotFound' => __DIR__ . '/../../..' . '/lib/public/Share/Exceptions/ShareNotFound.php',
+        'OCP\\Share\\Exceptions\\ShareTokenException' => __DIR__ . '/../../..' . '/lib/public/Share/Exceptions/ShareTokenException.php',
         'OCP\\Share\\IAttributes' => __DIR__ . '/../../..' . '/lib/public/Share/IAttributes.php',
         'OCP\\Share\\IManager' => __DIR__ . '/../../..' . '/lib/public/Share/IManager.php',
         'OCP\\Share\\IProviderFactory' => __DIR__ . '/../../..' . '/lib/public/Share/IProviderFactory.php',
