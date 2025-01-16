@@ -293,6 +293,8 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Votre répertoire de données est certainement accessible depuis internet car le fichier .htaccess ne fonctionne pas.",
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">documentation</a>." : "Pour les informations de configuration de votre serveur, veuillez lire la <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">documentation</a>.",
     "<strong>Create an admin account</strong>" : "<strong>Créer un compte administrateur</strong>",
+    "New admin account name" : "Nouveau nom de compte administrateur",
+    "New admin password" : "Nouveau mot de passe admin",
     "Show password" : "Afficher le mot de passe",
     "Toggle password visibility" : "Activer/Désactiver la visibilité du mot de passe",
     "Storage & database" : "Stockage & base de données",

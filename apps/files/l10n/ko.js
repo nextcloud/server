@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "인증 실패하였습니다",
     "Invalid folder path" : "잘못된 폴더 경로",
     "Folder not found" : "폴더를 찾을 수 없음",
+    "No favorites" : "즐겨찾는 항목 없음",
     "Upload (max. %s)" : "업로드(최대 %s)",
     "Accept" : "수락",
     "Reject" : "거절",

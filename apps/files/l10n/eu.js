@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "Ezin izan da baimendu",
     "Invalid folder path" : "Karpeta bide baliogabea",
     "Folder not found" : "Ez da karpeta aurkitu",
+    "No favorites" : "Gogokorik ez",
     "Upload (max. %s)" : "Igo (%s gehienez)",
     "Accept" : "Onartu",
     "Reject" : "Ukatu",

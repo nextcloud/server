@@ -43,6 +43,7 @@ OC.L10N.register(
     "Files" : "Tiedostot",
     "A file or folder has been <strong>changed</strong>" : "Tiedostoa tai kansiota on <strong>muutettu</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Suosikkitiedostoa tai -kansiota on <strong>muutettu</strong>",
+    "No favorites" : "Ei suosikkeja",
     "Upload (max. %s)" : "Lähetys (enintään %s)",
     "Accept" : "Hyväksy",
     "Reject" : "Hylkää",

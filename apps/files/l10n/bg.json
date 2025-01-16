@@ -40,6 +40,7 @@
     "Files" : "Файлове",
     "A file or folder has been <strong>changed</strong>" : "<strong>Промяна</strong> на файл / папка",
     "A favorite file or folder has been <strong>changed</strong>" : "Предпочетен файл или папка е <strong>променен</strong>",
+    "No favorites" : "Няма любими",
     "Upload (max. %s)" : "Качи (макс. %s)",
     "Accept" : "Приемане",
     "Reject" : "Откажи",

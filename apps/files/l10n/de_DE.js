@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "Autorisierung fehlgeschlagen",
     "Invalid folder path" : "Ungültiger Order-Pfad",
     "Folder not found" : "Ordner nicht gefunden",
+    "No favorites" : "Keine Favoriten",
     "Upload (max. %s)" : "Hochladen (max. %s)",
     "Accept" : "Akzeptieren",
     "Reject" : "Ablehnen",

@@ -557,6 +557,7 @@
     "Error cropping profile picture" : "Fehler beim Zuschneiden des Profilbilds",
     "Error saving profile picture" : "Fehler beim Speichern des Profilbilds",
     "Error removing profile picture" : "Fehler beim Entfernen des Profilbilds",
+    "Your biography. Markdown is supported." : "Ihre Biographie. Markdown wird unterstützt.",
     "Enter your date of birth" : "Geben Sie Ihr Geburtsdatum ein",
     "Unable to update date of birth" : "Geburtsdatum konnte nicht aktualisiert werden",
     "You are a member of the following groups:" : "Sie sind Mitglied folgender Gruppen:",

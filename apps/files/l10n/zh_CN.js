@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "授权失败",
     "Invalid folder path" : "无效文件夹路径",
     "Folder not found" : "未找到文件夹",
+    "No favorites" : "无收藏",
     "Upload (max. %s)" : "上传 （最大 %s）",
     "Accept" : "接受",
     "Reject" : "拒绝",

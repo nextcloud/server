@@ -121,6 +121,8 @@ OC.L10N.register(
     "Personal info" : "Про мене",
     "Mobile & desktop" : "Застосунки для пристроїв",
     "Email server" : "Сервер електронної пошти",
+    "Mail Providers" : "Постачальники послуг ел.пошти",
+    "System email account" : "Системний обліковий запис ел.пошти",
     "Security & setup checks" : "Безпека та перевірка налаштувань",
     "Background jobs" : "Фонові завдання",
     "Unlimited" : "Необмежено",

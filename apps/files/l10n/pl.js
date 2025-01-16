@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "Błąd autoryzacji",
     "Invalid folder path" : "Nieprawidłowa ścieżka katalogu",
     "Folder not found" : "Nie znaleziono katalogu",
+    "No favorites" : "Brak ulubionych",
     "Upload (max. %s)" : "Wysyłanie (maks. %s)",
     "Accept" : "Akceptuj",
     "Reject" : "Odrzuć",
