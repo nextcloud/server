@@ -16,6 +16,10 @@ use OCP\ILogger;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
 use function call_user_func_array;
+use function is_array;
+use function is_object;
+use function json_decode;
+use function json_encode;
 use function microtime;
 
 /**
@@ -50,11 +54,20 @@ class Internal extends Session {
 
 	/**
 	 * @param string $key
-	 * @param integer $value
+	 * @param mixed $value
 	 */
 	public function set(string $key, $value) {
 		$reopened = $this->reopen();
-		$_SESSION[$key] = $value;
+
+		// The previous mechanism for session encryption json-encoded all values,
+		// which implicitly led to objects convert to arrays or objects if they
+		// implement (json) serializable interfaces.
+		$normalized = match (is_array($value) || is_object($value)) {
+			true => json_decode(json_encode($value, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR),
+			false => $value,
+		};
+
+		$_SESSION[$key] = $normalized;
 		if ($reopened) {
 			$this->close();
 		}
