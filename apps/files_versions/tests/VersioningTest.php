@@ -430,8 +430,9 @@ class VersioningTest extends \Test\TestCase {
 		$this->rootView->file_put_contents($v2, 'version2');
 
 		// move file into the shared folder as recipient
-		Filesystem::rename('/test.txt', '/folder1/test.txt');
+		$success = Filesystem::rename('/test.txt', '/folder1/test.txt');
 
+		$this->assertTrue($success);
 		$this->assertFalse($this->rootView->file_exists($v1));
 		$this->assertFalse($this->rootView->file_exists($v2));
 
