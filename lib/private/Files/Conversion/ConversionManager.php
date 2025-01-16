@@ -11,7 +11,6 @@ namespace OC\Files\Conversion;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\SystemConfig;
-use OCP\Files\Conversion\ConversionMimeProvider;
 use OCP\Files\Conversion\IConversionManager;
 use OCP\Files\Conversion\IConversionProvider;
 use OCP\Files\File;
@@ -61,22 +60,6 @@ class ConversionManager implements IConversionManager {
 		return $providers;
 	}
 
-	/**
-	 * @param string $mime
-	 * @return list<ConversionMimeProvider>
-	 */
-	private function getProvidersForMime(string $mime): array {
-		$mimeTypes = $this->getProviders();
-		$filtered = array_filter(
-			$mimeTypes,
-			function (ConversionMimeProvider $mimeProvider) use ($mime) {
-				return $mimeProvider->getFrom() === $mime;
-			}
-		);
-
-		return array_values($filtered);
-	}
-
 	public function convert(File $file, string $targetMimeType, ?string $destination = null): string {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No file conversion providers available');
@@ -92,16 +75,16 @@ class ConversionManager implements IConversionManager {
 		$fileMimeType = $file->getMimetype();
 		$validProvider = $this->getValidProvider($fileMimeType, $targetMimeType);
 
-		$targetExtension = '';
-		foreach ($this->getProvidersForMime($fileMimeType) as $mimeProvider) {
-			if ($mimeProvider->getTo() === $targetMimeType) {
-				$targetExtension = $mimeProvider->getExtension();
-				break;
-			}
-		}
-
 		if ($validProvider !== null) {
 			$convertedFile = $validProvider->convertFile($file, $targetMimeType);
+			
+			$targetExtension = '';
+			foreach ($validProvider->getSupportedMimeTypes() as $mimeProvider) {
+				if ($mimeProvider->getTo() === $targetMimeType) {
+					$targetExtension = $mimeProvider->getExtension();
+					break;
+				}
+			}
 
 			// If destination not provided, we use the same path
 			// as the original file, but with the new extension
@@ -122,10 +105,6 @@ class ConversionManager implements IConversionManager {
 	 * @return list<IConversionProvider>
 	 */
 	private function getRegisteredProviders(): array {
-		if (count($this->providers) > 0) {
-			return $this->providers;
-		}
-
 		$context = $this->coordinator->getRegistrationContext();
 		foreach ($context->getFileConversionProviders() as $providerRegistration) {
 			$class = $providerRegistration->getService();
