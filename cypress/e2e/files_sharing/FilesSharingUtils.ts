@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 /* eslint-disable jsdoc/require-jsdoc */
+
 import { triggerActionForFile } from '../files/FilesUtils'
 
 export interface ShareSetting {
@@ -12,6 +13,7 @@ export interface ShareSetting {
 	share: boolean
 	download: boolean
 	note: string
+	expiryDate: Date
 }
 
 export function createShare(fileName: string, username: string, shareSettings: Partial<ShareSetting> = {}) {
@@ -31,15 +33,20 @@ export function createShare(fileName: string, username: string, shareSettings: P
 	updateShare(fileName, 0, shareSettings)
 }
 
+export function openSharingDetails(index: number) {
+	cy.get('#app-sidebar-vue').within(() => {
+		cy.get('[data-cy-files-sharing-share-actions]').eq(index).click()
+		cy.get('[data-cy-files-sharing-share-permissions-bundle="custom"]').click()
+	})
+}
+
 export function updateShare(fileName: string, index: number, shareSettings: Partial<ShareSetting> = {}) {
 	openSharingPanel(fileName)
+	openSharingDetails(index)
 
 	cy.intercept({ times: 1, method: 'PUT', url: '**/apps/files_sharing/api/v1/shares/*' }).as('updateShare')
 
 	cy.get('#app-sidebar-vue').within(() => {
-		cy.get('[data-cy-files-sharing-share-actions]').eq(index).click()
-		cy.get('[data-cy-files-sharing-share-permissions-bundle="custom"]').click()
-
 		if (shareSettings.download !== undefined) {
 			cy.get('[data-cy-files-sharing-share-permissions-checkbox="download"]').find('input').as('downloadCheckbox')
 			if (shareSettings.download) {
@@ -86,13 +93,22 @@ export function updateShare(fileName: string, index: number, shareSettings: Part
 
 		if (shareSettings.note !== undefined) {
 			cy.findByRole('checkbox', { name: /note to recipient/i }).check({ force: true, scrollBehavior: 'nearest' })
-			cy.findByRole('textbox', { name: /note to recipient/i }).type(shareSettings.note)
+			cy.findByRole('textbox', { name: /note for the share recipient/i }).type(shareSettings.note)
+		}
+
+		if (shareSettings.expiryDate !== undefined) {
+			cy.findByRole('checkbox', { name: /expiration date/i })
+				.check({ force: true, scrollBehavior: 'nearest' })
+			cy.get('#share-date-picker')
+				.type(`${shareSettings.expiryDate.getFullYear()}-${String(shareSettings.expiryDate.getMonth() + 1).padStart(2, '0')}-${String(shareSettings.expiryDate.getDate()).padStart(2, '0')}`)
 		}
 
 		cy.get('[data-cy-files-sharing-share-editor-action="save"]').click({ scrollBehavior: 'nearest' })
 
 		cy.wait('@updateShare')
 	})
+	// close all toasts
+	cy.get('.toast-success').findAllByRole('button').click({ force: true, multiple: true })
 }
 
 export function openSharingPanel(fileName: string) {
