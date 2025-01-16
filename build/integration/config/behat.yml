@@ -16,7 +16,7 @@ default:
         - "%paths.base%/../features"
       contexts:
         - FeatureContext:
-            baseUrl:  http://localhost:8080/ocs/
+            baseUrl: http://localhost:8080/ocs/
             admin:
               - admin
               - admin
@@ -39,7 +39,7 @@ default:
         - "%paths.base%/../comments_features"
       contexts:
         - FeatureContext:
-            baseUrl:  http://localhost:8080/ocs/
+            baseUrl: http://localhost:8080/ocs/
             admin:
               - admin
               - admin
@@ -62,7 +62,7 @@ default:
         - "%paths.base%/../dav_features"
       contexts:
         - DavFeatureContext:
-            baseUrl:  http://localhost:8080/ocs/
+            baseUrl: http://localhost:8080/ocs/
             admin:
               - admin
               - admin
@@ -85,7 +85,7 @@ default:
         - "%paths.base%/../federation_features"
       contexts:
         - FederationContext:
-            baseUrl:  http://localhost:8080/ocs/
+            baseUrl: http://localhost:8080/ocs/
             admin:
               - admin
               - admin
@@ -95,7 +95,7 @@ default:
         - "%paths.base%/../files_features"
       contexts:
         - FeatureContext:
-            baseUrl:  http://localhost:8080/ocs/
+            baseUrl: http://localhost:8080/ocs/
             admin:
               - admin
               - admin
@@ -113,12 +113,22 @@ default:
         - CommandLineContext:
             baseUrl: http://localhost:8080
             ocPath: ../../
+    files_conversion:
+      paths:
+        - "%paths.base%/../file_conversions"
+      contexts:
+        - ConversionsContext:
+            baseUrl: http://localhost:8080
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
     capabilities:
       paths:
         - "%paths.base%/../capabilities_features"
       contexts:
         - CapabilitiesContext:
-            baseUrl:  http://localhost:8080/ocs/
+            baseUrl: http://localhost:8080/ocs/
             admin:
               - admin
               - admin
@@ -128,7 +138,7 @@ default:
         - "%paths.base%/../collaboration_features"
       contexts:
         - CollaborationContext:
-            baseUrl:  http://localhost:8080/ocs/
+            baseUrl: http://localhost:8080/ocs/
             admin:
               - admin
               - admin
@@ -138,7 +148,7 @@ default:
         - "%paths.base%/../sharees_features"
       contexts:
         - ShareesContext:
-            baseUrl:  http://localhost:8080/ocs/
+            baseUrl: http://localhost:8080/ocs/
             admin:
               - admin
               - admin
@@ -148,7 +158,7 @@ default:
         - "%paths.base%/../sharing_features"
       contexts:
         - SharingContext:
-            baseUrl:  http://localhost:8080/ocs/
+            baseUrl: http://localhost:8080/ocs/
             admin:
               - admin
               - admin
@@ -159,7 +169,7 @@ default:
         - "%paths.base%/../videoverification_features"
       contexts:
         - SharingContext:
-            baseUrl:  http://localhost:8080/ocs/
+            baseUrl: http://localhost:8080/ocs/
             admin:
               - admin
               - admin
@@ -170,7 +180,7 @@ default:
         - "%paths.base%/../setup_features"
       contexts:
         - SetupContext:
-            baseUrl:  http://localhost:8080/ocs/
+            baseUrl: http://localhost:8080/ocs/
             admin:
               - admin
               - admin
@@ -220,10 +230,10 @@ default:
         - "%paths.base%/../remoteapi_features"
       contexts:
         - FeatureContext:
-            baseUrl:  http://localhost:8080/ocs/
+            baseUrl: http://localhost:8080/ocs/
             admin:
               - admin
               - admin
             regular_user_password: 123456
         - RemoteContext:
-            remote:  http://localhost:8080
+            remote: http://localhost:8080
