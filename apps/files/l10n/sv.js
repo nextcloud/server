@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "Det gick inte att auktorisera",
     "Invalid folder path" : "Ogiltig mappsökväg",
     "Folder not found" : "Mappen hittades inte",
+    "No favorites" : "Inga favoriter",
     "Upload (max. %s)" : "Ladda upp (högst %s)",
     "Accept" : "Acceptera",
     "Reject" : "Avvisa",

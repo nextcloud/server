@@ -42,6 +42,7 @@ OC.L10N.register(
     "Files" : "Berkas",
     "A file or folder has been <strong>changed</strong>" : "Sebuah berkas atau folder telah <strong>diubah</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Sebuah berkas atau folder favorit telah <strong>diubah</strong>",
+    "No favorites" : "Tidak ada favorit",
     "Upload (max. %s)" : "Unggah (maks. %s)",
     "Accept" : "Terima",
     "Reject" : "Ditolak",

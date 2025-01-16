@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "Не вдалося авторизуватися",
     "Invalid folder path" : "Недійсний шлях до каталогу",
     "Folder not found" : "Каталог не знайдено",
+    "No favorites" : "Немає улюблених",
     "Upload (max. %s)" : "Завантаження (макс. %s)",
     "Accept" : "Прийняти",
     "Reject" : "Відхилити",

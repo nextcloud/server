@@ -67,6 +67,8 @@ OC.L10N.register(
     "Manage tags" : "Керування мітками",
     "Applying tags changes…" : "Застосування змін до міток...",
     "Search or create tag" : "Шукати або створити мітку",
+    "Change tag color" : "Змінити колір мітки",
+    "Create new tag" : "Створити нову мітку",
     "Select or create tags to apply to all selected files" : "Застосувати до всіх вибраних файлів шукати або створити мітки",
     "Cancel" : "Скасувати",
     "Apply changes" : "Застосувати зміни",

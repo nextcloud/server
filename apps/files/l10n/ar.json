@@ -44,6 +44,7 @@
     "Failed to authorize" : "فشل في التخويل",
     "Invalid folder path" : "مسار المجلد غير صحيح",
     "Folder not found" : "المجلد غير موجود",
+    "No favorites" : "لا يوجد مفضلات ",
     "Upload (max. %s)" : "الرفع ( حد اقصى. %s ) ",
     "Accept" : "قبول",
     "Reject" : "رفض",

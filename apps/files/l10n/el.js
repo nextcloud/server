@@ -42,6 +42,7 @@ OC.L10N.register(
     "Files" : "Αρχεία",
     "A file or folder has been <strong>changed</strong>" : "Ένα αρχείο ή κατάλογος έχουν <strong>αλλάξει</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Ένα αγαπημένο αρχείο ή φάκελός σας έχει <strong>τροποποιηθεί</strong>.",
+    "No favorites" : "Δεν υπάρχουν αγαπημένα",
     "Upload (max. %s)" : "Μεταφόρτωση (max. %s)",
     "Accept" : "Αποδοχή",
     "Reject" : "Απόρριψη",

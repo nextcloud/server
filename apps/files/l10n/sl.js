@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "Overitev je spodletela",
     "Invalid folder path" : "Neveljavna pot mape",
     "Folder not found" : "Mape ni mogoče najti",
+    "No favorites" : "Ni priljubljenih predmetov",
     "Upload (max. %s)" : "Pošiljanje (omejitev %s)",
     "Accept" : "Sprejmi",
     "Reject" : "Zavrni",

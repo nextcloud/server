@@ -42,6 +42,7 @@
     "A file or folder has been <strong>changed</strong>" : "S'ha <strong>modificat</strong> un fitxer o carpeta",
     "A favorite file or folder has been <strong>changed</strong>" : "S'ha <strong>modificat</strong> un fitxer o carpeta dels preferits",
     "Folder not found" : "No s'ha trobat la carpeta",
+    "No favorites" : "No hi ha favorits",
     "Upload (max. %s)" : "Puja (màx. %s)",
     "Accept" : "Accepta",
     "Reject" : "Rebutja",

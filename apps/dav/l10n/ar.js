@@ -1,7 +1,7 @@
 OC.L10N.register(
     "dav",
     {
-    "Calendar" : "الجدول الزمني",
+    "Calendar" : "التقويم",
     "Tasks" : "المهام",
     "Personal" : "خاص",
     "{actor} created calendar {calendar}" : "{actor} قام بإنشاء تقويم {calendar}",

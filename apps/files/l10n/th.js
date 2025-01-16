@@ -43,6 +43,7 @@ OC.L10N.register(
     "Files" : "ไฟล์",
     "A file or folder has been <strong>changed</strong>" : "มีไฟล์หรือโฟลเดอร์ที่มีการ<strong>เปลี่ยนแปลง</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "มีไฟล์หรือโฟลเดอร์ในรายการโปรดที่มีการ<strong>เปลี่ยนแปลง</strong>",
+    "No favorites" : "ยังไม่มีรายการโปรด",
     "Upload (max. %s)" : "อัปโหลด (สูงสุด %s)",
     "Accept" : "ยอมรับ",
     "Reject" : "ปฏิเสธ",

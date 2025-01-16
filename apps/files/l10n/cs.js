@@ -46,6 +46,7 @@ OC.L10N.register(
     "Failed to authorize" : "Nepodařilo se získat pověření",
     "Invalid folder path" : "Neplatný popis umístění složky",
     "Folder not found" : "Složka nenalezena",
+    "No favorites" : "Žádné oblíbené",
     "Upload (max. %s)" : "Nahrát (max. %s)",
     "Accept" : "Přijmout",
     "Reject" : "Odmítnout",
