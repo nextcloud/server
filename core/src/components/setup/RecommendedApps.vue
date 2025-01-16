@@ -55,16 +55,15 @@
 </template>
 
 <script>
-import axios from '@nextcloud/axios'
-import { generateUrl, imagePath } from '@nextcloud/router'
+import { t } from '@nextcloud/l10n'
 import { loadState } from '@nextcloud/initial-state'
+import { generateUrl, imagePath } from '@nextcloud/router'
+import axios from '@nextcloud/axios'
 import pLimit from 'p-limit'
-import { translate as t } from '@nextcloud/l10n'
-
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-
 import logger from '../../logger.js'
+
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 
 const recommended = {
 	calendar: {

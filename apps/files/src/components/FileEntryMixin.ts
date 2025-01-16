@@ -225,11 +225,11 @@ export default defineComponent({
 		/**
 		 * When the source changes, reset the preview
 		 * and fetch the new one.
-		 * @param a
-		 * @param b
+		 * @param newSource The new value of the source prop
+		 * @param oldSource The previous value
 		 */
-		source(a: Node, b: Node) {
-			if (a.source !== b.source) {
+		source(newSource: Node, oldSource: Node) {
+			if (newSource.source !== oldSource.source) {
 				this.resetState()
 			}
 		},
