@@ -76,16 +76,14 @@ class MigrateOauthTables implements IRepairStep {
 				'notnull' => true,
 			]);
 		}
-		if ($table->hasColumn('user_id')) {
-			$table->dropColumn('user_id');
-		}
 		if ($table->hasColumn('expires')) {
 			$table->dropColumn('expires');
 		}
+		if ($table->hasColumn('user_id')) {
+			$table->dropColumn('user_id');
+		}
 		if ($table->hasColumn('token')) {
-			// Warning: We are dropping auth tokens. However, they should only be valid for an hour,
-			// and we can't really migrate them to oc_authtoken anyway.
-			//$table->dropColumn('token');
+			$table->dropColumn('token');
 		}
 
 		$output->info('Update the oauth2_clients table schema.');
