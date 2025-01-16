@@ -17,11 +17,11 @@ use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\User\Backend\ABackend;
 use OCP\User\Backend\ICheckPasswordBackend;
-use OCP\User\Backend\ICountUsersBackend;
 use OCP\User\Backend\ICreateUserBackend;
 use OCP\User\Backend\IGetDisplayNameBackend;
 use OCP\User\Backend\IGetHomeBackend;
 use OCP\User\Backend\IGetRealUIDBackend;
+use OCP\User\Backend\ILimitAwareCountUsersBackend;
 use OCP\User\Backend\IPasswordHashBackend;
 use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Backend\ISetDisplayNameBackend;
@@ -37,7 +37,7 @@ class Database extends ABackend implements
 	IGetDisplayNameBackend,
 	ICheckPasswordBackend,
 	IGetHomeBackend,
-	ICountUsersBackend,
+	ILimitAwareCountUsersBackend,
 	ISearchKnownUsersBackend,
 	IGetRealUIDBackend,
 	IPasswordHashBackend {
@@ -463,10 +463,8 @@ class Database extends ABackend implements
 
 	/**
 	 * counts the users in the database
-	 *
-	 * @return int|false
 	 */
-	public function countUsers() {
+	public function countUsers(int $limit = 0): int|false {
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();

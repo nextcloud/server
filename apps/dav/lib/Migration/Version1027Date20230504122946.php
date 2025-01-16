@@ -33,7 +33,7 @@ class Version1027Date20230504122946 extends SimpleMigrationStep {
 	 * @param array $options
 	 */
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
-		if ($this->userManager->countSeenUsers() > 100 || array_sum($this->userManager->countUsers()) > 100) {
+		if ($this->userManager->countSeenUsers() > 100 || $this->userManager->countUsersTotal(100) >= 100) {
 			$this->config->setAppValue('dav', 'needs_system_address_book_sync', 'yes');
 			$output->info('Could not sync system address books during update - too many user records have been found. Please call occ dav:sync-system-addressbook manually.');
 			return;
