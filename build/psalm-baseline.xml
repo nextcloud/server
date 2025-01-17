@@ -2358,11 +2358,6 @@
       <code><![CDATA[$this->collectionName]]></code>
     </NullableReturnStatement>
   </file>
-  <file src="lib/private/Security/Bruteforce/Throttler.php">
-    <NullArgument>
-      <code><![CDATA[null]]></code>
-    </NullArgument>
-  </file>
   <file src="lib/private/Security/CSP/ContentSecurityPolicyNonceManager.php">
     <NoInterfaceProperties>
       <code><![CDATA[$this->request->server]]></code>
