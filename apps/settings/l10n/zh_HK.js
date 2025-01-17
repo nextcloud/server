@@ -559,6 +559,7 @@ OC.L10N.register(
     "Error cropping profile picture" : "裁剪個人資料圖片時出錯",
     "Error saving profile picture" : "儲存個人資料圖片時出錯",
     "Error removing profile picture" : "移除個人資料圖片時出錯",
+    "Your biography. Markdown is supported." : "您的自傳。支援 Markdown。",
     "Enter your date of birth" : "輸入您的出生日期",
     "Unable to update date of birth" : "無法更新出生日期",
     "You are a member of the following groups:" : "你是下列群組的成員︰",
