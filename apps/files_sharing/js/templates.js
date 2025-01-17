@@ -21,8 +21,8 @@ templates['files_drop'] = template({"1":function(container,depth0,helpers,partia
 
   return "		<img src=\""
     + alias4(((helper = (helper = lookupProperty(helpers,"iconSrc") || (depth0 != null ? lookupProperty(depth0,"iconSrc") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"iconSrc","hash":{},"data":data,"loc":{"start":{"line":6,"column":12},"end":{"line":6,"column":23}}}) : helper)))
-    + "\"/> "
-    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":6,"column":27},"end":{"line":6,"column":35}}}) : helper)))
+    + "\" alt=\"\" /> "
+    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":6,"column":35},"end":{"line":6,"column":43}}}) : helper)))
     + "\n";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
