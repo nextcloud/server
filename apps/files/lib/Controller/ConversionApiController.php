@@ -24,6 +24,7 @@ use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\IL10N;
 use OCP\IRequest;
+use function OCP\Log\logger;
 
 class ConversionApiController extends OCSController {
 	public function __construct(
@@ -80,7 +81,8 @@ class ConversionApiController extends OCSController {
 		try {
 			$convertedFile = $this->fileConversionManager->convert($file, $targetMimeType, $destination);
 		} catch (\Exception $e) {
-			throw new OCSException($e->getMessage());
+			logger('files')->error($e->getMessage(), ['exception' => $e]);
+			throw new OCSException($this->l10n->t('The file could not be converted.'));
 		}
 
 		$convertedFileRelativePath = $userFolder->getRelativePath($convertedFile);
