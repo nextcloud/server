@@ -132,7 +132,7 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		$response->setContentSecurityPolicy($csp);
 
 		// If the share has a label, use it as the title
-		if ($share->getLabel() !== '') {
+		if (!empty($share->getLabel())) {
 			$response->setHeaderTitle($share->getLabel());
 			$response->setParams(['pageTitle' => $share->getLabel()]);
 		} else {
