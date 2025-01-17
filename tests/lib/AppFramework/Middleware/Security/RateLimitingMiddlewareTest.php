@@ -11,6 +11,7 @@ namespace Test\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\RateLimitingMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\Security\Ip\BruteforceAllowList;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
 use OC\Security\RateLimiting\Limiter;
 use OCP\AppFramework\Controller;
@@ -18,6 +19,7 @@ use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IAppConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
@@ -61,6 +63,8 @@ class RateLimitingMiddlewareTest extends TestCase {
 	private ControllerMethodReflector $reflector;
 	private Limiter|MockObject $limiter;
 	private ISession|MockObject $session;
+	private IAppConfig|MockObject $appConfig;
+	private BruteforceAllowList|MockObject $bruteForceAllowList;
 	private RateLimitingMiddleware $rateLimitingMiddleware;
 
 	protected function setUp(): void {
@@ -71,13 +75,17 @@ class RateLimitingMiddlewareTest extends TestCase {
 		$this->reflector = new ControllerMethodReflector();
 		$this->limiter = $this->createMock(Limiter::class);
 		$this->session = $this->createMock(ISession::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->bruteForceAllowList = $this->createMock(BruteforceAllowList::class);
 
 		$this->rateLimitingMiddleware = new RateLimitingMiddleware(
 			$this->request,
 			$this->userSession,
 			$this->reflector,
 			$this->limiter,
-			$this->session
+			$this->session,
+			$this->appConfig,
+			$this->bruteForceAllowList,
 		);
 	}
 
