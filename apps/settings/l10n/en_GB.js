@@ -559,6 +559,7 @@ OC.L10N.register(
     "Error cropping profile picture" : "Error cropping profile picture",
     "Error saving profile picture" : "Error saving profile picture",
     "Error removing profile picture" : "Error removing profile picture",
+    "Your biography. Markdown is supported." : "Your biography. Markdown is supported.",
     "Enter your date of birth" : "Enter your date of birth",
     "Unable to update date of birth" : "Unable to update date of birth",
     "You are a member of the following groups:" : "You are a member of the following groups:",

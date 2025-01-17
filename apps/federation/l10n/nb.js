@@ -2,6 +2,8 @@ OC.L10N.register(
     "federation",
     {
     "Added to the list of trusted servers" : "Lagt til i listen over klarerte servere",
+    "No server found with ID: %s" : "Kunne ikke finne tjener med ID: %s",
+    "Could not remove server" : "Kunne ikke fjerne tjener",
     "Server is already in the list of trusted servers." : "Serveren er allerede i listen av klarerte servere.",
     "No server to federate with found" : "Ingen server å sammenknytte med ble funnet",
     "Could not add server" : "Kunne ikke legge til server",
