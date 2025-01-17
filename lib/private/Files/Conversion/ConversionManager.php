@@ -90,7 +90,6 @@ class ConversionManager implements IConversionManager {
 					break;
 				}
 			}
-	
 			// If destination not provided, we use the same path
 			// as the original file, but with the new extension
 			if ($destination === null) {
