@@ -1078,7 +1078,6 @@ return array(
     'OC\\Authentication\\Login\\ClearLostPasswordTokensCommand' => $baseDir . '/lib/private/Authentication/Login/ClearLostPasswordTokensCommand.php',
     'OC\\Authentication\\Login\\CompleteLoginCommand' => $baseDir . '/lib/private/Authentication/Login/CompleteLoginCommand.php',
     'OC\\Authentication\\Login\\CreateSessionTokenCommand' => $baseDir . '/lib/private/Authentication/Login/CreateSessionTokenCommand.php',
-    'OC\\Authentication\\Login\\EmailLoginCommand' => $baseDir . '/lib/private/Authentication/Login/EmailLoginCommand.php',
     'OC\\Authentication\\Login\\FinishRememberedLoginCommand' => $baseDir . '/lib/private/Authentication/Login/FinishRememberedLoginCommand.php',
     'OC\\Authentication\\Login\\FlowV2EphemeralSessionsCommand' => $baseDir . '/lib/private/Authentication/Login/FlowV2EphemeralSessionsCommand.php',
     'OC\\Authentication\\Login\\LoggedInCheckCommand' => $baseDir . '/lib/private/Authentication/Login/LoggedInCheckCommand.php',
