@@ -1385,6 +1385,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Controller\\TextProcessingApiController' => __DIR__ . '/../../..' . '/core/Controller/TextProcessingApiController.php',
         'OC\\Core\\Controller\\TextToImageApiController' => __DIR__ . '/../../..' . '/core/Controller/TextToImageApiController.php',
         'OC\\Core\\Controller\\TranslationApiController' => __DIR__ . '/../../..' . '/core/Controller/TranslationApiController.php',
+        'OC\\Core\\Controller\\TwoFactorApiController' => __DIR__ . '/../../..' . '/core/Controller/TwoFactorApiController.php',
         'OC\\Core\\Controller\\TwoFactorChallengeController' => __DIR__ . '/../../..' . '/core/Controller/TwoFactorChallengeController.php',
         'OC\\Core\\Controller\\UnifiedSearchController' => __DIR__ . '/../../..' . '/core/Controller/UnifiedSearchController.php',
         'OC\\Core\\Controller\\UnsupportedBrowserController' => __DIR__ . '/../../..' . '/core/Controller/UnsupportedBrowserController.php',
