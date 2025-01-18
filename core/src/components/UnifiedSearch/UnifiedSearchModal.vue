@@ -264,6 +264,7 @@ export default defineComponent({
 			contacts: [],
 			showDateRangeModal: false,
 			internalIsVisible: this.open,
+			initialized: false,
 		}
 	},
 
@@ -308,6 +309,18 @@ export default defineComponent({
 			// Load results when opened with already filled query
 			if (this.open) {
 				this.focusInput()
+				if (!this.initialized) {
+					Promise.all([getProviders(), getContacts({ searchTerm: '' })])
+						.then(([providers, contacts]) => {
+							this.providers = this.groupProvidersByApp([...providers, ...this.externalFilters])
+							this.contacts = this.mapContacts(contacts)
+							unifiedSearchLogger.debug('Search providers and contacts initialized:', { providers: this.providers, contacts: this.contacts })
+							this.initialized = true
+						})
+						.catch((error) => {
+							unifiedSearchLogger.error(error)
+						})
+				}
 				if (this.searchQuery) {
 					this.find(this.searchQuery)
 				}
@@ -324,18 +337,6 @@ export default defineComponent({
 
 	mounted() {
 		subscribe('nextcloud:unified-search:add-filter', this.handlePluginFilter)
-		getProviders().then((providers) => {
-			this.providers = providers
-			this.externalFilters.forEach(filter => {
-				this.providers.push(filter)
-			})
-			this.providers = this.groupProvidersByApp(this.providers)
-			unifiedSearchLogger.debug('Search providers', { providers: this.providers })
-		})
-		getContacts({ searchTerm: '' }).then((contacts) => {
-			this.contacts = this.mapContacts(contacts)
-			unifiedSearchLogger.debug('Contacts', { contacts: this.contacts })
-		})
 	},
 	methods: {
 		/**
