@@ -34,7 +34,7 @@
 			v-if="!isPredefined"
 			:value="currentValue.id"
 			type="text"
-			:placeholder="t('workflowengine', 'e.g. httpd/unix-directory')"
+			:placeholder="t('workflowengine', 'e.g. /^application\\/xml$/')"
 			@input="updateCustom">
 	</div>
 </template>
@@ -56,13 +56,33 @@ export default {
 			type: String,
 			default: '',
 		},
+
+		operator: {
+			type: String,
+			default: '',
+		},
 	},
 
 	emits: ['update:model-value'],
 
 	data() {
 		return {
-			predefinedTypes: [
+			literalOperators: ['is', '!is'],
+			regexOperators: ['matches', '!matches'],
+			predefinedLiteralTypes: [
+				{
+					icon: 'icon-folder',
+					label: t('workflowengine', 'Folder'),
+					id: 'httpd/unix-directory',
+				},
+				{
+					iconUrl: imagePath('core', 'filetypes/application-pdf'),
+					label: t('workflowengine', 'PDF documents'),
+					id: 'application/pdf',
+				},
+			],
+
+			predefinedRegexTypes: [
 				{
 					iconUrl: imagePath('core', 'filetypes/audio'),
 					label: t('workflowengine', 'Audio'),
@@ -71,7 +91,7 @@ export default {
 				{
 					icon: 'icon-folder',
 					label: t('workflowengine', 'Folder'),
-					id: 'httpd/unix-directory',
+					id: '/^httpd\\/unix-directory$/',
 				},
 				{
 					icon: 'icon-picture',
@@ -86,7 +106,7 @@ export default {
 				{
 					iconUrl: imagePath('core', 'filetypes/application-pdf'),
 					label: t('workflowengine', 'PDF documents'),
-					id: 'application/pdf',
+					id: '/^application\\/pdf$/',
 				},
 				{
 					iconUrl: imagePath('core', 'filetypes/video'),
@@ -100,16 +120,17 @@ export default {
 	},
 
 	computed: {
+		availablePredefinedTypes() {
+			return this.literalOperators.includes(this.operator) ? this.predefinedLiteralTypes : this.predefinedRegexTypes
+		},
+
 		options() {
-			return [...this.predefinedTypes, this.customValue]
+			const customTypes = this.regexOperators.includes(this.operator) ? [this.customValue] : []
+			return [...this.availablePredefinedTypes, ...customTypes]
 		},
 
 		isPredefined() {
-			const matchingPredefined = this.predefinedTypes.find((type) => this.newValue === type.id)
-			if (matchingPredefined) {
-				return true
-			}
-			return false
+			return this.availablePredefinedTypes.some((type) => this.newValue === type.id)
 		},
 
 		customValue() {
@@ -121,7 +142,7 @@ export default {
 		},
 
 		currentValue() {
-			const matchingPredefined = this.predefinedTypes.find((type) => this.newValue === type.id)
+			const matchingPredefined = this.availablePredefinedTypes.find((type) => this.newValue === type.id)
 			if (matchingPredefined) {
 				return matchingPredefined
 			}
@@ -136,6 +157,15 @@ export default {
 	watch: {
 		modelValue() {
 			this.updateInternalValue()
+		},
+
+		// If user changed operation from is/!is to matches/!matches (or vice versa), reset value
+		operator(newVal, oldVal) {
+			const switchedGroups = (this.literalOperators.includes(oldVal) && this.regexOperators.includes(newVal))
+				|| (this.regexOperators.includes(oldVal) && this.literalOperators.includes(newVal))
+			if (switchedGroups) {
+				this.setValue(this.options[0])
+			}
 		},
 	},
 
