@@ -182,7 +182,7 @@
     "style-loader": "^3.3.1",
     "tar": "^7.4.3",
     "ts-jest": "^29.2.5",
-    "ts-loader": "^9.5.0",
+    "ts-loader": "^9.5.2",
     "ts-node": "^10.9.1",
     "tslib": "^2.6.2",
     "typescript": "^5.5.4",
