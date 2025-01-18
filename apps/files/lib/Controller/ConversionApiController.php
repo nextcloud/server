@@ -10,17 +10,20 @@ declare(strict_types=1);
 namespace OCA\Files\Controller;
 
 use OC\Files\Utils\PathHelper;
+use OC\ForbiddenException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\Files\Conversion\IConversionManager;
 use OCP\Files\File;
+use OCP\Files\GenericFileException;
 use OCP\Files\IRootFolder;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -59,7 +62,8 @@ class ConversionApiController extends OCSController {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 		$file = $userFolder->getFirstNodeById($fileId);
 
-		if (!($file instanceof File)) {
+		// Also throw a 404 if the file is not readable to not leak information
+		if (!($file instanceof File) || $file->isReadable() === false) {
 			throw new OCSNotFoundException($this->l10n->t('The file cannot be found'));
 		}
 
@@ -72,7 +76,7 @@ class ConversionApiController extends OCSController {
 			}
 
 			if (!$userFolder->get($parentDir)->isCreatable()) {
-				throw new OCSForbiddenException();
+				throw new OCSForbiddenException($this->l10n->t('You do not have permission to create a file at the specified location'));
 			}
 
 			$destination = $userFolder->getFullPath($destination);
@@ -80,6 +84,10 @@ class ConversionApiController extends OCSController {
 
 		try {
 			$convertedFile = $this->fileConversionManager->convert($file, $targetMimeType, $destination);
+		} catch (ForbiddenException $e) {
+			throw new OCSForbiddenException($e->getMessage());
+		} catch (GenericFileException $e) {
+			throw new OCSBadRequestException($e->getMessage());
 		} catch (\Exception $e) {
 			logger('files')->error($e->getMessage(), ['exception' => $e]);
 			throw new OCSException($this->l10n->t('The file could not be converted.'));
