@@ -312,6 +312,7 @@ OC.L10N.register(
     "Deleted disclaimer text" : "Вилучено текст відмови від відповідальності",
     "Could not set disclaimer text" : "Не вдалося задати текст повідомлення про відмову від відповідальності",
     "Two-Factor Authentication" : "Двофакторна авторизація",
+    "Two-factor authentication can be enforced for all accounts and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Двофакторну авторизацію можна примусово визначити як для всіх користувачів, так й для окремих груп. Якщо такі користувачі не визначили постачальника двофакторної авторизації, то вони не зможуть увійти до хмари.",
     "Enforce two-factor authentication" : "Примусово увімкнути двофакторну авторизацію",
     "Limit to groups" : "Обмежити групами",
     "Enforcement of two-factor authentication can be set for certain groups only." : "Примусову двофакторну авторизацію можна встановити лише для певних груп.",
