@@ -25,6 +25,7 @@ class ComposerStaticInitWorkflowEngine
         'OCA\\WorkflowEngine\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\WorkflowEngine\\BackgroundJobs\\Rotate' => __DIR__ . '/..' . '/../lib/BackgroundJobs/Rotate.php',
         'OCA\\WorkflowEngine\\Check\\AbstractStringCheck' => __DIR__ . '/..' . '/../lib/Check/AbstractStringCheck.php',
+        'OCA\\WorkflowEngine\\Check\\Directory' => __DIR__ . '/..' . '/../lib/Check/Directory.php',
         'OCA\\WorkflowEngine\\Check\\FileMimeType' => __DIR__ . '/..' . '/../lib/Check/FileMimeType.php',
         'OCA\\WorkflowEngine\\Check\\FileName' => __DIR__ . '/..' . '/../lib/Check/FileName.php',
         'OCA\\WorkflowEngine\\Check\\FileSize' => __DIR__ . '/..' . '/../lib/Check/FileSize.php',
