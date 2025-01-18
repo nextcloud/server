@@ -103,7 +103,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.2
 	- license: GPL-3.0-or-later
 - @nextcloud/password-confirmation
-	- version: 5.3.0
+	- version: 5.3.1
 	- license: MIT
 - @nextcloud/paths
 	- version: 2.2.1
