@@ -516,6 +516,45 @@ class SessionTest extends \Test\TestCase {
 		$this->assertTrue($userSession->logClientIn('john', 'I-AM-AN-APP-PASSWORD', $request, $this->throttler));
 	}
 
+	public function testLogClientInWithEmailTokenPassword(): void {
+		$manager = $this->createMock(Manager::class);
+		$session = $this->createMock(ISession::class);
+		$request = $this->createMock(IRequest::class);
+
+		/** @var Session $userSession */
+		$userSession = $this->getMockBuilder(Session::class)
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->setMethods(['isTokenPassword', 'login', 'supportsCookies', 'createSessionToken', 'getUser'])
+			->getMock();
+
+		$user = $this->createMock(IUser::class);
+		$user
+			->method('getUID')
+			->willReturn('john');
+		$user
+			->method('getEMailAddress')
+			->willReturn('john@example.com');
+		$manager
+			->method('get')
+			->with('john')
+			->willReturn($user);
+		$userSession->expects($this->once())
+			->method('isTokenPassword')
+			->willReturn(true);
+		$userSession->expects($this->once())
+			->method('login')
+			->with('john@example.com')
+			->willReturn(false);
+		$token = new PublicKeyToken();
+		$token->setLoginName('john');
+		$token->setUid('john');
+		$this->tokenProvider
+			->method('getToken')
+			->with('I-AM-AN-APP-PASSWORD')
+			->willReturn($token);
+
+		$this->assertTrue($userSession->logClientIn('john@example.com', 'I-AM-AN-APP-PASSWORD', $request, $this->throttler));
+	}
 
 	public function testLogClientInNoTokenPasswordNo2fa(): void {
 		$this->expectException(PasswordLoginForbiddenException::class);
