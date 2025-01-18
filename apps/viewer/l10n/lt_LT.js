@@ -37,6 +37,7 @@ OC.L10N.register(
     "Zoom in" : "Didinti",
     "Zoom out" : "Mažinti",
     "Toggle zoom menu" : "Perjungti mastelio meniu",
+    "Filters" : "Filtrai",
     "Resize" : "Keisti dydį",
     "Crop" : "Apkirpti",
     "Custom" : "Tinkinti",

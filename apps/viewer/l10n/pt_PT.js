@@ -28,6 +28,7 @@ OC.L10N.register(
     "Custom" : "Personalizado",
     "Value" : "Valor",
     "Image" : "Imagem",
+    "Line" : "Linha",
     "Text" : "Texto",
     "Size" : "Altura",
     "Name is required." : "Nome é obrigatório.",
