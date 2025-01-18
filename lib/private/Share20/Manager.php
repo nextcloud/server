@@ -35,6 +35,7 @@ use OCP\Mail\IMailer;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
+use OCP\Security\PasswordContext;
 use OCP\Share;
 use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareAcceptedEvent;
@@ -116,7 +117,8 @@ class Manager implements IManager {
 
 		// Let others verify the password
 		try {
-			$this->dispatcher->dispatchTyped(new ValidatePasswordPolicyEvent($password));
+			$event = new ValidatePasswordPolicyEvent($password, PasswordContext::SHARING);
+			$this->dispatcher->dispatchTyped($event);
 		} catch (HintException $e) {
 			/* Wrap in a 400 bad request error */
 			throw new HintException($e->getMessage(), $e->getHint(), 400, $e);
