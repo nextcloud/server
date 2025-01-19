@@ -48,6 +48,7 @@ OC.L10N.register(
     "Folder not found" : "Ordner nicht gefunden",
     "The file cannot be found" : "Die Datei kann nicht gefunden werden",
     "The destination path does not exist: %1$s" : "Der Zielpfad existiert nicht: %1$s",
+    "The file could not be converted." : "Die Datei konnte nicht konvertiert werden.",
     "Could not get relative path to converted file" : "Relativer Pfad zur konvertierten Datei konnte nicht ermittelt werden",
     "Favorite files" : "Favorisierte Dateien",
     "No favorites" : "Keine Favoriten",
