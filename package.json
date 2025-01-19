@@ -44,7 +44,7 @@
     "@nextcloud/axios": "^2.5.1",
     "@nextcloud/browser-storage": "^0.4.0",
     "@nextcloud/browserslist-config": "^3.0.1",
-    "@nextcloud/calendar-availability-vue": "^2.2.4",
+    "@nextcloud/calendar-availability-vue": "^2.2.6",
     "@nextcloud/capabilities": "^1.2.0",
     "@nextcloud/dialogs": "^6.0.1",
     "@nextcloud/event-bus": "^3.3.1",
