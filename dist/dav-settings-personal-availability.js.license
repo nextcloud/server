@@ -84,8 +84,11 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/browser-storage
 	- version: 0.4.0
 	- license: GPL-3.0-or-later
+- uuid
+	- version: 11.0.5
+	- license: MIT
 - @nextcloud/calendar-availability-vue
-	- version: 2.2.4
+	- version: 2.2.6
 	- license: MIT
 - @nextcloud/capabilities
 	- version: 1.2.0
@@ -241,7 +244,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0
 	- license: MIT
 - ical.js
-	- version: 2.0.1
+	- version: 2.1.0
 	- license: MPL-2.0
 - icalzone
 	- version: 0.0.1
@@ -404,9 +407,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - util
 	- version: 0.12.5
-	- license: MIT
-- uuid
-	- version: 10.0.0
 	- license: MIT
 - vue-loader
 	- version: 15.11.1
