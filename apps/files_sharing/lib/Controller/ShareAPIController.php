@@ -566,8 +566,8 @@ class ShareAPIController extends OCSController {
 	 * @param string|null $path Path of the share
 	 * @param int|null $permissions Permissions for the share
 	 * @param int $shareType Type of the share
-	 * @param string|null $shareWith The entity this should be shared with
-	 * @param string $publicUpload If public uploading is allowed
+	 * @param ?string $shareWith The entity this should be shared with
+	 * @param ?string $publicUpload If public uploading is allowed
 	 * @param string $password Password for the share
 	 * @param string|null $sendPasswordByTalk Send the password for the share over Talk
 	 * @param ?string $expireDate The expiry date of the share in the user's timezone at 00:00.
@@ -590,7 +590,7 @@ class ShareAPIController extends OCSController {
 		?int $permissions = null,
 		int $shareType = -1,
 		?string $shareWith = null,
-		string $publicUpload = 'false',
+		?string $publicUpload = null,
 		string $password = '',
 		?string $sendPasswordByTalk = null,
 		?string $expireDate = null,
@@ -599,17 +599,6 @@ class ShareAPIController extends OCSController {
 		?string $attributes = null
 	): DataResponse {
 		$share = $this->shareManager->newShare();
-
-		if ($permissions === null) {
-			if ($shareType === IShare::TYPE_LINK
-				|| $shareType === IShare::TYPE_EMAIL) {
-
-				// to keep legacy default behaviour, we ignore the setting below for link shares
-				$permissions = Constants::PERMISSION_READ;
-			} else {
-				$permissions = (int)$this->config->getAppValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL);
-			}
-		}
 
 		// Verify path
 		if ($path === null) {
@@ -641,12 +630,21 @@ class ShareAPIController extends OCSController {
 			throw new OCSNotFoundException($this->l->t('Could not create share'));
 		}
 
+		// Validate the permissions
 		if ($permissions < 0 || $permissions > Constants::PERMISSION_ALL) {
 			throw new OCSNotFoundException($this->l->t('Invalid permissions'));
 		}
 
-		// Shares always require read permissions
-		$permissions |= Constants::PERMISSION_READ;
+		if ($shareType === IShare::TYPE_LINK || $shareType === IShare::TYPE_EMAIL) {
+			$permissions = $this->getLinkSharePermissions($permissions, $publicUpload);
+		} else {
+			// Use default permissions only for non-link shares to keep legacy behavior
+			if ($permissions === null) {
+				$permissions = (int)$this->config->getAppValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL);
+			}
+			// Non-link shares always require read permissions (link shares could be file drop)
+			$permissions |= Constants::PERMISSION_READ;
+		}
 
 		if ($node instanceof \OCP\Files\File) {
 			// Single file shares should never have delete or create permissions
@@ -712,28 +710,7 @@ class ShareAPIController extends OCSController {
 				throw new OCSNotFoundException($this->l->t('Public link sharing is disabled by the administrator'));
 			}
 
-			if ($publicUpload === 'true') {
-				// Check if public upload is allowed
-				if (!$this->shareManager->shareApiLinkAllowPublicUpload()) {
-					throw new OCSForbiddenException($this->l->t('Public upload disabled by the administrator'));
-				}
-
-				// Public upload can only be set for folders
-				if ($node instanceof \OCP\Files\File) {
-					throw new OCSNotFoundException($this->l->t('Public upload is only possible for publicly shared folders'));
-				}
-
-				$permissions = Constants::PERMISSION_READ |
-					Constants::PERMISSION_CREATE |
-					Constants::PERMISSION_UPDATE |
-					Constants::PERMISSION_DELETE;
-			}
-
-			// TODO: It might make sense to have a dedicated setting to allow/deny converting link shares into federated ones
-			if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
-				$permissions |= Constants::PERMISSION_SHARE;
-			}
-
+			$this->validateLinkSharePermissions($node, $permissions);
 			$share->setPermissions($permissions);
 
 			// Set password
@@ -979,6 +956,70 @@ class ShareAPIController extends OCSController {
 		return new DataResponse($shares);
 	}
 
+	private function getLinkSharePermissions(int $permissions, ?string $legacyPublicUpload): int {
+		// Legacy handling
+		$hasPublicUpload = $this->getLegacyPublicUpload($legacyPublicUpload);
+		if ($hasPublicUpload !== null) {
+			$permissions = $hasPublicUpload
+				? (Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE)
+				: Constants::PERMISSION_READ;
+		}
+
+		// TODO: It might make sense to have a dedicated setting to allow/deny converting link shares into federated ones
+		if ($this->hasPermission($permissions, Constants::PERMISSION_READ)
+			&& $this->shareManager->outgoingServer2ServerSharesAllowed()) {
+			$permissions |= Constants::PERMISSION_SHARE;
+		}
+
+		return $permissions;
+	}
+
+	/**
+	 * Helper to check for legacy "publicUpload" handling.
+	 * If the value is set to `true` or `false` then true or false are returned.
+	 * Otherwise null is returned to indicate that the option was not (or wrong) set.
+	 *
+	 * @param null|string $legacyPublicUpload The value of `publicUpload`
+	 */
+	private function getLegacyPublicUpload(?string $legacyPublicUpload): ?bool {
+		if ($legacyPublicUpload === 'true') {
+			return true;
+		} elseif ($legacyPublicUpload === 'false') {
+			return false;
+		}
+		// Not set at all
+		return null;
+	}
+
+	private function validateLinkSharePermissions(Node $node, int $permissions): void {
+		// We need at least READ or CREATE (file drop)
+		if (!$this->hasPermission($permissions, Constants::PERMISSION_READ)
+			&& !$this->hasPermission($permissions, Constants::PERMISSION_CREATE)) {
+			throw new OCSBadRequestException($this->l->t('Share must at least have READ or CREATE permissions'));
+		}
+
+		// UPDATE and DELETE require a READ permission
+		if (!$this->hasPermission($permissions, Constants::PERMISSION_READ)
+			&& ($this->hasPermission($permissions, Constants::PERMISSION_UPDATE) || $this->hasPermission($permissions, Constants::PERMISSION_DELETE))) {
+			throw new OCSBadRequestException($this->l->t('Share must have READ permission if UPDATE or DELETE permission is set'));
+		}
+
+		// TODO: This setting confuses many users as "public upload" does not include file drops but only full upload shares
+		if (
+			// legacy
+			$permissions === (Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE) ||
+			// correct
+			$permissions === (Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE)
+		) {
+			if (!$this->shareManager->shareApiLinkAllowPublicUpload()) {
+				throw new OCSForbiddenException($this->l->t('Public upload disabled by the administrator'));
+			}
+
+			if (!($node instanceof \OCP\Files\Folder)) {
+				throw new OCSBadRequestException($this->l->t('Public upload is only possible for publicly shared folders'));
+			}
+		}
+	}
 
 	/**
 	 * @param string $viewer
@@ -1161,7 +1202,6 @@ class ShareAPIController extends OCSController {
 		return ($permissionsSet & $permissionsToCheck) === $permissionsToCheck;
 	}
 
-
 	/**
 	 * @NoAdminRequired
 	 *
@@ -1236,7 +1276,7 @@ class ShareAPIController extends OCSController {
 		$this->checkInheritedAttributes($share);
 
 		/**
-		 * expirationdate, password and publicUpload only make sense for link shares
+		 * expiration date, password and publicUpload only make sense for link shares
 		 */
 		if ($share->getShareType() === IShare::TYPE_LINK
 			|| $share->getShareType() === IShare::TYPE_EMAIL) {
@@ -1260,58 +1300,12 @@ class ShareAPIController extends OCSController {
 				$share->setHideDownload(false);
 			}
 
-			$newPermissions = null;
-			if ($publicUpload === 'true') {
-				$newPermissions = Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE;
-			} elseif ($publicUpload === 'false') {
-				$newPermissions = Constants::PERMISSION_READ;
-			}
-
-			if ($permissions !== null) {
-				$newPermissions = $permissions;
-				$newPermissions = $newPermissions & ~Constants::PERMISSION_SHARE;
-			}
-
-			if ($newPermissions !== null) {
-				if (!$this->hasPermission($newPermissions, Constants::PERMISSION_READ) && !$this->hasPermission($newPermissions, Constants::PERMISSION_CREATE)) {
-					throw new OCSBadRequestException($this->l->t('Share must at least have READ or CREATE permissions'));
-				}
-
-				if (!$this->hasPermission($newPermissions, Constants::PERMISSION_READ) && (
-					$this->hasPermission($newPermissions, Constants::PERMISSION_UPDATE) || $this->hasPermission($newPermissions, Constants::PERMISSION_DELETE)
-				)) {
-					throw new OCSBadRequestException($this->l->t('Share must have READ permission if UPDATE or DELETE permission is set'));
-				}
-			}
-
-			if (
-				// legacy
-				$newPermissions === (Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE) ||
-				// correct
-				$newPermissions === (Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE)
-			) {
-				if (!$this->shareManager->shareApiLinkAllowPublicUpload()) {
-					throw new OCSForbiddenException($this->l->t('Public upload disabled by the administrator'));
-				}
-
-				if (!($share->getNode() instanceof \OCP\Files\Folder)) {
-					throw new OCSBadRequestException($this->l->t('Public upload is only possible for publicly shared folders'));
-				}
-
-				// normalize to correct public upload permissions
-				if ($publicUpload === 'true') {
-					$newPermissions = Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE;
-				}
-			}
-
-			if ($newPermissions !== null) {
-				// TODO: It might make sense to have a dedicated setting to allow/deny converting link shares into federated ones
-				if (($newPermissions & Constants::PERMISSION_READ) && $this->shareManager->outgoingServer2ServerSharesAllowed()) {
-					$newPermissions |= Constants::PERMISSION_SHARE;
-				}
-
-				$share->setPermissions($newPermissions);
-				$permissions = $newPermissions;
+			// If either manual permissions are specified or publicUpload
+			// then we need to also update the permissions of the share
+			if ($permissions !== null || $publicUpload !== null) {
+				$permissions = $this->getLinkSharePermissions($permissions ?? Constants::PERMISSION_READ, $publicUpload);
+				$this->validateLinkSharePermissions($share->getNode(), $permissions);
+				$share->setPermissions($permissions);
 			}
 
 			if ($password === '') {
