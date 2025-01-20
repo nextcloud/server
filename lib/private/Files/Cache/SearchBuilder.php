@@ -33,6 +33,7 @@ use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchOrder;
+use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FilesMetadata\IMetadataQuery;
 
 /**
@@ -101,13 +102,10 @@ class SearchBuilder {
 
 	public const TAG_FAVORITE = '_$!<Favorite>!$_';
 
-	/** @var IMimeTypeLoader */
-	private $mimetypeLoader;
-
 	public function __construct(
-		IMimeTypeLoader $mimetypeLoader
+		private IMimeTypeLoader $mimetypeLoader,
+		private IFilesMetadataManager $filesMetadataManager,
 	) {
-		$this->mimetypeLoader = $mimetypeLoader;
 	}
 
 	/**
@@ -306,10 +304,17 @@ class SearchBuilder {
 
 
 	private function getExtraOperatorField(ISearchComparison $operator, IMetadataQuery $metadataQuery): array {
-		$paramType = self::$fieldTypes[$operator->getField()];
 		$field = $operator->getField();
 		$value = $operator->getValue();
 		$type = $operator->getType();
+
+		$knownMetadata = $this->filesMetadataManager->getKnownMetadata();
+		$isIndex = $knownMetadata->isIndex($field);
+		$paramType = $knownMetadata->getType($field) === 'int' ? 'integer' : 'string';
+
+		if (!$isIndex) {
+			throw new \InvalidArgumentException('Cannot search non indexed metadata key');
+		}
 
 		switch($operator->getExtra()) {
 			case IMetadataQuery::EXTRA:
