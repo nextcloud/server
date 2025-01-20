@@ -46,6 +46,7 @@
     "Folder not found" : "Ordner nicht gefunden",
     "The file cannot be found" : "Die Datei kann nicht gefunden werden",
     "The destination path does not exist: %1$s" : "Der Zielpfad existiert nicht: %1$s",
+    "You do not have permission to create a file at the specified location" : "Sie haben nicht die Berechtigung, eine Datei am angegebenen Speicherort zu erstellen",
     "The file could not be converted." : "Die Datei konnte nicht konvertiert werden.",
     "Could not get relative path to converted file" : "Relativer Pfad zur konvertierten Datei konnte nicht ermittelt werden",
     "Favorite files" : "Favorisierte Dateien",

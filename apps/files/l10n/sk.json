@@ -46,6 +46,7 @@
     "Folder not found" : "Priečinok nebol nájdený",
     "The file cannot be found" : "Súbor sa nepodarilo nájisť",
     "The destination path does not exist: %1$s" : "Cieľová cesta neexistuje: %1$s",
+    "You do not have permission to create a file at the specified location" : "Nemáte oprávnenie vytvoriť súbor v zadanom umiestnení",
     "The file could not be converted." : "Súbor nemohol byť skonvertovaný.",
     "Could not get relative path to converted file" : "Nepodarilo sa získať relatícnu cestu ku skonvertovanému súboru",
     "Favorite files" : "Obľúbené súbory",
