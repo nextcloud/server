@@ -1,5 +1,6 @@
 /*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2025 Informatyka Boguslawski sp. z o.o. sp.k.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -10,12 +11,15 @@ import IconWeb from '@mdi/svg/svg/web.svg?raw'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { DialogBuilder, showError } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { encodePath } from '@nextcloud/paths'
 import { generateOcsUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import { logger } from '../utils/logger.ts'
 import { isSyncable } from '../utils/permissions.ts'
+
+const localClientEnabled = loadState('files', 'localClientEnabled', true)
 
 export const action: IFileAction = {
 	id: 'edit-locally',
@@ -31,6 +35,10 @@ export const action: IFileAction = {
 
 		// does not work with shares
 		if (isPublicShare()) {
+			return false
+		}
+
+		if (!localClientEnabled) {
 			return false
 		}
 
