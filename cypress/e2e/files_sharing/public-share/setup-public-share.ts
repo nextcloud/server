@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { User } from '@nextcloud/cypress'
+import type { ShareOptions } from '../ShareOptionsType.ts'
 import { openSharingPanel } from '../FilesSharingUtils.ts'
 
 export interface ShareContext {
@@ -25,37 +26,78 @@ const defaultShareContext: ShareContext = {
  */
 export function getShareUrl(context: ShareContext = defaultShareContext): string {
 	if (!context.url) {
-		throw new Error('Share context is not properly initialized with a URL.')
+		throw new Error('You need to setup the share first!')
 	}
 	return context.url
 }
 
 /**
  * Setup the available data
- * @param context The current share context
+ * @param user The current share context
  * @param shareName The name of the shared folder
  */
-export function setupData(context: ShareContext, shareName: string): void {
-	cy.mkdir(context.user, `/${shareName}`)
-	cy.mkdir(context.user, `/${shareName}/subfolder`)
-	cy.uploadContent(context.user, new Blob(['<content>foo</content>']), 'text/plain', `/${shareName}/foo.txt`)
-	cy.uploadContent(context.user, new Blob(['<content>bar</content>']), 'text/plain', `/${shareName}/subfolder/bar.txt`)
+export function setupData(user: User, shareName: string): void {
+	cy.mkdir(user, `/${shareName}`)
+	cy.mkdir(user, `/${shareName}/subfolder`)
+	cy.uploadContent(user, new Blob(['<content>foo</content>']), 'text/plain', `/${shareName}/foo.txt`)
+	cy.uploadContent(user, new Blob(['<content>bar</content>']), 'text/plain', `/${shareName}/subfolder/bar.txt`)
+}
+
+/**
+ * Check the password state based on enforcement and default presence.
+ *
+ * @param enforced Whether the password is enforced.
+ * @param alwaysAskForPassword Wether the password should always be asked for.
+ */
+function checkPasswordState(enforced: boolean, alwaysAskForPassword: boolean) {
+	if (enforced) {
+	  cy.contains('Password protection (enforced)').should('exist')
+	} else if (alwaysAskForPassword) {
+	  cy.contains('Password protection').should('exist')
+	}
+	cy.contains('Enter a password')
+		.should('exist')
+		.and('not.be.disabled')
+}
+
+/**
+ * Check the expiration date state based on enforcement and default presence.
+ *
+ * @param enforced Whether the expiration date is enforced.
+ * @param hasDefault Whether a default expiration date is set.
+ */
+function checkExpirationDateState(enforced: boolean, hasDefault: boolean) {
+	if (enforced) {
+	  cy.contains('Enable link expiration (enforced)').should('exist')
+	} else if (hasDefault) {
+	  cy.contains('Enable link expiration').should('exist')
+	}
+	cy.contains('Enter expiration date')
+		.should('exist')
+		.and('not.be.disabled')
 }
 
 /**
  * Create a public link share
  * @param context The current share context
  * @param shareName The name of the shared folder
+ * @param options The share options
  */
-export function createShare(context: ShareContext, shareName: string) {
+export function createShare(context: ShareContext, shareName: string, options: ShareOptions | null = null) {
 	cy.login(context.user)
-	cy.visit('/apps/files') // Open the files app
-	openSharingPanel(shareName) // Open the sharing sidebar
+	cy.visit('/apps/files')
+	openSharingPanel(shareName)
 
 	cy.intercept('POST', '**/ocs/v2.php/apps/files_sharing/api/v1/shares').as('createShare')
 	cy.findByRole('button', { name: 'Create a new share link' }).click()
+	  // Conduct optional checks based on the provided options
+	if (options) {
+		cy.get('.sharing-entry__actions').should('be.visible') // Wait for the dialog to open
+		checkPasswordState(options.enforcePassword ?? false, options.alwaysAskForPassword ?? false)
+		checkExpirationDateState(options.enforceExpirationDate ?? false, options.defaultExpirationDateSet ?? false)
+		cy.findByRole('button', { name: 'Create share' }).click()
+	}
 
-	// Extract the share link
 	return cy.wait('@createShare')
 		.should(({ response }) => {
 			expect(response?.statusCode).to.eq(200)
@@ -94,34 +136,34 @@ function adjustSharePermission(): void {
  */
 export function setupPublicShare(shareName = 'shared'): Cypress.Chainable<string> {
 
-	return cy.task('getVariable', { key: 'public-share-data' }).then((data) => {
-		// Leave dataSnapshot part unchanged
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		const { dataSnapshot, shareUrl } = data as any || {}
-		if (dataSnapshot) {
-			cy.restoreState(dataSnapshot)
-			defaultShareContext.url = shareUrl
-			return cy.wrap(shareUrl as string)
-		} else {
-			const shareData: Record<string, unknown> = {}
-			return cy.createRandomUser()
-				.then((user) => {
-					defaultShareContext.user = user
-				})
-				.then(() => setupData(defaultShareContext, shareName))
-				.then(() => createShare(defaultShareContext, shareName))
-				.then((url) => {
-					shareData.shareUrl = url
-				})
-				.then(() => adjustSharePermission())
-				.then(() =>
-					cy.saveState().then((snapshot) => {
-						shareData.dataSnapshot = snapshot
-					}),
-				)
-				.then(() => cy.task('setVariable', { key: 'public-share-data', value: shareData }))
-				.then(() => cy.log(`Public share setup, URL: ${shareData.shareUrl}`))
-				.then(() => cy.wrap(defaultShareContext.url))
-		}
-	})
+	return cy.task('getVariable', { key: 'public-share-data' })
+		.then((data) => {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const { dataSnapshot, shareUrl } = data as any || {}
+			if (dataSnapshot) {
+				cy.restoreState(dataSnapshot)
+				defaultShareContext.url = shareUrl
+				return cy.wrap(shareUrl as string)
+			} else {
+				const shareData: Record<string, unknown> = {}
+				return cy.createRandomUser()
+					.then((user) => {
+						defaultShareContext.user = user
+					})
+					.then(() => setupData(defaultShareContext.user, shareName))
+					.then(() => createShare(defaultShareContext, shareName))
+					.then((url) => {
+						shareData.shareUrl = url
+					})
+					.then(() => adjustSharePermission())
+					.then(() =>
+						cy.saveState().then((snapshot) => {
+							shareData.dataSnapshot = snapshot
+						}),
+					)
+					.then(() => cy.task('setVariable', { key: 'public-share-data', value: shareData }))
+					.then(() => cy.log(`Public share setup, URL: ${shareData.shareUrl}`))
+					.then(() => cy.wrap(defaultShareContext.url))
+			}
+		})
 }
