@@ -65,11 +65,11 @@ class MigrateOauthTables implements IRepairStep {
 			return;
 		}
 
-		$output->info('Prepare the oauth2_access_tokens table schema.');
 		// Create column and then migrate before handling unique index.
 		// So that we can distinguish between legacy (from oc) and new rows (from nc).
 		$table = $schema->getTable('oauth2_access_tokens');
 		if (!$table->hasColumn('hashed_code')) {
+			$output->info('Prepare the oauth2_access_tokens table schema.');
 			$table->addColumn('hashed_code', 'string', [
 				'notnull' => true,
 				'length' => 128,
