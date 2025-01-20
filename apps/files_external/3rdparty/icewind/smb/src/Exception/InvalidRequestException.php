@@ -12,7 +12,7 @@ class InvalidRequestException extends Exception {
 	 */
 	protected $path;
 
-	public function __construct(string $path = "", int $code = 0, \Throwable $previous = null) {
+	public function __construct(string $path = "", int $code = 0, ?\Throwable $previous = null) {
 		$class = get_class($this);
 		$parts = explode('\\', $class);
 		$baseName = array_pop($parts);
