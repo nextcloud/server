@@ -80,7 +80,7 @@ export default {
 	},
 	computed: {
 		options() {
-			return [...this.predefinedTypes, this.customValue]
+			return ['is', '!is'].includes(this.check.operator) ? this.predefinedTypes : [this.customValue]
 		},
 		isPredefined() {
 			const matchingPredefined = this.predefinedTypes.find((type) => this.newValue === type.id)
@@ -105,6 +105,15 @@ export default {
 				icon: 'icon-settings-dark',
 				label: t('workflowengine', 'Custom mimetype'),
 				id: this.newValue,
+			}
+		},
+	},
+	watch: {
+		// If user changed operation from is/!is to matches/!matches (or vice versa), reset value
+		'check.operator'(newVal, oldVal) {
+			if ((['is', '!is'].includes(oldVal) && ['matches', '!matches'].includes(newVal))
+				|| (['matches', '!matches'].includes(oldVal) && ['is', '!is'].includes(newVal))) {
+				this.setValue(this.options[0])
 			}
 		},
 	},
