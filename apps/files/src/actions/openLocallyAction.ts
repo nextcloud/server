@@ -1,5 +1,6 @@
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2025 Informatyka Boguslawski sp. z o.o. sp.k.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { encodePath } from '@nextcloud/paths'
@@ -12,6 +13,9 @@ import axios from '@nextcloud/axios'
 import LaptopSvg from '@mdi/svg/svg/laptop.svg?raw'
 import IconWeb from '@mdi/svg/svg/web.svg?raw'
 import { isPublicShare } from '@nextcloud/sharing/public'
+import { loadState } from '@nextcloud/initial-state'
+
+const integrationLocalClientEnabled = loadState('files', 'integration_local_client_enabled', true)
 
 export const action = new FileAction({
 	id: 'edit-locally',
@@ -20,6 +24,11 @@ export const action = new FileAction({
 
 	// Only works on single files
 	enabled(nodes: Node[]) {
+		// Only works when enabled.
+		if (!integrationLocalClientEnabled) {
+			return false
+		}
+
 		// Only works on single node
 		if (nodes.length !== 1) {
 			return false

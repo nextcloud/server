@@ -3,6 +3,7 @@
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-FileCopyrightText: 2025 Informatyka Boguslawski sp. z o.o. sp.k.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
@@ -2740,4 +2741,11 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'enable_lazy_objects' => true,
+
+/**
+ * Enables web UI integration with local client.
+ *
+ * Defaults to ``true``
+ */
+'web_ui_integration_local_client_enabled' => true,
 ];
