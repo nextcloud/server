@@ -3,6 +3,7 @@
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-FileCopyrightText: 2025 Informatyka Boguslawski sp. z o.o. sp.k.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
@@ -205,6 +206,7 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('templates_enabled', true);
 		$this->initialState->provideInitialState('templates_path', $this->templateManager->hasTemplateDirectory() ? $this->templateManager->getTemplatePath() : false);
 		$this->initialState->provideInitialState('templates', $this->templateManager->listCreators());
+		$this->initialState->provideInitialState('localClientEnabled', $this->appConfig->getAppValueBool(ConfigLexicon::LOCAL_CLIENT_INTEGRATION));
 
 		$isTwoFactorEnabled = false;
 		foreach ($this->twoFactorRegistry->getProviderStates($user) as $providerId => $providerState) {

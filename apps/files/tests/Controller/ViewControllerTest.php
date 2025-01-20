@@ -307,14 +307,11 @@ class ViewControllerTest extends TestCase {
 				'backup_codes' => true,
 			]);
 
-		$invokedCountProvideInitialState = $this->exactly(13);
-		$this->initialState->expects($invokedCountProvideInitialState)
+		$initialStates = [];
+		$this->initialState->expects(self::atLeast(13))
 			->method('provideInitialState')
-			->willReturnCallback(function ($key, $data) use ($invokedCountProvideInitialState): void {
-				if ($invokedCountProvideInitialState->numberOfInvocations() === 13) {
-					$this->assertEquals('isTwoFactorEnabled', $key);
-					$this->assertTrue($data);
-				}
+			->willReturnCallback(function ($key, $data) use (&$initialStates): void {
+				$initialStates[$key] = $data;
 			});
 
 		$this->config
@@ -324,5 +321,6 @@ class ViewControllerTest extends TestCase {
 			]);
 
 		$this->viewController->index('', '', null);
+		$this->assertTrue($initialStates['isTwoFactorEnabled'] ?? false);
 	}
 }
