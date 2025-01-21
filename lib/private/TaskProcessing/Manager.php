@@ -79,6 +79,7 @@ class Manager implements IManager {
 	private ?array $availableTaskTypes = null;
 
 	private IAppData $appData;
+	private ?array $preferences = null;
 	private ICache $cache;
 
 	public function __construct(
@@ -704,10 +705,10 @@ class Manager implements IManager {
 
 	public function getPreferredProvider(string $taskTypeId) {
 		try {
-			$preferences = json_decode($this->config->getAppValue('core', 'ai.taskprocessing_provider_preferences', 'null'), associative: true, flags: JSON_THROW_ON_ERROR);
+			$this->preferences = $this->preferences ?? json_decode($this->config->getAppValue('core', 'ai.taskprocessing_provider_preferences', 'null'), associative: true, flags: JSON_THROW_ON_ERROR);
 			$providers = $this->getProviders();
-			if (isset($preferences[$taskTypeId])) {
-				$provider = current(array_values(array_filter($providers, fn ($provider) => $provider->getId() === $preferences[$taskTypeId])));
+			if (isset($this->preferences[$taskTypeId])) {
+				$provider = current(array_values(array_filter($providers, fn ($provider) => $provider->getId() === $this->preferences[$taskTypeId])));
 				if ($provider !== false) {
 					return $provider;
 				}
