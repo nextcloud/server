@@ -387,8 +387,6 @@ class Storage {
 			$files_view->touch($file, $revision);
 			Storage::scheduleExpire($user->getUID(), $file);
 
-			$node = $userFolder->get($file);
-
 			return true;
 		} elseif ($versionCreated) {
 			self::deleteVersion($users_view, $version);
