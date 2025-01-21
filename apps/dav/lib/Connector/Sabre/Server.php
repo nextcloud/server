@@ -9,6 +9,7 @@ namespace OCA\DAV\Connector\Sabre;
 
 use Sabre\DAV\Exception;
 use Sabre\DAV\Version;
+use TypeError;
 
 /**
  * Class \OCA\DAV\Connector\Sabre\Server
@@ -47,20 +48,17 @@ class Server extends \Sabre\DAV\Server {
 			$this->httpRequest->setBaseUrl($this->getBaseUri());
 			$this->invokeMethod($this->httpRequest, $this->httpResponse);
 		} catch (\Throwable $e) {
-			if ($e instanceof \TypeError) {
+			try {
+				$this->emit('exception', [$e]);
+			} catch (\Exception) {
+			}
+
+			if ($e instanceof TypeError) {
 				/*
 				 * The TypeError includes the file path where the error occurred,
 				 * potentially revealing the installation directory.
-				 *
-				 * By re-throwing the exception, we ensure that the
-				 * default exception handler processes it.
 				 */
-				throw $e;
-			}
-
-			try {
-				$this->emit('exception', [$e]);
-			} catch (\Exception $ignore) {
+				$e = new TypeError('A type error occurred. For more details, please refer to the logs, which provide additional context about the type error.');
 			}
 
 			$DOM = new \DOMDocument('1.0', 'utf-8');
