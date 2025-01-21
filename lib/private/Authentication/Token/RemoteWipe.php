@@ -18,27 +18,15 @@ use Psr\Log\LoggerInterface;
 use function array_filter;
 
 class RemoteWipe {
-	/** @var IProvider */
-	private $tokenProvider;
 
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IProvider $tokenProvider,
-		IEventDispatcher $eventDispatcher,
-		LoggerInterface $logger) {
-		$this->tokenProvider = $tokenProvider;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->logger = $logger;
+	public function __construct(
+		private IProvider $tokenProvider,
+		private IEventDispatcher $eventDispatcher,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**
-	 * @param IToken $token
-	 * @return bool
-	 *
 	 * @throws InvalidTokenException
 	 * @throws WipeTokenException
 	 */
@@ -54,8 +42,6 @@ class RemoteWipe {
 	}
 
 	/**
-	 * @param IUser $user
-	 *
 	 * @return bool true if any tokens have been marked for remote wipe
 	 */
 	public function markAllTokensForWipe(IUser $user): bool {
@@ -79,8 +65,6 @@ class RemoteWipe {
 	}
 
 	/**
-	 * @param string $token
-	 *
 	 * @return bool whether wiping was started
 	 * @throws InvalidTokenException
 	 *
@@ -106,8 +90,6 @@ class RemoteWipe {
 	}
 
 	/**
-	 * @param string $token
-	 *
 	 * @return bool whether wiping could be finished
 	 * @throws InvalidTokenException
 	 */

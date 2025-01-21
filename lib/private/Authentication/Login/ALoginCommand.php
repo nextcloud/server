@@ -20,9 +20,8 @@ abstract class ALoginCommand {
 	protected function processNextOrFinishSuccessfully(LoginData $loginData): LoginResult {
 		if ($this->next !== null) {
 			return $this->next->process($loginData);
-		} else {
-			return LoginResult::success($loginData);
 		}
+		return LoginResult::success($loginData);
 	}
 
 	abstract public function process(LoginData $loginData): LoginResult;

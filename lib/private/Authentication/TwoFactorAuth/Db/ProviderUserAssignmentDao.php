@@ -18,11 +18,9 @@ use function array_map;
 class ProviderUserAssignmentDao {
 	public const TABLE_NAME = 'twofactor_providers';
 
-	/** @var IDBConnection */
-	private $conn;
-
-	public function __construct(IDBConnection $dbConn) {
-		$this->conn = $dbConn;
+	public function __construct(
+		private IDBConnection $conn,
+	) {
 	}
 
 	/**
@@ -51,10 +49,8 @@ class ProviderUserAssignmentDao {
 	 * Persist a new/updated (provider_id, uid, enabled) tuple
 	 */
 	public function persist(string $providerId, string $uid, int $enabled): void {
-		$conn = $this->conn;
-
 		// Insert a new entry
-		if ($conn->insertIgnoreConflict(self::TABLE_NAME, [
+		if ($this->conn->insertIgnoreConflict(self::TABLE_NAME, [
 			'provider_id' => $providerId,
 			'uid' => $uid,
 			'enabled' => $enabled,
@@ -63,7 +59,7 @@ class ProviderUserAssignmentDao {
 		}
 
 		// There is already an entry -> update it
-		$qb = $conn->getQueryBuilder();
+		$qb = $this->conn->getQueryBuilder();
 		$updateQuery = $qb->update(self::TABLE_NAME)
 			->set('enabled', $qb->createNamedParameter($enabled))
 			->where($qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId)))

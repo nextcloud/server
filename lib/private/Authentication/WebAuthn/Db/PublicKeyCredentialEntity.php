@@ -29,20 +29,16 @@ use Webauthn\PublicKeyCredentialSource;
  * @method void setUserVerification(bool $userVerification);
  */
 class PublicKeyCredentialEntity extends Entity implements JsonSerializable {
-	/** @var string */
-	protected $name;
 
-	/** @var string */
-	protected $uid;
+	protected string $name;
 
-	/** @var string */
-	protected $publicKeyCredentialId;
+	protected string $uid;
 
-	/** @var string */
-	protected $data;
+	protected string $publicKeyCredentialId;
 
-	/** @var bool|null */
-	protected $userVerification;
+	protected string $data;
+
+	protected ?bool $userVerification;
 
 	public function __construct() {
 		$this->addType('name', 'string');

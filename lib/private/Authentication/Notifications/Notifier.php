@@ -14,11 +14,10 @@ use OCP\Notification\INotifier;
 use OCP\Notification\UnknownNotificationException;
 
 class Notifier implements INotifier {
-	/** @var IL10nFactory */
-	private $factory;
 
-	public function __construct(IL10nFactory $l10nFactory) {
-		$this->factory = $l10nFactory;
+	public function __construct(
+		private IL10nFactory $factory,
+	) {
 	}
 
 	/**
@@ -59,7 +58,6 @@ class Notifier implements INotifier {
 	/**
 	 * Identifier of the notifier, only use [a-z0-9_]
 	 *
-	 * @return string
 	 * @since 17.0.0
 	 */
 	public function getID(): string {
@@ -69,7 +67,6 @@ class Notifier implements INotifier {
 	/**
 	 * Human readable name describing the notifier
 	 *
-	 * @return string
 	 * @since 17.0.0
 	 */
 	public function getName(): string {

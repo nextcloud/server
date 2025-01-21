@@ -20,16 +20,11 @@ use OCP\Notification\IManager as INotificationManager;
  * @template-implements IEventListener<\OC\Authentication\Events\ARemoteWipeEvent>
  */
 class RemoteWipeNotificationsListener implements IEventListener {
-	/** @var INotificationManager */
-	private $notificationManager;
 
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	public function __construct(INotificationManager $notificationManager,
-		ITimeFactory $timeFactory) {
-		$this->notificationManager = $notificationManager;
-		$this->timeFactory = $timeFactory;
+	public function __construct(
+		private INotificationManager $notificationManager,
+		private ITimeFactory $timeFactory,
+	) {
 	}
 
 	public function handle(Event $event): void {

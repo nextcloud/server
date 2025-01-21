@@ -21,16 +21,11 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<\OC\Authentication\Events\ARemoteWipeEvent>
  */
 class RemoteWipeActivityListener implements IEventListener {
-	/** @var IActvityManager */
-	private $activityManager;
 
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IActvityManager $activityManager,
-		LoggerInterface $logger) {
-		$this->activityManager = $activityManager;
-		$this->logger = $logger;
+	public function __construct(
+		private IActvityManager $activityManager,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function handle(Event $event): void {
@@ -42,11 +37,12 @@ class RemoteWipeActivityListener implements IEventListener {
 	}
 
 	private function publishActivity(string $event, IToken $token): void {
+		$tokenId = $token->getUID();
 		$activity = $this->activityManager->generateEvent();
 		$activity->setApp('core')
 			->setType('security')
-			->setAuthor($token->getUID())
-			->setAffectedUser($token->getUID())
+			->setAuthor($tokenId)
+			->setAffectedUser($tokenId)
 			->setSubject($event, [
 				'name' => $token->getName(),
 			]);

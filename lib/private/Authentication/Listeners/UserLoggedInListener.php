@@ -17,15 +17,14 @@ use OCP\User\Events\PostLoginEvent;
  * @template-implements IEventListener<\OCP\User\Events\PostLoginEvent>
  */
 class UserLoggedInListener implements IEventListener {
-	/** @var Manager */
-	private $manager;
 
-	public function __construct(Manager $manager) {
-		$this->manager = $manager;
+	public function __construct(
+		private Manager $manager,
+	) {
 	}
 
 	public function handle(Event $event): void {
-		if (!($event instanceof PostLoginEvent)) {
+		if (!$event instanceof PostLoginEvent) {
 			return;
 		}
 
@@ -39,6 +38,7 @@ class UserLoggedInListener implements IEventListener {
 			return;
 		}
 
-		$this->manager->updatePasswords($event->getUser()->getUID(), $event->getPassword());
+		$uid = $event->getUser()->getUID();
+		$this->manager->updatePasswords($uid, $event->getPassword());
 	}
 }

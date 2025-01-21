@@ -11,11 +11,10 @@ namespace OC\Authentication\Login;
 use OCP\IUserManager;
 
 class EmailLoginCommand extends ALoginCommand {
-	/** @var IUserManager */
-	private $userManager;
 
-	public function __construct(IUserManager $userManager) {
-		$this->userManager = $userManager;
+	public function __construct(
+		private IUserManager $userManager,
+	) {
 	}
 
 	public function process(LoginData $loginData): LoginResult {

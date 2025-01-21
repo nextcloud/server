@@ -13,15 +13,11 @@ use OCP\IGroupManager;
 use OCP\IUser;
 
 class MandatoryTwoFactor {
-	/** @var IConfig */
-	private $config;
 
-	/** @var IGroupManager */
-	private $groupManager;
-
-	public function __construct(IConfig $config, IGroupManager $groupManager) {
-		$this->config = $config;
-		$this->groupManager = $groupManager;
+	public function __construct(
+		private IConfig $config,
+		private IGroupManager $groupManager,
+	) {
 	}
 
 	/**
@@ -38,7 +34,7 @@ class MandatoryTwoFactor {
 	/**
 	 * Set the state of enforced two-factor auth
 	 */
-	public function setState(EnforcementState $state) {
+	public function setState(EnforcementState $state): void {
 		$this->config->setSystemValue('twofactor_enforced', $state->isEnforced() ? 'true' : 'false');
 		$this->config->setSystemValue('twofactor_enforced_groups', $state->getEnforcedGroups());
 		$this->config->setSystemValue('twofactor_enforced_excluded_groups', $state->getExcludedGroups());
@@ -51,9 +47,6 @@ class MandatoryTwoFactor {
 	 * and also have the option to exclude users of certain groups. This method will
 	 * check their membership of those groups.
 	 *
-	 * @param IUser $user
-	 *
-	 * @return bool
 	 */
 	public function isEnforcedFor(IUser $user): bool {
 		$state = $this->getState();

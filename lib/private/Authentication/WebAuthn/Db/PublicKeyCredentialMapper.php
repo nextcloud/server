@@ -70,7 +70,7 @@ class PublicKeyCredentialMapper extends QBMapper {
 	/**
 	 * @throws \OCP\DB\Exception
 	 */
-	public function deleteByUid(string $uid) {
+	public function deleteByUid(string $uid): void {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->delete($this->getTableName())

@@ -16,17 +16,16 @@ use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\IUser;
 
 class ProviderManager {
-	/** @var ProviderLoader */
-	private $providerLoader;
 
-	/** @var IRegistry */
-	private $providerRegistry;
-
-	public function __construct(ProviderLoader $providerLoader, IRegistry $providerRegistry) {
-		$this->providerLoader = $providerLoader;
-		$this->providerRegistry = $providerRegistry;
+	public function __construct(
+		private ProviderLoader $providerLoader,
+		private IRegistry $providerRegistry,
+	) {
 	}
 
+	/**
+	 * @throws InvalidProviderException
+	 */
 	private function getProvider(string $providerId, IUser $user): IProvider {
 		$providers = $this->providerLoader->getProviders($user);
 
@@ -40,8 +39,6 @@ class ProviderManager {
 	/**
 	 * Try to enable the provider with the given id for the given user
 	 *
-	 * @param IUser $user
-	 *
 	 * @return bool whether the provider supports this operation
 	 */
 	public function tryEnableProviderFor(string $providerId, IUser $user): bool {
@@ -51,9 +48,9 @@ class ProviderManager {
 			$provider->enableFor($user);
 			$this->providerRegistry->enableProviderFor($provider, $user);
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	/**
@@ -70,8 +67,8 @@ class ProviderManager {
 			$provider->disableFor($user);
 			$this->providerRegistry->disableProviderFor($provider, $user);
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 }

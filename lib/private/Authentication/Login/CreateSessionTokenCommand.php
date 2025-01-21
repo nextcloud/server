@@ -13,16 +13,11 @@ use OC\User\Session;
 use OCP\IConfig;
 
 class CreateSessionTokenCommand extends ALoginCommand {
-	/** @var IConfig */
-	private $config;
 
-	/** @var Session */
-	private $userSession;
-
-	public function __construct(IConfig $config,
-		Session $userSession) {
-		$this->config = $config;
-		$this->userSession = $userSession;
+	public function __construct(
+		private IConfig $config,
+		private Session $userSession,
+	) {
 	}
 
 	public function process(LoginData $loginData): LoginResult {
@@ -32,28 +27,29 @@ class CreateSessionTokenCommand extends ALoginCommand {
 			$tokenType = IToken::DO_NOT_REMEMBER;
 		}
 
+		$userId = $loginData->getUser()->getUID();
 		if ($loginData->getPassword() === '') {
 			$this->userSession->createSessionToken(
 				$loginData->getRequest(),
-				$loginData->getUser()->getUID(),
+				$userId,
 				$loginData->getUsername(),
 				null,
 				$tokenType
 			);
 			$this->userSession->updateTokens(
-				$loginData->getUser()->getUID(),
+				$userId,
 				''
 			);
 		} else {
 			$this->userSession->createSessionToken(
 				$loginData->getRequest(),
-				$loginData->getUser()->getUID(),
+				$userId,
 				$loginData->getUsername(),
 				$loginData->getPassword(),
 				$tokenType
 			);
 			$this->userSession->updateTokens(
-				$loginData->getUser()->getUID(),
+				$userId,
 				$loginData->getPassword()
 			);
 		}

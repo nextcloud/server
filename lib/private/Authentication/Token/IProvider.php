@@ -19,12 +19,7 @@ interface IProvider {
 	/**
 	 * Create and persist a new token
 	 *
-	 * @param string $token
-	 * @param string $uid
-	 * @param string $loginName
-	 * @param string|null $password
 	 * @param string $name Name will be trimmed to 120 chars when longer
-	 * @param int $type token type
 	 * @param int $remember whether the session token should be used for remember-me
 	 * @return OCPIToken
 	 * @throws \RuntimeException when OpenSSL reports a problem

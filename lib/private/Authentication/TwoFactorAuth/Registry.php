@@ -20,23 +20,18 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 
 class Registry implements IRegistry {
-	/** @var ProviderUserAssignmentDao */
-	private $assignmentDao;
 
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	public function __construct(ProviderUserAssignmentDao $assignmentDao,
-		IEventDispatcher $dispatcher) {
-		$this->assignmentDao = $assignmentDao;
-		$this->dispatcher = $dispatcher;
+	public function __construct(
+		private ProviderUserAssignmentDao $assignmentDao,
+		private IEventDispatcher $dispatcher,
+	) {
 	}
 
 	public function getProviderStates(IUser $user): array {
 		return $this->assignmentDao->getState($user->getUID());
 	}
 
-	public function enableProviderFor(IProvider $provider, IUser $user) {
+	public function enableProviderFor(IProvider $provider, IUser $user): void {
 		$this->assignmentDao->persist($provider->getId(), $user->getUID(), 1);
 
 		$event = new RegistryEvent($provider, $user);
@@ -44,7 +39,7 @@ class Registry implements IRegistry {
 		$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserRegistered($user, $provider));
 	}
 
-	public function disableProviderFor(IProvider $provider, IUser $user) {
+	public function disableProviderFor(IProvider $provider, IUser $user): void {
 		$this->assignmentDao->persist($provider->getId(), $user->getUID(), 0);
 
 		$event = new RegistryEvent($provider, $user);
@@ -60,7 +55,7 @@ class Registry implements IRegistry {
 		}
 	}
 
-	public function cleanUp(string $providerId) {
+	public function cleanUp(string $providerId): void {
 		$this->assignmentDao->deleteAll($providerId);
 	}
 }

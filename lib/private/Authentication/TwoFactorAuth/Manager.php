@@ -36,68 +36,32 @@ class Manager {
 	public const SESSION_UID_DONE = 'two_factor_auth_passed';
 	public const REMEMBER_LOGIN = 'two_factor_remember_login';
 	public const BACKUP_CODES_PROVIDER_ID = 'backup_codes';
-
-	/** @var ProviderLoader */
-	private $providerLoader;
-
-	/** @var IRegistry */
-	private $providerRegistry;
-
-	/** @var MandatoryTwoFactor */
-	private $mandatoryTwoFactor;
-
-	/** @var ISession */
-	private $session;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IManager */
-	private $activityManager;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var TokenProvider */
-	private $tokenProvider;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
+	
 	/** @psalm-var array<string, bool> */
-	private $userIsTwoFactorAuthenticated = [];
+	private array $userIsTwoFactorAuthenticated = [];
 
-	public function __construct(ProviderLoader $providerLoader,
-		IRegistry $providerRegistry,
-		MandatoryTwoFactor $mandatoryTwoFactor,
-		ISession $session,
-		IConfig $config,
-		IManager $activityManager,
-		LoggerInterface $logger,
-		TokenProvider $tokenProvider,
-		ITimeFactory $timeFactory,
-		IEventDispatcher $eventDispatcher) {
-		$this->providerLoader = $providerLoader;
-		$this->providerRegistry = $providerRegistry;
-		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
-		$this->session = $session;
-		$this->config = $config;
-		$this->activityManager = $activityManager;
-		$this->logger = $logger;
-		$this->tokenProvider = $tokenProvider;
-		$this->timeFactory = $timeFactory;
-		$this->dispatcher = $eventDispatcher;
+	public function __construct(
+		private ProviderLoader $providerLoader,
+		private IRegistry $providerRegistry,
+		private MandatoryTwoFactor $mandatoryTwoFactor,
+		private ISession $session,
+		private IConfig $config,
+		private IManager $activityManager,
+		private LoggerInterface $logger,
+		private TokenProvider $tokenProvider,
+		private ITimeFactory $timeFactory,
+		private IEventDispatcher $dispatcher,
+	) {
 	}
 
 	/**
 	 * Determine whether the user must provide a second factor challenge
 	 */
 	public function isTwoFactorAuthenticated(IUser $user): bool {
-		if (isset($this->userIsTwoFactorAuthenticated[$user->getUID()])) {
-			return $this->userIsTwoFactorAuthenticated[$user->getUID()];
+		$uid = $user->getUID();
+
+		if (isset($this->userIsTwoFactorAuthenticated[$uid])) {
+			return $this->userIsTwoFactorAuthenticated[$uid];
 		}
 
 		if ($this->mandatoryTwoFactor->isEnforcedFor($user)) {
@@ -111,8 +75,8 @@ class Manager {
 		$providerIds = array_keys($enabled);
 		$providerIdsWithoutBackupCodes = array_diff($providerIds, [self::BACKUP_CODES_PROVIDER_ID]);
 
-		$this->userIsTwoFactorAuthenticated[$user->getUID()] = !empty($providerIdsWithoutBackupCodes);
-		return $this->userIsTwoFactorAuthenticated[$user->getUID()];
+		$this->userIsTwoFactorAuthenticated[$uid] = !empty($providerIdsWithoutBackupCodes);
+		return $this->userIsTwoFactorAuthenticated[$uid];
 	}
 
 	/**
@@ -148,7 +112,8 @@ class Manager {
 	private function fixMissingProviderStates(array $providerStates,
 		array $providers, IUser $user): array {
 		foreach ($providers as $provider) {
-			if (isset($providerStates[$provider->getId()])) {
+			$pid = $provider->getId();
+			if (isset($providerStates[$pid])) {
 				// All good
 				continue;
 			}
@@ -159,7 +124,7 @@ class Manager {
 			} else {
 				$this->providerRegistry->disableProviderFor($provider, $user);
 			}
-			$providerStates[$provider->getId()] = $enabled;
+			$providerStates[$pid] = $enabled;
 		}
 
 		return $providerStates;
@@ -276,11 +241,12 @@ class Manager {
 	 * @param array $params
 	 */
 	private function publishEvent(IUser $user, string $event, array $params) {
+		$uid = $user->getUID();
 		$activity = $this->activityManager->generateEvent();
 		$activity->setApp('core')
 			->setType('security')
-			->setAuthor($user->getUID())
-			->setAffectedUser($user->getUID())
+			->setAuthor($uid)
+			->setAffectedUser($uid)
 			->setSubject($event, $params);
 		try {
 			$this->activityManager->publish($activity);
@@ -307,9 +273,10 @@ class Manager {
 
 		// First check if the session tells us we should do 2FA (99% case)
 		if (!$this->session->exists(self::SESSION_UID_KEY)) {
+			$uid = $user->getUID();
 			// Check if the session tells us it is 2FA authenticated already
 			if ($this->session->exists(self::SESSION_UID_DONE) &&
-				$this->session->get(self::SESSION_UID_DONE) === $user->getUID()) {
+				$this->session->get(self::SESSION_UID_DONE) === $uid) {
 				return false;
 			}
 
@@ -321,10 +288,10 @@ class Manager {
 				$sessionId = $this->session->getId();
 				$token = $this->tokenProvider->getToken($sessionId);
 				$tokenId = $token->getId();
-				$tokensNeeding2FA = $this->config->getUserKeys($user->getUID(), 'login_token_2fa');
+				$tokensNeeding2FA = $this->config->getUserKeys($uid, 'login_token_2fa');
 
 				if (!\in_array((string)$tokenId, $tokensNeeding2FA, true)) {
-					$this->session->set(self::SESSION_UID_DONE, $user->getUID());
+					$this->session->set(self::SESSION_UID_DONE, $uid);
 					return false;
 				}
 			} catch (InvalidTokenException|SessionNotAvailableException $e) {
@@ -338,9 +305,10 @@ class Manager {
 			//   disabled the same time
 			$this->session->remove(self::SESSION_UID_KEY);
 
-			$keys = $this->config->getUserKeys($user->getUID(), 'login_token_2fa');
+			$uid = $user->getUID();
+			$keys = $this->config->getUserKeys($uid, 'login_token_2fa');
 			foreach ($keys as $key) {
-				$this->config->deleteUserValue($user->getUID(), 'login_token_2fa', $key);
+				$this->config->deleteUserValue($uid, 'login_token_2fa', $key);
 			}
 			return false;
 		}
@@ -355,12 +323,13 @@ class Manager {
 	 * @param boolean $rememberMe
 	 */
 	public function prepareTwoFactorLogin(IUser $user, bool $rememberMe) {
-		$this->session->set(self::SESSION_UID_KEY, $user->getUID());
+		$uid = $user->getUID();
+		$this->session->set(self::SESSION_UID_KEY, $uid);
 		$this->session->set(self::REMEMBER_LOGIN, $rememberMe);
 
 		$id = $this->session->getId();
 		$token = $this->tokenProvider->getToken($id);
-		$this->config->setUserValue($user->getUID(), 'login_token_2fa', (string)$token->getId(), (string)$this->timeFactory->getTime());
+		$this->config->setUserValue($uid, 'login_token_2fa', (string)$token->getId(), (string)$this->timeFactory->getTime());
 	}
 
 	public function clearTwoFactorPending(string $userId) {

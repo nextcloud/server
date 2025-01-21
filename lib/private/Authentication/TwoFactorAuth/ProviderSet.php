@@ -16,29 +16,18 @@ use function array_filter;
  * Contains all two-factor provider information for the two-factor login challenge
  */
 class ProviderSet {
-	/** @var IProvider */
-	private $providers;
 
-	/** @var bool */
-	private $providerMissing;
-
-	/**
-	 * @param IProvider[] $providers
-	 * @param bool $providerMissing
-	 */
-	public function __construct(array $providers, bool $providerMissing) {
+	public function __construct(
+		private array $providers,
+		private bool $providerMissing,
+	) {
 		$this->providers = [];
 		foreach ($providers as $provider) {
 			$this->providers[$provider->getId()] = $provider;
 		}
-		$this->providerMissing = $providerMissing;
 	}
 
-	/**
-	 * @param string $providerId
-	 * @return IProvider|null
-	 */
-	public function getProvider(string $providerId) {
+	public function getProvider(string $providerId): ?IProvider {
 		return $this->providers[$providerId] ?? null;
 	}
 

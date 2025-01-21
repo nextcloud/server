@@ -12,7 +12,10 @@ use Exception;
 use Throwable;
 
 class InvalidProviderException extends Exception {
-	public function __construct(string $providerId, ?Throwable $previous = null) {
+	public function __construct(
+		string $providerId,
+		?Throwable $previous = null,
+	) {
 		parent::__construct("The provider '$providerId' does not exist'", 0, $previous);
 	}
 }

@@ -21,19 +21,15 @@ use OCP\Util;
  * @template-implements IEventListener<\OC\Authentication\Events\LoginFailed>
  */
 class LoginFailedListener implements IEventListener {
-	/** @var IEventDispatcher */
-	private $dispatcher;
 
-	/** @var IUserManager */
-	private $userManager;
-
-	public function __construct(IEventDispatcher $dispatcher, IUserManager $userManager) {
-		$this->dispatcher = $dispatcher;
-		$this->userManager = $userManager;
+	public function __construct(
+		private IEventDispatcher $dispatcher,
+		private IUserManager $userManager,
+	) {
 	}
 
 	public function handle(Event $event): void {
-		if (!($event instanceof LoginFailed)) {
+		if (!$event instanceof LoginFailed) {
 			return;
 		}
 

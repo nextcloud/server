@@ -16,37 +16,29 @@ use function array_pop;
 use function count;
 
 class TwoFactorCommand extends ALoginCommand {
-	/** @var Manager */
-	private $twoFactorManager;
 
-	/** @var MandatoryTwoFactor */
-	private $mandatoryTwoFactor;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	public function __construct(Manager $twoFactorManager,
-		MandatoryTwoFactor $mandatoryTwoFactor,
-		IURLGenerator $urlGenerator) {
-		$this->twoFactorManager = $twoFactorManager;
-		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(
+		private Manager $twoFactorManager,
+		private MandatoryTwoFactor $mandatoryTwoFactor,
+		private IURLGenerator $urlGenerator,
+	) {
 	}
 
 	public function process(LoginData $loginData): LoginResult {
-		if (!$this->twoFactorManager->isTwoFactorAuthenticated($loginData->getUser())) {
+		$loginDataUser = $loginData->getUser();
+		if (!$this->twoFactorManager->isTwoFactorAuthenticated($loginDataUser)) {
 			return $this->processNextOrFinishSuccessfully($loginData);
 		}
 
-		$this->twoFactorManager->prepareTwoFactorLogin($loginData->getUser(), $loginData->isRememberLogin());
+		$this->twoFactorManager->prepareTwoFactorLogin($loginDataUser, $loginData->isRememberLogin());
 
-		$providerSet = $this->twoFactorManager->getProviderSet($loginData->getUser());
-		$loginProviders = $this->twoFactorManager->getLoginSetupProviders($loginData->getUser());
+		$providerSet = $this->twoFactorManager->getProviderSet($loginDataUser);
+		$loginProviders = $this->twoFactorManager->getLoginSetupProviders($loginDataUser);
 		$providers = $providerSet->getPrimaryProviders();
 		if (empty($providers)
 			&& !$providerSet->isProviderMissing()
 			&& !empty($loginProviders)
-			&& $this->mandatoryTwoFactor->isEnforcedFor($loginData->getUser())) {
+			&& $this->mandatoryTwoFactor->isEnforcedFor($loginDataUser)) {
 			// No providers set up, but 2FA is enforced and setup providers are available
 			$url = 'core.TwoFactorChallenge.setupProviders';
 			$urlParams = [];

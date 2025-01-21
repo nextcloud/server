@@ -19,20 +19,15 @@ use Throwable;
  * @template-implements IEventListener<\OCP\User\Events\UserDeletedEvent>
  */
 class UserDeletedTokenCleanupListener implements IEventListener {
-	/** @var Manager */
-	private $manager;
 
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(Manager $manager,
-		LoggerInterface $logger) {
-		$this->manager = $manager;
-		$this->logger = $logger;
+	public function __construct(
+		private Manager $manager,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function handle(Event $event): void {
-		if (!($event instanceof UserDeletedEvent)) {
+		if (!$event instanceof UserDeletedEvent) {
 			// Unrelated
 			return;
 		}

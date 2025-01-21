@@ -25,7 +25,7 @@ class PublicKeyTokenMapper extends QBMapper {
 	/**
 	 * Invalidate (delete) a given token
 	 */
-	public function invalidate(string $token) {
+	public function invalidate(string $token): void {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->tableName)
@@ -34,12 +34,7 @@ class PublicKeyTokenMapper extends QBMapper {
 			->executeStatement();
 	}
 
-	/**
-	 * @param int $olderThan
-	 * @param int $type
-	 * @param int|null $remember
-	 */
-	public function invalidateOld(int $olderThan, int $type = IToken::TEMPORARY_TOKEN, ?int $remember = null) {
+	public function invalidateOld(int $olderThan, int $type = IToken::TEMPORARY_TOKEN, ?int $remember = null): void {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$delete = $qb->delete($this->tableName)
@@ -146,10 +141,8 @@ class PublicKeyTokenMapper extends QBMapper {
 
 	/**
 	 * delete all auth token which belong to a specific client if the client was deleted
-	 *
-	 * @param string $name
 	 */
-	public function deleteByName(string $name) {
+	public function deleteByName(string $name): void {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->tableName)
 			->where($qb->expr()->eq('name', $qb->createNamedParameter($name), IQueryBuilder::PARAM_STR))
@@ -157,7 +150,7 @@ class PublicKeyTokenMapper extends QBMapper {
 		$qb->executeStatement();
 	}
 
-	public function deleteTempToken(PublicKeyToken $except) {
+	public function deleteTempToken(PublicKeyToken $except): void {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->delete($this->tableName)
@@ -165,7 +158,6 @@ class PublicKeyTokenMapper extends QBMapper {
 			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter(IToken::TEMPORARY_TOKEN)))
 			->andWhere($qb->expr()->neq('id', $qb->createNamedParameter($except->getId())))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
-
 		$qb->executeStatement();
 	}
 

@@ -12,23 +12,6 @@ use OCP\IRequest;
 use OCP\IUser;
 
 class LoginData {
-	/** @var IRequest */
-	private $request;
-
-	/** @var string */
-	private $username;
-
-	/** @var string */
-	private $password;
-
-	/** @var string */
-	private $redirectUrl;
-
-	/** @var string */
-	private $timeZone;
-
-	/** @var string */
-	private $timeZoneOffset;
 
 	/** @var IUser|false|null */
 	private $user = null;
@@ -36,18 +19,14 @@ class LoginData {
 	/** @var bool */
 	private $rememberLogin = true;
 
-	public function __construct(IRequest $request,
-		string $username,
-		?string $password,
-		?string $redirectUrl = null,
-		string $timeZone = '',
-		string $timeZoneOffset = '') {
-		$this->request = $request;
-		$this->username = $username;
-		$this->password = $password;
-		$this->redirectUrl = $redirectUrl;
-		$this->timeZone = $timeZone;
-		$this->timeZoneOffset = $timeZoneOffset;
+	public function __construct(
+		private IRequest $request,
+		private string $username,
+		private ?string $password,
+		private ?string $redirectUrl = null,
+		private string $timeZone = '',
+		private string $timeZoneOffset = '',
+	) {
 	}
 
 	public function getRequest(): IRequest {

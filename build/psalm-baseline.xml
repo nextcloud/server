@@ -1504,24 +1504,6 @@
       <code><![CDATA[setType]]></code>
     </UndefinedMagicMethod>
   </file>
-  <file src="lib/private/Authentication/TwoFactorAuth/ProviderSet.php">
-    <InvalidArgument>
-      <code><![CDATA[$this->providers]]></code>
-    </InvalidArgument>
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->providers]]></code>
-      <code><![CDATA[[]]]></code>
-    </InvalidPropertyAssignmentValue>
-    <InvalidReturnStatement>
-      <code><![CDATA[$this->providers]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[IProvider[]]]></code>
-    </InvalidReturnType>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[$this->providers]]></code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="lib/private/Cache/CappedMemoryCache.php">
     <MissingTemplateParam>
       <code><![CDATA[\ArrayAccess]]></code>
