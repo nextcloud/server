@@ -8,158 +8,159 @@ namespace OC\Lockdown\Filesystem;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\FileInfo;
 use OC\Files\Storage\Common;
+use OCP\Files\Cache\ICache;
 use OCP\Files\Storage\IStorage;
 
 class NullStorage extends Common {
-	public function __construct($parameters) {
+	public function __construct(array $parameters) {
 		parent::__construct($parameters);
 	}
 
-	public function getId() {
+	public function getId(): string {
 		return 'null';
 	}
 
-	public function mkdir($path) {
+	public function mkdir(string $path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function rmdir($path) {
+	public function rmdir(string $path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function opendir($path) {
+	public function opendir(string $path): IteratorDirectory {
 		return new IteratorDirectory([]);
 	}
 
-	public function is_dir($path) {
+	public function is_dir(string $path): bool {
 		return $path === '';
 	}
 
-	public function is_file($path) {
+	public function is_file(string $path): bool {
 		return false;
 	}
 
-	public function stat($path) {
+	public function stat(string $path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function filetype($path) {
+	public function filetype(string $path): string|false {
 		return ($path === '') ? 'dir' : false;
 	}
 
-	public function filesize($path): false|int|float {
+	public function filesize(string $path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function isCreatable($path) {
+	public function isCreatable(string $path): bool {
 		return false;
 	}
 
-	public function isReadable($path) {
+	public function isReadable(string $path): bool {
 		return $path === '';
 	}
 
-	public function isUpdatable($path) {
+	public function isUpdatable(string $path): bool {
 		return false;
 	}
 
-	public function isDeletable($path) {
+	public function isDeletable(string $path): bool {
 		return false;
 	}
 
-	public function isSharable($path) {
+	public function isSharable(string $path): bool {
 		return false;
 	}
 
-	public function getPermissions($path) {
-		return null;
+	public function getPermissions(string $path): int {
+		return 0;
 	}
 
-	public function file_exists($path) {
+	public function file_exists(string $path): bool {
 		return $path === '';
 	}
 
-	public function filemtime($path) {
+	public function filemtime(string $path): int|false {
 		return ($path === '') ? time() : false;
 	}
 
-	public function file_get_contents($path) {
+	public function file_get_contents(string $path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function file_put_contents($path, $data) {
+	public function file_put_contents(string $path, mixed $data): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function unlink($path) {
+	public function unlink(string $path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function rename($source, $target) {
+	public function rename(string $source, string $target): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function copy($source, $target) {
+	public function copy(string $source, string $target): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function fopen($path, $mode) {
+	public function fopen(string $path, string $mode): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function getMimeType($path) {
+	public function getMimeType(string $path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function hash($type, $path, $raw = false) {
+	public function hash(string $type, string $path, bool $raw = false): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function free_space($path) {
+	public function free_space(string $path): int {
 		return FileInfo::SPACE_UNKNOWN;
 	}
 
-	public function touch($path, $mtime = null) {
+	public function touch(string $path, ?int $mtime = null): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function getLocalFile($path) {
+	public function getLocalFile(string $path): string|false {
 		return false;
 	}
 
-	public function hasUpdated($path, $time) {
+	public function hasUpdated(string $path, int $time): bool {
 		return false;
 	}
 
-	public function getETag($path) {
+	public function getETag(string $path): string {
 		return '';
 	}
 
-	public function isLocal() {
+	public function isLocal(): bool {
 		return false;
 	}
 
-	public function getDirectDownload($path) {
+	public function getDirectDownload(string $path): array|false {
 		return false;
 	}
 
-	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
+	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, bool $preserveMtime = false): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function test() {
+	public function test(): bool {
 		return true;
 	}
 
-	public function getOwner($path): string|false {
+	public function getOwner(string $path): string|false {
 		return false;
 	}
 
-	public function getCache($path = '', $storage = null) {
+	public function getCache(string $path = '', ?IStorage $storage = null): ICache {
 		return new NullCache();
 	}
 }

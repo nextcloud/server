@@ -11,6 +11,10 @@ namespace OC;
 
 use InvalidArgumentException;
 use JsonException;
+use NCU\Config\Lexicon\ConfigLexiconEntry;
+use NCU\Config\Lexicon\ConfigLexiconStrictness;
+use NCU\Config\Lexicon\IConfigLexicon;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\DB\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Exceptions\AppConfigIncorrectTypeException;
@@ -55,6 +59,8 @@ class AppConfig implements IAppConfig {
 	private array $valueTypes = [];  // type for all config values
 	private bool $fastLoaded = false;
 	private bool $lazyLoaded = false;
+	/** @var array<array-key, array{entries: array<array-key, ConfigLexiconEntry>, strictness: ConfigLexiconStrictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
+	private array $configLexiconDetails = [];
 
 	/**
 	 * $migrationCompleted is only needed to manage the previous structure
@@ -76,7 +82,7 @@ class AppConfig implements IAppConfig {
 	/**
 	 * @inheritDoc
 	 *
-	 * @return string[] list of app ids
+	 * @return list<string> list of app ids
 	 * @since 7.0.0
 	 */
 	public function getApps(): array {
@@ -92,12 +98,12 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @param string $app id of the app
 	 *
-	 * @return string[] list of stored config keys
+	 * @return list<string> list of stored config keys
 	 * @since 29.0.0
 	 */
 	public function getKeys(string $app): array {
 		$this->assertParams($app);
-		$this->loadConfigAll();
+		$this->loadConfigAll($app);
 		$keys = array_merge(array_keys($this->fastCache[$app] ?? []), array_keys($this->lazyCache[$app] ?? []));
 		sort($keys);
 
@@ -117,7 +123,7 @@ class AppConfig implements IAppConfig {
 	 */
 	public function hasKey(string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($app, $key);
-		$this->loadConfig($lazy);
+		$this->loadConfig($app, $lazy);
 
 		if ($lazy === null) {
 			$appCache = $this->getAllValues($app);
@@ -142,7 +148,7 @@ class AppConfig implements IAppConfig {
 	 */
 	public function isSensitive(string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($app, $key);
-		$this->loadConfig($lazy);
+		$this->loadConfig(null, $lazy);
 
 		if (!isset($this->valueTypes[$app][$key])) {
 			throw new AppConfigUnknownKeyException('unknown config key');
@@ -190,7 +196,7 @@ class AppConfig implements IAppConfig {
 	public function getAllValues(string $app, string $prefix = '', bool $filtered = false): array {
 		$this->assertParams($app, $prefix);
 		// if we want to filter values, we need to get sensitivity
-		$this->loadConfigAll();
+		$this->loadConfigAll($app);
 		// array_merge() will remove numeric keys (here config keys), so addition arrays instead
 		$values = $this->formatAppValues($app, ($this->fastCache[$app] ?? []) + ($this->lazyCache[$app] ?? []));
 		$values = array_filter(
@@ -234,7 +240,7 @@ class AppConfig implements IAppConfig {
 	 */
 	public function searchValues(string $key, bool $lazy = false, ?int $typedAs = null): array {
 		$this->assertParams('', $key, true);
-		$this->loadConfig($lazy);
+		$this->loadConfig(null, $lazy);
 
 		/** @var array<array-key, array<array-key, mixed>> $cache */
 		if ($lazy) {
@@ -430,7 +436,10 @@ class AppConfig implements IAppConfig {
 		int $type,
 	): string {
 		$this->assertParams($app, $key, valueType: $type);
-		$this->loadConfig($lazy);
+		if (!$this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type, $default)) {
+			return $default; // returns default if strictness of lexicon is set to WARNING (block and report)
+		}
+		$this->loadConfig($app, $lazy);
 
 		/**
 		 * We ignore check if mixed type is requested.
@@ -487,7 +496,7 @@ class AppConfig implements IAppConfig {
 	 */
 	public function getValueType(string $app, string $key, ?bool $lazy = null): int {
 		$this->assertParams($app, $key);
-		$this->loadConfig($lazy);
+		$this->loadConfig($app, $lazy);
 
 		if (!isset($this->valueTypes[$app][$key])) {
 			throw new AppConfigUnknownKeyException('unknown config key');
@@ -721,7 +730,10 @@ class AppConfig implements IAppConfig {
 		int $type,
 	): bool {
 		$this->assertParams($app, $key);
-		$this->loadConfig($lazy);
+		if (!$this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type)) {
+			return false; // returns false as database is not updated
+		}
+		$this->loadConfig(null, $lazy);
 
 		$sensitive = $this->isTyped(self::VALUE_SENSITIVE, $type);
 		$inserted = $refreshCache = false;
@@ -1176,8 +1188,8 @@ class AppConfig implements IAppConfig {
 		}
 	}
 
-	private function loadConfigAll(): void {
-		$this->loadConfig(null);
+	private function loadConfigAll(?string $app = null): void {
+		$this->loadConfig($app, null);
 	}
 
 	/**
@@ -1185,20 +1197,22 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @param bool|null $lazy set to TRUE to load config set as lazy loaded, set to NULL to load all config
 	 */
-	private function loadConfig(?bool $lazy = false): void {
+	private function loadConfig(?string $app = null, ?bool $lazy = false): void {
 		if ($this->isLoaded($lazy)) {
 			return;
 		}
 
-		if (($lazy ?? true) !== false) { // if lazy is null or true, we debug log
-			$this->logger->debug('The loading of lazy AppConfig values have been requested', ['exception' => new \RuntimeException('ignorable exception')]);
+		// if lazy is null or true, we debug log
+		if (($lazy ?? true) !== false && $app !== null) {
+			$exception = new \RuntimeException('The loading of lazy AppConfig values have been triggered by app "' . $app . '"');
+			$this->logger->debug($exception->getMessage(), ['exception' => $exception, 'app' => $app]);
 		}
 
 		$qb = $this->connection->getQueryBuilder();
 		$qb->from('appconfig');
 
 		/**
-		 * The use of $this->>migrationCompleted is only needed to manage the
+		 * The use of $this->migrationCompleted is only needed to manage the
 		 * database during the upgrading process to nc29.
 		 */
 		if (!$this->migrationCompleted) {
@@ -1227,7 +1241,7 @@ class AppConfig implements IAppConfig {
 			}
 
 			$this->migrationCompleted = false;
-			$this->loadConfig($lazy);
+			$this->loadConfig($app, $lazy);
 
 			return;
 		}
@@ -1301,7 +1315,7 @@ class AppConfig implements IAppConfig {
 	 * not exist the default value will be returned
 	 */
 	public function getValue($app, $key, $default = null) {
-		$this->loadConfig();
+		$this->loadConfig($app);
 
 		return $this->fastCache[$app][$key] ?? $default;
 	}
@@ -1430,8 +1444,15 @@ class AppConfig implements IAppConfig {
 				'/^key_pairs$/',
 				'/^local_gskey$/',
 			],
+			'call_summary_bot' => [
+				'/^secret_(.*)$/',
+			],
 			'external' => [
 				'/^sites$/',
+				'/^jwt_token_privkey_(.*)$/',
+			],
+			'globalsiteselector' => [
+				'/^gss\.jwt\.key$/',
 			],
 			'integration_discourse' => [
 				'/^private_key$/',
@@ -1490,6 +1511,12 @@ class AppConfig implements IAppConfig {
 			'notify_push' => [
 				'/^cookie$/',
 			],
+			'onlyoffice' => [
+				'/^jwt_secret$/',
+			],
+			'passwords' => [
+				'/^SSEv1ServerKey$/',
+			],
 			'serverinfo' => [
 				'/^token$/',
 			],
@@ -1521,8 +1548,14 @@ class AppConfig implements IAppConfig {
 			'user_ldap' => [
 				'/^(s..)?ldap_agent_password$/',
 			],
+			'twofactor_gateway' => [
+				'/^.*token$/',
+			],
 			'user_saml' => [
 				'/^idp-x509cert$/',
+			],
+			'whiteboard' => [
+				'/^jwt_secret_key$/',
 			],
 		];
 
@@ -1537,5 +1570,115 @@ class AppConfig implements IAppConfig {
 	 */
 	public function clearCachedConfig(): void {
 		$this->clearCache();
+	}
+
+	/**
+	 * match and apply current use of config values with defined lexicon
+	 *
+	 * @throws AppConfigUnknownKeyException
+	 * @throws AppConfigTypeConflictException
+	 * @return bool TRUE if everything is fine compared to lexicon or lexicon does not exist
+	 */
+	private function matchAndApplyLexiconDefinition(
+		string $app,
+		string $key,
+		bool &$lazy,
+		int &$type,
+		string &$default = '',
+	): bool {
+		if (in_array($key,
+			[
+				'enabled',
+				'installed_version',
+				'types',
+			])) {
+			return true; // we don't break stuff for this list of config keys.
+		}
+		$configDetails = $this->getConfigDetailsFromLexicon($app);
+		if (!array_key_exists($key, $configDetails['entries'])) {
+			return $this->applyLexiconStrictness(
+				$configDetails['strictness'],
+				'The app config key ' . $app . '/' . $key . ' is not defined in the config lexicon'
+			);
+		}
+
+		/** @var ConfigLexiconEntry $configValue */
+		$configValue = $configDetails['entries'][$key];
+		$type &= ~self::VALUE_SENSITIVE;
+
+		$appConfigValueType = $configValue->getValueType()->toAppConfigFlag();
+		if ($type === self::VALUE_MIXED) {
+			$type = $appConfigValueType; // we overwrite if value was requested as mixed
+		} elseif ($appConfigValueType !== $type) {
+			throw new AppConfigTypeConflictException('The app config key ' . $app . '/' . $key . ' is typed incorrectly in relation to the config lexicon');
+		}
+
+		$lazy = $configValue->isLazy();
+		$default = $configValue->getDefault() ?? $default; // default from Lexicon got priority
+		if ($configValue->isFlagged(self::FLAG_SENSITIVE)) {
+			$type |= self::VALUE_SENSITIVE;
+		}
+		if ($configValue->isDeprecated()) {
+			$this->logger->notice('App config key ' . $app . '/' . $key . ' is set as deprecated.');
+		}
+
+		return true;
+	}
+
+	/**
+	 * manage ConfigLexicon behavior based on strictness set in IConfigLexicon
+	 *
+	 * @param ConfigLexiconStrictness|null $strictness
+	 * @param string $line
+	 *
+	 * @return bool TRUE if conflict can be fully ignored, FALSE if action should be not performed
+	 * @throws AppConfigUnknownKeyException if strictness implies exception
+	 * @see IConfigLexicon::getStrictness()
+	 */
+	private function applyLexiconStrictness(
+		?ConfigLexiconStrictness $strictness,
+		string $line = '',
+	): bool {
+		if ($strictness === null) {
+			return true;
+		}
+
+		switch ($strictness) {
+			case ConfigLexiconStrictness::IGNORE:
+				return true;
+			case ConfigLexiconStrictness::NOTICE:
+				$this->logger->notice($line);
+				return true;
+			case ConfigLexiconStrictness::WARNING:
+				$this->logger->warning($line);
+				return false;
+		}
+
+		throw new AppConfigUnknownKeyException($line);
+	}
+
+	/**
+	 * extract details from registered $appId's config lexicon
+	 *
+	 * @param string $appId
+	 *
+	 * @return array{entries: array<array-key, ConfigLexiconEntry>, strictness: ConfigLexiconStrictness}
+	 */
+	private function getConfigDetailsFromLexicon(string $appId): array {
+		if (!array_key_exists($appId, $this->configLexiconDetails)) {
+			$entries = [];
+			$bootstrapCoordinator = \OCP\Server::get(Coordinator::class);
+			$configLexicon = $bootstrapCoordinator->getRegistrationContext()?->getConfigLexicon($appId);
+			foreach ($configLexicon?->getAppConfigs() ?? [] as $configEntry) {
+				$entries[$configEntry->getKey()] = $configEntry;
+			}
+
+			$this->configLexiconDetails[$appId] = [
+				'entries' => $entries,
+				'strictness' => $configLexicon?->getStrictness() ?? ConfigLexiconStrictness::IGNORE
+			];
+		}
+
+		return $this->configLexiconDetails[$appId];
 	}
 }

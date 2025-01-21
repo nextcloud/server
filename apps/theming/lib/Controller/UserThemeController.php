@@ -17,10 +17,12 @@ use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
@@ -36,23 +38,16 @@ class UserThemeController extends OCSController {
 
 	protected ?string $userId = null;
 
-	private IConfig $config;
-	private ThemesService $themesService;
-	private ThemingDefaults $themingDefaults;
-	private BackgroundService $backgroundService;
-
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IConfig $config,
+		private IConfig $config,
 		IUserSession $userSession,
-		ThemesService $themesService,
-		ThemingDefaults $themingDefaults,
-		BackgroundService $backgroundService) {
+		private ThemesService $themesService,
+		private ThemingDefaults $themingDefaults,
+		private BackgroundService $backgroundService,
+	) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
-		$this->themesService = $themesService;
-		$this->themingDefaults = $themingDefaults;
-		$this->backgroundService = $backgroundService;
 
 		$user = $userSession->getUser();
 		if ($user !== null) {
@@ -64,7 +59,7 @@ class UserThemeController extends OCSController {
 	 * Enable theme
 	 *
 	 * @param string $themeId the theme ID
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSBadRequestException Enabling theme is not possible
 	 * @throws PreConditionNotMetException
 	 *
@@ -83,7 +78,7 @@ class UserThemeController extends OCSController {
 	 * Disable theme
 	 *
 	 * @param string $themeId the theme ID
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSBadRequestException Disabling theme is not possible
 	 * @throws PreConditionNotMetException
 	 *
@@ -136,7 +131,8 @@ class UserThemeController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
-	public function getBackground(): Http\Response {
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	public function getBackground(): Response {
 		$file = $this->backgroundService->getBackground();
 		if ($file !== null) {
 			$response = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => $file->getMimeType()]);

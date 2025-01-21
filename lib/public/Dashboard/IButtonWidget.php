@@ -19,7 +19,7 @@ interface IButtonWidget extends IWidget {
 	 * Get the buttons to show on the widget
 	 *
 	 * @param string $userId
-	 * @return WidgetButton[]
+	 * @return list<WidgetButton>
 	 * @since 25.0.0
 	 */
 	public function getWidgetButtons(string $userId): array;

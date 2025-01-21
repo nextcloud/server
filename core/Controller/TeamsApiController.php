@@ -36,7 +36,7 @@ class TeamsApiController extends \OCP\AppFramework\OCSController {
 	 * Get all resources of a team
 	 *
 	 * @param string $teamId Unique id of the team
-	 * @return DataResponse<Http::STATUS_OK, array{resources: CoreTeamResource[]}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{resources: list<CoreTeamResource>}, array{}>
 	 *
 	 * 200: Resources returned
 	 */
@@ -44,7 +44,7 @@ class TeamsApiController extends \OCP\AppFramework\OCSController {
 	#[ApiRoute(verb: 'GET', url: '/{teamId}/resources', root: '/teams')]
 	public function resolveOne(string $teamId): DataResponse {
 		/**
-		 * @var CoreTeamResource[] $resolvedResources
+		 * @var list<CoreTeamResource> $resolvedResources
 		 * @psalm-suppress PossiblyNullArgument The route is limited to logged-in users
 		 */
 		$resolvedResources = $this->teamManager->getSharedWith($teamId, $this->userId);
@@ -57,7 +57,7 @@ class TeamsApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param string $providerId Identifier of the provider (e.g. deck, talk, collectives)
 	 * @param string $resourceId Unique id of the resource to list teams for (e.g. deck board id)
-	 * @return DataResponse<Http::STATUS_OK, array{teams: CoreTeam[]}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{teams: list<CoreTeam>}, array{}>
 	 *
 	 * 200: Teams returned
 	 */
@@ -66,13 +66,13 @@ class TeamsApiController extends \OCP\AppFramework\OCSController {
 	public function listTeams(string $providerId, string $resourceId): DataResponse {
 		/** @psalm-suppress PossiblyNullArgument The route is limited to logged-in users */
 		$teams = $this->teamManager->getTeamsForResource($providerId, $resourceId, $this->userId);
-		/** @var CoreTeam[] $teams */
-		$teams = array_map(function (Team $team) {
+		/** @var list<CoreTeam> $teams */
+		$teams = array_values(array_map(function (Team $team) {
 			$response = $team->jsonSerialize();
 			/** @psalm-suppress PossiblyNullArgument The route is limited to logged in users */
 			$response['resources'] = $this->teamManager->getSharedWith($team->getId(), $this->userId);
 			return $response;
-		}, $teams);
+		}, $teams));
 
 		return new DataResponse([
 			'teams' => $teams,

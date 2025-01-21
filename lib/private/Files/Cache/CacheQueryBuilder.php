@@ -28,7 +28,7 @@ class CacheQueryBuilder extends ExtendedQueryBuilder {
 
 	public function selectTagUsage(): self {
 		$this
-			->select('systemtag.name', 'systemtag.id', 'systemtag.visibility', 'systemtag.editable')
+			->select('systemtag.name', 'systemtag.id', 'systemtag.visibility', 'systemtag.editable', 'systemtag.etag')
 			->selectAlias($this->createFunction('COUNT(filecache.fileid)'), 'number_files')
 			->selectAlias($this->createFunction('MAX(filecache.fileid)'), 'ref_file_id')
 			->from('filecache', 'filecache')
@@ -48,7 +48,7 @@ class CacheQueryBuilder extends ExtendedQueryBuilder {
 	public function selectFileCache(?string $alias = null, bool $joinExtendedCache = true) {
 		$name = $alias ?: 'filecache';
 		$this->select("$name.fileid", 'storage', 'path', 'path_hash', "$name.parent", "$name.name", 'mimetype', 'mimepart', 'size', 'mtime',
-			'storage_mtime', 'encrypted', 'etag', "$name.permissions", 'checksum', 'unencrypted_size')
+			'storage_mtime', 'encrypted', "$name.etag", "$name.permissions", 'checksum', 'unencrypted_size')
 			->from('filecache', $name);
 
 		if ($joinExtendedCache) {

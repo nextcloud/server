@@ -55,10 +55,10 @@
 import type { File, Folder, Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
+import { defineComponent } from 'vue'
 import debounce from 'debounce'
-import Vue from 'vue'
 
-import filesListWidthMixin from '../mixins/filesListWidth.ts'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import logger from '../logger.ts'
 
 interface RecycledPoolItem {
@@ -67,13 +67,10 @@ interface RecycledPoolItem {
 }
 
 type DataSource = File | Folder
-
 type DataSourceKey = keyof DataSource
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'VirtualList',
-
-	mixins: [filesListWidthMixin],
 
 	props: {
 		dataComponent: {
@@ -101,12 +98,20 @@ export default Vue.extend({
 			default: false,
 		},
 		/**
-		 * Visually hidden caption for the table accesibility
+		 * Visually hidden caption for the table accessibility
 		 */
 		caption: {
 			type: String,
 			default: '',
 		},
+	},
+
+	setup() {
+		const fileListWidth = useFileListWidth()
+
+		return {
+			fileListWidth,
+		}
 	},
 
 	data() {
@@ -128,20 +133,22 @@ export default Vue.extend({
 		// Items to render before and after the visible area
 		bufferItems() {
 			if (this.gridMode) {
+				// 1 row before and after in grid mode
 				return this.columnCount
 			}
+			// 3 rows before and after
 			return 3
 		},
 
 		itemHeight() {
 			// Align with css in FilesListVirtual
-			// 166px + 32px (name) + 16px (mtime) + 16px (padding)
-			return this.gridMode ? (166 + 32 + 16 + 16) : 55
+			// 166px + 32px (name) + 16px (mtime) + 16px (padding top and bottom)
+			return this.gridMode ? (166 + 32 + 16 + 16 + 16) : 55
 		},
 		// Grid mode only
 		itemWidth() {
-			// 166px + 16px padding
-			return 166 + 16
+			// 166px + 16px x 2 (padding left and right)
+			return 166 + 16 + 16
 		},
 
 		rowCount() {
@@ -151,14 +158,18 @@ export default Vue.extend({
 			if (!this.gridMode) {
 				return 1
 			}
-			return Math.floor(this.filesListWidth / this.itemWidth)
+			return Math.floor(this.fileListWidth / this.itemWidth)
 		},
 
 		/**
 		 * Index of the first item to be rendered
+		 * The index can be any file, not just the first one
+		 * But the start index is the first item to be rendered,
+		 * which needs to align with the column count
 		 */
 		startIndex() {
-			return Math.max(0, this.index - this.bufferItems)
+			const firstColumnIndex = this.index - (this.index % this.columnCount)
+			return Math.max(0, firstColumnIndex - this.bufferItems)
 		},
 
 		/**
@@ -255,7 +266,7 @@ export default Vue.extend({
 			this.tableHeight = root?.clientHeight ?? 0
 			logger.debug('VirtualList: resizeObserver updated')
 			this.onScroll()
-		}, 100, false))
+		}, 100, { immediate: false }))
 
 		this.resizeObserver.observe(before)
 		this.resizeObserver.observe(root)
@@ -279,27 +290,50 @@ export default Vue.extend({
 
 	methods: {
 		scrollTo(index: number) {
-			const targetRow = Math.ceil(this.dataSources.length / this.columnCount)
-			if (targetRow < this.rowCount) {
-				logger.debug('VirtualList: Skip scrolling. nothing to scroll', { index, targetRow, rowCount: this.rowCount })
+			if (!this.$el) {
 				return
 			}
-			this.index = index
+
+			// Check if the content is smaller than the viewport, meaning no scrollbar
+			const targetRow = Math.ceil(this.dataSources.length / this.columnCount)
+			if (targetRow < this.rowCount) {
+				logger.debug('VirtualList: Skip scrolling, nothing to scroll', { index, targetRow, rowCount: this.rowCount })
+				return
+			}
+
 			// Scroll to one row and a half before the index
-			const scrollTop = (Math.floor(index / this.columnCount) - 0.5) * this.itemHeight + this.beforeHeight
-			logger.debug('VirtualList: scrolling to index ' + index, { scrollTop, columnCount: this.columnCount })
+			const scrollTop = this.indexToScrollPos(index)
+			logger.debug('VirtualList: scrolling to index ' + index, { scrollTop, columnCount: this.columnCount, beforeHeight: this.beforeHeight })
 			this.$el.scrollTop = scrollTop
 		},
 
 		onScroll() {
 			this._onScrollHandle ??= requestAnimationFrame(() => {
 				this._onScrollHandle = null
-				const topScroll = this.$el.scrollTop - this.beforeHeight
-				const index = Math.floor(topScroll / this.itemHeight) * this.columnCount
+
+				const index = this.scrollPosToIndex(this.$el.scrollTop)
+				if (index === this.index) {
+					return
+				}
+
 				// Max 0 to prevent negative index
-				this.index = Math.max(0, index)
+				this.index = Math.max(0, Math.floor(index))
 				this.$emit('scroll')
 			})
+		},
+
+		// Convert scroll position to index
+		// It should be the opposite of `indexToScrollPos`
+		scrollPosToIndex(scrollPos: number): number {
+			const topScroll = scrollPos - this.beforeHeight
+			// Max 0 to prevent negative index
+			return Math.max(0, Math.floor(topScroll / this.itemHeight)) * this.columnCount
+		},
+
+		// Convert index to scroll position
+		// It should be the opposite of `scrollPosToIndex`
+		indexToScrollPos(index: number): number {
+			return (Math.floor(index / this.columnCount) - 0.5) * this.itemHeight + this.beforeHeight
 		},
 	},
 })

@@ -20,6 +20,7 @@ use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Constants;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
@@ -78,8 +79,8 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		if ($shareNode instanceof File) {
 			$view = 'public-file-share';
 			$this->initialState->provideInitialState('fileId', $shareNode->getId());
-		} elseif (($share->getPermissions() & \OCP\Constants::PERMISSION_CREATE)
-			&& !($share->getPermissions() & \OCP\Constants::PERMISSION_READ)
+		} elseif (($share->getPermissions() & Constants::PERMISSION_CREATE)
+			&& !($share->getPermissions() & Constants::PERMISSION_READ)
 		) {
 			// share is a folder with create but no read permissions -> file drop only
 			$view = 'public-file-drop';
@@ -97,10 +98,10 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		$this->initialState->provideInitialState('view', $view);
 
 		// Load scripts and styles for UI
-		\OCP\Util::addInitScript('files', 'init');
-		\OCP\Util::addInitScript(Application::APP_ID, 'init');
-		\OCP\Util::addInitScript(Application::APP_ID, 'init-public');
-		\OCP\Util::addScript('files', 'main');
+		Util::addInitScript('files', 'init');
+		Util::addInitScript(Application::APP_ID, 'init');
+		Util::addInitScript(Application::APP_ID, 'init-public');
+		Util::addScript('files', 'main');
 
 		// Add file-request script if needed
 		$attributes = $share->getAttributes();
@@ -129,12 +130,16 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 			'index',
 		);
 		$response->setContentSecurityPolicy($csp);
+
 		// If the share has a label, use it as the title
 		if ($share->getLabel() !== '') {
 			$response->setHeaderTitle($share->getLabel());
+			$response->setParams(['pageTitle' => $share->getLabel()]);
 		} else {
 			$response->setHeaderTitle($shareNode->getName());
+			$response->setParams(['pageTitle' => $shareNode->getName()]);
 		}
+
 		if ($ownerName !== '') {
 			$response->setHeaderDetails($this->l10n->t('shared by %s', [$ownerName]));
 		}
@@ -171,7 +176,7 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		if ($shareNode->getMimePart() === 'image') {
 			// If this is a file and especially an image directly point to the image preview
 			$directLink = $this->urlGenerator->linkToRouteAbsolute('files_sharing.publicpreview.directLink', ['token' => $token]);
-		} elseif (($share->getPermissions() & \OCP\Constants::PERMISSION_READ) && !$share->getHideDownload()) {
+		} elseif (($share->getPermissions() & Constants::PERMISSION_READ) && !$share->getHideDownload()) {
 			// Can read and no download restriction, so just download it
 			$directLink = $downloadUrl ?? $shareUrl;
 		}

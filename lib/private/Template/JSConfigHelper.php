@@ -12,7 +12,7 @@ use OC\Authentication\Token\IProvider;
 use OC\CapabilitiesManager;
 use OC\Files\FilenameValidator;
 use OC\Share\Share;
-use OCA\Provisioning_API\Controller\AUserData;
+use OCA\Provisioning_API\Controller\AUserDataOCSController;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
@@ -42,20 +42,20 @@ class JSConfigHelper {
 	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
 
 	public function __construct(
-		protected ServerVersion        $serverVersion,
-		protected IL10N                $l,
-		protected Defaults             $defaults,
-		protected IAppManager          $appManager,
-		protected ISession             $session,
-		protected ?IUser               $currentUser,
-		protected IConfig              $config,
-		protected IGroupManager        $groupManager,
-		protected IniGetWrapper        $iniWrapper,
-		protected IURLGenerator        $urlGenerator,
-		protected CapabilitiesManager  $capabilitiesManager,
+		protected ServerVersion $serverVersion,
+		protected IL10N $l,
+		protected Defaults $defaults,
+		protected IAppManager $appManager,
+		protected ISession $session,
+		protected ?IUser $currentUser,
+		protected IConfig $config,
+		protected IGroupManager $groupManager,
+		protected IniGetWrapper $iniWrapper,
+		protected IURLGenerator $urlGenerator,
+		protected CapabilitiesManager $capabilitiesManager,
 		protected IInitialStateService $initialStateService,
-		protected IProvider            $tokenProvider,
-		protected FilenameValidator    $filenameValidator,
+		protected IProvider $tokenProvider,
+		protected FilenameValidator $filenameValidator,
 	) {
 	}
 
@@ -136,7 +136,7 @@ class JSConfigHelper {
 
 		$capabilities = $this->capabilitiesManager->getCapabilities(false, true);
 
-		$userFirstDay = $this->config->getUserValue($uid, 'core', AUserData::USER_FIELD_FIRST_DAY_OF_WEEK, null);
+		$userFirstDay = $this->config->getUserValue($uid, 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK, null);
 		$firstDay = (int)($userFirstDay ?? $this->l->l('firstday', null));
 
 		$config = [

@@ -10,16 +10,7 @@
 		:show-items-and-empty-content="!!halfEmptyContentMessage"
 		:half-empty-content-message="halfEmptyContentMessage">
 		<template #default="{ item }">
-			<NcDashboardWidgetItem :target-url="item.link"
-				:overlay-icon-url="item.overlayIconUrl ? item.overlayIconUrl : ''"
-				:main-text="item.title"
-				:sub-text="item.subtitle">
-				<template #avatar>
-					<template v-if="item.iconUrl">
-						<NcAvatar :size="44" :url="item.iconUrl" />
-					</template>
-				</template>
-			</NcDashboardWidgetItem>
+			<ApiDashboardWidgetItem :item="item" :icon-size="iconSize" :rounded-icons="widget.item_icons_round" />
 		</template>
 		<template #empty-content>
 			<NcEmptyContent v-if="items.length === 0"
@@ -39,23 +30,21 @@
 
 <script>
 import {
-	NcAvatar,
 	NcDashboardWidget,
-	NcDashboardWidgetItem,
 	NcEmptyContent,
 	NcButton,
 } from '@nextcloud/vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
+import ApiDashboardWidgetItem from './ApiDashboardWidgetItem.vue'
 
 export default {
 	name: 'ApiDashboardWidget',
 	components: {
-		NcAvatar,
+		ApiDashboardWidgetItem,
+		CheckIcon,
 		NcDashboardWidget,
-		NcDashboardWidgetItem,
 		NcEmptyContent,
 		NcButton,
-		CheckIcon,
 	},
 	props: {
 		widget: {
@@ -70,6 +59,11 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+	},
+	data() {
+		return {
+			iconSize: 44,
+		}
 	},
 	computed: {
 		/** @return {object[]} */
@@ -115,8 +109,10 @@ export default {
 			return this.moreButton?.link
 		},
 	},
+	mounted() {
+		const size = window.getComputedStyle(document.body).getPropertyValue('--default-clickable-area')
+		const numeric = Number.parseFloat(size)
+		this.iconSize = Number.isNaN(numeric) ? 44 : numeric
+	},
 }
 </script>
-
-<style lang="scss" scoped>
-</style>

@@ -9,22 +9,18 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV;
 
 use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarIsShared;
+use OCP\Calendar\ICalendarIsWritable;
 use OCP\Constants;
 
-class CachedSubscriptionImpl implements ICalendar {
-	private CalDavBackend $backend;
-	private CachedSubscription $calendar;
-	/** @var array<string, mixed> */
-	private array $calendarInfo;
+class CachedSubscriptionImpl implements ICalendar, ICalendarIsShared, ICalendarIsWritable {
 
 	public function __construct(
-		CachedSubscription $calendar,
-		array $calendarInfo,
-		CalDavBackend $backend,
+		private CachedSubscription $calendar,
+		/** @var array<string, mixed> */
+		private array $calendarInfo,
+		private CalDavBackend $backend,
 	) {
-		$this->calendar = $calendar;
-		$this->calendarInfo = $calendarInfo;
-		$this->backend = $backend;
 	}
 
 	/**
@@ -90,8 +86,16 @@ class CachedSubscriptionImpl implements ICalendar {
 		return $result;
 	}
 
+	public function isWritable(): bool {
+		return false;
+	}
+
 	public function isDeleted(): bool {
 		return false;
+	}
+
+	public function isShared(): bool {
+		return true;
 	}
 
 	public function getSource(): string {

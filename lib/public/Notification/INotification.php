@@ -249,6 +249,10 @@ interface INotification {
 	public function getLink(): string;
 
 	/**
+	 * Set the absolute url for the icon (should be colored black or not have a color)
+	 *
+	 * It's automatically color inverted by clients when needed
+	 *
 	 * @param string $icon
 	 * @return $this
 	 * @throws InvalidValueException if the icon is invalid
@@ -258,10 +262,26 @@ interface INotification {
 	public function setIcon(string $icon): INotification;
 
 	/**
+	 * Get the absolute url for the icon (should be colored black or not have a color)
+	 *
+	 * It's automatically color inverted by clients when needed
+	 *
 	 * @return string
 	 * @since 11.0.0
 	 */
 	public function getIcon(): string;
+
+	/**
+	 * @return $this
+	 * @throws InvalidValueException if the app is not allowed to send priority notifications
+	 * @since 31.0.0
+	 */
+	public function setPriorityNotification(bool $priorityNotification): INotification;
+
+	/**
+	 * @since 31.0.0
+	 */
+	public function isPriorityNotification(): bool;
 
 	/**
 	 * @return IAction

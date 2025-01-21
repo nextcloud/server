@@ -193,6 +193,13 @@ export default class Share {
 	}
 
 	/**
+	 * Set the public share token
+	 */
+	set token(token: string) {
+		this._share.token = token
+	}
+
+	/**
 	 * Get the share note if any
 	 */
 	get note(): string {
@@ -314,7 +321,7 @@ export default class Share {
 
 	/**
 	 * Get the shared item id
-		 */
+	 */
 	get fileSource(): number {
 		return this._share.file_source
 	}

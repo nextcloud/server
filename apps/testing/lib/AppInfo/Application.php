@@ -7,6 +7,7 @@
 namespace OCA\Testing\AppInfo;
 
 use OCA\Testing\AlternativeHomeUserBackend;
+use OCA\Testing\Conversion\ConversionProvider;
 use OCA\Testing\Listener\GetDeclarativeSettingsValueListener;
 use OCA\Testing\Listener\RegisterDeclarativeSettingsListener;
 use OCA\Testing\Listener\SetDeclarativeSettingsValueListener;
@@ -18,6 +19,7 @@ use OCA\Testing\Settings\DeclarativeSettingsForm;
 use OCA\Testing\TaskProcessing\FakeContextWriteProvider;
 use OCA\Testing\TaskProcessing\FakeTextToImageProvider;
 use OCA\Testing\TaskProcessing\FakeTextToTextProvider;
+use OCA\Testing\TaskProcessing\FakeTextToTextSummaryProvider;
 use OCA\Testing\TaskProcessing\FakeTranscribeProvider;
 use OCA\Testing\TaskProcessing\FakeTranslateProvider;
 use OCP\AppFramework\App;
@@ -42,10 +44,13 @@ class Application extends App implements IBootstrap {
 		$context->registerTextToImageProvider(FakeText2ImageProvider::class);
 
 		$context->registerTaskProcessingProvider(FakeTextToTextProvider::class);
+		$context->registerTaskProcessingProvider(FakeTextToTextSummaryProvider::class);
 		$context->registerTaskProcessingProvider(FakeTextToImageProvider::class);
 		$context->registerTaskProcessingProvider(FakeTranslateProvider::class);
 		$context->registerTaskProcessingProvider(FakeTranscribeProvider::class);
 		$context->registerTaskProcessingProvider(FakeContextWriteProvider::class);
+
+		$context->registerFileConversionProvider(ConversionProvider::class);
 
 		$context->registerDeclarativeSettings(DeclarativeSettingsForm::class);
 		$context->registerEventListener(DeclarativeSettingsRegisterFormEvent::class, RegisterDeclarativeSettingsListener::class);

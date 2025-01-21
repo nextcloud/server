@@ -16,7 +16,7 @@
 			</NcAppNavigationList>
 
 			<!-- Settings modal-->
-			<SettingsModal :open="settingsOpened"
+			<SettingsModal :open.sync="settingsOpened"
 				data-cy-files-navigation-settings
 				@close="onSettingsClose" />
 		</template>
@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import type { View } from '@nextcloud/files'
+import { getNavigation, type View } from '@nextcloud/files'
 import type { ViewConfig } from '../types.ts'
 
 import { defineComponent } from 'vue'
@@ -164,7 +164,7 @@ export default defineComponent({
 				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 				.filter(([viewId, config]) => config.expanded === true)
 				// eslint-disable-next-line @typescript-eslint/no-unused-vars
-				.map(([viewId, config]) => this.$navigation.views.find(view => view.id === viewId))
+				.map(([viewId, config]) => this.views.find(view => view.id === viewId))
 				.filter(Boolean) // Only registered views
 				.filter(view => view.loadChildViews && !view.loaded)
 			for (const view of viewsToLoad) {
@@ -179,7 +179,7 @@ export default defineComponent({
 		showView(view: View) {
 			// Closing any opened sidebar
 			window.OCA?.Files?.Sidebar?.close?.()
-			this.$navigation.setActive(view)
+			getNavigation().setActive(view)
 			emit('files:navigation:changed', view)
 		},
 
@@ -201,19 +201,15 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-// TODO: remove when https://github.com/nextcloud/nextcloud-vue/pull/3539 is in
-.app-navigation::v-deep .app-navigation-entry-icon {
-	background-repeat: no-repeat;
-	background-position: center;
-}
+.app-navigation {
+	:deep(.app-navigation-entry.active .button-vue.icon-collapse:not(:hover)) {
+		color: var(--color-primary-element-text);
+	}
 
-.app-navigation::v-deep .app-navigation-entry.active .button-vue.icon-collapse:not(:hover) {
-	color: var(--color-primary-element-text);
-}
-
-.app-navigation > ul.app-navigation__list {
-	// Use flex gap value for more elegant spacing
-	padding-bottom: var(--default-grid-baseline, 4px);
+	> ul.app-navigation__list {
+		// Use flex gap value for more elegant spacing
+		padding-bottom: var(--default-grid-baseline, 4px);
+	}
 }
 
 .app-navigation-entry__settings {

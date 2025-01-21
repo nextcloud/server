@@ -142,7 +142,10 @@
                     "output",
                     "customId",
                     "completionExpectedAt",
-                    "progress"
+                    "progress",
+                    "scheduledAt",
+                    "startedAt",
+                    "endedAt"
                 ],
                 "properties": {
                     "id": {
@@ -193,6 +196,21 @@
                     "progress": {
                         "type": "number",
                         "format": "double",
+                        "nullable": true
+                    },
+                    "scheduledAt": {
+                        "type": "integer",
+                        "format": "int64",
+                        "nullable": true
+                    },
+                    "startedAt": {
+                        "type": "integer",
+                        "format": "int64",
+                        "nullable": true
+                    },
+                    "endedAt": {
+                        "type": "integer",
+                        "format": "int64",
                         "nullable": true
                     }
                 }

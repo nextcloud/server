@@ -10,10 +10,12 @@ namespace OCA\User_LDAP\Jobs;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\DeletedUsersIndex;
-use OCA\User_LDAP\User_LDAP;
 use OCA\User_LDAP\User_Proxy;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\Server;
 
 /**
  * Class CleanUp
@@ -27,15 +29,12 @@ class CleanUp extends TimedJob {
 	protected $limit;
 
 	/** @var int $defaultIntervalMin default interval in minutes */
-	protected $defaultIntervalMin = 51;
+	protected $defaultIntervalMin = 60;
 
-	/** @var User_LDAP|User_Proxy $userBackend */
-	protected $userBackend;
-
-	/** @var \OCP\IConfig $ocConfig */
+	/** @var IConfig $ocConfig */
 	protected $ocConfig;
 
-	/** @var \OCP\IDBConnection $db */
+	/** @var IDBConnection $db */
 	protected $db;
 
 	/** @var Helper $ldapHelper */
@@ -44,20 +43,15 @@ class CleanUp extends TimedJob {
 	/** @var UserMapping */
 	protected $mapping;
 
-	/** @var DeletedUsersIndex */
-	protected $dui;
-
 	public function __construct(
 		ITimeFactory $timeFactory,
-		User_Proxy $userBackend,
-		DeletedUsersIndex $dui,
+		protected User_Proxy $userBackend,
+		protected DeletedUsersIndex $dui,
 	) {
 		parent::__construct($timeFactory);
 		$minutes = \OC::$server->getConfig()->getSystemValue(
 			'ldapUserCleanupInterval', (string)$this->defaultIntervalMin);
 		$this->setInterval((int)$minutes * 60);
-		$this->userBackend = $userBackend;
-		$this->dui = $dui;
 	}
 
 	/**
@@ -95,7 +89,7 @@ class CleanUp extends TimedJob {
 		if (isset($arguments['mapping'])) {
 			$this->mapping = $arguments['mapping'];
 		} else {
-			$this->mapping = \OCP\Server::get(UserMapping::class);
+			$this->mapping = Server::get(UserMapping::class);
 		}
 
 		if (isset($arguments['deletedUsersIndex'])) {

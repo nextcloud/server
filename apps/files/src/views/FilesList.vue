@@ -9,7 +9,7 @@
 			<BreadCrumbs :path="directory" @reload="fetchContent">
 				<template #actions>
 					<!-- Sharing button -->
-					<NcButton v-if="canShare && filesListWidth >= 512"
+					<NcButton v-if="canShare && fileListWidth >= 512"
 						:aria-label="shareButtonLabel"
 						:class="{ 'files-list__header-share-button--shared': shareButtonType }"
 						:title="shareButtonLabel"
@@ -17,26 +17,13 @@
 						type="tertiary"
 						@click="openSharingSidebar">
 						<template #icon>
-							<LinkIcon v-if="shareButtonType === Type.SHARE_TYPE_LINK" />
+							<LinkIcon v-if="shareButtonType === ShareType.Link" />
 							<AccountPlusIcon v-else :size="20" />
 						</template>
 					</NcButton>
 
-					<!-- Disabled upload button -->
-					<NcButton v-if="!canUpload || isQuotaExceeded"
-						:aria-label="cantUploadLabel"
-						:title="cantUploadLabel"
-						class="files-list__header-upload-button--disabled"
-						:disabled="true"
-						type="secondary">
-						<template #icon>
-							<PlusIcon :size="20" />
-						</template>
-						{{ t('files', 'New') }}
-					</NcButton>
-
 					<!-- Uploader -->
-					<UploadPicker v-else-if="currentFolder"
+					<UploadPicker v-if="canUpload && !isQuotaExceeded && currentFolder"
 						allow-folders
 						class="files-list__header-upload-button"
 						:content="getContent"
@@ -51,7 +38,26 @@
 			<!-- Secondary loading indicator -->
 			<NcLoadingIcon v-if="isRefreshing" class="files-list__refresh-icon" />
 
-			<NcButton v-if="filesListWidth >= 512 && enableGridView"
+			<NcActions class="files-list__header-actions"
+				:inline="1"
+				type="tertiary"
+				force-name>
+				<NcActionButton v-for="action in enabledFileListActions"
+					:key="action.id"
+					:disabled="!!loadingAction"
+					:data-cy-files-list-action="action.id"
+					close-after-click
+					@click="execFileListAction(action)">
+					<template #icon>
+						<NcLoadingIcon v-if="loadingAction === action.id" :size="18" />
+						<NcIconSvgWrapper v-else-if="action.iconSvgInline !== undefined && currentView"
+							:svg="action.iconSvgInline(currentView)" />
+					</template>
+					{{ actionDisplayName(action) }}
+				</NcActionButton>
+			</NcActions>
+
+			<NcButton v-if="fileListWidth >= 512 && enableGridView"
 				:aria-label="gridViewButtonLabel"
 				:title="gridViewButtonLabel"
 				class="files-list__header-grid-button"
@@ -75,16 +81,32 @@
 
 		<!-- Empty content placeholder -->
 		<template v-else-if="!loading && isEmptyDir">
-			<div v-if="currentView?.emptyView" class="files-list__empty-view-wrapper">
+			<!-- Empty due to error -->
+			<NcEmptyContent v-if="error" :name="error" data-cy-files-content-error>
+				<template #action>
+					<NcButton type="secondary" @click="fetchContent">
+						<template #icon>
+							<IconReload :size="20" />
+						</template>
+						{{ t('files', 'Retry') }}
+					</NcButton>
+				</template>
+				<template #icon>
+					<IconAlertCircleOutline />
+				</template>
+			</NcEmptyContent>
+			<!-- Custom empty view -->
+			<div v-else-if="currentView?.emptyView" class="files-list__empty-view-wrapper">
 				<div ref="customEmptyView" />
 			</div>
+			<!-- Default empty directory view -->
 			<NcEmptyContent v-else
 				:name="currentView?.emptyTitle || t('files', 'No files in here')"
 				:description="currentView?.emptyCaption || t('files', 'Upload some content or sync with your devices!')"
 				data-cy-files-content-empty>
 				<template v-if="directory !== '/'" #action>
 					<!-- Uploader -->
-					<UploadPicker v-if="currentFolder && canUpload && !isQuotaExceeded"
+					<UploadPicker v-if="canUpload && !isQuotaExceeded"
 						allow-folders
 						class="files-list__header-upload-button"
 						:content="getContent"
@@ -93,10 +115,7 @@
 						multiple
 						@failed="onUploadFail"
 						@uploaded="onUpload" />
-					<NcButton v-else
-						:aria-label="t('files', 'Go to the previous folder')"
-						:to="toPreviousDir"
-						type="primary">
+					<NcButton v-else :to="toPreviousDir" type="primary">
 						{{ t('files', 'Go back') }}
 					</NcButton>
 				</template>
@@ -116,7 +135,7 @@
 </template>
 
 <script lang="ts">
-import type { ContentsWithRoot, INode } from '@nextcloud/files'
+import type { ContentsWithRoot, FileListAction, Folder, INode } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
 import type { CancelablePromise } from 'cancelable-promise'
 import type { ComponentPublicInstance } from 'vue'
@@ -125,28 +144,32 @@ import type { UserConfig } from '../types.ts'
 
 import { getCapabilities } from '@nextcloud/capabilities'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { Folder, Node, Permission, sortNodes } from '@nextcloud/files'
+import { Node, Permission, sortNodes, getFileListActions } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { join, dirname, normalize } from 'path'
-import { showError, showWarning } from '@nextcloud/dialogs'
-import { Type } from '@nextcloud/sharing'
+import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
+import { ShareType } from '@nextcloud/sharing'
 import { UploadPicker, UploadStatus } from '@nextcloud/upload'
 import { loadState } from '@nextcloud/initial-state'
 import { defineComponent } from 'vue'
 
+import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
+import IconReload from 'vue-material-design-icons/Reload.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { useNavigation } from '../composables/useNavigation.ts'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useFiltersStore } from '../store/filters.ts'
@@ -157,10 +180,10 @@ import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
-import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.ts'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
+import { humanizeWebDAVError } from '../utils/davUtils.ts'
 
 const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
 
@@ -174,18 +197,20 @@ export default defineComponent({
 		LinkIcon,
 		ListViewIcon,
 		NcAppContent,
+		NcActions,
+		NcActionButton,
 		NcButton,
 		NcEmptyContent,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
-		PlusIcon,
 		AccountPlusIcon,
 		UploadPicker,
 		ViewGridIcon,
+		IconAlertCircleOutline,
+		IconReload,
 	},
 
 	mixins: [
-		filesListWidthMixin,
 		filesSortingMixin,
 	],
 
@@ -197,6 +222,9 @@ export default defineComponent({
 	},
 
 	setup() {
+		const { currentView } = useNavigation()
+		const { directory, fileId } = useRouteParameters()
+		const fileListWidth = useFileListWidth()
 		const filesStore = useFilesStore()
 		const filtersStore = useFiltersStore()
 		const pathsStore = usePathsStore()
@@ -204,8 +232,6 @@ export default defineComponent({
 		const uploaderStore = useUploaderStore()
 		const userConfigStore = useUserConfigStore()
 		const viewConfigStore = useViewConfigStore()
-		const { currentView } = useNavigation()
-		const { directory, fileId } = useRouteParameters()
 
 		const enableGridView = (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true)
 		const forbiddenCharacters = loadState<string[]>('files', 'forbiddenCharacters', [])
@@ -214,6 +240,7 @@ export default defineComponent({
 			currentView,
 			directory,
 			fileId,
+			fileListWidth,
 			t,
 
 			filesStore,
@@ -227,13 +254,15 @@ export default defineComponent({
 			// non reactive data
 			enableGridView,
 			forbiddenCharacters,
-			Type,
+			ShareType,
 		}
 	},
 
 	data() {
 		return {
 			loading: true,
+			loadingAction: null as string | null,
+			error: null as string | null,
 			promise: null as CancelablePromise<ContentsWithRoot> | Promise<ContentsWithRoot> | null,
 
 			dirContentsFiltered: [] as INode[],
@@ -265,7 +294,12 @@ export default defineComponent({
 		},
 
 		pageHeading(): string {
-			return this.currentView?.name ?? t('files', 'Files')
+			const title = this.currentView?.name ?? t('files', 'Files')
+
+			if (this.currentFolder === undefined || this.directory === '/') {
+				return title
+			}
+			return `${this.currentFolder.displayname} - ${title}`
 		},
 
 		/**
@@ -356,22 +390,22 @@ export default defineComponent({
 				return t('files', 'Share')
 			}
 
-			if (this.shareButtonType === Type.SHARE_TYPE_LINK) {
+			if (this.shareButtonType === ShareType.Link) {
 				return t('files', 'Shared by link')
 			}
 			return t('files', 'Shared')
 		},
-		shareButtonType(): Type | null {
+		shareButtonType(): ShareType | null {
 			if (!this.shareTypesAttributes) {
 				return null
 			}
 
 			// If all types are links, show the link icon
-			if (this.shareTypesAttributes.some(type => type === Type.SHARE_TYPE_LINK)) {
-				return Type.SHARE_TYPE_LINK
+			if (this.shareTypesAttributes.some(type => type === ShareType.Link)) {
+				return ShareType.Link
 			}
 
-			return Type.SHARE_TYPE_USER
+			return ShareType.User
 		},
 
 		gridViewButtonLabel() {
@@ -389,12 +423,6 @@ export default defineComponent({
 		isQuotaExceeded() {
 			return this.currentFolder?.attributes?.['quota-available-bytes'] === 0
 		},
-		cantUploadLabel() {
-			if (this.isQuotaExceeded) {
-				return t('files', 'Your have used your space quota and cannot upload files anymore')
-			}
-			return t('files', 'You don’t have permission to upload or create files here')
-		},
 
 		/**
 		 * Check if current folder has share permissions
@@ -410,10 +438,38 @@ export default defineComponent({
 
 		showCustomEmptyView() {
 			return !this.loading && this.isEmptyDir && this.currentView?.emptyView !== undefined
-		}
+		},
+
+		enabledFileListActions() {
+			if (!this.currentView || !this.currentFolder) {
+				return []
+			}
+
+			const actions = getFileListActions()
+			const enabledActions = actions
+				.filter(action => {
+					if (action.enabled === undefined) {
+						return true
+					}
+					return action.enabled(
+						this.currentView!,
+						this.dirContents,
+						this.currentFolder as Folder,
+					)
+				})
+				.toSorted((a, b) => a.order - b.order)
+			return enabledActions
+		},
 	},
 
 	watch: {
+		/**
+		 * Update the window title to match the page heading
+		 */
+		pageHeading() {
+			document.title = `${this.pageHeading} - ${getCapabilities().theming?.productName ?? 'Nextcloud'}`
+		},
+
 		/**
 		 * Handle rendering the custom empty view
 		 * @param show The current state if the custom empty view should be rendered
@@ -489,6 +545,7 @@ export default defineComponent({
 	methods: {
 		async fetchContent() {
 			this.loading = true
+			this.error = null
 			const dir = this.directory
 			const currentView = this.currentView
 
@@ -537,6 +594,7 @@ export default defineComponent({
 				})
 			} catch (error) {
 				logger.error('Error while fetching content', { error })
+				this.error = humanizeWebDAVError(error)
 			} finally {
 				this.loading = false
 			}
@@ -664,11 +722,52 @@ export default defineComponent({
 			}
 			this.dirContentsFiltered = nodes
 		},
+
+		actionDisplayName(action: FileListAction): string {
+			let displayName = action.id
+			try {
+				displayName = action.displayName(this.currentView!)
+			} catch (error) {
+				logger.error('Error while getting action display name', { action, error })
+			}
+			return displayName
+		},
+
+		async execFileListAction(action: FileListAction) {
+			this.loadingAction = action.id
+
+			const displayName = this.actionDisplayName(action)
+			try {
+				const success = await action.exec(this.source, this.dirContents, this.currentDir)
+				// If the action returns null, we stay silent
+				if (success === null || success === undefined) {
+					return
+				}
+
+				if (success) {
+					showSuccess(t('files', '"{displayName}" action executed successfully', { displayName }))
+					return
+				}
+				showError(t('files', '"{displayName}" action failed', { displayName }))
+			} catch (error) {
+				logger.error('Error while executing action', { action, error })
+				showError(t('files', '"{displayName}" action failed', { displayName }))
+			} finally {
+				this.loadingAction = null
+			}
+		},
 	},
 })
 </script>
 
 <style scoped lang="scss">
+:global(.toast-loading-icon) {
+	// Reduce start margin (it was made for text but this is an icon)
+	margin-inline-start: -4px;
+	// 16px icon + 5px on both sides
+	min-width: 26px;
+}
+
 .app-content {
 	// Virtual list needs to be full height and is scrollable
 	display: flex;
@@ -706,6 +805,11 @@ export default defineComponent({
 			&--shared {
 				color: var(--color-main-text) !important;
 			}
+		}
+
+		&-actions {
+			min-width: fit-content !important;
+			margin-inline: calc(var(--default-grid-baseline) * 2);
 		}
 	}
 

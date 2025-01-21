@@ -7,6 +7,7 @@ namespace OCA\SystemTags\Settings;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Settings\ISettings;
+use OCP\Util;
 
 class Admin implements ISettings {
 
@@ -14,7 +15,7 @@ class Admin implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		\OCP\Util::addScript('systemtags', 'admin');
+		Util::addScript('systemtags', 'admin');
 		return new TemplateResponse('systemtags', 'admin', [], '');
 	}
 

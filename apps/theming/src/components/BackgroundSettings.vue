@@ -339,7 +339,6 @@ export default {
 		background-size: cover;
 
 		&__filepicker {
-			background-color: var(--color-main-text);
 			background-color: var(--color-background-dark);
 
 			&.background--active {

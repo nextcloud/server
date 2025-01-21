@@ -25,17 +25,12 @@ use Sabre\VObject\Reader;
 use function Sabre\Uri\split as uriSplit;
 
 class CalendarImpl implements ICreateFromString, IHandleImipMessage {
-	private CalDavBackend $backend;
-	private Calendar $calendar;
-	/** @var array<string, mixed> */
-	private array $calendarInfo;
-
-	public function __construct(Calendar $calendar,
-		array $calendarInfo,
-		CalDavBackend $backend) {
-		$this->calendar = $calendar;
-		$this->calendarInfo = $calendarInfo;
-		$this->backend = $backend;
+	public function __construct(
+		private Calendar $calendar,
+		/** @var array<string, mixed> */
+		private array $calendarInfo,
+		private CalDavBackend $backend,
+	) {
 	}
 
 	/**
@@ -115,6 +110,10 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 		$permissions = $this->calendar->getACL();
 		$result = 0;
 		foreach ($permissions as $permission) {
+			if ($this->calendarInfo['principaluri'] !== $permission['principal']) {
+				continue;
+			}
+
 			switch ($permission['privilege']) {
 				case '{DAV:}read':
 					$result |= Constants::PERMISSION_READ;
@@ -133,10 +132,24 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 	}
 
 	/**
+	 * @since 31.0.0
+	 */
+	public function isWritable(): bool {
+		return $this->calendar->canWrite();
+	}
+
+	/**
 	 * @since 26.0.0
 	 */
 	public function isDeleted(): bool {
 		return $this->calendar->isDeleted();
+	}
+
+	/**
+	 * @since 31.0.0
+	 */
+	public function isShared(): bool {
+		return $this->calendar->isShared();
 	}
 
 	/**
@@ -220,7 +233,10 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 		$attendee = $vEvent->{'ATTENDEE'}->getValue();
 
 		$iTipMessage->method = $vObject->{'METHOD'}->getValue();
-		if ($iTipMessage->method === 'REPLY') {
+		if ($iTipMessage->method === 'REQUEST') {
+			$iTipMessage->sender = $organizer;
+			$iTipMessage->recipient = $attendee;
+		} elseif ($iTipMessage->method === 'REPLY') {
 			if ($server->isExternalAttendee($vEvent->{'ATTENDEE'}->getValue())) {
 				$iTipMessage->recipient = $organizer;
 			} else {

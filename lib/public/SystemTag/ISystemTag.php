@@ -80,4 +80,20 @@ interface ISystemTag {
 	 * @since 22.0.0
 	 */
 	public function getAccessLevel(): int;
+
+	/**
+	 * Returns the ETag of the tag
+	 * The ETag is a unique identifier for the tag and should change whenever the tag changes
+	 * or whenever elements gets added or removed from the tag.
+	 *
+	 * @since 31.0.0
+	 */
+	public function getETag(): ?string;
+
+	/**
+	 * Returns the color of the tag
+	 *
+	 * @since 31.0.0
+	 */
+	public function getColor(): ?string;
 }

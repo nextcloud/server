@@ -117,11 +117,9 @@ export default {
 .theming__preview {
 	// We make previews on 16/10 screens
 	--ratio: 16;
-
 	position: relative;
 	display: flex;
 	justify-content: flex-start;
-	max-width: 800px;
 
 	&,
 	* {
@@ -156,10 +154,6 @@ export default {
 		label {
 			padding: 12px 0;
 		}
-	}
-
-	&--default {
-		grid-column: span 2;
 	}
 
 	&-warning {

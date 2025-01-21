@@ -53,7 +53,15 @@
 				</template>
 			</div>
 
-			<div v-else-if="externalBackendsEnabled" v-html="migrationMessage" />
+			<div v-else-if="externalBackendsEnabled">
+				{{
+					t(
+						'settings',
+						'You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the "Default encryption module" and run {command}',
+						{ command: '"occ encryption:migrate"' },
+					)
+				}}
+			</div>
 		</div>
 	</NcSettingsSection>
 </template>
@@ -89,15 +97,8 @@ export default {
 			encryptionModules,
 			shouldDisplayWarning: false,
 			migrating: false,
-			defaultCheckedModule: Object.entries(encryptionModules).find((module) => module[1].default)[0],
+			defaultCheckedModule: Object.entries(encryptionModules).find((module) => module[1].default)?.[0],
 		}
-	},
-	computed: {
-		migrationMessage() {
-			return t('settings', 'You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the "Default encryption module" and run {command}', {
-				command: '"occ encryption:migrate"',
-			})
-		},
 	},
 	methods: {
 		displayWarning() {

@@ -11,7 +11,7 @@ OC.L10N.register(
     "Cannot create sub-admins for admin group" : "Kann keine Unter-Administratoren für die Administrations-Gruppe erstellen",
     "No permissions to promote sub-admins" : "Keine Berechtigungen, um Unter-Administratoren zu ernennen",
     "Invalid password value" : "Ungültiger Passwort-Wert",
-    "To send a password link to the user an email address is required." : "Um einen Passwort-Link an einen Benutzer zu versenden wird eine E-Mail-Adresse benötigt.",
+    "An email address is required, to send a password link to the user." : "Um dem Benutzer einen Passwortlink zu senden, ist eine E-Mail-Adresse erforderlich.",
     "Required email address was not provided" : "Erforderliche E-Mail-Adresse wurde nicht angegeben",
     "Invalid quota value: %1$s" : "Ungültiger Wert für Speicherkontigent: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "Ungültiger Wert für Speicherkontigent. %1$s überschreitet das maximale Kontigent",

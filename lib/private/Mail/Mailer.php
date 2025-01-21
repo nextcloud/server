@@ -27,6 +27,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\Mailer as SymfonyMailer;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Transport\NullTransport;
 use Symfony\Component\Mailer\Transport\SendmailTransport;
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
 use Symfony\Component\Mailer\Transport\Smtp\Stream\SocketStream;
@@ -61,13 +62,13 @@ class Mailer implements IMailer {
 	private ?MailerInterface $instance = null;
 
 	public function __construct(
-		private IConfig          $config,
-		private LoggerInterface  $logger,
-		private Defaults         $defaults,
-		private IURLGenerator    $urlGenerator,
-		private IL10N            $l10n,
+		private IConfig $config,
+		private LoggerInterface $logger,
+		private Defaults $defaults,
+		private IURLGenerator $urlGenerator,
+		private IL10N $l10n,
 		private IEventDispatcher $dispatcher,
-		private IFactory         $l10nFactory,
+		private IFactory $l10nFactory,
 	) {
 	}
 
@@ -255,9 +256,10 @@ class Mailer implements IMailer {
 			return $this->instance;
 		}
 
-		$transport = null;
-
 		switch ($this->config->getSystemValueString('mail_smtpmode', 'smtp')) {
+			case 'null':
+				$transport = new NullTransport();
+				break;
 			case 'sendmail':
 				$transport = $this->getSendMailInstance();
 				break;
@@ -267,7 +269,9 @@ class Mailer implements IMailer {
 				break;
 		}
 
-		return new SymfonyMailer($transport);
+		$this->instance = new SymfonyMailer($transport);
+
+		return $this->instance;
 	}
 
 	/**

@@ -9,6 +9,7 @@ namespace OCA\Files_Sharing\Tests\Command;
 use OCA\Files_Sharing\Command\CleanupRemoteStorages;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
+use OCP\IDBConnection;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
@@ -28,7 +29,7 @@ class CleanupRemoteStoragesTest extends TestCase {
 	private $command;
 
 	/**
-	 * @var \OCP\IDBConnection
+	 * @var IDBConnection
 	 */
 	private $connection;
 

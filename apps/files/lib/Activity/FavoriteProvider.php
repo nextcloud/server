@@ -18,20 +18,8 @@ class FavoriteProvider implements IProvider {
 	public const SUBJECT_ADDED = 'added_favorite';
 	public const SUBJECT_REMOVED = 'removed_favorite';
 
-	/** @var IFactory */
-	protected $languageFactory;
-
 	/** @var IL10N */
 	protected $l;
-
-	/** @var IURLGenerator */
-	protected $url;
-
-	/** @var IManager */
-	protected $activityManager;
-
-	/** @var IEventMerger */
-	protected $eventMerger;
 
 	/**
 	 * @param IFactory $languageFactory
@@ -39,11 +27,12 @@ class FavoriteProvider implements IProvider {
 	 * @param IManager $activityManager
 	 * @param IEventMerger $eventMerger
 	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IEventMerger $eventMerger) {
-		$this->languageFactory = $languageFactory;
-		$this->url = $url;
-		$this->activityManager = $activityManager;
-		$this->eventMerger = $eventMerger;
+	public function __construct(
+		protected IFactory $languageFactory,
+		protected IURLGenerator $url,
+		protected IManager $activityManager,
+		protected IEventMerger $eventMerger,
+	) {
 	}
 
 	/**
@@ -64,7 +53,7 @@ class FavoriteProvider implements IProvider {
 		if ($this->activityManager->isFormattingFilteredObject()) {
 			try {
 				return $this->parseShortVersion($event);
-			} catch (\InvalidArgumentException $e) {
+			} catch (UnknownActivityException) {
 				// Ignore and simply use the long version...
 			}
 		}
@@ -75,10 +64,10 @@ class FavoriteProvider implements IProvider {
 	/**
 	 * @param IEvent $event
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
-	public function parseShortVersion(IEvent $event) {
+	public function parseShortVersion(IEvent $event): IEvent {
 		if ($event->getSubject() === self::SUBJECT_ADDED) {
 			$event->setParsedSubject($this->l->t('Added to favorites'));
 			if ($this->activityManager->getRequirePNG()) {
@@ -95,7 +84,7 @@ class FavoriteProvider implements IProvider {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/star.svg')));
 			}
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		return $event;
@@ -105,10 +94,10 @@ class FavoriteProvider implements IProvider {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
-	public function parseLongVersion(IEvent $event, ?IEvent $previousEvent = null) {
+	public function parseLongVersion(IEvent $event, ?IEvent $previousEvent = null): IEvent {
 		if ($event->getSubject() === self::SUBJECT_ADDED) {
 			$subject = $this->l->t('You added {file} to your favorites');
 			if ($this->activityManager->getRequirePNG()) {
@@ -125,7 +114,7 @@ class FavoriteProvider implements IProvider {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/star.svg')));
 			}
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$this->setSubjects($event, $subject);

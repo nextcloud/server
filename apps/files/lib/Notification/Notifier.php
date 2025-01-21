@@ -8,9 +8,11 @@ declare(strict_types=1);
  */
 namespace OCA\Files\Notification;
 
+use OCA\Files\BackgroundJob\TransferOwnership;
 use OCA\Files\Db\TransferOwnershipMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJobList;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -23,32 +25,15 @@ use OCP\Notification\INotifier;
 use OCP\Notification\UnknownNotificationException;
 
 class Notifier implements INotifier, IDismissableNotifier {
-	/** @var IFactory */
-	protected $l10nFactory;
-
-	/** @var IURLGenerator */
-	protected $urlGenerator;
-	/** @var TransferOwnershipMapper */
-	private $mapper;
-	/** @var IManager */
-	private $notificationManager;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	public function __construct(IFactory $l10nFactory,
-		IURLGenerator $urlGenerator,
-		TransferOwnershipMapper $mapper,
-		IManager $notificationManager,
-		IUserManager $userManager,
-		ITimeFactory $timeFactory) {
-		$this->l10nFactory = $l10nFactory;
-		$this->urlGenerator = $urlGenerator;
-		$this->mapper = $mapper;
-		$this->notificationManager = $notificationManager;
-		$this->userManager = $userManager;
-		$this->timeFactory = $timeFactory;
+	public function __construct(
+		protected IFactory $l10nFactory,
+		protected IURLGenerator $urlGenerator,
+		private TransferOwnershipMapper $mapper,
+		private IManager $notificationManager,
+		private IUserManager $userManager,
+		private IJobList $jobList,
+		private ITimeFactory $timeFactory,
+	) {
 	}
 
 	public function getID(): string {
@@ -69,6 +54,10 @@ class Notifier implements INotifier, IDismissableNotifier {
 		if ($notification->getApp() !== 'files') {
 			throw new UnknownNotificationException('Unhandled app');
 		}
+
+		$imagePath = $this->urlGenerator->imagePath('files', 'folder-move.svg');
+		$iconUrl = $this->urlGenerator->getAbsoluteURL($imagePath);
+		$notification->setIcon($iconUrl);
 
 		return match($notification->getSubject()) {
 			'transferownershipRequest' => $this->handleTransferownershipRequest($notification, $languageCode),
@@ -259,11 +248,20 @@ class Notifier implements INotifier, IDismissableNotifier {
 		if ($notification->getApp() !== 'files') {
 			throw new UnknownNotificationException('Unhandled app');
 		}
+		if ($notification->getSubject() !== 'transferownershipRequest') {
+			throw new UnknownNotificationException('Unhandled notification type');
+		}
 
 		// TODO: This should all be moved to a service that also the transferownershipController uses.
 		try {
 			$transferOwnership = $this->mapper->getById((int)$notification->getObjectId());
 		} catch (DoesNotExistException $e) {
+			return;
+		}
+
+		if ($this->jobList->has(TransferOwnership::class, [
+			'id' => $transferOwnership->getId(),
+		])) {
 			return;
 		}
 

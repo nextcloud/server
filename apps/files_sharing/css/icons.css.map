@@ -1,1 +1,1 @@
-{"version":3,"sourceRoot":"","sources":["icons.scss"],"names":[],"mappings":"AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,GAQA,WACC,uCAED,aACC,0CAED,aACC","file":"icons.css"}
+{"version":3,"sourceRoot":"","sources":["icons.scss","../../../core/css/variables.scss","../../../core/css/functions.scss"],"names":[],"mappings":"AAAA;AAAA;AAAA;AAAA,GCEA;AAAA;AAAA;AAAA,GCFA;AAAA;AAAA;AAAA,GFQA,WACC,uCAGD,aACC,0CAGD,aACC","file":"icons.css"}

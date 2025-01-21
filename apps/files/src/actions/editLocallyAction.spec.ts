@@ -17,10 +17,11 @@ const view = {
 	name: 'Files',
 } as View
 
-// Mock webroot variable
+// Mock web root variable
 beforeAll(() => {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	(window as any)._oc_webroot = '';
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	(window as any).OCA = { Viewer: { open: vi.fn() } }
 })
 

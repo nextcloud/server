@@ -11,13 +11,12 @@ namespace OCA\User_LDAP;
 use OC\ServerNotAvailableException;
 use OCP\IL10N;
 use OCP\L10N\IFactory as IL10NFactory;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Wizard extends LDAPUtility {
 	protected static ?IL10N $l = null;
-	protected Access $access;
 	protected ?\LDAP\Connection $cr = null;
-	protected Configuration $configuration;
 	protected WizardResult $result;
 	protected LoggerInterface $logger;
 
@@ -35,16 +34,14 @@ class Wizard extends LDAPUtility {
 	public const LDAP_NW_TIMEOUT = 4;
 
 	public function __construct(
-		Configuration $configuration,
+		protected Configuration $configuration,
 		ILDAPWrapper $ldap,
-		Access $access,
+		protected Access $access,
 	) {
 		parent::__construct($ldap);
-		$this->configuration = $configuration;
 		if (is_null(static::$l)) {
 			static::$l = \OC::$server->get(IL10NFactory::class)->get('user_ldap');
 		}
-		$this->access = $access;
 		$this->result = new WizardResult();
 		$this->logger = \OC::$server->get(LoggerInterface::class);
 	}
@@ -1253,7 +1250,7 @@ class Wizard extends LDAPUtility {
 		}
 
 		// strtolower on all keys for proper comparison
-		$result = \OCP\Util::mb_array_change_key_case($result);
+		$result = Util::mb_array_change_key_case($result);
 		$attribute = strtolower($attribute);
 		if (isset($result[$attribute])) {
 			foreach ($result[$attribute] as $key => $val) {

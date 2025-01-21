@@ -65,6 +65,8 @@ OC.L10N.register(
     "Failed to update tag" : "Fallo al actualizar la etiqueta",
     "Deleted tag" : "Etiqueta eliminada",
     "Failed to delete tag" : "Fallo al borrar etiqueta",
+    "Manage tags" : "Gestionar etiquetas",
+    "Cancel" : "Cancelar",
     "Loading collaborative tags …" : "Cargando etiquetas colaborativas …",
     "Search or create collaborative tags" : "Buscar o crear etiquetas colaborativas",
     "No tags to select, type to create a new tag" : "No hay etiquetas para seleccionar, escriba para crear una etiqueta nueva",

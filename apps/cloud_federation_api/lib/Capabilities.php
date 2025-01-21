@@ -6,20 +6,27 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 namespace OCA\CloudFederationAPI;
 
+use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
+use NCU\Security\Signature\Exceptions\SignatoryException;
+use OC\OCM\OCMSignatoryManager;
 use OCP\Capabilities\ICapability;
+use OCP\IAppConfig;
 use OCP\IURLGenerator;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\IOCMProvider;
+use Psr\Log\LoggerInterface;
 
 class Capabilities implements ICapability {
-	public const API_VERSION = '1.0-proposal1';
+	public const API_VERSION = '1.1'; // informative, real version.
 
 	public function __construct(
 		private IURLGenerator $urlGenerator,
+		private IAppConfig $appConfig,
 		private IOCMProvider $provider,
+		private readonly OCMSignatoryManager $ocmSignatoryManager,
+		private readonly LoggerInterface $logger,
 	) {
 	}
 
@@ -28,15 +35,20 @@ class Capabilities implements ICapability {
 	 *
 	 * @return array{
 	 *     ocm: array{
+	 *     	   apiVersion: '1.0-proposal1',
 	 *         enabled: bool,
-	 *         apiVersion: string,
 	 *         endPoint: string,
-	 *         resourceTypes: array{
+	 *         publicKey: array{
+	 *             keyId: string,
+	 *             publicKeyPem: string,
+	 *         },
+	 *         resourceTypes: list<array{
 	 *             name: string,
-	 *             shareTypes: string[],
+	 *             shareTypes: list<string>,
 	 *             protocols: array<string, string>
-	 *           }[],
-	 *       },
+	 *         }>,
+	 *         version: string
+	 *     }
 	 * }
 	 * @throws OCMArgumentException
 	 */
@@ -60,6 +72,21 @@ class Capabilities implements ICapability {
 
 		$this->provider->addResourceType($resource);
 
-		return ['ocm' => $this->provider->jsonSerialize()];
+		// Adding a public key to the ocm discovery
+		try {
+			if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+				/**
+				 * @experimental 31.0.0
+				 * @psalm-suppress UndefinedInterfaceMethod
+				 */
+				$this->provider->setSignatory($this->ocmSignatoryManager->getLocalSignatory());
+			} else {
+				$this->logger->debug('ocm public key feature disabled');
+			}
+		} catch (SignatoryException|IdentityNotFoundException $e) {
+			$this->logger->warning('cannot generate local signatory', ['exception' => $e]);
+		}
+
+		return ['ocm' => json_decode(json_encode($this->provider->jsonSerialize()), true)];
 	}
 }

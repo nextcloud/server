@@ -6,20 +6,27 @@
  */
 namespace OCA\Files_External\Config;
 
+use OC\Files\Cache\Storage;
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Wrapper\Availability;
 use OC\Files\Storage\Wrapper\KnownMtime;
 use OCA\Files_External\Lib\PersonalMount;
 use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\MountConfig;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
+use OCP\AppFramework\QueryException;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\ObjectStore\IObjectStore;
+use OCP\Files\Storage\IConstructableStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IUser;
+use OCP\Server;
 use Psr\Clock\ClockInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Make the old files_external config work with the new public mount config api
@@ -35,11 +42,11 @@ class ConfigAdapter implements IMountProvider {
 	/**
 	 * Process storage ready for mounting
 	 *
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 */
 	private function prepareStorageConfig(StorageConfig &$storage, IUser $user): void {
 		foreach ($storage->getBackendOptions() as $option => $value) {
-			$storage->setBackendOption($option, \OCA\Files_External\MountConfig::substitutePlaceholdersInConfig($value, $user->getUID()));
+			$storage->setBackendOption($option, MountConfig::substitutePlaceholdersInConfig($value, $user->getUID()));
 		}
 
 		$objectStore = $storage->getBackendOption('objectstore');
@@ -62,6 +69,9 @@ class ConfigAdapter implements IMountProvider {
 	 */
 	private function constructStorage(StorageConfig $storageConfig): IStorage {
 		$class = $storageConfig->getBackend()->getStorageClass();
+		if (!is_a($class, IConstructableStorage::class, true)) {
+			Server::get(LoggerInterface::class)->warning('Building a storage not implementing IConstructableStorage is deprecated since 31.0.0', ['class' => $class]);
+		}
 		$storage = new $class($storageConfig->getBackendOptions());
 
 		// auth mechanism should fire first
@@ -74,7 +84,7 @@ class ConfigAdapter implements IMountProvider {
 	/**
 	 * Get all mountpoints applicable for the user
 	 *
-	 * @return \OCP\Files\Mount\IMountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
 		$this->userStoragesService->setUser($user);
@@ -93,7 +103,7 @@ class ConfigAdapter implements IMountProvider {
 		}, $storageConfigs);
 
 
-		\OC\Files\Cache\Storage::getGlobalCache()->loadForStorageIds(array_map(function (IStorage $storage) {
+		Storage::getGlobalCache()->loadForStorageIds(array_map(function (IStorage $storage) {
 			return $storage->getId();
 		}, $storages));
 

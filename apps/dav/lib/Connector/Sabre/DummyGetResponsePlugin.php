@@ -7,6 +7,7 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OCP\AppFramework\Http;
 use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -48,7 +49,7 @@ class DummyGetResponsePlugin extends \Sabre\DAV\ServerPlugin {
 		fwrite($stream, $string);
 		rewind($stream);
 
-		$response->setStatus(200);
+		$response->setStatus(Http::STATUS_OK);
 		$response->setBody($stream);
 
 		return false;

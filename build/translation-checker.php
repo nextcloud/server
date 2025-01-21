@@ -16,6 +16,34 @@ $untranslatedApps = [
 	'testing',
 ];
 
+// Next line only looks messed up, but it works. Don't touch it!
+$rtlCharacters = [
+	'\x{061C}', // ARABIC LETTER MARK
+	'\x{0623}', // ARABIC LETTER ALEF WITH HAMZA ABOVE
+	'\x{200E}', // LEFT-TO-RIGHT MARK
+	'\x{200F}', // RIGHT-TO-LEFT MARK
+	'\x{202A}', // LEFT-TO-RIGHT EMBEDDING
+	'\x{202B}', // RIGHT-TO-LEFT EMBEDDING
+	'\x{202C}', // POP DIRECTIONAL FORMATTING
+	'\x{202D}', // LEFT-TO-RIGHT OVERRIDE
+	'\x{202E}', // RIGHT-TO-LEFT OVERRIDE
+	'\x{2066}', // LEFT-TO-RIGHT ISOLATE
+	'\x{2067}', // RIGHT-TO-LEFT ISOLATE
+	'\x{2068}', // FIRST STRONG ISOLATE
+	'\x{2069}', // POP DIRECTIONAL ISOLATE
+	'\x{206C}', // INHIBIT ARABIC FORM SHAPING
+	'\x{206D}', // ACTIVATE ARABIC FORM SHAPING
+];
+
+$rtlLanguages = [
+	'ar', // Arabic
+	'fa', // Persian
+	'he', // Hebrew
+	'ps', // Pashto,
+	'ug', // 'Uyghurche / Uyghur
+	'ur_PK', // Urdu
+];
+
 $valid = 0;
 $errors = [];
 $apps = new \DirectoryIterator(__DIR__ . '/../apps');
@@ -46,6 +74,12 @@ foreach ($directories as $dir) {
 		}
 
 		$content = file_get_contents($file->getPathname());
+
+		$language = pathinfo($file->getFilename(), PATHINFO_FILENAME);
+		if (!in_array($language, $rtlLanguages, true) && preg_match_all('/^(.+[' . implode('', $rtlCharacters) . '].+)$/mu', $content, $matches)) {
+			$errors[] = $file->getPathname() . "\n" . '  ' . 'Contains a RTL limited characters in the translations. Offending strings:' . "\n" . implode("\n", $matches[0]) . "\n";
+		}
+
 		$json = json_decode($content, true);
 
 		$translations = json_encode($json['translations']);

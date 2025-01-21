@@ -3,7 +3,7 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
  -->
 <template>
-	<div id="app-dashboard">
+	<main id="app-dashboard">
 		<h2>{{ greeting.text }}</h2>
 		<ul class="statuses">
 			<li v-for="status in sortedRegisteredStatus"
@@ -127,7 +127,7 @@
 				</div>
 			</div>
 		</NcModal>
-	</div>
+	</main>
 </template>
 
 <script>
@@ -147,6 +147,7 @@ import ApiDashboardWidget from './components/ApiDashboardWidget.vue'
 
 const panels = loadState('dashboard', 'panels')
 const firstRun = loadState('dashboard', 'firstRun')
+const birthdate = new Date(loadState('dashboard', 'birthdate'))
 
 const statusInfo = {
 	weather: {
@@ -194,15 +195,21 @@ export default {
 			apiWidgets: [],
 			apiWidgetItems: {},
 			loadingItems: true,
+			birthdate,
 		}
 	},
 	computed: {
 		greeting() {
 			const time = this.timer.getHours()
+			const isBirthday = this.birthdate instanceof Date
+				&& this.birthdate.getMonth() === this.timer.getMonth()
+				&& this.birthdate.getDate() === this.timer.getDate()
 
 			// Determine part of the day
 			let partOfDay
-			if (time >= 22 || time < 5) {
+			if (isBirthday) {
+				partOfDay = 'birthday'
+			} else if (time >= 22 || time < 5) {
 				partOfDay = 'night'
 			} else if (time >= 18) {
 				partOfDay = 'evening'
@@ -230,6 +237,10 @@ export default {
 					// Don't use "Good night" as it's not a greeting
 					generic: t('dashboard', 'Hello'),
 					withName: t('dashboard', 'Hello, {name}', { name: this.displayName }, undefined, { escape: false }),
+				},
+				birthday: {
+					generic: t('dashboard', 'Happy birthday 🥳🤩🎂🎉'),
+					withName: t('dashboard', 'Happy birthday, {name} 🥳🤩🎂🎉', { name: this.displayName }, undefined, { escape: false }),
 				},
 			}
 
@@ -288,13 +299,17 @@ export default {
 
 		const apiWidgetIdsToFetch = Object
 			.values(this.apiWidgets)
-			.filter(widget => this.isApiWidgetV2(widget.id))
+			.filter(widget => this.isApiWidgetV2(widget.id) && this.layout.includes(widget.id))
 			.map(widget => widget.id)
 		await Promise.all(apiWidgetIdsToFetch.map(id => this.fetchApiWidgetItems([id], true)))
 
 		for (const widget of Object.values(this.apiWidgets)) {
 			if (widget.reload_interval > 0) {
 				setInterval(async () => {
+					if (!this.layout.includes(widget.id)) {
+						return
+					}
+
 					await this.fetchApiWidgetItems([widget.id], true)
 				}, widget.reload_interval * 1000)
 			}
@@ -382,9 +397,11 @@ export default {
 			const index = this.layout.indexOf(panel.id)
 			if (!currentValue && index > -1) {
 				this.layout.splice(index, 1)
-
 			} else {
 				this.layout.push(panel.id)
+				if (this.isApiWidgetV2(panel.id)) {
+					this.fetchApiWidgetItems([panel.id], true)
+				}
 			}
 			Vue.set(this.panels[panel.id], 'mounted', false)
 			this.saveLayout()
@@ -444,8 +461,8 @@ export default {
 			}
 		},
 		async fetchApiWidgets() {
-			const response = await axios.get(generateOcsUrl('/apps/dashboard/api/v1/widgets'))
-			this.apiWidgets = response.data.ocs.data
+			const { data } = await axios.get(generateOcsUrl('/apps/dashboard/api/v1/widgets'))
+			this.apiWidgets = data.ocs.data
 		},
 		async fetchApiWidgetItems(widgetIds, merge = false) {
 			try {
@@ -507,7 +524,6 @@ export default {
 .panel, .panels > div {
 	// Ensure the maxcontrast color is set for the background
 	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
-
 	width: 320px;
 	max-width: 100%;
 	margin: 16px;
@@ -532,7 +548,8 @@ export default {
 		padding: 16px;
 		cursor: grab;
 
-		&, ::v-deep * {
+		&,
+		:deep(*) {
 			-webkit-touch-callout: none;
 			-webkit-user-select: none;
 			-khtml-user-select: none;
@@ -618,11 +635,10 @@ export default {
 .button,
 .button-vue,
 .edit-panels,
-.statuses ::v-deep .action-item .action-item__menutoggle,
-.statuses ::v-deep .action-item.action-item--open .action-item__menutoggle {
+.statuses :deep(.action-item .action-item__menutoggle),
+.statuses :deep(.action-item.action-item--open .action-item__menutoggle) {
 	// Ensure the maxcontrast color is set for the background
 	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
-
 	background-color: var(--color-main-background-blur);
 	-webkit-backdrop-filter: var(--filter-background-blur);
 	backdrop-filter: var(--filter-background-blur);

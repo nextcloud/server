@@ -8,21 +8,24 @@
 namespace OCA\DAV\Tests\unit\SystemTag;
 
 use OC\SystemTag\SystemTag;
+use OCA\DAV\SystemTag\SystemTagsByIdCollection;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class SystemTagsByIdCollectionTest extends \Test\TestCase {
 
 	/**
-	 * @var \OCP\SystemTag\ISystemTagManager
+	 * @var ISystemTagManager
 	 */
 	private $tagManager;
 
 	/**
-	 * @var \OCP\IUser
+	 * @var IUser
 	 */
 	private $user;
 
@@ -39,21 +42,31 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn('testuser');
+
+		/** @var IUserSession|MockObject */
 		$userSession = $this->getMockBuilder(IUserSession::class)
 			->getMock();
 		$userSession->expects($this->any())
 			->method('getUser')
 			->willReturn($this->user);
+
+		/** @var IGroupManager|MockObject */
 		$groupManager = $this->getMockBuilder(IGroupManager::class)
 			->getMock();
 		$groupManager->expects($this->any())
 			->method('isAdmin')
 			->with('testuser')
 			->willReturn($isAdmin);
-		return new \OCA\DAV\SystemTag\SystemTagsByIdCollection(
+
+		/** @var ISystemTagObjectMapper|MockObject */
+		$tagMapper = $this->getMockBuilder(ISystemTagObjectMapper::class)
+			->getMock();
+
+		return new SystemTagsByIdCollection(
 			$this->tagManager,
 			$userSession,
-			$groupManager
+			$groupManager,
+			$tagMapper,
 		);
 	}
 

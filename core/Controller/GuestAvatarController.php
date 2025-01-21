@@ -9,6 +9,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\Response;
@@ -46,6 +47,7 @@ class GuestAvatarController extends Controller {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/guest/{guestName}/{size}')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getAvatar(string $guestName, int $size, ?bool $darkTheme = false) {
 		$darkTheme = $darkTheme ?? false;
 
@@ -97,6 +99,7 @@ class GuestAvatarController extends Controller {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/guest/{guestName}/{size}/dark')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getAvatarDark(string $guestName, int $size) {
 		return $this->getAvatar($guestName, $size, true);
 	}

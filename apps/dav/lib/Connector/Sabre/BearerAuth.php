@@ -5,6 +5,8 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OCP\AppFramework\Http;
+use OCP\Defaults;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -13,22 +15,14 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class BearerAuth extends AbstractBearer {
-	private IUserSession $userSession;
-	private ISession $session;
-	private IRequest $request;
-	private string $principalPrefix;
-
-	public function __construct(IUserSession $userSession,
-		ISession $session,
-		IRequest $request,
-		$principalPrefix = 'principals/users/') {
-		$this->userSession = $userSession;
-		$this->session = $session;
-		$this->request = $request;
-		$this->principalPrefix = $principalPrefix;
-
+	public function __construct(
+		private IUserSession $userSession,
+		private ISession $session,
+		private IRequest $request,
+		private string $principalPrefix = 'principals/users/',
+	) {
 		// setup realm
-		$defaults = new \OCP\Defaults();
+		$defaults = new Defaults();
 		$this->realm = $defaults->getName() ?: 'Nextcloud';
 	}
 
@@ -63,6 +57,6 @@ class BearerAuth extends AbstractBearer {
 	 * @param ResponseInterface $response
 	 */
 	public function challenge(RequestInterface $request, ResponseInterface $response): void {
-		$response->setStatus(401);
+		$response->setStatus(Http::STATUS_UNAUTHORIZED);
 	}
 }

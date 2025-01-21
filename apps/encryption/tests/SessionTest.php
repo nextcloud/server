@@ -7,6 +7,7 @@
  */
 namespace OCA\Encryption\Tests;
 
+use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use OCA\Encryption\Session;
 use OCP\ISession;
 use Test\TestCase;
@@ -17,12 +18,12 @@ class SessionTest extends TestCase {
 	 * @var Session
 	 */
 	private $instance;
-	/** @var \OCP\ISession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
 	private $sessionMock;
 
 
 	public function testThatGetPrivateKeyThrowsExceptionWhenNotSet(): void {
-		$this->expectException(\OCA\Encryption\Exceptions\PrivateKeyMissingException::class);
+		$this->expectException(PrivateKeyMissingException::class);
 		$this->expectExceptionMessage('Private Key missing for user: please try to log-out and log-in again');
 
 		$this->instance->getPrivateKey();
@@ -84,7 +85,7 @@ class SessionTest extends TestCase {
 	 * @expectExceptionMessage 'Please activate decrypt all mode first'
 	 */
 	public function testGetDecryptAllKeyException(): void {
-		$this->expectException(\OCA\Encryption\Exceptions\PrivateKeyMissingException::class);
+		$this->expectException(PrivateKeyMissingException::class);
 
 		$this->instance->getDecryptAllKey();
 	}
@@ -93,7 +94,7 @@ class SessionTest extends TestCase {
 	 * @expectExceptionMessage 'No key found while in decrypt all mode'
 	 */
 	public function testGetDecryptAllKeyException2(): void {
-		$this->expectException(\OCA\Encryption\Exceptions\PrivateKeyMissingException::class);
+		$this->expectException(PrivateKeyMissingException::class);
 
 		$this->instance->prepareDecryptAll('user', null);
 		$this->instance->getDecryptAllKey();

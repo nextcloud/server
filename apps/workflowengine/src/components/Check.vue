@@ -190,9 +190,11 @@ export default {
 			margin-bottom: 5px;
 		}
 	}
+
 	input[type=text] {
 		margin: 0;
 	}
+
 	.invalid {
 		border-color: var(--color-error) !important;
 	}

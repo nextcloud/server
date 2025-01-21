@@ -31,36 +31,19 @@ class TrustedServers {
 	/** remote server revoked access */
 	public const STATUS_ACCESS_REVOKED = 4;
 
-	private DbHandler $dbHandler;
-	private IClientService $httpClientService;
-	private LoggerInterface $logger;
-	private IJobList $jobList;
-	private ISecureRandom $secureRandom;
-	private IConfig $config;
-	private IEventDispatcher $dispatcher;
-	private ITimeFactory $timeFactory;
-
 	/** @var list<array{id: int, url: string, url_hash: string, shared_secret: ?string, status: int, sync_token: ?string}>|null */
 	private ?array $trustedServersCache = null;
 
 	public function __construct(
-		DbHandler $dbHandler,
-		IClientService $httpClientService,
-		LoggerInterface $logger,
-		IJobList $jobList,
-		ISecureRandom $secureRandom,
-		IConfig $config,
-		IEventDispatcher $dispatcher,
-		ITimeFactory $timeFactory,
+		private DbHandler $dbHandler,
+		private IClientService $httpClientService,
+		private LoggerInterface $logger,
+		private IJobList $jobList,
+		private ISecureRandom $secureRandom,
+		private IConfig $config,
+		private IEventDispatcher $dispatcher,
+		private ITimeFactory $timeFactory,
 	) {
-		$this->dbHandler = $dbHandler;
-		$this->httpClientService = $httpClientService;
-		$this->logger = $logger;
-		$this->jobList = $jobList;
-		$this->secureRandom = $secureRandom;
-		$this->config = $config;
-		$this->dispatcher = $dispatcher;
-		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -113,13 +96,32 @@ class TrustedServers {
 	 * Get all trusted servers
 	 *
 	 * @return list<array{id: int, url: string, url_hash: string, shared_secret: ?string, status: int, sync_token: ?string}>
-	 * @throws Exception
+	 * @throws \Exception
 	 */
-	public function getServers() {
+	public function getServers(): ?array {
 		if ($this->trustedServersCache === null) {
 			$this->trustedServersCache = $this->dbHandler->getAllServer();
 		}
 		return $this->trustedServersCache;
+	}
+
+	/**
+	 * Get a trusted server
+	 *
+	 * @return array{id: int, url: string, url_hash: string, shared_secret: ?string, status: int, sync_token: ?string}
+	 * @throws Exception
+	 */
+	public function getServer(int $id): ?array {
+		if ($this->trustedServersCache === null) {
+			$this->trustedServersCache = $this->dbHandler->getAllServer();
+		}
+
+		$server = array_filter($this->trustedServersCache, fn ($server) => $server['id'] === $id);
+		if (empty($server)) {
+			throw new \Exception('No server found with ID: ' . $id);
+		}
+
+		return $server[0];
 	}
 
 	/**
@@ -155,6 +157,7 @@ class TrustedServers {
 				[
 					'timeout' => 3,
 					'connect_timeout' => 3,
+					'verify' => !$this->config->getSystemValue('sharing.federation.allowSelfSignedCertificates', false),
 				]
 			);
 			if ($result->getStatusCode() === Http::STATUS_OK) {

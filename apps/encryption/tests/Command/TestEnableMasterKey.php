@@ -23,7 +23,7 @@ class TestEnableMasterKey extends TestCase {
 	/** @var Util | \PHPUnit\Framework\MockObject\MockObject */
 	protected $util;
 
-	/** @var \OCP\IConfig | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
 	/** @var \Symfony\Component\Console\Helper\QuestionHelper | \PHPUnit\Framework\MockObject\MockObject */

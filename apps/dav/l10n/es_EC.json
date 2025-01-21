@@ -148,7 +148,6 @@
     "Could not rename part file to final file, canceled by hook" : "No se pudo renombrar el archivo parcial al archivo final, cancelado por el gancho",
     "Could not rename part file to final file" : "No se pudo renombrar el archivo parcial al archivo final",
     "Failed to check file size: %1$s" : "Error al verificar el tamaño del archivo: %1$s",
-    "Could not open file" : "No se pudo abrir el archivo",
     "Encryption not ready: %1$s" : "La encriptación no está lista: %1$s",
     "Failed to open file: %1$s" : "Error al abrir el archivo: %1$s",
     "Failed to unlink: %1$s" : "Error al eliminar: %1$s",
@@ -201,6 +200,7 @@
     "Your attendance was updated successfully." : "Tu asistencia se actualizó correctamente.",
     "To-dos" : "Tareas pendientes",
     "Time:" : "Hora:",
+    "Could not open file" : "No se pudo abrir el archivo",
     "Invalid chunk name" : "Nombre de fragmento no válido",
     "Could not rename part file assembled from chunks" : "No se pudo renombrar el archivo parcial ensamblado a archivo final",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configuras tus horas de trabajo, otros usuarios verán cuando estás fuera de la oficina al reservar una reunión."

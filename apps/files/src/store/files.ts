@@ -4,26 +4,15 @@
  */
 
 import type { FilesStore, RootsStore, RootOptions, Service, FilesState, FileSource } from '../types'
-import type { FileStat, ResponseDataDetailed } from 'webdav'
 import type { Folder, Node } from '@nextcloud/files'
 
-import { davGetDefaultPropfind, davResultToNode, davRootPath } from '@nextcloud/files'
 import { defineStore } from 'pinia'
 import { subscribe } from '@nextcloud/event-bus'
 import logger from '../logger'
 import Vue from 'vue'
 
-import { client } from '../services/WebdavClient.ts'
+import { fetchNode } from '../services/WebdavClient.ts'
 import { usePathsStore } from './paths.ts'
-
-const fetchNode = async (node: Node): Promise<Node> => {
-	const propfindPayload = davGetDefaultPropfind()
-	const result = await client.stat(`${davRootPath}${node.path}`, {
-		details: true,
-		data: propfindPayload,
-	}) as ResponseDataDetailed<FileStat>
-	return davResultToNode(result.data)
-}
 
 export const useFilesStore = function(...args) {
 	const store = defineStore('files', {
@@ -69,7 +58,7 @@ export const useFilesStore = function(...args) {
 			 *
 			 * @param service The service (files view)
 			 * @param path The path relative within the service
-			 * @returns Array of cached nodes within the path
+			 * @return Array of cached nodes within the path
 			 */
 			getNodesByPath(service: string, path?: string): Node[] {
 				const pathsStore = usePathsStore()
@@ -126,6 +115,17 @@ export const useFilesStore = function(...args) {
 				this.updateNodes([node])
 			},
 
+			onMovedNode({ node, oldSource }: { node: Node, oldSource: string }) {
+				if (!node.fileid) {
+					logger.error('Trying to update/set a node without fileid', { node })
+					return
+				}
+
+				// Update the path of the node
+				Vue.delete(this.files, oldSource)
+				this.updateNodes([node])
+			},
+
 			async onUpdatedNode(node: Node) {
 				if (!node.fileid) {
 					logger.error('Trying to update/set a node without fileid', { node })
@@ -158,6 +158,7 @@ export const useFilesStore = function(...args) {
 		subscribe('files:node:created', fileStore.onCreatedNode)
 		subscribe('files:node:deleted', fileStore.onDeletedNode)
 		subscribe('files:node:updated', fileStore.onUpdatedNode)
+		subscribe('files:node:moved', fileStore.onMovedNode)
 
 		fileStore._initialized = true
 	}

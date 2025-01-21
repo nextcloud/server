@@ -41,7 +41,7 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ['8.1', '8.3']
+        php-versions: ['8.1']
         include:
           - php-versions: '8.1'
             coverage: ${{ github.event_name != 'pull_request' }}
@@ -56,7 +56,7 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           submodules: true
 
@@ -65,7 +65,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
-          extensions: ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, smbclient, sqlite, pdo_sqlite
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, smbclient, sqlite, pdo_sqlite
           coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
           ini-file: development
         env:
@@ -94,7 +94,7 @@ jobs:
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@4b21c320b5517fc6ffd4406a28e66325c721dc20 # v4.1.1
+        uses: codecov/codecov-action@015f24e6818733317a2da2edd6290ab26238649a # v4.1.1
         with:
           files: ./clover.xml
           flags: phpunit-files-external-smb

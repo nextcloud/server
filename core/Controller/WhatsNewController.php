@@ -41,7 +41,7 @@ class WhatsNewController extends OCSController {
 	/**
 	 * Get the changes
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{changelogURL: string, product: string, version: string, whatsNew?: array{regular: string[], admin: string[]}}, array{}>|DataResponse<Http::STATUS_NO_CONTENT, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{changelogURL: string, product: string, version: string, whatsNew?: array{regular: list<string>, admin: list<string>}}, array{}>|DataResponse<Http::STATUS_NO_CONTENT, list<empty>, array{}>
 	 *
 	 * 200: Changes returned
 	 * 204: No changes
@@ -87,7 +87,7 @@ class WhatsNewController extends OCSController {
 	 *
 	 * @param string $version Version to dismiss the changes for
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws \OCP\PreConditionNotMetException
 	 * @throws DoesNotExistException
 	 *

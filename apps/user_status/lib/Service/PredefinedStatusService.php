@@ -31,16 +31,14 @@ class PredefinedStatusService {
 	public const CALL = 'call';
 	public const OUT_OF_OFFICE = 'out-of-office';
 
-	/** @var IL10N */
-	private $l10n;
-
 	/**
 	 * DefaultStatusService constructor.
 	 *
 	 * @param IL10N $l10n
 	 */
-	public function __construct(IL10N $l10n) {
-		$this->l10n = $l10n;
+	public function __construct(
+		private IL10N $l10n,
+	) {
 	}
 
 	/**

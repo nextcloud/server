@@ -8,11 +8,11 @@
 
 namespace OC\Files\Storage;
 
-use OC\Files\Cache\Cache;
-use OC\Files\Cache\Propagator;
-use OC\Files\Cache\Scanner;
-use OC\Files\Cache\Updater;
-use OC\Files\Cache\Watcher;
+use OCP\Files\Cache\ICache;
+use OCP\Files\Cache\IPropagator;
+use OCP\Files\Cache\IScanner;
+use OCP\Files\Cache\IUpdater;
+use OCP\Files\Cache\IWatcher;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
 
@@ -22,52 +22,22 @@ use OCP\Files\Storage\IStorage;
  * All paths passed to the storage are relative to the storage and should NOT have a leading slash.
  */
 interface Storage extends IStorage, ILockingStorage {
-	/**
-	 * @inheritDoc
-	 * @return Cache
-	 */
-	public function getCache($path = '', $storage = null);
+	public function getCache(string $path = '', ?IStorage $storage = null): ICache;
 
-	/**
-	 * @inheritDoc
-	 * @return Scanner
-	 */
-	public function getScanner($path = '', $storage = null);
+	public function getScanner(string $path = '', ?IStorage $storage = null): IScanner;
 
-	/**
-	 * @inheritDoc
-	 * @return Watcher
-	 */
-	public function getWatcher($path = '', $storage = null);
+	public function getWatcher(string $path = '', ?IStorage $storage = null): IWatcher;
 
-	/**
-	 * @inheritDoc
-	 * @return Propagator
-	 */
-	public function getPropagator($storage = null);
+	public function getPropagator(?IStorage $storage = null): IPropagator;
 
-	/**
-	 * @inheritDoc
-	 * @return Updater
-	 */
-	public function getUpdater($storage = null);
+	public function getUpdater(?IStorage $storage = null): IUpdater;
 
-	/**
-	 * @return \OC\Files\Cache\Storage
-	 */
-	public function getStorageCache();
+	public function getStorageCache(): \OC\Files\Cache\Storage;
 
-	/**
-	 * @param string $path
-	 * @return array|null
-	 */
-	public function getMetaData($path);
+	public function getMetaData(string $path): ?array;
 
 	/**
 	 * Get the contents of a directory with metadata
-	 *
-	 * @param string $directory
-	 * @return \Traversable an iterator, containing file metadata
 	 *
 	 * The metadata array will contain the following fields
 	 *
@@ -79,5 +49,5 @@ interface Storage extends IStorage, ILockingStorage {
 	 * - storage_mtime
 	 * - permissions
 	 */
-	public function getDirectoryContent($directory): \Traversable;
+	public function getDirectoryContent(string $directory): \Traversable;
 }

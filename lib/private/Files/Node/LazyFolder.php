@@ -134,9 +134,6 @@ class LazyFolder implements Folder {
 		$this->__call(__FUNCTION__, func_get_args());
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function get($path) {
 		return $this->getRootFolder()->get($this->getFullPath($path));
 	}
@@ -422,9 +419,6 @@ class LazyFolder implements Folder {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function nodeExists($path) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}

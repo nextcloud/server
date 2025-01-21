@@ -6,10 +6,10 @@
  */
 namespace OCA\User_LDAP\Tests;
 
+use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
-use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LDAP;
@@ -19,6 +19,7 @@ use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\HintException;
 use OCP\IAppConfig;
 use OCP\IAvatarManager;
 use OCP\IConfig;
@@ -109,7 +110,6 @@ class AccessTest extends TestCase {
 		$um = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
 				$this->createMock(IConfig::class),
-				$this->createMock(FilesystemHelper::class),
 				$this->createMock(LoggerInterface::class),
 				$this->createMock(IAvatarManager::class),
 				$this->createMock(Image::class),
@@ -470,19 +470,19 @@ class AccessTest extends TestCase {
 		$this->connection
 			->expects($this->once())
 			->method('getConnectionResource')
-			->willThrowException(new \OC\ServerNotAvailableException('Connection to LDAP server could not be established'));
+			->willThrowException(new ServerNotAvailableException('Connection to LDAP server could not be established'));
 		$this->ldap
 			->expects($this->never())
 			->method('isResource');
 
-		$this->expectException(\OC\ServerNotAvailableException::class);
+		$this->expectException(ServerNotAvailableException::class);
 		$this->expectExceptionMessage('Connection to LDAP server could not be established');
 		$this->access->setPassword('CN=foo', 'MyPassword');
 	}
 
 
 	public function testSetPasswordWithRejectedChange(): void {
-		$this->expectException(\OCP\HintException::class);
+		$this->expectException(HintException::class);
 		$this->expectExceptionMessage('Password change rejected.');
 
 		$this->connection
@@ -612,7 +612,7 @@ class AccessTest extends TestCase {
 		];
 		$expected = $fakeLdapEntries;
 		unset($expected['count']);
-		array_walk($expected, function (&$v) {
+		array_walk($expected, function (&$v): void {
 			$v['dn'] = [$v['dn']];	// dn is translated into an array internally for consistency
 		});
 

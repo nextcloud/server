@@ -9,6 +9,7 @@
 namespace Test\AppFramework\Db;
 
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 use PHPUnit\Framework\Constraint\IsType;
 
 /**
@@ -29,21 +30,40 @@ use PHPUnit\Framework\Constraint\IsType;
  * @method bool isAnotherBool()
  * @method string getLongText()
  * @method void setLongText(string $longText)
+ * @method \DateTime getTime()
+ * @method void setTime(\DateTime $time)
+ * @method \DateTimeImmutable getDatetime()
+ * @method void setDatetime(\DateTimeImmutable $datetime)
  */
 class TestEntity extends Entity {
 	protected $name;
 	protected $email;
 	protected $testId;
+	protected $smallInt;
+	protected $bigInt;
 	protected $preName;
 	protected $trueOrFalse;
 	protected $anotherBool;
+	protected $text;
 	protected $longText;
+	protected $time;
+	protected $datetime;
 
 	public function __construct($name = null) {
-		$this->addType('testId', 'integer');
+		$this->addType('testId', Types::INTEGER);
+		$this->addType('smallInt', Types::SMALLINT);
+		$this->addType('bigInt', Types::BIGINT);
+		$this->addType('anotherBool', Types::BOOLEAN);
+		$this->addType('text', Types::TEXT);
+		$this->addType('longText', Types::BLOB);
+		$this->addType('time', Types::TIME);
+		$this->addType('datetime', Types::DATETIME_IMMUTABLE);
+
+		// Legacy types
 		$this->addType('trueOrFalse', 'bool');
-		$this->addType('anotherBool', 'boolean');
-		$this->addType('longText', 'blob');
+		$this->addType('legacyInt', 'int');
+		$this->addType('doubleNowFloat', 'double');
+
 		$this->name = $name;
 	}
 
@@ -191,10 +211,28 @@ class EntityTest extends \Test\TestCase {
 	}
 
 
-	public function testSetterCasts(): void {
+	public function dataSetterCasts(): array {
+		return [
+			['Id', '3', 3],
+			['smallInt', '3', 3],
+			['bigInt', '' . PHP_INT_MAX, PHP_INT_MAX],
+			['trueOrFalse', 0, false],
+			['trueOrFalse', 1, true],
+			['anotherBool', 0, false],
+			['anotherBool', 1, true],
+			['text', 33, '33'],
+			['longText', PHP_INT_MAX, '' . PHP_INT_MAX],
+		];
+	}
+
+
+	/**
+	 * @dataProvider dataSetterCasts
+	 */
+	public function testSetterCasts(string $field, mixed $in, mixed $out): void {
 		$entity = new TestEntity();
-		$entity->setId('3');
-		$this->assertSame(3, $entity->getId());
+		$entity->{'set' . $field}($in);
+		$this->assertSame($out, $entity->{'get' . $field}());
 	}
 
 
@@ -216,15 +254,39 @@ class EntityTest extends \Test\TestCase {
 		$this->assertSame($string, $entity->getLongText());
 	}
 
+	public function testSetterConvertsDatetime() {
+		$entity = new TestEntity();
+		$entity->setDatetime('2024-08-19 15:26:00');
+		$this->assertEquals(new \DateTimeImmutable('2024-08-19 15:26:00'), $entity->getDatetime());
+	}
+
+	public function testSetterDoesNotConvertNullOnDatetime() {
+		$entity = new TestEntity();
+		$entity->setDatetime(null);
+		$this->assertNull($entity->getDatetime());
+	}
+
+	public function testSetterConvertsTime() {
+		$entity = new TestEntity();
+		$entity->setTime('15:26:00');
+		$this->assertEquals(new \DateTime('15:26:00'), $entity->getTime());
+	}
 
 	public function testGetFieldTypes(): void {
 		$entity = new TestEntity();
 		$this->assertEquals([
-			'id' => 'integer',
-			'testId' => 'integer',
-			'trueOrFalse' => 'bool',
-			'anotherBool' => 'boolean',
-			'longText' => 'blob',
+			'id' => Types::INTEGER,
+			'testId' => Types::INTEGER,
+			'smallInt' => Types::SMALLINT,
+			'bigInt' => Types::BIGINT,
+			'anotherBool' => Types::BOOLEAN,
+			'text' => Types::TEXT,
+			'longText' => Types::BLOB,
+			'time' => Types::TIME,
+			'datetime' => Types::DATETIME_IMMUTABLE,
+			'trueOrFalse' => Types::BOOLEAN,
+			'legacyInt' => Types::INTEGER,
+			'doubleNowFloat' => Types::FLOAT,
 		], $entity->getFieldTypes());
 	}
 
@@ -232,7 +294,7 @@ class EntityTest extends \Test\TestCase {
 	public function testGetItInt(): void {
 		$entity = new TestEntity();
 		$entity->setId(3);
-		$this->assertEquals('integer', gettype($entity->getId()));
+		$this->assertEquals(Types::INTEGER, gettype($entity->getId()));
 	}
 
 

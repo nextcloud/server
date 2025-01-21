@@ -13,6 +13,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -22,33 +23,20 @@ use OCP\Files\NotFoundException;
 use OCP\IRequest;
 
 class IconController extends Controller {
-	/** @var ThemingDefaults */
-	private $themingDefaults;
-	/** @var IconBuilder */
-	private $iconBuilder;
-	/** @var ImageManager */
-	private $imageManager;
 	/** @var FileAccessHelper */
 	private $fileAccessHelper;
-	/** @var IAppManager */
-	private $appManager;
 
 	public function __construct(
 		$appName,
 		IRequest $request,
-		ThemingDefaults $themingDefaults,
-		IconBuilder $iconBuilder,
-		ImageManager $imageManager,
+		private ThemingDefaults $themingDefaults,
+		private IconBuilder $iconBuilder,
+		private ImageManager $imageManager,
 		FileAccessHelper $fileAccessHelper,
-		IAppManager $appManager,
+		private IAppManager $appManager,
 	) {
 		parent::__construct($appName, $request);
-
-		$this->themingDefaults = $themingDefaults;
-		$this->iconBuilder = $iconBuilder;
-		$this->imageManager = $imageManager;
 		$this->fileAccessHelper = $fileAccessHelper;
-		$this->appManager = $appManager;
 	}
 
 	/**
@@ -64,6 +52,7 @@ class IconController extends Controller {
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getThemedIcon(string $app, string $image): Response {
 		if ($app !== 'core' && !$this->appManager->isEnabledForUser($app)) {
 			$app = 'core';
@@ -97,6 +86,7 @@ class IconController extends Controller {
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getFavicon(string $app = 'core'): Response {
 		if ($app !== 'core' && !$this->appManager->isEnabledForUser($app)) {
 			$app = 'core';
@@ -142,6 +132,7 @@ class IconController extends Controller {
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getTouchIcon(string $app = 'core'): Response {
 		if ($app !== 'core' && !$this->appManager->isEnabledForUser($app)) {
 			$app = 'core';

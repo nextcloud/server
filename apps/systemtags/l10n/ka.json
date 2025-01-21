@@ -60,6 +60,7 @@
     "Failed to update tag" : "Failed to update tag",
     "Deleted tag" : "Deleted tag",
     "Failed to delete tag" : "Failed to delete tag",
+    "Cancel" : "Cancel",
     "Loading collaborative tags …" : "Loading collaborative tags …",
     "Search or create collaborative tags" : "Search or create collaborative tags",
     "No tags to select, type to create a new tag" : "No tags to select, type to create a new tag",

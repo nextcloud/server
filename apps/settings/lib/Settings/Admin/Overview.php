@@ -50,7 +50,7 @@ class Overview implements IDelegatedSettings {
 	}
 
 	public function getName(): ?string {
-		return $this->l->t('Security & setup warnings');
+		return $this->l->t('Security & setup checks');
 	}
 
 	public function getAuthorizedAppConfig(): array {

@@ -11,7 +11,7 @@ use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCP\IDBConnection;
 
 abstract class AbstractMappingTest extends \Test\TestCase {
-	abstract public function getMapper(\OCP\IDBConnection $dbMock);
+	abstract public function getMapper(IDBConnection $dbMock);
 
 	/**
 	 * kiss test on isColNameValid
@@ -52,7 +52,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 
 	/**
 	 * calls map() on the given mapper and asserts result for true
-	 * @param \OCA\User_LDAP\Mapping\AbstractMapping $mapper
+	 * @param AbstractMapping $mapper
 	 * @param array $data
 	 */
 	protected function mapEntries($mapper, $data) {
@@ -227,7 +227,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 		$callbackCalls = 0;
 		$test = $this;
 
-		$callback = function (string $id) use ($test, &$callbackCalls) {
+		$callback = function (string $id) use ($test, &$callbackCalls): void {
 			$test->assertTrue(trim($id) !== '');
 			$callbackCalls++;
 		};

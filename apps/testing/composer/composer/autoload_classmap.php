@@ -12,6 +12,7 @@ return array(
     'OCA\\Testing\\Controller\\ConfigController' => $baseDir . '/../lib/Controller/ConfigController.php',
     'OCA\\Testing\\Controller\\LockingController' => $baseDir . '/../lib/Controller/LockingController.php',
     'OCA\\Testing\\Controller\\RateLimitTestController' => $baseDir . '/../lib/Controller/RateLimitTestController.php',
+    'OCA\\Testing\\Conversion\\ConversionProvider' => $baseDir . '/../lib/Conversion/ConversionProvider.php',
     'OCA\\Testing\\Listener\\GetDeclarativeSettingsValueListener' => $baseDir . '/../lib/Listener/GetDeclarativeSettingsValueListener.php',
     'OCA\\Testing\\Listener\\RegisterDeclarativeSettingsListener' => $baseDir . '/../lib/Listener/RegisterDeclarativeSettingsListener.php',
     'OCA\\Testing\\Listener\\SetDeclarativeSettingsValueListener' => $baseDir . '/../lib/Listener/SetDeclarativeSettingsValueListener.php',
@@ -25,6 +26,7 @@ return array(
     'OCA\\Testing\\TaskProcessing\\FakeContextWriteProvider' => $baseDir . '/../lib/TaskProcessing/FakeContextWriteProvider.php',
     'OCA\\Testing\\TaskProcessing\\FakeTextToImageProvider' => $baseDir . '/../lib/TaskProcessing/FakeTextToImageProvider.php',
     'OCA\\Testing\\TaskProcessing\\FakeTextToTextProvider' => $baseDir . '/../lib/TaskProcessing/FakeTextToTextProvider.php',
+    'OCA\\Testing\\TaskProcessing\\FakeTextToTextSummaryProvider' => $baseDir . '/../lib/TaskProcessing/FakeTextToTextSummaryProvider.php',
     'OCA\\Testing\\TaskProcessing\\FakeTranscribeProvider' => $baseDir . '/../lib/TaskProcessing/FakeTranscribeProvider.php',
     'OCA\\Testing\\TaskProcessing\\FakeTranslateProvider' => $baseDir . '/../lib/TaskProcessing/FakeTranslateProvider.php',
 );

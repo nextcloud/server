@@ -196,6 +196,12 @@ class CommentTest extends TestCase {
 					['type' => 'federated_team', 'id' => 'Former Cirle'],
 				],
 			],
+			[
+				'Emails are supported since 30.0.2 right? @"email/aa23d315de327cfc330f0401ea061005b2b0cdd45ec8346f12664dd1f34cb886"',
+				[
+					['type' => 'email', 'id' => 'aa23d315de327cfc330f0401ea061005b2b0cdd45ec8346f12664dd1f34cb886'],
+				],
+			],
 		];
 	}
 

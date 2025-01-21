@@ -7,7 +7,6 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Tests\unit\CalDAV\WebcalCaching;
 
-use GuzzleHttp\HandlerStack;
 use OCA\DAV\CalDAV\WebcalCaching\Connection;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
@@ -48,7 +47,6 @@ class ConnectionTest extends TestCase {
 			'source' => $source,
 			'lastmodified' => 0,
 		];
-		$mutation = [];
 
 		$client = $this->createMock(IClient::class);
 		$this->clientService->expects(self::once())
@@ -69,7 +67,7 @@ class ConnectionTest extends TestCase {
 			->method('warning')
 			->with('Subscription 42 was not refreshed because it violates local access rules', ['exception' => $localServerException]);
 
-		$this->connection->queryWebcalFeed($subscription, $mutation);
+		$this->connection->queryWebcalFeed($subscription);
 	}
 
 	public function testInvalidUrl(): void {
@@ -83,22 +81,14 @@ class ConnectionTest extends TestCase {
 			'source' => '!@#$',
 			'lastmodified' => 0,
 		];
-		$mutation = [];
 
 		$client = $this->createMock(IClient::class);
-		$this->clientService->expects(self::once())
-			->method('newClient')
-			->with()
-			->willReturn($client);
-		$this->config->expects(self::once())
-			->method('getValueString')
-			->with('dav', 'webcalAllowLocalAccess', 'no')
-			->willReturn('no');
-
+		$this->config->expects(self::never())
+			->method('getValueString');
 		$client->expects(self::never())
 			->method('get');
 
-		$this->connection->queryWebcalFeed($subscription, $mutation);
+		$this->connection->queryWebcalFeed($subscription);
 
 	}
 
@@ -120,7 +110,6 @@ class ConnectionTest extends TestCase {
 			'source' => $url,
 			'lastmodified' => 0,
 		];
-		$mutation = [];
 
 		$this->clientService->expects($this->once())
 			->method('newClient')
@@ -134,9 +123,7 @@ class ConnectionTest extends TestCase {
 
 		$client->expects($this->once())
 			->method('get')
-			->with('https://foo.bar/bla2', $this->callback(function ($obj) {
-				return $obj['allow_redirects']['redirects'] === 10 && $obj['handler'] instanceof HandlerStack;
-			}))
+			->with('https://foo.bar/bla2')
 			->willReturn($response);
 
 		$response->expects($this->once())
@@ -148,9 +135,9 @@ class ConnectionTest extends TestCase {
 			->with('Content-Type')
 			->willReturn($contentType);
 
-		$this->connection->queryWebcalFeed($subscription, $mutation);
-
+		$this->connection->queryWebcalFeed($subscription);
 	}
+
 	public static function runLocalURLDataProvider(): array {
 		return [
 			['localhost/foo.bar'],

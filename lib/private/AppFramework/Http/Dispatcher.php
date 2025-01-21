@@ -183,16 +183,8 @@ class Dispatcher {
 			$value = $this->request->getParam($param, $default);
 			$type = $this->reflector->getType($param);
 
-			// if this is submitted using GET or a POST form, 'false' should be
-			// converted to false
-			if (($type === 'bool' || $type === 'boolean') &&
-				$value === 'false' &&
-				(
-					$this->request->method === 'GET' ||
-					str_contains($this->request->getHeader('Content-Type'),
-						'application/x-www-form-urlencoded')
-				)
-			) {
+			// Converted the string `'false'` to false when the controller wants a boolean
+			if ($value === 'false' && ($type === 'bool' || $type === 'boolean')) {
 				$value = false;
 			} elseif ($value !== null && \in_array($type, $types, true)) {
 				settype($value, $type);
@@ -207,6 +199,10 @@ class Dispatcher {
 		$this->eventLogger->start('controller:' . get_class($controller) . '::' . $methodName, 'App framework controller execution');
 		$response = \call_user_func_array([$controller, $methodName], $arguments);
 		$this->eventLogger->end('controller:' . get_class($controller) . '::' . $methodName);
+
+		if (!($response instanceof Response)) {
+			$this->logger->debug($controller::class . '::' . $methodName . ' returned raw data. Please wrap it in a Response or one of it\'s inheritors.');
+		}
 
 		// format response
 		if ($response instanceof DataResponse || !($response instanceof Response)) {

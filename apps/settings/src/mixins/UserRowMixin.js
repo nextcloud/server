@@ -3,6 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { formatFileSize } from '@nextcloud/files'
+import { useFormatDateTime } from '@nextcloud/vue'
+
 export default {
 	props: {
 		user: {
@@ -33,6 +36,12 @@ export default {
 			type: Array,
 			default: () => [],
 		},
+	},
+	setup(props) {
+		const { formattedFullTime } = useFormatDateTime(props.user.firstLoginTimestamp * 1000, { relativeTime: false })
+		return {
+			formattedFullTime,
+		}
 	},
 	computed: {
 		showConfig() {
@@ -68,11 +77,10 @@ export default {
 
 		/* QUOTA MANAGEMENT */
 		usedSpace() {
-			if (this.user.quota.used) {
-				return t('settings', '{size} used', { size: OC.Util.humanFileSize(this.user.quota.used) })
-			}
-			return t('settings', '{size} used', { size: OC.Util.humanFileSize(0) })
+			const quotaUsed = this.user.quota.used > 0 ? this.user.quota.used : 0
+			return t('settings', '{size} used', { size: formatFileSize(quotaUsed, true) })
 		},
+
 		usedQuota() {
 			let quota = this.user.quota.quota
 			if (quota > 0) {
@@ -84,11 +92,12 @@ export default {
 			}
 			return isNaN(quota) ? 0 : quota
 		},
+
 		// Mapping saved values to objects
 		userQuota() {
 			if (this.user.quota.quota >= 0) {
 				// if value is valid, let's map the quotaOptions or return custom quota
-				const humanQuota = OC.Util.humanFileSize(this.user.quota.quota)
+				const humanQuota = formatFileSize(this.user.quota.quota)
 				const userQuota = this.quotaOptions.find(quota => quota.id === humanQuota)
 				return userQuota || { id: humanQuota, label: humanQuota }
 			} else if (this.user.quota.quota === 'default') {
@@ -118,16 +127,26 @@ export default {
 			return userLang
 		},
 
+		userFirstLogin() {
+			if (this.user.firstLoginTimestamp > 0) {
+				return this.formattedFullTime
+			}
+			if (this.user.firstLoginTimestamp < 0) {
+				return t('settings', 'Unknown')
+			}
+			return t('settings', 'Never')
+		},
+
 		/* LAST LOGIN */
 		userLastLoginTooltip() {
-			if (this.user.lastLogin > 0) {
-				return OC.Util.formatDate(this.user.lastLogin)
+			if (this.user.lastLoginTimestamp > 0) {
+				return OC.Util.formatDate(this.user.lastLoginTimestamp * 1000)
 			}
 			return ''
 		},
 		userLastLogin() {
-			if (this.user.lastLogin > 0) {
-				return OC.Util.relativeModifiedDate(this.user.lastLogin)
+			if (this.user.lastLoginTimestamp > 0) {
+				return OC.Util.relativeModifiedDate(this.user.lastLoginTimestamp * 1000)
 			}
 			return t('settings', 'Never')
 		},

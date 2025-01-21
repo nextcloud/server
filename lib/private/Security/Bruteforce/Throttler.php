@@ -195,7 +195,7 @@ class Throttler implements IThrottler {
 		}
 
 		$firstDelay = 0.1;
-		if ($attempts > self::MAX_ATTEMPTS) {
+		if ($attempts > $this->config->getSystemValueInt('auth.bruteforce.max-attempts', self::MAX_ATTEMPTS)) {
 			// Don't ever overflow. Just assume the maxDelay time:s
 			return self::MAX_DELAY_MS;
 		}
@@ -263,7 +263,7 @@ class Throttler implements IThrottler {
 	 */
 	public function sleepDelayOrThrowOnMax(string $ip, string $action = ''): int {
 		$delay = $this->getDelay($ip, $action);
-		if (($delay === self::MAX_DELAY_MS) && $this->getAttempts($ip, $action, 0.5) > self::MAX_ATTEMPTS) {
+		if (($delay === self::MAX_DELAY_MS) && $this->getAttempts($ip, $action, 0.5) > $this->config->getSystemValueInt('auth.bruteforce.max-attempts', self::MAX_ATTEMPTS)) {
 			$this->logger->info('IP address blocked because it reached the maximum failed attempts in the last 30 minutes [action: {action}, ip: {ip}]', [
 				'action' => $action,
 				'ip' => $ip,

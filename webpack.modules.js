@@ -18,7 +18,6 @@ module.exports = {
 		login: path.join(__dirname, 'core/src', 'login.js'),
 		main: path.join(__dirname, 'core/src', 'main.js'),
 		maintenance: path.join(__dirname, 'core/src', 'maintenance.js'),
-		profile: path.join(__dirname, 'core/src', 'profile.ts'),
 		'public-page-menu': path.resolve(__dirname, 'core/src', 'public-page-menu.ts'),
 		recommendedapps: path.join(__dirname, 'core/src', 'recommendedapps.js'),
 		systemtags: path.resolve(__dirname, 'core/src', 'systemtags/merged-systemtags.js'),
@@ -45,6 +44,7 @@ module.exports = {
 	},
 	files_external: {
 		init: path.join(__dirname, 'apps/files_external/src', 'init.ts'),
+		settings: path.join(__dirname, 'apps/files_external/src', 'settings.js'),
 	},
 	files_reminders: {
 		init: path.join(__dirname, 'apps/files_reminders/src', 'init.ts'),
@@ -72,6 +72,9 @@ module.exports = {
 		external: path.join(__dirname, 'apps/federatedfilesharing/src', 'external.js'),
 		'vue-settings-admin': path.join(__dirname, 'apps/federatedfilesharing/src', 'main-admin.js'),
 		'vue-settings-personal': path.join(__dirname, 'apps/federatedfilesharing/src', 'main-personal.js'),
+	},
+	profile: {
+		main: path.join(__dirname, 'apps/profile/src', 'main.ts'),
 	},
 	settings: {
 		apps: path.join(__dirname, 'apps/settings/src', 'apps.js'),
@@ -107,6 +110,7 @@ module.exports = {
 		init: path.join(__dirname, 'apps/updatenotification/src', 'init.ts'),
 		'view-changelog-page': path.join(__dirname, 'apps/updatenotification/src', 'view-changelog-page.ts'),
 		updatenotification: path.join(__dirname, 'apps/updatenotification/src', 'updatenotification.js'),
+		'update-notification-legacy': path.join(__dirname, 'apps/updatenotification/src', 'update-notification-legacy.ts'),
 	},
 	user_status: {
 		menu: path.join(__dirname, 'apps/user_status/src', 'menu.js'),

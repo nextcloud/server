@@ -95,7 +95,7 @@ class Notify extends StorageAuthBase {
 			$this->selfTest($storage, $notifyHandler, $output);
 		}
 
-		$notifyHandler->listen(function (IChange $change) use ($mount, $output, $dryRun) {
+		$notifyHandler->listen(function (IChange $change) use ($mount, $output, $dryRun): void {
 			$this->logUpdate($change, $output);
 			if ($change instanceof IRenameChange) {
 				$this->markParentAsOutdated($mount->getId(), $change->getTargetPath(), $output, $dryRun);

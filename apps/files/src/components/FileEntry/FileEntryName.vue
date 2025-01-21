@@ -26,10 +26,9 @@
 		:aria-hidden="isRenaming"
 		class="files-list__row-name-link"
 		data-cy-files-list-row-name-link
-		v-bind="linkTo.params"
-		dir="auto">
+		v-bind="linkTo.params">
 		<!-- Filename -->
-		<span class="files-list__row-name-text">
+		<span class="files-list__row-name-text" dir="auto">
 			<!-- Keep the filename stuck to the extension to avoid whitespace rendering issues-->
 			<span class="files-list__row-name-" v-text="basename" />
 			<span class="files-list__row-name-ext" v-text="extension" />
@@ -41,17 +40,15 @@
 import type { FileAction, Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
-import axios, { isAxiosError } from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { emit } from '@nextcloud/event-bus'
 import { FileType, NodeStatus } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import { dirname } from '@nextcloud/paths'
 import { defineComponent, inject } from 'vue'
 
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 import { useNavigation } from '../../composables/useNavigation'
+import { useFileListWidth } from '../../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../../composables/useRouteParameters.ts'
 import { useRenamingStore } from '../../store/renaming.ts'
 import { getFilenameValidity } from '../../utils/filenameValidity.ts'
@@ -79,10 +76,6 @@ export default defineComponent({
 			type: String,
 			required: true,
 		},
-		filesListWidth: {
-			type: Number,
-			required: true,
-		},
 		nodes: {
 			type: Array as PropType<Node[]>,
 			required: true,
@@ -98,8 +91,10 @@ export default defineComponent({
 	},
 
 	setup() {
-		const { currentView } = useNavigation()
+		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
+		const { currentView } = useNavigation(true)
 		const { directory } = useRouteParameters()
+		const filesListWidth = useFileListWidth()
 		const renamingStore = useRenamingStore()
 
 		const defaultFileAction = inject<FileAction | undefined>('defaultFileAction')
@@ -108,6 +103,7 @@ export default defineComponent({
 			currentView,
 			defaultFileAction,
 			directory,
+			filesListWidth,
 
 			renamingStore,
 		}
@@ -147,7 +143,7 @@ export default defineComponent({
 				}
 			}
 
-			if (this.defaultFileAction && this.currentView) {
+			if (this.defaultFileAction) {
 				const displayName = this.defaultFileAction.displayName([this.source], this.currentView)
 				return {
 					is: 'button',
@@ -245,66 +241,27 @@ export default defineComponent({
 			}
 
 			const oldName = this.source.basename
-			const oldEncodedSource = this.source.encodedSource
-			if (oldName === newName) {
+			if (newName === oldName) {
 				this.stopRenaming()
 				return
 			}
 
-			// Set loading state
-			this.$set(this.source, 'status', NodeStatus.LOADING)
-
-			// Update node
-			this.source.rename(newName)
-
-			logger.debug('Moving file to', { destination: this.source.encodedSource, oldEncodedSource })
 			try {
-				await axios({
-					method: 'MOVE',
-					url: oldEncodedSource,
-					headers: {
-						Destination: this.source.encodedSource,
-						Overwrite: 'F',
-					},
-				})
-
-				// Success 🎉
-				emit('files:node:updated', this.source)
-				emit('files:node:renamed', this.source)
-				emit('files:node:moved', {
-					node: this.source,
-					oldSource: `${dirname(this.source.source)}/${oldName}`,
-				})
-				showSuccess(t('files', 'Renamed "{oldName}" to "{newName}"', { oldName, newName }))
-
-				// Reset the renaming store
-				this.stopRenaming()
-				this.$nextTick(() => {
-					const nameContainter = this.$refs.basename as HTMLElement | undefined
-					nameContainter?.focus()
-				})
+				const status = await this.renamingStore.rename()
+				if (status) {
+					showSuccess(t('files', 'Renamed "{oldName}" to "{newName}"', { oldName, newName }))
+					this.$nextTick(() => {
+						const nameContainer = this.$refs.basename as HTMLElement | undefined
+						nameContainer?.focus()
+					})
+				} else {
+					// Was cancelled - meaning the renaming state is just reset
+				}
 			} catch (error) {
-				logger.error('Error while renaming file', { error })
-				// Rename back as it failed
-				this.source.rename(oldName)
+				logger.error(error as Error)
+				showError((error as Error).message)
 				// And ensure we reset to the renaming state
 				this.startRenaming()
-
-				if (isAxiosError(error)) {
-					// TODO: 409 means current folder does not exist, redirect ?
-					if (error?.response?.status === 404) {
-						showError(t('files', 'Could not rename "{oldName}", it does not exist any more', { oldName }))
-						return
-					} else if (error?.response?.status === 412) {
-						showError(t('files', 'The name "{newName}" is already used in the folder "{dir}". Please choose a different name.', { newName, dir: this.directory }))
-						return
-					}
-				}
-
-				// Unknown error
-				showError(t('files', 'Could not rename "{oldName}"', { oldName }))
-			} finally {
-				this.$set(this.source, 'status', undefined)
 			}
 		},
 

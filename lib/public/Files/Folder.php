@@ -60,6 +60,7 @@ interface Folder extends Node {
 	 * @param string $path relative path of the file or folder
 	 * @return \OCP\Files\Node
 	 * @throws \OCP\Files\NotFoundException
+	 * @throws \OCP\Files\NotPermittedException
 	 * @since 6.0.0
 	 */
 	public function get($path);

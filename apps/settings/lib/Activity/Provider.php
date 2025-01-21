@@ -31,29 +31,15 @@ class Provider implements IProvider {
 	public const APP_TOKEN_FILESYSTEM_GRANTED = 'app_token_filesystem_granted';
 	public const APP_TOKEN_FILESYSTEM_REVOKED = 'app_token_filesystem_revoked';
 
-	/** @var IFactory */
-	protected $languageFactory;
-
 	/** @var IL10N */
 	protected $l;
 
-	/** @var IURLGenerator */
-	protected $url;
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IManager */
-	private $activityManager;
-
-	public function __construct(IFactory $languageFactory,
-		IURLGenerator $url,
-		IUserManager $userManager,
-		IManager $activityManager) {
-		$this->languageFactory = $languageFactory;
-		$this->url = $url;
-		$this->userManager = $userManager;
-		$this->activityManager = $activityManager;
+	public function __construct(
+		protected IFactory $languageFactory,
+		protected IURLGenerator $url,
+		protected IUserManager $userManager,
+		private IManager $activityManager,
+	) {
 	}
 
 	/**
@@ -118,7 +104,7 @@ class Provider implements IProvider {
 	/**
 	 * @param IEvent $event
 	 * @return array
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 */
 	protected function getParameters(IEvent $event): array {
 		$subject = $event->getSubject();
@@ -143,7 +129,7 @@ class Provider implements IProvider {
 				return [
 					'token' => [
 						'type' => 'highlight',
-						'id' => $event->getObjectId(),
+						'id' => (string)$event->getObjectId(),
 						'name' => $parameters['name'],
 					]
 				];
@@ -151,23 +137,20 @@ class Provider implements IProvider {
 				return [
 					'token' => [
 						'type' => 'highlight',
-						'id' => $event->getObjectId(),
+						'id' => (string)$event->getObjectId(),
 						'name' => $parameters['name'],
 					],
 					'newToken' => [
 						'type' => 'highlight',
-						'id' => $event->getObjectId(),
+						'id' => (string)$event->getObjectId(),
 						'name' => $parameters['newName'],
 					]
 				];
 		}
 
-		throw new \InvalidArgumentException('Unknown subject');
+		throw new UnknownActivityException('Unknown subject');
 	}
 
-	/**
-	 * @throws \InvalidArgumentException
-	 */
 	protected function setSubjects(IEvent $event, string $subject, array $parameters): void {
 		$event->setRichSubject($subject, $parameters);
 	}

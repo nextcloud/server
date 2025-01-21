@@ -18,7 +18,7 @@
 				<img :src="customIcon(app.id)" alt="">
 				<div class="info">
 					<h3>{{ customName(app) }}</h3>
-					<p v-html="customDescription(app.id)" />
+					<p v-text="customDescription(app.id)" />
 					<p v-if="app.installationError">
 						<strong>{{ t('core', 'App download or installation failed') }}</strong>
 					</p>
@@ -55,16 +55,15 @@
 </template>
 
 <script>
-import axios from '@nextcloud/axios'
-import { generateUrl, imagePath } from '@nextcloud/router'
+import { t } from '@nextcloud/l10n'
 import { loadState } from '@nextcloud/initial-state'
+import { generateUrl, imagePath } from '@nextcloud/router'
+import axios from '@nextcloud/axios'
 import pLimit from 'p-limit'
-import { translate as t } from '@nextcloud/l10n'
-
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-
 import logger from '../../logger.js'
+
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 
 const recommended = {
 	calendar: {
@@ -80,7 +79,7 @@ const recommended = {
 		icon: imagePath('core', 'actions/mail.svg'),
 	},
 	spreed: {
-		description: t('core', 'Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps.'),
+		description: t('core', 'Chatting, video calls, screen sharing, online meetings and web conferencing – in your browser and with mobile apps.'),
 		icon: imagePath('core', 'apps/spreed.svg'),
 	},
 	richdocuments: {

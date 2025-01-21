@@ -18,31 +18,18 @@ use OCP\Files\NotPermittedException;
 use OCP\IDBConnection;
 
 class BackgroundCleanupJob extends TimedJob {
-	/** @var IDBConnection */
-	private $connection;
 
-	/** @var Root */
-	private $previewFolder;
-
-	/** @var bool */
-	private $isCLI;
-
-	/** @var IMimeTypeLoader */
-	private $mimeTypeLoader;
-
-	public function __construct(ITimeFactory $timeFactory,
-		IDBConnection $connection,
-		Root $previewFolder,
-		IMimeTypeLoader $mimeTypeLoader,
-		bool $isCLI) {
+	public function __construct(
+		ITimeFactory $timeFactory,
+		private IDBConnection $connection,
+		private Root $previewFolder,
+		private IMimeTypeLoader $mimeTypeLoader,
+		private bool $isCLI,
+	) {
 		parent::__construct($timeFactory);
 		// Run at most once an hour
-		$this->setInterval(3600);
-
-		$this->connection = $connection;
-		$this->previewFolder = $previewFolder;
-		$this->isCLI = $isCLI;
-		$this->mimeTypeLoader = $mimeTypeLoader;
+		$this->setInterval(60 * 60);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 	public function run($argument) {
@@ -89,7 +76,7 @@ class BackgroundCleanupJob extends TimedJob {
 			$qb->setMaxResults(10);
 		}
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 
 		while ($row = $cursor->fetch()) {
 			yield $row['name'];
@@ -103,7 +90,7 @@ class BackgroundCleanupJob extends TimedJob {
 		$qb->select('path', 'mimetype')
 			->from('filecache')
 			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($this->previewFolder->getId())));
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$data = $cursor->fetch();
 		$cursor->closeCursor();
 
@@ -161,7 +148,7 @@ class BackgroundCleanupJob extends TimedJob {
 			$qb->setMaxResults(10);
 		}
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 
 		while ($row = $cursor->fetch()) {
 			yield $row['name'];

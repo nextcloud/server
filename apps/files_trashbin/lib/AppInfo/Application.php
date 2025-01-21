@@ -8,19 +8,27 @@ namespace OCA\Files_Trashbin\AppInfo;
 
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Trashbin\Capabilities;
 use OCA\Files_Trashbin\Events\BeforeNodeRestoredEvent;
 use OCA\Files_Trashbin\Expiration;
+use OCA\Files_Trashbin\Listener\EventListener;
+use OCA\Files_Trashbin\Listeners\BeforeTemplateRendered;
 use OCA\Files_Trashbin\Listeners\LoadAdditionalScripts;
 use OCA\Files_Trashbin\Listeners\SyncLivePhotosListener;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCA\Files_Trashbin\Trash\TrashManager;
+use OCA\Files_Trashbin\Trashbin;
 use OCA\Files_Trashbin\UserMigration\TrashbinMigrator;
 use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\Files\Events\BeforeFileSystemSetupEvent;
+use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
+use OCP\Files\Events\Node\NodeWrittenEvent;
+use OCP\User\Events\BeforeUserDeletedEvent;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -46,20 +54,23 @@ class Application extends App implements IBootstrap {
 			LoadAdditionalScripts::class
 		);
 
+		$context->registerEventListener(
+			BeforeTemplateRenderedEvent::class,
+			BeforeTemplateRendered::class
+		);
+
 		$context->registerEventListener(BeforeNodeRestoredEvent::class, SyncLivePhotosListener::class);
+
+		$context->registerEventListener(NodeWrittenEvent::class, EventListener::class);
+		$context->registerEventListener(BeforeUserDeletedEvent::class, EventListener::class);
+		$context->registerEventListener(BeforeFileSystemSetupEvent::class, EventListener::class);
+
+		// pre and post-rename, disable trash logic for the copy+unlink case
+		$context->registerEventListener(BeforeNodeDeletedEvent::class, Trashbin::class);
 	}
 
 	public function boot(IBootContext $context): void {
 		$context->injectFn([$this, 'registerTrashBackends']);
-
-		// create storage wrapper on setup
-		\OCP\Util::connectHook('OC_Filesystem', 'preSetup', 'OCA\Files_Trashbin\Storage', 'setupStorage');
-		//Listen to delete user signal
-		\OCP\Util::connectHook('OC_User', 'pre_deleteUser', 'OCA\Files_Trashbin\Hooks', 'deleteUser_hook');
-		//Listen to post write hook
-		\OCP\Util::connectHook('OC_Filesystem', 'post_write', 'OCA\Files_Trashbin\Hooks', 'post_write_hook');
-		// pre and post-rename, disable trash logic for the copy+unlink case
-		\OCP\Util::connectHook('OC_Filesystem', 'delete', 'OCA\Files_Trashbin\Trashbin', 'ensureFileScannedHook');
 	}
 
 	public function registerTrashBackends(ContainerInterface $serverContainer, LoggerInterface $logger, IAppManager $appManager, ITrashManager $trashManager): void {

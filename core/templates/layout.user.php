@@ -51,7 +51,7 @@ p($theme->getTitle());
 		<?php emit_script_loading_tags($_); ?>
 		<?php print_unescaped($_['headers']); ?>
 	</head>
-	<body id="<?php p($_['bodyid']);?>" <?php foreach ($_['enabledThemes'] as $themeId) {
+	<body dir="<?php p($_['direction']); ?>" id="<?php p($_['bodyid']);?>" <?php foreach ($_['enabledThemes'] as $themeId) {
 		p("data-theme-$themeId ");
 	}?> data-themes=<?php p(join(',', $_['enabledThemes'])) ?>>
 		<?php include 'layout.noscript.warning.php'; ?>
@@ -81,7 +81,7 @@ p($theme->getTitle());
 			</div>
 		</header>
 
-		<main id="content" class="app-<?php p($_['appid']) ?>">
+		<div id="content" class="app-<?php p($_['appid']) ?>">
 			<h1 class="hidden-visually" id="page-heading-level-1">
 				<?php p((!empty($_['application']) && !empty($_['pageTitle']) && $_['application'] != $_['pageTitle'])
 					? $_['application'] . ': ' . $_['pageTitle']
@@ -89,7 +89,7 @@ p($theme->getTitle());
 				); ?>
 			</h1>
 			<?php print_unescaped($_['content']); ?>
-		</main>
+		</div>
 		<div id="profiler-toolbar"></div>
 	</body>
 </html>

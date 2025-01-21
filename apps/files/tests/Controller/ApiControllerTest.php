@@ -12,6 +12,8 @@ use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -36,7 +38,7 @@ use Test\TestCase;
 class ApiControllerTest extends TestCase {
 	/** @var string */
 	private $appName = 'files';
-	/** @var \OCP\IUser */
+	/** @var IUser */
 	private $user;
 	/** @var IRequest */
 	private $request;
@@ -48,7 +50,7 @@ class ApiControllerTest extends TestCase {
 	private $apiController;
 	/** @var \OCP\Share\IManager */
 	private $shareManager;
-	/** @var \OCP\IConfig */
+	/** @var IConfig */
 	private $config;
 	/** @var Folder|\PHPUnit\Framework\MockObject\MockObject */
 	private $userFolder;
@@ -211,7 +213,7 @@ class ApiControllerTest extends TestCase {
 		$ret = $this->apiController->getThumbnail(10, 10, 'known.jpg');
 
 		$this->assertEquals(Http::STATUS_OK, $ret->getStatus());
-		$this->assertInstanceOf(Http\FileDisplayResponse::class, $ret);
+		$this->assertInstanceOf(FileDisplayResponse::class, $ret);
 	}
 
 	public function testShowHiddenFiles(): void {
@@ -221,7 +223,7 @@ class ApiControllerTest extends TestCase {
 			->method('setUserValue')
 			->with($this->user->getUID(), 'files', 'show_hidden', '0');
 
-		$expected = new Http\Response();
+		$expected = new Response();
 		$actual = $this->apiController->showHiddenFiles($show);
 
 		$this->assertEquals($expected, $actual);
@@ -234,7 +236,7 @@ class ApiControllerTest extends TestCase {
 			->method('setUserValue')
 			->with($this->user->getUID(), 'files', 'crop_image_previews', '1');
 
-		$expected = new Http\Response();
+		$expected = new Response();
 		$actual = $this->apiController->cropImagePreviews($crop);
 
 		$this->assertEquals($expected, $actual);

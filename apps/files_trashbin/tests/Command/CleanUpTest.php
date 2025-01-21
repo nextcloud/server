@@ -10,6 +10,7 @@ use OC\User\Manager;
 use OCA\Files_Trashbin\Command\CleanUp;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
+use OCP\UserInterface;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\NullOutput;
@@ -145,7 +146,7 @@ class CleanUpTest extends TestCase {
 			->getMock();
 		$instance->expects($this->exactly(count($userIds)))
 			->method('removeDeletedFiles')
-			->willReturnCallback(function ($user) use ($userIds) {
+			->willReturnCallback(function ($user) use ($userIds): void {
 				$this->assertTrue(in_array($user, $userIds));
 			});
 		$this->userManager->expects($this->exactly(count($userIds)))
@@ -175,13 +176,13 @@ class CleanUpTest extends TestCase {
 			->setMethods(['removeDeletedFiles'])
 			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->dbConnection])
 			->getMock();
-		$backend = $this->createMock(\OCP\UserInterface::class);
+		$backend = $this->createMock(UserInterface::class);
 		$backend->method('getUsers')
 			->with('', 500, 0)
 			->willReturn($backendUsers);
 		$instance->expects($this->exactly(count($backendUsers)))
 			->method('removeDeletedFiles')
-			->willReturnCallback(function ($user) use ($backendUsers) {
+			->willReturnCallback(function ($user) use ($backendUsers): void {
 				$this->assertTrue(in_array($user, $backendUsers));
 			});
 		$inputInterface = $this->createMock(InputInterface::class);

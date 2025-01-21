@@ -19,35 +19,30 @@ use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 
 class AppsController extends OCSController {
-	/** @var IAppManager */
-	private $appManager;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IAppManager $appManager,
+		private IAppManager $appManager,
 	) {
 		parent::__construct($appName, $request);
-
-		$this->appManager = $appManager;
 	}
 
 	/**
 	 * Get a list of installed apps
 	 *
 	 * @param ?string $filter Filter for enabled or disabled apps
-	 * @return DataResponse<Http::STATUS_OK, array{apps: string[]}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{apps: list<string>}, array{}>
 	 * @throws OCSException
 	 *
 	 * 200: Installed apps returned
 	 */
 	public function getApps(?string $filter = null): DataResponse {
 		$apps = (new OC_App())->listAllApps();
+		/** @var list<string> $list */
 		$list = [];
 		foreach ($apps as $app) {
 			$list[] = $app['id'];
 		}
-		/** @var string[] $list */
 		if ($filter) {
 			switch ($filter) {
 				case 'enabled':
@@ -55,7 +50,7 @@ class AppsController extends OCSController {
 					break;
 				case 'disabled':
 					$enabled = OC_App::getEnabledApps();
-					return new DataResponse(['apps' => array_diff($list, $enabled)]);
+					return new DataResponse(['apps' => array_values(array_diff($list, $enabled))]);
 					break;
 				default:
 					// Invalid filter variable
@@ -88,7 +83,7 @@ class AppsController extends OCSController {
 	 * Enable an app
 	 *
 	 * @param string $app ID of the app
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSException
 	 *
 	 * 200: App enabled successfully
@@ -107,7 +102,7 @@ class AppsController extends OCSController {
 	 * Disable an app
 	 *
 	 * @param string $app ID of the app
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 *
 	 * 200: App disabled successfully
 	 */

@@ -19,20 +19,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Size extends Base {
-	private $config;
-	private $userManager;
-	private $commandBus;
-
 	public function __construct(
-		IConfig $config,
-		IUserManager $userManager,
-		IBus $commandBus,
+		private IConfig $config,
+		private IUserManager $userManager,
+		private IBus $commandBus,
 	) {
 		parent::__construct();
-
-		$this->config = $config;
-		$this->userManager = $userManager;
-		$this->commandBus = $commandBus;
 	}
 
 	protected function configure() {
@@ -103,7 +95,7 @@ class Size extends Base {
 			}
 		} else {
 			$users = [];
-			$this->userManager->callForSeenUsers(function (IUser $user) use (&$users) {
+			$this->userManager->callForSeenUsers(function (IUser $user) use (&$users): void {
 				$users[] = $user->getUID();
 			});
 			$userValues = $this->config->getUserValueForUsers('files_trashbin', 'trashbin_size', $users);

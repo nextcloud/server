@@ -141,7 +141,7 @@ describe('Download action execute tests', () => {
 		// Silent action
 		expect(exec).toBe(null)
 		expect(link.download).toEqual('')
-		expect(link.href.startsWith('/index.php/apps/files/ajax/download.php?dir=%2F&files=%5B%22FooBar%22%5D&downloadStartSecret=')).toBe(true)
+		expect(link.href).toMatch('https://cloud.domain.com/remote.php/dav/files/admin/FooBar/?accept=zip')
 		expect(link.click).toHaveBeenCalledTimes(1)
 	})
 
@@ -166,7 +166,7 @@ describe('Download action execute tests', () => {
 		// Silent action
 		expect(exec).toStrictEqual([null, null])
 		expect(link.download).toEqual('')
-		expect(link.href.startsWith('/index.php/apps/files/ajax/download.php?dir=%2FDir&files=%5B%22foo.txt%22%2C%22bar.txt%22%5D&downloadStartSecret=')).toBe(true)
+		expect(link.href).toMatch('https://cloud.domain.com/remote.php/dav/files/admin/Dir/?accept=zip&files=%5B%22foo.txt%22%2C%22bar.txt%22%5D')
 		expect(link.click).toHaveBeenCalledTimes(1)
 	})
 })

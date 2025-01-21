@@ -6,7 +6,7 @@
 <template>
 	<li class="sharing-entry">
 		<NcAvatar class="sharing-entry__avatar"
-			:is-no-user="share.type !== SHARE_TYPES.SHARE_TYPE_USER"
+			:is-no-user="share.type !== ShareType.User"
 			:user="share.shareWith"
 			:display-name="share.shareWithDisplayName"
 			:menu-position="'left'"
@@ -28,7 +28,8 @@
 				:file-info="fileInfo"
 				@open-sharing-details="openShareDetailsForCustomSettings(share)" />
 		</div>
-		<NcButton class="sharing-entry__action"
+		<NcButton v-if="share.canEdit"
+			class="sharing-entry__action"
 			data-cy-files-sharing-share-actions
 			:aria-label="t('files_sharing', 'Open Sharing Details')"
 			type="tertiary"
@@ -41,6 +42,8 @@
 </template>
 
 <script>
+import { ShareType } from '@nextcloud/sharing'
+
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
@@ -67,16 +70,21 @@ export default {
 	computed: {
 		title() {
 			let title = this.share.shareWithDisplayName
-			if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP) {
+			if (this.share.type === ShareType.Group) {
 				title += ` (${t('files_sharing', 'group')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_ROOM) {
+			} else if (this.share.type === ShareType.Room) {
 				title += ` (${t('files_sharing', 'conversation')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE) {
+			} else if (this.share.type === ShareType.Remote) {
 				title += ` (${t('files_sharing', 'remote')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP) {
+			} else if (this.share.type === ShareType.RemoteGroup) {
 				title += ` (${t('files_sharing', 'remote group')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GUEST) {
+			} else if (this.share.type === ShareType.Guest) {
 				title += ` (${t('files_sharing', 'guest')})`
+			}
+			if (!this.isShareOwner && this.share.ownerDisplayName) {
+				title += ' ' + t('files_sharing', 'by {initiator}', {
+					initiator: this.share.ownerDisplayName,
+				})
 			}
 			return title
 		},
@@ -88,9 +96,9 @@ export default {
 					user: this.share.shareWithDisplayName,
 					owner: this.share.ownerDisplayName,
 				}
-				if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP) {
+				if (this.share.type === ShareType.Group) {
 					return t('files_sharing', 'Shared with the group {user} by {owner}', data)
-				} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_ROOM) {
+				} else if (this.share.type === ShareType.Room) {
 					return t('files_sharing', 'Shared with the conversation {user} by {owner}', data)
 				}
 
@@ -103,7 +111,7 @@ export default {
 		 * @return {boolean}
 		 */
 		hasStatus() {
-			if (this.share.type !== this.SHARE_TYPES.SHARE_TYPE_USER) {
+			if (this.share.type !== ShareType.User) {
 				return false
 			}
 

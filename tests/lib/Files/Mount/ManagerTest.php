@@ -11,7 +11,7 @@ use OC\Files\SetupManagerFactory;
 use OC\Files\Storage\Temporary;
 
 class LongId extends Temporary {
-	public function getId() {
+	public function getId(): string {
 		return 'long:' . str_repeat('foo', 50) . parent::getId();
 	}
 }

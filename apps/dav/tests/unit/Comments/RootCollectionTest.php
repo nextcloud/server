@@ -9,6 +9,7 @@ namespace OCA\DAV\Tests\unit\Comments;
 
 use OC\EventDispatcher\EventDispatcher;
 use OCA\DAV\Comments\EntityTypeCollection as EntityTypeCollectionImplementation;
+use OCA\DAV\Comments\RootCollection;
 use OCP\Comments\CommentsEntityEvent;
 use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -19,19 +20,19 @@ use Psr\Log\LoggerInterface;
 
 class RootCollectionTest extends \Test\TestCase {
 
-	/** @var \OCP\Comments\ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $commentsManager;
-	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
-	/** @var \OCA\DAV\Comments\RootCollection */
+	/** @var RootCollection */
 	protected $collection;
-	/** @var \OCP\IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
 	/** @var IEventDispatcher */
 	protected $dispatcher;
-	/** @var \OCP\IUser|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	protected $user;
 
 	protected function setUp(): void {
@@ -59,7 +60,7 @@ class RootCollectionTest extends \Test\TestCase {
 			$this->logger
 		);
 
-		$this->collection = new \OCA\DAV\Comments\RootCollection(
+		$this->collection = new RootCollection(
 			$this->commentsManager,
 			$this->userManager,
 			$this->userSession,

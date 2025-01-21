@@ -1,5 +1,10 @@
 <?php
 
+use OC\Files\FileInfo;
+use OCA\Files\Helper;
+use OCP\ITagManager;
+use OCP\ITags;
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,7 +12,7 @@
  */
 class HelperTest extends \Test\TestCase {
 	private function makeFileInfo($name, $size, $mtime, $isDir = false) {
-		return new \OC\Files\FileInfo(
+		return new FileInfo(
 			'/' . $name,
 			null,
 			'/',
@@ -79,7 +84,7 @@ class HelperTest extends \Test\TestCase {
 			$this->markTestSkipped('Skip mtime sorting on 32bit');
 		}
 		$files = self::getTestFileList();
-		$files = \OCA\Files\Helper::sortFiles($files, $sort, $sortDescending);
+		$files = Helper::sortFiles($files, $sort, $sortDescending);
 		$fileNames = [];
 		foreach ($files as $fileInfo) {
 			$fileNames[] = $fileInfo->getName();
@@ -91,17 +96,17 @@ class HelperTest extends \Test\TestCase {
 	}
 
 	public function testPopulateTags(): void {
-		$tagManager = $this->createMock(\OCP\ITagManager::class);
-		$tagger = $this->createMock(\OCP\ITags::class);
+		$tagManager = $this->createMock(ITagManager::class);
+		$tagger = $this->createMock(ITags::class);
 
 		$tagManager->method('load')
 			->with('files')
 			->willReturn($tagger);
 
 		$data = [
-			['id' => 10],
-			['id' => 22, 'foo' => 'bar'],
-			['id' => 42, 'x' => 'y'],
+			['file_source' => 10],
+			['file_source' => 22, 'foo' => 'bar'],
+			['file_source' => 42, 'x' => 'y'],
 		];
 
 		$tags = [
@@ -113,12 +118,12 @@ class HelperTest extends \Test\TestCase {
 			->with([10, 22, 42])
 			->willReturn($tags);
 
-		$result = \OCA\Files\Helper::populateTags($data, 'id', $tagManager);
+		$result = Helper::populateTags($data, $tagManager);
 
 		$this->assertSame([
-			['id' => 10, 'tags' => ['tag3']],
-			['id' => 22, 'foo' => 'bar', 'tags' => []],
-			['id' => 42, 'x' => 'y', 'tags' => ['tag1', 'tag2']],
+			['file_source' => 10, 'tags' => ['tag3']],
+			['file_source' => 22, 'foo' => 'bar', 'tags' => []],
+			['file_source' => 42, 'x' => 'y', 'tags' => ['tag1', 'tag2']],
 		], $result);
 	}
 }

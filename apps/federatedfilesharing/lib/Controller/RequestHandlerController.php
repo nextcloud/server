@@ -15,6 +15,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCSController;
@@ -25,10 +26,12 @@ use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
+use OCP\HintException;
 use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
+use OCP\Server;
 use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use Psr\Log\LoggerInterface;
@@ -36,69 +39,22 @@ use Psr\Log\LoggerInterface;
 #[OpenAPI(scope: OpenAPI::SCOPE_FEDERATION)]
 class RequestHandlerController extends OCSController {
 
-	/** @var FederatedShareProvider */
-	private $federatedShareProvider;
-
-	/** @var IDBConnection */
-	private $connection;
-
-	/** @var Share\IManager */
-	private $shareManager;
-
-	/** @var Notifications */
-	private $notifications;
-
-	/** @var AddressHandler */
-	private $addressHandler;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var string */
-	private $shareTable = 'share';
-
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var ICloudFederationFactory */
-	private $cloudFederationFactory;
-
-	/** @var ICloudFederationProviderManager */
-	private $cloudFederationProviderManager;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		FederatedShareProvider $federatedShareProvider,
-		IDBConnection $connection,
-		Share\IManager $shareManager,
-		Notifications $notifications,
-		AddressHandler $addressHandler,
-		IUserManager $userManager,
-		ICloudIdManager $cloudIdManager,
-		LoggerInterface $logger,
-		ICloudFederationFactory $cloudFederationFactory,
-		ICloudFederationProviderManager $cloudFederationProviderManager,
-		IEventDispatcher $eventDispatcher,
+		private FederatedShareProvider $federatedShareProvider,
+		private IDBConnection $connection,
+		private Share\IManager $shareManager,
+		private Notifications $notifications,
+		private AddressHandler $addressHandler,
+		private IUserManager $userManager,
+		private ICloudIdManager $cloudIdManager,
+		private LoggerInterface $logger,
+		private ICloudFederationFactory $cloudFederationFactory,
+		private ICloudFederationProviderManager $cloudFederationProviderManager,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
-
-		$this->federatedShareProvider = $federatedShareProvider;
-		$this->connection = $connection;
-		$this->shareManager = $shareManager;
-		$this->notifications = $notifications;
-		$this->addressHandler = $addressHandler;
-		$this->userManager = $userManager;
-		$this->cloudIdManager = $cloudIdManager;
-		$this->logger = $logger;
-		$this->cloudFederationFactory = $cloudFederationFactory;
-		$this->cloudFederationProviderManager = $cloudFederationProviderManager;
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -113,7 +69,7 @@ class RequestHandlerController extends OCSController {
 	 * @param int|null $remoteId ID of the remote
 	 * @param string|null $sharedByFederatedId Federated ID of the sender
 	 * @param string|null $ownerFederatedId Federated ID of the receiver
-	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return Http\DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSException
 	 *
 	 * 200: Share created successfully
@@ -170,7 +126,7 @@ class RequestHandlerController extends OCSController {
 			throw new OCSException('internal server error, was not able to add share from ' . $remote, 500);
 		}
 
-		return new Http\DataResponse();
+		return new DataResponse();
 	}
 
 	/**
@@ -206,7 +162,7 @@ class RequestHandlerController extends OCSController {
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
 			[$newToken, $localId] = $provider->notificationReceived('REQUEST_RESHARE', $id, $notification);
-			return new Http\DataResponse([
+			return new DataResponse([
 				'token' => $newToken,
 				'remoteId' => $localId
 			]);
@@ -227,10 +183,10 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * @param int $id ID of the remote share
 	 * @param string|null $token Shared secret between servers
-	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return Http\DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSException
 	 * @throws ShareNotFound
-	 * @throws \OCP\HintException
+	 * @throws HintException
 	 *
 	 * 200: Share accepted successfully
 	 */
@@ -254,7 +210,7 @@ class RequestHandlerController extends OCSController {
 			$this->logger->debug('internal server error, can not process notification: ' . $e->getMessage(), ['exception' => $e]);
 		}
 
-		return new Http\DataResponse();
+		return new DataResponse();
 	}
 
 	/**
@@ -262,7 +218,7 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * @param int $id ID of the remote share
 	 * @param string|null $token Shared secret between servers
-	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return Http\DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSException
 	 *
 	 * 200: Share declined successfully
@@ -287,7 +243,7 @@ class RequestHandlerController extends OCSController {
 			$this->logger->debug('internal server error, can not process notification: ' . $e->getMessage(), ['exception' => $e]);
 		}
 
-		return new Http\DataResponse();
+		return new DataResponse();
 	}
 
 	/**
@@ -295,7 +251,7 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * @param int $id ID of the share
 	 * @param string|null $token Shared secret between servers
-	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return Http\DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSException
 	 *
 	 * 200: Share unshared successfully
@@ -316,7 +272,7 @@ class RequestHandlerController extends OCSController {
 			$this->logger->debug('processing unshare notification failed: ' . $e->getMessage(), ['exception' => $e]);
 		}
 
-		return new Http\DataResponse();
+		return new DataResponse();
 	}
 
 	private function cleanupRemote($remote) {
@@ -331,7 +287,7 @@ class RequestHandlerController extends OCSController {
 	 *
 	 * @param int $id ID of the share
 	 * @param string|null $token Shared secret between servers
-	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return Http\DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSBadRequestException Revoking the share is not possible
 	 *
 	 * 200: Share revoked successfully
@@ -343,7 +299,7 @@ class RequestHandlerController extends OCSController {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
 			$notification = ['sharedSecret' => $token];
 			$provider->notificationReceived('RESHARE_UNDO', $id, $notification);
-			return new Http\DataResponse();
+			return new DataResponse();
 		} catch (\Exception $e) {
 			throw new OCSBadRequestException();
 		}
@@ -356,7 +312,7 @@ class RequestHandlerController extends OCSController {
 	 * @return bool
 	 */
 	private function isS2SEnabled($incoming = false) {
-		$result = \OCP\Server::get(IAppManager::class)->isEnabledForUser('files_sharing');
+		$result = Server::get(IAppManager::class)->isEnabledForUser('files_sharing');
 
 		if ($incoming) {
 			$result = $result && $this->federatedShareProvider->isIncomingServer2serverShareEnabled();
@@ -373,7 +329,7 @@ class RequestHandlerController extends OCSController {
 	 * @param int $id ID of the share
 	 * @param string|null $token Shared secret between servers
 	 * @param int|null $permissions New permissions
-	 * @return Http\DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return Http\DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSBadRequestException Updating permissions is not possible
 	 *
 	 * 200: Permissions updated successfully
@@ -394,7 +350,7 @@ class RequestHandlerController extends OCSController {
 			throw new OCSBadRequestException();
 		}
 
-		return new Http\DataResponse();
+		return new DataResponse();
 	}
 
 	/**
@@ -454,7 +410,7 @@ class RequestHandlerController extends OCSController {
 		$affected = $query->executeStatement();
 
 		if ($affected > 0) {
-			return new Http\DataResponse(['remote' => $cloudId->getRemote(), 'owner' => $cloudId->getUser()]);
+			return new DataResponse(['remote' => $cloudId->getRemote(), 'owner' => $cloudId->getUser()]);
 		} else {
 			throw new OCSBadRequestException('Share not found or token invalid');
 		}

@@ -9,13 +9,14 @@ namespace OCA\User_LDAP\Tests\Integration;
 
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
-use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\GroupPluginManager;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\UserPluginManager;
 use OCP\IAvatarManager;
+use OCP\Image;
+use OCP\Server;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 
@@ -35,14 +36,19 @@ abstract class AbstractIntegrationTest {
 	/** @var Helper */
 	protected $helper;
 
-	/** @var string */
-	protected $base;
-
 	/** @var string[] */
 	protected $server;
 
-	public function __construct($host, $port, $bind, $pwd, $base) {
-		$this->base = $base;
+	/**
+	 * @param string $base
+	 */
+	public function __construct(
+		$host,
+		$port,
+		$bind,
+		$pwd,
+		protected $base,
+	) {
 		$this->server = [
 			'host' => $host,
 			'port' => $port,
@@ -57,10 +63,10 @@ abstract class AbstractIntegrationTest {
 	 */
 	public function init() {
 		\OC::$server->registerService(UserPluginManager::class, function () {
-			return new \OCA\User_LDAP\UserPluginManager();
+			return new UserPluginManager();
 		});
 		\OC::$server->registerService(GroupPluginManager::class, function () {
-			return new \OCA\User_LDAP\GroupPluginManager();
+			return new GroupPluginManager();
 		});
 
 		$this->initLDAPWrapper();
@@ -103,10 +109,9 @@ abstract class AbstractIntegrationTest {
 	protected function initUserManager() {
 		$this->userManager = new Manager(
 			\OC::$server->getConfig(),
-			new FilesystemHelper(),
 			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->get(IAvatarManager::class),
-			new \OCP\Image(),
+			new Image(),
 			\OC::$server->getUserManager(),
 			\OC::$server->getNotificationManager(),
 			\OC::$server->get(IManager::class)
@@ -124,7 +129,7 @@ abstract class AbstractIntegrationTest {
 	 * initializes the Access test instance
 	 */
 	protected function initAccess() {
-		$this->access = new Access($this->connection, $this->ldap, $this->userManager, $this->helper, \OC::$server->getConfig(), \OCP\Server::get(LoggerInterface::class));
+		$this->access = new Access($this->connection, $this->ldap, $this->userManager, $this->helper, \OC::$server->getConfig(), Server::get(LoggerInterface::class));
 	}
 
 	/**

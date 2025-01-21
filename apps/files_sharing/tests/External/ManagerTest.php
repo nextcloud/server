@@ -28,6 +28,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\OCS\IDiscoveryService;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 use Test\Traits\UserTrait;
@@ -72,7 +73,7 @@ class ManagerTest extends TestCase {
 	private $uid;
 
 	/**
-	 * @var \OCP\IUser
+	 * @var IUser
 	 */
 	private $user;
 	private $testMountProvider;
@@ -156,7 +157,7 @@ class ManagerTest extends TestCase {
 					new StorageFactory(),
 					$this->clientService,
 					\OC::$server->getNotificationManager(),
-					\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
+					\OC::$server->query(IDiscoveryService::class),
 					$this->cloudFederationProviderManager,
 					$this->cloudFederationFactory,
 					$this->groupManager,
@@ -644,10 +645,10 @@ class ManagerTest extends TestCase {
 			'user' => 'user2',
 			'remoteId' => '2342'
 		];
-		$this->assertSame(null, call_user_func_array([$manager2, 'addShare'], $shareData2));
 
-		$user2Shares = $manager2->getOpenShares();
-		$this->assertCount(2, $user2Shares);
+		$this->assertCount(1, $manager2->getOpenShares());
+		$this->assertSame(null, call_user_func_array([$manager2, 'addShare'], $shareData2));
+		$this->assertCount(2, $manager2->getOpenShares());
 
 		$this->manager->expects($this->once())->method('tryOCMEndPoint')->with('http://localhost', 'token1', '2342', 'decline')->willReturn([]);
 		$this->manager->removeUserShares($this->uid);
@@ -689,10 +690,10 @@ class ManagerTest extends TestCase {
 			'user' => 'user2',
 			'remoteId' => '2342'
 		];
-		$this->assertSame(null, call_user_func_array([$manager2, 'addShare'], $shareData2));
 
-		$user2Shares = $manager2->getOpenShares();
-		$this->assertCount(2, $user2Shares);
+		$this->assertCount(1, $manager2->getOpenShares());
+		$this->assertSame(null, call_user_func_array([$manager2, 'addShare'], $shareData2));
+		$this->assertCount(2, $manager2->getOpenShares());
 
 		$this->manager->expects($this->never())->method('tryOCMEndPoint');
 		$this->manager->removeGroupShares('group1');

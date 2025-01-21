@@ -6,21 +6,21 @@
 import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
-import { showError } from '@nextcloud/dialogs'
+import { extname } from 'path'
 import { FileType, Permission, Folder, File as NcFile, NodeStatus, Node, getFileActions } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
+import { showError } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
 import { vOnClickOutside } from '@vueuse/components'
-import { extname } from 'path'
-import Vue, { defineComponent } from 'vue'
+import Vue, { computed, defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
-import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
-import logger from '../logger.ts'
 import { isDownloadable } from '../utils/permissions.ts'
+import logger from '../logger.ts'
 
 Vue.directive('onClickOutside', vOnClickOutside)
 
@@ -52,14 +52,13 @@ export default defineComponent({
 
 	provide() {
 		return {
-			defaultFileAction: this.defaultFileAction,
-			enabledFileActions: this.enabledFileActions,
+			defaultFileAction: computed(() => this.defaultFileAction),
+			enabledFileActions: computed(() => this.enabledFileActions),
 		}
 	},
 
 	data() {
 		return {
-			loading: '',
 			dragover: false,
 			gridMode: false,
 		}
@@ -73,6 +72,7 @@ export default defineComponent({
 		uniqueId() {
 			return hashCode(this.source.source)
 		},
+
 		isLoading() {
 			return this.source.status === NodeStatus.LOADING
 		},
@@ -199,7 +199,20 @@ export default defineComponent({
 			}
 
 			return actions
-				.filter(action => !action.enabled || action.enabled([this.source], this.currentView))
+				.filter(action => {
+					if (!action.enabled) {
+						return true
+					}
+
+					// In case something goes wrong, since we don't want to break
+					// the entire list, we filter out actions that throw an error.
+					try {
+						return action.enabled([this.source], this.currentView)
+					} catch (error) {
+						logger.error('Error while checking action', { action, error })
+						return false
+					}
+				})
 				.sort((a, b) => (a.order || 0) - (b.order || 0))
 		},
 
@@ -212,11 +225,11 @@ export default defineComponent({
 		/**
 		 * When the source changes, reset the preview
 		 * and fetch the new one.
-		 * @param a
-		 * @param b
+		 * @param newSource The new value of the source prop
+		 * @param oldSource The previous value
 		 */
-		source(a: Node, b: Node) {
-			if (a.source !== b.source) {
+		source(newSource: Node, oldSource: Node) {
+			if (newSource.source !== oldSource.source) {
 				this.resetState()
 			}
 		},
@@ -247,9 +260,6 @@ export default defineComponent({
 
 	methods: {
 		resetState() {
-			// Reset loading state
-			this.loading = ''
-
 			// Reset the preview state
 			this.$refs?.preview?.reset?.()
 
@@ -296,7 +306,7 @@ export default defineComponent({
 				return
 			}
 
-			// Ignore right click (button & 2) and any auxillary button expect mouse-wheel (button & 4)
+			// Ignore right click (button & 2) and any auxiliary button expect mouse-wheel (button & 4)
 			if (Boolean(event.button & 2) || event.button > 4) {
 				return
 			}

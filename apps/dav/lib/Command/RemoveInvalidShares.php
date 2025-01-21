@@ -38,7 +38,7 @@ class RemoveInvalidShares extends Command {
 		$query = $this->connection->getQueryBuilder();
 		$result = $query->selectDistinct('principaluri')
 			->from('dav_shares')
-			->execute();
+			->executeQuery();
 
 		while ($row = $result->fetch()) {
 			$principaluri = $row['principaluri'];
@@ -59,6 +59,6 @@ class RemoveInvalidShares extends Command {
 		$delete = $this->connection->getQueryBuilder();
 		$delete->delete('dav_shares')
 			->where($delete->expr()->eq('principaluri', $delete->createNamedParameter($principaluri)));
-		$delete->execute();
+		$delete->executeStatement();
 	}
 }

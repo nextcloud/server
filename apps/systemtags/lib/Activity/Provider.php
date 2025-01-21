@@ -22,20 +22,8 @@ class Provider implements IProvider {
 	public const ASSIGN_TAG = 'assign_tag';
 	public const UNASSIGN_TAG = 'unassign_tag';
 
-	/** @var IFactory */
-	protected $languageFactory;
-
 	/** @var IL10N */
 	protected $l;
-
-	/** @var IURLGenerator */
-	protected $url;
-
-	/** @var IManager */
-	protected $activityManager;
-
-	/** @var IUserManager */
-	protected $userManager;
 
 	/**
 	 * @param IFactory $languageFactory
@@ -43,11 +31,12 @@ class Provider implements IProvider {
 	 * @param IManager $activityManager
 	 * @param IUserManager $userManager
 	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager) {
-		$this->languageFactory = $languageFactory;
-		$this->url = $url;
-		$this->activityManager = $activityManager;
-		$this->userManager = $userManager;
+	public function __construct(
+		protected IFactory $languageFactory,
+		protected IURLGenerator $url,
+		protected IManager $activityManager,
+		protected IUserManager $userManager,
+	) {
 	}
 
 	/**
@@ -68,7 +57,7 @@ class Provider implements IProvider {
 		if ($this->activityManager->isFormattingFilteredObject()) {
 			try {
 				return $this->parseShortVersion($event);
-			} catch (\InvalidArgumentException $e) {
+			} catch (UnknownActivityException) {
 				// Ignore and simply use the long version...
 			}
 		}
@@ -79,10 +68,10 @@ class Provider implements IProvider {
 	/**
 	 * @param IEvent $event
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
-	public function parseShortVersion(IEvent $event) {
+	public function parseShortVersion(IEvent $event): IEvent {
 		$parsedParameters = $this->getParameters($event);
 
 		if ($this->activityManager->getRequirePNG()) {
@@ -142,7 +131,7 @@ class Provider implements IProvider {
 					]);
 			}
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		return $event;
@@ -151,10 +140,10 @@ class Provider implements IProvider {
 	/**
 	 * @param IEvent $event
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
-	public function parseLongVersion(IEvent $event) {
+	public function parseLongVersion(IEvent $event): IEvent {
 		$parsedParameters = $this->getParameters($event);
 
 		if ($this->activityManager->getRequirePNG()) {
@@ -249,7 +238,7 @@ class Provider implements IProvider {
 					->setRichSubject($this->l->t('{actor} removed system tag {systemtag} from {file}'), $parsedParameters);
 			}
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		return $event;

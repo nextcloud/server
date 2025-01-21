@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\Files_Trashbin\Sabre;
 
 use OCA\DAV\Connector\Sabre\FilesPlugin;
+use OCA\Files_Trashbin\Trash\ITrashItem;
 use OCP\IPreview;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
@@ -24,17 +25,14 @@ class TrashbinPlugin extends ServerPlugin {
 	public const TRASHBIN_TITLE = '{http://nextcloud.org/ns}trashbin-title';
 	public const TRASHBIN_DELETED_BY_ID = '{http://nextcloud.org/ns}trashbin-deleted-by-id';
 	public const TRASHBIN_DELETED_BY_DISPLAY_NAME = '{http://nextcloud.org/ns}trashbin-deleted-by-display-name';
+	public const TRASHBIN_BACKEND = '{http://nextcloud.org/ns}trashbin-backend';
 
 	/** @var Server */
 	private $server;
 
-	/** @var IPreview */
-	private $previewManager;
-
 	public function __construct(
-		IPreview $previewManager,
+		private IPreview $previewManager,
 	) {
-		$this->previewManager = $previewManager;
 	}
 
 	public function initialize(Server $server) {
@@ -107,6 +105,14 @@ class TrashbinPlugin extends ServerPlugin {
 
 		$propFind->handle(FilesPlugin::MOUNT_TYPE_PROPERTYNAME, function () {
 			return '';
+		});
+
+		$propFind->handle(self::TRASHBIN_BACKEND, function () use ($node) {
+			$fileInfo = $node->getFileInfo();
+			if (!($fileInfo instanceof ITrashItem)) {
+				return '';
+			}
+			return $fileInfo->getTrashBackend()::class;
 		});
 	}
 

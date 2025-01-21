@@ -148,7 +148,6 @@
     "Could not rename part file to final file, canceled by hook" : "No s'ha pogut canviar el nom del fitxer de part al fitxer final perquè el ganxo ho ha cancel·lat",
     "Could not rename part file to final file" : "No s'ha pogut canviar el nom del fitxer de part al fitxer final",
     "Failed to check file size: %1$s" : "No s'ha pogut comprovar la mida del fitxer: %1$s",
-    "Could not open file" : "No s'ha pogut obrir el fitxer",
     "Encryption not ready: %1$s" : "El xifratge no està preparat: %1$s",
     "Failed to open file: %1$s" : "No s'ha pogut obrir el fitxer: %1$s",
     "Failed to unlink: %1$s" : "No s'ha pogut desenllaçar: %1$s",
@@ -220,6 +219,7 @@
     "Your attendance was updated successfully." : "S'ha actualitzat correctament l'assistència.",
     "To-dos" : "Tasques pendents",
     "Time:" : "Hora:",
+    "Could not open file" : "No s'ha pogut obrir el fitxer",
     "Invalid chunk name" : "El nom del fragment no és vàlid",
     "Could not rename part file assembled from chunks" : "No s'ha pogut canviar el nom del fitxer de part muntat a partir de fragments",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configureu el vostre horari laboral, la resta d'usuaris veuran quan sou fora de l'oficina quan planifiquin una reunió."

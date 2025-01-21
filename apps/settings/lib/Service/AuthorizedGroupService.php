@@ -16,11 +16,9 @@ use OCP\IGroup;
 
 class AuthorizedGroupService {
 
-	/** @var AuthorizedGroupMapper $mapper */
-	private $mapper;
-
-	public function __construct(AuthorizedGroupMapper $mapper) {
-		$this->mapper = $mapper;
+	public function __construct(
+		private AuthorizedGroupMapper $mapper,
+	) {
 	}
 
 	/**

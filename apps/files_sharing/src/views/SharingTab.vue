@@ -82,17 +82,21 @@
 </template>
 
 <script>
-import axios from '@nextcloud/axios'
+import { getCurrentUser } from '@nextcloud/auth'
 import { orderBy } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
 import { CollectionList } from 'nextcloud-vue-collections'
+import { ShareType } from '@nextcloud/sharing'
+
+import axios from '@nextcloud/axios'
+import moment from '@nextcloud/moment'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 
-import Config from '../services/ConfigService.ts'
 import { shareWithTitle } from '../utils/SharedWithMe.js'
+
+import Config from '../services/ConfigService.ts'
 import Share from '../models/Share.ts'
-import ShareTypes from '../mixins/ShareTypes.js'
 import SharingEntryInternal from '../components/SharingEntryInternal.vue'
 import SharingEntrySimple from '../components/SharingEntrySimple.vue'
 import SharingInput from '../components/SharingInput.vue'
@@ -116,8 +120,6 @@ export default {
 		SharingList,
 		SharingDetailsTab,
 	},
-
-	mixins: [ShareTypes],
 
 	data() {
 		return {
@@ -241,7 +243,7 @@ export default {
 		updateExpirationSubtitle(share) {
 			const expiration = moment(share.expireDate).unix()
 			this.$set(this.sharedWithMe, 'subtitle', t('files_sharing', 'Expires {relativetime}', {
-				relativetime: OC.Util.relativeModifiedDate(expiration * 1000),
+				relativetime: moment(expiration * 1000).fromNow(),
 			}))
 
 			// share have expired
@@ -273,8 +275,8 @@ export default {
 					],
 				)
 
-				this.linkShares = shares.filter(share => share.type === this.SHARE_TYPES.SHARE_TYPE_LINK || share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL)
-				this.shares = shares.filter(share => share.type !== this.SHARE_TYPES.SHARE_TYPE_LINK && share.type !== this.SHARE_TYPES.SHARE_TYPE_EMAIL)
+				this.linkShares = shares.filter(share => share.type === ShareType.Link || share.type === ShareType.Email)
+				this.shares = shares.filter(share => share.type !== ShareType.Link && share.type !== ShareType.Email)
 
 				console.debug('Processed', this.linkShares.length, 'link share(s)')
 				console.debug('Processed', this.shares.length, 'share(s)')
@@ -310,7 +312,7 @@ export default {
 					// interval update
 					this.expirationInterval = setInterval(this.updateExpirationSubtitle, 10000, share)
 				}
-			} else if (this.fileInfo && this.fileInfo.shareOwnerId !== undefined ? this.fileInfo.shareOwnerId !== OC.currentUser : false) {
+			} else if (this.fileInfo && this.fileInfo.shareOwnerId !== undefined ? this.fileInfo.shareOwnerId !== getCurrentUser().uid : false) {
 				// Fallback to compare owner and current user.
 				this.sharedWithMe = {
 					displayName: this.fileInfo.shareOwner,
@@ -336,7 +338,7 @@ export default {
 		addShare(share, resolve = () => { }) {
 			// only catching share type MAIL as link shares are added differently
 			// meaning: not from the ShareInput
-			if (share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
+			if (share.type === ShareType.Email) {
 				this.linkShares.unshift(share)
 			} else {
 				this.shares.unshift(share)
@@ -351,8 +353,8 @@ export default {
 		removeShare(share) {
 			// Get reference for this.linkShares or this.shares
 			const shareList
-				= share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL
-					|| share.type === this.SHARE_TYPES.SHARE_TYPE_LINK
+				= share.type === ShareType.Email
+					|| share.type === ShareType.Link
 					? this.linkShares
 					: this.shares
 			const index = shareList.findIndex(item => item.id === share.id)
@@ -373,7 +375,7 @@ export default {
 				let listComponent = this.$refs.shareList
 				// Only mail shares comes from the input, link shares
 				// are managed internally in the SharingLinkList component
-				if (share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
+				if (share.type === ShareType.Email) {
 					listComponent = this.$refs.linkShareList
 				}
 				const newShare = listComponent.$children.find(component => component.share === share)

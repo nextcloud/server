@@ -26,31 +26,21 @@ use OCP\Notification\UnknownNotificationException;
  */
 class Notifier implements INotifier {
 
-	/** @var IFactory */
-	private $l10nFactory;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
 	/** @var IL10N */
 	private $l10n;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
 
 	/**
 	 * Notifier constructor.
 	 *
-	 * @param IFactory $factory
+	 * @param IFactory $l10nFactory
 	 * @param IURLGenerator $urlGenerator
 	 * @param ITimeFactory $timeFactory
 	 */
-	public function __construct(IFactory $factory,
-		IURLGenerator $urlGenerator,
-		ITimeFactory $timeFactory) {
-		$this->l10nFactory = $factory;
-		$this->urlGenerator = $urlGenerator;
-		$this->timeFactory = $timeFactory;
+	public function __construct(
+		private IFactory $l10nFactory,
+		private IURLGenerator $urlGenerator,
+		private ITimeFactory $timeFactory,
+	) {
 	}
 
 	/**

@@ -7,6 +7,8 @@
  */
 namespace OCA\Encryption\Tests\Crypto;
 
+use OC\Encryption\Exceptions\DecryptionFailedException;
+use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Crypto\DecryptAll;
 use OCA\Encryption\Crypto\EncryptAll;
@@ -27,28 +29,28 @@ class EncryptionTest extends TestCase {
 	/** @var Encryption */
 	private $instance;
 
-	/** @var \OCA\Encryption\KeyManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var KeyManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $keyManagerMock;
 
-	/** @var \OCA\Encryption\Crypto\EncryptAll|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var EncryptAll|\PHPUnit\Framework\MockObject\MockObject */
 	private $encryptAllMock;
 
-	/** @var \OCA\Encryption\Crypto\DecryptAll|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var DecryptAll|\PHPUnit\Framework\MockObject\MockObject */
 	private $decryptAllMock;
 
-	/** @var \OCA\Encryption\Session|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Session|\PHPUnit\Framework\MockObject\MockObject */
 	private $sessionMock;
 
-	/** @var \OCA\Encryption\Crypto\Crypt|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Crypt|\PHPUnit\Framework\MockObject\MockObject */
 	private $cryptMock;
 
-	/** @var \OCA\Encryption\Util|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
 	private $utilMock;
 
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $loggerMock;
 
-	/** @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10nMock;
 
 	private IStorage&MockObject $storageMock;
@@ -120,7 +122,7 @@ class EncryptionTest extends TestCase {
 			->method('decryptAllModeActivated')
 			->willReturn(false);
 
-		$this->expectException(\OCA\Encryption\Exceptions\PublicKeyMissingException::class);
+		$this->expectException(PublicKeyMissingException::class);
 
 		$this->instance->begin('/foo/bar', 'user2', 'r', [], ['users' => ['user1', 'user2', 'user3']]);
 		$this->endTest();
@@ -317,10 +319,10 @@ class EncryptionTest extends TestCase {
 		$this->keyManagerMock->expects($this->never())->method('getPublicKey');
 		$this->keyManagerMock->expects($this->never())->method('addSystemKeys');
 		$this->keyManagerMock->expects($this->once())->method('setVersion')
-			->willReturnCallback(function ($path, $version, $view) {
+			->willReturnCallback(function ($path, $version, $view): void {
 				$this->assertSame('path', $path);
 				$this->assertSame(2, $version);
-				$this->assertTrue($view instanceof \OC\Files\View);
+				$this->assertTrue($view instanceof View);
 			});
 		$this->instance->update('path', 'user1', []);
 	}
@@ -335,7 +337,7 @@ class EncryptionTest extends TestCase {
 
 		$this->keyManagerMock->expects($this->any())
 			->method('getPublicKey')->willReturnCallback(
-				function ($user) {
+				function ($user): void {
 					throw new PublicKeyMissingException($user);
 				}
 			);
@@ -403,7 +405,7 @@ class EncryptionTest extends TestCase {
 
 
 	public function testDecrypt(): void {
-		$this->expectException(\OC\Encryption\Exceptions\DecryptionFailedException::class);
+		$this->expectException(DecryptionFailedException::class);
 		$this->expectExceptionMessage('Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
 
 		$this->instance->decrypt('abc');

@@ -53,13 +53,14 @@ interface ICalendar {
 	public function search(string $pattern, array $searchProperties = [], array $options = [], ?int $limit = null, ?int $offset = null): array;
 
 	/**
-	 * @return int build up using \OCP\Constants
+	 * @return int build up using {@see \OCP\Constants}
 	 * @since 13.0.0
 	 */
 	public function getPermissions(): int;
 
 	/**
-	 * Whether the calendar is deleted
+	 * Indicates whether the calendar is in the trash bin
+	 *
 	 * @since 26.0.0
 	 */
 	public function isDeleted(): bool;

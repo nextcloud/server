@@ -36,7 +36,7 @@ class UserStatusController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private string $userId,
+		private ?string $userId,
 		private LoggerInterface $logger,
 		private StatusService $service,
 		private CalendarStatusService $calendarStatusService,
@@ -123,6 +123,7 @@ class UserStatusController extends OCSController {
 	 * @param int|null $clearAt When the message should be cleared
 	 * @return DataResponse<Http::STATUS_OK, UserStatusPrivate, array{}>
 	 * @throws OCSBadRequestException The clearAt or icon is invalid or the message is too long
+	 * @throws OCSNotFoundException No status for the current user
 	 *
 	 * 200: The message was updated successfully
 	 */
@@ -149,13 +150,15 @@ class UserStatusController extends OCSController {
 		} catch (StatusMessageTooLongException $ex) {
 			$this->logger->debug('New user-status for "' . $this->userId . '" was rejected due to a too long status message.');
 			throw new OCSBadRequestException($ex->getMessage(), $ex);
+		} catch (DoesNotExistException $ex) {
+			throw new OCSNotFoundException('No status for the current user');
 		}
 	}
 
 	/**
 	 * Clear the message of the current user
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 *
 	 * 200: Message cleared successfully
 	 */
@@ -171,7 +174,7 @@ class UserStatusController extends OCSController {
 	 *
 	 * @param string $messageId ID of the message to delete
 	 *
-	 * @return DataResponse<Http::STATUS_OK, UserStatusPrivate|array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, UserStatusPrivate|list<empty>, array{}>
 	 *
 	 * 200: Status reverted
 	 */

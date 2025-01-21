@@ -47,12 +47,12 @@ p($theme->getTitle());
 						</div>
 					</header>
 				<?php endif; ?>
-				<main>
+				<div>
 					<h1 class="hidden-visually">
 						<?php p($theme->getName()); ?>
 					</h1>
 					<?php print_unescaped($_['content']); ?>
-				</main>
+				</div>
 			</div>
 		</div>
 		<?php

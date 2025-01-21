@@ -22,14 +22,10 @@ use OCP\Migration\IRepairStep;
  */
 class RemoveRefreshTime implements IRepairStep {
 
-	/** @var IDBConnection */
-	private $dbc;
-	/** @var IConfig */
-	private $config;
-
-	public function __construct(IDBConnection $dbc, IConfig $config) {
-		$this->dbc = $dbc;
-		$this->config = $config;
+	public function __construct(
+		private IDBConnection $dbc,
+		private IConfig $config,
+	) {
 	}
 
 	public function getName() {
@@ -43,6 +39,6 @@ class RemoveRefreshTime implements IRepairStep {
 		$qb->delete('preferences')
 			->where($qb->expr()->eq('appid', $qb->createNamedParameter('user_ldap')))
 			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('lastFeatureRefresh')))
-			->execute();
+			->executeStatement();
 	}
 }

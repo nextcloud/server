@@ -53,16 +53,16 @@ class PreviewManager implements IPreview {
 	private bool $enablePreviews;
 
 	public function __construct(
-		IConfig                  $config,
-		IRootFolder              $rootFolder,
-		IAppData                 $appData,
-		IEventDispatcher 		 $eventDispatcher,
-		GeneratorHelper          $helper,
-		?string                  $userId,
-		Coordinator              $bootstrapCoordinator,
-		IServerContainer         $container,
-		IBinaryFinder            $binaryFinder,
-		IMagickSupport           $imagickSupport,
+		IConfig $config,
+		IRootFolder $rootFolder,
+		IAppData $appData,
+		IEventDispatcher $eventDispatcher,
+		GeneratorHelper $helper,
+		?string $userId,
+		Coordinator $bootstrapCoordinator,
+		IServerContainer $container,
+		IBinaryFinder $binaryFinder,
+		IMagickSupport $imagickSupport,
 	) {
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
@@ -343,7 +343,7 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvider(Preview\XBitmap::class, '/image\/x-xbitmap/');
 		$this->registerCoreProvider(Preview\WebP::class, '/image\/webp/');
 		$this->registerCoreProvider(Preview\Krita::class, '/application\/x-krita/');
-		$this->registerCoreProvider(Preview\MP3::class, '/audio\/mpeg/');
+		$this->registerCoreProvider(Preview\MP3::class, '/audio\/mpeg$/');
 		$this->registerCoreProvider(Preview\OpenDocument::class, '/application\/vnd.oasis.opendocument.*/');
 		$this->registerCoreProvider(Preview\Imaginary::class, Preview\Imaginary::supportedMimeTypes());
 		$this->registerCoreProvider(Preview\ImaginaryPDF::class, Preview\ImaginaryPDF::supportedMimeTypes());

@@ -8,7 +8,6 @@ namespace OC\Core\Controller;
 use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IProvider;
-use OC\Authentication\Token\IToken;
 use OCA\OAuth2\Db\AccessToken;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\ClientMapper;
@@ -24,6 +23,7 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Authentication\Token\IToken;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
@@ -157,9 +157,11 @@ class ClientFlowLoginController extends Controller {
 	#[NoCSRFRequired]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'GET', url: '/login/flow/grant')]
-	public function grantPage(string $stateToken = '',
+	public function grantPage(
+		string $stateToken = '',
 		string $clientIdentifier = '',
-		int $direct = 0): StandaloneTemplateResponse {
+		int $direct = 0,
+	): Response {
 		if (!$this->isValidToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
@@ -203,14 +205,13 @@ class ClientFlowLoginController extends Controller {
 		return $response;
 	}
 
-	/**
-	 * @return Http\RedirectResponse|Response
-	 */
 	#[NoAdminRequired]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'POST', url: '/login/flow')]
-	public function generateAppPassword(string $stateToken,
-		string $clientIdentifier = '') {
+	public function generateAppPassword(
+		string $stateToken,
+		string $clientIdentifier = '',
+	): Response {
 		if (!$this->isValidToken($stateToken)) {
 			$this->session->remove(self::STATE_NAME);
 			return $this->stateTokenForbiddenResponse();

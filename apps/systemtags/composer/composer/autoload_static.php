@@ -28,6 +28,11 @@ class ComposerStaticInitSystemTags
         'OCA\\SystemTags\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\SystemTags\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
         'OCA\\SystemTags\\Controller\\LastUsedController' => __DIR__ . '/..' . '/../lib/Controller/LastUsedController.php',
+        'OCA\\SystemTags\\Listeners\\BeforeSabrePubliclyLoadedListener' => __DIR__ . '/..' . '/../lib/Listeners/BeforeSabrePubliclyLoadedListener.php',
+        'OCA\\SystemTags\\Listeners\\BeforeTemplateRenderedListener' => __DIR__ . '/..' . '/../lib/Listeners/BeforeTemplateRenderedListener.php',
+        'OCA\\SystemTags\\Listeners\\LoadAdditionalScriptsListener' => __DIR__ . '/..' . '/../lib/Listeners/LoadAdditionalScriptsListener.php',
+        'OCA\\SystemTags\\Migration\\Version31000Date20241018063111' => __DIR__ . '/..' . '/../lib/Migration/Version31000Date20241018063111.php',
+        'OCA\\SystemTags\\Migration\\Version31000Date20241114171300' => __DIR__ . '/..' . '/../lib/Migration/Version31000Date20241114171300.php',
         'OCA\\SystemTags\\Search\\TagSearchProvider' => __DIR__ . '/..' . '/../lib/Search/TagSearchProvider.php',
         'OCA\\SystemTags\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
     );

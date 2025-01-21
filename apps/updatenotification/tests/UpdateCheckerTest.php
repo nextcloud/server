@@ -11,22 +11,28 @@ namespace OCA\UpdateNotification\Tests;
 use OC\Updater\ChangesCheck;
 use OC\Updater\VersionCheck;
 use OCA\UpdateNotification\UpdateChecker;
+use OCP\AppFramework\Services\IInitialState;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UpdateCheckerTest extends TestCase {
-	/** @var ChangesCheck|\PHPUnit\Framework\MockObject\MockObject */
-	protected $changesChecker;
-	/** @var VersionCheck|\PHPUnit\Framework\MockObject\MockObject */
-	private $updater;
-	/** @var UpdateChecker */
-	private $updateChecker;
+	
+	private ChangesCheck&MockObject $changesChecker;
+	private VersionCheck&MockObject $updater;
+	private IInitialState&MockObject $initialState;
+	private UpdateChecker $updateChecker;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->updater = $this->createMock(VersionCheck::class);
 		$this->changesChecker = $this->createMock(ChangesCheck::class);
-		$this->updateChecker = new UpdateChecker($this->updater, $this->changesChecker);
+		$this->initialState = $this->createMock(IInitialState::class);
+		$this->updateChecker = new UpdateChecker(
+			$this->updater,
+			$this->changesChecker,
+			$this->initialState,
+		);
 	}
 
 	public function testGetUpdateStateWithUpdateAndInvalidLink(): void {
@@ -109,5 +115,29 @@ class UpdateCheckerTest extends TestCase {
 
 		$expected = [];
 		$this->assertSame($expected, $this->updateChecker->getUpdateState());
+	}
+
+	public function testSetInitialState(): void {
+		$this->updater
+			->expects($this->once())
+			->method('check')
+			->willReturn([
+				'version' => '1.2.3',
+				'versionstring' => 'Nextcloud 1.2.3',
+				'web' => 'https://docs.nextcloud.com/myUrl',
+				'url' => 'https://downloads.nextcloud.org/server',
+				'changes' => 'https://updates.nextcloud.com/changelog_server/?version=123.0.0',
+				'autoupdater' => '1',
+				'eol' => '0',
+			]);
+
+		$this->initialState->expects(self::once())
+			->method('provideInitialState')
+			->with('updateState', [
+				'updateVersion' => 'Nextcloud 1.2.3',
+				'updateLink' => 'https://docs.nextcloud.com/myUrl',
+			]);
+
+		$this->updateChecker->setInitialState();
 	}
 }

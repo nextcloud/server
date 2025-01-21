@@ -26,10 +26,10 @@ export default {
 		 * @param {string} [data.password]  password to protect public link Share with
 		 * @param {number} [data.permissions]  1 = read; 2 = update; 4 = create; 8 = delete; 16 = share; 31 = all (default: 31, for public shares: 1)
 		 * @param {boolean} [data.sendPasswordByTalk] send the password via a talk conversation
-		 * @param {string} [data.expireDate] expire the shareautomatically after
+		 * @param {string} [data.expireDate] expire the share automatically after
 		 * @param {string} [data.label] custom label
 		 * @param {string} [data.attributes] Share attributes encoded as json
-		 * @param data.note
+		 * @param {string} data.note custom note to recipient
 		 * @return {Share} the new share
 		 * @throws {Error}
 		 */

@@ -53,6 +53,8 @@ OC.L10N.register(
     "Invisible" : "Невидливо",
     "Failed to create tag" : "Неуспешно креирање на ознака",
     "Failed to delete tag" : "Неуспешно бришење на ознака",
+    "Manage tags" : "Уреди ги ознаките",
+    "Cancel" : "Откажи",
     "Loading collaborative tags …" : "Вчитување на колаборативни ознаки",
     "Search or create collaborative tags" : "Барај или креирај колаборативна ознака ",
     "No tags to select, type to create a new tag" : "Нема избрано ознака, напиши за да креираш нова ознака",

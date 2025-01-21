@@ -11,7 +11,6 @@ OC.L10N.register(
     "Cannot create sub-admins for admin group" : "Kan ikke oprette underadministratorer for administratorgruppen",
     "No permissions to promote sub-admins" : "Ingen tilladelser til at forfremme underadministratorer",
     "Invalid password value" : "Ugyldig adgangskodeværdi",
-    "To send a password link to the user an email address is required." : "For at sende et link til nulstilling af adgangskode til brugeren kræves en e-mailadresse.",
     "Required email address was not provided" : "Den krævede e-mailadresse blev ikke oplyst",
     "Invalid quota value: %1$s" : "Ugyldig kvoteværdi: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "Ugyldig kvoteværdi. %1$s overskrider den maksimale kvote",

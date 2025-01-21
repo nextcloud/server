@@ -14,7 +14,7 @@ use Test\TestCase;
 class SearchPluginTest extends TestCase {
 	protected $server;
 
-	/** @var \OCA\DAV\CalDAV\Search\SearchPlugin $plugin */
+	/** @var SearchPlugin $plugin */
 	protected $plugin;
 
 	protected function setUp(): void {

@@ -72,14 +72,28 @@ class Factory implements ICacheFactory {
 		$missingCacheMessage = 'Memcache {class} not available for {use} cache';
 		$missingCacheHint = 'Is the matching PHP module installed and enabled?';
 		if (!class_exists($localCacheClass) || !$localCacheClass::isAvailable()) {
-			throw new \OCP\HintException(strtr($missingCacheMessage, [
-				'{class}' => $localCacheClass, '{use}' => 'local'
-			]), $missingCacheHint);
+			if (\OC::$CLI && !defined('PHPUNIT_RUN') && $localCacheClass === APCu::class) {
+				// CLI should not fail if APCu is not available but fallback to NullCache.
+				// This can be the case if APCu is used without apc.enable_cli=1.
+				// APCu however cannot be shared between PHP instances (CLI and web) anyway.
+				$localCacheClass = self::NULL_CACHE;
+			} else {
+				throw new \OCP\HintException(strtr($missingCacheMessage, [
+					'{class}' => $localCacheClass, '{use}' => 'local'
+				]), $missingCacheHint);
+			}
 		}
 		if (!class_exists($distributedCacheClass) || !$distributedCacheClass::isAvailable()) {
-			throw new \OCP\HintException(strtr($missingCacheMessage, [
-				'{class}' => $distributedCacheClass, '{use}' => 'distributed'
-			]), $missingCacheHint);
+			if (\OC::$CLI && !defined('PHPUNIT_RUN') && $distributedCacheClass === APCu::class) {
+				// CLI should not fail if APCu is not available but fallback to NullCache.
+				// This can be the case if APCu is used without apc.enable_cli=1.
+				// APCu however cannot be shared between Nextcloud (PHP) instances anyway.
+				$distributedCacheClass = self::NULL_CACHE;
+			} else {
+				throw new \OCP\HintException(strtr($missingCacheMessage, [
+					'{class}' => $distributedCacheClass, '{use}' => 'distributed'
+				]), $missingCacheHint);
+			}
 		}
 		if (!($lockingCacheClass && class_exists($lockingCacheClass) && $lockingCacheClass::isAvailable())) {
 			// don't fall back since the fallback might not be suitable for storing lock

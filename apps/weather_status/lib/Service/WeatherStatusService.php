@@ -70,7 +70,7 @@ class WeatherStatusService {
 
 	/**
 	 * Get favorites list
-	 * @return string[]
+	 * @return list<string>
 	 */
 	public function getFavorites(): array {
 		$favoritesJson = $this->config->getUserValue($this->userId, Application::APP_ID, 'favorites', '');
@@ -79,7 +79,7 @@ class WeatherStatusService {
 
 	/**
 	 * Set favorites list
-	 * @param string[] $favorites
+	 * @param list<string> $favorites
 	 * @return WeatherStatusSuccess success state
 	 */
 	public function setFavorites(array $favorites): array {
@@ -287,7 +287,7 @@ class WeatherStatusService {
 	/**
 	 * Get forecast for current location
 	 *
-	 * @return WeatherStatusForecast[]|array{error: string}|WeatherStatusSuccess which contains success state and filtered forecast data
+	 * @return list<WeatherStatusForecast>|array{error: string}|WeatherStatusSuccess which contains success state and filtered forecast data
 	 */
 	public function getForecast(): array {
 		$lat = $this->config->getUserValue($this->userId, Application::APP_ID, 'lat', '');
@@ -310,7 +310,7 @@ class WeatherStatusService {
 	 * @param float $lon Longitude of requested forecast, in decimal degree format
 	 * @param float $altitude Altitude of requested forecast, in meter
 	 * @param int $nbValues Number of forecast values (hours)
-	 * @return WeatherStatusForecast[]|array{error: string} Filtered forecast data
+	 * @return list<WeatherStatusForecast>|array{error: string} Filtered forecast data
 	 */
 	private function forecastRequest(float $lat, float $lon, float $altitude, int $nbValues = 10): array {
 		$params = [

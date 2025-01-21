@@ -7,6 +7,8 @@
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use NCU\Config\IUserConfig;
+use NCU\Security\Signature\ISignatureManager;
 use OC\Accounts\AccountManager;
 use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
@@ -43,6 +45,7 @@ use OC\Files\Cache\FileAccess;
 use OC\Files\Config\MountProviderCollection;
 use OC\Files\Config\UserMountCache;
 use OC\Files\Config\UserMountCacheListener;
+use OC\Files\Conversion\ConversionManager;
 use OC\Files\Lock\LockManager;
 use OC\Files\Mount\CacheMountProvider;
 use OC\Files\Mount\LocalHomeMountProvider;
@@ -102,6 +105,7 @@ use OC\Security\Hasher;
 use OC\Security\Ip\RemoteAddress;
 use OC\Security\RateLimiting\Limiter;
 use OC\Security\SecureRandom;
+use OC\Security\Signature\SignatureManager;
 use OC\Security\TrustedDomainHelper;
 use OC\Security\VerificationToken\VerificationToken;
 use OC\Session\CryptoWrapper;
@@ -152,6 +156,7 @@ use OCP\Federation\ICloudIdManager;
 use OCP\Files\Cache\IFileAccess;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\Conversion\IConversionManager;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
@@ -451,7 +456,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$tokenProvider = null;
 			}
 			$logger = $c->get(LoggerInterface::class);
-			return new Store($session, $logger, $tokenProvider);
+			$crypto = $c->get(ICrypto::class);
+			return new Store($session, $logger, $crypto, $tokenProvider);
 		});
 		$this->registerAlias(IStore::class, Store::class);
 		$this->registerAlias(IProvider::class, Authentication\Token\Manager::class);
@@ -566,6 +572,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerAlias(IAppConfig::class, \OC\AppConfig::class);
+		$this->registerAlias(IUserConfig::class, \OC\Config\UserConfig::class);
 
 		$this->registerService(IFactory::class, function (Server $c) {
 			return new \OC\L10N\Factory(
@@ -846,7 +853,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(\OC\Security\Bruteforce\Backend\IBackend::class, function ($c) {
 			$config = $c->get(\OCP\IConfig::class);
-			if (ltrim($config->getSystemValueString('memcache.distributed', ''), '\\') === \OC\Memcache\Redis::class) {
+			if (!$config->getSystemValueBool('auth.bruteforce.protection.force.database', false)
+				&& ltrim($config->getSystemValueString('memcache.distributed', ''), '\\') === \OC\Memcache\Redis::class) {
 				$backend = $c->get(\OC\Security\Bruteforce\Backend\MemoryCacheBackend::class);
 			} else {
 				$backend = $c->get(\OC\Security\Bruteforce\Backend\DatabaseBackend::class);
@@ -1041,6 +1049,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$backgroundService = new BackgroundService(
 					$c->get(IRootFolder::class),
 					$c->getAppDataDir('theming'),
+					$c->get(IAppConfig::class),
 					$c->get(\OCP\IConfig::class),
 					$c->get(ISession::class)->get('user_id'),
 				);
@@ -1175,18 +1184,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerAlias(\OCP\GlobalScale\IConfig::class, \OC\GlobalScale\Config::class);
-
-		$this->registerService(ICloudFederationProviderManager::class, function (ContainerInterface $c) {
-			return new CloudFederationProviderManager(
-				$c->get(\OCP\IConfig::class),
-				$c->get(IAppManager::class),
-				$c->get(IClientService::class),
-				$c->get(ICloudIdManager::class),
-				$c->get(IOCMDiscoveryService::class),
-				$c->get(LoggerInterface::class)
-			);
-		});
-
+		$this->registerAlias(ICloudFederationProviderManager::class, CloudFederationProviderManager::class);
 		$this->registerService(ICloudFederationFactory::class, function (Server $c) {
 			return new CloudFederationFactory();
 		});
@@ -1262,6 +1260,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(ITranslationManager::class, TranslationManager::class);
 
+		$this->registerAlias(IConversionManager::class, ConversionManager::class);
+
 		$this->registerAlias(ISpeechToTextManager::class, SpeechToTextManager::class);
 
 		$this->registerAlias(IEventSourceFactory::class, EventSourceFactory::class);
@@ -1291,6 +1291,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Security\Ip\IFactory::class, \OC\Security\Ip\Factory::class);
 
 		$this->registerAlias(IRichTextFormatter::class, \OC\RichObjectStrings\RichTextFormatter::class);
+
+		$this->registerAlias(ISignatureManager::class, SignatureManager::class);
 
 		$this->connectDispatcher();
 	}

@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_External\Service;
 
+use OC\Files\Cache\Storage;
 use OC\Files\Filesystem;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\InvalidAuth;
@@ -18,6 +19,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -25,37 +27,18 @@ use Psr\Log\LoggerInterface;
  */
 abstract class StoragesService {
 
-	/** @var BackendService */
-	protected $backendService;
-
-	/**
-	 * @var DBConfigService
-	 */
-	protected $dbConfig;
-
-	/**
-	 * @var IUserMountCache
-	 */
-	protected $userMountCache;
-
-	protected IEventDispatcher $eventDispatcher;
-
 	/**
 	 * @param BackendService $backendService
-	 * @param DBConfigService $dbConfigService
+	 * @param DBConfigService $dbConfig
 	 * @param IUserMountCache $userMountCache
 	 * @param IEventDispatcher $eventDispatcher
 	 */
 	public function __construct(
-		BackendService $backendService,
-		DBConfigService $dbConfigService,
-		IUserMountCache $userMountCache,
-		IEventDispatcher $eventDispatcher,
+		protected BackendService $backendService,
+		protected DBConfigService $dbConfig,
+		protected IUserMountCache $userMountCache,
+		protected IEventDispatcher $eventDispatcher,
 	) {
-		$this->backendService = $backendService;
-		$this->dbConfig = $dbConfigService;
-		$this->userMountCache = $userMountCache;
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	protected function readDBConfig() {
@@ -134,7 +117,7 @@ abstract class StoragesService {
 	 * @return StorageConfig
 	 * @throws NotFoundException if the storage with the given id was not found
 	 */
-	public function getStorage($id) {
+	public function getStorage(int $id) {
 		$mount = $this->dbConfig->getMountById($id);
 
 		if (!is_array($mount)) {
@@ -324,7 +307,7 @@ abstract class StoragesService {
 	protected function triggerApplicableHooks($signal, $mountPoint, $mountType, $applicableArray): void {
 		$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent(null));
 		foreach ($applicableArray as $applicable) {
-			\OCP\Util::emitHook(
+			Util::emitHook(
 				Filesystem::CLASSNAME,
 				$signal,
 				[
@@ -450,7 +433,7 @@ abstract class StoragesService {
 	 *
 	 * @throws NotFoundException if no storage was found with the given id
 	 */
-	public function removeStorage($id) {
+	public function removeStorage(int $id) {
 		$existingMount = $this->dbConfig->getMountById($id);
 
 		if (!is_array($existingMount)) {
@@ -463,7 +446,7 @@ abstract class StoragesService {
 		$this->triggerHooks($deletedStorage, Filesystem::signal_delete_mount);
 
 		// delete oc_storages entries and oc_filecache
-		\OC\Files\Cache\Storage::cleanByMountId($id);
+		Storage::cleanByMountId($id);
 	}
 
 	/**

@@ -19,19 +19,14 @@ use OCP\IUser;
  * @package OCA\LookupServerConnector
  */
 class UpdateLookupServer {
-	/** @var IConfig */
-	private $config;
-	/** @var IJobList */
-	private $jobList;
-
 	/**
 	 * @param IJobList $jobList
 	 * @param IConfig $config
 	 */
-	public function __construct(IJobList $jobList,
-		IConfig $config) {
-		$this->config = $config;
-		$this->jobList = $jobList;
+	public function __construct(
+		private IJobList $jobList,
+		private IConfig $config,
+	) {
 	}
 
 	/**

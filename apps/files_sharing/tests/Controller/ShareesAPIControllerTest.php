@@ -8,7 +8,6 @@ namespace OCA\Files_Sharing\Tests\Controller;
 
 use OCA\Files_Sharing\Controller\ShareesAPIController;
 use OCA\Files_Sharing\Tests\TestCase;
-use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\Collaboration\Collaborators\ISearch;
@@ -298,7 +297,7 @@ class ShareesAPIControllerTest extends TestCase {
 				}
 			});
 
-		$this->assertInstanceOf(Http\DataResponse::class, $sharees->search($search, $itemType, $page, $perPage, $shareType));
+		$this->assertInstanceOf(DataResponse::class, $sharees->search($search, $itemType, $page, $perPage, $shareType));
 	}
 
 	public function dataSearchInvalid(): array {
@@ -413,7 +412,7 @@ class ShareesAPIControllerTest extends TestCase {
 	}
 
 	public function testSearchNoItemType(): void {
-		$this->expectException(\OCP\AppFramework\OCS\OCSBadRequestException::class);
+		$this->expectException(OCSBadRequestException::class);
 		$this->expectExceptionMessage('Missing itemType');
 
 		$this->sharees->search('', null, 1, 10, [], false);

@@ -32,33 +32,6 @@ use function strcasecmp;
 
 class ReminderService {
 
-	/** @var Backend */
-	private $backend;
-
-	/** @var NotificationProviderManager */
-	private $notificationProviderManager;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var CalDavBackend */
-	private $caldavBackend;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var Principal */
-	private $principalConnector;
-
 	public const REMINDER_TYPE_EMAIL = 'EMAIL';
 	public const REMINDER_TYPE_DISPLAY = 'DISPLAY';
 	public const REMINDER_TYPE_AUDIO = 'AUDIO';
@@ -74,24 +47,17 @@ class ReminderService {
 		self::REMINDER_TYPE_AUDIO
 	];
 
-	public function __construct(Backend $backend,
-		NotificationProviderManager $notificationProviderManager,
-		IUserManager $userManager,
-		IGroupManager $groupManager,
-		CalDavBackend $caldavBackend,
-		ITimeFactory $timeFactory,
-		IConfig $config,
-		LoggerInterface $logger,
-		Principal $principalConnector) {
-		$this->backend = $backend;
-		$this->notificationProviderManager = $notificationProviderManager;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->caldavBackend = $caldavBackend;
-		$this->timeFactory = $timeFactory;
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->principalConnector = $principalConnector;
+	public function __construct(
+		private Backend $backend,
+		private NotificationProviderManager $notificationProviderManager,
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private CalDavBackend $caldavBackend,
+		private ITimeFactory $timeFactory,
+		private IConfig $config,
+		private LoggerInterface $logger,
+		private Principal $principalConnector,
+	) {
 	}
 
 	/**

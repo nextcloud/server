@@ -97,7 +97,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 
 		$objectIds = [];
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			$objectIds[] = $row['objectid'];
 		}
@@ -156,6 +156,8 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			}
 		}
 
+		$this->updateEtagForTags($tagIds);
+
 		$this->connection->commit();
 		if (empty($tagsAssigned)) {
 			return;
@@ -187,7 +189,9 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->setParameter('objectid', $objId)
 			->setParameter('objecttype', $objectType)
 			->setParameter('tagids', $tagIds, IQueryBuilder::PARAM_INT_ARRAY)
-			->execute();
+			->executeStatement();
+
+		$this->updateEtagForTags($tagIds);
 
 		$this->dispatcher->dispatch(MapperEvent::EVENT_UNASSIGN, new MapperEvent(
 			MapperEvent::EVENT_UNASSIGN,
@@ -195,6 +199,21 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			$objId,
 			$tagIds
 		));
+	}
+
+	/**
+	 * Update the etag for the given tags.
+	 *
+	 * @param string[] $tagIds
+	 */
+	private function updateEtagForTags(array $tagIds): void {
+		// Update etag after assigning tags
+		$md5 = md5(json_encode(time()));
+		$query = $this->connection->getQueryBuilder();
+		$query->update('systemtag')
+			->set('etag', $query->createNamedParameter($md5))
+			->where($query->expr()->in('id', $query->createNamedParameter($tagIds, IQueryBuilder::PARAM_INT_ARRAY)));
+		$query->execute();
 	}
 
 	/**
@@ -226,7 +245,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->setParameter('tagid', $tagId)
 			->setParameter('objecttype', $objectType);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$row = $result->fetch(\PDO::FETCH_NUM);
 		$result->closeCursor();
 
@@ -259,5 +278,57 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 				'Tags not found', 0, null, $missingTagIds
 			);
 		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setObjectIdsForTag(string $tagId, string $objectType, array $objectIds): void {
+		$this->connection->beginTransaction();
+		$query = $this->connection->getQueryBuilder();
+		$query->delete(self::RELATION_TABLE)
+			->where($query->expr()->eq('systemtagid', $query->createNamedParameter($tagId, IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->eq('objecttype', $query->createNamedParameter($objectType)))
+			->executeStatement();
+		$this->connection->commit();
+
+		if (empty($objectIds)) {
+			return;
+		}
+
+		$this->connection->beginTransaction();
+		$query = $this->connection->getQueryBuilder();
+		$query->insert(self::RELATION_TABLE)
+			->values([
+				'systemtagid' => $query->createNamedParameter($tagId, IQueryBuilder::PARAM_INT),
+				'objecttype' => $query->createNamedParameter($objectType),
+				'objectid' => $query->createParameter('objectid'),
+			]);
+
+		foreach (array_unique($objectIds) as $objectId) {
+			$query->setParameter('objectid', (string)$objectId);
+			$query->executeStatement();
+		}
+
+		$this->updateEtagForTags([$tagId]);
+		$this->connection->commit();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAvailableObjectTypes(): array {
+		$query = $this->connection->getQueryBuilder();
+		$query->selectDistinct('objecttype')
+			->from(self::RELATION_TABLE);
+
+		$result = $query->executeQuery();
+		$objectTypes = [];
+		while ($row = $result->fetch()) {
+			$objectTypes[] = $row['objecttype'];
+		}
+		$result->closeCursor();
+
+		return $objectTypes;
 	}
 }

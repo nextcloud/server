@@ -54,7 +54,7 @@ class Collection implements ICollection {
 		$query->update(Manager::TABLE_COLLECTIONS)
 			->set('name', $query->createNamedParameter($name))
 			->where($query->expr()->eq('id', $query->createNamedParameter($this->getId(), IQueryBuilder::PARAM_INT)));
-		$query->execute();
+		$query->executeStatement();
 
 		$this->name = $name;
 	}
@@ -118,7 +118,7 @@ class Collection implements ICollection {
 			->where($query->expr()->eq('collection_id', $query->createNamedParameter($this->id, IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->eq('resource_type', $query->createNamedParameter($resource->getType())))
 			->andWhere($query->expr()->eq('resource_id', $query->createNamedParameter($resource->getId())));
-		$query->execute();
+		$query->executeStatement();
 
 		if (empty($this->resources)) {
 			$this->removeCollection();
@@ -172,7 +172,7 @@ class Collection implements ICollection {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete(Manager::TABLE_COLLECTIONS)
 			->where($query->expr()->eq('id', $query->createNamedParameter($this->id, IQueryBuilder::PARAM_INT)));
-		$query->execute();
+		$query->executeStatement();
 
 		$this->manager->invalidateAccessCacheForCollection($this);
 		$this->id = 0;

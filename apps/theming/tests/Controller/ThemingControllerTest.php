@@ -12,7 +12,11 @@ use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\NotFoundException;
@@ -638,7 +642,7 @@ class ThemingControllerTest extends TestCase {
 			->with($this->equalTo('logo'))
 			->willThrowException(new NotFoundException());
 
-		$expected = new Http\NotFoundResponse();
+		$expected = new NotFoundResponse();
 		$this->assertEquals($expected, $this->themingController->getImage('logo'));
 	}
 
@@ -655,11 +659,11 @@ class ThemingControllerTest extends TestCase {
 			->with('theming', 'logoMime', '')
 			->willReturn('text/svg');
 
-		@$expected = new Http\FileDisplayResponse($file);
+		@$expected = new FileDisplayResponse($file);
 		$expected->cacheFor(3600);
 		$expected->addHeader('Content-Type', 'text/svg');
 		$expected->addHeader('Content-Disposition', 'attachment; filename="logo"');
-		$csp = new Http\ContentSecurityPolicy();
+		$csp = new ContentSecurityPolicy();
 		$csp->allowInlineStyle();
 		$expected->setContentSecurityPolicy($csp);
 		@$this->assertEquals($expected, $this->themingController->getImage('logo'));
@@ -670,7 +674,7 @@ class ThemingControllerTest extends TestCase {
 		$this->imageManager->method('getImage')
 			->with($this->equalTo('background'))
 			->willThrowException(new NotFoundException());
-		$expected = new Http\NotFoundResponse();
+		$expected = new NotFoundResponse();
 		$this->assertEquals($expected, $this->themingController->getImage('background'));
 	}
 
@@ -688,11 +692,11 @@ class ThemingControllerTest extends TestCase {
 			->with('theming', 'backgroundMime', '')
 			->willReturn('image/png');
 
-		@$expected = new Http\FileDisplayResponse($file);
+		@$expected = new FileDisplayResponse($file);
 		$expected->cacheFor(3600);
 		$expected->addHeader('Content-Type', 'image/png');
 		$expected->addHeader('Content-Disposition', 'attachment; filename="background"');
-		$csp = new Http\ContentSecurityPolicy();
+		$csp = new ContentSecurityPolicy();
 		$csp->allowInlineStyle();
 		$expected->setContentSecurityPolicy($csp);
 		@$this->assertEquals($expected, $this->themingController->getImage('background'));
@@ -719,7 +723,7 @@ class ThemingControllerTest extends TestCase {
 				['theming.Icon.getTouchIcon', ['app' => 'core'], 'touchicon'],
 				['theming.Icon.getFavicon', ['app' => 'core'], 'favicon'],
 			]);
-		$response = new Http\JSONResponse([
+		$response = new JSONResponse([
 			'name' => 'Nextcloud',
 			'start_url' => 'localhost',
 			'icons' =>

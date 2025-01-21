@@ -17,6 +17,7 @@ use OCP\BackgroundJob\Job;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\OCS\IDiscoveryService;
 use Psr\Log\LoggerInterface;
@@ -30,11 +31,6 @@ use Psr\Log\LoggerInterface;
  */
 class GetSharedSecret extends Job {
 	private IClient $httpClient;
-	private IJobList $jobList;
-	private IURLGenerator $urlGenerator;
-	private TrustedServers $trustedServers;
-	private IDiscoveryService $ocsDiscoveryService;
-	private LoggerInterface $logger;
 	protected bool $retainJob = false;
 	private string $defaultEndPoint = '/ocs/v2.php/apps/federation/api/v1/shared-secret';
 	/** 30 day = 2592000sec */
@@ -42,20 +38,16 @@ class GetSharedSecret extends Job {
 
 	public function __construct(
 		IClientService $httpClientService,
-		IURLGenerator $urlGenerator,
-		IJobList $jobList,
-		TrustedServers $trustedServers,
-		LoggerInterface $logger,
-		IDiscoveryService $ocsDiscoveryService,
+		private IURLGenerator $urlGenerator,
+		private IJobList $jobList,
+		private TrustedServers $trustedServers,
+		private LoggerInterface $logger,
+		private IDiscoveryService $ocsDiscoveryService,
 		ITimeFactory $timeFactory,
+		private IConfig $config,
 	) {
 		parent::__construct($timeFactory);
-		$this->logger = $logger;
 		$this->httpClient = $httpClientService->newClient();
-		$this->jobList = $jobList;
-		$this->urlGenerator = $urlGenerator;
-		$this->ocsDiscoveryService = $ocsDiscoveryService;
-		$this->trustedServers = $trustedServers;
 	}
 
 	/**
@@ -115,6 +107,7 @@ class GetSharedSecret extends Job {
 						],
 					'timeout' => 3,
 					'connect_timeout' => 3,
+					'verify' => !$this->config->getSystemValue('sharing.federation.allowSelfSignedCertificates', false),
 				]
 			);
 

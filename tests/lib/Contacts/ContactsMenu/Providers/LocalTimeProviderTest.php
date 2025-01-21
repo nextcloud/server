@@ -20,27 +20,22 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\L10N\IFactory as IL10NFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class LocalTimeProviderTest extends TestCase {
-	/** @var IActionFactory|MockObject */
-	private $actionFactory;
-	/** @var IL10N|MockObject */
-	private $l;
-	/** @var IL10NFactory|MockObject */
-	private $l10nFactory;
-	/** @var IURLGenerator|MockObject */
-	private $urlGenerator;
-	/** @var IUserManager|MockObject */
-	private $userManager;
-	/** @var ITimeFactory|MockObject */
-	private $timeFactory;
-	/** @var IDateTimeFormatter|MockObject */
-	private $dateTimeFormatter;
-	/** @var IConfig|MockObject */
-	private $config;
+
+	private IActionFactory&MockObject $actionFactory;
+	private IL10N&MockObject $l;
+	private IL10NFactory&MockObject $l10nFactory;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IUserManager&MockObject $userManager;
+	private ITimeFactory&MockObject $timeFactory;
+	private IUserSession&MockObject $userSession;
+	private IDateTimeFormatter&MockObject $dateTimeFormatter;
+	private IConfig&MockObject $config;
 
 	private LocalTimeProvider $provider;
 
@@ -55,11 +50,18 @@ class LocalTimeProviderTest extends TestCase {
 			->will($this->returnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			}));
+		$this->l->expects($this->any())
+			->method('n')
+			->will($this->returnCallback(function ($text, $textPlural, $n, $parameters = []) {
+				$formatted = str_replace('%n', (string)$n, $n === 1 ? $text : $textPlural);
+				return vsprintf($formatted, $parameters);
+			}));
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->dateTimeFormatter = $this->createMock(IDateTimeFormatter::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 
 		$this->provider = new LocalTimeProvider(
 			$this->actionFactory,
@@ -68,11 +70,50 @@ class LocalTimeProviderTest extends TestCase {
 			$this->userManager,
 			$this->timeFactory,
 			$this->dateTimeFormatter,
-			$this->config
+			$this->config,
+			$this->userSession,
 		);
 	}
 
-	public function testProcess(): void {
+	public static function dataTestProcess(): array {
+		return [
+			'no current user' => [
+				false,
+				null,
+				null,
+				'Local time: 10:24',
+			],
+			'both UTC' => [
+				true,
+				null,
+				null,
+				'10:24 • same time',
+			],
+			'both same time zone' => [
+				true,
+				'Europe/Berlin',
+				'Europe/Berlin',
+				'11:24 • same time',
+			],
+			'1h behind' => [
+				true,
+				'Europe/Berlin',
+				'Europe/London',
+				'10:24 • 1h behind',
+			],
+			'4:45h ahead' => [
+				true,
+				'Europe/Berlin',
+				'Asia/Kathmandu',
+				'16:09 • 4h45m ahead',
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataTestProcess
+	 */
+	public function testProcess(bool $hasCurrentUser, ?string $currentUserTZ, ?string $targetUserTZ, string $expected): void {
 		$entry = $this->createMock(IEntry::class);
 		$entry->expects($this->once())
 			->method('getProperty')
@@ -91,18 +132,29 @@ class LocalTimeProviderTest extends TestCase {
 			->with('lib')
 			->willReturn($this->l);
 
-		$this->config->method('getUserValue')
-			->with('user1', 'core', 'timezone')
-			->willReturn('America/Los_Angeles');
+		$this->config->method('getSystemValueString')
+			->with('default_timezone', 'UTC')
+			->willReturn('UTC');
+		$this->config
+			->method('getUserValue')
+			->willReturnMap([
+				['user1', 'core', 'timezone', '', $targetUserTZ],
+				['currentUser', 'core', 'timezone', '', $currentUserTZ],
+			]);
 
-		$now = new \DateTime('2023-01-04 10:24:43');
+		if ($hasCurrentUser) {
+			$currentUser = $this->createMock(IUser::class);
+			$currentUser->method('getUID')
+				->willReturn('currentUser');
+			$this->userSession->method('getUser')
+				->willReturn($currentUser);
+		}
+
 		$this->timeFactory->method('getDateTime')
-			->willReturn($now);
+			->willReturnCallback(fn ($time, $tz) => (new \DateTime('2023-01-04 10:24:43', new \DateTimeZone('UTC')))->setTimezone($tz));
 
-		$now = new \DateTime('2023-01-04 10:24:43');
 		$this->dateTimeFormatter->method('formatTime')
-			->with($now, 'short', $this->anything())
-			->willReturn('01:24');
+			->willReturnCallback(fn (\DateTime $time) => $time->format('H:i'));
 
 		$this->urlGenerator->method('imagePath')
 			->willReturn('actions/recent.svg');
@@ -115,7 +167,7 @@ class LocalTimeProviderTest extends TestCase {
 			->method('newLinkAction')
 			->with(
 				'https://localhost/actions/recent.svg',
-				'Local time: 01:24',
+				$expected,
 				'#',
 				'timezone'
 			)

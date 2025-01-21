@@ -94,6 +94,7 @@ export default {
 		}
 	}
 }
+
 .backup-status {
 	&__reset-button {
 		justify-content: flex-end;

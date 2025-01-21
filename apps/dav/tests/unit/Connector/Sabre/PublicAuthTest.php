@@ -7,6 +7,7 @@
  */
 namespace OCA\DAV\Tests\unit\Connector;
 
+use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\Bruteforce\IThrottler;
@@ -49,7 +50,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->throttler = $this->createMock(IThrottler::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
-		$this->auth = new \OCA\DAV\Connector\Sabre\PublicAuth(
+		$this->auth = new PublicAuth(
 			$this->request,
 			$this->shareManager,
 			$this->session,

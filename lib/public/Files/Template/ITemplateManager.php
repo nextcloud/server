@@ -33,7 +33,7 @@ interface ITemplateManager {
 	/**
 	 * Get a list of available file creators and their offered templates
 	 *
-	 * @return array
+	 * @return list<array{app: string, label: string, extension: string, iconClass: ?string, iconSvgInline: ?string, mimetypes: list<string>, ratio: ?float, actionLabel: string, templates: list<Template>}>
 	 * @since 21.0.0
 	 */
 	public function listTemplates(): array;

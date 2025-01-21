@@ -16,6 +16,14 @@ use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
 
 class Notification implements INotification {
+	/**
+	 * A very small and privileged list of apps that are allowed to push during DND.
+	 */
+	public const PRIORITY_NOTIFICATION_APPS = [
+		'spreed',
+		'twofactor_nextcloud_notification',
+	];
+
 	protected string $app = '';
 	protected string $user = '';
 	protected \DateTime $dateTime;
@@ -33,6 +41,7 @@ class Notification implements INotification {
 	protected array $messageRichParameters = [];
 	protected string $link = '';
 	protected string $icon = '';
+	protected bool $priorityNotification = false;
 	protected array $actions = [];
 	protected array $actionsParsed = [];
 	protected bool $hasPrimaryAction = false;
@@ -333,6 +342,25 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	public function setPriorityNotification(bool $priorityNotification): INotification {
+		if ($priorityNotification && !in_array($this->getApp(), self::PRIORITY_NOTIFICATION_APPS, true)) {
+			throw new InvalidValueException('priorityNotification');
+		}
+
+		$this->priorityNotification = $priorityNotification;
+		return $this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function isPriorityNotification(): bool {
+		return $this->priorityNotification;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function createAction(): IAction {
 		return new Action();
 	}
@@ -434,6 +462,10 @@ class Notification implements INotification {
 	}
 
 	protected function isValidCommon(): bool {
+		if ($this->isPriorityNotification() && !in_array($this->getApp(), self::PRIORITY_NOTIFICATION_APPS, true)) {
+			return false;
+		}
+
 		return
 			$this->getApp() !== ''
 			&&

@@ -76,9 +76,9 @@ interface ITags {
 	 * ]
 	 * ```
 	 *
-	 * @param array $objIds item ids
-	 * @return array|false with object id as key and an array
-	 *                     of tag names as value or false if an error occurred
+	 * @param list<int> $objIds item ids
+	 * @return array<int, list<string>>|false with object id as key and an array
+	 *                                        of tag names as value or false if an error occurred
 	 * @since 8.0.0
 	 */
 	public function getTagsForObjects(array $objIds);
@@ -104,7 +104,7 @@ interface ITags {
 
 	/**
 	 * Checks whether a tag is saved for the given user,
-	 * disregarding the ones shared with him or her.
+	 * disregarding the ones shared with them.
 	 *
 	 * @param string $name The tag name to check for.
 	 * @param string $user The user whose tags are to be checked.

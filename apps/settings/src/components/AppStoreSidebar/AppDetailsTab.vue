@@ -47,19 +47,19 @@
 						class="update primary"
 						type="button"
 						:value="t('settings', 'Update to {version}', { version: app.update })"
-						:disabled="installing || isLoading"
+						:disabled="installing || isLoading || isManualInstall"
 						@click="update(app.id)">
 					<input v-if="app.canUnInstall"
 						class="uninstall"
 						type="button"
 						:value="t('settings', 'Remove')"
 						:disabled="installing || isLoading"
-						@click="remove(app.id)">
+						@click="remove(app.id, removeData)">
 					<input v-if="app.active"
 						class="enable"
 						type="button"
-						:value="t('settings','Disable')"
-						:disabled="installing || isLoading"
+						:value="disableButtonText"
+						:disabled="installing || isLoading || isInitializing || isDeploying"
 						@click="disable(app.id)">
 					<input v-if="!app.active && (app.canInstall || app.isCompatible)"
 						:title="enableButtonTooltip"
@@ -67,7 +67,7 @@
 						class="enable primary"
 						type="button"
 						:value="enableButtonText"
-						:disabled="!app.canInstall || installing || isLoading"
+						:disabled="!app.canInstall || installing || isLoading || !defaultDeployDaemonAccessible || isInitializing || isDeploying"
 						@click="enable(app.id)">
 					<input v-else-if="!app.active && !app.canInstall"
 						:title="forceEnableButtonTooltip"
@@ -77,7 +77,25 @@
 						:value="forceEnableButtonText"
 						:disabled="installing || isLoading"
 						@click="forceEnable(app.id)">
+					<NcButton v-if="app?.app_api && (app.canInstall || app.isCompatible)"
+						:aria-label="t('settings', 'Advanced deploy options')"
+						type="secondary"
+						@click="() => showDeployOptionsModal = true">
+						<template #icon>
+							<NcIconSvgWrapper :path="mdiToyBrickPlus" />
+						</template>
+						{{ t('settings', 'Deploy options') }}
+					</NcButton>
 				</div>
+				<p v-if="!defaultDeployDaemonAccessible" class="warning">
+					{{ t('settings', 'Default Deploy daemon is not accessible') }}
+				</p>
+				<NcCheckboxRadioSwitch v-if="app.canUnInstall"
+					:checked="removeData"
+					:disabled="installing || isLoading || !defaultDeployDaemonAccessible"
+					@update:checked="toggleRemoveData">
+					{{ t('settings', 'Delete data on remove') }}
+				</NcCheckboxRadioSwitch>
 			</div>
 
 			<ul class="app-details__dependencies">
@@ -97,7 +115,7 @@
 				</li>
 			</ul>
 
-			<div v-if="lastModified" class="app-details__section">
+			<div v-if="lastModified && !app.shipped" class="app-details__section">
 				<h4>
 					{{ t('settings', 'Latest updated') }}
 				</h4>
@@ -173,6 +191,10 @@
 					</NcButton>
 				</div>
 			</div>
+
+			<AppDeployOptionsModal v-if="app?.app_api"
+				:show.sync="showDeployOptionsModal"
+				:app="app" />
 		</div>
 	</NcAppSidebarTab>
 </template>
@@ -183,10 +205,13 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import AppDeployOptionsModal from './AppDeployOptionsModal.vue'
 
 import AppManagement from '../../mixins/AppManagement.js'
-import { mdiBug, mdiFeatureSearch, mdiStar, mdiTextBox, mdiTooltipQuestion } from '@mdi/js'
+import { mdiBug, mdiFeatureSearch, mdiStar, mdiTextBox, mdiTooltipQuestion, mdiToyBrickPlus } from '@mdi/js'
 import { useAppsStore } from '../../store/apps-store'
+import { useAppApiStore } from '../../store/app-api-store'
 
 export default {
 	name: 'AppDetailsTab',
@@ -197,6 +222,8 @@ export default {
 		NcDateTime,
 		NcIconSvgWrapper,
 		NcSelect,
+		NcCheckboxRadioSwitch,
+		AppDeployOptionsModal,
 	},
 	mixins: [AppManagement],
 
@@ -209,21 +236,26 @@ export default {
 
 	setup() {
 		const store = useAppsStore()
+		const appApiStore = useAppApiStore()
 
 		return {
 			store,
+			appApiStore,
 
 			mdiBug,
 			mdiFeatureSearch,
 			mdiStar,
 			mdiTextBox,
 			mdiTooltipQuestion,
+			mdiToyBrickPlus,
 		}
 	},
 
 	data() {
 		return {
 			groupCheckedAppsData: false,
+			removeData: false,
+			showDeployOptionsModal: false,
 		}
 	},
 
@@ -328,10 +360,20 @@ export default {
 				.sort((a, b) => a.name.localeCompare(b.name))
 		},
 	},
+	watch: {
+		'app.id'() {
+			this.removeData = false
+		},
+	},
 	mounted() {
 		if (this.app.groups.length > 0) {
 			this.groupCheckedAppsData = true
 		}
+	},
+	methods: {
+		toggleRemoveData() {
+			this.removeData = !this.removeData
+		},
 	},
 }
 </script>
@@ -345,6 +387,7 @@ export default {
 		&-manage {
 			// if too many, shrink them and ellipsis
 			display: flex;
+			align-items: center;
 			input {
 				flex: 0 1 auto;
 				min-width: 0;
@@ -402,6 +445,7 @@ export default {
 	border-color: var(--color-error);
 	background: var(--color-main-background);
 }
+
 .force:hover,
 .force:active {
 	color: var(--color-main-background);

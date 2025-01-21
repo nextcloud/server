@@ -7,6 +7,8 @@
  */
 use OC\Authentication\Token\IProvider;
 use OC\User\LoginException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IToken;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IGroupManager;
@@ -14,6 +16,7 @@ use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
+use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\UserLoggedInEvent;
 use Psr\Log\LoggerInterface;
@@ -171,12 +174,17 @@ class OC_User {
 
 				if (empty($password)) {
 					$tokenProvider = \OC::$server->get(IProvider::class);
-					$token = $tokenProvider->getToken($userSession->getSession()->getId());
-					$token->setScope([
-						IToken::SCOPE_SKIP_PASSWORD_VALIDATION => true,
-						IToken::SCOPE_FILESYSTEM => true,
-					]);
-					$tokenProvider->updateToken($token);
+					try {
+						$token = $tokenProvider->getToken($userSession->getSession()->getId());
+						$token->setScope([
+							IToken::SCOPE_SKIP_PASSWORD_VALIDATION => true,
+							IToken::SCOPE_FILESYSTEM => true,
+						]);
+						$tokenProvider->updateToken($token);
+					} catch (InvalidTokenException|WipeTokenException|SessionNotAvailableException) {
+						// swallow the exceptions as we do not deal with them here
+						// simply skip updating the token when is it missing
+					}
 				}
 
 				// setup the filesystem

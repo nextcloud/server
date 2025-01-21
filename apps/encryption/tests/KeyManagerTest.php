@@ -10,6 +10,9 @@ namespace OCA\Encryption\Tests;
 use OC\Files\FileInfo;
 use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
+use OCA\Encryption\Crypto\Encryption;
+use OCA\Encryption\Exceptions\PrivateKeyMissingException;
+use OCA\Encryption\Exceptions\PublicKeyMissingException;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Session;
 use OCA\Encryption\Util;
@@ -40,22 +43,22 @@ class KeyManagerTest extends TestCase {
 	/** @var \OCP\Encryption\Keys\IStorage|\PHPUnit\Framework\MockObject\MockObject */
 	private $keyStorageMock;
 
-	/** @var \OCA\Encryption\Crypto\Crypt|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Crypt|\PHPUnit\Framework\MockObject\MockObject */
 	private $cryptMock;
 
-	/** @var \OCP\IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userMock;
 
-	/** @var \OCA\Encryption\Session|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Session|\PHPUnit\Framework\MockObject\MockObject */
 	private $sessionMock;
 
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logMock;
 
-	/** @var \OCA\Encryption\Util|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
 	private $utilMock;
 
-	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $configMock;
 
 	/** @var ILockingProvider|MockObject */
@@ -207,7 +210,7 @@ class KeyManagerTest extends TestCase {
 
 
 	public function testUserHasKeysMissingPrivateKey(): void {
-		$this->expectException(\OCA\Encryption\Exceptions\PrivateKeyMissingException::class);
+		$this->expectException(PrivateKeyMissingException::class);
 
 		$this->keyStorageMock->expects($this->exactly(2))
 			->method('getUserKey')
@@ -223,7 +226,7 @@ class KeyManagerTest extends TestCase {
 
 
 	public function testUserHasKeysMissingPublicKey(): void {
-		$this->expectException(\OCA\Encryption\Exceptions\PublicKeyMissingException::class);
+		$this->expectException(PublicKeyMissingException::class);
 
 		$this->keyStorageMock->expects($this->exactly(2))
 			->method('getUserKey')
@@ -243,7 +246,7 @@ class KeyManagerTest extends TestCase {
 	 * @param bool $useMasterKey
 	 */
 	public function testInit($useMasterKey): void {
-		/** @var \OCA\Encryption\KeyManager|\PHPUnit\Framework\MockObject\MockObject $instance */
+		/** @var KeyManager|\PHPUnit\Framework\MockObject\MockObject $instance */
 		$instance = $this->getMockBuilder(KeyManager::class)
 			->setConstructorArgs(
 				[
@@ -527,7 +530,7 @@ class KeyManagerTest extends TestCase {
 
 	public function testGetPublicMasterKey(): void {
 		$this->keyStorageMock->expects($this->once())->method('getSystemUserKey')
-			->with('systemKeyId.publicKey', \OCA\Encryption\Crypto\Encryption::ID)
+			->with('systemKeyId.publicKey', Encryption::ID)
 			->willReturn(true);
 
 		$this->assertTrue(
@@ -560,7 +563,7 @@ class KeyManagerTest extends TestCase {
 	 * @param $masterKey
 	 */
 	public function testValidateMasterKey($masterKey): void {
-		/** @var \OCA\Encryption\KeyManager | \PHPUnit\Framework\MockObject\MockObject $instance */
+		/** @var KeyManager|\PHPUnit\Framework\MockObject\MockObject $instance */
 		$instance = $this->getMockBuilder(KeyManager::class)
 			->setConstructorArgs(
 				[
@@ -589,7 +592,7 @@ class KeyManagerTest extends TestCase {
 			$this->cryptMock->expects($this->once())->method('createKeyPair')
 				->willReturn(['publicKey' => 'public', 'privateKey' => 'private']);
 			$this->keyStorageMock->expects($this->once())->method('setSystemUserKey')
-				->with('systemKeyId.publicKey', 'public', \OCA\Encryption\Crypto\Encryption::ID);
+				->with('systemKeyId.publicKey', 'public', Encryption::ID);
 			$this->cryptMock->expects($this->once())->method('encryptPrivateKey')
 				->with('private', 'masterKeyPassword', 'systemKeyId')
 				->willReturn('EncryptedKey');
@@ -608,7 +611,7 @@ class KeyManagerTest extends TestCase {
 	}
 
 	public function testValidateMasterKeyLocked(): void {
-		/** @var \OCA\Encryption\KeyManager | \PHPUnit_Framework_MockObject_MockObject $instance */
+		/** @var KeyManager|\PHPUnit_Framework_MockObject_MockObject $instance */
 		$instance = $this->getMockBuilder(KeyManager::class)
 			->setConstructorArgs(
 				[
@@ -658,7 +661,7 @@ class KeyManagerTest extends TestCase {
 			->with('/admin/files/myfile.txt')
 			->willReturn(false);
 
-		/** @var \OC\Files\View $view */
+		/** @var View $view */
 		$this->assertSame(0, $this->instance->getVersion('/admin/files/myfile.txt', $view));
 	}
 
@@ -675,7 +678,7 @@ class KeyManagerTest extends TestCase {
 			->with('/admin/files/myfile.txt')
 			->willReturn($fileInfo);
 
-		/** @var \OC\Files\View $view */
+		/** @var View $view */
 		$this->assertSame(1337, $this->instance->getVersion('/admin/files/myfile.txt', $view));
 	}
 
@@ -705,7 +708,7 @@ class KeyManagerTest extends TestCase {
 			->with('/admin/files/myfile.txt')
 			->willReturn($fileInfo);
 
-		/** @var \OC\Files\View $view */
+		/** @var View $view */
 		$this->instance->setVersion('/admin/files/myfile.txt', 5, $view);
 	}
 
@@ -717,7 +720,7 @@ class KeyManagerTest extends TestCase {
 			->with('/admin/files/myfile.txt')
 			->willReturn(false);
 
-		/** @var \OC\Files\View $view */
+		/** @var View $view */
 		$this->instance->setVersion('/admin/files/myfile.txt', 5, $view);
 	}
 

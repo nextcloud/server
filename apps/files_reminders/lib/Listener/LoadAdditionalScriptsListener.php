@@ -15,11 +15,13 @@ use OCP\App\IAppManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 /** @template-implements IEventListener<LoadAdditionalScriptsEvent> */
 class LoadAdditionalScriptsListener implements IEventListener {
 	public function __construct(
 		private IAppManager $appManager,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -29,6 +31,7 @@ class LoadAdditionalScriptsListener implements IEventListener {
 		}
 
 		if (!$this->appManager->isEnabledForUser('notifications')) {
+			$this->logger->error('Failed to register the `files_reminders` app. This could happen due to the `notifications` app being disabled.', ['app' => 'files_reminders']);
 			return;
 		}
 

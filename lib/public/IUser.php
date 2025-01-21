@@ -50,13 +50,22 @@ interface IUser {
 	 * @return int
 	 * @since 8.0.0
 	 */
-	public function getLastLogin();
+	public function getLastLogin(): int;
 
 	/**
-	 * updates the timestamp of the most recent login of this user
+	 * Returns the timestamp of the user's first login, 0 if the user did never login, or -1 if the data is unknown (first login was on an older version)
+	 *
+	 * @since 31.0.0
+	 */
+	public function getFirstLogin(): int;
+
+	/**
+	 * Updates the timestamp of the most recent login of this user (and first login if needed)
+	 *
+	 * @return bool whether this is the first login
 	 * @since 8.0.0
 	 */
-	public function updateLastLoginTimestamp();
+	public function updateLastLoginTimestamp(): bool;
 
 	/**
 	 * Delete the user
@@ -117,7 +126,7 @@ interface IUser {
 	public function getBackend();
 
 	/**
-	 * check if the backend allows the user to change his avatar on Personal page
+	 * check if the backend allows the user to change their avatar on Personal page
 	 *
 	 * @return bool
 	 * @since 8.0.0

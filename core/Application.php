@@ -203,8 +203,13 @@ class Application extends App {
 
 			$event->addMissingIndex(
 				'preferences',
-				'preferences_app_key',
-				['appid', 'configkey']
+				'prefs_uid_lazy_i',
+				['userid', 'lazy']
+			);
+			$event->addMissingIndex(
+				'preferences',
+				'prefs_app_key_ind_fl_i',
+				['appid', 'configkey', 'indexed', 'flags']
 			);
 
 			$event->addMissingIndex(
@@ -229,6 +234,12 @@ class Application extends App {
 				'systemtag_object_mapping',
 				'systag_by_objectid',
 				['objectid']
+			);
+
+			$event->addMissingIndex(
+				'systemtag_object_mapping',
+				'systag_objecttype',
+				['objecttype']
 			);
 		});
 

@@ -6,36 +6,60 @@
 <template>
 	<div id="weather-status-menu-item">
 		<NcActions class="weather-status-menu-item__subheader"
-			:default-icon="weatherIcon"
 			:aria-hidden="true"
 			:aria-label="currentWeatherMessage"
 			:menu-name="currentWeatherMessage">
+			<template #icon>
+				<NcLoadingIcon v-if="loading" />
+				<img v-else
+					:src="weatherIconUrl"
+					alt=""
+					class="weather-image">
+			</template>
 			<NcActionText v-if="gotWeather"
-				:aria-hidden="true"
-				:icon="futureWeatherIcon">
+				:aria-hidden="true">
+				<template #icon>
+					<NcLoadingIcon v-if="loading" />
+					<div v-else class="weather-action-image-container">
+						<img :src="futureWeatherIconUrl"
+							alt=""
+							class="weather-image">
+					</div>
+				</template>
 				{{ forecastMessage }}
 			</NcActionText>
 			<NcActionLink v-if="gotWeather"
-				icon="icon-address"
 				target="_blank"
 				:aria-hidden="true"
 				:href="weatherLinkTarget"
 				:close-after-click="true">
+				<template #icon>
+					<NcIconSvgWrapper name="MapMarker"
+						:svg="mapMarkerSvg"
+						:size="20" />
+				</template>
 				{{ locationText }}
 			</NcActionLink>
 			<NcActionButton v-if="gotWeather"
 				:aria-hidden="true"
 				@click="onAddRemoveFavoriteClick">
 				<template #icon>
-					<component :is="addRemoveFavoriteIcon" :size="20" class="favorite-color" />
+					<NcIconSvgWrapper name="Star"
+						:svg="addRemoveFavoriteSvg"
+						:size="20"
+						class="favorite-color" />
 				</template>
 				{{ addRemoveFavoriteText }}
 			</NcActionButton>
 			<NcActionSeparator v-if="address && !errorMessage" />
-			<NcActionButton icon="icon-crosshair"
-				:close-after-click="true"
+			<NcActionButton :close-after-click="true"
 				:aria-hidden="true"
 				@click="onBrowserLocationClick">
+				<template #icon>
+					<NcIconSvgWrapper name="Crosshairs"
+						:svg="crosshairsSvg"
+						:size="20" />
+				</template>
 				{{ t('weather_status', 'Detect location') }}
 			</NcActionButton>
 			<NcActionInput ref="addressInput"
@@ -53,7 +77,10 @@
 					:aria-hidden="true"
 					@click="onFavoriteClick($event, favorite)">
 					<template #icon>
-						<IconStar :size="20" :class="{'favorite-color': address === favorite}" />
+						<NcIconSvgWrapper name="Star"
+							:svg="starSvg"
+							:size="20"
+							:class="{'favorite-color': address === favorite}" />
 					</template>
 					{{ favorite }}
 				</NcActionButton>
@@ -66,8 +93,7 @@
 import { showError } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import { getLocale } from '@nextcloud/l10n'
-import IconStar from 'vue-material-design-icons/Star.vue'
-import IconStarOutline from 'vue-material-design-icons/StarOutline.vue'
+import { imagePath } from '@nextcloud/router'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActionCaption from '@nextcloud/vue/dist/Components/NcActionCaption.js'
@@ -75,109 +101,138 @@ import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
 import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
 import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import * as network from './services/weatherStatusService.js'
+import crosshairsSvg from '@mdi/svg/svg/crosshairs.svg?raw'
+import mapMarkerSvg from '@mdi/svg/svg/map-marker.svg?raw'
+import starSvg from '@mdi/svg/svg/star.svg?raw'
+import starOutlineSvg from '@mdi/svg/svg/star-outline.svg?raw'
 
 const MODE_BROWSER_LOCATION = 1
 const MODE_MANUAL_LOCATION = 2
 const weatherOptions = {
 	clearsky_day: {
-		icon: 'icon-clearsky-day',
 		text: (temperature, unit, later = false) => later
 			? t('weather_status', '{temperature} {unit} clear sky later today', { temperature, unit })
 			: t('weather_status', '{temperature} {unit} clear sky', { temperature, unit }),
 	},
 	clearsky_night: {
-		icon: 'icon-clearsky-night',
 		text: (temperature, unit, later = false) => later
 			? t('weather_status', '{temperature} {unit} clear sky later today', { temperature, unit })
 			: t('weather_status', '{temperature} {unit} clear sky', { temperature, unit }),
 	},
 	cloudy: {
-		icon: 'icon-cloudy',
 		text: (temperature, unit, later = false) => later
 			? t('weather_status', '{temperature} {unit} cloudy later today', { temperature, unit })
 			: t('weather_status', '{temperature} {unit} cloudy', { temperature, unit }),
 	},
+	snowandthunder: {
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} snow and thunder later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} snow and thunder', { temperature, unit }),
+	},
+	snowshowersandthunder_day: {
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} snow showers and thunder later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} snow showers and thunder', { temperature, unit }),
+	},
+	snowshowersandthunder_night: {
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} snow showers and thunder later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} snow showers and thunder', { temperature, unit }),
+	},
+	snowshowersandthunder_polartwilight: {
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} snow showers, thunder and polar twilight later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} snow showers, thunder and polar twilight', { temperature, unit }),
+	},
+	snowshowers_day: {
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} snow showers later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} snow showers', { temperature, unit }),
+	},
+	snowshowers_night: {
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} snow showers later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} snow showers', { temperature, unit }),
+	},
+	snowshowers_polartwilight: {
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} snow showers and polar twilight later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} snow showers and polar twilight', { temperature, unit }),
+	},
+	snow: {
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} snow later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} snow', { temperature, unit }),
+	},
 	fair_day: {
-		icon: 'icon-fair-day',
 		text: (temperature, unit, later = false) => later
 			? t('weather_status', '{temperature} {unit} fair weather later today', { temperature, unit })
 			: t('weather_status', '{temperature} {unit} fair weather', { temperature, unit }),
 	},
 	fair_night: {
-		icon: 'icon-fair-night',
 		text: (temperature, unit, later = false) => later
 			? t('weather_status', '{temperature} {unit} fair weather later today', { temperature, unit })
 			: t('weather_status', '{temperature} {unit} fair weather', { temperature, unit }),
 	},
 	partlycloudy_day: {
-		icon: 'icon-partlycloudy-day',
 		text: (temperature, unit, later = false) => later
 			? t('weather_status', '{temperature} {unit} partly cloudy later today', { temperature, unit })
 			: t('weather_status', '{temperature} {unit} partly cloudy', { temperature, unit }),
 	},
 	partlycloudy_night: {
-		icon: 'icon-partlycloudy-night',
 		text: (temperature, unit, later = false) => later
 			? t('weather_status', '{temperature} {unit} partly cloudy later today', { temperature, unit })
 			: t('weather_status', '{temperature} {unit} partly cloudy', { temperature, unit }),
 	},
 	fog: {
-		icon: 'icon-fog',
 		text: (temperature, unit, later = false) => later
 			? t('weather_status', '{temperature} {unit} foggy later today', { temperature, unit })
 			: t('weather_status', '{temperature} {unit} foggy', { temperature, unit }),
 	},
 	lightrain: {
-		icon: 'icon-lightrain',
 		text: (temperature, unit, later = false) => later
 			? t('weather_status', '{temperature} {unit} light rainfall later today', { temperature, unit })
 			: t('weather_status', '{temperature} {unit} light rainfall', { temperature, unit }),
 	},
 	rain: {
-		icon: 'icon-rain',
 		text: (temperature, unit, later = false) => later
 			? t('weather_status', '{temperature} {unit} rainfall later today', { temperature, unit })
 			: t('weather_status', '{temperature} {unit} rainfall', { temperature, unit }),
 	},
 	heavyrain: {
-		icon: 'icon-heavyrain',
 		text: (temperature, unit, later = false) => later
 			? t('weather_status', '{temperature} {unit} heavy rainfall later today', { temperature, unit })
 			: t('weather_status', '{temperature} {unit} heavy rainfall', { temperature, unit }),
 	},
 	rainshowers_day: {
-		icon: 'icon-rainshowers-day',
 		text: (temperature, unit, later = false) => later
 			? t('weather_status', '{temperature} {unit} rainfall showers later today', { temperature, unit })
 			: t('weather_status', '{temperature} {unit} rainfall showers', { temperature, unit }),
 	},
 	rainshowers_night: {
-		icon: 'icon-rainshowers-night',
 		text: (temperature, unit, later = false) => later
 			? t('weather_status', '{temperature} {unit} rainfall showers later today', { temperature, unit })
 			: t('weather_status', '{temperature} {unit} rainfall showers', { temperature, unit }),
 	},
 	lightrainshowers_day: {
-		icon: 'icon-light-rainshowers-day',
 		text: (temperature, unit, later = false) => later
 			? t('weather_status', '{temperature} {unit} light rainfall showers later today', { temperature, unit })
 			: t('weather_status', '{temperature} {unit} light rainfall showers', { temperature, unit }),
 	},
 	lightrainshowers_night: {
-		icon: 'icon-light-rainshowers-night',
 		text: (temperature, unit, later = false) => later
 			? t('weather_status', '{temperature} {unit} light rainfall showers later today', { temperature, unit })
 			: t('weather_status', '{temperature} {unit} light rainfall showers', { temperature, unit }),
 	},
 	heavyrainshowers_day: {
-		icon: 'icon-heavy-rainshowers-day',
 		text: (temperature, unit, later = false) => later
 			? t('weather_status', '{temperature} {unit} heavy rainfall showers later today', { temperature, unit })
 			: t('weather_status', '{temperature} {unit} heavy rainfall showers', { temperature, unit }),
 	},
 	heavyrainshowers_night: {
-		icon: 'icon-heavy-rainshowers-night',
 		text: (temperature, unit, later = false) => later
 			? t('weather_status', '{temperature} {unit} heavy rainfall showers later today', { temperature, unit })
 			: t('weather_status', '{temperature} {unit} heavy rainfall showers', { temperature, unit }),
@@ -187,7 +242,6 @@ const weatherOptions = {
 export default {
 	name: 'App',
 	components: {
-		IconStar,
 		NcActions,
 		NcActionButton,
 		NcActionCaption,
@@ -195,9 +249,15 @@ export default {
 		NcActionLink,
 		NcActionSeparator,
 		NcActionText,
+		NcLoadingIcon,
+		NcIconSvgWrapper,
 	},
 	data() {
 		return {
+			crosshairsSvg,
+			mapMarkerSvg,
+			starSvg,
+			starOutlineSvg,
 			locale: getLocale(),
 			loading: true,
 			errorMessage: '',
@@ -234,11 +294,11 @@ export default {
 		futureWeatherCode() {
 			return this.getWeatherCode(this.forecasts, this.offset)
 		},
-		weatherIcon() {
-			return this.getWeatherIcon(this.weatherCode, this.loading)
+		weatherIconUrl() {
+			return this.getWeatherIconUrl(this.weatherCode)
 		},
-		futureWeatherIcon() {
-			return this.getWeatherIcon(this.futureWeatherCode, this.loading)
+		futureWeatherIconUrl() {
+			return this.getWeatherIconUrl(this.futureWeatherCode)
 		},
 		/**
 		 * The message displayed in the top right corner
@@ -250,15 +310,19 @@ export default {
 				return t('weather_status', 'Loading weather')
 			} else if (this.errorMessage) {
 				return this.errorMessage
-			} else {
+			} else if (this.gotWeather) {
 				return this.getWeatherMessage(this.weatherCode, this.temperature)
+			} else {
+				return t('weather_status', 'Set location for weather')
 			}
 		},
 		forecastMessage() {
 			if (this.loading) {
 				return t('weather_status', 'Loading weather')
-			} else {
+			} else if (this.gotWeather) {
 				return this.getWeatherMessage(this.futureWeatherCode, this.futureTemperature, true)
+			} else {
+				return t('weather_status', 'Set location for weather')
 			}
 		},
 		weatherLinkTarget() {
@@ -267,10 +331,10 @@ export default {
 		gotWeather() {
 			return this.address && !this.errorMessage
 		},
-		addRemoveFavoriteIcon() {
+		addRemoveFavoriteSvg() {
 			return this.currentAddressIsFavorite
-				? IconStar
-				: IconStarOutline
+				? starSvg
+				: starOutlineSvg
 		},
 		addRemoveFavoriteText() {
 			return this.currentAddressIsFavorite
@@ -479,14 +543,11 @@ export default {
 		getWeatherCode(forecasts, offset = 0) {
 			return forecasts.length > offset ? forecasts[offset].data.next_1_hours.summary.symbol_code : ''
 		},
-		getWeatherIcon(weatherCode, loading) {
-			if (loading) {
-				return 'icon-loading-small'
-			} else {
-				return 'icon-weather ' + (weatherCode && weatherCode in weatherOptions
-					? weatherOptions[weatherCode].icon
-					: 'icon-fair-day')
-			}
+		getWeatherIconUrl(weatherCode) {
+			// those icons were obtained there: https://github.com/metno/weathericons/tree/main/weather/svg
+			return (weatherCode && weatherCode in weatherOptions)
+				? imagePath('weather_status', 'met.no.icons/' + weatherCode + '.svg')
+				: imagePath('weather_status', 'met.no.icons/fair_day.svg')
 		},
 		getWeatherMessage(weatherCode, temperature, later = false) {
 			return weatherCode && weatherCode in weatherOptions
@@ -495,103 +556,27 @@ export default {
 					this.temperatureUnit,
 					later,
 				)
-				: t('weather_status', 'Set location for weather')
+				: t('weather_status', 'Unknown weather code')
 		},
 	},
 }
 </script>
 
 <style lang="scss">
-.icon-weather {
-	background-size: 16px;
+.weather-action-image-container {
+	width: var(--default-clickable-area);
+	height: var(--default-clickable-area);
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
-.icon-weather-status {
-	background-image: url('./../img/app-dark.svg');
-}
-.icon-clearsky-day {
-	background-image: url('./../img/sun.svg');
-}
-.icon-clearsky-night {
-	background-image: url('./../img/moon.svg');
-}
-.icon-cloudy {
-	background-image: url('./../img/cloud-cloud.svg');
-}
-.icon-fair-day {
-	background-image: url('./../img/sun-small-cloud.svg');
-}
-.icon-fair-night {
-	background-image: url('./../img/moon-small-cloud.svg');
-}
-.icon-partlycloudy-day {
-	background-image: url('./../img/sun-cloud.svg');
-}
-.icon-partlycloudy-night {
-	background-image: url('./../img/moon-cloud.svg');
-}
-.icon-fog {
-	background-image: url('./../img/fog.svg');
-}
-.icon-lightrain {
-	background-image: url('./../img/light-rain.svg');
-}
-.icon-rain {
-	background-image: url('./../img/rain.svg');
-}
-.icon-heavyrain {
-	background-image: url('./../img/heavy-rain.svg');
-}
-.icon-light-rainshowers-day {
-	background-image: url('./../img/sun-cloud-light-rain.svg');
-}
-.icon-light-rainshowers-night {
-	background-image: url('./../img/moon-cloud-light-rain.svg');
-}
-.icon-rainshowers-day {
-	background-image: url('./../img/sun-cloud-rain.svg');
-}
-.icon-rainshowers-night {
-	background-image: url('./../img/moon-cloud-rain.svg');
-}
-.icon-heavy-rainshowers-day {
-	background-image: url('./../img/sun-cloud-heavy-rain.svg');
-}
-.icon-heavy-rainshowers-night {
-	background-image: url('./../img/moon-cloud-heavy-rain.svg');
-}
-.icon-crosshair {
-    background-color: var(--color-main-text);
-    padding: 0 !important;
-    mask: url(./../img/cross.svg) no-repeat;
-    mask-size: 18px 18px;
-    mask-position: center;
-    -webkit-mask: url(./../img/cross.svg) no-repeat;
-    -webkit-mask-size: 18px 18px;
-    -webkit-mask-position: center;
-    min-width: 44px !important;
-    min-height: 44px !important;
+
+.weather-image {
+	width: calc(var(--default-clickable-area) - 2 * var(--default-grid-baseline));
 }
 
 // Set color to primary element for current / active favorite address
 .favorite-color {
 	color: var(--color-favorite);
-}
-
-.weather-status-menu-item__subheader {
-	width: 100%;
-
-	.trigger > .icon {
-		background-size: 16px;
-		border: 0;
-		border-radius: var(--border-radius-pill);
-		font-weight: normal;
-		padding-inline-start: 40px;
-
-		&.icon-loading-small {
-			&::after {
-				inset-inline-start: 21px;
-			}
-		}
-	}
 }
 </style>

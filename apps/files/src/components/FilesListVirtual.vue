@@ -12,7 +12,6 @@
 			isMtimeAvailable,
 			isSizeAvailable,
 			nodes,
-			filesListWidth,
 		}"
 		:scroll-to-index="scrollToIndex"
 		:caption="caption">
@@ -39,7 +38,7 @@
 		<template #header>
 			<!-- Table header and sort buttons -->
 			<FilesListTableHeader ref="thead"
-				:files-list-width="filesListWidth"
+				:files-list-width="fileListWidth"
 				:is-mtime-available="isMtimeAvailable"
 				:is-size-available="isSizeAvailable"
 				:nodes="nodes" />
@@ -48,7 +47,7 @@
 		<!-- Tfoot-->
 		<template #footer>
 			<FilesListTableFooter :current-view="currentView"
-				:files-list-width="filesListWidth"
+				:files-list-width="fileListWidth"
 				:is-mtime-available="isMtimeAvailable"
 				:is-size-available="isSizeAvailable"
 				:nodes="nodes"
@@ -58,32 +57,34 @@
 </template>
 
 <script lang="ts">
-import type { Node as NcNode } from '@nextcloud/files'
 import type { ComponentPublicInstance, PropType } from 'vue'
+import type { Node as NcNode } from '@nextcloud/files'
 import type { UserConfig } from '../types'
 
-import { getFileListHeaders, Folder, View, getFileActions, FileType } from '@nextcloud/files'
-import { showError } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
-import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { defineComponent } from 'vue'
+import { getFileListHeaders, Folder, Permission, View, getFileActions, FileType } from '@nextcloud/files'
+import { showError } from '@nextcloud/dialogs'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { translate as t } from '@nextcloud/l10n'
+import { useHotKey } from '@nextcloud/vue/dist/Composables/useHotKey.js'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
-import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { getSummaryFor } from '../utils/fileUtils'
+import { useActiveStore } from '../store/active.ts'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useSelectionStore } from '../store/selection.js'
 import { useUserConfigStore } from '../store/userconfig.ts'
 
 import FileEntry from './FileEntry.vue'
 import FileEntryGrid from './FileEntryGrid.vue'
+import FileListFilters from './FileListFilters.vue'
 import FilesListHeader from './FilesListHeader.vue'
 import FilesListTableFooter from './FilesListTableFooter.vue'
 import FilesListTableHeader from './FilesListTableHeader.vue'
-import filesListWidthMixin from '../mixins/filesListWidth.ts'
-import VirtualList from './VirtualList.vue'
-import logger from '../logger.ts'
 import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
-import FileListFilters from './FileListFilters.vue'
+import logger from '../logger.ts'
+import VirtualList from './VirtualList.vue'
 
 export default defineComponent({
 	name: 'FilesListVirtual',
@@ -96,10 +97,6 @@ export default defineComponent({
 		VirtualList,
 		FilesListTableHeaderActions,
 	},
-
-	mixins: [
-		filesListWidthMixin,
-	],
 
 	props: {
 		currentView: {
@@ -117,16 +114,24 @@ export default defineComponent({
 	},
 
 	setup() {
-		const userConfigStore = useUserConfigStore()
+		const activeStore = useActiveStore()
 		const selectionStore = useSelectionStore()
-		const { fileId, openFile } = useRouteParameters()
+		const userConfigStore = useUserConfigStore()
+
+		const fileListWidth = useFileListWidth()
+		const { fileId, openDetails, openFile } = useRouteParameters()
 
 		return {
 			fileId,
+			fileListWidth,
+			openDetails,
 			openFile,
 
-			userConfigStore,
+			activeStore,
 			selectionStore,
+			userConfigStore,
+
+			t,
 		}
 	},
 
@@ -151,14 +156,14 @@ export default defineComponent({
 
 		isMtimeAvailable() {
 			// Hide mtime column on narrow screens
-			if (this.filesListWidth < 768) {
+			if (this.fileListWidth < 768) {
 				return false
 			}
 			return this.nodes.some(node => node.mtime !== undefined)
 		},
 		isSizeAvailable() {
 			// Hide size column on narrow screens
-			if (this.filesListWidth < 768) {
+			if (this.fileListWidth < 768) {
 				return false
 			}
 			return this.nodes.some(node => node.size !== undefined)
@@ -172,12 +177,28 @@ export default defineComponent({
 			return [...this.headers].sort((a, b) => a.order - b.order)
 		},
 
+		cantUpload() {
+			return this.currentFolder && (this.currentFolder.permissions & Permission.CREATE) === 0
+		},
+
+		isQuotaExceeded() {
+			return this.currentFolder?.attributes?.['quota-available-bytes'] === 0
+		},
+
 		caption() {
 			const defaultCaption = t('files', 'List of files and folders.')
 			const viewCaption = this.currentView.caption || defaultCaption
+			const cantUploadCaption = this.cantUpload ? t('files', 'You don’t have permission to upload or create files here.') : null
+			const quotaExceededCaption = this.isQuotaExceeded ? t('files', 'You have used your space quota and cannot upload files anymore.') : null
 			const sortableCaption = t('files', 'Column headers with buttons are sortable.')
 			const virtualListNote = t('files', 'This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.')
-			return `${viewCaption}\n${sortableCaption}\n${virtualListNote}`
+			return [
+				viewCaption,
+				cantUploadCaption,
+				quotaExceededCaption,
+				sortableCaption,
+				virtualListNote,
+			].filter(Boolean).join('\n')
 		},
 
 		selectedNodes() {
@@ -201,12 +222,20 @@ export default defineComponent({
 			handler() {
 				// wait for scrolling and updating the actions to settle
 				this.$nextTick(() => {
-					if (this.fileId) {
-						if (this.openFile) {
-							this.handleOpenFile(this.fileId)
-						} else {
-							this.unselectFile()
-						}
+					if (this.fileId && this.openFile) {
+						this.handleOpenFile(this.fileId)
+					}
+				})
+			},
+			immediate: true,
+		},
+
+		openDetails: {
+			handler() {
+				// wait for scrolling and updating the actions to settle
+				this.$nextTick(() => {
+					if (this.fileId && this.openDetails) {
+						this.openSidebarForFile(this.fileId)
 					}
 				})
 			},
@@ -214,59 +243,84 @@ export default defineComponent({
 		},
 	},
 
+	created() {
+		useHotKey('Escape', this.unselectFile, {
+			stop: true,
+			prevent: true,
+		})
+
+		useHotKey(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'], this.onKeyDown, {
+			stop: true,
+			prevent: true,
+		})
+	},
+
 	mounted() {
 		// Add events on parent to cover both the table and DragAndDrop notice
 		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
 		mainContent.addEventListener('dragover', this.onDragOver)
-
-		subscribe('files:sidebar:closed', this.unselectFile)
-
-		// If the file list is mounted with a fileId specified
-		// then we need to open the sidebar initially
-		if (this.fileId) {
-			this.openSidebarForFile(this.fileId)
-		}
+		subscribe('files:sidebar:closed', this.onSidebarClosed)
 	},
 
 	beforeDestroy() {
 		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
 		mainContent.removeEventListener('dragover', this.onDragOver)
-
-		unsubscribe('files:sidebar:closed', this.unselectFile)
+		unsubscribe('files:sidebar:closed', this.onSidebarClosed)
 	},
 
 	methods: {
-		// Open the file sidebar if we have the room for it
-		// but don't open the sidebar for the current folder
 		openSidebarForFile(fileId) {
-			if (document.documentElement.clientWidth > 1024 && this.currentFolder.fileid !== fileId) {
-				// Open the sidebar for the given URL fileid
-				// iif we just loaded the app.
-				const node = this.nodes.find(n => n.fileid === fileId) as NcNode
-				if (node && sidebarAction?.enabled?.([node], this.currentView)) {
-					logger.debug('Opening sidebar on file ' + node.path, { node })
-					sidebarAction.exec(node, this.currentView, this.currentFolder.path)
-				}
+			// Open the sidebar for the given URL fileid
+			// iif we just loaded the app.
+			const node = this.nodes.find(n => n.fileid === fileId) as NcNode
+			if (node && sidebarAction?.enabled?.([node], this.currentView)) {
+				logger.debug('Opening sidebar on file ' + node.path, { node })
+				sidebarAction.exec(node, this.currentView, this.currentFolder.path)
 			}
 		},
 
 		scrollToFile(fileId: number|null, warn = true) {
 			if (fileId) {
+				// Do not uselessly scroll to the top of the list.
+				if (fileId === this.currentFolder.fileid) {
+					return
+				}
+
 				const index = this.nodes.findIndex(node => node.fileid === fileId)
 				if (warn && index === -1 && fileId !== this.currentFolder.fileid) {
-					showError(this.t('files', 'File not found'))
+					showError(t('files', 'File not found'))
 				}
+
 				this.scrollToIndex = Math.max(0, index)
 			}
 		},
 
+		/**
+		 * Unselect the current file and clear open parameters from the URL
+		 */
 		unselectFile() {
-			// If the Sidebar is closed and if openFile is false, remove the file id from the URL
-			if (!this.openFile && OCA.Files.Sidebar.file === '') {
+			const query = { ...this.$route.query }
+			delete query.openfile
+			delete query.opendetails
+
+			this.activeStore.clearActiveNode()
+			window.OCP.Files.Router.goToRoute(
+				null,
+				{ ...this.$route.params, fileid: String(this.currentFolder.fileid ?? '') },
+				query,
+				true,
+			)
+		},
+
+		// When sidebar is closed, we remove the openDetails parameter from the URL
+		onSidebarClosed() {
+			if (this.openDetails) {
+				const query = { ...this.$route.query }
+				delete query.opendetails
 				window.OCP.Files.Router.goToRoute(
 					null,
-					{ ...this.$route.params, fileid: String(this.currentFolder.fileid ?? '') },
-					this.$route.query,
+					this.$route.params,
+					query,
 				)
 			}
 		},
@@ -329,7 +383,58 @@ export default defineComponent({
 			}
 		},
 
-		t,
+		onKeyDown(event: KeyboardEvent) {
+			// Up and down arrow keys
+			if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+				const columnCount = this.$refs.table?.columnCount ?? 1
+				const index = this.nodes.findIndex(node => node.fileid === this.fileId) ?? 0
+				const nextIndex = event.key === 'ArrowUp' ? index - columnCount : index + columnCount
+				if (nextIndex < 0 || nextIndex >= this.nodes.length) {
+					return
+				}
+
+				const nextNode = this.nodes[nextIndex]
+
+				if (nextNode && nextNode?.fileid) {
+					this.setActiveNode(nextNode)
+				}
+			}
+
+			// if grid mode, left and right arrow keys
+			if (this.userConfig.grid_view && (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
+				const index = this.nodes.findIndex(node => node.fileid === this.fileId) ?? 0
+				const nextIndex = event.key === 'ArrowLeft' ? index - 1 : index + 1
+				if (nextIndex < 0 || nextIndex >= this.nodes.length) {
+					return
+				}
+
+				const nextNode = this.nodes[nextIndex]
+
+				if (nextNode && nextNode?.fileid) {
+					this.setActiveNode(nextNode)
+				}
+			}
+		},
+
+		setActiveNode(node: NcNode & { fileid: number }) {
+			logger.debug('Navigating to file ' + node.path, { node, fileid: node.fileid })
+			this.scrollToFile(node.fileid)
+
+			// Remove openfile and opendetails from the URL
+			const query = { ...this.$route.query }
+			delete query.openfile
+			delete query.opendetails
+
+			this.activeStore.setActiveNode(node)
+
+			// Silent update of the URL
+			window.OCP.Files.Router.goToRoute(
+				null,
+				{ ...this.$route.params, fileid: String(node.fileid) },
+				query,
+				true,
+			)
+		},
 	},
 })
 </script>
@@ -345,7 +450,6 @@ export default defineComponent({
 	--icon-preview-size: 32px;
 
 	--fixed-block-start-position: var(--default-clickable-area);
-
 	overflow: auto;
 	height: 100%;
 	will-change: scroll-position;
@@ -448,7 +552,6 @@ export default defineComponent({
 			display: flex;
 			align-items: center;
 			width: 100%;
-			user-select: none;
 			border-block-end: 1px solid var(--color-border);
 			box-sizing: border-box;
 			user-select: none;
@@ -759,7 +862,6 @@ tbody.files-list__tbody.files-list__tbody--grid {
 	--row-width: calc(var(--icon-preview-size) + var(--item-padding) * 2);
 	--row-height: calc(var(--icon-preview-size) + var(--name-height) + var(--mtime-height) + var(--item-padding) * 2);
 	--checkbox-padding: 0px;
-
 	display: grid;
 	grid-template-columns: repeat(auto-fill, var(--row-width));
 
@@ -782,8 +884,8 @@ tbody.files-list__tbody.files-list__tbody--grid {
 	.files-list__row-checkbox {
 		position: absolute;
 		z-index: 9;
-		top: calc(var(--item-padding)/2);
-		inset-inline-start: calc(var(--item-padding)/2);
+		top: calc(var(--item-padding) / 2);
+		inset-inline-start: calc(var(--item-padding) / 2);
 		overflow: hidden;
 		--checkbox-container-size: 44px;
 		width: var(--checkbox-container-size);

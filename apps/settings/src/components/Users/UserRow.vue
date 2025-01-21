@@ -229,6 +229,12 @@
 			</template>
 		</td>
 
+		<td v-if="showConfig.showFirstLogin"
+			class="row__cell"
+			data-cy-user-list-cell-first-login>
+			<span v-if="!isObfuscated">{{ userFirstLogin }}</span>
+		</td>
+
 		<td v-if="showConfig.showLastLogin"
 			:title="userLastLoginTooltip"
 			class="row__cell"
@@ -907,10 +913,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './shared/styles.scss';
+@use './shared/styles';
 
 .user-list__row {
-	@include row;
+	@include styles.row;
 
 	&:hover {
 		background-color: var(--color-background-hover);
@@ -927,7 +933,7 @@ export default {
 }
 
 .row {
-	@include cell;
+	@include styles.cell;
 
 	&__cell {
 		border-bottom: 1px solid var(--color-border);

@@ -65,7 +65,6 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Ubicación incorrecta, el archivo/carpeta no existe",
     "Could not create share" : "no fue posible crear el elemento compartido",
     "Invalid permissions" : "Permisos inválidos",
-    "Invalid date, date format must be YYYY-MM-DD" : "La fecha es inválida, favor de seguir el formato AAAA-MM-DD",
     "Please specify a valid account to share with" : "Por favor especifique una cuenta válida para compartir",
     "Group sharing is disabled by the administrator" : "Compartir en grupos está deshabilitado por el administrador",
     "Please specify a valid group" : "Favor de especificar un grupo valido",
@@ -86,7 +85,6 @@ OC.L10N.register(
     "no sharing rights on this item" : "sin permisos de compartir en este elemento",
     "You are not allowed to edit incoming shares" : "Usted no está autorizado para editar recursos compartidos entrantes",
     "Wrong or no update parameter given" : "El parametro de actualización esta erróneo o faltante",
-    "You are not allowed to edit link shares that you don't own" : "Usted no está autorizado para editar links de recursos compartidos que no le pertenecen",
     "Share must at least have READ or CREATE permissions" : "El recurso compartido debe tener al menos el permiso de LECTURA o CREACIÓN",
     "Share must have READ permission if UPDATE or DELETE permission is set" : "El recurso compartido debe tener el permiso de LECTURA si el permiso de ACTUALIZAR o ELIMINAR está configurado",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Enviar la contraseña por Nextcloud Talk\" para compartir un archivo o carpeta falló porque Nextcloud Talk no está habilitado.",
@@ -155,6 +153,7 @@ OC.L10N.register(
     "Guest" : "Invitado",
     "Group" : "Grupo",
     "Email" : "Correo electrónico",
+    "Note:" : "Nota:",
     "File drop" : "Entrega de archivos",
     "Terms of service" : "Términos de servicio",
     "Allow upload and editing" : "Permitir cargar y editar",
@@ -213,6 +212,7 @@ OC.L10N.register(
     "the item was removed" : "el elemento fue eliminado",
     "the link expired" : "el link expiró",
     "sharing is disabled" : "compartir está deshabilitado",
-    "For more info, please ask the person who sent this link." : "Para mayores informes, contacte a la persona que le envió este link."
+    "For more info, please ask the person who sent this link." : "Para mayores informes, contacte a la persona que le envió este link.",
+    "You are not allowed to edit link shares that you don't own" : "Usted no está autorizado para editar links de recursos compartidos que no le pertenecen"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

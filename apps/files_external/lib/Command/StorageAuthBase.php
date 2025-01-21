@@ -52,7 +52,7 @@ abstract class StorageAuthBase extends Base {
 	protected function createStorage(InputInterface $input, OutputInterface $output): array {
 		try {
 			/** @var StorageConfig|null $mount */
-			$mount = $this->globalService->getStorage($input->getArgument('mount_id'));
+			$mount = $this->globalService->getStorage((int)$input->getArgument('mount_id'));
 		} catch (NotFoundException $e) {
 			$output->writeln('<error>Mount not found</error>');
 			return [null, null];

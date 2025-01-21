@@ -13,10 +13,12 @@ use OCA\DAV\AppInfo\Application;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
+use OCP\App\IAppManager;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidPathException;
+use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IL10N;
@@ -24,6 +26,7 @@ use OCP\IRequest;
 use OCP\L10N\IFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use OCP\Server;
 use OCP\Share\IManager as IShareManager;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\BadRequest;
@@ -33,23 +36,26 @@ use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\IFile;
 use Sabre\DAV\INode;
 
-class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota, \Sabre\DAV\IMoveTarget, \Sabre\DAV\ICopyTarget {
+class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota, \Sabre\DAV\IMoveTarget, \Sabre\DAV\ICopyTarget {
 	/**
 	 * Cached directory content
-	 * @var \OCP\Files\FileInfo[]
+	 * @var FileInfo[]
 	 */
 	private ?array $dirContent = null;
 
 	/** Cached quota info */
 	private ?array $quotaInfo = null;
-	private ?CachingTree $tree = null;
 
 	/**
 	 * Sets up the node, expects a full path name
 	 */
-	public function __construct(View $view, FileInfo $info, ?CachingTree $tree = null, ?IShareManager $shareManager = null) {
+	public function __construct(
+		View $view,
+		FileInfo $info,
+		private ?CachingTree $tree = null,
+		?IShareManager $shareManager = null,
+	) {
 		parent::__construct($view, $info, $shareManager);
-		$this->tree = $tree;
 	}
 
 	/**
@@ -101,7 +107,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 					'type' => FileInfo::TYPE_FILE
 				], null);
 			}
-			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info);
+			$node = new File($this->fileView, $info);
 
 			// only allow 1 process to upload a file at once but still allow reading the file while writing the part file
 			$node->acquireLock(ILockingProvider::LOCK_SHARED);
@@ -112,7 +118,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 			$this->fileView->unlockFile($path . '.upload.part', ILockingProvider::LOCK_EXCLUSIVE);
 			$node->releaseLock(ILockingProvider::LOCK_SHARED);
 			return $result;
-		} catch (\OCP\Files\StorageNotAvailableException $e) {
+		} catch (StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage(), $e->getCode(), $e);
 		} catch (InvalidPathException $ex) {
 			throw new InvalidPath($ex->getMessage(), false, $ex);
@@ -143,7 +149,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 			if (!$this->fileView->mkdir($newPath)) {
 				throw new \Sabre\DAV\Exception\Forbidden('Could not create directory ' . $newPath);
 			}
-		} catch (\OCP\Files\StorageNotAvailableException $e) {
+		} catch (StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage(), 0, $e);
 		} catch (InvalidPathException $ex) {
 			throw new InvalidPath($ex->getMessage(), false, $ex);
@@ -158,7 +164,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 	 * Returns a specific child node, referenced by its name
 	 *
 	 * @param string $name
-	 * @param \OCP\Files\FileInfo $info
+	 * @param FileInfo $info
 	 * @return \Sabre\DAV\INode
 	 * @throws InvalidPath
 	 * @throws \Sabre\DAV\Exception\NotFound
@@ -175,7 +181,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 			try {
 				$this->fileView->verifyPath($this->path, $name, true);
 				$info = $this->fileView->getFileInfo($path);
-			} catch (\OCP\Files\StorageNotAvailableException $e) {
+			} catch (StorageNotAvailableException $e) {
 				throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage(), 0, $e);
 			} catch (InvalidPathException $ex) {
 				throw new InvalidPath($ex->getMessage(), false, $ex);
@@ -191,7 +197,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 		if ($info->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
 			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this->tree, $this->shareManager);
 		} else {
-			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info, $this->shareManager, $request, $l10n);
+			$node = new File($this->fileView, $info, $this->shareManager, $request, $l10n);
 		}
 		if ($this->tree) {
 			$this->tree->cacheNode($node);
@@ -204,7 +210,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 	 *
 	 * @return \Sabre\DAV\INode[]
 	 * @throws \Sabre\DAV\Exception\Locked
-	 * @throws \OCA\DAV\Connector\Sabre\Exception\Forbidden
+	 * @throws Forbidden
 	 */
 	public function getChildren() {
 		if (!is_null($this->dirContent)) {
@@ -214,7 +220,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 			if (!$this->info->isReadable()) {
 				// return 403 instead of 404 because a 404 would make
 				// the caller believe that the collection itself does not exist
-				if (\OCP\Server::get(\OCP\App\IAppManager::class)->isInstalled('files_accesscontrol')) {
+				if (Server::get(IAppManager::class)->isInstalled('files_accesscontrol')) {
 					throw new Forbidden('No read permissions. This might be caused by files_accesscontrol, check your configured rules');
 				} else {
 					throw new Forbidden('No read permissions');
@@ -300,8 +306,8 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 
 		try {
 			$storageInfo = \OC_Helper::getStorageInfo($relativePath, $this->info, false);
-			if ($storageInfo['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
-				$free = \OCP\Files\FileInfo::SPACE_UNLIMITED;
+			if ($storageInfo['quota'] === FileInfo::SPACE_UNLIMITED) {
+				$free = FileInfo::SPACE_UNLIMITED;
 			} else {
 				$free = $storageInfo['free'];
 			}
@@ -310,10 +316,10 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 				$free
 			];
 			return $this->quotaInfo;
-		} catch (\OCP\Files\NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			$this->getLogger()->warning('error while getting quota into', ['exception' => $e]);
 			return [0, 0];
-		} catch (\OCP\Files\StorageNotAvailableException $e) {
+		} catch (StorageNotAvailableException $e) {
 			$this->getLogger()->warning('error while getting quota into', ['exception' => $e]);
 			return [0, 0];
 		} catch (NotPermittedException $e) {
@@ -355,10 +361,6 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 				return false;
 			}
 			throw new BadRequest('Incompatible node types');
-		}
-
-		if (!$this->fileView) {
-			throw new ServiceUnavailable('filesystem not setup');
 		}
 
 		$destinationPath = $this->getPath() . '/' . $targetName;
@@ -445,7 +447,13 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 					throw new InvalidPath($ex->getMessage());
 				}
 
-				return $this->fileView->copy($sourcePath, $destinationPath);
+				$copyOkay = $this->fileView->copy($sourcePath, $destinationPath);
+
+				if (!$copyOkay) {
+					throw new \Sabre\DAV\Exception\Forbidden('Copy did not proceed');
+				}
+
+				return true;
 			} catch (StorageNotAvailableException $e) {
 				throw new ServiceUnavailable($e->getMessage(), $e->getCode(), $e);
 			} catch (ForbiddenException $ex) {

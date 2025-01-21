@@ -18,47 +18,21 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 abstract class Base implements IProvider {
-	/** @var IFactory */
-	protected $languageFactory;
-
 	/** @var IL10N */
 	protected $l;
-
-	/** @var IURLGenerator */
-	protected $url;
-
-	/** @var IManager */
-	protected $activityManager;
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IEventMerger */
-	protected $eventMerger;
-
-	/** @var IContactsManager */
-	protected $contactsManager;
-
-	/** @var ICloudIdManager */
-	protected $cloudIdManager;
 
 	/** @var array */
 	protected $displayNames = [];
 
-	public function __construct(IFactory $languageFactory,
-		IURLGenerator $url,
-		IManager $activityManager,
-		IUserManager $userManager,
-		ICloudIdManager $cloudIdManager,
-		IContactsManager $contactsManager,
-		IEventMerger $eventMerger) {
-		$this->languageFactory = $languageFactory;
-		$this->url = $url;
-		$this->activityManager = $activityManager;
-		$this->userManager = $userManager;
-		$this->cloudIdManager = $cloudIdManager;
-		$this->contactsManager = $contactsManager;
-		$this->eventMerger = $eventMerger;
+	public function __construct(
+		protected IFactory $languageFactory,
+		protected IURLGenerator $url,
+		protected IManager $activityManager,
+		protected IUserManager $userManager,
+		protected ICloudIdManager $cloudIdManager,
+		protected IContactsManager $contactsManager,
+		protected IEventMerger $eventMerger,
+	) {
 	}
 
 	/**
@@ -122,9 +96,8 @@ abstract class Base implements IProvider {
 			$path = reset($parameter);
 			$id = (string)key($parameter);
 		} elseif ($event !== null) {
-			// Legacy from before ownCloud 8.2
 			$path = $parameter;
-			$id = $event->getObjectId();
+			$id = (string)$event->getObjectId();
 		} else {
 			throw new \InvalidArgumentException('Could not generate file parameter');
 		}

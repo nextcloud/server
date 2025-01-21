@@ -10,7 +10,6 @@ namespace OCA\DAV\BackgroundJob;
 
 use OC\User\NoUserException;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\TimedJob;
 use OCP\Files\File;
@@ -20,19 +19,17 @@ use OCP\Files\NotFoundException;
 use Psr\Log\LoggerInterface;
 
 class UploadCleanup extends TimedJob {
-	private IRootFolder $rootFolder;
-	private IJobList $jobList;
-	private LoggerInterface $logger;
-
-	public function __construct(ITimeFactory $time, IRootFolder $rootFolder, IJobList $jobList, LoggerInterface $logger) {
+	public function __construct(
+		ITimeFactory $time,
+		private IRootFolder $rootFolder,
+		private IJobList $jobList,
+		private LoggerInterface $logger,
+	) {
 		parent::__construct($time);
-		$this->rootFolder = $rootFolder;
-		$this->jobList = $jobList;
-		$this->logger = $logger;
 
 		// Run once a day
 		$this->setInterval(60 * 60 * 24);
-		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 	protected function run($argument) {

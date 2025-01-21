@@ -16,10 +16,10 @@ use Test\TestCase;
 class DummyWrapper extends Wrapper {
 	public $data;
 
-	public function __construct($arguments) {
-		parent::__construct($arguments);
-		if (isset($arguments['data'])) {
-			$this->data = $arguments['data'];
+	public function __construct(array $parameters) {
+		parent::__construct($parameters);
+		if (isset($parameters['data'])) {
+			$this->data = $parameters['data'];
 		}
 	}
 }

@@ -17,11 +17,9 @@ use OCP\User\Events\UserLoggedInEvent;
 
 /** @template-implements IEventListener<PasswordUpdatedEvent|UserLoggedInEvent> */
 class StorePasswordListener implements IEventListener {
-	/** @var ICredentialsManager */
-	private $credentialsManager;
-
-	public function __construct(ICredentialsManager $credentialsManager) {
-		$this->credentialsManager = $credentialsManager;
+	public function __construct(
+		private ICredentialsManager $credentialsManager,
+	) {
 	}
 
 	public function handle(Event $event): void {

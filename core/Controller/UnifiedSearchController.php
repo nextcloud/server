@@ -45,7 +45,7 @@ class UnifiedSearchController extends OCSController {
 	 * Get the providers for unified search
 	 *
 	 * @param string $from the url the user is currently at
-	 * @return DataResponse<Http::STATUS_OK, CoreUnifiedSearchProvider[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<CoreUnifiedSearchProvider>, array{}>
 	 *
 	 * 200: Providers returned
 	 */

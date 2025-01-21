@@ -36,7 +36,6 @@
 			<FileEntryName ref="name"
 				:basename="basename"
 				:extension="extension"
-				:files-list-width="filesListWidth"
 				:nodes="nodes"
 				:source="source"
 				@auxclick.native="execDefaultAction"
@@ -47,8 +46,6 @@
 		<FileEntryActions v-show="!isRenamingSmallScreen"
 			ref="actions"
 			:class="`files-list__row-actions-${uniqueId}`"
-			:files-list-width="filesListWidth"
-			:loading.sync="loading"
 			:opened.sync="openedMenu"
 			:source="source" />
 
@@ -67,13 +64,14 @@
 			class="files-list__row-mtime"
 			data-cy-files-list-row-mtime
 			@click="openDetailsIfAvailable">
-			<NcDateTime v-if="source.mtime" :timestamp="source.mtime" :ignore-seconds="true" />
+			<NcDateTime v-if="mtime" :timestamp="mtime" :ignore-seconds="true" />
+			<span v-else>{{ t('files', 'Unknown date') }}</span>
 		</td>
 
 		<!-- View columns -->
 		<td v-for="column in columns"
 			:key="column.id"
-			:class="`files-list__row-${currentView?.id}-${column.id}`"
+			:class="`files-list__row-${currentView.id}-${column.id}`"
 			class="files-list__row-column-custom"
 			:data-cy-files-list-row-column-custom="column.id"
 			@click="openDetailsIfAvailable">
@@ -87,9 +85,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { formatFileSize } from '@nextcloud/files'
+import { useHotKey } from '@nextcloud/vue/dist/Composables/useHotKey.js'
 import moment from '@nextcloud/moment'
+import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 
 import { useNavigation } from '../composables/useNavigation.ts'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
@@ -97,11 +98,10 @@ import { useFilesStore } from '../store/files.ts'
 import { useRenamingStore } from '../store/renaming.ts'
 import { useSelectionStore } from '../store/selection.ts'
 
-import FileEntryMixin from './FileEntryMixin.ts'
-import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import CustomElementRender from './CustomElementRender.vue'
 import FileEntryActions from './FileEntry/FileEntryActions.vue'
 import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
+import FileEntryMixin from './FileEntryMixin.ts'
 import FileEntryName from './FileEntry/FileEntryName.vue'
 import FileEntryPreview from './FileEntry/FileEntryPreview.vue'
 
@@ -134,7 +134,9 @@ export default defineComponent({
 		const filesStore = useFilesStore()
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
-		const { currentView } = useNavigation()
+		const filesListWidth = useFileListWidth()
+		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
+		const { currentView } = useNavigation(true)
 		const {
 			directory: currentDir,
 			fileId: currentFileId,
@@ -150,6 +152,7 @@ export default defineComponent({
 			currentDir,
 			currentFileId,
 			currentView,
+			filesListWidth,
 		}
 	},
 
@@ -179,7 +182,7 @@ export default defineComponent({
 			if (this.filesListWidth < 512 || this.compact) {
 				return []
 			}
-			return this.currentView?.columns || []
+			return this.currentView.columns || []
 		},
 
 		size() {
@@ -204,6 +207,19 @@ export default defineComponent({
 			}
 		},
 
+		mtime() {
+			// If the mtime is not a valid date, return it as is
+			if (this.source.mtime && !isNaN(this.source.mtime.getDate())) {
+				return this.source.mtime
+			}
+
+			if (this.source.crtime && !isNaN(this.source.crtime.getDate())) {
+				return this.source.crtime
+			}
+
+			return null
+		},
+
 		mtimeTitle() {
 			if (this.source.mtime) {
 				return moment(this.source.mtime).format('LLL')
@@ -212,8 +228,24 @@ export default defineComponent({
 		},
 	},
 
+	created() {
+		useHotKey('Enter', this.triggerDefaultAction, {
+			stop: true,
+			prevent: true,
+		})
+	},
+
 	methods: {
 		formatFileSize,
+
+		triggerDefaultAction() {
+			// Don't react to the event if the file row is not active
+			if (!this.isActive) {
+				return
+			}
+
+			this.defaultFileAction?.exec(this.source, this.currentView, this.currentDir)
+		},
 	},
 })
 </script>

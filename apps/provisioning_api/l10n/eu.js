@@ -11,7 +11,7 @@ OC.L10N.register(
     "Cannot create sub-admins for admin group" : "Ezin da azpi-administratzailerik sortu administratzaile taldearentzat",
     "No permissions to promote sub-admins" : "Ez duzu baimenik azpi-administratzaileak mailaz igotzeko",
     "Invalid password value" : "Pasahitz baliogabea",
-    "To send a password link to the user an email address is required." : "Pasahitza ",
+    "An email address is required, to send a password link to the user." : "Helbide elektroniko bat behar da erabiltzaileari pasahitz-esteka bat bidaltzeko.",
     "Required email address was not provided" : "Beharrezkoa den helbide elektronikoa falta da",
     "Invalid quota value: %1$s" : "Kuota baliogabea: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "Kuota baliogabea. %1$s kuota maximotik gain dago",

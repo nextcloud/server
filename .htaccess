@@ -15,11 +15,18 @@
 
   <IfModule mod_env.c>
     # Add security and privacy related headers
-
     # Avoid doubled headers by unsetting headers in "onsuccess" table,
     # then add headers to "always" table: https://github.com/nextcloud/server/pull/19002
-    Header onsuccess unset Referrer-Policy
-    Header always set Referrer-Policy "no-referrer"
+
+    <If "%{REQUEST_URI} =~ m#/login$#">
+      # Only on the login page we need any Origin or Referer header set.
+      Header onsuccess unset Referrer-Policy
+      Header always set Referrer-Policy "same-origin"
+    </If>
+    <Else>
+      Header onsuccess unset Referrer-Policy
+      Header always set Referrer-Policy "no-referrer"
+    </Else>
 
     Header onsuccess unset X-Content-Type-Options
     Header always set X-Content-Type-Options "nosniff"
@@ -103,7 +110,7 @@
 #  - https://docs.cyberduck.io/mountainduck/issues/fastcgi/
 #  - https://docs.nextcloud.com/server/latest/admin_manual/issues/general_troubleshooting.html#troubleshooting-webdav
 <IfModule mod_setenvif.c>
-  SetEnvIf Transfer-Encoding "chunked" proxy-sendcl=1
+  SetEnvIfNoCase Transfer-Encoding "chunked" proxy-sendcl=1
 </IfModule>
 
 # Apache disabled the sending of the server-side content-length header

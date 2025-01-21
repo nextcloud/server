@@ -39,6 +39,9 @@ class APIController extends OCSController {
 		'bruteforcesettings' => 25,
 		'suspicious_login' => 25,
 		'twofactor_totp' => 25,
+		'files_downloadlimit' => 29,
+		'twofactor_nextcloud_notification' => 30,
+		'app_api' => 30,
 	];
 
 	public function __construct(
@@ -59,7 +62,7 @@ class APIController extends OCSController {
 	 *
 	 * @param string $newVersion Server version to check updates for
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{missing: UpdateNotificationApp[], available: UpdateNotificationApp[]}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{appstore_disabled: bool, already_on_latest?: bool}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{missing: list<UpdateNotificationApp>, available: list<UpdateNotificationApp>}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{appstore_disabled: bool, already_on_latest?: bool}, array{}>
 	 *
 	 * 200: Apps returned
 	 * 404: New versions not found

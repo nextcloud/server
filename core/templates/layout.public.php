@@ -9,8 +9,9 @@
 <head data-requesttoken="<?php p($_['requesttoken']); ?>">
 	<meta charset="utf-8">
 	<title>
-		<?php
-			p(!empty($_['application']) ? $_['application'] . ' - ' : '');
+	<?php
+				p(!empty($_['pageTitle']) && $_['pageTitle'] !== $_['application'] ? $_['pageTitle'] . ' - ' : '');
+p(!empty($_['application']) ? $_['application'] . ' - ' : '');
 p($theme->getTitle());
 ?>
 	</title>
@@ -35,7 +36,9 @@ p($theme->getTitle());
 	<?php emit_script_loading_tags($_); ?>
 	<?php print_unescaped($_['headers']); ?>
 </head>
-<body id="<?php p($_['bodyid']);?>">
+<body id="<?php p($_['bodyid']);?>" <?php foreach ($_['enabledThemes'] as $themeId) {
+	p("data-theme-$themeId ");
+}?> data-themes="<?php p(join(',', $_['enabledThemes'])) ?>">
 	<?php include('layout.noscript.warning.php'); ?>
 	<?php include('layout.initial-state.php'); ?>
 	<div id="skip-actions">
@@ -77,17 +80,18 @@ p($theme->getTitle());
 		</div>
 	</header>
 
-	<main id="content" class="app-<?php p($_['appid']) ?>">
+	<div id="content" class="app-<?php p($_['appid']) ?>">
 		<h1 class="hidden-visually">
 			<?php
-			if (isset($template) && $template->getHeaderTitle() !== '') {
-				p($template->getHeaderTitle());
-			} else {
-				p($theme->getName());
-			} ?>
+		if (isset($template) && $template->getHeaderTitle() !== '') {
+			p($template->getHeaderTitle());
+		} else {
+			p($theme->getName());
+		} ?>
 		</h1>
 		<?php print_unescaped($_['content']); ?>
-	</main>
+	</div>
+
 	<?php if (isset($template) && $template->getFooterVisible() && ($theme->getLongFooter() !== '' || $_['showSimpleSignUpLink'])) { ?>
 	<footer>
 		<p><?php print_unescaped($theme->getLongFooter()); ?></p>

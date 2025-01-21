@@ -19,16 +19,20 @@ use Sabre\Xml\Writer;
  */
 class SystemTagList implements Element {
 	public const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
+	private array $canAssignTagMap = [];
 
-	/** @var ISystemTag[] */
-	private array $tags;
-	private ISystemTagManager $tagManager;
-	private IUser $user;
-
-	public function __construct(array $tags, ISystemTagManager $tagManager, IUser $user) {
+	/**
+	 * @param ISystemTag[] $tags
+	 */
+	public function __construct(
+		private array $tags,
+		ISystemTagManager $tagManager,
+		?IUser $user,
+	) {
 		$this->tags = $tags;
-		$this->tagManager = $tagManager;
-		$this->user = $user;
+		foreach ($this->tags as $tag) {
+			$this->canAssignTagMap[$tag->getId()] = $tagManager->canUserAssignTag($tag, $user);
+		}
 	}
 
 	/**
@@ -46,10 +50,11 @@ class SystemTagList implements Element {
 		foreach ($this->tags as $tag) {
 			$writer->startElement('{' . self::NS_NEXTCLOUD . '}system-tag');
 			$writer->writeAttributes([
-				SystemTagPlugin::CANASSIGN_PROPERTYNAME => $this->tagManager->canUserAssignTag($tag, $this->user) ? 'true' : 'false',
+				SystemTagPlugin::CANASSIGN_PROPERTYNAME => $this->canAssignTagMap[$tag->getId()] ? 'true' : 'false',
 				SystemTagPlugin::ID_PROPERTYNAME => $tag->getId(),
 				SystemTagPlugin::USERASSIGNABLE_PROPERTYNAME => $tag->isUserAssignable() ? 'true' : 'false',
 				SystemTagPlugin::USERVISIBLE_PROPERTYNAME => $tag->isUserVisible() ? 'true' : 'false',
+				SystemTagPlugin::COLOR_PROPERTYNAME => $tag->getColor() ?? '',
 			]);
 			$writer->write($tag->getName());
 			$writer->endElement();

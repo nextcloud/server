@@ -72,10 +72,6 @@ OC.L10N.register(
     "Description: %s" : "Descripción: %s",
     "Where: %s" : "Lugar: %s",
     "%1$s via %2$s" : "%1$s vía %2$s",
-    "In a %1$s on %2$s for the entire day" : "En un(a) %1$s el %2$s todo el día",
-    "In a %1$s on %2$s between %3$s - %4$s" : "En un(a) %1$s el %2$s entre las %3$s - %4$s",
-    "In %1$s %2$s on %3$s for the entire day" : "En %1$s %2$s el %3$s todo el día",
-    "In %1$s %2$s on %3$s between %4$s - %5$s" : "En %1$s %2$s el %3$s entre las %4$s - %5$s",
     "Could not generate when statement" : "No se pudo generar la declaración de cuándo",
     "Every Day for the entire day" : "Cada día todo el día",
     "Every Day for the entire day until %1$s" : "Cada día todo el día hasta el %1$s",
@@ -172,7 +168,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "No se pudo renombrar el archivo parcial al archivo final, cancelado por el sistema",
     "Could not rename part file to final file" : "No se pudo renombrar el archivo parcial al archivo final",
     "Failed to check file size: %1$s" : "No se pudo verificar el tamaño del archivo: %1$s",
-    "Could not open file" : "No se pudo abrir el archivo",
     "Encryption not ready: %1$s" : "El cifrado no está listo: %1$s",
     "Failed to open file: %1$s" : "No se pudo abrir el archivo: %1$s",
     "Failed to unlink: %1$s" : "No se pudo desenlazar: %1$s",
@@ -248,8 +243,13 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Su asistencia se actualizó correctamente.",
     "To-dos" : "Tareas pendientes",
     "Time:" : "Hora:",
+    "Could not open file" : "No se pudo abrir el archivo",
     "Invalid chunk name" : "Nombre de fragmento inválido",
     "Could not rename part file assembled from chunks" : "No se pudo renombrar el archivo parcial ensamblado por fragmentos",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configura sus horas laborales, otros usuarios verán cuándo está fuera de la oficina cuando agenden una reunión."
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configura sus horas laborales, otros usuarios verán cuándo está fuera de la oficina cuando agenden una reunión.",
+    "In a %1$s on %2$s for the entire day" : "En un(a) %1$s el %2$s todo el día",
+    "In a %1$s on %2$s between %3$s - %4$s" : "En un(a) %1$s el %2$s entre las %3$s - %4$s",
+    "In %1$s %2$s on %3$s for the entire day" : "En %1$s %2$s el %3$s todo el día",
+    "In %1$s %2$s on %3$s between %4$s - %5$s" : "En %1$s %2$s el %3$s entre las %4$s - %5$s"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

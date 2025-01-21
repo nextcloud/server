@@ -200,10 +200,6 @@ class AppManager implements IAppManager {
 		return array_keys($appsForUser);
 	}
 
-	/**
-	 * @param IGroup $group
-	 * @return array
-	 */
 	public function getEnabledAppsForGroup(IGroup $group): array {
 		$apps = $this->getInstalledAppsValues();
 		$appsForGroups = array_filter($apps, function ($enabled) use ($group) {
@@ -304,10 +300,6 @@ class AppManager implements IAppManager {
 		return $this->autoDisabledApps;
 	}
 
-	/**
-	 * @param string $appId
-	 * @return array
-	 */
 	public function getAppRestriction(string $appId): array {
 		$values = $this->getInstalledAppsValues();
 
@@ -320,7 +312,6 @@ class AppManager implements IAppManager {
 		}
 		return json_decode($values[$appId], true);
 	}
-
 
 	/**
 	 * Check if an app is enabled for user
@@ -410,12 +401,25 @@ class AppManager implements IAppManager {
 		return isset($installedApps[$appId]);
 	}
 
-	public function ignoreNextcloudRequirementForApp(string $appId): void {
+	/**
+	 * Overwrite the `max-version` requirement for this app.
+	 */
+	public function overwriteNextcloudRequirement(string $appId): void {
 		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
 		if (!in_array($appId, $ignoreMaxApps, true)) {
 			$ignoreMaxApps[] = $appId;
-			$this->config->setSystemValue('app_install_overwrite', $ignoreMaxApps);
 		}
+		$this->config->setSystemValue('app_install_overwrite', $ignoreMaxApps);
+	}
+
+	/**
+	 * Remove the `max-version` overwrite for this app.
+	 * This means this app now again can not be enabled if the `max-version` is smaller than the current Nextcloud version.
+	 */
+	public function removeOverwriteNextcloudRequirement(string $appId): void {
+		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
+		$ignoreMaxApps = array_filter($ignoreMaxApps, fn (string $id) => $id !== $appId);
+		$this->config->setSystemValue('app_install_overwrite', $ignoreMaxApps);
 	}
 
 	public function loadApp(string $app): void {
@@ -573,7 +577,7 @@ class AppManager implements IAppManager {
 		$this->getAppPath($appId);
 
 		if ($forceEnable) {
-			$this->ignoreNextcloudRequirementForApp($appId);
+			$this->overwriteNextcloudRequirement($appId);
 		}
 
 		$this->installedAppsCache[$appId] = 'yes';
@@ -619,7 +623,7 @@ class AppManager implements IAppManager {
 		}
 
 		if ($forceEnable) {
-			$this->ignoreNextcloudRequirementForApp($appId);
+			$this->overwriteNextcloudRequirement($appId);
 		}
 
 		/** @var string[] $groupIds */
@@ -646,7 +650,7 @@ class AppManager implements IAppManager {
 	 * @param bool $automaticDisabled
 	 * @throws \Exception if app can't be disabled
 	 */
-	public function disableApp($appId, $automaticDisabled = false) {
+	public function disableApp($appId, $automaticDisabled = false): void {
 		if ($this->isAlwaysEnabled($appId)) {
 			throw new \Exception("$appId can't be disabled.");
 		}
@@ -706,7 +710,7 @@ class AppManager implements IAppManager {
 	/**
 	 * Clear the cached list of apps when enabling/disabling an app
 	 */
-	public function clearAppsCache() {
+	public function clearAppsCache(): void {
 		$this->appInfos = [];
 	}
 
@@ -744,28 +748,37 @@ class AppManager implements IAppManager {
 	 */
 	public function getAppInfo(string $appId, bool $path = false, $lang = null) {
 		if ($path) {
-			$file = $appId;
-		} else {
-			if ($lang === null && isset($this->appInfos[$appId])) {
-				return $this->appInfos[$appId];
-			}
-			try {
-				$appPath = $this->getAppPath($appId);
-			} catch (AppPathNotFoundException $e) {
-				return null;
-			}
-			$file = $appPath . '/appinfo/info.xml';
+			throw new \InvalidArgumentException('Calling IAppManager::getAppInfo() with a path is no longer supported. Please call IAppManager::getAppInfoByPath() instead and verify that the path is good before calling.');
 		}
-
-		$parser = new InfoParser($this->memCacheFactory->createLocal('core.appinfo'));
-		$data = $parser->parse($file);
-
-		if (is_array($data)) {
-			$data = \OC_App::parseAppInfo($data, $lang);
+		if ($lang === null && isset($this->appInfos[$appId])) {
+			return $this->appInfos[$appId];
 		}
+		try {
+			$appPath = $this->getAppPath($appId);
+		} catch (AppPathNotFoundException) {
+			return null;
+		}
+		$file = $appPath . '/appinfo/info.xml';
+
+		$data = $this->getAppInfoByPath($file, $lang);
 
 		if ($lang === null) {
 			$this->appInfos[$appId] = $data;
+		}
+
+		return $data;
+	}
+
+	public function getAppInfoByPath(string $path, ?string $lang = null): ?array {
+		if (!str_ends_with($path, '/appinfo/info.xml')) {
+			return null;
+		}
+
+		$parser = new InfoParser($this->memCacheFactory->createLocal('core.appinfo'));
+		$data = $parser->parse($path);
+
+		if (is_array($data)) {
+			$data = \OC_App::parseAppInfo($data, $lang);
 		}
 
 		return $data;

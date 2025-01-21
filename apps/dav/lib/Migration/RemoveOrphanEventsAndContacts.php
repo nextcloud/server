@@ -16,11 +16,9 @@ use OCP\Migration\IRepairStep;
 
 class RemoveOrphanEventsAndContacts implements IRepairStep {
 
-	/** @var IDBConnection */
-	private $connection;
-
-	public function __construct(IDBConnection $connection) {
-		$this->connection = $connection;
+	public function __construct(
+		private IDBConnection $connection,
+	) {
 	}
 
 	/**
@@ -67,7 +65,7 @@ class RemoveOrphanEventsAndContacts implements IRepairStep {
 			$qb->andWhere($qb->expr()->eq('c.calendartype', $qb->createNamedParameter($calendarType, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT));
 		}
 
-		$result = $qb->execute();
+		$result = $qb->executeQuery();
 
 		$orphanItems = [];
 		while ($row = $result->fetch()) {
@@ -82,7 +80,7 @@ class RemoveOrphanEventsAndContacts implements IRepairStep {
 			$orphanItemsBatch = array_chunk($orphanItems, 200);
 			foreach ($orphanItemsBatch as $items) {
 				$qb->setParameter('ids', $items, IQueryBuilder::PARAM_INT_ARRAY);
-				$qb->execute();
+				$qb->executeStatement();
 			}
 		}
 

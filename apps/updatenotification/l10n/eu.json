@@ -1,5 +1,4 @@
 { "translations": {
-    "{version} is available. Get more information on how to update." : "{version} eskuragarri dago. Lortu informazio gehiago eguneraketa nola egiteari buruz.",
     "Channel updated" : "Kanala eguneratuta",
     "Web updater is disabled" : "Web eguneratzailea desgaituta dago",
     "App updated" : "Aplikazioa eguneratuta dago",
@@ -55,6 +54,7 @@
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["Aplikazio <strong>%n</strong>ek ez du Nextcloud bertsio honetarako bertsio bateragarririk erabilgarri.","<strong>%n</strong>palikaziok ez dute Nextcloud bertsio honetarako bertsio bateragarririk erabilgarri."],
     "Changelog for app {app}" : "{app} aplikazioaren aldaketen egunkaria",
     "What's new in {app} version {version}" : "Zer da berri {app} {version} bertsioan",
+    "{version} is available. Get more information on how to update." : "{version} eskuragarri dago. Lortu informazio gehiago eguneraketa nola egiteari buruz.",
     "Update to %1$s is available." : "%1$s-ra eguneratzea eskuragarri dago.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Nextcloud eguneratzeko jakinarazpenak erakusten ditu eta SSO-a eskaintzen dio eguneratzaileari.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Kontuan izan web eguneratzailea ez dela gomendatzen 100 erabiltzaile baino gehiagorekin! Mesedez, erabili komando-lerroko eguneratzailea horren ordez!",

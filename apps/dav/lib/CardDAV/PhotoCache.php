@@ -10,6 +10,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\Image;
 use Psr\Log\LoggerInterface;
 use Sabre\CardDAV\Card;
 use Sabre\VObject\Document;
@@ -25,17 +26,16 @@ class PhotoCache {
 		'image/jpeg' => 'jpg',
 		'image/gif' => 'gif',
 		'image/vnd.microsoft.icon' => 'ico',
+		'image/webp' => 'webp',
 	];
-
-	protected IAppData $appData;
-	protected LoggerInterface $logger;
 
 	/**
 	 * PhotoCache constructor.
 	 */
-	public function __construct(IAppData $appData, LoggerInterface $logger) {
-		$this->appData = $appData;
-		$this->logger = $logger;
+	public function __construct(
+		protected IAppData $appData,
+		protected LoggerInterface $logger,
+	) {
 	}
 
 	/**
@@ -109,7 +109,7 @@ class PhotoCache {
 				throw new NotFoundException;
 			}
 
-			$photo = new \OCP\Image();
+			$photo = new Image();
 			/** @var ISimpleFile $file */
 			$file = $folder->getFile('photo.' . $ext);
 			$photo->loadFromData($file->getContent());

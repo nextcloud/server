@@ -19,7 +19,8 @@
 			"": "lib/private/legacy",
 			"OC\\": "lib/private",
 			"OC\\Core\\": "core/",
-			"OCP\\": "lib/public"
+			"OCP\\": "lib/public",
+			"NCU\\": "lib/unstable"
 		}
 	},
 	"require": {
@@ -59,7 +60,9 @@
 		"cs:check": "php-cs-fixer fix --dry-run --diff",
 		"lint": "find . -name \\*.php -not -path './lib/composer/*' -not -path './build/stubs/*' -print0 | xargs -0 -n1 php -l",
 		"psalm": "psalm --no-cache --threads=$(nproc)",
-		"psalm:ci": "psalm --no-cache --threads=1",
+		"psalm:ocp": "psalm --no-cache --threads=$(nproc) -c psalm-ocp.xml",
+		"psalm:ncu": "psalm --no-cache --threads=$(nproc) -c psalm-ncu.xml",
+		"psalm:security": "psalm --no-cache --threads=$(nproc) --taint-analysis --use-baseline=build/psalm-baseline-security.xml",
 		"psalm:update-baseline": "psalm --no-cache --threads=$(nproc) --update-baseline",
 		"serve": [
 			"Composer\\Config::disableProcessTimeout",
@@ -67,7 +70,8 @@
 		],
 		"test": "phpunit --configuration tests/phpunit-autotest.xml",
 		"test:db": "@composer run test -- --group DB,SLOWDB",
-		"test:files_external": "phpunit --configuration tests/phpunit-autotest-external.xml"
+		"test:files_external": "phpunit --configuration tests/phpunit-autotest-external.xml",
+		"rector": "rector --config=build/rector.php && composer cs:fix"
 	},
 	"extra": {
 		"bamarni-bin": {

@@ -8,7 +8,6 @@
 namespace OCA\User_LDAP\User;
 
 use OCA\User_LDAP\Access;
-use OCA\User_LDAP\FilesystemHelper;
 use OCP\Cache\CappedMemoryCache;
 use OCP\IAvatarManager;
 use OCP\IConfig;
@@ -27,40 +26,23 @@ use Psr\Log\LoggerInterface;
  */
 class Manager {
 	protected ?Access $access = null;
-	protected IConfig $ocConfig;
 	protected IDBConnection $db;
-	protected IUserManager $userManager;
-	protected INotificationManager $notificationManager;
-	protected FilesystemHelper $ocFilesystem;
-	protected LoggerInterface $logger;
-	protected Image $image;
-	protected IAvatarManager $avatarManager;
 	/** @var CappedMemoryCache<User> $usersByDN */
 	protected CappedMemoryCache $usersByDN;
 	/** @var CappedMemoryCache<User> $usersByUid */
 	protected CappedMemoryCache $usersByUid;
-	private IManager $shareManager;
 
 	public function __construct(
-		IConfig $ocConfig,
-		FilesystemHelper $ocFilesystem,
-		LoggerInterface $logger,
-		IAvatarManager $avatarManager,
-		Image $image,
-		IUserManager $userManager,
-		INotificationManager $notificationManager,
-		IManager $shareManager,
+		protected IConfig $ocConfig,
+		protected LoggerInterface $logger,
+		protected IAvatarManager $avatarManager,
+		protected Image $image,
+		protected IUserManager $userManager,
+		protected INotificationManager $notificationManager,
+		private IManager $shareManager,
 	) {
-		$this->ocConfig = $ocConfig;
-		$this->ocFilesystem = $ocFilesystem;
-		$this->logger = $logger;
-		$this->avatarManager = $avatarManager;
-		$this->image = $image;
-		$this->userManager = $userManager;
-		$this->notificationManager = $notificationManager;
 		$this->usersByDN = new CappedMemoryCache();
 		$this->usersByUid = new CappedMemoryCache();
-		$this->shareManager = $shareManager;
 	}
 
 	/**
@@ -77,12 +59,12 @@ class Manager {
 	 * property array
 	 * @param string $dn the DN of the user
 	 * @param string $uid the internal (owncloud) username
-	 * @return \OCA\User_LDAP\User\User
+	 * @return User
 	 */
 	private function createAndCache($dn, $uid) {
 		$this->checkAccess();
 		$user = new User($uid, $dn, $this->access, $this->ocConfig,
-			$this->ocFilesystem, clone $this->image, $this->logger,
+			clone $this->image, $this->logger,
 			$this->avatarManager, $this->userManager,
 			$this->notificationManager);
 		$this->usersByDN[$dn] = $user;
@@ -188,7 +170,7 @@ class Manager {
 	/**
 	 * creates and returns an instance of OfflineUser for the specified user
 	 * @param string $id
-	 * @return \OCA\User_LDAP\User\OfflineUser
+	 * @return OfflineUser
 	 */
 	public function getDeletedUser($id) {
 		return new OfflineUser(
@@ -202,7 +184,7 @@ class Manager {
 	/**
 	 * @brief returns a User object by its Nextcloud username
 	 * @param string $id the DN or username of the user
-	 * @return \OCA\User_LDAP\User\User|\OCA\User_LDAP\User\OfflineUser|null
+	 * @return User|OfflineUser|null
 	 */
 	protected function createInstancyByUserName($id) {
 		//most likely a uid. Check whether it is a deleted user
@@ -219,7 +201,7 @@ class Manager {
 	/**
 	 * @brief returns a User object by its DN or Nextcloud username
 	 * @param string $id the DN or username of the user
-	 * @return \OCA\User_LDAP\User\User|\OCA\User_LDAP\User\OfflineUser|null
+	 * @return User|OfflineUser|null
 	 * @throws \Exception when connection could not be established
 	 */
 	public function get($id) {

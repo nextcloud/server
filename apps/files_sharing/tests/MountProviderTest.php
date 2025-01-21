@@ -7,6 +7,7 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Memcache\NullCache;
+use OC\Share20\Share;
 use OCA\Files_Sharing\MountProvider;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
@@ -165,7 +166,7 @@ class MountProviderTest extends \Test\TestCase {
 		$this->shareManager->expects($this->any())
 			->method('newShare')
 			->willReturnCallback(function () use ($rootFolder, $userManager) {
-				return new \OC\Share20\Share($rootFolder, $userManager);
+				return new Share($rootFolder, $userManager);
 			});
 		$mounts = $this->provider->getMountsForUser($this->user, $this->loader);
 		$this->assertCount(4, $mounts);
@@ -386,7 +387,7 @@ class MountProviderTest extends \Test\TestCase {
 		$this->shareManager->expects($this->any())
 			->method('newShare')
 			->willReturnCallback(function () use ($rootFolder, $userManager) {
-				return new \OC\Share20\Share($rootFolder, $userManager);
+				return new Share($rootFolder, $userManager);
 			});
 
 		if ($moveFails) {

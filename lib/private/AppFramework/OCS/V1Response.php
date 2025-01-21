@@ -11,17 +11,17 @@ use OCP\AppFramework\OCSController;
 
 /**
  * @psalm-import-type DataResponseType from DataResponse
- * @template S of int
+ * @template S of Http::STATUS_*
  * @template-covariant T of DataResponseType
  * @template H of array<string, mixed>
- * @template-extends BaseResponse<int, DataResponseType, array<string, mixed>>
+ * @template-extends BaseResponse<Http::STATUS_*, DataResponseType, array<string, mixed>>
  */
 class V1Response extends BaseResponse {
 	/**
 	 * The V1 endpoint has very limited http status codes basically everything
 	 * is status 200 except 401
 	 *
-	 * @return int
+	 * @return Http::STATUS_*
 	 */
 	public function getStatus() {
 		$status = parent::getStatus();

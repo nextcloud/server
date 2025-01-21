@@ -12,9 +12,9 @@ use OCP\IUserManager;
 
 class ApplicableTest extends CommandTest {
 	private function getInstance($storageService) {
-		/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject $userManager */
+		/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject $userManager */
 		$userManager = $this->createMock(IUserManager::class);
-		/** @var \OCP\IGroupManager|\PHPUnit\Framework\MockObject\MockObject $groupManager */
+		/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject $groupManager */
 		$groupManager = $this->createMock(IGroupManager::class);
 
 		$userManager->expects($this->any())

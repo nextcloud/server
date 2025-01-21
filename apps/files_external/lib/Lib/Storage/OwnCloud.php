@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_External\Lib\Storage;
 
+use OC\Files\Storage\DAV;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use Sabre\DAV\Client;
 
@@ -16,20 +17,20 @@ use Sabre\DAV\Client;
  * http://%host/%context/remote.php/webdav/%root
  *
  */
-class OwnCloud extends \OC\Files\Storage\DAV implements IDisableEncryptionStorage {
+class OwnCloud extends DAV implements IDisableEncryptionStorage {
 	public const OC_URL_SUFFIX = 'remote.php/webdav';
 
-	public function __construct($params) {
+	public function __construct(array $parameters) {
 		// extract context path from host if specified
 		// (owncloud install path on host)
-		$host = $params['host'];
+		$host = $parameters['host'];
 		// strip protocol
 		if (substr($host, 0, 8) === 'https://') {
 			$host = substr($host, 8);
-			$params['secure'] = true;
+			$parameters['secure'] = true;
 		} elseif (substr($host, 0, 7) === 'http://') {
 			$host = substr($host, 7);
-			$params['secure'] = false;
+			$parameters['secure'] = false;
 		}
 		$contextPath = '';
 		$hostSlashPos = strpos($host, '/');
@@ -42,20 +43,20 @@ class OwnCloud extends \OC\Files\Storage\DAV implements IDisableEncryptionStorag
 			$contextPath .= '/';
 		}
 
-		if (isset($params['root'])) {
-			$root = '/' . ltrim($params['root'], '/');
+		if (isset($parameters['root'])) {
+			$root = '/' . ltrim($parameters['root'], '/');
 		} else {
 			$root = '/';
 		}
 
-		$params['host'] = $host;
-		$params['root'] = $contextPath . self::OC_URL_SUFFIX . $root;
-		$params['authType'] = Client::AUTH_BASIC;
+		$parameters['host'] = $host;
+		$parameters['root'] = $contextPath . self::OC_URL_SUFFIX . $root;
+		$parameters['authType'] = Client::AUTH_BASIC;
 
-		parent::__construct($params);
+		parent::__construct($parameters);
 	}
 
-	public function needsPartFile() {
+	public function needsPartFile(): bool {
 		return false;
 	}
 }

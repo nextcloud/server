@@ -17,12 +17,19 @@
 		@closing="handleClosing"
 		@closed="handleClosed">
 		<template v-if="fileInfo" #subname>
-			<NcIconSvgWrapper v-if="fileInfo.isFavourited"
-				:path="mdiStar"
-				:name="t('files', 'Favorite')"
-				inline />
-			{{ size }}
-			<NcDateTime :timestamp="fileInfo.mtime" />
+			<div class="sidebar__subname">
+				<NcIconSvgWrapper v-if="fileInfo.isFavourited"
+					:path="mdiStar"
+					:name="t('files', 'Favorite')"
+					inline />
+				<span>{{ size }}</span>
+				<span class="sidebar__subname-separator">•</span>
+				<NcDateTime :timestamp="fileInfo.mtime" />
+				<span class="sidebar__subname-separator">•</span>
+				<span>{{ t('files', 'Owner') }}</span>
+				<NcUserBubble :user="ownerId"
+					:display-name="nodeOwnerLabel" />
+			</div>
 		</template>
 
 		<!-- TODO: create a standard to allow multiple elements here? -->
@@ -96,6 +103,7 @@ import { encodePath } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
 import { ShareType } from '@nextcloud/sharing'
 import { mdiStar, mdiStarOutline } from '@mdi/js'
+import { fetchNode } from '../services/WebdavClient.ts'
 import axios from '@nextcloud/axios'
 import $ from 'jquery'
 
@@ -104,6 +112,7 @@ import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcUserBubble from '@nextcloud/vue/dist/Components/NcUserBubble.js'
 
 import FileInfo from '../services/FileInfo.js'
 import LegacyView from '../components/LegacyView.vue'
@@ -123,6 +132,7 @@ export default {
 		NcIconSvgWrapper,
 		SidebarTab,
 		SystemTags,
+		NcUserBubble,
 	},
 
 	setup() {
@@ -146,6 +156,7 @@ export default {
 			error: null,
 			loading: true,
 			fileInfo: null,
+			node: null,
 			isFullScreen: false,
 			hasLowHeight: false,
 		}
@@ -187,7 +198,7 @@ export default {
 		 * @return {string}
 		 */
 		davPath() {
-			return `${davRemoteURL}/${davRootPath}${encodePath(this.file)}`
+			return `${davRemoteURL}${davRootPath}${encodePath(this.file)}`
 		},
 
 		/**
@@ -234,8 +245,8 @@ export default {
 					},
 					compact: this.hasLowHeight || !this.fileInfo.hasPreview || this.isFullScreen,
 					loading: this.loading,
-					name: this.fileInfo.name,
-					title: this.fileInfo.name,
+					name: this.node?.displayname ?? this.fileInfo.name,
+					title: this.node?.displayname ?? this.fileInfo.name,
 				}
 			} else if (this.error) {
 				return {
@@ -286,6 +297,25 @@ export default {
 
 		isSystemTagsEnabled() {
 			return getCapabilities()?.systemtags?.enabled === true
+		},
+		ownerId() {
+			return this.node?.attributes?.['owner-id'] ?? this.currentUser.uid
+		},
+		currentUserIsOwner() {
+			return this.ownerId === this.currentUser.uid
+		},
+		nodeOwnerLabel() {
+			let ownerDisplayName = this.node?.attributes?.['owner-display-name']
+			if (this.currentUserIsOwner) {
+				ownerDisplayName = `${ownerDisplayName} (${t('files', 'You')})`
+			}
+			return ownerDisplayName
+		},
+		sharedMultipleTimes() {
+			if (Array.isArray(node.attributes?.['share-types']) && node.attributes?.['share-types'].length > 1) {
+				return t('files', 'Shared multiple times with different people')
+			}
+			return null
 		},
 	},
 	created() {
@@ -457,7 +487,8 @@ export default {
 			this.loading = true
 
 			try {
-				this.fileInfo = await FileInfo(this.davPath)
+				this.node = await fetchNode({ path: this.file })
+				this.fileInfo = FileInfo(this.node)
 				// adding this as fallback because other apps expect it
 				this.fileInfo.dir = this.file.split('/').slice(0, -1).join('/')
 
@@ -581,7 +612,7 @@ export default {
 	}
 
 	.svg-icon {
-		::v-deep svg {
+		:deep(svg) {
 			width: 20px;
 			height: 20px;
 			fill: currentColor;
@@ -589,10 +620,25 @@ export default {
 	}
 }
 
-.sidebar__description {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	gap: 8px 0;
+.sidebar__subname {
+  display: flex;
+  align-items: center;
+  gap: 0 8px;
+
+  &-separator {
+    display: inline-block;
+    font-weight: bold !important;
+  }
+
+  .user-bubble__wrapper {
+	display: inline-flex;
+  }
 }
+
+.sidebar__description {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		gap: 8px 0;
+	}
 </style>

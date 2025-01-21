@@ -34,7 +34,8 @@ type FileSharingCapabilities = {
 		},
 		send_mail: boolean,
 		upload: boolean,
-		upload_files_drop: boolean
+		upload_files_drop: boolean,
+		custom_tokens: boolean,
 	},
 	resharing: boolean,
 	user: {
@@ -296,6 +297,13 @@ export default class Config {
 	 */
 	get passwordPolicy(): PasswordPolicyCapabilities {
 		return this._capabilities?.password_policy || {}
+	}
+
+	/**
+	 * Returns true if custom tokens are allowed
+	 */
+	get allowCustomTokens(): boolean {
+		return this._capabilities?.files_sharing?.public?.custom_tokens
 	}
 
 }

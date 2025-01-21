@@ -1238,7 +1238,7 @@ class User_LDAPTest extends TestCase {
 
 
 	public function testSetPasswordInvalid(): void {
-		$this->expectException(\OCP\HintException::class);
+		$this->expectException(HintException::class);
 		$this->expectExceptionMessage('Password fails quality checking policy');
 
 		$this->prepareAccessForSetPassword($this->access);
@@ -1383,7 +1383,7 @@ class User_LDAPTest extends TestCase {
 
 
 	public function testSetDisplayNameErrorWithPlugin(): void {
-		$this->expectException(\OCP\HintException::class);
+		$this->expectException(HintException::class);
 
 		$newDisplayName = 'J. Baker';
 		$this->pluginManager->expects($this->once())

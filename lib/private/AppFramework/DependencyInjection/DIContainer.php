@@ -23,6 +23,7 @@ use OC\Diagnostics\EventLogger;
 use OC\Log\PsrLoggerAdapter;
 use OC\ServerContainer;
 use OC\Settings\AuthorizedGroupMapper;
+use OC\User\Manager as UserManager;
 use OCA\WorkflowEngine\Manager;
 use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\IAppContainer;
@@ -251,6 +252,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 					$c->get(ITimeFactory::class),
 					$c->get(\OC\Authentication\Token\IProvider::class),
 					$c->get(LoggerInterface::class),
+					$c->get(IRequest::class),
+					$c->get(UserManager::class),
 				)
 			);
 			$dispatcher->registerMiddleware(

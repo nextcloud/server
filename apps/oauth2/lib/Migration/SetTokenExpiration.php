@@ -18,21 +18,11 @@ use OCP\Migration\IRepairStep;
 
 class SetTokenExpiration implements IRepairStep {
 
-	/** @var IDBConnection */
-	private $connection;
-
-	/** @var ITimeFactory */
-	private $time;
-
-	/** @var TokenProvider */
-	private $tokenProvider;
-
-	public function __construct(IDBConnection $connection,
-		ITimeFactory $timeFactory,
-		TokenProvider $tokenProvider) {
-		$this->connection = $connection;
-		$this->time = $timeFactory;
-		$this->tokenProvider = $tokenProvider;
+	public function __construct(
+		private IDBConnection $connection,
+		private ITimeFactory $time,
+		private TokenProvider $tokenProvider,
+	) {
 	}
 
 	public function getName(): string {
@@ -44,7 +34,7 @@ class SetTokenExpiration implements IRepairStep {
 		$qb->select('*')
 			->from('oauth2_access_tokens');
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 
 		while ($row = $cursor->fetch()) {
 			$token = AccessToken::fromRow($row);

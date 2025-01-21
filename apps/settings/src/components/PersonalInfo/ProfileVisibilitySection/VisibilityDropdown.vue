@@ -142,7 +142,7 @@ export default {
 		pointer-events: none;
 
 		& *,
-		&::v-deep * {
+		&:deep(*) {
 			cursor: default;
 			pointer-events: none;
 		}

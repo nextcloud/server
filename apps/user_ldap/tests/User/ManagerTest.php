@@ -9,7 +9,6 @@ namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
-use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\User;
@@ -35,9 +34,6 @@ class ManagerTest extends \Test\TestCase {
 
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-
-	/** @var FilesystemHelper|\PHPUnit\Framework\MockObject\MockObject */
-	protected $fileSystemHelper;
 
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
@@ -73,7 +69,6 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->access = $this->createMock(Access::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->fileSystemHelper = $this->createMock(FilesystemHelper::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->avatarManager = $this->createMock(IAvatarManager::class);
 		$this->image = $this->createMock(Image::class);
@@ -91,7 +86,6 @@ class ManagerTest extends \Test\TestCase {
 		/** @noinspection PhpUnhandledExceptionInspection */
 		$this->manager = new Manager(
 			$this->config,
-			$this->fileSystemHelper,
 			$this->logger,
 			$this->avatarManager,
 			$this->image,

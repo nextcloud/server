@@ -61,6 +61,7 @@ jobs:
           - 'federation_features'
           - '--tags ~@large files_features'
           - 'filesdrop_features'
+          - 'file_conversions'
           - 'openldap_features'
           - 'openldap_numerical_features'
           - 'ldap_features'
@@ -91,13 +92,13 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           submodules: true
 
       - name: Checkout Talk app
         if: ${{ matrix.test-suite == 'videoverification_features' }}
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           repository: nextcloud/spreed
           path: apps/spreed

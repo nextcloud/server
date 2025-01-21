@@ -19,24 +19,20 @@ use OCP\IL10N;
  * To bypass use the `@NoSubAdminRequired` annotation
  */
 class SubadminMiddleware extends Middleware {
-	/** @var bool */
-	protected $isSubAdmin;
 	/** @var ControllerMethodReflector */
 	protected $reflector;
-	/** @var IL10N */
-	private $l10n;
 
 	/**
 	 * @param ControllerMethodReflector $reflector
 	 * @param bool $isSubAdmin
 	 * @param IL10N $l10n
 	 */
-	public function __construct(ControllerMethodReflector $reflector,
-		$isSubAdmin,
-		IL10N $l10n) {
+	public function __construct(
+		ControllerMethodReflector $reflector,
+		protected $isSubAdmin,
+		private IL10N $l10n,
+	) {
 		$this->reflector = $reflector;
-		$this->isSubAdmin = $isSubAdmin;
-		$this->l10n = $l10n;
 	}
 
 	/**

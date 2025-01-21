@@ -42,6 +42,7 @@ OC.L10N.register(
     "Public" : "Offentlig",
     "Restricted" : "Begrænset",
     "Invisible" : "Usynlig",
+    "Cancel" : "Annullér",
     "Failed to load tags" : "Kunne ikke indlæse tags.",
     "Open in Files" : "Åben i Filer",
     "No tags found" : "Ingen tags fundet",

@@ -13,6 +13,11 @@ return array(
     'OCA\\SystemTags\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\SystemTags\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
     'OCA\\SystemTags\\Controller\\LastUsedController' => $baseDir . '/../lib/Controller/LastUsedController.php',
+    'OCA\\SystemTags\\Listeners\\BeforeSabrePubliclyLoadedListener' => $baseDir . '/../lib/Listeners/BeforeSabrePubliclyLoadedListener.php',
+    'OCA\\SystemTags\\Listeners\\BeforeTemplateRenderedListener' => $baseDir . '/../lib/Listeners/BeforeTemplateRenderedListener.php',
+    'OCA\\SystemTags\\Listeners\\LoadAdditionalScriptsListener' => $baseDir . '/../lib/Listeners/LoadAdditionalScriptsListener.php',
+    'OCA\\SystemTags\\Migration\\Version31000Date20241018063111' => $baseDir . '/../lib/Migration/Version31000Date20241018063111.php',
+    'OCA\\SystemTags\\Migration\\Version31000Date20241114171300' => $baseDir . '/../lib/Migration/Version31000Date20241114171300.php',
     'OCA\\SystemTags\\Search\\TagSearchProvider' => $baseDir . '/../lib/Search/TagSearchProvider.php',
     'OCA\\SystemTags\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
 );

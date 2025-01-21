@@ -538,7 +538,10 @@
                     "output",
                     "customId",
                     "completionExpectedAt",
-                    "progress"
+                    "progress",
+                    "scheduledAt",
+                    "startedAt",
+                    "endedAt"
                 ],
                 "properties": {
                     "id": {
@@ -590,6 +593,21 @@
                         "type": "number",
                         "format": "double",
                         "nullable": true
+                    },
+                    "scheduledAt": {
+                        "type": "integer",
+                        "format": "int64",
+                        "nullable": true
+                    },
+                    "startedAt": {
+                        "type": "integer",
+                        "format": "int64",
+                        "nullable": true
+                    },
+                    "endedAt": {
+                        "type": "integer",
+                        "format": "int64",
+                        "nullable": true
                     }
                 }
             },
@@ -617,14 +635,14 @@
                         "type": "string"
                     },
                     "inputShape": {
-                        "type": "array",
-                        "items": {
+                        "type": "object",
+                        "additionalProperties": {
                             "$ref": "#/components/schemas/TaskProcessingShape"
                         }
                     },
                     "inputShapeEnumValues": {
-                        "type": "array",
-                        "items": {
+                        "type": "object",
+                        "additionalProperties": {
                             "type": "array",
                             "items": {
                                 "type": "object",
@@ -657,14 +675,14 @@
                         }
                     },
                     "optionalInputShape": {
-                        "type": "array",
-                        "items": {
+                        "type": "object",
+                        "additionalProperties": {
                             "$ref": "#/components/schemas/TaskProcessingShape"
                         }
                     },
                     "optionalInputShapeEnumValues": {
-                        "type": "array",
-                        "items": {
+                        "type": "object",
+                        "additionalProperties": {
                             "type": "array",
                             "items": {
                                 "type": "object",
@@ -697,14 +715,14 @@
                         }
                     },
                     "outputShape": {
-                        "type": "array",
-                        "items": {
+                        "type": "object",
+                        "additionalProperties": {
                             "$ref": "#/components/schemas/TaskProcessingShape"
                         }
                     },
                     "outputShapeEnumValues": {
-                        "type": "array",
-                        "items": {
+                        "type": "object",
+                        "additionalProperties": {
                             "type": "array",
                             "items": {
                                 "type": "object",
@@ -724,14 +742,14 @@
                         }
                     },
                     "optionalOutputShape": {
-                        "type": "array",
-                        "items": {
+                        "type": "object",
+                        "additionalProperties": {
                             "$ref": "#/components/schemas/TaskProcessingShape"
                         }
                     },
                     "optionalOutputShapeEnumValues": {
-                        "type": "array",
-                        "items": {
+                        "type": "object",
+                        "additionalProperties": {
                             "type": "array",
                             "items": {
                                 "type": "object",

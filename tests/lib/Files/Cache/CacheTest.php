@@ -8,6 +8,7 @@
 namespace Test\Files\Cache;
 
 use OC\Files\Cache\Cache;
+use OC\Files\Cache\CacheEntry;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -17,7 +18,7 @@ use OCP\IDBConnection;
 use OCP\IUser;
 
 class LongId extends \OC\Files\Storage\Temporary {
-	public function getId() {
+	public function getId(): string {
 		return 'long:' . str_repeat('foo', 50) . parent::getId();
 	}
 }
@@ -127,13 +128,13 @@ class CacheTest extends \Test\TestCase {
 		$file1 = 'foo';
 
 		$this->cache->put($file1, ['size' => 10]);
-		$this->assertEquals(['size' => 10], $this->cache->get($file1));
+		$this->assertEquals(new CacheEntry(['size' => 10]), $this->cache->get($file1));
 
 		$this->cache->put($file1, ['mtime' => 15]);
-		$this->assertEquals(['size' => 10, 'mtime' => 15], $this->cache->get($file1));
+		$this->assertEquals(new CacheEntry(['size' => 10, 'mtime' => 15]), $this->cache->get($file1));
 
 		$this->cache->put($file1, ['size' => 12]);
-		$this->assertEquals(['size' => 12, 'mtime' => 15], $this->cache->get($file1));
+		$this->assertEquals(new CacheEntry(['size' => 12, 'mtime' => 15]), $this->cache->get($file1));
 	}
 
 	/**

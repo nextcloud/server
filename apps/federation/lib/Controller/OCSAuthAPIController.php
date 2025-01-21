@@ -33,34 +33,18 @@ use Psr\Log\LoggerInterface;
  */
 #[OpenAPI(scope: OpenAPI::SCOPE_FEDERATION)]
 class OCSAuthAPIController extends OCSController {
-	private ISecureRandom $secureRandom;
-	private IJobList $jobList;
-	private TrustedServers $trustedServers;
-	private DbHandler $dbHandler;
-	private LoggerInterface $logger;
-	private ITimeFactory $timeFactory;
-	private IThrottler $throttler;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		ISecureRandom $secureRandom,
-		IJobList $jobList,
-		TrustedServers $trustedServers,
-		DbHandler $dbHandler,
-		LoggerInterface $logger,
-		ITimeFactory $timeFactory,
-		IThrottler $throttler,
+		private ISecureRandom $secureRandom,
+		private IJobList $jobList,
+		private TrustedServers $trustedServers,
+		private DbHandler $dbHandler,
+		private LoggerInterface $logger,
+		private ITimeFactory $timeFactory,
+		private IThrottler $throttler,
 	) {
 		parent::__construct($appName, $request);
-
-		$this->secureRandom = $secureRandom;
-		$this->jobList = $jobList;
-		$this->trustedServers = $trustedServers;
-		$this->dbHandler = $dbHandler;
-		$this->logger = $logger;
-		$this->timeFactory = $timeFactory;
-		$this->throttler = $throttler;
 	}
 
 	/**
@@ -68,7 +52,7 @@ class OCSAuthAPIController extends OCSController {
 	 *
 	 * @param string $url URL of the server
 	 * @param string $token Token of the server
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSForbiddenException Requesting shared secret is not allowed
 	 *
 	 * 200: Shared secret requested successfully
@@ -103,7 +87,7 @@ class OCSAuthAPIController extends OCSController {
 	 *
 	 * @param string $url URL of the server
 	 * @param string $token Token of the server
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSForbiddenException Requesting shared secret is not allowed
 	 *
 	 * 200: Shared secret requested successfully

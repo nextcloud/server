@@ -25,13 +25,21 @@ interface IAppManager {
 	public const BACKEND_CALDAV = 'caldav';
 
 	/**
-	 * Returns the app information from "appinfo/info.xml".
+	 * Returns the app information from "appinfo/info.xml" for an app
 	 *
 	 * @param string|null $lang
 	 * @return array|null
 	 * @since 14.0.0
+	 * @since 31.0.0 Usage of $path is discontinued and throws an \InvalidArgumentException, use {@see self::getAppInfoByPath} instead.
 	 */
 	public function getAppInfo(string $appId, bool $path = false, $lang = null);
+
+	/**
+	 * Returns the app information from a given path ending with "/appinfo/info.xml"
+	 *
+	 * @since 31.0.0
+	 */
+	public function getAppInfoByPath(string $path, ?string $lang = null): ?array;
 
 	/**
 	 * Returns the app information from "appinfo/info.xml".
@@ -136,7 +144,7 @@ interface IAppManager {
 	 * @param bool $automaticDisabled
 	 * @since 8.0.0
 	 */
-	public function disableApp($appId, $automaticDisabled = false);
+	public function disableApp($appId, $automaticDisabled = false): void;
 
 	/**
 	 * Get the directory for the given app.
@@ -177,7 +185,7 @@ interface IAppManager {
 	 * Clear the cached list of apps when enabling/disabling an app
 	 * @since 8.1.0
 	 */
-	public function clearAppsCache();
+	public function clearAppsCache(): void;
 
 	/**
 	 * @param string $appId
@@ -193,7 +201,7 @@ interface IAppManager {
 	 * @return bool
 	 *
 	 * This function walks through the Nextcloud directory and loads all apps
-	 * it can find. A directory contains an app if the file /appinfo/info.xml
+	 * it can find. A directory contains an app if the file `/appinfo/info.xml`
 	 * exists.
 	 *
 	 * if $types is set to non-empty array, only apps of those types will be loaded
@@ -263,7 +271,7 @@ interface IAppManager {
 	/**
 	 * Set the global default apps with fallbacks
 	 *
-	 * @param string[] $appId
+	 * @param string[] $defaultApps
 	 * @throws \InvalidArgumentException If any of the apps is not installed
 	 * @since 28.0.0
 	 * @deprecated 31.0.0

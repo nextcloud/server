@@ -34,8 +34,8 @@ interface ILimiter {
 	 *
 	 */
 	public function registerAnonRequest(string $identifier,
-		int    $anonLimit,
-		int    $anonPeriod,
+		int $anonLimit,
+		int $anonPeriod,
 		string $ip): void;
 
 	/**
@@ -50,7 +50,7 @@ interface ILimiter {
 	 *
 	 */
 	public function registerUserRequest(string $identifier,
-		int    $userLimit,
-		int    $userPeriod,
-		IUser  $user): void;
+		int $userLimit,
+		int $userPeriod,
+		IUser $user): void;
 }

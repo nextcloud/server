@@ -25,7 +25,7 @@ class AutoIncrementHandler {
 	private ?IMemcache $cache = null;
 
 	public function __construct(
-		private ICacheFactory                  $cacheFactory,
+		private ICacheFactory $cacheFactory,
 		private ShardConnectionManager $shardConnectionManager,
 	) {
 		if (PHP_INT_SIZE < 8) {

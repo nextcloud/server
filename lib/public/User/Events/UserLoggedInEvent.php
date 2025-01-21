@@ -46,6 +46,13 @@ class UserLoggedInEvent extends Event {
 	}
 
 	/**
+	 * @since 31.0.0
+	 */
+	public function getUid(): string {
+		return $this->user->getUID();
+	}
+
+	/**
 	 * @since 21.0.0
 	 */
 	public function getLoginName(): string {

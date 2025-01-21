@@ -8,7 +8,9 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\View;
+use OCA\Circles\Api\v1\Circles;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Http;
 use OCP\Files\Folder;
 use OCP\Files\Node as INode;
 use OCP\IGroupManager;
@@ -41,55 +43,8 @@ class FilesReportPlugin extends ServerPlugin {
 	private $server;
 
 	/**
-	 * @var Tree
-	 */
-	private $tree;
-
-	/**
-	 * @var View
-	 */
-	private $fileView;
-
-	/**
-	 * @var ISystemTagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var ISystemTagObjectMapper
-	 */
-	private $tagMapper;
-
-	/**
-	 * Manager for private tags
-	 *
-	 * @var ITagManager
-	 */
-	private $fileTagger;
-
-	/**
-	 * @var IUserSession
-	 */
-	private $userSession;
-
-	/**
-	 * @var IGroupManager
-	 */
-	private $groupManager;
-
-	/**
-	 * @var Folder
-	 */
-	private $userFolder;
-
-	/**
-	 * @var IAppManager
-	 */
-	private $appManager;
-
-	/**
 	 * @param Tree $tree
-	 * @param View $view
+	 * @param View $fileView
 	 * @param ISystemTagManager $tagManager
 	 * @param ISystemTagObjectMapper $tagMapper
 	 * @param ITagManager $fileTagger manager for private tags
@@ -98,25 +53,20 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @param Folder $userFolder
 	 * @param IAppManager $appManager
 	 */
-	public function __construct(Tree $tree,
-		View $view,
-		ISystemTagManager $tagManager,
-		ISystemTagObjectMapper $tagMapper,
-		ITagManager $fileTagger,
-		IUserSession $userSession,
-		IGroupManager $groupManager,
-		Folder $userFolder,
-		IAppManager $appManager,
+	public function __construct(
+		private Tree $tree,
+		private View $fileView,
+		private ISystemTagManager $tagManager,
+		private ISystemTagObjectMapper $tagMapper,
+		/**
+		 * Manager for private tags
+		 */
+		private ITagManager $fileTagger,
+		private IUserSession $userSession,
+		private IGroupManager $groupManager,
+		private Folder $userFolder,
+		private IAppManager $appManager,
 	) {
-		$this->tree = $tree;
-		$this->fileView = $view;
-		$this->tagManager = $tagManager;
-		$this->tagMapper = $tagMapper;
-		$this->fileTagger = $fileTagger;
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
-		$this->userFolder = $userFolder;
-		$this->appManager = $appManager;
 	}
 
 	/**
@@ -234,7 +184,7 @@ class FilesReportPlugin extends ServerPlugin {
 			new MultiStatus($responses)
 		);
 
-		$this->server->httpResponse->setStatus(207);
+		$this->server->httpResponse->setStatus(Http::STATUS_MULTI_STATUS);
 		$this->server->httpResponse->setHeader('Content-Type', 'application/xml; charset=utf-8');
 		$this->server->httpResponse->setBody($xml);
 
@@ -355,7 +305,7 @@ class FilesReportPlugin extends ServerPlugin {
 		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
 			return [];
 		}
-		return \OCA\Circles\Api\v1\Circles::getFilesForCircles($circlesIds);
+		return Circles::getFilesForCircles($circlesIds);
 	}
 
 
@@ -419,7 +369,7 @@ class FilesReportPlugin extends ServerPlugin {
 		return $results;
 	}
 
-	protected function wrapNode(\OCP\Files\Node $node): File|Directory {
+	protected function wrapNode(INode $node): File|Directory {
 		if ($node instanceof \OCP\Files\File) {
 			return new File($this->fileView, $node);
 		} else {

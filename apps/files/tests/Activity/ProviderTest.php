@@ -6,6 +6,7 @@
 namespace OCA\Files\Tests\Activity;
 
 use OCA\Files\Activity\Provider;
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
@@ -132,7 +133,7 @@ class ProviderTest extends TestCase {
 
 
 	public function testGetFileThrows(): void {
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(UnknownActivityException::class);
 
 		$provider = $this->getProvider();
 		self::invokePrivate($provider, 'getFile', ['/Foo/Bar.txt', null]);

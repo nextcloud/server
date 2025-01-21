@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace OCA\UpdateNotification\Tests\Settings;
 
-use OC\User\Backend;
 use OCA\UpdateNotification\Settings\Admin;
 use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -22,8 +21,6 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\L10N\ILanguageIterator;
 use OCP\Support\Subscription\IRegistry;
-use OCP\User\Backend\ICountUsersBackend;
-use OCP\UserInterface;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -81,42 +78,10 @@ class AdminTest extends TestCase {
 	}
 
 	public function testGetFormWithUpdate(): void {
-		$backend1 = $this->createMock(CountUsersBackend::class);
-		$backend2 = $this->createMock(CountUsersBackend::class);
-		$backend3 = $this->createMock(CountUsersBackend::class);
-		$backend1
-			->expects($this->once())
-			->method('implementsActions')
-			->with(Backend::COUNT_USERS)
-			->willReturn(false);
-		$backend2
-			->expects($this->once())
-			->method('implementsActions')
-			->with(Backend::COUNT_USERS)
-			->willReturn(true);
-		$backend3
-			->expects($this->once())
-			->method('implementsActions')
-			->with(Backend::COUNT_USERS)
-			->willReturn(true);
-		$backend1
-			->expects($this->never())
-			->method('countUsers');
-		$backend2
-			->expects($this->once())
-			->method('countUsers')
-			->with()
-			->willReturn(false);
-		$backend3
-			->expects($this->once())
-			->method('countUsers')
-			->with()
-			->willReturn(5);
 		$this->userManager
 			->expects($this->once())
-			->method('getBackends')
-			->with()
-			->willReturn([$backend1, $backend2, $backend3]);
+			->method('countUsersTotal')
+			->willReturn(5);
 		$channels = [
 			'daily',
 			'beta',
@@ -207,42 +172,10 @@ class AdminTest extends TestCase {
 	}
 
 	public function testGetFormWithUpdateAndChangedUpdateServer(): void {
-		$backend1 = $this->createMock(CountUsersBackend::class);
-		$backend2 = $this->createMock(CountUsersBackend::class);
-		$backend3 = $this->createMock(CountUsersBackend::class);
-		$backend1
-			->expects($this->once())
-			->method('implementsActions')
-			->with(Backend::COUNT_USERS)
-			->willReturn(false);
-		$backend2
-			->expects($this->once())
-			->method('implementsActions')
-			->with(Backend::COUNT_USERS)
-			->willReturn(true);
-		$backend3
-			->expects($this->once())
-			->method('implementsActions')
-			->with(Backend::COUNT_USERS)
-			->willReturn(true);
-		$backend1
-			->expects($this->never())
-			->method('countUsers');
-		$backend2
-			->expects($this->once())
-			->method('countUsers')
-			->with()
-			->willReturn(false);
-		$backend3
-			->expects($this->once())
-			->method('countUsers')
-			->with()
-			->willReturn(5);
 		$this->userManager
 			->expects($this->once())
-			->method('getBackends')
-			->with()
-			->willReturn([$backend1, $backend2, $backend3]);
+			->method('countUsersTotal')
+			->willReturn(5);
 		$channels = [
 			'daily',
 			'beta',
@@ -334,42 +267,10 @@ class AdminTest extends TestCase {
 	}
 
 	public function testGetFormWithUpdateAndCustomersUpdateServer(): void {
-		$backend1 = $this->createMock(CountUsersBackend::class);
-		$backend2 = $this->createMock(CountUsersBackend::class);
-		$backend3 = $this->createMock(CountUsersBackend::class);
-		$backend1
-			->expects($this->once())
-			->method('implementsActions')
-			->with(Backend::COUNT_USERS)
-			->willReturn(false);
-		$backend2
-			->expects($this->once())
-			->method('implementsActions')
-			->with(Backend::COUNT_USERS)
-			->willReturn(true);
-		$backend3
-			->expects($this->once())
-			->method('implementsActions')
-			->with(Backend::COUNT_USERS)
-			->willReturn(true);
-		$backend1
-			->expects($this->never())
-			->method('countUsers');
-		$backend2
-			->expects($this->once())
-			->method('countUsers')
-			->with()
-			->willReturn(false);
-		$backend3
-			->expects($this->once())
-			->method('countUsers')
-			->with()
-			->willReturn(5);
 		$this->userManager
 			->expects($this->once())
-			->method('getBackends')
-			->with()
-			->willReturn([$backend1, $backend2, $backend3]);
+			->method('countUsersTotal')
+			->willReturn(5);
 		$channels = [
 			'daily',
 			'beta',
@@ -542,8 +443,4 @@ class AdminTest extends TestCase {
 		$result = $this->invokePrivate($this->admin, 'filterChanges', [$changes]);
 		$this->assertSame($expectation, $result);
 	}
-}
-
-abstract class CountUsersBackend implements UserInterface, ICountUsersBackend {
-
 }

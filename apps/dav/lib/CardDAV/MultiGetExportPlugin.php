@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CardDAV;
 
+use OCP\AppFramework\Http;
 use Sabre\DAV;
 use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface;
@@ -65,7 +66,7 @@ class MultiGetExportPlugin extends DAV\ServerPlugin {
 		$response->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
 		$response->setHeader('Content-Type', 'text/vcard');
 
-		$response->setStatus(200);
+		$response->setStatus(Http::STATUS_OK);
 		$response->setBody($output);
 
 		return true;

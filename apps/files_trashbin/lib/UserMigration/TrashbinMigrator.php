@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Files_Trashbin\UserMigration;
 
 use OCA\Files_Trashbin\AppInfo\Application;
+use OCA\Files_Trashbin\Trashbin;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -31,20 +32,11 @@ class TrashbinMigrator implements IMigrator, ISizeEstimationMigrator {
 	protected const PATH_FILES_FOLDER = Application::APP_ID . '/files';
 	protected const PATH_LOCATIONS_FILE = Application::APP_ID . '/locations.json';
 
-	protected IRootFolder $root;
-
-	protected IDBConnection $dbc;
-
-	protected IL10N $l10n;
-
 	public function __construct(
-		IRootFolder $rootFolder,
-		IDBConnection $dbc,
-		IL10N $l10n,
+		protected IRootFolder $root,
+		protected IDBConnection $dbc,
+		protected IL10N $l10n,
 	) {
-		$this->root = $rootFolder;
-		$this->dbc = $dbc;
-		$this->l10n = $l10n;
 	}
 
 	/**
@@ -81,7 +73,7 @@ class TrashbinMigrator implements IMigrator, ISizeEstimationMigrator {
 			$exportDestination->copyFolder($trashbinFolder, static::PATH_FILES_FOLDER);
 			$originalLocations = [];
 			// TODO Export all extra data and bump migrator to v2
-			foreach (\OCA\Files_Trashbin\Trashbin::getExtraData($uid) as $filename => $extraData) {
+			foreach (Trashbin::getExtraData($uid) as $filename => $extraData) {
 				$locationData = [];
 				foreach ($extraData as $timestamp => ['location' => $location]) {
 					$locationData[$timestamp] = $location;

@@ -36,6 +36,8 @@
                             "forbidden_filename_basenames",
                             "forbidden_filename_characters",
                             "forbidden_filename_extensions",
+                            "chunked_upload",
+                            "file_conversions",
                             "directEditing"
                         ],
                         "properties": {
@@ -74,6 +76,49 @@
                                 "type": "array",
                                 "items": {
                                     "type": "string"
+                                }
+                            },
+                            "chunked_upload": {
+                                "type": "object",
+                                "required": [
+                                    "max_size",
+                                    "max_parallel_count"
+                                ],
+                                "properties": {
+                                    "max_size": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "max_parallel_count": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    }
+                                }
+                            },
+                            "file_conversions": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "required": [
+                                        "from",
+                                        "to",
+                                        "extension",
+                                        "displayName"
+                                    ],
+                                    "properties": {
+                                        "from": {
+                                            "type": "string"
+                                        },
+                                        "to": {
+                                            "type": "string"
+                                        },
+                                        "extension": {
+                                            "type": "string"
+                                        },
+                                        "displayName": {
+                                            "type": "string"
+                                        }
+                                    }
                                 }
                             },
                             "directEditing": {
@@ -152,22 +197,114 @@
                     }
                 }
             },
+            "Template": {
+                "type": "object",
+                "required": [
+                    "templateType",
+                    "templateId",
+                    "basename",
+                    "etag",
+                    "fileid",
+                    "filename",
+                    "lastmod",
+                    "mime",
+                    "size",
+                    "type",
+                    "hasPreview",
+                    "previewUrl",
+                    "fields"
+                ],
+                "properties": {
+                    "templateType": {
+                        "type": "string"
+                    },
+                    "templateId": {
+                        "type": "string"
+                    },
+                    "basename": {
+                        "type": "string"
+                    },
+                    "etag": {
+                        "type": "string"
+                    },
+                    "fileid": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "filename": {
+                        "type": "string"
+                    },
+                    "lastmod": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "mime": {
+                        "type": "string"
+                    },
+                    "size": {
+                        "anyOf": [
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            {
+                                "type": "number",
+                                "format": "double"
+                            }
+                        ]
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "hasPreview": {
+                        "type": "boolean"
+                    },
+                    "previewUrl": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "fields": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TemplateField"
+                        }
+                    }
+                }
+            },
             "TemplateField": {
                 "type": "object",
                 "required": [
                     "index",
-                    "content",
-                    "type"
+                    "type",
+                    "alias",
+                    "tag",
+                    "id"
                 ],
                 "properties": {
                     "index": {
                         "type": "string"
                     },
+                    "type": {
+                        "type": "string"
+                    },
+                    "alias": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "tag": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "nullable": true
+                    },
                     "content": {
                         "type": "string"
                     },
-                    "type": {
-                        "type": "string"
+                    "checked": {
+                        "type": "boolean"
                     }
                 }
             },
@@ -263,6 +400,27 @@
                         "type": "string"
                     }
                 }
+            },
+            "TemplateFileCreatorWithTemplates": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/TemplateFileCreator"
+                    },
+                    {
+                        "type": "object",
+                        "required": [
+                            "templates"
+                        ],
+                        "properties": {
+                            "templates": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/Template"
+                                }
+                            }
+                        }
+                    }
+                ]
             }
         }
     },
@@ -1057,7 +1215,7 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/components/schemas/TemplateFileCreator"
+                                                        "$ref": "#/components/schemas/TemplateFileCreatorWithTemplates"
                                                     }
                                                 }
                                             }
@@ -2082,6 +2240,133 @@
                                     "properties": {
                                         "message": {
                                             "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/files/api/v1/convert": {
+            "post": {
+                "operationId": "conversion_api-convert",
+                "summary": "Converts a file from one MIME type to another",
+                "tags": [
+                    "conversion_api"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "fileId",
+                                    "targetMimeType"
+                                ],
+                                "properties": {
+                                    "fileId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "description": "ID of the file to be converted"
+                                    },
+                                    "targetMimeType": {
+                                        "type": "string",
+                                        "description": "The MIME type to which you want to convert the file"
+                                    },
+                                    "destination": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "The target path of the converted file. Written to a temporary file if left empty"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "File was converted and written to the destination or temporary file",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "path"
+                                                    ],
+                                                    "properties": {
+                                                        "path": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "The file to be converted was not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
                                         }
                                     }
                                 }

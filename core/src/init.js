@@ -14,6 +14,7 @@ import { setUp as setUpContactsMenu } from './components/ContactsMenu.js'
 import { setUp as setUpMainMenu } from './components/MainMenu.js'
 import { setUp as setUpUserMenu } from './components/UserMenu.js'
 import { interceptRequests } from './utils/xhr-request.js'
+import { initFallbackClipboardAPI } from './utils/ClipboardFallback.ts'
 
 // keep in sync with core/css/variables.scss
 const breakpointMobileWidth = 1024
@@ -58,6 +59,7 @@ moment.locale(locale)
  */
 export const initCore = () => {
 	interceptRequests()
+	initFallbackClipboardAPI()
 
 	$(window).on('unload.main', () => { OC._unloadCalled = true })
 	$(window).on('beforeunload.main', () => {

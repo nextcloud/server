@@ -4,11 +4,11 @@
  */
 import type { Folder, Node, View } from '@nextcloud/files'
 import type { IFilePickerButton } from '@nextcloud/dialogs'
-import type { FileStat, ResponseDataDetailed } from 'webdav'
+import type { FileStat, ResponseDataDetailed, WebDAVClientError } from 'webdav'
 import type { MoveCopyResult } from './moveOrCopyActionUtils'
 
 import { isAxiosError } from '@nextcloud/axios'
-import { FilePickerClosed, getFilePickerBuilder, showError, showInfo } from '@nextcloud/dialogs'
+import { FilePickerClosed, getFilePickerBuilder, showError, showInfo, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { FileAction, FileType, NodeStatus, davGetClient, davRootPath, davResultToNode, davGetDefaultPropfind, getUniqueName, Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
@@ -38,6 +38,28 @@ const getActionForNodes = (nodes: Node[]): MoveCopyAction => {
 
 	// Assuming we can copy as the enabled checks for copy permissions
 	return MoveCopyAction.COPY
+}
+
+/**
+ * Create a loading notification toast
+ * @param mode The move or copy mode
+ * @param source Name of the node that is copied / moved
+ * @param destination Destination path
+ * @return {() => void} Function to hide the notification
+ */
+function createLoadingNotification(mode: MoveCopyAction, source: string, destination: string): () => void {
+	const text = mode === MoveCopyAction.MOVE ? t('files', 'Moving "{source}" to "{destination}" …', { source, destination }) : t('files', 'Copying "{source}" to "{destination}" …', { source, destination })
+
+	let toast: ReturnType<typeof showInfo>|undefined
+	toast = showInfo(
+		`<span class="icon icon-loading-small toast-loading-icon"></span> ${text}`,
+		{
+			isHTML: true,
+			timeout: TOAST_PERMANENT_TIMEOUT,
+			onRemove: () => { toast?.hideToast(); toast = undefined },
+		},
+	)
+	return () => toast && toast.hideToast()
 }
 
 /**
@@ -80,6 +102,7 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 
 	// Set loading state
 	Vue.set(node, 'status', NodeStatus.LOADING)
+	const actionFinished = createLoadingNotification(method, node.basename, destination.path)
 
 	const queue = getQueue()
 	return await queue.add(async () => {
@@ -123,24 +146,37 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 				}
 			} else {
 				// show conflict file popup if we do not allow overwriting
-				const otherNodes = await getContents(destination.path)
-				if (hasConflict([node], otherNodes.contents)) {
-					try {
-						// Let the user choose what to do with the conflicting files
-						const { selected, renamed } = await openConflictPicker(destination.path, [node], otherNodes.contents)
-						// two empty arrays: either only old files or conflict skipped -> no action required
-						if (!selected.length && !renamed.length) {
+				if (!overwrite) {
+					const otherNodes = await getContents(destination.path)
+					if (hasConflict([node], otherNodes.contents)) {
+						try {
+							// Let the user choose what to do with the conflicting files
+							const { selected, renamed } = await openConflictPicker(destination.path, [node], otherNodes.contents)
+							// two empty arrays: either only old files or conflict skipped -> no action required
+							if (!selected.length && !renamed.length) {
+								return
+							}
+						} catch (error) {
+							// User cancelled
+							showError(t('files', 'Move cancelled'))
 							return
 						}
-					} catch (error) {
-						// User cancelled
-						showError(t('files', 'Move cancelled'))
-						return
 					}
 				}
 				// getting here means either no conflict, file was renamed to keep both files
 				// in a conflict, or the selected file was chosen to be kept during the conflict
-				await client.moveFile(currentPath, join(destinationPath, node.basename))
+				try {
+					await client.moveFile(currentPath, join(destinationPath, node.basename))
+				} catch (error) {
+					const parser = new DOMParser()
+					const text = await (error as WebDAVClientError).response?.text()
+					const message = parser.parseFromString(text ?? '', 'text/xml')
+						.querySelector('message')?.textContent
+					if (message) {
+						showError(message)
+					}
+					throw error
+				}
 				// Delete the node as it will be fetched again
 				// when navigating to the destination folder
 				emit('files:node:deleted', node)
@@ -160,7 +196,8 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 			logger.debug(error as Error)
 			throw new Error()
 		} finally {
-			Vue.set(node, 'status', undefined)
+			Vue.set(node, 'status', '')
+			actionFinished()
 		}
 	})
 }
@@ -218,6 +255,11 @@ async function openFilePickerForAction(
 
 			if (paths.includes(path)) {
 				// You cannot move a file/folder onto itself
+				return buttons
+			}
+
+			if (selection.some((node) => (node.permissions & Permission.CREATE) === 0)) {
+				// Missing 'CREATE' permissions for selected destination
 				return buttons
 			}
 
@@ -311,7 +353,7 @@ export const action = new FileAction({
 		if (result === false) {
 			showInfo(nodes.length === 1
 				? t('files', 'Cancelled move or copy of "{filename}".', { filename: nodes[0].displayname })
-				: t('files', 'Cancelled move or copy operation')
+				: t('files', 'Cancelled move or copy operation'),
 			)
 			return nodes.map(() => null)
 		}

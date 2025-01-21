@@ -26,7 +26,8 @@ class FederatedSharesDiscoverJob extends TimedJob {
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($time);
-		$this->setInterval(86400);
+		$this->setInterval(24 * 60 * 60);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 	public function run($argument) {
@@ -35,7 +36,7 @@ class FederatedSharesDiscoverJob extends TimedJob {
 		$qb->selectDistinct('remote')
 			->from('share_external');
 
-		$result = $qb->execute();
+		$result = $qb->executeQuery();
 		while ($row = $result->fetch()) {
 			$this->discoveryService->discover($row['remote'], 'FEDERATED_SHARING', true);
 			try {

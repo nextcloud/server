@@ -22,6 +22,7 @@ use OCP\Settings\Events\DeclarativeSettingsRegisterFormEvent;
 use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
 use OCP\Settings\IDeclarativeManager;
 use OCP\Settings\IDeclarativeSettingsForm;
+use OCP\Settings\IDeclarativeSettingsFormWithHandlers;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -32,20 +33,24 @@ use Psr\Log\LoggerInterface;
  * @psalm-import-type DeclarativeSettingsFormSchemaWithoutValues from IDeclarativeSettingsForm
  */
 class DeclarativeManager implements IDeclarativeManager {
-	public function __construct(
-		private IEventDispatcher $eventDispatcher,
-		private IGroupManager    $groupManager,
-		private Coordinator      $coordinator,
-		private IConfig          $config,
-		private IAppConfig       $appConfig,
-		private LoggerInterface  $logger,
-	) {
-	}
+
+	/** @var array<string, list<IDeclarativeSettingsForm>> */
+	private array $declarativeForms = [];
 
 	/**
 	 * @var array<string, list<DeclarativeSettingsFormSchemaWithoutValues>>
 	 */
 	private array $appSchemas = [];
+
+	public function __construct(
+		private IEventDispatcher $eventDispatcher,
+		private IGroupManager $groupManager,
+		private Coordinator $coordinator,
+		private IConfig $config,
+		private IAppConfig $appConfig,
+		private LoggerInterface $logger,
+	) {
+	}
 
 	/**
 	 * @inheritdoc
@@ -77,11 +82,15 @@ class DeclarativeManager implements IDeclarativeManager {
 	 * @inheritdoc
 	 */
 	public function loadSchemas(): void {
-		$declarativeSettings = $this->coordinator->getRegistrationContext()->getDeclarativeSettings();
-		foreach ($declarativeSettings as $declarativeSetting) {
-			/** @var IDeclarativeSettingsForm $declarativeSettingObject */
-			$declarativeSettingObject = Server::get($declarativeSetting->getService());
-			$this->registerSchema($declarativeSetting->getAppId(), $declarativeSettingObject->getSchema());
+		if (empty($this->declarativeForms)) {
+			$declarativeSettings = $this->coordinator->getRegistrationContext()->getDeclarativeSettings();
+			foreach ($declarativeSettings as $declarativeSetting) {
+				$app = $declarativeSetting->getAppId();
+				/** @var IDeclarativeSettingsForm $declarativeForm */
+				$declarativeForm = Server::get($declarativeSetting->getService());
+				$this->registerSchema($app, $declarativeForm->getSchema());
+				$this->declarativeForms[$app][] = $declarativeForm;
+			}
 		}
 
 		$this->eventDispatcher->dispatchTyped(new DeclarativeSettingsRegisterFormEvent($this));
@@ -224,6 +233,10 @@ class DeclarativeManager implements IDeclarativeManager {
 		$storageType = $this->getStorageType($app, $fieldId);
 		switch ($storageType) {
 			case DeclarativeSettingsTypes::STORAGE_TYPE_EXTERNAL:
+				$form = $this->getForm($app, $formId);
+				if ($form !== null && $form instanceof IDeclarativeSettingsFormWithHandlers) {
+					return $form->getValue($fieldId, $user);
+				}
 				$event = new DeclarativeSettingsGetValueEvent($user, $app, $formId, $fieldId);
 				$this->eventDispatcher->dispatchTyped($event);
 				return $event->getValue();
@@ -244,6 +257,12 @@ class DeclarativeManager implements IDeclarativeManager {
 		$storageType = $this->getStorageType($app, $fieldId);
 		switch ($storageType) {
 			case DeclarativeSettingsTypes::STORAGE_TYPE_EXTERNAL:
+				$form = $this->getForm($app, $formId);
+				if ($form !== null && $form instanceof IDeclarativeSettingsFormWithHandlers) {
+					$form->setValue($fieldId, $value, $user);
+					break;
+				}
+				// fall back to event handling
 				$this->eventDispatcher->dispatchTyped(new DeclarativeSettingsSetValueEvent($user, $app, $formId, $fieldId, $value));
 				break;
 			case DeclarativeSettingsTypes::STORAGE_TYPE_INTERNAL:
@@ -252,6 +271,20 @@ class DeclarativeManager implements IDeclarativeManager {
 			default:
 				throw new Exception('Unknown storage type "' . $storageType . '"');
 		}
+	}
+
+	/**
+	 * If a declarative setting was registered as a form and not just a schema
+	 * then this will yield the registering form.
+	 */
+	private function getForm(string $app, string $formId): ?IDeclarativeSettingsForm {
+		$allForms = $this->declarativeForms[$app] ?? [];
+		foreach ($allForms as $form) {
+			if ($form->getSchema()['id'] === $formId) {
+				return $form;
+			}
+		}
+		return null;
 	}
 
 	private function getInternalValue(IUser $user, string $app, string $formId, string $fieldId): mixed {

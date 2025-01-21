@@ -6,6 +6,7 @@
 namespace OC\Log;
 
 use OC\Core\Controller\SetupController;
+use OC\Http\Client\Client;
 use OC\Security\IdentityProof\Key;
 use OC\Setup;
 use OC\SystemConfig;
@@ -13,8 +14,9 @@ use OCA\Encryption\Controller\RecoveryController;
 use OCA\Encryption\Controller\SettingsController;
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Crypto\Encryption;
-use OCA\Encryption\Hooks\UserHooks;
 use OCA\Encryption\KeyManager;
+use OCA\Encryption\Listeners\UserEventsListener;
+use OCA\Encryption\Services\PassphraseService;
 use OCA\Encryption\Session;
 use OCP\HintException;
 
@@ -32,6 +34,7 @@ class ExceptionSerializer {
 		'validateUserPass',
 		'loginWithToken',
 		'{closure}',
+		'{closure:*',
 		'createSessionToken',
 
 		// Provisioning
@@ -106,6 +109,22 @@ class ExceptionSerializer {
 		Key::class => [
 			'__construct'
 		],
+		Client::class => [
+			'request',
+			'delete',
+			'deleteAsync',
+			'get',
+			'getAsync',
+			'head',
+			'headAsync',
+			'options',
+			'optionsAsync',
+			'patch',
+			'post',
+			'postAsync',
+			'put',
+			'putAsync',
+		],
 		\Redis::class => [
 			'auth'
 		],
@@ -152,14 +171,16 @@ class ExceptionSerializer {
 		\OCA\Encryption\Users\Setup::class => [
 			'setupUser',
 		],
-		UserHooks::class => [
-			'login',
-			'postCreateUser',
-			'postDeleteUser',
-			'prePasswordReset',
-			'postPasswordReset',
-			'preSetPassphrase',
-			'setPassphrase',
+		UserEventsListener::class => [
+			'handle',
+			'onUserCreated',
+			'onUserLogin',
+			'onBeforePasswordUpdated',
+			'onPasswordUpdated',
+			'onPasswordReset',
+		],
+		PassphraseService::class => [
+			'setPassphraseForUser',
 		],
 	];
 
@@ -180,7 +201,9 @@ class ExceptionSerializer {
 				return $this->editTrace($sensitiveValues, $traceLine);
 			}
 			foreach (self::methodsWithSensitiveParameters as $sensitiveMethod) {
-				if (str_contains($traceLine['function'], $sensitiveMethod)) {
+				if (str_contains($traceLine['function'], $sensitiveMethod)
+					|| (str_ends_with($sensitiveMethod, '*')
+						&& str_starts_with($traceLine['function'], substr($sensitiveMethod, 0, -1)))) {
 					return $this->editTrace($sensitiveValues, $traceLine);
 				}
 			}
@@ -196,13 +219,13 @@ class ExceptionSerializer {
 
 	private function removeValuesFromArgs($args, $values): array {
 		$workArgs = [];
-		foreach ($args as $arg) {
+		foreach ($args as $key => $arg) {
 			if (in_array($arg, $values, true)) {
 				$arg = self::SENSITIVE_VALUE_PLACEHOLDER;
 			} elseif (is_array($arg)) {
 				$arg = $this->removeValuesFromArgs($arg, $values);
 			}
-			$workArgs[] = $arg;
+			$workArgs[$key] = $arg;
 		}
 		return $workArgs;
 	}

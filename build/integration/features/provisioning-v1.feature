@@ -214,7 +214,7 @@ Feature: provisioning
     And sending "PUT" to "/cloud/users/brand-new-user" with
       | key | additional_mail |
       | value | no-reply@nextcloud.com |
-    And the OCS status code should be "102"
+    And the OCS status code should be "101"
     And the HTTP status code should be "200"
     And sending "PUT" to "/cloud/users/brand-new-user" with
       | key | additional_mail |
@@ -225,7 +225,7 @@ Feature: provisioning
     And sending "PUT" to "/cloud/users/brand-new-user" with
       | key | additional_mail |
       | value | no.reply2@nextcloud.com |
-    And the OCS status code should be "102"
+    And the OCS status code should be "101"
     And the HTTP status code should be "200"
     Then user "brand-new-user" has
       | id | brand-new-user |
@@ -270,17 +270,17 @@ Feature: provisioning
     When sending "PUT" to "/cloud/users/brand-new-user" with
       | key | phoneScope |
       | value | invalid |
-    Then the OCS status code should be "102"
+    Then the OCS status code should be "101"
     And the HTTP status code should be "200"
     When sending "PUT" to "/cloud/users/brand-new-user" with
       | key | displaynameScope |
       | value | v2-private |
-    Then the OCS status code should be "102"
+    Then the OCS status code should be "101"
     And the HTTP status code should be "200"
     When sending "PUT" to "/cloud/users/brand-new-user" with
       | key | emailScope |
       | value | v2-private |
-    Then the OCS status code should be "102"
+    Then the OCS status code should be "101"
     And the HTTP status code should be "200"
 
   Scenario: Edit a user account multi-value property scopes with invalid or unsupported value
@@ -326,7 +326,7 @@ Feature: provisioning
     When sending "PUT" to "/cloud/users/brand-new-user" with
       | key | phoneScope |
       | value | v2-private |
-    Then the OCS status code should be "103"
+    Then the OCS status code should be "113"
     And the HTTP status code should be "200"
 
   Scenario: Search by phone number
@@ -599,6 +599,7 @@ Feature: provisioning
       | files_trashbin |
       | files_versions |
       | lookup_server_connector |
+      | profile |
       | provisioning_api |
       | settings |
       | sharebymail |

@@ -34,6 +34,13 @@ $mail_sendmailmode = [
 ?>
 
 <div class="section" id="mail_general_settings">
+<?php if ($_['mail_smtpmode'] === 'null') { ?>
+	<h2><?php p($l->t('Email server'));?></h2>
+
+	<p>
+	 <?php p($l->t('Mail delivery is disabled by instance config "%s".', ['mail_smtpmode'])); ?>
+	</p>
+<?php } else { ?>
 	<form id="mail_general_settings_form" class="mail_settings">
 		<h2><?php p($l->t('Email server'));?></h2>
 		<a 	target="_blank"
@@ -143,4 +150,5 @@ $mail_sendmailmode = [
 	<em><?php p($l->t('Test and verify email settings')); ?></em>
 	<input type="submit" name="sendtestemail" id="sendtestemail" value="<?php p($l->t('Send email')); ?>"/>
 	<span id="sendtestmail_msg" class="msg"></span>
+<?php } ?>
 </div>

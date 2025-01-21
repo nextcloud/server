@@ -27,6 +27,7 @@ class ComposerStaticInitTesting
         'OCA\\Testing\\Controller\\ConfigController' => __DIR__ . '/..' . '/../lib/Controller/ConfigController.php',
         'OCA\\Testing\\Controller\\LockingController' => __DIR__ . '/..' . '/../lib/Controller/LockingController.php',
         'OCA\\Testing\\Controller\\RateLimitTestController' => __DIR__ . '/..' . '/../lib/Controller/RateLimitTestController.php',
+        'OCA\\Testing\\Conversion\\ConversionProvider' => __DIR__ . '/..' . '/../lib/Conversion/ConversionProvider.php',
         'OCA\\Testing\\Listener\\GetDeclarativeSettingsValueListener' => __DIR__ . '/..' . '/../lib/Listener/GetDeclarativeSettingsValueListener.php',
         'OCA\\Testing\\Listener\\RegisterDeclarativeSettingsListener' => __DIR__ . '/..' . '/../lib/Listener/RegisterDeclarativeSettingsListener.php',
         'OCA\\Testing\\Listener\\SetDeclarativeSettingsValueListener' => __DIR__ . '/..' . '/../lib/Listener/SetDeclarativeSettingsValueListener.php',
@@ -40,6 +41,7 @@ class ComposerStaticInitTesting
         'OCA\\Testing\\TaskProcessing\\FakeContextWriteProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeContextWriteProvider.php',
         'OCA\\Testing\\TaskProcessing\\FakeTextToImageProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeTextToImageProvider.php',
         'OCA\\Testing\\TaskProcessing\\FakeTextToTextProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeTextToTextProvider.php',
+        'OCA\\Testing\\TaskProcessing\\FakeTextToTextSummaryProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeTextToTextSummaryProvider.php',
         'OCA\\Testing\\TaskProcessing\\FakeTranscribeProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeTranscribeProvider.php',
         'OCA\\Testing\\TaskProcessing\\FakeTranslateProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeTranslateProvider.php',
     );

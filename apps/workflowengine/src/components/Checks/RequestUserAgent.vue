@@ -109,6 +109,7 @@ export default {
 	input[type='text'] {
 		width: 100%;
 	}
+
 	input[type='text'] {
 		min-height: 48px;
 	}

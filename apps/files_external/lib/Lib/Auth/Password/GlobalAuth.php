@@ -19,13 +19,12 @@ use OCP\Security\ICredentialsManager;
  */
 class GlobalAuth extends AuthMechanism {
 	public const CREDENTIALS_IDENTIFIER = 'password::global';
+	private const PWD_PLACEHOLDER = '************************';
 
-	/** @var ICredentialsManager */
-	protected $credentialsManager;
-
-	public function __construct(IL10N $l, ICredentialsManager $credentialsManager) {
-		$this->credentialsManager = $credentialsManager;
-
+	public function __construct(
+		IL10N $l,
+		protected ICredentialsManager $credentialsManager,
+	) {
 		$this
 			->setIdentifier('password::global')
 			->setVisibility(BackendService::VISIBILITY_DEFAULT)
@@ -41,11 +40,18 @@ class GlobalAuth extends AuthMechanism {
 				'password' => ''
 			];
 		} else {
+			$auth['password'] = self::PWD_PLACEHOLDER;
 			return $auth;
 		}
 	}
 
 	public function saveAuth($uid, $user, $password) {
+		// Use old password if it has not changed.
+		if ($password === self::PWD_PLACEHOLDER) {
+			$auth = $this->credentialsManager->retrieve($uid, self::CREDENTIALS_IDENTIFIER);
+			$password = $auth['password'];
+		}
+
 		$this->credentialsManager->store($uid, self::CREDENTIALS_IDENTIFIER, [
 			'user' => $user,
 			'password' => $password

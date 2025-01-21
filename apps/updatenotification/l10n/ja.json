@@ -1,5 +1,4 @@
 { "translations": {
-    "{version} is available. Get more information on how to update." : "{version} が利用可能です。アップデート方法について詳細情報を確認してください。",
     "Channel updated" : "チャンネルを更新しました",
     "Web updater is disabled" : "Webアップデータは無効になっています",
     "App updated" : "アプリが更新されました",
@@ -55,6 +54,7 @@
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>アプリが、このNextcloudバージョンと互換性があるバージョンではありません。"],
     "Changelog for app {app}" : "アプリケーション{app}の変更ログ",
     "What's new in {app} version {version}" : "{app}バージョン{version}の新機能",
+    "{version} is available. Get more information on how to update." : "{version} が利用可能です。アップデート方法について詳細情報を確認してください。",
     "Update to %1$s is available." : "%1$s への更新が利用可能です。",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Nextcloudの更新通知を表示し、アップデータのSSOを提供します。",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Webアップデーターは100人以上のユーザーがいる場合には推奨されていないことにご注意ください！代わりに、コマンドラインアップデーターをご使用ください！",

@@ -257,9 +257,10 @@ section {
 	grid-row: 1/3;
 	padding: 10px 10px;
 }
+
 .avatar {
 	&__container {
-		margin: 0 auto;
+		margin: calc(var(--default-grid-baseline) * 2) auto 0 auto;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -296,7 +297,7 @@ section {
 			justify-content: space-between;
 		}
 
-		&::v-deep .cropper-view-box {
+		:deep(.cropper-view-box) {
 			border-radius: 50%;
 		}
 	}

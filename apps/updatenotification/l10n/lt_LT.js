@@ -1,7 +1,6 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "Yra prieinama {version}. Gaukite daugiau informacijos apie tai, kaip atnaujinti.",
     "Channel updated" : "Kanalas atnaujintas",
     "Update notifications" : "Atnaujinimų pranešimai",
     "The update server could not be reached since %d days to check for new updates." : " Atnaujinimo serveris nepasiekiamas  %d dienas.",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Išankstinės laidos versija, skirta tik naujų ypatybių išbandymui, o ne darbinėms aplinkoms.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> programėlė neturi su šia Nextcloud versija suderinamos versijos.","<strong>%n</strong> programėlės neturi su šia Nextcloud versija suderinamų versijų.","<strong>%n</strong> programėlių neturi su šia Nextcloud versija suderinamų versijų.","<strong>%n</strong> programėlė neturi su šia Nextcloud versija suderinamų versijų."],
+    "{version} is available. Get more information on how to update." : "Yra prieinama {version}. Gaukite daugiau informacijos apie tai, kaip atnaujinti.",
     "Update to %1$s is available." : "Yra prieinamas atnaujinimas į %1$s."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
