@@ -57,6 +57,7 @@
     "Avatar image is not square" : "Abatarreko irudia ez da karratua",
     "Files" : "Fitxategiak",
     "View profile" : "Ikusi profila",
+    "_%nh_::_%nh_" : ["%nh","%nh"],
     "Local time: %s" : "Ordu lokala: %s",
     "today" : "gaur",
     "tomorrow" : "bihar",

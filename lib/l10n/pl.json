@@ -57,6 +57,7 @@
     "Avatar image is not square" : "Obraz awatara nie jest kwadratowy",
     "Files" : "Pliki",
     "View profile" : "Zobacz profil",
+    "_%nh_::_%nh_" : ["%nh","%nh","%nh","%ngodz."],
     "Local time: %s" : "Czas lokalny: %s",
     "today" : "dzisiaj",
     "tomorrow" : "jutro",

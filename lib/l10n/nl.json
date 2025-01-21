@@ -50,6 +50,7 @@
     "Avatar image is not square" : "Avatar afbeelding is niet vierkant",
     "Files" : "Bestanden",
     "View profile" : "Bekijk profiel",
+    "_%nh_::_%nh_" : ["%nh","%nh"],
     "today" : "vandaag",
     "tomorrow" : "morgen",
     "yesterday" : "gisteren",

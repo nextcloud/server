@@ -57,6 +57,7 @@
     "Avatar image is not square" : "Benutzerbild ist nicht quadratisch",
     "Files" : "Dateien",
     "View profile" : "Profil ansehen",
+    "_%nh_::_%nh_" : ["%nStunde","%nStunden"],
     "Local time: %s" : "Ortszeit: %s",
     "today" : "Heute",
     "tomorrow" : "Morgen",
