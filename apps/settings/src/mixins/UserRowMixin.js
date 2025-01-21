@@ -38,7 +38,13 @@ export default {
 		},
 	},
 	setup(props) {
-		const { formattedFullTime } = useFormatDateTime(props.user.firstLoginTimestamp * 1000, { relativeTime: false })
+		const { formattedFullTime } = useFormatDateTime(props.user.firstLoginTimestamp * 1000, {
+			relativeTime: false,
+			format: {
+				timeStyle: 'short',
+				dateStyle: 'short',
+			},
+		})
 		return {
 			formattedFullTime,
 		}
