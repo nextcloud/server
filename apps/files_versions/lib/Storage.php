@@ -408,7 +408,8 @@ class Storage {
 			$fileInfo->getId(), [
 				'encrypted' => $oldVersion,
 				'encryptedVersion' => $oldVersion,
-				'size' => $oldFileInfo->getSize()
+				'size' => $oldFileInfo->getData()['size'],
+				'unencrypted_size' => $oldFileInfo->getData()['unencrypted_size'],
 			]
 		);
 
