@@ -212,6 +212,17 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('A share requires permissions');
 		}
 
+		// Permissions must be valid
+		if ($share->getPermissions() < 0 || $share->getPermissions() > \OCP\Constants::PERMISSION_ALL) {
+			throw new \InvalidArgumentException($this->l->t('Valid permissions are required for sharing'));
+		}
+
+		// Single file shares should never have delete or create permissions
+		if (($share->getNode() instanceof File)
+			&& (($share->getPermissions() & (\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_DELETE)) !== 0)) {
+			throw new \InvalidArgumentException($this->l->t('File shares cannot have create or delete permissions'));
+		}
+
 		$permissions = 0;
 		$nodesForUser = $userFolder->getById($share->getNodeId());
 		foreach ($nodesForUser as $node) {
