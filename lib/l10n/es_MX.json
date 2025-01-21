@@ -57,6 +57,7 @@
     "Avatar image is not square" : "La imagen del avatar no es un cuadrado",
     "Files" : "Archivos",
     "View profile" : "Ver perfil",
+    "_%nh_::_%nh_" : ["%nh","%nh","%nh"],
     "Local time: %s" : "Hora local: %s",
     "today" : "hoy",
     "tomorrow" : "mañana",

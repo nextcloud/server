@@ -48,6 +48,8 @@ OC.L10N.register(
     "Folder not found" : "找不到資料夾",
     "The file cannot be found" : "找不到檔案",
     "The destination path does not exist: %1$s" : "目的路徑不存在：%1$s",
+    "You do not have permission to create a file at the specified location" : "您無權在特定位置建立檔案",
+    "The file could not be converted." : "無法轉換檔案。",
     "Could not get relative path to converted file" : "無法取得轉換檔案的相對路徑",
     "Favorite files" : "收藏檔案",
     "No favorites" : "沒有最愛",

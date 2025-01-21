@@ -44,6 +44,7 @@
     "Avatar image is not square" : "S'immàgine de s'avatar no est cuadrada",
     "Files" : "Archìvios",
     "View profile" : "Ammustra su profilu",
+    "_%nh_::_%nh_" : ["%nh","%nh"],
     "today" : "oe",
     "tomorrow" : "cras",
     "yesterday" : "eris",

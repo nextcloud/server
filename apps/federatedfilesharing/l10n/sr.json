@@ -28,6 +28,8 @@
     "Allow people on this server to receive group shares from other servers" : "Дозволи да људи на овом серверу примају групна дељења са других сервера",
     "Search global and public address book for people" : "Људе тражи и у глобалним и у јавним адресарима",
     "Allow people to publish their data to a global and public address book" : "Дозволи да људи објаве своје податке у јавне и глобалне адресаре",
+    "Trusted federation" : "Здуживање од поверења",
+    "Automatically accept shares from trusted federated accounts and groups by default" : "Аутоматско подразумевано прихватање дељења са здружених налога којима се верује и група",
     "Unable to update federated files sharing config" : "Конфигурација федерисаног дељења фајлова није могла да се ажурира",
     "Federated Cloud" : "Здружени облак",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можете делите ствари са било ким ко користи Некстклауд сервер или неки други Open Cloud Mesh (OCM) компатибилни сервер и сервисе! Само унесите ИД из њиховог Здруженог Облака у дијалог за дељење. Тај ИД изгледа нешто попут person@cloud.example.com",

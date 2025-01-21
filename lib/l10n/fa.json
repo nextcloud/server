@@ -51,6 +51,7 @@
     "Avatar image is not square" : "تصویر آواتار مربع نیست",
     "Files" : "پوشه‌ها",
     "View profile" : "مشاهدهٔ نمایه",
+    "_%nh_::_%nh_" : ["%nh","%nh"],
     "Local time: %s" : "Local time: %s",
     "today" : "امروز",
     "tomorrow" : "فردا",

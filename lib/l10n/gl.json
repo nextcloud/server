@@ -57,6 +57,7 @@
     "Avatar image is not square" : "A imaxe do avatar non é cadrada",
     "Files" : "Ficheiros",
     "View profile" : "Ver o perfil",
+    "_%nh_::_%nh_" : ["%nh","%nh"],
     "Local time: %s" : "Hora local: %s",
     "today" : "hoxe",
     "tomorrow" : "mañá",

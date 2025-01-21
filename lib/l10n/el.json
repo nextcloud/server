@@ -50,6 +50,7 @@
     "Avatar image is not square" : "Η εικόνα του άβαταρ δεν είναι τετράγωνη",
     "Files" : "Αρχεία",
     "View profile" : "Προβολή προφίλ",
+    "_%nh_::_%nh_" : ["%nω","%nω"],
     "Local time: %s" : "Τοπική ώρα: %s",
     "today" : "σήμερα",
     "tomorrow" : "αύριο",
