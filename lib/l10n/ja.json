@@ -57,6 +57,7 @@
     "Avatar image is not square" : "アバター画像が正方形ではありません",
     "Files" : "ファイル",
     "View profile" : "プロフィールを表示",
+    "_%nh_::_%nh_" : ["%n時間"],
     "Local time: %s" : "現地時間: %s",
     "today" : "今日",
     "tomorrow" : "明日",

@@ -49,6 +49,7 @@
     "Avatar image is not square" : "Slika podobe ni kvadratna",
     "Files" : "Datoteke",
     "View profile" : "Pokaži profil",
+    "_%nh_::_%nh_" : ["%nh","%nh","%nh","%nh"],
     "Local time: %s" : "Krajevni čas: %s",
     "today" : "danes",
     "tomorrow" : "jutri",

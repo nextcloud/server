@@ -57,6 +57,7 @@
     "Avatar image is not square" : "Níl an íomhá avatar cearnach",
     "Files" : "Comhaid",
     "View profile" : "Féach ar phróifíl",
+    "_%nh_::_%nh_" : ["%nuair","%nuair","%nuair","%nuair","%nuair"],
     "Local time: %s" : "Am áitiúil: %s",
     "today" : "inniu",
     "tomorrow" : "amárach",
