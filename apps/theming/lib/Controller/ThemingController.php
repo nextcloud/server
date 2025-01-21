@@ -194,11 +194,13 @@ class ThemingController extends Controller {
 	}
 
 	/**
-	 * Check that a string is a valid http/https url
+	 * Check that a string is a valid http/https url.
+	 * Also validates that there is no way for XSS through HTML
 	 */
 	private function isValidUrl(string $url): bool {
-		return ((str_starts_with($url, 'http://') || str_starts_with($url, 'https://')) &&
-			filter_var($url, FILTER_VALIDATE_URL) !== false);
+		return ((str_starts_with($url, 'http://') || str_starts_with($url, 'https://'))
+			&& filter_var($url, FILTER_VALIDATE_URL) !== false)
+			&& !str_contains($url, '"');
 	}
 
 	/**
