@@ -15,8 +15,8 @@
 		<div v-show="!showSharingDetailsView"
 			class="sharingTab__content">
 			<!-- shared with me information -->
-			<ul>
-				<SharingEntrySimple v-if="isSharedWithMe" v-bind="sharedWithMe" class="sharing-entry__reshare">
+			<ul v-if="isSharedWithMe">
+				<SharingEntrySimple v-bind="sharedWithMe" class="sharing-entry__reshare">
 					<template #avatar>
 						<NcAvatar :user="sharedWithMe.user"
 							:display-name="sharedWithMe.displayName"
@@ -25,53 +25,119 @@
 				</SharingEntrySimple>
 			</ul>
 
-			<!-- add new share input -->
-			<SharingInput v-if="!loading"
-				:can-reshare="canReshare"
-				:file-info="fileInfo"
-				:link-shares="linkShares"
-				:reshare="reshare"
-				:shares="shares"
-				@open-sharing-details="toggleShareDetailsView" />
+			<section>
+				<div class="section-header">
+					<h4>{{ t('files_sharing', 'Internal shares') }}</h4>
+					<NcPopover popup-role="dialog">
+						<template #trigger>
+							<NcButton class="hint-icon"
+								type="tertiary-no-background"
+								:aria-label="t('files_sharing', 'Internal shares explanation')">
+								<template #icon>
+									<InfoIcon :size="20" />
+								</template>
+							</NcButton>
+						</template>
+						<p class="hint-body">
+							{{ internalSharesHelpText }}
+						</p>
+					</NcPopover>
+				</div>
+				<!-- add new share input -->
+				<SharingInput v-if="!loading"
+					:can-reshare="canReshare"
+					:file-info="fileInfo"
+					:link-shares="linkShares"
+					:reshare="reshare"
+					:shares="shares"
+					:placeholder="t('files_sharing', 'Share with accounts and teams')"
+					@open-sharing-details="toggleShareDetailsView" />
 
-			<!-- link shares list -->
-			<SharingLinkList v-if="!loading"
-				ref="linkShareList"
-				:can-reshare="canReshare"
-				:file-info="fileInfo"
-				:shares="linkShares"
-				@open-sharing-details="toggleShareDetailsView" />
+				<!-- other shares list -->
+				<SharingList v-if="!loading"
+					ref="shareList"
+					:shares="shares"
+					:file-info="fileInfo"
+					@open-sharing-details="toggleShareDetailsView" />
 
-			<!-- other shares list -->
-			<SharingList v-if="!loading"
-				ref="shareList"
-				:shares="shares"
-				:file-info="fileInfo"
-				@open-sharing-details="toggleShareDetailsView" />
+				<!-- inherited shares -->
+				<SharingInherited v-if="canReshare && !loading" :file-info="fileInfo" />
 
-			<!-- inherited shares -->
-			<SharingInherited v-if="canReshare && !loading" :file-info="fileInfo" />
+				<!-- internal link copy -->
+				<SharingEntryInternal :file-info="fileInfo" />
+			</section>
 
-			<!-- internal link copy -->
-			<SharingEntryInternal :file-info="fileInfo" />
-		</div>
+			<section>
+				<div class="section-header">
+					<h4>{{ t('files_sharing', 'External shares') }}</h4>
+					<NcPopover popup-role="dialog">
+						<template #trigger>
+							<NcButton class="hint-icon"
+								type="tertiary-no-background"
+								:aria-label="t('files_sharing', 'External shares explanation')">
+								<template #icon>
+									<InfoIcon :size="20" />
+								</template>
+							</NcButton>
+						</template>
+						<p class="hint-body">
+							{{ externalSharesHelpText }}
+						</p>
+					</NcPopover>
+				</div>
+				<SharingInput v-if="!loading"
+					:can-reshare="canReshare"
+					:file-info="fileInfo"
+					:link-shares="linkShares"
+					:is-external="true"
+					:placeholder="t('files_sharing', 'Email, federated cloud id')"
+					:reshare="reshare"
+					:shares="shares"
+					@open-sharing-details="toggleShareDetailsView" />
+				<!-- link shares list -->
+				<SharingLinkList v-if="!loading"
+					ref="linkShareList"
+					:can-reshare="canReshare"
+					:file-info="fileInfo"
+					:shares="linkShares"
+					@open-sharing-details="toggleShareDetailsView" />
+			</section>
 
-		<!-- additional entries, use it with cautious -->
-		<div v-for="(section, index) in sections"
-			v-show="!showSharingDetailsView"
-			:ref="'section-' + index"
-			:key="index"
-			class="sharingTab__additionalContent">
-			<component :is="section($refs['section-'+index], fileInfo)" :file-info="fileInfo" />
-		</div>
+			<section v-if="sections.length > 0 && !showSharingDetailsView">
+				<div class="section-header">
+					<h4>{{ t('files_sharing', 'Additional shares') }}</h4>
+					<NcPopover popup-role="dialog">
+						<template #trigger>
+							<NcButton class="hint-icon"
+								type="tertiary-no-background"
+								:aria-label="t('files_sharing', 'Additional shares explanation')">
+								<template #icon>
+									<InfoIcon :size="20" />
+								</template>
+							</NcButton>
+						</template>
+						<p class="hint-body">
+							{{ additionalSharesHelpText }}
+						</p>
+					</NcPopover>
+				</div>
+				<!-- additional entries, use it with cautious -->
+				<div v-for="(section, index) in sections"
+					:ref="'section-' + index"
+					:key="index"
+					class="sharingTab__additionalContent">
+					<component :is="section($refs['section-'+index], fileInfo)" :file-info="fileInfo" />
+				</div>
 
-		<!-- projects (deprecated as of NC25 (replaced by related_resources) - see instance config "projects.enabled" ; ignore this / remove it / move into own section) -->
-		<div v-show="!showSharingDetailsView && projectsEnabled && fileInfo"
-			 class="sharingTab__additionalContent">
-			<CollectionList
-				:id="`${fileInfo.id}`"
-				type="file"
-				:name="fileInfo.name" />
+				<!-- projects (deprecated as of NC25 (replaced by related_resources) - see instance config "projects.enabled" ; ignore this / remove it / move into own section) -->
+				<div v-if="projectsEnabled"
+					v-show="!showSharingDetailsView && fileInfo"
+					class="sharingTab__additionalContent">
+					<CollectionList :id="`${fileInfo.id}`"
+						type="file"
+						:name="fileInfo.name" />
+				</div>
+			</section>
 		</div>
 
 		<!-- share details -->
@@ -92,9 +158,13 @@ import { generateOcsUrl } from '@nextcloud/router'
 import { CollectionList } from 'nextcloud-vue-collections'
 import { ShareType } from '@nextcloud/sharing'
 
+import InfoIcon from 'vue-material-design-icons/Information.vue'
+import NcPopover from '@nextcloud/vue/dist/Components/NcPopover.js'
+
 import axios from '@nextcloud/axios'
 import moment from '@nextcloud/moment'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
 import { shareWithTitle } from '../utils/SharedWithMe.js'
 
@@ -109,12 +179,17 @@ import SharingLinkList from './SharingLinkList.vue'
 import SharingList from './SharingList.vue'
 import SharingDetailsTab from './SharingDetailsTab.vue'
 
+import ShareDetails from '../mixins/ShareDetails.js'
+
 export default {
 	name: 'SharingTab',
 
 	components: {
-		NcAvatar,
 		CollectionList,
+		InfoIcon,
+		NcAvatar,
+		NcButton,
+		NcPopover,
 		SharingEntryInternal,
 		SharingEntrySimple,
 		SharingInherited,
@@ -123,6 +198,7 @@ export default {
 		SharingList,
 		SharingDetailsTab,
 	},
+	mixins: [ShareDetails],
 
 	data() {
 		return {
@@ -145,6 +221,10 @@ export default {
 			showSharingDetailsView: false,
 			shareDetailsData: {},
 			returnFocusElement: null,
+
+			internalSharesHelpText: t('files_sharing', 'Use this method to share files with individuals or teams within your organization. If the recipient already has access to the share but cannot locate it, you can send them the internal share link for easy access.'),
+			externalSharesHelpText: t('files_sharing', 'Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID.'),
+			additionalSharesHelpText: t('files_sharing', 'Shares that are not part of the internal or external shares. This can be shares from apps or other sources.'),
 		}
 	},
 
@@ -428,10 +508,47 @@ export default {
 
 	&__content {
 		padding: 0 6px;
+
+		section {
+			padding-bottom: 16px;
+
+			.section-header {
+				margin-top: 2px;
+				margin-bottom: 2px;
+				display: flex;
+				align-items: center;
+				padding-bottom: 4px;
+
+				h4 {
+					margin: 0;
+					font-size: 16px;
+				}
+
+				.visually-hidden {
+					display: none;
+				}
+
+				.hint-icon {
+					color: var(--color-primary-element);
+				}
+
+			}
+
+		}
+
+		& > section:not(:last-child) {
+			border-bottom: 2px solid var(--color-border);
+		}
+
 	}
 
 	&__additionalContent {
 		margin: 44px 0;
 	}
+}
+
+.hint-body {
+	max-width: 300px;
+	padding: var(--border-radius-element);
 }
 </style>
