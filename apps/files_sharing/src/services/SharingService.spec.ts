@@ -275,7 +275,7 @@ describe('SharingService share to Node mapping', () => {
 		tags: [TAG_FAVORITE],
 	}
 
-	const remoteFile = {
+	const remoteFileAccepted = {
 		mimetype: 'text/markdown',
 		mtime: 1688721600,
 		permissions: 19,
@@ -292,6 +292,25 @@ describe('SharingService share to Node mapping', () => {
 		owner: 'owner-uid',
 		user: 'sharee-uid',
 		accepted: true,
+	}
+
+	const remoteFilePending = {
+		mimetype: 'text/markdown',
+		mtime: 1688721600,
+		permissions: 19,
+		type: 'file',
+		file_id: 1234,
+		id: 4,
+		share_type: ShareType.User,
+		parent: null,
+		remote: 'http://exampe.com',
+		remote_id: '12345',
+		share_token: 'share-token',
+		name: '/test.md',
+		mountpoint: '/shares/test.md',
+		owner: 'owner-uid',
+		user: 'sharee-uid',
+		accepted: false,
 	}
 
 	const tempExternalFile = {
@@ -369,33 +388,64 @@ describe('SharingService share to Node mapping', () => {
 		expect(folder.attributes.favorite).toBe(1)
 	})
 
-	test('Remote file', async () => {
-		axios.get.mockReturnValueOnce(Promise.resolve({
-			data: {
-				ocs: {
-					data: [remoteFile],
+	describe('Remote file', () => {
+		test('Accepted', async () => {
+			axios.get.mockReturnValueOnce(Promise.resolve({
+				data: {
+					ocs: {
+						data: [remoteFileAccepted],
+					},
 				},
-			},
-		}))
+			}))
 
-		const shares = await getContents(false, true, false, false)
+			const shares = await getContents(false, true, false, false)
 
-		expect(axios.get).toHaveBeenCalledTimes(1)
-		expect(shares.contents).toHaveLength(1)
+			expect(axios.get).toHaveBeenCalledTimes(1)
+			expect(shares.contents).toHaveLength(1)
 
-		const file = shares.contents[0] as File
-		expect(file).toBeInstanceOf(File)
-		expect(file.fileid).toBe(1234)
-		expect(file.source).toBe('http://nextcloud.local/remote.php/dav/files/test/shares/test.md')
-		expect(file.owner).toBe('owner-uid')
-		expect(file.mime).toBe('text/markdown')
-		expect(file.mtime?.getTime()).toBe(remoteFile.mtime * 1000)
-		// not available for remote shares
-		expect(file.size).toBe(undefined)
-		expect(file.permissions).toBe(0)
-		expect(file.root).toBe('/files/test')
-		expect(file.attributes).toBeInstanceOf(Object)
-		expect(file.attributes.favorite).toBe(0)
+			const file = shares.contents[0] as File
+			expect(file).toBeInstanceOf(File)
+			expect(file.fileid).toBe(1234)
+			expect(file.source).toBe('http://nextcloud.local/remote.php/dav/files/test/shares/test.md')
+			expect(file.owner).toBe('owner-uid')
+			expect(file.mime).toBe('text/markdown')
+			expect(file.mtime?.getTime()).toBe(remoteFileAccepted.mtime * 1000)
+			// not available for remote shares
+			expect(file.size).toBe(undefined)
+			expect(file.permissions).toBe(19)
+			expect(file.root).toBe('/files/test')
+			expect(file.attributes).toBeInstanceOf(Object)
+			expect(file.attributes.favorite).toBe(0)
+		})
+
+		test('Pending', async () => {
+			axios.get.mockReturnValueOnce(Promise.resolve({
+				data: {
+					ocs: {
+						data: [remoteFilePending],
+					},
+				},
+			}))
+
+			const shares = await getContents(false, true, false, false)
+
+			expect(axios.get).toHaveBeenCalledTimes(1)
+			expect(shares.contents).toHaveLength(1)
+
+			const file = shares.contents[0] as File
+			expect(file).toBeInstanceOf(File)
+			expect(file.fileid).toBe(1234)
+			expect(file.source).toBe('http://nextcloud.local/remote.php/dav/files/test/shares/test.md')
+			expect(file.owner).toBe('owner-uid')
+			expect(file.mime).toBe('text/markdown')
+			expect(file.mtime?.getTime()).toBe(remoteFilePending.mtime * 1000)
+			// not available for remote shares
+			expect(file.size).toBe(undefined)
+			expect(file.permissions).toBe(0)
+			expect(file.root).toBe('/files/test')
+			expect(file.attributes).toBeInstanceOf(Object)
+			expect(file.attributes.favorite).toBe(0)
+		})
 	})
 
 	test('External temp file', async () => {
