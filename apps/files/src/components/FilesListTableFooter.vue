@@ -65,6 +65,7 @@ import Vue from 'vue'
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
+import { useNavigation } from '../composables/useNavigation'
 
 export default Vue.extend({
 	name: 'FilesListTableFooter',
@@ -99,19 +100,17 @@ export default Vue.extend({
 		const pathsStore = usePathsStore()
 		const filesStore = useFilesStore()
 		const { directory } = useRouteParameters()
+		const { currentView } = useNavigation()
 
 		return {
 			filesStore,
 			pathsStore,
 			directory,
+			currentView,
 		}
 	},
 
 	computed: {
-		currentView() {
-			return this.$navigation.active
-		},
-
 		currentFolder() {
 			if (!this.currentView?.id) {
 				return

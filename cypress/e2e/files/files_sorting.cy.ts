@@ -284,4 +284,65 @@ describe('Files: Sorting the file list', { testIsolation: true }, () => {
 			}
 		})
 	})
+
+	it('Sorting works after switching view twice', () => {
+		cy.uploadContent(currentUser, new Blob(), 'text/plain', '/1 tiny.txt')
+			.uploadContent(currentUser, new Blob(['a'.repeat(1024)]), 'text/plain', '/z big.txt')
+			.uploadContent(currentUser, new Blob(['a'.repeat(512)]), 'text/plain', '/a medium.txt')
+			.mkdir(currentUser, '/folder')
+		cy.login(currentUser)
+		cy.visit('/apps/files')
+
+		// click sort button twice
+		cy.get('th').contains('button', 'Size').click()
+		cy.get('th').contains('button', 'Size').click()
+
+		// switch to personal and click sort button twice again
+		cy.get('[data-cy-files-navigation-item="personal"]').click()
+		cy.get('th').contains('button', 'Size').click()
+		cy.get('th').contains('button', 'Size').click()
+
+		// switch back to files view and do actual assertions
+		cy.get('[data-cy-files-navigation-item="files"]').click()
+
+		// click sort button
+		cy.get('th').contains('button', 'Size').click()
+		// sorting is set
+		cy.contains('th', 'Size').should('have.attr', 'aria-sort', 'ascending')
+		// Files are sorted
+		cy.get('[data-cy-files-list-row]').each(($row, index) => {
+			switch (index) {
+			case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('folder')
+				break
+			case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('1 tiny.txt')
+				break
+			case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
+				break
+			case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('a medium.txt')
+				break
+			case 4: expect($row.attr('data-cy-files-list-row-name')).to.eq('z big.txt')
+				break
+			}
+		})
+
+		// click sort button
+		cy.get('th').contains('button', 'Size').click()
+		// sorting is set
+		cy.contains('th', 'Size').should('have.attr', 'aria-sort', 'descending')
+		// Files are sorted
+		cy.get('[data-cy-files-list-row]').each(($row, index) => {
+			switch (index) {
+			case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('folder')
+				break
+			case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('z big.txt')
+				break
+			case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('a medium.txt')
+				break
+			case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
+				break
+			case 4: expect($row.attr('data-cy-files-list-row-name')).to.eq('1 tiny.txt')
+				break
+			}
+		})
+	})
 })
