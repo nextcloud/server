@@ -57,6 +57,7 @@
     "Avatar image is not square" : "Avatarbilde er ikke firkantet",
     "Files" : "Filer",
     "View profile" : "Vis profil",
+    "_%nh_::_%nh_" : ["%nh","%nh"],
     "Local time: %s" : "Lokal tid: %s",
     "today" : "i dag",
     "tomorrow" : "I morgen",

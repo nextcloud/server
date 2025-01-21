@@ -42,6 +42,7 @@
     "Avatar image is not square" : "Avatar-kuva ei ole neliö",
     "Files" : "Tiedostot",
     "View profile" : "Näytä profiili",
+    "_%nh_::_%nh_" : ["%nh","%nh"],
     "Local time: %s" : "Paikallinen aika: %s",
     "today" : "tänään",
     "tomorrow" : "huomenna",

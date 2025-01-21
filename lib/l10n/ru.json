@@ -57,6 +57,7 @@
     "Avatar image is not square" : "Изображение аватара не квадратное",
     "Files" : "Файлы",
     "View profile" : "Открыть профиль",
+    "_%nh_::_%nh_" : ["%nч","%nч","%nч","%nч"],
     "Local time: %s" : "Местное время: %s",
     "today" : "сегодня",
     "tomorrow" : "завтра",

@@ -46,6 +46,8 @@
     "Folder not found" : "Mappen hittades inte",
     "The file cannot be found" : "Filen kan inte hittas",
     "The destination path does not exist: %1$s" : "Målsökvägen finns inte: %1$s",
+    "You do not have permission to create a file at the specified location" : "Du har inte behörighet att skapa en fil på den angivna platsen",
+    "The file could not be converted." : "Filen kunde inte konverteras.",
     "Could not get relative path to converted file" : "Kunde inte hämta relativ sökväg till den konverterade filen",
     "Favorite files" : "Favoritfiler",
     "No favorites" : "Inga favoriter",

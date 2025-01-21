@@ -57,6 +57,7 @@
     "Avatar image is not square" : "Obrázok avatara nie je štvorcový",
     "Files" : "Súbory",
     "View profile" : "Zobraziť profil",
+    "_%nh_::_%nh_" : ["%nh","%nh","%nh","%nh"],
     "Local time: %s" : "Miestny čas: %s",
     "today" : "dnes",
     "tomorrow" : "zajtra",
