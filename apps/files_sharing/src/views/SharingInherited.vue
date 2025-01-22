@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<ul id="sharing-inherited-shares">
+	<ul v-if="shares.length" id="sharing-inherited-shares">
 		<!-- Main collapsible entry -->
 		<SharingEntrySimple class="sharing-entry__inherited"
 			:title="mainTitle"
