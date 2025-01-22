@@ -76,4 +76,10 @@ interface IWatcher {
 	 * @since 9.0.0
 	 */
 	public function cleanFolder($path);
+
+	/**
+	 * register a callback to be called whenever the watcher triggers and update
+	 * @since 31.0.0
+	 */
+	public function onUpdate(callable $callback): void;
 }

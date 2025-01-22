@@ -441,7 +441,12 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 			// for shares from the home storage we can rely on the home storage to keep itself up to date
 			// for other storages we need use the proper watcher
 			if (!(str_starts_with($storageId, 'home::') || str_starts_with($storageId, 'object::user'))) {
+				$cache = $this->getCache();
 				$this->watcher = parent::getWatcher($path, $storage);
+				if ($cache instanceof Cache) {
+					$this->watcher->onUpdate($cache->markRootChanged(...));
+				}
+
 				return $this->watcher;
 			}
 		}
