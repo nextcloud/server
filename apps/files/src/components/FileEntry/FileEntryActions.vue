@@ -68,7 +68,7 @@
 					<template #icon>
 						<ArrowLeftIcon />
 					</template>
-					{{ actionDisplayName(openedSubmenu) }}
+					{{ t('files', 'Back') }}
 				</NcActionButton>
 				<NcActionSeparator />
 
@@ -254,6 +254,13 @@ export default defineComponent({
 
 		mountType() {
 			return this.source.attributes['mount-type']
+		},
+	},
+
+	watch: {
+		// Close any submenu when the menu is closed
+		openedMenu() {
+			this.openedSubmenu = null
 		},
 	},
 
