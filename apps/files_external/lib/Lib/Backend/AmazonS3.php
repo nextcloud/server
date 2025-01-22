@@ -41,6 +41,9 @@ class AmazonS3 extends Backend {
 				(new DefinitionParameter('useMultipartCopy', $l->t('Enable multipart copy')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN)
 					->setDefaultValue(true),
+				(new DefinitionParameter('sse_c_key', $l->t('SSE-C encryption key')))
+					->setType(DefinitionParameter::VALUE_PASSWORD)
+					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])
 			->addAuthScheme(AccessKey::SCHEME_AMAZONS3_ACCESSKEY)
 			->addAuthScheme(AuthMechanism::SCHEME_NULL)
