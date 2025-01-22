@@ -103,14 +103,14 @@ abstract class Backend extends \Test\TestCase {
 
 	public function testSearchGroups() {
 		$name1 = $this->getGroupName('foobarbaz');
-		$name2 = $this->getGroupName('bazbarfoo');
+		$name2 = $this->getGroupName('bazfoobarfoo');
 		$name3 = $this->getGroupName('notme');
 
 		$this->backend->createGroup($name1);
 		$this->backend->createGroup($name2);
 		$this->backend->createGroup($name3);
 
-		$result = $this->backend->getGroups('bar');
+		$result = $this->backend->getGroups('foobar');
 		$this->assertSame(2, count($result));
 	}
 
