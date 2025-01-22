@@ -55,4 +55,7 @@ class JailWatcher extends Watcher {
 		$this->watcher->cleanFolder($this->getSourcePath($path));
 	}
 
+	public function onUpdate(callable $callback): void {
+		$this->watcher->onUpdate($callback);
+	}
 }

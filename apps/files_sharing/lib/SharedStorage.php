@@ -460,7 +460,12 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 			// for shares from the home storage we can rely on the home storage to keep itself up to date
 			// for other storages we need use the proper watcher
 			if (!(str_starts_with($storageId, 'home::') || str_starts_with($storageId, 'object::user'))) {
+				$cache = $this->getCache();
 				$this->watcher = parent::getWatcher($path, $storage);
+				if ($cache instanceof Cache && $this->watcher instanceof Watcher) {
+					$this->watcher->onUpdate([$cache, 'markRootChanged']);
+				}
+
 				return $this->watcher;
 			}
 		}
