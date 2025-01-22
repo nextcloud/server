@@ -36,9 +36,9 @@ export const convertFiles = async function(fileIds: number[], targetMimeType: st
 	try {
 		const results = await Promise.allSettled(conversions)
 		const failed = results.filter(result => result.status === 'rejected')
-		if (failed.length) {
+		if (failed.length > 0) {
 			const messages = failed.map(result => result.reason?.response?.data?.ocs?.meta?.message) as string[]
-			logger.error('Failed to convert files', { fileIds, targetMimeType, error })
+			logger.error('Failed to convert files', { fileIds, targetMimeType, messages })
 
 			// If all failed files have the same error message, show it
 			if (new Set(messages).size === 1) {
@@ -47,7 +47,7 @@ export const convertFiles = async function(fileIds: number[], targetMimeType: st
 			}
 
 			if (failed.length === fileIds.length) {
-				showError(t('files', 'Failed to convert files'))
+				showError(t('files', 'All files failed to be converted'))
 				return
 			}
 
@@ -64,7 +64,10 @@ export const convertFiles = async function(fileIds: number[], targetMimeType: st
 				return
 			}
 
+			// We already check above when all files failed
+			// if we're here, we have a mix of failed and successful files
 			showError(t('files', '{count} files could not be converted', { count: failed.length }))
+			showSuccess(t('files', '{count} files successfully converted', { count: fileIds.length - failed.length }))
 			return
 		}
 
