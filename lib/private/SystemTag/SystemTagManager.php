@@ -11,13 +11,16 @@ namespace OC\SystemTag;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserSession;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ManagerEvent;
 use OCP\SystemTag\TagAlreadyExistsException;
+use OCP\SystemTag\TagCreationForbiddenException;
 use OCP\SystemTag\TagNotFoundException;
 
 /**
@@ -36,6 +39,8 @@ class SystemTagManager implements ISystemTagManager {
 		protected IDBConnection $connection,
 		protected IGroupManager $groupManager,
 		protected IEventDispatcher $dispatcher,
+		private IUserSession $userSession,
+		private IAppConfig $appConfig,
 	) {
 		$query = $this->connection->getQueryBuilder();
 		$this->selectTagQuery = $query->select('*')
@@ -145,7 +150,10 @@ class SystemTagManager implements ISystemTagManager {
 	}
 
 	public function createTag(string $tagName, bool $userVisible, bool $userAssignable): ISystemTag {
-		$tagName = trim($tagName);
+		$user = $this->userSession->getUser();
+		if (!$this->canUserCreateTag($user)) {
+			throw new TagCreationForbiddenException('Tag creation forbidden');
+		}
 		// Length of name column is 64
 		$truncatedTagName = substr($tagName, 0, 64);
 		$query = $this->connection->getQueryBuilder();
@@ -319,6 +327,19 @@ class SystemTagManager implements ISystemTagManager {
 		}
 
 		return false;
+	}
+
+	public function canUserCreateTag(?IUser $user): bool {
+		if ($user === null) {
+			// If no user given, allows only calls from CLI
+			return \OC::$CLI;
+		}
+
+		if ($this->appConfig->getValueBool('systemtags', 'restrict_creation_to_admin', false) === false) {
+			return true;
+		}
+
+		return $this->groupManager->isAdmin($user->getUID());
 	}
 
 	public function canUserSeeTag(ISystemTag $tag, ?IUser $user): bool {

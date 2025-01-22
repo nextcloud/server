@@ -51,6 +51,8 @@ import {
 	setTagForFile,
 } from '../services/files.js'
 
+import { loadState } from '@nextcloud/initial-state'
+
 import type { Tag, TagWithId } from '../types.js'
 
 export default Vue.extend({
@@ -188,6 +190,10 @@ export default Vue.extend({
 				this.sortedTags.unshift(createdTag)
 				this.selectedTags.push(createdTag)
 			} catch (error) {
+				if(loadState('settings', 'restrictSystemTagsCreationToAdmin', '0') === '1') {
+					showError(t('systemtags', 'System admin disabled tag creation. You can only use existing ones.'))
+					return
+				}
 				showError(t('systemtags', 'Failed to create tag'))
 			}
 			this.loading = false

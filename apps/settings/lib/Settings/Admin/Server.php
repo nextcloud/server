@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -52,6 +53,9 @@ class Server implements IDelegatedSettings {
 		// Profile page
 		$this->initialStateService->provideInitialState('profileEnabledGlobally', $this->profileManager->isProfileEnabled());
 		$this->initialStateService->provideInitialState('profileEnabledByDefault', $this->isProfileEnabledByDefault($this->config));
+
+		// Basic settings
+		$this->initialStateService->provideInitialState('restrictSystemTagsCreationToAdmin', $this->appConfig->getValueString('systemtags', 'restrict_creation_to_admin', 'true'));
 
 		return new TemplateResponse('settings', 'settings/admin/server', [
 			'profileEnabledGlobally' => $this->profileManager->isProfileEnabled(),

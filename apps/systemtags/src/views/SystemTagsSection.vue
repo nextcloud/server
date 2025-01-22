@@ -6,10 +6,10 @@
 <template>
 	<NcSettingsSection :name="t('systemtags', 'Collaborative tags')"
 		:description="t('systemtags', 'Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them.')">
+		<SystemTagsCreationControl />
 		<NcLoadingIcon v-if="loadingTags"
 			:name="t('systemtags', 'Loading collaborative tags …')"
 			:size="32" />
-
 		<SystemTagForm v-else
 			:tags="tags"
 			@tag:created="handleCreate"
@@ -29,6 +29,7 @@ import { translate as t } from '@nextcloud/l10n'
 import { showError } from '@nextcloud/dialogs'
 
 import SystemTagForm from '../components/SystemTagForm.vue'
+import SystemTagsCreationControl from '../components/SystemTagsCreationControl.vue'
 
 import { fetchTags } from '../services/api.js'
 
@@ -41,6 +42,7 @@ export default Vue.extend({
 		NcLoadingIcon,
 		NcSettingsSection,
 		SystemTagForm,
+		SystemTagsCreationControl,
 	},
 
 	data() {

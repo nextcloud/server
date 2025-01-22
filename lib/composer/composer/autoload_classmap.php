@@ -796,6 +796,7 @@ return array(
     'OCP\\SystemTag\\MapperEvent' => $baseDir . '/lib/public/SystemTag/MapperEvent.php',
     'OCP\\SystemTag\\SystemTagsEntityEvent' => $baseDir . '/lib/public/SystemTag/SystemTagsEntityEvent.php',
     'OCP\\SystemTag\\TagAlreadyExistsException' => $baseDir . '/lib/public/SystemTag/TagAlreadyExistsException.php',
+    'OCP\\SystemTag\\TagCreationForbiddenException' => $baseDir . '/lib/public/SystemTag/TagCreationForbiddenException.php',
     'OCP\\SystemTag\\TagNotFoundException' => $baseDir . '/lib/public/SystemTag/TagNotFoundException.php',
     'OCP\\Talk\\Exceptions\\NoBackendException' => $baseDir . '/lib/public/Talk/Exceptions/NoBackendException.php',
     'OCP\\Talk\\IBroker' => $baseDir . '/lib/public/Talk/IBroker.php',

@@ -18,6 +18,7 @@ use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagAlreadyExistsException;
+use OCP\SystemTag\TagCreationForbiddenException;
 use OCP\Util;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Conflict;
@@ -189,6 +190,8 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			return $tag;
 		} catch (TagAlreadyExistsException $e) {
 			throw new Conflict('Tag already exists', 0, $e);
+		} catch (TagCreationForbiddenException $e) {
+			throw new Forbidden('You don’t have right to create tags', 0, $e);
 		}
 	}
 
@@ -376,7 +379,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		if (!$node instanceof SystemTagNode && !$node instanceof SystemTagObjectType) {
 			return;
 		}
-		
+
 		$propPatch->handle([self::OBJECTIDS_PROPERTYNAME], function ($props) use ($node) {
 			if (!$node instanceof SystemTagObjectType) {
 				return false;
@@ -394,7 +397,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 				if (count($objectTypes) !== 1 || $objectTypes[0] !== $node->getName()) {
 					throw new BadRequest('Invalid object-ids property. All object types must be of the same type: ' . $node->getName());
 				}
-				
+
 				$this->tagMapper->setObjectIdsForTag($node->getSystemTag()->getId(), $node->getName(), array_keys($objects));
 			}
 

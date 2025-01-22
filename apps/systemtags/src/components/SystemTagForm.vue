@@ -9,9 +9,9 @@
 		aria-labelledby="system-tag-form-heading"
 		@submit.prevent="handleSubmit"
 		@reset="reset">
-		<h3 id="system-tag-form-heading">
+		<h4 id="system-tag-form-heading">
 			{{ t('systemtags', 'Create or edit tags') }}
-		</h3>
+		</h4>
 
 		<div class="system-tag-form__group">
 			<label for="system-tags-input">{{ t('systemtags', 'Search for a tag to edit') }}</label>
