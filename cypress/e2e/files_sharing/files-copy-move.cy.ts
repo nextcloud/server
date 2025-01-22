@@ -6,7 +6,6 @@ import type { User } from '@nextcloud/cypress'
 import { createShare } from './FilesSharingUtils.ts'
 import {
 	getRowForFile,
-	moveFile,
 	copyFile,
 	navigateToFolder,
 	triggerActionForFile,
@@ -65,7 +64,6 @@ describe('files_sharing: Move or copy files', { testIsolation: true }, () => {
 			sharee = $user
 		})
 	})
-
 
 	it('can create a file in a shared folder', () => {
 		// share the folder

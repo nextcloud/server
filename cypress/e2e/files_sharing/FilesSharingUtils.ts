@@ -9,6 +9,7 @@ export interface ShareSetting {
 	read: boolean
 	update: boolean
 	delete: boolean
+	create: boolean
 	share: boolean
 	download: boolean
 	note: string
