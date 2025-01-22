@@ -91,6 +91,7 @@ class SystemConfig {
 				// S3
 				'key' => true,
 				'secret' => true,
+				'sse_c_key' => true,
 				// Swift v2
 				'username' => true,
 				'password' => true,
