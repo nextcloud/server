@@ -2330,11 +2330,16 @@
                                                 "data": {
                                                     "type": "object",
                                                     "required": [
-                                                        "path"
+                                                        "path",
+                                                        "fileId"
                                                     ],
                                                     "properties": {
                                                         "path": {
                                                             "type": "string"
+                                                        },
+                                                        "fileId": {
+                                                            "type": "integer",
+                                                            "format": "int64"
                                                         }
                                                     }
                                                 }

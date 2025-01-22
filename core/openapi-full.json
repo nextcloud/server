@@ -8488,6 +8488,47 @@
                 }
             }
         },
+        "/index.php/core/mimeicon": {
+            "get": {
+                "operationId": "preview-get-mime-icon-url",
+                "summary": "Get a preview by mime",
+                "tags": [
+                    "preview"
+                ],
+                "security": [
+                    {},
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "mime",
+                        "in": "query",
+                        "description": "Mime type",
+                        "schema": {
+                            "type": "string",
+                            "default": "application/octet-stream"
+                        }
+                    }
+                ],
+                "responses": {
+                    "303": {
+                        "description": "The mime icon url",
+                        "headers": {
+                            "Location": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/index.php/core/references/preview/{referenceId}": {
             "get": {
                 "operationId": "reference-preview",

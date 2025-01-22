@@ -54,7 +54,7 @@ export const useFilesStore = function(...args) {
 
 		actions: {
 			/**
-			 * Get cached nodes within a given path
+			 * Get cached child nodes within a given path
 			 *
 			 * @param service The service (files view)
 			 * @param path The path relative within the service
