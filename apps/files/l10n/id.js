@@ -116,7 +116,6 @@ OC.L10N.register(
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Tambah ke favorit",
     "Tags" : "Tag",
-    "Unable to change the favourite state of the file" : "Gagal mengubah status favorit berkas",
     "Error while loading the file data" : "Galat pemuatan data berkas",
     "Pick a template for {name}" : "Pilih templat untuk {name}",
     "Create a new file with the selected template" : "Buat sebuah berkas baru dengan templat yang dipilih",
@@ -236,6 +235,7 @@ OC.L10N.register(
     "Storage informations" : "Informasi penyimpanan",
     "Open the files app settings" : "Buka setelan aplikasi berkas",
     "You might not have have permissions to view it, ask the sender to share it" : "Anda mungkin tidak memiliki izin untuk menampilkan ini, tanyakan pengirim untuk membagikannya",
+    "Unable to change the favourite state of the file" : "Gagal mengubah status favorit berkas",
     "Toggle %1$s sublist" : "Alih %1$s subdaftar",
     "Text file" : "Berkas teks",
     "New text file.txt" : "Teks baru file.txt"

@@ -438,7 +438,6 @@ OC.L10N.register(
     "Display Name" : "Anzeigename",
     "GPUs support" : "GPUs Unterstützung",
     "Compute device" : "Compute-Gerät",
-    "Learn more" : "Benötigt keine Übersetzung. Für Android wird nur die formelle Übersetzung verwendet (de_DE).",
     "Confirm" : "Bestätigen",
     "Cancel" : "Abbrechen",
     "Description" : "Beschreibung",
