@@ -1729,10 +1729,6 @@
     <InvalidArgument>
       <code><![CDATA[$params]]></code>
     </InvalidArgument>
-    <InvalidArrayOffset>
-      <code><![CDATA[$params['adapter']]]></code>
-      <code><![CDATA[$params['tablePrefix']]]></code>
-    </InvalidArrayOffset>
   </file>
   <file src="lib/private/DB/Exceptions/DbalException.php">
     <RedundantCondition>
