@@ -70,6 +70,8 @@
     "Description: %s" : "Опис: %s",
     "Where: %s" : "Место: %s",
     "%1$s via %2$s" : "%1$s преко %2$s",
+    "In the past on %1$s for the entire day" : "У прошлости %1$s током целог дана",
+    "_In a minute on %1$s for the entire day_::_In %n minutes on %1$s for the entire day_" : ["За минут дана %1$s током целог дана","За %n минута дана %1$s током целог дана","За %n минут дана %1$s током целог дана"],
     "Could not generate when statement" : "Не може да се генерише одредба када",
     "Every Day for the entire day" : "Сваки дан током целог дана",
     "Every Day for the entire day until %1$s" : "Сваки дан током целог дана, све до %1$s",
