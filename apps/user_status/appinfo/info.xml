@@ -9,7 +9,7 @@
 	<name>User status</name>
 	<summary>User status</summary>
 	<description><![CDATA[User status]]></description>
-	<version>1.11.0</version>
+	<version>1.12.0</version>
 	<licence>agpl</licence>
 	<author mail="oc.list@georgehrke.com" >Georg Ehrke</author>
 	<namespace>UserStatus</namespace>
@@ -24,7 +24,7 @@
 		</navigation>
 	</navigations>
 	<dependencies>
-		<nextcloud min-version="31" max-version="31"/>
+		<nextcloud min-version="32" max-version="32"/>
 	</dependencies>
 	<background-jobs>
 		<job>OCA\UserStatus\BackgroundJob\ClearOldStatusesBackgroundJob</job>
