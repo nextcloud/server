@@ -15,7 +15,7 @@ Set file reminders.
 Note: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly.
 
 	]]></description>
-	<version>1.4.0</version>
+	<version>1.5.0</version>
 	<licence>agpl</licence>
 	<author>Christopher Ng</author>
 	<namespace>FilesReminders</namespace>
@@ -25,7 +25,7 @@ Note: to use the `File reminders` app, ensure that the `Notifications` app is in
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 
 	<dependencies>
-		<nextcloud min-version="31" max-version="31"/>
+		<nextcloud min-version="32" max-version="32"/>
 	</dependencies>
 
 	<background-jobs>
