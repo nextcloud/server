@@ -101,7 +101,7 @@ class Manager implements IManager {
 	) {
 		$this->appData = $appDataFactory->get('core');
 		$this->cache = $cacheFactory->createLocal('task_processing::');
-		$this->cache = $cacheFactory->createDistributed('task_processing::');
+		$this->distributedCache = $cacheFactory->createDistributed('task_processing::');
 	}
 
 
