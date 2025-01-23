@@ -31,7 +31,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Prodúxose un error mentanto se tentaba d'editar el comentariu",
     "Comment deleted" : "Desanicióse'l comentariu",
     "An error occurred while trying to delete the comment" : "Prodúxose un error mentanto se tentaba de desaniciar el comentariu",
-    "An error occurred while trying to create the comment" : "Prodúxose un error mentanto se tentaba de crear el comentariu",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Un usuariu que ta desaniciáu mentóte nun comentariu de: {file}"
+    "An error occurred while trying to create the comment" : "Prodúxose un error mentanto se tentaba de crear el comentariu"
 },
 "nplurals=2; plural=(n != 1);");

@@ -31,7 +31,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Prišlo je do napake med poskusom urejanja opombe",
     "Comment deleted" : "Opomba je izbrisana",
     "An error occurred while trying to delete the comment" : "Prišlo je do napake med brisanjem opombe",
-    "An error occurred while trying to create the comment" : "Prišlo je do napake med ustvarjanjem opombe",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Uporabnik, ki je sicer že izbrisan, vas omeni v opombi k datoteki »{file}«."
+    "An error occurred while trying to create the comment" : "Prišlo je do napake med ustvarjanjem opombe"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

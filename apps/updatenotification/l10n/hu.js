@@ -46,11 +46,6 @@ OC.L10N.register(
     "A pre-release version only for testing new features, not for production environments." : "Az előzetes verzió kizárólag az új funkciók tesztelésére szolgál, nem éles környezetekbe való.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz.","<strong>%n</strong> alkalmazásnak nincs elérhető kompatibilis verziója ehhez a Nextcloud verzióhoz."],
     "What's new in {app} version {version}" : "Újdonságok a(z) {app} {version} verziójában",
-    "{version} is available. Get more information on how to update." : "Új verzió érhető el: {version}. További információk a frissítéshez.",
-    "Update to %1$s is available." : "%1$s frissítés érhető el.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Megjeleníti a Nextcloud frissítéseiről szóló értesítéseket és SSO hozzáférést nyújt a frissítésekhez.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Vegye figyelembe, hogy a webes frissítő több mint 100 felhasználóval nem ajánlott. Használja helyette a parancssoros frissítőt.",
-    "Please use the command line updater to update." : "Az frissítéshez kérjük használja a parancssoros frissítéskezelőt.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Vegye figyelembe, hogy egy új verzió kiadása után, a frissítés csak a következő alverzió megjelenése, vagy egy későbbi időpontban jelenik meg. Fokozatosan juttatjuk el az új verziókat a felhasználókhoz, és néha kihagyunk egy verziót, ha problémák merülnek fel. Tudjon meg többet a frissítésekről és a kiadási csatornákról a következő oldalon: {link}"
+    "{version} is available. Get more information on how to update." : "Új verzió érhető el: {version}. További információk a frissítéshez."
 },
 "nplurals=2; plural=(n != 1);");

@@ -61,7 +61,6 @@ OC.L10N.register(
     "not between" : "ikke mellem",
     "Request user agent" : "Bruger \"user agent\"",
     "is member of" : "er medlem af",
-    "is not member of" : "er ikke medlem af",
-    "User group membership" : "Brugers gruppemedlemsskab"
+    "is not member of" : "er ikke medlem af"
 },
 "nplurals=2; plural=(n != 1);");

@@ -113,7 +113,6 @@ OC.L10N.register(
     "not between" : "niet tussen",
     "Request user agent" : "Useragent aanvraag",
     "is member of" : "is lid van",
-    "is not member of" : "is geen lid van",
-    "User group membership" : "Gebruikersgroep lidmaatschap"
+    "is not member of" : "is geen lid van"
 },
 "nplurals=2; plural=(n != 1);");

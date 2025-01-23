@@ -118,7 +118,6 @@ OC.L10N.register(
     "Request user agent" : "リクエスト時のユーザーエージェント",
     "Group membership" : "グループメンバー",
     "is member of" : "が次のグループのメンバーである",
-    "is not member of" : "が次のグループのメンバーではない",
-    "User group membership" : "ユーザーがグループのメンバーかどうか"
+    "is not member of" : "が次のグループのメンバーではない"
 },
 "nplurals=1; plural=0;");

@@ -29,7 +29,6 @@ OC.L10N.register(
     "Send password by mail" : "Envia la contrasenya per correu electrònic",
     "Reply to initiator" : "Respon a l'usuari que comparteix l'element",
     "Unable to update share by mail config" : "No s'ha pogut actualitzar la configuració d'ús compartit per correu electrònic",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "No s'ha pogut compartir %1$s perquè l'element ja està compartit amb l'usuari %2$s",
     "%1$s shared »%2$s« with you" : "%1$s ha compartit «%2$s» amb vós",
     "%1$s shared »%2$s« with you." : "%1$s ha compartit «%2$s» amb vós.",
     "Click the button below to open it." : "Feu clic en el botó següent per a obrir-ho.",
@@ -42,7 +41,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s ha compartit «%2$s» amb vós i vol afegir",
     "»%s« added a note to a file shared with you" : "%s ha afegit una nota a un fitxer compartit amb vós",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Acabeu de compartir «%1$s» amb %2$s. Ja s'ha enviat l'element compartit al destinatari. A causa de les polítiques de seguretat definides per l'administrador del %3$s, cada element compartit s'ha de protegir amb contrasenya i no es permet enviar-la directament al destinatari. Per tant, li heu de fer arribar manualment per un altre canal.",
-    "Password to access »%1$s« shared by you with %2$s" : "Heu compartit amb %2$s la contrasenya per a accedir a «%1$s»",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permet que els usuaris comparteixin un enllaç personalitzat a un fitxer o carpeta indicant una adreça electrònica."
+    "Password to access »%1$s« shared by you with %2$s" : "Heu compartit amb %2$s la contrasenya per a accedir a «%1$s»"
 },
 "nplurals=2; plural=(n != 1);");

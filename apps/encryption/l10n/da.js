@@ -60,7 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Aktiver kodeord gendannelse:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivering af denne valgmulighed tillader dig at generhverve adgang til dine krypterede filer i tilfælde af tab af kodeord",
     "Enabled" : "Aktiveret",
-    "Disabled" : "Deaktiveret",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Gendannelsesnøglen er en ekstra krypteringsnøgle, der bruges til at kryptere filer. Den tillader gendannelse af en brugers filer, hvis brugeren glemmer sin adgangskode."
+    "Disabled" : "Deaktiveret"
 },
 "nplurals=2; plural=(n != 1);");

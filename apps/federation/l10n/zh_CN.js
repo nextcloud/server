@@ -11,9 +11,6 @@ OC.L10N.register(
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "联合允许您与其他受信任的服务器连接以交换帐户目录。例如，这将用于自动完成联合共享的外部帐户。无需将服务器添加为受信任的服务器即可创建联合共享。",
     "+ Add trusted server" : "+ 添加受信任服务器",
     "Trusted server" : "受信任服务器",
-    "Add" : "添加",
-    "Federation allows you to connect with other trusted servers to exchange the user directory." : "联合云功能允许您连接其他受信任服务器以交换用户目录。",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "联合云功能允许您与其他受信任的服务器连接并交换用户目录。 例如，这将用于自动完成外部用户组成共享联合。",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "联合云（Federation）应用允许您连接其他受信任的服务器以交换用户目录。例如，这将用于自动完成外部用户的联合共享。无需将服务器添加为受信任服务器即可创建联合共享。"
+    "Add" : "添加"
 },
 "nplurals=1; plural=0;");

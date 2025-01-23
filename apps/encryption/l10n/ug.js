@@ -60,7 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "پارولنى ئەسلىگە كەلتۈرۈشنى قوزغىتىڭ:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "بۇ تاللانمىنى قوزغاتسىڭىز مەخپىي شىفىرلانغان ھۆججەتلەرنى مەخپىي شىفىرىڭىز يوقاپ كەتكەن ئەھۋال ئاستىدا قايتا زىيارەت قىلالايسىز",
     "Enabled" : "قوزغىتىلدى",
-    "Disabled" : "چەكلەنگەن",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "ئەسلىگە كەلتۈرۈش ئاچقۇچى ھۆججەتلەرنى مەخپىيلەشتۈرۈش ئۈچۈن ئىشلىتىلىدىغان قوشۇمچە شىفىرلاش ئاچقۇچى. ئەگەر ئىشلەتكۈچى مەخپىي نومۇرىنى ئۇنتۇپ قالسا ، ئىشلەتكۈچىنىڭ ھۆججەتلىرىنى ئەسلىگە كەلتۈرەلەيدۇ."
+    "Disabled" : "چەكلەنگەن"
 },
 "nplurals=2; plural=(n != 1);");

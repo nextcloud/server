@@ -28,10 +28,6 @@
     "Remote share" : "Partilha remota",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Pretende adicionar a partilha remota {name} de {owner}@{remote}?",
     "Remote share password" : "Palavra-passe da partilha remota",
-    "Not allowed to create a federated share with the same user" : "Não é possível criar uma partilha federada com o mesmo utilizador",
-    "Allow users on this server to receive shares from other servers" : "Permitir que os utilizadores neste servidor recebam as partilhas de outros servidores",
-    "Search global and public address book for users" : "Pesquisar lista global e pública de contactos de utilizadores  ",
-    "Allow users to publish their data to a global and public address book" : "Permitir que  os utilizadores publiquem os seus dados para uma lista de contactos global e pública",
     "Your Federated Cloud ID:" : "A sua id. da Nuvem Federada:",
     "Twitter" : "Twitter"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

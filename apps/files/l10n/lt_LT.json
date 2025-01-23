@@ -284,25 +284,19 @@
     "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Grupės aplankas \"{mountPoint}\" yra beveik pilnas ({usedSpacePercent}%).",
     "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Išorinė saugykla \"{mountPoint}\" yra beveik pilna ({usedSpacePercent}%).",
     "Your storage is almost full ({usedSpacePercent}%)." : "Jūsų saugykla yra beveik pilna ({usedSpacePercent}%).",
-    "Direct link was copied (only works for users who have access to this file/folder)" : "Tiesioginė nuoroda buvo nukopijuota (veikia tik naudotojams, turintiems prieigą prie šio failo/aplanko)",
+    "Direct link was copied (only works for people who have access to this file/folder)" : "Tiesioginė nuoroda buvo nukopijuota (veiks tik žmonėms, turintiems prieigą prie šio failo/aplanko)",
     "Path" : "Kelias",
     "_%n byte_::_%n bytes_" : ["%n baitas","%n baitai","%n baitų","%n baitų"],
     "Favorited" : "Pažymėtas mėgstamu",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Kopijuoti tiesioginę nuorodą (veiks tik naudotojams, turintiems prieigą prie šio failo/aplanko)",
+    "Copy direct link (only works for people who have access to this file/folder)" : "Kopijuoti tiesioginę nuorodą (veiks tik žmonėms, turintiems prieigą prie šio failo/aplanko)",
     "Upload file" : "Įkelti failą",
     "Not favorited" : "Nepažymėtas mėgstamu",
     "An error occurred while trying to update the tags" : "Bandant atnaujinti žymes įvyko klaida",
-    "\"remote user\"" : "„nuotolinis naudotojas“",
-    "{newName} already exists." : "{newName} jau yra.",
-    "Name cannot be empty" : "Pavadinimas negali būti tuščias",
-    "Could not rename \"{oldName}\"" : "Nepavyko pervadinti „{oldName}“",
     "Storage informations" : "Informacija apie saugyklą",
     "Go to the previous folder" : "Eiti į ankstesnį aplanką",
     "Unable to change the favourite state of the file" : "Nepavyksta pakeisti failo Lankomiausiųjų būsenos",
     "List of favorites files and folders." : "Mėgstamų failų ir aplankų sąrašas.",
     "Text file" : "Tekstinis failas",
-    "New text file.txt" : "Naujas tekstinis failas.txt",
-    "Direct link was copied (only works for people who have access to this file/folder)" : "Tiesioginė nuoroda buvo nukopijuota (veiks tik žmonėms, turintiems prieigą prie šio failo/aplanko)",
-    "Copy direct link (only works for people who have access to this file/folder)" : "Kopijuoti tiesioginę nuorodą (veiks tik žmonėms, turintiems prieigą prie šio failo/aplanko)"
+    "New text file.txt" : "Naujas tekstinis failas.txt"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

@@ -184,11 +184,9 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Neem je de uitnodiging aan?",
     "Tentative" : "Onder voorbehoud",
     "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt.",
-    "To-dos" : "Taken",
     "Time:" : "Tijd:",
     "Could not open file" : "Kan het bestand niet openen",
     "Invalid chunk name" : "Ongeldige chunknaam",
-    "Could not rename part file assembled from chunks" : "Kon een bestandsdeel dat uit chunks is samengesteld niet hernoemen",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Als je je werkuren instelt kunnen andere gebruikers zien wanneer je niet beschikbaar bent als ze een meeting willen plannen."
+    "Could not rename part file assembled from chunks" : "Kon een bestandsdeel dat uit chunks is samengesteld niet hernoemen"
 },
 "nplurals=2; plural=(n != 1);");

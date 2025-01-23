@@ -118,7 +118,6 @@ OC.L10N.register(
     "Request user agent" : "請求使用者代理字串",
     "Group membership" : "群組成員資格",
     "is member of" : "是成員的群組",
-    "is not member of" : "不是成員的群組",
-    "User group membership" : "使用者群組成員資格"
+    "is not member of" : "不是成員的群組"
 },
 "nplurals=1; plural=0;");

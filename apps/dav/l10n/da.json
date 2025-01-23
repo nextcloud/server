@@ -216,11 +216,9 @@
     "Are you accepting the invitation?" : "Accepter du invitationen?",
     "Tentative" : "Foreløbig",
     "Your attendance was updated successfully." : "Dit tilstedeværelse blev opdateret.",
-    "To-dos" : "Opgaver",
     "Time:" : "Tid:",
     "Could not open file" : "Kunne ikke åbne fil",
     "Invalid chunk name" : "Ugyldigt stykke navn",
-    "Could not rename part file assembled from chunks" : "Kunne ikke omdøbe delfilen samlet fra stykker",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Hvis du konfigurerer din arbejdstid, vil andre brugere se, når du er fraværende, når de booker et møde."
+    "Could not rename part file assembled from chunks" : "Kunne ikke omdøbe delfilen samlet fra stykker"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

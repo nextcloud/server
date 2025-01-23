@@ -20,7 +20,6 @@
     "Good evening" : "God aften",
     "Good evening, {name}" : "God aften {name}",
     "Hello" : "Hej",
-    "Hello, {name}" : "Hej {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Start din dag informeret\n\nNextcloud Dashboard er dit udgangspunkt på dagen og giver dig en oversigt over dine kommende aftaler, hastemails, chatbeskeder, indgående billetter, seneste tweets og meget mere! Brugere kan tilføje widgets de kan lide og ændre baggrunden efter deres smag."
+    "Hello, {name}" : "Hej {name}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

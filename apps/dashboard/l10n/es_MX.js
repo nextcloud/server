@@ -22,7 +22,6 @@ OC.L10N.register(
     "Good evening" : "Buenas tardes",
     "Good evening, {name}" : "Buenas tardes, {name}",
     "Hello" : "Hola",
-    "Hello, {name}" : "Hola, {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Comience su día informado\n\n¡El tablero de Nextcloud es su punto de partida del día, dándole una vista general de sus próximas citas, correos electrónicos urgentes, mensajes de chat, próximos tickets, últimos tweets y mucho más! Los usuarios podrán agregar los widgets que deseen y cambiar el fondo a gusto."
+    "Hello, {name}" : "Hola, {name}"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -219,11 +219,9 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Ali želite sprejeti povabilo?",
     "Tentative" : "Začasno",
     "Your attendance was updated successfully." : "Vaša prisotnost je uspešno posodobljena.",
-    "To-dos" : "Naloge To-Do",
     "Time:" : "Čas:",
     "Could not open file" : "Datoteke ni mogoče odpreti",
     "Invalid chunk name" : "Neveljavno ime dela",
-    "Could not rename part file assembled from chunks" : "Ni mogoče preimenovati delne datoteke, združene iz delov.",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Če nastavite delovni čas, bodo drugi uporabniki pri izbiri časa sestanka videli, kdaj ste zasedeni."
+    "Could not rename part file assembled from chunks" : "Ni mogoče preimenovati delne datoteke, združene iz delov."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

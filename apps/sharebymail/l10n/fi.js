@@ -25,7 +25,6 @@ OC.L10N.register(
     "Could not find share" : "Jakoa ei löytynyt",
     "Send password by mail" : "Lähetä salasana sähköpostitse",
     "Reply to initiator" : "Vastaa aloitteentekijälle",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Kohteen %1$s jakaminen epäonnistui, koska tämä kohde on jo jaettu käyttäjän %2$s kanssa",
     "%1$s shared »%2$s« with you" : "%1$s jakoi kohteen »%2$s« kanssasi",
     "%1$s shared »%2$s« with you." : "%1$s jakoi kohteen »%2$s« kanssasi.",
     "Click the button below to open it." : "Napsauta alla olevaa linkkiä avataksesi sen.",
@@ -33,7 +32,6 @@ OC.L10N.register(
     "Password to access »%s«" : "Salasana kohteen »%s« käyttöön",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s jakoi kohteen »%2$s« kanssasi ja haluaa lisätä:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s jakoi kohteen »%2$s« kanssasi ja haluaa lisätä",
-    "»%s« added a note to a file shared with you" : "»%s« lisäsi huomion jakamaasi tiedostoon",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Salli käyttäjien jakaa personoitu linkki tiedostoon tai kansioon syöttämällä sähköpostiosoitteen."
+    "»%s« added a note to a file shared with you" : "»%s« lisäsi huomion jakamaasi tiedostoon"
 },
 "nplurals=2; plural=(n != 1);");

@@ -187,6 +187,7 @@ OC.L10N.register(
     "Delete slot" : "Eyða tímahólfi",
     "No working hours set" : "Enginn vinnutími stilltur",
     "Add slot" : "Bæta við tímahólfi",
+    "Weekdays" : "Virkir dagar",
     "Pick a start time for {dayName}" : "Veldu upphafstíma fyrir {dayName}",
     "Pick a end time for {dayName}" : "Veldu lokatíma fyrir {dayName}",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Setja stöðu notenda sjálfkrafa á \"Ekki ónáða\" utan þess lausa tíma sem viðkomandi er tiltækur, til að þagga niður í öllum tilkynningum.",
@@ -213,11 +214,9 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Ætlar þú að samþykkja boðið?",
     "Tentative" : "Bráðabirgða",
     "Your attendance was updated successfully." : "Mætingarstaða þín var uppfærð.",
-    "To-dos" : "Verkþættir",
     "Time:" : "Tími:",
     "Could not open file" : "Gat ekki opnað skrá",
     "Invalid chunk name" : "Ógilt heiti á bút",
-    "Could not rename part file assembled from chunks" : "Ekki var hægt að endurnefna hlutaskrá setta saman úr bútum",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ef þú stillir vinnutímana þína, geta aðrir séð hvenæt þú sért fjarverandi þegar þeir bóka fundi með þér."
+    "Could not rename part file assembled from chunks" : "Ekki var hægt að endurnefna hlutaskrá setta saman úr bútum"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

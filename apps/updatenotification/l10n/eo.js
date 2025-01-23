@@ -29,8 +29,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "La plej freŝa stabila versio. Ĝi taŭgas por ĉiutaga uzo, kaj ĝi ĝisdatiĝos ĉiufoje al la lasta ĉefversio.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Antaŭeldona versio nur por testi novajn trajtojn; ne taŭgas por produktada medio.",
-    "{version} is available. Get more information on how to update." : "{version} disponeblas. Ekhavi pli da informo pri kiel ĝisdatigi.",
-    "Update to %1$s is available." : "Ĝisdatigo al %1$s disponeblas.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Montras sciigojn pri ĝisdatigoj pri Nextcloud kaj provizas ununuran ensaluton („SSO“ angle) por la ĝisdatigilo."
+    "{version} is available. Get more information on how to update." : "{version} disponeblas. Ekhavi pli da informo pri kiel ĝisdatigi."
 },
 "nplurals=2; plural=(n != 1);");

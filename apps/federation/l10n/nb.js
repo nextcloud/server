@@ -14,9 +14,6 @@ OC.L10N.register(
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Sammenknytting lar deg koble til andre klarerte servere for å utveksle kontokatalogen. Dette brukes for eksempel til å automatisk fullføre eksterne kontoer for deling i organisasjonsnettverk. Det er ikke nødvendig å legge til en server som klarert server for å opprette en delt delt ressurs i forbund.",
     "+ Add trusted server" : "+ Legg til klarert server",
     "Trusted server" : "Klarert server",
-    "Add" : "Legg til",
-    "Federation allows you to connect with other trusted servers to exchange the user directory." : "Sammenknytting lar deg tilkoble andre servere du er stoler på for å utveksle brukerinformasjon.",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Sammenknytting tillater deg å koble sammen andre betrodde servere for utveksling av brukermapper. For eksempel vil det bli brukt for autofullføring av eksterne brukere for sammenknyttet deling.",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Sammenknytting tillater deg å koble sammen andre betrodde servere for utveksling av brukermapper. For eksempel vil det bli brukt for autofullføring av eksterne brukere for sammenknyttet deling. Det er ikke nødvendig å legge til en server som pålitelig server for å opprette en forent deling."
+    "Add" : "Legg til"
 },
 "nplurals=2; plural=(n != 1);");

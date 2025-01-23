@@ -20,7 +20,6 @@
     "Good evening" : "خەيرلىك كەچ!",
     "Good evening, {name}" : "خەيرلىك كەچ ، {name}",
     "Hello" : "ياخشىمۇسىز",
-    "Hello, {name}" : "ياخشىمۇسىز ، {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "ئۇچۇرلىرىڭىزنى باشلاڭ\n\nNextcloud باش تاختا سىزنىڭ شۇ كۈندىكى باشلىنىش نۇقتىڭىز بولۇپ ، سىزگە كەلگۈسىدىكى ئۇچرىشىشلىرىڭىز ، جىددى ئېلېكترونلۇق خەتلەر ، پاراڭلىشىش ئۇچۇرلىرى ، كەلگەن بېلەتلەر ، ئەڭ يېڭى tweet ۋە باشقىلار ھەققىدە ئومۇمىي چۈشەنچە بېرىدۇ. ئىشلەتكۈچىلەر ئۆزلىرى ياقتۇرىدىغان كىچىك قوراللارنى قوشالايدۇ ۋە تەگلىكنى خالىغانچە ئۆزگەرتەلەيدۇ."
+    "Hello, {name}" : "ياخشىمۇسىز ، {name}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

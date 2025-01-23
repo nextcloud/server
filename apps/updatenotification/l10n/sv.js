@@ -56,11 +56,6 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> app har ingen tillgänglig kompatibel version för denna version av Nextcloud.","<strong>%n</strong> appar har ingen tillgänglig kompatibel version för denna version av Nextcloud."],
     "Changelog for app {app}" : "Ändringslogg för app {app}",
     "What's new in {app} version {version}" : "Vad är nytt i {app} version {version}",
-    "{version} is available. Get more information on how to update." : "{version} är tillgänglig. Få mer information om hur du uppdaterar.",
-    "Update to %1$s is available." : "Uppdatering till %1$s är tillgänglig.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Visar uppdateringsaviseringar för Nextcloud och tillhandahåller SSO för uppdateraren.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Observera att webbuppdateraren inte rekommenderas med fler än 100 användare! Använd kommandouppdateraren istället!",
-    "Please use the command line updater to update." : "Vänligen uppdatera via kommandotolken.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Notera att efter en ny version släppts kommer den tidigast att synas efter första påföljande minor-versionen har släppts. Vi rullar ut uppdateringar utspritt över tid till våra användare och hoppar ibland över en version om problem upptäcks. Lär dig mer om uppdateringar och versions-kanaler på {link}"
+    "{version} is available. Get more information on how to update." : "{version} är tillgänglig. Få mer information om hur du uppdaterar."
 },
 "nplurals=2; plural=(n != 1);");

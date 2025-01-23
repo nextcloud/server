@@ -54,11 +54,6 @@
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> applicazione non ha una versione compatibile disponibile per questa versione di Nextcloud.","<strong>%n</strong> applicazioni non hanno una versione compatibile disponibile per questa versione di Nextcloud.","<strong>%n</strong> applicazioni non hanno una versione compatibile disponibile per questa versione di Nextcloud."],
     "Changelog for app {app}" : "Note di rilascio per l'app {app}",
     "What's new in {app} version {version}" : "Novità nella versione {version} di {app}",
-    "{version} is available. Get more information on how to update." : "{version} è disponibile. Ottieni ulteriori informazioni su come eseguire l'aggiornamento.",
-    "Update to %1$s is available." : "Aggiornamento a %1$s disponibile.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Visualizza le notifiche degli aggiornamenti per Nextcloud e fornisce il SSO per lo strumento di aggiornamento.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Tieni presente che il programma di aggiornamento web non è consigliato con più di 100 utenti! Si prega di utilizzare, invece, il programma di aggiornamento tramite riga di comando!",
-    "Please use the command line updater to update." : "Usa lo strumento di aggiornamento da riga di comando per aggiornare.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Nota che, dopo una nuova versione, l'aggiornamento viene visualizzato solo dopo la prima versione minore o successivamente. Rilasciamo nel tempo nuove versioni ai nostri utenti e, a volte, saltiamo una versione, se troviamo dei problemi. Ulteriori informazioni sugli aggiornamenti e sui canali di rilascio su {link} "
+    "{version} is available. Get more information on how to update." : "{version} è disponibile. Ottieni ulteriori informazioni su come eseguire l'aggiornamento."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

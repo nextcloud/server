@@ -44,7 +44,6 @@ OC.L10N.register(
     "There was an error setting the location address." : "Nustatant vietos adresą, įvyko klaida.",
     "There was an error setting the location." : "Nustatant vietą, įvyko klaida.",
     "There was an error saving the mode." : "Įrašant veikseną, įvyko klaida.",
-    "There was an error using personal address." : "Naudojant asmeninį adresą, įvyko klaida.",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Orų būsena, integruota į skydelio programėlę.\n    Naudotojo vieta gali būti nustatyta automatiškai arba apibrėžta rankiniu būdu. Tuomet yra rodoma 6 valandų orų prognozė.\n    Ši būsena taip pat gali būti integruota kitose vietose, kaip, pavyzdžiui, kalendoriaus programėlėje."
+    "There was an error using personal address." : "Naudojant asmeninį adresą, įvyko klaida."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

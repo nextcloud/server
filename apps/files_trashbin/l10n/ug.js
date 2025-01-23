@@ -18,13 +18,6 @@ OC.L10N.register(
     "Deletion cancelled" : "ئۆچۈرۈش ئەمەلدىن قالدۇرۇلدى",
     "List of files that have been deleted." : "ئۆچۈرۈلگەن ھۆججەتلەرنىڭ تىزىملىكى.",
     "No deleted files" : "ئۆچۈرۈلگەن ھۆججەت يوق",
-    "Files and folders you have deleted will show up here" : "سىز ئۆچۈرگەن ھۆججەت ۋە ھۆججەت قىسقۇچلار بۇ يەردە كۆرۈنىدۇ",
-    "This application enables users to restore files that were deleted from the system." : "بۇ پروگرامما ئىشلەتكۈچىلەرنىڭ سىستېمىدىن ئۆچۈرۈلگەن ھۆججەتلەرنى ئەسلىگە كەلتۈرۈشىگە ياردەم بېرىدۇ.",
-    "This application enables users to restore files that were deleted from the system. It displays a list of deleted files in the web interface, and has options to restore those deleted files back to the users file directories or remove them permanently from the system. Restoring a file also restores related file versions, if the versions application is enabled. When a file is deleted from a share, it can be restored in the same manner, though it is no longer shared. By default, these files remain in the trash bin for 30 days.\nTo prevent a user from running out of disk space, the Deleted files app will not utilize more than 50% of the currently available free quota for deleted files. If the deleted files exceed this limit, the app deletes the oldest files until it gets below this limit. More information is available in the Deleted Files documentation." : "بۇ پروگرامما ئىشلەتكۈچىلەرنىڭ سىستېمىدىن ئۆچۈرۈلگەن ھۆججەتلەرنى ئەسلىگە كەلتۈرۈشىگە ياردەم بېرىدۇ. ئۇ تور يۈزىدە ئۆچۈرۈلگەن ھۆججەتلەرنىڭ تىزىملىكىنى كۆرسىتىدۇ ، ھەمدە ئۆچۈرۈلگەن ھۆججەتلەرنى ئىشلەتكۈچى ھۆججەت مۇندەرىجىسىگە ئەسلىگە كەلتۈرۈش ياكى سىستېمىدىن مەڭگۈلۈك ئۆچۈرۈش تاللانمىلىرى بار. ھۆججەتنى ئەسلىگە كەلتۈرۈش يەنە مۇناسىۋەتلىك ھۆججەت نەشرىنى ئەسلىگە كەلتۈرىدۇ ، ئەگەر نەشرى قوللىنىشچان پروگراممىسى قوزغىتىلغان بولسا. ھۆججەت ھەمبەھىردىن ئۆچۈرۈلسە ، ھەمبەھىرلەنمىسىمۇ ، ئوخشاش ئۇسۇلدا ئەسلىگە كەلتۈرگىلى بولىدۇ. سۈكۈت بويىچە ، بۇ ھۆججەتلەر ئەخلەت ساندۇقىدا 30 كۈن تۇرىدۇ.\nئىشلەتكۈچىنىڭ دىسكا بوشلۇقىنىڭ تۈگەپ كېتىشىنىڭ ئالدىنى ئېلىش ئۈچۈن ، ئۆچۈرۈلگەن ھۆججەت دېتالى ئۆچۈرۈلگەن ھۆججەتلەرنىڭ نۆۋەتتىكى ھەقسىز نورمىسىنىڭ%50 تىن كۆپرەكىنى ئىشلەتمەيدۇ. ئەگەر ئۆچۈرۈلگەن ھۆججەتلەر بۇ چەكتىن ئېشىپ كەتسە ، ئەپ بۇ چەكتىن تۆۋەن بولغۇچە ئەڭ كونا ھۆججەتلەرنى ئۆچۈرۈۋېتىدۇ. ئۆچۈرۈلگەن ھۆججەتلەر ھۆججىتىدە تېخىمۇ كۆپ ئۇچۇرلار بار.",
-    "You will be able to recover deleted files from here" : "ئۆچۈرۈلگەن ھۆججەتلەرنى بۇ يەردىن ئەسلىگە كەلتۈرەلەيسىز",
-    "No entries found in this folder" : "بۇ ھۆججەت قىسقۇچتا ھېچقانداق مەزمۇن تېپىلمىدى",
-    "Select all" : "ھەممىنى تاللاڭ",
-    "Name" : "ئاتى",
-    "Actions" : "مەشغۇلاتلار"
+    "Files and folders you have deleted will show up here" : "سىز ئۆچۈرگەن ھۆججەت ۋە ھۆججەت قىسقۇچلار بۇ يەردە كۆرۈنىدۇ"
 },
 "nplurals=2; plural=(n != 1);");

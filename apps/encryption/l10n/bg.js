@@ -58,7 +58,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Включи опцията възстановяване на паролата:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Избирането на тази опция ще ти позволи да възстановиш достъпа си до файловете в случай на изгубена парола.",
     "Enabled" : "Включено",
-    "Disabled" : "Изключено",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Ключът за възстановяване е допълнителен ключ за криптиране, който се използва за криптиране на файлове. Той позволява възстановяване на файлове на потребител, ако потребителят си забрави паролата."
+    "Disabled" : "Изключено"
 },
 "nplurals=2; plural=(n != 1);");

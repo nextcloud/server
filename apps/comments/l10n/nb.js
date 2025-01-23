@@ -31,7 +31,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Det oppsto en feil under forsøk på å redigere kommentaren",
     "Comment deleted" : "Kommentar slettet",
     "An error occurred while trying to delete the comment" : "Det oppsto en feil under forsøk på å slette kommentaren",
-    "An error occurred while trying to create the comment" : "Det oppsto en feil under forsøket på å opprette kommentaren",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Du ble nevnt på \"{file}\", i en kommentar av en bruker som siden har blitt slettet"
+    "An error occurred while trying to create the comment" : "Det oppsto en feil under forsøket på å opprette kommentaren"
 },
 "nplurals=2; plural=(n != 1);");

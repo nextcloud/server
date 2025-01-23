@@ -200,11 +200,9 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "¿Aceptas la invitación?",
     "Tentative" : "Tentativo",
     "Your attendance was updated successfully." : "Tu asistencia se actualizó correctamente.",
-    "To-dos" : "Tareas pendientes",
     "Time:" : "Hora:",
     "Could not open file" : "No se pudo abrir el archivo",
     "Invalid chunk name" : "Nombre de fragmento no válido",
-    "Could not rename part file assembled from chunks" : "No se pudo renombrar el archivo parcial ensamblado a archivo final",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configuras tus horas de trabajo, otros usuarios verán cuando estás fuera de la oficina al reservar una reunión."
+    "Could not rename part file assembled from chunks" : "No se pudo renombrar el archivo parcial ensamblado a archivo final"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

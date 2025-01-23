@@ -219,11 +219,9 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Accepteu la invitació?",
     "Tentative" : "Provisional",
     "Your attendance was updated successfully." : "S'ha actualitzat correctament l'assistència.",
-    "To-dos" : "Tasques pendents",
     "Time:" : "Hora:",
     "Could not open file" : "No s'ha pogut obrir el fitxer",
     "Invalid chunk name" : "El nom del fragment no és vàlid",
-    "Could not rename part file assembled from chunks" : "No s'ha pogut canviar el nom del fitxer de part muntat a partir de fragments",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configureu el vostre horari laboral, la resta d'usuaris veuran quan sou fora de l'oficina quan planifiquin una reunió."
+    "Could not rename part file assembled from chunks" : "No s'ha pogut canviar el nom del fitxer de part muntat a partir de fragments"
 },
 "nplurals=2; plural=(n != 1);");

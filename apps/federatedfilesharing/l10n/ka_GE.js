@@ -29,10 +29,6 @@ OC.L10N.register(
     "Remote share" : "დისტანციური გაზიარება",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "გსურთ დაამატოთ {owner}@{remote}-ის დისტანცური გაზიარება {name}?",
     "Remote share password" : "დისტანციური გაზიარების პაროლი",
-    "Not allowed to create a federated share with the same user" : "იმავე მომხმარებელთან ფედერალური გაზიარება ვერ შეიქმნება",
-    "Allow users on this server to receive shares from other servers" : "დართეთ ნება მომხმარებლებს ამ სერვერზე მიიღონ გაზიარებები სხვა სერვერებიდან",
-    "Search global and public address book for users" : "მოძებნეთ გლობალური და ღია მომხმარებლების მისამართების წიგნები",
-    "Allow users to publish their data to a global and public address book" : "დართეთ ნება მომხმარებლებს გამოაქყვეყნონ მათი მონაცემები გლობალურ და საზოგადო მისამართების წიგნებში",
     "Your Federated Cloud ID:" : "თქვენი ფედერალური ქლაუდ ID:",
     "Twitter" : "Twitter-ი"
 },

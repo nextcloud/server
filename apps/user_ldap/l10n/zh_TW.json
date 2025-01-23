@@ -224,7 +224,6 @@
     "Username-LDAP User Mapping" : "使用者名稱-LDAP 使用者映射",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "使用者名稱用於儲存並指派中介資料。為了精確識別並認知使用者，每個 LDAP 使用者都會有其內部使用者名稱。這需要從使用者名稱作映射到 LDAP 使用者。建立的使用者名稱會映射到 LDAP 使用者的 UUID。另外，DN 會被快取以減少 LDAP 互動，但快取不用於識別身份。若 DN 變更時，系統會發現變動。內部使用者名稱在系統中全面使用，所以一旦清除映射，會讓到處都是未連結的殘留項目。清除映射的行為並不會區分組態設定，而是會影響所有 LDAP 組態設定！請永遠不要在正式環境中清除映射，僅在測試或實驗階段使用。",
     "Clear Username-LDAP User Mapping" : "清除使用者名稱-LDAP 使用者映射",
-    "Clear Groupname-LDAP Group Mapping" : "清除群組名稱-LDAP 群組映射",
-    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "找到無效的 LDAP 使用者或群組 UUID。請檢閱您在 LDAP 組態設定中的「專家」部分，其中的「凌駕 UUID 偵測」設定，並使用「occ ldap:update-uuid」來更新設定。"
+    "Clear Groupname-LDAP Group Mapping" : "清除群組名稱-LDAP 群組映射"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

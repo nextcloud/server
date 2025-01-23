@@ -21,7 +21,6 @@ OC.L10N.register(
     "Good evening" : "Chào buổi tối",
     "Good evening, {name}" : "Chào buổi tối, {name}",
     "Hello" : "Xin chào",
-    "Hello, {name}" : "Xin chào, {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Bắt đầu ngày mới của bạn được thông báo\n\nBảng điều khiển Nextcloud là điểm khởi đầu trong ngày của bạn, cung cấp cho bạn cái nhìn tổng quan về các cuộc hẹn sắp tới, email khẩn cấp, tin nhắn trò chuyện, vé đến, tweet mới nhất và hơn thế nữa! Người dùng có thể thêm các widget mình thích và thay đổi nền theo ý thích."
+    "Hello, {name}" : "Xin chào, {name}"
 },
 "nplurals=1; plural=0;");

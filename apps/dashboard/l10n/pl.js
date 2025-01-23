@@ -24,7 +24,6 @@ OC.L10N.register(
     "Hello" : "Witaj",
     "Hello, {name}" : "Witaj {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Najlepsze życzenia urodzinowe 🥳🤩🎂🎉",
-    "Happy birthday, {name} 🥳🤩🎂🎉" : "Najlepsze życzenia urodzinowe, {name} 🥳🤩🎂🎉",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Rozpocznij dzień poinformowany\n\nPulpit nawigacyjny Nextcloud to Twój punkt wyjścia w ciągu dnia, dający przegląd nadchodzących spotkań, pilnych e-maili, wiadomości na czacie, przychodzących zgłoszeń, najnowszych tweetów i wiele więcej! Użytkownicy mogą dodawać widżety, które im się podobają i zmieniać tło według własnych upodobań."
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Najlepsze życzenia urodzinowe, {name} 🥳🤩🎂🎉"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

@@ -255,15 +255,9 @@
     "Path" : "Caminho",
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes","%n bytes"],
     "Favorited" : "Nos Favoritos",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Copiar hiperligação direta (apenas funciona para os utilizadores que tenham acesso a este ficheiro/pasta)",
     "Upload file" : "Enviar ficheiro",
     "Not favorited" : "Não favorito",
     "An error occurred while trying to update the tags" : "Ocorreu um erro ao tentar atualizar as etiquetas",
-    "\"remote user\"" : "\"utilizador remoto\"",
-    "Name cannot be empty" : "O Nome não pode estar vazio",
-    "Could not rename \"{oldName}\", it does not exist any more" : "Não foi possível renomear “{oldName}”, já não existe",
-    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "O nome “{newName}” já está a ser utilizado na pasta “{dir}”. Por favor, escolha um nome diferente.",
-    "Could not rename \"{oldName}\"" : "Não foi possível renomear \"{oldName}\"",
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

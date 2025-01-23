@@ -43,7 +43,6 @@ OC.L10N.register(
     "Send password by mail" : "Passwort per Mail senden",
     "Reply to initiator" : "Antwort an Initiator",
     "Unable to update share by mail config" : "Einstellungen zum Teilen via E-Mail konnten nicht aktualisiert werden",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Freigabe von %1$s fehlgeschlagen, da dieses Element schon mit dem Benutzer %2$s geteilt wird.",
     "%1$s shared »%2$s« with you" : "%1$s hat »%2$s« mit Ihnen geteilt",
     "%1$s shared »%2$s« with you." : "%1$s hat »%2$s« mit Ihnen geteilt.",
     "Click the button below to open it." : "Klicken Sie zum Öffnen auf die untere Schaltfläche",
@@ -56,7 +55,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s hat »%2$s« mit Ihnen geteilt und möchte folgendes hinzufügen",
     "»%s« added a note to a file shared with you" : "»%s« hat eine Bemerkung zu einer mit Ihnen geteilten Datei hinzugefügt",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Sie haben »%1$s« mit %2$s geteilt. Die Freigabe wurde an den Empfänger gesandt. Aufgrund der Sicherheits-Richtlinien, die der Administrator von %3$s vorgegeben hat, benötigt jede Freigabe einen Passwortschutz und es ist nicht zulässig, ein Passwort direkt an den Empfänger zu versenden. Aus diesem Grund müssen Sie das Passwort selbst an den Empfänger senden.",
-    "Password to access »%1$s« shared by you with %2$s" : "Passwort zum Zugriff auf »%1$s« wurde von Ihnen mit %2$s geteilt",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Ermöglicht Benutzern, einen personalisierten Link zu einer Datei oder einem Ordner durch Eingabe einer E-Mail-Adresse zu teilen."
+    "Password to access »%1$s« shared by you with %2$s" : "Passwort zum Zugriff auf »%1$s« wurde von Ihnen mit %2$s geteilt"
 },
 "nplurals=2; plural=(n != 1);");

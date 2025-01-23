@@ -208,14 +208,9 @@
     "Security & setup warnings" : "Drošības un iestatījumu brīdinājumi",
     "All checks passed." : "Visas pārbaudes veiksmīgas.",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Izstrādātās {communityopen}Nextcloud kopiena {linkclose},  {githubopen} avota kods {linkclose} licencēts saskaņā ar {licenseopen}AGPL{linkclose}.",
-    "No user supplied" : "Nav norādīts lietotājs",
-    "Invalid user" : "Nepareizs lietotājs",
-    "Exclude groups from sharing" : "Izslēgt grupas no koplietošanas",
-    "Username" : "Lietotājvārds",
     "Your biography" : "Jūsu biogrāfija",
     "You are using <strong>{usage}</strong>" : "Jūs izmantojat <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Jūs izmantojat <strong>{usage}</strong> no <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
-    "Active users" : "Aktīvie lietotāji",
-    "SMTP Username" : "SMTP lietotājvārds"
+    "Username" : "Lietotājvārds"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

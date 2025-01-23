@@ -63,9 +63,6 @@
     "Authentication error" : "Error in authentication",
     "Storage is temporarily not available" : "Immagazinage es provisorimente non disponibile",
     "Summary" : "Summario",
-    "Help" : "Adjuta",
-    "Users" : "Usatores",
-    "Unknown user" : "Usator incognite",
-    "A valid username must be provided" : "Un nomine de usator valide debe esser providite"
+    "Users" : "Usatores"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

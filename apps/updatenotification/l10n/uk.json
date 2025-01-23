@@ -54,11 +54,6 @@
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> застосункок не сумісний з цією версією Nextcloud.","<strong>%n</strong> застосунки не сумісні з цією версією Nextcloud.","<strong>%n</strong> застосунків не сумісні з цією версією Nextcloud.","<strong>%n</strong> застосунків не сумісні з цією версією Nextcloud."],
     "Changelog for app {app}" : "Журнал змін для застосунку {app}",
     "What's new in {app} version {version}" : "Що нового у {app} версії {version}",
-    "{version} is available. Get more information on how to update." : "Доступна {version}. Отримати докладну інформацію про те, як оновити версію.",
-    "Update to %1$s is available." : "Доступне оновлення до %1$s.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Відображає сповіщення про оновлення для Nextcloud і надає SSO для програми оновлення.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Будь ласка, зверніть увагу, що веб-оновлювач не рекомендується, якщо кількість користувачів перевищує 100! Натомість використовуйте засіб оновлення командного рядка!",
-    "Please use the command line updater to update." : "Для оновлення використовуйте оновлення за допомогою командного рядка.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Зауважте, що після нового випуску оновлення з’являється лише після першого другорядного випуску або пізніше. Ми розгортаємо нові версії з часом для наших користувачів і іноді пропускаємо версію, коли виявляються проблеми. Дізнайтеся більше про оновлення та канали випусків на {link}"
+    "{version} is available. Get more information on how to update." : "Доступна {version}. Отримати докладну інформацію про те, як оновити версію."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

@@ -34,13 +34,6 @@ OC.L10N.register(
     "Remote share" : "Foran kunhavo",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ĉu vi volas aldoni la foran kunhavon {name} de {owner}@{remote}?",
     "Remote share password" : "Pasvorto de fora kunhavo",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Kunhavigo de %1$s malsukcesis, ĉar la ero jam kunhaviĝis kun uzanto %2$s",
-    "Not allowed to create a federated share with the same user" : "Vi ne rajtas krei federan kunhavon kun la sama uzanto",
-    "Allow users on this server to receive shares from other servers" : "Permesi al uzantoj en tiu ĉi servilo ricevi kunhavojn el aliaj serviloj",
-    "Allow users on this server to send shares to groups on other servers" : "Permesi al uzantoj en tiu ĉi servilo sendi kunhavojn al grupoj de aliaj serviloj",
-    "Allow users on this server to receive group shares from other servers" : "Permesi al uzantoj en tiu ĉi servilo ricevi kunhavojn el grupoj de aliaj serviloj",
-    "Search global and public address book for users" : "Serĉi mallokan kaj publikan adresaron por trovi uzantojn",
-    "Allow users to publish their data to a global and public address book" : "Permesi al uzantoj aperigi iliajn datumojn en mallokan kaj publikan adresaron ",
     "Your Federated Cloud ID:" : "Via federnuba identigilo:",
     "Twitter" : "Twitter"
 },

@@ -118,7 +118,6 @@ OC.L10N.register(
     "Request user agent" : "Kérés felhasználói ügynöke",
     "Group membership" : "Csoporttagság",
     "is member of" : "tagja ennek",
-    "is not member of" : "nem tagja ennek",
-    "User group membership" : "Felhasználói csoporttagság"
+    "is not member of" : "nem tagja ennek"
 },
 "nplurals=2; plural=(n != 1);");

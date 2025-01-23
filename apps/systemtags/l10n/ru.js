@@ -87,14 +87,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "Не удалось загрузить метки для файла",
     "Failed to set tag for file" : "Не удалось поставить метку файлу",
     "Failed to delete tag for file" : "Не удалось удалить метку у файла",
-    "Collaborative tagging functionality which shares tags among users." : "Совместная работа с метками файлов.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Совместная работа с метками файлов, предназначенная для групп пользователей. (Провайдерам с большим количеством клиентов рекомендуется отключить это приложение, так как метки являются общими).",
     "This file has the tag {tag}" : "У этого файла есть тэг: {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "У этого файла есть тэги: {firstTags} и {lastTag}",
-    "No files in here" : "Здесь нет файлов",
-    "No entries found in this folder" : "В этой папке не найдено ни одной записи",
-    "Name" : "Имя",
-    "Size" : "Размер",
-    "Modified" : "Изменён"
+    "This file has the tags {firstTags} and {lastTag}" : "У этого файла есть тэги: {firstTags} и {lastTag}"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

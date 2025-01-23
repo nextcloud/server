@@ -198,11 +198,9 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Are you accepting the invitation?",
     "Tentative" : "آزمایشی",
     "Your attendance was updated successfully." : "Your attendance was updated successfully.",
-    "To-dos" : "کارهای برای انجام",
     "Time:" : "Time:",
     "Could not open file" : "Could not open file",
     "Invalid chunk name" : "Invalid chunk name",
-    "Could not rename part file assembled from chunks" : "Could not rename part file assembled from chunks",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "اگر بازه ی ساعات کاری خود را مشخص کنید، سایر کاربران در هنگام تنظیم وقت جلسات کاری، مطلع می شوند که شما چه زمانی حضور دارید"
+    "Could not rename part file assembled from chunks" : "Could not rename part file assembled from chunks"
 },
 "nplurals=2; plural=(n > 1);");

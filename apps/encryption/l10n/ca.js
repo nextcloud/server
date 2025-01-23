@@ -54,7 +54,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Habilita la recuperació de contrasenya:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Si activeu aquesta opció, podreu accedir als vostres fitxers encriptats en cas de pèrdua de contrasenya",
     "Enabled" : "Habilitat",
-    "Disabled" : "Inhabilitat",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "La clau de recuperació és una clau de xifratge addicional que s'utilitza per xifrar fitxers. Permet la recuperació dels fitxers d'un usuari si l'usuari oblida de la seva contrasenya."
+    "Disabled" : "Inhabilitat"
 },
 "nplurals=2; plural=(n != 1);");

@@ -96,14 +96,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "ファイルのタグのロードに失敗しました",
     "Failed to set tag for file" : "ファイルのタグの設定に失敗しました",
     "Failed to delete tag for file" : "ファイルのタグを削除できませんでした",
-    "Collaborative tagging functionality which shares tags among users." : "ユーザー間でタグを共有するコラボレーティブタグ機能。",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "ユーザー間でタグを共有する共同タグ機能。 チームに最適です。\n（マルチテナンシーインストールのプロバイダーの場合は、タグが共有されているため、このアプリを非アクティブ化することをお勧めします。）",
     "This file has the tag {tag}" : "このファイルには {tag} タグがあります。",
-    "This file has the tags {firstTags} and {lastTag}" : "このファイルには {firstTags} と {lastTag} というタグがあります",
-    "No files in here" : "ファイルがありません",
-    "No entries found in this folder" : "このフォルダーにはエントリーがありません",
-    "Name" : "名前",
-    "Size" : "サイズ",
-    "Modified" : "更新日時"
+    "This file has the tags {firstTags} and {lastTag}" : "このファイルには {firstTags} と {lastTag} というタグがあります"
 },
 "nplurals=1; plural=0;");

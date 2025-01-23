@@ -96,14 +96,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "Fitxategiarentzako etiketak kargatzeak huts egin du",
     "Failed to set tag for file" : "Fitxategiarentzako etiketa ezartzeak huts egin du",
     "Failed to delete tag for file" : "Fitxategiaren etiketa ezabatzeak huts egin du",
-    "Collaborative tagging functionality which shares tags among users." : "Etiketak erabiltzaileen artean partekatzen dituen lankidetzazko etiketatze funtzionalitatea.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Etiketak erabiltzaileen artean partekatzen dituen lankidetzazko etiketatze funtzionalitatea. Bikaina lantaldeentzat.\n\t(Maizter anitzeko instalazioa duen hornitzailea bazara, gomendatzen da aplikazio hau desaktibatzea etiketak partekatzen dira eta.)",
     "This file has the tag {tag}" : "Fitxategi honek {tag} etiketa dauka",
-    "This file has the tags {firstTags} and {lastTag}" : "Fitxategi honek {firstTags} eta {lastTag} etiketak ditu",
-    "No files in here" : "Ez dago fitxategirik hemen",
-    "No entries found in this folder" : "Ez da sarrerarik aurkitu karpeta honetan",
-    "Name" : "Izena",
-    "Size" : "Tamaina",
-    "Modified" : "Aldatuta"
+    "This file has the tags {firstTags} and {lastTag}" : "Fitxategi honek {firstTags} eta {lastTag} etiketak ditu"
 },
 "nplurals=2; plural=(n != 1);");

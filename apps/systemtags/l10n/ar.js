@@ -96,14 +96,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "تعذّر تحميل وسوم الملف",
     "Failed to set tag for file" : "تعذّر وضع وسم على الملف",
     "Failed to delete tag for file" : "تعذّر حذف وسم من على ملف",
-    "Collaborative tagging functionality which shares tags among users." : "وظيفة التوسيم التعاوني التي تسمح بمشاركة الوسوم tags فيما بين المستخدمين.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "وظيفة التوسيم التعاوني التي تسمح بمشاركة الوسوم tags فيما بين المستخدمين. ذات فائدة عظيمة لعمل الفرق.\n\t(إذا كنت مستضيفاً لنظام متعدد المستأجرين multi-tenant، فإنه يُنصح بأن تقوم بتعطيل هذه الخدمة حيث أن الوسوم ستتم مشاركتها بين جميع المستخدمين من جميع المستأجرين.)",
     "This file has the tag {tag}" : "هذا الملف له الوسم {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "هذا الملف له واصفات {firstTags} و {lastTag}",
-    "No files in here" : "لا توجد ملفات هنا ",
-    "No entries found in this folder" : "لا يوجد مدخلات في هذا المجلد ",
-    "Name" : "اسم",
-    "Size" : "حجم",
-    "Modified" : "تاريخ التعديل"
+    "This file has the tags {firstTags} and {lastTag}" : "هذا الملف له واصفات {firstTags} و {lastTag}"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

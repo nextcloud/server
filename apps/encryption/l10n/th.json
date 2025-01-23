@@ -42,7 +42,6 @@
     "Enable password recovery:" : "เปิดใช้งานการกู้คืนด้วยรหัสผ่าน:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "การเปิดใช้งานตัวเลือกนี้จะช่วยให้คุณสามารถเข้าถึงไฟล์ของคุณที่เข้ารหัสไว้ ในกรณีที่คุณลืมรหัสผ่าน",
     "Enabled" : "เปิดใช้งาน",
-    "Disabled" : "ปิดใช้งาน",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "คีย์การกู้คืนเป็นคีย์เข้ารหัสเพิ่มเติมที่ใช้ในการเข้ารหัสไฟล์ ซึ่งจะทำให้สามารถกู้คืนไฟล์ของผู้ใช้ที่ลืมรหัสผ่านได้"
+    "Disabled" : "ปิดใช้งาน"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -28,7 +28,6 @@
     "An error occurred while trying to edit the comment" : "باھانى تەھرىرلىمەكچى بولغاندا خاتالىق كۆرۈلدى",
     "Comment deleted" : "باھا ئۆچۈرۈلدى",
     "An error occurred while trying to delete the comment" : "باھانى ئۆچۈرمەكچى بولغاندا خاتالىق كۆرۈلدى",
-    "An error occurred while trying to create the comment" : "باھا قۇرماقچى بولغاندا خاتالىق كۆرۈلدى",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "سىز ئۆچۈرۈلگەن ئىشلەتكۈچىنىڭ ئىزاھاتىدا سىز \"{file}\" دە تىلغا ئېلىندى"
+    "An error occurred while trying to create the comment" : "باھا قۇرماقچى بولغاندا خاتالىق كۆرۈلدى"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

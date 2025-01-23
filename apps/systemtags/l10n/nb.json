@@ -94,14 +94,7 @@
     "Failed to load tags for file" : "Lasting av merkelapper for filen feilet",
     "Failed to set tag for file" : "Kunne ikke angi merkelapp for fil",
     "Failed to delete tag for file" : "Sletting av merkelappen for filen feilet",
-    "Collaborative tagging functionality which shares tags among users." : "Samarbeidsmerkelapp-funksjonalitet som deler merkelapper mellom brukere.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Samarbeidsmerkelapp-funksjonalitet som deler merkelapper mellom brukere. Flott for team.\n\t(Hvis du er en leverandør med en installasjon av flere leieforhold, anbefales det å deaktivere denne appen ettersom merkelapper deles.)",
     "This file has the tag {tag}" : "Denne filen har merket {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Denne filen har merkene {firstTags} og {lastTag}",
-    "No files in here" : "Ingen filer her",
-    "No entries found in this folder" : "Ingen oppføringer funnet i denne mappen",
-    "Name" : "Navn",
-    "Size" : "Størrelse",
-    "Modified" : "Endret"
+    "This file has the tags {firstTags} and {lastTag}" : "Denne filen har merkene {firstTags} og {lastTag}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

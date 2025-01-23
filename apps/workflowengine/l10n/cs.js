@@ -118,7 +118,6 @@ OC.L10N.register(
     "Request user agent" : "User agent požadavku",
     "Group membership" : "Členství ve skupinách",
     "is member of" : "je členem",
-    "is not member of" : "není členem",
-    "User group membership" : "Členství ve skupinách uživatelů"
+    "is not member of" : "není členem"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

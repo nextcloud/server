@@ -94,14 +94,7 @@
     "Failed to load tags for file" : "無法載入檔案的標籤",
     "Failed to set tag for file" : "無法設定檔案的標籤",
     "Failed to delete tag for file" : "無法刪除檔案的標籤",
-    "Collaborative tagging functionality which shares tags among users." : "協作標記允許用戶分享標記。",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "協作標記允許用戶分享標記。適合團隊使用。\n\t（如果您是多租戶安裝的提供商，由於標籤是共享的，因此建議您停用此應用程序。）",
     "This file has the tag {tag}" : "此檔案帶有 {tag} 標籤",
-    "This file has the tags {firstTags} and {lastTag}" : "此檔案帶有 {firstTags} 及 {lastTag} 標籤",
-    "No files in here" : "此處沒有任何檔案",
-    "No entries found in this folder" : "在此資料夾中沒有任何項目",
-    "Name" : "名稱",
-    "Size" : "大小",
-    "Modified" : "修改時間"
+    "This file has the tags {firstTags} and {lastTag}" : "此檔案帶有 {firstTags} 及 {lastTag} 標籤"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

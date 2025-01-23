@@ -54,11 +54,6 @@
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>アプリが、このNextcloudバージョンと互換性があるバージョンではありません。"],
     "Changelog for app {app}" : "アプリケーション{app}の変更ログ",
     "What's new in {app} version {version}" : "{app}バージョン{version}の新機能",
-    "{version} is available. Get more information on how to update." : "{version} が利用可能です。アップデート方法について詳細情報を確認してください。",
-    "Update to %1$s is available." : "%1$s への更新が利用可能です。",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Nextcloudの更新通知を表示し、アップデータのSSOを提供します。",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Webアップデーターは100人以上のユーザーがいる場合には推奨されていないことにご注意ください！代わりに、コマンドラインアップデーターをご使用ください！",
-    "Please use the command line updater to update." : "コマンドラインアップデーターを使ってアップデートしてください。",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "新しいリリースの後、アップデートは最初のマイナーリリース以降にのみ表示されることに注意してください。新しいバージョンは時間の経過とともにユーザーに公開され、問題が見つかった場合はバージョンをスキップすることがあります。アップデートとリリースチャネルの詳細については、{link}をご覧ください。"
+    "{version} is available. Get more information on how to update." : "{version} が利用可能です。アップデート方法について詳細情報を確認してください。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
