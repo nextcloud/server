@@ -211,6 +211,7 @@ OC.L10N.register(
     "Tags" : "Clibeanna",
     "You" : "tú",
     "Shared multiple times with different people" : "Roinnte go minic le daoine éagsúla",
+    "Unable to change the favorite state of the file" : "Ní féidir staid an chomhaid is fearr leat a athrú",
     "Error while loading the file data" : "Earráid agus sonraí an chomhaid á lódáil",
     "Pick a template for {name}" : "Roghnaigh teimpléad le haghaidh {name}",
     "Create a new file with the selected template" : "Cruthaigh comhad nua leis an teimpléad roghnaithe",

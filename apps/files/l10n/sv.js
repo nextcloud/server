@@ -211,6 +211,7 @@ OC.L10N.register(
     "Tags" : "Taggar",
     "You" : "Du",
     "Shared multiple times with different people" : "Delad flera gånger med olika personer",
+    "Unable to change the favorite state of the file" : "Kan inte ändra filens favoritstatus",
     "Error while loading the file data" : "Fel vid inläsning av fildata",
     "Pick a template for {name}" : "Välj en mall för {name}",
     "Create a new file with the selected template" : "Skapa en ny fil med den valda mallen",
