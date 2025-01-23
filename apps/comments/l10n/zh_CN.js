@@ -31,7 +31,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "编辑评论时出错",
     "Comment deleted" : "评论已删除",
     "An error occurred while trying to delete the comment" : "删除评论时出错",
-    "An error occurred while trying to create the comment" : "创建评论时出错",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "用户在“ {file}”中的评论中提到了你，此评论已被删除"
+    "An error occurred while trying to create the comment" : "创建评论时出错"
 },
 "nplurals=1; plural=0;");

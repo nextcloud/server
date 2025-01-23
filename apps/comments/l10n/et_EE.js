@@ -25,7 +25,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Kommentaari muutmisel tekkis tõrge",
     "Comment deleted" : "Kommentaar kustutatud",
     "An error occurred while trying to delete the comment" : "Kommentaari kustutamisel tekkis tõrge",
-    "An error occurred while trying to create the comment" : "Kommentaari lisamisel tekkis tõrge",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Sind mainis faili \"{file}\" kommentaaris kasutaja, kes on praeguseks kustutatud."
+    "An error occurred while trying to create the comment" : "Kommentaari lisamisel tekkis tõrge"
 },
 "nplurals=2; plural=(n != 1);");

@@ -60,7 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "パスワードリカバリを有効に:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "このオプションを有効にすると、パスワードを紛失した場合も、暗号化されたファイルに再度アクセスすることができるようになります。",
     "Enabled" : "有効",
-    "Disabled" : "無効",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "復旧キーは、ファイルの暗号化に使う特別な暗号化キーです。ユーザーがパスワードを忘れてしまった場合には、リカバリキーを使ってユーザーのファイルを復元することができます。"
+    "Disabled" : "無効"
 },
 "nplurals=1; plural=0;");

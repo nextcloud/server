@@ -83,6 +83,11 @@ OC.L10N.register(
     "Failed to load tags" : "Schlagworte konnten nicht geladen werden",
     "Failed to load selected tags" : "Ausgewählte Schlagworte konnten nicht geladen werden",
     "Failed to select tag" : "Schlagwort konnte nicht ausgewählt werden",
+    "System admin disabled tag creation. You can only use existing ones." : "Der Systemadministrator hat die Erstellung von Schlagworten deaktiviert. Sie können nur vorhandene Schlagworte verwenden.",
+    "System tag creation" : "Erstellung von System-Schlagworten",
+    "If enabled, regular accounts will be restricted from creating new tags but will still be able to assign and remove them from their files." : "Wenn diese Option aktiviert ist, können reguläre Konten keine neuen Schlagworte erstellen, aber sie können sie dennoch zuweisen und aus ihren Dateien entfernen.",
+    "Restrict tag creation to admins only" : "Erstellung von Schlagworten auf Administratoren beschränken",
+    "Unable to update setting" : "Einstellung konnte nicht aktualisiert werden",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Öffentliche Schlagworte sind für alle Benutzer verfügbar. Eingeschränkte Schlagworte sind für alle Benutzer sichtbar, können jedoch nicht zugewiesen werden. Nicht sichtbare Schlagworte sind für interne Verwendung und können vom Benutzer nicht eingesehen und nicht zugewiesen werden.",
     "Assigned collaborative tags" : "Zugewiesene kollaborative Schlagworte",
     "Open in Files" : "In App \"Dateien\" öffnen",
@@ -96,14 +101,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "Schlagworte für Datei konnten nicht geladen werden",
     "Failed to set tag for file" : "Schlagwort für Datei konnte nicht gesetzt werden",
     "Failed to delete tag for file" : "Schlagwort für Datei konnte nicht gelöscht werden",
-    "Collaborative tagging functionality which shares tags among users." : "Kollaborative Tags Schlagwort-Funktionalität, welche Schlagworte unter den Benutzern teilt.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Gemeinschaftliche Schlagwort-Funktionalität, welche Schlagworte unter den Benutzern teilt. Sehr gut für Gruppen.\n(Wenn du ein Anbieter mit einer Mehrkundeninstallation bist, so ist angeraten diese App zu deaktiveren, da die Schlagworte mit allen Kunden geteilt werden.)",
     "This file has the tag {tag}" : "Diese Datei trägt das Schlagwort {tag}.",
-    "This file has the tags {firstTags} and {lastTag}" : "Diese Datei trägt die Schlagworte {firstTags} und {lastTag}.",
-    "No files in here" : "Keine Dateien vorhanden",
-    "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
-    "Name" : "Name",
-    "Size" : "Größe",
-    "Modified" : "Geändert"
+    "This file has the tags {firstTags} and {lastTag}" : "Diese Datei trägt die Schlagworte {firstTags} und {lastTag}."
 },
 "nplurals=2; plural=(n != 1);");

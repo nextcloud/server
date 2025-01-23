@@ -95,14 +95,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "Falha ao carregar etiquetas para arquivo",
     "Failed to set tag for file" : "Falha ao definir etiqueta para arquivo",
     "Failed to delete tag for file" : "Falha ao excluir etiqueta do arquivo",
-    "Collaborative tagging functionality which shares tags among users." : "Funcionalidade de marcação colaborativa que compartilha rótulos entre usuários.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funcionalidade de marcação colaborativa que compartilha rótulos entre usuários. Ótimo para equipes.\n\t(Se você for um provedor de uma instalação de multilocação, é aconselhável desativar isso, pois os rótulos são compartilhados.)",
     "This file has the tag {tag}" : "Este arquivo tem a tag {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Este arquivo tem as etiquetas {firstTags} e {lastTag}",
-    "No files in here" : "Nenhum arquivo aqui",
-    "No entries found in this folder" : "Nenhuma entrada foi encontrada nesta pasta",
-    "Name" : "Nome",
-    "Size" : "Tamanho",
-    "Modified" : "Modificado"
+    "This file has the tags {firstTags} and {lastTag}" : "Este arquivo tem as etiquetas {firstTags} e {lastTag}"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

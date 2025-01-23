@@ -30,13 +30,6 @@
     "Remote share" : "Nuotolinis viešinys",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ar norite pridėti nuotolinį viešinį {name} iš {owner}@{remote}?",
     "Remote share password" : "Nuotolinio viešinio slaptažodis",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Nepavyko bendrinti %1$s, nes šis elementas jau yra bendrinamas su naudotoju %2$s",
-    "Not allowed to create a federated share with the same user" : "Negalima sukurti federacinį viešinį su tuo pačiu naudotoju",
-    "Allow users on this server to receive shares from other servers" : "Leisti naudotojams šiame serveryje gauti viešinius iš kitų serverių",
-    "Allow users on this server to send shares to groups on other servers" : "Leisti naudotojams šiame serveryje siųsti viešinius į grupes kituose serveriuose",
-    "Allow users on this server to receive group shares from other servers" : "Leisti naudotojams šiame serveryje gauti grupių viešinius iš kitų serverių",
-    "Search global and public address book for users" : "Ieškoti naudotojų visuotinėje ir viešoje adresų knygoje",
-    "Allow users to publish their data to a global and public address book" : "Leisti naudotojams paskelbti savo duomenis visuotinėje ir viešoje adresų knygoje",
     "Your Federated Cloud ID:" : "Jūsų federacinės debesijos ID:",
     "Twitter" : "Twitter",
     "Clipboard is not available" : "Iškarpinė neprieinama"

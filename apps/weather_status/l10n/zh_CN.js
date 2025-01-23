@@ -44,7 +44,6 @@ OC.L10N.register(
     "There was an error setting the location address." : "设置位置地址时出错。",
     "There was an error setting the location." : "设置位置时出错。",
     "There was an error saving the mode." : "保存模式时出错。",
-    "There was an error using personal address." : "使用个人地址出错。",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "仪表盘应用程序中集成的天气状况。\n用户可以自动或手动确定位置。然后会显示 6 小时的预报。\n此天气状况也可以集成到其他地方，例如日历应用。"
+    "There was an error using personal address." : "使用个人地址出错。"
 },
 "nplurals=1; plural=0;");

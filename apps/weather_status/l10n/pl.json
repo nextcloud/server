@@ -42,7 +42,6 @@
     "There was an error setting the location address." : "Wystąpił błąd podczas ustawiania adresu lokalizacji.",
     "There was an error setting the location." : "Wystąpił błąd podczas ustawiania lokalizacji.",
     "There was an error saving the mode." : "Wystąpił błąd podczas zapisywania trybu.",
-    "There was an error using personal address." : "Wystąpił błąd podczas korzystania z własnego adresu.",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Stan pogody zintegrowany z aplikacją Pulpit.\n    Pozycja użytkownika może być określana automatycznie lub ręcznie. Następnie wyświetlana jest prognoza na 6 godzin.\n    Stan pogody można również zintegrować w innych miejscach np. w aplikacji Kalendarz."
+    "There was an error using personal address." : "Wystąpił błąd podczas korzystania z własnego adresu."
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

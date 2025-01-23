@@ -22,7 +22,6 @@
     "Hello" : "嗨",
     "Hello, {name}" : "嗨，{name}",
     "Happy birthday 🥳🤩🎂🎉" : "生日快樂 🥳🤩🎂🎉",
-    "Happy birthday, {name} 🥳🤩🎂🎉" : "生日快樂，{name} 🥳🤩🎂🎉",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "從每日資訊總覽開始\n\nNextcloud 儀表板是您一天的起點，為您提供您即將到來的行程概覽、緊急電子郵件、聊天訊息、到來的工單、最新的推文⋯⋯等等！使用者可以加入他們喜愛的小工具，還有更換他們喜愛的背景。"
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "生日快樂，{name} 🥳🤩🎂🎉"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

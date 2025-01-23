@@ -31,7 +31,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Ocurrió un error intentando editar el comentario",
     "Comment deleted" : "Comentario borrado",
     "An error occurred while trying to delete the comment" : "Ocurrió un error intentando borrar el comentario",
-    "An error occurred while trying to create the comment" : "Ocurrió un error intentando crear el comentario",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Le han mencionado en \"{file}\", en un comentario de un usuario que ha sido eliminado desde entonces"
+    "An error occurred while trying to create the comment" : "Ocurrió un error intentando crear el comentario"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -22,7 +22,6 @@
     "Hello" : "Hello",
     "Hello, {name}" : "Ola, {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Feliz aniversario 🥳🤩🎂🎉",
-    "Happy birthday, {name} 🥳🤩🎂🎉" : "Feliz aniversario, {name} 🥳🤩🎂🎉",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Comece o día informado\n\nO Taboleiro de Nextcloud é o seu punto de partida do día, onde atopará unha vista xeral das súas próximas citas, correos-e urxentes, mensaxes de parolas, billetes entrantes, chíos máis recentes e moito máis. Os usuarios poden engadir os trebellos que lles gusten e cambiar o fondo ao seu antollo."
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Feliz aniversario, {name} 🥳🤩🎂🎉"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

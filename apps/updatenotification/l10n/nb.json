@@ -54,11 +54,6 @@
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> apper har ingen kompatibel versjon for denne Nextcloud-versjonen tilgjengelig.","<strong>%n</strong> apper har ingen kompatibel versjon for denne Nextcloud-versjonen tilgjengelig."],
     "Changelog for app {app}" : "Endringslogg for app {app}",
     "What's new in {app} version {version}" : "Hva er nytt i {app} versjon {version}",
-    "{version} is available. Get more information on how to update." : "{version} er tilgjengelig. Få mer informasjon om å oppdatere.",
-    "Update to %1$s is available." : "Oppdatering til %1$s er tilgjengelig.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Viser oppdateringsvarsler for Nextcloud og gir SSO for oppdatereren.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Vær oppmerksom på at web-oppdaterer ikke anbefales med mer enn 100 brukere! Bruk kommandolinjen i stedet!",
-    "Please use the command line updater to update." : "Bruk kommandolinjen for å oppdatere.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Merk at etter en ny utgivelse vises oppdateringen først etter den første mindre utgivelsen eller senere. Vi ruller ut nye versjoner spredt over tid til brukerne våre og hopper noen ganger over en versjon når problemer blir funnet. Finn ut mer om oppdateringer og utgivelseskanaler på {link}"
+    "{version} is available. Get more information on how to update." : "{version} er tilgjengelig. Få mer informasjon om å oppdatere."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

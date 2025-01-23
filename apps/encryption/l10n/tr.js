@@ -60,7 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Parola kurtarma özelliğini kullanıma al:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Bu seçenek kullanıma alındığında, parolayı unutursanız şifrelenmiş dosyalarınıza yeniden erişim izni elde edebilirsiniz",
     "Enabled" : "Kullanıma alınmış",
-    "Disabled" : "Kullanımdan kaldırılmış",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Kurtarma anahtarı, dosyaların şifrelenmesi için ek bir güvenlik sağlar. Böylece kullanıcı unutursa dosyalarının parolasını sıfırlayabilir."
+    "Disabled" : "Kullanımdan kaldırılmış"
 },
 "nplurals=2; plural=(n > 1);");

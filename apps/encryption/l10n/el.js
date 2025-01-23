@@ -54,7 +54,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Ενεργοποιήστε την ανάκτηση κωδικού πρόσβασης",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Η ενεργοποίηση αυτής της επιλογής θα σας επιτρέψει να επανακτήσετε πρόσβαση στα κρυπτογραφημένα σας αρχεία σε περίπτωση απώλειας του κωδικού σας",
     "Enabled" : "Ενεργοποιημένο",
-    "Disabled" : "Απενεργοποιημένο",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Το κλειδί ανάκτησης είναι ένα επιπλέον κλειδί κρυπτογράφησης που χρησιμοποιείται για να κρυπτογραφήσει αρχεία. Επιτρέπει την ανάκτηση των αρχείων ενός χρήστη αν αυτός/αυτή ξεχάσει τον κωδικό πρόσβασης."
+    "Disabled" : "Απενεργοποιημένο"
 },
 "nplurals=2; plural=(n != 1);");

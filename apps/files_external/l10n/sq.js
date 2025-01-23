@@ -94,12 +94,6 @@ OC.L10N.register(
     "Configuration" : "Formësim",
     "Available for" : "E gatshme për",
     "Add storage" : "Shtoni depozitë",
-    "Advanced settings" : "Rregullime të mëtejshme",
-    "Storage with ID \"%d\" is not user editable" : "Ruajtja me ID \"%d\" nuk është i editueshëm nga përdorues",
-    "Username" : "Emër përdoruesi",
-    "Username and password" : "Emër përdoruesi dhe fjalëkalim",
-    "User entered, store in database" : "Përdoruesi u identifikua, ruaj në bazë të dhënash",
-    "Username as share" : "Emër përdoruesi si emër ndarjeje",
-    "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme"
+    "Advanced settings" : "Rregullime të mëtejshme"
 },
 "nplurals=2; plural=(n != 1);");

@@ -25,7 +25,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "אירעה שגיאה בניסיון לערוך את התגובה",
     "Comment deleted" : "נמחקה הערה",
     "An error occurred while trying to delete the comment" : "אירעה שגיאה בניסיון למחוק את התגובה",
-    "An error occurred while trying to create the comment" : "אירעה שגיאה בניסיון ליצור את התגובה",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "אוזכרת בקובץ „{file}”, בהערה על ידי משתמש שנמחק מאז"
+    "An error occurred while trying to create the comment" : "אירעה שגיאה בניסיון ליצור את התגובה"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

@@ -22,7 +22,6 @@ OC.L10N.register(
     "Good evening" : "Dober večer",
     "Good evening, {name}" : "Dober večer, {name}",
     "Hello" : "Pozdravljeni",
-    "Hello, {name}" : "Pozdravljeni, {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Začnite dan s pravimi informacijami\n\nNadzorna plošča Nextcloud je prva točka dneva, ki vam omogoča\npregled prihajajočih sestankov, nujnih elektronskih sporočil in sporočil klepeta, podrobnosti o prejetih nalogah, najnovejših čivkih in še veliko več! Vsak uporabnik lahko doda gradnike in spreminja ozadje po svojih željah."
+    "Hello, {name}" : "Pozdravljeni, {name}"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

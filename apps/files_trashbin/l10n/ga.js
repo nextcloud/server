@@ -21,13 +21,6 @@ OC.L10N.register(
     "Deletion cancelled" : "Scriosadh cealaithe",
     "List of files that have been deleted." : "Liosta de na comhaid a scriosadh.",
     "No deleted files" : "Níl aon chomhaid scriosta",
-    "Files and folders you have deleted will show up here" : "Taispeánfar na comhaid agus na fillteáin atá scriosta agat anseo",
-    "This application enables users to restore files that were deleted from the system." : "Cuireann an feidhmchlár seo ar chumas úsáideoirí comhaid a scriosadh as an gcóras a chur ar ais.",
-    "This application enables users to restore files that were deleted from the system. It displays a list of deleted files in the web interface, and has options to restore those deleted files back to the users file directories or remove them permanently from the system. Restoring a file also restores related file versions, if the versions application is enabled. When a file is deleted from a share, it can be restored in the same manner, though it is no longer shared. By default, these files remain in the trash bin for 30 days.\nTo prevent a user from running out of disk space, the Deleted files app will not utilize more than 50% of the currently available free quota for deleted files. If the deleted files exceed this limit, the app deletes the oldest files until it gets below this limit. More information is available in the Deleted Files documentation." : "Cuireann an feidhmchlár seo ar chumas úsáideoirí comhaid a scriosadh as an gcóras a chur ar ais. Taispeánann sé liosta de chomhaid scriosta sa chomhéadan gréasáin, agus tá roghanna ann chun na comhaid sin a scriosadh a chur ar ais go heolairí comhaid na n-úsáideoirí nó iad a bhaint go buan den chóras. Athchóiríonn comhad a athbhunú leaganacha gaolmhara comhaid, má tá feidhmchlár na leaganacha cumasaithe. Nuair a scriostar comhad ó sciar, is féidir é a chur ar ais ar an mbealach céanna, cé nach bhfuil sé roinnte a thuilleadh. De réir réamhshocraithe, fanann na comhaid seo sa bhosca bruscair ar feadh 30 lá.\nChun cosc ​​a chur ar úsáideoir imeacht as spás diosca, ní úsáidfidh an aip Comhaid Scriosta níos mó ná 50% den chuóta saor in aisce atá ar fáil faoi láthair le haghaidh comhaid scriosta. Má sháraíonn na comhaid scriosta an teorainn seo, scriosann an aip na comhaid is sine go dtí go n-éireoidh sé faoin teorainn seo. Tá tuilleadh faisnéise ar fáil sa doiciméadú Comhaid Scriosta.",
-    "You will be able to recover deleted files from here" : "Beidh tú in ann comhaid a scriosadh a ghnóthú ó anseo",
-    "No entries found in this folder" : "Níor aimsíodh aon iontrálacha san fhillteán seo",
-    "Select all" : "Roghnú go léir",
-    "Name" : "Ainm",
-    "Actions" : "Gníomhartha"
+    "Files and folders you have deleted will show up here" : "Taispeánfar na comhaid agus na fillteáin atá scriosta agat anseo"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

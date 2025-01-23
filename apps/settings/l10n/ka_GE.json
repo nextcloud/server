@@ -221,18 +221,8 @@
     "Like our Facebook page" : "მოიწონეთ ჩვენი Facebook გვერდი",
     "Check out our blog" : "იხილეთ ჩვენი ბლოგი",
     "Subscribe to our newsletter" : "გამოიწერეთ ჩვენი სიახლეები",
-    "No user supplied" : "მომხმარებელი არ იქნა მოწოდებული",
-    "Please provide an admin recovery password; otherwise, all user data will be lost." : "გთხოვთ მოგვაწოდოთ ადმინისტრატორის აღდგენის პაროლი; სხვა შემთხვევაში ყველა მონაცემი დაიკარგება.",
-    "Invalid user" : "არასწორი მომხმარებელი",
-    "Your username is: %s" : "თქვენი მომხმარებლის სახელია: %s",
-    "Logged in user must be a subadmin" : "ავტორიზირებული მომხმარებელი უნდა იყოს ქვე-ადმინისტრატორი",
-    "Exclude groups from sharing" : "აკრძალეთ ჯგუფების გაზიარება",
-    "These groups will still be able to receive shares, but not to initiate them." : "ეს ჯგუფები ისევ მიიღებენ გაზიარებებს, მაგრამ ვერ წამოიწყებენ მათ.",
     "Username" : "მომხმარებლის სახელი",
     "User backend" : "მომხმარებელის ბექენდი",
-    "Show user backend" : "მომხმარებლის ბექენდის ჩვენება",
-    "Active users" : "აქტიური მომხმარებლები",
-    "SMTP Username" : "SMTP მოხმარებლის სახელი",
     "Follow us on Twitter" : "გამოგვყევით Twitter-ზე"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

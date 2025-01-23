@@ -111,7 +111,6 @@ OC.L10N.register(
     "not between" : "όχι μεταξύ",
     "Request user agent" : "Αιτηθείτε αντιπρόσωπο χρήστη",
     "is member of" : "είναι μέλος του",
-    "is not member of" : "δεν είναι μέλος του",
-    "User group membership" : "Συμμετοχή σε ομάδα χρηστών"
+    "is not member of" : "δεν είναι μέλος του"
 },
 "nplurals=2; plural=(n != 1);");

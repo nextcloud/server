@@ -96,14 +96,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "Impossible de charger les étiquettes du fichier",
     "Failed to set tag for file" : "Impossible d'affecter une étiquette au fichier",
     "Failed to delete tag for file" : "Impossible de supprimer l'étiquette au fichier",
-    "Collaborative tagging functionality which shares tags among users." : "Fonctionnalité d'étiquettes collaboratives qui partage les étiquettes entre les utilisateurs.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Fonctionnalité d'étiquettes collaboratives qui partage les tags entre les utilisateurs. Génial pour les équipes.\n\t(Si vous êtes un fournisseur avec plusieurs installations, il est conseillé de désactiver cette application, car sinon les tags seront partagés)",
     "This file has the tag {tag}" : "Ce fichier a l'étiquette {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Ce fichier a les étiquettes {firstTags} et {lastTag}",
-    "No files in here" : "Aucun fichier",
-    "No entries found in this folder" : "Aucune entrée trouvée dans ce dossier",
-    "Name" : "Nom",
-    "Size" : "Taille",
-    "Modified" : "Modifié"
+    "This file has the tags {firstTags} and {lastTag}" : "Ce fichier a les étiquettes {firstTags} et {lastTag}"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

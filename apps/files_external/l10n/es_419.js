@@ -95,12 +95,6 @@ OC.L10N.register(
     "Configuration" : "Configuración",
     "Available for" : "Disponible para",
     "Add storage" : "Agregar almacenamiento",
-    "Advanced settings" : "Configuraciones avanzadas",
-    "Storage with ID \"%d\" is not user editable" : "El almacenamiento con ID \"%d\" no puede ser editado por el usuario",
-    "Username" : "Usuario",
-    "Username and password" : "Usuario y contraseña",
-    "User entered, store in database" : "Usuario ingresado, almacenar en la base de datos",
-    "Username as share" : "Usuario como elemento compartido",
-    "Allow users to mount external storage" : "Permitir a los usuarios montar almacenamiento externo"
+    "Advanced settings" : "Configuraciones avanzadas"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

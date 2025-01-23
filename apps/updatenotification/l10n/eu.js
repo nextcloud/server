@@ -56,11 +56,6 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["Aplikazio <strong>%n</strong>ek ez du Nextcloud bertsio honetarako bertsio bateragarririk erabilgarri.","<strong>%n</strong>palikaziok ez dute Nextcloud bertsio honetarako bertsio bateragarririk erabilgarri."],
     "Changelog for app {app}" : "{app} aplikazioaren aldaketen egunkaria",
     "What's new in {app} version {version}" : "Zer da berri {app} {version} bertsioan",
-    "{version} is available. Get more information on how to update." : "{version} eskuragarri dago. Lortu informazio gehiago eguneraketa nola egiteari buruz.",
-    "Update to %1$s is available." : "%1$s-ra eguneratzea eskuragarri dago.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Nextcloud eguneratzeko jakinarazpenak erakusten ditu eta SSO-a eskaintzen dio eguneratzaileari.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Kontuan izan web eguneratzailea ez dela gomendatzen 100 erabiltzaile baino gehiagorekin! Mesedez, erabili komando-lerroko eguneratzailea horren ordez!",
-    "Please use the command line updater to update." : "Mesedez, erabili komando-lerroko eguneratzailea eguneratzeko.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Kontuan izan bertsio berri baten ondoren eguneratzea lehen bertsio txikia edo geroago bakarrik agertzen dela. Denboran zehar tartekatuta zabaltzen ditugu bertsio berriak gure erabiltzaileentzat eta batzuetan bertsio bat saltatu egiten dugu, arazoak aurkitzen direnean. Lortu informazio gehiago eguneratzeei eta kanalak askatzeari buruz {link} helbidean "
+    "{version} is available. Get more information on how to update." : "{version} eskuragarri dago. Lortu informazio gehiago eguneraketa nola egiteari buruz."
 },
 "nplurals=2; plural=(n != 1);");

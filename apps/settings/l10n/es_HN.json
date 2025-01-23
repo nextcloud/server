@@ -217,17 +217,8 @@
     "Like our Facebook page" : "Da un Like a nuestra página de Facebook",
     "Check out our blog" : "Visita nuestro blog",
     "Subscribe to our newsletter" : "Suscribete a nuestro boletín",
-    "No user supplied" : "No se proporcionó usuario alguno",
-    "Please provide an admin recovery password; otherwise, all user data will be lost." : "Por favor proporciona una contraseña de recuperación de administrador; de lo contrario toda la información del usuario se perderá. ",
-    "Invalid user" : "Usuario inválido",
-    "Your username is: %s" : "Tu Usuario es: %s",
-    "Exclude groups from sharing" : "Evitar que los grupos compartan",
-    "These groups will still be able to receive shares, but not to initiate them." : "Estos grupos aún podrán recibir elementos compartidos, pero no los podrán iniciar.",
     "Username" : "Usuario",
     "User backend" : "Backend del usuario",
-    "Show user backend" : "Mostrar backend del usuario",
-    "Active users" : "Usuarios activos",
-    "SMTP Username" : "Usuario SMTP",
     "Follow us on Twitter" : "Síguenos en Twitter"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

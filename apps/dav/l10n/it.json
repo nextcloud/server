@@ -217,11 +217,9 @@
     "Are you accepting the invitation?" : "Accetti l'invito?",
     "Tentative" : "Provvisorio",
     "Your attendance was updated successfully." : "La tua partecipazione è stata aggiornata correttamente.",
-    "To-dos" : "Da fare",
     "Time:" : "Ora:",
     "Could not open file" : "Impossibile aprire il file",
     "Invalid chunk name" : "Nome non valido per lo spezzone",
-    "Could not rename part file assembled from chunks" : "Non è possibile rinominare il file assemblato da più spezzoni",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Se imposti il tuo orario di lavoro, gli altri utenti potranno vedere quando non sei in ufficio per organizzare una riunione."
+    "Could not rename part file assembled from chunks" : "Non è possibile rinominare il file assemblato da più spezzoni"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

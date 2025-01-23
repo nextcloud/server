@@ -54,7 +54,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Abìlita su riprìstinu de sa crae:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "S'abilitatzione di custu sèberu t'at a permìtere de torrare a intrare a is archìvios in casu chi nche perdas sa crae",
     "Enabled" : "Ativada",
-    "Disabled" : "Disativada",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Sa crae de riprìstinu est una crae de tzifradura in agiunta impreada pro tzifrare is archìvios. Cunsentit de ripristinare is archìvios si s'utente si nch'irmènticat sa crae."
+    "Disabled" : "Disativada"
 },
 "nplurals=2; plural=(n != 1);");

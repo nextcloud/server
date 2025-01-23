@@ -102,7 +102,6 @@ OC.L10N.register(
     "not between" : "사이에 없음",
     "Request user agent" : "요청 사용자 에이전트",
     "is member of" : "구성원임",
-    "is not member of" : "구성원이 아님",
-    "User group membership" : "사용자 그룹 구성원"
+    "is not member of" : "구성원이 아님"
 },
 "nplurals=1; plural=0;");

@@ -118,7 +118,6 @@ OC.L10N.register(
     "Request user agent" : "Iarr gníomhaire úsáideora",
     "Group membership" : "Ballraíocht ghrúpa",
     "is member of" : "ina bhall de",
-    "is not member of" : "nach ball de",
-    "User group membership" : "Ballraíocht grúpa úsáideoirí"
+    "is not member of" : "nach ball de"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

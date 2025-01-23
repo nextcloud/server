@@ -30,10 +30,6 @@ OC.L10N.register(
     "Remote share" : "Elemento compartido remoto",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Desea agregar el elemento compartido remoto {name} de {owner}@{remote}?",
     "Remote share password" : "Contraseña del elemento compartido remoto",
-    "Not allowed to create a federated share with the same user" : "No está permitido crear un elelmento compartido federado con el mismo usuario",
-    "Allow users on this server to receive shares from other servers" : "Permitirle alos usuarios de este servidor recibir elementos compartidos de otros servidores",
-    "Search global and public address book for users" : "Buscar usuarios en las libretas de contactos globales y públicas",
-    "Allow users to publish their data to a global and public address book" : "Permitirle a los usuarios publicar sus datos a una libreta de direcciones global y pública",
     "Your Federated Cloud ID:" : "Tu ID de Nube Federada:",
     "Twitter" : "Twitter"
 },

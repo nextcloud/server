@@ -1,5 +1,4 @@
 { "translations": {
-    "Lookup Server Connector" : "Otsingu serveri ühendaja",
-    "Sync public user information with the lookup server" : "Sünkroniseeri avaliku kasutaja informatsioon otsingu serveriga"
+    "Lookup Server Connector" : "Otsingu serveri ühendaja"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

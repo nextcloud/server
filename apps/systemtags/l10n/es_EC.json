@@ -64,14 +64,7 @@
     "No tags found" : "No se encontraron etiquetas",
     "Failed to load last used tags" : "Error al cargar las últimas etiquetas utilizadas",
     "Missing \"Content-Location\" header" : "Falta el encabezado \"Content-Location\"",
-    "Collaborative tagging functionality which shares tags among users." : "Funcionalidad de etiquetado colaborativo que comparte etiquetas entre usuarios.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funcionalidad de etiquetado colaborativo que comparte etiquetas entre usuarios. Ideal para equipos.\n        (Si eres un proveedor con una instalación de múltiples inquilinos, se recomienda desactivar esta aplicación, ya que las etiquetas se comparten.)",
     "This file has the tag {tag}" : "Este archivo tiene la etiqueta {tag}.",
-    "This file has the tags {firstTags} and {lastTag}" : "Este archivo tiene las etiquetas {firstTags} y {lastTag}.",
-    "No files in here" : "No hay archivos aquí",
-    "No entries found in this folder" : "No se encontraron elementos en esta carpeta",
-    "Name" : "Nombre",
-    "Size" : "Tamaño",
-    "Modified" : "Modificado"
+    "This file has the tags {firstTags} and {lastTag}" : "Este archivo tiene las etiquetas {firstTags} y {lastTag}."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

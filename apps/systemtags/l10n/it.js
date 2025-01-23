@@ -95,14 +95,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "Caricamento delle etichette per il file fallito",
     "Failed to set tag for file" : "Impostazione dell'etichetta per il file fallita",
     "Failed to delete tag for file" : "Eliminazione dell'etichetta per il file fallita",
-    "Collaborative tagging functionality which shares tags among users." : "Funzionalità di etichettatura collaborativa che condivide le etichette tra gli utenti.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funzionalità di etichettatura collaborativa che condivide le etichette tra gli utenti. Ottima per le squadre.\n\t(Se sei un fornitore con un'installazione multi-tenant, ti consigliamo di disattivare questa applicazione poiché le etichette sono condivise.)",
     "This file has the tag {tag}" : "Questo file ha l'etichetta {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Il file ha le etichette {firstTags} e {lastTag}",
-    "No files in here" : "Qui non c'è alcun file",
-    "No entries found in this folder" : "Nessuna voce trovata in questa cartella",
-    "Name" : "Nome",
-    "Size" : "Dimensione",
-    "Modified" : "Modificato"
+    "This file has the tags {firstTags} and {lastTag}" : "Il file ha le etichette {firstTags} e {lastTag}"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -31,7 +31,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Tharla earráid agus an nóta tráchta á chur in eagar",
     "Comment deleted" : "Trácht scriosta",
     "An error occurred while trying to delete the comment" : "Tharla earráid agus an nóta tráchta á scriosadh",
-    "An error occurred while trying to create the comment" : "Tharla earráid agus an nóta tráchta á chruthú",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Luadh thú ar \"{file}\", i nóta tráchta ó úsáideoir atá scriosta ó shin"
+    "An error occurred while trying to create the comment" : "Tharla earráid agus an nóta tráchta á chruthú"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

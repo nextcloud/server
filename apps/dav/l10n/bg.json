@@ -195,11 +195,9 @@
     "Are you accepting the invitation?" : "Приемате ли поканата?",
     "Tentative" : "Несигурно",
     "Your attendance was updated successfully." : "Вашето присъствие е актуализирано успешно.",
-    "To-dos" : "Задачи за изпълнение",
     "Time:" : "Час:",
     "Could not open file" : "Файлът не можа да се отвори",
     "Invalid chunk name" : "Невалидно име на блок",
-    "Could not rename part file assembled from chunks" : "Не можа да се преименува частичен файл, сглобен от блок",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ако конфигурирате работното си време, другите потребители ще виждат кога сте извън офиса, при резервиране на среща."
+    "Could not rename part file assembled from chunks" : "Не можа да се преименува частичен файл, сглобен от блок"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

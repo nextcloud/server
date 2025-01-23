@@ -43,7 +43,6 @@
     "There was an error setting the location address." : "Det oppsto en feil ved å angi posisjonsadressen.",
     "There was an error setting the location." : "Det oppsto en feil ved å angi posisjonen.",
     "There was an error saving the mode." : "Det oppsto en feil da modusen skulle lagres.",
-    "There was an error using personal address." : "Det oppsto en feil ved bruk av personlig adresse.",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Værstatus integrert i Dashboard-appen.\nBrukerens posisjon kan bestemmes automatisk eller manuelt. Et 6 timers varsel vises da.\nDenne statusen kan også integreres på andre steder som Kalender-appen."
+    "There was an error using personal address." : "Det oppsto en feil ved bruk av personlig adresse."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

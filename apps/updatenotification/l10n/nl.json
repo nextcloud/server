@@ -33,10 +33,6 @@
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "De meest recente stabiele versie. Het is geschikt voor normaal gebruik en werkt altijd bij naar de laatste hoofdversie.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Een vroeg vrijgegeven versie, alleen bedoeld om nieuwe functies te testen. Niet voor productieomgevingen.",
-    "{version} is available. Get more information on how to update." : "{version} is beschikbaar. Meer informatie over het bijwerken.",
-    "Update to %1$s is available." : "Update naar %1$s is beschikbaar.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Toont updatemeldingen voor Nextcloud en zorgt voor SSO voor de updater.",
-    "Please use the command line updater to update." : "Gebruik de commandoregel updater, om bij te werken.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Let op dat na een nieuwe release de update pas verschijnt na de eerste secundaire release of later. We introduceren nieuwe versies verspreid over de tijd voor onze gebruikers en slaan soms een versie over wanneer er problemen worden gevonden. Lees meer over updates en releasekanalen op {link}"
+    "{version} is available. Get more information on how to update." : "{version} is beschikbaar. Meer informatie over het bijwerken."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
