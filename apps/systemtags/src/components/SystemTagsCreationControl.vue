@@ -64,7 +64,10 @@ export default {
 		handleResponse({ isRestricted, status, errorMessage, error }) {
 			if (status === 'ok') {
 				this.systemTagsCreationRestrictedToAdmin = isRestricted
-				showSuccess(t('settings', `System tag creation is now ${isRestricted ? 'restricted to administrators' : 'allowed for everybody'}`))
+				showSuccess(isRestricted
+					? t('settings', 'System tag creation is now restricted to administrators')
+					: t('settings', 'System tag creation is now allowed for everybody'),
+				)
 				return
 			}
 
