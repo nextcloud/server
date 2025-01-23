@@ -4,7 +4,7 @@
  */
 import type { User } from '@nextcloud/cypress'
 import { createShare, openSharingPanel } from './FilesSharingUtils.ts'
-import { getRowForFile, navigateToFolder } from '../files/FilesUtils.ts'
+import { navigateToFolder } from '../files/FilesUtils.ts'
 
 describe('files_sharing: Note to recipient', { testIsolation: true }, () => {
 	let user: User
