@@ -9,7 +9,7 @@
     <name>Viewer</name>
     <summary>Simple file viewer with slideshow for media</summary>
     <description><![CDATA[Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your Nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!]]></description>
-    <version>4.0.0</version>
+    <version>5.0.0-dev.0</version>
     <licence>agpl</licence>
     <author mail="skjnldsv@protonmail.com">John Molakvoæ</author>
     <namespace>Viewer</namespace>
@@ -17,7 +17,7 @@
     <bugs>https://github.com/nextcloud/viewer</bugs>
 	<screenshot>https://raw.githubusercontent.com/nextcloud/screenshots/master/apps/Viewer/viewer.png</screenshot>
     <dependencies>
-        <nextcloud min-version="31" max-version="31" />
+        <nextcloud min-version="32" max-version="32" />
     </dependencies>
     <default_enable />
 </info>
