@@ -11,7 +11,7 @@ import { t } from '@nextcloud/l10n'
 
 import AutoRenewSvg from '@mdi/svg/svg/autorenew.svg?raw'
 
-import { convertFile, convertFiles, getParentFolder } from './convertUtils'
+import { convertFile, convertFiles } from './convertUtils'
 
 type ConversionsProvider = {
 	from: string,
@@ -35,7 +35,7 @@ export const registerConvertActions = () => {
 
 			async exec(node: Node, view: View, dir: string) {
 				// If we're here, we know that the node has a fileid
-				convertFile(node.fileid as number, to, getParentFolder(view, dir))
+				convertFile(node.fileid as number, to)
 
 				// Silently terminate, we'll handle the UI in the background
 				return null
@@ -43,7 +43,7 @@ export const registerConvertActions = () => {
 
 			async execBatch(nodes: Node[], view: View, dir: string) {
 				const fileIds = nodes.map(node => node.fileid).filter(Boolean) as number[]
-				convertFiles(fileIds, to, getParentFolder(view, dir))
+				convertFiles(fileIds, to)
 
 				// Silently terminate, we'll handle the UI in the background
 				return Array(nodes.length).fill(null)

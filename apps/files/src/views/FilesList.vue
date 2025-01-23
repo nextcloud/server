@@ -533,6 +533,13 @@ export default defineComponent({
 
 		// reload on settings change
 		subscribe('files:config:updated', this.fetchContent)
+
+		// Init the global OCP.Files.App object
+		// OCP.Files is already initialized at this point
+		if (!window?.OCP?.Files?.App) {
+			window.OCP.Files.App = {}
+		}
+		Object.assign(window.OCP.Files.App, { ...window.OCP.Files.App, reload: this.fetchContent })
 	},
 
 	unmounted() {
