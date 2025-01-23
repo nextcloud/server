@@ -79,3 +79,7 @@ Feature: carddav
     Then The CardDAV HTTP status code should be "404"
     And The CardDAV exception is "Sabre\DAV\Exception\NotFound"
     And The CardDAV error message is "File not found: admin in 'addressbooks'"
+
+  Scenario: Should create default addressbook on first login
+    Given user "first-login" exists
+    Then "first-login" requests addressbook "first-login/contacts" with statuscode "207" on the endpoint "/remote.php/dav/addressbooks/users/"
