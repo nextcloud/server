@@ -31,6 +31,8 @@ use OCP\Files\Node;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Http\Client\IClientService;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IServerContainer;
@@ -77,6 +79,8 @@ class Manager implements IManager {
 	private ?array $availableTaskTypes = null;
 
 	private IAppData $appData;
+	private ICache $cache;
+
 	public function __construct(
 		private IConfig $config,
 		private Coordinator $coordinator,
@@ -91,8 +95,10 @@ class Manager implements IManager {
 		private IUserMountCache $userMountCache,
 		private IClientService $clientService,
 		private IAppManager $appManager,
+		ICacheFactory $cacheFactory,
 	) {
 		$this->appData = $appDataFactory->get('core');
+		$this->cache = $cacheFactory->createLocal('task_processing::');
 	}
 
 
@@ -750,6 +756,7 @@ class Manager implements IManager {
 			}
 
 			$this->availableTaskTypes = $availableTaskTypes;
+			$this->cache->set('available_task_types', $this->availableTaskTypes, 60);
 		}
 
 		return $this->availableTaskTypes;
