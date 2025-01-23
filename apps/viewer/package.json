@@ -27,8 +27,8 @@
   "type": "module",
   "scripts": {
     "build": "vite --mode production build",
-    "dev": "vite --mode development build",
-    "watch": "vite --mode development build --watch",
+    "dev": "export NODE_ENV=development; vite --mode development build",
+    "watch": "export NODE_ENV=development; vite --mode development build --watch",
     "lint": "eslint cypress src",
     "lint:fix": "eslint cypress src --fix",
     "stylelint": "stylelint src",

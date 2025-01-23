@@ -6,13 +6,14 @@
 <template>
 	<!-- Plyr currently replaces the parent. Wrapping to prevent this
 	https://github.com/redxtech/vue-plyr/issues/259 -->
-	<div v-if="src">
+	<div v-if="url">
 		<VuePlyr ref="plyr"
 			:options="options">
 			<audio ref="audio"
 				:autoplay="active"
-				:src="src"
+				:src="url"
 				preload="metadata"
+				@error.capture.prevent.stop.once="onFail"
 				@ended="donePlaying"
 				@canplay="doneLoading">
 
@@ -28,18 +29,30 @@
 	</div>
 </template>
 
-<script>
+<script lang='ts'>
+import Vue from 'vue'
+import AsyncComputed from 'vue-async-computed'
 // eslint-disable-next-line n/no-missing-import
 import '@skjnldsv/vue-plyr/dist/vue-plyr.css'
+
 import logger from '../services/logger.js'
+import { preloadMedia } from '../services/mediaPreloader'
 
 const VuePlyr = () => import(/* webpackChunkName: 'plyr' */'@skjnldsv/vue-plyr')
+
+Vue.use(AsyncComputed)
 
 export default {
 	name: 'Audios',
 
 	components: {
 		VuePlyr,
+	},
+
+	data() {
+		return {
+			fallback: false,
+		}
 	},
 
 	computed: {
@@ -53,6 +66,16 @@ export default {
 				blankVideo: '/blank.aac',
 				controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'settings'],
 				loadSprite: false,
+			}
+		},
+	},
+
+	asyncComputed: {
+		async url(): Promise<string> {
+			if (this.fallback) {
+				return preloadMedia(this.filename)
+			} else {
+				return this.src
 			}
 		},
 	},
@@ -93,6 +116,14 @@ export default {
 		donePlaying() {
 			this.$refs.audio.autoplay = false
 			this.$refs.audio.load()
+		},
+
+		// Fallback to the original image if not already done
+		onFail() {
+			if (!this.fallback) {
+				console.error(`Loading of file ${this.filename} failed, falling back to fetching it by hand`)
+				this.fallback = true
+			}
 		},
 	},
 }

@@ -72,7 +72,7 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
 import AsyncComputed from 'vue-async-computed'
 import PlayCircleOutline from 'vue-material-design-icons/PlayCircleOutline.vue'
@@ -85,6 +85,7 @@ import { NcLoadingIcon } from '@nextcloud/vue'
 import ImageEditor from './ImageEditor.vue'
 import { findLivePhotoPeerFromFileId } from '../utils/livePhotoUtils'
 import { getDavPath } from '../utils/fileUtils'
+import { preloadMedia } from '../services/mediaPreloader'
 
 Vue.use(AsyncComputed)
 
@@ -181,7 +182,12 @@ export default {
 			// If there is no preview and we have a direct source
 			// load it instead
 			if (this.source && !this.hasPreview && !this.previewUrl) {
-				return this.source
+				// If loading the source failed once, let's try fetching it by had
+				if (this.fallback) {
+					return preloadMedia(this.filename)
+				} else {
+					return this.source
+				}
 			}
 
 			// If loading the preview failed once, let's load the original file
