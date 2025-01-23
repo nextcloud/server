@@ -27,7 +27,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Ponudnik souporabe, ki omogoča souporabo datotek prek elektronske pošte",
     "Send password by mail" : "Pošlji geslo po elektronski pošti",
     "Reply to initiator" : "Odgovori pošiljatelju",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Nastavljanje souporabe %1$s je spodletelo, ker je predmet že v souporabi z uporabnikom %2$s.",
     "%1$s shared »%2$s« with you" : "%1$s vam omogoča souporabo »%2$s«",
     "%1$s shared »%2$s« with you." : "%1$s vam omogoča souporabo »%2$s«.",
     "Click the button below to open it." : "Kliknite na gumb za odpiranje.",
@@ -40,7 +39,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s vam omogoča souporabo »%2$s« in želi dodati",
     "»%s« added a note to a file shared with you" : "»%s« doda opombo k datoteki v souporabi",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Omogočili ste skupno rabo datoteke »%1$s« (%2$s). Souporaba je že dodeljena, vendar je treba zaradi varnostnih pravil, ki jih je določil skrbnik %3$s, vsako mesto v souporabi zaščititi z geslom. Gesla tudi ni dovoljeno poslati neposredno prejemniku. Pošljite ga prek drugega kanala.",
-    "Password to access »%1$s« shared by you with %2$s" : "%2$s vam pošilja geslo za dostop do datoteke »%1$s«.",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Dovoli uporabnikom omogočanje souporabe z osebno povezavo na datoteko ali mapo z vpisom elektronskega naslova."
+    "Password to access »%1$s« shared by you with %2$s" : "%2$s vam pošilja geslo za dostop do datoteke »%1$s«."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

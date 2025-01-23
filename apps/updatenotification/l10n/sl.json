@@ -41,11 +41,6 @@
     "Beta" : "Preizkusno",
     "A pre-release version only for testing new features, not for production environments." : "Preizkusna različica je namenjena preizkušanju novih zmožnosti in ni primerna za produkcijska okolja.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> nameščen program nima skladne različice s trenutno različico oblaka Nextcloud.","<strong>%n</strong> nameščena programa nimata skladne različice s trenutno različico oblaka Nextcloud.","<strong>%n</strong> nameščeni programi nimajo skladne različice s trenutno različico oblaka Nextcloud.","<strong>%n</strong> nameščenih programov nima skladne različice s trenutno različico oblaka Nextcloud."],
-    "{version} is available. Get more information on how to update." : "Na voljo je nova različica {version}. Oglejte si več podrobnosti o nadgradnji.",
-    "Update to %1$s is available." : "Na voljo je posodobitev na %1$s.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Pokaže obvestila o posodobitvah okolja Nextcloud in omogoča prijavo SSO za posodabljalnik.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Upoštevajte, da spletna posodobitev ni priporočljiva, če okolje uporablja več kot 100 uporabnikov! V takih primerih je ustreznejši posodabljalnik zagnan iz ukazne vrstice.",
-    "Please use the command line updater to update." : "Za posodabljanje uporabite možnosti prek ukazne vrstice.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Po vsaki novi objavi je lahko tudi daljši časovni zamik, preden se posodobitev pojavi v sistemu in se pokaže šele po prvi posodobitvi. Nove različice objavljamo v časovnih razmikih in včasih kakšno tudi preskočimo, če prvi uporabniki zaznajo težave ali napake. Več podrobnosti o kanalih objav je zbranih na povezavi {link}."
+    "{version} is available. Get more information on how to update." : "Na voljo je nova različica {version}. Oglejte si več podrobnosti o nadgradnji."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

@@ -99,7 +99,6 @@ OC.L10N.register(
     "not between" : "לא בין",
     "Request user agent" : "סוכן משתמש הבקשה",
     "is member of" : "חבר בקבוצה",
-    "is not member of" : "לא חבר בקבוצה",
-    "User group membership" : "חברות בקבוצת משתמשים"
+    "is not member of" : "לא חבר בקבוצה"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

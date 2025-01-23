@@ -76,14 +76,7 @@
     "Tags you have created will show up here." : "A saját címkék itt jelennek meg.",
     "Failed to load last used tags" : "A legutóbb használt címkék betöltése sikertelen",
     "Missing \"Content-Location\" header" : "Hiányzó „Content-Location” fejléc",
-    "Collaborative tagging functionality which shares tags among users." : "Együttműködő címkézési funkció, amely megosztja a címkéket a felhasználók között.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Együttműködő címkézési funkció, amely megosztja a címkéket a felhasználók között. Nagyszerű a csapatok számára.\n\t(Ha Ön több szervezet számára szolgáltatást nyújtó szolgáltató, akkor ajánlott deaktiválni ezt az alkalmazást, mivel a címkék meg vannak osztva.)",
     "This file has the tag {tag}" : "Ennek a fájlnak ez a címkéje: {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Ennek a fájlnak ezek a címkéi: {firstTags} és {lastTag}",
-    "No files in here" : "Itt nincsenek fájlok",
-    "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
-    "Name" : "Név",
-    "Size" : "Méret",
-    "Modified" : "Módosítva"
+    "This file has the tags {firstTags} and {lastTag}" : "Ennek a fájlnak ezek a címkéi: {firstTags} és {lastTag}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

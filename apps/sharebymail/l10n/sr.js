@@ -43,7 +43,6 @@ OC.L10N.register(
     "Send password by mail" : "Пошаљи лозинку е-поштом",
     "Reply to initiator" : "Одговор иницијатору",
     "Unable to update share by mail config" : "Није успело ажурирање конфигурације дељења путем и-мејла",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Дељење %1$s није успело зато што се ова ставка већ дели са корисником %2$s",
     "%1$s shared »%2$s« with you" : "%1$s је поделио „%2$s“ са Вама",
     "%1$s shared »%2$s« with you." : "%1$s је поделио „%2$s“ са Вама.",
     "Click the button below to open it." : "Кликните на дугме испод да га отворите.",
@@ -56,7 +55,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s је поделио „%2$s“ са Вама и жели да дода",
     "»%s« added a note to a file shared with you" : "„%s“ је додао белешку на фајл који дели са Вама",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Управо сте поделили „%1$s“ са корисником %2$s. Дељење је већ послато примаоцу. Због безбедоносне политике коју је дефинисао администратор инстанце %3$s, свако дељење мора бити заштићено лозинком и није дозвољено да пошаљете лозинку директно кориснику. Због тога морате ручно послати лозинку примаоцу.",
-    "Password to access »%1$s« shared by you with %2$s" : "Корисник %2$s је поделио са Вама лозинку за приступ „%1$s“",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Дозволи корисницима да поделе персонализовану везу до фајла или фасцикле уносом е-адресе."
+    "Password to access »%1$s« shared by you with %2$s" : "Корисник %2$s је поделио са Вама лозинку за приступ „%1$s“"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

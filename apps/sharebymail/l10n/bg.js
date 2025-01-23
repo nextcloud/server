@@ -27,7 +27,6 @@ OC.L10N.register(
     "Send password by mail" : "Изпращане на парола по имейл",
     "Reply to initiator" : "Отговор към инициатора",
     "Unable to update share by mail config" : "Не може да се актуализира конфигурацията за споделяне по поща",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Неуспешно споделяне на %1$s, защото този елемент вече е споделен с потребителя %2$s",
     "%1$s shared »%2$s« with you" : "%1$s сподели »%2$s« с вас",
     "%1$s shared »%2$s« with you." : "%1$s сподели »%2$s« с вас.",
     "Click the button below to open it." : "Щракнете върху долния бутон, за да го отворите.",
@@ -40,7 +39,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s сподели »%2$s« с вас и иска да добави",
     "»%s« added a note to a file shared with you" : "»%s« добави бележка към файл, споделен с вас ",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Току-що споделихте »%1$s« с %2$s. Споделянето вече е изпратено до получателя. Поради политиките за сигурност, дефинирани от администратора на %3$s, всяка споделена информация трябва да бъде защитена с парола и не е позволено паролата да се изпраща директно на получателя. Следователно трябва да препратите паролата ръчно на получателя.",
-    "Password to access »%1$s« shared by you with %2$s" : "Парола за достъп »%1$s» е споделена от вас с %2$s",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Позволява на потребителите да споделят персонализирана връзка към файл или папка чрез въвеждане на имейл адрес."
+    "Password to access »%1$s« shared by you with %2$s" : "Парола за достъп »%1$s» е споделена от вас с %2$s"
 },
 "nplurals=2; plural=(n != 1);");

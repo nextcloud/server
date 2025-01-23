@@ -56,7 +56,6 @@
     "There was an error setting the location." : "Errore bat gertatu da kokalekua ezartzean.",
     "There was an error saving the mode." : "Errore bat gertatu da modua gordetzean.",
     "There was an error using personal address." : "Errore bat gertatu da helbide pertsonala erabiltzean.",
-    "Unknown weather code" : "Eguraldi kode ezezaguna",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Eguraldiaren egoera panelaren aplikazioan integratuta.\n    Erabiltzailearen kokapena automatikoki zehaztu edo eskuz definitu daiteke. 6 orduko iragarpena bistaratzen da.\n    Egoera hau Egutegia aplikazioa bezalako beste leku batzuetan ere txertatu daiteke."
+    "Unknown weather code" : "Eguraldi kode ezezaguna"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

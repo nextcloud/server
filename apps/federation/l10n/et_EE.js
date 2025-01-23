@@ -9,9 +9,6 @@ OC.L10N.register(
     "Federation" : "Liidendus",
     "+ Add trusted server" : "+ Lisa usaldatud server",
     "Trusted server" : "Usaldatud server",
-    "Add" : "Lisa",
-    "Federation allows you to connect with other trusted servers to exchange the user directory." : "Liidendamine võimaldab sul teiste usaldatud serveritega ühenduda, et kasutajaid jagada.",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Liidendamine võimaldab sul teiste usaldatud serveritega ühenduda, et kasutajaid jagada. Näiteks saab seda rakendada liidendatud serverite väliste kasutajanimede automaatseks täitmiseks.",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Liidendamine võimaldab sul teiste usaldatud serveritega ühenduda, et kasutajaid jagada. Näiteks saab seda rakendada liidendatud serverite väliste kasutajanimede automaatseks täitmiseks. Liidendatud jaoskausta loomiseks ei ole vaja serverit usaldatud serverite hulka lisada."
+    "Add" : "Lisa"
 },
 "nplurals=2; plural=(n != 1);");

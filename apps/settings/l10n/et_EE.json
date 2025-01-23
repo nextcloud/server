@@ -229,22 +229,8 @@
     "Save" : "Salvesta",
     "Security & setup warnings" : "Turva- ja paigalduse hoiatused",
     "All checks passed." : "Kõik kontrollid on läbitud.",
-    "No user supplied" : "Kasutajat ei sisestatud",
-    "You need to set your user email before being able to send test emails. Go to %s for that." : "Enne e-kirjade saatmist pead seadistama oma e-posti aadress. Selleks mine %s.",
-    "Invalid user" : "Vigane kasutaja",
-    "Your username is: %s" : "Sinu kasutajanimi on: %s",
-    "Exclude groups from sharing" : "Eemalda grupid jagamisest",
-    "These groups will still be able to receive shares, but not to initiate them." : "Need grupid saavad vastu võtta jagamisi, kuid ise jagamisi algatada ei saa.",
-    "{license}-licensed" : "{license} litsents",
-    "Username" : "Kasutajanimi",
     "New user" : "Uus kasutaja",
-    "User backend" : "Kasutaja taustarakendus",
-    "You do not have permissions to see the details of this user" : "Sul puuduvad õigused selle kasutaja üksikasjade vaatamiseks",
-    "Delete user" : "Kustuta kasutaja",
-    "Disable user" : "Keela kasutaja",
-    "Enable user" : "Luba kasutaja",
-    "Active users" : "Aktiivseid kasutajaid",
-    "Disabled users" : "Keelatud kasutajad",
-    "SMTP Username" : "SMTP kasutajatunnus"
+    "Username" : "Kasutajanimi",
+    "User backend" : "Kasutaja taustarakendus"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

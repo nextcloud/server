@@ -44,7 +44,6 @@ OC.L10N.register(
     "There was an error setting the location address." : "There was an error setting the location address.",
     "There was an error setting the location." : "There was an error setting the location.",
     "There was an error saving the mode." : "There was an error saving the mode.",
-    "There was an error using personal address." : "There was an error using personal address.",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app."
+    "There was an error using personal address." : "There was an error using personal address."
 },
 "nplurals=2; plural=(n > 1);");

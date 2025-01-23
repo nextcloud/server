@@ -150,18 +150,6 @@ OC.L10N.register(
     "Advanced settings" : "進階設定",
     "Allow people to mount external storage" : "允許使用者自行掛載外部儲存空間",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全域憑證可用於認證多個有相同憑證的外部儲存空間。",
-    "Type to select user or group." : "請輸入以選取使用者或群組。",
-    "Storage with ID \"%d\" is not user editable" : "使用者無法編輯 ID 為「%d」的儲存空間",
-    "Username" : "使用者名稱",
-    "Username and password" : "使用者名稱和密碼",
-    "Global credentials, user entered" : "全域憑證資訊，使用者輸入",
-    "User entered, store in database" : "使用者輸入，儲存於資料庫",
-    "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "檢查目錄中每個檔案或資料夾的 ACL，以過濾掉使用者沒有讀取權的項目，但可能會影響效能",
-    "Username as share" : "以使用者名稱分享",
-    "This application enables administrators to configure connections to external storage providers, such as FTP servers, S3 or SWIFT object stores, other Nextcloud servers, WebDAV servers, and more. Administrators can choose which types of storage to enable and can mount these storage locations for a user, a group, or the entire system. Users will see a new folder appear in their root Nextcloud directory, which they can access and use like any other Nextcloud folder. External storage also allows users to share files stored in these external locations. In these cases, the credentials for the owner of the file are used when the recipient requests the file from external storage, thereby ensuring that the recipient can access the shared file.\n\nExternal storage can be configured using the GUI or at the command line. This second option provides the advanced user with more flexibility for configuring bulk external storage mounts and setting mount priorities. More information is available in the external storage GUI documentation and the external storage Configuration File documentation." : "此應用程式讓管理員可以設定外部儲存空間提供者的連線，如 FTP 伺服器、S3 或 SWIFT 物件儲存、其他 Nextcloud 伺服器、WebDAV 伺服器⋯⋯等等。管理員可以選擇要啟用的儲存空間類型，並可以為使用者、群組或整個系統掛載這些儲存位置。使用者將會在他們的 Nextcloud 根目錄看到一個新的資料夾，他們可以像其他 Nextcloud 資料夾那樣存取並使用該資料夾。外部儲存空間也允許使用者分享儲存在這些外部空間的檔案。在這種情況下，當收件者從外部儲存空間請求檔案時，將使用檔案擁有者的憑證來確保收件者可以存取被分享的檔案。\n\n可以使用圖形使用者介面或命令列設定外部儲存空間。後者為進階使用者提供更大的彈性，可用於設定大容量儲存空間的掛載並設定掛載優先序。更多資訊可參閱外部儲存空間圖形化使用者介面的文件，與外部儲存空間組態設定檔的文件。",
-    "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "外部儲存空間讓您可以掛載外部儲存空間服務與裝置來作為次要的 Nextcloud 儲存裝置。您也可以允許使用者掛載他們自己的儲存服務。",
-    "All users" : "所有使用者",
-    "Allow users to mount external storage" : "允許使用者自行掛載外部儲存空間",
     "To access the storage, you need to provide the authentification informations." : "要存取儲存空間，您必須提供身份驗證資訊。"
 },
 "nplurals=1; plural=0;");

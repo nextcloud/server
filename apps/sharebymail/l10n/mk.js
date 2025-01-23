@@ -28,7 +28,6 @@ OC.L10N.register(
     "Send password by mail" : "Испрати лозинка преку е-пошта",
     "Reply to initiator" : "Одговор до иницијаторот",
     "Unable to update share by mail config" : "Неможе да се ажурираат параметрите за споделување со е-пошта",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Споделувањето на %1$s е неуспешно, бидејќи истото веќе е споделено со корисникот %2$s",
     "%1$s shared »%2$s« with you" : "%1$s сподели »%2$s« со вас",
     "%1$s shared »%2$s« with you." : "%1$s сподели »%2$s« со вас.",
     "Click the button below to open it." : "Кликнете на копчето подолу за да ја отворите.",
@@ -41,7 +40,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s ја сподели папката »%2$s« и додаде",
     "»%s« added a note to a file shared with you" : "»%s« додаде белешка до датотеката што ја сподели со вас",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Вие ја споделивте »%1$s« со %2$s. Споделувањето веќе е испратено до примачот. Поради безбедносни причини дефинирани од администраторот на %3$s секое споделување треба да биде заштитено со лозинка и лозинката не смее да се испраќаa директно на примачот. Затоа треба оваа лозинка да му ја препратите на примачот.",
-    "Password to access »%1$s« shared by you with %2$s" : "Лозинката за пристап до »%1$s« ја споделивте со %2$s",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Дозволете им на корисниците да споделуваат персонални линкови до датотеки и папки со внесување на адреса на е-пошта."
+    "Password to access »%1$s« shared by you with %2$s" : "Лозинката за пристап до »%1$s« ја споделивте со %2$s"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

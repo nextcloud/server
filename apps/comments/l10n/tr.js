@@ -31,7 +31,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Yorum düzenlenmeye çalışılırken bir sorun çıktı",
     "Comment deleted" : "Yorum silindi",
     "An error occurred while trying to delete the comment" : "Yorum silinmeye çalışılırken bir sorun çıktı",
-    "An error occurred while trying to create the comment" : "Yorum eklenmeye çalışılırken bir sorun çıktı",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "\"{file}\" hakkında bir yorumda silinmiş bir kullanıcı tarafından anıldınız"
+    "An error occurred while trying to create the comment" : "Yorum eklenmeye çalışılırken bir sorun çıktı"
 },
 "nplurals=2; plural=(n > 1);");

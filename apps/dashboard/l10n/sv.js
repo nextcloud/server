@@ -24,7 +24,6 @@ OC.L10N.register(
     "Hello" : "Hej",
     "Hello, {name}" : "Hej, {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Grattis på födelsedagen 🥳🤩🎂🎉",
-    "Happy birthday, {name} 🥳🤩🎂🎉" : "Grattis på födelsedagen, {name} 🥳🤩🎂🎉",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Börja din dag informerad\n\nNextcloud Dashboard är din startpunkt på dagen som ger dig en överblick över dina kommande bokningar, brådskande e-post, chattmeddelanden, inkommande ärenden, senaste tweets och mycket mer! Användare kan lägga till widgetar de gillar och anpassa bakgrunden efter deras tycke."
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Grattis på födelsedagen, {name} 🥳🤩🎂🎉"
 },
 "nplurals=2; plural=(n != 1);");

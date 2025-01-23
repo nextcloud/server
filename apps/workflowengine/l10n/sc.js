@@ -110,7 +110,6 @@ OC.L10N.register(
     "not between" : "no cumprèndidu tra",
     "Request user agent" : "Agente de utente de sa rechesta",
     "is member of" : "partètzipat a",
-    "is not member of" : "no partètzipat a",
-    "User group membership" : "Apartenèntzia de is utentes a is grupos"
+    "is not member of" : "no partètzipat a"
 },
 "nplurals=2; plural=(n != 1);");

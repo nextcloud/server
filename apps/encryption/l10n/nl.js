@@ -54,7 +54,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Activeren wachtwoord herstel:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Het activeren van deze optie maakt het mogelijk om je versleutelde bestanden te benaderen als je wachtwoord kwijt is",
     "Enabled" : "Ingeschakeld",
-    "Disabled" : "Uitgeschakeld",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "De herstelsleutel is een extra cryptografische sleutel die wordt gebruikt om bestanden te versleutelen. Die maakt het mogelijk bestanden te herstellen als de gebruiker zijn of haar wachtwoord vergeet."
+    "Disabled" : "Uitgeschakeld"
 },
 "nplurals=2; plural=(n != 1);");

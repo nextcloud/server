@@ -56,11 +56,6 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> من التطبيقات ليس لها إصدار متوافق مع إصدار نكست كلود المتاح.","<strong>%n</strong>تطبيق  ليس له إصدار متوافق مع إصدار نكست كلود المتاح.","<strong>%n</strong> من التطبيقات ليس لها إصدار متوافق مع إصدار نكست كلود المتاح.","<strong>%n</strong> من التطبيقات ليس لها إصدار متوافق مع إصدار نكست كلود المتاح.","<strong>%n</strong> من التطبيقات ليس لها إصدار متوافق مع إصدار نكست كلود المتاح.","<strong>%n</strong> من التطبيقات ليس لها إصدار متوافق مع إصدار نكست كلود المتاح."],
     "Changelog for app {app}" : "سجل التغييرات للتطبيق {app}",
     "What's new in {app} version {version}" : "ما الجديد في الإصدار {version} من التطبيق {app}",
-    "{version} is available. Get more information on how to update." : "الإصدار {version} متوفر. أحصُل على معلومات عن كيفية التحديث.",
-    "Update to %1$s is available." : "التحديثات متوفرة حتى الإصدار %1$s.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "يعرض إشعارات التحديث لـ Nextcloud ويوفر SSO للمُحدِّث.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "يرجى ملاحظة أنه لا يوصى باستخدام أداة تحديث الويب لأكثر من 100 مستخدم! الرجاء استخدام محدث سطر الأوامر بدلاً من ذلك!",
-    "Please use the command line updater to update." : "رجاءً، للتحديث استخدم المُحدّث عن طريق سطر الأوامر.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "لاحظ أنه بعد الإصدار الجديد، لا يظهر التحديث إلاّ مع الإصدار الثانوي الأول أو بعده. بالرغ من من أنه يتم دوريّاً طرح إصدارات جديدة متعاقبة للنظام، فإنه يتم إحياناً إسقاط بعض الإصدارات إذا ما ظهرت فيها بعض الإشكالات. للمزيد حول التحديثات و قنوات الإصدار updates and release channels، أنظر: {link}"
+    "{version} is available. Get more information on how to update." : "الإصدار {version} متوفر. أحصُل على معلومات عن كيفية التحديث."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

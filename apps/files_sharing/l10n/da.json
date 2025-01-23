@@ -206,24 +206,6 @@
     "No compatible server found at {remote}" : "Ingen kompatible servere fundet på {remote}",
     "Invalid server URL" : "Ugyldig server adresse",
     "Failed to add the public link to your Nextcloud" : "Fejl ved tilføjelse af offentligt link til din Nextcloud",
-    "Files" : "Filer",
-    "Please specify a valid user" : "Angiv en gyldig bruger",
-    "You cannot share to a Circle if the app is not enabled" : "Du kan ikke dele en CIrkel hvis appen ikke er aktiveret",
-    "Please specify a valid circle" : "Venligst angiv en gyldig cirkel",
-    "Read only" : "Skrivebeskyttet",
-    "File drop (upload only)" : "Fil drop (kun upload)",
-    "Upload" : "Send",
-    "Only works for users with access to this folder" : "Virker kun for brugere med adgang til denne folder",
-    "Only works for users with access to this file" : "Virker kun for brugere med adgang til denne fil",
-    "Circle" : "Cirkel",
-    "No other users with access found" : "Ingen andre brugere med adgang fundet",
-    "No entries found in this folder" : "Der blev ikke fundet poster i denne mappe",
-    "Name" : "Navn",
-    "Share time" : "Dele periode",
-    "Reasons might be:" : "Årsagen kan være:",
-    "the item was removed" : "Filen blev fjernet",
-    "the link expired" : "linket udløb",
-    "sharing is disabled" : "deling er deaktiveret",
-    "For more info, please ask the person who sent this link." : "For yderligere information, kontakt venligst personen der sendte linket. "
+    "Files" : "Filer"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

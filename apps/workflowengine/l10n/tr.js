@@ -118,7 +118,6 @@ OC.L10N.register(
     "Request user agent" : "Kullanıcı uygulaması istensin",
     "Group membership" : "Grup üyeliği",
     "is member of" : "şunun üyesi olan",
-    "is not member of" : "şunun üyesi olmayan",
-    "User group membership" : "Kullanıcı grubu üyeliği"
+    "is not member of" : "şunun üyesi olmayan"
 },
 "nplurals=2; plural=(n > 1);");

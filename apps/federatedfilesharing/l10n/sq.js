@@ -29,10 +29,6 @@ OC.L10N.register(
     "Remote share" : "Ndarje në largësi",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Doni që të shtoni ndarjen në remote {name} nga {owner}@{remote}?",
     "Remote share password" : "Fjalëkalim ndarjeje të largët",
-    "Not allowed to create a federated share with the same user" : "S’i lejohet të krijojë një ndarje të federuar me të njëjtin përdorues",
-    "Allow users on this server to receive shares from other servers" : "Lejoju përdoruesve në këtë shërbyes të marrin ndarje nga shërbyes të tjerë",
-    "Search global and public address book for users" : "Kërko librin e adresave globale dhe publike për përdoruesit",
-    "Allow users to publish their data to a global and public address book" : "Lejo përdoruesit të publikojnë të dhënat e tyre në një libër adresash botërore dhe globale",
     "Your Federated Cloud ID:" : "ID-ja juaj për Re të Federuar:",
     "Twitter" : "Twitter"
 },

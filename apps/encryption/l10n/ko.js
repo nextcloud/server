@@ -60,7 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "암호 복구 사용:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "이 옵션을 사용하면 암호를 잊었을 때 암호화된 파일에 다시 접근할 수 있습니다",
     "Enabled" : "활성화",
-    "Disabled" : "비활성화",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "복구 키는 파일을 암호화하는 추가 키입니다. 사용자가 암호를 잊었을 때 복구할 수 있도록 해 줍니다."
+    "Disabled" : "비활성화"
 },
 "nplurals=1; plural=0;");

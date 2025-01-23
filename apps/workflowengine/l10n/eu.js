@@ -113,7 +113,6 @@ OC.L10N.register(
     "Request user agent" : "Eskatu erabiltzaile-agentea",
     "Group membership" : "Taldearen kidetza",
     "is member of" : "hemengo kide da:",
-    "is not member of" : "ez da hemengo kide:",
-    "User group membership" : "Erabiltzailearen talde-kidetza"
+    "is not member of" : "ez da hemengo kide:"
 },
 "nplurals=2; plural=(n != 1);");

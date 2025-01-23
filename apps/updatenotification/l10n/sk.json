@@ -54,11 +54,6 @@
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplikácia nemá dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom"],
     "Changelog for app {app}" : "Zoznam zmien pre aplikáciu {app}",
     "What's new in {app} version {version}" : "Čo je nové v {app} verzie {version}",
-    "{version} is available. Get more information on how to update." : "{version} je dostupná. Získajte viac informácií o postupe aktualizácie.",
-    "Update to %1$s is available." : "Je dostupná aktualizácia na verziu %1$s.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Zobrazí upozornenie na aktualizáciu pre Nextcloud a poskytuje zjednotené prihlasovanie pre aktualizátor.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Upozorňujeme, že webový aktualizátor sa neodporúča pre viac ako 100 používateľov! Namiesto toho použite nástroj na aktualizáciu príkazového riadku!",
-    "Please use the command line updater to update." : "Použite prosím aktualizáciu cez príkazový riadok.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Upozorňujeme, že po oficiálnom vydaní novej verzie môže chvíľu trvať, než sa tu objaví. Nové verzie medzi našich používateľov distribuujeme priebežne rozložené v čase a ak sa nájdu chyby, niekedy danú verziu preskočíme. Viac informácií o kanáloch aktualizácií a vydaní sa dozviete na {link}"
+    "{version} is available. Get more information on how to update." : "{version} je dostupná. Získajte viac informácií o postupe aktualizácie."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

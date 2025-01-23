@@ -92,14 +92,6 @@
     "Available for" : "Достапно за",
     "Add storage" : "Додади складиште",
     "Advanced settings" : "Напредни параметри",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните акредитиви можат да се искористат за пристапување во повеќе надворешни складишта кој користат исти акредитиви.",
-    "Storage with ID \"%d\" is not user editable" : "Складиштето со ID \"%d\" неможе да се измени од корисник",
-    "Username" : "Корисничко име",
-    "Username and password" : "Корисничко име и лозинка",
-    "Global credentials, user entered" : "Глобални акредитиви, внесени од корисник",
-    "User entered, store in database" : "Внесени од корисник, зачувани во базата со податоци",
-    "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Надворешното складирање ви овозможува да ги монтирате услугите и уредите за надворешно складирање како секундарни уреди за складирање на Nextcloud. Исто така може да им дозволите на корисниците да монтираат свои услуги за надворешно складирање.",
-    "All users" : "Сите корисници",
-    "Allow users to mount external storage" : "Дозволи на корисниците да монтираат надворешни складишта"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните акредитиви можат да се искористат за пристапување во повеќе надворешни складишта кој користат исти акредитиви."
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

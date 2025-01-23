@@ -31,7 +31,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Errorea gertatu da iruzkina editatzen saiatzean",
     "Comment deleted" : "Iruzkina ezabatu da",
     "An error occurred while trying to delete the comment" : "Errorea gertatu da iruzkina ezabatzen saiatzean",
-    "An error occurred while trying to create the comment" : "Errorea gertatu da iruzkina sortzen saiatzean",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "\"{file}\"-n aipatu zaituzte, dagoeneko ezabatu den erabiltzaile baten iruzkin batean"
+    "An error occurred while trying to create the comment" : "Errorea gertatu da iruzkina sortzen saiatzean"
 },
 "nplurals=2; plural=(n != 1);");

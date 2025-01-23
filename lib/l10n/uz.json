@@ -16,8 +16,6 @@
     "Authentication error" : "Authentication error",
     "Storage is temporarily not available" : "Storage is temporarily not available",
     "File name is too long" : "File name is too long",
-    "Help" : "Help",
-    "Users" : "Users",
-    "Unknown user" : "Unknown user"
+    "Users" : "Users"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

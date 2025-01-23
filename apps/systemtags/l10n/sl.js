@@ -67,14 +67,7 @@ OC.L10N.register(
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Sodelovalne oznake so na voljo vsem uporabnikom, omejitvene so uporabnikom vidne, a jih ni mogoče dodeliti, nevidne pa so namenjene sistemski rabi, uporabniki jih niti ne vidijo niti jih ne morejo dodeliti.",
     "Open in Files" : "Odpri v mapi",
     "No tags found" : "Ni najdenih oznak",
-    "Collaborative tagging functionality which shares tags among users." : "Možnost dodajanja sodelovalnih oznak za souporabo med uporabniki.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Možnost sodelovalnega označevanja, ki omogoča uporabnikom označevanje z oznakami. Odlično za skupinsko delo.\n\t(Priporočljivo je, da ponudniki, ki omogočajo storitve različnim skupinam, možnost onemogočijo, saj je oznake mogoče izmenjevati tudi med njimi.)",
     "This file has the tag {tag}" : "Datoteka je označena z oznako {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Ta datoteka ima oznake {firstTags} in {lastTag}",
-    "No files in here" : "V mapi ni datotek",
-    "No entries found in this folder" : "V tej mapi ni najdenih predmetov.",
-    "Name" : "Ime",
-    "Size" : "Velikost",
-    "Modified" : "Spremenjeno"
+    "This file has the tags {firstTags} and {lastTag}" : "Ta datoteka ima oznake {firstTags} in {lastTag}"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

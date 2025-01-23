@@ -33,10 +33,6 @@
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Najnovija stabilna inačica. Primjerena je za redovitu uporabu i uvijek će se ažurirati na najnoviju glavnu inačicu.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Razvojna inačica koja služi samo za ispitivanje novih značajki, a nikako za produkcijska okruženja.",
-    "{version} is available. Get more information on how to update." : "{version} je dostupna. Saznajte više informacija o ažuriranju.",
-    "Update to %1$s is available." : "Dostupno je ažuriranje na %1$s.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Prikazuje obavijesti o ažuriranju za Nextcloud i pruža SSO za alat za ažuriranje.",
-    "Please use the command line updater to update." : "Ažurirajte putem naredbenog retka.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Imajte na umu da se ažuriranje nakon novog izdanja pojavljuje tek nakon prve manje nove inačice ili kasnije. Nove inačice uvodimo u pravilnim vremenskim razmacima i ponekad preskočimo inačicu ako je problematična."
+    "{version} is available. Get more information on how to update." : "{version} je dostupna. Saznajte više informacija o ažuriranju."
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

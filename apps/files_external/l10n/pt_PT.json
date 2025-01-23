@@ -96,12 +96,6 @@
     "Configuration" : "Configuração",
     "Available for" : "Disponível para ",
     "Add storage" : "Adicionar armazenamento",
-    "Advanced settings" : "Definições avançadas",
-    "Storage with ID \"%d\" is not user editable" : "Armazenamento com ID \"%d\" não é evitável por utilizadores",
-    "Username" : "Nome de utilizador",
-    "Username and password" : "Nome de utilizador e palavra-passe",
-    "User entered, store in database" : "Inseridos pelo utilizador, armazenar na base de dados",
-    "Username as share" : "Nome de utilizador como partilha",
-    "Allow users to mount external storage" : "Permitir que os utilizadores montem armazenamento externo"
+    "Advanced settings" : "Definições avançadas"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -16,9 +16,6 @@ OC.L10N.register(
     "Each server must validate the other. This process may require a few cron cycles." : "Each server must validate the other. This process may require a few cron cycles.",
     "+ Add trusted server" : "+ Add trusted server",
     "Trusted server" : "Trusted server",
-    "Add" : "Add",
-    "Federation allows you to connect with other trusted servers to exchange the user directory." : "Federation allows you to connect with other trusted servers to exchange the user directory.",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federation allows you to connect with other trusted servers to exchange the user directory. For example: to auto-complete external users for federated sharing.",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share."
+    "Add" : "Add"
 },
 "nplurals=2; plural=(n != 1);");

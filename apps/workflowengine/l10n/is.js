@@ -21,6 +21,7 @@ OC.L10N.register(
     "Check #%s does not exist" : "Athugunin #%s er ekki til",
     "Check %s is invalid or does not exist" : "Athugunin %s er ógild eða er ekki til",
     "Flow" : "Flæði",
+    "Remove filter" : "Fjarlægja síu",
     "Folder" : "Mappa",
     "Images" : "Myndir",
     "Files WebDAV" : "WebDAV skráa",
@@ -65,7 +66,6 @@ OC.L10N.register(
     "not between" : "er ekki á milli",
     "Request user agent" : "Biðja um notandaforrit",
     "is member of" : "er meðlimur í ",
-    "is not member of" : "er ekki meðlimur í",
-    "User group membership" : "Notandi er meðlimur í hópum"
+    "is not member of" : "er ekki meðlimur í"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

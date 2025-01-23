@@ -56,7 +56,6 @@ OC.L10N.register(
     "Enable password recovery:" : "启用密码恢复：",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "启用该项将允许您在密码丢失后取回您的加密文件",
     "Enabled" : "启用",
-    "Disabled" : "禁用",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "恢复密钥是用于加密文件的额外加密密钥。如果用户忘记了密码，它允许用户恢复文件。"
+    "Disabled" : "禁用"
 },
 "nplurals=1; plural=0;");

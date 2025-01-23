@@ -94,14 +94,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "ھۆججەتنىڭ خەتكۈچلىرىنى يۈكلىيەلمىدى",
     "Failed to set tag for file" : "ھۆججەتكە بەلگە بەلگىلەش مەغلۇپ بولدى",
     "Failed to delete tag for file" : "ھۆججەتنىڭ بەلگىسىنى ئۆچۈرەلمىدى",
-    "Collaborative tagging functionality which shares tags among users." : "ئىشلەتكۈچىلەر ئارىسىدا بەلگە ھەمبەھىرلىنىدىغان ھەمكارلىق بەلگە ئىقتىدارى.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "ئىشلەتكۈچىلەر ئارىسىدا بەلگە ھەمبەھىرلىنىدىغان ھەمكارلىق بەلگە ئىقتىدارى. كوماندىلار ئۈچۈن ناھايىتى ياخشى.\n\t(ئەگەر سىز كۆپ ئىجارىگە بېرىلگەن قاچىلاش تەمىنلىگۈچى بولسىڭىز ، خەتكۈچ ئورتاقلاشقانلىقتىن بۇ ئەپنى توختىتىش تەۋسىيە قىلىنىدۇ.)",
     "This file has the tag {tag}" : "بۇ ھۆججەتنىڭ بەلگىسى {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "بۇ ھۆججەتنىڭ خەتكۈچلىرى {firstTags} ۋە {lastTag}",
-    "No files in here" : "بۇ يەردە ھۆججەت يوق",
-    "No entries found in this folder" : "بۇ ھۆججەت قىسقۇچتا ھېچقانداق مەزمۇن تېپىلمىدى",
-    "Name" : "ئاتى",
-    "Size" : "چوڭلۇقى",
-    "Modified" : "ئۆزگەرتكەن"
+    "This file has the tags {firstTags} and {lastTag}" : "بۇ ھۆججەتنىڭ خەتكۈچلىرى {firstTags} ۋە {lastTag}"
 },
 "nplurals=2; plural=(n != 1);");

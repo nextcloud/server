@@ -58,7 +58,6 @@ OC.L10N.register(
     "There was an error setting the location." : "حدث خطأ أثناء تعيين الموقع الجغرافي.",
     "There was an error saving the mode." : "حدث خطأ أثناء حفظ الوضعية mode.",
     "There was an error using personal address." : "حدث خطأ أثناء استعمال العنوان الشخصي.",
-    "Unknown weather code" : "أحوال جوية غير محددة",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "تمّ دمج حالة الطقس في تطبيق لوحة القيادة dashboard. يمكن تحديد الموقع الجغرافي للمستخدم تلقائيًا أو تحديده يدويًا. يتم بعد ذلك عرض توقعات الطفس في الـ 6 ساعات القادمة. يمكن أيضًا دمج حالة الطقس هذه في أماكن أخرى مثل تطبيق التقويم."
+    "Unknown weather code" : "أحوال جوية غير محددة"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

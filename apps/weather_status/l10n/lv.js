@@ -58,7 +58,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Atgadījās kļūda atrašanās vietas iestatīšanā.",
     "There was an error saving the mode." : "Atgadījās kļūda režīma saglabāšanā.",
     "There was an error using personal address." : "Atgadījās kļūda personīgās adreses izmantošanā.",
-    "Unknown weather code" : "Nezināms laikapstākļu kods",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Laikapstākļu stāvoklis iekļauts informācijas paneļa lietotnē.\nLietotāja atrašanās vieta var tikt automātiski noteikta vai pašrocīgi norādīta. Tad tiek attēlota 6 stundu prognoze.\nŠis stāvoklis var tikt ievietots arī citās vietās, piemēram, kalendāra lietotnē."
+    "Unknown weather code" : "Nezināms laikapstākļu kods"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

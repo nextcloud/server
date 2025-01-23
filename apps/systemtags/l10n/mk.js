@@ -67,14 +67,7 @@ OC.L10N.register(
     "Tags you have created will show up here." : "Ознаките што ги имате креирано ќе се појават овде",
     "Failed to load last used tags" : "Неуспешно вчитување на последно користените ознаки",
     "Missing \"Content-Location\" header" : "Недостасува \"Content-Location\" заглавие",
-    "Collaborative tagging functionality which shares tags among users." : "Колаборативна ознака е можност да се споделуваат ознаките со корисниците.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Колаборативна ознака е можност да се споделуваат ознаките со корисниците. Одлично за тимско работење.\n\t(Доколку користите провајдер со инсталирани повеќе инстанци, се препорачува да се оневозможи оваа апликацика бидејќи ознаките ќе бидат споделени.)",
     "This file has the tag {tag}" : "Оваа датотека има ознака {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Оваа датотека има ознаки {firstTags} и {lastTag}",
-    "No files in here" : "Тука нема датотеки",
-    "No entries found in this folder" : "Нема ништо во оваа папка",
-    "Name" : "Име",
-    "Size" : "Големина",
-    "Modified" : "Променето"
+    "This file has the tags {firstTags} and {lastTag}" : "Оваа датотека има ознаки {firstTags} и {lastTag}"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

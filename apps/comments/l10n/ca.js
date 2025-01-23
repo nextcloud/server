@@ -31,7 +31,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "S'ha produït un error en intentar editar el comentari",
     "Comment deleted" : "S'ha suprimit el comentari",
     "An error occurred while trying to delete the comment" : "S'ha produït un error en intentar suprimir el comentari",
-    "An error occurred while trying to create the comment" : "S'ha produït un error en intentar crear el comentari",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Se us ha esmentat a «{file}» en un comentari d'un usuari que s'ha suprimit"
+    "An error occurred while trying to create the comment" : "S'ha produït un error en intentar crear el comentari"
 },
 "nplurals=2; plural=(n != 1);");

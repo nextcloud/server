@@ -31,7 +31,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "嘗試編輯留言時發生錯誤",
     "Comment deleted" : "留言已刪除",
     "An error occurred while trying to delete the comment" : "嘗試刪除留言時發生錯誤",
-    "An error occurred while trying to create the comment" : "嘗試建立留言時發生錯誤",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "一位已被刪除的使用者在「{file}」的留言中提到您"
+    "An error occurred while trying to create the comment" : "嘗試建立留言時發生錯誤"
 },
 "nplurals=1; plural=0;");

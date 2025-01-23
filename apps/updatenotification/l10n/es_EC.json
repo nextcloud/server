@@ -40,11 +40,6 @@
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Una versión previa al lanzamiento solo para probar nuevas funciones, no apta para entornos de producción.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplicación no tiene una versión compatible disponible para esta versión de Nextcloud.","<strong>%n</strong> aplicaciones no tienen una versión compatible disponible para esta versión de Nextcloud.","<strong>%n</strong> aplicaciones no tienen una versión compatible disponible para esta versión de Nextcloud."],
-    "{version} is available. Get more information on how to update." : "{version} está disponible. Obten más información de cómo actualizar. ",
-    "Update to %1$s is available." : "La actualización a %1$s está disponible. ",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Muestra notificaciones de actualización para Nextcloud y proporciona SSO para el actualizador.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Ten en cuenta que el actualizador web no se recomienda para más de 100 usuarios. ¡Utiliza en su lugar el actualizador de línea de comandos!",
-    "Please use the command line updater to update." : "Utiliza el actualizador de línea de comandos para actualizar.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Ten en cuenta que después de un nuevo lanzamiento, la actualización solo se mostrará después del primer lanzamiento menor o posterior. Lanzamos nuevas versiones de forma escalonada a nuestros usuarios y a veces omitimos una versión cuando se encuentran problemas. Obtén más información sobre las actualizaciones y los canales de lanzamiento en {link}"
+    "{version} is available. Get more information on how to update." : "{version} está disponible. Obten más información de cómo actualizar. "
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

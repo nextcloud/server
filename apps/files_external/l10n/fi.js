@@ -114,15 +114,6 @@ OC.L10N.register(
     "Available for" : "Saatavuus",
     "Add storage" : "Lisää tallennustila",
     "Advanced settings" : "Lisäasetukset",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Yleisiä tunnistetietoja voidaan käyttää useisiin ulkoisiin tallennustiloihin tunnistautumiseen, joissa käytetään samoja tunnistetietoja.",
-    "Type to select user or group." : "Kirjoita valitaksesi käyttäjän tai ryhmän.",
-    "Storage with ID \"%d\" is not user editable" : "Tallennustila tunnisteella \"%d\" ei ole käyttäjän muokattavissa",
-    "Username" : "Käyttäjätunnus",
-    "Username and password" : "Käyttäjätunnus ja salasana",
-    "Global credentials, user entered" : "Yleiset tunnistetiedot, käyttäjän syöttämät",
-    "User entered, store in database" : "Käyttäjän antama, tallennettu tietokantaan",
-    "Username as share" : "Käyttäjänimi jakona",
-    "All users" : "Kaikki käyttäjät",
-    "Allow users to mount external storage" : "Salli käyttäjien liittää erillisiä tallennustiloja"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Yleisiä tunnistetietoja voidaan käyttää useisiin ulkoisiin tallennustiloihin tunnistautumiseen, joissa käytetään samoja tunnistetietoja."
 },
 "nplurals=2; plural=(n != 1);");

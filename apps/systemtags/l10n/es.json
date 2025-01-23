@@ -81,14 +81,7 @@
     "Failed to load tags for file" : "Fallo al cargar las etiquetas del archivo",
     "Failed to set tag for file" : "Fallo al asignar la etiqueta al archivo",
     "Failed to delete tag for file" : "Fallo al borrar la etiqueta del archivo",
-    "Collaborative tagging functionality which shares tags among users." : "Funcionalidad de etiquetado colaborativo que comparte las etiquetas entre usuarios.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funcionalidad de etiquetado colaborativo que comparte las etiquetas entre usuarios. Adecuado para equipos.\n\n(Si eres un proveedor con una instalación en multitenencia), se aconseja desactivar esta app pues las etiquetas se comparten).",
     "This file has the tag {tag}" : "Este archivo tiene la etiqueta {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Este archivo tiene las etiquetas {firstTags} y {lastTag}",
-    "No files in here" : "Aquí no hay archivos",
-    "No entries found in this folder" : "No hay entradas en esta carpeta",
-    "Name" : "Nombre",
-    "Size" : "Tamaño",
-    "Modified" : "Modificado"
+    "This file has the tags {firstTags} and {lastTag}" : "Este archivo tiene las etiquetas {firstTags} y {lastTag}"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -94,14 +94,7 @@
     "Failed to load tags for file" : "Theip ar lódáil clibeanna don chomhad",
     "Failed to set tag for file" : "Theip ar chlib a shocrú don chomhad",
     "Failed to delete tag for file" : "Theip ar scriosadh an chlib don chomhad",
-    "Collaborative tagging functionality which shares tags among users." : "Feidhmiúlacht chlibeála chomhoibríoch a roinneann clibeanna i measc úsáideoirí.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Feidhmiúlacht chlibeála chomhoibríoch a roinneann clibeanna i measc úsáideoirí. Go hiontach d'fhoirne.\n\t (Más soláthraí thú le suiteáil ilthionóntachta, moltar an aip seo a dhíghníomhachtú de réir mar a roinntear clibeanna.)",
     "This file has the tag {tag}" : "Tá an chlib {tag} ag an gcomhad seo",
-    "This file has the tags {firstTags} and {lastTag}" : "Tá na clibeanna {firstTags} agus {lastTag} sa chomhad seo",
-    "No files in here" : "Níl aon chomhaid istigh anseo",
-    "No entries found in this folder" : "Níor aimsíodh aon iontrálacha san fhillteán seo",
-    "Name" : "Ainm",
-    "Size" : "Méid",
-    "Modified" : "Athraithe"
+    "This file has the tags {firstTags} and {lastTag}" : "Tá na clibeanna {firstTags} agus {lastTag} sa chomhad seo"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

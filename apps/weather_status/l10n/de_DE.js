@@ -58,7 +58,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Beim Festlegen des Standortes ist ein Fehler aufgetreten.",
     "There was an error saving the mode." : "Beim Festlegen des Modus ist ein Fehler aufgetreten.",
     "There was an error using personal address." : "Bei der Verwendung der persönlichen Adresse ist ein Fehler aufgetreten.",
-    "Unknown weather code" : "Unbekannter Wettercode",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Wetterstatus wird in die Dashboard-App integriert.\nDie Position des Benutzers kann automatisch bestimmt oder manuell definiert werden. Anschließend wird eine 6-Stunden-Vorhersage angezeigt.\nDieser Status kann auch an anderen Stellen wie in der Kalender-App integriert werden."
+    "Unknown weather code" : "Unbekannter Wettercode"
 },
 "nplurals=2; plural=(n != 1);");

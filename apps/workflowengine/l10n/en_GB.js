@@ -118,7 +118,6 @@ OC.L10N.register(
     "Request user agent" : "Request user agent",
     "Group membership" : "Group membership",
     "is member of" : "is member of",
-    "is not member of" : "is not member of",
-    "User group membership" : "User group membership"
+    "is not member of" : "is not member of"
 },
 "nplurals=2; plural=(n != 1);");

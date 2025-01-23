@@ -94,14 +94,7 @@
     "Failed to load tags for file" : "Dosyanın etiketleri yüklenemedi",
     "Failed to set tag for file" : "Dosyanın etiketi ayarlanamadı",
     "Failed to delete tag for file" : "Dosyanın etiketi silinemedi",
-    "Collaborative tagging functionality which shares tags among users." : "Etiketlerin kullanıcılar arasında paylaşılabilmesini sağlayan iş birlikli etiketleme özelliği.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "İş birlikli etiketler özelliği etiketlerin kullanıcılar arasında paylaşılabilmesini sağlar. Takımlar için harikadır.\n\t(Birden çok kuruluşun olduğu bir kurulumda etiketler zaten paylaşıldığı için bu uygulamanın kullanımdan kaldırılması önerilir).",
     "This file has the tag {tag}" : "Dosya {tag} olarak etiketlenmiş",
-    "This file has the tags {firstTags} and {lastTag}" : "Dosya {firstTags} ve {lastTag} olarak etiketlenmiş",
-    "No files in here" : "Burada henüz bir dosya yok",
-    "No entries found in this folder" : "Bu klasörde herhangi bir kayıt bulunamadı",
-    "Name" : "Ad",
-    "Size" : "Boyut",
-    "Modified" : "Değiştirilme"
+    "This file has the tags {firstTags} and {lastTag}" : "Dosya {firstTags} ve {lastTag} olarak etiketlenmiş"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

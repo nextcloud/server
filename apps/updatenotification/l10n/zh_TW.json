@@ -54,11 +54,6 @@
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> 個應用程式沒有與此 Nextcloud 版本相容的版本。"],
     "Changelog for app {app}" : "應用程式 {app} 的變更紀錄",
     "What's new in {app} version {version}" : "{app} 版本 {version} 中有什麼新功能",
-    "{version} is available. Get more information on how to update." : "{version} 發行了。取得更多關於如何更新的資訊。",
-    "Update to %1$s is available." : "更新版 %1$s 已發行。",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "顯示 Nextcloud 的更新通知，並為更新程式提供 SSO。",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "請注意，不建議超過 100 個使用者的站台使用網頁更新程式！請改用命令列更新程式！",
-    "Please use the command line updater to update." : "請使用命令列更新程式來更新。",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "請注意，新版本發行後，僅會在有第一個次要版本或後續版本時顯示。我們會逐步向使用者推送新版本，並在發現問題時跳過特定版本。請在 {link} 取得關於更新與發行頻道的更多資訊"
+    "{version} is available. Get more information on how to update." : "{version} 發行了。取得更多關於如何更新的資訊。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

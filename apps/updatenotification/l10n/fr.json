@@ -54,11 +54,6 @@
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> application n'a pas de version compatible pour cette version de Nextcloud disponible.","<strong>%n</strong> applications n'ont pas de version compatible pour cette version de Nextcloud disponible.","<strong>%n</strong> applications n'ont pas de version compatible avec cette version de Nextcloud disponible."],
     "Changelog for app {app}" : "Journal des modifications pour l'application {app}",
     "What's new in {app} version {version}" : "Quoi de neuf dans {app} version {version}",
-    "{version} is available. Get more information on how to update." : "La version {version} est disponible. Cliquez ici pour plus d’informations sur comment mettre à jour.",
-    "Update to %1$s is available." : "Une mise à jour vers %1$s est disponible",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Affiche les notifications de mise à jour pour Nextcloud et fournit l'authentification unique SSO pour le programme de mise à jour.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Veuillez noter que la mise à jour par le navigateur n'est pas recommandée si votre instance comporte plus de 100 utilisateurs ! Veuillez utiliser l'interface en ligne de commandes. ",
-    "Please use the command line updater to update." : "Veuillez utiliser le programme de mise à jour en ligne de commande pour mettre à jour. ",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Notez qu’après une nouvelle version, la mise à jour n’apparaît qu’après la première version mineure ou ultérieure. Nous déployons de nouvelles versions réparties sur le temps à nos utilisateurs et nous sautons parfois une version lorsque des problèmes sont trouvés. Pour en savoir plus sur les mises à jour et les canaux de diffusion, visitez {link}"
+    "{version} is available. Get more information on how to update." : "La version {version} est disponible. Cliquez ici pour plus d’informations sur comment mettre à jour."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
