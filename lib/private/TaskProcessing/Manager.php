@@ -81,6 +81,7 @@ class Manager implements IManager {
 	private IAppData $appData;
 	private ?array $preferences = null;
 	private ICache $cache;
+	private ICache $distributedCache;
 
 	public function __construct(
 		private IConfig $config,
@@ -100,6 +101,7 @@ class Manager implements IManager {
 	) {
 		$this->appData = $appDataFactory->get('core');
 		$this->cache = $cacheFactory->createLocal('task_processing::');
+		$this->cache = $cacheFactory->createDistributed('task_processing::');
 	}
 
 
@@ -705,7 +707,14 @@ class Manager implements IManager {
 
 	public function getPreferredProvider(string $taskTypeId) {
 		try {
-			$this->preferences = $this->preferences ?? json_decode($this->config->getAppValue('core', 'ai.taskprocessing_provider_preferences', 'null'), associative: true, flags: JSON_THROW_ON_ERROR);
+			if ($this->preferences === null) {
+				$this->preferences = $this->distributedCache->get('ai.taskprocessing_provider_preferences');
+				if ($this->preferences === null) {
+					$this->preferences = json_decode($this->config->getAppValue('core', 'ai.taskprocessing_provider_preferences', 'null'), associative: true, flags: JSON_THROW_ON_ERROR);
+					$this->distributedCache->set('ai.taskprocessing_provider_preferences', $this->preferences, 60 * 3);
+				}
+			}
+
 			$providers = $this->getProviders();
 			if (isset($this->preferences[$taskTypeId])) {
 				$provider = current(array_values(array_filter($providers, fn ($provider) => $provider->getId() === $this->preferences[$taskTypeId])));
