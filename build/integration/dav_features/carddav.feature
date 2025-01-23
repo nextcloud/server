@@ -74,3 +74,7 @@ Feature: carddav
     When "user0" sends a create addressbook request to "admin/MyAddressbook2" on the endpoint "/remote.php/dav/addressbooks/"
     Then The CardDAV HTTP status code should be "404"
     And The CardDAV exception is "Internal Server Error"
+
+  Scenario: Should create default addressbook on first login
+    Given user "first-login" exists
+    Then "first-login" requests addressbook "first-login/contacts" with statuscode "207" on the endpoint "/remote.php/dav/addressbooks/users/"
