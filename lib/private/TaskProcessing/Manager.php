@@ -31,6 +31,8 @@ use OCP\Files\Node;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Http\Client\IClientService;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IServerContainer;
@@ -77,6 +79,8 @@ class Manager implements IManager {
 	private ?array $availableTaskTypes = null;
 
 	private IAppData $appData;
+	private ICache $cache;
+
 	public function __construct(
 		private IConfig $config,
 		private Coordinator $coordinator,
@@ -91,8 +95,10 @@ class Manager implements IManager {
 		private IUserMountCache $userMountCache,
 		private IClientService $clientService,
 		private IAppManager $appManager,
+		ICacheFactory $cacheFactory,
 	) {
 		$this->appData = $appDataFactory->get('core');
+		$this->cache = $cacheFactory->createLocal('task_processing::');
 	}
 
 
@@ -582,10 +588,10 @@ class Manager implements IManager {
 			foreach ($taskTypes as $taskType) {
 				$taskTypeSettings[$taskType->getId()] = false;
 			};
-			
+
 			return $taskTypeSettings;
 		}
-		
+
 	}
 
 	/**
@@ -746,6 +752,9 @@ class Manager implements IManager {
 	}
 
 	public function getAvailableTaskTypes(bool $showDisabled = false): array {
+		if ($this->availableTaskTypes === null) {
+			$this->availableTaskTypes = $this->cache->get('available_task_types');
+		}
 		// Either we have no cache or showDisabled is turned on, which we don't want to cache, ever.
 		if ($this->availableTaskTypes === null || $showDisabled) {
 			$taskTypes = $this->_getTaskTypes();
@@ -787,6 +796,7 @@ class Manager implements IManager {
 			}
 
 			$this->availableTaskTypes = $availableTaskTypes;
+			$this->cache->set('available_task_types', $this->availableTaskTypes, 60);
 		}
 
 
