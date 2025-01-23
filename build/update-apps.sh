@@ -3,16 +3,16 @@
 # SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
 #
-# Update Nextcloud apps from latest git master
+# Update Nextcloud apps from latest git stable31
 # For local development environment
 # Use from Nextcloud server folder with `./build/update-apps.sh`
 #
 # It automatically:
 # - goes through all apps which are not shipped via server
 # - shows the app name in bold and uses whitespace for separation
-# - changes to master/main and pulls quietly
+# - changes to stable31 and pulls quietly
 # - shows the 3 most recent commits for context
-# - removes branches merged into master/main
+# - removes branches merged into stable31
 # - … could even do the build steps if they are consistent for the apps (like `make`)
 
 set -euo pipefail
