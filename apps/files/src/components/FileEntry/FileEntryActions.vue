@@ -30,11 +30,11 @@
 				:ref="`action-${action.id}`"
 				:class="{
 					[`files-list__row-action-${action.id}`]: true,
-					[`files-list__row-action--menu`]: isMenu(action.id)
+					[`files-list__row-action--menu`]: isValidMenu(action)
 				}"
-				:close-after-click="!isMenu(action.id)"
+				:close-after-click="!isValidMenu(action)"
 				:data-cy-files-list-row-action="action.id"
-				:is-menu="isMenu(action.id)"
+				:is-menu="isValidMenu(action)"
 				:aria-label="action.title?.([source], currentView)"
 				:title="action.title?.([source], currentView)"
 				@click="onActionClick(action)">
@@ -48,7 +48,7 @@
 			<!-- Submenu actions list-->
 			<template v-if="openedSubmenu && enabledSubmenuActions[openedSubmenu?.id]">
 				<!-- Back to top-level button -->
-				<NcActionButton class="files-list__row-action-back" @click="onBackToMenuClick(openedSubmenu)">
+				<NcActionButton class="files-list__row-action-back" data-cy-files-list-row-action="menu-back" @click="onBackToMenuClick(openedSubmenu)">
 					<template #icon>
 						<ArrowLeftIcon />
 					</template>
@@ -83,8 +83,8 @@ import type { FileAction, Node } from '@nextcloud/files'
 import { DefaultType, NodeStatus } from '@nextcloud/files'
 import { defineComponent, inject } from 'vue'
 import { translate as t } from '@nextcloud/l10n'
-
 import { useHotKey } from '@nextcloud/vue/dist/Composables/useHotKey.js'
+
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
 import CustomElementRender from '../CustomElementRender.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
@@ -98,6 +98,7 @@ import { useActiveStore } from '../../store/active.ts'
 import { useFileListWidth } from '../../composables/useFileListWidth.ts'
 import { useNavigation } from '../../composables/useNavigation'
 import { useRouteParameters } from '../../composables/useRouteParameters.ts'
+import actionsMixins from '../../mixins/actionsMixin.ts'
 import logger from '../../logger.ts'
 
 export default defineComponent({
@@ -112,6 +113,8 @@ export default defineComponent({
 		NcIconSvgWrapper,
 		NcLoadingIcon,
 	},
+
+	mixins: [actionsMixins],
 
 	props: {
 		opened: {
@@ -143,12 +146,6 @@ export default defineComponent({
 			enabledFileActions,
 			filesListWidth,
 			t,
-		}
-	},
-
-	data() {
-		return {
-			openedSubmenu: null as FileAction | null,
 		}
 	},
 
@@ -207,18 +204,6 @@ export default defineComponent({
 
 			// Filter actions that are not top-level AND have a valid parent
 			return actions.filter(action => !(action.parent && topActionsIds.includes(action.parent)))
-		},
-
-		enabledSubmenuActions() {
-			return this.enabledFileActions
-				.filter(action => action.parent)
-				.reduce((arr, action) => {
-					if (!arr[action.parent!]) {
-						arr[action.parent!] = []
-					}
-					arr[action.parent!].push(action)
-					return arr
-				}, {} as Record<string, FileAction[]>)
 		},
 
 		openedMenu: {
@@ -287,7 +272,7 @@ export default defineComponent({
 			return this.activeStore?.activeAction?.id === action.id
 		},
 
-		async onActionClick(action, isSubmenu = false) {
+		async onActionClick(action) {
 			// If the action is a submenu, we open it
 			if (this.enabledSubmenuActions[action.id]) {
 				this.openedSubmenu = action
@@ -299,30 +284,6 @@ export default defineComponent({
 
 			// Execute the action
 			await executeAction(action)
-
-			// If that was a submenu, we just go back after the action
-			if (isSubmenu) {
-				this.openedSubmenu = null
-			}
-		},
-
-		isMenu(id: string) {
-			return this.enabledSubmenuActions[id]?.length > 0
-		},
-
-		async onBackToMenuClick(action: FileAction) {
-			this.openedSubmenu = null
-			// Wait for first render
-			await this.$nextTick()
-
-			// Focus the previous menu action button
-			this.$nextTick(() => {
-				// Focus the action button
-				const menuAction = this.$refs[`action-${action.id}`]?.[0]
-				if (menuAction) {
-					menuAction.$el.querySelector('button')?.focus()
-				}
-			})
 		},
 
 		onKeyDown(event: KeyboardEvent) {
