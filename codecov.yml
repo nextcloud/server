@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
 codecov:
-  branch: master
+  branch: stable31
   ci:
   - drone.nextcloud.com
   - '!scrutinizer-ci.com'
