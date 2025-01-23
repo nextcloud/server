@@ -42,7 +42,6 @@ OC.L10N.register(
     "Send password by mail" : "La contraseña ha sido enviada por correo",
     "Reply to initiator" : "Responder al iniciador",
     "Unable to update share by mail config" : "No se pudo actualizar la configuración del recurso compartido por correo",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "No se pudo compartir %1$s, porque este elemento ya está compartido con el usuario %2$s",
     "%1$s shared »%2$s« with you" : "%1$s compartió »%2$s« contigo",
     "%1$s shared »%2$s« with you." : "%1$s compartió »%2$s« contigo.",
     "Click the button below to open it." : "Haz click en el botón de abajo para abrirlo.",
@@ -55,7 +54,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s compartió »%2$s« contigo y quiere añadir",
     "»%s« added a note to a file shared with you" : "»%s« añadió una nota a un archivo compartido contigo",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Acaba de compartir »%1$s« con %2$s. El recurso compartido ya ha sido enviado al destinatario. Debido a las políticas de seguridad definidas por el administrador de %3$s, cada recurso compartido debe estar protegido con contraseña y no se permite enviar la contraseña directamente al destinatario. Por lo tanto, debe enviarle manualmente la contraseña.",
-    "Password to access »%1$s« shared by you with %2$s" : "Contraseña para acceder a »%1$s« compartido por usted con %2$s",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Le permite a los usuarios compartir una liga personalizada a un archivo o carpeta colocando una dirección de correo eletrónico. "
+    "Password to access »%1$s« shared by you with %2$s" : "Contraseña para acceder a »%1$s« compartido por usted con %2$s"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -50,7 +50,6 @@
     "Enable password recovery:" : "Ativar a recuperação da palavra-passe:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ao ativar esta opção, irá fazer com que volte a obter o acesso aos seus ficheiros encriptados, se perder a palavra-passe",
     "Enabled" : "Ativada",
-    "Disabled" : "Desativada",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "A chave de recuperação é uma chave de encriptação extra que é utilizada para encriptar os ficheiros. Esta permite a recuperação dos ficheiros do utilizador se este esquecer a sua senha."
+    "Disabled" : "Desativada"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

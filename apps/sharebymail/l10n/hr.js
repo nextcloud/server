@@ -24,7 +24,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Davatelj usluge dijeljenja koji vam omogućuje dijeljenje datoteka poštom",
     "Send password by mail" : "Pošalji zaporku poštom",
     "Reply to initiator" : "Odgovori pokretaču",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Dijeljenje %1$s nije uspjelo jer je ova stavka već podijeljena s korisnikom %2$s",
     "%1$s shared »%2$s« with you" : "%1$s dijeli »%2$s« s vama",
     "%1$s shared »%2$s« with you." : "%1$s dijeli »%2$s« s vama.",
     "Click the button below to open it." : "Kliknite gumb u nastavku za otvaranje.",
@@ -37,7 +36,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s dijeli »%2$s« s vama i želi dodati",
     "»%s« added a note to a file shared with you" : "»%s« je dodao bilješku datoteci koju dijeli s vama",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Upravo ste podijelili »%1$s« s %2$s. Dijeljenje je već poslano primatelju. Zbog sigurnosnih pravila koje je definirao administrator %3$s, svako dijeljenje mora biti zaštićeno zaporkom i nije dopušteno slati zaporku izravno primatelju. Stoga zaporku morate ručno proslijediti primatelju.",
-    "Password to access »%1$s« shared by you with %2$s" : "Zaporka za pristupanje »%1$s« koju ste podijelili s %2$s",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Omogućuje korisnicima dijeljenje personalizirane poveznice na datoteku ili mapu dodavanjem adrese e-pošte."
+    "Password to access »%1$s« shared by you with %2$s" : "Zaporka za pristupanje »%1$s« koju ste podijelili s %2$s"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

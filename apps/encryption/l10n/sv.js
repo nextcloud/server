@@ -60,7 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Aktivera lösenordsåterställning:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Om du aktiverar det här alternativet kan du återställa åtkomst till dina krypterade filer vid lösenordsförlust",
     "Enabled" : "Aktiverad",
-    "Disabled" : "Inaktiverad",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Återställningsnyckeln är en extra krypteringsnyckel som används för att kryptera filer. Den gör det möjligt att återställa en användares filer om användaren glömmer sitt lösenord."
+    "Disabled" : "Inaktiverad"
 },
 "nplurals=2; plural=(n != 1);");

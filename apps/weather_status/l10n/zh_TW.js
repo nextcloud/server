@@ -58,7 +58,6 @@ OC.L10N.register(
     "There was an error setting the location." : "設定位置時發生錯誤。",
     "There was an error saving the mode." : "儲存模式時發生錯誤。",
     "There was an error using personal address." : "使用個人地址時發生錯誤。",
-    "Unknown weather code" : "未知天氣代碼",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "整合在儀表板應用程式中的天氣狀態。\n    使用者的位置可以自動偵測或手動定義。然後會顯示6小時的預報。\n    此狀態也可以整合到其他地方，如「行事曆」應用程式。"
+    "Unknown weather code" : "未知天氣代碼"
 },
 "nplurals=1; plural=0;");

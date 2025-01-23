@@ -58,7 +58,6 @@
     "Enable password recovery:" : "啟用密碼還原﹕",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "啟用這個選項將會允許您因忘記密碼但需要存取您的加密檔案",
     "Enabled" : "已啓用",
-    "Disabled" : "已停用",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "加密密鑰是另一種加密檔案方式，當用戶忘記密碼時，可以用還原密鑰來還原檔案"
+    "Disabled" : "已停用"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

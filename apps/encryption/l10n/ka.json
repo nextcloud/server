@@ -57,7 +57,6 @@
     "Enable password recovery:" : "Enable password recovery:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss",
     "Enabled" : "Enabled",
-    "Disabled" : "Disabled",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password."
+    "Disabled" : "Disabled"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

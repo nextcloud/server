@@ -43,11 +43,6 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Wersja przedpremierowa tylko do testowania nowych funkcji. Nie jest do środowisk produkcyjnych.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplikacja nie ma kompatybilnej wersji z tą wersją Nextcloud.","<strong>%n</strong> aplikacje nie ma kompatybilnej wersji z tą wersją Nextcloud.","<strong>%n</strong> aplikacji nie ma kompatybilnej wersji z tą wersją Nextcloud.","<strong>%n</strong> aplikacji nie ma kompatybilnej wersji z tą wersją Nextcloud."],
-    "{version} is available. Get more information on how to update." : "Wersja {version} jest dostępna. Uzyskaj więcej informacji na temat aktualizacji.",
-    "Update to %1$s is available." : "Dostępna jest aktualizacja do wersji %1$s.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Wyświetla powiadomienia o aktualizacji dla usługi Nextcloud i udostępnia SSO dla aktualizatora.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Należy pamiętać, że aktualizacja sieciowa nie jest zalecana przy więcej niż 100 użytkownikach! Zamiast tego użyj narzędzia do aktualizacji wiersza poleceń!",
-    "Please use the command line updater to update." : "Użyj wiersza poleceń do aktualizacji.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Zauważ, że po nowej wersji aktualizacja pojawia się dopiero po pierwszym mniejszym wydaniu lub później. Udostępniamy nowe wersje rozłożone w czasie dla naszych użytkowników i czasami pomijamy wersję w przypadku znalezienia problemów. Dowiedz się więcej o aktualizacjach i kanałach wydań pod adresem {link}"
+    "{version} is available. Get more information on how to update." : "Wersja {version} jest dostępna. Uzyskaj więcej informacji na temat aktualizacji."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

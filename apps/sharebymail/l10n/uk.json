@@ -33,7 +33,6 @@
     "Send password by mail" : "Надіслати пароль поштою",
     "Reply to initiator" : "Відповідь ініціатору",
     "Unable to update share by mail config" : "Не вдається оновити конфігурацію спільного доступу за допомогою пошти",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Не вдалося надати спільний доступ %1$s, оскільки користувач %2$s уже має спільний доступ до цього елемента",
     "%1$s shared »%2$s« with you" : "%1$s надав вам доступ до \"%2$s\"",
     "%1$s shared »%2$s« with you." : "%1$s надав вам доступ до \"%2$s\".",
     "Click the button below to open it." : "Для відкриття натисніть кнопку нижче.",
@@ -46,7 +45,6 @@
     "%1$s shared »%2$s« with you and wants to add" : "%1$s надав(-ла) доступ до \"%2$s\" та хоче додати",
     "»%s« added a note to a file shared with you" : "\"%s\" додано примітку до файлу у спільному доступі",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Ви щойно надали доступ %2$s до \"%1$s\" . Через політику безпеки, яку визначено адміністратором, кожен спільний ресурс %3$s має бути захищено паролем, а пароль не можна напряму надсилати одержувачу. Будь ласка, надішліть пароль отримувачу вручну.",
-    "Password to access »%1$s« shared by you with %2$s" : "Пароль для доступу до \"%1$s\", яким ви поділилися з %2$s",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Дозволяє користувачам ділитися персоналізованими посиланням на файл або каталог через електронну пошту."
+    "Password to access »%1$s« shared by you with %2$s" : "Пароль для доступу до \"%1$s\", яким ви поділилися з %2$s"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

@@ -58,7 +58,6 @@
     "Enable password recovery:" : "Jelszó-helyreállítás engedélyezése:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "A beállítás lehetővé teszi, hogy visszanyerje a titkosított fájlok tartalmát, ha elfelejtette a jelszavát",
     "Enabled" : "Engedélyezve",
-    "Disabled" : "Letiltva",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "A helyreállítási kulcs egy a fájlok titkosítására szolgáló további titkosítási kulcs. A segítségével vissza lehet állítani a fájlokat, ha felhasználó elfelejtette a jelszavát."
+    "Disabled" : "Letiltva"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

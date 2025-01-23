@@ -50,11 +50,6 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> sovelluksella on yhteensopiva versio saatavilla tälle Nextcloud-versiolle.","<strong>%n</strong> sovelluksella on yhteensopiva versio saatavilla tälle Nextcloud-versiolle."],
     "Changelog for app {app}" : "Sovelluksen {app} muutosloki",
     "What's new in {app} version {version}" : "Katso mitä uutta sovelluksen {app} versio {version} sisältää",
-    "{version} is available. Get more information on how to update." : "{version} on saatavilla. Tarjolla on lisätietoja päivittämisestä.",
-    "Update to %1$s is available." : "Kohteen %1$s päivitys on saatavilla.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Näyttää Nextcloudin päivitysilmoitukset ja tarjoaa SSO:n (Single Sign-On) päivittäjälle.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Huomioi, ettei päivitys selaimen kautta ole suositeltu yli 100 käyttäjän instansseissa! Tee sen sijaan päivitys komentoriviltä.",
-    "Please use the command line updater to update." : "Käytä komentorivipäivitintä päivittääksesi.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Huomaa, että uuden julkaisun jälkeen päivitys näkyy vasta ensimmäisen pienemmän julkaisun jälkeen tai myöhemmin. Julkaisemme uusia versioita käyttäjillemme ajallisesti hajautetusti, ja joskus jätämme jonkin version väliin, jos ongelmia ilmenee. Lisätietoja päivityksistä ja julkaisukanavista osoitteessa {link}"
+    "{version} is available. Get more information on how to update." : "{version} on saatavilla. Tarjolla on lisätietoja päivittämisestä."
 },
 "nplurals=2; plural=(n != 1);");

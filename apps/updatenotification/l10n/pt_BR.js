@@ -56,11 +56,6 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplicativo não têm versão compatível para esta versão do Nextcloud disponível.","<strong>%n</strong> aplicativos não têm versão compatível para esta versão do Nextcloud disponível.","<strong>%n</strong> aplicativos não têm versão compatível para esta versão do Nextcloud disponível."],
     "Changelog for app {app}" : "Registro de alterações do aplicativo {app}",
     "What's new in {app} version {version}" : "O que há de novo no {app} versão {version}",
-    "{version} is available. Get more information on how to update." : "{version} está disponível. Obtenha mais informações sobre como atualizar.",
-    "Update to %1$s is available." : "Atualização para %1$s está disponível.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Exibe notificações de atualização para o Nextcloud e fornece o SSO para o atualizador.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Observe que o atualizador da web não é recomendado com mais de 100 usuários! Por favor, use o atualizador de linha de comando!",
-    "Please use the command line updater to update." : "Por favor, use o updater da linha de comando para atualizar.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Observe que depois de um novo lançamento, a atualização só aparece após o primeiro lançamento secundário ou posterior. Lançamos novas versões distribuídas ao longo do tempo para nossos usuários e às vezes pulamos uma versão quando problemas são encontrados. Saiba mais sobre atualizações e canais de lançamento em {link}"
+    "{version} is available. Get more information on how to update." : "{version} está disponível. Obtenha mais informações sobre como atualizar."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

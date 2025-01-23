@@ -55,7 +55,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Aktifkan kata sandi pemulihan:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Mengaktifkan opsi ini memungkinkan Anda untuk mendapatkan kembali akses ke berkas terenkripsi Anda dalam kasus kehilangan kata sandi",
     "Enabled" : "Diaktifkan",
-    "Disabled" : "Dinonaktifkan",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Kunci pemulihan adalah kunci enkripsi tambahan yang digunakan untuk mengenkripsi berkas. Kunci pemulihan memungkinkan untuk memulihkan berkas pengguna ketika pengguna tersebut melupakan kata sandi mereka."
+    "Disabled" : "Dinonaktifkan"
 },
 "nplurals=1; plural=0;");

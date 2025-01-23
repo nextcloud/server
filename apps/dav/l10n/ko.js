@@ -213,11 +213,9 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "초대를 수락하시겠습니까?",
     "Tentative" : "보류",
     "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다.",
-    "To-dos" : "할 일",
     "Time:" : "시간:",
     "Could not open file" : "파일을 열 수 없음",
     "Invalid chunk name" : "잘못된 청크 이름",
-    "Could not rename part file assembled from chunks" : "청크에서 조합 된 부분 파일의 이름을 바꿀 수 없음",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "업무 시간을 설정하면, 회의를 예약할 때 다른 사용자가 부재 중 시간을 볼 수 있습니다."
+    "Could not rename part file assembled from chunks" : "청크에서 조합 된 부분 파일의 이름을 바꿀 수 없음"
 },
 "nplurals=1; plural=0;");

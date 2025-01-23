@@ -83,14 +83,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "No s'han pogut carregar les etiquetes del fitxer",
     "Failed to set tag for file" : "No s'ha pogut definit l'etiqueta per al fitxer",
     "Failed to delete tag for file" : "No s'ha pogut suprimir l'etiqueta del fitxer",
-    "Collaborative tagging functionality which shares tags among users." : "Funcionalitat d'etiquetatge col·laboratiu que permet compartir etiquetes entre usuaris.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funcionalitat d'etiquetatge col·laboratiu que permet compartir etiquetes entre usuaris. Fantàstica per a equips.\n\t(Si sou un proveïdor amb una instància del Nextcloud per a diversos clients, s'aconsella inhabilitar aquesta aplicació perquè les etiquetes es comparteixen amb tothom.)",
     "This file has the tag {tag}" : "Aquest fitxer té l'etiqueta {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Aquest fitxer té les etiquetes {firstTags} i {lastTag}",
-    "No files in here" : "No hi ha cap fitxer aquí",
-    "No entries found in this folder" : "No s'ha trobat cap entrada en aquesta carpeta",
-    "Name" : "Nom",
-    "Size" : "Mida",
-    "Modified" : "Data de modificació"
+    "This file has the tags {firstTags} and {lastTag}" : "Aquest fitxer té les etiquetes {firstTags} i {lastTag}"
 },
 "nplurals=2; plural=(n != 1);");

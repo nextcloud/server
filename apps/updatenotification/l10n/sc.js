@@ -38,10 +38,6 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Una versione pre-publicatzione isceti pro proare is funtzionalidades noas, non pro ambientes de produtzione.",
     "What's new in {app} version {version}" : "Noas in {app} versione {version}",
-    "{version} is available. Get more information on how to update." : "{version} est a disponimentu. Otene è àteras informatziones subra comente pònnere in esecutzione s'agiornamentu.",
-    "Update to %1$s is available." : "Agiornamentu a %1$s a disponimentu.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Visualiza is notìficas de is agiornamentos pro Nextcloud e fruni su SSO pro sa funtzione de agiornamentu.",
-    "Please use the command line updater to update." : "Imprea sa funtzione de agiornamentu dae sa lìnia de cumandu pro agiornare.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Càstia chi, a pustis de una versione noa, s'agiornamentu si visualizat isceti a pustis de sa prima versione minore o a pustis. Publicamus in su tempus versiones noas a is utentes nostros e, a bortas, brincamus una versione, si essint a campu problemas. Àteras informatziones in contu de agiornamentos e de is canales de publicatzione {link} "
+    "{version} is available. Get more information on how to update." : "{version} est a disponimentu. Otene è àteras informatziones subra comente pònnere in esecutzione s'agiornamentu."
 },
 "nplurals=2; plural=(n != 1);");

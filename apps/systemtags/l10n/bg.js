@@ -64,13 +64,6 @@ OC.L10N.register(
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Етикетите за сътрудничество са достъпни за всички потребители. Ограничените етикети са видими за потребителите, но не могат да бъдат присвоени от тях. Невидимите етикети са за вътрешна употреба, тъй като потребителите не могат да ги виждат или присвояват.",
     "No tags found" : "Не са открити етикети",
     "Failed to load last used tags" : "Неуспешно зареждане на последно използвани етикети",
-    "Missing \"Content-Location\" header" : "Липсва заглавка „Content-Location“ /„Местоположение-съдържание“/.",
-    "Collaborative tagging functionality which shares tags among users." : "Функция за съвместно етикетиране/маркиране/, която споделя етикети между потребителите.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Функция за съвместно етикетиране, която споделя етикети между потребителите. Чудесно е за екипи.\n\t(Ако сте доставчик с инсталация с множество клиенти, препоръчваме ви да деактивирате това приложение, тъй като етикетите се споделят.)",
-    "No files in here" : "Няма файлове",
-    "No entries found in this folder" : "Няма намерени записи в тази папка",
-    "Name" : "Име",
-    "Size" : "Размер",
-    "Modified" : "Променен на"
+    "Missing \"Content-Location\" header" : "Липсва заглавка „Content-Location“ /„Местоположение-съдържание“/."
 },
 "nplurals=2; plural=(n != 1);");

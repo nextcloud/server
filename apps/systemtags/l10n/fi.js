@@ -68,13 +68,7 @@ OC.L10N.register(
     "No tags found" : "Tunnisteita ei löytynyt",
     "Tags you have created will show up here." : "Luomasi tunnisteet näkyvät täällä.",
     "Missing \"Content-Location\" header" : "\"Content-Location\"-otsake puuttuu",
-    "Collaborative tagging functionality which shares tags among users." : "Yhteisöllistä tunnistetoiminnallisuutta, lopputuloksena tunnisteet jaetaan käyttäjien kesken.",
     "This file has the tag {tag}" : "Tällä tiedostolla on tunniste {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Tällä tiedostolla on tunnisteet {firstTags} ja {lastTag}",
-    "No files in here" : "Täällä ei ole tiedostoja",
-    "No entries found in this folder" : "Ei kohteita tässä kansiossa",
-    "Name" : "Nimi",
-    "Size" : "Koko",
-    "Modified" : "Muokattu"
+    "This file has the tags {firstTags} and {lastTag}" : "Tällä tiedostolla on tunnisteet {firstTags} ja {lastTag}"
 },
 "nplurals=2; plural=(n != 1);");

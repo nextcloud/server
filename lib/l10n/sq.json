@@ -143,22 +143,10 @@
     "File name is a reserved word" : "Emri i kartelës është një emër i rezervuar",
     "File name contains at least one invalid character" : "Emri i kartelës përmban të paktën një shenjë të pavlefshme",
     "File name is too long" : "Emri i kartelës është shumë i gjatë",
-    "Help" : "Ndihmë",
     "Users" : "Përdorues",
-    "Unknown user" : "Përdorues i panjohur",
-    "Oracle username and/or password not valid" : "Emër përdoruesi dhe/ose fjalëkalim Oracle-i i pavlefshëm",
-    "PostgreSQL username and/or password not valid" : "Emër përdoruesi dhe/ose fjalëkalim PostgreSQL jo të vlefshëm",
-    "Set an admin username." : "Caktoni një emër përdoruesi për përgjegjësin.",
     "Open »%s«" : "Hap»1 %s«",
-    "Sharing %s failed, because this item is already shared with user %s" : "Ndarja e %s me të tjerët dështoi, ngaqë ky objekt është ndarë tashmë me përdoruesin %s",
     "Click the button below to open it." : "Kliko butonin më poshtë për të hapur atë.",
-    "The username is already being used" : "Emri i përdoruesit është tashmë i përdorur",
-    "A valid username must be provided" : "Duhet dhënë një emër i vlefshëm përdoruesi",
-    "Username contains whitespace at the beginning or at the end" : "Emri i përdoruesit përmban hapësirë në fillim ose në fund",
-    "Username must not consist of dots only" : "Emri i përdoruesit nuk duhet të përbëhet vetëm nga pika",
-    "User disabled" : "Përdorues i çaktivizuar",
     "File is currently busy, please try again later" : "Kartela tani është e zënë, ju lutemi, riprovoni më vonë.",
-    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Ju lutemi, kalojani lejet në 0770, që kështu atë drejtori të mos mund ta shfaqin përdorues të tjerë.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Sigurohu që ekziston një skedar i quajtur \".ocdata\" në rrënjën e direktorisë së të dhënave."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

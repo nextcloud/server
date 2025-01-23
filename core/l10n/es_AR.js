@@ -232,19 +232,6 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "Actualizar vía Web bajo mi propio riesgo",
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instancia %s se encuentra actualmente en modo mantenimiento, que podría tomar algo de tiempo. ",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte a su administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
-    "Wrong username or password." : "Nombre de usuario o contraseña equivocado. ",
-    "User disabled" : "Usuario deshabilitado",
-    "Username or email" : "Nombre de usuario o contraseña",
-    "Error loading message template: {error}" : "Se presentó un error al cargar la plantilla del mensaje: {error}",
-    "Users" : "Usuarios",
-    "Create an <strong>admin account</strong>" : "Crear una <strong>cuenta de administrador</strong>",
-    "Username" : "Nombre de usuario",
-    "Database user" : "Usuario de la base de datos",
-    "This action requires you to confirm your password" : "Esta acción requiere que confirme su contraseña",
-    "Confirm your password" : "Confirme su contraseña",
-    "Confirm" : "Confirmar",
-    "App token" : "Ficha de la aplicación",
-    "Alternative log in using app token" : "Inicio de sesión alternativo con token de app",
-    "Please use the command line updater because you have a big instance with more than 50 users." : "Favor de usar el actualizador desde la línea de comandos ya que su instancia cuenta con más de 50 usuarios."
+    "Error loading message template: {error}" : "Se presentó un error al cargar la plantilla del mensaje: {error}"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

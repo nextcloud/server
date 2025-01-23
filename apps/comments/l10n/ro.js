@@ -27,7 +27,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "A apărut o eroare la încercarea de a edita comentariul",
     "Comment deleted" : "Comentariul a fost șters",
     "An error occurred while trying to delete the comment" : "A apărut o eroare la încercarea de a șterge comentariul",
-    "An error occurred while trying to create the comment" : "A apărut o eroare la încercarea de a crea comentariul",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Ai fost menționat în fișierul \"{file}\", într-un comentariu facut de un utilizator ce întretimp a fost șters"
+    "An error occurred while trying to create the comment" : "A apărut o eroare la încercarea de a crea comentariul"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

@@ -60,7 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Cumasaigh aisghabháil pasfhocail:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Má chumasaíonn tú an rogha seo beidh tú in ann rochtain a fháil ar do chomhaid chriptithe arís ar eagla go gcailltear pasfhocal",
     "Enabled" : "Cumasaithe",
-    "Disabled" : "Faoi mhíchumas",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Is eochair criptithe bhreise í an eochair athshlánaithe a úsáidtear chun comhaid a chriptiú. Ceadaíonn sé comhaid úsáideora a aisghabháil má dhéanann an t-úsáideoir dearmad ar a phasfhocal."
+    "Disabled" : "Faoi mhíchumas"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

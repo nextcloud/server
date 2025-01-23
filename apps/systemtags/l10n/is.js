@@ -81,14 +81,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "Mistókst að hlaða inn merkjum af skrá",
     "Failed to set tag for file" : "Mistókst að setja merki á skrá",
     "Failed to delete tag for file" : "Mistókst að eyða merki á skrá",
-    "Collaborative tagging functionality which shares tags among users." : "Samstarfsmerkingareiginleiki sem deilir merkjum á milli notenda.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Samstarfsmerkingareiginleiki sem deilir merkjum á milli notenda. Frábært fyrir hópvinnu.\n\t(Ef þú ert þjónustuaðili með margar uppsetningar á sömu þjónum, þá er ráðlagt að gera þetta óvirkt því merkin eru sameiginleg.)",
     "This file has the tag {tag}" : "Þessi skrá er með merkið {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Þessi skrá er með merkin {firstTags} og {lastTag}",
-    "No files in here" : "Engar skrár hér",
-    "No entries found in this folder" : "Engar skrár fundust í þessari möppu",
-    "Name" : "Heiti",
-    "Size" : "Stærð",
-    "Modified" : "Breytt"
+    "This file has the tags {firstTags} and {lastTag}" : "Þessi skrá er með merkin {firstTags} og {lastTag}"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

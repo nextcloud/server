@@ -56,7 +56,6 @@
     "There was an error setting the location." : "ئورۇن بەلگىلەشتە خاتالىق كۆرۈلدى.",
     "There was an error saving the mode." : "ھالەتنى ساقلاشتا خاتالىق كۆرۈلدى.",
     "There was an error using personal address." : "شەخسىي ئادرېسنى ئىشلىتىپ خاتالىق كۆرۈلدى.",
-    "Unknown weather code" : "نامەلۇم ھاۋارايى كودى",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "باش تاختا دېتالىغا بىرلەشتۈرۈلگەن ھاۋارايى ئەھۋالى.\n    ئىشلەتكۈچىنىڭ ئورنىنى ئاپتوماتىك بەلگىلىگىلى ياكى قولدا بەلگىلىگىلى بولىدۇ. ئاندىن 6 سائەتلىك پەرەز كۆرسىتىلىدۇ.\n    بۇ ھالەتنى كالېندار دېتالىغا ئوخشاش باشقا جايلارغىمۇ بىرلەشتۈرگىلى بولىدۇ."
+    "Unknown weather code" : "نامەلۇم ھاۋارايى كودى"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

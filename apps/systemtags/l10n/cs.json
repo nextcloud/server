@@ -94,14 +94,7 @@
     "Failed to load tags for file" : "Nepodařilo se načíst štítky pro soubor",
     "Failed to set tag for file" : "Nepodařilo se nastavit štítek pro soubor",
     "Failed to delete tag for file" : "Nepodařilo se smazat štítek pro soubor",
-    "Collaborative tagging functionality which shares tags among users." : "Funkce opatřování štítky pro spolupráci, sdílenými mezi uživateli.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funkce pro opatřování štítky pro spolupráci, sdílenými mezi uživateli. Skvělé pro týmy.\n\t(Pokud jste poskytovateli instalace, sloužící více subjektům, je doporučeno tuto aplikaci vypnout, protože štítky jsou sdílené.)",
     "This file has the tag {tag}" : "Tento soubor má štítek {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Tento soubor má štítky {firstTags} a {lastTag}",
-    "No files in here" : "Nejsou zde žádné soubory",
-    "No entries found in this folder" : "V této složce nic nenalezeno",
-    "Name" : "Název",
-    "Size" : "Velikost",
-    "Modified" : "Změněno"
+    "This file has the tags {firstTags} and {lastTag}" : "Tento soubor má štítky {firstTags} a {lastTag}"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

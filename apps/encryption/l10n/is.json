@@ -50,7 +50,6 @@
     "Enable password recovery:" : "Virkja endurheimtingu lykilorðs:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ef þessi kostur er virkur gerir það þér kleift að endurheimta aðgang að skránum þínum ef þú tapar lykilorðinu",
     "Enabled" : "Virkt",
-    "Disabled" : "Óvirkt",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Endurheimtingarlykill er auka-dulritunarlykill sem er notaður til að dulrita skrár. Hann gefur möguleika á að endurheimta skrár ef notandi gleymir lykilorðinu sínu."
+    "Disabled" : "Óvirkt"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

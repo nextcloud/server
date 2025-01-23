@@ -51,7 +51,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Aktivizo rimarrje fjalëkalimesh:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivizimi i kësaj mundësie do t’ju lejojë të rifitoni hyrje te kartelat tuaja të fshehtëzuara në rast humbjeje fjalëkalimi",
     "Enabled" : "E aktivizuar",
-    "Disabled" : "E çaktivizuar",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Kyçi i rimarrjeve është një kyç ekstra fshehtëzimesh që përdoret për të fshehtëzuar kartela. Ai lejon rimarrjen e një kartele të përdoruesit, nëse përdoruesi harron fjalëkalimin e vet."
+    "Disabled" : "E çaktivizuar"
 },
 "nplurals=2; plural=(n != 1);");

@@ -216,11 +216,9 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "¿Aceptes la invitación?",
     "Tentative" : "Provisional",
     "Your attendance was updated successfully." : "La to asistencia anovóse correutamente.",
-    "To-dos" : "Xeres pendientes",
     "Time:" : "Hora:",
     "Could not open file" : "Nun se pudo abrir el ficheru",
     "Invalid chunk name" : "El nome del cachu ye inválidu",
-    "Could not rename part file assembled from chunks" : "Nun se pudo renomar el ficheru parcial ensambláu de los cachos",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configures les hores llaborales, los demás usuarios van ver cuando coles de la oficina al acutar una reunión."
+    "Could not rename part file assembled from chunks" : "Nun se pudo renomar el ficheru parcial ensambláu de los cachos"
 },
 "nplurals=2; plural=(n != 1);");

@@ -23,7 +23,6 @@ OC.L10N.register(
     "Could not restore version" : "無法還原版本",
     "Could not set version label" : "無法設定版本標籤",
     "Could not delete version" : "無法刪除版本",
-    "${version.label} restored" : "已還原 ${version.label}",
-    "This application automatically maintains older versions of files that are changed. When enabled, a hidden versions folder is provisioned in every user's directory and is used to store old file versions. A user can revert to an older version through the web interface at any time, with the replaced file becoming a version. The app automatically manages the versions folder to ensure the user does not run out of Quota because of versions.\n\t\tIn addition to the expiry of versions, the versions app makes certain never to use more than 50% of the user's currently available free space. If stored versions exceed this limit, the app will delete the oldest versions first until it meets this limit. More information is available in the Versions documentation." : "此應用程式會自動維護檔案較舊的修改版本。啟用後，每個使用者目錄中都會有一個隱藏的版本資料夾，用來儲存較舊版本的檔案。使用者可以在任何時候透過網路介面還原到較舊的版本，而被取代的版本則成為新一版。應用程式會自動管理版本資料夾，以確保使用者不會因為版本數而用完容量限制。\n\t\t除了版本有效期限以外，「版本」應用程式還會確保使用者永遠不會使用超過使用者目前可用空間的 50%。如果儲存的版本數超出此限制，則應用程式會先刪除最舊的版本，直到低於此限制為止。更多資訊請參閱「版本」文件。"
+    "${version.label} restored" : "已還原 ${version.label}"
 },
 "nplurals=1; plural=0;");

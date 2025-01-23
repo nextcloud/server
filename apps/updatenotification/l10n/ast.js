@@ -56,11 +56,6 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplicación nun tienen disponible nenguna versión compatble con esta versión de Nextcloud.","<strong>%n</strong> aplicaciones nun tienen disponible nenguna versión compatble con esta versión de Nextcloud."],
     "Changelog for app {app}" : "Rexistru de cambeos pa la versión «{app}»",
     "What's new in {app} version {version}" : "Novedaes na aplicación «{app}» versión «{version}»",
-    "{version} is available. Get more information on how to update." : "{version} ta disponible. Consigui más información tocante a cómo anovar.",
-    "Update to %1$s is available." : "Hai un anovamientu disponible pa: %1$s.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Amuesa avisos de les aplicaciones pa Nextcloud y forne SSO al anovador.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "¡Decátate que nun s'aconseya l'anovador web con más de 100 usuarios! Usa l'anovador de la llinia de comandos.",
-    "Please use the command line updater to update." : "Usa l'anovador de la llinia de comandos p'anovar.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Decátate que, dempués d'una versión nueva, namás s'amuesa l'anovamientu dempués de la primer versión menor o posterior. Distribuyimos los anovamientos a los usuarios de forma repetida nel tiempu y, de xemes en cuando, omitimos una verisón si atopamos problemes. Conoz más tocante a los anovamientos y canales d'anovamientu en {link}"
+    "{version} is available. Get more information on how to update." : "{version} ta disponible. Consigui más información tocante a cómo anovar."
 },
 "nplurals=2; plural=(n != 1);");

@@ -84,11 +84,6 @@
     "Configuration" : "การกำหนดค่า",
     "Available for" : "ใช้ได้สำหรับ",
     "Add storage" : "เพิ่มพื้นที่จัดเก็บข้อมูล",
-    "Advanced settings" : "การตั้งค่าขั้นสูง",
-    "Username" : "ชื่อผู้ใช้",
-    "Username and password" : "ชื่อผู้ใช้และรหัสผ่าน",
-    "User entered, store in database" : "ใส่โดยผู้ใช้ จัดเก็บในฐานข้อมูล",
-    "Username as share" : "ชื่อผู้ใช้ที่แชร์",
-    "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก"
+    "Advanced settings" : "การตั้งค่าขั้นสูง"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

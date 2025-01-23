@@ -85,7 +85,6 @@
     "not between" : "ei välillä",
     "Request user agent" : "Pyynnön user agent",
     "is member of" : "on jäsen",
-    "is not member of" : "ei ole jäsen",
-    "User group membership" : "Käyttäjäryhmäjäsenyys"
+    "is not member of" : "ei ole jäsen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

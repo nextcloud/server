@@ -43,7 +43,6 @@ OC.L10N.register(
     "Send password by mail" : "إرسال كلمة مرور بالبريد الإلكتروني",
     "Reply to initiator" : "رد على المنشيء",
     "Unable to update share by mail config" : "تعذّر تحديث إعدادات المشاركة بالبريد الإلكتروني",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "عملية مشاركة %1$s لم تتم، بسبب أن هذا العنصر سبقت مشاركته سلفاً مع المستخدم %2$s",
     "%1$s shared »%2$s« with you" : "%1$s شارك »%2$s« معك",
     "%1$s shared »%2$s« with you." : "%1$s شَارَكَ »%2$s« معك.",
     "Click the button below to open it." : "أنقر على الزر أدناه لفتحه.",
@@ -56,7 +55,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s شارك »%2$s« معك و يرغب في إضافة",
     "»%s« added a note to a file shared with you" : "»%s« أضافة ملاحظة لملفٍ سلفت مشاركته معك",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "أنت شاركت للتّوِّ »%1$s« مع %2$s. تمّ إرسال المشاركة إلى وجهتها. بسبب السياسة الأمنية الموضوعة من قبل مسؤول النظام %3$s كل مشاركة يجب أن تكون محمية بكلمة مرور و التي يجب إلّا يتم إرسالها مباشرة إلى المستخدم المقصود.  لذا بجب أن تقوم بتحويلها إليه يدويّاً.",
-    "Password to access »%1$s« shared by you with %2$s" : "كلمة مرور للوصول إلى »%1$s« تمّت مشاركتها مع %2$s",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "يسمح للمستخدمين بمشاركة ارتباط مخصص لملف أو مجلد عن طريق إدخال عنوان بريد إلكتروني."
+    "Password to access »%1$s« shared by you with %2$s" : "كلمة مرور للوصول إلى »%1$s« تمّت مشاركتها مع %2$s"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -45,7 +45,6 @@ OC.L10N.register(
     "There was an error setting the location address." : "Der opstod en fejl ved valg af lokalitets adresse",
     "There was an error setting the location." : "Der opstod en fejl ved valg af lokalitet",
     "There was an error saving the mode." : "Tilstanden kunne ikke gemmes.",
-    "There was an error using personal address." : "Der skete en fejl i forsøget på at anvende personlig adresse.",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Vejrstatus integreret i Dashboard-appen.\nBrugerens position kan bestemmes automatisk eller manuelt. En 6 timers prognose vises derefter.\nDenne status kan også integreres andre steder som f.eks. i Kalender-appen."
+    "There was an error using personal address." : "Der skete en fejl i forsøget på at anvende personlig adresse."
 },
 "nplurals=2; plural=(n != 1);");
