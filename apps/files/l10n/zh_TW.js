@@ -211,6 +211,7 @@ OC.L10N.register(
     "Tags" : "標籤",
     "You" : "您",
     "Shared multiple times with different people" : "與不同的人多次分享",
+    "Unable to change the favorite state of the file" : "無法變更檔案的喜愛狀態",
     "Error while loading the file data" : "載入檔案資料時發生錯誤",
     "Pick a template for {name}" : "為 {name} 挑選範本",
     "Create a new file with the selected template" : "使用選定的範本建立新檔案",

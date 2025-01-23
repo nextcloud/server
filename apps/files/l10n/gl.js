@@ -211,6 +211,7 @@ OC.L10N.register(
     "Tags" : "Etiquetas",
     "You" : "Vde.",
     "Shared multiple times with different people" : "Compartido varias veces con diferentes persoas",
+    "Unable to change the favorite state of the file" : "Non é posíbel cambiar o estado de favorito do ficheiro",
     "Error while loading the file data" : "Produciuse un erro ao cargar os datos do ficheiro",
     "Pick a template for {name}" : "Escolla un modelo para {name}",
     "Create a new file with the selected template" : "Crear un novo ficheiro co modelo seleccionado",
@@ -441,8 +442,8 @@ OC.L10N.register(
     "New text file.txt" : "Novo ficheiro de texto.txt",
     "Direct link was copied (only works for people who have access to this file/folder)" : "Foi copiada a ligazón directa (só funciona para as persoas que teñen acceso a este ficheiro/cartafol)",
     "Copy direct link (only works for people who have access to this file/folder)" : "Copiar a ligazón directa (só funciona para persoas con acceso a este ficheiro/cartafol)",
-    "Favored" : "Favoritos",
-    "Favor" : "Engadir a favoritos",
-    "Not favored" : "Non está en favoritos"
+    "Favored" : "Favorecido",
+    "Favor" : "Favorecer",
+    "Not favored" : "Non favorecido"
 },
 "nplurals=2; plural=(n != 1);");

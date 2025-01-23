@@ -211,6 +211,7 @@ OC.L10N.register(
     "Tags" : "Schlagworte",
     "You" : "Sie",
     "Shared multiple times with different people" : "Mehrmals mit verschiedenen Personen geteilt",
+    "Unable to change the favorite state of the file" : "Der Favorisierungs-Status der Datei kann nicht geändert werden",
     "Error while loading the file data" : "Fehler beim Laden der Datei-Daten",
     "Pick a template for {name}" : "Eine Vorlage für {name} wählen",
     "Create a new file with the selected template" : "Eine neue Datei anhand der ausgewählten Vorlage erstellen",
