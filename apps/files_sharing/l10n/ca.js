@@ -161,7 +161,6 @@ OC.L10N.register(
     "Can edit" : "Pot editar",
     "Custom permissions" : "Permisos personalitzats",
     "Search for share recipients" : "Cerqueu destinataris de l'element compartit",
-    "No recommendations. Start typing." : "No hi ha cap recomanació. Comenceu a escriure.",
     "Resharing is not allowed" : "No es permet l'ús compartit derivat",
     "Name or email …" : "Nom o adreça electrònica…",
     "Name, email, or Federated Cloud ID …" : "Nom, adreça electrònica o ID de núvol federat…",
@@ -288,6 +287,7 @@ OC.L10N.register(
     "Failed to add the public link to your Nextcloud" : "No s'ha pogut afegir l'enllaç públic al vostre Nextcloud",
     "Files" : "Fitxers",
     "Download all files" : "Baixa tots els fitxers",
+    "No recommendations. Start typing." : "No hi ha cap recomanació. Comenceu a escriure.",
     "Allow download" : "Permet la baixada",
     "Enter your name" : "Introdueix el teu nom"
 },

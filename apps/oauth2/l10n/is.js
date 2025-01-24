@@ -13,9 +13,11 @@ OC.L10N.register(
     "Client Identifier" : "Biðlaraauðkenni",
     "Secret key" : "Leynilykill",
     "Delete client" : "Eyða biðlara",
+    "Make sure you store the secret key, it cannot be recovered." : "Vertu viss um að geyma leynilykilinn á góðum stað, henn er ekki hægt að endurheimta.",
     "Add client" : "Bæta við biðlara",
     "Add" : "Bæta við",
     "Delete" : "Eyða",
-    "Show client secret" : "Sýna leynilykil biðlara"
+    "Show client secret" : "Sýna leynilykil biðlara",
+    "Hide client secret" : "Fela leynilykil biðlara"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

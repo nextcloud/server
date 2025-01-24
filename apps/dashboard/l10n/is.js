@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Stjórnborð",
     "Dashboard app" : "Stjórnborðsforrit",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Byrjaðu daginn vel upplýst/ur\n\nNextcloud-stjórnborðið er útgangspunkturinn á deginum, sem gefur þér yfirlit um væntanleg stefnumót, áríðandi tölvupósta, spjallskilaboð, innlagðar verkbeiðnir, nýjustu tíst og margt fleira! Fólk getur bætt við þeim viðmótshlutum sem þeim sýnist og skipt um bakgrunn eftir sínum smekk.",
     "\"{title} icon\"" : "\"{title} táknmynd\"",
     "Customize" : "Sérsníða",
     "Edit widgets" : "Breyta viðmótshlutum",
@@ -21,6 +22,8 @@ OC.L10N.register(
     "Good evening" : "Gott kvöld",
     "Good evening, {name}" : "Góða kvöldið, {name}",
     "Hello" : "Halló",
-    "Hello, {name}" : "Halló, {name}"
+    "Hello, {name}" : "Halló, {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "Til hamingju með afmælið 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Til hamingju með afmælið {name} 🥳🤩🎂🎉"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

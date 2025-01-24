@@ -1,0 +1,12 @@
+OC.L10N.register(
+    "profile",
+    {
+    "Profile" : "Profil",
+    "Edit Profile" : "Sunting profil",
+    "You have not added any info yet" : "Anda belum menambahkan info apa pun",
+    "{user} has not added any info yet" : "{user} belum menambahkan info apa pun",
+    "Profile not found" : "Profil tidak ditemukan",
+    "The profile does not exist." : "Profil tidak ada.",
+    "Back to %s" : "Kembali ke %s"
+},
+"nplurals=1; plural=0;");

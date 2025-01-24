@@ -108,7 +108,6 @@ OC.L10N.register(
     "Can edit" : "توانایی ویرایش",
     "Custom permissions" : "Custom permissions",
     "Search for share recipients" : "Search for share recipients",
-    "No recommendations. Start typing." : "هیچ توصیه ای نیست شروع به تایپ کنید.",
     "Resharing is not allowed" : "اشتراک گذاری مجدد مجاز نمی باشد",
     "Name or email …" : "Name or email …",
     "Name, email, or Federated Cloud ID …" : "Name, email, or Federated Cloud ID …",
@@ -212,6 +211,7 @@ OC.L10N.register(
     "Failed to add the public link to your Nextcloud" : "خطا در افزودن ادرس عمومی به نکس کلود شما",
     "Files" : "فایل‌ها",
     "Download all files" : "دانلود همه فایل ها",
+    "No recommendations. Start typing." : "هیچ توصیه ای نیست شروع به تایپ کنید.",
     "Allow download" : "Allow download",
     "Enter your name" : "اسمت را وارد کن"
 },

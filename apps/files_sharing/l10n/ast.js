@@ -179,7 +179,6 @@ OC.L10N.register(
     "Can edit" : "Pue editar",
     "Custom permissions" : "Personlizar los permisos",
     "Search for share recipients" : "Buscar destinatarios del elementu compartíu",
-    "No recommendations. Start typing." : "Nun hai nenguna recomendación. Comienza a escribir",
     "Resharing is not allowed" : "Nun se pue volver compartir",
     "Name or email …" : "Nome o direición de corréu electrónicu…",
     "Name, email, or Federated Cloud ID …" : "Nome, direición de corréu electrónicu o ID de nube federada…",
@@ -305,6 +304,7 @@ OC.L10N.register(
     "Failed to add the public link to your Nextcloud" : "Nun se pue amestar l'enllaz públicu a esta instancia de Nextcloud",
     "Files" : "Ficheros",
     "Download all files" : "Baxar tolos ficheros",
+    "No recommendations. Start typing." : "Nun hai nenguna recomendación. Comienza a escribir",
     "Allow download" : "Permitir la descarga"
 },
 "nplurals=2; plural=(n != 1);");

@@ -202,7 +202,6 @@ OC.L10N.register(
     "Can edit" : "Môže upravovať",
     "Custom permissions" : "Vlastné oprávnenia",
     "Search for share recipients" : "Vyhľadanie ďalších účastníkov zdieľania",
-    "No recommendations. Start typing." : "Žiadne odporúčania. Píšte.",
     "Resharing is not allowed" : "Opätovné zdieľanie nie je povolené",
     "Name or email …" : "Meno alebo e-mail …",
     "Name, email, or Federated Cloud ID …" : "Meno, e-mail alebo ID združeného cloudu …",
@@ -355,6 +354,7 @@ OC.L10N.register(
     "Failed to add the public link to your Nextcloud" : "Pridanie verejne dostupného odkazu do vášho Nextcloud zlyhalo",
     "Files" : "Súbory",
     "Download all files" : "Stiahnuť všetky súbory",
+    "No recommendations. Start typing." : "Žiadne odporúčania. Píšte.",
     "Allow download" : "Povoliť sťahovanie",
     "Enter your name" : "Zadajte svoje meno"
 },
