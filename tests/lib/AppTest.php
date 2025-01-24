@@ -12,7 +12,12 @@ use OC\App\InfoParser;
 use OC\AppConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
-use OCP\IURLGenerator;
+use OCP\ICacheFactory;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\IGroupManager;
+use OCP\IUserManager;
+use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -457,12 +462,12 @@ class AppTest extends \Test\TestCase {
 	 *
 	 * @dataProvider appConfigValuesProvider
 	 */
-	public function testEnabledApps($user, $expectedApps, $forceAll) {
-		$userManager = \OC::$server->getUserManager();
-		$groupManager = \OC::$server->getGroupManager();
-		$user1 = $userManager->createUser(self::TEST_USER1, self::TEST_USER1);
-		$user2 = $userManager->createUser(self::TEST_USER2, self::TEST_USER2);
-		$user3 = $userManager->createUser(self::TEST_USER3, self::TEST_USER3);
+	public function testEnabledApps($user, $expectedApps, $forceAll): void {
+		$userManager = \OCP\Server::get(IUserManager::class);
+		$groupManager = \OCP\Server::get(IGroupManager::class);
+		$user1 = $userManager->createUser(self::TEST_USER1, 'NotAnEasyPassword123456+');
+		$user2 = $userManager->createUser(self::TEST_USER2, 'NotAnEasyPassword123456_');
+		$user3 = $userManager->createUser(self::TEST_USER3, 'NotAnEasyPassword123456?');
 
 		$group1 = $groupManager->createGroup(self::TEST_GROUP1);
 		$group1->addUser($user1);
@@ -506,9 +511,9 @@ class AppTest extends \Test\TestCase {
 	 * Test isEnabledApps() with cache, not re-reading the list of
 	 * enabled apps more than once when a user is set.
 	 */
-	public function testEnabledAppsCache() {
-		$userManager = \OC::$server->getUserManager();
-		$user1 = $userManager->createUser(self::TEST_USER1, self::TEST_USER1);
+	public function testEnabledAppsCache(): void {
+		$userManager = \OCP\Server::get(IUserManager::class);
+		$user1 = $userManager->createUser(self::TEST_USER1, 'NotAnEasyPassword123456+');
 
 		\OC_User::setUserId(self::TEST_USER1);
 
@@ -539,8 +544,8 @@ class AppTest extends \Test\TestCase {
 	private function setupAppConfigMock() {
 		/** @var AppConfig|MockObject */
 		$appConfig = $this->getMockBuilder(AppConfig::class)
-			->setMethods(['getValues'])
-			->setConstructorArgs([\OC::$server->getDatabaseConnection()])
+			->onlyMethods(['getValues'])
+			->setConstructorArgs([\OCP\Server::get(IDBConnection::class)])
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -556,13 +561,12 @@ class AppTest extends \Test\TestCase {
 	private function registerAppConfig(AppConfig $appConfig) {
 		$this->overwriteService(AppConfig::class, $appConfig);
 		$this->overwriteService(AppManager::class, new AppManager(
-			\OC::$server->getUserSession(),
-			\OC::$server->getConfig(),
-			\OC::$server->getGroupManager(),
-			\OC::$server->getMemCacheFactory(),
-			\OC::$server->get(IEventDispatcher::class),
-			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->get(IURLGenerator::class),
+			\OCP\Server::get(IUserSession::class),
+			\OCP\Server::get(IConfig::class),
+			\OCP\Server::get(IGroupManager::class),
+			\OCP\Server::get(ICacheFactory::class),
+			\OCP\Server::get(IEventDispatcher::class),
+			\OCP\Server::get(LoggerInterface::class),
 		));
 	}
 
@@ -621,14 +625,14 @@ class AppTest extends \Test\TestCase {
 
 	public function testParseAppInfoL10N() {
 		$parser = new InfoParser();
-		$data = $parser->parse(\OC::$SERVERROOT. "/tests/data/app/description-multi-lang.xml");
+		$data = $parser->parse(\OC::$SERVERROOT . '/tests/data/app/description-multi-lang.xml');
 		$this->assertEquals('English', \OC_App::parseAppInfo($data, 'en')['description']);
 		$this->assertEquals('German', \OC_App::parseAppInfo($data, 'de')['description']);
 	}
 
 	public function testParseAppInfoL10NSingleLanguage() {
 		$parser = new InfoParser();
-		$data = $parser->parse(\OC::$SERVERROOT. "/tests/data/app/description-single-lang.xml");
+		$data = $parser->parse(\OC::$SERVERROOT . '/tests/data/app/description-single-lang.xml');
 		$this->assertEquals('English', \OC_App::parseAppInfo($data, 'en')['description']);
 	}
 }
