@@ -77,6 +77,12 @@ class ServerVersion {
 	 * @since 31.0.0
 	 */
 	public function getChannel(): string {
+		$updaterChannel = Server::get(IConfig::class)->getSystemValueString('updater.release.channel', $this->channel);
+
+		if (in_array($updaterChannel, ['beta', 'stable', 'enterprise', 'git'], true)) {
+			return $updaterChannel;
+		}
+
 		return $this->channel;
 	}
 
