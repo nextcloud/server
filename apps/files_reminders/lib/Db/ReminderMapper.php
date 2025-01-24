@@ -39,16 +39,6 @@ class ReminderMapper extends QBMapper {
 		return $this->update($reminderUpdate);
 	}
 
-	public function find(int $id): Reminder {
-		$qb = $this->db->getQueryBuilder();
-
-		$qb->select('id', 'user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
-			->from($this->getTableName())
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
-
-		return $this->findEntity($qb);
-	}
-
 	/**
 	 * @throws DoesNotExistException
 	 */
