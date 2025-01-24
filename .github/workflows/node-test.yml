@@ -99,7 +99,7 @@ jobs:
         run: npm run test:coverage --if-present
 
       - name: Collect coverage
-        uses: codecov/codecov-action@015f24e6818733317a2da2edd6290ab26238649a # v4.3.1
+        uses: codecov/codecov-action@13ce06bfc6bbe3ecf90edbbf1bc32fe5978ca1d3 # v4.3.1
         with:
           files: ./coverage/lcov.info
 
