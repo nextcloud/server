@@ -83,7 +83,7 @@ OC.L10N.register(
     "Failed to load tags" : "Schlagworte konnten nicht geladen werden",
     "Failed to load selected tags" : "Ausgewählte Schlagworte konnten nicht geladen werden",
     "Failed to select tag" : "Schlagwort konnte nicht ausgewählt werden",
-    "System admin disabled tag creation. You can only use existing ones." : "Der Systemadministrator hat die Erstellung von Schlagworten deaktiviert. Sie können nur vorhandene Schlagworte verwenden.",
+    "System admin disabled tag creation. You can only use existing ones." : "Der Systemadministration hat die Erstellung von Schlagworten deaktiviert. Sie können nur vorhandene Schlagworte verwenden.",
     "System tag creation" : "Erstellung von System-Schlagworten",
     "If enabled, regular accounts will be restricted from creating new tags but will still be able to assign and remove them from their files." : "Wenn diese Option aktiviert ist, können reguläre Konten keine neuen Schlagworte erstellen, aber sie können sie dennoch zuweisen und aus ihren Dateien entfernen.",
     "Restrict tag creation to admins only" : "Erstellung von Schlagworten auf Administratoren beschränken",
@@ -102,6 +102,7 @@ OC.L10N.register(
     "Failed to set tag for file" : "Schlagwort für Datei konnte nicht gesetzt werden",
     "Failed to delete tag for file" : "Schlagwort für Datei konnte nicht gelöscht werden",
     "This file has the tag {tag}" : "Diese Datei trägt das Schlagwort {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Diese Datei trägt die Schlagworte {firstTags} und {lastTag}"
+    "This file has the tags {firstTags} and {lastTag}" : "Diese Datei trägt die Schlagworte {firstTags} und {lastTag}",
+    "System tag creation is now ${isRestricted ? " : "Die Erstellung von System-Tags ist nun ${isRestricted ?"
 },
 "nplurals=2; plural=(n != 1);");

@@ -153,7 +153,6 @@ OC.L10N.register(
     "Can edit" : "Có thể chỉnh sửa",
     "Custom permissions" : "Quyền tùy chỉnh",
     "Search for share recipients" : "Tìm kiếm người nhận chia sẻ",
-    "No recommendations. Start typing." : "Không có khuyến nghị. Bắt đầu gõ.",
     "Resharing is not allowed" : "Chia sẻ lại không được cho phép",
     "Name or email …" : "Tên hoặc email…",
     "Name, email, or Federated Cloud ID …" : "Tên, email hoặc ID đám mây liên kết…",
@@ -266,6 +265,7 @@ OC.L10N.register(
     "Failed to add the public link to your Nextcloud" : "Không thể thêm liên kết công khai",
     "Files" : "Tệp tin",
     "Download all files" : "Tải xuống tất cả các tập tin",
+    "No recommendations. Start typing." : "Không có khuyến nghị. Bắt đầu gõ.",
     "Allow download" : "Cho phép tải xuống"
 },
 "nplurals=1; plural=0;");

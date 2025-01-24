@@ -129,6 +129,7 @@ OC.L10N.register(
     "Once every direct access" : "Una vez en cada acceso",
     "Read only" : "Solo lectura",
     "Disconnect" : "Desconectar",
+    "Unknown backend: {backendName}" : "Backend desconocido: {backendName}",
     "Admin defined" : "Admin definido",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "La comprobación automática del estado está desactivada debido al gran número de almacenes configurados, haga clic para comprobar el estado",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "¿Estás seguro de que quieres desconectar este almacenamiento externo? Esto hará que el almacenamiento no esté disponible en Nextcloud y provocará la eliminación de estos archivos y carpetas en cualquier cliente de sincronización que esté conectado en ese momento, pero no eliminará ningún archivo ni carpeta en el propio almacenamiento externo.",
@@ -148,6 +149,7 @@ OC.L10N.register(
     "All people" : "Todas as persoas",
     "Advanced settings" : "Configuración avanzada",
     "Allow people to mount external storage" : "Permite que as persoas monten almacenamento externo",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Se pueden usar credenciales globales para autenticar con múltiples almacenamientos externos que tengan las mismas credenciales."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Se pueden usar credenciales globales para autenticar con múltiples almacenamientos externos que tengan las mismas credenciales.",
+    "To access the storage, you need to provide the authentification informations." : "Para acceder al almacenamiento, debe proporcionar los datos de autenticación."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

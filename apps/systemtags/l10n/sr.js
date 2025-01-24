@@ -88,7 +88,6 @@ OC.L10N.register(
     "If enabled, regular accounts will be restricted from creating new tags but will still be able to assign and remove them from their files." : "Ако се укључи, обичним налозима се неће дозволити да креирају нове ознаке, али ће и даље моћи да их додељују и уклањају из својих фајлова.",
     "Restrict tag creation to admins only" : "Ограничи креирање ознака само на админе",
     "Unable to update setting" : "Није успело ажурирање подешавања",
-    "System tag creation is now ${isRestricted ? " : "Креирање системске ознаке је сада ${isRestricted ? ",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Заједниче ознаке су доступне свим корисницима. Заштићене ознаке су доступне свим корисницима, али их они не могу додељивати. Невидљиве ознаке су за интерну употребу, пошто их корисници не могу ни видети ни додељивати.",
     "Assigned collaborative tags" : "Додељене ознаке сарадње",
     "Open in Files" : "Отвори у Фајловима",
@@ -103,6 +102,7 @@ OC.L10N.register(
     "Failed to set tag for file" : "Није успело постављање ознака за фајл",
     "Failed to delete tag for file" : "Није успело брисање ознака за фајл",
     "This file has the tag {tag}" : "Овај фајл има ознаку {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Овај фајл има ознаке {firstTags} и {lastTag}"
+    "This file has the tags {firstTags} and {lastTag}" : "Овај фајл има ознаке {firstTags} и {lastTag}",
+    "System tag creation is now ${isRestricted ? " : "Креирање системске ознаке је сада ${isRestricted ? "
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

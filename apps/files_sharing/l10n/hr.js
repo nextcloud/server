@@ -135,7 +135,6 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Pogreška, unesite točnu zaporku i/ili datum isteka",
     "View only" : "Samo za gledanje",
     "Can edit" : "Uređivanje moguće",
-    "No recommendations. Start typing." : "Nema preporuka. Započnite unos.",
     "Resharing is not allowed" : "Ponovno dijeljenje nije dopušteno",
     "Name or email …" : "Ime ili adresa e-pošte…",
     "Name, email, or Federated Cloud ID …" : "Naziv, adresa e-pošte ili ID udruženog oblaka…",
@@ -219,6 +218,7 @@ OC.L10N.register(
     "Failed to add the public link to your Nextcloud" : "Dodavanje javne poveznice u Nextcloud nije uspjelo",
     "Files" : "Datoteke",
     "Download all files" : "Preuzmi sve datoteke",
+    "No recommendations. Start typing." : "Nema preporuka. Započnite unos.",
     "Enter your name" : "Unesite svoje ime"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

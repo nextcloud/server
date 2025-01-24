@@ -72,6 +72,7 @@ OC.L10N.register(
     "Description: %s" : "Popis: %s",
     "Where: %s" : "Kde: %s",
     "%1$s via %2$s" : "%1$s cez %2$s",
+    "In the past on %1$s for the entire day" : "V minulosti %1$s na celý deň",
     "Cancelled: %1$s" : "Zrušené: %1$s",
     "\"%1$s\" has been canceled" : "\"%1$s\" bolo zrušené",
     "Re: %1$s" : "Re: %1$s",
