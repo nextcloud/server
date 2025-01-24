@@ -153,7 +153,6 @@ OC.L10N.register(
     "Can edit" : "Δυνατότητα επεξεργασίας",
     "Custom permissions" : "Προσαρμοσμένα δικαιώματα",
     "Search for share recipients" : "Αναζήτηση για παραλήπτες διαμοιρασμού",
-    "No recommendations. Start typing." : "Δεν υπάρχουν συστάσεις. Αρχίστε να πληκτρολογείτε.",
     "Resharing is not allowed" : "Δεν επιτρέπεται ο επαναμοιρασμός",
     "Name or email …" : "Όνομα ή διεύθυνση ηλεκτρονικού ταχυδρομείου",
     "Name, email, or Federated Cloud ID …" : "Όνομα, διεύθυνση ηλεκτρονικού ταχυδρομείου ή Ομοσπονδιακό αναγνωριστικό Cloud…",
@@ -265,6 +264,7 @@ OC.L10N.register(
     "Failed to add the public link to your Nextcloud" : "Αποτυχία στην πρόσθεση του κοινού συνδέσμου στο Nextcloud σας",
     "Files" : "Αρχεία",
     "Download all files" : "Λήψη όλων των αρχείων",
+    "No recommendations. Start typing." : "Δεν υπάρχουν συστάσεις. Αρχίστε να πληκτρολογείτε.",
     "Allow download" : "Να επιτρέπεται η λήψη",
     "Enter your name" : "Προσθέστε το όνομά σας"
 },

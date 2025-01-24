@@ -152,7 +152,6 @@ OC.L10N.register(
     "Can edit" : "Can edit",
     "Custom permissions" : "Custom permissions",
     "Search for share recipients" : "Search for share recipients",
-    "No recommendations. Start typing." : "No recommendations. Start typing.",
     "Resharing is not allowed" : "Resharing is not allowed",
     "Name or email …" : "Name or email …",
     "Name, email, or Federated Cloud ID …" : "Name, email, or Federated Cloud ID …",
@@ -271,6 +270,7 @@ OC.L10N.register(
     "Failed to add the public link to your Nextcloud" : "Failed to add the public link to your Nextcloud",
     "Files" : "ფაილები",
     "Download all files" : "Download all files",
+    "No recommendations. Start typing." : "No recommendations. Start typing.",
     "Allow download" : "Allow download",
     "Enter your name" : "Enter your name"
 },

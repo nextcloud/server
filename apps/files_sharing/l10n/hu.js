@@ -169,7 +169,6 @@ OC.L10N.register(
     "Can edit" : "Szerkesztheti",
     "Custom permissions" : "Egyéni jogosultságok",
     "Search for share recipients" : "Megosztás résztvevőinek keresése",
-    "No recommendations. Start typing." : "Nincs javaslat. Kezdjen gépelni.",
     "Resharing is not allowed" : "A megosztás továbbadása nem engedélyezett",
     "Name or email …" : "Név vagy e-mail-cím…",
     "Name, email, or Federated Cloud ID …" : "Név, e-mail-cím vagy föderált felhőazonosító…",
@@ -290,6 +289,7 @@ OC.L10N.register(
     "Failed to add the public link to your Nextcloud" : "Nem sikerült hozzáadni a nyilvános hivatkozást a Nexcloudjához",
     "Files" : "Fájlok",
     "Download all files" : "Összes fájl letöltése",
+    "No recommendations. Start typing." : "Nincs javaslat. Kezdjen gépelni.",
     "Allow download" : "Letöltés engedélyezése",
     "Enter your name" : "Adja meg a nevét"
 },

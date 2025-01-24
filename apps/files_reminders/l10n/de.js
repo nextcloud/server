@@ -6,6 +6,7 @@ OC.L10N.register(
     "View file" : "Datei anzeigen",
     "View folder" : "Ordner anzeigen",
     "Set file reminders" : "Dateierinnerungen setzen",
+    "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 Dateierinnerungen**\n\nDateierinnerungen festlegen.\n\nHinweis: Um die App ``Dateierinnerungen` zu verwenden, stelle sicher, dass die App `Benachrichtigungen` installiert und aktiviert ist. Die App `Benachrichtigungen` bietet die erforderlichen APIs, damit die App `Dateierinnerungen`ordnungsgemäß funktioniert.",
     "We will remind you of this file" : "Du wirst an diese Datei erinnert",
     "Please choose a valid date & time" : "Bitte gültiges Datum und Uhrzeit wählen",
     "Cancel" : "Abbrechen",
