@@ -304,12 +304,7 @@ class TemplateLayout extends \OC_Template {
 		$this->assign('id-app-navigation', $renderAs === TemplateResponse::RENDER_AS_USER ? '#app-navigation' : null);
 	}
 
-	/**
-	 * @param string $path
-	 * @param string $file
-	 * @return string
-	 */
-	protected function getVersionHashSuffix($path = false, $file = false) {
+	protected function getVersionHashSuffix(string $path = '', string $file = ''): string {
 		if ($this->config->getSystemValueBool('debug', false)) {
 			// allows chrome workspace mapping in debug mode
 			return '';
@@ -322,11 +317,11 @@ class TemplateLayout extends \OC_Template {
 
 		$hash = false;
 		// Try the web-root first
-		if (is_string($path) && $path !== '') {
+		if ($path !== '') {
 			$hash = $this->getVersionHashByPath($path);
 		}
 		// If not found try the file
-		if ($hash === false && is_string($file) && $file !== '') {
+		if ($hash === false && $file !== '') {
 			$hash = $this->getVersionHashByPath($file);
 		}
 		// As a last resort we use the server version hash
@@ -349,13 +344,18 @@ class TemplateLayout extends \OC_Template {
 				return false;
 			}
 
-			$appVersion = $this->appManager->getAppVersion($appId);
-			// For shipped apps the app version is not a single source of truth, we rather also need to consider the Nextcloud version
-			if ($this->appManager->isShipped($appId)) {
-				$appVersion .= '-' . self::$versionHash;
-			}
+			if ($appId === 'core') {
+				// core is not a real app but the server itself
+				$hash = self::$versionHash;
+			} else {
+				$appVersion = $this->appManager->getAppVersion($appId);
+				// For shipped apps the app version is not a single source of truth, we rather also need to consider the Nextcloud version
+				if ($this->appManager->isShipped($appId)) {
+					$appVersion .= '-' . self::$versionHash;
+				}
 
-			$hash = substr(md5($appVersion), 0, 8);
+				$hash = substr(md5($appVersion), 0, 8);
+			}
 			self::$cacheBusterCache[$path] = $hash;
 		}
 
@@ -376,7 +376,7 @@ class TemplateLayout extends \OC_Template {
 
 	/**
 	 * @param string $path
-	 * @return string|boolean
+	 * @return string|false
 	 */
 	public function getAppNamefromPath($path) {
 		if ($path !== '' && is_string($path)) {
@@ -384,6 +384,8 @@ class TemplateLayout extends \OC_Template {
 			if ($pathParts[0] === 'css') {
 				// This is a scss request
 				return $pathParts[1];
+			} elseif ($pathParts[0] === 'core') {
+				return 'core';
 			}
 			return end($pathParts);
 		}

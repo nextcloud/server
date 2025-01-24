@@ -2576,15 +2576,6 @@
       <code><![CDATA[$script]]></code>
     </ParamNameMismatch>
   </file>
-  <file src="lib/private/TemplateLayout.php">
-    <InvalidParamDefault>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-    </InvalidParamDefault>
-    <InvalidScalarArgument>
-      <code><![CDATA[$appId]]></code>
-    </InvalidScalarArgument>
-  </file>
   <file src="lib/private/URLGenerator.php">
     <InvalidReturnStatement>
       <code><![CDATA[$path]]></code>

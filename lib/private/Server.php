@@ -791,6 +791,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(ICacheFactory::class),
 				$c->get(IEventDispatcher::class),
 				$c->get(LoggerInterface::class),
+				$c->get(ServerVersion::class),
 			);
 		});
 		$this->registerAlias(IAppManager::class, AppManager::class);
