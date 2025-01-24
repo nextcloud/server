@@ -12,7 +12,6 @@ namespace OCA\FilesReminders\Dav;
 use DateTimeInterface;
 use OCA\DAV\Connector\Sabre\Node;
 use OCA\FilesReminders\Service\ReminderService;
-use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\IUser;
 use OCP\IUserSession;
 use Sabre\DAV\INode;
@@ -52,9 +51,8 @@ class PropFindPlugin extends ServerPlugin {
 				}
 
 				$fileId = $node->getId();
-				try {
-					$reminder = $this->reminderService->getDueForUser($user, $fileId);
-				} catch (DoesNotExistException $e) {
+				$reminder = $this->reminderService->getDueForUser($user, $fileId);
+				if ($reminder === null) {
 					return '';
 				}
 
