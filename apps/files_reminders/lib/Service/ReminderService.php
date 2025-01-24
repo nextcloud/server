@@ -19,6 +19,7 @@ use OCA\FilesReminders\Exception\ReminderNotFoundException;
 use OCA\FilesReminders\Exception\UserNotFoundException;
 use OCA\FilesReminders\Model\RichReminder;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\ICache;
@@ -44,6 +45,20 @@ class ReminderService {
 		protected ICacheFactory $cacheFactory,
 	) {
 		$this->cache = $this->cacheFactory->createDistributed('files_reminders');
+	}
+
+	public function cacheFolder(IUser $user, Folder $folder): void {
+		$reminders = $this->reminderMapper->findAllInFolder($user, $folder);
+		$reminderMap = [];
+		foreach ($reminders as $reminder) {
+			$reminderMap[$reminder->getFileId()] = $reminder;
+		}
+
+		$nodes = $folder->getDirectoryListing();
+		foreach ($nodes as $node) {
+			$reminder = $reminderMap[$node->getId()] ?? false;
+			$this->cache->set("{$user->getUID()}-{$node->getId()}", $reminder);
+		}
 	}
 
 	/**

@@ -13,6 +13,7 @@ use DateTime;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
@@ -128,6 +129,32 @@ class ReminderMapper extends QBMapper {
 			->andWhere($qb->expr()->lt('due_date', $qb->createNamedParameter($buffer, IQueryBuilder::PARAM_DATETIME_MUTABLE)))
 			->orderBy('due_date', 'ASC')
 			->setMaxResults($limit);
+
+		return $this->findEntities($qb);
+	}
+
+	/**
+	 * @return Reminder[]
+	 */
+	public function findAllInFolder(IUser $user, Folder $folder) {
+		$fileIds = array_values(array_filter(array_map(
+			function (Node $node) {
+				try {
+					return $node->getId();
+				} catch (NotFoundException $e) {
+					return null;
+				}
+			},
+			$folder->getDirectoryListing(),
+		)));
+
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('id', 'user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($user->getUID(), IQueryBuilder::PARAM_STR)))
+			->andWhere($qb->expr()->in('file_id', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)))
+			->orderBy('due_date', 'ASC');
 
 		return $this->findEntities($qb);
 	}

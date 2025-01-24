@@ -10,8 +10,10 @@ declare(strict_types=1);
 namespace OCA\FilesReminders\Dav;
 
 use DateTimeInterface;
+use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\Node;
 use OCA\FilesReminders\Service\ReminderService;
+use OCP\Files\Folder;
 use OCP\IUser;
 use OCP\IUserSession;
 use Sabre\DAV\INode;
@@ -42,6 +44,15 @@ class PropFindPlugin extends ServerPlugin {
 			return;
 		}
 
+		if (
+			$node instanceof Directory
+			&& $propFind->getDepth() > 0
+			&& $propFind->getStatus(static::REMINDER_DUE_DATE_PROPERTY) !== null
+		) {
+			$folder = $node->getNode();
+			$this->cacheFolder($folder);
+		}
+
 		$propFind->handle(
 			static::REMINDER_DUE_DATE_PROPERTY,
 			function () use ($node) {
@@ -59,5 +70,13 @@ class PropFindPlugin extends ServerPlugin {
 				return $reminder->getDueDate()->format(DateTimeInterface::ATOM); // ISO 8601
 			},
 		);
+	}
+
+	private function cacheFolder(Folder $folder): void {
+		$user = $this->userSession->getUser();
+		if (!($user instanceof IUser)) {
+			return;
+		}
+		$this->reminderService->cacheFolder($user, $folder);
 	}
 }
