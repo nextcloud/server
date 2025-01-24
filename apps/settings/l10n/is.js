@@ -392,6 +392,7 @@ OC.L10N.register(
     "Total rows summary" : "Samantek á fjölda raða",
     "Scroll to load more rows" : "Skrunaðu til að hlaða inn fleiri röðum",
     "Avatar" : "Auðkennismynd",
+    "Account name" : "Heiti notandaaðgangs",
     "Group admin for" : "Hópstjóri fyrir",
     "Storage location" : "Staðsetning gagnageymslu",
     "Last login" : "Síðasta innskráning",

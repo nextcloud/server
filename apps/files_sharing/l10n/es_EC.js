@@ -149,7 +149,6 @@ OC.L10N.register(
     "View only" : "Solo vista",
     "Custom permissions" : "Permisos personalizados",
     "Search for share recipients" : "Buscar destinatarios de la compartición",
-    "No recommendations. Start typing." : "No hay recomendaciones. Comienza a escribir.",
     "Resharing is not allowed" : "No se permite volver a compartir",
     "Name or email …" : "Nombre o correo electrónico...",
     "Name, email, or Federated Cloud ID …" : "Nombre, correo electrónico o ID de la nube federada...",
@@ -255,6 +254,7 @@ OC.L10N.register(
     "Failed to add the public link to your Nextcloud" : "Se presentó una falla al agregar el enlace público a tu Nextcloud",
     "Files" : "Archivos",
     "Download all files" : "Descargar todos los archivos",
+    "No recommendations. Start typing." : "No hay recomendaciones. Comienza a escribir.",
     "Allow download" : "Permitir descarga"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

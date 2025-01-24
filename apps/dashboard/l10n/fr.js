@@ -22,6 +22,8 @@ OC.L10N.register(
     "Good evening" : "Bonsoir",
     "Good evening, {name}" : "Bonsoir {name}",
     "Hello" : "Bonjour",
-    "Hello, {name}" : "Bonjour {name}"
+    "Hello, {name}" : "Bonjour {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "Joyeux anniversaire ! 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Joyeux anniversaire, {name}! 🥳🤩🎂🎉"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

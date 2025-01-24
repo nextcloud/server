@@ -20,6 +20,8 @@
     "Good evening" : "Buenas tardes",
     "Good evening, {name}" : "Buenas tardes, {name}",
     "Hello" : "Hola",
-    "Hello, {name}" : "Hola, {name}"
+    "Hello, {name}" : "Hola, {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "Feliz cumpleaños 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Feliz cumpleaños, {name} 🥳🤩🎂🎉"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

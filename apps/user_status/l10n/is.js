@@ -20,6 +20,8 @@ OC.L10N.register(
     "Set status" : "Setja stöðu",
     "Online status" : "Staða á netinu",
     "Status message" : "Stöðuskilaboð",
+    "Set absence period" : "Setja tímabil fjarveru",
+    "Set absence period and replacement" : "Setja tímabil fjarveru og afleysingu",
     "Your status was set automatically" : "Staðan þín var stillt sjálfvirkt",
     "Clear status message" : "Hreinsa stöðuskilaboð",
     "Set status message" : "Setja stöðuskilaboð",

@@ -156,7 +156,6 @@ OC.L10N.register(
     "Can edit" : "Getur breytt",
     "Custom permissions" : "Sérsniðnar heimildir",
     "Search for share recipients" : "Leita að viðtakendum sameignar",
-    "No recommendations. Start typing." : "Engar tillögur. Byrjaðu að skrifa.",
     "Resharing is not allowed" : "Endurdeiling er ekki leyfð",
     "Name or email …" : "Nafn eða tölvupóstfang …",
     "Name, email, or Federated Cloud ID …" : "Nafn, tölvupóstfang eða skýjasambandsauðkenni (Federated Cloud ID) …",
@@ -274,6 +273,7 @@ OC.L10N.register(
     "Failed to add the public link to your Nextcloud" : "Mistókst að bæta opinberum tengli í þitt eigið Nextcloud",
     "Files" : "Skrár",
     "Download all files" : "Sækja allar skrár",
+    "No recommendations. Start typing." : "Engar tillögur. Byrjaðu að skrifa.",
     "Allow download" : "Leyfa niðurhal",
     "Enter your name" : "Settu inn nafnið þitt"
 },
