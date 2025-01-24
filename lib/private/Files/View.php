@@ -2062,11 +2062,15 @@ class View {
 				);
 			}
 		} catch (LockedException $e) {
-			// rethrow with the a human-readable path
+			$this->logger->debug($e->getMessage(), [
+				'exception' => $e,
+				'fakeRoot' => $this->fakeRoot,
+				'absolutePath' => $absolutePath,
+			]);
 			throw new LockedException(
-				$this->getPathRelativeToFiles($absolutePath),
+				$this->getRelativePath($absolutePath) ?? $e->getPath(),
 				$e,
-				$e->getExistingLock()
+				$e->getExistingLock(),
 			);
 		}
 
@@ -2102,20 +2106,16 @@ class View {
 				);
 			}
 		} catch (LockedException $e) {
-			try {
-				// rethrow with the a human-readable path
-				throw new LockedException(
-					$this->getPathRelativeToFiles($absolutePath),
-					$e,
-					$e->getExistingLock()
-				);
-			} catch (\InvalidArgumentException $ex) {
-				throw new LockedException(
-					$absolutePath,
-					$ex,
-					$e->getExistingLock()
-				);
-			}
+			$this->logger->debug($e->getMessage(), [
+				'exception' => $e,
+				'fakeRoot' => $this->fakeRoot,
+				'absolutePath' => $absolutePath,
+			]);
+			throw new LockedException(
+				$this->getRelativePath($absolutePath) ?? $e->getPath(),
+				$e,
+				$e->getExistingLock(),
+			);
 		}
 
 		return true;

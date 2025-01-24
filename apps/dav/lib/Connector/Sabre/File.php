@@ -273,7 +273,7 @@ class File extends Node implements IFile {
 				}
 			}
 		} catch (\Exception $e) {
-			if ($e instanceof LockedException) {
+			if ($e instanceof FileLocked) {
 				\OC::$server->get(LoggerInterface::class)->debug($e->getMessage(), ['exception' => $e]);
 			} else {
 				\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
