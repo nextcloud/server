@@ -357,11 +357,17 @@ export default {
 					}
 					return this.share.shareWith
 				}
+
+				if (this.index === null) {
+					return t('files_sharing', 'Share link')
+				}
 			}
-			if (this.index > 1) {
+
+			if (this.index >= 1) {
 				return t('files_sharing', 'Share link ({index})', { index: this.index })
 			}
-			return t('files_sharing', 'Share link')
+
+			return t('files_sharing', 'Create public link')
 		},
 
 		/**
