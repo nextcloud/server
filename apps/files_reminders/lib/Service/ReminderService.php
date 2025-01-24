@@ -47,14 +47,6 @@ class ReminderService {
 	}
 
 	/**
-	 * @throws DoesNotExistException
-	 */
-	public function get(int $id): RichReminder {
-		$reminder = $this->reminderMapper->find($id);
-		return new RichReminder($reminder, $this->root);
-	}
-
-	/**
 	 * @throws NodeNotFoundException
 	 */
 	public function getDueForUser(IUser $user, int $fileId): ?RichReminder {
