@@ -57,7 +57,6 @@ function triggerTagManagementDialogAction() {
 }
 
 describe('Systemtags: Files bulk action', { testIsolation: false }, () => {
-	let snapshot: string
 	let user1: User
 	let user2: User
 
