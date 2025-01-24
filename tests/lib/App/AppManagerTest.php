@@ -25,6 +25,7 @@ use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -100,6 +101,8 @@ class AppManagerTest extends TestCase {
 
 	protected IURLGenerator&MockObject $urlGenerator;
 
+	protected ServerVersion&MockObject $serverVersion;
+
 	/** @var IAppManager */
 	protected $manager;
 
@@ -115,6 +118,7 @@ class AppManagerTest extends TestCase {
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->serverVersion = $this->createMock(ServerVersion::class);
 
 		$this->overwriteService(AppConfig::class, $this->appConfig);
 		$this->overwriteService(IURLGenerator::class, $this->urlGenerator);
@@ -136,6 +140,7 @@ class AppManagerTest extends TestCase {
 			$this->cacheFactory,
 			$this->eventDispatcher,
 			$this->logger,
+			$this->serverVersion,
 		);
 	}
 
@@ -278,6 +283,7 @@ class AppManagerTest extends TestCase {
 				$this->cacheFactory,
 				$this->eventDispatcher,
 				$this->logger,
+				$this->serverVersion,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -331,6 +337,7 @@ class AppManagerTest extends TestCase {
 				$this->cacheFactory,
 				$this->eventDispatcher,
 				$this->logger,
+				$this->serverVersion,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -392,6 +399,7 @@ class AppManagerTest extends TestCase {
 				$this->cacheFactory,
 				$this->eventDispatcher,
 				$this->logger,
+				$this->serverVersion,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -596,6 +604,7 @@ class AppManagerTest extends TestCase {
 				$this->cacheFactory,
 				$this->eventDispatcher,
 				$this->logger,
+				$this->serverVersion,
 			])
 			->onlyMethods(['getAppInfo'])
 			->getMock();
@@ -655,6 +664,7 @@ class AppManagerTest extends TestCase {
 				$this->cacheFactory,
 				$this->eventDispatcher,
 				$this->logger,
+				$this->serverVersion,
 			])
 			->onlyMethods(['getAppInfo'])
 			->getMock();
@@ -785,4 +795,97 @@ class AppManagerTest extends TestCase {
 
 		$this->assertEquals($expected, $this->manager->isBackendRequired($backend));
 	}
+
+	public function testGetAppVersion() {
+		$manager = $this->getMockBuilder(AppManager::class)
+			->setConstructorArgs([
+				$this->userSession,
+				$this->config,
+				$this->groupManager,
+				$this->cacheFactory,
+				$this->eventDispatcher,
+				$this->logger,
+				$this->serverVersion,
+			])
+			->onlyMethods([
+				'getAppInfo',
+			])
+			->getMock();
+
+		$manager->expects(self::once())
+			->method('getAppInfo')
+			->with('myapp')
+			->willReturn(['version' => '99.99.99-rc.99']);
+
+		$this->serverVersion
+			->expects(self::never())
+			->method('getVersionString');
+
+		$this->assertEquals(
+			'99.99.99-rc.99',
+			$manager->getAppVersion('myapp'),
+		);
+	}
+
+	public function testGetAppVersionCore() {
+		$manager = $this->getMockBuilder(AppManager::class)
+			->setConstructorArgs([
+				$this->userSession,
+				$this->config,
+				$this->groupManager,
+				$this->cacheFactory,
+				$this->eventDispatcher,
+				$this->logger,
+				$this->serverVersion,
+			])
+			->onlyMethods([
+				'getAppInfo',
+			])
+			->getMock();
+
+		$manager->expects(self::never())
+			->method('getAppInfo');
+
+		$this->serverVersion
+			->expects(self::once())
+			->method('getVersionString')
+			->willReturn('1.2.3-beta.4');
+
+		$this->assertEquals(
+			'1.2.3-beta.4',
+			$manager->getAppVersion('core'),
+		);
+	}
+
+	public function testGetAppVersionUnknown() {
+		$manager = $this->getMockBuilder(AppManager::class)
+			->setConstructorArgs([
+				$this->userSession,
+				$this->config,
+				$this->groupManager,
+				$this->cacheFactory,
+				$this->eventDispatcher,
+				$this->logger,
+				$this->serverVersion,
+			])
+			->onlyMethods([
+				'getAppInfo',
+			])
+			->getMock();
+
+		$manager->expects(self::once())
+			->method('getAppInfo')
+			->with('unknown')
+			->willReturn(null);
+
+		$this->serverVersion
+			->expects(self::never())
+			->method('getVersionString');
+
+		$this->assertEquals(
+			'0',
+			$manager->getAppVersion('unknown'),
+		);
+	}
+
 }
