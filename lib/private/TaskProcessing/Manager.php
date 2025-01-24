@@ -80,6 +80,7 @@ class Manager implements IManager {
 
 	private IAppData $appData;
 	private ?array $preferences = null;
+	private ?array $providersById = null;
 	private ICache $cache;
 	private ICache $distributedCache;
 
@@ -744,9 +745,13 @@ class Manager implements IManager {
 
 			$providers = $this->getProviders();
 			if (isset($this->preferences[$taskTypeId])) {
-				$provider = current(array_values(array_filter($providers, fn ($provider) => $provider->getId() === $this->preferences[$taskTypeId])));
-				if ($provider !== false) {
-					return $provider;
+				$providersById = $this->providersById ?? array_reduce($providers, static function (array $carry, IProvider $provider) {
+					$carry[$provider->getId()] = $provider;
+					return $carry;
+				}, []);
+				$this->providersById = $providersById;
+				if (isset($providersById[$this->preferences[$taskTypeId]])) {
+					return $providersById[$this->preferences[$taskTypeId]];
 				}
 			}
 			// By default, use the first available provider
