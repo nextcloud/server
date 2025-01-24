@@ -351,7 +351,7 @@ class TemplateLayout extends \OC_Template {
 
 			$appVersion = $this->appManager->getAppVersion($appId);
 			// For shipped apps the app version is not a single source of truth, we rather also need to consider the Nextcloud version
-			if ($this->appManager->isShipped($appId)) {
+			if ($this->appManager->isShipped($appId) || $appVersion === '0') {
 				$appVersion .= '-' . self::$versionHash;
 			}
 
