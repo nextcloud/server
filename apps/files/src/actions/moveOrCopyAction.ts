@@ -294,7 +294,7 @@ async function openFilePickerForAction(
 	return promise
 }
 
-export const ACTION_COPY_MOVE = 'copy-move'
+export const ACTION_COPY_MOVE = 'move-copy'
 export const action = new FileAction({
 	id: ACTION_COPY_MOVE,
 	displayName(nodes: Node[]) {
