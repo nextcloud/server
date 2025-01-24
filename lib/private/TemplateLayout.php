@@ -376,6 +376,8 @@ class TemplateLayout extends \OC_Template {
 			if ($pathParts[0] === 'css') {
 				// This is a scss request
 				return $pathParts[1];
+			} elseif ($pathParts[0] === 'core') {
+				return 'core';
 			}
 			return end($pathParts);
 		}
