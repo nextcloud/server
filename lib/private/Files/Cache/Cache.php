@@ -898,7 +898,7 @@ class Cache implements ICache {
 			}
 			if ($isBackgroundScan) {
 				$parentData = $this->get($parent);
-				if ($parentData['size'] !== -1 && $this->getIncompleteChildrenCount($parentData['fileid']) === 0) {
+				if ($parentData !== false && $parentData['size'] !== -1 && $this->getIncompleteChildrenCount($parentData['fileid']) === 0) {
 					$this->correctFolderSize($parent, $parentData, $isBackgroundScan);
 				}
 			} else {
