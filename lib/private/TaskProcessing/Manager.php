@@ -31,6 +31,8 @@ use OCP\Files\Node;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Http\Client\IClientService;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IServerContainer;
@@ -77,6 +79,11 @@ class Manager implements IManager {
 	private ?array $availableTaskTypes = null;
 
 	private IAppData $appData;
+	private ?array $preferences = null;
+	private ?array $providersById = null;
+	private ICache $cache;
+	private ICache $distributedCache;
+
 	public function __construct(
 		private IConfig $config,
 		private Coordinator $coordinator,
@@ -91,8 +98,11 @@ class Manager implements IManager {
 		private IUserMountCache $userMountCache,
 		private IClientService $clientService,
 		private IAppManager $appManager,
+		ICacheFactory $cacheFactory,
 	) {
 		$this->appData = $appDataFactory->get('core');
+		$this->cache = $cacheFactory->createLocal('task_processing::');
+		$this->distributedCache = $cacheFactory->createDistributed('task_processing::');
 	}
 
 
@@ -582,10 +592,10 @@ class Manager implements IManager {
 			foreach ($taskTypes as $taskType) {
 				$taskTypeSettings[$taskType->getId()] = false;
 			};
-			
+
 			return $taskTypeSettings;
 		}
-		
+
 	}
 
 	/**
@@ -725,12 +735,23 @@ class Manager implements IManager {
 
 	public function getPreferredProvider(string $taskTypeId) {
 		try {
-			$preferences = json_decode($this->config->getAppValue('core', 'ai.taskprocessing_provider_preferences', 'null'), associative: true, flags: JSON_THROW_ON_ERROR);
+			if ($this->preferences === null) {
+				$this->preferences = $this->distributedCache->get('ai.taskprocessing_provider_preferences');
+				if ($this->preferences === null) {
+					$this->preferences = json_decode($this->config->getAppValue('core', 'ai.taskprocessing_provider_preferences', 'null'), associative: true, flags: JSON_THROW_ON_ERROR);
+					$this->distributedCache->set('ai.taskprocessing_provider_preferences', $this->preferences, 60 * 3);
+				}
+			}
+
 			$providers = $this->getProviders();
-			if (isset($preferences[$taskTypeId])) {
-				$provider = current(array_values(array_filter($providers, fn ($provider) => $provider->getId() === $preferences[$taskTypeId])));
-				if ($provider !== false) {
-					return $provider;
+			if (isset($this->preferences[$taskTypeId])) {
+				$providersById = $this->providersById ?? array_reduce($providers, static function (array $carry, IProvider $provider) {
+					$carry[$provider->getId()] = $provider;
+					return $carry;
+				}, []);
+				$this->providersById = $providersById;
+				if (isset($providersById[$this->preferences[$taskTypeId]])) {
+					return $providersById[$this->preferences[$taskTypeId]];
 				}
 			}
 			// By default, use the first available provider
@@ -746,6 +767,10 @@ class Manager implements IManager {
 	}
 
 	public function getAvailableTaskTypes(bool $showDisabled = false): array {
+		if ($this->availableTaskTypes === null) {
+			// We use local cache only because distributed cache uses JSOn stringify which would botch our ShapeDescriptor objects
+			$this->availableTaskTypes = $this->cache->get('available_task_types');
+		}
 		// Either we have no cache or showDisabled is turned on, which we don't want to cache, ever.
 		if ($this->availableTaskTypes === null || $showDisabled) {
 			$taskTypes = $this->_getTaskTypes();
@@ -787,6 +812,7 @@ class Manager implements IManager {
 			}
 
 			$this->availableTaskTypes = $availableTaskTypes;
+			$this->cache->set('available_task_types', $this->availableTaskTypes, 60);
 		}
 
 
