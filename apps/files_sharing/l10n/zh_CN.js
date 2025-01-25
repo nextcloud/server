@@ -181,6 +181,7 @@ OC.L10N.register(
     "Mail share ({label})" : "邮件分享（{label}）",
     "Share link ({label})" : "分享链接（{label}）",
     "Share link ({index})" : "分享链接（{index}）",
+    "Create public link" : "生成公开链接地址",
     "Actions for \"{title}\"" : "“{title}”的动作",
     "Copy public link of \"{title}\" to clipboard" : "将“{title}”的公开链接复制到剪贴板",
     "Error, please enter proper password and/or expiration date" : "错误，请输入正确的密码和/或过期日期",

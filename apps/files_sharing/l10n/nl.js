@@ -196,6 +196,7 @@ OC.L10N.register(
     "Mail share ({label})" : "Mail share ({label})",
     "Share link ({label})" : "Link delen ({label})",
     "Share link ({index})" : "Deellink ({index})",
+    "Create public link" : "Creëer openbare link",
     "Actions for \"{title}\"" : "Acties voor \"{title}\"",
     "Copy public link of \"{title}\" to clipboard" : "Kopiëren openbare link van \"{title}\" naar klembord",
     "Error, please enter proper password and/or expiration date" : "Fout. geef een geldig wachtwoord op en/of een vervaldatum",

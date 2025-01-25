@@ -219,6 +219,7 @@
     "Share link ({label})" : "Compartilhar link ({label})",
     "Mail share" : "Compartilhamento de mensagem",
     "Share link ({index})" : "Compartilhar link ({index})",
+    "Create public link" : "Criar link público",
     "Actions for \"{title}\"" : "Ações para \"{title}\"",
     "Copy public link of \"{title}\" to clipboard" : "Copie o link público de \"{title}\" para a área de transferência",
     "Error, please enter proper password and/or expiration date" : "Erro, digite a senha correta e/ou a data de validade",

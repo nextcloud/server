@@ -83,6 +83,13 @@ OC.L10N.register(
     "Failed to load tags" : "載入標記失敗",
     "Failed to load selected tags" : "無法加載所選的標籤",
     "Failed to select tag" : "無法選擇標籤",
+    "System admin disabled tag creation. You can only use existing ones." : "系統管理員已停用標籤建立功能。您僅能使用現有的。",
+    "System tag creation" : "系統標籤建立",
+    "If enabled, regular accounts will be restricted from creating new tags but will still be able to assign and remove them from their files." : "若啟用，將會限制一般帳號建立標籤，但仍可分配與移除檔案中的標籤。",
+    "Restrict tag creation to admins only" : "限制僅管理員可建立標籤",
+    "Unable to update setting" : "無法更新設定",
+    "System tag creation is now restricted to administrators" : "系統標籤現在僅限管理員建立",
+    "System tag creation is now allowed for everybody" : "現在所有人都可以建立系統標籤",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "協作標籤可以被所有用戶使用。受限標籤是可見的，但用戶無法分配它們。不可見標籤僅供內部使用，用戶既看不到也無法分配它們。",
     "Assigned collaborative tags" : "已分配的協作標籤",
     "Open in Files" : "在「檔案」應用程式中打開",
@@ -97,6 +104,7 @@ OC.L10N.register(
     "Failed to set tag for file" : "無法設定檔案的標籤",
     "Failed to delete tag for file" : "無法刪除檔案的標籤",
     "This file has the tag {tag}" : "此檔案帶有 {tag} 標籤",
-    "This file has the tags {firstTags} and {lastTag}" : "此檔案帶有 {firstTags} 及 {lastTag} 標籤"
+    "This file has the tags {firstTags} and {lastTag}" : "此檔案帶有 {firstTags} 及 {lastTag} 標籤",
+    "System tag creation is now ${isRestricted ? " : "現在所有人都可以建立系統標籤"
 },
 "nplurals=1; plural=0;");

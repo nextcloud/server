@@ -2,6 +2,8 @@ OC.L10N.register(
     "profile",
     {
     "Profile" : "Próifíl",
+    "This application provides the profile" : "Soláthraíonn an feidhmchlár seo an phróifíl",
+    "Provides a customisable user profile interface." : "Soláthraíonn sé comhéadan próifíl úsáideora customizable.",
     "Edit Profile" : "Cuir Próifíl in Eagar",
     "The headline and about sections will show up here" : "Taispeánfar an ceannlíne agus na hailt faoi anseo",
     "You have not added any info yet" : "Níl aon fhaisnéis curtha agat fós",

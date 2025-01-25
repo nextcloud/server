@@ -2,6 +2,8 @@ OC.L10N.register(
     "profile",
     {
     "Profile" : "Profil",
+    "This application provides the profile" : "Bu uygulama profili sağlar",
+    "Provides a customisable user profile interface." : "Özelleştirilebilir bir kullanıcı profili arayüzü sağlar.",
     "Edit Profile" : "Profili düzenle",
     "The headline and about sections will show up here" : "Başlık ve hakkında bölümleri burada görüntülenir",
     "You have not added any info yet" : "Henüz herhangi bir bilgi eklememişsiniz",

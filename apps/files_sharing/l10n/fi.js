@@ -142,6 +142,7 @@ OC.L10N.register(
     "Mail share ({label})" : "Sähköpostijako ({label})",
     "Share link ({label})" : "Jaa linkki ({label})",
     "Share link ({index})" : "Jaa linkki ({index})",
+    "Create public link" : "Luo julkinen linkki",
     "Actions for \"{title}\"" : "Toiminnot kohteelle \"{title}\"",
     "Copy public link of \"{title}\" to clipboard" : "Kopioi kohteen \"{title}\" julkinen linkki leikepöydälle",
     "Error, please enter proper password and/or expiration date" : "Virhe, lisää kelvollinen salasana ja/tai päättymispäivä",

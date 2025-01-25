@@ -213,6 +213,7 @@ OC.L10N.register(
     "Mail share ({label})" : "Udostępnij pocztę ({label})",
     "Share link ({label})" : "Udostępnij link ({label})",
     "Share link ({index})" : "Udostępnij link ({index})",
+    "Create public link" : "Utwórz link publiczny",
     "Actions for \"{title}\"" : "Akcje dla \"{title}\"",
     "Copy public link of \"{title}\" to clipboard" : "Kopiuj link publiczny dla \"{title}\" do schowka",
     "Error, please enter proper password and/or expiration date" : "Błąd, wprowadź prawidłowe hasło i/lub datę ważności",

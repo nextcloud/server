@@ -158,6 +158,7 @@ OC.L10N.register(
     "Create a new share link" : "Sukurti naują viešinio nuorodą",
     "Shared via link by {initiator}" : "{initiator} bendrina per nuorodą",
     "Share link ({label})" : "Viešinio nuoroda ({label})",
+    "Create public link" : "Sukurti viešąją nuorodą",
     "Error, please enter proper password and/or expiration date" : "Įvyko klaida, įveskite teisingą slaptažodį ir/ar galiojimo datą",
     "Error while creating the share" : "Klaida kuriant viešinį",
     "View only" : "Tik peržiūrėti",

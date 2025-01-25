@@ -83,8 +83,15 @@ OC.L10N.register(
     "Failed to load tags" : "Etiketler yüklenemedi",
     "Failed to load selected tags" : "Seçilmiş etiketler yüklenemedi",
     "Failed to select tag" : "Seçilmiş etiket yüklenemedi",
+    "System admin disabled tag creation. You can only use existing ones." : "Sistem yöneticisi etiket oluşturma iznini kaldırmış. Yalnızca var olan etiketleri kullanabilirsiniz.",
+    "System tag creation" : "Sistem etiketi oluşturma",
+    "If enabled, regular accounts will be restricted from creating new tags but will still be able to assign and remove them from their files." : "Bu seçenek kullanıma alındığında, normal hesaplar yeni etiketler oluşturamaz. Ancak var olan etiketleri dosyalarına atayabilirler ve kaldırabilirler.",
+    "Restrict tag creation to admins only" : "Yalnızca yöneticiler etiket oluşturabilsin",
+    "Unable to update setting" : "Ayar güncellenemedi",
+    "System tag creation is now restricted to administrators" : "Sistem etiketlerini yalnızca yöneticiler oluşturabilir",
+    "System tag creation is now allowed for everybody" : "Sistem etiketlerini tüm kullanıcılar oluşturabilir",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "İş birlikli etiketleri tüm kullanıcılar kullanabilir. Kısıtlanmış etiketleri kullanıcılar görebilir ancak atayamaz. Görünmeyen etiketler iç kullanım içindir ve kullanıcılar tarafından görülüp ve atanamaz.",
-    "Assigned collaborative tags" : "Atanmış iş birlikli etiketlet",
+    "Assigned collaborative tags" : "Atanmış iş birlikli etiketler",
     "Open in Files" : "Dosyalar uygulamasında aç",
     "List of tags and their associated files and folders." : "Etiketlerin ve ilişkili dosya ve klasörlerin listesi.",
     "No tags found" : "Herhangi bir etiket bulunamadı",
@@ -97,6 +104,7 @@ OC.L10N.register(
     "Failed to set tag for file" : "Dosyanın etiketi ayarlanamadı",
     "Failed to delete tag for file" : "Dosyanın etiketi silinemedi",
     "This file has the tag {tag}" : "Dosya {tag} olarak etiketlenmiş",
-    "This file has the tags {firstTags} and {lastTag}" : "Dosya {firstTags} ve {lastTag} olarak etiketlenmiş"
+    "This file has the tags {firstTags} and {lastTag}" : "Dosya {firstTags} ve {lastTag} olarak etiketlenmiş",
+    "System tag creation is now ${isRestricted ? " : "Sistem etiketlerinin oluşturulması ${isRestricted ? "
 },
 "nplurals=2; plural=(n > 1);");

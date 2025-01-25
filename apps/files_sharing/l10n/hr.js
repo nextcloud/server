@@ -132,6 +132,7 @@ OC.L10N.register(
     "Shared via link by {initiator}" : "Dijeli {initiator} putem poveznice",
     "Mail share ({label})" : "Dijeljenje poštom ({label})",
     "Share link ({label})" : "Poveznica dijeljenja ({label})",
+    "Create public link" : "Stvori javnu poveznicu",
     "Error, please enter proper password and/or expiration date" : "Pogreška, unesite točnu zaporku i/ili datum isteka",
     "View only" : "Samo za gledanje",
     "Can edit" : "Uređivanje moguće",
