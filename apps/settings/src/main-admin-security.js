@@ -26,7 +26,7 @@ import { loadState } from '@nextcloud/initial-state'
 import Vue from 'vue'
 
 import AdminTwoFactor from './components/AdminTwoFactor.vue'
-import Encryption from './components/Encryption.vue'
+import EncryptionSettings from './components/Encryption/EncryptionSettings.vue'
 import store from './store/admin-security.js'
 
 // eslint-disable-next-line camelcase
@@ -47,5 +47,5 @@ new View({
 	store,
 }).$mount('#two-factor-auth-settings')
 
-const EncryptionView = Vue.extend(Encryption)
+const EncryptionView = Vue.extend(EncryptionSettings)
 new EncryptionView().$mount('#vue-admin-encryption')
