@@ -1,6 +1,9 @@
 OC.L10N.register(
     "profile",
     {
+    "Profile" : "Perfil",
+    "This application provides the profile" : "Esta aplicación fornece o perfil",
+    "Provides a customisable user profile interface." : "Fornece unha interface de perfil de usuario personalizábel.",
     "Edit Profile" : "Editar o perfil",
     "The headline and about sections will show up here" : "As seccións título e sobre aparecerán aquí",
     "You have not added any info yet" : "Aínda non engadiu ningunha información",

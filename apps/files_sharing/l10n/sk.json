@@ -190,6 +190,7 @@
     "Share link ({label})" : "Odkaz na zdieľanie ({label})",
     "Mail share" : "Zdieľanie emailu",
     "Share link ({index})" : "Zdieľať odkaz ({index})",
+    "Create public link" : "Vytvoriť verejný odkaz",
     "Actions for \"{title}\"" : "Akcie pre \"{title}\"",
     "Copy public link of \"{title}\" to clipboard" : "Kopírovať verejný odkaz \"{title}\" do schránky",
     "Error, please enter proper password and/or expiration date" : "Chyba, zadajte správne heslo a/alebo dátum ukončenia platnosti",

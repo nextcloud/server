@@ -221,6 +221,7 @@ OC.L10N.register(
     "Share link ({label})" : "Ссылка общего доступа ({label})",
     "Mail share" : "Общий доступ к почте",
     "Share link ({index})" : "Ссылка общего доступа ({index})",
+    "Create public link" : "Создать общедоступную ссылку",
     "Actions for \"{title}\"" : "Действия над «{title}»",
     "Copy public link of \"{title}\" to clipboard" : "Скопировать общедоступную ссылку для доступа к «{title}» в буфер обмена",
     "Error, please enter proper password and/or expiration date" : "Введите действительный пароль и/или дату истечения",

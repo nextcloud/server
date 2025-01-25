@@ -136,6 +136,7 @@ OC.L10N.register(
     "Shared via link by {initiator}" : "Cumpartzidu cun ligòngiu dae {initiator}",
     "Mail share ({label})" : "Cumpartzidura cun posta eletrònica ({label})",
     "Share link ({label})" : "Cumpartzi ligòngiu ({label})",
+    "Create public link" : "Crea unu ligòngiu pùblicu",
     "Copy public link of \"{title}\" to clipboard" : "Còpia in punta de billete su ligòngiu pùblicu pro: \"{title}\"",
     "Error, please enter proper password and/or expiration date" : "Errore, inserta una crae giusta e/o sa data de iscadèntzia",
     "View only" : "Isceti in visualizatzione",

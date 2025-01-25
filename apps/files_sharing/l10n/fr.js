@@ -221,6 +221,7 @@ OC.L10N.register(
     "Share link ({label})" : "Lien de partage ({label})",
     "Mail share" : "Partage par mail",
     "Share link ({index})" : "Lien de partage ({index})",
+    "Create public link" : "Créer une lien de partage public",
     "Actions for \"{title}\"" : "Actions pour \"{title}\"",
     "Copy public link of \"{title}\" to clipboard" : "Copier le lien public de \"{title}\" dans le presse-papiers",
     "Error, please enter proper password and/or expiration date" : "Erreur. Merci d'entrer un mot de passe valide et/ou une date d'expiration",

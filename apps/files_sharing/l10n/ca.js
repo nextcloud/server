@@ -151,6 +151,7 @@ OC.L10N.register(
     "Mail share ({label})" : "Comparteix per correu ({label})",
     "Share link ({label})" : "Comparteix un enllaç ({label})",
     "Share link ({index})" : "Comparteix un enllaç ({index})",
+    "Create public link" : "Creació d'un enllaç públic",
     "Actions for \"{title}\"" : "Accions per a «{title}»",
     "Copy public link of \"{title}\" to clipboard" : "Copia l'enllaç públic de «{title}» al porta-retalls",
     "Error, please enter proper password and/or expiration date" : "S'ha produït un error, introduïu la contrasenya o la data de caducitat adequada",

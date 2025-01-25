@@ -124,10 +124,10 @@
     "{shareWith} by {initiator}" : "{shareWith} באמצעות {initiator}",
     "Shared via link by {initiator}" : "שותף דרך קישור על ידי {initiator}",
     "Share link ({label})" : "שתף קישור ({label})",
+    "Create public link" : "יצירת קישור ציבורי",
     "Error, please enter proper password and/or expiration date" : "שגיאה, נא למלא ססמה ו/או תאריך תפוגה כראוי",
     "View only" : "לצפיה בלבד",
     "Can edit" : "ניתן לערוך",
-    "No recommendations. Start typing." : "אין המלצות. נא להתחיל להקליד.",
     "Resharing is not allowed" : "שיתוף מחדש אסור",
     "Name or email …" : "שם או דוא\"ל ...",
     "Name, email, or Federated Cloud ID …" : "שם, דוא\"ל או ID ענן מאוחד...",
@@ -206,6 +206,7 @@
     "Failed to add the public link to your Nextcloud" : "אירע כשל בהוספת קישור ציבורי ל־Nextcloud שלך",
     "Files" : "קבצים",
     "Download all files" : "הורדת כל הקבצים",
+    "No recommendations. Start typing." : "אין המלצות. נא להתחיל להקליד.",
     "Enter your name" : "נא למלא את שמך"
 },"pluralForm" :"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;"
 }

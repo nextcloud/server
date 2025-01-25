@@ -14,6 +14,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Lykilorð fyrir aðgang að {file} var sent til {email}",
     "Password to access {file} was sent to you" : "Lykilorð fyrir aðgang að {file} var sent til þín",
     "Share by mail" : "Deila með tölvupósti",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Deiling %1$s mistókst, því þessu atriði er þegar deilt með aðgangnum %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Ekki er hægt að senda þér sjálfvirkt framleidda lykilorðið. Settu inn gilt tölvupóstfang í einkastillingunum þínum og prófaðu aftur.",
     "Failed to send share by email. Got an invalid email address" : "Mistókst að deila með tölvupósti. Er með rangt tölvupóstfang",
     "Failed to send share by email" : "Gat ekki sent sameign með tölvupósti",
