@@ -128,10 +128,10 @@ OC.L10N.register(
     "Add another link" : "Tilføj et link mere",
     "Create a new share link" : "Opret et nyt delingslink",
     "File request ({label})" : "Filforespørgsel ({label})",
+    "Create public link" : "Opret offentligt link",
     "View only" : "Kun visning",
     "Can edit" : "Kan redigere",
     "Search for share recipients" : "Søge efter delemodtagerefor share recipients",
-    "No recommendations. Start typing." : "Ingen anbefalinger. Begynd at skrive.",
     "Resharing is not allowed" : "Gendeling er ikke tilladt",
     "Name, email, or Federated Cloud ID …" : "Navn, e-mail, eller føderalt cloud ID …",
     "Searching …" : "Søger ...",
@@ -208,6 +208,7 @@ OC.L10N.register(
     "No compatible server found at {remote}" : "Ingen kompatible servere fundet på {remote}",
     "Invalid server URL" : "Ugyldig server adresse",
     "Failed to add the public link to your Nextcloud" : "Fejl ved tilføjelse af offentligt link til din Nextcloud",
-    "Files" : "Filer"
+    "Files" : "Filer",
+    "No recommendations. Start typing." : "Ingen anbefalinger. Begynd at skrive."
 },
 "nplurals=2; plural=(n != 1);");

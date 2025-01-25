@@ -221,6 +221,7 @@ OC.L10N.register(
     "Share link ({label})" : "Partekatu ({label}) eskeka",
     "Mail share" : "Posta partekatzea",
     "Share link ({index})" : "Partekatu ({index}) esteka",
+    "Create public link" : "Sortu esteka publikoa",
     "Actions for \"{title}\"" : "\"{title}\"-ren ekintzak",
     "Copy public link of \"{title}\" to clipboard" : "Kopiatu \"{title}\"-ren esteka publikoa arbelean",
     "Error, please enter proper password and/or expiration date" : "Errorea, sartu dagokion pasahitza edo/eta iraungitze-data",

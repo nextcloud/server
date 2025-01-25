@@ -211,6 +211,7 @@ OC.L10N.register(
     "Share link ({label})" : "Del lenke ({label})",
     "Mail share" : "E-postdeling",
     "Share link ({index})" : "Del lenke ({index})",
+    "Create public link" : "Opprett offentlig kobling",
     "Actions for \"{title}\"" : "Valg for \"{title}\"",
     "Copy public link of \"{title}\" to clipboard" : "Kopier den offentlige lenken til \"{title}\" til utklippstavlen",
     "Error, please enter proper password and/or expiration date" : "Feil, vennligst skriv inn riktig passord og/eller utløpsdato",

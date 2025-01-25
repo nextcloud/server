@@ -316,7 +316,7 @@ OC.L10N.register(
     "In a %1$s on %2$s between %3$s - %4$s" : "En un(a) %1$s el %2$s entre las %3$s - %4$s",
     "In %1$s %2$s on %3$s for the entire day" : "En %1$s %2$s el %3$s todo el día",
     "In %1$s %2$s on %3$s between %4$s - %5$s" : "En %1$s %2$s el %3$s entre las %4$s - %5$s",
-    "In a %1$s on %2$s" : "En un %1$s el %2$s",
+    "In a %1$s on %2$s" : "En 1 %1$s el %2$s",
     "In a %1$s on %2$s then on %3$s" : "En un %1$s el %2$s y luego el %3$s",
     "In a %1$s on %2$s then on %3$s and %4$s" : "En un %1$s el %2$s y luego el %3$s y %4$s",
     "In %1$s %2$s on %3$s" : "En %1$s %2$s el %3$s",

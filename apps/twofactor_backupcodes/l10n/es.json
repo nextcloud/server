@@ -8,6 +8,7 @@
     "Two factor backup codes" : "Códigos de respaldo de la verificación en dos pasos",
     "A two-factor auth backup codes provider" : "Un proveedor de códigos respaldo para autenticación de dos factores",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Se han generado códigos de respaldo. Se han usado {used} de {total} códigos.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Estos son tus códigos de respaldo. Por favor, guárdalos y/o imprímelos, porque no podrás volver a verlos más tarde.",
     "Save backup codes" : "Guardar códigos de respaldo",
     "Print backup codes" : "Imprimir códigos de respaldo",
     "Regenerate backup codes" : "Regenerar códigos de respaldo",

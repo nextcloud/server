@@ -144,6 +144,7 @@ OC.L10N.register(
     "{shareWith} by {initiator}" : "{shareWith} από {initiator}",
     "Shared via link by {initiator}" : "Διαμοιράστηκε μέσω συνδέσμου {initiator}",
     "Share link ({label})" : "Σύνδεσμος κοινής χρήσης ({label})",
+    "Create public link" : "Δημιουργία δημόσιου συνδέσμου",
     "Actions for \"{title}\"" : "Ενέργειες για \"{title}\"",
     "Copy public link of \"{title}\" to clipboard" : "Αντιγραφή του δημόσιου συνδέσμου \"{title}\" στο πρόχειρο",
     "Error, please enter proper password and/or expiration date" : "Σφάλμα, παρακαλώ εισάγετε τον σωστό κωδικό πρόσβασης και/ή ημερομηνία λήξης",

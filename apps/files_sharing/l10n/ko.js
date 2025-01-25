@@ -221,6 +221,7 @@ OC.L10N.register(
     "Share link ({label})" : "링크 공유 ({label})",
     "Mail share" : "메일 공유",
     "Share link ({index})" : "링크 공유 ({index})",
+    "Create public link" : "공개 링크 만들기",
     "Actions for \"{title}\"" : "\"{title}\"에 대한 작업",
     "Copy public link of \"{title}\" to clipboard" : "\"{title}\"의 공개 링크를 클립보드에 복사",
     "Error, please enter proper password and/or expiration date" : "오류, 적절한 암호와 만료일을 입력하세요.",

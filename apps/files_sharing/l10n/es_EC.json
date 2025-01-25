@@ -139,6 +139,7 @@
     "Mail share ({label})" : "Compartir por correo electrónico ({label})",
     "Share link ({label})" : "Enlace compartido ({label})",
     "Share link ({index})" : "Enlace compartido ({index})",
+    "Create public link" : "Crear enlace público",
     "Actions for \"{title}\"" : "Acciones para \"{title}\"",
     "Copy public link of \"{title}\" to clipboard" : "Copiar enlace público de \"{title}\" al portapapeles",
     "Error, please enter proper password and/or expiration date" : "Error, por favor ingresa una contraseña y/o fecha de vencimiento adecuadas",

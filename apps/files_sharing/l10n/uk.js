@@ -223,6 +223,7 @@ OC.L10N.register(
     "Share link ({label})" : "Поділитися посиланням ({label})",
     "Mail share" : "Спільний ресурс через ел. пошту",
     "Share link ({index})" : "Поділитися посиланням ({index})",
+    "Create public link" : "Створити публічне посилання",
     "Actions for \"{title}\"" : "Дія для \"{title}\"",
     "Copy public link of \"{title}\" to clipboard" : "Копіювати публічне посилання \"{title}\" до буферу пам'яти",
     "Error, please enter proper password and/or expiration date" : "Помилка. Будь ласка, зазначте правильний пароль та/або термін дії",
