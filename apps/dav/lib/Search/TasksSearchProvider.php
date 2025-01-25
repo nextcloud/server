@@ -141,7 +141,7 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	): string {
 		return $this->urlGenerator->getAbsoluteURL(
 			$this->urlGenerator->linkToRoute('tasks.page.index')
-			. '#/calendars/'
+			. 'calendars/'
 			. $calendarUri
 			. '/tasks/'
 			. $taskUri
