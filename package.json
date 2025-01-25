@@ -119,7 +119,7 @@
     "webdav": "^5.7.0"
   },
   "devDependencies": {
-    "@babel/node": "^7.25.7",
+    "@babel/node": "^7.26.0",
     "@babel/plugin-transform-private-methods": "^7.25.9",
     "@babel/preset-typescript": "^7.26.0",
     "@cypress/vue2": "^2.1.1",
