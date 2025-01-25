@@ -92,7 +92,7 @@
     "An error occurred." : "Bir sorun çıktı.",
     "Please reload the page." : "Lütfen sayfayı yeniden yükleyin.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Uygulama güncellenemedi. Ayrıntılı bilgi almak için bu sorun ile ilgili <a href=\"{url}\">forum iletimize</a> bakabilirsiniz.",
-    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Uygulama güncellenemedi. Lütfen bu sorunu  <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud topluluğuna</a> bildirin.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Uygulama güncellenemedi. Lütfen bu sorunu <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud topluluğuna</a> bildirin.",
     "Continue to {productName}" : "{productName} ile ilerle",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Uygulama güncellendi. %n saniye içinde {productName} üzerine yönlendirileceksiniz.","Uygulama güncellendi. %n saniye içinde {productName} üzerine yönlendirileceksiniz."],
     "Applications menu" : "Uygulamalar menüsü",

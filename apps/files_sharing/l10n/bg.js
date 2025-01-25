@@ -144,6 +144,7 @@ OC.L10N.register(
     "Mail share ({label})" : "Споделяне на поща ({label})",
     "Share link ({label})" : "Споделяне на връзка ({label})",
     "Share link ({index})" : "Споделяне на връзка ({index})",
+    "Create public link" : "Създаване на публична връзка",
     "Actions for \"{title}\"" : "Действия за „{title}“",
     "Copy public link of \"{title}\" to clipboard" : "Копиране на публичната връзка на „{title}“ в клипборда",
     "Error, please enter proper password and/or expiration date" : "Грешка, моля да въведете правилната парола и / или срок на годност",

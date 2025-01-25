@@ -166,6 +166,7 @@ OC.L10N.register(
     "Mail share ({label})" : "Souporaba prek elektronske pošte ({label})",
     "Share link ({label})" : "Souporaba povezave ({label})",
     "Share link ({index})" : "Souporaba povezave ({index})",
+    "Create public link" : "Ustvari javno povezavo",
     "Actions for \"{title}\"" : "Dejanja za »{title}«",
     "Copy public link of \"{title}\" to clipboard" : "Kopiraj javno povezavo do mape »{title}« v odložišče",
     "Error, please enter proper password and/or expiration date" : "Napaka. Vpisati je treba pravo geslo ali datum preteka",

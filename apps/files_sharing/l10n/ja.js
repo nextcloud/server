@@ -224,6 +224,7 @@ OC.L10N.register(
     "Share link ({label})" : "リンク共有 ({label})",
     "Mail share" : "メール共有",
     "Share link ({index})" : "リンク共有 ({index})",
+    "Create public link" : "公開リンクを作成",
     "Actions for \"{title}\"" : "\"{title}\"のアクション",
     "Copy public link of \"{title}\" to clipboard" : "\"{title}\" の公開リンクをクリップボードにコピー",
     "Error, please enter proper password and/or expiration date" : "エラー、正しいパスワードおよび/または有効期限を入力してください",

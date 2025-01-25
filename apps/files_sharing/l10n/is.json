@@ -145,6 +145,7 @@
     "Mail share ({label})" : "Deilt með tölvupósti ({label})",
     "Share link ({label})" : "Tengill á sameign ({label})",
     "Share link ({index})" : "Tengill á sameign ({index})",
+    "Create public link" : "Búa til opinberan tengil",
     "Actions for \"{title}\"" : "Aðgerðir fyrir \"{title}\"",
     "Copy public link of \"{title}\" to clipboard" : "Afrita opinberan tengil \"{title}\" á klippispjald",
     "Error, please enter proper password and/or expiration date" : "Villa, settu inn alvöru lykilorð og/eða gildisdagsetningu",

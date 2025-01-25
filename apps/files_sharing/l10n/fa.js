@@ -99,6 +99,7 @@ OC.L10N.register(
     "Mail share ({label})" : "Mail share ({label})",
     "Share link ({label})" : "Share link ({label})",
     "Share link ({index})" : "Share link ({index})",
+    "Create public link" : "ایجاد پیوند عمومی",
     "Actions for \"{title}\"" : "Actions for \"{title}\"",
     "Copy public link of \"{title}\" to clipboard" : "Copy public link of \"{title}\" to clipboard",
     "Error, please enter proper password and/or expiration date" : "خطا ، لطفاً رمز عبور مناسب و یا تاریخ انقضا را وارد کنید",

@@ -208,6 +208,7 @@
     "Share link ({label})" : "Compartir enlace ({label})",
     "Mail share" : "Compartido por correo",
     "Share link ({index})" : "Compartir enlace ({index})",
+    "Create public link" : "Crear enlace público",
     "Actions for \"{title}\"" : "Acciones para \"{title}\"",
     "Copy public link of \"{title}\" to clipboard" : "Copiar enlace público de \"{title}\" al portapapeles",
     "Error, please enter proper password and/or expiration date" : "Error, por favor ingrese una contraseña y/o fecha de caducidad adecuadas",

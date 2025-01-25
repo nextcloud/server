@@ -160,6 +160,7 @@ OC.L10N.register(
     "Mail share ({label})" : "E-mail megosztás ({label})",
     "Share link ({label})" : "Megosztási hivatkozás ({label})",
     "Share link ({index})" : "Megosztási hivatkozás ({index})",
+    "Create public link" : "Nyilvános hivatkozás létrehozása",
     "Actions for \"{title}\"" : "A(z) „{title}” műveletei",
     "Copy public link of \"{title}\" to clipboard" : "A(z) „{title}” nyilvános hivatkozás másolása a vágólapra",
     "Error, please enter proper password and/or expiration date" : "Hiba, írja be a megfelelő jelszót vagy lejárati dátumot",

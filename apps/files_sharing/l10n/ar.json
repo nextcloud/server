@@ -222,6 +222,7 @@
     "Share link ({label})" : "رابط المشاركة ({label})",
     "Mail share" : "مشاركة الإيميل",
     "Share link ({index})" : "رابط المشاركة ({index})",
+    "Create public link" : "إنشاء رابط عمومي",
     "Actions for \"{title}\"" : "إجراءات لـ \"{title}\"",
     "Copy public link of \"{title}\" to clipboard" : "إنسَخ الرابط العام لـ \"{title}\" إلى الحافظة",
     "Error, please enter proper password and/or expiration date" : "خطأ؛ يرجى إدخال كلمة المرور الصحيحة أو تاريخ انتهاء الصلاحية",

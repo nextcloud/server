@@ -224,6 +224,7 @@ OC.L10N.register(
     "Share link ({label})" : "Dela länk ({label})",
     "Mail share" : "E-postdelning",
     "Share link ({index})" : "Dela länk ({index})",
+    "Create public link" : "Skapa offentlig länk",
     "Actions for \"{title}\"" : "Åtgärder för \"{title}\"",
     "Copy public link of \"{title}\" to clipboard" : "Kopiera offentliga länken för \"{title}\" till urklipp",
     "Error, please enter proper password and/or expiration date" : "Fel, ange korrekt lösenord och/eller utgångsdatum",

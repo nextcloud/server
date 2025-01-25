@@ -14,7 +14,7 @@ OC.L10N.register(
     "Update notification" : "Обавештење о ажурирању",
     "Displays update notifications for Nextcloud, app updates, and provides the SSO for the updater." : "Приказује обавештавања о ажурирањима за Nextcloud, апликације и омогућава јединствену пријаву за програм ажурирања.",
     "What's new in {app} {version}" : "Шта има ново у {app} {version}",
-    "Give feedback" : "Пошањите повратне информације",
+    "Give feedback" : "Пошаљите повратне информације",
     "Get started" : "Хајде да почнемо",
     "No changelog available" : "Није доступан дневник измена",
     "Update" : "Ажурирај",

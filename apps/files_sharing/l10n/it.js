@@ -221,6 +221,7 @@ OC.L10N.register(
     "Share link ({label})" : "Condividi collegamento ({label})",
     "Mail share" : "Condivisione via posta",
     "Share link ({index})" : "Condividi collegamento ({index})",
+    "Create public link" : "Crea collegamento pubblico",
     "Actions for \"{title}\"" : "Azioni per \"{title}\"",
     "Copy public link of \"{title}\" to clipboard" : "Copia il collegamento pubblico di \"{title}\" negli appunti",
     "Error, please enter proper password and/or expiration date" : "Errore, digita la password corretta e/o la data di scadenza",
