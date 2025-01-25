@@ -59,8 +59,8 @@
  */
 
 /*!
- * pinia v2.3.0
- * (c) 2024 Eduardo San Martin Morote
+ * pinia v2.3.1
+ * (c) 2025 Eduardo San Martin Morote
  * @license MIT
  */
 
