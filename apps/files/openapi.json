@@ -429,6 +429,7 @@
             "get": {
                 "operationId": "api-get-thumbnail",
                 "summary": "Gets a thumbnail of the specified file",
+                "deprecated": true,
                 "tags": [
                     "api"
                 ],

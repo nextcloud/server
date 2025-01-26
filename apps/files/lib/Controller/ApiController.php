@@ -75,6 +75,7 @@ class ApiController extends Controller {
 	 * Gets a thumbnail of the specified file
 	 *
 	 * @since API version 1.0
+	 * @deprecated 32.0.0 Use the preview endpoint provided by core instead
 	 *
 	 * @param int $x Width of the thumbnail
 	 * @param int $y Height of the thumbnail
