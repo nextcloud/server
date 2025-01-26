@@ -142,7 +142,6 @@ OC.L10N.register(
     "View only" : "Isceti in visualizatzione",
     "Can edit" : "Podet modificare",
     "Custom permissions" : "Permissos personalizados",
-    "Search for share recipients" : "Chirca destinatàrios de cumpartziduras",
     "Resharing is not allowed" : "Non faghet a torrare a cumpartzire",
     "Name or email …" : "Nùmene o indiritzu de posta ...",
     "Name, email, or Federated Cloud ID …" : "Nùmene, indiritzu de posta o ID de sa nue federada ...",
@@ -233,6 +232,7 @@ OC.L10N.register(
     "Failed to add the public link to your Nextcloud" : "No at fatu a agiùnghere su ligòngiu pùblicu in Nextcloud",
     "Files" : "Archìvios",
     "Download all files" : "Iscàrriga totu is archìvios",
+    "Search for share recipients" : "Chirca destinatàrios de cumpartziduras",
     "No recommendations. Start typing." : "Peruna racumandatzione. Cumintza a iscrìere.",
     "Enter your name" : "Inserta•nche su nùmene tuo"
 },
