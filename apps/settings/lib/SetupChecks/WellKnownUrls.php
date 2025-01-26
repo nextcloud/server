@@ -44,7 +44,7 @@ class WellKnownUrls implements ISetupCheck {
 		}
 
 		$urls = [
-			['get', '/.well-known/webfinger', [200, 404], true],
+			['get', '/.well-known/webfinger', [200, 400, 404], true], // 400 indicates a handler is installed but (correctly) failed because we didn't specify a resource
 			['get', '/.well-known/nodeinfo', [200, 404], true],
 			['propfind', '/.well-known/caldav', [207], false],
 			['propfind', '/.well-known/carddav', [207], false],
