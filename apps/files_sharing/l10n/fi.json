@@ -149,7 +149,6 @@
     "View only" : "Vain katselu",
     "Can edit" : "Voi muokata",
     "Custom permissions" : "Mukautetut oikeudet",
-    "Search for share recipients" : "Etsi jaon vastaanottajia",
     "Resharing is not allowed" : "Uudelleenjako ei ole sallittu",
     "Name or email …" : "Nimi tai sähköposti...",
     "Name, email, or Federated Cloud ID …" : "Nimi, sähköposti tai federoitu Cloud ID...",
@@ -267,6 +266,7 @@
     "Failed to add the public link to your Nextcloud" : "Julkisen linkin lisääminen Nextcloudiisi epäonnistui",
     "Files" : "Tiedostot",
     "Download all files" : "Lataa kaikki tiedostot",
+    "Search for share recipients" : "Etsi jaon vastaanottajia",
     "No recommendations. Start typing." : "Ei suosituksia. Aloita kirjoittaminen.",
     "Allow download" : "Salli lataus",
     "Enter your name" : "Kirjoita nimesi"

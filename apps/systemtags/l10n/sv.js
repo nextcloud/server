@@ -88,6 +88,8 @@ OC.L10N.register(
     "If enabled, regular accounts will be restricted from creating new tags but will still be able to assign and remove them from their files." : "Om det är aktiverat kommer vanliga konton att vara begränsade från att skapa nya taggar men kommer fortfarande att kunna tilldela och ta bort dem från sina filer.",
     "Restrict tag creation to admins only" : "Begränsa skapande av taggar till endast administratörer",
     "Unable to update setting" : "Kunde inte uppdatera inställningen",
+    "System tag creation is now restricted to administrators" : "Skapandet av systemtaggar är nu begränsat till administratörer",
+    "System tag creation is now allowed for everybody" : "Skapandet av systemtaggar är nu tillåtet för alla",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Samarbetstaggar är tillgängliga för alla användare. Begränsade taggar är synliga för användarna men kan inte tilldelas av dem. Osynliga taggar är för internt bruk, eftersom användarna inte kan se eller tilldela dem.",
     "Assigned collaborative tags" : "Tilldelade samarbetstaggar",
     "Open in Files" : "Öppna i Filer",
