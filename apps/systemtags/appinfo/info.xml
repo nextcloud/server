@@ -25,6 +25,11 @@
 	<dependencies>
 		<nextcloud min-version="31" max-version="31"/>
 	</dependencies>
+	<commands>
+		<command>OCA\SystemTags\Command\Files\Add</command>
+		<command>OCA\SystemTags\Command\Files\Delete</command>
+		<command>OCA\SystemTags\Command\Files\DeleteAll</command>
+	</commands>
 	<settings>
 		<admin>OCA\SystemTags\Settings\Admin</admin>
 	</settings>
