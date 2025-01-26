@@ -66,13 +66,12 @@ class Share implements IShare {
 	private $shareTime;
 	/** @var bool */
 	private $mailSend;
-	/** @var string */
-	private $label = '';
 	/** @var ICacheEntry|null */
 	private $nodeCacheEntry;
 	/** @var bool */
 	private $hideDownload = false;
 
+	private string $label = '';
 	private bool $noExpirationDate = false;
 
 	public function __construct(

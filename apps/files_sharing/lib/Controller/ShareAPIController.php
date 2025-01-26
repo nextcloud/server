@@ -733,7 +733,10 @@ class ShareAPIController extends OCSController {
 			}
 
 			// If we have a label, use it
-			if (!empty($label)) {
+			if ($label !== '') {
+				if (strlen($label) > 255) {
+					throw new OCSBadRequestException('Maximum label length is 255');
+				}
 				$share->setLabel($label);
 			}
 
