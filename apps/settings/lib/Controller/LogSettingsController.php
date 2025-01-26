@@ -11,6 +11,7 @@ use OC\Log;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\StreamResponse;
 use OCP\IRequest;
 
@@ -32,6 +33,7 @@ class LogSettingsController extends Controller {
 	 * 200: Logfile returned
 	 */
 	#[NoCSRFRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_ADMINISTRATION)]
 	public function download() {
 		if (!$this->log instanceof Log) {
 			throw new \UnexpectedValueException('Log file not available');
