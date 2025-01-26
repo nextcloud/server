@@ -873,11 +873,6 @@
       <code><![CDATA[Mount]]></code>
     </MoreSpecificReturnType>
   </file>
-  <file src="apps/files_sharing/lib/External/Scanner.php">
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$cacheData]]></code>
-    </MoreSpecificImplementedParamType>
-  </file>
   <file src="apps/files_sharing/lib/MountProvider.php">
     <RedundantFunctionCall>
       <code><![CDATA[array_values]]></code>
@@ -1758,14 +1753,10 @@
     </MoreSpecificReturnType>
   </file>
   <file src="lib/private/Files/Cache/Cache.php">
-    <InvalidArgument>
-      <code><![CDATA[$parentData]]></code>
-    </InvalidArgument>
     <InvalidNullableReturnType>
       <code><![CDATA[array]]></code>
     </InvalidNullableReturnType>
     <InvalidScalarArgument>
-      <code><![CDATA[$path]]></code>
       <code><![CDATA[\OC_Util::normalizeUnicode($path)]]></code>
     </InvalidScalarArgument>
     <NullableReturnStatement>
@@ -1796,12 +1787,6 @@
     <InvalidArgument>
       <code><![CDATA[self::SCAN_RECURSIVE_INCOMPLETE]]></code>
     </InvalidArgument>
-    <InvalidReturnStatement>
-      <code><![CDATA[$existingChildren]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[array[]]]></code>
-    </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Cache/Storage.php">
     <InvalidNullableReturnType>
