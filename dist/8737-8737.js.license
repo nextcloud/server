@@ -127,7 +127,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.12.7
 	- license: MIT
 - pinia
-	- version: 2.3.0
+	- version: 2.3.1
 	- license: MIT
 - process
 	- version: 0.11.10
