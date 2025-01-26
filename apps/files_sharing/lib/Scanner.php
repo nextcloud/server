@@ -57,7 +57,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 		$sourceScanner = $this->getSourceScanner();
 		if ($sourceScanner instanceof ObjectStoreScanner) {
 			// ObjectStoreScanner doesn't scan
-			return [];
+			return null;
 		} else {
 			return parent::scanFile($file, $reuseExisting, $parentId, $cacheData, $lock);
 		}
