@@ -153,7 +153,6 @@ OC.L10N.register(
     "View only" : "Само изглед",
     "Can edit" : "Може да се редактира",
     "Custom permissions" : "Персонализиране на права",
-    "Search for share recipients" : "Търсене на получатели на споделяне",
     "Resharing is not allowed" : "Повторното споделяне е забранено",
     "Name or email …" : "Име или имейл",
     "Name, email, or Federated Cloud ID …" : "Име, имейл или Federed Cloud ID/ИД за облачно пространство/ ...",
@@ -246,6 +245,7 @@ OC.L10N.register(
     "Failed to add the public link to your Nextcloud" : "Неуспешно добавяне на публичната връзка към вашия Nextcloud",
     "Files" : "Файлове",
     "Download all files" : "Изтегли всички файлове",
+    "Search for share recipients" : "Търсене на получатели на споделяне",
     "No recommendations. Start typing." : "Няма препоръки. Започнете да пишете.",
     "Allow download" : "Позволяване на изтегляне/сваляне/",
     "Enter your name" : "Въведете вашето име"
