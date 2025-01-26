@@ -255,7 +255,12 @@ export default defineComponent({
 		},
 
 		pageHeading(): string {
-			return this.currentView?.name ?? this.t('files', 'Files')
+			const title = this.currentView?.name ?? t('files', 'Files')
+
+			if (this.currentFolder === undefined || this.dir === '/') {
+				return title
+			}
+			return `${this.currentFolder.displayname} - ${title}`
 		},
 
 		/**
@@ -440,6 +445,13 @@ export default defineComponent({
 	},
 
 	watch: {
+		/**
+		 * Update the window title to match the page heading
+		 */
+		 pageHeading() {
+			document.title = `${this.pageHeading} - ${getCapabilities().theming?.productName ?? 'Nextcloud'}`
+		},
+
 		currentView(newView, oldView) {
 			if (newView?.id === oldView?.id) {
 				return
