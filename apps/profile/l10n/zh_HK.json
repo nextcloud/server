@@ -1,5 +1,6 @@
 { "translations": {
     "Profile" : "個人設定",
+    "This application provides the profile" : "此應用提供個人資料",
     "Provides a customisable user profile interface." : "提供可自訂的使用者個人檔案介面。",
     "Edit Profile" : "編輯個人設定",
     "The headline and about sections will show up here" : "標題與關於部份將在此顯示",

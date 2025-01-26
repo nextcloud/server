@@ -455,6 +455,7 @@ OC.L10N.register(
     "Headline" : "Fyrirsögn",
     "Organisation" : "Stofnun/Félag/Fyrirtæki",
     "Phone number" : "Símanúmer",
+    "Pronouns" : "Fornöfn",
     "Role" : "Role",
     "X (formerly Twitter)" : "X (fyrrum Twitter)",
     "Website" : "Vefsvæði",

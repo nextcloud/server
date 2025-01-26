@@ -149,7 +149,6 @@ OC.L10N.register(
     "Error while creating the share" : "Error al crear la compartición",
     "View only" : "Solo vista",
     "Custom permissions" : "Permisos personalizados",
-    "Search for share recipients" : "Buscar destinatarios de la compartición",
     "Resharing is not allowed" : "No se permite volver a compartir",
     "Name or email …" : "Nombre o correo electrónico...",
     "Name, email, or Federated Cloud ID …" : "Nombre, correo electrónico o ID de la nube federada...",
@@ -255,6 +254,7 @@ OC.L10N.register(
     "Failed to add the public link to your Nextcloud" : "Se presentó una falla al agregar el enlace público a tu Nextcloud",
     "Files" : "Archivos",
     "Download all files" : "Descargar todos los archivos",
+    "Search for share recipients" : "Buscar destinatarios de la compartición",
     "No recommendations. Start typing." : "No hay recomendaciones. Comienza a escribir.",
     "Allow download" : "Permitir descarga"
 },

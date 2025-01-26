@@ -1,6 +1,9 @@
 OC.L10N.register(
     "profile",
     {
+    "Profile" : "لمحة تعريفية",
+    "This application provides the profile" : "هذا التطبيق يوفر اللمحة التعريفية",
+    "Provides a customisable user profile interface." : "يُوفِّر واجهة مخصصة للمحة التعريفية عن المستخدِم",
     "Edit Profile" : "تعديل الملف الشخصي",
     "The headline and about sections will show up here" : "سيظهر هنا العنوان والأقسام الخاصة بالملف الشخصي",
     "You have not added any info yet" : "لم تقم بإضافة أي معلومات حتى الآن",
