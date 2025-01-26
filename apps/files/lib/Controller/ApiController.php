@@ -41,6 +41,7 @@ use OC\Files\Node\Node;
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
+use OCA\Files_Sharing\SharedStorage;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
@@ -52,7 +53,9 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StreamResponse;
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IPreview;
 use OCP\IRequest;
@@ -118,20 +121,28 @@ class ApiController extends Controller {
 		}
 
 		try {
-			$file = $this->userFolder->get($file);
-			if ($file instanceof Folder) {
+			$file = $this->userFolder?->get($file);
+			if ($file === null
+				|| !($file instanceof File)
+				|| ($file->getId() <= 0)
+			) {
 				throw new NotFoundException();
 			}
 
-			if ($file->getId() <= 0) {
-				return new DataResponse(['message' => 'File not found.'], Http::STATUS_NOT_FOUND);
+			// Validate the user is allowed to download the file (preview is some kind of download)
+			$storage = $file->getStorage();
+			if ($storage->instanceOfStorage(SharedStorage::class)) {
+				/** @var SharedStorage $storage */
+				$attributes = $storage->getShare()->getAttributes();
+				if ($attributes !== null && $attributes->getAttribute('permissions', 'download') === false) {
+					throw new NotFoundException();
+				}
 			}
 
-			/** @var File $file */
 			$preview = $this->previewManager->getPreview($file, $x, $y, true);
 
 			return new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => $preview->getMimeType()]);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException|NotPermittedException|InvalidPathException) {
 			return new DataResponse(['message' => 'File not found.'], Http::STATUS_NOT_FOUND);
 		} catch (\Exception $e) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);

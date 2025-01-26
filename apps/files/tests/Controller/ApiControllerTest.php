@@ -30,19 +30,23 @@ namespace OCA\Files\Controller;
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
+use OCA\Files_Sharing\SharedStorage;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Share\IAttributes;
 use OCP\Share\IManager;
+use OCP\Share\IShare;
 use Test\TestCase;
 
 /**
@@ -175,9 +179,13 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->apiController->getThumbnail(0, 0, ''));
 	}
 
-	public function testGetThumbnailInvalidImage() {
+	public function testGetThumbnailInvalidImage(): void {
+		$storage = $this->createMock(IStorage::class);
+		$storage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(false);
+
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(123);
+		$file->method('getStorage')->willReturn($storage);
 		$this->userFolder->method('get')
 			->with($this->equalTo('unknown.jpg'))
 			->willReturn($file);
@@ -199,9 +207,86 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->apiController->getThumbnail(10, 10, 'unknown.jpg'));
 	}
 
-	public function testGetThumbnail() {
+	public function testGetThumbnailSharedNoDownload(): void {
+		$attributes = $this->createMock(IAttributes::class);
+		$attributes->expects(self::once())
+			->method('getAttribute')
+			->with('permissions', 'download')
+			->willReturn(false);
+
+		$share = $this->createMock(IShare::class);
+		$share->expects(self::once())
+			->method('getAttributes')
+			->willReturn($attributes);
+
+		$storage = $this->createMock(SharedStorage::class);
+		$storage->expects(self::once())
+			->method('instanceOfStorage')
+			->with(SharedStorage::class)
+			->willReturn(true);
+		$storage->expects(self::once())
+			->method('getShare')
+			->willReturn($share);
+
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(123);
+		$file->method('getStorage')->willReturn($storage);
+
+		$this->userFolder->method('get')
+			->with('unknown.jpg')
+			->willReturn($file);
+
+		$this->preview->expects($this->never())
+			->method('getPreview');
+
+		$expected = new DataResponse(['message' => 'File not found.'], Http::STATUS_NOT_FOUND);
+		$this->assertEquals($expected, $this->apiController->getThumbnail(10, 10, 'unknown.jpg'));
+	}
+
+	public function testGetThumbnailShared(): void {
+		$share = $this->createMock(IShare::class);
+		$share->expects(self::once())
+			->method('getAttributes')
+			->willReturn(null);
+
+		$storage = $this->createMock(SharedStorage::class);
+		$storage->expects(self::once())
+			->method('instanceOfStorage')
+			->with(SharedStorage::class)
+			->willReturn(true);
+		$storage->expects(self::once())
+			->method('getShare')
+			->willReturn($share);
+
+		$file = $this->createMock(File::class);
+		$file->method('getId')->willReturn(123);
+		$file->method('getStorage')->willReturn($storage);
+
+		$this->userFolder->method('get')
+			->with($this->equalTo('known.jpg'))
+			->willReturn($file);
+		$preview = $this->createMock(ISimpleFile::class);
+		$preview->method('getName')->willReturn('my name');
+		$preview->method('getMTime')->willReturn(42);
+		$this->preview->expects($this->once())
+			->method('getPreview')
+			->with($this->equalTo($file), 10, 10, true)
+			->willReturn($preview);
+
+		$ret = $this->apiController->getThumbnail(10, 10, 'known.jpg');
+
+		$this->assertEquals(Http::STATUS_OK, $ret->getStatus());
+		$this->assertInstanceOf(Http\FileDisplayResponse::class, $ret);
+	}
+
+	public function testGetThumbnail(): void {
+		$storage = $this->createMock(IStorage::class);
+		$storage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(false);
+
+		$file = $this->createMock(File::class);
+		$file->method('getId')->willReturn(123);
+		$file->method('getStorage')->willReturn($storage);
+
 		$this->userFolder->method('get')
 			->with($this->equalTo('known.jpg'))
 			->willReturn($file);
