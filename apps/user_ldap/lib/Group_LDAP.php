@@ -1178,7 +1178,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 				continue;
 			}
 			$name = $item[$this->access->connection->ldapGroupDisplayName][0] ?? null;
-			$gid = $this->access->dn2groupname($dn, $name);
+			$gid = $this->access->dn2groupname($dn, $name, false);
 			if (!$gid) {
 				continue;
 			}
