@@ -87,6 +87,10 @@ class Search implements ISearch {
 		$this->pluginList[$shareType][] = $pluginInfo['class'];
 	}
 
+	/**
+	 * Removes all mail shares where a remote share with the same label exists.
+	 * Remote shares are considered "better" than mail shares, so we hide the "worse" shares in case both are possible.
+	 */
 	protected function dropMailSharesWhereRemoteShareIsPossible(ISearchResult $searchResult): void {
 		$allResults = $searchResult->asArray();
 
@@ -98,21 +102,14 @@ class Search implements ISearch {
 			return;
 		}
 
-		$mailIdMap = [];
+		$mails = [];
 		foreach ($allResults[$emailType->getLabel()] as $mailRow) {
-			// sure, array_reduce looks nicer, but foreach needs less resources and is faster
-			if (!isset($mailRow['uuid'])) {
-				continue;
-			}
-			$mailIdMap[$mailRow['uuid']] = $mailRow['value']['shareWith'];
+			$mails[] = $mailRow['value']['shareWith'];
 		}
 
-		foreach ($allResults[$remoteType->getLabel()] as $resultRow) {
-			if (!isset($resultRow['uuid'])) {
-				continue;
-			}
-			if (isset($mailIdMap[$resultRow['uuid']])) {
-				$searchResult->removeCollaboratorResult($emailType, $mailIdMap[$resultRow['uuid']]);
+		foreach ($allResults[$remoteType->getLabel()] as $remoteRow) {
+			if (in_array($remoteRow['value']['shareWith'], $mails, true)) {
+				$searchResult->removeCollaboratorResult($emailType, $remoteRow['value']['shareWith']);
 			}
 		}
 	}

@@ -78,6 +78,8 @@ class SearchResult implements ISearchResult {
 			foreach ($resultArray as $k => $result) {
 				if ($result['value']['shareWith'] === $collaboratorId) {
 					unset($resultArray[$k]);
+					// Ensure no gaps after removing the result
+					$resultArray = array_values($resultArray);
 					$actionDone = true;
 				}
 			}

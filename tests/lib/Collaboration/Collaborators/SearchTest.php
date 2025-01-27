@@ -249,6 +249,42 @@ class SearchTest extends TestCase {
 				],
 				false, // expected more results indicator
 			],
+			// Remove emails if there is a remote with same label even if non exact match
+			[
+				'test@example',
+				[IShare::TYPE_REMOTE, IShare::TYPE_EMAIL],
+				1,
+				10,
+				[],
+				[],
+				[
+					'results' => [
+						['label' => 'remote', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'test@example.com']],
+						['label' => 'remote', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'alice@example.com']],
+					],
+					'exact' => [],
+					'exactIdMatch' => false,
+				],
+				[
+					['label' => 'email', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'test@example.com']],
+					['label' => 'email', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'bob@example.com']],
+				],
+				[
+					'exact' => [
+						'remotes' => [],
+						'emails' => [],
+					],
+					'remotes' => [
+						['label' => 'remote', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'test@example.com']],
+						['label' => 'remote', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'alice@example.com']],
+					],
+					'emails' => [
+						// test@example.com email is not present
+						['label' => 'email', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'bob@example.com']],
+					]
+				],
+				false,
+			],
 		];
 	}
 }
