@@ -32,12 +32,15 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Files_Trashbin\Events\MoveToTrashEvent;
 use OCA\Files_Trashbin\Trash\ITrashManager;
+use OCP\App\IAppManager;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
+use OCP\IRequest;
 use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Storage extends Wrapper {
@@ -65,7 +68,8 @@ class Storage extends Wrapper {
 		?IUserManager $userManager = null,
 		?LoggerInterface $logger = null,
 		?IEventDispatcher $eventDispatcher = null,
-		?IRootFolder $rootFolder = null
+		?IRootFolder $rootFolder = null,
+		private ?IRequest $request = null,
 	) {
 		$this->mountPoint = $parameters['mountPoint'];
 		$this->trashManager = $trashManager;
@@ -173,26 +177,26 @@ class Storage extends Wrapper {
 	 * @return bool true if the operation succeeded, false otherwise
 	 */
 	private function doDelete($path, $method) {
-		if (
-			!\OC::$server->getAppManager()->isEnabledForUser('files_trashbin')
-			|| (pathinfo($path, PATHINFO_EXTENSION) === 'part')
-			|| $this->shouldMoveToTrash($path) === false
-		) {
-			return call_user_func([$this->storage, $method], $path);
+		$isTrashbinEnabled = Server::get(IAppManager::class)->isEnabledForUser('files_trashbin');
+		$isPartFile = pathinfo($path, PATHINFO_EXTENSION) === 'part';
+		$isSkipTrashHeaderSet = $this->request !== null && $this->request->getHeader('X-NC-Skip-Trashbin') === 'true';
+		// We keep the shouldMoveToTrash call at the end to prevent emitting unnecessary event.
+		$shouldMoveToTrash = $isTrashbinEnabled && !$isPartFile && !$isSkipTrashHeaderSet && $this->shouldMoveToTrash($path);
+
+		if ($shouldMoveToTrash) {
+			// check permissions before we continue, this is especially important for
+			// shared files
+			if (!$this->isDeletable($path)) {
+				return false;
+			}
+
+			$isMovedToTrash = $this->trashManager->moveToTrash($this, $path);
+			if ($isMovedToTrash) {
+				return true;
+			}
 		}
 
-		// check permissions before we continue, this is especially important for
-		// shared files
-		if (!$this->isDeletable($path)) {
-			return false;
-		}
-
-		$isMovedToTrash = $this->trashManager->moveToTrash($this, $path);
-		if (!$isMovedToTrash) {
-			return call_user_func([$this->storage, $method], $path);
-		} else {
-			return true;
-		}
+		return call_user_func([$this->storage, $method], $path);
 	}
 
 	/**
@@ -204,9 +208,10 @@ class Storage extends Wrapper {
 		$logger = \OC::$server->get(LoggerInterface::class);
 		$eventDispatcher = \OC::$server->get(IEventDispatcher::class);
 		$rootFolder = \OC::$server->get(IRootFolder::class);
+		$request = \OC::$server->get(IRequest::class);
 		Filesystem::addStorageWrapper(
 			'oc_trashbin',
-			function (string $mountPoint, IStorage $storage) use ($trashManager, $userManager, $logger, $eventDispatcher, $rootFolder) {
+			function (string $mountPoint, IStorage $storage) use ($trashManager, $userManager, $logger, $eventDispatcher, $rootFolder, $request) {
 				return new Storage(
 					['storage' => $storage, 'mountPoint' => $mountPoint],
 					$trashManager,
@@ -214,6 +219,7 @@ class Storage extends Wrapper {
 					$logger,
 					$eventDispatcher,
 					$rootFolder,
+					$request,
 				);
 			},
 			1);
