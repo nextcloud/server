@@ -1943,6 +1943,7 @@ return array(
     'OC\\Security\\IdentityProof\\Manager' => $baseDir . '/lib/private/Security/IdentityProof/Manager.php',
     'OC\\Security\\IdentityProof\\Signer' => $baseDir . '/lib/private/Security/IdentityProof/Signer.php',
     'OC\\Security\\Ip\\Address' => $baseDir . '/lib/private/Security/Ip/Address.php',
+    'OC\\Security\\Ip\\BruteforceAllowList' => $baseDir . '/lib/private/Security/Ip/BruteforceAllowList.php',
     'OC\\Security\\Ip\\Factory' => $baseDir . '/lib/private/Security/Ip/Factory.php',
     'OC\\Security\\Ip\\Range' => $baseDir . '/lib/private/Security/Ip/Range.php',
     'OC\\Security\\Ip\\RemoteAddress' => $baseDir . '/lib/private/Security/Ip/RemoteAddress.php',

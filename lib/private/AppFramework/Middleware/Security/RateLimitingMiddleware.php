@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\Security\Ip\BruteforceAllowList;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
 use OC\Security\RateLimiting\Limiter;
 use OC\User\Session;
@@ -20,6 +21,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
+use OCP\IAppConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -53,6 +55,8 @@ class RateLimitingMiddleware extends Middleware {
 		protected ControllerMethodReflector $reflector,
 		protected Limiter $limiter,
 		protected ISession $session,
+		protected IAppConfig $appConfig,
+		protected BruteforceAllowList $bruteForceAllowList,
 	) {
 	}
 
@@ -73,6 +77,11 @@ class RateLimitingMiddleware extends Middleware {
 			$rateLimit = $this->readLimitFromAnnotationOrAttribute($controller, $methodName, 'UserRateThrottle', UserRateLimit::class);
 
 			if ($rateLimit !== null) {
+				if ($this->appConfig->getValueBool('bruteforcesettings', 'apply_allowlist_to_ratelimit')
+					&& $this->bruteForceAllowList->isBypassListed($this->request->getRemoteAddress())) {
+					return;
+				}
+
 				$this->limiter->registerUserRequest(
 					$rateLimitIdentifier,
 					$rateLimit->getLimit(),
