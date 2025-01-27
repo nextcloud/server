@@ -511,7 +511,12 @@ export default defineComponent({
 			unifiedSearchLogger.debug('Applying provider filter', { providerFilter, loadMoreResultsForProvider })
 			if (!providerFilter.id) return
 			if (providerFilter.isPluginFilter) {
-				providerFilter.callback()
+				// There is no way to know what should go into the callback currently
+				// Here we are passing isProviderFilterApplied (boolean) which is a flag sent to the plugin
+				// This is sent to the plugin so that depending on whether the filter is applied or not, the plugin can decide what to do
+				// TODO : In nextcloud/search, this should be a proper interface that the plugin can implement
+				const isProviderFilterApplied = this.filteredProviders.some(provider => provider.id === providerFilter.id)
+				providerFilter.callback(!isProviderFilterApplied)
 			}
 			this.providerResultLimit = loadMoreResultsForProvider ? this.providerResultLimit : 5
 			this.providerActionMenuIsOpen = false
