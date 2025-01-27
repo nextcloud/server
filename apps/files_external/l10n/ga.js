@@ -149,7 +149,6 @@ OC.L10N.register(
     "All people" : "Gach duine",
     "Advanced settings" : "Ardsocruithe",
     "Allow people to mount external storage" : "Lig do dhaoine stóráil sheachtrach a shuiteáil",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Is féidir dintiúir dhomhanda a úsáid chun fíordheimhniú a dhéanamh le stórais sheachtracha iolracha a bhfuil na dintiúir chéanna acu.",
-    "To access the storage, you need to provide the authentification informations." : "Chun rochtain a fháil ar an stóras, ní mór duit an fhaisnéis fíordheimhnithe a sholáthar."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Is féidir dintiúir dhomhanda a úsáid chun fíordheimhniú a dhéanamh le stórais sheachtracha iolracha a bhfuil na dintiúir chéanna acu."
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

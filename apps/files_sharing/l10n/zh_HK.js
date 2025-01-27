@@ -234,6 +234,8 @@ OC.L10N.register(
     "View only" : "僅檢視",
     "Can edit" : "可編輯",
     "Custom permissions" : "自訂權限",
+    "Enter external recipients" : "輸入外部收件人",
+    "Search for internal recipients" : "搜尋內部收件人",
     "Resharing is not allowed" : "不允許重新分享",
     "Name or email …" : "名字或電郵地址",
     "Name, email, or Federated Cloud ID …" : "名字，電郵地址或 Federated Cloud ID …",

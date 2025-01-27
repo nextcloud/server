@@ -149,7 +149,6 @@ OC.L10N.register(
     "All people" : "Все люди",
     "Advanced settings" : "Расширенные настройки",
     "Allow people to mount external storage" : "Разрешить пользователям подключать внешнее хранилище",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальные учетные данные могут использоваться для аутентификации с несколькими внешними хранилищами, которые имеют одинаковые учетные данные.",
-    "To access the storage, you need to provide the authentification informations." : "Для получения доступа к хранилищу вам нужно указать информацию для аутентификации."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальные учетные данные могут использоваться для аутентификации с несколькими внешними хранилищами, которые имеют одинаковые учетные данные."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

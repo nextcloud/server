@@ -232,6 +232,8 @@
     "View only" : "للعرض فقط",
     "Can edit" : "يمكنه التعديل",
     "Custom permissions" : "أذونات مخصصة",
+    "Enter external recipients" : "إدخال مُستَلِمين خارجيين",
+    "Search for internal recipients" : "البحث عن مُستَلِمين خارجيين",
     "Resharing is not allowed" : "لا يسمح بإعادة المشاركة",
     "Name or email …" : "الاسم أو الإيميل …",
     "Name, email, or Federated Cloud ID …" : "الاسم أو البريد أو المعرف السحابي الموحد",

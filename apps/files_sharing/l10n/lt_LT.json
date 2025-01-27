@@ -208,6 +208,7 @@
     "Update share" : "Atnaujinti viešinį",
     "Save share" : "Įrašyti viešinį",
     "Others with access" : "Kiti asmenys, turintys prieigą",
+    "No other accounts with access found" : "Nerasta jokių kitų paskyrų, turinčių prieigą",
     "Toggle list of others with access to this directory" : "Perjungti sąrašą kitų asmenų, turinčių prieigą prie šio katalogo",
     "Toggle list of others with access to this file" : "Perjungti sąrašą kitų asmenų, turinčių prieigą prie šio failo",
     "Unable to fetch inherited shares" : "Nepavyko gauti paveldėtų viešinių",
