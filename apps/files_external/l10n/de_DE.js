@@ -149,7 +149,6 @@ OC.L10N.register(
     "All people" : "Alle Personen",
     "Advanced settings" : "Erweiterte Einstellungen",
     "Allow people to mount external storage" : "Personen erlauben, externen Speicher einzubinden",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale Zugangsdaten können für die Authentifizierung für mehrere externe Speicher verwendet werden, solange sie identische Zugangsdaten benötigen.",
-    "To access the storage, you need to provide the authentification informations." : "Um auf den Speicher zuzugreifen, müssen Sie die Authentifizierungsinformationen eingeben."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale Zugangsdaten können für die Authentifizierung für mehrere externe Speicher verwendet werden, solange sie identische Zugangsdaten benötigen."
 },
 "nplurals=2; plural=(n != 1);");

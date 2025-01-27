@@ -234,6 +234,8 @@ OC.L10N.register(
     "View only" : "Amharc amháin",
     "Can edit" : "Is féidir eagarthóireacht a dhéanamh",
     "Custom permissions" : "Ceadanna saincheaptha",
+    "Enter external recipients" : "Cuir isteach faighteoirí seachtracha",
+    "Search for internal recipients" : "Cuardaigh faighteoirí inmheánacha",
     "Resharing is not allowed" : "Ní cheadaítear athroinnt",
     "Name or email …" : "Ainm nó ríomhphost…",
     "Name, email, or Federated Cloud ID …" : "Ainm, ríomhphost, nó ID Néal Cónaidhme…",
