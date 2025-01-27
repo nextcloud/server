@@ -25,26 +25,30 @@ function init() {
 		appId: 'files',
 		label: t('files', 'In folder'),
 		icon: imagePath('files', 'app.svg'),
-		callback: () => {
-			const filepicker = getFilePickerBuilder('Pick plain text files')
-				.addMimeTypeFilter('httpd/unix-directory')
-				.allowDirectories(true)
-				.addButton({
-					label: 'Pick',
-					callback: (nodes: Node[]) => {
-						logger.info('Folder picked', { folder: nodes[0] })
-						const folder = nodes[0]
-						emit('nextcloud:unified-search:add-filter', {
-							id: 'in-folder',
-							appId: 'files',
-							payload: folder,
-							filterUpdateText: t('files', 'Search in folder: {folder}', { folder: folder.basename }),
-							filterParams: { path: folder.path },
-						})
-					},
-				})
-				.build()
-			filepicker.pick()
+		callback: (showFilePicker: boolean = true) => {
+			if (showFilePicker) {
+				const filepicker = getFilePickerBuilder('Pick plain text files')
+					.addMimeTypeFilter('httpd/unix-directory')
+					.allowDirectories(true)
+					.addButton({
+						label: 'Pick',
+						callback: (nodes: Node[]) => {
+							logger.info('Folder picked', { folder: nodes[0] })
+							const folder = nodes[0]
+							emit('nextcloud:unified-search:add-filter', {
+								id: 'in-folder',
+								appId: 'files',
+								payload: folder,
+								filterUpdateText: t('files', 'Search in folder: {folder}', { folder: folder.basename }),
+								filterParams: { path: folder.path },
+							})
+						},
+					})
+					.build()
+				filepicker.pick()
+			} else {
+				logger.debug('Folder search callback was handled without showing the file picker, it might already be open')
+			}
 		},
 	})
 }
