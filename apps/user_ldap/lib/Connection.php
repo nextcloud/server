@@ -8,10 +8,12 @@
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
+use OCA\User_LDAP\Exceptions\ConfigurationIssueException;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IL10N;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
@@ -134,8 +136,8 @@ class Connection extends LDAPUtility {
 	 */
 	protected $bindResult = [];
 
-	/** @var LoggerInterface */
-	protected $logger;
+	protected LoggerInterface $logger;
+	private IL10N $l10n;
 
 	/**
 	 * Constructor
@@ -157,6 +159,7 @@ class Connection extends LDAPUtility {
 		$this->doNotValidate = !in_array($this->configPrefix,
 			$helper->getServerConfigurationPrefixes());
 		$this->logger = Server::get(LoggerInterface::class);
+		$this->l10n = Server::get(IL10N::class);
 	}
 
 	public function __destruct() {
@@ -332,16 +335,17 @@ class Connection extends LDAPUtility {
 	 * set LDAP configuration with values delivered by an array, not read from configuration
 	 * @param array $config array that holds the config parameters in an associated array
 	 * @param array &$setParameters optional; array where the set fields will be given to
+	 * @param bool $throw if true, throw ConfigurationIssueException with details instead of returning false
 	 * @return bool true if config validates, false otherwise. Check with $setParameters for detailed success on single parameters
 	 */
-	public function setConfiguration($config, &$setParameters = null): bool {
+	public function setConfiguration(array $config, ?array &$setParameters = null, bool $throw = false): bool {
 		if (is_null($setParameters)) {
 			$setParameters = [];
 		}
 		$this->doNotValidate = false;
 		$this->configuration->setConfiguration($config, $setParameters);
 		if (count($setParameters) > 0) {
-			$this->configured = $this->validateConfiguration();
+			$this->configured = $this->validateConfiguration($throw);
 		}
 
 
@@ -447,9 +451,11 @@ class Connection extends LDAPUtility {
 		}
 	}
 
-	private function doCriticalValidation(): bool {
+	/**
+	 * @throws ConfigurationIssueException
+	 */
+	private function doCriticalValidation(): void {
 		$configurationOK = true;
-		$errorStr = 'Configuration Error (prefix ' . $this->configPrefix . '): ';
 
 		//options that shall not be empty
 		$options = ['ldapHost', 'ldapUserDisplayName',
@@ -484,9 +490,9 @@ class Connection extends LDAPUtility {
 						break;
 				}
 				$configurationOK = false;
-				$this->logger->warning(
-					$errorStr . 'No ' . $subj . ' given!',
-					['app' => 'user_ldap']
+				throw new ConfigurationIssueException(
+					'No ' . $subj . ' given!',
+					$this->l10n->t('Mandatory field "%s" left empty', $subj),
 				);
 			}
 		}
@@ -494,16 +500,19 @@ class Connection extends LDAPUtility {
 		//combinations
 		$agent = $this->configuration->ldapAgentName;
 		$pwd = $this->configuration->ldapAgentPassword;
-		if (
-			($agent === '' && $pwd !== '')
-			|| ($agent !== '' && $pwd === '')
-		) {
-			$this->logger->warning(
-				$errorStr . 'either no password is given for the user ' .
-					'agent or a password is given, but not an LDAP agent.',
-				['app' => 'user_ldap']
-			);
+		if ($agent === '' && $pwd !== '') {
 			$configurationOK = false;
+			throw new ConfigurationIssueException(
+				'A password is given, but not an LDAP agent',
+				$this->l10n->t('A password is given, but not an LDAP agent'),
+			);
+		}
+		if ($agent !== '' && $pwd === '') {
+			$configurationOK = false;
+			throw new ConfigurationIssueException(
+				'No password is given for the user agent',
+				$this->l10n->t('No password is given for the user agent'),
+			);
 		}
 
 		$base = $this->configuration->ldapBase;
@@ -511,30 +520,27 @@ class Connection extends LDAPUtility {
 		$baseGroups = $this->configuration->ldapBaseGroups;
 
 		if (empty($base) && empty($baseUsers) && empty($baseGroups)) {
-			$this->logger->warning(
-				$errorStr . 'Not a single Base DN given.',
-				['app' => 'user_ldap']
-			);
 			$configurationOK = false;
+			throw new ConfigurationIssueException(
+				'Not a single Base DN given.',
+				$this->l10n->t('No LDAP base DN was given'),
+			);
 		}
 
-		if (mb_strpos((string)$this->configuration->ldapLoginFilter, '%uid', 0, 'UTF-8')
-		   === false) {
-			$this->logger->warning(
-				$errorStr . 'login filter does not contain %uid place holder.',
-				['app' => 'user_ldap']
-			);
+		if (mb_strpos((string)$this->configuration->ldapLoginFilter, '%uid', 0, 'UTF-8') === false) {
 			$configurationOK = false;
+			throw new ConfigurationIssueException(
+				'Login filter does not contain %uid place holder.',
+				$this->l10n->t('Login filter does not contain %uid place holder'),
+			);
 		}
-
-		return $configurationOK;
 	}
 
 	/**
 	 * Validates the user specified configuration
 	 * @return bool true if configuration seems OK, false otherwise
 	 */
-	private function validateConfiguration(): bool {
+	private function validateConfiguration(bool $throw = false): bool {
 		if ($this->doNotValidate) {
 			//don't do a validation if it is a new configuration with pure
 			//default values. Will be allowed on changes via __set or
@@ -548,7 +554,19 @@ class Connection extends LDAPUtility {
 
 		//second step: critical checks. If left empty or filled wrong, mark as
 		//not configured and give a warning.
-		return $this->doCriticalValidation();
+		try {
+			$this->doCriticalValidation();
+			return true;
+		} catch (ConfigurationIssueException $e) {
+			if ($throw) {
+				throw $e;
+			}
+			$this->logger->warning(
+				'Configuration Error (prefix ' . $this->configPrefix . '): ' . $e->getMessage(),
+				['exception' => $e]
+			);
+			return false;
+		}
 	}
 
 
