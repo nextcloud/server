@@ -234,6 +234,8 @@ OC.L10N.register(
     "View only" : "Nur anzeigen",
     "Can edit" : "Kann bearbeiten",
     "Custom permissions" : "Benutzerdefinierte Berechtigungen",
+    "Enter external recipients" : "Externe Empfänger eingeben",
+    "Search for internal recipients" : "Suche nach internen Empfängern",
     "Resharing is not allowed" : "Weiterteilen ist nicht erlaubt",
     "Name or email …" : "Name oder E-Mail-Adresse …",
     "Name, email, or Federated Cloud ID …" : "Name, E-Mail-Adresse oder Federated-Cloud-ID …",

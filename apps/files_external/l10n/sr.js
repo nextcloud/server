@@ -149,7 +149,6 @@ OC.L10N.register(
     "All people" : "Све особе",
     "Advanced settings" : "Напредне поставке",
     "Allow people to mount external storage" : "Дозволи људима да монтирају спољашња складишта",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобални акредитиви се могу користити за пријављивање на више спољних складишта које примају исте акредитиве.",
-    "To access the storage, you need to provide the authentification informations." : "Да бисте приступили складишту, потребно је да наведете информације за потврду идентитета"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобални акредитиви се могу користити за пријављивање на више спољних складишта које примају исте акредитиве."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

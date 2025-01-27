@@ -149,7 +149,6 @@ OC.L10N.register(
     "All people" : "بارلىق كىشىلەر",
     "Advanced settings" : "ئىلغار تەڭشەكلەر",
     "Allow people to mount external storage" : "كىشىلەرنىڭ سىرتقى ساقلىغۇچ ئورنىتىشىغا يول قويۇڭ",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "يەرشارى كىنىشكىسى ئوخشاش سالاھىيەتكە ئىگە كۆپ خىل تاشقى دۇكانلار بىلەن دەلىللەشكە ئىشلىتىلىدۇ.",
-    "To access the storage, you need to provide the authentification informations." : "ساقلاشقا ئېرىشىش ئۈچۈن ، دەلىللەش ئۇچۇرى بىلەن تەمىنلىشىڭىز كېرەك."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "يەرشارى كىنىشكىسى ئوخشاش سالاھىيەتكە ئىگە كۆپ خىل تاشقى دۇكانلار بىلەن دەلىللەشكە ئىشلىتىلىدۇ."
 },
 "nplurals=2; plural=(n != 1);");
