@@ -1,6 +1,5 @@
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
- * SPDX-FileCopyrightText: 2025 Informatyka Boguslawski sp. z o.o. sp.k.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { Entry, Folder, Node } from '@nextcloud/files'
@@ -18,7 +17,7 @@ import PlusSvg from '@mdi/svg/svg/plus.svg?raw'
 import axios from '@nextcloud/axios'
 import logger from '../logger.ts'
 
-let templatesEnabled = loadState<boolean>('files', 'templates_enabled', true)
+const templatesEnabled = loadState<boolean>('files', 'templates_enabled', true)
 let templatesPath = loadState<string|false>('files', 'templates_path', false)
 logger.debug('Templates folder enabled', { templatesEnabled })
 logger.debug('Initial templates folder', { templatesPath })
