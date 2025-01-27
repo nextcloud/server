@@ -42,6 +42,7 @@ OC.L10N.register(
     "Create or edit tags" : "Sukurti ar taisyti žymes",
     "Collaborative tags …" : "Bendradarbiavimo žymės…",
     "Tag name" : "Žymės pavadinimas",
+    "Tag level" : "Žymės lygmuo",
     "Create" : "Sukurti",
     "Update" : "Atnaujinti",
     "Delete" : "Ištrinti",

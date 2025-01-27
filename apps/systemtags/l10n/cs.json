@@ -81,7 +81,9 @@
     "Failed to load tags" : "Štítky se nepodařilo načíst",
     "Failed to load selected tags" : "Vybrané štítky se nepodařilo načíst",
     "Failed to select tag" : "Štítek se nepodařilo načíst",
+    "System admin disabled tag creation. You can only use existing ones." : "Správce systému zakázal vytváření štítků. Je možné pouze používat ty stávající.",
     "System tag creation" : "Vytvoření systémového štítku",
+    "If enabled, regular accounts will be restricted from creating new tags but will still be able to assign and remove them from their files." : "Pokud zapnuto, běžné účty nebudou moci vytvářet nové štítky, ale pořád ještě budou moci přiřazovat a odebírat je ze svých souborů.",
     "Restrict tag creation to admins only" : "Umožnit vytváření štítků pouze správcům",
     "Unable to update setting" : "Nedaří se nahrát nastavení",
     "System tag creation is now restricted to administrators" : "Systémové štítky nyní mohou vytvářet pouze správci",
@@ -100,6 +102,7 @@
     "Failed to set tag for file" : "Nepodařilo se nastavit štítek pro soubor",
     "Failed to delete tag for file" : "Nepodařilo se smazat štítek pro soubor",
     "This file has the tag {tag}" : "Tento soubor má štítek {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Tento soubor má štítky {firstTags} a {lastTag}"
+    "This file has the tags {firstTags} and {lastTag}" : "Tento soubor má štítky {firstTags} a {lastTag}",
+    "System tag creation is now ${isRestricted ? " : "Vytváření systémových štítků je nyní ${isRestricted ? "
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

@@ -149,7 +149,6 @@ OC.L10N.register(
     "All people" : "Alle personer",
     "Advanced settings" : "Avancerede indstillinger",
     "Allow people to mount external storage" : "Tillad personer at montere eksternt lager",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale legitimationsoplysninger kan bruges til at godkende med flere eksterne lager, der har de samme legitimationsoplysninger.",
-    "To access the storage, you need to provide the authentification informations." : "For at tilgå lageret, så skal du angive godkendelsesinformationerne."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale legitimationsoplysninger kan bruges til at godkende med flere eksterne lager, der har de samme legitimationsoplysninger."
 },
 "nplurals=2; plural=(n != 1);");

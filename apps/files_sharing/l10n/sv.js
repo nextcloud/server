@@ -234,6 +234,8 @@ OC.L10N.register(
     "View only" : "Skrivskyddat läge",
     "Can edit" : "Kan ändra",
     "Custom permissions" : "Anpassade behörigheter",
+    "Enter external recipients" : "Ange externa mottagare",
+    "Search for internal recipients" : "Sök efter interna mottagare",
     "Resharing is not allowed" : "Dela vidare är inte tillåtet",
     "Name or email …" : "Namn eller e-post ...",
     "Name, email, or Federated Cloud ID …" : "Namn, e-post eller federerat moln-ID ...",

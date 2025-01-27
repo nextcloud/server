@@ -14,6 +14,7 @@ OC.L10N.register(
     "{temperature} {unit} clear sky" : "{temperature} {unit}, giedra",
     "{temperature} {unit} cloudy later today" : "Šiandien vėliau bus {temperature} {unit}, debesuota",
     "{temperature} {unit} cloudy" : "{temperature} {unit}, debesuota",
+    "{temperature} {unit} snow" : "{temperature} {unit}, sniegas",
     "{temperature} {unit} fair weather later today" : "Šiandien vėliau bus {temperature} {unit}, mažai debesuota",
     "{temperature} {unit} fair weather" : "{temperature} {unit}, mažai debesuota",
     "{temperature} {unit} partly cloudy later today" : "Šiandien vėliau bus {temperature} {unit}, su pragiedruliais",
@@ -44,6 +45,7 @@ OC.L10N.register(
     "There was an error setting the location address." : "Nustatant vietos adresą, įvyko klaida.",
     "There was an error setting the location." : "Nustatant vietą, įvyko klaida.",
     "There was an error saving the mode." : "Įrašant veikseną, įvyko klaida.",
-    "There was an error using personal address." : "Naudojant asmeninį adresą, įvyko klaida."
+    "There was an error using personal address." : "Naudojant asmeninį adresą, įvyko klaida.",
+    "Unknown weather code" : "Nežinomas orų kodas"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

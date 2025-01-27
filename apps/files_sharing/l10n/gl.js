@@ -234,6 +234,8 @@ OC.L10N.register(
     "View only" : "Só ver",
     "Can edit" : "Pode editar",
     "Custom permissions" : "Permisos personalizados",
+    "Enter external recipients" : "Introduza os destinatarios externos",
+    "Search for internal recipients" : "Busca de destinatarios internos",
     "Resharing is not allowed" : "Non se permite volver compartir",
     "Name or email …" : "Nome ou correo…",
     "Name, email, or Federated Cloud ID …" : "Nome, correo ou ID de nube federada…",

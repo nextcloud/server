@@ -103,6 +103,9 @@
     "Cannot increase permissions of %s" : "Negalima pridėti papildomų %s leidimų",
     "Expiration date is in the past" : "Bendrinimo pabaigos data yra praėjęs laikas",
     "Path is already shared with this group" : "Kelias jau yra bendrinamas su šia grupe",
+    "Sharing is disabled" : "Bendrinimas yra išjungtas",
+    "Share does not have a full ID" : "Viešinys neturi viso ID",
+    "Group \"%s\" does not exist" : "Grupės „%s“ nėra",
     "The requested share does not exist anymore" : "Pageidaujamas bendrinimas daugiau neegzistuoja.",
     "Could not find category \"%s\"" : "Nepavyko rasti kategorijos „%s“",
     "Sunday" : "Sekmadienis",
@@ -152,6 +155,7 @@
     "Dec." : "Grd.",
     "A valid password must be provided" : "Slaptažodis turi būti tinkamas",
     "Could not create account" : "Nepavyko sukurti paskyros",
+    "Account disabled" : "Paskyra išjungta",
     "Login canceled by app" : "Programėlė nutraukė prisijungimo procesą",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Programėlė \"%1$s\" negali būti įdiegta, nes nėra patenkinamos šios priklausomybės: %2$s",
     "a safe home for all your data" : "saugūs namai visiems jūsų duomenims",
@@ -188,6 +192,7 @@
     "%1$s shared »%2$s« with you." : "%1$s pasidalino „%2$s“ su jumis.",
     "Click the button below to open it." : "Norėdami atverti failą, spustelėkite mygtuką žemiau.",
     "File is currently busy, please try again later" : "Failas šiuo metu yra užimtas, prašome vėliau pabandyti dar kartą",
+    "Cannot download file" : "Nepavyksta atsisiųsti failo",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Įsitikinkite, kad šakniniame duomenų kataloge yra failas, pavadinimu „.ocdata“."
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }
