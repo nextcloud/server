@@ -117,11 +117,24 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	public function dataUpdateStylesheetError() {
+		$urls = [
+			'url' => 'web address',
+			'imprintUrl' => 'legal notice address',
+			'privacyUrl' => 'privacy policy address',
+		];
+
+		$urlTests = [];
+		foreach ($urls as $urlKey => $urlName) {
+			// Check length limit
+			$urlTests[] = [$urlKey, 'http://example.com/' . str_repeat('a', 501), "The given {$urlName} is too long"];
+			// Check potential evil javascript
+			$urlTests[] = [$urlKey, 'javascript:alert(1)', "The given {$urlName} is not a valid URL"];
+			// Check XSS
+			$urlTests[] = [$urlKey, 'https://example.com/"><script/src="alert(\'1\')"><a/href/="', "The given {$urlName} is not a valid URL"];
+		}
+
 		return [
 			['name', str_repeat('a', 251), 'The given name is too long'],
-			['url', 'http://example.com/' . str_repeat('a', 501), 'The given web address is too long'],
-			['url', str_repeat('a', 501), 'The given web address is not a valid URL'],
-			['url', 'javascript:alert(1)', 'The given web address is not a valid URL'],
 			['slogan', str_repeat('a', 501), 'The given slogan is too long'],
 			['primary_color', '0082C9', 'The given color is invalid'],
 			['primary_color', '#0082Z9', 'The given color is invalid'],
@@ -129,10 +142,8 @@ class ThemingControllerTest extends TestCase {
 			['background_color', '0082C9', 'The given color is invalid'],
 			['background_color', '#0082Z9', 'The given color is invalid'],
 			['background_color', 'Nextcloud', 'The given color is invalid'],
-			['imprintUrl', '0082C9', 'The given legal notice address is not a valid URL'],
-			['imprintUrl', '0082C9', 'The given legal notice address is not a valid URL'],
-			['imprintUrl', 'javascript:foo', 'The given legal notice address is not a valid URL'],
-			['privacyUrl', '#0082Z9', 'The given privacy policy address is not a valid URL'],
+
+			...$urlTests,
 		];
 	}
 
