@@ -1992,6 +1992,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Security\\IdentityProof\\Manager' => __DIR__ . '/../../..' . '/lib/private/Security/IdentityProof/Manager.php',
         'OC\\Security\\IdentityProof\\Signer' => __DIR__ . '/../../..' . '/lib/private/Security/IdentityProof/Signer.php',
         'OC\\Security\\Ip\\Address' => __DIR__ . '/../../..' . '/lib/private/Security/Ip/Address.php',
+        'OC\\Security\\Ip\\BruteforceAllowList' => __DIR__ . '/../../..' . '/lib/private/Security/Ip/BruteforceAllowList.php',
         'OC\\Security\\Ip\\Factory' => __DIR__ . '/../../..' . '/lib/private/Security/Ip/Factory.php',
         'OC\\Security\\Ip\\Range' => __DIR__ . '/../../..' . '/lib/private/Security/Ip/Range.php',
         'OC\\Security\\Ip\\RemoteAddress' => __DIR__ . '/../../..' . '/lib/private/Security/Ip/RemoteAddress.php',
