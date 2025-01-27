@@ -271,6 +271,7 @@ class Log implements ILogger, IDataLogger {
 		if (!isset($logCondition['matches'])) {
 			$configLogLevel = $this->config->getValue('loglevel', ILogger::WARN);
 			if (is_numeric($configLogLevel)) {
+				$this->nestingLevel--;
 				return min((int)$configLogLevel, ILogger::FATAL);
 			}
 
