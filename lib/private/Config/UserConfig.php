@@ -58,10 +58,6 @@ class UserConfig implements IUserConfig {
 	private array $lazyCache = [];   // cache for lazy config keys
 	/** @var array<string, array<string, array<string, array<string, mixed>>>> ['user_id' => ['app_id' => ['key' => ['type' => ValueType, 'flags' => bitflag]]]] */
 	private array $valueDetails = [];  // type for all config values
-	/** @var array<string, array<string, array<string, ValueType>>> ['user_id' => ['app_id' => ['key' => bitflag]]] */
-	private array $valueTypes = [];  // type for all config values
-	/** @var array<string, array<string, array<string, int>>> ['user_id' => ['app_id' => ['key' => bitflag]]] */
-	private array $valueFlags = [];  // type for all config values
 	/** @var array<string, boolean> ['user_id' => bool] */
 	private array $fastLoaded = [];
 	/** @var array<string, boolean> ['user_id' => bool] */
@@ -1511,6 +1507,7 @@ class UserConfig implements IUserConfig {
 
 		unset($this->lazyCache[$userId][$app][$key]);
 		unset($this->fastCache[$userId][$app][$key]);
+		unset($this->valueDetails[$userId][$app][$key]);
 	}
 
 	/**
