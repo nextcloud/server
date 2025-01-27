@@ -4,9 +4,7 @@
  */
 import { defineStore } from 'pinia'
 
-export const useSearchStore = defineStore({
-	id: 'search',
-
+export const useSearchStore = defineStore('search', {
 	state: () => ({
 		externalFilters: [],
 	}),
