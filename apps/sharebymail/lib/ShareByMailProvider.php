@@ -275,10 +275,9 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 				// Lastly, if the mail to recipient failed, we send the password to the owner as a fallback.
 				// If a password expires, the recipient will still be able to request a new one via talk.
 				$passwordExpire = $this->config->getSystemValue('sharing.enable_mail_link_password_expiration', false);
-				$passwordEnforced = $this->shareManager->shareApiLinkEnforcePassword();
 				if ($passwordExpire === false || $share->getSendPasswordByTalk()) {
 					$send = $this->sendPassword($share, $share->getPassword(), $validEmails);
-					if ($passwordEnforced && $send === false) {
+					if ($send === false) {
 						$this->sendPasswordToOwner($share, $share->getPassword());
 					}
 				}
