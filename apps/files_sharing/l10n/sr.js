@@ -234,6 +234,8 @@ OC.L10N.register(
     "View only" : "Само преглед",
     "Can edit" : "Може да уређује",
     "Custom permissions" : "Произвољне дозволе",
+    "Enter external recipients" : "Унесите спољне примаоце",
+    "Search for internal recipients" : "Претрага спољних примаоца",
     "Resharing is not allowed" : "Дељење даље није дозвољено",
     "Name or email …" : "Име или адреса е-поште…",
     "Name, email, or Federated Cloud ID …" : "Ime, imejl ili ID u federalnom oblaku…",

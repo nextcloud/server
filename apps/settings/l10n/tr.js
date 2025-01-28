@@ -249,6 +249,7 @@ OC.L10N.register(
     "The PHP max_input_time is too low. A time of at least %1$s is recommended. Current value: %2$s." : "PHP max_input_time değeri çok küçük. En az %1$s olması önerilir. Geçerli değer: %2$s.",
     "The PHP max_execution_time is too low. A time of at least %1$s is recommended. Current value: %2$s." : "PHP max_execution_time değeri çok küçük. En az %1$s olması önerilir. Geçerli değer: %2$s.",
     "PHP memory limit" : "PHP bellek sınırı",
+    "The PHP memory limit is below the recommended value of %s. Some features or apps - including the Updater - may not function properly." : "PHP bellek sınırı önerilen %s değerinin altında. Güncelleyici ile birlikte bazı özellikler veya uygulamalar düzgün çalışmayabilir.",
     "PHP modules" : "PHP modülleri",
     "increases language translation performance and fixes sorting of non-ASCII characters" : "dil çeviri başarımını artırır ve ASCII olmayan karakterlerin sıralamasını düzeltir",
     "for Argon2 for password hashing" : "Argon2 ile parola karması için",
