@@ -327,6 +327,8 @@ class ShareByMailProviderTest extends TestCase {
 			->with('sharing.enable_mail_link_password_expiration')
 			->willReturn(true);
 
+		$this->settingsManager->expects($this->once())->method('sendPasswordByMail')->willReturn(true);
+
 		// No password has been set and no password sent via talk has been requested,
 		// but password has been enforced for the whole instance and will be generated.
 		$instance->expects($this->once())->method('sendEmail')->with($share, ['receiver@example.com']);
