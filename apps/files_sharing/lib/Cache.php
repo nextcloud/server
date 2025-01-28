@@ -63,12 +63,12 @@ class Cache extends CacheJail {
 				/** @var Jail $currentStorage */
 				$absoluteRoot = $currentStorage->getJailedPath($absoluteRoot);
 			}
-			$this->root = $absoluteRoot;
+			$this->root = $absoluteRoot ?? '';
 		}
 		return $this->root;
 	}
 
-	protected function getGetUnjailedRoot() {
+	protected function getGetUnjailedRoot(): string {
 		return $this->sourceRootInfo->getPath();
 	}
 

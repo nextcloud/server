@@ -109,7 +109,7 @@ class Cache implements ICache {
 	/**
 	 * get the stored metadata of a file or folder
 	 *
-	 * @param string | int $file either the path of a file or folder or the file id for a file or folder
+	 * @param string|int $file either the path of a file or folder or the file id for a file or folder
 	 * @return ICacheEntry|false the cache entry as array or false if the file is not found in the cache
 	 */
 	public function get($file) {
@@ -131,15 +131,17 @@ class Cache implements ICache {
 		$data = $result->fetch();
 		$result->closeCursor();
 
-		//merge partial data
-		if (!$data && is_string($file) && isset($this->partial[$file])) {
-			return $this->partial[$file];
-		} elseif (!$data) {
-			return $data;
-		} else {
+		if ($data !== false) {
 			$data['metadata'] = $metadataQuery->extractMetadata($data)->asArray();
 			return self::cacheEntryFromData($data, $this->mimetypeLoader);
+		} else {
+			//merge partial data
+			if (is_string($file) && isset($this->partial[$file])) {
+				return $this->partial[$file];
+			}
 		}
+
+		return false;
 	}
 
 	/**
@@ -886,19 +888,23 @@ class Cache implements ICache {
 	/**
 	 * Re-calculate the folder size and the size of all parent folders
 	 *
-	 * @param string|boolean $path
-	 * @param array $data (optional) meta data of the folder
+	 * @param array|ICacheEntry|null $data (optional) meta data of the folder
 	 */
-	public function correctFolderSize($path, $data = null, $isBackgroundScan = false) {
+	public function correctFolderSize(string $path, $data = null, bool $isBackgroundScan = false): void {
 		$this->calculateFolderSize($path, $data);
+
 		if ($path !== '') {
 			$parent = dirname($path);
 			if ($parent === '.' || $parent === '/') {
 				$parent = '';
 			}
+
 			if ($isBackgroundScan) {
 				$parentData = $this->get($parent);
-				if ($parentData['size'] !== -1 && $this->getIncompleteChildrenCount($parentData['fileid']) === 0) {
+				if ($parentData !== false
+					&& $parentData['size'] !== -1
+					&& $this->getIncompleteChildrenCount($parentData['fileid']) === 0
+				) {
 					$this->correctFolderSize($parent, $parentData, $isBackgroundScan);
 				}
 			} else {
@@ -1009,8 +1015,8 @@ class Cache implements ICache {
 			}
 
 			// only set unencrypted size for a folder if any child entries have it set, or the folder is empty
-			$shouldWriteUnEncryptedSize = $unencryptedMax > 0 || $totalSize === 0 || $entry['unencrypted_size'] > 0;
-			if ($entry['size'] !== $totalSize || ($entry['unencrypted_size'] !== $unencryptedTotal && $shouldWriteUnEncryptedSize)) {
+			$shouldWriteUnEncryptedSize = $unencryptedMax > 0 || $totalSize === 0 || ($entry['unencrypted_size'] ?? 0) > 0;
+			if ($entry['size'] !== $totalSize || (($entry['unencrypted_size'] ?? 0) !== $unencryptedTotal && $shouldWriteUnEncryptedSize)) {
 				if ($shouldWriteUnEncryptedSize) {
 					// if all children have an unencrypted size of 0, just set the folder unencrypted size to 0 instead of summing the sizes
 					if ($unencryptedMax === 0) {

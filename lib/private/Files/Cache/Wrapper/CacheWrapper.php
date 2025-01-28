@@ -221,12 +221,12 @@ class CacheWrapper extends Cache {
 	/**
 	 * update the folder size and the size of all parent folders
 	 *
-	 * @param string|boolean $path
-	 * @param array $data (optional) meta data of the folder
+	 * @param array|ICacheEntry|null $data (optional) meta data of the folder
 	 */
-	public function correctFolderSize($path, $data = null, $isBackgroundScan = false) {
-		if ($this->getCache() instanceof Cache) {
-			$this->getCache()->correctFolderSize($path, $data, $isBackgroundScan);
+	public function correctFolderSize(string $path, $data = null, bool $isBackgroundScan = false): void {
+		$cache = $this->getCache();
+		if ($cache instanceof Cache) {
+			$cache->correctFolderSize($path, $data, $isBackgroundScan);
 		}
 	}
 
@@ -238,8 +238,9 @@ class CacheWrapper extends Cache {
 	 * @return int|float
 	 */
 	public function calculateFolderSize($path, $entry = null) {
-		if ($this->getCache() instanceof Cache) {
-			return $this->getCache()->calculateFolderSize($path, $entry);
+		$cache = $this->getCache();
+		if ($cache instanceof Cache) {
+			return $cache->calculateFolderSize($path, $entry);
 		} else {
 			return 0;
 		}
