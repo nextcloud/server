@@ -130,7 +130,7 @@ abstract class NativeStream implements File {
 	 */
 	public function stream_stat() {
 		try {
-			return $this->state->stat($this->url);
+			return $this->state->fstat($this->handle, $this->url);
 		} catch (Exception $e) {
 			return false;
 		}
