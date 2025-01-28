@@ -15,6 +15,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\Server;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -159,7 +160,7 @@ class Connection extends LDAPUtility {
 		$this->doNotValidate = !in_array($this->configPrefix,
 			$helper->getServerConfigurationPrefixes());
 		$this->logger = Server::get(LoggerInterface::class);
-		$this->l10n = Server::get(IL10N::class);
+		$this->l10n = Util::getL10N('user_ldap');
 	}
 
 	public function __destruct() {

@@ -1,5 +1,6 @@
 <?php
 
+use OCA\User_LDAP\Exceptions\ConfigurationIssueException;
 use OCA\User_LDAP\LDAP;
 use OCP\ISession;
 use OCP\Server;
