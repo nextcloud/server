@@ -69,7 +69,7 @@ export default defineComponent({
 		},
 
 		debouncedOnUpdate() {
-			return debounce(this.onUpdate, 500)
+			return debounce(this.onUpdate, 1000)
 		},
 	},
 
