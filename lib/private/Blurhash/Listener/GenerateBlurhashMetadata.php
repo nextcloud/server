@@ -27,7 +27,7 @@ use OCP\Lock\LockedException;
  * @template-implements IEventListener<AMetadataEvent>
  */
 class GenerateBlurhashMetadata implements IEventListener {
-	private const RESIZE_BOXSIZE = 300;
+	private const RESIZE_BOXSIZE = 30;
 
 	private const COMPONENTS_X = 4;
 	private const COMPONENTS_Y = 3;
