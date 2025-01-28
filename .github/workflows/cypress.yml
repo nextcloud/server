@@ -153,7 +153,7 @@ jobs:
 
       - name: Extract NC logs
         if: failure() && matrix.containers != 'component'
-        run: docker logs nextcloud-cypress-tests-${{ env.APP_NAME }} > nextcloud.log
+        run: docker logs nextcloud-cypress-tests_${{ env.APP_NAME }} > nextcloud.log
 
       - name: Upload NC logs
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
@@ -164,7 +164,7 @@ jobs:
 
       - name: Create data dir archive
         if: failure() && matrix.containers != 'component'
-        run: docker exec nextcloud-cypress-tests_server tar -cvjf - data > data.tar
+        run: docker exec nextcloud-cypress-tests_${{ env.APP_NAME }} tar -cvjf - data > data.tar
 
       - name: Upload data dir archive
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
