@@ -249,6 +249,7 @@ OC.L10N.register(
     "The PHP max_input_time is too low. A time of at least %1$s is recommended. Current value: %2$s." : "The PHP max_input_time is too low. A time of at least %1$s is recommended. Current value: %2$s.",
     "The PHP max_execution_time is too low. A time of at least %1$s is recommended. Current value: %2$s." : "The PHP max_execution_time is too low. A time of at least %1$s is recommended. Current value: %2$s.",
     "PHP memory limit" : "PHP memory limit",
+    "The PHP memory limit is below the recommended value of %s. Some features or apps - including the Updater - may not function properly." : "The PHP memory limit is below the recommended value of %s. Some features or apps - including the Updater - may not function properly.",
     "PHP modules" : "PHP modules",
     "increases language translation performance and fixes sorting of non-ASCII characters" : "increases language translation performance and fixes sorting of non-ASCII characters",
     "for Argon2 for password hashing" : "for Argon2 for password hashing",

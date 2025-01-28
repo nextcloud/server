@@ -249,6 +249,7 @@ OC.L10N.register(
     "The PHP max_input_time is too low. A time of at least %1$s is recommended. Current value: %2$s." : "PHP max_input_time 設定值太低。建議至少為 %1$s。目前值：%2$s。",
     "The PHP max_execution_time is too low. A time of at least %1$s is recommended. Current value: %2$s." : "PHP max_execution_time 設定值太低。建議至少為 %1$s。目前值：%2$s。",
     "PHP memory limit" : "PHP 記憶體限制",
+    "The PHP memory limit is below the recommended value of %s. Some features or apps - including the Updater - may not function properly." : "PHP 記憶體限制低於建議值 %s。某些功能或應用程式（包括更新器）可能無法正常運作。",
     "PHP modules" : "PHP 模組",
     "increases language translation performance and fixes sorting of non-ASCII characters" : "提昇語言翻譯效能並修復非 ASCII 字元的排序",
     "for Argon2 for password hashing" : "用於 Argon2 進行密碼散列處理",

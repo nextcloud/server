@@ -360,7 +360,7 @@ OC.L10N.register(
     "Enforce password protection" : "Imposer la protection par mot de passe",
     "Exclude groups from password requirements" : "Exclure des groupes des contraintes de mot de passe",
     "Exclude groups from creating link shares" : "Interdire à des groupes de créer liens de partage",
-    "Allow users to set custom share link tokens" : "Permettre aux utilisateurs de personnaliser le jeton de partage",
+    "Allow users to set custom share link tokens" : "Permettre aux utilisateurs de définir des jetons personnalisés de liens de partage",
     "Shares with custom tokens will continue to be accessible after this setting has been disabled" : "Les partages utilisant un jeton personnalisé continueront d'être accessibles après la désactivation de ce paramètre",
     "Shares with guessable tokens may be accessed easily" : "Les partages avec des jetons devinables pourraient être accédés plus facilement",
     "Limit sharing based on groups" : "Limiter le partage selon les groupes",

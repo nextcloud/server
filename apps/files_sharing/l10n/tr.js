@@ -234,6 +234,8 @@ OC.L10N.register(
     "View only" : "Yalnızca görüntüleme",
     "Can edit" : "Düzenleyebilir",
     "Custom permissions" : "Özel izinler",
+    "Enter external recipients" : "Dış alıcıları yazın",
+    "Search for internal recipients" : "İç alıcıları arayın",
     "Resharing is not allowed" : "Yeniden paylaşıma izin verilmiyor",
     "Name or email …" : "Ad ya da e-posta adresi …",
     "Name, email, or Federated Cloud ID …" : "Ad, e-posta ya da birleşik bulut kimliği…",
