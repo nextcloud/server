@@ -474,7 +474,7 @@ img, video {
 			linear-gradient(45deg, transparent 75%, #{$checkered-color} 75%),
 			linear-gradient(45deg, transparent 75%, #{$checkered-color} 75%),
 			linear-gradient(45deg, #{$checkered-color} 25%, #fff 25%);
-		background-size: 2 * $checkered-size 2 * $checkered-size;
+		background-size: #{2 * $checkered-size} #{2 * $checkered-size};
 		background-position: 0 0, 0 0, -#{$checkered-size} -#{$checkered-size}, $checkered-size $checkered-size;
 	}
 	&.loaded {
