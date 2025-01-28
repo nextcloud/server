@@ -456,8 +456,6 @@ class Connection extends LDAPUtility {
 	 * @throws ConfigurationIssueException
 	 */
 	private function doCriticalValidation(): void {
-		$configurationOK = true;
-
 		//options that shall not be empty
 		$options = ['ldapHost', 'ldapUserDisplayName',
 			'ldapGroupDisplayName', 'ldapLoginFilter'];
@@ -490,7 +488,6 @@ class Connection extends LDAPUtility {
 						$subj = $key;
 						break;
 				}
-				$configurationOK = false;
 				throw new ConfigurationIssueException(
 					'No ' . $subj . ' given!',
 					$this->l10n->t('Mandatory field "%s" left empty', $subj),
@@ -502,14 +499,12 @@ class Connection extends LDAPUtility {
 		$agent = $this->configuration->ldapAgentName;
 		$pwd = $this->configuration->ldapAgentPassword;
 		if ($agent === '' && $pwd !== '') {
-			$configurationOK = false;
 			throw new ConfigurationIssueException(
 				'A password is given, but not an LDAP agent',
 				$this->l10n->t('A password is given, but not an LDAP agent'),
 			);
 		}
 		if ($agent !== '' && $pwd === '') {
-			$configurationOK = false;
 			throw new ConfigurationIssueException(
 				'No password is given for the user agent',
 				$this->l10n->t('No password is given for the user agent'),
@@ -520,21 +515,52 @@ class Connection extends LDAPUtility {
 		$baseUsers = $this->configuration->ldapBaseUsers;
 		$baseGroups = $this->configuration->ldapBaseGroups;
 
-		if (empty($base) && empty($baseUsers) && empty($baseGroups)) {
-			$configurationOK = false;
+		if (empty($base)) {
 			throw new ConfigurationIssueException(
-				'Not a single Base DN given.',
+				'Not a single Base DN given',
 				$this->l10n->t('No LDAP base DN was given'),
 			);
 		}
 
+		if (!empty($baseUsers) && !$this->checkBasesAreValid($baseUsers, $base)) {
+			throw new ConfigurationIssueException(
+				'User base is not in root base',
+				$this->l10n->t('User base DN is not a subnode of global base DN'),
+			);
+		}
+
+		if (!empty($baseGroups) && !$this->checkBasesAreValid($baseGroups, $base)) {
+			throw new ConfigurationIssueException(
+				'Group base is not in root base',
+				$this->l10n->t('Group base DN is not a subnode of global base DN'),
+			);
+		}
+
 		if (mb_strpos((string)$this->configuration->ldapLoginFilter, '%uid', 0, 'UTF-8') === false) {
-			$configurationOK = false;
 			throw new ConfigurationIssueException(
 				'Login filter does not contain %uid place holder.',
 				$this->l10n->t('Login filter does not contain %uid place holder'),
 			);
 		}
+	}
+
+	/**
+	 * Checks that all bases are subnodes of one of the root bases
+	 */
+	private function checkBasesAreValid(array $bases, array $rootBases): bool {
+		foreach ($bases as $base) {
+			$ok = false;
+			foreach ($rootBases as $rootBase) {
+				if (str_ends_with($base, $rootBase)) {
+					$ok = true;
+					break;
+				}
+			}
+			if (!$ok) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**

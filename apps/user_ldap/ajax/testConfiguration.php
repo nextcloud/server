@@ -23,19 +23,18 @@ $connection = new \OCA\User_LDAP\Connection($ldapWrapper, $_POST['ldap_servercon
 
 
 try {
-	$configurationOk = true;
 	$configurationError = '';
 	$conf = $connection->getConfiguration();
 	if ($conf['ldap_configuration_active'] === '0') {
 		//needs to be true, otherwise it will also fail with an irritating message
 		$conf['ldap_configuration_active'] = '1';
-		try {
-			$configurationOk = $connection->setConfiguration($conf, throw:true);
-		} catch (ConfigurationIssueException $e) {
-			$configurationError = $e->getHint();
-		}
 	}
-	if ($configurationOk) {
+	try {
+		$connection->setConfiguration($conf, throw:true);
+	} catch (ConfigurationIssueException $e) {
+		$configurationError = $e->getHint();
+	}
+	if ($configurationError === '') {
 		//Configuration is okay
 		/*
 		 * Closing the session since it won't be used from this point on. There might be a potential
