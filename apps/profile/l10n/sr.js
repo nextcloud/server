@@ -1,6 +1,9 @@
 OC.L10N.register(
     "profile",
     {
+    "Profile" : "Профил",
+    "This application provides the profile" : "Ова апликација обезбеђује профил",
+    "Provides a customisable user profile interface." : "Обезбеђује интерфејс корисничког профила који може да се прилагоди.",
     "Edit Profile" : "Уреди профил",
     "The headline and about sections will show up here" : "Овде ће се појавити насловна линија и одељак „о”",
     "You have not added any info yet" : "Још увек нисте додали никакве информације",

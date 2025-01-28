@@ -30,6 +30,8 @@ OC.L10N.register(
     "Allow people on this server to receive group shares from other servers" : "Autoriser les personnes de ce serveur à recevoir des partages de groupe d'autres serveurs",
     "Search global and public address book for people" : "Rechercher dans le carnet d'adresses global et public pour les personnes",
     "Allow people to publish their data to a global and public address book" : "Autoriser les personnes à publier leurs données dans un carnet d'adresses global et public",
+    "Trusted federation" : "Fédération de confiance",
+    "Automatically accept shares from trusted federated accounts and groups by default" : "Accepter par défaut automatiquement les partages provenant de comptes et de groupes fédérés de confiance",
     "Unable to update federated files sharing config" : "Impossible de mettre à jour la configuration du partage fédéré de fichiers ",
     "Federated Cloud" : "Cloud Fédéré",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Vous pouvez partager avec quiconque utilise un serveur Nextcloud ou un serveur ou service compatible Open Cloud Mesh (OCM). Renseignez simplement son ID de Cloud Fédéré sur une instance fédérée dans la boîte de dialogue de partage. Cela ressemble à utilisateur@cloud.exemple.com.",

@@ -249,6 +249,7 @@ OC.L10N.register(
     "The PHP max_input_time is too low. A time of at least %1$s is recommended. Current value: %2$s." : "PHP вредност max_input_time је сувише мала. Препоручује се барем %1$s. Тренутна вредност: %2$s.",
     "The PHP max_execution_time is too low. A time of at least %1$s is recommended. Current value: %2$s." : "PHP вредност max_execution_time је сувише мала. Препоручује се барем %1$s. Тренутна вредност: %2$s.",
     "PHP memory limit" : "Ограничење PHP меморије",
+    "The PHP memory limit is below the recommended value of %s. Some features or apps - including the Updater - may not function properly." : "Ограничење PHP меморије је испод препоручене вредности од %s. Неке функције или апликације - укључујући и апликацију за ажурирање - можда неће радити како треба.",
     "PHP modules" : "PHP модули",
     "increases language translation performance and fixes sorting of non-ASCII characters" : "Побољшава перформансе превођења језика и исправља сортирање карактера који нису ASCII",
     "for Argon2 for password hashing" : "за Argon2 за хеширање лозинке",

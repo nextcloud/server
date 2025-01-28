@@ -249,6 +249,7 @@ OC.L10N.register(
     "The PHP max_input_time is too low. A time of at least %1$s is recommended. Current value: %2$s." : "الحد الأقصى لزمن إدخال \"بي إتش بي\" max_input_time قليل جداً. يُوصى بألاّ يقل الزمن عن %1$s. القيمة الحالية: %2$s.",
     "The PHP max_execution_time is too low. A time of at least %1$s is recommended. Current value: %2$s." : "الحد الأقصى لزمن تنفيذ \"بي إتش بي\" max_execute_time قليل جداً. يُوصى بألاّ يقل الزمن عن  %1$s. القيمة الحالية: %2$s.",
     "PHP memory limit" : "حد ذاكرة PHP ",
+    "The PHP memory limit is below the recommended value of %s. Some features or apps - including the Updater - may not function properly." : "حد ذاكرة PHP أقل من المقترح والذي هو %s. بعض المزايا أو التطبيقات مثل المُحدِّث Updater يمكن ألاّ تعمل كما يجب.",
     "PHP modules" : "وحدات الـ PHP",
     "increases language translation performance and fixes sorting of non-ASCII characters" : "يزيد من كفاءة ترجمة اللغات، و يحل مشكلة ترتيب الأحرف غير الآسكي non-ASCII characters",
     "for Argon2 for password hashing" : "لتقطيع كلمات المرور password hashing في Argon2",
