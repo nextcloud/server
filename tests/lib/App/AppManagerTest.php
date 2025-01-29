@@ -116,6 +116,10 @@ class AppManagerTest extends TestCase {
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+
+		$this->overwriteService(AppConfig::class, $this->appConfig);
+		$this->overwriteService(IURLGenerator::class, $this->urlGenerator);
+
 		$this->cacheFactory->expects($this->any())
 			->method('createDistributed')
 			->with('settings')
@@ -130,6 +134,14 @@ class AppManagerTest extends TestCase {
 			$this->logger,
 			$this->urlGenerator,
 		);
+	}
+
+	protected function tearDown(): void {
+		parent::tearDown();
+
+		// Reset static OC_Util
+		$util = new \OC_Util();
+		self::invokePrivate($util, 'versionCache', [null]);
 	}
 
 	/**
@@ -888,4 +900,90 @@ class AppManagerTest extends TestCase {
 
 		$this->assertEquals($expectedApp, $this->manager->getDefaultAppForUser(null, $withFallbacks));
 	}
+
+	public function testGetAppVersion() {
+		$manager = $this->getMockBuilder(AppManager::class)
+			->setConstructorArgs([
+				$this->userSession,
+				$this->config,
+				$this->appConfig,
+				$this->groupManager,
+				$this->cacheFactory,
+				$this->eventDispatcher,
+				$this->logger,
+				$this->urlGenerator,
+			])
+			->onlyMethods([
+				'getAppInfo',
+			])
+			->getMock();
+
+		$manager->expects(self::once())
+			->method('getAppInfo')
+			->with('myapp')
+			->willReturn(['version' => '99.99.99-rc.99']);
+
+		$this->assertEquals(
+			'99.99.99-rc.99',
+			$manager->getAppVersion('myapp'),
+		);
+	}
+
+	public function testGetAppVersionCore() {
+		$manager = $this->getMockBuilder(AppManager::class)
+			->setConstructorArgs([
+				$this->userSession,
+				$this->config,
+				$this->appConfig,
+				$this->groupManager,
+				$this->cacheFactory,
+				$this->eventDispatcher,
+				$this->logger,
+				$this->urlGenerator,
+			])
+			->onlyMethods([
+				'getAppInfo',
+			])
+			->getMock();
+
+		$manager->expects(self::never())
+			->method('getAppInfo');
+
+		$util = new \OC_Util();
+		self::invokePrivate($util, 'versionCache', [['OC_VersionString' => '1.2.3-beta.4']]);
+
+		$this->assertEquals(
+			'1.2.3-beta.4',
+			$manager->getAppVersion('core'),
+		);
+	}
+
+	public function testGetAppVersionUnknown() {
+		$manager = $this->getMockBuilder(AppManager::class)
+			->setConstructorArgs([
+				$this->userSession,
+				$this->config,
+				$this->appConfig,
+				$this->groupManager,
+				$this->cacheFactory,
+				$this->eventDispatcher,
+				$this->logger,
+				$this->urlGenerator,
+			])
+			->onlyMethods([
+				'getAppInfo',
+			])
+			->getMock();
+
+		$manager->expects(self::once())
+			->method('getAppInfo')
+			->with('unknown')
+			->willReturn(null);
+
+		$this->assertEquals(
+			'0',
+			$manager->getAppVersion('unknown'),
+		);
+	}
+
 }
