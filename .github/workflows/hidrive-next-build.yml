@@ -17,6 +17,7 @@ on:
       - 'apps/**'
       - 'apps/**/appinfo/info.xml'
       - 'apps-custom/**'
+      - 'IONOS'
       - 'package.json'
       - 'package-lock.json'
       - 'themes/**'
