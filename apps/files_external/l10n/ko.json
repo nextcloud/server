@@ -146,19 +146,6 @@
     "All people" : "모든 사용자",
     "Advanced settings" : "고급 설정",
     "Allow people to mount external storage" : "사용자가 외부 저장소를 마운트하도록 허용",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "전역 인증 정보를 사용하여 같은 인증 정보를 사용하는 여러 외부 저장소에 인증할 수 있습니다.",
-    "Type to select user or group." : "사용자 또는 그룹을 입력하십시오",
-    "Storage with ID \"%d\" is not user editable" : "저장소 ID \"%d\"을(를) 사용자가 편집할 수 없음",
-    "Username" : "사용자 이름",
-    "Username and password" : "사용자 이름과 암호",
-    "Global credentials, user entered" : "전역 인증, 사용자가 입력함",
-    "User entered, store in database" : "사용자 데이터베이스에 저장",
-    "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "경로 내 각 파일과 폴더의 접근 권한을 확인하여 사용자에게 읽기 권한이 없는 파일을 솎아내며, 일부 성능 제약이 발생할 수 있습니다",
-    "Username as share" : "사용자 이름으로 공유",
-    "This application enables administrators to configure connections to external storage providers, such as FTP servers, S3 or SWIFT object stores, other Nextcloud servers, WebDAV servers, and more. Administrators can choose which types of storage to enable and can mount these storage locations for a user, a group, or the entire system. Users will see a new folder appear in their root Nextcloud directory, which they can access and use like any other Nextcloud folder. External storage also allows users to share files stored in these external locations. In these cases, the credentials for the owner of the file are used when the recipient requests the file from external storage, thereby ensuring that the recipient can access the shared file.\n\nExternal storage can be configured using the GUI or at the command line. This second option provides the advanced user with more flexibility for configuring bulk external storage mounts and setting mount priorities. More information is available in the external storage GUI documentation and the external storage Configuration File documentation." : "이 앱을 사용하면 관리자가 FTP 서버, S3 또는 SWIFT 객체 저장소, 다른 Nextcloud 서버, WebDAV 서버 등 외부 저장소 공급자에 연결할 수 있습니다. 관리자는 활성화할 저장소 종류와 저장소 마운트 위치를 사용자, 그룹, 전체 시스템 단위로 설정할 수 있습니다. 사용자의 개별 Nextcloud 루트 디렉터리에 새 폴더가 나타나며, 다른 Nextcloud 폴더처럼 사용할 수 있습니다. 외부 저장소 앱을 사용하여 해당 외부 저장소에 저장된 파일에 접근할 수 있습니다. 이 때 받는 사람이 외부 저장소의 파일을 요청하면 파일 소유자의 인증 정보를 사용하여 해당 파일에 접근할 수 있도록 합니다.\n\n외부 저장소는 GUI나 명령행으로 설정할 수 있습니다. 명령행 옵션을 사용하면 고급 사용자가 대량으로 외부 저장소를 마운트하거나 마운트 우선 순위를 설정하는 등 전문가 설정을 변경할 수 있습니다. 더 많은 정보를 보려면 외부 저장소 GUI 문서와 외부 저장소 설정 파일 문서를 참조하십시오.",
-    "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "외부 저장소를 사용하여 외부 저장소 서비스나 장치를 Nextcloud 이차 저장 장치로 마운트할 수 있습니다. 사용자가 개별 외부 저장소 서비스를 마운트할 수 있도록 허용할 수도 있습니다.",
-    "All users" : "모든 사용자",
-    "Allow users to mount external storage" : "사용자가 외부 저장소를 마운트하도록 허용",
-    "To access the storage, you need to provide the authentification informations." : "저장소에 접근하려면 인증 정보를 제공해야 합니다."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "전역 인증 정보를 사용하여 같은 인증 정보를 사용하는 여러 외부 저장소에 인증할 수 있습니다."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

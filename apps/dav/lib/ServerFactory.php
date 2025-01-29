@@ -10,10 +10,15 @@ declare(strict_types=1);
 namespace OCA\DAV;
 
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
+use OCA\DAV\Connector\Sabre\Server;
 
 class ServerFactory {
 
 	public function createInviationResponseServer(bool $public): InvitationResponseServer {
 		return new InvitationResponseServer(false);
+	}
+
+	public function createAttendeeAvailabilityServer(): Server {
+		return (new InvitationResponseServer(false))->getServer();
 	}
 }

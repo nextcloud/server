@@ -119,12 +119,10 @@
     "Second" : "Druga",
     "Third" : "Trzecia",
     "Fourth" : "Czwarta",
-    "Fifty" : "Piąta",
     "Last" : "Ostatnia",
     "Second Last" : "Druga ostatnia",
     "Third Last" : "Trzecia ostatnia",
     "Fourth Last" : "Czwarty ostatni",
-    "Fifty Last" : "Pięćdziesiąt Ostatni",
     "Contacts" : "Kontakty",
     "{actor} created address book {addressbook}" : "{actor} utworzył książkę adresową {addressbook}",
     "You created address book {addressbook}" : "Utworzyłeś książkę adresową {addressbook}",
@@ -236,11 +234,9 @@
     "Are you accepting the invitation?" : "Czy akceptujesz zaproszenie?",
     "Tentative" : "Niepewne",
     "Your attendance was updated successfully." : "Twoja obecność została pomyślnie zaktualizowana.",
-    "To-dos" : "Do zrobienia",
     "Time:" : "Czas:",
     "Could not open file" : "Nie można otworzyć pliku",
     "Invalid chunk name" : "Nieprawidłowa nazwa fragmentu",
-    "Could not rename part file assembled from chunks" : "Nie można zmienić nazwy pliku podzielonego złożonego z kawałków",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Jeśli skonfigurujesz godziny pracy, inni użytkownicy będą widzieć, kiedy jesteś poza biurem, gdy będą rezerwować spotkanie."
+    "Could not rename part file assembled from chunks" : "Nie można zmienić nazwy pliku podzielonego złożonego z kawałków"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

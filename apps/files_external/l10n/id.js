@@ -93,11 +93,6 @@ OC.L10N.register(
     "Configuration" : "Konfigurasi",
     "Available for" : "Tersedia untuk",
     "Add storage" : "Tambahkan penyimpanan",
-    "Advanced settings" : "Pengaturan Lanjutan",
-    "Username" : "Nama Pengguna",
-    "Username and password" : "Nama pengguna dan kata sandi",
-    "User entered, store in database" : "Dimasukkan pengguna, masukkan dalam basis data",
-    "Username as share" : "Nama pengguna berbagi",
-    "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal"
+    "Advanced settings" : "Pengaturan Lanjutan"
 },
 "nplurals=1; plural=0;");

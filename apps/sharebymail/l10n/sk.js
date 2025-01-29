@@ -27,6 +27,9 @@ OC.L10N.register(
     "Password to access %s" : "Heslo pre prístup k %s",
     "It is protected with the following password:" : "Je chránené nasledovným heslom:",
     "This password will expire at %s" : "Platnosť tohto hesla končí v %s.",
+    "%1$s shared %2$s with you and wants to add:" : "%1$s zdieľal %2$s s vami a chce pridať:",
+    "%1$s shared %2$s with you and wants to add" : "%1$s zdieľal %2$s s vami a chce pridať",
+    "%s added a note to a file shared with you" : "%s pridal poznámku k súboru ktorý s vami zdieľa",
     "This is the password:" : "Toto je heslo:",
     "You can choose a different password at any time in the share dialog." : "Kedykoľvek môžete vybrať iné heslo v okne zdieľania.",
     "Could not find share" : "Nebolo možné nájsť zdieľanie",
@@ -35,7 +38,6 @@ OC.L10N.register(
     "Send password by mail" : "Odoslať heslo e-mailom",
     "Reply to initiator" : "Odpovedať iniciátorovi",
     "Unable to update share by mail config" : "Nepodarila sa aktualizovať konfigurácia zdieľania prostredníctvom e-mailu",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Zdieľanie %1$s zlyhalo, táto položka už je zdieľaná s užívateľom %2$s ",
     "%1$s shared »%2$s« with you" : "%1$s vám sprístupnil »%2$s«",
     "%1$s shared »%2$s« with you." : "%1$s vám sprístupnil »%2$s«.",
     "Click the button below to open it." : "Stlačte tlačidlo nižšie pre otvorenie.",
@@ -48,7 +50,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s vám sprístupnil »%2$s« s poznámkou",
     "»%s« added a note to a file shared with you" : "»%s« pridal poznámku k súboru ktorý s Vami zdieľa",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Práve ste zdieľali „%1$s“ s %2$s. Zdieľanie už bolo odoslané príjemcovi. Z dôvodu bezpečnostných pravidiel definovaných správcom %3$s musí byť každá zdieľaná položka chránená heslom, ktoré nemôže byť priamo poslané príjemcovi. Preto musíte heslo poslať príjemcovi ručne.",
-    "Password to access »%1$s« shared by you with %2$s" : "Heslo pre prístup k „%1$s“, ktoré zdieľate s %2$s",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Povoľuje používateľom zdieľať personalizovaný odkaz na súbor alebo priečinok zadaním e-mailovej adresy."
+    "Password to access »%1$s« shared by you with %2$s" : "Heslo pre prístup k „%1$s“, ktoré zdieľate s %2$s"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

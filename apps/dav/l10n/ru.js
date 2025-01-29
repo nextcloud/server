@@ -119,12 +119,10 @@ OC.L10N.register(
     "Second" : "Второй",
     "Third" : "Третий",
     "Fourth" : "Четвертый",
-    "Fifty" : "Пятый",
     "Last" : "Последний",
     "Second Last" : "Предпоследний",
     "Third Last" : "Третий по счету",
     "Fourth Last" : "Четвертый по счету",
-    "Fifty Last" : "Пятый по счету",
     "Contacts" : "Контакты",
     "{actor} created address book {addressbook}" : "{actor} создал(а) адресную книгу «{addressbook}»",
     "You created address book {addressbook}" : "Вы создали адресную книгу «{addressbook}»",
@@ -238,11 +236,9 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Принять приглашение?",
     "Tentative" : "Под вопросом",
     "Your attendance was updated successfully." : "Статус участия обновлён.",
-    "To-dos" : "Задачи",
     "Time:" : "Время:",
     "Could not open file" : "Не удалось открыть файл",
     "Invalid chunk name" : "Недопустимое имя сегмента",
-    "Could not rename part file assembled from chunks" : "Не удалось переименовать временный файл, сформированный из сегментов",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Если вы настроите свое рабочее время, другие пользователи будут видеть, когда вас нет в офисе, когда они планируют встречу."
+    "Could not rename part file assembled from chunks" : "Не удалось переименовать временный файл, сформированный из сегментов"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

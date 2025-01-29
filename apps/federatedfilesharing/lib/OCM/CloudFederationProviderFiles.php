@@ -10,6 +10,7 @@ use OC\AppFramework\Http;
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\Activity\Providers\RemoteShares;
 use OCA\Files_Sharing\External\Manager;
 use OCA\GlobalSiteSelector\Service\SlaveService;
@@ -66,6 +67,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		private LoggerInterface $logger,
 		private IFilenameValidator $filenameValidator,
 		private readonly IProviderFactory $shareProviderFactory,
+		private TrustedServers $trustedServers,
 	) {
 	}
 
@@ -163,6 +165,11 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 						->setObject('remote_share', $shareId, $name);
 					\OC::$server->getActivityManager()->publish($event);
 					$this->notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name, $ownerDisplayName);
+
+					// If auto-accept is enabled, accept the share
+					if ($this->federatedShareProvider->isFederatedTrustedShareAutoAccept() && $this->trustedServers->isTrustedServer($remote)) {
+						$this->externalShareManager->acceptShare($shareId, $shareWith);
+					}
 				} else {
 					$groupMembers = $this->groupManager->get($shareWith)->getUsers();
 					foreach ($groupMembers as $user) {
@@ -174,8 +181,14 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 							->setObject('remote_share', $shareId, $name);
 						\OC::$server->getActivityManager()->publish($event);
 						$this->notifyAboutNewShare($user->getUID(), $shareId, $ownerFederatedId, $sharedByFederatedId, $name, $ownerDisplayName);
+
+						// If auto-accept is enabled, accept the share
+						if ($this->federatedShareProvider->isFederatedTrustedShareAutoAccept() && $this->trustedServers->isTrustedServer($remote)) {
+							$this->externalShareManager->acceptShare($shareId, $user->getUID());
+						}
 					}
 				}
+
 				return $shareId;
 			} catch (\Exception $e) {
 				$this->logger->error('Server can not add remote share.', [

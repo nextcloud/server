@@ -198,7 +198,7 @@ export default {
 		 * @return {string}
 		 */
 		davPath() {
-			return `${davRemoteURL}/${davRootPath}${encodePath(this.file)}`
+			return `${davRemoteURL}${davRootPath}${encodePath(this.file)}`
 		},
 
 		/**
@@ -245,8 +245,8 @@ export default {
 					},
 					compact: this.hasLowHeight || !this.fileInfo.hasPreview || this.isFullScreen,
 					loading: this.loading,
-					name: this.fileInfo.name,
-					title: this.fileInfo.name,
+					name: this.node?.displayname ?? this.fileInfo.name,
+					title: this.node?.displayname ?? this.fileInfo.name,
 				}
 			} else if (this.error) {
 				return {
@@ -404,10 +404,10 @@ export default {
 		},
 
 		/**
-		 * Toggle favourite state
+		 * Toggle favorite state
 		 * TODO: better implementation
 		 *
-		 * @param {boolean} state favourited or not
+		 * @param {boolean} state is favorite or not
 		 */
 		async toggleStarred(state) {
 			try {
@@ -430,17 +430,21 @@ export default {
 				 */
 				const isDir = this.fileInfo.type === 'dir'
 				const Node = isDir ? Folder : File
-				emit(state ? 'files:favorites:added' : 'files:favorites:removed', new Node({
+				const node = new Node({
 					fileid: this.fileInfo.id,
-					source: this.davPath,
-					root: `/files/${getCurrentUser().uid}`,
+					source: `${davRemoteURL}${davRootPath}${this.file}`,
+					root: davRootPath,
 					mime: isDir ? undefined : this.fileInfo.mimetype,
-				}))
+					attributes: {
+						favorite: 1,
+					},
+				})
+				emit(state ? 'files:favorites:added' : 'files:favorites:removed', node)
 
 				this.fileInfo.isFavourited = state
 			} catch (error) {
-				showError(t('files', 'Unable to change the favourite state of the file'))
-				logger.error('Unable to change favourite state', { error })
+				showError(t('files', 'Unable to change the favorite state of the file'))
+				logger.error('Unable to change favorite state', { error })
 			}
 		},
 
@@ -487,10 +491,10 @@ export default {
 			this.loading = true
 
 			try {
-				this.fileInfo = await FileInfo(this.davPath)
+				this.node = await fetchNode({ path: this.file })
+				this.fileInfo = FileInfo(this.node)
 				// adding this as fallback because other apps expect it
 				this.fileInfo.dir = this.file.split('/').slice(0, -1).join('/')
-				this.node = await fetchNode({ path: (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/') })
 
 				// DEPRECATED legacy views
 				// TODO: remove

@@ -46,6 +46,8 @@ namespace OCA\Provisioning_API;
  *     headlineScope?: Provisioning_APIUserDetailsScope,
  *     id: string,
  *     language: string,
+ *     firstLoginTimestamp: int,
+ *     lastLoginTimestamp: int,
  *     lastLogin: int,
  *     locale: string,
  *     manager: string,

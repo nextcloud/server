@@ -29,7 +29,6 @@ OC.L10N.register(
     "Send password by mail" : "Unviar la contraseña per corréu electrónicu",
     "Reply to initiator" : "Responder al usuariu que comparte l'elementu",
     "Unable to update share by mail config" : "Nun ye posible anovar l'elementu compartíu pela configuración de corréu electrónicu",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "La compartición de «%1$s» falló porque esti elementu yá ta compartíu col usuariu «%2$s»",
     "%1$s shared »%2$s« with you" : "%1$s compartió «%2$s» contigo",
     "%1$s shared »%2$s« with you." : "%1$s compartió «%2$s» contigo.",
     "Click the button below to open it." : "Calca nel botón p'abrilo.",
@@ -42,7 +41,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s compartío «%2$s» contigo y quier amestar",
     "»%s« added a note to a file shared with you" : "«%s» amestó una nota a un ficheru compartíu contigo",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Tas acabante de compartir «%1$s» con %2$s. L'elementu compartíu yá s'unvió al destinatariu. Pola mor de les polítiques de seguranza definíes pola alministración de %3$s cada elementu tien de tar protexíu con una contraseña y nun se permite unviar la contraseña direutamente al destinatariu. Poro, tienes de reunviar la contraseña manualmente al destinatariu.",
-    "Password to access »%1$s« shared by you with %2$s" : "Compartiesti la contraseña p'acceder a «%1$s» con %2$s",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite a los usuarios compartir un enllaz personalizáu a un ficheru o carpeta poniendo una direición de corréu."
+    "Password to access »%1$s« shared by you with %2$s" : "Compartiesti la contraseña p'acceder a «%1$s» con %2$s"
 },
 "nplurals=2; plural=(n != 1);");

@@ -70,9 +70,9 @@ body:
         Select Nextcloud Server version.
         _Versions not listed here are not maintained and not supported anymore_
       options:
-        - "28"
         - "29"
         - "30"
+        - "31"
         - "master"
     validations:
       required: true
@@ -95,10 +95,10 @@ body:
         Select PHP engine version serving Nextcloud Server.
         _Describe in the "Additional info" section if you chose "Other"._
       options:
+        - "PHP 8.4"
         - "PHP 8.3"
         - "PHP 8.2"
         - "PHP 8.1"
-        - "PHP 8.0"
         - "Other"
   - type: dropdown
     id: webserver
@@ -132,8 +132,8 @@ body:
       description: |
         Select if bug is present after an update or on a fresh install.
       options:
-        - "Updated from a MINOR version (ex. 28.0.1 to 28.0.2)"
-        - "Upgraded to a MAJOR version (ex. 28 to 29)"
+        - "Updated from a MINOR version (ex. 32.0.1 to 32.0.2)"
+        - "Upgraded to a MAJOR version (ex. 31 to 32)"
         - "Fresh Nextcloud Server install"
   - type: dropdown
     id: encryption

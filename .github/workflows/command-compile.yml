@@ -76,7 +76,7 @@ jobs:
           fi
 
       - name: Init branch
-        uses: xt0rted/pull-request-comment-branch@e8b8daa837e8ea7331c0003c9c316a64c6d8b0b1 # v1
+        uses: xt0rted/pull-request-comment-branch@e8b8daa837e8ea7331c0003c9c316a64c6d8b0b1 # v3.0.0
         id: comment-branch
 
       - name: Add reaction on failure
@@ -86,7 +86,7 @@ jobs:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
-          reactions: "-1"
+          reactions: '-1'
 
   process:
     runs-on: ubuntu-latest
@@ -94,7 +94,7 @@ jobs:
 
     steps:
       - name: Restore cached git repository
-        uses: buildjet/cache@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
+        uses: buildjet/cache@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
         with:
           path: .git
           key: git-repo
@@ -102,6 +102,7 @@ jobs:
       - name: Checkout ${{ needs.init.outputs.head_ref }}
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
+          persist-credentials: true
           token: ${{ secrets.COMMAND_BOT_PAT }}
           fetch-depth: 0
           ref: ${{ needs.init.outputs.head_ref }}
@@ -119,7 +120,7 @@ jobs:
           fallbackNpm: '^10'
 
       - name: Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v3
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
           node-version: ${{ steps.package-engines-versions.outputs.nodeVersion }}
           cache: npm
@@ -176,4 +177,4 @@ jobs:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
-          reactions: "-1"
+          reactions: '-1'

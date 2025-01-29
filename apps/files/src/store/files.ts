@@ -54,7 +54,7 @@ export const useFilesStore = function(...args) {
 
 		actions: {
 			/**
-			 * Get cached nodes within a given path
+			 * Get cached child nodes within a given path
 			 *
 			 * @param service The service (files view)
 			 * @param path The path relative within the service
@@ -149,6 +149,21 @@ export const useFilesStore = function(...args) {
 				// Otherwise, it means we receive an event for a node that is not in the store
 				fetchNode(node).then(n => this.updateNodes([n]))
 			},
+
+			// Handlers for legacy sidebar (no real nodes support)
+			onAddFavorite(node: Node) {
+				const ourNode = this.getNode(node.source)
+				if (ourNode) {
+					Vue.set(ourNode.attributes, 'favorite', 1)
+				}
+			},
+
+			onRemoveFavorite(node: Node) {
+				const ourNode = this.getNode(node.source)
+				if (ourNode) {
+					Vue.set(ourNode.attributes, 'favorite', 0)
+				}
+			},
 		},
 	})
 
@@ -159,6 +174,9 @@ export const useFilesStore = function(...args) {
 		subscribe('files:node:deleted', fileStore.onDeletedNode)
 		subscribe('files:node:updated', fileStore.onUpdatedNode)
 		subscribe('files:node:moved', fileStore.onMovedNode)
+		// legacy sidebar
+		subscribe('files:favorites:added', fileStore.onAddFavorite)
+		subscribe('files:favorites:removed', fileStore.onRemoveFavorite)
 
 		fileStore._initialized = true
 	}

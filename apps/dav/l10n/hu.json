@@ -70,8 +70,6 @@
     "Description: %s" : "Leírás: %s",
     "Where: %s" : "Hely: %s",
     "%1$s via %2$s" : "%1$s – %2$s",
-    "In %1$s %2$s on %3$s for the entire day" : "%1$s-en %2$s %3$s-kor az teljes napra",
-    "In %1$s %2$s on %3$s between %4$s - %5$s" : "%1$s %2$s múlva, %3$s napon %4$s - %5$s",
     "Could not generate when statement" : "Nem sikerlt létrehozni a mikor állítást",
     "Every Day for the entire day" : "Minden Nap a teljes napra",
     "Every Day for the entire day until %1$s" : "Minden Nap a teljes napon eddig %1$s",
@@ -151,12 +149,10 @@
     "Second" : "Másodperc",
     "Third" : "Harmadik",
     "Fourth" : "Negyedik",
-    "Fifty" : "Ötödik",
     "Last" : "Utolsó",
     "Second Last" : "Második Utolsó",
     "Third Last" : "Harmadik Utolsó",
     "Fourth Last" : "Negyedik Utolsó",
-    "Fifty Last" : "Ötödik Utolsó",
     "Contacts" : "Névjegyek",
     "{actor} created address book {addressbook}" : "{actor} létrehozta a következő címjegyzéket: {addressbook}",
     "You created address book {addressbook}" : "Létrehozta a következő címjegyzéket: {addressbook}",
@@ -267,11 +263,11 @@
     "Are you accepting the invitation?" : "Elfogadja az meghívást?",
     "Tentative" : "Feltételes",
     "Your attendance was updated successfully." : "A részvétele frissítése sikeres.",
-    "To-dos" : "Teendők",
     "Time:" : "Idő:",
     "Could not open file" : "A fájl nem nyitható meg",
     "Invalid chunk name" : "Érvénytelen darabnév",
     "Could not rename part file assembled from chunks" : "Nem lehet átnevezni a darabokból összeállított részleges fájlt",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ha beállítja a munkaidejét, akkor más felhasználók a megbeszélések létrehozásakor látni fogják, hogy Ön mikor nem érhető el."
+    "In %1$s %2$s on %3$s for the entire day" : "%1$s-en %2$s %3$s-kor az teljes napra",
+    "In %1$s %2$s on %3$s between %4$s - %5$s" : "%1$s %2$s múlva, %3$s napon %4$s - %5$s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

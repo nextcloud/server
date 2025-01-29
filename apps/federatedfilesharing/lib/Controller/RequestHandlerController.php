@@ -39,9 +39,6 @@ use Psr\Log\LoggerInterface;
 #[OpenAPI(scope: OpenAPI::SCOPE_FEDERATION)]
 class RequestHandlerController extends OCSController {
 
-	/** @var string */
-	private $shareTable = 'share';
-
 	public function __construct(
 		string $appName,
 		IRequest $request,

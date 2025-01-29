@@ -1,0 +1,14 @@
+OC.L10N.register(
+    "profile",
+    {
+    "Profile" : "Профиль",
+    "Edit Profile" : "Редактирование профиля",
+    "The headline and about sections will show up here" : "Разделы \"Заголовок\" и \"О вас\" будут отображаться здесь",
+    "You have not added any info yet" : "Вы ещё не добавили никакой информации",
+    "Error opening the user status modal, try hard refreshing the page" : "Произошла ошибка при открытии модального окна пользователя, попробуйте обновить страницу",
+    "{user} has not added any info yet" : "Пользователь {user} ещё не добавил(а) никакой информации",
+    "Profile not found" : "Профиль не найден",
+    "The profile does not exist." : "Профиль не существует",
+    "Back to %s" : "Вернуться к %s"
+},
+"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

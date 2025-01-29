@@ -54,11 +54,6 @@
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> uygulamanın bu Nextcloud sürümü ile uyumlu bir sürümü var.","<strong>%n</strong> uygulamanın bu Nextcloud sürümü ile uyumlu bir sürümü var."],
     "Changelog for app {app}" : "{app} değişiklik günlüğü",
     "What's new in {app} version {version}" : "{app} {version} sürümündeki yenilikler",
-    "{version} is available. Get more information on how to update." : "{version} sürümü yayınlanmış. Güncelleme hakkında ayrıntılı bilgi alın.",
-    "Update to %1$s is available." : "%1$s güncellemesi yayınlanmış.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Nextcloud güncelleme bildirimlerini görüntüler ve güncelleyici için Tek Oturum Açma (SSO) bilgilerini sağlar.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "100 kullanıcı üzerinde site arayüzündeki güncelleyicinin kullanılmasının önerilmediğini unutmayın! Lütfen bunun yerine komut satırı güncelleyicisini kullanın!",
-    "Please use the command line updater to update." : "Lütfen güncellemek için komut satırı güncelleyiciyi kullanın.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Yeni bir sürümden sonra güncellemenin yalnızca ilk yeni küçük sürüm ya da daha sonraki sürümler yayınlandığında görüntüleneceğini unutmayın. Yeni sürümleri kullanıcılarımıza zamanla dağıtıyoruz ve bazen sorunlarla karşılaştığımızda bir sürümü atlayabiliyoruz. Güncellemeler ve yayın kanalları hakkında ayrıntılı bilgi almak için {link} adresine bakabilirsiniz."
+    "{version} is available. Get more information on how to update." : "{version} sürümü yayınlanmış. Güncelleme hakkında ayrıntılı bilgi alın."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

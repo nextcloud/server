@@ -75,7 +75,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.0.1
+	- version: 6.1.1
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
@@ -96,7 +96,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.20.0
+	- version: 8.22.0
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 6.6.3
@@ -114,7 +114,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.7
+	- version: 1.7.9
 	- license: MIT
 - balanced-match
 	- version: 1.0.2

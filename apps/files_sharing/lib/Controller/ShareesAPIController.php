@@ -66,19 +66,10 @@ class ShareesAPIController extends OCSController {
 
 	protected $reachedEndFor = [];
 
-	/**
-	 * @param string $UserId
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IConfig $config
-	 * @param IURLGenerator $urlGenerator
-	 * @param IManager $shareManager
-	 * @param ISearch $collaboratorSearch
-	 */
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		protected string $userId,
+		protected ?string $userId,
 		protected IConfig $config,
 		protected IURLGenerator $urlGenerator,
 		protected IManager $shareManager,

@@ -2,6 +2,9 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import type { FilesTrashbinConfigState } from '../../../files_trashbin/src/fileListActions/emptyTrashAction.ts'
+
+import { loadState } from '@nextcloud/initial-state'
 import { Permission, Node, View, FileAction } from '@nextcloud/files'
 import { showInfo } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
@@ -34,6 +37,11 @@ export const action = new FileAction({
 	},
 
 	enabled(nodes: Node[]) {
+		const config = loadState<FilesTrashbinConfigState>('files_trashbin', 'config')
+		if (!config.allow_delete) {
+			return false
+		}
+
 		return nodes.length > 0 && nodes
 			.map(node => node.permissions)
 			.every(permission => (permission & Permission.DELETE) !== 0)

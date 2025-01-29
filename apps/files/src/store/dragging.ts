@@ -14,8 +14,8 @@ export const useDragAndDropStore = defineStore('dragging', {
 
 	actions: {
 		/**
-		 * Set the selection of fileIds
-		 * @param selection
+		 * Set the selection of files being dragged currently
+		 * @param selection array of node sources
 		 */
 		set(selection = [] as FileSource[]) {
 			Vue.set(this, 'dragging', selection)

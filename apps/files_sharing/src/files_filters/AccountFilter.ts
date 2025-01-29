@@ -66,6 +66,10 @@ class AccountFilter extends FileListFilter {
 		})
 	}
 
+	public reset(): void {
+		this.currentInstance?.resetFilter()
+	}
+
 	public setAccounts(accounts?: IAccountData[]) {
 		this.filterAccounts = accounts
 		let chips: IFileListFilterChip[] = []

@@ -35,7 +35,6 @@ OC.L10N.register(
     "Send password by mail" : "通过电子邮件发送密码",
     "Reply to initiator" : "回复发起人",
     "Unable to update share by mail config" : "无法通过邮箱设置更新分享",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "分享 %1$s 失败，因为这个项目已经和用户 %2$s 进行了共享。",
     "%1$s shared »%2$s« with you" : "%1$s 对您共享了 »%2$s«",
     "%1$s shared »%2$s« with you." : "%1$s 对您共享了 »%2$s«。",
     "Click the button below to open it." : "点击下面的按钮打开它。",
@@ -48,7 +47,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s 给您共享了 »%2$s« 并希望添加",
     "»%s« added a note to a file shared with you" : "»%s« 在与你共享的文件中添加了备注",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "您刚刚与 %2$s 分享了 »%1$s«。此共享已发送给收件人。根据管理员定义的安全策略 %3$s，每个共享都需要受密码保护，并且不允许直接向收件人发送密码。因此，您需要将密码手动转发给收件人。",
-    "Password to access »%1$s« shared by you with %2$s" : "用于访问您给 %2$s 共享的 »%1$s« 的密码",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "允许用户通过电子邮件地址来共享文件或文件夹的个性化链接。"
+    "Password to access »%1$s« shared by you with %2$s" : "用于访问您给 %2$s 共享的 »%1$s« 的密码"
 },
 "nplurals=1; plural=0;");

@@ -53,14 +53,7 @@
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Is etichetas collaborativas sunt a disponimentu pro totu is utentes. Is etichetas limitadas podent èssere bidas dae is utentes, chi però no ddas podent assignare. Is etichetas visìbiles sunt pro un'impreu de intro, ca is utentes no ddas podent nen bìdere nen assignare.",
     "Open in Files" : "Aberi in Archìvios",
     "No tags found" : "Peruna eticheta agatada",
-    "Collaborative tagging functionality which shares tags among users." : "Funtzione de etichetas collaborativas chi cumpartzit etichetas intre is utentes.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funtzione de etichetas collaborativas chi cumpartzit etichetas intre is utentes. Bellu meda pro is grupos.\n\t(Si ses unu frunidore cun un'installatzione de multi-tenancy, est cussigiadu a disativare cust'aplicatzione cando is etichetas sunt cumpartzidas).",
     "This file has the tag {tag}" : "Custu archìviu tenet s'eticheta {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Custu archìviu tenet is etichetas {firstTags} e {lastTag}",
-    "No files in here" : "Perunu archìviu",
-    "No entries found in this folder" : "Perunu elementu agatadu in custa cartella",
-    "Name" : "Nùmene",
-    "Size" : "Mannària",
-    "Modified" : "Modificadu"
+    "This file has the tags {firstTags} and {lastTag}" : "Custu archìviu tenet is etichetas {firstTags} e {lastTag}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -194,6 +194,7 @@ class ViewController extends Controller {
 			$this->eventDispatcher->dispatchTyped(new LoadViewer());
 		}
 
+		$this->initialState->provideInitialState('templates_enabled', ($this->config->getSystemValueString('skeletondirectory', '') !== '') || ($this->config->getSystemValueString('templatedirectory', '') !== ''));
 		$this->initialState->provideInitialState('templates_path', $this->templateManager->hasTemplateDirectory() ? $this->templateManager->getTemplatePath() : false);
 		$this->initialState->provideInitialState('templates', $this->templateManager->listCreators());
 

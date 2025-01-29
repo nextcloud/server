@@ -56,7 +56,6 @@
     "There was an error setting the location." : "Une erreur s'est produite lors de la définition de l'emplacement.",
     "There was an error saving the mode." : "Une erreur s'est produite lors de l'enregistrement du mode.",
     "There was an error using personal address." : "Une erreur s'est produite lors de l'utilisation de l'adresse personnelle.",
-    "Unknown weather code" : "Code météo inconnu",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Statut météo intégré dans l'application Dashboard.\nLa position de l'utilisateur peut être déterminée automatiquement ou définie manuellement. Une prévision de 6 heures est alors affichée.\nCe statut peut également être intégré à d'autres endroits comme l'application Calendrier."
+    "Unknown weather code" : "Code météo inconnu"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

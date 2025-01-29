@@ -55,11 +55,6 @@ OC.L10N.register(
     "A pre-release version only for testing new features, not for production environments." : "ئالدىن تارقىتىلغان نۇسخىسى پەقەت يېڭى ئىقتىدارلارنى سىناش ئۈچۈن ، ئىشلەپچىقىرىش مۇھىتى ئۈچۈن ئەمەس.",
     "Changelog for app {app}" : "App {app} for Changelog",
     "What's new in {app} version {version}" : "{app} نەشرى {version} يېڭىلىق نېمە",
-    "{version} is available. Get more information on how to update." : "{version} بار. قانداق يېڭىلاش توغرىسىدا تېخىمۇ كۆپ ئۇچۇرلارغا ئېرىشىڭ.",
-    "Update to %1$s is available." : "%1 $ s نى يېڭىلاشقا بولىدۇ.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Nextcloud نىڭ يېڭىلاش ئۇقتۇرۇشىنى كۆرسىتىدۇ ۋە يېڭىلاش ئۈچۈن SSO تەمىنلەيدۇ.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "شۇنىڭغا دىققەت قىلىڭكى ، 100 دىن ئارتۇق ئىشلەتكۈچى بىلەن تور يېڭىلاش تەۋسىيە قىلىنمايدۇ! ئۇنىڭ ئورنىغا بۇيرۇق قۇرىنى يېڭىلاشنى ئىشلىتىڭ!",
-    "Please use the command line updater to update." : "يېڭىلاش ئۈچۈن بۇيرۇق قۇرىنى يېڭىلاشنى ئىشلىتىڭ.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "شۇنىڭغا دىققەت قىلىڭكى ، يېڭى ئېلان قىلىنغاندىن كېيىن يېڭىلاش پەقەت تۇنجى كىچىك ئېلان قىلىنغاندىن كېيىن ياكى كېيىن كۆرۈنىدۇ. بىز ۋاقىتنىڭ ئۆتۈشىگە ئەگىشىپ ئابونتلىرىمىزغا تارقىتىلغان يېڭى نەشرىنى تارقىتىمىز ، بەزىدە مەسىلە بايقالغاندا بىر نەشرىنى ئاتلاپ ئۆتىمىز. يېڭىلاش ۋە قاناللارنى {link} دىن كۆرۈڭ"
+    "{version} is available. Get more information on how to update." : "{version} بار. قانداق يېڭىلاش توغرىسىدا تېخىمۇ كۆپ ئۇچۇرلارغا ئېرىشىڭ."
 },
 "nplurals=2; plural=(n != 1);");

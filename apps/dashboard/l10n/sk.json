@@ -22,7 +22,6 @@
     "Hello" : "Ahoj",
     "Hello, {name}" : "Ahoj, {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Všetko najlepšie k narodeninám 🥳🤩🎂🎉",
-    "Happy birthday, {name} 🥳🤩🎂🎉" : "Všetko najlepšie k narodeninám, {name} 🥳🤩🎂🎉",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Začnite svoj deň informovaní\n\nNextcloud Infopanel je vaším východiskovým bodom dňa, ktorý vám poskytne prehľad o vašich nadchádzajúcich stretnutiach, naliehavých e-mailoch, správach, prijatých lístkoch, najnovších tweetoch a mnohom ďalšom! Používatelia si môžu pridať rozšírenia, ktoré sa im páčia, a zmeniť si pozadie podľa svojich predstáv."
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Všetko najlepšie k narodeninám, {name} 🥳🤩🎂🎉"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

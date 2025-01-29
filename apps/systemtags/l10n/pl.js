@@ -81,14 +81,7 @@ OC.L10N.register(
     "List of tags and their associated files and folders." : "Lista etykiet i związanych z nimi plików i katalogów.",
     "No tags found" : "Nie znaleziono etykiet",
     "Failed to load tag" : "Nie udało się pobrać etykiety",
-    "Collaborative tagging functionality which shares tags among users." : "Wspólna funkcja przypisywania etykiet, która udostępnia etykiety użytkownikom.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Wspólna funkcja przypisywania etykiet, która udostępnia etykiety użytkownikom. Idealne dla zespołów.\n\t(Jeśli jesteś dostawcą instalacji dla wielu odbiorców, zaleca się dezaktywację tej aplikacji, ponieważ etykiety są udostępniane.)",
     "This file has the tag {tag}" : "Ten plik posiada etykietę {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Ten plik posiada etykiety {firstTags} i {lastTag}",
-    "No files in here" : "Brak plików",
-    "No entries found in this folder" : "Brak wpisów w tym katalogu",
-    "Name" : "Nazwa",
-    "Size" : "Rozmiar",
-    "Modified" : "Modyfikacja"
+    "This file has the tags {firstTags} and {lastTag}" : "Ten plik posiada etykiety {firstTags} i {lastTag}"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

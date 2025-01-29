@@ -54,7 +54,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Omogoči obnovitev gesla:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Nastavitev te možnosti omogoča ponovno pridobitev dostopa do šifriranih datotek, v primeru, da geslo pozabite.",
     "Enabled" : "Omogočeno",
-    "Disabled" : "Onemogočeno",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Obnovitveni ključ je dodatni šifrirni ključ, ki se uporablja pri šifriranju datotek. Omogoča obnovitev uporabnikovih datotek, če uporabnih pozabi svoje geslo za dostop."
+    "Disabled" : "Onemogočeno"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

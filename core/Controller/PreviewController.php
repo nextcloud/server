@@ -14,6 +14,7 @@ use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -182,5 +183,26 @@ class PreviewController extends Controller {
 		} catch (\InvalidArgumentException $e) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
+	}
+
+	/**
+	 * Get a preview by mime
+	 *
+	 * @param string $mime Mime type
+	 * @return RedirectResponse<Http::STATUS_SEE_OTHER, array{}>
+	 *
+	 * 303: The mime icon url
+	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[FrontpageRoute(verb: 'GET', url: '/core/mimeicon')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	public function getMimeIconUrl(string $mime = 'application/octet-stream') {
+		$url = $this->mimeIconProvider->getMimeIconUrl($mime);
+		if ($url === null) {
+			$url = $this->mimeIconProvider->getMimeIconUrl('application/octet-stream');
+		}
+
+		return new RedirectResponse($url);
 	}
 }

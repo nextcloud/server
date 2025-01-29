@@ -3,7 +3,7 @@
 declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
- * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace NCU\Config\Lexicon;
@@ -35,25 +35,12 @@ class ConfigLexiconEntry {
 	public function __construct(
 		private readonly string $key,
 		private readonly ValueType $type,
-		null|string|int|float|bool|array $default = null,
+		private null|string|int|float|bool|array $defaultRaw = null,
 		string $definition = '',
 		private readonly bool $lazy = false,
 		private readonly int $flags = 0,
 		private readonly bool $deprecated = false,
 	) {
-		if ($default !== null) {
-			// in case $default is array but is not expected to be an array...
-			$default = ($type !== ValueType::ARRAY && is_array($default)) ? json_encode($default) : $default;
-			$this->default = match ($type) {
-				ValueType::MIXED => (string)$default,
-				ValueType::STRING => $this->convertFromString((string)$default),
-				ValueType::INT => $this->convertFromInt((int)$default),
-				ValueType::FLOAT => $this->convertFromFloat((float)$default),
-				ValueType::BOOL => $this->convertFromBool((bool)$default),
-				ValueType::ARRAY => $this->convertFromArray((array)$default)
-			};
-		}
-
 		/** @psalm-suppress UndefinedClass */
 		if (\OC::$CLI) { // only store definition if ran from CLI
 			$this->definition = $definition;
@@ -61,7 +48,7 @@ class ConfigLexiconEntry {
 	}
 
 	/**
-	 * @inheritDoc
+	 * returns the config key
 	 *
 	 * @return string config key
 	 * @experimental 31.0.0
@@ -71,7 +58,7 @@ class ConfigLexiconEntry {
 	}
 
 	/**
-	 * @inheritDoc
+	 * get expected type for config value
 	 *
 	 * @return ValueType
 	 * @experimental 31.0.0
@@ -126,17 +113,51 @@ class ConfigLexiconEntry {
 	}
 
 	/**
-	 * @inheritDoc
+	 * returns default value
 	 *
 	 * @return string|null NULL if no default is set
 	 * @experimental 31.0.0
 	 */
 	public function getDefault(): ?string {
+		if ($this->defaultRaw === null) {
+			return null;
+		}
+
+		if ($this->default === null) {
+			$this->default = $this->convertToString($this->defaultRaw);
+		}
+
 		return $this->default;
 	}
 
 	/**
-	 * @inheritDoc
+	 * convert $entry into string, based on the expected type for config value
+	 *
+	 * @param string|int|float|bool|array $entry
+	 *
+	 * @return string
+	 * @experimental 31.0.0
+	 * @psalm-suppress PossiblyInvalidCast arrays are managed pre-cast
+	 * @psalm-suppress RiskyCast
+	 */
+	public function convertToString(string|int|float|bool|array $entry): string {
+		// in case $default is array but is not expected to be an array...
+		if ($this->getValueType() !== ValueType::ARRAY && is_array($entry)) {
+			$entry = json_encode($entry, JSON_THROW_ON_ERROR);
+		}
+
+		return match ($this->getValueType()) {
+			ValueType::MIXED => (string)$entry,
+			ValueType::STRING => $this->convertFromString((string)$entry),
+			ValueType::INT => $this->convertFromInt((int)$entry),
+			ValueType::FLOAT => $this->convertFromFloat((float)$entry),
+			ValueType::BOOL => $this->convertFromBool((bool)$entry),
+			ValueType::ARRAY => $this->convertFromArray((array)$entry)
+		};
+	}
+
+	/**
+	 * returns definition
 	 *
 	 * @return string
 	 * @experimental 31.0.0
@@ -146,7 +167,7 @@ class ConfigLexiconEntry {
 	}
 
 	/**
-	 * @inheritDoc
+	 * returns if config key is set as lazy
 	 *
 	 * @see IAppConfig for details on lazy config values
 	 * @return bool TRUE if config value is lazy
@@ -157,7 +178,7 @@ class ConfigLexiconEntry {
 	}
 
 	/**
-	 * @inheritDoc
+	 * returns flags
 	 *
 	 * @see IAppConfig for details on sensitive config values
 	 * @return int bitflag about the config value
@@ -178,7 +199,7 @@ class ConfigLexiconEntry {
 	}
 
 	/**
-	 * @inheritDoc
+	 * returns if config key is set as deprecated
 	 *
 	 * @return bool TRUE if config si deprecated
 	 * @experimental 31.0.0

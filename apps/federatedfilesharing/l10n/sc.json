@@ -36,15 +36,6 @@
     "Remote share" : "Cumpartzidura remota",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Nche cheres agiùnghere sa cumpartzidura remota {name} dae {owner}@{remote}?",
     "Remote share password" : "Cumpartzidura remota crae",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Cumpartzidura %1$s faddida, ca custu elementu e giai cumpartzidu cun s'utente %2$s",
-    "Not allowed to create a federated share with the same user" : "Non faghet a istabilire una cumpartzidura federada cun su pròpiu utente",
-    "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Règula comente is persones podent cumpartzire tra serbidores. Includit cumpartzidura tra utentes in custu serbidore e puru si sunt impreende cumpartziduras federadas.",
-    "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Permite a is utentes in custu serbidore de imbiare cumpartziduras ad àteros serbidores (custu sèberu permitet fintzas s'atzessu WebDAV a is cumpartziduras pùblicas)",
-    "Allow users on this server to receive shares from other servers" : "Permite a is utentes in custu serbidore pro retzire cumpartziduras dae àteros serbidores",
-    "Allow users on this server to send shares to groups on other servers" : "Permite a is utentes in custu serbidore de imbiare cumpartzidura a grupos in àteros serbidores",
-    "Allow users on this server to receive group shares from other servers" : "Permite a is utentes in custu serbidore de retzire cumpartziduras de grupu dae àteros serbidores",
-    "Search global and public address book for users" : "Chirca is utentes in sa rubrica globale e pùblica",
-    "Allow users to publish their data to a global and public address book" : "Permite a is utentes de publicare is datos issoro in una rubrica globale e pùblica",
     "Your Federated Cloud ID:" : "S'ID tuo de sa nue virtuale federada:",
     "Twitter" : "Twitter"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

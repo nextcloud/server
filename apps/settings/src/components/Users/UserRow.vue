@@ -229,6 +229,12 @@
 			</template>
 		</td>
 
+		<td v-if="showConfig.showFirstLogin"
+			class="row__cell"
+			data-cy-user-list-cell-first-login>
+			<span v-if="!isObfuscated">{{ userFirstLogin }}</span>
+		</td>
+
 		<td v-if="showConfig.showLastLogin"
 			:title="userLastLoginTooltip"
 			class="row__cell"

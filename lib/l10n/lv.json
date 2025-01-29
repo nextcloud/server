@@ -128,16 +128,8 @@
     "Translate" : "Tulkot",
     "File name is a reserved word" : "Datnes nosaukums ir aizņemts vārds",
     "File name is too long" : "Datnes nosaukums ir pārāk garš",
-    "Help" : "Palīdzība",
     "Users" : "Lietotāji",
-    "Unknown user" : "Nezināms lietotājs",
-    "Oracle username and/or password not valid" : "Nav derīga Oracle parole un/vai lietotājvārds",
-    "PostgreSQL username and/or password not valid" : "Nav derīga PostgreSQL parole un/vai lietotājvārds",
-    "Set an admin username." : "Iestatīt pārvaldītāja lietotājvārdu.",
     "Open »%s«" : "Atvērt »%s«",
-    "The username is already being used" : "Šāds lietotājvārds jau tiek izmantots",
-    "A valid username must be provided" : "Jānorāda derīgs lietotājvārds",
-    "User disabled" : "Lietotājs deaktivizēts",
     "File is currently busy, please try again later" : "Datne pašlaik ir aizņemta. Lūgums vēlāk mēģināt vēlreiz"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

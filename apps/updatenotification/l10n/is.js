@@ -40,10 +40,6 @@ OC.L10N.register(
     "Beta" : "BETA-prófunarútgáfa",
     "A pre-release version only for testing new features, not for production environments." : "For-útgáfa sem einungis er hugsuð til að prófa nýja eiginleika, og er alls ekki ætluð fyrir alvöru vinnslu.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> forrit er með tiltæka uppfærslu fyrir þessa útgáfu Nextcloud.","<strong>%n</strong> forrit eru ekki með neina tiltæka uppfærslu fyrir þessa útgáfu Nextcloud."],
-    "{version} is available. Get more information on how to update." : "{version} er í boði. Fáðu frekari upplýsingar um hvernig á að uppfæra.",
-    "Update to %1$s is available." : "Uppfærsla fyrir %1$s er tiltæk.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Birtir tilkynningar um uppfærslur fyrir Nextcloud og sér um SSO-innskráningu fyrir uppfærslustýringuna.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Athugaðu að ekki er mælt með því að nota vefuppfærsluna á fleiri en 100 notendur! Endilega notaðu uppfærslu af skipanalínu í staðinn!",
-    "Please use the command line updater to update." : "Endilega notaðu uppfærslu af skipanalínu."
+    "{version} is available. Get more information on how to update." : "{version} er í boði. Fáðu frekari upplýsingar um hvernig á að uppfæra."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

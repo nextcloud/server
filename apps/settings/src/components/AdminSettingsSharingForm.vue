@@ -59,6 +59,24 @@
 				</label>
 			</fieldset>
 
+			<NcCheckboxRadioSwitch type="switch"
+				aria-describedby="settings-sharing-custom-token-disable-hint settings-sharing-custom-token-access-hint"
+				:checked.sync="settings.allowCustomTokens">
+				{{ t('settings', 'Allow users to set custom share link tokens') }}
+			</NcCheckboxRadioSwitch>
+			<div class="sharing__sub-section">
+				<NcNoteCard id="settings-sharing-custom-token-disable-hint"
+					class="sharing__note"
+					type="info">
+					{{ t('settings', 'Shares with custom tokens will continue to be accessible after this setting has been disabled') }}
+				</NcNoteCard>
+				<NcNoteCard id="settings-sharing-custom-token-access-hint"
+					class="sharing__note"
+					type="warning">
+					{{ t('settings', 'Shares with guessable tokens may be accessed easily') }}
+				</NcNoteCard>
+			</div>
+
 			<label>{{ t('settings', 'Limit sharing based on groups') }}</label>
 			<div class="sharing__sub-section">
 				<NcCheckboxRadioSwitch :checked.sync="settings.excludeGroups"
@@ -195,6 +213,7 @@
 import {
 	NcCheckboxRadioSwitch,
 	NcSettingsSelectGroup,
+	NcNoteCard,
 	NcTextArea,
 	NcTextField,
 } from '@nextcloud/vue'
@@ -240,6 +259,7 @@ interface IShareSettings {
 	defaultRemoteExpireDate: boolean
 	remoteExpireAfterNDays: string
 	enforceRemoteExpireDate: boolean
+	allowCustomTokens: boolean
 }
 
 export default defineComponent({
@@ -247,6 +267,7 @@ export default defineComponent({
 	components: {
 		NcCheckboxRadioSwitch,
 		NcSettingsSelectGroup,
+		NcNoteCard,
 		NcTextArea,
 		NcTextField,
 		SelectSharingPermissions,
@@ -353,6 +374,10 @@ export default defineComponent({
 		:deep(.v-select.select) {
 			width: 100%;
 		}
+	}
+
+	& &__note {
+		margin: 2px 0;
 	}
 }
 

@@ -12,6 +12,7 @@ SPDX-FileCopyrightText: jden <jason@denizac.org>
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: defunctzombie
+SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
@@ -94,7 +95,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.0.1
+	- version: 6.1.1
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
@@ -114,6 +115,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/logger
 	- version: 3.0.2
 	- license: GPL-3.0-or-later
+- @nextcloud/password-confirmation
+	- version: 5.3.1
+	- license: MIT
 - @nextcloud/paths
 	- version: 2.2.1
 	- license: GPL-3.0-or-later
@@ -127,7 +131,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.25.1
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.20.0
+	- version: 8.22.0
 	- license: AGPL-3.0-or-later
 - @vueuse/components
 	- version: 11.1.0
@@ -142,7 +146,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.7
+	- version: 1.7.9
 	- license: MIT
 - balanced-match
 	- version: 1.0.2
@@ -182,6 +186,9 @@ This file is generated from multiple sources. Included packages:
 	- license: BSD-3-Clause
 - css-loader
 	- version: 7.1.2
+	- license: MIT
+- debounce
+	- version: 2.2.0
 	- license: MIT
 - define-data-property
 	- version: 1.1.4

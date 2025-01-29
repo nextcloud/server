@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { describe, it, vi, expect, beforeEach, beforeAll } from 'vitest'
+import { describe, it, vi, expect, beforeEach, beforeAll, afterEach } from 'vitest'
 import { File, Permission, View } from '@nextcloud/files'
 import axios from '@nextcloud/axios'
 
@@ -33,6 +33,12 @@ describe('HotKeysService testing', () => {
 
 	const goToRouteMock = vi.fn()
 
+	let initialState: HTMLInputElement
+
+	afterEach(() => {
+		document.body.removeChild(initialState)
+	})
+
 	beforeAll(() => {
 		registerHotkeys()
 	})
@@ -57,6 +63,14 @@ describe('HotKeysService testing', () => {
 		window.OCA = { Files: { Sidebar: { open: () => {}, setActiveTab: () => {} } } }
 		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock, params: {}, query: {} } } }
+
+		initialState = document.createElement('input')
+		initialState.setAttribute('type', 'hidden')
+		initialState.setAttribute('id', 'initial-state-files_trashbin-config')
+		initialState.setAttribute('value', btoa(JSON.stringify({
+			allow_delete: true,
+		})))
+		document.body.appendChild(initialState)
 	})
 
 	it('Pressing d should open the sidebar once', () => {

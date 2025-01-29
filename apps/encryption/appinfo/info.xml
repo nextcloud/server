@@ -14,7 +14,7 @@ In order to use this encryption module you need to enable server-side encryption
 The module will not touch existing files, only new files will be encrypted after server-side encryption was enabled. It is also not possible to disable the encryption again and switch back to an unencrypted system.
 Please read the documentation to know all implications before you decide to enable server-side encryption.
 	</description>
-	<version>2.19.0</version>
+	<version>2.20.0</version>
 	<licence>agpl</licence>
 	<author>Bjoern Schiessle</author>
 	<author>Clark Tomlinson</author>
@@ -31,7 +31,7 @@ Please read the documentation to know all implications before you decide to enab
 
 	<dependencies>
 		<lib>openssl</lib>
-		<nextcloud min-version="31" max-version="31"/>
+		<nextcloud min-version="32" max-version="32"/>
 	</dependencies>
 
 	<repair-steps>

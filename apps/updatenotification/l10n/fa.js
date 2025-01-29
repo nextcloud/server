@@ -42,11 +42,6 @@ OC.L10N.register(
     "Beta" : "بتا",
     "A pre-release version only for testing new features, not for production environments." : "A pre-release version only for testing new features, not for production environments.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> app has no compatible version for this Nextcloud version available.","<strong>%n</strong> apps have no compatible version for this Nextcloud version available."],
-    "{version} is available. Get more information on how to update." : "{version} آماده است. برای چگونگی بروزرسانی اطلاعات بیشتر را دریافت نمایید.",
-    "Update to %1$s is available." : "به‌روزرسانی به %1$s موجود است.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Displays update notifications for Nextcloud and provides the SSO for the updater.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!",
-    "Please use the command line updater to update." : "Please use the command line updater to update.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}"
+    "{version} is available. Get more information on how to update." : "{version} آماده است. برای چگونگی بروزرسانی اطلاعات بیشتر را دریافت نمایید."
 },
 "nplurals=2; plural=(n > 1);");

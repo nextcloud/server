@@ -154,12 +154,15 @@ class ThemesService {
 	 * @return string[]
 	 */
 	public function getEnabledThemes(): array {
+		$enforcedTheme = $this->config->getSystemValueString('enforce_theme', '');
 		$user = $this->userSession->getUser();
 		if ($user === null) {
+			if ($enforcedTheme !== '') {
+				return [$enforcedTheme];
+			}
 			return [];
 		}
 
-		$enforcedTheme = $this->config->getSystemValueString('enforce_theme', '');
 		$enabledThemes = json_decode($this->config->getUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', '["default"]'));
 		if ($enforcedTheme !== '') {
 			return array_merge([$enforcedTheme], $enabledThemes);

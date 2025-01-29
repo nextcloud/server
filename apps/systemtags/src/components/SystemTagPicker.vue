@@ -51,9 +51,10 @@
 					<!-- Color picker -->
 					<NcColorPicker :data-cy-systemtags-picker-tag-color="tag.id"
 						:value="`#${tag.color}`"
-						:shown.sync="openedPicker"
+						:shown="openedPicker === tag.id"
 						class="systemtags-picker__tag-color"
 						@update:value="onColorChange(tag, $event)"
+						@update:shown="openedPicker = $event ? tag.id : false"
 						@submit="openedPicker = false">
 						<NcButton :aria-label="t('systemtags', 'Change tag color')" type="tertiary">
 							<template #icon>
@@ -210,7 +211,7 @@ export default defineComponent({
 		return {
 			status: Status.BASE,
 			opened: true,
-			openedPicker: false,
+			openedPicker: false as number | false,
 
 			input: '',
 			tags: [] as TagWithId[],

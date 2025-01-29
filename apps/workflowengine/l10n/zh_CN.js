@@ -111,7 +111,6 @@ OC.L10N.register(
     "not between" : "不在之间",
     "Request user agent" : "请求用户代理",
     "is member of" : "是成员",
-    "is not member of" : "不是成员",
-    "User group membership" : "用户组成员资格"
+    "is not member of" : "不是成员"
 },
 "nplurals=1; plural=0;");

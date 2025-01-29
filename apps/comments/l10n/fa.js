@@ -31,7 +31,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "خطایی در خلال تلاش برای ویرایش دیدگاه رخ داد",
     "Comment deleted" : "دیدگاه حذف شد",
     "An error occurred while trying to delete the comment" : "خطایی در خلال تلاش برای حذف دیدگاه رخ داد",
-    "An error occurred while trying to create the comment" : "خطایی در خلال تلاش برای ایجاد دیدگاه رخ داد",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "شما در «{file}» و در دیدگاهی که توسط حسابی که بعدتر پاک شده است مورد اشاره قرار گرفته‌اید"
+    "An error occurred while trying to create the comment" : "خطایی در خلال تلاش برای ایجاد دیدگاه رخ داد"
 },
 "nplurals=2; plural=(n > 1);");

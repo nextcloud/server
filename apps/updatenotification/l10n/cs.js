@@ -56,11 +56,6 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplikace nemá kompatibilní verzi pro tuto verzi Nextcloud serveru.","<strong>%n</strong> aplikace nemají kompatibilní verzi pro tuto verzi Nextcloud serveru.","<strong>%n</strong>aplikací nemá kompatibilní verzi pro tuto verzi Nextcloud serveru.","<strong>%n</strong> aplikace nemají kompatibilní verzi pro tuto verzi Nextcloud serveru."],
     "Changelog for app {app}" : "Soupis změn v aplikaci {app}",
     "What's new in {app} version {version}" : "Co je nového v {app} verze {version}",
-    "{version} is available. Get more information on how to update." : "Je k dispozici {version}. Přečtěte si informace o tom, jak aktualizovat.",
-    "Update to %1$s is available." : "Je k dispozici aktualizace na %1$s.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Zobrazí upozornění na aktualizace pro Nextcloud a poskytuje sjednocené přihlašování pro nástroj pro provedení aktualizace.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Prosím mějte na paměti, že pro instance s více než 100 uživateli není doporučeno aktualizovat přes webový nástroj pro aktualizaci! V takovém případě namísto toho proveďte aktualizaci prostřednictvím příkazového řádku!",
-    "Please use the command line updater to update." : "Aktualizaci proveďte nástrojem z příkazového řádku.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Můžete si všimnout, že po vydání nové verze se aktualizace objeví až po vydání první opravné aktualizace. Nové verze totiž distribuujeme mezi uživatele postupně – a občas, pokud jsou nalezeny chyby, danou verzi i přeskočíme. Zjistěte více o aktualizacích a kanálech aktualizací kliknutím na {link}"
+    "{version} is available. Get more information on how to update." : "Je k dispozici {version}. Přečtěte si informace o tom, jak aktualizovat."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

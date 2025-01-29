@@ -82,14 +82,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "无法加载该文件的标签",
     "Failed to set tag for file" : "无法设置该文件的标签",
     "Failed to delete tag for file" : "无法删除该文件的标签",
-    "Collaborative tagging functionality which shares tags among users." : "协作标签功能在用户间共享标签。",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "协作标签功能在用户间共享标签。适合团队使用。\n\n\t（如果您是一个多租户安装实例的提供者，建议在标签共享时禁用此应用）",
     "This file has the tag {tag}" : "这个文件有 {tag} 标签",
-    "This file has the tags {firstTags} and {lastTag}" : "这个文件有 {firstTags} 和 {lastTag} 标签",
-    "No files in here" : "无文件",
-    "No entries found in this folder" : "此文件夹中无项目",
-    "Name" : "名称",
-    "Size" : "大小",
-    "Modified" : "修改日期"
+    "This file has the tags {firstTags} and {lastTag}" : "这个文件有 {firstTags} 和 {lastTag} 标签"
 },
 "nplurals=1; plural=0;");

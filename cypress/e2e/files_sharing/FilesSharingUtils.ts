@@ -9,9 +9,11 @@ export interface ShareSetting {
 	read: boolean
 	update: boolean
 	delete: boolean
+	create: boolean
 	share: boolean
 	download: boolean
 	note: string
+	expiryDate: Date
 }
 
 export function createShare(fileName: string, username: string, shareSettings: Partial<ShareSetting> = {}) {
@@ -31,15 +33,20 @@ export function createShare(fileName: string, username: string, shareSettings: P
 	updateShare(fileName, 0, shareSettings)
 }
 
+export function openSharingDetails(index: number) {
+	cy.get('#app-sidebar-vue').within(() => {
+		cy.get('[data-cy-files-sharing-share-actions]').eq(index).click()
+		cy.get('[data-cy-files-sharing-share-permissions-bundle="custom"]').click()
+	})
+}
+
 export function updateShare(fileName: string, index: number, shareSettings: Partial<ShareSetting> = {}) {
 	openSharingPanel(fileName)
+	openSharingDetails(index)
 
 	cy.intercept({ times: 1, method: 'PUT', url: '**/apps/files_sharing/api/v1/shares/*' }).as('updateShare')
 
 	cy.get('#app-sidebar-vue').within(() => {
-		cy.get('[data-cy-files-sharing-share-actions]').eq(index).click()
-		cy.get('[data-cy-files-sharing-share-permissions-bundle="custom"]').click()
-
 		if (shareSettings.download !== undefined) {
 			cy.get('[data-cy-files-sharing-share-permissions-checkbox="download"]').find('input').as('downloadCheckbox')
 			if (shareSettings.download) {
@@ -73,6 +80,17 @@ export function updateShare(fileName: string, index: number, shareSettings: Part
 			}
 		}
 
+		if (shareSettings.create !== undefined) {
+			cy.get('[data-cy-files-sharing-share-permissions-checkbox="create"]').find('input').as('createCheckbox')
+			if (shareSettings.create) {
+				// Force:true because the checkbox is hidden by the pretty UI.
+				cy.get('@createCheckbox').check({ force: true, scrollBehavior: 'nearest' })
+			} else {
+				// Force:true because the checkbox is hidden by the pretty UI.
+				cy.get('@createCheckbox').uncheck({ force: true, scrollBehavior: 'nearest' })
+			}
+		}
+
 		if (shareSettings.delete !== undefined) {
 			cy.get('[data-cy-files-sharing-share-permissions-checkbox="delete"]').find('input').as('deleteCheckbox')
 			if (shareSettings.delete) {
@@ -89,10 +107,19 @@ export function updateShare(fileName: string, index: number, shareSettings: Part
 			cy.findByRole('textbox', { name: /note to recipient/i }).type(shareSettings.note)
 		}
 
+		if (shareSettings.expiryDate !== undefined) {
+			cy.findByRole('checkbox', { name: /expiration date/i })
+				.check({ force: true, scrollBehavior: 'nearest' })
+			cy.get('#share-date-picker')
+				.type(`${shareSettings.expiryDate.getFullYear()}-${String(shareSettings.expiryDate.getMonth() + 1).padStart(2, '0')}-${String(shareSettings.expiryDate.getDate()).padStart(2, '0')}`)
+		}
+
 		cy.get('[data-cy-files-sharing-share-editor-action="save"]').click({ scrollBehavior: 'nearest' })
 
 		cy.wait('@updateShare')
 	})
+	// close all toasts
+	cy.get('.toast-success').findAllByRole('button').click({ force: true, multiple: true })
 }
 
 export function openSharingPanel(fileName: string) {

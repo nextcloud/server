@@ -54,7 +54,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Įjungti slaptažodžio atkūrimą:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Šios parinkties įjungimas leis jums iš naujo gauti prieigą prie savo užšifruotų duomenų tuo atveju, jei prarasite slaptažodį",
     "Enabled" : "Įjungta",
-    "Disabled" : "Išjungta",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Atkūrimo raktas yra papildomas šifravimo raktas, kuris naudojamas failų šifravimui. Jis leidžia atkurti naudotojo failus tuo atveju, jei naudotojas pamirš savo slaptažodį."
+    "Disabled" : "Išjungta"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

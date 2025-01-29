@@ -12,10 +12,10 @@ describe('files_trashbin: Empty trashbin action', { testIsolation: true }, () =>
 	beforeEach(() => {
 		cy.createRandomUser().then(($user) => {
 			user = $user
-			// create 10 fake files
-			new Array(FILE_COUNT).fill(0).forEach((_, index) => {
+			// create 5 fake files
+			for (let index = 0; index < FILE_COUNT; index++) {
 				cy.uploadContent(user, new Blob(['<content>']), 'text/plain', `/file${index}.txt`)
-			})
+			}
 
 			cy.login(user)
 			cy.visit('/apps/files')
@@ -44,9 +44,9 @@ describe('files_trashbin: Empty trashbin action', { testIsolation: true }, () =>
 
 	it('Can empty trashbin', () => {
 		// Delete files from home
-		new Array(FILE_COUNT).fill(0).forEach((_, index) => {
+		for (let index = 0; index < FILE_COUNT; index++) {
 			deleteFileWithRequest(user, `/file${index}.txt`)
-		})
+		}
 
 		// Home have no files (or the default welcome file)
 		cy.visit('/apps/files')

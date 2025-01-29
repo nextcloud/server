@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Trashbin\Sabre;
 
+use OCA\Files_Trashbin\Service\ConfigService;
 use OCA\Files_Trashbin\Trash\ITrashItem;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCA\Files_Trashbin\Trashbin;
@@ -26,6 +27,10 @@ class TrashRoot implements ICollection {
 	}
 
 	public function delete() {
+		if (!ConfigService::getDeleteFromTrashEnabled()) {
+			throw new Forbidden('Not allowed to delete items from the trash bin');
+		}
+
 		Trashbin::deleteAll();
 		foreach ($this->trashManager->listTrashRoot($this->user) as $trashItem) {
 			$this->trashManager->removeItem($trashItem);

@@ -8,10 +8,12 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Trashbin\Sabre;
 
+use OCA\Files_Trashbin\Service\ConfigService;
 use OCA\Files_Trashbin\Trash\ITrashItem;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Files\FileInfo;
 use OCP\IUser;
+use Sabre\DAV\Exception\Forbidden;
 
 abstract class AbstractTrash implements ITrash {
 	public function __construct(
@@ -73,6 +75,10 @@ abstract class AbstractTrash implements ITrash {
 	}
 
 	public function delete() {
+		if (!ConfigService::getDeleteFromTrashEnabled()) {
+			throw new Forbidden('Not allowed to delete items from the trash bin');
+		}
+
 		$this->trashManager->removeItem($this->data);
 	}
 

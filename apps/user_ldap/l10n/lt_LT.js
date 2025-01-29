@@ -72,6 +72,8 @@ OC.L10N.register(
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Filtras nurodo, kurios LDAP grupės turi turėti prieigą prie %s",
     "Verify settings and count the groups" : "Patikrinkite nustatymus ir suskaičiuokite grupes",
     "When logging in, %s will find the user based on the following attributes:" : "Prisijungiant, %s suras naudotoją, remiantis šiais požymiais:",
+    "LDAP/AD Username:" : "LDAP/AD naudotojo vardas:",
+    "LDAP/AD Email Address:" : "LDAP/AD el. pašto adresas:",
     "Other Attributes:" : "Kiti požymiai:",
     "Defines the filter to apply, when login is attempted. \"%%uid\" replaces the username in the login action. Example: \"uid=%%uid\"" : "Apibrėžia filtrą, kuris taikomas bandant prisijungti. \"%%uid\" pakeičia naudotojo vardą prisijungimo metu. Pavyzdys: \"uid=%%uid\"",
     "Test Loginname" : "Ištestuokite prisijungimo vardą",

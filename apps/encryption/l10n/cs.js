@@ -60,7 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Povolit obnovu hesla:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Zapnutí této volby vám umožní znovu získat přístup k vašim zašifrovaným souborům pokud ztratíte heslo",
     "Enabled" : "Povoleno",
-    "Disabled" : "Zakázáno",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Záchranný klíč je dodatečný šifrovací klíč použitý pro\nšifrování souborů. S jeho pomocí lze obnovit soubory uživatele při zapomenutí hesla."
+    "Disabled" : "Zakázáno"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

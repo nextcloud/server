@@ -42,6 +42,7 @@ OC.L10N.register(
     "Create or edit tags" : "Sukurti ar taisyti žymes",
     "Collaborative tags …" : "Bendradarbiavimo žymės…",
     "Tag name" : "Žymės pavadinimas",
+    "Tag level" : "Žymės lygmuo",
     "Create" : "Sukurti",
     "Update" : "Atnaujinti",
     "Delete" : "Ištrinti",
@@ -72,11 +73,7 @@ OC.L10N.register(
     "Tags you have created will show up here." : "Čia bus rodomos jūsų sukurtos žymės.",
     "Failed to load tag" : "Nepavyko įkelti žymės",
     "Failed to load last used tags" : "Nepavyko įkelti paskutinių naudotų žymų",
-    "This file has the tag {tag}" : "Šis failas turi žymą {tag}",
-    "No files in here" : "Čia failų nėra",
-    "No entries found in this folder" : "Šiame aplanke nerasta jokių įrašų",
-    "Name" : "Pavadinimas",
-    "Size" : "Dydis",
-    "Modified" : "Pakeista"
+    "Failed to load tags for file" : "Nepavyko įkelti failo žymių",
+    "This file has the tag {tag}" : "Šis failas turi žymą {tag}"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

@@ -222,11 +222,9 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "您是否接受邀请？",
     "Tentative" : "暂定",
     "Your attendance was updated successfully." : "您的出席状态更新成功。",
-    "To-dos" : "待办事项",
     "Time:" : "时间：",
     "Could not open file" : "无法打开文件",
     "Invalid chunk name" : "分片名称无效",
-    "Could not rename part file assembled from chunks" : "无法重命名从分片组合的部分文件",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "如果您配置了工作时间，其他用户在预订会议时就会了解您何时不在办公室。"
+    "Could not rename part file assembled from chunks" : "无法重命名从分片组合的部分文件"
 },
 "nplurals=1; plural=0;");

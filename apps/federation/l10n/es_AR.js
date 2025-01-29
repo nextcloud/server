@@ -9,7 +9,6 @@ OC.L10N.register(
     "Federation" : "Federación",
     "+ Add trusted server" : "+ Agregar servidor de confianza",
     "Trusted server" : "Servidor de confianza",
-    "Add" : "Agregar",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "La federación le permite conectarse con otros servidores de confianza para intercambiar el directorio de usuarios. Por ejemplo, esto se usará para auto-completar usuarios externos en el recurso compartido federado."
+    "Add" : "Agregar"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -78,15 +78,12 @@
 </template>
 
 <script>
-import { generateFilePath, generateRemoteUrl, generateUrl } from '@nextcloud/router'
-import { getCurrentUser } from '@nextcloud/auth'
+import { generateFilePath, generateUrl } from '@nextcloud/router'
 import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
-import { Palette } from 'node-vibrant/lib/color.js'
 import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
-import Vibrant from 'node-vibrant'
 
 import Check from 'vue-material-design-icons/Check.vue'
 import ImageEdit from 'vue-material-design-icons/ImageEdit.vue'
@@ -217,9 +214,9 @@ export default {
 			this.update(result.data)
 		},
 
-		async setFile(path, color = null) {
+		async setFile(path) {
 			this.loading = 'custom'
-			const result = await axios.post(generateUrl('/apps/theming/background/custom'), { value: path, color })
+			const result = await axios.post(generateUrl('/apps/theming/background/custom'), { value: path })
 			this.update(result.data)
 		},
 
@@ -237,7 +234,7 @@ export default {
 
 		debouncePickColor: debounce(function(...args) {
 			this.pickColor(...args)
-		}, 200),
+		}, 1000),
 
 		pickFile() {
 			const picker = getFilePickerBuilder(t('theming', 'Select a background from your files'))
@@ -264,45 +261,7 @@ export default {
 			}
 
 			this.loading = 'custom'
-
-			// Extract primary color from image
-			let response = null
-			let color = null
-			try {
-				const fileUrl = generateRemoteUrl('dav/files/' + getCurrentUser().uid + path)
-				response = await axios.get(fileUrl, { responseType: 'blob' })
-				const blobUrl = URL.createObjectURL(response.data)
-				const palette = await this.getColorPaletteFromBlob(blobUrl)
-
-				// DarkVibrant is accessible AND visually pleasing
-				// Vibrant is not accessible enough and others are boring
-				color = palette?.DarkVibrant?.hex
-				this.setFile(path, color)
-
-				// Log data
-				console.debug('Extracted colour', color, 'from custom image', path, palette)
-			} catch (error) {
-				this.setFile(path)
-				console.error('Unable to extract colour from custom image', { error, path, response, color })
-			}
-		},
-
-		/**
-		 * Extract a Vibrant color palette from a blob URL
-		 *
-		 * @param {string} blobUrl the blob URL
-		 * @return {Promise<Palette>}
-		 */
-		getColorPaletteFromBlob(blobUrl) {
-			return new Promise((resolve, reject) => {
-				const vibrant = new Vibrant(blobUrl)
-				vibrant.getPalette((error, palette) => {
-					if (error) {
-						reject(error)
-					}
-					resolve(palette)
-				})
-			})
+			this.setFile(path)
 		},
 	},
 }

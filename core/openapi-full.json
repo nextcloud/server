@@ -635,14 +635,14 @@
                         "type": "string"
                     },
                     "inputShape": {
-                        "type": "array",
-                        "items": {
+                        "type": "object",
+                        "additionalProperties": {
                             "$ref": "#/components/schemas/TaskProcessingShape"
                         }
                     },
                     "inputShapeEnumValues": {
-                        "type": "array",
-                        "items": {
+                        "type": "object",
+                        "additionalProperties": {
                             "type": "array",
                             "items": {
                                 "type": "object",
@@ -675,14 +675,14 @@
                         }
                     },
                     "optionalInputShape": {
-                        "type": "array",
-                        "items": {
+                        "type": "object",
+                        "additionalProperties": {
                             "$ref": "#/components/schemas/TaskProcessingShape"
                         }
                     },
                     "optionalInputShapeEnumValues": {
-                        "type": "array",
-                        "items": {
+                        "type": "object",
+                        "additionalProperties": {
                             "type": "array",
                             "items": {
                                 "type": "object",
@@ -715,14 +715,14 @@
                         }
                     },
                     "outputShape": {
-                        "type": "array",
-                        "items": {
+                        "type": "object",
+                        "additionalProperties": {
                             "$ref": "#/components/schemas/TaskProcessingShape"
                         }
                     },
                     "outputShapeEnumValues": {
-                        "type": "array",
-                        "items": {
+                        "type": "object",
+                        "additionalProperties": {
                             "type": "array",
                             "items": {
                                 "type": "object",
@@ -742,14 +742,14 @@
                         }
                     },
                     "optionalOutputShape": {
-                        "type": "array",
-                        "items": {
+                        "type": "object",
+                        "additionalProperties": {
                             "$ref": "#/components/schemas/TaskProcessingShape"
                         }
                     },
                     "optionalOutputShapeEnumValues": {
-                        "type": "array",
-                        "items": {
+                        "type": "object",
+                        "additionalProperties": {
                             "type": "array",
                             "items": {
                                 "type": "object",
@@ -8488,6 +8488,47 @@
                 }
             }
         },
+        "/index.php/core/mimeicon": {
+            "get": {
+                "operationId": "preview-get-mime-icon-url",
+                "summary": "Get a preview by mime",
+                "tags": [
+                    "preview"
+                ],
+                "security": [
+                    {},
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "mime",
+                        "in": "query",
+                        "description": "Mime type",
+                        "schema": {
+                            "type": "string",
+                            "default": "application/octet-stream"
+                        }
+                    }
+                ],
+                "responses": {
+                    "303": {
+                        "description": "The mime icon url",
+                        "headers": {
+                            "Location": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/index.php/core/references/preview/{referenceId}": {
             "get": {
                 "operationId": "reference-preview",
@@ -9504,6 +9545,354 @@
                                                             "type": "string"
                                                         }
                                                     }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/twofactor/state": {
+            "get": {
+                "operationId": "two_factor_api-state",
+                "summary": "Get two factor authentication provider states",
+                "description": "This endpoint requires admin access",
+                "tags": [
+                    "two_factor_api"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "query",
+                        "description": "system user id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "provider states",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "boolean"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "user not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "nullable": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/twofactor/enable": {
+            "post": {
+                "operationId": "two_factor_api-enable",
+                "summary": "Enable two factor authentication providers for specific user",
+                "description": "This endpoint requires admin access",
+                "tags": [
+                    "two_factor_api"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "user"
+                                ],
+                                "properties": {
+                                    "user": {
+                                        "type": "string",
+                                        "description": "system user identifier"
+                                    },
+                                    "providers": {
+                                        "type": "array",
+                                        "default": [],
+                                        "description": "collection of TFA provider ids",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "provider states",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "boolean"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "user not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "nullable": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/twofactor/disable": {
+            "post": {
+                "operationId": "two_factor_api-disable",
+                "summary": "Disable two factor authentication providers for specific user",
+                "description": "This endpoint requires admin access",
+                "tags": [
+                    "two_factor_api"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "user"
+                                ],
+                                "properties": {
+                                    "user": {
+                                        "type": "string",
+                                        "description": "system user identifier"
+                                    },
+                                    "providers": {
+                                        "type": "array",
+                                        "default": [],
+                                        "description": "collection of TFA provider ids",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "provider states",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "boolean"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "user not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "nullable": true
                                                 }
                                             }
                                         }

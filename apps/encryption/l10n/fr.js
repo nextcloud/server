@@ -60,7 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Activer la récupération du mot de passe :",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Activer cette option vous permettra d'obtenir à nouveau l'accès à vos fichiers chiffrés en cas de perte de mot de passe",
     "Enabled" : "Activé",
-    "Disabled" : "Désactivé",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "La clé de récupération est une clé supplémentaire utilisée pour chiffrer les fichiers. Elle permet de récupérer les fichiers des utilisateurs s’ils oublient leur mot de passe."
+    "Disabled" : "Désactivé"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

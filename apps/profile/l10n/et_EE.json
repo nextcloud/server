@@ -1,0 +1,9 @@
+{ "translations": {
+    "Edit Profile" : "Muuda profiili",
+    "You have not added any info yet" : "Sa pole veel mingit infot lisanud",
+    "Error opening the user status modal, try hard refreshing the page" : "Kasutaja staatuse modaaldialoogi avamine ebaõnnestus, proovi lehte värskendada",
+    "{user} has not added any info yet" : "{user} pole veel mingit infot lisanud",
+    "Profile not found" : "Profiili ei leitud",
+    "The profile does not exist." : "Profiili ei eksisteeri"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

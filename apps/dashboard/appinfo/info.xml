@@ -12,7 +12,7 @@
 
 The Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking.]]>
 	</description>
-	<version>7.11.0</version>
+	<version>7.12.0</version>
 	<licence>agpl</licence>
 	<author>Julius Härtl</author>
 	<namespace>Dashboard</namespace>
@@ -22,7 +22,7 @@ The Nextcloud Dashboard is your starting point of the day, giving you an overvie
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 
 	<dependencies>
-		<nextcloud min-version="31" max-version="31"/>
+		<nextcloud min-version="32" max-version="32"/>
 	</dependencies>
 
 	<navigations>

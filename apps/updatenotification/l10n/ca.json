@@ -54,11 +54,6 @@
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["Hi ha <strong>%n</strong> aplicació que no té disponible cap versió compatible amb aquesta versió del Nextcloud.","Hi ha <strong>%n</strong> aplicacions que no tenen disponible cap versió compatible amb aquesta versió del Nextcloud."],
     "Changelog for app {app}" : "Registre de canvis de l'aplicació {app}",
     "What's new in {app} version {version}" : "Novetats de la versió {version} de {app}",
-    "{version} is available. Get more information on how to update." : "{version} ja està disponible. Obteniu més informació sobre com aplicar l'actualització.",
-    "Update to %1$s is available." : "Hi ha disponible l'actualització a %1$s.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Mostra les notificacions d'actualització del Nextcloud i proporciona l'SSO de l'actualitzador.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Tingueu en compte que no es recomana l'actualitzador web amb més de 100 usuaris. Utilitzeu l'actualitzador de la línia d'ordres.",
-    "Please use the command line updater to update." : "Utilitzeu l'actualitzador de la línia d'ordres per a aplicar l'actualització.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Tingueu en compte que, després d'una versió nova, només es mostrarà l'actualització després de la primera versió menor o més endavant. Distribuïm les versions noves de manera repartida en el temps als nostres usuaris i, de vegades, ometem una versió si hi trobem problemes. Obteniu més informació sobre les actualitzacions i els canals de versions a {link}"
+    "{version} is available. Get more information on how to update." : "{version} ja està disponible. Obteniu més informació sobre com aplicar l'actualització."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

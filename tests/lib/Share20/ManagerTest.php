@@ -25,9 +25,9 @@ use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Mount\IShareOwnerlessMount;
 use OCP\Files\Node;
-use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\HintException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IGroup;
@@ -109,6 +109,8 @@ class ManagerTest extends \Test\TestCase {
 	private DateTimeZone $timezone;
 	/** @var IDateTimeZone|MockObject */
 	protected $dateTimeZone;
+	/** @var IAppConfig|MockObject */
+	protected $appConfig;
 
 	protected function setUp(): void {
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -130,6 +132,8 @@ class ManagerTest extends \Test\TestCase {
 		$this->dateTimeZone = $this->createMock(IDateTimeZone::class);
 		$this->timezone = new \DateTimeZone('Pacific/Auckland');
 		$this->dateTimeZone->method('getTimeZone')->willReturnCallback(fn () => $this->timezone);
+
+		$this->appConfig = $this->createMock(IAppConfig::class);
 
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->l = $this->createMock(IL10N::class);
@@ -172,6 +176,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->knownUserService,
 			$this->shareDisabledChecker,
 			$this->dateTimeZone,
+			$this->appConfig,
 		);
 	}
 
@@ -199,6 +204,7 @@ class ManagerTest extends \Test\TestCase {
 				$this->knownUserService,
 				$this->shareDisabledChecker,
 				$this->dateTimeZone,
+				$this->appConfig,
 			]);
 	}
 
@@ -668,24 +674,6 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 
-	public function testGetShareByIdNodeAccessible(): void {
-		$share = $this->createMock(IShare::class);
-		$share
-			->expects($this->once())
-			->method('getNode')
-			->willThrowException(new NotFoundException());
-
-		$this->defaultProvider
-			->expects($this->once())
-			->method('getShareById')
-			->with(42)
-			->willReturn($share);
-
-		$this->expectException(ShareNotFound::class);
-		$this->manager->getShareById('default:42');
-	}
-
-
 	public function testGetExpiredShareById(): void {
 		$this->expectException(\OCP\Share\Exceptions\ShareNotFound::class);
 
@@ -905,10 +893,9 @@ class ManagerTest extends \Test\TestCase {
 		$mount = $this->createMock(MoveableMount::class);
 		$limitedPermssions->method('getMountPoint')->willReturn($mount);
 
-
-		$data[] = [$this->createShare(null, IShare::TYPE_USER, $limitedPermssions, $user2, $user0, $user0, 31, null, null), 'Cannot increase permissions of path', true];
+		// increase permissions of a re-share
 		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $limitedPermssions, $group0, $user0, $user0, 17, null, null), 'Cannot increase permissions of path', true];
-		$data[] = [$this->createShare(null, IShare::TYPE_LINK, $limitedPermssions, null, $user0, $user0, 3, null, null), 'Cannot increase permissions of path', true];
+		$data[] = [$this->createShare(null, IShare::TYPE_USER, $limitedPermssions, $user2, $user0, $user0, 3, null, null), 'Cannot increase permissions of path', true];
 
 		$nonMovableStorage = $this->createMock(IStorage::class);
 		$nonMovableStorage->method('instanceOfStorage')
@@ -939,6 +926,20 @@ class ManagerTest extends \Test\TestCase {
 		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $rootFolder, $group0, $user0, $user0, 2, null, null), 'You cannot share your root folder', true];
 		$data[] = [$this->createShare(null, IShare::TYPE_LINK, $rootFolder, null, $user0, $user0, 16, null, null), 'You cannot share your root folder', true];
 
+		$allPermssionsFiles = $this->createMock(File::class);
+		$allPermssionsFiles->method('isShareable')->willReturn(true);
+		$allPermssionsFiles->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_ALL);
+		$allPermssionsFiles->method('getId')->willReturn(187);
+		$allPermssionsFiles->method('getOwner')
+			->willReturn($owner);
+		$allPermssionsFiles->method('getStorage')
+			->willReturn($storage);
+
+		// test invalid CREATE or DELETE permissions
+		$data[] = [$this->createShare(null, IShare::TYPE_USER, $allPermssionsFiles, $user2, $user0, $user0, \OCP\Constants::PERMISSION_ALL, null, null), 'File shares cannot have create or delete permissions', true];
+		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $allPermssionsFiles, $group0, $user0, $user0, \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE, null, null), 'File shares cannot have create or delete permissions', true];
+		$data[] = [$this->createShare(null, IShare::TYPE_LINK, $allPermssionsFiles, null, $user0, $user0, \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_DELETE, null, null), 'File shares cannot have create or delete permissions', true];
+
 		$allPermssions = $this->createMock(Folder::class);
 		$allPermssions->method('isShareable')->willReturn(true);
 		$allPermssions->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_ALL);
@@ -951,6 +952,12 @@ class ManagerTest extends \Test\TestCase {
 		$data[] = [$this->createShare(null, IShare::TYPE_USER, $allPermssions, $user2, $user0, $user0, 30, null, null), 'Shares need at least read permissions', true];
 		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $allPermssions, $group0, $user0, $user0, 2, null, null), 'Shares need at least read permissions', true];
 
+		// test invalid permissions
+		$data[] = [$this->createShare(null, IShare::TYPE_USER, $allPermssions, $user2, $user0, $user0, 32, null, null), 'Valid permissions are required for sharing', true];
+		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $allPermssions, $group0, $user0, $user0, 63, null, null), 'Valid permissions are required for sharing', true];
+		$data[] = [$this->createShare(null, IShare::TYPE_LINK, $allPermssions, null, $user0, $user0, -1, null, null), 'Valid permissions are required for sharing', true];
+
+		// working shares
 		$data[] = [$this->createShare(null, IShare::TYPE_USER, $allPermssions, $user2, $user0, $user0, 31, null, null), null, false];
 		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $allPermssions, $group0, $user0, $user0, 3, null, null), null, false];
 		$data[] = [$this->createShare(null, IShare::TYPE_LINK, $allPermssions, null, $user0, $user0, 17, null, null), null, false];
@@ -2418,8 +2425,9 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testCreateShareUser(): void {
+		/** @var Manager&MockObject $manager */
 		$manager = $this->createManagerMock()
-			->setMethods(['canShare', 'generalCreateChecks', 'userCreateChecks', 'pathCreateChecks'])
+			->onlyMethods(['canShare', 'generalCreateChecks', 'userCreateChecks', 'pathCreateChecks'])
 			->getMock();
 
 		$shareOwner = $this->createMock(IUser::class);
@@ -2894,10 +2902,9 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetSharesBy(): void {
-		$node = $this->createMock(Folder::class);
-
 		$share = $this->manager->newShare();
-		$share->setNode($node);
+
+		$node = $this->createMock(Folder::class);
 
 		$this->defaultProvider->expects($this->once())
 			->method('getSharesBy')
@@ -2950,8 +2957,6 @@ class ManagerTest extends \Test\TestCase {
 	 * deleted (as they are evaluated). but share 8 should still be there.
 	 */
 	public function testGetSharesByExpiredLinkShares(): void {
-		$node = $this->createMock(File::class);
-
 		$manager = $this->createManagerMock()
 			->setMethods(['deleteShare'])
 			->getMock();
@@ -2965,7 +2970,6 @@ class ManagerTest extends \Test\TestCase {
 		for ($i = 0; $i < 8; $i++) {
 			$share = $this->manager->newShare();
 			$share->setId($i);
-			$share->setNode($node);
 			$shares[] = $share;
 		}
 
@@ -2985,6 +2989,8 @@ class ManagerTest extends \Test\TestCase {
 		for ($i = 0; $i < 8; $i++) {
 			$shares2[] = clone $shares[$i];
 		}
+
+		$node = $this->createMock(File::class);
 
 		/*
 		 * Simulate the getSharesBy call.
@@ -3147,10 +3153,8 @@ class ManagerTest extends \Test\TestCase {
 		$date = new \DateTime();
 		$date->setTime(0, 0, 0);
 		$date->add(new \DateInterval('P2D'));
-		$node = $this->createMock(File::class);
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($date);
-		$share->setNode($node);
 		$share->setShareOwner('owner');
 		$share->setSharedBy('sharedBy');
 
@@ -3228,10 +3232,8 @@ class ManagerTest extends \Test\TestCase {
 		$date = new \DateTime();
 		$date->setTime(0, 0, 0);
 		$date->add(new \DateInterval('P2D'));
-		$node = $this->createMock(Folder::class);
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($date);
-		$share->setNode($node);
 
 		$this->defaultProvider->expects($this->once())
 			->method('getShareByToken')

@@ -11,7 +11,7 @@
     "Clear reminder" : "Обриши подсетник",
     "Set reminder" : "Постави подсетник",
     "Set reminder for \"{fileName}\"" : "Постави подсетник за „{fileName}”",
-    "Set reminder at custom date & time" : "Постави подсетник за произвољни датум и време",
+    "Set reminder at custom date & time" : "Постави подсетник на произвољни датум и време",
     "Reminder set for \"{fileName}\"" : "Подсетник је постављен за „{fileName}”",
     "Failed to set reminder" : "Није успело постављање подсетника",
     "Reminder cleared for \"{fileName}\"" : "Уклоњен је подсетник за „{fileName}”",

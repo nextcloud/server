@@ -66,14 +66,7 @@ OC.L10N.register(
     "No tags found" : "هیچ برچسبی یافت نشد",
     "Failed to load last used tags" : "Failed to load last used tags",
     "Missing \"Content-Location\" header" : "Missing \"Content-Location\" header",
-    "Collaborative tagging functionality which shares tags among users." : "Collaborative tagging functionality which shares tags among users.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)",
     "This file has the tag {tag}" : "این فایل دارای تگ {tag} است",
-    "This file has the tags {firstTags} and {lastTag}" : "این فایل دارای تگ‌های {firstTags} و {lastTag} است.",
-    "No files in here" : "هیچ فایلی اینجا وجود ندارد",
-    "No entries found in this folder" : "هیچ ورودی‌ای در این پوشه وجود ندارد",
-    "Name" : "نام",
-    "Size" : "اندازه",
-    "Modified" : "تغییر یافته"
+    "This file has the tags {firstTags} and {lastTag}" : "این فایل دارای تگ‌های {firstTags} و {lastTag} است."
 },
 "nplurals=2; plural=(n > 1);");

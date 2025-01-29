@@ -568,6 +568,7 @@ span.usersLastLoginTooltip {
 }
 
 /* SETTINGS SECTIONS */
+// to match with NcSettingsSection component
 .section {
 	margin-bottom: 0;
 	/* section divider lines, none needed for last one */
@@ -577,13 +578,32 @@ span.usersLastLoginTooltip {
 
 	/* correctly display help icons next to headings */
 	h2 {
-		margin-bottom: 22px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 20px;
+		font-weight: bold;
+		max-width: 900px;
+		margin-top: 0;
 
-		.icon-info {
-			padding: 6px 20px;
-			vertical-align: text-bottom;
-			display: inline-block;
+		.icon-info  {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: var(--default-clickable-area);
+			height: var(--default-clickable-area);
+			margin: calc((var(--default-clickable-area) - 16px) / 2 * -1);
+			margin-inline-start: 0;
+			color: var(--color-text-maxcontrast);
 		}
+
+	}
+
+	p {
+		margin-top: -0.2em;
+		margin-bottom: 1em;
+		color: var(--color-text-maxcontrast);
+		max-width: 900px;
 	}
 }
 
@@ -827,7 +847,9 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	margin-bottom: calc(var(--default-grid-baseline) * 8);
 
 	> h2 {
-		margin-bottom: 0px;
+		margin: 0;
+		font-size: 20px;
+		font-weight: bold;
 	}
 
 	> a {

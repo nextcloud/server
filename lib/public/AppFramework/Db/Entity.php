@@ -215,7 +215,7 @@ abstract class Entity {
 	 * @return string the property name
 	 * @since 7.0.0
 	 */
-	public function columnToProperty(string $columnName): string {
+	public function columnToProperty(string $columnName) {
 		$parts = explode('_', $columnName);
 		$property = '';
 

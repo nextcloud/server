@@ -110,7 +110,6 @@ OC.L10N.register(
     "not between" : "не между",
     "Request user agent" : "Потребителски агент на заявка",
     "is member of" : "е член на",
-    "is not member of" : "не е член на",
-    "User group membership" : "Членство към потребителска група"
+    "is not member of" : "не е член на"
 },
 "nplurals=2; plural=(n != 1);");

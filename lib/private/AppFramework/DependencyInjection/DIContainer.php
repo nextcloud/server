@@ -274,15 +274,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 					$c->get(LoggerInterface::class)
 				)
 			);
-			$dispatcher->registerMiddleware(
-				new RateLimitingMiddleware(
-					$c->get(IRequest::class),
-					$c->get(IUserSession::class),
-					$c->get(IControllerMethodReflector::class),
-					$c->get(OC\Security\RateLimiting\Limiter::class),
-					$c->get(ISession::class)
-				)
-			);
+			$dispatcher->registerMiddleware($c->get(RateLimitingMiddleware::class));
 			$dispatcher->registerMiddleware(
 				new OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware(
 					$c->get(IRequest::class),

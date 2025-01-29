@@ -45,11 +45,6 @@ OC.L10N.register(
     "Beta" : "베타",
     "A pre-release version only for testing new features, not for production environments." : "새로운 기능을 테스트하는 출시 이전 버전이며, 프로덕션 환경에 적합하지 않습니다.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>개의 앱에 이 Nextcloud와 호환되는 버전이 없습니다."],
-    "{version} is available. Get more information on how to update." : "{version}을(를) 사용할 수 있습니다. 업데이트하는 방법에 대해서 알아보십시오.",
-    "Update to %1$s is available." : "%1$s(으)로 업데이트할 수 있습니다.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Nextcloud 업데이트 알림을 표시하고 업데이터에 SSO를 지원합니다.",
-    "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "100명 이상의 사용자 수를 보유하고 있는 경우 웹 업데이터 사용을 권장하지 않습니다. 대신 명령행 업데이터를 사용하십시오. ",
-    "Please use the command line updater to update." : "명령행 업데이터를 사용하십시오.",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "메이저 업그레이드는 해당 버전의 첫 마이너 업데이트 혹은 그 후의 업데이트에 대해 제공됩니다. 새로운 버전은 단계적으로 적용되며, 문제가 발생할 경우 배포를 중단하고 다음 업데이트로 건너뛸 수 있습니다. 업데이트와 릴리즈 채널에 대한 자세한 정보는 다음의 링크를 참고하십시오. {link}"
+    "{version} is available. Get more information on how to update." : "{version}을(를) 사용할 수 있습니다. 업데이트하는 방법에 대해서 알아보십시오."
 },
 "nplurals=1; plural=0;");

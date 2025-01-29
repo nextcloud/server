@@ -58,7 +58,6 @@
     "Enable password recovery:" : "Gaitu pasahitzaren berreskuratzea:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aukera hau gaituz, zure zifratutako fitxategiak berreskuratu ahal izango dituzu pasahitza galtzekotan",
     "Enabled" : "Gaitua",
-    "Disabled" : "Ez-gaitua",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Berreskuratze gakoa fitxategiak zifratzeko gako gehigarri bat da. Erabiltzailearen fitxategiak berreskuratzea baimentzen du bere pasahitza galduz gero."
+    "Disabled" : "Ez-gaitua"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -1093,6 +1093,7 @@ class AppConfig implements IAppConfig {
 
 		unset($this->lazyCache[$app][$key]);
 		unset($this->fastCache[$app][$key]);
+		unset($this->valueTypes[$app][$key]);
 	}
 
 	/**

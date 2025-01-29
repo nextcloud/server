@@ -101,12 +101,6 @@ OC.L10N.register(
     "Configuration" : "კონფიგურაცია",
     "Available for" : "ხელმისაწვდომია რომ",
     "Add storage" : "საცავის დამატება",
-    "Advanced settings" : "დამატებითი პარამეტრები",
-    "Storage with ID \"%d\" is not user editable" : "საცავი ID-ით \"%d\" არაა მომხმარებლისთვის შეცვლადი",
-    "Username" : "მომხმარებლის სახელი",
-    "Username and password" : "მომხმარებელი და პაროლი",
-    "User entered, store in database" : "შეყვანილი მომხმარებელი, შენახვა მონაცემთა ბაზაში",
-    "Username as share" : "მომხმარებლის სახელი გაზიარებად",
-    "Allow users to mount external storage" : "მივცეთ მომხმარებლებს გარე საცავის მონტაჟის უფლება"
+    "Advanced settings" : "დამატებითი პარამეტრები"
 },
 "nplurals=2; plural=(n!=1);");

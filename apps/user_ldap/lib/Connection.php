@@ -614,9 +614,11 @@ class Connection extends LDAPUtility {
 					}
 				}
 				$this->logger->warning(
-					'Main LDAP not reachable, connecting to backup',
+					'Main LDAP not reachable, connecting to backup: {msg}',
 					[
-						'app' => 'user_ldap'
+						'app' => 'user_ldap',
+						'msg' => $e->getMessage(),
+						'exception' => $e,
 					]
 				);
 			}

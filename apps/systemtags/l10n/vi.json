@@ -53,14 +53,7 @@
     "Open in Files" : "Mở trong Tệp",
     "No tags found" : "Không tìm thấy nhãn",
     "Tags you have created will show up here." : "Thẻ bạn đã tạo sẽ hiển thị ở đây",
-    "Collaborative tagging functionality which shares tags among users." : "Chức năng gắn thẻ mang tính hợp tác, chia sẻ thẻ giữa những người dùng.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Chức năng gắn thẻ mang tính hợp tác, chia sẻ thẻ giữa những người dùng. Rất tuyệt đối với các nhóm.\n\t(Nếu bạn là người cung cấp có bản sao có nhiều người thuê, chúng tôi khuyên bạn vô hiệu hóa ứng dụng này vì các thẻ được chia sẻ.)",
     "This file has the tag {tag}" : "Tập tin này có nhãn {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Tệp tin này có nhãn {firstTags} và {lastTag}",
-    "No files in here" : "Không có tệp ở đây",
-    "No entries found in this folder" : "Chưa có mục nào trong thư mục",
-    "Name" : "Tên",
-    "Size" : "Kích cỡ",
-    "Modified" : "Thay đổi"
+    "This file has the tags {firstTags} and {lastTag}" : "Tệp tin này có nhãn {firstTags} và {lastTag}"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -21,6 +21,7 @@
     "Good evening, {name}" : "Bonsoir {name}",
     "Hello" : "Bonjour",
     "Hello, {name}" : "Bonjour {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Commencez votre journée en étant informé\n\nLe tableau de bord Nextcloud est votre point de départ de la journée, vous donnant un aperçu de vos rendez-vous à venir, des e-mails urgents, des messages de discussion, des tickets entrants, des derniers tweets et bien plus encore ! Les utilisateurs peuvent ajouter les widgets qu’ils souhaitent et changer l’arrière-plan à leur guise."
+    "Happy birthday 🥳🤩🎂🎉" : "Joyeux anniversaire ! 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Joyeux anniversaire, {name}! 🥳🤩🎂🎉"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -43,7 +43,7 @@ export default {
 		},
 		updateButtonText() {
 			if (this.app?.app_api && this.app?.daemon?.accepts_deploy_id === 'manual-install') {
-				return t('settings', 'manual-install apps cannot be updated')
+				return t('settings', 'Manually installed apps cannot be updated')
 			}
 			return t('settings', 'Update to {version}', { version: this.app?.update })
 		},
@@ -188,9 +188,9 @@ export default {
 					.catch((error) => { showError(error) })
 			}
 		},
-		enable(appId) {
+		enable(appId, deployOptions = []) {
 			if (this.app?.app_api) {
-				this.appApiStore.enableApp(appId)
+				this.appApiStore.enableApp(appId, deployOptions)
 					.then(() => { rebuildNavigation() })
 					.catch((error) => { showError(error) })
 			} else {

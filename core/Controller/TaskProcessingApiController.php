@@ -39,6 +39,7 @@ use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\ShapeEnumValue;
 use OCP\TaskProcessing\Task;
 use RuntimeException;
+use stdClass;
 
 /**
  * @psalm-import-type CoreTaskProcessingTask from ResponseDefinitions
@@ -67,31 +68,70 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	#[PublicPage]
 	#[ApiRoute(verb: 'GET', url: '/tasktypes', root: '/taskprocessing')]
 	public function taskTypes(): DataResponse {
+		/** @var array<string, CoreTaskProcessingTaskType> $taskTypes */
 		$taskTypes = array_map(function (array $tt) {
-			$tt['inputShape'] = array_values(array_map(function ($descriptor) {
+			$tt['inputShape'] = array_map(function ($descriptor) {
 				return $descriptor->jsonSerialize();
-			}, $tt['inputShape']));
-			$tt['outputShape'] = array_values(array_map(function ($descriptor) {
+			}, $tt['inputShape']);
+			if (empty($tt['inputShape'])) {
+				$tt['inputShape'] = new stdClass;
+			}
+
+			$tt['outputShape'] = array_map(function ($descriptor) {
 				return $descriptor->jsonSerialize();
-			}, $tt['outputShape']));
-			$tt['optionalInputShape'] = array_values(array_map(function ($descriptor) {
+			}, $tt['outputShape']);
+			if (empty($tt['outputShape'])) {
+				$tt['outputShape'] = new stdClass;
+			}
+
+			$tt['optionalInputShape'] = array_map(function ($descriptor) {
 				return $descriptor->jsonSerialize();
-			}, $tt['optionalInputShape']));
-			$tt['optionalOutputShape'] = array_values(array_map(function ($descriptor) {
+			}, $tt['optionalInputShape']);
+			if (empty($tt['optionalInputShape'])) {
+				$tt['optionalInputShape'] = new stdClass;
+			}
+
+			$tt['optionalOutputShape'] = array_map(function ($descriptor) {
 				return $descriptor->jsonSerialize();
-			}, $tt['optionalOutputShape']));
-			$tt['inputShapeEnumValues'] = array_values(array_map(function (array $enumValues) {
-				return array_values(array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues));
-			}, $tt['inputShapeEnumValues']));
-			$tt['optionalInputShapeEnumValues'] = array_values(array_map(function (array $enumValues) {
-				return array_values(array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues));
-			}, $tt['optionalInputShapeEnumValues']));
-			$tt['outputShapeEnumValues'] = array_values(array_map(function (array $enumValues) {
-				return array_values(array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues));
-			}, $tt['outputShapeEnumValues']));
-			$tt['optionalOutputShapeEnumValues'] = array_values(array_map(function (array $enumValues) {
-				return array_values(array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues));
-			}, $tt['optionalOutputShapeEnumValues']));
+			}, $tt['optionalOutputShape']);
+			if (empty($tt['optionalOutputShape'])) {
+				$tt['optionalOutputShape'] = new stdClass;
+			}
+
+			$tt['inputShapeEnumValues'] = array_map(function (array $enumValues) {
+				return array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues);
+			}, $tt['inputShapeEnumValues']);
+			if (empty($tt['inputShapeEnumValues'])) {
+				$tt['inputShapeEnumValues'] = new stdClass;
+			}
+
+			$tt['optionalInputShapeEnumValues'] = array_map(function (array $enumValues) {
+				return array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues);
+			}, $tt['optionalInputShapeEnumValues']);
+			if (empty($tt['optionalInputShapeEnumValues'])) {
+				$tt['optionalInputShapeEnumValues'] = new stdClass;
+			}
+
+			$tt['outputShapeEnumValues'] = array_map(function (array $enumValues) {
+				return array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues);
+			}, $tt['outputShapeEnumValues']);
+			if (empty($tt['outputShapeEnumValues'])) {
+				$tt['outputShapeEnumValues'] = new stdClass;
+			}
+
+			$tt['optionalOutputShapeEnumValues'] = array_map(function (array $enumValues) {
+				return array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues);
+			}, $tt['optionalOutputShapeEnumValues']);
+			if (empty($tt['optionalOutputShapeEnumValues'])) {
+				$tt['optionalOutputShapeEnumValues'] = new stdClass;
+			}
+
+			if (empty($tt['inputShapeDefaults'])) {
+				$tt['inputShapeDefaults'] = new stdClass;
+			}
+			if (empty($tt['optionalInputShapeDefaults'])) {
+				$tt['optionalInputShapeDefaults'] = new stdClass;
+			}
 			return $tt;
 		}, $this->taskProcessingManager->getAvailableTaskTypes());
 		return new DataResponse([

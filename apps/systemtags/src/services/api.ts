@@ -7,13 +7,14 @@ import type { FileStat, ResponseDataDetailed, WebDAVClientError } from 'webdav'
 import type { ServerTag, Tag, TagWithId } from '../types.js'
 
 import axios from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import { t } from '@nextcloud/l10n'
 
 import { davClient } from './davClient.js'
 import { formatTag, parseIdFromLocation, parseTags } from '../utils'
 import logger from '../logger.ts'
 import { emit } from '@nextcloud/event-bus'
+import { confirmPassword } from '@nextcloud/password-confirmation'
 
 export const fetchTagsPayload = `<?xml version="1.0"?>
 <d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
@@ -202,4 +203,26 @@ export const setTagObjects = async function(tag: TagWithId, type: string, object
 			'if-match': etag,
 		},
 	})
+}
+
+type OcsResponse = {
+	ocs: NonNullable<unknown>,
+}
+
+export const updateSystemTagsAdminRestriction = async (isAllowed: boolean): Promise<OcsResponse> => {
+	// Convert to string for compatibility
+	const isAllowedString = isAllowed ? '1' : '0'
+
+	const url = generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
+		appId: 'systemtags',
+		key: 'restrict_creation_to_admin',
+	})
+
+	await confirmPassword()
+
+	const res = await axios.post(url, {
+		value: isAllowedString,
+	})
+
+	return res.data
 }

@@ -64,7 +64,7 @@ jobs:
           if [[ '${{ matrix.sftpd }}' == 'openssh' ]]; then docker run -p 2222:22 --name sftp -d -v /tmp/sftp:/home/test atmoz/sftp 'test:test:::data'; fi
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 #v2.31.1
+        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 #v2.32.0
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
@@ -89,7 +89,7 @@ jobs:
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@v5.0.7
+        uses: codecov/codecov-action@v5.3.1
         with:
           files: ./clover.xml
           flags: phpunit-files-external-sftp

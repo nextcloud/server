@@ -12,6 +12,7 @@ use NCU\Config\Exceptions\UnknownKeyException;
 use NCU\Config\IUserConfig;
 use NCU\Config\ValueType;
 use OC\Config\UserConfig;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
 use Psr\Log\LoggerInterface;
@@ -26,6 +27,7 @@ use Test\TestCase;
  */
 class UserConfigTest extends TestCase {
 	protected IDBConnection $connection;
+	private IConfig $config;
 	private LoggerInterface $logger;
 	private ICrypto $crypto;
 	private array $originalPreferences;
@@ -169,6 +171,7 @@ class UserConfigTest extends TestCase {
 		parent::setUp();
 
 		$this->connection = \OCP\Server::get(IDBConnection::class);
+		$this->config = \OCP\Server::get(IConfig::class);
 		$this->logger = \OCP\Server::get(LoggerInterface::class);
 		$this->crypto = \OCP\Server::get(ICrypto::class);
 
@@ -277,6 +280,7 @@ class UserConfigTest extends TestCase {
 	private function generateUserConfig(array $preLoading = []): IUserConfig {
 		$userConfig = new \OC\Config\UserConfig(
 			$this->connection,
+			$this->config,
 			$this->logger,
 			$this->crypto,
 		);
@@ -746,9 +750,9 @@ class UserConfigTest extends TestCase {
 	public function testSearchValuesByUsers(
 		string $app,
 		string $key,
-		?ValueType $typedAs = null,
-		?array $userIds = null,
-		array $result = [],
+		?ValueType $typedAs,
+		?array $userIds,
+		array $result,
 	): void {
 		$userConfig = $this->generateUserConfig();
 		$this->assertEqualsCanonicalizing(

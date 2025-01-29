@@ -88,7 +88,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.0.1
+	- version: 6.1.1
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
@@ -112,7 +112,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.1
 	- license: GPL-3.0-or-later
 - @nextcloud/moment
-	- version: 1.3.1
+	- version: 1.3.2
 	- license: GPL-3.0-or-later
 - @nextcloud/paths
 	- version: 2.2.1
@@ -124,7 +124,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.4
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.20.0
+	- version: 8.22.0
 	- license: AGPL-3.0-or-later
 - @vueuse/components
 	- version: 11.1.0
@@ -139,7 +139,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.7
+	- version: 1.7.9
 	- license: MIT
 - balanced-match
 	- version: 1.0.2
@@ -172,7 +172,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.0.2
 	- license: BSD-3-Clause
 - core-js
-	- version: 3.38.1
+	- version: 3.40.0
 	- license: MIT
 - crypt
 	- version: 0.0.2

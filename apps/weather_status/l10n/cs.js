@@ -58,7 +58,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Při nastavování umístění došlo k chybě.",
     "There was an error saving the mode." : "Při ukládání režimu došlo k chybě.",
     "There was an error using personal address." : "Při použití vaší osobní adresy došlo k chybě.",
-    "Unknown weather code" : "Neznámý kód počasí",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Napojení ohledně stavu počasí pro aplikaci Nástěnka.\n    Polohu uživatele je možné zjistit automaticky nebo zadat ručně. Poté je zobrazována předpověď na příštích 6 hodin.\n    Tento stav je také možné začlenit do ostatních míst, jako například Kalendář."
+    "Unknown weather code" : "Neznámý kód počasí"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

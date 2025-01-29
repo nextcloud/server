@@ -92,9 +92,7 @@
 							<h3 v-if="headline" class="profile__blocks-headline">
 								{{ headline }}
 							</h3>
-							<p v-if="biography" class="profile__blocks-biography">
-								{{ biography }}
-							</p>
+							<NcRichText v-if="biography" :text="biography" use-extended-markdown />
 
 							<!-- additional entries, use it with cautious -->
 							<div v-for="(section, index) in sections"
@@ -135,6 +133,7 @@ import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import NcRichText from '@nextcloud/vue/dist/Components/NcRichText.js'
 import AccountIcon from 'vue-material-design-icons/Account.vue'
 import MapMarkerIcon from 'vue-material-design-icons/MapMarker.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
@@ -165,6 +164,7 @@ export default defineComponent({
 		NcButton,
 		NcContent,
 		NcEmptyContent,
+		NcRichText,
 		PencilIcon,
 	},
 
@@ -400,10 +400,6 @@ $content-max-width: 640px;
 			margin-block: 10px 0;
 			font-weight: bold;
 			font-size: 20px;
-		}
-
-		&-biography {
-			white-space: pre-line;
 		}
 	}
 }

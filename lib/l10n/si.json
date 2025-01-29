@@ -63,8 +63,6 @@
     "Summary" : "සාරාංශය",
     "Translate" : "පරිවර්තනය",
     "File name is too long" : "ගොනුවේ නම දිග වැඩිය",
-    "Help" : "උපකාර",
-    "Users" : "පරිශීලකයින්",
-    "Unknown user" : "නොදන්නා පරිශීලකයෙකි"
+    "Users" : "පරිශීලකයින්"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

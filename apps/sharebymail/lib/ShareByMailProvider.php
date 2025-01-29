@@ -567,7 +567,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$initiator = $this->userManager->get($share->getSharedBy());
 		$initiatorEMailAddress = ($initiator instanceof IUser) ? $initiator->getEMailAddress() : null;
 		$initiatorDisplayName = ($initiator instanceof IUser) ? $initiator->getDisplayName() : $share->getSharedBy();
-		$shareWith = $share->getSharedWith();
+		$shareWith = implode(', ', $this->getSharedWithEmails($share));
 
 		if ($initiatorEMailAddress === null) {
 			throw new \Exception(
@@ -1008,7 +1008,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$share->setPassword($data['password']);
 		$passwordExpirationTime = \DateTime::createFromFormat('Y-m-d H:i:s', $data['password_expiration_time'] ?? '');
 		$share->setPasswordExpirationTime($passwordExpirationTime !== false ? $passwordExpirationTime : null);
-		$share->setLabel($data['label']);
+		$share->setLabel($data['label'] ?? '');
 		$share->setSendPasswordByTalk((bool)$data['password_by_talk']);
 		$share->setHideDownload((bool)$data['hide_download']);
 		$share->setReminderSent((bool)$data['reminder_sent']);

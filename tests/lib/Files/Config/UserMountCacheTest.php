@@ -101,6 +101,8 @@ class UserMountCacheTest extends TestCase {
 		$cache->expects($this->any())
 			->method('getId')
 			->willReturn($rootId);
+		$cache->method('getNumericStorageId')
+			->willReturn($storageId);
 
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
 			->disableOriginalConstructor()

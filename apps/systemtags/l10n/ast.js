@@ -83,14 +83,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "Nun se puen cargar les etiquetes pal ficheru",
     "Failed to set tag for file" : "Nun se puen afitar la etiqueta pal ficheru",
     "Failed to delete tag for file" : "Nun se pue desaniciar la etiqueta pal ficheru",
-    "Collaborative tagging functionality which shares tags among users." : "La función d'etiquetes collaboratives que comparte etiquetes ente usuarios.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "La función d'etiquetes collaboratives que comparte etiquetes ente usuarios. Ideal pa equipos.\n\t(si yes un fornidor con una instalación diversos veceros, aconséyase desactivar esta aplicación darréu que se comparten les etiquetes).",
     "This file has the tag {tag}" : "Esti ficheru tien la etiqueta «{tag}»",
-    "This file has the tags {firstTags} and {lastTag}" : "Esti ficheru tien les etiquetes «{firstTags}» y «{lastTag}»",
-    "No files in here" : "Nun hai ficheros",
-    "No entries found in this folder" : "Nun s'atopó nenguna entrada nesta carpeta",
-    "Name" : "Nome",
-    "Size" : "Tamañu",
-    "Modified" : "Modificóse"
+    "This file has the tags {firstTags} and {lastTag}" : "Esti ficheru tien les etiquetes «{firstTags}» y «{lastTag}»"
 },
 "nplurals=2; plural=(n != 1);");

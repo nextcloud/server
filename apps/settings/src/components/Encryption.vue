@@ -97,7 +97,7 @@ export default {
 			encryptionModules,
 			shouldDisplayWarning: false,
 			migrating: false,
-			defaultCheckedModule: Object.entries(encryptionModules).find((module) => module[1].default)[0],
+			defaultCheckedModule: Object.entries(encryptionModules).find((module) => module[1].default)?.[0],
 		}
 	},
 	methods: {
