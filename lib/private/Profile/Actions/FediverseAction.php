@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OC\Profile\Actions;
 
 use OCP\Accounts\IAccountManager;
+use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
@@ -44,8 +45,13 @@ class FediverseAction implements ILinkAction {
 	}
 
 	public function preload(IUser $targetUser): void {
-		$account = $this->accountManager->getAccount($targetUser);
-		$this->value = $account->getProperty(IAccountManager::PROPERTY_FEDIVERSE)->getValue();
+		try {
+			$account = $this->accountManager->getAccount($targetUser);
+			$this->value = $account->getProperty(IAccountManager::PROPERTY_FEDIVERSE)->getValue();
+		} catch (PropertyDoesNotExistException) {
+			// `getTarget` will return null to skip this action
+			$this->value = '';
+		}
 	}
 
 	public function getAppId(): string {
@@ -74,11 +80,18 @@ class FediverseAction implements ILinkAction {
 	}
 
 	public function getTarget(): ?string {
-		if (empty($this->value)) {
+		if ($this->value === '') {
 			return null;
 		}
-		$username = $this->value[0] === '@' ? substr($this->value, 1) : $this->value;
-		[$username, $instance] = explode('@', $username);
+
+		$handle = $this->value[0] === '@' ? substr($this->value, 1) : $this->value;
+		[$username, $instance] = [...explode('@', $handle, 2), ''];
+
+		if (($username === '') || ($instance === '')) {
+			return null;
+		} elseif (str_contains($username, '/') || str_contains($instance, '/')) {
+			return null;
+		}
 		return 'https://' . $instance . '/@' . $username;
 	}
 }
