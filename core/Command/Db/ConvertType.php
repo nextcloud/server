@@ -236,7 +236,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		}
 
 		// parse hostname for unix socket
-		if (preg_match('/^(.+)(:(\d+|[^:]+))?$/', $input->getOption('hostname'), $matches)) {
+		if (preg_match('/^(.+)(:(\d+|[^:]+))?$/', $input->getArgument('hostname'), $matches)) {
 			$connectionParams['host'] = $matches[1];
 			if (isset($matches[3])) {
 				if (is_numeric($matches[3])) {
