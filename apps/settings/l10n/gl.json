@@ -247,6 +247,7 @@
     "The PHP max_input_time is too low. A time of at least %1$s is recommended. Current value: %2$s." : "O valor PHP max_input_time é demasiado baixo. Recoméndase un tempo de polo menos %1$s. Valor actual: %2$s.",
     "The PHP max_execution_time is too low. A time of at least %1$s is recommended. Current value: %2$s." : "O valor PHP max_execution_time é demasiado baixo. Recoméndase un tempo de polo menos %1$s. Valor actual: %2$s.",
     "PHP memory limit" : "Límite de memoria PHP",
+    "The PHP memory limit is below the recommended value of %s. Some features or apps - including the Updater - may not function properly." : "O límite de memoria PHP está por debaixo do valor recomendado de %s. Algunhas funcións ou aplicacións, incluído o actualizador, poden non funcionar correctamente.",
     "PHP modules" : "PHP modules",
     "increases language translation performance and fixes sorting of non-ASCII characters" : "aumenta o rendemento da tradución de idiomas e corrixe a clasificación de caracteres non ASCII",
     "for Argon2 for password hashing" : "para Argon2 para a xeración do resumo criptográfico do contrasinal",
