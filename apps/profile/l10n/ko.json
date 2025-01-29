@@ -1,4 +1,7 @@
 { "translations": {
+    "Profile" : "프로필",
+    "This application provides the profile" : "이 애플리케이션은 프로필을 제공합니다.",
+    "Provides a customisable user profile interface." : "사용자 정의 가능한 사용자 프로필 인터페이스 제공",
     "Edit Profile" : "프로필 수정",
     "The headline and about sections will show up here" : "표제와 기타 정보가 이곳에 나타납니다.",
     "You have not added any info yet" : "아직 아무 정보도 추가하지 않았습니다.",

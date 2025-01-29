@@ -68,6 +68,7 @@ OC.L10N.register(
     "Manage tags" : "Gerenciar etiquetas",
     "Applying tags changes…" : "Aplicando mudanças de etiquetas…",
     "Search or create tag" : "Pesquisar ou criar etiqueta",
+    "Change tag color" : "Alterar cor da tag",
     "Create new tag" : "Crie uma etiqueta nova",
     "Select or create tags to apply to all selected files" : "Selecione ou crie etiquetas para aplicar a todos os arquivos selecionados",
     "Cancel" : "Cancelar",
@@ -82,6 +83,13 @@ OC.L10N.register(
     "Failed to load tags" : "Erro ao carregar rótulos",
     "Failed to load selected tags" : "Falha ao carregar as etiquetas selecionadas",
     "Failed to select tag" : "Falha ao selecionar etiqueta",
+    "System admin disabled tag creation. You can only use existing ones." : "O administrador do sistema desativou a criação de tags. Você só pode usar as que já existem.",
+    "System tag creation" : "Criação de tags do sistema",
+    "If enabled, regular accounts will be restricted from creating new tags but will still be able to assign and remove them from their files." : "Se ativado, contas comuns serão restringidas de criar novas tags, mas ainda poderão atribuí-las e removê-las de seus arquivos.",
+    "Restrict tag creation to admins only" : "Restringir a criação de tags somente para administradores",
+    "Unable to update setting" : "Não foi possível atualizar a configuração",
+    "System tag creation is now restricted to administrators" : "A criação de tags do sistema agora está restrita aos administradores",
+    "System tag creation is now allowed for everybody" : "A criação de tags do sistema agora está liberada para todos",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Etiquetas colaborativas estão disponíveis para todos os usuários. As etiquetas restritas são visíveis para os usuários, mas não podem ser atribuídas por eles. Etiquetas invisíveis são para uso interno, já que os usuários não podem vê-las ou atribuí-las.",
     "Assigned collaborative tags" : "Etiquetas colaborativas atribuídas",
     "Open in Files" : "Abrir em arquivos",
@@ -96,6 +104,7 @@ OC.L10N.register(
     "Failed to set tag for file" : "Falha ao definir etiqueta para arquivo",
     "Failed to delete tag for file" : "Falha ao excluir etiqueta do arquivo",
     "This file has the tag {tag}" : "Este arquivo tem a tag {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Este arquivo tem as etiquetas {firstTags} e {lastTag}"
+    "This file has the tags {firstTags} and {lastTag}" : "Este arquivo tem as etiquetas {firstTags} e {lastTag}",
+    "System tag creation is now ${isRestricted ? " : "A criação de tags do sistema agora é ${isRestricted ?"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
