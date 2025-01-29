@@ -31,6 +31,7 @@ use OCA\Settings\UserMigration\AccountMigrator;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\App;
 use OCP\IAvatarManager;
+use OCP\IConfig;
 use OCP\IUserManager;
 use OCP\UserMigration\IExportDestination;
 use OCP\UserMigration\IImportSource;
@@ -69,8 +70,11 @@ class AccountMigratorTest extends TestCase {
 	private const REGEX_CONFIG_FILE = '/^' . Application::APP_ID . '\/' . '[a-z]+\.json' . '$/';
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$app = new App(Application::APP_ID);
 		$container = $app->getContainer();
+		$container->get(IConfig::class)->setSystemValue('has_internet_connection', false);
 
 		$this->userManager = $container->get(IUserManager::class);
 		$this->avatarManager = $container->get(IAvatarManager::class);
@@ -79,6 +83,11 @@ class AccountMigratorTest extends TestCase {
 		$this->importSource = $this->createMock(IImportSource::class);
 		$this->exportDestination = $this->createMock(IExportDestination::class);
 		$this->output = $this->createMock(OutputInterface::class);
+	}
+
+	protected function tearDown(): void {
+		\OCP\Server::get(IConfig::class)->setSystemValue('has_internet_connection', true);
+		parent::tearDown();
 	}
 
 	public function dataImportExportAccount(): array {
