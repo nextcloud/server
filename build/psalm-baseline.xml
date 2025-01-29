@@ -2277,6 +2277,14 @@
       <code><![CDATA[?IImage]]></code>
     </InvalidReturnType>
   </file>
+  <file src="lib/private/Profile/Actions/FediverseAction.php">
+    <NoValue>
+      <code><![CDATA[$instance]]></code>
+    </NoValue>
+    <RedundantCondition>
+      <code><![CDATA[$instance === '']]></code>
+    </RedundantCondition>
+  </file>
   <file src="lib/private/RedisFactory.php">
     <InvalidArgument>
       <code><![CDATA[\RedisCluster::OPT_SLAVE_FAILOVER]]></code>
