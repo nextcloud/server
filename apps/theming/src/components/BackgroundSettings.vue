@@ -234,7 +234,7 @@ export default {
 
 		debouncePickColor: debounce(function(...args) {
 			this.pickColor(...args)
-		}, 200),
+		}, 1000),
 
 		pickFile() {
 			const picker = getFilePickerBuilder(t('theming', 'Select a background from your files'))
