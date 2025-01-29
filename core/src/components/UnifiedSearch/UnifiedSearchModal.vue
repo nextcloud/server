@@ -374,7 +374,7 @@ export default defineComponent({
 			const providersToSearch = this.filteredProviders.length > 0 ? this.filteredProviders : this.providers
 			const searchProvider = (provider, filters) => {
 				const params = {
-					type: provider.appId,
+					type: provider.id,
 					query,
 					cursor: null,
 					extraQueries: provider.extraParams,
