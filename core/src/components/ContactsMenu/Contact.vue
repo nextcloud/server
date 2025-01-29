@@ -6,7 +6,6 @@
 <template>
 	<li class="contact">
 		<NcAvatar class="contact__avatar"
-			:size="44"
 			:user="contact.isUser ? contact.uid : undefined"
 			:is-no-user="!contact.isUser"
 			:disable-menu="true"
@@ -44,8 +43,7 @@
 				class="other-actions"
 				@click="action.callback(contact)">
 				<template #icon>
-					<NcIconSvgWrapper class="contact__action__icon-svg"
-						:svg="action.iconSvg(contact)" />
+					<NcIconSvgWrapper :svg="action.iconSvg(contact)" />
 				</template>
 				{{ action.displayName(contact) }}
 			</NcActionButton>
@@ -114,12 +112,8 @@ export default {
 		&__icon {
 			width: 20px;
 			height: 20px;
-			padding: 12px;
+			padding: calc((var(--default-clickable-area) - 20px) / 2);
 			filter: var(--background-invert-if-dark);
-		}
-
-		&__icon-svg {
-			padding: 5px;
 		}
 	}
 
