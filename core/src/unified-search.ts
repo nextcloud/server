@@ -36,6 +36,7 @@ Vue.mixin({
 interface UnifiedSearchAction {
     id: string;
     appId: string;
+	searchFrom: string;
     label: string;
     icon: string;
     callback: () => void;
@@ -44,9 +45,9 @@ interface UnifiedSearchAction {
 // Register the add/register filter action API globally
 window.OCA = window.OCA || {}
 window.OCA.UnifiedSearch = {
-	registerFilterAction: ({ id, appId, label, callback, icon }: UnifiedSearchAction) => {
+	registerFilterAction: ({ id, appId, searchFrom, label, callback, icon }: UnifiedSearchAction) => {
 		const searchStore = useSearchStore()
-		searchStore.registerExternalFilter({ id, appId, label, callback, icon })
+		searchStore.registerExternalFilter({ id, appId, searchFrom, label, callback, icon })
 	},
 }
 

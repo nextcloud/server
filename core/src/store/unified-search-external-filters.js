@@ -10,8 +10,8 @@ export const useSearchStore = defineStore('search', {
 	}),
 
 	actions: {
-		registerExternalFilter({ id, appId, label, callback, icon }) {
-			this.externalFilters.push({ id, appId, name: label, callback, icon, isPluginFilter: true })
+		registerExternalFilter({ id, appId, searchFrom, label, callback, icon }) {
+			this.externalFilters.push({ id, appId, searchFrom, name: label, callback, icon, isPluginFilter: true })
 		},
 	},
 })
