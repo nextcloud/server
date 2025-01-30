@@ -46,6 +46,12 @@ class TestUserSettings extends Command {
 				InputOption::VALUE_REQUIRED,
 				'A group DN to check if the user is a member or not'
 			)
+			->addOption(
+				'clearcache',
+				null,
+				InputOption::VALUE_NONE,
+				'Clear the cache of the LDAP connection before the beginning of tests'
+			)
 		;
 	}
 
@@ -54,6 +60,9 @@ class TestUserSettings extends Command {
 			$uid = $input->getArgument('user');
 			$access = $this->backend->getLDAPAccess($uid);
 			$connection = $access->getConnection();
+			if ($input->getOption('clearcache')) {
+				$connection->clearCache();
+			}
 			$configPrefix = $connection->getConfigPrefix();
 			$knownDn = '';
 			if ($access->stringResemblesDN($uid)) {
