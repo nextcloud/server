@@ -75,6 +75,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 			} catch (\Exception $e) {
 				logger('core')->critical('Could not decrypt or decode encrypted session data', [
 					'exception' => $e,
+					'backingSessionClass' => get_class($this->session),
 				]);
 				$this->sessionValues = [];
 				$this->regenerateId(true, false);
@@ -96,6 +97,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 					'loginFlow' => str_contains($key, 'v2') ? 'v2' : 'v1',
 					'stateToken' => $value,
 					'existingStateToken' => $existingValue,
+					'backingSessionClass' => get_class($this->session),
 				]);
 			}
 			// Do not write the session if the value hasn't changed to avoid reopening
@@ -107,6 +109,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 			logger('core')->error('Reporting on whether session was reopened', [
 				'loginFlow' => str_contains($key, 'v2') ? 'v2' : 'v1',
 				'sessionReopened' => $reopened,
+				'backingSessionClass' => get_class($this->session),
 			]);
 		}
 
@@ -115,6 +118,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 			logger('core')->error('Saving state token with session', [
 				'loginFlow' => str_contains($key, 'v2') ? 'v2' : 'v1',
 				'stateToken' => $value,
+				'backingSessionClass' => get_class($this->session),
 			]);
 		}
 		$this->isModified = true;
@@ -160,7 +164,8 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 			logger('core')->error('Removing state token from session', [
 				'loginFlow' => str_contains($key, 'v2') ? 'v2' : 'v1',
 				'stateToken' => $this->sessionValues[$key],
-				'exception' => $e
+				'exception' => $e,
+				'backingSessionClass' => get_class($this->session),
 			]);
 		}
 		unset($this->sessionValues[$key]);
@@ -181,7 +186,8 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 			logger('core')->error('Cleared session containing state token', [
 				'loginFlow' => $key === 'client.flow.v2.state.token' ? 'v2' : 'v1',
 				'stateToken' => $this->sessionValues[$key],
-				'exception' => $e
+				'exception' => $e,
+				'backingSessionClass' => get_class($this->session),
 			]);
 		}
 		$this->sessionValues = [];
@@ -220,6 +226,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 				'deleteOldSessionFile' => $deleteOldSession,
 				'updateToken' => $updateToken,
 				'exception' => $e,
+				'backingSessionClass' => get_class($this->session),
 			]);
 		}
 		$this->session->regenerateId($deleteOldSession, $updateToken);
