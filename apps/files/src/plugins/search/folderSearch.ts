@@ -23,6 +23,7 @@ function init() {
 	OCA.UnifiedSearch.registerFilterAction({
 		id: 'in-folder',
 		appId: 'files',
+		searchFrom: 'files',
 		label: t('files', 'In folder'),
 		icon: imagePath('files', 'app.svg'),
 		callback: (showFilePicker: boolean = true) => {
@@ -38,6 +39,7 @@ function init() {
 							emit('nextcloud:unified-search:add-filter', {
 								id: 'in-folder',
 								appId: 'files',
+								searchFrom: 'files',
 								payload: folder,
 								filterUpdateText: t('files', 'Search in folder: {folder}', { folder: folder.basename }),
 								filterParams: { path: folder.path },
