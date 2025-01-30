@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -14,6 +15,7 @@ use OC\Core\Data\LoginFlowV2Credentials;
 use OC\Core\Data\LoginFlowV2Tokens;
 use OC\Core\Db\LoginFlowV2;
 use OC\Core\Db\LoginFlowV2Mapper;
+use OC\Core\Exception\LoginFlowV2ClientForbiddenException;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\Service\LoginFlowV2Service;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -235,6 +237,57 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			->willThrowException(new DoesNotExistException(''));
 
 		$this->subjectUnderTest->getByLoginToken('test_token');
+	}
+
+	public function testGetByLoginTokenClientForbidden() {
+		$this->expectException(LoginFlowV2ClientForbiddenException::class);
+		$this->expectExceptionMessage('Client not allowed');
+
+		$allowedClients = [
+			'/Custom Allowed Client/i'
+		];
+
+		$this->config->expects($this->exactly(1))
+			->method('getSystemValue')
+			->willReturn($this->returnCallback(function ($key) use ($allowedClients) {
+				// Note: \OCP\IConfig::getSystemValue returns either an array or string.
+				return $key == 'core.login_flow_v2.allowed_user_agents' ? $allowedClients : '';
+			}));
+
+		$loginFlowV2 = new LoginFlowV2();
+		$loginFlowV2->setClientName('Rogue Curl Client/1.0');
+
+		$this->mapper->expects($this->once())
+			->method('getByLoginToken')
+			->willReturn($loginFlowV2);
+
+		$this->subjectUnderTest->getByLoginToken('test_token');
+	}
+
+	public function testGetByLoginTokenClientAllowed() {
+		$allowedClients = [
+			'/Foo Allowed Client/i',
+			'/Custom Allowed Client/i'
+		];
+
+		$loginFlowV2 = new LoginFlowV2();
+		$loginFlowV2->setClientName('Custom Allowed Client Curl Client/1.0');
+
+		$this->config->expects($this->exactly(1))
+			->method('getSystemValue')
+			->willReturn($this->returnCallback(function ($key) use ($allowedClients) {
+				// Note: \OCP\IConfig::getSystemValue returns either an array or string.
+				return $key == 'core.login_flow_v2.allowed_user_agents' ? $allowedClients : '';
+			}));
+
+		$this->mapper->expects($this->once())
+			->method('getByLoginToken')
+			->willReturn($loginFlowV2);
+
+		$result = $this->subjectUnderTest->getByLoginToken('test_token');
+
+		$this->assertTrue($result instanceof LoginFlowV2);
+		$this->assertEquals('Custom Allowed Client Curl Client/1.0', $result->getClientName());
 	}
 
 	/*

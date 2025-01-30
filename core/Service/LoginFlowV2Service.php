@@ -15,6 +15,7 @@ use OC\Core\Data\LoginFlowV2Credentials;
 use OC\Core\Data\LoginFlowV2Tokens;
 use OC\Core\Db\LoginFlowV2;
 use OC\Core\Db\LoginFlowV2Mapper;
+use OC\Core\Exception\LoginFlowV2ClientForbiddenException;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -74,13 +75,33 @@ class LoginFlowV2Service {
 	 * @param string $loginToken
 	 * @return LoginFlowV2
 	 * @throws LoginFlowV2NotFoundException
+	 * @throws LoginFlowV2ClientForbiddenException
 	 */
 	public function getByLoginToken(string $loginToken): LoginFlowV2 {
+		/** @var LoginFlowV2|null $flow */
+		$flow = null;
+
 		try {
-			return $this->mapper->getByLoginToken($loginToken);
+			$flow = $this->mapper->getByLoginToken($loginToken);
 		} catch (DoesNotExistException $e) {
 			throw new LoginFlowV2NotFoundException('Login token invalid');
 		}
+
+		$allowedAgents = $this->config->getSystemValue('core.login_flow_v2.allowed_user_agents', []);
+
+		if (empty($allowedAgents)) {
+			return $flow;
+		}
+
+		$flowClient = $flow->getClientName();
+
+		foreach ($allowedAgents as $allowedAgent) {
+			if (preg_match($allowedAgent, $flowClient) === 1) {
+				return $flow;
+			}
+		}
+
+		throw new LoginFlowV2ClientForbiddenException('Client not allowed');
 	}
 
 	/**

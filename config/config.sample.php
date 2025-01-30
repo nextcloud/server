@@ -2516,6 +2516,20 @@ $CONFIG = [
 ],
 
 /**
+ * This option allows you to specify a list of allowed user agents for the Login Flow V2.
+ * If a user agent is not in this list, it will not be allowed to use the Login Flow V2.
+ * The user agents are defined using regular expressions.
+ *
+ * WARNING: only use this if you know what you are doing
+ *
+ * Example: Allow only the Nextcloud Android app to use the Login Flow V2
+ * 'core.login_flow_v2.allowed_user_agents' => ['/Nextcloud-android/i'],
+ *
+ * Defaults to an empty array.
+ */
+'core.login_flow_v2.allowed_user_agents' => [],
+
+/**
  * By default, there is on public pages a link shown that allows users to
  * learn about the "simple sign up" - see https://nextcloud.com/signup/
  *
