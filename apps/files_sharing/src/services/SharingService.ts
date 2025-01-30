@@ -40,9 +40,12 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 				ocsEntry.file_target = ocsEntry.name
 			}
 
-			// Need to set permissions to NONE for federated shares
-			ocsEntry.item_permissions = Permission.NONE
-			ocsEntry.permissions = Permission.NONE
+			// If the share is not accepted yet we don't know which permissions it will have
+			if (!ocsEntry.accepted) {
+				// Need to set permissions to NONE for federated shares
+				ocsEntry.item_permissions = Permission.NONE
+				ocsEntry.permissions = Permission.NONE
+			}
 
 			ocsEntry.uid_owner = ocsEntry.owner
 			// TODO: have the real display name stored somewhere
