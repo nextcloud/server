@@ -131,9 +131,7 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDispl
 		$groups = [];
 		foreach ($this->backends as $backend) {
 			$backendGroups = $backend->getUserGroups($uid);
-			if (is_array($backendGroups)) {
-				$groups = array_merge($groups, $backendGroups);
-			}
+			$groups = array_merge($groups, $backendGroups);
 		}
 
 		return array_values(array_unique($groups));
