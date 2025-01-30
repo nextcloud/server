@@ -175,6 +175,29 @@ Cypress.Commands.add('mkdir', (user: User, target: string) => {
 		})
 })
 
+Cypress.Commands.add('rm', (user: User, target: string) => {
+	// eslint-disable-next-line cypress/unsafe-to-chain-command
+	cy.clearCookies()
+		.then(async () => {
+			try {
+				const rootPath = `${Cypress.env('baseUrl')}/remote.php/dav/files/${encodeURIComponent(user.userId)}`
+				const filePath = target.split('/').map(encodeURIComponent).join('/')
+				const response = await axios({
+					url: `${rootPath}${filePath}`,
+					method: 'DELETE',
+					auth: {
+						username: user.userId,
+						password: user.password,
+					},
+				})
+				cy.log(`delete file or directory ${target}`, response)
+			} catch (error) {
+				cy.log('error', error)
+				throw new Error('Unable to delete file or directory')
+			}
+		})
+})
+
 /**
  * cy.uploadedContent - uploads a raw content
  * TODO: standardise in @nextcloud/cypress
