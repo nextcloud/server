@@ -18,6 +18,7 @@ use OCP\Dashboard\Model\WidgetButton;
 use OCP\Dashboard\Model\WidgetItem;
 use OCP\Dashboard\Model\WidgetItems;
 use OCP\Dashboard\Model\WidgetOptions;
+use OCP\Files\File;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\IL10N;
@@ -88,13 +89,17 @@ class FavoriteWidget implements IIconWidget, IAPIWidgetV2, IButtonWidget, IOptio
 				$url = $this->urlGenerator->linkToRouteAbsolute(
 					'files.view.showFile', ['fileid' => $node->getId()]
 				);
-				$icon = $this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', [
-					'x' => 256,
-					'y' => 256,
-					'fileId' => $node->getId(),
-					'c' => $node->getEtag(),
-					'mimeFallback' => true,
-				]);
+				if ($node instanceof File) {
+					$icon = $this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', [
+						'x' => 256,
+						'y' => 256,
+						'fileId' => $node->getId(),
+						'c' => $node->getEtag(),
+						'mimeFallback' => true,
+					]);
+				} else {
+					$icon = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'filetypes/folder.svg'));
+				}
 				$favoriteNodes[] = new WidgetItem(
 					$node->getName(),
 					'',
