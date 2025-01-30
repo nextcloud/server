@@ -121,7 +121,7 @@
 			</h3>
 			<div v-for="providerResult in results" :key="providerResult.id" class="result">
 				<h4 :id="`unified-search-result-${providerResult.id}`" class="result-title">
-					{{ providerResult.provider }}
+					{{ providerResult.name }}
 				</h4>
 				<ul class="result-items" :aria-labelledby="`unified-search-result-${providerResult.id}`">
 					<SearchResult v-for="(result, index) in providerResult.results"
@@ -129,14 +129,14 @@
 						v-bind="result" />
 				</ul>
 				<div class="result-footer">
-					<NcButton type="tertiary-no-background" @click="loadMoreResultsForProvider(providerResult.id)">
+					<NcButton type="tertiary-no-background" @click="loadMoreResultsForProvider(providerResult)">
 						{{ t('core', 'Load more results') }}
 						<template #icon>
 							<IconDotsHorizontal :size="20" />
 						</template>
 					</NcButton>
 					<NcButton v-if="providerResult.inAppSearch" alignment="end-reverse" type="tertiary-no-background">
-						{{ t('core', 'Search in') }} {{ providerResult.provider }}
+						{{ t('core', 'Search in') }} {{ providerResult.name }}
 						<template #icon>
 							<IconArrowRight :size="20" />
 						</template>
@@ -374,7 +374,7 @@ export default defineComponent({
 			const providersToSearch = this.filteredProviders.length > 0 ? this.filteredProviders : this.providers
 			const searchProvider = (provider, filters) => {
 				const params = {
-					type: provider.id,
+					type: provider.searchFrom ?? provider.id,
 					query,
 					cursor: null,
 					extraQueries: provider.extraParams,
@@ -406,7 +406,9 @@ export default defineComponent({
 					newResults.push({
 						id: provider.id,
 						appId: provider.appId,
-						provider: provider.name,
+						searchFrom: provider.searchFrom,
+						icon: provider.icon,
+						name: provider.name,
 						inAppSearch: provider.inAppSearch,
 						results: response.data.ocs.data.entries,
 					})
@@ -500,11 +502,11 @@ export default defineComponent({
 			this.debouncedFind(this.searchQuery)
 			unifiedSearchLogger.debug('Person filter applied', { person })
 		},
-		loadMoreResultsForProvider(providerId) {
+		async loadMoreResultsForProvider(provider) {
 			this.providerResultLimit += 5
-			// If user wants more result for a particular filter remove other filters???
-			this.filters = this.filters.filter(filter => filter.id === providerId)
-			const provider = this.providers.find(provider => provider.id === providerId)
+			// If load more result for filter, remove other filters
+			this.filters = this.filters.filter(filter => filter.id === provider.id)
+			this.filteredProviders = this.filteredProviders.filter(filteredProvider => filteredProvider.id === provider.id)
 			this.addProviderFilter(provider, true)
 		},
 		addProviderFilter(providerFilter, loadMoreResultsForProvider = false) {
@@ -531,6 +533,7 @@ export default defineComponent({
 			this.filteredProviders.push({
 				id: providerFilter.id,
 				appId: providerFilter.appId,
+				searchFrom: providerFilter.searchFrom,
 				name: providerFilter.name,
 				icon: providerFilter.icon,
 				type: providerFilter.type || 'provider',
