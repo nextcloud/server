@@ -15,6 +15,7 @@ use OC\App\AppStore\Version\VersionParser;
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
 use OC\Installer;
+use OCA\AppAPI\Service\ExAppsPageService;
 use OCP\App\AppPathNotFoundException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -94,7 +95,7 @@ class AppSettingsController extends Controller {
 
 		if ($this->appManager->isEnabledForAnyone('app_api')) {
 			try {
-				Server::get(\OCA\AppAPI\Service\ExAppsPageService::class)->provideAppApiState($this->initialState);
+				Server::get(ExAppsPageService::class)->provideAppApiState($this->initialState);
 			} catch (\Psr\Container\NotFoundExceptionInterface|\Psr\Container\ContainerExceptionInterface $e) {
 			}
 		}

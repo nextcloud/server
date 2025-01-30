@@ -327,7 +327,7 @@ class SFTP extends Common {
 					$context = stream_context_create(['sftp' => ['session' => $connection]]);
 					$fh = fopen('sftpwrite://' . trim($absPath, '/'), 'w', false, $context);
 					if ($fh) {
-						$fh = CallbackWrapper::wrap($fh, null, null, function () use ($path) {
+						$fh = CallbackWrapper::wrap($fh, null, null, function () use ($path): void {
 							$this->knownMTimes->set($path, time());
 						});
 					}

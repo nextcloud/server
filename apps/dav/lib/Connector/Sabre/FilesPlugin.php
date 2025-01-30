@@ -10,6 +10,7 @@ namespace OCA\DAV\Connector\Sabre;
 use OC\AppFramework\Http\Request;
 use OC\FilesMetadata\Model\FilesMetadata;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
+use OCA\Files_Sharing\External\Mount as SharingExternalMount;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\IFilenameValidator;
@@ -424,7 +425,7 @@ class FilesPlugin extends ServerPlugin {
 
 			$propFind->handle(self::IS_FEDERATED_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getMountPoint()
-					instanceof \OCA\Files_Sharing\External\Mount;
+					instanceof SharingExternalMount;
 			});
 		}
 

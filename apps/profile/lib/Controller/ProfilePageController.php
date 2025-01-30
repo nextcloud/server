@@ -28,6 +28,7 @@ use OCP\Profile\BeforeTemplateRenderedEvent;
 use OCP\Profile\IProfileManager;
 use OCP\Share\IManager as IShareManager;
 use OCP\UserStatus\IManager as IUserStatusManager;
+use OCP\Util;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ProfilePageController extends Controller {
@@ -103,7 +104,7 @@ class ProfilePageController extends Controller {
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($targetUserId));
 
-		\OCP\Util::addScript('profile', 'main');
+		Util::addScript('profile', 'main');
 
 		return new TemplateResponse(
 			'profile',
