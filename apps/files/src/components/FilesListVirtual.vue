@@ -536,7 +536,6 @@ export default defineComponent({
 			flex-direction: column;
 			width: 100%;
 			background-color: var(--color-main-background);
-
 		}
 
 		// Table header
@@ -853,8 +852,7 @@ export default defineComponent({
 
 <style lang="scss">
 // Grid mode
-tbody.files-list__tbody.files-list__tbody--grid {
-	--half-clickable-area: calc(var(--clickable-area) / 2);
+.files-list--grid tbody.files-list__tbody {
 	--item-padding: 16px;
 	--icon-preview-size: 166px;
 	--name-height: 32px;
@@ -945,7 +943,7 @@ tbody.files-list__tbody.files-list__tbody--grid {
 
 	.files-list__row-actions {
 		position: absolute;
-		inset-inline-end: calc(var(--half-clickable-area) / 2);
+		inset-inline-end: calc(var(--clickable-area) / 4);
 		inset-block-end: calc(var(--mtime-height) / 2);
 		width: var(--clickable-area);
 		height: var(--clickable-area);
