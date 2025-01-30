@@ -2701,6 +2701,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->setShareType(IShare::TYPE_USER)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
 		$share1 = $this->provider->create($share1);
+		$share1 = $provider->acceptShare($share1, $u2->getUid());
 
 		$share2 = $shareManager->newShare();
 		$share2->setNode($folder2)
@@ -2712,6 +2713,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share2 = $this->provider->create($share2);
 
 		$shareManager->deleteFromSelf($share2, $u4->getUID());
+
+		$share2 = $provider->acceptShare($share2, $u3->getUid());
+		$share2 = $provider->acceptShare($share2, $u4->getUid());
 
 		$share3 = $shareManager->newShare();
 		$share3->setNode($file1)
@@ -2729,6 +2733,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->setShareType(IShare::TYPE_USER)
 			->setPermissions(\OCP\Constants::PERMISSION_READ);
 		$share4 = $this->provider->create($share4);
+		$share4 = $provider->acceptShare($share4, $u5->getUid());
 
 		$result = $provider->getAccessList([$folder1, $folder2, $file1], false);
 
@@ -2799,6 +2804,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->setShareType(IShare::TYPE_USER)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
 		$share1 = $this->provider->create($share1);
+		$share1 = $provider->acceptShare($share1, $u2->getUid());
 
 		$share2 = $shareManager->newShare();
 		$share2->setNode($folder2)
@@ -2808,6 +2814,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->setShareType(IShare::TYPE_GROUP)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
 		$share2 = $this->provider->create($share2);
+		$share2 = $provider->acceptShare($share2, $u3->getUid());
+		$share2 = $provider->acceptShare($share2, $u4->getUid());
 
 		$shareManager->deleteFromSelf($share2, $u4->getUID());
 
@@ -2827,6 +2835,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->setShareType(IShare::TYPE_USER)
 			->setPermissions(\OCP\Constants::PERMISSION_READ);
 		$share4 = $this->provider->create($share4);
+		$share4 = $provider->acceptShare($share4, $u5->getUid());
 
 		$result = $provider->getAccessList([$folder1, $folder2, $file1], true);
 
