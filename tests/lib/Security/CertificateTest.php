@@ -31,7 +31,7 @@ class CertificateTest extends \Test\TestCase {
 		$this->expiredCertificate = new Certificate($expiredCertificate, 'ExpiredCertificate');
 	}
 
-	
+
 	public function testBogusData() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Certificate could not get parsed.');
@@ -40,7 +40,12 @@ class CertificateTest extends \Test\TestCase {
 		$certificate->getIssueDate();
 	}
 
-	
+	public function testOpenSslTrustedCertificateFormat(): void {
+		$trustedCertificate = file_get_contents(__DIR__ . '/../../data/certificates/openSslTrustedCertificate.crt');
+		$certificate = new Certificate($trustedCertificate, 'TrustedCertificate');
+		$this->assertSame('thawte, Inc.', $certificate->getOrganization());
+	}
+
 	public function testCertificateStartingWithFileReference() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Certificate could not get parsed.');

@@ -29,7 +29,7 @@ describe('files_sharing: Files inline status action', { testIsolation: true }, (
 			.should('not.exist')
 	})
 
-	describe('', () => {
+	describe('Sharing inline status action handling', () => {
 		let user: User
 		let sharee: User
 

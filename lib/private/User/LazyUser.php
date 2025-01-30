@@ -36,9 +36,12 @@ class LazyUser implements IUser {
 				$this->user = $this->userManager->get($this->uid);
 			}
 		}
-		/** @var IUser */
-		$user = $this->user;
-		return $user;
+
+		if ($this->user === null) {
+			throw new NoUserException('User not found in backend');
+		}
+
+		return $this->user;
 	}
 
 	public function getUID() {

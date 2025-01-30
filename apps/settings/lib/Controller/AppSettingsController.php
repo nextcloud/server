@@ -43,6 +43,7 @@ use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
@@ -77,6 +78,8 @@ class AppSettingsController extends Controller {
 	}
 
 	/**
+	 * @psalm-suppress UndefinedClass AppAPI is shipped since 30.0.1
+	 *
 	 * @return TemplateResponse
 	 */
 	#[NoCSRFRequired]
@@ -87,6 +90,13 @@ class AppSettingsController extends Controller {
 		$this->initialState->provideInitialState('appstoreBundles', $this->getBundles());
 		$this->initialState->provideInitialState('appstoreDeveloperDocs', $this->urlGenerator->linkToDocs('developer-manual'));
 		$this->initialState->provideInitialState('appstoreUpdateCount', count($this->getAppsWithUpdates()));
+
+		if ($this->appManager->isInstalled('app_api')) {
+			try {
+				Server::get(\OCA\AppAPI\Service\ExAppsPageService::class)->provideAppApiState($this->initialState);
+			} catch (\Psr\Container\NotFoundExceptionInterface|\Psr\Container\ContainerExceptionInterface $e) {
+			}
+		}
 
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
@@ -106,7 +116,7 @@ class AppSettingsController extends Controller {
 	#[NoCSRFRequired]
 	public function getAppDiscoverJSON(): JSONResponse {
 		$data = $this->discoverFetcher->get(true);
-		return new JSONResponse($data);
+		return new JSONResponse(array_values($data));
 	}
 
 	/**
@@ -229,11 +239,31 @@ class AppSettingsController extends Controller {
 		], $categories);
 	}
 
+	/**
+	 * Convert URL to proxied URL so CSP is no problem
+	 */
+	private function createProxyPreviewUrl(string $url): string {
+		if ($url === '') {
+			return '';
+		}
+		return 'https://usercontent.apps.nextcloud.com/' . base64_encode($url);
+	}
+
 	private function fetchApps() {
 		$appClass = new \OC_App();
 		$apps = $appClass->listAllApps();
 		foreach ($apps as $app) {
 			$app['installed'] = true;
+
+			if (isset($app['screenshot'][0])) {
+				$appScreenshot = $app['screenshot'][0] ?? null;
+				if (is_array($appScreenshot)) {
+					// Screenshot with thumbnail
+					$appScreenshot = $appScreenshot['@value'];
+				}
+
+				$app['screenshot'] = $this->createProxyPreviewUrl($appScreenshot);
+			}
 			$this->allApps[$app['id']] = $app;
 		}
 
@@ -292,7 +322,7 @@ class AppSettingsController extends Controller {
 		$apps = array_map(function (array $appData) use ($dependencyAnalyzer, $ignoreMaxApps) {
 			if (isset($appData['appstoreData'])) {
 				$appstoreData = $appData['appstoreData'];
-				$appData['screenshot'] = isset($appstoreData['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/' . base64_encode($appstoreData['screenshots'][0]['url']) : '';
+				$appData['screenshot'] = $this->createProxyPreviewUrl($appstoreData['screenshots'][0]['url'] ?? '');
 				$appData['category'] = $appstoreData['categories'];
 				$appData['releases'] = $appstoreData['releases'];
 			}
@@ -306,6 +336,10 @@ class AppSettingsController extends Controller {
 			$groups = [];
 			if (is_string($appData['groups'])) {
 				$groups = json_decode($appData['groups']);
+				// ensure 'groups' is an array
+				if (!is_array($groups)) {
+					$groups = [$groups];
+				}
 			}
 			$appData['groups'] = $groups;
 			$appData['canUnInstall'] = !$appData['active'] && $appData['removable'];
@@ -413,12 +447,13 @@ class AppSettingsController extends Controller {
 
 			$formattedApps[] = [
 				'id' => $app['id'],
+				'app_api' => false,
 				'name' => $app['translations'][$currentLanguage]['name'] ?? $app['translations']['en']['name'],
 				'description' => $app['translations'][$currentLanguage]['description'] ?? $app['translations']['en']['description'],
 				'summary' => $app['translations'][$currentLanguage]['summary'] ?? $app['translations']['en']['summary'],
 				'license' => $app['releases'][0]['licenses'],
 				'author' => $authors,
-				'shipped' => false,
+				'shipped' => $this->appManager->isShipped($app['id']),
 				'version' => $currentVersion,
 				'default_enable' => '',
 				'types' => [],

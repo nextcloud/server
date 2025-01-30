@@ -14,6 +14,8 @@ OC.L10N.register(
     "Deleted by" : "Slettet af ",
     "Deleted" : "Slettet",
     "A long time ago" : "For lang tid siden",
+    "Cancel" : "Annullér",
+    "Deletion cancelled" : "Sletning annulleret",
     "List of files that have been deleted." : "Liste med filer der er blevet slettet.",
     "No deleted files" : "Ingen slettede filer",
     "Files and folders you have deleted will show up here" : "Filer og mapper du har slettet, vil blive listet her",

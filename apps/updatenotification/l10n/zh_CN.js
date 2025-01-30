@@ -1,7 +1,6 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "新版本 {version} 已可以使用。获取更多升级相关信息。",
     "Channel updated" : "更新通道",
     "Web updater is disabled" : "已禁用 web 更新器",
     "Update notifications" : "升级通知",
@@ -45,6 +44,7 @@ OC.L10N.register(
     "Beta" : "Beta 测试版",
     "A pre-release version only for testing new features, not for production environments." : "预发布版本仅作测试新功能用，不可用于生产环境。",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>个应用没有与这个 Nextcloud 版本兼容的版本可用"],
+    "{version} is available. Get more information on how to update." : "新版本 {version} 已可以使用。获取更多升级相关信息。",
     "Update to %1$s is available." : " 可以更新到 %1$s 。",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "显示 Nextcloud 的更新提示，并提供更新器的认证页面。",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "注意：不推荐超过100个用户的站点使用网页更新程序！请改用命令行更新！",

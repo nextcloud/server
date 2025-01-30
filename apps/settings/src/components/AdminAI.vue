@@ -93,7 +93,7 @@
 			<template v-if="tpTaskTypes.length === 0">
 				<NcNoteCard type="info">
 					<!-- TRANSLATORS Text processing is the name of a Nextcloud-internal API -->
-					{{ t('settings', 'None of your currently installed apps provide custom Text processing functionality.') }}
+					{{ t('settings', 'None of your currently installed apps provide text processing functionality using the Text Processing API.') }}
 				</NcNoteCard>
 			</template>
 		</NcSettingsSection>

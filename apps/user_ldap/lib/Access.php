@@ -255,20 +255,19 @@ class Access extends LDAPUtility {
 	 * @return array If a range was detected with keys 'values', 'attributeName',
 	 *               'attributeFull' and 'rangeHigh', otherwise empty.
 	 */
-	public function extractRangeData($result, $attribute) {
+	public function extractRangeData(array $result, string $attribute): array {
 		$keys = array_keys($result);
 		foreach ($keys as $key) {
 			if ($key !== $attribute && str_starts_with((string)$key, $attribute)) {
 				$queryData = explode(';', (string)$key);
-				if (str_starts_with($queryData[1], 'range=')) {
+				if (isset($queryData[1]) && str_starts_with($queryData[1], 'range=')) {
 					$high = substr($queryData[1], 1 + strpos($queryData[1], '-'));
-					$data = [
+					return [
 						'values' => $result[$key],
 						'attributeName' => $queryData[0],
 						'attributeFull' => $key,
 						'rangeHigh' => $high,
 					];
-					return $data;
 				}
 			}
 		}

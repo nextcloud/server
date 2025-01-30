@@ -109,7 +109,7 @@ class ShareRecipientSorterTest extends TestCase {
 			]
 		];
 		$workArray = $originalArray;
-		$this->sorter->sort($workArray, ['itemType' => 'files', 'itemId' => 404]);
+		$this->sorter->sort($workArray, ['itemType' => 'files', 'itemId' => '404']);
 
 		$this->assertEquals($originalArray, $workArray);
 	}
@@ -118,7 +118,7 @@ class ShareRecipientSorterTest extends TestCase {
 		return [[
 			[
 				#0 – sort properly and otherwise keep existing order
-				'context' => ['itemType' => 'files', 'itemId' => 42],
+				'context' => ['itemType' => 'files', 'itemId' => '42'],
 				'accessList' => ['users' => ['celia', 'darius', 'faruk', 'gail'], 'bots' => ['r2-d2']],
 				'input' => [
 					'users' =>
@@ -155,7 +155,7 @@ class ShareRecipientSorterTest extends TestCase {
 			],
 			[
 				#1 – no recipients
-				'context' => ['itemType' => 'files', 'itemId' => 42],
+				'context' => ['itemType' => 'files', 'itemId' => '42'],
 				'accessList' => ['users' => false],
 				'input' => [
 					'users' =>
@@ -192,7 +192,7 @@ class ShareRecipientSorterTest extends TestCase {
 			],
 			[
 				#2 – unsupported item  type
-				'context' => ['itemType' => 'announcements', 'itemId' => 42],
+				'context' => ['itemType' => 'announcements', 'itemId' => '42'],
 				'accessList' => null, // not needed
 				'input' => [
 					'users' =>
@@ -229,7 +229,7 @@ class ShareRecipientSorterTest extends TestCase {
 			],
 			[
 				#3 – no nothing
-				'context' => ['itemType' => 'files', 'itemId' => 42],
+				'context' => ['itemType' => 'files', 'itemId' => '42'],
 				'accessList' => [],
 				'input' => [],
 				'expected' => [],

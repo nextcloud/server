@@ -190,6 +190,17 @@ class InfoParser {
 			$array['dependencies']['backend'] = [$array['dependencies']['backend']];
 		}
 
+		// Ensure some fields are always arrays
+		if (isset($array['screenshot']) && !is_array($array['screenshot'])) {
+			$array['screenshot'] = [$array['screenshot']];
+		}
+		if (isset($array['author']) && !is_array($array['author'])) {
+			$array['author'] = [$array['author']];
+		}
+		if (isset($array['category']) && !is_array($array['category'])) {
+			$array['category'] = [$array['category']];
+		}
+
 		if ($this->cache !== null) {
 			$this->cache->set($fileCacheKey, json_encode($array));
 		}

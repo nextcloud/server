@@ -49,8 +49,8 @@
     </Else>
   </FilesMatch>
 
-  # Let browsers cache WOFF files for a week
-  <FilesMatch "\.woff2?$">
+  # Let browsers cache OTF and WOFF files for a week
+  <FilesMatch "\.(otf|woff2?)$">
     Header set Cache-Control "max-age=604800"
   </FilesMatch>
 </IfModule>
@@ -103,10 +103,10 @@
 #  - https://docs.cyberduck.io/mountainduck/issues/fastcgi/
 #  - https://docs.nextcloud.com/server/latest/admin_manual/issues/general_troubleshooting.html#troubleshooting-webdav
 <IfModule mod_setenvif.c>
-  SetEnvIf Transfer-Encoding "chunked" proxy-sendcl=1
+  SetEnvIfNoCase Transfer-Encoding "chunked" proxy-sendcl=1
 </IfModule>
 
-# Apache disabled the sending of the server-side content-length header 
+# Apache disabled the sending of the server-side content-length header
 # in their 2.4.59 patch updated which breaks some use-cases in Nextcloud.
 # Setting ap_trust_cgilike_cl allows to bring back the usual behaviour.
 # See https://bz.apache.org/bugzilla/show_bug.cgi?id=68973

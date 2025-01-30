@@ -62,6 +62,8 @@
     "Failed to update tag" : "No se pudo actualizar la etiqueta",
     "Deleted tag" : "Etiqueta eliminada",
     "Failed to delete tag" : "No se pudo eliminar la etiqueta",
+    "Manage tags" : "Administrar etiquetas",
+    "Cancel" : "Cancelar",
     "Loading collaborative tags …" : "Cargando las etiquetas colaborativas …",
     "Search or create collaborative tags" : "Buscar o crear etiquetas colaborativas",
     "No tags to select, type to create a new tag" : "No hay etiquetas para seleccionar, escriba para crear una nueva etiqueta",

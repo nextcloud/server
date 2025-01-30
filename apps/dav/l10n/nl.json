@@ -136,7 +136,6 @@
     "Could not rename part file to final file, canceled by hook" : "Kon bestandsdeel niet hernoemen naar definitief bestand, geannuleerd door hook",
     "Could not rename part file to final file" : "Kon bestandsdeel niet hernoemen naar definitief bestand",
     "Failed to check file size: %1$s" : "Kon bestandsomvang niet controleren: %1$s",
-    "Could not open file" : "Kan het bestand niet openen",
     "Encryption not ready: %1$s" : "Versleuteling niet gereed: %1$s",
     "Failed to open file: %1$s" : "Kon het bestand %1$s niet openen",
     "Failed to unlink: %1$s" : "Kon link niet verwijderen: %1$s",
@@ -162,6 +161,7 @@
     "Delete slot" : "Verwijder slot",
     "No working hours set" : "Geen werkuren ingesteld",
     "Add slot" : "Voeg slot toe",
+    "Weekdays" : "Weekdagen",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Stel de gebruikersstatus automatisch in op \"Niet storen\" buiten de beschikbaarheid om alle meldingen te dempen.",
     "Failed to load availability" : "Kon beschikbaarheid niet laden",
     "Availability" : "Beschikbaarheid",
@@ -184,6 +184,7 @@
     "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt.",
     "To-dos" : "Taken",
     "Time:" : "Tijd:",
+    "Could not open file" : "Kan het bestand niet openen",
     "Invalid chunk name" : "Ongeldige chunknaam",
     "Could not rename part file assembled from chunks" : "Kon een bestandsdeel dat uit chunks is samengesteld niet hernoemen",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Als je je werkuren instelt kunnen andere gebruikers zien wanneer je niet beschikbaar bent als ze een meeting willen plannen."

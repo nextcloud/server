@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface;
  *
  * It handles headers, HTTP status code, last modified and ETag.
  * @since 6.0.0
- * @template S of int
+ * @template S of Http::STATUS_*
  * @template H of array<string, mixed>
  */
 class Response {

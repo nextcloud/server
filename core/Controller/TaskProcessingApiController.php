@@ -351,6 +351,9 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 		if (!in_array($fileId, $ids)) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
 		}
+		if ($task->getUserId() !== null) {
+			\OC_Util::setupFS($task->getUserId());
+		}
 		$node = $this->rootFolder->getFirstNodeById($fileId);
 		if ($node === null) {
 			$node = $this->rootFolder->getFirstNodeByIdInPath($fileId, '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
@@ -380,7 +383,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 				/** @var int|list<int> $inputSlot */
 				$inputSlot = $task->getInput()[$key];
 				if (is_array($inputSlot)) {
-					$ids += $inputSlot;
+					$ids = array_merge($inputSlot, $ids);
 				} else {
 					$ids[] = $inputSlot;
 				}
@@ -392,14 +395,14 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 					/** @var int|list<int> $outputSlot */
 					$outputSlot = $task->getOutput()[$key];
 					if (is_array($outputSlot)) {
-						$ids += $outputSlot;
+						$ids = array_merge($outputSlot, $ids);
 					} else {
 						$ids[] = $outputSlot;
 					}
 				}
 			}
 		}
-		return array_values($ids);
+		return $ids;
 	}
 
 	/**

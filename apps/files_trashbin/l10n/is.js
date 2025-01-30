@@ -8,6 +8,7 @@ OC.L10N.register(
     "Unknown" : "Óþekkt",
     "All files" : "Allar skrár",
     "Deleted" : "Eytt",
+    "Cancel" : "Hætta við",
     "List of files that have been deleted." : "Listi yfir skrár sem hefur verið eytt.",
     "No deleted files" : "Engar eyddar skrár",
     "Files and folders you have deleted will show up here" : "Skrár og möppur sem þú hefur eytt birtast hér",

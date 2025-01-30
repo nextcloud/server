@@ -124,21 +124,12 @@ interface IComment {
 	 * returns an array containing mentions that are included in the comment
 	 *
 	 * @return array each mention provides a 'type' and an 'id', see example below
+	 * @psalm-return list<array{type: 'guest'|'email'|'federated_group'|'group'|'federated_team'|'team'|'federated_user'|'user', id: non-empty-lowercase-string}>
+	 * @since 30.0.2 Type 'email' is supported
+	 * @since 29.0.0 Types 'federated_group', 'federated_team', 'team' and 'federated_user' are supported
+	 * @since 23.0.0 Type 'group' is supported
+	 * @since 17.0.0 Type 'guest' is supported
 	 * @since 11.0.0
-	 *
-	 * The return array looks like:
-	 * [
-	 *   [
-	 *     'type' => 'user',
-	 *     'id' => 'citizen4'
-	 *   ],
-	 *   [
-	 *     'type' => 'group',
-	 *     'id' => 'media'
-	 *   ],
-	 *   …
-	 * ]
-	 *
 	 */
 	public function getMentions();
 

@@ -68,13 +68,14 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @return bool
 	 */
 	protected function remove($path) {
-		if ($this->is_dir($path)) {
-			return $this->rmdir($path);
-		} elseif ($this->is_file($path)) {
-			return $this->unlink($path);
-		} else {
-			return false;
+		if ($this->file_exists($path)) {
+			if ($this->is_dir($path)) {
+				return $this->rmdir($path);
+			} elseif ($this->is_file($path)) {
+				return $this->unlink($path);
+			}
 		}
+		return false;
 	}
 
 	public function is_dir($path) {
@@ -192,7 +193,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			$this->remove($target);
 			$dir = $this->opendir($source);
 			$this->mkdir($target);
-			while ($file = readdir($dir)) {
+			while (($file = readdir($dir)) !== false) {
 				if (!Filesystem::isIgnoredDir($file)) {
 					if (!$this->copy($source . '/' . $file, $target . '/' . $file)) {
 						closedir($dir);

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "Доступна версия {version}. Получить дополнительную информацию о способе обновления.",
     "Channel updated" : "Канал обновлён",
     "Web updater is disabled" : "Веб обновление отключено",
     "App updated" : "Приложение обновлено",
@@ -57,6 +56,7 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["У <strong>%n</strong> приложения нет версии, совместимой с этой версией Nextcloud.","У <strong>%n</strong> приложений нет версии, совместимой с этой версией Nextcloud.","У <strong>%n</strong> приложений нет версии, совместимой с этой версией Nextcloud.","У <strong>%n</strong> приложений нет версии, совместимой с этой версией Nextcloud."],
     "Changelog for app {app}" : "Журнал изменений приложения «{app}»",
     "What's new in {app} version {version}" : "Новшества {app} версии {version}",
+    "{version} is available. Get more information on how to update." : "Доступна версия {version}. Получить дополнительную информацию о способе обновления.",
     "Update to %1$s is available." : "Доступно обновление до версии %1$s.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Показывает уведомления об обновлениях для Nextcloud и обеспечивает систему обновления технологией единого входа (SSO).",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Обратите внимание, что установка обновления с использованием веб-интерфейса не рекомендуется при наличии более ста пользователей. В таком случае желательно использовать обновление с использованием командной строки.",

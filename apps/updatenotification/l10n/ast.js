@@ -1,7 +1,6 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "{version} ta disponible. Consigui más información tocante a cómo anovar.",
     "Channel updated" : "Anovóse la canal",
     "Web updater is disabled" : "L'anovador web ta desactiváu",
     "App updated" : "Anovóse l'aplicación",
@@ -57,6 +56,7 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplicación nun tienen disponible nenguna versión compatble con esta versión de Nextcloud.","<strong>%n</strong> aplicaciones nun tienen disponible nenguna versión compatble con esta versión de Nextcloud."],
     "Changelog for app {app}" : "Rexistru de cambeos pa la versión «{app}»",
     "What's new in {app} version {version}" : "Novedaes na aplicación «{app}» versión «{version}»",
+    "{version} is available. Get more information on how to update." : "{version} ta disponible. Consigui más información tocante a cómo anovar.",
     "Update to %1$s is available." : "Hai un anovamientu disponible pa: %1$s.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Amuesa avisos de les aplicaciones pa Nextcloud y forne SSO al anovador.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "¡Decátate que nun s'aconseya l'anovador web con más de 100 usuarios! Usa l'anovador de la llinia de comandos.",

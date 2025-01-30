@@ -884,6 +884,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget'),
 				'permissions' => $qb->expr()->literal(13),
 				'token' => $qb->expr()->literal('secrettoken'),
+				'label' => $qb->expr()->literal('the label'),
 			]);
 		$qb->execute();
 		$id = $qb->getLastInsertId();
@@ -899,10 +900,43 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('sharedBy', $share->getSharedBy());
 		$this->assertSame('secrettoken', $share->getToken());
 		$this->assertSame('password', $share->getPassword());
+		$this->assertSame('the label', $share->getLabel());
 		$this->assertSame(true, $share->getSendPasswordByTalk());
 		$this->assertSame(null, $share->getSharedWith());
 	}
 
+	/**
+	 * Assert that if no label is provided the label is correctly,
+	 * as types on IShare, a string and not null
+	 */
+	public function testGetShareByTokenNullLabel(): void {
+		$qb = $this->dbConn->getQueryBuilder();
+
+		$qb->insert('share')
+			->values([
+				'share_type' => $qb->expr()->literal(IShare::TYPE_LINK),
+				'password' => $qb->expr()->literal('password'),
+				'password_by_talk' => $qb->expr()->literal(true),
+				'uid_owner' => $qb->expr()->literal('shareOwner'),
+				'uid_initiator' => $qb->expr()->literal('sharedBy'),
+				'item_type' => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal(42),
+				'file_target' => $qb->expr()->literal('myTarget'),
+				'permissions' => $qb->expr()->literal(13),
+				'token' => $qb->expr()->literal('secrettoken'),
+			]);
+		$qb->executeStatement();
+		$id = $qb->getLastInsertId();
+
+		$file = $this->createMock(File::class);
+
+		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
+		$this->rootFolder->method('getFirstNodeById')->with(42)->willReturn($file);
+
+		$share = $this->provider->getShareByToken('secrettoken');
+		$this->assertEquals($id, $share->getId());
+		$this->assertSame('', $share->getLabel());
+	}
 
 	public function testGetShareByTokenNotFound() {
 		$this->expectException(\OCP\Share\Exceptions\ShareNotFound::class);

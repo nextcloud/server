@@ -37,6 +37,7 @@ use function strtr;
 class Log implements ILogger, IDataLogger {
 	private ?bool $logConditionSatisfied = null;
 	private ?IEventDispatcher $eventDispatcher = null;
+	private int $nestingLevel = 0;
 
 	public function __construct(
 		private IWriter $logger,
@@ -196,6 +197,11 @@ class Log implements ILogger, IDataLogger {
 	}
 
 	public function getLogLevel(array $context, string $message): int {
+		if ($this->nestingLevel > 1) {
+			return ILogger::WARN;
+		}
+
+		$this->nestingLevel++;
 		/**
 		 * @psalm-var array{
 		 *   shared_secret?: string,
@@ -246,6 +252,7 @@ class Log implements ILogger, IDataLogger {
 
 		// if log condition is satisfied change the required log level to DEBUG
 		if ($this->logConditionSatisfied) {
+			$this->nestingLevel--;
 			return ILogger::DEBUG;
 		}
 
@@ -260,6 +267,7 @@ class Log implements ILogger, IDataLogger {
 			 * once this is met -> change the required log level to debug
 			 */
 			if (in_array($context['app'], $logCondition['apps'] ?? [], true)) {
+				$this->nestingLevel--;
 				return ILogger::DEBUG;
 			}
 		}
@@ -272,6 +280,7 @@ class Log implements ILogger, IDataLogger {
 
 			// Invalid configuration, warn the user and fall back to default level of WARN
 			error_log('Nextcloud configuration: "loglevel" is not a valid integer');
+			$this->nestingLevel--;
 			return ILogger::WARN;
 		}
 
@@ -285,12 +294,15 @@ class Log implements ILogger, IDataLogger {
 				if (!isset($option['apps']) && !isset($option['loglevel']) && !isset($option['message'])) {
 					/* Only user and/or secret are listed as conditions, we can cache the result for the rest of the request */
 					$this->logConditionSatisfied = true;
+					$this->nestingLevel--;
 					return ILogger::DEBUG;
 				}
+				$this->nestingLevel--;
 				return $option['loglevel'] ?? ILogger::DEBUG;
 			}
 		}
 
+		$this->nestingLevel--;
 		return ILogger::WARN;
 	}
 

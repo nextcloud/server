@@ -44,11 +44,6 @@
       <code><![CDATA[array]]></code>
     </LessSpecificImplementedReturnType>
   </file>
-  <file src="3rdparty/symfony/routing/Route.php">
-    <MethodSignatureMustProvideReturnType>
-      <code><![CDATA[unserialize]]></code>
-    </MethodSignatureMustProvideReturnType>
-  </file>
   <file src="apps/dav/appinfo/v1/caldav.php">
     <UndefinedGlobalVariable>
       <code><![CDATA[$baseuri]]></code>
@@ -906,11 +901,6 @@
     <MoreSpecificImplementedParamType>
       <code><![CDATA[$cacheData]]></code>
     </MoreSpecificImplementedParamType>
-  </file>
-  <file src="apps/files_sharing/lib/Middleware/SharingCheckMiddleware.php">
-    <InvalidArgument>
-      <code><![CDATA[$exception->getMessage()]]></code>
-    </InvalidArgument>
   </file>
   <file src="apps/files_sharing/lib/MountProvider.php">
     <RedundantFunctionCall>
@@ -1895,9 +1885,6 @@
       <code><![CDATA[null]]></code>
       <code><![CDATA[null]]></code>
     </NullableReturnStatement>
-    <ParamNameMismatch>
-      <code><![CDATA[$searchQuery]]></code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/Cache/FailedCache.php">
     <InvalidReturnStatement>
@@ -1947,9 +1934,6 @@
       <code><![CDATA[array]]></code>
       <code><![CDATA[array]]></code>
     </LessSpecificImplementedReturnType>
-    <ParamNameMismatch>
-      <code><![CDATA[$searchQuery]]></code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/Config/MountProviderCollection.php">
     <InvalidOperand>
@@ -2130,11 +2114,6 @@
       <code><![CDATA[\Aws\serialize($command)]]></code>
     </UndefinedFunction>
   </file>
-  <file src="lib/private/Files/ObjectStore/StorageObjectStore.php">
-    <InvalidReturnType>
-      <code><![CDATA[string]]></code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/private/Files/Storage/Common.php">
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[string|false]]></code>
@@ -2180,9 +2159,6 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Storage/Local.php">
-    <ImplicitToStringCast>
-      <code><![CDATA[$file]]></code>
-    </ImplicitToStringCast>
     <TypeDoesNotContainNull>
       <code><![CDATA[$space === false || is_null($space)]]></code>
       <code><![CDATA[is_null($space)]]></code>
@@ -2809,19 +2785,6 @@
       <code><![CDATA[$script]]></code>
       <code><![CDATA[$script]]></code>
     </ParamNameMismatch>
-  </file>
-  <file src="lib/private/TemplateLayout.php">
-    <InvalidParamDefault>
-      <code><![CDATA[string]]></code>
-      <code><![CDATA[string]]></code>
-    </InvalidParamDefault>
-    <InvalidScalarArgument>
-      <code><![CDATA[$appName]]></code>
-      <code><![CDATA[$appName]]></code>
-    </InvalidScalarArgument>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getInitialStates]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/URLGenerator.php">
     <InvalidReturnStatement>

@@ -331,7 +331,6 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$emailTemplate->setSubject($this->l->t('%1$s shared %2$s with you', [$initiatorDisplayName, $filename]));
 		$emailTemplate->addHeader();
 		$emailTemplate->addHeading($this->l->t('%1$s shared %2$s with you', [$initiatorDisplayName, $filename]), false);
-		$text = $this->l->t('%1$s shared %2$s with you.', [$initiatorDisplayName, $filename]);
 
 		if ($note !== '') {
 			$emailTemplate->addBodyListItem(
@@ -350,11 +349,6 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 				$this->getAbsoluteImagePath('caldav/time.png'),
 			);
 		}
-
-		$emailTemplate->addBodyText(
-			htmlspecialchars($text . ' ' . $this->l->t('Click the button below to open it.')),
-			$text
-		);
 
 		$emailTemplate->addBodyButton(
 			$this->l->t('Open %s', [$filename]),
@@ -738,11 +732,14 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$shareAttributes = $this->formatShareAttributes($share->getAttributes());
 
 		/*
-		 * We allow updating the permissions and password of mail shares
+		 * We allow updating mail shares
 		 */
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->update('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
+			->set('item_source', $qb->createNamedParameter($share->getNodeId()))
+			->set('file_source', $qb->createNamedParameter($share->getNodeId()))
+			->set('share_with', $qb->createNamedParameter($share->getSharedWith()))
 			->set('permissions', $qb->createNamedParameter($share->getPermissions()))
 			->set('uid_owner', $qb->createNamedParameter($share->getShareOwner()))
 			->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()))

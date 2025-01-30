@@ -43,7 +43,7 @@ class OC {
 	 */
 	private static string $SUBURI = '';
 	/**
-	 * the Nextcloud root path for http requests (e.g. nextcloud/)
+	 * the Nextcloud root path for http requests (e.g. /nextcloud)
 	 */
 	public static string $WEBROOT = '';
 	/**
@@ -515,7 +515,9 @@ class OC {
 			$processingScript = $processingScript[count($processingScript) - 1];
 
 			// index.php routes are handled in the middleware
-			if ($processingScript === 'index.php') {
+			// and cron.php does not need any authentication at all
+			if ($processingScript === 'index.php'
+				|| $processingScript === 'cron.php') {
 				return;
 			}
 

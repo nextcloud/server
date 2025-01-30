@@ -63,6 +63,8 @@ OC.L10N.register(
     "Failed to update tag" : "A címke frissítése sikertelen",
     "Deleted tag" : "Címke törölve",
     "Failed to delete tag" : "A címke törlése sikertelen",
+    "Manage tags" : "Címkék kezelése",
+    "Cancel" : "Mégse",
     "Loading collaborative tags …" : "Együttműködési címkék betöltése…",
     "Search or create collaborative tags" : "Együttműködési címkék keresése és létrehozása",
     "No tags to select, type to create a new tag" : "Nincs kiválasztható címke, gépeljen egy új címke létrehozásához",

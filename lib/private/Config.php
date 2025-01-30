@@ -49,7 +49,7 @@ class Config {
 	 * @return array an array of key names
 	 */
 	public function getKeys() {
-		return array_keys($this->cache);
+		return array_merge(array_keys($this->cache), array_keys($this->envCache));
 	}
 
 	/**
@@ -64,9 +64,8 @@ class Config {
 	 * @return mixed the value or $default
 	 */
 	public function getValue($key, $default = null) {
-		$envKey = self::ENV_PREFIX . $key;
-		if (isset($this->envCache[$envKey])) {
-			return $this->envCache[$envKey];
+		if (isset($this->envCache[$key])) {
+			return $this->envCache[$key];
 		}
 
 		if (isset($this->cache[$key])) {
@@ -187,7 +186,8 @@ class Config {
 				@opcache_invalidate($file, false);
 			}
 
-			$filePointer = @fopen($file, 'r');
+			// suppressor doesn't work here at boot time since it'll go via our onError custom error handler
+			$filePointer = file_exists($file) ? @fopen($file, 'r') : false;
 			if ($filePointer === false) {
 				// e.g. wrong permissions are set
 				if ($file === $this->configFilePath) {
@@ -226,7 +226,16 @@ class Config {
 			}
 		}
 
-		$this->envCache = getenv();
+		// grab any "NC_" environment variables
+		$envRaw = getenv();
+		// only save environment variables prefixed with "NC_" in the cache
+		$envPrefixLen = strlen(self::ENV_PREFIX);
+		foreach ($envRaw as $rawEnvKey => $rawEnvValue) {
+			if (str_starts_with($rawEnvKey, self::ENV_PREFIX)) {
+				$realKey = substr($rawEnvKey, $envPrefixLen);
+				$this->envCache[$realKey] = $rawEnvValue;
+			}
+		}
 	}
 
 	/**

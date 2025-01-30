@@ -7,6 +7,8 @@ OC.L10N.register(
     "Could not add server" : "无法添加服务器",
     "Trusted servers" : "受信任服务器",
     "Federation" : "联合云",
+    "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing." : "联合云允许您与其他受信任的服务器连接以交换帐户目录。例如，这将用于自动完成联合云共享的外部帐户。",
+    "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "联合允许您与其他受信任的服务器连接以交换帐户目录。例如，这将用于自动完成联合共享的外部帐户。无需将服务器添加为受信任的服务器即可创建联合共享。",
     "+ Add trusted server" : "+ 添加受信任服务器",
     "Trusted server" : "受信任服务器",
     "Add" : "添加",

@@ -42,6 +42,7 @@ OC.L10N.register(
     "Restricted" : "Piiratud",
     "Invisible" : "Nähtamatu",
     "No tags found" : "Silte ei leitud",
+    "Cancel" : "Tühista",
     "This file has the tag {tag}" : "Sellel failil on silt {tag}",
     "This file has the tags {firstTags} and {lastTag}" : "Sellel failil on sildid {firstTags} and {lastTag}",
     "No files in here" : "Siin ei ole faile",

@@ -23,6 +23,8 @@ OC.L10N.register(
     "Good evening, {name}" : "Добро вече, {name}",
     "Hello" : "Здраво",
     "Hello, {name}" : "Здраво, {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "Срећан рођендан 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Срећан рођендан {name} 🥳🤩🎂🎉",
     "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Започните свој дан информацијама\n\nNextcloud Контролна табла је почетна тачка вашег дана, она вам даје преглед наредних састанака, хитних и-мејлова, чет порука, придошлих тикета, најновијих твитова и још пуно тога! Корисници могу да додају виџете који им се свиђају и да по жељи измене  позадину."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

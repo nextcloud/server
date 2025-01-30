@@ -20,7 +20,6 @@ SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
 SPDX-FileCopyrightText: Philipp Kewisch
-SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
@@ -46,6 +45,7 @@ SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Austin Andrews
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 SPDX-FileCopyrightText: Andris Reinman
 SPDX-FileCopyrightText: Alkemics
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
@@ -68,7 +68,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
-	- version: 2.5.0
+	- version: 2.5.1
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.4.0
@@ -77,7 +77,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.0.0
+	- version: 6.0.1
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
@@ -86,7 +86,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.1
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.9.0
+	- version: 3.10.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -104,7 +104,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
-	- version: 0.2.3
+	- version: 0.2.4
 	- license: GPL-3.0-or-later
 - @nextcloud/vue-select
 	- version: 3.25.1
@@ -118,14 +118,20 @@ This file is generated from multiple sources. Included packages:
 - @vueuse/shared
 	- version: 11.0.1
 	- license: MIT
+- debounce
+	- version: 2.1.0
+	- license: MIT
 - @nextcloud/vue
 	- version: 8.17.1
 	- license: AGPL-3.0-or-later
-- @vueuse/core
-	- version: 10.11.0
-	- license: MIT
 - @vueuse/shared
-	- version: 10.11.0
+	- version: 10.11.1
+	- license: MIT
+- vue-demi
+	- version: 0.14.10
+	- license: MIT
+- @vueuse/core
+	- version: 10.11.1
 	- license: MIT
 - assert
 	- version: 2.1.0
@@ -134,7 +140,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.4
+	- version: 1.7.9
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -159,9 +165,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - date-format-parse
 	- version: 0.2.7
-	- license: MIT
-- debounce
-	- version: 2.1.0
 	- license: MIT
 - define-data-property
 	- version: 1.1.4
@@ -318,9 +321,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - vue
 	- version: 2.7.16
-	- license: MIT
-- webdav
-	- version: 5.7.1
 	- license: MIT
 - webpack
 	- version: 5.94.0

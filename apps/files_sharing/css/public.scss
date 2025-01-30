@@ -146,6 +146,11 @@ thead {
 	border-color: rgba(0,0,0,0.3) !important;
 }
 
+// Header note prior 31
+#notemenu .icon-comment-white.menutoggle {
+	filter: var(--background-invert-if-dark);
+}
+
 #public-upload .avatardiv {
 	margin: 0 auto;
 }

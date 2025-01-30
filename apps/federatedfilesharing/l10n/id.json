@@ -14,14 +14,12 @@
     "Sharing" : "Berbagi",
     "Federated Cloud" : "Federated Cloud",
     "Your Federated Cloud ID:" : "Federated Cloud ID Anda:",
-    "Twitter" : "Twitter",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Tambahkan pada situs web Anda",
     "Share with me via Nextcloud" : "Dibagikan pada saya via Nextcloud",
     "HTML Code:" : "Kode HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Dibagikan pada saya melalui #Nextcloud Federated Cloud ID saya",
     "Copy to clipboard" : "Salin ke papan klip",
-    "Clipboard is not available" : "Papan klip tidak tersedia",
-    "Copied!" : "Tersalin!",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Apakah Anda ingin menambahkan pembagian remote {name} dari {owner}@{remote}?",
     "Remote share" : "Berbagi jarak jauh",
     "Remote share password" : "Kata sandi berbagi jarak jauh",
@@ -29,6 +27,9 @@
     "Add remote share" : "Tambah berbagi remote",
     "Not allowed to create a federated share with the same user" : "Tidak diizinkan membuat pembagian terfederasi dengan pengguna yang sama",
     "Allow users on this server to receive shares from other servers" : "Izinkan para pengguna di server ini untuk menerima berbagi ke server lainnya.",
-    "Search global and public address book for users" : "Cari alamat buku global dan alamat publik untuk pengguna"
+    "Search global and public address book for users" : "Cari alamat buku global dan alamat publik untuk pengguna",
+    "Twitter" : "Twitter",
+    "Clipboard is not available" : "Papan klip tidak tersedia",
+    "Copied!" : "Tersalin!"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

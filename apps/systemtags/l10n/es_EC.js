@@ -54,6 +54,8 @@ OC.L10N.register(
     "Invisible" : "Invisible",
     "Failed to create tag" : "Error al crear la etiqueta",
     "Failed to delete tag" : "Error al eliminar la etiqueta",
+    "Manage tags" : "Gestionar etiquetas",
+    "Cancel" : "Cancelar",
     "Loading collaborative tags …" : "Cargando etiquetas colaborativas...",
     "Search or create collaborative tags" : "Buscar o crear etiquetas colaborativas",
     "No tags to select, type to create a new tag" : "No hay etiquetas para seleccionar, escribe para crear una nueva etiqueta",

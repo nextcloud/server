@@ -137,7 +137,6 @@ OC.L10N.register(
     "System address book which holds all accounts" : "Системски адресар кој ги содржи сите сметки",
     "File is not updatable: %1$s" : "Датотека што не се ажурира: %1$s",
     "_%n byte_::_%n bytes_" : ["%n бајт","%n бајти"],
-    "Could not open file" : "Неможе да се отвори датотеката",
     "Failed to open file: %1$s" : "Неуспешно отварање на датотека: %1$s",
     "File not found: %1$s" : "Датотеката не е пронајдена: %1$s",
     "System is in maintenance mode." : "Системот е во мод за одржување.",
@@ -201,6 +200,7 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Вашето присуство е успешно ажурирано.",
     "To-dos" : "За работење",
     "Time:" : "Време:",
+    "Could not open file" : "Неможе да се отвори датотеката",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ако ги поставите работните часови, другите корисници ќе можат да видат кога сте слободни за да можат да закажат состанок."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

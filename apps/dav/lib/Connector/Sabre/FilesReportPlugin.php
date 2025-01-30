@@ -410,7 +410,7 @@ class FilesReportPlugin extends ServerPlugin {
 
 		$results = [];
 		foreach ($fileIds as $fileId) {
-			$entry = $folder->getFirstNodeById($fileId);
+			$entry = $folder->getFirstNodeById((int)$fileId);
 			if ($entry) {
 				$results[] = $this->wrapNode($entry);
 			}

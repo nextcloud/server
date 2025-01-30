@@ -61,6 +61,8 @@
     "Failed to update tag" : "태그를 갱신할 수 없음",
     "Deleted tag" : "태그를 삭제함",
     "Failed to delete tag" : "태그를 삭제할 수 없음",
+    "Manage tags" : "태그 관리하기",
+    "Cancel" : "취소",
     "Loading collaborative tags …" : "협업 태그를 불러오는 중 ...",
     "Search or create collaborative tags" : "협업 태그 검색 또는 생성",
     "No tags to select, type to create a new tag" : "태그가 선택되지 않았습니다. 태그를 입력하여 새로 만드십시오.",

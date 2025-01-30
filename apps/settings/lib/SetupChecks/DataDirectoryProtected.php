@@ -40,9 +40,8 @@ class DataDirectoryProtected implements ISetupCheck {
 	}
 
 	public function run(): SetupResult {
-		$datadir = str_replace(\OC::$SERVERROOT . '/', '', $this->config->getSystemValue('datadirectory', ''));
-
-		$dataUrl = $this->urlGenerator->getWebroot() . '/' . $datadir . '/.ncdata';
+		$dataDir = str_replace(\OC::$SERVERROOT . '/', '', $this->config->getSystemValueString('datadirectory', ''));
+		$dataUrl = $this->urlGenerator->linkTo('', $dataDir . '/.ncdata');
 
 		$noResponse = true;
 		foreach ($this->runRequest('GET', $dataUrl, [ 'httpErrors' => false ]) as $response) {

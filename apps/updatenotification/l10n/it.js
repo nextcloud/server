@@ -1,7 +1,6 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "{version} è disponibile. Ottieni ulteriori informazioni su come eseguire l'aggiornamento.",
     "Channel updated" : "Canale aggiornato",
     "Web updater is disabled" : "L'aggiornamento web è disattivato",
     "App updated" : "App aggiornata",
@@ -14,7 +13,7 @@ OC.L10N.register(
     "Update for {app} to version %s is available." : "È disponibile l'aggiornamento di {app} alla versione %s.",
     "Update notification" : "Notifica di aggiornamento",
     "Displays update notifications for Nextcloud, app updates, and provides the SSO for the updater." : "Visualizza le notifiche di aggiornamento per Nextcloud, gli aggiornamenti dell'app e fornisce l'SSO per l'aggiornamento.",
-    "What's new in {app} {version}" : "Novità in {app} {versione}",
+    "What's new in {app} {version}" : "Novità in {app} {version}",
     "Give feedback" : "Dai un feedback",
     "Get started" : "Cominciamo",
     "No changelog available" : "Nessuna nota di rilascio disponibile",
@@ -57,6 +56,7 @@ OC.L10N.register(
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> applicazione non ha una versione compatibile disponibile per questa versione di Nextcloud.","<strong>%n</strong> applicazioni non hanno una versione compatibile disponibile per questa versione di Nextcloud.","<strong>%n</strong> applicazioni non hanno una versione compatibile disponibile per questa versione di Nextcloud."],
     "Changelog for app {app}" : "Note di rilascio per l'app {app}",
     "What's new in {app} version {version}" : "Novità nella versione {version} di {app}",
+    "{version} is available. Get more information on how to update." : "{version} è disponibile. Ottieni ulteriori informazioni su come eseguire l'aggiornamento.",
     "Update to %1$s is available." : "Aggiornamento a %1$s disponibile.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Visualizza le notifiche degli aggiornamenti per Nextcloud e fornisce il SSO per lo strumento di aggiornamento.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Tieni presente che il programma di aggiornamento web non è consigliato con più di 100 utenti! Si prega di utilizzare, invece, il programma di aggiornamento tramite riga di comando!",

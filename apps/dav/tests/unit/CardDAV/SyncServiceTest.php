@@ -426,4 +426,59 @@ END:VCARD';
 			[]
 		);
 	}
+
+	/**
+	 * @dataProvider providerUseAbsoluteUriReport
+	 */
+	public function testUseAbsoluteUriReport(string $host, string $expected): void {
+		$body = '<?xml version="1.0"?>
+<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns">
+    <d:sync-token>http://sabre.io/ns/sync/1</d:sync-token>
+</d:multistatus>';
+
+		$requestResponse = new Response(new PsrResponse(
+			207,
+			['Content-Type' => 'application/xml; charset=utf-8', 'Content-Length' => strlen($body)],
+			$body
+		));
+
+		$this->client
+			->method('request')
+			->with(
+				'REPORT',
+				$this->callback(function ($uri) use ($expected) {
+					$this->assertEquals($expected, $uri);
+					return true;
+				}),
+				$this->callback(function ($options) {
+					$this->assertIsArray($options);
+					return true;
+				}),
+			)
+			->willReturn($requestResponse);
+
+		$this->service->syncRemoteAddressBook(
+			$host,
+			'system',
+			'remote.php/dav/addressbooks/system/system/system',
+			'1234567890',
+			null,
+			'1',
+			'principals/system/system',
+			[]
+		);
+	}
+
+	public function providerUseAbsoluteUriReport(): array {
+		return [
+			['https://server.internal', 'https://server.internal/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal/', 'https://server.internal/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal/nextcloud', 'https://server.internal/nextcloud/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal/nextcloud/', 'https://server.internal/nextcloud/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal:8080', 'https://server.internal:8080/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal:8080/', 'https://server.internal:8080/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal:8080/nextcloud', 'https://server.internal:8080/nextcloud/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal:8080/nextcloud/', 'https://server.internal:8080/nextcloud/remote.php/dav/addressbooks/system/system/system'],
+		];
+	}
 }

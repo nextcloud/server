@@ -6,11 +6,7 @@
  */
 
 function loadDirectory($path): void {
-	if (strpos($path, 'integration')) {
-		return;
-	}
-
-	if (strpos($path, 'Integration')) {
+	if (strpos($path, 'apps/user_ldap/tests/Integration')) {
 		return;
 	}
 
@@ -18,7 +14,7 @@ function loadDirectory($path): void {
 		return;
 	}
 
-	while ($name = readdir($dh)) {
+	while (($name = readdir($dh)) !== false) {
 		if ($name[0] === '.') {
 			continue;
 		}

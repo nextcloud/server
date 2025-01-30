@@ -137,7 +137,8 @@ class EncryptionTest extends Storage {
 			->setConstructorArgs([new View(), new Manager(
 				$this->config,
 				$this->createMock(ICacheFactory::class),
-				$this->createMock(IEventDispatcher::class)
+				$this->createMock(IEventDispatcher::class),
+				$this->createMock(LoggerInterface::class),
 			), $this->groupManager, $this->config, $this->arrayCache])
 			->getMock();
 		$this->util->expects($this->any())
@@ -577,7 +578,8 @@ class EncryptionTest extends Storage {
 					new Manager(
 						$this->config,
 						$this->createMock(ICacheFactory::class),
-						$this->createMock(IEventDispatcher::class)
+						$this->createMock(IEventDispatcher::class),
+						$this->createMock(LoggerInterface::class),
 					),
 					$this->groupManager,
 					$this->config,
@@ -659,7 +661,8 @@ class EncryptionTest extends Storage {
 			->setConstructorArgs([new View(), new Manager(
 				$this->config,
 				$this->createMock(ICacheFactory::class),
-				$this->createMock(IEventDispatcher::class)
+				$this->createMock(IEventDispatcher::class),
+				$this->createMock(LoggerInterface::class),
 			), $this->groupManager, $this->config, $this->arrayCache])
 			->getMock();
 

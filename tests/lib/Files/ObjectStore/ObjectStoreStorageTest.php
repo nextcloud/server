@@ -76,7 +76,7 @@ class ObjectStoreStorageTest extends Storage {
 	 */
 	public function testMove($source, $target) {
 		$this->initSourceAndTarget($source);
-		$sourceId = $this->instance->getCache()->getId(ltrim('/', $source));
+		$sourceId = $this->instance->getCache()->getId(ltrim($source, '/'));
 		$this->assertNotEquals(-1, $sourceId);
 
 		$this->instance->rename($source, $target);
@@ -85,7 +85,7 @@ class ObjectStoreStorageTest extends Storage {
 		$this->assertFalse($this->instance->file_exists($source), $source.' still exists');
 		$this->assertSameAsLorem($target);
 
-		$targetId = $this->instance->getCache()->getId(ltrim('/', $target));
+		$targetId = $this->instance->getCache()->getId(ltrim($target, '/'));
 		$this->assertSame($sourceId, $targetId, 'fileid must be stable on move or shares will break');
 	}
 

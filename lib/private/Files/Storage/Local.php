@@ -106,7 +106,7 @@ class Local extends \OC\Files\Storage\Common {
 				 * @var \SplFileInfo $file
 				 */
 				$file = $it->current();
-				clearstatcache(true, $this->getSourcePath($file));
+				clearstatcache(true, $file->getRealPath());
 				if (in_array($file->getBasename(), ['.', '..'])) {
 					$it->next();
 					continue;
@@ -345,10 +345,12 @@ class Local extends \OC\Files\Storage\Common {
 			return false;
 		}
 
-		if ($this->is_dir($target)) {
-			$this->rmdir($target);
-		} elseif ($this->is_file($target)) {
-			$this->unlink($target);
+		if ($this->file_exists($target)) {
+			if ($this->is_dir($target)) {
+				$this->rmdir($target);
+			} elseif ($this->is_file($target)) {
+				$this->unlink($target);
+			}
 		}
 
 		if ($this->is_dir($source)) {
@@ -400,7 +402,7 @@ class Local extends \OC\Files\Storage\Common {
 		return $result;
 	}
 
-	public function hash($type, $path, $raw = false) {
+	public function hash($type, $path, $raw = false): string|false {
 		return hash_file($type, $this->getSourcePath($path), $raw);
 	}
 
@@ -571,11 +573,13 @@ class Local extends \OC\Files\Storage\Common {
 	 */
 	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
 		if ($this->canDoCrossStorageMove($sourceStorage)) {
-			if ($sourceStorage->instanceOfStorage(Jail::class)) {
+			// resolve any jailed paths
+			while ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
 				 * @var \OC\Files\Storage\Wrapper\Jail $sourceStorage
 				 */
 				$sourceInternalPath = $sourceStorage->getUnjailedPath($sourceInternalPath);
+				$sourceStorage = $sourceStorage->getUnjailedStorage();
 			}
 			/**
 			 * @var \OC\Files\Storage\Local $sourceStorage
@@ -595,11 +599,13 @@ class Local extends \OC\Files\Storage\Common {
 	 */
 	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
 		if ($this->canDoCrossStorageMove($sourceStorage)) {
-			if ($sourceStorage->instanceOfStorage(Jail::class)) {
+			// resolve any jailed paths
+			while ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
 				 * @var \OC\Files\Storage\Wrapper\Jail $sourceStorage
 				 */
 				$sourceInternalPath = $sourceStorage->getUnjailedPath($sourceInternalPath);
+				$sourceStorage = $sourceStorage->getUnjailedStorage();
 			}
 			/**
 			 * @var \OC\Files\Storage\Local $sourceStorage

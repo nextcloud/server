@@ -2,6 +2,8 @@ OC.L10N.register(
     "federation",
     {
     "Added to the list of trusted servers" : "Zerbitzari fidagarrien zerrendara gehituta",
+    "No server found with ID: %s" : "Ez da zerbitzaririk aurkitu ID honekin: %s",
+    "Could not remove server" : "Ezin izan da zerbitzaria kendu",
     "Server is already in the list of trusted servers." : "Zerbitzaria fidagarrien zerrendan dago jadanik",
     "No server to federate with found" : "Ez da federatzeko zerbitzaririk aurkitu",
     "Could not add server" : "Ezin izan da zerbitzaria gehitu",
@@ -9,7 +11,9 @@ OC.L10N.register(
     "Federation" : "Federazioa",
     "Federation allows you to connect with other trusted servers to exchange the account directory." : "Federazioak fidagarriak diren beste zerbitzariekin kontu-direktorioa konektatzea ahalbidetzen dizu.",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing." : "Federazioaren bidez fidagarriak diren zerbitzariekin kontu-direktorioa trukatzeko aukera dago. Adibidez, kanpo erabiltzaileak automatikoki betetzeko erabil daiteke, federatze partekatuan. ",
+    "External documentation for Federated Cloud Sharing" : "Federatutako hodei partekatzerako kanpoko dokumentazioa",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Federazioaren bidez fidagarriak diren zerbitzariekin kontu-direktorioa trukatzeko aukera dago. Adibidez, kanpo erabiltzaileak automatikoki betetzeko erabil daiteke, federatze partekatuan. Federatze partekatua egiteko ez da beharrezkoa zerbitzari bat gehitzea zerbitzari fidagarri gisa.",
+    "Each server must validate the other. This process may require a few cron cycles." : "Zerbitzari bakoitza bestea balioztatu behar du. Prozesu honek cron ziklo batzuk beharko ditu.",
     "+ Add trusted server" : "+ Gehitu zerbitzari fidagarria",
     "Trusted server" : "Zerbitzari fidagarria",
     "Add" : "Gehitu",

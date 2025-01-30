@@ -2,6 +2,8 @@ OC.L10N.register(
     "federation",
     {
     "Added to the list of trusted servers" : "Pridėtas į patikimų serverių sąrašą",
+    "No server found with ID: %s" : "Nerasta jokio serverio, kurio ID: %s",
+    "Could not remove server" : "Nepavyko pašalinti serverio",
     "Server is already in the list of trusted servers." : "Serveris jau yra patikimų serverių sąraše.",
     "No server to federate with found" : "Nerasta jokio serverio, su kuriuo jungtis į federaciją",
     "Could not add server" : "Nepavyko pridėti serverio",

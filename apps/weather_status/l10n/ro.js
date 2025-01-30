@@ -22,6 +22,7 @@ OC.L10N.register(
     "{temperature} {unit} foggy" : "{temperature} {unit} încețoșat",
     "More weather for {adr}" : "Mai multe informații despre vreme pentru {adr}",
     "Loading weather" : "Se încarcă datele despre vreme",
+    "Set location for weather" : "Setează locația pentru vreme",
     "Remove from favorites" : "Șterge din favorite",
     "Add as favorite" : "Adaugă ca favorit",
     "You are not logged in." : "Nu ești înregistrat",
@@ -31,7 +32,6 @@ OC.L10N.register(
     "There was an error setting the location address." : "A apărut o eroare în timpul setării locației adresei.",
     "There was an error setting the location." : "A apărut o eroare în timpul setării locației.",
     "There was an error saving the mode." : "A apărut o eroare în timpul salvării modului.",
-    "There was an error using personal address." : "A apărut o eroare în timpul folosirii adresei perosnale.",
-    "Set location for weather" : "Setează locația pentru vreme"
+    "There was an error using personal address." : "A apărut o eroare în timpul folosirii adresei perosnale."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

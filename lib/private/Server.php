@@ -481,7 +481,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$tokenProvider = null;
 			}
 			$logger = $c->get(LoggerInterface::class);
-			return new Store($session, $logger, $tokenProvider);
+			$crypto = $c->get(ICrypto::class);
+			return new Store($session, $logger, $crypto, $tokenProvider);
 		});
 		$this->registerAlias(IStore::class, Store::class);
 		$this->registerAlias(IProvider::class, Authentication\Token\Manager::class);
@@ -1153,6 +1154,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$backgroundService = new BackgroundService(
 					$c->get(IRootFolder::class),
 					$c->getAppDataDir('theming'),
+					$c->get(IAppConfig::class),
 					$c->get(\OCP\IConfig::class),
 					$c->get(ISession::class)->get('user_id'),
 				);

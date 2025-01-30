@@ -11,7 +11,6 @@ OC.L10N.register(
     "Cannot create sub-admins for admin group" : "Nun se puen crear soalministradores pal grupu d'alministradores",
     "No permissions to promote sub-admins" : "Nun hai nengún permisu p'ascender a soalministradores",
     "Invalid password value" : "El valor de la contraseña ye inválidu",
-    "To send a password link to the user an email address is required." : "Ríquese una direición de corréu pa unviar l'enllaz de la contraseña.",
     "Required email address was not provided" : "Nun se fornió la direición de corréu electrónicu riquida",
     "Invalid quota value: %1$s" : "El valor de la cuota ye inválidu: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "El valor de la cuota ye inválidu. %1$s supera la cuota máxima.",
