@@ -18,13 +18,10 @@ use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @template-extends Proxy<User_LDAP>
+ */
 class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ILimitAwareCountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
-	/** @var User_LDAP[] */
-	private array $backends = [];
-	private ?User_LDAP $refBackend = null;
-
-	private bool $isSetUp = false;
-
 	public function __construct(
 		private Helper $helper,
 		ILDAPWrapper $ldap,
@@ -34,30 +31,17 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		private LoggerInterface $logger,
 		private DeletedUsersIndex $deletedUsersIndex,
 	) {
-		parent::__construct($ldap, $accessFactory);
+		parent::__construct($helper, $ldap, $accessFactory);
 	}
 
-	protected function setup(): void {
-		if ($this->isSetUp) {
-			return;
-		}
-
-		$serverConfigPrefixes = $this->helper->getServerConfigurationPrefixes(true);
-		foreach ($serverConfigPrefixes as $configPrefix) {
-			$this->backends[$configPrefix] = new User_LDAP(
-				$this->getAccess($configPrefix),
-				$this->notificationManager,
-				$this->userPluginManager,
-				$this->logger,
-				$this->deletedUsersIndex,
-			);
-
-			if (is_null($this->refBackend)) {
-				$this->refBackend = $this->backends[$configPrefix];
-			}
-		}
-
-		$this->isSetUp = true;
+	protected function newInstance(string $configPrefix): User_LDAP {
+		return new User_LDAP(
+			$this->getAccess($configPrefix),
+			$this->notificationManager,
+			$this->userPluginManager,
+			$this->logger,
+			$this->deletedUsersIndex,
+		);
 	}
 
 	/**

@@ -12,13 +12,24 @@ use OCA\User_LDAP\Mapping\UserMapping;
 use OCP\ICache;
 use OCP\Server;
 
+/**
+ * @template T
+ */
 abstract class Proxy {
 	/** @var array<string,Access> */
 	private static array $accesses = [];
 	private ?bool $isSingleBackend = null;
 	private ?ICache $cache = null;
 
+	/** @var T[] */
+	protected array $backends = [];
+	/** @var ?T */
+	protected $refBackend = null;
+
+	protected bool $isSetUp = false;
+
 	public function __construct(
+		private Helper $helper,
 		private ILDAPWrapper $ldap,
 		private AccessFactory $accessFactory,
 	) {
@@ -26,6 +37,36 @@ abstract class Proxy {
 		if ($memcache->isAvailable()) {
 			$this->cache = $memcache->createDistributed();
 		}
+	}
+
+	protected function setup(): void {
+		if ($this->isSetUp) {
+			return;
+		}
+
+		$serverConfigPrefixes = $this->helper->getServerConfigurationPrefixes(true);
+		foreach ($serverConfigPrefixes as $configPrefix) {
+			$this->backends[$configPrefix] = $this->newInstance($configPrefix);
+
+			if (is_null($this->refBackend)) {
+				$this->refBackend = $this->backends[$configPrefix];
+			}
+		}
+
+		$this->isSetUp = true;
+	}
+
+	/**
+	 * @return T
+	 */
+	abstract protected function newInstance(string $configPrefix): object;
+
+	/**
+	 * @return T
+	 */
+	public function getBackend(string $configPrefix): object {
+		$this->setup();
+		return $this->backends[$configPrefix];
 	}
 
 	private function addAccess(string $configPrefix): void {
