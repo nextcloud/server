@@ -62,6 +62,7 @@ OC.L10N.register(
     "Enable Path Style" : "تمكين نمط المسار Path Style",
     "Legacy (v2) authentication" : "المصادقة القديمة (الإصدار 2) Legacy authentication",
     "Enable multipart copy" : "تمكين النسخ المُجزّأ",
+    "SSE-C encryption key" : "مفتاح تشفير SSE-C",
     "WebDAV" : "WebDAV",
     "URL" : "عنوان URL",
     "Remote subfolder" : "مُجلّد فرعي بعيد remote sunfolder",
