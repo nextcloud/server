@@ -25,8 +25,7 @@
 					:name="t('files_sharing', 'Terms of service')"
 					:message="disclaimer" />
 			</template>
-			<UploadPicker allow-folders
-				:content="() => []"
+			<UploadPicker :content="() => []"
 				no-menu
 				:destination="uploadDestination"
 				multiple />
