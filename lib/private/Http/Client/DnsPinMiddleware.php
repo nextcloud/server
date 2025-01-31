@@ -110,15 +110,15 @@ class DnsPinMiddleware {
 				}
 
 				$hostName = (string)$request->getUri()->getHost();
-				$port = $request->getUri()->getPort();
+				$requestPort = $request->getUri()->getPort();
 
 				$ports = [
 					'80',
 					'443',
 				];
 
-				if ($port !== null) {
-					$ports[] = (string)$port;
+				if ($requestPort !== null) {
+					$ports[] = (string)$requestPort;
 				}
 
 				$targetIps = $this->dnsResolve(idn_to_utf8($hostName), 0);
@@ -135,7 +135,8 @@ class DnsPinMiddleware {
 					foreach ($targetIps as $ip) {
 						if ($this->ipAddressClassifier->isLocalAddress($ip)) {
 							// TODO: continue with all non-local IPs?
-							throw new LocalServerException('Host "' . $ip . '" (' . $hostName . ') violates local access rules');
+							// log requestPort because that's more relevant to the admin
+							throw new LocalServerException('Host "' . $ip . '" (' . $hostName . ':' . $requestPort . ') violates local access rules');
 						}
 						$curlResolves["$hostName:$port"][] = $ip;
 					}
