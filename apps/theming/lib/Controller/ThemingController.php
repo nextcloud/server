@@ -481,7 +481,7 @@ class ThemingController extends Controller {
 						'sizes' => '16x16'
 					]
 				],
-			'display' => 'standalone'
+			'display' => 'minimal-ui'
 		];
 		$response = new JSONResponse($responseJS);
 		$response->cacheFor(3600);

@@ -750,7 +750,7 @@ class ThemingControllerTest extends TestCase {
 						'sizes' => '16x16'
 					]
 				],
-			'display' => 'standalone',
+			'display' => 'minimal-ui',
 			'short_name' => 'Nextcloud',
 			'theme_color' => null,
 			'background_color' => null,
