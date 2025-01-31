@@ -507,6 +507,11 @@ export default defineComponent({
 			// If load more result for filter, remove other filters
 			this.filters = this.filters.filter(filter => filter.id === provider.id)
 			this.filteredProviders = this.filteredProviders.filter(filteredProvider => filteredProvider.id === provider.id)
+			// Plugin filters may have extra parameters, so we need to keep them
+			// See method handlePluginFilter for more details
+			if (this.filteredProviders.length > 0 && this.filteredProviders[0].isPluginFilter) {
+				provider = this.filteredProviders[0]
+			}
 			this.addProviderFilter(provider, true)
 		},
 		addProviderFilter(providerFilter, loadMoreResultsForProvider = false) {
@@ -531,13 +536,8 @@ export default defineComponent({
 				this.filters = this.syncProviderFilters(this.filters, this.filteredProviders)
 			}
 			this.filteredProviders.push({
-				id: providerFilter.id,
-				appId: providerFilter.appId,
-				searchFrom: providerFilter.searchFrom,
-				name: providerFilter.name,
-				icon: providerFilter.icon,
+				...providerFilter,
 				type: providerFilter.type || 'provider',
-				filters: providerFilter.filters,
 				isPluginFilter: providerFilter.isPluginFilter || false,
 			})
 			this.filters = this.syncProviderFilters(this.filters, this.filteredProviders)
