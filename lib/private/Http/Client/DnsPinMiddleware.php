@@ -135,7 +135,7 @@ class DnsPinMiddleware {
 					foreach ($targetIps as $ip) {
 						if ($this->ipAddressClassifier->isLocalAddress($ip)) {
 							// TODO: continue with all non-local IPs?
-							throw new LocalServerException('Host "' . $ip . '" (' . $hostName . ':' . $port . ') violates local access rules');
+							throw new LocalServerException('Host "' . $ip . '" (' . $hostName . ') violates local access rules');
 						}
 						$curlResolves["$hostName:$port"][] = $ip;
 					}
