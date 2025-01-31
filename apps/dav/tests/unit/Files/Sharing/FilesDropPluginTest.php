@@ -9,7 +9,6 @@ use OC\Files\View;
 use OCA\DAV\Files\Sharing\FilesDropPlugin;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
-use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -128,19 +127,6 @@ class FilesDropPluginTest extends TestCase {
 		$this->request->expects($this->once())
 			->method('setUrl')
 			->with($this->equalTo('https://example.com/file (2).txt'));
-
-		$this->plugin->beforeMethod($this->request, $this->response);
-	}
-
-	public function testNoMKCOL(): void {
-		$this->plugin->enable();
-		$this->plugin->setView($this->view);
-		$this->plugin->setShare($this->share);
-
-		$this->request->method('getMethod')
-			->willReturn('MKCOL');
-
-		$this->expectException(MethodNotAllowed::class);
 
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}

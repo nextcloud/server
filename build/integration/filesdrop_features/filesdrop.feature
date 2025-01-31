@@ -47,19 +47,6 @@ Feature: FilesDrop
     And Downloading file "/drop/a.txt"
     Then Downloaded content should be "abc"
 
-  Scenario: Files drop forbis MKCOL
-    Given user "user0" exists
-    And As an "user0"
-    And user "user0" created a folder "/drop"
-    And as "user0" creating a share with
-      | path | drop |
-      | shareType | 3 |
-      | publicUpload | true |
-    And Updating last share with
-      | permissions | 4 |
-    When Creating folder "folder" in drop
-    Then the HTTP status code should be "405"
-
   Scenario: Files request drop
     Given user "user0" exists
     And As an "user0"

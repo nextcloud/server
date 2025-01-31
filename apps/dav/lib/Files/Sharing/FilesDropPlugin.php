@@ -53,8 +53,8 @@ class FilesDropPlugin extends ServerPlugin {
 		}
 
 		// Only allow file drop
-		if ($request->getMethod() !== 'PUT') {
-			throw new MethodNotAllowed('Only PUT is allowed on files drop');
+		if ($request->getMethod() !== 'PUT' && $request->getMethod() !== 'MKCOL') {
+			throw new MethodNotAllowed('Only PUT or MKCOL are allowed on files drop');
 		}
 
 		// Always upload at the root level
