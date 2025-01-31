@@ -184,6 +184,7 @@
     "You cannot share your root folder" : "您無法分享您的根資料夾",
     "You are not allowed to share %s" : "你無權分享 %s",
     "Valid permissions are required for sharing" : "分享需要有效的權限",
+    "File shares cannot have create or delete permissions" : "檔案分享不能具有創建或刪除權限",
     "Cannot increase permissions of %s" : "無法增加 %s 的權限",
     "Shares need at least read permissions" : "分享需要至少讀取的權限",
     "Files cannot be shared with delete permissions" : "無法分享具有刪除權限的檔案",

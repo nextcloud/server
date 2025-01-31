@@ -184,6 +184,7 @@
     "You cannot share your root folder" : "لا يمكنك مشاركة مجلدك الجذر",
     "You are not allowed to share %s" : "أنت غير مسموح لك أن تشارك %s",
     "Valid permissions are required for sharing" : "المشاركة تلزمها أذونات صالحة",
+    "File shares cannot have create or delete permissions" : "لا يمكن لمشاركات الملفات أن يكون لها أذونات الإنشاء أو الحذف",
     "Cannot increase permissions of %s" : "لا يمكن زيادة أذونات %s",
     "Shares need at least read permissions" : "المشاركات تتطلب في الحد الأدنى إذناً بالقراءة",
     "Files cannot be shared with delete permissions" : "لا يمكن مشاركة ملفات بأذونات حذفٍ",
