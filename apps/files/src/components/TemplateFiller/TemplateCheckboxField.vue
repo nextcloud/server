@@ -40,7 +40,7 @@ export default defineComponent({
 
 	computed: {
 		fieldLabel() {
-			const label = this.field.name ?? this.field.alias ?? 'Unknown field'
+			const label = this.field.name || this.field.alias
 
 			return label.charAt(0).toUpperCase() + label.slice(1)
 		},
