@@ -62,6 +62,7 @@ OC.L10N.register(
     "Enable Path Style" : "Activar o estilo de ruta",
     "Legacy (v2) authentication" : "Autenticación (v2) estilo antigo",
     "Enable multipart copy" : "Activar a copia de múltiples partes",
+    "SSE-C encryption key" : "Chave de cifrado SSE-C",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
     "Remote subfolder" : "Subcartafol remoto",

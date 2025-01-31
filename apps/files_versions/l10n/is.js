@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Versions" : "Útgáfur",
     "This application automatically maintains older versions of files that are changed." : "Þetta forrit viðheldur sjálfvirkt eldri útgáfum skráa sem er breytt.",
+    "Actions for version from {versionHumanExplicitDate}" : "Aðgerðir fyrir útgáfu frá {versionHumanExplicitDate}",
     "Name this version" : "Settu heiti á þessa útgáfu",
     "Edit version name" : "Breyta heiti útgáfunnar",
     "Compare to current version" : "Bera saman við fyrirliggjandi útgáfu",
@@ -19,6 +20,7 @@ OC.L10N.register(
     "Initial version restored" : "Upprunaleg útgáfa endurheimt",
     "Version restored" : "Útgáfa endurheimt",
     "Could not restore version" : "Gat ekki endurheimt útgáfu",
+    "Could not set version label" : "Gat ekki sett merkingu á útgáfu",
     "Could not delete version" : "Gat ekki eytt útgáfu",
     "${version.label} restored" : "${version.label} endurheimt"
 },
