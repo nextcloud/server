@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from "@nextcloud/cypress"
+import type { User } from '@nextcloud/cypress'
 
 export const getRowForFileId = (fileid: number) => cy.get(`[data-cy-files-list-row-fileid="${fileid}"]`)
 export const getRowForFile = (filename: string) => cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"]`)
@@ -213,4 +213,46 @@ export const reloadCurrentFolder = () => {
 	cy.intercept('PROPFIND', /\/remote.php\/dav\//).as('propfind')
 	cy.get('[data-cy-files-content-breadcrumbs]').findByRole('button', { description: 'Reload current directory' }).click()
 	cy.wait('@propfind')
+}
+
+/**
+ * Enable the grid mode for the files list.
+ * Will fail if already enabled!
+ */
+export function enableGridMode() {
+	cy.intercept('**/apps/files/api/v1/config/grid_view').as('setGridMode')
+	cy.findByRole('button', { name: 'Switch to grid view' })
+		.should('be.visible')
+		.click()
+	cy.wait('@setGridMode')
+}
+
+/**
+ * Calculate the needed viewport height to limit the visible rows of the file list.
+ * Requires a logged in user.
+ *
+ * @param rows The number of rows that should be displayed at the same time
+ */
+export function calculateViewportHeight(rows: number): Cypress.Chainable<number> {
+	cy.visit('/apps/files')
+
+	return cy.get('[data-cy-files-list]')
+		.should('be.visible')
+		.then((filesList) => {
+			const windowHeight = Cypress.$('body').outerHeight()!
+			// Size of other page elements
+			const outerHeight = Math.ceil(windowHeight - filesList.outerHeight()!)
+			// Size of before and filters
+			const beforeHeight = Math.ceil(Cypress.$('.files-list__before').outerHeight()!)
+			const filterHeight = Math.ceil(Cypress.$('.files-list__filters').outerHeight()!)
+			// Size of the table header
+			const tableHeaderHeight = Math.ceil(Cypress.$('[data-cy-files-list-thead]').outerHeight()!)
+			// table row height
+			const rowHeight = Math.ceil(Cypress.$('[data-cy-files-list-tbody] tr').outerHeight()!)
+
+			// sum it up
+			const viewportHeight = outerHeight + beforeHeight + filterHeight + tableHeaderHeight + rows * rowHeight
+			cy.log(`Calculated viewport height: ${viewportHeight} (${outerHeight} + ${beforeHeight} + ${filterHeight} + ${tableHeaderHeight} + ${rows} * ${rowHeight})`)
+			return cy.wrap(viewportHeight)
+		})
 }

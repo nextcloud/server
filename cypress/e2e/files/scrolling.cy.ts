@@ -4,11 +4,13 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { getRowForFile } from './FilesUtils'
+import { calculateViewportHeight, enableGridMode, getRowForFile } from './FilesUtils.ts'
+import { beFullyInViewport, notBeFullyInViewport } from '../core-utils.ts'
 
 describe('files: Scrolling to selected file in file list', { testIsolation: true }, () => {
 	const fileIds = new Map<number, string>()
 	let user: User
+	let viewportHeight: number
 
 	before(() => {
 		cy.createRandomUser().then(($user) => {
@@ -19,12 +21,17 @@ describe('files: Scrolling to selected file in file list', { testIsolation: true
 				cy.uploadContent(user, new Blob([]), 'text/plain', `/${i}.txt`)
 					.then((response) => fileIds.set(i, Number.parseInt(response.headers['oc-fileid']).toString()))
 			}
+
+			cy.login(user)
+			cy.viewport(1200, 800)
+			// Calculate height to ensure that those 10 elements can not be rendered in one list (only 6 will fit the screen)
+			calculateViewportHeight(6)
+				.then((height) => { viewportHeight = height })
 		})
 	})
 
 	beforeEach(() => {
-		// Adjust height to ensure that those 10 elements can not be rendered in one list
-		cy.viewport(1200, 6 * 55 /* rows */ + 55 /* table header */ + 50 /* navigation header */ + 50 /* breadcrumbs */ + 46 /* file filters */)
+		cy.viewport(1200, viewportHeight)
 		cy.login(user)
 	})
 
@@ -64,34 +71,36 @@ describe('files: Scrolling to selected file in file list', { testIsolation: true
 				.and(beOverlappedByTableHeader)
 			getRowForFile(`${i + 5}.txt`)
 				.should('exist')
-				.and('be.visible')
 				.and(notBeFullyInViewport)
 		})
 	}
 
-	// this will have half of the footer visible
-	it(`correctly scrolls to row 6`, () => {
+	// this will have half of the footer visible and half of the previous element
+	it('correctly scrolls to row 6', () => {
 		cy.visit(`/apps/files/files/${fileIds.get(6)}`)
 
 		// See file is visible
-		getRowForFile(`6.txt`)
+		getRowForFile('6.txt')
 			.should('be.visible')
 			.and(notBeOverlappedByTableHeader)
 
 		// we expect also element 7,8,9,10 visible
-		getRowForFile(`10.txt`)
+		getRowForFile('10.txt')
 			.should('be.visible')
 		// but not row 5
-		getRowForFile(`5.txt`)
+		getRowForFile('5.txt')
 			.should('exist')
 			.and(beOverlappedByTableHeader)
 		// see footer is only shown partly
 		cy.get('tfoot')
 			.should('exist')
 			.and(notBeFullyInViewport)
+			.contains('10 files')
+			.should('be.visible')
 	})
 
-	// Same kind of tests for partially visible top and bottom
+	// For the last "page" of entries we can not scroll further
+	// so we show all of the last 4 entries
 	for (let i = 7; i <= 10; i++) {
 		it(`correctly scrolls to row ${i}`, () => {
 			cy.visit(`/apps/files/files/${fileIds.get(i)}`)
@@ -101,15 +110,15 @@ describe('files: Scrolling to selected file in file list', { testIsolation: true
 				.should('be.visible')
 				.and(notBeOverlappedByTableHeader)
 
-			// there are only max. 3 rows left so also row 6+ should be visible
-			getRowForFile(`6.txt`)
+			// there are only max. 4 rows left so also row 6+ should be visible
+			getRowForFile('6.txt')
 				.should('be.visible')
-			getRowForFile(`10.txt`)
+			getRowForFile('10.txt')
 				.should('be.visible')
 			// Also the footer is visible
 			cy.get('tfoot')
 				.contains('10 files')
-				.should('be.visible')
+				.should(beFullyInViewport)
 		})
 	}
 })
@@ -117,8 +126,13 @@ describe('files: Scrolling to selected file in file list', { testIsolation: true
 describe('files: Scrolling to selected file in file list (GRID MODE)', { testIsolation: true }, () => {
 	const fileIds = new Map<number, string>()
 	let user: User
+	let viewportHeight: number
 
 	before(() => {
+		cy.wrap(Cypress.automation('remote:debugger:protocol', {
+			command: 'Network.clearBrowserCache',
+		  }))
+
 		cy.createRandomUser().then(($user) => {
 			user = $user
 
@@ -127,21 +141,22 @@ describe('files: Scrolling to selected file in file list (GRID MODE)', { testIso
 				cy.uploadContent(user, new Blob([]), 'text/plain', `/${i}.txt`)
 					.then((response) => fileIds.set(i, Number.parseInt(response.headers['oc-fileid']).toString()))
 			}
+
 			// Set grid mode
 			cy.login(user)
-			cy.intercept('**/apps/files/api/v1/config/grid_view').as('setGridMode')
 			cy.visit('/apps/files')
-			cy.findByRole('button', { name: 'Switch to grid view' })
-				.should('be.visible')
-				.click()
-			cy.wait('@setGridMode')
+			enableGridMode()
+
+			// 768px width will limit the columns to 3
+			cy.viewport(768, 800)
+			// Calculate height to ensure that those 12 elements can not be rendered in one list (only 3 will fit the screen)
+			calculateViewportHeight(3)
+				.then((height) => { viewportHeight = height })
 		})
 	})
 
 	beforeEach(() => {
-		// Adjust height to ensure that those 12 files can not be rendered in one list
-		// 768px width will limit the columns to 3
-		cy.viewport(768, 3 * 246 /* rows */ + 55 /* table header */ + 50 /* navigation header */ + 50 /* breadcrumbs */ + 46 /* file filters */)
+		cy.viewport(768, viewportHeight)
 		cy.login(user)
 	})
 
@@ -155,13 +170,13 @@ describe('files: Scrolling to selected file in file list (GRID MODE)', { testIso
 				getRowForFile(`${j}.txt`)
 					.should('be.visible')
 				// we expect also the second row to be visible
-				getRowForFile(`${j+3}.txt`)
+				getRowForFile(`${j + 3}.txt`)
 					.should('be.visible')
 				// Because there is no half row on top we also see the third row
-				getRowForFile(`${j+6}.txt`)
+				getRowForFile(`${j + 6}.txt`)
 					.should('be.visible')
 				// But not the forth row
-				getRowForFile(`${j+9}.txt`)
+				getRowForFile(`${j + 9}.txt`)
 					.should('exist')
 					.and(notBeFullyInViewport)
 			}
@@ -215,8 +230,9 @@ describe('files: Scrolling to selected file in file list (GRID MODE)', { testIso
 
 			// see footer is only shown partly
 			cy.get('tfoot')
-				.should('exist')
-				.and(notBeFullyInViewport)
+				.should(notBeFullyInViewport)
+				.contains('span', '12 files')
+				.should('be.visible')
 		})
 	}
 
@@ -237,44 +253,40 @@ describe('files: Scrolling to selected file in file list (GRID MODE)', { testIso
 
 			// see footer is shown
 			cy.get('tfoot')
-				.should('be.visible')
+				.contains('.files-list__row-name', '12 files')
+				.should(beFullyInViewport)
 		})
 	}
 })
 
 /// Some helpers
 
-function notBeOverlappedByTableHeader($el: JQuery<HTMLElement>) {
-	return beOverlappedByTableHeader($el, false)
-}
-
+/**
+ * Assert that an element is overlapped by the table header
+ * @param $el The element
+ * @param expected if it should be overlapped or NOT
+ */
 function beOverlappedByTableHeader($el: JQuery<HTMLElement>, expected = true) {
 	const headerRect = Cypress.$('thead').get(0)!.getBoundingClientRect()
 	const elementRect = $el.get(0)!.getBoundingClientRect()
-	const overlap = !(headerRect.right < elementRect.left || 
-		headerRect.left > elementRect.right || 
-		headerRect.bottom < elementRect.top || 
-		headerRect.top > elementRect.bottom)
+	const overlap = !(headerRect.right < elementRect.left
+		|| headerRect.left > elementRect.right
+		|| headerRect.bottom < elementRect.top
+		|| headerRect.top > elementRect.bottom)
 
 	if (expected) {
+		// eslint-disable-next-line no-unused-expressions
 		expect(overlap, 'Overlapped by table header').to.be.true
 	} else {
+		// eslint-disable-next-line no-unused-expressions
 		expect(overlap, 'Not overlapped by table header').to.be.false
 	}
 }
 
-function beFullyInViewport($el: JQuery<HTMLElement>, expected = true) {
-	const { top, left, bottom, right } = $el.get(0)!.getBoundingClientRect()
-	const { innerHeight, innerWidth } = window
-	const fullyVisible = top >= 0 && left >= 0 && bottom <= innerHeight && right <= innerWidth
-
-	if (expected) {
-		expect(fullyVisible, 'Fully within viewport').to.be.true
-	} else {
-		expect(fullyVisible, 'Not fully within viewport').to.be.false
-	}
-}
-
-function notBeFullyInViewport($el: JQuery<HTMLElement>) {
-	return beFullyInViewport($el, false)
+/**
+ * Assert that an element is not overlapped by the table header
+ * @param $el The element
+ */
+function notBeOverlappedByTableHeader($el: JQuery<HTMLElement>) {
+	return beOverlappedByTableHeader($el, false)
 }
