@@ -81,6 +81,7 @@ OC.L10N.register(
     "_In a year on %1$s for the entire day_::_In %n years on %1$s for the entire day_" : ["في %n سنة في %1$s طيلة اليوم","في سنة في %1$s طيلة اليوم","في %n سنة في %1$s طيلة اليوم","في %n سنوات في %1$s طيلة اليوم","في %n سنة في %1$s طيلة اليوم","في %n سنة في %1$s طيلة اليوم"],
     "In the past on %1$s between %2$s - %3$s" : "في الماضي في %1$s بين %2$s - %3$s",
     "_In a minute on %1$s between %2$s - %3$s_::_In %n minutes on %1$s between %2$s - %3$s_" : ["في %n دقيقة في %1$s بين %2$s - %3$s","في دقيقة فقي %1$s بين %2$s - %3$s","في %n دقيقة فقي %1$s بين %2$s - %3$s","في %n دقائق في %1$s بين %2$s - %3$s","في %n دقيقة في %1$s بين %2$s - %3$s","في %n دقيقة في %1$s بين %2$s - %3$s"],
+    "_In a hour on %1$s between %2$s - %3$s_::_In %n hours on %1$s between %2$s - %3$s_" : ["في %n ساعة في %1$s بين %2$s - %3$s","في ساعة واحدة %1$s بين %2$s - %3$s","في %n ساعة في %1$s بين %2$s - %3$s","في %n ساعات في %1$s بين %2$s - %3$s","في %n ساعة في %1$s بين %2$s - %3$s","في %n ساعة في %1$s بين %2$s - %3$s"],
     "Could not generate when statement" : "يتعذّر تكوين عبارة \"متى\"",
     "Every Day for the entire day" : "كل يوم لكامل اليوم",
     "Every Day for the entire day until %1$s" : "كل يوم كامل اليوم حتى %1$s",
