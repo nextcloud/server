@@ -9,7 +9,7 @@
 	<name>Theming</name>
 	<summary>Adjust the Nextcloud theme</summary>
 	<description>Adjust the Nextcloud theme</description>
-	<version>2.5.0</version>
+	<version>2.6.0</version>
 	<licence>agpl</licence>
 	<author>Nextcloud</author>
 	<namespace>Theming</namespace>
