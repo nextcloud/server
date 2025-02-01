@@ -83,6 +83,13 @@ OC.L10N.register(
     "Failed to load tags" : "タグの読込に失敗しました",
     "Failed to load selected tags" : "選択したタグの読み込みに失敗しました",
     "Failed to select tag" : "タグの選択に失敗しました",
+    "System admin disabled tag creation. You can only use existing ones." : "システム管理者がタグの作成を無効にしました。 既存のものしか使用できません。",
+    "System tag creation" : "システムタグの作成",
+    "If enabled, regular accounts will be restricted from creating new tags but will still be able to assign and remove them from their files." : "有効にすると、通常のアカウントは新しいタグの作成が制限されますが、ファイルへのタグの割り当てや削除は可能です。",
+    "Restrict tag creation to admins only" : "タグの作成を管理者のみに制限する",
+    "Unable to update setting" : "設定を更新できません",
+    "System tag creation is now restricted to administrators" : "システムタグの作成が管理者に制限されました",
+    "System tag creation is now allowed for everybody" : "システムタグの作成が全員に許可されました",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "コラボタグはすべてのユーザーで利用できます。制限付きタグは、ユーザーから見えますが、ユーザーが割り当てることはできません。不可視タグは、ユーザーが見ることも割り当てることもできず、内部利用のためのものです。",
     "Assigned collaborative tags" : "割り当てられたコラボレーションタグ",
     "Open in Files" : "ファイルアプリで開く",
@@ -97,6 +104,7 @@ OC.L10N.register(
     "Failed to set tag for file" : "ファイルのタグの設定に失敗しました",
     "Failed to delete tag for file" : "ファイルのタグを削除できませんでした",
     "This file has the tag {tag}" : "このファイルには {tag} タグがあります。",
-    "This file has the tags {firstTags} and {lastTag}" : "このファイルには {firstTags} と {lastTag} というタグがあります"
+    "This file has the tags {firstTags} and {lastTag}" : "このファイルには {firstTags} と {lastTag} というタグがあります",
+    "System tag creation is now ${isRestricted ? " : "System tag creation is now ${isRestricted ? "
 },
 "nplurals=1; plural=0;");

@@ -62,6 +62,7 @@ OC.L10N.register(
     "Enable Path Style" : "Yol biçemi kullanılsın",
     "Legacy (v2) authentication" : "Eski (v2) kimlik doğrulama",
     "Enable multipart copy" : "Çok parçalı kopya kullanılsın",
+    "SSE-C encryption key" : "SSE-C şifreleme anahtarı",
     "WebDAV" : "WebDAV",
     "URL" : "Adres",
     "Remote subfolder" : "Uzak alt klasör",
