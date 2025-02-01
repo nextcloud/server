@@ -186,7 +186,7 @@
     "tslib": "^2.8.1",
     "typescript": "^5.6.2",
     "vitest": "^2.0.5",
-    "vue-loader": "^15.9.8",
+    "vue-loader": "^17.4.2",
     "vue-template-compiler": "^2.7.16",
     "wait-on": "^8.0.1",
     "webpack": "^5.94.0",
