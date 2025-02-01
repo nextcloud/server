@@ -216,7 +216,7 @@ Feature: sharing
       | share_type | 3 |
       | file_source | A_NUMBER |
       | file_target | /FOLDER |
-      | permissions | 17 |
+      | permissions | 1 |
       | stime | A_NUMBER |
       | expiration | +3 days |
       | token | A_TOKEN |
@@ -267,7 +267,7 @@ Feature: sharing
       | share_type | 3 |
       | file_source | A_NUMBER |
       | file_target | /FOLDER |
-      | permissions | 17 |
+      | permissions | 1 |
       | stime | A_NUMBER |
       | token | A_TOKEN |
       | storage | A_NUMBER |

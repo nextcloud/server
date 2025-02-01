@@ -645,9 +645,6 @@ class ShareAPIController extends OCSController {
 			throw new OCSNotFoundException($this->l->t('Invalid permissions'));
 		}
 
-		// Shares always require read permissions
-		$permissions |= Constants::PERMISSION_READ;
-
 		if ($node instanceof \OCP\Files\File) {
 			// Single file shares should never have delete or create permissions
 			$permissions &= ~Constants::PERMISSION_DELETE;
@@ -727,11 +724,6 @@ class ShareAPIController extends OCSController {
 					Constants::PERMISSION_CREATE |
 					Constants::PERMISSION_UPDATE |
 					Constants::PERMISSION_DELETE;
-			}
-
-			// TODO: It might make sense to have a dedicated setting to allow/deny converting link shares into federated ones
-			if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
-				$permissions |= Constants::PERMISSION_SHARE;
 			}
 
 			$share->setPermissions($permissions);
