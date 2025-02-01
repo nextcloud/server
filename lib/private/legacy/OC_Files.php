@@ -48,6 +48,7 @@ use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\IRootFolder;
 use OCP\Lock\ILockingProvider;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class for file server access
@@ -237,12 +238,15 @@ class OC_Files {
 			die();
 		} catch (\Exception $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
-			OC::$server->getLogger()->logException($ex);
-			$l = \OC::$server->getL10N('lib');
-			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
-			if ($event && $event->getErrorMessage() !== null) {
+			$logger = \OCP\Server::get(LoggerInterface::class);
+			$logger->error($ex->getMessage(), ['exception' => $ex]);
+			$l = \OCP\Server::get(\OCP\L10N\IFactory::class)->get('lib');
+
+			$hint = ($ex instanceof \OCP\HintException) ? $ex->getHint() : '';
+			if (isset($event) && $event->getErrorMessage() !== null) {
 				$hint .= ' ' . $event->getErrorMessage();
 			}
+
 			\OC_Template::printErrorPage($l->t('Cannot download file'), $hint, 200);
 		}
 	}
