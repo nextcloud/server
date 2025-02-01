@@ -219,7 +219,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.3.0
 	- license: BSD-3-Clause
 - moment-timezone
-	- version: 0.5.46
+	- version: 0.5.47
 	- license: MIT
 - moment
 	- version: 2.30.1
