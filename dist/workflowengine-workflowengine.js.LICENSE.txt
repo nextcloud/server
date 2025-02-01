@@ -79,4 +79,4 @@
 
 //! moment-timezone.js
 
-//! version : 0.5.46
+//! version : 0.5.47
