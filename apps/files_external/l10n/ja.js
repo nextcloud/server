@@ -62,6 +62,7 @@ OC.L10N.register(
     "Enable Path Style" : "パス形式を有効",
     "Legacy (v2) authentication" : "レガシー認証(v2)",
     "Enable multipart copy" : "マルチパートコピーの有効化",
+    "SSE-C encryption key" : "SSE-C暗号化キー",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
     "Remote subfolder" : "リモートサブフォルダー",

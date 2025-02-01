@@ -127,6 +127,7 @@ OC.L10N.register(
     "Login" : "Login",
     "Password" : "Senhal",
     "Profile" : "Perfil",
+    "Enable encryption" : "Activar lo chiframent",
     "Submit" : "Transmetre",
     "Rename group" : "Renomenar lo grop",
     "Remove group" : "Suprimir lo grop",
