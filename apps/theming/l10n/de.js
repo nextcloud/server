@@ -13,7 +13,7 @@ OC.L10N.register(
     "Disable-user-theming should be true or false" : "Benutzer-Design deaktivieren sollte wahr oder falsch sein",
     "Saved" : "Gespeichert",
     "Invalid app given" : "Ungültige App angegeben",
-    "Invalid type for setting \"defaultApp\" given" : "Ungültiger Typ für die Einstellung \"Standard-App“ angegeben",
+    "Invalid type for setting \"defaultApp\" given" : "Ungültiger Typ für die Einstellung \"Standard-App\" angegeben",
     "Invalid setting key" : "Falscher Konfigurationsschlüssel",
     "The file was uploaded" : "Die Datei wurde hochgeladen",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Die hochgeladene Datei überschreitet die upload_max_filesize-Vorgabe in php.ini",
