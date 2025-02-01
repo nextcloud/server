@@ -10,6 +10,7 @@ namespace OCA\DAV\CardDAV;
 
 use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\DB\Exception;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
@@ -38,6 +39,7 @@ class SyncService {
 		private Converter $converter,
 		private IClientService $clientService,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 		$this->certPath = '';
 	}
@@ -239,6 +241,15 @@ class SyncService {
 	 * @param IUser $user
 	 */
 	public function updateUser(IUser $user): void {
+		// automatically disable the system addressbook if the limit is reached
+		if ($this->appConfig->getAppValueBool('system_addressbook_exposed', true)) {
+			$limit = $this->appConfig->getAppValueInt('system_addressbook_limit', 5000);
+			// we use
+			if ($this->userManager->countSeenUsers() >= $limit) {
+				$this->appConfig->setAppValueBool('system_addressbook_exposed', false);
+			}
+		}
+
 		$systemAddressBook = $this->getLocalSystemAddressBook();
 		$addressBookId = $systemAddressBook['id'];
 

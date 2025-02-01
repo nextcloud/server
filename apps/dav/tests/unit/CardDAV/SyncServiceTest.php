@@ -14,6 +14,7 @@ use OC\Http\Client\Response;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\Converter;
 use OCA\DAV\CardDAV\SyncService;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
@@ -36,11 +37,13 @@ class SyncServiceTest extends TestCase {
 	protected Converter&MockObject $converter;
 	protected IClient&MockObject $client;
 	protected IConfig&MockObject $config;
+	protected IAppConfig&MockObject $appConfig;
 	protected SyncService $service;
 
 	public function setUp(): void {
 		parent::setUp();
 
+		$this->backend = $this->createMock(CardDavBackend::class);
 		$addressBook = [
 			'id' => 1,
 			'uri' => 'system',
@@ -48,11 +51,13 @@ class SyncServiceTest extends TestCase {
 			'{DAV:}displayname' => 'system',
 			// watch out, incomplete address book mock.
 		];
-
-		$this->backend = $this->createMock(CardDavBackend::class);
 		$this->backend->method('getAddressBooksByUri')
-			->with('principals/system/system', 1)
-			->willReturn($addressBook);
+			->willReturnCallback(function ($principal, $idOrUri) use ($addressBook) {
+				if ($principal === 'principals/system/system' && ($idOrUri === 'system' || $idOrUri === 1 || $idOrUri === '1')) {
+					return $addressBook;
+				}
+				return null;
+			});
 
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->dbConnection = $this->createMock(IDBConnection::class);
@@ -60,6 +65,7 @@ class SyncServiceTest extends TestCase {
 		$this->converter = $this->createMock(Converter::class);
 		$this->client = $this->createMock(IClient::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 
 		$clientService = $this->createMock(IClientService::class);
 		$clientService->method('newClient')
@@ -72,7 +78,8 @@ class SyncServiceTest extends TestCase {
 			$this->logger,
 			$this->converter,
 			$clientService,
-			$this->config
+			$this->config,
+			$this->appConfig
 		);
 	}
 
@@ -313,8 +320,9 @@ END:VCARD';
 		$converter = $this->createMock(Converter::class);
 		$clientService = $this->createMock(IClientService::class);
 		$config = $this->createMock(IConfig::class);
+		$appConfig = $this->createMock(IAppConfig::class);
 
-		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService, $config);
+		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService, $config, $appConfig);
 		$ss->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
 	}
 
@@ -360,8 +368,9 @@ END:VCARD';
 
 		$clientService = $this->createMock(IClientService::class);
 		$config = $this->createMock(IConfig::class);
+		$appConfig = $this->createMock(IAppConfig::class);
 
-		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService, $config);
+		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService, $config, $appConfig);
 		$ss->updateUser($user);
 
 		$ss->updateUser($user);
@@ -402,8 +411,9 @@ END:VCARD';
 		$message = 'Client error: `REPORT https://server2.internal/cloud/remote.php/dav/addressbooks/system/system/system` resulted in a `401 Unauthorized` response:
 <?xml version="1.0" encoding="utf-8"?>
 <d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">
-  <s:exception>Sabre\DA (truncated...)
-';
+  <s:exception>Sabre\DAV\Exception\NotAuthenticated</s:exception>
+  <s:message>No public access to this resource., Username or password was incorrect, No \'Authorization: Bearer\' header found. Either the client didn\'t send one, or the server is mis-configured, Username or password was incorrect</s:message>
+</d:error>';
 
 		$reportException = new ClientException(
 			$message,
@@ -481,4 +491,102 @@ END:VCARD';
 			['https://server.internal:8080/nextcloud/', 'https://server.internal:8080/nextcloud/remote.php/dav/addressbooks/system/system/system'],
 		];
 	}
+
+	public function testUpdateUserDisablesSystemAddressBookWhenLimitReached(): void {
+		$this->appConfig->method('getAppValueBool')
+			->with('system_addressbook_exposed', true)
+			->willReturn(true);
+		$this->appConfig->method('getAppValueInt')
+			->with('system_addressbook_limit', 5000)
+			->willReturn(2);
+		$this->userManager->method('countSeenUsers')->willReturn(2);
+		$this->appConfig->expects($this->once())
+			->method('setAppValueBool')
+			->with('system_addressbook_exposed', false);
+		$user = $this->createMock(IUser::class);
+		$user->method('isEnabled')->willReturn(false);
+		$user->method('getBackendClassName')->willReturn('unittest');
+		$user->method('getUID')->willReturn('test-user');
+		$this->backend->method('getAddressBooksByUri')
+			->with('principals/system/system', 'system')
+			->willReturn(['id' => 1]);
+		$this->backend->expects($this->once())->method('deleteCard');
+		$this->service->updateUser($user);
+	}
+
+	public function testUpdateUserCreatesCardIfNotExistsAndEnabled(): void {
+		$this->appConfig->method('getAppValueBool')->willReturn(true);
+		$this->appConfig->method('getAppValueInt')->willReturn(5000);
+		$user = $this->createMock(IUser::class);
+		$user->method('isEnabled')->willReturn(true);
+		$user->method('getBackendClassName')->willReturn('unittest');
+		$user->method('getUID')->willReturn('test-user');
+		$this->backend->method('getAddressBooksByUri')
+			->with('principals/system/system', 'system')
+			->willReturn(['id' => 1]);
+		$this->backend->method('getCard')->willReturn(false);
+		$vCard = $this->createMock(VCard::class);
+		$vCard->method('serialize')->willReturn('VCARD-DATA');
+		$this->converter->method('createCardFromUser')->willReturn($vCard);
+		$this->backend->expects($this->once())
+			->method('createCard')
+			->with(1, 'unittest:test-user.vcf', 'VCARD-DATA', false);
+		$this->service->updateUser($user);
+	}
+
+	public function testUpdateUserUpdatesCardIfExistsAndEnabled(): void {
+		$this->appConfig->method('getAppValueBool')->willReturn(true);
+		$this->appConfig->method('getAppValueInt')->willReturn(5000);
+		$user = $this->createMock(IUser::class);
+		$user->method('isEnabled')->willReturn(true);
+		$user->method('getBackendClassName')->willReturn('unittest');
+		$user->method('getUID')->willReturn('test-user');
+		$this->backend->method('getAddressBooksByUri')
+			->with('principals/system/system', 'system')
+			->willReturn(['id' => 1]);
+		$this->backend->method('getCard')->willReturn(['carddata' => 'foo']);
+		$vCard = $this->createMock(VCard::class);
+		$vCard->method('serialize')->willReturn('VCARD-DATA');
+		$this->converter->method('createCardFromUser')->willReturn($vCard);
+		$this->backend->expects($this->once())
+			->method('updateCard')
+			->with(1, 'unittest:test-user.vcf', 'VCARD-DATA');
+		$this->service->updateUser($user);
+	}
+
+	public function testUpdateUserDeletesCardIfConverterReturnsNull(): void {
+		$this->appConfig->method('getAppValueBool')->willReturn(true);
+		$this->appConfig->method('getAppValueInt')->willReturn(5000);
+		$user = $this->createMock(IUser::class);
+		$user->method('isEnabled')->willReturn(true);
+		$user->method('getBackendClassName')->willReturn('unittest');
+		$user->method('getUID')->willReturn('test-user');
+		$this->backend->method('getAddressBooksByUri')
+			->with('principals/system/system', 'system')
+			->willReturn(['id' => 1]);
+		$this->backend->method('getCard')->willReturn(['carddata' => 'foo']);
+		$this->converter->method('createCardFromUser')->willReturn(null);
+		$this->backend->expects($this->once())
+			->method('deleteCard')
+			->with(1, 'unittest:test-user.vcf');
+		$this->service->updateUser($user);
+	}
+
+	public function testUpdateUserDeletesCardIfUserDisabled(): void {
+		$this->appConfig->method('getAppValueBool')->willReturn(true);
+		$this->appConfig->method('getAppValueInt')->willReturn(5000);
+		$user = $this->createMock(IUser::class);
+		$user->method('isEnabled')->willReturn(false);
+		$user->method('getBackendClassName')->willReturn('unittest');
+		$user->method('getUID')->willReturn('test-user');
+		$this->backend->method('getAddressBooksByUri')
+			->with('principals/system/system', 'system')
+			->willReturn(['id' => 1]);
+		$this->backend->expects($this->once())
+			->method('deleteCard')
+			->with(1, 'unittest:test-user.vcf');
+		$this->service->updateUser($user);
+	}
+
+
 }
