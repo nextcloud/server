@@ -283,7 +283,7 @@ OC.L10N.register(
     "Weekdays" : "Wochentage",
     "Pick a start time for {dayName}" : "Eine Startzeit für {dayName} wählen",
     "Pick a end time for {dayName}" : "Eine Endezeit für {dayName} wählen",
-    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Setze den Benutzerstatus automatisch auf „Nicht stören“, wenn du nicht erreichbar bist, um alle Benachrichtigungen stumm zu schalten.",
+    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Setze den Benutzerstatus automatisch auf \"Nicht stören\", wenn du nicht erreichbar bist, um alle Benachrichtigungen stumm zu schalten.",
     "Failed to load availability" : "Fehler beim Laden der Verfügbarkeit",
     "Saved availability" : "Verfügbarkeit gespeichert",
     "Failed to save availability" : "Fehler beim Speichern der Verfügbarkeit",
