@@ -107,7 +107,7 @@
     "v-tooltip": "^2.1.3",
     "vue": "^2.7.16",
     "vue-click-outside": "^1.1.0",
-    "vue-cropperjs": "^4.2.0",
+    "vue-cropperjs": "^5.0.0",
     "vue-frag": "^1.4.2",
     "vue-infinite-loading": "^2.4.5",
     "vue-localstorage": "^0.6.2",
