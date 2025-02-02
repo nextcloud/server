@@ -408,7 +408,6 @@ OC.L10N.register(
     "Invalid server URL" : "URL del servidor inválida",
     "Failed to add the public link to your Nextcloud" : "No se ha podido añadir el enlace público a tu Nextcloud",
     "Files" : "Archivos",
-    "Invalid permissions" : "Permisos no válidos",
     "Download all files" : "Descargar todos los archivos",
     "Search for share recipients" : "Buscar destinatarios del compartido",
     "No recommendations. Start typing." : "No hay recomendaciones. Comience a escribir.",

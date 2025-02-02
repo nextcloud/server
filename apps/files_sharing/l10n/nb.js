@@ -370,7 +370,6 @@ OC.L10N.register(
     "Invalid server URL" : "Ugyldig server adresse",
     "Failed to add the public link to your Nextcloud" : "Feil oppsto under oppretting av offentlig lenke til din Nextcloud",
     "Files" : "Filer",
-    "Invalid permissions" : "Ugyldig rettigheter",
     "Download all files" : "Last ned alle filer",
     "Search for share recipients" : "Søk etter delingsmottakere",
     "No recommendations. Start typing." : "Ingen forslag. Start skriving.",

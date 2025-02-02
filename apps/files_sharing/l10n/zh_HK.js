@@ -410,7 +410,6 @@ OC.L10N.register(
     "Invalid server URL" : "無效的伺服器 URL",
     "Failed to add the public link to your Nextcloud" : "無法將公開連結加入您的 Nextcloud",
     "Files" : "檔案",
-    "Invalid permissions" : "無效的權限",
     "Download all files" : "下載所有檔案",
     "Search for share recipients" : "搜尋分享參與者",
     "No recommendations. Start typing." : "沒有建議。開始輸入。",

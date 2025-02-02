@@ -276,7 +276,6 @@ OC.L10N.register(
     "Invalid server URL" : "Neteisingas serverio URL adresas",
     "Failed to add the public link to your Nextcloud" : "Nepavyko pridėti viešosios nuorodos į jūsų Nextcloud",
     "Files" : "Failai",
-    "Invalid permissions" : "Neteisingi leidimai",
     "Download all files" : "Atsisiųsti visus failus ",
     "No recommendations. Start typing." : "Rekomendacijų nėra. Pradėkite rašyti.",
     "Allow download" : "Leisti atsisiųsti",

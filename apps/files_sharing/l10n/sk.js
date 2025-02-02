@@ -352,7 +352,6 @@ OC.L10N.register(
     "Invalid server URL" : "Neplatná URL servera",
     "Failed to add the public link to your Nextcloud" : "Pridanie verejne dostupného odkazu do vášho Nextcloud zlyhalo",
     "Files" : "Súbory",
-    "Invalid permissions" : "Neplatné oprávnenia",
     "Download all files" : "Stiahnuť všetky súbory",
     "Search for share recipients" : "Vyhľadanie ďalších účastníkov zdieľania",
     "No recommendations. Start typing." : "Žiadne odporúčania. Píšte.",
