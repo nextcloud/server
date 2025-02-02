@@ -410,7 +410,6 @@ OC.L10N.register(
     "Invalid server URL" : "عنوان الرابط للخادم غير صالح",
     "Failed to add the public link to your Nextcloud" : "فشل في إضافة الرابط العام إلى الخادم السحابي الخاص بك",
     "Files" : "الملفّات",
-    "Invalid permissions" : "الأذونات لا تكفي",
     "Download all files" : "تنزيل كافة الملفات",
     "Search for share recipients" : "إضافة أشخاص لاستلام المشاركة",
     "No recommendations. Start typing." : "لا توجد توصيات. إبدأ الكتابة.",

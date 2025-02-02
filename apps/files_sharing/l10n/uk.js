@@ -396,7 +396,6 @@ OC.L10N.register(
     "Invalid server URL" : "Недійсна адреса сервера URL",
     "Failed to add the public link to your Nextcloud" : "Не вдалося додати загальнодоступне посилання до вашого Nextcloud",
     "Files" : "Файли",
-    "Invalid permissions" : "Некоректні повноваження",
     "Download all files" : "Звантажити всі файли",
     "Search for share recipients" : "Виберіть отримувачів",
     "No recommendations. Start typing." : "Відсутні рекомендації. Будь ласка, додайте.",

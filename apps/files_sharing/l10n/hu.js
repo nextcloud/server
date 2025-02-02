@@ -287,7 +287,6 @@ OC.L10N.register(
     "Invalid server URL" : "Érvénytelen kiszolgáló URL",
     "Failed to add the public link to your Nextcloud" : "Nem sikerült hozzáadni a nyilvános hivatkozást a Nexcloudjához",
     "Files" : "Fájlok",
-    "Invalid permissions" : "Érvénytelen jogosultságok",
     "Download all files" : "Összes fájl letöltése",
     "Search for share recipients" : "Megosztás résztvevőinek keresése",
     "No recommendations. Start typing." : "Nincs javaslat. Kezdjen gépelni.",
