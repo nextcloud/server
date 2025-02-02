@@ -262,7 +262,6 @@ OC.L10N.register(
     "Invalid server URL" : "URL máy chủ không hợp lệ",
     "Failed to add the public link to your Nextcloud" : "Không thể thêm liên kết công khai",
     "Files" : "Tệp tin",
-    "Invalid permissions" : "Quyền không hợp lệ",
     "Download all files" : "Tải xuống tất cả các tập tin",
     "Search for share recipients" : "Tìm kiếm người nhận chia sẻ",
     "No recommendations. Start typing." : "Không có khuyến nghị. Bắt đầu gõ.",

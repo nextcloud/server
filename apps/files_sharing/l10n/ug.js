@@ -376,7 +376,6 @@ OC.L10N.register(
     "Invalid server URL" : "مۇلازىمېتىر URL ئىناۋەتسىز",
     "Failed to add the public link to your Nextcloud" : "Nextcloud غا ئاممىۋى ئۇلىنىشنى قوشالمىدى",
     "Files" : "ھۆججەتلەر",
-    "Invalid permissions" : "ئىناۋەتسىز",
     "Download all files" : "بارلىق ھۆججەتلەرنى چۈشۈرۈڭ",
     "Search for share recipients" : "ھەمبەھىر تاپشۇرۇۋالغۇچىلارنى ئىزدەڭ",
     "No recommendations. Start typing." : "تەۋسىيە يوق. يېزىشنى باشلاڭ.",

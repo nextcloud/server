@@ -209,7 +209,6 @@ OC.L10N.register(
     "Invalid server URL" : "ادرس سرور نامعتبر",
     "Failed to add the public link to your Nextcloud" : "خطا در افزودن ادرس عمومی به نکس کلود شما",
     "Files" : "فایل‌ها",
-    "Invalid permissions" : "دسترسی نامعتبر",
     "Download all files" : "دانلود همه فایل ها",
     "Search for share recipients" : "Search for share recipients",
     "No recommendations. Start typing." : "هیچ توصیه ای نیست شروع به تایپ کنید.",

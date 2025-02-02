@@ -410,7 +410,6 @@ OC.L10N.register(
     "Invalid server URL" : "Invalid server URL",
     "Failed to add the public link to your Nextcloud" : "Failed to add the public link to your Nextcloud",
     "Files" : "Files",
-    "Invalid permissions" : "Invalid permissions",
     "Download all files" : "Download all files",
     "Search for share recipients" : "Search for share recipients",
     "No recommendations. Start typing." : "No recommendations. Start typing.",

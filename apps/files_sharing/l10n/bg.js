@@ -243,7 +243,6 @@ OC.L10N.register(
     "Invalid server URL" : "URL адреса на сървъра не е валиден",
     "Failed to add the public link to your Nextcloud" : "Неуспешно добавяне на публичната връзка към вашия Nextcloud",
     "Files" : "Файлове",
-    "Invalid permissions" : "Невалидни права",
     "Download all files" : "Изтегли всички файлове",
     "Search for share recipients" : "Търсене на получатели на споделяне",
     "No recommendations. Start typing." : "Няма препоръки. Започнете да пишете.",

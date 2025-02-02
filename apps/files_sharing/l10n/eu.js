@@ -389,7 +389,6 @@ OC.L10N.register(
     "Invalid server URL" : "Zerbitzari URL baliogabea",
     "Failed to add the public link to your Nextcloud" : "Huts egin du esteka publikoa zure Nextcloudera gehitzean",
     "Files" : "Fitxategiak",
-    "Invalid permissions" : "Baimen baliogabeak",
     "Download all files" : "Deskargatu fitxategi guztiak",
     "Search for share recipients" : "Bilatu partekatze-hartzaileak",
     "No recommendations. Start typing." : "Gomendiorik ez. Hasi idazten.",

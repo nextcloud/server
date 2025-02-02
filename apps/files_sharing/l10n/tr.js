@@ -410,7 +410,6 @@ OC.L10N.register(
     "Invalid server URL" : "Sunucu adresi geçersiz",
     "Failed to add the public link to your Nextcloud" : "Herkese açık bağlantı Nextcould üzerine eklenemedi",
     "Files" : "Dosyalar",
-    "Invalid permissions" : "İzinler geçersiz",
     "Download all files" : "Tüm dosyaları indir",
     "Search for share recipients" : "Paylaşım alıcıları ara",
     "No recommendations. Start typing." : "Herhangi bir öneri yok. Yazmaya başlayın.",

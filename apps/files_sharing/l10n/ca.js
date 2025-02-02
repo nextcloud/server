@@ -285,7 +285,6 @@ OC.L10N.register(
     "Invalid server URL" : "L'URL del servidor no és vàlida",
     "Failed to add the public link to your Nextcloud" : "No s'ha pogut afegir l'enllaç públic al vostre Nextcloud",
     "Files" : "Fitxers",
-    "Invalid permissions" : "Els permisos no són vàlids",
     "Download all files" : "Baixa tots els fitxers",
     "Search for share recipients" : "Cerqueu destinataris de l'element compartit",
     "No recommendations. Start typing." : "No hi ha cap recomanació. Comenceu a escriure.",

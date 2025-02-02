@@ -269,7 +269,6 @@ OC.L10N.register(
     "Invalid server URL" : "Neveljaven naslov URL strežnika",
     "Failed to add the public link to your Nextcloud" : "Dodajanje javne povezave v oblak je spodletelo.",
     "Files" : "Datoteke",
-    "Invalid permissions" : "Neustrezna dovoljenja",
     "Download all files" : "Prejmi vse datoteke",
     "Search for share recipients" : "Iskanje prejemnikov mesta souporabe",
     "No recommendations. Start typing." : "Ni priporočil; začnite vpisovati",
