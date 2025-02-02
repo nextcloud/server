@@ -410,7 +410,6 @@ OC.L10N.register(
     "Invalid server URL" : "URL freastalaí neamhbhailí",
     "Failed to add the public link to your Nextcloud" : "Theip ar an nasc poiblí a chur le do Nextcloud",
     "Files" : "Comhaid",
-    "Invalid permissions" : "Ceadanna neamhbhailí",
     "Download all files" : "Gach comhaid a íoslódáil",
     "Search for share recipients" : "Cuardaigh faighteoirí scaireanna",
     "No recommendations. Start typing." : "Gan moltaí. Tosaigh ag clóscríobh.",

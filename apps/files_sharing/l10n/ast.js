@@ -301,7 +301,6 @@ OC.L10N.register(
     "Invalid server URL" : "La URL del sirvidor ye inválida",
     "Failed to add the public link to your Nextcloud" : "Nun se pue amestar l'enllaz públicu a esta instancia de Nextcloud",
     "Files" : "Ficheros",
-    "Invalid permissions" : "Los permisos son inválidos",
     "Download all files" : "Baxar tolos ficheros",
     "Search for share recipients" : "Buscar destinatarios del elementu compartíu",
     "No recommendations. Start typing." : "Nun hai nenguna recomendación. Comienza a escribir",

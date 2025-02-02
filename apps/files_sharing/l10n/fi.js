@@ -266,7 +266,6 @@ OC.L10N.register(
     "Invalid server URL" : "Virheellinen palvelimen URL",
     "Failed to add the public link to your Nextcloud" : "Julkisen linkin lisääminen Nextcloudiisi epäonnistui",
     "Files" : "Tiedostot",
-    "Invalid permissions" : "Virheelliset käyttöoikeudet",
     "Download all files" : "Lataa kaikki tiedostot",
     "Search for share recipients" : "Etsi jaon vastaanottajia",
     "No recommendations. Start typing." : "Ei suosituksia. Aloita kirjoittaminen.",

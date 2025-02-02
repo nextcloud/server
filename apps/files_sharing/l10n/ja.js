@@ -410,7 +410,6 @@ OC.L10N.register(
     "Invalid server URL" : "サーバーのURLが無効",
     "Failed to add the public link to your Nextcloud" : "このNextcloudに公開リンクを追加できませんでした",
     "Files" : "ファイル",
-    "Invalid permissions" : "無効な権限",
     "Download all files" : "すべてのファイルをダウンロード",
     "Search for share recipients" : "共有の受信者を検索",
     "No recommendations. Start typing." : "推奨事項はありません。 入力を開始します。",

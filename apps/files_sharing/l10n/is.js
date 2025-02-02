@@ -381,7 +381,6 @@ OC.L10N.register(
     "Invalid server URL" : "Ógild URI-slóð vefþjóns",
     "Failed to add the public link to your Nextcloud" : "Mistókst að bæta opinberum tengli í þitt eigið Nextcloud",
     "Files" : "Skrár",
-    "Invalid permissions" : "Ógildar aðgangsheimildir",
     "Download all files" : "Sækja allar skrár",
     "Search for share recipients" : "Leita að viðtakendum sameignar",
     "No recommendations. Start typing." : "Engar tillögur. Byrjaðu að skrifa.",

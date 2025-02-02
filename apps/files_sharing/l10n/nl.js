@@ -357,7 +357,6 @@ OC.L10N.register(
     "Invalid server URL" : "Ongeldig server URL",
     "Failed to add the public link to your Nextcloud" : "Kon de openbare link niet aan je Nextcloud toevoegen",
     "Files" : "Bestanden",
-    "Invalid permissions" : "Ongeldige machtigingen",
     "Download all files" : "Download alle bestanden",
     "Search for share recipients" : "Zoek om mee te delen",
     "No recommendations. Start typing." : "Geen aanbevelingen. Begin te typen.",

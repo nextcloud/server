@@ -410,7 +410,6 @@ OC.L10N.register(
     "Invalid server URL" : "Ogiltig serverwebbadress",
     "Failed to add the public link to your Nextcloud" : "Misslyckades skapa den offentliga delningslänken till ditt moln",
     "Files" : "Filer",
-    "Invalid permissions" : "Ogiltiga behörigheter",
     "Download all files" : "Hämta alla filer",
     "Search for share recipients" : "Sök efter delningsmottagare",
     "No recommendations. Start typing." : "Inga rekommendationer. Börja skriva.",
