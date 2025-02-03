@@ -9,6 +9,9 @@ namespace OCA\Comments\Tests\Unit\AppInfo;
 
 use OCA\Comments\AppInfo\Application;
 use OCA\Comments\Notification\Notifier;
+use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -21,12 +24,12 @@ use Test\TestCase;
 class ApplicationTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
-		\OC::$server->getUserManager()->createUser('dummy', '456');
-		\OC::$server->getUserSession()->setUser(\OC::$server->getUserManager()->get('dummy'));
+		Server::get(IUserManager::class)->createUser('dummy', '456');
+		Server::get(IUserSession::class)->setUser(Server::get(IUserManager::class)->get('dummy'));
 	}
 
 	protected function tearDown(): void {
-		\OC::$server->getUserManager()->get('dummy')->delete();
+		Server::get(IUserManager::class)->get('dummy')->delete();
 		parent::tearDown();
 	}
 

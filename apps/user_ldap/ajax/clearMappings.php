@@ -8,6 +8,8 @@
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IDBConnection;
+use OCP\IUserManager;
 use OCP\Server;
 use OCP\User\Events\BeforeUserIdUnassignedEvent;
 use OCP\User\Events\UserIdUnassignedEvent;
@@ -28,15 +30,15 @@ try {
 		$result = $mapping->clearCb(
 			function (string $uid) use ($dispatcher): void {
 				$dispatcher->dispatchTyped(new BeforeUserIdUnassignedEvent($uid));
-				\OC::$server->getUserManager()->emit('\OC\User', 'preUnassignedUserId', [$uid]);
+				Server::get(IUserManager::class)->emit('\OC\User', 'preUnassignedUserId', [$uid]);
 			},
 			function (string $uid) use ($dispatcher): void {
 				$dispatcher->dispatchTyped(new UserIdUnassignedEvent($uid));
-				\OC::$server->getUserManager()->emit('\OC\User', 'postUnassignedUserId', [$uid]);
+				Server::get(IUserManager::class)->emit('\OC\User', 'postUnassignedUserId', [$uid]);
 			}
 		);
 	} elseif ($subject === 'group') {
-		$mapping = new GroupMapping(\OC::$server->getDatabaseConnection());
+		$mapping = new GroupMapping(Server::get(IDBConnection::class));
 		$result = $mapping->clear();
 	}
 

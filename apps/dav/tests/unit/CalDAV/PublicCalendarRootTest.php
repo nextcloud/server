@@ -12,10 +12,12 @@ use OCA\DAV\CalDAV\PublicCalendarRoot;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -51,11 +53,11 @@ class PublicCalendarRootTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$db = \OC::$server->getDatabaseConnection();
+		$db = Server::get(IDBConnection::class);
 		$this->principal = $this->createMock('OCA\DAV\Connector\Sabre\Principal');
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
-		$this->random = \OC::$server->getSecureRandom();
+		$this->random = Server::get(ISecureRandom::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$dispatcher = $this->createMock(IEventDispatcher::class);
 		$config = $this->createMock(IConfig::class);

@@ -25,7 +25,9 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
+use OCP\ITempManager;
 use OCP\IURLGenerator;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -355,8 +357,8 @@ class ThemingControllerTest extends TestCase {
 
 	/** @dataProvider dataUpdateImages */
 	public function testUpdateLogoNormalLogoUpload($mimeType, $folderExists = true): void {
-		$tmpLogo = \OC::$server->getTempManager()->getTemporaryFolder() . '/logo.svg';
-		$destination = \OC::$server->getTempManager()->getTemporaryFolder();
+		$tmpLogo = Server::get(ITempManager::class)->getTemporaryFolder() . '/logo.svg';
+		$destination = Server::get(ITempManager::class)->getTemporaryFolder();
 
 		touch($tmpLogo);
 		copy(__DIR__ . '/../../../../tests/data/testimage.png', $tmpLogo);
@@ -407,7 +409,7 @@ class ThemingControllerTest extends TestCase {
 
 	/** @dataProvider dataUpdateImages */
 	public function testUpdateLogoLoginScreenUpload($folderExists): void {
-		$tmpLogo = \OC::$server->getTempManager()->getTemporaryFolder() . 'logo.png';
+		$tmpLogo = Server::get(ITempManager::class)->getTemporaryFolder() . 'logo.png';
 
 		touch($tmpLogo);
 		copy(__DIR__ . '/../../../../tests/data/desktopapp.png', $tmpLogo);
@@ -455,7 +457,7 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	public function testUpdateLogoLoginScreenUploadWithInvalidImage(): void {
-		$tmpLogo = \OC::$server->getTempManager()->getTemporaryFolder() . '/logo.svg';
+		$tmpLogo = Server::get(ITempManager::class)->getTemporaryFolder() . '/logo.svg';
 
 		touch($tmpLogo);
 		file_put_contents($tmpLogo, file_get_contents(__DIR__ . '/../../../../tests/data/data.zip'));

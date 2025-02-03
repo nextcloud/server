@@ -23,9 +23,11 @@ use OCP\HintException;
 use OCP\IAppConfig;
 use OCP\IAvatarManager;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Image;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Server;
 use OCP\Share\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -117,7 +119,7 @@ class AccessTest extends TestCase {
 				$this->createMock(INotificationManager::class),
 				$this->shareManager])
 			->getMock();
-		$helper = new Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
+		$helper = new Helper(Server::get(IConfig::class), Server::get(IDBConnection::class));
 
 		return [$lw, $connector, $um, $helper];
 	}

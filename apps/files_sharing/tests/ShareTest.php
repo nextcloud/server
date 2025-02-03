@@ -10,6 +10,10 @@ use OC\Files\FileInfo;
 use OC\Files\Filesystem;
 use OCA\Files_Sharing\Helper;
 use OCP\Constants;
+use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IUserManager;
+use OCP\Server;
 use OCP\Share\IShare;
 
 /**
@@ -53,8 +57,8 @@ class ShareTest extends TestCase {
 	}
 
 	public function testUnshareFromSelf(): void {
-		$groupManager = \OC::$server->getGroupManager();
-		$userManager = \OC::$server->getUserManager();
+		$groupManager = Server::get(IGroupManager::class);
+		$userManager = Server::get(IUserManager::class);
 
 		$testGroup = $groupManager->createGroup('testGroup');
 		$user1 = $userManager->get(self::TEST_FILES_SHARING_API_USER2);
@@ -140,7 +144,7 @@ class ShareTest extends TestCase {
 		$this->assertTrue(Filesystem::file_exists('/Shared/subfolder/' . $this->folder));
 
 		//cleanup
-		\OC::$server->getConfig()->deleteSystemValue('share_folder');
+		Server::get(IConfig::class)->deleteSystemValue('share_folder');
 	}
 
 	public function testShareWithGroupUniqueName(): void {

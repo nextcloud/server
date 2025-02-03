@@ -7,7 +7,7 @@
  */
 /** @var array $_ */
 /** @var \OCP\IL10N $l */
-script('encryption', 'settings-admin');
+\OCP\Util::addScript('encryption', 'settings-admin', 'core');
 style('encryption', 'settings-admin');
 ?>
 <form id="ocDefaultEncryptionModule" class="sub-section">

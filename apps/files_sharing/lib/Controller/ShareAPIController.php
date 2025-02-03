@@ -328,7 +328,7 @@ class ShareAPIController extends OCSController {
 	private function getDisplayNameFromAddressBook(string $query, string $property): string {
 		// FIXME: If we inject the contacts manager it gets initialized before any address books are registered
 		try {
-			$result = \OC::$server->getContactsManager()->search($query, [$property], [
+			$result = Server::get(\OCP\Contacts\IManager::class)->search($query, [$property], [
 				'limit' => 1,
 				'enumeration' => false,
 				'strict_search' => true,

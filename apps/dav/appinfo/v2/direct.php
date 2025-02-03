@@ -9,6 +9,10 @@ declare(strict_types=1);
 use OCA\DAV\Db\DirectMapper;
 use OCA\DAV\Direct\ServerFactory;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\IRootFolder;
+use OCP\IRequest;
+use OCP\Security\Bruteforce\IThrottler;
+use OCP\Server;
 
 // no php execution timeout for webdav
 if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
@@ -19,18 +23,18 @@ ignore_user_abort(true);
 // Turn off output buffering to prevent memory problems
 \OC_Util::obEnd();
 
-$requestUri = \OC::$server->getRequest()->getRequestUri();
+$requestUri = Server::get(IRequest::class)->getRequestUri();
 
 /** @var ServerFactory $serverFactory */
-$serverFactory = \OC::$server->query(ServerFactory::class);
+$serverFactory = Server::get(ServerFactory::class);
 $server = $serverFactory->createServer(
 	$baseuri,
 	$requestUri,
-	\OC::$server->getRootFolder(),
-	\OC::$server->query(DirectMapper::class),
-	\OC::$server->query(ITimeFactory::class),
-	\OC::$server->getBruteForceThrottler(),
-	\OC::$server->getRequest()
+	Server::get(IRootFolder::class),
+	Server::get(DirectMapper::class),
+	Server::get(ITimeFactory::class),
+	Server::get(IThrottler::class),
+	Server::get(IRequest::class)
 );
 
 $server->exec();

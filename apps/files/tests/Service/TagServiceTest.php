@@ -11,9 +11,12 @@ use OCA\Files\Service\TagService;
 use OCP\Activity\IManager;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
+use OCP\ITagManager;
 use OCP\ITags;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
 
 /**
  * Class TagServiceTest
@@ -54,7 +57,7 @@ class TagServiceTest extends \Test\TestCase {
 		parent::setUp();
 		$this->user = static::getUniqueID('user');
 		$this->activityManager = $this->createMock(IManager::class);
-		\OC::$server->getUserManager()->createUser($this->user, 'test');
+		Server::get(IUserManager::class)->createUser($this->user, 'test');
 		\OC_User::setUserId($this->user);
 		\OC_Util::setupFS($this->user);
 		$user = $this->createMock(IUser::class);
@@ -69,7 +72,7 @@ class TagServiceTest extends \Test\TestCase {
 
 		$this->root = \OC::$server->getUserFolder();
 
-		$this->tagger = \OC::$server->getTagManager()->load('files');
+		$this->tagger = Server::get(ITagManager::class)->load('files');
 		$this->tagService = $this->getTagService(['addActivity']);
 	}
 
@@ -91,7 +94,7 @@ class TagServiceTest extends \Test\TestCase {
 
 	protected function tearDown(): void {
 		\OC_User::setUserId('');
-		$user = \OC::$server->getUserManager()->get($this->user);
+		$user = Server::get(IUserManager::class)->get($this->user);
 		if ($user !== null) {
 			$user->delete();
 		}

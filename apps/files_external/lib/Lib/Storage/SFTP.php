@@ -16,6 +16,7 @@ use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
+use OCP\Server;
 use phpseclib\Net\SFTP\Stream;
 
 /**
@@ -94,7 +95,7 @@ class SFTP extends Common {
 
 		$this->knownMTimes = new CappedMemoryCache();
 
-		$this->mimeTypeDetector = \OC::$server->get(IMimeTypeDetector::class);
+		$this->mimeTypeDetector = Server::get(IMimeTypeDetector::class);
 	}
 
 	/**

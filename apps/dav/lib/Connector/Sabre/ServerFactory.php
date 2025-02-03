@@ -14,18 +14,23 @@ use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCA\Theming\ThemingDefaults;
+use OCP\App\IAppManager;
+use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ITagManager;
 use OCP\IUserSession;
 use OCP\SabrePluginEvent;
+use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Auth\Plugin;
 
@@ -141,19 +146,19 @@ class ServerFactory {
 					$objectTree,
 					$this->userSession,
 					$userFolder,
-					\OC::$server->getShareManager()
+					\OCP\Server::get(\OCP\Share\IManager::class)
 				));
-				$server->addPlugin(new CommentPropertiesPlugin(\OC::$server->getCommentsManager(), $this->userSession));
+				$server->addPlugin(new CommentPropertiesPlugin(\OCP\Server::get(ICommentsManager::class), $this->userSession));
 				$server->addPlugin(new FilesReportPlugin(
 					$objectTree,
 					$view,
-					\OC::$server->getSystemTagManager(),
-					\OC::$server->getSystemTagObjectMapper(),
-					\OC::$server->getTagManager(),
+					\OCP\Server::get(ISystemTagManager::class),
+					\OCP\Server::get(ISystemTagObjectMapper::class),
+					\OCP\Server::get(ITagManager::class),
 					$this->userSession,
-					\OC::$server->getGroupManager(),
+					\OCP\Server::get(IGroupManager::class),
 					$userFolder,
-					\OC::$server->getAppManager()
+					\OCP\Server::get(IAppManager::class)
 				));
 				// custom properties plugin must be the last one
 				$server->addPlugin(
@@ -163,7 +168,7 @@ class ServerFactory {
 							$objectTree,
 							$this->databaseConnection,
 							$this->userSession->getUser(),
-							\OC::$server->get(DefaultCalendarValidator::class),
+							\OCP\Server::get(DefaultCalendarValidator::class),
 						)
 					)
 				);
@@ -175,7 +180,7 @@ class ServerFactory {
 			$this->eventDispatcher->dispatchTyped($event);
 			$pluginManager = new PluginManager(
 				\OC::$server,
-				\OC::$server->getAppManager()
+				\OCP\Server::get(IAppManager::class)
 			);
 			foreach ($pluginManager->getAppPlugins() as $appPlugin) {
 				$server->addPlugin($appPlugin);

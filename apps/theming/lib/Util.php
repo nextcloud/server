@@ -13,6 +13,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IUserSession;
+use OCP\Server;
 use OCP\ServerVersion;
 
 class Util {
@@ -302,7 +303,7 @@ class Util {
 	}
 
 	public function getCacheBuster(): string {
-		$userSession = \OC::$server->get(IUserSession::class);
+		$userSession = Server::get(IUserSession::class);
 		$userId = '';
 		$user = $userSession->getUser();
 		if (!is_null($user)) {

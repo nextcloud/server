@@ -4,6 +4,7 @@ use OCA\User_LDAP\AccessFactory;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Wizard;
+use OCP\Server;
 use OCP\Util;
 
 /**
@@ -36,7 +37,7 @@ $con->setConfiguration($configuration->getConfiguration());
 $con->ldapConfigurationActive = (string)true;
 $con->setIgnoreValidation(true);
 
-$factory = \OC::$server->get(AccessFactory::class);
+$factory = Server::get(AccessFactory::class);
 $access = $factory->get($con);
 
 $wizard = new Wizard($configuration, $ldapWrapper, $access);

@@ -7,9 +7,12 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
+use OC\SystemConfig;
 use OCA\Files_Sharing\DeleteOrphanedSharesJob;
+use OCP\App\IAppManager;
 use OCP\Constants;
 use OCP\IDBConnection;
+use OCP\IUserManager;
 use OCP\Server;
 use OCP\Share\IShare;
 
@@ -47,7 +50,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 	private $user2;
 
 	public static function setUpBeforeClass(): void {
-		$appManager = \OC::$server->getAppManager();
+		$appManager = Server::get(IAppManager::class);
 		self::$trashBinStatus = $appManager->isEnabledForUser('files_trashbin');
 		$appManager->disableApp('files_trashbin');
 
@@ -57,25 +60,25 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 
 	public static function tearDownAfterClass(): void {
 		if (self::$trashBinStatus) {
-			\OC::$server->getAppManager()->enableApp('files_trashbin');
+			Server::get(IAppManager::class)->enableApp('files_trashbin');
 		}
 	}
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 		// clear occasional leftover shares from other tests
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*share`');
 
 		$this->user1 = $this->getUniqueID('user1_');
 		$this->user2 = $this->getUniqueID('user2_');
 
-		$userManager = \OC::$server->getUserManager();
+		$userManager = Server::get(IUserManager::class);
 		$userManager->createUser($this->user1, 'pass');
 		$userManager->createUser($this->user2, 'pass');
 
-		\OC::registerShareHooks(\OC::$server->getSystemConfig());
+		\OC::registerShareHooks(Server::get(SystemConfig::class));
 
 		$this->job = Server::get(DeleteOrphanedSharesJob::class);
 	}
@@ -83,7 +86,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 	protected function tearDown(): void {
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*share`');
 
-		$userManager = \OC::$server->getUserManager();
+		$userManager = Server::get(IUserManager::class);
 		$user1 = $userManager->get($this->user1);
 		if ($user1) {
 			$user1->delete();
@@ -118,7 +121,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 		$testFolder = $user1Folder->newFolder('test');
 		$testSubFolder = $testFolder->newFolder('sub');
 
-		$shareManager = \OC::$server->getShareManager();
+		$shareManager = Server::get(\OCP\Share\IManager::class);
 		$share = $shareManager->newShare();
 
 		$share->setNode($testSubFolder)

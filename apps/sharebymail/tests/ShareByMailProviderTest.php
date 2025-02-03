@@ -1145,8 +1145,8 @@ class ShareByMailProviderTest extends TestCase {
 	}
 
 	public function testGetSharesInFolder(): void {
-		$userManager = \OC::$server->getUserManager();
-		$rootFolder = \OC::$server->getRootFolder();
+		$userManager = Server::get(IUserManager::class);
+		$rootFolder = Server::get(IRootFolder::class);
 
 		$this->shareManager->expects($this->any())
 			->method('newShare')
@@ -1192,8 +1192,8 @@ class ShareByMailProviderTest extends TestCase {
 	}
 
 	public function testGetAccessList(): void {
-		$userManager = \OC::$server->getUserManager();
-		$rootFolder = \OC::$server->getRootFolder();
+		$userManager = Server::get(IUserManager::class);
+		$rootFolder = Server::get(IRootFolder::class);
 
 		$this->shareManager->expects($this->any())
 			->method('newShare')

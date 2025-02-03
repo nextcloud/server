@@ -11,8 +11,11 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\Files_Sharing\Helper;
 use OCA\Files_Trashbin\AppInfo\Application;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\Constants;
+use OCP\IConfig;
+use OCP\Server;
 use OCP\Share\IShare;
 
 /**
@@ -56,7 +59,7 @@ class UpdaterTest extends TestCase {
 	 * that the mount point doesn't end up at the trash bin
 	 */
 	public function testDeleteParentFolder(): void {
-		$status = \OC::$server->getAppManager()->isEnabledForUser('files_trashbin');
+		$status = Server::get(IAppManager::class)->isEnabledForUser('files_trashbin');
 		(new \OC_App())->enable('files_trashbin');
 
 		// register trashbin hooks
@@ -113,7 +116,7 @@ class UpdaterTest extends TestCase {
 		$rootView->deleteAll('files_trashin');
 
 		if ($status === false) {
-			\OC::$server->getAppManager()->disableApp('files_trashbin');
+			Server::get(IAppManager::class)->disableApp('files_trashbin');
 		}
 
 		Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
@@ -134,7 +137,7 @@ class UpdaterTest extends TestCase {
 	 * @param string $shareFolder share folder to use
 	 */
 	public function testShareFile($shareFolder): void {
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 		$oldShareFolder = $config->getSystemValue('share_folder');
 		$config->setSystemValue('share_folder', $shareFolder);
 

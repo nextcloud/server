@@ -18,6 +18,7 @@ use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidPathException;
+use OCP\Files\Mount\IMountManager;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\StorageNotAvailableException;
@@ -232,8 +233,8 @@ class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuot
 		}
 
 		$nodes = [];
-		$request = \OC::$server->get(IRequest::class);
-		$l10nFactory = \OC::$server->get(IFactory::class);
+		$request = Server::get(IRequest::class);
+		$l10nFactory = Server::get(IFactory::class);
 		$l10n = $l10nFactory->get(Application::APP_ID);
 		foreach ($folderContent as $info) {
 			$node = $this->getChild($info->getName(), $info, $request, $l10n);
@@ -286,7 +287,7 @@ class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuot
 	}
 
 	private function getLogger(): LoggerInterface {
-		return \OC::$server->get(LoggerInterface::class);
+		return Server::get(LoggerInterface::class);
 	}
 
 	/**
@@ -380,7 +381,7 @@ class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuot
 		$sourcePath = $sourceNode->getPath();
 
 		$isMovableMount = false;
-		$sourceMount = \OC::$server->getMountManager()->find($this->fileView->getAbsolutePath($sourcePath));
+		$sourceMount = Server::get(IMountManager::class)->find($this->fileView->getAbsolutePath($sourcePath));
 		$internalPath = $sourceMount->getInternalPath($this->fileView->getAbsolutePath($sourcePath));
 		if ($sourceMount instanceof MoveableMount && $internalPath === '') {
 			$isMovableMount = true;

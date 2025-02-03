@@ -83,6 +83,7 @@ use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCP\Files\AppData\IAppDataFactory;
+use OCP\IUserSession;
 use OCP\Server;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\BeforeUserIdUnassignedEvent;
@@ -250,7 +251,7 @@ class Application extends App implements IBootstrap {
 
 	public function registerContactsManager(IContactsManager $cm, IAppContainer $container): void {
 		$cm->register(function () use ($container, $cm): void {
-			$user = \OC::$server->getUserSession()->getUser();
+			$user = Server::get(IUserSession::class)->getUser();
 			if (!is_null($user)) {
 				$this->setupContactsProvider($cm, $container, $user->getUID());
 			} else {
@@ -279,7 +280,7 @@ class Application extends App implements IBootstrap {
 	public function registerCalendarManager(ICalendarManager $calendarManager,
 		IAppContainer $container): void {
 		$calendarManager->register(function () use ($container, $calendarManager): void {
-			$user = \OC::$server->getUserSession()->getUser();
+			$user = Server::get(IUserSession::class)->getUser();
 			if ($user !== null) {
 				$this->setupCalendarProvider($calendarManager, $container, $user->getUID());
 			}

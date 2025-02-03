@@ -16,7 +16,10 @@ use OCA\Files_Sharing\SharedStorage;
 use OCA\Files_Trashbin\AppInfo\Application;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\Constants;
+use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\NotFoundException;
+use OCP\IUserManager;
+use OCP\Server;
 use OCP\Share\IShare;
 
 /**
@@ -389,8 +392,8 @@ class SharedStorageTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$this->assertTrue($rootView->file_exists('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/' . $this->folder));
 
-		$mountConfigManager = \OC::$server->getMountProviderCollection();
-		$mounts = $mountConfigManager->getMountsForUser(\OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER3));
+		$mountConfigManager = Server::get(IMountProviderCollection::class);
+		$mounts = $mountConfigManager->getMountsForUser(Server::get(IUserManager::class)->get(self::TEST_FILES_SHARING_API_USER3));
 		array_walk($mounts, [Filesystem::getMountManager(), 'addMount']);
 
 		$this->assertTrue($rootView->file_exists('/' . self::TEST_FILES_SHARING_API_USER3 . '/files/' . $this->filename));

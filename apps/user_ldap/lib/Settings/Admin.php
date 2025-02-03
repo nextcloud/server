@@ -8,7 +8,10 @@ namespace OCA\User_LDAP\Settings;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Helper;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\Server;
 use OCP\Settings\IDelegatedSettings;
 use OCP\Template;
 
@@ -25,7 +28,7 @@ class Admin implements IDelegatedSettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		$helper = new Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
+		$helper = new Helper(Server::get(IConfig::class), Server::get(IDBConnection::class));
 		$prefixes = $helper->getServerConfigurationPrefixes();
 		if (count($prefixes) === 0) {
 			$newPrefix = $helper->getNextServerConfigurationPrefix();

@@ -5,9 +5,9 @@
  */
 
 style('settings', 'settings');
-script('settings', 'settings');
+\OCP\Util::addScript('settings', 'settings', 'core');
 \OCP\Util::addScript('settings', 'legacy-admin');
-script('core', 'setupchecks');
+\OCP\Util::addScript('core', 'setupchecks', 'core');
 
 ?>
 
@@ -19,7 +19,7 @@ script('core', 'setupchecks');
 		<ul>
 			<?php foreach ($_['forms']['personal'] as $form) {
 				if (isset($form['anchor'])) {
-					$anchor = \OC::$server->getURLGenerator()->linkToRoute('settings.PersonalSettings.index', ['section' => $form['anchor']]);
+					$anchor = \OCP\Server::get(\OCP\IURLGenerator::class)->linkToRoute('settings.PersonalSettings.index', ['section' => $form['anchor']]);
 					$class = 'nav-icon-' . $form['anchor'];
 					$sectionName = $form['section-name']; ?>
 					<li <?php print_unescaped($form['active'] ? ' class="active"' : ''); ?> data-section-id="<?php print_unescaped($form['anchor']); ?>" data-section-type="personal">
@@ -46,7 +46,7 @@ script('core', 'setupchecks');
 		<ul>
 			<?php foreach ($_['forms']['admin'] as $form) {
 				if (isset($form['anchor'])) {
-					$anchor = \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => $form['anchor']]);
+					$anchor = \OCP\Server::get(\OCP\IURLGenerator::class)->linkToRoute('settings.AdminSettings.index', ['section' => $form['anchor']]);
 					$class = 'nav-icon-' . $form['anchor'];
 					$sectionName = $form['section-name']; ?>
 					<li <?php print_unescaped($form['active'] ? ' class="active"' : ''); ?> data-section-id="<?php print_unescaped($form['anchor']); ?>" data-section-type="admin">

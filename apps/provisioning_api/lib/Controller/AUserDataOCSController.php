@@ -28,6 +28,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Server;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
 use OCP\Util;
@@ -307,7 +308,7 @@ abstract class AUserDataOCSController extends OCSController {
 				'used' => 0
 			];
 		} catch (\Exception $e) {
-			\OC::$server->get(\Psr\Log\LoggerInterface::class)->error(
+			Server::get(\Psr\Log\LoggerInterface::class)->error(
 				'Could not load storage info for {user}',
 				[
 					'app' => 'provisioning_api',

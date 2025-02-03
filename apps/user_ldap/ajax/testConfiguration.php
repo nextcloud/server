@@ -1,6 +1,8 @@
 <?php
 
 use OCA\User_LDAP\LDAP;
+use OCP\ISession;
+use OCP\Server;
 use OCP\Util;
 
 /**
@@ -35,7 +37,7 @@ try {
 		 * contact the LDAP backup server the first time when it should, but there shouldn't be any
 		 * problem with that other than the extra connection.
 		 */
-		\OC::$server->getSession()->close();
+		Server::get(ISession::class)->close();
 		if ($connection->bind()) {
 			/*
 			 * This shiny if block is an ugly hack to find out whether anonymous

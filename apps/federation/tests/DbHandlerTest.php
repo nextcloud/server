@@ -11,6 +11,7 @@ use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -33,7 +34,7 @@ class DbHandlerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 		$this->il10n = $this->getMockBuilder(IL10N::class)->getMock();
 
 		$this->dbHandler = new DbHandler(

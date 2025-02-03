@@ -36,6 +36,7 @@ use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Lock\ILockingProvider;
+use OCP\Server;
 use OCP\Share\IShare;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -90,7 +91,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 
 	public function __construct(array $parameters) {
 		$this->ownerView = $parameters['ownerView'];
-		$this->logger = \OC::$server->get(LoggerInterface::class);
+		$this->logger = Server::get(LoggerInterface::class);
 
 		$this->superShare = $parameters['superShare'];
 		$this->groupedShares = $parameters['groupedShares'];
@@ -150,7 +151,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 			}
 
 			/** @var IRootFolder $rootFolder */
-			$rootFolder = \OC::$server->get(IRootFolder::class);
+			$rootFolder = Server::get(IRootFolder::class);
 			$this->ownerUserFolder = $rootFolder->getUserFolder($this->superShare->getShareOwner());
 			$sourceId = $this->superShare->getNodeId();
 			$ownerNodes = $this->ownerUserFolder->getById($sourceId);
@@ -412,7 +413,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		$this->cache = new Cache(
 			$storage,
 			$sourceRoot,
-			\OC::$server->get(CacheDependencies::class),
+			Server::get(CacheDependencies::class),
 			$this->getShare()
 		);
 		return $this->cache;
@@ -463,7 +464,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	 */
 	public function unshareStorage(): bool {
 		foreach ($this->groupedShares as $share) {
-			\OC::$server->getShareManager()->deleteFromSelf($share, $this->user);
+			Server::get(\OCP\Share\IManager::class)->deleteFromSelf($share, $this->user);
 		}
 		return true;
 	}

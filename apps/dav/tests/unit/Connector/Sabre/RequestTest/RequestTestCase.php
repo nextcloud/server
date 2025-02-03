@@ -11,9 +11,15 @@ use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\Connector\Sabre\ServerFactory;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IRequestId;
+use OCP\ITagManager;
+use OCP\ITempManager;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 use Sabre\HTTP\Request;
 use Test\TestCase;
@@ -40,24 +46,24 @@ abstract class RequestTestCase extends TestCase {
 		parent::setUp();
 
 		$this->serverFactory = new ServerFactory(
-			\OC::$server->getConfig(),
-			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->getDatabaseConnection(),
-			\OC::$server->getUserSession(),
-			\OC::$server->getMountManager(),
-			\OC::$server->getTagManager(),
+			\OCP\Server::get(IConfig::class),
+			\OCP\Server::get(LoggerInterface::class),
+			\OCP\Server::get(IDBConnection::class),
+			\OCP\Server::get(IUserSession::class),
+			\OCP\Server::get(IMountManager::class),
+			\OCP\Server::get(ITagManager::class),
 			$this->getMockBuilder(IRequest::class)
 				->disableOriginalConstructor()
 				->getMock(),
-			\OC::$server->getPreviewManager(),
-			\OC::$server->get(IEventDispatcher::class),
+			\OCP\Server::get(IPreview::class),
+			\OCP\Server::get(IEventDispatcher::class),
 			\OC::$server->getL10N('dav')
 		);
 	}
 
 	protected function setupUser($name, $password) {
 		$this->createUser($name, $password);
-		$tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
+		$tmpFolder = \OCP\Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);
 		$this->loginAsUser($name);
 		return new View('/' . $name . '/files');
@@ -79,7 +85,7 @@ abstract class RequestTestCase extends TestCase {
 			$body = $this->getStream($body);
 		}
 		$this->logout();
-		$exceptionPlugin = new ExceptionPlugin('webdav', \OC::$server->get(LoggerInterface::class));
+		$exceptionPlugin = new ExceptionPlugin('webdav', \OCP\Server::get(LoggerInterface::class));
 		$server = $this->getSabreServer($view, $user, $password, $exceptionPlugin);
 		$request = new Request($method, $url, $headers, $body);
 

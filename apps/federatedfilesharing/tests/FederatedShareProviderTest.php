@@ -25,6 +25,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -74,7 +75,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 		$this->notifications = $this->getMockBuilder('OCA\FederatedFileSharing\Notifications')
 			->disableOriginalConstructor()
 			->getMock();
@@ -121,7 +122,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$this->logger,
 		);
 
-		$this->shareManager = \OC::$server->getShareManager();
+		$this->shareManager = Server::get(\OCP\Share\IManager::class);
 	}
 
 	protected function tearDown(): void {
@@ -870,8 +871,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testGetSharesInFolder(): void {
-		$userManager = \OC::$server->getUserManager();
-		$rootFolder = \OC::$server->getRootFolder();
+		$userManager = Server::get(IUserManager::class);
+		$rootFolder = Server::get(IRootFolder::class);
 
 		$u1 = $userManager->createUser('testFed', md5(time()));
 		$u2 = $userManager->createUser('testFed2', md5(time()));
@@ -924,8 +925,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testGetAccessList(): void {
-		$userManager = \OC::$server->getUserManager();
-		$rootFolder = \OC::$server->getRootFolder();
+		$userManager = Server::get(IUserManager::class);
+		$rootFolder = Server::get(IRootFolder::class);
 
 		$u1 = $userManager->createUser('testFed', md5(time()));
 

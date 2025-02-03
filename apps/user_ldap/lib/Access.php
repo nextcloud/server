@@ -19,7 +19,9 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
 use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\User\Events\UserIdAssignedEvent;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -594,7 +596,7 @@ class Access extends LDAPUtility {
 		$this->connection->setConfiguration(['ldapCacheTTL' => 0]);
 		if ($intName !== ''
 			&& (($isUser && !$this->ncUserManager->userExists($intName))
-				|| (!$isUser && !\OC::$server->getGroupManager()->groupExists($intName))
+				|| (!$isUser && !Server::get(IGroupManager::class)->groupExists($intName))
 			)
 		) {
 			$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
@@ -828,7 +830,7 @@ class Access extends LDAPUtility {
 			// Check to be really sure it is unique
 			// while loop is just a precaution. If a name is not generated within
 			// 20 attempts, something else is very wrong. Avoids infinite loop.
-			if (!\OC::$server->getGroupManager()->groupExists($altName)) {
+			if (!Server::get(IGroupManager::class)->groupExists($altName)) {
 				return $altName;
 			}
 			$altName = $name . '_' . ($lastNo + $attempts);
@@ -1586,7 +1588,7 @@ class Access extends LDAPUtility {
 	 * a *
 	 */
 	private function prepareSearchTerm(string $term): string {
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 
 		$allowEnum = $config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes');
 

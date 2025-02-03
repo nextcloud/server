@@ -77,7 +77,7 @@ class BrowserErrorPagePlugin extends ServerPlugin {
 	 * @return bool|string
 	 */
 	public function generateBody(int $httpCode) {
-		$request = \OC::$server->getRequest();
+		$request = \OCP\Server::get(IRequest::class);
 
 		$templateName = 'exception';
 		if ($httpCode === 403 || $httpCode === 404) {

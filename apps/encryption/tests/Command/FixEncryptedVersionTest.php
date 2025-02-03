@@ -11,6 +11,11 @@ namespace OCA\Encryption\Tests\Command;
 use OC\Files\View;
 use OCA\Encryption\Command\FixEncryptedVersion;
 use OCA\Encryption\Util;
+use OCP\Files\IRootFolder;
+use OCP\IConfig;
+use OCP\ITempManager;
+use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
@@ -43,7 +48,7 @@ class FixEncryptedVersionTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		\OC::$server->getConfig()->setAppValue('encryption', 'useMasterKey', '1');
+		Server::get(IConfig::class)->setAppValue('encryption', 'useMasterKey', '1');
 
 		$this->util = $this->getMockBuilder(Util::class)
 			->disableOriginalConstructor()->getMock();
@@ -51,24 +56,24 @@ class FixEncryptedVersionTest extends TestCase {
 		$this->userId = $this->getUniqueId('user_');
 
 		$this->createUser($this->userId, 'foo12345678');
-		$tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
+		$tmpFolder = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->registerMount($this->userId, '\OC\Files\Storage\Local', '/' . $this->userId, ['datadir' => $tmpFolder]);
 		$this->setupForUser($this->userId, 'foo12345678');
 		$this->loginWithEncryption($this->userId);
 
 		$this->fixEncryptedVersion = new FixEncryptedVersion(
-			\OC::$server->getConfig(),
-			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->getRootFolder(),
-			\OC::$server->getUserManager(),
+			Server::get(IConfig::class),
+			Server::get(LoggerInterface::class),
+			Server::get(IRootFolder::class),
+			Server::get(IUserManager::class),
 			$this->util,
 			new View('/')
 		);
 		$this->commandTester = new CommandTester($this->fixEncryptedVersion);
 
-		$this->assertTrue(\OC::$server->getEncryptionManager()->isEnabled());
-		$this->assertTrue(\OC::$server->getEncryptionManager()->isReady());
-		$this->assertTrue(\OC::$server->getEncryptionManager()->isReadyForUser($this->userId));
+		$this->assertTrue(Server::get(\OCP\Encryption\IManager::class)->isEnabled());
+		$this->assertTrue(Server::get(\OCP\Encryption\IManager::class)->isReady());
+		$this->assertTrue(Server::get(\OCP\Encryption\IManager::class)->isReadyForUser($this->userId));
 	}
 
 	/**
@@ -370,7 +375,7 @@ The file \"/$this->userId/files/sub/hello.txt\" is: OK", $output);
 	 * Test commands without master key
 	 */
 	public function testExecuteWithNoMasterKey(): void {
-		\OC::$server->getConfig()->setAppValue('encryption', 'useMasterKey', '0');
+		Server::get(IConfig::class)->setAppValue('encryption', 'useMasterKey', '0');
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(false);
 
