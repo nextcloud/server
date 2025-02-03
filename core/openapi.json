@@ -8197,6 +8197,8 @@
             "get": {
                 "operationId": "preview-get-preview",
                 "summary": "Get a preview by file path",
+                "description": "Deprecated: Use getPreviewByFileId instead",
+                "deprecated": true,
                 "tags": [
                     "preview"
                 ],

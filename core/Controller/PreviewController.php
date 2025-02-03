@@ -42,6 +42,8 @@ class PreviewController extends Controller {
 	/**
 	 * Get a preview by file path
 	 *
+	 * Deprecated: Use getPreviewByFileId instead
+	 * @deprecated Use getPreviewByFileId instead
 	 * @param string $file Path of the file
 	 * @param int $x Width of the preview. A width of -1 will use the original image width.
 	 * @param int $y Height of the preview. A height of -1 will use the original image height.
