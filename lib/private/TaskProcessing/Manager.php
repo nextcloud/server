@@ -891,7 +891,8 @@ class Manager implements IManager {
 		if ($error !== null) {
 			$task->setStatus(Task::STATUS_FAILED);
 			$task->setEndedAt(time());
-			$task->setErrorMessage($error);
+			// truncate error message to 1000 characters
+			$task->setErrorMessage(mb_substr($error, 0, 1000));
 			$this->logger->warning('A TaskProcessing ' . $task->getTaskTypeId() . ' task with id ' . $id . ' failed with the following message: ' . $error);
 		} elseif ($result !== null) {
 			$taskTypes = $this->getAvailableTaskTypes();
@@ -920,7 +921,7 @@ class Manager implements IManager {
 					if ($value instanceof Node) {
 						$output[$key] = $value->getId();
 					}
-					if (is_array($value) && $value[0] instanceof Node) {
+					if (is_array($value) && isset($value[0]) && $value[0] instanceof Node) {
 						$output[$key] = array_map(fn ($node) => $node->getId(), $value);
 					}
 				}
@@ -956,7 +957,7 @@ class Manager implements IManager {
 			$this->taskMapper->update($taskEntity);
 			$this->runWebhook($task);
 		} catch (\OCP\DB\Exception $e) {
-			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', 0, $e);
+			throw new \OCP\TaskProcessing\Exception\Exception($e->getMessage());
 		}
 		if ($task->getStatus() === Task::STATUS_SUCCESSFUL) {
 			$event = new TaskSuccessfulEvent($task);

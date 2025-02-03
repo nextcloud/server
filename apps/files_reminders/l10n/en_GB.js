@@ -6,7 +6,7 @@ OC.L10N.register(
     "View file" : "View file",
     "View folder" : "View folder",
     "Set file reminders" : "Set file reminders",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 File reminders**\n\nSet file reminders.",
+    "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly.",
     "We will remind you of this file" : "We will remind you of this file",
     "Please choose a valid date & time" : "Please choose a valid date & time",
     "Cancel" : "Cancel",

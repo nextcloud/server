@@ -16,6 +16,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IServerContainer;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class LDAPProviderTest
@@ -54,6 +55,7 @@ class LDAPProviderTest extends \Test\TestCase {
 				$this->createMock(IConfig::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class),
+				$this->createMock(LoggerInterface::class),
 			])
 			->getMock();
 		$userManager->expects($this->any())

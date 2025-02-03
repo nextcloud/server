@@ -68,7 +68,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
-	- version: 2.5.0
+	- version: 2.5.1
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.4.0
@@ -77,7 +77,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.0.0
+	- version: 6.0.1
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
@@ -112,11 +112,11 @@ This file is generated from multiple sources. Included packages:
 - @vue/devtools-api
 	- version: 6.6.3
 	- license: MIT
-- vue-demi
-	- version: 0.14.10
-	- license: MIT
 - @vueuse/core
 	- version: 10.11.0
+	- license: MIT
+- vue-demi
+	- version: 0.14.10
 	- license: MIT
 - @vueuse/shared
 	- version: 10.11.0
@@ -128,7 +128,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.4
+	- version: 1.7.9
 	- license: MIT
 - balanced-match
 	- version: 1.0.2
@@ -302,7 +302,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.12.7
 	- license: MIT
 - pinia
-	- version: 2.2.2
+	- version: 2.2.8
 	- license: MIT
 - possible-typed-array-names
 	- version: 1.0.0
@@ -392,7 +392,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 15.11.1
 	- license: MIT
 - vue-material-design-icons
-	- version: 5.3.0
+	- version: 5.3.1
 	- license: MIT
 - vue
 	- version: 2.7.16

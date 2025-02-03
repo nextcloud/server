@@ -46,7 +46,7 @@ class SharedQueryBuilderTest extends TestCase {
 		);
 	}
 
-	public function testGetShardKeySingleParam() {
+	public function testGetShardKeySingleParam(): void {
 		$query = $this->getQueryBuilder('filecache', 'storage', 'fileid');
 		$query->select('fileid', 'path')
 			->from('filecache')
@@ -56,7 +56,7 @@ class SharedQueryBuilderTest extends TestCase {
 		$this->assertEquals([10], $query->getShardKeys());
 	}
 
-	public function testGetPrimaryKeyParam() {
+	public function testGetPrimaryKeyParam(): void {
 		$query = $this->getQueryBuilder('filecache', 'storage', 'fileid');
 		$query->select('fileid', 'path')
 			->from('filecache')
@@ -66,7 +66,7 @@ class SharedQueryBuilderTest extends TestCase {
 		$this->assertEquals([], $query->getShardKeys());
 	}
 
-	public function testValidateWithShardKey() {
+	public function testValidateWithShardKey(): void {
 		$query = $this->getQueryBuilder('filecache', 'storage', 'fileid');
 		$query->select('fileid', 'path')
 			->from('filecache')
@@ -76,7 +76,7 @@ class SharedQueryBuilderTest extends TestCase {
 		$this->assertTrue(true);
 	}
 
-	public function testValidateWithPrimaryKey() {
+	public function testValidateWithPrimaryKey(): void {
 		$query = $this->getQueryBuilder('filecache', 'storage', 'fileid');
 		$query->select('fileid', 'path')
 			->from('filecache')
@@ -86,7 +86,7 @@ class SharedQueryBuilderTest extends TestCase {
 		$this->assertTrue(true);
 	}
 
-	public function testValidateWithNoKey() {
+	public function testValidateWithNoKey(): void {
 		$query = $this->getQueryBuilder('filecache', 'storage', 'fileid');
 		$query->select('fileid', 'path')
 			->from('filecache')
@@ -97,7 +97,7 @@ class SharedQueryBuilderTest extends TestCase {
 		$this->fail('exception expected');
 	}
 
-	public function testValidateNonSharedTable() {
+	public function testValidateNonSharedTable(): void {
 		$query = $this->getQueryBuilder('filecache', 'storage', 'fileid');
 		$query->select('configvalue')
 			->from('appconfig')
@@ -107,7 +107,7 @@ class SharedQueryBuilderTest extends TestCase {
 		$this->assertTrue(true);
 	}
 
-	public function testGetShardKeyMultipleSingleParam() {
+	public function testGetShardKeyMultipleSingleParam(): void {
 		$query = $this->getQueryBuilder('filecache', 'storage', 'fileid');
 		$query->select('fileid', 'path')
 			->from('filecache')

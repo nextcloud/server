@@ -315,6 +315,7 @@ class Availability extends Wrapper {
 			return parent::hash($type, $path, $raw);
 		} catch (StorageNotAvailableException $e) {
 			$this->setUnavailable($e);
+			return false;
 		}
 	}
 

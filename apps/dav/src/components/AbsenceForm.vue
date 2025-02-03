@@ -141,7 +141,7 @@ export default {
 		 async getSuggestions(search) {
 
 			const shareType = [
-				ShareType.SHARE_TYPE_USER,
+				ShareType.User,
 			]
 
 			let request = null

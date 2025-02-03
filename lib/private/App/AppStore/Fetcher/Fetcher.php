@@ -121,6 +121,7 @@ abstract class Fetcher {
 		$isDefaultAppStore = $this->config->getSystemValueString('appstoreurl', self::APP_STORE_URL) === self::APP_STORE_URL;
 
 		if (!$appstoreenabled || (!$internetavailable && $isDefaultAppStore)) {
+			$this->logger->info('AppStore is disabled or this instance has no Internet connection to access the default app store', ['app' => 'appstoreFetcher']);
 			return [];
 		}
 

@@ -66,7 +66,7 @@ abstract class Storage extends \Test\TestCase {
 
 		$dh = $this->instance->opendir('/');
 		$content = [];
-		while ($file = readdir($dh)) {
+		while (($file = readdir($dh)) !== false) {
 			if ($file != '.' and $file != '..') {
 				$content[] = $file;
 			}
@@ -99,7 +99,7 @@ abstract class Storage extends \Test\TestCase {
 
 		$dh = $this->instance->opendir('/');
 		$content = [];
-		while ($file = readdir($dh)) {
+		while (($file = readdir($dh)) !== false) {
 			if ($file != '.' and $file != '..') {
 				$content[] = $file;
 			}

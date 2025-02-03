@@ -16,6 +16,7 @@ const passwordSet = 'abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789'
  * Generate a valid policy password or
  * request a valid password if password_policy
  * is enabled
+ * @param verbose
  */
 export default async function(verbose = false): Promise<string> {
 	// password policy is enabled, let's request a pass

@@ -48,7 +48,7 @@ export default class ExternalShareActions {
 		if (typeof action !== 'object'
 			|| typeof action.id !== 'string'
 			|| typeof action.data !== 'function' // () => {disabled: true}
-			|| !Array.isArray(action.shareType) // [\@nextcloud/sharing.Types.SHARE_TYPE_LINK, ...]
+			|| !Array.isArray(action.shareType) // [\@nextcloud/sharing.Types.Link, ...]
 			|| typeof action.handlers !== 'object' // {click: () => {}, ...}
 			|| !Object.values(action.handlers).every(handler => typeof handler === 'function')) {
 			console.error('Invalid action provided', action)

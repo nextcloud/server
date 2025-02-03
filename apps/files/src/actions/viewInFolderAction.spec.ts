@@ -109,6 +109,18 @@ describe('View in folder action enabled tests', () => {
 		expect(action.enabled).toBeDefined()
 		expect(action.enabled!([folder], view)).toBe(false)
 	})
+
+	test('Disabled for files outside the user root folder', () => {
+		const file = new Folder({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/trashbin/admin/trash/image.jpg.d1731053878',
+			owner: 'admin',
+			permissions: Permission.READ,
+		})
+
+		expect(action.enabled).toBeDefined()
+		expect(action.enabled!([file], view)).toBe(false)
+	})
 })
 
 describe('View in folder action execute tests', () => {

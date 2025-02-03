@@ -10,6 +10,7 @@ namespace OCP\DB\QueryBuilder;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Types\Types;
 use OCP\DB\Exception;
 use OCP\DB\IResult;
 use OCP\IDBConnection;
@@ -28,7 +29,7 @@ interface IQueryBuilder {
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_BOOL = ParameterType::BOOLEAN;
+	public const PARAM_BOOL = Types::BOOLEAN;
 	/**
 	 * @since 9.0.0
 	 */
@@ -1040,7 +1041,7 @@ interface IQueryBuilder {
 	 * @return $this
 	 * @since 30.0.0
 	 */
-	public function hintShardKey(string $column, mixed $value, bool $overwrite = false);
+	public function hintShardKey(string $column, mixed $value, bool $overwrite = false): self;
 
 	/**
 	 * Set the query to run across all shards if sharding is enabled.
@@ -1048,7 +1049,7 @@ interface IQueryBuilder {
 	 * @return $this
 	 * @since 30.0.0
 	 */
-	public function runAcrossAllShards();
+	public function runAcrossAllShards(): self;
 
 	/**
 	 * Get a list of column names that are expected in the query output

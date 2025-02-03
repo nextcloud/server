@@ -61,6 +61,8 @@ OC.L10N.register(
     "Failed to update tag" : "Posodabljanje oznake je spodletelo",
     "Deleted tag" : "Oznaka je izbrisana",
     "Failed to delete tag" : "Brisanje oznake je spodletelo",
+    "Manage tags" : "Upravljanje oznak",
+    "Cancel" : "Prekliči",
     "Failed to load tags" : "Nalaganje oznak je spodletelo",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Sodelovalne oznake so na voljo vsem uporabnikom, omejitvene so uporabnikom vidne, a jih ni mogoče dodeliti, nevidne pa so namenjene sistemski rabi, uporabniki jih niti ne vidijo niti jih ne morejo dodeliti.",
     "Open in Files" : "Odpri v mapi",

@@ -1,6 +1,7 @@
 { "translations": {
     "Versions" : "Версії",
     "This application automatically maintains older versions of files that are changed." : "Цей застосунок підтримує роботу з попередніми версіями файлів, які було змінено.",
+    "Actions for version from {versionHumanExplicitDate}" : "Дії для версії від {versionHumanExplicitDate}",
     "Name this version" : "Назвіть цю версію",
     "Edit version name" : "Редагуйте назву версії",
     "Compare to current version" : "Порівняти з поточною версією",

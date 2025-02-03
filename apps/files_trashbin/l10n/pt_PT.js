@@ -8,6 +8,7 @@ OC.L10N.register(
     "All files" : "Todos os ficheiros",
     "You" : "Vovê",
     "Deleted" : "Eliminado",
+    "Cancel" : "Cancelar",
     "No deleted files" : "Sem ficheiros eliminados",
     "You will be able to recover deleted files from here" : "Poderá recuperar ficheiros eliminados a partir daqui",
     "No entries found in this folder" : "Não foram encontradas entradas nesta pasta",

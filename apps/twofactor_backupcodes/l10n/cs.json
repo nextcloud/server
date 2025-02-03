@@ -8,6 +8,7 @@
     "Two factor backup codes" : "Záložní kódy pro dvoufázové ověřování",
     "A two-factor auth backup codes provider" : "Poskytovatel záložních kódů pro dvoufázové ověřování",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Záložní kódy byly vytvořeny. Využito {used} z {total} kódů.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Zde jsou vaše záložní kódy. Kódy si uložte a/nebo vytiskněte, protože už je nebude možné zobrazit znovu.",
     "Save backup codes" : "Uložit záložní kódy",
     "Print backup codes" : "Vytisknout záložní kódy",
     "Regenerate backup codes" : "Vytvořit nové záložní kódy",

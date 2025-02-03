@@ -13,9 +13,9 @@ use OCP\Template;
 /**
  * A generic 429 response showing an 404 error page as well to the end-user
  * @since 19.0.0
- * @template S of int
+ * @template S of Http::STATUS_*
  * @template H of array<string, mixed>
- * @template-extends Response<int, array<string, mixed>>
+ * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class TooManyRequestsResponse extends Response {
 	/**

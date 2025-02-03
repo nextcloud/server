@@ -257,6 +257,9 @@ class WeatherStatusService {
 		];
 		$url = 'https://nominatim.openstreetmap.org/search';
 		$results = $this->requestJSON($url, $params);
+		if ($results['error'] !== null) {
+			return $results;
+		}
 		if (count($results) > 0) {
 			return $results[0];
 		}

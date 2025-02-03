@@ -75,7 +75,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
-	- version: 2.5.0
+	- version: 2.5.1
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.4.0
@@ -99,7 +99,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
-	- version: 0.2.3
+	- version: 0.2.4
 	- license: GPL-3.0-or-later
 - @nextcloud/vue-select
 	- version: 3.25.1
@@ -112,6 +112,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - @vueuse/shared
 	- version: 11.0.1
+	- license: MIT
+- debounce
+	- version: 2.1.0
 	- license: MIT
 - @nextcloud/vue
 	- version: 8.17.1
@@ -126,7 +129,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.4
+	- version: 1.7.9
 	- license: MIT
 - bail
 	- version: 2.0.2
@@ -157,9 +160,6 @@ This file is generated from multiple sources. Included packages:
 	- license: BSD-3-Clause
 - css-loader
 	- version: 6.11.0
-	- license: MIT
-- debounce
-	- version: 2.1.0
 	- license: MIT
 - decode-named-character-reference
 	- version: 1.0.2

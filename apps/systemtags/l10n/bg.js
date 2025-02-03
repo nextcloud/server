@@ -54,6 +54,8 @@ OC.L10N.register(
     "Invisible" : "Невидим",
     "Failed to create tag" : "Неуспешно създаване на етикет",
     "Failed to delete tag" : "Неуспешно изтриване на етикет",
+    "Manage tags" : "Управление на маркери",
+    "Cancel" : "Отказ",
     "Search or create collaborative tags" : "Търсене или създаване на съвместни етикети",
     "No tags to select, type to create a new tag" : "Няма етикети за избор, въвеждане за създаване на нов етикет",
     "Failed to load tags" : "Неуспешно зареждане на етикети",

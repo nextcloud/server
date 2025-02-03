@@ -10,6 +10,7 @@ OC.L10N.register(
     "Two factor backup codes" : "Code de secours pour l'authentification double facteur.",
     "A two-factor auth backup codes provider" : "Un fournisseur de codes de récupération d'authentification à deux facteurs",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Les codes de récupération ont été générés. {used} codes sur {total} ont été utilisés.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Ce sont vos codes de secours. Veuillez les enregistrer et/ou les imprimer car vous ne pourrez plus les redemander ultérieurement.",
     "Save backup codes" : "Sauvegarder les codes de récupération",
     "Print backup codes" : "Imprimer les codes de récupération",
     "Regenerate backup codes" : "Régénérer les codes de récupération",

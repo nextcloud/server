@@ -657,6 +657,8 @@ $CONFIG = [
  * are generated within Nextcloud using any kind of command line tools (cron or
  * occ). The value should contain the full base URL:
  * ``https://www.example.com/nextcloud``
+ * Please make sure to set the value to the URL that your users mainly use to access this Nextcloud. 
+ * Otherwise there might be problems with the URL generation via cron.
  *
  * Defaults to ``''`` (empty string)
  */

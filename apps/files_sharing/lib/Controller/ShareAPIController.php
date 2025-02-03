@@ -34,6 +34,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\HintException;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IGroupManager;
@@ -46,7 +47,6 @@ use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Mail\IMailer;
 use OCP\Server;
-use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
@@ -158,6 +158,27 @@ class ShareAPIController extends OCSController {
 		if ($isOwnShare) {
 			$result['item_permissions'] = $node->getPermissions();
 		}
+
+		// If we're on the recipient side, the node permissions
+		// are bound to the share permissions. So we need to
+		// adjust the permissions to the share permissions if necessary.
+		if (!$isOwnShare) {
+			$result['item_permissions'] = $share->getPermissions();
+
+			// For some reason, single files share are forbidden to have the delete permission
+			// since we have custom methods to check those, let's adjust straight away.
+			// DAV permissions does not have that issue though.
+			if ($this->canDeleteShare($share) || $this->canDeleteShareFromSelf($share)) {
+				$result['item_permissions'] |= Constants::PERMISSION_DELETE;
+			}
+			if ($this->canEditShare($share)) {
+				$result['item_permissions'] |= Constants::PERMISSION_UPDATE;
+			}
+		}
+
+		// See MOUNT_ROOT_PROPERTYNAME dav property
+		$result['is-mount-root'] = $node->getInternalPath() === '';
+		$result['mount-type'] = $node->getMountPoint()->getMountType();
 
 		$result['mimetype'] = $node->getMimetype();
 		$result['has_preview'] = $this->previewManager->isAvailable($node);
@@ -624,7 +645,7 @@ class ShareAPIController extends OCSController {
 					$expireDateTime = $this->parseDate($expireDate);
 					$share->setExpirationDate($expireDateTime);
 				} catch (\Exception $e) {
-					throw new OCSNotFoundException($this->l->t('Invalid date, date format must be YYYY-MM-DD'));
+					throw new OCSNotFoundException($e->getMessage(), $e);
 				}
 			} else {
 				// Client sent empty string for expire date.
@@ -637,7 +658,13 @@ class ShareAPIController extends OCSController {
 		$this->checkInheritedAttributes($share);
 
 		// Handle mail send
-		if ($sendMail === 'true' || $sendMail === 'false') {
+		if (is_null($sendMail)) {
+			// Define a default behavior when sendMail is not provided
+			// For email shares with a valid recipient, the default is to send the mail
+			// For all other share types, the default is to not send the mail
+			$allowSendMail = ($shareType === IShare::TYPE_EMAIL && $shareWith !== null && $shareWith !== '');
+			$share->setMailSend($allowSendMail);
+		} else {
 			$share->setMailSend($sendMail === 'true');
 		}
 
@@ -783,13 +810,12 @@ class ShareAPIController extends OCSController {
 
 		try {
 			$share = $this->shareManager->createShare($share);
-		} catch (GenericShareException $e) {
-			$this->logger->error($e->getMessage(), ['exception' => $e]);
+		} catch (HintException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), $code);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
-			throw new OCSForbiddenException($e->getMessage(), $e);
+			throw new OCSForbiddenException('Failed to create share.', $e);
 		}
 
 		$output = $this->formatShare($share);
@@ -1316,20 +1342,21 @@ class ShareAPIController extends OCSController {
 			$share->setExpirationDate(null);
 		} elseif ($expireDate !== null) {
 			try {
-				$expireDate = $this->parseDate($expireDate);
+				$expireDateTime = $this->parseDate($expireDate);
+				$share->setExpirationDate($expireDateTime);
 			} catch (\Exception $e) {
 				throw new OCSBadRequestException($e->getMessage(), $e);
 			}
-			$share->setExpirationDate($expireDate);
 		}
 
 		try {
 			$share = $this->shareManager->updateShare($share);
-		} catch (GenericShareException $e) {
+		} catch (HintException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), (int)$code);
 		} catch (\Exception $e) {
-			throw new OCSBadRequestException($e->getMessage(), $e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			throw new OCSBadRequestException('Failed to update share.', $e);
 		}
 
 		return new DataResponse($this->formatShare($share));
@@ -1412,11 +1439,12 @@ class ShareAPIController extends OCSController {
 
 		try {
 			$this->shareManager->acceptShare($share, $this->currentUser);
-		} catch (GenericShareException $e) {
+		} catch (HintException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), (int)$code);
 		} catch (\Exception $e) {
-			throw new OCSBadRequestException($e->getMessage(), $e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			throw new OCSBadRequestException('Failed to accept share.', $e);
 		}
 
 		return new DataResponse();
@@ -2107,9 +2135,8 @@ class ShareAPIController extends OCSController {
 
 				$provider->sendMailNotification($share);
 				return new DataResponse();
-			} catch(OCSBadRequestException $e) {
-				throw $e;
 			} catch (Exception $e) {
+				$this->logger->error($e->getMessage(), ['exception' => $e]);
 				throw new OCSException($this->l->t('Error while sending mail notification'));
 			}
 

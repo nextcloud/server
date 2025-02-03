@@ -10,6 +10,7 @@ use OC\AppFramework\Middleware\Security\Exceptions\NotConfirmedException;
 use OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Authentication\Token\IProvider;
+use OC\User\Manager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Token\IToken;
 use OCP\IRequest;
@@ -23,20 +24,24 @@ use Test\TestCase;
 class PasswordConfirmationMiddlewareTest extends TestCase {
 	/** @var ControllerMethodReflector */
 	private $reflector;
-	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ISession&\PHPUnit\Framework\MockObject\MockObject */
 	private $session;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession&\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
-	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUser&\PHPUnit\Framework\MockObject\MockObject */
 	private $user;
 	/** @var PasswordConfirmationMiddleware */
 	private $middleware;
 	/** @var PasswordConfirmationMiddlewareController */
 	private $controller;
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ITimeFactory&\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
-	private IProvider|\PHPUnit\Framework\MockObject\MockObject $tokenProvider;
+	private IProvider&\PHPUnit\Framework\MockObject\MockObject $tokenProvider;
 	private LoggerInterface $logger;
+	/** @var IRequest&\PHPUnit\Framework\MockObject\MockObject */
+	private IRequest $request;
+	/** @var Manager&\PHPUnit\Framework\MockObject\MockObject */
+	private Manager $userManager;
 
 	protected function setUp(): void {
 		$this->reflector = new ControllerMethodReflector();
@@ -46,6 +51,8 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->tokenProvider = $this->createMock(IProvider::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->request = $this->createMock(IRequest::class);
+		$this->userManager = $this->createMock(Manager::class);
 		$this->controller = new PasswordConfirmationMiddlewareController(
 			'test',
 			$this->createMock(IRequest::class)
@@ -58,6 +65,8 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 			$this->timeFactory,
 			$this->tokenProvider,
 			$this->logger,
+			$this->request,
+			$this->userManager,
 		);
 	}
 

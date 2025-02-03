@@ -34,6 +34,7 @@ OC.L10N.register(
     "{temperature} {unit} heavy rainfall showers" : "{temperature} {unit} rintik hujan deras",
     "More weather for {adr}" : "Lebih banyak cuaca untuk {adr}",
     "Loading weather" : "Memuat cuaca",
+    "Set location for weather" : "Atur lokasi untuk cuaca",
     "Remove from favorites" : "Remove from favorites",
     "Add as favorite" : "Tambahkan sebagai favorit",
     "You are not logged in." : "Anda belum masuk.",
@@ -44,7 +45,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Ada kesalahan menetapkan lokasi.",
     "There was an error saving the mode." : "Ada kesalahan menyimpan mode.",
     "There was an error using personal address." : "Ada kesalahan menggunakan alamat pribadi.",
-    "Set location for weather" : "Atur lokasi untuk cuaca",
     "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Status pengguna terintegrasi dalam aplikasi Dasbor.\n    Posisi pengguna dapat ditentukan secara otomatis atau secara manual. Sebuah prakiraan 6 jam akan ditampilkan.\n    Status ini juga dapat diintegrasikan di tempat lain seperti aplikasi Kalender."
 },
 "nplurals=1; plural=0;");

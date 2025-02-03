@@ -46,13 +46,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
-	- version: 2.5.0
+	- version: 2.5.1
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.0.0
+	- version: 6.0.1
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
@@ -78,9 +78,6 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue
 	- version: 8.17.1
 	- license: AGPL-3.0-or-later
-- @vueuse/core
-	- version: 10.11.0
-	- license: MIT
 - @vueuse/shared
 	- version: 10.11.0
 	- license: MIT
@@ -91,7 +88,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.4
+	- version: 1.7.9
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -106,7 +103,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.11.0
 	- license: MIT
 - debounce
-	- version: 2.1.0
+	- version: 2.1.1
 	- license: MIT
 - define-data-property
 	- version: 1.1.4
@@ -259,7 +256,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 15.11.1
 	- license: MIT
 - vue-material-design-icons
-	- version: 5.3.0
+	- version: 5.3.1
 	- license: MIT
 - vue
 	- version: 2.7.16

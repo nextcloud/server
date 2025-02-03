@@ -1,6 +1,8 @@
 { "translations": {
     "Dashboard" : "Infopanel",
     "Dashboard app" : "Aplikácia Infopanel",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Začnite svoj deň informovaní\n\nNextcloud Infopanel je vaším východiskovým bodom dňa, ktorý vám poskytne prehľad o vašich nadchádzajúcich stretnutiach, naliehavých e-mailoch, správach, prijatých lístkoch, najnovších tweetoch a mnohom ďalšom! Ľudia si môžu pridať rozšírenia, ktoré sa im páčia, a zmeniť si pozadie podľa svojich predstáv.",
+    "\"{title} icon\"" : "\"{title} ikona\"",
     "Customize" : "Prispôsobiť",
     "Edit widgets" : "Upraviť miniaplikácie",
     "Get more widgets from the App Store" : "Získať viac miniaplikácií v Obchode s aplikáciami",
@@ -18,6 +20,9 @@
     "Good evening" : "Dobrý večer",
     "Good evening, {name}" : "Dobrý večer, {name}",
     "Hello" : "Ahoj",
-    "Hello, {name}" : "Ahoj, {name}"
+    "Hello, {name}" : "Ahoj, {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "Všetko najlepšie k narodeninám 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Všetko najlepšie k narodeninám, {name} 🥳🤩🎂🎉",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Začnite svoj deň informovaní\n\nNextcloud Infopanel je vaším východiskovým bodom dňa, ktorý vám poskytne prehľad o vašich nadchádzajúcich stretnutiach, naliehavých e-mailoch, správach, prijatých lístkoch, najnovších tweetoch a mnohom ďalšom! Používatelia si môžu pridať rozšírenia, ktoré sa im páčia, a zmeniť si pozadie podľa svojich predstáv."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

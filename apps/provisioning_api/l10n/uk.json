@@ -9,7 +9,6 @@
     "Cannot create sub-admins for admin group" : "Неможливо створити другорядних адміністраторів для групи адміністраторів",
     "No permissions to promote sub-admins" : "Відсутні дозволи для збільшення повноважень другорядних адміністраторів",
     "Invalid password value" : "Недійсне значення паролю",
-    "To send a password link to the user an email address is required." : "Для відправки користувачу запароленого посилання, потрібна електронна адреса.",
     "Required email address was not provided" : "Не зазначено обов'язкової ел. адреси",
     "Invalid quota value: %1$s" : "Недійсне значення квоти: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "Недійсне значення квоти: %1$s перебільшує максимальну квоту",

@@ -41,6 +41,7 @@ OC.L10N.register(
     "Flow" : "흐름",
     "Nextcloud workflow engine" : "Nextcloud 작업 흐름 엔진",
     "Select a filter" : "필터 선택",
+    "Remove filter" : "필터 삭제",
     "Select a file type" : "파일 타입 선택",
     "Folder" : "폴더",
     "Images" : "파일",

@@ -121,9 +121,8 @@ abstract class Base implements IProvider {
 			$path = reset($parameter);
 			$id = (string) key($parameter);
 		} elseif ($event !== null) {
-			// Legacy from before ownCloud 8.2
 			$path = $parameter;
-			$id = $event->getObjectId();
+			$id = (string)$event->getObjectId();
 		} else {
 			throw new \InvalidArgumentException('Could not generate file parameter');
 		}

@@ -48,7 +48,7 @@
 			}
 
 			if (localStorage.getItem('nick') !== null) {
-				data.headers['X-NC-Nickname'] = localStorage.getItem('nick')
+				data.headers['X-NC-Nickname'] = encodeURIComponent(localStorage.getItem('nick'))
 			}
 
 			$('#drop-upload-done-indicator').addClass('hidden');

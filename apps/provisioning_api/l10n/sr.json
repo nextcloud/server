@@ -9,7 +9,7 @@
     "Cannot create sub-admins for admin group" : "Не може да се креира група под-админа",
     "No permissions to promote sub-admins" : "Нема дозвола да се унапреде под-админи",
     "Invalid password value" : "Неисправна вредност лозинке",
-    "To send a password link to the user an email address is required." : "Да бисте кориснику послали везу ка лозинци. потребна је адреса е-поште.",
+    "An email address is required, to send a password link to the user." : "За слање линка лозинке кориснику, неопходна је и-мејл адреса.",
     "Required email address was not provided" : "Није наведена потребна и-мејл адреса",
     "Invalid quota value: %1$s" : "Неисправна вредност квоте: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "Неисправна вредност квоте. %1$s превазилази максималну квоту",

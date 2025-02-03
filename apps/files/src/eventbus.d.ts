@@ -9,14 +9,14 @@ declare module '@nextcloud/event-bus' {
 		// mapping of 'event name' => 'event type'
 		'files:config:updated': { key: string, value: unknown }
 
-		'files:favorites:removed': Node
 		'files:favorites:added': Node
+		'files:favorites:removed': Node
 
 		'files:node:created': Node
 		'files:node:deleted': Node
-		'files:node:updated': Node
-		'files:node:renamed': Node
 		'files:node:moved': { node: Node, oldSource: string }
+		'files:node:renamed': Node
+		'files:node:updated': Node
 
 		'files:filter:added': IFileListFilter
 		'files:filter:removed': string

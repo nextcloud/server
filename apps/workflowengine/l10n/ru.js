@@ -91,6 +91,7 @@ OC.L10N.register(
     "Show more" : "Показывать больше",
     "Configured flows" : "Настроенные обработки",
     "Your flows" : "Ваши обработки",
+    "No flows configured" : "Потоки не настроены",
     "matches" : "соответствует",
     "does not match" : "не соответствует",
     "is" : "равняется",
@@ -115,6 +116,7 @@ OC.L10N.register(
     "between" : "между",
     "not between" : "не между",
     "Request user agent" : "Используемое приложение (user agent)",
+    "Group membership" : "Членство в группе",
     "is member of" : "является участником",
     "is not member of" : "не является участником",
     "User group membership" : "Участие в группе пользователей"

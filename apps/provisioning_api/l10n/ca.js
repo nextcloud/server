@@ -11,7 +11,6 @@ OC.L10N.register(
     "Cannot create sub-admins for admin group" : "No es poden crear subadministradors per al grup d'administració",
     "No permissions to promote sub-admins" : "No teniu permís per a ascendir subadministradors",
     "Invalid password value" : "El valor de la contrasenya no és vàlid",
-    "To send a password link to the user an email address is required." : "Cal una adreça electrònica per a enviar un enllaç amb contrasenya a l'usuari.",
     "Required email address was not provided" : "No s'ha proporcionat l'adreça electrònica obligatòria",
     "Invalid quota value: %1$s" : "El valor de quota no és vàlid: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "El valor de quota no és vàlid. %1$s supera la quota màxima",

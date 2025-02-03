@@ -149,7 +149,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Ni mogoče preimenovati delne datoteke v končno ime. Opravilo je bilo preklicano.",
     "Could not rename part file to final file" : "Ni mogoče preimenovati delne datoteke v končno ime.",
     "Failed to check file size: %1$s" : "Preverjanje velikosti je spodletelo: %1$s",
-    "Could not open file" : "Datoteke ni mogoče odpreti",
     "Encryption not ready: %1$s" : "Šifriranje ni mogoče: %1$s",
     "Failed to open file: %1$s" : "Odpiranje datoteke je spodletelo: %1$s",
     "Failed to unlink: %1$s" : "Odstranjevanje povezave je spodletelo: %1$s",
@@ -222,6 +221,7 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Vaša prisotnost je uspešno posodobljena.",
     "To-dos" : "Naloge To-Do",
     "Time:" : "Čas:",
+    "Could not open file" : "Datoteke ni mogoče odpreti",
     "Invalid chunk name" : "Neveljavno ime dela",
     "Could not rename part file assembled from chunks" : "Ni mogoče preimenovati delne datoteke, združene iz delov.",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Če nastavite delovni čas, bodo drugi uporabniki pri izbiri časa sestanka videli, kdaj ste zasedeni."

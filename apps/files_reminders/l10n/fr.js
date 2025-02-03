@@ -6,7 +6,6 @@ OC.L10N.register(
     "View file" : "Voir le fichier",
     "View folder" : "Voir le dossier",
     "Set file reminders" : "Définir des rappels pour des fichiers",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Rappels de fichiers**\n\nDéfinissez des rappels de fichiers.",
     "We will remind you of this file" : "Nous vous rappellerons de ce fichier",
     "Please choose a valid date & time" : "Veuillez choisir une date et une heure valables",
     "Cancel" : "Annuler",

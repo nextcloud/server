@@ -13,6 +13,7 @@ use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -83,7 +84,7 @@ class UserStoragesController extends StoragesController {
 	 * {@inheritdoc}
 	 */
 	#[NoAdminRequired]
-	public function show($id, $testOnly = true) {
+	public function show(int $id, $testOnly = true) {
 		return parent::show($id, $testOnly);
 	}
 
@@ -99,6 +100,7 @@ class UserStoragesController extends StoragesController {
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function create(
 		$mountPoint,
 		$backend,
@@ -154,6 +156,7 @@ class UserStoragesController extends StoragesController {
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function update(
 		$id,
 		$mountPoint,
@@ -205,7 +208,8 @@ class UserStoragesController extends StoragesController {
 	 * {@inheritdoc}
 	 */
 	#[NoAdminRequired]
-	public function destroy($id) {
+	#[PasswordConfirmationRequired(strict: true)]
+	public function destroy(int $id) {
 		return parent::destroy($id);
 	}
 }

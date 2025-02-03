@@ -18,7 +18,7 @@ import { generateAvatarSvg } from '../utils/AccountIcon'
 import './sharingStatusAction.scss'
 
 const isExternal = (node: Node) => {
-	return node.attributes.remote_id !== undefined
+	return node.attributes?.['is-federated'] ?? false
 }
 
 export const action = new FileAction({

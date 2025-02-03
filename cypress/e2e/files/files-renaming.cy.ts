@@ -4,7 +4,7 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { getRowForFile, haveValidity, triggerActionForFile } from './FilesUtils'
+import { getRowForFile, haveValidity, renameFile, triggerActionForFile } from './FilesUtils'
 
 describe('files: Rename nodes', { testIsolation: true }, () => {
 	let user: User
@@ -110,6 +110,73 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 		// see the loading state is gone
 		getRowForFile('new-name.txt')
 			.findByRole('img', { name: 'File is loading' })
+			.should('not.exist')
+	})
+
+	/**
+	 * This is a regression test of: https://github.com/nextcloud/server/issues/47438
+	 * The issue was that the renaming state was not reset when the new name moved the file out of the view of the current files list
+	 * due to virtual scrolling the renaming state was not changed then by the UI events (as the component was taken out of DOM before any event handling).
+	 */
+	it('correctly resets renaming state', () => {
+		for (let i = 1; i <= 20; i++) {
+			cy.uploadContent(user, new Blob([]), 'text/plain', `/file${i}.txt`)
+		}
+		cy.viewport(1200, 500) // 500px is smaller then 20 * 50 which is the place that the files take up
+		cy.login(user)
+		cy.visit('/apps/files')
+
+		getRowForFile('file.txt').should('be.visible')
+		// Z so it is shown last
+		renameFile('file.txt', 'zzz.txt')
+		// not visible any longer
+		getRowForFile('zzz.txt').should('not.be.visible')
+		// scroll file list to bottom
+		cy.get('[data-cy-files-list]').scrollTo('bottom')
+		cy.screenshot()
+		// The file is no longer in rename state
+		getRowForFile('zzz.txt')
+			.should('be.visible')
+			.findByRole('textbox', { name: 'Filename' })
+			.should('not.exist')
+	})
+
+	it('cancel renaming on esc press', () => {
+		// All are visible by default
+		getRowForFile('file.txt').should('be.visible')
+
+		triggerActionForFile('file.txt', 'rename')
+
+		getRowForFile('file.txt')
+			.findByRole('textbox', { name: 'Filename' })
+			.should('be.visible')
+			.type('{selectAll}other.txt')
+			.should(haveValidity(''))
+			.type('{esc}')
+
+		// See it is not renamed
+		getRowForFile('other.txt').should('not.exist')
+		getRowForFile('file.txt')
+			.should('be.visible')
+			.find('input[type="text"]')
+			.should('not.exist')
+	})
+
+	it('cancel on enter if no new name is entered', () => {
+		// All are visible by default
+		getRowForFile('file.txt').should('be.visible')
+
+		triggerActionForFile('file.txt', 'rename')
+
+		getRowForFile('file.txt')
+			.findByRole('textbox', { name: 'Filename' })
+			.should('be.visible')
+			.type('{enter}')
+
+		// See it is not renamed
+		getRowForFile('file.txt')
+			.should('be.visible')
+			.find('input[type="text"]')
 			.should('not.exist')
 	})
 })

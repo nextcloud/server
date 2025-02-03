@@ -17,7 +17,6 @@ SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
-SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Joyent
@@ -56,7 +55,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
-	- version: 2.5.0
+	- version: 2.5.1
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.4.0
@@ -65,7 +64,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.0.0
+	- version: 6.0.1
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
@@ -74,7 +73,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.1
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.9.0
+	- version: 3.10.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -92,16 +91,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
-	- version: 0.2.3
+	- version: 0.2.4
 	- license: GPL-3.0-or-later
-- @nextcloud/dialogs
-	- version: 5.3.7
-	- license: AGPL-3.0-or-later
 - eventemitter3
 	- version: 5.0.1
 	- license: MIT
 - @nextcloud/upload
-	- version: 1.5.0
+	- version: 1.7.1
 	- license: AGPL-3.0-or-later
 - @vueuse/core
 	- version: 11.0.1
@@ -122,7 +118,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.4
+	- version: 1.7.9
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -248,7 +244,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.12.7
 	- license: MIT
 - pinia
-	- version: 2.2.2
+	- version: 2.2.8
 	- license: MIT
 - possible-typed-array-names
 	- version: 1.0.0
@@ -282,9 +278,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - vue
 	- version: 2.7.16
-	- license: MIT
-- webdav
-	- version: 5.7.1
 	- license: MIT
 - webpack
 	- version: 5.94.0

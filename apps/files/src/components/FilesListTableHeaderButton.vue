@@ -9,6 +9,7 @@
 		}]"
 		:alignment="mode === 'size' ? 'end' : 'start-reverse'"
 		type="tertiary"
+		:title="name"
 		@click="toggleSortBy(mode)">
 		<template #icon>
 			<MenuUp v-if="sortingMode !== mode || isAscSorting" class="files-list__column-sort-button-icon" />

@@ -40,6 +40,7 @@ SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
 SPDX-FileCopyrightText: Dylan Piercey <pierceydylan@gmail.com>
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
+SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Ben Drucker
 SPDX-FileCopyrightText: Arnout Kazemier
@@ -53,7 +54,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
-	- version: 2.5.0
+	- version: 2.5.1
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.4.0
@@ -67,6 +68,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/event-bus
 	- version: 3.3.1
 	- license: GPL-3.0-or-later
+- @nextcloud/files
+	- version: 3.10.0
+	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
@@ -83,7 +87,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
-	- version: 0.2.3
+	- version: 0.2.4
 	- license: GPL-3.0-or-later
 - assert
 	- version: 2.1.0
@@ -92,7 +96,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.4
+	- version: 1.7.9
 	- license: MIT
 - balanced-match
 	- version: 1.0.2

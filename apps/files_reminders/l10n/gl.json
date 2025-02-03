@@ -4,7 +4,7 @@
     "View file" : "Ver ficheiro",
     "View folder" : "Ver cartafol",
     "Set file reminders" : "Definir lembretes de ficheiros",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Lembretes de ficheiros**\n\nDefinir lembretes de ficheiros.",
+    "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 Lembretes de ficheiros**\n\nDefinir lembretes de ficheiros.\n\nNota: para usar a aplicación «Lembretes de ficheiros», asegúrese de que a aplicación «Notificacións» estea instalada e activada. A aplicación «Notificacións» ofrece as API necesarias para que a aplicación «Lembretes de ficheiros» funcione correctamente.",
     "We will remind you of this file" : "Lembrarémoslle este ficheiro",
     "Please choose a valid date & time" : "Escolla unha data e hora válidas",
     "Cancel" : "Cancelar",

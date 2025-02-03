@@ -53,6 +53,8 @@ OC.L10N.register(
     "Invisible" : "نامرئی",
     "Failed to create tag" : "Failed to create tag",
     "Failed to delete tag" : "Failed to delete tag",
+    "Manage tags" : "مدیریت برچسب ها",
+    "Cancel" : "منصرف شدن",
     "Loading collaborative tags …" : "Loading collaborative tags …",
     "Search or create collaborative tags" : "Search or create collaborative tags",
     "No tags to select, type to create a new tag" : "No tags to select, type to create a new tag",

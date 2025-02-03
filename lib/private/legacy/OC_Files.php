@@ -198,7 +198,8 @@ class OC_Files {
 		} catch (\OCP\Files\ConnectionLostException $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 			OC::$server->getLogger()->logException($ex, ['level' => \OCP\ILogger::DEBUG]);
-			\OC_Template::printErrorPage('Connection lost', $ex->getMessage(), 200);
+			/* We do not print anything here, the connection is already closed */
+			die();
 		} catch (\Exception $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 			OC::$server->getLogger()->logException($ex);

@@ -71,6 +71,9 @@ abstract class ProviderV2 implements IProviderV2 {
 			$absPath = \OC::$server->getTempManager()->getTemporaryFile();
 
 			$content = $file->fopen('r');
+			if ($content === false) {
+				return false;
+			}
 
 			if ($maxSize) {
 				$content = stream_get_contents($content, $maxSize);

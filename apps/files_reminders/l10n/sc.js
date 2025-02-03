@@ -2,7 +2,6 @@ OC.L10N.register(
     "files_reminders",
     {
     "Set file reminders" : "Cunfigura apuntos de archìviu",
-    "**📣 File reminders**\n\nSet file reminders." : "**📣 Apuntos de archìviu**\n\nCunfigura apuntos de archìviu.",
     "Cancel" : "Annulla",
     "Set reminder" : "Cunfigura un'apuntu",
     "Set reminder for \"{fileName}\"" : "Cunfigura un'apuntu pro \"{fileName}\"",

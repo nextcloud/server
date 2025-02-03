@@ -173,9 +173,13 @@ class TemplateManager implements ITemplateManager {
 	 * @throws \OCP\Files\NotPermittedException
 	 * @throws \OC\User\NoUserException
 	 */
-	private function getTemplateFolder(): Node {
+	private function getTemplateFolder(): Folder {
 		if ($this->getTemplatePath() !== '') {
-			return $this->rootFolder->getUserFolder($this->userId)->get($this->getTemplatePath());
+			$path = $this->rootFolder->getUserFolder($this->userId)->get($this->getTemplatePath());
+			if ($path instanceof Folder) {
+				return $path;
+			}
+			$this->logger->warning('Template folder ' . $path . ' not found or invalid', ['app' => 'files_templates']);
 		}
 		throw new NotFoundException();
 	}

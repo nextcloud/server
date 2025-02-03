@@ -11,7 +11,7 @@ OC.L10N.register(
     "Cannot create sub-admins for admin group" : "無法為管理員群組建立子管理員",
     "No permissions to promote sub-admins" : "沒有新增子管理員的權限",
     "Invalid password value" : "無效的密碼值",
-    "To send a password link to the user an email address is required." : "要寄出密碼連結給用戶之前需要設定電郵地址",
+    "An email address is required, to send a password link to the user." : "需要提供電郵地址，以便向用戶發送密碼鏈接。",
     "Required email address was not provided" : "未提供必要的電郵地址",
     "Invalid quota value: %1$s" : "無效的空間限額值：%1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "無效的空間限額值。%1$s 超過了最大空間限額",

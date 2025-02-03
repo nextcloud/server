@@ -3,17 +3,17 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { getCurrentUser } from '@nextcloud/auth'
+import { DialogBuilder, showError, showSuccess } from '@nextcloud/dialogs'
+import { ShareType } from '@nextcloud/sharing'
 import { emit } from '@nextcloud/event-bus'
 import { fetchNode } from '../services/WebdavClient.ts'
-import { DialogBuilder, showError, showSuccess } from '@nextcloud/dialogs'
-import { getCurrentUser } from '@nextcloud/auth'
-// eslint-disable-next-line import/no-unresolved, n/no-missing-import
+
 import PQueue from 'p-queue'
 import debounce from 'debounce'
 
 import Share from '../models/Share.ts'
 import SharesRequests from './ShareRequests.js'
-import ShareTypes from './ShareTypes.js'
 import Config from '../services/ConfigService.ts'
 import logger from '../services/logger.ts'
 
@@ -22,7 +22,7 @@ import {
 } from '../lib/SharePermissionsToolBox.js'
 
 export default {
-	mixins: [SharesRequests, ShareTypes],
+	mixins: [SharesRequests],
 
 	props: {
 		fileInfo: {
@@ -44,6 +44,7 @@ export default {
 		return {
 			config: new Config(),
 			node: null,
+			ShareType,
 
 			// errors helpers
 			errors: {},
@@ -92,10 +93,10 @@ export default {
 		// Datepicker language
 		lang() {
 			const weekdaysShort = window.dayNamesShort
-				? window.dayNamesShort // provided by nextcloud
+				? window.dayNamesShort // provided by Nextcloud
 				: ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.']
 			const monthsShort = window.monthNamesShort
-				? window.monthNamesShort // provided by nextcloud
+				? window.monthNamesShort // provided by Nextcloud
 				: ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.']
 			const firstDayOfWeek = window.firstDay ? window.firstDay : 0
 
@@ -114,10 +115,10 @@ export default {
 		},
 		isPublicShare() {
 			const shareType = this.share.shareType ?? this.share.type
-			return [this.SHARE_TYPES.SHARE_TYPE_LINK, this.SHARE_TYPES.SHARE_TYPE_EMAIL].includes(shareType)
+			return [ShareType.Link, ShareType.Email].includes(shareType)
 		},
 		isRemoteShare() {
-			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP || this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE
+			return this.share.type === ShareType.RemoteGroup || this.share.type === ShareType.Remote
 		},
 		isShareOwner() {
 			return this.share && this.share.owner === getCurrentUser().uid
@@ -127,7 +128,7 @@ export default {
 				return this.config.isDefaultExpireDateEnforced
 			}
 			if (this.isRemoteShare) {
-			    return this.config.isDefaultRemoteExpireDateEnforced
+				return this.config.isDefaultRemoteExpireDateEnforced
 			}
 			return this.config.isDefaultInternalExpireDateEnforced
 		},
@@ -156,7 +157,7 @@ export default {
 
 	methods: {
 		/**
-		 * Fetch webdav node
+		 * Fetch WebDAV node
 		 *
 		 * @return {Node}
 		 */
@@ -169,6 +170,7 @@ export default {
 				logger.error('Error:', error)
 			}
 		},
+
 		/**
 		 * Check if a share is valid before
 		 * firing the request
@@ -192,19 +194,7 @@ export default {
 		},
 
 		/**
-		 * @param {string} date a date with YYYY-MM-DD format
-		 * @return {Date} date
-		 */
-		parseDateString(date) {
-			if (!date) {
-				return
-			}
-			const regex = /([0-9]{4}-[0-9]{2}-[0-9]{2})/i
-			return new Date(date.match(regex)?.pop())
-		},
-
-		/**
-		 * @param {Date} date
+		 * @param {Date} date the date to format
 		 * @return {string} date a date with YYYY-MM-DD format
 		 */
 		formatDateToString(date) {
@@ -219,9 +209,10 @@ export default {
 		 *
 		 * @param {Date} date
 		 */
-		onExpirationChange: debounce(function(date) {
+		onExpirationChange(date) {
 			this.share.expireDate = this.formatDateToString(new Date(date))
-		}, 500),
+		},
+
 		/**
 		 * Uncheck expire date
 		 * We need this method because @update:checked
@@ -351,11 +342,17 @@ export default {
 
 						// clear any previous errors
 						this.$delete(this.errors, propertyNames[0])
-						showSuccess(t('files_sharing', 'Share {propertyName} saved', { propertyName: propertyNames[0] }))
-					} catch ({ message }) {
+						showSuccess(this.updateSuccessMessage(propertyNames))
+					} catch (error) {
+						logger.error('Could not update share', { error, share: this.share, propertyNames })
+
+						const { message } = error
 						if (message && message !== '') {
 							this.onSyncError(propertyNames[0], message)
-							showError(t('files_sharing', message))
+							showError(message)
+						} else {
+							// We do not have information what happened, but we should still inform the user
+							showError(t('files_sharing', 'Could not update share'))
 						}
 					} finally {
 						this.saving = false
@@ -366,6 +363,32 @@ export default {
 
 			// This share does not exists on the server yet
 			console.debug('Updated local share', this.share)
+		},
+
+		/**
+		 * @param {string[]} names Properties changed
+		 */
+		updateSuccessMessage(names) {
+			if (names.length !== 1) {
+				return t('files_sharing', 'Share saved')
+			}
+
+			switch (names[0]) {
+			case 'expireDate':
+				return t('files_sharing', 'Share expiry date saved')
+			case 'hideDownload':
+				return t('files_sharing', 'Share hide-download state saved')
+			case 'label':
+				return t('files_sharing', 'Share label saved')
+			case 'note':
+				return t('files_sharing', 'Share note for recipient saved')
+			case 'password':
+				return t('files_sharing', 'Share password saved')
+			case 'permissions':
+				return t('files_sharing', 'Share permissions saved')
+			default:
+				return t('files_sharing', 'Share saved')
+			}
 		},
 
 		/**

@@ -128,7 +128,7 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	 */
 	#[ApiRoute(verb: 'GET', url: '/resolvePublic', root: '/references')]
 	#[PublicPage]
-	#[AnonRateLimit(limit: 10, period: 120)]
+	#[AnonRateLimit(limit: 25, period: 120)]
 	public function resolveOnePublic(string $reference, string $sharingToken): DataResponse {
 		/** @var ?CoreReference $resolvedReference */
 		$resolvedReference = $this->referenceManager->resolveReference(trim($reference), true, trim($sharingToken))?->jsonSerialize();

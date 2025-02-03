@@ -83,6 +83,7 @@
     "Show more" : "显示更多",
     "Configured flows" : "已配置的流程",
     "Your flows" : "你的流程",
+    "No flows configured" : "未配置任何流程",
     "matches" : "匹配",
     "does not match" : "不匹配",
     "is" : "是",

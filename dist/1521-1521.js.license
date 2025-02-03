@@ -20,6 +20,7 @@ SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (http
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Austin Andrews
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 
 
 This file is generated from multiple sources. Included packages:
@@ -38,11 +39,14 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue
 	- version: 8.17.1
 	- license: AGPL-3.0-or-later
-- @vueuse/core
-	- version: 10.11.0
-	- license: MIT
 - @vueuse/shared
-	- version: 10.11.0
+	- version: 10.11.1
+	- license: MIT
+- vue-demi
+	- version: 0.14.10
+	- license: MIT
+- @vueuse/core
+	- version: 10.11.1
 	- license: MIT
 - assert
 	- version: 2.1.0

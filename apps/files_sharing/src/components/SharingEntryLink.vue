@@ -40,7 +40,7 @@
 		</div>
 
 		<!-- pending actions -->
-		<NcActions v-if="!pending && (pendingPassword || pendingEnforcedPassword || pendingExpirationDate)"
+		<NcActions v-if="!pending && pendingDataIsMissing"
 			class="sharing-entry__actions"
 			:aria-label="actionsTooltip"
 			menu-align="right"
@@ -75,16 +75,24 @@
 				:required="config.enableLinkPasswordByDefault || config.enforcePasswordForPublicLink"
 				:minlength="isPasswordPolicyEnabled && config.passwordPolicy.minLength"
 				autocomplete="new-password"
-				@submit="onNewLinkShare">
+				@submit="onNewLinkShare(true)">
 				<template #icon>
 					<LockIcon :size="20" />
 				</template>
 			</NcActionInput>
 
+			<NcActionCheckbox v-if="pendingDefaultExpirationDate"
+				:checked.sync="defaultExpirationDateEnabled"
+				:disabled="pendingEnforcedExpirationDate || saving"
+				class="share-link-expiration-date-checkbox"
+				@change="onDefaultExpirationDateEnabledChange">
+				{{ config.enforcePasswordForPublicLink ? t('files_sharing', 'Enable link expiration (enforced)') : t('files_sharing', 'Enable link expiration') }}
+			</NcActionCheckbox>
+
 			<!-- expiration date -->
-			<NcActionInput v-if="pendingExpirationDate"
+			<NcActionInput v-if="(pendingDefaultExpirationDate || pendingEnforcedExpirationDate) && defaultExpirationDateEnabled"
 				class="share-link-expire-date"
-				:label="t('files_sharing', 'Expiration date (enforced)')"
+				:label="pendingEnforcedExpirationDate ? t('files_sharing', 'Enter expiration date (enforced)') : t('files_sharing', 'Enter expiration date')"
 				:disabled="saving"
 				:is-native-picker="true"
 				:hide-label="true"
@@ -98,7 +106,7 @@
 				</template>
 			</NcActionInput>
 
-			<NcActionButton @click.prevent.stop="onNewLinkShare">
+			<NcActionButton @click.prevent.stop="onNewLinkShare(true)">
 				<template #icon>
 					<CheckIcon :size="20" />
 				</template>
@@ -209,7 +217,7 @@
 import { emit } from '@nextcloud/event-bus'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { Type as ShareTypes } from '@nextcloud/sharing'
+import { ShareType } from '@nextcloud/sharing'
 import Vue from 'vue'
 import VueQrcode from '@chenfengyuan/vue-qrcode'
 
@@ -287,6 +295,7 @@ export default {
 			shareCreationComplete: false,
 			copySuccess: true,
 			copied: false,
+			defaultExpirationDateEnabled: false,
 
 			// Are we waiting for password/expiration date
 			pending: false,
@@ -435,7 +444,7 @@ export default {
 		 */
 		isEmailShareType() {
 			return this.share
-				? this.share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL
+				? this.share.type === ShareType.Email
 				: false
 		},
 
@@ -460,29 +469,37 @@ export default {
 		 *
 		 * @return {boolean}
 		 */
+		pendingDataIsMissing() {
+			return this.pendingPassword || this.pendingEnforcedPassword || this.pendingDefaultExpirationDate || this.pendingEnforcedExpirationDate
+		},
 		pendingPassword() {
-			return this.config.enableLinkPasswordByDefault && this.share && !this.share.id
+			return this.config.enableLinkPasswordByDefault && this.isPendingShare
 		},
 		pendingEnforcedPassword() {
-			return this.config.enforcePasswordForPublicLink && this.share && !this.share.id
+			return this.config.enforcePasswordForPublicLink && this.isPendingShare
 		},
-		pendingExpirationDate() {
-			return this.config.isDefaultExpireDateEnforced && this.share && !this.share.id
+		pendingEnforcedExpirationDate() {
+			return this.config.isDefaultExpireDateEnforced && this.isPendingShare
 		},
-
-		sharePolicyHasRequiredProperties() {
+		pendingDefaultExpirationDate() {
+			return (this.config.defaultExpirationDate instanceof Date || !isNaN(new Date(this.config.defaultExpirationDate).getTime())) && this.isPendingShare
+		},
+		isPendingShare() {
+			return !!(this.share && !this.share.id)
+		},
+		sharePolicyHasEnforcedProperties() {
 			return this.config.enforcePasswordForPublicLink || this.config.isDefaultExpireDateEnforced
 		},
 
-		requiredPropertiesMissing() {
+		enforcedPropertiesMissing() {
 			// Ensure share exist and the share policy has required properties
-			if (!this.sharePolicyHasRequiredProperties) {
+			if (!this.sharePolicyHasEnforcedProperties) {
 				return false
 			}
 
 			if (!this.share) {
 				// if no share, we can't tell if properties are missing or not so we assume properties are missing
-			    return true
+				return true
 			}
 
 			// If share has ID, then this is an incoming link share created from the existing link share
@@ -551,7 +568,7 @@ export default {
 		 * @return {Array}
 		 */
 		externalLinkActions() {
-			const filterValidAction = (action) => (action.shareType.includes(ShareTypes.SHARE_TYPE_LINK) || action.shareType.includes(ShareTypes.SHARE_TYPE_EMAIL)) && !action.advanced
+			const filterValidAction = (action) => (action.shareType.includes(ShareType.Link) || action.shareType.includes(ShareType.Email)) && !action.advanced
 			// filter only the registered actions for said link
 			return this.ExternalShareActions.actions
 				.filter(filterValidAction)
@@ -570,12 +587,29 @@ export default {
 			return this.share.isFileRequest
 		},
 	},
+	mounted() {
+		this.defaultExpirationDateEnabled = this.config.defaultExpirationDate instanceof Date
+	},
 
 	methods: {
 		/**
-		 * Create a new share link and append it to the list
+		 * Check if the share requires review
+		 *
+		 * @param {boolean} shareReviewComplete if the share was reviewed
+		 * @return {boolean}
 		 */
-		async onNewLinkShare() {
+		shareRequiresReview(shareReviewComplete) {
+			// If a user clicks 'Create share' it means they have reviewed the share
+			if (shareReviewComplete) {
+				return false
+			}
+			return this.defaultExpirationDateEnabled || this.config.enableLinkPasswordByDefault
+		},
+		/**
+		 * Create a new share link and append it to the list
+		 * @param {boolean} shareReviewComplete if the share was reviewed
+		 */
+		async onNewLinkShare(shareReviewComplete = false) {
 			this.logger.debug('onNewLinkShare called (with this.share)', this.share)
 			// do not run again if already loading
 			if (this.loading) {
@@ -583,7 +617,7 @@ export default {
 			}
 
 			const shareDefaults = {
-				share_type: ShareTypes.SHARE_TYPE_LINK,
+				share_type: ShareType.Link,
 			}
 			if (this.config.isDefaultExpireDateEnforced) {
 				// default is empty string if not set
@@ -591,13 +625,15 @@ export default {
 				shareDefaults.expiration = this.formatDateToString(this.config.defaultExpirationDate)
 			}
 
-			this.logger.debug('Missing required properties?', this.requiredPropertiesMissing)
-			// do not push yet if we need a password or an expiration date: show pending menu
-			if (this.sharePolicyHasRequiredProperties && this.requiredPropertiesMissing) {
+			this.logger.debug('Missing required properties?', this.enforcedPropertiesMissing)
+			// Do not push yet if we need a password or an expiration date: show pending menu
+			// A share would require a review for example is default expiration date is set but not enforced, this allows
+			// the user to review the share and remove the expiration date if they don't want it
+			if ((this.sharePolicyHasEnforcedProperties && this.enforcedPropertiesMissing) || this.shareRequiresReview(shareReviewComplete === true)) {
 				this.pending = true
 				this.shareCreationComplete = false
 
-				this.logger.info('Share policy requires mandated properties (password)...')
+				this.logger.info('Share policy requires a review or has mandated properties (password, expirationDate)...')
 
 				// ELSE, show the pending popovermenu
 				// if password default or enforced, pre-fill with random one
@@ -669,7 +705,7 @@ export default {
 				const path = (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
 				const options = {
 					path,
-					shareType: ShareTypes.SHARE_TYPE_LINK,
+					shareType: ShareType.Link,
 					password: share.password,
 					expireDate: share.expireDate,
 					attributes: JSON.stringify(this.fileInfo.shareAttributes),
@@ -826,6 +862,9 @@ export default {
 		onMenuClose() {
 			this.onPasswordSubmit()
 			this.onNoteSubmit()
+		},
+		onDefaultExpirationDateEnabledChange(enabled) {
+			this.share.expireDate = enabled ? this.formatDateToString(this.config.defaultExpirationDate) : ''
 		},
 
 		/**

@@ -480,6 +480,7 @@
                     "file_target",
                     "has_preview",
                     "hide_download",
+                    "is-mount-root",
                     "id",
                     "item_mtime",
                     "item_size",
@@ -488,6 +489,7 @@
                     "label",
                     "mail_send",
                     "mimetype",
+                    "mount-type",
                     "note",
                     "parent",
                     "path",
@@ -543,6 +545,9 @@
                             1
                         ]
                     },
+                    "is-mount-root": {
+                        "type": "boolean"
+                    },
                     "id": {
                         "type": "string"
                     },
@@ -578,8 +583,7 @@
                         ]
                     },
                     "label": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
                     },
                     "mail_send": {
                         "type": "integer",
@@ -590,6 +594,9 @@
                         ]
                     },
                     "mimetype": {
+                        "type": "string"
+                    },
+                    "mount-type": {
                         "type": "string"
                     },
                     "note": {

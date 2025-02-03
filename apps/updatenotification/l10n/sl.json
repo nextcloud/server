@@ -1,5 +1,4 @@
 { "translations": {
-    "{version} is available. Get more information on how to update." : "Na voljo je nova različica {version}. Oglejte si več podrobnosti o nadgradnji.",
     "Channel updated" : "Kanal je posodobljen",
     "Web updater is disabled" : "Spletni posodabljalnik je onemogočen",
     "Update notifications" : "Obvestila o posodobitvah",
@@ -42,6 +41,7 @@
     "Beta" : "Preizkusno",
     "A pre-release version only for testing new features, not for production environments." : "Preizkusna različica je namenjena preizkušanju novih zmožnosti in ni primerna za produkcijska okolja.",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> nameščen program nima skladne različice s trenutno različico oblaka Nextcloud.","<strong>%n</strong> nameščena programa nimata skladne različice s trenutno različico oblaka Nextcloud.","<strong>%n</strong> nameščeni programi nimajo skladne različice s trenutno različico oblaka Nextcloud.","<strong>%n</strong> nameščenih programov nima skladne različice s trenutno različico oblaka Nextcloud."],
+    "{version} is available. Get more information on how to update." : "Na voljo je nova različica {version}. Oglejte si več podrobnosti o nadgradnji.",
     "Update to %1$s is available." : "Na voljo je posodobitev na %1$s.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Pokaže obvestila o posodobitvah okolja Nextcloud in omogoča prijavo SSO za posodabljalnik.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Upoštevajte, da spletna posodobitev ni priporočljiva, če okolje uporablja več kot 100 uporabnikov! V takih primerih je ustreznejši posodabljalnik zagnan iz ukazne vrstice.",
