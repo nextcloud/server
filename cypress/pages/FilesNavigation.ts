@@ -13,7 +13,7 @@ export class FilesNavigationPage {
 	}
 
 	searchInput() {
-		return this.navigation().findByRole('searchbox', { name: /filter filenames/i })
+		return this.navigation().findByRole('searchbox', { name: /filter file names/i })
 	}
 
 	searchClearButton() {
