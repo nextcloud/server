@@ -47,7 +47,8 @@
 		<component :is="dataItemTag"
 			class="app-name"
 			:headers="getDataItemHeaders(`app-table-col-name`)">
-			<router-link class="app-name--link" :to="{ name: 'apps-details',	params: { category: category, id: app.id }}"
+			<router-link class="app-name--link"
+				:to="{ name: 'apps-details',	params: { category: category, id: app.id }}"
 				:aria-label="t('settings', 'Show details for {appName} app', { appName:app.name })">
 				{{ app.name }}
 			</router-link>
@@ -205,13 +206,51 @@ export default {
 	width: 100%;
 }
 
-.app-name--link::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+// Note: because of Safari bug, we cannot position link overlay relative to the table row
+// See: https://bugs.webkit.org/show_bug.cgi?id=240961
+// So we need to manually position it relative to the entire table container and cell
+// This is a simple solution to fix the bag in Nextcloud 28
+// Nextcloud 29+ has a proper fix in a refactored app list
+// See: https://github.com/nextcloud/server/pull/44236/
+.apps-list-container {
+	.app-name {
+		padding: 0 6px;
+	}
+
+	.app-name--link {
+		// table cell padding defined by settings.scss
+		--app-item-padding: 6px;
+		--app-item-height: calc(2 * 6px + var(--default-clickable-area));
+		height: var(--app-item-height);
+		display: flex;
+		align-items: center;
+	}
+
+	.app-name--link::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		height: var(--app-item-height);
+	}
+
+	.actions {
+		// Prevent table to have increased height when action buttons takes much space
+		display: flex !important;
+		flex-wrap: nowrap !important;
+	}
 }
 
+// In the store view we can stretch the link to the entire cell,
+// because it is a block and it can have position relative
+.apps-store-view {
+	.app-name--link::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+}
 </style>
