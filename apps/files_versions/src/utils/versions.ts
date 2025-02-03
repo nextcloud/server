@@ -78,7 +78,7 @@ function formatVersion(version: any, fileInfo: any): Version {
 	let previewUrl = ''
 
 	if (mtime === fileInfo.mtime) { // Version is the current one
-		previewUrl = generateUrl('/core/preview?fileId={fileId}&c={fileEtag}&x=250&y=250&forceIcon=0&a=0', {
+		previewUrl = generateUrl('/core/preview?fileId={fileId}&c={fileEtag}&x=250&y=250&a=0', {
 			fileId: fileInfo.id,
 			fileEtag: fileInfo.etag,
 		})

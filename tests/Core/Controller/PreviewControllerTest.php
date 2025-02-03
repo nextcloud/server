@@ -9,6 +9,7 @@ namespace Tests\Core\Controller;
 use OC\Core\Controller\PreviewController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -18,6 +19,7 @@ use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\Preview\IMimeIconProvider;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
@@ -31,6 +33,7 @@ class PreviewControllerTest extends \Test\TestCase {
 	private IRootFolder&MockObject $rootFolder;
 	private IPreview&MockObject $previewManager;
 	private IRequest&MockObject $request;
+	private IURLGenerator&MockObject $urlGenerator;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -39,6 +42,7 @@ class PreviewControllerTest extends \Test\TestCase {
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->previewManager = $this->createMock(IPreview::class);
 		$this->request = $this->createMock(IRequest::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
 		$this->controller = new PreviewController(
 			'core',
@@ -46,7 +50,8 @@ class PreviewControllerTest extends \Test\TestCase {
 			$this->previewManager,
 			$this->rootFolder,
 			$this->userId,
-			$this->createMock(IMimeIconProvider::class)
+			$this->createMock(IMimeIconProvider::class),
+			$this->urlGenerator,
 		);
 	}
 
@@ -88,6 +93,18 @@ class PreviewControllerTest extends \Test\TestCase {
 	}
 
 	public function testNotAFile(): void {
+		$this->urlGenerator
+			->expects($this->once())
+			->method('imagePath')
+			->with('core', 'filetypes/folder.svg')
+			->willReturn('core/filetypes/folder.svg');
+
+		$this->urlGenerator
+			->expects($this->once())
+			->method('getAbsoluteURL')
+			->with('core/filetypes/folder.svg')
+			->willReturn('http://localhost/core/filetypes/folder.svg');
+
 		$userFolder = $this->createMock(Folder::class);
 		$this->rootFolder->method('getUserFolder')
 			->with($this->equalTo($this->userId))
@@ -99,7 +116,7 @@ class PreviewControllerTest extends \Test\TestCase {
 			->willReturn($folder);
 
 		$res = $this->controller->getPreview('file');
-		$expected = new DataResponse([], Http::STATUS_NOT_FOUND);
+		$expected = new RedirectResponse('http://localhost/core/filetypes/folder.svg');
 
 		$this->assertEquals($expected, $res);
 	}
@@ -111,6 +128,9 @@ class PreviewControllerTest extends \Test\TestCase {
 			->willReturn($userFolder);
 
 		$file = $this->createMock(File::class);
+		$file->method('isReadable')
+			->willReturn(true);
+
 		$userFolder->method('get')
 			->with($this->equalTo('file'))
 			->willReturn($file);
@@ -119,7 +139,7 @@ class PreviewControllerTest extends \Test\TestCase {
 			->with($this->equalTo($file))
 			->willReturn(false);
 
-		$res = $this->controller->getPreview('file', 10, 10, true, false);
+		$res = $this->controller->getPreview('file', 10, 10, true);
 		$expected = new DataResponse([], Http::STATUS_NOT_FOUND);
 
 		$this->assertEquals($expected, $res);
@@ -151,7 +171,7 @@ class PreviewControllerTest extends \Test\TestCase {
 			->with($this->equalTo($file), 10, 10, false, $this->equalTo('myMode'))
 			->willThrowException(new NotFoundException());
 
-		$res = $this->controller->getPreview('file', 10, 10, true, true, 'myMode');
+		$res = $this->controller->getPreview('file', 10, 10, true, 'myMode');
 		$expected = new DataResponse([], Http::STATUS_NOT_FOUND);
 
 		$this->assertEquals($expected, $res);
@@ -174,7 +194,7 @@ class PreviewControllerTest extends \Test\TestCase {
 		$file->method('isReadable')
 			->willReturn(false);
 
-		$res = $this->controller->getPreview('file', 10, 10, true, true);
+		$res = $this->controller->getPreview('file', 10, 10, true);
 		$expected = new DataResponse([], Http::STATUS_FORBIDDEN);
 
 		$this->assertEquals($expected, $res);
@@ -220,7 +240,7 @@ class PreviewControllerTest extends \Test\TestCase {
 
 		$this->request->method('getHeader')->willReturn('');
 
-		$res = $this->controller->getPreview('file', 10, 10, true, true);
+		$res = $this->controller->getPreview('file', 10, 10, true);
 		$expected = new DataResponse([], Http::STATUS_FORBIDDEN);
 
 		$this->assertEquals($expected, $res);
@@ -277,7 +297,7 @@ class PreviewControllerTest extends \Test\TestCase {
 		$preview->method('getMimeType')
 			->willReturn('myMime');
 
-		$res = $this->controller->getPreview('file', 10, 10, true, true, 'myMode');
+		$res = $this->controller->getPreview('file', 10, 10, true, 'myMode');
 
 		$this->assertEquals('myMime', $res->getHeaders()['Content-Type']);
 		$this->assertEquals(Http::STATUS_OK, $res->getStatus());
@@ -316,7 +336,7 @@ class PreviewControllerTest extends \Test\TestCase {
 		$preview->method('getMimeType')
 			->willReturn('myMime');
 
-		$res = $this->controller->getPreview('file', 10, 10, true, true, 'myMode');
+		$res = $this->controller->getPreview('file', 10, 10, true, 'myMode');
 
 		$this->assertEquals('myMime', $res->getHeaders()['Content-Type']);
 		$this->assertEquals(Http::STATUS_OK, $res->getStatus());
@@ -369,7 +389,7 @@ class PreviewControllerTest extends \Test\TestCase {
 		$preview->method('getMimeType')
 			->willReturn('myMime');
 
-		$res = $this->controller->getPreview('file', 10, 10, true, true, 'myMode');
+		$res = $this->controller->getPreview('file', 10, 10, true, 'myMode');
 
 		$this->assertEquals('myMime', $res->getHeaders()['Content-Type']);
 		$this->assertEquals(Http::STATUS_OK, $res->getStatus());

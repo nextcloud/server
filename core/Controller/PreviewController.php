@@ -25,6 +25,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\Preview\IMimeIconProvider;
 
 class PreviewController extends Controller {
@@ -35,6 +36,7 @@ class PreviewController extends Controller {
 		private IRootFolder $root,
 		private ?string $userId,
 		private IMimeIconProvider $mimeIconProvider,
+		private IURLGenerator $urlGenerator,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -48,13 +50,11 @@ class PreviewController extends Controller {
 	 * @param int $x Width of the preview. A width of -1 will use the original image width.
 	 * @param int $y Height of the preview. A height of -1 will use the original image height.
 	 * @param bool $a Preserve the aspect ratio
-	 * @param bool $forceIcon Force returning an icon
 	 * @param 'fill'|'cover' $mode How to crop the image
-	 * @param bool $mimeFallback Whether to fallback to the mime icon if no preview is available
 	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, list<empty>, array{}>|RedirectResponse<Http::STATUS_SEE_OTHER, array{}>
 	 *
 	 * 200: Preview returned
-	 * 303: Redirect to the mime icon url if mimeFallback is true
+	 * 303: Redirect to the mime icon url
 	 * 400: Getting preview is not possible
 	 * 403: Getting preview is not allowed
 	 * 404: Preview not found
@@ -68,9 +68,8 @@ class PreviewController extends Controller {
 		int $x = 32,
 		int $y = 32,
 		bool $a = false,
-		bool $forceIcon = true,
 		string $mode = 'fill',
-		bool $mimeFallback = false): Http\Response {
+	): Http\Response {
 		if ($file === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -82,7 +81,7 @@ class PreviewController extends Controller {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		return $this->fetchPreview($node, $x, $y, $a, $forceIcon, $mode, $mimeFallback);
+		return $this->fetchPreview($node, $x, $y, $a, $mode);
 	}
 
 	/**
@@ -92,13 +91,11 @@ class PreviewController extends Controller {
 	 * @param int $x Width of the preview. A width of -1 will use the original image width.
 	 * @param int $y Height of the preview. A height of -1 will use the original image height.
 	 * @param bool $a Preserve the aspect ratio
-	 * @param bool $forceIcon Force returning an icon
 	 * @param 'fill'|'cover' $mode How to crop the image
-	 * @param bool $mimeFallback Whether to fallback to the mime icon if no preview is available
 	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, list<empty>, array{}>|RedirectResponse<Http::STATUS_SEE_OTHER, array{}>
 	 *
 	 * 200: Preview returned
-	 * 303: Redirect to the mime icon url if mimeFallback is true
+	 * 303: Redirect to the mime icon url
 	 * 400: Getting preview is not possible
 	 * 403: Getting preview is not allowed
 	 * 404: Preview not found
@@ -112,9 +109,8 @@ class PreviewController extends Controller {
 		int $x = 32,
 		int $y = 32,
 		bool $a = false,
-		bool $forceIcon = true,
 		string $mode = 'fill',
-		bool $mimeFallback = false) {
+	) {
 		if ($fileId === -1 || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -126,7 +122,7 @@ class PreviewController extends Controller {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		return $this->fetchPreview($node, $x, $y, $a, $forceIcon, $mode, $mimeFallback);
+		return $this->fetchPreview($node, $x, $y, $a, $mode);
 	}
 
 	/**
@@ -137,11 +133,10 @@ class PreviewController extends Controller {
 		int $x,
 		int $y,
 		bool $a,
-		bool $forceIcon,
 		string $mode,
-		bool $mimeFallback = false) : Http\Response {
-		if (!($node instanceof File) || (!$forceIcon && !$this->preview->isAvailable($node))) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+	) : Http\Response {
+		if (!($node instanceof File)) {
+			return new RedirectResponse($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'filetypes/folder.svg')));
 		}
 		if (!$node->isReadable()) {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
@@ -175,13 +170,11 @@ class PreviewController extends Controller {
 			return $response;
 		} catch (NotFoundException $e) {
 			// If we have no preview enabled, we can redirect to the mime icon if any
-			if ($mimeFallback) {
-				if ($url = $this->mimeIconProvider->getMimeIconUrl($node->getMimeType())) {
-					return new RedirectResponse($url);
-				}
+			if ($url = $this->mimeIconProvider->getMimeIconUrl($node->getMimeType())) {
+				return new RedirectResponse($url);
 			}
 
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new RedirectResponse($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'filetypes/file.svg')));
 		} catch (\InvalidArgumentException $e) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}

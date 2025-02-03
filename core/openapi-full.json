@@ -8254,19 +8254,6 @@
                         }
                     },
                     {
-                        "name": "forceIcon",
-                        "in": "query",
-                        "description": "Force returning an icon",
-                        "schema": {
-                            "type": "integer",
-                            "default": 1,
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        }
-                    },
-                    {
                         "name": "mode",
                         "in": "query",
                         "description": "How to crop the image",
@@ -8276,19 +8263,6 @@
                             "enum": [
                                 "fill",
                                 "cover"
-                            ]
-                        }
-                    },
-                    {
-                        "name": "mimeFallback",
-                        "in": "query",
-                        "description": "Whether to fallback to the mime icon if no preview is available",
-                        "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
                             ]
                         }
                     }
@@ -8330,7 +8304,7 @@
                         }
                     },
                     "303": {
-                        "description": "Redirect to the mime icon url if mimeFallback is true",
+                        "description": "Redirect to the mime icon url",
                         "headers": {
                             "Location": {
                                 "schema": {
@@ -8402,19 +8376,6 @@
                         }
                     },
                     {
-                        "name": "forceIcon",
-                        "in": "query",
-                        "description": "Force returning an icon",
-                        "schema": {
-                            "type": "integer",
-                            "default": 1,
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        }
-                    },
-                    {
                         "name": "mode",
                         "in": "query",
                         "description": "How to crop the image",
@@ -8424,19 +8385,6 @@
                             "enum": [
                                 "fill",
                                 "cover"
-                            ]
-                        }
-                    },
-                    {
-                        "name": "mimeFallback",
-                        "in": "query",
-                        "description": "Whether to fallback to the mime icon if no preview is available",
-                        "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
                             ]
                         }
                     }
@@ -8478,7 +8426,7 @@
                         }
                     },
                     "303": {
-                        "description": "Redirect to the mime icon url if mimeFallback is true",
+                        "description": "Redirect to the mime icon url",
                         "headers": {
                             "Location": {
                                 "schema": {

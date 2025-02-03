@@ -95,7 +95,6 @@ class FavoriteWidget implements IIconWidget, IAPIWidgetV2, IButtonWidget, IOptio
 						'y' => 256,
 						'fileId' => $node->getId(),
 						'c' => $node->getEtag(),
-						'mimeFallback' => true,
 					]);
 				} else {
 					$icon = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'filetypes/folder.svg'));
