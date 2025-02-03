@@ -236,7 +236,7 @@ describe('files: Filter in files list', { testIsolation: true }, () => {
 		navigateToFolder('folder')
 		getRowForFile('folder').should('not.exist')
 
-		// See that the chip is still 
+		// See that the chip is still active
 		filesFilters.activeFilters()
 			.should('have.length', 1)
 			.contains(/Folder/).should('be.visible')
