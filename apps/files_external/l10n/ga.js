@@ -62,6 +62,7 @@ OC.L10N.register(
     "Enable Path Style" : "Cumasaigh Conair Stíl",
     "Legacy (v2) authentication" : "Fíordheimhniú oidhreacht (v2).",
     "Enable multipart copy" : "Cumasaigh cóip ilpháirteach",
+    "SSE-C encryption key" : "Eochair criptithe SSE-C",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
     "Remote subfolder" : "Fofhillteán cianda",

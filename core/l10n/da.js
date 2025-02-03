@@ -103,7 +103,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} underretning","{count} underretninger"],
     "No" : "Nej",
     "Yes" : "Ja",
-    "Federated user" : "Fødereret bruger",
+    "Federated user" : "Sammenkoblet bruger",
     "user@your-nextcloud.org" : "bruger@din-nextcloud.dk",
     "Create share" : "Opret share",
     "The remote URL must include the user." : "Fjern-URL'en skal omfatte brugeren.",
