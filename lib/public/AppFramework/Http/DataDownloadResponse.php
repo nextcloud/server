@@ -30,10 +30,10 @@ use OCP\AppFramework\Http;
  * Class DataDownloadResponse
  *
  * @since 8.0.0
- * @template S of int
+ * @template S of Http::STATUS_*
  * @template C of string
  * @template H of array<string, mixed>
- * @template-extends DownloadResponse<int, string, array<string, mixed>>
+ * @template-extends DownloadResponse<Http::STATUS_*, string, array<string, mixed>>
  */
 class DataDownloadResponse extends DownloadResponse {
 	/**

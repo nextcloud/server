@@ -58,11 +58,13 @@ class LogSettingsController extends Controller {
 		if (!$this->log instanceof Log) {
 			throw new \UnexpectedValueException('Log file not available');
 		}
-		$resp = new StreamResponse($this->log->getLogPath());
-		$resp->setHeaders([
-			'Content-Type' => 'application/octet-stream',
-			'Content-Disposition' => 'attachment; filename="nextcloud.log"',
-		]);
-		return $resp;
+		return new StreamResponse(
+			$this->log->getLogPath(),
+			Http::STATUS_OK,
+			[
+				'Content-Type' => 'application/octet-stream',
+				'Content-Disposition' => 'attachment; filename="nextcloud.log"',
+			],
+		);
 	}
 }

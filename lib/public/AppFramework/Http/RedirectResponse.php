@@ -31,9 +31,9 @@ use OCP\AppFramework\Http;
 /**
  * Redirects to a different URL
  * @since 7.0.0
- * @template S of int
+ * @template S of Http::STATUS_*
  * @template H of array<string, mixed>
- * @template-extends Response<int, array<string, mixed>>
+ * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class RedirectResponse extends Response {
 	private $redirectURL;

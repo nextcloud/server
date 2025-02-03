@@ -31,9 +31,9 @@ use OCP\AppFramework\Http;
 /**
  * A renderer for text responses
  * @since 22.0.0
- * @template S of int
+ * @template S of Http::STATUS_*
  * @template H of array<string, mixed>
- * @template-extends Response<int, array<string, mixed>>
+ * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class TextPlainResponse extends Response {
 	/** @var string */
