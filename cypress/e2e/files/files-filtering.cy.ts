@@ -265,7 +265,7 @@ describe('files: Filter in files list', { testIsolation: true }, () => {
 
 		// go to other view
 		appNavigation.views()
-			.findByRole('link', { name: /Personal Files/i })
+			.findByRole('link', { name: /personal files/i })
 			.click()
 		// wait for view changed
 		cy.url().should('match', /apps\/files\/personal/)
