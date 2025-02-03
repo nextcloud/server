@@ -25,9 +25,9 @@ class ListCommand extends Base {
 			->setName('group:list')
 			->setDescription('list configured groups')
 			->addArgument(
-				'groupid',
+				'searchstring',
 				InputArgument::OPTIONAL,
-				'Group id to show only the members of that group',
+				'Filter the groups to only those matching the search string',
 				''
 			)
 			->addOption(
@@ -57,7 +57,7 @@ class ListCommand extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$groups = $this->groupManager->search((string)$input->getArgument('groupid'), (int)$input->getOption('limit'), (int)$input->getOption('offset'));
+		$groups = $this->groupManager->search((string)$input->getArgument('searchstring'), (int)$input->getOption('limit'), (int)$input->getOption('offset'));
 		$this->writeArrayInOutputFormat($input, $output, $this->formatGroups($groups, (bool)$input->getOption('info')));
 		return 0;
 	}
