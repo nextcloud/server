@@ -184,6 +184,7 @@
     "You cannot share your root folder" : "Ní féidir leat do fhréamhfhillteán a roinnt",
     "You are not allowed to share %s" : "Níl cead agat %s a roinnt",
     "Valid permissions are required for sharing" : "Teastaíonn ceadanna bailí chun comhroinnt",
+    "File shares cannot have create or delete permissions" : "Ní féidir ceadanna cruthaithe nó scriosta a bheith ag scaireanna comhaid",
     "Cannot increase permissions of %s" : "Ní féidir ceadanna %s a mhéadú",
     "Shares need at least read permissions" : "Teastaíonn ceadanna léite ar a laghad ó scaireanna",
     "Files cannot be shared with delete permissions" : "Ní féidir comhaid a roinnt le ceadanna scriosta",
