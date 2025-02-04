@@ -231,6 +231,8 @@
     "View only" : "僅供檢視",
     "Can edit" : "可以編輯",
     "Custom permissions" : "自訂權限",
+    "Enter external recipients" : "輸入外部接收者",
+    "Search for internal recipients" : "搜尋內部接收者",
     "Resharing is not allowed" : "不允許轉發分享",
     "Name or email …" : "名稱或電子郵件…",
     "Name, email, or Federated Cloud ID …" : "名稱、電子郵件或雲端聯邦 ID…",

@@ -60,6 +60,7 @@
     "Enable Path Style" : "啟用路徑樣式",
     "Legacy (v2) authentication" : "舊式認證 (v2)",
     "Enable multipart copy" : "啟用多部份複製",
+    "SSE-C encryption key" : "SSE-C 加密金鑰",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
     "Remote subfolder" : "遠端子資料夾",
