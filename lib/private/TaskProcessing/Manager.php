@@ -739,8 +739,10 @@ class Manager implements IManager {
 
 	public function getAvailableTaskTypes(): array {
 		if ($this->availableTaskTypes === null) {
-			// We use local cache only because distributed cache uses JSOn stringify which would botch our ShapeDescriptor objects
-			$this->availableTaskTypes = $this->cache->get('available_task_types');
+			$cachedValue = $this->distributedCache->get('available_task_types_v2');
+			if ($cachedValue !== null) {
+				$this->availableTaskTypes = unserialize($cachedValue);
+			}
 		}
 		if ($this->availableTaskTypes === null) {
 			$taskTypes = $this->_getTaskTypes();
