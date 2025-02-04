@@ -115,8 +115,8 @@
 						:helper-text="t('files_sharing', 'Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information.')"
 						show-trailing-button
 						:trailing-button-label="loadingToken ? t('files_sharing', 'Generating…') : t('files_sharing', 'Generate new token')"
-						@trailing-button-click="generateNewToken"
-						:value.sync="share.token">
+						:value.sync="share.token"
+						@trailing-button-click="generateNewToken">
 						<template #trailing-button-icon>
 							<NcLoadingIcon v-if="loadingToken" />
 							<Refresh v-else :size="20" />
@@ -555,9 +555,6 @@ export default {
 		},
 		isGroupShare() {
 			return this.share.type === ShareType.Group
-		},
-		isNewShare() {
-			return !this.share.id
 		},
 		allowsFileDrop() {
 			if (this.isFolder && this.config.isPublicUploadEnabled) {
