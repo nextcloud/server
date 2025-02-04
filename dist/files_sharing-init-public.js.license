@@ -87,7 +87,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.11.10
 	- license: MIT
 - query-string
-	- version: 9.1.0
+	- version: 9.1.1
 	- license: MIT
 - split-on-first
 	- version: 3.0.0

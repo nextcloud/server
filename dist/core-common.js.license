@@ -603,7 +603,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.13.0
 	- license: BSD-3-Clause
 - query-string
-	- version: 9.1.0
+	- version: 9.1.1
 	- license: MIT
 - querystringify
 	- version: 2.2.0
