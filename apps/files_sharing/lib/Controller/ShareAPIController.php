@@ -649,7 +649,6 @@ class ShareAPIController extends OCSController {
 		}
 
 		$share->setSharedBy($this->currentUser);
-		$this->checkInheritedAttributes($share);
 
 		// Handle mail send
 		if (is_null($sendMail)) {
@@ -779,6 +778,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		$share->setShareType($shareType);
+		$this->checkInheritedAttributes($share);
 
 		if ($note !== '') {
 			$share->setNote($note);
@@ -1261,7 +1261,6 @@ class ShareAPIController extends OCSController {
 		if ($attributes !== null) {
 			$share = $this->setShareAttributes($share, $attributes);
 		}
-		$this->checkInheritedAttributes($share);
 
 		// Handle mail send
 		if ($sendMail === 'true' || $sendMail === 'false') {
@@ -1345,6 +1344,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		try {
+			$this->checkInheritedAttributes($share);
 			$share = $this->shareManager->updateShare($share);
 		} catch (HintException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
@@ -2047,30 +2047,48 @@ class ShareAPIController extends OCSController {
 		if (!$share->getSharedBy()) {
 			return; // Probably in a test
 		}
+
+		$canDownload = false;
+		$hideDownload = true;
+
 		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
-		$node = $userFolder->getFirstNodeById($share->getNodeId());
-		if (!$node) {
-			return;
-		}
-		if ($node->getStorage()->instanceOfStorage(SharedStorage::class)) {
-			$storage = $node->getStorage();
-			if ($storage instanceof Wrapper) {
-				$storage = $storage->getInstanceOfStorage(SharedStorage::class);
-				if ($storage === null) {
-					throw new \RuntimeException('Should not happen, instanceOfStorage but getInstanceOfStorage return null');
-				}
-			} else {
-				throw new \RuntimeException('Should not happen, instanceOfStorage but not a wrapper');
+		$nodes = $userFolder->getById($share->getNodeId());
+		foreach ($nodes as $node) {
+			// Owner always can download it - so allow it and break
+			if ($node->getOwner()?->getUID() === $share->getSharedBy()) {
+				$canDownload = true;
+				$hideDownload = false;
+				break;
 			}
-			/** @var \OCA\Files_Sharing\SharedStorage $storage */
-			$inheritedAttributes = $storage->getShare()->getAttributes();
-			if ($inheritedAttributes !== null && $inheritedAttributes->getAttribute('permissions', 'download') === false) {
-				$share->setHideDownload(true);
-				$attributes = $share->getAttributes();
-				if ($attributes) {
-					$attributes->setAttribute('permissions', 'download', false);
-					$share->setAttributes($attributes);
+
+			if ($node->getStorage()->instanceOfStorage(SharedStorage::class)) {
+				$storage = $node->getStorage();
+				if ($storage instanceof Wrapper) {
+					$storage = $storage->getInstanceOfStorage(SharedStorage::class);
+					if ($storage === null) {
+						throw new \RuntimeException('Should not happen, instanceOfStorage but getInstanceOfStorage return null');
+					}
+				} else {
+					throw new \RuntimeException('Should not happen, instanceOfStorage but not a wrapper');
 				}
+
+				/** @var SharedStorage $storage */
+				$originalShare = $storage->getShare();
+				$inheritedAttributes = $originalShare->getAttributes();
+				// hide if hidden and also the current share enforces hide (can only be false if one share is false or user is owner)
+				$hideDownload = $hideDownload && $originalShare->getHideDownload();
+				// allow download if already allowed by previous share or when the current share allows downloading
+				$canDownload = $canDownload || $inheritedAttributes === null || $inheritedAttributes->getAttribute('permissions', 'download') !== false;
+			}
+		}
+
+		if ($hideDownload || !$canDownload) {
+			$share->setHideDownload(true);
+
+			if (!$canDownload) {
+				$attributes = $share->getAttributes() ?? $share->newAttributes();
+				$attributes->setAttribute('permissions', 'download', false);
+				$share->setAttributes($attributes);
 			}
 		}
 	}

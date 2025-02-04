@@ -55,26 +55,26 @@ class ShareAPIControllerTest extends TestCase {
 	private ShareAPIController  $ocs;
 	private string $currentUser;
 
-	private \OC\Share20\Manager|MockObject $shareManager;
-	private IGroupManager|MockObject $groupManager;
-	private IUserManager|MockObject $userManager;
-	private IRequest|MockObject $request;
-	private IRootFolder|MockObject $rootFolder;
-	private IURLGenerator|MockObject $urlGenerator;
-	private IL10N|MockObject $l;
-	private IConfig|MockObject $config;
-	private IAppManager|MockObject $appManager;
-	private ContainerInterface|MockObject $serverContainer;
-	private IUserStatusManager|MockObject $userStatusManager;
-	private IPreview|MockObject $previewManager;
-	private IDateTimeZone|MockObject $dateTimeZone;
-	private LoggerInterface|MockObject $logger;
-	private IProviderFactory|MockObject $factory;
-	private IMailer|MockObject $mailer;
+	private \OC\Share20\Manager&MockObject $shareManager;
+	private IGroupManager&MockObject $groupManager;
+	private IUserManager&MockObject $userManager;
+	private IRequest&MockObject $request;
+	private IRootFolder&MockObject $rootFolder;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IL10N&MockObject $l;
+	private IConfig&MockObject $config;
+	private IAppManager&MockObject $appManager;
+	private ContainerInterface&MockObject $serverContainer;
+	private IUserStatusManager&MockObject $userStatusManager;
+	private IPreview&MockObject $previewManager;
+	private IDateTimeZone&MockObject $dateTimeZone;
+	private LoggerInterface&MockObject $logger;
+	private IProviderFactory&MockObject $factory;
+	private IMailer&MockObject $mailer;
 
 	protected function setUp(): void {
-		/** @var IManager|MockObject */
-		$this->shareManager = $this->createMock(IManager::class);
+		/** @var IManager&MockObject */
+		$this->shareManager = $this->createMock(\OC\Share20\Manager::class);
 		$this->shareManager
 			->expects($this->any())
 			->method('shareApiEnabled')
@@ -154,7 +154,8 @@ class ShareAPIControllerTest extends TestCase {
 				$this->factory,
 				$this->mailer,
 				$this->currentUser,
-			])->setMethods(['formatShare'])
+			])
+			->onlyMethods(['formatShare'])
 			->getMock();
 	}
 
@@ -233,9 +234,19 @@ class ShareAPIControllerTest extends TestCase {
 		$this->expectExceptionMessage('Could not delete share');
 
 		$node = $this->getMockBuilder(File::class)->getMock();
+		$node->method('getId')->willReturn(42);
 
 		$share = $this->newShare();
 		$share->setNode($node);
+
+		$userFolder = $this->getMockBuilder(Folder::class)->getMock();
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
+
+		$userFolder->method('getById')
+			->with($share->getNodeId())
+			->willReturn([$node]);
 
 		$this->shareManager
 			->expects($this->once())
@@ -398,9 +409,9 @@ class ShareAPIControllerTest extends TestCase {
 			->with($this->currentUser)
 			->willReturn($userFolder);
 
-		$userFolder->method('getFirstNodeById')
+		$userFolder->method('getById')
 			->with($share->getNodeId())
-			->willReturn($share->getNode());
+			->willReturn([$share->getNode()]);
 
 		$this->shareManager->expects($this->once())
 			->method('deleteFromSelf')
@@ -461,9 +472,9 @@ class ShareAPIControllerTest extends TestCase {
 			->with($this->currentUser)
 			->willReturn($userFolder);
 
-		$userFolder->method('getFirstNodeById')
+		$userFolder->method('getById')
 			->with($share->getNodeId())
-			->willReturn($share->getNode());
+			->willReturn([$share->getNode()]);
 
 		$this->shareManager->expects($this->never())
 			->method('deleteFromSelf');
@@ -772,8 +783,9 @@ class ShareAPIControllerTest extends TestCase {
 					$this->mailer,
 					$this->currentUser,
 
-				])->setMethods(['canAccessShare'])
-				->getMock();
+				])
+			->onlyMethods(['canAccessShare'])
+			->getMock();
 
 		$ocs->expects($this->any())
 			->method('canAccessShare')
@@ -793,7 +805,6 @@ class ShareAPIControllerTest extends TestCase {
 		$userFolder->method('getById')
 			->with($share->getNodeId())
 			->willReturn([$share->getNode()]);
-
 		$userFolder->method('getFirstNodeById')
 			->with($share->getNodeId())
 			->willReturn($share->getNode());
@@ -832,9 +843,8 @@ class ShareAPIControllerTest extends TestCase {
 		]);
 		$this->dateTimeZone->method('getTimezone')->willReturn(new \DateTimeZone('UTC'));
 
-		$d = $ocs->getShare($share->getId())->getData()[0];
-
-		$this->assertEquals($result, $ocs->getShare($share->getId())->getData()[0]);
+		$data = $ocs->getShare($share->getId())->getData()[0];
+		$this->assertEquals($result, $data);
 	}
 
 
@@ -1384,7 +1394,7 @@ class ShareAPIControllerTest extends TestCase {
 	 * @dataProvider dataGetShares
 	 */
 	public function testGetShares(array $getSharesParameters, array $shares, array $extraShareTypes, array $expected): void {
-		/** @var ShareAPIController|MockObject $ocs */
+		/** @var ShareAPIController&MockObject $ocs */
 		$ocs = $this->getMockBuilder(ShareAPIController::class)
 			->setConstructorArgs([
 				Application::APP_ID,
@@ -1489,6 +1499,9 @@ class ShareAPIControllerTest extends TestCase {
 		$userFolder->method('getFirstNodeById')
 			->with($share->getNodeId())
 			->willReturn($file);
+		$userFolder->method('getById')
+			->with($share->getNodeId())
+			->willReturn([$file]);
 
 		$file->method('getPermissions')
 			->will($this->onConsecutiveCalls(\OCP\Constants::PERMISSION_SHARE, \OCP\Constants::PERMISSION_READ));
@@ -1582,9 +1595,9 @@ class ShareAPIControllerTest extends TestCase {
 			->with($this->currentUser)
 			->willReturn($userFolder);
 
-		$userFolder->method('getFirstNodeById')
+		$userFolder->method('getById')
 			->with($share->getNodeId())
-			->willReturn($share->getNode());
+			->willReturn([$share->getNode()]);
 
 		if (!$helperAvailable) {
 			$this->appManager->method('isEnabledForUser')
@@ -1672,8 +1685,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->method('newShare')->willReturn($share);
 
 		[$userFolder, $path] = $this->getNonSharedUserFile();
-		$this->rootFolder->expects($this->exactly(2))
-			->method('getUserFolder')
+		$this->rootFolder->method('getUserFolder')
 			->with('currentUser')
 			->willReturn($userFolder);
 
@@ -1700,8 +1712,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->method('newShare')->willReturn($share);
 
 		[$userFolder, $path] = $this->getNonSharedUserFile();
-		$this->rootFolder->expects($this->exactly(2))
-			->method('getUserFolder')
+		$this->rootFolder->method('getUserFolder')
 			->with('currentUser')
 			->willReturn($userFolder);
 
@@ -1800,10 +1811,9 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->method('allowGroupSharing')->willReturn(true);
 
 		[$userFolder, $path] = $this->getNonSharedUserFile();
-		$this->rootFolder->expects($this->exactly(2))
-				->method('getUserFolder')
-				->with('currentUser')
-				->willReturn($userFolder);
+		$this->rootFolder->method('getUserFolder')
+			->with('currentUser')
+			->willReturn($userFolder);
 
 		$userFolder->expects($this->once())
 				->method('get')
@@ -1905,8 +1915,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->method('newShare')->willReturn($share);
 
 		[$userFolder, $path] = $this->getNonSharedUserFolder();
-		$this->rootFolder->expects($this->exactly(2))
-			->method('getUserFolder')
+		$this->rootFolder->method('getUserFolder')
 			->with('currentUser')
 			->willReturn($userFolder);
 
@@ -2462,10 +2471,9 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->method('newShare')->willReturn($share);
 
 		[$userFolder, $path] = $this->getNonSharedUserFolder();
-		$this->rootFolder->expects($this->exactly(2))
-				->method('getUserFolder')
-				->with('currentUser')
-				->willReturn($userFolder);
+		$this->rootFolder->method('getUserFolder')
+			->with('currentUser')
+			->willReturn($userFolder);
 
 		$path->method('getPath')->willReturn('valid-path');
 		$userFolder->expects($this->once())
@@ -2500,10 +2508,9 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->method('newShare')->willReturn($share);
 
 		[$userFolder, $path] = $this->getNonSharedUserFile();
-		$this->rootFolder->expects($this->exactly(2))
-				->method('getUserFolder')
-				->with('currentUser')
-				->willReturn($userFolder);
+		$this->rootFolder->method('getUserFolder')
+			->with('currentUser')
+			->willReturn($userFolder);
 
 		$userFolder->expects($this->once())
 				->method('get')
@@ -2634,9 +2641,9 @@ class ShareAPIControllerTest extends TestCase {
 			->with($this->currentUser)
 			->willReturn($userFolder);
 
-		$userFolder->method('getFirstNodeById')
+		$userFolder->method('getById')
 			->with($share->getNodeId())
-			->willReturn($share->getNode());
+			->willReturn([$share->getNode()]);
 
 		$this->ocs->updateShare(42);
 	}
@@ -2727,6 +2734,9 @@ class ShareAPIControllerTest extends TestCase {
 			->with($this->currentUser)
 			->willReturn($userFolder);
 
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([$node]);
 		$userFolder->method('getFirstNodeById')
 			->with(42)
 			->willReturn($node);
@@ -2781,9 +2791,9 @@ class ShareAPIControllerTest extends TestCase {
 			->with($this->currentUser)
 			->willReturn($userFolder);
 
-		$userFolder->method('getFirstNodeById')
+		$userFolder->method('getById')
 			->with(42)
-			->willReturn($folder);
+			->willReturn([$folder]);
 
 		$mountPoint = $this->createMock(IMountPoint::class);
 		$folder->method('getMountPoint')
@@ -2831,9 +2841,9 @@ class ShareAPIControllerTest extends TestCase {
 			->with($this->currentUser)
 			->willReturn($userFolder);
 
-		$userFolder->method('getFirstNodeById')
+		$userFolder->method('getById')
 			->with(42)
-			->willReturn($folder);
+			->willReturn([$folder]);
 
 		$mountPoint = $this->createMock(IMountPoint::class);
 		$folder->method('getMountPoint')
@@ -2889,9 +2899,9 @@ class ShareAPIControllerTest extends TestCase {
 			->with($this->currentUser)
 			->willReturn($userFolder);
 
-		$userFolder->method('getFirstNodeById')
+		$userFolder->method('getById')
 			->with(42)
-			->willReturn($folder);
+			->willReturn([$folder]);
 
 		$mountPoint = $this->createMock(IMountPoint::class);
 		$folder->method('getMountPoint')
@@ -2947,9 +2957,9 @@ class ShareAPIControllerTest extends TestCase {
 
 		$ocs = $this->mockFormatShare();
 		[$userFolder, $folder] = $this->getNonSharedUserFolder();
-		$userFolder->method('getFirstNodeById')
+		$userFolder->method('getById')
 			->with(42)
-			->willReturn($folder);
+			->willReturn([$folder]);
 		$this->rootFolder->method('getUserFolder')
 			->with($this->currentUser)
 			->willReturn($userFolder);
@@ -2994,9 +3004,9 @@ class ShareAPIControllerTest extends TestCase {
 
 		$ocs = $this->mockFormatShare();
 		[$userFolder, $folder] = $this->getNonSharedUserFolder();
-		$userFolder->method('getFirstNodeById')
+		$userFolder->method('getById')
 			->with(42)
-			->willReturn($folder);
+			->willReturn([$folder]);
 		$this->rootFolder->method('getUserFolder')
 			->with($this->currentUser)
 			->willReturn($userFolder);
@@ -3022,10 +3032,13 @@ class ShareAPIControllerTest extends TestCase {
 
 		$ocs = $this->mockFormatShare();
 
-		[$userFolder, $file] = $this->getNonSharedUserFile();
-		$userFolder->method('getFirstNodeById')
+		$file = $this->getMockBuilder(File::class)->getMock();
+		$file->method('getId')
+			->willReturn(42);
+		[$userFolder, $folder] = $this->getNonSharedUserFolder();
+		$userFolder->method('getById')
 			->with(42)
-			->willReturn($file);
+			->willReturn([$folder]);
 		$this->rootFolder->method('getUserFolder')
 			->with($this->currentUser)
 			->willReturn($userFolder);
@@ -3059,9 +3072,9 @@ class ShareAPIControllerTest extends TestCase {
 
 		[$userFolder, $node] = $this->getNonSharedUserFolder();
 		$node->method('getId')->willReturn(42);
-		$userFolder->method('getFirstNodeById')
+		$userFolder->method('getById')
 			->with(42)
-			->willReturn($node);
+			->willReturn([$node]);
 		$this->rootFolder->method('getUserFolder')
 			->with($this->currentUser)
 			->willReturn($userFolder);
@@ -3110,9 +3123,9 @@ class ShareAPIControllerTest extends TestCase {
 		$date->setTime(0, 0, 0);
 
 		[$userFolder, $node] = $this->getNonSharedUserFolder();
-		$userFolder->method('getFirstNodeById')
+		$userFolder->method('getById')
 			->with(42)
-			->willReturn($node);
+			->willReturn([$node]);
 		$this->rootFolder->method('getUserFolder')
 			->with($this->currentUser)
 			->willReturn($userFolder);
@@ -3168,9 +3181,9 @@ class ShareAPIControllerTest extends TestCase {
 		$date->setTime(0, 0, 0);
 
 		[$userFolder, $node] = $this->getNonSharedUserFolder();
-		$userFolder->method('getFirstNodeById')
+		$userFolder->method('getById')
 			->with(42)
-			->willReturn($node);
+			->willReturn([$node]);
 		$this->rootFolder->method('getUserFolder')
 			->with($this->currentUser)
 			->willReturn($userFolder);
@@ -3208,9 +3221,9 @@ class ShareAPIControllerTest extends TestCase {
 		$date->setTime(0, 0, 0);
 
 		[$userFolder, $node] = $this->getNonSharedUserFolder();
-		$userFolder->method('getFirstNodeById')
+		$userFolder->method('getById')
 			->with(42)
-			->willReturn($node);
+			->willReturn([$node]);
 		$this->rootFolder->method('getUserFolder')
 			->with($this->currentUser)
 			->willReturn($userFolder);
@@ -3302,9 +3315,9 @@ class ShareAPIControllerTest extends TestCase {
 			->with($this->currentUser)
 			->willReturn($userFolder);
 
-		$userFolder->method('getFirstNodeById')
+		$userFolder->method('getById')
 			->with(42)
-			->willReturn($node);
+			->willReturn([$node]);
 
 		$mountPoint = $this->createMock(IMountPoint::class);
 		$node->method('getMountPoint')
@@ -3370,9 +3383,9 @@ class ShareAPIControllerTest extends TestCase {
 			->with($this->currentUser)
 			->willReturn($userFolder);
 
-		$userFolder->method('getFirstNodeById')
+		$userFolder->method('getById')
 			->with(42)
-			->willReturn($node);
+			->willReturn([$node]);
 
 		$mountPoint = $this->createMock(IMountPoint::class);
 		$node->method('getMountPoint')
@@ -3431,9 +3444,9 @@ class ShareAPIControllerTest extends TestCase {
 			->with($this->currentUser)
 			->willReturn($userFolder);
 
-		$userFolder->method('getFirstNodeById')
+		$userFolder->method('getById')
 			->with(42)
-			->willReturn($folder);
+			->willReturn([$folder]);
 
 		$mountPoint = $this->createMock(IMountPoint::class);
 		$folder->method('getMountPoint')
@@ -3491,9 +3504,9 @@ class ShareAPIControllerTest extends TestCase {
 			->with($this->currentUser)
 			->willReturn($userFolder);
 
-		$userFolder->method('getFirstNodeById')
+		$userFolder->method('getById')
 			->with(42)
-			->willReturn($folder);
+			->willReturn([$folder]);
 
 		$mountPoint = $this->createMock(IMountPoint::class);
 		$folder->method('getMountPoint')
@@ -3551,9 +3564,9 @@ class ShareAPIControllerTest extends TestCase {
 			->with($this->currentUser)
 			->willReturn($userFolder);
 
-		$userFolder->method('getFirstNodeById')
+		$userFolder->method('getById')
 			->with(42)
-			->willReturn($folder);
+			->willReturn([$folder]);
 
 		$mountPoint = $this->createMock(IMountPoint::class);
 		$folder->method('getMountPoint')
@@ -3599,9 +3612,9 @@ class ShareAPIControllerTest extends TestCase {
 			->with($this->currentUser)
 			->willReturn($userFolder);
 
-		$userFolder->method('getFirstNodeById')
+		$userFolder->method('getById')
 			->with(42)
-			->willReturn($file);
+			->willReturn([$file]);
 
 		$mountPoint = $this->createMock(IMountPoint::class);
 		$file->method('getMountPoint')
@@ -3665,6 +3678,9 @@ class ShareAPIControllerTest extends TestCase {
 			->with($this->currentUser)
 			->willReturn($userFolder);
 
+		$userFolder->method('getById')
+			->with(42)
+			->willReturn([$folder]);
 		$userFolder->method('getFirstNodeById')
 			->with(42)
 			->willReturn($folder);
@@ -3735,9 +3751,9 @@ class ShareAPIControllerTest extends TestCase {
 			->with($this->currentUser)
 			->willReturn($userFolder);
 
-		$userFolder->method('getFirstNodeById')
+		$userFolder->method('getById')
 			->with(42)
-			->willReturn($folder);
+			->willReturn([$folder]);
 
 		$mountPoint = $this->createMock(IMountPoint::class);
 		$folder->method('getMountPoint')
@@ -4981,6 +4997,9 @@ class ShareAPIControllerTest extends TestCase {
 		$userFolder->method('getStorage')->willReturn($storage);
 		$node->method('getStorage')->willReturn($storage);
 		$node->method('getId')->willReturn(42);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn($this->currentUser);
+		$node->method('getOwner')->willReturn($user);
 		return [$userFolder, $node];
 	}
 

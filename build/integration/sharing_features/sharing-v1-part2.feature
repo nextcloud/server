@@ -701,6 +701,79 @@ Feature: sharing
     Then the OCS status code should be "404"
     And the HTTP status code should be "200"
 
+  Scenario: download restrictions can not be dropped
+  As an "admin"
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And User "user0" uploads file with content "foo" to "/tmp.txt"
+    And As an "user0"
+    And creating a share with
+      | path        | /tmp.txt |
+      | shareType   | 0 |
+      | shareWith   | user1 |
+      | permissions | 17 |
+      | attributes  | [{"scope":"permissions","key":"download","value":false}] |
+    And As an "user1"
+    And accepting last share
+    When Getting info of last share
+    Then Share fields of last share match with
+      | uid_owner      | user0 |
+      | uid_file_owner | user0 |
+      | permissions    | 17    |
+      | attributes     | [{"scope":"permissions","key":"download","value":false}] |
+    When creating a share with
+      | path        | /tmp.txt |
+      | shareType   | 0        |
+      | shareWith   | user2    |
+      | permissions | 1        |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    When As an "user2"
+    And accepting last share
+    And Getting info of last share
+    Then Share fields of last share match with
+      | share_type     | 0     |
+      | permissions    | 1     |
+      | uid_owner      | user1 |
+      | uid_file_owner | user0 |
+      | attributes     | [{"scope":"permissions","key":"download","value":false}] |
+
+  Scenario: download restrictions can not be dropped when re-sharing even on link shares
+  As an "admin"
+    Given user "user0" exists
+    And user "user1" exists
+    And User "user0" uploads file with content "foo" to "/tmp.txt"
+    And As an "user0"
+    And creating a share with
+      | path        | /tmp.txt |
+      | shareType   | 0 |
+      | shareWith   | user1 |
+      | permissions | 17 |
+      | attributes  | [{"scope":"permissions","key":"download","value":false}] |
+    And As an "user1"
+    And accepting last share
+    When Getting info of last share
+    Then Share fields of last share match with
+      | uid_owner  | user0 |
+      | attributes | [{"scope":"permissions","key":"download","value":false}] |
+    When creating a share with
+      | path | /tmp.txt |
+      | shareType   | 3 |
+      | permissions | 1 |
+    And Getting info of last share
+    And Updating last share with
+      | hideDownload | false |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    When Getting info of last share
+    Then Share fields of last share match with
+      | share_type     | 3     |
+      | uid_owner      | user1 |
+      | uid_file_owner | user0 |
+      | hide_download  | 1     |
+      | attributes     | [{"scope":"permissions","key":"download","value":false}] |
+
   Scenario: User is not allowed to reshare file with additional delete permissions
   As an "admin"
     Given user "user0" exists
