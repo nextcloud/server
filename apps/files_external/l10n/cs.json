@@ -60,6 +60,7 @@
     "Enable Path Style" : "Povolit Path Style",
     "Legacy (v2) authentication" : "Starší (v2) ověřování",
     "Enable multipart copy" : "Povolit kopii o více částech",
+    "SSE-C encryption key" : "klíč šifrování SSE-C",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
     "Remote subfolder" : "Federovaná podsložka",
