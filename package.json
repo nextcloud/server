@@ -132,7 +132,7 @@
     "@nextcloud/webpack-vue-config": "^6.2.0",
     "@pinia/testing": "^0.1.7",
     "@simplewebauthn/types": "^12.0.0",
-    "@testing-library/cypress": "^10.0.2",
+    "@testing-library/cypress": "^10.0.3",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/user-event": "^14.4.3",
     "@testing-library/vue": "^5.8.3",
