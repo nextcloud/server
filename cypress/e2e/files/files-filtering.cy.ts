@@ -236,7 +236,7 @@ describe('files: Filter in files list', { testIsolation: true }, () => {
 		navigateToFolder('folder')
 		getRowForFile('folder').should('not.exist')
 
-		// See that the chip is still 
+		// See that the chip is still active
 		filesFilters.activeFilters()
 			.should('have.length', 1)
 			.contains(/Folder/).should('be.visible')
@@ -265,7 +265,7 @@ describe('files: Filter in files list', { testIsolation: true }, () => {
 
 		// go to other view
 		appNavigation.views()
-			.findByRole('link', { name: /Personal Files/i })
+			.findByRole('link', { name: /personal files/i })
 			.click()
 		// wait for view changed
 		cy.url().should('match', /apps\/files\/personal/)

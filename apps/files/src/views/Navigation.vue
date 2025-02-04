@@ -7,7 +7,7 @@
 		class="files-navigation"
 		:aria-label="t('files', 'Files')">
 		<template #search>
-			<NcAppNavigationSearch v-model="searchQuery" :label="t('files', 'Filter filenames…')" />
+			<NcAppNavigationSearch v-model="searchQuery" :label="t('files', 'Filter file names…')" />
 		</template>
 		<template #default>
 			<NcAppNavigationList class="files-navigation__list"
