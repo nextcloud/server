@@ -91,7 +91,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { File, Folder, formatFileSize } from '@nextcloud/files'
+import { davRemoteURL, davRootPath, File, Folder, formatFileSize } from '@nextcloud/files'
 import { encodePath } from '@nextcloud/paths'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { ShareType } from '@nextcloud/sharing'
@@ -375,10 +375,10 @@ export default {
 		},
 
 		/**
-		 * Toggle favourite state
+		 * Toggle favorite state
 		 * TODO: better implementation
 		 *
-		 * @param {boolean} state favourited or not
+		 * @param {boolean} state is favorite or not
 		 */
 		async toggleStarred(state) {
 			try {
@@ -401,17 +401,21 @@ export default {
 				 */
 				const isDir = this.fileInfo.type === 'dir'
 				const Node = isDir ? Folder : File
-				emit(state ? 'files:favorites:added' : 'files:favorites:removed', new Node({
+				const node = new Node({
 					fileid: this.fileInfo.id,
-					source: this.davPath,
-					root: `/files/${getCurrentUser().uid}`,
+					source: `${davRemoteURL}${davRootPath}${this.file}`,
+					root: davRootPath,
 					mime: isDir ? undefined : this.fileInfo.mimetype,
-				}))
+					attributes: {
+						favorite: 1,
+					},
+				})
+				emit(state ? 'files:favorites:added' : 'files:favorites:removed', node)
 
 				this.fileInfo.isFavourited = state
 			} catch (error) {
-				showError(t('files', 'Unable to change the favourite state of the file'))
-				logger.error('Unable to change favourite state', { error })
+				showError(t('files', 'Unable to change the favorite state of the file'))
+				logger.error('Unable to change favorite state', { error })
 			}
 		},
 

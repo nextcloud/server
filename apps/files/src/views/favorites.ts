@@ -65,7 +65,7 @@ export const registerFavoritesView = async () => {
 	favoriteFoldersViews.forEach(view => Navigation.register(view))
 
 	/**
-	 * Update favourites navigation when a new folder is added
+	 * Update favorites navigation when a new folder is added
 	 */
 	subscribe('files:favorites:added', (node: Node) => {
 		if (node.type !== FileType.Folder) {
@@ -99,7 +99,7 @@ export const registerFavoritesView = async () => {
 	})
 
 	/**
-	 * Update favourites navigation when a folder is renamed
+	 * Update favorites navigation when a folder is renamed
 	 */
 	subscribe('files:node:renamed', (node: Node) => {
 		if (node.type !== FileType.Folder) {
