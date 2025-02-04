@@ -765,8 +765,10 @@ class Manager implements IManager {
 	}
 
 	public function getAvailableTaskTypes(bool $showDisabled = false): array {
-		if ($this->availableTaskTypes === null && $this->distributedCache->get('available_task_types_v2') !== null) {
-			$this->availableTaskTypes = unserialize($this->distributedCache->get('available_task_types_v2'));
+		if ($this->availableTaskTypes === null) {
+			$cachedValue = $this->distributedCache->get('available_task_types_v2');
+			if ($cachedValue !== null) {
+				$this->availableTaskTypes = unserialize($cachedValue);
 		}
 		// Either we have no cache or showDisabled is turned on, which we don't want to cache, ever.
 		if ($this->availableTaskTypes === null || $showDisabled) {
