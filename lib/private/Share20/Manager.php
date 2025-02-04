@@ -296,7 +296,6 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('A share requires permissions');
 		}
 
-		$isFederatedShare = $share->getNode()->getStorage()->instanceOfStorage('\OCA\Files_Sharing\External\Storage');
 		$permissions = 0;
 		
 		$isReshare = $share->getNode()->getOwner() && $share->getNode()->getOwner()->getUID() !== $share->getSharedBy();
@@ -305,6 +304,7 @@ class Manager implements IManager {
 			$isReshare = $share->getShareOwner() !== $share->getSharedBy();
 		}
 
+		$isFederatedShare = $share->getNode()->getStorage()->instanceOfStorage('\OCA\Files_Sharing\External\Storage');
 		if (!$isFederatedShare && $isReshare) {
 			$userMounts = array_filter($userFolder->getById($share->getNode()->getId()), function ($mount) {
 				// We need to filter since there might be other mountpoints that contain the file
@@ -347,6 +347,17 @@ class Manager implements IManager {
 			if (!($share->getNode()->getMountPoint() instanceof MoveableMount)) {
 				$permissions |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
 			}
+		}
+
+		// Permissions must be valid
+		if ($share->getPermissions() < 0 || $share->getPermissions() > \OCP\Constants::PERMISSION_ALL) {
+			throw new \InvalidArgumentException($this->l->t('Valid permissions are required for sharing'));
+		}
+
+		// Single file shares should never have delete or create permissions
+		if (($share->getNode() instanceof File)
+			&& (($share->getPermissions() & (\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_DELETE)) !== 0)) {
+			throw new \InvalidArgumentException($this->l->t('File shares cannot have create or delete permissions'));
 		}
 
 		// Check that we do not share with more permissions than we have
