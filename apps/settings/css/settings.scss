@@ -639,6 +639,7 @@ span.version {
 
 #apps-list.store {
 	.section {
+		position: relative;
 		border: 0;
 	}
 
@@ -796,6 +797,15 @@ span.version {
 	}
 }
 
+/* On even narrower screens, hide the app image */
+@media only screen and (max-width: 512px) {
+	.apps-list.installed {
+		.app-image {
+			display: none !important;
+		}
+	}
+}
+
 @media only screen and (max-width: 500px) {
 	.apps-list.installed .app-groups {
 		display: none !important;
@@ -898,6 +908,9 @@ span.version {
 
 	&.installed {
 		.apps-list-container {
+			// For positioning AppItem link
+			// See AppItem.vue
+			position: relative;
 			display: table;
 			width: 100%;
 			height: auto;
@@ -987,7 +1000,6 @@ span.version {
 	}
 
 	.section {
-		position: relative;
 		flex: 0 0 auto;
 
 		h2.app-name {
