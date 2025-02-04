@@ -521,9 +521,6 @@ export default {
 		isGroupShare() {
 			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP
 		},
-		isNewShare() {
-			return !this.share.id
-		},
 		allowsFileDrop() {
 			if (this.isFolder && this.config.isPublicUploadEnabled) {
 				if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_LINK || this.share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
