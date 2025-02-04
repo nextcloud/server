@@ -2,6 +2,8 @@ OC.L10N.register(
     "profile",
     {
     "Profile" : "Profil",
+    "This application provides the profile" : "Táto aplikácia poskytuje profil",
+    "Provides a customisable user profile interface." : "Poskytuje prispôsobiteľné rozhranie používateľského profilu.",
     "Edit Profile" : "Upraviť rofil",
     "The headline and about sections will show up here" : "Tu sa zobrazí titul a sekcia Informácie",
     "You have not added any info yet" : "Zatiaľ ste nepridali žiadne informácie",

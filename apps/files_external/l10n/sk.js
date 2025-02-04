@@ -62,6 +62,7 @@ OC.L10N.register(
     "Enable Path Style" : "Povoliť štýl cesty",
     "Legacy (v2) authentication" : "Staršie (v2) overovanie",
     "Enable multipart copy" : "Povoliť kópiu mutlipart správy",
+    "SSE-C encryption key" : "Šifrovací kľúč SSE-C",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
     "Remote subfolder" : "Vzdialený podpriečinok",
