@@ -491,7 +491,7 @@ export default {
 			this.loading = true
 
 			try {
-				this.node = await fetchNode({ path: this.file })
+				this.node = await fetchNode(this.file)
 				this.fileInfo = FileInfo(this.node)
 				// adding this as fallback because other apps expect it
 				this.fileInfo.dir = this.file.split('/').slice(0, -1).join('/')
