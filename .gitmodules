@@ -46,3 +46,6 @@
 [submodule "apps-external/serverinfo"]
 	path = apps-external/serverinfo
 	url = git@github.com:nextcloud/serverinfo.git
+[submodule "apps-external/groupquota"]
+	path = apps-external/groupquota
+	url = git@github.com:nextcloud/groupquota.git

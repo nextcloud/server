@@ -57,6 +57,7 @@
 !/apps-external/viewer
 !/apps-external/user_oidc
 !/apps-external/serverinfo
+!/apps-external/groupquota
 !/apps-custom/*
 
 # apps modules
