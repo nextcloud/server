@@ -1536,10 +1536,14 @@
                     {
                         "name": "publicUpload",
                         "in": "query",
-                        "description": "If public uploading is allowed",
+                        "description": "If public uploading is allowed (deprecated)",
                         "schema": {
                             "type": "string",
-                            "default": "false"
+                            "nullable": true,
+                            "enum": [
+                                "true",
+                                "false"
+                            ]
                         }
                     },
                     {
