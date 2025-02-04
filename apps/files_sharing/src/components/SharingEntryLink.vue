@@ -106,7 +106,7 @@
 				type="date"
 				:min="dateTomorrow"
 				:max="maxExpirationDateEnforced"
-				@input="onExpirationChange /* let's not submit when picked, the user might want to still edit or copy the password */">
+				@change="expirationDateChanged($event)">
 				<template #icon>
 					<IconCalendarBlank :size="20" />
 				</template>
@@ -535,6 +535,9 @@ export default {
 	},
 	mounted() {
 		this.defaultExpirationDateEnabled = this.config.defaultExpirationDate instanceof Date
+		if (this.share && this.isNewShare) {
+			this.share.expireDate = this.defaultExpirationDateEnabled ? this.formatDateToString(this.config.defaultExpirationDate) : ''
+		}
 	},
 
 	methods: {
@@ -653,7 +656,7 @@ export default {
 					path,
 					shareType: ShareTypes.SHARE_TYPE_LINK,
 					password: share.password,
-					expireDate: share.expireDate,
+					expireDate: share.expireDate ?? '',
 					attributes: JSON.stringify(this.fileInfo.shareAttributes),
 					// we do not allow setting the publicUpload
 					// before the share creation.
@@ -809,8 +812,13 @@ export default {
 			this.onPasswordSubmit()
 			this.onNoteSubmit()
 		},
-		onDefaultExpirationDateEnabledChange(enabled) {
+		onExpirationDateToggleChange(enabled) {
 			this.share.expireDate = enabled ? this.formatDateToString(this.config.defaultExpirationDate) : ''
+		},
+		expirationDateChanged(event) {
+			const date = event.target.value
+			this.onExpirationChange(date)
+			this.defaultExpirationDateEnabled = !!date
 		},
 
 		/**
