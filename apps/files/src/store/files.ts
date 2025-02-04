@@ -135,7 +135,7 @@ export const useFilesStore = function(...args) {
 				// If we have multiple nodes with the same file ID, we need to update all of them
 				const nodes = this.getNodesById(node.fileid)
 				if (nodes.length > 1) {
-					await Promise.all(nodes.map(fetchNode)).then(this.updateNodes)
+					await Promise.all(nodes.map(node => fetchNode(node.path))).then(this.updateNodes)
 					logger.debug(nodes.length + ' nodes updated in store', { fileid: node.fileid })
 					return
 				}
@@ -147,7 +147,7 @@ export const useFilesStore = function(...args) {
 				}
 
 				// Otherwise, it means we receive an event for a node that is not in the store
-				fetchNode(node).then(n => this.updateNodes([n]))
+				fetchNode(node.path).then(n => this.updateNodes([n]))
 			},
 
 			// Handlers for legacy sidebar (no real nodes support)
