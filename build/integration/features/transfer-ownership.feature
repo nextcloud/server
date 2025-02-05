@@ -511,7 +511,7 @@ Feature: transfer-ownership
 		And user "user2" accepts last share
 		When transferring ownership of path "test" from "user0" to "user1"
 		Then the command failed with exit code 1
-		And the command output contains the text "Could not transfer files."
+		And the command error output contains the text "Moving a storage (user0/files/test) into another storage (user1) is not allowed"
 
 	Scenario: transferring ownership does not transfer received shares
 		Given user "user0" exists

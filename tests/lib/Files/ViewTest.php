@@ -20,6 +20,7 @@ use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\FileInfo;
+use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IStorage;
@@ -1594,6 +1595,9 @@ class ViewTest extends \Test\TestCase {
 			$storage->method('getStorageCache')->willReturnCallback(function () use ($storage) {
 				return new \OC\Files\Cache\Storage($storage, true, \OC::$server->get(IDBConnection::class));
 			});
+			$storage->method('getCache')->willReturnCallback(function () use ($storage) {
+				return new \OC\Files\Cache\Cache($storage);
+			});
 
 			$mounts[] = $this->getMockBuilder(TestMoveableMountPoint::class)
 				->setMethods(['moveMount'])
@@ -1638,10 +1642,7 @@ class ViewTest extends \Test\TestCase {
 		$this->assertTrue($view->rename('mount2', 'sub/moved_mount'), 'Can move a mount point into a subdirectory');
 	}
 
-	/**
-	 * Test that moving a mount point into another is forbidden
-	 */
-	public function testMoveMountPointIntoAnother() {
+	public function testMoveMountPointOverwrite(): void {
 		self::loginAsUser($this->user);
 
 		[$mount1, $mount2] = $this->createTestMovableMountPoints([
@@ -1657,8 +1658,28 @@ class ViewTest extends \Test\TestCase {
 
 		$view = new View('/' . $this->user . '/files/');
 
-		$this->assertFalse($view->rename('mount1', 'mount2'), 'Cannot overwrite another mount point');
-		$this->assertFalse($view->rename('mount1', 'mount2/sub'), 'Cannot move a mount point into another');
+		$this->expectException(ForbiddenException::class);
+		$view->rename('mount1', 'mount2');
+	}
+
+	public function testMoveMountPointIntoMount(): void {
+		self::loginAsUser($this->user);
+
+		[$mount1, $mount2] = $this->createTestMovableMountPoints([
+			$this->user . '/files/mount1',
+			$this->user . '/files/mount2',
+		]);
+
+		$mount1->expects($this->never())
+			->method('moveMount');
+
+		$mount2->expects($this->never())
+			->method('moveMount');
+
+		$view = new View('/' . $this->user . '/files/');
+
+		$this->expectException(ForbiddenException::class);
+		$view->rename('mount1', 'mount2/sub');
 	}
 
 	/**
@@ -1693,9 +1714,24 @@ class ViewTest extends \Test\TestCase {
 			->setNode($shareDir);
 		$shareManager->createShare($share);
 
-		$this->assertFalse($view->rename('mount1', 'shareddir'), 'Cannot overwrite shared folder');
-		$this->assertFalse($view->rename('mount1', 'shareddir/sub'), 'Cannot move mount point into shared folder');
-		$this->assertFalse($view->rename('mount1', 'shareddir/sub/sub2'), 'Cannot move mount point into shared subfolder');
+		try {
+			$view->rename('mount1', 'shareddir');
+			$this->fail('Cannot overwrite shared folder');
+		} catch (ForbiddenException $e) {
+
+		}
+		try {
+			$view->rename('mount1', 'shareddir/sub');
+			$this->fail('Cannot move mount point into shared folder');
+		} catch (ForbiddenException $e) {
+
+		}
+		try {
+			$view->rename('mount1', 'shareddir/sub/sub2');
+			$this->fail('Cannot move mount point into shared subfolder');
+		} catch (ForbiddenException $e) {
+
+		}
 
 		$shareManager->deleteShare($share);
 		$userObject->delete();
