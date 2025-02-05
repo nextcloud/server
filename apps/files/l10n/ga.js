@@ -162,7 +162,6 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "Earráid le linn uaslódála, cód stádais {status}",
     "Unknown error during upload" : "Earráid anaithnid le linn uaslódála",
     "\"{displayName}\" action executed successfully" : "Cuireadh an gníomh \"{displayName}\" i gcrích go rathúil",
-    "Filter filenames…" : "Scag ainmneacha comhaid…",
     "Views" : "Radhairc",
     "Files settings" : "Socruithe comhaid",
     "File cannot be accessed" : "Ní féidir an comhad a rochtain",
@@ -339,7 +338,7 @@ OC.L10N.register(
     "All files" : "Gach comhad",
     "List of your files and folders." : "Liosta de do chuid comhad agus fillteáin.",
     "All folders" : "Gach fillteáin",
-    "Personal Files" : "Comhaid Phearsanta",
+    "Personal files" : "Comhaid phearsanta",
     "List of your files and folders that are not shared." : "Liosta de do chuid comhad agus fillteáin nach bhfuil roinnte.",
     "No personal files found" : "Níor aimsíodh aon chomhaid phearsanta",
     "Files that are not shared will show up here." : "Taispeánfar comhaid nach bhfuil roinnte anseo.",
@@ -439,10 +438,12 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Ní féidir staid an chomhaid is fearr leat a athrú",
     "Create new templates folder" : "Cruthaigh fillteán teimpléid nua",
     "List of favorites files and folders." : "Liosta de na comhaid is ansa leat agus fillteáin.",
+    "Personal Files" : "Comhaid Phearsanta",
     "Text file" : "Comhad téacs",
     "New text file.txt" : "Comhad téacs nua.txt",
     "Favored" : "B'fhearr leis",
     "Favor" : "Fabhar",
-    "Not favored" : "Ní bail ar fónamh orthu"
+    "Not favored" : "Ní bail ar fónamh orthu",
+    "Filter filenames…" : "Scag ainmneacha comhaid…"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

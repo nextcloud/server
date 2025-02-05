@@ -148,6 +148,7 @@ OC.L10N.register(
     "No favorites yet" : "Belum memiliki favorit",
     "Files and folders you mark as favorite will show up here" : "Berkas dan folder yang Anda tandai sebagai favorit akan ditampilkan di sini.",
     "All files" : "Semua berkas",
+    "Personal files" : "Berkas pribadi",
     "Recent" : "Terbaru",
     "You do not have permission to upload or create files here" : "Anda tidak memiliki izin untuk mengunggah atau membuat berkas di sini",
     "No entries found in this folder" : "Tidak ada entri yang ditemukan dalam folder ini",

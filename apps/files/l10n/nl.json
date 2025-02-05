@@ -153,7 +153,6 @@
     "Error during upload, status code {status}" : "Fout tijdens upload, status code {status}",
     "Unknown error during upload" : "Onbekende fout tijdens upload",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\" actie succesvol uitgevoerd",
-    "Filter filenames…" : "Filter bestandsnamen...",
     "Views" : "Bekeken",
     "Files settings" : "Instellingen voor bestanden",
     "File cannot be accessed" : "Bestand kan niet worden benaderd",
@@ -295,7 +294,7 @@
     "All files" : "Alle bestanden",
     "List of your files and folders." : "Lijst van je bestanden en mappen.",
     "All folders" : "Alle mappen",
-    "Personal Files" : "Persoonlijke bestanden",
+    "Personal files" : "Persoonlijke bestanden",
     "List of your files and folders that are not shared." : "Lijst van je bestanden en mappen die niet gedeeld zijn.",
     "No personal files found" : "Geen persoonlijke bestanden gevonden",
     "Files that are not shared will show up here." : "Niet-gedeelde bestanden worden hier getoond.",
@@ -395,7 +394,9 @@
     "Unable to change the favourite state of the file" : "Niet mogelijk om favoriet status van het bestand te wijzigen",
     "Create new templates folder" : "Nieuwe sjablonenmap",
     "List of favorites files and folders." : "Lijst van favoriete bestanden en mappen.",
+    "Personal Files" : "Persoonlijke bestanden",
     "Text file" : "Tekstbestand",
-    "New text file.txt" : "Nieuw tekstbestand.txt"
+    "New text file.txt" : "Nieuw tekstbestand.txt",
+    "Filter filenames…" : "Filter bestandsnamen..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

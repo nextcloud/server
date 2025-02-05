@@ -185,7 +185,6 @@ OC.L10N.register(
     "No favorites yet" : "Sem favoritos",
     "Files and folders you mark as favorite will show up here" : "Os ficheiros e pastas que marcou como favoritos serão mostrados aqui",
     "All files" : "Todos os ficheiros",
-    "Personal Files" : "Ficheiros pessoais",
     "Recent" : "Recentes",
     "You do not have permission to upload or create files here" : "Não tem permissão para carregar ou criar ficheiros aqui",
     "No entries found in this folder" : "Não foram encontradas entradas nesta pasta",
@@ -260,6 +259,7 @@ OC.L10N.register(
     "Upload file" : "Enviar ficheiro",
     "Not favorited" : "Não favorito",
     "An error occurred while trying to update the tags" : "Ocorreu um erro ao tentar atualizar as etiquetas",
+    "Personal Files" : "Ficheiros pessoais",
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt"
 },

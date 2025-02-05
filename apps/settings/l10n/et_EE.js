@@ -110,6 +110,7 @@ OC.L10N.register(
     "Level" : "Tase",
     "Actions" : "Tegevused",
     "No apps found for your version" : "Sinu versiooni jaoks ei leitud ühtegi rakendust",
+    "Loading" : "Laadimine",
     "Type" : "Tüüp",
     "Display Name" : "Kuvatav nimi",
     "Confirm" : "Kinnita",

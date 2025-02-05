@@ -119,7 +119,6 @@ OC.L10N.register(
     "Switch to grid view" : "Perjungti į tinklelio rodinį",
     "Not enough free space" : "Trūksta laisvos vietos",
     "Operation is blocked by access control" : "Operacija yra užblokuota prieigos valdymo",
-    "Filter filenames…" : "Filtruoti failų pavadinimus…",
     "Views" : "Rodiniai",
     "Files settings" : "Failų nustatymai",
     "File cannot be accessed" : "Nepavyksta gauti prieigos prie failo",
@@ -215,7 +214,7 @@ OC.L10N.register(
     "All files" : "Visi failai",
     "List of your files and folders." : "Jūsų failų ir aplankų sąrašas.",
     "All folders" : "Visi aplankai",
-    "Personal Files" : "Asmeniniai failai",
+    "Personal files" : "Asmeniniai failai",
     "No personal files found" : "Nerasta jokių asmeninių failų",
     "Recent" : "Paskiausiai naudoti",
     "List of recently modified files and folders." : "Paskiausiai modifikuotų failų ir aplankų sąrašas.",
@@ -302,7 +301,9 @@ OC.L10N.register(
     "Go to the previous folder" : "Eiti į ankstesnį aplanką",
     "Unable to change the favourite state of the file" : "Nepavyksta pakeisti failo Lankomiausiųjų būsenos",
     "List of favorites files and folders." : "Mėgstamų failų ir aplankų sąrašas.",
+    "Personal Files" : "Asmeniniai failai",
     "Text file" : "Tekstinis failas",
-    "New text file.txt" : "Naujas tekstinis failas.txt"
+    "New text file.txt" : "Naujas tekstinis failas.txt",
+    "Filter filenames…" : "Filtruoti failų pavadinimus…"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

@@ -162,7 +162,6 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "Fehler beim Hochladen, Statuscode {status}",
     "Unknown error during upload" : "Unbekannter Fehler beim Hochladen",
     "\"{displayName}\" action executed successfully" : "Aktion \"{displayName}\" erfolgreich ausgeführt",
-    "Filter filenames…" : "Dateinamen filtern…",
     "Views" : "Ansichten",
     "Files settings" : "Dateien-Einstellungen",
     "File cannot be accessed" : "Auf die Datei kann nicht zugegriffen werden",
@@ -339,7 +338,7 @@ OC.L10N.register(
     "All files" : "Alle Dateien",
     "List of your files and folders." : "Liste Ihrer Dateien und Ordner.",
     "All folders" : "Alle Ordner",
-    "Personal Files" : "Persönliche Dateien",
+    "Personal files" : "Persönliche Dateien",
     "List of your files and folders that are not shared." : "Liste Ihrer Dateien und Ordner, die nicht geteilt wurden.",
     "No personal files found" : "Keine persönlichen Dateien gefunden",
     "Files that are not shared will show up here." : "Dateien, die nicht geteilt wurden, werden hier angezeigt.",
@@ -439,10 +438,12 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Der favorisierte Status der Datei kann nicht geändert werden",
     "Create new templates folder" : "Neuen Vorlagenordner erstellen",
     "List of favorites files and folders." : "Liste der favorisierten Ordner und Dateien.",
+    "Personal Files" : "Persönliche Dateien",
     "Text file" : "Textdatei",
     "New text file.txt" : "Neue Textdatei file.txt",
     "Favored" : "Favorisiert",
     "Favor" : "Favorisieren",
-    "Not favored" : "Nicht favorisiert"
+    "Not favored" : "Nicht favorisiert",
+    "Filter filenames…" : "Dateinamen filtern…"
 },
 "nplurals=2; plural=(n != 1);");

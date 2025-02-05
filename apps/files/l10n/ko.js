@@ -159,7 +159,6 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "업로드 중 오류 발생, 상태 코드 {status}",
     "Unknown error during upload" : "업로드 중 알 수 없는 오류 발생",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\" 작업을 성공적으로 실행함",
-    "Filter filenames…" : "파일 이름 필터...",
     "Views" : "보기",
     "Files settings" : "파일 설정",
     "File cannot be accessed" : "파일에 접근할 수 없음",
@@ -320,7 +319,7 @@ OC.L10N.register(
     "All files" : "모든 파일",
     "List of your files and folders." : "내 폴더와 파일의 목록",
     "All folders" : "모든 폴더",
-    "Personal Files" : "개인 파일",
+    "Personal files" : "개인 파일",
     "List of your files and folders that are not shared." : "공유되지 않는 파일과 폴더의 목록",
     "No personal files found" : "개인 파일을 찾을 수 없음",
     "Files that are not shared will show up here." : "공유되지 않는 파일이 이곳에 나타납니다.",
@@ -420,10 +419,12 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "파일의 즐겨찾기 상태를 변경할 수 없음",
     "Create new templates folder" : "새로운 템플릿 폴더 만들기",
     "List of favorites files and folders." : "즐겨찾는 파일과 폴더의 목록",
+    "Personal Files" : "개인 파일",
     "Text file" : "텍스트 파일",
     "New text file.txt" : "새 텍스트 파일.txt",
     "Favored" : "선호함",
     "Favor" : "선호",
-    "Not favored" : "선호하지 않음"
+    "Not favored" : "선호하지 않음",
+    "Filter filenames…" : "파일 이름 필터..."
 },
 "nplurals=1; plural=0;");

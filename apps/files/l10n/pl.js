@@ -155,7 +155,6 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "Błąd podczas wysyłania, kod statusu {status}",
     "Unknown error during upload" : "Nieznany błąd podczas wysyłania",
     "\"{displayName}\" action executed successfully" : "Akcja \"{displayName}\" została wykonana pomyślnie",
-    "Filter filenames…" : "Filtruj nazwy plików…",
     "Views" : "Widoki",
     "Files settings" : "Ustawienia Plików",
     "File cannot be accessed" : "Nie można uzyskać dostępu do pliku",
@@ -302,7 +301,7 @@ OC.L10N.register(
     "All files" : "Wszystkie pliki",
     "List of your files and folders." : "Lista Twoich plików i katalogów.",
     "All folders" : "Wszystkie katalogi",
-    "Personal Files" : "Pliki osobiste",
+    "Personal files" : "Pliki osobiste",
     "List of your files and folders that are not shared." : "Lista twoich plików i katalogów, które nie są udostępniane",
     "No personal files found" : "Nie znaleziono plików osobistych",
     "Files that are not shared will show up here." : "Tutaj pojawią się pliki, które nie są udostępniane.",
@@ -402,10 +401,12 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Nie można zmienić ulubionego stanu pliku",
     "Create new templates folder" : "Utwórz nowy katalog z szablonami",
     "List of favorites files and folders." : "Lista ulubionych plików i katalogów.",
+    "Personal Files" : "Pliki osobiste",
     "Text file" : "Plik tekstowy",
     "New text file.txt" : "Nowy plik tekstowy.txt",
     "Favored" : "Polubione",
     "Favor" : "Polub",
-    "Not favored" : "Nie polubiono"
+    "Not favored" : "Nie polubiono",
+    "Filter filenames…" : "Filtruj nazwy plików…"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

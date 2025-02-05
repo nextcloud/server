@@ -139,7 +139,6 @@ OC.L10N.register(
     "Operation is blocked by access control" : "Opravilo je zaustavljeno prek nadzora dostopa",
     "Unknown error during upload" : "Med pošiljanjem je prišlo do neznane napake",
     "\"{displayName}\" action executed successfully" : "Dejanje »{displayName}« je uspešno izvedeno",
-    "Filter filenames…" : "Filtriraj imena datotek ...",
     "Views" : "Pogledi",
     "Files settings" : "Nastavitve datotek",
     "File cannot be accessed" : "Do datoteke dostop ni mogoč",
@@ -256,7 +255,6 @@ OC.L10N.register(
     "All files" : "Vse datoteke",
     "List of your files and folders." : "Seznam datotek in map.",
     "All folders" : "Vse mape",
-    "Personal Files" : "Osebne datoteke",
     "No personal files found" : "Ni najdenih zasebnih datotek",
     "Recent" : "Nedavne",
     "List of recently modified files and folders." : "Seznam nedavno spremenjenih datotek in map.",
@@ -354,7 +352,9 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Ni mogoče spremeniti stanja priljubljenosti datoteke",
     "Create new templates folder" : "Ustvari novo začasno mapo",
     "List of favorites files and folders." : "Seznam priljubljenih datotek in map.",
+    "Personal Files" : "Osebne datoteke",
     "Text file" : "Besedilna datoteka",
-    "New text file.txt" : "nova_datoteka.txt"
+    "New text file.txt" : "nova_datoteka.txt",
+    "Filter filenames…" : "Filtriraj imena datotek ..."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

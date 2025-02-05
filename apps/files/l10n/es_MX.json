@@ -151,7 +151,6 @@
     "Error during upload, status code {status}" : "Error durante la carga, código de estado {status}",
     "Unknown error during upload" : "Error desconocido durante la carga",
     "\"{displayName}\" action executed successfully" : "La acción \"{displayName}\" se ejecutó correctamente",
-    "Filter filenames…" : "Filtrar nombres de archivos...",
     "Views" : "Vistas",
     "Files settings" : "Configuración de archivos",
     "File cannot be accessed" : "No se puede acceder al archivo",
@@ -294,7 +293,7 @@
     "All files" : "Todos los archivos",
     "List of your files and folders." : "Lista de sus archivos y carpetas.",
     "All folders" : "Todas las carpetas",
-    "Personal Files" : "Archivos personales",
+    "Personal files" : "Archivos personales",
     "List of your files and folders that are not shared." : "Lista de sus archivos y carpetas que no están compartidos.",
     "No personal files found" : "No se encontraron archivos personales",
     "Files that are not shared will show up here." : "Aquí aparecerán los archivos y carpetas que no ha compartido.",
@@ -394,10 +393,12 @@
     "Unable to change the favourite state of the file" : "No se ha podido cambiar el estado de favorito del fichero",
     "Create new templates folder" : "Crear nueva carpeta de plantillas",
     "List of favorites files and folders." : "Lista de archivos y carpetas favoritos.",
+    "Personal Files" : "Archivos personales",
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
     "Favored" : "Favorecido",
     "Favor" : "Favorecer",
-    "Not favored" : "No favorecido"
+    "Not favored" : "No favorecido",
+    "Filter filenames…" : "Filtrar nombres de archivos..."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
