@@ -51,9 +51,9 @@ export function setupData(user: User, shareName: string): void {
  */
 function checkPasswordState(enforced: boolean, alwaysAskForPassword: boolean) {
 	if (enforced) {
-	  cy.contains('Password protection (enforced)').should('exist')
+		cy.contains('Password protection (enforced)').should('exist')
 	} else if (alwaysAskForPassword) {
-	  cy.contains('Password protection').should('exist')
+		cy.contains('Password protection').should('exist')
 	}
 	cy.contains('Enter a password')
 		.should('exist')
@@ -68,13 +68,22 @@ function checkPasswordState(enforced: boolean, alwaysAskForPassword: boolean) {
  */
 function checkExpirationDateState(enforced: boolean, hasDefault: boolean) {
 	if (enforced) {
-	  cy.contains('Enable link expiration (enforced)').should('exist')
+		cy.contains('Enable link expiration (enforced)').should('exist')
 	} else if (hasDefault) {
-	  cy.contains('Enable link expiration').should('exist')
+		cy.contains('Enable link expiration').should('exist')
 	}
 	cy.contains('Enter expiration date')
 		.should('exist')
 		.and('not.be.disabled')
+	cy.get('input[data-cy-files-sharing-expiration-date-input]').should('exist')
+	cy.get('input[data-cy-files-sharing-expiration-date-input]')
+		.invoke('val')
+		.then((val) => {
+			const expectedDate = new Date()
+			expectedDate.setDate(expectedDate.getDate() + 2)
+			expect(new Date(val).toDateString()).to.eq(expectedDate.toDateString())
+		})
+
 }
 
 /**
@@ -90,7 +99,7 @@ export function createShare(context: ShareContext, shareName: string, options: S
 
 	cy.intercept('POST', '**/ocs/v2.php/apps/files_sharing/api/v1/shares').as('createShare')
 	cy.findByRole('button', { name: 'Create a new share link' }).click()
-	  // Conduct optional checks based on the provided options
+	// Conduct optional checks based on the provided options
 	if (options) {
 		cy.get('.sharing-entry__actions').should('be.visible') // Wait for the dialog to open
 		checkPasswordState(options.enforcePassword ?? false, options.alwaysAskForPassword ?? false)
