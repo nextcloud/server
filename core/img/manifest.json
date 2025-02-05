@@ -10,5 +10,5 @@
 		"type": "image/svg+xml",
 		"sizes": "16x16"
 	}],
-    "display": "standalone"
+    "display": "minimal-ui"
 }
