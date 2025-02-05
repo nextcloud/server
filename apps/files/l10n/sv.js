@@ -162,7 +162,6 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "Fel vid uppladdning, statuskod {status}",
     "Unknown error during upload" : "Okänt fel under uppladdning",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\"-åtgärden har utförts",
-    "Filter filenames…" : "Filtrera filnamn...",
     "Views" : "Vyer",
     "Files settings" : "Filinställningar",
     "File cannot be accessed" : "Det går inte att komma åt filen",
@@ -339,7 +338,7 @@ OC.L10N.register(
     "All files" : "Alla filer",
     "List of your files and folders." : "Lista över dina filer och mappar.",
     "All folders" : "Alla mappar",
-    "Personal Files" : "Personliga filer",
+    "Personal files" : "Personliga filer",
     "List of your files and folders that are not shared." : "Lista över dina filer och mappar som inte delas.",
     "No personal files found" : "Inga personliga filer hittades",
     "Files that are not shared will show up here." : "Filer som inte delas kommer att visas här.",
@@ -439,10 +438,12 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Kan inte ändra filens favoritstatus",
     "Create new templates folder" : "Skapa ny mallmapp",
     "List of favorites files and folders." : "Lista över favoritfiler och mappar.",
+    "Personal Files" : "Personliga filer",
     "Text file" : "Textfil",
     "New text file.txt" : "Ny textfil.txt",
     "Favored" : "Favoriserad",
     "Favor" : "Favorisera",
-    "Not favored" : "Inte favoriserad"
+    "Not favored" : "Inte favoriserad",
+    "Filter filenames…" : "Filtrera filnamn..."
 },
 "nplurals=2; plural=(n != 1);");

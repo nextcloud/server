@@ -160,7 +160,6 @@
     "Error during upload, status code {status}" : "Chyba při nahrávání – stavový kód {status}",
     "Unknown error during upload" : "Neznámá chyba při nahrávání",
     "\"{displayName}\" action executed successfully" : "akce „{displayName}“ úspěšně vykonána",
-    "Filter filenames…" : "Filtrovat názvy souborů…",
     "Views" : "Zobrazení",
     "Files settings" : "Nastavení pro Soubory",
     "File cannot be accessed" : "K souboru se nedaří přistoupit",
@@ -337,7 +336,7 @@
     "All files" : "Všechny soubory",
     "List of your files and folders." : "Seznam vašich souborů a složek.",
     "All folders" : "Všechny složky",
-    "Personal Files" : "Osobní soubory",
+    "Personal files" : "Osobní soubory",
     "List of your files and folders that are not shared." : "Seznam vašich souborů a složek, které nejsou sdíleny.",
     "No personal files found" : "Nenalezeny žádné osobní soubory",
     "Files that are not shared will show up here." : "Soubory, které nejsou nikomu sdíleny se zobrazí zde.",
@@ -437,10 +436,12 @@
     "Unable to change the favourite state of the file" : "Nedaří se změnit stav „oblíbené“ souboru",
     "Create new templates folder" : "Vytvořit novou složku šablon",
     "List of favorites files and folders." : "Seznam oblíbených souborů a složek.",
+    "Personal Files" : "Osobní soubory",
     "Text file" : "Textový soubor",
     "New text file.txt" : "Nový textový soubor.txt",
     "Favored" : "Zařazeno mezi oblíbené",
     "Favor" : "Zařadit mezi oblíbené",
-    "Not favored" : "Není v oblíbených"
+    "Not favored" : "Není v oblíbených",
+    "Filter filenames…" : "Filtrovat názvy souborů…"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

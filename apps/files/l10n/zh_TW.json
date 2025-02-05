@@ -160,7 +160,6 @@
     "Error during upload, status code {status}" : "上傳時發生錯誤，狀態碼 {status}",
     "Unknown error during upload" : "上傳時發生未知的錯誤",
     "\"{displayName}\" action executed successfully" : "「{displayName}」動作執行成功",
-    "Filter filenames…" : "篩選檔案名稱……",
     "Views" : "顯示",
     "Files settings" : "檔案設定",
     "File cannot be accessed" : "無法存取檔案",
@@ -337,7 +336,7 @@
     "All files" : "所有檔案",
     "List of your files and folders." : "您的檔案與資料夾清單。",
     "All folders" : "所有資料夾",
-    "Personal Files" : "個人檔案",
+    "Personal files" : "個人檔案",
     "List of your files and folders that are not shared." : "未分享的檔案與資料夾清單。",
     "No personal files found" : "找不到個人檔案",
     "Files that are not shared will show up here." : "尚未分享的檔案將會顯示在此處。",
@@ -437,10 +436,12 @@
     "Unable to change the favourite state of the file" : "無法更改檔案的喜愛狀態",
     "Create new templates folder" : "建立新的範本資料夾",
     "List of favorites files and folders." : "喜愛檔案與資料夾的清單。",
+    "Personal Files" : "個人檔案",
     "Text file" : "文字檔案",
     "New text file.txt" : "新文字檔案.txt",
     "Favored" : "已加入最愛",
     "Favor" : "加入最愛",
-    "Not favored" : "未加入最愛"
+    "Not favored" : "未加入最愛",
+    "Filter filenames…" : "篩選檔案名稱……"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

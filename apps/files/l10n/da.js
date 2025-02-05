@@ -154,7 +154,6 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "Fejl under upload, statuskode {status}",
     "Unknown error during upload" : "Ukendt fejl under upload",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\"-handling blev udført korrekt",
-    "Filter filenames…" : "Filtrer filnavne...",
     "Views" : "Visninger",
     "Files settings" : "indstillinger for filer",
     "File cannot be accessed" : "Filen kan ikke tilgås",
@@ -315,7 +314,7 @@ OC.L10N.register(
     "All files" : "Alle filer",
     "List of your files and folders." : "Liste med dine filer og mapper.",
     "All folders" : "Alle mapper",
-    "Personal Files" : "Personlige filer",
+    "Personal files" : "Personlige filer",
     "List of your files and folders that are not shared." : "Liste med dine filer og mapper, der ikke er delt.",
     "No personal files found" : "Ingen personlige filer fundet",
     "Files that are not shared will show up here." : "Filer der ikke er delt vil blive vist her.",
@@ -415,10 +414,12 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Kan ikke ændre favorittilstanden for filen",
     "Create new templates folder" : "Opsæt ny skabelonmappe",
     "List of favorites files and folders." : "Liste med foretrukne filer og mapper.",
+    "Personal Files" : "Personlige filer",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekst fil.txt",
     "Favored" : "Foretrukken",
     "Favor" : "Foretræk",
-    "Not favored" : "Ikke foretrukket"
+    "Not favored" : "Ikke foretrukket",
+    "Filter filenames…" : "Filtrer filnavne..."
 },
 "nplurals=2; plural=(n != 1);");

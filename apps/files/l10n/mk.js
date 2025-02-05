@@ -209,7 +209,6 @@ OC.L10N.register(
     "All files" : "Сите датотеки",
     "List of your files and folders." : "Листа на вашите датотеки и папки.",
     "All folders" : "Сите папки",
-    "Personal Files" : "Персонални датотеки",
     "Recent" : "Неодамнешни",
     "List of recently modified files and folders." : "Листа на скоро изменети датотеки и папки.",
     "No recently modified files" : "Нема скоро изменети датотеки",
@@ -306,6 +305,7 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Неможе да се промени статусот на омимени на датотеката",
     "Create new templates folder" : "Креирај нова папка за шаблони",
     "List of favorites files and folders." : "Листа на омилени датотеки и папки.",
+    "Personal Files" : "Персонални датотеки",
     "Text file" : "Текстуална датотека",
     "New text file.txt" : "Нова текстуална датотека file.txt"
 },

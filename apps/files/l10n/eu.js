@@ -155,7 +155,6 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "Errore bat gertatu da igotzean, {status} egoera kodea",
     "Unknown error during upload" : "Errore ezezaguna igotzean",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\" ekintza behar bezala exekutatu da",
-    "Filter filenames…" : "Iragazi fitxategi-izenak...",
     "Views" : "Ikuspegiak",
     "Files settings" : "FItxategien ezarpenak",
     "File cannot be accessed" : "Ezin da fitxategia atzitu",
@@ -316,7 +315,7 @@ OC.L10N.register(
     "All files" : "Fitxategi guztiak",
     "List of your files and folders." : "Zure fitxategi eta karpeten zerrenda.",
     "All folders" : "Karpeta guztiak",
-    "Personal Files" : "Fitxategi pertsonalak",
+    "Personal files" : "Fitxategi pertsonalak",
     "List of your files and folders that are not shared." : "Partekatu ez diren zure fitxategi eta karpeten zerrenda.",
     "No personal files found" : "Ez dago fitxategi pertsonalik",
     "Files that are not shared will show up here." : "Partekatu ez dituzun fitxategiak hemen agertuko dira",
@@ -416,10 +415,12 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Ezin da fitxategiaren gogoko egoera aldatu",
     "Create new templates folder" : "Sortu txantiloi karpeta berria",
     "List of favorites files and folders." : "Fitxategi eta karpeta gogokoen zerrenda.",
+    "Personal Files" : "Fitxategi pertsonalak",
     "Text file" : "Testu-fitxategia",
     "New text file.txt" : "Testu-fitxategi berria.txt",
     "Favored" : "Mesedetua",
     "Favor" : "Mesedea",
-    "Not favored" : "Mesedetu gabe"
+    "Not favored" : "Mesedetu gabe",
+    "Filter filenames…" : "Iragazi fitxategi-izenak..."
 },
 "nplurals=2; plural=(n != 1);");

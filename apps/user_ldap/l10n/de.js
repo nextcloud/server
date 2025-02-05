@@ -115,7 +115,7 @@ OC.L10N.register(
     "For anonymous access, leave DN and Password empty." : "Lasse die Felder DN und Passwort für anonymen Zugang leer.",
     "Save Credentials" : "Zugangsdaten speichern",
     "One Base DN per line" : "Einen Basis-DN pro Zeile",
-    "You can specify Base DN for users and groups in the Advanced tab" : "Base DN für Benutzer und Gruppen kann im Reiter \"Fortgeschritten\" angegeben werden",
+    "You can specify Base DN for users and groups in the Advanced tab" : " Sie können die Basis-DN für Benutzer und Gruppen im Reiter \"Fortgeschritten\" angeben",
     "Detect Base DN" : "Base DN ermitteln",
     "Test Base DN" : "Base DN testen",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "Verhindert automatische LDAP-Anfragen. Besser geeignet für größere Installationen, benötigt aber erweiterte LDAP-Kenntnisse.",

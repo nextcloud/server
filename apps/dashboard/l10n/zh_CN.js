@@ -22,6 +22,8 @@ OC.L10N.register(
     "Good evening" : "晚上好",
     "Good evening, {name}" : "晚上好，{name}",
     "Hello" : "你好",
-    "Hello, {name}" : "你好， {name}"
+    "Hello, {name}" : "你好， {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "生日快乐 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "生日快乐，{name} 🥳🤩🎂🎉"
 },
 "nplurals=1; plural=0;");

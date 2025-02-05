@@ -162,7 +162,6 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "Hiba a feltöltés közben, állapotkód: {status}",
     "Unknown error during upload" : "Ismeretlen hiba a feltöltés során",
     "\"{displayName}\" action executed successfully" : "A(z) „{displayName}” művelet sikeresen végrehajtva",
-    "Filter filenames…" : "Fájlnevek szűrése…",
     "Views" : "Nézetek",
     "Files settings" : "Fájlok beállításai",
     "File cannot be accessed" : "A fájl nem érhető el",
@@ -339,7 +338,7 @@ OC.L10N.register(
     "All files" : "Az összes fájl",
     "List of your files and folders." : "Saját fájlok és mappák felsorolása.",
     "All folders" : "Összes könyvtár",
-    "Personal Files" : "Személyes fájlok",
+    "Personal files" : "Személyes fájlok",
     "List of your files and folders that are not shared." : "A meg nem osztott fájlok és könyvtárak listája.",
     "No personal files found" : "Nem találhatóak személyes fájlok",
     "Files that are not shared will show up here." : "Fájlok amik nincs megosztva itt fognak megjelenni.",
@@ -439,10 +438,12 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Nem lehet megváltoztatni a fájl kedvenc állapotát",
     "Create new templates folder" : "Új sablonmappa létrehozása",
     "List of favorites files and folders." : "Kedvenc fájlok és mappák felsorolása.",
+    "Personal Files" : "Személyes fájlok",
     "Text file" : "Szövegfájl",
     "New text file.txt" : "Új szövegfájl.txt",
     "Favored" : "Kedvelve",
     "Favor" : "Kedvelés",
-    "Not favored" : "Nincs a kedveltek között"
+    "Not favored" : "Nincs a kedveltek között",
+    "Filter filenames…" : "Fájlnevek szűrése…"
 },
 "nplurals=2; plural=(n != 1);");

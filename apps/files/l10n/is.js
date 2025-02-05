@@ -162,7 +162,6 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "Villa við innsendingu, stöðukóði: {status}",
     "Unknown error during upload" : "Óþekkt villa við innsendingu",
     "\"{displayName}\" action executed successfully" : "Tókst að framkvæma \"{displayName}\" aðgerð",
-    "Filter filenames…" : "Sía skráaheiti…",
     "Views" : "Skoðun",
     "Files settings" : "Stillingar skráaforritsins",
     "File cannot be accessed" : "Skráin er ekki aðgengileg",
@@ -339,7 +338,7 @@ OC.L10N.register(
     "All files" : "Allar skrár",
     "List of your files and folders." : "Listi yfir skrárnar þínar og möppur.",
     "All folders" : "Allar möppur",
-    "Personal Files" : "Einkaskrár",
+    "Personal files" : "Einkaskrár",
     "List of your files and folders that are not shared." : "Listi yfir skrárnar þínar og möppur sem ekki er deilt.",
     "No personal files found" : "Engar einkaskrár fundust",
     "Files that are not shared will show up here." : "Skrár sem ekki er deilt birtast hér.",
@@ -439,10 +438,12 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Get ekki breytt stöðu sem eftirlæti á skránni",
     "Create new templates folder" : "Búa til nýja sniðmátamöppu",
     "List of favorites files and folders." : "Listi yfir eftirlætisskrár og möppur.",
+    "Personal Files" : "Einkaskrár",
     "Text file" : "Textaskrá",
     "New text file.txt" : "Ný textaskrá.txt",
     "Favored" : "Eftirlæti",
     "Favor" : "Eftirl",
-    "Not favored" : "Ekki eftirlæti"
+    "Not favored" : "Ekki eftirlæti",
+    "Filter filenames…" : "Sía skráaheiti…"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

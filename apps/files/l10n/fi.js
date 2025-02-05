@@ -139,7 +139,6 @@ OC.L10N.register(
     "Error during upload: {message}" : "Virhe lähettäessä: {message}",
     "Error during upload, status code {status}" : "Virhe lähettäessä, tilakoodi {status}",
     "Unknown error during upload" : "Tuntematon virhe lähettämisen aikana",
-    "Filter filenames…" : "Suodata tiedostonimiä...",
     "Views" : "Näkymät",
     "Files settings" : "Tiedostojen asetukset",
     "File cannot be accessed" : "Tiedostoa ei voi käyttää",
@@ -275,7 +274,7 @@ OC.L10N.register(
     "All files" : "Kaikki tiedostot",
     "List of your files and folders." : "Luettelo tiedostoistasi ja kansioistasi.",
     "All folders" : "Kaikki kansiot",
-    "Personal Files" : "Henkilökohtaiset tiedostot",
+    "Personal files" : "Henkilökohtaiset tiedostot",
     "List of your files and folders that are not shared." : "Luettelo tiedostoistasi ja kansioistasi, joita ei ole jaettu.",
     "No personal files found" : "Henkilökohtaisia tiedostoja ei löytynyt",
     "Files that are not shared will show up here." : "Tiedostot, joita ei ole jasettu, näkyvät täällä.",
@@ -375,7 +374,9 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Suosikki-tilan muuttaminen epäonnistui.",
     "Create new templates folder" : "Luo uusi mallipohjien kansio",
     "List of favorites files and folders." : "Luettelo suosikkitiedostoista ja -kansioista.",
+    "Personal Files" : "Henkilökohtaiset tiedostot",
     "Text file" : "Tekstitiedosto",
-    "New text file.txt" : "Uusi tekstitiedosto.txt"
+    "New text file.txt" : "Uusi tekstitiedosto.txt",
+    "Filter filenames…" : "Suodata tiedostonimiä..."
 },
 "nplurals=2; plural=(n != 1);");
