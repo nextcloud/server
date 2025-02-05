@@ -1946,6 +1946,14 @@ $CONFIG = [
  */
 'enforce_theme' => '',
 
+
+/**
+ * This setting allows to disable the PWA functionality that allows browsers to open web applications in dedicated windows.
+ *
+ * Defaults to ``true``
+ */
+'theming.standalone_window.enabled' => true,
+
 /**
  * The default cipher for encrypting files. Currently supported are:
  *  - AES-256-CTR
