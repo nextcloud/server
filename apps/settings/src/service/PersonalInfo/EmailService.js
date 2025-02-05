@@ -8,7 +8,7 @@ import { generateOcsUrl } from '@nextcloud/router'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import axios from '@nextcloud/axios'
 
-import { ACCOUNT_PROPERTY_ENUM, SCOPE_SUFFIX } from '../../constants/AccountPropertyConstants.js'
+import { ACCOUNT_PROPERTY_ENUM, SCOPE_SUFFIX } from '../../constants/AccountPropertyConstants.ts'
 
 import '@nextcloud/password-confirmation/dist/style.css'
 
