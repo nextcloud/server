@@ -16,6 +16,7 @@ OC.L10N.register(
     "Confirm" : "Kinnita",
     "Undo" : "Tühista",
     "Custom" : "Kohandatud",
+    "Value" : "Väärtus",
     "Size" : "Suurus",
     "Position" : "Asukoht",
     "Menu" : "Menüü"
