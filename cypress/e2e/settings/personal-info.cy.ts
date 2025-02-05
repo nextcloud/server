@@ -115,18 +115,26 @@ const checkSettingsVisibility = (property: string, defaultVisibility: Visibility
 	}) */
 }
 
-const genericProperties = ['Location', 'X (formerly Twitter)', 'Fediverse']
+const genericProperties = [
+	['Location', 'Berlin'],
+	['X (formerly Twitter)', 'nextclouders'],
+	['Fediverse', 'nextcloud@mastodon.xyz'],
+]
 const nonfederatedProperties = ['Organisation', 'Role', 'Headline', 'About']
 
 describe('Settings: Change personal information', { testIsolation: true }, () => {
 
 	before(() => {
+		// make sure the fediverse check does not do http requests
+		cy.runOccCommand('config:system:set has_internet_connection --value false')
 		// ensure we can set locale and language
 		cy.runOccCommand('config:system:delete force_language')
 		cy.runOccCommand('config:system:delete force_locale')
 	})
 
 	after(() => {
+		cy.runOccCommand('config:system:delete has_internet_connection')
+
 		cy.runOccCommand('config:system:set force_language --value en')
 		cy.runOccCommand('config:system:set force_locale --value en_US')
 	})
@@ -350,22 +358,21 @@ describe('Settings: Change personal information', { testIsolation: true }, () =>
 	})
 
 	// Check generic properties that allow any visibility and any value
-	genericProperties.forEach((property) => {
+	genericProperties.forEach(([property, value]) => {
 		it(`Can set ${property} and change its visibility`, () => {
-			const uniqueValue = `${property.toUpperCase()} ${property.toLowerCase()}`
 			cy.contains('label', property).scrollIntoView()
-			inputForLabel(property).type(uniqueValue)
+			inputForLabel(property).type(value)
 			handlePasswordConfirmation(user.password)
 
 			cy.wait('@submitSetting')
 			cy.reload()
-			inputForLabel(property).should('have.value', uniqueValue)
+			inputForLabel(property).should('have.value', value)
 
 			checkSettingsVisibility(property)
 
 			// check it is visible on the profile
 			cy.visit(`/u/${user.userId}`)
-			cy.contains(uniqueValue).should('be.visible')
+			cy.contains(value).should('be.visible')
 		})
 	})
 

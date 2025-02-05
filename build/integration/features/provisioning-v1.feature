@@ -608,7 +608,6 @@ Feature: provisioning
 			| user_status |
 			| viewer |
 			| workflowengine |
-			| webhook_listeners |
 			| weather_status |
 			| files_external |
 			| oauth2 |
