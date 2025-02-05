@@ -1595,6 +1595,9 @@ class ViewTest extends \Test\TestCase {
 			$storage->method('getStorageCache')->willReturnCallback(function () use ($storage) {
 				return new \OC\Files\Cache\Storage($storage, true, \OC::$server->get(IDBConnection::class));
 			});
+			$storage->method('getCache')->willReturnCallback(function () use ($storage) {
+				return new \OC\Files\Cache\Cache($storage);
+			});
 
 			$mounts[] = $this->getMockBuilder(TestMoveableMountPoint::class)
 				->setMethods(['moveMount'])
