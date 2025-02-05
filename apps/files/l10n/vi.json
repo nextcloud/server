@@ -149,7 +149,6 @@
     "Error during upload, status code {status}" : "Lỗi khi đang tải lên, mã lỗi {status}",
     "Unknown error during upload" : "Lỗi không xác định trong quá trình tải lên",
     "\"{displayName}\" action executed successfully" : "Hành động \"{displayName}\" đã thực thi thành công",
-    "Filter filenames…" : "Lọc tên tệp…",
     "Views" : "Lượt xem",
     "Files settings" : "Cài đặt tập tin",
     "File cannot be accessed" : "Không thể truy cập tập tin",
@@ -275,7 +274,6 @@
     "All files" : "Tất cả tệp tin",
     "List of your files and folders." : "Danh sách các tập tin và thư mục của bạn.",
     "All folders" : "Tất cả tệp tin",
-    "Personal Files" : "Tệp tin cá nhân",
     "List of your files and folders that are not shared." : "Danh sách tệp tin và thư mục không được chia sẻ của bạn.",
     "No personal files found" : "Không có tệp cá nhân nào được tìm thấy",
     "Files that are not shared will show up here." : "Các tệp và thư mục bạn đã không chia sẻ sẽ hiện thị ở đây.",
@@ -373,10 +371,12 @@
     "Unable to change the favourite state of the file" : "Không thể thay đổi trạng thái yêu thích của tệp",
     "Create new templates folder" : "Tạo thư mục mẫu mới",
     "List of favorites files and folders." : "Danh sách các tập tin và thư mục yêu thích.",
+    "Personal Files" : "Tệp tin cá nhân",
     "Text file" : "Tập tin văn bản",
     "New text file.txt" : "Tệp văn bản mới.txt",
     "Favored" : "Được ưa thích",
     "Favor" : "Ưa thích",
-    "Not favored" : "Không được ưa thích"
+    "Not favored" : "Không được ưa thích",
+    "Filter filenames…" : "Lọc tên tệp…"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

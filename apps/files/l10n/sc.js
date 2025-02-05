@@ -187,7 +187,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Is archìvios e is cartellas chi marcas comente preferidos ant a aparèssere inoghe",
     "All files" : "Totu is archìvios",
     "List of your files and folders." : "Lista de is cartellas e is archìvios tuos.",
-    "Personal Files" : "Archìvios personales",
+    "Personal files" : "Archìvios personales",
     "No personal files found" : "Perunu archìviu personale agatadu",
     "Recent" : "Reghente",
     "List of recently modified files and folders." : "Lista de cartellas e archìvios modificados de reghente.",
@@ -285,6 +285,7 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Non faghet a cambiare s'istadu de preferidu de s'archìviu",
     "Create new templates folder" : "Crea una cartella de modellos noa",
     "List of favorites files and folders." : "Lista de cartellas e de archìvios preferidos.",
+    "Personal Files" : "Archìvios personales",
     "Text file" : "Archìviu de testu",
     "New text file.txt" : "Archìviu de testu .txt nou"
 },

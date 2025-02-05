@@ -161,7 +161,6 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "S'ha produït un error durant la pujada, el codi d'estat és {status}",
     "Unknown error during upload" : "S'ha produït un error desconegut durant la pujada",
     "\"{displayName}\" action executed successfully" : "L'acció «{displayName}» s'ha executat correctament",
-    "Filter filenames…" : "Filtra els noms de fitxer…",
     "Views" : "Vistes",
     "Files settings" : "Paràmetres de Fitxers",
     "File cannot be accessed" : "No es pot accedir al fitxer",
@@ -296,7 +295,7 @@ OC.L10N.register(
     "All files" : "Tots els fitxers",
     "List of your files and folders." : "Llista dels vostres fitxers i carpetes.",
     "All folders" : "Totes les carpetes",
-    "Personal Files" : "FItxers personals",
+    "Personal files" : "Fitxers personals",
     "List of your files and folders that are not shared." : "Llista dels vostres fitxers i carpetes que no compartiu.",
     "No personal files found" : "No s'ha trobat cap fitxer personal",
     "Files that are not shared will show up here." : "Els fitxers que no compartiu es mostraran aquí.",
@@ -396,10 +395,12 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "No s'ha pogut canviar l'estat de preferit del fitxer",
     "Create new templates folder" : "Crea la carpeta de plantilles",
     "List of favorites files and folders." : "Llista de fitxers i carpetes preferits.",
+    "Personal Files" : "FItxers personals",
     "Text file" : "Fitxer de text",
     "New text file.txt" : "Fitxer de text nou.txt",
     "Favored" : "Afavorit",
     "Favor" : "Afavorir",
-    "Not favored" : "No afavorit"
+    "Not favored" : "No afavorit",
+    "Filter filenames…" : "Filtra els noms de fitxer…"
 },
 "nplurals=2; plural=(n != 1);");

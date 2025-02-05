@@ -149,7 +149,6 @@
     "Error during upload, status code {status}" : "يوللاش جەريانىدا خاتالىق ، ھالەت كودى {status}",
     "Unknown error during upload" : "يوللاش جەريانىدا نامەلۇم خاتالىق",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\" ھەرىكىتى مۇۋەپپەقىيەتلىك ئىجرا قىلىندى",
-    "Filter filenames…" : "ھۆججەت نامىنى سۈزۈڭ…",
     "Views" : "كۆرۈنۈشلەر",
     "Files settings" : "ھۆججەت تەڭشىكى",
     "File cannot be accessed" : "ھۆججەتنى زىيارەت قىلغىلى بولمايدۇ",
@@ -277,7 +276,7 @@
     "All files" : "بارلىق ھۆججەتلەر",
     "List of your files and folders." : "ھۆججەت ۋە ھۆججەت قىسقۇچلىرىڭىزنىڭ تىزىملىكى.",
     "All folders" : "بارلىق ھۆججەت قىسقۇچلار",
-    "Personal Files" : "شەخسىي ھۆججەتلەر",
+    "Personal files" : "شەخسىي ھۆججەتلەر",
     "List of your files and folders that are not shared." : "ئورتاقلاشمىغان ھۆججەت ۋە ھۆججەت قىسقۇچلىرىڭىزنىڭ تىزىملىكى.",
     "No personal files found" : "شەخسىي ھۆججەت تېپىلمىدى",
     "Files that are not shared will show up here." : "ئورتاقلاشمىغان ھۆججەتلەر بۇ يەردە كۆرۈنىدۇ.",
@@ -371,10 +370,12 @@
     "Unable to change the favourite state of the file" : "ھۆججەتنىڭ ياقتۇرىدىغان ھالىتىنى ئۆزگەرتەلمىدى",
     "Create new templates folder" : "يېڭى قېلىپ ھۆججەت قىسقۇچى قۇر",
     "List of favorites files and folders." : "ياقتۇرىدىغان ھۆججەت ۋە ھۆججەت قىسقۇچلارنىڭ تىزىملىكى.",
+    "Personal Files" : "شەخسىي ھۆججەتلەر",
     "Text file" : "تېكىست ھۆججەت",
     "New text file.txt" : "يېڭى تېكىست ھۆججىتى. Txt",
     "Favored" : "ياخشى كۆرىدۇ",
     "Favor" : "ياق",
-    "Not favored" : "ياقتۇرمايدۇ"
+    "Not favored" : "ياقتۇرمايدۇ",
+    "Filter filenames…" : "ھۆججەت نامىنى سۈزۈڭ…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

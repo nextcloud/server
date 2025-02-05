@@ -74,6 +74,7 @@
     "Disable user theming" : "Vypnúť úpravu vzhľadu používateľom",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Hoci si môžete vybrať a prispôsobiť svoju inštanciu, užívatelia môžu zmeniť svoje pozadie a farby. Ak chcete presadiť svoje prispôsobenie, môžete to tu zapnúť.",
     "Appearance and accessibility settings" : "Nastavenia vzhľadu a dostupnosti",
+    "Misc accessibility options" : "Rôzne možnosti dostupnosti",
     "Enable blur background filter (may increase GPU load)" : "Povoliť filter rozmazania pozadia (môže zvýšiť zaťaženie GPU)",
     "Customization has been disabled by your administrator" : "Prispôsobenie zakázal váš správca",
     "Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements." : "Nastavte primárnu farbu na zvýraznenie dôležitých prvkov. Farba použitá pre prvky, ako sú primárne tlačidlá, sa môže pri úprave tak, aby spĺňala požiadavky na prístupnosť, trochu líšiť.",

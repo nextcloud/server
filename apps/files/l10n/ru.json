@@ -160,7 +160,6 @@
     "Error during upload, status code {status}" : "Ошибка при передаче на сервер. Сообщение об ошибке: {status}",
     "Unknown error during upload" : "Неизвестная ошибка при загрузке",
     "\"{displayName}\" action executed successfully" : "Действие «{displayName}» выполнено успешно",
-    "Filter filenames…" : "Фильтровать имена файлов…",
     "Views" : "Представления",
     "Files settings" : "Настройки файлов",
     "File cannot be accessed" : "Не удалось получить доступ к файлу",
@@ -337,7 +336,7 @@
     "All files" : "Все файлы",
     "List of your files and folders." : "Список ваших файлов и каталогов.",
     "All folders" : "Все папки",
-    "Personal Files" : "Личные Файлы",
+    "Personal files" : "Личные файлы",
     "List of your files and folders that are not shared." : "Список ваших неопубликованных файлов и папок.",
     "No personal files found" : "Личные файлы не найдены",
     "Files that are not shared will show up here." : "Файлы, которые не опубликованы, показаны здесь.",
@@ -437,10 +436,12 @@
     "Unable to change the favourite state of the file" : "Не удалось изменить состояние «избранный» этого файла.",
     "Create new templates folder" : "Создать новую папку шаблонов",
     "List of favorites files and folders." : "Список избранных файлов и каталогов.",
+    "Personal Files" : "Личные Файлы",
     "Text file" : "Текстовый файл",
     "New text file.txt" : "Новый текстовый файл.txt",
     "Favored" : "Избранные",
     "Favor" : "Услуга",
-    "Not favored" : "Не одобрен"
+    "Not favored" : "Не одобрен",
+    "Filter filenames…" : "Фильтровать имена файлов…"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

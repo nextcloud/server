@@ -162,7 +162,6 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "上傳期間發生錯誤，狀態代碼 {status}",
     "Unknown error during upload" : "上傳時發生未知的錯誤",
     "\"{displayName}\" action executed successfully" : "成功執行 “{displayName}” 操作",
-    "Filter filenames…" : "過濾檔案名 ...",
     "Views" : "視圖",
     "Files settings" : "檔案設定",
     "File cannot be accessed" : "檔案無法存取",
@@ -339,7 +338,7 @@ OC.L10N.register(
     "All files" : "所有檔案",
     "List of your files and folders." : "您的檔案與資料夾清單。",
     "All folders" : "所有資料夾",
-    "Personal Files" : "個人檔案",
+    "Personal files" : "個人檔案",
     "List of your files and folders that are not shared." : "未分享的檔案與資料夾清單。",
     "No personal files found" : "找不到個人檔案",
     "Files that are not shared will show up here." : "尚未分享的檔案將會顯示在此處。",
@@ -439,10 +438,12 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "無法更改檔案的最愛狀態",
     "Create new templates folder" : "創建新範本資料夾",
     "List of favorites files and folders." : "最愛檔案與資料夾的清單。",
+    "Personal Files" : "個人檔案",
     "Text file" : "文字檔",
     "New text file.txt" : "新文字檔.txt",
     "Favored" : "已加入最愛",
     "Favor" : "加入最愛",
-    "Not favored" : "未加入最愛"
+    "Not favored" : "未加入最愛",
+    "Filter filenames…" : "過濾檔案名 ..."
 },
 "nplurals=1; plural=0;");
