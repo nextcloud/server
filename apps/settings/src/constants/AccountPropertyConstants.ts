@@ -114,12 +114,12 @@ export const ACCOUNT_SETTING_PROPERTY_READABLE_ENUM = Object.freeze({
 })
 
 /** Enum of scopes */
-export const SCOPE_ENUM = Object.freeze({
-	PRIVATE: 'v2-private',
-	LOCAL: 'v2-local',
-	FEDERATED: 'v2-federated',
-	PUBLISHED: 'v2-published',
-})
+export enum SCOPE_ENUM {
+	PRIVATE = 'v2-private',
+	LOCAL = 'v2-local',
+	FEDERATED = 'v2-federated',
+	PUBLISHED = 'v2-published',
+}
 
 /** Enum of readable account properties to supported scopes */
 export const PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM = Object.freeze({
@@ -193,11 +193,11 @@ export const SCOPE_PROPERTY_ENUM = Object.freeze({
 export const DEFAULT_ADDITIONAL_EMAIL_SCOPE = SCOPE_ENUM.LOCAL
 
 /** Enum of verification constants, according to IAccountManager */
-export const VERIFICATION_ENUM = Object.freeze({
-	NOT_VERIFIED: 0,
-	VERIFICATION_IN_PROGRESS: 1,
-	VERIFIED: 2,
-})
+export enum VERIFICATION_ENUM {
+	NOT_VERIFIED = 0,
+	VERIFICATION_IN_PROGRESS = 1,
+	VERIFIED = 2,
+}
 
 /**
  * Email validation regex
@@ -206,3 +206,12 @@ export const VERIFICATION_ENUM = Object.freeze({
  */
 // eslint-disable-next-line no-control-regex
 export const VALIDATE_EMAIL_REGEX = /^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-+[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-+[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/i
+
+export interface IAccountProperty {
+	name: string
+	value: string
+	scope: SCOPE_ENUM
+	verified: VERIFICATION_ENUM
+}
+
+export type AccountProperties = Record<(typeof ACCOUNT_PROPERTY_ENUM)[keyof (typeof ACCOUNT_PROPERTY_ENUM)], IAccountProperty>
