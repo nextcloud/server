@@ -906,6 +906,7 @@ export default {
 				this.$emit('add:share', this.share)
 			} else {
 				this.$emit('update:share', this.share)
+				emit('update:share', this.share)
 				this.queueUpdate(...permissionsAndAttributes)
 			}
 
