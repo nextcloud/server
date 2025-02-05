@@ -7,15 +7,11 @@
  */
 namespace OC\Files\Storage;
 
-class CommonTest extends \OC\Files\Storage\Common {
-	/**
-	 * underlying local storage used for missing functions
-	 * @var \OC\Files\Storage\Local
-	 */
-	private $storage;
+class CommonTest extends Common {
+	private Local $storage;
 
 	public function __construct(array $parameters) {
-		$this->storage = new \OC\Files\Storage\Local($parameters);
+		$this->storage = new Local($parameters);
 	}
 
 	public function getId(): string {

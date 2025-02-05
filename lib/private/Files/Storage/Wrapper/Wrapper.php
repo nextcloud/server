@@ -21,17 +21,12 @@ use OCP\Lock\ILockingProvider;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
-class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStreamStorage {
-	/**
-	 * @var \OC\Files\Storage\Storage $storage
-	 */
-	protected $storage;
-
-	public $cache;
-	public $scanner;
-	public $watcher;
-	public $propagator;
-	public $updater;
+class Wrapper implements Storage, ILockingStorage, IWriteStreamStorage {
+	protected ?Storage $storage;
+	public ?ICache $cache = null;
+	public IScanner $scanner;
+	public ?IWatcher $watcher = null;
+	public ?IPropagator $propagator = null;
 
 	/**
 	 * @param array $parameters

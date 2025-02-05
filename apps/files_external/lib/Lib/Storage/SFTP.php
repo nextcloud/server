@@ -21,19 +21,13 @@ use phpseclib\Net\SFTP\Stream;
  * provide access to SFTP servers.
  */
 class SFTP extends Common {
-	private $host;
-	private $user;
-	private $root;
-	private $port = 22;
-
-	private $auth = [];
-
-	/**
-	 * @var \phpseclib\Net\SFTP
-	 */
-	protected $client;
+	private string $host;
+	private string $user;
+	private string $root;
+	private int $port;
+	private array $auth = [];
+	protected ?\phpseclib\Net\SFTP $client = null;
 	private IMimeTypeDetector $mimeTypeDetector;
-
 	public const COPY_CHUNK_SIZE = 8 * 1024 * 1024;
 
 	/**
@@ -131,12 +125,6 @@ class SFTP extends Common {
 	}
 
 	public function test(): bool {
-		if (
-			!isset($this->host)
-			|| !isset($this->user)
-		) {
-			return false;
-		}
 		return $this->getConnection()->nlist() !== false;
 	}
 

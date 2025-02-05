@@ -40,34 +40,15 @@ use OCP\Files\StorageNotAvailableException;
 use Psr\Log\LoggerInterface;
 
 class SMB extends Common implements INotifyStorage {
-	/**
-	 * @var \Icewind\SMB\IServer
-	 */
-	protected $server;
-
-	/**
-	 * @var \Icewind\SMB\IShare
-	 */
-	protected $share;
-
-	/**
-	 * @var string
-	 */
-	protected $root;
-
+	protected \Icewind\SMB\IServer $server;
+	protected \Icewind\SMB\IShare $share;
+	protected string $root;
 	/** @var CappedMemoryCache<IFileInfo> */
 	protected CappedMemoryCache $statCache;
-
-	/** @var LoggerInterface */
-	protected $logger;
-
-	/** @var bool */
-	protected $showHidden;
-
+	protected LoggerInterface $logger;
+	protected bool $showHidden;
 	private bool $caseSensitive;
-
-	/** @var bool */
-	protected $checkAcl;
+	protected bool $checkAcl;
 
 	public function __construct(array $parameters) {
 		if (!isset($parameters['host'])) {

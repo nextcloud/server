@@ -51,7 +51,7 @@ class FtpConnection {
 		return @ftp_fget($this->connection, $handle, $path, FTP_BINARY);
 	}
 
-	public function mkdir(string $path) {
+	public function mkdir(string $path): string|false {
 		return @ftp_mkdir($this->connection, $path);
 	}
 
@@ -81,17 +81,17 @@ class FtpConnection {
 		return $result;
 	}
 
-	public function size(string $path) {
+	public function size(string $path): int {
 		return @ftp_size($this->connection, $path);
 	}
 
-	public function systype() {
+	public function systype(): string|false {
 		return @ftp_systype($this->connection);
 	}
 
-	public function nlist(string $path) {
+	public function nlist(string $path): array {
 		$files = @ftp_nlist($this->connection, $path);
-		return array_map(function ($name) {
+		return array_map(function ($name): string {
 			if (str_contains($name, '/')) {
 				$name = basename($name);
 			}
@@ -99,11 +99,11 @@ class FtpConnection {
 		}, $files);
 	}
 
-	public function mlsd(string $path) {
+	public function mlsd(string $path): array|false {
 		$files = @ftp_mlsd($this->connection, $path);
 
 		if ($files !== false) {
-			return array_map(function ($file) {
+			return array_map(function (array $file): array {
 				if (str_contains($file['name'], '/')) {
 					$file['name'] = basename($file['name']);
 				}
@@ -121,7 +121,7 @@ class FtpConnection {
 
 	// rawlist parsing logic is based on the ftp implementation from https://github.com/thephpleague/flysystem
 	private function parseRawList(array $rawList, string $directory): array {
-		return array_map(function ($item) use ($directory) {
+		return array_map(function ($item) use ($directory): array {
 			return $this->parseRawListItem($item, $directory);
 		}, $rawList);
 	}
@@ -171,7 +171,7 @@ class FtpConnection {
 		];
 	}
 
-	private function normalizePermissions(string $permissions) {
+	private function normalizePermissions(string $permissions): mixed {
 		$isDir = substr($permissions, 0, 1) === 'd';
 		// remove the type identifier and only use owner permissions
 		$permissions = substr($permissions, 1, 4);

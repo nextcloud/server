@@ -16,6 +16,7 @@ use OC\Files\Filesystem;
 use OC\Files\ObjectStore\SwiftFactory;
 use OC\Files\Storage\Common;
 use OCP\Cache\CappedMemoryCache;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\StorageAuthException;
 use OCP\Files\StorageBadConfigException;
@@ -27,40 +28,18 @@ use OpenStack\ObjectStore\v1\Models\StorageObject;
 use Psr\Log\LoggerInterface;
 
 class Swift extends Common {
-	/** @var SwiftFactory */
-	private $connectionFactory;
-	/**
-	 * @var Container
-	 */
-	private $container;
-	/**
-	 * @var string
-	 */
-	private $bucket;
-	/**
-	 * Connection parameters
-	 *
-	 * @var array
-	 */
-	private $params;
-
-	/** @var string */
-	private $id;
-
-	/** @var \OC\Files\ObjectStore\Swift */
-	private $objectStore;
-
-	/** @var IMimeTypeDetector */
-	private $mimeDetector;
-
+	private SwiftFactory $connectionFactory;
+	private ?Container $container;
+	private string $bucket;
+	private string $id;
+	private \OC\Files\ObjectStore\Swift $objectStore;
+	private IMimeTypeDetector $mimeDetector;
 	/**
 	 * Key value cache mapping path to data object. Maps path to
 	 * \OpenCloud\OpenStack\ObjectStorage\Resource\DataObject for existing
 	 * paths and path to false for not existing paths.
-	 *
-	 * @var ICache
 	 */
-	private $objectCache;
+	private ICache $objectCache;
 
 	private function normalizePath(string $path): string {
 		$path = trim($path, '/');
@@ -73,8 +52,6 @@ class Swift extends Common {
 
 		return $path;
 	}
-
-	public const SUBCONTAINER_FILE = '.subcontainers';
 
 	/**
 	 * Fetches an object from the API.
@@ -159,15 +136,14 @@ class Swift extends Common {
 			];
 		}
 
-		$this->params = $parameters;
 		// FIXME: private class...
 		$this->objectCache = new CappedMemoryCache();
 		$this->connectionFactory = new SwiftFactory(
 			\OC::$server->getMemCacheFactory()->createDistributed('swift/'),
-			$this->params,
+			$parameters,
 			\OC::$server->get(LoggerInterface::class)
 		);
-		$this->objectStore = new \OC\Files\ObjectStore\Swift($this->params, $this->connectionFactory);
+		$this->objectStore = new \OC\Files\ObjectStore\Swift($parameters, $this->connectionFactory);
 		$this->bucket = $parameters['bucket'];
 		$this->mimeDetector = \OC::$server->get(IMimeTypeDetector::class);
 	}
@@ -573,7 +549,7 @@ class Swift extends Common {
 			$path = '';
 		}
 		$cachedContent = $this->getCache()->getFolderContents($path);
-		$cachedNames = array_map(function ($content) {
+		$cachedNames = array_map(function (ICacheEntry $content) {
 			return $content['name'];
 		}, $cachedContent);
 		sort($cachedNames);

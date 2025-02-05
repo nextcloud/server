@@ -11,13 +11,11 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IConstructableStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class StorageFactory implements IStorageFactory {
-	/**
-	 * @var array[] [$name=>['priority'=>$priority, 'wrapper'=>$callable] $storageWrappers
-	 */
-	private $storageWrappers = [];
+	private array $storageWrappers = [];
 
 	public function addStorageWrapper(string $wrapperName, callable $callback, int $priority = 50, array $existingMounts = []): bool {
 		if (isset($this->storageWrappers[$wrapperName])) {
@@ -48,18 +46,18 @@ class StorageFactory implements IStorageFactory {
 	 */
 	public function getInstance(IMountPoint $mountPoint, string $class, array $arguments): IStorage {
 		if (!is_a($class, IConstructableStorage::class, true)) {
-			\OCP\Server::get(LoggerInterface::class)->warning('Building a storage not implementing IConstructableStorage is deprecated since 31.0.0', ['class' => $class]);
+			Server::get(LoggerInterface::class)->warning('Building a storage not implementing IConstructableStorage is deprecated since 31.0.0', ['class' => $class]);
 		}
 		return $this->wrap($mountPoint, new $class($arguments));
 	}
 
 	public function wrap(IMountPoint $mountPoint, IStorage $storage): IStorage {
 		$wrappers = array_values($this->storageWrappers);
-		usort($wrappers, function ($a, $b) {
+		usort($wrappers, function (array $a, array $b): int {
 			return $b['priority'] - $a['priority'];
 		});
 		/** @var callable[] $wrappers */
-		$wrappers = array_map(function ($wrapper) {
+		$wrappers = array_map(function (array $wrapper) {
 			return $wrapper['wrapper'];
 		}, $wrappers);
 		foreach ($wrappers as $wrapper) {
