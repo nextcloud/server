@@ -22,7 +22,7 @@
 import '@nextcloud/dialogs/style.css'
 import type { Folder, Node, View } from '@nextcloud/files'
 import type { IFilePickerButton } from '@nextcloud/dialogs'
-import type { FileStat, ResponseDataDetailed } from 'webdav'
+import type { FileStat, ResponseDataDetailed, WebDAVClientError } from 'webdav'
 import type { MoveCopyResult } from './moveOrCopyActionUtils'
 
 // eslint-disable-next-line n/no-extraneous-import
@@ -184,7 +184,18 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 				}
 				// getting here means either no conflict, file was renamed to keep both files
 				// in a conflict, or the selected file was chosen to be kept during the conflict
-				await client.moveFile(currentPath, join(destinationPath, node.basename))
+				try {
+					await client.moveFile(currentPath, join(destinationPath, node.basename))
+				} catch (error) {
+					const parser = new DOMParser()
+					const text = await (error as WebDAVClientError).response?.text()
+					const message = parser.parseFromString(text ?? '', 'text/xml')
+						.querySelector('message')?.textContent
+					if (message) {
+						showError(message)
+					}
+					throw error
+				}
 				// Delete the node as it will be fetched again
 				// when navigating to the destination folder
 				emit('files:node:deleted', node)
