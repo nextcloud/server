@@ -474,7 +474,7 @@ class ThemingController extends Controller {
 						'sizes' => '16x16'
 					]
 				],
-			'display' => 'standalone'
+			'display' => $this->config->getSystemValueBool('theming.standalone_window.enabled', true) ? 'standalone' : 'browser'
 		];
 		$response = new JSONResponse($responseJS);
 		$response->cacheFor(3600);
