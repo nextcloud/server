@@ -45,6 +45,10 @@ class UpdateDB extends Command {
 		$totalNewMimetypes = 0;
 
 		foreach ($mappings as $ext => $mimetypes) {
+			// Single digit extensions will be treated as integers
+			// Let's make sure they are strings
+			// https://github.com/nextcloud/server/issues/42902
+			$ext = (string)$ext;
 			if ($ext[0] === '_') {
 				// comment
 				continue;
