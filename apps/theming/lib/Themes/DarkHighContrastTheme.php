@@ -89,7 +89,7 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 				'--color-info-hover' => $this->util->lighten($colorInfo, 10),
 				'--color-info-text' => $this->util->lighten($colorInfo, 20),
 
-				'--color-scrollbar' => 'auto',
+				'--color-scrollbar' => 'auto transparent',
 
 				// used for the icon loading animation
 				'--color-loading-light' => '#000000',
