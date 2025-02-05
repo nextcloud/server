@@ -732,7 +732,15 @@ class ThemingControllerTest extends TestCase {
 		@$this->assertEquals($expected, $this->themingController->getImage('background'));
 	}
 
-	public function testGetManifest() {
+	public static function dataGetManifest(): array {
+		return [
+			[true],
+			[false],
+		];
+	}
+
+	/** @dataProvider dataGetManifest */
+	public function testGetManifest(bool $standalone) {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -756,6 +764,11 @@ class ThemingControllerTest extends TestCase {
 				'touchicon',
 				'favicon',
 			);
+		$this->config
+			->expects($this->once())
+			->method('getSystemValueBool')
+			->with('theming.standalone_window.enabled', true)
+			->willReturn($standalone);
 		$response = new Http\JSONResponse([
 			'name' => 'Nextcloud',
 			'start_url' => 'localhost',
@@ -772,7 +785,7 @@ class ThemingControllerTest extends TestCase {
 						'sizes' => '16x16'
 					]
 				],
-			'display' => 'standalone',
+			'display' => $standalone ? 'standalone' : 'browser',
 			'short_name' => 'Nextcloud',
 			'theme_color' => null,
 			'background_color' => null,
