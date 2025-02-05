@@ -92,6 +92,7 @@
 
 			<!-- expiration date -->
 			<NcActionInput v-if="(pendingDefaultExpirationDate || pendingEnforcedExpirationDate) && defaultExpirationDateEnabled"
+				data-cy-files-sharing-expiration-date-input
 				class="share-link-expire-date"
 				:label="pendingEnforcedExpirationDate ? t('files_sharing', 'Enter expiration date (enforced)') : t('files_sharing', 'Enter expiration date')"
 				:disabled="saving"
