@@ -162,7 +162,6 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "حدث خطأ أثناء الرفع. رمز الحالة {status}",
     "Unknown error during upload" : "خطأ غير محدد حدث أثناء الرفع",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\" الأمر نُفّذ بنجاح",
-    "Filter filenames…" : "تصفية باسم الملف...",
     "Views" : "مشاهدات",
     "Files settings" : "إعدادات الملفات",
     "File cannot be accessed" : "الملف لم يمكن الوصول إليه",
@@ -339,7 +338,7 @@ OC.L10N.register(
     "All files" : "كل الملفات",
     "List of your files and folders." : "قائمة بملفاتك و مجلداتك",
     "All folders" : "كل المجلدات",
-    "Personal Files" : "ملفات شخصية",
+    "Personal files" : "ملفات شخصية",
     "List of your files and folders that are not shared." : "قائمة بالملفات و المجلدات التي لم تتم مشاركتها.",
     "No personal files found" : "لا توجد أي ملفات شخصية",
     "Files that are not shared will show up here." : "الملفات التي لم تتم مشاركتها يتم عرضها هنا",
@@ -439,10 +438,12 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "لم نستطع تغير الحالة المفضلة للملف",
     "Create new templates folder" : "إنشيْ مجلد جديد للقوالب",
     "List of favorites files and folders." : "قائمة الملفات والمجلدات المفضلة.",
+    "Personal Files" : "ملفات شخصية",
     "Text file" : "ملف نصي",
     "New text file.txt" : "ملف نصي جديد fille.txt",
     "Favored" : "مُفضّلة",
     "Favor" : "تفضيل",
-    "Not favored" : "غير مُفضّلة"
+    "Not favored" : "غير مُفضّلة",
+    "Filter filenames…" : "تصفية باسم الملف..."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

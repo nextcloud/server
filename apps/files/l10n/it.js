@@ -162,7 +162,6 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "Errore durante il caricamento, codice di stato {status}",
     "Unknown error during upload" : "Errore sconosciuto durante il caricamento",
     "\"{displayName}\" action executed successfully" : "L'azione \"{displayName}\" è stata eseguita correttamente",
-    "Filter filenames…" : "Filtra nomi di file…",
     "Views" : "Viste",
     "Files settings" : "Impostazioni File",
     "File cannot be accessed" : "Il file non possono essere acceduti",
@@ -339,7 +338,7 @@ OC.L10N.register(
     "All files" : "Tutti i file",
     "List of your files and folders." : "Lista dei tuoi file e cartelle.",
     "All folders" : "Tutte le cartelle",
-    "Personal Files" : "File personali",
+    "Personal files" : "File personali",
     "List of your files and folders that are not shared." : "Elenco dei file e delle cartelle che non sono condivisi.",
     "No personal files found" : "Nessun file personale trovato",
     "Files that are not shared will show up here." : "I file che non vengono condivisi verranno visualizzati qui.",
@@ -439,10 +438,12 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Impossibile cambiare lo stato di preferito del file",
     "Create new templates folder" : "Crea una nuova cartella dei modelli",
     "List of favorites files and folders." : "Lista di file e cartelle preferiti.",
+    "Personal Files" : "File personali",
     "Text file" : "File di testo",
     "New text file.txt" : "Nuovo file di testo.txt",
     "Favored" : "Preferito",
     "Favor" : "Preferiti",
-    "Not favored" : "Non preferito"
+    "Not favored" : "Non preferito",
+    "Filter filenames…" : "Filtra nomi di file…"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

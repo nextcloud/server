@@ -160,7 +160,6 @@
     "Error during upload, status code {status}" : "Error during upload, status code {status}",
     "Unknown error during upload" : "Unknown error during upload",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\" action executed successfully",
-    "Filter filenames…" : "Filter filenames…",
     "Views" : "Views",
     "Files settings" : "Files settings",
     "File cannot be accessed" : "File cannot be accessed",
@@ -337,7 +336,7 @@
     "All files" : "All files",
     "List of your files and folders." : "List of your files and folders.",
     "All folders" : "All folders",
-    "Personal Files" : "Personal Files",
+    "Personal files" : "Personal files",
     "List of your files and folders that are not shared." : "List of your files and folders that are not shared.",
     "No personal files found" : "No personal files found",
     "Files that are not shared will show up here." : "Files that are not shared will show up here.",
@@ -437,10 +436,12 @@
     "Unable to change the favourite state of the file" : "Unable to change the favourite state of the file",
     "Create new templates folder" : "Create new templates folder",
     "List of favorites files and folders." : "List of favourite files and folders.",
+    "Personal Files" : "Personal Files",
     "Text file" : "Text file",
     "New text file.txt" : "New text file.txt",
     "Favored" : "Favoured",
     "Favor" : "Favour",
-    "Not favored" : "Not favoured"
+    "Not favored" : "Not favoured",
+    "Filter filenames…" : "Filter filenames…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

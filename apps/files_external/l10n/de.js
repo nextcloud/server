@@ -62,7 +62,7 @@ OC.L10N.register(
     "Enable Path Style" : "Pfad-Stil aktivieren",
     "Legacy (v2) authentication" : "Legacy-Authentifizierung (V2)",
     "Enable multipart copy" : "Multipart-Kopieren aktivieren",
-    "SSE-C encryption key" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
+    "SSE-C encryption key" : "SSE-C-Schlüssel",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
     "Remote subfolder" : "Entfernter Unterordner",

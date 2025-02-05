@@ -162,7 +162,6 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "Produciuse un erro durante o envío, código de estado {status}",
     "Unknown error during upload" : "Produciuse un erro descoñecido durante o envío",
     "\"{displayName}\" action executed successfully" : "A acción «{displayName}» executouse correctamente",
-    "Filter filenames…" : "Filtrar os nomes de ficheiro…",
     "Views" : "Vistas",
     "Files settings" : "Axustes de Ficheiros",
     "File cannot be accessed" : "Non é posíbel acceder ao ficheiro",
@@ -339,7 +338,7 @@ OC.L10N.register(
     "All files" : "Todos os ficheiros",
     "List of your files and folders." : "Lista dos seus ficheiros e cartafoles",
     "All folders" : "Todos os cartafoles",
-    "Personal Files" : "Ficheiros persoais",
+    "Personal files" : "Ficheiros persoais",
     "List of your files and folders that are not shared." : "Lista dos seus ficheiros e cartafoles que non están a seren compartidos.",
     "No personal files found" : "Non se atopou ningún ficheiro persoal",
     "Files that are not shared will show up here." : "Os ficheiros que non se comparten amosaranse aquí.",
@@ -439,10 +438,12 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Non é posíbel cambiar o estado favorito do ficheiro",
     "Create new templates folder" : "Crear un novo cartafol de modelos",
     "List of favorites files and folders." : "Lista de ficheiros e cartafoles favoritos.",
+    "Personal Files" : "Ficheiros persoais",
     "Text file" : "Ficheiro de texto",
     "New text file.txt" : "Novo ficheiro de texto.txt",
     "Favored" : "Favorecido",
     "Favor" : "Favorecer",
-    "Not favored" : "Non favorecido"
+    "Not favored" : "Non favorecido",
+    "Filter filenames…" : "Filtrar os nomes de ficheiro…"
 },
 "nplurals=2; plural=(n != 1);");

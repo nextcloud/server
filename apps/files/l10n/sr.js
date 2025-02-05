@@ -162,7 +162,6 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "Грешка приликом отпремања, кôд статуса {status}",
     "Unknown error during upload" : "Непозната грешка током отпремања",
     "\"{displayName}\" action executed successfully" : "Акција „{displayName}” је успешно извршена",
-    "Filter filenames…" : "Филтрирање имена фајлова…",
     "Views" : "Прикази",
     "Files settings" : "Подешавања фајлова",
     "File cannot be accessed" : "Фајлу не може да се приступи",
@@ -339,7 +338,7 @@ OC.L10N.register(
     "All files" : "Сви фајлови",
     "List of your files and folders." : "Листа ваших фајлова и фолдера.",
     "All folders" : "Сви фолдери",
-    "Personal Files" : "Лични фајлови",
+    "Personal files" : "Лични фајлови",
     "List of your files and folders that are not shared." : "Листа ваших фајлова и фолдера који се не деле.",
     "No personal files found" : "Није пронађен ниједан лични фајл",
     "Files that are not shared will show up here." : "Овде ће се појавити фајлови који се не деле.",
@@ -439,10 +438,12 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Неуспела промена стања омиљености фајла",
     "Create new templates folder" : "Креирај нови фолдер шаблона",
     "List of favorites files and folders." : "Листа омиљених фајлова и директоријума.",
+    "Personal Files" : "Лични фајлови",
     "Text file" : "Tекстуални фајл",
     "New text file.txt" : "Нов текстуални фајл.txt",
     "Favored" : "Наклоњен",
     "Favor" : "Наклоност",
-    "Not favored" : "Ненаклоњен"
+    "Not favored" : "Ненаклоњен",
+    "Filter filenames…" : "Филтрирање имена фајлова…"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

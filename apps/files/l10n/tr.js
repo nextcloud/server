@@ -162,7 +162,6 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "Yüklenirken sorun çıktı, durum kodu {status}",
     "Unknown error during upload" : "Yükleme sırasında bilinmeyen bir sorun çıktı",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\" işlemi tamamlandı",
-    "Filter filenames…" : "Dosya adlarını süz…",
     "Views" : "Görünümler",
     "Files settings" : "Dosyalar ayarları",
     "File cannot be accessed" : "Dosyaya erişilemedi",
@@ -339,7 +338,7 @@ OC.L10N.register(
     "All files" : "Tüm dosyalar",
     "List of your files and folders." : "Dosya ve klasörlerinizin listesi",
     "All folders" : "Tüm klasörler",
-    "Personal Files" : "Kişisel dosyalar",
+    "Personal files" : "Kişisel dosyalar",
     "List of your files and folders that are not shared." : "Paylaşılmayan dosya ve klasörlerinizin listesi.",
     "No personal files found" : "Herhangi bir kişisel dosya bulunamadı",
     "Files that are not shared will show up here." : "Paylaşımayan dosyalar burada görüntülenir.",
@@ -439,10 +438,12 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Dosyanın sık kullanılan durumu değiştirilemedi",
     "Create new templates folder" : "Yeni kalıp klasörü oluştur",
     "List of favorites files and folders." : "Sık kullanılan dosya ve klasör listesi.",
+    "Personal Files" : "Kişisel dosyalar",
     "Text file" : "Metin dosyası",
     "New text file.txt" : "Yeni metin dosyası.txt",
     "Favored" : "Sık kullanılanlara eklenmiş",
     "Favor" : "Sık kullanılanlara ekle",
-    "Not favored" : "Sık kullanılanlara eklenmemiş"
+    "Not favored" : "Sık kullanılanlara eklenmemiş",
+    "Filter filenames…" : "Dosya adlarını süz…"
 },
 "nplurals=2; plural=(n > 1);");

@@ -160,7 +160,6 @@
     "Error during upload, status code {status}" : "Chyba počas nahrávania, chybový kód {status}",
     "Unknown error during upload" : "Neznáma chyba počas nahrávania",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\" akcia vykonaná úspešne",
-    "Filter filenames…" : "Filtrovať názvy súborov...",
     "Views" : "Zobrazenia",
     "Files settings" : "Nastavenia súborov",
     "File cannot be accessed" : "Súbor nie je možné sprístupniť",
@@ -337,7 +336,7 @@
     "All files" : "Všetky súbory",
     "List of your files and folders." : "Zoznam vašich súborov a priečinkov.",
     "All folders" : "Všetky adresáre",
-    "Personal Files" : "Osobné Súbory",
+    "Personal files" : "Osobné súbory",
     "List of your files and folders that are not shared." : "Zoznam vašich súborov a priečinkov, ktoré nie sú zdieľané.",
     "No personal files found" : "Žiadne osobné súbory nenájdené",
     "Files that are not shared will show up here." : "Súbory, ktoré nie sú zdieľané, sa tu nezobrazia.",
@@ -437,10 +436,12 @@
     "Unable to change the favourite state of the file" : "Nie je možné zmeniť stav „obľúbené“ daného súboru",
     "Create new templates folder" : "Vytvoriť nový vzorový priečinok",
     "List of favorites files and folders." : "Zoznam obľúbených súborov a priečinkov.",
+    "Personal Files" : "Osobné Súbory",
     "Text file" : "Textový súbor",
     "New text file.txt" : "Nový text file.txt",
     "Favored" : "Zaradiť medzi obľúbené",
     "Favor" : "Zaradené medzi obľúbené",
-    "Not favored" : "Nie je v obľúbených"
+    "Not favored" : "Nie je v obľúbených",
+    "Filter filenames…" : "Filtrovať názvy súborov..."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

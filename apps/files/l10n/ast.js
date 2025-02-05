@@ -242,7 +242,7 @@ OC.L10N.register(
     "All files" : "Tolos ficheros",
     "List of your files and folders." : "Una llista de los ficheros y les carpetes de to.",
     "All folders" : "Toles carpetes",
-    "Personal Files" : "Ficheros personales",
+    "Personal files" : "Ficheros personales",
     "List of your files and folders that are not shared." : "Una llista de ficheros y carpetes que nun se compartieron.",
     "No personal files found" : "Nun s'atopó nengún ficheru personal",
     "Files that are not shared will show up here." : "Equí apaecen los ficheros que nun se compartan.",
@@ -342,6 +342,7 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Nun ye posible camudar l'estáu favoritu del ficheru",
     "Create new templates folder" : "Crear una carpeta de plantíes",
     "List of favorites files and folders." : "Una llista de ficheros y carpetes favoritos.",
+    "Personal Files" : "Ficheros personales",
     "Text file" : "Ficheru de testu",
     "New text file.txt" : "ficheru_nuevu.txt"
 },

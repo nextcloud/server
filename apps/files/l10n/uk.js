@@ -162,7 +162,6 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "Помилка під час завантаження, код стану {status}",
     "Unknown error during upload" : "Невідома помилка під час завантаження",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\" успішно виконано",
-    "Filter filenames…" : "Фільтрувати за ім'ям файлу...",
     "Views" : "Подання",
     "Files settings" : "Налаштування",
     "File cannot be accessed" : "Неможливо отримати доступ до файлу",
@@ -324,7 +323,7 @@ OC.L10N.register(
     "All files" : "Усі файли",
     "List of your files and folders." : "Список ваших файлів та каталогів.",
     "All folders" : "Усі каталоги",
-    "Personal Files" : "Мої документи",
+    "Personal files" : "Мої документи",
     "List of your files and folders that are not shared." : "Перелік ваших файлів та каталогів, які не є у спільному доступі.",
     "No personal files found" : "Мої документи не знайдено",
     "Files that are not shared will show up here." : "Тут показуватимуться файли, які не є у спільному доступі.",
@@ -424,10 +423,12 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Неможливо змінити стан \"зірочка\" для цього файла",
     "Create new templates folder" : "Створіть новий каталог для шаблонів",
     "List of favorites files and folders." : "Список файлів та каталогів із зірочкою.",
+    "Personal Files" : "Мої документи",
     "Text file" : "Текстовий файл",
     "New text file.txt" : "Новий текстовий файл.txt",
     "Favored" : "Із зірочкою",
     "Favor" : "Додати зірочку",
-    "Not favored" : "Без зірочки"
+    "Not favored" : "Без зірочки",
+    "Filter filenames…" : "Фільтрувати за ім'ям файлу..."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

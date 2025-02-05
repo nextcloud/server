@@ -138,7 +138,6 @@
     "Error during upload, status code {status}" : "Σφάλμα κατά τη μεταφόρτωση, κωδικός κατάστασης {status}",
     "Unknown error during upload" : "Άγνωστο σφάλμα κατά τη μεταφόρτωση",
     "\"{displayName}\" action executed successfully" : "Η ενέργεια του/της \"{displayName}\" εκτελέστηκε επιτυχώς",
-    "Filter filenames…" : "Φιλτράρετε τα ονόματα αρχείων...",
     "Views" : "Προβολές",
     "Files settings" : "Ρυθμίσεις αρχείων",
     "File cannot be accessed" : "Δεν είναι δυνατή η πρόσβαση στο αρχείο",
@@ -246,7 +245,6 @@
     "Files and folders you mark as favorite will show up here" : "Τα αρχεία και οι φάκελοι που σημειώνονται ως αγαπημένα θα εμφανιστούν εδώ",
     "All files" : "Όλα τα αρχεία",
     "List of your files and folders." : "Λίστα των αρχείων και φακέλων σας.",
-    "Personal Files" : "Προσωπικά Αρχεία",
     "List of your files and folders that are not shared." : "Λίστα αρχείων και φακέλων που δεν είναι κοινόχρηστα.",
     "No personal files found" : "Δε βρέθηκαν προσωπικά αρχεία",
     "Files that are not shared will show up here." : "Τα αρχεία που δεν είναι κοινόχρηστα θα εμφανίζονται εδώ.",
@@ -346,7 +344,9 @@
     "Unable to change the favourite state of the file" : "Αδυναμία αλλαγής αγαπημένης κατάστασης αρχείου",
     "Create new templates folder" : "Δημιουργία νέου φακέλου προτύπων",
     "List of favorites files and folders." : "Λίστα αγαπημένων αρχείων και φακέλων.",
+    "Personal Files" : "Προσωπικά Αρχεία",
     "Text file" : "Αρχείο κειμένου",
-    "New text file.txt" : "Νέο αρχείο file.txt"
+    "New text file.txt" : "Νέο αρχείο file.txt",
+    "Filter filenames…" : "Φιλτράρετε τα ονόματα αρχείων..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
