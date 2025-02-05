@@ -21,7 +21,7 @@ declare global {
 			 * Upload a file from the fixtures folder to a given user storage.
 			 * **Warning**: Using this function will reset the previous session
 			 */
-			uploadFile(user: User, fixture?: string, mimeType?: string, target?: string): Cypress.Chainable<void>,
+			uploadFile(user: User, fixture?: string, mimeType?: string, target?: string): Cypress.Chainable<AxiosResponse>,
 
 			/**
 			 * Upload a raw content to a given user storage.
@@ -38,7 +38,7 @@ declare global {
 			 * Create a new directory
 			 * **Warning**: Using this function will reset the previous session
 			 */
-			mkdir(user: User, target: string): Cypress.Chainable<void>,
+			mkdir(user: User, target: string): Cypress.Chainable<AxiosResponse>,
 
 			/**
 			 * Set a file as favorite (or remove from favorite)
