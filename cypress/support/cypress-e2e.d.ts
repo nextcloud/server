@@ -30,6 +30,11 @@ declare global {
 			uploadContent(user: User, content: Blob, mimeType: string, target: string, mtime?: number): Cypress.Chainable<AxiosResponse>,
 
 			/**
+			 * Delete a file or directory
+			 */
+			rm(user: User, target: string): Cypress.Chainable<AxiosResponse>,
+
+			/**
 			 * Create a new directory
 			 * **Warning**: Using this function will reset the previous session
 			 */
