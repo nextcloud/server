@@ -74,6 +74,11 @@ class ReminderService {
 	 */
 	public function createOrUpdate(IUser $user, int $fileId, DateTime $dueDate): bool {
 		$now = new DateTime('now', new DateTimeZone('UTC'));
+		$userFolder = $this->root->getUserFolder($user->getUID());
+		$node = $userFolder->getFirstNodeById($fileId);
+		if (!$node) {
+			throw new NodeNotFoundException();
+		}
 		try {
 			$reminder = $this->reminderMapper->findDueForUser($user, $fileId);
 			$reminder->setDueDate($dueDate);
@@ -81,10 +86,6 @@ class ReminderService {
 			$this->reminderMapper->update($reminder);
 			return false;
 		} catch (DoesNotExistException $e) {
-			$node = $this->root->getUserFolder($user->getUID())->getFirstNodeById($fileId);
-			if (!$node) {
-				throw new NodeNotFoundException();
-			}
 			// Create new reminder if no reminder is found
 			$reminder = new Reminder();
 			$reminder->setUserId($user->getUID());
