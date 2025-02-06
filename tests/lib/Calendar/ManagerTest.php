@@ -27,6 +27,7 @@ use Psr\Log\LoggerInterface;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Reader;
 use Test\TestCase;
 
 /*
@@ -124,8 +125,9 @@ class ManagerTest extends TestCase {
 		// construct calendar with a event for reply
 		$this->vCalendar3a = new VCalendar();
 		/** @var VEvent $vEvent */
-		$vEvent = $this->vCalendar3a->add('VEVENT', []);
+		$vEvent = $this->vCalendar3a->add('VEVENT');
 		$vEvent->UID->setValue('dcc733bf-b2b2-41f2-a8cf-550ae4b67aff');
+		$vEvent->DTSTAMP->setValue('20210820T080000Z');
 		$vEvent->add('DTSTART', '20210820');
 		$vEvent->add('DTEND', '20220821');
 		$vEvent->add('SUMMARY', 'berry basket');
@@ -1532,8 +1534,8 @@ class ManagerTest extends TestCase {
 		$this->assertFalse($result);
 	}
 
-	public function testHandleImipCancelOrganiserInReplyTo(): void {
-		/** @var Manager | \PHPUnit\Framework\MockObject\MockObject $manager */
+	public function testHandleImipCancelOrganizerInReplyTo(): void {
+		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
 				$this->coordinator,
@@ -1556,7 +1558,11 @@ class ManagerTest extends TestCase {
 		$calendar = $this->createMock(ITestCalendar::class);
 		$calendarData = clone $this->vCalendar3a;
 		$calendarData->add('METHOD', 'CANCEL');
-
+		/*
+		 * Piping the expected data through the parser on purpose due to line-ending issues.
+		 * If you know a better way, let me know. :)
+		 */
+		$expectedCalendarData = Reader::read(file_get_contents(__DIR__ . '/../../data/ics/imip-handle-imip-cancel-organizer-in-reply-to.ics'));
 		$this->time->expects(self::once())
 			->method('getTime')
 			->willReturn(1628374233);
@@ -1569,7 +1575,60 @@ class ManagerTest extends TestCase {
 			->willReturn([['uri' => 'testname.ics']]);
 		$calendar->expects(self::once())
 			->method('handleIMipMessage')
-			->with('testname.ics', $calendarData->serialize());
+			->with('testname.ics', $expectedCalendarData->serialize());
+		// Act
+		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
+		// Assert
+		$this->assertTrue($result);
+	}
+
+	public function testHandleImipCancelRecurrenceId(): void {
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods([
+				'getCalendarsForPrincipal'
+			])
+			->getMock();
+
+		$principalUri = 'principals/user/pierre';
+		$sender = 'clint@stardew-tent-living.com';
+		$recipient = 'pierre@general-store.com';
+		$replyTo = 'linus@stardew-tent-living.com';
+		$calendar = $this->createMock(ITestCalendar::class);
+		$calendarData = clone $this->vCalendar3a;
+		$calendarData->add('METHOD', 'CANCEL');
+		/*
+		 * The test is incomplete because we only check if copying the recurrence ID from the original event to the new event works,
+		 * and we assume that the previous code ensures this is correct. The test data does not even include a recurrence rule.
+		 */
+		$calendarData->VEVENT->add('RECURRENCE-ID', '20240701');
+		/*
+		 * Piping the expected data through the parser on purpose due to line-ending issues.
+		 * If you know a better way, let me know. :)
+		 */
+		$expectedCalendarData = Reader::read(file_get_contents(__DIR__ . '/../../data/ics/imip-handle-imip-cancel-recurrence-id.ics'));
+		$this->time->expects(self::once())
+			->method('getTime')
+			->willReturn(1628374233);
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->with($principalUri)
+			->willReturn([$calendar]);
+		$calendar->expects(self::once())
+			->method('search')
+			->willReturn([['uri' => 'testname.ics']]);
+		$calendar->expects(self::once())
+			->method('handleIMipMessage')
+			->with('testname.ics', $expectedCalendarData->serialize());
 		// Act
 		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
 		// Assert
@@ -1577,7 +1636,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testHandleImipCancel(): void {
-		/** @var Manager | \PHPUnit\Framework\MockObject\MockObject $manager */
+		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
 				$this->coordinator,
@@ -1599,7 +1658,11 @@ class ManagerTest extends TestCase {
 		$calendar = $this->createMock(ITestCalendar::class);
 		$calendarData = clone $this->vCalendar3a;
 		$calendarData->add('METHOD', 'CANCEL');
-
+		/*
+		 * Piping the expected data through the parser on purpose due to line-ending issues.
+		 * If you know a better way, let me know. :)
+		 */
+		$expectedCalendarData = Reader::read(file_get_contents(__DIR__ . '/../../data/ics/imip-handle-imip-cancel.ics'));
 		$this->time->expects(self::once())
 			->method('getTime')
 			->willReturn(1628374233);
@@ -1612,7 +1675,7 @@ class ManagerTest extends TestCase {
 			->willReturn([['uri' => 'testname.ics']]);
 		$calendar->expects(self::once())
 			->method('handleIMipMessage')
-			->with('testname.ics', $calendarData->serialize());
+			->with('testname.ics', $expectedCalendarData->serialize());
 		// Act
 		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
 		// Assert
