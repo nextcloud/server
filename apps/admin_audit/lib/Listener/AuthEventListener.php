@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\AdminAudit\Listener;
 
 use OCA\AdminAudit\Actions\Action;
+use OCP\Authentication\Events\AnyLoginFailedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\User\Events\BeforeUserLoggedInEvent;
@@ -18,7 +19,7 @@ use OCP\User\Events\UserLoggedInEvent;
 use OCP\User\Events\UserLoggedInWithCookieEvent;
 
 /**
- * @template-implements IEventListener<BeforeUserLoggedInEvent|UserLoggedInWithCookieEvent|UserLoggedInEvent|BeforeUserLoggedOutEvent>
+ * @template-implements IEventListener<BeforeUserLoggedInEvent|UserLoggedInWithCookieEvent|UserLoggedInEvent|BeforeUserLoggedOutEvent|AnyLoginFailedEvent>
  */
 class AuthEventListener extends Action implements IEventListener {
 	public function handle(Event $event): void {
@@ -28,6 +29,8 @@ class AuthEventListener extends Action implements IEventListener {
 			$this->userLoggedIn($event);
 		} elseif ($event instanceof BeforeUserLoggedOutEvent) {
 			$this->beforeUserLogout($event);
+		} elseif ($event instanceof AnyLoginFailedEvent) {
+			$this->anyLoginFailed($event);
 		}
 	}
 
@@ -62,6 +65,19 @@ class AuthEventListener extends Action implements IEventListener {
 			'Logout occurred',
 			[],
 			[]
+		);
+	}
+
+	private function anyLoginFailed(AnyLoginFailedEvent $event): void {
+		$this->log(
+			'Login failed: "%s"',
+			[
+				'loginName' => $event->getLoginName()
+			],
+			[
+				'loginName',
+			],
+			true
 		);
 	}
 }
