@@ -47,9 +47,11 @@ class ReminderService {
 	}
 
 	/**
+	 * @throws NodeNotFoundException
 	 * @throws DoesNotExistException
 	 */
 	public function getDueForUser(IUser $user, int $fileId): RichReminder {
+		$this->checkNode($user, $fileId);
 		$reminder = $this->reminderMapper->findDueForUser($user, $fileId);
 		return new RichReminder($reminder, $this->root);
 	}
@@ -74,11 +76,7 @@ class ReminderService {
 	 */
 	public function createOrUpdate(IUser $user, int $fileId, DateTime $dueDate): bool {
 		$now = new DateTime('now', new DateTimeZone('UTC'));
-		$userFolder = $this->root->getUserFolder($user->getUID());
-		$node = $userFolder->getFirstNodeById($fileId);
-		if (!$node) {
-			throw new NodeNotFoundException();
-		}
+		$this->checkNode($user, $fileId);
 		try {
 			$reminder = $this->reminderMapper->findDueForUser($user, $fileId);
 			$reminder->setDueDate($dueDate);
@@ -99,9 +97,11 @@ class ReminderService {
 	}
 
 	/**
+	 * @throws NodeNotFoundException
 	 * @throws DoesNotExistException
 	 */
 	public function remove(IUser $user, int $fileId): void {
+		$this->checkNode($user, $fileId);
 		$reminder = $this->reminderMapper->findDueForUser($user, $fileId);
 		$this->reminderMapper->delete($reminder);
 	}
@@ -160,6 +160,17 @@ class ReminderService {
 		$reminders = $this->reminderMapper->findNotified($buffer, $limit);
 		foreach ($reminders as $reminder) {
 			$this->reminderMapper->delete($reminder);
+		}
+	}
+
+	/**
+	 * @throws NodeNotFoundException
+	 */
+	private function checkNode(IUser $user, int $fileId): void {
+		$userFolder = $this->root->getUserFolder($user->getUID());
+		$node = $userFolder->getFirstNodeById($fileId);
+		if ($node === null) {
+			throw new NodeNotFoundException();
 		}
 	}
 }

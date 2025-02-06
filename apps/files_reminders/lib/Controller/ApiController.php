@@ -57,7 +57,7 @@ class ApiController extends OCSController {
 				'dueDate' => $reminder->getDueDate()->format(DateTimeInterface::ATOM), // ISO 8601
 			];
 			return new DataResponse($reminderData, Http::STATUS_OK);
-		} catch (DoesNotExistException $e) {
+		} catch (NodeNotFoundException | DoesNotExistException $e) {
 			$reminderData = [
 				'dueDate' => null,
 			];
@@ -125,7 +125,7 @@ class ApiController extends OCSController {
 		try {
 			$this->reminderService->remove($user, $fileId);
 			return new DataResponse([], Http::STATUS_OK);
-		} catch (DoesNotExistException $e) {
+		} catch (NodeNotFoundException | DoesNotExistException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 	}
