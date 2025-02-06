@@ -274,16 +274,6 @@ OC.L10N.register(
     "Time:" : "Час:",
     "Could not open file" : "Не вдалося відкрити файл",
     "Invalid chunk name" : "Недійсна назва блоку",
-    "Could not rename part file assembled from chunks" : "Не вдалося перейменувати файл частини, зібраний із фрагментів",
-    "In a %1$s on %2$s for the entire day" : "За %2$s, %1$s, впродовж усього дня",
-    "In a %1$s on %2$s between %3$s - %4$s" : "За %1$s, %2$s, між %3$s - %4$s",
-    "In %1$s %2$s on %3$s for the entire day" : "За %1$s, %2$s, о %3$s впродовж усього дня",
-    "In %1$s %2$s on %3$s between %4$s - %5$s" : "За %1$s, %2$s, о %3$s між  %4$s- %5$s",
-    "In a %1$s on %2$s" : "За %1$s, %2$s",
-    "In a %1$s on %2$s then on %3$s" : "За %1$s, %2$s, потім %3$s",
-    "In a %1$s on %2$s then on %3$s and %4$s" : "За %1$s, %2$s, потім %3$s та %4$s",
-    "In %1$s %2$s on %3$s" : "За %1$s %2$s, %3$s",
-    "In %1$s %2$s on %3$s then on %4$s" : "За %1$s, %2$s, %3$s та %4$s",
-    "In %1$s %2$s on %3$s then on %4$s and %5$s" : "За %1$s, %2$s, %3$s, потім %4$s та %5$s"
+    "Could not rename part file assembled from chunks" : "Не вдалося перейменувати файл частини, зібраний із фрагментів"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

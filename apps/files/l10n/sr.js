@@ -162,6 +162,7 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "Грешка приликом отпремања, кôд статуса {status}",
     "Unknown error during upload" : "Непозната грешка током отпремања",
     "\"{displayName}\" action executed successfully" : "Акција „{displayName}” је успешно извршена",
+    "Filter file names…" : "Филтрирање имена фајлова…",
     "Views" : "Прикази",
     "Files settings" : "Подешавања фајлова",
     "File cannot be accessed" : "Фајлу не може да се приступи",

@@ -242,10 +242,6 @@
     "Time:" : "Hora:",
     "Could not open file" : "No se pudo abrir el archivo",
     "Invalid chunk name" : "Nombre de fragmento inválido",
-    "Could not rename part file assembled from chunks" : "No se pudo renombrar el archivo parcial ensamblado por fragmentos",
-    "In a %1$s on %2$s for the entire day" : "En un(a) %1$s el %2$s todo el día",
-    "In a %1$s on %2$s between %3$s - %4$s" : "En un(a) %1$s el %2$s entre las %3$s - %4$s",
-    "In %1$s %2$s on %3$s for the entire day" : "En %1$s %2$s el %3$s todo el día",
-    "In %1$s %2$s on %3$s between %4$s - %5$s" : "En %1$s %2$s el %3$s entre las %4$s - %5$s"
+    "Could not rename part file assembled from chunks" : "No se pudo renombrar el archivo parcial ensamblado por fragmentos"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

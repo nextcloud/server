@@ -162,6 +162,7 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "Error during upload, status code {status}",
     "Unknown error during upload" : "Unknown error during upload",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\" action executed successfully",
+    "Filter file names…" : "Filter file names…",
     "Views" : "Views",
     "Files settings" : "Files settings",
     "File cannot be accessed" : "File cannot be accessed",

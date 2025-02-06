@@ -162,6 +162,7 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "Erreur lors du téléversement, code d'état {status}",
     "Unknown error during upload" : "Erreur inconnue lors du téléversement",
     "\"{displayName}\" action executed successfully" : "Action \"{displayName}\" exécutée avec succès",
+    "Filter file names…" : "Filtrer les noms de fichiers...",
     "Views" : "Vues",
     "Files settings" : "Paramètres de Fichiers",
     "File cannot be accessed" : "Impossible d'accéder au fichier",
