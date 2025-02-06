@@ -34,6 +34,7 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\Authentication\Events\AnyLoginFailedEvent;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengeFailed;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengePassed;
 use OCP\Console\ConsoleEvent;
@@ -105,6 +106,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(UserLoggedInWithCookieEvent::class, AuthEventListener::class);
 		$context->registerEventListener(UserLoggedInEvent::class, AuthEventListener::class);
 		$context->registerEventListener(BeforeUserLoggedOutEvent::class, AuthEventListener::class);
+		$context->registerEventListener(AnyLoginFailedEvent::class, AuthEventListener::class);
 
 		// File events
 		$context->registerEventListener(BeforePreviewFetchedEvent::class, FileEventListener::class);
