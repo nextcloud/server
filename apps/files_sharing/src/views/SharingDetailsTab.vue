@@ -169,7 +169,7 @@
 						@update:checked="queueUpdate('hideDownload')">
 						{{ t('files_sharing', 'Hide download') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch v-if="!isPublicShare"
+					<NcCheckboxRadioSwitch v-else
 						:disabled="!canSetDownload"
 						:checked.sync="canDownload"
 						data-cy-files-sharing-share-permissions-checkbox="download">
@@ -183,6 +183,10 @@
 							:placeholder="t('files_sharing', 'Enter a note for the share recipient')"
 							:value.sync="share.note" />
 					</template>
+					<NcCheckboxRadioSwitch v-if="isPublicShare && isFolder"
+						:checked.sync="showInGridView">
+						{{ t('files_sharing', 'Show files in grid view') }}
+					</NcCheckboxRadioSwitch>
 					<ExternalShareAction v-for="action in externalLinkActions"
 						:id="action.id"
 						ref="externalLinkActions"
@@ -439,28 +443,29 @@ export default {
 				this.updateAtomicPermissions({ isReshareChecked: checked })
 			},
 		},
+
+		/**
+		 * Change the default view for public shares from "list" to "grid"
+		 */
+		showInGridView: {
+			get() {
+				return this.getShareAttribute('config', 'grid_view', false)
+			},
+			/** @param {boolean} value If the default view should be changed to "grid" */
+			set(value) {
+				this.setShareAttribute('config', 'grid_view', value)
+			},
+		},
+
 		/**
 		 * Can the sharee download files or only view them ?
 		 */
 		canDownload: {
 			get() {
-				return this.share.attributes?.find(attr => attr.key === 'download')?.value ?? true
+				return this.getShareAttribute('permissions', 'download', true)
 			},
 			set(checked) {
-				// Find the 'download' attribute and update its value
-				const downloadAttr = this.share.attributes?.find(attr => attr.key === 'download')
-				if (downloadAttr) {
-					downloadAttr.value = checked
-				} else {
-					if (this.share.attributes === null) {
-						this.$set(this.share, 'attributes', [])
-					}
-					this.share.attributes.push({
-						scope: 'permissions',
-						key: 'download',
-						value: checked,
-					})
-				}
+				this.setShareAttribute('permissions', 'download', checked)
 			},
 		},
 		/**
@@ -783,6 +788,42 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Set a share attribute on the current share
+		 * @param {string} scope The attribute scope
+		 * @param {string} key The attribute key
+		 * @param {boolean} value The value
+		 */
+		setShareAttribute(scope, key, value) {
+			if (!this.share.attributes) {
+				this.$set(this.share, 'attributes', [])
+			}
+
+			const attribute = this.share.attributes
+				.find((attr) => attr.scope === scope || attr.key === key)
+
+			if (attribute) {
+				attribute.value = value
+			} else {
+				this.share.attributes.push({
+					scope,
+					key,
+					value,
+				})
+			}
+		},
+
+		/**
+		 * Get the value of a share attribute
+		 * @param {string} scope The attribute scope
+		 * @param {string} key The attribute key
+		 * @param {undefined|boolean} fallback The fallback to return if not found
+		 */
+		getShareAttribute(scope, key, fallback = undefined) {
+			const attribute = this.share.attributes?.find((attr) => attr.scope === scope && attr.key === key)
+			return attribute?.value ?? fallback
+		},
+
 		async generateNewToken() {
 			if (this.loadingToken) {
 				return
