@@ -162,6 +162,7 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "Fel vid uppladdning, statuskod {status}",
     "Unknown error during upload" : "Okänt fel under uppladdning",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\"-åtgärden har utförts",
+    "Filter file names…" : "Filtrera filnamn...",
     "Views" : "Vyer",
     "Files settings" : "Filinställningar",
     "File cannot be accessed" : "Det går inte att komma åt filen",

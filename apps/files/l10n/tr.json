@@ -160,6 +160,7 @@
     "Error during upload, status code {status}" : "Yüklenirken sorun çıktı, durum kodu {status}",
     "Unknown error during upload" : "Yükleme sırasında bilinmeyen bir sorun çıktı",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\" işlemi tamamlandı",
+    "Filter file names…" : "Dosya adlarını süz…",
     "Views" : "Görünümler",
     "Files settings" : "Dosyalar ayarları",
     "File cannot be accessed" : "Dosyaya erişilemedi",

@@ -309,16 +309,6 @@
     "Time:" : "Време:",
     "Could not open file" : "Фајл не може да се отвори",
     "Invalid chunk name" : "Неисправни назив комада",
-    "Could not rename part file assembled from chunks" : "Име делимичног фајла састављеног од комада не може да се промени",
-    "In a %1$s on %2$s for the entire day" : "У %1$s дана %2$s током целог дана",
-    "In a %1$s on %2$s between %3$s - %4$s" : "У %1$s дана %2$s од %3$s до %4$s",
-    "In %1$s %2$s on %3$s for the entire day" : "У %1$s %2$s дана %3$s током целог дана",
-    "In %1$s %2$s on %3$s between %4$s - %5$s" : "У %1$s %2$s дана %3$s од %4$s до %5$s",
-    "In a %1$s on %2$s" : "За %1$s у %2$s",
-    "In a %1$s on %2$s then on %3$s" : "За %1$s у %2$s, па онда %3$s",
-    "In a %1$s on %2$s then on %3$s and %4$s" : "За %1$s у %2$s, па онда %3$s и %4$s",
-    "In %1$s %2$s on %3$s" : "За %1$s %2$s у %3$s",
-    "In %1$s %2$s on %3$s then on %4$s" : "За %1$s %2$s у %3$s, па онда у %4$s ",
-    "In %1$s %2$s on %3$s then on %4$s and %5$s" : "За %1$s %2$s у %3$s, па онда у %4$s и %5$s "
+    "Could not rename part file assembled from chunks" : "Име делимичног фајла састављеног од комада не може да се промени"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

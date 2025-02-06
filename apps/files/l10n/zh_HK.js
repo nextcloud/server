@@ -162,6 +162,7 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "上傳期間發生錯誤，狀態代碼 {status}",
     "Unknown error during upload" : "上傳時發生未知的錯誤",
     "\"{displayName}\" action executed successfully" : "成功執行 “{displayName}” 操作",
+    "Filter file names…" : "過濾檔案名稱 …",
     "Views" : "視圖",
     "Files settings" : "檔案設定",
     "File cannot be accessed" : "檔案無法存取",

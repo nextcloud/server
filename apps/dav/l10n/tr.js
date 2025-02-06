@@ -311,16 +311,6 @@ OC.L10N.register(
     "Time:" : "Zaman:",
     "Could not open file" : "Dosya açılamadı",
     "Invalid chunk name" : "Parça adı geçersiz",
-    "Could not rename part file assembled from chunks" : "Parçalardan oluşturulan parça dosyası yeniden adlandırılamadı ",
-    "In a %1$s on %2$s for the entire day" : "Tüm gün boyunca %1$s içinde %2$s zamanında",
-    "In a %1$s on %2$s between %3$s - %4$s" : "%1$s içinde %2$s zamanında %3$sile %4$s arasında",
-    "In %1$s %2$s on %3$s for the entire day" : "Tüm gün boyunca %1$s %2$s içinde %3$s zamanında",
-    "In %1$s %2$s on %3$s between %4$s - %5$s" : "%1$s %2$s içinde %3$s zamanında %4$s ile %5$s arasında",
-    "In a %1$s on %2$s" : "%1$s içinde %2$s",
-    "In a %1$s on %2$s then on %3$s" : "%1$s içinde %2$s ve %3$s",
-    "In a %1$s on %2$s then on %3$s and %4$s" : "%1$s içinde %2$s, %3$s ve %4$s",
-    "In %1$s %2$s on %3$s" : "%1$s %2$s içinde %3$s",
-    "In %1$s %2$s on %3$s then on %4$s" : "%1$s %2$s içinde %3$s ve %4$s",
-    "In %1$s %2$s on %3$s then on %4$s and %5$s" : "%1$s %2$s içinde %3$s, %4$s ve %5$s"
+    "Could not rename part file assembled from chunks" : "Parçalardan oluşturulan parça dosyası yeniden adlandırılamadı "
 },
 "nplurals=2; plural=(n > 1);");

@@ -162,6 +162,7 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "حدث خطأ أثناء الرفع. رمز الحالة {status}",
     "Unknown error during upload" : "خطأ غير محدد حدث أثناء الرفع",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\" الأمر نُفّذ بنجاح",
+    "Filter file names…" : "فلترة بحسب اسم الملف ...",
     "Views" : "مشاهدات",
     "Files settings" : "إعدادات الملفات",
     "File cannot be accessed" : "الملف لم يمكن الوصول إليه",

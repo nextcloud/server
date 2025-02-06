@@ -276,16 +276,6 @@
     "Time:" : "Heure :",
     "Could not open file" : "Impossible d'ouvrir le fichier",
     "Invalid chunk name" : "Nom de morceau invalide",
-    "Could not rename part file assembled from chunks" : "Impossible de renommer le fichier partiel à partir des morceaux",
-    "In a %1$s on %2$s for the entire day" : "Dans un(e) %1$s le %2$s pour la journée entière",
-    "In a %1$s on %2$s between %3$s - %4$s" : "Dans un(e) %1$s le %2$s entre %3$s et %4$s",
-    "In %1$s %2$s on %3$s for the entire day" : "Dans %1$s %2$s le %3$s pour la journée entière",
-    "In %1$s %2$s on %3$s between %4$s - %5$s" : "Dans %1$s %2$s le %3$s entre %4$s et %5$s",
-    "In a %1$s on %2$s" : "Dans un(e) %1$s le %2$s",
-    "In a %1$s on %2$s then on %3$s" : "Dans un(e) %1$s le %2$s puis le %3$s",
-    "In a %1$s on %2$s then on %3$s and %4$s" : "Dans un(e) %1$s le %2$s puis le %3$s et le %4$s",
-    "In %1$s %2$s on %3$s" : "Dans %1$s %2$s le %3$s",
-    "In %1$s %2$s on %3$s then on %4$s" : "Dans %1$s %2$s le %3$s puis le %4$s",
-    "In %1$s %2$s on %3$s then on %4$s and %5$s" : "Dans %1$s %2$s le %3$s puis le %4$s et le %5$s"
+    "Could not rename part file assembled from chunks" : "Impossible de renommer le fichier partiel à partir des morceaux"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
