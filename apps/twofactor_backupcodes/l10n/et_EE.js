@@ -10,6 +10,7 @@ OC.L10N.register(
     "Two factor backup codes" : "Kaheastmelise autentimise varukoodid",
     "A two-factor auth backup codes provider" : "Kaheastmelise autentimise varukoodide pakkuja",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Varukoodid genereeritud. {used} koodi {total}-st on kasutatud.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Need on su tagavarakoodid. Palun salvesta ja/või prindi need välja kuna sa ei saa neid koode hiljem uuesti lugeda.",
     "Save backup codes" : "Salvesta varukoodid",
     "Print backup codes" : "Trüki varukoodid",
     "Regenerate backup codes" : "Genereeri varukoodid uuesti",

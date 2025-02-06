@@ -3,7 +3,16 @@ OC.L10N.register(
     {
     "Dashboard" : "Töölaud",
     "Dashboard app" : "Töölaua rakendus",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Alustage oma päeva teadlikult\n\nNextcloudi avaleht on su päeva alguspunkt, mis annab ülevaate eelseisvatest kohtumistest, kiireloomulistest meilidest, vestlussõnumitest, sissetulevatest päringutest, viimastest säutsudest ja paljust muust! Inimesed saavad lisada neile meeldivaid vidinaid ja muuta tausta oma maitse järgi.",
     "\"{title} icon\"" : "\"{title} ikoon\"",
+    "Customize" : "Kohanda",
+    "Edit widgets" : "Redigeeri vidinaid",
+    "Get more widgets from the App Store" : "Hangi rohkem vidinaid Rakenduste Poest",
+    "Weather service" : "Ilmateenus",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Sinu privaatsuse huvides küsib su nimel ilmaandmeid Nextcloudi server, nii et ilmateenistus ei saa isiklikku teavet.",
+    "Weather data from Met.no" : "Ilmaandmed Met.no-st",
+    "geocoding with Nominatim" : "geoprogrammeerimine Nominatim-iga",
+    "elevation data from OpenTopoData" : "kõrgusandmed OpenTopoData-st",
     "Weather" : "Ilm",
     "Status" : "Staatus",
     "Good morning" : "Tere hommikust",
@@ -13,6 +22,8 @@ OC.L10N.register(
     "Good evening" : "Tere õhtust",
     "Good evening, {name}" : "Tere õhtust, {name}",
     "Hello" : "Tere",
-    "Hello, {name}" : "Tere, {name}"
+    "Hello, {name}" : "Tere, {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "Palju õnne sünnipäevaks 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Palju õnne, {name} 🥳🤩🎂🎉"
 },
 "nplurals=2; plural=(n != 1);");

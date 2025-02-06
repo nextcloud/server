@@ -311,16 +311,6 @@ OC.L10N.register(
     "Time:" : "時間：",
     "Could not open file" : "無法開啟檔案",
     "Invalid chunk name" : "無效的區塊名稱",
-    "Could not rename part file assembled from chunks" : "無法重新命名從區塊組合成的部份檔案",
-    "In a %1$s on %2$s for the entire day" : "%1$s 的 %2$s 整天",
-    "In a %1$s on %2$s between %3$s - %4$s" : "%1$s 的 %2$s 於 %3$s - %4$s 之間",
-    "In %1$s %2$s on %3$s for the entire day" : "%1$s %2$s 的 %3$s 整天",
-    "In %1$s %2$s on %3$s between %4$s - %5$s" : "%1$s %2$s 的 %3$s 於 %4$s - %5$s 之間",
-    "In a %1$s on %2$s" : "在 %1$s 的 %2$s",
-    "In a %1$s on %2$s then on %3$s" : "在 %1$s 的 %2$s，然後 %3$s",
-    "In a %1$s on %2$s then on %3$s and %4$s" : "在 %1$s 的 %2$s，然後 %3$s 與 %4$s",
-    "In %1$s %2$s on %3$s" : "在 %1$s %2$s 的 %3$s",
-    "In %1$s %2$s on %3$s then on %4$s" : "在 %1$s %2$s 的 %3$s，然後 %4$s",
-    "In %1$s %2$s on %3$s then on %4$s and %5$s" : "在 %1$s %2$s 的 %3$s，然後 %4$s 與 %5$s"
+    "Could not rename part file assembled from chunks" : "無法重新命名從區塊組合成的部份檔案"
 },
 "nplurals=1; plural=0;");

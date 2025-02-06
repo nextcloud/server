@@ -311,16 +311,6 @@ OC.L10N.register(
     "Time:" : "الوقت:",
     "Could not open file" : "تعذّر فتح الملف",
     "Invalid chunk name" : "اسم كتلة chunk غير صحيح",
-    "Could not rename part file assembled from chunks" : "تعذّرت إعادة تسمية ملف جزئي مُجمّعٍ من كُتلٍ chunks",
-    "In a %1$s on %2$s for the entire day" : "عند %1$s في %2$s كامل اليوم",
-    "In a %1$s on %2$s between %3$s - %4$s" : "عند %1$s في %2$s بين %3$s - %4$s",
-    "In %1$s %2$s on %3$s for the entire day" : "عند %1$s %2$s في %3$s كامل اليوم",
-    "In %1$s %2$s on %3$s between %4$s - %5$s" : "عند %1$s %2$s في %3$s بين %4$s - %5$s",
-    "In a %1$s on %2$s" : "عند %1$s في %2$s",
-    "In a %1$s on %2$s then on %3$s" : "عند %1$s في %2$s ثم في%3$s",
-    "In a %1$s on %2$s then on %3$s and %4$s" : "عند %1$s في %2$s ثم في %3$s و %4$s",
-    "In %1$s %2$s on %3$s" : "عند %1$s %2$s في %3$s",
-    "In %1$s %2$s on %3$s then on %4$s" : "عند %1$s %2$s في %3$s ثم في %4$s",
-    "In %1$s %2$s on %3$s then on %4$s and %5$s" : "عند %1$s %2$s في %3$s ثم في %4$s و%5$s"
+    "Could not rename part file assembled from chunks" : "تعذّرت إعادة تسمية ملف جزئي مُجمّعٍ من كُتلٍ chunks"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

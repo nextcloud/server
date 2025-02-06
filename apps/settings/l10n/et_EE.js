@@ -204,6 +204,7 @@ OC.L10N.register(
     "Organisation" : "Organisatsioon",
     "Phone number" : "Telefoninumber",
     "Role" : "Roll",
+    "X (formerly Twitter)" : "X (varasemalt Twitter)",
     "Website" : "Veebileht",
     "Locale" : "Kasutuskoht",
     "Your apps" : "Sinu rakendused",

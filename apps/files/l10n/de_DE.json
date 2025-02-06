@@ -160,6 +160,7 @@
     "Error during upload, status code {status}" : "Fehler beim Hochladen, Statuscode {status}",
     "Unknown error during upload" : "Unbekannter Fehler beim Hochladen",
     "\"{displayName}\" action executed successfully" : "Aktion \"{displayName}\" erfolgreich ausgeführt",
+    "Filter file names…" : "Dateinamen filtern…",
     "Views" : "Ansichten",
     "Files settings" : "Dateien-Einstellungen",
     "File cannot be accessed" : "Auf die Datei kann nicht zugegriffen werden",

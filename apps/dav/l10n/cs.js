@@ -311,16 +311,6 @@ OC.L10N.register(
     "Time:" : "Čas:",
     "Could not open file" : "Nedaří se otevřít soubor",
     "Invalid chunk name" : "Neplatný název pro shluk (chunk)",
-    "Could not rename part file assembled from chunks" : "Nedaří se přejmenovat částečný soubor složený ze shluků",
-    "In a %1$s on %2$s for the entire day" : "Na %1$s v %2$s po celý den",
-    "In a %1$s on %2$s between %3$s - %4$s" : "Na %1$s v %2$s mezi %3$s - %4$s",
-    "In %1$s %2$s on %3$s for the entire day" : "Na %1$s %2$s v %3$s po celý den",
-    "In %1$s %2$s on %3$s between %4$s - %5$s" : "V %1$s %2$s na %3$s mezi %4$s - %5$s",
-    "In a %1$s on %2$s" : "V %1$s v %2$s",
-    "In a %1$s on %2$s then on %3$s" : "V %1$s v %2$s, pak v %3$s",
-    "In a %1$s on %2$s then on %3$s and %4$s" : "V %1$s v %2$s, pak v %3$s a %4$s",
-    "In %1$s %2$s on %3$s" : "V %1$s %2$s v %3$s",
-    "In %1$s %2$s on %3$s then on %4$s" : "V %1$s %2$s v %3$s, pak v %4$s",
-    "In %1$s %2$s on %3$s then on %4$s and %5$s" : "V %1$s %2$s v %3$s, pak v %4$s a %5$s"
+    "Could not rename part file assembled from chunks" : "Nedaří se přejmenovat částečný soubor složený ze shluků"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
