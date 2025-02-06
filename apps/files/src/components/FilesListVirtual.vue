@@ -57,9 +57,10 @@
 </template>
 
 <script lang="ts">
-import type { ComponentPublicInstance, PropType } from 'vue'
-import type { Node as NcNode } from '@nextcloud/files'
 import type { UserConfig } from '../types'
+import type { Node as NcNode } from '@nextcloud/files'
+import type { ComponentPublicInstance, PropType } from 'vue'
+import type { Location } from 'vue-router'
 
 import { defineComponent } from 'vue'
 import { getFileListHeaders, Folder, Permission, View, getFileActions, FileType } from '@nextcloud/files'
@@ -219,13 +220,12 @@ export default defineComponent({
 		},
 
 		openFile: {
-			handler() {
-				// wait for scrolling and updating the actions to settle
-				this.$nextTick(() => {
-					if (this.fileId && this.openFile) {
-						this.handleOpenFile(this.fileId)
-					}
-				})
+			async handler(openFile) {
+				if (!openFile || !this.fileId) {
+					return
+				}
+
+				await this.handleOpenFile(this.fileId)
 			},
 			immediate: true,
 		},
@@ -329,30 +329,42 @@ export default defineComponent({
 		 * Handle opening a file (e.g. by ?openfile=true)
 		 * @param fileId File to open
 		 */
-		handleOpenFile(fileId: number|null) {
-			if (fileId === null) {
-				return
-			}
-
+		async handleOpenFile(fileId: number) {
 			const node = this.nodes.find(n => n.fileid === fileId) as NcNode
-			if (node === undefined || node.type === FileType.Folder) {
+			if (node === undefined) {
 				return
 			}
 
-			logger.debug('Opening file ' + node.path, { node })
-			this.openFileId = fileId
-			const defaultAction = getFileActions()
-				// Get only default actions (visible and hidden)
-				.filter(action => !!action?.default)
-				// Find actions that are either always enabled or enabled for the current node
-				.filter((action) => !action.enabled || action.enabled([node], this.currentView))
-				// Sort enabled default actions by order
-				.sort((a, b) => (a.order || 0) - (b.order || 0))
-				// Get the first one
-				.at(0)
-			// Some file types do not have a default action (e.g. they can only be downloaded)
-			// So if there is an enabled default action, so execute it
-			defaultAction?.exec(node, this.currentView, this.currentFolder.path)
+			if (node.type === FileType.File) {
+				const defaultAction = getFileActions()
+					// Get only default actions (visible and hidden)
+					.filter((action) => !!action?.default)
+					// Find actions that are either always enabled or enabled for the current node
+					.filter((action) => !action.enabled || action.enabled([node], this.currentView))
+					.filter((action) => action.id !== 'download')
+					// Sort enabled default actions by order
+					.sort((a, b) => (a.order || 0) - (b.order || 0))
+					// Get the first one
+					.at(0)
+
+				// Some file types do not have a default action (e.g. they can only be downloaded)
+				// So if there is an enabled default action, so execute it
+				if (defaultAction) {
+					logger.debug('Opening file ' + node.path, { node })
+					return await defaultAction.exec(node, this.currentView, this.currentFolder.path)
+				}
+			}
+			// The file is either a folder or has no default action other than downloading
+			// in this case we need to open the details instead and remove the route from the history
+			const query = this.$route.query
+			delete query.openfile
+			query.opendetails = ''
+
+			logger.debug('Ignore `openfile` query and replacing with `opendetails` for ' + node.path, { node })
+			await this.$router.replace({
+				...(this.$route as Location),
+				query,
+			})
 		},
 
 		onDragOver(event: DragEvent) {
