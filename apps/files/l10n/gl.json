@@ -160,6 +160,7 @@
     "Error during upload, status code {status}" : "Produciuse un erro durante o envío, código de estado {status}",
     "Unknown error during upload" : "Produciuse un erro descoñecido durante o envío",
     "\"{displayName}\" action executed successfully" : "A acción «{displayName}» executouse correctamente",
+    "Filter file names…" : "Filtrar os nomes de ficheiro…",
     "Views" : "Vistas",
     "Files settings" : "Axustes de Ficheiros",
     "File cannot be accessed" : "Non é posíbel acceder ao ficheiro",

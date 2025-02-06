@@ -162,6 +162,7 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "Chyba počas nahrávania, chybový kód {status}",
     "Unknown error during upload" : "Neznáma chyba počas nahrávania",
     "\"{displayName}\" action executed successfully" : "\"{displayName}\" akcia vykonaná úspešne",
+    "Filter file names…" : "Filtrovať názvy súborov...",
     "Views" : "Zobrazenia",
     "Files settings" : "Nastavenia súborov",
     "File cannot be accessed" : "Súbor nie je možné sprístupniť",

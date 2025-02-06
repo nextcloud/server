@@ -307,16 +307,6 @@
     "Time:" : "Noiz:",
     "Could not open file" : "Ezin izan da fitxategia ireki",
     "Invalid chunk name" : "Zati izen baliogabea",
-    "Could not rename part file assembled from chunks" : "Ezin izan da zati-fitxategiaren izena aldatu zenbait zatiz osatuta dagoelako",
-    "In a %1$s on %2$s for the entire day" : " %1$s batean %2$s(e)an egun osorako",
-    "In a %1$s on %2$s between %3$s - %4$s" : "%1$s batean %2$s(e)an %3$s eta %4$s artean",
-    "In %1$s %2$s on %3$s for the entire day" : "%1$s(e)n %2$s %3$s(e)an egun osorako",
-    "In %1$s %2$s on %3$s between %4$s - %5$s" : "%1$s(e)n %2$s  %3$s(e)an %4$s eta %5$s artean",
-    "In a %1$s on %2$s" : "%1$s batean %2$s(e)an",
-    "In a %1$s on %2$s then on %3$s" : "%1$s batean  %2$s(e)an eta %3$s(e)an",
-    "In a %1$s on %2$s then on %3$s and %4$s" : "%1$s batean %2$s(e)an, %3$s(e)an eta %4$s(e)an",
-    "In %1$s %2$s on %3$s" : "%1$s(e)n %2$s %3$s(e)an ",
-    "In %1$s %2$s on %3$s then on %4$s" : "%1$s(e)n %2$s %3$s(e)an eta %4$s(e)an",
-    "In %1$s %2$s on %3$s then on %4$s and %5$s" : "%1$s(e)n %2$s %3$s(e)an, %4$s(e)an eta %5$s(e)an"
+    "Could not rename part file assembled from chunks" : "Ezin izan da zati-fitxategiaren izena aldatu zenbait zatiz osatuta dagoelako"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

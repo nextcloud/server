@@ -72,6 +72,7 @@ OC.L10N.register(
     "Description: %s" : "描述：%s",
     "Where: %s" : "地点：%s",
     "%1$s via %2$s" : "%1$s 通过 %2$s",
+    "In the past on %1$s for the entire day" : "过去一整天都在 %1$s 上",
     "Cancelled: %1$s" : "已取消：%1$s",
     "\"%1$s\" has been canceled" : "“%1$s”已取消",
     "Re: %1$s" : "回复：%1$s",

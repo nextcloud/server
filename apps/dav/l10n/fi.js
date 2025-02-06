@@ -159,7 +159,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Hyväksytkö kutsun?",
     "Tentative" : "Alustava",
     "Your attendance was updated successfully." : "Osallistumisesi päivitettiin onnistuneesti.",
-    "To-dos" : "Tehtävät",
     "Time:" : "Aika:",
     "Could not open file" : "Tiedoston avaaminen ei onnistunut"
 },

@@ -311,16 +311,6 @@ OC.L10N.register(
     "Time:" : "Hora:",
     "Could not open file" : "Non foi posíbel abrir o ficheiro",
     "Invalid chunk name" : "O nome do fragmento non é válido",
-    "Could not rename part file assembled from chunks" : "Non foi posíbel cambiar o nome do ficheiro de pezas ensamblados a partir de fragmentos",
-    "In a %1$s on %2$s for the entire day" : "Nun/ha %1$s o %2$s durante todo o día",
-    "In a %1$s on %2$s between %3$s - %4$s" : "Nun/ha %1$s o %2$s entre as %3$s e as %4$s",
-    "In %1$s %2$s on %3$s for the entire day" : "Dentro de %1$s %2$s o %3$s durante todo o día",
-    "In %1$s %2$s on %3$s between %4$s - %5$s" : "Dentro de %1$s %2$s o %3$s entre as %4$s e as %5$s",
-    "In a %1$s on %2$s" : "Nun/ha %1$s o %2$s",
-    "In a %1$s on %2$s then on %3$s" : "Nun/ha %1$s o %2$s após o %3$s",
-    "In a %1$s on %2$s then on %3$s and %4$s" : "Nun/ha %1$s o %2$s após o %3$s e o %4$s",
-    "In %1$s %2$s on %3$s" : "Dentro de %1$s %2$s o %3$s",
-    "In %1$s %2$s on %3$s then on %4$s" : "Dentro de %1$s %2$s o %3$s, após o %4$s",
-    "In %1$s %2$s on %3$s then on %4$s and %5$s" : "Dentro de %1$s %2$s o %3$s, após o %4$s e o %5$s"
+    "Could not rename part file assembled from chunks" : "Non foi posíbel cambiar o nome do ficheiro de pezas ensamblados a partir de fragmentos"
 },
 "nplurals=2; plural=(n != 1);");

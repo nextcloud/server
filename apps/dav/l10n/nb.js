@@ -271,16 +271,6 @@ OC.L10N.register(
     "Time:" : "Tid:",
     "Could not open file" : "Kunne ikke åpne fil",
     "Invalid chunk name" : "Ugyldig bitnavn",
-    "Could not rename part file assembled from chunks" : "Kunne ikke gi nytt navn til delfil satt sammen fra biter",
-    "In a %1$s on %2$s for the entire day" : "Om %1$s på %2$s for hele dagen",
-    "In a %1$s on %2$s between %3$s - %4$s" : "Om %1$s på %2$s mellom %3$s - %4$s",
-    "In %1$s %2$s on %3$s for the entire day" : "Om %1$s %2$s på %3$s for hele dagen",
-    "In %1$s %2$s on %3$s between %4$s - %5$s" : "Om %1$s %2$s på %3$s mellom %4$s - %5$s",
-    "In a %1$s on %2$s" : "Om %1$s på %2$s",
-    "In a %1$s on %2$s then on %3$s" : "Om %1$s på %2$s så på %3$s",
-    "In a %1$s on %2$s then on %3$s and %4$s" : "Om %1$s på %2$s så på %3$s og %4$s",
-    "In %1$s %2$s on %3$s" : "Om %1$s %2$s på %3$s",
-    "In %1$s %2$s on %3$s then on %4$s" : "Om %1$s %2$s på %3$s så på %4$s",
-    "In %1$s %2$s on %3$s then on %4$s and %5$s" : "Om %1$s %2$s på %3$s så på %4$s og %5$s"
+    "Could not rename part file assembled from chunks" : "Kunne ikke gi nytt navn til delfil satt sammen fra biter"
 },
 "nplurals=2; plural=(n != 1);");

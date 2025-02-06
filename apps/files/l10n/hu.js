@@ -162,6 +162,7 @@ OC.L10N.register(
     "Error during upload, status code {status}" : "Hiba a feltöltés közben, állapotkód: {status}",
     "Unknown error during upload" : "Ismeretlen hiba a feltöltés során",
     "\"{displayName}\" action executed successfully" : "A(z) „{displayName}” művelet sikeresen végrehajtva",
+    "Filter file names…" : "Fájlnevek szűrése…",
     "Views" : "Nézetek",
     "Files settings" : "Fájlok beállításai",
     "File cannot be accessed" : "A fájl nem érhető el",

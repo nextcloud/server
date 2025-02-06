@@ -309,16 +309,6 @@
     "Time:" : "Am:",
     "Could not open file" : "Níorbh fhéidir an comhad a oscailt",
     "Invalid chunk name" : "Ainm smután neamhbhailí",
-    "Could not rename part file assembled from chunks" : "Níorbh fhéidir páirtchomhad a athainmniú as smután",
-    "In a %1$s on %2$s for the entire day" : "I %1$s ar %2$s ar feadh an lae ar fad",
-    "In a %1$s on %2$s between %3$s - %4$s" : "I %1$s ar %2$s idir %3$s - %4$s",
-    "In %1$s %2$s on %3$s for the entire day" : "I %1$s %2$s ar %3$s ar feadh an lae ar fad",
-    "In %1$s %2$s on %3$s between %4$s - %5$s" : "I %1$s %2$s ar %3$s idir %4$s - %5$s",
-    "In a %1$s on %2$s" : "I %1$s ar %2$s",
-    "In a %1$s on %2$s then on %3$s" : "I %1$s ar %2$s ansin ar %3$s",
-    "In a %1$s on %2$s then on %3$s and %4$s" : "I %1$s ar %2$s ansin ar %3$s agus %4$s",
-    "In %1$s %2$s on %3$s" : "I %1$s %2$s ar %3$s",
-    "In %1$s %2$s on %3$s then on %4$s" : "I %1$s %2$s ar %3$s ansin ar %4$s",
-    "In %1$s %2$s on %3$s then on %4$s and %5$s" : "I %1$s %2$s ar %3$s ansin ar %4$s agus %5$s"
+    "Could not rename part file assembled from chunks" : "Níorbh fhéidir páirtchomhad a athainmniú as smután"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

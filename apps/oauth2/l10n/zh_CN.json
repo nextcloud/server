@@ -9,11 +9,13 @@
     "Name" : "名称",
     "Redirection URI" : "跳转URI",
     "Client Identifier" : "客户端标识",
-    "Secret key" : "Secret key",
+    "Secret key" : "密钥",
     "Delete client" : "删除客户端",
+    "Make sure you store the secret key, it cannot be recovered." : "请确保您存储了密钥，它无法恢复。",
     "Add client" : "添加客户端",
     "Add" : "添加",
     "Delete" : "删除",
-    "Show client secret" : "显示客户端 secret"
+    "Show client secret" : "显示客户端密钥",
+    "Hide client secret" : "隐藏客户端密钥"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
