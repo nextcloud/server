@@ -30,10 +30,10 @@
 // between betas, final and RCs. This is _not_ the public version number. Reset minor/patch level
 // when updating major/minor version number.
 
-$OC_Version = [29, 0, 11, 1];
+$OC_Version = [29, 0, 12, 0];
 
 // The human-readable string
-$OC_VersionString = '29.0.11';
+$OC_VersionString = '29.0.12 RC1';
 
 $OC_VersionCanBeUpgradedFrom = [
 	'nextcloud' => [
