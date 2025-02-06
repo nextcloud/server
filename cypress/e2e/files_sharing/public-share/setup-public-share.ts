@@ -4,7 +4,7 @@
  */
 import type { User } from '@nextcloud/cypress'
 import type { ShareOptions } from '../ShareOptionsType.ts'
-import { openSharingPanel } from '../FilesSharingUtils.ts'
+import { openSharingPanel } from '../filesSharingUtils.ts'
 
 export interface ShareContext {
 	user: User
