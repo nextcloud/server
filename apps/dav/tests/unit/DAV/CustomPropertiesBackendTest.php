@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2017, Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -242,4 +243,21 @@ class CustomPropertiesBackendTest extends TestCase {
 			[str_repeat('long_path1', 100), str_repeat('long_path2', 100)]
 		];
 	}
+
+	public function testDecodeValueFromDatabaseObjectCurrent(): void {
+		$propertyValue = 'O:48:"Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp":1:{s:8:"\x00*\x00value";s:6:"opaque";}';
+		$propertyType = 3;
+		$decodeValue = $this->invokePrivate($this->backend, 'decodeValueFromDatabase', [$propertyValue, $propertyType]);
+		$this->assertInstanceOf(\Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp::class, $decodeValue);
+		$this->assertEquals('opaque', $decodeValue->getValue());
+	}
+
+	public function testDecodeValueFromDatabaseObjectLegacy(): void {
+		$propertyValue = 'O:48:"Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp":1:{s:8:"' . chr(0) . '*' . chr(0) . 'value";s:6:"opaque";}';
+		$propertyType = 3;
+		$decodeValue = $this->invokePrivate($this->backend, 'decodeValueFromDatabase', [$propertyValue, $propertyType]);
+		$this->assertInstanceOf(\Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp::class, $decodeValue);
+		$this->assertEquals('opaque', $decodeValue->getValue());
+	}
+
 }
