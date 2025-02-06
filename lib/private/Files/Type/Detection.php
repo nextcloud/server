@@ -23,7 +23,7 @@ class Detection implements IMimeTypeDetector {
 	private const CUSTOM_MIMETYPEMAPPING = 'mimetypemapping.json';
 	private const CUSTOM_MIMETYPEALIASES = 'mimetypealiases.json';
 
-	/** @var array<string, array{string, string|null}> */
+	/** @var array<string, list{string, string|null}> */
 	protected array $mimetypes = [];
 	protected array $secureMimeTypes = [];
 
@@ -140,7 +140,7 @@ class Detection implements IMimeTypeDetector {
 	}
 
 	/**
-	 * @return array<string, array{string, string|null}>
+	 * @return array<string, list{string, string|null}>
 	 */
 	public function getAllMappings(): array {
 		$this->loadMappings();
