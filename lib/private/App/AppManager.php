@@ -672,6 +672,7 @@ class AppManager implements IAppManager {
 		$appData = $this->getAppInfo($appId);
 		if (!is_null($appData)) {
 			\OC_App::executeRepairSteps($appId, $appData['repair-steps']['uninstall']);
+			\OC_App::removeBackgroundJobs($appData['background-jobs']);
 		}
 
 		$this->dispatcher->dispatchTyped(new AppDisableEvent($appId));

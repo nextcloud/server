@@ -755,6 +755,13 @@ class OC_App {
 		$r->run();
 	}
 
+	public static function removeBackgroundJobs(array $jobs) {
+		$queue = \OC::$server->getJobList();
+		foreach ($jobs as $job) {
+			$queue->remove($job);
+		}
+	}
+
 	public static function setupBackgroundJobs(array $jobs) {
 		$queue = \OC::$server->getJobList();
 		foreach ($jobs as $job) {
