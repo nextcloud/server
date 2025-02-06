@@ -23,6 +23,7 @@ class Detection implements IMimeTypeDetector {
 	private const CUSTOM_MIMETYPEMAPPING = 'mimetypemapping.json';
 	private const CUSTOM_MIMETYPEALIASES = 'mimetypealiases.json';
 
+	/** @var array<string, list{string, string|null}> */
 	protected array $mimetypes = [];
 	protected array $secureMimeTypes = [];
 
@@ -52,6 +53,8 @@ class Detection implements IMimeTypeDetector {
 	public function registerType(string $extension,
 		string $mimetype,
 		?string $secureMimeType = null): void {
+		// Make sure the extension is a string
+		// https://github.com/nextcloud/server/issues/42902
 		$this->mimetypes[$extension] = [$mimetype, $secureMimeType];
 		$this->secureMimeTypes[$mimetype] = $secureMimeType ?: $mimetype;
 	}
@@ -66,13 +69,17 @@ class Detection implements IMimeTypeDetector {
 	 * @param array $types
 	 */
 	public function registerTypeArray(array $types): void {
-		$this->mimetypes = array_merge($this->mimetypes, $types);
+		// Register the types,
+		foreach ($types as $extension => $mimeType) {
+			$this->registerType((string)$extension, $mimeType[0], $mimeType[1] ?? null);
+		}
 
 		// Update the alternative mimetypes to avoid having to look them up each time.
 		foreach ($this->mimetypes as $extension => $mimeType) {
-			if (str_starts_with($extension, '_comment')) {
+			if (str_starts_with((string)$extension, '_comment')) {
 				continue;
 			}
+
 			$this->secureMimeTypes[$mimeType[0]] = $mimeType[1] ?? $mimeType[0];
 			if (isset($mimeType[1])) {
 				$this->secureMimeTypes[$mimeType[1]] = $mimeType[1];
@@ -133,7 +140,7 @@ class Detection implements IMimeTypeDetector {
 	}
 
 	/**
-	 * @return array
+	 * @return array<string, list{string, string|null}>
 	 */
 	public function getAllMappings(): array {
 		$this->loadMappings();
@@ -163,7 +170,7 @@ class Detection implements IMimeTypeDetector {
 			$extension = strrchr($fileName, '.');
 			if ($extension !== false) {
 				$extension = strtolower($extension);
-				$extension = substr($extension, 1); //remove leading .
+				$extension = substr($extension, 1); // remove leading .
 				return $this->mimetypes[$extension][0] ?? 'application/octet-stream';
 			}
 		}

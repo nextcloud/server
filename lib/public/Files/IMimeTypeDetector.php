@@ -73,4 +73,10 @@ interface IMimeTypeDetector {
 	 * @since 28.0.0
 	 */
 	public function getAllAliases(): array;
+
+	/**
+	 * @return array<string, list{string, string|null}>
+	 * @since 32.0.0
+	 */
+	public function getAllMappings(): array;
 }
