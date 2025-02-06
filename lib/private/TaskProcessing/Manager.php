@@ -81,7 +81,6 @@ class Manager implements IManager {
 	private IAppData $appData;
 	private ?array $preferences = null;
 	private ?array $providersById = null;
-	private ICache $cache;
 	private ICache $distributedCache;
 
 	public function __construct(
@@ -101,7 +100,6 @@ class Manager implements IManager {
 		ICacheFactory $cacheFactory,
 	) {
 		$this->appData = $appDataFactory->get('core');
-		$this->cache = $cacheFactory->createLocal('task_processing::');
 		$this->distributedCache = $cacheFactory->createDistributed('task_processing::');
 	}
 
@@ -768,8 +766,10 @@ class Manager implements IManager {
 
 	public function getAvailableTaskTypes(bool $showDisabled = false): array {
 		if ($this->availableTaskTypes === null) {
-			// We use local cache only because distributed cache uses JSOn stringify which would botch our ShapeDescriptor objects
-			$this->availableTaskTypes = $this->cache->get('available_task_types');
+			$cachedValue = $this->distributedCache->get('available_task_types_v2');
+			if ($cachedValue !== null) {
+				$this->availableTaskTypes = unserialize($cachedValue);
+			}
 		}
 		// Either we have no cache or showDisabled is turned on, which we don't want to cache, ever.
 		if ($this->availableTaskTypes === null || $showDisabled) {
@@ -812,7 +812,7 @@ class Manager implements IManager {
 			}
 
 			$this->availableTaskTypes = $availableTaskTypes;
-			$this->cache->set('available_task_types', $this->availableTaskTypes, 60);
+			$this->distributedCache->set('available_task_types_v2', serialize($this->availableTaskTypes), 60);
 		}
 
 
