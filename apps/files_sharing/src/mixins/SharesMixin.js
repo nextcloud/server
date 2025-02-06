@@ -110,6 +110,9 @@ export default {
 				monthFormat: 'MMM',
 			}
 		},
+		isNewShare() {
+			return !this.share.id
+		},
 		isFolder() {
 			return this.fileInfo.type === 'dir'
 		},
@@ -210,17 +213,8 @@ export default {
 		 * @param {Date} date
 		 */
 		onExpirationChange(date) {
-			this.share.expireDate = this.formatDateToString(new Date(date))
-		},
-
-		/**
-		 * Uncheck expire date
-		 * We need this method because @update:checked
-		 * is ran simultaneously as @uncheck, so
-		 * so we cannot ensure data is up-to-date
-		 */
-		onExpirationDisable() {
-			this.share.expireDate = ''
+			const formattedDate = date ? this.formatDateToString(new Date(date)) : ''
+			this.share.expireDate = formattedDate
 		},
 
 		/**
