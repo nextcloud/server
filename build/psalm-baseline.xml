@@ -1648,11 +1648,6 @@
       <code><![CDATA[$this->timeFactory->getTime()]]></code>
     </InvalidScalarArgument>
   </file>
-  <file src="core/Command/Maintenance/Mimetype/GenerateMimetypeFileBuilder.php">
-    <InvalidArrayAccess>
-      <code><![CDATA[$key[0]]]></code>
-    </InvalidArrayAccess>
-  </file>
   <file src="core/Command/Maintenance/Mimetype/UpdateDB.php">
     <UndefinedInterfaceMethod>
       <code><![CDATA[getAllMappings]]></code>
