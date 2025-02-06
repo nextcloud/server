@@ -159,14 +159,12 @@ export default defineComponent({
 
 	methods: {
 		async loadExpandedViews() {
-			const viewConfigs = this.viewConfigStore.getConfigs()
-			const viewsToLoad: View[] = (Object.entries(viewConfigs) as Array<[string, ViewConfig]>)
-				// eslint-disable-next-line @typescript-eslint/no-unused-vars
-				.filter(([viewId, config]) => config.expanded === true)
-				// eslint-disable-next-line @typescript-eslint/no-unused-vars
-				.map(([viewId, config]) => this.views.find(view => view.id === viewId))
-				.filter(Boolean) // Only registered views
-				.filter(view => view.loadChildViews && !view.loaded)
+			const viewsToLoad: View[] = (Object.entries(this.viewConfigStore.viewConfigs) as Array<[string, ViewConfig]>)
+				.filter(([, config]) => config.expanded === true)
+				.map(([viewId]) => this.views.find(view => view.id === viewId))
+				// eslint-disable-next-line no-use-before-define
+				.filter(Boolean as unknown as ((u: unknown) => u is View))
+				.filter((view) => view.loadChildViews && !view.loaded)
 			for (const view of viewsToLoad) {
 				await view.loadChildViews(view)
 			}
