@@ -843,7 +843,6 @@
       <code><![CDATA[encrypt]]></code>
       <code><![CDATA[setIV]]></code>
       <code><![CDATA[setIV]]></code>
-      <code><![CDATA[setKey]]></code>
     </InternalMethod>
     <TooManyArguments>
       <code><![CDATA[test]]></code>
