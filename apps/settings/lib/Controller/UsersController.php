@@ -32,6 +32,7 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -314,6 +315,7 @@ class UsersController extends Controller {
 	 */
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
+	#[UserRateLimit(limit: 5, period: 60)]
 	public function setUserSettings(?string $avatarScope = null,
 		?string $displayname = null,
 		?string $displaynameScope = null,

@@ -894,7 +894,7 @@ class UsersController extends AUserDataOCSController {
 	 */
 	#[PasswordConfirmationRequired]
 	#[NoAdminRequired]
-	#[UserRateLimit(limit: 50, period: 60)]
+	#[UserRateLimit(limit: 50, period: 600)]
 	public function editUser(string $userId, string $key, string $value): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 
