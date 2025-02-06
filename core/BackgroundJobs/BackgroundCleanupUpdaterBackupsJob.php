@@ -28,13 +28,13 @@ class BackgroundCleanupUpdaterBackupsJob extends QueuedJob {
 	 * @param array $argument
 	 */
 	public function run($argument): void {
-		$this->log->info("Running background job to clean-up outdated updater backups");
+		$this->log->info('Running background job to clean-up outdated updater backups');
 
 		$updateDir = $this->config->getSystemValue('updatedirectory', null) ?? $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
 		$instanceId = $this->config->getSystemValue('instanceid', null);
 
 		if (!is_string($instanceId) || empty($instanceId)) {
-			$this->log->error("Skipping updater backup clean-up - instanceId is missing!");
+			$this->log->error('Skipping updater backup clean-up - instanceId is missing!');
 			return;
 		}
 
@@ -73,7 +73,7 @@ class BackgroundCleanupUpdaterBackupsJob extends QueuedJob {
 				$result = \OC_Helper::rmdirr($dir);
 				if (!$result) {
 					$this->log->error('Could not remove updater backup folder $dir');
-				}					
+				}
 			}
 			$this->log->info('Background job to clean-up updater backups has finished');
 		} else {
