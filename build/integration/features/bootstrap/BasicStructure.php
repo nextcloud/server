@@ -120,7 +120,11 @@ trait BasicStructure {
 	 * @return string
 	 */
 	public function getOCSResponse($response) {
-		return simplexml_load_string($response->getBody())->meta[0]->statuscode;
+		$body = simplexml_load_string((string)$response->getBody());
+		if ($body === false) {
+			throw new \RuntimeException('Could not parse OCS response, body is not valid XML');
+		}
+		return $body->meta[0]->statuscode;
 	}
 
 	/**
