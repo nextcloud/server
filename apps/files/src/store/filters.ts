@@ -40,7 +40,7 @@ export const useFiltersStore = defineStore('filters', () => {
 	 * All filters that provide a UI for visual controlling the filter state
 	 */
 	const filtersWithUI = computed<Required<IFileListFilter>[]>(
-		() => sortedFilters.value.filter(isFileListFilterWithUi)
+		() => sortedFilters.value.filter(isFileListFilterWithUi),
 	)
 
 	/**
