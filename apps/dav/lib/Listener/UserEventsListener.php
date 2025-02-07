@@ -12,6 +12,7 @@ namespace OCA\DAV\Listener;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\SyncService;
+use OCA\DAV\Service\DefaultContactService;
 use OCP\Defaults;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -44,6 +45,7 @@ class UserEventsListener implements IEventListener {
 		private CalDavBackend $calDav,
 		private CardDavBackend $cardDav,
 		private Defaults $themingDefaults,
+		private DefaultContactService $defaultContactService,
 	) {
 	}
 
@@ -139,14 +141,18 @@ class UserEventsListener implements IEventListener {
 				Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 			}
 		}
+		$addressBookId = null;
 		if ($this->cardDav->getAddressBooksForUserCount($principal) === 0) {
 			try {
-				$this->cardDav->createAddressBook($principal, CardDavBackend::PERSONAL_ADDRESSBOOK_URI, [
+				$addressBookId = $this->cardDav->createAddressBook($principal, CardDavBackend::PERSONAL_ADDRESSBOOK_URI, [
 					'{DAV:}displayname' => CardDavBackend::PERSONAL_ADDRESSBOOK_NAME,
 				]);
 			} catch (\Exception $e) {
 				Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 			}
+		}
+		if ($addressBookId) {
+			$this->defaultContactService->createDefaultContact($addressBookId);
 		}
 	}
 }
