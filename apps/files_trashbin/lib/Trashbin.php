@@ -457,7 +457,7 @@ class Trashbin implements IEventListener {
 	 * @return bool true on success, false otherwise
 	 */
 	public static function restore($file, $filename, $timestamp) {
-		$user = Server::get(IUserSession::class)->getUser();
+		$user = Server::get(IUserSession::class)->getUser()->getUID();
 		$view = new View('/' . $user);
 
 		$location = '';
@@ -551,7 +551,7 @@ class Trashbin implements IEventListener {
 	 */
 	private static function restoreVersions(View $view, $file, $filename, $uniqueFilename, $location, $timestamp) {
 		if (Server::get(IAppManager::class)->isEnabledForUser('files_versions')) {
-			$user = Server::get(IUserSession::class)->getUser();
+			$user = Server::get(IUserSession::class)->getUser()->getUID();
 			$rootView = new View('/');
 
 			$target = Filesystem::normalizePath('/' . $location . '/' . $uniqueFilename);
@@ -563,7 +563,7 @@ class Trashbin implements IEventListener {
 				return false;
 			}
 
-			$versionedFile = $timestamp ? $filename : file;
+			$versionedFile = $timestamp ? $filename : $file;
 			if ($view->is_dir('/files_trashbin/versions/' . $file)) {
 				$rootView->rename(Filesystem::normalizePath($user . '/files_trashbin/versions/' . $file), Filesystem::normalizePath($owner . '/files_versions/' . $ownerPath));
 			} elseif ($versions = self::getVersionsFromTrash($versionedFile, $timestamp, $user)) {
@@ -582,7 +582,7 @@ class Trashbin implements IEventListener {
 	 * delete all files from the trash
 	 */
 	public static function deleteAll() {
-		$user = Server::get(IUserSession::class)->getUser();
+		$user = Server::get(IUserSession::class)->getUser()->getUID();
 		$rootFolder = Server::get(IRootFolder::class);
 		$userRoot = $rootFolder->getUserFolder($user)->getParent();
 		$view = new View('/' . $user);
@@ -732,7 +732,7 @@ class Trashbin implements IEventListener {
 	 * @return bool true if file exists, otherwise false
 	 */
 	public static function file_exists($filename, $timestamp = null) {
-		$user = Server::get(IUserSession::class)->getUser();
+		$user = Server::get(IUserSession::class)->getUser()->getUID();
 		$view = new View('/' . $user);
 
 		if ($timestamp) {
