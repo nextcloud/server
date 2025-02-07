@@ -8,14 +8,23 @@
 			container="#app-content-vue"
 			:disabled="!!loading || areSomeNodesLoading"
 			:force-name="true"
-			:inline="inlineActions"
-			:menu-name="inlineActions <= 1 ? t('files', 'Actions') : null"
-			:open.sync="openedMenu">
-			<NcActionButton v-for="action in enabledActions"
+			:inline="enabledInlineActions.length"
+			:menu-name="enabledInlineActions.length <= 1 ? t('files', 'Actions') : null"
+			:open.sync="openedMenu"
+			@close="openedSubmenu = null">
+			<!-- Default actions list-->
+			<NcActionButton v-for="action in enabledMenuActions"
 				:key="action.id"
-				:aria-label="action.displayName(nodes, currentView) + ' ' + t('files', '(selected)') /** TRANSLATORS: Selected like 'selected files and folders' */"
-				:class="'files-list__row-actions-batch-' + action.id"
+				:ref="`action-batch-${action.id}`"
+				:class="{
+					[`files-list__row-actions-batch-${action.id}`]: true,
+					[`files-list__row-actions-batch--menu`]: isValidMenu(action)
+				}"
+				:close-after-click="!isValidMenu(action)"
 				:data-cy-files-list-selection-action="action.id"
+				:is-menu="isValidMenu(action)"
+				:aria-label="action.displayName(nodes, currentView) + ' ' + t('files', '(selected)') /** TRANSLATORS: Selected like 'selected files and folders' */"
+				:title="action.title?.(nodes, currentView)"
 				@click="onActionClick(action)">
 				<template #icon>
 					<NcLoadingIcon v-if="loading === action.id" :size="18" />
@@ -23,20 +32,50 @@
 				</template>
 				{{ action.displayName(nodes, currentView) }}
 			</NcActionButton>
+
+			<!-- Submenu actions list-->
+			<template v-if="openedSubmenu && enabledSubmenuActions[openedSubmenu?.id]">
+				<!-- Back to top-level button -->
+				<NcActionButton class="files-list__row-actions-batch-back" data-cy-files-list-selection-action="menu-back" @click="onBackToMenuClick(openedSubmenu)">
+					<template #icon>
+						<ArrowLeftIcon />
+					</template>
+					{{ t('files', 'Back') }}
+				</NcActionButton>
+				<NcActionSeparator />
+
+				<!-- Submenu actions -->
+				<NcActionButton v-for="action in enabledSubmenuActions[openedSubmenu?.id]"
+					:key="action.id"
+					:class="`files-list__row-actions-batch-${action.id}`"
+					class="files-list__row-actions-batch--submenu"
+					close-after-click
+					:data-cy-files-list-selection-action="action.id"
+					:aria-label="action.displayName(nodes, currentView) + ' ' + t('files', '(selected)') /** TRANSLATORS: Selected like 'selected files and folders' */"
+					:title="action.title?.(nodes, currentView)"
+					@click="onActionClick(action)">
+					<template #icon>
+						<NcLoadingIcon v-if="loading === action.id" :size="18" />
+						<NcIconSvgWrapper v-else :svg="action.iconSvgInline(nodes, currentView)" />
+					</template>
+					{{ action.displayName(nodes, currentView) }}
+				</NcActionButton>
+			</template>
 		</NcActions>
 	</div>
 </template>
 
 <script lang="ts">
-import type { Node, View } from '@nextcloud/files'
+import type { FileAction, Node, View } from '@nextcloud/files'
 import type { PropType } from 'vue'
 import type { FileSource } from '../types'
 
-import { NodeStatus, getFileActions } from '@nextcloud/files'
+import { getFileActions, NodeStatus, DefaultType } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 
+import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
@@ -47,6 +86,7 @@ import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
+import actionsMixins from '../mixins/actionsMixin.ts'
 import logger from '../logger.ts'
 
 // The registered actions list
@@ -56,11 +96,14 @@ export default defineComponent({
 	name: 'FilesListTableHeaderActions',
 
 	components: {
+		ArrowLeftIcon,
 		NcActions,
 		NcActionButton,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
 	},
+
+	mixins: [actionsMixins],
 
 	props: {
 		currentView: {
@@ -97,11 +140,76 @@ export default defineComponent({
 	},
 
 	computed: {
-		enabledActions() {
+		enabledFileActions(): FileAction[] {
 			return actions
-				.filter(action => action.execBatch)
+				// We don't handle renderInline actions in this component
+				.filter(action => !action.renderInline)
+				// We don't handle actions that are not visible
+				.filter(action => action.default !== DefaultType.HIDDEN)
 				.filter(action => !action.enabled || action.enabled(this.nodes, this.currentView))
 				.sort((a, b) => (a.order || 0) - (b.order || 0))
+		},
+
+		/**
+		 * Return the list of enabled actions that are
+		 * allowed to be rendered inlined.
+		 * This means that they are not within a menu, nor
+		 * being the parent of submenu actions.
+		 */
+		enabledInlineActions(): FileAction[] {
+			return this.enabledFileActions
+				// Remove all actions that are not top-level actions
+				.filter(action => action.parent === undefined)
+				// Remove all actions that are not batch actions
+				.filter(action => action.execBatch !== undefined)
+				// Remove all top-menu entries
+				.filter(action => !this.isValidMenu(action))
+				// Return a maximum actions to fit the screen
+				.slice(0, this.inlineActions)
+		},
+
+		/**
+		 * Return the rest of enabled actions that are not
+		 * rendered inlined.
+		 */
+		enabledMenuActions(): FileAction[] {
+			// If we're in a submenu, only render the inline
+			// actions before the filtered submenu
+			if (this.openedSubmenu) {
+				return this.enabledInlineActions
+			}
+
+			// We filter duplicates to prevent inline actions to be shown twice
+			const actions = this.enabledFileActions.filter((value, index, self) => {
+				return index === self.findIndex(action => action.id === value.id)
+			})
+
+			// Generate list of all top-level actions ids
+			const childrenActionsIds = actions.filter(action => action.parent).map(action => action.parent) as string[]
+
+			const menuActions = actions
+				.filter(action => {
+					// If the action is not a batch action, we need
+					// to make sure it's a top-level parent entry
+					// and that we have some children actions bound to it
+					if (!action.execBatch) {
+						return childrenActionsIds.includes(action.id)
+					}
+
+					// Rendering second-level actions is done in the template
+					// when openedSubmenu is set.
+					if (action.parent) {
+						return false
+					}
+
+					return true
+				})
+				.filter(action => !this.enabledInlineActions.includes(action))
+
+			// Make sure we render the inline actions first
+			// and then the rest of the actions.
+			// We do NOT want nested actions to be rendered inlined
+			return [...this.enabledInlineActions, ...menuActions]
 		},
 
 		nodes() {
@@ -148,6 +256,12 @@ export default defineComponent({
 		},
 
 		async onActionClick(action) {
+			// If the action is a submenu, we open it
+			if (this.enabledSubmenuActions[action.id]) {
+				this.openedSubmenu = action
+				return
+			}
+
 			let displayName = action.id
 			try {
 				displayName = action.displayName(this.nodes, this.currentView)

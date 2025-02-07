@@ -11,10 +11,11 @@ import {
 	navigateToFolder,
 	triggerActionForFile,
 } from '../files/FilesUtils.ts'
+import { ACTION_COPY_MOVE } from '../../../apps/files/src/actions/moveOrCopyAction.ts'
 
 export const copyFileForbidden = (fileName: string, dirPath: string) => {
 	getRowForFile(fileName).should('be.visible')
-	triggerActionForFile(fileName, 'move-copy')
+	triggerActionForFile(fileName, ACTION_COPY_MOVE)
 
 	cy.get('.file-picker').within(() => {
 		// intercept the copy so we can wait for it
@@ -33,7 +34,7 @@ export const copyFileForbidden = (fileName: string, dirPath: string) => {
 
 export const moveFileForbidden = (fileName: string, dirPath: string) => {
 	getRowForFile(fileName).should('be.visible')
-	triggerActionForFile(fileName, 'move-copy')
+	triggerActionForFile(fileName, ACTION_COPY_MOVE)
 
 	cy.get('.file-picker').within(() => {
 		// intercept the copy so we can wait for it

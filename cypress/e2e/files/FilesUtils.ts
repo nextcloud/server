@@ -4,6 +4,7 @@
  */
 
 import type { User } from '@nextcloud/cypress'
+import { ACTION_COPY_MOVE } from "../../../apps/files/src/actions/moveOrCopyAction"
 
 export const getRowForFileId = (fileid: number) => cy.get(`[data-cy-files-list-row-fileid="${fileid}"]`)
 export const getRowForFile = (filename: string) => cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"]`)
@@ -14,16 +15,25 @@ export const getActionsForFile = (filename: string) => getRowForFile(filename).f
 export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(fileid).findByRole('button', { name: 'Actions' })
 export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).findByRole('button', { name: 'Actions' })
 
+export const getActionEntryForFileId = (fileid: number, actionId: string) => {
+	return cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+}
+export const getActionEntryForFile = (filename: string, actionId: string) => {
+	return cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+}
+
 export const triggerActionForFileId = (fileid: number, actionId: string) => {
+	// Even if it's inline, we open the action menu to get all actions visible
 	getActionButtonForFileId(fileid).click({ force: true })
-	// Getting the last button to avoid the one from popup fading out
-	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`).last()
+	getActionEntryForFileId(fileid, actionId)
+		.find('button').last()
 		.should('exist').click({ force: true })
 }
 export const triggerActionForFile = (filename: string, actionId: string) => {
+	// Even if it's inline, we open the action menu to get all actions visible
 	getActionButtonForFile(filename).click({ force: true })
-	// Getting the last button to avoid the one from popup fading out
-	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`).last()
+	getActionEntryForFile(filename, actionId)
+		.find('button').last()
 		.should('exist').click({ force: true })
 }
 
@@ -31,7 +41,7 @@ export const triggerInlineActionForFileId = (fileid: number, actionId: string) =
 	getActionsForFileId(fileid).find(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`).should('exist').click()
 }
 export const triggerInlineActionForFile = (filename: string, actionId: string) => {
-	getActionsForFile(filename).get(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`).should('exist').click()
+	getActionsForFile(filename).find(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`).should('exist').click()
 }
 
 export const selectAllFiles = () => {
@@ -58,13 +68,21 @@ export const selectRowForFile = (filename: string, options: Partial<Cypress.Clic
 
 }
 
+export const getSelectionActionButton = () => cy.get('[data-cy-files-list-selection-actions]').findByRole('button', { name: 'Actions' })
+export const getSelectionActionEntry = (actionId: string) => cy.get(`[data-cy-files-list-selection-action="${CSS.escape(actionId)}"]`)
 export const triggerSelectionAction = (actionId: string) => {
-	cy.get(`button[data-cy-files-list-selection-action="${CSS.escape(actionId)}"]`).should('exist').click()
+	// Even if it's inline, we open the action menu to get all actions visible
+	getSelectionActionButton().click({ force: true })
+	// the entry might already be a button or a button might its child
+	getSelectionActionEntry(actionId)
+		.then($el => $el.is('button') ? cy.wrap($el) : cy.wrap($el).findByRole('button').last())
+		.should('exist')
+		.click()
 }
 
 export const moveFile = (fileName: string, dirPath: string) => {
 	getRowForFile(fileName).should('be.visible')
-	triggerActionForFile(fileName, 'move-copy')
+	triggerActionForFile(fileName, ACTION_COPY_MOVE)
 
 	cy.get('.file-picker').within(() => {
 		// intercept the copy so we can wait for it
@@ -95,7 +113,7 @@ export const moveFile = (fileName: string, dirPath: string) => {
 
 export const copyFile = (fileName: string, dirPath: string) => {
 	getRowForFile(fileName).should('be.visible')
-	triggerActionForFile(fileName, 'move-copy')
+	triggerActionForFile(fileName, ACTION_COPY_MOVE)
 
 	cy.get('.file-picker').within(() => {
 		// intercept the copy so we can wait for it

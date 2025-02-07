@@ -22,8 +22,9 @@ const isExternal = (node: Node) => {
 	return node.attributes?.['is-federated'] ?? false
 }
 
+export const ACTION_SHARING_STATUS = 'sharing-status'
 export const action = new FileAction({
-	id: 'sharing-status',
+	id: ACTION_SHARING_STATUS,
 	displayName(nodes: Node[]) {
 		const node = nodes[0]
 		const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat() as number[]
