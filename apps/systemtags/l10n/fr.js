@@ -83,7 +83,13 @@ OC.L10N.register(
     "Failed to load tags" : "Impossible de charger les étiquettes",
     "Failed to load selected tags" : "Impossible de charger les étiquettes sélectionnées",
     "Failed to select tag" : "Impossible de sélectionner l'étiquette",
+    "System admin disabled tag creation. You can only use existing ones." : "L'administrateur a désactivé la création d'étiquettes. Vous ne pouvez utiliser que les étiquettes existantes.",
     "System tag creation" : "Création des étiquettes système",
+    "If enabled, regular accounts will be restricted from creating new tags but will still be able to assign and remove them from their files." : "Si cette option est activée, les comptes ordinaires ne pourront pas créer de nouvelles étiquettes, mais pourront toujours les attribuer et les retirer de leurs fichiers.",
+    "Restrict tag creation to admins only" : "Restreindre la création d'étiquettes aux administrateurs uniquement",
+    "Unable to update setting" : "Impossible de mettre à jour les paramètres",
+    "System tag creation is now restricted to administrators" : "La création d'étiquettes système est désormais réservée aux administrateurs",
+    "System tag creation is now allowed for everybody" : "La création d'étiquettes système est désormais autorisée pour tout le monde",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Les étiquettes collaboratives sont disponibles pour tous les utilisateurs. Les étiquettes restreintes sont visibles par les utilisateurs, mais ne peuvent pas être attribuées par eux. Les étiquettes invisibles sont à usage interne, car les utilisateurs ne peuvent pas les voir ou les assigner.",
     "Assigned collaborative tags" : "Tags collaboratives attribuées",
     "Open in Files" : "Ouvrir dans Fichiers",
@@ -98,6 +104,7 @@ OC.L10N.register(
     "Failed to set tag for file" : "Impossible d'affecter une étiquette au fichier",
     "Failed to delete tag for file" : "Impossible de supprimer l'étiquette au fichier",
     "This file has the tag {tag}" : "Ce fichier a l'étiquette {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Ce fichier a les étiquettes {firstTags} et {lastTag}"
+    "This file has the tags {firstTags} and {lastTag}" : "Ce fichier a les étiquettes {firstTags} et {lastTag}",
+    "System tag creation is now ${isRestricted ? " : "La création d'étiquettes système est désormais ${isRestricted ? "
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
