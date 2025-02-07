@@ -58,6 +58,7 @@ SPDX-FileCopyrightText: Jordan Harband
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)
 SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com>
+SPDX-FileCopyrightText: John Molakvoæ <skjnldsv@protonmail.com>
 SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
 SPDX-FileCopyrightText: John Hiesey
 SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
@@ -162,7 +163,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.1
 	- license: GPL-3.0-or-later
 - @nextcloud/moment
-	- version: 1.3.2
+	- version: 1.3.1
 	- license: GPL-3.0-or-later
 - @nextcloud/password-confirmation
 	- version: 5.3.1
@@ -183,7 +184,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 8.0.1
 	- license: MIT
 - @nextcloud/upload
-	- version: 1.8.0
+	- version: 1.7.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/vue-select
 	- version: 3.25.1
@@ -213,7 +214,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.5.0
 	- license: Apache-2.0
 - axios
-	- version: 1.7.9
+	- version: 1.7.7
 	- license: MIT
 - bail
 	- version: 2.0.2

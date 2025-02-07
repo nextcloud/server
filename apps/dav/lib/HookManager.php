@@ -10,6 +10,7 @@ namespace OCA\DAV;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\SyncService;
+use OCA\DAV\Service\DefaultContactService;
 use OCP\Defaults;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -36,6 +37,7 @@ class HookManager {
 		private CalDavBackend $calDav,
 		private CardDavBackend $cardDav,
 		private Defaults $themingDefaults,
+		private DefaultContactService $defaultContactService,
 	) {
 	}
 
@@ -141,15 +143,20 @@ class HookManager {
 					\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 				}
 			}
+			$addressBookId = null;
 			if ($this->cardDav->getAddressBooksForUserCount($principal) === 0) {
 				try {
-					$this->cardDav->createAddressBook($principal, CardDavBackend::PERSONAL_ADDRESSBOOK_URI, [
+					$addressBookId = $this->cardDav->createAddressBook($principal, CardDavBackend::PERSONAL_ADDRESSBOOK_URI, [
 						'{DAV:}displayname' => CardDavBackend::PERSONAL_ADDRESSBOOK_NAME,
 					]);
 				} catch (\Exception $e) {
 					\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 				}
 			}
+			if ($addressBookId) {
+				$this->defaultContactService->createDefaultContact($addressBookId);
+			}
+
 		}
 	}
 }
