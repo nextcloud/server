@@ -79,7 +79,7 @@ class Router implements IRouter {
 	 *
 	 * @return string[]
 	 */
-	public function getRoutingFiles() {
+	public function getRoutingFiles(): array {
 		if ($this->routingFiles === null) {
 			$this->routingFiles = [];
 			foreach (\OC_APP::getEnabledApps() as $app) {
@@ -102,7 +102,7 @@ class Router implements IRouter {
 	 *
 	 * @param null|string $app
 	 */
-	public function loadRoutes($app = null) {
+	public function loadRoutes(?string $app = null): ?string {
 		if (is_string($app)) {
 			$app = $this->appManager->cleanAppId($app);
 		}
@@ -183,7 +183,7 @@ class Router implements IRouter {
 	 * @param string $name
 	 * @return \Symfony\Component\Routing\RouteCollection
 	 */
-	protected function getCollection($name) {
+	protected function getCollection(string $name): \Symfony\Component\Routing\RouteCollection {
 		if (!isset($this->collections[$name])) {
 			$this->collections[$name] = new RouteCollection();
 		}
@@ -196,7 +196,7 @@ class Router implements IRouter {
 	 * @param string $name Name of the collection to use.
 	 * @return void
 	 */
-	public function useCollection($name) {
+	public function useCollection(string $name): void {
 		$this->collection = $this->getCollection($name);
 		$this->collectionName = $name;
 	}
@@ -206,7 +206,7 @@ class Router implements IRouter {
 	 *
 	 * @return string the collection name
 	 */
-	public function getCurrentCollection() {
+	public function getCurrentCollection(): string {
 		return $this->collectionName;
 	}
 
@@ -220,10 +220,7 @@ class Router implements IRouter {
 	 * @param array $requirements An array of requirements for parameters (regexes)
 	 * @return \OC\Route\Route
 	 */
-	public function create($name,
-		$pattern,
-		array $defaults = [],
-		array $requirements = []) {
+	public function create(string $name, string $pattern, array $defaults = [], array $requirements = []): \OC\Route\Route {
 		$route = new Route($pattern, $defaults, $requirements);
 		$this->collection->add($name, $route);
 		return $route;
@@ -294,7 +291,7 @@ class Router implements IRouter {
 	 * @throws \Exception
 	 * @return void
 	 */
-	public function match($url) {
+	public function match(string $url): void {
 		$parameters = $this->findMatchingRoute($url);
 
 		$this->eventLogger->start('route:run', 'Run route');
@@ -328,7 +325,7 @@ class Router implements IRouter {
 	 * @return \Symfony\Component\Routing\Generator\UrlGenerator
 	 *
 	 */
-	public function getGenerator() {
+	public function getGenerator(): \Symfony\Component\Routing\Generator\UrlGenerator {
 		if ($this->generator !== null) {
 			return $this->generator;
 		}
@@ -344,9 +341,7 @@ class Router implements IRouter {
 	 * @param bool $absolute
 	 * @return string
 	 */
-	public function generate($name,
-		$parameters = [],
-		$absolute = false) {
+	public function generate(string $name, array $parameters = [], bool $absolute = false): string {
 		$referenceType = UrlGenerator::ABSOLUTE_URL;
 		if ($absolute === false) {
 			$referenceType = UrlGenerator::ABSOLUTE_PATH;
@@ -485,7 +480,7 @@ class Router implements IRouter {
 	 * @param string $file the route file location to include
 	 * @param string $appName
 	 */
-	private function requireRouteFile($file, $appName) {
+	private function requireRouteFile(string $file, string $appName): void {
 		$this->setupRoutes(include_once $file, $appName);
 	}
 
@@ -501,7 +496,7 @@ class Router implements IRouter {
 	 * @param array $routes the application routes
 	 * @param string $appName the name of the app.
 	 */
-	private function setupRoutes($routes, $appName) {
+	private function setupRoutes(array $routes, string $appName): void {
 		if (is_array($routes)) {
 			$routeParser = new RouteParser();
 
@@ -514,7 +509,7 @@ class Router implements IRouter {
 		}
 	}
 
-	private function getApplicationClass(string $appName) {
+	private function getApplicationClass(string $appName): mixed {
 		$appNameSpace = App::buildAppNamespace($appName);
 
 		$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
