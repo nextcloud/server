@@ -339,7 +339,7 @@ OC.L10N.register(
     "All files" : "Alle Dateien",
     "List of your files and folders." : "Liste deiner Dateien und Ordner",
     "All folders" : "Alle Ordner",
-    "Personal files" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
+    "Personal files" : "Persönliche Dateien",
     "List of your files and folders that are not shared." : "Liste deiner Dateien und Ordner, die nicht geteilt wurden.",
     "No personal files found" : "Keine persönlichen Dateien gefunden",
     "Files that are not shared will show up here." : "Dateien, die nicht geteilt wurden, werden hier angezeigt.",
