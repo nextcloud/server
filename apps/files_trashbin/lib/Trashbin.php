@@ -80,7 +80,7 @@ class Trashbin implements IEventListener {
 		// to a remote user with a federated cloud ID we use the current logged-in
 		// user. We need a valid local user to move the file to the right trash bin
 		if (!$userManager->userExists($uid)) {
-			$uid = $userSession->getUser();
+			$uid = $userSession->getUser()->getUID();
 		}
 		if (!$uid) {
 			// no owner, usually because of share link from ext storage
