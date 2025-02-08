@@ -160,6 +160,7 @@
     "Error during upload, status code {status}" : "Earráid le linn uaslódála, cód stádais {status}",
     "Unknown error during upload" : "Earráid anaithnid le linn uaslódála",
     "\"{displayName}\" action executed successfully" : "Cuireadh an gníomh \"{displayName}\" i gcrích go rathúil",
+    "Filter file names…" : "Scag ainmneacha comhaid…",
     "Views" : "Radhairc",
     "Files settings" : "Socruithe comhaid",
     "File cannot be accessed" : "Ní féidir an comhad a rochtain",
