@@ -184,6 +184,7 @@
     "You cannot share your root folder" : "Svou kořenovou složku nemůžete nasdílet",
     "You are not allowed to share %s" : "Nemáte povoleno sdílet %s",
     "Valid permissions are required for sharing" : "Pro sdílení je třeba platných oprávnění",
+    "File shares cannot have create or delete permissions" : "U sdílení souborů nemohou být oprávnění pro vytváření či mazání",
     "Cannot increase permissions of %s" : "Nelze povýšit oprávnění  u %s",
     "Shares need at least read permissions" : "Sdílení potřebuje alespoň oprávnění pro čtení",
     "Files cannot be shared with delete permissions" : "Soubory nelze sdílet s oprávněními k odstranění",
