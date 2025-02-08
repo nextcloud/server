@@ -182,7 +182,7 @@
     "stylelint": "^16.9.0",
     "stylelint-use-logical": "^2.1.2",
     "tar": "^7.4.3",
-    "ts-loader": "^9.5.0",
+    "ts-loader": "^9.5.2",
     "ts-node": "^10.9.1",
     "tslib": "^2.8.1",
     "typescript": "^5.6.2",
