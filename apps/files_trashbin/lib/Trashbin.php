@@ -382,8 +382,7 @@ class Trashbin implements IEventListener {
 	 */
 	private static function retainVersions($filename, $owner, $ownerPath, $timestamp) {
 		if (Server::get(IAppManager::class)->isEnabledForUser('files_versions') && !empty($ownerPath)) {
-			$userSession =  Server::get(IUserSession::class);
-			$user = $userSession->getUser();
+			$user =  Server::get(IUserSession::class)->getUser()->getUID();
 			$rootView = new View('/');
 
 			if ($rootView->is_dir($owner . '/files_versions/' . $ownerPath)) {
@@ -1155,8 +1154,7 @@ class Trashbin implements IEventListener {
 	}
 
 	private static function getNodeForPath(string $path): Node {
-		$userSession =  Server::get(IUserSession::class);
-		$user = $userSession->getUser();
+		$user =  Server::get(IUserSession::class)->getUser()->getUID();
 		$rootFolder = Server::get(IRootFolder::class);
 
 		if ($user !== false) {
