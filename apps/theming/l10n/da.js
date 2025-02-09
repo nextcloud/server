@@ -51,7 +51,7 @@ OC.L10N.register(
     "Legal notice" : "Juridisk notits",
     "Privacy policy" : "Fortrolighedspolitik",
     "Adjust the Nextcloud theme" : "Juster Nextcloud-temaet",
-    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Temaer gør det muligt nemt at tilpasse udseendet på din installation og understøttede klienter. Dette vil være synligt for alle brugere.",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Temaer gør det muligt nemt at brugerdefinere udseendet på din installation og understøttede klienter. Dette vil være synligt for alle brugere.",
     "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "I stedet for et baggrundsbillede så kan du også konfigurere en ren baggrundsfarve. Hvis du anvender et baggrundsbillede så vil ændring af denne farve påvirke farven af app menuikonerne.",
     "Background color" : "Baggrundsfarve",
     "Upload new logo" : "Upload nyt logo",
