@@ -160,6 +160,7 @@
     "Error during upload, status code {status}" : "Errore durante il caricamento, codice di stato {status}",
     "Unknown error during upload" : "Errore sconosciuto durante il caricamento",
     "\"{displayName}\" action executed successfully" : "L'azione \"{displayName}\" è stata eseguita correttamente",
+    "Filter file names…" : "Filtra nomi file…",
     "Views" : "Viste",
     "Files settings" : "Impostazioni File",
     "File cannot be accessed" : "Il file non possono essere acceduti",
