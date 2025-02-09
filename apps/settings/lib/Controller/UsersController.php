@@ -304,6 +304,7 @@ class UsersController extends Controller {
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
+	 * @UserRateThrottle(limit=50, period=600)
 	 *
 	 * @param string|null $avatarScope
 	 * @param string|null $displayname

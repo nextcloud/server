@@ -26,7 +26,7 @@
  * TODO add nice validation errors for Profile page settings modal
  */
 
-import { VALIDATE_EMAIL_REGEX } from '../constants/AccountPropertyConstants.js'
+import { VALIDATE_EMAIL_REGEX } from '../constants/AccountPropertyConstants.ts'
 
 /**
  * Validate the email input

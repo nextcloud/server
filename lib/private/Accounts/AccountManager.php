@@ -50,6 +50,7 @@ use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -118,48 +119,9 @@ class AccountManager implements IAccountManager {
 		private IURLGenerator $urlGenerator,
 		private ICrypto $crypto,
 		private IPhoneNumberUtil $phoneNumberUtil,
+		private IClientService $clientService,
 	) {
 		$this->internalCache = new CappedMemoryCache();
-	}
-
-	/**
-	 * @return string Provided phone number in E.164 format when it was a valid number
-	 * @throws InvalidArgumentException When the phone number was invalid or no default region is set and the number doesn't start with a country code
-	 */
-	protected function parsePhoneNumber(string $input): string {
-		$defaultRegion = $this->config->getSystemValueString('default_phone_region', '');
-
-		if ($defaultRegion === '') {
-			// When no default region is set, only +49… numbers are valid
-			if (!str_starts_with($input, '+')) {
-				throw new InvalidArgumentException(self::PROPERTY_PHONE);
-			}
-
-			$defaultRegion = 'EN';
-		}
-
-		$phoneNumber = $this->phoneNumberUtil->convertToStandardFormat($input, $defaultRegion);
-		if ($phoneNumber !== null) {
-			return $phoneNumber;
-		}
-
-		throw new InvalidArgumentException(self::PROPERTY_PHONE);
-	}
-
-	/**
-	 * @throws InvalidArgumentException When the website did not have http(s) as protocol or the host name was empty
-	 */
-	protected function parseWebsite(string $input): string {
-		$parts = parse_url($input);
-		if (!isset($parts['scheme']) || ($parts['scheme'] !== 'https' && $parts['scheme'] !== 'http')) {
-			throw new InvalidArgumentException(self::PROPERTY_WEBSITE);
-		}
-
-		if (!isset($parts['host']) || $parts['host'] === '') {
-			throw new InvalidArgumentException(self::PROPERTY_WEBSITE);
-		}
-
-		return $input;
 	}
 
 	/**
@@ -197,42 +159,6 @@ class AccountManager implements IAccountManager {
 			// migrate scope values to the new format
 			// invalid scopes are mapped to a default value
 			$property->setScope(AccountProperty::mapScopeToV2($property->getScope()));
-		}
-	}
-
-	protected function sanitizePhoneNumberValue(IAccountProperty $property, bool $throwOnData = false): void {
-		if ($property->getName() !== self::PROPERTY_PHONE) {
-			if ($throwOnData) {
-				throw new InvalidArgumentException(sprintf('sanitizePhoneNumberValue can only sanitize phone numbers, %s given', $property->getName()));
-			}
-			return;
-		}
-		if ($property->getValue() === '') {
-			return;
-		}
-		try {
-			$property->setValue($this->parsePhoneNumber($property->getValue()));
-		} catch (InvalidArgumentException $e) {
-			if ($throwOnData) {
-				throw $e;
-			}
-			$property->setValue('');
-		}
-	}
-
-	protected function sanitizeWebsite(IAccountProperty $property, bool $throwOnData = false): void {
-		if ($property->getName() !== self::PROPERTY_WEBSITE) {
-			if ($throwOnData) {
-				throw new InvalidArgumentException(sprintf('sanitizeWebsite can only sanitize web domains, %s given', $property->getName()));
-			}
-		}
-		try {
-			$property->setValue($this->parseWebsite($property->getValue()));
-		} catch (InvalidArgumentException $e) {
-			if ($throwOnData) {
-				throw $e;
-			}
-			$property->setValue('');
 		}
 	}
 
@@ -748,18 +674,139 @@ class AccountManager implements IAccountManager {
 		return $account;
 	}
 
+	/**
+	 * Converts value (phone number) in E.164 format when it was a valid number
+	 * @throws InvalidArgumentException When the phone number was invalid or no default region is set and the number doesn't start with a country code
+	 */
+	protected function sanitizePropertyPhoneNumber(IAccountProperty $property): void {
+		$defaultRegion = $this->config->getSystemValueString('default_phone_region', '');
+
+		if ($defaultRegion === '') {
+			// When no default region is set, only +49… numbers are valid
+			if (!str_starts_with($property->getValue(), '+')) {
+				throw new InvalidArgumentException(self::PROPERTY_PHONE);
+			}
+
+			$defaultRegion = 'EN';
+		}
+
+		$phoneNumber = $this->phoneNumberUtil->convertToStandardFormat($property->getValue(), $defaultRegion);
+		if ($phoneNumber === null) {
+			throw new InvalidArgumentException(self::PROPERTY_PHONE);
+		}
+		$property->setValue($phoneNumber);
+	}
+
+	/**
+	 * @throws InvalidArgumentException When the website did not have http(s) as protocol or the host name was empty
+	 */
+	private function sanitizePropertyWebsite(IAccountProperty $property): void {
+		$parts = parse_url($property->getValue());
+		if (!isset($parts['scheme']) || ($parts['scheme'] !== 'https' && $parts['scheme'] !== 'http')) {
+			throw new InvalidArgumentException(self::PROPERTY_WEBSITE);
+		}
+
+		if (!isset($parts['host']) || $parts['host'] === '') {
+			throw new InvalidArgumentException(self::PROPERTY_WEBSITE);
+		}
+	}
+
+	/**
+	 * @throws InvalidArgumentException If the property value is not a valid user handle according to X's rules
+	 */
+	private function sanitizePropertyTwitter(IAccountProperty $property): void {
+		if ($property->getName() === self::PROPERTY_TWITTER) {
+			$matches = [];
+			// twitter handles only contain alpha numeric characters and the underscore and must not be longer than 15 characters
+			if (preg_match('/^@?([a-zA-Z0-9_]{2,15})$/', $property->getValue(), $matches) !== 1) {
+				throw new InvalidArgumentException(self::PROPERTY_TWITTER);
+			}
+
+			// drop the leading @ if any to make it the valid handle
+			$property->setValue($matches[1]);
+
+		}
+	}
+
+	/**
+	 * @throws InvalidArgumentException If the property value is not a valid fediverse handle (username@instance where instance is a valid domain)
+	 */
+	private function sanitizePropertyFediverse(IAccountProperty $property): void {
+		if ($property->getName() === self::PROPERTY_FEDIVERSE) {
+			$matches = [];
+			if (preg_match('/^@?([^@\s\/\\\]+)@([^\s\/\\\]+)$/', trim($property->getValue()), $matches) !== 1) {
+				throw new InvalidArgumentException(self::PROPERTY_FEDIVERSE);
+			}
+
+			[, $username, $instance] = $matches;
+			$validated = filter_var($instance, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME);
+			if ($validated !== $instance) {
+				throw new InvalidArgumentException(self::PROPERTY_FEDIVERSE);
+			}
+
+			if ($this->config->getSystemValueBool('has_internet_connection', true)) {
+				$client = $this->clientService->newClient();
+
+				try {
+					// try the public account lookup API of mastodon
+					$response = $client->get("https://{$instance}/api/v1/accounts/lookup?acct={$username}@{$instance}");
+					// should be a json response with account information
+					$data = $response->getBody();
+					if (is_resource($data)) {
+						$data = stream_get_contents($data);
+					}
+					$decoded = json_decode($data, true);
+					// ensure the username is the same the user passed
+					// in this case we can assume this is a valid fediverse server and account
+					if (!is_array($decoded) || ($decoded['username'] ?? '') !== $username) {
+						throw new InvalidArgumentException();
+					}
+				} catch (InvalidArgumentException) {
+					throw new InvalidArgumentException(self::PROPERTY_FEDIVERSE);
+				} catch (\Exception $error) {
+					$this->logger->error('Could not verify fediverse account', ['exception' => $error, 'instance' => $instance]);
+					throw new InvalidArgumentException(self::PROPERTY_FEDIVERSE);
+				}
+			}
+
+			$property->setValue("$username@$instance");
+		}
+	}
+
 	public function updateAccount(IAccount $account): void {
 		$this->testValueLengths(iterator_to_array($account->getAllProperties()), true);
 		try {
 			$property = $account->getProperty(self::PROPERTY_PHONE);
-			$this->sanitizePhoneNumberValue($property);
+			if ($property->getValue() !== '') {
+				$this->sanitizePropertyPhoneNumber($property);
+			}
 		} catch (PropertyDoesNotExistException $e) {
 			//  valid case, nothing to do
 		}
 
 		try {
 			$property = $account->getProperty(self::PROPERTY_WEBSITE);
-			$this->sanitizeWebsite($property);
+			if ($property->getValue() !== '') {
+				$this->sanitizePropertyWebsite($property);
+			}
+		} catch (PropertyDoesNotExistException $e) {
+			//  valid case, nothing to do
+		}
+
+		try {
+			$property = $account->getProperty(self::PROPERTY_TWITTER);
+			if ($property->getValue() !== '') {
+				$this->sanitizePropertyTwitter($property);
+			}
+		} catch (PropertyDoesNotExistException $e) {
+			//  valid case, nothing to do
+		}
+
+		try {
+			$property = $account->getProperty(self::PROPERTY_FEDIVERSE);
+			if ($property->getValue() !== '') {
+				$this->sanitizePropertyFediverse($property);
+			}
 		} catch (PropertyDoesNotExistException $e) {
 			//  valid case, nothing to do
 		}
