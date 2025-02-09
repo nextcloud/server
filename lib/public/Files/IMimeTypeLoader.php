@@ -47,4 +47,14 @@ interface IMimeTypeLoader {
 	 * @since 8.2.0
 	 */
 	public function reset(): void;
+
+	/**
+	 * Update filecache mimetype based on file extension
+	 *
+	 * @param string $ext
+	 * @param int $mimeTypeId
+	 * @return int
+	 * @since 32.0.0
+	 */
+	public function updateFilecache(string $ext, int $mimeTypeId): int;
 }
