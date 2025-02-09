@@ -123,7 +123,7 @@
     "@cypress/webpack-preprocessor": "^6.0.2",
     "@jest/globals": "^29.7.0",
     "@nextcloud/babel-config": "^1.2.0",
-    "@nextcloud/cypress": "^1.0.0-beta.12",
+    "@nextcloud/cypress": "^1.0.0-beta.13",
     "@nextcloud/eslint-config": "^8.4.1",
     "@nextcloud/stylelint-config": "^3.0.1",
     "@nextcloud/typings": "^1.9.1",
