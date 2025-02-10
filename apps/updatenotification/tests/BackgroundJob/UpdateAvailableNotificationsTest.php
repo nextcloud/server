@@ -244,7 +244,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		]);
 
 		$this->appManager->expects($this->once())
-			->method('getInstalledApps')
+			->method('getEnabledApps')
 			->willReturn($apps);
 
 		$job->expects($this->exactly(\count($apps)))

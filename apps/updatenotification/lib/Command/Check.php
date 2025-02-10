@@ -56,7 +56,7 @@ class Check extends Command {
 
 
 		// Apps
-		$apps = $this->appManager->getInstalledApps();
+		$apps = $this->appManager->getEnabledApps();
 		foreach ($apps as $app) {
 			$update = $this->installer->isUpdateAvailable($app);
 			if ($update !== false) {

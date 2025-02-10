@@ -539,7 +539,7 @@ class AppManagerTest extends TestCase {
 		$this->assertTrue($this->manager->isEnabledForUser('test'));
 	}
 
-	public function testGetInstalledApps(): void {
+	public function testGetEnabledApps(): void {
 		$this->appConfig->setValue('test1', 'enabled', 'yes');
 		$this->appConfig->setValue('test2', 'enabled', 'no');
 		$this->appConfig->setValue('test3', 'enabled', '["foo"]');
@@ -560,7 +560,7 @@ class AppManagerTest extends TestCase {
 			'viewer',
 			'workflowengine',
 		];
-		$this->assertEquals($apps, $this->manager->getInstalledApps());
+		$this->assertEquals($apps, $this->manager->getEnabledApps());
 	}
 
 	public function testGetAppsForUser(): void {

@@ -97,7 +97,7 @@ class MetadataManager {
 	 * @since 30.0.0
 	 */
 	public function getUnsupportedApps(array $metadata): array {
-		return array_values(array_diff($this->appManager->getInstalledApps(), array_keys($metadata['apps'])));
+		return array_values(array_diff($this->appManager->getEnabledApps(), array_keys($metadata['apps'])));
 	}
 
 	/**

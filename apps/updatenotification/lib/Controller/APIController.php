@@ -75,7 +75,7 @@ class APIController extends OCSController {
 		}
 
 		// Get list of installed custom apps
-		$installedApps = $this->appManager->getInstalledApps();
+		$installedApps = $this->appManager->getEnabledApps();
 		$installedApps = array_filter($installedApps, function ($app) {
 			try {
 				$this->appManager->getAppPath($app);
