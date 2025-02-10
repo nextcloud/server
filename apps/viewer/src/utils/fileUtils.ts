@@ -97,8 +97,8 @@ export function sortCompare(fileInfo1: FileInfo, fileInfo2: FileInfo, key: strin
 	}
 	// finally sort by name
 	return asc
-		? fileInfo1[key].localeCompare(fileInfo2[key], getLanguage(), { numeric: true })
-		: -fileInfo1[key].localeCompare(fileInfo2[key], getLanguage(), { numeric: true })
+		? fileInfo1[key].toString()?.localeCompare(fileInfo2[key].toString(), getLanguage(), { numeric: true })
+		: -fileInfo1[key].toString()?.localeCompare(fileInfo2[key].toString(), getLanguage(), { numeric: true })
 }
 
 /**
