@@ -36,7 +36,7 @@ OC.L10N.register(
     "Confirm" : "Potvrdiť",
     "Discard changes" : "Zahodiť zmeny",
     "Undo" : "Vrátiť",
-    "Redo" : "Prerobiť",
+    "Redo" : "Vrátiť",
     "Show original image" : "Zobraziť pôvodný obrázok",
     "Zoom in" : "Priblížiť",
     "Zoom out" : "Oddialiť",
