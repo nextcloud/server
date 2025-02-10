@@ -426,17 +426,17 @@ class AppManagerTest extends TestCase {
 
 	public function testIsInstalledEnabled(): void {
 		$this->appConfig->setValue('test', 'enabled', 'yes');
-		$this->assertTrue($this->manager->isInstalled('test'));
+		$this->assertTrue($this->manager->isEnabledForAnyone('test'));
 	}
 
 	public function testIsInstalledDisabled(): void {
 		$this->appConfig->setValue('test', 'enabled', 'no');
-		$this->assertFalse($this->manager->isInstalled('test'));
+		$this->assertFalse($this->manager->isEnabledForAnyone('test'));
 	}
 
 	public function testIsInstalledEnabledForGroups(): void {
 		$this->appConfig->setValue('test', 'enabled', '["foo"]');
-		$this->assertTrue($this->manager->isInstalled('test'));
+		$this->assertTrue($this->manager->isEnabledForAnyone('test'));
 	}
 
 	private function newUser($uid) {

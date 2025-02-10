@@ -65,7 +65,7 @@ class ListApps extends Base {
 			if ($shippedFilter !== null && $this->manager->isShipped($app) !== $shippedFilter) {
 				continue;
 			}
-			if ($this->manager->isInstalled($app)) {
+			if ($this->manager->isEnabledForAnyone($app)) {
 				$enabledApps[] = $app;
 			} else {
 				$disabledApps[] = $app;

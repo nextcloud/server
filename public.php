@@ -70,7 +70,7 @@ try {
 	OC_App::loadApps(['filesystem', 'logging']);
 
 	// Check if the app is enabled
-	if (!\OC::$server->getAppManager()->isInstalled($app)) {
+	if (!\OC::$server->getAppManager()->isEnabledForUser($app)) {
 		throw new \Exception('App not installed: ' . $app);
 	}
 

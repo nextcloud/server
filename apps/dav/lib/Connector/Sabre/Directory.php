@@ -220,7 +220,7 @@ class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuot
 			if (!$this->info->isReadable()) {
 				// return 403 instead of 404 because a 404 would make
 				// the caller believe that the collection itself does not exist
-				if (Server::get(IAppManager::class)->isInstalled('files_accesscontrol')) {
+				if (Server::get(IAppManager::class)->isEnabledForAnyone('files_accesscontrol')) {
 					throw new Forbidden('No read permissions. This might be caused by files_accesscontrol, check your configured rules');
 				} else {
 					throw new Forbidden('No read permissions');

@@ -746,7 +746,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 
 	public function getUserDisplayName(string $userId): string {
 		// check if gss is enabled and available
-		if (!$this->appManager->isInstalled('globalsiteselector')
+		if (!$this->appManager->isEnabledForAnyone('globalsiteselector')
 			|| !class_exists('\OCA\GlobalSiteSelector\Service\SlaveService')) {
 			return '';
 		}
