@@ -4,6 +4,7 @@
     "View file" : "Voir le fichier",
     "View folder" : "Voir le dossier",
     "Set file reminders" : "Définir des rappels pour des fichiers",
+    "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 Rappels de fichiers**\n\nDéfinit des rappels de fichiers.\n\nNote: pour utiliser l'application `Rappels de fichiers`, assurez-vous que l'application `Notifications` est installée et activée. L'application `Notifications` fournit les APIs nécessaires pour que l'application `Rappels de fichiers` fonctionne correctement.",
     "We will remind you of this file" : "Nous vous rappellerons de ce fichier",
     "Please choose a valid date & time" : "Veuillez choisir une date et une heure valables",
     "Cancel" : "Annuler",
