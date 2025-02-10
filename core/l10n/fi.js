@@ -242,6 +242,7 @@ OC.L10N.register(
     "No action available" : "Toimintoa ei saatavilla",
     "Error fetching contact actions" : "Virhe yhteystiedon toimintojen haussa",
     "Close \"{dialogTitle}\" dialog" : "Sulje \"{dialogTitle}\"-ikkuna",
+    "Email length is at max (255)" : "Sähköpostin pituus on maksimissaan (255)",
     "Non-existing tag #{tag}" : "Ei olemassa oleva tunniste #{tag}",
     "Restricted" : "Rajoitettu",
     "Invisible" : "Näkymätön",

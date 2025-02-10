@@ -98,6 +98,8 @@ OC.L10N.register(
     "Clear search" : "Išvalyti paiešką",
     "Date" : "Data",
     "Today" : "Šiandien",
+    "Last 7 days" : "Paskutinės 7 dienos",
+    "Last 30 days" : "Paskutinės 30 dienų",
     "People" : "Žmonės",
     "Results" : "Rezultatai",
     "Load more results" : "Įkelti daugiau rezultatų",
