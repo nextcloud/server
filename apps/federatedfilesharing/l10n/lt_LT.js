@@ -21,6 +21,7 @@ OC.L10N.register(
     "Federated Cloud" : "Federacinė debesija",
     "Share it so your friends can share files with you:" : "Pasidalinkite juo, kad jūsų draugai galėtų bendrinti failus kartu su jumis:",
     "Facebook" : "„Facebook“",
+    "Mastodon" : "„Mastodon“",
     "HTML Code:" : "HTML kodas:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Bendrinti su manimi per mano #Nextcloud federacinės debesijos ID",
     "Cloud ID copied to the clipboard" : "Debesijos ID nukopijuotas į iškarpinę",
