@@ -35,7 +35,7 @@
 /* eslint-disable */
 import escapeHTML from 'escape-html'
 
-import { Type as ShareTypes } from '@nextcloud/sharing'
+import { ShareType } from '@nextcloud/sharing'
 import { getCapabilities } from '@nextcloud/capabilities'
 
 (function() {
@@ -183,25 +183,23 @@ import { getCapabilities } from '@nextcloud/capabilities'
 						var hasShares = false
 						_.each(shareTypesStr.split(',') || [], function(shareTypeStr) {
 							let shareType = parseInt(shareTypeStr, 10)
-							if (shareType === ShareTypes.SHARE_TYPE_LINK) {
+							if (shareType === ShareType.Link) {
 								hasLink = true
-							} else if (shareType === ShareTypes.SHARE_TYPE_EMAIL) {
+							} else if (shareType === ShareType.Email) {
 								hasLink = true
-							} else if (shareType === ShareTypes.SHARE_TYPE_USER) {
+							} else if (shareType === ShareType.User) {
 								hasShares = true
-							} else if (shareType === ShareTypes.SHARE_TYPE_GROUP) {
+							} else if (shareType === ShareType.Group) {
 								hasShares = true
-							} else if (shareType === ShareTypes.SHARE_TYPE_REMOTE) {
+							} else if (shareType === ShareType.Remote) {
 								hasShares = true
-							} else if (shareType === ShareTypes.SHARE_TYPE_REMOTE_GROUP) {
+							} else if (shareType === ShareType.RemoteGroup) {
 								hasShares = true
-							} else if (shareType === ShareTypes.SHARE_TYPE_CIRCLE) {
+							} else if (shareType === ShareType.Team) {
 								hasShares = true
-							} else if (shareType === ShareTypes.SHARE_TYPE_ROOM) {
+							} else if (shareType === ShareType.Room) {
 								hasShares = true
-							} else if (shareType === ShareTypes.SHARE_TYPE_DECK) {
-								hasShares = true
-							} else if (shareType === ShareTypes.SHARE_TYPE_SCIENCEMESH) {
+							} else if (shareType === ShareType.Deck) {
 								hasShares = true
 							}
 						})
@@ -232,8 +230,8 @@ import { getCapabilities } from '@nextcloud/capabilities'
 				permissions: OC.PERMISSION_ALL,
 				iconClass: function(fileName, context) {
 					var shareType = parseInt(context.$file.data('share-types'), 10)
-					if (shareType === ShareTypes.SHARE_TYPE_EMAIL
-						|| shareType === ShareTypes.SHARE_TYPE_LINK) {
+					if (shareType === ShareType.Email
+						|| shareType === ShareType.Link) {
 						return 'icon-public'
 					}
 					return 'icon-shared'

@@ -24,10 +24,10 @@
 </template>
 
 <script>
+import { ShareType } from '@nextcloud/sharing'
 import DropdownIcon from 'vue-material-design-icons/TriangleSmallDown.vue'
 import SharesMixin from '../mixins/SharesMixin.js'
 import ShareDetails from '../mixins/ShareDetails.js'
-import ShareTypes from '../mixins/ShareTypes.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import IconEyeOutline from 'vue-material-design-icons/EyeOutline.vue'
@@ -49,7 +49,7 @@ export default {
 		NcActionButton,
 	},
 
-	mixins: [SharesMixin, ShareDetails, ShareTypes],
+	mixins: [SharesMixin, ShareDetails],
 
 	props: {
 		share: {
@@ -119,7 +119,7 @@ export default {
 		supportsFileDrop() {
 			if (this.isFolder && this.config.isPublicUploadEnabled) {
 				const shareType = this.share.type ?? this.share.shareType
-				return [this.SHARE_TYPES.SHARE_TYPE_LINK, this.SHARE_TYPES.SHARE_TYPE_EMAIL].includes(shareType)
+				return [ShareType.Link, ShareType.Email].includes(shareType)
 			}
 			return false
 		},
