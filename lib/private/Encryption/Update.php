@@ -1,131 +1,85 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Encryption;
 
 use InvalidArgumentException;
-use OC\Files\Filesystem;
-use OC\Files\Mount;
 use OC\Files\View;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
+use OCP\Files\File as OCPFile;
+use OCP\Files\Folder;
+use OCP\Files\NotFoundException;
 use Psr\Log\LoggerInterface;
 
 /**
  * update encrypted files, e.g. because a file was shared
  */
 class Update {
-	/** @var Util */
-	protected $util;
-
-	/** @var \OC\Files\Mount\Manager */
-	protected $mountManager;
-
-	/** @var Manager */
-	protected $encryptionManager;
-
-	/** @var string */
-	protected $uid;
-
-	/** @var File */
-	protected $file;
-
-	/** @var LoggerInterface */
-	protected $logger;
-
-	/**
-	 * @param string $uid
-	 */
 	public function __construct(
-		Util $util,
-		Mount\Manager $mountManager,
-		Manager $encryptionManager,
-		File $file,
-		LoggerInterface $logger,
-		$uid,
+		protected Util $util,
+		protected Manager $encryptionManager,
+		protected File $file,
+		protected LoggerInterface $logger,
+		protected string $uid,
 	) {
-		$this->util = $util;
-		$this->mountManager = $mountManager;
-		$this->encryptionManager = $encryptionManager;
-		$this->file = $file;
-		$this->logger = $logger;
-		$this->uid = $uid;
 	}
 
 	/**
 	 * hook after file was shared
 	 */
-	public function postShared(string $nodeType, int $nodeId): void {
-		if ($this->encryptionManager->isEnabled()) {
-			if ($nodeType === 'file' || $nodeType === 'folder') {
-				$path = Filesystem::getPath($nodeId);
-				[$owner, $ownerPath] = $this->getOwnerPath($path);
-				$absPath = '/' . $owner . '/files/' . $ownerPath;
-				$this->update($nodeType === 'folder', $absPath);
-			}
-		}
+	public function postShared(OCPFile|Folder $node): void {
+		$this->update($node);
 	}
 
 	/**
 	 * hook after file was unshared
 	 */
-	public function postUnshared(string $nodeType, int $nodeId): void {
-		if ($this->encryptionManager->isEnabled()) {
-			if ($nodeType === 'file' || $nodeType === 'folder') {
-				$path = Filesystem::getPath($nodeId);
-				[$owner, $ownerPath] = $this->getOwnerPath($path);
-				$absPath = '/' . $owner . '/files/' . $ownerPath;
-				$this->update($nodeType === 'folder', $absPath);
-			}
-		}
+	public function postUnshared(OCPFile|Folder $node): void {
+		$this->update($node);
 	}
 
 	/**
 	 * inform encryption module that a file was restored from the trash bin,
 	 * e.g. to update the encryption keys
 	 */
-	public function postRestore(bool $directory, string $filePath): void {
-		if ($this->encryptionManager->isEnabled()) {
-			$path = Filesystem::normalizePath('/' . $this->uid . '/files/' . $filePath);
-			$this->update($directory, $path);
-		}
+	public function postRestore(OCPFile|Folder $node): void {
+		$this->update($node);
 	}
 
 	/**
 	 * inform encryption module that a file was renamed,
 	 * e.g. to update the encryption keys
 	 */
-	public function postRename(bool $directory, string $source, string $target): void {
-		if (
-			$this->encryptionManager->isEnabled() &&
-			dirname($source) !== dirname($target)
-		) {
-			[$owner, $ownerPath] = $this->getOwnerPath($target);
-			$absPath = '/' . $owner . '/files/' . $ownerPath;
-			$this->update($directory, $absPath);
+	public function postRename(OCPFile|Folder $source, OCPFile|Folder $target): void {
+		if (dirname($source->getPath()) !== dirname($target->getPath())) {
+			$this->update($target);
 		}
 	}
 
 	/**
-	 * get owner and path relative to data/<owner>/files
+	 * get owner and path relative to data/
 	 *
-	 * @param string $path path to file for current user
-	 * @return array ['owner' => $owner, 'path' => $path]
 	 * @throws \InvalidArgumentException
 	 */
-	protected function getOwnerPath($path) {
-		$info = Filesystem::getFileInfo($path);
-		$owner = Filesystem::getOwner($path);
-		$view = new View('/' . $owner . '/files');
-		$path = $view->getPath($info->getId());
-		if ($path === null) {
-			throw new InvalidArgumentException('No file found for ' . $info->getId());
+	protected function getOwnerPath(OCPFile|Folder $node): string {
+		$owner = $node->getOwner()?->getUID();
+		if ($owner === null) {
+			throw new InvalidArgumentException('No owner found for ' . $node->getId());
 		}
-
-		return [$owner, $path];
+		$view = new View('/' . $owner . '/files');
+		try {
+			$path = $view->getPath($node->getId());
+		} catch (NotFoundException $e) {
+			throw new InvalidArgumentException('No file found for ' . $node->getId(), previous:$e);
+		}
+		return '/' . $owner . '/files/' . $path;
 	}
 
 	/**
@@ -134,7 +88,7 @@ class Update {
 	 * @param string $path relative to data/
 	 * @throws Exceptions\ModuleDoesNotExistsException
 	 */
-	public function update(bool $directory, string $path): void {
+	public function update(OCPFile|Folder $node): void {
 		$encryptionModule = $this->encryptionManager->getEncryptionModule();
 
 		// if the encryption module doesn't encrypt the files on a per-user basis
@@ -143,14 +97,13 @@ class Update {
 			return;
 		}
 
+		$path = $this->getOwnerPath($node);
 		// if a folder was shared, get a list of all (sub-)folders
-		if ($directory) {
+		if ($node instanceof Folder) {
 			$allFiles = $this->util->getAllFiles($path);
 		} else {
 			$allFiles = [$path];
 		}
-
-
 
 		foreach ($allFiles as $file) {
 			$usersSharing = $this->file->getAccessList($file);

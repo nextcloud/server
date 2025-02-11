@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OC\Encryption;
 
-use OC\Files\Filesystem;
 use OC\Files\SetupManager;
 use OC\Files\View;
 use OCA\Files_Trashbin\Events\NodeRestoredEvent;
@@ -18,7 +17,6 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\Node\NodeRenamedEvent;
-use OCP\Files\Folder;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\Events\ShareCreatedEvent;
@@ -32,6 +30,7 @@ class EncryptionEventListener implements IEventListener {
 	public function __construct(
 		private IUserSession $userSession,
 		private SetupManager $setupManager,
+		private Manager $encryptionManager,
 	) {
 	}
 
@@ -43,17 +42,20 @@ class EncryptionEventListener implements IEventListener {
 	}
 
 	public function handle(Event $event): void {
+		if (!$this->encryptionManager->isEnabled()) {
+			return;
+		}
 		if ($event instanceof NodeRenamedEvent) {
-			$this->getUpdate()->postRename($event->getSource() instanceof Folder, $event->getSource()->getPath(), $event->getTarget()->getPath());
+			$this->getUpdate()->postRename($event->getSource(), $event->getTarget());
 		} elseif ($event instanceof ShareCreatedEvent) {
-			$this->getUpdate()->postShared($event->getShare()->getNodeType(), $event->getShare()->getNodeId());
+			$this->getUpdate()->postShared($event->getShare()->getNode());
 		} elseif ($event instanceof ShareDeletedEvent) {
 			// In case the unsharing happens in a background job, we don't have
 			// a session and we load instead the user from the UserManager
 			$owner = $event->getShare()->getNode()->getOwner();
-			$this->getUpdate($owner)->postUnshared($event->getShare()->getNodeType(), $event->getShare()->getNodeId());
+			$this->getUpdate($owner)->postUnshared($event->getShare()->getNode());
 		} elseif ($event instanceof NodeRestoredEvent) {
-			$this->getUpdate()->postRestore($event->getTarget() instanceof Folder, $event->getTarget()->getPath());
+			$this->getUpdate()->postRestore($event->getTarget());
 		}
 	}
 
@@ -79,7 +81,6 @@ class EncryptionEventListener implements IEventListener {
 					\OC::$server->getUserManager(),
 					\OC::$server->getGroupManager(),
 					\OC::$server->getConfig()),
-				Filesystem::getMountManager(),
 				\OC::$server->getEncryptionManager(),
 				\OC::$server->get(IFile::class),
 				\OC::$server->get(LoggerInterface::class),
