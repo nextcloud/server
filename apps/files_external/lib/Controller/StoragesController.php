@@ -323,7 +323,7 @@ abstract class StoragesController extends Controller {
 	 *
 	 * @return DataResponse
 	 */
-	#[PasswordConfirmationRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function destroy(int $id) {
 		try {
 			$this->service->removeStorage($id);
