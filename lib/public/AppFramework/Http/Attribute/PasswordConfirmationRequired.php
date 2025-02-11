@@ -34,4 +34,21 @@ use Attribute;
  */
 #[Attribute]
 class PasswordConfirmationRequired {
+	/**
+	 * @param bool $strict - Whether password confirmation needs to happen in the request.
+	 *
+	 * @since 31.0.0
+	 */
+	public function __construct(
+		protected bool $strict = false,
+	) {
+	}
+
+	/**
+	 * @since 31.0.0
+	 */
+	public function getStrict(): bool {
+		return $this->strict;
+	}
+
 }
