@@ -272,7 +272,6 @@ OC.L10N.register(
     "The PHP OPcache module is not properly configured. %s." : "PHP OPCache modulua ez dago ondo konfiguratuta. %s.",
     "Correctly configured" : "Ondo konfiguratuta",
     "PHP version" : "PHP bertsioa",
-    "You are currently running PHP %s. PHP 8.1 is now deprecated in Nextcloud 30. Nextcloud 31 may require at least PHP 8.2. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "PHP %s exekutatzen ari zara. PHP 8.1 Nextcloud 30-en zaharkituta dago. Nextcloud 31k gutxienez PHP 8.2 behar ahal izango du. Mesedez, eguneratu PHP Group-ek ofizialki onartzen dituen PHP bertsioatara ahalik eta lasterren.",
     "You are currently running PHP %s." : "Une honetan %s PHPa darabilzu.",
     "PHP \"output_buffering\" option" : "PHP \"output_buffering\" ezarpena",
     "PHP configuration option \"output_buffering\" must be disabled" : "PHP \"output_buffering\" konfigurazio aukera desgaituta egon behar da",
@@ -877,6 +876,7 @@ OC.L10N.register(
     "Active accounts" : "Kontu gaituak",
     "Follow us on Twitter" : "Jarrai gaitzazu Twitterren",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Egiaztapen hau exekuta dadin ziurtatu behar duzu zure web zerbitzaria bere buruarekin konektatu daitekeela. Hori dela eta, bere `trusted_domains` edo `overwrite.cli.url`ra gutxienez ebatzi eta konektatzeko gai izan behar du. Baliteke hutsegite hau zerbitzariaren aldeko DNS ez bat etortzea edo irteerako suebakiaren arauaren ondorioa izatea.",
+    "You are currently running PHP %s. PHP 8.1 is now deprecated in Nextcloud 30. Nextcloud 31 may require at least PHP 8.2. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "PHP %s exekutatzen ari zara. PHP 8.1 Nextcloud 30-en zaharkituta dago. Nextcloud 31k gutxienez PHP 8.2 behar ahal izango du. Mesedez, eguneratu PHP Group-ek ofizialki onartzen dituen PHP bertsioatara ahalik eta lasterren.",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQL \"%s\" bertsioa detektatu da. PostgreSQL >=12 eta <=16 iradokitzen da Nextcloud-en bertsio honekin errendimendu, egonkortasun eta funtzionalitate onena lortzeko."
 },
 "nplurals=2; plural=(n != 1);");

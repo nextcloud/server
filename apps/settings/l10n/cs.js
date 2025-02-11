@@ -273,7 +273,6 @@ OC.L10N.register(
     "The PHP OPcache module is not properly configured. %s." : "PHP modul OPcache není správně nastavený: %s.",
     "Correctly configured" : "Správně nastaveno",
     "PHP version" : "Verze PHP",
-    "You are currently running PHP %s. PHP 8.1 is now deprecated in Nextcloud 30. Nextcloud 31 may require at least PHP 8.2. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "Nyní  provozujete na PHP %s. Od Nextcloud 30 je PHP 8.1 už označeno jako zastaralé. Nextcloud 31 pak už může vyžadovat alespoň PHP 8.2. Co možná nejdříve přejděte na některou z oficiálně podporovaných verzí PHP, poskytovaných PHP Group.",
     "You are currently running PHP %s." : "Nyní provozujete na PHP %s.",
     "PHP \"output_buffering\" option" : "Volba PHP „output_buffering“",
     "PHP configuration option \"output_buffering\" must be disabled" : "Je třeba aby volba nastavení PHP „output_buffering byla vypnutá",
@@ -912,6 +911,7 @@ OC.L10N.register(
     "Active accounts" : "Aktivní účty",
     "Follow us on Twitter" : "Následujte nás na Twitteru",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Aby bylo možné možné povolit spuštění této kontroly je třeba zajistit, aby se webový server mohl připojit sám na sebe. Proto je třeba, aby bylo možné přeložit na IP adresu a připojit se k alespoň jedné z `trusted_domains` nebo `overwrite.cli.url`. Tento nezdar může být výsledkem neshody DNS na serveru nebo odchozího pravidla na bráně firewall.",
+    "You are currently running PHP %s. PHP 8.1 is now deprecated in Nextcloud 30. Nextcloud 31 may require at least PHP 8.2. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "Nyní  provozujete na PHP %s. Od Nextcloud 30 je PHP 8.1 už označeno jako zastaralé. Nextcloud 31 pak už může vyžadovat alespoň PHP 8.2. Co možná nejdříve přejděte na některou z oficiálně podporovaných verzí PHP, poskytovaných PHP Group.",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Zjištěna verze PostgreSQL „%s“. Pro nejlepší výkon, stabilitu a funkčnost s touto verzí Nextcloud je doporučeno PostgreSQL >=12 a <=16."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

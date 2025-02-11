@@ -273,7 +273,6 @@ OC.L10N.register(
     "The PHP OPcache module is not properly configured. %s." : "PHP OPcache 模組設定不正確。%s。",
     "Correctly configured" : "正確設定",
     "PHP version" : "PHP 版本",
-    "You are currently running PHP %s. PHP 8.1 is now deprecated in Nextcloud 30. Nextcloud 31 may require at least PHP 8.2. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "您正在執行 PHP %s。Nextcloud 30 已棄用 PHP 8.1。Nextcloud 31 需要 PHP 8.2 或更新版本。請盡快升級至 PHP Group 提供官方支援的其中一個版本。",
     "You are currently running PHP %s." : "您正在執行 PHP %s。",
     "PHP \"output_buffering\" option" : "PHP「output_buffering」選項",
     "PHP configuration option \"output_buffering\" must be disabled" : "PHP 組態設定選項「output_buffering」必須停用",
@@ -912,6 +911,7 @@ OC.L10N.register(
     "Active accounts" : "活躍帳號",
     "Follow us on Twitter" : "在 Twitter 上追蹤我們",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "若要允許執行此檢查，您必須確保您的網路伺服器可以連線到其自身。因此，其必須可以解析並連線到 `trusted_domains` 或 `overwrite.cli.url` 至少其中一個。此失敗可能是因為伺服器端 DNS 不符或連出防火牆規則造成的。",
+    "You are currently running PHP %s. PHP 8.1 is now deprecated in Nextcloud 30. Nextcloud 31 may require at least PHP 8.2. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "您正在執行 PHP %s。Nextcloud 30 已棄用 PHP 8.1。Nextcloud 31 需要 PHP 8.2 或更新版本。請盡快升級至 PHP Group 提供官方支援的其中一個版本。",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "偵測到 PostgreSQL 版本「%s」。建議使用 PostgreSQL >=12 且 <=16 以取得此版本 Nextcloud 的最佳效能、穩定性與功能。"
 },
 "nplurals=1; plural=0;");
