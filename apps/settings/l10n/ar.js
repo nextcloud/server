@@ -273,7 +273,6 @@ OC.L10N.register(
     "The PHP OPcache module is not properly configured. %s." : "جزء الـ PHP OPcache لم يتم إعداده بالشكل الصحيح. %s.",
     "Correctly configured" : "تمّ الإعداد بالشكل الصحيح",
     "PHP version" : "إصدار الـ PHP",
-    "You are currently running PHP %s. PHP 8.1 is now deprecated in Nextcloud 30. Nextcloud 31 may require at least PHP 8.2. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "أنت الآن تُشغِّل PHP ـ %s. الإصدار  8.1 من PHP تمّ إسقاطه في الإصدارين 30 و 31 من نكست كلاود. الإصدار 32 قد يستلزم 8.2 على الأقل. يرجى الترقية إلى أحد إصدارات PHP المدعومة رسمياً والمقدمة من مجموعة PHP في أقرب وقت ممكن.. ",
     "You are currently running PHP %s." : "إصدار PHP الذي تقوم بتشغيله الآن هو %s.",
     "PHP \"output_buffering\" option" : "خيار الـ PHP ـ \"output_buffering\" ",
     "PHP configuration option \"output_buffering\" must be disabled" : "خيار إعداد الـ PHP ـ \"output_buffering\" يجب تعطيله",
@@ -912,6 +911,7 @@ OC.L10N.register(
     "Active accounts" : "حسابات نشطة",
     "Follow us on Twitter" : "تابعونا على تويتر",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "للسماح بتشغيل هذا الفحص، عليك التأكد من أن خادم الويب الخاص بك يمكنه الاتصال بنفسه. لذلك، يجب أن يكون قادراً على حل المشكلة والاتصال بواحد على الأقل من \"النطاقات_الموثوقة\" أو \"overwrite.cli.url\". قد يكون هذا الفشل نتيجة لعدم تطابق DNS من جانب الخادم أو قاعدة صادرة لجدار الحماية.",
+    "You are currently running PHP %s. PHP 8.1 is now deprecated in Nextcloud 30. Nextcloud 31 may require at least PHP 8.2. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "أنت الآن تُشغِّل PHP ـ %s. الإصدار  8.1 من PHP تمّ إسقاطه في الإصدارين 30 و 31 من نكست كلاود. الإصدار 32 قد يستلزم 8.2 على الأقل. يرجى الترقية إلى أحد إصدارات PHP المدعومة رسمياً والمقدمة من مجموعة PHP في أقرب وقت ممكن.. ",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "تمّ اكتشاف الإصدار \"%s\" من PostgreSQL. الإصدارات الموصى بها لأفضل أداء و للثبات و لاكتمال الوظائف مع هذا الإصدار من نكست كلاود هي من 12 إلى 16. "
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");
