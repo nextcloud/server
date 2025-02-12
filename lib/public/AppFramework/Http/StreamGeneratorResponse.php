@@ -16,7 +16,7 @@ use OCP\AppFramework\Http;
  *
  * @since 31.0.0
  *
- * @template-extends Response<int, array<string, mixed>>
+ * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class StreamGeneratorResponse extends Response implements ICallbackResponse {
 	protected $generator;
@@ -28,7 +28,7 @@ class StreamGeneratorResponse extends Response implements ICallbackResponse {
 	 * @param String $contentType http response content type e.g. 'application/json; charset=UTF-8'
 	 * @param int $status http response status
 	 */
-	public function __construct(Generator $generator, string $contentType, int $status = 200) {
+	public function __construct(Generator $generator, string $contentType, int $status = Http::STATUS_OK) {
 		parent::__construct();
 
 		$this->generator = $generator;
