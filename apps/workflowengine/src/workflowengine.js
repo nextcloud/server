@@ -30,10 +30,18 @@ import ShippedChecks from './components/Checks/index.js'
  * @property {string} id - The PHP class name of the check
  * @property {string} operation - Default value for the operation field
  * @property {string} color - Custom color code to be applied for the operator selector
- * @property {Vue} component - A vue component to handle the rendering of options
+ * @property {object} [options] - Deprecated: **Use `element` instead**
+ *
+ *  A vue component to handle the rendering of options.
  *  The component should handle the v-model directive properly,
  *  so it needs a value property to receive data and emit an input
- *  event once the data has changed
+ *  event once the data has changed.
+ *
+ *  Will be removed in 03/2028.
+ * @property {string} [element] - A web component id as used in window.customElements.define()`.
+ *  It is expected that the ID is prefixed with the app namespace, e.g. oca-myapp-flow_do_this_operation
+ *  It has to emit the `update:model-value` event when a value was changed.
+ *  The `model-value` property will be set initially with the rule operation value.
  */
 
 /**
