@@ -227,14 +227,13 @@ class WebhookListenerMapper extends QBMapper {
 			->from($this->getTableName())
 			->where($qb->expr()->eq('event', $qb->createNamedParameter($event, IQueryBuilder::PARAM_STR)));
 
-
 		if ($userId === '' || $userId === null) {
 			$qb->andWhere($qb->expr()->emptyString('user_id_filter'));
 		} else {
 			$qb->andWhere(
 				$qb->expr()->orX(
 					$qb->expr()->emptyString('user_id_filter'),
-					$qb->expr()->eq('user_id_filter', $qb->createNamedParameter($userId)),
+					$qb->expr()->eq('user_id_filter', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
 				)
 			);
 		}
