@@ -123,6 +123,7 @@ class Hooks {
 			->setType('personal_settings')
 			->setAffectedUser($user->getUID());
 
+		$instanceName = $this->defaults->getName();
 		$instanceUrl = $this->urlGenerator->getAbsoluteURL('/');
 		$language = $this->languageFactory->getUserLanguage($user);
 		$l = $this->languageFactory->get('settings', $language);
@@ -159,7 +160,7 @@ class Hooks {
 				'instanceUrl' => $instanceUrl,
 			]);
 
-			$template->setSubject($l->t('Email address for %1$s changed on %2$s', [$user->getDisplayName(), $instanceUrl]));
+			$template->setSubject($l->t('Email address for %1$s changed on %2$s', [$user->getDisplayName(), $instanceName]));
 			$template->addHeader();
 			$template->addHeading($l->t('Email address changed for %s', [$user->getDisplayName()]), false);
 			$template->addBodyText($text . ' ' . $l->t('If you did not request this, please contact an administrator.'));
