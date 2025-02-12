@@ -35,6 +35,7 @@ OC.L10N.register(
     "Text" : "Tekst",
     "Size" : "Størelse",
     "Position" : "Placering",
+    "Stroke" : "Slagtilfælde",
     "Extension" : "Filtype",
     "Name is required." : "Navn er krævet.",
     "Menu" : "Menu"
