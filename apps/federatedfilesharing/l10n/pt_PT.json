@@ -1,8 +1,8 @@
 { "translations": {
     "Invalid Federated Cloud ID" : "Id. de Nuvem Federada Inválida",
-    "Server to server sharing is not enabled on this server" : "Partilha servidor-para-servidor não está activa neste servidor",
+    "Server to server sharing is not enabled on this server" : "Partilha servidor-para-servidor não está ativa neste servidor",
     "Couldn't establish a federated share." : "Não foi possível estabelecer uma partilha federada.",
-    "Couldn't establish a federated share, maybe the password was wrong." : "Não foi possível estabelecer a partilha federada, a palavra-passe talvez esteja incorrecta.",
+    "Couldn't establish a federated share, maybe the password was wrong." : "Não foi possível estabelecer a partilha federada, a palavra-passe talvez esteja incorreta.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Pedido de Partilha Federada enviado, irá receber o convite. Confira as suas notificações.",
     "File is already shared with %s" : "O ficheiro já foi partilhado com %s",
     "Could not find share" : "Não foi possível encontrar partilha",

@@ -127,6 +127,7 @@ OC.L10N.register(
     "Resources" : "Ressursid",
     "Documentation" : "Dokumentatsioon",
     "Report a bug" : "Teata veast",
+    "View in store" : "Vaata poes",
     "Visit website" : "Külasta veebisaiti",
     "Admin documentation" : "Administraatori dokumentatsioon",
     "Developer documentation" : "Arendaja dokumentatsioon",

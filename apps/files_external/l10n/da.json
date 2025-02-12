@@ -60,6 +60,7 @@
     "Enable Path Style" : "Aktivér stil for sti",
     "Legacy (v2) authentication" : "Ældre (v2) godkendelse",
     "Enable multipart copy" : "Aktiver flerdelt kopi",
+    "SSE-C encryption key" : "SSE-C krypteringsnøgle",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
     "Remote subfolder" : "Fjernundermappe",

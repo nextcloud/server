@@ -318,7 +318,7 @@
     "Use {newextension}" : "Empregar {newextension}",
     "Remove extension" : "Retirar a extensión",
     "This operation is forbidden" : "Esta operación está prohibida",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Este directorio non está dispoñíbel, comprobe os rexistros ou póñase en contacto coa administración desta instancia.",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Este directorio non está dispoñíbel, consulte os ficheiros de rexistro ou póñase en contacto coa administración desta instancia.",
     "Storage is temporarily not available" : "O almacenamento non está dispoñíbel temporalmente",
     "Unexpected error: {error}" : "Produciuse un erro non agardado: {error}",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} cartafol","{folderCount} cartafoles"],

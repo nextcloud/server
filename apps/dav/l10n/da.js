@@ -112,6 +112,8 @@ OC.L10N.register(
     "October" : "Oktober",
     "November" : "November",
     "December" : "December",
+    "Fifth" : "Femte",
+    "Fifth Last" : "Femte Sidste",
     "Contacts" : "Kontakter",
     "{actor} created address book {addressbook}" : "{actor} oprettede adressebog {addressbook}",
     "You created address book {addressbook}" : "Du oprettede adressebog {addressbook}",
