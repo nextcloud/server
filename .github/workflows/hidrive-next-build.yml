@@ -34,6 +34,7 @@ env:
   TARGET_PACKAGE_NAME: hidrive-next.zip
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  ARTIFACTORY_REPOSITORY_SNAPSHOT: ionos-productivity-hdnext-snapshot
 
 permissions:
   contents: read
@@ -44,6 +45,9 @@ jobs:
 
     permissions:
       contents: read
+
+    outputs:
+      NC_VERSION: ${{ steps.get_nc_version.outputs.NC_VERSION }}
 
     name: hidrive-next-build
     steps:
@@ -113,12 +117,84 @@ jobs:
       - name: Zip dependencies
         run: make -f IONOS/Makefile zip_dependencies TARGET_PACKAGE_NAME=${{ env.TARGET_PACKAGE_NAME }}
 
+      - name: Get NC version
+        id: get_nc_version
+        run: |
+          NC_VERSION=$(jq -r '.ncVersion' version.json)
+          echo "NC_VERSION: $NC_VERSION"
+
+          if [ -z "$NC_VERSION" ]; then
+            echo "NC_VERSION is empty"
+            exit 1
+          fi
+
+          echo "NC_VERSION=$NC_VERSION" >> $GITHUB_OUTPUT
+
       - name: Upload artifact result for job hidrive-next-build
         uses: actions/upload-artifact@v4
         with:
           retention-days: 30
           name: hidrive_next_build_artifact
           path: ${{ env.TARGET_PACKAGE_NAME }}
+
+      - name: Show changes on failure
+        if: failure()
+        run: |
+          git status
+          git --no-pager diff
+          exit 1 # make it red to grab attention
+
+  upload-to-artifactory:
+    runs-on: self-hosted
+    # Upload the artifact to the Artifactory repository on PR *OR* on "ionos-dev" branch push defined in the on:push:branches
+    if: github.event_name == 'pull_request' || github.ref_name == 'ionos-dev'
+
+    name: Push artifact to artifactory as dev build
+    needs: hidrive-next-build
+
+    env:
+      BUILD_NAME: "hidrive_next-snapshot"
+
+    steps:
+      - name: Download artifact zip
+        uses: actions/download-artifact@v4
+        with:
+          name: hidrive_next_build_artifact
+
+      # This action sets up the JFrog CLI with the Artifactory URL and access token
+      - uses: jfrog/setup-jfrog-cli@v4
+        env:
+          JF_URL: ${{ secrets.JF_ARTIFACTORY_URL }}
+          JF_USER: ${{ secrets.JF_ARTIFACTORY_USER }}
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+
+      - name: Ping the JF server
+        run: |
+          # Ping the server
+          jf rt ping
+
+      - name: Upload build to artifactory
+        run: |
+          # PR builds are stored in a separate directory as "dev/pr/hidrive-next-pr-<number>.zip"
+          # Push to "ionos-dev" branch is stored as "dev/hidrive-next-<ncVersion>.zip"
+
+          ARTIFACTORY_STAGE_PREFIX="dev"
+
+          export PATH_TO_DIRECTORY="${{ env.ARTIFACTORY_REPOSITORY_SNAPSHOT }}/${ARTIFACTORY_STAGE_PREFIX}"
+          PATH_TO_FILE="pr/hidrive-next-pr-${{ github.event.pull_request.number }}.zip"
+
+          if [ -z "${{ github.event.pull_request.number }}" ]; then
+            PATH_TO_FILE="hidrive-next-${{ needs.hidrive-next-build.outputs.NC_VERSION }}.zip"
+          fi
+
+          export PATH_TO_LATEST_ARTIFACT="${PATH_TO_DIRECTORY}/${PATH_TO_FILE}"
+
+          # Promote current build to the "latest" dev build
+          jf rt upload "${{ env.TARGET_PACKAGE_NAME }}" \
+          --build-name "${{ env.BUILD_NAME }}" \
+          --build-number ${{ github.run_number }} \
+          --target-props "hdnext.nc_version=${{ needs.hidrive-next-build.outputs.NC_VERSION }};vcs.branch=${{ github.ref }};vcs.revision=${{ github.sha }}" \
+          $PATH_TO_LATEST_ARTIFACT
 
       - name: Show changes on failure
         if: failure()
