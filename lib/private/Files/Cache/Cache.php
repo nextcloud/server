@@ -55,7 +55,7 @@ class Cache implements ICache {
 	protected array $partial = [];
 	protected string $storageId;
 	protected Storage $storageCache;
-	protected IMimeTypeLoader$mimetypeLoader;
+	protected IMimeTypeLoader $mimetypeLoader;
 	protected IDBConnection $connection;
 	protected SystemConfig $systemConfig;
 	protected LoggerInterface $logger;
@@ -864,7 +864,7 @@ class Cache implements ICache {
 	 * search for files by mimetype
 	 *
 	 * @param string $mimetype either a full mimetype to search ('text/plain') or only the first part of a mimetype ('image')
-	 *        where it will search for all mimetypes in the group ('image/*')
+	 *                         where it will search for all mimetypes in the group ('image/*')
 	 * @return ICacheEntry[] an array of cache entries where the mimetype matches the search
 	 */
 	public function searchByMime($mimetype) {
@@ -917,7 +917,7 @@ class Cache implements ICache {
 				->from('filecache')
 				->whereParent($fileId)
 				->whereStorageId($this->getNumericStorageId())
-				->andWhere($query->expr()->lt('size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
+				->andWhere($query->expr()->eq('size', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)));
 
 			$result = $query->execute();
 			$size = (int)$result->fetchOne();
@@ -1058,28 +1058,19 @@ class Cache implements ICache {
 	 * @return string|false the path of the folder or false when no folder matched
 	 */
 	public function getIncomplete() {
-		// we select the fileid here first instead of directly selecting the path since this helps mariadb/mysql
-		// to use the correct index.
-		// The overhead of this should be minimal since the cost of selecting the path by id should be much lower
-		// than the cost of finding an item with size < 0
 		$query = $this->getQueryBuilder();
-		$query->select('fileid')
+		$query->select('path')
 			->from('filecache')
 			->whereStorageId($this->getNumericStorageId())
-			->andWhere($query->expr()->lt('size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->eq('size', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)))
 			->orderBy('fileid', 'DESC')
 			->setMaxResults(1);
 
 		$result = $query->execute();
-		$id = $result->fetchOne();
+		$path = $result->fetchOne();
 		$result->closeCursor();
 
-		if ($id === false) {
-			return false;
-		}
-
-		$path = $this->getPathById($id);
-		return $path ?? false;
+		return $path === false ? false : (string)$path;
 	}
 
 	/**
@@ -1159,7 +1150,7 @@ class Cache implements ICache {
 	 */
 	public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, string $targetPath): int {
 		if ($sourceEntry->getId() < 0) {
-			throw new \RuntimeException("Invalid source cache entry on copyFromCache");
+			throw new \RuntimeException('Invalid source cache entry on copyFromCache');
 		}
 		$data = $this->cacheEntryToArray($sourceEntry);
 
@@ -1170,7 +1161,7 @@ class Cache implements ICache {
 
 		$fileId = $this->put($targetPath, $data);
 		if ($fileId <= 0) {
-			throw new \RuntimeException("Failed to copy to " . $targetPath . " from cache with source data " . json_encode($data) . " ");
+			throw new \RuntimeException('Failed to copy to ' . $targetPath . ' from cache with source data ' . json_encode($data) . ' ');
 		}
 		if ($sourceEntry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE) {
 			$folderContent = $sourceCache->getFolderContentsById($sourceEntry->getId());
