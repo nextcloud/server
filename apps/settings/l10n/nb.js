@@ -860,7 +860,6 @@ OC.L10N.register(
     "Active accounts" : "Aktive kontoer",
     "Follow us on Twitter" : "Følg oss på Twitter",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "For å la denne kontrollen kjøre, må du sørge for at webserveren din kan koble til seg selv. Derfor må den kunne løse og koble til minst en dens 'trusted_domains' eller 'overwrite.cli.url'. Denne feilen kan være et resultat av ikke-DNS-samsvar på serversiden eller en regel for utgående brannmur.",
-    "You are currently running PHP %s. PHP 8.1 is now deprecated in Nextcloud 30. Nextcloud 31 may require at least PHP 8.2. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "Du kjører for øyeblikket PHP %s. PHP 8.1 er nå avviklet i Nextcloud 30. Nextcloud 31 kan kreve minst PHP 8.2. Oppgrader til en av de offisielt støttede PHP-versjonene levert av PHP Group så snart som mulig.",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQL-versjon \"%s\" oppdaget. PostgreSQL >=12 og <=16 foreslås for best ytelse, stabilitet og funksjonalitet med denne versjonen av Nextcloud."
 },
 "nplurals=2; plural=(n != 1);");

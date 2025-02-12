@@ -1,8 +1,8 @@
 { "translations": {
-    "Cannot write into \"config\" directory!" : "Não é possível gravar no directório \"config\"!",
+    "Cannot write into \"config\" directory!" : "Não é possível gravar no diretório \"config\"!",
     "See %s" : "Ver %s",
     "Sample configuration detected" : "Detetado exemplo de configuração",
-    "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Foi detectado que a configuração de amostra foi copiada. Isso pode danificar a sua instalação e não é suportado. Por favor, leia a documentação antes de realizar mudanças no config.php",
+    "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Foi detetado que a configuração de amostra foi copiada. Isso pode danificar a sua instalação e não é suportado. Por favor, leia a documentação antes de realizar mudanças no config.php",
     "The page could not be found on the server." : "Esta página não foi encontrada no servidor.",
     "Email verification" : "Verificação de e-mail",
     "Click the following button to confirm your email." : "Clique no botão a seguir para confirmar o seu e-mail.",
@@ -52,13 +52,13 @@
     "in a few seconds" : "em breves segundos",
     "seconds ago" : "Minutos atrás",
     "Empty file" : "Ficheiro vazio",
-    "Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator." : "Módulo com ID: %s não existe. Por favor active-o nas definições da aplicação ou contacte o administrador.",
+    "Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator." : "Módulo com ID: %s não existe. Por favor ative-o nas definições da aplicação ou contacte o administrador.",
     "Dot files are not allowed" : "Ficheiros dot não são permitidos",
     "File already exists" : "O ficheiro já existe",
     "Invalid path" : "Caminho inválido!",
     "Failed to create file from template" : "Erro ao criar o ficheiro a partir do modelo",
     "Templates" : "Modelos",
-    "Filename contains at least one invalid character" : "Nome ficheiro contém pelo menos um caractere inválido",
+    "Filename contains at least one invalid character" : "Nome ficheiro contém pelo menos um carácter inválido",
     "Empty filename is not allowed" : "Não é permitido um ficheiro sem nome",
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "A app \"%s\" não pode ser instalada porque o ficheiro appinfo não pode ser lido.",
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "A aplicação \"%s\" não pode ser instada porque não é compatível com esta versão do servidor.",
@@ -85,7 +85,7 @@
     "Additional settings" : "Definições adicionais",
     "You need to enter details of an existing account." : "Precisa de introduzir detalhes de uma conta existente.",
     "Oracle connection could not be established" : "Não foi possível estabelecer a ligação Oracle",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Esta plataforma não suporta o sistema operativo Mac OS X e o %s poderá não funcionar correctamente. Utilize por sua conta e risco.",
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Esta plataforma não suporta o sistema operativo Mac OS X e o %s poderá não funcionar corretamente. Utilize por sua conta e risco.",
     "For the best results, please consider using a GNU/Linux server instead." : "Para um melhor resultado, utilize antes o servidor GNU/Linux.",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Parece que a instância %s está a ser executada num ambiente PHP de 32-bits e o open_basedir foi configurado no php.ini. Isto levará a problemas com ficheiros de tamanho superior a 4 GB e é altamente desencorajado.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Por favor, remova a definição open_basedir do seu php.ini ou altere o seu PHP para 64-bits.",
@@ -148,7 +148,7 @@
     "A valid password must be provided" : "Deve ser fornecida uma palavra-passe válida",
     "Login canceled by app" : "Sessão cancelada pela app",
     "a safe home for all your data" : "Um lugar seguro para todos os seus dados",
-    "Application is not enabled" : "A aplicação não está activada",
+    "Application is not enabled" : "A aplicação não está ativada",
     "Authentication error" : "Erro na autenticação",
     "Token expired. Please reload page." : "O token expirou. Por favor recarregue a página.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Nenhuma base de dados de drivers (sqlite, mysql, or postgresql) instaladas.",
@@ -188,6 +188,6 @@
     "Click the button below to open it." : "Clicar no botão abaixo para abrir.",
     "File is currently busy, please try again later" : "O ficheiro está ocupado, por favor, tente mais tarde",
     "Cannot download file" : "Não é possível transferir o ficheiro",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Garanta que existe um ficheiro chamado \".occdata\" na raiz do directório de dados"
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Garanta que existe um ficheiro chamado \".occdata\" na raiz do diretório de dados"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

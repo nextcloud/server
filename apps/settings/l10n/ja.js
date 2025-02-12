@@ -905,7 +905,6 @@ OC.L10N.register(
     "Active accounts" : "アクティブなアカウント",
     "Follow us on Twitter" : "Twitter でフォロー！",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "このチェックを実行させるには、Webサーバーが自分自身に接続できることを確認しなければならない。そのため、少なくとも一つの `trusted_domains` または `overwrite.cli.url` を解決して接続できなければなりません。この失敗は、サーバ側のDNSの不一致やアウトバウンドファイアウォールルールの結果かもしれません。",
-    "You are currently running PHP %s. PHP 8.1 is now deprecated in Nextcloud 30. Nextcloud 31 may require at least PHP 8.2. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "現在、あなたは PHP %s を実行しています。PHP 8.1 は Nextcloud 30 では非推奨となっています。Nextcloud 31 では少なくとも PHP 8.2 が必要になる可能性があります。できるだけ早く、PHP グループが提供する公式にサポートされている PHP のバージョンにアップグレードしてください。",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQLのバージョン \"%s\"が検出されました。 このバージョンのNextcloudで最高のパフォーマンス、安定性、機能性を得るには、PostgreSQL >=12および<=16を推奨します。"
 },
 "nplurals=1; plural=0;");
