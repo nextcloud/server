@@ -36,6 +36,7 @@ use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Lock\ILockingProvider;
+use OCP\Server;
 use OCP\Share\IShare;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -90,7 +91,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 
 	public function __construct(array $parameters) {
 		$this->ownerView = $parameters['ownerView'];
-		$this->logger = \OC::$server->get(LoggerInterface::class);
+		$this->logger = Server::get(LoggerInterface::class);
 
 		$this->superShare = $parameters['superShare'];
 		$this->groupedShares = $parameters['groupedShares'];
@@ -150,7 +151,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 			}
 
 			/** @var IRootFolder $rootFolder */
-			$rootFolder = \OC::$server->get(IRootFolder::class);
+			$rootFolder = Server::get(IRootFolder::class);
 			$this->ownerUserFolder = $rootFolder->getUserFolder($this->superShare->getShareOwner());
 			$sourceId = $this->superShare->getNodeId();
 			$ownerNodes = $this->ownerUserFolder->getById($sourceId);
@@ -412,7 +413,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		$this->cache = new Cache(
 			$storage,
 			$sourceRoot,
-			\OC::$server->get(CacheDependencies::class),
+			Server::get(CacheDependencies::class),
 			$this->getShare()
 		);
 		return $this->cache;
@@ -437,16 +438,15 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		// Get node information
 		$node = $this->getShare()->getNodeCacheEntry();
 		if ($node instanceof CacheEntry) {
-			$storageId = $node->getData()['storage_string_id'];
+			$storageId = $node->getData()['storage_string_id'] ?? null;
 			// for shares from the home storage we can rely on the home storage to keep itself up to date
 			// for other storages we need use the proper watcher
-			if (!(str_starts_with($storageId, 'home::') || str_starts_with($storageId, 'object::user'))) {
+			if ($storageId !== null && !(str_starts_with($storageId, 'home::') || str_starts_with($storageId, 'object::user'))) {
 				$cache = $this->getCache();
 				$this->watcher = parent::getWatcher($path, $storage);
 				if ($cache instanceof Cache) {
 					$this->watcher->onUpdate($cache->markRootChanged(...));
 				}
-
 				return $this->watcher;
 			}
 		}
