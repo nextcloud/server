@@ -33,6 +33,15 @@ abstract class TimedJob extends Job {
 	}
 
 	/**
+	 * Get the interval [seconds] for the job
+	 *
+	 * @since 32.0.0
+	 */
+	public function getInterval(): int {
+		return $this->interval;
+	}
+
+	/**
 	 * Whether the background job is time sensitive and needs to run soon after
 	 * the scheduled interval, of if it is okay to be delayed until a later time.
 	 *
