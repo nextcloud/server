@@ -19,7 +19,7 @@ use OCA\Files_Trashbin\Trashbin;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Constants;
 use OCP\Files\FileInfo;
-use OCP\IConfig;
+use OCP\Server;
 use OCP\Share\IShare;
 
 /**
@@ -110,8 +110,11 @@ class TrashbinTest extends \Test\TestCase {
 
 		\OC::$server->getAppManager()->enableApp('files_trashbin');
 		$config = \OC::$server->getConfig();
-		$mockConfig = $this->createMock(IConfig::class);
-		$mockConfig
+		$mockConfig = $this->getMockBuilder(AllConfig::class)
+			->onlyMethods(['getSystemValue'])
+			->setConstructorArgs([Server::get(\OC\SystemConfig::class)])
+			->getMock();
+		$mockConfig->expects($this->any())
 			->method('getSystemValue')
 			->willReturnCallback(static function ($key, $default) use ($config) {
 				if ($key === 'filesystem_check_changes') {
@@ -119,16 +122,6 @@ class TrashbinTest extends \Test\TestCase {
 				} else {
 					return $config->getSystemValue($key, $default);
 				}
-			});
-		$mockConfig
-			->method('getUserValue')
-			->willReturnCallback(static function ($userId, $appName, $key, $default = '') use ($config) {
-				return $config->getUserValue($userId, $appName, $key, $default);
-			});
-		$mockConfig
-			->method('getAppValue')
-			->willReturnCallback(static function ($appName, $key, $default = '') use ($config) {
-				return $config->getAppValue($appName, $key, $default);
 			});
 		$this->overwriteService(AllConfig::class, $mockConfig);
 

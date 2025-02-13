@@ -16,12 +16,17 @@ class EncryptedSizePropagationTest extends SizePropagationTest {
 	use EncryptionTrait;
 
 	protected function setupUser($name, $password = '') {
+		$this->config->setAppValue('encryption', 'useMasterKey', '0');
 		$this->createUser($name, $password);
 		$tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);
-		$this->config->setAppValue('encryption', 'useMasterKey', '0');
 		$this->setupForUser($name, $password);
 		$this->loginWithEncryption($name);
 		return new View('/' . $name . '/files');
+	}
+
+	protected function loginHelper($user, $create = false, $password = false) {
+		$this->setupForUser($user, $password);
+		parent::loginHelper($user, $create, $password);
 	}
 }

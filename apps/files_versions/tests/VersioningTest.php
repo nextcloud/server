@@ -19,7 +19,6 @@ use OCA\Files_Versions\Storage;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Constants;
 use OCP\Files\IMimeTypeLoader;
-use OCP\IConfig;
 use OCP\IUser;
 use OCP\Server;
 use OCP\Share\IShare;
@@ -79,7 +78,10 @@ class VersioningTest extends \Test\TestCase {
 		parent::setUp();
 
 		$config = \OC::$server->getConfig();
-		$mockConfig = $this->createMock(IConfig::class);
+		$mockConfig = $this->getMockBuilder(AllConfig::class)
+			->onlyMethods(['getSystemValue'])
+			->setConstructorArgs([Server::get(\OC\SystemConfig::class)])
+			->getMock();
 		$mockConfig->expects($this->any())
 			->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) use ($config) {
@@ -423,8 +425,24 @@ class VersioningTest extends \Test\TestCase {
 		$this->rootView->file_put_contents($v2, 'version2');
 
 		// move file into the shared folder as recipient
-		Filesystem::rename('/test.txt', '/folder1/test.txt');
+		$success = Filesystem::rename('/test.txt', '/folder1/test.txt');
 
+		// TODO: Voir is $v2 existe pour voir si c’est la copie ou la suppression qui foire
+		// Mettre du debug dans Wrapper/Encrytion::copyBetweenStorage c’est le suspect n-1
+		$versionsFolder1 = '/' . self::TEST_VERSIONS_USER . '/files_versions';
+
+		$v1Renamed = $versionsFolder1 . '/folder1/test.txt.v' . $t1;
+		$v2Renamed = $versionsFolder1 . '/folder1/test.txt.v' . $t2;
+		var_dump([
+			'success' => $success,
+			'source exists' => Filesystem::file_exists('/test.txt'),
+			'target exists' => Filesystem::file_exists('/folder1/test.txt'),
+			'v1 exists' => $this->rootView->file_exists($v1),
+			'v2 exists' => $this->rootView->file_exists($v2),
+			'v1Renamed exists' => $this->rootView->file_exists($v1Renamed),
+			'v2Renamed exists' => $this->rootView->file_exists($v2Renamed),
+		]);
+		$this->assertTrue($success); // renvoi true :-O
 		$this->assertFalse($this->rootView->file_exists($v1));
 		$this->assertFalse($this->rootView->file_exists($v2));
 

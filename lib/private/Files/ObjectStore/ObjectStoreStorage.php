@@ -176,13 +176,17 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	}
 
 	public function unlink(string $path): bool {
+		echo "[DEBUG] unlink($path) " . __FILE__ . ':' . __LINE__ . "\n";
 		$path = $this->normalizePath($path);
+		echo "[DEBUG] unlink($path) " . __FILE__ . ':' . __LINE__ . "\n";
 		$entry = $this->getCache()->get($path);
 
 		if ($entry instanceof ICacheEntry) {
 			if ($entry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE) {
+				echo "[DEBUG] unlink directory $path " . __FILE__ . ':' . __LINE__ . "\n";
 				return $this->rmObjects($entry);
 			} else {
+				echo "[DEBUG] unlink file $path " . __FILE__ . ':' . __LINE__ . "\n";
 				return $this->rmObject($entry);
 			}
 		}

@@ -8,7 +8,6 @@
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
-use OC\Encryption\Update;
 use OC\Encryption\Util;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Filesystem;
@@ -49,7 +48,6 @@ class Encryption extends Wrapper {
 		private IFile $fileHelper,
 		private ?string $uid,
 		private IStorage $keyStorage,
-		private Update $update,
 		private Manager $mountManager,
 		private ArrayCache $arrayCache,
 	) {
@@ -64,7 +62,8 @@ class Encryption extends Wrapper {
 
 		$info = $this->getCache()->get($path);
 		if ($info === false) {
-			return false;
+			/* Pass call to wrapped storage, it may be a special file like a part file */
+			return $this->storage->filesize($path);
 		}
 		if (isset($this->unencryptedSize[$fullPath])) {
 			$size = $this->unencryptedSize[$fullPath];
@@ -168,8 +167,11 @@ class Encryption extends Wrapper {
 	}
 
 	public function unlink(string $path): bool {
+		echo "[DEBUG] unlink($path) " . __FILE__ . ':' . __LINE__ . "\n";
 		$fullPath = $this->getFullPath($path);
+		echo "[DEBUG] unlink($fullPath) " . __FILE__ . ':' . __LINE__ . "\n";
 		if ($this->util->isExcluded($fullPath)) {
+			echo "[DEBUG] excluded $fullPath " . __FILE__ . ':' . __LINE__ . "\n";
 			return $this->storage->unlink($path);
 		}
 
@@ -318,7 +320,7 @@ class Encryption extends Wrapper {
 					if (!empty($encryptionModuleId)) {
 						$encryptionModule = $this->encryptionManager->getEncryptionModule($encryptionModuleId);
 						$shouldEncrypt = true;
-					} elseif (empty($encryptionModuleId) && $info['encrypted'] === true) {
+					} elseif ($info !== false && $info['encrypted'] === true) {
 						// we come from a old installation. No header and/or no module defined
 						// but the file is encrypted. In this case we need to use the
 						// OC_DEFAULT_MODULE to read the file
@@ -521,15 +523,31 @@ class Encryption extends Wrapper {
 		// - remove $this->copyBetweenStorage
 
 		if (!$sourceStorage->isDeletable($sourceInternalPath)) {
+			echo "[DEBUG] $sourceInternalPath $targetInternalPath not deletable " . __FILE__ . ':' . __LINE__ . "\n";
 			return false;
 		}
 
 		$result = $this->copyBetweenStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime, true);
+		echo "[DEBUG] $sourceInternalPath $targetInternalPath copy:$result " . __FILE__ . ':' . __LINE__ . "\n";
 		if ($result) {
-			if ($sourceStorage->is_dir($sourceInternalPath)) {
-				$result = $sourceStorage->rmdir($sourceInternalPath);
-			} else {
-				$result = $sourceStorage->unlink($sourceInternalPath);
+			echo "[DEBUG] $sourceInternalPath $targetInternalPath copy success " . __FILE__ . ':' . __LINE__ . "\n";
+			if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
+				/** @var ObjectStoreStorage $sourceStorage */
+				$sourceStorage->setPreserveCacheOnDelete(true);
+			}
+			try {
+				if ($sourceStorage->is_dir($sourceInternalPath)) {
+					$result = $sourceStorage->rmdir($sourceInternalPath);
+					echo "[DEBUG] $sourceInternalPath rmdir:$result " . __FILE__ . ':' . __LINE__ . "\n";
+				} else {
+					$result = $sourceStorage->unlink($sourceInternalPath);
+					echo "[DEBUG] $sourceInternalPath unlink:$result " . __FILE__ . ':' . __LINE__ . "\n";
+				}
+			} finally {
+				if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
+					/** @var ObjectStoreStorage $sourceStorage */
+					$sourceStorage->setPreserveCacheOnDelete(false);
+				}
 			}
 		}
 		return $result;
@@ -609,10 +627,12 @@ class Encryption extends Wrapper {
 		bool $preserveMtime,
 		bool $isRename,
 	): bool {
+		echo "[DEBUG] $sourceInternalPath $targetInternalPath $isRename " . __FILE__ . ':' . __LINE__ . "\n";
 		// for versions we have nothing to do, because versions should always use the
 		// key from the original file. Just create a 1:1 copy and done
 		if ($this->isVersion($targetInternalPath) ||
 			$this->isVersion($sourceInternalPath)) {
+			echo "[DEBUG] $sourceInternalPath $targetInternalPath $isRename " . __FILE__ . ':' . __LINE__ . "\n";
 			// remember that we try to create a version so that we can detect it during
 			// fopen($sourceInternalPath) and by-pass the encryption in order to
 			// create a 1:1 copy of the file
@@ -630,6 +650,7 @@ class Encryption extends Wrapper {
 				}
 				$this->updateEncryptedVersion($sourceStorage, $sourceInternalPath, $targetInternalPath, $isRename, true);
 			}
+			echo "[DEBUG] $result " . __FILE__ . ':' . __LINE__ . "\n";
 			return $result;
 		}
 
@@ -654,7 +675,7 @@ class Encryption extends Wrapper {
 			if (is_resource($dh)) {
 				while ($result && ($file = readdir($dh)) !== false) {
 					if (!Filesystem::isIgnoredDir($file)) {
-						$result &= $this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file, false, $isRename);
+						$result = $this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file, $preserveMtime, $isRename);
 					}
 				}
 			}
