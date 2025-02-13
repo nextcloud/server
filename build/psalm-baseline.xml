@@ -543,12 +543,6 @@
       <code><![CDATA[bool]]></code>
     </InvalidReturnType>
   </file>
-  <file src="apps/dav/lib/HookManager.php">
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->usersToDelete]]></code>
-      <code><![CDATA[$this->usersToDelete]]></code>
-    </InvalidPropertyAssignmentValue>
-  </file>
   <file src="apps/dav/lib/Migration/BuildCalendarSearchIndexBackgroundJob.php">
     <ParamNameMismatch>
       <code><![CDATA[$arguments]]></code>

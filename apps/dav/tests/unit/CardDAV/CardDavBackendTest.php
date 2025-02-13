@@ -526,7 +526,8 @@ class CardDavBackendTest extends TestCase {
 
 		$query = $this->db->getQueryBuilder();
 		$query->select('*')
-			->from('cards_properties');
+			->from('cards_properties')
+			->orderBy('name');
 
 		$qResult = $query->execute();
 		$result = $qResult->fetchAll();
@@ -534,13 +535,13 @@ class CardDavBackendTest extends TestCase {
 
 		$this->assertSame(2, count($result));
 
-		$this->assertSame('UID', $result[0]['name']);
-		$this->assertSame($cardUri, $result[0]['value']);
+		$this->assertSame('FN', $result[0]['name']);
+		$this->assertSame('John Doe', $result[0]['value']);
 		$this->assertSame($bookId, (int)$result[0]['addressbookid']);
 		$this->assertSame($cardId, (int)$result[0]['cardid']);
 
-		$this->assertSame('FN', $result[1]['name']);
-		$this->assertSame('John Doe', $result[1]['value']);
+		$this->assertSame('UID', $result[1]['name']);
+		$this->assertSame($cardUri, $result[1]['value']);
 		$this->assertSame($bookId, (int)$result[1]['addressbookid']);
 		$this->assertSame($cardId, (int)$result[1]['cardid']);
 

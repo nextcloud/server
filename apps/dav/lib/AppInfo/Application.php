@@ -20,7 +20,6 @@ use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
 use OCA\DAV\CalDAV\Reminder\Notifier;
 use OCA\DAV\Capabilities;
-
 use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\SyncService;
@@ -47,7 +46,6 @@ use OCA\DAV\Events\CardDeletedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
 use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
-use OCA\DAV\HookManager;
 use OCA\DAV\Listener\ActivityUpdaterListener;
 use OCA\DAV\Listener\AddMissingIndicesListener;
 use OCA\DAV\Listener\AddressbookListener;
@@ -62,6 +60,7 @@ use OCA\DAV\Listener\ClearPhotoCacheListener;
 use OCA\DAV\Listener\OutOfOfficeListener;
 use OCA\DAV\Listener\SubscriptionListener;
 use OCA\DAV\Listener\TrustedServerRemovedListener;
+use OCA\DAV\Listener\UserEventsListener;
 use OCA\DAV\Listener\UserPreferenceListener;
 use OCA\DAV\Search\ContactsSearchProvider;
 use OCA\DAV\Search\EventsSearchProvider;
@@ -81,15 +80,21 @@ use OCP\Config\BeforePreferenceDeletedEvent;
 use OCP\Config\BeforePreferenceSetEvent;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\DB\Events\AddMissingIndicesEvent;
-use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCP\Files\AppData\IAppDataFactory;
-use OCP\IUser;
 use OCP\Server;
+use OCP\User\Events\BeforeUserDeletedEvent;
+use OCP\User\Events\BeforeUserIdUnassignedEvent;
 use OCP\User\Events\OutOfOfficeChangedEvent;
 use OCP\User\Events\OutOfOfficeClearedEvent;
 use OCP\User\Events\OutOfOfficeScheduledEvent;
+use OCP\User\Events\UserChangedEvent;
+use OCP\User\Events\UserCreatedEvent;
+use OCP\User\Events\UserDeletedEvent;
+use OCP\User\Events\UserFirstTimeLoggedInEvent;
+use OCP\User\Events\UserIdAssignedEvent;
+use OCP\User\Events\UserIdUnassignedEvent;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -187,6 +192,15 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(OutOfOfficeClearedEvent::class, OutOfOfficeListener::class);
 		$context->registerEventListener(OutOfOfficeScheduledEvent::class, OutOfOfficeListener::class);
 
+		$context->registerEventListener(UserFirstTimeLoggedInEvent::class, UserEventsListener::class);
+		$context->registerEventListener(UserIdAssignedEvent::class, UserEventsListener::class);
+		$context->registerEventListener(BeforeUserIdUnassignedEvent::class, UserEventsListener::class);
+		$context->registerEventListener(UserIdUnassignedEvent::class, UserEventsListener::class);
+		$context->registerEventListener(BeforeUserDeletedEvent::class, UserEventsListener::class);
+		$context->registerEventListener(UserDeletedEvent::class, UserEventsListener::class);
+		$context->registerEventListener(UserCreatedEvent::class, UserEventsListener::class);
+		$context->registerEventListener(UserChangedEvent::class, UserEventsListener::class);
+
 		$context->registerNotifierService(Notifier::class);
 
 		$context->registerCalendarProvider(CalendarProvider::class);
@@ -209,18 +223,10 @@ class Application extends App implements IBootstrap {
 		$context->injectFn([$this, 'registerCalendarReminders']);
 	}
 
-	public function registerHooks(HookManager $hm,
+	public function registerHooks(
 		IEventDispatcher $dispatcher,
-		IAppContainer $container) {
-		$hm->setup();
-
-		// first time login event setup
-		$dispatcher->addListener(IUser::class . '::firstLogin', function ($event) use ($hm): void {
-			if ($event instanceof GenericEvent) {
-				$hm->firstLogin($event->getSubject());
-			}
-		});
-
+		IAppContainer $container,
+	): void {
 		$dispatcher->addListener(UserUpdatedEvent::class, function (UserUpdatedEvent $event) use ($container): void {
 			/** @var SyncService $syncService */
 			$syncService = Server::get(SyncService::class);
@@ -240,7 +246,6 @@ class Application extends App implements IBootstrap {
 
 			// Here we should recalculate if reminders should be sent to new or old sharees
 		});
-
 	}
 
 	public function registerContactsManager(IContactsManager $cm, IAppContainer $container): void {
