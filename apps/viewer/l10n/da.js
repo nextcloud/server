@@ -27,6 +27,7 @@ OC.L10N.register(
     "Undo" : "Fortryd",
     "Redo" : "Annuller fortryd",
     "Zoom in" : "Zoom ind",
+    "Filters" : "Filtre",
     "Original" : "Original",
     "Custom" : "Brugerdefineret",
     "Value" : "Værdi",
