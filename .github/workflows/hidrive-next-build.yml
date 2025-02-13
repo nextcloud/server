@@ -121,7 +121,7 @@ jobs:
       - name: Upload artifact result for job hidrive-next-build
         uses: actions/upload-artifact@v4
         with:
-          name: hidrive_next_build_zip
+          name: hidrive_next_build_artifact
           path: ${{ env.TARGET_PACKAGE_NAME }}
 
       - name: Show changes on failure
@@ -145,7 +145,7 @@ jobs:
       - name: Download artifact zip
         uses: actions/download-artifact@v4
         with:
-          name: hidrive_next_build_zip
+          name: hidrive_next_build_artifact
 
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
