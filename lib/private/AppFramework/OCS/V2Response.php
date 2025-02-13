@@ -30,17 +30,17 @@ use OCP\AppFramework\OCSController;
 
 /**
  * @psalm-import-type DataResponseType from DataResponse
- * @template S of int
+ * @template S of Http::STATUS_*
  * @template-covariant T of DataResponseType
  * @template H of array<string, mixed>
- * @template-extends BaseResponse<int, DataResponseType, array<string, mixed>>
+ * @template-extends BaseResponse<Http::STATUS_*, DataResponseType, array<string, mixed>>
  */
 class V2Response extends BaseResponse {
 	/**
 	 * The V2 endpoint just passes on status codes.
 	 * Of course we have to map the OCS specific codes to proper HTTP status codes
 	 *
-	 * @return int
+	 * @return Http::STATUS_*
 	 */
 	public function getStatus() {
 		$status = parent::getStatus();

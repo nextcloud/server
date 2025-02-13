@@ -30,9 +30,9 @@ use OCP\AppFramework\Http;
 /**
  * A generic 404 response showing an 404 error page as well to the end-user
  * @since 8.1.0
- * @template S of int
+ * @template S of Http::STATUS_*
  * @template H of array<string, mixed>
- * @template-extends TemplateResponse<int, array<string, mixed>>
+ * @template-extends TemplateResponse<Http::STATUS_*, array<string, mixed>>
  */
 class NotFoundResponse extends TemplateResponse {
 	/**
