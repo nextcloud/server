@@ -121,6 +121,7 @@ jobs:
       - name: Upload artifact result for job hidrive-next-build
         uses: actions/upload-artifact@v4
         with:
+          retention-days: 30
           name: hidrive_next_build_artifact
           path: ${{ env.TARGET_PACKAGE_NAME }}
 
