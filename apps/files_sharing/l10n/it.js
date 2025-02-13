@@ -281,6 +281,7 @@ OC.L10N.register(
     "Allow download and sync" : "Consenti scaricamento e sincr.",
     "Note to recipient" : "Nota al destinatario",
     "Enter a note for the share recipient" : "Digita una nota per il destinatario della condivisione",
+    "Show files in grid view" : "Mostra i file nella vista a griglia",
     "Read" : "Lettura",
     "Create" : "Crea",
     "Edit" : "Modifica",
