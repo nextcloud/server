@@ -281,6 +281,7 @@ OC.L10N.register(
     "Allow download and sync" : "السماح بالتنزيل و المزامنة",
     "Note to recipient" : "ملاحظة للمستلم",
     "Enter a note for the share recipient" : "أدخل ملاحظة لمستلم المشاركة",
+    "Show files in grid view" : "عرض الملفات في وضعية الشبكة",
     "Read" : "قراءة",
     "Create" : "إنشاء ",
     "Edit" : "تعديل",

@@ -281,6 +281,7 @@ OC.L10N.register(
     "Allow download and sync" : "Дозволи преузимање и сихронизацију",
     "Note to recipient" : "Белешка примаоцу",
     "Enter a note for the share recipient" : "Унесите белешку примаоцу дељења",
+    "Show files in grid view" : "Прикажи фајлове у погледу мреже",
     "Read" : "Читање",
     "Create" : "Креирање",
     "Edit" : "Измени",
