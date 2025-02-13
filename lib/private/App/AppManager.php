@@ -956,6 +956,6 @@ class AppManager implements IAppManager {
 	 */
 	public function cleanAppId(string $app): string {
 		/* Only lowercase alphanumeric is allowed */
-		return preg_replace('/[^a-z0-9_]+/', '', $app);
+		return preg_replace('/(^[0-9_]|[^a-z0-9_]+|_$)/', '', $app);
 	}
 }
