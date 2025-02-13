@@ -22,11 +22,6 @@
       <code><![CDATA['Location: ' . \OC::$WEBROOT . '/']]></code>
     </TaintedHeader>
   </file>
-  <file src="lib/private/AppFramework/Utility/SimpleContainer.php">
-    <TaintedCallable>
-      <code><![CDATA[$name]]></code>
-    </TaintedCallable>
-  </file>
   <file src="lib/private/Config.php">
     <TaintedHtml>
       <code><![CDATA[$this->cache]]></code>
@@ -60,11 +55,6 @@
       <code><![CDATA[$appNameSpace . '\\Controller\\' . basename($file->getPathname(), '.php')]]></code>
     </TaintedCallable>
   </file>
-  <file src="lib/private/ServerContainer.php">
-    <TaintedCallable>
-      <code><![CDATA[$applicationClassName]]></code>
-    </TaintedCallable>
-  </file>
   <file src="lib/private/Session/CryptoWrapper.php">
     <TaintedCookie>
       <code><![CDATA[$this->passphrase]]></code>
@@ -92,14 +82,6 @@
     <TaintedHeader>
       <code><![CDATA['Location: ' . \OC::$WEBROOT]]></code>
     </TaintedHeader>
-    <TaintedHtml>
-      <code><![CDATA[self::encode($data)]]></code>
-      <code><![CDATA[self::encode($data)]]></code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes>
-      <code><![CDATA[self::encode($data)]]></code>
-      <code><![CDATA[self::encode($data)]]></code>
-    </TaintedTextWithQuotes>
   </file>
   <file src="lib/private/legacy/OC_Template.php">
     <TaintedHtml>
