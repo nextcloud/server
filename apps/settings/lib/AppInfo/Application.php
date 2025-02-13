@@ -87,9 +87,7 @@ use OCP\Defaults;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
-use OCP\IGroupManager;
 use OCP\IServerContainer;
-use OCP\IUserSession;
 use OCP\Settings\Events\DeclarativeSettingsGetValueEvent;
 use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
 use OCP\Settings\IManager;
@@ -133,15 +131,6 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Core class wrappers
 		 */
-		/** FIXME: Remove once OC_SubAdmin is non-static and mockable */
-		$context->registerService('isSubAdmin', function () {
-			$userObject = \OCP\Server::get(IUserSession::class)->getUser();
-			$isSubAdmin = false;
-			if ($userObject !== null) {
-				$isSubAdmin = \OCP\Server::get(IGroupManager::class)->getSubAdmin()->isSubAdmin($userObject);
-			}
-			return $isSubAdmin;
-		});
 		$context->registerService(IProvider::class, function (IAppContainer $appContainer) {
 			/** @var IServerContainer $serverContainer */
 			$serverContainer = $appContainer->query(IServerContainer::class);
