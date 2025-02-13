@@ -7,7 +7,9 @@ namespace OCA\DAV\Tests\Unit\DAV\Migration;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Migration\CalDAVRemoveEmptyValue;
+use OCP\IDBConnection;
 use OCP\Migration\IOutput;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\InvalidDataException;
 use Test\TestCase;
@@ -83,7 +85,7 @@ END:VCALENDAR';
 		/** @var CalDAVRemoveEmptyValue|\PHPUnit\Framework\MockObject\MockObject $step */
 		$step = $this->getMockBuilder(CalDAVRemoveEmptyValue::class)
 			->setConstructorArgs([
-				\OC::$server->getDatabaseConnection(),
+				Server::get(IDBConnection::class),
 				$this->backend,
 				$this->logger
 			])
@@ -107,7 +109,7 @@ END:VCALENDAR';
 		/** @var CalDAVRemoveEmptyValue|\PHPUnit\Framework\MockObject\MockObject $step */
 		$step = $this->getMockBuilder(CalDAVRemoveEmptyValue::class)
 			->setConstructorArgs([
-				\OC::$server->getDatabaseConnection(),
+				Server::get(IDBConnection::class),
 				$this->backend,
 				$this->logger
 			])
@@ -150,7 +152,7 @@ END:VCALENDAR';
 		/** @var CalDAVRemoveEmptyValue|\PHPUnit\Framework\MockObject\MockObject $step */
 		$step = $this->getMockBuilder(CalDAVRemoveEmptyValue::class)
 			->setConstructorArgs([
-				\OC::$server->getDatabaseConnection(),
+				Server::get(IDBConnection::class),
 				$this->backend,
 				$this->logger
 			])
@@ -192,7 +194,7 @@ END:VCALENDAR';
 		/** @var CalDAVRemoveEmptyValue|\PHPUnit\Framework\MockObject\MockObject $step */
 		$step = $this->getMockBuilder(CalDAVRemoveEmptyValue::class)
 			->setConstructorArgs([
-				\OC::$server->getDatabaseConnection(),
+				Server::get(IDBConnection::class),
 				$this->backend,
 				$this->logger
 			])

@@ -18,6 +18,7 @@ use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\Lock\ManuallyLockedException;
+use OCP\Server;
 
 class VersionManager implements IVersionManager, IDeletableVersionBackend, INeedSyncVersionBackend, IMetadataVersionBackend {
 	/** @var (IVersionBackend[])[] */
@@ -176,9 +177,9 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 			// when checking the lock against the current scope.
 			// So we do not need to get the actual node here
 			// and use the root node instead.
-			$root = \OC::$server->get(IRootFolder::class);
+			$root = Server::get(IRootFolder::class);
 			$lockContext = new LockContext($root, ILock::TYPE_APP, $owner);
-			$lockManager = \OC::$server->get(ILockManager::class);
+			$lockManager = Server::get(ILockManager::class);
 			$result = null;
 			$lockManager->runInScope($lockContext, function () use ($callback, &$result): void {
 				$result = $callback();

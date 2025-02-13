@@ -10,6 +10,8 @@ namespace OCA\Files\BackgroundJob;
 use OC\Lock\DBLockingProvider;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
+use OCP\Lock\ILockingProvider;
+use OCP\Server;
 
 /**
  * Clean up all file locks that are expired for the DB file locking provider
@@ -30,7 +32,7 @@ class CleanupFileLocks extends TimedJob {
 	 * @throws \Exception
 	 */
 	public function run($argument) {
-		$lockingProvider = \OC::$server->getLockingProvider();
+		$lockingProvider = Server::get(ILockingProvider::class);
 		if ($lockingProvider instanceof DBLockingProvider) {
 			$lockingProvider->cleanExpiredLocks();
 		}

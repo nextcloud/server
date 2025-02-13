@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "10939f70efcd3b6d290ecf8f7e9d9da0",
+    "content-hash": "f197bd1bcd2c1d4cfc5c4b1756a5b20e",
     "packages": [],
     "packages-dev": [
         {
             "name": "nextcloud/rector",
-            "version": "v0.2.0",
+            "version": "v0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nextcloud-libraries/rector.git",
-                "reference": "c5cceb7faf2d4df61fe1fd8f82e19c7b106dbe00"
+                "reference": "25e71025c3acdf346f2d26034d3edd8e17e4596e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nextcloud-libraries/rector/zipball/c5cceb7faf2d4df61fe1fd8f82e19c7b106dbe00",
-                "reference": "c5cceb7faf2d4df61fe1fd8f82e19c7b106dbe00",
+                "url": "https://api.github.com/repos/nextcloud-libraries/rector/zipball/25e71025c3acdf346f2d26034d3edd8e17e4596e",
+                "reference": "25e71025c3acdf346f2d26034d3edd8e17e4596e",
                 "shasum": ""
             },
             "require": {
@@ -34,12 +34,12 @@
                 "captainhook": {
                     "force-install": true
                 },
+                "ramsey/devtools": {
+                    "memory-limit": "-1",
+                    "command-prefix": "dev"
+                },
                 "ramsey/conventional-commits": {
                     "configFile": "conventional-commits.json"
-                },
-                "ramsey/devtools": {
-                    "command-prefix": "dev",
-                    "memory-limit": "-1"
                 }
             },
             "autoload": {
@@ -65,22 +65,22 @@
             ],
             "support": {
                 "issues": "https://github.com/nextcloud-libraries/rector/issues",
-                "source": "https://github.com/nextcloud-libraries/rector/tree/v0.2.0"
+                "source": "https://github.com/nextcloud-libraries/rector/tree/v0.3.1"
             },
-            "time": "2024-09-19T09:54:28+00:00"
+            "time": "2025-02-06T09:32:20+00:00"
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.12.4",
+            "version": "1.12.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "ffa517cb918591b93acc9b95c0bebdcd0e4538bd"
+                "reference": "e0bb5cb78545aae631220735aa706eac633a6be9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/ffa517cb918591b93acc9b95c0bebdcd0e4538bd",
-                "reference": "ffa517cb918591b93acc9b95c0bebdcd0e4538bd",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e0bb5cb78545aae631220735aa706eac633a6be9",
+                "reference": "e0bb5cb78545aae631220735aa706eac633a6be9",
                 "shasum": ""
             },
             "require": {
@@ -125,25 +125,25 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-19T07:58:01+00:00"
+            "time": "2025-01-21T14:50:05+00:00"
         },
         {
             "name": "rector/rector",
-            "version": "1.2.5",
+            "version": "1.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "e98aa793ca3fcd17e893cfaf9103ac049775d339"
+                "reference": "40f9cf38c05296bd32f444121336a521a293fa61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/e98aa793ca3fcd17e893cfaf9103ac049775d339",
-                "reference": "e98aa793ca3fcd17e893cfaf9103ac049775d339",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/40f9cf38c05296bd32f444121336a521a293fa61",
+                "reference": "40f9cf38c05296bd32f444121336a521a293fa61",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.12.2"
+                "phpstan/phpstan": "^1.12.5"
             },
             "conflict": {
                 "rector/rector-doctrine": "*",
@@ -176,7 +176,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/1.2.5"
+                "source": "https://github.com/rectorphp/rector/tree/1.2.10"
             },
             "funding": [
                 {
@@ -184,15 +184,15 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-08T17:43:24+00:00"
+            "time": "2024-11-08T13:59:10+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": [],
+    "platform": {},
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }

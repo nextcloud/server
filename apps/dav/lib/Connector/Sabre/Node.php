@@ -20,6 +20,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 
@@ -60,14 +61,14 @@ abstract class Node implements \Sabre\DAV\INode {
 		if ($shareManager) {
 			$this->shareManager = $shareManager;
 		} else {
-			$this->shareManager = \OC::$server->getShareManager();
+			$this->shareManager = Server::get(\OCP\Share\IManager::class);
 		}
 		if ($info instanceof Folder || $info instanceof File) {
 			$this->node = $info;
 		} else {
 			// The Node API assumes that the view passed doesn't have a fake root
-			$rootView = \OC::$server->get(View::class);
-			$root = \OC::$server->get(IRootFolder::class);
+			$rootView = Server::get(View::class);
+			$root = Server::get(IRootFolder::class);
 			if ($info->getType() === FileInfo::TYPE_FOLDER) {
 				$this->node = new Folder($root, $rootView, $this->fileView->getAbsolutePath($this->path), $info);
 			} else {
@@ -82,8 +83,8 @@ abstract class Node implements \Sabre\DAV\INode {
 			throw new \Sabre\DAV\Exception('Failed to get fileinfo for ' . $this->path);
 		}
 		$this->info = $info;
-		$root = \OC::$server->get(IRootFolder::class);
-		$rootView = \OC::$server->get(View::class);
+		$root = Server::get(IRootFolder::class);
+		$rootView = Server::get(View::class);
 		if ($this->info->getType() === FileInfo::TYPE_FOLDER) {
 			$this->node = new Folder($root, $rootView, $this->path, $this->info);
 		} else {

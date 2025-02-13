@@ -15,7 +15,10 @@ use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\UserPluginManager;
 use OCP\IAvatarManager;
+use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Image;
+use OCP\IUserManager;
 use OCP\Server;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
@@ -108,13 +111,13 @@ abstract class AbstractIntegrationTest {
 	 */
 	protected function initUserManager() {
 		$this->userManager = new Manager(
-			\OC::$server->getConfig(),
-			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->get(IAvatarManager::class),
+			Server::get(IConfig::class),
+			Server::get(LoggerInterface::class),
+			Server::get(IAvatarManager::class),
 			new Image(),
-			\OC::$server->getUserManager(),
-			\OC::$server->getNotificationManager(),
-			\OC::$server->get(IManager::class)
+			Server::get(IUserManager::class),
+			Server::get(\OCP\Notification\IManager::class),
+			Server::get(IManager::class)
 		);
 	}
 
@@ -122,14 +125,14 @@ abstract class AbstractIntegrationTest {
 	 * initializes the test Helper
 	 */
 	protected function initHelper() {
-		$this->helper = new Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
+		$this->helper = new Helper(Server::get(IConfig::class), Server::get(IDBConnection::class));
 	}
 
 	/**
 	 * initializes the Access test instance
 	 */
 	protected function initAccess() {
-		$this->access = new Access($this->connection, $this->ldap, $this->userManager, $this->helper, \OC::$server->getConfig(), Server::get(LoggerInterface::class));
+		$this->access = new Access($this->connection, $this->ldap, $this->userManager, $this->helper, Server::get(IConfig::class), Server::get(LoggerInterface::class));
 	}
 
 	/**

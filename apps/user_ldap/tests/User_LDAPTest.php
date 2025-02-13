@@ -20,8 +20,12 @@ use OCA\User_LDAP\User_LDAP;
 use OCA\User_LDAP\User_LDAP as UserLDAP;
 use OCA\User_LDAP\UserPluginManager;
 use OCP\HintException;
+use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -57,7 +61,7 @@ class User_LDAPTest extends TestCase {
 		parent::setUp();
 
 		\OC_User::clearBackends();
-		\OC::$server->getGroupManager()->clearBackends();
+		Server::get(IGroupManager::class)->clearBackends();
 
 		$this->connection = $this->createMock(Connection::class);
 		$this->userManager = $this->createMock(Manager::class);
@@ -236,7 +240,7 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		\OC_User::useBackend($backend);
 
-		$user = \OC::$server->getUserManager()->checkPassword('roland', 'dt19');
+		$user = Server::get(IUserManager::class)->checkPassword('roland', 'dt19');
 		$result = false;
 		if ($user !== false) {
 			$result = $user->getUID();
@@ -249,7 +253,7 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		\OC_User::useBackend($backend);
 
-		$user = \OC::$server->getUserManager()->checkPassword('roland', 'wrong');
+		$user = Server::get(IUserManager::class)->checkPassword('roland', 'wrong');
 		$result = false;
 		if ($user !== false) {
 			$result = $user->getUID();
@@ -262,7 +266,7 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		\OC_User::useBackend($backend);
 
-		$user = \OC::$server->getUserManager()->checkPassword('mallory', 'evil');
+		$user = Server::get(IUserManager::class)->checkPassword('mallory', 'evil');
 		$result = false;
 		if ($user !== false) {
 			$result = $user->getUID();
@@ -436,7 +440,7 @@ class User_LDAPTest extends TestCase {
 	}
 
 	private function getUsers($search = '', $limit = null, $offset = null) {
-		$users = \OC::$server->getUserManager()->search($search, $limit, $offset);
+		$users = Server::get(IUserManager::class)->search($search, $limit, $offset);
 		$uids = array_map(function (IUser $user) {
 			return $user->getUID();
 		}, $users);
@@ -583,7 +587,7 @@ class User_LDAPTest extends TestCase {
 			->willReturn($this->createMock(UserMapping::class));
 
 		//test for existing user
-		$result = \OC::$server->getUserManager()->userExists('gunslinger');
+		$result = Server::get(IUserManager::class)->userExists('gunslinger');
 		$this->assertTrue($result);
 	}
 
@@ -653,7 +657,7 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		$this->prepareMockForUserExists();
 
-		$dataDir = \OC::$server->getConfig()->getSystemValue(
+		$dataDir = Server::get(IConfig::class)->getSystemValue(
 			'datadirectory', \OC::$SERVERROOT . '/data');
 
 		$this->connection->expects($this->any())
@@ -1000,11 +1004,11 @@ class User_LDAPTest extends TestCase {
 			});
 
 		//with displayName
-		$result = \OC::$server->getUserManager()->get('gunslinger')?->getDisplayName();
+		$result = Server::get(IUserManager::class)->get('gunslinger')?->getDisplayName();
 		$this->assertEquals('Roland Deschain', $result);
 
 		//empty displayname retrieved
-		$result = \OC::$server->getUserManager()->get('newyorker') === null ? 'newyorker' : \OC::$server->getUserManager()->get('newyorker')->getDisplayName();
+		$result = Server::get(IUserManager::class)->get('newyorker') === null ? 'newyorker' : Server::get(IUserManager::class)->get('newyorker')->getDisplayName();
 		$this->assertEquals('newyorker', $result);
 	}
 

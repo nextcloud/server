@@ -9,6 +9,10 @@ namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
 use OCP\ICache;
+use OCP\ICacheFactory;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -145,14 +149,14 @@ class Connection extends LDAPUtility {
 	) {
 		parent::__construct($ldap);
 		$this->configuration = new Configuration($this->configPrefix, !is_null($this->configID));
-		$memcache = \OC::$server->getMemCacheFactory();
+		$memcache = Server::get(ICacheFactory::class);
 		if ($memcache->isAvailable()) {
 			$this->cache = $memcache->createDistributed();
 		}
-		$helper = new Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
+		$helper = new Helper(Server::get(IConfig::class), Server::get(IDBConnection::class));
 		$this->doNotValidate = !in_array($this->configPrefix,
 			$helper->getServerConfigurationPrefixes());
-		$this->logger = \OC::$server->get(LoggerInterface::class);
+		$this->logger = Server::get(LoggerInterface::class);
 	}
 
 	public function __destruct() {

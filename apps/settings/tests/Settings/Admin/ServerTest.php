@@ -46,7 +46,7 @@ class ServerTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OCP\Server::get(IDBConnection::class);
 		$this->initialStateService = $this->createMock(IInitialState::class);
 		$this->profileManager = $this->createMock(ProfileManager::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);

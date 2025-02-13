@@ -12,6 +12,7 @@ use OC\Files\View;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Helper;
 use OCP\Files\NotFoundException;
+use OCP\IDBConnection;
 use OCP\Server;
 use OCP\Share\IShare;
 use OCP\Share_Backend_File_Dependent;
@@ -34,7 +35,7 @@ class File implements Share_Backend_File_Dependent {
 		if ($federatedShareProvider) {
 			$this->federatedShareProvider = $federatedShareProvider;
 		} else {
-			$this->federatedShareProvider = \OC::$server->query(FederatedShareProvider::class);
+			$this->federatedShareProvider = Server::get(FederatedShareProvider::class);
 		}
 	}
 
@@ -183,7 +184,7 @@ class File implements Share_Backend_File_Dependent {
 		if (isset($source['parent'])) {
 			$parent = $source['parent'];
 			while (isset($parent)) {
-				$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+				$qb = Server::get(IDBConnection::class)->getQueryBuilder();
 				$qb->select('parent', 'uid_owner')
 					->from('share')
 					->where(

@@ -11,6 +11,7 @@ use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OCP\Constants;
 use OCP\Files\Folder;
+use OCP\Files\Mount\IMountManager;
 use OCP\Server;
 use OCP\Share\IShare;
 
@@ -48,7 +49,7 @@ class Updater {
 
 		$src = $userFolder->get($path);
 
-		$shareManager = \OC::$server->getShareManager();
+		$shareManager = Server::get(\OCP\Share\IManager::class);
 
 		// We intentionally include invalid shares, as they have been automatically invalidated due to the node no longer
 		// being accessible for the user. Only in this case where we adjust the share after it was moved we want to ignore
@@ -88,7 +89,7 @@ class Updater {
 		}
 
 		// Check if the destination is inside a share
-		$mountManager = \OC::$server->getMountManager();
+		$mountManager = Server::get(IMountManager::class);
 		$dstMount = $mountManager->find($src->getPath());
 
 		//Ownership is moved over

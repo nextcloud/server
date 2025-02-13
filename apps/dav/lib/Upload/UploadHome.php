@@ -10,6 +10,8 @@ namespace OCA\DAV\Upload;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCP\IUserSession;
+use OCP\Server;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ICollection;
 
@@ -73,7 +75,7 @@ class UploadHome implements ICollection {
 
 	private function getView() {
 		$rootView = new View();
-		$user = \OC::$server->getUserSession()->getUser();
+		$user = Server::get(IUserSession::class)->getUser();
 		Filesystem::initMountPoints($user->getUID());
 		if (!$rootView->file_exists('/' . $user->getUID() . '/uploads')) {
 			$rootView->mkdir('/' . $user->getUID() . '/uploads');

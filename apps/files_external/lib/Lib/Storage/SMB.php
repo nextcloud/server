@@ -31,12 +31,14 @@ use OCA\Files_External\Lib\Notify\SMBNotifyHandler;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\EntityTooLargeException;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Notify\IChange;
 use OCP\Files\Notify\IRenameChange;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\INotifyStorage;
 use OCP\Files\StorageAuthException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\ITempManager;
 use Psr\Log\LoggerInterface;
 
 class SMB extends Common implements INotifyStorage {
@@ -458,7 +460,7 @@ class SMB extends Common implements INotifyStorage {
 						if (!$this->isCreatable(dirname($path))) {
 							return false;
 						}
-						$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
+						$tmpFile = \OCP\Server::get(ITempManager::class)->getTemporaryFile($ext);
 					}
 					$source = fopen($tmpFile, $mode);
 					$share = $this->share;
@@ -553,7 +555,7 @@ class SMB extends Common implements INotifyStorage {
 		if ($fileInfo->isDirectory()) {
 			$data['mimetype'] = 'httpd/unix-directory';
 		} else {
-			$data['mimetype'] = \OC::$server->getMimeTypeDetector()->detectPath($fileInfo->getPath());
+			$data['mimetype'] = \OCP\Server::get(IMimeTypeDetector::class)->detectPath($fileInfo->getPath());
 		}
 		$data['mtime'] = $fileInfo->getMTime();
 		if ($fileInfo->isDirectory()) {

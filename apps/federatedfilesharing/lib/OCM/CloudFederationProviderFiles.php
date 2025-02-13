@@ -151,7 +151,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 
 			try {
 				$this->externalShareManager->addShare($remote, $token, '', $name, $owner, $shareType, false, $shareWith, $remoteId);
-				$shareId = \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*share_external');
+				$shareId = Server::get(IDBConnection::class)->lastInsertId('*PREFIX*share_external');
 
 				// get DisplayName about the owner of the share
 				$ownerDisplayName = $this->getUserDisplayName($ownerFederatedId);
@@ -163,7 +163,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 						->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_RECEIVED, [$ownerFederatedId, trim($name, '/'), $ownerDisplayName])
 						->setAffectedUser($shareWith)
 						->setObject('remote_share', $shareId, $name);
-					\OC::$server->getActivityManager()->publish($event);
+					Server::get(IActivityManager::class)->publish($event);
 					$this->notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name, $ownerDisplayName);
 
 					// If auto-accept is enabled, accept the share
@@ -179,7 +179,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 							->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_RECEIVED, [$ownerFederatedId, trim($name, '/'), $ownerDisplayName])
 							->setAffectedUser($user->getUID())
 							->setObject('remote_share', $shareId, $name);
-						\OC::$server->getActivityManager()->publish($event);
+						Server::get(IActivityManager::class)->publish($event);
 						$this->notifyAboutNewShare($user->getUID(), $shareId, $ownerFederatedId, $sharedByFederatedId, $name, $ownerDisplayName);
 
 						// If auto-accept is enabled, accept the share
@@ -515,7 +515,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 					->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_UNSHARED, [$owner->getId(), $path, $ownerDisplayName])
 					->setAffectedUser($user)
 					->setObject('remote_share', (int)$share['id'], $path);
-				\OC::$server->getActivityManager()->publish($event);
+				Server::get(IActivityManager::class)->publish($event);
 			}
 		}
 

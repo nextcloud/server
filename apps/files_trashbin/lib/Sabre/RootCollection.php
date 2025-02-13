@@ -10,6 +10,8 @@ namespace OCA\Files_Trashbin\Sabre;
 
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\IConfig;
+use OCP\IUserSession;
+use OCP\Server;
 use Sabre\DAV\INode;
 use Sabre\DAVACL\AbstractPrincipalCollection;
 use Sabre\DAVACL\PrincipalBackend;
@@ -36,7 +38,7 @@ class RootCollection extends AbstractPrincipalCollection {
 	 */
 	public function getChildForPrincipal(array $principalInfo): TrashHome {
 		[, $name] = \Sabre\Uri\split($principalInfo['uri']);
-		$user = \OC::$server->getUserSession()->getUser();
+		$user = Server::get(IUserSession::class)->getUser();
 		if (is_null($user) || $name !== $user->getUID()) {
 			throw new \Sabre\DAV\Exception\Forbidden();
 		}

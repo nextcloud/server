@@ -17,6 +17,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\BeforeUserIdUnassignedEvent;
 use OCP\User\Events\UserChangedEvent;
@@ -135,7 +136,7 @@ class UserEventsListener implements IEventListener {
 					'components' => 'VEVENT'
 				]);
 			} catch (\Exception $e) {
-				\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
+				Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 			}
 		}
 		if ($this->cardDav->getAddressBooksForUserCount($principal) === 0) {
@@ -144,7 +145,7 @@ class UserEventsListener implements IEventListener {
 					'{DAV:}displayname' => CardDavBackend::PERSONAL_ADDRESSBOOK_NAME,
 				]);
 			} catch (\Exception $e) {
-				\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
+				Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 			}
 		}
 	}

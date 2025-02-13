@@ -25,7 +25,7 @@ class LDAP implements ILDAPWrapper {
 		protected string $logFile = '',
 	) {
 		/** @var IProfiler $profiler */
-		$profiler = \OC::$server->get(IProfiler::class);
+		$profiler = Server::get(IProfiler::class);
 		if ($profiler->isEnabled()) {
 			$this->dataCollector = new LdapDataCollector();
 			$profiler->add($this->dataCollector);

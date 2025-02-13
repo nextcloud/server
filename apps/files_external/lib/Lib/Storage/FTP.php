@@ -12,7 +12,10 @@ use OC\Files\Storage\Common;
 use OC\Files\Storage\PolyFill\CopyDirectory;
 use OCP\Constants;
 use OCP\Files\FileInfo;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\StorageNotAvailableException;
+use OCP\ITempManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class FTP extends Common {
@@ -101,7 +104,7 @@ class FTP extends Common {
 			if ($this->is_dir($path)) {
 				$list = $this->getConnection()->mlsd($this->buildPath($path));
 				if (!$list) {
-					\OC::$server->get(LoggerInterface::class)->warning("Unable to get last modified date for ftp folder ($path), failed to list folder contents");
+					Server::get(LoggerInterface::class)->warning("Unable to get last modified date for ftp folder ($path), failed to list folder contents");
 					return time();
 				}
 				$currentDir = current(array_filter($list, function ($item) {
@@ -115,7 +118,7 @@ class FTP extends Common {
 					}
 					return $time->getTimestamp();
 				} else {
-					\OC::$server->get(LoggerInterface::class)->warning("Unable to get last modified date for ftp folder ($path), folder contents doesn't include current folder");
+					Server::get(LoggerInterface::class)->warning("Unable to get last modified date for ftp folder ($path), folder contents doesn't include current folder");
 					return time();
 				}
 			} else {
@@ -270,7 +273,7 @@ class FTP extends Common {
 					if (!$this->isCreatable(dirname($path))) {
 						return false;
 					}
-					$tmpFile = \OC::$server->getTempManager()->getTemporaryFile();
+					$tmpFile = Server::get(ITempManager::class)->getTemporaryFile();
 				}
 				$source = fopen($tmpFile, $mode);
 				return CallbackWrapper::wrap($source, null, null, function () use ($tmpFile, $path): void {
@@ -322,7 +325,7 @@ class FTP extends Common {
 
 	public function getDirectoryContent(string $directory): \Traversable {
 		$files = $this->getConnection()->mlsd($this->buildPath($directory));
-		$mimeTypeDetector = \OC::$server->getMimeTypeDetector();
+		$mimeTypeDetector = Server::get(IMimeTypeDetector::class);
 
 		foreach ($files as $file) {
 			$name = $file['name'];

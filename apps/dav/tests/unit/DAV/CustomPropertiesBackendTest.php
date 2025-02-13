@@ -57,7 +57,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$this->user->method('getUID')
 			->with()
 			->willReturn('dummy_user_42');
-		$this->dbConnection = \OC::$server->getDatabaseConnection();
+		$this->dbConnection = \OCP\Server::get(IDBConnection::class);
 		$this->defaultCalendarValidator = $this->createMock(DefaultCalendarValidator::class);
 
 		$this->backend = new CustomPropertiesBackend(

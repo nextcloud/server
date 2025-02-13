@@ -49,7 +49,7 @@ class CleanUp extends TimedJob {
 		protected DeletedUsersIndex $dui,
 	) {
 		parent::__construct($timeFactory);
-		$minutes = \OC::$server->getConfig()->getSystemValue(
+		$minutes = Server::get(IConfig::class)->getSystemValue(
 			'ldapUserCleanupInterval', (string)$this->defaultIntervalMin);
 		$this->setInterval((int)$minutes * 60);
 	}
@@ -67,13 +67,13 @@ class CleanUp extends TimedJob {
 		if (isset($arguments['helper'])) {
 			$this->ldapHelper = $arguments['helper'];
 		} else {
-			$this->ldapHelper = new Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
+			$this->ldapHelper = new Helper(Server::get(IConfig::class), Server::get(IDBConnection::class));
 		}
 
 		if (isset($arguments['ocConfig'])) {
 			$this->ocConfig = $arguments['ocConfig'];
 		} else {
-			$this->ocConfig = \OC::$server->getConfig();
+			$this->ocConfig = Server::get(IConfig::class);
 		}
 
 		if (isset($arguments['userBackend'])) {
@@ -83,7 +83,7 @@ class CleanUp extends TimedJob {
 		if (isset($arguments['db'])) {
 			$this->db = $arguments['db'];
 		} else {
-			$this->db = \OC::$server->getDatabaseConnection();
+			$this->db = Server::get(IDBConnection::class);
 		}
 
 		if (isset($arguments['mapping'])) {

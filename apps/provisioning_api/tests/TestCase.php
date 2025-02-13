@@ -10,6 +10,7 @@ namespace OCA\Provisioning_API\Tests;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Server;
 
 abstract class TestCase extends \Test\TestCase {
 
@@ -25,8 +26,8 @@ abstract class TestCase extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->userManager = \OC::$server->getUserManager();
-		$this->groupManager = \OC::$server->getGroupManager();
+		$this->userManager = Server::get(IUserManager::class);
+		$this->groupManager = Server::get(IGroupManager::class);
 		$this->groupManager->createGroup('admin');
 	}
 

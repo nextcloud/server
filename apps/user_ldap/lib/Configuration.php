@@ -7,6 +7,7 @@
  */
 namespace OCA\User_LDAP;
 
+use OCP\IConfig;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
@@ -439,7 +440,7 @@ class Configuration {
 
 	protected function getSystemValue(string $varName): string {
 		//FIXME: if another system value is added, softcode the default value
-		return \OC::$server->getConfig()->getSystemValue($varName, false);
+		return Server::get(IConfig::class)->getSystemValue($varName, false);
 	}
 
 	protected function getValue(string $varName): string {
@@ -447,7 +448,7 @@ class Configuration {
 		if (is_null($defaults)) {
 			$defaults = $this->getDefaults();
 		}
-		return \OC::$server->getConfig()->getAppValue('user_ldap',
+		return Server::get(IConfig::class)->getAppValue('user_ldap',
 			$this->configPrefix . $varName,
 			$defaults[$varName]);
 	}
@@ -476,7 +477,7 @@ class Configuration {
 	}
 
 	protected function saveValue(string $varName, string $value): bool {
-		\OC::$server->getConfig()->setAppValue(
+		Server::get(IConfig::class)->setAppValue(
 			'user_ldap',
 			$this->configPrefix . $varName,
 			$value
