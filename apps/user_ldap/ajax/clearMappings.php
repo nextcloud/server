@@ -30,10 +30,12 @@ try {
 		$result = $mapping->clearCb(
 			function (string $uid) use ($dispatcher): void {
 				$dispatcher->dispatchTyped(new BeforeUserIdUnassignedEvent($uid));
+				/** @psalm-suppress UndefinedInterfaceMethod For now we have to emit, will be removed when all hooks are removed */
 				Server::get(IUserManager::class)->emit('\OC\User', 'preUnassignedUserId', [$uid]);
 			},
 			function (string $uid) use ($dispatcher): void {
 				$dispatcher->dispatchTyped(new UserIdUnassignedEvent($uid));
+				/** @psalm-suppress UndefinedInterfaceMethod For now we have to emit, will be removed when all hooks are removed */
 				Server::get(IUserManager::class)->emit('\OC\User', 'postUnassignedUserId', [$uid]);
 			}
 		);
