@@ -4,13 +4,18 @@
 -->
 
 <template>
-	<NcModal>
+	<NcModal label-id="template-field-modal__label">
 		<div class="template-field-modal__content">
 			<form>
-				<h3>{{ t('files', 'Fill template fields') }}</h3>
+				<h3 id="template-field-modal__label">
+					{{ t('files', 'Fill template fields') }}
+				</h3>
 
 				<div v-for="field in fields" :key="field.index">
-					<component :is="getFieldComponent(field.type)" :field="field" @input="trackInput" />
+					<component :is="getFieldComponent(field.type)"
+						v-if="fieldHasLabel(field)"
+						:field="field"
+						@input="trackInput" />
 				</div>
 			</form>
 		</div>
@@ -79,6 +84,9 @@ export default defineComponent({
 				.join('')
 
 			return `Template${fieldComponentType}Field`
+		},
+		fieldHasLabel(field) {
+			return field.name || field.alias
 		},
 		async submit() {
 			this.loading = true
