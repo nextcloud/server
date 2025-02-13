@@ -79,8 +79,16 @@ interface IAppManager {
 	 * @param string $appId
 	 * @return bool
 	 * @since 8.0.0
+	 * @deprecated 32.0.0 Use either {@see self::isEnabledForUser} or {@see self::isEnabledForAnyone}
 	 */
 	public function isInstalled($appId);
+
+	/**
+	 * Check if an app is enabled in the instance, either for everyone or for specific groups
+	 *
+	 * @since 32.0.0
+	 */
+	public function isEnabledForAnyone(string $appId): bool;
 
 	/**
 	 * Check if an app should be enabled by default
@@ -178,8 +186,17 @@ interface IAppManager {
 	 *
 	 * @return string[]
 	 * @since 8.1.0
+	 * @deprecated 32.0.0 Use either {@see self::getEnabledApps} or {@see self::getEnabledAppsForUser}
 	 */
 	public function getInstalledApps();
+
+	/**
+	 * List all apps enabled, either for everyone or for specific groups only
+	 *
+	 * @return list<string>
+	 * @since 32.0.0
+	 */
+	public function getEnabledApps(): array;
 
 	/**
 	 * Clear the cached list of apps when enabling/disabling an app

@@ -1396,7 +1396,7 @@ class Manager implements IManager {
 				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. Invalid method: ' . $method);
 			}
 			[, $exAppId, $httpMethod] = $parsedMethod;
-			if (!$this->appManager->isInstalled('app_api')) {
+			if (!$this->appManager->isEnabledForAnyone('app_api')) {
 				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. AppAPI is disabled or not installed.');
 				return;
 			}

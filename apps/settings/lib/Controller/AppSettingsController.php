@@ -92,7 +92,7 @@ class AppSettingsController extends Controller {
 		$this->initialState->provideInitialState('appstoreDeveloperDocs', $this->urlGenerator->linkToDocs('developer-manual'));
 		$this->initialState->provideInitialState('appstoreUpdateCount', count($this->getAppsWithUpdates()));
 
-		if ($this->appManager->isInstalled('app_api')) {
+		if ($this->appManager->isEnabledForAnyone('app_api')) {
 			try {
 				Server::get(\OCA\AppAPI\Service\ExAppsPageService::class)->provideAppApiState($this->initialState);
 			} catch (\Psr\Container\NotFoundExceptionInterface|\Psr\Container\ContainerExceptionInterface $e) {
@@ -440,7 +440,7 @@ class AppSettingsController extends Controller {
 			}
 
 			$currentVersion = '';
-			if ($this->appManager->isInstalled($app['id'])) {
+			if ($this->appManager->isEnabledForAnyone($app['id'])) {
 				$currentVersion = $this->appManager->getAppVersion($app['id']);
 			} else {
 				$currentVersion = $app['releases'][0]['version'];

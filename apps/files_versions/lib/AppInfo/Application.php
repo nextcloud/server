@@ -114,7 +114,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function registerVersionBackends(ContainerInterface $container, IAppManager $appManager, LoggerInterface $logger): void {
-		foreach ($appManager->getInstalledApps() as $app) {
+		foreach ($appManager->getEnabledApps() as $app) {
 			$appInfo = $appManager->getAppInfo($app);
 			if (isset($appInfo['versions'])) {
 				$backends = $appInfo['versions'];

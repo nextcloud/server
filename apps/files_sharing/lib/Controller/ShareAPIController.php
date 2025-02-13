@@ -408,7 +408,7 @@ class ShareAPIController extends OCSController {
 	private function retrieveFederatedDisplayName(array $userIds, bool $cacheOnly = false): array {
 		// check if gss is enabled and available
 		if (count($userIds) === 0
-			|| !$this->appManager->isInstalled('globalsiteselector')
+			|| !$this->appManager->isEnabledForAnyone('globalsiteselector')
 			|| !class_exists('\OCA\GlobalSiteSelector\Service\SlaveService')) {
 			return [];
 		}

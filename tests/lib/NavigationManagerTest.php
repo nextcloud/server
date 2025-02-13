@@ -718,7 +718,7 @@ class NavigationManagerTest extends TestCase {
 			'id' => 'settings',
 		]);
 
-		$this->appManager->method('getInstalledApps')->willReturn([]);
+		$this->appManager->method('getEnabledApps')->willReturn([]);
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user1');
@@ -743,7 +743,7 @@ class NavigationManagerTest extends TestCase {
 	}
 
 	public function testDefaultEntryUpdated(): void {
-		$this->appManager->method('getInstalledApps')->willReturn([]);
+		$this->appManager->method('getEnabledApps')->willReturn([]);
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user1');

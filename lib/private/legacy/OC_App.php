@@ -185,7 +185,7 @@ class OC_App {
 		}
 
 		if (is_null($user)) {
-			$apps = $appManager->getInstalledApps();
+			$apps = $appManager->getEnabledApps();
 		} else {
 			$apps = $appManager->getEnabledAppsForUser($user);
 		}

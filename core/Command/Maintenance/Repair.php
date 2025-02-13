@@ -61,7 +61,7 @@ class Repair extends Command {
 			$this->repair->addStep($step);
 		}
 
-		$apps = $this->appManager->getInstalledApps();
+		$apps = $this->appManager->getEnabledApps();
 		foreach ($apps as $app) {
 			if (!$this->appManager->isEnabledForUser($app)) {
 				continue;

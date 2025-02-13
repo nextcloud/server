@@ -78,7 +78,7 @@ class JSConfigHelper {
 		$apps_paths = [];
 
 		if ($this->currentUser === null) {
-			$apps = $this->appManager->getInstalledApps();
+			$apps = $this->appManager->getEnabledApps();
 		} else {
 			$apps = $this->appManager->getEnabledAppsForUser($this->currentUser);
 		}
