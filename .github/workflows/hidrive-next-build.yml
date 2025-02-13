@@ -28,11 +28,7 @@ on:
       - '**.vue'
   push:
     branches:
-      - main
-      - master
-      - stable*
       - ionos-dev
-      - ionos-dev30
 
 env:
   TARGET_PACKAGE_NAME: hidrive-next.zip
