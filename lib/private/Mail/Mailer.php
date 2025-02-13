@@ -334,8 +334,10 @@ class Mailer implements IMailer {
 				break;
 			default:
 				$sendmail = \OCP\Server::get(IBinaryFinder::class)->findBinaryPath('sendmail');
-				if ($sendmail === null) {
+				if ($sendmail === false) {
+					// fallback (though not sure what good it'll do)
 					$sendmail = '/usr/sbin/sendmail';
+					$this->logger->debug('sendmail binary search failed, using fallback ' . $sendmail, ['app' => 'core']);
 				}
 				$binaryPath = $sendmail;
 				break;
@@ -346,6 +348,7 @@ class Mailer implements IMailer {
 			default => ' -bs',
 		};
 
+		$this->logger->debug('Using sendmail binary: ' . $binaryPath, ['app' => 'core']);
 		return new SendmailTransport($binaryPath . $binaryParam, null, $this->logger);
 	}
 }
