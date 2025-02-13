@@ -39,6 +39,8 @@ OC.L10N.register(
     "Available flows" : "Tiltæk flæði",
     "More flows" : "Fleiri flæði",
     "Browse the App Store" : "Flakka um forritasafnið",
+    "Show less" : "Birta minna",
+    "Show more" : "Birta meira",
     "Configured flows" : "Uppsett flæði",
     "Your flows" : "Flæðin þín",
     "matches" : "samsvarar",

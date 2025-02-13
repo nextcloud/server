@@ -281,6 +281,7 @@ OC.L10N.register(
     "Allow download and sync" : "允許下載與同步",
     "Note to recipient" : "給接收者的備註",
     "Enter a note for the share recipient" : "輸入給分享接收者的備註",
+    "Show files in grid view" : "以網格檢視顯示檔案",
     "Read" : "讀取",
     "Create" : "建立",
     "Edit" : "編輯",

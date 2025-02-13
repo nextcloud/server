@@ -160,6 +160,7 @@
     "Error during upload, status code {status}" : "Ошибка при передаче на сервер. Сообщение об ошибке: {status}",
     "Unknown error during upload" : "Неизвестная ошибка при загрузке",
     "\"{displayName}\" action executed successfully" : "Действие «{displayName}» выполнено успешно",
+    "Filter file names…" : "Фильтровать имена файлов…",
     "Views" : "Представления",
     "Files settings" : "Настройки файлов",
     "File cannot be accessed" : "Не удалось получить доступ к файлу",
