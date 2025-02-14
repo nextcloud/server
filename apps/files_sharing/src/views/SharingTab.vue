@@ -106,6 +106,17 @@
 					:file-info="fileInfo"
 					:shares="linkShares"
 					@open-sharing-details="toggleShareDetailsView" />
+				<!-- Create new share -->
+				<NcButton v-if="canReshare"
+					class="new-link-share"
+					:disabled="loading"
+					@click.prevent.stop="onNewLinkShare">
+					{{ t('files_sharing', 'Create a link share') }}
+					<template #icon>
+						<LoadingIcon v-if="loading" :size="20" />
+						<LinkIcon v-else :size="20" />
+					</template>
+				</NcButton>
 			</section>
 
 			<section v-if="sections.length > 0 && !showSharingDetailsView">
@@ -188,12 +199,19 @@ import SharingDetailsTab from './SharingDetailsTab.vue'
 import ShareDetails from '../mixins/ShareDetails.js'
 import logger from '../services/logger.ts'
 
+import LinkIcon from 'vue-material-design-icons/Link.vue'
+import LoadingIcon from 'vue-material-design-icons/Loading.vue'
+import PendingActionsHandlersMixin from '../mixins/PendingActionsHandlersMixin.ts'
+import logger from '../logger.ts'
+
 export default {
 	name: 'SharingTab',
 
 	components: {
 		CollectionList,
 		InfoIcon,
+		LinkIcon,
+		LoadingIcon,
 		NcAvatar,
 		NcButton,
 		NcPopover,
@@ -205,7 +223,7 @@ export default {
 		SharingList,
 		SharingDetailsTab,
 	},
-	mixins: [ShareDetails],
+	mixins: [ShareDetails, PendingActionsHandlersMixin],
 
 	data() {
 		return {
@@ -222,7 +240,7 @@ export default {
 			sharedWithMe: {},
 			shares: [],
 			linkShares: [],
-			externalShares: [],
+			logger,
 
 			sections: OCA.Sharing.ShareTabSections.getSections(),
 			projectsEnabled: loadState('core', 'projects_enabled', false),
@@ -590,6 +608,11 @@ export default {
 					color: var(--color-primary-element);
 				}
 
+			}
+
+			.new-link-share {
+				width: 100%;
+				height: 44px;
 			}
 
 		}
