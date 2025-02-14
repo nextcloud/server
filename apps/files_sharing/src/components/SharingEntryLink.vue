@@ -86,7 +86,7 @@
 				:checked.sync="defaultExpirationDateEnabled"
 				:disabled="pendingEnforcedExpirationDate || saving"
 				class="share-link-expiration-date-checkbox"
-				@change="onExpirationDateToggleChange">
+				@update:model-value="onExpirationDateToggleUpdate">
 				{{ config.isDefaultExpireDateEnforced ? t('files_sharing', 'Enable link expiration (enforced)') : t('files_sharing', 'Enable link expiration') }}
 			</NcActionCheckbox>
 
@@ -875,9 +875,14 @@ export default {
 			this.onPasswordSubmit()
 			this.onNoteSubmit()
 		},
-		onExpirationDateToggleChange(enabled) {
+
+		/**
+		 * @param enabled True if expiration is enabled
+		 */
+		onExpirationDateToggleUpdate(enabled) {
 			this.share.expireDate = enabled ? this.formatDateToString(this.config.defaultExpirationDate) : ''
 		},
+
 		expirationDateChanged(event) {
 			const date = event.target.value
 			this.onExpirationChange(date)
