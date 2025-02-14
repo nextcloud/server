@@ -8,17 +8,21 @@
 namespace OCA\Files\Tests\Controller;
 
 use OC\Files\FilenameValidator;
+use OC\Route\Router;
+use OC\URLGenerator;
 use OCA\Files\Controller\ViewController;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Template\ITemplateManager;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -26,39 +30,53 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
  * Class ViewControllerTest
  *
+ * @group RoutingWeirdness
+ *
  * @package OCA\Files\Tests\Controller
  */
 class ViewControllerTest extends TestCase {
-	private IRequest&MockObject $request;
-	private IURLGenerator&MockObject $urlGenerator;
-	private IL10N&MockObject $l10n;
+	private ContainerInterface&MockObject $container;
+	private IAppManager&MockObject $appManager;
+	private ICacheFactory&MockObject $cacheFactory;
 	private IConfig&MockObject $config;
 	private IEventDispatcher $eventDispatcher;
+	private IEventLogger&MockObject $eventLogger;
+	private IInitialState&MockObject $initialState;
+	private IL10N&MockObject $l10n;
+	private IRequest&MockObject $request;
+	private IRootFolder&MockObject $rootFolder;
+	private ITemplateManager&MockObject $templateManager;
+	private IURLGenerator $urlGenerator;
 	private IUser&MockObject $user;
 	private IUserSession&MockObject $userSession;
-	private IAppManager&MockObject $appManager;
-	private IRootFolder&MockObject $rootFolder;
-	private IInitialState&MockObject $initialState;
-	private ITemplateManager&MockObject $templateManager;
+	private LoggerInterface&MockObject $logger;
 	private UserConfig&MockObject $userConfig;
 	private ViewConfig&MockObject $viewConfig;
+	private Router $router;
 
 	private ViewController&MockObject $viewController;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
-		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
-		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
-		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
+		$this->appManager = $this->createMock(IAppManager::class);
+		$this->config = $this->createMock(IConfig::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$this->userSession = $this->getMockBuilder(IUserSession::class)->getMock();
-		$this->appManager = $this->getMockBuilder('\OCP\App\IAppManager')->getMock();
+		$this->initialState = $this->createMock(IInitialState::class);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->request = $this->createMock(IRequest::class);
+		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->templateManager = $this->createMock(ITemplateManager::class);
+		$this->userConfig = $this->createMock(UserConfig::class);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->viewConfig = $this->createMock(ViewConfig::class);
+
 		$this->user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->user->expects($this->any())
 			->method('getUID')
@@ -66,14 +84,38 @@ class ViewControllerTest extends TestCase {
 		$this->userSession->expects($this->any())
 			->method('getUser')
 			->willReturn($this->user);
-		$this->rootFolder = $this->getMockBuilder('\OCP\Files\IRootFolder')->getMock();
-		$this->initialState = $this->createMock(IInitialState::class);
-		$this->templateManager = $this->createMock(ITemplateManager::class);
-		$this->userConfig = $this->createMock(UserConfig::class);
-		$this->viewConfig = $this->createMock(ViewConfig::class);
+
+		// Make sure we know the app is enabled
+		$this->appManager->expects($this->any())
+			->method('cleanAppId')
+			->willReturnArgument(0);
+		$this->appManager->expects($this->any())
+			->method('getAppPath')
+			->willReturnCallback(fn (string $appid): string => \OC::$SERVERROOT . '/apps/' . $appid);
+
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->eventLogger = $this->createMock(IEventLogger::class);
+		$this->container = $this->createMock(ContainerInterface::class);
+		$this->router = new Router(
+			$this->logger,
+			$this->request,
+			$this->config,
+			$this->eventLogger,
+			$this->container,
+			$this->appManager,
+		);
+
+		// Create a real URLGenerator instance to generate URLs
+		$this->urlGenerator = new URLGenerator(
+			$this->config,
+			$this->userSession,
+			$this->cacheFactory,
+			$this->request,
+			$this->router
+		);
 
 		$filenameValidator = $this->createMock(FilenameValidator::class);
-
 		$this->viewController = $this->getMockBuilder(ViewController::class)
 			->setConstructorArgs([
 				'files',
@@ -148,7 +190,6 @@ class ViewControllerTest extends TestCase {
 	public function testShowFileRouteWithTrashedFile() {
 		$this->appManager->expects($this->once())
 			->method('isEnabledForUser')
-			->with('files_trashbin')
 			->willReturn(true);
 
 		$parentNode = $this->getMockBuilder(Folder::class)->getMock();

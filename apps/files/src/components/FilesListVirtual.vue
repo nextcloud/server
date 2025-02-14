@@ -209,6 +209,8 @@ export default defineComponent({
 							this.unselectFile()
 						}
 					}
+
+					this.openSidebarForFile(this.fileId)
 				})
 			},
 			immediate: true,
@@ -249,6 +251,7 @@ export default defineComponent({
 					sidebarAction.exec(node, this.currentView, this.currentFolder.path)
 				}
 			}
+			logger.error(`Failed to open sidebar on file ${fileId}, file isn't cached yet !`, { fileId, node })
 		},
 
 		scrollToFile(fileId: number|null, warn = true) {
