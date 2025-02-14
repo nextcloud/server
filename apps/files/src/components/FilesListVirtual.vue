@@ -220,23 +220,25 @@ export default defineComponent({
 		},
 
 		openFile: {
-			async handler(openFile) {
+			handler(openFile) {
 				if (!openFile || !this.fileId) {
 					return
 				}
 
-				await this.handleOpenFile(this.fileId)
+				this.handleOpenFile(this.fileId)
 			},
 			immediate: true,
 		},
 
 		openDetails: {
-			handler() {
+			handler(openDetails) {
 				// wait for scrolling and updating the actions to settle
 				this.$nextTick(() => {
-					if (this.fileId && this.openDetails) {
-						this.openSidebarForFile(this.fileId)
+					if (!openDetails || !this.fileId) {
+						return
 					}
+
+					this.openSidebarForFile(this.fileId)
 				})
 			},
 			immediate: true,
@@ -276,7 +278,9 @@ export default defineComponent({
 			if (node && sidebarAction?.enabled?.([node], this.currentView)) {
 				logger.debug('Opening sidebar on file ' + node.path, { node })
 				sidebarAction.exec(node, this.currentView, this.currentFolder.path)
+				return
 			}
+			logger.error(`Failed to open sidebar on file ${fileId}, file isn't cached yet !`, { fileId, node })
 		},
 
 		scrollToFile(fileId: number|null, warn = true) {
