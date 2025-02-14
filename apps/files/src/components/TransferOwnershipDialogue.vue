@@ -25,7 +25,7 @@
 		<form @submit.prevent="submit">
 			<p class="transfer-select-row">
 				<span>{{ readableDirectory }}</span>
-				<NcButton v-if="directory === undefined" 
+				<NcButton v-if="directory === undefined"
 					class="transfer-select-row__choose_button"
 					@click.prevent="start">
 					{{ t('files', 'Choose file or folder to transfer') }}
@@ -34,7 +34,7 @@
 					{{ t('files', 'Change') }}
 				</NcButton>
 			</p>
-			<p class="new-owner-row">
+			<p class="new-owner">
 				<label for="targetUser">
 					<span>{{ t('files', 'New owner') }}</span>
 				</label>
@@ -43,9 +43,7 @@
 					:options="formatedUserSuggestions"
 					:multiple="false"
 					:loading="loadingUsers"
-					label="displayName"
 					:user-select="true"
-					class="middle-align"
 					@search="findUserDebounced" />
 			</p>
 			<p>
@@ -106,6 +104,7 @@ export default {
 					user: user.uid,
 					displayName: user.displayName,
 					icon: 'icon-user',
+					subname: user.shareWithDisplayNameUnique,
 				}
 			})
 		},
@@ -172,6 +171,7 @@ export default {
 					Vue.set(this.userSuggestions, user.value.shareWith, {
 						uid: user.value.shareWith,
 						displayName: user.label,
+						shareWithDisplayNameUnique: user.shareWithDisplayNameUnique,
 					})
 				})
 			} catch (error) {
@@ -219,16 +219,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.middle-align {
-	vertical-align: middle;
-}
 p {
 	margin-top: 12px;
 	margin-bottom: 12px;
 }
-.new-owner-row {
+.new-owner {
 	display: flex;
-	flex-wrap: wrap;
+	flex-direction: column;
+	max-width: 400px;
 
 	label {
 		display: flex;
@@ -238,11 +236,6 @@ p {
 		span {
 			margin-right: 8px;
 		}
-	}
-
-	.multiselect {
-		flex-grow: 1;
-		max-width: 280px;
 	}
 }
 .transfer-select-row {
