@@ -10,6 +10,7 @@ use OC\Files\View;
 use OCA\Files_Sharing\SharedStorage;
 use OCA\Files_Trashbin\AppInfo\Application;
 use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\Constants;
 use OCP\Files\NotFoundException;
 use OCP\Share\IShare;
 
@@ -578,5 +579,31 @@ class SharedStorageTest extends TestCase {
 		// trigger init
 		$this->assertInstanceOf(\OC\Files\Storage\FailedStorage::class, $storage->getSourceStorage());
 		$this->assertInstanceOf(\OC\Files\Cache\FailedCache::class, $storage->getCache());
+	}
+
+	public function testCopyPermissions(): void {
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		$share = $this->share(
+			IShare::TYPE_USER,
+			$this->filename,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE - Constants::PERMISSION_DELETE
+		);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$view = new View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
+		$this->assertTrue($view->file_exists($this->filename));
+
+		$this->assertTrue($view->copy($this->filename, '/target.txt'));
+
+		$this->assertTrue($view->file_exists('/target.txt'));
+
+		$info = $view->getFileInfo('/target.txt');
+		$this->assertEquals(Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE, $info->getPermissions());
+
+		$this->view->unlink($this->filename);
+		$this->shareManager->deleteShare($share);
 	}
 }
