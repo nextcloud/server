@@ -171,7 +171,7 @@ OC.L10N.register(
     "Open in files" : "在「檔案」應用程式中打開",
     "Sort favorites first" : "先排序最愛",
     "Sort folders before files" : "將資料夾在檔案之前排序",
-    "Show hidden files" : "顯示隱藏檔",
+    "Show hidden files" : "顯示隱藏檔案",
     "Crop image previews" : "圖片裁剪預覽",
     "Enable the grid view" : "啟用網格檢視",
     "Enable folder tree" : "啟用資料夾樹狀結構",
