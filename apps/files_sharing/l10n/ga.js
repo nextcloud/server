@@ -281,6 +281,7 @@ OC.L10N.register(
     "Allow download and sync" : "Ceadaigh íoslódáil agus sioncrónú",
     "Note to recipient" : "Nóta don fhaighteoir",
     "Enter a note for the share recipient" : "Cuir isteach nóta le haghaidh faighteoir na scaireanna",
+    "Show files in grid view" : "Taispeáin comhaid san amharc greille",
     "Read" : "Léigh",
     "Create" : "Cruthaigh",
     "Edit" : "Cuir in eagar",
