@@ -601,7 +601,8 @@ export default {
 	}
 
 	&__additionalContent {
-		margin: 44px 0;
+		margin: 8px 0;
+		overflow-x: scroll;
 	}
 }
 
