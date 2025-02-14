@@ -271,6 +271,7 @@
     "The PHP OPcache module is not properly configured. %s." : "Níl an modúl PHP OPcache cumraithe i gceart. %s.",
     "Correctly configured" : "Cumraithe i gceart",
     "PHP version" : "Leagan PHP",
+    "You are currently running PHP %1$s. PHP %2$s is deprecated since Nextcloud %3$s. Nextcloud %4$s may require at least PHP %5$s. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "Tá PHP %1$s á rith agat faoi láthair. Tá PHP %2$s astaithe ó Nextcloud %3$s. Seans go mbeidh PHP %5$s ar a laghad ag teastáil ó Nextcloud %4$s. Uasghrádaigh go dtí ceann de na leaganacha PHP a bhfuil tacaíocht oifigiúil acu a chuir an Grúpa PHP ar fáil chomh luath agus is féidir.",
     "You are currently running PHP %s." : "Tá PHP %s á rith agat faoi láthair.",
     "PHP \"output_buffering\" option" : "Rogha PHP \"output_buffering\".",
     "PHP configuration option \"output_buffering\" must be disabled" : "Ní mór an rogha cumraíochta PHP \"output_buffering\" a dhíchumasú",

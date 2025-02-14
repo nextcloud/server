@@ -104,6 +104,7 @@ OC.L10N.register(
     "Failed to set tag for file" : "Theip ar chlib a shocrú don chomhad",
     "Failed to delete tag for file" : "Theip ar scriosadh an chlib don chomhad",
     "This file has the tag {tag}" : "Tá an chlib {tag} ag an gcomhad seo",
-    "This file has the tags {firstTags} and {lastTag}" : "Tá na clibeanna {firstTags} agus {lastTag} sa chomhad seo"
+    "This file has the tags {firstTags} and {lastTag}" : "Tá na clibeanna {firstTags} agus {lastTag} sa chomhad seo",
+    "System tag creation is now ${isRestricted ? " : "Tá cruthú clibeanna córais anois ?"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");
