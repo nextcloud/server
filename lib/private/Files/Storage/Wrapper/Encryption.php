@@ -770,7 +770,6 @@ class Encryption extends Wrapper {
 						$info->getUnencryptedSize()
 					);
 				}
-				$this->updateEncryptedVersion($sourceStorage, $sourceInternalPath, $targetInternalPath, $isRename, true);
 			}
 			return $result;
 		}
