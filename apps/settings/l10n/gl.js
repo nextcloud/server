@@ -730,7 +730,7 @@ OC.L10N.register(
     "Show storage path" : "Amosar a ruta do almacenamento",
     "Show first login" : "Amosar o primeiro acceso",
     "Show last login" : "Amosar o último acceso",
-    "Sorting" : "Ordenando",
+    "Sorting" : "Ordenación",
     "The system config enforces sorting the groups by name. This also disables showing the member count." : "A configuración do sistema obriga a clasificar os grupos por nome. Isto tamén desactiva a vista do reconto de membros.",
     "Group list sorting" : "Ordenación da lista de grupos",
     "By member count" : "Segundo o número de membros",
