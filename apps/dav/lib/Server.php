@@ -6,6 +6,7 @@
  */
 namespace OCA\DAV;
 
+use OC\Files\Filesystem;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\CalDAV\BirthdayService;
@@ -43,7 +44,7 @@ use OCA\DAV\DAV\PublicAuth;
 use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\DAV\Events\SabrePluginAddEvent;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
-use OCA\DAV\Files\ErrorPagePlugin;
+use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCA\DAV\Files\LazySearchBackend;
 use OCA\DAV\Profiler\ProfilerPlugin;
 use OCA\DAV\Provisioning\Apple\AppleProvisioningPlugin;
@@ -222,7 +223,9 @@ class Server {
 			$this->server->addPlugin(new FakeLockerPlugin());
 		}
 
-		$this->server->addPlugin(new ErrorPagePlugin($this->request, \OC::$server->getConfig()));
+		if (BrowserErrorPagePlugin::isBrowserRequest($request)) {
+			$this->server->addPlugin(new BrowserErrorPagePlugin());
+		}
 
 		$lazySearchBackend = new LazySearchBackend();
 		$this->server->addPlugin(new SearchPlugin($lazySearchBackend));

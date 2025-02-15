@@ -2038,9 +2038,9 @@ class View {
 				);
 			}
 		} catch (LockedException $e) {
-			// rethrow with the a human-readable path
+			// rethrow with the human-readable path
 			throw new LockedException(
-				$this->getPathRelativeToFiles($absolutePath),
+				$path,
 				$e,
 				$e->getExistingLock()
 			);
@@ -2078,20 +2078,12 @@ class View {
 				);
 			}
 		} catch (LockedException $e) {
-			try {
-				// rethrow with the a human-readable path
-				throw new LockedException(
-					$this->getPathRelativeToFiles($absolutePath),
-					$e,
-					$e->getExistingLock()
-				);
-			} catch (\InvalidArgumentException $ex) {
-				throw new LockedException(
-					$absolutePath,
-					$ex,
-					$e->getExistingLock()
-				);
-			}
+			// rethrow with the a human-readable path
+			throw new LockedException(
+				$path,
+				$e,
+				$e->getExistingLock()
+			);
 		}
 
 		return true;
