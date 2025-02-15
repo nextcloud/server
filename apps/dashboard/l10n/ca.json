@@ -1,7 +1,8 @@
 { "translations": {
     "Dashboard" : "Tauler",
     "Dashboard app" : "Aplicació Tauler",
-    "\"{title} icon\"" : "«icona de {title}»",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Comença el dia informat\n\nEl tauler de control de Nextcloud és el vostre punt de partida del dia, que us ofereix una visió general de les vostres properes cites, correus electrònics urgents, missatges de xat, entrades entrants, els últims tuits i molt més! Les persones poden afegir els ginys que els agradin i canviar el fons al seu gust.",
+    "\"{title} icon\"" : "\"icona de {title}\"",
     "Customize" : "Personalitza",
     "Edit widgets" : "Edita els ginys",
     "Get more widgets from the App Store" : "Obtén més ginys a la botiga d'aplicacions",
@@ -19,6 +20,8 @@
     "Good evening" : "Bona nit",
     "Good evening, {name}" : "Bona nit, {name}",
     "Hello" : "Hola",
-    "Hello, {name}" : "Hola, {name}"
+    "Hello, {name}" : "Hola, {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "Per molts anys 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Per molts anys, {name} 🥳🤩🎂🎉"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
