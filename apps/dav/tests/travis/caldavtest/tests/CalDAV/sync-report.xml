@@ -2712,7 +2712,7 @@
 					<callback>prepostcondition</callback>
 					<arg>
 						<name>error</name>
-						<value>{http://sabredav.org/ns}exception</value>
+						<value>{DAV:}valid-sync-token</value>
 					</arg>
 					<arg>
 						<name>ignoreextras</name>
