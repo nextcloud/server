@@ -281,6 +281,7 @@ OC.L10N.register(
     "Allow download and sync" : "Tillåt nedladdning och synkronisering",
     "Note to recipient" : "Notering till mottagare",
     "Enter a note for the share recipient" : "Ange en notering till mottagaren",
+    "Show files in grid view" : "Visa filer i rutnätsvy",
     "Read" : "Läs",
     "Create" : "Skapa",
     "Edit" : "Ändra",

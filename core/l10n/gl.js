@@ -383,7 +383,7 @@ OC.L10N.register(
     "The headline and about sections will show up here" : "As seccións título e sobre aparecerán aquí",
     "You have not added any info yet" : "Aínda non engadiu ningunha información",
     "{user} has not added any info yet" : "{user} aínda non engadiu ningunha información",
-    "Error opening the user status modal, try hard refreshing the page" : "Produciuse un erro ao abrir o modal de estado do usuario, tente forzar a actualización da páxina",
+    "Error opening the user status modal, try hard refreshing the page" : "Produciuse un erro ao abrir a xanela modal de estado do usuario, tente forzar a actualización da páxina",
     "Error loading message template: {error}" : "Produciuse un erro ao cargar o modelo da mensaxe: {error}",
     "Profile not found" : "Non se atopou o perfil",
     "The profile does not exist." : "O perfil non existe."

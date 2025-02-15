@@ -273,6 +273,7 @@ OC.L10N.register(
     "The PHP OPcache module is not properly configured. %s." : "PHP OPcache 模块配置不正确。%s.",
     "Correctly configured" : "正确配置",
     "PHP version" : "PHP版本",
+    "You are currently running PHP %1$s. PHP %2$s is deprecated since Nextcloud %3$s. Nextcloud %4$s may require at least PHP %5$s. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "您目前正在运行 PHP %1$s。自 Nextcloud %3$s 以来，PHP %2$s 已被弃用。Nextcloud %4$s 可能至少需要 PHP %5$s。请尽快升级到 PHP Group 提供的官方支持的 PHP 版本之一。",
     "You are currently running PHP %s." : "您当前正在使用 PHP %s。",
     "PHP \"output_buffering\" option" : "PHP output_buffering 选项",
     "PHP configuration option \"output_buffering\" must be disabled" : "PHP 设置选项 output_buffering 必须被禁用",
