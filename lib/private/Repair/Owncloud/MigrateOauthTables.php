@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright 2021 Louis Chemineau <louis@chmn.me>
  *
@@ -18,6 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC\Repair\Owncloud;
 
 use OC\Authentication\Token\IProvider as ITokenProvider;
@@ -34,21 +36,15 @@ use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 
 class MigrateOauthTables implements IRepairStep {
-	/** @var Connection */
-	protected $db;
 
-	/**
-	 * @param Connection $db
-	 */
 	public function __construct(
-		Connection $db,
+		protected Connection $db,
 		private AccessTokenMapper $accessTokenMapper,
 		private ITokenProvider $tokenProvider,
 		private ISecureRandom $random,
 		private ITimeFactory $timeFactory,
 		private ICrypto $crypto,
 	) {
-		$this->db = $db;
 	}
 
 	/**
@@ -240,7 +236,7 @@ class MigrateOauthTables implements IRepairStep {
 					$row['user_id'],
 					$row['user_id'],
 					null,
-					"oc_migrated_client${clientId}_t{$now}_i$index",
+					"oc_migrated_client{$clientId}_t{$now}_i$index",
 					IToken::PERMANENT_TOKEN,
 					IToken::DO_NOT_REMEMBER,
 				);
