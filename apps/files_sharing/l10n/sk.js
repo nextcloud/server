@@ -281,6 +281,7 @@ OC.L10N.register(
     "Allow download and sync" : "Povoliť sťahovanie a synchronizáciu",
     "Note to recipient" : "Poznámka pre príjemcu",
     "Enter a note for the share recipient" : "Zadajte poznámku pre príjemcu zdieľania",
+    "Show files in grid view" : "Zobraziť zobrazenie súborov v mriežke",
     "Read" : "Čítať",
     "Create" : "Vytvoriť",
     "Edit" : "Upraviť",
