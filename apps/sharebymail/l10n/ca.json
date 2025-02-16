@@ -16,6 +16,7 @@
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "No us podem enviar la contrasenya generada automàticament. Definiu una adreça electrònica vàlida en els paràmetres personals i torneu-ho a provar.",
     "Failed to send share by email. Got an invalid email address" : "No s'ha pogut enviar l'element compartit per correu electrònic. Teniu una adreça electrònica no vàlida.",
     "Failed to send share by email" : "No s'ha pogut enviar l'element compartit per correu electrònic",
+    "Note:" : "Nota:",
     "%1$s via %2$s" : "%1$s mitjançant %2$s",
     "It is protected with the following password:" : "Està protegit amb la contrasenya següent:",
     "This password will expire at %s" : "Aquesta contrasenya caducarà a les %s",
