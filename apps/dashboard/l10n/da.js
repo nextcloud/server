@@ -22,6 +22,8 @@ OC.L10N.register(
     "Good evening" : "God aften",
     "Good evening, {name}" : "God aften {name}",
     "Hello" : "Hej",
-    "Hello, {name}" : "Hej {name}"
+    "Hello, {name}" : "Hej {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "Tillykke med fødselsdagen 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Tillykke med fødselsdagen, {name} 🥳🤩🎂🎉"
 },
 "nplurals=2; plural=(n != 1);");
