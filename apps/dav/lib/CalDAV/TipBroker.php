@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV;
 
+use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\ITip\Broker;
 use Sabre\VObject\ITip\Message;
@@ -27,8 +28,55 @@ class TipBroker extends Broker {
 		'SUMMARY',
 		'DESCRIPTION',
 		'LOCATION',
-
 	];
+
+	/**
+	 * Processes incoming CANCEL messages.
+	 *
+	 * This is a message from an organizer, and means that either an
+	 * attendee got removed from an event, or an event got cancelled
+	 * altogether.
+	 *
+	 * @param VCalendar $existingObject
+	 *
+	 * @return VCalendar|null
+	 */
+	protected function processMessageCancel(Message $itipMessage, ?VCalendar $existingObject = null) {
+		if ($existingObject === null) {
+			return null;
+		}
+
+		$componentType = $itipMessage->component;
+		$instances = [];
+
+		foreach ($itipMessage->message->$componentType as $component) {
+			$instanceId = isset($component->{'RECURRENCE-ID'}) ? $component->{'RECURRENCE-ID'}->getValue() : 'base';
+			$instances[$instanceId] = $component;
+		}
+		// any existing instances should be marked as cancelled
+		foreach ($existingObject->$componentType as $component) {
+			$instanceId = isset($component->{'RECURRENCE-ID'}) ? $component->{'RECURRENCE-ID'}->getValue() : 'base';
+			if (isset($instances[$instanceId])) {
+				if (isset($component->STATUS)) {
+					$component->STATUS->setValue('CANCELLED');
+				} else {
+					$component->add('STATUS', 'CANCELLED');
+				}
+				if (isset($component->SEQUENCE)) {
+					$component->SEQUENCE->setValue($itipMessage->sequence);
+				} else {
+					$component->add('SEQUENCE', $itipMessage->sequence);
+				}
+				unset($instances[$instanceId]);
+			}
+		}
+		// any remaining instances are new and should be added
+		foreach ($instances as $instance) {
+			$existingObject->add($instance);
+		}
+
+		return $existingObject;
+	}
 
 	/**
 	 * This method is used in cases where an event got updated, and we
@@ -38,59 +86,87 @@ class TipBroker extends Broker {
 	 * We will detect which attendees got added, which got removed and create
 	 * specific messages for these situations.
 	 *
-	 * @return array
+	 * @return array<int,Message>
 	 */
 	protected function parseEventForOrganizer(VCalendar $calendar, array $eventInfo, array $oldEventInfo) {
-		// Merging attendee lists.
-		$attendees = [];
-		foreach ($oldEventInfo['attendees'] as $attendee) {
-			$attendees[$attendee['href']] = [
-				'href' => $attendee['href'],
-				'oldInstances' => $attendee['instances'],
-				'newInstances' => [],
-				'name' => $attendee['name'],
-				'forceSend' => null,
-			];
-		}
-		foreach ($eventInfo['attendees'] as $attendee) {
-			if (isset($attendees[$attendee['href']])) {
-				$attendees[$attendee['href']]['name'] = $attendee['name'];
-				$attendees[$attendee['href']]['newInstances'] = $attendee['instances'];
-				$attendees[$attendee['href']]['forceSend'] = $attendee['forceSend'];
-			} else {
-				$attendees[$attendee['href']] = [
-					'href' => $attendee['href'],
-					'oldInstances' => [],
-					'newInstances' => $attendee['instances'],
-					'name' => $attendee['name'],
-					'forceSend' => $attendee['forceSend'],
-				];
-			}
-		}
 
 		$messages = [];
 
+		// construct template calendar from original calendar without components
+		$template = new VCalendar();
+		foreach ($template->children() as $property) {
+			$template->remove($property);
+		}
+		foreach ($calendar->children() as $property) {
+			if (in_array($property->name, ['METHOD', 'VEVENT', 'VTODO', 'VJOURNAL', 'VFREEBUSY'], true) === false) {
+				$template->add(clone $property);
+			}
+		}
+		// extract event information
+		$objectId = $eventInfo['uid'];
+		if ($calendar->getBaseComponent() === null) {
+			$objectType = $calendar->getComponents()[0]->name;
+		} else {
+			$objectType = $calendar->getBaseComponent()->name;
+		}
+		$objectSequence = $eventInfo['sequence'] ?? 1;
+		$organizerHref = $eventInfo['organizer'] ?? $oldEventInfo['organizer'];
+		if ($eventInfo['organizerName'] instanceof \Sabre\VObject\Parameter) {
+			$organizerName = $eventInfo['organizerName']->getValue();
+		} else {
+			$organizerName = $eventInfo['organizerName'];
+		}
+		// detect if the singleton or recurring base instance was converted to non-scheduling
+		if (count($eventInfo['instances']) === 0 && count($oldEventInfo['instances']) > 0) {
+			foreach ($oldEventInfo['attendees'] as $attendee) {
+				$messages[] = $this->generateMessage(
+					$oldEventInfo['instances'], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template
+				);
+			}
+			return $messages;
+		}
+		// detect if the singleton or recurring base instance was cancelled
+		if ($eventInfo['instances']['master']?->STATUS?->getValue() === 'CANCELLED' && $oldEventInfo['instances']['master']?->STATUS?->getValue() !== 'CANCELLED') {
+			foreach ($eventInfo['attendees'] as $attendee) {
+				$messages[] = $this->generateMessage(
+					$eventInfo['instances'], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template
+				);
+			}
+			return $messages;
+		}
+		// detect if a new cancelled instance was created
+		$cancelledNewInstances = [];
+		if (isset($oldEventInfo['instances'])) {
+			$instancesDelta = array_diff_key($eventInfo['instances'], $oldEventInfo['instances']);
+			foreach ($instancesDelta as $id => $instance) {
+				if ($instance->STATUS?->getValue() === 'CANCELLED') {
+					$cancelledNewInstances[] = $id;
+					foreach ($eventInfo['attendees'] as $attendee) {
+						$messages[] = $this->generateMessage(
+							[$id => $instance], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template
+						);
+					}
+				}
+			}
+		}
+		// detect attendee mutations
+		$attendees = array_unique(
+			array_merge(
+				array_keys($eventInfo['attendees']),
+				array_keys($oldEventInfo['attendees'])
+			)
+		);
 		foreach ($attendees as $attendee) {
-			// An organizer can also be an attendee. We should not generate any
-			// messages for those.
-			if ($attendee['href'] === $eventInfo['organizer']) {
+			// Skip organizer
+			if ($attendee === $organizerHref) {
 				continue;
 			}
 
-			$message = new Message();
-			$message->uid = $eventInfo['uid'];
-			$message->component = 'VEVENT';
-			$message->sequence = $eventInfo['sequence'];
-			$message->sender = $eventInfo['organizer'];
-			$message->senderName = $eventInfo['organizerName'];
-			$message->recipient = $attendee['href'];
-			$message->recipientName = $attendee['name'];
-
-			// Creating the new iCalendar body.
-			$icalMsg = new VCalendar();
-
-			foreach ($calendar->select('VTIMEZONE') as $timezone) {
-				$icalMsg->add(clone $timezone);
+			// Skip if SCHEDULE-AGENT=CLIENT (respect RFC 6638)
+			if ($this->scheduleAgentServerRules
+				&& isset($eventInfo['attendees'][$attendee]['scheduleAgent'])
+				&& strtoupper($eventInfo['attendees'][$attendee]['scheduleAgent']) === 'CLIENT') {
+				continue;
 			}
 			// If there are no instances the attendee is a part of, it means
 			// the attendee was removed and we need to send them a CANCEL message.
@@ -113,16 +189,15 @@ class TipBroker extends Broker {
 				// The attendee gets the updated event body
 				$message->method = $icalMsg->METHOD = 'REQUEST';
 
-				// We need to find out that this change is significant. If it's
-				// not, systems may opt to not send messages.
-				//
-				// We do this based on the 'significantChangeHash' which is
-				// some value that changes if there's a certain set of
-				// properties changed in the event, or simply if there's a
-				// difference in instances that the attendee is invited to.
+			// Skip if no instances left to send
+			if (empty($instances)) {
+				continue;
+			}
 
-				$oldAttendeeInstances = array_keys($attendee['oldInstances']);
-				$newAttendeeInstances = array_keys($attendee['newInstances']);
+			// Add EXDATE for instances the attendee is NOT part of (only for recurring events with master)
+			if (isset($instances['master']) && count($eventInfo['instances']) > 1) {
+				$masterInstance = clone $instances['master'];
+				$excludedDates = [];
 
 				$message->significantChange =
 					$attendee['forceSend'] === 'REQUEST' ||
@@ -171,17 +246,105 @@ class TipBroker extends Broker {
 							}
 						}
 					}
+				}
 
-					$currentEvent->DTSTAMP = gmdate('Ymd\\THis\\Z');
-					$icalMsg->add($currentEvent);
+				if (!empty($excludedDates)) {
+					if (isset($masterInstance->EXDATE)) {
+						$currentExdates = $masterInstance->EXDATE->getParts();
+						$masterInstance->EXDATE->setParts(array_merge($currentExdates, $excludedDates));
+					} else {
+						$masterInstance->EXDATE = $excludedDates;
+					}
+					$instances['master'] = $masterInstance;
 				}
 			}
 
-			$message->message = $icalMsg;
-			$messages[] = $message;
+			$messages[] = $this->generateMessage(
+				$instances, $organizerHref, $organizerName, $eventInfo['attendees'][$attendee], $objectId, $objectType, $objectSequence, 'REQUEST', $template
+			);
 		}
 
 		return $messages;
+	}
+
+	/**
+	 * Generates an iTip message for a specific attendee
+	 *
+	 * @param array<string, Component> $instances Array of event instances to include, keyed by instance ID:
+	 *                                            - 'master' => Component: The master/base event
+	 *                                            - '{RECURRENCE-ID}' => Component: Exception instances
+	 * @param string $organizerHref The organizer's calendar-user address (e.g., 'mailto:user@example.com')
+	 * @param string|null $organizerName The organizer's display name
+	 * @param array $attendee The attendee information containing:
+	 *                        - 'href' (string): The attendee's calendar-user address
+	 *                        - 'name' (string): The attendee's display name
+	 *                        - 'scheduleAgent' (string|null): SCHEDULE-AGENT parameter
+	 *                        - 'instances' (array): Instances this attendee is part of
+	 * @param string $objectId The UID of the event
+	 * @param string $objectType The component type ('VEVENT', 'VTODO', etc.)
+	 * @param int $objectSequence The sequence number of the event
+	 * @param string $method The iTip method ('REQUEST', 'CANCEL', 'REPLY', etc.)
+	 * @param VCalendar $template The template calendar object (without event components)
+	 * @return Message The generated iTip message ready to be sent
+	 */
+	protected function generateMessage(
+		array $instances,
+		string $organizerHref,
+		?string $organizerName,
+		array $attendee,
+		string $objectId,
+		string $objectType,
+		int $objectSequence,
+		string $method,
+		VCalendar $template,
+	): Message {
+
+		$recipientAddress = $attendee['href'] ?? '';
+		$recipientName = $attendee['name'] ?? '';
+
+		$vObject = clone $template;
+		if ($vObject->METHOD && $vObject->METHOD->getValue() !== $method) {
+			$vObject->METHOD->setValue($method);
+		} else {
+			$vObject->add('METHOD', $method);
+		}
+		foreach ($instances as $instance) {
+			$vObject->add($this->componentSanitizeScheduling(clone $instance));
+		}
+
+		$message = new Message();
+		$message->method = $method;
+		$message->uid = $objectId;
+		$message->component = $objectType;
+		$message->sequence = $objectSequence;
+		$message->sender = $organizerHref;
+		$message->senderName = $organizerName;
+		$message->recipient = $recipientAddress;
+		$message->recipientName = $recipientName;
+		$message->significantChange = true;
+		$message->message = $vObject;
+
+		return $message;
+
+	}
+
+	protected function componentSanitizeScheduling(Component $component): Component {
+		// Cleaning up any scheduling information that should not be sent or is missing
+		unset($component->ORGANIZER['SCHEDULE-FORCE-SEND'], $component->ORGANIZER['SCHEDULE-STATUS']);
+		foreach ($component->ATTENDEE as $attendee) {
+			unset($attendee['SCHEDULE-FORCE-SEND'], $attendee['SCHEDULE-STATUS']);
+
+			if (!isset($attendee['PARTSTAT'])) {
+				$attendee['PARTSTAT'] = 'NEEDS-ACTION';
+			}
+		}
+		// Sequence is a required property, default is 0
+		// https://datatracker.ietf.org/doc/html/rfc5545#section-3.8.7.4
+		if ($component->SEQUENCE === null) {
+			$component->add('SEQUENCE', 0);
+		}
+
+		return $component;
 	}
 
 }
