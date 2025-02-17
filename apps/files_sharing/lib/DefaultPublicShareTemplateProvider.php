@@ -118,8 +118,7 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		// Allow external apps to register their scripts
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($share));
 
-		// OpenGraph Support: http://ogp.me/
-		$this->addOpenGraphHeaders($share);
+		$this->addMetaHeaders($share);
 
 		// CSP to allow office
 		$csp = new ContentSecurityPolicy();
@@ -190,15 +189,17 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 	 * Add OpenGraph headers to response for preview
 	 * @param IShare $share The share for which to add the headers
 	 */
-	protected function addOpenGraphHeaders(IShare $share): void {
+	protected function addMetaHeaders(IShare $share): void {
 		$shareNode = $share->getNode();
 		$token = $share->getToken();
 		$shareUrl = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $token]);
 
 		// Handle preview generation for OpenGraph
+		$hasImagePreview = false;
 		if ($this->previewManager->isMimeSupported($shareNode->getMimetype())) {
 			// For images we can use direct links
 			if ($shareNode->getMimePart() === 'image') {
+				$hasImagePreview = true;
 				$ogPreview = $this->urlGenerator->linkToRouteAbsolute('files_sharing.publicpreview.directLink', ['token' => $token]);
 				// Whatsapp is kind of picky about their size requirements
 				if ($this->request->isUserAgent(['/^WhatsApp/'])) {
@@ -226,11 +227,34 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 			$ogPreview = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-fb.png'));
 		}
 
-		Util::addHeader('meta', ['property' => 'og:title', 'content' => $shareNode->getName()]);
-		Util::addHeader('meta', ['property' => 'og:description', 'content' => $this->defaults->getName() . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : '')]);
-		Util::addHeader('meta', ['property' => 'og:site_name', 'content' => $this->defaults->getName()]);
+		$title = $shareNode->getName();
+		$siteName = $this->defaults->getName();
+		$description = $siteName . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : '');
+
+		// OpenGraph Support: http://ogp.me/
+		Util::addHeader('meta', ['property' => 'og:title', 'content' => $title]);
+		Util::addHeader('meta', ['property' => 'og:description', 'content' => $description]);
+		Util::addHeader('meta', ['property' => 'og:site_name', 'content' => $siteName]);
 		Util::addHeader('meta', ['property' => 'og:url', 'content' => $shareUrl]);
-		Util::addHeader('meta', ['property' => 'og:type', 'content' => 'object']);
-		Util::addHeader('meta', ['property' => 'og:image', 'content' => $ogPreview]);
+		Util::addHeader('meta', ['property' => 'og:type', 'content' => 'website']);
+		Util::addHeader('meta', ['property' => 'og:image', 'content' => $ogPreview]); // recommended to always have the image
+		if ($shareNode->getMimePart() === 'image') {
+			Util::addHeader('meta', ['property' => 'og:image:type', 'content' => $shareNode->getMimeType()]);
+		} elseif ($shareNode->getMimePart() === 'audio') {
+			$audio = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.downloadshare', ['token' => $token]);
+			Util::addHeader('meta', ['property' => 'og:audio', 'content' => $audio]);
+			Util::addHeader('meta', ['property' => 'og:audio:type', 'content' => $shareNode->getMimeType()]);
+		} elseif ($shareNode->getMimePart() === 'video') {
+			$video = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.downloadshare', ['token' => $token]);
+			Util::addHeader('meta', ['property' => 'og:video', 'content' => $video]);
+			Util::addHeader('meta', ['property' => 'og:video:type', 'content' => $shareNode->getMimeType()]);
+		}
+
+
+		// Twitter Support: https://developer.x.com/en/docs/x-for-websites/cards/overview/markup
+		Util::addHeader('meta', ['property' => 'twitter:title', 'content' => $title]);
+		Util::addHeader('meta', ['property' => 'twitter:description', 'content' => $description]);
+		Util::addHeader('meta', ['property' => 'twitter:card', 'content' => $hasImagePreview ? 'summary_large_image' : 'summary']);
+		Util::addHeader('meta', ['property' => 'twitter:image', 'content' => $ogPreview]);
 	}
 }
