@@ -145,7 +145,8 @@ class Server {
 		$bearerAuthBackend = new BearerAuth(
 			\OC::$server->getUserSession(),
 			\OC::$server->getSession(),
-			\OC::$server->getRequest()
+			\OC::$server->getRequest(),
+			\OC::$server->getConfig(),
 		);
 		$authPlugin->addBackend($bearerAuthBackend);
 		// because we are throwing exceptions this plugin has to be the last one
