@@ -304,5 +304,10 @@ export default {
 		text-align: center;
 		overflow-wrap: anywhere;
 	}
+
+	// Only show the error state if the user interacted with the login box
+	:deep(input:invalid:not(:user-invalid)) {
+		border-color: var(--color-border-maxcontrast) !important;
+	}
 }
 </style>
