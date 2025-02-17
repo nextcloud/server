@@ -31,9 +31,10 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OC\Files\View;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\DAV\ViewOnlyPlugin;
-use OCA\DAV\Files\ErrorPagePlugin;
+use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\Mount\IMountManager;
@@ -120,7 +121,9 @@ class ServerFactory {
 			$server->addPlugin(new \OCA\DAV\Connector\Sabre\FakeLockerPlugin());
 		}
 
-		$server->addPlugin(new ErrorPagePlugin($this->request, $this->config));
+		if (BrowserErrorPagePlugin::isBrowserRequest($this->request)) {
+			$server->addPlugin(new BrowserErrorPagePlugin());
+		}
 
 		// wait with registering these until auth is handled and the filesystem is setup
 		$server->on('beforeMethod:*', function () use ($server, $objectTree, $viewCallBack) {
