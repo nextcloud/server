@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,7 +10,7 @@
 
 namespace Test\Session;
 
-use OC\Session\CryptoSessionData;
+use OC\Session\LegacyCryptoSessionData;
 use OCP\Security\ICrypto;
 
 class CryptoSessionDataTest extends Session {
@@ -36,6 +39,6 @@ class CryptoSessionDataTest extends Session {
 				return substr($input, 1, -1);
 			});
 
-		$this->instance = new CryptoSessionData($this->wrappedSession, $this->crypto, 'PASS');
+		$this->instance = new LegacyCryptoSessionData($this->wrappedSession, $this->crypto, 'PASS');
 	}
 }
