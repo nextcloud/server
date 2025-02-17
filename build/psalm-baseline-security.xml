@@ -11,31 +11,10 @@
       <code><![CDATA[$imageFile]]></code>
     </TaintedFile>
   </file>
-  <file src="lib/base.php">
-    <TaintedHeader>
-      <code><![CDATA['Location: ' . $url]]></code>
-      <code><![CDATA['Location: ' . \OC::$WEBROOT . '/']]></code>
-    </TaintedHeader>
-  </file>
   <file src="lib/private/Config.php">
     <TaintedHtml>
       <code><![CDATA[$this->cache]]></code>
     </TaintedHtml>
-  </file>
-  <file src="lib/private/EventSource.php">
-    <TaintedHeader>
-      <code><![CDATA['Location: ' . \OC::$WEBROOT]]></code>
-    </TaintedHeader>
-  </file>
-  <file src="lib/private/Http/CookieHelper.php">
-    <TaintedHeader>
-      <code><![CDATA[$header]]></code>
-    </TaintedHeader>
-  </file>
-  <file src="lib/private/Installer.php">
-    <TaintedFile>
-      <code><![CDATA[$baseDir]]></code>
-    </TaintedFile>
   </file>
   <file src="lib/private/OCS/ApiHelper.php">
     <TaintedHtml>
@@ -64,19 +43,6 @@
     <TaintedFile>
       <code><![CDATA[$sqliteFile]]></code>
     </TaintedFile>
-  </file>
-  <file src="lib/private/legacy/OC_Helper.php">
-    <TaintedFile>
-      <code><![CDATA[$dest]]></code>
-      <code><![CDATA[$dest]]></code>
-      <code><![CDATA[$dir]]></code>
-      <code><![CDATA[$dir]]></code>
-    </TaintedFile>
-  </file>
-  <file src="lib/private/legacy/OC_JSON.php">
-    <TaintedHeader>
-      <code><![CDATA['Location: ' . \OC::$WEBROOT]]></code>
-    </TaintedHeader>
   </file>
   <file src="lib/private/legacy/OC_Template.php">
     <TaintedHtml>
