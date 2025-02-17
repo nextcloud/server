@@ -33,6 +33,10 @@
 		</post-migration>
 	</repair-steps>
 
+	<commands>
+		<command>OCA\OAuth2\Command\ImportLegacyOcClient</command>
+	</commands>
+
 	<settings>
 		<admin>OCA\OAuth2\Settings\Admin</admin>
 	</settings>

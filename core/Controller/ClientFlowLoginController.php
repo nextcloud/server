@@ -26,6 +26,7 @@ use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Token\IToken;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -55,6 +56,7 @@ class ClientFlowLoginController extends Controller {
 		private ICrypto $crypto,
 		private IEventDispatcher $eventDispatcher,
 		private ITimeFactory $timeFactory,
+		private IConfig $config,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -89,7 +91,7 @@ class ClientFlowLoginController extends Controller {
 	#[NoCSRFRequired]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'GET', url: '/login/flow')]
-	public function showAuthPickerPage(string $clientIdentifier = '', string $user = '', int $direct = 0): StandaloneTemplateResponse {
+	public function showAuthPickerPage(string $clientIdentifier = '', string $user = '', int $direct = 0, string $providedRedirectUri = ''): StandaloneTemplateResponse {
 		$clientName = $this->getClientName();
 		$client = null;
 		if ($clientIdentifier !== '') {
@@ -142,6 +144,7 @@ class ClientFlowLoginController extends Controller {
 				'oauthState' => $this->session->get('oauth.state'),
 				'user' => $user,
 				'direct' => $direct,
+				'providedRedirectUri' => $providedRedirectUri,
 			],
 			'guest'
 		);
@@ -161,6 +164,7 @@ class ClientFlowLoginController extends Controller {
 		string $stateToken = '',
 		string $clientIdentifier = '',
 		int $direct = 0,
+		string $providedRedirectUri = '',
 	): Response {
 		if (!$this->isValidToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
@@ -197,6 +201,7 @@ class ClientFlowLoginController extends Controller {
 				'serverHost' => $this->getServerPath(),
 				'oauthState' => $this->session->get('oauth.state'),
 				'direct' => $direct,
+				'providedRedirectUri' => $providedRedirectUri,
 			],
 			'guest'
 		);
@@ -211,6 +216,7 @@ class ClientFlowLoginController extends Controller {
 	public function generateAppPassword(
 		string $stateToken,
 		string $clientIdentifier = '',
+		string $providedRedirectUri = '',
 	): Response {
 		if (!$this->isValidToken($stateToken)) {
 			$this->session->remove(self::STATE_NAME);
@@ -270,7 +276,19 @@ class ClientFlowLoginController extends Controller {
 			$accessToken->setCodeCreatedAt($this->timeFactory->now()->getTimestamp());
 			$this->accessTokenMapper->insert($accessToken);
 
+			$enableOcClients = $this->config->getSystemValueBool('oauth2.enable_oc_clients', false);
+
 			$redirectUri = $client->getRedirectUri();
+			if ($enableOcClients && $redirectUri === 'http://localhost:*') {
+				// Sanity check untrusted redirect URI provided by the client first
+				if (!preg_match('/^http:\/\/localhost:[0-9]+$/', $providedRedirectUri)) {
+					$response = new Response();
+					$response->setStatus(Http::STATUS_FORBIDDEN);
+					return $response;
+				}
+
+				$redirectUri = $providedRedirectUri;
+			}
 
 			if (parse_url($redirectUri, PHP_URL_QUERY)) {
 				$redirectUri .= '&';
