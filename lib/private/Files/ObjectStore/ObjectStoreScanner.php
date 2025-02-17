@@ -61,7 +61,7 @@ class ObjectStoreScanner extends Scanner {
 		$query->select('path')
 			->from('filecache')
 			->where($query->expr()->eq('storage', $query->createNamedParameter($this->cache->getNumericStorageId(), IQueryBuilder::PARAM_INT)))
-			->andWhere($query->expr()->lt('size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->eq('size', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)))
 			->orderBy('path', 'DESC')
 			->setMaxResults(1);
 
