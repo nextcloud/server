@@ -104,12 +104,4 @@
       <code><![CDATA[$sql]]></code>
     </TaintedSql>
   </file>
-  <file src="ocs-provider/index.php">
-    <TaintedHtml>
-      <code><![CDATA[$controller->buildProviderList()->render()]]></code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes>
-      <code><![CDATA[$controller->buildProviderList()->render()]]></code>
-    </TaintedTextWithQuotes>
-  </file>
 </files>
