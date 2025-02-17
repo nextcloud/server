@@ -114,7 +114,7 @@ class TipBroker extends Broker {
 			}
 
 			$messages = array_merge($messages, match ($action) {
-				'ALTERED' => $this->instanceCreatedOrModifiedByOrganizer($mutatedInstance, $originalInstance, $template),
+				'ALTERED' => $this->instanceCreatedOrModifiedByOrganizer($mutatedInstance, $template, $originalInstance),
 				'CANCELLED' => $this->instanceCancelledByOrganizer($mutatedInstance, $template),
 				default => [],
 			});
@@ -123,7 +123,7 @@ class TipBroker extends Broker {
 		return $messages;
 	}
 
-	protected function instanceCreatedOrModifiedByOrganizer(Component $mutated, ?Component $original = null, VCalendar $template): array {
+	protected function instanceCreatedOrModifiedByOrganizer(Component $mutated, VCalendar $template, ?Component $original = null): array {
 	
 		$component = clone $mutated;
 		$componentDelta = $this->componentDelta($mutated, $original);
