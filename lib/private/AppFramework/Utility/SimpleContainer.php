@@ -176,7 +176,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		}, false);
 	}
 
-	/*
+	/**
 	 * @param string $name
 	 * @return string
 	 */

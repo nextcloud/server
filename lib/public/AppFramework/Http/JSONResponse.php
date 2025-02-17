@@ -58,6 +58,9 @@ class JSONResponse extends Response {
 	 * @return string the rendered json
 	 * @since 6.0.0
 	 * @throws \Exception If data could not get encoded
+	 *
+	 * @psalm-taint-escape has_quotes
+	 * @psalm-taint-escape html
 	 */
 	public function render() {
 		return json_encode($this->data, JSON_HEX_TAG | JSON_THROW_ON_ERROR | $this->encodeFlags, 2048);

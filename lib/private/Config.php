@@ -65,14 +65,34 @@ class Config {
 	 */
 	public function getValue($key, $default = null) {
 		if (isset($this->envCache[$key])) {
-			return $this->envCache[$key];
+			return self::trustSystemConfig($this->envCache[$key]);
 		}
 
 		if (isset($this->cache[$key])) {
-			return $this->cache[$key];
+			return self::trustSystemConfig($this->cache[$key]);
 		}
 
 		return $default;
+	}
+
+	/**
+	 * Since system config is admin controlled, we can tell psalm to ignore any taint
+	 *
+	 * @psalm-taint-escape callable
+	 * @psalm-taint-escape cookie
+	 * @psalm-taint-escape file
+	 * @psalm-taint-escape has_quotes
+	 * @psalm-taint-escape header
+	 * @psalm-taint-escape html
+	 * @psalm-taint-escape include
+	 * @psalm-taint-escape ldap
+	 * @psalm-taint-escape shell
+	 * @psalm-taint-escape sql
+	 * @psalm-taint-escape unserialize
+	 * @psalm-pure
+	 */
+	public static function trustSystemConfig(mixed $value): mixed {
+		return $value;
 	}
 
 	/**
