@@ -313,7 +313,15 @@ class OC_Template extends \OC\Template\Base {
 		die();
 	}
 
-	private static function printPlainErrorPage(\Throwable $exception, bool $debug = false) {
+	/**
+	 * @psalm-taint-escape has_quotes
+	 * @psalm-taint-escape html
+	 */
+	private static function fakeEscapeForPlainText(string $str): string {
+		return $str;
+	}
+
+	private static function printPlainErrorPage(\Throwable $exception, bool $debug = false): void {
 		header('Content-Type: text/plain; charset=utf-8');
 		print("Internal Server Error\n\n");
 		print("The server encountered an internal error and was unable to complete your request.\n");
@@ -323,7 +331,7 @@ class OC_Template extends \OC\Template\Base {
 		if ($debug) {
 			print("\n");
 			print($exception->getMessage() . ' ' . $exception->getFile() . ' at ' . $exception->getLine() . "\n");
-			print($exception->getTraceAsString());
+			print(self::fakeEscapeForPlainText($exception->getTraceAsString()));
 		}
 	}
 }

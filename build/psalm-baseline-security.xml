@@ -36,14 +36,6 @@
       <code><![CDATA[$sqliteFile]]></code>
     </TaintedFile>
   </file>
-  <file src="lib/private/legacy/OC_Template.php">
-    <TaintedHtml>
-      <code><![CDATA[$exception->getTraceAsString()]]></code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes>
-      <code><![CDATA[$exception->getTraceAsString()]]></code>
-    </TaintedTextWithQuotes>
-  </file>
   <file src="lib/public/DB/QueryBuilder/IQueryBuilder.php">
     <TaintedSql>
       <code><![CDATA[$column]]></code>
