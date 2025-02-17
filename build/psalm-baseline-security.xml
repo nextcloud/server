@@ -16,14 +16,6 @@
       <code><![CDATA[$this->cache]]></code>
     </TaintedHtml>
   </file>
-  <file src="lib/private/OCS/ApiHelper.php">
-    <TaintedHtml>
-      <code><![CDATA[$body]]></code>
-    </TaintedHtml>
-    <TaintedTextWithQuotes>
-      <code><![CDATA[$body]]></code>
-    </TaintedTextWithQuotes>
-  </file>
   <file src="lib/private/Route/Router.php">
     <TaintedCallable>
       <code><![CDATA[$appNameSpace . '\\Controller\\' . basename($file->getPathname(), '.php')]]></code>
