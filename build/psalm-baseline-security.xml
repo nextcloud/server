@@ -49,12 +49,4 @@
       <code><![CDATA[$column]]></code>
     </TaintedSql>
   </file>
-  <file src="lib/public/IDBConnection.php">
-    <TaintedSql>
-      <code><![CDATA[$sql]]></code>
-      <code><![CDATA[$sql]]></code>
-      <code><![CDATA[$sql]]></code>
-      <code><![CDATA[$sql]]></code>
-    </TaintedSql>
-  </file>
 </files>
