@@ -34,6 +34,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -48,6 +49,7 @@ class LoginRedirectorController extends Controller {
 	private $session;
 	/** @var IL10N */
 	private $l;
+	private IConfig $config;
 
 	/**
 	 * @param string $appName
@@ -56,18 +58,21 @@ class LoginRedirectorController extends Controller {
 	 * @param ClientMapper $clientMapper
 	 * @param ISession $session
 	 * @param IL10N $l
+	 * @param IConfig $config
 	 */
 	public function __construct(string $appName,
 		IRequest $request,
 		IURLGenerator $urlGenerator,
 		ClientMapper $clientMapper,
 		ISession $session,
-		IL10N $l) {
+		IL10N $l,
+		IConfig $config) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
 		$this->clientMapper = $clientMapper;
 		$this->session = $session;
 		$this->l = $l;
+		$this->config = $config;
 	}
 
 	/**
@@ -80,6 +85,7 @@ class LoginRedirectorController extends Controller {
 	 * @param string $client_id Client ID
 	 * @param string $state State of the flow
 	 * @param string $response_type Response type for the flow
+	 * @param string $redirect_uri URI to redirect to after the flow (is only used for legacy ownCloud clients)
 	 * @return TemplateResponse<Http::STATUS_OK, array{}>|RedirectResponse<Http::STATUS_SEE_OTHER, array{}>
 	 *
 	 * 200: Client not found
@@ -87,7 +93,8 @@ class LoginRedirectorController extends Controller {
 	 */
 	public function authorize($client_id,
 		$state,
-		$response_type): TemplateResponse|RedirectResponse {
+		$response_type,
+		string $redirect_uri = ''): TemplateResponse|RedirectResponse {
 		try {
 			$client = $this->clientMapper->getByIdentifier($client_id);
 		} catch (ClientNotFoundException $e) {
@@ -103,12 +110,20 @@ class LoginRedirectorController extends Controller {
 			return new RedirectResponse($url);
 		}
 
+		$enableOcClients = $this->config->getSystemValueBool('oauth2.enable_oc_clients', false);
+
+		$providedRedirectUri = '';
+		if ($enableOcClients && $client->getRedirectUri() === 'http://localhost:*') {
+			$providedRedirectUri = $redirect_uri;
+		}
+
 		$this->session->set('oauth.state', $state);
 
 		$targetUrl = $this->urlGenerator->linkToRouteAbsolute(
 			'core.ClientFlowLogin.showAuthPickerPage',
 			[
 				'clientIdentifier' => $client->getClientIdentifier(),
+				'providedRedirectUri' => $providedRedirectUri,
 			]
 		);
 		return new RedirectResponse($targetUrl);
