@@ -266,7 +266,7 @@ class Config {
 	 * @throws HintException If the config file cannot be written to
 	 * @throws \Exception If no file lock can be acquired
 	 */
-	private function writeData() {
+	private function writeData(): void {
 		$this->checkReadOnly();
 
 		if (!is_file(\OC::$configDir . '/CAN_INSTALL') && !isset($this->cache['version'])) {
@@ -276,7 +276,7 @@ class Config {
 		// Create a php file ...
 		$content = "<?php\n";
 		$content .= '$CONFIG = ';
-		$content .= var_export($this->cache, true);
+		$content .= var_export(self::trustSystemConfig($this->cache), true);
 		$content .= ";\n";
 
 		touch($this->configFilePath);

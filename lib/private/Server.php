@@ -1109,7 +1109,6 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 
 			return new CryptoWrapper(
-				$c->get(\OCP\IConfig::class),
 				$c->get(ICrypto::class),
 				$c->get(ISecureRandom::class),
 				$request
