@@ -534,13 +534,13 @@ class ReminderService {
 
 			$principal = explode('/', $share['{http://owncloud.org/ns}principal']);
 			if ($principal[1] === 'users') {
-				$user = $this->userManager->get($principal[2]);
+				$user = $this->userManager->get(urldecode($principal[2]));
 				if ($user) {
 					$users[] = $user;
-					$userIds[] = $principal[2];
+					$userIds[] = urldecode($principal[2]);
 				}
 			} elseif ($principal[1] === 'groups') {
-				$groups[] = $principal[2];
+				$groups[] = urldecode($principal[2]);
 			}
 		}
 
@@ -724,7 +724,7 @@ class ReminderService {
 			return null;
 		}
 
-		$userId = substr($principalUri, 17);
+		$userId = urldecode(substr($principalUri, 17));
 		return $this->userManager->get($userId);
 	}
 
