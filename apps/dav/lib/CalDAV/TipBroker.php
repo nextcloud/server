@@ -32,23 +32,23 @@ class TipBroker extends Broker {
 	];
 
 	private const SINGLETON_PROPERTIES = [
-		"UID",
-		"DTSTAMP",
-		"CREATED",
-		"LAST-MODIFIED",
-		"DTSTART",
-		"DTEND",
-		"DURATION",
-		"RRULE",
-		"STATUS",
-		"CLASS",
-		"PRIORITY",
-		"TRANSP",
-		"ORGANIZER",
-		"SUMMARY",
-		"DESCRIPTION",
-		"GEO",		
-		"LOCATION",
+		'UID',
+		'DTSTAMP',
+		'CREATED',
+		'LAST-MODIFIED',
+		'DTSTART',
+		'DTEND',
+		'DURATION',
+		'RRULE',
+		'STATUS',
+		'CLASS',
+		'PRIORITY',
+		'TRANSP',
+		'ORGANIZER',
+		'SUMMARY',
+		'DESCRIPTION',
+		'GEO',
+		'LOCATION',
 	];
 	
 	/**
@@ -97,7 +97,7 @@ class TipBroker extends Broker {
 			return $this->instanceCancelledByOrganizer($component, $template);
 		}
 
-		foreach($mutatedInstances as $mutatedInstanceId => $mutatedInstance) {
+		foreach ($mutatedInstances as $mutatedInstanceId => $mutatedInstance) {
 			if ($mutatedInstance->ORGANIZER['SCHEDULE-AGENT'] !== null && $mutatedInstance->ORGANIZER['SCHEDULE-AGENT'] !== 'SERVER') {
 				continue;
 			}
@@ -111,7 +111,7 @@ class TipBroker extends Broker {
 				} else {
 					continue;
 				}
-			} 
+			}
 
 			$messages = array_merge($messages, match ($action) {
 				'ALTERED' => $this->instanceCreatedOrModifiedByOrganizer($mutatedInstance, $originalInstance, $template),
@@ -136,8 +136,8 @@ class TipBroker extends Broker {
 		$attendeesDelta = $this->propertyDeltaAttendee($mutated, $original);
 		
 		// If the mutated object does not have an organizer, the organizer
-        // changed the object from a scheduling object to a non-scheduling object
-		if (!isset($component->ORGANIZER) && isset($original->ORGANIZER)){
+		// changed the object from a scheduling object to a non-scheduling object
+		if (!isset($component->ORGANIZER) && isset($original->ORGANIZER)) {
 			$component->add($original->ORGANIZER);
 		}
 		$senderAddress = $component->ORGANIZER->getValue();
@@ -151,7 +151,7 @@ class TipBroker extends Broker {
 				'Removed' => 'CANCEL',
 				default => 'REQUEST',
 			};
-			foreach($attendees as $attendee) {
+			foreach ($attendees as $attendee) {
 				$recipientAddress = $attendee->getValue();
 				$recipientName = $attendee['CN']?->getValue() ?? null;
 				
@@ -194,7 +194,7 @@ class TipBroker extends Broker {
 		$senderAddress = $instance->ORGANIZER->getValue();
 		$senderName = $instance->ORGANIZER->parameters()['CN']->getValue() ?? '';
 
-		foreach($instance->ATTENDEE as $attendee) {
+		foreach ($instance->ATTENDEE as $attendee) {
 			$recipientAddress = $attendee->getValue();
 			$recipientName = $attendee->parameters()['CN']->getValue() ?? '';
 			$messages[] = $this->generateMessage(
@@ -247,7 +247,7 @@ class TipBroker extends Broker {
 					}
 					// determine if any property instances where modified
 					else {
-						foreach($propertyInstances as $originalPropertyInstance) {
+						foreach ($propertyInstances as $originalPropertyInstance) {
 							$propertyInstanceDelta = true;
 							foreach ($list[$propertyName]['mutated'] as $mutatedPropertyInstance) {
 								if ($originalPropertyInstance->getValue() === $mutatedPropertyInstance->getValue()) {
@@ -297,7 +297,7 @@ class TipBroker extends Broker {
 			}
 		}
 		// Sequence is a required property, default is 0
-		// https://datatracker.ietf.org/doc/html/rfc5545#section-3.8.7.4 
+		// https://datatracker.ietf.org/doc/html/rfc5545#section-3.8.7.4
 		if ($component->SEQUENCE === null) {
 			$component->add('SEQUENCE', 0);
 		}
@@ -359,14 +359,14 @@ class TipBroker extends Broker {
 		if ($instance->METHOD && $instance->METHOD->getValue() !== $method) {
 			$instance->METHOD->setValue($method);
 		} else {
-			$instance->add('METHOD', $method);	
+			$instance->add('METHOD', $method);
 		}
 		
 		$message = new Message();
 		$message->method = $method;
 		$message->uid = $instance->UID->getValue();
 		$message->component = $instance->name;
-		$message->sequence = $instance->SEQUENCE->getValue();
+		$message->sequence = (int)$instance->SEQUENCE->getValue();
 		$message->sender = $senderAddress;
 		$message->senderName = $senderName;
 		$message->recipient = $recipientAddress;
