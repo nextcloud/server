@@ -525,14 +525,24 @@ export default defineComponent({
 		},
 	},
 
-	mounted() {
-		this.fetchContent()
-
+	async mounted() {
 		subscribe('files:node:deleted', this.onNodeDeleted)
 		subscribe('files:node:updated', this.onUpdatedNode)
 
 		// reload on settings change
 		subscribe('files:config:updated', this.fetchContent)
+
+		// Finally, fetch the current directory contents
+		await this.fetchContent()
+		if (this.fileId) {
+			// If we have a fileId, let's check if the file exists
+			const node = this.dirContents.find(node => node.fileid.toString() === this.fileId.toString())
+			// If the file isn't in the current directory nor if
+			// the current directory is the file, we show an error
+			if (!node && this.currentFolder.fileid.toString() !== this.fileId.toString()) {
+				showError(t('files', 'The file could not be found'))
+			}
+		}
 	},
 
 	unmounted() {
