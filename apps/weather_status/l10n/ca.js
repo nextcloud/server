@@ -15,6 +15,18 @@ OC.L10N.register(
     "{temperature} {unit} clear sky" : "{temperature} {unit} cel clar",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} ennuvolat avui més tard",
     "{temperature} {unit} cloudy" : "{temperature} {unit} ennuvolat",
+    "{temperature} {unit} snow and thunder later today" : "{temperature} {unit} neu i trons més tard avui",
+    "{temperature} {unit} snow and thunder" : "{temperature} {unit} neu i trons",
+    "{temperature} {unit} snow showers and thunder later today" : "{temperature} {unit} ruixats de neu i trons més tard avui",
+    "{temperature} {unit} snow showers and thunder" : "{temperature} {unit} ruixats de neu i trons",
+    "{temperature} {unit} snow showers, thunder and polar twilight later today" : "{temperature} {unit} ruixats de neu, trons i crepuscle polar més tard avui",
+    "{temperature} {unit} snow showers, thunder and polar twilight" : "{temperature} {unit} ruixats de neu, trons i crepuscle polar",
+    "{temperature} {unit} snow showers later today" : "{temperature} {unit} ruixats de neu més tard avui",
+    "{temperature} {unit} snow showers" : "{temperature} {unit} ruixats de neu",
+    "{temperature} {unit} snow showers and polar twilight later today" : "{temperature} {unit} ruixats de neu i crepuscle polar més tard avui",
+    "{temperature} {unit} snow showers and polar twilight" : "{temperature} {unit} pluges de neu i crepuscle polar",
+    "{temperature} {unit} snow later today" : "{temperature} {unit} neu avui més tard",
+    "{temperature} {unit} snow" : "{temperature} {unit} neu",
     "{temperature} {unit} fair weather later today" : "{temperature} {unit} bon temps avui més tard",
     "{temperature} {unit} fair weather" : "{temperature} {unit} bon temps",
     "{temperature} {unit} partly cloudy later today" : "{temperature} {unit} mig ennuvolat avui més tard",
@@ -45,6 +57,7 @@ OC.L10N.register(
     "There was an error setting the location address." : "S'ha produït un error en definir l'adreça de la ubicació.",
     "There was an error setting the location." : "S'ha produït un error en definir la ubicació.",
     "There was an error saving the mode." : "S'ha produït un error en desar el mode.",
-    "There was an error using personal address." : "S'ha produït un error en utilitzar l'adreça personal."
+    "There was an error using personal address." : "S'ha produït un error en utilitzar l'adreça personal.",
+    "Unknown weather code" : "Codi meteorològic desconegut"
 },
 "nplurals=2; plural=(n != 1);");
