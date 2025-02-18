@@ -52,7 +52,6 @@ use OCP\IServerContainer;
 use OCP\ITagManager;
 use OCP\IUserSession;
 use OCP\Share\IManager as IShareManager;
-use OCP\Util;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -131,7 +130,6 @@ class Application extends App implements IBootstrap {
 		$context->injectFn(Closure::fromCallable([$this, 'registerCollaboration']));
 		$context->injectFn([Listener::class, 'register']);
 		$this->registerTemplates();
-		$this->registerHooks();
 	}
 
 	private function registerCollaboration(IProviderManager $providerManager): void {
@@ -143,9 +141,5 @@ class Application extends App implements IBootstrap {
 		$templateManager->registerTemplate('application/vnd.oasis.opendocument.presentation', 'core/templates/filetemplates/template.odp');
 		$templateManager->registerTemplate('application/vnd.oasis.opendocument.text', 'core/templates/filetemplates/template.odt');
 		$templateManager->registerTemplate('application/vnd.oasis.opendocument.spreadsheet', 'core/templates/filetemplates/template.ods');
-	}
-
-	private function registerHooks(): void {
-		Util::connectHook('\OCP\Config', 'js', '\OCA\Files\App', 'extendJsConfig');
 	}
 }
