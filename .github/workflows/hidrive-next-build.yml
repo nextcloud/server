@@ -48,7 +48,6 @@ jobs:
 
     permissions:
       contents: read
-      packages: write
 
     name: hidrive-next-build
     steps:
