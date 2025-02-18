@@ -21,7 +21,7 @@ interface ICalendarExport {
 	 * Export objects
 	 *
 	 * @since 32.0.0
-	 * 
+	 *
 	 * @param CalendarExportOptions|null $options
 	 *
 	 * @return Generator<\Sabre\VObject\Component\VCalendar>

@@ -22,8 +22,8 @@ class CalendarImportOptions {
 
 	/**
 	 * Gets the import format
-	 * 
-	 * @return string			ical, jcal, xcal, etc, defaults to ical
+	 *
+	 * @return string ical, jcal, xcal, etc, defaults to ical
 	 */
 	public function getFormat(): string {
 		return $this->format;
@@ -31,8 +31,8 @@ class CalendarImportOptions {
 
 	/**
 	 * Sets the import format
-	 * 
-	 * @param string $format 	ical, jcal, xcal, etc, defaults to ical
+	 *
+	 * @param string $format ical, jcal, xcal, etc, defaults to ical
 	 */
 	public function setFormat(string $format): void {
 		$this->format = $format;
@@ -54,8 +54,8 @@ class CalendarImportOptions {
 
 	/**
 	 * Gets how to handle object errors
-	 * 
-	 * @return int				0 - continue, 1 - fail
+	 *
+	 * @return int 0 - continue, 1 - fail
 	 */
 	public function getErrors(): int {
 		return $this->errors;
@@ -63,8 +63,8 @@ class CalendarImportOptions {
 
 	/**
 	 * Sets how to handle object errors
-	 * 
-	 * @param int $errors		0 - continue, 1 - fail
+	 *
+	 * @param int $errors 0 - continue, 1 - fail
 	 */
 	public function setErrors(int $errors): void {
 		$this->errors = $errors;
@@ -72,8 +72,8 @@ class CalendarImportOptions {
 
 	/**
 	 * Gets how to handle object validation
-	 * 
-	 * @return int				0 - no validation, 1 - validate and skip on issue, 2 - validate and fail on issue
+	 *
+	 * @return int 0 - no validation, 1 - validate and skip on issue, 2 - validate and fail on issue
 	 */
 	public function getValidate(): int {
 		return $this->validate;
@@ -81,8 +81,8 @@ class CalendarImportOptions {
 
 	/**
 	 * Sets how to handle object validation
-	 * 
-	 * @param int $validate		0 - no validation, 1 - validate and skip on issue, 2 - validate and fail on issue
+	 *
+	 * @param int $validate 0 - no validation, 1 - validate and skip on issue, 2 - validate and fail on issue
 	 */
 	public function setValidate(int $validate): void {
 		$this->validate = $validate;
