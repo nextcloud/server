@@ -3504,12 +3504,6 @@
       <code>$tag</code>
     </MoreSpecificImplementedParamType>
   </file>
-  <file src="lib/private/TempManager.php">
-    <FalsableReturnStatement>
-      <code>false</code>
-      <code>false</code>
-    </FalsableReturnStatement>
-  </file>
   <file src="lib/private/Template/CSSResourceLocator.php">
     <ParamNameMismatch>
       <code>$style</code>
