@@ -2517,12 +2517,6 @@
       <code><![CDATA[$tag]]></code>
     </MoreSpecificImplementedParamType>
   </file>
-  <file src="lib/private/TempManager.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[false]]></code>
-      <code><![CDATA[false]]></code>
-    </FalsableReturnStatement>
-  </file>
   <file src="lib/private/Template/CSSResourceLocator.php">
     <ParamNameMismatch>
       <code><![CDATA[$style]]></code>
