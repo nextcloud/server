@@ -10,6 +10,7 @@ OC.L10N.register(
     "Two factor backup codes" : "Codis de reserva de l'autenticació de dos factors",
     "A two-factor auth backup codes provider" : "Proveïdor de codis de reserva de l'autenticació de dos factors",
     "Backup codes have been generated. {used} of {total} codes have been used." : "S'han generat els codis de reserva. Heu utilitzat {used} de {total} codis.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Aquests són els vostres codis de reserva. Deseu-los o imprimiu-los, ja que no podreu tornar-los a consultar més tard.",
     "Save backup codes" : "Desa els codis de reserva",
     "Print backup codes" : "Imprimeix els codis de reserva",
     "Regenerate backup codes" : "Torna a generar els codis de reserva",
@@ -18,6 +19,6 @@ OC.L10N.register(
     "{name} backup codes" : "Codis de seguretat per a {name}",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Utilitzeu un dels codis de reserva que vau desar en configurar l'autenticació de dos factors.",
     "Submit" : "Envia",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Aquests són els vostres codis de reserva. Deseu-los o imprimiu-los, ja que no podreu tornar-los a consultar."
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Aquests són els vostres codis de reserva. Deseu-los o imprimiu-los, ja que no podreu tornar-los a consultar més tard"
 },
 "nplurals=2; plural=(n != 1);");

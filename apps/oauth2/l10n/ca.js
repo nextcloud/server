@@ -13,6 +13,7 @@ OC.L10N.register(
     "Client Identifier" : "Identificador del client",
     "Secret key" : "Clau secreta",
     "Delete client" : "Suprimeix el client",
+    "Make sure you store the secret key, it cannot be recovered." : "Assegureu-vos d'emmagatzemar la clau secreta, no es pot recuperar.",
     "Add client" : "Afegeix un client",
     "Add" : "Afegeix",
     "Delete" : "Suprimeix",

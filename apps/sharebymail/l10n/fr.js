@@ -18,7 +18,7 @@ OC.L10N.register(
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nous ne pouvons pas vous envoyer le mot de passe généré automatiquement. Merci de définir une adresse e-mail valide dans vos paramètres personnels et essayez à nouveau.",
     "Failed to send share by email. Got an invalid email address" : "Échec lors de l'envoi du partage par e-mail. L'adresse e-mail est invalide",
     "Failed to send share by email" : "Échec lors de l'envoi du partage par e-mail",
-    "%1$s shared %2$s with you" : "%1$s à partagé %2$s avec vous",
+    "%1$s shared %2$s with you" : "%1$s a partagé %2$s avec vous",
     "Note:" : "Note :",
     "This share is valid until %s at midnight" : "Cette action est valable jusqu'à minuit le %s",
     "Expiration:" : "Expiration:",

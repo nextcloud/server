@@ -281,7 +281,7 @@
     "Weekdays" : "Wochentage",
     "Pick a start time for {dayName}" : "Eine Startzeit für {dayName} wählen",
     "Pick a end time for {dayName}" : "Eine Endezeit für {dayName} wählen",
-    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Setzen Sie den Benutzerstatus wenn Sie nicht erreichbar sind automatisch auf \"Nicht stören\", um alle Benachrichtigungen stumm zu schalten.",
+    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Setzen Sie den Benutzerstatus außerhalb Ihrer Verfügbarkeit automatisch auf \"Nicht stören\", um alle Benachrichtigungen stumm zu schalten.",
     "Failed to load availability" : "Laden der Verfügbarkeit fehlgeschlagen",
     "Saved availability" : "Verfügbarkeit gespeichert",
     "Failed to save availability" : "Fehler beim Speichern der Verfügbarkeit",
