@@ -10,7 +10,7 @@ import { dirname } from '@nextcloud/paths'
 import { translate as t } from '@nextcloud/l10n'
 
 import Vue from 'vue'
-import NcUserBubble from '@nextcloud/vue/dist/Components/NcUserBubble.js'
+import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
 
 const parseOriginalLocation = (node: Node): string => {
 	const path = node.attributes?.['trashbin-original-location'] !== undefined ? String(node.attributes?.['trashbin-original-location']) : null

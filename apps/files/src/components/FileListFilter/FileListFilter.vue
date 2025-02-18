@@ -24,9 +24,9 @@
 
 <script setup lang="ts">
 import { t } from '@nextcloud/l10n'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
 
 defineProps<{
 	isActive: boolean

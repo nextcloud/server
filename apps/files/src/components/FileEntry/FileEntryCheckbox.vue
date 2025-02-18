@@ -21,11 +21,11 @@ import type { FileSource } from '../../types.ts'
 
 import { FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { defineComponent } from 'vue'
 
-import { useHotKey } from '@nextcloud/vue/dist/Composables/useHotKey.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
 import { useActiveStore } from '../../store/active.ts'
 import { useKeyboardStore } from '../../store/keyboard.ts'

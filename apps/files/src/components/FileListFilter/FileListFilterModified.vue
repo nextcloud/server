@@ -29,8 +29,8 @@ import { mdiCalendarRange } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import FileListFilter from './FileListFilter.vue'
 
 export default defineComponent({

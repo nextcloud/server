@@ -45,7 +45,7 @@ import { FileType, NodeStatus } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent, inject } from 'vue'
 
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import { useNavigation } from '../../composables/useNavigation'
 import { useFileListWidth } from '../../composables/useFileListWidth.ts'

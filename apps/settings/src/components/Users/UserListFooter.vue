@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
 import {
 	translate as t,

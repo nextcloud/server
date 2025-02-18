@@ -33,8 +33,10 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { NcModal, NcButton, NcLoadingIcon } from '@nextcloud/vue'
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcModal from '@nextcloud/vue/components/NcModal'
 import TemplateRichTextField from './TemplateFiller/TemplateRichTextField.vue'
 import TemplateCheckboxField from './TemplateFiller/TemplateCheckboxField.vue'
 

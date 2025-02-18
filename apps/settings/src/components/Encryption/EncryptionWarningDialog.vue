@@ -8,8 +8,8 @@ import type { IDialogButton } from '@nextcloud/dialogs'
 
 import { t } from '@nextcloud/l10n'
 import { textExistingFilesNotEncrypted } from './sharedTexts.ts'
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
 const emit = defineEmits<{
 	(e: 'close', encrypt: boolean): void

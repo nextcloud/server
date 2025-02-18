@@ -123,20 +123,20 @@ import FileCompare from 'vue-material-design-icons/FileCompare.vue'
 import ImageOffOutline from 'vue-material-design-icons/ImageOffOutline.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
-import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActionLink from '@nextcloud/vue/components/NcActionLink'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcDateTime from '@nextcloud/vue/components/NcDateTime'
+import NcListItem from '@nextcloud/vue/components/NcListItem'
+import Tooltip from '@nextcloud/vue/directives/Tooltip'
 
-import moment from '@nextcloud/moment'
-import { getRootUrl, generateOcsUrl } from '@nextcloud/router'
-import { joinPaths } from '@nextcloud/paths'
-import { loadState } from '@nextcloud/initial-state'
 import { Permission, formatFileSize } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { joinPaths } from '@nextcloud/paths'
+import { getRootUrl, generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
+import moment from '@nextcloud/moment'
 
 const hasPermission = (permissions: number, permission: number): boolean => (permissions & permission) !== 0
 
@@ -199,7 +199,7 @@ export default defineComponent({
 			previewLoaded: false,
 			previewErrored: false,
 			capabilities: loadState('core', 'capabilities', { files: { version_labeling: false, version_deletion: false } }),
-			versionAuthor: '',
+			versionAuthor: '' as string | null,
 		}
 	},
 

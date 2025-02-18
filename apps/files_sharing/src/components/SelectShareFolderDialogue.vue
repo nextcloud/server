@@ -29,7 +29,7 @@ import path from 'path'
 import { generateUrl } from '@nextcloud/router'
 import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 const defaultDirectory = loadState('files_sharing', 'default_share_folder', '/')
 const directory = loadState('files_sharing', 'share_folder', defaultDirectory)

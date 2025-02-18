@@ -80,8 +80,8 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import VueCropper from 'vue-cropperjs'
 // eslint-disable-next-line n/no-extraneous-import
 import 'cropperjs/dist/cropper.css'

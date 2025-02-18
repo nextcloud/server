@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { getAllClearAtOptions } from '../services/clearAtOptionsService.js'
 import { clearAtFilter } from '../filters/clearAtFilter.js'
 
