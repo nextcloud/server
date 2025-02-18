@@ -122,6 +122,12 @@ export function genFileInfo(obj: FileStat): FileInfo {
 			} else if (data === 'true') {
 				fileInfo[camelcase(key)] = true
 			} else {
+				// preserve string typed properties as string (FileStat interface in webdav)
+				const stringTypedProperties = ['filename', 'basename']
+				if (stringTypedProperties.includes(key)) {
+					fileInfo[camelcase(key)] = data
+					return
+				}
 				fileInfo[camelcase(key)] = isNumber(data)
 					? Number(data)
 					: data
