@@ -751,7 +751,7 @@ OC.L10N.register(
     "No devices configured." : "Keine Geräte eingerichtet.",
     "The following devices are configured for your account:" : "Die folgenden Geräte sind für dein Konto eingerichtet:",
     "Your browser does not support WebAuthn." : "Dein Browser unterstützt kein WebAuthn.",
-    "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Als Administrator kannst du das Teilen-Verhalten feinabstimmen. Weitere Informationen findest du in der Dokumentation.",
+    "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Als Administration kannst du das Teilen-Verhalten feinabstimmen. Weitere Informationen findest du in der Dokumentation.",
     "You need to enable the File sharing App." : "Du musst die File sharing App aktivieren.",
     "Loading app list" : "Lade App-Liste",
     "App Store" : "App Store",

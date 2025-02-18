@@ -58,6 +58,6 @@ OC.L10N.register(
     "There was an error setting the location." : "Der opstod en fejl ved valg af lokalitet",
     "There was an error saving the mode." : "Tilstanden kunne ikke gemmes.",
     "There was an error using personal address." : "Der skete en fejl i forsøget på at anvende personlig adresse.",
-    "Unknown weather code" : "Ukendt vejr kode"
+    "Unknown weather code" : "Ukendt vejrkode"
 },
 "nplurals=2; plural=(n != 1);");
