@@ -42,6 +42,7 @@ use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IAttributes;
 use OCP\Share\IPublicShareTemplateFactory;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -687,6 +688,34 @@ class ShareControllerTest extends \Test\TestCase {
 		// Test with a password protected share and no authentication
 		$response = $this->shareController->downloadShare('validtoken');
 		$expectedResponse = new DataResponse('Share has no read permission');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testDownloadShareWithoutDownloadPermission(): void {
+		$attributes = $this->createMock(IAttributes::class);
+		$attributes->expects(self::once())
+			->method('getAttribute')
+			->with('permissions', 'download')
+			->willReturn(false);
+
+		$share = $this->createMock(IShare::class);
+		$share->method('getPassword')->willReturn('password');
+		$share->expects(self::once())
+			->method('getPermissions')
+			->willReturn(Constants::PERMISSION_READ);
+		$share->expects(self::once())
+			->method('getAttributes')
+			->willReturn($attributes);
+
+		$this->shareManager
+			->expects(self::once())
+			->method('getShareByToken')
+			->with('validtoken')
+			->willReturn($share);
+
+		// Test with a password protected share and no authentication
+		$response = $this->shareController->downloadShare('validtoken');
+		$expectedResponse = new DataResponse('Share has no download permission');
 		$this->assertEquals($expectedResponse, $response);
 	}
 

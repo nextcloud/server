@@ -359,6 +359,11 @@ class ShareController extends AuthPublicShareController {
 			return new DataResponse('Share has no read permission');
 		}
 
+		$attributes = $share->getAttributes();
+		if ($attributes?->getAttribute('permissions', 'download') === false) {
+			return new DataResponse('Share has no download permission');
+		}
+
 		if (!$this->validateShare($share)) {
 			throw new NotFoundException();
 		}
