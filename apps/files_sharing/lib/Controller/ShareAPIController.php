@@ -31,6 +31,7 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\QueryException;
 use OCP\Constants;
+use OCP\Files\DavUtil;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\InvalidPathException;
@@ -188,6 +189,7 @@ class ShareAPIController extends OCSController {
 		$result['storage'] = $node->getStorage()->getCache()->getNumericStorageId();
 		$result['item_source'] = $node->getId();
 		$result['file_source'] = $node->getId();
+		$result['file_remoteid_source'] = DavUtil::getDavFileId($node->getId());
 		$result['file_parent'] = $node->getParent()->getId();
 		$result['file_target'] = $share->getTarget();
 		$result['item_size'] = $node->getSize();
