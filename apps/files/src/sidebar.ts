@@ -23,6 +23,8 @@ window.addEventListener('DOMContentLoaded', function() {
 	const contentElement = document.querySelector('body > .content')
 		|| document.querySelector('body > #content')
 
+	let vueParent
+
 	// Make sure we have a proper layout
 	if (contentElement) {
 		// Make sure we have a mountpoint
@@ -31,14 +33,20 @@ window.addEventListener('DOMContentLoaded', function() {
 			sidebarElement.id = 'app-sidebar'
 			contentElement.appendChild(sidebarElement)
 		}
+
+		// Helps with vue debug, as we mount the sidebar to the
+		// content element which is a vue instance itself
+		vueParent = contentElement.__vue__ as Vue
 	}
 
 	// Init vue app
 	const View = Vue.extend(SidebarView)
 	const AppSidebar = new View({
 		name: 'SidebarRoot',
-	})
-	AppSidebar.$mount('#app-sidebar')
+		parent: vueParent,
+	}).$mount('#app-sidebar')
+
+	// Expose Sidebar methods
 	window.OCA.Files.Sidebar.open = AppSidebar.open
 	window.OCA.Files.Sidebar.close = AppSidebar.close
 	window.OCA.Files.Sidebar.setFullScreenMode = AppSidebar.setFullScreenMode
