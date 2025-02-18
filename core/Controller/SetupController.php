@@ -97,6 +97,9 @@ class SetupController {
 		exit();
 	}
 
+	/**
+	 * @psalm-taint-escape file we trust file path given in POST for setup
+	 */
 	public function loadAutoConfig(array $post): array {
 		if (file_exists($this->autoConfigFile)) {
 			$this->logger->info('Autoconfig file found, setting up Nextcloud…');

@@ -1,41 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
-  <file src="apps/files_external/lib/Config/ConfigAdapter.php">
-    <TaintedCallable>
-      <code><![CDATA[$objectClass]]></code>
-    </TaintedCallable>
-  </file>
-  <file src="apps/theming/lib/IconBuilder.php">
-    <TaintedFile>
-      <code><![CDATA[$appIcon]]></code>
-      <code><![CDATA[$imageFile]]></code>
-    </TaintedFile>
-  </file>
-  <file src="lib/private/Config.php">
-    <TaintedHtml>
-      <code><![CDATA[$this->cache]]></code>
-    </TaintedHtml>
-  </file>
-  <file src="lib/private/Route/Router.php">
-    <TaintedCallable>
-      <code><![CDATA[$appNameSpace . '\\Controller\\' . basename($file->getPathname(), '.php')]]></code>
-    </TaintedCallable>
-  </file>
-  <file src="lib/private/Session/CryptoWrapper.php">
-    <TaintedCookie>
-      <code><![CDATA[$this->passphrase]]></code>
-    </TaintedCookie>
-  </file>
-  <file src="lib/private/Setup.php">
-    <TaintedFile>
-      <code><![CDATA[$dataDir]]></code>
-    </TaintedFile>
-  </file>
-  <file src="lib/private/Setup/Sqlite.php">
-    <TaintedFile>
-      <code><![CDATA[$sqliteFile]]></code>
-    </TaintedFile>
-  </file>
   <file src="lib/public/DB/QueryBuilder/IQueryBuilder.php">
     <TaintedSql>
       <code><![CDATA[$column]]></code>
