@@ -35,7 +35,7 @@ module.exports = {
 		'settings-personal-availability': path.join(__dirname, 'apps/dav/src', 'settings-personal-availability.js'),
 	},
 	files: {
-		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.js'),
+		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.ts'),
 		main: path.join(__dirname, 'apps/files/src', 'main.ts'),
 		init: path.join(__dirname, 'apps/files/src', 'init.ts'),
 		search: path.join(__dirname, 'apps/files/src/plugins/search', 'folderSearch.ts'),
