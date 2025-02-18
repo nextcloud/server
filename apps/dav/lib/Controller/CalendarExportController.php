@@ -40,17 +40,25 @@ class CalendarExportController extends ApiController {
 	}
 	
 	/**
-	 * @param string $id
-	 * @param string|null $format
-	 * @param array $options<rangeStart: int, rangeCount: int>
-	 * @param string|null $user
+	 * Export calendar data
+	 *
+	 * @param string $id calendar id
+	 * @param string|null $format data format
+	 * @param array $options<string, rangeStart: int, rangeCount: int> configuration options
+	 * @param string|null $user system user id
+	 *
+	 * @return DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{error?: non-empty-string}, array<string, string|int>>|\OCP\AppFramework\Http\StreamGeneratorResponse
+	 *
+	 * 200: calendar data
+	 * 401: user not authorized
+	 * 400: invalid parameters
 	 */
-	#[OpenAPI(OpenAPI::SCOPE_DEFAULT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	#[ApiRoute(verb: 'GET', url: '/export', root: '/calendar')]
 	#[ApiRoute(verb: 'POST', url: '/export', root: '/calendar')]
 	#[UserRateLimit(limit: 1, period: 60)]
 	#[NoAdminRequired]
-	public function index(string $id, ?string $format = null, array $options = null, ?string $user = null) {
+	public function index(string $id, ?string $format = null, ?array $options = null, ?string $user = null) {
 		$userId = $user;
 		$calendarId = $id;
 		$rangeStart = isset($options['rangeStart']) ? (int)$options['rangeStart'] : null;

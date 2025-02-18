@@ -40,12 +40,21 @@ class CalendarImportController extends ApiController {
 	}
 	
 	/**
-	 * @param string $id
-	 * @param array $options<format: string, validation: int, errors: int, supersede: bool>
-	 * @param string $data
-	 * @param string|null $user
+	 * Import calendar data
+	 *
+	 * @param string $id calendar id
+	 * @param array $options<format: string, validation: int, errors: int, supersede: bool> configuration options
+	 * @param string $data calendar data
+	 * @param string|null $user system user id
+	 *
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED|Http::STATUS_INTERNAL_SERVER_ERROR, array{created?: int<0, max>, error?: string, errors?: int<0, max>, skipped?: int<0, max>, time?: float, updated?: int<0, max>}, array<never, never>>
+	 *
+	 * 200: calendar data
+	 * 401: user not authorized
+	 * 404: calendar not found
+	 * 404: format not found
 	 */
-	#[OpenAPI(OpenAPI::SCOPE_DEFAULT)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	#[ApiRoute(verb: 'POST', url: '/import', root: '/calendar')]
 	#[UserRateLimit(limit: 1, period: 60)]
 	#[NoAdminRequired]
