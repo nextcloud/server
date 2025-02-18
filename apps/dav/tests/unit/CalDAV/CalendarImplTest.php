@@ -450,8 +450,16 @@ EOF;
 
 		// construct calendar object
 		$vCalendar = new VCalendar();
-		$vCalendar->add('VEVENT', []);
-		$vCalendar->add('VTODO', []);
+		/** @var VEvent $vEvent */
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('SUMMARY', 'Test Recurrence Event');
+		$vTodo = $vCalendar->add('VTODO', []);
+		$vTodo->add('UID', '96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vTodo->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
+		$vTodo->add('SUMMARY', 'Test Recurrence Event');
 		$this->mockImportCollection[] = $vCalendar;
 
 		$options = new CalendarImportOptions();

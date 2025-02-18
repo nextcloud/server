@@ -325,7 +325,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 							throw new InvalidArgumentException('Error importing calendar object, discovered object with multiple base component types');
 						}
 						$outcome['mbct'] = ['outcome' => 'error', 'errors' => ['One or more objects discovered with multiple base component types']];
-						continue;
+						continue 2;
 					}
 				}
 			}
