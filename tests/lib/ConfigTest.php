@@ -8,6 +8,7 @@
 namespace Test;
 
 use OC\Config;
+use OCP\HintException;
 
 class ConfigTest extends TestCase {
 	public const TESTCONTENT = '<?php $CONFIG=array("foo"=>"bar", "beers" => array("Appenzeller", "Guinness", "Kölsch"), "alcohol_free" => false);';
@@ -154,7 +155,7 @@ class ConfigTest extends TestCase {
 
 	public function testConfigMerge(): void {
 		// Create additional config
-		$additionalConfig = '<?php $CONFIG=array("php53"=>"totallyOutdated");';
+		$additionalConfig = '<?php $CONFIG=array("php53"=>"totallyOutdated","alcohol_free"=>true);';
 		$additionalConfigPath = $this->randomTmpDir . 'additionalConfig.testconfig.php';
 		file_put_contents($additionalConfigPath, $additionalConfig);
 
@@ -168,11 +169,32 @@ class ConfigTest extends TestCase {
 		// Write a new value to the config
 		$config->setValue('CoolWebsites', ['demo.owncloud.org', 'owncloud.org', 'owncloud.com']);
 		$expected = "<?php\n\$CONFIG = array (\n  'foo' => 'bar',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  " .
-			"  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n  'php53' => 'totallyOutdated',\n  'CoolWebsites' => \n  array (\n  " .
+			"  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'CoolWebsites' => \n  array (\n  " .
 			"  0 => 'demo.owncloud.org',\n    1 => 'owncloud.org',\n    2 => 'owncloud.com',\n  ),\n);\n";
 		$this->assertEquals($expected, file_get_contents($this->configFile));
 
 		// Cleanup
+		unlink($additionalConfigPath);
+	}
+
+	public function testConfigAdditionalSetDelete(): void {
+		$additionalConfig = '<?php $CONFIG=array("php53"=>"totallyOutdated");';
+		$additionalConfigPath = $this->randomTmpDir . 'additionalConfig.testconfig.php';
+		file_put_contents($additionalConfigPath, $additionalConfig);
+
+		$config = new Config($this->randomTmpDir, 'testconfig.php');
+
+		$this->assertSame('totallyOutdated', $config->getValue('php53', 'bogusValue'));
+		$this->assertEquals(self::TESTCONTENT, file_get_contents($this->configFile));
+
+		$this->expectException(HintException::class);
+
+		$this->expectExceptionMessage('The config key "php53" is already specified in "' . $additionalConfigPath . '" and thus can not be overwritten.');
+		$config->setValue('php53', 'actuallyNew');
+
+		$this->expectExceptionMessage('The config key "php53" is specified in "' . $additionalConfigPath . '" and thus can not be deleted.');
+		$config->deleteKey('php53');
+
 		unlink($additionalConfigPath);
 	}
 }

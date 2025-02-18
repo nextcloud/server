@@ -12,9 +12,7 @@
     </TaintedFile>
   </file>
   <file src="lib/private/Config.php">
-    <TaintedHtml>
-      <code><![CDATA[$this->cache]]></code>
-    </TaintedHtml>
+    <TaintedHtml/>
   </file>
   <file src="lib/private/Route/Router.php">
     <TaintedCallable>

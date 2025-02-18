@@ -18,6 +18,8 @@ class Config {
 
 	/** @var array Associative array ($key => $value) */
 	protected $cache = [];
+	/** @var array<string, list<string>> */
+	protected array $cachePaths = [];
 	/** @var array */
 	protected $envCache = [];
 	/** @var string */
@@ -142,6 +144,12 @@ class Config {
 	 */
 	protected function set($key, $value) {
 		if (!isset($this->cache[$key]) || $this->cache[$key] !== $value) {
+			foreach ($this->cachePaths as $file => $keys) {
+				if ($file !== $this->configFilePath && in_array($key, $keys)) {
+					throw new HintException('The config key "' . $key . '" is already specified in "' . $file . '" and thus can not be overwritten.');
+				}
+			}
+
 			// Add change
 			$this->cache[$key] = $value;
 			return true;
@@ -172,6 +180,12 @@ class Config {
 	 */
 	protected function delete($key) {
 		if (isset($this->cache[$key])) {
+			foreach ($this->cachePaths as $file => $keys) {
+				if ($file !== $this->configFilePath && in_array($key, $keys)) {
+					throw new HintException('The config key "' . $key . '" is already specified in "' . $file . '" and thus can not be overwritten.');
+				}
+			}
+
 			// Delete key from cache
 			unset($this->cache[$key]);
 			return true;
@@ -243,6 +257,7 @@ class Config {
 			}
 			if (isset($CONFIG) && is_array($CONFIG)) {
 				$this->cache = array_merge($this->cache, $CONFIG);
+				$this->cachePaths[$file] = array_keys($CONFIG);
 			}
 		}
 
@@ -273,10 +288,22 @@ class Config {
 			throw new HintException(sprintf('Configuration was not read or initialized correctly, not overwriting %s', $this->configFilePath));
 		}
 
+		// Do not save any of the values that came from the extra config file into the main config file
+		$values = $this->cache;
+		foreach (array_keys($this->cachePaths) as $file) {
+			if ($file === $this->configFilePath) {
+				continue;
+			}
+
+			foreach ($this->cachePaths[$file] as $key) {
+				unset($values[$key]);
+			}
+		}
+
 		// Create a php file ...
 		$content = "<?php\n";
 		$content .= '$CONFIG = ';
-		$content .= var_export($this->cache, true);
+		$content .= var_export($values, true);
 		$content .= ";\n";
 
 		touch($this->configFilePath);
