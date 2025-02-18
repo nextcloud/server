@@ -224,7 +224,7 @@ OC.L10N.register(
     "More details can be found in the server log." : "Vairāk informācijas var atrast servera žurnālā.",
     "For more details see the documentation ↗." : "Vairāk informācijas var atrast dokumentācijā ↗.",
     "Technical details" : "Tehniskās detaļas",
-    "Remote Address: %s" : "Attālinātā adrese: %s",
+    "Remote Address: %s" : "Attālā adrese: %s",
     "Request ID: %s" : "Pieprasījuma ID: %s",
     "Type: %s" : "Veids: %s",
     "Code: %s" : "Kods: %s",

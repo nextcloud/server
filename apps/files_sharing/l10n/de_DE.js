@@ -396,7 +396,7 @@ OC.L10N.register(
     "Note" : "Notiz",
     "Select or drop files" : "Dateien auswählen oder hierher ziehen",
     "Uploading files" : "Dateien werden hochgeladen",
-    "Uploaded files:" : "Hochgeladene Dateien: ",
+    "Uploaded files:" : "Hochgeladene Dateien:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Durch das Hochladen von Dateien stimmen Sie den %1$sNutzungsbedingungen%2$s zu.",
     "Share not found" : "Freigabe nicht gefunden",
     "Back to %s" : "Zurück zu %s",
