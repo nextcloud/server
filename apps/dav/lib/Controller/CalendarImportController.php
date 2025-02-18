@@ -14,6 +14,7 @@ use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Calendar\CalendarImportOptions;
@@ -44,8 +45,9 @@ class CalendarImportController extends ApiController {
 	 * @param string $data
 	 * @param string|null $user
 	 */
+	#[OpenAPI(OpenAPI::SCOPE_DEFAULT)]
 	#[ApiRoute(verb: 'POST', url: '/import', root: '/calendar')]
-	#[UserRateLimit(limit: 60, period: 60)]
+	#[UserRateLimit(limit: 1, period: 60)]
 	#[NoAdminRequired]
 	public function index(string $id, array $options, string $data, ?string $user = null): DataResponse {
 		$userId = $user;
@@ -116,7 +118,7 @@ class CalendarImportController extends ApiController {
 		}
 		// evaluate if provided format is supported
 		if ($format !== null && !in_array($format, $this->importService::FORMATS)) {
-			throw new \InvalidArgumentException("Format <$format> is not valid.");
+			return new DataResponse(['error' => "Format <$format> is not valid."], Http::STATUS_BAD_REQUEST);
 		} else {
 			$options->setFormat($format ?? 'ical');
 		}
@@ -127,6 +129,8 @@ class CalendarImportController extends ApiController {
 			fwrite($temp, $data);
 			fseek($temp, 0);
 			$outcome = $this->importService->import($temp, $calendar, $options);
+		} catch (\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
 		} finally {
 			fclose($temp);
 		}

@@ -14,6 +14,7 @@ use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\StreamGeneratorResponse;
@@ -40,17 +41,20 @@ class CalendarExportController extends ApiController {
 	
 	/**
 	 * @param string $id
-	 * @param string|null $fmt
+	 * @param string|null $format
+	 * @param array $options<rangeStart: int, rangeCount: int>
 	 * @param string|null $user
 	 */
+	#[OpenAPI(OpenAPI::SCOPE_DEFAULT)]
 	#[ApiRoute(verb: 'GET', url: '/export', root: '/calendar')]
 	#[ApiRoute(verb: 'POST', url: '/export', root: '/calendar')]
 	#[UserRateLimit(limit: 1, period: 60)]
 	#[NoAdminRequired]
-	public function index(string $id, ?string $fmt = null, ?string $user = null) {
+	public function index(string $id, ?string $format = null, array $options = null, ?string $user = null) {
 		$userId = $user;
 		$calendarId = $id;
-		$format = $fmt;
+		$rangeStart = isset($options['rangeStart']) ? (int)$options['rangeStart'] : null;
+		$rangeCount = isset($options['rangeCount']) ? (int)$options['rangeCount'] : null;
 		// evaluate if user is logged in and has permissions
 		if (!$this->userSession->isLoggedIn()) {
 			return new DataResponse([], Http::STATUS_UNAUTHORIZED);
@@ -77,13 +81,15 @@ class CalendarExportController extends ApiController {
 		}
 		// construct options object
 		$options = new CalendarExportOptions();
+		$options->setRangeStart($rangeStart);
+		$options->setRangeCount($rangeCount);
 		// evaluate if provided format is supported
 		if ($format !== null && !in_array($format, $this->exportService::FORMATS, true)) {
-			throw new \InvalidArgumentException("Format <$format> is not valid.");
+			return new DataResponse(['error' => "Format <$format> is not valid."], Http::STATUS_BAD_REQUEST);
 		} else {
 			$options->setFormat($format ?? 'ical');
 		}
-		$contentType = match (strtolower($format)) {
+		$contentType = match (strtolower($options->getFormat())) {
 			'jcal' => 'application/calendar+json; charset=UTF-8',
 			'xcal' => 'application/calendar+xml; charset=UTF-8',
 			default => 'text/calendar; charset=UTF-8'
