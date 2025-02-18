@@ -30,11 +30,12 @@ class ExportService {
 	 * Generates serialized content stream for a calendar and objects based in selected format
 	 *
 	 * @since 32.0.0
+	 *
+	 * @return Generator<string>
 	 */
 	public function export(ICalendarExport $calendar, CalendarExportOptions $options): Generator {
-		
-		yield $this->exportStart($options->format);
-
+		// output start of serialized content based on selected format
+		yield $this->exportStart($options->getFormat());
 		// iterate through each returned vCalendar entry
 		// extract each component except timezones, convert to appropriate format and output
 		// extract any timezones and save them but do not output
@@ -47,19 +48,18 @@ class ExportService {
 						$timezones[$vComponent->TZID->getValue()] = clone $vComponent;
 					}
 				} else {
-					yield $this->exportObject($vComponent, $options->format, $consecutive);
+					yield $this->exportObject($vComponent, $options->getFormat(), $consecutive);
 					$consecutive = true;
 				}
 			}
 		}
-		// iterate through each vTimezone entry, convert to appropriate format and output
+		// iterate through each saved vTimezone entry, convert to appropriate format and output
 		foreach ($timezones as $vComponent) {
-			yield $this->exportObject($vComponent, $options->format, $consecutive);
+			yield $this->exportObject($vComponent, $options->getFormat(), $consecutive);
 			$consecutive = true;
 		}
-
-		yield $this->exportFinish($options->format);
-
+		// output end of serialized content based on selected format
+		yield $this->exportFinish($options->getFormat());
 	}
 
 	/**

@@ -10,7 +10,7 @@ namespace OCA\DAV\Controller;
 
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Import\ImportService;
-use OCP\AppFramework\Controller;
+use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -25,7 +25,7 @@ use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
 
-class CalendarImportController extends Controller {
+class CalendarImportController extends ApiController {
 
 	public function __construct(
 		IRequest $request,
@@ -38,25 +38,29 @@ class CalendarImportController extends Controller {
 		parent::__construct(Application::APP_ID, $request);
 	}
 	
+	/**
+	 * @param string $id
+	 * @param array $options<format: string, validation: int, errors: int, supersede: bool>
+	 * @param string $data
+	 * @param string|null $user
+	 */
 	#[ApiRoute(verb: 'POST', url: '/import', root: '/calendar')]
-	#[UserRateLimit(limit: 1, period: 60)]
+	#[UserRateLimit(limit: 60, period: 60)]
 	#[NoAdminRequired]
-	public function index(string $id, array $options, string $data, ?string $user = null) {
-		
+	public function index(string $id, array $options, string $data, ?string $user = null): DataResponse {
 		$userId = $user;
 		$calendarId = $id;
-		$format = $options['format'] ?? null;
-		$validation = $options['validation'] ?? null;
-		$errors = $options['errors'] ?? null;
-		$supersede = $options['supersede'] ?? false;
-		
+		$format = isset($options['format']) ? $options['format'] : null;
+		$validation = isset($options['validation']) ? (int)$options['validation'] : null;
+		$errors = isset($options['errors']) ? (int)$options['errors'] : null;
+		$supersede = (bool)$options['supersede'] === true ? true : false;
 		// evaluate if user is logged in and has permissions
 		if (!$this->userSession->isLoggedIn()) {
 			return new DataResponse([], Http::STATUS_UNAUTHORIZED);
 		}
 		if ($userId !== null) {
-			if (!$this->groupManager->isAdmin($this->userSession->getUser()->getUID()) &&
-				$this->userSession->getUser()->getUID() !== $userId) {
+			if ($this->userSession->getUser()->getUID() !== $userId &&
+				$this->groupManager->isAdmin($this->userSession->getUser()->getUID()) === false) {
 				return new DataResponse([], Http::STATUS_UNAUTHORIZED);
 			}
 			if (!$this->userManager->userExists($userId)) {
@@ -75,7 +79,7 @@ class CalendarImportController extends Controller {
 			return new DataResponse(['error' => 'calendar export not supported'], Http::STATUS_BAD_REQUEST);
 		}
 		// evaluate if requested format is supported and convert to output content type
-		if ($format !== null && !in_array($format, $this->importService::FORMATS)) {
+		if ($format !== null && !in_array($format, $this->importService::FORMATS, true)) {
 			return new DataResponse(['error' => 'format invalid'], Http::STATUS_BAD_REQUEST);
 		} elseif ($format === null) {
 			$format = 'ical';
@@ -97,35 +101,33 @@ class CalendarImportController extends Controller {
 		}
 		// construct options object
 		$options = new CalendarImportOptions();
-		$options->supersede = $supersede;
+		$options->setSupersede($supersede);
 		if ($errors !== null) {
 			if ($errors < 0 || $errors > 1) {
 				return new DataResponse(['error' => 'Invalid errors option specified'], Http::STATUS_BAD_REQUEST);
 			}
-			$options->errors = $errors;
+			$options->setErrors($errors);
 		}
 		if ($validation !== null) {
 			if ($validation < 0 || $validation > 2) {
 				return new DataResponse(['error' => 'Invalid validation option specified'], Http::STATUS_BAD_REQUEST);
 			}
-			$options->validate = $validation;
+			$options->setValidate($validation);
 		}
 		// evaluate if provided format is supported
 		if ($format !== null && !in_array($format, $this->importService::FORMATS)) {
 			throw new \InvalidArgumentException("Format <$format> is not valid.");
 		} else {
-			$options->format = $format ?? 'ical';
+			$options->setFormat($format ?? 'ical');
 		}
 		//
 		$timeStarted = microtime(true);
-		$input = fopen('php://stdin', 'r');
 		try {
 			$temp = tmpfile();
 			fwrite($temp, $data);
 			fseek($temp, 0);
 			$outcome = $this->importService->import($temp, $calendar, $options);
 		} finally {
-			fclose($input);
 			fclose($temp);
 		}
 		$timeFinished = microtime(true);

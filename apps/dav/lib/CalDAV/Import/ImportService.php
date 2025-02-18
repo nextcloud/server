@@ -32,12 +32,22 @@ class ImportService {
 	 * Executes import with appropriate object generator based on format
 	 *
 	 * @since 32.0.0
+	 *
+	 * @param resource $source
+	 *
+	 * @return array<string,array<string,string|array<string>>>
+	 *
+	 * @throws \InvalidArgumentException
 	 */
 	public function import($source, ICalendarImport $calendar, CalendarImportOptions $options): array {
 
+		if (!is_resource($source)) {
+			throw new \InvalidArgumentException('Invalid import source must be a file resource');
+		}
+				
 		$this->source = $source;
 
-		switch ($options->format) {
+		switch ($options->getFormat()) {
 			case 'ical':
 				return $calendar->import($options, $this->importText(...));
 				break;
@@ -50,7 +60,6 @@ class ImportService {
 			default:
 				throw new \InvalidArgumentException('Invalid import format');
 		}
-
 	}
 
 	/**
@@ -61,14 +70,10 @@ class ImportService {
 	 * @return Generator<\Sabre\VObject\Component\VCalendar>
 	 */
 	private function importText(CalendarImportOptions $options): Generator {
-
 		$importer = new TextImporter($this->source);
-
 		$structure = $importer->structure();
-
 		$sObjectPrefix = $importer::OBJECT_PREFIX;
 		$sObjectSuffix = $importer::OBJECT_SUFFIX;
-
 		// calendar properties
 		foreach ($structure['VCALENDAR'] as $entry) {
 			$sObjectPrefix .= $entry;
@@ -76,7 +81,6 @@ class ImportService {
 				$sObjectPrefix .= PHP_EOL;
 			}
 		}
-
 		// calendar time zones
 		$timezones = [];
 		foreach ($structure['VTIMEZONE'] as $tid => $collection) {
@@ -85,7 +89,6 @@ class ImportService {
 			$vObject = Reader::read($sObjectPrefix . $sObjectContents . $sObjectSuffix);
 			$timezones[$tid] = clone $vObject->VTIMEZONE;
 		}
-
 		// calendar components
 		foreach (['VEVENT', 'VTODO', 'VJOURNAL'] as $type) {
 			foreach ($structure[$type] as $cid => $instances) {
@@ -104,7 +107,6 @@ class ImportService {
 				}
 				// return object
 				yield $vObject;
-
 			}
 		}
 	}
@@ -117,14 +119,10 @@ class ImportService {
 	 * @return Generator<\Sabre\VObject\Component\VCalendar>
 	 */
 	private function importXml(CalendarImportOptions $options): Generator {
-
 		$importer = new XmlImporter($this->source);
-
 		$structure = $importer->structure();
-
 		$sObjectPrefix = $importer::OBJECT_PREFIX;
 		$sObjectSuffix = $importer::OBJECT_SUFFIX;
-
 		// calendar time zones
 		$timezones = [];
 		foreach ($structure['VTIMEZONE'] as $tid => $collection) {
@@ -133,7 +131,6 @@ class ImportService {
 			$vObject = Reader::readXml($sObjectPrefix . $sObjectContents . $sObjectSuffix);
 			$timezones[$tid] = clone $vObject->VTIMEZONE;
 		}
-
 		// calendar components
 		foreach (['VEVENT', 'VTODO', 'VJOURNAL'] as $type) {
 			foreach ($structure[$type] as $cid => $instances) {
@@ -152,10 +149,8 @@ class ImportService {
 				}
 				// return object
 				yield $vObject;
-
 			}
 		}
-
 	}
 
 	/**
@@ -166,10 +161,8 @@ class ImportService {
 	 * @return Generator<\Sabre\VObject\Component\VCalendar>
 	 */
 	private function importJson(CalendarImportOptions $options): Generator {
-
 		/** @var VCALENDAR $importer */
 		$importer = Reader::readJson($this->source);
-
 		// calendar time zones
 		$timezones = [];
 		foreach ($importer->VTIMEZONE as $timezone) {
@@ -178,7 +171,6 @@ class ImportService {
 				$timezones[$tzid] = clone $timezone;
 			}
 		}
-
 		// calendar components
 		foreach ($importer->getBaseComponents() as $base) {
 			/** @var VCalendar $vObject */
@@ -197,7 +189,6 @@ class ImportService {
 			}
 			// return object
 			yield $vObject;
-
 		}
 	}
 

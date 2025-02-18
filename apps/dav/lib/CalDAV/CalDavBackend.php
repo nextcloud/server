@@ -966,11 +966,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->where($qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)))
 			->andWhere($qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType)))
 			->andWhere($qb->expr()->isNull('deleted_at'));
-		if ($options?->rangeStart !== null) {
-			$qb->setFirstResult($options?->rangeStart);
+		if ($options?->getRangeStart() !== null) {
+			$qb->setFirstResult($options->getRangeStart());
 		}
-		if ($options?->rangeCount !== null) {
-			$qb->setMaxResults($options->rangeCount);
+		if ($options?->getRangeCount() !== null) {
+			$qb->setMaxResults($options->getRangeCount());
 		}
 		$rs = $qb->executeQuery();
 

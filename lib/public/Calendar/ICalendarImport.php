@@ -20,7 +20,10 @@ interface ICalendarImport {
 	 *
 	 * @since 32.0.0
 	 *
-	 * @return array
+	 * @param CalendarImportOptions $options
+	 * @param callable $generator<CalendarImportOptions>: Generator<\Sabre\VObject\Component\VCalendar>
+	 *
+	 * @return array<string,array<string,string|array<string>>>
 	 */
 	public function import(CalendarImportOptions $options, callable $generator): array;
 

@@ -10,7 +10,7 @@ namespace OCA\DAV\Controller;
 
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Export\ExportService;
-use OCP\AppFramework\Controller;
+use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -25,7 +25,7 @@ use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
 
-class CalendarExportController extends Controller {
+class CalendarExportController extends ApiController {
 
 	public function __construct(
 		IRequest $request,
@@ -38,12 +38,16 @@ class CalendarExportController extends Controller {
 		parent::__construct(Application::APP_ID, $request);
 	}
 	
+	/**
+	 * @param string $id
+	 * @param string|null $fmt
+	 * @param string|null $user
+	 */
 	#[ApiRoute(verb: 'GET', url: '/export', root: '/calendar')]
 	#[ApiRoute(verb: 'POST', url: '/export', root: '/calendar')]
 	#[UserRateLimit(limit: 1, period: 60)]
 	#[NoAdminRequired]
 	public function index(string $id, ?string $fmt = null, ?string $user = null) {
-		
 		$userId = $user;
 		$calendarId = $id;
 		$format = $fmt;
@@ -52,8 +56,8 @@ class CalendarExportController extends Controller {
 			return new DataResponse([], Http::STATUS_UNAUTHORIZED);
 		}
 		if ($userId !== null) {
-			if (!$this->groupManager->isAdmin($this->userSession->getUser()->getUID()) &&
-				$this->userSession->getUser()->getUID() !== $userId) {
+			if ($this->userSession->getUser()->getUID() !== $userId &&
+				$this->groupManager->isAdmin($this->userSession->getUser()->getUID()) === false) {
 				return new DataResponse([], Http::STATUS_UNAUTHORIZED);
 			}
 			if (!$this->userManager->userExists($userId)) {
@@ -74,10 +78,10 @@ class CalendarExportController extends Controller {
 		// construct options object
 		$options = new CalendarExportOptions();
 		// evaluate if provided format is supported
-		if ($format !== null && !in_array($format, $this->exportService::FORMATS)) {
+		if ($format !== null && !in_array($format, $this->exportService::FORMATS, true)) {
 			throw new \InvalidArgumentException("Format <$format> is not valid.");
 		} else {
-			$options->format = $format ?? 'ical';
+			$options->setFormat($format ?? 'ical');
 		}
 		$contentType = match (strtolower($format)) {
 			'jcal' => 'application/calendar+json; charset=UTF-8',
@@ -86,6 +90,5 @@ class CalendarExportController extends Controller {
 		};
 
 		return new StreamGeneratorResponse($this->exportService->export($calendar, $options), $contentType);
-
 	}
 }

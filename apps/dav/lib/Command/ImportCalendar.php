@@ -92,24 +92,24 @@ class ImportCalendar extends Command {
 		}
 		// construct options object
 		$options = new CalendarImportOptions();
-		$options->supersede = $supersede;
+		$options->setSupersede($supersede);
 		if ($errors !== null) {
 			if ($errors < 0 || $errors > 1) {
 				throw new InvalidArgumentException('Invalid errors option specified');
 			}
-			$options->errors = $errors;
+			$options->setErrors($errors);
 		}
 		if ($validation !== null) {
 			if ($validation < 0 || $validation > 2) {
 				throw new InvalidArgumentException('Invalid validation option specified');
 			}
-			$options->validate = $validation;
+			$options->setValidate($validation);
 		}
 		// evaluate if provided format is supported
-		if ($format !== null && !in_array($format, $this->importService::FORMATS)) {
+		if ($format !== null && !in_array($format, $this->importService::FORMATS, true)) {
 			throw new \InvalidArgumentException("Format <$format> is not valid.");
 		} else {
-			$options->format = $format ?? 'ical';
+			$options->setFormat($format ?? 'ical');
 		}
 		// evaluate if a valid location was given and is usable otherwise default to stdin
 		$timeStarted = microtime(true);

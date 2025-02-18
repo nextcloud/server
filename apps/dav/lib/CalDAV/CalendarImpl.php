@@ -274,7 +274,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	 *
 	 * @since 32.0.0
 	 *
-	 * @return Generator
+	 * @return Generator<mixed, \Sabre\VObject\Component\VCalendar, mixed, mixed>
 	 */
 	public function export(?CalendarExportOptions $options = null): Generator {
 		foreach (
@@ -284,7 +284,10 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 				$options
 			) as $event
 		) {
-			yield Reader::read($event['calendardata']);
+			$vObject = Reader::read($event['calendardata']);
+			if ($vObject instanceof VCalendar) {
+				yield $vObject;
+			}
 		}
 	}
 
@@ -293,34 +296,42 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	 *
 	 * @since 32.0.0
 	 *
-	 * @return array
+	 * @param CalendarImportOptions $options
+	 * @param callable $generator<CalendarImportOptions>: Generator<\Sabre\VObject\Component\VCalendar>
+	 *
+	 * @return array<string,array<string,string|array<string>>>
 	 */
 	public function import(CalendarImportOptions $options, callable $generator): array {
-
 		$calendarId = $this->getKey();
 		$outcome = [];
 		foreach ($generator($options) as $vObject) {
-			
 			$components = $vObject->getBaseComponents();
 			// determine if the object has no base component types
 			if (count($components) === 0) {
-				if ($options->errors === 1) {
+				if ($options->getErrors() === 1) {
 					throw new InvalidArgumentException('Error importing calendar object, discovered object with no base component types');
 				}
 				$outcome['nbct'] = ['outcome' => 'error', 'errors' => ['One or more objects discovered with no base component types']];
 				continue;
 			}
 			// determine if the object has more than one base component type
+			// object can have multiple base components with the same uid
+			// but we need to make sure they are of the same type
 			if (count($components) > 1) {
-				if ($options->errors === 1) {
-					throw new InvalidArgumentException('Error importing calendar object, discovered object with multiple base component types');
+				$type = $components[0]->name;
+				foreach ($components as $entry) {
+					if ($type !== $entry->name) {
+						if ($options->getErrors() === 1) {
+							throw new InvalidArgumentException('Error importing calendar object, discovered object with multiple base component types');
+						}
+						$outcome['mbct'] = ['outcome' => 'error', 'errors' => ['One or more objects discovered with multiple base component types']];
+						continue;
+					}
 				}
-				$outcome['mbct'] = ['outcome' => 'error', 'errors' => ['One or more objects discovered with multiple base component types']];
-				continue;
 			}
 			// determine if the object has a uid
 			if (!isset($components[0]->UID)) {
-				if ($options->errors === 1) {
+				if ($options->getErrors() === 1) {
 					throw new InvalidArgumentException('Error importing calendar object, discovered object without a UID');
 				}
 				$outcome['noid'] = ['outcome' => 'error', 'errors' => ['One or more objects discovered without a UID']];
@@ -328,12 +339,12 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 			}
 			$uid = $components[0]->UID->getValue();
 			// validate object
-			if ($options->validate !== 0) {
+			if ($options->getValidate() !== 0) {
 				$issues = $this->validateComponent($vObject, true, 3);
-				if ($options->validate === 1 && $issues !== []) {
+				if ($options->getValidate() === 1 && $issues !== []) {
 					$outcome[$uid] = ['outcome' => 'error', 'errors' => $issues];
 					continue;
-				} elseif ($options->validate === 2 && $issues !== []) {
+				} elseif ($options->getValidate() === 2 && $issues !== []) {
 					throw new InvalidArgumentException('Error importing calendar object <' . $uid . '>, ' . $issues[0]);
 				}
 			}
@@ -352,7 +363,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 				$outcome[$uid] = ['outcome' => 'created'];
 			} elseif ($objectId !== null) {
 				[$cid, $oid] = explode('/', $objectId);
-				if ($options->supersede) {
+				if ($options->getSupersede()) {
 					$this->backend->updateCalendarObject(
 						$calendarId,
 						$oid,
@@ -366,9 +377,16 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 		}
 
 		return $outcome;
-
 	}
 
+	/**
+	 * Validate a component
+	 *
+	 * @param VCalendar $vObject
+	 * @param bool $repair Attempt to repair the component
+	 * @param int $level Minimum level of issues to return
+	 * @return list<mixed>
+	 */
 	private function validateComponent(VCalendar $vObject, bool $repair, int $level): array {
 		// validate component(S)
 		$issues = $vObject->validate(Node::PROFILE_CALDAV);

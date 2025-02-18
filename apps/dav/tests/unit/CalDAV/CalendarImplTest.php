@@ -384,7 +384,7 @@ EOF;
 			->withAnyParameters();
 
 		$options = new CalendarImportOptions();
-		$options->supersede = true;
+		$options->setSupersede(true);
 		// test import
 		$outcome = $this->calendarImpl->import($options, $this->mockImportGenerator(...));
 		$this->assertCount(1, $outcome, 'No import status returned');
@@ -437,7 +437,7 @@ EOF;
 		$this->mockImportCollection[] = $vCalendar;
 
 		$options = new CalendarImportOptions();
-		$options->errors = 0;
+		$options->setErrors(0);
 		// test import
 		$outcome = $this->calendarImpl->import($options, $this->mockImportGenerator(...));
 		$this->assertCount(1, $outcome, 'No import status returned');
@@ -455,7 +455,7 @@ EOF;
 		$this->mockImportCollection[] = $vCalendar;
 
 		$options = new CalendarImportOptions();
-		$options->errors = 0;
+		$options->setErrors(0);
 		// test import
 		$outcome = $this->calendarImpl->import($options, $this->mockImportGenerator(...));
 		$this->assertCount(1, $outcome, 'No import status returned');
@@ -473,7 +473,7 @@ EOF;
 		$this->mockImportCollection[] = $vCalendar;
 
 		$options = new CalendarImportOptions();
-		$options->errors = 0;
+		$options->setErrors(0);
 		// test import
 		$outcome = $this->calendarImpl->import($options, $this->mockImportGenerator(...));
 		$this->assertCount(1, $outcome, 'No import status returned');
@@ -492,7 +492,7 @@ EOF;
 		$this->mockImportCollection[] = $vCalendar;
 
 		$options = new CalendarImportOptions();
-		$options->errors = 0;
+		$options->setErrors(0);
 		// test import
 		$outcome = $this->calendarImpl->import($options, $this->mockImportGenerator(...));
 		$this->assertCount(1, $outcome, 'No import status returned');
