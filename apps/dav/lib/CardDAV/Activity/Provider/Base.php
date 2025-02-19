@@ -55,14 +55,14 @@ abstract class Base implements IProvider {
 			$data['name'] === CardDavBackend::PERSONAL_ADDRESSBOOK_NAME) {
 			return [
 				'type' => 'addressbook',
-				'id' => $data['id'],
+				'id' => (string)$data['id'],
 				'name' => $l->t('Personal'),
 			];
 		}
 
 		return [
 			'type' => 'addressbook',
-			'id' => $data['id'],
+			'id' => (string)$data['id'],
 			'name' => $data['name'],
 		];
 	}
