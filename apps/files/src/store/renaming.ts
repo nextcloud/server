@@ -7,7 +7,7 @@ import type { RenamingStore } from '../types'
 
 import axios, { isAxiosError } from '@nextcloud/axios'
 import { emit, subscribe } from '@nextcloud/event-bus'
-import { NodeStatus } from '@nextcloud/files'
+import { FileType, NodeStatus } from '@nextcloud/files'
 import { DialogBuilder } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { basename, dirname, extname } from 'path'
@@ -103,10 +103,10 @@ export const useRenamingStore = function(...args) {
 				const oldName = this.renamingNode.basename
 				const oldEncodedSource = this.renamingNode.encodedSource
 
-				// Check for extension change
+				// Check for extension change for files
 				const oldExtension = extname(oldName)
 				const newExtension = extname(newName)
-				if (oldExtension !== newExtension) {
+				if (oldExtension !== newExtension && this.renamingNode.type === FileType.File) {
 					const proceed = await showWarningDialog(oldExtension, newExtension)
 					if (!proceed) {
 						return false
