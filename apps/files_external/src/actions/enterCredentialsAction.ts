@@ -7,6 +7,7 @@ import type { AxiosResponse } from '@nextcloud/axios'
 import type { Node } from '@nextcloud/files'
 import type { StorageConfig } from '../services/externalStorage'
 
+import { addPasswordConfirmationInterceptors, PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess, spawnDialog } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
@@ -17,6 +18,10 @@ import Vue, { defineAsyncComponent } from 'vue'
 import { FileAction, DefaultType } from '@nextcloud/files'
 import { STORAGE_STATUS, isMissingAuthConfig } from '../utils/credentialsUtils'
 import { isNodeExternalStorage } from '../utils/externalStorageUtils'
+
+// Add password confirmation interceptors as
+// the backend requires the user to confirm their password
+addPasswordConfirmationInterceptors(axios)
 
 type CredentialResponse = {
 	login?: string,
@@ -31,8 +36,13 @@ type CredentialResponse = {
  * @param password The password
  */
 async function setCredentials(node: Node, login: string, password: string): Promise<null|true> {
-	const configResponse = await axios.put(generateUrl('apps/files_external/userglobalstorages/{id}', { id: node.attributes.id }), {
-		backendOptions: { user: login, password },
+	const configResponse = await axios.request({
+		method: 'PUT',
+		url: generateUrl('apps/files_external/userglobalstorages/{id}', { id: node.attributes.id }),
+		confirmPassword: PwdConfirmationMode.Strict,
+		data: {
+			backendOptions: { user: login, password },
+		},
 	}) as AxiosResponse<StorageConfig>
 
 	const config = configResponse.data
