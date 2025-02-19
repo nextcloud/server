@@ -24,6 +24,7 @@ import type { AxiosResponse } from 'axios'
 import type { Node } from '@nextcloud/files'
 import type { StorageConfig } from '../services/externalStorage'
 
+import { addPasswordConfirmationInterceptors, PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess, spawnDialog } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
@@ -34,6 +35,10 @@ import Vue, { defineAsyncComponent } from 'vue'
 import { FileAction, DefaultType } from '@nextcloud/files'
 import { STORAGE_STATUS, isMissingAuthConfig } from '../utils/credentialsUtils'
 import { isNodeExternalStorage } from '../utils/externalStorageUtils'
+
+// Add password confirmation interceptors as
+// the backend requires the user to confirm their password
+addPasswordConfirmationInterceptors(axios)
 
 type CredentialResponse = {
 	login?: string,
