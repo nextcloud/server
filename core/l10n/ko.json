@@ -102,6 +102,7 @@
     "No" : "아니요",
     "Yes" : "예",
     "Federated user" : "연합 사용자",
+    "user@your-nextcloud.org" : "user@your-nextcloud.org",
     "Create share" : "공유 만들기",
     "The remote URL must include the user." : "원격 URL에 사용자가 포함되어야 합니다.",
     "Invalid remote URL." : "잘못된 원격 URL입니다.",

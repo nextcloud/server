@@ -103,7 +103,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} Benachrichtigung","{count} Benachrichtigungen"],
     "No" : "Nein",
     "Yes" : "Ja",
-    "Federated user" : "Federated-Benutzer",
+    "Federated user" : "Föderierter Benutzer",
     "user@your-nextcloud.org" : "benutzer@deine-nextcloud.org",
     "Create share" : "Freigabe erstellen",
     "The remote URL must include the user." : "Die entfernte URL muss den Benutzer enthalten.",
