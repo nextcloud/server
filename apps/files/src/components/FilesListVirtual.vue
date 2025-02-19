@@ -263,7 +263,10 @@ export default defineComponent({
 				if (node && sidebarAction?.enabled?.([node], this.currentView)) {
 					logger.debug('Opening sidebar on file ' + node.path, { node })
 					sidebarAction.exec(node, this.currentView, this.currentFolder.path)
+					return
 				}
+
+				logger.error(`Failed to open sidebar on file ${fileId}, file isn't cached yet !`, { fileId, node })
 			}
 		},
 
