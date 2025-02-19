@@ -222,7 +222,7 @@ class JobList implements IJobList {
 				$update->setParameter('jobid', $row['id']);
 				$update->executeStatement();
 
-				return $this->getNext($onlyTimeSensitive);
+				return $this->getNext($onlyTimeSensitive, $jobClasses);
 			}
 
 			$update = $this->connection->getQueryBuilder();
