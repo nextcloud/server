@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\Import;
 
 use Exception;
+use XMLParser;
 
 class XmlImporter {
 
@@ -31,14 +32,16 @@ class XmlImporter {
 	public function __construct(
 		protected $source,
 	) {
-		//Ensure that the $data var is of the right type
+		// ensure that the source is of the right type
 		if (!is_string($source) && (!is_resource($source) || get_resource_type($source) !== 'stream')) {
 			throw new Exception('Source must be a string or a stream resource');
 		}
 	}
 
+	/**
+	 * Analyzes the source data and creates a structure of components
+	 */
 	protected function analyze() {
-
 		$this->praseLevel = 0;
 		$this->prasePath = [];
 		$this->componentStart = null;
@@ -47,15 +50,14 @@ class XmlImporter {
 		$this->componentId = null;
 		$this->componentType = null;
 		$this->componentIdProperty = false;
-		//Create the parser
+		// Create the parser and assign tag handlers
 		$parser = xml_parser_create();
-		// assign handlers
 		xml_set_object($parser, $this);
 		xml_set_element_handler($parser, $this->tagStart(...), $this->tagEnd(...));
 		xml_set_default_handler($parser, $this->tagContents(...));
-		//If the data is a resource then loop through it, otherwise just parse the string
+		// If the source is resource then prase if in chunks, otherwise just parse the full source
 		if (is_resource($this->source)) {
-			//Not all resources support fseek. For those that don't, suppress the error
+			// iterate through the source data chuck by chunk to trigger the handlers
 			@fseek($this->source, 0);
 			while ($chunk = fread($this->source, 4096)) {
 				if (!xml_parse($parser, $chunk, feof($this->source))) {
@@ -75,40 +77,42 @@ class XmlImporter {
 				);
 			}
 		}
-
 		//Free up the parser
 		xml_parser_free($parser);
-
 	}
 
-	protected function tagStart($parser, $tag, $attributes) {
-		
+	/**
+	 * Handles start of tag events from the parser for all tags
+	 */
+	protected function tagStart(XMLParser $parser, string $tag, array $attributes): void {
+		// add the tag to the path tracker and increment depth the level
 		$this->praseLevel++;
 		$this->prasePath[$this->praseLevel] = $tag;
-
-		if (in_array($tag, $this->types)) {
+		// determine if the tag is a component type and remember the byte position
+		if (in_array($tag, $this->types, true)) {
 			$this->componentStart = xml_get_current_byte_index($parser) - (strlen($tag) + 1);
 			$this->componentType = $tag;
 			$this->componentLevel = $this->praseLevel;
 		}
-	
+		// determine if the tag is a sub tag of the component and an id property
 		if ($this->componentStart !== null &&
 			($this->componentLevel + 2) === $this->praseLevel &&
 			($tag === 'UID' || $tag === 'TZID')
 		) {
 			$this->componentIdProperty = true;
 		}
-
-		return $parser;
 	}
 
-	protected function tagEnd($parser, $tag) {
-
+	/**
+	 * Handles end of tag events from the parser for all tags
+	 */
+	protected function tagEnd(XMLParser $parser, string $tag): void {
+		// if the end tag matched the component type or the component id property
+		// then add the component to the structure
 		if ($tag === 'UID' || $tag === 'TZID') {
 			$this->componentIdProperty = false;
 		} elseif ($this->componentType === $tag) {
 			$this->componentEnd = xml_get_current_byte_index($parser);
-
 			if ($this->componentId !== null) {
 				$this->structure[$this->componentType][$this->componentId][] = [
 					$this->componentType,
@@ -132,37 +136,48 @@ class XmlImporter {
 			$this->componentType = null;
 			$this->componentIdProperty = false;
 		}
-
+		// remove the tag from the path tacker and depth the level
 		unset($this->prasePath[$this->praseLevel]);
 		$this->praseLevel--;
-		
-		return $parser;
 	}
 
-	protected function tagContents($parser, $data) {
-
+	/**
+	 * Handles tag contents events from the parser for all tags
+	 */
+	protected function tagContents(XMLParser $parser, string $data): void {
 		if ($this->componentIdProperty) {
 			$this->componentId = $data;
 		}
-
-		return $parser;
 	}
 
-
+	/**
+	 * Returns the analyzed structure of the source data
+	 * the analyzed structure is a collection of components organized by type,
+	 * each entry is a collection of instances
+	 * [
+	 *  'VEVENT' => [
+	 *    '7456f141-b478-4cb9-8efc-1427ba0d6839' => [
+	 *      ['VEVENT', '7456f141-b478-4cb9-8efc-1427ba0d6839', 0, 100 ],
+	 *      ['VEVENT', '7456f141-b478-4cb9-8efc-1427ba0d6839', 100, 200 ]
+	 *    ]
+	 *  ]
+	 * ]
+	 */
 	public function structure(): array {
-
 		if (!$this->analyzed) {
 			$this->analyze();
 		}
-		
 		return $this->structure;
 	}
 
+	/**
+	 * Extracts a string chuck from the source data
+	 *
+	 * @param int $start starting byte position
+	 * @param int $end ending byte position
+	 */
 	public function extract(int $start, int $end): string {
-	
 		fseek($this->source, $start);
 		return fread($this->source, $end - $start);
-
 	}
-
 }

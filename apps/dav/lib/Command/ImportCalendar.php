@@ -23,8 +23,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Calendar Import Command
  *
  * Used to import data to supported calendars from disk or stdin
- *
- * @since 32.0.0
  */
 #[AsCommand(
 	name: 'calendar:import',
@@ -53,13 +51,10 @@ class ImportCalendar extends Command {
 			->addOption('show-created', null, InputOption::VALUE_NONE, 'show all created items after processing')
 			->addOption('show-updated', null, InputOption::VALUE_NONE, 'show all updated items after processing')
 			->addOption('show-skipped', null, InputOption::VALUE_NONE, 'show all skipped items after processing')
-			->addOption('show-errors', null, InputOption::VALUE_NONE, 'show all errored items after processing')
-		;
-		
+			->addOption('show-errors', null, InputOption::VALUE_NONE, 'show all errored items after processing');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		
 		$userId = $input->getArgument('uid');
 		$calendarId = $input->getArgument('cid');
 		$format = $input->getArgument('format');
@@ -144,17 +139,16 @@ class ImportCalendar extends Command {
 		}
 		$timeFinished = microtime(true);
 
+		// output outcome of import
 		$totalCreated = 0;
 		$totalUpdated = 0;
 		$totalSkipped = 0;
 		$totalErrors = 0;
 
 		if ($outcome !== []) {
-
 			if ($showCreated || $showUpdated || $showSkipped || $showErrors) {
 				$output->writeln('');
 			}
-
 			foreach ($outcome as $id => $result) {
 				if (isset($result['outcome'])) {
 					switch ($result['outcome']) {
@@ -185,10 +179,8 @@ class ImportCalendar extends Command {
 							break;
 					}
 				}
-				
 			}
 		}
-
 		$output->writeln([
 			'',
 			'Import Completed',

@@ -16,8 +16,6 @@ use Sabre\VObject\Reader;
 
 /**
  * Calendar Import Service
- *
- * @since 32.0.0
  */
 class ImportService {
 	
@@ -31,8 +29,6 @@ class ImportService {
 	/**
 	 * Executes import with appropriate object generator based on format
 	 *
-	 * @since 32.0.0
-	 *
 	 * @param resource $source
 	 *
 	 * @return array<string,array<string,string|array<string>>>
@@ -40,11 +36,10 @@ class ImportService {
 	 * @throws \InvalidArgumentException
 	 */
 	public function import($source, ICalendarImport $calendar, CalendarImportOptions $options): array {
-
 		if (!is_resource($source)) {
 			throw new \InvalidArgumentException('Invalid import source must be a file resource');
 		}
-				
+			
 		$this->source = $source;
 
 		switch ($options->getFormat()) {
@@ -65,8 +60,6 @@ class ImportService {
 	/**
 	 * Generates object stream from a text formatted source (ical)
 	 *
-	 * @since 32.0.0
-	 *
 	 * @return Generator<\Sabre\VObject\Component\VCalendar>
 	 */
 	private function importText(CalendarImportOptions $options): Generator {
@@ -85,13 +78,16 @@ class ImportService {
 		$timezones = [];
 		foreach ($structure['VTIMEZONE'] as $tid => $collection) {
 			$instance = $collection[0];
-			$sObjectContents = $importer->extract($instance[2], $instance[3]);
+			$sObjectContents = $importer->extract((int)$instance[2], (int)$instance[3]);
 			$vObject = Reader::read($sObjectPrefix . $sObjectContents . $sObjectSuffix);
 			$timezones[$tid] = clone $vObject->VTIMEZONE;
 		}
 		// calendar components
+		// for each component type, construct a full calendar object with all components
+		// that match the same UID and appropriate time zones that are used in the components
 		foreach (['VEVENT', 'VTODO', 'VJOURNAL'] as $type) {
 			foreach ($structure[$type] as $cid => $instances) {
+				/** @var array<int,VCalendar> $instances */
 				// extract all instances of component and unserialize to object
 				$sObjectContents = '';
 				foreach ($instances as $instance) {
@@ -105,7 +101,6 @@ class ImportService {
 						$vObject->add(clone $timezones[$zone]);
 					}
 				}
-				// return object
 				yield $vObject;
 			}
 		}
@@ -113,8 +108,6 @@ class ImportService {
 
 	/**
 	 * Generates object stream from a xml formatted source (xcal)
-	 *
-	 * @since 32.0.0
 	 *
 	 * @return Generator<\Sabre\VObject\Component\VCalendar>
 	 */
@@ -127,13 +120,16 @@ class ImportService {
 		$timezones = [];
 		foreach ($structure['VTIMEZONE'] as $tid => $collection) {
 			$instance = $collection[0];
-			$sObjectContents = $importer->extract($instance[2], $instance[3]);
+			$sObjectContents = $importer->extract((int)$instance[2], (int)$instance[3]);
 			$vObject = Reader::readXml($sObjectPrefix . $sObjectContents . $sObjectSuffix);
 			$timezones[$tid] = clone $vObject->VTIMEZONE;
 		}
 		// calendar components
+		// for each component type, construct a full calendar object with all components
+		// that match the same UID and appropriate time zones that are used in the components
 		foreach (['VEVENT', 'VTODO', 'VJOURNAL'] as $type) {
 			foreach ($structure[$type] as $cid => $instances) {
+				/** @var array<int,VCalendar> $instances */
 				// extract all instances of component and unserialize to object
 				$sObjectContents = '';
 				foreach ($instances as $instance) {
@@ -147,7 +143,6 @@ class ImportService {
 						$vObject->add(clone $timezones[$zone]);
 					}
 				}
-				// return object
 				yield $vObject;
 			}
 		}
@@ -155,8 +150,6 @@ class ImportService {
 
 	/**
 	 * Generates object stream from a json formatted source (jcal)
-	 *
-	 * @since 32.0.0
 	 *
 	 * @return Generator<\Sabre\VObject\Component\VCalendar>
 	 */
@@ -173,7 +166,6 @@ class ImportService {
 		}
 		// calendar components
 		foreach ($importer->getBaseComponents() as $base) {
-			/** @var VCalendar $vObject */
 			$vObject = new VCalendar;
 			$vObject->VERSION = clone $importer->VERSION;
 			$vObject->PRODID = clone $importer->PRODID;
@@ -187,15 +179,12 @@ class ImportService {
 					$vObject->add(clone $timezones[$zone]);
 				}
 			}
-			// return object
 			yield $vObject;
 		}
 	}
 
 	/**
 	 * Searches through all component properties looking for defined timezones
-	 *
-	 * @since 32.0.0
 	 *
 	 * @return array<string>
 	 */

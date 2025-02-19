@@ -21,8 +21,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Calendar Export Command
  *
  * Used to export data from supported calendars to disk or stdout
- *
- * @since 32.0.0
  */
 #[AsCommand(
 	name: 'calendar:export',
@@ -48,7 +46,6 @@ class ExportCalendar extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		
 		$userId = $input->getArgument('uid');
 		$calendarId = $input->getArgument('cid');
 		$format = $input->getArgument('format');

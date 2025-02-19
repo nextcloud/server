@@ -18,6 +18,7 @@ use OCP\Calendar\Exceptions\CalendarException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Component\VTodo;
 use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Reader;
 use Sabre\VObject\UUIDUtil;
@@ -456,6 +457,7 @@ EOF;
 		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
 		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'America/Toronto']);
 		$vEvent->add('SUMMARY', 'Test Recurrence Event');
+		/** @var VTodo $vTodo */
 		$vTodo = $vCalendar->add('VTODO', []);
 		$vTodo->add('UID', '96a0e6b1-d886-4a55-a60d-152b31401dcc');
 		$vTodo->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);

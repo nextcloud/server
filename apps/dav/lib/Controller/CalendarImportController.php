@@ -131,11 +131,12 @@ class CalendarImportController extends ApiController {
 		} else {
 			$options->setFormat($format ?? 'ical');
 		}
-		//
+		// process the data
 		$timeStarted = microtime(true);
 		try {
 			$temp = tmpfile();
 			fwrite($temp, $data);
+			unset($data);
 			fseek($temp, 0);
 			$outcome = $this->importService->import($temp, $calendar, $options);
 		} catch (\Throwable $e) {

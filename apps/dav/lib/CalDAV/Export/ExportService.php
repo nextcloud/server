@@ -16,20 +16,13 @@ use Sabre\VObject\Writer;
 
 /**
  * Calendar Export Service
- *
- * @since 32.0.0
  */
 class ExportService {
 	
 	public const FORMATS = ['ical', 'jcal', 'xcal'];
 
-	public function __construct() {
-	}
-
 	/**
 	 * Generates serialized content stream for a calendar and objects based in selected format
-	 *
-	 * @since 32.0.0
 	 *
 	 * @return Generator<string>
 	 */
@@ -64,8 +57,6 @@ class ExportService {
 
 	/**
 	 * Generates serialized content start based on selected format
-	 *
-	 * @since 32.0.0
 	 */
 	private function exportStart(string $format): string {
 		return match ($format) {
@@ -77,8 +68,6 @@ class ExportService {
 
 	/**
 	 * Generates serialized content end based on selected format
-	 *
-	 * @since 32.0.0
 	 */
 	private function exportFinish(string $format): string {
 		return match ($format) {
@@ -90,8 +79,6 @@ class ExportService {
 
 	/**
 	 * Generates serialized content for a component based on selected format
-	 *
-	 * @since 32.0.0
 	 */
 	private function exportObject(Component $vobject, string $format, bool $consecutive): string {
 		return match ($format) {
@@ -103,8 +90,6 @@ class ExportService {
 	
 	/**
 	 * Generates serialized content for a component in xml format
-	 *
-	 * @since 32.0.0
 	 */
 	private function exportObjectXml(Component $vobject): string {
 		$writer = new \Sabre\Xml\Writer();

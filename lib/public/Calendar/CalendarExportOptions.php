@@ -10,13 +10,11 @@ namespace OCP\Calendar;
 
 /**
  * Calendar Export Options
- *
- * @since 32.0.0
  */
 class CalendarExportOptions {
 
 	private string $format = 'ical';
-	private ?int $rangeStart = null;
+	private ?string $rangeStart = null;
 	private ?int $rangeCount = null;
 
 	/**
@@ -40,18 +38,18 @@ class CalendarExportOptions {
 	/**
 	 * Gets the start of the range to export
 	 *
-	 * @return int|null
+	 * @return string|null
 	 */
-	public function getRangeStart(): ?int {
+	public function getRangeStart(): ?string {
 		return $this->rangeStart;
 	}
 
 	/**
 	 * Sets the start of the range to export
 	 *
-	 * @param int|null $rangeStart
+	 * @param string|null $rangeStart
 	 */
-	public function setRangeStart(?int $rangeStart): void {
+	public function setRangeStart(?string $rangeStart): void {
 		$this->rangeStart = $rangeStart;
 	}
 

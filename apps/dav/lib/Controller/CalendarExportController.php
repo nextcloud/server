@@ -56,12 +56,12 @@ class CalendarExportController extends ApiController {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	#[ApiRoute(verb: 'GET', url: '/export', root: '/calendar')]
 	#[ApiRoute(verb: 'POST', url: '/export', root: '/calendar')]
-	#[UserRateLimit(limit: 1, period: 60)]
+	#[UserRateLimit(limit: 10, period: 60)]
 	#[NoAdminRequired]
 	public function index(string $id, ?string $format = null, ?array $options = null, ?string $user = null) {
 		$userId = $user;
 		$calendarId = $id;
-		$rangeStart = isset($options['rangeStart']) ? (int)$options['rangeStart'] : null;
+		$rangeStart = isset($options['rangeStart']) ? (string)$options['rangeStart'] : null;
 		$rangeCount = isset($options['rangeCount']) ? (int)$options['rangeCount'] : null;
 		// evaluate if user is logged in and has permissions
 		if (!$this->userSession->isLoggedIn()) {

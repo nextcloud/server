@@ -348,11 +348,9 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 					throw new InvalidArgumentException('Error importing calendar object <' . $uid . '>, ' . $issues[0]);
 				}
 			}
-
+			// create or update object in the data store
 			$objectId = $this->backend->getCalendarObjectByUID($this->calendarInfo['principaluri'], $uid);
 			$objectData = $vObject->serialize();
-
-			// create or update object
 			if ($objectId === null) {
 				$objectId = UUIDUtil::getUUID();
 				$this->backend->createCalendarObject(
@@ -383,8 +381,8 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	 * Validate a component
 	 *
 	 * @param VCalendar $vObject
-	 * @param bool $repair Attempt to repair the component
-	 * @param int $level Minimum level of issues to return
+	 * @param bool $repair attempt to repair the component
+	 * @param int $level minimum level of issues to return
 	 * @return list<mixed>
 	 */
 	private function validateComponent(VCalendar $vObject, bool $repair, int $level): array {
@@ -401,7 +399,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 				$result[] = $issue['message'];
 			}
 		}
-
+		
 		return $result;
 	}
 
