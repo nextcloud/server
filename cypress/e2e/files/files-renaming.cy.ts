@@ -4,7 +4,7 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { calculateViewportHeight, getRowForFile, haveValidity, renameFile, triggerActionForFile } from './FilesUtils'
+import { calculateViewportHeight, createFolder, getRowForFile, haveValidity, renameFile, triggerActionForFile } from './FilesUtils'
 
 describe('files: Rename nodes', { testIsolation: true }, () => {
 	let user: User
@@ -192,5 +192,68 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 			.should('be.visible')
 			.findByRole('textbox', { name: 'Filename' })
 			.should('not.exist')
+	})
+
+	it('shows warning on extension change', () => {
+		getRowForFile('file.txt').should('be.visible')
+
+		triggerActionForFile('file.txt', 'rename')
+		getRowForFile('file.txt')
+			.findByRole('textbox', { name: 'Filename' })
+			.should('be.visible')
+			.type('{selectAll}file.md')
+			.should(haveValidity(''))
+			.type('{enter}')
+
+		// See warning dialog
+		cy.findByRole('dialog', { name: 'Change file extension' })
+			.should('be.visible')
+			.findByRole('button', { name: /use/i })
+			.click()
+
+		// See it is renamed
+		getRowForFile('file.md').should('be.visible')
+	})
+
+	it('shows warning on extension change and allow cancellation', () => {
+		getRowForFile('file.txt').should('be.visible')
+
+		triggerActionForFile('file.txt', 'rename')
+		getRowForFile('file.txt')
+			.findByRole('textbox', { name: 'Filename' })
+			.should('be.visible')
+			.type('{selectAll}file.md')
+			.should(haveValidity(''))
+			.type('{enter}')
+
+		// See warning dialog
+		cy.findByRole('dialog', { name: 'Change file extension' })
+			.should('be.visible')
+			.findByRole('button', { name: /keep/i })
+			.click()
+
+		// See it is not renamed
+		getRowForFile('file.txt').should('be.visible')
+		getRowForFile('file.md').should('not.exist')
+	})
+
+	it('does not show warning on folder renaming with a dot', () => {
+		createFolder('folder.2024')
+
+		getRowForFile('folder.2024').should('be.visible')
+
+		triggerActionForFile('folder.2024', 'rename')
+		getRowForFile('folder.2024')
+			.findByRole('textbox', { name: 'Folder name' })
+			.should('be.visible')
+			.type('{selectAll}folder.2025')
+			.should(haveValidity(''))
+			.type('{enter}')
+
+		// See warning dialog
+		cy.get('[role=dialog]').should('not.exist')
+
+		// See it is not renamed
+		getRowForFile('folder.2025').should('be.visible')
 	})
 })
