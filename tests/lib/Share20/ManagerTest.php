@@ -72,8 +72,6 @@ class ManagerTest extends \Test\TestCase {
 	protected $logger;
 	/** @var IConfig|MockObject */
 	protected $config;
-	/** @var IAppConfig|MockObject */
-	protected $appConfig;
 	/** @var ISecureRandom|MockObject */
 	protected $secureRandom;
 	/** @var IHasher|MockObject */
@@ -117,7 +115,6 @@ class ManagerTest extends \Test\TestCase {
 	protected function setUp(): void {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->hasher = $this->createMock(IHasher::class);
 		$this->mountManager = $this->createMock(IMountManager::class);
@@ -163,7 +160,6 @@ class ManagerTest extends \Test\TestCase {
 		return new Manager(
 			$this->logger,
 			$this->config,
-			$this->appConfig,
 			$this->secureRandom,
 			$this->hasher,
 			$this->mountManager,
@@ -192,7 +188,6 @@ class ManagerTest extends \Test\TestCase {
 			->setConstructorArgs([
 				$this->logger,
 				$this->config,
-				$this->appConfig,
 				$this->secureRandom,
 				$this->hasher,
 				$this->mountManager,
