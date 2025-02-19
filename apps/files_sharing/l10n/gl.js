@@ -229,7 +229,7 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Erro, introduza un contrasinal ou unha data de caducidade correctos",
     "Link share created" : "Creouse a ligazón compartida",
     "Error while creating the share" : "Produciuse un erro ao crear a compartición",
-    "Quick share options, the current selected is \"{selectedOption}\"" : "Opcións compartir de forma rápida, a selección actual é \"{selectedOption}\"",
+    "Quick share options, the current selected is \"{selectedOption}\"" : "Opcións de compartir de xeito rápido, a selección actual é \"{selectedOption}\"",
     "View only" : "Só ver",
     "Can edit" : "Pode editar",
     "Custom permissions" : "Permisos personalizados",
