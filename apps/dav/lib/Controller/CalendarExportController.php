@@ -44,10 +44,10 @@ class CalendarExportController extends ApiController {
 	 *
 	 * @param string $id calendar id
 	 * @param string|null $format data format
-	 * @param array $options<string, rangeStart: int, rangeCount: int> configuration options
+	 * @param array<string,mixed> $options configuration options
 	 * @param string|null $user system user id
 	 *
-	 * @return DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED,array{error?:non-empty-string},array<string,string>>|\OCP\AppFramework\Http\StreamGeneratorResponse
+	 * @return DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED,array{error?:non-empty-string},array{}>|\OCP\AppFramework\Http\StreamGeneratorResponse
 	 *
 	 * 200: calendar data
 	 * 401: user not authorized

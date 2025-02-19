@@ -43,7 +43,7 @@ class CalendarImportController extends ApiController {
 	 * Import calendar data
 	 *
 	 * @param string $id calendar id
-	 * @param array $options<format: string, validation: int, errors: int, supersede: bool> configuration options
+	 * @param array<string,mixed> $options configuration options
 	 * @param string $data calendar data
 	 * @param string|null $user system user id
 	 *
