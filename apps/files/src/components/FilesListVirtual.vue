@@ -265,8 +265,9 @@ export default defineComponent({
 					sidebarAction.exec(node, this.currentView, this.currentFolder.path)
 					return
 				}
+
+				logger.error(`Failed to open sidebar on file ${fileId}, file isn't cached yet !`, { fileId, node })
 			}
-			logger.error(`Failed to open sidebar on file ${fileId}, file isn't cached yet !`, { fileId, node })
 		},
 
 		scrollToFile(fileId: number|null, warn = true) {
