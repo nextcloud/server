@@ -128,9 +128,9 @@ import type { Tag, TagWithId } from '../types'
 import { defineComponent } from 'vue'
 import { emit } from '@nextcloud/event-bus'
 import { getLanguage, n, t } from '@nextcloud/l10n'
-import { sanitize } from 'dompurify'
 import { showError, showInfo } from '@nextcloud/dialogs'
 import debounce from 'debounce'
+import domPurify from 'dompurify'
 import escapeHTML from 'escape-html'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -378,7 +378,7 @@ export default defineComponent({
 				})
 			}
 			const chipHtml = chipCloneEl.outerHTML
-			return chipHtml.replace('%s', escapeHTML(sanitize(tag.displayName)))
+			return chipHtml.replace('%s', escapeHTML(domPurify.sanitize(tag.displayName)))
 		},
 
 		formatTagName(tag: TagWithId): string {
