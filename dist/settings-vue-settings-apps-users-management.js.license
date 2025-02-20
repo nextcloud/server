@@ -23,7 +23,6 @@ SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jordan Harband
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
-SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)
 SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com>
 SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
@@ -37,7 +36,6 @@ SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
-SPDX-FileCopyrightText: Andris Reinman
 SPDX-FileCopyrightText: Alkemics
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
@@ -77,7 +75,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 3.1.0
+	- version: 3.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.2
@@ -94,20 +92,17 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/sharing
 	- version: 0.2.4
 	- license: GPL-3.0-or-later
-- @vueuse/core
-	- version: 11.0.1
-	- license: MIT
-- @vueuse/shared
-	- version: 11.0.1
-	- license: MIT
-- debounce
-	- version: 2.1.0
-	- license: MIT
 - @nextcloud/vue
-	- version: 8.17.1
+	- version: 8.23.1
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 6.6.3
+	- license: MIT
+- @vueuse/core
+	- version: 11.3.0
+	- license: MIT
+- @vueuse/shared
+	- version: 11.3.0
 	- license: MIT
 - assert
 	- version: 2.1.0
@@ -133,6 +128,9 @@ This file is generated from multiple sources. Included packages:
 - css-loader
 	- version: 6.11.0
 	- license: MIT
+- debounce
+	- version: 2.2.0
+	- license: MIT
 - define-data-property
 	- version: 1.1.4
 	- license: MIT
@@ -140,7 +138,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: MIT
 - dompurify
-	- version: 3.1.6
+	- version: 3.2.4
 	- license: (MPL-2.0 OR Apache-2.0)
 - es-define-property
 	- version: 1.0.0
@@ -205,14 +203,8 @@ This file is generated from multiple sources. Included packages:
 - is-typed-array
 	- version: 1.1.13
 	- license: MIT
-- lodash.get
-	- version: 4.4.2
-	- license: MIT
 - lodash
 	- version: 4.17.21
-	- license: MIT
-- node-gettext
-	- version: 3.0.0
 	- license: MIT
 - buffer
 	- version: 6.0.3
