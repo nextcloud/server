@@ -44,7 +44,7 @@ class CalendarExportController extends OCSController {
 	 *
 	 * @param string $id calendar id
 	 * @param string|null $format data format
-	 * @param array<string,mixed> $options configuration options
+	 * @param array{rangeStart:string,rangeCount:int<1,max>} $options configuration options
 	 * @param string|null $user system user id
 	 *
 	 * @return DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED,array{error?:non-empty-string},array{}>|StreamGeneratorResponse<Http::STATUS_OK,array{Content-Type:string}>

@@ -1030,8 +1030,19 @@
                                     "options": {
                                         "type": "object",
                                         "description": "configuration options",
-                                        "additionalProperties": {
-                                            "type": "object"
+                                        "required": [
+                                            "rangeStart",
+                                            "rangeCount"
+                                        ],
+                                        "properties": {
+                                            "rangeStart": {
+                                                "type": "string"
+                                            },
+                                            "rangeCount": {
+                                                "type": "integer",
+                                                "format": "int64",
+                                                "minimum": 1
+                                            }
                                         }
                                     },
                                     "user": {
@@ -1177,8 +1188,25 @@
                                     "options": {
                                         "type": "object",
                                         "description": "configuration options",
-                                        "additionalProperties": {
-                                            "type": "object"
+                                        "properties": {
+                                            "format": {
+                                                "type": "string"
+                                            },
+                                            "validation": {
+                                                "type": "integer",
+                                                "format": "int64",
+                                                "minimum": 0,
+                                                "maximum": 2
+                                            },
+                                            "errors": {
+                                                "type": "integer",
+                                                "format": "int64",
+                                                "minimum": 0,
+                                                "maximum": 1
+                                            },
+                                            "supersede": {
+                                                "type": "boolean"
+                                            }
                                         }
                                     },
                                     "data": {

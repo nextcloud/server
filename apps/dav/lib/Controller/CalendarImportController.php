@@ -43,7 +43,7 @@ class CalendarImportController extends OCSController {
 	 * Import calendar data
 	 *
 	 * @param string $id calendar id
-	 * @param array<string,mixed> $options configuration options
+	 * @param array{format?:string,validation?:int<0,2>,errors?:int<0,1>,supersede?:bool} $options configuration options
 	 * @param string $data calendar data
 	 * @param string|null $user system user id
 	 *
