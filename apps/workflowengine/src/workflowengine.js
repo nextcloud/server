@@ -30,10 +30,17 @@ import ShippedChecks from './components/Checks/index.js'
  * @property {string} id - The PHP class name of the check
  * @property {string} operation - Default value for the operation field
  * @property {string} color - Custom color code to be applied for the operator selector
- * @property {Vue} component - A vue component to handle the rendering of options
+ * @property {object} [options] - Deprecated: **Use `component` instead**
+ *
+ *  A vue component to handle the rendering of options.
  *  The component should handle the v-model directive properly,
  *  so it needs a value property to receive data and emit an input
- *  event once the data has changed
+ *  event once the data has changed.
+ *
+ *  Will be removed in 03/2028.
+ * @property {VueConstructor} [component] - A vue constructor as returned by `Vue.extend()`.
+ *  It has to emit the `$input` event when a value was changed.
+ *  The `value` property will be set initially with the rule operation value.
  */
 
 /**
