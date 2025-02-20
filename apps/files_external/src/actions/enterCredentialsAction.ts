@@ -29,14 +29,20 @@ type CredentialResponse = {
 }
 
 /**
+ * Set credentials for external storage
  *
- * @param node
- * @param login
- * @param password
+ * @param node The node for which to set the credentials
+ * @param login The username
+ * @param password The password
  */
 async function setCredentials(node: Node, login: string, password: string): Promise<null|true> {
-	const configResponse = await axios.put(generateUrl('apps/files_external/userglobalstorages/{id}', node.attributes), {
-		backendOptions: { user: login, password },
+	const configResponse = await axios.request({
+		method: 'PUT',
+		url: generateUrl('apps/files_external/userglobalstorages/{id}', { id: node.attributes.id }),
+		confirmPassword: PwdConfirmationMode.Strict,
+		data: {
+			backendOptions: { user: login, password },
+		},
 	}) as AxiosResponse<StorageConfig>
 
 	const config = configResponse.data
@@ -53,8 +59,10 @@ async function setCredentials(node: Node, login: string, password: string): Prom
 	return true
 }
 
+export const ACTION_CREDENTIALS_EXTERNAL_STORAGE = 'credentials-external-storage'
+
 export const action = new FileAction({
-	id: 'credentials-external-storage',
+	id: ACTION_CREDENTIALS_EXTERNAL_STORAGE,
 	displayName: () => t('files', 'Enter missing credentials'),
 	iconSvgInline: () => LoginSvg,
 
@@ -87,7 +95,14 @@ export const action = new FileAction({
 		))
 
 		if (login && password) {
-			return await setCredentials(node, login, password)
+			try {
+				await setCredentials(node, login, password)
+				showSuccess(t('files_external', 'Credentials successfully set'))
+			} catch (error) {
+				showError(t('files_external', 'Error while setting credentials: {error}', {
+					error: (error as Error).message,
+				}))
+			}
 		}
 
 		return null
