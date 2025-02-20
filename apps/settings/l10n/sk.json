@@ -271,6 +271,7 @@
     "The PHP OPcache module is not properly configured. %s." : "Modul PHP OPcache nie je správne nakonfigurovaný. %s.",
     "Correctly configured" : "Správne nakonfigurované",
     "PHP version" : "Verzia PHP",
+    "You are currently running PHP %1$s. PHP %2$s is deprecated since Nextcloud %3$s. Nextcloud %4$s may require at least PHP %5$s. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "Momentálne používate PHP %1$s. PHP %2$s je pre Nextcloud zastarané od verzie %3$s. Nextcloud %4$s môže vyžadovať aspoň PHP %5$s. Čo najskôr aktualizujte na jednu z oficiálne podporovaných verzií PHP poskytovaných skupinou PHP.",
     "You are currently running PHP %s." : "Momentálne používate PHP %s.",
     "PHP \"output_buffering\" option" : "možnosť PHP \"output_buffering\"",
     "PHP configuration option \"output_buffering\" must be disabled" : "PHP premenná \"output_buffering\" musí byť zakázaná",
