@@ -10,7 +10,7 @@ namespace OCP\Calendar;
 
 /**
  * Calendar Export Options
- * 
+ *
  * @since 32.0.0
  */
 class CalendarExportOptions {

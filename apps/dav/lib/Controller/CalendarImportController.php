@@ -10,13 +10,13 @@ namespace OCA\DAV\Controller;
 
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Import\ImportService;
-use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
 use OCP\Calendar\CalendarImportOptions;
 use OCP\Calendar\ICalendarImport;
 use OCP\Calendar\ICalendarIsWritable;
@@ -26,7 +26,7 @@ use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
 
-class CalendarImportController extends ApiController {
+class CalendarImportController extends OCSController {
 
 	public function __construct(
 		IRequest $request,
@@ -47,9 +47,10 @@ class CalendarImportController extends ApiController {
 	 * @param string $data calendar data
 	 * @param string|null $user system user id
 	 *
-	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED|Http::STATUS_INTERNAL_SERVER_ERROR,array{created?:int<0,max>,error?:string,errors?:int<0,max>,skipped?:int<0,max>,time?:float,updated?:int<0,max>},array<never,never>>
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED|Http::STATUS_INTERNAL_SERVER_ERROR,array{created?:int<0,max>,error?:string,errors?:int<0,max>,skipped?:int<0,max>,time?:float,updated?:int<0,max>},array{}>
 	 *
 	 * 200: calendar data
+	 * 400: invalid request
 	 * 401: user not authorized
 	 * 404: calendar not found
 	 * 404: format not found

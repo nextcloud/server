@@ -992,6 +992,460 @@
                     }
                 }
             }
+        },
+        "/ocs/v2.php/calendar/export": {
+            "post": {
+                "operationId": "calendar_export-index",
+                "summary": "Export calendar data",
+                "tags": [
+                    "calendar_export"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "id"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "description": "calendar id"
+                                    },
+                                    "format": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "data format"
+                                    },
+                                    "options": {
+                                        "type": "object",
+                                        "description": "configuration options",
+                                        "additionalProperties": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "user": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "system user id"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "invalid parameters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "error": {
+                                                            "type": "string",
+                                                            "minLength": 1
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "user not authorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "error": {
+                                                            "type": "string",
+                                                            "minLength": 1
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "calendar data",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/calendar/import": {
+            "post": {
+                "operationId": "calendar_import-index",
+                "summary": "Import calendar data",
+                "tags": [
+                    "calendar_import"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "id",
+                                    "options",
+                                    "data"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "description": "calendar id"
+                                    },
+                                    "options": {
+                                        "type": "object",
+                                        "description": "configuration options",
+                                        "additionalProperties": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "data": {
+                                        "type": "string",
+                                        "description": "calendar data"
+                                    },
+                                    "user": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "system user id"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "calendar data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "created": {
+                                                            "type": "integer",
+                                                            "format": "int64",
+                                                            "minimum": 0
+                                                        },
+                                                        "error": {
+                                                            "type": "string"
+                                                        },
+                                                        "errors": {
+                                                            "type": "integer",
+                                                            "format": "int64",
+                                                            "minimum": 0
+                                                        },
+                                                        "skipped": {
+                                                            "type": "integer",
+                                                            "format": "int64",
+                                                            "minimum": 0
+                                                        },
+                                                        "time": {
+                                                            "type": "number",
+                                                            "format": "double"
+                                                        },
+                                                        "updated": {
+                                                            "type": "integer",
+                                                            "format": "int64",
+                                                            "minimum": 0
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "created": {
+                                                            "type": "integer",
+                                                            "format": "int64",
+                                                            "minimum": 0
+                                                        },
+                                                        "error": {
+                                                            "type": "string"
+                                                        },
+                                                        "errors": {
+                                                            "type": "integer",
+                                                            "format": "int64",
+                                                            "minimum": 0
+                                                        },
+                                                        "skipped": {
+                                                            "type": "integer",
+                                                            "format": "int64",
+                                                            "minimum": 0
+                                                        },
+                                                        "time": {
+                                                            "type": "number",
+                                                            "format": "double"
+                                                        },
+                                                        "updated": {
+                                                            "type": "integer",
+                                                            "format": "int64",
+                                                            "minimum": 0
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "user not authorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "created": {
+                                                            "type": "integer",
+                                                            "format": "int64",
+                                                            "minimum": 0
+                                                        },
+                                                        "error": {
+                                                            "type": "string"
+                                                        },
+                                                        "errors": {
+                                                            "type": "integer",
+                                                            "format": "int64",
+                                                            "minimum": 0
+                                                        },
+                                                        "skipped": {
+                                                            "type": "integer",
+                                                            "format": "int64",
+                                                            "minimum": 0
+                                                        },
+                                                        "time": {
+                                                            "type": "number",
+                                                            "format": "double"
+                                                        },
+                                                        "updated": {
+                                                            "type": "integer",
+                                                            "format": "int64",
+                                                            "minimum": 0
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "created": {
+                                                            "type": "integer",
+                                                            "format": "int64",
+                                                            "minimum": 0
+                                                        },
+                                                        "error": {
+                                                            "type": "string"
+                                                        },
+                                                        "errors": {
+                                                            "type": "integer",
+                                                            "format": "int64",
+                                                            "minimum": 0
+                                                        },
+                                                        "skipped": {
+                                                            "type": "integer",
+                                                            "format": "int64",
+                                                            "minimum": 0
+                                                        },
+                                                        "time": {
+                                                            "type": "number",
+                                                            "format": "double"
+                                                        },
+                                                        "updated": {
+                                                            "type": "integer",
+                                                            "format": "int64",
+                                                            "minimum": 0
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "tags": []

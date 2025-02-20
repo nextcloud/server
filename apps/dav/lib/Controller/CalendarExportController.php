@@ -10,7 +10,6 @@ namespace OCA\DAV\Controller;
 
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Export\ExportService;
-use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -18,6 +17,7 @@ use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\StreamGeneratorResponse;
+use OCP\AppFramework\OCSController;
 use OCP\Calendar\CalendarExportOptions;
 use OCP\Calendar\ICalendarExport;
 use OCP\Calendar\IManager;
@@ -26,7 +26,7 @@ use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
 
-class CalendarExportController extends ApiController {
+class CalendarExportController extends OCSController {
 
 	public function __construct(
 		IRequest $request,
@@ -47,14 +47,13 @@ class CalendarExportController extends ApiController {
 	 * @param array<string,mixed> $options configuration options
 	 * @param string|null $user system user id
 	 *
-	 * @return DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED,array{error?:non-empty-string},array{}>|\OCP\AppFramework\Http\StreamGeneratorResponse
+	 * @return DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED,array{error?:non-empty-string},array{}>|StreamGeneratorResponse<Http::STATUS_OK,array{Content-Type:string}>
 	 *
 	 * 200: calendar data
 	 * 401: user not authorized
 	 * 400: invalid parameters
 	 */
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
-	#[ApiRoute(verb: 'GET', url: '/export', root: '/calendar')]
 	#[ApiRoute(verb: 'POST', url: '/export', root: '/calendar')]
 	#[UserRateLimit(limit: 1, period: 60)]
 	#[NoAdminRequired]
