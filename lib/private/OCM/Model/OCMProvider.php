@@ -30,7 +30,7 @@ class OCMProvider implements IOCMProvider {
 	private bool $emittedEvent = false;
 
 	public function __construct(
-		protected IEventDispatcher $dispatcher,
+		protected ?IEventDispatcher $dispatcher,
 	) {
 	}
 
@@ -125,7 +125,7 @@ class OCMProvider implements IOCMProvider {
 		if (!$this->emittedEvent) {
 			$this->emittedEvent = true;
 			$event = new ResourceTypeRegisterEvent($this);
-			$this->dispatcher->dispatchTyped($event);
+			$this->dispatcher?->dispatchTyped($event);
 		}
 
 		return $this->resourceTypes;
