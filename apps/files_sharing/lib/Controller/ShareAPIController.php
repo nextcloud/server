@@ -557,7 +557,7 @@ class ShareAPIController extends OCSController {
 	 * 200: Share created
 	 */
 	#[NoAdminRequired]
-	#[UserRateLimit(limit: 10, duration: 600)]
+	#[UserRateLimit(limit: 10, period: 600)]
 	public function createShare(
 		?string $path = null,
 		?int $permissions = null,
