@@ -16,10 +16,10 @@ export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(
 export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).findByRole('button', { name: 'Actions' })
 
 export const getActionEntryForFileId = (fileid: number, actionId: string) => {
-	return cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+	return getRowForFileId(fileid).find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
 }
 export const getActionEntryForFile = (filename: string, actionId: string) => {
-	return cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+	return getRowForFile(filename).find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
 }
 
 export const triggerActionForFileId = (fileid: number, actionId: string) => {

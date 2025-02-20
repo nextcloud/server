@@ -76,7 +76,7 @@ export default defineComponent({
 	computed: {
 		dialogButtons() {
 			return [{
-				label: t('files_external', 'Submit'),
+				label: t('files_external', 'Confirm'),
 				type: 'primary',
 				nativeType: 'submit',
 			}]
