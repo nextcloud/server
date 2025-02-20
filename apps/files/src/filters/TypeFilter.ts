@@ -149,7 +149,12 @@ class TypeFilter extends FileListFilter {
 
 	public setPresets(presets?: ITypePreset[]) {
 		this.currentPresets = presets ?? []
-		this.currentInstance!.$props.presets = presets
+		if (this.currentInstance !== undefined) {
+			// could be called before the instance was created
+			// (meaning the files list is not mounted yet)
+			this.currentInstance.$props.presets = presets
+		}
+
 		this.filterUpdated()
 
 		const chips: IFileListFilterChip[] = []
