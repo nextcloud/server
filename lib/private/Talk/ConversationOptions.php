@@ -12,14 +12,16 @@ namespace OC\Talk;
 use OCP\Talk\IConversationOptions;
 
 class ConversationOptions implements IConversationOptions {
-	private bool $isPublic;
 
-	private function __construct(bool $isPublic) {
-		$this->isPublic = $isPublic;
+	private function __construct(
+		private bool $isPublic,
+		private string $objectType,
+		private string $objectId,
+	) {
 	}
 
 	public static function default(): self {
-		return new self(false);
+		return new self(false, '', '');
 	}
 
 	public function setPublic(bool $isPublic = true): IConversationOptions {
@@ -29,5 +31,19 @@ class ConversationOptions implements IConversationOptions {
 
 	public function isPublic(): bool {
 		return $this->isPublic;
+	}
+
+	public function getObjectType(): string {
+		return $this->objectType;
+	}
+
+	public function getObjectId(): string {
+		return $this->objectId;
+	}
+
+	public function setObject(string $objectType, string $objectId): self {
+		$this->objectType = $objectType;
+		$this->objectId = $objectId;
+		return $this;
 	}
 }
