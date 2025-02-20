@@ -27,6 +27,7 @@ import { translate as t } from '@nextcloud/l10n'
 
 import { FileAction, DefaultType } from '@nextcloud/files'
 import { STORAGE_STATUS } from '../utils/credentialsUtils'
+import { getCurrentUser } from '@nextcloud/auth'
 
 export const action = new FileAction({
 	id: 'open-in-files-external-storage',
@@ -49,7 +50,7 @@ export const action = new FileAction({
 				t('files_external', 'External mount error'),
 				(redirect) => {
 					if (redirect === true) {
-						const scope = node.attributes.scope === 'personal' ? 'user' : 'admin'
+						const scope = getCurrentUser()?.isAdmin ? 'admin' : 'user'
 						window.location.href = generateUrl(`/settings/${scope}/externalstorages`)
 					}
 				},
