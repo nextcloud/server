@@ -155,6 +155,7 @@ OC.L10N.register(
     "Shared" : "مشاركة",
     "Switch to list view" : "التبديل إلى عرض القائمة",
     "Switch to grid view" : "تبديل إلى العرض الشبكي",
+    "The file could not be found" : "تعذّر إيجاد الملف",
     "Upload was cancelled by user" : "عملية الرفع تمّ إلغاؤها من المستخدم",
     "Not enough free space" : "لا يوجد مساحة تخزينية كافية",
     "Operation is blocked by access control" : "العمليات حظرت الوصول لهذه الخدمة",
