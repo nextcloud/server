@@ -80,7 +80,7 @@
     "seconds ago" : "przed chwilą",
     "Empty file" : "Pusty plik",
     "Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator." : "Moduł o ID: %s nie istnieje. Włącz go w ustawieniach aplikacji lub skontaktuj się z administratorem.",
-    "Dot files are not allowed" : "Pliki z kropką są nie dozwolone",
+    "Dot files are not allowed" : "Pliki z kropką są niedozwolone",
     "Invalid parent path" : "Nieprawidłowa ścieżka nadrzędna",
     "File already exists" : "Plik już istnieje",
     "Invalid path" : "Niewłaściwa ścieżka",

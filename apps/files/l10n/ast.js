@@ -166,7 +166,7 @@ OC.L10N.register(
     "Create a new file with the selected template" : "Crea un ficheru cola plantía seleicionada",
     "Creating file" : "Creando'l ficheru",
     "Blank" : "Baleru",
-    "Unable to create new file from template" : "Nun ye posible crear un ficheru dende una plantía",
+    "Unable to create new file from template" : "Nun ye posible crear un ficheru a partir d'una plantía",
     "Deletion cancelled" : "Anulóse'l desaniciu",
     "Leave this share" : "Dexar esta compartición",
     "Leave these shares" : "Dexar estes comparticiones",

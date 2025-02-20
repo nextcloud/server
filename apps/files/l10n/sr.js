@@ -155,6 +155,7 @@ OC.L10N.register(
     "Shared" : "Подељено",
     "Switch to list view" : "Пређи на поглед листе",
     "Switch to grid view" : "Пређи на поглед мреже",
+    "The file could not be found" : "Фајл није могао да се пронађе",
     "Upload was cancelled by user" : "Корисник је прекинуо отпремање",
     "Not enough free space" : "Нема довољно слободног места",
     "Operation is blocked by access control" : "Контрола приступа је блокирала операцију",
