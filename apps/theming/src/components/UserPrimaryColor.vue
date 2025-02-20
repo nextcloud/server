@@ -35,9 +35,9 @@ import { defineComponent } from 'vue'
 import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import IconColorPalette from 'vue-material-design-icons/Palette.vue'
 import IconUndo from 'vue-material-design-icons/UndoVariant.vue'
 

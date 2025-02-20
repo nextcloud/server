@@ -25,8 +25,8 @@
 <script setup lang="ts">
 import type { IAppstoreExApp } from '../../app-types'
 
-import NcAppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 
 import { mdiFileChart } from '@mdi/js'
 import { ref } from 'vue'

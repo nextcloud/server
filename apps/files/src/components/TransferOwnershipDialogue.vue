@@ -46,9 +46,9 @@ import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 import { generateOcsUrl } from '@nextcloud/router'
 import { getFilePickerBuilder, showSuccess, showError } from '@nextcloud/dialogs'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 import Vue from 'vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
 
 import logger from '../logger.ts'
 

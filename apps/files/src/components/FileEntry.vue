@@ -83,11 +83,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
 import { formatFileSize } from '@nextcloud/files'
-import { useHotKey } from '@nextcloud/vue/dist/Composables/useHotKey.js'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
+import { defineComponent } from 'vue'
 import moment from '@nextcloud/moment'
-import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
+import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 
 import { useNavigation } from '../composables/useNavigation.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'

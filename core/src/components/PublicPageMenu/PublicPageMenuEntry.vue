@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
+import NcListItem from '@nextcloud/vue/components/NcListItem'
 import { onMounted } from 'vue'
 
 const props = defineProps<{

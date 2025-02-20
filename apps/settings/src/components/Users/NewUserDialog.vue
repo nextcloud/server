@@ -136,11 +136,11 @@
 
 <script>
 import { formatFileSize, parseFileSize } from '@nextcloud/files'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
-import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 export default {
 	name: 'NewUserDialog',

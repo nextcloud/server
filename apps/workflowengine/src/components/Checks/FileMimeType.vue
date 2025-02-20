@@ -38,8 +38,8 @@
 </template>
 
 <script>
-import NcEllipsisedOption from '@nextcloud/vue/dist/Components/NcEllipsisedOption.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcEllipsisedOption from '@nextcloud/vue/components/NcEllipsisedOption'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 import valueMixin from './../../mixins/valueMixin.js'
 import { imagePath } from '@nextcloud/router'
 

@@ -60,11 +60,11 @@ import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 import logger from '../service/logger.js'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-import NcTextArea from '@nextcloud/vue/dist/Components/NcTextArea.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
-import NcDateTimePickerNative from '@nextcloud/vue/dist/Components/NcDateTimePickerNative.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import NcTextArea from '@nextcloud/vue/components/NcTextArea'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
 
 export default {
 	name: 'AbsenceForm',

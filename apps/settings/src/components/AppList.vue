@@ -141,7 +141,7 @@
 <script>
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import pLimit from 'p-limit'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import AppItem from './AppList/AppItem.vue'
 import AppManagement from '../mixins/AppManagement'
 import { useAppApiStore } from '../store/app-api-store'

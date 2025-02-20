@@ -17,7 +17,7 @@
 				:show-trailing-button="searchTerm !== ''"
 				@update:value="searchTermChanged"
 				@trailing-button-click="clearSearch">
-				<Magnify :size="20" />
+				<IconMagnify :size="20" />
 			</NcTextField>
 			<ul v-if="filteredList.length > 0" class="searchable-list__list">
 				<li v-for="element in filteredList"
@@ -42,7 +42,7 @@
 			<div v-else class="searchable-list__empty-content">
 				<NcEmptyContent :name="emptyContentText">
 					<template #icon>
-						<AlertCircleOutline />
+						<IconAlertCircleOutline />
 					</template>
 				</NcEmptyContent>
 			</div>
@@ -51,22 +51,26 @@
 </template>
 
 <script>
-import { NcPopover, NcTextField, NcAvatar, NcEmptyContent, NcButton } from '@nextcloud/vue'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcPopover from '@nextcloud/vue/components/NcPopover'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
-import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
-import Magnify from 'vue-material-design-icons/Magnify.vue'
+import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
+import IconMagnify from 'vue-material-design-icons/Magnify.vue'
 
 export default {
 	name: 'SearchableList',
 
 	components: {
+		IconMagnify,
+		IconAlertCircleOutline,
+		NcAvatar,
+		NcButton,
+		NcEmptyContent,
 		NcPopover,
 		NcTextField,
-		Magnify,
-		AlertCircleOutline,
-		NcAvatar,
-		NcEmptyContent,
-		NcButton,
 	},
 
 	props: {

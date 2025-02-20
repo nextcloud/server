@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import HeaderBar from './shared/HeaderBar.vue'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 import {
 	ACCOUNT_SETTING_PROPERTY_ENUM,
 	ACCOUNT_SETTING_PROPERTY_READABLE_ENUM,

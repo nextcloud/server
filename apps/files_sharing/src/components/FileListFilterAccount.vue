@@ -46,10 +46,10 @@ import { computed, ref, watch } from 'vue'
 import { useNavigation } from '../../../files/src/composables/useNavigation.ts'
 
 import FileListFilter from '../../../files/src/components/FileListFilter/FileListFilter.vue'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActionInput from '@nextcloud/vue/components/NcActionInput'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 
 interface IUserSelectData {
 	id: string

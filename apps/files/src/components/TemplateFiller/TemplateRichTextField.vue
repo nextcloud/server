@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { NcTextField } from '@nextcloud/vue'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 export default defineComponent({
 	name: 'TemplateRichTextField',

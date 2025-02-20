@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
 import TextValueMixin from '../../mixins/admin/TextValueMixin.js'
 

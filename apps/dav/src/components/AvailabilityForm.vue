@@ -58,9 +58,9 @@ import {
 	enableUserStatusAutomation,
 	disableUserStatusAutomation,
 } from '../service/PreferenceService.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcTimezonePicker from '@nextcloud/vue/dist/Components/NcTimezonePicker.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcTimezonePicker from '@nextcloud/vue/components/NcTimezonePicker'
 
 export default {
 	name: 'AvailabilityForm',

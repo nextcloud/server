@@ -31,8 +31,8 @@ import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 import { useAuthTokenStore, type ITokenResponse } from '../store/authtoken'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import AuthTokenSetupDialog from './AuthTokenSetupDialog.vue'
 import logger from '../logger'

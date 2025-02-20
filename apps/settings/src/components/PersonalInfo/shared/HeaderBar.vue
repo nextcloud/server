@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import Plus from 'vue-material-design-icons/Plus.vue'
 
 import FederationControl from './FederationControl.vue'

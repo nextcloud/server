@@ -107,11 +107,11 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import draggable from 'vuedraggable'
 import DragVerticalIcon from 'vue-material-design-icons/DragVertical.vue'
 import ArrowDownIcon from 'vue-material-design-icons/ArrowDown.vue'

@@ -286,11 +286,11 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import NcProgressBar from '@nextcloud/vue/dist/Components/NcProgressBar.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcProgressBar from '@nextcloud/vue/components/NcProgressBar'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import UserRowActions from './UserRowActions.vue'
 

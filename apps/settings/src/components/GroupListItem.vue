@@ -71,13 +71,13 @@
 <script>
 import { Fragment } from 'vue-frag'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActionInput from '@nextcloud/vue/components/NcActionInput'
+import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
+import NcModal from '@nextcloud/vue/components/NcModal'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
 import AccountGroup from 'vue-material-design-icons/AccountGroup.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
