@@ -103,6 +103,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\JavaScriptModules' => $baseDir . '/../lib/SetupChecks/JavaScriptModules.php',
     'OCA\\Settings\\SetupChecks\\JavaScriptSourceMaps' => $baseDir . '/../lib/SetupChecks/JavaScriptSourceMaps.php',
     'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat' => $baseDir . '/../lib/SetupChecks/LegacySSEKeyFormat.php',
+    'OCA\\Settings\\SetupChecks\\LoggingLevel' => $baseDir . '/../lib/SetupChecks/LoggingLevel.php',
     'OCA\\Settings\\SetupChecks\\MaintenanceWindowStart' => $baseDir . '/../lib/SetupChecks/MaintenanceWindowStart.php',
     'OCA\\Settings\\SetupChecks\\MemcacheConfigured' => $baseDir . '/../lib/SetupChecks/MemcacheConfigured.php',
     'OCA\\Settings\\SetupChecks\\MimeTypeMigrationAvailable' => $baseDir . '/../lib/SetupChecks/MimeTypeMigrationAvailable.php',
