@@ -175,7 +175,7 @@
     "raw-loader": "^4.0.2",
     "regextras": "^0.8.0",
     "sass": "^1.81.1",
-    "sass-loader": "^16.0.4",
+    "sass-loader": "^16.0.5",
     "sinon": "<= 5.0.7",
     "style-loader": "^4.0.0",
     "stylelint": "^16.9.0",
