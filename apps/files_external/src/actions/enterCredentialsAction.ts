@@ -59,8 +59,10 @@ async function setCredentials(node: Node, login: string, password: string): Prom
 	return true
 }
 
+export const ACTION_CREDENTIALS_EXTERNAL_STORAGE = 'credentials-external-storage'
+
 export const action = new FileAction({
-	id: 'credentials-external-storage',
+	id: ACTION_CREDENTIALS_EXTERNAL_STORAGE,
 	displayName: () => t('files', 'Enter missing credentials'),
 	iconSvgInline: () => LoginSvg,
 
@@ -93,7 +95,14 @@ export const action = new FileAction({
 		))
 
 		if (login && password) {
-			return await setCredentials(node, login, password)
+			try {
+				await setCredentials(node, login, password)
+				showSuccess(t('files_external', 'Credentials successfully set'))
+			} catch (error) {
+				showError(t('files_external', 'Error while setting credentials: {error}', {
+					error: (error as Error).message,
+				}))
+			}
 		}
 
 		return null
