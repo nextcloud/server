@@ -53,6 +53,10 @@ export const startNextcloud = async function(branch: string = getCurrentGitBranc
 					reject(err)
 				}
 			}))
+
+			const digest = await (await docker.getImage(SERVER_IMAGE).inspect()).RepoDigests.at(0)
+			const sha = digest?.split('@').at(1)
+			console.log('├─ Using image ' + sha)
 			console.log('└─ Done')
 		} catch (e) {
 			console.log('└─ Failed to pull images')
