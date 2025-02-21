@@ -32,6 +32,7 @@ Usage:
 
 Arguments:
   job-classes                  Optional job class list to only run those jobs
+                               Providing a class will ignore the time-sensitivity restriction
 
 Options:
   -h, --help                 Display this help message' . PHP_EOL;
@@ -110,10 +111,14 @@ Options:
 			$appConfig->setValueString('core', 'backgroundjobs_mode', 'cron');
 		}
 
+		// a specific job class list can optionally be given as argument
+		$jobClasses = array_slice($argv, 1);
+		$jobClasses = empty($jobClasses) ? null : $jobClasses;
+
 		// Low-load hours
 		$onlyTimeSensitive = false;
 		$startHour = $config->getSystemValueInt('maintenance_window_start', 100);
-		if ($startHour <= 23) {
+		if ($jobClasses === null && $startHour <= 23) {
 			$date = new \DateTime('now', new \DateTimeZone('UTC'));
 			$currentHour = (int) $date->format('G');
 			$endHour = $startHour + 4;
@@ -141,9 +146,6 @@ Options:
 		$endTime = time() + 14 * 60;
 
 		$executedJobs = [];
-		// a specific job class list can optionally be given as argument
-		$jobClasses = array_slice($argv, 1);
-		$jobClasses = empty($jobClasses) ? null : $jobClasses;
 
 		while ($job = $jobList->getNext($onlyTimeSensitive, $jobClasses)) {
 			if (isset($executedJobs[$job->getId()])) {
