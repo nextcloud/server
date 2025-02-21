@@ -116,13 +116,7 @@ import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 
 const query = queryString.parse(location.search)
 if (query.clear === '1') {
-	try {
-		window.localStorage.clear()
-		window.sessionStorage.clear()
-		console.debug('Browser storage cleared')
-	} catch (e) {
-		console.error('Could not clear browser storage', e)
-	}
+	wipeBrowserStorages()
 }
 
 export default {
