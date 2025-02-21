@@ -63,7 +63,7 @@ OC.L10N.register(
     "Service name" : "ชื่อบริการ",
     "Request timeout (seconds)" : "หมดเวลาคำขอ (วินาที)",
     "External storage" : "พื้นที่จัดเก็บข้อมูลภายนอก",
-    "Submit" : "ส่ง",
+    "Confirm" : "ยืนยัน",
     "External mount error" : "ข้อผิดพลาดจุดเชื่อมต่อภายนอก",
     "Storage type" : "ชนิดการจัดเก็บข้อมูล",
     "Unknown" : "ไม่ทราบ",
@@ -86,6 +86,7 @@ OC.L10N.register(
     "Configuration" : "การกำหนดค่า",
     "Available for" : "ใช้ได้สำหรับ",
     "Add storage" : "เพิ่มพื้นที่จัดเก็บข้อมูล",
-    "Advanced settings" : "การตั้งค่าขั้นสูง"
+    "Advanced settings" : "การตั้งค่าขั้นสูง",
+    "Submit" : "ส่ง"
 },
 "nplurals=1; plural=0;");

@@ -83,7 +83,7 @@ OC.L10N.register(
     "External storage" : "Externe opslag",
     "External storage support" : "Externe opslag ondersteuning",
     "Adds basic external storage support" : "Toevoegen basale ondersteuning voor externe opslag",
-    "Submit" : "Verwerken",
+    "Confirm" : "Bevestigen",
     "Open in Files" : "Open in Bestanden",
     "External mount error" : "Extern koppelpunt fout",
     "Storage type" : "Opslagtype",
@@ -116,6 +116,7 @@ OC.L10N.register(
     "Available for" : "Beschikbaar voor",
     "Add storage" : "Toevoegen opslag",
     "Advanced settings" : "Geavanceerde instellingen",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens.",
+    "Submit" : "Verwerken"
 },
 "nplurals=2; plural=(n != 1);");

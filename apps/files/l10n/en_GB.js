@@ -155,6 +155,7 @@ OC.L10N.register(
     "Shared" : "Shared",
     "Switch to list view" : "Switch to list view",
     "Switch to grid view" : "Switch to grid view",
+    "The file could not be found" : "The file could not be found",
     "Upload was cancelled by user" : "Upload was cancelled by user",
     "Not enough free space" : "Not enough free space",
     "Operation is blocked by access control" : "Operation is blocked by access control",

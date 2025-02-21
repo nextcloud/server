@@ -87,7 +87,7 @@ OC.L10N.register(
     "External storage" : "External storage",
     "External storage support" : "External storage support",
     "Adds basic external storage support" : "Adds basic external storage support",
-    "Submit" : "Submit",
+    "Confirm" : "Confirm",
     "Unable to update this external storage config. {statusMessage}" : "Unable to update this external storage config. {statusMessage}",
     "New configuration successfully saved" : "New configuration successfully saved",
     "Enter missing credentials" : "Enter missing credentials",
@@ -132,6 +132,7 @@ OC.L10N.register(
     "Available for" : "Available for",
     "Add storage" : "Add storage",
     "Advanced settings" : "Advanced settings",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Global credentials can be used to authenticate with multiple external storages that have the same credentials."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Global credentials can be used to authenticate with multiple external storages that have the same credentials.",
+    "Submit" : "Submit"
 },
 "nplurals=2; plural=(n!=1);");

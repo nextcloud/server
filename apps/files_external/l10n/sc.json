@@ -79,7 +79,7 @@
     "External storage" : "Archiviatzione de foras",
     "External storage support" : "Suportu archiviatzione de foras",
     "Adds basic external storage support" : "Agiunghet suportu de base pro archiviatziones de foras",
-    "Submit" : "Imbia",
+    "Confirm" : "Cunfirma",
     "New configuration successfully saved" : "Cunfiguratzione noa sarvada",
     "Open in Files" : "Aberi in Archìvios",
     "External mount error" : "Errore de montàgiu esternu",
@@ -111,6 +111,7 @@
     "Available for" : "A disponimentu pro",
     "Add storage" : "Agiunghe archiviatzione",
     "Advanced settings" : "Cunfiguratziones avantzadas",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Is credentziales globales si podent impreare puru pro s'autenticatzione cun prus archiviatziones de foras chi tenent is matessi credentziales."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Is credentziales globales si podent impreare puru pro s'autenticatzione cun prus archiviatziones de foras chi tenent is matessi credentziales.",
+    "Submit" : "Imbia"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

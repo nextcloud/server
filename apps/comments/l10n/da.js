@@ -19,7 +19,7 @@ OC.L10N.register(
     "New comment" : "Ny kommentar",
     "Write a comment …" : "Skriv kommentar…",
     "Post comment" : "Skriv kommentar",
-    "@ for mentions, : for emoji, / for smart picker" : "\"@\" for at nævne, \":\" for emojis, \"/\" for Smart Vælger",
+    "@ for mentions, : for emoji, / for smart picker" : "\"@\" for at omtale, \":\" for emojis, \"/\" for Smart Vælger",
     "Could not reload comments" : "Kunne ikke indlæse kommentarer",
     "No comments yet, start the conversation!" : "Ingen kommentarer endnu, start samtalen!",
     "No more messages" : "Ikke flere beskeder",

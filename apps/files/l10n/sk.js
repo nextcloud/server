@@ -155,6 +155,7 @@ OC.L10N.register(
     "Shared" : "Sprístupnené",
     "Switch to list view" : "Prepnúť na zobrazenie v zozname",
     "Switch to grid view" : "Prepnúť na zobrazenie v mriežke",
+    "The file could not be found" : "Súbor nebol nájdený",
     "Upload was cancelled by user" : "Nahrávanie bolo zrušené užívateľom",
     "Not enough free space" : "Nedostatok voľného miesta",
     "Operation is blocked by access control" : "Činnosť je blokovaná kontrolou prístupu",

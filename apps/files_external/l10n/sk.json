@@ -98,7 +98,7 @@
     "To access the storage, you need to provide the authentication credentials." : "Ak chcete získať prístup k úložisku, musíte zadať autentifikačné poverenia.",
     "Enter the storage login" : "Zadajte prihlasovacie meno do úložiska",
     "Enter the storage password" : "Zadajte heslo do úložiska",
-    "Submit" : "Odoslať",
+    "Confirm" : "Potvrdiť",
     "Unable to update this external storage config. {statusMessage}" : "Nepodarilo sa aktualizovať konfiguráciu externého úložiska. {statusMessage}",
     "New configuration successfully saved" : "Nová konfigurácia úspešne uložená",
     "Enter missing credentials" : "Zadajte chýbajúce prihlasovacie údaje",
@@ -148,6 +148,7 @@
     "All people" : "Všetci ľudia",
     "Advanced settings" : "Rozšírené nastavenia",
     "Allow people to mount external storage" : "Povoliť užívateľom pripojiť externé úložiská",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globálne prihlasovacie údaje je možné použiť pre overenie s viacerými externými úložiskami, ktoré majú rovnaké prihlasovacie údaje."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globálne prihlasovacie údaje je možné použiť pre overenie s viacerými externými úložiskami, ktoré majú rovnaké prihlasovacie údaje.",
+    "Submit" : "Odoslať"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

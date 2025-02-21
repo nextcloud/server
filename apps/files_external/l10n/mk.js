@@ -62,7 +62,7 @@ OC.L10N.register(
     "\"%1$s\" is not installed. Mounting of %2$s is not possible. Please ask your system administrator to install it." : "\"%1$s\" не е инсалиран. Монтирањето на %2$s не е возможно. Контактирајте го администраторот.",
     "External storage" : "Надворешно складиште",
     "External storage support" : "Поддршка за надворешно складиште",
-    "Submit" : "Испрати",
+    "Confirm" : "Потврди",
     "Open in Files" : "Отвори во датотеките",
     "External mount error" : "Грешка при надворешно монтирање",
     "Storage type" : "Вид на складиште",
@@ -94,6 +94,7 @@ OC.L10N.register(
     "Available for" : "Достапно за",
     "Add storage" : "Додади складиште",
     "Advanced settings" : "Напредни параметри",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните акредитиви можат да се искористат за пристапување во повеќе надворешни складишта кој користат исти акредитиви."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните акредитиви можат да се искористат за пристапување во повеќе надворешни складишта кој користат исти акредитиви.",
+    "Submit" : "Испрати"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

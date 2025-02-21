@@ -85,7 +85,7 @@ OC.L10N.register(
     "External storage" : "حافظه خارجی",
     "External storage support" : "پشتیبانی از ذخیره سازی خارجی",
     "Adds basic external storage support" : "پشتیبانی اصلی حافظه خارجی را اضافه می کند",
-    "Submit" : "ارسال",
+    "Confirm" : "تأیید",
     "Unable to update this external storage config. {statusMessage}" : "Unable to update this external storage config. {statusMessage}",
     "New configuration successfully saved" : "New configuration successfully saved",
     "Enter missing credentials" : "Enter missing credentials",
@@ -130,6 +130,7 @@ OC.L10N.register(
     "Available for" : "در دسترس برای",
     "Add storage" : "اضافه کردن حافظه",
     "Advanced settings" : "تنظیمات پیشرفته",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "از اعتبار جهانی می توان برای تأیید اعتبار با چندین انبار خارجی که دارای اعتبار یکسانی هستند استفاده کرد."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "از اعتبار جهانی می توان برای تأیید اعتبار با چندین انبار خارجی که دارای اعتبار یکسانی هستند استفاده کرد.",
+    "Submit" : "ارسال"
 },
 "nplurals=2; plural=(n > 1);");

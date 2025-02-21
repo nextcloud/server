@@ -98,7 +98,7 @@
     "To access the storage, you need to provide the authentication credentials." : "Para acceder ao almacenamento, cómpre fornecer as credenciais de autenticación.",
     "Enter the storage login" : "Introduza o acceso ao almacenamento",
     "Enter the storage password" : "Introduza o contrasinal do almacenamento",
-    "Submit" : "Enviar",
+    "Confirm" : "Confirmar",
     "Unable to update this external storage config. {statusMessage}" : "Non é posíbel actualizar esta configuración de almacenamento externo. {statusMessage}",
     "New configuration successfully saved" : "A nova configuración gardouse correctamente",
     "Enter missing credentials" : "Introduza as credenciais que faltan",
@@ -148,6 +148,7 @@
     "All people" : "Todas as persoas",
     "Advanced settings" : "Axustes avanzados",
     "Allow people to mount external storage" : "Permitirlle á xente montar almacenamento externo",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poden empregarse credenciais globais para autenticar con múltiples almacenamentos externos que teñan as mesmas credenciais."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poden empregarse credenciais globais para autenticar con múltiples almacenamentos externos que teñan as mesmas credenciais.",
+    "Submit" : "Enviar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
