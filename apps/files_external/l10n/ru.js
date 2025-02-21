@@ -99,7 +99,7 @@ OC.L10N.register(
     "To access the storage, you need to provide the authentication credentials." : "Для получения доступа в хранилище, вам нужно указать четные данные для аутентификации.",
     "Enter the storage login" : "Введите имя пользователя хранилища",
     "Enter the storage password" : "Введите пароль от хранилища",
-    "Submit" : "Отправить ответ",
+    "Confirm" : "Подтвердить",
     "Unable to update this external storage config. {statusMessage}" : "Не удалось обновить эту конфигурацию внешних хранилищ. {statusMessage}",
     "New configuration successfully saved" : "Новая конфигурация успешно сохранена",
     "Enter missing credentials" : "Ввод пропущенных учётных данных",
@@ -149,6 +149,7 @@ OC.L10N.register(
     "All people" : "Все люди",
     "Advanced settings" : "Расширенные настройки",
     "Allow people to mount external storage" : "Разрешить пользователям подключать внешнее хранилище",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальные учетные данные могут использоваться для аутентификации с несколькими внешними хранилищами, которые имеют одинаковые учетные данные."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальные учетные данные могут использоваться для аутентификации с несколькими внешними хранилищами, которые имеют одинаковые учетные данные.",
+    "Submit" : "Отправить ответ"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

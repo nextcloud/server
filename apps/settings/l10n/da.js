@@ -562,7 +562,7 @@ OC.L10N.register(
     "Choose your profile picture" : "Vælg dit profil billede",
     "Please select a valid png or jpg file" : "Vælg en gyldig PNG eller JPG fil",
     "Error setting profile picture" : "Fejl; profil billede ikke gyldigt",
-    "Error cropping profile picture" : "Fejl; kunne ikke beskære profil billede",
+    "Error cropping profile picture" : "Fejl, kunne ikke beskære profil billede",
     "Error saving profile picture" : "Fejl; kunne ikke gemme profil billede",
     "Error removing profile picture" : "Fejl; kunne ikke slette profil billede",
     "Your biography. Markdown is supported." : "Din biografi. Markdown understøttes.",

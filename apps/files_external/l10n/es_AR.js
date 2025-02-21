@@ -69,7 +69,7 @@ OC.L10N.register(
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "El soporte para FTP en PHP no se encuentra habilitado o instalado. El montaje de %s no es posible. Favor de solicitar a su administador su instalación. ",
     "External storage" : "Almacenamiento externo",
     "External storage support" : "Soporte de almacenamiento externo",
-    "Submit" : "Enviar",
+    "Confirm" : "Confirmar",
     "External mount error" : "Error de montaje externo",
     "Storage type" : "Tipo de almacenamiento",
     "Unknown" : "Desconocido",
@@ -94,6 +94,7 @@ OC.L10N.register(
     "Configuration" : "Configuración",
     "Available for" : "Disponible para",
     "Add storage" : "Agregar almacenamiento",
-    "Advanced settings" : "Configuraciones avanzadas"
+    "Advanced settings" : "Configuraciones avanzadas",
+    "Submit" : "Enviar"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

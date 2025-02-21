@@ -85,7 +85,7 @@ OC.L10N.register(
     "External storage" : "Zunanja shramba",
     "External storage support" : "Podpora zunanji dhrambi",
     "Adds basic external storage support" : "Doda osnovno zunanjo podporo shrambe",
-    "Submit" : "Pošlji",
+    "Confirm" : "Potrdi",
     "New configuration successfully saved" : "Nove nastavitve so uspešno shranjene",
     "Enter missing credentials" : "Vpiši manjkajoča poverila",
     "There was an error with this external storage." : "Prišlo je do napake zunanje shrambe.",
@@ -122,6 +122,7 @@ OC.L10N.register(
     "Available for" : "Na voljo za",
     "Add storage" : "Dodaj shrambo",
     "Advanced settings" : "Napredne nastavitve",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Splošna poverila je mogoče uporabiti za overitev z več zunanjimi shrambami, ki uporabljajo enaka poverila."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Splošna poverila je mogoče uporabiti za overitev z več zunanjimi shrambami, ki uporabljajo enaka poverila.",
+    "Submit" : "Pošlji"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

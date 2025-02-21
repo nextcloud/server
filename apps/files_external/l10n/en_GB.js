@@ -100,7 +100,7 @@ OC.L10N.register(
     "To access the storage, you need to provide the authentication credentials." : "To access the storage, you need to provide the authentication credentials.",
     "Enter the storage login" : "Enter the storage login",
     "Enter the storage password" : "Enter the storage password",
-    "Submit" : "Submit",
+    "Confirm" : "Confirm",
     "Unable to update this external storage config. {statusMessage}" : "Unable to update this external storage config. {statusMessage}",
     "New configuration successfully saved" : "New configuration successfully saved",
     "Enter missing credentials" : "Enter missing credentials",
@@ -150,6 +150,7 @@ OC.L10N.register(
     "All people" : "All people",
     "Advanced settings" : "Advanced settings",
     "Allow people to mount external storage" : "Allow people to mount external storage",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Global credentials can be used to authenticate with multiple external storages that have the same credentials."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Global credentials can be used to authenticate with multiple external storages that have the same credentials.",
+    "Submit" : "Submit"
 },
 "nplurals=2; plural=(n != 1);");

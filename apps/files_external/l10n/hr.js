@@ -81,7 +81,7 @@ OC.L10N.register(
     "External storage" : "Vanjsko spremište za pohranu",
     "External storage support" : "Podrška za vanjsku pohranu",
     "Adds basic external storage support" : "Dodaje osnovnu podršku za vanjsku pohranu",
-    "Submit" : "Šalji",
+    "Confirm" : "Potvrdi",
     "External mount error" : "Pogreška vanjskog postavljanja",
     "Storage type" : "Vrsta pohrane",
     "Unknown" : "Nepoznata pogreška",
@@ -112,6 +112,7 @@ OC.L10N.register(
     "Available for" : "Dostupno za",
     "Add storage" : "Dodaj pohranu",
     "Advanced settings" : "Napredne postavke",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globalne vjerodajnice mogu se upotrebljavati za provođenje autentifikacije na više vanjskih pohrana koje imaju iste vjerodajnice."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globalne vjerodajnice mogu se upotrebljavati za provođenje autentifikacije na više vanjskih pohrana koje imaju iste vjerodajnice.",
+    "Submit" : "Šalji"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");
