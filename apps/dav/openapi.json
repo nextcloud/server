@@ -1141,15 +1141,7 @@
                         }
                     },
                     "200": {
-                        "description": "calendar data",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "type": "string",
-                                    "format": "binary"
-                                }
-                            }
-                        }
+                        "description": "calendar data"
                     }
                 }
             }
