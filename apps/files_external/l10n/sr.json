@@ -98,7 +98,7 @@
     "To access the storage, you need to provide the authentication credentials." : "Да бисте приступили складишту, потребно је да наведете информације за потврду идентитета.",
     "Enter the storage login" : "Унесите име за пријаву на складиште",
     "Enter the storage password" : "Унесите лозинку за складиште",
-    "Submit" : "Пошаљи",
+    "Confirm" : "Потврди",
     "Unable to update this external storage config. {statusMessage}" : "Не може да се ажурира конфигурација овог спољног складишта. {statusMessage}",
     "New configuration successfully saved" : "Нова конфигурација је успешно сачувана",
     "Enter missing credentials" : "Унесите корисничке акредитиве који недостају",
@@ -148,6 +148,7 @@
     "All people" : "Све особе",
     "Advanced settings" : "Напредне поставке",
     "Allow people to mount external storage" : "Дозволи људима да монтирају спољашња складишта",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобални акредитиви се могу користити за пријављивање на више спољних складишта које примају исте акредитиве."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобални акредитиви се могу користити за пријављивање на више спољних складишта које примају исте акредитиве.",
+    "Submit" : "Пошаљи"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

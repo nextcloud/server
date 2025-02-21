@@ -98,7 +98,7 @@
     "To access the storage, you need to provide the authentication credentials." : "Per accedir a l'emmagatzematge, heu de proporcionar les credencials d'autenticació.",
     "Enter the storage login" : "Introduïu l'inici de sessió d'emmagatzematge",
     "Enter the storage password" : "Introduïu la contrasenya d'emmagatzematge",
-    "Submit" : "Envia",
+    "Confirm" : "Confirma",
     "Unable to update this external storage config. {statusMessage}" : "No s'ha pogut actualitzar la configuració d'aquest emmagatzematge extern. {statusMessage}",
     "New configuration successfully saved" : "La configuració nova s'ha desat correctament",
     "Enter missing credentials" : "Introdueix les credencials que falten",
@@ -148,6 +148,7 @@
     "All people" : "Tothom",
     "Advanced settings" : "Paràmetres avançats",
     "Allow people to mount external storage" : "Permet que les persones muntin emmagatzematge extern",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les credencials globals es poden utilitzar per a autenticar-se amb diversos emmagatzematges externs que tinguin les mateixes credencials."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les credencials globals es poden utilitzar per a autenticar-se amb diversos emmagatzematges externs que tinguin les mateixes credencials.",
+    "Submit" : "Envia"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

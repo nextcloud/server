@@ -100,7 +100,7 @@ OC.L10N.register(
     "To access the storage, you need to provide the authentication credentials." : "Chun rochtain a fháil ar an stóras, ní mór duit na dintiúir fíordheimhnithe a sholáthar.",
     "Enter the storage login" : "Cuir isteach an logáil isteach stórála",
     "Enter the storage password" : "Cuir isteach an focal faire stórála",
-    "Submit" : "Cuir isteach",
+    "Confirm" : "Deimhnigh",
     "Unable to update this external storage config. {statusMessage}" : "Ní féidir an cumraíocht stórála seachtrach seo a nuashonrú. {statusMessage}",
     "New configuration successfully saved" : "D'éirigh le cumraíocht nua a shábháil",
     "Enter missing credentials" : "Cuir isteach dintiúir atá in easnamh",
@@ -150,6 +150,7 @@ OC.L10N.register(
     "All people" : "Gach duine",
     "Advanced settings" : "Ardsocruithe",
     "Allow people to mount external storage" : "Lig do dhaoine stóráil sheachtrach a shuiteáil",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Is féidir dintiúir dhomhanda a úsáid chun fíordheimhniú a dhéanamh le stórais sheachtracha iolracha a bhfuil na dintiúir chéanna acu."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Is féidir dintiúir dhomhanda a úsáid chun fíordheimhniú a dhéanamh le stórais sheachtracha iolracha a bhfuil na dintiúir chéanna acu.",
+    "Submit" : "Cuir isteach"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

@@ -100,7 +100,7 @@ OC.L10N.register(
     "To access the storage, you need to provide the authentication credentials." : "Abyste mohli přistupovat k úložišti, je třeba poskytnout ověřovací přihlašovací údaje.",
     "Enter the storage login" : "Zadejte přihlašovací jméno k úložiti",
     "Enter the storage password" : "Zadejte heslo k úložišti",
-    "Submit" : "Odeslat",
+    "Confirm" : "Potvrdit",
     "Unable to update this external storage config. {statusMessage}" : "Nedaří se zaktualizovat nastavení pro externí úložiště. {statusMessage}",
     "New configuration successfully saved" : "Nové nastavení úspěšně uloženo",
     "Enter missing credentials" : "Zadejte chybějící přihlašovací údaje",
@@ -150,6 +150,7 @@ OC.L10N.register(
     "All people" : "Všichni lidé",
     "Advanced settings" : "Pokročilá nastavení",
     "Allow people to mount external storage" : "Povolit lidem připojovat externí úložiště",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globální přihlašovací údaje je možné použít pro ověření se vůči vícero externím úložištím, která mají stejné přihlašovací údaje."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globální přihlašovací údaje je možné použít pro ověření se vůči vícero externím úložištím, která mají stejné přihlašovací údaje.",
+    "Submit" : "Odeslat"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

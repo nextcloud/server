@@ -100,7 +100,7 @@ OC.L10N.register(
     "To access the storage, you need to provide the authentication credentials." : "Depolama alanına erişebilmek için kimlik doğrulama bilgilerini vermeniz gerekir.",
     "Enter the storage login" : "Depolama alanı kullanıcı adını yazın",
     "Enter the storage password" : "Depolama alanı parolasını yazın",
-    "Submit" : "Gönder",
+    "Confirm" : "Onayla",
     "Unable to update this external storage config. {statusMessage}" : "Bu dış depolama birimi yapılandırması güncellenemedi. {statusMessage}",
     "New configuration successfully saved" : "Yeni yapılandırma kaydedildi",
     "Enter missing credentials" : "Eksik kimlik doğrulama bilgilerini yazın",
@@ -150,6 +150,7 @@ OC.L10N.register(
     "All people" : "Tüm kişiler",
     "Advanced settings" : "Gelişmiş ayarlar",
     "Allow people to mount external storage" : "Kişiler dış depolama bağlayabilsin",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Aynı kimlik doğrulama bilgilerini kullanan bir çok dış depolama aygıtına genel kimlik doğrulama bilgileri ile erişebilirsiniz."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Aynı kimlik doğrulama bilgilerini kullanan bir çok dış depolama aygıtına genel kimlik doğrulama bilgileri ile erişebilirsiniz.",
+    "Submit" : "Gönder"
 },
 "nplurals=2; plural=(n > 1);");

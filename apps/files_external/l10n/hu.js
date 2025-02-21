@@ -87,7 +87,7 @@ OC.L10N.register(
     "External storage" : "Külső tároló",
     "External storage support" : "Külső tároló támogatás",
     "Adds basic external storage support" : "Külső tároló támogatás hozzáadása",
-    "Submit" : "Beküldés",
+    "Confirm" : "Megerősítés",
     "Unable to update this external storage config. {statusMessage}" : "A külső tároló beállításainak frissítése nem sikerült. {statusMessage}",
     "New configuration successfully saved" : "Az új konfiguráció sikeresen elmentve",
     "Enter missing credentials" : "Adja meg a hiányzó hitelesítési adatokat",
@@ -132,6 +132,7 @@ OC.L10N.register(
     "Available for" : "Számukra érhető el:",
     "Add storage" : "Tároló hozzáadása",
     "Advanced settings" : "Speciális beállítások",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "A globális hitelesítő adatokkal azonos külső hitelesítő adatokkal rendelkező külső tárhelyek hitelesíthetők."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "A globális hitelesítő adatokkal azonos külső hitelesítő adatokkal rendelkező külső tárhelyek hitelesíthetők.",
+    "Submit" : "Beküldés"
 },
 "nplurals=2; plural=(n != 1);");

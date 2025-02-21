@@ -155,6 +155,7 @@ OC.L10N.register(
     "Shared" : "已分享",
     "Switch to list view" : "切換到列表檢視",
     "Switch to grid view" : "切換到網格檢視",
+    "The file could not be found" : "找不到檔案",
     "Upload was cancelled by user" : "用戶已取消上傳",
     "Not enough free space" : "空間不足",
     "Operation is blocked by access control" : "操作已被存取控制封鎖",

@@ -100,7 +100,7 @@ OC.L10N.register(
     "To access the storage, you need to provide the authentication credentials." : "要存取儲存空間，您必須提供驗證憑證。",
     "Enter the storage login" : "輸入儲存空間登入帳號",
     "Enter the storage password" : "輸入儲存空間密碼",
-    "Submit" : "遞交",
+    "Confirm" : "確認",
     "Unable to update this external storage config. {statusMessage}" : "無法更新此外部儲存空間組態設定。{statusMessage}",
     "New configuration successfully saved" : "已成功儲存新組態設定",
     "Enter missing credentials" : "輸入缺少的憑證",
@@ -150,6 +150,7 @@ OC.L10N.register(
     "All people" : "所有使用者",
     "Advanced settings" : "進階設定",
     "Allow people to mount external storage" : "允許使用者自行掛載外部儲存空間",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全域憑證可用於認證多個有相同憑證的外部儲存空間。"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全域憑證可用於認證多個有相同憑證的外部儲存空間。",
+    "Submit" : "遞交"
 },
 "nplurals=1; plural=0;");

@@ -78,7 +78,7 @@ OC.L10N.register(
     "External storage" : "Ekstera konservejo",
     "External storage support" : "Subteno de ekstera konservejo",
     "Adds basic external storage support" : "Aldonas bazan subtenon por ekstera konservejo",
-    "Submit" : "Sendi",
+    "Confirm" : "Konfirmi",
     "External mount error" : "Eraro de surmetingo ekstera",
     "Storage type" : "Konserveja tipo",
     "Unknown" : "Nekonata",
@@ -109,6 +109,7 @@ OC.L10N.register(
     "Available for" : "Disponebla por",
     "Add storage" : "Aldoni konservejon",
     "Advanced settings" : "Altanivela agordo",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn.",
+    "Submit" : "Sendi"
 },
 "nplurals=2; plural=(n != 1);");
