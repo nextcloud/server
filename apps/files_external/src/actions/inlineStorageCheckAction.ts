@@ -35,7 +35,7 @@ export const action = new FileAction({
 	async renderInline(node: Node) {
 		const span = document.createElement('span')
 		span.className = 'files-list__row-status'
-		span.innerHTML = t('files_external', 'Checking storage...')
+		span.innerHTML = t('files_external', 'Checking storage …')
 
 		let config = null as unknown as StorageConfig
 		getStatus(node.attributes.id, node.attributes.scope === 'system')
