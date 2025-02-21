@@ -131,8 +131,13 @@ export default defineComponent({
 			return this.source.status === NodeStatus.FAILED
 		},
 
-		canDrag() {
+		canDrag(): boolean {
 			if (this.isRenaming) {
+				return false
+			}
+
+			// Ignore if the node is not available
+			if (this.isFailedSource) {
 				return false
 			}
 
@@ -148,8 +153,13 @@ export default defineComponent({
 			return canDrag(this.source)
 		},
 
-		canDrop() {
+		canDrop(): boolean {
 			if (this.source.type !== FileType.Folder) {
+				return false
+			}
+
+			// Ignore if the node is not available
+			if (this.isFailedSource) {
 				return false
 			}
 
@@ -275,6 +285,11 @@ export default defineComponent({
 				return
 			}
 
+			// Ignore right click if the node is not available
+			if (this.isFailedSource) {
+				return
+			}
+
 			// The grid mode is compact enough to not care about
 			// the actions menu mouse position
 			if (!this.gridMode) {
@@ -309,6 +324,11 @@ export default defineComponent({
 
 			// Ignore right click.
 			if (event.button > 1) {
+				return
+			}
+
+			// Ignore right click if the node is not available
+			if (this.isFailedSource) {
 				return
 			}
 
