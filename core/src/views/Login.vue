@@ -131,16 +131,11 @@ import ResetPassword from '../components/login/ResetPassword.vue'
 import UpdatePassword from '../components/login/UpdatePassword.vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import { wipeBrowserStorages } from '../utils/xhr-request.js'
 
 const query = queryString.parse(location.search)
 if (query.clear === '1') {
-	try {
-		window.localStorage.clear()
-		window.sessionStorage.clear()
-		console.debug('Browser storage cleared')
-	} catch (e) {
-		console.error('Could not clear browser storage', e)
-	}
+	wipeBrowserStorages()
 }
 
 export default {
