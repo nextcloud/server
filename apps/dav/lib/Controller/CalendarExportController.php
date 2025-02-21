@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -47,7 +46,7 @@ class CalendarExportController extends OCSController {
 	 * @param array{rangeStart:string,rangeCount:int<1,max>} $options configuration options
 	 * @param string|null $user system user id
 	 *
-	 * @return DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED,array{error?:non-empty-string},array{}>|StreamGeneratorResponse<Http::STATUS_OK,array{Content-Type:string}>
+	 * @return DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{error?: non-empty-string}, array{}> | StreamGeneratorResponse<Http::STATUS_*, array<string, mixed>, int>
 	 *
 	 * 200: calendar data
 	 * 401: user not authorized
@@ -102,6 +101,6 @@ class CalendarExportController extends OCSController {
 			default => 'text/calendar; charset=UTF-8'
 		};
 
-		return new StreamGeneratorResponse($this->exportService->export($calendar, $options), $contentType);
+		return new StreamGeneratorResponse($this->exportService->export($calendar, $options), $contentType, 0);
 	}
 }

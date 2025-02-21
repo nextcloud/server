@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -11,6 +13,7 @@ use OCP\Calendar\CalendarImportOptions;
 use OCP\Calendar\ICalendarImport;
 use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\IManager;
+use OCP\ITempManager;
 use OCP\IUserManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -33,6 +36,7 @@ class ImportCalendar extends Command {
 	public function __construct(
 		private IUserManager $userManager,
 		private IManager $calendarManager,
+		private ITempManager $tempManager,
 		private ImportService $importService,
 	) {
 		parent::__construct();
@@ -125,15 +129,16 @@ class ImportCalendar extends Command {
 				throw new \InvalidArgumentException('Can not open stdin for read operation.');
 			} else {
 				try {
-					$temp = tmpfile();
+					$tempPath = $this->tempManager->getTemporaryFile();
+					$tempFile = fopen($tempPath, 'w+');
 					while (!feof($input)) {
-						fwrite($temp, fread($input, 8192));
+						fwrite($tempFile, fread($input, 8192));
 					}
-					fseek($temp, 0);
-					$outcome = $this->importService->import($temp, $calendar, $options);
+					fseek($tempFile, 0);
+					$outcome = $this->importService->import($tempFile, $calendar, $options);
 				} finally {
 					fclose($input);
-					fclose($temp);
+					fclose($tempFile);
 				}
 			}
 		}

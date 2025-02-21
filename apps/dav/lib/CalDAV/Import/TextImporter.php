@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -14,8 +13,8 @@ class TextImporter {
 
 	public const OBJECT_PREFIX = 'BEGIN:VCALENDAR' . PHP_EOL;
 	public const OBJECT_SUFFIX = PHP_EOL . 'END:VCALENDAR';
+	protected const COMPONENT_TYPES = ['VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE'];
 
-	protected array $types = ['VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE'];
 	protected bool $analyzed = false;
 	protected array $structure = ['VCALENDAR' => [], 'VEVENT' => [], 'VTODO' => [], 'VJOURNAL' => [], 'VTIMEZONE' => []];
 
@@ -50,7 +49,7 @@ class TextImporter {
 				// check line for component start, remember the position and determine the type
 				if (str_starts_with($data, 'BEGIN:')) {
 					$type = trim(substr($data, 6));
-					if (in_array($type, $this->types)) {
+					if (in_array($type, self::COMPONENT_TYPES)) {
 						$componentStart = ftell($this->source) - strlen($data);
 						$componentType = $type;
 					}

@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -23,6 +22,7 @@ use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\IManager;
 use OCP\IGroupManager;
 use OCP\IRequest;
+use OCP\ITempManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
 
@@ -33,6 +33,7 @@ class CalendarImportController extends OCSController {
 		private IUserSession $userSession,
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
+		private ITempManager $tempManager,
 		private IManager $calendarManager,
 		private ImportService $importService,
 	) {
@@ -135,15 +136,16 @@ class CalendarImportController extends OCSController {
 		// process the data
 		$timeStarted = microtime(true);
 		try {
-			$temp = tmpfile();
-			fwrite($temp, $data);
+			$tempPath = $this->tempManager->getTemporaryFile();
+			$tempFile = fopen($tempPath, 'w+');
+			fwrite($tempFile, $data);
 			unset($data);
-			fseek($temp, 0);
-			$outcome = $this->importService->import($temp, $calendar, $options);
+			fseek($tempFile, 0);
+			$outcome = $this->importService->import($tempFile, $calendar, $options);
 		} catch (\Throwable $e) {
 			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
 		} finally {
-			fclose($temp);
+			fclose($tempFile);
 		}
 		$timeFinished = microtime(true);
 

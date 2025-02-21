@@ -12,12 +12,11 @@ use Generator;
 use OCP\AppFramework\Http;
 
 /**
- * Class StreamResponse
- *
- * @since 31.0.0
+ * @since 32.0.0
  *
  * @template S of Http::STATUS_*
  * @template H of array<string, mixed>
+ * @template C of int
  * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class StreamGeneratorResponse extends Response implements ICallbackResponse {
@@ -26,19 +25,25 @@ class StreamGeneratorResponse extends Response implements ICallbackResponse {
 	/**
 	 * @since 32.0.0
 	 *
-	 * @param \Generator $generator the function to call to generate the response
+	 * @param Generator $generator the function to call to generate the response
 	 * @param string $contentType http response content type e.g. 'application/json; charset=UTF-8'
-	 * @param S $status http response status
+	 * @param int $status http response status
+	 * @param int $cache cache time in seconds
+	 * @param array $headers additional headers
 	 */
-	public function __construct(Generator $generator, string $contentType, int $status = Http::STATUS_OK) {
+	public function __construct(Generator $generator, string $contentType, int $status = Http::STATUS_OK, ?int $cache = null, ?array $headers = []) {
 		parent::__construct();
 
 		$this->generator = $generator;
 		
 		$this->setStatus($status);
-		$this->cacheFor(0);
 		$this->addHeader('Content-Type', $contentType);
-
+		if ($cache !== null) {
+			$this->cacheFor($cache);
+		}
+		foreach ($headers as $key => $value) {
+			$this->addHeader($key, $value);
+		}
 	}
 
 	/**

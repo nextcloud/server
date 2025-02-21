@@ -13,7 +13,7 @@ namespace OCP\Calendar;
  *
  * @since 32.0.0
  */
-class CalendarExportOptions {
+final class CalendarExportOptions {
 
 	private string $format = 'ical';
 	private ?string $rangeStart = null;

@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -13,7 +12,22 @@ namespace OCP\Calendar;
  *
  * @since 32.0.0
  */
-class CalendarImportOptions {
+final class CalendarImportOptions {
+
+	public const VALIDATE_NONE = 0;
+	public const VALIDATE_SKIP = 1;
+	public const VALIDATE_FAIL = 2;
+	public const VALIDATE_OPTIONS = [
+		self::VALIDATE_NONE,
+		self::VALIDATE_SKIP,
+		self::VALIDATE_FAIL,
+	];
+	public const ERROR_CONTINUE = 0;
+	public const ERROR_FAIL = 1;
+	public const ERROR_OPTIONS = [
+		self::ERROR_CONTINUE,
+		self::ERROR_FAIL,
+	];
 
 	private string $format = 'ical';
 	private bool $supersede = false;
@@ -65,8 +79,13 @@ class CalendarImportOptions {
 	 * Sets how to handle object errors
 	 *
 	 * @param int $errors 0 - continue, 1 - fail
+	 * 
+	 * @template $errors of self::ERROR_*
 	 */
 	public function setErrors(int $errors): void {
+		if (!in_array($errors, self::ERROR_OPTIONS, true)) {
+			throw new \InvalidArgumentException("Invalid errors handling type <$errors> specified, only ERROR_CONTINUE or ERROR_FAIL allowed");
+		}
 		$this->errors = $errors;
 	}
 
@@ -83,8 +102,13 @@ class CalendarImportOptions {
 	 * Sets how to handle object validation
 	 *
 	 * @param int $validate 0 - no validation, 1 - validate and skip on issue, 2 - validate and fail on issue
+	 * 
+	 * @template $validate of self::VALIDATE_*
 	 */
 	public function setValidate(int $validate): void {
+		if (!in_array($validate, self::VALIDATE_OPTIONS, true)) {
+			throw new \InvalidArgumentException("Invalid validation handling type <$validate> specified, only VALIDATE_NONE, VALIDATE_SKIP or VALIDATE_FAIL allowed");
+		}
 		$this->validate = $validate;
 	}
 

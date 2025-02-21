@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,8 +14,8 @@ class XmlImporter {
 
 	public const OBJECT_PREFIX = '<?xml version="1.0" encoding="UTF-8"?><icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0"><vcalendar><components>';
 	public const OBJECT_SUFFIX = '</components></vcalendar></icalendar>';
+	protected const COMPONENT_TYPES = ['VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE'];
 
-	protected array $types = ['VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE'];
 	protected bool $analyzed = false;
 	protected array $structure = ['VCALENDAR' => [], 'VEVENT' => [], 'VTODO' => [], 'VJOURNAL' => [], 'VTIMEZONE' => []];
 	protected int $praseLevel = 0;
@@ -28,7 +27,6 @@ class XmlImporter {
 	protected ?string $componentType = null;
 	protected bool $componentIdProperty = false;
 	
-
 	public function __construct(
 		protected $source,
 	) {
@@ -89,7 +87,7 @@ class XmlImporter {
 		$this->praseLevel++;
 		$this->prasePath[$this->praseLevel] = $tag;
 		// determine if the tag is a component type and remember the byte position
-		if (in_array($tag, $this->types, true)) {
+		if (in_array($tag, self::COMPONENT_TYPES, true)) {
 			$this->componentStart = xml_get_current_byte_index($parser) - (strlen($tag) + 1);
 			$this->componentType = $tag;
 			$this->componentLevel = $this->praseLevel;
