@@ -1,0 +1,213 @@
+SPDX-License-Identifier: MIT
+SPDX-License-Identifier: ISC
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: BSD-3-Clause
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
+SPDX-FileCopyrightText: inherits developers
+SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: debounce developers
+SPDX-FileCopyrightText: assert developers
+SPDX-FileCopyrightText: Tobias Koppers @sokra
+SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
+SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
+SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Matt Zabriskie
+SPDX-FileCopyrightText: Joyent
+SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
+SPDX-FileCopyrightText: Jordan Harband
+SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)
+SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
+SPDX-FileCopyrightText: GitHub Inc.
+SPDX-FileCopyrightText: Feross Aboukhadijeh
+SPDX-FileCopyrightText: Evan You
+SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
+SPDX-FileCopyrightText: David Clark
+SPDX-FileCopyrightText: Christoph Wurst
+SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Andris Reinman
+
+
+This file is generated from multiple sources. Included packages:
+- @nextcloud/auth
+	- version: 2.4.0
+	- license: GPL-3.0-or-later
+- @nextcloud/axios
+	- version: 2.5.1
+	- license: GPL-3.0-or-later
+- @nextcloud/browser-storage
+	- version: 0.4.0
+	- license: GPL-3.0-or-later
+- semver
+	- version: 7.6.3
+	- license: ISC
+- @nextcloud/event-bus
+	- version: 3.3.1
+	- license: GPL-3.0-or-later
+- @nextcloud/initial-state
+	- version: 2.2.0
+	- license: GPL-3.0-or-later
+- @nextcloud/l10n
+	- version: 3.1.0
+	- license: GPL-3.0-or-later
+- @nextcloud/logger
+	- version: 3.0.2
+	- license: GPL-3.0-or-later
+- @nextcloud/router
+	- version: 3.0.1
+	- license: GPL-3.0-or-later
+- @vueuse/core
+	- version: 11.0.1
+	- license: MIT
+- @vueuse/shared
+	- version: 11.0.1
+	- license: MIT
+- debounce
+	- version: 2.1.0
+	- license: MIT
+- @nextcloud/vue
+	- version: 8.17.1
+	- license: AGPL-3.0-or-later
+- assert
+	- version: 2.1.0
+	- license: MIT
+- available-typed-arrays
+	- version: 1.0.7
+	- license: MIT
+- axios
+	- version: 1.7.9
+	- license: MIT
+- base64-js
+	- version: 1.5.1
+	- license: MIT
+- call-bind
+	- version: 1.0.7
+	- license: MIT
+- console-browserify
+	- version: 1.2.0
+	- license: MIT
+- css-loader
+	- version: 6.11.0
+	- license: MIT
+- define-data-property
+	- version: 1.1.4
+	- license: MIT
+- define-properties
+	- version: 1.2.1
+	- license: MIT
+- dompurify
+	- version: 3.1.6
+	- license: (MPL-2.0 OR Apache-2.0)
+- es-define-property
+	- version: 1.0.0
+	- license: MIT
+- es-errors
+	- version: 1.3.0
+	- license: MIT
+- escape-html
+	- version: 1.0.3
+	- license: MIT
+- floating-vue
+	- version: 1.0.0-beta.19
+	- license: MIT
+- focus-trap
+	- version: 7.5.4
+	- license: MIT
+- for-each
+	- version: 0.3.3
+	- license: MIT
+- function-bind
+	- version: 1.1.2
+	- license: MIT
+- get-intrinsic
+	- version: 1.2.4
+	- license: MIT
+- gopd
+	- version: 1.0.1
+	- license: MIT
+- has-property-descriptors
+	- version: 1.0.2
+	- license: MIT
+- has-proto
+	- version: 1.0.3
+	- license: MIT
+- has-symbols
+	- version: 1.0.3
+	- license: MIT
+- has-tostringtag
+	- version: 1.0.2
+	- license: MIT
+- hasown
+	- version: 2.0.2
+	- license: MIT
+- ieee754
+	- version: 1.2.1
+	- license: BSD-3-Clause
+- inherits
+	- version: 2.0.4
+	- license: ISC
+- is-arguments
+	- version: 1.1.1
+	- license: MIT
+- is-callable
+	- version: 1.2.7
+	- license: MIT
+- is-generator-function
+	- version: 1.0.10
+	- license: MIT
+- is-nan
+	- version: 1.3.2
+	- license: MIT
+- is-typed-array
+	- version: 1.1.13
+	- license: MIT
+- lodash.get
+	- version: 4.4.2
+	- license: MIT
+- node-gettext
+	- version: 3.0.0
+	- license: MIT
+- buffer
+	- version: 6.0.3
+	- license: MIT
+- object-is
+	- version: 1.1.6
+	- license: MIT
+- object-keys
+	- version: 1.1.1
+	- license: MIT
+- object.assign
+	- version: 4.1.5
+	- license: MIT
+- possible-typed-array-names
+	- version: 1.0.0
+	- license: MIT
+- process
+	- version: 0.11.10
+	- license: MIT
+- set-function-length
+	- version: 1.2.2
+	- license: MIT
+- style-loader
+	- version: 3.3.4
+	- license: MIT
+- tabbable
+	- version: 6.2.0
+	- license: MIT
+- util
+	- version: 0.12.5
+	- license: MIT
+- vue-loader
+	- version: 15.11.1
+	- license: MIT
+- vue
+	- version: 2.7.16
+	- license: MIT
+- which-typed-array
+	- version: 1.1.15
+	- license: MIT
+- nextcloud
+	- version: 1.0.0
+	- license: AGPL-3.0-or-later
