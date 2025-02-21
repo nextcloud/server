@@ -26,23 +26,52 @@ export const getRowForFile = (filename: string) => cy.get(`[data-cy-files-list-r
 export const getActionsForFileId = (fileid: number) => getRowForFileId(fileid).find('[data-cy-files-list-row-actions]')
 export const getActionsForFile = (filename: string) => getRowForFile(filename).find('[data-cy-files-list-row-actions]')
 
-export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(fileid).find('button[aria-label="Actions"]')
-export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).find('button[aria-label="Actions"]')
+export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(fileid).findByRole('button', { name: 'Actions' })
+export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).findByRole('button', { name: 'Actions' })
+
+const searchForActionInRow = (row: JQuery<HTMLElement>, actionId: string): Cypress.Chainable<JQuery<HTMLElement>>  => {
+	const action = row.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+	if (action.length > 0) {
+		cy.log('Found action in row')
+		return cy.wrap(action)
+	}
+
+	// Else look in the action menu
+	const menuButtonId = row.find('button[aria-controls]').attr('aria-controls')
+	return cy.get(`#${menuButtonId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+}
+
+export const getActionEntryForFileId = (fileid: number, actionId: string): Cypress.Chainable<JQuery<HTMLElement>> => {
+	// If we cannot find the action in the row, it might be in the action menu
+	return getRowForFileId(fileid).should('be.visible')
+		.then(row => searchForActionInRow(row, actionId))
+}
+export const getActionEntryForFile = (filename: string, actionId: string): Cypress.Chainable<JQuery<HTMLElement>> => {
+	// If we cannot find the action in the row, it might be in the action menu
+	return getRowForFile(filename).should('be.visible')
+		.then(row => searchForActionInRow(row, actionId))
+}
 
 export const triggerActionForFileId = (fileid: number, actionId: string) => {
-	getActionButtonForFileId(fileid).click()
-	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`).should('exist').click()
+	// Even if it's inline, we open the action menu to get all actions visible
+	getActionButtonForFileId(fileid).click({ force: true })
+	getActionEntryForFileId(fileid, actionId)
+		.find('button').last()
+		.should('exist').click({ force: true })
 }
 export const triggerActionForFile = (filename: string, actionId: string) => {
-	getActionButtonForFile(filename).click()
-	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`).should('exist').click()
+	// Even if it's inline, we open the action menu to get all actions visible
+	getActionButtonForFile(filename).click({ force: true })
+	getActionEntryForFile(filename, actionId)
+		.find('button').last()
+		.should('exist').click({ force: true })
 }
 
 export const triggerInlineActionForFileId = (fileid: number, actionId: string) => {
 	getActionsForFileId(fileid).find(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`).should('exist').click()
 }
 export const triggerInlineActionForFile = (filename: string, actionId: string) => {
-	getActionsForFile(filename).get(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`).should('exist').click()
+	getActionsForFile(filename).find(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`).should('exist').click()
 }
 
 export const createFolder = (folderName: string) => {
