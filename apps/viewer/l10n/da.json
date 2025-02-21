@@ -118,7 +118,7 @@
     "Saved image size (width x height)" : "Gemt billedstørrelse (bredde x højde)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Bemærk, at det valgte beskæringsområde er lavere end den anvendte ændring, hvilket kan forårsage kvalitetsforringelse",
     "Actual size (100%)" : "Faktisk størrelse (100%)",
-    "Fit size" : "Tilpas størrelse",
+    "Fit size" : "Tilpasset størrelse",
     "Select image to add …" : "Vælg billede der skal tilføjes ...",
     "Failed to load image." : "Kunne ikke indlæse billede.",
     "Menu" : "Menu",
