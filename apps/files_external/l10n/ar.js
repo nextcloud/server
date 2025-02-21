@@ -100,7 +100,7 @@ OC.L10N.register(
     "To access the storage, you need to provide the authentication credentials." : "للوصول إلى وحدة التخزين، تحتاج إلى إبراز حيثيات المصادقة الخاص بك.",
     "Enter the storage login" : "التسجيل للدخول إلى وحدة التخزين",
     "Enter the storage password" : "أدخِل كلمة المرور لوحدة التخزين",
-    "Submit" : "إرسال ",
+    "Confirm" : "تأكيد",
     "Unable to update this external storage config. {statusMessage}" : "تعذّر تحديث تهيئة وحدة التخزين الخارجية هذه. {statusMessage}",
     "New configuration successfully saved" : "تمّ حفظ التهيئة الجديدة بنجاحٍ",
     "Enter missing credentials" : "أدخِل حيثيات الدخول الناقصة",
@@ -150,6 +150,7 @@ OC.L10N.register(
     "All people" : "كُلَّ الأشخاص",
     "Advanced settings" : "إعدادات متقدمة",
     "Allow people to mount external storage" : "السماح للأشخاص بثبيت وحدات تخزين خارجية",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "بيانات تسجيل الدخول الشاملة تستخدم للتحقق من عدة وحدات تخزين خارجية لها نفس بيانات تسجيل الدخول."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "بيانات تسجيل الدخول الشاملة تستخدم للتحقق من عدة وحدات تخزين خارجية لها نفس بيانات تسجيل الدخول.",
+    "Submit" : "إرسال "
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

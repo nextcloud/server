@@ -97,7 +97,7 @@
     "To access the storage, you need to provide the authentication credentials." : "Biltegian sartzeko, autentifikazio-kredentzialak eman behar dituzu.",
     "Enter the storage login" : "Sartu biltegiratze-saioa",
     "Enter the storage password" : "Sartu biltegiratze pasahitza",
-    "Submit" : "Bidali",
+    "Confirm" : "Berretsi",
     "Unable to update this external storage config. {statusMessage}" : "Ezin izan da kanpoko biltegiaren konfigurazioa aldatu. {statusMessage}",
     "New configuration successfully saved" : "Konfigurazio berria ondo gorde da",
     "Enter missing credentials" : "Sartu falta diren kredentzialak",
@@ -147,6 +147,7 @@
     "All people" : "Pertsona guztiak",
     "Advanced settings" : "Ezarpen aurreratuak",
     "Allow people to mount external storage" : "Baimendu pertsonek kanpoko biltegiratze zerbitzuak muntatzea",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Kredentzial globalak erabil daitezke kredentzial berdinak dituzten kanpoko hainbat biltegiratzerekin autentifikatzeko."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Kredentzial globalak erabil daitezke kredentzial berdinak dituzten kanpoko hainbat biltegiratzerekin autentifikatzeko.",
+    "Submit" : "Bidali"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

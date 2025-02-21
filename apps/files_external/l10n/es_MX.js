@@ -99,7 +99,7 @@ OC.L10N.register(
     "To access the storage, you need to provide the authentication credentials." : "Para acceder al almacenamiento, debe proporcionar las credenciales de autenticación.",
     "Enter the storage login" : "Ingrese el inicio de sesión de almacenamiento",
     "Enter the storage password" : "Ingrese la contraseña de almacenamiento",
-    "Submit" : "Enviar",
+    "Confirm" : "Confirmar",
     "Unable to update this external storage config. {statusMessage}" : "No se pudo actualizar la configuración de este almacenamiento externo. {statusMessage}",
     "New configuration successfully saved" : "La nueva configuración se guardó exitosamente",
     "Enter missing credentials" : "Ingrese las credenciales faltantes",
@@ -149,6 +149,7 @@ OC.L10N.register(
     "All people" : "Todas las personas",
     "Advanced settings" : "Configuraciones avanzadas",
     "Allow people to mount external storage" : "Permitir a los usuarios montar almacenamientos externos",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Las credenciales globales se pueden usar para autentificarse con múltiples almacenamientos externos que tienen las mismas credenciales."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Las credenciales globales se pueden usar para autentificarse con múltiples almacenamientos externos que tienen las mismas credenciales.",
+    "Submit" : "Enviar"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

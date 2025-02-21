@@ -100,7 +100,7 @@ OC.L10N.register(
     "To access the storage, you need to provide the authentication credentials." : "For at tilgå lageret, så skal du angive godkendelseslegitimationsoplysninger.",
     "Enter the storage login" : "Angiv et lagrings log på",
     "Enter the storage password" : "Angiv lagringsadgangskoden",
-    "Submit" : "Tilføj",
+    "Confirm" : "Bekræft",
     "Unable to update this external storage config. {statusMessage}" : "Er ikke i stand til at opdaterer konfigurationen af dette eksterne lager. {statusMessage}",
     "New configuration successfully saved" : "Den nye konfiguration er gemt",
     "Enter missing credentials" : "angiv manglende legitimationsoplysninger",
@@ -150,6 +150,7 @@ OC.L10N.register(
     "All people" : "Alle personer",
     "Advanced settings" : "Avancerede indstillinger",
     "Allow people to mount external storage" : "Tillad personer at montere eksternt lager",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale legitimationsoplysninger kan bruges til at godkende med flere eksterne lager, der har de samme legitimationsoplysninger."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale legitimationsoplysninger kan bruges til at godkende med flere eksterne lager, der har de samme legitimationsoplysninger.",
+    "Submit" : "Tilføj"
 },
 "nplurals=2; plural=(n != 1);");

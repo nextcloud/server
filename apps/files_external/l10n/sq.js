@@ -69,7 +69,7 @@ OC.L10N.register(
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Mbështetja e FTP në PHP nuk është e aktivizuar ose instaluar.Lidhja e %s nuk është e mundur.Ju lutem kërkojini administratorit të sistemit tuaj që ta instalojë.",
     "External storage" : "Depozitë e jashtme",
     "External storage support" : "Suport i kujtesë së jashtme",
-    "Submit" : "Dërgo",
+    "Confirm" : "Konfirmo",
     "External mount error" : "Gabim i jashtëm montimi",
     "Storage type" : "Lloj depozite",
     "Unknown" : "I panjohur",
@@ -94,6 +94,7 @@ OC.L10N.register(
     "Configuration" : "Formësim",
     "Available for" : "E gatshme për",
     "Add storage" : "Shtoni depozitë",
-    "Advanced settings" : "Rregullime të mëtejshme"
+    "Advanced settings" : "Rregullime të mëtejshme",
+    "Submit" : "Dërgo"
 },
 "nplurals=2; plural=(n != 1);");

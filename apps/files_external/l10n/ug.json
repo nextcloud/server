@@ -97,7 +97,7 @@
     "To access the storage, you need to provide the authentication credentials." : "ساقلاشقا ئېرىشىش ئۈچۈن ، دەلىللەش كىنىشكىسى بىلەن تەمىنلىشىڭىز كېرەك.",
     "Enter the storage login" : "ساقلاش تىزىملىكىنى كىرگۈزۈڭ",
     "Enter the storage password" : "ساقلاش پارولىنى كىرگۈزۈڭ",
-    "Submit" : "يوللاڭ",
+    "Confirm" : "جەزملەشتۈرۈڭ",
     "Unable to update this external storage config. {statusMessage}" : "بۇ سىرتقى ساقلاش سەپلىمىسىنى يېڭىلاشقا ئامالسىز. {statusMessage}",
     "New configuration successfully saved" : "يېڭى سەپلىمە مۇۋەپپەقىيەتلىك ساقلاندى",
     "Enter missing credentials" : "يوقاپ كەتكەن كىنىشكىنى كىرگۈزۈڭ",
@@ -147,6 +147,7 @@
     "All people" : "بارلىق كىشىلەر",
     "Advanced settings" : "ئىلغار تەڭشەكلەر",
     "Allow people to mount external storage" : "كىشىلەرنىڭ سىرتقى ساقلىغۇچ ئورنىتىشىغا يول قويۇڭ",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "يەرشارى كىنىشكىسى ئوخشاش سالاھىيەتكە ئىگە كۆپ خىل تاشقى دۇكانلار بىلەن دەلىللەشكە ئىشلىتىلىدۇ."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "يەرشارى كىنىشكىسى ئوخشاش سالاھىيەتكە ئىگە كۆپ خىل تاشقى دۇكانلار بىلەن دەلىللەشكە ئىشلىتىلىدۇ.",
+    "Submit" : "يوللاڭ"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

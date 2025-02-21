@@ -79,7 +79,7 @@ OC.L10N.register(
     "External storage" : "אחסון חיצוני",
     "External storage support" : "תמיכה באחסון חיצוני",
     "Adds basic external storage support" : "מוסיף תמיכה באחסון חיצוני בסיסי",
-    "Submit" : "שליחה",
+    "Confirm" : "אישור",
     "External mount error" : "שגיאת עגינה חיצונית",
     "Storage type" : "סוג אחסון",
     "Unknown" : "לא ידוע",
@@ -110,6 +110,7 @@ OC.L10N.register(
     "Available for" : "זמין עבור",
     "Add storage" : "הוספת אחסון",
     "Advanced settings" : "הגדרות מתקדמות",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "ניתן להשתמש בפרטי גישה גלובליים עם מגוון אמצעי אחסון חיצוניים שיש להם את אותם פרטי הגישה."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "ניתן להשתמש בפרטי גישה גלובליים עם מגוון אמצעי אחסון חיצוניים שיש להם את אותם פרטי הגישה.",
+    "Submit" : "שליחה"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

@@ -85,7 +85,7 @@ OC.L10N.register(
     "External storage" : "Almacenamiento externo",
     "External storage support" : "Soporte de almacenamiento externo",
     "Adds basic external storage support" : "Añade soporte básico para almacenamiento externo.",
-    "Submit" : "Enviar",
+    "Confirm" : "Confirmar",
     "External mount error" : "Error de montaje externo",
     "Storage type" : "Tipo de almacenamiento",
     "Unknown" : "Desconocido",
@@ -118,6 +118,7 @@ OC.L10N.register(
     "Available for" : "Disponible para",
     "Add storage" : "Agregar almacenamiento",
     "Advanced settings" : "Configuraciones avanzadas",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Las credenciales globales se pueden usar para autenticarse con múltiples almacenamientos externos que tienen las mismas credenciales."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Las credenciales globales se pueden usar para autenticarse con múltiples almacenamientos externos que tienen las mismas credenciales.",
+    "Submit" : "Enviar"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

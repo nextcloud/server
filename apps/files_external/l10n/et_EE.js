@@ -53,7 +53,7 @@ OC.L10N.register(
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Teenuse nimi",
     "External storage" : "Väline andmehoidla",
-    "Submit" : "Saada",
+    "Confirm" : "Kinnita",
     "External mount error" : "Välise seostamise tõrge",
     "Storage type" : "Andmehoidla tüüp",
     "Unknown" : "Teadmata",
@@ -78,6 +78,7 @@ OC.L10N.register(
     "Configuration" : "Seadistamine",
     "Available for" : "Saadaval",
     "Add storage" : "Lisa andmehoidla",
-    "Advanced settings" : "Lisavalikud"
+    "Advanced settings" : "Lisavalikud",
+    "Submit" : "Saada"
 },
 "nplurals=2; plural=(n != 1);");

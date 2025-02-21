@@ -95,7 +95,7 @@
     "To access the storage, you need to provide the authentication credentials." : "Aby uzyskać dostęp do pamięci zewnętrznej, musisz podać dane uwierzytelniające.",
     "Enter the storage login" : "Wprowadź login do pamięci zewnętrznej",
     "Enter the storage password" : "Wprowadź hasło do pamięci zewnętrznej",
-    "Submit" : "Wyślij",
+    "Confirm" : "Potwierdź",
     "Unable to update this external storage config. {statusMessage}" : "Nie można zaktualizować konfiguracji tej pamięci zewnętrznej. {statusMessage}",
     "New configuration successfully saved" : "Nowa konfiguracja została pomyślnie zapisana",
     "Enter missing credentials" : "Wprowadź brakujące dane uwierzytelniające",
@@ -145,6 +145,7 @@
     "All people" : "Wszystkie osoby",
     "Advanced settings" : "Ustawienia zaawansowane",
     "Allow people to mount external storage" : "Zezwalaj innym na montowanie pamięci zewnętrznej",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poświadczenia globalne mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same poświadczenia."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poświadczenia globalne mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same poświadczenia.",
+    "Submit" : "Wyślij"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

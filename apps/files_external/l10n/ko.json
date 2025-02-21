@@ -98,7 +98,7 @@
     "To access the storage, you need to provide the authentication credentials." : "저장소에 접근하려면 인증 자격 증명을 제공해야 합니다.",
     "Enter the storage login" : "저장소 로그인 입력",
     "Enter the storage password" : "저장소 암호 입력",
-    "Submit" : "제출",
+    "Confirm" : "확인",
     "Unable to update this external storage config. {statusMessage}" : "이 외부 저장소의 설정을 갱신할 수 없음. {statusMessage}",
     "New configuration successfully saved" : "새로운 설정이 성공적으로 저장됨",
     "Enter missing credentials" : "유실된 인증 정보 입력",
@@ -148,6 +148,7 @@
     "All people" : "모든 사용자",
     "Advanced settings" : "고급 설정",
     "Allow people to mount external storage" : "사용자가 외부 저장소를 마운트하도록 허용",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "전역 인증 정보를 사용하여 같은 인증 정보를 사용하는 여러 외부 저장소에 인증할 수 있습니다."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "전역 인증 정보를 사용하여 같은 인증 정보를 사용하는 여러 외부 저장소에 인증할 수 있습니다.",
+    "Submit" : "제출"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
