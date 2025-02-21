@@ -14,8 +14,8 @@ use DateTimeInterface;
 use DateTimeZone;
 use Exception;
 use OCA\FilesReminders\Exception\NodeNotFoundException;
+use OCA\FilesReminders\Exception\ReminderNotFoundException;
 use OCA\FilesReminders\Service\ReminderService;
-use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
@@ -53,15 +53,14 @@ class ApiController extends OCSController {
 
 		try {
 			$reminder = $this->reminderService->getDueForUser($user, $fileId);
-			$reminderData = [
+			if ($reminder === null) {
+				return new DataResponse(['dueDate' => null], Http::STATUS_OK);
+			}
+			return new DataResponse([
 				'dueDate' => $reminder->getDueDate()->format(DateTimeInterface::ATOM), // ISO 8601
-			];
-			return new DataResponse($reminderData, Http::STATUS_OK);
-		} catch (NodeNotFoundException|DoesNotExistException $e) {
-			$reminderData = [
-				'dueDate' => null,
-			];
-			return new DataResponse($reminderData, Http::STATUS_OK);
+			], Http::STATUS_OK);
+		} catch (NodeNotFoundException $e) {
+			return new DataResponse(['dueDate' => null], Http::STATUS_OK);
 		}
 	}
 
@@ -125,7 +124,7 @@ class ApiController extends OCSController {
 		try {
 			$this->reminderService->remove($user, $fileId);
 			return new DataResponse([], Http::STATUS_OK);
-		} catch (NodeNotFoundException|DoesNotExistException $e) {
+		} catch (NodeNotFoundException|ReminderNotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 	}
