@@ -155,6 +155,7 @@ OC.L10N.register(
     "Shared" : "Delt",
     "Switch to list view" : "Skift til listevisning",
     "Switch to grid view" : "Skift til gittervisning",
+    "The file could not be found" : "Filen kunne ikke findes",
     "Upload was cancelled by user" : "Upload var annulleret af bruger",
     "Not enough free space" : "Ikke nok fri plads",
     "Operation is blocked by access control" : "Operationen blev blokeret af adgangskontrollen",

@@ -104,6 +104,8 @@ OC.L10N.register(
     "Unable to update this external storage config. {statusMessage}" : "Er ikke i stand til at opdaterer konfigurationen af dette eksterne lager. {statusMessage}",
     "New configuration successfully saved" : "Den nye konfiguration er gemt",
     "Enter missing credentials" : "angiv manglende legitimationsoplysninger",
+    "Credentials successfully set" : "Legitimationsoplysningerne er angivet",
+    "Error while setting credentials: {error}" : "Fejl under indstilling af legitimationsoplysninger: {error}",
     "There was an error with this external storage." : "Der er en fejl med dette eksterne lager.",
     "We were unable to check the external storage {basename}" : "Det var ikke muligt at kontrollerer det eksterne lager {basename}",
     "Examine this faulty external storage configuration" : "Gennemgå fejl konfiguration af eksternt lager ",

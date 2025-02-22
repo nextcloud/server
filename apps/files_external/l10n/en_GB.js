@@ -104,6 +104,8 @@ OC.L10N.register(
     "Unable to update this external storage config. {statusMessage}" : "Unable to update this external storage config. {statusMessage}",
     "New configuration successfully saved" : "New configuration successfully saved",
     "Enter missing credentials" : "Enter missing credentials",
+    "Credentials successfully set" : "Credentials successfully set",
+    "Error while setting credentials: {error}" : "Error while setting credentials: {error}",
     "There was an error with this external storage." : "There was an error with this external storage.",
     "We were unable to check the external storage {basename}" : "We were unable to check the external storage {basename}",
     "Examine this faulty external storage configuration" : "Examine this faulty external storage configuration",
