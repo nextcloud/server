@@ -31,8 +31,8 @@ final class CalendarImportOptions {
 
 	private string $format = 'ical';
 	private bool $supersede = false;
-	private int $errors = 1;
-	private int $validate = 1;
+	private int $errors = self::ERROR_FAIL;
+	private int $validate = self::VALIDATE_SKIP;
 
 	/**
 	 * Gets the import format
@@ -79,7 +79,7 @@ final class CalendarImportOptions {
 	 * Sets how to handle object errors
 	 *
 	 * @param int $errors 0 - continue, 1 - fail
-	 * 
+	 *
 	 * @template $errors of self::ERROR_*
 	 */
 	public function setErrors(int $errors): void {
@@ -102,7 +102,7 @@ final class CalendarImportOptions {
 	 * Sets how to handle object validation
 	 *
 	 * @param int $validate 0 - no validation, 1 - validate and skip on issue, 2 - validate and fail on issue
-	 * 
+	 *
 	 * @template $validate of self::VALIDATE_*
 	 */
 	public function setValidate(int $validate): void {

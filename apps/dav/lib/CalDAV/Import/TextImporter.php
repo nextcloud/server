@@ -35,6 +35,9 @@ class TextImporter {
 		$componentEnd = null;
 		$componentId = null;
 		$componentType = null;
+		$tagName = null;
+		$tagValue = null;
+
 		// iterate through the source data line by line
 		fseek($this->source, 0);
 		while (!feof($this->source)) {
@@ -46,34 +49,50 @@ class TextImporter {
 			// check for withspace at the beginning of the line
 			// lines with whitespace at the beginning are continuations of the pervious line
 			if (ctype_space($data[0]) === false) {
+				// detect the line TAG
+				// detect the first occurrence of ':' or ';'
+				$colonPos = strpos($data, ':');
+				$semicolonPos = strpos($data, ';');
+				if ($colonPos !== false && $semicolonPos !== false) {
+					$splitPosition = min($colonPos, $semicolonPos);
+				} elseif ($colonPos !== false) {
+					$splitPosition = $colonPos;
+				} elseif ($semicolonPos !== false) {
+					$splitPosition = $semicolonPos;
+				} else {
+					continue;
+				}
+				$tagName = strtoupper(trim(substr($data, 0, $splitPosition)));
+				$tagValue = trim(substr($data, $splitPosition + 1));
+				$tagContinuation = false;
+			} else {
+				$tagContinuation = true;
+				$tagValue .= trim($data);
+			}
+
+			if ($tagContinuation === false) {
 				// check line for component start, remember the position and determine the type
-				if (str_starts_with($data, 'BEGIN:')) {
-					$type = trim(substr($data, 6));
-					if (in_array($type, self::COMPONENT_TYPES)) {
-						$componentStart = ftell($this->source) - strlen($data);
-						$componentType = $type;
-					}
-					unset($type);
+				if ($tagName === 'BEGIN' && in_array($tagValue, self::COMPONENT_TYPES, true)) {
+					$componentStart = ftell($this->source) - strlen($data);
+					$componentType = $tagValue;
 				}
 				// check line for component end, remember the position
-				if (str_starts_with($data, 'END:')) {
-					$type = trim(substr($data, 4));
-					if ($componentType === $type) {
-						$componentEnd = ftell($this->source);
-					}
-					unset($type);
+				if ($tagName === 'END' && $componentType === $tagValue) {
+					$componentEnd = ftell($this->source);
 				}
 				// check line for component id
-				if ($componentStart !== null && str_starts_with($data, 'UID:')) {
-					$componentId = trim(substr($data, 5));
+				if ($componentStart !== null && ($tagName === 'UID' || $tagName === 'TZID')) {
+					$componentId = $tagValue;
 				}
-				if ($componentStart !== null && str_starts_with($data, 'TZID:')) {
-					$componentId = trim(substr($data, 5));
+			} else {
+				// check line for component id
+				if ($componentStart !== null && ($tagName === 'UID' || $tagName === 'TZID')) {
+					$componentId = $tagValue;
 				}
 			}
 			// any line(s) not inside a component are VCALENDAR properties
 			if ($componentStart === null) {
-				if (!str_starts_with($data, 'BEGIN:VCALENDAR') && !str_starts_with($data, 'END:VCALENDAR')) {
+				if ($tagName !== 'BEGIN' && $tagName !== 'END' && $tagValue === 'VCALENDAR') {
 					$components['VCALENDAR'][] = $data;
 				}
 			}

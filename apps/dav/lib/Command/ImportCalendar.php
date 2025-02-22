@@ -63,8 +63,8 @@ class ImportCalendar extends Command {
 		$calendarId = $input->getArgument('cid');
 		$format = $input->getArgument('format');
 		$location = $input->getArgument('location');
-		$errors = $input->getOption('errors');
-		$validation = $input->getOption('validation');
+		$errors = is_numeric($input->getOption('errors')) ? $input->getOption('errors') : null;
+		$validation = is_numeric($input->getOption('validation')) ? $input->getOption('validation') : null;
 		$supersede = $input->getOption('supersede') ? true : false;
 		$showCreated = $input->getOption('show-created') ? true : false;
 		$showUpdated = $input->getOption('show-updated') ? true : false;
@@ -93,13 +93,13 @@ class ImportCalendar extends Command {
 		$options = new CalendarImportOptions();
 		$options->setSupersede($supersede);
 		if ($errors !== null) {
-			if ($errors < 0 || $errors > 1) {
+			if (!in_array($errors, CalendarImportOptions::ERROR_OPTIONS, true)) {
 				throw new InvalidArgumentException('Invalid errors option specified');
 			}
 			$options->setErrors($errors);
 		}
 		if ($validation !== null) {
-			if ($validation < 0 || $validation > 2) {
+			if (!in_array($errors, CalendarImportOptions::VALIDATE_OPTIONS, true)) {
 				throw new InvalidArgumentException('Invalid validation option specified');
 			}
 			$options->setValidate($validation);

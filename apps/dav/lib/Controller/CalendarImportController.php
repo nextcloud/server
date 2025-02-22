@@ -116,13 +116,13 @@ class CalendarImportController extends OCSController {
 		$options = new CalendarImportOptions();
 		$options->setSupersede($supersede);
 		if ($errors !== null) {
-			if ($errors < 0 || $errors > 1) {
+			if (!in_array($errors, CalendarImportOptions::ERROR_OPTIONS, true)) {
 				return new DataResponse(['error' => 'Invalid errors option specified'], Http::STATUS_BAD_REQUEST);
 			}
 			$options->setErrors($errors);
 		}
 		if ($validation !== null) {
-			if ($validation < 0 || $validation > 2) {
+			if (!in_array($errors, CalendarImportOptions::VALIDATE_OPTIONS, true)) {
 				return new DataResponse(['error' => 'Invalid validation option specified'], Http::STATUS_BAD_REQUEST);
 			}
 			$options->setValidate($validation);

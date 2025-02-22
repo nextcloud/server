@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV;
 
+use Exception;
 use Generator;
 use InvalidArgumentException;
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
@@ -308,7 +309,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 			$components = $vObject->getBaseComponents();
 			// determine if the object has no base component types
 			if (count($components) === 0) {
-				if ($options->getErrors() === 1) {
+				if ($options->getErrors() === $options::ERROR_FAIL) {
 					throw new InvalidArgumentException('Error importing calendar object, discovered object with no base component types');
 				}
 				$outcome['nbct'] = ['outcome' => 'error', 'errors' => ['One or more objects discovered with no base component types']];
@@ -321,7 +322,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 				$type = $components[0]->name;
 				foreach ($components as $entry) {
 					if ($type !== $entry->name) {
-						if ($options->getErrors() === 1) {
+						if ($options->getErrors() === $options::ERROR_FAIL) {
 							throw new InvalidArgumentException('Error importing calendar object, discovered object with multiple base component types');
 						}
 						$outcome['mbct'] = ['outcome' => 'error', 'errors' => ['One or more objects discovered with multiple base component types']];
@@ -331,7 +332,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 			}
 			// determine if the object has a uid
 			if (!isset($components[0]->UID)) {
-				if ($options->getErrors() === 1) {
+				if ($options->getErrors() === $options::ERROR_FAIL) {
 					throw new InvalidArgumentException('Error importing calendar object, discovered object without a UID');
 				}
 				$outcome['noid'] = ['outcome' => 'error', 'errors' => ['One or more objects discovered without a UID']];
@@ -339,37 +340,46 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 			}
 			$uid = $components[0]->UID->getValue();
 			// validate object
-			if ($options->getValidate() !== 0) {
+			if ($options->getValidate() !== $options::VALIDATE_NONE) {
 				$issues = $this->validateComponent($vObject, true, 3);
-				if ($options->getValidate() === 1 && $issues !== []) {
+				if ($options->getValidate() === $options::VALIDATE_SKIP && $issues !== []) {
 					$outcome[$uid] = ['outcome' => 'error', 'errors' => $issues];
 					continue;
-				} elseif ($options->getValidate() === 2 && $issues !== []) {
+				} elseif ($options->getValidate() === $options::VALIDATE_FAIL && $issues !== []) {
 					throw new InvalidArgumentException('Error importing calendar object <' . $uid . '>, ' . $issues[0]);
 				}
 			}
 			// create or update object in the data store
 			$objectId = $this->backend->getCalendarObjectByUID($this->calendarInfo['principaluri'], $uid);
 			$objectData = $vObject->serialize();
-			if ($objectId === null) {
-				$objectId = UUIDUtil::getUUID();
-				$this->backend->createCalendarObject(
-					$calendarId,
-					$objectId,
-					$objectData
-				);
-				$outcome[$uid] = ['outcome' => 'created'];
-			} elseif ($objectId !== null) {
-				[$cid, $oid] = explode('/', $objectId);
-				if ($options->getSupersede()) {
-					$this->backend->updateCalendarObject(
+			try {
+				if ($objectId === null) {
+					$objectId = UUIDUtil::getUUID();
+					$this->backend->createCalendarObject(
 						$calendarId,
-						$oid,
+						$objectId,
 						$objectData
 					);
-					$outcome[$uid] = ['outcome' => 'updated'];
+					$outcome[$uid] = ['outcome' => 'created'];
+				} elseif ($objectId !== null) {
+					[$cid, $oid] = explode('/', $objectId);
+					if ($options->getSupersede()) {
+						$this->backend->updateCalendarObject(
+							$calendarId,
+							$oid,
+							$objectData
+						);
+						$outcome[$uid] = ['outcome' => 'updated'];
+					} else {
+						$outcome[$uid] = ['outcome' => 'exists'];
+					}
+				}
+			} catch (Exception $e) {
+				$errorMessage = 'Error importing calendar object, while saving the object with ID ' . $uid . ': ' . $e->getMessage();
+				if ($options->getErrors() === $options::ERROR_FAIL) {
+					throw new Exception($errorMessage, 0, $e);
 				} else {
-					$outcome[$uid] = ['outcome' => 'exists'];
+					$outcome[$uid] = ['outcome' => 'error', 'errors' => [$errorMessage]];
 				}
 			}
 		}
