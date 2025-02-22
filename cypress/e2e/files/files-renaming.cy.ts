@@ -74,7 +74,7 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 	})
 
 	it('shows accessible loading information', () => {
-		const { resolve, promise } = Promise.withResolvers()
+		const { resolve, promise } = Promise.withResolvers<void>()
 
 		getRowForFile('file.txt').should('be.visible')
 
@@ -106,7 +106,7 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 			.should('not.exist')
 
 		cy.log('Resolve promise to preoceed with MOVE request')
-			.then(() => resolve(null))
+			.then(() => resolve())
 
 		// Ensure the request is done (file renamed)
 		cy.wait('@moveFile')
@@ -194,7 +194,7 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 			.should('not.exist')
 	})
 
-	it('shows warning on extension change', () => {
+	it('shows warning on extension change - select new extension', () => {
 		getRowForFile('file.txt').should('be.visible')
 
 		triggerActionForFile('file.txt', 'rename')
@@ -202,39 +202,60 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 			.findByRole('textbox', { name: 'Filename' })
 			.should('be.visible')
 			.type('{selectAll}file.md')
-			.should(haveValidity(''))
 			.type('{enter}')
 
 		// See warning dialog
 		cy.findByRole('dialog', { name: 'Change file extension' })
 			.should('be.visible')
-			.findByRole('button', { name: /use/i })
+			.findByRole('button', { name: 'Use .md' })
 			.click()
 
 		// See it is renamed
 		getRowForFile('file.md').should('be.visible')
 	})
 
-	it('shows warning on extension change and allow cancellation', () => {
+	it('shows warning on extension change - select old extension', () => {
 		getRowForFile('file.txt').should('be.visible')
 
 		triggerActionForFile('file.txt', 'rename')
 		getRowForFile('file.txt')
 			.findByRole('textbox', { name: 'Filename' })
 			.should('be.visible')
-			.type('{selectAll}file.md')
-			.should(haveValidity(''))
+			.type('{selectAll}document.md')
 			.type('{enter}')
 
 		// See warning dialog
 		cy.findByRole('dialog', { name: 'Change file extension' })
 			.should('be.visible')
-			.findByRole('button', { name: /keep/i })
+			.findByRole('button', { name: 'Keep .txt' })
 			.click()
 
-		// See it is not renamed
+		// See it is renamed
+		getRowForFile('document.txt').should('be.visible')
+	})
+
+	it('shows warning on extension removal', () => {
 		getRowForFile('file.txt').should('be.visible')
-		getRowForFile('file.md').should('not.exist')
+
+		triggerActionForFile('file.txt', 'rename')
+		getRowForFile('file.txt')
+			.findByRole('textbox', { name: 'Filename' })
+			.should('be.visible')
+			.type('{selectAll}file')
+			.type('{enter}')
+
+		cy.findByRole('dialog', { name: 'Change file extension' })
+			.should('be.visible')
+			.findByRole('button', { name: 'Keep .txt' })
+			.should('be.visible')
+		cy.findByRole('dialog', { name: 'Change file extension' })
+			.findByRole('button', { name: 'Remove extension' })
+			.should('be.visible')
+			.click()
+
+		// See it is renamed
+		getRowForFile('file').should('be.visible')
+		getRowForFile('file.txt').should('not.exist')
 	})
 
 	it('does not show warning on folder renaming with a dot', () => {
