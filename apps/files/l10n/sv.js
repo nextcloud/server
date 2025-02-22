@@ -155,6 +155,7 @@ OC.L10N.register(
     "Shared" : "Delad",
     "Switch to list view" : "Växla till listvy",
     "Switch to grid view" : "Växla till rutnätsvy",
+    "The file could not be found" : "Filen kunde inte hittas",
     "Upload was cancelled by user" : "Uppladdningen avbröts av användaren",
     "Not enough free space" : "Inte tillräckligt med ledigt utrymme",
     "Operation is blocked by access control" : "Operationen blockeras av åtkomstkontroll",

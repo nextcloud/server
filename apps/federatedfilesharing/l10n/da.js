@@ -55,6 +55,7 @@ OC.L10N.register(
     "Remote share" : "Eksterne drev",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ønsker du at tilføje det eksterne drev  {name} fra {owner}@{remote}?",
     "Remote share password" : "Fjerndrev adgangskode",
+    "Incoming share could not be processed" : "Indgående deling kunne ikke behandles",
     "Your Federated Cloud ID:" : "Din Sammenkoblings Cloud ID:",
     "Twitter" : "Twitter",
     "Diaspora" : "Diaspora",
