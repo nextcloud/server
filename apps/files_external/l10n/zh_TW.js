@@ -104,6 +104,8 @@ OC.L10N.register(
     "Unable to update this external storage config. {statusMessage}" : "無法更新此外部儲存空間組態設定。{statusMessage}",
     "New configuration successfully saved" : "已成功儲存新組態設定",
     "Enter missing credentials" : "輸入缺少的憑證",
+    "Credentials successfully set" : "已成功設定憑證",
+    "Error while setting credentials: {error}" : "設定憑證時發生錯誤：{error}",
     "There was an error with this external storage." : "此外部儲存空間發生錯誤。",
     "We were unable to check the external storage {basename}" : "我們無法檢查外部儲存空間 {basename}",
     "Examine this faulty external storage configuration" : "檢查此錯誤的外部儲存空間組態設定",

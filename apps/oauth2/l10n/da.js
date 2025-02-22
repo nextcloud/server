@@ -13,6 +13,7 @@ OC.L10N.register(
     "Client Identifier" : "Klient ID",
     "Secret key" : "Hemmelig nøgle",
     "Delete client" : "Slet klient",
+    "Make sure you store the secret key, it cannot be recovered." : "Sørg for at gemme den hemmelige nøgle, den kan ikke gendannes.",
     "Add client" : "Tilføj klient",
     "Add" : "Tilføj",
     "Delete" : "Slet",

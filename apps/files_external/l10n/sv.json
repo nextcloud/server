@@ -102,6 +102,8 @@
     "Unable to update this external storage config. {statusMessage}" : "Det gick inte att uppdatera denna externa lagringskonfiguration. {statusMessage}",
     "New configuration successfully saved" : "Ny konfiguration har sparats",
     "Enter missing credentials" : "Ange saknade inloggningsuppgifter",
+    "Credentials successfully set" : "Autentiseringsuppgifter har sparats",
+    "Error while setting credentials: {error}" : "Fel vid inställning av autentiseringsuppgifter: {error}",
     "There was an error with this external storage." : "Det uppstod ett fel med denna externa lagring.",
     "We were unable to check the external storage {basename}" : "Vi kunde inte kontrollera den externa lagringen {basename}",
     "Examine this faulty external storage configuration" : "Undersök denna felaktiga externa lagringskonfiguration",

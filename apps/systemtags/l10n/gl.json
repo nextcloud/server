@@ -83,7 +83,7 @@
     "Failed to select tag" : "Produciuse un fallo ao seleccionar a etiqueta",
     "System admin disabled tag creation. You can only use existing ones." : "A administración do sistema desactivou a creación de etiquetas. Só pode usar as existentes.",
     "System tag creation" : "Creación de etiquetas do sistema",
-    "If enabled, regular accounts will be restricted from creating new tags but will still be able to assign and remove them from their files." : "Se está activado, as contas normais non poderán crear novas etiquetas mais aínda poderán asignalas e eliminalas dos seus ficheiros.",
+    "If enabled, regular accounts will be restricted from creating new tags but will still be able to assign and remove them from their files." : "Se está activado, as contas normais non poderán crear novas etiquetas mais aínda poderán asignalas e retiralas dos seus ficheiros.",
     "Restrict tag creation to admins only" : "Restrinxir a creación de etiquetas só á administración",
     "Unable to update setting" : "Non é posíbel actualizar o axuste",
     "System tag creation is now restricted to administrators" : "A creación de etiquetas do sistema agora está restrinxida aos administradores",

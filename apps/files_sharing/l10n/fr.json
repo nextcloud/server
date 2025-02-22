@@ -53,7 +53,7 @@
     "Share for file {file} with {user} expired" : "Partage du fichier {file} avec l'utilisateur {user} expiré",
     "Share for file {file} expired" : "Partage du fichier {file} expiré",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Un fichier ou un dossier partagé par e-mail ou par lien public a été <strong>téléchargé</strong>",
-    "Files have been <strong>uploaded</strong> to a folder shared by mail or by public link" : "Des fichiers ont été <strong>téléversés</strong>dans un dossier partagé par mail ou lien public",
+    "Files have been <strong>uploaded</strong> to a folder shared by mail or by public link" : "Des fichiers ont été <strong>téléversés</strong> dans un dossier partagé par e-mail ou par lien public",
     "A file or folder was shared from <strong>another server</strong>" : "Un fichier ou un dossier a été partagé depuis <strong>un autre serveur</strong>",
     "Sharing" : "Partage",
     "A file or folder has been <strong>shared</strong>" : "Un fichier ou un dossier a été <strong>partagé</strong>",
