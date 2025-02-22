@@ -65,7 +65,7 @@
     "@simplewebauthn/browser": "^12.0.0",
     "@vueuse/components": "^11.1.0",
     "@vueuse/core": "^11.0.1",
-    "@vueuse/integrations": "^11.1.0",
+    "@vueuse/integrations": "^12.7.0",
     "backbone": "^1.4.1",
     "blueimp-md5": "^2.19.0",
     "blurhash": "^2.0.5",
