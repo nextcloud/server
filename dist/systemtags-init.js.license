@@ -12,7 +12,6 @@ SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: defunctzombie
 SPDX-FileCopyrightText: debounce developers
-SPDX-FileCopyrightText: color developers
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
@@ -20,7 +19,6 @@ SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
-SPDX-FileCopyrightText: Qix (http://github.com/qix-)
 SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
@@ -40,7 +38,6 @@ SPDX-FileCopyrightText: John Hiesey
 SPDX-FileCopyrightText: James Halliday
 SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me)
 SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
-SPDX-FileCopyrightText: Heather Arthur <fayearthur@gmail.com>
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
 SPDX-FileCopyrightText: Guillaume Chau
 SPDX-FileCopyrightText: GitHub Inc.
@@ -50,7 +47,6 @@ SPDX-FileCopyrightText: Eduardo San Martin Morote
 SPDX-FileCopyrightText: Dylan Piercey <pierceydylan@gmail.com>
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: David Clark
-SPDX-FileCopyrightText: DY <dfcreative@gmail.com>
 SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Ben Drucker
@@ -159,18 +155,6 @@ This file is generated from multiple sources. Included packages:
 - charenc
 	- version: 0.0.2
 	- license: BSD-3-Clause
-- color-convert
-	- version: 2.0.1
-	- license: MIT
-- color-name
-	- version: 1.1.4
-	- license: MIT
-- color-string
-	- version: 1.9.1
-	- license: MIT
-- color
-	- version: 4.2.3
-	- license: MIT
 - crypt
 	- version: 0.0.2
 	- license: BSD-3-Clause
@@ -320,12 +304,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - side-channel
 	- version: 1.0.6
-	- license: MIT
-- is-arrayish
-	- version: 0.3.2
-	- license: MIT
-- simple-swizzle
-	- version: 0.2.2
 	- license: MIT
 - readable-stream
 	- version: 3.6.2
