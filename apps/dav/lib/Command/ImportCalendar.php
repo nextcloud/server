@@ -63,8 +63,8 @@ class ImportCalendar extends Command {
 		$calendarId = $input->getArgument('cid');
 		$format = $input->getArgument('format');
 		$location = $input->getArgument('location');
-		$errors = is_numeric($input->getOption('errors')) ? $input->getOption('errors') : null;
-		$validation = is_numeric($input->getOption('validation')) ? $input->getOption('validation') : null;
+		$errors = is_numeric($input->getOption('errors')) ? (int)$input->getOption('errors') : null;
+		$validation = is_numeric($input->getOption('validation')) ? (int)$input->getOption('validation') : null;
 		$supersede = $input->getOption('supersede') ? true : false;
 		$showCreated = $input->getOption('show-created') ? true : false;
 		$showUpdated = $input->getOption('show-updated') ? true : false;
@@ -99,7 +99,7 @@ class ImportCalendar extends Command {
 			$options->setErrors($errors);
 		}
 		if ($validation !== null) {
-			if (!in_array($errors, CalendarImportOptions::VALIDATE_OPTIONS, true)) {
+			if (!in_array($validation, CalendarImportOptions::VALIDATE_OPTIONS, true)) {
 				throw new InvalidArgumentException('Invalid validation option specified');
 			}
 			$options->setValidate($validation);
@@ -144,7 +144,7 @@ class ImportCalendar extends Command {
 		}
 		$timeFinished = microtime(true);
 
-		// output outcome of import
+		// summarize the outcome
 		$totalCreated = 0;
 		$totalUpdated = 0;
 		$totalSkipped = 0;

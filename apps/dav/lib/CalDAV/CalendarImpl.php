@@ -309,10 +309,11 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 			$components = $vObject->getBaseComponents();
 			// determine if the object has no base component types
 			if (count($components) === 0) {
+				$errorMessage = 'One or more objects discovered with no base component types';
 				if ($options->getErrors() === $options::ERROR_FAIL) {
-					throw new InvalidArgumentException('Error importing calendar object, discovered object with no base component types');
+					throw new InvalidArgumentException('Error importing calendar data: ' . $errorMessage);
 				}
-				$outcome['nbct'] = ['outcome' => 'error', 'errors' => ['One or more objects discovered with no base component types']];
+				$outcome['nbct'] = ['outcome' => 'error', 'errors' => [$errorMessage]];
 				continue;
 			}
 			// determine if the object has more than one base component type
@@ -322,20 +323,22 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 				$type = $components[0]->name;
 				foreach ($components as $entry) {
 					if ($type !== $entry->name) {
+						$errorMessage = 'One or more objects discovered with multiple base component types';
 						if ($options->getErrors() === $options::ERROR_FAIL) {
-							throw new InvalidArgumentException('Error importing calendar object, discovered object with multiple base component types');
+							throw new InvalidArgumentException('Error importing calendar data: ' . $errorMessage);
 						}
-						$outcome['mbct'] = ['outcome' => 'error', 'errors' => ['One or more objects discovered with multiple base component types']];
+						$outcome['mbct'] = ['outcome' => 'error', 'errors' => [$errorMessage]];
 						continue 2;
 					}
 				}
 			}
 			// determine if the object has a uid
 			if (!isset($components[0]->UID)) {
+				$errorMessage = 'One or more objects discovered without a UID';
 				if ($options->getErrors() === $options::ERROR_FAIL) {
-					throw new InvalidArgumentException('Error importing calendar object, discovered object without a UID');
+					throw new InvalidArgumentException('Error importing calendar data: ' . $errorMessage);
 				}
-				$outcome['noid'] = ['outcome' => 'error', 'errors' => ['One or more objects discovered without a UID']];
+				$outcome['noid'] = ['outcome' => 'error', 'errors' => [$errorMessage]];
 				continue;
 			}
 			$uid = $components[0]->UID->getValue();
@@ -346,7 +349,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 					$outcome[$uid] = ['outcome' => 'error', 'errors' => $issues];
 					continue;
 				} elseif ($options->getValidate() === $options::VALIDATE_FAIL && $issues !== []) {
-					throw new InvalidArgumentException('Error importing calendar object <' . $uid . '>, ' . $issues[0]);
+					throw new InvalidArgumentException('Error importing calendar data: UID <' . $uid . '> - ' . $issues[0]);
 				}
 			}
 			// create or update object in the data store
@@ -375,12 +378,11 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 					}
 				}
 			} catch (Exception $e) {
-				$errorMessage = 'Error importing calendar object, while saving the object with ID ' . $uid . ': ' . $e->getMessage();
+				$errorMessage = $e->getMessage();
 				if ($options->getErrors() === $options::ERROR_FAIL) {
-					throw new Exception($errorMessage, 0, $e);
-				} else {
-					$outcome[$uid] = ['outcome' => 'error', 'errors' => [$errorMessage]];
+					throw new Exception('Error importing calendar data: UID <' . $uid . '> - ' . $errorMessage, 0, $e);
 				}
+				$outcome[$uid] = ['outcome' => 'error', 'errors' => [$errorMessage]];
 			}
 		}
 

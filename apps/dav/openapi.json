@@ -1068,6 +1068,9 @@
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "data in requested format"
+                    },
                     "400": {
                         "description": "invalid parameters",
                         "content": {
@@ -1139,9 +1142,6 @@
                                 }
                             }
                         }
-                    },
-                    "200": {
-                        "description": "calendar data"
                     }
                 }
             }
@@ -1198,6 +1198,18 @@
                                             },
                                             "supersede": {
                                                 "type": "boolean"
+                                            },
+                                            "showCreated": {
+                                                "type": "boolean"
+                                            },
+                                            "showUpdated": {
+                                                "type": "boolean"
+                                            },
+                                            "showSkipped": {
+                                                "type": "boolean"
+                                            },
+                                            "showErrors": {
+                                                "type": "boolean"
                                             }
                                         }
                                     },
@@ -1251,32 +1263,92 @@
                                                 "data": {
                                                     "type": "object",
                                                     "properties": {
-                                                        "created": {
-                                                            "type": "integer",
-                                                            "format": "int64",
-                                                            "minimum": 0
-                                                        },
                                                         "error": {
                                                             "type": "string"
-                                                        },
-                                                        "errors": {
-                                                            "type": "integer",
-                                                            "format": "int64",
-                                                            "minimum": 0
-                                                        },
-                                                        "skipped": {
-                                                            "type": "integer",
-                                                            "format": "int64",
-                                                            "minimum": 0
                                                         },
                                                         "time": {
                                                             "type": "number",
                                                             "format": "double"
                                                         },
+                                                        "created": {
+                                                            "type": "object",
+                                                            "required": [
+                                                                "items",
+                                                                "total"
+                                                            ],
+                                                            "properties": {
+                                                                "items": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "total": {
+                                                                    "type": "integer",
+                                                                    "format": "int64",
+                                                                    "minimum": 0
+                                                                }
+                                                            }
+                                                        },
                                                         "updated": {
-                                                            "type": "integer",
-                                                            "format": "int64",
-                                                            "minimum": 0
+                                                            "type": "object",
+                                                            "required": [
+                                                                "items",
+                                                                "total"
+                                                            ],
+                                                            "properties": {
+                                                                "items": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "total": {
+                                                                    "type": "integer",
+                                                                    "format": "int64",
+                                                                    "minimum": 0
+                                                                }
+                                                            }
+                                                        },
+                                                        "skipped": {
+                                                            "type": "object",
+                                                            "required": [
+                                                                "items",
+                                                                "total"
+                                                            ],
+                                                            "properties": {
+                                                                "items": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "total": {
+                                                                    "type": "integer",
+                                                                    "format": "int64",
+                                                                    "minimum": 0
+                                                                }
+                                                            }
+                                                        },
+                                                        "errors": {
+                                                            "type": "object",
+                                                            "required": [
+                                                                "items",
+                                                                "total"
+                                                            ],
+                                                            "properties": {
+                                                                "items": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "total": {
+                                                                    "type": "integer",
+                                                                    "format": "int64",
+                                                                    "minimum": 0
+                                                                }
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -1310,32 +1382,92 @@
                                                 "data": {
                                                     "type": "object",
                                                     "properties": {
-                                                        "created": {
-                                                            "type": "integer",
-                                                            "format": "int64",
-                                                            "minimum": 0
-                                                        },
                                                         "error": {
                                                             "type": "string"
-                                                        },
-                                                        "errors": {
-                                                            "type": "integer",
-                                                            "format": "int64",
-                                                            "minimum": 0
-                                                        },
-                                                        "skipped": {
-                                                            "type": "integer",
-                                                            "format": "int64",
-                                                            "minimum": 0
                                                         },
                                                         "time": {
                                                             "type": "number",
                                                             "format": "double"
                                                         },
+                                                        "created": {
+                                                            "type": "object",
+                                                            "required": [
+                                                                "items",
+                                                                "total"
+                                                            ],
+                                                            "properties": {
+                                                                "items": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "total": {
+                                                                    "type": "integer",
+                                                                    "format": "int64",
+                                                                    "minimum": 0
+                                                                }
+                                                            }
+                                                        },
                                                         "updated": {
-                                                            "type": "integer",
-                                                            "format": "int64",
-                                                            "minimum": 0
+                                                            "type": "object",
+                                                            "required": [
+                                                                "items",
+                                                                "total"
+                                                            ],
+                                                            "properties": {
+                                                                "items": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "total": {
+                                                                    "type": "integer",
+                                                                    "format": "int64",
+                                                                    "minimum": 0
+                                                                }
+                                                            }
+                                                        },
+                                                        "skipped": {
+                                                            "type": "object",
+                                                            "required": [
+                                                                "items",
+                                                                "total"
+                                                            ],
+                                                            "properties": {
+                                                                "items": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "total": {
+                                                                    "type": "integer",
+                                                                    "format": "int64",
+                                                                    "minimum": 0
+                                                                }
+                                                            }
+                                                        },
+                                                        "errors": {
+                                                            "type": "object",
+                                                            "required": [
+                                                                "items",
+                                                                "total"
+                                                            ],
+                                                            "properties": {
+                                                                "items": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "total": {
+                                                                    "type": "integer",
+                                                                    "format": "int64",
+                                                                    "minimum": 0
+                                                                }
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -1369,32 +1501,92 @@
                                                 "data": {
                                                     "type": "object",
                                                     "properties": {
-                                                        "created": {
-                                                            "type": "integer",
-                                                            "format": "int64",
-                                                            "minimum": 0
-                                                        },
                                                         "error": {
                                                             "type": "string"
-                                                        },
-                                                        "errors": {
-                                                            "type": "integer",
-                                                            "format": "int64",
-                                                            "minimum": 0
-                                                        },
-                                                        "skipped": {
-                                                            "type": "integer",
-                                                            "format": "int64",
-                                                            "minimum": 0
                                                         },
                                                         "time": {
                                                             "type": "number",
                                                             "format": "double"
                                                         },
+                                                        "created": {
+                                                            "type": "object",
+                                                            "required": [
+                                                                "items",
+                                                                "total"
+                                                            ],
+                                                            "properties": {
+                                                                "items": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "total": {
+                                                                    "type": "integer",
+                                                                    "format": "int64",
+                                                                    "minimum": 0
+                                                                }
+                                                            }
+                                                        },
                                                         "updated": {
-                                                            "type": "integer",
-                                                            "format": "int64",
-                                                            "minimum": 0
+                                                            "type": "object",
+                                                            "required": [
+                                                                "items",
+                                                                "total"
+                                                            ],
+                                                            "properties": {
+                                                                "items": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "total": {
+                                                                    "type": "integer",
+                                                                    "format": "int64",
+                                                                    "minimum": 0
+                                                                }
+                                                            }
+                                                        },
+                                                        "skipped": {
+                                                            "type": "object",
+                                                            "required": [
+                                                                "items",
+                                                                "total"
+                                                            ],
+                                                            "properties": {
+                                                                "items": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "total": {
+                                                                    "type": "integer",
+                                                                    "format": "int64",
+                                                                    "minimum": 0
+                                                                }
+                                                            }
+                                                        },
+                                                        "errors": {
+                                                            "type": "object",
+                                                            "required": [
+                                                                "items",
+                                                                "total"
+                                                            ],
+                                                            "properties": {
+                                                                "items": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "total": {
+                                                                    "type": "integer",
+                                                                    "format": "int64",
+                                                                    "minimum": 0
+                                                                }
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -1428,32 +1620,92 @@
                                                 "data": {
                                                     "type": "object",
                                                     "properties": {
-                                                        "created": {
-                                                            "type": "integer",
-                                                            "format": "int64",
-                                                            "minimum": 0
-                                                        },
                                                         "error": {
                                                             "type": "string"
-                                                        },
-                                                        "errors": {
-                                                            "type": "integer",
-                                                            "format": "int64",
-                                                            "minimum": 0
-                                                        },
-                                                        "skipped": {
-                                                            "type": "integer",
-                                                            "format": "int64",
-                                                            "minimum": 0
                                                         },
                                                         "time": {
                                                             "type": "number",
                                                             "format": "double"
                                                         },
+                                                        "created": {
+                                                            "type": "object",
+                                                            "required": [
+                                                                "items",
+                                                                "total"
+                                                            ],
+                                                            "properties": {
+                                                                "items": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "total": {
+                                                                    "type": "integer",
+                                                                    "format": "int64",
+                                                                    "minimum": 0
+                                                                }
+                                                            }
+                                                        },
                                                         "updated": {
-                                                            "type": "integer",
-                                                            "format": "int64",
-                                                            "minimum": 0
+                                                            "type": "object",
+                                                            "required": [
+                                                                "items",
+                                                                "total"
+                                                            ],
+                                                            "properties": {
+                                                                "items": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "total": {
+                                                                    "type": "integer",
+                                                                    "format": "int64",
+                                                                    "minimum": 0
+                                                                }
+                                                            }
+                                                        },
+                                                        "skipped": {
+                                                            "type": "object",
+                                                            "required": [
+                                                                "items",
+                                                                "total"
+                                                            ],
+                                                            "properties": {
+                                                                "items": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "total": {
+                                                                    "type": "integer",
+                                                                    "format": "int64",
+                                                                    "minimum": 0
+                                                                }
+                                                            }
+                                                        },
+                                                        "errors": {
+                                                            "type": "object",
+                                                            "required": [
+                                                                "items",
+                                                                "total"
+                                                            ],
+                                                            "properties": {
+                                                                "items": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "total": {
+                                                                    "type": "integer",
+                                                                    "format": "int64",
+                                                                    "minimum": 0
+                                                                }
+                                                            }
                                                         }
                                                     }
                                                 }

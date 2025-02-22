@@ -44,11 +44,11 @@ class CalendarImportController extends OCSController {
 	 * Import calendar data
 	 *
 	 * @param string $id calendar id
-	 * @param array{format?:string,validation?:int<0,2>,errors?:int<0,1>,supersede?:bool} $options configuration options
+	 * @param array{format?:string, validation?:int<0,2>, errors?:int<0,1>, supersede?:bool, showCreated?:bool, showUpdated?:bool, showSkipped?:bool, showErrors?:bool} $options configuration options
 	 * @param string $data calendar data
 	 * @param string|null $user system user id
 	 *
-	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED|Http::STATUS_INTERNAL_SERVER_ERROR,array{created?:int<0,max>,error?:string,errors?:int<0,max>,skipped?:int<0,max>,time?:float,updated?:int<0,max>},array{}>
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED|Http::STATUS_INTERNAL_SERVER_ERROR, array{error?: string, time?: float, created?: array{items: list<string>, total: int<0,max>}, updated?: array{items: list<string>, total: int<0,max>}, skipped?: array{items: list<string>, total: int<0, max>}, errors?: array{items: list<string>, total: int<0, max>}}, array{}>
 	 *
 	 * 200: calendar data
 	 * 400: invalid request
@@ -67,6 +67,10 @@ class CalendarImportController extends OCSController {
 		$validation = isset($options['validation']) ? (int)$options['validation'] : null;
 		$errors = isset($options['errors']) ? (int)$options['errors'] : null;
 		$supersede = (bool)$options['supersede'] === true ? true : false;
+		$showCreated = (bool)$options['showCreated'] === true ? true : false;
+		$showUpdated = (bool)$options['showUpdated'] === true ? true : false;
+		$showSkipped = (bool)$options['showSkipped'] === true ? true : false;
+		$showErrors = (bool)$options['showErrors'] === true ? true : false;
 		// evaluate if user is logged in and has permissions
 		if (!$this->userSession->isLoggedIn()) {
 			return new DataResponse([], Http::STATUS_UNAUTHORIZED);
@@ -149,6 +153,11 @@ class CalendarImportController extends OCSController {
 		}
 		$timeFinished = microtime(true);
 
+		// summarize the outcome
+		$objectsCreated = [];
+		$objectsUpdated = [];
+		$objectsSkipped = [];
+		$objectsErrors = [];
 		$totalCreated = 0;
 		$totalUpdated = 0;
 		$totalSkipped = 0;
@@ -160,28 +169,39 @@ class CalendarImportController extends OCSController {
 					switch ($result['outcome']) {
 						case 'created':
 							$totalCreated++;
+							if ($showCreated) {
+								$objectsCreated[] = $id;
+							}
 							break;
 						case 'updated':
 							$totalUpdated++;
+							if ($showUpdated) {
+								$objectsUpdated[] = $id;
+							}
 							break;
 						case 'exists':
 							$totalSkipped++;
+							if ($showSkipped) {
+								$objectsSkipped[] = $id;
+							}
 							break;
 						case 'error':
 							$totalErrors++;
+							if ($showErrors) {
+								$objectsErrors[] = $id;
+							}
 							break;
 					}
 				}
 				
 			}
 		}
-
 		$summary = [
 			'time' => ($timeFinished - $timeStarted),
-			'created' => $totalCreated,
-			'updated' => $totalUpdated,
-			'skipped' => $totalSkipped,
-			'errors' => $totalErrors,
+			'created' => ['total' => $totalCreated, 'items' => $objectsCreated],
+			'updated' => ['total' => $totalUpdated, 'items' => $objectsUpdated],
+			'skipped' => ['total' => $totalSkipped, 'items' => $objectsSkipped],
+			'errors' => ['total' => $totalErrors, 'items' => $objectsErrors],
 		];
 
 		return new DataResponse($summary, Http::STATUS_OK);

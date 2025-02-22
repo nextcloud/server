@@ -46,11 +46,11 @@ class CalendarExportController extends OCSController {
 	 * @param array{rangeStart:string,rangeCount:int<1,max>} $options configuration options
 	 * @param string|null $user system user id
 	 *
-	 * @return DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{error?: non-empty-string}, array{}> | StreamGeneratorResponse<Http::STATUS_*, array<string, mixed>, int>
+	 * @return StreamGeneratorResponse<Http::STATUS_OK, array{Content-Type:string}> | DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{error?: non-empty-string}, array{}>
 	 *
-	 * 200: calendar data
-	 * 401: user not authorized
+	 * 200: data in requested format
 	 * 400: invalid parameters
+	 * 401: user not authorized
 	 */
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	#[ApiRoute(verb: 'POST', url: '/export', root: '/calendar')]
@@ -101,6 +101,6 @@ class CalendarExportController extends OCSController {
 			default => 'text/calendar; charset=UTF-8'
 		};
 
-		return new StreamGeneratorResponse($this->exportService->export($calendar, $options), $contentType, 0);
+		return new StreamGeneratorResponse($this->exportService->export($calendar, $options), $contentType, Http::STATUS_OK, 0);
 	}
 }
