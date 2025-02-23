@@ -34,6 +34,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -62,7 +63,8 @@ class LoginRedirectorController extends Controller {
 		IURLGenerator $urlGenerator,
 		ClientMapper $clientMapper,
 		ISession $session,
-		IL10N $l) {
+		IL10N $l,
+		private IConfig $config) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
 		$this->clientMapper = $clientMapper;
@@ -87,7 +89,8 @@ class LoginRedirectorController extends Controller {
 	 */
 	public function authorize($client_id,
 		$state,
-		$response_type): TemplateResponse|RedirectResponse {
+		$response_type,
+		string $redirect_uri = ''): TemplateResponse|RedirectResponse {
 		try {
 			$client = $this->clientMapper->getByIdentifier($client_id);
 		} catch (ClientNotFoundException $e) {
@@ -103,12 +106,20 @@ class LoginRedirectorController extends Controller {
 			return new RedirectResponse($url);
 		}
 
+		$enableOcClients = $this->config->getSystemValueBool('oauth2.enable_oc_clients', false);
+
+		$providedRedirectUri = '';
+		if ($enableOcClients && $client->getRedirectUri() === 'http://localhost:*') {
+			$providedRedirectUri = $redirect_uri;
+		}
+
 		$this->session->set('oauth.state', $state);
 
 		$targetUrl = $this->urlGenerator->linkToRouteAbsolute(
 			'core.ClientFlowLogin.showAuthPickerPage',
 			[
 				'clientIdentifier' => $client->getClientIdentifier(),
+				'providedRedirectUri' => $providedRedirectUri,
 			]
 		);
 		return new RedirectResponse($targetUrl);
