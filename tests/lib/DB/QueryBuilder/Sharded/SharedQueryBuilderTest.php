@@ -39,7 +39,7 @@ class SharedQueryBuilderTest extends TestCase {
 		return new ShardedQueryBuilder(
 			$this->connection->getQueryBuilder(),
 			[
-				new ShardDefinition($table, $primaryColumn, [], $shardColumn, new RoundRobinShardMapper(), $companionTables, []),
+				new ShardDefinition($table, $primaryColumn, [], $shardColumn, new RoundRobinShardMapper(), $companionTables, [], 0, 0),
 			],
 			$this->createMock(ShardConnectionManager::class),
 			$this->autoIncrementHandler,
