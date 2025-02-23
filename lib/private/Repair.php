@@ -37,10 +37,10 @@ use OC\Repair\NC20\EncryptionLegacyCipher;
 use OC\Repair\NC20\EncryptionMigration;
 use OC\Repair\NC20\ShippedDashboardEnable;
 use OC\Repair\NC21\AddCheckForUserCertificatesJob;
-use OC\Repair\NC21\ValidatePhoneNumber;
 use OC\Repair\NC22\LookupServerSendCheck;
 use OC\Repair\NC24\AddTokenCleanupJob;
 use OC\Repair\NC25\AddMissingSecretJob;
+use OC\Repair\NC29\ValidateAccountProperties;
 use OC\Repair\NC30\RemoveLegacyDatadirFile;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\CleanPreviews;
@@ -212,7 +212,7 @@ class Repair implements IOutput {
 				\OCP\Server::get(IAppConfig::class),
 				\OCP\Server::get(IDBConnection::class)
 			),
-			\OC::$server->get(ValidatePhoneNumber::class),
+			\OC::$server->get(ValidateAccountProperties::class),
 			\OC::$server->get(DeleteSchedulingObjects::class),
 		];
 	}
