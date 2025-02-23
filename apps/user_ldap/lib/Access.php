@@ -926,10 +926,6 @@ class Access extends LDAPUtility {
 	public function batchApplyUserAttributes(array $ldapRecords): void {
 		$displayNameAttribute = strtolower((string)$this->connection->ldapUserDisplayName);
 		foreach ($ldapRecords as $userRecord) {
-			if (!isset($userRecord[$displayNameAttribute])) {
-				// displayName is obligatory
-				continue;
-			}
 			$ocName = $this->dn2ocname($userRecord['dn'][0], null, true);
 			if ($ocName === false) {
 				continue;
