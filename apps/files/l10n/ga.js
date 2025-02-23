@@ -155,6 +155,7 @@ OC.L10N.register(
     "Shared" : "Roinnte",
     "Switch to list view" : "Athraigh go dtí an amharc liosta",
     "Switch to grid view" : "Téigh go dtí an radharc greille",
+    "The file could not be found" : "Níorbh fhéidir an comhad a aimsiú",
     "Upload was cancelled by user" : "Chuir an t-úsáideoir an uaslódáil ar ceal",
     "Not enough free space" : "Níl go leor spás saor in aisce",
     "Operation is blocked by access control" : "Cuireann rialú rochtana bac ar an oibríocht",
