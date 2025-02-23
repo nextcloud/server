@@ -41,7 +41,7 @@ export const convertFiles = async function(fileIds: number[], targetMimeType: st
 	const conversions = fileIds.map(fileId => queue.add(() => requestConversion(fileId, targetMimeType)))
 
 	// Start conversion
-	const toast = showLoading(t('files', 'Converting files…'))
+	const toast = showLoading(t('files', 'Converting files …'))
 
 	// Handle results
 	try {
