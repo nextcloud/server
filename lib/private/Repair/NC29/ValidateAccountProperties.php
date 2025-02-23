@@ -18,6 +18,13 @@ use Psr\Log\LoggerInterface;
 
 class ValidateAccountProperties implements IRepairStep {
 
+	private const PROPERTIES_TO_CHECK = [
+		IAccountManager::PROPERTY_PHONE,
+		IAccountManager::PROPERTY_WEBSITE,
+		IAccountManager::PROPERTY_TWITTER,
+		IAccountManager::PROPERTY_FEDIVERSE,
+	];
+
 	public function __construct(
 		private IUserManager $userManager,
 		private IAccountManager $accountManager,
@@ -34,10 +41,20 @@ class ValidateAccountProperties implements IRepairStep {
 
 		$this->userManager->callForSeenUsers(function (IUser $user) use (&$numRemoved) {
 			$account = $this->accountManager->getAccount($user);
-			while (true) {
+			$properties = array_keys($account->jsonSerialize());
+
+			// Check if there are some properties we can sanitize - reduces number of db queries
+			if (empty(array_intersect($properties, self::PROPERTIES_TO_CHECK))) {
+				return;
+			}
+
+			// Limit the loop to the properties we check to ensure there are no infinite loops
+			// we add one additional loop (+ 1) as we need 1 loop for checking + 1 for update.
+			$iteration = count(self::PROPERTIES_TO_CHECK) + 1;
+			while ($iteration-- > 0) {
 				try {
 					$this->accountManager->updateAccount($account);
-					break;
+					return;
 				} catch (InvalidArgumentException $e) {
 					if (in_array($e->getMessage(), IAccountManager::ALLOWED_PROPERTIES)) {
 						$numRemoved++;
@@ -45,10 +62,11 @@ class ValidateAccountProperties implements IRepairStep {
 						$account->setProperty($property->getName(), '', $property->getScope(), IAccountManager::NOT_VERIFIED);
 					} else {
 						$this->logger->error('Error while sanitizing account property', ['exception' => $e, 'user' => $user->getUID()]);
-						break;
+						return;
 					}
 				}
 			}
+			$this->logger->error('Iteration limit exceeded while cleaning account properties', ['user' => $user->getUID()]);
 		});
 
 		if ($numRemoved > 0) {
