@@ -996,6 +996,34 @@ Feature: sharing
     Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
+  Scenario: Rename a received share after deleting the source file of a share made by the receiver
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And file "textfile0.txt" of user "user1" is shared with user "user2"
+    And user "user2" accepts last share
+    And User "user1" deletes file "/textfile0.txt"
+    When file "textfile1.txt" of user "user0" is shared with user "user1"
+    And user "user1" accepts last share
+    And User "user1" moves file "/textfile1 (2).txt" to "/shared_file.txt"
+    Then the HTTP status code should be "201"
+    And as "user1" the file "/shared_file.txt" exists
+
+  Scenario: Rename a received share after deleting the source file of a reshare made by the receiver
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And user "user1" accepts last share
+    And file "textfile0 (2).txt" of user "user1" is shared with user "user2"
+    And user "user2" accepts last share
+    And User "user0" deletes file "/textfile0.txt"
+    When file "textfile1.txt" of user "user0" is shared with user "user1"
+    And user "user1" accepts last share
+    And User "user1" moves file "/textfile1 (2).txt" to "/shared_file.txt"
+    Then the HTTP status code should be "201"
+    And as "user1" the file "/shared_file.txt" exists
+
   Scenario: Keep usergroup shares (#22143)
     Given As an "admin"
     And user "user0" exists
