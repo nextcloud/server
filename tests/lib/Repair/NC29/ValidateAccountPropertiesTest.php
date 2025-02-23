@@ -43,6 +43,7 @@ class ValidateAccountPropertiesTest extends TestCase {
 		$users = [
 			$this->createMock(IUser::class),
 			$this->createMock(IUser::class),
+			$this->createMock(IUser::class),
 		];
 		$this->userManager
 			->expects(self::once())
@@ -61,15 +62,39 @@ class ValidateAccountPropertiesTest extends TestCase {
 		$account1->expects(self::once())
 			->method('setProperty')
 			->with(IAccountManager::PROPERTY_PHONE, '', IAccountManager::SCOPE_LOCAL, IAccountManager::NOT_VERIFIED);
+		$account1->expects(self::once())
+			->method('jsonSerialize')
+			->willReturn([
+				IAccountManager::PROPERTY_DISPLAYNAME => [],
+				IAccountManager::PROPERTY_PHONE => [],
+			]);
+
 		$account2 = $this->createMock(IAccount::class);
 		$account2->expects(self::never())
 			->method('getProperty');
+		$account2->expects(self::once())
+			->method('jsonSerialize')
+			->willReturn([
+				IAccountManager::PROPERTY_DISPLAYNAME => [],
+				IAccountManager::PROPERTY_PHONE => [],
+			]);
+
+		$account3 = $this->createMock(IAccount::class);
+		$account3->expects(self::never())
+			->method('getProperty');
+		$account3->expects(self::once())
+			->method('jsonSerialize')
+			->willReturn([
+				IAccountManager::PROPERTY_DISPLAYNAME => [],
+			]);
+
 		$this->accountManager
-			->expects(self::exactly(2))
+			->expects(self::exactly(3))
 			->method('getAccount')
 			->willReturnMap([
 				[$users[0], $account1],
 				[$users[1], $account2],
+				[$users[2], $account3],
 			]);
 		$valid = false;
 		$this->accountManager->expects(self::exactly(3))
