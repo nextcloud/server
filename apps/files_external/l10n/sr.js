@@ -106,6 +106,7 @@ OC.L10N.register(
     "Enter missing credentials" : "Унесите корисничке акредитиве који недостају",
     "Credentials successfully set" : "Акредитиви су успешно постављени",
     "Error while setting credentials: {error}" : "Грешка приликом постављања акредитива: {error}",
+    "Checking storage …" : "Проверава се складиште …",
     "There was an error with this external storage." : "Дошло је до грешке у вези са овим спољним складиштем.",
     "We were unable to check the external storage {basename}" : "Нисмо успели да проверимо спољно складиште {basename}",
     "Examine this faulty external storage configuration" : "Испитајте ову неисправну конфигурацију спољног складишта",

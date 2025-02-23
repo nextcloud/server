@@ -17,7 +17,7 @@
     "It is protected with the following password:" : "Beskyttet med følgende adgangskode:",
     "%1$s shared %2$s with you and wants to add:" : " %1$s delte %2$s med dig og ønsker at tilføje:",
     "%1$s shared %2$s with you and wants to add" : " %1$s delte %2$s med dig og ønsker at tilføje",
-    "%s added a note to a file shared with you" : "% s tilføjede en note til en fil delt med dig",
+    "%s added a note to a file shared with you" : "%s tilføjede en note til en fil delt med dig",
     "You can choose a different password at any time in the share dialog." : "Du kan til enhver tid vælge et andet password i delings dialogen.",
     "Could not find share" : "Kan ikke finde deling",
     "Send password by mail" : "Send kodeord på mail",
