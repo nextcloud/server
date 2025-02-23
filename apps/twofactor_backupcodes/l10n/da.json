@@ -8,7 +8,7 @@
     "Two factor backup codes" : "To faktor backup koder",
     "A two-factor auth backup codes provider" : "En to-faktor udbyder af sikkerhedskopieringskoder",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Sikkerhedskopieringskoder er blevet genereret. {used} af {total} koder er blevet brugt.",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Dette er dine backup-koder. Gem og/eller udskriv dem, da du ikke vil kunne læse koderne igen senere.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Dette er dine backup-koder. Gem og/eller udskriv dem, da du ikke vil kunne se koderne igen senere.",
     "Save backup codes" : "Gem backup-koder",
     "Print backup codes" : "Print backup-koder",
     "Regenerate backup codes" : "Regenerer backup-koder",
