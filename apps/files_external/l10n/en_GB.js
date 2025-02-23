@@ -106,6 +106,7 @@ OC.L10N.register(
     "Enter missing credentials" : "Enter missing credentials",
     "Credentials successfully set" : "Credentials successfully set",
     "Error while setting credentials: {error}" : "Error while setting credentials: {error}",
+    "Checking storage …" : "Checking storage …",
     "There was an error with this external storage." : "There was an error with this external storage.",
     "We were unable to check the external storage {basename}" : "We were unable to check the external storage {basename}",
     "Examine this faulty external storage configuration" : "Examine this faulty external storage configuration",
