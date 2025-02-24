@@ -6,7 +6,7 @@
 import type { User } from '@nextcloud/cypress'
 import { FileAction } from '@nextcloud/files'
 
-import { getActionButtonForFileId, getActionEntryForFileId, getRowForFile, getSelectionActionButton, getSelectionActionEntry, selectRowForFile, triggerActionForFile, triggerActionForFileId } from './FilesUtils'
+import { getActionButtonForFileId, getActionEntryForFileId, getRowForFile, getSelectionActionButton, getSelectionActionEntry, selectRowForFile } from './FilesUtils'
 import { ACTION_COPY_MOVE } from '../../../apps/files/src/actions/moveOrCopyAction'
 import { ACTION_DELETE } from '../../../apps/files/src/actions/deleteAction'
 import { ACTION_DETAILS } from '../../../apps/files/src/actions/sidebarAction'
@@ -53,6 +53,8 @@ describe('Files: Actions', { testIsolation: true }, () => {
 			getActionButtonForFileId(fileId).click({ force: true })
 			// Check the action is visible
 			getActionEntryForFileId(fileId, actionId).should('be.visible')
+			// Close the menu
+			cy.get('body').click({ force: true})
 		})
 	})
 
