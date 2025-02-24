@@ -15,7 +15,7 @@ OC.L10N.register(
     "Initial version" : "Oprindelig version",
     "Version name" : "Versionsnavn",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Navngivne versioner bevares og udelukkes fra automatiske oprydninger, når din lagerkvote er fuld.",
-    "Cancel" : "Annullér",
+    "Cancel" : "Annuller",
     "Remove version name" : "Fjern versionsnavn",
     "Save version name" : "Gem versionsnavn",
     "Initial version restored" : "Første version genoprettet",

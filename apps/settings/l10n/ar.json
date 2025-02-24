@@ -203,6 +203,8 @@
     "Old server-side-encryption" : "تشفير قديم من جهة الخادم",
     "Disabled" : "مُعطّل",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "تم تمكين النسق القديم للتشفير من جانب الخادم. نوصي بتعطيله.",
+    "Logging level" : "مستوى الدخول",
+    "The %1$s configuration option must be a valid integer value." : "خيار التهيئة %1$s يجب أن يكون قيمة صحيحة.",
     "Maintenance window start" : "بدء فترة الصيانة",
     "Server has no maintenance window start time configured. This means resource intensive daily background jobs will also be executed during your main usage time. We recommend to set it to a time of low usage, so users are less impacted by the load caused from these heavy tasks." : "لم يسبق تعيين وقت لبدء فترة الصيانة لهذا الخادم. و هذا يعني أن تنفيذ مهام الخلفية اليومية كثيفة الموارد سيتم أثناء أوقات العمل المعتادة على النظام. نوصي بضبط وقت بدء فترة الصيانة على الأوقات التي تكون فيها كثافة العمل على النظام منخفضة؛ بحيث يكون تأثر المستخدمين بالحمل الناتج عن هذه المهام الثقيلة أقل ما يمكن.",
     "Maintenance window to execute heavy background jobs is between {start}:00 UTC and {end}:00 UTC" : "فترة الصيانة لتنفيذ مهام الخلفية الثقيلة هو بين {start}:00  و {end}:00 بالتوقيت العالمي الموحد UTC",

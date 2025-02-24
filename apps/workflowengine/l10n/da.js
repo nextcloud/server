@@ -32,7 +32,7 @@ OC.L10N.register(
     "Select groups" : "Vælg grupper",
     "Groups" : "Grupper",
     "and" : "og",
-    "Cancel" : "Annullér",
+    "Cancel" : "Annuller",
     "Delete" : "Slet",
     "Save" : "Gem",
     "Browse the App Store" : "Gennemse App Store",
