@@ -13,7 +13,6 @@ use OC\Files\Filesystem;
 use OC\Files\Stream\HashWrapper;
 use OC\Files\View;
 use OCA\DAV\AppInfo\Application;
-use OCA\DAV\Connector\Sabre\Exception\BadGateway;
 use OCA\DAV\Connector\Sabre\Exception\EntityTooLarge;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden as DAVForbiddenException;
@@ -209,21 +208,17 @@ class File extends Node implements IFile {
 					$isEOF = feof($stream);
 				});
 
-				$result = true;
-				$count = -1;
-				try {
-					$count = $partStorage->writeStream($internalPartPath, $wrappedData);
-				} catch (GenericFileException $e) {
-					$result = false;
-				} catch (BadGateway $e) {
-					throw $e;
-				}
-
-
-				if ($result === false) {
-					$result = $isEOF;
-					if (is_resource($wrappedData)) {
-						$result = feof($wrappedData);
+				$result = is_resource($wrappedData);
+				if ($result) {
+					$count = -1;
+					try {
+						/** @var IWriteStreamStorage $partStorage */
+						$count = $partStorage->writeStream($internalPartPath, $wrappedData);
+					} catch (GenericFileException) {
+						$result = $isEOF;
+						if (is_resource($wrappedData)) {
+							$result = feof($wrappedData);
+						}
 					}
 				}
 			} else {
