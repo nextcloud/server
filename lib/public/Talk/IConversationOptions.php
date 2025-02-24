@@ -30,4 +30,28 @@ interface IConversationOptions {
 	 * @since 24.0.0
 	 */
 	public function setPublic(bool $isPublic = true): self;
+
+	/**
+	 * Object type this conversation is related to
+	 *
+	 * @return string
+	 * @since 31.0.1
+	 */
+	public function getObjectType(): string;
+
+	/**
+	 * Object ID this conversation is related to
+	 *
+	 * @return string
+	 * @since 31.0.1
+	 */
+	public function getObjectId(): string;
+
+	/**
+	 * Give a reference to an object this conversation is related to
+	 *
+	 * @return $this
+	 * @since 31.0.1
+	 */
+	public function setObject(string $objectType, string $objectId): self;
 }
