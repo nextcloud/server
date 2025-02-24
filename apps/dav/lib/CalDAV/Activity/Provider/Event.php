@@ -5,7 +5,6 @@
  */
 namespace OCA\DAV\CalDAV\Activity\Provider;
 
-use OC_App;
 use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
@@ -67,7 +66,7 @@ class Event extends Base {
 		if (isset($eventData['link']) && is_array($eventData['link']) && $this->appManager->isEnabledForUser('calendar')) {
 			try {
 				// The calendar app needs to be manually loaded for the routes to be loaded
-				OC_App::loadApp('calendar');
+				$this->appManager->loadApp('calendar');
 				$linkData = $eventData['link'];
 				$calendarUri = $this->urlencodeLowerHex($linkData['calendar_uri']);
 				if ($affectedUser === $linkData['owner']) {

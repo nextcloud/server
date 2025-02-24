@@ -675,7 +675,10 @@ class OC {
 			throw new \OCP\HintException('The PHP SimpleXML/PHP-XML extension is not installed.', 'Install the extension or make sure it is enabled.');
 		}
 
-		OC_App::loadApps(['session']);
+		$appManager = Server::get(\OCP\App\IAppManager::class);
+		if ($systemConfig->getValue('installed', false)) {
+			$appManager->loadApps(['session']);
+		}
 		if (!self::$CLI) {
 			self::initSession();
 		}
@@ -759,7 +762,7 @@ class OC {
 
 		// Make sure that the application class is not loaded before the database is setup
 		if ($systemConfig->getValue('installed', false)) {
-			OC_App::loadApp('settings');
+			$appManager->loadApp('settings');
 			/* Build core application to make sure that listeners are registered */
 			Server::get(\OC\Core\Application::class);
 		}
@@ -1002,19 +1005,21 @@ class OC {
 			}
 		}
 
+		$appManager = Server::get(\OCP\App\IAppManager::class);
+
 		// Always load authentication apps
-		OC_App::loadApps(['authentication']);
-		OC_App::loadApps(['extended_authentication']);
+		$appManager->loadApps(['authentication']);
+		$appManager->loadApps(['extended_authentication']);
 
 		// Load minimum set of apps
 		if (!\OCP\Util::needUpgrade()
 			&& !((bool)$systemConfig->getValue('maintenance', false))) {
 			// For logged-in users: Load everything
 			if (Server::get(IUserSession::class)->isLoggedIn()) {
-				OC_App::loadApps();
+				$appManager->loadApps();
 			} else {
 				// For guests: Load only filesystem and logging
-				OC_App::loadApps(['filesystem', 'logging']);
+				$appManager->loadApps(['filesystem', 'logging']);
 
 				// Don't try to login when a client is trying to get a OAuth token.
 				// OAuth needs to support basic auth too, so the login is not valid
@@ -1027,9 +1032,9 @@ class OC {
 
 		if (!self::$CLI) {
 			try {
-				if (!((bool)$systemConfig->getValue('maintenance', false)) && !\OCP\Util::needUpgrade()) {
-					OC_App::loadApps(['filesystem', 'logging']);
-					OC_App::loadApps();
+				if (!\OCP\Util::needUpgrade()) {
+					$appManager->loadApps(['filesystem', 'logging']);
+					$appManager->loadApps();
 				}
 				Server::get(\OC\Route\Router::class)->match($request->getRawPathInfo());
 				return;
