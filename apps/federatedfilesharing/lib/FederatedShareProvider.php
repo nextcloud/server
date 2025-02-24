@@ -887,25 +887,61 @@ class FederatedShareProvider implements IShareProvider {
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_REMOTE)))
 			->andWhere($qb->expr()->eq('uid_owner', $qb->createNamedParameter($uid)))
 			->executeStatement();
+
+		$qb->delete('share_external')
+			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)))
+			->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($uid)))
+			->executeStatement();
 	}
 
-	/**
-	 * This provider does not handle groups
-	 *
-	 * @param string $gid
-	 */
 	public function groupDeleted($gid) {
-		// We don't handle groups here
+		$qb = $this->dbConnection->getQueryBuilder();
+
+		$qb->select('id')
+			->from('share_external')
+			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)))
+			// This is not a typo, the group ID is really stored in the 'user' column
+			->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($gid)));
+
+		$cursor = $qb->executeQuery();
+		$parentShareIds = $cursor->fetchAll(\PDO::FETCH_COLUMN);
+		$cursor->closeCursor();
+
+		if ($parentShareIds === []) {
+			return;
+		}
+
+		$parentShareIdsParam = $qb->createNamedParameter($parentShareIds, IQueryBuilder::PARAM_INT_ARRAY);
+
+		$qb->delete('share_external')
+			->where($qb->expr()->in('id', $parentShareIdsParam))
+			->orWhere($qb->expr()->in('parent', $parentShareIdsParam))
+			->executeStatement();
 	}
 
-	/**
-	 * This provider does not handle groups
-	 *
-	 * @param string $uid
-	 * @param string $gid
-	 */
 	public function userDeletedFromGroup($uid, $gid) {
-		// We don't handle groups here
+		$qb = $this->dbConnection->getQueryBuilder();
+
+		$qb->select('id')
+			->from('share_external')
+			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)))
+			// This is not a typo, the group ID is really stored in the 'user' column
+			->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($gid)));
+
+		$cursor = $qb->executeQuery();
+		$parentShareIds = $cursor->fetchAll(\PDO::FETCH_COLUMN);
+		$cursor->closeCursor();
+
+		if ($parentShareIds === []) {
+			return;
+		}
+
+		$parentShareIdsParam = $qb->createNamedParameter($parentShareIds, IQueryBuilder::PARAM_INT_ARRAY);
+
+		$qb->delete('share_external')
+			->where($qb->expr()->in('parent', $parentShareIdsParam))
+			->andWhere($qb->expr()->eq('user', $uid))
+			->executeStatement();
 	}
 
 	/**
