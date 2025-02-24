@@ -10,6 +10,7 @@ OC.L10N.register(
     "Two factor backup codes" : "Kody zapasowe uwierzytelnienia dwuskładnikowego",
     "A two-factor auth backup codes provider" : "Dostawca dwuskładnikowych kodów zapasowych ",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Wygenerowano kody zapasowe. Użyto {used} z {total} kodów.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "To są kody zapasowe. Zapisz je i/lub wydrukuj, ponieważ nie będziesz mógł ich później odczytać.",
     "Save backup codes" : "Zapisz kody zapasowe",
     "Print backup codes" : "Drukuj kody zapasowe",
     "Regenerate backup codes" : "Ponownie generuj kody zapasowe",

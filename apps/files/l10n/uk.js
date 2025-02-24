@@ -155,6 +155,7 @@ OC.L10N.register(
     "Shared" : "Спільне",
     "Switch to list view" : "У вигляді списку",
     "Switch to grid view" : "У вигляді сітки",
+    "The file could not be found" : "Неможливо знайти файл",
     "Upload was cancelled by user" : "Завантаження скасовано користувачем",
     "Not enough free space" : "Недостатньо вільного місця",
     "Operation is blocked by access control" : "Операцію заблоковано через контроль доступу",
