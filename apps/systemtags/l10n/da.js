@@ -44,7 +44,7 @@ OC.L10N.register(
     "Restricted" : "Begrænset",
     "Invisible" : "Usynlig",
     "Manage tags" : "Administrer tags",
-    "Cancel" : "Annullér",
+    "Cancel" : "Annuller",
     "Failed to load tags" : "Kunne ikke indlæse tags.",
     "System admin disabled tag creation. You can only use existing ones." : "Systemadministrator deaktiverede oprettelse af tag. Du kan kun anvende eksisterende.",
     "System tag creation" : "Oprettelse af systemtag",

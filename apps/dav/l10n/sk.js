@@ -268,7 +268,7 @@ OC.L10N.register(
     "No results." : "Žiadne výsledky.",
     "Start typing." : "Začnite písať.",
     "Short absence status" : "Status pre Krátku neprítomnosť",
-    "Long absence Message" : "Sprava pri Dlhej neprítomnosti",
+    "Long absence Message" : "Správa pri Dlhej neprítomnosti",
     "Save" : "Uložiť",
     "Disable absence" : "Zakázať neprítomnosť",
     "Absence saved" : "Neprítomnosť uložená",

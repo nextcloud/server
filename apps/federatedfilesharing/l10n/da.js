@@ -17,7 +17,7 @@ OC.L10N.register(
     "Federated sharing" : "Sammenkoblingsdeling",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Du modtog {share} som en ekstern deling fra {user} (på vegne af {behalf})",
     "You received {share} as a remote share from {user}" : "Du modtog {share} som en ekstern deling fra {user}",
-    "Accept" : "Acceptér",
+    "Accept" : "Accepter",
     "Decline" : "Afvis",
     "Federated Cloud Sharing" : "Sammenkoblet Cloud deling",
     "Sharing" : "Deling",
