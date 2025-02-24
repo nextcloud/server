@@ -18,9 +18,6 @@ class Chain {
 	/** @var UidLoginCommand */
 	private $uidLoginCommand;
 
-	/** @var EmailLoginCommand */
-	private $emailLoginCommand;
-
 	/** @var LoggedInCheckCommand */
 	private $loggedInCheckCommand;
 
@@ -48,7 +45,6 @@ class Chain {
 	public function __construct(PreLoginHookCommand $preLoginHookCommand,
 		UserDisabledCheckCommand $userDisabledCheckCommand,
 		UidLoginCommand $uidLoginCommand,
-		EmailLoginCommand $emailLoginCommand,
 		LoggedInCheckCommand $loggedInCheckCommand,
 		CompleteLoginCommand $completeLoginCommand,
 		CreateSessionTokenCommand $createSessionTokenCommand,
@@ -61,7 +57,6 @@ class Chain {
 		$this->preLoginHookCommand = $preLoginHookCommand;
 		$this->userDisabledCheckCommand = $userDisabledCheckCommand;
 		$this->uidLoginCommand = $uidLoginCommand;
-		$this->emailLoginCommand = $emailLoginCommand;
 		$this->loggedInCheckCommand = $loggedInCheckCommand;
 		$this->completeLoginCommand = $completeLoginCommand;
 		$this->createSessionTokenCommand = $createSessionTokenCommand;
@@ -77,7 +72,6 @@ class Chain {
 		$chain
 			->setNext($this->userDisabledCheckCommand)
 			->setNext($this->uidLoginCommand)
-			->setNext($this->emailLoginCommand)
 			->setNext($this->loggedInCheckCommand)
 			->setNext($this->completeLoginCommand)
 			->setNext($this->createSessionTokenCommand)
