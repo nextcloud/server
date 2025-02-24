@@ -11,7 +11,9 @@ namespace OCA\files_versions\tests\Versions;
 use OC\Files\Storage\Local;
 use OCA\Files_Versions\Versions\IVersionBackend;
 use OCA\Files_Versions\Versions\VersionManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Storage\IStorage;
+use OCP\Server;
 use Test\TestCase;
 
 class VersionManagerTest extends TestCase {
@@ -30,7 +32,7 @@ class VersionManagerTest extends TestCase {
 	}
 
 	public function testGetBackendSingle(): void {
-		$manager = new VersionManager();
+		$manager = new VersionManager(Server::get(IEventDispatcher::class));
 		$backend = $this->getBackend();
 		$manager->registerBackend(IStorage::class, $backend);
 
@@ -38,7 +40,7 @@ class VersionManagerTest extends TestCase {
 	}
 
 	public function testGetBackendMoreSpecific(): void {
-		$manager = new VersionManager();
+		$manager = new VersionManager(Server::get(IEventDispatcher::class));
 		$backend1 = $this->getBackend();
 		$backend2 = $this->getBackend();
 		$manager->registerBackend(IStorage::class, $backend1);
@@ -48,7 +50,7 @@ class VersionManagerTest extends TestCase {
 	}
 
 	public function testGetBackendNoUse(): void {
-		$manager = new VersionManager();
+		$manager = new VersionManager(Server::get(IEventDispatcher::class));
 		$backend1 = $this->getBackend();
 		$backend2 = $this->getBackend(false);
 		$manager->registerBackend(IStorage::class, $backend1);
@@ -58,7 +60,7 @@ class VersionManagerTest extends TestCase {
 	}
 
 	public function testGetBackendMultiple(): void {
-		$manager = new VersionManager();
+		$manager = new VersionManager(Server::get(IEventDispatcher::class));
 		$backend1 = $this->getBackend();
 		$backend2 = $this->getBackend(false);
 		$backend3 = $this->getBackend();
