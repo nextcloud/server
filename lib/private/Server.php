@@ -838,7 +838,7 @@ class Server extends ServerContainer implements IServerContainer {
 			if ($busClass) {
 				[$app, $class] = explode('::', $busClass, 2);
 				if ($c->get(IAppManager::class)->isEnabledForUser($app)) {
-					\OC_App::loadApp($app);
+					$c->get(IAppManager::class)->loadApp($app);
 					return $c->get($class);
 				} else {
 					throw new ServiceUnavailableException("The app providing the command bus ($app) is not enabled");
