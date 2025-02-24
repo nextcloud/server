@@ -13,35 +13,40 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ResetTokenTest extends TestCase {
+	private ITimeFactory|MockObject $timeFactory;
 	private IConfig|MockObject $config;
 	private IAppConfig|MockObject $appConfig;
-	private ITimeFactory|MockObject $timeFactory;
+	private LoggerInterface|MockObject $logger;
 	private BackgroundJobResetToken $resetTokenBackgroundJob;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->appConfig = $this->createMock(IAppConfig::class);
-		$this->config = $this->createMock(IConfig::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->resetTokenBackgroundJob = new BackgroundJobResetToken(
 			$this->timeFactory,
 			$this->config,
 			$this->appConfig,
+			$this->logger,
 		);
 	}
 
-	public function testRunWithNotExpiredToken(): void {
+	public function testRunWithNotExpiredToken(): void { // Affirm if updater.secret.created <48 hours ago then `updater.secret` is left alone
 		$this->timeFactory
 			->expects($this->atLeastOnce())
 			->method('getTime')
-			->willReturn(123);
+			->willReturn(1733069649); // "Sun, 01 Dec 2024 16:14:09 +0000"
 		$this->appConfig
 			->expects($this->once())
 			->method('getValueInt')
-			->with('core', 'updater.secret.created', 123);
+			->with('core', 'updater.secret.created', 1733069649)
+			->willReturn(1733069649 - 1 * 24 * 60 * 60); // 24h prior: "Sat, 30 Nov 2024 16:14:09 +0000"
 		$this->config
 			->expects($this->once())
 			->method('getSystemValueBool')
@@ -50,29 +55,53 @@ class ResetTokenTest extends TestCase {
 		$this->config
 			->expects($this->never())
 			->method('deleteSystemValue');
+		$this->appConfig
+			->expects($this->never())
+			->method('deleteKey');
+		$this->logger
+			->expects($this->never())
+			->method('warning');
+		$this->logger
+			->expects($this->once())
+			->method('debug');
 
-		static::invokePrivate($this->resetTokenBackgroundJob, 'run', [null]);
+		$this->invokePrivate($this->resetTokenBackgroundJob, 'run', [null]);
 	}
 
-	public function testRunWithExpiredToken(): void {
+	public function testRunWithExpiredToken(): void { // Affirm if updater.secret.created >48 hours ago then `updater.secret` is removed
 		$this->timeFactory
-			->expects($this->once())
+			->expects($this->atLeastOnce())
 			->method('getTime')
-			->willReturn(1455045234);
+			->willReturn(1455045234); // "Tue, 09 Feb 2016 19:13:54 +0000"
 		$this->appConfig
 			->expects($this->once())
 			->method('getValueInt')
 			->with('core', 'updater.secret.created', 1455045234)
-			->willReturn(2 * 24 * 60 * 60 + 1); // over 2 days
+			->willReturn(1455045234 - 3 * 24 * 60 * 60); // 72h prior: "Sat, 06 Feb 2016 19:13:54 +0000"
+		$this->config
+			->expects($this->once())
+			->method('getSystemValueBool')
+			->with('config_is_read_only')
+			->willReturn(false);
 		$this->config
 			->expects($this->once())
 			->method('deleteSystemValue')
 			->with('updater.secret');
+		$this->appConfig
+			->expects($this->once())
+			->method('deleteKey')
+			->with('core', 'updater.secret.created');
+		$this->logger
+			->expects($this->once())
+			->method('warning');
+		$this->logger
+			->expects($this->never())
+			->method('debug');
 
-		static::invokePrivate($this->resetTokenBackgroundJob, 'run', [null]);
+		$this->invokePrivate($this->resetTokenBackgroundJob, 'run', [null]);
 	}
 
-	public function testRunWithExpiredTokenAndReadOnlyConfigFile(): void {
+	public function testRunWithExpiredTokenAndReadOnlyConfigFile(): void { // Affirm if config_is_read_only is set that the secret is never reset
 		$this->timeFactory
 			->expects($this->never())
 			->method('getTime');
@@ -87,7 +116,16 @@ class ResetTokenTest extends TestCase {
 		$this->config
 			->expects($this->never())
 			->method('deleteSystemValue');
+		$this->appConfig
+			->expects($this->never())
+			->method('deleteKey');
+		$this->logger
+			->expects($this->never())
+			->method('warning');
+		$this->logger
+			->expects($this->once())
+			->method('debug');
 
-		static::invokePrivate($this->resetTokenBackgroundJob, 'run', [null]);
+		$this->invokePrivate($this->resetTokenBackgroundJob, 'run', [null]);
 	}
 }
