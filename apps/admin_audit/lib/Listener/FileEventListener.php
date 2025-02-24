@@ -40,7 +40,7 @@ class FileEventListener extends Action implements IEventListener {
 				'height' => $event->getHeight(),
 				'crop' => $event->isCrop(),
 				'mode' => $event->getMode(),
-				'path' => mb_substr($file->getInternalPath(), 5)
+				'path' => $file->getPath(),
 			];
 			$this->log(
 				'Preview accessed: (id: "%s", width: "%s", height: "%s" crop: "%s", mode: "%s", path: "%s")',
