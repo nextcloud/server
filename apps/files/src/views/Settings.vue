@@ -88,7 +88,7 @@
 			<NcCheckboxRadioSwitch type="switch"
 				:checked="userConfig.show_dialog_file_extension"
 				@update:checked="setConfig('show_dialog_file_extension', $event)">
-				{{ t('files', 'Warn about changed file extension.') }}
+				{{ t('files', 'Show a warning dialog when changing a file extension.') }}
 			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
 
