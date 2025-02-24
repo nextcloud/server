@@ -52,6 +52,7 @@ export interface PathOptions {
 export interface UserConfig {
 	[key: string]: boolean|undefined
 
+	show_dialog_file_extension: boolean,
 	show_hidden: boolean
 	crop_image_previews: boolean
 	sort_favorites_first: boolean

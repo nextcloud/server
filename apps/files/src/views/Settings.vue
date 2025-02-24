@@ -83,6 +83,15 @@
 			</em>
 		</NcAppSettingsSection>
 
+		<NcAppSettingsSection id="warning" :name="t('files', 'Warnings')">
+			<em>{{ t('files', 'Prevent warning dialogs from open or reenable them.') }}</em>
+			<NcCheckboxRadioSwitch type="switch"
+				:checked="userConfig.show_dialog_file_extension"
+				@update:checked="setConfig('show_dialog_file_extension', $event)">
+				{{ t('files', 'Show a warning dialog when changing a file extension.') }}
+			</NcCheckboxRadioSwitch>
+		</NcAppSettingsSection>
+
 		<NcAppSettingsSection id="shortcuts"
 			:name="t('files', 'Keyboard shortcuts')">
 			<em>{{ t('files', 'Speed up your Files experience with these quick shortcuts.') }}</em>
