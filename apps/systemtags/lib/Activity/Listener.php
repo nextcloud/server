@@ -11,7 +11,6 @@ use OCP\Activity\IManager;
 use OCP\App\IAppManager;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\IRootFolder;
-use OCP\Files\Node;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -127,22 +126,10 @@ class Listener {
 
 		// Get all mount point owners
 		$cache = $this->mountCollection->getMountCache();
-		$mounts = $cache->getMountsForFileId($event->getObjectId());
-		if (empty($mounts)) {
-			return;
-		}
 
-		$users = [];
-		foreach ($mounts as $mount) {
-			$owner = $mount->getUser()->getUID();
-			$ownerFolder = $this->rootFolder->getUserFolder($owner);
-			$nodes = $ownerFolder->getById($event->getObjectId());
-			if (!empty($nodes)) {
-				/** @var Node $node */
-				$node = array_shift($nodes);
-				$al = $this->shareHelper->getPathsForAccessList($node);
-				$users += $al['users'];
-			}
+		$users = $cache->getReadablePathByUserForFileId((int)$event->getObjectId());
+		if (empty($users)) {
+			return;
 		}
 
 		$actor = $this->session->getUser();

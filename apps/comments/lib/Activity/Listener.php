@@ -12,7 +12,6 @@ use OCP\App\IAppManager;
 use OCP\Comments\CommentsEvent;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\IRootFolder;
-use OCP\Files\Node;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IShareHelper;
@@ -36,24 +35,11 @@ class Listener {
 			return;
 		}
 
-		// Get all mount point owners
 		$cache = $this->mountCollection->getMountCache();
-		$mounts = $cache->getMountsForFileId((int)$event->getComment()->getObjectId());
-		if (empty($mounts)) {
-			return;
-		}
 
-		$users = [];
-		foreach ($mounts as $mount) {
-			$owner = $mount->getUser()->getUID();
-			$ownerFolder = $this->rootFolder->getUserFolder($owner);
-			$nodes = $ownerFolder->getById((int)$event->getComment()->getObjectId());
-			if (!empty($nodes)) {
-				/** @var Node $node */
-				$node = array_shift($nodes);
-				$al = $this->shareHelper->getPathsForAccessList($node);
-				$users += $al['users'];
-			}
+		$users = $cache->getReadablePathByUserForFileId((int)$event->getComment()->getObjectId());
+		if (empty($users)) {
+			return;
 		}
 
 		$actor = $this->session->getUser();
