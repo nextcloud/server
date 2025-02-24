@@ -19,7 +19,7 @@ const confirmLocalEditDialog = (
 	let callbackCalled = false
 
 	return (new DialogBuilder())
-		.setName(t('files', 'Edit file locally'))
+		.setName(t('files', 'Open file locally'))
 		.setText(t('files', 'The file should now open on your device. If it doesn\'t, please check that you have the desktop app installed.'))
 		.setButtons([
 			{
@@ -31,7 +31,7 @@ const confirmLocalEditDialog = (
 				},
 			},
 			{
-				label: t('files', 'Edit online'),
+				label: t('files', 'Open online'),
 				icon: IconWeb,
 				type: 'primary',
 				callback: () => {
@@ -80,7 +80,7 @@ const openLocalClient = async function(path: string) {
 
 export const action = new FileAction({
 	id: 'edit-locally',
-	displayName: () => t('files', 'Edit locally'),
+	displayName: () => t('files', 'Open locally'),
 	iconSvgInline: () => LaptopSvg,
 
 	// Only works on single files
