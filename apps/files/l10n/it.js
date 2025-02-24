@@ -155,6 +155,7 @@ OC.L10N.register(
     "Shared" : "Condiviso",
     "Switch to list view" : "Passa alla vista elenco",
     "Switch to grid view" : "Passa alla vista griglia",
+    "The file could not be found" : "Il file non è stato trovato",
     "Upload was cancelled by user" : "Caricamento annullato dall'utente",
     "Not enough free space" : "Spazio libero insufficiente",
     "Operation is blocked by access control" : "L'operazione è bloccata dal controllo di accesso",

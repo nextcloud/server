@@ -331,7 +331,7 @@
     "Account access" : "アカウントによるアクセス許可",
     "Currently logged in as %1$s (%2$s)." : "現在、%1$s (%2$s)としてログインしています。",
     "You are about to grant %1$s access to your %2$s account." : "%2$s アカウントに あなたのアカウント %1$s へのアクセスを許可",
-    "Account connected" : "アカウント接続済",
+    "Account connected" : "アカウントに接続しました",
     "Your client should now be connected!" : "クライアントはもう接続されているはずです！",
     "You can close this window." : "このウィンドウは閉じてしまって構いません。",
     "Previous" : "前へ",
