@@ -168,7 +168,7 @@ class Notify extends StorageAuthBase {
 	}
 
 	private function getStorageIds(int $mountId, string $path): array {
-		$pathHash = md5(trim((string)\OC_Util::normalizeUnicode($path), '/'));
+		$pathHash = md5(trim(\OC_Util::normalizeUnicode($path), '/'));
 		$qb = $this->connection->getQueryBuilder();
 		return $qb
 			->select('storage_id', 'user_id')
@@ -176,12 +176,12 @@ class Notify extends StorageAuthBase {
 			->innerJoin('m', 'filecache', 'f', $qb->expr()->eq('m.storage_id', 'f.storage'))
 			->where($qb->expr()->eq('mount_id', $qb->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('path_hash', $qb->createNamedParameter($pathHash, IQueryBuilder::PARAM_STR)))
-			->execute()
+			->executeQuery()
 			->fetchAll();
 	}
 
 	private function updateParent(array $storageIds, string $parent): int {
-		$pathHash = md5(trim((string)\OC_Util::normalizeUnicode($parent), '/'));
+		$pathHash = md5(trim(\OC_Util::normalizeUnicode($parent), '/'));
 		$qb = $this->connection->getQueryBuilder();
 		return $qb
 			->update('filecache')

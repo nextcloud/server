@@ -937,18 +937,18 @@ class OC_Util {
 	}
 
 	/**
-	 * Normalize a unicode string
+	 * Normalize a unicode string.
 	 *
 	 * @param string $value a not normalized string
-	 * @return bool|string
+	 * @return string The normalized string or the input if the normalization failed
 	 */
-	public static function normalizeUnicode($value) {
+	public static function normalizeUnicode(string $value): string {
 		if (Normalizer::isNormalized($value)) {
 			return $value;
 		}
 
 		$normalizedValue = Normalizer::normalize($value);
-		if ($normalizedValue === null || $normalizedValue === false) {
+		if ($normalizedValue === false) {
 			\OCP\Server::get(LoggerInterface::class)->warning('normalizing failed for "' . $value . '"', ['app' => 'core']);
 			return $value;
 		}
