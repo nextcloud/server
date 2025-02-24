@@ -59,12 +59,10 @@ use Sabre\Uri;
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VTimeZone;
-use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\ParseException;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
-use Sabre\VObject\Recur\EventIterator;
 use Sabre\VObject\Recur\MaxInstancesExceededException;
 use Sabre\VObject\Recur\NoInstancesException;
 use function array_column;
@@ -2985,99 +2983,83 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return array
 	 */
 	public function getDenormalizedData(string $calendarData): array {
-		$vObject = Reader::read($calendarData);
-		$vEvents = [];
-		$componentType = null;
-		$component = null;
-		$firstOccurrence = null;
-		$lastOccurrence = null;
-		$uid = null;
-		$classification = self::CLASSIFICATION_PUBLIC;
-		$hasDTSTART = false;
-		foreach ($vObject->getComponents() as $component) {
-			if ($component->name !== 'VTIMEZONE') {
-				// Finding all VEVENTs, and track them
-				if ($component->name === 'VEVENT') {
-					$vEvents[] = $component;
-					if ($component->DTSTART) {
-						$hasDTSTART = true;
-					}
-				}
-				// Track first component type and uid
-				if ($uid === null) {
-					$componentType = $component->name;
-					$uid = (string)$component->UID;
-				}
-			}
-		}
-		if (!$componentType) {
-			throw new BadRequest('Calendar objects must have a VJOURNAL, VEVENT or VTODO component');
-		}
 
-		if ($hasDTSTART) {
-			$component = $vEvents[0];
-
-			// Finding the last occurrence is a bit harder
-			if (!isset($component->RRULE) && count($vEvents) === 1) {
-				$firstOccurrence = $component->DTSTART->getDateTime()->getTimeStamp();
-				if (isset($component->DTEND)) {
-					$lastOccurrence = $component->DTEND->getDateTime()->getTimeStamp();
-				} elseif (isset($component->DURATION)) {
-					$endDate = clone $component->DTSTART->getDateTime();
-					$endDate->add(DateTimeParser::parse($component->DURATION->getValue()));
-					$lastOccurrence = $endDate->getTimeStamp();
-				} elseif (!$component->DTSTART->hasTime()) {
-					$endDate = clone $component->DTSTART->getDateTime();
-					$endDate->modify('+1 day');
-					$lastOccurrence = $endDate->getTimeStamp();
-				} else {
-					$lastOccurrence = $firstOccurrence;
-				}
-			} else {
-				try {
-					$it = new EventIterator($vEvents);
-				} catch (NoInstancesException $e) {
-					$this->logger->debug('Caught no instance exception for calendar data. This usually indicates invalid calendar data.', [
-						'app' => 'dav',
-						'exception' => $e,
-					]);
-					throw new Forbidden($e->getMessage());
-				}
-				$maxDate = new DateTime(self::MAX_DATE);
-				$firstOccurrence = $it->getDtStart()->getTimestamp();
-				if ($it->isInfinite()) {
-					$lastOccurrence = $maxDate->getTimestamp();
-				} else {
-					$end = $it->getDtEnd();
-					while ($it->valid() && $end < $maxDate) {
-						$end = $it->getDtEnd();
-						$it->next();
-					}
-					$lastOccurrence = $end->getTimestamp();
-				}
-			}
-		}
-
-		if ($component->CLASS) {
-			$classification = CalDavBackend::CLASSIFICATION_PRIVATE;
-			switch ($component->CLASS->getValue()) {
-				case 'PUBLIC':
-					$classification = CalDavBackend::CLASSIFICATION_PUBLIC;
-					break;
-				case 'CONFIDENTIAL':
-					$classification = CalDavBackend::CLASSIFICATION_CONFIDENTIAL;
-					break;
-			}
-		}
-		return [
+		$derived = [
 			'etag' => md5($calendarData),
 			'size' => strlen($calendarData),
-			'componentType' => $componentType,
-			'firstOccurence' => is_null($firstOccurrence) ? null : max(0, $firstOccurrence),
-			'lastOccurence' => is_null($lastOccurrence) ? null : max(0, $lastOccurrence),
-			'uid' => $uid,
-			'classification' => $classification
 		];
+		// validate data and extract base component
+		/** @var VCalendar $vObject */
+		$vObject = Reader::read($calendarData);
+		$components = $vObject->getBaseComponents();
+		if (count($components) !== 1) {
+			throw new BadRequest('Invalid calendar object must contain exactly one VJOURNAL, VEVENT, or VTODO component type');
+		}
+		$component = $components[0];
+		// extract basic information
+		$derived['componentType'] = $component->name;
+		$derived['uid'] = $component->UID ? $component->UID->getValue() : null;
+		$derived['classification'] = $component->CLASS ? match ($component->CLASS->getValue()) {
+			'PUBLIC' => self::CLASSIFICATION_PUBLIC,
+			'CONFIDENTIAL' => self::CLASSIFICATION_CONFIDENTIAL,
+			default => self::CLASSIFICATION_PRIVATE,
+		} : self::CLASSIFICATION_PUBLIC;
+		// extract start and end dates
+		// VTODO components can have no start date
+		/** @var  */
+		$startDate = $component->DTSTART instanceof \Sabre\VObject\Property\ICalendar\DateTime ? $component->DTSTART->getDateTime() : null;
+		$endDate = $startDate ? clone $startDate : null;
+		if ($startDate) {
+			// Recurring
+			if ($component->RRULE || $component->RDATE) {
+				// RDATE can have both instances and multiple values
+				// RDATE;TZID=America/Toronto:20250701T000000,20260701T000000
+				// RDATE;TZID=America/Toronto:20270701T000000
+				if ($component->RDATE) {
+					foreach ($component->RDATE as $instance) {
+						foreach ($instance->getDateTimes() as $entry) {
+							if ($entry > $endDate) {
+								$endDate = $entry;
+							}
+						}
+					}
+				}
+				// RRULE can be infinate or limited by a UNTIL or COUNT
+				if ($component->RRULE) {
+					try {
+						$rule = new EventReaderRRule($component->RRULE->getValue(), $startDate);
+						$endDate = $rule->isInfinite() ? new DateTime(self::MAX_DATE) : $rule->concludes();
+					} catch (NoInstancesException $e) {
+						$this->logger->debug('Caught no instance exception for calendar data. This usually indicates invalid calendar data.', [
+							'app' => 'dav',
+							'exception' => $e,
+						]);
+						throw new Forbidden($e->getMessage());
+					}
+				}
+				// Singleton
+			} else {
+				if ($component->DTEND instanceof \Sabre\VObject\Property\ICalendar\DateTime) {
+					// VEVENT component types
+					$endDate = $component->DTEND->getDateTime();
+				} elseif ($component->DURATION  instanceof \Sabre\VObject\Property\ICalendar\Duration) {
+					// VEVENT / VTODO component types
+					$endDate = $startDate->add($component->DURATION->getDateInterval());
+				} elseif ($component->DUE  instanceof \Sabre\VObject\Property\ICalendar\DateTime) {
+					// VTODO component types
+					$endDate = $component->DUE->getDateTime();
+				} elseif ($component->name === 'VEVENT' && !$component->DTSTART->hasTime()) {
+					// VEVENT component type without time is automatically one day
+					$endDate = (clone $startDate)->modify('+1 day');
+				}
+			}
+		}
+		// convert dates to timestamp and prevent negative values
+		$derived['firstOccurence'] = $startDate ? max(0, $startDate->getTimestamp()) : 0;
+		$derived['lastOccurence'] = $endDate ? max(0, $endDate->getTimestamp()) : 0;
+	
+		return $derived;
+
 	}
 
 	/**
