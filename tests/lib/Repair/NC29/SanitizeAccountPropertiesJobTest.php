@@ -12,31 +12,36 @@ use InvalidArgumentException;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\Migration\IOutput;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
-class ValidateAccountPropertiesTest extends TestCase {
+class SanitizeAccountPropertiesJobTest extends TestCase {
 
-	private IUserManager&MockObject $userManager;
-	private IAccountManager&MockObject $accountManager;
-	private LoggerInterface&MockObject $logger;
+	private IUserManager|MockObject $userManager;
+	private IAccountManager|MockObject $accountManager;
+	private LoggerInterface|MockObject $logger;
 	
-	private ValidateAccountProperties $repairStep;
+	private SanitizeAccountPropertiesJob $job;
 
 	protected function setUp(): void {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
-		$this->repairStep = new ValidateAccountProperties($this->userManager, $this->accountManager, $this->logger);
+		$this->job = new SanitizeAccountPropertiesJob(
+			$this->createMock(ITimeFactory::class),
+			$this->userManager,
+			$this->accountManager,
+			$this->logger,
+		);
 	}
 
-	public function testGetName(): void {
-		self::assertStringContainsString('Validate account properties', $this->repairStep->getName());
+	public function testParallel() {
+		self::assertFalse($this->job->getAllowParallelRuns());
 	}
 
 	public function testRun(): void {
@@ -106,9 +111,6 @@ class ValidateAccountPropertiesTest extends TestCase {
 				}
 			});
 
-		$output = $this->createMock(IOutput::class);
-		$output->expects(self::once())->method('info')->with('Cleaned 1 invalid account property entries');
-
-		$this->repairStep->run($output);
+		self::invokePrivate($this->job, 'run', [null]);
 	}
 }

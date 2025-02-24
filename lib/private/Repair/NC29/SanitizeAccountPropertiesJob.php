@@ -10,13 +10,13 @@ namespace OC\Repair\NC29;
 
 use InvalidArgumentException;
 use OCP\Accounts\IAccountManager;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\QueuedJob;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
 use Psr\Log\LoggerInterface;
 
-class ValidateAccountProperties implements IRepairStep {
+class SanitizeAccountPropertiesJob extends QueuedJob {
 
 	private const PROPERTIES_TO_CHECK = [
 		IAccountManager::PROPERTY_PHONE,
@@ -26,17 +26,16 @@ class ValidateAccountProperties implements IRepairStep {
 	];
 
 	public function __construct(
+		ITimeFactory $timeFactory,
 		private IUserManager $userManager,
 		private IAccountManager $accountManager,
 		private LoggerInterface $logger,
 	) {
+		parent::__construct($timeFactory);
+		$this->setAllowParallelRuns(false);
 	}
 
-	public function getName(): string {
-		return 'Validate account properties and store phone numbers in a known format for search';
-	}
-
-	public function run(IOutput $output): void {
+	protected function run(mixed $argument): void {
 		$numRemoved = 0;
 
 		$this->userManager->callForSeenUsers(function (IUser $user) use (&$numRemoved) {
@@ -70,7 +69,7 @@ class ValidateAccountProperties implements IRepairStep {
 		});
 
 		if ($numRemoved > 0) {
-			$output->info('Cleaned ' . $numRemoved . ' invalid account property entries');
+			$this->logger->info('Cleaned ' . $numRemoved . ' invalid account property entries');
 		}
 	}
 }
