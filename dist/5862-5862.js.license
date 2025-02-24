@@ -21,7 +21,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.0
 	- license: MIT
 - rehype-highlight
-	- version: 7.0.1
+	- version: 7.0.2
 	- license: MIT
 - unist-util-find-after
 	- version: 5.0.0
