@@ -218,14 +218,14 @@ class Connection extends PrimaryReadReplicaConnection {
 				return parent::connect();
 			}
 
-			$this->lastConnectionCheck[$this->getConnectionName()] = time();
-
 			// Only trigger the event logger for the initial connect call
 			$eventLogger = Server::get(IEventLogger::class);
 			$eventLogger->start('connect:db', 'db connection opened');
 			/** @psalm-suppress InternalMethod */
 			$status = parent::connect();
 			$eventLogger->end('connect:db');
+
+			$this->lastConnectionCheck[$this->getConnectionName()] = time();
 
 			return $status;
 		} catch (Exception $e) {
