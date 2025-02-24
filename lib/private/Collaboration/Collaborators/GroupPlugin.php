@@ -107,7 +107,7 @@ class GroupPlugin implements ISearchPlugin {
 			// user id and if so, we add that to the exact match list
 			$group = $this->groupManager->get($search);
 			if ($group instanceof IGroup && !$group->hideFromCollaboration() && (!$this->shareWithGroupOnly || in_array($group->getGID(), $userGroups))) {
-				$result['exact'][] = [
+					$result['exact'][] = [
 					'label' => $group->getDisplayName(),
 					'value' => [
 						'shareType' => IShare::TYPE_GROUP,
@@ -123,7 +123,6 @@ class GroupPlugin implements ISearchPlugin {
 
 		$type = new SearchResultType('groups');
 		$searchResult->addResultSet($type, $result['wide'], $result['exact']);
-
 		return $hasMoreResults;
 	}
 }
