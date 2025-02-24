@@ -1,0 +1,78 @@
+# SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: Assign reviews
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+
+permissions:
+  contents: read
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest-low
+
+    outputs:
+      backend: ${{ steps.changes.outputs.backend }}
+      frontend: ${{ steps.changes.outputs.frontend }}
+
+    steps:
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            backend:
+              - '3rdparty/**'
+              - '**/appinfo/**'
+              - '**/lib/**'
+              - '**/templates/**'
+              - '.php-cs-fixer.dist.php'
+              - 'composer.json'
+              - 'psalm*'
+              - 'build/psalm*'
+              - '**.php'
+            frontend:
+              - 'apps/*/src/**'
+              - 'core/src/**'
+              - 'tsconfig.json'
+              - '**.js'
+              - '**.ts'
+              - '**.vue'
+
+  assign-reviews:
+    name: Assign reviews
+    runs-on: ubuntu-latest-low
+
+    needs: changes
+    # Only if there are not already reviews requested
+    if: github.event.pull_request.requested_reviewers[1] == null
+
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: Assign backend engineers
+        if: needs.changes.outputs.backend == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            '/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers' \
+            -f "team_reviewers[]=nextcloud/server-backend"
+      - name: Assign frontend engineers
+        if: needs.changes.outputs.frontend == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            '/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers' \
+            -f "team_reviewers[]=nextcloud/server-frontend"
