@@ -70,6 +70,7 @@ OC.L10N.register(
     "Search or create tag" : "Vyhľadať alebo vytvoriť štítok",
     "Change tag color" : "Zmeniť farbu štítkov",
     "Create new tag" : "Vytvoriť nový štítok",
+    "Select or create tags to apply to all selected files" : "Vybrať alebo vytvoriť štítok a aplikovať na všetky vybrané súbory",
     "Cancel" : "Zrušiť",
     "Apply changes" : "Aplikovať zmeny",
     "{displayName} (hidden)" : "{displayName}(skrytý)",
@@ -82,7 +83,15 @@ OC.L10N.register(
     "Failed to load tags" : "Nepodarilo sa načítať štítky",
     "Failed to load selected tags" : "Nepodarilo sa načítať vytvorený štítok",
     "Failed to select tag" : "Nepodarilo sa vybrať štítok",
+    "System admin disabled tag creation. You can only use existing ones." : "Systémový administrátor zakázal vytváranie štítkov. Môžete použiť iba už existujúce",
+    "System tag creation" : "Vytvorenie systémového štítku",
+    "If enabled, regular accounts will be restricted from creating new tags but will still be able to assign and remove them from their files." : "Ak je táto možnosť povolená, bežné účty nebudú môcť vytvárať nové štíťky, ale stále ich budú môcť priraďovať a odstraňovať zo svojich súborov.",
+    "Restrict tag creation to admins only" : "Obmedziť vytváranie štítkov iba na administrátorov",
+    "Unable to update setting" : "Nie je možné upraviť nastavenie",
+    "System tag creation is now restricted to administrators" : "Vytváranie systémových štítkov je teraz obmedzené iba na administrátorov",
+    "System tag creation is now allowed for everybody" : "Vytváranie systémových štítkov je teraz povolené pre všetkých",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Štítky pre spoluprácu sú k dispozícii pre všetkých používateľov. Obmedzené štítky sú viditeľné pre používateľov, ale nedajú sa priradiť. Neviditeľné značky sú určené na interné použitie, pretože používatelia ich nemôžu vidieť ani priradiť.",
+    "Assigned collaborative tags" : "Priradené štítky pre spoluprácu",
     "Open in Files" : "Otvoriť v súboroch",
     "List of tags and their associated files and folders." : "Zoznam štítkov a ich priradené súbory a priečinky.",
     "No tags found" : "Štítky sa nenašli",
@@ -95,6 +104,7 @@ OC.L10N.register(
     "Failed to set tag for file" : "Nepodarilo sa nastaviť štítok pre súbor",
     "Failed to delete tag for file" : "Nepodarilo sa odstrániť štítok pre súbor",
     "This file has the tag {tag}" : "Tento súbor má štítok {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Tento súbor má štítky {firstTags} a {lastTag}"
+    "This file has the tags {firstTags} and {lastTag}" : "Tento súbor má štítky {firstTags} a {lastTag}",
+    "System tag creation is now ${isRestricted ? " : "Je vytváranie systémových štítkov teraz ${isRestricted ? "
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
