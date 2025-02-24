@@ -9,8 +9,11 @@ declare(strict_types=1);
 namespace OCA\files_versions\tests\Versions;
 
 use OC\Files\Storage\Local;
+use OCA\Files_Versions\Events\VersionRestoredEvent;
+use OCA\Files_Versions\Versions\IVersion;
 use OCA\Files_Versions\Versions\IVersionBackend;
 use OCA\Files_Versions\Versions\VersionManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Storage\IStorage;
 use Test\TestCase;
 
@@ -30,7 +33,8 @@ class VersionManagerTest extends TestCase {
 	}
 
 	public function testGetBackendSingle(): void {
-		$manager = new VersionManager();
+		$dispatcher = $this->createMock(IEventDispatcher::class);
+		$manager = new VersionManager($dispatcher);
 		$backend = $this->getBackend();
 		$manager->registerBackend(IStorage::class, $backend);
 
@@ -38,7 +42,8 @@ class VersionManagerTest extends TestCase {
 	}
 
 	public function testGetBackendMoreSpecific(): void {
-		$manager = new VersionManager();
+		$dispatcher = $this->createMock(IEventDispatcher::class);
+		$manager = new VersionManager($dispatcher);
 		$backend1 = $this->getBackend();
 		$backend2 = $this->getBackend();
 		$manager->registerBackend(IStorage::class, $backend1);
@@ -48,7 +53,8 @@ class VersionManagerTest extends TestCase {
 	}
 
 	public function testGetBackendNoUse(): void {
-		$manager = new VersionManager();
+		$dispatcher = $this->createMock(IEventDispatcher::class);
+		$manager = new VersionManager($dispatcher);
 		$backend1 = $this->getBackend();
 		$backend2 = $this->getBackend(false);
 		$manager->registerBackend(IStorage::class, $backend1);
@@ -58,7 +64,8 @@ class VersionManagerTest extends TestCase {
 	}
 
 	public function testGetBackendMultiple(): void {
-		$manager = new VersionManager();
+		$dispatcher = $this->createMock(IEventDispatcher::class);
+		$manager = new VersionManager($dispatcher);
 		$backend1 = $this->getBackend();
 		$backend2 = $this->getBackend(false);
 		$backend3 = $this->getBackend();
@@ -67,5 +74,66 @@ class VersionManagerTest extends TestCase {
 		$manager->registerBackend(Local::class, $backend3);
 
 		$this->assertEquals($backend3, $manager->getBackendForStorage($this->getStorage(Local::class)));
+	}
+
+	public function testRollbackSuccess(): void {
+		$versionMock = $this->createMock(IVersion::class);
+		$backendMock = $this->createMock(IVersionBackend::class);
+
+		$backendMock->expects($this->once())
+			->method('rollback')
+			->with($versionMock)
+			->willReturn(true);
+
+		$versionMock->method('getBackend')->willReturn($backendMock);
+
+		$dispatcherMock = $this->createMock(IEventDispatcher::class);
+		$dispatcherMock->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->isInstanceOf(VersionRestoredEvent::class));
+
+		$manager = new VersionManager($dispatcherMock);
+
+		$this->assertTrue($manager->rollback($versionMock));
+	}
+
+	public function testRollbackNull(): void {
+		$versionMock = $this->createMock(IVersion::class);
+		$backendMock = $this->createMock(IVersionBackend::class);
+
+		$backendMock->expects($this->once())
+			->method('rollback')
+			->with($versionMock)
+			->willReturn(null);
+
+		$versionMock->method('getBackend')->willReturn($backendMock);
+
+		$dispatcherMock = $this->createMock(IEventDispatcher::class);
+		$dispatcherMock->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->isInstanceOf(VersionRestoredEvent::class));
+
+		$manager = new VersionManager($dispatcherMock);
+
+		$this->assertNull($manager->rollback($versionMock));
+	}
+
+	public function testRollbackFailure(): void {
+		$versionMock = $this->createMock(IVersion::class);
+		$backendMock = $this->createMock(IVersionBackend::class);
+
+		$backendMock->expects($this->once())
+			->method('rollback')
+			->with($versionMock)
+			->willReturn(false);
+
+		$versionMock->method('getBackend')->willReturn($backendMock);
+
+		$dispatcherMock = $this->createMock(IEventDispatcher::class);
+		$dispatcherMock->expects($this->never())->method('dispatchTyped');
+
+		$manager = new VersionManager($dispatcherMock);
+
+		$this->assertFalse($manager->rollback($versionMock));
 	}
 }
