@@ -37,7 +37,7 @@ class Files extends Action {
 			$node = $event->getNode();
 			$params = [
 				'id' => $node instanceof NonExistingFile ? null : $node->getId(),
-				'path' => mb_substr($node->getInternalPath(), 5),
+				'path' => $node->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
@@ -76,8 +76,8 @@ class Files extends Action {
 			$originalSource = $this->renamedNodes[$target->getId()];
 			$params = [
 				'newid' => $target->getId(),
-				'oldpath' => mb_substr($originalSource->getInternalPath(), 5),
-				'newpath' => mb_substr($target->getInternalPath(), 5),
+				'oldpath' => $originalSource->getPath(),
+				'newpath' => $target->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
@@ -101,7 +101,7 @@ class Files extends Action {
 		try {
 			$params = [
 				'id' => $event->getNode()->getId(),
-				'path' => mb_substr($event->getNode()->getInternalPath(), 5),
+				'path' => $event->getNode()->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
@@ -127,8 +127,8 @@ class Files extends Action {
 			$params = [
 				'oldid' => $event->getSource()->getId(),
 				'newid' => $event->getTarget()->getId(),
-				'oldpath' => mb_substr($event->getSource()->getInternalPath(), 5),
-				'newpath' => mb_substr($event->getTarget()->getInternalPath(), 5),
+				'oldpath' => $event->getSource()->getPath(),
+				'newpath' => $event->getTarget()->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
@@ -151,7 +151,7 @@ class Files extends Action {
 		try {
 			$params = [
 				'id' => $node->getId(),
-				'path' => mb_substr($node->getInternalPath(), 5),
+				'path' => $node->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
@@ -177,7 +177,7 @@ class Files extends Action {
 		try {
 			$params = [
 				'id' => $event->getNode()->getId(),
-				'path' => mb_substr($event->getNode()->getInternalPath(), 5),
+				'path' => $event->getNode()->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
