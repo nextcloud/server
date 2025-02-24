@@ -37,11 +37,9 @@ SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
 SPDX-FileCopyrightText: Mapbox
 SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
-SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)
 SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
 SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
 SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
-SPDX-FileCopyrightText: Hypercontext
 SPDX-FileCopyrightText: Hiroki Osame
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
 SPDX-FileCopyrightText: GitHub Inc.
@@ -57,7 +55,6 @@ SPDX-FileCopyrightText: Borys Serebrov
 SPDX-FileCopyrightText: Austin Andrews
 SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
-SPDX-FileCopyrightText: Andris Reinman
 SPDX-FileCopyrightText: Andrea Giammarchi
 SPDX-FileCopyrightText: Amit Gupta (https://solothought.com)
 SPDX-FileCopyrightText: Amit Gupta (https://amitkumargupta.work/)
@@ -121,7 +118,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 3.1.0
+	- version: 3.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.2
@@ -142,7 +139,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.25.1
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.22.0
+	- version: 8.23.1
 	- license: AGPL-3.0-or-later
 - @ungap/structured-clone
 	- version: 1.2.0
@@ -199,7 +196,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.0
 	- license: MIT
 - dompurify
-	- version: 3.1.7
+	- version: 3.2.4
 	- license: (MPL-2.0 OR Apache-2.0)
 - emoji-mart-vue-fast
 	- version: 15.0.2
@@ -249,17 +246,11 @@ This file is generated from multiple sources. Included packages:
 - jquery
 	- version: 3.7.1
 	- license: MIT
-- linkify-string
-	- version: 4.1.3
-	- license: MIT
-- lodash.get
-	- version: 4.4.2
-	- license: MIT
 - longest-streak
 	- version: 3.1.0
 	- license: MIT
 - markdown-table
-	- version: 3.0.3
+	- version: 3.0.4
 	- license: MIT
 - md5
 	- version: 2.3.0
@@ -271,13 +262,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: MIT
 - mdast-util-from-markdown
-	- version: 2.0.1
+	- version: 2.0.2
 	- license: MIT
 - mdast-util-gfm-autolink-literal
-	- version: 2.0.0
+	- version: 2.0.1
 	- license: MIT
 - mdast-util-gfm-footnote
-	- version: 2.0.0
+	- version: 2.1.0
 	- license: MIT
 - mdast-util-gfm-strikethrough
 	- version: 2.0.0
@@ -289,7 +280,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.0
 	- license: MIT
 - mdast-util-gfm
-	- version: 3.0.0
+	- version: 3.1.0
 	- license: MIT
 - mdast-util-newline-to-break
 	- version: 2.0.0
@@ -301,13 +292,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 13.2.0
 	- license: MIT
 - mdast-util-to-markdown
-	- version: 2.1.0
+	- version: 2.1.2
 	- license: MIT
 - mdast-util-to-string
 	- version: 4.0.0
 	- license: MIT
 - micromark-core-commonmark
-	- version: 2.0.1
+	- version: 2.0.2
 	- license: MIT
 - micromark-extension-gfm-autolink-literal
 	- version: 2.1.0
@@ -319,7 +310,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.1.0
 	- license: MIT
 - micromark-extension-gfm-table
-	- version: 2.1.0
+	- version: 2.1.1
 	- license: MIT
 - micromark-extension-gfm-tagfilter
 	- version: 2.0.0
@@ -331,61 +322,58 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.0
 	- license: MIT
 - micromark-factory-destination
-	- version: 2.0.0
+	- version: 2.0.1
 	- license: MIT
 - micromark-factory-label
-	- version: 2.0.0
+	- version: 2.0.1
 	- license: MIT
 - micromark-factory-space
-	- version: 2.0.0
+	- version: 2.0.1
 	- license: MIT
 - micromark-factory-title
-	- version: 2.0.0
+	- version: 2.0.1
 	- license: MIT
 - micromark-factory-whitespace
-	- version: 2.0.0
+	- version: 2.0.1
 	- license: MIT
 - micromark-util-character
 	- version: 2.1.0
 	- license: MIT
 - micromark-util-chunked
-	- version: 2.0.0
-	- license: MIT
-- micromark-util-classify-character
-	- version: 2.0.0
-	- license: MIT
-- micromark-util-combine-extensions
-	- version: 2.0.0
-	- license: MIT
-- micromark-util-decode-numeric-character-reference
 	- version: 2.0.1
 	- license: MIT
+- micromark-util-classify-character
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-combine-extensions
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-decode-numeric-character-reference
+	- version: 2.0.2
+	- license: MIT
 - micromark-util-decode-string
-	- version: 2.0.0
+	- version: 2.0.1
 	- license: MIT
 - micromark-util-encode
 	- version: 2.0.0
 	- license: MIT
 - micromark-util-html-tag-name
-	- version: 2.0.0
+	- version: 2.0.1
 	- license: MIT
 - micromark-util-normalize-identifier
-	- version: 2.0.0
+	- version: 2.0.1
 	- license: MIT
 - micromark-util-resolve-all
-	- version: 2.0.0
+	- version: 2.0.1
 	- license: MIT
 - micromark-util-sanitize-uri
 	- version: 2.0.0
 	- license: MIT
 - micromark-util-subtokenize
-	- version: 2.0.1
+	- version: 2.0.4
 	- license: MIT
 - micromark
-	- version: 4.0.0
-	- license: MIT
-- node-gettext
-	- version: 3.0.0
+	- version: 4.0.1
 	- license: MIT
 - buffer
 	- version: 6.0.3
@@ -415,7 +403,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.0.0
 	- license: MIT
 - remark-gfm
-	- version: 4.0.0
+	- version: 4.0.1
 	- license: MIT
 - remark-parse
 	- version: 11.0.0

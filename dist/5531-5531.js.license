@@ -35,7 +35,6 @@ SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: José F. Romaniello <jfromaniello@gmail.com> (http://joseoncode.com)
 SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jordan Harband
-SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)
 SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
 SPDX-FileCopyrightText: John Hiesey
 SPDX-FileCopyrightText: James Halliday
@@ -54,7 +53,6 @@ SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Ben Drucker
 SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
-SPDX-FileCopyrightText: Andris Reinman
 SPDX-FileCopyrightText: Amit Gupta (https://solothought.com)
 SPDX-FileCopyrightText: Amit Gupta (https://amitkumargupta.work/)
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
@@ -83,7 +81,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 3.1.0
+	- version: 3.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.2
@@ -95,7 +93,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.22.0
+	- version: 8.23.1
 	- license: AGPL-3.0-or-later
 - @vueuse/core
 	- version: 11.1.0
@@ -164,7 +162,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.4
 	- license: MIT
 - dompurify
-	- version: 3.1.7
+	- version: 3.2.4
 	- license: (MPL-2.0 OR Apache-2.0)
 - es-define-property
 	- version: 1.0.0
@@ -244,9 +242,6 @@ This file is generated from multiple sources. Included packages:
 - layerr
 	- version: 3.0.0
 	- license: MIT
-- lodash.get
-	- version: 4.4.2
-	- license: MIT
 - md5
 	- version: 2.3.0
 	- license: BSD-3-Clause
@@ -255,9 +250,6 @@ This file is generated from multiple sources. Included packages:
 	- license: ISC
 - nested-property
 	- version: 4.0.0
-	- license: MIT
-- node-gettext
-	- version: 3.0.0
 	- license: MIT
 - buffer
 	- version: 6.0.3
