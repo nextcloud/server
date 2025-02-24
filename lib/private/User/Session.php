@@ -779,7 +779,7 @@ class Session implements IUserSession, Emitter {
 	 * Check if login names match
 	 */
 	private function validateTokenLoginName(?string $loginName, IToken $token): bool {
-		if ($token->getLoginName() !== $loginName) {
+		if (strtolower($token->getLoginName() ?? '') !== strtolower($loginName ?? '')) {
 			// TODO: this makes it impossible to use different login names on browser and client
 			// e.g. login by e-mail 'user@example.com' on browser for generating the token will not
 			//      allow to use the client token with the login name 'user'.
