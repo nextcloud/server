@@ -21,7 +21,7 @@
 		</div>
 
 		<div class="template-field-modal__buttons">
-			<NcLoadingIcon v-if="loading" :name="t('files', 'Submitting fields…')" />
+			<NcLoadingIcon v-if="loading" :name="t('files', 'Submitting fields …')" />
 			<NcButton aria-label="Submit button"
 				type="primary"
 				@click="submit">
