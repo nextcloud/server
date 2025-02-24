@@ -2526,7 +2526,6 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())
 			->method('generalCreateChecks')
 			->with($share);
-		;
 		$manager->expects($this->once())
 			->method('pathCreateChecks')
 			->with($path);

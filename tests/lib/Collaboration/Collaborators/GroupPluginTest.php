@@ -69,7 +69,6 @@ class GroupPluginTest extends TestCase {
 		// up with configuration etc. first
 		$this->plugin = new GroupPlugin(
 			$this->config,
-			$this->appConfig,
 			$this->groupManager,
 			$this->session
 		);
@@ -413,11 +412,10 @@ class GroupPluginTest extends TestCase {
 			[
 				'test', true, true, false,
 				[
-					$this->getGroupMock('test0'),
+					$this->getGroupMock('test0', 'test0', true), 
 					$this->getGroupMock('test1'),
 				],
 				[
-					$this->getGroupMock('test'), 
 					$this->getGroupMock('test0'), 
 					$this->getGroupMock('test1')
 				],

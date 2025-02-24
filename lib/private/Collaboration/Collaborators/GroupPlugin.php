@@ -8,7 +8,6 @@ namespace OC\Collaboration\Collaborators;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
-use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -26,7 +25,6 @@ class GroupPlugin implements ISearchPlugin {
 
 	public function __construct(
 		private IConfig $config,
-		private IAppConfig $appConfig,
 		private IGroupManager $groupManager,
 		private IUserSession $userSession,
 		private mixed $shareWithGroupOnlyExcludeGroupsList = [],
@@ -71,12 +69,6 @@ class GroupPlugin implements ISearchPlugin {
 			$groupIds = array_diff($groupIds, $this->shareWithGroupOnlyExcludeGroupsList);
 		}
 
-		// Check for blocked groups
-		$groupsBlockList = $this->appConfig->getValueArray('core', 'shareapi_groups_block_list', []);
-		if (!empty($groupsBlockList)) {
-			$groupIds = array_diff($groupIds, $groupsBlockList);
-		}
-
 		$lowerSearch = strtolower($search);
 		foreach ($groups as $group) {
 			if ($group->hideFromCollaboration()) {
@@ -114,7 +106,7 @@ class GroupPlugin implements ISearchPlugin {
 			// On page one we try if the search result has a direct hit on the
 			// user id and if so, we add that to the exact match list
 			$group = $this->groupManager->get($search);
-			if ($group instanceof IGroup && !$group->hideFromCollaboration() && array_search($group->getGID(), $groupsBlockList) === false && (!$this->shareWithGroupOnly || in_array($group->getGID(), $userGroups))) {
+			if ($group instanceof IGroup && !$group->hideFromCollaboration() && (!$this->shareWithGroupOnly || in_array($group->getGID(), $userGroups))) {
 					$result['exact'][] = [
 					'label' => $group->getDisplayName(),
 					'value' => [
@@ -131,7 +123,6 @@ class GroupPlugin implements ISearchPlugin {
 
 		$type = new SearchResultType('groups');
 		$searchResult->addResultSet($type, $result['wide'], $result['exact']);
-
 		return $hasMoreResults;
 	}
 }
