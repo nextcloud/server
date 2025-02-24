@@ -30,7 +30,7 @@ try {
 		$conf['ldap_configuration_active'] = '1';
 	}
 	try {
-		$connection->setConfiguration($conf, throw:true);
+		$connection->setConfiguration($conf, throw: true);
 	} catch (ConfigurationIssueException $e) {
 		$configurationError = $e->getHint();
 	}
