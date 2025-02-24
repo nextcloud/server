@@ -18,6 +18,7 @@ use Psr\Log\LoggerInterface;
  * @since 15.0.0
  */
 abstract class TimedJob extends Job {
+	protected static int $lastRunCheckMargin = 20;
 	protected int $interval = 0;
 	protected int $timeSensitivity = IJob::TIME_SENSITIVE;
 
@@ -81,7 +82,7 @@ abstract class TimedJob extends Job {
 	 * @since 25.0.0
 	 */
 	final public function start(IJobList $jobList): void {
-		if (($this->time->getTime() - $this->lastRun) > $this->interval) {
+		if (($this->time->getTime() - $this->lastRun) > $this->interval - self::$lastRunCheckMargin) {
 			if ($this->interval >= 12 * 60 * 60 && $this->isTimeSensitive()) {
 				Server::get(LoggerInterface::class)->debug('TimedJob ' . get_class($this) . ' has a configured interval of ' . $this->interval . ' seconds, but is also marked as time sensitive. Please consider marking it as time insensitive to allow more sensitive jobs to run when needed.');
 			}
