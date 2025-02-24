@@ -477,40 +477,17 @@ class OC_Util {
 		// If the dependency is not found the missing module name is shown to the EndUser
 		// When adding new checks always verify that they pass on CI as well
 		$dependencies = [
-			'classes' => [
-				'ZipArchive' => 'zip',
-				'DOMDocument' => 'dom',
-				'XMLWriter' => 'XMLWriter',
-				'XMLReader' => 'XMLReader',
-			],
 			'functions' => [
-				'xml_parser_create' => 'libxml',
-				'mb_strcut' => 'mbstring',
-				'ctype_digit' => 'ctype',
-				'json_encode' => 'JSON',
-				'gd_info' => 'GD',
-				'gzencode' => 'zlib',
 				'simplexml_load_string' => 'SimpleXML',
 				'hash' => 'HASH Message Digest Framework',
-				'curl_init' => 'cURL',
-				'openssl_verify' => 'OpenSSL',
 			],
 			'defined' => [
 				'PDO::ATTR_DRIVER_NAME' => 'PDO'
 			],
-			'ini' => [
-				'default_charset' => 'UTF-8',
-			],
 		];
 		$missingDependencies = [];
-		$invalidIniSettings = [];
 
 		$iniWrapper = \OC::$server->get(IniGetWrapper::class);
-		foreach ($dependencies['classes'] as $class => $module) {
-			if (!class_exists($class)) {
-				$missingDependencies[] = $module;
-			}
-		}
 		foreach ($dependencies['functions'] as $function => $module) {
 			if (!function_exists($function)) {
 				$missingDependencies[] = $module;
@@ -521,23 +498,11 @@ class OC_Util {
 				$missingDependencies[] = $module;
 			}
 		}
-		foreach ($dependencies['ini'] as $setting => $expected) {
-			if (strtolower($iniWrapper->getString($setting)) !== strtolower($expected)) {
-				$invalidIniSettings[] = [$setting, $expected];
-			}
-		}
 
 		foreach ($missingDependencies as $missingDependency) {
 			$errors[] = [
 				'error' => $l->t('PHP module %s not installed.', [$missingDependency]),
 				'hint' => $l->t('Please ask your server administrator to install the module.'),
-			];
-			$webServerRestart = true;
-		}
-		foreach ($invalidIniSettings as $setting) {
-			$errors[] = [
-				'error' => $l->t('PHP setting "%s" is not set to "%s".', [$setting[0], var_export($setting[1], true)]),
-				'hint' => $l->t('Adjusting this setting in php.ini will make Nextcloud run again')
 			];
 			$webServerRestart = true;
 		}
