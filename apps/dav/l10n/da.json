@@ -142,7 +142,7 @@
     "_In a month on %1$s then on %2$s and %3$s_::_In %n months on %1$s then on %2$s and %3$s_" : ["I en måned på% 1 $s så på% 2 $s og% 3 $s","Om %n måneder den %1$s derefter den %2$s og %3$s"],
     "_In a year on %1$s then on %2$s and %3$s_::_In %n years on %1$s then on %2$s and %3$s_" : ["I et år på% 1 $s så på% 2 $s og% 3 $s","Om %n år den %1$s derefter den %2$s og %3$s"],
     "Could not generate next recurrence statement" : "Kunne ikke generere næste gentagelseserklæring",
-    "Cancelled: %1$s" : "Annulléret: %1$s",
+    "Cancelled: %1$s" : "Annullerede: %1$s",
     "\"%1$s\" has been canceled" : "\"%1$s\" er blevet annulleret",
     "Re: %1$s" : "Re: %1$s",
     "%1$s has accepted your invitation" : "%1$s har accepteret din invitation",
