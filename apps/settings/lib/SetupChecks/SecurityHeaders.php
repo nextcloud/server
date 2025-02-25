@@ -99,7 +99,7 @@ class SecurityHeaders implements ISetupCheck {
 				}
 
 				$transportSecurityValidity = $response->getHeader('Strict-Transport-Security');
-				$minimumSeconds = 15552000;
+				$minimumSeconds = 31536000;
 				if (preg_match('/^max-age=(\d+)(;.*)?$/', $transportSecurityValidity, $m)) {
 					$transportSecurityValidity = (int)$m[1];
 					if ($transportSecurityValidity < $minimumSeconds) {
