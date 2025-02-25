@@ -21,6 +21,7 @@ use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
 use OCP\Share;
+use OCP\Template\ITemplateManager;
 use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
@@ -208,7 +209,7 @@ class OC {
 				echo $l->t('See %s', [ $urlGenerator->linkToDocs('admin-config') ]) . "\n";
 				exit;
 			} else {
-				OC_Template::printErrorPage(
+				Server::get(ITemplateManager::class)->printErrorPage(
 					$l->t('Cannot write into "config" directory!'),
 					$l->t('This can usually be fixed by giving the web server write access to the config directory.') . ' '
 					. $l->t('But, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it.') . ' '
@@ -244,7 +245,7 @@ class OC {
 			header('Retry-After: 120');
 
 			// render error page
-			$template = new OC_Template('', 'update.user', 'guest');
+			$template = Server::get(ITemplateManager::class)->getTemplate('', 'update.user', 'guest');
 			\OCP\Util::addScript('core', 'maintenance');
 			\OCP\Util::addStyle('core', 'guest');
 			$template->printPage();
@@ -300,7 +301,7 @@ class OC {
 			$serverVersion = \OCP\Server::get(\OCP\ServerVersion::class);
 
 			// render error page
-			$template = new OC_Template('', 'update.use-cli', 'guest');
+			$template = Server::get(ITemplateManager::class)->getTemplate('', 'update.use-cli', 'guest');
 			$template->assign('productName', 'nextcloud'); // for now
 			$template->assign('version', $serverVersion->getVersionString());
 			$template->assign('tooBig', $tooBig);
@@ -327,7 +328,7 @@ class OC {
 		/** @var \OC\App\AppManager $appManager */
 		$appManager = Server::get(\OCP\App\IAppManager::class);
 
-		$tmpl = new OC_Template('', 'update.admin', 'guest');
+		$tmpl = Server::get(ITemplateManager::class)->getTemplate('', 'update.admin', 'guest');
 		$tmpl->assign('version', \OCP\Server::get(\OCP\ServerVersion::class)->getVersionString());
 		$tmpl->assign('isAppsOnlyUpgrade', $isAppsOnlyUpgrade);
 
@@ -420,7 +421,7 @@ class OC {
 		} catch (Exception $e) {
 			Server::get(LoggerInterface::class)->error($e->getMessage(), ['app' => 'base','exception' => $e]);
 			//show the user a detailed error page
-			OC_Template::printExceptionErrorPage($e, 500);
+			Server::get(ITemplateManager::class)->printExceptionErrorPage($e, 500);
 			die();
 		}
 
@@ -659,7 +660,7 @@ class OC {
 			if ($config->getSystemValueBool('debug', false)) {
 				set_error_handler([$errorHandler, 'onAll'], E_ALL);
 				if (\OC::$CLI) {
-					$exceptionHandler = ['OC_Template', 'printExceptionErrorPage'];
+					$exceptionHandler = [Server::get(ITemplateManager::class), 'printExceptionErrorPage'];
 				}
 			} else {
 				set_error_handler([$errorHandler, 'onError']);
@@ -702,7 +703,7 @@ class OC {
 					http_response_code(503);
 					OC_Util::addStyle('guest');
 					try {
-						OC_Template::printGuestPage('', 'error', ['errors' => $errors]);
+						Server::get(ITemplateManager::class)->printGuestPage('', 'error', ['errors' => $errors]);
 						exit;
 					} catch (\Exception $e) {
 						// In case any error happens when showing the error page, we simply fall back to posting the text.
@@ -781,7 +782,7 @@ class OC {
 		// Check whether the sample configuration has been copied
 		if ($systemConfig->getValue('copied_sample_config', false)) {
 			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
-			OC_Template::printErrorPage(
+			Server::get(ITemplateManager::class)->printErrorPage(
 				$l->t('Sample configuration detected'),
 				$l->t('It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php'),
 				503
@@ -1094,7 +1095,7 @@ class OC {
 				logger('core')->emergency($e->getMessage(), ['exception' => $e]);
 			}
 			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
-			OC_Template::printErrorPage(
+			Server::get(ITemplateManager::class)->printErrorPage(
 				'404',
 				$l->t('The page could not be found on the server.'),
 				404

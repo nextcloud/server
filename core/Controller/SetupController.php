@@ -8,6 +8,7 @@
 namespace OC\Core\Controller;
 
 use OC\Setup;
+use OCP\Template\ITemplateManager;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -17,6 +18,7 @@ class SetupController {
 	public function __construct(
 		protected Setup $setupHelper,
 		protected LoggerInterface $logger,
+		protected ITemplateManager $templateManager,
 	) {
 		$this->autoConfigFile = \OC::$configDir . 'autoconfig.php';
 	}
@@ -57,10 +59,10 @@ class SetupController {
 	}
 
 	private function displaySetupForbidden(): void {
-		\OC_Template::printGuestPage('', 'installation_forbidden');
+		$this->templateManager->printGuestPage('', 'installation_forbidden');
 	}
 
-	public function display($post): void {
+	public function display(array $post): void {
 		$defaults = [
 			'adminlogin' => '',
 			'adminpass' => '',
@@ -80,7 +82,7 @@ class SetupController {
 		Util::addScript('core', 'main');
 		Util::addTranslations('core');
 
-		\OC_Template::printGuestPage('', 'installation', $parameters);
+		$this->templateManager->printGuestPage('', 'installation', $parameters);
 	}
 
 	private function finishSetup(): void {
@@ -90,7 +92,7 @@ class SetupController {
 		\OC::$server->getIntegrityCodeChecker()->runInstanceVerification();
 
 		if ($this->setupHelper->shouldRemoveCanInstallFile()) {
-			\OC_Template::printGuestPage('', 'installation_incomplete');
+			$this->templateManager->printGuestPage('', 'installation_incomplete');
 		}
 
 		header('Location: ' . \OC::$server->getURLGenerator()->getAbsoluteURL('index.php/core/apps/recommended'));

@@ -12,7 +12,7 @@ use Throwable;
 
 class Base {
 	private $template; // The template
-	private $vars; // Vars
+	private array $vars = [];
 
 	/** @var \OCP\IL10N */
 	private $l10n;
@@ -59,11 +59,9 @@ class Base {
 	}
 
 	/**
-	 * @param string $serverRoot
-	 * @param string $theme
 	 * @return string[]
 	 */
-	protected function getCoreTemplateDirs($theme, $serverRoot) {
+	protected function getCoreTemplateDirs(string $theme, string $serverRoot): array {
 		return [
 			$serverRoot . '/themes/' . $theme . '/core/templates/',
 			$serverRoot . '/core/templates/',
@@ -105,42 +103,29 @@ class Base {
 
 	/**
 	 * Prints the proceeded template
-	 * @return bool
 	 *
 	 * This function proceeds the template and prints its output.
 	 */
-	public function printPage() {
+	public function printPage(): void {
 		$data = $this->fetchPage();
-		if ($data === false) {
-			return false;
-		} else {
-			print $data;
-			return true;
-		}
+		print $data;
 	}
 
 	/**
 	 * Process the template
 	 *
-	 * @param array|null $additionalParams
-	 * @return string This function processes the template.
-	 *
 	 * This function processes the template.
 	 */
-	public function fetchPage($additionalParams = null) {
+	public function fetchPage(?array $additionalParams = null): string {
 		return $this->load($this->template, $additionalParams);
 	}
 
 	/**
 	 * doing the actual work
 	 *
-	 * @param string $file
-	 * @param array|null $additionalParams
-	 * @return string content
-	 *
 	 * Includes the template file, fetches its output
 	 */
-	protected function load($file, $additionalParams = null) {
+	protected function load(string $file, ?array $additionalParams = null): string {
 		// Register the variables
 		$_ = $this->vars;
 		$l = $this->l10n;
