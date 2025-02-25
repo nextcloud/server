@@ -21,6 +21,7 @@
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl, getRootUrl } from '@nextcloud/router'
+import logger from '../logger.js'
 
 /**
  *
@@ -67,6 +68,7 @@ async function checkLoginStatus() {
 		const { status } = await window.fetch(generateUrl('/apps/files'))
 		if (status === 401) {
 			console.warn('User session was terminated, forwarding to login page.')
+			await wipeBrowserStorages()
 			window.location = generateUrl('/login?redirect_url={url}', {
 				url: window.location.pathname + window.location.search + window.location.hash,
 			})
@@ -75,6 +77,24 @@ async function checkLoginStatus() {
 		console.warn('Could not check login-state')
 	} finally {
 		delete checkLoginStatus.running
+	}
+}
+
+/**
+ * Clear all Browser storages connected to current origin.
+ * @returns {Promise<void>}
+ */
+export async function wipeBrowserStorages() {
+	try {
+		window.localStorage.clear()
+		window.sessionStorage.clear()
+		const indexedDBList = await window.indexedDB.databases()
+		for (const indexedDB of indexedDBList) {
+			await window.indexedDB.deleteDatabase(indexedDB.name)
+		}
+		logger.debug('Browser storages cleared')
+	} catch (error) {
+		logger.error('Could not clear browser storages', { error })
 	}
 }
 
