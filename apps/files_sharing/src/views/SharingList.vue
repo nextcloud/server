@@ -4,7 +4,9 @@
 -->
 
 <template>
-	<ul class="sharing-sharee-list" :aria-label="t('files_sharing', 'Shares')">
+	<ul class="sharing-sharee-list"
+		:aria-label="t('files_sharing', 'Shares')"
+		data-cy-files-sharing-internal-list>
 		<SharingEntry v-for="share in shares"
 			:key="share.id"
 			:file-info="fileInfo"
