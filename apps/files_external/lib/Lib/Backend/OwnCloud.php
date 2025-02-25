@@ -25,9 +25,6 @@ class OwnCloud extends Backend {
 				(new DefinitionParameter('secure', $l->t('Secure https://')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN)
 					->setDefaultValue(true),
-				(new DefinitionParameter('password', $l->t('Password')))
-					->setFlag(DefinitionParameter::FLAG_OPTIONAL)
-					->setType(DefinitionParameter::VALUE_PASSWORD),
 			])
 			->addAuthScheme(AuthMechanism::SCHEME_PASSWORD)
 			->setLegacyAuthMechanism($legacyAuth)
