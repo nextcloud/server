@@ -693,7 +693,15 @@ class Storage {
 		$expiration = self::getExpiration();
 
 		if ($expiration->shouldAutoExpire()) {
-			[$toDelete, $size] = self::getAutoExpireList($time, $versions);
+			// Exclude versions that are newer than the minimum age from the auto expiration logic.
+			$minAge = $expiration->getMinAgeAsTimestamp();
+			if ($minAge !== false) {
+				$versionsToAutoExpire = array_filter($versions, fn ($version) => $version['version'] < $minAge);
+			} else {
+				$versionsToAutoExpire = $versions;
+			}
+
+			[$toDelete, $size] = self::getAutoExpireList($time, $versionsToAutoExpire);
 		} else {
 			$size = 0;
 			$toDelete = [];  // versions we want to delete
