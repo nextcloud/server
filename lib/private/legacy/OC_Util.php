@@ -495,15 +495,8 @@ class OC_Util {
 				'curl_init' => 'cURL',
 				'openssl_verify' => 'OpenSSL',
 			],
-			'defined' => [
-				'PDO::ATTR_DRIVER_NAME' => 'PDO'
-			],
-			'ini' => [
-				'default_charset' => 'UTF-8',
-			],
 		];
 		$missingDependencies = [];
-		$invalidIniSettings = [];
 
 		$iniWrapper = \OC::$server->get(IniGetWrapper::class);
 		foreach ($dependencies['classes'] as $class => $module) {
@@ -516,28 +509,11 @@ class OC_Util {
 				$missingDependencies[] = $module;
 			}
 		}
-		foreach ($dependencies['defined'] as $defined => $module) {
-			if (!defined($defined)) {
-				$missingDependencies[] = $module;
-			}
-		}
-		foreach ($dependencies['ini'] as $setting => $expected) {
-			if (strtolower($iniWrapper->getString($setting)) !== strtolower($expected)) {
-				$invalidIniSettings[] = [$setting, $expected];
-			}
-		}
 
 		foreach ($missingDependencies as $missingDependency) {
 			$errors[] = [
 				'error' => $l->t('PHP module %s not installed.', [$missingDependency]),
 				'hint' => $l->t('Please ask your server administrator to install the module.'),
-			];
-			$webServerRestart = true;
-		}
-		foreach ($invalidIniSettings as $setting) {
-			$errors[] = [
-				'error' => $l->t('PHP setting "%s" is not set to "%s".', [$setting[0], var_export($setting[1], true)]),
-				'hint' => $l->t('Adjusting this setting in php.ini will make Nextcloud run again')
 			];
 			$webServerRestart = true;
 		}
