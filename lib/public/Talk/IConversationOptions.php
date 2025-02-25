@@ -34,23 +34,26 @@ interface IConversationOptions {
 	/**
 	 * Object type this conversation is related to
 	 *
-	 * @return string
+	 * @return ?non-empty-string
 	 * @since 31.0.1
 	 */
-	public function getObjectType(): string;
+	public function getObjectType(): ?string;
 
 	/**
 	 * Object ID this conversation is related to
 	 *
-	 * @return string
+	 * @return ?non-empty-string
 	 * @since 31.0.1
 	 */
-	public function getObjectId(): string;
+	public function getObjectId(): ?string;
 
 	/**
 	 * Give a reference to an object this conversation is related to
 	 *
+	 * @param non-empty-string $objectType
+	 * @param non-empty-string $objectId
 	 * @return $this
+	 * @throws \InvalidArgumentException When either parameter is empty
 	 * @since 31.0.1
 	 */
 	public function setObject(string $objectType, string $objectId): self;

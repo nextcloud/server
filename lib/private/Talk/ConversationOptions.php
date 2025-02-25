@@ -15,13 +15,13 @@ class ConversationOptions implements IConversationOptions {
 
 	private function __construct(
 		private bool $isPublic,
-		private string $objectType,
-		private string $objectId,
+		private ?string $objectType = null,
+		private ?string $objectId = null,
 	) {
 	}
 
 	public static function default(): self {
-		return new self(false, '', '');
+		return new self(false);
 	}
 
 	public function setPublic(bool $isPublic = true): IConversationOptions {
@@ -33,15 +33,21 @@ class ConversationOptions implements IConversationOptions {
 		return $this->isPublic;
 	}
 
-	public function getObjectType(): string {
+	public function getObjectType(): ?string {
 		return $this->objectType;
 	}
 
-	public function getObjectId(): string {
+	public function getObjectId(): ?string {
 		return $this->objectId;
 	}
 
+	/**
+	 */
 	public function setObject(string $objectType, string $objectId): self {
+		if ($objectType === '' || $objectId === '') {
+			throw new \InvalidArgumentException();
+		}
+
 		$this->objectType = $objectType;
 		$this->objectId = $objectId;
 		return $this;
