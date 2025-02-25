@@ -1339,6 +1339,8 @@ class QueryBuilder implements IQueryBuilder {
 	/**
 	 * Returns the table name with database prefix as needed by the implementation
 	 *
+	 * Was protected until version 30.
+  	 *
 	 * @param string $table
 	 * @return string
 	 */
