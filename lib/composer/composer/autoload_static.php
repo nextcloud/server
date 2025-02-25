@@ -1126,7 +1126,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Authentication\\Login\\ClearLostPasswordTokensCommand' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/ClearLostPasswordTokensCommand.php',
         'OC\\Authentication\\Login\\CompleteLoginCommand' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/CompleteLoginCommand.php',
         'OC\\Authentication\\Login\\CreateSessionTokenCommand' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/CreateSessionTokenCommand.php',
-        'OC\\Authentication\\Login\\EmailLoginCommand' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/EmailLoginCommand.php',
         'OC\\Authentication\\Login\\FinishRememberedLoginCommand' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/FinishRememberedLoginCommand.php',
         'OC\\Authentication\\Login\\LoggedInCheckCommand' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/LoggedInCheckCommand.php',
         'OC\\Authentication\\Login\\LoginData' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/LoginData.php',
