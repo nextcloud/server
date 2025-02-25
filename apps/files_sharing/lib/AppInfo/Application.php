@@ -17,6 +17,7 @@ use OCA\Files_Sharing\External\MountProvider as ExternalMountProvider;
 use OCA\Files_Sharing\Helper;
 use OCA\Files_Sharing\Listener\BeforeDirectFileDownloadListener;
 use OCA\Files_Sharing\Listener\BeforeZipCreatedListener;
+use OCA\Files_Sharing\Listener\GroupDeletedListener;
 use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Files_Sharing\Listener\LoadPublicFileRequestAuthListener;
 use OCA\Files_Sharing\Listener\LoadSidebarListener;
@@ -86,6 +87,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(UserDeletedEvent::class, DisplayNameCache::class);
 		$context->registerEventListener(GroupChangedEvent::class, GroupDisplayNameCache::class);
 		$context->registerEventListener(GroupDeletedEvent::class, GroupDisplayNameCache::class);
+		$context->registerEventListener(GroupDeletedEvent::class, GroupDeletedListener::class);
 
 		// Sidebar and files scripts
 		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);
