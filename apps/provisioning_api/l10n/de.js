@@ -34,7 +34,7 @@ OC.L10N.register(
     "Email was already removed from account and cannot be confirmed anymore." : "Diese E-Mail-Adresse wurde bereits aus dem Konto entfernt und kann nicht mehr bestätigt werden.",
     "Could not verify mail because the token is expired." : "Die E-Mail konnte nicht verifiziert werden, da die Frist des Tokens abgelaufen ist.",
     "Could not verify mail because the token is invalid." : "Die E-Mail konnte nicht verifiziert werden, da der Token ungültig ist.",
-    "An unexpected error occurred. Please contact your admin." : "Es ist ein unerwarteter Fehler aufgetreten, bitte kontaktiere deinen Administrator.",
+    "An unexpected error occurred. Please contact your admin." : "Es ist ein unerwarteter Fehler aufgetreten, bitte kontaktiere deine Administration.",
     "Email confirmation successful" : "Die E-Mail Bestätigung war erfolgreich.",
     "Provisioning API" : "Bereitstellungs-API",
     "This application enables a set of APIs that external systems can use to manage accounts, groups and apps." : "Diese Applikation stellt einen Satz von APIs für externe Systeme zur Verfügung um Konten, Gruppen und Apps zu verwalten.",

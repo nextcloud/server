@@ -6,7 +6,6 @@ OC.L10N.register(
     "Invalid configuration: Anonymous binding is not allowed." : "არასწორი კონფიგურაცია: ანონიმური კავშირები არაა დაშვებული.",
     "Valid configuration, connection established!" : "სწორი კონფიგურაცია, კავშირი დამყარებულია!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "სწორი კონფიგურაცია, თუმცა მიბმა ვერ მოხერხდა. გთხოვთ შეამოწმოთ სერვერის კონფიგურაცია და უფლებამოსილებები.",
-    "Invalid configuration. Please have a look at the logs for further details." : "არასწორი კონფიგურაცია. დეტალებისთვის გთხოვთ გადახედოთ ლოგებს.",
     "No action specified" : "ქმედება არ იყო სპეციფირებული",
     "No configuration specified" : "კონფიგურაცია არ იყო სპეციფირებული",
     "No data specified" : "მონაცემები არ იყო სპეციფირებული",
@@ -171,6 +170,7 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "UUID ატრიბუტი ჯგუფებისთვის:",
     "Username-LDAP User Mapping" : "Username-LDAP მომხმარებლის ბმები",
     "Clear Username-LDAP User Mapping" : "Username-LDAP მომხმარებლის ბმების გასუფთავება",
-    "Clear Groupname-LDAP Group Mapping" : "Groupname-LDAP ჯგუფის ბმების გასუფთავება"
+    "Clear Groupname-LDAP Group Mapping" : "Groupname-LDAP ჯგუფის ბმების გასუფთავება",
+    "Invalid configuration. Please have a look at the logs for further details." : "არასწორი კონფიგურაცია. დეტალებისთვის გთხოვთ გადახედოთ ლოგებს."
 },
 "nplurals=2; plural=(n!=1);");

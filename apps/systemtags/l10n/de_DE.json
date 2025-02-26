@@ -84,7 +84,7 @@
     "System admin disabled tag creation. You can only use existing ones." : "Die Systemadministration hat die Erstellung von Schlagworten deaktiviert. Sie können nur vorhandene Schlagworte verwenden.",
     "System tag creation" : "Erstellung von System-Schlagworten",
     "If enabled, regular accounts will be restricted from creating new tags but will still be able to assign and remove them from their files." : "Wenn diese Option aktiviert ist, können reguläre Konten keine neuen Schlagworte erstellen, aber sie können sie dennoch zuweisen und aus ihren Dateien entfernen.",
-    "Restrict tag creation to admins only" : "Erstellung von Schlagworten auf Administratoren beschränken",
+    "Restrict tag creation to admins only" : "Erstellung von Schlagworten auf die Administration beschränken",
     "Unable to update setting" : "Einstellung konnte nicht aktualisiert werden",
     "System tag creation is now restricted to administrators" : "Die Erstellung von System-Schlagworten ist jetzt auf die Administration beschränkt",
     "System tag creation is now allowed for everybody" : "Die Erstellung von System-Schlagworten ist jetzt für jeden erlaubt",

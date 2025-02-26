@@ -109,7 +109,6 @@ OC.L10N.register(
     "Create new folder" : "Ustvari novo mapo",
     "This name is already in use." : "Vpisano uporabniško ime je že v uporabi",
     "Fill template fields" : "Zapolni polja predloge",
-    "Submitting fields…" : "Poteka objavljanje vsebine polj ...",
     "Submit" : "Pošlji",
     "Transfer ownership of a file or folder" : "Prenos lastništva datoteke ali mape",
     "Choose file or folder to transfer" : "Izbor datoteke ali mape za prenos",
@@ -357,6 +356,7 @@ OC.L10N.register(
     "Personal Files" : "Osebne datoteke",
     "Text file" : "Besedilna datoteka",
     "New text file.txt" : "nova_datoteka.txt",
+    "Submitting fields…" : "Poteka objavljanje vsebine polj ...",
     "Filter filenames…" : "Filtriraj imena datotek ..."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
