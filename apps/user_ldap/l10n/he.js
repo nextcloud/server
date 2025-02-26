@@ -6,7 +6,6 @@ OC.L10N.register(
     "Invalid configuration: Anonymous binding is not allowed." : "תצורה שגויה: איגוד אלמוני אסור.",
     "Valid configuration, connection established!" : "התצורה תקפה, התבצע חיבור!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "התצורה תקפה, אך האיגוד נכשל. נא לבדוק את הגדרות השרת ואת פרטי הגישה.",
-    "Invalid configuration. Please have a look at the logs for further details." : "תצורה שגויה. נא לעיין ברישום לקבלת פרטים נוספים.",
     "No action specified" : "לא צויינה פעולה",
     "No configuration specified" : "לא הוגדרה תצורה",
     "No data specified" : "לא הוגדר מידע",
@@ -158,6 +157,7 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "מאפייני UUID לקבוצות:",
     "Username-LDAP User Mapping" : "מיפוי שם משתמש LDAP:",
     "Clear Username-LDAP User Mapping" : "ניקוי מיפוי שם משתמש LDAP:",
-    "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:"
+    "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:",
+    "Invalid configuration. Please have a look at the logs for further details." : "תצורה שגויה. נא לעיין ברישום לקבלת פרטים נוספים."
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

@@ -203,8 +203,6 @@ OC.L10N.register(
     "Some files could not be moved" : "Kai kurių failų nepavyko perkelti",
     "Files copied successfully" : "Failai sėkmingai nukopijuoti",
     "Files moved successfully" : "Failai sėkmingai perkelti",
-    "Keep {oldextension}" : "Palikti {oldextension}",
-    "Use {newextension}" : "Naudoti {newextension}",
     "This operation is forbidden" : "Ši operacija yra uždrausta",
     "This directory is unavailable, please check the logs or contact the administrator" : "Šis katalogas neprieinamas, peržiūrėkite žurnalo įrašus arba susisiekite su administratoriumi",
     "Storage is temporarily not available" : "Saugykla yra laikinai neprieinama",
@@ -312,6 +310,8 @@ OC.L10N.register(
     "Personal Files" : "Asmeniniai failai",
     "Text file" : "Tekstinis failas",
     "New text file.txt" : "Naujas tekstinis failas.txt",
-    "Filter filenames…" : "Filtruoti failų pavadinimus…"
+    "Filter filenames…" : "Filtruoti failų pavadinimus…",
+    "Keep {oldextension}" : "Palikti {oldextension}",
+    "Use {newextension}" : "Naudoti {newextension}"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

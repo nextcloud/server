@@ -6,7 +6,6 @@ OC.L10N.register(
     "Invalid configuration: Anonymous binding is not allowed." : "Yapılandırma geçersiz: Adsız bağlantı kurulmasına izin verilmiyor.",
     "Valid configuration, connection established!" : "Yapılandırma geçerli, bağlantı kuruldu.",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Yapılandırma geçerli ancak bağlantı kurulamadı. Lütfen sunucu ayarları ve kimlik doğrulama bilgilerini denetleyin.",
-    "Invalid configuration. Please have a look at the logs for further details." : "Yapılandırma geçersiz. Lütfen ayrıntılı bilgi almak için günlük dosyasına bakın.",
     "No action specified" : "Hehrangi bir işlem belirtilmemiş",
     "No configuration specified" : "Henüz bir yapılandırma belirtilmemiş",
     "No data specified" : "Henüz bir veri belirtilmemiş",
@@ -226,6 +225,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Kullanıcı Adı-LDAP Kullanıcısı Eşleştirme",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Kullanıcı adları, üst veri depolaması ve ataması için kullanılır. Kullanıcıları kesin olarak belirlemek ve algılamak için, her LDAP kullanıcısına bir iç kullanıcı verilir. Bu kullanıcı adı ile LDAP kullanıcısının eşleştirilmesi gerekir. Oluşturulan kullanıcı adı LDAP kullanıcısının UUID değeri ile eşleştirilir. Bunun yanında LDAP etkileşimini azaltmak için DN ön belleğe alınır ancak bu işlem kimlik belirleme için kullanılmaz. DN üzerinde yapılan değişiklikler aktarılır. İç kullanıcı her yerde kullanıldığından, bir eşleştirmeyi kaldırmak pek çok yerde kalıntılar bırakır. Eşleştirmeleri kaldırmak yalnızca yapılandırmaya bağlı değildir, tüm LDAP yapılandırmalarını etkiler! Üretim ortamında eşleştirmeleri asla kaldırmayın, yalnızca sınama ya da deney aşamalarında kullanın.",
     "Clear Username-LDAP User Mapping" : "Kullanıcı Adı-LDAP Kullanıcısı Eşleştirmesini Kaldır",
-    "Clear Groupname-LDAP Group Mapping" : "Grup Adı-LDAP Grubu Eşleştirmesini Kaldır"
+    "Clear Groupname-LDAP Group Mapping" : "Grup Adı-LDAP Grubu Eşleştirmesini Kaldır",
+    "Invalid configuration. Please have a look at the logs for further details." : "Yapılandırma geçersiz. Lütfen ayrıntılı bilgi almak için günlük dosyasına bakın."
 },
 "nplurals=2; plural=(n > 1);");
