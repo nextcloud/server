@@ -192,7 +192,7 @@ export default defineComponent({
 						return
 					}
 
-					showError(this.t('files', '"{displayName}" failed on some elements ', { displayName }))
+					showError(this.t('files', '"{displayName}" failed on some elements', { displayName }))
 					return
 				}
 
