@@ -120,7 +120,6 @@ OC.L10N.register(
     "Create new folder" : "Criar nova pasta",
     "This name is already in use." : "Este nome já está em uso.",
     "Fill template fields" : "Preencher campos do modelo",
-    "Submitting fields…" : "Submeter campos…",
     "Submit" : "Submeter",
     "Transfer ownership of a file or folder" : "Transferir a propriedade de um ficheiro ou pasta",
     "Choose file or folder to transfer" : "Escolher ficheiro ou pasta para transferir",
@@ -261,6 +260,7 @@ OC.L10N.register(
     "An error occurred while trying to update the tags" : "Ocorreu um erro ao tentar atualizar as etiquetas",
     "Personal Files" : "Ficheiros pessoais",
     "Text file" : "Ficheiro de Texto",
-    "New text file.txt" : "Novo texto ficheiro.txt"
+    "New text file.txt" : "Novo texto ficheiro.txt",
+    "Submitting fields…" : "Submeter campos…"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

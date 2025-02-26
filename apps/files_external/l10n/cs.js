@@ -106,6 +106,7 @@ OC.L10N.register(
     "Enter missing credentials" : "Zadejte chybějící přihlašovací údaje",
     "Credentials successfully set" : "Přihlašovací údaje úspěšně nastaveny",
     "Error while setting credentials: {error}" : "Chyba při nastavování přihlašovacích údajů: {error}",
+    "Checking storage …" : "Kontrola úložiště…",
     "There was an error with this external storage." : "U tohoto externího úložiště došlo k chybě.",
     "We were unable to check the external storage {basename}" : "Nepodařilo se zkontrolovat externí úložiště {basename}",
     "Examine this faulty external storage configuration" : "Prozkoumejte nastavení tohoto vadného externího úložiště",

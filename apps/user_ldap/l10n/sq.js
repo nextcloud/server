@@ -6,7 +6,6 @@ OC.L10N.register(
     "Invalid configuration: Anonymous binding is not allowed." : "Konfigurim i pavlefshëm: Lidhja anonim nuk është e lejueshme.",
     "Valid configuration, connection established!" : "Konfigurim i vlefshëm, lidhja u krijuar!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Konfigurime të vlefshme, por lidhja dështoi. Ju lutem kontrolloni konfigurimet dhe kredencialet e serverit.",
-    "Invalid configuration. Please have a look at the logs for further details." : "Konfigurime të pavlefshme. Ju lutem shikoni hyrjet për detaje të mëtejshme.",
     "No action specified" : "S’është treguar veprim",
     "No configuration specified" : "S’u dha formësim",
     "No data specified" : "S’u treguan të dhëna",
@@ -168,6 +167,7 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "Atribut UUID për Grupe:",
     "Username-LDAP User Mapping" : "Përshoqërim Emër përdoruesi-Përdorues LDAP",
     "Clear Username-LDAP User Mapping" : "Pastro Përshoqërimin Emër përdoruesi-Përdorues LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Pastro Përshoqërimin Emër grupi-Grup LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Pastro Përshoqërimin Emër grupi-Grup LDAP",
+    "Invalid configuration. Please have a look at the logs for further details." : "Konfigurime të pavlefshme. Ju lutem shikoni hyrjet për detaje të mëtejshme."
 },
 "nplurals=2; plural=(n != 1);");
