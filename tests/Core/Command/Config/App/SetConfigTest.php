@@ -41,7 +41,7 @@ class SetConfigTest extends TestCase {
 	}
 
 
-	public function setData() {
+	public static function dataSet() {
 		return [
 			[
 				'name',
@@ -63,7 +63,7 @@ class SetConfigTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider setData
+	 * @dataProvider dataSet
 	 *
 	 * @param string $configName
 	 * @param mixed $newValue
