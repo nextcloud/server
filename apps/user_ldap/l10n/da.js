@@ -6,7 +6,6 @@ OC.L10N.register(
     "Invalid configuration: Anonymous binding is not allowed." : "Ugyldig konfiguration: Anonym binding er ikke tilladt.",
     "Valid configuration, connection established!" : "Gyldig konfiguration, forbindelse etableret!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Gyldig konfiguration, men forbindelsen mislykkedes. Tjek venligst serverens indstillinger og legitimationsoplysninger.",
-    "Invalid configuration. Please have a look at the logs for further details." : "Ikke gyldig konfiguration. Kig venligst på logfilerne for mere information.",
     "No action specified" : "Der er ikke angivet en handling",
     "No configuration specified" : "Der er ikke angivet en konfiguration",
     "No data specified" : "Der er ikke angivet data",
@@ -178,6 +177,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Kortlægning mellem brugernavn og LDAP-bruger",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Brugernavne bruges til at lagre og tildele metadata. For at kunne identificere og genkende brugere præcist, vil hver LDAP-bruger få oprettet et internt brugernavn. Det oprettede brugernavn svarer til UUID'et for LDAP-brugeren. I tillæg hertil, så caches DN'et for at mindske LDAP-interaktioner, men det benyttes ikke til identifikation. Hvis DN'et ændres, vil ændringerne blive registreret. Det interne brugernavn anvendes overalt. Ryddes sammenkædningen, så vil der være rester overalt. Rydning af sammenkædningerne er ikke konfigurationssensitive - det påvirker alle LDAP-konfigurationer! Ryd aldrig sammenkædningerne i et produktionsmiljø, kun i et teststadie eller eksperimentelt stadie.",
     "Clear Username-LDAP User Mapping" : "Ryd kortlægning mellem brugernavn og LDAP-bruger",
-    "Clear Groupname-LDAP Group Mapping" : "Ryd kortlægning mellem gruppenavn og LDAP-gruppe"
+    "Clear Groupname-LDAP Group Mapping" : "Ryd kortlægning mellem gruppenavn og LDAP-gruppe",
+    "Invalid configuration. Please have a look at the logs for further details." : "Ikke gyldig konfiguration. Kig venligst på logfilerne for mere information."
 },
 "nplurals=2; plural=(n != 1);");

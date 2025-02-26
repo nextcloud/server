@@ -6,7 +6,6 @@ OC.L10N.register(
     "Invalid configuration: Anonymous binding is not allowed." : "Oppsettet er ugyldig: Anonym binding er ikke tillatt.",
     "Valid configuration, connection established!" : "Gyldig oppsett, tilkoblet.",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Oppsettet er i orden, men binding mislyktes. Sjekk server-oppsettet og påloggingsinformasjonen.",
-    "Invalid configuration. Please have a look at the logs for further details." : "Oppsettet er ikke gyldig. Sjekk loggene for flere detaljer.",
     "No action specified" : "Ingen handling spesifisert",
     "No configuration specified" : "Ingen oppsett spesifisert",
     "No data specified" : "Ingen data spesifisert",
@@ -220,6 +219,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Tilknytning av brukernavn til LDAP bruker",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Brukernavn brukes til å lagre og tildele metadata. For å identifisere og gjenkjenne brukere nøyaktig, vil hver LDAP-bruker ha et internt brukernavn. Dette krever en kartlegging fra brukernavn til LDAP-bruker. Det opprettede brukernavnet tilordnes UUID for LDAP-brukeren. I tillegg er DN også hurtigbufret for å redusere LDAP-interaksjon, men den brukes ikke til identifikasjon. Hvis DN endres, vil endringene bli funnet. Det interne brukernavnet brukes overalt. Å rydde kartleggingen vil ha rester overalt. Å rydde tilordningene er ikke konfigurasjonsfølsom, det påvirker alle LDAP-konfigurasjoner! Tøm aldri kartleggingen i et produksjonsmiljø, bare i et test- eller eksperimentelt stadium.",
     "Clear Username-LDAP User Mapping" : "Nullstill tilknytning av brukernavn til LDAP bruker",
-    "Clear Groupname-LDAP Group Mapping" : "Nullstill tilknytning av gruppenavn til LDAP gruppe"
+    "Clear Groupname-LDAP Group Mapping" : "Nullstill tilknytning av gruppenavn til LDAP gruppe",
+    "Invalid configuration. Please have a look at the logs for further details." : "Oppsettet er ikke gyldig. Sjekk loggene for flere detaljer."
 },
 "nplurals=2; plural=(n != 1);");

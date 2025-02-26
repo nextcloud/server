@@ -5,7 +5,6 @@ OC.L10N.register(
     "Failed to delete the server configuration" : "Serveri seadistuse kustutamine ebaõnnestus",
     "Invalid configuration: Anonymous binding is not allowed." : "Vale seadistus: anonüümne sidumine pole lubatud.",
     "Valid configuration, connection established!" : "Valiidne seadistus, ühendus loodud!",
-    "Invalid configuration. Please have a look at the logs for further details." : "Vigane seadistus. Rohkema info jaoks vaadake logisid.",
     "No action specified" : "Tegevusi pole määratletud",
     "No configuration specified" : "Seadistust pole määratletud",
     "No data specified" : "Andmeid pole määratletud",
@@ -139,6 +138,7 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "UUID atribuut gruppidele:",
     "Username-LDAP User Mapping" : "LDAP-Kasutajatunnus Kasutaja Vastendus",
     "Clear Username-LDAP User Mapping" : "Puhasta LDAP-Kasutajatunnus Kasutaja Vastendus",
-    "Clear Groupname-LDAP Group Mapping" : "Puhasta LDAP-Grupinimi Grupp Vastendus"
+    "Clear Groupname-LDAP Group Mapping" : "Puhasta LDAP-Grupinimi Grupp Vastendus",
+    "Invalid configuration. Please have a look at the logs for further details." : "Vigane seadistus. Rohkema info jaoks vaadake logisid."
 },
 "nplurals=2; plural=(n != 1);");

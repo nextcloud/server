@@ -6,7 +6,6 @@ OC.L10N.register(
     "Invalid configuration: Anonymous binding is not allowed." : "Die Konfiguration ist ungültig: anonymes Binden ist nicht erlaubt. ",
     "Valid configuration, connection established!" : "Gültige Konfiguration, Verbindung hergestellt!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Die Konfiguration ist gültig, aber der LDAP-Bind ist fehlgeschlagen. Bitte überprüfen Sie die Servereinstellungen und die Anmeldeinformationen. ",
-    "Invalid configuration. Please have a look at the logs for further details." : "Die Konfiguration ist ungültig. Weitere Details finden Sie in den Protokolldateien. ",
     "No action specified" : "Keine Aktion angegeben",
     "No configuration specified" : "Keine Konfiguration angegeben",
     "No data specified" : "Keine Daten angegeben",
@@ -77,7 +76,7 @@ OC.L10N.register(
     "Could not find the desired feature" : "Die gewünschte Funktion konnte nicht gefunden werden",
     "Invalid Host" : "Ungültiger Host",
     "LDAP user and group backend" : "LDAP Benutzer- und Gruppen-Backend",
-    "This application enables administrators to connect Nextcloud to an LDAP-based user directory." : "Diese App ermöglicht es Administratoren, Nextcloud mit einem LDAP-basierten Benutzerverzeichnis zu verbinden.",
+    "This application enables administrators to connect Nextcloud to an LDAP-based user directory." : "Diese App ermöglicht es der Administration, Nextcloud mit einem LDAP-basiertem Nutzerverzeichnis zu verbinden.",
     "This application enables administrators to connect Nextcloud to an LDAP-based user directory for authentication and provisioning users, groups and user attributes. Admins can configure this application to connect to one or more LDAP directories or Active Directories via an LDAP interface. Attributes such as user quota, email, avatar pictures, group memberships and more can be pulled into Nextcloud from a directory with the appropriate queries and filters.\n\nA user logs into Nextcloud with their LDAP or AD credentials, and is granted access based on an authentication request handled by the LDAP or AD server. Nextcloud does not store LDAP or AD passwords, rather these credentials are used to authenticate a user and then Nextcloud uses a session for the user ID. More information is available in the LDAP User and Group Backend documentation." : "Diese App ermöglicht es Administratoren Nextcloud mit einem auf LDAP basierenden Nutzerverzeichnis zu verbinden um so die Anmeldung, Nutzer, Gruppen und Berechtigungen zu konfigurieren. Administratoren können die App so einrichten, dass sie sich mit einem oder mehreren LDAP-Verzeichnissen oder Active-Directories über eine LDAP-Schnittstelle verbindet. Attribute wie Speicherkontingent, E-Mail, Avatare, Gruppenmitgliedschaft usw. können von einem Verzeichnis mit den dazugehörigen Anfragen und Filtern bezogen werden\n\nDer Nutzer meldet sich an der Nextclud mit seinen LDAP oder AD Anmeldedaten an. und erhält Zugriff durch eine Authentifizierungsanfrage am LDAP- oder AD-Server. Nextcloud speichert und verwendet nicht die LDAP- oder AD-Zugangsdaten sondern verwendet eine Sitzungs-ID für die jeweilige Nutzer-ID. Weitere Infos in der \"LDAP User und Group Backend\"-Dokumentation.",
     "Test Configuration" : "Testkonfiguration",
     "Help" : "Hilfe",
@@ -129,7 +128,7 @@ OC.L10N.register(
     "Continue" : "Fortsetzen",
     "Please renew your password." : "Bitte erneuern Sie Ihr Passwort.",
     "An internal error occurred." : "Es ist ein interner Fehler aufgetreten.",
-    "Please try again or contact your administrator." : "Bitte erneut versuchen oder kontaktieren Sie Ihren Administrator.",
+    "Please try again or contact your administrator." : "Bitte erneut versuchen oder kontaktieren Sie Ihre Administration.",
     "Current password" : "Aktuelles Passwort",
     "New password" : "Neues Passwort",
     "Renew password" : "Passwort erneuern",
@@ -141,7 +140,7 @@ OC.L10N.register(
     "Groups" : "Gruppen",
     "Expert" : "Experte",
     "Advanced" : "Fortgeschritten",
-    "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Warnung:</b> Da das PHP-Modul für LDAP nicht installiert ist, wird das Backend nicht funktionieren. Bitte kontaktieren Sie Ihren Systemadministrator und bitten Sie um die Installation des Moduls.",
+    "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Warnung:</b> Da das PHP-Modul für LDAP nicht installiert ist, wird das Backend nicht funktionieren. Bitte kontaktieren Sie Ihre Systemadministration und bitten Sie sie um die Installation des Moduls.",
     "Connection Settings" : "Verbindungseinstellungen",
     "Configuration Active" : "Konfiguration aktiv",
     "When unchecked, this configuration will be skipped." : "Konfiguration wird übersprungen, wenn nicht angehakt.",
@@ -226,6 +225,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "LDAP-Benutzernamenzuordnung",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Benutzernamen dienen zum Speichern und Zuweisen von Metadaten. Um Benutzer eindeutig zu identifizieren und zu erkennen, besitzt jeder LDAP-Benutzer einen internen Benutzernamen. Dies erfordert eine Zuordnung des jeweiligen Benutzernamens zum LDAP-Benutzer. Der erstellte Benutzername wird der UUID des LDAP-Benutzers zugeordnet. Darüber hinaus wird der DN auch zwischengespeichert, um die Interaktion über LDAP zu reduzieren, was aber nicht zur Identifikation dient. Ändert sich der DN, werden die Änderungen gefunden. Der interne Benutzername wird durchgängig verwendet. Ein Löschen der Zuordnungen führt zum systemweiten Verbleib von Restdaten. Es bleibt nicht auf eine einzelne Konfiguration beschränkt, sondern wirkt sich auf alle LDAP-Konfigurationen aus! Löschen Sie die Zuordnungen nie innerhalb einer Produktivumgebung, sondern nur in einer Test- oder Experimentierumgebung.",
     "Clear Username-LDAP User Mapping" : "Lösche LDAP-Benutzernamenzuordnung",
-    "Clear Groupname-LDAP Group Mapping" : "Lösche LDAP-Gruppennamenzuordnung"
+    "Clear Groupname-LDAP Group Mapping" : "Lösche LDAP-Gruppennamenzuordnung",
+    "Invalid configuration. Please have a look at the logs for further details." : "Die Konfiguration ist ungültig. Weitere Details finden Sie in den Protokolldateien. "
 },
 "nplurals=2; plural=(n != 1);");

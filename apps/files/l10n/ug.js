@@ -119,7 +119,6 @@ OC.L10N.register(
     "Create new folder" : "يېڭى ھۆججەت قىسقۇچ قۇر",
     "This name is already in use." : "بۇ ئىسىم ئاللىقاچان ئىشلىتىلىۋاتىدۇ.",
     "Fill template fields" : "قېلىپ بۆلەكلىرىنى تولدۇرۇڭ",
-    "Submitting fields…" : "يول يوللاش…",
     "Submit" : "يوللاڭ",
     "Transfer ownership of a file or folder" : "ھۆججەت ياكى ھۆججەت قىسقۇچنىڭ ئىگىدارلىق ھوقۇقىنى يۆتكەڭ",
     "Choose file or folder to transfer" : "يۆتكەش ئۈچۈن ھۆججەت ياكى ھۆججەت قىسقۇچنى تاللاڭ",
@@ -380,6 +379,7 @@ OC.L10N.register(
     "Favored" : "ياخشى كۆرىدۇ",
     "Favor" : "ياق",
     "Not favored" : "ياقتۇرمايدۇ",
+    "Submitting fields…" : "يول يوللاش…",
     "Filter filenames…" : "ھۆججەت نامىنى سۈزۈڭ…"
 },
 "nplurals=2; plural=(n != 1);");

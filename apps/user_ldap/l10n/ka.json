@@ -4,7 +4,6 @@
     "Invalid configuration: Anonymous binding is not allowed." : "Invalid configuration: Anonymous binding is not allowed.",
     "Valid configuration, connection established!" : "Valid configuration, connection established!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Valid configuration, but binding failed. Please check the server settings and credentials.",
-    "Invalid configuration. Please have a look at the logs for further details." : "Invalid configuration. Please have a look at the logs for further details.",
     "No action specified" : "No action specified",
     "No configuration specified" : "No configuration specified",
     "No data specified" : "No data specified",
@@ -214,6 +213,7 @@
     "Username-LDAP User Mapping" : "Username-LDAP User Mapping",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage.",
     "Clear Username-LDAP User Mapping" : "Clear Username-LDAP User Mapping",
-    "Clear Groupname-LDAP Group Mapping" : "Clear Groupname-LDAP Group Mapping"
+    "Clear Groupname-LDAP Group Mapping" : "Clear Groupname-LDAP Group Mapping",
+    "Invalid configuration. Please have a look at the logs for further details." : "Invalid configuration. Please have a look at the logs for further details."
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }
