@@ -16,6 +16,7 @@ use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Events\BeforeGroupCreatedEvent;
 use OCP\Group\Events\GroupCreatedEvent;
 use OCP\GroupInterface;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -51,6 +52,9 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/** @var \OC\SubAdmin */
 	private $subAdmin = null;
+
+	/** @var IAppConfig $appConfig */
+	private $appConfig;
 
 	private DisplayNameCache $displayNameCache;
 
@@ -159,7 +163,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 			return null;
 		}
 		/** @var GroupInterface[] $backends */
-		$this->cachedGroups[$gid] = new Group($gid, $backends, $this->dispatcher, $this->userManager, $this, $displayName);
+		$this->cachedGroups[$gid] = new Group($gid, $backends, $this->dispatcher, $this->userManager, $this->getAppConfig(), $this, $displayName);
 		return $this->cachedGroups[$gid];
 	}
 
@@ -214,7 +218,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 			if (count($backends[$gid]) === 0) {
 				continue;
 			}
-			$this->cachedGroups[$gid] = new Group($gid, $backends[$gid], $this->dispatcher, $this->userManager, $this, $displayNames[$gid]);
+			$this->cachedGroups[$gid] = new Group($gid, $backends[$gid], $this->dispatcher, $this->userManager, $this->getAppConfig(), $this, $displayNames[$gid]);
 			$groups[$gid] = $this->cachedGroups[$gid];
 		}
 		return $groups;
@@ -471,5 +475,18 @@ class Manager extends PublicEmitter implements IGroupManager {
 		}
 
 		return $this->subAdmin;
+	}
+
+	/**
+	 * Returns the appConfig object
+	 * 
+	 * @return IAppConfig
+	 */
+	private function getAppConfig():IAppConfig {
+		if (isset($this->appConfig)) {
+			return $this->appConfig;
+		} else {
+			return \OC::$server->get(IAppConfig::class);
+		}
 	}
 }

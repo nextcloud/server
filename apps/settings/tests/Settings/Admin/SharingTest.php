@@ -10,6 +10,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Constants;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -22,6 +23,8 @@ class SharingTest extends TestCase {
 	private $admin;
 	/** @var IConfig&MockObject */
 	private $config;
+	/** @var IAppConfig */
+	private $appConfig;
 	/** @var IL10N&MockObject */
 	private $l10n;
 	/** @var IManager|MockObject */
@@ -36,6 +39,7 @@ class SharingTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
+		$this->appConfig = $this->getMockBuilder(IAppConfig::class)->getMock();
 		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
 
 		/** @var IManager|MockObject */
@@ -49,6 +53,7 @@ class SharingTest extends TestCase {
 
 		$this->admin = new Sharing(
 			$this->config,
+			$this->appConfig,
 			$this->l10n,
 			$this->shareManager,
 			$this->appManager,
@@ -65,6 +70,7 @@ class SharingTest extends TestCase {
 				['core', 'shareapi_exclude_groups_list', '', ''],
 				['core', 'shareapi_allow_links_exclude_groups', '', ''],
 				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
+				['core', 'shareapi_groups_block_list', '[]', '[]'],
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
 				['core', 'shareapi_allow_public_upload', 'yes', 'yes'],
 				['core', 'shareapi_allow_resharing', 'yes', 'yes'],
@@ -110,6 +116,7 @@ class SharingTest extends TestCase {
 			'sharingDocumentation' => '',
 			'sharingSettings' => [
 				'allowGroupSharing' => true,
+				'groupsBlockList' => [],
 				'allowLinks' => true,
 				'allowPublicUpload' => true,
 				'allowResharing' => true,
@@ -162,6 +169,7 @@ class SharingTest extends TestCase {
 				['core', 'shareapi_exclude_groups_list', '', '["NoSharers","OtherNoSharers"]'],
 				['core', 'shareapi_allow_links_exclude_groups', '', ''],
 				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
+				['core', 'shareapi_groups_block_list', '[]', '[]'],
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
 				['core', 'shareapi_allow_public_upload', 'yes', 'yes'],
 				['core', 'shareapi_allow_resharing', 'yes', 'yes'],
@@ -207,6 +215,7 @@ class SharingTest extends TestCase {
 			'sharingDocumentation' => '',
 			'sharingSettings' => [
 				'allowGroupSharing' => true,
+				'groupsBlockList' => [],
 				'allowLinks' => true,
 				'allowPublicUpload' => true,
 				'allowResharing' => true,

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,6 +10,7 @@ namespace Test\Collaboration\Collaborators;
 use OC\Collaboration\Collaborators\GroupPlugin;
 use OC\Collaboration\Collaborators\SearchResult;
 use OCP\Collaboration\Collaborators\ISearchResult;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -20,6 +22,9 @@ use Test\TestCase;
 class GroupPluginTest extends TestCase {
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
+
+	/** @var IAppConfig|\PHPUnit\Framework\MockObject\MockObject */
+	protected $appConfig;
 
 	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
@@ -46,6 +51,8 @@ class GroupPluginTest extends TestCase {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
+
+		$this->appConfig = $this->createMock(IAppConfig::class);
 
 		$this->groupManager = $this->createMock(IGroupManager::class);
 
@@ -413,6 +420,24 @@ class GroupPluginTest extends TestCase {
 				true,
 				false,
 			],
+			[
+				'test', true, true, false,
+				[
+					$this->getGroupMock('test0', 'test0', true),
+					$this->getGroupMock('test1'),
+				],
+				[
+					$this->getGroupMock('test0'),
+					$this->getGroupMock('test1')
+				],
+				[],
+				[
+					['label' => 'test1', 'value' => ['shareType' => IShare::TYPE_GROUP, 'shareWith' => 'test1']],
+				],
+				false,
+				false,
+				['test0'],
+			],
 		];
 	}
 
@@ -429,6 +454,7 @@ class GroupPluginTest extends TestCase {
 	 * @param array $expected
 	 * @param bool $reachedEnd
 	 * @param bool|IGroup $singleGroup
+	 * @param array $groupsBlockList
 	 */
 	public function testSearch(
 		string $searchTerm,
@@ -441,6 +467,7 @@ class GroupPluginTest extends TestCase {
 		array $expected,
 		bool $reachedEnd,
 		$singleGroup,
+		array $groupsBlockList = [],
 	): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
@@ -461,6 +488,15 @@ class GroupPluginTest extends TestCase {
 					}
 				}
 			);
+
+		if ($groupsBlockList != []) {
+			/** setup blocked groups list */
+			$appConfig = $this->createMock(IAppConfig::class);
+			$appConfig->method('getValueArray')
+				->with('core', 'shareapi_groups_block_list')
+				->willReturn($groupsBlockList);
+			$this->appConfig = $appConfig;
+		}
 
 		$this->instantiatePlugin();
 
