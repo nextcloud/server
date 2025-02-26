@@ -352,7 +352,7 @@ class UserConfig implements IUserConfig {
 		$this->assertParams('', $app, $key, allowEmptyUser: true);
 
 		$qb = $this->connection->getQueryBuilder();
-		if ($this->isUpgradedTo32()) {
+		if ($this->isUpgradedTo31()) {
 			$qb->select('userid', 'configvalue', 'type');
 		} else {
 			$qb->select('userid', 'configvalue');
@@ -476,10 +476,10 @@ class UserConfig implements IUserConfig {
 		$qb->where($qb->expr()->eq('appid', $qb->createNamedParameter($app)));
 		$qb->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($key)));
 
-		if ($this->isUpgradedTo32()) {
+		$configValueColumn = ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) ? $qb->expr()->castColumn('configvalue', IQueryBuilder::PARAM_STR) : 'configvalue';
+		if ($this->isUpgradedTo31()) {
 			// search within 'indexed' OR 'configvalue' only if 'flags' is set as not indexed
 			// TODO: when implementing config lexicon remove the searches on 'configvalue' if value is set as indexed
-			$configValueColumn = ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) ? $qb->expr()->castColumn('configvalue', IQueryBuilder::PARAM_STR) : 'configvalue';
 			if (is_array($value)) {
 				$where = $qb->expr()->orX(
 					$qb->expr()->in('indexed', $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR_ARRAY)),
@@ -1101,7 +1101,7 @@ class UserConfig implements IUserConfig {
 			 */
 			try {
 				$insert = $this->connection->getQueryBuilder();
-				if ($this->isUpgradedTo32()) {
+				if ($this->isUpgradedTo31()) {
 					$insert->insert('preferences')
 						->setValue('userid', $insert->createNamedParameter($userId))
 						->setValue('appid', $insert->createNamedParameter($app))
@@ -1167,7 +1167,7 @@ class UserConfig implements IUserConfig {
 			}
 
 			$update = $this->connection->getQueryBuilder();
-			if ($this->isUpgradedTo32()) {
+			if ($this->isUpgradedTo31()) {
 				$update->update('preferences')
 					   ->set('configvalue', $update->createNamedParameter($value))
 					   ->set('lazy', $update->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
@@ -1696,14 +1696,14 @@ class UserConfig implements IUserConfig {
 
 		$qb = $this->connection->getQueryBuilder();
 		$qb->from('preferences');
-		if ($this->isUpgradedTo32()) {
+		if ($this->isUpgradedTo31()) {
 			$qb->select('appid', 'configkey', 'configvalue', 'type', 'flags');
 		} else {
 			$qb->select('appid', 'configkey', 'configvalue');
 		}
 		$qb->where($qb->expr()->eq('userid', $qb->createNamedParameter($userId)));
 
-		if ($this->isUpgradedTo32()) {
+		if ($this->isUpgradedTo31()) {
 			// we only need value from lazy when loadConfig does not specify it
 			if ($lazy !== null) {
 				$qb->andWhere($qb->expr()->eq('lazy', $qb->createNamedParameter($lazy ? 1 : 0, IQueryBuilder::PARAM_INT)));
@@ -1996,10 +1996,10 @@ class UserConfig implements IUserConfig {
 	 *
 	 * @return bool
 	 */
-	private function isUpgradedTo32(): bool {
+	private function isUpgradedTo31(): bool {
 		if (!$this->upgradedTo32) {
-			$this->upgradedTo32 = (str_starts_with($this->config->getSystemValue('version'), '31')
-								   || str_starts_with($this->config->getSystemValue('version'), '32'));
+			$this->upgradedTo32 = (str_starts_with($this->config->getSystemValue('version'), '31.')
+								   || str_starts_with($this->config->getSystemValue('version'), '32.'));
 		}
 
 		return $this->upgradedTo32;
