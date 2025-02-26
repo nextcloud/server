@@ -203,6 +203,8 @@
     "Old server-side-encryption" : "Ancien chiffrement côté serveur",
     "Disabled" : "Désactivé",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "L'ancien format de chiffrement côté serveur est activé. Nous recommandons de le désactiver.",
+    "Logging level" : "Niveau de journalisation",
+    "Logging level configured correctly." : "Le niveau de journalisation a été correctement configuré.",
     "Maintenance window start" : "Début de la fenêtre de maintenance",
     "Server has no maintenance window start time configured. This means resource intensive daily background jobs will also be executed during your main usage time. We recommend to set it to a time of low usage, so users are less impacted by the load caused from these heavy tasks." : "Le serveur n'a pas aucune heure de début de fenêtre de maintenance configurée. Cela signifie que les tâches quotidiennes d'arrière-plan, gourmandes en ressources, seront également exécutées pendant votre période d'utilisation principale. Nous vous recommandons de le configurer à un moment de faible utilisation, afin que les utilisateurs soient moins affectés par la charge causée par ces tâches lourdes.",
     "Maintenance window to execute heavy background jobs is between {start}:00 UTC and {end}:00 UTC" : "La fenêtre de maintenance pour exécuter les tâches de fond gourmandes en ressource est entre {start}:00 UTC et {end}:00 UTC",
