@@ -7,6 +7,7 @@ declare(strict_types=1);
  */
 namespace OC\AppFramework\Middleware;
 
+use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Core\Controller\ClientFlowLoginV2Controller;
 use OCP\AppFramework\Middleware;
 use OCP\ISession;
@@ -22,9 +23,11 @@ class FlowV2EphemeralSessionsMiddleware extends Middleware {
 	public function __construct(
 		ISession $session,
 		IUserSession $userSession,
+		ControllerMethodReflector $reflector
 	) {
 		$this->session = $session;
 		$this->userSession = $userSession;
+		$this->reflector = $reflector;
 	}
 
 	public function beforeController($controller, $methodName) {
@@ -36,6 +39,10 @@ class FlowV2EphemeralSessionsMiddleware extends Middleware {
 			$controller instanceof ClientFlowLoginV2Controller &&
 			($methodName === 'grantPage' || $methodName === 'generateAppPassword')
 		) {
+			return;
+		}
+
+		if ($this->reflector->hasAnnotation('PublicPage')) {
 			return;
 		}
 
