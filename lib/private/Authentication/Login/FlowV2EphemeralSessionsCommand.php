@@ -10,6 +10,7 @@ namespace OC\Authentication\Login;
 
 use OC\Core\Controller\ClientFlowLoginV2Controller;
 use OCP\ISession;
+use OCP\IURLGenerator;
 
 class FlowV2EphemeralSessionsCommand extends ALoginCommand {
 	private ISession $session;
@@ -17,13 +18,15 @@ class FlowV2EphemeralSessionsCommand extends ALoginCommand {
 
 	public function __construct(
 		ISession $session,
+		IURLGenerator $urlGenerator
 	) {
 		$this->session = $session;
 		$this->urlGenerator = $urlGenerator;
 	}
 
 	public function process(LoginData $loginData): LoginResult {
-		if (str_starts_with($loginData->getRedirectUrl() ?? '', '/login/v2/grant')) {
+		$loginV2GrantRoute = $this->urlGenerator->linkToRoute('core.ClientFlowLoginV2.grantPage');
+		if (str_starts_with($loginData->getRedirectUrl() ?? '', $loginV2GrantRoute)) {
 			$this->session->set(ClientFlowLoginV2Controller::EPHEMERAL_NAME, true);
 		}
 
