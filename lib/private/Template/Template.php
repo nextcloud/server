@@ -113,7 +113,7 @@ class Template extends Base implements ITemplate {
 		$data = parent::fetchPage($additionalParams);
 
 		if ($this->renderAs) {
-			$page = new TemplateLayout($this->renderAs, $this->app);
+			$page = Server::get(TemplateLayout::class)->getPageTemplate($this->renderAs, $this->app);
 
 			if (is_array($additionalParams)) {
 				foreach ($additionalParams as $key => $value) {
