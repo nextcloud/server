@@ -59,7 +59,6 @@
     "Additional settings" : "Lisaseaded",
     "You need to enter details of an existing account." : "Sa pead sisestama olemasoleva konto andmed.",
     "Oracle connection could not be established" : "Ei suuda luua ühendust Oracle baasiga",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X ei ole toetatud ja %s ei pruugi korralikult toimida sellel platvormil. Kasuta seda omal vastutusel!",
     "For the best results, please consider using a GNU/Linux server instead." : "Parema tulemuse saavitamiseks palun kaalu serveris GNU/Linux kasutamist.",
     "Set an admin password." : "Määra admini parool.",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Jagamise tagarakend %s peab kasutusele võtma OCP\\Share_Backend liidese",
@@ -142,6 +141,7 @@
     "Users" : "Kasutajad",
     "Open »%s«" : "Ava »%s«",
     "Click the button below to open it." : "Vajuta allolevat nuppu, et see avada.",
-    "File is currently busy, please try again later" : "Fail on hetkel kasutuses, proovi hiljem uuesti"
+    "File is currently busy, please try again later" : "Fail on hetkel kasutuses, proovi hiljem uuesti",
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X ei ole toetatud ja %s ei pruugi korralikult toimida sellel platvormil. Kasuta seda omal vastutusel!"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

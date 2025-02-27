@@ -6,7 +6,6 @@ OC.L10N.register(
     "No action specified" : "ไม่ได้ระบุการดำเนินการ",
     "No configuration specified" : "ไม่ได้ระบุการกำหนดค่า",
     "No data specified" : "ไม่ได้ระบุข้อมูล",
-    " Could not set configuration %s" : "ไม่สามารถกำหนดค่า %s",
     "Action does not exist" : "ไม่มีการดำเนินการนี้อยู่",
     "Very weak password" : "รหัสผ่านคาดเดาง่ายมาก",
     "Weak password" : "รหัสผ่านคาดเดาง่าย",
@@ -136,6 +135,7 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "แอททริบิวต์ UUID สำหรับกลุ่ม:",
     "Username-LDAP User Mapping" : "การแมปชื่อผู้ใช้-ผู้ใช้ LDAP",
     "Clear Username-LDAP User Mapping" : "ล้างการแมปชื่อผู้ใช้-ผู้ใช้ LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "ล้างการแมปกลุ่ม Groupname-LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "ล้างการแมปกลุ่ม Groupname-LDAP",
+    " Could not set configuration %s" : "ไม่สามารถกำหนดค่า %s"
 },
 "nplurals=1; plural=0;");

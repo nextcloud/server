@@ -10,7 +10,6 @@ OC.L10N.register(
     "No configuration specified" : "No se ha especificado la configuración",
     "No data specified" : "No se han especificado los datos",
     "Invalid data specified" : "Se especificaron datos inválidos",
-    " Could not set configuration %s" : "No se pudo establecer la configuración %s",
     "Action does not exist" : "La acción no existe",
     "Renewing …" : "Renovando …",
     "Very weak password" : "Contraseña muy débil",
@@ -53,7 +52,6 @@ OC.L10N.register(
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "Falta el marcador de posición \"%uid\". Será reemplazado por el nombre de registro al consultar LDAP/AD.",
     "Please provide a login name to test against" : "Por favor suministre un nombre de inicio de sesión para probar",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "El cuadro de grupo fue deshabilitado, porque el servidor LDAP/AD no admite memberOf.",
-    "Password change rejected. Hint: " : "Contraseña rechazada. Pista:",
     "Please login with the new password" : "Por favor, entra con la nueva contraseña",
     "LDAP User backend" : "Motor de usuarios LDAP",
     "Your password will expire tomorrow." : "Tu contraseña caducará mañana.",
@@ -222,6 +220,8 @@ OC.L10N.register(
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Los nombres de usuario se usan para almacenar y asignar metadatos. Para identificar y reconocer con precisión a los usuarios, cada usuario de LDAP tendrá un nombre de usuario interno. Esto requiere una asignación de nombre de usuario a usuario de LDAP. El nombre de usuario creado se asigna al UUID del usuario de LDAP. Además, el DN también se almacena en caché para reducir la interacción de LDAP, pero no se utiliza para la identificación. Si el DN cambia, se encontrarán los cambios. El nombre de usuario interno se usa en todas partes. Limpiar las asignaciones tendrá sobras en todas partes. ¡Borrar las asignaciones no es sensible a la configuración, afecta todas las configuraciones de LDAP! Nunca borre las asignaciones en un entorno de producción, solo en una etapa de prueba o experimental.",
     "Clear Username-LDAP User Mapping" : "Borrar la asignación de los Nombres de usuario de los usuarios LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Borrar la asignación de los Nombres de grupo de los grupos de LDAP",
-    "Invalid configuration. Please have a look at the logs for further details." : "Configuración no válida. Por favor, echa un vistazo al registro para más detalles."
+    "Invalid configuration. Please have a look at the logs for further details." : "Configuración no válida. Por favor, echa un vistazo al registro para más detalles.",
+    " Could not set configuration %s" : "No se pudo establecer la configuración %s",
+    "Password change rejected. Hint: " : "Contraseña rechazada. Pista:"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

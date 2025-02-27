@@ -6,7 +6,6 @@ OC.L10N.register(
     "No action specified" : "No se ha especificado una acción",
     "No configuration specified" : "No se ha especificado una configuración",
     "No data specified" : "No se han especificado datos",
-    " Could not set configuration %s" : "No fue posible establecer la configuración %s",
     "Action does not exist" : "La acción no existe",
     "Renewing …" : "Renovando ...",
     "Very weak password" : "Contraseña muy debil",
@@ -42,7 +41,6 @@ OC.L10N.register(
     "User found and settings verified." : "Usuario encontrado y configuraciones verificadas. ",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "El filtro de la búsqueda es inválido, posiblemente debido a temas de sintaxis como un número diferente de corchetes abiertos y cerrados. Favor de verificar. ",
     "Please provide a login name to test against" : "Favor de proporcionar un nombre de usuario contra el cual probar",
-    "Password change rejected. Hint: " : "Cambio de contraseña rechazado. Pista: ",
     "Please login with the new password" : "Favor de iniciar sesion con la nueva contraseña",
     "Your password will expire tomorrow." : "Su contraseña expirará mañana.",
     "Your password will expire today." : "Su contraseña expirará el día de hoy. ",
@@ -160,6 +158,8 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "Atributo UUID para Grupos:",
     "Username-LDAP User Mapping" : "Mapeo del Nombre del usuario al Usuario LDAP",
     "Clear Username-LDAP User Mapping" : "Borrar el mapeo de los Nombres de usuario a los Usuarios LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Borrar el mapeo de los Nombres de grupo a los grupos de LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Borrar el mapeo de los Nombres de grupo a los grupos de LDAP",
+    " Could not set configuration %s" : "No fue posible establecer la configuración %s",
+    "Password change rejected. Hint: " : "Cambio de contraseña rechazado. Pista: "
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

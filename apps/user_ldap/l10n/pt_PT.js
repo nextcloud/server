@@ -6,7 +6,6 @@ OC.L10N.register(
     "No action specified" : "Nenhuma ação especificada",
     "No configuration specified" : "Nenhuma configuração especificada",
     "No data specified" : "Nenhuns dados especificados",
-    " Could not set configuration %s" : "Não foi possível definir a configuração %s",
     "Action does not exist" : "A ação não existe",
     "Very weak password" : "Palavra-passe muito fraca",
     "Weak password" : "Palavra-passe fraca",
@@ -139,6 +138,7 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "Atributo UUID para grupos:",
     "Username-LDAP User Mapping" : "Mapeamento do utilizador LDAP",
     "Clear Username-LDAP User Mapping" : "Limpar mapeamento do utilizador-LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Limpar o mapeamento do nome de grupo LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Limpar o mapeamento do nome de grupo LDAP",
+    " Could not set configuration %s" : "Não foi possível definir a configuração %s"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

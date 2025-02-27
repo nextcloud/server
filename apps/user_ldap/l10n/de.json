@@ -4,11 +4,11 @@
     "Invalid configuration: Anonymous binding is not allowed." : "Die Konfiguration ist ungültig: anonymes Binden ist nicht erlaubt. ",
     "Valid configuration, connection established!" : "Gültige Konfiguration, Verbindung hergestellt!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Die Konfiguration ist gültig, aber der LDAP-Bind ist fehlgeschlagen. Bitte überprüfe die Servereinstellungen und Anmeldeinformationen. ",
+    "Invalid configuration: %s" : "Ungültige Konfiguration: %s",
     "No action specified" : "Keine Aktion angegeben",
     "No configuration specified" : "Keine Konfiguration angegeben",
     "No data specified" : "Keine Daten angegeben",
     "Invalid data specified" : "Ungültige Daten angegeben",
-    " Could not set configuration %s" : "Die Konfiguration %s konnte nicht gesetzt werden",
     "Action does not exist" : "Aktion existiert nicht",
     "Renewing …" : "Erneuere …",
     "Very weak password" : "Sehr schwaches Passwort",
@@ -51,7 +51,13 @@
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "Der \"%u id\" Platzhalter fehlt. Er wird durch den Anmeldenamen ersetzt, wenn LDAP/AD abgefragt wird.",
     "Please provide a login name to test against" : "Bitte gib einen Benutzernamen an, um gegen diesen zu testen",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "Das Gruppenfeld wurde deaktiviert, da der LDAP/AD-Server memberOf nicht unterstützt.",
-    "Password change rejected. Hint: " : "Passwortändertung verweigert. Hinweis:",
+    "Mandatory field \"%s\" left empty" : "Pflichtfeld \"%s\" leer gelassen",
+    "A password is given, but not an LDAP agent" : "Es wurde ein Passwort, aber kein LDAP-Agent eingegeben",
+    "No password is given for the user agent" : "Für den User-Agenten wurde kein Passwort angegeben",
+    "No LDAP base DN was given" : "Es wurde keine LDAP-Basis-DN eingegeben",
+    "User base DN is not a subnode of global base DN" : "Der Benutzer-Basis-DN ist kein Unterknoten des globalen Basis-DN",
+    "Group base DN is not a subnode of global base DN" : "Der Gruppen-Basis-DN ist kein Unterknoten des globalen Basis-DN",
+    "Login filter does not contain %uid place holder" : "Der Anmeldefilter enthält keinen %uid-Platzhalter",
     "Please login with the new password" : "Bitte mit dem neuen Passwort anmelden",
     "LDAP User backend" : "LDAP Benutzer-Backend",
     "Your password will expire tomorrow." : "Dein Passwort läuft morgen ab",
@@ -224,6 +230,8 @@
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Die Benutzernamen werden genutzt, um Metadaten zuzuordnen und zu speichern. Um Benutzer eindeutig und präzise zu identifizieren, hat jeder LDAP-Benutzer einen internen Benutzernamen. Dies erfordert eine Zuordnung des Benutzernamens zum LDAP-Benutzer. Der erstellte Benutzername wird der UUID des LDAP-Benutzernamens zugeordnet. Zusätzlich wird der DN zwischengespeichert, um die Interaktion mit dem LDAP zu minimieren, was aber nicht der Identifikation dient. Ändert sich der DN, werden die Änderungen gefunden. Der interne Benutzername wird überall verwendet. Werden die Zuordnungen gelöscht, bleiben überall Reste zurück. Die Löschung der Zuordnungen kann nicht in der Konfiguration vorgenommen werden, beeinflusst aber die LDAP-Konfiguration! Lösche niemals die Zuordnungen in einer produktiven Umgebung. Lösche die Zuordnungen nur in einer Test- oder Experimentierumgebung.",
     "Clear Username-LDAP User Mapping" : "LDAP-Benutzernamenzuordnung löschen",
     "Clear Groupname-LDAP Group Mapping" : "LDAP-Gruppennamenzuordnung löschen",
-    "Invalid configuration. Please have a look at the logs for further details." : "Die Konfiguration ist ungültig. Weitere Einzelheiten findest du in den Logdateien."
+    "Invalid configuration. Please have a look at the logs for further details." : "Die Konfiguration ist ungültig. Weitere Einzelheiten findest du in den Logdateien.",
+    " Could not set configuration %s" : "Die Konfiguration %s konnte nicht gesetzt werden",
+    "Password change rejected. Hint: " : "Passwortändertung verweigert. Hinweis:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

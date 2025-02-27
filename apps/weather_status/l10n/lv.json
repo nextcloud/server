@@ -6,9 +6,6 @@
     "Weather status" : "Laikapstākļu stāvoklis",
     "Weather status in your dashboard" : "Laikapstākļu stāvoklis informācijas panelī",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Laikapstākļu stāvoklis iekļauts informācijas paneļa lietotnē.\nĢeogrāfiskā atrašanās vieta var tikt automātiski noteikta vai pašrocīgi norādīta. Tad tiek attēlota 6 stundu prognoze.\nŠis stāvoklis var tikt ievietots arī citās vietās, piemēram, kalendāra lietotnē.",
-    "Detect location" : "Noteikt atrašanās vietu",
-    "Set custom address" : "Iestatīt pielāgotu adresi",
-    "Favorites" : "Izlase",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} skaidras debesis vēlāk šodien",
     "{temperature} {unit} clear sky" : "{temperature} {unit} skaidras debesis",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} mākoņains vēlāk šodien",
@@ -56,6 +53,9 @@
     "There was an error setting the location." : "Atgadījās kļūda atrašanās vietas iestatīšanā.",
     "There was an error saving the mode." : "Atgadījās kļūda režīma saglabāšanā.",
     "There was an error using personal address." : "Atgadījās kļūda personīgās adreses izmantošanā.",
-    "Unknown weather code" : "Nezināms laikapstākļu kods"
+    "Unknown weather code" : "Nezināms laikapstākļu kods",
+    "Detect location" : "Noteikt atrašanās vietu",
+    "Set custom address" : "Iestatīt pielāgotu adresi",
+    "Favorites" : "Izlase"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }
