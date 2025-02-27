@@ -10,64 +10,52 @@ declare(strict_types=1);
 
 namespace OC\Template;
 
+use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\TemplateLayout;
+use OCP\App\AppPathNotFoundException;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Defaults;
+use OCP\Server;
 use OCP\Template\ITemplate;
+use OCP\Util;
 
 require_once __DIR__ . '/../legacy/template/functions.php';
 
 class Template extends Base implements ITemplate {
-	/** @var string */
-	private $renderAs; // Create a full page?
-
-	/** @var string */
-	private $path; // The path to the template
-
-	/** @var array */
-	private $headers = []; //custom headers
-
-	/** @var string */
-	protected $app; // app id
+	private string $path;
+	private array $headers = [];
 
 	/**
-	 * Constructor
-	 *
 	 * @param string $app app providing the template
 	 * @param string $name of the template file (without suffix)
-	 * @param string $renderAs If $renderAs is set, will try to
-	 *                         produce a full page in the according layout. For
-	 *                         now, $renderAs can be set to "guest", "user" or
-	 *                         "admin".
-	 * @param bool $registerCall = true
+	 * @param TemplateResponse::RENDER_AS_* $renderAs If $renderAs is set, will try to
+	 *                                                produce a full page in the according layout.
 	 */
 	public function __construct(
-		$app,
-		$name,
-		$renderAs = TemplateResponse::RENDER_AS_BLANK,
-		$registerCall = true,
+		protected string $app,
+		string $name,
+		private string $renderAs = TemplateResponse::RENDER_AS_BLANK,
+		bool $registerCall = true,
 	) {
-		$theme = OC_Util::getTheme();
+		$theme = \OC_Util::getTheme();
 
-		$requestToken = (OC::$server->getSession() && $registerCall) ? \OCP\Util::callRegister() : '';
-		$cspNonce = \OCP\Server::get(\OC\Security\CSP\ContentSecurityPolicyNonceManager::class)->getNonce();
+		$requestToken = ($registerCall ? Util::callRegister() : '');
+		$cspNonce = Server::get(ContentSecurityPolicyNonceManager::class)->getNonce();
 
-		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
-		$l10n = \OC::$server->getL10N($parts[0]);
-		/** @var \OCP\Defaults $themeDefaults */
-		$themeDefaults = \OCP\Server::get(\OCP\Defaults::class);
+		// fix translation when app is something like core/lostpassword
+		$parts = explode('/', $app);
+		$l10n = Util::getL10N($parts[0]);
 
 		[$path, $template] = $this->findTemplate($theme, $app, $name);
 
-		// Set the private data
-		$this->renderAs = $renderAs;
 		$this->path = $path;
-		$this->app = $app;
 
 		parent::__construct(
 			$template,
 			$requestToken,
 			$l10n,
-			$themeDefaults,
+			Server::get(Defaults::class),
 			$cspNonce,
 		);
 	}
@@ -75,22 +63,26 @@ class Template extends Base implements ITemplate {
 
 	/**
 	 * find the template with the given name
-	 * @param string $name of the template file (without suffix)
 	 *
 	 * Will select the template file for the selected theme.
 	 * Checking all the possible locations.
-	 * @param string $theme
-	 * @param string $app
+	 *
+	 * @param string $name of the template file (without suffix)
 	 * @return string[]
 	 */
-	protected function findTemplate($theme, $app, $name) {
+	protected function findTemplate(string $theme, string $app, string $name): array {
 		// Check if it is a app template or not.
 		if ($app !== '') {
-			$dirs = $this->getAppTemplateDirs($theme, $app, OC::$SERVERROOT, OC_App::getAppPath($app));
+			try {
+				$appDir = Server::get(IAppManager::class)->getAppPath($app);
+			} catch (AppPathNotFoundException) {
+				$appDir = false;
+			}
+			$dirs = $this->getAppTemplateDirs($theme, $app, \OC::$SERVERROOT, $appDir);
 		} else {
-			$dirs = $this->getCoreTemplateDirs($theme, OC::$SERVERROOT);
+			$dirs = $this->getCoreTemplateDirs($theme, \OC::$SERVERROOT);
 		}
-		$locator = new \OC\Template\TemplateFileLocator($dirs);
+		$locator = new TemplateFileLocator($dirs);
 		$template = $locator->find($name);
 		$path = $locator->getPath();
 		return [$path, $template];
@@ -103,7 +95,7 @@ class Template extends Base implements ITemplate {
 	 * @param string $text the text content for the element. If $text is null then the
 	 *                     element will be written as empty element. So use "" to get a closing tag.
 	 */
-	public function addHeader($tag, $attributes, $text = null) {
+	public function addHeader(string $tag, array $attributes, ?string $text = null): void {
 		$this->headers[] = [
 			'tag' => $tag,
 			'attributes' => $attributes,
@@ -113,12 +105,11 @@ class Template extends Base implements ITemplate {
 
 	/**
 	 * Process the template
-	 * @return string
 	 *
 	 * This function process the template. If $this->renderAs is set, it
 	 * will produce a full page.
 	 */
-	public function fetchPage($additionalParams = null) {
+	public function fetchPage(?array $additionalParams = null): string {
 		$data = parent::fetchPage($additionalParams);
 
 		if ($this->renderAs) {
@@ -132,23 +123,22 @@ class Template extends Base implements ITemplate {
 
 			// Add custom headers
 			$headers = '';
-			foreach (OC_Util::$headers as $header) {
-				$headers .= '<' . \OCP\Util::sanitizeHTML($header['tag']);
+			foreach (\OC_Util::$headers as $header) {
+				$headers .= '<' . Util::sanitizeHTML($header['tag']);
 				if (strcasecmp($header['tag'], 'script') === 0 && in_array('src', array_map('strtolower', array_keys($header['attributes'])))) {
 					$headers .= ' defer';
 				}
 				foreach ($header['attributes'] as $name => $value) {
-					$headers .= ' ' . \OCP\Util::sanitizeHTML($name) . '="' . \OCP\Util::sanitizeHTML($value) . '"';
+					$headers .= ' ' . Util::sanitizeHTML($name) . '="' . Util::sanitizeHTML($value) . '"';
 				}
 				if ($header['text'] !== null) {
-					$headers .= '>' . \OCP\Util::sanitizeHTML($header['text']) . '</' . \OCP\Util::sanitizeHTML($header['tag']) . '>';
+					$headers .= '>' . Util::sanitizeHTML($header['text']) . '</' . Util::sanitizeHTML($header['tag']) . '>';
 				} else {
 					$headers .= '/>';
 				}
 			}
 
 			$page->assign('headers', $headers);
-
 			$page->assign('content', $data);
 			return $page->fetchPage($additionalParams);
 		}
@@ -159,14 +149,12 @@ class Template extends Base implements ITemplate {
 	/**
 	 * Include template
 	 *
-	 * @param string $file
-	 * @param array|null $additionalParams
 	 * @return string returns content of included template
 	 *
 	 * Includes another template. use <?php echo $this->inc('template'); ?> to
 	 * do this.
 	 */
-	public function inc($file, $additionalParams = null) {
+	public function inc(string $file, ?array $additionalParams = null): string {
 		return $this->load($this->path . $file . '.php', $additionalParams);
 	}
 }
