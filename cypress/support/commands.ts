@@ -60,11 +60,6 @@ declare global {
 			 * **Warning**:  Providing a user will reset the previous session.
 			 */
 			resetUserTheming(user?: User): Cypress.Chainable<void>,
-
-			/**
-			 * Run an occ command in the docker container.
-			 */
-			runOccCommand(command: string, options?: Partial<Cypress.ExecOptions>): Cypress.Chainable<Cypress.Exec>,
 		}
 	}
 }
@@ -294,9 +289,4 @@ Cypress.Commands.add('resetUserTheming', (user?: User) => {
 		// Clear current session
 		cy.clearCookies()
 	}
-})
-
-Cypress.Commands.add('runOccCommand', (command: string, options?: Partial<Cypress.ExecOptions>) => {
-	const env = Object.entries(options?.env ?? {}).map(([name, value]) => `-e '${name}=${value}'`).join(' ')
-	return cy.exec(`docker exec --user www-data ${env} nextcloud-cypress-tests-server php ./occ ${command}`, options)
 })
