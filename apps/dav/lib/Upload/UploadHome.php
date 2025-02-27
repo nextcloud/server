@@ -7,16 +7,19 @@
  */
 namespace OCA\DAV\Upload;
 
-use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ICollection;
 
 class UploadHome implements ICollection {
+	private ?Folder $uploadFolder = null;
+
 	public function __construct(
-		private array $principalInfo,
-		private CleanupService $cleanupService,
+		private readonly array $principalInfo,
+		private readonly CleanupService $cleanupService,
+		private readonly IRootFolder $rootFolder,
+		private readonly IUserSession $userSession,
 	) {
 	}
 
@@ -62,13 +65,24 @@ class UploadHome implements ICollection {
 		return $this->impl()->getLastModified();
 	}
 
-	/**
-	 * @return Directory
-	 */
-	private function impl() {
-		$view = $this->getView();
-		$rootInfo = $view->getFileInfo('');
-		return new Directory($view, $rootInfo);
+	private function getUploadFolder(): Folder {
+		if ($this->uploadFolder === null) {
+			$user = $this->userSession->getUser();
+			if (!$user) {
+				throw new Forbidden('Not logged in');
+			}
+			$path = '/' . $user->getUID() . '/uploads';
+			try {
+				$folder = $this->rootFolder->get($path);
+				if (!$folder instanceof Folder) {
+					throw new \Exception('Upload folder is a file');
+				}
+				$this->uploadFolder = $folder;
+			} catch (NotFoundException $e) {
+				$this->uploadFolder = $this->rootFolder->newFolder($path);
+			}
+		}
+		return $this->uploadFolder;
 	}
 
 	private function getView() {
@@ -82,8 +96,6 @@ class UploadHome implements ICollection {
 	}
 
 	private function getStorage() {
-		$view = $this->getView();
-		$storage = $view->getFileInfo('')->getStorage();
-		return $storage;
+		return $this->getUploadFolder()->getStorage();
 	}
 }
