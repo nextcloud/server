@@ -152,20 +152,12 @@ class UsersController extends Controller {
 				}, 0);
 			} else {
 				// User is subadmin !
-				// Map group list to ids to retrieve the countDisabledUsersOfGroups
-				$userGroups = $this->groupManager->getUserGroups($user);
-				$groupsIds = [];
-
-				foreach ($groups as $key => $group) {
-					// $userCount += (int)$group['usercount'];
-					$groupsIds[] = $group['id'];
-				}
-
-				$userCount += $this->userManager->countUsersOfGroups($groupsInfo->getGroups());
-				$disabledUsers = $this->userManager->countDisabledUsersOfGroups($groupsIds);
+				[$userCount,$disabledUsers] = $this->userManager->countUsersAndDisabledUsersOfGroups($groupsInfo->getGroups(), 999);
 			}
 
-			$userCount -= $disabledUsers;
+			if ($disabledUsers > 0) {
+				$userCount -= $disabledUsers;
+			}
 		}
 
 		$recentUsersGroup = [
