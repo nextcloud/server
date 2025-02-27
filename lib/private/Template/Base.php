@@ -8,7 +8,6 @@
 namespace OC\Template;
 
 use OCP\Defaults;
-use Throwable;
 
 class Base {
 	private $template; // The template
@@ -70,18 +69,14 @@ class Base {
 
 	/**
 	 * Assign variables
-	 * @param string $key key
-	 * @param float|array|bool|integer|string|Throwable $value value
-	 * @return bool
 	 *
 	 * This function assigns a variable. It can be accessed via $_[$key] in
 	 * the template.
 	 *
 	 * If the key existed before, it will be overwritten
 	 */
-	public function assign($key, $value) {
+	public function assign(string $key, float|array|bool|int|string|\Throwable|null $value): void {
 		$this->vars[$key] = $value;
-		return true;
 	}
 
 	/**

@@ -15,6 +15,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\Server;
+use OCP\Template\ITemplate;
 use Psr\Log\LoggerInterface;
 
 class TemplateManager {
@@ -24,6 +25,9 @@ class TemplateManager {
 	) {
 	}
 
+	/**
+	 * @param TemplateResponse::RENDER_AS_* $renderAs
+	 */
 	public function getTemplate(string $app, string $name, string $renderAs = TemplateResponse::RENDER_AS_BLANK, bool $registerCall = true): ITemplate {
 		return new Template($app, $name, $renderAs, $registerCall);
 	}
@@ -105,7 +109,7 @@ class TemplateManager {
 		$debug = false;
 		http_response_code($statusCode);
 		try {
-			$debug = Server::get(\OC\SystemConfig::class)->getValue('debug', false);
+			$debug = (bool)Server::get(\OC\SystemConfig::class)->getValue('debug', false);
 			$serverLogsDocumentation = Server::get(\OC\SystemConfig::class)->getValue('documentation_url.server_logs', '');
 			$request = Server::get(IRequest::class);
 			$content = new Template('', 'exception', 'error', false);
@@ -122,7 +126,7 @@ class TemplateManager {
 			$content->printPage();
 		} catch (\Exception $e) {
 			try {
-				$logger = \OCP\Server::get(LoggerInterface::class);
+				$logger = Server::get(LoggerInterface::class);
 				$logger->error($exception->getMessage(), ['app' => 'core', 'exception' => $exception]);
 				$logger->error($e->getMessage(), ['app' => 'core', 'exception' => $e]);
 			} catch (\Throwable $e) {

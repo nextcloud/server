@@ -34,5 +34,5 @@ interface ITemplate {
 	 * If the key existed before, it will be overwritten
 	 * @since 32.0.0
 	 */
-	public function assign(string $key, float|array|bool|int|string|\Throwable $value): void;
+	public function assign(string $key, float|array|bool|int|string|\Throwable|null $value): void;
 }
