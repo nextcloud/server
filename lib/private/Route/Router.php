@@ -142,7 +142,7 @@ class Router implements IRouter {
 
 		foreach ($routingFiles as $app => $file) {
 			if (!isset($this->loadedApps[$app])) {
-				if (!\OC_App::isAppLoaded($app)) {
+				if (!$this->appManager->isAppLoaded($app)) {
 					// app MUST be loaded before app routes
 					// try again next time loadRoutes() is called
 					$this->loaded = false;
@@ -257,8 +257,8 @@ class Router implements IRouter {
 			$this->loadRoutes('settings');
 		} elseif (str_starts_with($url, '/core/')) {
 			\OC::$REQUESTEDAPP = $url;
-			if (!$this->config->getSystemValueBool('maintenance') && !Util::needUpgrade()) {
-				\OC_App::loadApps();
+			if ($this->config->getSystemValueBool('installed', false) && !Util::needUpgrade()) {
+				$this->appManager->loadApps();
 			}
 			$this->loadRoutes('core');
 		} else {

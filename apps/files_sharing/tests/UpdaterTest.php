@@ -59,8 +59,9 @@ class UpdaterTest extends TestCase {
 	 * that the mount point doesn't end up at the trash bin
 	 */
 	public function testDeleteParentFolder(): void {
-		$status = Server::get(IAppManager::class)->isEnabledForUser('files_trashbin');
-		(new \OC_App())->enable('files_trashbin');
+		$appManager = Server::get(IAppManager::class);
+		$status = $appManager->isEnabledForUser('files_trashbin');
+		$appManager->enableApp('files_trashbin');
 
 		// register trashbin hooks
 		$trashbinApp = new Application();
@@ -116,7 +117,7 @@ class UpdaterTest extends TestCase {
 		$rootView->deleteAll('files_trashin');
 
 		if ($status === false) {
-			Server::get(IAppManager::class)->disableApp('files_trashbin');
+			$appManager->disableApp('files_trashbin');
 		}
 
 		Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');

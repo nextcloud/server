@@ -94,6 +94,9 @@ class ViewControllerTest extends TestCase {
 		$this->appManager->expects($this->any())
 			->method('getAppPath')
 			->willReturnCallback(fn (string $appid): string => \OC::$SERVERROOT . '/apps/' . $appid);
+		$this->appManager->expects($this->any())
+			->method('isAppLoaded')
+			->willReturn(true);
 
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);

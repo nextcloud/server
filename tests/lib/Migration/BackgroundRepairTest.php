@@ -9,9 +9,9 @@ namespace Test\Migration;
 
 use OC\BackgroundJob\JobList;
 use OC\Migration\BackgroundRepair;
-use OC\NeedsUpdateException;
 use OC\Repair;
 use OC\Repair\Events\RepairStepEvent;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Migration\IOutput;
@@ -48,6 +48,7 @@ class BackgroundRepairTest extends TestCase {
 	private LoggerInterface $logger;
 	private IEventDispatcher $dispatcher;
 	private ITimeFactory $time;
+	private IAppManager $appManager;
 	private Repair $repair;
 
 	protected function setUp(): void {
@@ -63,25 +64,16 @@ class BackgroundRepairTest extends TestCase {
 		$this->time = $this->createMock(ITimeFactory::class);
 		$this->time->method('getTime')
 			->willReturn(999999);
+		$this->appManager = $this->createMock(IAppManager::class);
 		$this->repair = new Repair($this->dispatcher, $this->logger);
 		$this->job = $this->getMockBuilder(BackgroundRepair::class)
-			->setConstructorArgs([$this->repair, $this->time, $this->logger, $this->jobList])
+			->setConstructorArgs([$this->repair, $this->time, $this->logger, $this->jobList, $this->appManager])
 			->setMethods(['loadApp'])
 			->getMock();
 	}
 
 	public function testNoArguments(): void {
 		$this->jobList->expects($this->once())->method('remove');
-		$this->job->start($this->jobList);
-	}
-
-	public function testAppUpgrading(): void {
-		$this->jobList->expects($this->never())->method('remove');
-		$this->job->expects($this->once())->method('loadApp')->with('test')->willThrowException(new NeedsUpdateException());
-		$this->job->setArgument([
-			'app' => 'test',
-			'step' => 'j'
-		]);
 		$this->job->start($this->jobList);
 	}
 
@@ -103,6 +95,9 @@ class BackgroundRepairTest extends TestCase {
 			->with($this->equalTo(new RepairStepEvent('A test repair step')));
 
 		$this->jobList->expects($this->once())->method('remove');
+		$this->appManager->expects(self::once())
+			->method('loadApp')
+			->with('test');
 
 		$this->job->setArgument([
 			'app' => 'test',
