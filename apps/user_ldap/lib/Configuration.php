@@ -294,6 +294,27 @@ class Configuration {
 						break;
 					case 'ldapUserDisplayName2':
 					case 'ldapGroupDisplayName':
+					case 'ldapGidNumber':
+					case 'ldapGroupMemberAssocAttr':
+					case 'ldapQuotaAttribute':
+					case 'ldapEmailAttribute':
+					case 'ldapUuidUserAttribute':
+					case 'ldapUuidGroupAttribute':
+					case 'ldapExpertUsernameAttr':
+					case 'ldapExpertUUIDUserAttr':
+					case 'ldapExpertUUIDGroupAttr':
+					case 'ldapExtStorageHomeAttribute':
+					case 'ldapAttributePhone':
+					case 'ldapAttributeWebsite':
+					case 'ldapAttributeAddress':
+					case 'ldapAttributeTwitter':
+					case 'ldapAttributeFediverse':
+					case 'ldapAttributeOrganisation':
+					case 'ldapAttributeRole':
+					case 'ldapAttributeHeadline':
+					case 'ldapAttributeBiography':
+					case 'ldapAttributeBirthDate':
+					case 'ldapAttributeAnniversaryDate':
 						$readMethod = 'getLcValue';
 						break;
 					case 'ldapUserDisplayName':
