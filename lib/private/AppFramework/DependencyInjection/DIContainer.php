@@ -245,12 +245,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				)
 			);
 
-			$dispatcher->registerMiddleware(
-				new FlowV2EphemeralSessionsMiddleware(
-					$c->get(ISession::class),
-					$c->get(IUserSession::class),
-				)
-			);
+			$dispatcher->registerMiddleware($c->get(FlowV2EphemeralSessionsMiddleware::class));
 
 			$securityMiddleware = new SecurityMiddleware(
 				$c->get(IRequest::class),
