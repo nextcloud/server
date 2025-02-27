@@ -7,6 +7,9 @@
  */
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use OCP\IRequest;
+use OCP\Server;
+use OCP\Template\ITemplateManager;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -40,7 +43,7 @@ try {
 		throw new \Exception('Service unavailable', 503);
 	}
 
-	$request = \OC::$server->getRequest();
+	$request = Server::get(IRequest::class);
 	$pathInfo = $request->getPathInfo();
 	if ($pathInfo === false || $pathInfo === '') {
 		throw new \Exception('Path not found', 404);
@@ -86,10 +89,10 @@ try {
 		$status = 503;
 	}
 	//show the user a detailed error page
-	\OCP\Server::get(LoggerInterface::class)->error($ex->getMessage(), ['app' => 'public', 'exception' => $ex]);
-	OC_Template::printExceptionErrorPage($ex, $status);
+	Server::get(LoggerInterface::class)->error($ex->getMessage(), ['app' => 'public', 'exception' => $ex]);
+	Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, $status);
 } catch (Error $ex) {
 	//show the user a detailed error page
-	\OCP\Server::get(LoggerInterface::class)->error($ex->getMessage(), ['app' => 'public', 'exception' => $ex]);
-	OC_Template::printExceptionErrorPage($ex, 500);
+	Server::get(LoggerInterface::class)->error($ex->getMessage(), ['app' => 'public', 'exception' => $ex]);
+	Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, 500);
 }

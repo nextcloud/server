@@ -286,6 +286,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(\OCP\DirectEditing\IManager::class, \OC\DirectEditing\Manager::class);
 		$this->registerAlias(ITemplateManager::class, TemplateManager::class);
+		$this->registerAlias(\OCP\Template\ITemplateManager::class, \OC\Template\TemplateManager::class);
 
 		$this->registerAlias(IActionFactory::class, ActionFactory::class);
 
