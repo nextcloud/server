@@ -2176,7 +2176,7 @@ $CONFIG = [
  * this server instance. All connections made from later clients will be denied
  * by the server.
  *
- * Defaults to 99.99.99
+ * Defaults to ``99.99.99``
  */
 'maximum.supported.desktop.version' => '99.99.99',
 
