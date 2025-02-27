@@ -202,6 +202,7 @@ return array(
     'OCP\\Calendar\\IAvailabilityResult' => $baseDir . '/lib/public/Calendar/IAvailabilityResult.php',
     'OCP\\Calendar\\ICalendar' => $baseDir . '/lib/public/Calendar/ICalendar.php',
     'OCP\\Calendar\\ICalendarEventBuilder' => $baseDir . '/lib/public/Calendar/ICalendarEventBuilder.php',
+    'OCP\\Calendar\\ICalendarIsEnabled' => $baseDir . '/lib/public/Calendar/ICalendarIsEnabled.php',
     'OCP\\Calendar\\ICalendarIsShared' => $baseDir . '/lib/public/Calendar/ICalendarIsShared.php',
     'OCP\\Calendar\\ICalendarIsWritable' => $baseDir . '/lib/public/Calendar/ICalendarIsWritable.php',
     'OCP\\Calendar\\ICalendarProvider' => $baseDir . '/lib/public/Calendar/ICalendarProvider.php',
