@@ -507,6 +507,30 @@ class Manager extends PublicEmitter implements IUserManager {
 	}
 
 	/**
+	 * returns how many users per backend exist in the requested groups (if supported by backend)
+	 *
+	 * @param IGroup[] $groups an array of groups to search in
+	 * @param int $limit limit to stop counting
+	 * @return array{int,int} total number of users, and number of disabled users in the given groups, below $limit. If limit is reached, -1 is returned for number of disabled users
+	 */
+	public function countUsersAndDisabledUsersOfGroups(array $groups, int $limit): array {
+		$users = [];
+		$disabled = [];
+		foreach ($groups as $group) {
+			foreach ($group->getUsers() as $user) {
+				$users[$user->getUID()] = 1;
+				if (!$user->isEnabled()) {
+					$disabled[$user->getUID()] = 1;
+				}
+				if (count($users) >= $limit) {
+					return [count($users),-1];
+				}
+			}
+		}
+		return [count($users),count($disabled)];
+	}
+
+	/**
 	 * The callback is executed for each user on each backend.
 	 * If the callback returns false no further users will be retrieved.
 	 *
