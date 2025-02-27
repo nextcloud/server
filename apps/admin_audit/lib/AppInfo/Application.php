@@ -145,6 +145,7 @@ class Application extends App implements IBootstrap {
 		Util::connectHook('OC_User', 'pre_login', $authActions, 'loginAttempt');
 		Util::connectHook('OC_User', 'post_login', $authActions, 'loginSuccessful');
 		Util::connectHook('OC_User', 'logout', $authActions, 'logout');
+		Util::connectHook('OC_User', 'login_failed', $authActions, 'loginFailed');
 	}
 
 	private function appHooks(IAuditLogger $logger,
