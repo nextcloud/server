@@ -43,9 +43,11 @@ class MiddleController extends BaseController {
 	/**
 	 * @psalm-param int<-4, 42> $rangedOne
 	 * @psalm-param int<min, max> $rangedTwo
+	 * @psalm-param int<1, 6>|null $rangedThree
+	 * @psalm-param ?int<-70, -30> $rangedFour
 	 * @return void
 	 */
-	public function test4(int $rangedOne, int $rangedTwo) {
+	public function test4(int $rangedOne, int $rangedTwo, ?int $rangedThree, ?int $rangedFour) {
 	}
 }
 
@@ -239,5 +241,13 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 		$rangeInfo2 = $reader->getRange('rangedTwo');
 		$this->assertSame(PHP_INT_MIN, $rangeInfo2['min']);
 		$this->assertSame(PHP_INT_MAX, $rangeInfo2['max']);
+
+		$rangeInfo3 = $reader->getRange('rangedThree');
+		$this->assertSame(1, $rangeInfo3['min']);
+		$this->assertSame(6, $rangeInfo3['max']);
+
+		$rangeInfo3 = $reader->getRange('rangedFour');
+		$this->assertSame(-70, $rangeInfo3['min']);
+		$this->assertSame(-30, $rangeInfo3['max']);
 	}
 }
