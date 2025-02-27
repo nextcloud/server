@@ -15,6 +15,7 @@ use OC\Search\SearchQuery;
 use OC\Template\CSSResourceLocator;
 use OC\Template\JSConfigHelper;
 use OC\Template\JSResourceLocator;
+use OC\Template\Template;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
@@ -25,35 +26,29 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Server;
 use OCP\ServerVersion;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
 
-class TemplateLayout extends \OC_Template {
-	private static $versionHash = '';
+class TemplateLayout extends Template {
+	private static string $versionHash = '';
 	/** @var string[] */
 	private static $cacheBusterCache = [];
 
-	/** @var CSSResourceLocator|null */
-	public static $cssLocator = null;
-
-	/** @var JSResourceLocator|null */
-	public static $jsLocator = null;
+	public static ?CSSResourceLocator $cssLocator = null;
+	public static ?JSResourceLocator $jsLocator = null;
 
 	private IConfig $config;
 	private IAppManager $appManager;
 	private InitialStateService $initialState;
 	private INavigationManager $navigationManager;
 
-	/**
-	 * @param string $renderAs
-	 * @param string $appId application id
-	 */
-	public function __construct($renderAs, $appId = '') {
-		$this->config = \OCP\Server::get(IConfig::class);
-		$this->appManager = \OCP\Server::get(IAppManager::class);
-		$this->initialState = \OCP\Server::get(InitialStateService::class);
-		$this->navigationManager = \OCP\Server::get(INavigationManager::class);
+	public function __construct(string $renderAs, string $appId = '') {
+		$this->config = Server::get(IConfig::class);
+		$this->appManager = Server::get(IAppManager::class);
+		$this->initialState = Server::get(InitialStateService::class);
+		$this->navigationManager = Server::get(INavigationManager::class);
 
 		// Add fallback theming variables if not rendered as user
 		if ($renderAs !== TemplateResponse::RENDER_AS_USER) {
@@ -84,8 +79,7 @@ class TemplateLayout extends \OC_Template {
 			// Set body data-theme
 			$this->assign('enabledThemes', []);
 			if ($this->appManager->isEnabledForUser('theming') && class_exists('\OCA\Theming\Service\ThemesService')) {
-				/** @var \OCA\Theming\Service\ThemesService */
-				$themesService = \OC::$server->get(\OCA\Theming\Service\ThemesService::class);
+				$themesService = Server::get(\OCA\Theming\Service\ThemesService::class);
 				$this->assign('enabledThemes', $themesService->getEnabledThemes());
 			}
 
@@ -122,7 +116,7 @@ class TemplateLayout extends \OC_Template {
 			}
 
 			$userDisplayName = false;
-			$user = \OC::$server->get(IUserSession::class)->getUser();
+			$user = Server::get(IUserSession::class)->getUser();
 			if ($user) {
 				$userDisplayName = $user->getDisplayName();
 			}
@@ -161,8 +155,7 @@ class TemplateLayout extends \OC_Template {
 			// Set body data-theme
 			$this->assign('enabledThemes', []);
 			if ($this->appManager->isEnabledForUser('theming') && class_exists('\OCA\Theming\Service\ThemesService')) {
-				/** @var \OCA\Theming\Service\ThemesService $themesService */
-				$themesService = \OC::$server->get(\OCA\Theming\Service\ThemesService::class);
+				$themesService = Server::get(\OCA\Theming\Service\ThemesService::class);
 				$this->assign('enabledThemes', $themesService->getEnabledThemes());
 			}
 
@@ -170,8 +163,7 @@ class TemplateLayout extends \OC_Template {
 			$logoUrl = $this->config->getSystemValueString('logo_url', '');
 			$this->assign('logoUrl', $logoUrl);
 
-			/** @var IRegistry $subscription */
-			$subscription = \OCP\Server::get(IRegistry::class);
+			$subscription = Server::get(IRegistry::class);
 			$showSimpleSignup = $this->config->getSystemValueBool('simpleSignUpLink.shown', true);
 			if ($showSimpleSignup && $subscription->delegateHasValidSubscription()) {
 				$showSimpleSignup = false;
@@ -184,7 +176,7 @@ class TemplateLayout extends \OC_Template {
 			}
 
 			if ($this->appManager->isEnabledForUser('registration')) {
-				$urlGenerator = \OCP\Server::get(IURLGenerator::class);
+				$urlGenerator = Server::get(IURLGenerator::class);
 				$signUpLink = $urlGenerator->getAbsoluteURL('/index.php/apps/registration/');
 			}
 
@@ -194,9 +186,10 @@ class TemplateLayout extends \OC_Template {
 			parent::__construct('core', 'layout.base');
 		}
 		// Send the language, locale, and direction to our layouts
-		$lang = \OC::$server->get(IFactory::class)->findLanguage();
-		$locale = \OC::$server->get(IFactory::class)->findLocale($lang);
-		$direction = \OC::$server->getL10NFactory()->getLanguageDirection($lang);
+		$l10nFactory = Server::get(IFactory::class);
+		$lang = $l10nFactory->findLanguage();
+		$locale = $l10nFactory->findLocale($lang);
+		$direction = $l10nFactory->getLanguageDirection($lang);
 
 		$lang = str_replace('_', '-', $lang);
 		$this->assign('language', $lang);
@@ -249,15 +242,17 @@ class TemplateLayout extends \OC_Template {
 			$this->append('jsfiles', $web . '/' . $file . $this->getVersionHashSuffix());
 		}
 
+		$request = \OCP\Server::get(IRequest::class);
+
 		try {
-			$pathInfo = \OC::$server->getRequest()->getPathInfo();
+			$pathInfo = $request->getPathInfo();
 		} catch (\Exception $e) {
 			$pathInfo = '';
 		}
 
 		// Do not initialise scss appdata until we have a fully installed instance
 		// Do not load scss for update, errors, installation or login page
-		if (\OC::$server->getSystemConfig()->getValue('installed', false)
+		if ($this->config->getSystemValueBool('installed', false)
 			&& !\OCP\Util::needUpgrade()
 			&& $pathInfo !== ''
 			&& !preg_match('/^\/login/', $pathInfo)
@@ -291,7 +286,6 @@ class TemplateLayout extends \OC_Template {
 			}
 		}
 
-		$request = \OCP\Server::get(IRequest::class);
 		if ($request->isUserAgent([Request::USER_AGENT_CLIENT_IOS, Request::USER_AGENT_SAFARI, Request::USER_AGENT_SAFARI_MOBILE])) {
 			// Prevent auto zoom with iOS but still allow user zoom
 			// On chrome (and others) this does not work (will also disable user zoom)

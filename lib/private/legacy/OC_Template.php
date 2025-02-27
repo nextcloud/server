@@ -19,7 +19,7 @@ class OC_Template extends \OC\Template\Template {
 	 * Shortcut to print a simple page for guests
 	 * @param string $application The application we render the template for
 	 * @param string $name Name of the template
-	 * @param array|string $parameters Parameters for the template
+	 * @param array $parameters Parameters for the template
 	 * @return bool
 	 * @deprecated 32.0.0 Use \OCP\Template\ITemplateManager instead
 	 */

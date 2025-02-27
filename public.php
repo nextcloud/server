@@ -14,6 +14,7 @@ use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Server;
+use OCP\Template\ITemplateManager;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -92,9 +93,9 @@ try {
 	}
 	//show the user a detailed error page
 	Server::get(LoggerInterface::class)->error($ex->getMessage(), ['app' => 'public', 'exception' => $ex]);
-	OC_Template::printExceptionErrorPage($ex, $status);
+	Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, $status);
 } catch (Error $ex) {
 	//show the user a detailed error page
 	Server::get(LoggerInterface::class)->error($ex->getMessage(), ['app' => 'public', 'exception' => $ex]);
-	OC_Template::printExceptionErrorPage($ex, 500);
+	Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, 500);
 }
