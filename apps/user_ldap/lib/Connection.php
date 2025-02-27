@@ -627,19 +627,6 @@ class Connection extends LDAPUtility {
 
 				return false;
 			}
-			if ($this->configuration->turnOffCertCheck) {
-				if (putenv('LDAPTLS_REQCERT=never')) {
-					$this->logger->debug(
-						'Turned off SSL certificate validation successfully.',
-						['app' => 'user_ldap']
-					);
-				} else {
-					$this->logger->warning(
-						'Could not turn off SSL certificate validation.',
-						['app' => 'user_ldap']
-					);
-				}
-			}
 
 			$hasBackupHost = (trim($this->configuration->ldapBackupHost ?? '') !== '');
 			$hasBackgroundHost = (trim($this->configuration->ldapBackgroundHost ?? '') !== '');
@@ -718,6 +705,20 @@ class Connection extends LDAPUtility {
 		}
 
 		if ($this->configuration->ldapTLS) {
+			if ($this->configuration->turnOffCertCheck) {
+				if ($this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_X_TLS_REQUIRE_CERT, LDAP_OPT_X_TLS_NEVER)) {
+					$this->logger->debug(
+						'Turned off SSL certificate validation successfully.',
+						['app' => 'user_ldap']
+					);
+				} else {
+					$this->logger->warning(
+						'Could not turn off SSL certificate validation.',
+						['app' => 'user_ldap']
+					);
+				}
+			}
+
 			if (!$this->ldap->startTls($this->ldapConnectionRes)) {
 				throw new ServerNotAvailableException('Start TLS failed, when connecting to LDAP host ' . $host . '.');
 			}
