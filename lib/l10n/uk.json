@@ -36,7 +36,6 @@
     "Server version %s or higher is required." : "Потрібна версія сервера %s або вище.",
     "Server version %s or lower is required." : "Потрібна версія сервера %s або нижча.",
     "Logged in account must be an admin, a sub admin or gotten special right to access this setting" : "Обліковий запис для входу має бути адміністратором, заступником адміністратора або мати спеціальні права доступу до цих налаштувань.",
-    "Your current IP address doesn’t allow you to perform admin actions" : "Ваша поточна адреса IP не дозволяє виконувати адміністративні дії",
     "Logged in account must be an admin or sub admin" : "Обліковий запис для входу має бути адміністратором, заступником адміністратора",
     "Logged in account must be an admin" : "Обліковий запис для входу має бути адміністратором",
     "Wiping of device %s has started" : "Розпочато очищення пристрою %s",
@@ -148,7 +147,6 @@
     "Oracle connection could not be established" : "Не можемо з'єднатися з Oracle ",
     "Oracle Login and/or password not valid" : "Ім'я користувача та/або пароль Oracle не дійсні",
     "PostgreSQL Login and/or password not valid" : "Ім'я користувача та/або пароль PostgreSQL не дійсні",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X не підтримується і %s не буде коректно працювати на цій платформі. Випробовуєте на свій риск!",
     "For the best results, please consider using a GNU/Linux server instead." : "Для кращих результатів розгляньте можливість використання GNU/Linux серверу",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Ймовірно, що сервер %s працює в 32-бітному PHP середовищі і open_basedir повинен бути налаштований в php.ini. Це призведе до проблем з файлами більше 4 ГБ і це дуже не рекомендується.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Будь ласка, вилучіть параметр open_basedir у вашому php.ini або перейдіть на 64-бітний PHP.",
@@ -269,7 +267,7 @@
     "Account disabled" : "Обліковий запис вимкнено",
     "Login canceled by app" : "Вхід скасовано застосунком",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Застосунок \"%1$s\" неможливо встановити, оскільки не виконано такі залежності: %2$s",
-    "a safe home for all your data" : "безпечний дім для ваших даних",
+    "a safe home for all your data" : "безпечна домівка для ваших даних",
     "Application is not enabled" : "Застосунок не увімкнено",
     "Authentication error" : "Помилка авторизації",
     "Token expired. Please reload page." : "Строк дії токена скінчився. Будь ласка, перезавантажте сторінку.",
@@ -355,6 +353,8 @@
     "Click the button below to open it." : "Щоб відкрити файл, натисніть кнопку нижче.",
     "File is currently busy, please try again later" : "Файл на разі зайнятий, будь ласка, спробуйте пізніше",
     "Cannot download file" : "Неможливо звантажити файл",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Переконайтеся, що в корені каталогу даних є файл під назвою \".ocdata\"."
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Переконайтеся, що в корені каталогу даних є файл під назвою \".ocdata\".",
+    "Your current IP address doesn’t allow you to perform admin actions" : "Ваша поточна адреса IP не дозволяє виконувати адміністративні дії",
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X не підтримується і %s не буде коректно працювати на цій платформі. Випробовуєте на свій риск!"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

@@ -16,8 +16,8 @@ OC.L10N.register(
     "Make sure you store the secret key, it cannot be recovered." : "Salvesta salajane võti, seda ei saa taastada.",
     "Add client" : "Lisa klient",
     "Add" : "Lisa",
-    "Delete" : "Kustuta",
     "Show client secret" : "Näita kliendi salakoodi",
-    "Hide client secret" : "Peida kliendi salakood"
+    "Hide client secret" : "Peida kliendi salakood",
+    "Delete" : "Kustuta"
 },
 "nplurals=2; plural=(n != 1);");

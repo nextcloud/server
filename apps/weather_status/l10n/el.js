@@ -7,9 +7,6 @@ OC.L10N.register(
     "Error" : "Σφάλμα",
     "Weather status" : "Κατάσταση καιρού",
     "Weather status in your dashboard" : "Κατάσταση καιρού στον πίνακα ελέγχου",
-    "Detect location" : "Εντοπισμός τοποθεσίας",
-    "Set custom address" : "Ορισμός προσαρμοσμένης διεύθυνσης",
-    "Favorites" : "Αγαπημένα",
     "{temperature} {unit} clear sky" : "{temperature} {unit} καθαρός ουρανός",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} συννεφιά αργότερα σήμερα",
     "{temperature} {unit} cloudy" : "{temperature} {unit} συννεφιά",
@@ -33,6 +30,9 @@ OC.L10N.register(
     "There was an error setting the location address." : "Παρουσιάστηκε σφάλμα κατά τον καθορισμό της διεύθυνσης τοποθεσίας.",
     "There was an error setting the location." : "Παρουσιάστηκε σφάλμα κατά τη ρύθμιση της τοποθεσίας.",
     "There was an error saving the mode." : "Παρουσιάστηκε σφάλμα κατά την αποθήκευση της λειτουργίας.",
-    "There was an error using personal address." : "Παρουσιάστηκε σφάλμα κατά τη χρήση της προσωπικής διεύθυνσης."
+    "There was an error using personal address." : "Παρουσιάστηκε σφάλμα κατά τη χρήση της προσωπικής διεύθυνσης.",
+    "Detect location" : "Εντοπισμός τοποθεσίας",
+    "Set custom address" : "Ορισμός προσαρμοσμένης διεύθυνσης",
+    "Favorites" : "Αγαπημένα"
 },
 "nplurals=2; plural=(n != 1);");

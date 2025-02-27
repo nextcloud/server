@@ -9,7 +9,6 @@ OC.L10N.register(
     "No action specified" : "No se ha especificado alguna acción",
     "No configuration specified" : "No se ha especificado una configuración",
     "No data specified" : "No se han especificado datos",
-    " Could not set configuration %s" : "No fue posible establecer la configuración %s",
     "Action does not exist" : "La acción no existe",
     "Renewing …" : "Renovando ...",
     "Very weak password" : "Contraseña muy debil",
@@ -48,7 +47,6 @@ OC.L10N.register(
     "An unspecified error occurred. Please check log and settings." : "Se presentó un error inesperado. Por fvor verifica la bitácora y las configuraciones.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "El filtro de la búsqueda es inválido, posiblemente debido a temas de sintaxis como un número diferente de corchetes abiertos y cerrados. Por favor verifícalo. ",
     "Please provide a login name to test against" : "Favor de proporcionar un nombre de usuario contra el cual probar",
-    "Password change rejected. Hint: " : "Cambio de contraseña rechazado. Pista: ",
     "Please login with the new password" : "Por favor inicia sesion con la nueva contraseña",
     "Your password will expire tomorrow." : "Tu contraseña expirará mañana.",
     "Your password will expire today." : "Tu contraseña expirará el día de hoy. ",
@@ -171,6 +169,8 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Mapeo del Usuario al Usuario LDAP",
     "Clear Username-LDAP User Mapping" : "Borrar el mapeo de los Usuarios a los Usuarios-LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Borrar el mapeo de los Nombres de grupo a los grupos-LDAP",
-    "Invalid configuration. Please have a look at the logs for further details." : "Configuración inválida. Por favor verifica las bitácoras para más detalles."
+    "Invalid configuration. Please have a look at the logs for further details." : "Configuración inválida. Por favor verifica las bitácoras para más detalles.",
+    " Could not set configuration %s" : "No fue posible establecer la configuración %s",
+    "Password change rejected. Hint: " : "Cambio de contraseña rechazado. Pista: "
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

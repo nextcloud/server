@@ -3,14 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Dasbor",
     "Dashboard app" : "Aplikasi dasbor",
-    "Customize" : "Sesuaikan",
-    "Edit widgets" : "Edit widget",
-    "Get more widgets from the App Store" : "Dapatkan lebih banyak widget dari App Store",
-    "Weather service" : "Layanan cuaca",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Untuk privasi Anda, data cuaca diminta oleh server Nextcloud Anda atas nama Anda sehingga layanan cuaca tidak menerima informasi pribadi.",
-    "Weather data from Met.no" : "Data cuaca dari Met.no",
-    "geocoding with Nominatim" : "Secara khusus, dengan geocoding",
-    "elevation data from OpenTopoData" : "data ketinggian dari OpenTopoData",
     "Weather" : "Cuaca",
     "Status" : "Status",
     "Good morning" : "Selamat pagi",
@@ -20,6 +12,14 @@ OC.L10N.register(
     "Good evening" : "Selamat malam",
     "Good evening, {name}" : "Selamat malam, {name}",
     "Hello" : "Halo",
-    "Hello, {name}" : "Halo, {name}"
+    "Hello, {name}" : "Halo, {name}",
+    "Customize" : "Sesuaikan",
+    "Edit widgets" : "Edit widget",
+    "Get more widgets from the App Store" : "Dapatkan lebih banyak widget dari App Store",
+    "Weather service" : "Layanan cuaca",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Untuk privasi Anda, data cuaca diminta oleh server Nextcloud Anda atas nama Anda sehingga layanan cuaca tidak menerima informasi pribadi.",
+    "Weather data from Met.no" : "Data cuaca dari Met.no",
+    "geocoding with Nominatim" : "Secara khusus, dengan geocoding",
+    "elevation data from OpenTopoData" : "data ketinggian dari OpenTopoData"
 },
 "nplurals=1; plural=0;");

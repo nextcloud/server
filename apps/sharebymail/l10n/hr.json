@@ -26,8 +26,6 @@
     "%1$s shared »%2$s« with you." : "%1$s dijeli »%2$s« s vama.",
     "Click the button below to open it." : "Kliknite gumb u nastavku za otvaranje.",
     "Open »%s«" : "Otvori »%s«",
-    "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s dijeli »%2$s« s vama.\nTrebali ste već primiti poruku e-pošte s poveznicom za pristupanje.\n",
-    "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s dijeli »%2$s« s vama. Trebali ste već primiti poruku e-pošte s poveznicom za pristupanje.",
     "Password to access »%1$s« shared to you by %2$s" : "Zaporku za pristupanje »%1$s« s vama dijeli %2$s",
     "Password to access »%s«" : "Zaporka za pristupanje »%s«",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s dijeli »%2$s« s vama i želi dodati:",

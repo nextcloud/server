@@ -7,9 +7,6 @@ OC.L10N.register(
     "Error" : "Eroare",
     "Weather status" : "Starea vremii",
     "Weather status in your dashboard" : "Starea vremii pe ecranul principal",
-    "Detect location" : "Detectează locația",
-    "Set custom address" : "Setează adresă personalizată",
-    "Favorites" : "Favorite",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} cer senin astăzi mai târziu",
     "{temperature} {unit} clear sky" : "{temperature} {unit} cer senin",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} înourat mai târziu",
@@ -32,6 +29,9 @@ OC.L10N.register(
     "There was an error setting the location address." : "A apărut o eroare în timpul setării locației adresei.",
     "There was an error setting the location." : "A apărut o eroare în timpul setării locației.",
     "There was an error saving the mode." : "A apărut o eroare în timpul salvării modului.",
-    "There was an error using personal address." : "A apărut o eroare în timpul folosirii adresei perosnale."
+    "There was an error using personal address." : "A apărut o eroare în timpul folosirii adresei perosnale.",
+    "Detect location" : "Detectează locația",
+    "Set custom address" : "Setează adresă personalizată",
+    "Favorites" : "Favorite"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");
