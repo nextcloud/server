@@ -41,6 +41,8 @@ use OCP\Security\ISecureRandom;
 class ClientFlowLoginV2Controller extends Controller {
 	public const TOKEN_NAME = 'client.flow.v2.login.token';
 	public const STATE_NAME = 'client.flow.v2.state.token';
+	// Denotes that the session was created for the login flow and should therefore be ephemeral.
+	public const EPHEMERAL_NAME = 'client.flow.v2.state.ephemeral';
 
 	public function __construct(
 		string $appName,
