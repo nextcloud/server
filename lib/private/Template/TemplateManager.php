@@ -16,9 +16,10 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\Server;
 use OCP\Template\ITemplate;
+use OCP\Template\ITemplateManager;
 use Psr\Log\LoggerInterface;
 
-class TemplateManager {
+class TemplateManager implements ITemplateManager {
 	public function __construct(
 		private IAppManager $appManager,
 		private IEventDispatcher $eventDispatcher,

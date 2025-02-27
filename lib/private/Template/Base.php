@@ -75,20 +75,18 @@ class Base {
 	 *
 	 * If the key existed before, it will be overwritten
 	 */
-	public function assign(string $key, float|array|bool|int|string|\Throwable|null $value): void {
+	public function assign(string $key, mixed $value): void {
 		$this->vars[$key] = $value;
 	}
 
 	/**
 	 * Appends a variable
-	 * @param string $key key
-	 * @param mixed $value value
 	 *
 	 * This function assigns a variable in an array context. If the key already
 	 * exists, the value will be appended. It can be accessed via
 	 * $_[$key][$position] in the template.
 	 */
-	public function append($key, $value) {
+	public function append(string $key, mixed $value): void {
 		if (array_key_exists($key, $this->vars)) {
 			$this->vars[$key][] = $value;
 		} else {

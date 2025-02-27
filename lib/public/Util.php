@@ -107,7 +107,7 @@ class Util {
 	 * @param string $file
 	 * @since 4.0.0
 	 */
-	public static function addStyle($application, $file = null) {
+	public static function addStyle($application, $file = null): void {
 		\OC_Util::addStyle($application, $file);
 	}
 

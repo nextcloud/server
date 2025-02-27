@@ -34,5 +34,14 @@ interface ITemplate {
 	 * If the key existed before, it will be overwritten
 	 * @since 32.0.0
 	 */
-	public function assign(string $key, float|array|bool|int|string|\Throwable|null $value): void;
+	public function assign(string $key, mixed $value): void;
+
+	/**
+	 * Appends a variable
+	 *
+	 * This function assigns a variable in an array context. If the key already
+	 * exists, the value will be appended. It can be accessed via
+	 * $_[$key][$position] in the template.
+	 */
+	public function append(string $key, mixed $value): void;
 }
