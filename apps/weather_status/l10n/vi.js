@@ -7,9 +7,6 @@ OC.L10N.register(
     "Weather status" : "Tình trạng thời tiết",
     "Weather status in your dashboard" : "Tình trạng thời tiết trên bảng điều khiển của bạn",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Tình trạng thời tiết được tích hợp trong ứng dụng Dashboard.\nVị trí địa lý có thể được xác định tự động hoặc được xác định thủ công. Một dự báo 6 giờ sẽ được hiển thị.\nTình trạng này cũng có thể được tích hợp vào các nơi khác như ứng dụng Lịch.",
-    "Detect location" : "Phát hiện vị trí",
-    "Set custom address" : "Cài đặt vị trí tuỳ chọn",
-    "Favorites" : "Ưa thích",
     "{temperature} {unit} clear sky later today" : "Trời quang đãng vào cuối ngày hôm nay",
     "{temperature} {unit} clear sky" : "{temperature} {unit} trời quang",
     "{temperature} {unit} cloudy later today" : "Trời nhiều mây vào cuối ngày hôm nay",
@@ -44,6 +41,9 @@ OC.L10N.register(
     "There was an error setting the location address." : "Đã xảy ra lỗi khi thiết lập địa chỉ vị trí.",
     "There was an error setting the location." : "Đã xảy ra lỗi khi thiết lập vị trí.",
     "There was an error saving the mode." : "Đã xảy ra lỗi khi lưu chế độ.",
-    "There was an error using personal address." : "Có lỗi khi sử dụng địa chỉ cá nhân."
+    "There was an error using personal address." : "Có lỗi khi sử dụng địa chỉ cá nhân.",
+    "Detect location" : "Phát hiện vị trí",
+    "Set custom address" : "Cài đặt vị trí tuỳ chọn",
+    "Favorites" : "Ưa thích"
 },
 "nplurals=1; plural=0;");

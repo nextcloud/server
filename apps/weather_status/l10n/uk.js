@@ -7,9 +7,6 @@ OC.L10N.register(
     "Error" : "Помилка",
     "Weather status" : "Прогноз погоди",
     "Weather status in your dashboard" : "Статус погоди на вашій інформаційній панелі",
-    "Detect location" : "Визначити місце розташування",
-    "Set custom address" : "Встановити власну адресу",
-    "Favorites" : "Із зірочкою",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} ясне небо пізніше сьогодні",
     "{temperature} {unit} clear sky" : "{temperature} {unit} ясне небо",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} хмарно пізніше сьогодні",
@@ -44,6 +41,9 @@ OC.L10N.register(
     "There was an error setting the location address." : "Виникла помилка при встановленні адреси розташування.",
     "There was an error setting the location." : "Під час встановлення місця розташування сталася помилка.",
     "There was an error saving the mode." : "Під час збереження режиму сталася помилка.",
-    "There was an error using personal address." : "Під час використання особистої адреси сталася помилка."
+    "There was an error using personal address." : "Під час використання особистої адреси сталася помилка.",
+    "Detect location" : "Визначити місце розташування",
+    "Set custom address" : "Встановити власну адресу",
+    "Favorites" : "Із зірочкою"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -9,7 +9,6 @@ OC.L10N.register(
     "No action specified" : "Der er ikke angivet en handling",
     "No configuration specified" : "Der er ikke angivet en konfiguration",
     "No data specified" : "Der er ikke angivet data",
-    " Could not set configuration %s" : "Kunne ikke indstille konfigurationen %s",
     "Action does not exist" : "Handlingen findes ikke",
     "Renewing …" : "Fornyer...",
     "Very weak password" : "Meget svag adgangskode",
@@ -50,7 +49,6 @@ OC.L10N.register(
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "Søgefilteret er ugyldigt - sandsynligvis på grund af problemer med syntaksen, såsom et ulige antal åbne og lukkede parenteser. Gennemse venligst. ",
     "A connection error to LDAP/AD occurred. Please check host, port and credentials." : "En forbindelsesfejl opstod til LDAP/AD. Kontroller venligst host, port og legitimationsoplysninger.",
     "Please provide a login name to test against" : "Angiv venligst et loginnavn for at teste mod",
-    "Password change rejected. Hint: " : "Kodeord ændring afvist. Hint:",
     "Please login with the new password" : "Log venligst ind med din nye adgangskode",
     "LDAP User backend" : "LDAP Bruger-backend",
     "Your password will expire tomorrow." : "Din adgangskode udløber i morgen.",
@@ -178,6 +176,8 @@ OC.L10N.register(
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Brugernavne bruges til at lagre og tildele metadata. For at kunne identificere og genkende brugere præcist, vil hver LDAP-bruger få oprettet et internt brugernavn. Det oprettede brugernavn svarer til UUID'et for LDAP-brugeren. I tillæg hertil, så caches DN'et for at mindske LDAP-interaktioner, men det benyttes ikke til identifikation. Hvis DN'et ændres, vil ændringerne blive registreret. Det interne brugernavn anvendes overalt. Ryddes sammenkædningen, så vil der være rester overalt. Rydning af sammenkædningerne er ikke konfigurationssensitive - det påvirker alle LDAP-konfigurationer! Ryd aldrig sammenkædningerne i et produktionsmiljø, kun i et teststadie eller eksperimentelt stadie.",
     "Clear Username-LDAP User Mapping" : "Ryd kortlægning mellem brugernavn og LDAP-bruger",
     "Clear Groupname-LDAP Group Mapping" : "Ryd kortlægning mellem gruppenavn og LDAP-gruppe",
-    "Invalid configuration. Please have a look at the logs for further details." : "Ikke gyldig konfiguration. Kig venligst på logfilerne for mere information."
+    "Invalid configuration. Please have a look at the logs for further details." : "Ikke gyldig konfiguration. Kig venligst på logfilerne for mere information.",
+    " Could not set configuration %s" : "Kunne ikke indstille konfigurationen %s",
+    "Password change rejected. Hint: " : "Kodeord ændring afvist. Hint:"
 },
 "nplurals=2; plural=(n != 1);");

@@ -8,9 +8,6 @@ OC.L10N.register(
     "Weather status" : "ھاۋارايى ئەھۋالى",
     "Weather status in your dashboard" : "باشقۇرۇش تاختىڭىزدىكى ھاۋارايى ئەھۋالى",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "باش تاختا دېتالىغا بىرلەشتۈرۈلگەن ھاۋارايى ئەھۋالى.\n    جۇغراپىيىلىك ئورۇننى ئاپتوماتىك بەلگىلىگىلى ياكى قولدا بەلگىلىگىلى بولىدۇ. ئاندىن 6 سائەتلىك پەرەز كۆرسىتىلىدۇ.\n    بۇ ھالەتنى كالېندار دېتالىغا ئوخشاش باشقا جايلارغىمۇ بىرلەشتۈرگىلى بولىدۇ.",
-    "Detect location" : "ئورۇننى ئېنىقلاڭ",
-    "Set custom address" : "ئىختىيارى ئادرېس بەلگىلەڭ",
-    "Favorites" : "يىغقۇچ",
     "{temperature} {unit} clear sky later today" : "بۈگۈن {temperature} {unit} سۈزۈك ئاسمان",
     "{temperature} {unit} clear sky" : "{temperature} {unit} سۈزۈك ئاسمان",
     "{temperature} {unit} cloudy later today" : "بۈگۈن {temperature} {unit} بۇلۇتلۇق",
@@ -58,6 +55,9 @@ OC.L10N.register(
     "There was an error setting the location." : "ئورۇن بەلگىلەشتە خاتالىق كۆرۈلدى.",
     "There was an error saving the mode." : "ھالەتنى ساقلاشتا خاتالىق كۆرۈلدى.",
     "There was an error using personal address." : "شەخسىي ئادرېسنى ئىشلىتىپ خاتالىق كۆرۈلدى.",
-    "Unknown weather code" : "نامەلۇم ھاۋارايى كودى"
+    "Unknown weather code" : "نامەلۇم ھاۋارايى كودى",
+    "Detect location" : "ئورۇننى ئېنىقلاڭ",
+    "Set custom address" : "ئىختىيارى ئادرېس بەلگىلەڭ",
+    "Favorites" : "يىغقۇچ"
 },
 "nplurals=2; plural=(n != 1);");

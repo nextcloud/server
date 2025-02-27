@@ -10,7 +10,6 @@ OC.L10N.register(
     "No configuration specified" : "Конфигурация не указана",
     "No data specified" : "Нет данных",
     "Invalid data specified" : "Указаны некорректные данные",
-    " Could not set configuration %s" : "Невозможно создать конфигурацию %s",
     "Action does not exist" : "Действие не существует",
     "Renewing …" : "Обновление…",
     "Very weak password" : "Очень слабый пароль",
@@ -53,7 +52,6 @@ OC.L10N.register(
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "Заполнитель \"%uid\" отсутствует. Он будет заменён именем пользователя при запросе LDAP/AD.",
     "Please provide a login name to test against" : "Пожалуйста, укажите логин для проверки",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "Блок группы был отключен, поскольку сервер LDAP/AD не поддерживает memberOf.",
-    "Password change rejected. Hint: " : "Смена пароля отклонена. Подсказка:",
     "Please login with the new password" : "Войдите в систему со своим новым паролем",
     "LDAP User backend" : "Механизм учета пользователей LDAP",
     "Your password will expire tomorrow." : "Завтра истекает срок действия пароля.",
@@ -220,6 +218,8 @@ OC.L10N.register(
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Имена пользователей используются для хранения и назначения метаданных. Для точной идентификации и распознавания пользователей, каждый пользователь LDAP будет иметь свое внутреннее имя пользователя. Это требует привязки имени пользователя к пользователю LDAP. При создании имя пользователя назначается идентификатору UUID пользователя LDAP. Помимо этого кешируется DN для уменьшения числа обращений к LDAP, однако он не используется для идентификации. Если DN был изменён, то изменения будут найдены. Внутреннее имя используется повсеместно. После сброса привязок в базе могут сохраниться остатки старой информации. Сброс привязок не привязан к конфигурации, он повлияет на все LDAP подключения! Ни в коем случае не рекомендуется сбрасывать привязки если система уже находится в эксплуатации, только на этапе тестирования.",
     "Clear Username-LDAP User Mapping" : "Очистить соответствия Имя-Пользователь LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Очистить соответствия Группа-Группа LDAP",
-    "Invalid configuration. Please have a look at the logs for further details." : "Неверная конфигурация. Просмотрите журналы для получения дополнительных сведений."
+    "Invalid configuration. Please have a look at the logs for further details." : "Неверная конфигурация. Просмотрите журналы для получения дополнительных сведений.",
+    " Could not set configuration %s" : "Невозможно создать конфигурацию %s",
+    "Password change rejected. Hint: " : "Смена пароля отклонена. Подсказка:"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

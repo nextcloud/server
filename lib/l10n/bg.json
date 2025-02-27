@@ -112,7 +112,6 @@
     "You cannot use dots in the database name %s" : "Не можете да използвате точки в името на базата данни %s",
     "You need to enter details of an existing account." : "Трябва да въведете подробности за съществуващ профил.",
     "Oracle connection could not be established" : "Не можа да се установи връзка с Oracle",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X не се подържа и %s няма да работи правилно на тази платформа. Използвайте го на свой собствен риск!",
     "For the best results, please consider using a GNU/Linux server instead." : "За най-добри резултати, моля, помисли дали не бихте желали да използваште GNU/Linux сървър.",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : " Изглежда, че този екземпляр %s работи в 32-битова PHP среда и open_basedir е конфигуриран в php.ini. Това ще доведе до проблеми с файлове над 4 GB и е силно обезкуражено.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Моля, премахтене настройката за open_basedir от вашия php.ini или преминете към 64-битово PHP.",
@@ -244,6 +243,7 @@
     "Click the button below to open it." : "Щракнете върху бутона по-долу, за да го отворите.",
     "File is currently busy, please try again later" : "Файлът в момента е зает, моля, опитайте отново по-късно",
     "Cannot download file" : "Файлът не можа да бъде изтеглен",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Уверете се, че има файл, наречен \".ocdata\" в корена на директорията с данни."
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Уверете се, че има файл, наречен \".ocdata\" в корена на директорията с данни.",
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X не се подържа и %s няма да работи правилно на тази платформа. Използвайте го на свой собствен риск!"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

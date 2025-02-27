@@ -28,8 +28,6 @@
     "%1$s shared »%2$s« with you." : "%1$s deelde \"%2$s\" met jou.",
     "Click the button below to open it." : "Klik op onderstaande link om te openen.",
     "Open »%s«" : "Open \"%s\"",
-    "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s heeft \"%2$s\" met je gedeeld.\nJe moet al een aparte e-mail hebben ontvangen met een link om er te komen.\n",
-    "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s heeft \"%2$s\" met je gedeeld. Je moet al een aparte e-mail hebben ontvangen met een link om er te komen.",
     "Password to access »%1$s« shared to you by %2$s" : "Wachtwoord voor toegang tot \"%1$s\" gedeeld met je door %2$s",
     "Password to access »%s«" : "Wachtwoord om binnen te komen \"%s\"",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s deelde \"%2$s\" met jou en wil toevoegen:",

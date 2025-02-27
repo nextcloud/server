@@ -10,7 +10,6 @@ OC.L10N.register(
     "No configuration specified" : "構成が指定されていません",
     "No data specified" : "データが指定されていません",
     "Invalid data specified" : "無効なデータが指定されました",
-    " Could not set configuration %s" : "構成 %s を設定できませんでした",
     "Action does not exist" : "アクションが存在しません",
     "Renewing …" : "更新中 ...",
     "Very weak password" : "非常に弱いパスワードです",
@@ -53,7 +52,6 @@ OC.L10N.register(
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "\"%u\" id のプレースホルダがありません。プレースホルダは、LDAP /ADで問合せするときにログイン名で置き換えられます。",
     "Please provide a login name to test against" : "テストの為にログイン名を入力してください。",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "LDAP/ADサーバーがMemberOfオプションをサポートしていないため、グループボックスは無効になりました。",
-    "Password change rejected. Hint: " : "パスワード変更が拒否されました。ヒント：",
     "Please login with the new password" : "新しいパスワードでログインしてください",
     "LDAP User backend" : "LDAPユーザーバックエンド",
     "Your password will expire tomorrow." : "パスワードが明日期限切れになります。",
@@ -226,6 +224,8 @@ OC.L10N.register(
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "ユーザー名は、メタデータの保存と割り当てに使用されます。 ユーザーを正確に識別して認識するために、各LDAPユーザーには内部ユーザー名が割り当てられます。 これには、ユーザー名からLDAPユーザーへのマッピングが必要です。 作成されたユーザー名は、LDAPユーザーのUUIDにマップされます。 さらに、DNはLDAPインタラクションを減らすためにキャッシュされますが、識別には使用されません。 DNが変更された場合、変更が検出されます。 内部ユーザー名はいたるところで使用されます。 マッピングをクリアすると、どこに残っているか分かります。 マッピングの消去はコンフィギュレーションセンシティブではなく、すべてのLDAP構成に影響します。 本番環境のマッピングをクリアしないでください。テスト環境または実験段階でのみ実施してください。",
     "Clear Username-LDAP User Mapping" : "ユーザー名とLDAPユーザーのマッピングをクリアする",
     "Clear Groupname-LDAP Group Mapping" : "グループ名とLDAPグループのマッピングをクリアする",
-    "Invalid configuration. Please have a look at the logs for further details." : "設定が無効です。詳細はログを確認してください。"
+    "Invalid configuration. Please have a look at the logs for further details." : "設定が無効です。詳細はログを確認してください。",
+    " Could not set configuration %s" : "構成 %s を設定できませんでした",
+    "Password change rejected. Hint: " : "パスワード変更が拒否されました。ヒント："
 },
 "nplurals=1; plural=0;");
