@@ -29,6 +29,7 @@ const defaults = {
 
 const state = {
 	users: [],
+	sectionGroups: [],
 	groups: [],
 	orderBy: GroupSorting.UserCount,
 	minPasswordLength: 0,
@@ -62,6 +63,9 @@ const mutations = {
 	},
 	setPasswordPolicyMinLength(state, length) {
 		state.minPasswordLength = length !== '' ? length : 0
+	},
+	initSectionGroups(state, { sectionGroups }) {
+		state.sectionGroups = sectionGroups.map(group => Object.assign({}, defaults.group, group))
 	},
 	initGroups(state, { groups, orderBy, userCount }) {
 		state.groups = groups.map(group => Object.assign({}, defaults.group, group))
@@ -147,8 +151,8 @@ const mutations = {
 			return
 		}
 
-		const recentGroup = state.groups.find(group => group.id === '__nc_internal_recent')
-		const disabledGroup = state.groups.find(group => group.id === 'disabled')
+		const recentGroup = state.sectionGroups.find(group => group.id === 'recent')
+		const disabledGroup = state.sectionGroups.find(group => group.id === 'disabled')
 		switch (actionType) {
 		case 'enable':
 		case 'disable':
@@ -242,12 +246,14 @@ const getters = {
 	getUsers(state) {
 		return state.users
 	},
+	getSectionGroups(state) {
+		return state.sectionGroups
+	},
 	getGroups(state) {
 		return state.groups
 	},
 	getSubadminGroups(state) {
-		// Can't be subadmin of admin, recent, or disabled
-		return state.groups.filter(group => group.id !== 'admin' && group.id !== '__nc_internal_recent' && group.id !== 'disabled')
+		return state.groups.filter(group => group.id !== 'admin')
 	},
 	getSortedGroups(state) {
 		const groups = [...state.groups]
