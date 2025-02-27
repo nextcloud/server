@@ -7,6 +7,7 @@
 namespace OCA\Files_External\Lib\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\SessionStorageWrapper;
 use OCA\Files_External\Lib\StorageConfig;
@@ -31,7 +32,10 @@ class SessionCredentials extends AuthMechanism {
 		$this->setIdentifier('password::sessioncredentials')
 			->setScheme(self::SCHEME_PASSWORD)
 			->setText($l->t('Log-in credentials, save in session'))
-			->addParameters([]);
+			->addParameters([
+				(new DefinitionParameter('password', $l->t('Password')))
+					->setType(DefinitionParameter::VALUE_PASSWORD),
+			]);
 	}
 
 	/**
