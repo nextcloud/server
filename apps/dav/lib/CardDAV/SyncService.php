@@ -276,9 +276,21 @@ class SyncService {
 	public function getLocalSystemAddressBook() {
 		if (is_null($this->localSystemAddressBook)) {
 			$systemPrincipal = 'principals/system/system';
-			$this->localSystemAddressBook = $this->ensureSystemAddressBookExists($systemPrincipal, 'system', [
+			$localSystemAddressBook = $this->ensureSystemAddressBookExists($systemPrincipal, 'system', [
 				'{' . Plugin::NS_CARDDAV . '}addressbook-description' => 'System addressbook which holds all users of this instance'
 			]);
+
+			/*
+			 * Do not keep a potentially volatile state
+			 *
+			 * If we are in a transaction, a newly created SAB would be
+			 * rolled back if the transaction is rolled back.
+			 */
+			if (!$this->dbConnection->inTransaction()) {
+				$this->localSystemAddressBook = $localSystemAddressBook;
+			} else {
+				return $localSystemAddressBook;
+			}
 		}
 
 		return $this->localSystemAddressBook;
