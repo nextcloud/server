@@ -14,8 +14,8 @@
     "Make sure you store the secret key, it cannot be recovered." : "Assegureu-vos d'emmagatzemar la clau secreta, no es pot recuperar.",
     "Add client" : "Afegeix un client",
     "Add" : "Afegeix",
-    "Delete" : "Suprimeix",
     "Show client secret" : "Mostra el secret del client",
-    "Hide client secret" : "Amaga el secret del client"
+    "Hide client secret" : "Amaga el secret del client",
+    "Delete" : "Suprimeix"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -3,23 +3,22 @@ OC.L10N.register(
     {
     "Versions" : "Верзии",
     "This application automatically maintains older versions of files that are changed." : "Оваа апликација автоматски ги менаџира постарите верзии на датотеките кој се изменети.",
+    "Current version" : "Моментална верзија",
+    "Initial version" : "Првична верзија",
     "Name this version" : "Додај име на оваа верзијата",
     "Edit version name" : "Промени име на верзијата",
     "Compare to current version" : "Спореди со моменталната верзија",
     "Restore version" : "Врати ја оваа верзија",
     "Download version" : "Преземи верзија",
     "Delete version" : "Избриши верзија",
-    "Current version" : "Моментална верзија",
-    "Initial version" : "Првична верзија",
-    "Version name" : "Име на верзијата",
-    "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Именуваните верзии опстојуваат и се исклучени од автоматско чистење кога вашата квота за складирање е полна.",
     "Cancel" : "Откажи",
     "Remove version name" : "Избриши име на верзијата",
     "Save version name" : "Зачувај име на верзија",
+    "Version name" : "Име на верзијата",
+    "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Именуваните верзии опстојуваат и се исклучени од автоматско чистење кога вашата квота за складирање е полна.",
     "Initial version restored" : "Почетната верзијата е вратена",
     "Version restored" : "Верзијата е вратена",
     "Could not restore version" : "Неможе да се врати верзијата",
-    "Could not delete version" : "Неможе да се избрише верзијата",
-    "${version.label} restored" : "${version.label} вратена"
+    "Could not delete version" : "Неможе да се избрише верзијата"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -7,9 +7,6 @@ OC.L10N.register(
     "Error" : "Fout",
     "Weather status" : "Weerstatus",
     "Weather status in your dashboard" : "Weerstatus in je dashboard",
-    "Detect location" : "Locatie detecteren",
-    "Set custom address" : "Aangepast adres instellen",
-    "Favorites" : "Favorieten",
     "{temperature} {unit} clear sky later today" : "{temperature}{unit} later vandaag onbewolkt ",
     "{temperature} {unit} clear sky" : "{temperature}{unit} onbewolkt",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} bewolkt later vandaag",
@@ -48,6 +45,9 @@ OC.L10N.register(
     "There was an error setting the location address." : "Er is een fout opgetreden bij het zetten van het locatie adres.",
     "There was an error setting the location." : "Er is een fout opgetreden bij het vastleggen van de locatie.",
     "There was an error saving the mode." : "Er was een fout in het vastleggen van de modus.",
-    "There was an error using personal address." : "Er was een fout bij het gebruiken van je persoonlijke adres."
+    "There was an error using personal address." : "Er was een fout bij het gebruiken van je persoonlijke adres.",
+    "Detect location" : "Locatie detecteren",
+    "Set custom address" : "Aangepast adres instellen",
+    "Favorites" : "Favorieten"
 },
 "nplurals=2; plural=(n != 1);");

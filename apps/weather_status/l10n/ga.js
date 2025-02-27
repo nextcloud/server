@@ -8,9 +8,6 @@ OC.L10N.register(
     "Weather status" : "Stádas aimsire",
     "Weather status in your dashboard" : "Stádas aimsire i do dheais",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Stádas aimsire comhtháite san aip Deais.\nIs féidir an suíomh geografach a chinneadh go huathoibríoch nó a shainiú de láimh. Taispeántar réamhaisnéis 6 huaire ansin.\nIs féidir an stádas seo a chomhtháthú in áiteanna eile ar nós an aip Féilire.",
-    "Detect location" : "Braith suíomh",
-    "Set custom address" : "Socraigh seoladh saincheaptha",
-    "Favorites" : "Ceanáin",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} spéir shoiléir níos déanaí inniu",
     "{temperature} {unit} clear sky" : "{temperature} {unit} spéir shoiléir",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} scamallach níos déanaí inniu",
@@ -58,6 +55,9 @@ OC.L10N.register(
     "There was an error setting the location." : "Tharla earráid agus an suíomh á shocrú.",
     "There was an error saving the mode." : "Tharla earráid agus an mód á shábháil.",
     "There was an error using personal address." : "Tharla earráid agus seoladh pearsanta á úsáid.",
-    "Unknown weather code" : "Cód anaithnid aimsire"
+    "Unknown weather code" : "Cód anaithnid aimsire",
+    "Detect location" : "Braith suíomh",
+    "Set custom address" : "Socraigh seoladh saincheaptha",
+    "Favorites" : "Ceanáin"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

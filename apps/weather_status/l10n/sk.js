@@ -8,9 +8,6 @@ OC.L10N.register(
     "Weather status" : "Stav počasia",
     "Weather status in your dashboard" : "Stav počasia v informačnom paneli",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Stav počasia integrovaný v aplikácii Dashboard.\nGeografickú polohu je možné určiť automaticky alebo manuálne. Potom sa zobrazí predpoveď na 6 hodín.\nTento stav možno integrovať aj na iných miestach, ako je napríklad aplikácia Kalendár.",
-    "Detect location" : "Zistiť polohu",
-    "Set custom address" : "Nastaviť vlastnú adresu",
-    "Favorites" : "Obľúbené",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} jasná obloha, neskôr v priebehu dňa",
     "{temperature} {unit} clear sky" : "{temperature} {unit} jasná obloha",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} oblačno, neskôr v priebehu dňa",
@@ -58,6 +55,9 @@ OC.L10N.register(
     "There was an error setting the location." : "Pri nastavovaní polohy sa vyskytla chyba.",
     "There was an error saving the mode." : "Pri ukladaní režimu sa vyskytla chyba.",
     "There was an error using personal address." : "Pri použití osobnej adresy sa vyskytla chyba.",
-    "Unknown weather code" : "Neznámy kód počasia"
+    "Unknown weather code" : "Neznámy kód počasia",
+    "Detect location" : "Zistiť polohu",
+    "Set custom address" : "Nastaviť vlastnú adresu",
+    "Favorites" : "Obľúbené"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

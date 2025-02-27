@@ -8,7 +8,6 @@ OC.L10N.register(
     "No action specified" : "Tegevusi pole määratletud",
     "No configuration specified" : "Seadistust pole määratletud",
     "No data specified" : "Andmeid pole määratletud",
-    " Could not set configuration %s" : "Ei suutnud seadistada %s",
     "Action does not exist" : "Toimingut pole olemas",
     "Renewing …" : "Värskendamine ...",
     "Very weak password" : "Väga nõrk parool",
@@ -139,6 +138,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "LDAP-Kasutajatunnus Kasutaja Vastendus",
     "Clear Username-LDAP User Mapping" : "Puhasta LDAP-Kasutajatunnus Kasutaja Vastendus",
     "Clear Groupname-LDAP Group Mapping" : "Puhasta LDAP-Grupinimi Grupp Vastendus",
-    "Invalid configuration. Please have a look at the logs for further details." : "Vigane seadistus. Rohkema info jaoks vaadake logisid."
+    "Invalid configuration. Please have a look at the logs for further details." : "Vigane seadistus. Rohkema info jaoks vaadake logisid.",
+    " Could not set configuration %s" : "Ei suutnud seadistada %s"
 },
 "nplurals=2; plural=(n != 1);");

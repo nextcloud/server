@@ -9,7 +9,6 @@ OC.L10N.register(
     "No action specified" : "S’është treguar veprim",
     "No configuration specified" : "S’u dha formësim",
     "No data specified" : "S’u treguan të dhëna",
-    " Could not set configuration %s" : "S’vuri dot në punë formësimin %s",
     "Action does not exist" : "Veprimi s’ekziston",
     "Renewing …" : "Duke rinovuar...",
     "Very weak password" : "Fjalëkalim shumë i dobët",
@@ -48,7 +47,6 @@ OC.L10N.register(
     "An unspecified error occurred. Please check log and settings." : "Një gabim i pa specifikuar ndodhi. Ju lutem kontrolloni hyrjet dhe konfigurimet.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "Filtri i kërkimit është i pavlefshëm, ndoshta për shkak problemesh sintakse, të tillë si një numër jo i njëjtë kllpash të hapura dhe mbyllura. Ju lutemi, rishikojeni.",
     "Please provide a login name to test against" : "Ju lutemi, jepni një emër hyrjesh që të ritestohet",
-    "Password change rejected. Hint: " : "Ndryshimi i fjalëkalimit u refuzua. Informatë:",
     "Please login with the new password" : "Ju lutem kyçuni me fjalëkalimin e ri",
     "Your password will expire tomorrow." : "Fjalëkalimi juaj do të skadojë nesër",
     "Your password will expire today." : "Fjalëkalimi juaj do të skadojë sot.",
@@ -168,6 +166,8 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Përshoqërim Emër përdoruesi-Përdorues LDAP",
     "Clear Username-LDAP User Mapping" : "Pastro Përshoqërimin Emër përdoruesi-Përdorues LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Pastro Përshoqërimin Emër grupi-Grup LDAP",
-    "Invalid configuration. Please have a look at the logs for further details." : "Konfigurime të pavlefshme. Ju lutem shikoni hyrjet për detaje të mëtejshme."
+    "Invalid configuration. Please have a look at the logs for further details." : "Konfigurime të pavlefshme. Ju lutem shikoni hyrjet për detaje të mëtejshme.",
+    " Could not set configuration %s" : "S’vuri dot në punë formësimin %s",
+    "Password change rejected. Hint: " : "Ndryshimi i fjalëkalimit u refuzua. Informatë:"
 },
 "nplurals=2; plural=(n != 1);");

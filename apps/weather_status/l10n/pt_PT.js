@@ -8,9 +8,6 @@ OC.L10N.register(
     "Weather status" : "Estado do tempo",
     "Weather status in your dashboard" : "Estado do tempo no painel de controlo",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Estado do tempo integrado na aplicação Dashboard.\nA localização geográfica pode ser determinada automaticamente ou definida manualmente. É então apresentada uma previsão de 6 horas.\nEste estado também pode ser integrado noutros locais, como a aplicação Calendário.",
-    "Detect location" : "Detetar local",
-    "Set custom address" : "Definir endereço personalizado",
-    "Favorites" : "Favoritos",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} céu limpo mais tarde",
     "{temperature} {unit} clear sky" : "{temperature} {unit} céu limpo",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} nublado ainda hoje",
@@ -58,6 +55,9 @@ OC.L10N.register(
     "There was an error setting the location." : "Ocorreu um erro ao definir o local",
     "There was an error saving the mode." : "Ocorreu um erro ao guardar o modo",
     "There was an error using personal address." : "Ocorreu um erro ao usar o endereço pessoal",
-    "Unknown weather code" : "Código meteorológico desconhecido"
+    "Unknown weather code" : "Código meteorológico desconhecido",
+    "Detect location" : "Detetar local",
+    "Set custom address" : "Definir endereço personalizado",
+    "Favorites" : "Favoritos"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
