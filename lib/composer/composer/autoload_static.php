@@ -1702,6 +1702,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Remote\\Instance' => __DIR__ . '/../../..' . '/lib/private/Remote/Instance.php',
         'OC\\Remote\\InstanceFactory' => __DIR__ . '/../../..' . '/lib/private/Remote/InstanceFactory.php',
         'OC\\Remote\\User' => __DIR__ . '/../../..' . '/lib/private/Remote/User.php',
+        'OC\\Repair' => __DIR__ . '/../../..' . '/lib/private/Repair.php',
         'OC\\RepairException' => __DIR__ . '/../../..' . '/lib/private/RepairException.php',
         'OC\\Repair\\AddAppConfigLazyMigration' => __DIR__ . '/../../..' . '/lib/private/Repair/AddAppConfigLazyMigration.php',
         'OC\\Repair\\AddBruteForceCleanupJob' => __DIR__ . '/../../..' . '/lib/private/Repair/AddBruteForceCleanupJob.php',

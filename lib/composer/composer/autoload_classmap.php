@@ -1669,6 +1669,7 @@ return array(
     'OC\\Remote\\Instance' => $baseDir . '/lib/private/Remote/Instance.php',
     'OC\\Remote\\InstanceFactory' => $baseDir . '/lib/private/Remote/InstanceFactory.php',
     'OC\\Remote\\User' => $baseDir . '/lib/private/Remote/User.php',
+    'OC\\Repair' => $baseDir . '/lib/private/Repair.php',
     'OC\\RepairException' => $baseDir . '/lib/private/RepairException.php',
     'OC\\Repair\\AddAppConfigLazyMigration' => $baseDir . '/lib/private/Repair/AddAppConfigLazyMigration.php',
     'OC\\Repair\\AddBruteForceCleanupJob' => $baseDir . '/lib/private/Repair/AddBruteForceCleanupJob.php',
