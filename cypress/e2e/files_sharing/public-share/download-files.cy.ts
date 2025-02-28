@@ -4,136 +4,170 @@
  */
 // @ts-expect-error The package is currently broken - but works...
 import { deleteDownloadsFolderBeforeEach } from 'cypress-delete-downloads-folder'
-
+import { createShare, getShareUrl, setupPublicShare, type ShareContext } from './setup-public-share.ts'
+import { getRowForFile, getRowForFileId, triggerActionForFile, triggerActionForFileId } from '../../files/FilesUtils.ts'
 import { zipFileContains } from '../../../support/utils/assertions.ts'
-import { getRowForFile, triggerActionForFile } from '../../files/FilesUtils.ts'
-import { getShareUrl, setupPublicShare } from './setup-public-share.ts'
 
 describe('files_sharing: Public share - downloading files', { testIsolation: true }, () => {
 
-	before(() => setupPublicShare())
+	// in general there is no difference except downloading
+	// as file shares have the source of the share token but a different displayname
+	describe('file share', () => {
+		let fileId: number
 
-	deleteDownloadsFolderBeforeEach()
+		before(() => {
+			cy.createRandomUser().then((user) => {
+				const context: ShareContext = { user }
+				cy.uploadContent(user, new Blob(['<content>foo</content>']), 'text/plain', '/file.txt')
+					.then(({ headers }) => { fileId = Number.parseInt(headers['oc-fileid']) })
+				cy.login(user)
+				createShare(context, 'file.txt')
+					.then(() => cy.logout())
+					.then(() => cy.visit(context.url!))
+			})
+		})
 
-	beforeEach(() => {
-		cy.logout()
-		cy.visit(getShareUrl())
-	})
-
-	it('Can download all files', () => {
-		getRowForFile('foo.txt').should('be.visible')
-
-		cy.get('[data-cy-files-list]').within(() => {
-			cy.findByRole('checkbox', { name: /Toggle selection for all files/i })
-				.should('exist')
-				.check({ force: true })
-
-			// see that two files are selected
-			cy.contains('2 selected').should('be.visible')
-
-			// click download
-			cy.findByRole('button', { name: 'Download (selected)' })
+		it('can download the file', () => {
+			getRowForFileId(fileId)
 				.should('be.visible')
-				.click()
-
-			// check a file is downloaded
+			getRowForFileId(fileId)
+				.find('[data-cy-files-list-row-name]')
+				.should((el) => expect(el.text()).to.match(/file\s*\.txt/)) // extension is sparated so there might be a space between
+			triggerActionForFileId(fileId, 'download')
+			// check a file is downloaded with the correct name
 			const downloadsFolder = Cypress.config('downloadsFolder')
-			cy.readFile(`${downloadsFolder}/download.zip`, null, { timeout: 15000 })
+			cy.readFile(`${downloadsFolder}/file.txt`, 'utf-8', { timeout: 15000 })
 				.should('exist')
-				.and('have.length.gt', 30)
-				// Check all files are included
-				.and(zipFileContains([
-					'foo.txt',
-					'subfolder/',
-					'subfolder/bar.txt',
-				]))
+				.and('have.length.gt', 5)
+				.and('contain', '<content>foo</content>')
 		})
 	})
 
-	it('Can download selected files', () => {
-		getRowForFile('subfolder')
-			.should('be.visible')
+	describe('folder share', () => {
+		before(() => setupPublicShare())
 
-		cy.get('[data-cy-files-list]').within(() => {
+		deleteDownloadsFolderBeforeEach()
+
+		beforeEach(() => {
+			cy.logout()
+			cy.visit(getShareUrl())
+		})
+
+		it('Can download all files', () => {
+			getRowForFile('foo.txt').should('be.visible')
+
+			cy.get('[data-cy-files-list]').within(() => {
+				cy.findByRole('checkbox', { name: /Toggle selection for all files/i })
+					.should('exist')
+					.check({ force: true })
+
+				// see that two files are selected
+				cy.contains('2 selected').should('be.visible')
+
+				// click download
+				cy.findByRole('button', { name: 'Download (selected)' })
+					.should('be.visible')
+					.click()
+
+				// check a file is downloaded
+				const downloadsFolder = Cypress.config('downloadsFolder')
+				cy.readFile(`${downloadsFolder}/download.zip`, null, { timeout: 15000 })
+					.should('exist')
+					.and('have.length.gt', 30)
+					// Check all files are included
+					.and(zipFileContains([
+						'foo.txt',
+						'subfolder/',
+						'subfolder/bar.txt',
+					]))
+			})
+		})
+
+		it('Can download selected files', () => {
 			getRowForFile('subfolder')
-				.findByRole('checkbox')
-				.check({ force: true })
-
-			// see that two files are selected
-			cy.contains('1 selected').should('be.visible')
-
-			// click download
-			cy.findByRole('button', { name: 'Download (selected)' })
 				.should('be.visible')
-				.click()
 
-			// check a file is downloaded
-			const downloadsFolder = Cypress.config('downloadsFolder')
-			cy.readFile(`${downloadsFolder}/subfolder.zip`, null, { timeout: 15000 })
-				.should('exist')
-				.and('have.length.gt', 30)
-				// Check all files are included
-				.and(zipFileContains([
-					'subfolder/',
-					'subfolder/bar.txt',
-				]))
+			cy.get('[data-cy-files-list]').within(() => {
+				getRowForFile('subfolder')
+					.findByRole('checkbox')
+					.check({ force: true })
+
+				// see that two files are selected
+				cy.contains('1 selected').should('be.visible')
+
+				// click download
+				cy.findByRole('button', { name: 'Download (selected)' })
+					.should('be.visible')
+					.click()
+
+				// check a file is downloaded
+				const downloadsFolder = Cypress.config('downloadsFolder')
+				cy.readFile(`${downloadsFolder}/subfolder.zip`, null, { timeout: 15000 })
+					.should('exist')
+					.and('have.length.gt', 30)
+					// Check all files are included
+					.and(zipFileContains([
+						'subfolder/',
+						'subfolder/bar.txt',
+					]))
+			})
 		})
-	})
 
-	it('Can download folder by action', () => {
-		getRowForFile('subfolder')
-			.should('be.visible')
+		it('Can download folder by action', () => {
+			getRowForFile('subfolder')
+				.should('be.visible')
 
-		cy.get('[data-cy-files-list]').within(() => {
-			triggerActionForFile('subfolder', 'download')
+			cy.get('[data-cy-files-list]').within(() => {
+				triggerActionForFile('subfolder', 'download')
 
-			// check a file is downloaded
-			const downloadsFolder = Cypress.config('downloadsFolder')
-			cy.readFile(`${downloadsFolder}/subfolder.zip`, null, { timeout: 15000 })
-				.should('exist')
-				.and('have.length.gt', 30)
-				// Check all files are included
-				.and(zipFileContains([
-					'subfolder/',
-					'subfolder/bar.txt',
-				]))
+				// check a file is downloaded
+				const downloadsFolder = Cypress.config('downloadsFolder')
+				cy.readFile(`${downloadsFolder}/subfolder.zip`, null, { timeout: 15000 })
+					.should('exist')
+					.and('have.length.gt', 30)
+					// Check all files are included
+					.and(zipFileContains([
+						'subfolder/',
+						'subfolder/bar.txt',
+					]))
+			})
 		})
-	})
 
-	it('Can download file by action', () => {
-		getRowForFile('foo.txt')
-			.should('be.visible')
-
-		cy.get('[data-cy-files-list]').within(() => {
-			triggerActionForFile('foo.txt', 'download')
-
-			// check a file is downloaded
-			const downloadsFolder = Cypress.config('downloadsFolder')
-			cy.readFile(`${downloadsFolder}/foo.txt`, 'utf-8', { timeout: 15000 })
-				.should('exist')
-				.and('have.length.gt', 5)
-				.and('contain', '<content>foo</content>')
-		})
-	})
-
-	it('Can download file by selection', () => {
-		getRowForFile('foo.txt')
-			.should('be.visible')
-
-		cy.get('[data-cy-files-list]').within(() => {
+		it('Can download file by action', () => {
 			getRowForFile('foo.txt')
-				.findByRole('checkbox')
-				.check({ force: true })
+				.should('be.visible')
 
-			cy.findByRole('button', { name: 'Download (selected)' })
-				.click()
+			cy.get('[data-cy-files-list]').within(() => {
+				triggerActionForFile('foo.txt', 'download')
 
-			// check a file is downloaded
-			const downloadsFolder = Cypress.config('downloadsFolder')
-			cy.readFile(`${downloadsFolder}/foo.txt`, 'utf-8', { timeout: 15000 })
-				.should('exist')
-				.and('have.length.gt', 5)
-				.and('contain', '<content>foo</content>')
+				// check a file is downloaded
+				const downloadsFolder = Cypress.config('downloadsFolder')
+				cy.readFile(`${downloadsFolder}/foo.txt`, 'utf-8', { timeout: 15000 })
+					.should('exist')
+					.and('have.length.gt', 5)
+					.and('contain', '<content>foo</content>')
+			})
+		})
+
+		it('Can download file by selection', () => {
+			getRowForFile('foo.txt')
+				.should('be.visible')
+
+			cy.get('[data-cy-files-list]').within(() => {
+				getRowForFile('foo.txt')
+					.findByRole('checkbox')
+					.check({ force: true })
+
+				cy.findByRole('button', { name: 'Download (selected)' })
+					.click()
+
+				// check a file is downloaded
+				const downloadsFolder = Cypress.config('downloadsFolder')
+				cy.readFile(`${downloadsFolder}/foo.txt`, 'utf-8', { timeout: 15000 })
+					.should('exist')
+					.and('have.length.gt', 5)
+					.and('contain', '<content>foo</content>')
+			})
 		})
 	})
 })

@@ -105,7 +105,7 @@ describe('Download action execute tests', () => {
 
 		// Silent action
 		expect(exec).toBe(null)
-		expect(link.download).toEqual('')
+		expect(link.download).toBe('foobar.txt')
 		expect(link.href).toEqual('https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt')
 		expect(link.click).toHaveBeenCalledTimes(1)
 	})
@@ -123,7 +123,26 @@ describe('Download action execute tests', () => {
 
 		// Silent action
 		expect(exec).toStrictEqual([null])
-		expect(link.download).toEqual('')
+		expect(link.download).toEqual('foobar.txt')
+		expect(link.href).toEqual('https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt')
+		expect(link.click).toHaveBeenCalledTimes(1)
+	})
+
+	test('Download single file with displayname set', async () => {
+		const file = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			displayname: 'baz.txt',
+			permissions: Permission.READ,
+		})
+
+		const exec = await action.execBatch!([file], view, '/')
+
+		// Silent action
+		expect(exec).toStrictEqual([null])
+		expect(link.download).toEqual('baz.txt')
 		expect(link.href).toEqual('https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt')
 		expect(link.click).toHaveBeenCalledTimes(1)
 	})
