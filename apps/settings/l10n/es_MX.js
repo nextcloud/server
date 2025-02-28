@@ -798,7 +798,6 @@ OC.L10N.register(
     "Server error while trying to add WebAuthn device" : "Error en el servidor al intentar agregar el dispositivo WebAuthn",
     "Name your device" : "Nombrar su dispositivo",
     "Active accounts" : "Cuentas activas",
-    "Follow us on Twitter" : "Síguenos en Twitter",
-    "Admin IP filtering isn’t applied." : "El filtrado de IP de administración no está siendo aplicado."
+    "Follow us on Twitter" : "Síguenos en Twitter"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

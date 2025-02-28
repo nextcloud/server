@@ -177,7 +177,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Bersihkan Pemetaan Pengguna LDAP-Nama pengguna",
     "Clear Groupname-LDAP Group Mapping" : "Bersihkan Pemetaan Grup LDAP-Nama grup",
     "Invalid configuration. Please have a look at the logs for further details." : "Konfigurasi tidak valid. Silakan log untuk detil lebih lanjut.",
-    " Could not set configuration %s" : "Tidak dapat menyetel konfigurasi %s",
-    "Password change rejected. Hint: " : "Perubahan kata sandi ditolak. Petunjuk:"
+    " Could not set configuration %s" : "Tidak dapat menyetel konfigurasi %s"
 },
 "nplurals=1; plural=0;");

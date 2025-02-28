@@ -52,7 +52,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s deildi »%2$s« með þér og vill bæta við",
     "»%s« added a note to a file shared with you" : "»%s« bætti minnispunkti við skrá sem deilt er með þér",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Þú varst í þessu að deila »%1$s« með %2$s. Sameignin var þegar send til viðtakandans. Vegna öryggisskilmála sem skilgreindir hafa verið af kerfisstjóra %3$s þarf hver sameign að vera varin með lykilorði og að ekki er leyfilegt að senda það lykilorð beint til viðtakandans. Því er nauðsynlegt að þú homir lykilorðinu beint til sjálfs viðtakandans.",
-    "Password to access »%1$s« shared by you with %2$s" : "Lykilorði fyrir aðgang að »%1$s« var deilt af þér með %2$s",
-    "%1$s shared %2$s with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s deildi %2$s með þér.\nÞú ættir að hafa fengið sérstakan tölvupóst með tengli sem vísar á gögnin.\n"
+    "Password to access »%1$s« shared by you with %2$s" : "Lykilorði fyrir aðgang að »%1$s« var deilt af þér með %2$s"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

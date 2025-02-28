@@ -728,7 +728,6 @@ OC.L10N.register(
     "Server error while trying to add WebAuthn device" : "Villa á þjóni við að bæta við WebAuthn-tæki",
     "Name your device" : "Gefðu tækinu þínu nafn",
     "Active accounts" : "Virkir aðgangar",
-    "Follow us on Twitter" : "Fylgstu með okkur á Twitter",
-    "Admin IP filtering isn’t applied." : "Síun IP-vistfanga stjórnenda er ekki notuð."
+    "Follow us on Twitter" : "Fylgstu með okkur á Twitter"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

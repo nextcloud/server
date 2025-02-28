@@ -277,6 +277,7 @@ OC.L10N.register(
     "Edit" : "編輯",
     "Share" : "分享",
     "Delete" : "移除",
+    "Password field can't be empty" : "密碼欄位不可為空白",
     "Replace current password" : "取代目前密碼",
     "Failed to generate a new token" : "產生新權杖失敗",
     "Allow upload and editing" : "允許上傳及編輯",

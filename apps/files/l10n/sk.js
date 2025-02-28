@@ -442,8 +442,6 @@ OC.L10N.register(
     "Not favored" : "Nie je v obľúbených",
     "Submitting fields…" : "Položky sa odosielajú ...",
     "Filter filenames…" : "Filtrovať názvy súborov...",
-    "\"{displayName}\" failed on some elements " : "\"{displayName}\" zlyhalo na niektorých prvkoch.",
-    "You don’t have permission to upload or create files here." : "Nemáte oprávnenie nahrávať alebo vytvárať súbory na toto umiestnenie.",
     "Keep {oldextension}" : "Ponechať {oldextension}",
     "Use {newextension}" : "Použiť {newextension}"
 },

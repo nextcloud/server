@@ -344,7 +344,6 @@ OC.L10N.register(
     "List of favorites files and folders." : "Una llista de ficheros y carpetes favoritos.",
     "Personal Files" : "Ficheros personales",
     "Text file" : "Ficheru de testu",
-    "New text file.txt" : "ficheru_nuevu.txt",
-    "\"{displayName}\" failed on some elements " : "«{displayName}» falló con dalgún elementu"
+    "New text file.txt" : "ficheru_nuevu.txt"
 },
 "nplurals=2; plural=(n != 1);");

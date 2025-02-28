@@ -277,6 +277,7 @@ OC.L10N.register(
     "Edit" : "Cuir in eagar",
     "Share" : "Comhroinn",
     "Delete" : "Scrios",
+    "Password field can't be empty" : "Ní féidir le réimse an phasfhocail a bheith folamh",
     "Replace current password" : "Ionadaigh an pasfhocal reatha",
     "Failed to generate a new token" : "Theip ar chomhartha nua a ghiniúint",
     "Allow upload and editing" : "Ceadaigh uaslódáil agus eagarthóireacht",

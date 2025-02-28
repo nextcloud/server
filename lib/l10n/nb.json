@@ -380,8 +380,6 @@
     "Click the button below to open it." : "Klikk på knappen nedenfor for å åpne den.",
     "File is currently busy, please try again later" : "Filen er opptatt for øyeblikket, prøv igjen senere",
     "Cannot download file" : "Kan ikke laste ned fil",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Forsikre deg om at det finnes ei fil kalt \".ocdata\" på rota av datamappa.",
-    "Your current IP address doesn’t allow you to perform admin actions" : "Den nåværende IP-adressen din lar deg ikke utføre administratorhandlinger",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X støttes ikke og %s vil ikke fungere korrekt på denne plattformen. Bruk på egen risiko!"
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Forsikre deg om at det finnes ei fil kalt \".ocdata\" på rota av datamappa."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

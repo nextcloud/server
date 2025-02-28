@@ -215,7 +215,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Felhasználónév–LDAP felhasználó hozzárendelés törlése",
     "Clear Groupname-LDAP Group Mapping" : "Csoport–LDAP csoport hozzárendelés törlése",
     "Invalid configuration. Please have a look at the logs for further details." : "Érvénytelen beállítások. További információkért nézze meg a naplófájlokat.",
-    " Could not set configuration %s" : " A(z) %s beállítás nem adható meg",
-    "Password change rejected. Hint: " : "Jelszómódosítás elutasítva. Tipp:"
+    " Could not set configuration %s" : " A(z) %s beállítás nem adható meg"
 },
 "nplurals=2; plural=(n != 1);");

@@ -277,6 +277,7 @@ OC.L10N.register(
     "Edit" : "Bearbeiten",
     "Share" : "Teilen",
     "Delete" : "Löschen",
+    "Password field can't be empty" : "Passwortfeld darf nicht leer sein",
     "Replace current password" : "Aktuelles Passwort ersetzen",
     "Failed to generate a new token" : "Es konnte kein neues Token generiert werden",
     "Allow upload and editing" : "Hochladen und Bearbeiten erlauben",

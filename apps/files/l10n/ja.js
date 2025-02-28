@@ -441,8 +441,6 @@ OC.L10N.register(
     "Not favored" : "好ましくない",
     "Submitting fields…" : "フィールドを送信中…",
     "Filter filenames…" : "ファイルネームフィルター…",
-    "\"{displayName}\" failed on some elements " : "いくつかの要素で \"{displayName}\" が失敗しました。",
-    "You don’t have permission to upload or create files here." : "ここにファイルをアップロードまたは作成する権限がありません",
     "Keep {oldextension}" : "{oldextension} を保持",
     "Use {newextension}" : "{newextension} を使用"
 },

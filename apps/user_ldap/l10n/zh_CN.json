@@ -223,7 +223,6 @@
     "Clear Username-LDAP User Mapping" : "清除用户-LDAP用户映射",
     "Clear Groupname-LDAP Group Mapping" : "清除组用户-LDAP级映射",
     "Invalid configuration. Please have a look at the logs for further details." : "配置无效。更多细节请查看日志。",
-    " Could not set configuration %s" : " 无法设定配置文件 %s",
-    "Password change rejected. Hint: " : "密码更改出错。提示："
+    " Could not set configuration %s" : " 无法设定配置文件 %s"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

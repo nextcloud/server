@@ -453,8 +453,6 @@
     "Click the button below to open it." : "Pro otevření klikněte na tlačítko níže.",
     "File is currently busy, please try again later" : "Soubor je nyní používán, zkuste to později",
     "Cannot download file" : "Soubor se nedaří stáhnout",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Ověřte, že v kořeni datového adresáře je soubor s názvem „.ocdata“.",
-    "Your current IP address doesn’t allow you to perform admin actions" : "Pro IP adresu, ze které přistupujete, není umožněno provádět úkony správy",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "macOS není podporován a %s nebude na této platformě správně fungovat. Používejte pouze na vlastní nebezpečí!"
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Ověřte, že v kořeni datového adresáře je soubor s názvem „.ocdata“."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

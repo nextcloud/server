@@ -225,7 +225,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Limpar Mapeamento de Usuário username-LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Limpar Mapeamento do Grupo groupname-LDAP",
     "Invalid configuration. Please have a look at the logs for further details." : "Configuração inválida. Por favor dê uma olhada nos logs para mais detalhes.",
-    " Could not set configuration %s" : "Não foi possível definir a configuração %s",
-    "Password change rejected. Hint: " : "Troca de senha rejeitada. Dica:"
+    " Could not set configuration %s" : "Não foi possível definir a configuração %s"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

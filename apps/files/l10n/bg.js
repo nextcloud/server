@@ -253,7 +253,6 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Не може да се промени състоянието за предпочитане на файла",
     "Create new templates folder" : "Създаване на нова папка за шаблони",
     "Text file" : "Текстов файл",
-    "New text file.txt" : "Текстов файл.txt",
-    "\"{displayName}\" failed on some elements " : "„{displayName}“ не успя да се изпълни за някои елементи "
+    "New text file.txt" : "Текстов файл.txt"
 },
 "nplurals=2; plural=(n != 1);");

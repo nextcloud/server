@@ -424,8 +424,6 @@ OC.L10N.register(
     "Not favored" : "선호하지 않음",
     "Submitting fields…" : "입력란 제출중...",
     "Filter filenames…" : "파일 이름 필터...",
-    "\"{displayName}\" failed on some elements " : "\"{displayName}\" 이 일부 요소들에서 실패함",
-    "You don’t have permission to upload or create files here." : "이곳에 파일을 업로드하거나 만들 권한이 없습니다.",
     "Keep {oldextension}" : "{oldextension} 유지",
     "Use {newextension}" : "{newextension} 사용"
 },

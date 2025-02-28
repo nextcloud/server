@@ -217,7 +217,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "ئىشلەتكۈچى ئىسمى- LDAP ئىشلەتكۈچى خەرىتىسىنى تازىلاڭ",
     "Clear Groupname-LDAP Group Mapping" : "گۇرۇپپا ئىسمى- LDAP گۇرۇپپا خەرىتىسىنى تازىلاش",
     "Invalid configuration. Please have a look at the logs for further details." : "سەپلىمە ئىناۋەتسىز. تېخىمۇ كۆپ تەپسىلاتلار ئۈچۈن خاتىرىلەرنى كۆرۈپ بېقىڭ.",
-    " Could not set configuration %s" : " سەپلىمە% s نى تەڭشىگىلى بولمىدى",
-    "Password change rejected. Hint: " : "پارول ئۆزگەرتىش رەت قىلىندى. تەكلىپ: "
+    " Could not set configuration %s" : " سەپلىمە% s نى تەڭشىگىلى بولمىدى"
 },
 "nplurals=2; plural=(n != 1);");

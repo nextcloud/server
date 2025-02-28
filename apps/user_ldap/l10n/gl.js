@@ -11,6 +11,7 @@ OC.L10N.register(
     "No configuration specified" : "Non se especificou unha configuración",
     "No data specified" : "Non se especificaron datos",
     "Invalid data specified" : "Datos especificados non válidos",
+    "Could not set configuration %1$s to %2$s" : "Non foi posíbel definir a configuración %1$s a %2$s",
     "Action does not exist" : "Non existe esta acción",
     "Renewing …" : "Renovando…",
     "Very weak password" : "Contrasinal moi feble",
@@ -53,6 +54,7 @@ OC.L10N.register(
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "Falta o marcador de substitución «%uid». Substitúese polo nome de acceso ao consultar LDAP/AD.",
     "Please provide a login name to test against" : "Forneza o nome de acceso para facer a proba",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "Desactivouse a caixa de grupo porque o servidor LDAP/AD non admite memberOf.",
+    "Password change rejected. Hint: %s" : "Contrasinal rexeitado. Consello: %s",
     "Mandatory field \"%s\" left empty" : "Deixou baleiro o campo obrigatorio «%s»",
     "A password is given, but not an LDAP agent" : "Indicou un contrasinal, mais non un axente LDAP",
     "No password is given for the user agent" : "Non indicou un contrasinal para este axente de usuario",
@@ -233,7 +235,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Limpar a asignación do usuario ao «nome de usuario LDAP»",
     "Clear Groupname-LDAP Group Mapping" : "Limpar a asignación do grupo ao «nome de grupo LDAP»",
     "Invalid configuration. Please have a look at the logs for further details." : "A configuración non é correcta. Bótelle unha ollada aos rexistros para obter máis detalles.",
-    " Could not set configuration %s" : "Non foi posíbel definir a configuración %s",
-    "Password change rejected. Hint: " : "Contrasinal rexeitado. Consello:"
+    " Could not set configuration %s" : "Non foi posíbel definir a configuración %s"
 },
 "nplurals=2; plural=(n != 1);");

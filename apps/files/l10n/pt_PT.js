@@ -260,7 +260,6 @@ OC.L10N.register(
     "Personal Files" : "Ficheiros pessoais",
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt",
-    "Submitting fields…" : "Submeter campos…",
-    "\"{displayName}\" failed on some elements " : "“{displayName}” falhou em alguns elementos"
+    "Submitting fields…" : "Submeter campos…"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

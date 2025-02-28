@@ -911,8 +911,6 @@
     "Active accounts" : "アクティブなアカウント",
     "Follow us on Twitter" : "Twitter でフォロー！",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "このチェックを実行させるには、Webサーバーが自分自身に接続できることを確認しなければならない。そのため、少なくとも一つの `trusted_domains` または `overwrite.cli.url` を解決して接続できなければなりません。この失敗は、サーバ側のDNSの不一致やアウトバウンドファイアウォールルールの結果かもしれません。",
-    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQLのバージョン \"%s\"が検出されました。 このバージョンのNextcloudで最高のパフォーマンス、安定性、機能性を得るには、PostgreSQL >=12および<=16を推奨します。",
-    "Admin IP filtering isn’t applied." : "管理者用IPフィルタリングは適用されません。",
-    "Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them. " : "いくつかの欠落しているオプションのインデックスを検出しました。データベースのパフォーマンスを向上させるために、（Nextcloudまたはインストールされたアプリケーションによって）新しいインデックスが追加されることがあります。インデックスの追加には時間がかかり、一時的にパフォーマンスが低下することがあるため、アップグレード時には自動的には行われません。インデックスが追加されると、それらのテーブルへのクエリが速くなるはずです。インデックスを追加するには、`occ db:add-missing-indices` コマンドを使用してください。"
+    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQLのバージョン \"%s\"が検出されました。 このバージョンのNextcloudで最高のパフォーマンス、安定性、機能性を得るには、PostgreSQL >=12および<=16を推奨します。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

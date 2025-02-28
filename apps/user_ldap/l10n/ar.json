@@ -9,6 +9,7 @@
     "No configuration specified" : "لم يتم تحديد أيّ إعداداتٍ",
     "No data specified" : "لم يتم تحديد أيّ بياناتٍ",
     "Invalid data specified" : "البيانات المحددة غير صالحة",
+    "Could not set configuration %1$s to %2$s" : "يتعذّر تعيين الإعداد %1$s لـ %2$s",
     "Action does not exist" : "الإجراء غير موجود",
     "Renewing …" : "التجديد جارٍ …",
     "Very weak password" : "كلمة المرور ضعيفة جدا",
@@ -51,6 +52,7 @@
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "العنصر النائب placeholder ـ \"%u مُعرّف\". سيتم استبداله باسم دخول عند الاستعلام من LDAP/AD.",
     "Please provide a login name to test against" : "يرجى تقديم اسم تسجيل الدخول لاختباره",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "تم تعطيل مربع المجموعة؛ لأن خادم LDAP/AD لا يدعم خاصّيّة \"عضوٌ في\" memberOf.",
+    "Password change rejected. Hint: %s" : "تمّ رفض تغيير كلمة المرور. إرشاد: %s",
     "Mandatory field \"%s\" left empty" : "الحقل الإلزامي \"%s\" تُرِك فارغاً",
     "A password is given, but not an LDAP agent" : "تمّ إعطاء كلمة المرور لكن لم يتم إعطاء وكيل LDAP",
     "No password is given for the user agent" : "لم يتم إعطاء كلمة المرور لوكيل المُستخدِم",
@@ -231,7 +233,6 @@
     "Clear Username-LDAP User Mapping" : "إلغاء الربط بين اسم المستخدم في LDAP و المستخدم",
     "Clear Groupname-LDAP Group Mapping" : "إلغاء الربط بين اسم المجموعة في LDAP و المجموعة",
     "Invalid configuration. Please have a look at the logs for further details." : "تكوين غير صحيح. يرجى الرجوع إلى سجلات الأنشطة لمزيد من التفاصيل.",
-    " Could not set configuration %s" : "تعذّر تعيين الإعداد %s",
-    "Password change rejected. Hint: " : "تمّ رفض تغيير كلمة المرور. إرشادُ:"
+    " Could not set configuration %s" : "تعذّر تعيين الإعداد %s"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

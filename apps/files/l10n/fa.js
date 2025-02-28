@@ -277,7 +277,6 @@ OC.L10N.register(
     "Create new templates folder" : "پوشه قالب های جدید ایجاد کنید",
     "List of favorites files and folders." : "لیست فایل ها و پوشه های مورد علاقه",
     "Text file" : "فایل متنی",
-    "New text file.txt" : "پروندهٔ متنی جدید با پسوند txt",
-    "\"{displayName}\" failed on some elements " : "\"{displayName}\" در برخی از عناصر ناموفق بود"
+    "New text file.txt" : "پروندهٔ متنی جدید با پسوند txt"
 },
 "nplurals=2; plural=(n > 1);");

@@ -296,7 +296,6 @@ OC.L10N.register(
     "Create new templates folder" : "Create new templates folder",
     "List of favorites files and folders." : "List of favorites files and folders.",
     "Text file" : "Text file",
-    "New text file.txt" : "New text file.txt",
-    "\"{displayName}\" failed on some elements " : "\"{displayName}\" failed on some elements "
+    "New text file.txt" : "New text file.txt"
 },
 "nplurals=2; plural=(n!=1);");

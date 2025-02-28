@@ -194,7 +194,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Lìmpia assòtziu Nùmene utente-Utente LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Lìmpia assòtziu Nùmene de su grupu-Grupu LDAP",
     "Invalid configuration. Please have a look at the logs for further details." : "Cunfiguratzione non bàlida. Càstia is registros pro detàllios in prus.",
-    " Could not set configuration %s" : "Impossìbile cunfigurare s'optzione %s",
-    "Password change rejected. Hint: " : "Càmbiu de sa crae refudadu. Cussìgiu:"
+    " Could not set configuration %s" : "Impossìbile cunfigurare s'optzione %s"
 },
 "nplurals=2; plural=(n != 1);");

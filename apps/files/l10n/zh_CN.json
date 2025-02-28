@@ -439,8 +439,6 @@
     "Not favored" : "未收藏",
     "Submitting fields…" : "提交字段...",
     "Filter filenames…" : "过滤文件名...",
-    "\"{displayName}\" failed on some elements " : "“{displayName}”在某些元素上失败",
-    "You don’t have permission to upload or create files here." : "您无权在此处上传或创建文件。",
     "Keep {oldextension}" : "保留 {oldextension}",
     "Use {newextension}" : "使用 {newextension}"
 },"pluralForm" :"nplurals=1; plural=0;"

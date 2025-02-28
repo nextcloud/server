@@ -439,8 +439,6 @@ OC.L10N.register(
     "Not favored" : "Ikke foretrukket",
     "Submitting fields…" : "Sender felter...",
     "Filter filenames…" : "Filtrer filnavne...",
-    "\"{displayName}\" failed on some elements " : "\"{displayName}\" fejlede i nogle aspekter.",
-    "You don’t have permission to upload or create files here." : "Du har ikke rettigheder til at uploade eller oprette filer her.",
     "Keep {oldextension}" : "Behold {oldextension}",
     "Use {newextension}" : "Anvend {newextension}"
 },
