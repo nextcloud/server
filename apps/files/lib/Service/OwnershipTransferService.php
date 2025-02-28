@@ -141,6 +141,8 @@ class OwnershipTransferService {
 			$sourcePath
 		);
 
+		$sourceSize = $view->getFileInfo($sourcePath)->getSize();
+
 		// transfer the files
 		$this->transferFiles(
 			$sourceUid,
@@ -149,6 +151,7 @@ class OwnershipTransferService {
 			$view,
 			$output
 		);
+		$sizeDifference = $sourceSize - $view->getFileInfo($finalTarget)->getSize();
 
 		// transfer the incoming shares
 		if ($transferIncomingShares === true) {
@@ -184,6 +187,9 @@ class OwnershipTransferService {
 			$shares,
 			$output
 		);
+		if ($sizeDifference !== 0) {
+			$output->writeln("Not everything was transferred, folders have a size difference of: $sizeDifference Bytes");
+		}
 	}
 
 	private function sanitizeFolderName(string $name): string {
