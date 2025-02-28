@@ -261,7 +261,9 @@ class RequestHandlerController extends Controller {
 		if (!$found_for_this_user) {
 			$response = ['message' => 'Invalid or non existing token', 'error' => true];
 			$status = Http::STATUS_BAD_REQUEST;
-			return new JSONResponse($response,$status);
+			$response = new JSONResponse($response, $status);
+			$response->throttle();
+			return $response;
 		}
 		if(!$this->trustedServers->isTrustedServer($recipientProvider)) {
 			$response = ['message' => 'Remote server not trusted', 'error' => true];
