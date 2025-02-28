@@ -288,6 +288,15 @@ class SyncService {
 	 * @return void
 	 */
 	public function syncInstance(?\Closure $progressCallback = null) {
+
+		if ($this->config->getAppValue('dav', 'system_addressbook_exposed', 'none') === 'none') {
+			$limit = (int)$this->config->getAppValue('dav', 'system_addressbook_limit', '5000');
+			if ($this->userManager->countUsersTotal($limit) >= $limit) {
+				$this->config->setAppValue('dav', 'system_addressbook_exposed', 'no');
+				return;
+			}
+		}
+		
 		$systemAddressBook = $this->getLocalSystemAddressBook();
 		$this->userManager->callForAllUsers(function ($user) use ($systemAddressBook, $progressCallback): void {
 			$this->updateUser($user);
