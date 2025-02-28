@@ -167,7 +167,6 @@
     "%1$s shared »%2$s« with you." : "„%2$s” שותף אתך על ידי %1$s.",
     "Click the button below to open it." : "יש ללחוץ על הכפתור להלן כדי לפתוח אותו.",
     "File is currently busy, please try again later" : "הקובץ בשימוש כרגע, יש לנסות שוב מאוחר יותר",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "נא לוודא שיש קובץ בשם „‎.ocdata” בבסיס תיקיית הנתונים שלך.",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X אינו נתמך ו- %s לא יעבוד כשורה בפלטפורמה זו. ניתן לקחת סיכון ולהשתמש באחריותך! "
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "נא לוודא שיש קובץ בשם „‎.ocdata” בבסיס תיקיית הנתונים שלך."
 },"pluralForm" :"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;"
 }

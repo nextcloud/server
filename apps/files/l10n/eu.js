@@ -420,8 +420,6 @@ OC.L10N.register(
     "Not favored" : "Mesedetu gabe",
     "Submitting fields…" : "Eremuak bidaltzen…",
     "Filter filenames…" : "Iragazi fitxategi-izenak...",
-    "\"{displayName}\" failed on some elements " : "\"{displayName}\"-k huts egin du elementu batzuetan",
-    "You don’t have permission to upload or create files here." : "Ez duzu baimenik fitxategiak hona kargatu edo hemen sortzeko.",
     "Keep {oldextension}" : "Mantendu {oldextension}",
     "Use {newextension}" : "Erabili {newextension}"
 },

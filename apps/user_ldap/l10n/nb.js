@@ -219,7 +219,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Nullstill tilknytning av brukernavn til LDAP bruker",
     "Clear Groupname-LDAP Group Mapping" : "Nullstill tilknytning av gruppenavn til LDAP gruppe",
     "Invalid configuration. Please have a look at the logs for further details." : "Oppsettet er ikke gyldig. Sjekk loggene for flere detaljer.",
-    " Could not set configuration %s" : "Klarte ikke å utføre oppsett %s",
-    "Password change rejected. Hint: " : "Passordendring avslått. Hint:"
+    " Could not set configuration %s" : "Klarte ikke å utføre oppsett %s"
 },
 "nplurals=2; plural=(n != 1);");

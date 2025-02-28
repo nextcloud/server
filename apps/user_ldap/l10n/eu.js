@@ -225,7 +225,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Garbitu LDAP-erabiltzaile-izenaren erabiltzaile mapaketa",
     "Clear Groupname-LDAP Group Mapping" : "Garbitu LDAP-talde-izenaren talde mapaketa",
     "Invalid configuration. Please have a look at the logs for further details." : "Baliogabeko konfigurazioa. Eman begirada bat egunkari-fitxategiei zehaztasun gehiagorako.",
-    " Could not set configuration %s" : "Ezin izan da %s konfigurazioa ezarri",
-    "Password change rejected. Hint: " : "Pasahitz aldaketa ukatu da. Aholkua:"
+    " Could not set configuration %s" : "Ezin izan da %s konfigurazioa ezarri"
 },
 "nplurals=2; plural=(n != 1);");

@@ -759,8 +759,6 @@ OC.L10N.register(
     "Server error while trying to add WebAuthn device" : "WebAuthn 기기 추가 시도 중 서버 오류 발생",
     "Name your device" : "장치 이름 설정",
     "Active accounts" : "활성화된 계정",
-    "Follow us on Twitter" : "트위터에서 팔로하기",
-    "Admin IP filtering isn’t applied." : "관리자 IP 필터링이 적용되지 않습니다.",
-    "Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them. " : "일부 선택적 인덱스가 빠진 것을 감지했습니다. 데이터베이스 성능을 향상하기 위해 때때로 (Nextcloud나 설치된 앱을 통해) 새로운 인덱스가 추가됩니다. 인덱스 추가는 가끔 시간이 걸려 일시적으로 성능을 저하시킬 수 있기 때문에 자동으로 업데이트 중에 실행되지 않습니다. 인덱스가 추가되면 그 테이블에 질의하는 것이 빨라집니다. `occ db:add-missing-indices` 명령을 사용해 추가하세요."
+    "Follow us on Twitter" : "트위터에서 팔로하기"
 },
 "nplurals=1; plural=0;");

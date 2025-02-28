@@ -129,6 +129,7 @@
     "Unlimited" : "無限制",
     "Verifying" : "正在驗證",
     "Allowed admin IP ranges" : "允許的管理 IP 範圍",
+    "Admin IP filtering isn't applied." : "不套用管理 IP 過濾。",
     "Configuration key \"%1$s\" expects an array (%2$s found). Admin IP range validation will not be applied." : "設定鍵「%1$s」預期為陣列（找到 %2$s）。將不套用管理 IP 範圍驗證。",
     "Configuration key \"%1$s\" contains invalid IP range(s): \"%2$s\"" : "設定鍵「%1$s」包含無效的 IP 範圍：「%2$s」",
     "Admin IP filtering is correctly configured." : "管理 IP 過濾已正確設定。",
@@ -161,6 +162,7 @@
     "Database missing indices" : "資料庫缺少索引",
     "Missing indices:" : "缺少索引：",
     "\"%s\" in table \"%s\"" : "「%s」在數據庫表「%s」中",
+    "Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them." : "偵測到一些缺少的選擇性索引。有時會新增索引以改善資料庫效能（由 Nextcloud 或安裝的應用程式）。新增索引可能需要一點時間，並會暫時降低效能，因此不會在升級期間自動完成。新增索引後，對這些表格的查詢應該會更快。使用命令 `occ db:add-missing-indices` 以新增它們。",
     "Database missing primary keys" : "資料庫缺少主密鑰",
     "Missing primary key on table \"%s\"." : "數據表 \"%s\" 缺少主密鑰。",
     "The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running \"occ db:add-missing-primary-keys\" those missing primary keys could be added manually while the instance keeps running." : "數據庫缺少一些主鍵。由於在大表上添加主鍵可能會花費一些時間，因此我們不會自動添加主鍵。通過運行 “occ db:add-missing-primary-keys”，可以在實例繼續運行的同時手動添加那些缺少的主鍵。",
@@ -709,7 +711,9 @@
     "Account deletion" : "帳戶刪除",
     "Delete {userid}'s account" : "刪除 {userid} 的帳戶",
     "Display name was successfully changed" : "成功更新顯示名稱",
+    "Password can't be empty" : "密碼不可為空白",
     "Password was successfully changed" : "成功更新密碼",
+    "Email can't be empty" : "電郵地址不可為空白",
     "Email was successfully changed" : "成功更新電郵地址",
     "Welcome mail sent!" : "已傳送歡迎郵件！",
     "Loading account …" : "正在加载帳戶 ...",
@@ -915,8 +919,6 @@
     "Active accounts" : "活躍帳戶",
     "Follow us on Twitter" : "在 Twitter 上追蹤我們",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "若要允許執行此檢查，您必須確保您的網路伺服器可以連線到其自身。因此，其必須可以解析並連線到 `trusted_domains` 或 `overwrite.cli.url` 至少其中一個。此失敗可能是因為伺服器端 DNS 不符或連出防火牆規則造成的。",
-    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "偵測到 PostgreSQL 版本「%s」。建議使用 PostgreSQL >=12 且 <=16 以取得此版本 Nextcloud 的最佳效能、穩定性與功能。",
-    "Admin IP filtering isn’t applied." : "不套用管理 IP 過濾。",
-    "Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them. " : "偵測到一些缺少的選擇性索引。有時會新增索引以改善資料庫效能（由 Nextcloud 或安裝的應用程式）。新增索引可能需要一點時間，並會暫時降低效能，因此不會在升級期間自動完成。新增索引後，對這些表格的查詢應該會更快。使用命令 `occ db:add-missing-indices` 以新增它們。"
+    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "偵測到 PostgreSQL 版本「%s」。建議使用 PostgreSQL >=12 且 <=16 以取得此版本 Nextcloud 的最佳效能、穩定性與功能。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

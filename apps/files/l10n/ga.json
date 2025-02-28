@@ -78,6 +78,7 @@
     "Go to the \"{dir}\" directory" : "Téigh go dtí an eolaire \"{dir}\".",
     "Current directory path" : "An cosán eolaire reatha",
     "Your have used your space quota and cannot upload files anymore" : "D'úsáid tú do chuóta spáis agus ní féidir leat comhaid a uaslódáil a thuilleadh",
+    "You don't have permission to upload or create files here." : "Níl cead agat comhaid a uaslódáil nó a chruthú anseo.",
     "Drag and drop files here to upload" : "Tarraing agus scaoil comhaid anseo le huaslódáil",
     "Favorite" : "is fearr leat",
     "Back" : "Ar ais",
@@ -103,6 +104,7 @@
     "Toggle selection for all files and folders" : "Scoránaigh an roghnúchán do gach comhad agus fillteán",
     "Name" : "Ainm",
     "Size" : "Méid",
+    "\"{displayName}\" failed on some elements" : "\"{displayName}\" theip ar roinnt gnéithe",
     "\"{displayName}\" batch action executed successfully" : "D'éirigh le beart baisce \"{displayName}\" a rith",
     "\"{displayName}\" action failed" : "Theip ar an ngníomh \"{displayName}\".",
     "Actions" : "Gníomhartha",
@@ -451,8 +453,6 @@
     "Not favored" : "Ní bail ar fónamh orthu",
     "Submitting fields…" : "Réimsí á gcur isteach…",
     "Filter filenames…" : "Scag ainmneacha comhaid…",
-    "\"{displayName}\" failed on some elements " : "Theip ar \"{displayName}\" ar roinnt eilimintí",
-    "You don’t have permission to upload or create files here." : "Níl cead agat comhaid a uaslódáil nó a chruthú anseo.",
     "Keep {oldextension}" : " Coinnigh{oldextension}",
     "Use {newextension}" : " Úsáid{newextension}"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"

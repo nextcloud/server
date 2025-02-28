@@ -233,7 +233,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "清除使用者名稱-LDAP 使用者映射",
     "Clear Groupname-LDAP Group Mapping" : "清除群組名稱-LDAP 群組映射",
     "Invalid configuration. Please have a look at the logs for further details." : "無效的組態設定。請檢查紀錄檔以取得更多詳細資訊。",
-    " Could not set configuration %s" : " 無法設定組態 %s",
-    "Password change rejected. Hint: " : "密碼變更被拒絕。提示： "
+    " Could not set configuration %s" : " 無法設定組態 %s"
 },
 "nplurals=1; plural=0;");

@@ -241,7 +241,6 @@
     "Click the button below to open it." : "Kliknite na gumb za odpiranje.",
     "File is currently busy, please try again later" : "Datoteka je trenutno v uporabi. Poskusite znova kasneje.",
     "Cannot download file" : "Datoteke ni mogoče prejeti",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Prepričajte se, da je datoteka ».ocdata« v korenu podatkovne mape.",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Sistem Mac OS X ni podprt, zato %s v tem okolju ne bo deloval zanesljivo. Program uporabljate na lastno odgovornost! "
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Prepričajte se, da je datoteka ».ocdata« v korenu podatkovne mape."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

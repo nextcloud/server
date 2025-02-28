@@ -356,7 +356,6 @@ OC.L10N.register(
     "Text file" : "Besedilna datoteka",
     "New text file.txt" : "nova_datoteka.txt",
     "Submitting fields…" : "Poteka objavljanje vsebine polj ...",
-    "Filter filenames…" : "Filtriraj imena datotek ...",
-    "\"{displayName}\" failed on some elements " : "Dejanje »{displayName}« je pri nekaterih predmetih spodletelo"
+    "Filter filenames…" : "Filtriraj imena datotek ..."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

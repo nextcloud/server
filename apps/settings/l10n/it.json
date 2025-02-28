@@ -710,8 +710,6 @@
     "Server error while trying to add WebAuthn device" : "Errore del server durante il tentativo di aggiungere il dispositivo WebAuthn",
     "Name your device" : "Nome del tuo dispositivo",
     "Active accounts" : "Account attivi",
-    "Follow us on Twitter" : "Seguici su Twitter!",
-    "Admin IP filtering isn’t applied." : "Il filtro di IP amministrativi non è applicato.",
-    "Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them. " : "Rilevati alcuni indici opzionali mancanti. Occasionalmente vengono aggiunti nuovi indici (da Nextcloud o dalle applicazioni installate) per migliorare le prestazioni del database. L'aggiunta di indici a volte può richiedere del tempo e intaccare le prestazioni temporaneamente, perciò non viene fatto automaticamente durante gli aggiornamenti. Una volta aggiunti gli indici, le query a quelle tabella dovrebbero essere più veloci. Usa il comando `occ db:add-missing-indices` per aggiungerli."
+    "Follow us on Twitter" : "Seguici su Twitter!"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

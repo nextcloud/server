@@ -159,7 +159,6 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Mapeo del Nombre del usuario al Usuario LDAP",
     "Clear Username-LDAP User Mapping" : "Borrar el mapeo de los Nombres de usuario a los Usuarios LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Borrar el mapeo de los Nombres de grupo a los grupos de LDAP",
-    " Could not set configuration %s" : "No fue posible establecer la configuración %s",
-    "Password change rejected. Hint: " : "Cambio de contraseña rechazado. Pista: "
+    " Could not set configuration %s" : "No fue posible establecer la configuración %s"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -212,7 +212,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "사용자 이름-LDAP 사용자 매핑 비우기",
     "Clear Groupname-LDAP Group Mapping" : "그룹 이름-LDAP 그룹 매핑 비우기",
     "Invalid configuration. Please have a look at the logs for further details." : "설정이 잘못되었습니다. 더 자세한 정보를 보려면 로그를 참조하십시오.",
-    " Could not set configuration %s" : " 설정 %s을(를) 지정할 수 없음",
-    "Password change rejected. Hint: " : "암호 변경이 거부되었습니다. 힌트:"
+    " Could not set configuration %s" : " 설정 %s을(를) 지정할 수 없음"
 },
 "nplurals=1; plural=0;");

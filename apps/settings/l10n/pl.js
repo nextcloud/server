@@ -143,9 +143,9 @@ OC.L10N.register(
     "A background job is pending that checks for administration imported SSL certificates. Please check back later." : "Oczekujące zadanie w tle sprawdza, czy administracja zaimportowała certyfikaty SSL. Sprawdź ponownie później.",
     "There are some administration imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via \"occ security:certificates:import\" command. Their paths inside the data directory are shown below." : "Istnieje kilka certyfikatów SSL zaimportowanych przez administrację, które nie są już używane w Nextcloud 21. Można je zaimportować z wiersza poleceń za pomocą polecenia „occ security:certificates:import”. Ich ścieżki w katalogu danych pokazano poniżej.",
     "Code integrity" : "Integralność kodu",
-    "Integrity checker has been disabled. Integrity cannot be verified." : "Sprawdzanie integralności zostało wyłączone. Nie można zweryfikować integralności.",
+    "Integrity checker has been disabled. Integrity cannot be verified." : "Sprawdzanie spójności zostało wyłączone. Nie można zweryfikować spójności.",
     "No altered files" : "Brak zmienionych plików",
-    "Some files have not passed the integrity check. {link1} {link2}" : "Niektóre pliki nie przeszły kontroli integralności. {link1} {link2}",
+    "Some files have not passed the integrity check. {link1} {link2}" : "Niektóre pliki nie przeszły kontroli spójności. {link1} {link2}",
     "Cron errors" : "Błędy Crona",
     "It was not possible to execute the cron job via CLI. The following technical errors have appeared:\n%s" : "Nie można było wykonać zadania cron przez CLI. Pojawiły się następujące błędy techniczne:\n%s",
     "The last cron job ran without errors." : "Ostatnie zadanie cron przebiegło bez błędów.",
@@ -250,7 +250,7 @@ OC.L10N.register(
     "Unknown database platform" : "Nieznana platforma baz danych",
     "Architecture" : "Architektura",
     "64-bit" : "64-bit",
-    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit!" : "Wygląda na to, że korzystasz z 32-bitowej wersji PHP. Nextcloud wymaga wersji 64-bit. Zaktualizuj proszę swój system oraz wersję PHP!",
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit!" : "Wygląda na to, że korzystasz z 32-bitowej wersji PHP. Nextcloud wymaga wersji 64-bitowej do poprawnego działania. Zaktualizuj proszę swój system i PHP do wersji 64-bitowych!",
     "Temporary space available" : "Dostępna przestrzeń tymczasowa",
     "Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: %s" : "Błąd podczas sprawdzania tymczasowej ścieżki PHP - nie została ona poprawnie ustawiona na katalog. Wartość zwrócona: %s",
     "The PHP function \"disk_free_space\" is disabled, which prevents the check for enough space in the temporary directories." : "Funkcja PHP „disk_free_space” jest wyłączona, co uniemożliwia sprawdzenie wystarczającej ilości miejsca w katalogach tymczasowych.",
@@ -792,8 +792,6 @@ OC.L10N.register(
     "Server error while trying to add WebAuthn device" : "Błąd serwera podczas próby dodania urządzenia WebAuthn",
     "Name your device" : "Nazwa twojego urządzenia",
     "Active accounts" : "Aktywne konta",
-    "Follow us on Twitter" : "Bądź z nami na Twitterze",
-    "Admin IP filtering isn’t applied." : "Filtrowanie adresów IP administratora nie jest stosowane.",
-    "Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them. " : "Wykryto brakujące opcjonalne indeksy. Czasami dodawane są nowe indeksy (przez Nextcloud lub zainstalowane aplikacje), aby poprawić wydajność bazy danych. Dodawanie indeksów może czasami zająć trochę czasu i tymczasowo obniżyć wydajność, więc nie jest wykonywane automatycznie podczas aktualizacji. Po dodaniu indeksów zapytania do tych tabel powinny działać szybciej. Aby je dodać, użyj polecenia `occ db:add-missing-indices`."
+    "Follow us on Twitter" : "Bądź z nami na Twitterze"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

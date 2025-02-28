@@ -219,7 +219,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Очистить соответствия Имя-Пользователь LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Очистить соответствия Группа-Группа LDAP",
     "Invalid configuration. Please have a look at the logs for further details." : "Неверная конфигурация. Просмотрите журналы для получения дополнительных сведений.",
-    " Could not set configuration %s" : "Невозможно создать конфигурацию %s",
-    "Password change rejected. Hint: " : "Смена пароля отклонена. Подсказка:"
+    " Could not set configuration %s" : "Невозможно создать конфигурацию %s"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

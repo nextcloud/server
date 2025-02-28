@@ -409,8 +409,6 @@
     "Click the button below to open it." : "Klicka på knappen nedan för att öppna det.",
     "File is currently busy, please try again later" : "Filen är för tillfället upptagen, försök igen senare",
     "Cannot download file" : "Kan inte ladda ner fil",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Säkerställ att du har filen \".ocdata\" i huvudkatalogen för din data.",
-    "Your current IP address doesn’t allow you to perform admin actions" : "Din nuvarande IP-adress tillåter dig inte att utföra administratörsåtgärder",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X stöds inte och %s kommer inte att fungera korrekt på denna plattform. Använd på egen risk!"
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Säkerställ att du har filen \".ocdata\" i huvudkatalogen för din data."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

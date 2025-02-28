@@ -222,7 +222,6 @@
     "%1$s shared »%2$s« with you" : "%1$s compartió «%2$s» contigo",
     "%1$s shared »%2$s« with you." : "%1$s compartió «%2$s» contigo.",
     "Click the button below to open it." : "Calca nel botón p'abrilo.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Asegúrate de que'l ficheru llamáu «.ocdata» ta nel raigañu del direutoriu de datos.",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X nun ye compatible y %s nun va funcionar afayadizamente nesta plataforma. ¡Úsalu baxo'l to riegu!"
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Asegúrate de que'l ficheru llamáu «.ocdata» ta nel raigañu del direutoriu de datos."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

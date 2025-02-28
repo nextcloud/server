@@ -131,6 +131,7 @@ OC.L10N.register(
     "Unlimited" : "Gan teorainn",
     "Verifying" : "Ag fíorú",
     "Allowed admin IP ranges" : "Raonta IP riaracháin ceadaithe",
+    "Admin IP filtering isn't applied." : "Ní chuirtear scagadh IP Riaracháin i bhfeidhm.",
     "Configuration key \"%1$s\" expects an array (%2$s found). Admin IP range validation will not be applied." : "Tá eochair chumraíochta \"%1$s\" ag súil le sraith (fuarthas %2$s). Ní chuirfear bailíochtú raoin IP riaracháin i bhfeidhm.",
     "Configuration key \"%1$s\" contains invalid IP range(s): \"%2$s\"" : "Tá raon(í) IP neamhbhailí san eochair chumraíochta \"%1$s\":\"%2$s\"",
     "Admin IP filtering is correctly configured." : "Tá an scagadh IP Riaracháin cumraithe i gceart.",
@@ -163,6 +164,7 @@ OC.L10N.register(
     "Database missing indices" : "Bunachar sonraí innéacsanna in easnamh",
     "Missing indices:" : "Innéacsanna ar iarraidh:",
     "\"%s\" in table \"%s\"" : "\"%s\" i dtábla \"%s\"",
+    "Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them." : "Braitheadh ​​roinnt innéacsanna roghnacha a bhí in easnamh. Uaireanta cuirtear innéacsanna nua leis (trí Nextcloud nó feidhmchláir suiteáilte) chun feidhmíocht an bhunachair shonraí a fheabhsú. Uaireanta tógann sé tamall agus gortaítear feidhmíocht innéacsanna a chur leis, mar sin ní dhéantar é seo go huathoibríoch le linn uasghráduithe. Nuair a chuirtear na hinnéacsanna leis, ba cheart go gcuirfí fiosruithe chuig na táblaí sin níos tapúla. Úsáid an t-ordú `occ db: add-missing-indices` chun iad a chur leis.",
     "Database missing primary keys" : "Bunachar sonraí príomheochair in easnamh",
     "Missing primary key on table \"%s\"." : "Príomheochair in easnamh ar an tábla \"%s\".",
     "The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running \"occ db:add-missing-primary-keys\" those missing primary keys could be added manually while the instance keeps running." : "Tá roinnt eochracha príomhúla in easnamh ar an mbunachar sonraí. Toisc go bhféadfadh sé roinnt ama a thógáil chun eochracha príomhúla a chur ar tháblaí móra níor cuireadh leis go huathoibríoch iad. Trí \"occ db:add-missing-primary-keys\" a rith, d'fhéadfaí na príomheochracha sin a chur leis de láimh agus an t-ásc á leanúint i gcónaí.",
@@ -711,7 +713,9 @@ OC.L10N.register(
     "Account deletion" : "Scriosadh cuntais",
     "Delete {userid}'s account" : "Scrios cuntas {userid}",
     "Display name was successfully changed" : "D'éirigh le hathrú an ainm taispeána",
+    "Password can't be empty" : "Ní féidir le pasfhocal a bheith folamh",
     "Password was successfully changed" : "Athraíodh an pasfhocal go rathúil",
+    "Email can't be empty" : "Ní féidir le ríomhphost a bheith folamh",
     "Email was successfully changed" : "D'éirigh le hathrú an ríomhphoist",
     "Welcome mail sent!" : "Fáilte seolta!",
     "Loading account …" : "Cuntas á lódáil…",
@@ -917,8 +921,6 @@ OC.L10N.register(
     "Active accounts" : "Cuntais ghníomhacha",
     "Follow us on Twitter" : "Lean muid ar Twitter",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Le gur féidir an tseiceáil seo a rith caithfidh tú a chinntiú gur féidir le do fhreastalaí Gréasáin nascadh leis féin. Mar sin caithfidh sé a bheith in ann réiteach agus ceangal a dhéanamh le ceann amháin ar a laghad dá chuid `fearainn_iontaofa` nó an `overwrite.cli.url`. D'fhéadfadh an teip seo a bheith mar thoradh ar mhímheaitseáil DNS ar thaobh an fhreastalaí nó riail balla dóiteáin amach.",
-    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Braitheadh ​​leagan PostgreSQL \"%s\". Moltar PostgreSQL >=12 agus <=16 don fheidhmíocht is fearr, don chobhsaíocht agus don fheidhmiúlacht leis an leagan seo de Nextcloud.",
-    "Admin IP filtering isn’t applied." : "Ní chuirtear scagadh IP riaracháin i bhfeidhm.",
-    "Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them. " : "Braitheadh ​​roinnt innéacsanna roghnacha a bhí in easnamh. Uaireanta cuirtear innéacsanna nua leis (trí Nextcloud nó feidhmchláir suiteáilte) chun feidhmíocht an bhunachair shonraí a fheabhsú. Uaireanta tógann sé tamall agus gortaítear feidhmíocht innéacsanna a chur leis, mar sin ní dhéantar é seo go huathoibríoch le linn uasghráduithe. Nuair a chuirtear na hinnéacsanna leis, ba cheart go gcuirfí fiosruithe chuig na táblaí sin níos tapúla. Úsáid an t-ordú `occ db: add-missing-indices` chun iad a chur leis."
+    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Braitheadh ​​leagan PostgreSQL \"%s\". Moltar PostgreSQL >=12 agus <=16 don fheidhmíocht is fearr, don chobhsaíocht agus don fheidhmiúlacht leis an leagan seo de Nextcloud."
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

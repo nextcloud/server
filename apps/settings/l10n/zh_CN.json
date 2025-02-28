@@ -909,8 +909,6 @@
     "Active accounts" : "活跃账号",
     "Follow us on Twitter" : "在 Twitter 上关注我们！",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "要允许此检查运行，您必须确保您的 Web 服务器可以连接到自身。因此，它必须能够解析并连接到其 \"trusted_domains\" 或 \"overwrite.cli.url\" 中的至少一个。此失败可能是服务端 DNS 不匹配或出站防火墙规则的结果。",
-    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "检测到 PostgreSQL 版本\"%s\"。建议使用 PostgreSQL >=12 和 <=16，以获得此版本 Nextcloud 的最佳性能、稳定性和功能。",
-    "Admin IP filtering isn’t applied." : "不应用管理员 IP 过滤。",
-    "Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them. " : "检测到一些缺失的可选索引。偶尔会添加新索引（由 Nextcloud 或已安装的应用程序添加）以提高数据库性能。添加索引有时可能需要一段时间并会暂时损害性能，因此在升级期间不会自动完成此操作。添加索引后，对这些表的查询应该会更快。使用命令 `occ db:add-missing-indices` 添加它们。"
+    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "检测到 PostgreSQL 版本\"%s\"。建议使用 PostgreSQL >=12 和 <=16，以获得此版本 Nextcloud 的最佳性能、稳定性和功能。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

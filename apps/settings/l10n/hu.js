@@ -684,8 +684,6 @@ OC.L10N.register(
     "Server error while trying to add WebAuthn device" : "Kiszolgálóhiba a WebAuthn eszköz hozzáadása során",
     "Name your device" : "Nevezze el az eszközét",
     "Active accounts" : "Aktív fiókok",
-    "Follow us on Twitter" : "Kövessen minket Twitteren",
-    "Admin IP filtering isn’t applied." : "Rendszergazdák IP-cím alapú lekorlátozása nincs beállítva.",
-    "Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them. " : "Hiányzik néhány opcionális index. Időnként új indexeket vesz fel a Nextcloud vagy valamelyik telepített alkalmazás az adatbázis-performancia javítására. Ez néha sokáig eltarthat, és a folyamat közben átmenetileg lelassítja a szervert, úgyhogy a szoftverfrissítések során nem hajtódik végre automatikusan. Viszont miután megtörtént, az érintett táblák elérése felgyorsul. Az `occ db:add-missing-indices` paranccsal lehet felvenni őket."
+    "Follow us on Twitter" : "Kövessen minket Twitteren"
 },
 "nplurals=2; plural=(n != 1);");

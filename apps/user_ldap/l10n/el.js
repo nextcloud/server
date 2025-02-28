@@ -190,7 +190,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Διαγραφή αντιστοίχησης Ονόματος Χρήστη LDAP-Χρήστη",
     "Clear Groupname-LDAP Group Mapping" : "Διαγραφή αντιστοίχησης Ονόματος Ομάδας-LDAP Ομάδας",
     "Invalid configuration. Please have a look at the logs for further details." : "Μη έγκυρη διαμόρφωση. Παρακαλώ ρίξτε μια ματιά στα αρχεία καταγραφής για περισσότερες λεπτομέρειες.",
-    " Could not set configuration %s" : "Αδυναμία ρύθμισης %s",
-    "Password change rejected. Hint: " : "Η αλλαγή του συνθηματικού απέτυχε. Υπόδειξη:"
+    " Could not set configuration %s" : "Αδυναμία ρύθμισης %s"
 },
 "nplurals=2; plural=(n != 1);");
