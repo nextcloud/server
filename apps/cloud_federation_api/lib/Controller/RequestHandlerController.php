@@ -288,7 +288,7 @@ class RequestHandlerController extends Controller
 			$status = Http::STATUS_CONFLICT;
 			return new JSONResponse($response, $status);
 		}
-		if($data['expiresAt'] < $updated) {
+		if ($data['expiresAt'] < $updated) {
 			$response = ['message' => 'Invitation expired', 'error' => true];
 			$status = Http::STATUS_BAD_REQUEST;
 			return new JSONResponse($response, $status);
