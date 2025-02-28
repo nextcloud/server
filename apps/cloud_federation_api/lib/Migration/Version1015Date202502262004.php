@@ -43,7 +43,7 @@ class Version1015Date202502262004 extends SimpleMigrationStep
 			]);
 
 			$table->addColumn('user_id', Types::STRING, [
-				'notnull' => false,
+				'notnull' => true,
 				'length' => 64,
 
 			]);
