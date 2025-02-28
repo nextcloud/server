@@ -285,13 +285,13 @@ class RequestHandlerController extends Controller {
 		$response = ['userID' => $data['user_id'], 'email' => $sharedFromEmail, 'name' => $sharedFromDisplayName];
 		$status = Http::STATUS_OK;
 		$updated = new DateTime("now");
-		$qb->update('federated_invites f')
-			->set('f.accepted', $qb->createNamedParameter(true))
-			->set('f.acceptedAt', $qb->createNamedParameter($updated))
-			->set('f.recipient_email', $qb->createNamedParameter($email))
-			->set('f.recipient_name', $qb->createNamedParameter($name))
-			->set('f.recipient_user_id', $qb->createNamedParameter($userId))
-			->set('f.recipient_provider', $qb->createNamedParameter($recipientProvider))
+		$qb->update('federated_invites')
+			->set('accepted', $qb->createNamedParameter(true))
+			->set('acceptedAt', $qb->createNamedParameter($updated))
+			->set('recipient_email', $qb->createNamedParameter($email))
+			->set('recipient_name', $qb->createNamedParameter($name))
+			->set('recipient_user_id', $qb->createNamedParameter($userId))
+			->set('recipient_provider', $qb->createNamedParameter($recipientProvider))
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)));
 		$qb->executeStatement();
 
