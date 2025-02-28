@@ -93,9 +93,9 @@ class Show extends Base {
 		return $settings + array_filter($innerSection, fn (ISettings $setting) => $setting instanceof IDelegatedSettings);
 	}
 
-	protected function buildJsonOutput(array $sections): array {
+	private function buildJsonOutput(array $sections): array {
 		$currentDelegations = [
-			'current_delegations' => []
+			'currentDelegations' => []
 		];
 
 		foreach ($sections as $sectionPriority) {
@@ -106,7 +106,7 @@ class Show extends Base {
 					continue;
 				}
 
-				$currentDelegations['current_delegations'][] = [
+				$currentDelegations['currentDelegations'][] = [
 					'section' => $section->getID(),
 					'delegations' =>
 						array_map(function (IDelegatedSettings $setting) use ($section, $headers) {
