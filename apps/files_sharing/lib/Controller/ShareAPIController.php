@@ -557,6 +557,7 @@ class ShareAPIController extends OCSController {
 	 * 200: Share created
 	 */
 	#[NoAdminRequired]
+	#[UserRateLimit(limit: 10, period: 600)]
 	public function createShare(
 		?string $path = null,
 		?int $permissions = null,
@@ -2146,7 +2147,7 @@ class ShareAPIController extends OCSController {
 	 * 200: The email notification was sent successfully
 	 */
 	#[NoAdminRequired]
-	#[UserRateLimit(limit: 5, period: 120)]
+	#[UserRateLimit(limit: 10, period: 600)]
 	public function sendShareEmail(string $id, $password = ''): DataResponse {
 		try {
 			$share = $this->getShareById($id);
