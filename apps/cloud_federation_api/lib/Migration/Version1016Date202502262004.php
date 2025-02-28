@@ -15,7 +15,7 @@ use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
-class Version1015Date202502262004 extends SimpleMigrationStep
+class Version1016Date202502262004 extends SimpleMigrationStep
 {
 
 	/**

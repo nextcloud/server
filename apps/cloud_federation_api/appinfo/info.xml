@@ -9,7 +9,7 @@
 	<name>Cloud Federation API</name>
 	<summary>Enable clouds to communicate with each other and exchange data</summary>
 	<description>The Cloud Federation API enables various Nextcloud instances to communicate with each other and to exchange data.</description>
-	<version>1.15.0</version>
+	<version>1.16.0</version>
 	<licence>agpl</licence>
 	<author>Bjoern Schiessle</author>
 	<namespace>CloudFederationAPI</namespace>

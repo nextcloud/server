@@ -21,10 +21,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         array (
             'NCU\\' => 4,
         ),
-        'B' => 
-        array (
-            'Bamarni\\Composer\\Bin\\' => 21,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -43,10 +39,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'NCU\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/unstable',
-        ),
-        'Bamarni\\Composer\\Bin\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src',
         ),
     );
 

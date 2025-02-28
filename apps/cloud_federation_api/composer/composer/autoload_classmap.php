@@ -11,5 +11,8 @@ return array(
     'OCA\\CloudFederationAPI\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
     'OCA\\CloudFederationAPI\\Config' => $baseDir . '/../lib/Config.php',
     'OCA\\CloudFederationAPI\\Controller\\RequestHandlerController' => $baseDir . '/../lib/Controller/RequestHandlerController.php',
+    'OCA\\CloudFederationAPI\\Migration\\Version1016Date202502262004' => $baseDir . '/../lib/Migration/Version1016Date202502262004.php',
     'OCA\\CloudFederationAPI\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
+    'OCA\\CloudFederationApi\\Events\\OCMInvitationAcceptedEvent' => $baseDir . '/../lib/Events/OCMInvitationAcceptedEvent.php',
+    'OCA\\CloudFederationApi\\OCMInvitation' => $baseDir . '/../lib/OCMInvitation.php',
 );
