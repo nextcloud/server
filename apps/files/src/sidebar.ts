@@ -12,7 +12,7 @@ import Tab from './models/Tab.js'
 
 Vue.prototype.t = t
 
-// Init Sidebar Service
+// Init Sidebar Service 
 if (!window.OCA.Files) {
 	window.OCA.Files = {}
 }
