@@ -1744,9 +1744,6 @@
     <InvalidNullableReturnType>
       <code><![CDATA[array]]></code>
     </InvalidNullableReturnType>
-    <InvalidScalarArgument>
-      <code><![CDATA[\OC_Util::normalizeUnicode($path)]]></code>
-    </InvalidScalarArgument>
     <NullableReturnStatement>
       <code><![CDATA[null]]></code>
       <code><![CDATA[null]]></code>
@@ -1999,11 +1996,6 @@
     </NoInterfaceProperties>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Encoding.php">
-    <InvalidArgument>
-      <code><![CDATA[\Normalizer::FORM_C]]></code>
-      <code><![CDATA[\Normalizer::FORM_C]]></code>
-      <code><![CDATA[\Normalizer::FORM_D]]></code>
-    </InvalidArgument>
     <UndefinedInterfaceMethod>
       <code><![CDATA[$this->namesCache]]></code>
       <code><![CDATA[$this->namesCache]]></code>
