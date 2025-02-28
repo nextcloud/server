@@ -735,6 +735,43 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		return $this->rowToSubscription($row, $subscription);
 	}
 
+	public function getSubscriptionByUri(string $principal, string $uri): ?array {
+		$fields = array_column($this->subscriptionPropertyMap, 0);
+		$fields[] = 'id';
+		$fields[] = 'uri';
+		$fields[] = 'source';
+		$fields[] = 'synctoken';
+		$fields[] = 'principaluri';
+		$fields[] = 'lastmodified';
+
+		$query = $this->db->getQueryBuilder();
+		$query->select($fields)
+			->from('calendarsubscriptions')
+			->where($query->expr()->eq('uri', $query->createNamedParameter($uri)))
+			->andWhere($query->expr()->eq('principaluri', $query->createNamedParameter($principal)))
+			->setMaxResults(1);
+		$stmt = $query->executeQuery();
+
+		$row = $stmt->fetch();
+		$stmt->closeCursor();
+		if ($row === false) {
+			return null;
+		}
+
+		$row['principaluri'] = (string)$row['principaluri'];
+		$subscription = [
+			'id' => $row['id'],
+			'uri' => $row['uri'],
+			'principaluri' => $row['principaluri'],
+			'source' => $row['source'],
+			'lastmodified' => $row['lastmodified'],
+			'{' . Plugin::NS_CALDAV . '}supported-calendar-component-set' => new SupportedCalendarComponentSet(['VTODO', 'VEVENT']),
+			'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
+		];
+
+		return $this->rowToSubscription($row, $subscription);
+	}
+
 	/**
 	 * Creates a new calendar for a principal.
 	 *
