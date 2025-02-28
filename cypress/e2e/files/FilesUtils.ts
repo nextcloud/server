@@ -14,7 +14,7 @@ export const getActionsForFile = (filename: string) => getRowForFile(filename).f
 export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(fileid).findByRole('button', { name: 'Actions' })
 export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).findByRole('button', { name: 'Actions' })
 
-const searchForActionInRow = (row: JQuery<HTMLElement>, actionId: string): Cypress.Chainable<JQuery<HTMLElement>>  => {
+export const searchForActionInRow = (row: JQuery<HTMLElement>, actionId: string): Cypress.Chainable<JQuery<HTMLElement>> => {
 	const action = row.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
 	if (action.length > 0) {
 		cy.log('Found action in row')
@@ -31,6 +31,7 @@ export const getActionEntryForFileId = (fileid: number, actionId: string): Cypre
 	return getRowForFileId(fileid).should('be.visible')
 		.then(row => searchForActionInRow(row, actionId))
 }
+
 export const getActionEntryForFile = (filename: string, actionId: string): Cypress.Chainable<JQuery<HTMLElement>> => {
 	// If we cannot find the action in the row, it might be in the action menu
 	return getRowForFile(filename).should('be.visible')
@@ -216,7 +217,11 @@ export const deleteFileWithRequest = (user: User, path: string) => {
 		const requestToken = body.token
 		cy.request({
 			method: 'DELETE',
-			url: `${Cypress.env('baseUrl')}/remote.php/dav/files/${user.userId}` + path,
+			url: `${Cypress.env('baseUrl')}/remote.php/dav/files/${user.userId}${path}`,
+			auth: {
+				user: user.userId,
+				password: user.password,
+			},
 			headers: {
 				requestToken,
 			},
