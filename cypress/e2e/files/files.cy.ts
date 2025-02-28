@@ -52,6 +52,7 @@ describe('Files', { testIsolation: true }, () => {
 		cy.visit('/apps/files/files/123456')
 
 		cy.wait('@propfind')
-		cy.contains('The file could not be found').should('be.visible')
+		// The toast should be visible
+		cy.contains('The file could not be found', { timeout: 5000 }).should('be.visible')
 	})
 })
