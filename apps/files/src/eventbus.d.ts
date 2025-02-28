@@ -12,6 +12,8 @@ declare module '@nextcloud/event-bus' {
 		'files:favorites:added': Node
 		'files:favorites:removed': Node
 
+		'files:filters:changed': undefined
+
 		'files:node:created': Node
 		'files:node:deleted': Node
 		'files:node:moved': { node: Node, oldSource: string }

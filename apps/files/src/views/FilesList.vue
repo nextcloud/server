@@ -433,10 +433,6 @@ export default defineComponent({
 				&& this.currentFolder && (this.currentFolder.permissions & Permission.SHARE) !== 0
 		},
 
-		filtersChanged() {
-			return this.filtersStore.filtersChanged
-		},
-
 		showCustomEmptyView() {
 			return !this.loading && this.isEmptyDir && this.currentView?.emptyView !== undefined
 		},
@@ -496,13 +492,6 @@ export default defineComponent({
 			// Also refresh the filtered content
 			this.filterDirContent()
 		},
-
-		filtersChanged() {
-			if (this.filtersChanged) {
-				this.filterDirContent()
-				this.filtersStore.filtersChanged = false
-			}
-		},
 	},
 
 	async mounted() {
@@ -511,6 +500,9 @@ export default defineComponent({
 
 		// reload on settings change
 		subscribe('files:config:updated', this.fetchContent)
+
+		// filter content if filter were changed
+		subscribe('files:filters:changed', this.filterDirContent)
 
 		// Finally, fetch the current directory contents
 		await this.fetchContent()
