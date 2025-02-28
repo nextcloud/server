@@ -106,7 +106,7 @@ jobs:
 
       - name: Upload nodb code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@v5.3.1
+        uses: codecov/codecov-action@v5.4.0
         with:
           files: ./clover.nodb.xml
           flags: phpunit-nodb
