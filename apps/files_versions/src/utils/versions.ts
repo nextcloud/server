@@ -18,7 +18,7 @@ import logger from '../utils/logger.js'
 
 export interface Version {
 	fileId: string, // The id of the file associated to the version.
-	label: string, // 'Current version' or ''
+	label?: string, // 'Current version' or ''
 	author: string|null, // UID for the author of the version
 	filename: string, // File name relative to the version DAV endpoint
 	basename: string, // A base name generated from the mtime
