@@ -970,10 +970,13 @@ export default {
 				this.creating = false
 				this.share = share
 				this.$emit('add:share', this.share)
-			} else {
-				this.$emit('update:share', this.share)
-				this.queueUpdate(...permissionsAndAttributes)
 			}
+
+			// Let's update after creation as some attrs are only available after creation
+			this.$emit('update:share', this.share)
+			emit('update:share', this.share)
+			this.queueUpdate(...permissionsAndAttributes)
+
 
 			await this.getNode()
 			emit('files:node:updated', this.node)
