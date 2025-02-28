@@ -391,7 +391,6 @@ OC.L10N.register(
     "New text file.txt" : "Uusi tekstitiedosto.txt",
     "Submitting fields…" : "Lähetetään tietoja...",
     "Filter filenames…" : "Suodata tiedostonimiä...",
-    "You don’t have permission to upload or create files here." : "Sinulla ei ole lupaa ladata tai luoda tiedostoja täällä.",
     "Keep {oldextension}" : "Pidä {oldextension}",
     "Use {newextension}" : "Käytä {newextension}"
 },

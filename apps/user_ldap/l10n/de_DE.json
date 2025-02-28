@@ -9,6 +9,7 @@
     "No configuration specified" : "Keine Konfiguration angegeben",
     "No data specified" : "Keine Daten angegeben",
     "Invalid data specified" : "Ungültige Daten angegeben",
+    "Could not set configuration %1$s to %2$s" : "Die Konfiguration %1$s konnte nicht auf %2$s gesetzt werden",
     "Action does not exist" : "Aktion existiert nicht",
     "Renewing …" : "Erneuere …",
     "Very weak password" : "Sehr schwaches Passwort",
@@ -51,6 +52,7 @@
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "Der \"%u id\" Platzhalter fehlt. Er wird durch den Anmeldenamen ersetzt, wenn LDAP/AD abgefragt wird.",
     "Please provide a login name to test against" : "Bitte geben Sie einen Benutzernamen an, um gegen diesen zu testen",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "Das Gruppenfeld wurde deaktiviert, da der LDAP/AD-Server memberOf nicht unterstützt.",
+    "Password change rejected. Hint: %s" : "Passwortänderung verweigert. Hinweis: %s",
     "Mandatory field \"%s\" left empty" : "Pflichtfeld \"%s\" leer gelassen",
     "A password is given, but not an LDAP agent" : "Es wurde ein Passwort, aber kein LDAP-Agent eingegeben",
     "No password is given for the user agent" : "Für den User-Agenten wurde kein Passwort angegeben",
@@ -231,7 +233,6 @@
     "Clear Username-LDAP User Mapping" : "Lösche LDAP-Benutzernamenzuordnung",
     "Clear Groupname-LDAP Group Mapping" : "Lösche LDAP-Gruppennamenzuordnung",
     "Invalid configuration. Please have a look at the logs for further details." : "Die Konfiguration ist ungültig. Weitere Details finden Sie in den Protokolldateien. ",
-    " Could not set configuration %s" : "Die Konfiguration %s konnte nicht gesetzt werden",
-    "Password change rejected. Hint: " : "Passwortänderung verweigert. Hinweis:"
+    " Could not set configuration %s" : "Die Konfiguration %s konnte nicht gesetzt werden"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -129,6 +129,7 @@
     "Unlimited" : "Unbegrenzt",
     "Verifying" : "Überprüfe",
     "Allowed admin IP ranges" : "Zulässige Administrations-IP-Bereiche",
+    "Admin IP filtering isn't applied." : "IP-Filterung durch Administration ist nicht aktiv.",
     "Configuration key \"%1$s\" expects an array (%2$s found). Admin IP range validation will not be applied." : "Der Konfigurationsschlüssel \"%1$s\" erwartet ein Array (%2$s gefunden). Die Validierung des Administrations-IP-Bereichs wird nicht angewendet.",
     "Configuration key \"%1$s\" contains invalid IP range(s): \"%2$s\"" : "Konfigurationsschlüssel \"%1$s\" enthält ungültige IP-Bereiche: \"%2$s\"",
     "Admin IP filtering is correctly configured." : "Administrations-IP-Filterung ist richtig konfiguriert.",
@@ -161,6 +162,7 @@
     "Database missing indices" : "In der Datenbank fehlen Indizes",
     "Missing indices:" : "Fehlende Indizes:",
     "\"%s\" in table \"%s\"" : "\"%s\" in Tabelle \"%s\"",
+    "Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them." : "Einige fehlende optionale Indizes wurden erkannt. Gelegentlich werden neue Indizes hinzugefügt (von Nextcloud oder installierten Anwendungen), um die Datenbankleistung zu verbessern. Das Hinzufügen von Indizes kann manchmal eine Weile dauern und die Leistung vorübergehend beeinträchtigen, daher wird dies bei Upgrades nicht automatisch durchgeführt. Sobald die Indizes hinzugefügt wurden, sollten Abfragen an diese Tabellen schneller sein. Bitte den Befehl `occ db:add-missing-indices` verwenden, um sie hinzuzufügen.",
     "Database missing primary keys" : "In der Datenbank fehlen Primärschlüssel",
     "Missing primary key on table \"%s\"." : "Fehlender Primärschlüssel in Tabelle \"%s\".",
     "The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running \"occ db:add-missing-primary-keys\" those missing primary keys could be added manually while the instance keeps running." : "In der Datenbank fehlen einige Primärschlüssel. Aufgrund der Tatsache, dass das Hinzufügen von Primärschlüsseln bei großen Tabellen einige Zeit dauern konnte, wurden sie nicht automatisch hinzugefügt. Durch Ausführen von \"occ db:add-missing-primary-keys\" können diese fehlenden Primärschlüssel manuell hinzugefügt werden, während die Instanz weiter läuft.",
@@ -709,7 +711,9 @@
     "Account deletion" : "Löschung des Kontos",
     "Delete {userid}'s account" : "Konto von {userid} löschen",
     "Display name was successfully changed" : "Der Anzeigename wurde geändert",
+    "Password can't be empty" : "Passwort darf nicht leer sein",
     "Password was successfully changed" : "Das Passwort wurde erfolgreich geändert",
+    "Email can't be empty" : "E-Mail darf nicht leer sein",
     "Email was successfully changed" : "E-Mail-Adresse wurde geändert",
     "Welcome mail sent!" : "Willkommens-E-Mail gesendet!",
     "Loading account …" : "Lade Konto …",
@@ -903,8 +907,8 @@
     "Set user as admin for …" : "Benutzer als Administration setzen für…",
     "Set user quota" : "Kontokontingent einstellen",
     "Add new user" : "Neues Konto hinzufügen",
-    "_{userCount} user …_::_{userCount} users …_" : ["{userCount} Benutzer…","{userCount} Konten…"],
-    "_{userCount} user_::_{userCount} users_" : ["{userCount} Benutzer","{userCount} Konten"],
+    "_{userCount} user …_::_{userCount} users …_" : ["{userCount} Benutzer…","{userCount} Benutzer …"],
+    "_{userCount} user_::_{userCount} users_" : ["{userCount} Konto","{userCount} Konten"],
     "Loading users …" : "Lade Konten …",
     "Username" : "Kontenname",
     "User backend" : "Konto-Backend",
@@ -915,8 +919,6 @@
     "Active accounts" : "Aktive Konten",
     "Follow us on Twitter" : "Folgen Sie uns auf Twitter",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Damit diese Prüfung ausgeführt werden kann, müssen Sie sicherstellen, dass Ihr Webserver eine Verbindung zu sich selbst herstellen kann. Daher muss er in der Lage sein, mindestens eine seiner `trusted_domains` oder `overwrite.cli.url` aufzulösen und eine Verbindung zu ihnen herzustellen. Dieser Fehler kann das Ergebnis einer serverseitigen DNS-Nichtübereinstimmung oder einer ausgehenden Firewall-Regel sein.",
-    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQL-Version \"%s\" erkannt. Für optimale Leistung, Stabilität und Funktionalität mit dieser Version von Nextcloud wird PostgreSQL >=12 und <=16 empfohlen.",
-    "Admin IP filtering isn’t applied." : "Administrations-IP-Filterung ist nicht aktiv.",
-    "Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them. " : "Einige fehlende optionale Indizes wurden erkannt. Gelegentlich werden neue Indizes hinzugefügt (von Nextcloud oder installierten Anwendungen), um die Datenbankleistung zu verbessern. Das Hinzufügen von Indizes kann manchmal eine Weile dauern und die Leistung vorübergehend beeinträchtigen, daher wird dies bei Upgrades nicht automatisch durchgeführt. Sobald die Indizes hinzugefügt wurden, sollten Abfragen an diese Tabellen schneller sein. Verwenden Sie den Befehl `occ db:add-missing-indices`, um sie hinzuzufügen."
+    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQL-Version \"%s\" erkannt. Für optimale Leistung, Stabilität und Funktionalität mit dieser Version von Nextcloud wird PostgreSQL >=12 und <=16 empfohlen."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

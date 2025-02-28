@@ -441,8 +441,6 @@ OC.L10N.register(
     "Not favored" : "Ненаклоњен",
     "Submitting fields…" : "Поља се подносе…",
     "Filter filenames…" : "Филтрирање имена фајлова…",
-    "\"{displayName}\" failed on some elements " : "„{displayName}” није успело на неким елементима",
-    "You don’t have permission to upload or create files here." : "Немате дозволу да овде отпремите или креирате фајлове.",
     "Keep {oldextension}" : "Задржи {oldextension}",
     "Use {newextension}" : "Користи {newextension}"
 },

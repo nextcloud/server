@@ -131,6 +131,7 @@ OC.L10N.register(
     "Unlimited" : "غير محدود",
     "Verifying" : "التحقق",
     "Allowed admin IP ranges" : "نطاقات عناوين IP المسموحة للمديرين",
+    "Admin IP filtering isn't applied." : "فلترة المُشرِف على أساس عناوين IP غير مُطبَّقَة.",
     "Configuration key \"%1$s\" expects an array (%2$s found). Admin IP range validation will not be applied." : "مفتاح التهيئة \"%1$s\" يتوقع مصفوفة (%2$s موجودة). غربلة عناوين IP الخاصة بالمديرين غير مُطبَّقة.",
     "Configuration key \"%1$s\" contains invalid IP range(s): \"%2$s\"" : "مفتاح التهيئة \"%1$s\" يحتوي على نطاق (أو نطاقات) IP غير صحيحة: \"%2$s\"",
     "Admin IP filtering is correctly configured." : "غربلة عناوين IP الخاصة بالمديرين مهيأة بالشكل الصحيح.",
@@ -163,6 +164,7 @@ OC.L10N.register(
     "Database missing indices" : "أدلّة ناقصة في قاعدة البيانات",
     "Missing indices:" : "فهارس مفقودة:",
     "\"%s\" in table \"%s\"" : "\"%s\" في الجدول \"%s\"",
+    "Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them." : "تم اكتشاف بعض الفهارس الاختيارية المفقودة. في بعض الأحيان تتم إضافة فهارس جديدة (بواسطة نكست كلاود أو التطبيقات المثبتة) لتحسين أداء قاعدة البيانات. قد تستغرق إضافة الفهارس بعض الوقت في بعض الأحيان وتؤثر بشكل مؤقت على الأداء، لذا لا يتم ذلك تلقائياً أثناء الترقيات. بمجرد إضافة الفهارس، يفُترض أن تُصبِح الاستعلامات على هذه الجداول أسرع. لإضافتها، استخدِم الأمر السطري: `occ db:add-missing-indices` .",
     "Database missing primary keys" : "مفاتيح رئيسية ناقصة في قاعدة البيانات",
     "Missing primary key on table \"%s\"." : "مفتاح رئيسي ناقص في الجدول \"%s\".",
     "The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running \"occ db:add-missing-primary-keys\" those missing primary keys could be added manually while the instance keeps running." : "تفتقد قاعدة البيانات إلى بعض المفاتيح الأساسية. نظرًا لحقيقة أن إضافة المفاتيح الأساسية على الطاولات الكبيرة قد تستغرق بعض الوقت لم تتم إضافتها تلقائيًا. من خلال تشغيل \"occ db: add-missing-basic-keys\" يمكن إضافة تلك المفاتيح الأساسية المفقودة يدويًا أثناء استمرار تشغيل الخادم.",
@@ -711,7 +713,9 @@ OC.L10N.register(
     "Account deletion" : "حذف حساب",
     "Delete {userid}'s account" : "حذف حساب {userid}",
     "Display name was successfully changed" : "تم تغيير اسم العرض بنجاح",
+    "Password can't be empty" : "كلمة المرور لايمكن أن تكون فارغةً",
     "Password was successfully changed" : "تم تغيير كلمة المرور بنجاح",
+    "Email can't be empty" : "البريد الإلكتروني لايمكن أن يكون فارغاً",
     "Email was successfully changed" : "تم تغيير البريد الإلكتروني بنجاح",
     "Welcome mail sent!" : "تمّ إرسال إيميل ترحيبي!",
     "Loading account …" : "تحميل حسابات ...",
@@ -917,8 +921,6 @@ OC.L10N.register(
     "Active accounts" : "حسابات نشطة",
     "Follow us on Twitter" : "تابعونا على تويتر",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "للسماح بتشغيل هذا الفحص، عليك التأكد من أن خادم الويب الخاص بك يمكنه الاتصال بنفسه. لذلك، يجب أن يكون قادراً على حل المشكلة والاتصال بواحد على الأقل من \"النطاقات_الموثوقة\" أو \"overwrite.cli.url\". قد يكون هذا الفشل نتيجة لعدم تطابق DNS من جانب الخادم أو قاعدة صادرة لجدار الحماية.",
-    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "تمّ اكتشاف الإصدار \"%s\" من PostgreSQL. الإصدارات الموصى بها لأفضل أداء و للثبات و لاكتمال الوظائف مع هذا الإصدار من نكست كلاود هي من 12 إلى 16. ",
-    "Admin IP filtering isn’t applied." : "غربلة عناوين IP الخاصة بالمديرين غير مطبقة.",
-    "Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them. " : "تم اكتشاف بعض الفهارس الاختيارية المفقودة. في بعض الأحيان تتم إضافة فهارس جديدة (بواسطة منصة نكست كلاود أو التطبيقات الأخرى المثبتة عليها) لتحسين أداء قاعدة البيانات. قد تستغرق إضافة الفهارس أحياناً بعض الوقت وتؤثّر مؤقتاً على الأداء، لذلك لا يتم ذلك تلقائيًا أثناء عمليات الترقية. بمجرد إضافة الفهارس، يجب أن تكون الاستعلامات لتلك الجداول أسرع. \nاستعمل الأمر السطري  `occ db:add-missing-indices` لإضافة هذه الفهارس."
+    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "تمّ اكتشاف الإصدار \"%s\" من PostgreSQL. الإصدارات الموصى بها لأفضل أداء و للثبات و لاكتمال الوظائف مع هذا الإصدار من نكست كلاود هي من 12 إلى 16. "
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

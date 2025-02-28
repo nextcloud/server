@@ -728,7 +728,6 @@ OC.L10N.register(
     "Name your device" : "Naziv naprave",
     "Active accounts" : "Dejavni računi",
     "Follow us on Twitter" : "Sledite nam na Twitter!",
-    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Če želite omogočiti izvajanje tega preverjanja, je treba zagotoviti, da se spletni strežnik lahko poveže sam s seboj. Zato mora biti nastavljen za povezovanje z vsaj eno od določenih »varnih domen« (trusted_domains) ali naslovov za prepis »vmesnika ukazne vrstice« (overwrite.cli.url). Spodletelo preverjanje je lahko posledica neujemanja imen DNS na strani strežnika oziroma pravila požarnega zidu.",
-    "Admin IP filtering isn’t applied." : "Skrbniško filtriranje naslovov IP ni uveljavljeno."
+    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Če želite omogočiti izvajanje tega preverjanja, je treba zagotoviti, da se spletni strežnik lahko poveže sam s seboj. Zato mora biti nastavljen za povezovanje z vsaj eno od določenih »varnih domen« (trusted_domains) ali naslovov za prepis »vmesnika ukazne vrstice« (overwrite.cli.url). Spodletelo preverjanje je lahko posledica neujemanja imen DNS na strani strežnika oziroma pravila požarnega zidu."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

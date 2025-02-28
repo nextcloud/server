@@ -379,7 +379,6 @@ OC.L10N.register(
     "Favor" : "ياق",
     "Not favored" : "ياقتۇرمايدۇ",
     "Submitting fields…" : "يول يوللاش…",
-    "Filter filenames…" : "ھۆججەت نامىنى سۈزۈڭ…",
-    "\"{displayName}\" failed on some elements " : "\"{displayName}\" بەزى ئېلېمېنتلاردا مەغلۇپ بولدى "
+    "Filter filenames…" : "ھۆججەت نامىنى سۈزۈڭ…"
 },
 "nplurals=2; plural=(n != 1);");

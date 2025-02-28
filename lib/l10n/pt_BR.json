@@ -403,8 +403,6 @@
     "Click the button below to open it." : "Clique no botão abaixo para abri-lo.",
     "File is currently busy, please try again later" : "O arquivo está ocupado, tente novamente mais tarde",
     "Cannot download file" : "Não é possível baixar o arquivo",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Assegure-se que exista um arquivo chamado \".ocdata\" na raiz do diretório \"data\".",
-    "Your current IP address doesn’t allow you to perform admin actions" : "Seu endereço IP atual não permite que você execute ações administrativas",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X não é suportado e %s não funcionará corretamente nesta plataforma. Use-o por sua conta e risco!"
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Assegure-se que exista um arquivo chamado \".ocdata\" na raiz do diretório \"data\"."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

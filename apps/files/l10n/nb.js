@@ -422,8 +422,6 @@ OC.L10N.register(
     "Not favored" : "Ikke favorittlagt",
     "Submitting fields…" : "Sender inn felt...",
     "Filter filenames…" : "Filtrer filnavn...",
-    "\"{displayName}\" failed on some elements " : "\"{displayName}\" feilet på noen elementer",
-    "You don’t have permission to upload or create files here." : "Du har ikke tilgang til å laste opp eller opprette filer her.",
     "Keep {oldextension}" : "Behold {oldextension}",
     "Use {newextension}" : "Bruk {newextension}"
 },

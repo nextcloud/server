@@ -440,8 +440,6 @@ OC.L10N.register(
     "Not favored" : "Не одобрен",
     "Submitting fields…" : "Отправка полей…",
     "Filter filenames…" : "Фильтровать имена файлов…",
-    "\"{displayName}\" failed on some elements " : "«{displayName}» неудачно для некоторых элементов",
-    "You don’t have permission to upload or create files here." : "У вас нет разрешения на загрузку или создание файлов здесь.",
     "Keep {oldextension}" : "Сохранить {oldextension}",
     "Use {newextension}" : "Использовать {newextension}"
 },

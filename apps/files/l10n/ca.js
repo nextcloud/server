@@ -440,8 +440,6 @@ OC.L10N.register(
     "Not favored" : "No afavorit",
     "Submitting fields…" : "S'estan enviant camps…",
     "Filter filenames…" : "Filtra els noms de fitxer…",
-    "\"{displayName}\" failed on some elements " : "\"{displayName}\" ha fallat en alguns elements ",
-    "You don’t have permission to upload or create files here." : "No teniu permís per a pujar o crear fitxers aquí.",
     "Keep {oldextension}" : "Mantenir {oldextension}",
     "Use {newextension}" : "Utilitza {newextension}"
 },

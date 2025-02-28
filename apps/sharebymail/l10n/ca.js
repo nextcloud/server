@@ -52,7 +52,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s ha compartit «%2$s» amb vós i vol afegir",
     "»%s« added a note to a file shared with you" : "%s ha afegit una nota a un fitxer compartit amb vós",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Acabeu de compartir «%1$s» amb %2$s. Ja s'ha enviat l'element compartit al destinatari. A causa de les polítiques de seguretat definides per l'administrador del %3$s, cada element compartit s'ha de protegir amb contrasenya i no es permet enviar-la directament al destinatari. Per tant, li heu de fer arribar manualment per un altre canal.",
-    "Password to access »%1$s« shared by you with %2$s" : "Heu compartit amb %2$s la contrasenya per a accedir a «%1$s»",
-    "%1$s shared %2$s with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s ha compartit %2$s amb tu.\nJa hauríeu d'haver rebut un correu separat amb un enllaç per accedir-hi.\n"
+    "Password to access »%1$s« shared by you with %2$s" : "Heu compartit amb %2$s la contrasenya per a accedir a «%1$s»"
 },
 "nplurals=2; plural=(n != 1);");

@@ -223,7 +223,6 @@
     "Clear Username-LDAP User Mapping" : "Elimina el mapatge d'usuari Nom d'usuari-LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Suprimeix el mapatge de grup Nom de grup-LDAP",
     "Invalid configuration. Please have a look at the logs for further details." : "Configuració no vàlida. Feu un cop d'ull als registres per obtenir més informació.",
-    " Could not set configuration %s" : " No s'ha pogut establir la configuració %s",
-    "Password change rejected. Hint: " : "El canvi de contrasenya s'ha rebutjat. Pista: "
+    " Could not set configuration %s" : " No s'ha pogut establir la configuració %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

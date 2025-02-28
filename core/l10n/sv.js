@@ -196,6 +196,7 @@ OC.L10N.register(
     "Search" : "Sök",
     "No results for {query}" : "Inga resultat för {query}",
     "Press Enter to start searching" : "Tryck på enter för att börja söka",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters  or more to search_" : ["Ange {minSearchLength} tecken eller mer för att söka","Ange {minSearchLength} tecken eller mer för att söka"],
     "An error occurred while searching for {type}" : "Ett fel uppstod vid sökning efter {type}",
     "Search starts once you start typing and results may be reached with the arrow keys" : "Sökningen startar när du börjar skriva och resultat kan nås med piltangenterna",
     "Search for {name} only" : "Sök efter endast {name}",

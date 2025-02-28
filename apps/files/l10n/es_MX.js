@@ -399,7 +399,6 @@ OC.L10N.register(
     "Not favored" : "No favorecido",
     "Submitting fields…" : "Enviando campos...",
     "Filter filenames…" : "Filtrar nombres de archivos...",
-    "\"{displayName}\" failed on some elements " : "\"{displayName}\" falló en algunos elementos",
     "Keep {oldextension}" : "Conservar {oldextension}",
     "Use {newextension}" : "Usar {newextension}"
 },

@@ -131,6 +131,7 @@ OC.L10N.register(
     "Unlimited" : "Sen límites",
     "Verifying" : "Verificando",
     "Allowed admin IP ranges" : "Intervalos de IP de administración permitidos",
+    "Admin IP filtering isn't applied." : "Non se aplica o filtrado de IP de administración.",
     "Configuration key \"%1$s\" expects an array (%2$s found). Admin IP range validation will not be applied." : "A clave de configuración «%1$s» agarda unha matriz (atopouse %2$s). Non se aplicará a validación do intervalo de IP de administración.",
     "Configuration key \"%1$s\" contains invalid IP range(s): \"%2$s\"" : "A clave de configuración «%1$s» contén intervalos de IP non válidos: «%2$s»",
     "Admin IP filtering is correctly configured." : "O filtrado de IP de administración está configurado correctamente.",
@@ -163,6 +164,7 @@ OC.L10N.register(
     "Database missing indices" : "Faltan índices na base de datos",
     "Missing indices:" : "Faltan índices:",
     "\"%s\" in table \"%s\"" : "«%s» na táboa «%s»",
+    "Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them." : "Detectáronse algúns índices opcionais que faltan. En ocasións engádense novos índices (por Nextcloud ou aplicacións instaladas) para mellorar o rendemento da base de datos. Engadir índices ás veces pode levar un tempo e prexudicar temporalmente o rendemento, polo que non se fai automaticamente durante as actualizacións. Unha vez que se engaden os índices, as consultas a esas táboas deberían ser máis rápidas. Use a orde «occ db:add-missing-indices» para engadilos.",
     "Database missing primary keys" : "Faltan as chaves primarias na base de datos",
     "Missing primary key on table \"%s\"." : "Falta a chave primaria na táboa «%s».",
     "The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running \"occ db:add-missing-primary-keys\" those missing primary keys could be added manually while the instance keeps running." : "Faltan algunhas chave primarias na base de datos. Por mor do feito de que a adición de chave primarias en táboas grandes podería levar algún tempo, non se engadiron automaticamente. Ao executar «occ db:add-missing-primary-keys», esas chave primarias que faltan poderían engadirse manualmente mentres a instancia segue funcionando.",
@@ -711,7 +713,9 @@ OC.L10N.register(
     "Account deletion" : "Eliminación de conta",
     "Delete {userid}'s account" : "Eliminar a conta de {userid}",
     "Display name was successfully changed" : "O nome para amosar foi cambiado satisfactoriamente",
+    "Password can't be empty" : "O contrasinal non pode estar baleiro",
     "Password was successfully changed" : "O contrasinal foi cambiado satisfactoriamente",
+    "Email can't be empty" : "O correo-e non pode estar baleiro",
     "Email was successfully changed" : "O correo foi cambiado satisfactoriamente",
     "Welcome mail sent!" : "Enviado o correo de benvida!",
     "Loading account …" : "Cargando a conta…",
@@ -917,8 +921,6 @@ OC.L10N.register(
     "Active accounts" : "Contas activas",
     "Follow us on Twitter" : "Síganos en Twitter",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Para permitir que esta comprobación se execute, debe asegurarse de que o seu servidor web poida conectarse a si mesmo. Por tanto, debe ser quen de resolver e conectarse a polo menos un dos seus «trusted_domains» ou ao «overwrite.cli.url». Este fallo pode ser o resultado dunha falta de coincidencia de DNS do servidor ou dunha regra da devasa de saída.",
-    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Detectouse a versión «%s» de PostgreSQL. Suxírese PostgreSQL >=12 e <=16 para un mellor rendemento, estabilidade e funcionalidade con esta versión de Nextcloud.",
-    "Admin IP filtering isn’t applied." : "Non se aplica o filtrado de IP de administración.",
-    "Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them. " : "Detectáronse algúns índices opcionais que faltan. En ocasións engádense novos índices (por Nextcloud ou aplicacións instaladas) para mellorar o rendemento da base de datos. Engadir índices ás veces pode levar un tempo e prexudicar temporalmente o rendemento, polo que non se fai automaticamente durante as actualizacións. Unha vez que se engaden os índices, as consultas a esas táboas deberían ser máis rápidas. Use a orde «occ db:add-missing-indices» para engadilos."
+    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Detectouse a versión «%s» de PostgreSQL. Suxírese PostgreSQL >=12 e <=16 para un mellor rendemento, estabilidade e funcionalidade con esta versión de Nextcloud."
 },
 "nplurals=2; plural=(n != 1);");

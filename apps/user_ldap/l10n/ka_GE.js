@@ -170,7 +170,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Username-LDAP მომხმარებლის ბმების გასუფთავება",
     "Clear Groupname-LDAP Group Mapping" : "Groupname-LDAP ჯგუფის ბმების გასუფთავება",
     "Invalid configuration. Please have a look at the logs for further details." : "არასწორი კონფიგურაცია. დეტალებისთვის გთხოვთ გადახედოთ ლოგებს.",
-    " Could not set configuration %s" : "კონფიგურაციის %s დაყენება ვერ მოხერხდა",
-    "Password change rejected. Hint: " : "პაროლის ცვლილება უარყოფილ იქნა. მითითება:"
+    " Could not set configuration %s" : "კონფიგურაციის %s დაყენება ვერ მოხერხდა"
 },
 "nplurals=2; plural=(n!=1);");

@@ -277,6 +277,7 @@ OC.L10N.register(
     "Edit" : "Editar",
     "Share" : "Compartir",
     "Delete" : "Eliminar",
+    "Password field can't be empty" : "O campo de contrasinal non pode estar baleiro",
     "Replace current password" : "Substituír o contrasinal actual",
     "Failed to generate a new token" : "Produciuse un fallo ao xerar un novo testemuño",
     "Allow upload and editing" : "Permitir o envío e a edición",

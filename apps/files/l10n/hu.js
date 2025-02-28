@@ -440,8 +440,6 @@ OC.L10N.register(
     "Not favored" : "Nincs a kedveltek között",
     "Submitting fields…" : "Mezők beküldése…",
     "Filter filenames…" : "Fájlnevek szűrése…",
-    "\"{displayName}\" failed on some elements " : "A(z) „{displayName}” sikertelen volt néhány elemen",
-    "You don’t have permission to upload or create files here." : "Nincs jogosultsága ahhoz, hogy fájlokat töltsön fel ide vagy hozzon létre itt.",
     "Keep {oldextension}" : "Hagyd meg ezt: {oldextension}",
     "Use {newextension}" : "Használd ezt: {newextension}"
 },

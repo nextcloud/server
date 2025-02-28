@@ -451,8 +451,6 @@
     "Not favored" : "未加入最愛",
     "Submitting fields…" : "正在遞交欄位……",
     "Filter filenames…" : "篩選檔案名稱……",
-    "\"{displayName}\" failed on some elements " : "「{displayName}」在某些元素上失敗 ",
-    "You don’t have permission to upload or create files here." : "您無權在此上傳或建立檔案。",
     "Keep {oldextension}" : "保留 {oldextension}",
     "Use {newextension}" : "使用 {newextension}"
 },"pluralForm" :"nplurals=1; plural=0;"

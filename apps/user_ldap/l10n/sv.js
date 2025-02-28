@@ -11,6 +11,7 @@ OC.L10N.register(
     "No configuration specified" : "Ingen konfiguration har angetts",
     "No data specified" : "Inga data har angetts",
     "Invalid data specified" : "Ogiltig data har angetts",
+    "Could not set configuration %1$s to %2$s" : "Kunde inte ställa in konfigurationen %1$s till %2$s",
     "Action does not exist" : "Åtgärd finns inte",
     "Renewing …" : "Förnyar ...",
     "Very weak password" : "Väldigt svagt lösenord",
@@ -53,6 +54,7 @@ OC.L10N.register(
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "\"%uid\"-platshållaren saknas. Den kommer att ersättas med inloggningsnamn när LDAP/AD efterfrågas.",
     "Please provide a login name to test against" : "Ange ett inloggningsnamn att försöka ansluta med",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "Grupprutan inaktiverades eftersom LDAP/AD-servern inte stöder memberOf.",
+    "Password change rejected. Hint: %s" : "Lösenordsändring avvisad. Anledning/tips: %s",
     "Mandatory field \"%s\" left empty" : "Obligatoriskt fält \"%s\" lämnad tom",
     "A password is given, but not an LDAP agent" : "Ett lösenord har angetts, men ingen LDAP-agent",
     "No password is given for the user agent" : "Inget lösenord har angetts för användaragenten",
@@ -233,7 +235,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Rensa användarnamn-LDAP användarmappning",
     "Clear Groupname-LDAP Group Mapping" : "Rensa gruppnamn-LDAP gruppmappning",
     "Invalid configuration. Please have a look at the logs for further details." : "Ogiltig konfiguration. Vänligen undersök loggar för mer detaljer.",
-    " Could not set configuration %s" : "Kunde inte sätta inställning %s",
-    "Password change rejected. Hint: " : "Lösenordsbyte nekad. Anledning/tips: "
+    " Could not set configuration %s" : "Kunde inte sätta inställning %s"
 },
 "nplurals=2; plural=(n != 1);");

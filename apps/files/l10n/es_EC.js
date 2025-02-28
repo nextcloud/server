@@ -258,7 +258,6 @@ OC.L10N.register(
     "Create new templates folder" : "Crear nueva carpeta de plantillas.",
     "List of favorites files and folders." : "Lista de archivos y carpetas favoritos.",
     "Text file" : "Archivo de texto",
-    "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
-    "\"{displayName}\" failed on some elements " : "La acción \"{displayName}\" falló en algunos elementos."
+    "New text file.txt" : "Nuevo ArchivoDeTexto.txt"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -223,7 +223,6 @@
     "Clear Username-LDAP User Mapping" : "ユーザー名とLDAPユーザーのマッピングをクリアする",
     "Clear Groupname-LDAP Group Mapping" : "グループ名とLDAPグループのマッピングをクリアする",
     "Invalid configuration. Please have a look at the logs for further details." : "設定が無効です。詳細はログを確認してください。",
-    " Could not set configuration %s" : "構成 %s を設定できませんでした",
-    "Password change rejected. Hint: " : "パスワード変更が拒否されました。ヒント："
+    " Could not set configuration %s" : "構成 %s を設定できませんでした"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

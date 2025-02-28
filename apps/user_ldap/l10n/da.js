@@ -177,7 +177,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Ryd kortlægning mellem brugernavn og LDAP-bruger",
     "Clear Groupname-LDAP Group Mapping" : "Ryd kortlægning mellem gruppenavn og LDAP-gruppe",
     "Invalid configuration. Please have a look at the logs for further details." : "Ikke gyldig konfiguration. Kig venligst på logfilerne for mere information.",
-    " Could not set configuration %s" : "Kunne ikke indstille konfigurationen %s",
-    "Password change rejected. Hint: " : "Kodeord ændring afvist. Hint:"
+    " Could not set configuration %s" : "Kunne ikke indstille konfigurationen %s"
 },
 "nplurals=2; plural=(n != 1);");

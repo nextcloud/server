@@ -185,7 +185,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Leegmaken Gebruikersnaam-LDAP gebruikers vertaling",
     "Clear Groupname-LDAP Group Mapping" : "Leegmaken Groepsnaam-LDAP groep vertaling",
     "Invalid configuration. Please have a look at the logs for further details." : "Ongeldige configuratie. Bekijk de logbestanden voor meer details.",
-    " Could not set configuration %s" : "Kon configuratie %s niet instellen",
-    "Password change rejected. Hint: " : "Wachtwoordwijziging geweigerd. Hint:"
+    " Could not set configuration %s" : "Kon configuratie %s niet instellen"
 },
 "nplurals=2; plural=(n != 1);");

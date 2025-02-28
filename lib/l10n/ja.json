@@ -453,8 +453,6 @@
     "Click the button below to open it." : "開くには下のボタンをクリック",
     "File is currently busy, please try again later" : "現在ファイルはビジーです。後でもう一度試してください。",
     "Cannot download file" : "ファイルをダウンロードできません",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "データディレクトリの直下に \".ocdata\" ファイルがあるのを確認してください。",
-    "Your current IP address doesn’t allow you to perform admin actions" : "現在のIPアドレスでは管理アクションを実行できません",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X では、サポートされていません。このOSでは、%sは正常に動作しないかもしれません。ご自身の責任においてご利用ください。"
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "データディレクトリの直下に \".ocdata\" ファイルがあるのを確認してください。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

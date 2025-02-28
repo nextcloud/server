@@ -656,7 +656,6 @@ OC.L10N.register(
     "Server error while trying to add WebAuthn device" : "Serverfout tijdens het toevoegen van WebAuthn apparaat",
     "Name your device" : "Geef je apparaat een naam",
     "Active accounts" : "Actieve accounts",
-    "Follow us on Twitter" : "Volg ons op Twitter",
-    "Admin IP filtering isn’t applied." : "Beheerder IP-filtering is niet toegepast."
+    "Follow us on Twitter" : "Volg ons op Twitter"
 },
 "nplurals=2; plural=(n != 1);");

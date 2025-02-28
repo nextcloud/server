@@ -129,7 +129,7 @@
     "Website" : "Вебсайт",
     "Visit %s" : "Відвідайте %s",
     "Address" : "Адреса",
-    "Profile picture" : "Зображення облікового запису",
+    "Profile picture" : "Зображення користувача",
     "About" : "Опис",
     "Display name" : "Ім'я для показу",
     "Headline" : "Заголовок",
@@ -353,8 +353,6 @@
     "Click the button below to open it." : "Щоб відкрити файл, натисніть кнопку нижче.",
     "File is currently busy, please try again later" : "Файл на разі зайнятий, будь ласка, спробуйте пізніше",
     "Cannot download file" : "Неможливо звантажити файл",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Переконайтеся, що в корені каталогу даних є файл під назвою \".ocdata\".",
-    "Your current IP address doesn’t allow you to perform admin actions" : "Ваша поточна адреса IP не дозволяє виконувати адміністративні дії",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X не підтримується і %s не буде коректно працювати на цій платформі. Випробовуєте на свій риск!"
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Переконайтеся, що в корені каталогу даних є файл під назвою \".ocdata\"."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

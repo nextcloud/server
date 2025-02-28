@@ -225,7 +225,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Zrušiť mapovanie LDAP používateľských mien",
     "Clear Groupname-LDAP Group Mapping" : "Zrušiť mapovanie názvov LDAP skupín",
     "Invalid configuration. Please have a look at the logs for further details." : "Konfigurácia je chybná. Prosím, pozrite sa do logov pre ďalšie podrobnosti.",
-    " Could not set configuration %s" : "Nemôžem nastaviť konfiguráciu %s",
-    "Password change rejected. Hint: " : "Zmena hesla zamietnutá. Vodítko:"
+    " Could not set configuration %s" : "Nemôžem nastaviť konfiguráciu %s"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

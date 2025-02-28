@@ -221,7 +221,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Borrar la asignación de los Nombres de usuario de los usuarios LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Borrar la asignación de los Nombres de grupo de los grupos de LDAP",
     "Invalid configuration. Please have a look at the logs for further details." : "Configuración no válida. Por favor, echa un vistazo al registro para más detalles.",
-    " Could not set configuration %s" : "No se pudo establecer la configuración %s",
-    "Password change rejected. Hint: " : "Contraseña rechazada. Pista:"
+    " Could not set configuration %s" : "No se pudo establecer la configuración %s"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
