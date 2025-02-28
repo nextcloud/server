@@ -50,14 +50,11 @@ jobs:
     # Only if there are not already reviews requested
     if: github.event.pull_request.requested_reviewers[1] == null
 
-    permissions:
-      pull-requests: write
-
     steps:
       - name: Assign backend engineers
         if: needs.changes.outputs.backend == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.COMMAND_BOT_PAT }}
         run: |
           gh api \
             --method POST \
@@ -68,7 +65,7 @@ jobs:
       - name: Assign frontend engineers
         if: needs.changes.outputs.frontend == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.COMMAND_BOT_PAT }}
         run: |
           gh api \
             --method POST \
