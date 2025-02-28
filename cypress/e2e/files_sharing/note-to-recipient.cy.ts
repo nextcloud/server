@@ -40,6 +40,26 @@ describe('files_sharing: Note to recipient', { testIsolation: true }, () => {
 			.and('contain.text', 'Hello, this is the note.')
 	})
 
+	it('displays the note to the sharee even if the file list is empty', () => {
+		cy.mkdir(user, '/folder')
+		cy.login(user)
+		cy.visit('/apps/files')
+
+		// share the folder
+		createShare('folder', sharee.userId, { read: true, download: true, note: 'Hello, this is the note.' })
+
+		cy.logout()
+		// Now for the sharee
+		cy.login(sharee)
+
+		// visit shared files view
+		cy.visit('/apps/files')
+		navigateToFolder('folder')
+		cy.get('.note-to-recipient')
+			.should('be.visible')
+			.and('contain.text', 'Hello, this is the note.')
+	})
+
 	/**
 	 * Regression test for https://github.com/nextcloud/server/issues/46188
 	 */
