@@ -17,6 +17,13 @@
 			<NcCheckboxRadioSwitch :checked.sync="settings.allowGroupSharing">
 				{{ t('settings', 'Allow sharing with groups') }}
 			</NcCheckboxRadioSwitch>
+			<div v-show="settings.allowGroupSharing" id="settings-sharing-api-groups-block-list" class="sharing__labeled-entry sharing__input">
+				<label for="sharing-groups-block-list">{{ t('settings', 'Groups that are excluded from sharing') }}</label>
+				<NcSettingsSelectGroup id="sharing-groups-block-list"
+					v-model="settings.groupsBlockList"
+					:label="t('settings', 'Select groups')"
+					style="width: 100%" />
+			</div>
 			<NcCheckboxRadioSwitch :checked.sync="settings.onlyShareWithGroupMembers">
 				{{ t('settings', 'Restrict users to only share with users in their groups') }}
 			</NcCheckboxRadioSwitch>
@@ -258,6 +265,7 @@ interface IShareSettings {
 	remoteExpireAfterNDays: string
 	enforceRemoteExpireDate: boolean
 	allowCustomTokens: boolean
+	groupsBlockList: string[]
 }
 
 export default defineComponent({
