@@ -3591,4 +3591,21 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->where($cmd->expr()->eq('uid', $cmd->createNamedParameter($eventId, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
 		$cmd->executeStatement();
 	}
+
+	public function findEventDataByUri(string $uid, string $organizerUri): ?array {
+		$principalUri = $this->principalBackend->findByUri($organizerUri, 'principals/users');
+		$query = $this->db->getQueryBuilder();
+		$query->select('co.*')
+			->from('calendarobjects', 'co')
+			->join('co', 'calendars', 'c', $query->expr()->eq('co.calendarid', 'c.id'))
+			->where($query->expr()->eq('co.uid', $query->createNamedParameter($uid)))
+			->andWhere($query->expr()->eq('c.principaluri', $query->createNamedParameter($principalUri)));
+		$stmt = $query->executeQuery();
+		$row = $stmt->fetch();
+		$stmt->closeCursor();
+		if (!$row) {
+			return null;
+		}
+		return $this->rowToCalendarObject($row);
+	}
 }

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\Schedule;
 
 use OC\URLGenerator;
+use OCA\DAV\CalDAV\CaldavBackend;
 use OCA\DAV\CalDAV\EventReader;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
@@ -23,6 +24,7 @@ use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property;
+use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\EventIterator;
 
 class IMipService {
@@ -44,6 +46,7 @@ class IMipService {
 		private ISecureRandom $random,
 		private L10NFactory $l10nFactory,
 		private ITimeFactory $timeFactory,
+		private CaldavBackend $caldavBackend,
 	) {
 		$language = $this->l10nFactory->findGenericLanguage();
 		$locale = $this->l10nFactory->findLocale($language);
@@ -159,7 +162,35 @@ class IMipService {
 		if ($eventReaderCurrent->recurs()) {
 			$data['meeting_occurring'] = $this->generateOccurringString($eventReaderCurrent);
 		}
-		
+		return $data;
+	}
+
+	/**
+	 * @param VEvent $vEvent
+	 * @return array
+	 */
+	public function buildReplyBodyData(VEvent $vEvent): array {
+		// construct event reader
+		$eventReader = new EventReader($vEvent);
+		$defaultVal = '';
+		$data = [];
+		$data['meeting_when'] = $this->generateWhenString($eventReader);
+
+		foreach (self::STRING_DIFF as $key => $property) {
+			$data[$key] = self::readPropertyWithDefault($vEvent, $property, $defaultVal);
+		}
+
+		if (($locationHtml = $this->linkify($data['meeting_location'])) !== null) {
+			$data['meeting_location_html'] = $locationHtml;
+		}
+
+		$data['meeting_url_html'] = $data['meeting_url'] ? sprintf('<a href="%1$s">%1$s</a>', $data['meeting_url']) : '';
+
+		// generate occurring next string
+		if ($eventReader->recurs()) {
+			$data['meeting_occurring'] = $this->generateOccurringString($eventReader);
+		}
+
 		return $data;
 	}
 
@@ -1140,6 +1171,11 @@ class IMipService {
 			}
 		}
 		return null;
+	}
+
+	public function getOrganizerVEvent(string $uid, string $organizerUri): VEvent {
+		$organizerEvent = $this->caldavBackend->findEventDataByUri($uid, $organizerUri);
+		return Reader::read($organizerEvent['calendardata'])->VEVENT ;
 	}
 
 	public function isRoomOrResource(Property $attendee): bool {
