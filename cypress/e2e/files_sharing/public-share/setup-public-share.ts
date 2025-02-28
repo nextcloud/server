@@ -79,9 +79,13 @@ function checkExpirationDateState(enforced: boolean, hasDefault: boolean) {
 	cy.get('input[data-cy-files-sharing-expiration-date-input]')
 		.invoke('val')
 		.then((val) => {
+			// eslint-disable-next-line no-unused-expressions
+			expect(val).to.not.be.undefined
+
+			const inputDate = new Date(typeof val === 'number' ? val : String(val))
 			const expectedDate = new Date()
 			expectedDate.setDate(expectedDate.getDate() + 2)
-			expect(new Date(val).toDateString()).to.eq(expectedDate.toDateString())
+			expect(inputDate.toDateString()).to.eq(expectedDate.toDateString())
 		})
 
 }
