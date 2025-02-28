@@ -293,8 +293,7 @@ class RequestHandlerController extends Controller {
 			->set('f.recipient_user_id', $qb->createNamedParameter($userId))
 			->set('f.recipient_provider', $qb->createNamedParameter($recipientProvider))
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)));
-		$result = $qb->executeQuery();
-		$result->closeCursor();
+		$qb->executeStatement();
 
 		return new JSONResponse($response,$status);
 	}
