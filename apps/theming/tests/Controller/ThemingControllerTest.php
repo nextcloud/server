@@ -745,7 +745,7 @@ class ThemingControllerTest extends TestCase {
 				['theming.Icon.getFavicon', ['app' => 'core'], 'favicon'],
 			]);
 		$this->config
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getSystemValueBool')
 			->with('theming.standalone_window.enabled', true)
 			->willReturn($standalone);
@@ -765,6 +765,7 @@ class ThemingControllerTest extends TestCase {
 						'sizes' => '16x16'
 					]
 				],
+			'display_override' => [$standalone ? 'minimal-ui' : ''],
 			'display' => $standalone ? 'standalone' : 'browser',
 			'short_name' => 'Nextcloud',
 			'theme_color' => null,
