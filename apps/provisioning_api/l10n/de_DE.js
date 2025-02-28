@@ -8,7 +8,7 @@ OC.L10N.register(
     "Insufficient privileges for group %1$s" : "Unzureichende Berechtigungen für Gruppe %1$s",
     "No group specified (required for sub-admins)" : "Keine Gruppe angegeben (erforderlich für Unter-Administratoren)",
     "Sub-admin group does not exist" : "Die Unter-Administratoren-Gruppe existiert nicht",
-    "Cannot create sub-admins for admin group" : "Kann keine Unter-Administratoren für die Administrations-Gruppe erstellen",
+    "Cannot create sub-admins for admin group" : "Kann keine Unter-Administratoren für die Administrationsgruppe erstellen",
     "No permissions to promote sub-admins" : "Keine Berechtigungen, um Unter-Administratoren zu ernennen",
     "Invalid password value" : "Ungültiger Passwort-Wert",
     "An email address is required, to send a password link to the user." : "Um dem Benutzer einen Passwortlink zu senden, ist eine E-Mail-Adresse erforderlich.",

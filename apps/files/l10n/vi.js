@@ -380,7 +380,6 @@ OC.L10N.register(
     "Favored" : "Được ưa thích",
     "Favor" : "Ưa thích",
     "Not favored" : "Không được ưa thích",
-    "Filter filenames…" : "Lọc tên tệp…",
-    "\"{displayName}\" failed on some elements " : "\"{displayName}\" không thành công trên một số mục"
+    "Filter filenames…" : "Lọc tên tệp…"
 },
 "nplurals=1; plural=0;");

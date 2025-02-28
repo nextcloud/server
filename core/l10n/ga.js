@@ -196,6 +196,7 @@ OC.L10N.register(
     "Search" : "Cuardach",
     "No results for {query}" : "Níl aon torthaí le haghaidh {query}",
     "Press Enter to start searching" : "Brúigh Enter chun cuardach a thosú",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters  or more to search_" : ["Cuir isteach {minSearchLength} carachtar nó níos mó chun cuardach a dhéanamh","Cuir isteach {minSearchLength} carachtar nó níos mó chun cuardach a dhéanamh","Cuir isteach {minSearchLength} carachtar nó níos mó chun cuardach a dhéanamh","Cuir isteach {minSearchLength} carachtar nó níos mó chun cuardach a dhéanamh","Cuir isteach {minSearchLength} carachtar nó níos mó chun cuardach a dhéanamh"],
     "An error occurred while searching for {type}" : "Tharla earráid agus {type} á chuardach",
     "Search starts once you start typing and results may be reached with the arrow keys" : "Tosaíonn an cuardach nuair a thosaíonn tú ag clóscríobh agus is féidir na torthaí a bhaint amach leis na heochracha saigheada",
     "Search for {name} only" : "Déan cuardach ar {name} amháin",

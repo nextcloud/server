@@ -348,7 +348,6 @@ OC.L10N.register(
     "Personal Files" : "Προσωπικά Αρχεία",
     "Text file" : "Αρχείο κειμένου",
     "New text file.txt" : "Νέο αρχείο file.txt",
-    "Filter filenames…" : "Φιλτράρετε τα ονόματα αρχείων...",
-    "\"{displayName}\" failed on some elements " : "\"{displayName}\" απέτυχε σε ορισμένα στοιχεία"
+    "Filter filenames…" : "Φιλτράρετε τα ονόματα αρχείων..."
 },
 "nplurals=2; plural=(n != 1);");

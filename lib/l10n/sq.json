@@ -146,7 +146,6 @@
     "Open »%s«" : "Hap»1 %s«",
     "Click the button below to open it." : "Kliko butonin më poshtë për të hapur atë.",
     "File is currently busy, please try again later" : "Kartela tani është e zënë, ju lutemi, riprovoni më vonë.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Sigurohu që ekziston një skedar i quajtur \".ocdata\" në rrënjën e direktorisë së të dhënave.",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X nuk mbulohet dhe %s s’do të funksionojë si duhet në këtë platformë. Përdoreni nën përgjegjësinë tuaj! "
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Sigurohu që ekziston një skedar i quajtur \".ocdata\" në rrënjën e direktorisë së të dhënave."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

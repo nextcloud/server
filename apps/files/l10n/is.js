@@ -438,8 +438,6 @@ OC.L10N.register(
     "Not favored" : "Ekki eftirlæti",
     "Submitting fields…" : "Sendi inn gögn úr reitum…",
     "Filter filenames…" : "Sía skráaheiti…",
-    "\"{displayName}\" failed on some elements " : "\"{displayName}\" aðgerð mistókst á einhverjum atriðum",
-    "You don’t have permission to upload or create files here." : "Þú hefur ekki heimild til að senda inn eða búa til skrár hér.",
     "Keep {oldextension}" : "Halda {oldextension}",
     "Use {newextension}" : "Nota {newextension}"
 },

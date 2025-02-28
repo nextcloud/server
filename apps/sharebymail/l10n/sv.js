@@ -52,7 +52,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s delade \"%2$s\" med dig och vill lägga till",
     "»%s« added a note to a file shared with you" : "\"%s\" lade till en kommentar till en fil som delats med dig",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Du delade precis \"%1$s\" med %2$s. Delningen var redan skickat till mottagaren. På grund av den definierade säkerhetspolicyn av %3$s så måste varje delning vara lösenordsskyddad, och det är inte tillåtet att skicka lösenordet direkt till mottagaren. Du behöver därför vidarebefordra lösenordet manuellt till mottagaren.",
-    "Password to access »%1$s« shared by you with %2$s" : "Lösenord för åtkomst till \"%1$s\" delad av dig med %2$s",
-    "%1$s shared %2$s with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s delade %2$s med dig.\nDu bör redan ha fått ett separat e-postmeddelande med en länk för åtkomst.\n"
+    "Password to access »%1$s« shared by you with %2$s" : "Lösenord för åtkomst till \"%1$s\" delad av dig med %2$s"
 },
 "nplurals=2; plural=(n != 1);");

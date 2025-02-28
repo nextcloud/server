@@ -78,6 +78,7 @@
     "Go to the \"{dir}\" directory" : "前往「{dir}」目錄",
     "Current directory path" : "目前目錄途徑",
     "Your have used your space quota and cannot upload files anymore" : "您已用完您的空間配額，無法再上傳檔案",
+    "You don't have permission to upload or create files here." : "您無權在此上傳或建立檔案。",
     "Drag and drop files here to upload" : "將檔案拖拽到此處即可上傳",
     "Favorite" : "我的最愛",
     "Back" : "上星期",
@@ -103,6 +104,7 @@
     "Toggle selection for all files and folders" : "切換所有檔案和資料夾的選擇",
     "Name" : "名稱",
     "Size" : "大小",
+    "\"{displayName}\" failed on some elements" : "“{displayName}” 在某些元素上失敗",
     "\"{displayName}\" batch action executed successfully" : "成功執行 “{displayName}” 批處理操作",
     "\"{displayName}\" action failed" : "“{displayName}” 操作失敗",
     "Actions" : "操作",
@@ -451,8 +453,6 @@
     "Not favored" : "未加入最愛",
     "Submitting fields…" : "正在遞交欄位 …",
     "Filter filenames…" : "過濾檔案名 ...",
-    "\"{displayName}\" failed on some elements " : "“{displayName}” 在某些元素上失敗",
-    "You don’t have permission to upload or create files here." : "您無權在此上傳或建立檔案。",
     "Keep {oldextension}" : "保留 {oldextension}",
     "Use {newextension}" : "使用 {newextension}"
 },"pluralForm" :"nplurals=1; plural=0;"

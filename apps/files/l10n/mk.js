@@ -308,7 +308,6 @@ OC.L10N.register(
     "List of favorites files and folders." : "Листа на омилени датотеки и папки.",
     "Personal Files" : "Персонални датотеки",
     "Text file" : "Текстуална датотека",
-    "New text file.txt" : "Нова текстуална датотека file.txt",
-    "\"{displayName}\" failed on some elements " : "\"{displayName}\" не успеа на некои елементи"
+    "New text file.txt" : "Нова текстуална датотека file.txt"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

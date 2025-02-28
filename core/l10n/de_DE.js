@@ -196,6 +196,7 @@ OC.L10N.register(
     "Search" : "Suche",
     "No results for {query}" : "Keine Suchergebnisse zu {query}",
     "Press Enter to start searching" : "Zum Suchen Eingabetaste drücken",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters  or more to search_" : ["Bitte mindestens {minSearchLength} Zeichen eingeben, nach denen gesucht werden soll","Bitte mindestens {minSearchLength} Zeichen eingeben, nach denen gesucht werden soll"],
     "An error occurred while searching for {type}" : "Es ist ein Fehler beim Suchen nach {type} aufgetreten",
     "Search starts once you start typing and results may be reached with the arrow keys" : "Die Suche beginnt, sobald Sie mit der Eingabe beginnen. Die Suchergebnisse können Sie mit den Pfeiltasten wählen",
     "Search for {name} only" : "Nur nach {name} suchen",

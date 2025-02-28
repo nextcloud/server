@@ -281,7 +281,6 @@ OC.L10N.register(
     "Create new templates folder" : "Creează un nou dosar pentru șabloane",
     "List of favorites files and folders." : "Lista fișierelor și dosarelor favorite",
     "Text file" : "Fișier text",
-    "New text file.txt" : "Fișier nou.txt",
-    "\"{displayName}\" failed on some elements " : "\"{displayName}\" a eșuat asupra unor elemente "
+    "New text file.txt" : "Fișier nou.txt"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

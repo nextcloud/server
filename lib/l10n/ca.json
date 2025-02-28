@@ -453,8 +453,6 @@
     "Click the button below to open it." : "Feu clic en el botó següent per a obrir-ho.",
     "File is currently busy, please try again later" : "El fitxer està ocupat actualment; torneu-ho a provar més tard",
     "Cannot download file" : "No es pot baixar el fitxer",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Assegureu-vos que hi hagi un fitxer anomenat «.ocdata» en l'arrel de la carpeta de dades.",
-    "Your current IP address doesn’t allow you to perform admin actions" : "La vostra adreça IP actual no us permet realitzar accions d'administració",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "El Mac OS X no s'admet i el %s no funcionarà correctament en aquesta plataforma. Utilitzeu-lo sota el vostre propi risc! "
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Assegureu-vos que hi hagi un fitxer anomenat «.ocdata» en l'arrel de la carpeta de dades."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

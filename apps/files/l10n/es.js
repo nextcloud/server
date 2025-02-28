@@ -440,8 +440,6 @@ OC.L10N.register(
     "Not favored" : "No favorecido",
     "Submitting fields…" : "Enviando campos…",
     "Filter filenames…" : "Filtrar nombres de archivo…",
-    "\"{displayName}\" failed on some elements " : "\"{displayName}\" fallo en algunos elementos",
-    "You don’t have permission to upload or create files here." : "No tienes permiso para subir o crear archivos aquí.",
     "Keep {oldextension}" : "Mantener {oldextension}",
     "Use {newextension}" : "Usar {newextension}"
 },

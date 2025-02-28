@@ -277,6 +277,7 @@ OC.L10N.register(
     "Edit" : "Ändra",
     "Share" : "Dela",
     "Delete" : "Ta bort",
+    "Password field can't be empty" : "Lösenordsfältet får inte vara tomt",
     "Replace current password" : "Ersätt nuvarande lösenord",
     "Failed to generate a new token" : "Kunde inte generera en ny token",
     "Allow upload and editing" : "Tillåt uppladdning och redigering",

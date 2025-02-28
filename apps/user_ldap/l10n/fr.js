@@ -225,7 +225,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Supprimer l'association utilisateur interne-utilisateur LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Supprimer l'association nom de groupe-groupe LDAP",
     "Invalid configuration. Please have a look at the logs for further details." : "Configuration non valide. Veuillez consulter les logs pour plus de détails.",
-    " Could not set configuration %s" : "Impossible d'appliquer la configuration %s",
-    "Password change rejected. Hint: " : "La modification du mot de passe a été rejetée. Indice :"
+    " Could not set configuration %s" : "Impossible d'appliquer la configuration %s"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

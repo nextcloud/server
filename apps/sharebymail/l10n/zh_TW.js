@@ -52,7 +52,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you and wants to add" : "%1$s 與您分享了「%2$s」，且想要新增",
     "»%s« added a note to a file shared with you" : "「%s」在與您分享的檔案中加入了備註",
     "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "您剛與 %2$s 分享了「%1$s」。分享已寄送給收件者。由於管理員定義的安全策略 %3$s，每個分享都需要使用密碼保護，且不允許將密碼直接傳送給收件者。因此，您必須手動將密碼轉寄給收件者。",
-    "Password to access »%1$s« shared by you with %2$s" : "您與 %2$s 分享了存取「%1$s」的密碼",
-    "%1$s shared %2$s with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s 與您分享了 %2$s。\n您應該已經收到一封包含了可以存取它的連結的單獨郵件。\n"
+    "Password to access »%1$s« shared by you with %2$s" : "您與 %2$s 分享了存取「%1$s」的密碼"
 },
 "nplurals=1; plural=0;");

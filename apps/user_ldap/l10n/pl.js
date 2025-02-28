@@ -210,7 +210,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Czyść Mapowanie użytkownika LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Czyść Mapowanie nazwy grupy LDAP",
     "Invalid configuration. Please have a look at the logs for further details." : "Nieprawidłowa konfiguracja. Sprawdź logi po więcej szczegółów.",
-    " Could not set configuration %s" : "Nie można ustawić konfiguracji %s",
-    "Password change rejected. Hint: " : "Zmiana hasła odrzucona: Wskazówka:"
+    " Could not set configuration %s" : "Nie można ustawić konfiguracji %s"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

@@ -240,7 +240,6 @@
     "Click the button below to open it." : "Кликнете на копчето подолу за да ја отворите.",
     "File is currently busy, please try again later" : "Датотеката моментално е зафатена, обидете се повторно",
     "Cannot download file" : "Не може да се преземе датотеката",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Осигурете се дека има датотека наречена \".ocdata\" во главната папка со податоци.",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X не е поддржана и %s нема да работи соодветно на оваа платформа. Користењето е на ваш ризик! "
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Осигурете се дека има датотека наречена \".ocdata\" во главната папка со податоци."
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

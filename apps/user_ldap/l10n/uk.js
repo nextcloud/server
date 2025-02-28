@@ -216,7 +216,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Очистити картографію Імен користувачів-LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Очистити картографію Імен груп-LDAP",
     "Invalid configuration. Please have a look at the logs for further details." : "Неправильна конфігурація. Перевірте журнал для докладної інформації.",
-    " Could not set configuration %s" : "Не вдалося встановити конфігурацію %s",
-    "Password change rejected. Hint: " : "Зміна пароля відхилена. Підказка: "
+    " Could not set configuration %s" : "Не вдалося встановити конфігурацію %s"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

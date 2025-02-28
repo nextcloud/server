@@ -187,7 +187,6 @@
     "Click the button below to open it." : "Clicar no botão abaixo para abrir.",
     "File is currently busy, please try again later" : "O ficheiro está ocupado, por favor, tente mais tarde",
     "Cannot download file" : "Não é possível transferir o ficheiro",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Garanta que existe um ficheiro chamado \".occdata\" na raiz do diretório de dados",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Esta plataforma não suporta o sistema operativo Mac OS X e o %s poderá não funcionar corretamente. Utilize por sua conta e risco."
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Garanta que existe um ficheiro chamado \".occdata\" na raiz do diretório de dados"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

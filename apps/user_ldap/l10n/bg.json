@@ -209,7 +209,6 @@
     "Clear Username-LDAP User Mapping" : "Изчистване на име на потребител-LDAP Потребителско съпоставяне ",
     "Clear Groupname-LDAP Group Mapping" : "Изчистване на име на група-LDAP Потребителско съпоставяне ",
     "Invalid configuration. Please have a look at the logs for further details." : "Невалидна конфигурация. Моля, разгледайте журналите за повече подробности.",
-    " Could not set configuration %s" : "Неуспешно задаване на конфигруацията %s",
-    "Password change rejected. Hint: " : "Смяната на паролата е отхвърлена. Подсказка:"
+    " Could not set configuration %s" : "Неуспешно задаване на конфигруацията %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

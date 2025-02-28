@@ -9,6 +9,7 @@
     "No configuration specified" : "沒有指定配置",
     "No data specified" : "沒有指定資料",
     "Invalid data specified" : "指定的數據無效",
+    "Could not set configuration %1$s to %2$s" : "無法將 %1$s 配置設定為 %2$s",
     "Action does not exist" : "操作不存在",
     "Renewing …" : "更新中...",
     "Very weak password" : "密碼安全性極弱",
@@ -51,6 +52,7 @@
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "“%uid”佔位符丟失。查詢 LDAP/AD 時，它將替換為登入名稱。",
     "Please provide a login name to test against" : "請提供登入姓名以便再次測試",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "群組盒已經停用，LDAP/AD 伺服器並不支援",
+    "Password change rejected. Hint: %s" : "密碼更改被拒絕。提示：%s",
     "Mandatory field \"%s\" left empty" : "必填欄位「%s」為空",
     "A password is given, but not an LDAP agent" : "已提供密碼，但並未提供 LDAP 代理程式",
     "No password is given for the user agent" : "未提供使用者代理程式的密碼",
@@ -231,7 +233,6 @@
     "Clear Username-LDAP User Mapping" : "清除 用戶名-LDAP 用戶 Mapping",
     "Clear Groupname-LDAP Group Mapping" : "清除 群組名稱-LDAP 群組 Mapping",
     "Invalid configuration. Please have a look at the logs for further details." : "無效的配置。請查看日誌以獲取更多詳細訊息。",
-    " Could not set configuration %s" : "無法為 %s 設定配置值",
-    "Password change rejected. Hint: " : "密碼更改被拒絕。提示："
+    " Could not set configuration %s" : "無法為 %s 設定配置值"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -78,6 +78,7 @@
     "Go to the \"{dir}\" directory" : "In das Verzeichnis \"{dir}\" wechseln",
     "Current directory path" : "Aktueller Verzeichnispfad",
     "Your have used your space quota and cannot upload files anymore" : "Dein Speicherplatzkontigent ist aufgebraucht, du kannst keine weiteren Dateien hochladen.",
+    "You don't have permission to upload or create files here." : "Keine Berechtigung, hier Dateien hochzuladen oder zu erstellen.",
     "Drag and drop files here to upload" : "Dateien zum Hochladen hierher ziehen und ablegen",
     "Favorite" : "Favorit",
     "Back" : "Zurück",
@@ -103,6 +104,7 @@
     "Toggle selection for all files and folders" : "Auswahl für alle Dateien und Ordner umschalten",
     "Name" : "Name",
     "Size" : "Größe",
+    "\"{displayName}\" failed on some elements" : "\"{displayName}\" ist bei einigen Elementen fehlgeschlagen",
     "\"{displayName}\" batch action executed successfully" : "Stapelaktion \"{displayName}\" erfolgreich ausgeführt",
     "\"{displayName}\" action failed" : "Aktion \"{displayName}\" fehlgeschlagen",
     "Actions" : "Aktionen",
@@ -451,8 +453,6 @@
     "Not favored" : "Nicht favorisiert",
     "Submitting fields…" : "Felder werden übermittelt…",
     "Filter filenames…" : "Dateinamen filtern…",
-    "\"{displayName}\" failed on some elements " : "\"{displayName}\" ist bei einigen Elementen fehlgeschlagen",
-    "You don’t have permission to upload or create files here." : "Du hast keine Berechtigung, hier Dateien hochzuladen oder zu erstellen.",
     "Keep {oldextension}" : "{oldextension} behalten",
     "Use {newextension}" : "{newextension} verwenden"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

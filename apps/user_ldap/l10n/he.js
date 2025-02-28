@@ -157,7 +157,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "ניקוי מיפוי שם משתמש LDAP:",
     "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:",
     "Invalid configuration. Please have a look at the logs for further details." : "תצורה שגויה. נא לעיין ברישום לקבלת פרטים נוספים.",
-    " Could not set configuration %s" : " לא ניתן היה לקבוע הגדרות %s",
-    "Password change rejected. Hint: " : "שינוי הססמה נדחה. רמז:"
+    " Could not set configuration %s" : " לא ניתן היה לקבוע הגדרות %s"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

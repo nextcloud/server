@@ -193,7 +193,6 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Izbriši preslikavo uporabniškega imena na LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Izbriši preslikavo skupine na LDAP",
     "Invalid configuration. Please have a look at the logs for further details." : "Neveljavne nastavitve: za več podrobnosti si oglejte dnevniške zapise.",
-    " Could not set configuration %s" : "Ni mogoče uveljaviti nastavitev %s",
-    "Password change rejected. Hint: " : "Spreminjanje gesla je zavrnjeno. Namig: "
+    " Could not set configuration %s" : "Ni mogoče uveljaviti nastavitev %s"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

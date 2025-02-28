@@ -129,6 +129,7 @@
     "Unlimited" : "Sınırsız",
     "Verifying" : "Doğrulanıyor",
     "Allowed admin IP ranges" : "İzin verilen IP adresi aralıkları",
+    "Admin IP filtering isn't applied." : "Yönetici IP adresi süzgeci uygulanmadı.",
     "Configuration key \"%1$s\" expects an array (%2$s found). Admin IP range validation will not be applied." : "\"%1$s\" yapılandırma anahtarı bir dizi bekliyordu (%2$s bulundu). Yönetici IP adresi aralığı doğrulaması uygulanmayacak.",
     "Configuration key \"%1$s\" contains invalid IP range(s): \"%2$s\"" : "\"%1$s\" yapılandırma anahtarında geçersiz IP adresi aralıkları var: \"%2$s\"",
     "Admin IP filtering is correctly configured." : "Yönetici IP adresi süzgeci doğru yapılandırılmış.",
@@ -161,6 +162,7 @@
     "Database missing indices" : "Veri tabanında dizinler eksik",
     "Missing indices:" : "Dizinler eksik:",
     "\"%s\" in table \"%s\"" : "\"%s\", \"%s\" tablosunda",
+    "Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them." : "İsteğe bağlı bazı dizinlerin eksik olduğu bulundu. Bazen veri tabanı başarımını iyileştirmek için yeni dizinler eklenir (Nextcloud veya kurulmuş uygulamalar tarafından). Dizinleri eklemek bazen biraz zaman alabilir ve başarımı geçici olarak düşürebilir, bu nedenle yükseltmeler sırasında bu işlem otomatik olarak yapılmaz. Dizinler eklendikten sonra, bu tablolara yapılan sorguların daha hızlı olması beklenir. Bunları eklemek için `occ db:add-missing-indices` komutunu kullanın.",
     "Database missing primary keys" : "Veri tabanında birincil anahtarlar eksik",
     "Missing primary key on table \"%s\"." : "\"%s\" tablosunda birincil dizin anahtarı eksik.",
     "The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running \"occ db:add-missing-primary-keys\" those missing primary keys could be added manually while the instance keeps running." : "Veri tabanında bazı birincil dizin anahtarları eksik. Büyük tablolara birincil anahtarların eklenmesi uzun sürebildiğinden bu işlem otomatik olarak yapılmaz. Sunucunuz normal çalışırken eksik birincil anahtarları el ile eklemek için \"occ db:add-missing-primary-keys\" komutunu yürütün.",
@@ -201,6 +203,10 @@
     "Old server-side-encryption" : "Eski sunucu tarafı şifreleme",
     "Disabled" : "Kullanımdan kaldırılmış",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "Eski sunucu tarafı şifreleme biçimi kullanıma alınmış. Bu seçeneği kullanımdan kaldırmanız önerilir.",
+    "Logging level" : "Günlük kaydı düzeyi",
+    "The %1$s configuration option must be a valid integer value." : "%1$s yapılandırma seçeneği geçerli bir tam sayı olmalıdır.",
+    "The logging level is set to debug level. Use debug level only when you have a problem to diagnose, and then reset your log level to a less-verbose level as it outputs a lot of information, and can affect your server performance." : "Günlük kaydı hata ayıklama düzeyine ayarlanmış. Hata ayıklama düzeyini yalnızca bulmanız gereken bir sorununuz olduğunda kullanın ve ardından daha az ayrıntılı bir düzeye döndürün. Bu düzey çok fazla bilgi kaydeder ve sunucunuzun başarımını etkileyebilir.",
+    "Logging level configured correctly." : "Günlük düzeyi doğru ayarlanmış.",
     "Maintenance window start" : "Bakım süresi başlangıcı",
     "Server has no maintenance window start time configured. This means resource intensive daily background jobs will also be executed during your main usage time. We recommend to set it to a time of low usage, so users are less impacted by the load caused from these heavy tasks." : "Sunucuda yapılandırılmış bir bakım aralığı başlangıç zamanı yok. Bu durum, yoğun kaynak kullanan günlük arka plan işlerinin de asıl kullanım süreniz boyunca yapılacağı anlamına gelir. Kullanıcıların bu ağır görevlerin neden olduğu yükten daha az etkilenmesi için bu zamanı düşük kaynak kullanılan zamana ayarlamanızı öneririz.",
     "Maintenance window to execute heavy background jobs is between {start}:00 UTC and {end}:00 UTC" : "Ağır arka plan işlerini yapmak için bakım aralığı {start}:00 UTC ile {end}:00 UTC arasındadır",
@@ -705,7 +711,9 @@
     "Account deletion" : "Hesap silme",
     "Delete {userid}'s account" : "{userid} hesabını sil",
     "Display name was successfully changed" : "Görüntülenecek ad değiştirildi",
+    "Password can't be empty" : "Parola boş olamaz",
     "Password was successfully changed" : "Parola değiştirildi",
+    "Email can't be empty" : "E-posta adresi boş olamaz",
     "Email was successfully changed" : "E-posta adresi değiştirildi",
     "Welcome mail sent!" : "Karşılama e-postası gönderildi!",
     "Loading account …" : "Hesap yükleniyor…",
@@ -911,8 +919,6 @@
     "Active accounts" : "Etkin hesaplar",
     "Follow us on Twitter" : "Bizi Twitter üzerinde izleyin",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Bu denetimi çalıştırabilmek için site sunucunuzun kendisine bağlanabildiğinden emin olmanız gerekir. Bu nedenle, `trusted_domains` ya da `overwrite.cli.url` değerlerinden en az birini çözümleyebilmeli ve bunlara bağlanabilmelidir. Bu sorun, sunucu tarafındaki bir DNS uyumsuzluğunun veya giden güvenlik duvarı kuralının sonucu olabilir.",
-    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQL \"%s\" sürümü bulundu. Bu Nextcloud sürümüyle en iyi başarım, kararlılık ve işlevsellik sağlamak için PostgreSQL sürümünün 12 ile 16 arasında olması önerilir.",
-    "Admin IP filtering isn’t applied." : "Yönetici IP adresi süzgeci uygulanmadı.",
-    "Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them. " : "İsteğe bağlı bazı dizinlerin eksik olduğu bulundu. Bazen veri tabanı başarımını iyileştirmek için yeni dizinler eklenir (Nextcloud veya kurulmuş uygulamalar tarafından). Dizinleri eklemek bazen biraz zaman alabilir ve başarımı geçici olarak düşürebilir, bu nedenle yükseltmeler sırasında bu işlem otomatik olarak yapılmaz. Dizinler eklendikten sonra, bu tablolara yapılan sorguların daha hızlı olması beklenir. Bunları eklemek için `occ db:add-missing-indices` komutunu kullanın."
+    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQL \"%s\" sürümü bulundu. Bu Nextcloud sürümüyle en iyi başarım, kararlılık ve işlevsellik sağlamak için PostgreSQL sürümünün 12 ile 16 arasında olması önerilir."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
