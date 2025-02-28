@@ -730,11 +730,6 @@
                                         "type": "string",
                                         "nullable": true,
                                         "description": "User id of the replacement user"
-                                    },
-                                    "replacementUserDisplayName": {
-                                        "type": "string",
-                                        "nullable": true,
-                                        "description": "Display name of the replacement user"
                                     }
                                 }
                             }
