@@ -10,6 +10,5 @@ return array(
     'OC\\' => array($baseDir . '/lib/private'),
     'OCP\\' => array($baseDir . '/lib/public'),
     'NCU\\' => array($baseDir . '/lib/unstable'),
-    'Bamarni\\Composer\\Bin\\' => array($vendorDir . '/bamarni/composer-bin-plugin/src'),
     '' => array($baseDir . '/lib/private/legacy'),
 );

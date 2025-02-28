@@ -26,7 +26,10 @@ class ComposerStaticInitCloudFederationAPI
         'OCA\\CloudFederationAPI\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
         'OCA\\CloudFederationAPI\\Config' => __DIR__ . '/..' . '/../lib/Config.php',
         'OCA\\CloudFederationAPI\\Controller\\RequestHandlerController' => __DIR__ . '/..' . '/../lib/Controller/RequestHandlerController.php',
+        'OCA\\CloudFederationAPI\\Migration\\Version1016Date202502262004' => __DIR__ . '/..' . '/../lib/Migration/Version1016Date202502262004.php',
         'OCA\\CloudFederationAPI\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
+        'OCA\\CloudFederationApi\\Events\\OCMInvitationAcceptedEvent' => __DIR__ . '/..' . '/../lib/Events/OCMInvitationAcceptedEvent.php',
+        'OCA\\CloudFederationApi\\OCMInvitation' => __DIR__ . '/..' . '/../lib/OCMInvitation.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
