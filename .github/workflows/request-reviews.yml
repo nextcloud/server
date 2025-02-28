@@ -64,7 +64,7 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             '/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers' \
-            -f "team_reviewers[]=nextcloud/server-backend"
+            -f "team_reviewers[]=server-backend"
       - name: Assign frontend engineers
         if: needs.changes.outputs.frontend == 'true'
         env:
@@ -75,4 +75,4 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             '/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers' \
-            -f "team_reviewers[]=nextcloud/server-frontend"
+            -f "team_reviewers[]=server-frontend"
