@@ -107,7 +107,6 @@ class OutOfOfficeController extends OCSController {
 	 * @param string $status Short text that is set as user status during the absence
 	 * @param string $message Longer multiline message that is shown to others during the absence
 	 * @param ?string $replacementUserId User id of the replacement user
-	 * @param ?string $replacementUserDisplayName Display name of the replacement user
 	 * @return DataResponse<Http::STATUS_OK, DAVOutOfOfficeData, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{error: 'firstDay'|'statusLength'}, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED, null, array{}>|DataResponse<Http::STATUS_NOT_FOUND, null, array{}>
 	 *
 	 * 200: Absence data
@@ -122,8 +121,6 @@ class OutOfOfficeController extends OCSController {
 		string $status,
 		string $message,
 		?string $replacementUserId,
-		?string $replacementUserDisplayName
-
 	): DataResponse {
 		$user = $this->userSession?->getUser();
 		if ($user === null) {
@@ -133,6 +130,7 @@ class OutOfOfficeController extends OCSController {
 			return new DataResponse(['error' => 'statusLength'], Http::STATUS_BAD_REQUEST);
 		}
 
+		$replacementUser = null;
 		if ($replacementUserId !== null) {
 			$replacementUser = $this->userManager->get($replacementUserId);
 			if ($replacementUser === null) {
@@ -153,7 +151,7 @@ class OutOfOfficeController extends OCSController {
 			$status,
 			$message,
 			$replacementUserId,
-			$replacementUserDisplayName
+			$replacementUser?->getDisplayName()
 		);
 		$this->coordinator->clearCache($user->getUID());
 
