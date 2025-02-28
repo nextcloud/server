@@ -119,6 +119,12 @@ class SyncService {
 		}
 	}
 
+	public function ensureLocalSystemAddressBookExists(): ?array {
+		return $this->ensureSystemAddressBookExists('principals/system/system', 'system', [
+			'{' . Plugin::NS_CARDDAV . '}addressbook-description' => 'System addressbook which holds all users of this instance'
+		]);
+	}
+
 	private function prepareUri(string $host, string $path): string {
 		/*
 		 * The trailing slash is important for merging the uris together.
@@ -275,10 +281,7 @@ class SyncService {
 	 */
 	public function getLocalSystemAddressBook() {
 		if (is_null($this->localSystemAddressBook)) {
-			$systemPrincipal = 'principals/system/system';
-			$this->localSystemAddressBook = $this->ensureSystemAddressBookExists($systemPrincipal, 'system', [
-				'{' . Plugin::NS_CARDDAV . '}addressbook-description' => 'System addressbook which holds all users of this instance'
-			]);
+			$this->localSystemAddressBook = $this->ensureLocalSystemAddressBookExists();
 		}
 
 		return $this->localSystemAddressBook;
