@@ -34,6 +34,7 @@ use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
 use OCA\DAV\Events\SubscriptionUpdatedEvent;
 use OCP\AppFramework\Db\TTransactional;
+use OCP\Calendar\Events\CalendarObjectCreatedEvent as PublicCalendarObjectCreatedEvent;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -1318,6 +1319,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$shares = $this->getShares($calendarId);
 
 				$this->dispatcher->dispatchTyped(new CalendarObjectCreatedEvent($calendarId, $calendarRow, $shares, $objectRow));
+				$this->dispatcher->dispatchTyped(new PublicCalendarObjectCreatedEvent($calendarId, $calendarRow, $shares, $objectRow));
 			} else {
 				$subscriptionRow = $this->getSubscriptionById($calendarId);
 
