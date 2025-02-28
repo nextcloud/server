@@ -65,7 +65,7 @@
 		</div>
 
 		<!-- Drag and drop notice -->
-		<DragAndDropNotice v-if="!loading && canUpload" :current-folder="currentFolder" />
+		<DragAndDropNotice v-if="!loading && canUpload && currentFolder" :current-folder="currentFolder" />
 
 		<!-- Initial loading -->
 		<NcLoadingIcon v-if="loading && !isRefreshing"
@@ -74,7 +74,15 @@
 			:name="t('files', 'Loading current folder')" />
 
 		<!-- Empty content placeholder -->
-		<template v-else-if="!loading && isEmptyDir">
+		<template v-else-if="!loading && isEmptyDir && currentFolder && currentView">
+			<div class="files-list__before">
+				<!-- Headers -->
+				<FilesListHeader v-for="header in headers"
+					:key="header.id"
+					:current-folder="currentFolder"
+					:current-view="currentView"
+					:header="header" />
+			</div>
 			<!-- Empty due to error -->
 			<NcEmptyContent v-if="error" :name="error" data-cy-files-content-error>
 				<template #action>
@@ -162,6 +170,7 @@ import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { useNavigation } from '../composables/useNavigation.ts'
+import { useFileListHeaders } from '../composables/useFileListHeaders.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useFiltersStore } from '../store/filters.ts'
@@ -170,13 +179,14 @@ import { useSelectionStore } from '../store/selection.ts'
 import { useUploaderStore } from '../store/uploader.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
+import { humanizeWebDAVError } from '../utils/davUtils.ts'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
+import FilesListHeader from '../components/FilesListHeader.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.ts'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
-import { humanizeWebDAVError } from '../utils/davUtils.ts'
 
 const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
 
@@ -186,6 +196,7 @@ export default defineComponent({
 	components: {
 		BreadCrumbs,
 		DragAndDropNotice,
+		FilesListHeader,
 		FilesListVirtual,
 		LinkIcon,
 		ListViewIcon,
@@ -225,6 +236,7 @@ export default defineComponent({
 			currentView,
 			directory,
 			fileId,
+			headers: useFileListHeaders(),
 			t,
 
 			filesStore,
@@ -744,6 +756,13 @@ export default defineComponent({
 				color: var(--color-main-text) !important;
 			}
 		}
+	}
+
+	&__before {
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--default-grid-baseline) * 2);
+		margin-inline: calc(var(--default-clickable-area) + 2 * var(--app-navigation-padding));
 	}
 
 	&__empty-view-wrapper {
