@@ -151,6 +151,7 @@ Feature: LDAP
       | ldapAttributesForUserSearch   | employeeNumber                  |
       | useMemberOfToDetectMembership | 1 |
     And parameter "shareapi_only_share_with_group_members" of app "core" is set to "yes"
+    And invoking occ with "ldap:check-group cn=Orcharding,ou=OtherGroups,dc=nextcloud,dc=ci --update"
     And As an "alice"
     When getting sharees for
       # "5" is part of the employee number of some LDAP records
@@ -162,4 +163,3 @@ Feature: LDAP
     And "users" sharees returned are
       | Elisa | 0 | elisa |
     And "exact groups" sharees returned is empty
-

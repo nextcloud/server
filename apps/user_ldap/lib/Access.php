@@ -956,22 +956,6 @@ class Access extends LDAPUtility {
 		}
 		$groupRecords = $this->searchGroups($filter, $attr, $limit, $offset);
 
-		$listOfDNs = array_reduce($groupRecords, function ($listOfDNs, $entry) {
-			$listOfDNs[] = $entry['dn'][0];
-			return $listOfDNs;
-		}, []);
-		$idsByDn = $this->getGroupMapper()->getListOfIdsByDn($listOfDNs);
-
-		array_walk($groupRecords, function (array $record) use ($idsByDn): void {
-			$newlyMapped = false;
-			$gid = $idsByDn[$record['dn'][0]] ?? null;
-			if ($gid === null) {
-				$gid = $this->dn2ocname($record['dn'][0], null, false, $newlyMapped, $record);
-			}
-			if (!$newlyMapped && is_string($gid)) {
-				$this->cacheGroupExists($gid);
-			}
-		});
 		$listOfGroups = $this->fetchList($groupRecords, $this->manyAttributes($attr));
 		$this->connection->writeToCache($cacheKey, $listOfGroups);
 		return $listOfGroups;
