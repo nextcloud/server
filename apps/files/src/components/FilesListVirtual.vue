@@ -189,7 +189,7 @@ export default defineComponent({
 		caption() {
 			const defaultCaption = t('files', 'List of files and folders.')
 			const viewCaption = this.currentView.caption || defaultCaption
-			const cantUploadCaption = this.cantUpload ? t('files', 'You don\'t have permission to upload or create files here.') : null
+			const cantUploadCaption = this.cantUpload ? t('files', 'You do not have permission to upload or create files here.') : null
 			const quotaExceededCaption = this.isQuotaExceeded ? t('files', 'You have used your space quota and cannot upload files anymore.') : null
 			const sortableCaption = t('files', 'Column headers with buttons are sortable.')
 			const virtualListNote = t('files', 'This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.')
