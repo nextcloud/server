@@ -26,6 +26,7 @@
 		<NcCheckboxRadioSwitch v-else
 			:aria-label="ariaLabel"
 			:checked="isSelected"
+			data-cy-files-list-row-checkbox
 			@update:checked="onSelectionChange" />
 	</td>
 </template>

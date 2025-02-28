@@ -23,7 +23,12 @@
 	<tr class="files-list__row-head">
 		<th class="files-list__column files-list__row-checkbox"
 			@keyup.esc.exact="resetSelection">
-			<NcCheckboxRadioSwitch v-bind="selectAllBind" @update:checked="onToggleAll" />
+			<NcCheckboxRadioSwitch data-cy-files-list-selection-checkbox
+				:aria-label="checkboxTitle"
+				:checked="isAllSelected"
+				:indeterminate="isSomeSelected"
+				:title="checkboxTitle"
+				@update:checked="onToggleAll" />
 		</th>
 
 		<!-- Columns display -->
@@ -127,6 +132,7 @@ export default defineComponent({
 			filesStore,
 			selectionStore,
 
+			checkboxTitle: t('files', 'Toggle selection for all files and folders'),
 			currentView,
 		}
 	},
@@ -138,21 +144,6 @@ export default defineComponent({
 				return []
 			}
 			return this.currentView?.columns || []
-		},
-
-		dir() {
-			// Remove any trailing slash but leave root slash
-			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')
-		},
-
-		selectAllBind() {
-			const label = t('files', 'Toggle selection for all files and folders')
-			return {
-				'aria-label': label,
-				checked: this.isAllSelected,
-				indeterminate: this.isSomeSelected,
-				title: label,
-			}
 		},
 
 		selectedNodes() {
@@ -173,11 +164,11 @@ export default defineComponent({
 	},
 
 	methods: {
-		ariaSortForMode(mode: string): ARIAMixin['ariaSort'] {
+		ariaSortForMode(mode: string): 'ascending' | 'descending' | undefined {
 			if (this.sortingMode === mode) {
 				return this.isAscSorting ? 'ascending' : 'descending'
 			}
-			return null
+			return undefined
 		},
 
 		classForColumn(column) {
