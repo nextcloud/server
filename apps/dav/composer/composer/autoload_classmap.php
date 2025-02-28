@@ -303,6 +303,7 @@ return array(
     'OCA\\DAV\\Migration\\BuildSocialSearchIndexBackgroundJob' => $baseDir . '/../lib/Migration/BuildSocialSearchIndexBackgroundJob.php',
     'OCA\\DAV\\Migration\\CalDAVRemoveEmptyValue' => $baseDir . '/../lib/Migration/CalDAVRemoveEmptyValue.php',
     'OCA\\DAV\\Migration\\ChunkCleanup' => $baseDir . '/../lib/Migration/ChunkCleanup.php',
+    'OCA\\DAV\\Migration\\CreateSystemAddressBookStep' => $baseDir . '/../lib/Migration/CreateSystemAddressBookStep.php',
     'OCA\\DAV\\Migration\\DeleteSchedulingObjects' => $baseDir . '/../lib/Migration/DeleteSchedulingObjects.php',
     'OCA\\DAV\\Migration\\FixBirthdayCalendarComponent' => $baseDir . '/../lib/Migration/FixBirthdayCalendarComponent.php',
     'OCA\\DAV\\Migration\\RefreshWebcalJobRegistrar' => $baseDir . '/../lib/Migration/RefreshWebcalJobRegistrar.php',
