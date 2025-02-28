@@ -11,6 +11,10 @@ use OC\User\LazyUser;
 use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Config\Event\UserMountAddedEvent;
+use OCP\Files\Config\Event\UserMountRemovedEvent;
+use OCP\Files\Config\Event\UserMountUpdatedEvent;
 use OCP\Files\Config\ICachedMountFileInfo;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
@@ -46,6 +50,7 @@ class UserMountCache implements IUserMountCache {
 		private IUserManager $userManager,
 		private LoggerInterface $logger,
 		private IEventLogger $eventLogger,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		$this->cacheInfoCache = new CappedMemoryCache();
 		$this->internalPathCache = new CappedMemoryCache();
@@ -106,15 +111,26 @@ class UserMountCache implements IUserMountCache {
 					$this->removeFromCache($mount);
 					unset($this->mountsForUsers[$userUID][$mount->getKey()]);
 				}
-				foreach ($changedMounts as $mount) {
-					$this->updateCachedMount($mount);
+				foreach ($changedMounts as $key => $mountPair) {
+					$newMount = $mountPair[1];
+					$this->updateCachedMount($newMount);
 					/** @psalm-suppress InvalidArgument */
-					$this->mountsForUsers[$userUID][$mount->getKey()] = $mount;
+					$this->mountsForUsers[$userUID][$key] = $newMount;
 				}
 				$this->connection->commit();
 			} catch (\Throwable $e) {
 				$this->connection->rollBack();
 				throw $e;
+			}
+
+			foreach ($addedMounts as $mount) {
+				$this->eventDispatcher->dispatchTyped(new UserMountAddedEvent($mount));
+			}
+			foreach ($removedMounts as $mount) {
+				$this->eventDispatcher->dispatchTyped(new UserMountRemovedEvent($mount));
+			}
+			foreach ($changedMounts as $mountPair) {
+				$this->eventDispatcher->dispatchTyped(new UserMountUpdatedEvent($mountPair[0], $mountPair[1]));
 			}
 		}
 		$this->eventLogger->end('fs:setup:user:register');
@@ -123,9 +139,9 @@ class UserMountCache implements IUserMountCache {
 	/**
 	 * @param array<string, ICachedMountInfo> $newMounts
 	 * @param array<string, ICachedMountInfo> $cachedMounts
-	 * @return ICachedMountInfo[]
+	 * @return array<string, list{0: ICachedMountInfo, 1: ICachedMountInfo}> Pairs of old and new mounts
 	 */
-	private function findChangedMounts(array $newMounts, array $cachedMounts) {
+	private function findChangedMounts(array $newMounts, array $cachedMounts): array {
 		$changed = [];
 		foreach ($cachedMounts as $key => $cachedMount) {
 			if (isset($newMounts[$key])) {
@@ -135,7 +151,7 @@ class UserMountCache implements IUserMountCache {
 					$newMount->getMountId() !== $cachedMount->getMountId() ||
 					$newMount->getMountProvider() !== $cachedMount->getMountProvider()
 				) {
-					$changed[] = $newMount;
+					$changed[$key] = [$cachedMount, $newMount];
 				}
 			}
 		}
