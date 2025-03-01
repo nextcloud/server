@@ -362,13 +362,6 @@ class OC {
 	public static function initSession(): void {
 		$request = Server::get(IRequest::class);
 
-		// Do not initialize sessions for 'status.php' requests
-		// Monitoring endpoints can quickly flood session handlers
-		// and 'status.php' doesn't require sessions anyway
-		if (str_ends_with($request->getScriptName(), '/status.php')) {
-			return;
-		}
-
 		// TODO: Temporary disabled again to solve issues with CalDAV/CardDAV clients like DAVx5 that use cookies
 		// TODO: See https://github.com/nextcloud/server/issues/37277#issuecomment-1476366147 and the other comments
 		// TODO: for further information.
@@ -386,6 +379,13 @@ class OC {
 
 		// prevents javascript from accessing php session cookies
 		ini_set('session.cookie_httponly', 'true');
+
+		// Do not initialize sessions for 'status.php' requests
+		// Monitoring endpoints can quickly flood session handlers
+		// and 'status.php' doesn't require sessions anyway
+		if (str_ends_with($request->getScriptName(), '/status.php')) {
+			return;
+		}
 
 		// set the cookie path to the Nextcloud directory
 		$cookie_path = OC::$WEBROOT ? : '/';
