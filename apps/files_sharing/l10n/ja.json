@@ -412,6 +412,7 @@
     "Download all files" : "すべてのファイルをダウンロード",
     "Search for share recipients" : "共有の受信者を検索",
     "No recommendations. Start typing." : "推奨事項はありません。 入力を開始します。",
+    "Password field can't be empty" : "パスワードフィールドは空にできません",
     "Allow download" : "ダウンロードを許可",
     "Share expire date saved" : "共有の有効期限が保存されました",
     "You are not allowed to edit link shares that you don't own" : "あなたが所有していない共有リンクを編集することは許可されていません",

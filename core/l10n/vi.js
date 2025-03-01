@@ -189,6 +189,7 @@ OC.L10N.register(
     "Search" : "Tìm kiếm",
     "No results for {query}" : "Không có kết quả cho {query}",
     "Press Enter to start searching" : "Nhấn Enter để bắt đầu tìm kiếm",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Vui lòng nhập ký tự {minSearchLength} trở lên để tìm kiếm"],
     "An error occurred while searching for {type}" : "Đã xảy ra lỗi khi tìm kiếm {type}",
     "Search starts once you start typing and results may be reached with the arrow keys" : "Tìm kiếm bắt đầu khi bạn bắt đầu nhập và có thể đạt được kết quả bằng các phím mũi tên",
     "Search for {name} only" : "Chỉ tìm kiếm {name}",

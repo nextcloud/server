@@ -162,6 +162,7 @@
     "Search" : "Chirca",
     "No results for {query}" : "Perunu resurtadu pro {query}",
     "Press Enter to start searching" : "Preme Enter pro cumintzare sa chirca",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Inserta {longàriaMinChirca} o prus caràteres pro chircare","Inserta·nche {minSearchLength} o prus caràteres pro chircare"],
     "An error occurred while searching for {type}" : "B'at àpidu un'errore in sa chirca de {type}",
     "Search for {name} only" : "Chirca pro {name} ebbia",
     "Loading more results …" : "Carrighende àteros resurtados ...",

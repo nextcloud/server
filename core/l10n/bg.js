@@ -161,6 +161,7 @@ OC.L10N.register(
     "Search" : "Търсене",
     "No results for {query}" : "Няма резултати за {query}",
     "Press Enter to start searching" : "Натиснете Enter, за стартиране на търсенето",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Моля, въведете {minSearchLength} знака или повече, за да търсите","Моля, въведете {minSearchLength} знака или повече, за да търсите"],
     "An error occurred while searching for {type}" : "Възникна грешка при търсенето на {type}",
     "Search starts once you start typing and results may be reached with the arrow keys" : "Търсенето започва, след като започнете да пишете, а до резултатите можете да стигнете с клавишите със стрелки.",
     "Search for {name} only" : "Търсене само за {name}",

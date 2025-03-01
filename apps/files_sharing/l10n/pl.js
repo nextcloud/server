@@ -414,6 +414,7 @@ OC.L10N.register(
     "Download all files" : "Pobierz wszystkie pliki",
     "Search for share recipients" : "Szukaj odbiorców udostępnienia",
     "No recommendations. Start typing." : "Brak rekomendacji. Możesz napisać.",
+    "Password field can't be empty" : "Pole hasła nie może być puste",
     "Allow download" : "Zezwól na pobieranie",
     "Share expire date saved" : "Zapisano datę ważności udziału",
     "You are not allowed to edit link shares that you don't own" : "Nie możesz modyfikować udostępnionych odnośników, których nie jesteś właścicielem",

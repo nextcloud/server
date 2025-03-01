@@ -196,6 +196,7 @@ OC.L10N.register(
     "Search" : "Пошук",
     "No results for {query}" : "Немає результатів для {query}",
     "Press Enter to start searching" : "Натисніть Enter, щоб почати пошук",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Для пошуку введіть {minSearchLength} або більше символів","Для пошуку введіть {minSearchLength} або більше символів","Для пошуку введіть {minSearchLength} або більше символів","Для пошуку введіть {minSearchLength} або більше символів"],
     "An error occurred while searching for {type}" : "Завантажити більше результатів",
     "Search starts once you start typing and results may be reached with the arrow keys" : "Пошук здійснюватиметься одразу, як ви почнете набирати. Щоби вибрати результат, будь ласка, скористайтеся кнопками зі стрілками.",
     "Search for {name} only" : "Пошук лише у {name}",
