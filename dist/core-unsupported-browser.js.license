@@ -56,10 +56,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.5.1
 	- license: MIT
 - browserslist
-	- version: 4.23.3
+	- version: 4.24.4
 	- license: MIT
 - caniuse-lite
-	- version: 1.0.30001647
+	- version: 1.0.30001701
 	- license: CC-BY-4.0
 - css-loader
 	- version: 7.1.2
@@ -68,7 +68,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.1.7
 	- license: (MPL-2.0 OR Apache-2.0)
 - electron-to-chromium
-	- version: 1.5.4
+	- version: 1.5.109
 	- license: ISC
 - escape-html
 	- version: 1.0.3
@@ -80,7 +80,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.0.3
 	- license: MIT
 - node-releases
-	- version: 2.0.18
+	- version: 2.0.19
 	- license: MIT
 - process
 	- version: 0.11.10
