@@ -54,6 +54,7 @@ OC.L10N.register(
     "Unlimited" : "Neierobežota",
     "Could not check that the data directory is protected. Please check manually that your server does not allow access to the data directory." : "Nevarēja pārbaudīt, vai datu mape ir aizsargāta. Lūgums pašrocīgi pārbaudīt, ka serveris neļauj piekļūt datu mapei.",
     "You have not set or verified your email server configuration, yet. Please head over to the \"Basic settings\" in order to set them. Afterwards, use the \"Send email\" button below the form to verify your settings." : "Vēl nav iestatīts e-pasta serveris vai apliecināta tā konfigurācija. Lūgums doties uz \"Pamata iestatījumi\", lai varētu to iestatīt. Pēc tam jāizmanto veidlapas apakšā esošā poga\"Nosūtīt e-pasta ziņojumu\", lai apliecinātu savus iestatījumus.",
+    "Your IP address was resolved as %s" : "IP adrese tika noteikta kā %s",
     "Disabled" : "Atspējots",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP nešķiet pareizi uzstādīts lai veiktu sistēmas vides mainīgo vaicājumus. Tests ar getenv(\"PATH\") atgriež tikai tukšu atbildi.",
     "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Ir iespējots tikai lasāma konfigurācija. Tas neatļauj iestatīt un mainīt dažas konfigurācijas caur tīmekļa interfeisu. Šī datne būs manuāli jāpārveido par rakstāmu, pirms katra atjauninājuma instalēšanas.",

@@ -180,6 +180,7 @@ OC.L10N.register(
     "Search" : "Αναζήτηση",
     "No results for {query}" : "Κανένα αποτέλεσμα για {query}",
     "Press Enter to start searching" : "Πατήστε Enter για να ξεκινήσετε την αναζήτηση",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Παρακαλούμε προσθέστε τουλάχιστον {minSearchLength} χαρακτήρα ή περισσότερους για αναζήτηση","Παρακαλούμε προσθέστε τουλάχιστον {minSearchLength} χαρακτήρες ή περισσότερους για αναζήτηση"],
     "An error occurred while searching for {type}" : "Παρουσιάστηκε σφάλμα κατά την αναζήτηση για {type}",
     "Search starts once you start typing and results may be reached with the arrow keys" : "Η αναζήτηση ξεκινά μόλις αρχίσετε να πληκτρολογείτε και μπορείτε να επιλέξετε τα αποτελέσματα με τα πλήκτρα βέλους",
     "Search for {name} only" : "Αναζήτηση για {name} μόνο",

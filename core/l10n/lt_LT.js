@@ -155,6 +155,7 @@ OC.L10N.register(
     "Install the Contacts app" : "Įdiegti adresatų programėlę",
     "Search" : "Ieškoti",
     "No results for {query}" : "{query} negrąžino jokių rezultatų",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Norėdami atlikti paiešką, įveskite {minSearchLength} ar daugiau simbolių","Norėdami atlikti paiešką, įveskite {minSearchLength} ar daugiau simbolių","Norėdami atlikti paiešką, įveskite {minSearchLength} ar daugiau simbolių","Norėdami atlikti paiešką, įveskite {minSearchLength} ar daugiau simbolių"],
     "An error occurred while searching for {type}" : "Ieškant {type}, įvyko klaida",
     "Search for {name} only" : "Ieškoti tik {name}",
     "Loading more results …" : "Įkeliama daugiau rezultatų…",

@@ -194,6 +194,7 @@
     "Search" : "Pesquisar",
     "No results for {query}" : "Sem resultados para {query}",
     "Press Enter to start searching" : "Pressione Enter para iniciar a pesquisa",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Digite {minSearchLength} caractere ou mais para pesquisar","Digite {minSearchLength} caracteres ou mais para pesquisar","Digite {minSearchLength} caracteres ou mais para pesquisar"],
     "An error occurred while searching for {type}" : "Ocorreu um erro ao pesquisar por {type}",
     "Search starts once you start typing and results may be reached with the arrow keys" : "A pesquisa iniciará assim que você começar a digitar e os resultados você pode navegar com as setas do teclado",
     "Search for {name} only" : "Pesquisar somente por {name}",

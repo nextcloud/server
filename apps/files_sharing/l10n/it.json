@@ -412,6 +412,7 @@
     "Download all files" : "Scarica tutti i file",
     "Search for share recipients" : "Cerca i destinatari della condivisione",
     "No recommendations. Start typing." : "Nessun consiglio. Inizia a digitare.",
+    "Password field can't be empty" : "Il campo password non può essere vuoto",
     "Allow download" : "Consenti scaricamento",
     "Share expire date saved" : "Data di scadenza della condivisione salvata",
     "You are not allowed to edit link shares that you don't own" : "Non ti è consentito modificare le condivisioni di collegamenti che non ti appartengono",

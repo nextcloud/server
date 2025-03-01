@@ -196,6 +196,7 @@ OC.L10N.register(
     "Search" : "Zoeken",
     "No results for {query}" : "Geen resultaten voor {query}",
     "Press Enter to start searching" : "Druk op Enter om te beginnen zoeken",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Voer {minSearchLength} tekens of meer in om te zoeken","Voer alstublieft {minSearchLength} tekens of meer in om te zoeken"],
     "An error occurred while searching for {type}" : "Er trad een fout op bij het zoeken naar {type}",
     "Search starts once you start typing and results may be reached with the arrow keys" : "Het zoeken begint wanneer je begint met typen en resultaten kunnen geselecteerd worden met de pijltjestoetsen",
     "Search for {name} only" : "Zoek alleen naar {name}",

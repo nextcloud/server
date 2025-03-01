@@ -194,7 +194,7 @@
     "Search" : "البحث",
     "No results for {query}" : "لا يوجد ناتج لـ {query}",
     "Press Enter to start searching" : "يرجى الضغط على Enter لبدء البحث",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters  or more to search_" : ["يُرجى إدخال {minSearchLength} حرف أو أكثر للبحث","يُرجى إدخال {minSearchLength} حرف أو أكثر للبحث","يُرجى إدخال {minSearchLength} حروف أو أكثر للبحث","يُرجى إدخال {minSearchLength} حروف أو أكثر للبحث","يُرجى إدخال {minSearchLength} حرف أو أكثر للبحث","يُرجى إدخال {minSearchLength} حرف أو أكثر للبحث"],
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["من فضلك ادخل أحرف {minSearchLength} أو أكثر للبحث","من فضلك ادخل أحرف {minSearchLength} أو أكثر للبحث","من فضلك ادخل أحرف {minSearchLength} أو أكثر للبحث","من فضلك ادخل أحرف {minSearchLength} أو أكثر للبحث","من فضلك ادخل أحرف {minSearchLength} أو أكثر للبحث","من فضلك ادخل أحرف {minSearchLength}  أو أكثر للبحث"],
     "An error occurred while searching for {type}" : "حدث خطأ أثناء البحث عن {type}",
     "Search starts once you start typing and results may be reached with the arrow keys" : "يبدأ البحث بمجرد أن تبدأ الكتابة. و يمكنك الوصول إلى النتيجة بمفاتيح الأسهم",
     "Search for {name} only" : "البحث عن {name} فقط",
