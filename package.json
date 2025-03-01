@@ -149,7 +149,7 @@
     "colord": "^2.9.3",
     "css-loader": "^7.1.2",
     "cypress": "^13.15.0",
-    "cypress-axe": "^1.5.0",
+    "cypress-axe": "^1.6.0",
     "cypress-delete-downloads-folder": "^0.0.6",
     "cypress-if": "^1.13.2",
     "cypress-split": "^1.24.14",
