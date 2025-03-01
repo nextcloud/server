@@ -124,6 +124,7 @@
     "Install the Contacts app" : "התקנת יישומון אנשי הקשר",
     "Search" : "חיפוש",
     "No results for {query}" : "אין תוצאות עבור {query}",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["נא להקליד לפחות תו אחד כדי לחפש","נא להקליד לפחות {minSearchLength} תווים כדי לחפש","נא להקליד לפחות {minSearchLength} תווים כדי לחפש","נא להקליד לפחות {minSearchLength} תווים כדי לחפש"],
     "An error occurred while searching for {type}" : "אירעה שגיאה בחיפוש אחר {type}",
     "Search for {name} only" : "חפש ל-{name} בלבד",
     "Loading more results …" : "נטענות תוצאות נוספות…",

@@ -177,6 +177,7 @@ OC.L10N.register(
     "Search" : "Căutare",
     "No results for {query}" : "Niciun rezultat pentru {query}",
     "Press Enter to start searching" : "Apăsați Enter pentru căutare",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Introduceți {minSearchLength} caracter sau mai multe pentru căutare","Introduceți {minSearchLength} sau mai multe caractere pentru căutare","Introduceți {minSearchLength} sau mai multe caractere pentru căutare"],
     "An error occurred while searching for {type}" : "Eroare la căutarea pentru {type}",
     "Search starts once you start typing and results may be reached with the arrow keys" : "Căutarea începe când tastați și navigarea în rezultate se face cu tastele săgeți",
     "Search for {name} only" : "Caută doar {name} ",
