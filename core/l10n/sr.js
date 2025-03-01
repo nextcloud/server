@@ -196,6 +196,7 @@ OC.L10N.register(
     "Search" : "Претражи",
     "No results for {query}" : "Нема резултата за упит {query}",
     "Press Enter to start searching" : "Притисните Ентер да започнете претрагу",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Унесите {minSearchLength} или више карактера да бисте претраживали","Унесите {minSearchLength} или више карактера да бисте претраживали","Унесите {minSearchLength} или више карактера да бисте претраживали"],
     "An error occurred while searching for {type}" : "Десила се грешка приликом тражења за {type}",
     "Search starts once you start typing and results may be reached with the arrow keys" : "Претрага започиње чим почнете да куцате и до резултата долазите курсорским тастерима",
     "Search for {name} only" : "Тражи само за {name}",

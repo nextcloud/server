@@ -168,6 +168,7 @@
     "Search" : "ค้นหา",
     "No results for {query}" : "ไม่มีผลลัพธ์สำหรับ {query}",
     "Press Enter to start searching" : "กด Enter เพื่อเริ่มค้นหา",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["โปรดพิมพ์อย่างน้อย {minSearchLength} ตัวอักษรเพื่อค้นหา"],
     "An error occurred while searching for {type}" : "เกิดข้อผิดพลาดขณะค้นหา {type}",
     "Search starts once you start typing and results may be reached with the arrow keys" : "การค้นหาจะเริ่มนับจากที่คุณเริ่มพิมพ์ และสามารถเลือกผลลัพธ์ด้วยปุ่มลูกศรได้",
     "Search for {name} only" : "ค้นหาเฉพาะ {name} เท่านั้น",

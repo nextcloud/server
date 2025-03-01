@@ -195,6 +195,7 @@ OC.L10N.register(
     "Search" : "Poišči",
     "No results for {query}" : "Ni zadetkov za poizvedbo {query}",
     "Press Enter to start searching" : "Pritisnite vnosnico za začetek iskanja",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Vpisati je treba vsaj {minSearchLength} znak za začetek iskanja","Vpisati je treba vsaj {minSearchLength} znaka za začetek iskanja","Vpisati je treba vsaj {minSearchLength} znake za začetek iskanja","Vpisati je treba vsaj {minSearchLength} znakov za začetek iskanja"],
     "An error occurred while searching for {type}" : "Prišlo je do napake med iskanjem vrste {type}.",
     "Search starts once you start typing and results may be reached with the arrow keys" : "Iskanje se začne, ko začnete vpisovati besedilo, do rezultatov pa je mogoče dostop tudi s smernimi tipkami.",
     "Search for {name} only" : "Išči le za {name}",

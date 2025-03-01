@@ -133,6 +133,7 @@ OC.L10N.register(
     "Install the Contacts app" : "Instal aplikasi Kontak",
     "Search" : "Cari",
     "No results for {query}" : "Tidak ada hasil untuk {query}",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Harap masukkan {minSearchLength} karakter atau lebih untuk mencari"],
     "An error occurred while searching for {type}" : "Terjadi kesalahan saat mencari {type}",
     "Search for {name} only" : "Cari {name} saja",
     "Loading more results …" : "Memuat hasil lainnya…",

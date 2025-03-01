@@ -196,6 +196,7 @@ OC.L10N.register(
     "Search" : "Keresés",
     "No results for {query}" : "Nincs találat a következőre: {query}",
     "Press Enter to start searching" : "A keresés indításához nyomjon Entert",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["A kereséshez írjon be a legalább {minSearchLength} karaktert","A kereséshez írjon be a legalább {minSearchLength} karaktert"],
     "An error occurred while searching for {type}" : "Hiba történt a(z) {type} keresése sorá",
     "Search starts once you start typing and results may be reached with the arrow keys" : "A keresés elindul, ha elkezd gépelni, és a találatok a nyílbillentyűkkel érhetők el",
     "Search for {name} only" : "Keresés csak a(z) {name} kifejezésre",

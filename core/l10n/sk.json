@@ -194,6 +194,7 @@
     "Search" : "Hľadať",
     "No results for {query}" : "Žiadne výsledky pre {query}",
     "Press Enter to start searching" : "Stlačte Enter pre spustenie hľadania",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Pre vyhľadávanie zadajte aspoň {minSearchLength} znak","Pre vyhľadávanie zadajte aspoň {minSearchLength} znaky","Pre vyhľadávanie zadajte aspoň {minSearchLength} znakov","Pre vyhľadávanie zadajte aspoň {minSearchLength} znakov"],
     "An error occurred while searching for {type}" : "Počas hľadania {type} sa vyskytla chyba",
     "Search starts once you start typing and results may be reached with the arrow keys" : "Hľadanie sa začína, keď začnete písať a výsledky môžete dosiahnuť pomocou šípiek.",
     "Search for {name} only" : "Hľadať iba {name}",

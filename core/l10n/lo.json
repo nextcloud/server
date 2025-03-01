@@ -108,6 +108,7 @@
     "Install the Contacts app" : "ຕິດຕັ້ງແອັບ Contacts",
     "Search" : "ຄົ້ນຫາ",
     "No results for {query}" : "ບໍ່ມີຜົນສໍາລັບ {query}",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["ກະລຸນາໃສ່ {minSearchLength} ຕົວອັກສອນຫຼືຫຼາຍກວ່ານັ້ນເພື່ອຄົ້ນຫາ"],
     "An error occurred while searching for {type}" : "ເກີດຂໍ້ຜິດພາດໃນຂະນະທີ່ຊອກຫາ {type}",
     "Search for {name} only" : "ຄົ້ນຫາ {name} ເທົ່ານັ້ນ",
     "Loading more results …" : "ຜົນການດາວໂຫຼດເພີ່ມເຕີມ ...",

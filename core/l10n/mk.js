@@ -163,6 +163,7 @@ OC.L10N.register(
     "Search" : "Барај",
     "No results for {query}" : "Нема резултати за {query}",
     "Press Enter to start searching" : "Притисни Enter за започне пребарувањето",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Внесете најмалку {minSearchLength} карактер за да пребарувате","Внесете најмалку {minSearchLength} карактери или повеќе за да пребарувате"],
     "An error occurred while searching for {type}" : "Настана грешка при пребарување за {type}",
     "Search for {name} only" : "Пребарај само за {name}",
     "Loading more results …" : "Вчитување на повеќе резултати ...",

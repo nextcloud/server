@@ -196,6 +196,7 @@ OC.L10N.register(
     "Search" : "Bilatu",
     "No results for {query}" : " {query}-(r)entzako emaitzarik ez",
     "Press Enter to start searching" : "Sakatu enter bilaketa hasteko",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Sartu karaktere {minSearchLength} edo gehiago bilatzeko","Sartu {minSearchLength} karaktere edo gehiago bilatzeko"],
     "An error occurred while searching for {type}" : "Errorea gertatu da {type} bilatzean",
     "Search starts once you start typing and results may be reached with the arrow keys" : "Bilaketa idazten hasten zarenean hasten da eta emaitzak gezi-teklen bidez lor daitezke",
     "Search for {name} only" : "Biatu {name} bakarrik",

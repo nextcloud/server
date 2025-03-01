@@ -196,6 +196,7 @@ OC.L10N.register(
     "Search" : "搜索",
     "No results for {query}" : "没有 '{query}' 的相关结果",
     "Press Enter to start searching" : "按下Enter开始搜索",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["请输入 {minSearchLength} 个字符或更多字符以进行搜索"],
     "An error occurred while searching for {type}" : "搜索 {type} 时出错",
     "Search starts once you start typing and results may be reached with the arrow keys" : "一旦开始输入，搜索就会开始，你可以使用方向键切换到结果。",
     "Search for {name} only" : "仅搜索 {name}",

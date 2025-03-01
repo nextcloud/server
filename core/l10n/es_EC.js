@@ -154,6 +154,7 @@ OC.L10N.register(
     "Search" : "Buscar",
     "No results for {query}" : "Sin resultados para {query}",
     "Press Enter to start searching" : "Pulse Enter para comenzar a buscar",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Por favor, ingrese {minSearchLength} carácter o más para buscar","Por favor, ingrese {minSearchLength} caracteres o más para buscar","Por favor, ingrese {minSearchLength} caracteres o más para buscar"],
     "An error occurred while searching for {type}" : "Se produjo un error al buscar {type}",
     "Search starts once you start typing and results may be reached with the arrow keys" : "La búsqueda comienza una vez que empiezas a escribir y los resultados se pueden alcanzar con las teclas de flecha",
     "Search for {name} only" : "Buscar solo {name}",

@@ -195,6 +195,7 @@ OC.L10N.register(
     "Search" : "Cerca",
     "No results for {query}" : "No hi ha cap resultat per a {query}",
     "Press Enter to start searching" : "Premeu Retorn per a iniciar la cerca",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Introduïu {minSearchLength} caràcter o més per a cercar","Introduïu {minSearchLength} caràcters o més per a cercar"],
     "An error occurred while searching for {type}" : "S'ha produït un error mentre en cercar {type}",
     "Search starts once you start typing and results may be reached with the arrow keys" : "La cerca comença quan escriviu i podeu accedir als resultats amb les tecles de cursor",
     "Search for {name} only" : "Cerca només de {name}",

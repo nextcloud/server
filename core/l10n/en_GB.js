@@ -196,6 +196,7 @@ OC.L10N.register(
     "Search" : "Search",
     "No results for {query}" : "No results for {query}",
     "Press Enter to start searching" : "Press Enter to start searching",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Please enter {minSearchLength} character or more to search","Please enter {minSearchLength} characters or more to search"],
     "An error occurred while searching for {type}" : "An error occurred while searching for {type}",
     "Search starts once you start typing and results may be reached with the arrow keys" : "Search starts once you start typing and results may be reached with the arrow keys",
     "Search for {name} only" : "Search for {name} only",

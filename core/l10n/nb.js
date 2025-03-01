@@ -196,6 +196,7 @@ OC.L10N.register(
     "Search" : "Søk",
     "No results for {query}" : "Ingen resultater for {query}",
     "Press Enter to start searching" : "Trykk Enter for å starte søk",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Skriv minst {minSearchLength} bokstav for å søke","Skriv minst {minSearchLength} bokstaver for å søke"],
     "An error occurred while searching for {type}" : "Det oppsto en feil ved søk etter {type}",
     "Search starts once you start typing and results may be reached with the arrow keys" : "Søket starter når du begynner å skrive, og resultater kan nås med piltastene",
     "Search for {name} only" : "Søk kun etter {name}",

@@ -194,6 +194,7 @@
     "Search" : "Søg",
     "No results for {query}" : "Ingen søgeresultater for {query}",
     "Press Enter to start searching" : "Tast Enter for at starte søgning",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Minimum {minSearchLength} karakter eller flere for at søge","Minimum {minSearchLength} karakterer eller flere for at søge"],
     "An error occurred while searching for {type}" : "Der opstod en fejl under søgningen efter {type}",
     "Search starts once you start typing and results may be reached with the arrow keys" : "Søgningen starter samtidig med indtastningen og resultatet kan vælges med piletasterne",
     "Search for {name} only" : "Søg kun efter {name}",
