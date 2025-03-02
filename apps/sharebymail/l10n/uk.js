@@ -13,7 +13,7 @@ OC.L10N.register(
     "{actor} unshared {file} from {email} by mail" : "{actor} скасував доступ до {file} з {email} поштою",
     "Password to access {file} was sent to {email}" : "Пароль для доступу до {file} надіслано на адресу {email}",
     "Password to access {file} was sent to you" : "Вам надіслано пароль для доступу до {file}",
-    "Share by mail" : "Поділіться поштою",
+    "Share by mail" : "Поділіться за допомогою ел. пошти",
     "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Не вдалося надати %1$s у спільний доступ, оскільки цей ресурс вже у спільному доступі з користувачем %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Ми не можемо надіслати вам автоматично згенерований пароль. Укажіть дійсну адресу електронної пошти в особистих налаштуваннях і повторіть спробу.",
     "Failed to send share by email. Got an invalid email address" : "Не вдалося надіслати спільний доступ електронною поштою. Отримав недійсну електронну адресу",
