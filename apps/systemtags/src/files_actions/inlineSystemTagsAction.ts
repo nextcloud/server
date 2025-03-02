@@ -5,18 +5,9 @@
 import type { Node } from '@nextcloud/files'
 import { FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
+import { getNodeSystemTags } from '../utils.ts'
 
 import '../css/fileEntryInlineSystemTags.scss'
-
-const getNodeSystemTags = function(node: Node): string[] {
-	const tags = node.attributes?.['system-tags']?.['system-tag'] as string|string[]|undefined
-
-	if (tags === undefined) {
-		return []
-	}
-
-	return [tags].flat()
-}
 
 const renderTag = function(tag: string, isMore = false): HTMLElement {
 	const tagElement = document.createElement('li')
