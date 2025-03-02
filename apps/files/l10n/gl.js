@@ -80,6 +80,7 @@ OC.L10N.register(
     "Go to the \"{dir}\" directory" : "Vaia ao directorio «{dir}».",
     "Current directory path" : "Ruta do directorio actual",
     "Your have used your space quota and cannot upload files anymore" : "Vde. usou a súa cota de espazo e xa non pode enviar ningún ficheiro más",
+    "You do not have permission to upload or create files here." : "Non ten permiso para enviar ou crear ficheiros aquí.",
     "Drag and drop files here to upload" : "Arrastre e solte os ficheiros aquí para envialos",
     "Favorite" : "Favorito",
     "Back" : "Atrás",

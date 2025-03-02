@@ -80,6 +80,7 @@ OC.L10N.register(
     "Go to the \"{dir}\" directory" : "前往「{dir}」目錄",
     "Current directory path" : "目前目錄途徑",
     "Your have used your space quota and cannot upload files anymore" : "您已用完您的空間配額，無法再上傳檔案",
+    "You do not have permission to upload or create files here." : "您無權在此上傳或建立檔案。",
     "Drag and drop files here to upload" : "將檔案拖拽到此處即可上傳",
     "Favorite" : "我的最愛",
     "Back" : "上星期",

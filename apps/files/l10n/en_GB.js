@@ -80,6 +80,7 @@ OC.L10N.register(
     "Go to the \"{dir}\" directory" : "Go to the \"{dir}\" directory",
     "Current directory path" : "Current directory path",
     "Your have used your space quota and cannot upload files anymore" : "Your have used your space quota and cannot upload files anymore",
+    "You do not have permission to upload or create files here." : "You do not have permission to upload or create files here.",
     "Drag and drop files here to upload" : "Drag and drop files here to upload",
     "Favorite" : "Favourite",
     "Back" : "Back",
