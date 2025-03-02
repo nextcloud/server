@@ -708,7 +708,7 @@ export default {
 		},
 		errorPasswordLabel() {
 			if (this.passwordError) {
-				return t('files_sharing', "Password field can't be empty")
+				return t('files_sharing', 'Password field cannot be empty')
 			}
 			return undefined
 		},
