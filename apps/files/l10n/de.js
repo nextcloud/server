@@ -80,6 +80,7 @@ OC.L10N.register(
     "Go to the \"{dir}\" directory" : "In das Verzeichnis \"{dir}\" wechseln",
     "Current directory path" : "Aktueller Verzeichnispfad",
     "Your have used your space quota and cannot upload files anymore" : "Dein Speicherplatzkontigent ist aufgebraucht, du kannst keine weiteren Dateien hochladen.",
+    "You do not have permission to upload or create files here." : "Du hast nicht die Berechtigung, hier Dateien hochzuladen oder zu erstellen.",
     "Drag and drop files here to upload" : "Dateien zum Hochladen hierher ziehen und ablegen",
     "Favorite" : "Favorit",
     "Back" : "Zurück",
