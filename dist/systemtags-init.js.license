@@ -14,7 +14,6 @@ SPDX-FileCopyrightText: defunctzombie
 SPDX-FileCopyrightText: assert developers
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
-SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
@@ -122,9 +121,6 @@ This file is generated from multiple sources. Included packages:
 - call-bind
 	- version: 1.0.7
 	- license: MIT
-- camelcase
-	- version: 8.0.0
-	- license: MIT
 - cancelable-promise
 	- version: 4.3.1
 	- license: MIT
@@ -162,7 +158,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.0
 	- license: MIT
 - fast-xml-parser
-	- version: 4.4.1
+	- version: 4.5.3
 	- license: MIT
 - for-each
 	- version: 0.3.3
@@ -300,7 +296,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.3.0
 	- license: MIT
 - strnum
-	- version: 1.0.5
+	- version: 1.1.2
 	- license: MIT
 - style-loader
 	- version: 3.3.4
@@ -327,7 +323,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.12.5
 	- license: MIT
 - webdav
-	- version: 5.7.1
+	- version: 5.8.0
 	- license: MIT
 - webpack
 	- version: 5.94.0
