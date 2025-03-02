@@ -189,6 +189,14 @@ class ConnectionAdapter implements IDBConnection {
 		}
 	}
 
+	public function truncateTable(string $table, bool $cascade): void {
+		try {
+			$this->inner->truncateTable($table, $cascade);
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
+	}
+
 	public function tableExists(string $table): bool {
 		try {
 			return $this->inner->tableExists($table);
