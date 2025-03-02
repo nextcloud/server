@@ -296,6 +296,21 @@ interface IDBConnection {
 	public function dropTable(string $table): void;
 
 	/**
+	 * Truncate a table data if it exists
+	 *
+	 * Cascade is not supported on many platforms but would optionally cascade the truncate by
+	 * following the foreign keys.
+	 *
+	 * @param string $table table name without the prefix
+	 * @param bool $cascade whether to truncate cascading
+	 * @throws Exception
+	 * @since 31.0.13
+	 *
+	 * @psalm-taint-sink sql $table
+	 */
+	public function truncateTable(string $table, bool $cascade): void;
+
+	/**
 	 * Check if a table exists
 	 *
 	 * @param string $table table name without the prefix
