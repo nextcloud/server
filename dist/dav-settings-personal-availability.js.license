@@ -189,7 +189,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.0
 	- license: MIT
 - fast-xml-parser
-	- version: 4.4.1
+	- version: 4.5.3
 	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
@@ -345,7 +345,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.2.0
 	- license: MIT
 - strnum
-	- version: 1.0.5
+	- version: 1.1.2
 	- license: MIT
 - style-loader
 	- version: 4.0.0
@@ -396,7 +396,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webdav
-	- version: 5.7.1
+	- version: 5.8.0
 	- license: MIT
 - webpack
 	- version: 5.94.0
