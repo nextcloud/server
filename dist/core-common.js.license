@@ -231,9 +231,6 @@ This file is generated from multiple sources. Included packages:
 - call-bind
 	- version: 1.0.7
 	- license: MIT
-- camelcase
-	- version: 8.0.0
-	- license: MIT
 - cancelable-promise
 	- version: 4.3.1
 	- license: MIT
@@ -301,7 +298,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.2
 	- license: MIT
 - fast-xml-parser
-	- version: 4.4.1
+	- version: 4.5.3
 	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
@@ -652,7 +649,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.2.0
 	- license: MIT
 - strnum
-	- version: 1.0.5
+	- version: 1.1.2
 	- license: MIT
 - style-loader
 	- version: 3.3.4
@@ -748,7 +745,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.1
 	- license: MIT
 - webdav
-	- version: 5.7.1
+	- version: 5.8.0
 	- license: MIT
 - which-typed-array
 	- version: 1.1.15
