@@ -78,6 +78,7 @@
     "Go to the \"{dir}\" directory" : "\"{dir}\" klasörüne git",
     "Current directory path" : "Geçerli klasör yolu",
     "Your have used your space quota and cannot upload files anymore" : "Depolama alanınızın tümünü kullandığınız için başka dosya yüklemezsiniz",
+    "You do not have permission to upload or create files here." : "Buraya dosya yükleme ya da ekleme izniniz yok.",
     "Drag and drop files here to upload" : "Yüklemek istediğiniz dosyaları sürükleyip buraya bırakın",
     "Favorite" : "Sık kullanılanlara ekle",
     "Back" : "Geri",

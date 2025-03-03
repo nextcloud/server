@@ -80,6 +80,7 @@ OC.L10N.register(
     "Go to the \"{dir}\" directory" : "إنتقل إلى المجلد \"{dir}\"",
     "Current directory path" : "مسار المجلد الحالي",
     "Your have used your space quota and cannot upload files anymore" : "لقد استنفذت حصتك التخزينية و لم يعد بإمكانك رفع أي ملفات الآن",
+    "You do not have permission to upload or create files here." : "أنت ليس لديك إذنٌ برفع أو إنشاء الملفات هنا.",
     "Drag and drop files here to upload" : "إسحب وأفلت الملفات هنا لرفعها",
     "Favorite" : "المفضلة",
     "Back" : "عودة",

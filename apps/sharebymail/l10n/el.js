@@ -17,6 +17,7 @@ OC.L10N.register(
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Δεν μπορούμε να σας στείλουμε τον κωδικό πρόσβασης που δημιουργείται αυτόματα. Ορίστε μια έγκυρη διεύθυνση email στις προσωπικές σας ρυθμίσεις και δοκιμάστε ξανά.",
     "Failed to send share by email. Got an invalid email address" : "Αποτυχία αποστολής της κοινής χρήσης μέσω email. Λάβαμε μια μη έγκυρη διεύθυνση email",
     "Failed to send share by email" : "Αποτυχία αποστολής συνδέσμου διαμοιρασμού μέσω Ηλ.ταχυδρομείου",
+    "Note:" : "Σημείωση:",
     "%1$s via %2$s" : "%1$s μέσω %2$s",
     "It is protected with the following password:" : "Προστατευμένο με το συνθηματικό:",
     "This password will expire at %s" : "Αυτός ο κωδικός πρόσβασης θα λήξει την %s",

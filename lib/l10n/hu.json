@@ -228,7 +228,7 @@
     "Storage is temporarily not available" : "A tároló átmenetileg nem érhető el",
     "Storage connection timeout. %s" : "Időtúllépés a tárolókapcsolatban. %s",
     "Confirmation" : "Megerősítés",
-    "Prompt" : "Promtp",
+    "Prompt" : "Prompt",
     "Generates a possible headline for a text." : "Egy lehetséges címsort állít elő egy szöveghez.",
     "Text" : "Szöveg",
     "Summarize" : "Összesítés",
