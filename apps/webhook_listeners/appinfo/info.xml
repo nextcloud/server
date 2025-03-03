@@ -13,6 +13,9 @@
 	<licence>agpl</licence>
 	<author>Côme Chilliet</author>
 	<namespace>WebhookListeners</namespace>
+	<documentation>
+        <admin>https://docs.nextcloud.com/server/latest/admin_manual/webhook_listeners/index.html</admin>
+    </documentation>
 
 	<types>
 		<filesystem/>
