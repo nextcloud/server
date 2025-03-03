@@ -4,7 +4,7 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { ACTION_COPY_MOVE } from "../../../apps/files/src/actions/moveOrCopyAction"
+import { ACTION_COPY_MOVE } from '../../../apps/files/src/actions/moveOrCopyAction.ts'
 
 export const getRowForFileId = (fileid: number) => cy.get(`[data-cy-files-list-row-fileid="${fileid}"]`)
 export const getRowForFile = (filename: string) => cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"]`)
@@ -15,9 +15,22 @@ export const getActionsForFile = (filename: string) => getRowForFile(filename).f
 export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(fileid).findByRole('button', { name: 'Actions' })
 export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).findByRole('button', { name: 'Actions' })
 
+export const searchForActionInRow = (row: JQuery<HTMLElement>, actionId: string): Cypress.Chainable<JQuery<HTMLElement>> => {
+	const action = row.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+	if (action.length > 0) {
+		cy.log('Found action in row')
+		return cy.wrap(action)
+	}
+
+	// Else look in the action menu
+	const menuButtonId = row.find('button[aria-controls]').attr('aria-controls')
+	return cy.get(`#${menuButtonId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+}
+
 export const getActionEntryForFileId = (fileid: number, actionId: string) => {
 	return cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
 }
+
 export const getActionEntryForFile = (filename: string, actionId: string) => {
 	return cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
 }
@@ -213,7 +226,11 @@ export const deleteFileWithRequest = (user: User, path: string) => {
 		const requestToken = body.token
 		cy.request({
 			method: 'DELETE',
-			url: `${Cypress.env('baseUrl')}/remote.php/dav/files/${user.userId}` + path,
+			url: `${Cypress.env('baseUrl')}/remote.php/dav/files/${user.userId}${path}`,
+			auth: {
+				user: user.userId,
+				password: user.password,
+			},
 			headers: {
 				requestToken,
 			},
