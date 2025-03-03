@@ -2,7 +2,8 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { FileAction, Node, FileType, DefaultType } from '@nextcloud/files'
+import type { Node, View } from '@nextcloud/files'
+import { FileAction, FileType, DefaultType } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { isDownloadable } from '../utils/permissions'
 
@@ -75,13 +76,18 @@ export const action = new FileAction({
 	displayName: () => t('files', 'Download'),
 	iconSvgInline: () => ArrowDownSvg,
 
-	enabled(nodes: Node[]) {
+	enabled(nodes: Node[], view: View) {
 		if (nodes.length === 0) {
 			return false
 		}
 
 		// We can only download dav files and folders.
 		if (nodes.some(node => !node.isDavRessource)) {
+			return false
+		}
+
+		// Trashbin does not allow batch download
+		if (nodes.length > 1 && view.id === 'trashbin') {
 			return false
 		}
 
