@@ -6,14 +6,14 @@
 import type { User } from '@nextcloud/cypress'
 import { FileAction } from '@nextcloud/files'
 
-import { getActionButtonForFileId, getActionEntryForFileId, getRowForFile, getSelectionActionButton, getSelectionActionEntry, selectRowForFile, triggerActionForFile, triggerActionForFileId } from './FilesUtils'
+import { getActionButtonForFileId, getActionEntryForFileId, getRowForFile, getSelectionActionButton, getSelectionActionEntry, selectRowForFile } from './FilesUtils'
 import { ACTION_COPY_MOVE } from '../../../apps/files/src/actions/moveOrCopyAction'
 import { ACTION_DELETE } from '../../../apps/files/src/actions/deleteAction'
 import { ACTION_DETAILS } from '../../../apps/files/src/actions/sidebarAction'
 import { ACTION_SHARING_STATUS } from '../../../apps/files_sharing/src/files_actions/sharingStatusAction'
 
 declare global {
-    interface Window {
+	interface Window {
 		_nc_fileactions: FileAction[]
 	}
 }
@@ -53,6 +53,8 @@ describe('Files: Actions', { testIsolation: true }, () => {
 			getActionButtonForFileId(fileId).click({ force: true })
 			// Check the action is visible
 			getActionEntryForFileId(fileId, actionId).should('be.visible')
+			// Close the menu
+			cy.get('body').click({ force: true })
 		})
 	})
 
@@ -60,7 +62,7 @@ describe('Files: Actions', { testIsolation: true }, () => {
 		const parent = new FileAction({
 			id: 'nested-action',
 			displayName: () => 'Nested Action',
-			exec: cy.spy(), 
+			exec: cy.spy(),
 			iconSvgInline: () => '<svg></svg>',
 		})
 
@@ -88,7 +90,7 @@ describe('Files: Actions', { testIsolation: true }, () => {
 				win._nc_fileactions.push(parent)
 				win._nc_fileactions.push(child1)
 				win._nc_fileactions.push(child2)
-			}
+			},
 		})
 
 		// Open the menu
@@ -175,7 +177,7 @@ describe('Files: Actions', { testIsolation: true }, () => {
 				win._nc_fileactions.push(parent)
 				win._nc_fileactions.push(child1)
 				win._nc_fileactions.push(child2)
-			}
+			},
 		})
 
 		selectRowForFile('image.jpg')
