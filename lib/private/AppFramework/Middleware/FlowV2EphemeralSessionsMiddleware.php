@@ -1,0 +1,45 @@
+<?php
+
+declare(strict_types=1);
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+namespace OC\AppFramework\Middleware;
+
+use OC\Core\Controller\ClientFlowLoginV2Controller;
+use OCP\AppFramework\Middleware;
+use OCP\ISession;
+use OCP\IUserSession;
+use ReflectionMethod;
+
+// Will close the session if the user session is ephemeral.
+// Happens when the user logs in via the login flow v2.
+class FlowV2EphemeralSessionsMiddleware extends Middleware {
+	public function __construct(
+		private ISession $session,
+		private IUserSession $userSession,
+	) {
+	}
+
+	public function beforeController($controller, $methodName) {
+		if (!$this->session->get(ClientFlowLoginV2Controller::EPHEMERAL_NAME)) {
+			return;
+		}
+
+		if (
+			$controller instanceof ClientFlowLoginV2Controller &&
+			($methodName === 'grantPage' || $methodName === 'generateAppPassword')
+		) {
+			return;
+		}
+
+		$reflectionMethod = new ReflectionMethod($controller, $methodName);
+		if (!empty($reflectionMethod->getAttributes('PublicPage'))) {
+			return;
+		}
+
+		$this->userSession->logout();
+		$this->session->close();
+	}
+}
