@@ -275,6 +275,7 @@
     "Edit" : "Düzenleme",
     "Share" : "Paylaş",
     "Delete" : "Sil",
+    "Password field cannot be empty" : "Parola alanı boş olamaz",
     "Replace current password" : "Geçerli parolayı değiştir",
     "Failed to generate a new token" : "Yeni bir kod oluşturulamadı",
     "Allow upload and editing" : "Yüklenebilsin ve düzenlenebilsin",

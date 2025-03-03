@@ -277,6 +277,7 @@ OC.L10N.register(
     "Edit" : "تعديل",
     "Share" : "مشاركة",
     "Delete" : "حذف",
+    "Password field cannot be empty" : "خانة كلمة المرور يجب ألّا تكون فارغةً",
     "Replace current password" : "استبدال كلمة المرور الحالية",
     "Failed to generate a new token" : "تعذّر توليد أَمَارَة جديدة",
     "Allow upload and editing" : "السماح بالرفع و التعديل",
