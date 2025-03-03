@@ -824,7 +824,7 @@ class OC {
 					]
 				);
 
-				$tmpl = new OCP\Template('core', 'untrustedDomain', 'guest');
+				$tmpl = Server::get(ITemplateManager::class)->getTemplate('core', 'untrustedDomain', 'guest');
 				$tmpl->assign('docUrl', Server::get(IURLGenerator::class)->linkToDocs('admin-trusted-domains'));
 				$tmpl->printPage();
 

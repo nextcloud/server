@@ -40,7 +40,7 @@ class TemplateManager implements ITemplateManager {
 	 * @param array $parameters Parameters for the template
 	 */
 	public function printGuestPage(string $application, string $name, array $parameters = []): void {
-		$content = new Template($application, $name, $name === 'error' ? $name : 'guest');
+		$content = $this->getTemplate($application, $name, $name === 'error' ? $name : 'guest');
 		foreach ($parameters as $key => $value) {
 			$content->assign($key, $value);
 		}
@@ -85,7 +85,7 @@ class TemplateManager implements ITemplateManager {
 
 			try {
 				// Try rendering unthemed html error page
-				$content = new Template('', 'error', 'error', false);
+				$content = $this->getTemplate('', 'error', 'error', false);
 				$content->assign('errors', $errors);
 				$content->printPage();
 			} catch (\Exception $e2) {
@@ -113,7 +113,7 @@ class TemplateManager implements ITemplateManager {
 			$debug = (bool)Server::get(\OC\SystemConfig::class)->getValue('debug', false);
 			$serverLogsDocumentation = Server::get(\OC\SystemConfig::class)->getValue('documentation_url.server_logs', '');
 			$request = Server::get(IRequest::class);
-			$content = new Template('', 'exception', 'error', false);
+			$content = $this->getTemplate('', 'exception', 'error', false);
 			$content->assign('errorClass', get_class($exception));
 			$content->assign('errorMsg', $exception->getMessage());
 			$content->assign('errorCode', $exception->getCode());
