@@ -6,9 +6,9 @@
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>webhook_listeners</id>
-	<name>Nextcloud webhook support</name>
-	<summary>Nextcloud webhook support</summary>
-	<description>Nextcloud webhook support</description>
+	<name>Nextcloud Webhook Support</name>
+	<summary>Listen for internal Nextcloud events and call external webhooks</summary>
+	<description># Description\nThis is an official Nextcloud app, which enables the your Nextcloud to call webhooks, when certain Nextcloud events happen. This app does not have any (visible) user interface or settings. To configure your webhooks, you must use the [Rest API](https://docs.nextcloud.com/server/latest/developer_manual/_static/openapi.html#/operations/webhook_listeners-webhooks-create).</description>
 	<version>1.3.0</version>
 	<licence>agpl</licence>
 	<author>Côme Chilliet</author>
