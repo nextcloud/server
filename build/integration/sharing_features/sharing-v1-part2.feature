@@ -543,6 +543,29 @@ Feature: sharing
     And the HTTP status code should be "200"
     And last share_id is included in the answer
 
+  Scenario: Group shares are deleted when the group is deleted
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And group "group0" exists
+    And user "user0" belongs to group "group0"
+    And file "textfile0.txt" of user "user1" is shared with group "group0"
+    And As an "user0"
+    When sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share_id is included in the answer
+    When group "group0" does not exist
+    Then sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true"
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share_id is not included in the answer
+    When group "group0" exists
+    Then sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true"
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share_id is not included in the answer
+
   Scenario: User is not allowed to reshare file
   As an "admin"
     Given user "user0" exists
