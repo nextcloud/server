@@ -79,7 +79,7 @@ jobs:
 
       - name: Upload profiles
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
         with:
           name: profiles
           path: |
