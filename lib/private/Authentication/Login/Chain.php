@@ -63,6 +63,9 @@ class Chain {
 	/** @var FinishRememberedLoginCommand */
 	private $finishRememberedLoginCommand;
 
+	/** @var FlowV2EphemeralSessionsCommand */
+	private $flowV2EphemeralSessionsCommand;
+
 	public function __construct(PreLoginHookCommand $preLoginHookCommand,
 								UserDisabledCheckCommand $userDisabledCheckCommand,
 								UidLoginCommand $uidLoginCommand,
@@ -74,20 +77,9 @@ class Chain {
 								UpdateLastPasswordConfirmCommand $updateLastPasswordConfirmCommand,
 								SetUserTimezoneCommand $setUserTimezoneCommand,
 								TwoFactorCommand $twoFactorCommand,
-								FinishRememberedLoginCommand $finishRememberedLoginCommand
+								FinishRememberedLoginCommand $finishRememberedLoginCommand,
+								FlowV2EphemeralSessionsCommand $flowV2EphemeralSessionsCommand
 	) {
-		$this->preLoginHookCommand = $preLoginHookCommand;
-		$this->userDisabledCheckCommand = $userDisabledCheckCommand;
-		$this->uidLoginCommand = $uidLoginCommand;
-		$this->emailLoginCommand = $emailLoginCommand;
-		$this->loggedInCheckCommand = $loggedInCheckCommand;
-		$this->completeLoginCommand = $completeLoginCommand;
-		$this->createSessionTokenCommand = $createSessionTokenCommand;
-		$this->clearLostPasswordTokensCommand = $clearLostPasswordTokensCommand;
-		$this->updateLastPasswordConfirmCommand = $updateLastPasswordConfirmCommand;
-		$this->setUserTimezoneCommand = $setUserTimezoneCommand;
-		$this->twoFactorCommand = $twoFactorCommand;
-		$this->finishRememberedLoginCommand = $finishRememberedLoginCommand;
 	}
 
 	public function process(LoginData $loginData): LoginResult {
@@ -98,6 +90,7 @@ class Chain {
 			->setNext($this->emailLoginCommand)
 			->setNext($this->loggedInCheckCommand)
 			->setNext($this->completeLoginCommand)
+			->setNext($this->flowV2EphemeralSessionsCommand)
 			->setNext($this->createSessionTokenCommand)
 			->setNext($this->clearLostPasswordTokensCommand)
 			->setNext($this->updateLastPasswordConfirmCommand)
