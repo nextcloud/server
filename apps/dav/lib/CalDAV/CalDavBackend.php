@@ -130,7 +130,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		'{http://apple.com/ns/ical/}calendar-order' => ['calendarorder', 'int'],
 		'{http://apple.com/ns/ical/}calendar-color' => ['calendarcolor', 'string'],
 		'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_NEXTCLOUD . '}deleted-at' => ['deleted_at', 'int'],
-		'{http://owncloud.org/ns}calendar-enabled' => ['enabled', 'bool'],
 	];
 
 	/**
@@ -146,7 +145,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		'{http://calendarserver.org/ns/}subscribed-strip-todos' => ['striptodos', 'bool'],
 		'{http://calendarserver.org/ns/}subscribed-strip-alarms' => ['stripalarms', 'string'],
 		'{http://calendarserver.org/ns/}subscribed-strip-attachments' => ['stripattachments', 'string'],
-		'{http://owncloud.org/ns}calendar-enabled' => ['enabled', 'bool'],
 	];
 
 	/**

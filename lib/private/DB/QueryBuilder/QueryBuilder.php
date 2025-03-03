@@ -838,17 +838,10 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function set($key, $value) {
-		if ($value instanceof IQueryFunction) {
-			$this->queryBuilder->set(
-				$this->helper->quoteColumnName($key),
-				'(' . $value . ')'
-			);
-		} else {
-			$this->queryBuilder->set(
-				$this->helper->quoteColumnName($key),
-				$this->helper->quoteColumnName($value)
-			);
-		}
+		$this->queryBuilder->set(
+			$this->helper->quoteColumnName($key),
+			$this->helper->quoteColumnName($value)
+		);
 
 		return $this;
 	}
