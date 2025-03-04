@@ -15,6 +15,13 @@
 *.js                                          @nextcloud/server-frontend
 *.ts                                          @nextcloud/server-frontend
 
+# dependency management
+package.json                                  @nextcloud/server-dependabot
+package-lock.json                             @nextcloud/server-dependabot
+
+# Compiled assets only - no owner set to not spam on automated dependency updates
+/dist                                         
+
 # App maintainers
 /apps/admin_audit/appinfo/info.xml            @luka-nextcloud @blizzz
 /apps/cloud_federation_api/appinfo/info.xml   @mejo-
