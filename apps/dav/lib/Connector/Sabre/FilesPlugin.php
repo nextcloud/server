@@ -598,6 +598,12 @@ class FilesPlugin extends ServerPlugin {
 						throw new FilesMetadataException('you do not have enough rights to update \'' . $metadataKey . '\' on this node');
 					}
 
+					if ($value === null) {
+						$metadata->unset($metadataKey);
+						$filesMetadataManager->saveMetadata($metadata);
+						return true;
+					}
+
 					// If the metadata is unknown, it defaults to string.
 					try {
 						$type = $knownMetadata->getType($metadataKey);
