@@ -62,16 +62,6 @@ class AppConfig implements IAppConfig {
 	/** @var array<array-key, array{entries: array<array-key, ConfigLexiconEntry>, strictness: ConfigLexiconStrictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 
-	/**
-	 * $migrationCompleted is only needed to manage the previous structure
-	 * of the database during the upgrading process to nc29.
-	 *
-	 * only when upgrading from a version prior 28.0.2
-	 *
-	 * @TODO: remove this value in Nextcloud 30+
-	 */
-	private bool $migrationCompleted = true;
-
 	public function __construct(
 		protected IDBConnection $connection,
 		protected LoggerInterface $logger,
@@ -1212,41 +1202,16 @@ class AppConfig implements IAppConfig {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->from('appconfig');
 
-		/**
-		 * The use of $this->migrationCompleted is only needed to manage the
-		 * database during the upgrading process to nc29.
-		 */
-		if (!$this->migrationCompleted) {
-			$qb->select('appid', 'configkey', 'configvalue');
+		// we only need value from lazy when loadConfig does not specify it
+		$qb->select('appid', 'configkey', 'configvalue', 'type');
+
+		if ($lazy !== null) {
+			$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter($lazy ? 1 : 0, IQueryBuilder::PARAM_INT)));
 		} else {
-			// we only need value from lazy when loadConfig does not specify it
-			$qb->select('appid', 'configkey', 'configvalue', 'type');
-
-			if ($lazy !== null) {
-				$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter($lazy ? 1 : 0, IQueryBuilder::PARAM_INT)));
-			} else {
-				$qb->addSelect('lazy');
-			}
+			$qb->addSelect('lazy');
 		}
 
-		try {
-			$result = $qb->executeQuery();
-		} catch (DBException $e) {
-			/**
-			 * in case of issue with field name, it means that migration is not completed.
-			 * Falling back to a request without select on lazy.
-			 * This whole try/catch and the migrationCompleted variable can be removed in NC30.
-			 */
-			if ($e->getReason() !== DBException::REASON_INVALID_FIELD_NAME) {
-				throw $e;
-			}
-
-			$this->migrationCompleted = false;
-			$this->loadConfig($app, $lazy);
-
-			return;
-		}
-
+		$result = $qb->executeQuery();
 		$rows = $result->fetchAll();
 		foreach ($rows as $row) {
 			// most of the time, 'lazy' is not in the select because its value is already known
