@@ -1536,8 +1536,14 @@ class Manager implements IManager {
 	 * @inheritdoc
 	 */
 	public function groupDeleted($gid) {
-		$provider = $this->factory->getProviderForType(IShare::TYPE_GROUP);
-		$provider->groupDeleted($gid);
+		foreach ([IShare::TYPE_GROUP, IShare::TYPE_REMOTE_GROUP] as $type) {
+			try {
+				$provider = $this->factory->getProviderForType($type);
+			} catch (ProviderException $e) {
+				continue;
+			}
+			$provider->groupDeleted($gid);
+		}
 
 		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 		if ($excludedGroups === '') {
@@ -1557,8 +1563,14 @@ class Manager implements IManager {
 	 * @inheritdoc
 	 */
 	public function userDeletedFromGroup($uid, $gid) {
-		$provider = $this->factory->getProviderForType(IShare::TYPE_GROUP);
-		$provider->userDeletedFromGroup($uid, $gid);
+		foreach ([IShare::TYPE_GROUP, IShare::TYPE_REMOTE_GROUP] as $type) {
+			try {
+				$provider = $this->factory->getProviderForType($type);
+			} catch (ProviderException $e) {
+				continue;
+			}
+			$provider->userDeletedFromGroup($uid, $gid);
+		}
 	}
 
 	/**
