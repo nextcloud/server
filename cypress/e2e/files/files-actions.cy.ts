@@ -13,7 +13,7 @@ import { ACTION_DETAILS } from '../../../apps/files/src/actions/sidebarAction'
 import { ACTION_SHARING_STATUS } from '../../../apps/files_sharing/src/files_actions/sharingStatusAction'
 
 declare global {
-    interface Window {
+	interface Window {
 		_nc_fileactions: FileAction[]
 	}
 }
@@ -54,7 +54,7 @@ describe('Files: Actions', { testIsolation: true }, () => {
 			// Check the action is visible
 			getActionEntryForFileId(fileId, actionId).should('be.visible')
 			// Close the menu
-			cy.get('body').click({ force: true})
+			cy.get('body').click({ force: true })
 		})
 	})
 
@@ -62,7 +62,7 @@ describe('Files: Actions', { testIsolation: true }, () => {
 		const parent = new FileAction({
 			id: 'nested-action',
 			displayName: () => 'Nested Action',
-			exec: cy.spy(), 
+			exec: cy.spy(),
 			iconSvgInline: () => '<svg></svg>',
 		})
 
