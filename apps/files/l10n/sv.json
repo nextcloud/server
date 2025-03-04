@@ -78,6 +78,7 @@
     "Go to the \"{dir}\" directory" : "Gå till \"{dir}\" mappen",
     "Current directory path" : "Aktuell katalogsökväg",
     "Your have used your space quota and cannot upload files anymore" : "Du har använt din utrymmeskvot och kan inte längre ladda upp filer",
+    "You do not have permission to upload or create files here." : "Du har inte behörighet att ladda upp eller skapa filer här.",
     "Drag and drop files here to upload" : "Dra och släpp filer här för att ladda upp",
     "Favorite" : "Favorit",
     "Back" : "Tillbaka",

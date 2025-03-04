@@ -276,6 +276,7 @@ OC.L10N.register(
     "Edit" : "Редагувати",
     "Share" : "Спільне",
     "Delete" : "Вилучити",
+    "Password field cannot be empty" : "Поле з паролем має бути заповнено",
     "Replace current password" : "Замінити поточний пароль",
     "Failed to generate a new token" : "Не вдалося створити новий токен",
     "Allow upload and editing" : "Може завантажувати та редагувати",

@@ -626,7 +626,7 @@ OC.L10N.register(
     "Your headline" : "Deine Überschrift",
     "Unable to update language" : "Sprache konnte nicht aktualisiert werden",
     "Languages" : "Sprachen",
-    "Help translate" : "Helfe bei der Übersetzung mit",
+    "Help translate" : "Hilf bei der Übersetzung mit",
     "No language set" : "Keine Sprache eingestellt.",
     "Unable to update locale" : "Gebietsschema konnte nicht aktualisiert werden.",
     "Locales" : "Gebietsschemen",
