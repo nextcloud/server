@@ -14,6 +14,8 @@ OC.L10N.register(
     "Good evening, {name}" : "Jó estét, {name}",
     "Hello" : "Üdv",
     "Hello, {name}" : "Üdv {name}!",
+    "Happy birthday 🥳🤩🎂🎉" : "Boldog születésnapot 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Boldog születésnapot, {name} 🥳🤩🎂🎉",
     "\"{title} icon\"" : "„{title} ikon”",
     "Customize" : "Testreszabás",
     "Edit widgets" : "Modulok szerkesztése",
