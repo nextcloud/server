@@ -355,6 +355,13 @@ describe('SharingService share to Node mapping', () => {
 		expect(file.root).toBe('/files/test')
 		expect(file.attributes).toBeInstanceOf(Object)
 		expect(file.attributes['has-preview']).toBe(true)
+		expect(file.attributes.sharees).toEqual({
+			sharee: {
+				id: 'user00',
+				'display-name': 'User00',
+				type: 0,
+			},
+		})
 		expect(file.attributes.favorite).toBe(0)
 	})
 
