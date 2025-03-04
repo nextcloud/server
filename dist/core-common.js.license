@@ -29,7 +29,6 @@ SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com
 SPDX-FileCopyrightText: Thorsten Lünborg
 SPDX-FileCopyrightText: The Babel Team (https://babel.dev/team)
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
-SPDX-FileCopyrightText: Stefan-Gabriel Muscalu <stefan.gabriel.muscalu@gmail.com>
 SPDX-FileCopyrightText: Stefan Thomas <justmoon@members.fsf.org> (http://www.justmoon.net)
 SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Rubén Norte <ruben.norte@softonic.com>
@@ -176,7 +175,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.4
 	- license: GPL-3.0-or-later
 - @nextcloud/upload
-	- version: 1.8.0
+	- version: 1.9.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/vue-select
 	- version: 3.25.1
@@ -206,7 +205,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.5.0
 	- license: Apache-2.0
 - axios
-	- version: 1.7.9
+	- version: 1.8.1
 	- license: MIT
 - bail
 	- version: 2.0.2
@@ -627,9 +626,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - side-channel
 	- version: 1.0.6
-	- license: MIT
-- simple-eta
-	- version: 3.0.2
 	- license: MIT
 - space-separated-tokens
 	- version: 2.0.2
