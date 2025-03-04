@@ -50,6 +50,7 @@ OC.L10N.register(
     "Region" : "Regionas",
     "Enable SSL" : "Įjungti SSL",
     "Enable Path Style" : "Amazon S3 kelias",
+    "SSE-C encryption key" : "SSE-C šifravimo raktas",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
     "Remote subfolder" : "Nuotolinis poaplankis",
@@ -63,6 +64,7 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Šaknis",
     "SFTP with secret key login" : "SFTP protokolas su prisijungimu",
+    "SMB/CIFS" : "SMB/CIFS",
     "Share" : "Bendrinti",
     "Show hidden files" : "Rodyti paslėptus failus",
     "Timeout" : "Pasibaigė laikas",
@@ -73,7 +75,8 @@ OC.L10N.register(
     "\"%1$s\" is not installed. Mounting of %2$s is not possible. Please ask your system administrator to install it." : "\"%1$s\" nėra įdiegtas. %2$s prijungimas yra neįmanomas. Paprašykite savo sistemos administratoriaus, kad jį įdiegtų.",
     "External storage" : "Išorinė saugykla",
     "External storage support" : "Išorinės saugyklos priežiūra",
-    "Submit" : "Pateikti",
+    "Confirm" : "Patvirtinti",
+    "New configuration successfully saved" : "Nauja konfigūracija sėkmingai įrašyta",
     "External mount error" : "Išorinio prijungimo klaida",
     "Storage type" : "Saugyklos tipas",
     "Unknown" : "Nežinoma",
@@ -103,6 +106,7 @@ OC.L10N.register(
     "Configuration" : "Konfigūracija",
     "Available for" : "Prieinamas",
     "Add storage" : "Pridėti saugyklą",
-    "Advanced settings" : "Išplėstiniai nustatymai"
+    "Advanced settings" : "Išplėstiniai nustatymai",
+    "Submit" : "Pateikti"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

@@ -96,14 +96,17 @@ OC.L10N.register(
     "External storage support" : "外部ストレージに対応",
     "Adds basic external storage support" : "基本的な外部ストレージの対応を追加",
     "This application enables administrators to configure connections to external storage providers, such as FTP servers, S3 or SWIFT object stores, other Nextcloud servers, WebDAV servers, and more. Administration can choose which types of storage to enable and can mount these storage locations for an account, a group, or the entire system. Users will see a new folder appear in their root Nextcloud directory, which they can access and use like any other Nextcloud folder. External storage also allows people to share files stored in these external locations. In these cases, the credentials for the owner of the file are used when the recipient requests the file from external storage, thereby ensuring that the recipient can access the shared file.\n\nExternal storage can be configured using the GUI or at the command line. This second option provides the administration with more flexibility for configuring bulk external storage mounts and setting mount priorities. More information is available in the external storage GUI documentation and the external storage Configuration File documentation." : "このアプリケーションは、管理者がFTPサーバー、S3またはSWIFTオブジェクトストア、他のNextcloudサーバー、WebDAVサーバーなどの外部ストレージプロバイダーへの接続を設定できるようにします。管理者は、有効にするストレージの種類を選択し、これらのストレージの場所をアカウント、グループ、またはシステム全体にマウントできます。ユーザーは、ルートNextcloudディレクトリに新しいフォルダが表示され、他のNextcloudフォルダと同様にアクセスして使用できます。外部ストレージを使用すると、これらの外部位置に保存されているファイルを共有することもできます。これらの場合、受信者が外部ストレージからファイルをリクエストするときに、ファイルの所有者の資格情報が使用され、受信者が共有されたファイルにアクセスできることが保証されます。\n\n外部ストレージはGUIまたはコマンドラインを使用して設定できます。この第二のオプションでは、管理者は大量の外部ストレージのマウントやマウントの優先順位の設定を柔軟に行うことができます。外部ストレージのGUIドキュメントと外部ストレージの構成ファイルのドキュメントには、詳細な情報が記載されています。",
+    "Confirm" : "承認",
     "Storage credentials" : "ストレージ資格情報",
     "To access the storage, you need to provide the authentication credentials." : "ストレージにアクセスするには、認証情報を提供する必要があります。",
     "Enter the storage login" : "ストレージのログインを入力してください",
     "Enter the storage password" : "ストレージのパスワードを入力してください",
-    "Submit" : "提出する",
     "Unable to update this external storage config. {statusMessage}" : "この外部ストレージ設定を更新できません。 {statusMessage}",
     "New configuration successfully saved" : "新しい設定が正常に保存されました",
     "Enter missing credentials" : "不足している資格情報を入力",
+    "Credentials successfully set" : "認証情報は正常に設定されました",
+    "Error while setting credentials: {error}" : "認証情報の設定中にエラーが発生しました: {error}",
+    "Checking storage …" : "ストレージのチェック...",
     "There was an error with this external storage." : "この外部ストレージでエラーが発生しました。",
     "We were unable to check the external storage {basename}" : "外部ストレージ {basename} をチェックできませんでした。",
     "Examine this faulty external storage configuration" : "この問題のある外部ストレージの設定を調べる",
@@ -150,6 +153,7 @@ OC.L10N.register(
     "All people" : "すべての人",
     "Advanced settings" : "詳細設定",
     "Allow people to mount external storage" : "ユーザーに外部ストレージの接続を許可する",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "グローバル資格情報を使用して、同じ資格情報を持つ複数の外部記憶装置で認証することができます。"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "グローバル資格情報を使用して、同じ資格情報を持つ複数の外部記憶装置で認証することができます。",
+    "Submit" : "提出する"
 },
 "nplurals=1; plural=0;");

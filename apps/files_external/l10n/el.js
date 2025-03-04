@@ -79,7 +79,7 @@ OC.L10N.register(
     "External storage" : "Εξωτερικός αποθηκευτικός χώρος",
     "External storage support" : "Υποστήριξη εξωτερικού αποθηκευτικού χώρου",
     "Adds basic external storage support" : "Προσθέτει βασική υποστήριξη εξωτερικού αποθηκευτικού χώρου",
-    "Submit" : "Υποβολή",
+    "Confirm" : "Επιβεβαίωση",
     "Open in Files" : "Άνοιγμα στα Αρχεία",
     "External mount error" : "Σφάλμα εξωτερικής προσάρτησης",
     "Storage type" : "Τύπος αποθηκευτικού χώρου",
@@ -111,6 +111,7 @@ OC.L10N.register(
     "Available for" : "Διαθέσιμο για",
     "Add storage" : "Προσθήκη αποθηκευτικού χώρου",
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Τα δημόσια διαπιστευτήρια μπορούν να χρησιμοποιηθούν για τον έλεγχο ταυτότητας με διάφορους εξωτερικούς χώρους αποθήκευσης με ίδια διαπιστευτήρια."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Τα δημόσια διαπιστευτήρια μπορούν να χρησιμοποιηθούν για τον έλεγχο ταυτότητας με διάφορους εξωτερικούς χώρους αποθήκευσης με ίδια διαπιστευτήρια.",
+    "Submit" : "Υποβολή"
 },
 "nplurals=2; plural=(n != 1);");

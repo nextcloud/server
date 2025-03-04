@@ -26,9 +26,9 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcEmojiPicker from '@nextcloud/vue/dist/Components/NcEmojiPicker.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcEmojiPicker from '@nextcloud/vue/components/NcEmojiPicker'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 export default {
 	name: 'CustomMessageInput',

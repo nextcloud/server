@@ -12,6 +12,7 @@ use Generator;
 use OC\Collaboration\Collaborators\SearchResult;
 use OC\Share\Share;
 use OCA\Files_Sharing\ResponseDefinitions;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
@@ -24,6 +25,7 @@ use OCP\Constants;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use function array_slice;
@@ -155,7 +157,7 @@ class ShareesAPIController extends OCSController {
 		}
 
 		// FIXME: DI
-		if (\OC::$server->getAppManager()->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
+		if (Server::get(IAppManager::class)->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
 			$shareTypes[] = IShare::TYPE_CIRCLE;
 		}
 
@@ -328,7 +330,7 @@ class ShareesAPIController extends OCSController {
 		}
 
 		// FIXME: DI
-		if (\OC::$server->getAppManager()->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
+		if (Server::get(IAppManager::class)->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
 			$shareTypes[] = IShare::TYPE_CIRCLE;
 		}
 

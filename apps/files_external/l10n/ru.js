@@ -95,11 +95,11 @@ OC.L10N.register(
     "External storage support" : "Поддержка внешних хранилищ",
     "Adds basic external storage support" : "Базовая поддержка внешних хранилищ",
     "This application enables administrators to configure connections to external storage providers, such as FTP servers, S3 or SWIFT object stores, other Nextcloud servers, WebDAV servers, and more. Administration can choose which types of storage to enable and can mount these storage locations for an account, a group, or the entire system. Users will see a new folder appear in their root Nextcloud directory, which they can access and use like any other Nextcloud folder. External storage also allows people to share files stored in these external locations. In these cases, the credentials for the owner of the file are used when the recipient requests the file from external storage, thereby ensuring that the recipient can access the shared file.\n\nExternal storage can be configured using the GUI or at the command line. This second option provides the administration with more flexibility for configuring bulk external storage mounts and setting mount priorities. More information is available in the external storage GUI documentation and the external storage Configuration File documentation." : "Это приложение позволяет администраторам настраивать подключения к внешним поставщикам хранилища, таким как FTP-серверы, хранилища объектов S3 или SWIFT, другие серверы Nextcloud, WebDAV-серверы и многое другое. Администрация может выбрать, какие типы хранилищ включить, и подключить эти хранилища для учетной записи, группы или всей системы. Пользователи увидят, что в их корневом каталоге Nextcloud появится новая папка, доступ к которой они смогут получить и использовать, как и любую другую папку Nextcloud. Внешнее хранилище также позволяет пользователям предоставлять общий доступ к файлам, хранящимся в этих внешних хранилищах. В этих случаях учетные данные владельца файла используются, когда получатель запрашивает файл из внешнего хранилища, тем самым гарантируя, что получатель сможет получить доступ к общему файлу.\n \n Внешнее хранилище можно настроить с помощью графического интерфейса пользователя или в командной строке. Этот второй вариант предоставляет администрации больше гибкости при настройке массового подключения внешнего хранилища и установлении приоритетов подключения. Дополнительная информация доступна в документации по графическому интерфейсу внешнего хранилища и документации по файлу конфигурации внешнего хранилища.",
+    "Confirm" : "Подтвердить",
     "Storage credentials" : "Параметры хранилища",
     "To access the storage, you need to provide the authentication credentials." : "Для получения доступа в хранилище, вам нужно указать четные данные для аутентификации.",
     "Enter the storage login" : "Введите имя пользователя хранилища",
     "Enter the storage password" : "Введите пароль от хранилища",
-    "Submit" : "Отправить ответ",
     "Unable to update this external storage config. {statusMessage}" : "Не удалось обновить эту конфигурацию внешних хранилищ. {statusMessage}",
     "New configuration successfully saved" : "Новая конфигурация успешно сохранена",
     "Enter missing credentials" : "Ввод пропущенных учётных данных",
@@ -149,6 +149,7 @@ OC.L10N.register(
     "All people" : "Все люди",
     "Advanced settings" : "Расширенные настройки",
     "Allow people to mount external storage" : "Разрешить пользователям подключать внешнее хранилище",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальные учетные данные могут использоваться для аутентификации с несколькими внешними хранилищами, которые имеют одинаковые учетные данные."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальные учетные данные могут использоваться для аутентификации с несколькими внешними хранилищами, которые имеют одинаковые учетные данные.",
+    "Submit" : "Отправить ответ"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

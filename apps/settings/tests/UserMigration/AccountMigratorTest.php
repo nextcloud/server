@@ -14,6 +14,7 @@ use OCP\AppFramework\App;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\UserMigration\IExportDestination;
 use OCP\UserMigration\IImportSource;
 use PHPUnit\Framework\Constraint\JsonMatches;
@@ -67,7 +68,7 @@ class AccountMigratorTest extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		\OCP\Server::get(IConfig::class)->setSystemValue('has_internet_connection', true);
+		Server::get(IConfig::class)->setSystemValue('has_internet_connection', true);
 		parent::tearDown();
 	}
 

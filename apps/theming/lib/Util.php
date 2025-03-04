@@ -13,6 +13,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IUserSession;
+use OCP\Server;
 use OCP\ServerVersion;
 
 class Util {
@@ -196,7 +197,7 @@ class Util {
 	 * @return string|ISimpleFile path to app icon / file of logo
 	 */
 	public function getAppIcon($app) {
-		$app = str_replace(['\0', '/', '\\', '..'], '', $app);
+		$app = $this->appManager->cleanAppId($app);
 		try {
 			$appPath = $this->appManager->getAppPath($app);
 			$icon = $appPath . '/img/' . $app . '.svg';
@@ -227,7 +228,10 @@ class Util {
 	 * @return string|false absolute path to image
 	 */
 	public function getAppImage($app, $image) {
-		$app = str_replace(['\0', '/', '\\', '..'], '', $app);
+		$app = $this->appManager->cleanAppId($app);
+		/**
+		 * @psalm-taint-escape file
+		 */
 		$image = str_replace(['\0', '\\', '..'], '', $image);
 		if ($app === 'core') {
 			$icon = \OC::$SERVERROOT . '/core/img/' . $image;
@@ -302,7 +306,7 @@ class Util {
 	}
 
 	public function getCacheBuster(): string {
-		$userSession = \OC::$server->get(IUserSession::class);
+		$userSession = Server::get(IUserSession::class);
 		$userId = '';
 		$user = $userSession->getUser();
 		if (!is_null($user)) {

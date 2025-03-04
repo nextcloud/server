@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import type { IDeployDaemon } from '../../app-types.ts'
 import { mdiFileChart } from '@mdi/js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 
 defineProps<{
 	daemon?: IDeployDaemon

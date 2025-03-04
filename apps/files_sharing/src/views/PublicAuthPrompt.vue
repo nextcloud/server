@@ -37,9 +37,9 @@
 import { defineComponent } from 'vue'
 import { t } from '@nextcloud/l10n'
 
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 import { loadState } from '@nextcloud/initial-state'
 
 export default defineComponent({

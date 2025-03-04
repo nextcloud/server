@@ -9,6 +9,10 @@ namespace OCA\FederatedFileSharing\Tests;
 
 use OC\Files\Filesystem;
 use OC\Group\Database;
+use OCP\IGroupManager;
+use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\Server;
 
 /**
  * Class Test_Files_Sharing_Base
@@ -26,7 +30,7 @@ abstract class TestCase extends \Test\TestCase {
 
 		// reset backend
 		\OC_User::clearBackends();
-		\OC::$server->getGroupManager()->clearBackends();
+		Server::get(IGroupManager::class)->clearBackends();
 
 		// create users
 		$backend = new \Test\Util\User\Dummy();
@@ -44,11 +48,11 @@ abstract class TestCase extends \Test\TestCase {
 
 	public static function tearDownAfterClass(): void {
 		// cleanup users
-		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER1);
+		$user = Server::get(IUserManager::class)->get(self::TEST_FILES_SHARING_API_USER1);
 		if ($user !== null) {
 			$user->delete();
 		}
-		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER2);
+		$user = Server::get(IUserManager::class)->get(self::TEST_FILES_SHARING_API_USER2);
 		if ($user !== null) {
 			$user->delete();
 		}
@@ -60,8 +64,8 @@ abstract class TestCase extends \Test\TestCase {
 		// reset backend
 		\OC_User::clearBackends();
 		\OC_User::useBackend('database');
-		\OC::$server->getGroupManager()->clearBackends();
-		\OC::$server->getGroupManager()->addBackend(new Database());
+		Server::get(IGroupManager::class)->clearBackends();
+		Server::get(IGroupManager::class)->addBackend(new Database());
 
 		parent::tearDownAfterClass();
 	}
@@ -77,8 +81,8 @@ abstract class TestCase extends \Test\TestCase {
 		}
 
 		if ($create) {
-			$userManager = \OC::$server->getUserManager();
-			$groupManager = \OC::$server->getGroupManager();
+			$userManager = Server::get(IUserManager::class);
+			$groupManager = Server::get(IGroupManager::class);
 
 			$userObject = $userManager->createUser($user, $password);
 			$group = $groupManager->createGroup('group');
@@ -89,9 +93,9 @@ abstract class TestCase extends \Test\TestCase {
 		}
 
 		\OC_Util::tearDownFS();
-		\OC::$server->getUserSession()->setUser(null);
+		Server::get(IUserSession::class)->setUser(null);
 		Filesystem::tearDown();
-		\OC::$server->getUserSession()->login($user, $password);
+		Server::get(IUserSession::class)->login($user, $password);
 		\OC::$server->getUserFolder($user);
 
 		\OC_Util::setupFS($user);

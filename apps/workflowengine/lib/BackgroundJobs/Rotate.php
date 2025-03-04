@@ -8,7 +8,9 @@ namespace OCA\WorkflowEngine\BackgroundJobs;
 use OCA\WorkflowEngine\AppInfo\Application;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
+use OCP\IConfig;
 use OCP\Log\RotationTrait;
+use OCP\Server;
 
 class Rotate extends TimedJob {
 	use RotationTrait;
@@ -19,7 +21,7 @@ class Rotate extends TimedJob {
 	}
 
 	protected function run($argument) {
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 		$default = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/flow.log';
 		$this->filePath = trim((string)$config->getAppValue(Application::APP_ID, 'logfile', $default));
 

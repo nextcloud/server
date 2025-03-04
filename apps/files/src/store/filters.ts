@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { FilterUpdateChipsEvent, IFileListFilter, IFileListFilterChip } from '@nextcloud/files'
-import { subscribe } from '@nextcloud/event-bus'
+import { emit, subscribe } from '@nextcloud/event-bus'
 import { getFileListFilters } from '@nextcloud/files'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
@@ -20,7 +20,6 @@ function isFileListFilterWithUi(value: IFileListFilter): value is Required<IFile
 export const useFiltersStore = defineStore('filters', () => {
 	const chips = ref<Record<string, IFileListFilterChip[]>>({})
 	const filters = ref<IFileListFilter[]>([])
-	const filtersChanged = ref(false)
 
 	/**
 	 * Currently active filter chips
@@ -40,7 +39,7 @@ export const useFiltersStore = defineStore('filters', () => {
 	 * All filters that provide a UI for visual controlling the filter state
 	 */
 	const filtersWithUI = computed<Required<IFileListFilter>[]>(
-		() => sortedFilters.value.filter(isFileListFilterWithUi)
+		() => sortedFilters.value.filter(isFileListFilterWithUi),
 	)
 
 	/**
@@ -77,7 +76,7 @@ export const useFiltersStore = defineStore('filters', () => {
 	 * @private
 	 */
 	function onFilterUpdate() {
-		filtersChanged.value = true
+		emit('files:filters:changed')
 	}
 
 	/**
@@ -122,7 +121,6 @@ export const useFiltersStore = defineStore('filters', () => {
 		chips,
 		filters,
 		filtersWithUI,
-		filtersChanged,
 
 		// getters / computed
 		activeChips,

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -14,6 +16,12 @@ $txConfig = file_get_contents(__DIR__ . '/../.tx/config');
 
 $untranslatedApps = [
 	'testing',
+];
+
+$txConfigAppMap = [
+	'dashboard' => 'dashboard-shipped-with-server',
+	'encryption' => 'files_encryption',
+	'settings' => 'settings-1',
 ];
 
 // Next line only looks messed up, but it works. Don't touch it!
@@ -52,10 +60,9 @@ foreach ($apps as $app) {
 		continue;
 	}
 
-	if (!file_exists($app->getPathname() . '/l10n')) {
-		if (!str_contains($txConfig, '[o:nextcloud:p:nextcloud:r:' . $app->getBasename() . ']')) {
-			$errors[] = $app->getBasename() . "\n" . '  App is not translation synced via transifex and also not marked as untranslated' . "\n";
-		}
+	$resourceName = $txConfigAppMap[$app->getBasename()] ?? $app->getBasename();
+	if (!file_exists($app->getPathname() . '/l10n') || !str_contains($txConfig, '[o:nextcloud:p:nextcloud:r:' . $resourceName . ']')) {
+		$errors[] = $app->getBasename() . "\n" . '  App is not correctly configured for translation sync via transifex and also not marked as untranslated' . "\n";
 		continue;
 	}
 

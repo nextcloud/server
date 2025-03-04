@@ -24,6 +24,8 @@ if [ "$INSTALLED" == "true" ]; then
     $OCC config:system:set allow_local_remote_servers --value true --type bool
     # Allow self signed certificates
     $OCC config:system:set sharing.federation.allowSelfSignedCertificates --value true --type bool
+	# Allow creating users with dummy passwords
+	$OCC app:disable password_policy
 else
     if [ "$SCENARIO_TO_RUN" != "setup_features/setup.feature" ]; then
         echo "Nextcloud instance needs to be installed" >&2

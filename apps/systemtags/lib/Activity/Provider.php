@@ -275,7 +275,7 @@ class Provider implements IProvider {
 	protected function getFileParameter($id, $path) {
 		return [
 			'type' => 'file',
-			'id' => $id,
+			'id' => (string)$id,
 			'name' => basename($path),
 			'path' => trim($path, '/'),
 		];
@@ -286,7 +286,7 @@ class Provider implements IProvider {
 		if ($tagData === null) {
 			[$name, $status] = explode('|||', substr($parameter, 3, -3));
 			$tagData = [
-				'id' => 0,// No way to recover the ID
+				'id' => '0',// No way to recover the ID
 				'name' => $name,
 				'assignable' => $status === 'assignable',
 				'visible' => $status !== 'invisible',
@@ -295,7 +295,7 @@ class Provider implements IProvider {
 
 		return [
 			'type' => 'systemtag',
-			'id' => (int)$tagData['id'],
+			'id' => (string)$tagData['id'],
 			'name' => $tagData['name'],
 			'assignable' => $tagData['assignable'] ? '1' : '0',
 			'visibility' => $tagData['visible'] ? '1' : '0',

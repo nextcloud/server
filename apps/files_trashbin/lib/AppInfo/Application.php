@@ -74,7 +74,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function registerTrashBackends(ContainerInterface $serverContainer, LoggerInterface $logger, IAppManager $appManager, ITrashManager $trashManager): void {
-		foreach ($appManager->getInstalledApps() as $app) {
+		foreach ($appManager->getEnabledApps() as $app) {
 			$appInfo = $appManager->getAppInfo($app);
 			if (isset($appInfo['trash'])) {
 				$backends = $appInfo['trash'];

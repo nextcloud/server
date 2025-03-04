@@ -85,7 +85,7 @@ OC.L10N.register(
     "External storage" : "Външно хранилище",
     "External storage support" : "Поддръжка на външно хранилище",
     "Adds basic external storage support" : "Добавя основна поддръжка за външно хранилище",
-    "Submit" : "Изпращане",
+    "Confirm" : "Потвърдете",
     "External mount error" : "Външна грешка при външно монтиране",
     "Storage type" : "Тип хранилище",
     "Unknown" : "Неизвестен",
@@ -118,6 +118,7 @@ OC.L10N.register(
     "Available for" : "Достъпно за",
     "Add storage" : "Добави хранилище",
     "Advanced settings" : "Допълнителни настройки",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните идентификационни данни могат да се използват за удостоверяване с множество външни хранилища, които имат едни и същи идентификационни данни."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните идентификационни данни могат да се използват за удостоверяване с множество външни хранилища, които имат едни и същи идентификационни данни.",
+    "Submit" : "Изпращане"
 },
 "nplurals=2; plural=(n != 1);");

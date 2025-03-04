@@ -16,7 +16,10 @@ use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\QueryException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IConfig;
 use OCP\IL10N;
+use OCP\Security\ISecureRandom;
+use OCP\Server;
 use OCP\Util;
 use phpseclib\Crypt\AES;
 use Psr\Log\LoggerInterface;
@@ -51,7 +54,7 @@ class MountConfig {
 	 */
 	public static function substitutePlaceholdersInConfig($input, ?string $userId = null) {
 		/** @var BackendService $backendService */
-		$backendService = \OC::$server->get(BackendService::class);
+		$backendService = Server::get(BackendService::class);
 		/** @var IConfigHandler[] $handlers */
 		$handlers = $backendService->getConfigHandlers();
 		foreach ($handlers as $handler) {
@@ -99,7 +102,7 @@ class MountConfig {
 					throw $e;
 				}
 			} catch (\Exception $exception) {
-				\OC::$server->get(LoggerInterface::class)->error($exception->getMessage(), ['exception' => $exception, 'app' => 'files_external']);
+				Server::get(LoggerInterface::class)->error($exception->getMessage(), ['exception' => $exception, 'app' => 'files_external']);
 				throw $exception;
 			}
 		}
@@ -191,7 +194,7 @@ class MountConfig {
 	 */
 	private static function encryptPassword($password) {
 		$cipher = self::getCipher();
-		$iv = \OC::$server->getSecureRandom()->generate(16);
+		$iv = Server::get(ISecureRandom::class)->generate(16);
 		$cipher->setIV($iv);
 		return base64_encode($iv . $cipher->encrypt($password));
 	}
@@ -218,7 +221,7 @@ class MountConfig {
 	 */
 	private static function getCipher() {
 		$cipher = new AES(AES::MODE_CBC);
-		$cipher->setKey(\OC::$server->getConfig()->getSystemValue('passwordsalt', null));
+		$cipher->setKey(Server::get(IConfig::class)->getSystemValue('passwordsalt', null));
 		return $cipher;
 	}
 

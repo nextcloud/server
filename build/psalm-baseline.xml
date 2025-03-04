@@ -543,12 +543,6 @@
       <code><![CDATA[bool]]></code>
     </InvalidReturnType>
   </file>
-  <file src="apps/dav/lib/HookManager.php">
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->usersToDelete]]></code>
-      <code><![CDATA[$this->usersToDelete]]></code>
-    </InvalidPropertyAssignmentValue>
-  </file>
   <file src="apps/dav/lib/Migration/BuildCalendarSearchIndexBackgroundJob.php">
     <ParamNameMismatch>
       <code><![CDATA[$arguments]]></code>
@@ -1750,9 +1744,6 @@
     <InvalidNullableReturnType>
       <code><![CDATA[array]]></code>
     </InvalidNullableReturnType>
-    <InvalidScalarArgument>
-      <code><![CDATA[\OC_Util::normalizeUnicode($path)]]></code>
-    </InvalidScalarArgument>
     <NullableReturnStatement>
       <code><![CDATA[null]]></code>
       <code><![CDATA[null]]></code>
@@ -2005,11 +1996,6 @@
     </NoInterfaceProperties>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Encoding.php">
-    <InvalidArgument>
-      <code><![CDATA[\Normalizer::FORM_C]]></code>
-      <code><![CDATA[\Normalizer::FORM_C]]></code>
-      <code><![CDATA[\Normalizer::FORM_D]]></code>
-    </InvalidArgument>
     <UndefinedInterfaceMethod>
       <code><![CDATA[$this->namesCache]]></code>
       <code><![CDATA[$this->namesCache]]></code>
@@ -2530,12 +2516,6 @@
     <MoreSpecificImplementedParamType>
       <code><![CDATA[$tag]]></code>
     </MoreSpecificImplementedParamType>
-  </file>
-  <file src="lib/private/TempManager.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[false]]></code>
-      <code><![CDATA[false]]></code>
-    </FalsableReturnStatement>
   </file>
   <file src="lib/private/Template/CSSResourceLocator.php">
     <ParamNameMismatch>

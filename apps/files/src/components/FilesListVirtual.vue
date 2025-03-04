@@ -62,12 +62,12 @@ import type { Node as NcNode } from '@nextcloud/files'
 import type { ComponentPublicInstance, PropType } from 'vue'
 import type { Location } from 'vue-router'
 
-import { defineComponent } from 'vue'
 import { getFileListHeaders, Folder, Permission, View, getFileActions, FileType } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { translate as t } from '@nextcloud/l10n'
-import { useHotKey } from '@nextcloud/vue/dist/Composables/useHotKey.js'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
+import { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { getSummaryFor } from '../utils/fileUtils'
@@ -189,7 +189,7 @@ export default defineComponent({
 		caption() {
 			const defaultCaption = t('files', 'List of files and folders.')
 			const viewCaption = this.currentView.caption || defaultCaption
-			const cantUploadCaption = this.cantUpload ? t('files', 'You don’t have permission to upload or create files here.') : null
+			const cantUploadCaption = this.cantUpload ? t('files', 'You do not have permission to upload or create files here.') : null
 			const quotaExceededCaption = this.isQuotaExceeded ? t('files', 'You have used your space quota and cannot upload files anymore.') : null
 			const sortableCaption = t('files', 'Column headers with buttons are sortable.')
 			const virtualListNote = t('files', 'This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.')
@@ -220,23 +220,25 @@ export default defineComponent({
 		},
 
 		openFile: {
-			async handler(openFile) {
+			handler(openFile) {
 				if (!openFile || !this.fileId) {
 					return
 				}
 
-				await this.handleOpenFile(this.fileId)
+				this.handleOpenFile(this.fileId)
 			},
 			immediate: true,
 		},
 
 		openDetails: {
-			handler() {
+			handler(openDetails) {
 				// wait for scrolling and updating the actions to settle
 				this.$nextTick(() => {
-					if (this.fileId && this.openDetails) {
-						this.openSidebarForFile(this.fileId)
+					if (!openDetails || !this.fileId) {
+						return
 					}
+
+					this.openSidebarForFile(this.fileId)
 				})
 			},
 			immediate: true,
@@ -276,7 +278,9 @@ export default defineComponent({
 			if (node && sidebarAction?.enabled?.([node], this.currentView)) {
 				logger.debug('Opening sidebar on file ' + node.path, { node })
 				sidebarAction.exec(node, this.currentView, this.currentFolder.path)
+				return
 			}
+			logger.error(`Failed to open sidebar on file ${fileId}, file isn't cached yet !`, { fileId, node })
 		},
 
 		scrollToFile(fileId: number|null, warn = true) {

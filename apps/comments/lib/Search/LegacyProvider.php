@@ -14,7 +14,9 @@ use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Search\Provider;
+use OCP\Server;
 use function count;
 
 class LegacyProvider extends Provider {
@@ -26,8 +28,8 @@ class LegacyProvider extends Provider {
 	 * @since 7.0.0
 	 */
 	public function search($query): array {
-		$cm = \OC::$server->get(ICommentsManager::class);
-		$us = \OC::$server->getUserSession();
+		$cm = Server::get(ICommentsManager::class);
+		$us = Server::get(IUserSession::class);
 
 		$user = $us->getUser();
 		if (!$user instanceof IUser) {

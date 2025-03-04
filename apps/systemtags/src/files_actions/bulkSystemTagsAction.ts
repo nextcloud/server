@@ -14,9 +14,11 @@ import { loadState } from '@nextcloud/initial-state'
 
 import TagMultipleSvg from '@mdi/svg/svg/tag-multiple.svg?raw'
 
+const restrictSystemTagsCreationToAdmin = loadState<'0'|'1'>('settings', 'restrictSystemTagsCreationToAdmin', '0') === '1'
+
 /**
- *
- * @param nodes
+ * Spawn a dialog to add or remove tags from multiple nodes.
+ * @param nodes Nodes to modify tags for
  */
 async function execBatch(nodes: Node[]): Promise<(null|boolean)[]> {
 	const response = await new Promise<null|boolean>((resolve) => {
@@ -37,7 +39,7 @@ export const action = new FileAction({
 	// If the app is disabled, the action is not available anyway
 	enabled(nodes) {
 		// By default, everyone can create system tags
-		if (loadState('settings', 'restrictSystemTagsCreationToAdmin', '0') === '1' && getCurrentUser()?.isAdmin !== true) {
+		if (restrictSystemTagsCreationToAdmin && getCurrentUser()?.isAdmin !== true) {
 			return false
 		}
 
@@ -50,7 +52,7 @@ export const action = new FileAction({
 		}
 
 		// Disabled for non dav resources
-		if (nodes.some((node) => !node.isDavRessource)) {
+		if (nodes.some((node) => !node.isDavResource)) {
 			return false
 		}
 

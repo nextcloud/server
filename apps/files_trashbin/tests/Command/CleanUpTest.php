@@ -10,6 +10,7 @@ use OC\User\Manager;
 use OCA\Files_Trashbin\Command\CleanUp;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
+use OCP\Server;
 use OCP\UserInterface;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
@@ -51,7 +52,7 @@ class CleanUpTest extends TestCase {
 		$this->userManager = $this->getMockBuilder('OC\User\Manager')
 			->disableOriginalConstructor()->getMock();
 
-		$this->dbConnection = \OC::$server->getDatabaseConnection();
+		$this->dbConnection = Server::get(IDBConnection::class);
 
 		$this->cleanup = new CleanUp($this->rootFolder, $this->userManager, $this->dbConnection);
 	}

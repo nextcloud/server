@@ -36,6 +36,7 @@ return array(
     'OCA\\User_LDAP\\Events\\GroupBackendRegistered' => $baseDir . '/../lib/Events/GroupBackendRegistered.php',
     'OCA\\User_LDAP\\Events\\UserBackendRegistered' => $baseDir . '/../lib/Events/UserBackendRegistered.php',
     'OCA\\User_LDAP\\Exceptions\\AttributeNotSet' => $baseDir . '/../lib/Exceptions/AttributeNotSet.php',
+    'OCA\\User_LDAP\\Exceptions\\ConfigurationIssueException' => $baseDir . '/../lib/Exceptions/ConfigurationIssueException.php',
     'OCA\\User_LDAP\\Exceptions\\ConstraintViolationException' => $baseDir . '/../lib/Exceptions/ConstraintViolationException.php',
     'OCA\\User_LDAP\\Exceptions\\NoMoreResults' => $baseDir . '/../lib/Exceptions/NoMoreResults.php',
     'OCA\\User_LDAP\\Exceptions\\NotOnLDAP' => $baseDir . '/../lib/Exceptions/NotOnLDAP.php',

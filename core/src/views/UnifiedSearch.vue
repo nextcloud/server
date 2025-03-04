@@ -29,7 +29,7 @@ import { translate } from '@nextcloud/l10n'
 import { useBrowserLocation } from '@vueuse/core'
 import { defineComponent } from 'vue'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import Magnify from 'vue-material-design-icons/Magnify.vue'
 import UnifiedSearchModal from '../components/UnifiedSearch/UnifiedSearchModal.vue'
 import UnifiedSearchLocalSearchBar from '../components/UnifiedSearch/UnifiedSearchLocalSearchBar.vue'

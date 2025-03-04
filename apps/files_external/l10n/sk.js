@@ -96,14 +96,17 @@ OC.L10N.register(
     "External storage support" : "Podpora externého úložiska",
     "Adds basic external storage support" : "Pridáva základnú podporu externého úložiska",
     "This application enables administrators to configure connections to external storage providers, such as FTP servers, S3 or SWIFT object stores, other Nextcloud servers, WebDAV servers, and more. Administration can choose which types of storage to enable and can mount these storage locations for an account, a group, or the entire system. Users will see a new folder appear in their root Nextcloud directory, which they can access and use like any other Nextcloud folder. External storage also allows people to share files stored in these external locations. In these cases, the credentials for the owner of the file are used when the recipient requests the file from external storage, thereby ensuring that the recipient can access the shared file.\n\nExternal storage can be configured using the GUI or at the command line. This second option provides the administration with more flexibility for configuring bulk external storage mounts and setting mount priorities. More information is available in the external storage GUI documentation and the external storage Configuration File documentation." : "Táto aplikácia umožňuje správcom nastaviť prepojenia na poskytovateľov externých úložísk, ako napríklad servery FTP, S3 alebo SWIFT objektové úložiská, iné Nextcloudu servery, WebDAV servery a pod. Správci môžu zvoliť, ktoré typy úložísk zapnúť a prípadne ich pripojiť pre účet, skupinu alebo celý systém. Užívatelia uvidia nový priečinok v ich koreňovom Nextcloud priečinku, do ktorého môžu pristupovať a používať ako akýkoľvek iný priečinok v Nextcloude. Externé úložisko tiež umožňuje ľuďom sprístupňovať v ňom uložené súbory. V takých prípadoch sa použijú prihlasovacie údaje vlastníka súboru keď si príjemca vyžiada súbor z externého úložiska, čím je zaistené, že príjemca môže pristupovať k sprístupnenému súboru.\n\nExterné úložisko je možné nastaviť pomocou web rozhrania alebo z príkazového riadku. Druhá možnosť poskytuje správcom väčšie možnosti prispôsobenia pre nastavenie viac typov pripojení externých úložísk a nastavenia priorít pre pripájanie. Viac informácií je k dispozícii v dokumentácii k externým úložiskám vo web rozhraní a dokumentácii k súboru s nastaveniami pre externé úložiská.",
+    "Confirm" : "Potvrdiť",
     "Storage credentials" : "Poverenia k úložisku",
     "To access the storage, you need to provide the authentication credentials." : "Ak chcete získať prístup k úložisku, musíte zadať autentifikačné poverenia.",
     "Enter the storage login" : "Zadajte prihlasovacie meno do úložiska",
     "Enter the storage password" : "Zadajte heslo do úložiska",
-    "Submit" : "Odoslať",
     "Unable to update this external storage config. {statusMessage}" : "Nepodarilo sa aktualizovať konfiguráciu externého úložiska. {statusMessage}",
     "New configuration successfully saved" : "Nová konfigurácia úspešne uložená",
     "Enter missing credentials" : "Zadajte chýbajúce prihlasovacie údaje",
+    "Credentials successfully set" : "Prístupové údaje boli úspešne nastavené",
+    "Error while setting credentials: {error}" : "Chyba pri nastavovaní prístupových údajov: {error}",
+    "Checking storage …" : "Kontrolujem úložisko ...",
     "There was an error with this external storage." : "Vyskytla sa chyba s externým úložiskom.",
     "We were unable to check the external storage {basename}" : "Nepodarilo sa nám skontrolovať externé úložisko {basename}",
     "Examine this faulty external storage configuration" : "Skúste preskúmať chybnú konfiguráciu externého úložiska",
@@ -150,6 +153,7 @@ OC.L10N.register(
     "All people" : "Všetci ľudia",
     "Advanced settings" : "Rozšírené nastavenia",
     "Allow people to mount external storage" : "Povoliť užívateľom pripojiť externé úložiská",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globálne prihlasovacie údaje je možné použiť pre overenie s viacerými externými úložiskami, ktoré majú rovnaké prihlasovacie údaje."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globálne prihlasovacie údaje je možné použiť pre overenie s viacerými externými úložiskami, ktoré majú rovnaké prihlasovacie údaje.",
+    "Submit" : "Odoslať"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

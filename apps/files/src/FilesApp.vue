@@ -13,7 +13,7 @@
 import { isPublicShare } from '@nextcloud/sharing/public'
 import { defineComponent } from 'vue'
 
-import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
+import NcContent from '@nextcloud/vue/components/NcContent'
 
 import Navigation from './views/Navigation.vue'
 import FilesList from './views/FilesList.vue'

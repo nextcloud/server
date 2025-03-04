@@ -18,6 +18,15 @@ use OCP\BeforeSabrePubliclyLoadedEvent;
 use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMountManager;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\IPreview;
+use OCP\IRequest;
+use OCP\ISession;
+use OCP\ITagManager;
+use OCP\IUserSession;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
@@ -27,34 +36,34 @@ $RUNTIME_APPTYPES = ['filesystem', 'authentication', 'logging'];
 OC_App::loadApps($RUNTIME_APPTYPES);
 
 OC_Util::obEnd();
-\OC::$server->getSession()->close();
+Server::get(ISession::class)->close();
 
 // Backends
 $authBackend = new LegacyPublicAuth(
-	\OC::$server->getRequest(),
-	\OC::$server->getShareManager(),
-	\OC::$server->getSession(),
-	\OC::$server->getBruteForceThrottler()
+	Server::get(IRequest::class),
+	Server::get(\OCP\Share\IManager::class),
+	Server::get(ISession::class),
+	Server::get(IThrottler::class)
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 
 /** @var IEventDispatcher $eventDispatcher */
-$eventDispatcher = \OC::$server->get(IEventDispatcher::class);
+$eventDispatcher = Server::get(IEventDispatcher::class);
 
 $serverFactory = new ServerFactory(
-	\OC::$server->getConfig(),
-	\OC::$server->get(LoggerInterface::class),
-	\OC::$server->getDatabaseConnection(),
-	\OC::$server->getUserSession(),
-	\OC::$server->getMountManager(),
-	\OC::$server->getTagManager(),
-	\OC::$server->getRequest(),
-	\OC::$server->getPreviewManager(),
+	Server::get(IConfig::class),
+	Server::get(LoggerInterface::class),
+	Server::get(IDBConnection::class),
+	Server::get(IUserSession::class),
+	Server::get(IMountManager::class),
+	Server::get(ITagManager::class),
+	Server::get(IRequest::class),
+	Server::get(IPreview::class),
 	$eventDispatcher,
 	\OC::$server->getL10N('dav')
 );
 
-$requestUri = \OC::$server->getRequest()->getRequestUri();
+$requestUri = Server::get(IRequest::class)->getRequestUri();
 
 $linkCheckPlugin = new PublicLinkCheckPlugin();
 $filesDropPlugin = new FilesDropPlugin();
@@ -62,7 +71,7 @@ $filesDropPlugin = new FilesDropPlugin();
 $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($authBackend, $linkCheckPlugin, $filesDropPlugin) {
 	$isAjax = in_array('XMLHttpRequest', explode(',', $_SERVER['HTTP_X_REQUESTED_WITH'] ?? ''));
 	/** @var FederatedShareProvider $shareProvider */
-	$federatedShareProvider = \OC::$server->query(FederatedShareProvider::class);
+	$federatedShareProvider = Server::get(FederatedShareProvider::class);
 	if ($federatedShareProvider->isOutgoingServer2serverShareEnabled() === false && !$isAjax) {
 		// this is what is thrown when trying to access a non-existing share
 		throw new \Sabre\DAV\Exception\NotAuthenticated();

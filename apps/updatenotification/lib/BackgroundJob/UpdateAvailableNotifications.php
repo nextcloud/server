@@ -132,7 +132,7 @@ class UpdateAvailableNotifications extends TimedJob {
 	 * Check all installed apps for updates
 	 */
 	protected function checkAppUpdates() {
-		$apps = $this->appManager->getInstalledApps();
+		$apps = $this->appManager->getEnabledApps();
 		foreach ($apps as $app) {
 			$update = $this->isUpdateAvailable($app);
 			if ($update !== false) {

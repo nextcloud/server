@@ -128,20 +128,20 @@ import type { Tag, TagWithId } from '../types'
 import { defineComponent } from 'vue'
 import { emit } from '@nextcloud/event-bus'
 import { getLanguage, n, t } from '@nextcloud/l10n'
-import { sanitize } from 'dompurify'
 import { showError, showInfo } from '@nextcloud/dialogs'
 import debounce from 'debounce'
+import domPurify from 'dompurify'
 import escapeHTML from 'escape-html'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcChip from '@nextcloud/vue/dist/Components/NcChip.js'
-import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcChip from '@nextcloud/vue/components/NcChip'
+import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 import CheckIcon from 'vue-material-design-icons/CheckCircle.vue'
 import CircleIcon from 'vue-material-design-icons/Circle.vue'
 import CircleOutlineIcon from 'vue-material-design-icons/CircleOutline.vue'
@@ -378,7 +378,7 @@ export default defineComponent({
 				})
 			}
 			const chipHtml = chipCloneEl.outerHTML
-			return chipHtml.replace('%s', escapeHTML(sanitize(tag.displayName)))
+			return chipHtml.replace('%s', escapeHTML(domPurify.sanitize(tag.displayName)))
 		},
 
 		formatTagName(tag: TagWithId): string {

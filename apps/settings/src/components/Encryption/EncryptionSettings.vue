@@ -16,9 +16,9 @@ import { textExistingFilesNotEncrypted } from './sharedTexts.ts'
 import axios from '@nextcloud/axios'
 import logger from '../../logger.ts'
 
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import EncryptionWarningDialog from './EncryptionWarningDialog.vue'
 
 interface EncryptionModule {

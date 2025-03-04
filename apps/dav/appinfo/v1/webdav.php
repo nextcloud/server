@@ -11,7 +11,17 @@ use OCA\DAV\Connector\Sabre\BearerAuth;
 use OCA\DAV\Connector\Sabre\ServerFactory;
 use OCA\DAV\Events\SabrePluginAddEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Mount\IMountManager;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\IPreview;
+use OCP\IRequest;
+use OCP\ISession;
+use OCP\ITagManager;
+use OCP\IUserSession;
 use OCP\SabrePluginEvent;
+use OCP\Security\Bruteforce\IThrottler;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 // no php execution timeout for webdav
@@ -23,39 +33,39 @@ ignore_user_abort(true);
 // Turn off output buffering to prevent memory problems
 \OC_Util::obEnd();
 
-$dispatcher = \OC::$server->get(IEventDispatcher::class);
+$dispatcher = Server::get(IEventDispatcher::class);
 
 $serverFactory = new ServerFactory(
-	\OC::$server->getConfig(),
-	\OC::$server->get(LoggerInterface::class),
-	\OC::$server->getDatabaseConnection(),
-	\OC::$server->getUserSession(),
-	\OC::$server->getMountManager(),
-	\OC::$server->getTagManager(),
-	\OC::$server->getRequest(),
-	\OC::$server->getPreviewManager(),
+	Server::get(IConfig::class),
+	Server::get(LoggerInterface::class),
+	Server::get(IDBConnection::class),
+	Server::get(IUserSession::class),
+	Server::get(IMountManager::class),
+	Server::get(ITagManager::class),
+	Server::get(IRequest::class),
+	Server::get(IPreview::class),
 	$dispatcher,
 	\OC::$server->getL10N('dav')
 );
 
 // Backends
 $authBackend = new Auth(
-	\OC::$server->getSession(),
-	\OC::$server->getUserSession(),
-	\OC::$server->getRequest(),
-	\OC::$server->getTwoFactorAuthManager(),
-	\OC::$server->getBruteForceThrottler(),
+	Server::get(ISession::class),
+	Server::get(IUserSession::class),
+	Server::get(IRequest::class),
+	Server::get(\OC\Authentication\TwoFactorAuth\Manager::class),
+	Server::get(IThrottler::class),
 	'principals/'
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 $bearerAuthPlugin = new BearerAuth(
-	\OC::$server->getUserSession(),
-	\OC::$server->getSession(),
-	\OC::$server->getRequest()
+	Server::get(IUserSession::class),
+	Server::get(ISession::class),
+	Server::get(IRequest::class)
 );
 $authPlugin->addBackend($bearerAuthPlugin);
 
-$requestUri = \OC::$server->getRequest()->getRequestUri();
+$requestUri = Server::get(IRequest::class)->getRequestUri();
 
 $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, function () {
 	// use the view for the logged in user

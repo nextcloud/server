@@ -62,8 +62,8 @@ import axios from '@nextcloud/axios'
 import pLimit from 'p-limit'
 import logger from '../../logger.js'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 const recommended = {
 	calendar: {

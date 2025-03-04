@@ -108,9 +108,7 @@ class Factory implements IFactory {
 				$locale = $forceLocale;
 			}
 
-			if ($lang === null || !$this->languageExists($app, $lang)) {
-				$lang = $this->findLanguage($app);
-			}
+			$lang = $this->validateLanguage($app, $lang);
 
 			if ($locale === null || !$this->localeExists($locale)) {
 				$locale = $this->findLocale($lang);
@@ -128,6 +126,29 @@ class Factory implements IFactory {
 
 			return $this->instances[$lang][$app];
 		});
+	}
+
+	/**
+	 * Check that $lang is an existing language and not null, otherwise return the language to use instead
+	 *
+	 * @psalm-taint-escape callable
+	 * @psalm-taint-escape cookie
+	 * @psalm-taint-escape file
+	 * @psalm-taint-escape has_quotes
+	 * @psalm-taint-escape header
+	 * @psalm-taint-escape html
+	 * @psalm-taint-escape include
+	 * @psalm-taint-escape ldap
+	 * @psalm-taint-escape shell
+	 * @psalm-taint-escape sql
+	 * @psalm-taint-escape unserialize
+	 */
+	private function validateLanguage(string $app, ?string $lang): string {
+		if ($lang === null || !$this->languageExists($app, $lang)) {
+			return $this->findLanguage($app);
+		} else {
+			return $lang;
+		}
 	}
 
 	/**

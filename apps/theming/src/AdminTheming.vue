@@ -115,8 +115,8 @@
 import { loadState } from '@nextcloud/initial-state'
 import { refreshStyles } from './helpers/refreshStyles.js'
 
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import CheckboxField from './components/admin/CheckboxField.vue'
 import ColorPickerField from './components/admin/ColorPickerField.vue'
 import FileInputField from './components/admin/FileInputField.vue'

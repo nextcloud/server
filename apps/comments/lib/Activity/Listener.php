@@ -31,7 +31,7 @@ class Listener {
 	public function commentEvent(CommentsEvent $event): void {
 		if ($event->getComment()->getObjectType() !== 'files'
 			|| $event->getEvent() !== CommentsEvent::EVENT_ADD
-			|| !$this->appManager->isInstalled('activity')) {
+			|| !$this->appManager->isEnabledForAnyone('activity')) {
 			// Comment not for file, not adding a comment or no activity-app enabled (save the energy)
 			return;
 		}

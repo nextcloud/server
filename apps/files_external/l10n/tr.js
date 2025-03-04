@@ -96,14 +96,17 @@ OC.L10N.register(
     "External storage support" : "Dış depolama desteği",
     "Adds basic external storage support" : "Temel dış depolama desteği ekler",
     "This application enables administrators to configure connections to external storage providers, such as FTP servers, S3 or SWIFT object stores, other Nextcloud servers, WebDAV servers, and more. Administration can choose which types of storage to enable and can mount these storage locations for an account, a group, or the entire system. Users will see a new folder appear in their root Nextcloud directory, which they can access and use like any other Nextcloud folder. External storage also allows people to share files stored in these external locations. In these cases, the credentials for the owner of the file are used when the recipient requests the file from external storage, thereby ensuring that the recipient can access the shared file.\n\nExternal storage can be configured using the GUI or at the command line. This second option provides the administration with more flexibility for configuring bulk external storage mounts and setting mount priorities. More information is available in the external storage GUI documentation and the external storage Configuration File documentation." : "Bu uygulama yöneticilerin FTP sunucular, S3 ya da SWIFT nesne mağazaları, diğer Nextcloud sunucuları ve WebDAV sunucuları gibi çeşitli dış depolama alanı hizmeti sağlayıcıları ile bağlantı kurmasını sağlar. Yöneticiler, kullanıma almak istedikleri depolama alanı türünü seçebilir ve bu depolama alanı konumlarını belirli bir hesap, bir grup ya da tüm sistem için ekleyebilir. Kullanıcılar bağlanan depolama alanını kök Nextcloud klasörü altında yeni bir klasör olarak görebilir ve diğer Nextcloud klasörleri gibi erişebilir. Dış depolama alanı, bu konumlarda depolanan dosyaların kişiler tarafından paylaşılmasını da sağlar. Bu durumda alıcıların dış dosyaya erişebileceğinden emin olmak için yapılan dosya erişimi isteklerinde, dosya sahibinin kimlik doğrulama bilgileri kullanılır.\n\nDış depolama alanı yapılandırması görsel arayüzden ya da komut satırından yapılabilir. Komut satırı seçeneğinde, yöneticiler için toplu dış depolama alanı bağlama ve bağlama noktası öncelikleri gibi esnek yapılandırma seçenekleri bulunur. Ayrıntılı bilgi almak için dış depolama alanı görsel arayüzü belgeleri ile dış depolama alanı yapılandırma dosyası belgelerine bakabilirsiniz.",
+    "Confirm" : "Onayla",
     "Storage credentials" : "Depolama alanı kimlik doğrulama bilgileri",
     "To access the storage, you need to provide the authentication credentials." : "Depolama alanına erişebilmek için kimlik doğrulama bilgilerini vermeniz gerekir.",
     "Enter the storage login" : "Depolama alanı kullanıcı adını yazın",
     "Enter the storage password" : "Depolama alanı parolasını yazın",
-    "Submit" : "Gönder",
     "Unable to update this external storage config. {statusMessage}" : "Bu dış depolama birimi yapılandırması güncellenemedi. {statusMessage}",
     "New configuration successfully saved" : "Yeni yapılandırma kaydedildi",
     "Enter missing credentials" : "Eksik kimlik doğrulama bilgilerini yazın",
+    "Credentials successfully set" : "Kimlik doğrulama bilgileri ayarlandı",
+    "Error while setting credentials: {error}" : "Kimlik doğrulama bilgileri ayarlanırken sorun çıktı: {error}",
+    "Checking storage …" : "Depolama alanı denetleniyor…",
     "There was an error with this external storage." : " Bu dış depolama birimi ile ilgili bir sorun çıktı.",
     "We were unable to check the external storage {basename}" : "{basename} dış depolama birimi denetlenemedi",
     "Examine this faulty external storage configuration" : "Bu sorunlu dış depolama birimi yapılandırmasını gözden geçirin",
@@ -150,6 +153,7 @@ OC.L10N.register(
     "All people" : "Tüm kişiler",
     "Advanced settings" : "Gelişmiş ayarlar",
     "Allow people to mount external storage" : "Kişiler dış depolama bağlayabilsin",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Aynı kimlik doğrulama bilgilerini kullanan bir çok dış depolama aygıtına genel kimlik doğrulama bilgileri ile erişebilirsiniz."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Aynı kimlik doğrulama bilgilerini kullanan bir çok dış depolama aygıtına genel kimlik doğrulama bilgileri ile erişebilirsiniz.",
+    "Submit" : "Gönder"
 },
 "nplurals=2; plural=(n > 1);");

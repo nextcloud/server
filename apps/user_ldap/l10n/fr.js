@@ -6,12 +6,10 @@ OC.L10N.register(
     "Invalid configuration: Anonymous binding is not allowed." : "Configuration non valable : Le lien anonyme n'est pas autorisé.",
     "Valid configuration, connection established!" : "Configuration valide, connexion établie !",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Configuration valide, mais le lien a échoué. Veuillez vérifier les paramètres du serveur ainsi que vos identifiants de connexion.",
-    "Invalid configuration. Please have a look at the logs for further details." : "Configuration non valide. Veuillez consulter les logs pour plus de détails.",
     "No action specified" : "Aucune action spécifiée",
     "No configuration specified" : "Aucune configuration spécifiée",
     "No data specified" : "Aucune donnée spécifiée",
     "Invalid data specified" : "Données spécifiées invalides",
-    " Could not set configuration %s" : "Impossible d'appliquer la configuration %s",
     "Action does not exist" : "L'action n'existe pas",
     "Renewing …" : "Renouvellement en cours...",
     "Very weak password" : "Mot de passe très faible",
@@ -54,7 +52,6 @@ OC.L10N.register(
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "La chaîne \"%uid\" est manquante. Cette chaîne est remplacée par l'identifiant de connexion lors des requêtes LDAP/AD.",
     "Please provide a login name to test against" : "Veuillez indiquer un identifiant de connexion avec lequel tester.",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "Les groupes sont désactivés car le serveur LDAP/AD ne prend pas en charge memberOf.",
-    "Password change rejected. Hint: " : "La modification du mot de passe a été rejetée. Indice :",
     "Please login with the new password" : "Veuillez vous connecter avec le nouveau mot de passe",
     "LDAP User backend" : "Infrastructure utilisateur LDAP",
     "Your password will expire tomorrow." : "Votre mot de passe expirera demain",
@@ -226,6 +223,8 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Association Nom d'utilisateur-Utilisateur LDAP",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Les noms d'utilisateurs sont utilisés pour le stockage et l'assignation de (meta) données. Pour identifier et reconnaître précisément les utilisateurs, chaque utilisateur LDAP aura un nom interne spécifique. Cela requiert l'association d'un nom d'utilisateur NextCloud à un nom d'utilisateur LDAP. Le nom d'utilisateur créé est associé à l'attribut UUID de l'utilisateur LDAP. Par ailleurs, le DN est mémorisé en cache pour limiter les interactions LDAP mais il n'est pas utilisé pour l'identification. Si le DN est modifié, ces modifications seront retrouvées. Seul le nom interne à NextCloud est utilisé au sein du produit. Supprimer les associations créera des orphelins et l'action affectera toutes les configurations LDAP. NE JAMAIS SUPPRIMER LES ASSOCIATIONS EN ENVIRONNEMENT DE PRODUCTION, mais uniquement sur des environnements de tests et d'expérimentations.",
     "Clear Username-LDAP User Mapping" : "Supprimer l'association utilisateur interne-utilisateur LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Supprimer l'association nom de groupe-groupe LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Supprimer l'association nom de groupe-groupe LDAP",
+    "Invalid configuration. Please have a look at the logs for further details." : "Configuration non valide. Veuillez consulter les logs pour plus de détails.",
+    " Could not set configuration %s" : "Impossible d'appliquer la configuration %s"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

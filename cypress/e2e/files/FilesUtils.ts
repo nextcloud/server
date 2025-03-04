@@ -4,6 +4,7 @@
  */
 
 import type { User } from '@nextcloud/cypress'
+import { ACTION_COPY_MOVE } from '../../../apps/files/src/actions/moveOrCopyAction.ts'
 
 export const getRowForFileId = (fileid: number) => cy.get(`[data-cy-files-list-row-fileid="${fileid}"]`)
 export const getRowForFile = (filename: string) => cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"]`)
@@ -14,16 +15,41 @@ export const getActionsForFile = (filename: string) => getRowForFile(filename).f
 export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(fileid).findByRole('button', { name: 'Actions' })
 export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).findByRole('button', { name: 'Actions' })
 
+const searchForActionInRow = (row: JQuery<HTMLElement>, actionId: string): Cypress.Chainable<JQuery<HTMLElement>> => {
+	const action = row.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+	if (action.length > 0) {
+		cy.log('Found action in row')
+		return cy.wrap(action)
+	}
+
+	// Else look in the action menu
+	const menuButtonId = row.find('button[aria-controls]').attr('aria-controls')
+	return cy.get(`#${menuButtonId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+}
+
+export const getActionEntryForFileId = (fileid: number, actionId: string): Cypress.Chainable<JQuery<HTMLElement>> => {
+	// If we cannot find the action in the row, it might be in the action menu
+	return getRowForFileId(fileid).should('be.visible')
+		.then(row => searchForActionInRow(row, actionId))
+}
+export const getActionEntryForFile = (filename: string, actionId: string): Cypress.Chainable<JQuery<HTMLElement>> => {
+	// If we cannot find the action in the row, it might be in the action menu
+	return getRowForFile(filename).should('be.visible')
+		.then(row => searchForActionInRow(row, actionId))
+}
+
 export const triggerActionForFileId = (fileid: number, actionId: string) => {
+	// Even if it's inline, we open the action menu to get all actions visible
 	getActionButtonForFileId(fileid).click({ force: true })
-	// Getting the last button to avoid the one from popup fading out
-	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`).last()
+	getActionEntryForFileId(fileid, actionId)
+		.find('button').last()
 		.should('exist').click({ force: true })
 }
 export const triggerActionForFile = (filename: string, actionId: string) => {
+	// Even if it's inline, we open the action menu to get all actions visible
 	getActionButtonForFile(filename).click({ force: true })
-	// Getting the last button to avoid the one from popup fading out
-	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`).last()
+	getActionEntryForFile(filename, actionId)
+		.find('button').last()
 		.should('exist').click({ force: true })
 }
 
@@ -31,7 +57,7 @@ export const triggerInlineActionForFileId = (fileid: number, actionId: string) =
 	getActionsForFileId(fileid).find(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`).should('exist').click()
 }
 export const triggerInlineActionForFile = (filename: string, actionId: string) => {
-	getActionsForFile(filename).get(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`).should('exist').click()
+	getActionsForFile(filename).find(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`).should('exist').click()
 }
 
 export const selectAllFiles = () => {
@@ -58,13 +84,21 @@ export const selectRowForFile = (filename: string, options: Partial<Cypress.Clic
 
 }
 
+export const getSelectionActionButton = () => cy.get('[data-cy-files-list-selection-actions]').findByRole('button', { name: 'Actions' })
+export const getSelectionActionEntry = (actionId: string) => cy.get(`[data-cy-files-list-selection-action="${CSS.escape(actionId)}"]`)
 export const triggerSelectionAction = (actionId: string) => {
-	cy.get(`button[data-cy-files-list-selection-action="${CSS.escape(actionId)}"]`).should('exist').click()
+	// Even if it's inline, we open the action menu to get all actions visible
+	getSelectionActionButton().click({ force: true })
+	// the entry might already be a button or a button might its child
+	getSelectionActionEntry(actionId)
+		.then($el => $el.is('button') ? cy.wrap($el) : cy.wrap($el).findByRole('button').last())
+		.should('exist')
+		.click()
 }
 
 export const moveFile = (fileName: string, dirPath: string) => {
 	getRowForFile(fileName).should('be.visible')
-	triggerActionForFile(fileName, 'move-copy')
+	triggerActionForFile(fileName, ACTION_COPY_MOVE)
 
 	cy.get('.file-picker').within(() => {
 		// intercept the copy so we can wait for it
@@ -95,7 +129,7 @@ export const moveFile = (fileName: string, dirPath: string) => {
 
 export const copyFile = (fileName: string, dirPath: string) => {
 	getRowForFile(fileName).should('be.visible')
-	triggerActionForFile(fileName, 'move-copy')
+	triggerActionForFile(fileName, ACTION_COPY_MOVE)
 
 	cy.get('.file-picker').within(() => {
 		// intercept the copy so we can wait for it
@@ -139,9 +173,13 @@ export const renameFile = (fileName: string, newFileName: string) => {
 
 export const navigateToFolder = (dirPath: string) => {
 	const directories = dirPath.split('/')
-	directories.forEach((directory) => {
+	for (const directory of directories) {
+		if (directory === '') {
+			continue
+		}
+
 		getRowForFile(directory).should('be.visible').find('[data-cy-files-list-row-name-link]').click()
-	})
+	}
 
 }
 
@@ -195,7 +233,11 @@ export const deleteFileWithRequest = (user: User, path: string) => {
 		const requestToken = body.token
 		cy.request({
 			method: 'DELETE',
-			url: `${Cypress.env('baseUrl')}/remote.php/dav/files/${user.userId}` + path,
+			url: `${Cypress.env('baseUrl')}/remote.php/dav/files/${user.userId}${path}`,
+			auth: {
+				user: user.userId,
+				password: user.password,
+			},
 			headers: {
 				requestToken,
 			},

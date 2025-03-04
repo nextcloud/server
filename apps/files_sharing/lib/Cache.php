@@ -191,4 +191,8 @@ class Cache extends CacheJail {
 			return null;
 		}
 	}
+
+	public function markRootChanged(): void {
+		$this->rootUnchanged = false;
+	}
 }

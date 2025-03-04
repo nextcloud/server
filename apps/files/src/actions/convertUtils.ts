@@ -41,7 +41,7 @@ export const convertFiles = async function(fileIds: number[], targetMimeType: st
 	const conversions = fileIds.map(fileId => queue.add(() => requestConversion(fileId, targetMimeType)))
 
 	// Start conversion
-	const toast = showLoading(t('files', 'Converting files…'))
+	const toast = showLoading(t('files', 'Converting files …'))
 
 	// Handle results
 	try {
@@ -117,7 +117,7 @@ export const convertFiles = async function(fileIds: number[], targetMimeType: st
 }
 
 export const convertFile = async function(fileId: number, targetMimeType: string) {
-	const toast = showLoading(t('files', 'Converting file…'))
+	const toast = showLoading(t('files', 'Converting file …'))
 
 	try {
 		const result = await queue.add(() => requestConversion(fileId, targetMimeType)) as AxiosResponse<OCSResponse<ConversionResponse>>

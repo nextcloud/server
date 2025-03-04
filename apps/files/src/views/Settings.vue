@@ -83,6 +83,15 @@
 			</em>
 		</NcAppSettingsSection>
 
+		<NcAppSettingsSection id="warning" :name="t('files', 'Warnings')">
+			<em>{{ t('files', 'Prevent warning dialogs from open or reenable them.') }}</em>
+			<NcCheckboxRadioSwitch type="switch"
+				:checked="userConfig.show_dialog_file_extension"
+				@update:checked="setConfig('show_dialog_file_extension', $event)">
+				{{ t('files', 'Show a warning dialog when changing a file extension.') }}
+			</NcCheckboxRadioSwitch>
+		</NcAppSettingsSection>
+
 		<NcAppSettingsSection id="shortcuts"
 			:name="t('files', 'Keyboard shortcuts')">
 			<em>{{ t('files', 'Speed up your Files experience with these quick shortcuts.') }}</em>
@@ -243,19 +252,19 @@
 </template>
 
 <script>
-import { getCapabilities } from '@nextcloud/capabilities'
-import Clipboard from 'vue-material-design-icons/ContentCopy.vue'
-import NcAppSettingsDialog from '@nextcloud/vue/dist/Components/NcAppSettingsDialog.js'
-import NcAppSettingsSection from '@nextcloud/vue/dist/Components/NcAppSettingsSection.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
-
-import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { loadState } from '@nextcloud/initial-state'
+import { getCapabilities } from '@nextcloud/capabilities'
 import { showError, showSuccess } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
-import { useHotKey } from '@nextcloud/vue/dist/Composables/useHotKey.js'
+import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
+
+import Clipboard from 'vue-material-design-icons/ContentCopy.vue'
+import NcAppSettingsDialog from '@nextcloud/vue/components/NcAppSettingsDialog'
+import NcAppSettingsSection from '@nextcloud/vue/components/NcAppSettingsSection'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcInputField from '@nextcloud/vue/components/NcInputField'
 
 import { useUserConfigStore } from '../store/userconfig.ts'
 import Setting from '../components/Setting.vue'

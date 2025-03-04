@@ -66,7 +66,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
+import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 
 import { useNavigation } from '../composables/useNavigation.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'

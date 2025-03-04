@@ -999,7 +999,7 @@ class Manager implements IManager {
 				$task->setEndedAt(time());
 				$error = 'The task was processed successfully but the provider\'s output doesn\'t pass validation against the task type\'s outputShape spec and/or the provider\'s own optionalOutputShape spec';
 				$task->setErrorMessage($error);
-				$this->logger->error($error . ' Output was: ' . var_export($result, true), ['exception' => $e]);
+				$this->logger->error($error, ['exception' => $e, 'output' => $result]);
 			} catch (NotPermittedException $e) {
 				$task->setProgress(1);
 				$task->setStatus(Task::STATUS_FAILED);
@@ -1396,7 +1396,7 @@ class Manager implements IManager {
 				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. Invalid method: ' . $method);
 			}
 			[, $exAppId, $httpMethod] = $parsedMethod;
-			if (!$this->appManager->isInstalled('app_api')) {
+			if (!$this->appManager->isEnabledForAnyone('app_api')) {
 				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. AppAPI is disabled or not installed.');
 				return;
 			}

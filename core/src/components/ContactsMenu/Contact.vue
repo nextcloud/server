@@ -54,13 +54,13 @@
 </template>
 
 <script>
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
-import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import { getEnabledContactsMenuActions } from '@nextcloud/vue/dist/Functions/contactsMenu.js'
+import NcActionLink from '@nextcloud/vue/components/NcActionLink'
+import NcActionText from '@nextcloud/vue/components/NcActionText'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import { getEnabledContactsMenuActions } from '@nextcloud/vue/functions/contactsMenu'
 
 export default {
 	name: 'Contact',

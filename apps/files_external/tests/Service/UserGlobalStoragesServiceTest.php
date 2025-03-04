@@ -15,6 +15,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Server;
 use Test\Traits\UserTrait;
 
 /**
@@ -47,7 +48,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 
 		$this->globalStoragesService = $this->service;
 
-		$this->user = new User(self::USER_ID, null, \OC::$server->get(IEventDispatcher::class));
+		$this->user = new User(self::USER_ID, null, Server::get(IEventDispatcher::class));
 		/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject $userSession */
 		$userSession = $this->createMock(IUserSession::class);
 		$userSession

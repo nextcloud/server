@@ -3,14 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Dashboard",
     "Dashboard app" : "Dashboard app",
-    "Customize" : "Customize",
-    "Edit widgets" : "Edit widgets",
-    "Get more widgets from the App Store" : "Get more widgets from the App Store",
-    "Weather service" : "Weather service",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information.",
-    "Weather data from Met.no" : "Weather data from Met.no",
-    "geocoding with Nominatim" : "geocoding with Nominatim",
-    "elevation data from OpenTopoData" : "elevation data from OpenTopoData",
     "Weather" : "Weather",
     "Status" : "Status",
     "Good morning" : "Good morning",
@@ -20,6 +12,14 @@ OC.L10N.register(
     "Good evening" : "Good evening",
     "Good evening, {name}" : "Good evening, {name}",
     "Hello" : "Hello",
-    "Hello, {name}" : "Hello, {name}"
+    "Hello, {name}" : "Hello, {name}",
+    "Customize" : "Customize",
+    "Edit widgets" : "Edit widgets",
+    "Get more widgets from the App Store" : "Get more widgets from the App Store",
+    "Weather service" : "Weather service",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information.",
+    "Weather data from Met.no" : "Weather data from Met.no",
+    "geocoding with Nominatim" : "geocoding with Nominatim",
+    "elevation data from OpenTopoData" : "elevation data from OpenTopoData"
 },
 "nplurals=1; plural=0;");

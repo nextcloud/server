@@ -9,7 +9,6 @@ SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Thorsten Lünborg
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
-SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)
 SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
 SPDX-FileCopyrightText: GitHub Inc.
@@ -19,7 +18,6 @@ SPDX-FileCopyrightText: Christopher Jeffrey
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
-SPDX-FileCopyrightText: Andris Reinman
 
 
 This file is generated from multiple sources. Included packages:
@@ -39,13 +37,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 3.1.0
+	- version: 3.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.22.0
+	- version: 8.23.1
 	- license: AGPL-3.0-or-later
 - @vueuse/core
 	- version: 11.1.0
@@ -57,7 +55,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.1.2
 	- license: MIT
 - dompurify
-	- version: 3.1.7
+	- version: 3.2.4
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
@@ -65,14 +63,8 @@ This file is generated from multiple sources. Included packages:
 - floating-vue
 	- version: 1.0.0-beta.19
 	- license: MIT
-- lodash.get
-	- version: 4.4.2
-	- license: MIT
 - marked
 	- version: 15.0.0
-	- license: MIT
-- node-gettext
-	- version: 3.0.0
 	- license: MIT
 - process
 	- version: 0.11.10

@@ -9,6 +9,7 @@ use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\Server;
 use OCP\Share\IManager;
 
 /**
@@ -37,8 +38,8 @@ class DeletedUsersIndexTest extends \Test\TestCase {
 		parent::setUp();
 
 		// no mocks for those as tests go against DB
-		$this->config = \OC::$server->getConfig();
-		$this->db = \OC::$server->getDatabaseConnection();
+		$this->config = Server::get(IConfig::class);
+		$this->db = Server::get(IDBConnection::class);
 
 		// ensure a clean database
 		$this->config->deleteAppFromAllUsers('user_ldap');

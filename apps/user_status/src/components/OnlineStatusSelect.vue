@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import NcUserStatusIcon from '@nextcloud/vue/dist/Components/NcUserStatusIcon.js'
+import NcUserStatusIcon from '@nextcloud/vue/components/NcUserStatusIcon'
 
 export default {
 	name: 'OnlineStatusSelect',

@@ -67,6 +67,7 @@ OC.L10N.register(
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Dukungan cURL di PHP tidak diaktifkan atau terpasang. Mengaitkan %s tidak memungkinkan. Harap tanyakan administrator sistem Anda untuk memasangnya.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Dukungan FTP di PHP tidak diaktifkan atau terpasang. Mengaitkan %s tidak memungkinkan. Harap tanya administrator sistem Anda untuk memasangnya.",
     "External storage" : "Penyimpanan eksternal",
+    "Confirm" : "Konfirmasi",
     "External mount error" : "Kesalahan mount eksternal",
     "Storage type" : "Tipe penyimpanan",
     "Unknown" : "Tidak diketahui",

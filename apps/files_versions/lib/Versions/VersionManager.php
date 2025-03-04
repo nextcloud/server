@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Versions\Versions;
 
+use OCA\Files_Versions\Events\VersionRestoredEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
@@ -18,10 +20,17 @@ use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\Lock\ManuallyLockedException;
+use OCP\Server;
 
 class VersionManager implements IVersionManager, IDeletableVersionBackend, INeedSyncVersionBackend, IMetadataVersionBackend {
+
 	/** @var (IVersionBackend[])[] */
 	private $backends = [];
+
+	public function __construct(
+		private IEventDispatcher $dispatcher,
+	) {
+	}
 
 	public function registerBackend(string $storageType, IVersionBackend $backend) {
 		if (!isset($this->backends[$storageType])) {
@@ -86,11 +95,7 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 		$result = self::handleAppLocks(fn (): ?bool => $backend->rollback($version));
 		// rollback doesn't have a return type yet and some implementations don't return anything
 		if ($result === null || $result === true) {
-			\OC_Hook::emit('\OCP\Versions', 'rollback', [
-				'path' => $version->getVersionPath(),
-				'revision' => $version->getRevisionId(),
-				'node' => $version->getSourceFile(),
-			]);
+			$this->dispatcher->dispatchTyped(new VersionRestoredEvent($version));
 		}
 		return $result;
 	}
@@ -176,9 +181,9 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 			// when checking the lock against the current scope.
 			// So we do not need to get the actual node here
 			// and use the root node instead.
-			$root = \OC::$server->get(IRootFolder::class);
+			$root = Server::get(IRootFolder::class);
 			$lockContext = new LockContext($root, ILock::TYPE_APP, $owner);
-			$lockManager = \OC::$server->get(ILockManager::class);
+			$lockManager = Server::get(ILockManager::class);
 			$result = null;
 			$lockManager->runInScope($lockContext, function () use ($callback, &$result): void {
 				$result = $callback();

@@ -13,6 +13,7 @@ use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
 use OCP\ICacheFactory;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Server;
@@ -50,8 +51,8 @@ class SharedMountTest extends TestCase {
 		$this->view->file_put_contents($this->folder . $this->filename, 'file in subfolder');
 		$this->view->file_put_contents($this->folder2 . $this->filename, 'file in subfolder2');
 
-		$this->groupManager = \OC::$server->getGroupManager();
-		$this->userManager = \OC::$server->getUserManager();
+		$this->groupManager = Server::get(IGroupManager::class);
+		$this->userManager = Server::get(IUserManager::class);
 	}
 
 	protected function tearDown(): void {
@@ -266,7 +267,7 @@ class SharedMountTest extends TestCase {
 		$testGroup->addUser($user2);
 		$testGroup->addUser($user3);
 
-		$connection = \OC::$server->getDatabaseConnection();
+		$connection = Server::get(IDBConnection::class);
 
 		// Share item with group
 		$fileinfo = $this->view->getFileInfo($this->folder);

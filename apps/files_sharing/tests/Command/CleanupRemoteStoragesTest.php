@@ -10,6 +10,7 @@ use OCA\Files_Sharing\Command\CleanupRemoteStorages;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
 use OCP\IDBConnection;
+use OCP\Server;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
@@ -51,13 +52,13 @@ class CleanupRemoteStoragesTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 
-		$storageQuery = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$storageQuery = Server::get(IDBConnection::class)->getQueryBuilder();
 		$storageQuery->insert('storages')
 			->setValue('id', $storageQuery->createParameter('id'));
 
-		$shareExternalQuery = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$shareExternalQuery = Server::get(IDBConnection::class)->getQueryBuilder();
 		$shareExternalQuery->insert('share_external')
 			->setValue('share_token', $shareExternalQuery->createParameter('share_token'))
 			->setValue('remote', $shareExternalQuery->createParameter('remote'))
@@ -67,7 +68,7 @@ class CleanupRemoteStoragesTest extends TestCase {
 			->setValue('mountpoint', $shareExternalQuery->createParameter('mountpoint'))
 			->setValue('mountpoint_hash', $shareExternalQuery->createParameter('mountpoint_hash'));
 
-		$filesQuery = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$filesQuery = Server::get(IDBConnection::class)->getQueryBuilder();
 		$filesQuery->insert('filecache')
 			->setValue('storage', $filesQuery->createParameter('storage'))
 			->setValue('path', $filesQuery->createParameter('path'))
@@ -108,11 +109,11 @@ class CleanupRemoteStoragesTest extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		$storageQuery = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$storageQuery = Server::get(IDBConnection::class)->getQueryBuilder();
 		$storageQuery->delete('storages')
 			->where($storageQuery->expr()->eq('id', $storageQuery->createParameter('id')));
 
-		$shareExternalQuery = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$shareExternalQuery = Server::get(IDBConnection::class)->getQueryBuilder();
 		$shareExternalQuery->delete('share_external')
 			->where($shareExternalQuery->expr()->eq('share_token', $shareExternalQuery->createParameter('share_token')))
 			->andWhere($shareExternalQuery->expr()->eq('remote', $shareExternalQuery->createParameter('remote')));
@@ -134,7 +135,7 @@ class CleanupRemoteStoragesTest extends TestCase {
 	}
 
 	private function doesStorageExist($numericId) {
-		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb = Server::get(IDBConnection::class)->getQueryBuilder();
 		$qb->select('*')
 			->from('storages')
 			->where($qb->expr()->eq('numeric_id', $qb->createNamedParameter($numericId)));
@@ -146,7 +147,7 @@ class CleanupRemoteStoragesTest extends TestCase {
 			return true;
 		}
 
-		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb = Server::get(IDBConnection::class)->getQueryBuilder();
 		$qb->select('*')
 			->from('filecache')
 			->where($qb->expr()->eq('storage', $qb->createNamedParameter($numericId)));

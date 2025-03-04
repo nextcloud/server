@@ -24,6 +24,7 @@ use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\WorkflowEngine\Events\RegisterEntitiesEvent;
 use OCP\WorkflowEngine\ICheck;
@@ -64,7 +65,7 @@ class ManagerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->db = \OC::$server->getDatabaseConnection();
+		$this->db = Server::get(IDBConnection::class);
 		$this->container = $this->createMock(IServerContainer::class);
 		/** @var IL10N|MockObject $l */
 		$this->l = $this->createMock(IL10N::class);
@@ -80,7 +81,7 @@ class ManagerTest extends TestCase {
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 
 		$this->manager = new Manager(
-			\OC::$server->getDatabaseConnection(),
+			Server::get(IDBConnection::class),
 			$this->container,
 			$this->l,
 			$this->logger,

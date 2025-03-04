@@ -7,7 +7,7 @@
  */
 /** @var array $_ */
 /** @var \OCP\IL10N $l */
-script('encryption', 'settings-personal');
+\OCP\Util::addScript('encryption', 'settings-personal', 'core');
 ?>
 <form id="ocDefaultEncryptionModule" class="section">
 	<h2 data-anchor-name="basic-encryption-module"><?php p($l->t('Basic encryption module')); ?></h2>

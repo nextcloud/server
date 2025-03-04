@@ -34,8 +34,8 @@ import { translate } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 
 import ChartPie from 'vue-material-design-icons/ChartPie.vue'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import NcProgressBar from '@nextcloud/vue/dist/Components/NcProgressBar.js'
+import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
+import NcProgressBar from '@nextcloud/vue/components/NcProgressBar'
 
 import logger from '../logger.ts'
 

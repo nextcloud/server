@@ -56,11 +56,11 @@ class MysqlRowFormat implements ISetupCheck {
 	 * @return string[]
 	 */
 	private function getRowNotDynamicTables(): array {
-		$sql = 'SELECT table_name
+		$sql = "SELECT table_name
 			FROM information_schema.tables
 			WHERE table_schema = ?
-			  AND table_name LIKE "*PREFIX*%"
-			  AND row_format != "Dynamic";';
+			  AND table_name LIKE '*PREFIX*%'
+			  AND row_format != 'Dynamic';";
 
 		return $this->connection->executeQuery(
 			$sql,

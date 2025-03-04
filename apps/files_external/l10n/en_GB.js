@@ -96,14 +96,17 @@ OC.L10N.register(
     "External storage support" : "External storage support",
     "Adds basic external storage support" : "Adds basic external storage support",
     "This application enables administrators to configure connections to external storage providers, such as FTP servers, S3 or SWIFT object stores, other Nextcloud servers, WebDAV servers, and more. Administration can choose which types of storage to enable and can mount these storage locations for an account, a group, or the entire system. Users will see a new folder appear in their root Nextcloud directory, which they can access and use like any other Nextcloud folder. External storage also allows people to share files stored in these external locations. In these cases, the credentials for the owner of the file are used when the recipient requests the file from external storage, thereby ensuring that the recipient can access the shared file.\n\nExternal storage can be configured using the GUI or at the command line. This second option provides the administration with more flexibility for configuring bulk external storage mounts and setting mount priorities. More information is available in the external storage GUI documentation and the external storage Configuration File documentation." : "This application enables administrators to configure connections to external storage providers, such as FTP servers, S3 or SWIFT object stores, other Nextcloud servers, WebDAV servers, and more. Administration can choose which types of storage to enable and can mount these storage locations for an account, a group, or the entire system. Users will see a new folder appear in their root Nextcloud directory, which they can access and use like any other Nextcloud folder. External storage also allows people to share files stored in these external locations. In these cases, the credentials for the owner of the file are used when the recipient requests the file from external storage, thereby ensuring that the recipient can access the shared file.\n\nExternal storage can be configured using the GUI or at the command line. This second option provides the administration with more flexibility for configuring bulk external storage mounts and setting mount priorities. More information is available in the external storage GUI documentation and the external storage Configuration File documentation.",
+    "Confirm" : "Confirm",
     "Storage credentials" : "Storage credentials",
     "To access the storage, you need to provide the authentication credentials." : "To access the storage, you need to provide the authentication credentials.",
     "Enter the storage login" : "Enter the storage login",
     "Enter the storage password" : "Enter the storage password",
-    "Submit" : "Submit",
     "Unable to update this external storage config. {statusMessage}" : "Unable to update this external storage config. {statusMessage}",
     "New configuration successfully saved" : "New configuration successfully saved",
     "Enter missing credentials" : "Enter missing credentials",
+    "Credentials successfully set" : "Credentials successfully set",
+    "Error while setting credentials: {error}" : "Error while setting credentials: {error}",
+    "Checking storage …" : "Checking storage …",
     "There was an error with this external storage." : "There was an error with this external storage.",
     "We were unable to check the external storage {basename}" : "We were unable to check the external storage {basename}",
     "Examine this faulty external storage configuration" : "Examine this faulty external storage configuration",
@@ -150,6 +153,7 @@ OC.L10N.register(
     "All people" : "All people",
     "Advanced settings" : "Advanced settings",
     "Allow people to mount external storage" : "Allow people to mount external storage",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Global credentials can be used to authenticate with multiple external storages that have the same credentials."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Global credentials can be used to authenticate with multiple external storages that have the same credentials.",
+    "Submit" : "Submit"
 },
 "nplurals=2; plural=(n != 1);");

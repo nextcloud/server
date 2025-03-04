@@ -159,12 +159,12 @@ import { CollectionList } from 'nextcloud-vue-collections'
 import { ShareType } from '@nextcloud/sharing'
 
 import InfoIcon from 'vue-material-design-icons/Information.vue'
-import NcPopover from '@nextcloud/vue/dist/Components/NcPopover.js'
+import NcPopover from '@nextcloud/vue/components/NcPopover'
 
 import axios from '@nextcloud/axios'
 import moment from '@nextcloud/moment'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcButton from '@nextcloud/vue/components/NcButton'
 
 import { shareWithTitle } from '../utils/SharedWithMe.js'
 

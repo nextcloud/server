@@ -9,6 +9,7 @@ namespace OCA\User_LDAP\Tests\Mapping;
 
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCP\IDBConnection;
+use OCP\Server;
 
 abstract class AbstractMappingTest extends \Test\TestCase {
 	abstract public function getMapper(IDBConnection $dbMock);
@@ -70,7 +71,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 *               users or groups
 	 */
 	private function initTest() {
-		$dbc = \OC::$server->getDatabaseConnection();
+		$dbc = Server::get(IDBConnection::class);
 		$mapper = $this->getMapper($dbc);
 		$data = $this->getTestData();
 		// make sure DB is pristine, then fill it with test entries

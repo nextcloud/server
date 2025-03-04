@@ -93,7 +93,7 @@ OC.L10N.register(
     "External storage" : "Зовнішнє сховище",
     "External storage support" : "Підтримка зовнішнього сховища",
     "Adds basic external storage support" : "Додає базову підтримку зовнішньої пам’яті",
-    "Submit" : "Відправити",
+    "Confirm" : "Підтвердити",
     "Unable to update this external storage config. {statusMessage}" : "Не вдалося оновити конфігурацію цього зовнішнього сховища. {statusMessage}",
     "New configuration successfully saved" : "Нову конфігурацію успішно збережено",
     "Enter missing credentials" : "Зазначте відсутні дані авторизації",
@@ -141,6 +141,7 @@ OC.L10N.register(
     "All people" : "Всі користувачі",
     "Advanced settings" : "Розширені",
     "Allow people to mount external storage" : "Дозволити користувачам під'єднувати зовнішні сховища даних",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Універсальні облікові дані можна використовувати для авторизації з кількома зовнішніми сховищами, які мають тотодні облікові дані."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Універсальні облікові дані можна використовувати для авторизації з кількома зовнішніми сховищами, які мають тотодні облікові дані.",
+    "Submit" : "Відправити"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

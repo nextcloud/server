@@ -7,17 +7,17 @@ OC.L10N.register(
     "View folder" : "أعرُض المجلد",
     "Set file reminders" : "ضبط تذكير بالملفات",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 التذكير بالملفات** \n\nضبط التذكير بالملفات. \n\nملاحظة: لاستخدام تطبيق \"التذكير بالملفات\"، تأكد من تثبيت تطبيق الإشعارات وتمكينه. يوفر تطبيق الإشعارات واجهة برمجة التطبيقات API اللازمة لتطبيق \"التذكير بالملفات\" ليعمل بالشكل الصحيح.",
-    "We will remind you of this file" : "سوف يتم تذكيرك بهذا الملف",
-    "Please choose a valid date & time" : "من فضلك، إختَر وقتاً و تاريخاً صحيحين",
-    "Cancel" : "إلغاء",
-    "Clear reminder" : "محو التذكير",
-    "Set reminder" : "ضبط التذكير",
     "Set reminder for \"{fileName}\"" : "ضبط تذكير بالملف \"{fileName}\"",
     "Set reminder at custom date & time" : "حدّد التذكير في وقت و تاريخ مخصص",
+    "Clear reminder" : "محو التذكير",
+    "Please choose a valid date & time" : "من فضلك، إختَر وقتاً و تاريخاً صحيحين",
     "Reminder set for \"{fileName}\"" : "تمّ ضبط تذكير بالملف \"{fileName}\"",
     "Failed to set reminder" : "تعذّر ضبط التذكير",
     "Reminder cleared for \"{fileName}\"" : "تمّ إلغاء التذكير بالملف \"{fileName}\"",
     "Failed to clear reminder" : "تعذّرت إزالة التذكير",
+    "We will remind you of this file" : "سوف يتم تذكيرك بهذا الملف",
+    "Cancel" : "إلغاء",
+    "Set reminder" : "ضبط التذكير",
     "Reminder set" : "تمّ وضع تذكير",
     "Set custom reminder" : "ضبط تذكير مخصص",
     "Later today" : "في وقت لاحقٍ اليوم",

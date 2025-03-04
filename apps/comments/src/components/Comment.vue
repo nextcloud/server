@@ -106,13 +106,13 @@
 import { getCurrentUser } from '@nextcloud/auth'
 import { translate as t } from '@nextcloud/l10n'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcDateTime from '@nextcloud/vue/components/NcDateTime'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import RichEditorMixin from '@nextcloud/vue/dist/Mixins/richEditor.js'
 
 import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
@@ -125,7 +125,7 @@ import { mapStores } from 'pinia'
 import { useDeletedCommentLimbo } from '../store/deletedCommentLimbo.js'
 
 // Dynamic loading
-const NcRichContenteditable = () => import('@nextcloud/vue/dist/Components/NcRichContenteditable.js')
+const NcRichContenteditable = () => import('@nextcloud/vue/components/NcRichContenteditable')
 
 export default {
 	name: 'Comment',

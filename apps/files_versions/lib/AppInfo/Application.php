@@ -12,7 +12,9 @@ use OCA\DAV\Connector\Sabre\Principal;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Versions\Capabilities;
+use OCA\Files_Versions\Events\VersionRestoredEvent;
 use OCA\Files_Versions\Listener\FileEventsListener;
+use OCA\Files_Versions\Listener\LegacyRollbackListener;
 use OCA\Files_Versions\Listener\LoadAdditionalListener;
 use OCA\Files_Versions\Listener\LoadSidebarListener;
 use OCA\Files_Versions\Listener\VersionAuthorListener;
@@ -42,6 +44,7 @@ use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Server;
 use OCP\Share\IManager as IShareManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -68,7 +71,7 @@ class Application extends App implements IBootstrap {
 			return new Principal(
 				$server->get(IUserManager::class),
 				$server->get(IGroupManager::class),
-				\OC::$server->get(IAccountManager::class),
+				Server::get(IAccountManager::class),
 				$server->get(IShareManager::class),
 				$server->get(IUserSession::class),
 				$server->get(IAppManager::class),
@@ -79,9 +82,7 @@ class Application extends App implements IBootstrap {
 			);
 		});
 
-		$context->registerService(IVersionManager::class, function () {
-			return new VersionManager();
-		});
+		$context->registerServiceAlias(IVersionManager::class, VersionManager::class);
 
 		/**
 		 * Register Events
@@ -107,6 +108,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeNodeCopiedEvent::class, FileEventsListener::class);
 
 		$context->registerEventListener(NodeWrittenEvent::class, VersionAuthorListener::class);
+
+		$context->registerEventListener(VersionRestoredEvent::class, LegacyRollbackListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
@@ -114,7 +117,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function registerVersionBackends(ContainerInterface $container, IAppManager $appManager, LoggerInterface $logger): void {
-		foreach ($appManager->getInstalledApps() as $app) {
+		foreach ($appManager->getEnabledApps() as $app) {
 			$appInfo = $appManager->getAppInfo($app);
 			if (isset($appInfo['versions'])) {
 				$backends = $appInfo['versions'];

@@ -11,6 +11,7 @@ use OCA\Files\BackgroundJob\DeleteOrphanedItems;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -27,9 +28,9 @@ class DeleteOrphanedItemsJobTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->connection = \OC::$server->get(IDBConnection::class);
+		$this->connection = Server::get(IDBConnection::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->logger = \OC::$server->get(LoggerInterface::class);
+		$this->logger = Server::get(LoggerInterface::class);
 	}
 
 	protected function cleanMapping($table) {

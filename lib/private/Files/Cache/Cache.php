@@ -926,7 +926,7 @@ class Cache implements ICache {
 				->from('filecache')
 				->whereParent($fileId)
 				->whereStorageId($this->getNumericStorageId())
-				->andWhere($query->expr()->lt('size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
+				->andWhere($query->expr()->eq('size', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)));
 
 			$result = $query->executeQuery();
 			$size = (int)$result->fetchOne();
@@ -1067,28 +1067,19 @@ class Cache implements ICache {
 	 * @return string|false the path of the folder or false when no folder matched
 	 */
 	public function getIncomplete() {
-		// we select the fileid here first instead of directly selecting the path since this helps mariadb/mysql
-		// to use the correct index.
-		// The overhead of this should be minimal since the cost of selecting the path by id should be much lower
-		// than the cost of finding an item with size < 0
 		$query = $this->getQueryBuilder();
-		$query->select('fileid')
+		$query->select('path')
 			->from('filecache')
 			->whereStorageId($this->getNumericStorageId())
-			->andWhere($query->expr()->lt('size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->eq('size', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)))
 			->orderBy('fileid', 'DESC')
 			->setMaxResults(1);
 
 		$result = $query->executeQuery();
-		$id = $result->fetchOne();
+		$path = $result->fetchOne();
 		$result->closeCursor();
 
-		if ($id === false) {
-			return false;
-		}
-
-		$path = $this->getPathById($id);
-		return $path ?? false;
+		return $path === false ? false : (string)$path;
 	}
 
 	/**

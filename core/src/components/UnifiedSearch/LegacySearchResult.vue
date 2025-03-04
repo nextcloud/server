@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import NcHighlight from '@nextcloud/vue/dist/Components/NcHighlight.js'
+import NcHighlight from '@nextcloud/vue/components/NcHighlight'
 
 export default {
 	name: 'LegacySearchResult',

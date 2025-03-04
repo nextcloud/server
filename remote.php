@@ -134,7 +134,7 @@ try {
 			$file = OC::$SERVERROOT . '/' . $file;
 			break;
 		default:
-			if (!$appManager->isInstalled($app)) {
+			if (!$appManager->isEnabledForUser($app)) {
 				throw new RemoteException('App not installed: ' . $app);
 			}
 			$appManager->loadApp($app);

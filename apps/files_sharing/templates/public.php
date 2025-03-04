@@ -24,13 +24,13 @@
 <input type="hidden" name="filename" value="<?php p($_['filename']) ?>" id="filename">
 <input type="hidden" name="mimetype" value="<?php p($_['mimetype']) ?>" id="mimetype">
 <input type="hidden" name="previewSupported" value="<?php p($_['previewSupported'] ? 'true' : 'false'); ?>" id="previewSupported">
-<input type="hidden" name="mimetypeIcon" value="<?php p(\OC::$server->getMimeTypeDetector()->mimeTypeIcon($_['mimetype'])); ?>" id="mimetypeIcon">
+<input type="hidden" name="mimetypeIcon" value="<?php p(\OCP\Server::get(\OCP\Files\IMimeTypeDetector::class)->mimeTypeIcon($_['mimetype'])); ?>" id="mimetypeIcon">
 <input type="hidden" name="hideDownload" value="<?php p($_['hideDownload'] ? 'true' : 'false'); ?>" id="hideDownload">
 <input type="hidden" id="disclaimerText" value="<?php p($_['disclaimer']) ?>">
 
 <?php
-$upload_max_filesize = OC::$server->get(\bantu\IniGetWrapper\IniGetWrapper::class)->getBytes('upload_max_filesize');
-$post_max_size = OC::$server->get(\bantu\IniGetWrapper\IniGetWrapper::class)->getBytes('post_max_size');
+$upload_max_filesize = \OCP\Server::get(\bantu\IniGetWrapper\IniGetWrapper::class)->getBytes('upload_max_filesize');
+$post_max_size = \OCP\Server::get(\bantu\IniGetWrapper\IniGetWrapper::class)->getBytes('post_max_size');
 $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 ?>
 <input type="hidden" name="maxFilesizeUpload" value="<?php p($maxUploadFilesize); ?>" id="maxFilesizeUpload">
@@ -137,7 +137,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 <?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] !== true)): ?>
 	<div class="hiddenuploadfield">
 		<input type="file" id="file_upload_start" class="hiddenuploadfield" name="files[]"
-			   data-url="<?php p(\OC::$server->getURLGenerator()->linkTo('files', 'ajax/upload.php')); ?>" />
+			   data-url="<?php p(\OCP\Server::get(\OCP\IURLGenerator::class)->linkTo('files', 'ajax/upload.php')); ?>" />
 	</div>
 <?php endif; ?>
 </div>

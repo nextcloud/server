@@ -36,8 +36,8 @@
 // FIXME Vue TypeScript ESLint errors
 /* eslint-disable */
 import Vue from 'vue'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import NcSelectTags from '@nextcloud/vue/dist/Components/NcSelectTags.js'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcSelectTags from '@nextcloud/vue/components/NcSelectTags'
 
 import { translate as t } from '@nextcloud/l10n'
 import { showError } from '@nextcloud/dialogs'
@@ -117,7 +117,6 @@ export default Vue.extend({
 				this.loadingTags = true
 				try {
 					this.selectedTags = await fetchTagsForFile(this.fileId)
-					this.$emit('has-tags', this.selectedTags.length > 0)
 				} catch (error) {
 					showError(t('systemtags', 'Failed to load selected tags'))
 				}

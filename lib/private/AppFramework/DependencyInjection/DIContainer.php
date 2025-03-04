@@ -10,6 +10,7 @@ use OC;
 use OC\AppFramework\Http;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Output;
+use OC\AppFramework\Middleware\FlowV2EphemeralSessionsMiddleware;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Middleware\OCSMiddleware;
 use OC\AppFramework\Middleware\Security\CORSMiddleware;
@@ -216,7 +217,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				)
 			);
 
-
+			$dispatcher->registerMiddleware($c->get(FlowV2EphemeralSessionsMiddleware::class));
 
 			$securityMiddleware = new SecurityMiddleware(
 				$c->get(IRequest::class),

@@ -44,7 +44,7 @@ class Disable extends Command implements CompletionAwareInterface {
 	}
 
 	private function disableApp(string $appId, OutputInterface $output): void {
-		if ($this->appManager->isInstalled($appId) === false) {
+		if ($this->appManager->isEnabledForAnyone($appId) === false) {
 			$output->writeln('No such app enabled: ' . $appId);
 			return;
 		}

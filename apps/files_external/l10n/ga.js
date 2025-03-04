@@ -96,14 +96,17 @@ OC.L10N.register(
     "External storage support" : "Tacaíocht stórála seachtrach",
     "Adds basic external storage support" : "Cuireann sé tacaíocht bhunúsach stórála seachtrach leis",
     "This application enables administrators to configure connections to external storage providers, such as FTP servers, S3 or SWIFT object stores, other Nextcloud servers, WebDAV servers, and more. Administration can choose which types of storage to enable and can mount these storage locations for an account, a group, or the entire system. Users will see a new folder appear in their root Nextcloud directory, which they can access and use like any other Nextcloud folder. External storage also allows people to share files stored in these external locations. In these cases, the credentials for the owner of the file are used when the recipient requests the file from external storage, thereby ensuring that the recipient can access the shared file.\n\nExternal storage can be configured using the GUI or at the command line. This second option provides the administration with more flexibility for configuring bulk external storage mounts and setting mount priorities. More information is available in the external storage GUI documentation and the external storage Configuration File documentation." : "Cuireann an feidhmchlár seo ar chumas riarthóirí naisc a chumrú le soláthraithe stórála seachtracha, mar fhreastalaithe FTP, stórais réad S3 nó SWIFT, freastalaithe Nextcloud eile, freastalaithe WebDAV, agus go leor eile. Is féidir le lucht riaracháin na cineálacha stórála a roghnú le cumasú agus is féidir leo na láithreacha stórála seo a shuiteáil do chuntas, do ghrúpa nó don chóras iomlán. Feicfidh úsáideoirí fillteán nua le feiceáil ina n-eolaire root Nextcloud, ar féidir leo rochtain a fháil air agus a úsáid mar aon fhillteán Nextcloud eile. Ligeann stóráil sheachtrach do dhaoine comhaid atá stóráilte sna láithreacha seachtracha seo a roinnt. Sna cásanna seo, úsáidtear dintiúir úinéir an chomhaid nuair a iarrann an faighteoir an comhad ó stóráil sheachtrach, rud a chinntíonn go bhféadfaidh an faighteoir rochtain a fháil ar an gcomhad roinnte.\n\nIs féidir stóráil sheachtrach a chumrú trí úsáid a bhaint as an GUI nó ag an líne ordaithe. Tugann an dara rogha seo níos mó solúbthachta don riarachán maidir le gléasanna stórála seachtracha mórchóir a chumrú agus chun tosaíochtaí gléasta a shocrú. Tá tuilleadh faisnéise ar fáil sna doiciméid GUI stórála seachtracha agus sa doiciméadú Comhad Cumraíochta stórála seachtraí.",
+    "Confirm" : "Deimhnigh",
     "Storage credentials" : "Dintiúir stórála",
     "To access the storage, you need to provide the authentication credentials." : "Chun rochtain a fháil ar an stóras, ní mór duit na dintiúir fíordheimhnithe a sholáthar.",
     "Enter the storage login" : "Cuir isteach an logáil isteach stórála",
     "Enter the storage password" : "Cuir isteach an focal faire stórála",
-    "Submit" : "Cuir isteach",
     "Unable to update this external storage config. {statusMessage}" : "Ní féidir an cumraíocht stórála seachtrach seo a nuashonrú. {statusMessage}",
     "New configuration successfully saved" : "D'éirigh le cumraíocht nua a shábháil",
     "Enter missing credentials" : "Cuir isteach dintiúir atá in easnamh",
+    "Credentials successfully set" : "Socraíodh na dintiúir go rathúil",
+    "Error while setting credentials: {error}" : "Earráid agus na dintiúir á socrú: {error}",
+    "Checking storage …" : "Stóras á sheiceáil…",
     "There was an error with this external storage." : "Tharla earráid leis an stóras seachtrach seo.",
     "We were unable to check the external storage {basename}" : "Níorbh fhéidir linn an stóras seachtrach {basename} a sheiceáil",
     "Examine this faulty external storage configuration" : "Scrúdaigh an chumraíocht stórála seachtrach lochtach seo",
@@ -150,6 +153,7 @@ OC.L10N.register(
     "All people" : "Gach duine",
     "Advanced settings" : "Ardsocruithe",
     "Allow people to mount external storage" : "Lig do dhaoine stóráil sheachtrach a shuiteáil",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Is féidir dintiúir dhomhanda a úsáid chun fíordheimhniú a dhéanamh le stórais sheachtracha iolracha a bhfuil na dintiúir chéanna acu."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Is féidir dintiúir dhomhanda a úsáid chun fíordheimhniú a dhéanamh le stórais sheachtracha iolracha a bhfuil na dintiúir chéanna acu.",
+    "Submit" : "Cuir isteach"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

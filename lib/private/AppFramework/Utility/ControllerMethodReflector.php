@@ -50,7 +50,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 			// extract type parameter information
 			preg_match_all('/@param\h+(?P<type>\w+)\h+\$(?P<var>\w+)/', $docs, $matches);
 			$this->types = array_combine($matches['var'], $matches['type']);
-			preg_match_all('/@psalm-param\h+(?P<type>\w+)<(?P<rangeMin>(-?\d+|min)),\h*(?P<rangeMax>(-?\d+|max))>\h+\$(?P<var>\w+)/', $docs, $matches);
+			preg_match_all('/@psalm-param\h+(\?)?(?P<type>\w+)<(?P<rangeMin>(-?\d+|min)),\h*(?P<rangeMax>(-?\d+|max))>(\|null)?\h+\$(?P<var>\w+)/', $docs, $matches);
 			foreach ($matches['var'] as $index => $varName) {
 				if ($matches['type'][$index] !== 'int') {
 					// only int ranges are possible at the moment

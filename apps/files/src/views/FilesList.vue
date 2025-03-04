@@ -157,13 +157,13 @@ import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline
 import IconReload from 'vue-material-design-icons/Reload.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue'
-import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcAppContent from '@nextcloud/vue/components/NcAppContent'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
@@ -432,10 +432,6 @@ export default defineComponent({
 				&& this.currentFolder && (this.currentFolder.permissions & Permission.SHARE) !== 0
 		},
 
-		filtersChanged() {
-			return this.filtersStore.filtersChanged
-		},
-
 		showCustomEmptyView() {
 			return !this.loading && this.isEmptyDir && this.currentView?.emptyView !== undefined
 		},
@@ -516,23 +512,29 @@ export default defineComponent({
 			// Also refresh the filtered content
 			this.filterDirContent()
 		},
-
-		filtersChanged() {
-			if (this.filtersChanged) {
-				this.filterDirContent()
-				this.filtersStore.filtersChanged = false
-			}
-		},
 	},
 
-	mounted() {
-		this.fetchContent()
-
+	async mounted() {
 		subscribe('files:node:deleted', this.onNodeDeleted)
 		subscribe('files:node:updated', this.onUpdatedNode)
 
 		// reload on settings change
 		subscribe('files:config:updated', this.fetchContent)
+
+		// filter content if filter were changed
+		subscribe('files:filters:changed', this.filterDirContent)
+
+		// Finally, fetch the current directory contents
+		await this.fetchContent()
+		if (this.fileId) {
+			// If we have a fileId, let's check if the file exists
+			const node = this.dirContents.find(node => node.fileid.toString() === this.fileId.toString())
+			// If the file isn't in the current directory nor if
+			// the current directory is the file, we show an error
+			if (!node && this.currentFolder.fileid.toString() !== this.fileId.toString()) {
+				showError(t('files', 'The file could not be found'))
+			}
+		}
 	},
 
 	unmounted() {

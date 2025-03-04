@@ -343,6 +343,7 @@
                                         "background_color",
                                         "description",
                                         "icons",
+                                        "display_override",
                                         "display"
                                     ],
                                     "properties": {
@@ -385,6 +386,12 @@
                                                         "type": "string"
                                                     }
                                                 }
+                                            }
+                                        },
+                                        "display_override": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
                                             }
                                         },
                                         "display": {

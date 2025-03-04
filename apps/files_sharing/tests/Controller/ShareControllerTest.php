@@ -42,6 +42,7 @@ use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IAttributes;
 use OCP\Share\IPublicShareTemplateFactory;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -142,9 +143,9 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->oldUser = \OC_User::getUser();
 
 		// Create a dummy user
-		$this->user = \OC::$server->getSecureRandom()->generate(12, ISecureRandom::CHAR_LOWER);
+		$this->user = Server::get(ISecureRandom::class)->generate(12, ISecureRandom::CHAR_LOWER);
 
-		\OC::$server->getUserManager()->createUser($this->user, $this->user);
+		Server::get(IUserManager::class)->createUser($this->user, $this->user);
 		\OC_Util::tearDownFS();
 		$this->loginAsUser($this->user);
 	}
@@ -153,13 +154,13 @@ class ShareControllerTest extends \Test\TestCase {
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');
 		Filesystem::tearDown();
-		$user = \OC::$server->getUserManager()->get($this->user);
+		$user = Server::get(IUserManager::class)->get($this->user);
 		if ($user !== null) {
 			$user->delete();
 		}
 		\OC_User::setIncognitoMode(false);
 
-		\OC::$server->getSession()->set('public_link_authenticated', '');
+		Server::get(ISession::class)->set('public_link_authenticated', '');
 
 		// Set old user
 		\OC_User::setUserId($this->oldUser);
@@ -185,7 +186,7 @@ class ShareControllerTest extends \Test\TestCase {
 	public function testShowShareNotAuthenticated(): void {
 		$this->shareController->setToken('validtoken');
 
-		$share = \OC::$server->getShareManager()->newShare();
+		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setPassword('password');
 
 		$this->shareManager
@@ -637,7 +638,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$file->method('isShareable')->willReturn(false);
 		$file->method('isReadable')->willReturn(true);
 
-		$share = \OC::$server->getShareManager()->newShare();
+		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setId(42);
 		$share->setPassword('password')
 			->setShareOwner('ownerUID')
@@ -690,6 +691,34 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
+	public function testDownloadShareWithoutDownloadPermission(): void {
+		$attributes = $this->createMock(IAttributes::class);
+		$attributes->expects(self::once())
+			->method('getAttribute')
+			->with('permissions', 'download')
+			->willReturn(false);
+
+		$share = $this->createMock(IShare::class);
+		$share->method('getPassword')->willReturn('password');
+		$share->expects(self::once())
+			->method('getPermissions')
+			->willReturn(Constants::PERMISSION_READ);
+		$share->expects(self::once())
+			->method('getAttributes')
+			->willReturn($attributes);
+
+		$this->shareManager
+			->expects(self::once())
+			->method('getShareByToken')
+			->with('validtoken')
+			->willReturn($share);
+
+		// Test with a password protected share and no authentication
+		$response = $this->shareController->downloadShare('validtoken');
+		$expectedResponse = new DataResponse('Share has no download permission');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
 	public function testDisabledOwner(): void {
 		$this->shareController->setToken('token');
 
@@ -702,7 +731,7 @@ class ShareControllerTest extends \Test\TestCase {
 		/* @var MockObject|Folder $folder */
 		$folder = $this->createMock(Folder::class);
 
-		$share = \OC::$server->getShareManager()->newShare();
+		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setId(42);
 		$share->setPermissions(Constants::PERMISSION_CREATE)
 			->setShareOwner('ownerUID')
@@ -743,7 +772,7 @@ class ShareControllerTest extends \Test\TestCase {
 		/* @var MockObject|Folder $folder */
 		$folder = $this->createMock(Folder::class);
 
-		$share = \OC::$server->getShareManager()->newShare();
+		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setId(42);
 		$share->setPermissions(Constants::PERMISSION_CREATE)
 			->setShareOwner('ownerUID')
