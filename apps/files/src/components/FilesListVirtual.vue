@@ -27,7 +27,7 @@
 
 		<template #before>
 			<!-- Headers -->
-			<FilesListHeader v-for="header in sortedHeaders"
+			<FilesListHeader v-for="header in headers"
 				:key="header.id"
 				:current-folder="currentFolder"
 				:current-view="currentView"
@@ -62,7 +62,7 @@ import type { Node as NcNode } from '@nextcloud/files'
 import type { ComponentPublicInstance, PropType } from 'vue'
 import type { Location } from 'vue-router'
 
-import { getFileListHeaders, Folder, Permission, View, getFileActions, FileType } from '@nextcloud/files'
+import { Folder, Permission, View, getFileActions, FileType } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { translate as t } from '@nextcloud/l10n'
@@ -70,12 +70,13 @@ import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
-import { getSummaryFor } from '../utils/fileUtils'
-import { useActiveStore } from '../store/active.ts'
+import { useFileListHeaders } from '../composables/useFileListHeaders.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
+import { useActiveStore } from '../store/active.ts'
 import { useSelectionStore } from '../store/selection.js'
 import { useUserConfigStore } from '../store/userconfig.ts'
+import { getSummaryFor } from '../utils/fileUtils.ts'
 
 import FileEntry from './FileEntry.vue'
 import FileEntryGrid from './FileEntryGrid.vue'
@@ -84,8 +85,8 @@ import FilesListHeader from './FilesListHeader.vue'
 import FilesListTableFooter from './FilesListTableFooter.vue'
 import FilesListTableHeader from './FilesListTableHeader.vue'
 import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
-import logger from '../logger.ts'
 import VirtualList from './VirtualList.vue'
+import logger from '../logger.ts'
 
 export default defineComponent({
 	name: 'FilesListVirtual',
@@ -125,6 +126,7 @@ export default defineComponent({
 		return {
 			fileId,
 			fileListWidth,
+			headers: useFileListHeaders(),
 			openDetails,
 			openFile,
 
@@ -140,7 +142,6 @@ export default defineComponent({
 		return {
 			FileEntry,
 			FileEntryGrid,
-			headers: getFileListHeaders(),
 			scrollToIndex: 0,
 			openFileId: null as number|null,
 		}
@@ -168,14 +169,6 @@ export default defineComponent({
 				return false
 			}
 			return this.nodes.some(node => node.size !== undefined)
-		},
-
-		sortedHeaders() {
-			if (!this.currentFolder || !this.currentView) {
-				return []
-			}
-
-			return [...this.headers].sort((a, b) => a.order - b.order)
 		},
 
 		cantUpload() {
