@@ -14,7 +14,6 @@ SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
 SPDX-FileCopyrightText: Thorsten Lünborg
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
-SPDX-FileCopyrightText: Stefan-Gabriel Muscalu <stefan.gabriel.muscalu@gmail.com>
 SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Rubén Norte <ruben.norte@softonic.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
@@ -89,7 +88,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 3.1.0
+	- version: 3.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.2
@@ -113,10 +112,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.1
 	- license: MIT
 - p-queue
-	- version: 8.0.1
+	- version: 8.1.0
 	- license: MIT
 - @nextcloud/upload
-	- version: 1.8.0
+	- version: 1.9.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/vue
 	- version: 8.22.0
@@ -137,7 +136,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.5.0
 	- license: Apache-2.0
 - axios
-	- version: 1.7.9
+	- version: 1.8.1
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -161,7 +160,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: MIT
 - dompurify
-	- version: 3.1.7
+	- version: 3.2.4
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
@@ -228,9 +227,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - query-string
 	- version: 9.1.1
-	- license: MIT
-- simple-eta
-	- version: 3.0.2
 	- license: MIT
 - split-on-first
 	- version: 3.0.0

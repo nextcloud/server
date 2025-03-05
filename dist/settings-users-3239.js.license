@@ -37,7 +37,6 @@ SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
 SPDX-FileCopyrightText: Mapbox
 SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
-SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)
 SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
 SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
 SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
@@ -57,7 +56,6 @@ SPDX-FileCopyrightText: Borys Serebrov
 SPDX-FileCopyrightText: Austin Andrews
 SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
-SPDX-FileCopyrightText: Andris Reinman
 SPDX-FileCopyrightText: Andrea Giammarchi
 SPDX-FileCopyrightText: Amit Gupta (https://solothought.com)
 SPDX-FileCopyrightText: Amit Gupta (https://amitkumargupta.work/)
@@ -121,7 +119,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 3.1.0
+	- version: 3.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.2
@@ -157,7 +155,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.1.0
 	- license: MIT
 - axios
-	- version: 1.7.9
+	- version: 1.8.1
 	- license: MIT
 - bail
 	- version: 2.0.2
@@ -199,7 +197,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.0
 	- license: MIT
 - dompurify
-	- version: 3.1.7
+	- version: 3.2.4
 	- license: (MPL-2.0 OR Apache-2.0)
 - emoji-mart-vue-fast
 	- version: 15.0.2
@@ -251,9 +249,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - linkify-string
 	- version: 4.1.3
-	- license: MIT
-- lodash.get
-	- version: 4.4.2
 	- license: MIT
 - longest-streak
 	- version: 3.1.0
@@ -383,9 +378,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - micromark
 	- version: 4.0.0
-	- license: MIT
-- node-gettext
-	- version: 3.0.0
 	- license: MIT
 - buffer
 	- version: 6.0.3
