@@ -569,7 +569,7 @@
                         }
                     },
                     "400": {
-                        "description": "When the first day is not before the last day",
+                        "description": "When validation fails, e.g. data range error or the first day is not before the last day",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -597,7 +597,8 @@
                                                         "error": {
                                                             "type": "string",
                                                             "enum": [
-                                                                "firstDay"
+                                                                "firstDay",
+                                                                "statusLength"
                                                             ]
                                                         }
                                                     }
