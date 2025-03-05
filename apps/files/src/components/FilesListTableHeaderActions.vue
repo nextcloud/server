@@ -14,6 +14,7 @@
 			<NcActionButton v-for="action in enabledActions"
 				:key="action.id"
 				:class="'files-list__row-actions-batch-' + action.id"
+				:data-cy-files-list-selection-action="action.id"
 				@click="onActionClick(action)">
 				<template #icon>
 					<NcLoadingIcon v-if="loading === action.id" :size="18" />
