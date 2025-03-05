@@ -299,7 +299,9 @@ export default {
 				// force value to string because that is what our
 				// share api controller accepts
 				propertyNames.forEach(name => {
-					if ((typeof this.share[name]) === 'object') {
+					if (this.share[name] === null || this.share[name] === undefined) {
+						properties[name] = ''
+					} else if ((typeof this.share[name]) === 'object') {
 						properties[name] = JSON.stringify(this.share[name])
 					} else {
 						properties[name] = this.share[name].toString()
