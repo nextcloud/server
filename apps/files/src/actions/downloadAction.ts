@@ -9,9 +9,15 @@ import { isDownloadable } from '../utils/permissions'
 
 import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
 
-const triggerDownload = function(url: string) {
+/**
+ * Trigger downloading a file.
+ *
+ * @param url The url of the asset to download
+ * @param name Optionally the recommended name of the download (browsers might ignore it)
+ */
+function triggerDownload(url: string, name?: string) {
 	const hiddenElement = document.createElement('a')
-	hiddenElement.download = ''
+	hiddenElement.download = name ?? ''
 	hiddenElement.href = url
 	hiddenElement.click()
 }
@@ -43,7 +49,7 @@ const downloadNodes = function(nodes: Node[]) {
 
 	if (nodes.length === 1) {
 		if (nodes[0].type === FileType.File) {
-			return triggerDownload(nodes[0].encodedSource)
+			return triggerDownload(nodes[0].encodedSource, nodes[0].displayname)
 		} else {
 			url = new URL(nodes[0].encodedSource)
 			url.searchParams.append('accept', 'zip')
