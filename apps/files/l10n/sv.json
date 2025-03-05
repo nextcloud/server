@@ -453,8 +453,6 @@
     "Favor" : "Favorisera",
     "Not favored" : "Inte favoriserad",
     "Submitting fields…" : "Skickar fält...",
-    "Filter filenames…" : "Filtrera filnamn...",
-    "Keep {oldextension}" : "Behåll {oldextension}",
-    "Use {newextension}" : "Använd {newextension}"
+    "Filter filenames…" : "Filtrera filnamn..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

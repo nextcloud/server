@@ -451,8 +451,6 @@
     "Favor" : "Mettre en favoris",
     "Not favored" : "Non favoris",
     "Submitting fields…" : "Validation des champs...",
-    "Filter filenames…" : "Filtrer par nom de fichier…",
-    "Keep {oldextension}" : "Garder {oldextension}",
-    "Use {newextension}" : "Utiliser {newextension}"
+    "Filter filenames…" : "Filtrer par nom de fichier…"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

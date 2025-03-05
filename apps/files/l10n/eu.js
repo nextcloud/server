@@ -424,8 +424,6 @@ OC.L10N.register(
     "Favor" : "Mesedea",
     "Not favored" : "Mesedetu gabe",
     "Submitting fields…" : "Eremuak bidaltzen…",
-    "Filter filenames…" : "Iragazi fitxategi-izenak...",
-    "Keep {oldextension}" : "Mantendu {oldextension}",
-    "Use {newextension}" : "Erabili {newextension}"
+    "Filter filenames…" : "Iragazi fitxategi-izenak..."
 },
 "nplurals=2; plural=(n != 1);");

@@ -455,8 +455,6 @@ OC.L10N.register(
     "Favor" : "收藏",
     "Not favored" : "未收藏",
     "Submitting fields…" : "提交字段...",
-    "Filter filenames…" : "过滤文件名...",
-    "Keep {oldextension}" : "保留 {oldextension}",
-    "Use {newextension}" : "使用 {newextension}"
+    "Filter filenames…" : "过滤文件名..."
 },
 "nplurals=1; plural=0;");

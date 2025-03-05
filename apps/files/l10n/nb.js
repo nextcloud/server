@@ -421,8 +421,6 @@ OC.L10N.register(
     "Favor" : "Favoritt",
     "Not favored" : "Ikke favorittlagt",
     "Submitting fields…" : "Sender inn felt...",
-    "Filter filenames…" : "Filtrer filnavn...",
-    "Keep {oldextension}" : "Behold {oldextension}",
-    "Use {newextension}" : "Bruk {newextension}"
+    "Filter filenames…" : "Filtrer filnavn..."
 },
 "nplurals=2; plural=(n != 1);");

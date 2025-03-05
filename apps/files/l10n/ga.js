@@ -454,8 +454,6 @@ OC.L10N.register(
     "Favor" : "Fabhar",
     "Not favored" : "Ní bail ar fónamh orthu",
     "Submitting fields…" : "Réimsí á gcur isteach…",
-    "Filter filenames…" : "Scag ainmneacha comhaid…",
-    "Keep {oldextension}" : " Coinnigh{oldextension}",
-    "Use {newextension}" : " Úsáid{newextension}"
+    "Filter filenames…" : "Scag ainmneacha comhaid…"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");
