@@ -437,8 +437,6 @@ OC.L10N.register(
     "Favor" : "Eftirl",
     "Not favored" : "Ekki eftirlæti",
     "Submitting fields…" : "Sendi inn gögn úr reitum…",
-    "Filter filenames…" : "Sía skráaheiti…",
-    "Keep {oldextension}" : "Halda {oldextension}",
-    "Use {newextension}" : "Nota {newextension}"
+    "Filter filenames…" : "Sía skráaheiti…"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

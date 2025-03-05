@@ -68,6 +68,8 @@ OC.L10N.register(
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} bude nastaven a {tag2} odebrán z 1 souboru.","{tag1} bude nastaven a {tag2} odebrán z {count} souborů.","{tag1} bude nastaven a {tag2} odebrán z {count} souborů.","{tag1} bude nastaven a {tag2} odebrán z {count} souborů."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} bude nastaven 1 souboru.","{tag} bude nastaven {count} souborům.","{tag} bude nastaven {count} souborům.","{tag} bude nastaven {count} souborům."],
     "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} bude odebrán z 1 souboru.","{tag} bude odebrán z {count} souborů.","{tag} bude odebrán z {count} souborů.","{tag} bude odebrán z {count} souborů."],
+    "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} a {lastTag} bude nastaven 1 souboru.","{tags} a {lastTag} bude nastaven {count} souborům.","{tags} a {lastTag} bude nastaven {count} souborům.","{tags} a {lastTag} bude nastaven {count} souborům."],
+    "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} a {lastTag} bude odebrán 1 souboru.","{tags} a {lastTag} bude odebrán {count} souborům.","{tags} a {lastTag} bude odebrán {count} souborům.","{tags} a {lastTag} bude odebrán {count} souborům."],
     "{displayName} (hidden)" : "{displayName} (skrytý)",
     "{displayName} (restricted)" : "{displayName} (omezený)",
     "Failed to apply tags changes" : "Změny štítků se nepodařilo uplatnit",

@@ -441,8 +441,6 @@ OC.L10N.register(
     "Favor" : "Zaradené medzi obľúbené",
     "Not favored" : "Nie je v obľúbených",
     "Submitting fields…" : "Položky sa odosielajú ...",
-    "Filter filenames…" : "Filtrovať názvy súborov...",
-    "Keep {oldextension}" : "Ponechať {oldextension}",
-    "Use {newextension}" : "Použiť {newextension}"
+    "Filter filenames…" : "Filtrovať názvy súborov..."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

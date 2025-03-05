@@ -453,8 +453,6 @@
     "Favor" : "加入最愛",
     "Not favored" : "未加入最愛",
     "Submitting fields…" : "正在遞交欄位……",
-    "Filter filenames…" : "篩選檔案名稱……",
-    "Keep {oldextension}" : "保留 {oldextension}",
-    "Use {newextension}" : "使用 {newextension}"
+    "Filter filenames…" : "篩選檔案名稱……"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
