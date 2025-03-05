@@ -14,10 +14,14 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\Files\Config\ICachedMountFileInfo;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -370,6 +374,61 @@ class UserMountCache implements IUserMountCache {
 				$internalPath
 			);
 		}, $filteredMounts);
+	}
+
+	/**
+	 * Get all nodes that give access to a file
+	 *
+	 * @return array<string, Node[]> Nodes giving access to the given fileId, indexed by user ID
+	 * @since 28.0.0
+	 */
+	public function getReadableNodesByUserForFileId(int $fileId): array {
+		$mounts = $this->getMountsForFileId($fileId);
+		$rootFolder = Server::get(IRootFolder::class);
+		$result = [];
+		foreach ($mounts as $mount) {
+			$uid = $mount->getUser()->getUID();
+			if (!isset($result[$uid])) {
+				$result[$uid] = [];
+			}
+
+			$userFolder = $rootFolder->getUserFolder($uid);
+			$result[$uid] = array_merge($result[$uid], $userFolder->getById($fileId));
+		}
+
+		return array_filter($result);
+	}
+
+	/**
+	 * Get all users having read access to a file, with a path they see it as.
+	 * They may see the same file under other paths,
+	 *  to get this information use the exhaustive getReadableNodesByUserForFileId
+	 *
+	 * @return array<string,string> Paths giving access to the given fileId, indexed by user ID
+	 * @since 28.0.0
+	 */
+	public function getReadablePathByUserForFileId(int $fileId): array {
+		$mounts = $this->getMountsForFileId($fileId);
+		$rootFolder = Server::get(IRootFolder::class);
+		$result = [];
+		foreach ($mounts as $mount) {
+			$uid = $mount->getUser()->getUID();
+			if (isset($result[$uid])) {
+				continue;
+			}
+
+			$userFolder = $rootFolder->getUserFolder($uid);
+			$nodes = $userFolder->getById($fileId);
+			$node = reset($nodes);
+			if ($node) {
+				$path = $userFolder->getRelativePath($node->getPath());
+				if ($path !== null) {
+					$result[$uid] = $path;
+				}
+			}
+		}
+
+		return $result;
 	}
 
 	/**
