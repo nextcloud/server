@@ -440,8 +440,6 @@ OC.L10N.register(
     "Favor" : "Afavorir",
     "Not favored" : "No afavorit",
     "Submitting fields…" : "S'estan enviant camps…",
-    "Filter filenames…" : "Filtra els noms de fitxer…",
-    "Keep {oldextension}" : "Mantenir {oldextension}",
-    "Use {newextension}" : "Utilitza {newextension}"
+    "Filter filenames…" : "Filtra els noms de fitxer…"
 },
 "nplurals=2; plural=(n != 1);");

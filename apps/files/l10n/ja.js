@@ -454,8 +454,6 @@ OC.L10N.register(
     "Favor" : "好意的",
     "Not favored" : "好ましくない",
     "Submitting fields…" : "フィールドを送信中…",
-    "Filter filenames…" : "ファイルネームフィルター…",
-    "Keep {oldextension}" : "{oldextension} を保持",
-    "Use {newextension}" : "{newextension} を使用"
+    "Filter filenames…" : "ファイルネームフィルター…"
 },
 "nplurals=1; plural=0;");

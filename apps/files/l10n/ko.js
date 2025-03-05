@@ -423,8 +423,6 @@ OC.L10N.register(
     "Favor" : "선호",
     "Not favored" : "선호하지 않음",
     "Submitting fields…" : "입력란 제출중...",
-    "Filter filenames…" : "파일 이름 필터...",
-    "Keep {oldextension}" : "{oldextension} 유지",
-    "Use {newextension}" : "{newextension} 사용"
+    "Filter filenames…" : "파일 이름 필터..."
 },
 "nplurals=1; plural=0;");

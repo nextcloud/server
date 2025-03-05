@@ -455,8 +455,6 @@ OC.L10N.register(
     "Favor" : "Sık kullanılanlara ekle",
     "Not favored" : "Sık kullanılanlara eklenmemiş",
     "Submitting fields…" : "Alanlar gönderiliyor…",
-    "Filter filenames…" : "Dosya adlarını süz…",
-    "Keep {oldextension}" : "{oldextension} kalsın",
-    "Use {newextension}" : "{newextension} kullanılsın"
+    "Filter filenames…" : "Dosya adlarını süz…"
 },
 "nplurals=2; plural=(n > 1);");

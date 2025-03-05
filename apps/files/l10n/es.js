@@ -439,8 +439,6 @@ OC.L10N.register(
     "Favor" : "Favorecer",
     "Not favored" : "No favorecido",
     "Submitting fields…" : "Enviando campos…",
-    "Filter filenames…" : "Filtrar nombres de archivo…",
-    "Keep {oldextension}" : "Mantener {oldextension}",
-    "Use {newextension}" : "Usar {newextension}"
+    "Filter filenames…" : "Filtrar nombres de archivo…"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

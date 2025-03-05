@@ -452,8 +452,6 @@
     "Favor" : "Favoriet",
     "Not favored" : "Geen favoriet",
     "Submitting fields…" : "Verzenden velden ...",
-    "Filter filenames…" : "Filter bestandsnamen...",
-    "Keep {oldextension}" : "Behoud {oldextension}",
-    "Use {newextension}" : "Gebruik {newextension}"
+    "Filter filenames…" : "Filter bestandsnamen..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
