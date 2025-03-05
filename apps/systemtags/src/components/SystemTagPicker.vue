@@ -25,7 +25,7 @@
 			<!-- Search or create input -->
 			<div class="systemtags-picker__input">
 				<NcTextField :value.sync="input"
-					:label="t('systemtags', 'Search or create tag')"
+					:label="canCreateTag ? t('systemtags', 'Search or create tag') : t('systemtags', 'Search tag')"
 					data-cy-systemtags-picker-input>
 					<TagIcon :size="20" />
 				</NcTextField>
@@ -67,7 +67,7 @@
 				</li>
 
 				<!-- Create new tag -->
-				<li>
+				<li v-if="canCreateTag">
 					<NcButton v-if="canCreateTag"
 						:disabled="status === Status.CREATING_TAG"
 						alignment="start"
@@ -88,7 +88,7 @@
 			<!-- Note -->
 			<div class="systemtags-picker__note">
 				<NcNoteCard v-if="!hasChanges" type="info">
-					{{ t('systemtags', 'Select or create tags to apply to all selected files') }}
+					{{ canCreateTag ? t('systemtags', 'Select or create tags to apply to all selected files'): t('systemtags', 'Select tags to apply to all selected files') }}
 				</NcNoteCard>
 				<NcNoteCard v-else type="info">
 					<span v-html="statusMessage" />
@@ -153,6 +153,8 @@ import { createTag, fetchTag, fetchTags, getTagObjects, setTagObjects, updateTag
 import { getNodeSystemTags, setNodeSystemTags } from '../utils'
 import { elementColor, invertTextColor, isDarkModeEnabled } from '../utils/colorUtils'
 import logger from '../logger.ts'
+import { loadState } from '@nextcloud/initial-state'
+import { getCurrentUser } from '@nextcloud/auth'
 
 const debounceUpdateTag = debounce(updateTag, 500)
 const mainBackgroundColor = getComputedStyle(document.body)
@@ -169,6 +171,8 @@ enum Status {
 	CREATING_TAG = 'creating-tag',
 	DONE = 'done',
 }
+
+const restrictSystemTagsCreationToAdmin = loadState<false|true>('settings', 'restrictSystemTagsCreationToAdmin', false) === true
 
 export default defineComponent({
 	name: 'SystemTagPicker',
@@ -204,6 +208,8 @@ export default defineComponent({
 			emit,
 			Status,
 			t,
+			// Either tag creation is not restricted to admins or the current user is an admin
+			canCreateTag: !restrictSystemTagsCreationToAdmin || getCurrentUser()?.isAdmin,
 		}
 	},
 
@@ -422,6 +428,12 @@ export default defineComponent({
 		},
 
 		async onNewTag() {
+			if (!this.canCreateTag) {
+				// Should not happen ™
+				showError(t('systemtags', 'Only admins can create new tags'))
+				return
+			}
+
 			this.status = Status.CREATING_TAG
 			try {
 				const payload: Tag = {
