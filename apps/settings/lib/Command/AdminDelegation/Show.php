@@ -46,39 +46,28 @@ class Show extends Base {
 		$settings = [];
 		switch ($input->getOption('output')) {
 			case self::OUTPUT_FORMAT_JSON:
-				$output->writeln(json_encode($this->buildJsonOutput($sections)));
+				$output->writeln(json_encode($this->buildOutput($sections)));
 				break;
 			case self::OUTPUT_FORMAT_JSON_PRETTY:
-				$output->writeln(json_encode($this->buildJsonOutput($sections), JSON_PRETTY_PRINT));
+				$output->writeln(json_encode($this->buildOutput($sections), JSON_PRETTY_PRINT));
 				break;
 			default:
+				$currentDelegations = $this->buildOutput($sections);
+
 				$io = new SymfonyStyle($input, $output);
 				$io->title('Current delegations');
 
 				$headers = ['Name', 'SettingId', 'Delegated to groups'];
-				foreach ($sections as $sectionPriority) {
-					foreach ($sectionPriority as $section) {
-						$sectionSettings = $this->settingManager->getAdminSettings($section->getId());
-						$sectionSettings = array_reduce($sectionSettings, [$this, 'getDelegatedSettings'], []);
-						if (empty($sectionSettings)) {
-							continue;
-						}
 
-						$io->section('Section: ' . $section->getID());
-						$io->table($headers, array_map(function (IDelegatedSettings $setting) use ($section) {
-							$className = get_class($setting);
-							$groups = array_map(
-								static fn (AuthorizedGroup $group) => $group->getGroupId(),
-								$this->authorizedGroupService->findExistingGroupsForClass($className)
-							);
-							natsort($groups);
-							return [
-								$setting->getName() ?: 'Global',
-								$className,
-								implode(', ', $groups),
-							];
-						}, $sectionSettings));
-					}
+				foreach ($currentDelegations['currentDelegations'] as $delegationGroup) {
+					$io->section('Section: ' . $delegationGroup['section']);
+					$io->table($headers, array_map(function (array $delegations) {
+						return [
+							$delegations['name'],
+							$delegations['settingId'],
+							$delegations['delegatedToGroups']
+						];
+					}, $delegationGroup['delegations']));
 				}
 		}
 
@@ -93,7 +82,7 @@ class Show extends Base {
 		return $settings + array_filter($innerSection, fn (ISettings $setting) => $setting instanceof IDelegatedSettings);
 	}
 
-	private function buildJsonOutput(array $sections): array {
+	private function buildOutput(array $sections): array {
 		$currentDelegations = [
 			'currentDelegations' => []
 		];
@@ -109,7 +98,7 @@ class Show extends Base {
 				$currentDelegations['currentDelegations'][] = [
 					'section' => $section->getID(),
 					'delegations' =>
-						array_map(function (IDelegatedSettings $setting) use ($section, $headers) {
+						array_map(function (IDelegatedSettings $setting) use ($section) {
 							$className = get_class($setting);
 							$groups = array_map(
 								static fn (AuthorizedGroup $group) => $group->getGroupId(),
@@ -117,9 +106,9 @@ class Show extends Base {
 							);
 							natsort($groups);
 							return [
-								"name" => $setting->getName() ?: 'Global',
-								"settingId" => $className,
-								"delegatedToGroups" => implode(', ', $groups)
+								'name' => $setting->getName() ?: 'Global',
+								'settingId' => $className,
+								'delegatedToGroups' => implode(', ', $groups)
 							];
 						}, $sectionSettings)
 				];
