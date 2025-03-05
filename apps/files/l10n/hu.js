@@ -440,8 +440,6 @@ OC.L10N.register(
     "Favor" : "Kedvelés",
     "Not favored" : "Nincs a kedveltek között",
     "Submitting fields…" : "Mezők beküldése…",
-    "Filter filenames…" : "Fájlnevek szűrése…",
-    "Keep {oldextension}" : "{oldextension} megtartása",
-    "Use {newextension}" : "{newextension} használata"
+    "Filter filenames…" : "Fájlnevek szűrése…"
 },
 "nplurals=2; plural=(n != 1);");

@@ -390,8 +390,6 @@ OC.L10N.register(
     "Text file" : "Tekstitiedosto",
     "New text file.txt" : "Uusi tekstitiedosto.txt",
     "Submitting fields…" : "Lähetetään tietoja...",
-    "Filter filenames…" : "Suodata tiedostonimiä...",
-    "Keep {oldextension}" : "Pidä {oldextension}",
-    "Use {newextension}" : "Käytä {newextension}"
+    "Filter filenames…" : "Suodata tiedostonimiä..."
 },
 "nplurals=2; plural=(n != 1);");
