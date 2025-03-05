@@ -68,7 +68,6 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\IStorage;
-use OCP\IL10N;
 use OCP\IUser;
 use OCP\L10N\IFactory;
 use OCP\Lock\ILockingProvider;
@@ -98,7 +97,6 @@ class View {
 	private bool $updaterEnabled = true;
 	private UserManager $userManager;
 	private LoggerInterface $logger;
-	private IFactory $l10nFactory;
 
 	/**
 	 * @throws \Exception If $root contains an invalid path
@@ -113,7 +111,6 @@ class View {
 		$this->lockingEnabled = !($this->lockingProvider instanceof \OC\Lock\NoopLockingProvider);
 		$this->userManager = \OC::$server->getUserManager();
 		$this->logger = \OC::$server->get(LoggerInterface::class);
-		$this->l10nFactory = \OC::$server->get(IFactory::class);
 	}
 
 	/**
@@ -893,7 +890,7 @@ class View {
 			$targetPath = $targetMount->getMountPoint();
 		}
 
-		$l = $this->l10nFactory->get('files');
+		$l = \OC::$server->get(IFactory::class)->get('files');
 		foreach ($mounts as $mount) {
 			$sourcePath = $this->getRelativePath($mount->getMountPoint());
 			if ($sourcePath) {
