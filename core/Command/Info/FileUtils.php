@@ -46,13 +46,16 @@ class FileUtils {
 
 		$mounts = $this->userMountCache->getMountsForFileId($id);
 		$result = [];
-		foreach ($mounts as $mount) {
-			if (isset($result[$mount->getUser()->getUID()])) {
+		foreach ($mounts as $cachedMount) {
+			if (isset($result[$cachedMount->getUser()->getUID()])) {
 				continue;
 			}
 
-			$userFolder = $this->rootFolder->getUserFolder($mount->getUser()->getUID());
-			$result[$mount->getUser()->getUID()] = $userFolder->getById($id);
+			$mount = $this->rootFolder->getMount($cachedMount->getMountPoint());
+			$cache = $mount->getStorage()->getCache();
+			$cacheEntry = $cache->get($id);
+			$node = $this->rootFolder->getNodeFromCacheEntryAndMount($cacheEntry, $mount);
+			$result[$cachedMount->getUser()->getUID()] = $node;
 		}
 
 		return $result;
