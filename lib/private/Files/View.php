@@ -98,7 +98,7 @@ class View {
 	private bool $updaterEnabled = true;
 	private UserManager $userManager;
 	private LoggerInterface $logger;
-	private IL10N $l10n;
+	private IFactory $l10nFactory;
 
 	/**
 	 * @throws \Exception If $root contains an invalid path
@@ -113,7 +113,7 @@ class View {
 		$this->lockingEnabled = !($this->lockingProvider instanceof \OC\Lock\NoopLockingProvider);
 		$this->userManager = \OC::$server->getUserManager();
 		$this->logger = \OC::$server->get(LoggerInterface::class);
-		$this->l10n = \OC::$server->get(IFactory::class)->get('files');
+		$this->l10nFactory = \OC::$server->get(IFactory::class);
 	}
 
 	/**
@@ -893,6 +893,7 @@ class View {
 			$targetPath = $targetMount->getMountPoint();
 		}
 
+		$l = $this->l10nFactory->get('files');
 		foreach ($mounts as $mount) {
 			$sourcePath = $this->getRelativePath($mount->getMountPoint());
 			if ($sourcePath) {
@@ -902,29 +903,29 @@ class View {
 			}
 
 			if (!$mount instanceof MoveableMount) {
-				throw new ForbiddenException($this->l10n->t('Storage %s cannot be moved', [$sourcePath]), false);
+				throw new ForbiddenException($l->t('Storage %s cannot be moved', [$sourcePath]), false);
 			}
 
 			if ($targetIsShared) {
 				if ($sourceMount instanceof SharedMount) {
-					throw new ForbiddenException($this->l10n->t('Moving a share (%s) into a shared folder is not allowed', [$sourcePath]), false);
+					throw new ForbiddenException($l->t('Moving a share (%s) into a shared folder is not allowed', [$sourcePath]), false);
 				} else {
-					throw new ForbiddenException($this->l10n->t('Moving a storage (%s) into a shared folder is not allowed', [$sourcePath]), false);
+					throw new ForbiddenException($l->t('Moving a storage (%s) into a shared folder is not allowed', [$sourcePath]), false);
 				}
 			}
 
 			if ($sourceMount !== $targetMount) {
 				if ($sourceMount instanceof SharedMount) {
 					if ($targetMount instanceof SharedMount) {
-						throw new ForbiddenException($this->l10n->t('Moving a share (%s) into another share (%s) is not allowed', [$sourcePath, $targetPath]), false);
+						throw new ForbiddenException($l->t('Moving a share (%s) into another share (%s) is not allowed', [$sourcePath, $targetPath]), false);
 					} else {
-						throw new ForbiddenException($this->l10n->t('Moving a share (%s) into another storage (%s) is not allowed', [$sourcePath, $targetPath]), false);
+						throw new ForbiddenException($l->t('Moving a share (%s) into another storage (%s) is not allowed', [$sourcePath, $targetPath]), false);
 					}
 				} else {
 					if ($targetMount instanceof SharedMount) {
-						throw new ForbiddenException($this->l10n->t('Moving a storage (%s) into a share (%s) is not allowed', [$sourcePath, $targetPath]), false);
+						throw new ForbiddenException($l->t('Moving a storage (%s) into a share (%s) is not allowed', [$sourcePath, $targetPath]), false);
 					} else {
-						throw new ForbiddenException($this->l10n->t('Moving a storage (%s) into another storage (%s) is not allowed', [$sourcePath, $targetPath]), false);
+						throw new ForbiddenException($l->t('Moving a storage (%s) into another storage (%s) is not allowed', [$sourcePath, $targetPath]), false);
 					}
 				}
 			}
