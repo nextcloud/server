@@ -51,6 +51,7 @@ export default {
 						scope: 'permissions',
 					},
 				],
+				hideDownload: false,
 				share_type: shareRequestObject.shareType,
 				share_with: shareRequestObject.shareWith,
 				is_no_user: shareRequestObject.isNoUser,
