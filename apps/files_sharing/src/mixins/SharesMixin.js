@@ -308,7 +308,7 @@ export default {
 					}
 				})
 
-				this.updateQueue.add(async () => {
+				return this.updateQueue.add(async () => {
 					this.saving = true
 					this.errors = {}
 					try {
@@ -340,7 +340,6 @@ export default {
 						this.saving = false
 					}
 				})
-				return
 			}
 
 			// This share does not exists on the server yet
