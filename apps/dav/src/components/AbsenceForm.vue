@@ -219,8 +219,7 @@ export default {
 					lastDay: formatDateAsYMD(this.lastDay),
 					status: this.status,
 					message: this.message,
-					replacementUserId: this.replacementUser?.user ?? null,
-					replacementUserDisplayName: this.replacementUser?.displayName ?? null,
+					replacementUserId: this.replacementUser?.user ?? null
 				})
 				showSuccess(this.$t('dav', 'Absence saved'))
 			} catch (error) {
