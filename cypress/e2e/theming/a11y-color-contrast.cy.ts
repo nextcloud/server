@@ -110,7 +110,7 @@ describe('Accessibility of Nextcloud theming colors', () => {
 			before(() => {
 				cy.createRandomUser().then(($user) => {
 					// set user theme
-					cy.runOccCommand(`user:setting -- '${$user.userId}' theming enabled-themes '["${theme}"]'`)
+					cy.runOccCommand(`user:setting -- '${$user.userId}' theming enabled-themes '[\\"${theme}\\"]'`)
 					cy.login($user)
 					cy.visit('/')
 					cy.injectAxe({ axeCorePath: 'node_modules/axe-core/axe.min.js' })
