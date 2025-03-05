@@ -12,7 +12,6 @@ use OC\Core\Controller\ClientFlowLoginV2Controller;
 use OCP\AppFramework\Middleware;
 use OCP\ISession;
 use OCP\IUserSession;
-use ReflectionMethod;
 
 // Will close the session if the user session is ephemeral.
 // Happens when the user logs in via the login flow v2.
@@ -33,11 +32,6 @@ class FlowV2EphemeralSessionsMiddleware extends Middleware {
 			$controller instanceof ClientFlowLoginV2Controller &&
 			($methodName === 'grantPage' || $methodName === 'generateAppPassword')
 		) {
-			return;
-		}
-
-		$reflectionMethod = new ReflectionMethod($controller, $methodName);
-		if (!empty($reflectionMethod->getAttributes('PublicPage'))) {
 			return;
 		}
 
