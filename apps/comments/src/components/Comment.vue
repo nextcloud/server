@@ -90,14 +90,12 @@
 			</form>
 
 			<!-- Message content -->
-			<!-- The html is escaped and sanitized before rendering -->
-			<!-- eslint-disable vue/no-v-html-->
-			<div v-else
-				:class="{'comment__message--expanded': expanded}"
+			<NcRichText v-else
 				class="comment__message"
-				@click="onExpand"
-				v-html="renderedContent" />
-			<!-- eslint-enable vue/no-v-html-->
+				:class="{'comment__message--expanded': expanded}"
+				:text="richContent.message"
+				:arguments="richContent.mentions"
+				@click="onExpand" />
 		</div>
 	</component>
 </template>
@@ -113,7 +111,7 @@ import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-import RichEditorMixin from '@nextcloud/vue/dist/Mixins/richEditor.js'
+import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
 
 import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 import IconClose from 'vue-material-design-icons/Close.vue'
@@ -126,6 +124,7 @@ import { useDeletedCommentLimbo } from '../store/deletedCommentLimbo.js'
 
 // Dynamic loading
 const NcRichContenteditable = () => import('@nextcloud/vue/components/NcRichContenteditable')
+const NcRichText = () => import('@nextcloud/vue/components/NcRichText')
 
 export default {
 	name: 'Comment',
@@ -143,8 +142,9 @@ export default {
 		NcDateTime,
 		NcLoadingIcon,
 		NcRichContenteditable,
+		NcRichText,
 	},
-	mixins: [RichEditorMixin, CommentMixin],
+	mixins: [CommentMixin],
 
 	inheritAttrs: false,
 
@@ -177,6 +177,10 @@ export default {
 			type: Function,
 			required: true,
 		},
+		userData: {
+			type: Object,
+			default: () => ({}),
+		},
 
 		tag: {
 			type: String,
@@ -206,16 +210,25 @@ export default {
 			return getCurrentUser().uid === this.actorId
 		},
 
-		/**
-		 * Rendered content as html string
-		 *
-		 * @return {string}
-		 */
-		renderedContent() {
-			if (this.isEmptyMessage) {
-				return ''
-			}
-			return this.renderContent(this.localMessage)
+		richContent() {
+			const mentions = {}
+			let message = this.localMessage
+
+			Object.keys(this.userData).forEach((user, index) => {
+				const key = `mention-${index}`
+				const regex = new RegExp(`@${user}|@"${user}"`, 'g')
+				message = message.replace(regex, `{${key}}`)
+				mentions[key] = {
+					component: NcUserBubble,
+					props: {
+						user,
+						displayName: this.userData[user].label,
+						primary: this.userData[user].primary,
+					},
+				}
+			})
+
+			return { mentions, message }
 		},
 
 		isEmptyMessage() {
