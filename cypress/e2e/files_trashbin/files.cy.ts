@@ -64,7 +64,11 @@ describe('files_trashbin: download files', { testIsolation: true }, () => {
 		cy.get('[data-cy-files-list-row-checkbox]').should('have.length', 2)
 		selectAllFiles()
 		cy.get('.files-list__selected').should('have.text', '2 selected')
-		cy.get('[data-cy-files-list-selection-action="restore"]').should('be.visible')
-		cy.get('[data-cy-files-list-selection-action="download"]').should('not.exist')
+		cy.get('.files-list__row-actions-batch')
+			.should('be.visible')
+			.within(() => {
+				cy.findByRole('button', { name: /restore/i }).should('be.visible')
+				cy.findByRole('button', { name: /download/i }).should('not.exist')
+			})
 	})
 })

@@ -164,9 +164,13 @@ class RetryJob extends Job {
 		$account = $this->accountManager->getAccount($user);
 
 		$publicData = [];
-		foreach ($account->getProperties() as $property) {
+		foreach ($account->getAllProperties() as $property) {
 			if ($property->getScope() === IAccountManager::SCOPE_PUBLISHED) {
-				$publicData[$property->getName()] = $property->getValue();
+				$publicData[$property->getName()] = [
+					'value' => $property->getValue(),
+					'verified' => $property->getVerified(),
+					'signature' => $property->getVerificationData(),
+				];
 			}
 		}
 
