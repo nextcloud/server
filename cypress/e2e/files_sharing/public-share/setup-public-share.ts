@@ -122,15 +122,24 @@ export function createShare(context: ShareContext, shareName: string, options: S
 }
 
 /**
- * Adjust share permissions to be editable
+ * open link share details for specific index
+ *
+ * @param index
  */
-function adjustSharePermission(): void {
+export function openLinkShareDetails(index: number) {
 	cy.findByRole('list', { name: 'Link shares' })
 		.findAllByRole('listitem')
-		.first()
+		.eq(index)
 		.findByRole('button', { name: /Actions/i })
 		.click()
 	cy.findByRole('menuitem', { name: /Customize link/i }).click()
+}
+
+/**
+ * Adjust share permissions to be editable
+ */
+function adjustSharePermission(): void {
+	openLinkShareDetails(0)
 
 	cy.get('[data-cy-files-sharing-share-permissions-bundle]').should('be.visible')
 	cy.get('[data-cy-files-sharing-share-permissions-bundle="upload-edit"]').click()
