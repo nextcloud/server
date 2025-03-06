@@ -37,6 +37,9 @@ if (!process.env.CHROMIUM_BIN) {
 	process.env.CHROMIUM_BIN = require('puppeteer').executablePath()
 }
 
+const webpack = require('webpack');
+const webpackEnvironmentPlugin = new webpack.EnvironmentPlugin({ NODE_ENV: 'production' });
+
 /* jshint node: true */
 module.exports = function(config) {
 	function findApps() {
@@ -189,6 +192,8 @@ module.exports = function(config) {
 		served: true
 	});
 
+	files.unshift('tests/karma.setup.js');
+
 	console.log(files)
 
 	config.set({
@@ -230,6 +235,10 @@ module.exports = function(config) {
 		junitReporter: {
 			outputFile: 'tests/autotest-results-js.xml'
 		},
+
+		webpack: {
+            plugins: [ webpackEnvironmentPlugin ]
+        },
 
 		// web server port
 		port: 9876,

@@ -45,7 +45,7 @@
     "@nextcloud/browserslist-config": "^3.0.1",
     "@nextcloud/calendar-availability-vue": "^2.2.6",
     "@nextcloud/capabilities": "^1.2.0",
-    "@nextcloud/dialogs": "^5.3.8",
+    "@nextcloud/dialogs": "^6.1.1",
     "@nextcloud/event-bus": "^3.3.1",
     "@nextcloud/files": "^3.10.2",
     "@nextcloud/initial-state": "^2.2.0",
@@ -118,6 +118,8 @@
   },
   "devDependencies": {
     "@babel/node": "^7.22.10",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-transform-private-methods": "^7.25.9",
     "@babel/preset-typescript": "^7.23.2",
     "@cypress/vue2": "^2.1.1",
     "@cypress/webpack-preprocessor": "^6.0.2",
