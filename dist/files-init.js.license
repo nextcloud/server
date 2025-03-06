@@ -12,7 +12,6 @@ SPDX-FileCopyrightText: assert developers
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
-SPDX-FileCopyrightText: Stefan-Gabriel Muscalu <stefan.gabriel.muscalu@gmail.com>
 SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
@@ -61,7 +60,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.0.1
+	- version: 6.1.1
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
@@ -94,7 +93,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.1
 	- license: MIT
 - @nextcloud/upload
-	- version: 1.8.0
+	- version: 1.9.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/vue
 	- version: 8.23.1
@@ -115,7 +114,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.9
+	- version: 1.8.1
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -245,9 +244,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - set-function-length
 	- version: 1.2.2
-	- license: MIT
-- simple-eta
-	- version: 3.0.2
 	- license: MIT
 - style-loader
 	- version: 3.3.4
