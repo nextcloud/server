@@ -173,6 +173,11 @@ module.exports = {
 			// break if two separate versions of the library are used (e.g. bundled one
 			// and global one).
 			ICAL: 'ical.js',
+
+			// Make a global `process` variable that points to the `process` package,
+			// because the `util` package expects there to be a global variable named `process`.
+			// Thanks to https://stackoverflow.com/a/65018686/14239942
+			process: 'process/browser.js'
 		}),
 
 		new WorkboxPlugin.GenerateSW({
