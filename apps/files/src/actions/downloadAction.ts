@@ -19,8 +19,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import type { Node, View } from '@nextcloud/files'
 import { generateUrl } from '@nextcloud/router'
-import { FileAction, Permission, Node, FileType, View, DefaultType } from '@nextcloud/files'
+import { FileAction, Permission, FileType, DefaultType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
 
@@ -110,7 +111,7 @@ export const action = new FileAction({
 	displayName: () => t('files', 'Download'),
 	iconSvgInline: () => ArrowDownSvg,
 
-	enabled(nodes: Node[]) {
+	enabled(nodes: Node[], view: View) {
 		if (nodes.length === 0) {
 			return false
 		}
@@ -120,6 +121,11 @@ export const action = new FileAction({
 		// endpoint, which only supports user root folder.
 		if (nodes.some(node => node.type === FileType.Folder)
 			&& nodes.some(node => !node.root?.startsWith('/files'))) {
+			return false
+		}
+
+		// Trashbin does not allow batch download
+		if (nodes.length > 1 && view.id === 'trashbin') {
 			return false
 		}
 
