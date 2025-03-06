@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV;
 
-use DateTimeInterface;
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\ITip\Broker;
@@ -31,26 +30,54 @@ class TipBroker extends Broker {
 		'LOCATION',
 	];
 
-	private const SINGLETON_PROPERTIES = [
-		'UID',
-		'DTSTAMP',
-		'CREATED',
-		'LAST-MODIFIED',
-		'DTSTART',
-		'DTEND',
-		'DURATION',
-		'RRULE',
-		'STATUS',
-		'CLASS',
-		'PRIORITY',
-		'TRANSP',
-		'ORGANIZER',
-		'SUMMARY',
-		'DESCRIPTION',
-		'GEO',
-		'LOCATION',
-	];
-	
+	/**
+	 * Processes incoming CANCEL messages.
+	 *
+	 * This is a message from an organizer, and means that either an
+	 * attendee got removed from an event, or an event got cancelled
+	 * altogether.
+	 *
+	 * @param VCalendar $existingObject
+	 *
+	 * @return VCalendar|null
+	 */
+	protected function processMessageCancel(Message $itipMessage, ?VCalendar $existingObject = null) {
+		if ($existingObject === null) {
+			return null;
+		}
+
+		$componentType = $itipMessage->component;
+		$instances = [];
+
+		foreach ($itipMessage->message->$componentType as $component) {
+			$instanceId = isset($component->{'RECURRENCE-ID'}) ? $component->{'RECURRENCE-ID'}->getValue() : 'base';
+			$instances[$instanceId] = $component;
+		}
+		// any existing instances should be marked as cancelled
+		foreach ($existingObject->$componentType as $component) {
+			$instanceId = isset($component->{'RECURRENCE-ID'}) ? $component->{'RECURRENCE-ID'}->getValue() : 'base';
+			if (isset($instances[$instanceId])) {
+				if (isset($component->STATUS)) {
+					$component->STATUS->setValue('CANCELLED');
+				} else {
+					$component->add('STATUS', 'CANCELLED');
+				}
+				if (isset($component->SEQUENCE)) {
+					$component->SEQUENCE->setValue($itipMessage->sequence);
+				} else {
+					$component->add('SEQUENCE', $itipMessage->sequence);
+				}
+				unset($instances[$instanceId]);
+			}
+		}
+		// any remaining instances are new and should be added
+		foreach ($instances as $instance) {
+			$existingObject->add($instance);
+		}
+
+		return $existingObject;
+	}
+
 	/**
 	 * This method is used in cases where an event got updated, and we
 	 * potentially need to send emails to attendees to let them know of updates
@@ -62,9 +89,9 @@ class TipBroker extends Broker {
 	 * @return array
 	 */
 	protected function parseEventForOrganizer(VCalendar $calendar, array $eventInfo, array $oldEventInfo) {
-		$originalInstances = $oldEventInfo['instances'] ?? [];
-		$mutatedInstances = $eventInfo['instances'] ?? [];
+
 		$messages = [];
+
 		// construct template calendar from original calendar without components
 		$template = new VCalendar();
 		foreach ($template->children() as $property) {
@@ -75,215 +102,117 @@ class TipBroker extends Broker {
 				$template->add(clone $property);
 			}
 		}
-
-		// detect deletions of singleton or recurring (base) event
-		// detect conversion of singleton or recurring (base) event from attended to attendeeless
-		if (count($eventInfo['attendees']) === 0 && count($oldEventInfo['attendees']) > 0) {
-			$component = clone $calendar->getBaseComponent();
-			$component->remove('ATTENDEE');
-			if ($component->ORGANIZER === null) {
-				$component->add(clone $originalInstances['master']->ORGANIZER);
+		// extract event information
+		$objectId = $eventInfo['uid'];
+		if ($calendar->getBaseComponent() === null) {
+			$objectType = $calendar->getComponents()[0]->name;
+		} else {
+			$objectType = $calendar->getBaseComponent()->name;
+		}
+		$objectSequence = $eventInfo['sequence'];
+		$organizerHref = $eventInfo['organizer'] ?? $oldEventInfo['organizer'];
+		if ($eventInfo['organizerName'] instanceof \Sabre\VObject\Parameter) {
+			$organizerName = $eventInfo['organizerName']->getValue();
+		} else {
+			$organizerName = $eventInfo['organizerName'];
+		}
+		// detect if the singleton or recurring base instance was converted to non-scheduling
+		if (count($eventInfo['instances']) === 0 && count($oldEventInfo['instances'])> 0) {
+			foreach ($oldEventInfo['attendees'] as $attendee) {
+				$messages[] = $this->generateMessage(
+					$oldEventInfo['instances'], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template
+				);
 			}
-			$attendees = [];
-			foreach ($originalInstances as $instance) {
-				foreach ($instance->ATTENDEE as $attendee) {
-					$value = $attendee->getValue();
-					if (!isset($attendees[$value])) {
-						$component->add(clone $attendee);
-						$attendees[$value] = true;
+			return $messages;
+		}
+		// detect if the singleton or recurring base instance was cancelled
+		if ($eventInfo['instances']['master']?->STATUS?->getValue() === 'CANCELLED' && $oldEventInfo['instances']['master']?->STATUS?->getValue() !== 'CANCELLED') {
+			foreach ($eventInfo['attendees'] as $attendee) {
+				$messages[] = $this->generateMessage(
+					$eventInfo['instances'], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template
+				);
+			}
+			return $messages;
+		}
+		// detect if a new cancelled instance was created
+		if (isset($oldEventInfo['instances'])) {
+			$instancesDelta = array_diff_key($eventInfo['instances'], $oldEventInfo['instances']);
+			foreach ($instancesDelta as $id => $instance) {
+				if ($instance->STATUS?->getValue() === 'CANCELLED') {
+					foreach ($eventInfo['attendees'] as $attendee) {
+						$messages[] = $this->generateMessage(
+							[$instance], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template
+						);
 					}
 				}
 			}
-			return $this->instanceCancelledByOrganizer($component, $template);
 		}
-
-		foreach ($mutatedInstances as $mutatedInstanceId => $mutatedInstance) {
-			if ($mutatedInstance->ORGANIZER['SCHEDULE-AGENT'] !== null && $mutatedInstance->ORGANIZER['SCHEDULE-AGENT'] !== 'SERVER') {
+		// detect attendee mutations
+		$attendees = array_unique(
+			array_merge(
+				array_keys($eventInfo['attendees']),
+				array_keys($oldEventInfo['attendees'])
+			)
+		);
+		foreach ($attendees as $attendee) {
+			// detect if attendee was removed and send cancel message
+			if (!isset($eventInfo['attendees'][$attendee]) && isset($oldEventInfo['attendees'][$attendee])) {
+				//get all instances of the attendee was removed from.
+				$instances = array_intersect_key($oldEventInfo['instances'], array_flip(array_keys($oldEventInfo['attendees'][$attendee]['instances'])));
+				$messages[] = $this->generateMessage(
+					$instances, $organizerHref, $organizerName, $oldEventInfo['attendees'][$attendee], $objectId, $objectType, $objectSequence, 'CANCEL', $template
+				);
 				continue;
 			}
-			
-			$originalInstance = $originalInstances[$mutatedInstanceId] ?? null;
-			$action = 'ALTERED';
-			
-			if ($mutatedInstance->STATUS?->getValue() === 'CANCELLED') {
-				if ($originalInstance?->STATUS?->getValue() !== 'CANCELLED') {
-					$action = 'CANCELLED';
-				} else {
-					continue;
-				}
-			}
-
-			$messages = array_merge($messages, match ($action) {
-				'ALTERED' => $this->instanceCreatedOrModifiedByOrganizer($mutatedInstance, $template, $originalInstance),
-				'CANCELLED' => $this->instanceCancelledByOrganizer($mutatedInstance, $template),
-				default => [],
-			});
-		}
-
-		return $messages;
-	}
-
-	protected function instanceCreatedOrModifiedByOrganizer(Component $mutated, VCalendar $template, ?Component $original = null): array {
-	
-		$component = clone $mutated;
-		$componentDelta = $this->componentDelta($mutated, $original);
-		$componentDeltaSignificant = count(array_intersect(array_keys($componentDelta), $this->significantChangeProperties)) > 0;
-
-		if ($componentDelta === []) {
-			return [];
-		}
-
-		$attendeesDelta = $this->propertyDeltaAttendee($mutated, $original);
-		
-		// If the mutated object does not have an organizer, the organizer
-		// changed the object from a scheduling object to a non-scheduling object
-		if (!isset($component->ORGANIZER) && isset($original->ORGANIZER)) {
-			$component->add($original->ORGANIZER);
-		}
-		$senderAddress = $component->ORGANIZER->getValue();
-		$senderName = $component->ORGANIZER['CN']->getValue() ?? null;
-
-		$component = $this->componentSanitizeScheduling($component);
-		
-		$messages = [];
-		foreach ($attendeesDelta as $type => $attendees) {
-			$method = match ($type) {
-				'Removed' => 'CANCEL',
-				default => 'REQUEST',
-			};
-			foreach ($attendees as $attendee) {
-				$recipientAddress = $attendee->getValue();
-				$recipientName = $attendee['CN']?->getValue() ?? null;
-				
-				if ($senderAddress === $recipientAddress) {
-					continue;
-				}
-				if ($attendee['SCHEDULE-AGENT'] !== null && $attendee['SCHEDULE-AGENT'] !== 'SERVER') {
-					continue;
-				}
-				if ($attendee['SCHEDULE-FORCE-SEND'] !== null) {
-					$method = $attendee['SCHEDULE-FORCE-SEND'];
-				}
-
-				$messages[] = $this->generateMessage(
-					$method,
-					$senderAddress,
-					$senderName,
-					$recipientAddress,
-					$recipientName,
-					$component,
-					$template,
-					$componentDeltaSignificant
-				);
-			}
-		}
-
-		return $messages;
-
-	}
-
-	protected function instanceCancelledByOrganizer(Component $instance, VCalendar $template): array {
-
-		$messages = [];
-		// instance must contain sender and recipient
-		if (!isset($instance->ORGANIZER) || !isset($instance->ATTENDEE)) {
-			return $messages;
-		}
-		$component = clone $instance;
-		$component = $this->componentSanitizeScheduling($component);
-		$senderAddress = $instance->ORGANIZER->getValue();
-		$senderName = $instance->ORGANIZER->parameters()['CN']->getValue() ?? '';
-
-		foreach ($instance->ATTENDEE as $attendee) {
-			$recipientAddress = $attendee->getValue();
-			$recipientName = $attendee->parameters()['CN']->getValue() ?? '';
+			// otherwise any created or modified instances will be sent as REQUEST
+			$instances = array_intersect_key($eventInfo['instances'], array_flip(array_keys($eventInfo['attendees'][$attendee]['instances'])));
 			$messages[] = $this->generateMessage(
-				'CANCEL',
-				$senderAddress,
-				$senderName,
-				$recipientAddress,
-				$recipientName,
-				$component,
-				$template
+				$instances, $organizerHref, $organizerName, $eventInfo['attendees'][$attendee], $objectId, $objectType, $objectSequence, 'REQUEST', $template
 			);
 		}
 
 		return $messages;
-
 	}
 
-	protected function componentDelta(Component $mutated, ?Component $original = null): array {
-		$list = [];
-		// construct list of mutated properties
-		$propertyNames = $this->componentPropertyNames($mutated);
-		foreach ($propertyNames as $propertyName) {
-			// properties can be singleton and have multiple instances they need to be handle differently
-			if (in_array($propertyName, self::SINGLETON_PROPERTIES, true)) {
-				$list[$propertyName] = ['mutated' => $mutated->$propertyName, 'original' => null];
-			} else {
-				$list[$propertyName] = ['mutated' => $mutated->select($propertyName), 'original' => null];
-			}
-		}
-		if ($original === null) {
-			return $list;
-		}
-		// compare mutated properties with original properties
-		$propertyNames = $this->componentPropertyNames($original);
-		foreach ($propertyNames as $propertyName) {
-			$propertyDelta = false;
-			if (isset($list[$propertyName])) {
-				// properties can be singleton and have multiple instances they need to be handle differently
-				if (in_array($propertyName, self::SINGLETON_PROPERTIES, true)) {
-					if ($list[$propertyName]['mutated']->getValue() !== $original->$propertyName->getValue()) {
-						$list[$propertyName]['original'] = $original->$propertyName;
-						$propertyDelta = true;
-					}
-				} else {
-					$propertyInstances = $original->select($propertyName);
-					// determine if any property instances where created or deleted
-					if (count($list[$propertyName]['mutated']) !== count($propertyInstances)) {
-						$list[$propertyName]['original'] = $propertyInstances;
-						$propertyDelta = true;
-					}
-					// determine if any property instances where modified
-					else {
-						foreach ($propertyInstances as $originalPropertyInstance) {
-							$propertyInstanceDelta = true;
-							foreach ($list[$propertyName]['mutated'] as $mutatedPropertyInstance) {
-								if ($originalPropertyInstance->getValue() === $mutatedPropertyInstance->getValue()) {
-									$propertyInstanceDelta = false;
-									break;
-								}
-							}
-							// if even one instance is different mark the entire property as mutated
-							if ($propertyInstanceDelta) {
-								$list[$propertyName]['original'] = $propertyInstances;
-								$propertyDelta = true;
-								break;
-							}
-						}
-					}
-					unset($propertyInstances, $originalPropertyInstance, $mutatedPropertyInstance);
-				}
-				// if no changes where detected remove the property from the list
-				// otherwise update the list with the original property
-				if ($propertyDelta === false) {
-					unset($list[$propertyName]);
-				}
-			} else {
-				$list[$propertyName] = ['mutated' => null, 'original' => $original->$propertyName];
-			}
-		}
+	protected function generateMessage(
+		array $instances,
+		string $organizerHref,
+		?string $organizerName,
+		array $attendee,
+		string $objectId,
+		string $objectType,
+		int $objectSequence,
+		string $method,
+		VCalendar $template,
+	): Message {
 
-		return $list;
-	}
+		$recipientAddress = $attendee['href'] ?? '';
+		$recipientName = $attendee['name'] ?? '';
 
-	protected function componentPropertyNames(Component $component): array {
-		$names = [];
-		foreach ($component->children() as $property) {
-			$names[strtoupper($property->name)] = true;
+		$vObject = clone $template;
+		if ($vObject->METHOD && $vObject->METHOD->getValue() !== $method) {
+			$vObject->METHOD->setValue($method);
+		} else {
+			$vObject->add('METHOD', $method);
 		}
-		return array_keys($names);
+		foreach ($instances as $instance) {
+			$vObject->add($this->componentSanitizeScheduling(clone $instance));
+		}
+		
+		$message = new Message();
+		$message->method = $method;
+		$message->uid = $objectId;
+		$message->component = $objectType;
+		$message->sequence = $objectSequence;
+		$message->sender = $organizerHref;
+		$message->senderName = $organizerName;
+		$message->recipient = $recipientAddress;
+		$message->recipientName = $recipientName;
+		$message->significantChange = true;
+		$message->message = $vObject;
+
+		return $message;
+
 	}
 
 	protected function componentSanitizeScheduling(Component $component): Component {
@@ -305,76 +234,4 @@ class TipBroker extends Broker {
 		return $component;
 	}
 
-	protected function propertyDeltaAttendee(Component $mutated, ?Component $original = null): array {
-
-		$mutatedAttendees = $mutated->select('ATTENDEE');
-		$originalAttendees = $original !== null ? $original->select('ATTENDEE') : [];
-
-		$delta = ['Added' => [], 'Removed' => [], 'Extant' => []];
-		$delta['Added'] = array_diff($mutatedAttendees, $originalAttendees);
-		$delta['Removed'] = array_diff($originalAttendees, $mutatedAttendees);
-		$delta['Extant'] = array_diff($mutatedAttendees, $delta['Added'], $delta['Removed']);
-
-		return $delta;
-	}
-
-	protected function propertyDeltaExdate(Component $mutated, ?Component $original = null): array {
-
-		$mutatedDates = [];
-		$originalDates = [];
-
-		foreach ($mutated->select('EXDATE') as $instance) {
-			foreach ($instance->getDateTimes() as $date) {
-				$mutatedDates[] = $date->format(DateTimeInterface::W3C);
-			}
-		}
-		if ($original !== null) {
-			foreach ($original->select('EXDATE') as $instance) {
-				foreach ($instance->getDateTimes() as $date) {
-					$originalDates[] = $date->format(DateTimeInterface::W3C);
-				}
-			}
-		}
-
-		$delta = ['Added' => [], 'Removed' => [], 'Extant' => []];
-		$delta['Added'] = array_diff($mutatedDates, $originalDates);
-		$delta['Removed'] = array_diff($originalDates, $mutatedDates);
-		$delta['Extant'] = array_diff($mutatedDates, $delta['Added'], $delta['Removed']);
-
-		return $delta;
-	}
-
-	protected function generateMessage(
-		string $method,
-		string $senderAddress,
-		string $senderName,
-		string $recipientAddress,
-		string $recipientName,
-		Component $component,
-		VCalendar $template,
-		bool $significant = true,
-	): Message {
-		$instance = clone $component;
-
-		if ($instance->METHOD && $instance->METHOD->getValue() !== $method) {
-			$instance->METHOD->setValue($method);
-		} else {
-			$instance->add('METHOD', $method);
-		}
-		
-		$message = new Message();
-		$message->method = $method;
-		$message->uid = $instance->UID->getValue();
-		$message->component = $instance->name;
-		$message->sequence = (int)$instance->SEQUENCE->getValue();
-		$message->sender = $senderAddress;
-		$message->senderName = $senderName;
-		$message->recipient = $recipientAddress;
-		$message->recipientName = $recipientName;
-		$message->significantChange = $significant;
-		$message->message = clone $template;
-		$message->message->add($instance);
-
-		return $message;
-	}
 }

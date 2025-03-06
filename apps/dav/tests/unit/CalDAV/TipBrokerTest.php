@@ -36,7 +36,7 @@ class TipBrokerTest extends TestCase {
 		$vEvent->add('DTSTAMP', '20240701T000000Z');
 		$vEvent->add('CREATED', '20240701T000000Z');
 		$vEvent->add('LAST-MODIFIED', '20240701T000000Z');
-		$vEvent->add('SEQUENCE', '1');
+		$vEvent->add('SEQUENCE', 1);
 		$vEvent->add('STATUS', 'CONFIRMED');
 		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
 		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'America/Toronto']);
@@ -59,7 +59,7 @@ class TipBrokerTest extends TestCase {
 		$vEvent->add('DTSTAMP', '20240701T000000Z');
 		$vEvent->add('CREATED', '20240701T000000Z');
 		$vEvent->add('LAST-MODIFIED', '20240701T000000Z');
-		$vEvent->add('SEQUENCE', '1');
+		$vEvent->add('SEQUENCE', 1);
 		$vEvent->add('STATUS', 'CONFIRMED');
 		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
 		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'America/Toronto']);
@@ -173,10 +173,10 @@ class TipBrokerTest extends TestCase {
 		$this->assertCount(2, $messages);
 		$this->assertEquals('REQUEST', $messages[0]->method);
 		$this->assertEquals($mutatedCalendar->VEVENT->ORGANIZER->getValue(), $messages[0]->sender);
-		$this->assertEquals($mutatedCalendar->VEVENT->ATTENDEE[1]->getValue(), $messages[0]->recipient);
+		$this->assertEquals($mutatedCalendar->VEVENT->ATTENDEE[0]->getValue(), $messages[0]->recipient);
 		$this->assertEquals('REQUEST', $messages[1]->method);
 		$this->assertEquals($mutatedCalendar->VEVENT->ORGANIZER->getValue(), $messages[1]->sender);
-		$this->assertEquals($mutatedCalendar->VEVENT->ATTENDEE[0]->getValue(), $messages[1]->recipient);
+		$this->assertEquals($mutatedCalendar->VEVENT->ATTENDEE[1]->getValue(), $messages[1]->recipient);
 	}
 
 	/**
@@ -209,12 +209,12 @@ class TipBrokerTest extends TestCase {
 		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
 		// attendee modifications get generated in order of Added, Removed, Existing
 		$this->assertCount(2, $messages);
-		$this->assertEquals('CANCEL', $messages[0]->method);
+		$this->assertEquals('REQUEST', $messages[0]->method);
 		$this->assertEquals($mutatedCalendar->VEVENT->ORGANIZER->getValue(), $messages[0]->sender);
-		$this->assertEquals('mailto:attendee2@testing.com', $messages[0]->recipient);
-		$this->assertEquals('REQUEST', $messages[1]->method);
+		$this->assertEquals($mutatedCalendar->VEVENT->ATTENDEE[0]->getValue(), $messages[0]->recipient);
+		$this->assertEquals('CANCEL', $messages[1]->method);
 		$this->assertEquals($mutatedCalendar->VEVENT->ORGANIZER->getValue(), $messages[1]->sender);
-		$this->assertEquals($mutatedCalendar->VEVENT->ATTENDEE[0]->getValue(), $messages[1]->recipient);
+		$this->assertEquals('mailto:attendee2@testing.com', $messages[1]->recipient);
 	}
 
 
@@ -261,11 +261,11 @@ class TipBrokerTest extends TestCase {
 		// attendee modifications get generated in order of Added, Removed, Existing
 		$this->assertCount(1, $messages);
 		$this->assertEquals('REQUEST', $messages[0]->method);
-		$this->assertEquals(0, $messages[0]->sequence);
+		$this->assertEquals(1, $messages[0]->sequence);
 		$this->assertEquals($mutatedCalendar->VEVENT->ORGANIZER->getValue(), $messages[0]->sender);
 		$this->assertEquals($mutatedCalendar->VEVENT->ATTENDEE[0]->getValue(), $messages[0]->recipient);
-		$this->assertCount(1, $messages[0]->message->VEVENT);
-		$this->assertEquals('20240715T080000', $messages[0]->message->VEVENT->{'RECURRENCE-ID'}->getValue());
+		$this->assertCount(2, $messages[0]->message->VEVENT);
+		$this->assertEquals('20240715T080000', $messages[0]->message->VEVENT[1]->{'RECURRENCE-ID'}->getValue());
 
 	}
 
@@ -286,9 +286,9 @@ class TipBrokerTest extends TestCase {
 		// test iTip generation
 		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
 		// attendee modifications get generated in order of Added, Removed, Existing
-		$this->assertCount(1, $messages);
+		$this->assertCount(2, $messages);
 		$this->assertEquals('CANCEL', $messages[0]->method);
-		$this->assertEquals(0, $messages[0]->sequence);
+		$this->assertEquals(1, $messages[0]->sequence);
 		$this->assertEquals($mutatedCalendar->VEVENT[1]->ORGANIZER->getValue(), $messages[0]->sender);
 		$this->assertEquals($mutatedCalendar->VEVENT[1]->ATTENDEE[0]->getValue(), $messages[0]->recipient);
 		$this->assertCount(1, $messages[0]->message->VEVENT);
@@ -322,11 +322,11 @@ class TipBrokerTest extends TestCase {
 		// attendee modifications get generated in order of Added, Removed, Existing
 		$this->assertCount(1, $messages);
 		$this->assertEquals('REQUEST', $messages[0]->method);
-		$this->assertEquals(2, $messages[0]->sequence);
+		$this->assertEquals(1, $messages[0]->sequence);
 		$this->assertEquals($mutatedCalendar->VEVENT[1]->ORGANIZER->getValue(), $messages[0]->sender);
 		$this->assertEquals($mutatedCalendar->VEVENT[1]->ATTENDEE[0]->getValue(), $messages[0]->recipient);
-		$this->assertCount(1, $messages[0]->message->VEVENT);
-		$this->assertEquals('20240715T080000', $messages[0]->message->VEVENT->{'RECURRENCE-ID'}->getValue());
+		$this->assertCount(2, $messages[0]->message->VEVENT);
+		$this->assertEquals('20240715T080000', $messages[0]->message->VEVENT[1]->{'RECURRENCE-ID'}->getValue());
 
 	}
 
@@ -353,12 +353,12 @@ class TipBrokerTest extends TestCase {
 		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
 		// attendee modifications get generated in order of Added, Removed, Existing
 		$this->assertCount(1, $messages);
-		$this->assertEquals('CANCEL', $messages[0]->method);
-		$this->assertEquals(2, $messages[0]->sequence);
+		$this->assertEquals('REQUEST', $messages[0]->method);
+		$this->assertEquals(1, $messages[0]->sequence);
 		$this->assertEquals($mutatedCalendar->VEVENT[1]->ORGANIZER->getValue(), $messages[0]->sender);
 		$this->assertEquals($mutatedCalendar->VEVENT[1]->ATTENDEE[0]->getValue(), $messages[0]->recipient);
-		$this->assertCount(1, $messages[0]->message->VEVENT);
-		$this->assertEquals('20240715T080000', $messages[0]->message->VEVENT->{'RECURRENCE-ID'}->getValue());
+		$this->assertCount(2, $messages[0]->message->VEVENT);
+		$this->assertEquals('20240715T080000', $messages[0]->message->VEVENT[1]->{'RECURRENCE-ID'}->getValue());
 
 	}
 
@@ -392,15 +392,15 @@ class TipBrokerTest extends TestCase {
 		// attendee modifications get generated in order of Added, Removed, Existing
 		$this->assertCount(2, $messages);
 		$this->assertEquals('REQUEST', $messages[0]->method);
-		$this->assertEquals(2, $messages[0]->sequence);
+		$this->assertEquals(1, $messages[0]->sequence);
 		$this->assertEquals($mutatedCalendar->VEVENT[1]->ORGANIZER->getValue(), $messages[0]->sender);
-		$this->assertEquals($mutatedCalendar->VEVENT[1]->ATTENDEE[1]->getValue(), $messages[0]->recipient);
-		$this->assertCount(1, $messages[0]->message->VEVENT);
-		$this->assertEquals('20240715T080000', $messages[0]->message->VEVENT->{'RECURRENCE-ID'}->getValue());
+		$this->assertEquals($mutatedCalendar->VEVENT[1]->ATTENDEE[0]->getValue(), $messages[0]->recipient);
+		$this->assertCount(2, $messages[0]->message->VEVENT);
+		$this->assertEquals('20240715T080000', $messages[0]->message->VEVENT[1]->{'RECURRENCE-ID'}->getValue());
 		$this->assertEquals('REQUEST', $messages[1]->method);
-		$this->assertEquals(2, $messages[1]->sequence);
+		$this->assertEquals(1, $messages[1]->sequence);
 		$this->assertEquals($mutatedCalendar->VEVENT[1]->ORGANIZER->getValue(), $messages[1]->sender);
-		$this->assertEquals($mutatedCalendar->VEVENT[1]->ATTENDEE[0]->getValue(), $messages[1]->recipient);
+		$this->assertEquals($mutatedCalendar->VEVENT[1]->ATTENDEE[1]->getValue(), $messages[1]->recipient);
 		$this->assertCount(1, $messages[1]->message->VEVENT);
 		$this->assertEquals('20240715T080000', $messages[1]->message->VEVENT->{'RECURRENCE-ID'}->getValue());
 
@@ -443,16 +443,16 @@ class TipBrokerTest extends TestCase {
 		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
 		// attendee modifications get generated in order of Added, Removed, Existing
 		$this->assertCount(2, $messages);
-		$this->assertEquals('CANCEL', $messages[0]->method);
-		$this->assertEquals(2, $messages[0]->sequence);
+		$this->assertEquals('REQUEST', $messages[0]->method);
+		$this->assertEquals(1, $messages[0]->sequence);
 		$this->assertEquals($originalCalendar->VEVENT[1]->ORGANIZER->getValue(), $messages[0]->sender);
-		$this->assertEquals($originalCalendar->VEVENT[1]->ATTENDEE[1]->getValue(), $messages[0]->recipient);
-		$this->assertCount(1, $messages[0]->message->VEVENT);
-		$this->assertEquals('20240715T080000', $messages[0]->message->VEVENT->{'RECURRENCE-ID'}->getValue());
-		$this->assertEquals('REQUEST', $messages[1]->method);
-		$this->assertEquals(2, $messages[1]->sequence);
+		$this->assertEquals($originalCalendar->VEVENT[1]->ATTENDEE[0]->getValue(), $messages[0]->recipient);
+		$this->assertCount(2, $messages[0]->message->VEVENT);
+		$this->assertEquals('20240715T080000', $messages[0]->message->VEVENT[1]->{'RECURRENCE-ID'}->getValue());
+		$this->assertEquals('CANCEL', $messages[1]->method);
+		$this->assertEquals(1, $messages[1]->sequence);
 		$this->assertEquals($originalCalendar->VEVENT[1]->ORGANIZER->getValue(), $messages[1]->sender);
-		$this->assertEquals($originalCalendar->VEVENT[1]->ATTENDEE[0]->getValue(), $messages[1]->recipient);
+		$this->assertEquals($originalCalendar->VEVENT[1]->ATTENDEE[1]->getValue(), $messages[1]->recipient);
 		$this->assertCount(1, $messages[1]->message->VEVENT);
 		$this->assertEquals('20240715T080000', $messages[1]->message->VEVENT->{'RECURRENCE-ID'}->getValue());
 
