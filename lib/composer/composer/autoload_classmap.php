@@ -798,6 +798,7 @@ return array(
     'OCP\\SystemTag\\TagAlreadyExistsException' => $baseDir . '/lib/public/SystemTag/TagAlreadyExistsException.php',
     'OCP\\SystemTag\\TagCreationForbiddenException' => $baseDir . '/lib/public/SystemTag/TagCreationForbiddenException.php',
     'OCP\\SystemTag\\TagNotFoundException' => $baseDir . '/lib/public/SystemTag/TagNotFoundException.php',
+    'OCP\\SystemTag\\TagUpdateForbiddenException' => $baseDir . '/lib/public/SystemTag/TagUpdateForbiddenException.php',
     'OCP\\Talk\\Exceptions\\NoBackendException' => $baseDir . '/lib/public/Talk/Exceptions/NoBackendException.php',
     'OCP\\Talk\\IBroker' => $baseDir . '/lib/public/Talk/IBroker.php',
     'OCP\\Talk\\IConversation' => $baseDir . '/lib/public/Talk/IConversation.php',

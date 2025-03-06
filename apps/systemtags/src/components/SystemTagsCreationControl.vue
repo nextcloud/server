@@ -6,17 +6,17 @@
 <template>
 	<div id="system-tags-creation-control">
 		<h4 class="inlineblock">
-			{{ t('settings', 'System tag creation') }}
+			{{ t('settings', 'System tag management') }}
 		</h4>
 
 		<p class="settings-hint">
-			{{ t('settings', 'If enabled, regular accounts will be restricted from creating new tags but will still be able to assign and remove them from their files.') }}
+			{{ t('settings', 'If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files.') }}
 		</p>
 
 		<NcCheckboxRadioSwitch type="switch"
 			:checked.sync="systemTagsCreationRestrictedToAdmin"
 			@update:checked="updateSystemTagsDefault">
-			{{ t('settings', 'Restrict tag creation to admins only') }}
+			{{ t('settings', 'Restrict tag creation and editing to administrators') }}
 		</NcCheckboxRadioSwitch>
 	</div>
 </template>
@@ -25,8 +25,9 @@
 import { loadState } from '@nextcloud/initial-state'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
-import logger from '../logger.ts'
+
 import { updateSystemTagsAdminRestriction } from '../services/api.js'
+import logger from '../logger.ts'
 
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
@@ -37,14 +38,19 @@ export default {
 		NcCheckboxRadioSwitch,
 	},
 
+	setup() {
+		return {
+			t,
+		}
+	},
+
 	data() {
 		return {
 			// By default, system tags creation is not restricted to admins
-			systemTagsCreationRestrictedToAdmin: loadState('settings', 'restrictSystemTagsCreationToAdmin', '0') === '1',
+			systemTagsCreationRestrictedToAdmin: loadState('settings', 'restrictSystemTagsCreationToAdmin', false),
 		}
 	},
 	methods: {
-		t,
 		async updateSystemTagsDefault(isRestricted: boolean) {
 			try {
 				const responseData = await updateSystemTagsAdminRestriction(isRestricted)

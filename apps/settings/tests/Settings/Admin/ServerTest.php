@@ -85,6 +85,10 @@ class ServerTest extends TestCase {
 			->expects($this->any())
 			->method('getValueString')
 			->willReturnCallback(fn ($a, $b, $default) => $default);
+		$this->appConfig
+			->expects($this->any())
+			->method('getValueBool')
+			->willReturnCallback(fn ($a, $b, $default) => $default);
 		$this->profileManager
 			->expects($this->exactly(2))
 			->method('isProfileEnabled')

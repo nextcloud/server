@@ -9,12 +9,8 @@ import { FileAction } from '@nextcloud/files'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import { spawnDialog } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
-import { getCurrentUser } from '@nextcloud/auth'
-import { loadState } from '@nextcloud/initial-state'
 
 import TagMultipleSvg from '@mdi/svg/svg/tag-multiple.svg?raw'
-
-const restrictSystemTagsCreationToAdmin = loadState<'0'|'1'>('settings', 'restrictSystemTagsCreationToAdmin', '0') === '1'
 
 /**
  * Spawn a dialog to add or remove tags from multiple nodes.
@@ -38,11 +34,6 @@ export const action = new FileAction({
 
 	// If the app is disabled, the action is not available anyway
 	enabled(nodes) {
-		// By default, everyone can create system tags
-		if (restrictSystemTagsCreationToAdmin && getCurrentUser()?.isAdmin !== true) {
-			return false
-		}
-
 		if (isPublicShare()) {
 			return false
 		}
