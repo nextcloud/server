@@ -567,6 +567,7 @@
     "Confirm enabling encryption" : "確認啟用加密",
     "Please read carefully before activating server-side encryption:" : "在您啟動伺服器端加密之前，請仔細閱讀：",
     "Once encryption is enabled, all files uploaded to the server from that point forward will be encrypted at rest on the server. It will only be possible to disable encryption at a later date if the active encryption module supports that function, and all pre-conditions (e.g. setting a recover key) are met." : "一旦啟用加密，從那時開始上傳到伺服器的檔案都會被加密，若日後要停用加密，需要作用中加密模組的支援，而且所有的設定（例如：還原金鑰）都正確。",
+    "By default a master key for the whole instance will be generated. Please check if that level of access is compliant with your needs." : "預設情況下，將會產生整個實例的主控密鑰。請檢查存取權限是否符合您的需求。",
     "Encryption alone does not guarantee security of the system. Please see documentation for more information about how the encryption app works, and the supported use cases." : "單獨加密不能保證系統安全性。請參考加密應用程式運作原理，及支援的使用案例的文件，以取得更多資訊。",
     "Be aware that encryption always increases the file size." : "請注意，加密一定會增加檔案的大小。",
     "It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data." : "定時備份您的資料沒有壞處，若您有啟用加密，請確保您也有備份加密金鑰。",
