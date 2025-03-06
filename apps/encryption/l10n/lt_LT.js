@@ -47,7 +47,6 @@ OC.L10N.register(
     "Basic encryption module" : "Pagrindinis šifravimo modulis",
     "Your private key password no longer matches your log-in password." : "Jūsų privačiojo rakto slaptažodis daugiau nebeatitinka jūsų prisijungimo slaptažodžio.",
     "Set your old private key password to your current log-in password:" : "Nustatykite savo senąjį privačiojo rakto slaptažodį į savo dabartinį prisijungimo slaptažodį:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Jei nepamenate savo seno slaptažodžio, galite paprašyti sistemos administratoriaus atkurti jūsų duomenis.",
     "Old log-in password" : "Senas prisijungimo slaptažodis",
     "Current log-in password" : "Dabartinis prisijungimo slaptažodis",
     "Update Private Key Password" : "Atnaujinti privačiojo rakto slaptažodį",

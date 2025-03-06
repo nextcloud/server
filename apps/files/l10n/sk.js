@@ -426,7 +426,6 @@ OC.L10N.register(
     "An error occurred while trying to update the tags" : "Pri pokuse o aktualizáciu štítkov došlo k chybe",
     "Storage informations" : "Úložiskové informácie",
     "Choose file" : "Vybrať súbor",
-    "You don’t have permission to upload or create files here" : "Nemáte oprávnenie sem nahrávať alebo vytvoriť súbory",
     "Go to the previous folder" : "Prejsť do predchádzajúceho priečinka",
     "Open the files app settings" : "Otvoriť nastavenia súborovej aplikácie",
     "Unable to change the favourite state of the file" : "Nie je možné zmeniť stav „obľúbené“ daného súboru",

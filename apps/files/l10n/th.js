@@ -238,7 +238,6 @@ OC.L10N.register(
     "Not favorited" : "ไม่ได้เป็นรายการโปรด",
     "An error occurred while trying to update the tags" : "เกิดข้อผิดพลาดขณะกำลังพยายามอัปเดตแท็ก",
     "Storage informations" : "ข้อมูลพื้นที่จัดเก็บ",
-    "You don’t have permission to upload or create files here" : "คุณไม่ได้รับอนุญาตให้อัปโหลดหรือสร้างไฟล์ที่นี่",
     "Open the files app settings" : "เปิดการตั้งค่าแอปไฟล์",
     "Unable to change the favourite state of the file" : "ไม่สามารถเปลี่ยนสถานะรายการโปรดของไฟล์",
     "Text file" : "ไฟล์ข้อความ",

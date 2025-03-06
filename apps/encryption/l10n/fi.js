@@ -46,7 +46,6 @@ OC.L10N.register(
     "Basic encryption module" : "Perus salausmoduuli",
     "Your private key password no longer matches your log-in password." : "Salaisen avaimesi salasana ei enää vastaa kirjautumissalasanaasi.",
     "Set your old private key password to your current log-in password:" : "Aseta yksityisen avaimen vanha salasana vastaamaan nykyistä kirjautumissalasanaasi:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Jos et muista vanhaa salasanaasi, voit pyytää ylläpitäjää palauttamaan tiedostosi.",
     "Old log-in password" : "Vanha kirjautumissalasana",
     "Current log-in password" : "Nykyinen kirjautumissalasana",
     "Update Private Key Password" : "Päivitä yksityisen avaimen salasana",

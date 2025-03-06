@@ -251,7 +251,6 @@ OC.L10N.register(
     "Not favorited" : "No es un favorito",
     "An error occurred while trying to update the tags" : "Se presentó un error al intentar actualizar la etiqueta",
     "Storage informations" : "Información de almacenamiento.",
-    "You don’t have permission to upload or create files here" : "No cuentas con los permisos para cargar o crear archivos aquí",
     "Go to the previous folder" : "Ir a la carpeta anterior.",
     "Open the files app settings" : "Abrir la configuración de la aplicación de archivos.",
     "Unable to change the favourite state of the file" : "No se puede cambiar el estado de favorito del archivo.",

@@ -409,7 +409,6 @@ OC.L10N.register(
     "An error occurred while trying to update the tags" : "Errore bat gertatu da etiketak eguneratzen saiatzean",
     "Storage informations" : "Biltegiaren informazioak",
     "Choose file" : "Aukeratu fitxategia",
-    "You don’t have permission to upload or create files here" : "Ez duzu baimenik fitxategiak hona kargatu edo hemen sortzeko",
     "Go to the previous folder" : "Joan aurreko karpetara",
     "Open the files app settings" : "Ireki Fitxategiak aplikazioaren ezarpenak",
     "Unable to change the favourite state of the file" : "Ezin da fitxategiaren gogoko egoera aldatu",

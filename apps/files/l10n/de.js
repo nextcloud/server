@@ -440,7 +440,6 @@ OC.L10N.register(
     "You don't have permission to upload or create files here." : "Keine Berechtigung, hier Dateien hochzuladen oder zu erstellen.",
     "Storage informations" : "Speicherinformationen",
     "Choose file" : "Datei auswählen",
-    "You don’t have permission to upload or create files here" : "Du hast keine Berechtigung, hier Dateien hochzuladen oder zu erstellen",
     "Go to the previous folder" : "Zum vorherigen Ordner wechseln",
     "Open the files app settings" : "Einstellungen der Dateien-App öffnen",
     "Unable to change the favourite state of the file" : "Der Favorisiert-Status der Datei konnte nicht geändert werden",

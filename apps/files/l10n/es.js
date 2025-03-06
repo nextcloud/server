@@ -424,7 +424,6 @@ OC.L10N.register(
     "An error occurred while trying to update the tags" : "Se produjo un error al tratar de actualizar las etiquetas",
     "Storage informations" : "Informaciones de almacenamiento",
     "Choose file" : "Elegir archivo",
-    "You don’t have permission to upload or create files here" : "No tiene permisos para subir o crear archivos aquí",
     "Go to the previous folder" : "Ir a la carpeta anterior",
     "Open the files app settings" : "Abrir la configuración de la app Archivos",
     "Unable to change the favourite state of the file" : "No se ha podido cambiar el estado de favorito del fichero",

@@ -364,7 +364,6 @@ OC.L10N.register(
     "An error occurred while trying to update the tags" : "خەتكۈچلەرنى يېڭىلىماقچى بولغاندا خاتالىق كۆرۈلدى",
     "Storage informations" : "ساقلاش ئۇچۇرى",
     "Choose file" : "ھۆججەت تاللاڭ",
-    "You don’t have permission to upload or create files here" : "بۇ يەرگە ھۆججەت يوللاش ياكى قۇرۇش ھوقۇقىڭىز يوق",
     "Go to the previous folder" : "ئالدىنقى قىسقۇچقا بېرىڭ",
     "Open the files app settings" : "ھۆججەت ئەپ تەڭشىكىنى ئېچىڭ",
     "Unable to change the favourite state of the file" : "ھۆججەتنىڭ ياقتۇرىدىغان ھالىتىنى ئۆزگەرتەلمىدى",

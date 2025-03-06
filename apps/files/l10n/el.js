@@ -339,7 +339,6 @@ OC.L10N.register(
     "An error occurred while trying to update the tags" : "Ένα σφάλμα προέκυψε κατά τη διάρκεια ενημέρωσης των ετικετών",
     "Storage informations" : "Πληροφορίες αποθήκευσης",
     "Choose file" : "Επιλέξτε αρχείο",
-    "You don’t have permission to upload or create files here" : "Δεν έχετε δικαιώματα μεταφόρτωσης ή δημιουργίας αρχείων εδώ",
     "Go to the previous folder" : "Μετάβαση στον προηγούμενο φάκελο",
     "Open the files app settings" : "Ανοίξτε τις ρυθμίσεις της εφαρμογής αρχείων",
     "Unable to change the favourite state of the file" : "Αδυναμία αλλαγής αγαπημένης κατάστασης αρχείου",

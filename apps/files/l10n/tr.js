@@ -440,7 +440,6 @@ OC.L10N.register(
     "You don't have permission to upload or create files here." : "Buraya dosya yükleme ya da ekleme izniniz yok.",
     "Storage informations" : "Depolama bilgileri",
     "Choose file" : "Dosya seçin",
-    "You don’t have permission to upload or create files here" : "Buraya dosya yükleme ya da ekleme izniniz yok",
     "Go to the previous folder" : "Önceki klasöre git",
     "Open the files app settings" : "Dosyalar uygulaması ayarlarını aç",
     "Unable to change the favourite state of the file" : "Dosyanın sık kullanılan durumu değiştirilemedi",
