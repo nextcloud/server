@@ -35,26 +35,29 @@ use OCP\DB\Exception;
 class DbalException extends Exception {
 	/** @var \Doctrine\DBAL\Exception */
 	private $original;
+	public readonly ?string $query;
 
 	/**
 	 * @param \Doctrine\DBAL\Exception $original
 	 * @param int $code
 	 * @param string $message
 	 */
-	private function __construct(\Doctrine\DBAL\Exception $original, int $code, string $message) {
+	private function __construct(\Doctrine\DBAL\Exception $original, int $code, string $message, ?string $query = null) {
 		parent::__construct(
 			$message,
 			$code,
 			$original
 		);
 		$this->original = $original;
+		$this->query = $query;
 	}
 
-	public static function wrap(\Doctrine\DBAL\Exception $original, string $message = ''): self {
+	public static function wrap(\Doctrine\DBAL\Exception $original, string $message = '', ?string $query = null): self {
 		return new self(
 			$original,
 			is_int($original->getCode()) ? $original->getCode() : 0,
-			empty($message) ? $original->getMessage() : $message
+			empty($message) ? $original->getMessage() : $message,
+			$query,
 		);
 	}
 
