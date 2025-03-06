@@ -4,7 +4,7 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { ACTION_COPY_MOVE } from '../../../apps/files/src/actions/moveOrCopyAction.ts'
+import { ACTION_COPY_MOVE } from "../../../apps/files/src/actions/moveOrCopyAction"
 
 export const getRowForFileId = (fileid: number) => cy.get(`[data-cy-files-list-row-fileid="${fileid}"]`)
 export const getRowForFile = (filename: string) => cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"]`)
@@ -15,7 +15,7 @@ export const getActionsForFile = (filename: string) => getRowForFile(filename).f
 export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(fileid).findByRole('button', { name: 'Actions' })
 export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).findByRole('button', { name: 'Actions' })
 
-export const searchForActionInRow = (row: JQuery<HTMLElement>, actionId: string): Cypress.Chainable<JQuery<HTMLElement>> => {
+const searchForActionInRow = (row: JQuery<HTMLElement>, actionId: string): Cypress.Chainable<JQuery<HTMLElement>>  => {
 	const action = row.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
 	if (action.length > 0) {
 		cy.log('Found action in row')
@@ -27,12 +27,15 @@ export const searchForActionInRow = (row: JQuery<HTMLElement>, actionId: string)
 	return cy.get(`#${menuButtonId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
 }
 
-export const getActionEntryForFileId = (fileid: number, actionId: string) => {
-	return cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+export const getActionEntryForFileId = (fileid: number, actionId: string): Cypress.Chainable<JQuery<HTMLElement>> => {
+	// If we cannot find the action in the row, it might be in the action menu
+	return getRowForFileId(fileid).should('be.visible')
+		.then(row => searchForActionInRow(row, actionId))
 }
-
-export const getActionEntryForFile = (filename: string, actionId: string) => {
-	return cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+export const getActionEntryForFile = (filename: string, actionId: string): Cypress.Chainable<JQuery<HTMLElement>> => {
+	// If we cannot find the action in the row, it might be in the action menu
+	return getRowForFile(filename).should('be.visible')
+		.then(row => searchForActionInRow(row, actionId))
 }
 
 export const triggerActionForFileId = (fileid: number, actionId: string) => {
@@ -174,10 +177,8 @@ export const navigateToFolder = (dirPath: string) => {
 		if (directory === '') {
 			continue
 		}
-
 		getRowForFile(directory).should('be.visible').find('[data-cy-files-list-row-name-link]').click()
 	}
-
 }
 
 export const closeSidebar = () => {
