@@ -19,12 +19,6 @@ use OCA\DAV\Events\CachedCalendarObjectUpdatedEvent;
 use OCA\DAV\Events\CalendarCreatedEvent;
 use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Events\CalendarMovedToTrashEvent;
-use OCA\DAV\Events\CalendarObjectCreatedEvent;
-use OCA\DAV\Events\CalendarObjectDeletedEvent;
-use OCA\DAV\Events\CalendarObjectMovedEvent;
-use OCA\DAV\Events\CalendarObjectMovedToTrashEvent;
-use OCA\DAV\Events\CalendarObjectRestoredEvent;
-use OCA\DAV\Events\CalendarObjectUpdatedEvent;
 use OCA\DAV\Events\CalendarPublishedEvent;
 use OCA\DAV\Events\CalendarRestoredEvent;
 use OCA\DAV\Events\CalendarShareUpdatedEvent;
@@ -34,12 +28,12 @@ use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
 use OCA\DAV\Events\SubscriptionUpdatedEvent;
 use OCP\AppFramework\Db\TTransactional;
-use OCP\Calendar\Events\CalendarObjectCreatedEvent as PublicCalendarObjectCreatedEvent;
-use OCP\Calendar\Events\CalendarObjectDeletedEvent as PublicCalendarObjectDeletedEvent;
-use OCP\Calendar\Events\CalendarObjectMovedEvent as PublicCalendarObjectMovedEvent;
-use OCP\Calendar\Events\CalendarObjectMovedToTrashEvent as PublicCalendarObjectMovedToTrashEvent;
-use OCP\Calendar\Events\CalendarObjectRestoredEvent as PublicCalendarObjectRestoredEvent;
-use OCP\Calendar\Events\CalendarObjectUpdatedEvent as PublicCalendarObjectUpdatedEvent;
+use OCP\Calendar\Events\CalendarObjectCreatedEvent;
+use OCP\Calendar\Events\CalendarObjectDeletedEvent;
+use OCP\Calendar\Events\CalendarObjectMovedEvent;
+use OCP\Calendar\Events\CalendarObjectMovedToTrashEvent;
+use OCP\Calendar\Events\CalendarObjectRestoredEvent;
+use OCP\Calendar\Events\CalendarObjectUpdatedEvent;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -1324,7 +1318,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$shares = $this->getShares($calendarId);
 
 				$this->dispatcher->dispatchTyped(new CalendarObjectCreatedEvent($calendarId, $calendarRow, $shares, $objectRow));
-				$this->dispatcher->dispatchTyped(new PublicCalendarObjectCreatedEvent($calendarId, $calendarRow, $shares, $objectRow));
 			} else {
 				$subscriptionRow = $this->getSubscriptionById($calendarId);
 
@@ -1385,7 +1378,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					$shares = $this->getShares($calendarId);
 
 					$this->dispatcher->dispatchTyped(new CalendarObjectUpdatedEvent($calendarId, $calendarRow, $shares, $objectRow));
-					$this->dispatcher->dispatchTyped(new PublicCalendarObjectUpdatedEvent($calendarId, $calendarRow, $shares, $objectRow));
 				} else {
 					$subscriptionRow = $this->getSubscriptionById($calendarId);
 
@@ -1447,7 +1439,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$targetShares = $this->getShares($targetCalendarId);
 				$sourceCalendarRow = $this->getCalendarById($sourceCalendarId);
 				$this->dispatcher->dispatchTyped(new CalendarObjectMovedEvent($sourceCalendarId, $sourceCalendarRow, $targetCalendarId, $targetCalendarRow, $sourceShares, $targetShares, $object));
-				$this->dispatcher->dispatchTyped(new PublicCalendarObjectMovedEvent($sourceCalendarId, $sourceCalendarRow, $targetCalendarId, $targetCalendarRow, $sourceShares, $targetShares, $object));
 			}
 			return true;
 		}, $this->db);
@@ -1506,7 +1497,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					$shares = $this->getShares($calendarId);
 
 					$this->dispatcher->dispatchTyped(new CalendarObjectDeletedEvent($calendarId, $calendarRow, $shares, $data));
-					$this->dispatcher->dispatchTyped(new PublicCalendarObjectDeletedEvent($calendarId, $calendarRow, $shares, $data));
 				} else {
 					$subscriptionRow = $this->getSubscriptionById($calendarId);
 
@@ -1550,14 +1540,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				if ($calendarData !== null) {
 					$this->dispatcher->dispatchTyped(
 						new CalendarObjectMovedToTrashEvent(
-							$calendarId,
-							$calendarData,
-							$this->getShares($calendarId),
-							$data
-						)
-					);
-					$this->dispatcher->dispatchTyped(
-						new PublicCalendarObjectMovedToTrashEvent(
 							$calendarId,
 							$calendarData,
 							$this->getShares($calendarId),
@@ -1617,14 +1599,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			}
 			$this->dispatcher->dispatchTyped(
 				new CalendarObjectRestoredEvent(
-					(int)$objectData['calendarid'],
-					$calendarRow,
-					$this->getShares((int)$row['calendarid']),
-					$row
-				)
-			);
-			$this->dispatcher->dispatchTyped(
-				new PublicCalendarObjectRestoredEvent(
 					(int)$objectData['calendarid'],
 					$calendarRow,
 					$this->getShares((int)$row['calendarid']),
