@@ -130,6 +130,16 @@ interface ISystemTagManager {
 	public function canUserCreateTag(?IUser $user): bool;
 
 	/**
+	 * Checks whether the given user is allowed to update tags
+	 *
+	 * @param IUser|null $user user to check permission for
+	 * @return bool true if the user is allowed to update a tag, false otherwise
+	 *
+	 * @since 31.0.0
+	 */
+	public function canUserUpdateTag(?IUser $user): bool;
+
+	/**
 	 * Checks whether the given user is allowed to see the tag with the given id.
 	 *
 	 * @param ISystemTag $tag tag to check permission for

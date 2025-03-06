@@ -847,6 +847,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\SystemTag\\TagAlreadyExistsException' => __DIR__ . '/../../..' . '/lib/public/SystemTag/TagAlreadyExistsException.php',
         'OCP\\SystemTag\\TagCreationForbiddenException' => __DIR__ . '/../../..' . '/lib/public/SystemTag/TagCreationForbiddenException.php',
         'OCP\\SystemTag\\TagNotFoundException' => __DIR__ . '/../../..' . '/lib/public/SystemTag/TagNotFoundException.php',
+        'OCP\\SystemTag\\TagUpdateForbiddenException' => __DIR__ . '/../../..' . '/lib/public/SystemTag/TagUpdateForbiddenException.php',
         'OCP\\Talk\\Exceptions\\NoBackendException' => __DIR__ . '/../../..' . '/lib/public/Talk/Exceptions/NoBackendException.php',
         'OCP\\Talk\\IBroker' => __DIR__ . '/../../..' . '/lib/public/Talk/IBroker.php',
         'OCP\\Talk\\IConversation' => __DIR__ . '/../../..' . '/lib/public/Talk/IConversation.php',

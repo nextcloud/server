@@ -189,7 +189,8 @@ export default Vue.extend({
 				this.sortedTags.unshift(createdTag)
 				this.selectedTags.push(createdTag)
 			} catch (error) {
-				if(loadState('settings', 'restrictSystemTagsCreationToAdmin', '0') === '1') {
+				const systemTagsCreationRestrictedToAdmin = loadState<true|false>('settings', 'restrictSystemTagsCreationToAdmin', false) === true
+				if (systemTagsCreationRestrictedToAdmin) {
 					showError(t('systemtags', 'System admin disabled tag creation. You can only use existing ones.'))
 					return
 				}

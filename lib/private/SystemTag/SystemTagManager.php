@@ -22,6 +22,7 @@ use OCP\SystemTag\ManagerEvent;
 use OCP\SystemTag\TagAlreadyExistsException;
 use OCP\SystemTag\TagCreationForbiddenException;
 use OCP\SystemTag\TagNotFoundException;
+use OCP\SystemTag\TagUpdateForbiddenException;
 
 /**
  * Manager class for system tags
@@ -152,8 +153,9 @@ class SystemTagManager implements ISystemTagManager {
 	public function createTag(string $tagName, bool $userVisible, bool $userAssignable): ISystemTag {
 		$user = $this->userSession->getUser();
 		if (!$this->canUserCreateTag($user)) {
-			throw new TagCreationForbiddenException('Tag creation forbidden');
+			throw new TagCreationForbiddenException();
 		}
+
 		// Length of name column is 64
 		$truncatedTagName = substr($tagName, 0, 64);
 		$query = $this->connection->getQueryBuilder();
@@ -204,6 +206,11 @@ class SystemTagManager implements ISystemTagManager {
 			throw new TagNotFoundException(
 				'Tag does not exist', 0, null, [$tagId]
 			);
+		}
+
+		$user = $this->userSession->getUser();
+		if (!$this->canUserUpdateTag($user)) {
+			throw new TagUpdateForbiddenException();
 		}
 
 		$beforeUpdate = array_shift($tags);
@@ -340,6 +347,11 @@ class SystemTagManager implements ISystemTagManager {
 		}
 
 		return $this->groupManager->isAdmin($user->getUID());
+	}
+
+	public function canUserUpdateTag(?IUser $user): bool {
+		// We currently have no different permissions for updating tags than for creating them
+		return $this->canUserCreateTag($user);
 	}
 
 	public function canUserSeeTag(ISystemTag $tag, ?IUser $user): bool {
