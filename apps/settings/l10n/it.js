@@ -601,6 +601,7 @@ OC.L10N.register(
     "Headline" : "Titolo",
     "Organisation" : "Organizzazione",
     "Phone number" : "Numero di telefono",
+    "Pronouns" : "Pronomi",
     "Role" : "Ruolo",
     "X (formerly Twitter)" : "X (ex Twitter)",
     "Website" : "Sito web",

@@ -440,7 +440,6 @@ OC.L10N.register(
     "You don't have permission to upload or create files here." : "ليس لديك الصلاحية لرفع أو إنشاء ملفاتٍ هنا.",
     "Storage informations" : "معلومات التخزين",
     "Choose file" : "حدد ملف",
-    "You don’t have permission to upload or create files here" : "لا تملك الصلاحية لرفع او انشاء ملف هنا ",
     "Go to the previous folder" : "إنتقل للمجلد السابق",
     "Open the files app settings" : "فتح إعدادات تطبيق الملفات",
     "Unable to change the favourite state of the file" : "لم نستطع تغير الحالة المفضلة للملف",

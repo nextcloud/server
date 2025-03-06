@@ -299,7 +299,6 @@ OC.L10N.register(
     "An error occurred while trying to update the tags" : "Се случи грешка додека се обидувавте да ги освежите таговите",
     "Storage informations" : "Информации за складиштето",
     "Choose file" : "Избери датотека",
-    "You don’t have permission to upload or create files here" : "Немате дозвола да прикачувате или да креирате датотеки",
     "Go to the previous folder" : "Врати се на предходната папка",
     "Open the files app settings" : "Отвори ги параметрите за датотеките",
     "Unable to change the favourite state of the file" : "Неможе да се промени статусот на омимени на датотеката",

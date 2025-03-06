@@ -138,7 +138,6 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "LDAP-Kasutajatunnus Kasutaja Vastendus",
     "Clear Username-LDAP User Mapping" : "Puhasta LDAP-Kasutajatunnus Kasutaja Vastendus",
     "Clear Groupname-LDAP Group Mapping" : "Puhasta LDAP-Grupinimi Grupp Vastendus",
-    "Invalid configuration. Please have a look at the logs for further details." : "Vigane seadistus. Rohkema info jaoks vaadake logisid.",
-    " Could not set configuration %s" : "Ei suutnud seadistada %s"
+    "Invalid configuration. Please have a look at the logs for further details." : "Vigane seadistus. Rohkema info jaoks vaadake logisid."
 },
 "nplurals=2; plural=(n != 1);");

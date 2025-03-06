@@ -247,7 +247,6 @@ OC.L10N.register(
     "Not favorited" : "Премахни от любими",
     "An error occurred while trying to update the tags" : "Възникна грешка при опита за промяна на етикети",
     "Storage informations" : "Хранилище на  информация",
-    "You don’t have permission to upload or create files here" : "Нямаш разрешение да създаваш или качваш файлове тук.",
     "Go to the previous folder" : "Връщане към предишната папка",
     "Open the files app settings" : "Отваряне на настройките на приложението за файлове",
     "Unable to change the favourite state of the file" : "Не може да се промени състоянието за предпочитане на файла",

@@ -47,7 +47,6 @@ OC.L10N.register(
     "Basic encryption module" : "Osnovni modul za šifriranje",
     "Your private key password no longer matches your log-in password." : "Zasebno geslo ni več skladno s prijavnim geslom.",
     "Set your old private key password to your current log-in password:" : "Nastavite star zasebni ključ na trenutno prijavno geslo:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "V kolikor se gesla ne spomnite več, lahko vaše datoteke obnovi le skrbnik sistema.",
     "Old log-in password" : "Staro geslo",
     "Current log-in password" : "Trenutno geslo",
     "Update Private Key Password" : "Posodobi geslo zasebnega ključa",

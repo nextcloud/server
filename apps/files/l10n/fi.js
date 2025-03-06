@@ -379,7 +379,6 @@ OC.L10N.register(
     "An error occurred while trying to update the tags" : "Tunnisteiden päivitystä yrittäessä tapahtui virhe",
     "Storage informations" : "Tallennustilan tietoja",
     "Choose file" : "Valitse tiedosto",
-    "You don’t have permission to upload or create files here" : "Käyttöoikeutesi eivät riitä tiedostojen lähettämiseen tai kansioiden luomiseen tähän sijaintiin",
     "Go to the previous folder" : "Siirry edelliseen kansioon",
     "Open the files app settings" : "Avaa tiedostosovelluksen asetukset",
     "Unable to change the favourite state of the file" : "Suosikki-tilan muuttaminen epäonnistui.",
