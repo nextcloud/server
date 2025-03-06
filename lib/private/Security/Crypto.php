@@ -91,18 +91,10 @@ class Crypto implements ICrypto {
 	 */
 	public function decrypt(string $authenticatedCiphertext, string $password = ''): string {
 		$secret = $this->config->getSystemValue('secret');
-		try {
-			if ($password === '') {
-				return $this->decryptWithoutSecret($authenticatedCiphertext, $secret);
-			}
-			return $this->decryptWithoutSecret($authenticatedCiphertext, $password);
-		} catch (Exception $e) {
-			if ($password === '') {
-				// Retry with empty secret as a fallback for instances where the secret might not have been set by accident
-				return $this->decryptWithoutSecret($authenticatedCiphertext, '');
-			}
-			throw $e;
+		if ($password === '') {
+			return $this->decryptWithoutSecret($authenticatedCiphertext, $secret);
 		}
+		return $this->decryptWithoutSecret($authenticatedCiphertext, $password);
 	}
 
 	private function decryptWithoutSecret(string $authenticatedCiphertext, string $password = ''): string {
