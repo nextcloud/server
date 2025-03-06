@@ -55,6 +55,8 @@ use function in_array;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class UsersController extends Controller {
+	/** Limit for counting users for subadmins, to avoid spending too much time */
+	private const COUNT_LIMIT_FOR_SUBADMINS = 999;
 
 	public function __construct(
 		string $appName,
@@ -152,7 +154,7 @@ class UsersController extends Controller {
 				}, 0);
 			} else {
 				// User is subadmin !
-				[$userCount,$disabledUsers] = $this->userManager->countUsersAndDisabledUsersOfGroups($groupsInfo->getGroups(), 999);
+				[$userCount,$disabledUsers] = $this->userManager->countUsersAndDisabledUsersOfGroups($groupsInfo->getGroups(), self::COUNT_LIMIT_FOR_SUBADMINS);
 			}
 
 			if ($disabledUsers > 0) {
