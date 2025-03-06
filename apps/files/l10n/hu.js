@@ -425,7 +425,6 @@ OC.L10N.register(
     "An error occurred while trying to update the tags" : "Hiba történt, miközben megpróbálta frissíteni a címkéket",
     "Storage informations" : "Tárhely-információk",
     "Choose file" : "Válasszon fájlt",
-    "You don’t have permission to upload or create files here" : "Nincs jogosultsága ahhoz, hogy fájlokat töltsön fel ide vagy hozzon létre itt",
     "Go to the previous folder" : "Ugrás az előző mappához",
     "Open the files app settings" : "Nyissa meg a Fájlok lalkalmazás beállításait",
     "Unable to change the favourite state of the file" : "Nem lehet megváltoztatni a fájl kedvenc állapotát",

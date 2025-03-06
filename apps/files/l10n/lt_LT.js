@@ -303,7 +303,6 @@ OC.L10N.register(
     "Not favorited" : "Nepažymėtas mėgstamu",
     "An error occurred while trying to update the tags" : "Bandant atnaujinti žymes įvyko klaida",
     "Storage informations" : "Informacija apie saugyklą",
-    "You don’t have permission to upload or create files here" : "Jūs neturite leidimo čia įkelti arba kurti failus",
     "Go to the previous folder" : "Eiti į ankstesnį aplanką",
     "Unable to change the favourite state of the file" : "Nepavyksta pakeisti failo Lankomiausiųjų būsenos",
     "List of favorites files and folders." : "Mėgstamų failų ir aplankų sąrašas.",
