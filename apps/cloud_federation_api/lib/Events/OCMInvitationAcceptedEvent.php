@@ -8,19 +8,17 @@ declare(strict_types=1);
 
 namespace OCA\CloudFederationApi\Events;
 
-use OCP\EventDispatcher\Event;
 use OCA\CloudFederationApi\OCMInvitation;
+use OCP\EventDispatcher\Event;
 
-class OCMInvitationAcceptedEvent extends Event
-{
-  public function __construct(
-    private OCMInvitation $invitation
-  ) {
-    parent::__construct();
-  }
+class OCMInvitationAcceptedEvent extends Event {
+	public function __construct(
+		private OCMInvitation $invitation,
+	) {
+		parent::__construct();
+	}
 
-  public function getInvitation(): OCMInvitation
-  {
-    return $this->invitation;
-  }
+	public function getInvitation(): OCMInvitation {
+		return $this->invitation;
+	}
 }

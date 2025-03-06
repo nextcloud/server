@@ -60,8 +60,7 @@ use Psr\Log\LoggerInterface;
  * @psalm-import-type CloudFederationAPIError from ResponseDefinitions
  */
 #[OpenAPI(scope: OpenAPI::SCOPE_FEDERATION)]
-class RequestHandlerController extends Controller
-{
+class RequestHandlerController extends Controller {
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -79,7 +78,7 @@ class RequestHandlerController extends Controller
 		private ICloudIdManager $cloudIdManager,
 		private readonly ISignatureManager $signatureManager,
 		private readonly OCMSignatoryManager $signatoryManager,
-		private TrustedServers $trustedServers
+		private TrustedServers $trustedServers,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -108,8 +107,7 @@ class RequestHandlerController extends Controller
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[BruteForceProtection(action: 'receiveFederatedShare')]
-	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType)
-	{
+	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
 		try {
 			// if request is signed and well signed, no exception are thrown
 			// if request is not signed and host is known for not supporting signed request, no exception are thrown
@@ -198,7 +196,7 @@ class RequestHandlerController extends Controller
 			$share = $this->factory->getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, '', $shareType, $resourceType);
 			$share->setProtocol($protocol);
 			$provider->shareReceived($share);
-		} catch (ProviderDoesNotExistsException | ProviderCouldNotAddShareException $e) {
+		} catch (ProviderDoesNotExistsException|ProviderCouldNotAddShareException $e) {
 			return new JSONResponse(
 				['message' => $e->getMessage()],
 				Http::STATUS_NOT_IMPLEMENTED
@@ -243,17 +241,16 @@ class RequestHandlerController extends Controller
 	 * @param string $email
 	 * @param string $name
 	 * @return JSONResponse
-	 * 200: invitation accepted
-	 * 400: Invalid token
-	 * 403: Invitation token does not exist
-	 * 409: User is allready known by the OCM provider
-	 * spec link: https://cs3org.github.io/OCM-API/docs.html?branch=v1.1.0&repo=OCM-API&user=cs3org#/paths/~1invite-accepted/post
+	 *                      200: invitation accepted
+	 *                      400: Invalid token
+	 *                      403: Invitation token does not exist
+	 *                      409: User is allready known by the OCM provider
+	 *                      spec link: https://cs3org.github.io/OCM-API/docs.html?branch=v1.1.0&repo=OCM-API&user=cs3org#/paths/~1invite-accepted/post
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[BruteForceProtection(action: 'inviteAccepted')]
-	public function inviteAccepted(string $recipientProvider, string $token, string $userId, string $email, string $name): JSONResponse
-	{
+	public function inviteAccepted(string $recipientProvider, string $token, string $userId, string $email, string $name): JSONResponse {
 		$this->logger->debug('Invite accepted for ' . $userId . ' with token ' . $token . ' and email ' . $email . ' and name ' . $name);
 
 		/** @var IQueryBuilder $qb */
@@ -265,7 +262,7 @@ class RequestHandlerController extends Controller
 		$data = $result->fetch();
 		$result->closeCursor();
 		$found_for_this_user = false;
-		$updated = new DateTime("now");
+		$updated = new DateTime('now');
 		if ($data) {
 			$found_for_this_user = $data['recipient_user_id'] === $userId && isset($data['user_id']);
 		}
@@ -345,8 +342,7 @@ class RequestHandlerController extends Controller
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[BruteForceProtection(action: 'receiveFederatedShareNotification')]
-	public function receiveNotification($notificationType, $resourceType, $providerId, ?array $notification)
-	{
+	public function receiveNotification($notificationType, $resourceType, $providerId, ?array $notification) {
 		// check if all required parameters are set
 		if (
 			$notificationType === null ||
@@ -425,8 +421,7 @@ class RequestHandlerController extends Controller
 	 * @param string $uid
 	 * @return string mixed
 	 */
-	private function mapUid($uid)
-	{
+	private function mapUid($uid) {
 		// FIXME this should be a method in the user management instead
 		$this->logger->debug('shareWith before, ' . $uid, ['app' => $this->appName]);
 		Util::emitHook(
@@ -449,13 +444,12 @@ class RequestHandlerController extends Controller
 	 * @return IIncomingSignedRequest|null null if remote does not (and never did) support signed request
 	 * @throws IncomingRequestException
 	 */
-	private function getSignedRequest(): ?IIncomingSignedRequest
-	{
+	private function getSignedRequest(): ?IIncomingSignedRequest {
 		try {
 			$signedRequest = $this->signatureManager->getIncomingSignedRequest($this->signatoryManager);
 			$this->logger->debug('signed request available', ['signedRequest' => $signedRequest]);
 			return $signedRequest;
-		} catch (SignatureNotFoundException | SignatoryNotFoundException $e) {
+		} catch (SignatureNotFoundException|SignatoryNotFoundException $e) {
 			$this->logger->debug('remote does not support signed request', ['exception' => $e]);
 			// remote does not support signed request.
 			// currently we still accept unsigned request until lazy appconfig
@@ -485,8 +479,7 @@ class RequestHandlerController extends Controller
 	 *
 	 * @throws IncomingRequestException
 	 */
-	private function confirmSignedOrigin(?IIncomingSignedRequest $signedRequest, string $key, string $value): void
-	{
+	private function confirmSignedOrigin(?IIncomingSignedRequest $signedRequest, string $key, string $value): void {
 		if ($signedRequest === null) {
 			$instance = $this->getHostFromFederationId($value);
 			try {
@@ -550,8 +543,7 @@ class RequestHandlerController extends Controller
 	 * @return void
 	 * @throws IncomingRequestException
 	 */
-	private function confirmNotificationEntry(?IIncomingSignedRequest $signedRequest, string $entry): void
-	{
+	private function confirmNotificationEntry(?IIncomingSignedRequest $signedRequest, string $entry): void {
 		$instance = $this->getHostFromFederationId($entry);
 		if ($signedRequest === null) {
 			try {
@@ -570,8 +562,7 @@ class RequestHandlerController extends Controller
 	 * @return string
 	 * @throws IncomingRequestException
 	 */
-	private function getHostFromFederationId(string $entry): string
-	{
+	private function getHostFromFederationId(string $entry): string {
 		if (!str_contains($entry, '@')) {
 			throw new IncomingRequestException('entry ' . $entry . ' does not contains @');
 		}

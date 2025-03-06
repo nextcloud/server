@@ -15,8 +15,7 @@ use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
-class Version1016Date202502262004 extends SimpleMigrationStep
-{
+class Version1016Date202502262004 extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
@@ -24,8 +23,7 @@ class Version1016Date202502262004 extends SimpleMigrationStep
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
-	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options)
-	{
+	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 
 
