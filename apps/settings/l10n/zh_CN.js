@@ -569,6 +569,7 @@ OC.L10N.register(
     "Confirm enabling encryption" : "确认启用加密",
     "Please read carefully before activating server-side encryption:" : "在启用服务端加密之前，请仔细阅读：",
     "Once encryption is enabled, all files uploaded to the server from that point forward will be encrypted at rest on the server. It will only be possible to disable encryption at a later date if the active encryption module supports that function, and all pre-conditions (e.g. setting a recover key) are met." : "一旦加密被启用，之后上传到服务器的所有文件都将服务器上加密。只有当启用状态的加密模块支持解密并且所有前提都满足时（例如：设定恢复密钥）才能解除加密。",
+    "By default a master key for the whole instance will be generated. Please check if that level of access is compliant with your needs." : "默认情况下，将生成整个实例的主密钥。请检查该访问级别是否符合您的需求。",
     "Encryption alone does not guarantee security of the system. Please see documentation for more information about how the encryption app works, and the supported use cases." : "单独的加密不能保证系统的安全性。请参考加密应用工作原理和支持的用例的文档获取更多信息。",
     "Be aware that encryption always increases the file size." : "请注意，加密会增加文件大小。",
     "It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data." : "定期备份数据有助于保证数据完整，并且确保备份您的加密数据和加密密钥。",
