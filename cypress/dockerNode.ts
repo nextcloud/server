@@ -26,11 +26,12 @@
 import Docker from 'dockerode'
 import waitOn from 'wait-on'
 import tar from 'tar'
+import { basename } from 'path'
 import { execSync } from 'child_process'
 
 export const docker = new Docker()
 
-const CONTAINER_NAME = 'nextcloud-cypress-tests-server'
+const CONTAINER_NAME = `nextcloud-cypress-tests_${basename(process.cwd()).replace(' ', '')}`
 const SERVER_IMAGE = 'ghcr.io/nextcloud/continuous-integration-shallow-server'
 
 /**
