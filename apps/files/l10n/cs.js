@@ -440,7 +440,6 @@ OC.L10N.register(
     "You don't have permission to upload or create files here." : "Nemáte oprávnění sem nahrávat nebo zde vytvářet soubory.",
     "Storage informations" : "Informace o úložišti",
     "Choose file" : "Vyberte soubor",
-    "You don’t have permission to upload or create files here" : "Nemáte oprávnění sem nahrávat nebo zde vytvářet soubory",
     "Go to the previous folder" : "Přejít do předchozí složky",
     "Open the files app settings" : "Otevřít nastavení aplikace soubory",
     "Unable to change the favourite state of the file" : "Nedaří se změnit stav „oblíbené“ souboru",

@@ -422,7 +422,6 @@ OC.L10N.register(
     "An error occurred while trying to update the tags" : "Villa kom upp við að reyna að uppfæra merkin",
     "Storage informations" : "Upplýsingar um geymslurými",
     "Choose file" : "Veldu skrá",
-    "You don’t have permission to upload or create files here" : "Þú hefur ekki heimild til að hlaða inn eða búa til skjöl hér",
     "Go to the previous folder" : "Fara í fyrri möppu",
     "Open the files app settings" : "Opna stillingar skráaforritsins",
     "Unable to change the favourite state of the file" : "Get ekki breytt stöðu sem eftirlæti á skránni",

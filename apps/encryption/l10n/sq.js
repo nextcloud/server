@@ -44,7 +44,6 @@ OC.L10N.register(
     "Basic encryption module" : "Modul i thjeshtë fshehtëzimesh",
     "Your private key password no longer matches your log-in password." : "Fjalëkalimi juaj për kyçe privatë s’përputhet më me fjalëkalimin për hyrjet.",
     "Set your old private key password to your current log-in password:" : "Fjalëkalimit të vjetër të kyçit privat jepini vlerën e fjalëkalimit tuaj të tanishëm për hyrjet:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : " Nëse s’e mbani mend fjalëkalimin tuaj të vjetër, mund t’i kërkoni përgjegjësit tuaj të rimarrë kartelat tuaja.",
     "Old log-in password" : "Fjalëkalimi i vjetër për hyrjet",
     "Current log-in password" : "Fjalëkalimi i tanishëm për hyrjet",
     "Update Private Key Password" : "Përditësoni Fjalëkalim Kyçi Privat",

@@ -281,7 +281,6 @@ OC.L10N.register(
     "An error occurred while trying to update the tags" : "B'at àpidu un'errore proende a agiornare is etichetas",
     "Storage informations" : "Informatziones de s'archiviatzione",
     "Choose file" : "Sèbera un'archìviu",
-    "You don’t have permission to upload or create files here" : "Non tenes su permissu pro carrigare o creare archìvios inoghe",
     "Go to the previous folder" : "Bae a sa cartella pretzedente",
     "Open the files app settings" : "Aberi sa cunfiguratzione de s'aplicatzione de archìvios",
     "Unable to change the favourite state of the file" : "Non faghet a cambiare s'istadu de preferidu de s'archìviu",

@@ -336,7 +336,6 @@ OC.L10N.register(
     "An error occurred while trying to update the tags" : "Prodúxose un error al tentar d'anovar les etiquetes",
     "Storage informations" : "Información del almacenamientu",
     "Choose file" : "Escoyer un ficheru",
-    "You don’t have permission to upload or create files here" : "Nun tienes permisu pa xubir o crear ficheros equí",
     "Go to the previous folder" : "Dir a la carpeta anterior",
     "Open the files app settings" : "Abrir la configuración de Ficheros",
     "Unable to change the favourite state of the file" : "Nun ye posible camudar l'estáu favoritu del ficheru",

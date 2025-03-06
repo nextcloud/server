@@ -256,7 +256,6 @@ OC.L10N.register(
     "Upload file" : "Enviar ficheiro",
     "Not favorited" : "Não favorito",
     "An error occurred while trying to update the tags" : "Ocorreu um erro ao tentar atualizar as etiquetas",
-    "You don’t have permission to upload or create files here" : "Não tem permissão para enviar ou criar ficheiros aqui",
     "Personal Files" : "Ficheiros pessoais",
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt",

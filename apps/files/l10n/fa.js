@@ -270,7 +270,6 @@ OC.L10N.register(
     "Not favorited" : "مورد علاقه نیست",
     "An error occurred while trying to update the tags" : "یک خطا در حین بروزرسانی برچسب‌ها رخ داده است",
     "Storage informations" : "ذخیره سازی اطلاعات ",
-    "You don’t have permission to upload or create files here" : "شما دسترسی مجاز برای آپلود یا ایجاد فایل در اینجا را ندارید",
     "Go to the previous folder" : "به پوشه قبلی بروید",
     "Open the files app settings" : "تنظیمات برنامه فایل ها را باز کنید",
     "Unable to change the favourite state of the file" : "امکان تغییر حالت دلخواه فایل وجود ندارد",

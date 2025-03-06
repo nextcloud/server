@@ -440,7 +440,6 @@ OC.L10N.register(
     "You don't have permission to upload or create files here." : "You don't have permission to upload or create files here.",
     "Storage informations" : "Storage informations",
     "Choose file" : "Choose file",
-    "You don’t have permission to upload or create files here" : "You don’t have permission to upload or create files here",
     "Go to the previous folder" : "Go to the previous folder",
     "Open the files app settings" : "Open the files app settings",
     "Unable to change the favourite state of the file" : "Unable to change the favourite state of the file",

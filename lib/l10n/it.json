@@ -115,6 +115,7 @@
     "Headline" : "Titolo",
     "Organisation" : "Organizzazione",
     "Role" : "Ruolo",
+    "Pronouns" : "Pronomi",
     "Unknown account" : "Account sconosciuto",
     "Additional settings" : "Impostazioni aggiuntive",
     "Enter the database name for %s" : "Inserisci il nome del database per %s",

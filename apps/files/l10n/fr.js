@@ -438,7 +438,6 @@ OC.L10N.register(
     "You don't have permission to upload or create files here." : "Vous n'avez pas la permission de téléverser ou créer de fichiers ici.",
     "Storage informations" : "Informations sur le stockage",
     "Choose file" : "Choisir un fichier",
-    "You don’t have permission to upload or create files here" : "Vous n'avez pas la permission de téléverser ou de créer des fichiers ici",
     "Go to the previous folder" : "Aller au dossier précédent",
     "Open the files app settings" : "Ouvrir les paramètres de l'application Fichiers",
     "Unable to change the favourite state of the file" : "Impossible de modifier l'état favori du fichier",

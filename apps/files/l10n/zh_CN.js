@@ -440,7 +440,6 @@ OC.L10N.register(
     "You don't have permission to upload or create files here." : "您没有在此处上传或创建文件的权限。",
     "Storage informations" : "存储信息",
     "Choose file" : "选择文件",
-    "You don’t have permission to upload or create files here" : "你没有权限在此上传或创建文件",
     "Go to the previous folder" : "回到前一个文件夹",
     "Open the files app settings" : "打开文件设置",
     "Unable to change the favourite state of the file" : "无法修改文件的收藏状态",

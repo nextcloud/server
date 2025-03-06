@@ -440,7 +440,6 @@ OC.L10N.register(
     "You don't have permission to upload or create files here." : "У вас відсутні дозволи для завантаження або створення файлів в цьому каталозі.",
     "Storage informations" : "Інформація про сховище",
     "Choose file" : "Вибрати файл",
-    "You don’t have permission to upload or create files here" : "У вас недостатньо прав для завантаження або створення файлів тут",
     "Go to the previous folder" : "До попереднього каталогу",
     "Open the files app settings" : "Перейти до налаштувань застосунку файлів",
     "Unable to change the favourite state of the file" : "Неможливо змінити стан \"зірочка\" для цього файла",
