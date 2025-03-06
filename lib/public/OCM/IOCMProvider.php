@@ -58,7 +58,7 @@ interface IOCMProvider extends JsonSerializable {
 	 * returns the capabilities of the API
 	 *
 	 * @return array
-	 * @since 30.0.0
+	 * @since 32.0.0
 	 */
 	public function getCapabilities(): array;
 
@@ -68,7 +68,7 @@ interface IOCMProvider extends JsonSerializable {
 	 * @param array $capabilities
 	 *
 	 * @return $this
-	 * @since 30.0.0
+	 * @since 32.0.0
 	 */
 
 	public function setCapabilities(array $capabilities): static;
@@ -95,7 +95,7 @@ interface IOCMProvider extends JsonSerializable {
 	 * get provider
 	 *
 	 * @return string
-	 * @since 30.0.0
+	 * @since 32.0.0
 	 */
 	public function getProvider(): string;
 	/**

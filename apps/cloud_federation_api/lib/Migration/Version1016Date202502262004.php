@@ -15,8 +15,7 @@ use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
-class Version1016Date202502262004 extends SimpleMigrationStep
-{
+class Version1016Date202502262004 extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
@@ -24,8 +23,7 @@ class Version1016Date202502262004 extends SimpleMigrationStep
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
-	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options)
-	{
+	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 
 
@@ -75,22 +73,24 @@ class Version1016Date202502262004 extends SimpleMigrationStep
 				'notnull' => false,
 				'default' => false
 			]);
-			$table->addColumn('createdAt', Types::DATETIME, [
+			$table->addColumn('created_at', Types::BIGINT, [
 				'notnull' => true,
 			]);
 
-			$table->addColumn('expiredAt', Types::DATETIME, [
+			$table->addColumn('expired_at', Types::BIGINT, [
 				'notnull' => false,
 			]);
 
-			$table->addColumn('acceptedAt', Types::DATETIME, [
+			$table->addColumn('accepted_at', Types::BIGINT, [
 				'notnull' => false,
 			]);
 
 
 			$table->setPrimaryKey(['id']);
+			return $schema;
 		}
 
-		return $schema;
+		return null;
+
 	}
 }
