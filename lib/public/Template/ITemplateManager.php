@@ -17,6 +17,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 interface ITemplateManager {
 	/**
 	 * @param TemplateResponse::RENDER_AS_* $renderAs
+	 * @throws TemplateNotFoundException if the template cannot be found
 	 * @since 32.0.0
 	 */
 	public function getTemplate(string $app, string $name, string $renderAs = TemplateResponse::RENDER_AS_BLANK, bool $registerCall = true): ITemplate;

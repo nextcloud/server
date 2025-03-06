@@ -18,6 +18,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\Server;
 use OCP\Template\ITemplate;
+use OCP\Template\TemplateNotFoundException;
 use OCP\Util;
 
 require_once __DIR__ . '/../legacy/template/functions.php';
@@ -31,6 +32,7 @@ class Template extends Base implements ITemplate {
 	 * @param string $name of the template file (without suffix)
 	 * @param TemplateResponse::RENDER_AS_* $renderAs If $renderAs is set, will try to
 	 *                                                produce a full page in the according layout.
+	 * @throws TemplateNotFoundException
 	 */
 	public function __construct(
 		protected string $app,
@@ -68,7 +70,8 @@ class Template extends Base implements ITemplate {
 	 * Checking all the possible locations.
 	 *
 	 * @param string $name of the template file (without suffix)
-	 * @return string[]
+	 * @return array{string,string} Directory path and filename
+	 * @throws TemplateNotFoundException
 	 */
 	protected function findTemplate(string $theme, string $app, string $name): array {
 		// Check if it is a app template or not.
@@ -83,9 +86,7 @@ class Template extends Base implements ITemplate {
 			$dirs = $this->getCoreTemplateDirs($theme, \OC::$SERVERROOT);
 		}
 		$locator = new TemplateFileLocator($dirs);
-		$template = $locator->find($name);
-		$path = $locator->getPath();
-		return [$path, $template];
+		return $locator->find($name);
 	}
 
 	/**

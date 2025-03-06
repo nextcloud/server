@@ -894,6 +894,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Template' => __DIR__ . '/../../..' . '/lib/public/Template.php',
         'OCP\\Template\\ITemplate' => __DIR__ . '/../../..' . '/lib/public/Template/ITemplate.php',
         'OCP\\Template\\ITemplateManager' => __DIR__ . '/../../..' . '/lib/public/Template/ITemplateManager.php',
+        'OCP\\Template\\TemplateNotFoundException' => __DIR__ . '/../../..' . '/lib/public/Template/TemplateNotFoundException.php',
         'OCP\\TextProcessing\\Events\\AbstractTextProcessingEvent' => __DIR__ . '/../../..' . '/lib/public/TextProcessing/Events/AbstractTextProcessingEvent.php',
         'OCP\\TextProcessing\\Events\\TaskFailedEvent' => __DIR__ . '/../../..' . '/lib/public/TextProcessing/Events/TaskFailedEvent.php',
         'OCP\\TextProcessing\\Events\\TaskSuccessfulEvent' => __DIR__ . '/../../..' . '/lib/public/TextProcessing/Events/TaskSuccessfulEvent.php',

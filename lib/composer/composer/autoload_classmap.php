@@ -845,6 +845,7 @@ return array(
     'OCP\\Template' => $baseDir . '/lib/public/Template.php',
     'OCP\\Template\\ITemplate' => $baseDir . '/lib/public/Template/ITemplate.php',
     'OCP\\Template\\ITemplateManager' => $baseDir . '/lib/public/Template/ITemplateManager.php',
+    'OCP\\Template\\TemplateNotFoundException' => $baseDir . '/lib/public/Template/TemplateNotFoundException.php',
     'OCP\\TextProcessing\\Events\\AbstractTextProcessingEvent' => $baseDir . '/lib/public/TextProcessing/Events/AbstractTextProcessingEvent.php',
     'OCP\\TextProcessing\\Events\\TaskFailedEvent' => $baseDir . '/lib/public/TextProcessing/Events/TaskFailedEvent.php',
     'OCP\\TextProcessing\\Events\\TaskSuccessfulEvent' => $baseDir . '/lib/public/TextProcessing/Events/TaskSuccessfulEvent.php',

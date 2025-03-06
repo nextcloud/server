@@ -17,6 +17,7 @@ use OCP\IRequest;
 use OCP\Server;
 use OCP\Template\ITemplate;
 use OCP\Template\ITemplateManager;
+use OCP\Template\TemplateNotFoundException;
 use Psr\Log\LoggerInterface;
 
 class TemplateManager implements ITemplateManager {
@@ -28,6 +29,7 @@ class TemplateManager implements ITemplateManager {
 
 	/**
 	 * @param TemplateResponse::RENDER_AS_* $renderAs
+	 * @throws TemplateNotFoundException if the template cannot be found
 	 */
 	public function getTemplate(string $app, string $name, string $renderAs = TemplateResponse::RENDER_AS_BLANK, bool $registerCall = true): ITemplate {
 		return new Template($app, $name, $renderAs, $registerCall);
