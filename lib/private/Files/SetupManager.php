@@ -275,9 +275,9 @@ class SetupManager {
 		$mounts = array_filter($mounts, function (IMountPoint $mount) use ($userRoot) {
 			return str_starts_with($mount->getMountPoint(), $userRoot);
 		});
-		$allProviders = array_map(function (IMountProvider $provider) {
+		$allProviders = array_map(function ($provider) {
 			return get_class($provider);
-		}, $this->mountProviderCollection->getProviders());
+		}, array_merge($this->mountProviderCollection->getProviders(), $this->mountProviderCollection->getHomeProviders()));
 		$newProviders = array_diff($allProviders, $previouslySetupProviders);
 		$mounts = array_filter($mounts, function (IMountPoint $mount) use ($previouslySetupProviders) {
 			return !in_array($mount->getMountProvider(), $previouslySetupProviders);
