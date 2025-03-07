@@ -87,8 +87,10 @@ class Version1016Date202502262004 extends SimpleMigrationStep {
 
 
 			$table->setPrimaryKey(['id']);
+			return $schema;
 		}
 
-		return $schema;
+		return null;
+
 	}
 }
