@@ -291,6 +291,7 @@ OC.L10N.register(
     "Groups allowed to share" : "Групи, які можуть надавати у спільний доступ",
     "Groups excluded from sharing" : "Групи, виключені зі спільного доступу",
     "Not allowed groups will still be able to receive shares, but not to initiate them." : "Групи, в яких відсутні дозволи, все ще зможуть отримувати дані, що у спільному доступі, але самі не зможуть надавати у спільний доступ.",
+    "Set default expiration date for internal shares" : "Встановити типовий термін дії для для внутрішніх спільних ресурсів",
     "Enforce expiration date" : "Термін дії обов'язковий",
     "Default expiration time of new shares in days" : "Типовий термін дії спільних ресурсів у днях",
     "Expire shares after x days" : "Термін дії спільних ресурсів завершується через x днів",

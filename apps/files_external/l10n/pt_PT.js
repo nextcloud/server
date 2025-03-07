@@ -98,7 +98,6 @@ OC.L10N.register(
     "Configuration" : "Configuração",
     "Available for" : "Disponível para ",
     "Add storage" : "Adicionar armazenamento",
-    "Advanced settings" : "Definições avançadas",
-    "Submit" : "Submeter"
+    "Advanced settings" : "Definições avançadas"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

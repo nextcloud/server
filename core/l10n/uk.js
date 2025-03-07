@@ -265,7 +265,7 @@ OC.L10N.register(
     "No tags found" : "Міток не знайдено",
     "Clipboard not available, please copy manually" : "Буфер обміну не доступний, скопіюйте вручну",
     "Personal" : "Особисте",
-    "Accounts" : "Облікові записи",
+    "Accounts" : "Користувачі",
     "Admin" : "Адміністратор",
     "Help" : "Допомога",
     "Access forbidden" : "Доступ заборонено",

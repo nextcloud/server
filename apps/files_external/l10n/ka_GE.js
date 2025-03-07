@@ -101,7 +101,6 @@ OC.L10N.register(
     "Configuration" : "კონფიგურაცია",
     "Available for" : "ხელმისაწვდომია რომ",
     "Add storage" : "საცავის დამატება",
-    "Advanced settings" : "დამატებითი პარამეტრები",
-    "Submit" : "გაგზავნა"
+    "Advanced settings" : "დამატებითი პარამეტრები"
 },
 "nplurals=2; plural=(n!=1);");

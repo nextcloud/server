@@ -110,7 +110,6 @@ OC.L10N.register(
     "Available for" : "זמין עבור",
     "Add storage" : "הוספת אחסון",
     "Advanced settings" : "הגדרות מתקדמות",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "ניתן להשתמש בפרטי גישה גלובליים עם מגוון אמצעי אחסון חיצוניים שיש להם את אותם פרטי הגישה.",
-    "Submit" : "שליחה"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "ניתן להשתמש בפרטי גישה גלובליים עם מגוון אמצעי אחסון חיצוניים שיש להם את אותם פרטי הגישה."
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");
