@@ -27,14 +27,14 @@ function formatGroupMenu(group?: IGroup) {
 	return item
 }
 
-export const useFormatGroups = (groups: Ref<IGroup[]>|ComputedRef<IGroup[]>) => {
+export const useFormatGroups = (sectionGroups: Ref<IGroup[]>|ComputedRef<IGroup[]>, groups: Ref<IGroup[]>|ComputedRef<IGroup[]>) => {
 	/**
 	 * All non-disabled non-admin groups
 	 */
 	const userGroups = computed(() => {
 		const formatted = groups.value
-			// filter out disabled and admin
-			.filter(group => group.id !== 'disabled' && group.id !== '__nc_internal_recent' && group.id !== 'admin')
+			// filter out admin group
+			.filter(group => group.id !== 'admin')
 			// format group
 			.map(group => formatGroupMenu(group))
 			// remove invalid
@@ -50,12 +50,12 @@ export const useFormatGroups = (groups: Ref<IGroup[]>|ComputedRef<IGroup[]>) => 
 	/**
 	 * The group of disabled users
 	 */
-	const disabledGroup = computed(() => formatGroupMenu(groups.value.find(group => group.id === 'disabled')))
+	const disabledGroup = computed(() => formatGroupMenu(sectionGroups.value.find(group => group.id === 'disabled')))
 
 	/**
 	 * The group of recent users
 	 */
-	const recentGroup = computed(() => formatGroupMenu(groups.value.find(group => group.id === '__nc_internal_recent')))
+	const recentGroup = computed(() => formatGroupMenu(sectionGroups.value.find(group => group.id === 'recent')))
 
 	return { adminGroup, recentGroup, disabledGroup, userGroups }
 }
