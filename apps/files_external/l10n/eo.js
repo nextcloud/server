@@ -109,7 +109,6 @@ OC.L10N.register(
     "Available for" : "Disponebla por",
     "Add storage" : "Aldoni konservejon",
     "Advanced settings" : "Altanivela agordo",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn.",
-    "Submit" : "Sendi"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn."
 },
 "nplurals=2; plural=(n != 1);");

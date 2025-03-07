@@ -122,7 +122,6 @@ OC.L10N.register(
     "Available for" : "Na voljo za",
     "Add storage" : "Dodaj shrambo",
     "Advanced settings" : "Napredne nastavitve",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Splošna poverila je mogoče uporabiti za overitev z več zunanjimi shrambami, ki uporabljajo enaka poverila.",
-    "Submit" : "Pošlji"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Splošna poverila je mogoče uporabiti za overitev z več zunanjimi shrambami, ki uporabljajo enaka poverila."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

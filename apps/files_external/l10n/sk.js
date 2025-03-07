@@ -153,7 +153,6 @@ OC.L10N.register(
     "All people" : "Všetci ľudia",
     "Advanced settings" : "Rozšírené nastavenia",
     "Allow people to mount external storage" : "Povoliť užívateľom pripojiť externé úložiská",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globálne prihlasovacie údaje je možné použiť pre overenie s viacerými externými úložiskami, ktoré majú rovnaké prihlasovacie údaje.",
-    "Submit" : "Odoslať"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globálne prihlasovacie údaje je možné použiť pre overenie s viacerými externými úložiskami, ktoré majú rovnaké prihlasovacie údaje."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

@@ -153,7 +153,6 @@ OC.L10N.register(
     "All people" : "كُلَّ الأشخاص",
     "Advanced settings" : "إعدادات متقدمة",
     "Allow people to mount external storage" : "السماح للأشخاص بثبيت وحدات تخزين خارجية",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "بيانات تسجيل الدخول الشاملة تستخدم للتحقق من عدة وحدات تخزين خارجية لها نفس بيانات تسجيل الدخول.",
-    "Submit" : "إرسال "
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "بيانات تسجيل الدخول الشاملة تستخدم للتحقق من عدة وحدات تخزين خارجية لها نفس بيانات تسجيل الدخول."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

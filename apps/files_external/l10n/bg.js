@@ -118,7 +118,6 @@ OC.L10N.register(
     "Available for" : "Достъпно за",
     "Add storage" : "Добави хранилище",
     "Advanced settings" : "Допълнителни настройки",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните идентификационни данни могат да се използват за удостоверяване с множество външни хранилища, които имат едни и същи идентификационни данни.",
-    "Submit" : "Изпращане"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните идентификационни данни могат да се използват за удостоверяване с множество външни хранилища, които имат едни и същи идентификационни данни."
 },
 "nplurals=2; plural=(n != 1);");

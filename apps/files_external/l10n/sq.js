@@ -94,7 +94,6 @@ OC.L10N.register(
     "Configuration" : "Formësim",
     "Available for" : "E gatshme për",
     "Add storage" : "Shtoni depozitë",
-    "Advanced settings" : "Rregullime të mëtejshme",
-    "Submit" : "Dërgo"
+    "Advanced settings" : "Rregullime të mëtejshme"
 },
 "nplurals=2; plural=(n != 1);");

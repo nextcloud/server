@@ -86,7 +86,6 @@ OC.L10N.register(
     "Configuration" : "การกำหนดค่า",
     "Available for" : "ใช้ได้สำหรับ",
     "Add storage" : "เพิ่มพื้นที่จัดเก็บข้อมูล",
-    "Advanced settings" : "การตั้งค่าขั้นสูง",
-    "Submit" : "ส่ง"
+    "Advanced settings" : "การตั้งค่าขั้นสูง"
 },
 "nplurals=1; plural=0;");

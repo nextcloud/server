@@ -113,7 +113,6 @@ OC.L10N.register(
     "Available for" : "A disponimentu pro",
     "Add storage" : "Agiunghe archiviatzione",
     "Advanced settings" : "Cunfiguratziones avantzadas",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Is credentziales globales si podent impreare puru pro s'autenticatzione cun prus archiviatziones de foras chi tenent is matessi credentziales.",
-    "Submit" : "Imbia"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Is credentziales globales si podent impreare puru pro s'autenticatzione cun prus archiviatziones de foras chi tenent is matessi credentziales."
 },
 "nplurals=2; plural=(n != 1);");

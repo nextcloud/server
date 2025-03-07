@@ -150,7 +150,6 @@ OC.L10N.register(
     "All people" : "Tothom",
     "Advanced settings" : "Paràmetres avançats",
     "Allow people to mount external storage" : "Permet que les persones muntin emmagatzematge extern",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les credencials globals es poden utilitzar per a autenticar-se amb diversos emmagatzematges externs que tinguin les mateixes credencials.",
-    "Submit" : "Envia"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les credencials globals es poden utilitzar per a autenticar-se amb diversos emmagatzematges externs que tinguin les mateixes credencials."
 },
 "nplurals=2; plural=(n != 1);");
