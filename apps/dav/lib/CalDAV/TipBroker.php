@@ -109,7 +109,7 @@ class TipBroker extends Broker {
 		} else {
 			$objectType = $calendar->getBaseComponent()->name;
 		}
-		$objectSequence = $eventInfo['sequence'];
+		$objectSequence = $eventInfo['sequence'] ?? 1;
 		$organizerHref = $eventInfo['organizer'] ?? $oldEventInfo['organizer'];
 		if ($eventInfo['organizerName'] instanceof \Sabre\VObject\Parameter) {
 			$organizerName = $eventInfo['organizerName']->getValue();
