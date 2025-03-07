@@ -11,9 +11,13 @@ use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\IImage;
 use OCP\Server;
+use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 class Movie extends ProviderV2 {
+	/** @var IConfig */
+	private $config;
+
 	/**
 	 * @deprecated 23.0.0 pass option to \OCP\Preview\ProviderV2
 	 * @var string
@@ -32,6 +36,12 @@ class Movie extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+
+	public function __construct(array $config) {
+		parent::__construct($config);
+		$this->config = \OC::$server->get(IConfig::class);
+	}
+
 	public function getMimeType(): string {
 		return '/video\/.*/';
 	}
@@ -116,10 +126,40 @@ class Movie extends ProviderV2 {
 				'-an', '-f', 'mjpeg', '-vframes', '1', '-vsync', '1',
 				$tmpPath];
 		} elseif ($binaryType === 'ffmpeg') {
+			// alway default to generating preview using non-HDR command
 			$cmd = [$this->binary, '-y', '-ss', (string)$second,
 				'-i', $absPath,
 				'-f', 'mjpeg', '-vframes', '1',
 				$tmpPath];
+			// added new configuration switch to enable hdr video detection, defaults to disabled
+			$ffmpeg_enable_hdr = $this->config->getSystemValueBool('preview_ffmpeg_enable_hdr',false);
+			if ($ffmpeg_enable_hdr) {
+            	// load ffprobe path from configuration, otherwise generate binary path using ffmpeg binary path
+				$ffprobe_binary = is_string($this->config->getSystemValue('preview_ffprobe_path',null)) ? $this->config->getSystemValue('preview_ffprobe_path',null) : pathinfo($this->binary,PATHINFO_DIRNAME) . '/ffprobe';
+				// run ffprobe on the video file to get value of "color_transfer"
+				$hdr_test_cmd = [$ffprobe_binary,'-v','quiet',
+					'-select_streams', 'v:0',
+					'-show_entries', 'stream=color_transfer',
+					'-of', 'default=noprint_wrappers=1:nokey=1',
+					$absPath];
+				$test_hdr_proc = proc_open($hdr_test_cmd, [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $test_hdr_pipes);
+				$test_hdr_returnCode = -1;
+				$test_hdr_output = "";
+				if (is_resource($test_hdr_proc)) {
+					$test_hdr_stdout = trim(stream_get_contents($test_hdr_pipes[1]));
+					$test_hdr_stderr = trim(stream_get_contents($test_hdr_pipes[2]));
+					$test_hdr_returnCode = proc_close($test_hdr_proc);
+					$test_hdr_output = $test_hdr_stdout;
+                }
+				// only values of "smpte2084" and "arib-std-b67" indicate an HDR video so change $cmd to generate for HDR. otherwise, it is SDR, so do nothing
+				if ($test_hdr_output === 'smpte2084' || $test_hdr_output === 'arib-std-b67') {
+					$cmd = [$this->binary, '-y', '-ss', (string)$second,
+					'-i', $absPath,
+					'-f', 'mjpeg', '-vframes', '1',
+					'-vf', 'zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p',
+					$tmpPath];
+				}
+			}
 		} else {
 			// Not supported
 			unlink($tmpPath);
