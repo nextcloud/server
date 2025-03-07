@@ -3,29 +3,25 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\DAV\Events;
+namespace OCP\Calendar\Events;
 
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IWebhookCompatibleEvent;
 
 /**
- * Class CalendarObjectCreatedEvent
- *
- * @package OCA\DAV\Events
- * @since 20.0.0
+ * @since 32.0.0
  */
-class CalendarObjectCreatedEvent extends Event {
+abstract class AbstractCalendarObjectEvent extends Event implements IWebhookCompatibleEvent {
 
 	/**
-	 * CalendarObjectCreatedEvent constructor.
-	 *
 	 * @param int $calendarId
 	 * @param array $calendarData
 	 * @param array $shares
 	 * @param array $objectData
-	 * @since 20.0.0
+	 * @since 32.0.0
 	 */
 	public function __construct(
 		private int $calendarId,
@@ -38,7 +34,7 @@ class CalendarObjectCreatedEvent extends Event {
 
 	/**
 	 * @return int
-	 * @since 20.0.0
+	 * @since 32.0.0
 	 */
 	public function getCalendarId(): int {
 		return $this->calendarId;
@@ -46,7 +42,7 @@ class CalendarObjectCreatedEvent extends Event {
 
 	/**
 	 * @return array
-	 * @since 20.0.0
+	 * @since 32.0.0
 	 */
 	public function getCalendarData(): array {
 		return $this->calendarData;
@@ -54,7 +50,7 @@ class CalendarObjectCreatedEvent extends Event {
 
 	/**
 	 * @return array
-	 * @since 20.0.0
+	 * @since 32.0.0
 	 */
 	public function getShares(): array {
 		return $this->shares;
@@ -62,9 +58,22 @@ class CalendarObjectCreatedEvent extends Event {
 
 	/**
 	 * @return array
-	 * @since 20.0.0
+	 * @since 32.0.0
 	 */
 	public function getObjectData(): array {
 		return $this->objectData;
+	}
+
+	/**
+	 * @return array
+	 * @since 32.0.0
+	 */
+	public function getWebhookSerializable(): array {
+		return [
+			'calendarId' => $this->getCalendarId(),
+			'calendarData' => $this->getCalendarData(),
+			'shares' => $this->getShares(),
+			'objectData' => $this->getObjectData(),
+		];
 	}
 }

@@ -3,22 +3,20 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\DAV\Events;
+namespace OCP\Calendar\Events;
 
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IWebhookCompatibleEvent;
 
 /**
- * Class CalendarObjectMovedEvent
- *
- * @package OCA\DAV\Events
- * @since 25.0.0
+ * @since 32.0.0
  */
-class CalendarObjectMovedEvent extends Event {
+class CalendarObjectMovedEvent extends Event implements IWebhookCompatibleEvent {
 	/**
-	 * @since 25.0.0
+	 * @since 32.0.0
 	 */
 	public function __construct(
 		private int $sourceCalendarId,
@@ -34,7 +32,7 @@ class CalendarObjectMovedEvent extends Event {
 
 	/**
 	 * @return int
-	 * @since 25.0.0
+	 * @since 32.0.0
 	 */
 	public function getSourceCalendarId(): int {
 		return $this->sourceCalendarId;
@@ -42,7 +40,7 @@ class CalendarObjectMovedEvent extends Event {
 
 	/**
 	 * @return array
-	 * @since 25.0.0
+	 * @since 32.0.0
 	 */
 	public function getSourceCalendarData(): array {
 		return $this->sourceCalendarData;
@@ -50,7 +48,7 @@ class CalendarObjectMovedEvent extends Event {
 
 	/**
 	 * @return int
-	 * @since 25.0.0
+	 * @since 32.0.0
 	 */
 	public function getTargetCalendarId(): int {
 		return $this->targetCalendarId;
@@ -58,7 +56,7 @@ class CalendarObjectMovedEvent extends Event {
 
 	/**
 	 * @return array
-	 * @since 25.0.0
+	 * @since 32.0.0
 	 */
 	public function getTargetCalendarData(): array {
 		return $this->targetCalendarData;
@@ -66,7 +64,7 @@ class CalendarObjectMovedEvent extends Event {
 
 	/**
 	 * @return array
-	 * @since 25.0.0
+	 * @since 32.0.0
 	 */
 	public function getSourceShares(): array {
 		return $this->sourceShares;
@@ -74,7 +72,7 @@ class CalendarObjectMovedEvent extends Event {
 
 	/**
 	 * @return array
-	 * @since 25.0.0
+	 * @since 32.0.0
 	 */
 	public function getTargetShares(): array {
 		return $this->targetShares;
@@ -82,9 +80,25 @@ class CalendarObjectMovedEvent extends Event {
 
 	/**
 	 * @return array
-	 * @since 25.0.0
+	 * @since 32.0.0
 	 */
 	public function getObjectData(): array {
 		return $this->objectData;
+	}
+
+	/**
+	 * @return array
+	 * @since 32.0.0
+	 */
+	public function getWebhookSerializable(): array {
+		return [
+			'sourceCalendarId' => $this->getSourceCalendarId(),
+			'sourceCalendarData' => $this->getSourceCalendarData(),
+			'targetCalendarId' => $this->getTargetCalendarId(),
+			'targetCalendarData' => $this->getTargetCalendarData(),
+			'sourceShares' => $this->getSourceShares(),
+			'targetShares' => $this->getTargetShares(),
+			'objectData' => $this->getObjectData(),
+		];
 	}
 }
