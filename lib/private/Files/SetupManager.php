@@ -271,18 +271,20 @@ class SetupManager {
 	private function afterUserFullySetup(IUser $user, array $previouslySetupProviders): void {
 		$this->eventLogger->start('fs:setup:user:full:post', 'Housekeeping after user is setup');
 		$userRoot = '/' . $user->getUID() . '/';
-		$mounts = $this->mountManager->getAll();
-		$mounts = array_filter($mounts, function (IMountPoint $mount) use ($userRoot) {
-			return str_starts_with($mount->getMountPoint(), $userRoot);
-		});
 		$allProviders = array_map(function ($provider) {
 			return get_class($provider);
 		}, array_merge($this->mountProviderCollection->getProviders(), $this->mountProviderCollection->getHomeProviders()));
 		$newProviders = array_diff($allProviders, $previouslySetupProviders);
-		$mounts = array_filter($mounts, function (IMountPoint $mount) use ($previouslySetupProviders) {
-			return !in_array($mount->getMountProvider(), $previouslySetupProviders);
-		});
-		$this->userMountCache->registerMounts($user, $mounts, $newProviders);
+		if (count($newProviders) > 0) {
+			$mounts = $this->mountManager->getAll();
+			$mounts = array_filter($mounts, function (IMountPoint $mount) use ($userRoot, $previouslySetupProviders) {
+				if (!str_starts_with($mount->getMountPoint(), $userRoot)) {
+					return false;
+				}
+				return !in_array($mount->getMountProvider(), $previouslySetupProviders);
+			});
+			$this->userMountCache->registerMounts($user, $mounts, $newProviders);
+		}
 
 		$cacheDuration = $this->config->getSystemValueInt('fs_mount_cache_duration', 5 * 60);
 		if ($cacheDuration > 0) {
