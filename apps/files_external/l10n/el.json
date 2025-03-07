@@ -109,7 +109,6 @@
     "Available for" : "Διαθέσιμο για",
     "Add storage" : "Προσθήκη αποθηκευτικού χώρου",
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Τα δημόσια διαπιστευτήρια μπορούν να χρησιμοποιηθούν για τον έλεγχο ταυτότητας με διάφορους εξωτερικούς χώρους αποθήκευσης με ίδια διαπιστευτήρια.",
-    "Submit" : "Υποβολή"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Τα δημόσια διαπιστευτήρια μπορούν να χρησιμοποιηθούν για τον έλεγχο ταυτότητας με διάφορους εξωτερικούς χώρους αποθήκευσης με ίδια διαπιστευτήρια."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

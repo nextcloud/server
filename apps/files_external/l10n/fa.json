@@ -128,7 +128,6 @@
     "Available for" : "در دسترس برای",
     "Add storage" : "اضافه کردن حافظه",
     "Advanced settings" : "تنظیمات پیشرفته",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "از اعتبار جهانی می توان برای تأیید اعتبار با چندین انبار خارجی که دارای اعتبار یکسانی هستند استفاده کرد.",
-    "Submit" : "ارسال"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "از اعتبار جهانی می توان برای تأیید اعتبار با چندین انبار خارجی که دارای اعتبار یکسانی هستند استفاده کرد."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

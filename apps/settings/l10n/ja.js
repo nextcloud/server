@@ -569,6 +569,7 @@ OC.L10N.register(
     "Confirm enabling encryption" : "暗号化の有効化の確認",
     "Please read carefully before activating server-side encryption:" : "サーバー側の暗号化を適用にする前に、よくお読みください:",
     "Once encryption is enabled, all files uploaded to the server from that point forward will be encrypted at rest on the server. It will only be possible to disable encryption at a later date if the active encryption module supports that function, and all pre-conditions (e.g. setting a recover key) are met." : "いったん暗号化を有効にすると、この時点からサーバーにアップロードされるすべてのファイルが暗号化されサーバー上に入ります。有効化された暗号モジュールは復号化機能をサポートしますが、すべての前提条件が満たされている(例えば、回復キーが設定されている)場合にのみ、後日暗号化を無効にできます。",
+    "By default a master key for the whole instance will be generated. Please check if that level of access is compliant with your needs." : "デフォルトでは、インスタンス全体のマスタキーが生成されます。そのアクセスレベルがあなたのニーズに適合しているかどうか確認してください。",
     "Encryption alone does not guarantee security of the system. Please see documentation for more information about how the encryption app works, and the supported use cases." : "暗号化だけで、システムのセキュリティが保証されるわけではありません。暗号化アプリがどのように動作するかの詳細な情報や、サポートされているユースケースについては、Nextcloud のドキュメントを参照してください。",
     "Be aware that encryption always increases the file size." : "暗号化は、常にファイルサイズが増加することに注意してください。",
     "It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data." : "暗号化した場合には必ず、あなたのデータと共に暗号化キーをバックアップすることを確認し、定期的にデータをバックアップを作成することをお勧めします。",

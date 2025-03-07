@@ -153,7 +153,6 @@ OC.L10N.register(
     "All people" : "Wszystkie osoby",
     "Advanced settings" : "Ustawienia zaawansowane",
     "Allow people to mount external storage" : "Zezwalaj innym na montowanie pamięci zewnętrznej",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poświadczenia globalne mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same poświadczenia.",
-    "Submit" : "Wyślij"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poświadczenia globalne mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same poświadczenia."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

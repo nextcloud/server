@@ -118,7 +118,6 @@ OC.L10N.register(
     "Available for" : "Disponible para",
     "Add storage" : "Agregar almacenamiento",
     "Advanced settings" : "Configuraciones avanzadas",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Las credenciales globales se pueden usar para autenticarse con múltiples almacenamientos externos que tienen las mismas credenciales.",
-    "Submit" : "Enviar"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Las credenciales globales se pueden usar para autenticarse con múltiples almacenamientos externos que tienen las mismas credenciales."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
