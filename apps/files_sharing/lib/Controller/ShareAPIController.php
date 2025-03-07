@@ -1077,7 +1077,7 @@ class ShareAPIController extends OCSController {
 			return $this->getSharesInDir($node);
 		}
 
-		$shares = $this->getSharesFromNode($viewer, $node, $reShares);
+		$shares = $this->getSharesFromNode($viewer, $node, $reShares, $types);
 
 		$known = $formatted = $miniFormatted = [];
 		$resharingRight = false;
@@ -1887,7 +1887,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * @return IShare[]
 	 */
-	private function getSharesFromNode(string $viewer, $node, bool $reShares): array {
+	private function getSharesFromNode(string $viewer, $node, bool $reShares, array $limitToProviders = []): array {
 		$providers = [
 			IShare::TYPE_USER,
 			IShare::TYPE_GROUP,
@@ -1899,6 +1899,10 @@ class ShareAPIController extends OCSController {
 			IShare::TYPE_SCIENCEMESH
 		];
 
+		if (count($limitToProviders) > 0) {
+			$providers = $limitToProviders;
+		}
+		
 		// Should we assume that the (currentUser) viewer is the owner of the node !?
 		$shares = [];
 		foreach ($providers as $provider) {
