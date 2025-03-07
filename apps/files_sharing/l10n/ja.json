@@ -275,6 +275,7 @@
     "Edit" : "編集",
     "Share" : "共有",
     "Delete" : "削除",
+    "Password field cannot be empty" : "パスワードフィールドは空にできません",
     "Replace current password" : "現在のパスワードを置き換える",
     "Failed to generate a new token" : "新しいトークンの生成に失敗しました",
     "Allow upload and editing" : "アップロードと編集を許可",

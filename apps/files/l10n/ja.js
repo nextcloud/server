@@ -80,6 +80,7 @@ OC.L10N.register(
     "Go to the \"{dir}\" directory" : "\"{dir}\" ディレクトリに移動する",
     "Current directory path" : "現在のディレクトリパス",
     "Your have used your space quota and cannot upload files anymore" : "あなたのクォータ容量を使い果たし、ファイルをアップロードできなくなりました。",
+    "You do not have permission to upload or create files here." : "ここにファイルをアップロードまたは作成する権限がありません。",
     "Drag and drop files here to upload" : "ここにファイルをドラッグ＆ドロップしてアップロードする",
     "Favorite" : "お気に入り",
     "Back" : "戻る",

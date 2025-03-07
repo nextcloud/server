@@ -94,7 +94,6 @@ OC.L10N.register(
     "Available for" : "Достапно за",
     "Add storage" : "Додади складиште",
     "Advanced settings" : "Напредни параметри",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните акредитиви можат да се искористат за пристапување во повеќе надворешни складишта кој користат исти акредитиви.",
-    "Submit" : "Испрати"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните акредитиви можат да се искористат за пристапување во повеќе надворешни складишта кој користат исти акредитиви."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

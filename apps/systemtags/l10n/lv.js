@@ -55,7 +55,6 @@ OC.L10N.register(
     "System admin disabled tag creation. You can only use existing ones." : "Sistēmas pārvaldītājs atspējoja birku izveidošanu. Ir iespējams izmantot tikai esošās.",
     "System tag creation is now restricted to administrators" : "Sistēmas birku izveidošana tagad ir pieejama tikai pārvaldītājiem",
     "System tag creation is now allowed for everybody" : "Sistēmas birku izveidošana tagad ir ļauta visiem",
-    "System tag creation" : "Sistēmas birku izveidošana",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Sadarbības birkas ir pieejamas visiem lietotājiem. Ierobežotās birkas ir redzamas lietotājiem, bet viņi tās nevar piešķirt. Neredzamās birkas ir paredzētas iekšējai lietošanai, jo lietotāji nevar tās redzēt vai piešķirt.",
     "No tags found" : "Netika atrasta neviena birka"
 },

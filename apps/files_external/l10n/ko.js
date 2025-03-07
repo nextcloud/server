@@ -150,7 +150,6 @@ OC.L10N.register(
     "All people" : "모든 사용자",
     "Advanced settings" : "고급 설정",
     "Allow people to mount external storage" : "사용자가 외부 저장소를 마운트하도록 허용",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "전역 인증 정보를 사용하여 같은 인증 정보를 사용하는 여러 외부 저장소에 인증할 수 있습니다.",
-    "Submit" : "제출"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "전역 인증 정보를 사용하여 같은 인증 정보를 사용하는 여러 외부 저장소에 인증할 수 있습니다."
 },
 "nplurals=1; plural=0;");

@@ -132,7 +132,6 @@ OC.L10N.register(
     "Available for" : "Számukra érhető el:",
     "Add storage" : "Tároló hozzáadása",
     "Advanced settings" : "Speciális beállítások",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "A globális hitelesítő adatokkal azonos külső hitelesítő adatokkal rendelkező külső tárhelyek hitelesíthetők.",
-    "Submit" : "Beküldés"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "A globális hitelesítő adatokkal azonos külső hitelesítő adatokkal rendelkező külső tárhelyek hitelesíthetők."
 },
 "nplurals=2; plural=(n != 1);");
