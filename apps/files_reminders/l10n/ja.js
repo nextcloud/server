@@ -6,6 +6,7 @@ OC.L10N.register(
     "View file" : "ファイルを表示",
     "View folder" : "フォルダーを表示",
     "Set file reminders" : "ファイルのリマインダーを設定する",
+    "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 File reminders**\n\nファイルのリマインダーを設定します。\n\n注意：`File reminders`アプリを使用するには、`Notifications`アプリがインストールされ、有効になっていることを確認してください。Notifications` アプリは `File reminders` アプリが正しく動作するために必要な API を提供します。",
     "Set reminder for \"{fileName}\"" : "\"{fileName}\"のリマインダーを設定",
     "Set reminder at custom date & time" : "カスタムした日付と時刻にリマインダーを設定",
     "Clear reminder" : "リマインダーをクリア",
