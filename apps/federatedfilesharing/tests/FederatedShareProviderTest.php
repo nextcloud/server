@@ -872,7 +872,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->gsConfig->expects($this->once())->method('isGlobalScaleEnabled')
 			->willReturn($gsEnabled);
 		$this->config->expects($this->any())->method('getAppValue')
-			->with('files_sharing', 'lookupServerUploadEnabled', 'yes')
+			->with('files_sharing', 'lookupServerUploadEnabled', 'no')
 			->willReturn($isEnabled);
 
 		$this->assertSame($expected,
