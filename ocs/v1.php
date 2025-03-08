@@ -9,6 +9,7 @@ declare(strict_types=1);
  */
 
 require_once __DIR__ . '/../lib/versioncheck.php';
+$memoryBefore = memory_get_usage();
 require_once __DIR__ . '/../lib/base.php';
 
 use OC\OCS\ApiHelper;
@@ -70,4 +71,10 @@ try {
 		// Just to be save
 	}
 	ApiHelper::respond(OCSController::RESPOND_SERVER_ERROR, $txt);
+} finally {
+	$memoryAfter = memory_get_usage();
+	if ($memoryAfter - $memoryBefore > 400_000_000) {
+		$message = 'Used memory was more than 400 MB: ' . \OCP\Util::humanFileSize($memoryAfter - $memoryBefore);
+		\OCP\Server::get(LoggerInterface::class)->warning($message);
+	}
 }
