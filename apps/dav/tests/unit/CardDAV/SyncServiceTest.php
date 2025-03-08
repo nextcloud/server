@@ -20,6 +20,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -28,14 +29,15 @@ use Test\TestCase;
 
 class SyncServiceTest extends TestCase {
 
-	protected CardDavBackend $backend;
-	protected IUserManager $userManager;
-	protected IDBConnection $dbConnection;
+	protected CardDavBackend&MockObject $backend;
+	protected IUserManager&MockObject $userManager;
+	protected IDBConnection&MockObject $dbConnection;
 	protected LoggerInterface $logger;
-	protected Converter $converter;
-	protected IClient $client;
-	protected IConfig $config;
+	protected Converter&MockObject $converter;
+	protected IClient&MockObject $client;
+	protected IConfig&MockObject $config;
 	protected SyncService $service;
+
 	public function setUp(): void {
 		$addressBook = [
 			'id' => 1,
@@ -487,4 +489,256 @@ END:VCARD';
 			['https://server.internal:8080/nextcloud/', 'https://server.internal:8080/nextcloud/remote.php/dav/addressbooks/system/system/system'],
 		];
 	}
+
+	public function testSyncInstanceWithUsersUnderLimit(): void {
+		
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['dav', 'system_addressbook_exposed', 'none', 'none'],
+				['dav', 'system_addressbook_limit', '5000', '5000']
+			]);
+
+		$this->userManager->method('countUsersTotal')
+			->willReturn(4999);
+
+		$this->userManager->method('callForAllUsers')
+			->willReturnCallback(function ($callback) {
+				$user = $this->createMock(IUser::class);
+				$user->method('getBackendClassName')->willReturn('unittest');
+				$user->method('getUID')->willReturn('test-user');
+				$user->method('isEnabled')->willReturn(true);
+				$callback($user);
+			});
+		
+		$this->backend->method('getCards')
+			->willReturn([
+				['carddata' => "BEGIN:VCARD\r\nVERSION:3.0\r\nUID:test-user\r\nFN:test-user\r\nEND:VCARD\r\n", 'uri' => 'unittest:test-user.vcf']
+			]);
+
+		$clientService = $this->createMock(IClientService::class);
+		
+		$service = $this->getMockBuilder(SyncService::class)
+			->setConstructorArgs([
+				$this->backend,
+				$this->userManager,
+				$this->dbConnection,
+				$this->logger,
+				$this->converter,
+				$clientService,
+				$this->config
+			])
+			->onlyMethods(['ensureSystemAddressBookExists', 'updateUser'])
+			->getMock();
+		
+		$service->expects($this->once())
+			->method('ensureSystemAddressBookExists')
+			->willReturn([
+				'id' => 1,
+				'uri' => 'system',
+				'principaluri' => 'principals/system/system',
+				'{DAV:}displayname' => 'system',
+			]);
+		$service->expects($this->any())
+			->method('updateUser');
+
+		$service->syncInstance();
+	}
+
+	public function testSyncInstanceWithWithUsersOverLimit(): void {
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['dav', 'system_addressbook_exposed', 'none', 'none'],
+				['dav', 'system_addressbook_limit', '5000', '5000']
+			]);
+
+		$this->userManager->method('countUsersTotal')
+			->willReturn(5000);
+
+		$this->config->expects($this->once())
+			->method('setAppValue')
+			->with('dav', 'system_addressbook_exposed', 'no');
+
+		$clientService = $this->createMock(IClientService::class);
+
+		$service = $this->getMockBuilder(SyncService::class)
+			->setConstructorArgs([
+				$this->backend,
+				$this->userManager,
+				$this->dbConnection,
+				$this->logger,
+				$this->converter,
+				$clientService,
+				$this->config
+			])
+			->onlyMethods(['getLocalSystemAddressBook'])
+			->getMock();
+		
+		$service->expects($this->never())
+			->method('getLocalSystemAddressBook');
+
+		$service->syncInstance();
+	}
+
+	public function testSyncInstanceWithProgressCallback(): void {
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['dav', 'system_addressbook_exposed', 'none', 'none'],
+				['dav', 'system_addressbook_limit', '5000', '5000']
+			]);
+
+		$this->userManager->method('countUsersTotal')
+			->willReturn(4999);
+
+		$this->userManager->method('callForAllUsers')
+			->willReturnCallback(function ($callback) {
+				$user = $this->createMock(IUser::class);
+				$user->method('getBackendClassName')->willReturn('unittest');
+				$user->method('getUID')->willReturn('test-user');
+				$user->method('isEnabled')->willReturn(true);
+				$callback($user);
+			});
+		
+		$this->backend->method('getCards')
+			->willReturn([
+				['carddata' => "BEGIN:VCARD\r\nVERSION:3.0\r\nUID:test-user\r\nFN:test-user\r\nEND:VCARD\r\n", 'uri' => 'unittest:test-user.vcf']
+			]);
+
+		$clientService = $this->createMock(IClientService::class);
+		
+		$service = $this->getMockBuilder(SyncService::class)
+			->setConstructorArgs([
+				$this->backend,
+				$this->userManager,
+				$this->dbConnection,
+				$this->logger,
+				$this->converter,
+				$clientService,
+				$this->config
+			])
+			->onlyMethods(['ensureSystemAddressBookExists', 'updateUser'])
+			->getMock();
+		
+		$service->expects($this->once())
+			->method('ensureSystemAddressBookExists')
+			->willReturn([
+				'id' => 1,
+				'uri' => 'system',
+				'principaluri' => 'principals/system/system',
+				'{DAV:}displayname' => 'system',
+			]);
+		$service->expects($this->any())
+			->method('updateUser');
+
+		$progressCalled = false;
+		$progressCallback = function () use (&$progressCalled) {
+			$progressCalled = true;
+		};
+		
+		$service->syncInstance($progressCallback);
+
+		$this->assertTrue($progressCalled);
+	}
+
+	public function testSyncInstanceWithExposeYes() {
+		
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['dav', 'system_addressbook_exposed', 'none', 'yes']
+			]);
+
+		$this->userManager->method('callForAllUsers')
+			->willReturnCallback(function ($callback) {
+				$user = $this->createMock(IUser::class);
+				$user->method('getBackendClassName')->willReturn('unittest');
+				$user->method('getUID')->willReturn('test-user');
+				$user->method('isEnabled')->willReturn(true);
+				$callback($user);
+			});
+		
+		$this->backend->method('getCards')
+			->willReturn([
+				['carddata' => "BEGIN:VCARD\r\nVERSION:3.0\r\nUID:test-user\r\nFN:test-user\r\nEND:VCARD\r\n", 'uri' => 'unittest:test-user.vcf']
+			]);
+
+		$clientService = $this->createMock(IClientService::class);
+		
+		$service = $this->getMockBuilder(SyncService::class)
+			->setConstructorArgs([
+				$this->backend,
+				$this->userManager,
+				$this->dbConnection,
+				$this->logger,
+				$this->converter,
+				$clientService,
+				$this->config
+			])
+			->onlyMethods(['ensureSystemAddressBookExists', 'updateUser'])
+			->getMock();
+		
+		$service->expects($this->once())
+			->method('ensureSystemAddressBookExists')
+			->willReturn([
+				'id' => 1,
+				'uri' => 'system',
+				'principaluri' => 'principals/system/system',
+				'{DAV:}displayname' => 'system',
+			]);
+		$service->expects($this->any())
+			->method('updateUser');
+
+		$service->syncInstance();
+		
+	}
+
+	public function testSyncInstanceWithExposeNo() {
+		
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['dav', 'system_addressbook_exposed', 'none', 'no']
+			]);
+
+		$this->userManager->method('callForAllUsers')
+			->willReturnCallback(function ($callback) {
+				$user = $this->createMock(IUser::class);
+				$user->method('getBackendClassName')->willReturn('unittest');
+				$user->method('getUID')->willReturn('test-user');
+				$user->method('isEnabled')->willReturn(true);
+				$callback($user);
+			});
+		
+		$this->backend->method('getCards')
+			->willReturn([
+				['carddata' => "BEGIN:VCARD\r\nVERSION:3.0\r\nUID:test-user\r\nFN:test-user\r\nEND:VCARD\r\n", 'uri' => 'unittest:test-user.vcf']
+			]);
+
+		$clientService = $this->createMock(IClientService::class);
+		
+		$service = $this->getMockBuilder(SyncService::class)
+			->setConstructorArgs([
+				$this->backend,
+				$this->userManager,
+				$this->dbConnection,
+				$this->logger,
+				$this->converter,
+				$clientService,
+				$this->config
+			])
+			->onlyMethods(['ensureSystemAddressBookExists', 'updateUser'])
+			->getMock();
+		
+		$service->expects($this->once())
+			->method('ensureSystemAddressBookExists')
+			->willReturn([
+				'id' => 1,
+				'uri' => 'system',
+				'principaluri' => 'principals/system/system',
+				'{DAV:}displayname' => 'system',
+			]);
+		$service->expects($this->any())
+			->method('updateUser');
+
+		$service->syncInstance();
+		
+	}
+
 }
