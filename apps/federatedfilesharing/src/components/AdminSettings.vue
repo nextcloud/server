@@ -39,8 +39,8 @@
 		</NcCheckboxRadioSwitch>
 
 		<NcCheckboxRadioSwitch type="switch"
-			:checked.sync="lookupServerUploadEnabled"
-			@update:checked="update('lookupServerUploadEnabled', lookupServerUploadEnabled)">
+			:checked="lookupServerUploadEnabled"
+			@update:checked="showLookupServerConfirmation">
 			{{ t('federatedfilesharing', 'Allow people to publish their data to a global and public address book') }}
 		</NcCheckboxRadioSwitch>
 
@@ -60,7 +60,7 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-import { showError } from '@nextcloud/dialogs'
+import { DialogBuilder, DialogSeverity, showError } from '@nextcloud/dialogs'
 import { generateOcsUrl } from '@nextcloud/router'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import axios from '@nextcloud/axios'
@@ -92,6 +92,39 @@ export default {
 		}
 	},
 	methods: {
+		setLookupServerUploadEnabled(state) {
+			if (state === this.lookupServerUploadEnabled) {
+				return
+			}
+			this.lookupServerUploadEnabled = state
+			this.update('lookupServerUploadEnabled', state)
+		},
+
+		async showLookupServerConfirmation(state) {
+			// No confirmation needed for disabling
+			if (state === false) {
+				return this.setLookupServerUploadEnabled(false)
+			}
+
+			const dialog = new DialogBuilder(t('federatedfilesharing', 'Confirm data upload to lookup server'))
+			await dialog
+				.setSeverity(DialogSeverity.Warning)
+				.setText(
+					t('federatedfilesharing', 'When enabled all account properties, like email address, with visibility scope set to "published", will be automatically synced with the global and public address book.'),
+				)
+				.addButton({
+					callback: () => this.setLookupServerUploadEnabled(false),
+					label: t('federatedfilesharing', 'Disable upload'),
+				})
+				.addButton({
+					callback: () => this.setLookupServerUploadEnabled(true),
+					label: t('federatedfilesharing', 'Enable data upload'),
+					type: 'error',
+				})
+				.build()
+				.show()
+		},
+
 		async update(key, value) {
 			await confirmPassword()
 
