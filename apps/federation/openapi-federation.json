@@ -505,7 +505,7 @@
     "tags": [
         {
             "name": "ocs_authapi",
-            "description": "Class OCSAuthAPI\nOCS API end-points to exchange shared secret between two connected Nextclouds"
+            "description": "Class OCSAuthAPI OCS API end-points to exchange shared secret between two connected Nextclouds"
         }
     ]
 }
