@@ -139,6 +139,7 @@ class Imaginary extends ProviderV2 {
 			]
 		];
 
+		$timeBefore = microtime(true);
 		try {
 			$imaginaryKey = $this->config->getSystemValueString('preview_imaginary_key', '');
 			$response = $httpClient->post(
@@ -154,12 +155,15 @@ class Imaginary extends ProviderV2 {
 		} catch (\Throwable $e) {
 			$this->logger->info('Imaginary preview generation failed: ' . $e->getMessage(), [
 				'exception' => $e,
+				'app' => 'imaginary',
 			]);
 			return null;
 		}
 
 		if ($response->getStatusCode() !== 200) {
-			$this->logger->info('Imaginary preview generation failed: ' . json_decode($response->getBody())['message']);
+			$this->logger->info('Imaginary preview generation failed: ' . json_decode($response->getBody())['message'], [
+				'app' => 'imaginary',
+			]);
 			return null;
 		}
 
@@ -176,6 +180,26 @@ class Imaginary extends ProviderV2 {
 		} else {
 			$image = new Image();
 			$image->loadFromFileHandle($response->getBody());
+		}
+
+		$timeAfter = microtime(true);
+		$timeSpent = $timeAfter - $timeBefore;
+		if ($timeSpent > 2) {
+			$logFunction = match (true) {
+				$timeSpent > 25 => $this->logger->error(...),
+				$timeSpent > 10 => $this->logger->warning(...),
+				$timeSpent > 0.5 => $this->logger->info(...),
+				default => $this->logger->debug(...),
+			};
+			if ($image->valid()) {
+				$logFunction('Imaginary preview generation succeeded after ' . round($timeSpent, 2) . ' seconds', [
+					'app' => 'imaginary',
+				]);
+			} else {
+				$logFunction('Imaginary preview generation failed after ' . round($timeSpent, 2) . ' seconds', [
+					'app' => 'imaginary',
+				]);
+			}
 		}
 
 		return $image->valid() ? $image : null;
