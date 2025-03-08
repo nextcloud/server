@@ -116,7 +116,7 @@ class RetryJob extends Job {
 	protected function shouldRemoveBackgroundJob(): bool {
 		return $this->config->getSystemValueBool('has_internet_connection', true) === false ||
 			$this->config->getSystemValueString('lookup_server', 'https://lookup.nextcloud.com') === '' ||
-			$this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes') !== 'yes' ||
+			$this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'no') !== 'yes' ||
 			$this->retries >= 5;
 	}
 
