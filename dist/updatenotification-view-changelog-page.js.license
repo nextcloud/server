@@ -64,7 +64,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0-beta.19
 	- license: MIT
 - marked
-	- version: 15.0.0
+	- version: 15.0.7
 	- license: MIT
 - process
 	- version: 0.11.10
