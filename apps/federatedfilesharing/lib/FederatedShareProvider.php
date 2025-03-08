@@ -1086,8 +1086,8 @@ class FederatedShareProvider implements IShareProvider {
 		if ($this->gsConfig->isGlobalScaleEnabled()) {
 			return false;
 		}
-		$result = $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes');
-		return ($result === 'yes');
+		$result = $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'no');
+		return $result === 'yes';
 	}
 
 	/**
