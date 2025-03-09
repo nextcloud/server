@@ -44,6 +44,9 @@
 		<live-migration>
 			<step>OCA\DAV\Migration\ChunkCleanup</step>
 		</live-migration>
+		<install>
+			<step>OCA\DAV\Migration\CreateSystemAddressBookStep</step>
+		</install>
 	</repair-steps>
 
 	<commands>
