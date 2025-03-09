@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OC\Preview;
 
+use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\Files\Node;
@@ -37,7 +38,7 @@ class Watcher {
 		$this->deleteNode($node);
 	}
 
-	protected function deleteNode(Node $node) {
+	protected function deleteNode(FileInfo $node) {
 		// We only handle files
 		if ($node instanceof Folder) {
 			return;
