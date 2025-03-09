@@ -9,6 +9,7 @@ namespace OC\Files\Config;
 
 use OC\User\LazyUser;
 use OCP\Cache\CappedMemoryCache;
+use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
 use OCP\Files\Config\ICachedMountFileInfo;
@@ -191,6 +192,19 @@ class UserMountCache implements IUserMountCache {
 	}
 
 	/**
+	 * @param IResult $result
+	 * @return CachedMountInfo[]
+	 */
+	private function fetchMountInfo(IResult $result, ?callable $pathCallback = null): array {
+		$mounts = [];
+		while ($row = $result->fetch()) {
+			$mount = $this->dbRowToMountInfo($row, $pathCallback);
+			$mounts[] = $mount;
+		}
+		return array_filter($mounts);
+	}
+
+	/**
 	 * @param array $row
 	 * @param (callable(CachedMountInfo): string)|null $pathCallback
 	 * @return CachedMountInfo
@@ -239,19 +253,11 @@ class UserMountCache implements IUserMountCache {
 				->from('mounts', 'm')
 				->where($builder->expr()->eq('user_id', $builder->createNamedParameter($userUID)));
 
-			$result = $query->execute();
-			$rows = $result->fetchAll();
-			$result->closeCursor();
-
-			/** @var array<string, ICachedMountInfo> $mounts */
-			$mounts = [];
-			foreach ($rows as $row) {
-				$mount = $this->dbRowToMountInfo($row, [$this, 'getInternalPathForMountInfo']);
-				if ($mount !== null) {
-					$mounts[$mount->getKey()] = $mount;
-				}
-			}
-			$this->mountsForUsers[$userUID] = $mounts;
+			$mounts = $this->fetchMountInfo($query->execute(), [$this, 'getInternalPathForMountInfo']);
+			$keys = array_map(function (ICachedMountInfo $mount) {
+				return $mount->getKey();
+			}, $mounts);
+			$this->mountsForUsers[$userUID] = array_combine($keys, $mounts);
 		}
 		return $this->mountsForUsers[$userUID];
 	}
@@ -284,11 +290,7 @@ class UserMountCache implements IUserMountCache {
 			$query->andWhere($builder->expr()->eq('user_id', $builder->createNamedParameter($user)));
 		}
 
-		$result = $query->execute();
-		$rows = $result->fetchAll();
-		$result->closeCursor();
-
-		return array_filter(array_map([$this, 'dbRowToMountInfo'], $rows));
+		return $this->fetchMountInfo($query->executeQuery());
 	}
 
 	/**
@@ -302,11 +304,7 @@ class UserMountCache implements IUserMountCache {
 			->innerJoin('m', 'filecache', 'f', $builder->expr()->eq('m.root_id', 'f.fileid'))
 			->where($builder->expr()->eq('root_id', $builder->createNamedParameter($rootFileId, IQueryBuilder::PARAM_INT)));
 
-		$result = $query->execute();
-		$rows = $result->fetchAll();
-		$result->closeCursor();
-
-		return array_filter(array_map([$this, 'dbRowToMountInfo'], $rows));
+		return $this->fetchMountInfo($query->executeQuery());
 	}
 
 	/**
