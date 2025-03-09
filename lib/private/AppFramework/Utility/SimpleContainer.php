@@ -228,8 +228,8 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	/**
 	 * @deprecated 20.0.0 use \OCP\IContainer::registerService
 	 */
-	public function offsetSet($id, $service): void {
-		$this->container->offsetSet($id, $service);
+	public function offsetSet($offset, $value): void {
+		$this->container->offsetSet($offset, $value);
 	}
 
 	/**

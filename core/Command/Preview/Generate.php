@@ -57,13 +57,13 @@ class Generate extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$fileInput = $input->getArgument("file");
 		$sizes = $input->getOption("size");
-		$sizes = array_map(function (string $size) use ($output, &$error) {
+		$sizes = array_map(function (string $size) use ($output) {
 			if (str_contains($size, 'x')) {
 				$sizeParts = explode('x', $size, 2);
 			} else {
 				$sizeParts = [$size, $size];
 			}
-			if (!is_numeric($sizeParts[0]) || !is_numeric($sizeParts[1])) {
+			if (!is_numeric($sizeParts[0]) || !is_numeric($sizeParts[1] ?? null)) {
 				$output->writeln("<error>Invalid size $size</error>");
 				return null;
 			}
