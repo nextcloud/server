@@ -352,6 +352,7 @@ OC.L10N.register(
     "{index} of {total}" : "{index} із {total}",
     "Daemon" : "Демон",
     "Type" : "Тип",
+    "Display Name" : "Назва для показу",
     "Learn more" : "Дізнатися більше",
     "Confirm" : "Підтвердити",
     "Cancel" : "Скасувати",
