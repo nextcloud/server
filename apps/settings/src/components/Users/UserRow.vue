@@ -554,6 +554,8 @@ export default {
 			this.loadingPossibleManagers = false
 		},
 
+		// TODO search groups
+
 		async searchUserManager(query) {
 			await this.$store.dispatch('searchUsers', { offset: 0, limit: 10, search: query }).then(response => {
 				const users = response?.data ? this.filterManagers(Object.values(response?.data.ocs.data.users)) : []

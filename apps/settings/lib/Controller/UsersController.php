@@ -202,10 +202,11 @@ class UsersController extends Controller {
 		/* FINAL DATA */
 		$serverData = [];
 		// groups
-		$serverData['groups'] = array_merge_recursive($adminGroup, [$recentUsersGroup, $disabledUsersGroup], $groups);
+		$serverData['internalGroups'] = array_merge_recursive($adminGroup, [$recentUsersGroup, $disabledUsersGroup]);
 		// Various data
 		$serverData['isAdmin'] = $isAdmin;
 		$serverData['isDelegatedAdmin'] = $isDelegatedAdmin;
+		// TODO Handle sort with paginated groups
 		$serverData['sortGroups'] = $forceSortGroupByName
 			? MetaData::SORT_GROUPNAME
 			: (int)$this->config->getAppValue('core', 'group.sortBy', (string)MetaData::SORT_USERCOUNT);
