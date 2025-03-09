@@ -84,6 +84,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 			$this->groupManager,
 			$this->mountCache,
 			$this->eventDispatcher,
+			$this->appConfig,
 		);
 	}
 
