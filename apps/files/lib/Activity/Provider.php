@@ -47,8 +47,6 @@ class Provider implements IProvider {
 
 	/** @var IL10N */
 	protected $l;
-	/** @var IL10N */
-	protected $activityLang;
 
 	/** @var IURLGenerator */
 	protected $url;
@@ -108,7 +106,6 @@ class Provider implements IProvider {
 		}
 
 		$this->l = $this->languageFactory->get('files', $language);
-		$this->activityLang = $this->languageFactory->get('activity', $language);
 
 		if ($this->activityManager->isFormattingFilteredObject()) {
 			try {
@@ -163,7 +160,7 @@ class Provider implements IProvider {
 
 		if (!isset($parsedParameters['user'])) {
 			// External user via public link share
-			$subject = str_replace('{user}', $this->activityLang->t('"remote account"'), $subject);
+			$subject = str_replace('{user}', $this->l->t('"remote account"'), $subject);
 		}
 
 		$this->setSubjects($event, $subject, $parsedParameters);
@@ -281,7 +278,7 @@ class Provider implements IProvider {
 
 		if (!isset($parsedParameters['user'])) {
 			// External user via public link share
-			$subject = str_replace('{user}', $this->activityLang->t('"remote account"'), $subject);
+			$subject = str_replace('{user}', $this->l->t('"remote account"'), $subject);
 		}
 
 		$this->setSubjects($event, $subject, $parsedParameters);
