@@ -7,6 +7,7 @@
  */
 namespace OCA\DAV\CardDAV;
 
+use InvalidArgumentException;
 use OC\Search\Filter\DateTimeFilter;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\Backend;
@@ -609,6 +610,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$etag = md5($cardData);
 		$uid = $this->getUID($cardData);
 		return $this->atomic(function () use ($addressBookId, $cardUri, $cardData, $checkAlreadyExists, $etag, $uid) {
+			$addressBookData = $this->getAddressBookById($addressBookId);
+			if ($addressBookData === null) {
+				throw new InvalidArgumentException("Address book with id $addressBookId does not exist. Can not create VCard.");
+			}
+
 			if ($checkAlreadyExists) {
 				$q = $this->db->getQueryBuilder();
 				$q->select('uid')
@@ -643,7 +649,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$this->addChange($addressBookId, $cardUri, 1);
 			$this->updateProperties($addressBookId, $cardUri, $cardData);
 
-			$addressBookData = $this->getAddressBookById($addressBookId);
 			$shares = $this->getShares($addressBookId);
 			$objectRow = $this->getCard($addressBookId, $cardUri);
 			$this->dispatcher->dispatchTyped(new CardCreatedEvent($addressBookId, $addressBookData, $shares, $objectRow));
