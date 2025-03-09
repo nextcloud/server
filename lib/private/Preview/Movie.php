@@ -149,7 +149,7 @@ class Movie extends ProviderV2 {
 					$test_hdr_stdout = trim(stream_get_contents($test_hdr_pipes[1]));
 					$test_hdr_stderr = trim(stream_get_contents($test_hdr_pipes[2]));
 					$test_hdr_returnCode = proc_close($test_hdr_proc);
-					$test_hdr_output = $test_hdr_stdout, $test_hdr_stderr;
+					$test_hdr_output = $test_hdr_stdout . $test_hdr_stderr;
                 }
 				// Only values of "smpte2084" and "arib-std-b67" indicate an HDR video so change $cmd to generate for HDR.
 				// Force colorspace to '2020_ncl' because some videos are tagged incorrectly as 'reserved' resulting in fail
