@@ -16,9 +16,11 @@ use OC\User\NoUserException;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Versions\Db\VersionEntity;
 use OCA\Files_Versions\Db\VersionsMapper;
+use OCA\Files_Versions\Events\VersionRestoredEvent;
 use OCA\Files_Versions\Storage;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Constants;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IMimeTypeLoader;
 use OCP\IConfig;
 use OCP\IUser;
@@ -804,8 +806,12 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertEquals('test file', $this->rootView->file_get_contents($filePath));
 		$info1 = $this->rootView->getFileInfo($filePath);
 
-		$params = [];
-		$this->connectMockHooks('rollback', $params);
+		$eventDispatcher = Server::get(IEventDispatcher::class);
+		$eventFired = false;
+		$eventDispatcher->addListener(VersionRestoredEvent::class, function ($event) use (&$eventFired, $t2) {
+			$eventFired = true;
+			$this->assertEquals($t2, $event->getVersion()->getRevisionId());
+		});
 
 		$versionManager = Server::get(IVersionManager::class);
 		$versions = $versionManager->getVersionsForFile($this->user1, $info1);
@@ -813,13 +819,8 @@ class VersioningTest extends \Test\TestCase {
 			return $version->getRevisionId() === $t2;
 		});
 		$this->assertTrue($versionManager->rollback(current($version)));
-		$expectedParams = [
-			'path' => '/sub/test.txt',
-		];
 
-		$this->assertEquals($expectedParams['path'], $params['path']);
-		$this->assertTrue(array_key_exists('revision', $params));
-		$this->assertTrue($params['revision'] > 0);
+		$this->assertTrue($eventFired, 'VersionRestoredEvent was not fired');
 
 		$this->assertEquals('version2', $this->rootView->file_get_contents($filePath));
 		$info2 = $this->rootView->getFileInfo($filePath);
