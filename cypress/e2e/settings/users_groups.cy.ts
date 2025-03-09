@@ -207,7 +207,7 @@ describe('Settings: Delete a non empty group', () => {
 	})
 })
 
-describe.only('Settings: Sort groups in the UI', () => {
+describe('Settings: Sort groups in the UI', () => {
 	before(() => {
 		// Clear state
 		cy.runOccCommand('group:list --output json').then((output) => {
