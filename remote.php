@@ -9,6 +9,8 @@ require_once __DIR__ . '/lib/versioncheck.php';
 
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCP\App\IAppManager;
+use OCP\IRequest;
+use OCP\Template\ITemplateManager;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\Server;
@@ -23,7 +25,7 @@ class RemoteException extends \Exception {
 
 function handleException(Exception|Error $e): void {
 	try {
-		$request = \OC::$server->getRequest();
+		$request = \OCP\Server::get(IRequest::class);
 		// in case the request content type is text/xml - we assume it's a WebDAV request
 		$isXmlContentType = strpos($request->getHeader('Content-Type'), 'text/xml');
 		if ($isXmlContentType === 0) {
@@ -31,7 +33,7 @@ function handleException(Exception|Error $e): void {
 			$server = new Server();
 			if (!($e instanceof RemoteException)) {
 				// we shall not log on RemoteException
-				$server->addPlugin(new ExceptionLoggerPlugin('webdav', \OC::$server->get(LoggerInterface::class)));
+				$server->addPlugin(new ExceptionLoggerPlugin('webdav', \OCP\Server::get(LoggerInterface::class)));
 			}
 			$server->on('beforeMethod:*', function () use ($e) {
 				if ($e instanceof RemoteException) {
@@ -54,19 +56,19 @@ function handleException(Exception|Error $e): void {
 			}
 			if ($e instanceof RemoteException) {
 				// we shall not log on RemoteException
-				OC_Template::printErrorPage($e->getMessage(), '', $e->getCode());
+				\OCP\Server::get(ITemplateManager::class)->printErrorPage($e->getMessage(), '', $e->getCode());
 			} else {
-				\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), ['app' => 'remote','exception' => $e]);
-				OC_Template::printExceptionErrorPage($e, $statusCode);
+				\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['app' => 'remote','exception' => $e]);
+				\OCP\Server::get(ITemplateManager::class)->printExceptionErrorPage($e, $statusCode);
 			}
 		}
 	} catch (\Exception $e) {
-		OC_Template::printExceptionErrorPage($e, 500);
+		\OCP\Server::get(ITemplateManager::class)->printExceptionErrorPage($e, 500);
 	}
 }
 
 /**
- * @param $service
+ * @param string $service
  * @return string
  */
 function resolveService($service) {
