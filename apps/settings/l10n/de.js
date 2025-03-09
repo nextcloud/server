@@ -908,7 +908,7 @@ OC.L10N.register(
     "Set user groups" : "Benutzergruppen einstellen",
     "Administered groups" : "Administrierte Gruppen",
     "Set user as admin for …" : "Benutzer als Administration setzen für …",
-    "Set user quota" : "Benutzerkontingent einstellen",
+    "Set user quota" : "Kontokontingent einstellen",
     "Add new user" : "Neuen Benutzer hinzufügen",
     "_{userCount} user …_::_{userCount} users …_" : ["{userCount} Benutzer …","{userCount} Benutzer …"],
     "_{userCount} user_::_{userCount} users_" : ["{userCount} Benutzer","{userCount} Benutzer"],
