@@ -201,6 +201,8 @@ OC.L10N.register(
     "Expires {relativetime}" : "Vanhenee {relativetime}",
     "this share just expired." : "tämä jako vanheni juuri.",
     "Shared with you by {owner}" : "{owner} jakoi tämän kanssasi",
+    "Internal shares" : "Sisäiset jaot",
+    "External shares" : "Ulkoiset jaot",
     "Link to a file" : "Linkki tiedostoon",
     "_Accept share_::_Accept shares_" : ["Hyväksy jako","Hyväksy jaot"],
     "Open in Files" : "Avaa tiedostosovelluksessa",
