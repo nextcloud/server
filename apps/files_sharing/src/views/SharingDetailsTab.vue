@@ -169,7 +169,7 @@
 						@update:checked="queueUpdate('hideDownload')">
 						{{ t('files_sharing', 'Hide download') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch v-else
+					<NcCheckboxRadioSwitch v-if="isPublicShare"
 						:disabled="!canSetDownload"
 						:checked.sync="canDownload"
 						data-cy-files-sharing-share-permissions-checkbox="download">
@@ -930,6 +930,7 @@ export default {
 					this.setCustomPermissions = true
 				}
 			}
+
 			// Read permission required for share creation
 			if (!this.canRemoveReadPermission) {
 				this.hasRead = true
