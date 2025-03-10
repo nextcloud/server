@@ -7,15 +7,16 @@
  */
 namespace OCA\DAV\CardDAV;
 
+use OCA\DAV\Db\PropertyMapper;
 use OCP\Constants;
-use OCP\IAddressBook;
+use OCP\IAddressBookEnabled;
 use OCP\IURLGenerator;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use Sabre\VObject\UUIDUtil;
 
-class AddressBookImpl implements IAddressBook {
+class AddressBookImpl implements IAddressBookEnabled {
 
 	/**
 	 * AddressBookImpl constructor.
@@ -30,6 +31,8 @@ class AddressBookImpl implements IAddressBook {
 		private array $addressBookInfo,
 		private CardDavBackend $backend,
 		private IURLGenerator $urlGenerator,
+		private PropertyMapper $propertyMapper,
+		private ?string $userId,
 	) {
 	}
 
@@ -307,5 +310,26 @@ class AddressBookImpl implements IAddressBook {
 			$this->addressBookInfo['uri'] === 'system' ||
 			$this->addressBookInfo['{DAV:}displayname'] === $this->urlGenerator->getBaseUrl()
 		);
+	}
+
+	public function isEnabled(): bool {
+		if (!$this->userId) {
+			return true;
+		}
+
+		if ($this->isSystemAddressBook()) {
+			$user = $this->userId ;
+			$uri = 'z-server-generated--system';
+		} else {
+			$user = str_replace('principals/users/', '', $this->addressBookInfo['principaluri']);
+			$uri = $this->addressBookInfo['uri'];
+		}
+		
+		$path = 'addressbooks/users/' . $user . '/' . $uri;
+		$properties = $this->propertyMapper->findPropertyByPathAndName($user, $path, '{http://owncloud.org/ns}enabled');
+		if (count($properties) > 0) {
+			return (bool)$properties[0]->getPropertyvalue();
+		}
+		return true;
 	}
 }
