@@ -32,15 +32,16 @@
  */
 namespace OCA\DAV\CardDAV;
 
+use OCA\DAV\Db\PropertyMapper;
 use OCP\Constants;
-use OCP\IAddressBook;
+use OCP\IAddressBookEnabled;
 use OCP\IURLGenerator;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use Sabre\VObject\UUIDUtil;
 
-class AddressBookImpl implements IAddressBook {
+class AddressBookImpl implements IAddressBookEnabled {
 
 	/** @var CardDavBackend */
 	private $backend;
@@ -54,6 +55,12 @@ class AddressBookImpl implements IAddressBook {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
+	/** @var PropertyMapper */
+	private $propertyMapper;
+
+	/** @var string|null */
+	private $userId;
+
 	/**
 	 * AddressBookImpl constructor.
 	 *
@@ -61,16 +68,22 @@ class AddressBookImpl implements IAddressBook {
 	 * @param array $addressBookInfo
 	 * @param CardDavBackend $backend
 	 * @param IUrlGenerator $urlGenerator
+	 * @param PropertyMapper $propertyMapper
+	 * @param string|null $userId
 	 */
 	public function __construct(
 		AddressBook $addressBook,
 		array $addressBookInfo,
 		CardDavBackend $backend,
-		IURLGenerator $urlGenerator) {
+		IURLGenerator $urlGenerator,
+		PropertyMapper $propertyMapper,
+		?string $userId) {
 		$this->addressBook = $addressBook;
 		$this->addressBookInfo = $addressBookInfo;
 		$this->backend = $backend;
 		$this->urlGenerator = $urlGenerator;
+		$this->propertyMapper = $propertyMapper;
+		$this->userId = $userId;
 	}
 
 	/**
@@ -347,5 +360,26 @@ class AddressBookImpl implements IAddressBook {
 			$this->addressBookInfo['uri'] === 'system' ||
 			$this->addressBookInfo['{DAV:}displayname'] === $this->urlGenerator->getBaseUrl()
 		);
+	}
+
+	public function isEnabled(): bool {
+		if (!$this->userId) {
+			return true;
+		}
+
+		if ($this->isSystemAddressBook()) {
+			$user = $this->userId ;
+			$uri = 'z-server-generated--system';
+		} else {
+			$user = str_replace('principals/users/', '', $this->addressBookInfo['principaluri']);
+			$uri = $this->addressBookInfo['uri'];
+		}
+		
+		$path = 'addressbooks/users/' . $user . '/' . $uri;
+		$properties = $this->propertyMapper->findPropertyByPathAndName($user, $path, '{http://owncloud.org/ns}enabled');
+		if (count($properties) > 0) {
+			return (bool)$properties[0]->getPropertyvalue();
+		}
+		return true;
 	}
 }
