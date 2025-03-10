@@ -19,6 +19,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IAppConfig;
 use OCP\Server;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -39,6 +40,7 @@ abstract class StoragesService {
 		protected DBConfigService $dbConfig,
 		protected IUserMountCache $userMountCache,
 		protected IEventDispatcher $eventDispatcher,
+		protected IAppConfig $appConfig,
 	) {
 	}
 
@@ -422,6 +424,10 @@ abstract class StoragesService {
 			foreach ($removedUsers as $userId) {
 				$this->userMountCache->removeUserStorageMount($storageId, $userId);
 			}
+		}
+
+		if ($this->dbConfig->hasHomeFolderOverwriteMount()) {
+			$this->appConfig->setValueBool('files', 'homeFolderOverwritten', true);
 		}
 
 		return $this->getStorage($id);

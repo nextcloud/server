@@ -37,7 +37,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->globalStoragesService = new GlobalStoragesService($this->backendService, $this->dbConfig, $this->mountCache, $this->eventDispatcher);
+		$this->globalStoragesService = new GlobalStoragesService($this->backendService, $this->dbConfig, $this->mountCache, $this->eventDispatcher, $this->appConfig);
 
 		$this->userId = $this->getUniqueID('user_');
 		$this->createUser($this->userId, $this->userId);
@@ -50,7 +50,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 			->method('getUser')
 			->willReturn($this->user);
 
-		$this->service = new UserStoragesService($this->backendService, $this->dbConfig, $userSession, $this->mountCache, $this->eventDispatcher);
+		$this->service = new UserStoragesService($this->backendService, $this->dbConfig, $userSession, $this->mountCache, $this->eventDispatcher, $this->appConfig);
 	}
 
 	private function makeTestStorageData() {
