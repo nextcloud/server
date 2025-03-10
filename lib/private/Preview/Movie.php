@@ -145,9 +145,12 @@ class Movie extends ProviderV2 {
 				$test_hdr_stdout = trim(stream_get_contents($test_hdr_pipes[1]));
 				$test_hdr_stderr = trim(stream_get_contents($test_hdr_pipes[2]));
 				$test_hdr_returnCode = proc_close($test_hdr_proc);
+				// search build options for libzimg (provides zscale filter)
+				$ffmpeg_libzimg_installed = strpos($test_hdr_stderr,'--enable-libzimg');
 			}
-			// search build options for libzimg (provides zscale filter)
-			$ffmpeg_libzimg_installed = strpos($test_hdr_stderr,'--enable-libzimg');
+			else {
+				$ffmpeg_libzimg_installed = false;
+			}	
 			// Only values of "smpte2084" and "arib-std-b67" indicate an HDR video so change $cmd to generate for HDR.
 			// Force colorspace to '2020_ncl' because some videos are tagged incorrectly as 'reserved' resulting in fail
 			// Otherwise, it is SDR, so do nothing.
