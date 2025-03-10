@@ -607,6 +607,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Http\\WellKnown\\IResponse' => __DIR__ . '/../../..' . '/lib/public/Http/WellKnown/IResponse.php',
         'OCP\\Http\\WellKnown\\JrdResponse' => __DIR__ . '/../../..' . '/lib/public/Http/WellKnown/JrdResponse.php',
         'OCP\\IAddressBook' => __DIR__ . '/../../..' . '/lib/public/IAddressBook.php',
+        'OCP\\IAddressBookEnabled' => __DIR__ . '/../../..' . '/lib/public/IAddressBookEnabled.php',
         'OCP\\IAppConfig' => __DIR__ . '/../../..' . '/lib/public/IAppConfig.php',
         'OCP\\IAvatar' => __DIR__ . '/../../..' . '/lib/public/IAvatar.php',
         'OCP\\IAvatarManager' => __DIR__ . '/../../..' . '/lib/public/IAvatarManager.php',

@@ -279,12 +279,11 @@ class Application extends App implements IBootstrap {
 		$cm->setupContactsProvider($contactsManager, $userID, $urlGenerator);
 	}
 
-	private function setupSystemContactsProvider(IContactsManager $contactsManager,
-		IAppContainer $container): void {
+	private function setupSystemContactsProvider(IContactsManager $contactsManager, IAppContainer $container): void {
 		/** @var ContactsManager $cm */
 		$cm = $container->query(ContactsManager::class);
 		$urlGenerator = $container->getServer()->getURLGenerator();
-		$cm->setupSystemContactsProvider($contactsManager, $urlGenerator);
+		$cm->setupSystemContactsProvider($contactsManager, null, $urlGenerator);
 	}
 
 	public function registerCalendarManager(ICalendarManager $calendarManager,
