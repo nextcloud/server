@@ -34,6 +34,9 @@ class ContactsManager implements IManager {
 		$this->loadAddressBooks();
 		$result = [];
 		foreach ($this->addressBooks as $addressBook) {
+			if (!$addressBook->isEnabled()) {
+				continue;
+			}
 			$searchOptions = $options;
 			$strictSearch = array_key_exists('strict_search', $options) && $options['strict_search'] === true;
 
