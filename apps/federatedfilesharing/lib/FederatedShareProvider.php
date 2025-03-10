@@ -1039,8 +1039,10 @@ class FederatedShareProvider implements IShareProvider {
 		if ($this->gsConfig->isGlobalScaleEnabled()) {
 			return true;
 		}
-		$result = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no');
-		return $result === 'yes';
+		$result = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no') === 'yes';
+		// TODO: Reenable if lookup server is used again
+		// return $result;
+		return false;
 	}
 
 
@@ -1054,8 +1056,10 @@ class FederatedShareProvider implements IShareProvider {
 		if ($this->gsConfig->isGlobalScaleEnabled()) {
 			return false;
 		}
-		$result = $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'no');
-		return $result === 'yes';
+		$result = $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'no') === 'yes';
+		// TODO: Reenable if lookup server is used again
+		// return $result;
+		return false;
 	}
 
 	/**
