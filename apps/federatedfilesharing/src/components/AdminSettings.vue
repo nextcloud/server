@@ -50,17 +50,22 @@
 			{{ t('federatedfilesharing', 'Allow users on this server to receive group shares from other servers') }}
 		</NcCheckboxRadioSwitch>
 
-		<NcCheckboxRadioSwitch type="switch"
-			:checked.sync="lookupServerEnabled"
-			@update:checked="update('lookupServerEnabled', lookupServerEnabled)">
-			{{ t('federatedfilesharing', 'Search global and public address book for users') }}
-		</NcCheckboxRadioSwitch>
+		<fieldset>
+			<legend>{{ t('federatedfilesharing', 'The lookup server is only available for global scale.') }}</legend>
+			<NcCheckboxRadioSwitch type="switch"
+				:checked.sync="lookupServerEnabled"
+				disabled
+				@update:checked="update('lookupServerEnabled', lookupServerEnabled)">
+				{{ t('federatedfilesharing', 'Search global and public address book for users') }}
+			</NcCheckboxRadioSwitch>
 
-		<NcCheckboxRadioSwitch type="switch"
-			:checked.sync="lookupServerUploadEnabled"
-			@update:checked="update('lookupServerUploadEnabled', lookupServerUploadEnabled)">
-			{{ t('federatedfilesharing', 'Allow users to publish their data to a global and public address book') }}
-		</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch type="switch"
+				:checked.sync="lookupServerUploadEnabled"
+				disabled
+				@update:checked="update('lookupServerUploadEnabled', lookupServerUploadEnabled)">
+				{{ t('federatedfilesharing', 'Allow users to publish their data to a global and public address book') }}
+			</NcCheckboxRadioSwitch>
+		</fieldset>
 	</NcSettingsSection>
 </template>
 
