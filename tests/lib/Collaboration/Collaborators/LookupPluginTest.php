@@ -72,7 +72,7 @@ class LookupPluginTest extends TestCase {
 	public function testSearchNoLookupServerURI(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('files_sharing', 'lookupServerEnabled', 'yes')
+			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn('yes');
 		$this->config->expects($this->exactly(2))
 			->method('getSystemValueBool')
@@ -101,7 +101,7 @@ class LookupPluginTest extends TestCase {
 	public function testSearchNoInternet(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('files_sharing', 'lookupServerEnabled', 'yes')
+			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn('yes');
 		$this->config->expects($this->exactly(2))
 			->method('getSystemValueBool')
@@ -137,7 +137,7 @@ class LookupPluginTest extends TestCase {
 
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('files_sharing', 'lookupServerEnabled', 'yes')
+			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn('yes');
 		$this->config->expects($this->exactly(2))
 			->method('getSystemValueBool')
@@ -197,7 +197,7 @@ class LookupPluginTest extends TestCase {
 
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('files_sharing', 'lookupServerEnabled', 'yes')
+			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn($LookupEnabled ? 'yes' : 'no');
 		if ($GSEnabled || $LookupEnabled) {
 			$searchResult->expects($this->once())
