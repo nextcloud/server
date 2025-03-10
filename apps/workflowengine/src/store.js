@@ -127,6 +127,10 @@ const store = new Store({
 				return rule1.id - rule2.id || rule2.class - rule1.class
 			})
 		},
+		/**
+		 * @param state
+		 * @return {OperatorPlugin}
+		 */
 		getOperationForRule(state) {
 			return (rule) => state.operations[rule.class]
 		},
