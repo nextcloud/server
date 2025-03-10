@@ -260,7 +260,7 @@ class ShareesAPIControllerTest extends TestCase {
 			->method('getAppValue')
 			->with($this->anything(), $this->anything(), $this->anything())
 			->willReturnMap([
-				['files_sharing', 'lookupServerEnabled', 'yes', 'yes'],
+				['files_sharing', 'lookupServerEnabled', 'no', 'yes'],
 			]);
 
 		$this->shareManager->expects($this->once())

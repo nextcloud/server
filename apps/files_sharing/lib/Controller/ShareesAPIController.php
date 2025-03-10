@@ -202,12 +202,9 @@ class ShareesAPIController extends OCSController {
 		$this->offset = $perPage * ($page - 1);
 
 		// In global scale mode we always search the loogup server
-		if ($this->config->getSystemValueBool('gs.enabled', false)) {
-			$lookup = true;
-			$this->result['lookupEnabled'] = true;
-		} else {
-			$this->result['lookupEnabled'] = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'yes') === 'yes';
-		}
+		$lookup = $this->config->getSystemValueBool('gs.enabled', false)
+			|| $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no') === 'yes';
+		$this->result['lookupEnabled'] = $lookup;
 
 		[$result, $hasMoreResults] = $this->collaboratorSearch->search($search, $shareTypes, $lookup, $this->limit, $this->offset);
 
