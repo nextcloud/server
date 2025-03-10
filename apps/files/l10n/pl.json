@@ -78,6 +78,7 @@
     "Go to the \"{dir}\" directory" : "Przejdź do katalogu \"{dir}\"",
     "Current directory path" : "Obecna ścieżka katalogu",
     "Your have used your space quota and cannot upload files anymore" : "Wykorzystałeś limit miejsca i nie możesz już wysyłać plików.",
+    "You do not have permission to upload or create files here." : "Nie masz uprawnień do wysyłania lub tworzenia plików w tym miejscu",
     "Drag and drop files here to upload" : "Przeciągnij i upuść pliki tutaj, aby je przesłać",
     "Favorite" : "Ulubiony",
     "Back" : "Poprzednia",
