@@ -1041,7 +1041,7 @@
     "tags": [
         {
             "name": "mount_public_link",
-            "description": "Class MountPublicLinkController\nconvert public links to federated shares"
+            "description": "Class MountPublicLinkController convert public links to federated shares"
         }
     ]
 }
