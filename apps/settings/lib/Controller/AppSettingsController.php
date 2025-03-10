@@ -131,7 +131,9 @@ class AppSettingsController extends Controller {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	public function getAppDiscoverMedia(string $fileName): Response {
-		$etag = $this->discoverFetcher->getETag() ?? date('Y-m');
+		$getEtag = $this->discoverFetcher->getETag() ?? date('Y-m');
+		$etag = trim($getEtag, '"');
+
 		$folder = null;
 		try {
 			$folder = $this->appData->getFolder('app-discover-cache');
