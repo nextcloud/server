@@ -88,24 +88,20 @@ class LookupPluginTest extends TestCase {
 	}
 
 	public function testSearchNoLookupServerURI() {
-		$this->config->expects($this->once())
+		$this->config->expects($this->atMost(1))
 			->method('getAppValue')
 			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn('yes');
 		$this->config->expects($this->exactly(2))
-			->method('getSystemValue')
-			->withConsecutive(
-				['gs.enabled', false],
-				['lookup_server', 'https://lookup.nextcloud.com'],
-			)->willReturnOnConsecutiveCalls(
-				false,
-				'',
-			);
-
-		$this->config->expects($this->once())
 			->method('getSystemValueBool')
-			->with('has_internet_connection', true)
-			->willReturn(true);
+			->willReturnMap([
+				['gs.enabled', false, true],
+				['has_internet_connection', true, true],
+			]);
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('lookup_server', 'https://lookup.nextcloud.com')
+			->willReturn('');
 
 		$this->clientService->expects($this->never())
 			->method('newClient');
@@ -121,15 +117,13 @@ class LookupPluginTest extends TestCase {
 			->method('getAppValue')
 			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn('yes');
-		$this->config->expects($this->once())
-			->method('getSystemValue')
-			->with('gs.enabled', false)
-			->willReturn(false);
 
-		$this->config->expects($this->once())
+		$this->config->expects($this->exactly(2))
 			->method('getSystemValueBool')
-			->with('has_internet_connection', true)
-			->willReturn(false);
+			->willReturnMap([
+				['has_internet_connection', true, false],
+				['gs.enabled', false, true],
+			]);
 
 		$this->clientService->expects($this->never())
 			->method('newClient');
@@ -157,20 +151,16 @@ class LookupPluginTest extends TestCase {
 			->method('getAppValue')
 			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn('yes');
-		$this->config->expects($this->exactly(2))
-			->method('getSystemValue')
-			->withConsecutive(
-				['gs.enabled', false],
-				['lookup_server', 'https://lookup.nextcloud.com'],
-			)->willReturnOnConsecutiveCalls(
-				false,
-				$searchParams['server'],
-			);
-
 		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('lookup_server', 'https://lookup.nextcloud.com')
+			->willReturn($searchParams['server']);
+		$this->config->expects($this->exactly(2))
 			->method('getSystemValueBool')
-			->with('has_internet_connection', true)
-			->willReturn(true);
+			->willReturnMap([
+				['gs.enabled', false, true],
+				['has_internet_connection', true, true],
+			]);
 
 		$response = $this->createMock(IResponse::class);
 		$response->expects($this->once())
@@ -217,24 +207,22 @@ class LookupPluginTest extends TestCase {
 			->method('getAppValue')
 			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn($LookupEnabled ? 'yes' : 'no');
-		if ($GSEnabled || $LookupEnabled) {
+
+		$this->config->expects($this->exactly(2))
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['has_internet_connection', true, true],
+				['gs.enabled', false, $GSEnabled],
+			]);
+		if ($GSEnabled) {
 			$searchResult->expects($this->once())
 				->method('addResultSet')
 				->with($type, $searchParams['expectedResult'], []);
 
 			$this->config->expects($this->once())
-				->method('getSystemValueBool')
-				->with('has_internet_connection', true)
-				->willReturn(true);
-			$this->config->expects($this->exactly(2))
 				->method('getSystemValue')
-				->withConsecutive(
-					['gs.enabled', false],
-					['lookup_server', 'https://lookup.nextcloud.com'],
-				)->willReturnOnConsecutiveCalls(
-					$GSEnabled,
-					$searchParams['server'],
-				);
+				->with('lookup_server', 'https://lookup.nextcloud.com')
+				->willReturn($searchParams['server']);
 
 			$response = $this->createMock(IResponse::class);
 			$response->expects($this->once())
@@ -255,10 +243,6 @@ class LookupPluginTest extends TestCase {
 				->willReturn($client);
 		} else {
 			$searchResult->expects($this->never())->method('addResultSet');
-			$this->config->expects($this->once())
-				->method('getSystemValue')
-				->with('gs.enabled', false)
-				->willReturn($GSEnabled);
 		}
 		$moreResults = $this->plugin->search(
 			$searchParams['search'],
@@ -270,12 +254,13 @@ class LookupPluginTest extends TestCase {
 		$this->assertFalse($moreResults);
 	}
 
-
-	public function testSearchLookupServerDisabled() {
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('files_sharing', 'lookupServerEnabled', 'yes')
-			->willReturn('no');
+	public function testSearchGSDisabled(): void {
+		$this->config->expects($this->atLeastOnce())
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['has_internet_connection', true, true],
+				['gs.enabled', false, false],
+			]);
 
 		/** @var ISearchResult|MockObject $searchResult */
 		$searchResult = $this->createMock(ISearchResult::class);
@@ -394,7 +379,6 @@ class LookupPluginTest extends TestCase {
 						'label' => $fedIDs[0],
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
-							'globalScale' => false,
 							'shareWith' => $fedIDs[0]
 						],
 						'extra' => ['federationId' => $fedIDs[0]],
@@ -403,7 +387,6 @@ class LookupPluginTest extends TestCase {
 						'label' => $fedIDs[1],
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
-							'globalScale' => false,
 							'shareWith' => $fedIDs[1]
 						],
 						'extra' => ['federationId' => $fedIDs[1]],
@@ -412,7 +395,6 @@ class LookupPluginTest extends TestCase {
 						'label' => $fedIDs[2],
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
-							'globalScale' => false,
 							'shareWith' => $fedIDs[2]
 						],
 						'extra' => ['federationId' => $fedIDs[2]],
@@ -487,7 +469,7 @@ class LookupPluginTest extends TestCase {
 						'label' => $fedIDs[0],
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
-							'globalScale' => false,
+							'globalScale' => true,
 							'shareWith' => $fedIDs[0]
 						],
 						'extra' => ['federationId' => $fedIDs[0]],
@@ -496,7 +478,7 @@ class LookupPluginTest extends TestCase {
 						'label' => $fedIDs[1],
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
-							'globalScale' => false,
+							'globalScale' => true,
 							'shareWith' => $fedIDs[1]
 						],
 						'extra' => ['federationId' => $fedIDs[1]],
@@ -505,7 +487,7 @@ class LookupPluginTest extends TestCase {
 						'label' => $fedIDs[2],
 						'value' => [
 							'shareType' => IShare::TYPE_REMOTE,
-							'globalScale' => false,
+							'globalScale' => true,
 							'shareWith' => $fedIDs[2]
 						],
 						'extra' => ['federationId' => $fedIDs[2]],
