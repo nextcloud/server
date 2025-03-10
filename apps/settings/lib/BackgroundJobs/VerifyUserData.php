@@ -121,7 +121,7 @@ class VerifyUserData extends Job {
 
 	protected function verifyViaLookupServer(array $argument, string $dataType): bool {
 		if (empty($this->lookupServerUrl) ||
-			$this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes') !== 'yes' ||
+			$this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'no') !== 'yes' ||
 			$this->config->getSystemValue('has_internet_connection', true) === false) {
 			return true;
 		}
