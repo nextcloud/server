@@ -20,6 +20,7 @@ use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IAppConfig;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -45,6 +46,7 @@ class LoginRedirectorController extends Controller {
 		private IL10N $l,
 		private ISecureRandom $random,
 		private IAppConfig $appConfig,
+		private IConfig $config,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -65,7 +67,8 @@ class LoginRedirectorController extends Controller {
 	#[UseSession]
 	public function authorize($client_id,
 		$state,
-		$response_type): TemplateResponse|RedirectResponse {
+		$response_type,
+		string $redirect_uri = ''): TemplateResponse|RedirectResponse {
 		try {
 			$client = $this->clientMapper->getByIdentifier($client_id);
 		} catch (ClientNotFoundException $e) {
@@ -79,6 +82,13 @@ class LoginRedirectorController extends Controller {
 			//Fail
 			$url = $client->getRedirectUri() . '?error=unsupported_response_type&state=' . $state;
 			return new RedirectResponse($url);
+		}
+
+		$enableOcClients = $this->config->getSystemValueBool('oauth2.enable_oc_clients', false);
+
+		$providedRedirectUri = '';
+		if ($enableOcClients && $client->getRedirectUri() === 'http://localhost:*') {
+			$providedRedirectUri = $redirect_uri;
 		}
 
 		$this->session->set('oauth.state', $state);
@@ -95,6 +105,7 @@ class LoginRedirectorController extends Controller {
 				[
 					'stateToken' => $stateToken,
 					'clientIdentifier' => $client->getClientIdentifier(),
+					'providedRedirectUri' => $providedRedirectUri,
 				]
 			);
 		} else {
@@ -102,6 +113,7 @@ class LoginRedirectorController extends Controller {
 				'core.ClientFlowLogin.showAuthPickerPage',
 				[
 					'clientIdentifier' => $client->getClientIdentifier(),
+					'providedRedirectUri' => $providedRedirectUri,
 				]
 			);
 		}
