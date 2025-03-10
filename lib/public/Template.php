@@ -12,6 +12,7 @@ namespace OCP;
  * specific templates, add data and generate the html code
  *
  * @since 8.0.0
+ * @deprecated 32.0.0 Use \OCP\Template\ITemplateManager instead
  */
 class Template extends \OC_Template {
 	/**

@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace OCP\Authentication\TwoFactorAuth;
 
 use OCP\IUser;
-use OCP\Template;
+use OCP\Template\ITemplate;
 
 /**
  * @since 9.1.0
@@ -50,11 +50,9 @@ interface IProvider {
 	 * Get the template for rending the 2FA provider view
 	 *
 	 * @since 9.1.0
-	 *
-	 * @param IUser $user
-	 * @return Template
+	 * @since 32.0.0 Broader return type ITemplate instead of \OCP\Template.
 	 */
-	public function getTemplate(IUser $user): Template;
+	public function getTemplate(IUser $user): ITemplate;
 
 	/**
 	 * Verify the given challenge
