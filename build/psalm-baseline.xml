@@ -1027,11 +1027,6 @@
       <code><![CDATA[$storage1->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage')]]></code>
     </RedundantCondition>
   </file>
-  <file src="apps/lookup_server_connector/lib/BackgroundJobs/RetryJob.php">
-    <InvalidArgument>
-      <code><![CDATA[$this->retries + 1]]></code>
-    </InvalidArgument>
-  </file>
   <file src="apps/oauth2/lib/Controller/OauthApiController.php">
     <NoInterfaceProperties>
       <code><![CDATA[$this->request->server]]></code>

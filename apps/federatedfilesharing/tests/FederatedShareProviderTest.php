@@ -834,10 +834,13 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 	public function dataTestIsLookupServerQueriesEnabled() {
 		return [
-			[false, 'yes', true],
-			[false, 'no', false],
 			[true, 'yes', true],
 			[true, 'no', true],
+			// TODO: reenable if we use the lookup server for non-global scale
+			// [false, 'yes', true],
+			// [false, 'no', false],
+			[false, 'no', false],
+			[false, 'yes', false],
 		];
 	}
 
@@ -861,10 +864,13 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 	public function dataTestIsLookupServerUploadEnabled() {
 		return [
-			[false, 'yes', true],
-			[false, 'no', false],
 			[true, 'yes', false],
 			[true, 'no', false],
+			// TODO: reenable if we use the lookup server again
+			// [false, 'yes', true],
+			// [false, 'no', false],
+			[false, 'yes', false],
+			[false, 'no', false],
 		];
 	}
 
