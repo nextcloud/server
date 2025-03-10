@@ -7,6 +7,7 @@
  */
 namespace OCA\DAV\CardDAV;
 
+use OCA\DAV\Db\PropertyMapper;
 use OCP\Constants;
 use OCP\IAddressBook;
 use OCP\IURLGenerator;
@@ -30,6 +31,8 @@ class AddressBookImpl implements IAddressBook {
 		private array $addressBookInfo,
 		private CardDavBackend $backend,
 		private IURLGenerator $urlGenerator,
+		private PropertyMapper $propertyMapper,
+		private $userId,
 	) {
 	}
 
@@ -307,5 +310,16 @@ class AddressBookImpl implements IAddressBook {
 			$this->addressBookInfo['uri'] === 'system' ||
 			$this->addressBookInfo['{DAV:}displayname'] === $this->urlGenerator->getBaseUrl()
 		);
+	}
+
+	public function isEnabled(): bool {
+		$user = $this->isSystemAddressBook() ? $this->userId : str_replace('principals/users/', '', $this->addressBookInfo['principaluri']);
+		$uri = $this->isSystemAddressBook() ? 'z-server-generated--system' : $this->addressBookInfo['uri'];
+		$path = 'addressbooks/users/' . $user . '/' . $uri;
+		$properties = $this->propertyMapper->findPropertyByPathAndName($user, $path, '{http://owncloud.org/ns}enabled');
+		if (count($properties) > 0) {
+			return (bool)$properties[0]->getPropertyvalue();
+		}
+		return true;
 	}
 }

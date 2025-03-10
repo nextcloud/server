@@ -93,5 +93,7 @@ namespace OCP {
 		 * @since 20.0.0
 		 */
 		public function isSystemAddressBook(): bool;
+
+		public function isEnabled(): bool;
 	}
 }

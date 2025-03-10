@@ -274,7 +274,8 @@ class Application extends App implements IBootstrap {
 		/** @var ContactsManager $cm */
 		$cm = $container->query(ContactsManager::class);
 		$urlGenerator = $container->getServer()->getURLGenerator();
-		$cm->setupSystemContactsProvider($contactsManager, $urlGenerator);
+		$user = Server::get(IUserSession::class)->getUser();
+		$cm->setupSystemContactsProvider($contactsManager, $user->getUID(), $urlGenerator);
 	}
 
 	public function registerCalendarManager(ICalendarManager $calendarManager,
