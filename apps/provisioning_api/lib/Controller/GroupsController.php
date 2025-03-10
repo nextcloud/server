@@ -99,6 +99,7 @@ class GroupsController extends AUserDataOCSController {
 	#[NoAdminRequired]
 	#[AuthorizedAdminSetting(settings: Sharing::class)]
 	public function getGroupsDetails(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
+		// TODO Sort by user count and name?
 		$groups = $this->groupManager->search($search, $limit, $offset);
 		$groups = array_values(array_map(function ($group) {
 			/** @var IGroup $group */
