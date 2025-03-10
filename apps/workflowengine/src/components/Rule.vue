@@ -29,8 +29,8 @@
 		<div class="flow-icon icon-confirm" />
 		<div class="action">
 			<Operation :operation="operation" :colored="false">
-				<component :is="operation.component"
-					v-if="operation.component"
+				<component :is="operation.webComponent"
+					v-if="operation.webComponent"
 					ref="operationComponent"
 					:model-value="inputValue"
 					@update:model-value="updateOperationByEvent" />
@@ -100,7 +100,7 @@ export default {
 			error: null,
 			dirty: this.rule.id < 0,
 			originalRule: null,
-			component: null,
+			webComponent: null,
 			inputValue: '',
 		}
 	},
@@ -134,12 +134,12 @@ export default {
 	mounted() {
 		this.originalRule = JSON.parse(JSON.stringify(this.rule))
 
-		if (this.operation?.component) {
+		if (this.operation?.webComponent) {
 			this.$refs.operationComponent.value = this.rule.operation
 		} else if (this.operation?.options) {
 			// keeping this in an else for apps that try to be backwards compatible and may ship both
 			// to be removed in 03/2028
-			console.warn('Developer warning: `OperatorPlugin.options` is deprecated. Use `OperatorPlugin.components` instead.')
+			console.warn('Developer warning: `OperatorPlugin.options` is deprecated. Use `OperatorPlugin.webComponent` instead.')
 		}
 	},
 	methods: {
