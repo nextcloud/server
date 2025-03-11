@@ -51,6 +51,7 @@ use OCA\DAV\Listener\CalendarPublicationListener;
 use OCA\DAV\Listener\CalendarShareUpdateListener;
 use OCA\DAV\Listener\CardListener;
 use OCA\DAV\Listener\ClearPhotoCacheListener;
+use OCA\DAV\Listener\DavAdminSettingsListener;
 use OCA\DAV\Listener\OutOfOfficeListener;
 use OCA\DAV\Listener\SubscriptionListener;
 use OCA\DAV\Listener\TrustedServerRemovedListener;
@@ -59,6 +60,7 @@ use OCA\DAV\Listener\UserPreferenceListener;
 use OCA\DAV\Search\ContactsSearchProvider;
 use OCA\DAV\Search\EventsSearchProvider;
 use OCA\DAV\Search\TasksSearchProvider;
+use OCA\DAV\Settings\Admin\SystemAddressBookSettings;
 use OCA\DAV\SetupChecks\NeedsSystemAddressBookSync;
 use OCA\DAV\SetupChecks\WebdavEndpoint;
 use OCA\DAV\UserMigration\CalendarMigrator;
@@ -85,6 +87,8 @@ use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\IUserSession;
 use OCP\Server;
+use OCP\Settings\Events\DeclarativeSettingsGetValueEvent;
+use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\BeforeUserIdUnassignedEvent;
 use OCP\User\Events\OutOfOfficeChangedEvent;
@@ -212,6 +216,12 @@ class Application extends App implements IBootstrap {
 
 		$context->registerSetupCheck(NeedsSystemAddressBookSync::class);
 		$context->registerSetupCheck(WebdavEndpoint::class);
+
+		// register admin settings form and listener(s)
+		$context->registerDeclarativeSettings(SystemAddressBookSettings::class);
+		$context->registerEventListener(DeclarativeSettingsGetValueEvent::class, DavAdminSettingsListener::class);
+		$context->registerEventListener(DeclarativeSettingsSetValueEvent::class, DavAdminSettingsListener::class);
+
 	}
 
 	public function boot(IBootContext $context): void {
