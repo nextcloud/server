@@ -823,7 +823,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->gsConfig->expects($this->once())->method('isGlobalScaleEnabled')
 			->willReturn($gsEnabled);
 		$this->config->expects($this->any())->method('getAppValue')
-			->with('files_sharing', 'lookupServerEnabled', 'yes')
+			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn($isEnabled);
 
 		$this->assertSame($expected,
@@ -834,10 +834,13 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 	public function dataTestIsLookupServerQueriesEnabled() {
 		return [
-			[false, 'yes', true],
-			[false, 'no', false],
 			[true, 'yes', true],
 			[true, 'no', true],
+			// TODO: reenable if we use the lookup server for non-global scale
+			// [false, 'yes', true],
+			// [false, 'no', false],
+			[false, 'no', false],
+			[false, 'yes', false],
 		];
 	}
 
@@ -851,7 +854,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->gsConfig->expects($this->once())->method('isGlobalScaleEnabled')
 			->willReturn($gsEnabled);
 		$this->config->expects($this->any())->method('getAppValue')
-			->with('files_sharing', 'lookupServerUploadEnabled', 'yes')
+			->with('files_sharing', 'lookupServerUploadEnabled', 'no')
 			->willReturn($isEnabled);
 
 		$this->assertSame($expected,
@@ -861,10 +864,13 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 	public function dataTestIsLookupServerUploadEnabled() {
 		return [
-			[false, 'yes', true],
-			[false, 'no', false],
 			[true, 'yes', false],
 			[true, 'no', false],
+			// TODO: reenable if we use the lookup server again
+			// [false, 'yes', true],
+			// [false, 'no', false],
+			[false, 'yes', false],
+			[false, 'no', false],
 		];
 	}
 
