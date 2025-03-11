@@ -18,6 +18,7 @@ OC.L10N.register(
     "Failed to send share by email. Got an invalid email address" : "Αποτυχία αποστολής της κοινής χρήσης μέσω email. Λάβαμε μια μη έγκυρη διεύθυνση email",
     "Failed to send share by email" : "Αποτυχία αποστολής συνδέσμου διαμοιρασμού μέσω Ηλ.ταχυδρομείου",
     "Note:" : "Σημείωση:",
+    "Open %s" : "Άνοιγμα %s",
     "%1$s via %2$s" : "%1$s μέσω %2$s",
     "It is protected with the following password:" : "Προστατευμένο με το συνθηματικό:",
     "This password will expire at %s" : "Αυτός ο κωδικός πρόσβασης θα λήξει την %s",
