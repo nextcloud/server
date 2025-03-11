@@ -81,10 +81,10 @@ class Template extends \OC_Template {
 	 * @param int $bytes in bytes
 	 * @return string size as string
 	 * @since 8.0.0
-	 * @deprecated 32.0.0 Use the function directly instead
+	 * @deprecated 32.0.0 Use \OCP\Util::humanFileSize instead
 	 */
 	public static function human_file_size($bytes) {
-		return \human_file_size($bytes);
+		return Util::humanFileSize($bytes);
 	}
 
 	/**
