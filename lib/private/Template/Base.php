@@ -136,6 +136,7 @@ class Base {
 		// Include
 		ob_start();
 		try {
+			require_once __DIR__ . '/../legacy/template/functions.php';
 			include $file;
 			$data = ob_get_contents();
 		} catch (\Exception $e) {
