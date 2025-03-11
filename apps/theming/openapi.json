@@ -1036,7 +1036,7 @@
     "tags": [
         {
             "name": "theming",
-            "description": "Class ThemingController\nhandle ajax requests to update the theme"
+            "description": "Class ThemingController handle ajax requests to update the theme"
         }
     ]
 }
