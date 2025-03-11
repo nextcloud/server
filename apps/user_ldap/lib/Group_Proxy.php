@@ -39,12 +39,11 @@ use OCP\GroupInterface;
 use OCP\IConfig;
 use OCP\IUserManager;
 
+/**
+ * @template-extends Proxy<Group_LDAP>
+ */
 class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGetDisplayNameBackend, INamedBackend, IDeleteGroupBackend, IBatchMethodsBackend, IIsAdminBackend {
-	private $backends = [];
-	private ?Group_LDAP $refBackend = null;
-	private Helper $helper;
 	private GroupPluginManager $groupPluginManager;
-	private bool $isSetUp = false;
 	private IConfig $config;
 	private IUserManager $ncUserManager;
 
@@ -56,17 +55,12 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 		IConfig $config,
 		IUserManager $ncUserManager,
 	) {
-		parent::__construct($ldap, $accessFactory);
-		$this->helper = $helper;
+		parent::__construct($helper, $ldap, $accessFactory);
 		$this->groupPluginManager = $groupPluginManager;
 		$this->config = $config;
 		$this->ncUserManager = $ncUserManager;
 	}
 
-	protected function setup(): void {
-		if ($this->isSetUp) {
-			return;
-		}
 
 		$serverConfigPrefixes = $this->helper->getServerConfigurationPrefixes(true);
 		foreach ($serverConfigPrefixes as $configPrefix) {
@@ -173,9 +167,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 		$groups = [];
 		foreach ($this->backends as $backend) {
 			$backendGroups = $backend->getUserGroups($uid);
-			if (is_array($backendGroups)) {
-				$groups = array_merge($groups, $backendGroups);
-			}
+			$groups = array_merge($groups, $backendGroups);
 		}
 
 		return array_values(array_unique($groups));
