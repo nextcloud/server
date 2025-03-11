@@ -238,14 +238,15 @@ function publicPreview_icon($path, $token) {
 }
 
 /**
- * make OC_Helper::humanFileSize available as a simple function
+ * make Util::humanFileSize available as a simple function
  * @param int $bytes size in bytes
  * @return string size as string
+ * @deprecated use Util::humanFileSize instead
  *
- * For further information have a look at OC_Helper::humanFileSize
+ * For further information have a look at Util::humanFileSize
  */
 function human_file_size($bytes) {
-	return OC_Helper::humanFileSize($bytes);
+	return Util::humanFileSize($bytes);
 }
 
 /**
