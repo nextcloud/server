@@ -35,6 +35,7 @@ $urlGenerator = $_['urlGenerator'];
 			<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
 			<input type="hidden" name="stateToken" value="<?php p($_['stateToken']) ?>" />
 			<input type="hidden" name="oauthState" value="<?php p($_['oauthState']) ?>" />
+			<input type="hidden" name="providedRedirectUri" value="<?php p($_['providedRedirectUri']) ?>">
 			<?php if ($_['direct']) { ?>
 			<input type="hidden" name="direct" value="1" />
 			<?php } ?>
