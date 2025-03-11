@@ -161,4 +161,12 @@ interface ICacheEntry extends ArrayAccess {
 	 * @since 25.0.0
 	 */
 	public function getUnencryptedSize(): int;
+
+	/**
+	 * Get the file id of the parent folder
+	 *
+	 * @return int
+	 * @since 32.0.0
+	 */
+	public function getParentId(): int;
 }
