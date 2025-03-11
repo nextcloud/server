@@ -2,11 +2,9 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { FilesTrashbinConfigState } from '../../../files_trashbin/src/fileListActions/emptyTrashAction.ts'
-
-import { loadState } from '@nextcloud/initial-state'
-import { Permission, Node, View, FileAction } from '@nextcloud/files'
 import { showInfo } from '@nextcloud/dialogs'
+import { Permission, Node, View, FileAction } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import PQueue from 'p-queue'
 
@@ -14,8 +12,9 @@ import CloseSvg from '@mdi/svg/svg/close.svg?raw'
 import NetworkOffSvg from '@mdi/svg/svg/network-off.svg?raw'
 import TrashCanSvg from '@mdi/svg/svg/trash-can.svg?raw'
 
+import { TRASHBIN_VIEW_ID } from '../../../files_trashbin/src/files_views/trashbinView.ts'
+import { askConfirmation, canDisconnectOnly, canUnshareOnly, deleteNode, displayName, isTrashbinEnabled } from './deleteUtils.ts'
 import logger from '../logger.ts'
-import { askConfirmation, canDisconnectOnly, canUnshareOnly, deleteNode, displayName, isTrashbinEnabled } from './deleteUtils'
 
 const queue = new PQueue({ concurrency: 5 })
 
@@ -36,10 +35,12 @@ export const action = new FileAction({
 		return TrashCanSvg
 	},
 
-	enabled(nodes: Node[]) {
-		const config = loadState<FilesTrashbinConfigState>('files_trashbin', 'config')
-		if (!config.allow_delete) {
-			return false
+	enabled(nodes: Node[], view: View): boolean {
+		if (view.id === TRASHBIN_VIEW_ID) {
+			const config = loadState('files_trashbin', 'config', { allow_delete: true })
+			if (config.allow_delete === false) {
+				return false
+			}
 		}
 
 		return nodes.length > 0 && nodes
