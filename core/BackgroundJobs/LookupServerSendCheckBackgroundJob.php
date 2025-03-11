@@ -28,7 +28,11 @@ class LookupServerSendCheckBackgroundJob extends QueuedJob {
 	 */
 	public function run($argument): void {
 		$this->userManager->callForSeenUsers(function (IUser $user) {
-			$this->config->setUserValue($user->getUID(), 'lookup_server_connector', 'dataSend', '1');
+			// If the user data was not updated yet (check if LUS is enabled and if then update on LUS or delete on LUS)
+			// then we need to flag the user data to be checked
+			if ($this->config->getUserValue($user->getUID(), 'lookup_server_connector', 'dataSend', '') === '') {
+				$this->config->setUserValue($user->getUID(), 'lookup_server_connector', 'dataSend', '1');
+			}
 		});
 	}
 }
