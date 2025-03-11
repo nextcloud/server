@@ -9,8 +9,10 @@ import { getContents } from '../services/trashbin.ts'
 
 import svgDelete from '@mdi/svg/svg/delete.svg?raw'
 
+export const TRASHBIN_VIEW_ID = 'trashbin'
+
 export const trashbinView = new View({
-	id: 'trashbin',
+	id: TRASHBIN_VIEW_ID,
 	name: t('files_trashbin', 'Deleted files'),
 	caption: t('files_trashbin', 'List of files that have been deleted.'),
 

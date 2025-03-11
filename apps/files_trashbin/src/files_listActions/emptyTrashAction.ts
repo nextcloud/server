@@ -4,37 +4,20 @@
  */
 import type { Node, View, Folder } from '@nextcloud/files'
 
-import axios from '@nextcloud/axios'
+import { emit } from '@nextcloud/event-bus'
 import { FileListAction } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import {
 	DialogSeverity,
 	getDialogBuilder,
-	showError,
 	showInfo,
-	showSuccess,
 } from '@nextcloud/dialogs'
-
-import { logger } from '../logger.ts'
-import { generateRemoteUrl } from '@nextcloud/router'
-import { getCurrentUser } from '@nextcloud/auth'
-import { emit } from '@nextcloud/event-bus'
-import { loadState } from '@nextcloud/initial-state'
+import { emptyTrash } from '../services/api.ts'
+import { TRASHBIN_VIEW_ID } from '../files_views/trashbinView.ts'
 
 export type FilesTrashbinConfigState = {
 	allow_delete: boolean;
-}
-
-const emptyTrash = async (): Promise<boolean> => {
-	try {
-		await axios.delete(generateRemoteUrl('dav') + `/trashbin/${getCurrentUser()?.uid}/trash`)
-		showSuccess(t('files_trashbin', 'All files have been permanently deleted'))
-		return true
-	} catch (error) {
-		showError(t('files_trashbin', 'Failed to empty deleted files'))
-		logger.error('Failed to empty deleted files', { error })
-		return false
-	}
 }
 
 export const emptyTrashAction = new FileListAction({
@@ -44,7 +27,7 @@ export const emptyTrashAction = new FileListAction({
 	order: 0,
 
 	enabled(view: View, nodes: Node[], folder: Folder) {
-		if (view.id !== 'trashbin') {
+		if (view.id !== TRASHBIN_VIEW_ID) {
 			return false
 		}
 
@@ -56,7 +39,7 @@ export const emptyTrashAction = new FileListAction({
 		return nodes.length > 0 && folder.path === '/'
 	},
 
-	async exec(view: View, nodes: Node[]): Promise<void> {
+	async exec(view: View, nodes: Node[]): Promise<null> {
 		const askConfirmation = new Promise<boolean>((resolve) => {
 			const dialog = getDialogBuilder(t('files_trashbin', 'Confirm permanent deletion'))
 				.setSeverity(DialogSeverity.Warning)
@@ -85,9 +68,10 @@ export const emptyTrashAction = new FileListAction({
 			if (await emptyTrash()) {
 				nodes.forEach((node) => emit('files:node:deleted', node))
 			}
-			return
+			return null
 		}
 
 		showInfo(t('files_trashbin', 'Deletion cancelled'))
+		return null
 	},
 })
