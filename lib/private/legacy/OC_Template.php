@@ -8,8 +8,6 @@
 use OCP\Server;
 use OCP\Template\ITemplateManager;
 
-require_once __DIR__ . '/template/functions.php';
-
 /**
  * This class provides the templates for ownCloud.
  * @deprecated 32.0.0 Use \OCP\Template\ITemplateManager instead

@@ -21,8 +21,6 @@ use OCP\Template\ITemplate;
 use OCP\Template\TemplateNotFoundException;
 use OCP\Util;
 
-require_once __DIR__ . '/../legacy/template/functions.php';
-
 class Template extends Base implements ITemplate {
 	private string $path;
 	private array $headers = [];
