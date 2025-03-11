@@ -24,6 +24,23 @@ class ListShares extends Base {
 	/** @var array{string, Node} */
 	private $fileCache = [];
 
+	const SHARE_TYPE_NAMES = [
+		IShare::TYPE_USER => 'user',
+		IShare::TYPE_GROUP => 'group',
+		IShare::TYPE_LINK => 'link',
+		IShare::TYPE_EMAIL => 'email',
+		IShare::TYPE_REMOTE => 'remote',
+		IShare::TYPE_REMOTE_GROUP => 'group',
+		IShare::TYPE_ROOM => 'room',
+		IShare::TYPE_DECK => 'deck',
+	];
+
+	const SHARE_STATUS_NAMES = [
+		IShare::STATUS_PENDING => 'pending',
+		IShare::STATUS_ACCEPTED => 'accepted',
+		IShare::STATUS_REJECTED => 'rejected',
+	];
+
 	public function __construct(
 		private readonly IDBConnection $connection,
 		private readonly IManager $shareManager,
@@ -35,40 +52,50 @@ class ListShares extends Base {
 	protected function configure() {
 		parent::configure();
 		$this
-			->setName('sharing:list')
+			->setName('share:list')
 			->setDescription('List available shares')
 			->addOption('owner', null, InputOption::VALUE_REQUIRED, 'only show shares owned by a specific user')
 			->addOption('recipient', null, InputOption::VALUE_REQUIRED, 'only show shares with a specific recipient')
 			->addOption('by', null, InputOption::VALUE_REQUIRED, 'only show shares with by as specific user')
 			->addOption('file', null, InputOption::VALUE_REQUIRED, 'only show shares of a specific file')
 			->addOption('parent', null, InputOption::VALUE_REQUIRED, 'only show shares of files inside a specific folder')
-			->addOption('recursive', null, InputOption::VALUE_NONE, 'also show shares nested deep inside the specified parent folder');
+			->addOption('recursive', null, InputOption::VALUE_NONE, 'also show shares nested deep inside the specified parent folder')
+			->addOption('type', null, InputOption::VALUE_REQUIRED, 'only show shares of a specific type')
+			->addOption('status', null, InputOption::VALUE_REQUIRED, 'only show shares with a specific status');
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
-		$shares = iterator_to_array($this->shareManager->getAllShares());
-		$shares = array_filter($shares, function (IShare $share) use ($input) {
+		if ($input->getOption('recursive') && !$input->getOption('parent')) {
+			$output->writeln("<error>recursive option can't be used without parent option</error>");
+			return 1;
+		}
+
+		// todo: do some pre-filtering instead of first querying all shares
+		$allShares = iterator_to_array($this->shareManager->getAllShares());
+		$shares = array_filter($allShares, function (IShare $share) use ($input) {
 			return $this->shouldShowShare($input, $share);
 		});
 		$data = array_map(function (IShare $share) {
 			return [
 				'id' => $share->getId(),
 				'file' => $share->getNodeId(),
+				'target-path' => $share->getTarget(),
+				'source-path' => $share->getNode()->getPath(),
 				'owner' => $share->getShareOwner(),
 				'recipient' => $share->getSharedWith(),
 				'by' => $share->getSharedBy(),
+				'type' => self::SHARE_TYPE_NAMES[$share->getShareType()] ?? 'unknown',
+				'status' => self::SHARE_STATUS_NAMES[$share->getStatus()] ?? 'unknown',
 			];
 		}, $shares);
-		if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN) {
-			$this->writeTableInOutputFormat($input, $output, $data);
-		} else {
-			$this->writeArrayInOutputFormat($input, $output, $data);
-		}
+
+		$this->writeTableInOutputFormat($input, $output, $data);
+		return 0;
 	}
 
 	private function getFileId(string $file): int {
 		if (is_numeric($file)) {
-			return $file;
+			return (int)$file;
 		}
 		return $this->getFile($file)->getId();
 	}
@@ -88,6 +115,24 @@ class ListShares extends Base {
 		}
 		$this->fileCache[$file] = $node;
 		return $node;
+	}
+
+	private function getShareType(string $type): int {
+		foreach (self::SHARE_TYPE_NAMES as $shareType => $shareTypeName) {
+			if ($shareTypeName === $type) {
+				return $shareType;
+			}
+		}
+		throw new \Exception("Unknown share type $type");
+	}
+
+	private function getShareStatus(string $status): int {
+		foreach (self::SHARE_STATUS_NAMES as $shareStatus => $shareStatusName) {
+			if ($shareStatusName === $status) {
+				return $shareStatus;
+			}
+		}
+		throw new \Exception("Unknown share status $status");
 	}
 
 	private function shouldShowShare(InputInterface $input, IShare $share): bool {
@@ -110,7 +155,11 @@ class ListShares extends Base {
 			}
 			$recursive = $input->getOption('recursive');
 			if (!$recursive) {
-				if ($share->getNodeCacheEntry()->getParent() !== $parent->getId()) {
+				$shareCacheEntry = $share->getNodeCacheEntry();
+				if (!$shareCacheEntry) {
+					$shareCacheEntry = $share->getNode();
+				}
+				if ($shareCacheEntry->getParentId() !== $parent->getId()) {
 					return false;
 				}
 			} else {
@@ -119,6 +168,12 @@ class ListShares extends Base {
 					return false;
 				}
 			}
+		}
+		if ($input->getOption('type') && $share->getShareType() !== $this->getShareType($input->getOption('type'))) {
+			return false;
+		}
+		if ($input->getOption('status') && $share->getStatus() !== $this->getShareStatus($input->getOption('status'))) {
+			return false;
 		}
 		return true;
 	}
