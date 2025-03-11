@@ -11,7 +11,7 @@ class TemplateFunctionsTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		require_once \OC::$SERVERROOT . '/lib/private/legacy/OC_Template.php';
+		require_once \OC::$SERVERROOT . '/lib/private/Template/functions.php';
 	}
 
 	public function testPJavaScript(): void {
