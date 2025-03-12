@@ -78,6 +78,7 @@
     "Go to the \"{dir}\" directory" : "Ga naar de \"{dir}\" map",
     "Current directory path" : "Huidig directory pad",
     "Your have used your space quota and cannot upload files anymore" : "Je hebt je ruimtequotum gebruikt en kan geen bestanden meer uploaden",
+    "You do not have permission to upload or create files here." : "Je hebt geen toestemming om hier bestanden te uploaden of aan te maken.",
     "Drag and drop files here to upload" : "Drag en drop bestanden hier om te uploaden",
     "Favorite" : "Favoriet",
     "Back" : "Terug",
