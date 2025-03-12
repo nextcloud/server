@@ -48,10 +48,10 @@ const downloadNodes = function(nodes: Node[]) {
 			url.searchParams.append('accept', 'zip')
 		}
 	} else {
-		url = new URL(nodes[0].source)
+		url = new URL(nodes[0].encodedSource)
 		let base = url.pathname
 		for (const node of nodes.slice(1)) {
-			base = longestCommonPath(base, (new URL(node.source).pathname))
+			base = longestCommonPath(base, (new URL(node.encodedSource).pathname))
 		}
 		url.pathname = base
 
