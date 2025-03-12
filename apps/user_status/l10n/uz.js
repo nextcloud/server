@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "Commuting",
     "Out sick" : "Out sick",
     "Vacationing" : "Vacationing",
+    "Out of office" : "Ofisda emas",
     "Working remotely" : "Working remotely",
     "In a call" : "In a call",
     "User status" : "User status",

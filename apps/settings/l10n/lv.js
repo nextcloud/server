@@ -187,7 +187,7 @@ OC.L10N.register(
     "Locale" : "Lokalizācija",
     "First day of week" : "Pirmā nedēļas diena",
     "Updates" : "Atjauninājumi",
-    "Hide" : "Slēpt",
+    "Hide" : "Paslēpt",
     "Disable" : "Deaktivēt",
     "Unknown" : "Nezināms",
     "Never" : "Nekad",
