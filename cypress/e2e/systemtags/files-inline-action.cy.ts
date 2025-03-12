@@ -92,7 +92,7 @@ describe('Systemtags: Files integration', { testIsolation: true }, () => {
 			.should('contain.text', tag2)
 	})
 
-	it.only('See three assigned tags result in overflow entry', () => {
+	it('See three assigned tags result in overflow entry', () => {
 		const tag1 = randomBytes(4).toString('base64')
 		const tag2 = randomBytes(4).toString('base64')
 		const tag3 = randomBytes(4).toString('base64')
