@@ -56,7 +56,7 @@ class Validator implements IValidator {
 				throw new InvalidObjectExeption('Parameter is malformed');
 			}
 
-			$this->validateParameter($parameter);
+			$this->validateParameter($placeholder, $parameter);
 		}
 	}
 
@@ -64,7 +64,7 @@ class Validator implements IValidator {
 	 * @param array $parameter
 	 * @throws InvalidObjectExeption
 	 */
-	protected function validateParameter(array $parameter): void {
+	protected function validateParameter(string $placeholder, array $parameter): void {
 		if (!isset($parameter['type'])) {
 			throw new InvalidObjectExeption('Object type is undefined');
 		}
@@ -74,15 +74,15 @@ class Validator implements IValidator {
 
 		$missingKeys = array_diff($requiredParameters, array_keys($parameter));
 		if (!empty($missingKeys)) {
-			throw new InvalidObjectExeption('Object is invalid, missing keys:' . json_encode($missingKeys));
+			throw new InvalidObjectExeption('Object for placeholder ' . $placeholder . ' is invalid, missing keys:' . json_encode($missingKeys));
 		}
 
 		foreach ($parameter as $key => $value) {
 			if (!is_string($key)) {
-				throw new InvalidObjectExeption('Object is invalid, key ' . $key . ' is not a string');
+				throw new InvalidObjectExeption('Object for placeholder ' . $placeholder . ' is invalid, key ' . $key . ' is not a string');
 			}
 			if (!is_string($value)) {
-				throw new InvalidObjectExeption('Object is invalid, value ' . $value . ' is not a string');
+				throw new InvalidObjectExeption('Object for placeholder ' . $placeholder . ' is invalid, value ' . $value . ' for key ' . $key . ' is not a string');
 			}
 		}
 	}
