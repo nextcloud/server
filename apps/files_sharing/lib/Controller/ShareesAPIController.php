@@ -38,7 +38,6 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Sharing\Controller;
 
-use OCP\Constants;
 use function array_slice;
 use function array_values;
 use Generator;
@@ -49,6 +48,8 @@ use OCP\AppFramework\OCSController;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
+use OCP\Constants;
+use OCP\GlobalScale\IConfig as GlobalScaleIConfig;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -201,15 +202,11 @@ class ShareesAPIController extends OCSController {
 		$this->limit = $perPage;
 		$this->offset = $perPage * ($page - 1);
 
-		// In global scale mode we always search the loogup server
-		if ($this->config->getSystemValueBool('gs.enabled', false)) {
-			$lookup = true;
-			$this->result['lookupEnabled'] = true;
-		} else {
-			$this->result['lookupEnabled'] = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'yes') === 'yes';
-		}
+		// In global scale mode we always search the lookup server
+		$this->result['lookupEnabled'] = \OCP\Server::get(GlobalScaleIConfig::class)->isGlobalScaleEnabled();
+		// TODO: Reconsider using lookup server for non-global-scale federation
 
-		[$result, $hasMoreResults] = $this->collaboratorSearch->search($search, $shareTypes, $lookup, $this->limit, $this->offset);
+		[$result, $hasMoreResults] = $this->collaboratorSearch->search($search, $shareTypes, $this->result['lookupEnabled'], $this->limit, $this->offset);
 
 		// extra treatment for 'exact' subarray, with a single merge expected keys might be lost
 		if (isset($result['exact'])) {
