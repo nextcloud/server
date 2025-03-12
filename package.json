@@ -162,7 +162,6 @@
     "handlebars-loader": "^1.7.3",
     "jasmine-core": "~2.5.2",
     "jasmine-sinon": "^0.4.0",
-    "jsdoc": "^4.0.2",
     "jsdom": "^26.0.0",
     "karma": "^6.4.3",
     "karma-chrome-launcher": "^3.1.1",
