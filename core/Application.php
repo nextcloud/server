@@ -151,12 +151,12 @@ class Application extends App {
 				true
 			);
 
-			$event->addMissingIndex(
+			$event->replaceIndex(
 				'cards_properties',
-				'cards_prop_abid',
-				['addressbookid'],
-				[],
-				true
+				['cards_prop_abid'],
+				'cards_prop_abid_name_value',
+				['addressbookid', 'name', 'value'],
+				false,
 			);
 
 			$event->addMissingIndex(
