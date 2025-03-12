@@ -236,7 +236,7 @@
                                         "nullable": true,
                                         "enum": [
                                             "none",
-                                            "headers"
+                                            "header"
                                         ],
                                         "description": "Authentication method to use"
                                     },
@@ -519,7 +519,7 @@
                                         "nullable": true,
                                         "enum": [
                                             "none",
-                                            "headers"
+                                            "header"
                                         ],
                                         "description": "Authentication method to use"
                                     },
