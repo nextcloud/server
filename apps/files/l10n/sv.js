@@ -235,9 +235,6 @@ OC.L10N.register(
     "Failed to convert files: {message}" : "Kunde inte konvertera filer: {message}",
     "All files failed to be converted" : "Alla filer misslyckades med att konverteras",
     "One file could not be converted: {message}" : "En fil kunde inte konverteras: {message}",
-    "One file could not be converted" : "En fil kunde inte konverteras",
-    "{count} files could not be converted" : "{count} filer kunde inte konverteras",
-    "{count} files successfully converted" : "{count} filer har konverterats",
     "Files successfully converted" : "Filerna har konverterats",
     "Failed to convert files" : "Det gick inte att konvertera filer",
     "Converting file …" : "Konverterar fil ...",
@@ -454,6 +451,8 @@ OC.L10N.register(
     "Favor" : "Favorisera",
     "Not favored" : "Inte favoriserad",
     "Submitting fields…" : "Skickar fält...",
-    "Filter filenames…" : "Filtrera filnamn..."
+    "Filter filenames…" : "Filtrera filnamn...",
+    "{count} files could not be converted" : "{count} filer kunde inte konverteras",
+    "{count} files successfully converted" : "{count} filer har konverterats"
 },
 "nplurals=2; plural=(n != 1);");

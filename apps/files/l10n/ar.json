@@ -233,9 +233,6 @@
     "Failed to convert files: {message}" : "تعذّر تحويل الملفات: {message}",
     "All files failed to be converted" : "تعذّر تحويل كل الملفات",
     "One file could not be converted: {message}" : "تعذّر تحويل الملف : {message}",
-    "One file could not be converted" : "تعذّر تحويل ملف",
-    "{count} files could not be converted" : "{count} ملفات تعذّر تحويلها",
-    "{count} files successfully converted" : "{count} ملف تمّ تحويلها بنجاحٍ",
     "Files successfully converted" : "ملفات تمّ تحويلها بنجاحٍ",
     "Failed to convert files" : "تعذّر تحويل الملفات",
     "Converting file …" : "تحويل الملف ...",
@@ -452,6 +449,8 @@
     "Favor" : "تفضيل",
     "Not favored" : "غير مُفضّلة",
     "Submitting fields…" : "إرسال الحقول...",
-    "Filter filenames…" : "تصفية باسم الملف..."
+    "Filter filenames…" : "تصفية باسم الملف...",
+    "{count} files could not be converted" : "{count} ملفات تعذّر تحويلها",
+    "{count} files successfully converted" : "{count} ملف تمّ تحويلها بنجاحٍ"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

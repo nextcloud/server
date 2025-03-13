@@ -235,9 +235,6 @@ OC.L10N.register(
     "Failed to convert files: {message}" : "Theip ar thiontú comhaid: {message}",
     "All files failed to be converted" : "Theip ar gach comhad a thiontú",
     "One file could not be converted: {message}" : "Níorbh fhéidir comhad amháin a thiontú:{message}",
-    "One file could not be converted" : "Níorbh fhéidir comhad amháin a thiontú",
-    "{count} files could not be converted" : "{count} níorbh fhéidir comhaid a thiontú",
-    "{count} files successfully converted" : "{count} comhaid a thiontú go rathúil",
     "Files successfully converted" : "Comhaid a thiontú go rathúil",
     "Failed to convert files" : "Theip ar thiontú comhaid",
     "Converting file …" : "Comhad á thiontú…",
@@ -454,6 +451,8 @@ OC.L10N.register(
     "Favor" : "Fabhar",
     "Not favored" : "Ní bail ar fónamh orthu",
     "Submitting fields…" : "Réimsí á gcur isteach…",
-    "Filter filenames…" : "Scag ainmneacha comhaid…"
+    "Filter filenames…" : "Scag ainmneacha comhaid…",
+    "{count} files could not be converted" : "{count} níorbh fhéidir comhaid a thiontú",
+    "{count} files successfully converted" : "{count} comhaid a thiontú go rathúil"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

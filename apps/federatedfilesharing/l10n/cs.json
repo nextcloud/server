@@ -27,6 +27,7 @@
     "Allow people on this server to receive shares from other servers" : "Povolit lidem na tomto serveru přijímat sdílení z jiných serverů",
     "Allow people on this server to send shares to groups on other servers" : "Povolit lidem na tomto serveru zasílat sdílení skupinám na ostatních serverech",
     "Allow people on this server to receive group shares from other servers" : "Povolit lidem na tomto serveru přijímat skupinová sdílení z jiných serverů",
+    "The lookup server is only available for global scale." : "Vyhledávací server je k dispozici pouze pro globální měřítko.",
     "Search global and public address book for people" : "Vyhledávat lidi v globálním a veřejném adresáři kontaktů",
     "Allow people to publish their data to a global and public address book" : "Povolit lidem publikování jejich dat do globálního a sdíleného adresáře kontaktů",
     "Trusted federation" : "Důvěryhodná federace",

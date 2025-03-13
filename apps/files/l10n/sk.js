@@ -223,9 +223,6 @@ OC.L10N.register(
     "Failed to convert files: {message}" : "Nepodarilo sa skonvertovať súbory: {message}",
     "All files failed to be converted" : "Nepodarilo sa skonvertovať žiadne súbory",
     "One file could not be converted: {message}" : "Jeden súbor sa nepodarilo skonvertovať: {message}",
-    "One file could not be converted" : "Jeden súbor sa nepodarilo skonvertovať",
-    "{count} files could not be converted" : "{count} súborov sa nepodarilo skonvertovať",
-    "{count} files successfully converted" : "{count} súborov bolo skonvertovaných",
     "Files successfully converted" : "Súbory boli úspešne skonvertované",
     "Failed to convert files" : "Konverzia súborov zlyhala",
     "File successfully converted" : "Súbor bol úspešne skonvertovaný",
@@ -440,6 +437,8 @@ OC.L10N.register(
     "Favor" : "Zaradené medzi obľúbené",
     "Not favored" : "Nie je v obľúbených",
     "Submitting fields…" : "Položky sa odosielajú ...",
-    "Filter filenames…" : "Filtrovať názvy súborov..."
+    "Filter filenames…" : "Filtrovať názvy súborov...",
+    "{count} files could not be converted" : "{count} súborov sa nepodarilo skonvertovať",
+    "{count} files successfully converted" : "{count} súborov bolo skonvertovaných"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
