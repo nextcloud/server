@@ -114,12 +114,12 @@ class BeforeNodeReadListener implements IEventListener {
 		}
 
 		/* Avoid publishing several activities for one video playing */
-		$cacheKey = $node->getId() . $node->getPath();
-		if (($this->request->getHeader('range') !== '') && ($this->cache->get($cacheKey) == $this->session->getId())) {
+		$cacheKey = $node->getId() . $node->getPath() . $this->session->getId();
+		if (($this->request->getHeader('range') !== '') && ($this->cache->get($cacheKey) === 'true')) {
 			/* This is a range request and an activity for the same file was published in the same session */
 			return;
 		}
-		$this->cache->set($cacheKey, $this->session->getId(), 3600);
+		$this->cache->set($cacheKey, 'true', 3600);
 
 		$this->singleFileDownloaded($share, $node);
 	}
