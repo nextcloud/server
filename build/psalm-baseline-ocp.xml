@@ -53,17 +53,6 @@
       <code><![CDATA[\Iterator]]></code>
     </MissingTemplateParam>
   </file>
-  <file src="lib/public/Template.php">
-    <UndefinedFunction>
-      <code><![CDATA[\html_select_options($options, $selected, $params)]]></code>
-      <code><![CDATA[\human_file_size($bytes)]]></code>
-      <code><![CDATA[\image_path($app, $image)]]></code>
-      <code><![CDATA[\mimetype_icon($mimetype)]]></code>
-      <code><![CDATA[\preview_icon($path)]]></code>
-      <code><![CDATA[\publicPreview_icon($path, $token)]]></code>
-      <code><![CDATA[\relative_modified_date($timestamp, null, $dateOnly)]]></code>
-    </UndefinedFunction>
-  </file>
   <file src="lib/public/Util.php">
     <UndefinedClass>
       <code><![CDATA[\OC]]></code>
