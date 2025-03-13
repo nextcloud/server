@@ -223,9 +223,6 @@ OC.L10N.register(
     "Failed to convert files: {message}" : "No s'han pogut convertir els fitxers: {message}",
     "All files failed to be converted" : "No s'han pogut convertir tots els fitxers",
     "One file could not be converted: {message}" : "No s'ha pogut convertir un fitxer: {message}",
-    "One file could not be converted" : "No s'ha pogut convertir un fitxer",
-    "{count} files could not be converted" : "No s'han pogut convertir {count} fitxers",
-    "{count} files successfully converted" : "{count} fitxers convertits correctament",
     "Files successfully converted" : "Els fitxers s'han convertit correctament",
     "Failed to convert files" : "No s'han pogut convertir els fitxers",
     "File successfully converted" : "El fitxer s'ha convertit correctament",
@@ -439,6 +436,8 @@ OC.L10N.register(
     "Favor" : "Afavorir",
     "Not favored" : "No afavorit",
     "Submitting fields…" : "S'estan enviant camps…",
-    "Filter filenames…" : "Filtra els noms de fitxer…"
+    "Filter filenames…" : "Filtra els noms de fitxer…",
+    "{count} files could not be converted" : "No s'han pogut convertir {count} fitxers",
+    "{count} files successfully converted" : "{count} fitxers convertits correctament"
 },
 "nplurals=2; plural=(n != 1);");

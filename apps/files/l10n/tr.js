@@ -235,9 +235,6 @@ OC.L10N.register(
     "Failed to convert files: {message}" : "Dosyalar dönüştürülemedi: {message}",
     "All files failed to be converted" : "Tüm dosyalar dönüştürülemedi",
     "One file could not be converted: {message}" : "Bir dosya dönüştürülemedi: {message}",
-    "One file could not be converted" : "Bir dosya dönüştürülemedi",
-    "{count} files could not be converted" : "{count} dosya dönüştürülemedi",
-    "{count} files successfully converted" : "{count} dosya dönüştürüldü",
     "Files successfully converted" : "Dosyalar dönüştürüldü",
     "Failed to convert files" : "Dosyalar dönüştürülemedi",
     "Converting file …" : "Dosya dönüştürülüyor…",
@@ -454,6 +451,8 @@ OC.L10N.register(
     "Favor" : "Sık kullanılanlara ekle",
     "Not favored" : "Sık kullanılanlara eklenmemiş",
     "Submitting fields…" : "Alanlar gönderiliyor…",
-    "Filter filenames…" : "Dosya adlarını süz…"
+    "Filter filenames…" : "Dosya adlarını süz…",
+    "{count} files could not be converted" : "{count} dosya dönüştürülemedi",
+    "{count} files successfully converted" : "{count} dosya dönüştürüldü"
 },
 "nplurals=2; plural=(n > 1);");
