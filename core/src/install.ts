@@ -16,6 +16,7 @@ export type DbType = 'sqlite' | 'mysql' | 'pgsql' | 'oci'
 export type SetupConfig = {
 	adminlogin: string
 	adminpass: string
+	directory: string
 	dbuser: string
 	dbpass: string
 	dbname: string
@@ -23,15 +24,8 @@ export type SetupConfig = {
 	dbhost: string
 	dbtype: DbType | ''
 
-	hasSQLite: boolean
-	hasMySQL: boolean
-	hasPostgreSQL: boolean
-	hasOracle: boolean
-	databases: Record<DbType, string>
+	databases: Partial<Record<DbType, string>>
 
-	dbIsSet: boolean
-	directory: string
-	directoryIsSet: boolean
 	hasAutoconfig: boolean
 	htaccessWorking: boolean
 	serverRoot: string

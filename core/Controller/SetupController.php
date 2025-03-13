@@ -133,8 +133,6 @@ class SetupController {
 		if ($dbIsSet and $directoryIsSet and $adminAccountIsSet) {
 			$post['install'] = 'true';
 		}
-		$post['dbIsSet'] = $dbIsSet;
-		$post['directoryIsSet'] = $directoryIsSet;
 
 		return $post;
 	}

@@ -31,7 +31,7 @@ const isNextcloudUrl = (url) => {
 /**
  * Check if a user was logged in but is now logged-out.
  * If this is the case then the user will be forwarded to the login page.
- * @returns {Promise<void>}
+ * @return {Promise<void>}
  */
 async function checkLoginStatus() {
 	// skip if no logged in user
@@ -66,7 +66,7 @@ async function checkLoginStatus() {
 
 /**
  * Clear all Browser storages connected to current origin.
- * @returns {Promise<void>}
+ * @return {Promise<void>}
  */
 export async function wipeBrowserStorages() {
 	try {
