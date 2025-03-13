@@ -7,11 +7,13 @@
 		class="setup-form"
 		:class="{ 'setup-form--loading': loading }"
 		action=""
+		data-cy-setup-form
 		method="POST"
 		@submit="onSubmit">
 		<!-- Autoconfig info -->
 		<NcNoteCard v-if="config.hasAutoconfig"
 			:heading="t('core', 'Autoconfig file detected')"
+			data-cy-setup-form-note="autoconfig"
 			type="success">
 			{{ t('core', 'The setup form below is pre-filled with the values from the config file.') }}
 		</NcNoteCard>
@@ -19,6 +21,7 @@
 		<!-- Htaccess warning -->
 		<NcNoteCard v-if="config.htaccessWorking === false"
 			:heading="t('core', 'Security warning')"
+			data-cy-setup-form-note="htaccess"
 			type="warning">
 			<p v-html="htaccessWarning" />
 		</NcNoteCard>
@@ -27,6 +30,7 @@
 		<NcNoteCard v-for="(error, index) in errors"
 			:key="index"
 			:heading="error.heading"
+			data-cy-setup-form-note="error"
 			type="error">
 			{{ error.message }}
 		</NcNoteCard>
@@ -38,12 +42,14 @@
 			<!-- Username -->
 			<NcTextField v-model="config.adminlogin"
 				:label="t('core', 'Administration account name')"
+				data-cy-setup-form-field="adminlogin"
 				name="adminlogin"
 				required />
 
 			<!-- Password -->
 			<NcPasswordField v-model="config.adminpass"
 				:label="t('core', 'Administration account password')"
+				data-cy-setup-form-field="adminpass"
 				name="adminpass"
 				required />
 
@@ -54,18 +60,18 @@
 		</fieldset>
 
 		<!-- Autoconfig toggle -->
-		<details :open="!isValidAutoconfig">
-			<summary>{{ t('core', 'Advanced settings') }}</summary>
+		<details :open="!isValidAutoconfig" data-cy-setup-form-advanced-config>
+			<summary>{{ t('core', 'Storage & database') }}</summary>
 
 			<!-- Data folder -->
 			<fieldset class="setup-form__data-folder">
-				<legend>{{ t('core', 'Data folder') }}</legend>
 				<NcTextField v-model="config.directory"
 					:label="t('core', 'Data folder')"
 					:placeholder="config.serverRoot + '/data'"
 					required
 					autocomplete="off"
 					autocapitalize="none"
+					data-cy-setup-form-field="directory"
 					name="directory"
 					spellcheck="false" />
 			</fieldset>
@@ -76,22 +82,22 @@
 
 				<!-- Database type select -->
 				<fieldset class="setup-form__database-type">
-					<legend>{{ t('core', 'Database type') }}</legend>
-					<p v-if="Object.keys(config.databases).length > 1" class="setup-form__database-type-select">
+					<p v-if="!firstAndOnlyDatabase" :class="`setup-form__database-type-select--${DBTypeGroupDirection}`" class="setup-form__database-type-select">
 						<NcCheckboxRadioSwitch v-for="(name, db) in config.databases"
 							:key="db"
 							v-model="config.dbtype"
 							:button-variant="true"
+							:data-cy-setup-form-field="`dbtype-${db}`"
 							:value="db"
+							:button-variant-grouped="DBTypeGroupDirection"
 							name="dbtype"
-							button-variant-grouped="horizontal"
 							type="radio">
 							{{ name }}
 						</NcCheckboxRadioSwitch>
 					</p>
 
-					<NcNoteCard v-else type="warning">
-						{{ t('core', 'Only {db} is available.', { db: Object.values(config.databases).at(0) }) }}<br>
+					<NcNoteCard v-else data-cy-setup-form-db-note="single-db" type="warning">
+						{{ t('core', 'Only {firstAndOnlyDatabase} is available.', { firstAndOnlyDatabase }) }}<br>
 						{{ t('core', 'Install and activate additional PHP modules to choose other database types.') }}<br>
 						<a :href="links.adminSourceInstall" target="_blank" rel="noreferrer noopener">
 							{{ t('core', 'For more details check out the documentation.') }} ↗
@@ -100,6 +106,7 @@
 
 					<NcNoteCard v-if="config.dbtype === 'sqlite'"
 						:heading="t('core', 'Performance warning')"
+						data-cy-setup-form-db-note="sqlite"
 						type="warning">
 						{{ t('core', 'You chose SQLite as database.') }}<br>
 						{{ t('core', 'SQLite should only be used for minimal and development instances. For production we recommend a different database backend.') }}<br>
@@ -113,6 +120,7 @@
 						:label="t('core', 'Database user')"
 						autocapitalize="none"
 						autocomplete="off"
+						data-cy-setup-form-field="dbuser"
 						name="dbuser"
 						spellcheck="false"
 						required />
@@ -121,6 +129,7 @@
 						:label="t('core', 'Database password')"
 						autocapitalize="none"
 						autocomplete="off"
+						data-cy-setup-form-field="dbpass"
 						name="dbpass"
 						spellcheck="false"
 						required />
@@ -129,6 +138,7 @@
 						:label="t('core', 'Database name')"
 						autocapitalize="none"
 						autocomplete="off"
+						data-cy-setup-form-field="dbname"
 						name="dbname"
 						pattern="[0-9a-zA-Z\$_\-]+"
 						spellcheck="false"
@@ -139,6 +149,7 @@
 						:label="t('core', 'Database tablespace')"
 						autocapitalize="none"
 						autocomplete="off"
+						data-cy-setup-form-field="dbtablespace"
 						name="dbtablespace"
 						spellcheck="false" />
 
@@ -148,6 +159,7 @@
 						:placeholder="t('core', 'localhost')"
 						autocapitalize="none"
 						autocomplete="off"
+						data-cy-setup-form-field="dbhost"
 						name="dbhost"
 						spellcheck="false" />
 				</fieldset>
@@ -161,6 +173,7 @@
 			:loading="loading"
 			:wide="true"
 			alignment="center-reverse"
+			data-cy-setup-form-submit
 			native-type="submit"
 			type="primary">
 			<template #icon>
@@ -171,7 +184,7 @@
 		</NcButton>
 
 		<!-- Help note -->
-		<NcNoteCard type="info">
+		<NcNoteCard data-cy-setup-form-note="help" type="info">
 			{{ t('core', 'Need help?') }}
 			<a target="_blank" rel="noreferrer noopener" :href="links.adminInstall">{{ t('core', 'See the documentation') }} ↗</a>
 		</NcNoteCard>
@@ -194,9 +207,6 @@ import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 
-const config = loadState<SetupConfig>('core', 'config')
-const links = loadState<SetupLinks>('core', 'links')
-
 enum PasswordStrength {
 	VeryWeak,
 	Weak,
@@ -204,6 +214,24 @@ enum PasswordStrength {
 	Strong,
 	VeryStrong,
 	ExtremelyStrong,
+}
+
+const checkPasswordEntropy = (password: string = ''): PasswordStrength => {
+	const uniqueCharacters = new Set(password)
+	const entropy = parseInt(Math.log2(Math.pow(parseInt(uniqueCharacters.size.toString()), password.length)).toFixed(2))
+	if (entropy < 16) {
+		return PasswordStrength.VeryWeak
+	} else if (entropy < 31) {
+		return PasswordStrength.Weak
+	} else if (entropy < 46) {
+		return PasswordStrength.Moderate
+	} else if (entropy < 61) {
+		return PasswordStrength.Strong
+	} else if (entropy < 76) {
+		return PasswordStrength.VeryStrong
+	}
+
+	return PasswordStrength.ExtremelyStrong
 }
 
 export default defineComponent({
@@ -221,14 +249,14 @@ export default defineComponent({
 
 	setup() {
 		return {
-			links,
 			t,
 		}
 	},
 
 	data() {
 		return {
-			config,
+			config: {} as SetupConfig,
+			links: {} as SetupLinks,
 			isValidAutoconfig: false,
 			loading: false,
 		}
@@ -236,11 +264,11 @@ export default defineComponent({
 
 	computed: {
 		passwordHelperText(): string {
-			if (this.config.adminpass === '') {
+			if (this.config?.adminpass === '') {
 				return ''
 			}
 
-			const passwordStrength = this.checkPasswordEntropy(this.config.adminpass)
+			const passwordStrength = checkPasswordEntropy(this.config?.adminpass)
 			switch (passwordStrength) {
 			case PasswordStrength.VeryWeak:
 				return t('core', 'Password is too weak')
@@ -259,13 +287,31 @@ export default defineComponent({
 			return t('core', 'Unknown password strength')
 		},
 		passwordHelperType() {
-			if (this.checkPasswordEntropy(this.config.adminpass) < PasswordStrength.Moderate) {
+			if (checkPasswordEntropy(this.config?.adminpass) < PasswordStrength.Moderate) {
 				return 'error'
 			}
-			if (this.checkPasswordEntropy(this.config.adminpass) < PasswordStrength.Strong) {
+			if (checkPasswordEntropy(this.config?.adminpass) < PasswordStrength.Strong) {
 				return 'warning'
 			}
 			return 'success'
+		},
+
+		firstAndOnlyDatabase(): string|null {
+			const dbNames = Object.values(this.config?.databases || {})
+			if (dbNames.length === 1) {
+				return dbNames[0]
+			}
+
+			return null
+		},
+
+		DBTypeGroupDirection() {
+			const databases = Object.keys(this.config?.databases || {})
+			// If we have more than 3 databases, we want to display them vertically
+			if (databases.length > 3) {
+				return 'vertical'
+			}
+			return 'horizontal'
 		},
 
 		htaccessWarning(): string {
@@ -273,7 +319,7 @@ export default defineComponent({
 			const message = [
 				t('core', 'Your data directory and files are probably accessible from the internet because the <code>.htaccess</code> file does not work.'),
 				t('core', 'For information how to properly configure your server, please {linkStart}see the documentation{linkEnd}', {
-					linkStart: '<a href="' + links.adminInstall + '" target="_blank" rel="noreferrer noopener">',
+					linkStart: '<a href="' + this.links.adminInstall + '" target="_blank" rel="noreferrer noopener">',
 					linkEnd: '</a>',
 				}, { escape: false }),
 			].join('<br>')
@@ -281,7 +327,7 @@ export default defineComponent({
 		},
 
 		errors() {
-			return this.config.errors.map(error => {
+			return (this.config?.errors || []).map(error => {
 				if (typeof error === 'string') {
 					return {
 						heading: '',
@@ -305,7 +351,16 @@ export default defineComponent({
 		},
 	},
 
+	beforeMount() {
+		// Needs to only read the state once we're mounted
+		// for Cypress to be properly initialized.
+		this.config = loadState<SetupConfig>('core', 'config')
+		this.links = loadState<SetupLinks>('core', 'links')
+
+	},
+
 	mounted() {
+		// Set the first database type as default if none is set
 		if (this.config.dbtype === '') {
 			this.config.dbtype = Object.keys(this.config.databases).at(0) as DbType
 		}
@@ -336,24 +391,6 @@ export default defineComponent({
 	methods: {
 		async onSubmit() {
 			this.loading = true
-		},
-
-		checkPasswordEntropy(password: string): PasswordStrength {
-			const uniqueCharacters = new Set(password)
-			const entropy = parseInt(Math.log2(Math.pow(parseInt(uniqueCharacters.size.toString()), password.length)).toFixed(2))
-			if (entropy < 16) {
-				return PasswordStrength.VeryWeak
-			} else if (entropy < 31) {
-				return PasswordStrength.Weak
-			} else if (entropy < 46) {
-				return PasswordStrength.Moderate
-			} else if (entropy < 61) {
-				return PasswordStrength.Strong
-			} else if (entropy < 76) {
-				return PasswordStrength.VeryStrong
-			}
-
-			return PasswordStrength.ExtremelyStrong
 		},
 	},
 })
@@ -398,6 +435,9 @@ form {
 	// Db select required styling
 	.setup-form__database-type-select {
 		display: flex;
+		&--vertical {
+			flex-direction: column;
+		}
 	}
 
 }

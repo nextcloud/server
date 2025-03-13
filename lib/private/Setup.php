@@ -205,10 +205,6 @@ class Setup {
 		}
 
 		return [
-			'hasSQLite' => isset($databases['sqlite']),
-			'hasMySQL' => isset($databases['mysql']),
-			'hasPostgreSQL' => isset($databases['pgsql']),
-			'hasOracle' => isset($databases['oci']),
 			'databases' => $databases,
 			'directory' => $dataDir,
 			'htaccessWorking' => $htAccessWorking,
