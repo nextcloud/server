@@ -872,8 +872,8 @@ export default defineComponent({
 .files-list--grid tbody.files-list__tbody {
 	--item-padding: 16px;
 	--icon-preview-size: 166px;
-	--name-height: 32px;
-	--mtime-height: 16px;
+	--name-height: var(--default-clickable-area);
+	--mtime-height: calc(var(--font-size-small) + var(--default-grid-baseline));
 	--row-width: calc(var(--icon-preview-size) + var(--item-padding) * 2);
 	--row-height: calc(var(--icon-preview-size) + var(--name-height) + var(--mtime-height) + var(--item-padding) * 2);
 	--checkbox-padding: 0px;
@@ -955,7 +955,7 @@ export default defineComponent({
 	.files-list__row-mtime {
 		width: var(--icon-preview-size);
 		height: var(--mtime-height);
-		font-size: calc(var(--default-font-size) - 4px);
+		font-size: var(--font-size-small);
 	}
 
 	.files-list__row-actions {
@@ -964,6 +964,23 @@ export default defineComponent({
 		inset-block-end: calc(var(--mtime-height) / 2);
 		width: var(--clickable-area);
 		height: var(--clickable-area);
+	}
+}
+
+@media screen and (max-width: 768px) {
+	// there is no mtime
+	.files-list--grid tbody.files-list__tbody {
+		--mtime-height: 0px;
+
+		// so we move the action to the name
+		.files-list__row-actions {
+			inset-block-end: var(--item-padding);
+		}
+
+		// and we need to keep space on the name for the actions
+		.files-list__row-name-text {
+			padding-inline-end: var(--clickable-area) !important;
+		}
 	}
 }
 </style>

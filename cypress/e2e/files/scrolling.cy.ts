@@ -228,9 +228,7 @@ describe('files: Scrolling to selected file in file list (GRID MODE)', { testIso
 					.and(beOverlappedByTableHeader)
 			}
 
-			// see footer is only shown partly
 			cy.get('tfoot')
-				.should(notBeFullyInViewport)
 				.contains('span', '12 files')
 				.should('be.visible')
 		})
