@@ -42,12 +42,14 @@
 			:open.sync="openedMenu"
 			@close="openedSubmenu = null">
 			<!-- Default actions list-->
-			<NcActionButton v-for="action in enabledMenuActions"
+			<NcActionButton v-for="action, index in enabledMenuActions"
 				:key="action.id"
 				:ref="`action-${action.id}`"
+				class="files-list__row-action"
 				:class="{
 					[`files-list__row-action-${action.id}`]: true,
-					[`files-list__row-action--menu`]: isMenu(action.id)
+					'files-list__row-action--inline': index < enabledInlineActions.length,
+					'files-list__row-action--menu': isMenu(action.id)
 				}"
 				:close-after-click="!isMenu(action.id)"
 				:data-cy-files-list-row-action="action.id"
@@ -58,7 +60,7 @@
 					<NcLoadingIcon v-if="loading === action.id" :size="18" />
 					<NcIconSvgWrapper v-else :svg="action.iconSvgInline([source], currentView)" />
 				</template>
-				{{ mountType === 'shared' && action.id === 'sharing-status' ? '' : actionDisplayName(action) }}
+				{{ actionDisplayName(action) }}
 			</NcActionButton>
 
 			<!-- Submenu actions list-->
@@ -251,10 +253,6 @@ export default defineComponent({
 		getBoundariesElement() {
 			return document.querySelector('.app-content > .files-list')
 		},
-
-		mountType() {
-			return this.source.attributes['mount-type']
-		},
 	},
 
 	watch: {
@@ -374,13 +372,19 @@ main.app-content[style*="mouse-pos-x"] .v-popper__popper {
 }
 </style>
 
-<style lang="scss" scoped>
-:deep(.button-vue--icon-and-text, .files-list__row-action-sharing-status) {
-	.button-vue__text {
-		color: var(--color-primary-element);
+<style scoped lang="scss">
+.files-list__row-action {
+	--max-icon-size: calc(var(--default-clickable-area) - 2 * var(--default-grid-baseline));
+
+	// inline icons can have clickable area size so they still fit into the row
+	&.files-list__row-action--inline {
+		--max-icon-size: var(--default-clickable-area);
 	}
-	.button-vue__icon {
-		color: var(--color-primary-element);
+
+	// Some icons exceed the default size so we need to enforce a max width and height
+	.files-list__row-action-icon :deep(svg) {
+		max-height: var(--max-icon-size) !important;
+		max-width: var(--max-icon-size) !important;
 	}
 }
 </style>
