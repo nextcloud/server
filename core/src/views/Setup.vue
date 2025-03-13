@@ -417,8 +417,8 @@ form {
 		margin-bottom: 0;
 	}
 
-	> fieldset,
-	> details {
+	fieldset,
+	details {
 		margin-block: 1rem;
 	}
 
