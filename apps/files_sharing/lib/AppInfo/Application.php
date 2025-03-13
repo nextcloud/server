@@ -100,9 +100,9 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeNodeReadEvent::class, BeforeNodeReadListener::class);
 		$context->registerEventListener(BeforeZipCreatedEvent::class, BeforeNodeReadListener::class);
 
-		// Handle download events for view only checks
-		$context->registerEventListener(BeforeZipCreatedEvent::class, BeforeZipCreatedListener::class);
-		$context->registerEventListener(BeforeDirectFileDownloadEvent::class, BeforeDirectFileDownloadListener::class);
+		// Handle download events for view only checks. Priority higher than 0 to run early.
+		$context->registerEventListener(BeforeZipCreatedEvent::class, BeforeZipCreatedListener::class, 5);
+		$context->registerEventListener(BeforeDirectFileDownloadEvent::class, BeforeDirectFileDownloadListener::class, 5);
 
 		// File request auth
 		$context->registerEventListener(BeforeTemplateRenderedEvent::class, LoadPublicFileRequestAuthListener::class);
