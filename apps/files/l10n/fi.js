@@ -206,9 +206,6 @@ OC.L10N.register(
     "Failed to convert files: {message}" : "Tiedostojen muuntaminen epäonnistui: {message}",
     "All files failed to be converted" : "Mitään tiedostoista ei voitu muuntaa",
     "One file could not be converted: {message}" : "Yhtä tiedostoa ei voitu muuntaa: {message}",
-    "One file could not be converted" : "Yhtä tiedostoa ei voitu muuntaa",
-    "{count} files could not be converted" : "{count} tiedostoa ei voitu muuntaa",
-    "{count} files successfully converted" : "{count} tiedostoa muunnettu onnistuneesti",
     "Files successfully converted" : "Tiedostot muunnettu onnistuneesti",
     "Failed to convert files" : "Tiedostojen muuntaminen epäonnistui",
     "Converting file …" : "Muunnetaan tiedostoa…",
@@ -412,6 +409,8 @@ OC.L10N.register(
     "Text file" : "Tekstitiedosto",
     "New text file.txt" : "Uusi tekstitiedosto.txt",
     "Submitting fields…" : "Lähetetään tietoja...",
-    "Filter filenames…" : "Suodata tiedostonimiä..."
+    "Filter filenames…" : "Suodata tiedostonimiä...",
+    "{count} files could not be converted" : "{count} tiedostoa ei voitu muuntaa",
+    "{count} files successfully converted" : "{count} tiedostoa muunnettu onnistuneesti"
 },
 "nplurals=2; plural=(n != 1);");

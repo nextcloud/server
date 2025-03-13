@@ -222,9 +222,6 @@ OC.L10N.register(
     "Failed to convert files: {message}" : "Не удалось преобразовать файлы: {message}",
     "All files failed to be converted" : "Не удалось преобразовать все файлы",
     "One file could not be converted: {message}" : "Один файл не удалось преобразовать: {message}",
-    "One file could not be converted" : "Один файл не удалось преобразовать",
-    "{count} files could not be converted" : "{count} файлы не могут быть преобразованы",
-    "{count} files successfully converted" : "{count} файлы успешно преобразованы",
     "Files successfully converted" : "Файлы успешно конвертированы",
     "Failed to convert files" : "Не удалось преобразовать файлы",
     "File successfully converted" : "Файл успешно преобразован",
@@ -438,6 +435,8 @@ OC.L10N.register(
     "Favor" : "Услуга",
     "Not favored" : "Не одобрен",
     "Submitting fields…" : "Отправка полей…",
-    "Filter filenames…" : "Фильтровать имена файлов…"
+    "Filter filenames…" : "Фильтровать имена файлов…",
+    "{count} files could not be converted" : "{count} файлы не могут быть преобразованы",
+    "{count} files successfully converted" : "{count} файлы успешно преобразованы"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

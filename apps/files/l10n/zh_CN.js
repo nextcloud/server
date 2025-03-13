@@ -235,9 +235,6 @@ OC.L10N.register(
     "Failed to convert files: {message}" : "无法转换文件：{message}",
     "All files failed to be converted" : "无法转换全部文件",
     "One file could not be converted: {message}" : "有一个文件无法转换：{message}",
-    "One file could not be converted" : "有一个文件无法转换",
-    "{count} files could not be converted" : "{count} 个文件无法转换",
-    "{count} files successfully converted" : "{count} 个文件已成功转换",
     "Files successfully converted" : "文件已成功转换",
     "Failed to convert files" : "无法转换文件",
     "Converting file …" : "正在转换文件…",
@@ -454,6 +451,8 @@ OC.L10N.register(
     "Favor" : "收藏",
     "Not favored" : "未收藏",
     "Submitting fields…" : "提交字段...",
-    "Filter filenames…" : "过滤文件名..."
+    "Filter filenames…" : "过滤文件名...",
+    "{count} files could not be converted" : "{count} 个文件无法转换",
+    "{count} files successfully converted" : "{count} 个文件已成功转换"
 },
 "nplurals=1; plural=0;");
