@@ -16,6 +16,7 @@ use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider as ExternalMountProvider;
 use OCA\Files_Sharing\Helper;
 use OCA\Files_Sharing\Listener\BeforeDirectFileDownloadListener;
+use OCA\Files_Sharing\Listener\BeforeNodeReadListener;
 use OCA\Files_Sharing\Listener\BeforeZipCreatedListener;
 use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Files_Sharing\Listener\LoadPublicFileRequestAuthListener;
@@ -42,6 +43,7 @@ use OCP\Federation\ICloudIdManager;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\Events\BeforeZipCreatedEvent;
+use OCP\Files\Events\Node\BeforeNodeReadEvent;
 use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
@@ -93,6 +95,9 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(ShareCreatedEvent::class, ShareInteractionListener::class);
 		$context->registerEventListener(ShareCreatedEvent::class, UserShareAcceptanceListener::class);
 		$context->registerEventListener(UserAddedEvent::class, UserAddedToGroupListener::class);
+
+		// Publish activity for public download
+		$context->registerEventListener(BeforeNodeReadEvent::class, BeforeNodeReadListener::class);
 
 		// Handle download events for view only checks
 		$context->registerEventListener(BeforeZipCreatedEvent::class, BeforeZipCreatedListener::class);
