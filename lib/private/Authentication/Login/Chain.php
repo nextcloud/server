@@ -80,6 +80,19 @@ class Chain {
 								FinishRememberedLoginCommand $finishRememberedLoginCommand,
 								FlowV2EphemeralSessionsCommand $flowV2EphemeralSessionsCommand
 	) {
+		$this->preLoginHookCommand = $preLoginHookCommand;
+		$this->userDisabledCheckCommand = $userDisabledCheckCommand;
+		$this->uidLoginCommand = $uidLoginCommand;
+		$this->emailLoginCommand = $emailLoginCommand;
+		$this->loggedInCheckCommand = $loggedInCheckCommand;
+		$this->completeLoginCommand = $completeLoginCommand;
+		$this->createSessionTokenCommand = $createSessionTokenCommand;
+		$this->clearLostPasswordTokensCommand = $clearLostPasswordTokensCommand;
+		$this->updateLastPasswordConfirmCommand = $updateLastPasswordConfirmCommand;
+		$this->setUserTimezoneCommand = $setUserTimezoneCommand;
+		$this->twoFactorCommand = $twoFactorCommand;
+		$this->finishRememberedLoginCommand = $finishRememberedLoginCommand;
+		$this->flowV2EphemeralSessionsCommand = $flowV2EphemeralSessionsCommand;
 	}
 
 	public function process(LoginData $loginData): LoginResult {
