@@ -8,6 +8,8 @@
 namespace OC\Core\Controller;
 
 use OC\Setup;
+use OCP\IInitialStateService;
+use OCP\IURLGenerator;
 use OCP\Template\ITemplateManager;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -19,6 +21,8 @@ class SetupController {
 		protected Setup $setupHelper,
 		protected LoggerInterface $logger,
 		protected ITemplateManager $templateManager,
+		protected IInitialStateService $initialStateService,
+		protected IURLGenerator $urlGenerator,
 	) {
 		$this->autoConfigFile = \OC::$configDir . 'autoconfig.php';
 	}
@@ -72,6 +76,8 @@ class SetupController {
 			'dbtablespace' => '',
 			'dbhost' => 'localhost',
 			'dbtype' => '',
+			'hasAutoconfig' => false,
+			'serverRoot' => \OC::$SERVERROOT,
 		];
 		$parameters = array_merge($defaults, $post);
 
@@ -80,9 +86,18 @@ class SetupController {
 		// include common nextcloud webpack bundle
 		Util::addScript('core', 'common');
 		Util::addScript('core', 'main');
+		Util::addScript('core', 'install');
 		Util::addTranslations('core');
 
-		$this->templateManager->printGuestPage('', 'installation', $parameters);
+		$this->initialStateService->provideInitialState('core', 'config', $parameters);
+		$this->initialStateService->provideInitialState('core', 'data', false);
+		$this->initialStateService->provideInitialState('core', 'links', [
+			'adminInstall' => $this->urlGenerator->linkToDocs('admin-install'),
+			'adminSourceInstall' => $this->urlGenerator->linkToDocs('admin-source_install'),
+			'adminDBConfiguration' => $this->urlGenerator->linkToDocs('admin-db-configuration'),
+		]);
+
+		$this->templateManager->printGuestPage('', 'installation');
 	}
 
 	private function finishSetup(): void {
@@ -107,6 +122,7 @@ class SetupController {
 			$this->logger->info('Autoconfig file found, setting up Nextcloud…');
 			$AUTOCONFIG = [];
 			include $this->autoConfigFile;
+			$post['hasAutoconfig'] = count($AUTOCONFIG) > 0;
 			$post = array_merge($post, $AUTOCONFIG);
 		}
 
