@@ -22,7 +22,7 @@ use OCP\Files\Storage\ISharedStorage;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IRequest;
-use OCP\IUserSession;
+use OCP\ISession;
 use OCP\Share\IShare;
 
 /**
@@ -32,7 +32,7 @@ class BeforeNodeReadListener implements IEventListener {
 	private ICache $cache;
 
 	public function __construct(
-		private IUserSession $userSession,
+		private ISession $session,
 		private IRootFolder $rootFolder,
 		private \OCP\Activity\IManager $activityManager,
 		private IRequest $request,
@@ -112,6 +112,14 @@ class BeforeNodeReadListener implements IEventListener {
 			/* An activity was published for a containing folder already */
 			return;
 		}
+
+		/* Avoid publishing several activities for one video playing */
+		$cacheKey = $node->getId() . $node->getPath();
+		if (($this->request->getHeader('range') !== '') && ($this->cache->get($cacheKey) == $this->session->getId())) {
+			/* This is a range request and an activity for the same file was published in the same session */
+			return;
+		}
+		$this->cache->set($cacheKey, $this->session->getId(), 3600);
 
 		$this->singleFileDownloaded($share, $node);
 	}
