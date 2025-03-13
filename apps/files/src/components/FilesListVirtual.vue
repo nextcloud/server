@@ -747,11 +747,12 @@ export default defineComponent({
 <style lang="scss">
 // Grid mode
 tbody.files-list__tbody.files-list__tbody--grid {
+	--clickable-area: 34px;
 	--half-clickable-area: calc(var(--clickable-area) / 2);
 	--item-padding: 16px;
 	--icon-preview-size: 166px;
-	--name-height: 32px;
-	--mtime-height: 16px;
+	--name-height: 34px;
+	--mtime-height: calc(var(--font-size-small, 13px) + var(--default-grid-baseline));
 	--row-width: calc(var(--icon-preview-size) + var(--item-padding) * 2);
 	--row-height: calc(var(--icon-preview-size) + var(--name-height) + var(--mtime-height) + var(--item-padding) * 2);
 	--checkbox-padding: 0px;
@@ -825,8 +826,9 @@ tbody.files-list__tbody.files-list__tbody--grid {
 			height: var(--icon-preview-size);
 		}
 
-		a.files-list__row-name-link {
+		.files-list__row-name-link {
 			height: var(--name-height);
+			padding-inline: 0 !important;
 		}
 
 		.files-list__row-name-text {
@@ -840,15 +842,34 @@ tbody.files-list__tbody.files-list__tbody--grid {
 	.files-list__row-mtime {
 		width: var(--icon-preview-size);
 		height: var(--mtime-height);
-		font-size: calc(var(--default-font-size) - 4px);
+		font-size: var(--font-size-small, 13px);
 	}
 
 	.files-list__row-actions {
+		--default-clickable-area: var(--clickable-area);
+
 		position: absolute;
-		right: calc(var(--half-clickable-area) / 2);
-		bottom: calc(var(--mtime-height) / 2);
-		width: var(--clickable-area);
 		height: var(--clickable-area);
+		width: var(--clickable-area);
+		inset-inline-end: calc(var(--half-clickable-area) / 2);
+		inset-block-end: calc(var(--mtime-height) / 2);
+	}
+}
+
+@media screen and (max-width: 768px) {
+	// there is no mtime
+	tbody.files-list__tbody.files-list__tbody--grid {
+		--mtime-height: 0px;
+
+		// so we move the action to the name
+		.files-list__row-actions {
+			inset-block-end: var(--item-padding);
+		}
+
+		// and we need to keep space on the name for the actions
+		.files-list__row-name-text {
+			padding-inline-end: var(--clickable-area) !important;
+		}
 	}
 }
 </style>
