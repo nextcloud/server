@@ -16,15 +16,15 @@
 
 		<NcAppNavigationList class="account-management__system-list"
 			data-cy-users-settings-navigation-groups="system">
-			<NcAppNavigationItem id="everyone"
+			<NcAppNavigationItem id="view-all"
 				:exact="true"
 				:name="t('settings', 'All accounts')"
-				:to="{ name: 'users' }">
+				:to="{ name: 'users-view', params: { view: 'all' } }">
 				<template #icon>
 					<NcIconSvgWrapper :path="mdiAccount" />
 				</template>
 				<template #counter>
-					<NcCounterBubble v-if="userCount" :type="!selectedGroupDecoded ? 'highlighted' : undefined">
+					<NcCounterBubble v-if="userCount" :type="currentView === 'all' ? 'highlighted' : undefined">
 						{{ userCount }}
 					</NcCounterBubble>
 				</template>
@@ -32,9 +32,9 @@
 
 			<NcAppNavigationItem v-if="settings.isAdmin"
 				id="admin"
-				:exact="true"
+				exact
 				:name="t('settings', 'Admins')"
-				:to="{ name: 'group', params: { selectedGroup: 'admin' } }">
+				:to="{ name: 'group', params: { view: 'group', selectedGroup: 'admin' } }">
 				<template #icon>
 					<NcIconSvgWrapper :path="mdiShieldAccount" />
 				</template>
@@ -47,16 +47,16 @@
 			</NcAppNavigationItem>
 
 			<NcAppNavigationItem v-if="isAdminOrDelegatedAdmin"
-				id="recent"
+				id="view-recent"
 				:exact="true"
 				:name="t('settings', 'Recently active')"
-				:to="{ name: 'group', params: { selectedGroup: '__nc_internal_recent' } }">
+				:to="{ name: 'users-view', params: { view: 'recent' } }">
 				<template #icon>
 					<NcIconSvgWrapper :path="mdiHistory" />
 				</template>
 				<template #counter>
 					<NcCounterBubble v-if="recentGroup?.usercount"
-						:type="selectedGroupDecoded === '__nc_internal_recent' ? 'highlighted' : undefined">
+						:type="currentView === 'recent' ? 'highlighted' : undefined">
 						{{ recentGroup.usercount }}
 					</NcCounterBubble>
 				</template>
@@ -64,15 +64,15 @@
 
 			<!-- Hide the disabled if none, if we don't have the data (-1) show it -->
 			<NcAppNavigationItem v-if="disabledGroup && (disabledGroup.usercount > 0 || disabledGroup.usercount === -1)"
-				id="disabled"
+				id="view-disabled"
 				:exact="true"
 				:name="t('settings', 'Disabled accounts')"
-				:to="{ name: 'group', params: { selectedGroup: 'disabled' } }">
+				:to="{ name: 'users-view', params: { view: 'disabled' } }">
 				<template #icon>
 					<NcIconSvgWrapper :path="mdiAccountOff" />
 				</template>
 				<template v-if="disabledGroup.usercount > 0" #counter>
-					<NcCounterBubble :type="selectedGroupDecoded === 'disabled' ? 'highlighted' : undefined">
+					<NcCounterBubble :type="currentView === 'disabled' ? 'highlighted' : undefined">
 						{{ disabledGroup.usercount }}
 					</NcCounterBubble>
 				</template>
@@ -160,6 +160,8 @@ const store = useStore()
 
 /** State of the 'new-account' dialog */
 const isDialogOpen = ref(false)
+
+const currentView = computed(() => route.params.view ?? 'all')
 
 /** Current active group in the view - this is URL encoded */
 const selectedGroup = computed(() => route.params?.selectedGroup)
