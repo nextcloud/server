@@ -42,6 +42,7 @@ jobs:
               - '**/lib/**'
               - '**/templates/**'
               - '**/tests/**'
+              - 'resources/**'
               - 'vendor/**'
               - 'vendor-bin/**'
               - '.php-cs-fixer.dist.php'
