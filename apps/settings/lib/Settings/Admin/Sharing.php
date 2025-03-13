@@ -9,6 +9,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Constants;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -19,6 +20,7 @@ use OCP\Util;
 class Sharing implements IDelegatedSettings {
 	public function __construct(
 		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IL10N $l,
 		private IManager $shareManager,
 		private IAppManager $appManager,
@@ -41,6 +43,7 @@ class Sharing implements IDelegatedSettings {
 			// Built-In Sharing
 			'enabled' => $this->getHumanBooleanConfig('core', 'shareapi_enabled', true),
 			'allowGroupSharing' => $this->getHumanBooleanConfig('core', 'shareapi_allow_group_sharing', true),
+			'groupsBlockList' => $this->appConfig->getValueArray('core', 'shareapi_groups_block_list', []),
 			'allowLinks' => $this->getHumanBooleanConfig('core', 'shareapi_allow_links', true),
 			'allowLinksExcludeGroups' => json_decode($linksExcludedGroups, true) ?? [],
 			'allowPublicUpload' => $this->getHumanBooleanConfig('core', 'shareapi_allow_public_upload', true),
