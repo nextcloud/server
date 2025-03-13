@@ -98,6 +98,7 @@ class Application extends App implements IBootstrap {
 
 		// Publish activity for public download
 		$context->registerEventListener(BeforeNodeReadEvent::class, BeforeNodeReadListener::class);
+		$context->registerEventListener(BeforeZipCreatedEvent::class, BeforeNodeReadListener::class);
 
 		// Handle download events for view only checks
 		$context->registerEventListener(BeforeZipCreatedEvent::class, BeforeZipCreatedListener::class);
