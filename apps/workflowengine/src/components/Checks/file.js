@@ -80,8 +80,25 @@ const FileChecks = [
 			{ operator: 'is', name: t('workflowengine', 'is tagged with') },
 			{ operator: '!is', name: t('workflowengine', 'is not tagged with') },
 		],
-		component: FileSystemTag,
+		webComponent: registerWebComponent(FileSystemTag, 'oca-workflowengine-file_system_tag'),
 	},
 ]
+
+/**
+ *
+ * @param VueComponent
+ * @param webComponentId
+ */
+function registerWebComponent(VueComponent, webComponentId) {
+	const WrappedComponent = wrap(Vue, VueComponent)
+	window.customElements.define(webComponentId, WrappedComponent)
+
+	// In Vue 2, wrap doesn't support disabling shadow :(
+	// Disable with a hack
+	Object.defineProperty(WrappedComponent.prototype, 'attachShadow', { value() { return this } })
+	Object.defineProperty(WrappedComponent.prototype, 'shadowRoot', { get() { return this } })
+
+	return webComponentId
+}
 
 export default FileChecks
