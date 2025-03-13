@@ -29,6 +29,7 @@ OC.L10N.register(
     "Allow people on this server to receive shares from other servers" : "允許此伺服器上的人仕接收來自其他伺服器的分享",
     "Allow people on this server to send shares to groups on other servers" : "允許此伺服器上的人仕傳送分享在其他伺服器上的群組",
     "Allow people on this server to receive group shares from other servers" : "允許此伺服器上的人仕接收來自其他伺服器的群組分享",
+    "The lookup server is only available for global scale." : "查詢伺服器僅適用於整體的規模。",
     "Search global and public address book for people" : "搜尋全面的與公開通訊錄中的人仕",
     "Allow people to publish their data to a global and public address book" : "允許人仕將其資料發佈到整體的且公開的通訊錄",
     "Trusted federation" : "可信聯邦",

@@ -29,6 +29,7 @@ OC.L10N.register(
     "Allow people on this server to receive shares from other servers" : "Allow people on this server to receive shares from other servers",
     "Allow people on this server to send shares to groups on other servers" : "Allow people on this server to send shares to groups on other servers",
     "Allow people on this server to receive group shares from other servers" : "Allow people on this server to receive group shares from other servers",
+    "The lookup server is only available for global scale." : "The lookup server is only available for global scale.",
     "Search global and public address book for people" : "Search global and public address book for people",
     "Allow people to publish their data to a global and public address book" : "Allow people to publish their data to a global and public address book",
     "Trusted federation" : "Trusted federation",

@@ -222,9 +222,6 @@ OC.L10N.register(
     "Failed to convert files: {message}" : "Mistókst að umbreyta skrám: {message}",
     "All files failed to be converted" : "Mistókst að umbreyta öllum skrám",
     "One file could not be converted: {message}" : "Ekki var hægt að umbreyta einni skrá: {message}",
-    "One file could not be converted" : "Ekki var hægt að umbreyta einni skrá",
-    "{count} files could not be converted" : "Ekki var hægt að umbreyta {count} skrám",
-    "{count} files successfully converted" : "Tókst að umbreyta {count} skrám",
     "Files successfully converted" : "Tókst að umbreyta skrám",
     "Failed to convert files" : "Mistókst að umbreyta skrám",
     "File successfully converted" : "Tókst að umbreyta skrá",
@@ -436,6 +433,8 @@ OC.L10N.register(
     "Favor" : "Eftirl",
     "Not favored" : "Ekki eftirlæti",
     "Submitting fields…" : "Sendi inn gögn úr reitum…",
-    "Filter filenames…" : "Sía skráaheiti…"
+    "Filter filenames…" : "Sía skráaheiti…",
+    "{count} files could not be converted" : "Ekki var hægt að umbreyta {count} skrám",
+    "{count} files successfully converted" : "Tókst að umbreyta {count} skrám"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
