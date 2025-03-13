@@ -18,3 +18,12 @@ svg.sharing-status__avatar {
 	border-radius: 32px;
 	overflow: hidden;
 }
+
+.files-list__row-action-sharing-status {
+	.button-vue__text {
+		color: var(--color-primary-element);
+	}
+	.button-vue__icon {
+		color: var(--color-primary-element);
+	}
+}
