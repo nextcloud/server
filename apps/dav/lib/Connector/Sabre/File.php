@@ -129,8 +129,10 @@ class File extends Node implements IFile {
 		$view = Filesystem::getView();
 
 		if ($needsPartFile) {
+			// use hex numbers to reduce length of the id
+			$transferId = \dechex(\rand());
 			// mark file as partial while uploading (ignored by the scanner)
-			$partFilePath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . rand() . '.part';
+			$partFilePath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . $transferId . '.part';
 
 			if (!$view->isCreatable($partFilePath) && $view->isUpdatable($this->path)) {
 				$needsPartFile = false;
@@ -377,9 +379,21 @@ class File extends Node implements IFile {
 	private function getPartFileBasePath($path) {
 		$partFileInStorage = Server::get(IConfig::class)->getSystemValue('part_file_in_storage', true);
 		if ($partFileInStorage) {
+			$filename = basename($path);
+			// length in bytes NOT characters
+			$filenameLength = strlen($filename);
+			// check if filename (with transfer id and part extension) overflows the filesystem limit of 255 BYTES
+			// 255 - strlen('.ocTransferId') - strlen('.part') - strlen((string)getrandmax())
+			if ($filenameLength >= 225) {
+				// hash does not need to be secure but fast and semi unique
+				$filename = hash('xxh128', $filename);
+				return substr($path, 0, strlen($path) - $filenameLength) . $filename;
+			}
 			return $path;
 		} else {
-			return md5($path); // will place it in the root of the view with a unique name
+			// will place the .part file in the users root directory
+			// therefor we need to make the name (semi) unique - hash does not need to be secure but fast.
+			return hash('xxh128', $path);
 		}
 	}
 
