@@ -129,8 +129,9 @@ class File extends Node implements IFile {
 		$view = Filesystem::getView();
 
 		if ($needsPartFile) {
+			$transferId = \rand();
 			// mark file as partial while uploading (ignored by the scanner)
-			$partFilePath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . rand() . '.part';
+			$partFilePath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . $transferId . '.part';
 
 			if (!$view->isCreatable($partFilePath) && $view->isUpdatable($this->path)) {
 				$needsPartFile = false;
@@ -377,9 +378,14 @@ class File extends Node implements IFile {
 	private function getPartFileBasePath($path) {
 		$partFileInStorage = Server::get(IConfig::class)->getSystemValue('part_file_in_storage', true);
 		if ($partFileInStorage) {
-			return $path;
+			$filename = basename($path);
+			// hash does not need to be secure but fast and semi unique
+			$hashedFilename = hash('xxh128', $filename);
+			return substr($path, 0, strlen($path) - strlen($filename)) . $hashedFilename;
 		} else {
-			return md5($path); // will place it in the root of the view with a unique name
+			// will place the .part file in the users root directory
+			// therefor we need to make the name (semi) unique - hash does not need to be secure but fast.
+			return hash('xxh128', $path);
 		}
 	}
 
