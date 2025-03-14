@@ -233,6 +233,8 @@
     "Failed to convert files: {message}" : "Није успела конверзија фајлова: {message}",
     "All files failed to be converted" : "Ниједан фајл није могао да се конвертује",
     "One file could not be converted: {message}" : "Један фајл није могао да се конвертује: {message}",
+    "_One file could not be converted_::_%n files could not be converted_" : ["Један фајл није могао да се конвертује","Није могло да се конвертује %n фајла","Није могло да се конвертује %n фајлова"],
+    "_One file successfully converted_::_%n files successfully converted_" : ["Фајл је успешно конвертован","Успешно су конвертована %n фајла","Успешно је конвертовано %n фајлова"],
     "Files successfully converted" : "Фајлови су успешно конвертовани",
     "Failed to convert files" : "Није успела конверзија фајлова",
     "Converting file …" : "Фајл се конвертује",
