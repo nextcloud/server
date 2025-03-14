@@ -25,6 +25,17 @@ class TimeFactory implements ITimeFactory {
 	}
 
 	/**
+	 * @param string $format
+	 * @param string $time
+	 * @param \DateTimeZone|null $timezone
+	 * @return \DateTime with the result of a call to \DateTime::createFromFormat()
+	 * @since 32.0.0
+	 */
+	public function createFromFormat(string $format, string $time = 'now', ?\DateTimeZone $timezone = null): \DateTime {
+		return \DateTime::createFromFormat($format, $time, $timezone);
+	}
+
+	/**
 	 * @return int the result of a call to time()
 	 * @since 8.0.0
 	 * @deprecated 26.0.0 {@see ITimeFactory::now()}
