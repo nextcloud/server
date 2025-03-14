@@ -28,7 +28,7 @@
 
 		<template #before>
 			<!-- Headers -->
-			<FilesListHeader v-for="header in sortedHeaders"
+			<FilesListHeader v-for="header in headers"
 				:key="header.id"
 				:current-folder="currentFolder"
 				:current-view="currentView"
@@ -74,6 +74,7 @@ import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { getSummaryFor } from '../utils/fileUtils'
 import { useSelectionStore } from '../store/selection.js'
 import { useUserConfigStore } from '../store/userconfig.ts'
+import { getSummaryFor } from '../utils/fileUtils.ts'
 
 import FileEntry from './FileEntry.vue'
 import FileEntryGrid from './FileEntryGrid.vue'
@@ -135,7 +136,6 @@ export default defineComponent({
 		return {
 			FileEntry,
 			FileEntryGrid,
-			headers: getFileListHeaders(),
 			scrollToIndex: 0,
 			openFileId: null as number|null,
 		}
