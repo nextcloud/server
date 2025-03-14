@@ -17,8 +17,8 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\OCM\Exceptions\OCMProviderException;
+use OCP\OCM\ICapabilityAwareOCMProvider;
 use OCP\OCM\IOCMDiscoveryService;
-use OCP\OCM\IOCMProvider;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -31,7 +31,7 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 		ICacheFactory $cacheFactory,
 		private IClientService $clientService,
 		private IConfig $config,
-		private IOCMProvider $provider,
+		private ICapabilityAwareOCMProvider $provider,
 		private LoggerInterface $logger,
 	) {
 		$this->cache = $cacheFactory->createDistributed('ocm-discovery');
@@ -42,10 +42,10 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 	 * @param string $remote
 	 * @param bool $skipCache
 	 *
-	 * @return IOCMProvider
+	 * @return ICapabilityAwareOCMProvider
 	 * @throws OCMProviderException
 	 */
-	public function discover(string $remote, bool $skipCache = false): IOCMProvider {
+	public function discover(string $remote, bool $skipCache = false): ICapabilityAwareOCMProvider {
 		$remote = rtrim($remote, '/');
 		if (!str_starts_with($remote, 'http://') && !str_starts_with($remote, 'https://')) {
 			// if scheme not specified, we test both;
