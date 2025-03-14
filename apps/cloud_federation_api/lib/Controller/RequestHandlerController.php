@@ -7,7 +7,6 @@
 
 namespace OCA\CloudFederationAPI\Controller;
 
-use DateTime;
 use NCU\Federation\ISignedCloudFederationProvider;
 use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
 use NCU\Security\Signature\Exceptions\IncomingRequestException;
@@ -20,16 +19,17 @@ use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\Db\FederatedInviteMapper;
 use OCA\CloudFederationAPI\Events\FederatedInviteAcceptedEvent;
-use OCA\CloudFederationAPI\ResponseDefinitions;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Exceptions\ActionNotSupportedException;
@@ -78,6 +78,7 @@ class RequestHandlerController extends Controller {
 		private readonly ISignatureManager $signatureManager,
 		private readonly OCMSignatoryManager $signatoryManager,
 		private TrustedServers $trustedServers,
+		private ITimeFactory $timeFactory,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -118,8 +119,7 @@ class RequestHandlerController extends Controller {
 		}
 
 		// check if all required parameters are set
-		if (
-			$shareWith === null ||
+		if ($shareWith === null ||
 			$name === null ||
 			$providerId === null ||
 			$resourceType === null ||
@@ -240,10 +240,10 @@ class RequestHandlerController extends Controller {
 	 * @param string $email
 	 * @param string $name
 	 * @return JSONResponse
-	 *                      200: invitation accepted
+	 *                      200: Invitation accepted
 	 *                      400: Invalid token
 	 *                      403: Invitation token does not exist
-	 *                      409: User is allready known by the OCM provider
+	 *                      409: User is already known by the OCM provider
 	 *                      spec link: https://cs3org.github.io/OCM-API/docs.html?branch=v1.1.0&repo=OCM-API&user=cs3org#/paths/~1invite-accepted/post
 	 */
 	#[PublicPage]
@@ -252,17 +252,10 @@ class RequestHandlerController extends Controller {
 	public function inviteAccepted(string $recipientProvider, string $token, string $userId, string $email, string $name): JSONResponse {
 		$this->logger->debug('Invite accepted for ' . $userId . ' with token ' . $token . ' and email ' . $email . ' and name ' . $name);
 
-		$updated = new \DateTime('now');
-		$updated = $updated->getTimeStamp();
+		$updated = $this->timeFactory->getTime();
 		/** @var IQueryBuilder $qb */
-		$invitation = null;
-		if($token) {
-			$invitation = $this->federatedInviteMapper->findByToken($token);
-		}
-		if (!$invitation) {
-			$response = ['message' => 'Invalid or non existing token', 'error' => true];
-			$status = Http::STATUS_BAD_REQUEST;
-			$response = new JSONResponse($response, $status);
+		if ($token === '') {
+			$response = new JSONResponse(['message' => 'Invalid or non existing token', 'error' => true], Http::STATUS_BAD_REQUEST);
 			$response->throttle();
 			return $response;
 		}
@@ -271,18 +264,28 @@ class RequestHandlerController extends Controller {
 			$status = Http::STATUS_FORBIDDEN;
 			return new JSONResponse($response, $status);
 		}
+		try {
+			$invitation = $this->federatedInviteMapper->findByToken($token);
+		} catch (DoesNotExistException) {
+			$response = ['message' => 'Invalid or non existing token', 'error' => true];
+			$status = Http::STATUS_BAD_REQUEST;
+			$response = new JSONResponse($response, $status);
+			$response->throttle();
+			return $response;
+		}
 		// Note: Not implementing 404 Invitation token does not exist, instead using 400
 
-		if ($invitation->getAccepted() === true) {
+		if ($invitation->isAccepted() === true) {
 			$response = ['message' => 'Invite already accepted', 'error' => true];
 			$status = Http::STATUS_CONFLICT;
 			return new JSONResponse($response, $status);
 		}
-	    $unixstart = \DateTime::createFromFormat('U', '1');
-	    $expiredAt = \DateTime::createFromFormat('U', strval($invitation->getExpiredAt()));
-        if ($expiredAt == $unixstart) {
+		$unixstart = $this->timeFactory->createFromFormat('U', '1');
+		$expiredAt = $this->timeFactory->createFromFormat('U', strval($invitation->getExpiredAt()));
+		if ($expiredAt === $unixstart) {
 			$invitation->setExpiredAt($updated);
-        }
+		}
+
 		if ($invitation->getExpiredAt() < $updated) {
 			$response = ['message' => 'Invitation expired', 'error' => true];
 			$status = Http::STATUS_BAD_REQUEST;
@@ -290,31 +293,27 @@ class RequestHandlerController extends Controller {
 		}
 
 		$localUser = $this->userManager->get($invitation->getUserId());
+		if ($localUser === null) {
+			$response = ['message' => 'Invalid or non existing token', 'error' => true];
+			$status = Http::STATUS_BAD_REQUEST;
+			$response = new JSONResponse($response, $status);
+			$response->throttle();
+			return $response;
+		}
 		$sharedFromEmail = $localUser->getPrimaryEMailAddress();
 		$sharedFromDisplayName = $localUser->getDisplayName();
 
 		$response = ['userID' => $invitation->getUserId(), 'email' => $sharedFromEmail, 'name' => $sharedFromDisplayName];
 		$status = Http::STATUS_OK;
 
-		$updated_data = [
-			'accepted' => true,
-			'recipient_email' => $email,
-			'recipient_name' => $name,
-			'recipient_user_id' => $userId,
-			'recipient_provider' => $recipientProvider,
-			'token' => $token,
-			'user_id' => $invitation->getUserId(),
-			'acceptedAt' => $updated,
-			'createdAt' => $invitation->getCreatedAt(),
-			'expiredAt' => $invitation->getExpiredAt()
-		];
-		$invitation = $this->federatedInviteMapper->dataArrayToInvite($updated_data);
-		if (!$this->federatedInviteMapper->update($invitation)) {
-			$response = ['message' => 'Error updating invitation', 'error' => true];
-			$status = Http::STATUS_BAD_REQUEST;
-			$response = new JSONResponse($response, $status);
-			return $response;
-		}
+
+		$invitation->setAccepted(true);
+		$invitation->setRecipientEmail($email);
+		$invitation->getRecipientName($name);
+		$invitation->setRecipientProvider($recipientProvider);
+		$invitation->setRecipientUserId($userId);
+		$invitation->setAcceptedAt($updated);
+		$invitation = $this->federatedInviteMapper->update($invitation);
 
 		$event = new FederatedInviteAcceptedEvent($invitation);
 		$this->dispatcher->dispatchTyped($event);
@@ -342,8 +341,7 @@ class RequestHandlerController extends Controller {
 	#[BruteForceProtection(action: 'receiveFederatedShareNotification')]
 	public function receiveNotification($notificationType, $resourceType, $providerId, ?array $notification) {
 		// check if all required parameters are set
-		if (
-			$notificationType === null ||
+		if ($notificationType === null ||
 			$resourceType === null ||
 			$providerId === null ||
 			!is_array($notification)
