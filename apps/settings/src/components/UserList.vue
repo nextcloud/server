@@ -113,6 +113,10 @@ export default {
 			type: String,
 			default: null,
 		},
+		selectedSection: {
+			type: String,
+			default: null,
+		},
 		externalActions: {
 			type: Array,
 			default: () => [],
@@ -166,17 +170,15 @@ export default {
 		},
 
 		filteredUsers() {
-			if (this.selectedGroup === 'disabled') {
+			if (this.selectedSection === 'disabled') {
 				return this.users.filter(user => user.enabled === false)
 			}
 			return this.users.filter(user => user.enabled !== false)
 		},
 
 		groups() {
-			// data provided php side + remove the recent and disabled groups
 			return this.$store.getters.getGroups
-				.filter(group => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
-				.sort((a, b) => a.name.localeCompare(b.name))
+				.toSorted((a, b) => a.name.localeCompare(b.name))
 		},
 
 		subAdminsGroups() {
@@ -234,11 +236,19 @@ export default {
 	},
 
 	watch: {
-		// watch url change and group select
-		async selectedGroup(val) {
+		// watch url change and section select
+		async selectedSection(val) {
 			this.isInitialLoad = true
 			// if selected is the disabled group but it's empty
 			await this.redirectIfDisabled()
+			this.$store.commit('resetUsers')
+			await this.loadUsers()
+			this.setNewUserDefaultGroup(val)
+		},
+
+		// watch url change and group select
+		async selectedGroup(val) {
+			this.isInitialLoad = true
 			this.$store.commit('resetUsers')
 			await this.loadUsers()
 			this.setNewUserDefaultGroup(val)
@@ -288,13 +298,13 @@ export default {
 		async loadUsers() {
 			this.loading.users = true
 			try {
-				if (this.selectedGroup === 'disabled') {
+				if (this.selectedSection === 'disabled') {
 					await this.$store.dispatch('getDisabledUsers', {
 						offset: this.disabledUsersOffset,
 						limit: this.disabledUsersLimit,
 						search: this.searchQuery,
 					})
-				} else if (this.selectedGroup === '__nc_internal_recent') {
+				} else if (this.selectedSection === 'recent') {
 					await this.$store.dispatch('getRecentUsers', {
 						offset: this.usersOffset,
 						limit: this.usersLimit,
@@ -385,9 +395,9 @@ export default {
 		 * and we therefore set the usercount to -1 in this specific case
 		 */
 		async redirectIfDisabled() {
-			const allGroups = this.$store.getters.getGroups
-			if (this.selectedGroup === 'disabled'
-						&& allGroups.findIndex(group => group.id === 'disabled' && group.usercount === 0) > -1) {
+			const sectionGroups = this.$store.getters.getSectionGroups
+			if (this.selectedSection === 'disabled'
+						&& sectionGroups.find(group => group.id === 'disabled' && group.usercount === 0) !== undefined) {
 				// disabled group is empty, redirection to all users
 				this.$router.push({ name: 'users' })
 				await this.loadUsers()
