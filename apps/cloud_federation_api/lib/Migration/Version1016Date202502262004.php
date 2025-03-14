@@ -31,7 +31,6 @@ class Version1016Date202502262004 extends SimpleMigrationStep {
 		$table_name = 'federated_invites';
 
 		if (! $schema->hasTable($table_name)) {
-
 			$table = $schema->createTable($table_name);
 			$table->addColumn('id', Types::BIGINT, [
 				'autoincrement' => true,
@@ -39,13 +38,11 @@ class Version1016Date202502262004 extends SimpleMigrationStep {
 				'length' => 11,
 				'unsigned' => true,
 			]);
-
 			$table->addColumn('user_id', Types::STRING, [
 				'notnull' => true,
 				'length' => 64,
 
 			]);
-
 			// https://saturncloud.io/blog/what-is-the-maximum-length-of-a-url-in-different-browsers/#maximum-url-length-in-different-browsers
 			// We use the least common denominator, the minimum length supported by browsers
 			$table->addColumn('recipient_provider', Types::STRING, [
