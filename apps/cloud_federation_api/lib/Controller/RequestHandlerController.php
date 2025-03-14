@@ -5,6 +5,7 @@
  */
 namespace OCA\CloudFederationAPI\Controller;
 
+use DateTime;
 use NCU\Federation\ISignedCloudFederationProvider;
 use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
 use NCU\Security\Signature\Exceptions\IncomingRequestException;
@@ -17,6 +18,7 @@ use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\ResponseDefinitions;
 use OCA\FederatedFileSharing\AddressHandler;
+use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
@@ -24,6 +26,7 @@ use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
 use OCP\Federation\Exceptions\BadRequestException;
@@ -33,6 +36,7 @@ use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IAppConfig;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -61,12 +65,14 @@ class RequestHandlerController extends Controller {
 		private IURLGenerator $urlGenerator,
 		private ICloudFederationProviderManager $cloudFederationProviderManager,
 		private Config $config,
+		private IDBConnection $db,
 		private readonly AddressHandler $addressHandler,
 		private readonly IAppConfig $appConfig,
 		private ICloudFederationFactory $factory,
 		private ICloudIdManager $cloudIdManager,
 		private readonly ISignatureManager $signatureManager,
 		private readonly OCMSignatoryManager $signatoryManager,
+		private TrustedServers $trustedServers
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -211,6 +217,84 @@ class RequestHandlerController extends Controller {
 		}
 
 		return new JSONResponse($responseData, Http::STATUS_CREATED);
+	}
+
+	/**
+	 * Inform the sender that an invitation was accepted to start sharing
+	 *
+	 * Inform about an accepted invitation so the user on the sender provider's side
+	 * can initiate the OCM share creation. To protect the identity of the parties,
+	 * for shares created following an OCM invitation, the user id MAY be hashed,
+	 * and recipients implementing the OCM invitation workflow MAY refuse to process
+	 * shares coming from unknown parties.
+	 *
+	 * @param string $recipientProvider
+	 * @param string $token
+	 * @param string $userId
+	 * @param string $email
+	 * @param string $name
+	 * @return JSONResponse
+	 * 200: invitation accepted
+	 * 400: Invalid token
+	 * 403: Invitation token does not exist
+	 * 409: User is allready known by the OCM provider
+	 * spec link: https://cs3org.github.io/OCM-API/docs.html?branch=v1.1.0&repo=OCM-API&user=cs3org#/paths/~1invite-accepted/post
+	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[BruteForceProtection(action: 'inviteAccepted')]
+	public function inviteAccepted(string $recipientProvider, string $token, string $userId, string $email, string $name): JSONResponse {
+		$this->logger->debug('Invite accepted for ' . $userId . ' with token ' . $token . ' and email ' . $email . ' and name ' . $name);
+
+		/** @var IQueryBuilder $qb */
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from('federated_invites')
+			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)));
+		$result = $qb->executeQuery();
+		$data = $result->fetch();
+		$result->closeCursor();
+		$found_for_this_user = false;
+		if ($data) {
+			$found_for_this_user = $data['recipient_user_id'] === $userId && isset($data['user_id']);
+		}
+		if (!$found_for_this_user) {
+			$response = ['message' => 'Invalid or non existing token', 'error' => true];
+			$status = Http::STATUS_BAD_REQUEST;
+			return new JSONResponse($response,$status);
+		}
+		if(!$this->trustedServers->isTrustedServer($recipientProvider)) {
+			$response = ['message' => 'Remote server not trusted', 'error' => true];
+			$status = Http::STATUS_FORBIDDEN;
+			return new JSONResponse($response,$status);
+		}
+		// Note: Not implementing 404 Invitation token does not exist, instead using 400
+
+		if ($data['accepted'] === true ) {
+			$response = ['message' => 'Invite already accepted', 'error' => true];
+			$status = Http::STATUS_CONFLICT;
+			return new JSONResponse($response,$status);
+		}
+
+		$localUser = $this->userManager->get($data['user_id']);
+		$sharedFromEmail = $localUser->getPrimaryEMailAddress();
+		$sharedFromDisplayName = $localUser->getDisplayName();
+
+		$response = ['userID' => $data['user_id'], 'email' => $sharedFromEmail, 'name' => $sharedFromDisplayName];
+		$status = Http::STATUS_OK;
+		$updated = new DateTime("now");
+		$qb->update('federated_invites f')
+			->set('f.accepted', $qb->createNamedParameter(true))
+			->set('f.acceptedAt', $qb->createNamedParameter($updated))
+			->set('f.recipient_email', $qb->createNamedParameter($email))
+			->set('f.recipient_name', $qb->createNamedParameter($name))
+			->set('f.recipient_user_id', $qb->createNamedParameter($userId))
+			->set('f.recipient_provider', $qb->createNamedParameter($recipientProvider))
+			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)));
+		$result = $qb->executeQuery();
+		$result->closeCursor();
+
+		return new JSONResponse($response,$status);
 	}
 
 	/**
