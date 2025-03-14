@@ -24,9 +24,6 @@ class FederatedInviteMapper extends QBMapper {
 	}
 	public function findByToken(string $token): ?FederatedInvite {
 		/** @var IQueryBuilder $qb */
-		if (!$token) {
-			return null;
-		}
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from('federated_invites')

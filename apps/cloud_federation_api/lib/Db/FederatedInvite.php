@@ -13,7 +13,7 @@ use OCP\AppFramework\Db\Entity;
 use OCP\DB\Types;
 
 /**
- * @method ?bool getAccepted()
+ * @method bool isAccepted()
  * @method void setAccepted(bool $accepted)
  * @method ?int getAcceptedAt()
  * @method void setAcceptedAt(int $acceptedAt)
@@ -29,7 +29,7 @@ use OCP\DB\Types;
  * @method void setRecipientProvider(string $recipientProvider)
  * @method ?string getRecipientUserId()
  * @method void setRecipientUserId(string $recipientUserId)
- * @method ?string getToken()
+ * @method string getToken()
  * @method void setToken(string $token)
  * @method ?string getUserId()
  * @method void setUserId(string $userId)
@@ -38,7 +38,7 @@ use OCP\DB\Types;
 class FederatedInvite extends Entity {
 
 	/**
-	* @var ?bool $accepted
+	* @var bool $accepted
 	*/
 	protected $accepted;
 	/**
