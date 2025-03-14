@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -43,7 +43,7 @@ class Version1015Date202502262004 extends SimpleMigrationStep
 			]);
 
 			$table->addColumn('user_id', Types::STRING, [
-				'notnull' => false,
+				'notnull' => true,
 				'length' => 64,
 
 			]);
@@ -51,20 +51,20 @@ class Version1015Date202502262004 extends SimpleMigrationStep
 			// https://saturncloud.io/blog/what-is-the-maximum-length-of-a-url-in-different-browsers/#maximum-url-length-in-different-browsers
 			// We use the least common denominator, the minimum length supported by browsers
 			$table->addColumn('recipient_provider', Types::STRING, [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 2083,
 			]);
 			$table->addColumn('recipient_user_id', Types::STRING, [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 1024,
 			]);
 			$table->addColumn('recipient_name', Types::STRING, [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 1024,
 			]);
 			// https://www.directedignorance.com/blog/maximum-length-of-email-address
 			$table->addColumn('recipient_email', Types::STRING, [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 320,
 			]);
 			$table->addColumn('token', Types::STRING, [
