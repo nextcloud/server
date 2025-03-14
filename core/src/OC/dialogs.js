@@ -345,7 +345,7 @@ const Dialogs = {
 		}
 
 		const dialog = builder.build()
-	
+
 		if (allowHtml) {
 			dialog.setHTML(content)
 		}
@@ -560,7 +560,6 @@ const Dialogs = {
 				x: 96,
 				y: 96,
 				c: original.etag,
-				forceIcon: 0
 			}
 			var previewpath = Files.generatePreviewUrl(urlSpec)
 			// Escaping single quotes
