@@ -233,6 +233,8 @@
     "Failed to convert files: {message}" : "Nepodařilo se převést soubory: {message}",
     "All files failed to be converted" : "Žádný ze souborů se nepodařilo převést",
     "One file could not be converted: {message}" : "Jeden soubor nebylo možné převést: {message}",
+    "_One file could not be converted_::_%n files could not be converted_" : ["Jeden soubor nebylo možné převést","%n soubory nebylo možné převést","%n souborů nebylo možné převést","%n soubory nebylo možné převést"],
+    "_One file successfully converted_::_%n files successfully converted_" : ["Jeden soubor úspěšně převeden","%n soubory úspěšně převedeny","%n souborů úspěšně převedeno","%n soubory úspěšně převedeny"],
     "Files successfully converted" : "Soubory úspěšně převedeny",
     "Failed to convert files" : "Nepodařilo se převést soubory",
     "Converting file …" : "Převádění souboru…",
