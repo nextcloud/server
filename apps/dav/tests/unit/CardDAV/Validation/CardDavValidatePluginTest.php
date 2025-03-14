@@ -12,6 +12,7 @@ namespace OCA\DAV\Tests\unit\CardDAV\Validation;
 use OCA\DAV\CardDAV\Validation\CardDavValidatePlugin;
 use OCP\IAppConfig;
 use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -68,6 +69,69 @@ class CardDavValidatePluginTest extends TestCase {
 		// test condition
 		$this->plugin->beforePut($this->request, $this->response);
 		
+	}
+
+	public function testPutNoEmail(): void {
+		$vcard = $this->getVCardWithEmail();
+
+		$this->request
+			->method('getBodyAsString')
+			->willReturn($vcard);
+		$this->assertTrue(
+			$this->plugin->beforePut($this->request, $this->response),
+		);
+	}
+	public function testPutValidEmail(): void {
+		$vcard = $this->getVCardWithEmail('example@nextcloud.com');
+
+		$this->request
+			->method('getBodyAsString')
+			->willReturn($vcard);
+		$this->assertTrue(
+			$this->plugin->beforePut($this->request, $this->response),
+		);
+	}
+	public function testPutInvalidEmail(): void {
+		$vcard = $this->getVCardWithEmail('example-nextcloud');
+
+		$this->request
+			->method('getBodyAsString')
+			->willReturn($vcard);
+		$this->expectException(BadRequest::class);
+		$this->assertTrue(
+			$this->plugin->beforePut($this->request, $this->response),
+		);
+	}
+
+	public function testPutTrimmingEmail(): void {
+		$vcard = $this->getVCardWithEmail(' example@nextcloud.com ');
+		$vcardTrimmed = $this->getVCardWithEmail('example@nextcloud.com');
+
+		$this->request
+			->method('getBodyAsString')
+			->willReturn($vcard);
+		
+		$this->request
+			->expects($this->once())
+			->method('setBody')
+			->with($this->equalTo($vcardTrimmed));
+
+		$this->assertTrue(
+			$this->plugin->beforePut($this->request, $this->response),
+		);
+	}
+
+	private function getVCardWithEmail($email) {
+		return <<<EOF
+		BEGIN:VCARD\r
+		VERSION:4.0\r
+		PRODID:-//Nextcloud Contacts v7.0.4\r
+		UID:b9a0f10b-a304-4970-8a09-c62bb6a1831b\r
+		FN:Test\r
+		EMAIL;TYPE=HOME:$email\r
+		REV;VALUE=DATE-AND-OR-TIME:20250314T200304Z\r
+		END:VCARD\r\n
+		EOF;
 	}
 
 }
