@@ -720,6 +720,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\OCM\\Events\\ResourceTypeRegisterEvent' => __DIR__ . '/../../..' . '/lib/public/OCM/Events/ResourceTypeRegisterEvent.php',
         'OCP\\OCM\\Exceptions\\OCMArgumentException' => __DIR__ . '/../../..' . '/lib/public/OCM/Exceptions/OCMArgumentException.php',
         'OCP\\OCM\\Exceptions\\OCMProviderException' => __DIR__ . '/../../..' . '/lib/public/OCM/Exceptions/OCMProviderException.php',
+        'OCP\\OCM\\ICapabilityAwareOCMProvider' => __DIR__ . '/../../..' . '/lib/public/OCM/ICapabilityAwareOCMProvider.php',
         'OCP\\OCM\\IOCMDiscoveryService' => __DIR__ . '/../../..' . '/lib/public/OCM/IOCMDiscoveryService.php',
         'OCP\\OCM\\IOCMProvider' => __DIR__ . '/../../..' . '/lib/public/OCM/IOCMProvider.php',
         'OCP\\OCM\\IOCMResource' => __DIR__ . '/../../..' . '/lib/public/OCM/IOCMResource.php',

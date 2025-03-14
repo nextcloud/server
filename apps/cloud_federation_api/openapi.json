@@ -36,79 +36,10 @@
             },
             "Capabilities": {
                 "type": "object",
-                "required": [
-                    "ocm"
-                ],
-                "properties": {
-                    "ocm": {
-                        "type": "object",
-                        "required": [
-                            "apiVersion",
-                            "enabled",
-                            "endPoint",
-                            "resourceTypes",
-                            "version"
-                        ],
-                        "properties": {
-                            "apiVersion": {
-                                "type": "string",
-                                "enum": [
-                                    "1.0-proposal1"
-                                ]
-                            },
-                            "enabled": {
-                                "type": "boolean"
-                            },
-                            "endPoint": {
-                                "type": "string"
-                            },
-                            "publicKey": {
-                                "type": "object",
-                                "required": [
-                                    "keyId",
-                                    "publicKeyPem"
-                                ],
-                                "properties": {
-                                    "keyId": {
-                                        "type": "string"
-                                    },
-                                    "publicKeyPem": {
-                                        "type": "string"
-                                    }
-                                }
-                            },
-                            "resourceTypes": {
-                                "type": "array",
-                                "items": {
-                                    "type": "object",
-                                    "required": [
-                                        "name",
-                                        "shareTypes",
-                                        "protocols"
-                                    ],
-                                    "properties": {
-                                        "name": {
-                                            "type": "string"
-                                        },
-                                        "shareTypes": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "protocols": {
-                                            "type": "object",
-                                            "additionalProperties": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                }
-                            },
-                            "version": {
-                                "type": "string"
-                            }
-                        }
+                "additionalProperties": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object"
                     }
                 }
             },
@@ -390,6 +321,167 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/index.php/ocm/invite-accepted": {
+            "post": {
+                "operationId": "request_handler-invite-accepted",
+                "summary": "Inform the sender that an invitation was accepted to start sharing",
+                "description": "Inform about an accepted invitation so the user on the sender provider's side can initiate the OCM share creation. To protect the identity of the parties, for shares created following an OCM invitation, the user id MAY be hashed, and recipients implementing the OCM invitation workflow MAY refuse to process shares coming from unknown parties.\nhttps://cs3org.github.io/OCM-API/docs.html?branch=v1.1.0&repo=OCM-API&user=cs3org#/paths/~1invite-accepted/post\nNote: Not implementing 404 Invitation token does not exist, instead using 400",
+                "tags": [
+                    "request_handler"
+                ],
+                "security": [
+                    {},
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "recipientProvider",
+                                    "token",
+                                    "userId",
+                                    "email",
+                                    "name"
+                                ],
+                                "properties": {
+                                    "recipientProvider": {
+                                        "type": "string",
+                                        "description": "The address of the recipent's provider"
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "description": "The token used for the invitation"
+                                    },
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "The userId of the recipient at the recipient's provider"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "The email address of the recipient"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The display name of the recipient"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Invitation accepted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "userID",
+                                        "email",
+                                        "name"
+                                    ],
+                                    "properties": {
+                                        "userID": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invitation token does not exist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "message",
+                                        "error"
+                                    ],
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "error": {
+                                            "type": "boolean",
+                                            "enum": [
+                                                true
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "message",
+                                        "error"
+                                    ],
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "error": {
+                                            "type": "boolean",
+                                            "enum": [
+                                                true
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "User is already known by the OCM provider",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "message",
+                                        "error"
+                                    ],
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "error": {
+                                            "type": "boolean",
+                                            "enum": [
+                                                true
+                                            ]
+                                        }
+                                    }
                                 }
                             }
                         }

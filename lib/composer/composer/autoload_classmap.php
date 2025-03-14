@@ -679,6 +679,7 @@ return array(
     'OCP\\OCM\\Events\\ResourceTypeRegisterEvent' => $baseDir . '/lib/public/OCM/Events/ResourceTypeRegisterEvent.php',
     'OCP\\OCM\\Exceptions\\OCMArgumentException' => $baseDir . '/lib/public/OCM/Exceptions/OCMArgumentException.php',
     'OCP\\OCM\\Exceptions\\OCMProviderException' => $baseDir . '/lib/public/OCM/Exceptions/OCMProviderException.php',
+    'OCP\\OCM\\ICapabilityAwareOCMProvider' => $baseDir . '/lib/public/OCM/ICapabilityAwareOCMProvider.php',
     'OCP\\OCM\\IOCMDiscoveryService' => $baseDir . '/lib/public/OCM/IOCMDiscoveryService.php',
     'OCP\\OCM\\IOCMProvider' => $baseDir . '/lib/public/OCM/IOCMProvider.php',
     'OCP\\OCM\\IOCMResource' => $baseDir . '/lib/public/OCM/IOCMResource.php',
