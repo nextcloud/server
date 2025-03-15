@@ -20,9 +20,9 @@ export function createShare(fileName: string, username: string, shareSettings: P
 	openSharingPanel(fileName)
 
 	cy.get('#app-sidebar-vue').within(() => {
-		cy.get('#sharing-search-input').clear()
 		cy.intercept({ times: 1, method: 'GET', url: '**/apps/files_sharing/api/v1/sharees?*' }).as('userSearch')
-		cy.get('#sharing-search-input').type(username)
+		cy.findByRole('combobox', { name: /Search for internal recipients/i })
+			.type(`{selectAll}${username}`)
 		cy.wait('@userSearch')
 	})
 
