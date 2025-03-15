@@ -239,6 +239,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Broadcast\\Events\\IBroadcastEvent' => __DIR__ . '/../../..' . '/lib/public/Broadcast/Events/IBroadcastEvent.php',
         'OCP\\Cache\\CappedMemoryCache' => __DIR__ . '/../../..' . '/lib/public/Cache/CappedMemoryCache.php',
         'OCP\\Calendar\\BackendTemporarilyUnavailableException' => __DIR__ . '/../../..' . '/lib/public/Calendar/BackendTemporarilyUnavailableException.php',
+        'OCP\\Calendar\\CalendarEventStatus' => __DIR__ . '/../../..' . '/lib/public/Calendar/CalendarEventStatus.php',
         'OCP\\Calendar\\Exceptions\\CalendarException' => __DIR__ . '/../../..' . '/lib/public/Calendar/Exceptions/CalendarException.php',
         'OCP\\Calendar\\IAvailabilityResult' => __DIR__ . '/../../..' . '/lib/public/Calendar/IAvailabilityResult.php',
         'OCP\\Calendar\\ICalendar' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendar.php',

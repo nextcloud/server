@@ -190,6 +190,7 @@ return array(
     'OCP\\Broadcast\\Events\\IBroadcastEvent' => $baseDir . '/lib/public/Broadcast/Events/IBroadcastEvent.php',
     'OCP\\Cache\\CappedMemoryCache' => $baseDir . '/lib/public/Cache/CappedMemoryCache.php',
     'OCP\\Calendar\\BackendTemporarilyUnavailableException' => $baseDir . '/lib/public/Calendar/BackendTemporarilyUnavailableException.php',
+    'OCP\\Calendar\\CalendarEventStatus' => $baseDir . '/lib/public/Calendar/CalendarEventStatus.php',
     'OCP\\Calendar\\Exceptions\\CalendarException' => $baseDir . '/lib/public/Calendar/Exceptions/CalendarException.php',
     'OCP\\Calendar\\IAvailabilityResult' => $baseDir . '/lib/public/Calendar/IAvailabilityResult.php',
     'OCP\\Calendar\\ICalendar' => $baseDir . '/lib/public/Calendar/ICalendar.php',
