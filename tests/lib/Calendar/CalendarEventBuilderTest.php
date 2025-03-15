@@ -37,6 +37,7 @@ class CalendarEventBuilderTest extends TestCase {
 	public function testToIcs(): void {
 		$this->calendarEventBuilder->setStartDate(new DateTimeImmutable('2025-01-05T17:09:58Z'));
 		$this->calendarEventBuilder->setEndDate(new DateTimeImmutable('2025-01-05T17:19:58Z'));
+		$this->calendarEventBuilder->setStatus('CONFIRMED');
 		$this->calendarEventBuilder->setSummary('My event');
 		$this->calendarEventBuilder->setDescription('Foo bar baz');
 		$this->calendarEventBuilder->setOrganizer('mailto:organizer@domain.tld');
@@ -51,6 +52,7 @@ class CalendarEventBuilderTest extends TestCase {
 	public function testToIcsWithoutOrganizerAndAttendees(): void {
 		$this->calendarEventBuilder->setStartDate(new DateTimeImmutable('2025-01-05T17:09:58Z'));
 		$this->calendarEventBuilder->setEndDate(new DateTimeImmutable('2025-01-05T17:19:58Z'));
+		$this->calendarEventBuilder->setStatus('CONFIRMED');
 		$this->calendarEventBuilder->setSummary('My event');
 		$this->calendarEventBuilder->setDescription('Foo bar baz');
 
@@ -62,6 +64,7 @@ class CalendarEventBuilderTest extends TestCase {
 	public function testToIcsWithoutMailtoPrefix(): void {
 		$this->calendarEventBuilder->setStartDate(new DateTimeImmutable('2025-01-05T17:09:58Z'));
 		$this->calendarEventBuilder->setEndDate(new DateTimeImmutable('2025-01-05T17:19:58Z'));
+		$this->calendarEventBuilder->setStatus('CONFIRMED');
 		$this->calendarEventBuilder->setSummary('My event');
 		$this->calendarEventBuilder->setDescription('Foo bar baz');
 		$this->calendarEventBuilder->setOrganizer('organizer@domain.tld');
@@ -76,6 +79,7 @@ class CalendarEventBuilderTest extends TestCase {
 	public function testCreateInCalendar(): void {
 		$this->calendarEventBuilder->setStartDate(new DateTimeImmutable('2025-01-05T17:09:58Z'));
 		$this->calendarEventBuilder->setEndDate(new DateTimeImmutable('2025-01-05T17:19:58Z'));
+		$this->calendarEventBuilder->setStatus('CONFIRMED');
 		$this->calendarEventBuilder->setSummary('My event');
 		$this->calendarEventBuilder->setDescription('Foo bar baz');
 		$this->calendarEventBuilder->setOrganizer('organizer@domain.tld');
