@@ -16,13 +16,17 @@ use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMProvider;
 use OCP\OCM\IOCMResource;
+use OCP\IConfig;
 
 /**
  * @since 28.0.0
  */
 class OCMProvider implements IOCMProvider {
+	private IConfig $config;
+	private string $provider;
 	private bool $enabled = false;
 	private string $apiVersion = '';
+	private array $capabilities = [];
 	private string $endPoint = '';
 	/** @var IOCMResource[] */
 	private array $resourceTypes = [];
@@ -31,7 +35,10 @@ class OCMProvider implements IOCMProvider {
 
 	public function __construct(
 		protected IEventDispatcher $dispatcher,
+		IConfig $config,
 	) {
+		$this->config = $config;
+		$this->provider = 'Nextcloud ' . $config->getSystemValue('version');
 	}
 
 	/**
@@ -88,6 +95,34 @@ class OCMProvider implements IOCMProvider {
 		return $this->endPoint;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getProvider(): string {
+		return $this->provider;
+	}
+
+	/**
+	 * @param array $capabilities
+	 *
+	 * @return this
+	 */
+	public function setCapabilities(array $capabilities): static {
+		foreach ($capabilities as $key => $value) {
+			if (!in_array($value, $this->capabilities)) {
+				array_push($this->capabilities, $value);
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getCapabilities(): array {
+		return $this->capabilities;
+	}
 	/**
 	 * create a new resource to later add it with {@see IOCMProvider::addResourceType()}
 	 * @return IOCMResource
@@ -237,7 +272,9 @@ class OCMProvider implements IOCMProvider {
 			'version' => $this->getApiVersion(), // informative but real version
 			'endPoint' => $this->getEndPoint(),
 			'publicKey' => $this->getSignatory()->jsonSerialize(),
-			'resourceTypes' => $resourceTypes
+			'resourceTypes' => $resourceTypes,
+			'provider' => $this->getProvider(),
+			'capabilities' => $this->getCapabilities(),
 		];
 	}
 }
