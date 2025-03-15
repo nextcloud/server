@@ -5,8 +5,9 @@
 
 <template>
 	<NcAppContent :page-heading="pageHeading">
-		<UserList :selected-group="selectedGroupDecoded"
-			:external-actions="externalActions" />
+		<UserList :external-actions="externalActions"
+			:selected-group="selectedGroupDecoded"
+			:view="currentView" />
 	</NcAppContent>
 </template>
 
@@ -34,15 +35,23 @@ export default defineComponent({
 	},
 
 	computed: {
+		currentView() {
+			return this.$route.params.view ?? 'all'
+		},
+
 		pageHeading() {
-			if (this.selectedGroupDecoded === null) {
+			if (this.currentView === 'all') {
 				return t('settings', 'All accounts')
+			} else if (this.currentView === 'recent') {
+				return t('settings', 'Recently active accounts')
+			} else if (this.currentView === 'disabled') {
+				return t('settings', 'Disabled acounts')
+			} else {
+				if (this.selectedGroupDecoded === 'admin') {
+					return t('settings', 'Admins')
+				}
+				return t('settings', 'Account group: {group}', { group: this.selectedGroupDecoded })
 			}
-			const matchHeading = {
-				admin: t('settings', 'Admins'),
-				disabled: t('settings', 'Disabled accounts'),
-			}
-			return matchHeading[this.selectedGroupDecoded] ?? t('settings', 'Account group: {group}', { group: this.selectedGroupDecoded })
 		},
 
 		selectedGroup() {

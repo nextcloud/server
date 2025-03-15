@@ -338,12 +338,18 @@ const actions = {
 	 * @param {string} options.group Get users from group
 	 * @return {Promise}
 	 */
-	getUsers(context, { offset, limit, search, group }) {
+	getUsers(context, options) {
+		let { offset, limit, search, group } = {
+			offset: context.getters.getUsersOffset,
+			limit: context.getters.getUsersLimit,
+			search: '',
+			...options,
+		}
+
 		if (searchRequestCancelSource) {
 			searchRequestCancelSource.cancel('Operation canceled by another search request.')
 		}
 		searchRequestCancelSource = CancelToken.source()
-		search = typeof search === 'string' ? search : ''
 
 		/**
 		 * Adding filters in the search bar such as in:files, in:users, etc.
@@ -398,7 +404,12 @@ const actions = {
 	 * @param {string} options.search Search query
 	 * @return {Promise<number>}
 	 */
-	async getRecentUsers(context, { offset, limit, search }) {
+	async getRecentUsers(context, options) {
+		const { offset, limit, search } = {
+			limit: context.getters.getUsersLimit,
+			offset: context.getters.getUsersOffset,
+			...options,
+		}
 		const url = generateOcsUrl('cloud/users/recent?offset={offset}&limit={limit}&search={search}', { offset, limit, search })
 		try {
 			const response = await api.get(url)
@@ -419,10 +430,16 @@ const actions = {
 	 * @param {object} options destructuring object
 	 * @param {number} options.offset List offset to request
 	 * @param {number} options.limit List number to return from offset
-	 * @param options.search
+	 * @param {string} options.search
 	 * @return {Promise<number>}
 	 */
-	async getDisabledUsers(context, { offset, limit, search }) {
+	async getDisabledUsers(context, options) {
+		const { offset, limit, search } = {
+			limit: context.getters.getDisabledUsersLimit,
+			offset: context.getters.getDisabledUsersOffset,
+			...options,
+		}
+
 		const url = generateOcsUrl('cloud/users/disabled?offset={offset}&limit={limit}&search={search}', { offset, limit, search })
 		try {
 			const response = await api.get(url)

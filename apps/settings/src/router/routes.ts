@@ -24,10 +24,22 @@ const routes: RouteConfig[] = [
 			navigation: UserManagementNavigation,
 		},
 		props: true,
+
+		redirect: {
+			name: 'users-view',
+			params: {
+				view: 'all',
+			},
+		},
+
 		children: [
 			{
-				path: ':selectedGroup',
+				path: ':view(group)/:selectedGroup',
 				name: 'group',
+			},
+			{
+				path: ':view',
+				name: 'users-view',
 			},
 		],
 	},
