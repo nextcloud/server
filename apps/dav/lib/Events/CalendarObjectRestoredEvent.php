@@ -12,6 +12,7 @@ use OCP\EventDispatcher\Event;
 
 /**
  * @since 22.0.0
+ * @deprecated 31.0.2 Use {@see \OCP\Calendar\Events\CalendarObjectRestoredEvent} instead
  */
 class CalendarObjectRestoredEvent extends Event {
 
