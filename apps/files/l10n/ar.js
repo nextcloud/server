@@ -235,6 +235,7 @@ OC.L10N.register(
     "Failed to convert files: {message}" : "تعذّر تحويل الملفات: {message}",
     "All files failed to be converted" : "تعذّر تحويل كل الملفات",
     "One file could not be converted: {message}" : "تعذّر تحويل الملف : {message}",
+    "_One file could not be converted_::_%n files could not be converted_" : ["%n ملف لايمكن تحويله","ملف واحد لايمكن تحويله","%n ملف لايمكن تحويله","%n ملفات لايمكن تحويلها","%n ملف لايمكن تحويله","%n ملف لايمكن تحويله"],
     "Files successfully converted" : "ملفات تمّ تحويلها بنجاحٍ",
     "Failed to convert files" : "تعذّر تحويل الملفات",
     "Converting file …" : "تحويل الملف ...",

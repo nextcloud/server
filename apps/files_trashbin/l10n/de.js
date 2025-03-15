@@ -21,6 +21,6 @@ OC.L10N.register(
     "You" : "Du",
     "List of files that have been deleted." : "Liste der gelöschten Dateien.",
     "No deleted files" : "Keine gelöschten Dateien",
-    "Files and folders you have deleted will show up here" : "Die von Ihnen gelöschten Dateien und Ordner werden hier angezeigt"
+    "Files and folders you have deleted will show up here" : "Die von dir gelöschten Dateien und Ordner werden hier angezeigt"
 },
 "nplurals=2; plural=(n != 1);");
