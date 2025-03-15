@@ -235,6 +235,8 @@ OC.L10N.register(
     "Failed to convert files: {message}" : "無法轉換檔案：{message}",
     "All files failed to be converted" : "所有檔案轉換失敗",
     "One file could not be converted: {message}" : "有一個檔案無法轉換：{message}",
+    "_One file could not be converted_::_%n files could not be converted_" : ["%n 個檔案無法轉換"],
+    "_One file successfully converted_::_%n files successfully converted_" : ["%n 個檔案成功轉換"],
     "Files successfully converted" : "成功轉換檔案",
     "Failed to convert files" : "無法轉換檔案",
     "Converting file …" : "正在轉換檔案 …",
