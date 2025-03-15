@@ -558,6 +558,7 @@ return array(
     'OCP\\Http\\WellKnown\\IResponse' => $baseDir . '/lib/public/Http/WellKnown/IResponse.php',
     'OCP\\Http\\WellKnown\\JrdResponse' => $baseDir . '/lib/public/Http/WellKnown/JrdResponse.php',
     'OCP\\IAddressBook' => $baseDir . '/lib/public/IAddressBook.php',
+    'OCP\\IAddressBookEnabled' => $baseDir . '/lib/public/IAddressBookEnabled.php',
     'OCP\\IAppConfig' => $baseDir . '/lib/public/IAppConfig.php',
     'OCP\\IAvatar' => $baseDir . '/lib/public/IAvatar.php',
     'OCP\\IAvatarManager' => $baseDir . '/lib/public/IAvatarManager.php',

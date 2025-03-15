@@ -9,6 +9,7 @@ namespace OCA\DAV\Tests\unit\CardDAV;
 
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
+use OCA\DAV\Db\PropertyMapper;
 use OCP\Contacts\IManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -25,9 +26,10 @@ class ContactsManagerTest extends TestCase {
 		$backEnd->method('getAddressBooksForUser')->willReturn([
 			['{DAV:}displayname' => 'Test address book', 'uri' => 'default'],
 		]);
+		$propertyMapper = $this->createMock(PropertyMapper::class);
 
 		$l = $this->createMock(IL10N::class);
-		$app = new ContactsManager($backEnd, $l);
+		$app = new ContactsManager($backEnd, $l, $propertyMapper);
 		$app->setupContactsProvider($cm, 'user01', $urlGenerator);
 	}
 }
