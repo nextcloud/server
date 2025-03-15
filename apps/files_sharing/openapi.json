@@ -1661,6 +1661,19 @@
                         }
                     },
                     {
+                        "name": "types[]",
+                        "in": "query",
+                        "description": "List of share types to return",
+                        "schema": {
+                            "type": "array",
+                            "default": [],
+                            "items": {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
