@@ -9,6 +9,7 @@ OC.L10N.register(
     "Back" : "Orqaga",
     "Cancel" : "Cancel",
     "Confirm" : "Confirm",
+    "Custom" : "Boshqa",
     "Size" : "Size"
 },
 "nplurals=1; plural=0;");
