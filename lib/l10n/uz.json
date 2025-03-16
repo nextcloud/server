@@ -1,5 +1,6 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Cannot write into \"config\" directory!",
+    "Authentication" : "Autentifikatsiya",
     "Unknown filetype" : "Unknown filetype",
     "Invalid image" : "Invalid image",
     "Files" : "Files",
@@ -28,6 +29,7 @@
     "Authentication error" : "Authentication error",
     "Storage is temporarily not available" : "Storage is temporarily not available",
     "Confirmation" : "Tasdiqlash",
+    "Translate" : "Tarjima",
     "File name is too long" : "File name is too long",
     "Users" : "Users",
     "Open »%s«" : "ochish »%s«"
