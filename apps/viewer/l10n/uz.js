@@ -10,6 +10,8 @@ OC.L10N.register(
     "Cancel" : "Cancel",
     "Confirm" : "Confirm",
     "Custom" : "Boshqa",
+    "Value" : "Qiymati",
+    "Line" : "Chiziq",
     "Size" : "Size"
 },
 "nplurals=1; plural=0;");
