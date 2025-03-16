@@ -29,6 +29,7 @@ OC.L10N.register(
     "Allow people on this server to receive shares from other servers" : "Lig do dhaoine ar an bhfreastalaí seo scaireanna a fháil ó fhreastalaithe eile",
     "Allow people on this server to send shares to groups on other servers" : "Lig do dhaoine ar an bhfreastalaí seo scaireanna a sheoladh chuig grúpaí ar fhreastalaithe eile",
     "Allow people on this server to receive group shares from other servers" : "Lig do dhaoine ar an bhfreastalaí seo scaireanna grúpa a fháil ó fhreastalaithe eile",
+    "The lookup server is only available for global scale." : "Níl an freastalaí cuardaigh ar fáil ach do scála domhanda.",
     "Search global and public address book for people" : "Cuardaigh leabhar seoltaí domhanda agus poiblí do dhaoine",
     "Allow people to publish their data to a global and public address book" : "Lig do dhaoine a gcuid sonraí a fhoilsiú i leabhar aitheasc domhanda agus poiblí",
     "Trusted federation" : "Cónaidhm iontaofa",
