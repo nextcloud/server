@@ -233,6 +233,8 @@
     "Failed to convert files: {message}" : "Theip ar thiontú comhaid: {message}",
     "All files failed to be converted" : "Theip ar gach comhad a thiontú",
     "One file could not be converted: {message}" : "Níorbh fhéidir comhad amháin a thiontú:{message}",
+    "_One file could not be converted_::_%n files could not be converted_" : ["Níorbh fhéidir comhad amháin a thiontú","Níorbh fhéidir %n comhad a thiontú","Níorbh fhéidir %n comhad a thiontú","Níorbh fhéidir %n comhad a thiontú","Níorbh fhéidir %n comhad a thiontú"],
+    "_One file successfully converted_::_%n files successfully converted_" : ["D'éirigh le comhad amháin a thiontú","D'éirigh le %n comhad a thiontú","D'éirigh le %n comhad a thiontú","D'éirigh le %n comhad a thiontú","D'éirigh le %n comhad a thiontú"],
     "Files successfully converted" : "Comhaid a thiontú go rathúil",
     "Failed to convert files" : "Theip ar thiontú comhaid",
     "Converting file …" : "Comhad á thiontú…",
