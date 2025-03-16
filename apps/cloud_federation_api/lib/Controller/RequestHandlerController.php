@@ -282,7 +282,7 @@ class RequestHandlerController extends Controller {
 		}
 		$unixstart = $this->timeFactory->createFromFormat('U', '1');
 		$expiredAt = $this->timeFactory->createFromFormat('U', strval($invitation->getExpiredAt()));
-		if ($expiredAt === $unixstart) {
+		if ($expiredAt == $unixstart) {
 			$invitation->setExpiredAt($updated);
 		}
 
