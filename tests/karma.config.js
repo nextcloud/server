@@ -18,8 +18,11 @@
  * preprocessor, which is needed to be able to debug tests properly in a browser.
  */
 
+const { existsSync } = require('node:fs');
+
 if (!process.env.CHROMIUM_BIN) {
-	process.env.CHROMIUM_BIN = require('puppeteer').executablePath()
+	const chrome = require('puppeteer').executablePath()
+	process.env.CHROMIUM_BIN = chrome
 }
 
 /* jshint node: true */
@@ -243,14 +246,19 @@ module.exports = function(config) {
 		// - PhantomJS
 		// - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
 		// use PhantomJS_debug for extra local debug
-		browsers: ['ChromiumHeadless'],
+		browsers: ['Chrome_without_sandbox'],
 
 		// you can define custom flags
 		customLaunchers: {
 			PhantomJS_debug: {
 				base: 'PhantomJS',
 				debug: true
-			}
+			},
+			// fix CI
+			Chrome_without_sandbox: {
+				base: 'ChromiumHeadless',
+				flags: ['--no-sandbox'],
+			},
 		},
 
 		// If browser does not capture in given timeout [ms], kill it
