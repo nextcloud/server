@@ -292,6 +292,7 @@ export default {
 .login-form {
 	text-align: start;
 	font-size: 1rem;
+	margin: 0;
 
 	&__fieldset {
 		width: 100%;

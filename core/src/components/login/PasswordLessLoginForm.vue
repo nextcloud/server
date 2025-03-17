@@ -5,39 +5,40 @@
 <template>
 	<form v-if="(isHttps || isLocalhost) && supportsWebauthn"
 		ref="loginForm"
+		class="password-less-login-form"
 		method="post"
 		name="login"
 		@submit.prevent="submit">
 		<h2>{{ t('core', 'Log in with a device') }}</h2>
-		<fieldset>
-			<NcTextField required
-				:value="user"
-				:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
-				:error="!validCredentials"
-				:label="t('core', 'Login or email')"
-				:placeholder="t('core', 'Login or email')"
-				:helper-text="!validCredentials ? t('core', 'Your account is not setup for passwordless login.') : ''"
-				@update:value="changeUsername" />
+		<NcTextField required
+			:value="user"
+			:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
+			:error="!validCredentials"
+			:label="t('core', 'Login or email')"
+			:placeholder="t('core', 'Login or email')"
+			:helper-text="!validCredentials ? t('core', 'Your account is not setup for passwordless login.') : ''"
+			@update:value="changeUsername" />
 
-			<LoginButton v-if="validCredentials"
-				:loading="loading"
-				@click="authenticate" />
-		</fieldset>
+		<LoginButton v-if="validCredentials"
+			:loading="loading"
+			@click="authenticate" />
 	</form>
-	<div v-else-if="!supportsWebauthn" class="update">
-		<InformationIcon size="70" />
-		<h2>{{ t('core', 'Browser not supported') }}</h2>
-		<p class="infogroup">
-			{{ t('core', 'Passwordless authentication is not supported in your browser.') }}
-		</p>
-	</div>
-	<div v-else-if="!isHttps && !isLocalhost" class="update">
-		<LockOpenIcon size="70" />
-		<h2>{{ t('core', 'Your connection is not secure') }}</h2>
-		<p class="infogroup">
-			{{ t('core', 'Passwordless authentication is only available over a secure connection.') }}
-		</p>
-	</div>
+
+	<NcEmptyContent v-else-if="!isHttps && !isLocalhost"
+		:name="t('core', 'Your connection is not secure')"
+		:description="t('core', 'Passwordless authentication is only available over a secure connection.')">
+		<template #icon>
+			<LockOpenIcon />
+		</template>
+	</NcEmptyContent>
+
+	<NcEmptyContent v-else
+		:name="t('core', 'Browser not supported')"
+		:description="t('core', 'Passwordless authentication is not supported in your browser.')">
+		<template #icon>
+			<InformationIcon />
+		</template>
+	</NcEmptyContent>
 </template>
 
 <script>
@@ -46,10 +47,13 @@ import {
 	startAuthentication,
 	finishAuthentication,
 } from '../../services/WebAuthnAuthenticationService.ts'
-import LoginButton from './LoginButton.vue'
-import InformationIcon from 'vue-material-design-icons/Information.vue'
-import LockOpenIcon from 'vue-material-design-icons/LockOpen.vue'
+
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
+
+import InformationIcon from 'vue-material-design-icons/Information.vue'
+import LoginButton from './LoginButton.vue'
+import LockOpenIcon from 'vue-material-design-icons/LockOpen.vue'
 import logger from '../../logger'
 
 export default {
@@ -58,6 +62,7 @@ export default {
 		LoginButton,
 		InformationIcon,
 		LockOpenIcon,
+		NcEmptyContent,
 		NcTextField,
 	},
 	props: {
@@ -142,17 +147,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	fieldset {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-
-		:deep(label) {
-			text-align: initial;
-		}
-	}
-
-	.update {
-		margin: 0 auto;
-	}
+.password-less-login-form {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	margin: 0;
+}
 </style>
