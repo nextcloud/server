@@ -489,7 +489,13 @@ class Database extends ABackend implements
 			->from($this->table);
 		$result = $query->executeQuery();
 
-		return $result->fetchOne();
+		$count = $result->fetchOne();
+
+		if ($count === false) {
+			return false;
+		}
+
+		return (int)$count;
 	}
 
 	/**
