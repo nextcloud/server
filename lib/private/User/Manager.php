@@ -607,18 +607,21 @@ class Manager extends PublicEmitter implements IUserManager {
 		return $count;
 	}
 
-	/**
-	 * returns how many users have logged in once
-	 *
-	 * @return int
-	 * @since 11.0.0
-	 */
-	public function countSeenUsers() {
+	public function countSeenUsers(): int {
 		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$queryBuilder->select($queryBuilder->func()->count('*'))
-			->from('preferences')
-			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('login')))
-			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('lastLogin')));
+			->from('preferences', 'p1')
+			->leftJoin('p1', 'preferences', 'p2', $queryBuilder->expr()->andX(
+				$queryBuilder->expr()->eq('p1.userid', 'p2.userid'),
+				$queryBuilder->expr()->eq('p2.appid', $queryBuilder->createNamedParameter('core')),
+				$queryBuilder->expr()->eq('p2.configkey', $queryBuilder->createNamedParameter('enabled')),
+			))
+			->where($queryBuilder->expr()->eq('p1.appid', $queryBuilder->createNamedParameter('login')))
+			->andWhere($queryBuilder->expr()->eq('p1.configkey', $queryBuilder->createNamedParameter('lastLogin')))
+			->andWhere($queryBuilder->expr()->orX(
+				$queryBuilder->expr()->isNull('p2.configvalue'),
+				$queryBuilder->expr()->eq('p2.configvalue', $queryBuilder->createNamedParameter('true'), IQueryBuilder::PARAM_STR),
+			));
 
 		$query = $queryBuilder->execute();
 

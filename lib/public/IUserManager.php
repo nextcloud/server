@@ -190,12 +190,11 @@ interface IUserManager {
 	public function countDisabledUsers();
 
 	/**
-	 * returns how many users have logged in once
+	 * returns how many enabled users have logged in once
 	 *
-	 * @return int
 	 * @since 11.0.0
 	 */
-	public function countSeenUsers();
+	public function countSeenUsers(): int;
 
 	/**
 	 * @param \Closure $callback
