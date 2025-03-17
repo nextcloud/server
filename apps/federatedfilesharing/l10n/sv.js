@@ -29,6 +29,7 @@ OC.L10N.register(
     "Allow people on this server to receive shares from other servers" : "Tillåt användare på denna servern att ta emot delningar från andra servrar",
     "Allow people on this server to send shares to groups on other servers" : "Tillåt användare på denna server att skicka delningar till grupper på andra servrar",
     "Allow people on this server to receive group shares from other servers" : "Tillåt användare på denna server att ta emot gruppdelningar från andra servrar",
+    "The lookup server is only available for global scale." : "Uppslagningstjänsten är endast tillgänglig för global scale.",
     "Search global and public address book for people" : "Sök global och offentlig adressbok för användare",
     "Allow people to publish their data to a global and public address book" : "Tillåt användare att publicera sin data till en global och publik adressbok",
     "Trusted federation" : "Betrodd federation",
