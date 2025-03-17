@@ -30,7 +30,7 @@ class Version1016Date202502262004 extends SimpleMigrationStep {
 		$schema = $schemaClosure();
 		$table_name = 'federated_invites';
 
-		if (! $schema->hasTable($table_name)) {
+		if (!$schema->hasTable($table_name)) {
 			$table = $schema->createTable($table_name);
 			$table->addColumn('id', Types::BIGINT, [
 				'autoincrement' => true,
