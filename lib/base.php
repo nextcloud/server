@@ -447,6 +447,27 @@ class OC {
 	 * Try to set some values to the required Nextcloud default
 	 */
 	public static function setRequiredIniValues(): void {
+		// Don't display errors and log them
+		@ini_set('display_errors', '0');
+		@ini_set('log_errors', '1');
+
+		// Try to configure php to enable big file uploads.
+		// This doesn't work always depending on the webserver and php configuration.
+		// Let's try to overwrite some defaults if they are smaller than 1 hour
+
+		if (intval(@ini_get('max_execution_time') ?: 0) < 3600) {
+			@ini_set('max_execution_time', strval(3600));
+		}
+
+		if (intval(@ini_get('max_input_time') ?: 0) < 3600) {
+			@ini_set('max_input_time', strval(3600));
+		}
+
+		// Try to set the maximum execution time to the largest time limit we have
+		if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+			@set_time_limit(max(intval(@ini_get('max_execution_time')), intval(@ini_get('max_input_time'))));
+		}
+
 		@ini_set('default_charset', 'UTF-8');
 		@ini_set('gd.jpeg_ignore_warning', '1');
 	}
@@ -545,10 +566,20 @@ class OC {
 	}
 
 	public static function init(): void {
+		// First handle PHP configuration and copy auth headers to the expected
+		// $_SERVER variable before doing anything Server object related
+		self::setRequiredIniValues();
+		self::handleAuthHeaders();
+
 		// prevent any XML processing from loading external entities
 		libxml_set_external_entity_loader(static function () {
 			return null;
 		});
+
+		// Set default timezone before the Server object is booted
+		if (!date_default_timezone_set('UTC')) {
+			throw new \RuntimeException('Could not set timezone to UTC');
+		}
 
 		// calculate the root directories
 		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
@@ -607,34 +638,6 @@ class OC {
 			error_reporting(E_ALL);
 		}
 
-		// Don't display errors and log them
-		@ini_set('display_errors', '0');
-		@ini_set('log_errors', '1');
-
-		if (!date_default_timezone_set('UTC')) {
-			throw new \RuntimeException('Could not set timezone to UTC');
-		}
-
-
-		//try to configure php to enable big file uploads.
-		//this doesn´t work always depending on the webserver and php configuration.
-		//Let´s try to overwrite some defaults if they are smaller than 1 hour
-
-		if (intval(@ini_get('max_execution_time') ?: 0) < 3600) {
-			@ini_set('max_execution_time', strval(3600));
-		}
-
-		if (intval(@ini_get('max_input_time') ?: 0) < 3600) {
-			@ini_set('max_input_time', strval(3600));
-		}
-
-		//try to set the maximum execution time to the largest time limit we have
-		if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
-			@set_time_limit(max(intval(@ini_get('max_execution_time')), intval(@ini_get('max_input_time'))));
-		}
-
-		self::setRequiredIniValues();
-		self::handleAuthHeaders();
 		$systemConfig = Server::get(\OC\SystemConfig::class);
 		self::registerAutoloaderCache($systemConfig);
 
