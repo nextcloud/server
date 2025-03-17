@@ -222,6 +222,12 @@ async function openFilePickerForAction(
 			// We don't want to show the current nodes in the file picker
 			return !fileIDs.includes(n.fileid)
 		})
+		.setFilter((n: Node) => {
+			// We only want to show folders in the file picker
+			// We don't want to show encrypted folders in the file picker
+			return n.type === FileType.File
+				&& n.attributes?.['is-encrypted'] !== 1
+		})
 		.setMimeTypeFilter([])
 		.setMultiSelect(false)
 		.startAt(dir)
