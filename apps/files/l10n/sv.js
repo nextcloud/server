@@ -235,6 +235,8 @@ OC.L10N.register(
     "Failed to convert files: {message}" : "Kunde inte konvertera filer: {message}",
     "All files failed to be converted" : "Alla filer misslyckades med att konverteras",
     "One file could not be converted: {message}" : "En fil kunde inte konverteras: {message}",
+    "_One file could not be converted_::_%n files could not be converted_" : ["En fil kunde inte konverteras","%n filer kunde inte konverteras"],
+    "_One file successfully converted_::_%n files successfully converted_" : ["En fil har konverterats","%n filer har konverterats"],
     "Files successfully converted" : "Filerna har konverterats",
     "Failed to convert files" : "Det gick inte att konvertera filer",
     "Converting file …" : "Konverterar fil ...",

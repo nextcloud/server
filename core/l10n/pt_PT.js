@@ -183,6 +183,7 @@ OC.L10N.register(
     "Continue with this unsupported browser" : "Continuar com este navegador não suportado",
     "Supported versions" : "Versões suportadas",
     "Search {types} …" : "Pesquisar {types}...",
+    "Choose {file}" : "Escolher {file}",
     "Choose" : "Escolher",
     "Copy" : "Copiar",
     "Move" : "Mover",

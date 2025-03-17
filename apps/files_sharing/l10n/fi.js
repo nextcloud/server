@@ -93,6 +93,7 @@ OC.L10N.register(
     "Decline" : "Kieltäydy",
     "People" : "Ihmiset",
     "Expiration date" : "Vanhenemispäivä",
+    "Select a date" : "Valitse päivämäärä",
     "Set a password" : "Aseta salasana",
     "Password" : "Salasana",
     "Link copied to clipboard" : "Linkki kopioitu leikepöydälle",
