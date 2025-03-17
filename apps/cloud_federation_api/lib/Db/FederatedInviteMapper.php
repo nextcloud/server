@@ -22,6 +22,7 @@ class FederatedInviteMapper extends QBMapper {
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, self::TABLE_NAME);
 	}
+
 	public function findByToken(string $token): ?FederatedInvite {
 		/** @var IQueryBuilder $qb */
 		$qb = $this->db->getQueryBuilder();
@@ -31,7 +32,4 @@ class FederatedInviteMapper extends QBMapper {
 		return $this->findEntity($qb);
 	}
 
-	public function dataArrayToInvite(array $data): FederatedInvite {
-		return $this->mapRowToEntity($data);
-	}
 }

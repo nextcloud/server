@@ -253,7 +253,6 @@ class RequestHandlerController extends Controller {
 		$this->logger->debug('Invite accepted for ' . $userId . ' with token ' . $token . ' and email ' . $email . ' and name ' . $name);
 
 		$updated = $this->timeFactory->getTime();
-		/** @var IQueryBuilder $qb */
 		if ($token === '') {
 			$response = new JSONResponse(['message' => 'Invalid or non existing token', 'error' => true], Http::STATUS_BAD_REQUEST);
 			$response->throttle();
@@ -286,7 +285,7 @@ class RequestHandlerController extends Controller {
 			$invitation->setExpiredAt($updated);
 		}
 
-		if ($invitation->getExpiredAt() < $updated) {
+		elseif ($invitation->getExpiredAt() < $updated) {
 			$response = ['message' => 'Invitation expired', 'error' => true];
 			$status = Http::STATUS_BAD_REQUEST;
 			return new JSONResponse($response, $status);
@@ -303,7 +302,7 @@ class RequestHandlerController extends Controller {
 		$sharedFromEmail = $localUser->getPrimaryEMailAddress();
 		$sharedFromDisplayName = $localUser->getDisplayName();
 
-		$response = ['userID' => $invitation->getUserId(), 'email' => $sharedFromEmail, 'name' => $sharedFromDisplayName];
+		$response = ['userID' => $localUser->getUID(), 'email' => $sharedFromEmail, 'name' => $sharedFromDisplayName];
 		$status = Http::STATUS_OK;
 
 
