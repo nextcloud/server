@@ -29,6 +29,7 @@ OC.L10N.register(
     "Allow people on this server to receive shares from other servers" : "Permet que les persones d'aquest servidor rebin elements compartits d'altres servidors",
     "Allow people on this server to send shares to groups on other servers" : "Permet que les persones d'aquest servidor enviïn elements compartits a grups d'altres servidors",
     "Allow people on this server to receive group shares from other servers" : "Permet que les persones d'aquest servidor rebin elements compartits de grups d'altres servidors",
+    "The lookup server is only available for global scale." : "El servidor de cerca només està disponible per a escala global.",
     "Search global and public address book for people" : "Cerca persones a la llibreta d'adreces global i pública",
     "Allow people to publish their data to a global and public address book" : "Permet que les persones publiquin les seves dades en una llibreta d'adreces global i pública",
     "Trusted federation" : "Federació de confiança",
