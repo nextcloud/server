@@ -26,15 +26,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
 
       - name: Get php version
         id: versions
         uses: icewind1991/nextcloud-version-matrix@58becf3b4bb6dc6cef677b15e2fd8e7d48c0908f # v1.3.1
 
-      - name: Set up php${{ steps.versions.outputs.php-available }}
+      - name: Set up php${{ steps.versions.outputs.php-min }}
         uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 # v2.31.1
         with:
-          php-version: ${{ steps.versions.outputs.php-available }}
+          php-version: ${{ steps.versions.outputs.php-min }}
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
           coverage: none
           ini-file: development
@@ -42,7 +44,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install dependencies
-        run: composer i
+        run: |
+          composer remove nextcloud/ocp --dev
+          composer i
 
       - name: Lint
         run: composer run cs:check || ( echo 'Please run `composer run cs:fix` to format your code' && exit 1 )
