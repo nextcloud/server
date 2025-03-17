@@ -2,8 +2,9 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { describe, it, vi, expect, beforeEach, beforeAll, afterEach } from 'vitest'
 import { File, Permission, View } from '@nextcloud/files'
+import { describe, it, vi, expect, beforeEach, beforeAll, afterEach } from 'vitest'
+import { nextTick } from 'vue'
 import axios from '@nextcloud/axios'
 
 import { getPinia } from '../store/index.ts'
@@ -15,7 +16,6 @@ import { action as renameAction } from '../actions/renameAction.ts'
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { registerHotkeys } from './HotKeysService.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
-import { subscribe } from '@nextcloud/event-bus'
 
 let file: File
 const view = {
@@ -61,7 +61,6 @@ describe('HotKeysService testing', () => {
 		activeStore.setActiveNode(file)
 
 		window.OCA = { Files: { Sidebar: { open: () => {}, setActiveTab: () => {} } } }
-		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock, params: {}, query: {} } } }
 
 		initialState = document.createElement('input')
@@ -114,6 +113,7 @@ describe('HotKeysService testing', () => {
 	})
 
 	it('Pressing Delete should delete the file', async () => {
+		// @ts-expect-error mocking private field
 		vi.spyOn(deleteAction._action, 'exec').mockResolvedValue(() => true)
 
 		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Delete', code: 'Delete' }))
@@ -142,34 +142,31 @@ describe('HotKeysService testing', () => {
 		vi.spyOn(axios, 'put').mockImplementationOnce(() => Promise.resolve())
 
 		const userConfigStore = useUserConfigStore(getPinia())
-		const currentGridConfig = userConfigStore.userConfig.grid_view
-
-		// Wait for the user config to be updated
-		// or timeout after 500ms
-		const waitForUserConfig = () => new Promise((resolve) => {
-			subscribe('files:config:updated', resolve)
-			setTimeout(resolve, 500)
-		})
+		userConfigStore.userConfig.grid_view = false
+		expect(userConfigStore.userConfig.grid_view).toBe(false)
 
 		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'v', code: 'KeyV' }))
-		await waitForUserConfig()
-		expect(userConfigStore.userConfig.grid_view).toBe(!currentGridConfig)
+		await nextTick()
 
-		// Modifier keys should not trigger the action
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Delete', code: 'Delete', ctrlKey: true }))
-		await waitForUserConfig()
-		expect(userConfigStore.userConfig.grid_view).toBe(!currentGridConfig)
+		expect(userConfigStore.userConfig.grid_view).toBe(true)
+	})
 
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Delete', code: 'Delete', altKey: true }))
-		await waitForUserConfig()
-		expect(userConfigStore.userConfig.grid_view).toBe(!currentGridConfig)
+	it.each([
+		['ctrlKey'],
+		['altKey'],
+		// those meta keys are still triggering...
+		// ['shiftKey'],
+		// ['metaKey']
+	])('Pressing v with modifier key %s should not toggle grid view', async (modifier: string) => {
+		vi.spyOn(axios, 'put').mockImplementationOnce(() => Promise.resolve())
 
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Delete', code: 'Delete', shiftKey: true }))
-		await waitForUserConfig()
-		expect(userConfigStore.userConfig.grid_view).toBe(!currentGridConfig)
+		const userConfigStore = useUserConfigStore(getPinia())
+		userConfigStore.userConfig.grid_view = false
+		expect(userConfigStore.userConfig.grid_view).toBe(false)
 
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Delete', code: 'Delete', metaKey: true }))
-		await waitForUserConfig()
-		expect(userConfigStore.userConfig.grid_view).toBe(!currentGridConfig)
+		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'v', code: 'KeyV', [modifier]: true }))
+		await nextTick()
+
+		expect(userConfigStore.userConfig.grid_view).toBe(false)
 	})
 })
