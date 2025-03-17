@@ -77,33 +77,38 @@ describe('Versions restoration', () => {
 		})
 
 		it('Does not work without update permission through direct API access', () => {
-			let hostname: string
 			let fileId: string|undefined
 			let versionId: string|undefined
 
 			setupTestSharedFileFromUser(user, randomFileName, { update: false })
-				.then(recipient => {
+				.then((recipient) => {
 					openVersionsPanel(randomFileName)
 
-					cy.url().then(url => { hostname = new URL(url).hostname })
-					getRowForFile(randomFileName).invoke('attr', 'data-cy-files-list-row-fileid').then(_fileId => { fileId = _fileId })
-					cy.get('[data-files-versions-version]').eq(1).invoke('attr', 'data-files-versions-version').then(_versionId => { versionId = _versionId })
+					getRowForFile(randomFileName)
+						.should('be.visible')
+						.invoke('attr', 'data-cy-files-list-row-fileid')
+						.then(($fileId) => { fileId = $fileId })
 
+					cy.get('[data-files-versions-version]')
+						.eq(1)
+						.invoke('attr', 'data-files-versions-version')
+						.then(($versionId) => { versionId = $versionId })
+
+					cy.logout()
 					cy.then(() => {
-						cy.logout()
-						cy.request({
+						const base = Cypress.config('baseUrl')!.replace(/\/index\.php\/?$/, '')
+						return cy.request({
 							method: 'MOVE',
+							url: `${base}/remote.php/dav/versions/${recipient.userId}/versions/${fileId}/${versionId}`,
 							auth: { user: recipient.userId, pass: recipient.password },
 							headers: {
 								cookie: '',
-								Destination: `http://${hostname}/remote.php/dav/versions/${recipient.userId}/restore/target`,
+								Destination: `${base}}/remote.php/dav/versions/${recipient.userId}/restore/target`,
 							},
-							url: `http://${hostname}/remote.php/dav/versions/${recipient.userId}/versions/${fileId}/${versionId}`,
 							failOnStatusCode: false,
 						})
-							.then(({ status }) => {
-								expect(status).to.equal(403)
-							})
+					}).then(({ status }) => {
+						expect(status).to.equal(403)
 					})
 				})
 		})

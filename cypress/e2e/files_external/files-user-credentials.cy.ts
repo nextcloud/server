@@ -15,9 +15,6 @@ describe('Files user credentials', { testIsolation: true }, () => {
 	let user2: User
 	let storageUser: User
 
-	beforeEach(() => {
-	})
-
 	before(() => {
 		cy.runOccCommand('app:enable files_external')
 
@@ -43,8 +40,10 @@ describe('Files user credentials', { testIsolation: true }, () => {
 	})
 
 	it('Create a user storage with user credentials', () => {
-		const url = Cypress.config('baseUrl') + '/remote.php/dav/files/' + storageUser.userId
-		createStorageWithConfig(storageUser.userId, StorageBackend.DAV, AuthBackend.UserProvided, { host: url.replace('index.php/', ''), secure: 'false' })
+		// Its not the public server address but the address so the server itself can connect to it
+		const base = 'http://localhost'
+		const host = `${base}/remote.php/dav/files/${storageUser.userId}`
+		createStorageWithConfig(storageUser.userId, StorageBackend.DAV, AuthBackend.UserProvided, { host, secure: 'false' })
 
 		cy.login(user1)
 		cy.visit('/apps/files/extstoragemounts')
@@ -72,6 +71,7 @@ describe('Files user credentials', { testIsolation: true }, () => {
 
 		// Auth dialog should be closed and the set credentials button should be gone
 		cy.get('@authDialog').should('not.exist', { timeout: 2000 })
+
 		getActionEntryForFile(storageUser.userId, ACTION_CREDENTIALS_EXTERNAL_STORAGE).should('not.exist')
 
 		// Finally, the storage should be accessible
@@ -81,8 +81,10 @@ describe('Files user credentials', { testIsolation: true }, () => {
 	})
 
 	it('Create a user storage with GLOBAL user credentials', () => {
-		const url = Cypress.config('baseUrl') + '/remote.php/dav/files/' + storageUser.userId
-		createStorageWithConfig('storage1', StorageBackend.DAV, AuthBackend.UserGlobalAuth, { host: url.replace('index.php/', ''), secure: 'false' })
+		// Its not the public server address but the address so the server itself can connect to it
+		const base = 'http://localhost'
+		const host = `${base}/remote.php/dav/files/${storageUser.userId}`
+		createStorageWithConfig('storage1', StorageBackend.DAV, AuthBackend.UserGlobalAuth, { host, secure: 'false' })
 
 		cy.login(user2)
 		cy.visit('/apps/files/extstoragemounts')
@@ -119,8 +121,10 @@ describe('Files user credentials', { testIsolation: true }, () => {
 	})
 
 	it('Create another user storage while reusing GLOBAL user credentials', () => {
-		const url = Cypress.config('baseUrl') + '/remote.php/dav/files/' + storageUser.userId
-		createStorageWithConfig('storage2', StorageBackend.DAV, AuthBackend.UserGlobalAuth, { host: url.replace('index.php/', ''), secure: 'false' })
+		// Its not the public server address but the address so the server itself can connect to it
+		const base = 'http://localhost'
+		const host = `${base}/remote.php/dav/files/${storageUser.userId}`
+		createStorageWithConfig('storage2', StorageBackend.DAV, AuthBackend.UserGlobalAuth, { host, secure: 'false' })
 
 		cy.login(user2)
 		cy.visit('/apps/files/extstoragemounts')
