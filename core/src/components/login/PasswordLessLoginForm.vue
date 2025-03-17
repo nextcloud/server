@@ -5,11 +5,15 @@
 <template>
 	<form v-if="(isHttps || isLocalhost) && supportsWebauthn"
 		ref="loginForm"
+		aria-labelledby="password-less-login-form-title"
 		class="password-less-login-form"
 		method="post"
 		name="login"
 		@submit.prevent="submit">
-		<h2>{{ t('core', 'Log in with a device') }}</h2>
+		<h2 id="password-less-login-form-title">
+			{{ t('core', 'Log in with a device') }}
+		</h2>
+
 		<NcTextField required
 			:value="user"
 			:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
@@ -41,9 +45,11 @@
 	</NcEmptyContent>
 </template>
 
-<script>
+<script type="ts">
 import { browserSupportsWebAuthn } from '@simplewebauthn/browser'
+import { defineComponent } from 'vue'
 import {
+	NoValidCredentials,
 	startAuthentication,
 	finishAuthentication,
 } from '../../services/WebAuthnAuthenticationService.ts'
@@ -56,7 +62,7 @@ import LoginButton from './LoginButton.vue'
 import LockOpenIcon from 'vue-material-design-icons/LockOpen.vue'
 import logger from '../../logger'
 
-export default {
+export default defineComponent({
 	name: 'PasswordLessLoginForm',
 	components: {
 		LoginButton,
@@ -143,7 +149,7 @@ export default {
 			// noop
 		},
 	},
-}
+})
 </script>
 
 <style lang="scss" scoped>
