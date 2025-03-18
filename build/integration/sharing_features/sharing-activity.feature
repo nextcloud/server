@@ -14,7 +14,7 @@ Feature: sharing
       | notify_setting_batchtime | 0 |
       | activity_digest | 0 |
 
-  Scenario: Creating a new mail share
+  Scenario: Creating a new mail share and check activity
     Given dummy mail server is listening
     And As an "user0"
     When creating a share with
@@ -24,8 +24,13 @@ Feature: sharing
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And last share can be downloaded
+    Then last activity should be
+      | app | files_sharing |
+      | type | public_links |
+      | object_type | files |
+      | object_name | /welcome.txt |
 
-  Scenario: Creating a new public share
+  Scenario: Creating a new public share and check activity
     Given user "user0" exists
     And As an "user0"
     When creating a share with
@@ -34,3 +39,8 @@ Feature: sharing
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And last link share can be downloaded
+    Then last activity should be
+      | app | files_sharing |
+      | type | public_links |
+      | object_type | files |
+      | object_name | /welcome.txt |
