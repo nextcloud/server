@@ -23,6 +23,12 @@ export const searchForActionInRow = (row: JQuery<HTMLElement>, actionId: string)
 
 	// Else look in the action menu
 	const menuButtonId = row.find('button[aria-controls]').attr('aria-controls')
+	if (menuButtonId === undefined) {
+		return cy.wrap(Cypress.$())
+	}
+
+	// eslint-disable-next-line no-unused-expressions
+	expect(menuButtonId).not.to.be.undefined
 	return cy.get(`#${menuButtonId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
 }
 

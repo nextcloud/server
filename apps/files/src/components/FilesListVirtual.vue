@@ -28,7 +28,7 @@
 
 		<template #before>
 			<!-- Headers -->
-			<FilesListHeader v-for="header in sortedHeaders"
+			<FilesListHeader v-for="header in headers"
 				:key="header.id"
 				:current-folder="currentFolder"
 				:current-view="currentView"
@@ -63,17 +63,18 @@ import type { Node as NcNode } from '@nextcloud/files'
 import type { ComponentPublicInstance, PropType } from 'vue'
 import type { Location } from 'vue-router'
 
-import { getFileListHeaders, Folder, View, getFileActions, FileType } from '@nextcloud/files'
+import { Folder, View, getFileActions, FileType } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import { useFileListHeaders } from '../composables/useFileListHeaders.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
-import { getSummaryFor } from '../utils/fileUtils'
 import { useSelectionStore } from '../store/selection.js'
 import { useUserConfigStore } from '../store/userconfig.ts'
+import { getSummaryFor } from '../utils/fileUtils.ts'
 
 import FileEntry from './FileEntry.vue'
 import FileEntryGrid from './FileEntryGrid.vue'
@@ -81,10 +82,10 @@ import FilesListHeader from './FilesListHeader.vue'
 import FilesListTableFooter from './FilesListTableFooter.vue'
 import FilesListTableHeader from './FilesListTableHeader.vue'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
+import FileListFilters from './FileListFilters.vue'
+import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
 import VirtualList from './VirtualList.vue'
 import logger from '../logger.ts'
-import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
-import FileListFilters from './FileListFilters.vue'
 
 export default defineComponent({
 	name: 'FilesListVirtual',
@@ -124,6 +125,7 @@ export default defineComponent({
 
 		return {
 			fileId,
+			headers: useFileListHeaders(),
 			openFile,
 
 			userConfigStore,
@@ -135,7 +137,6 @@ export default defineComponent({
 		return {
 			FileEntry,
 			FileEntryGrid,
-			headers: getFileListHeaders(),
 			scrollToIndex: 0,
 			openFileId: null as number|null,
 		}
@@ -271,7 +272,7 @@ export default defineComponent({
 
 		unselectFile() {
 			// If the Sidebar is closed and if openFile is false, remove the file id from the URL
-			if (!this.openFile && OCA.Files.Sidebar.file === '') {
+			if (!this.openFile && window.OCA.Files.Sidebar.file === '') {
 				window.OCP.Files.Router.goToRoute(
 					null,
 					{ ...this.$route.params, fileid: String(this.currentFolder.fileid ?? '') },
