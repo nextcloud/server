@@ -22,6 +22,8 @@ trait Activity {
 		$this->theHTTPStatusCodeShouldBe('200');
 		$data = json_decode($this->response->getBody()->getContents(), true);
 		$activities = $data['ocs']['data'];
+		/* Sort by id */
+		uasort($activities, fn ($a, $b) => $a['activity_id'] <=> $b['activity_id']);
 		$lastActivity = array_pop($activities);
 		foreach ($activity->getRowsHash() as $key => $value) {
 			Assert::assertEquals($value, $lastActivity[$key]);
