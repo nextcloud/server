@@ -252,7 +252,7 @@ OC.L10N.register(
     "Due on %s" : "Venç el %s",
     "System Address Book" : "Llibreta d'adreces del sistema",
     "The system address book contains contact information for all users in your instance." : "La llibreta d'adreces del sistema conté informació de contacte de tots els usuaris de la vostra instància.",
-    "Enable System Address Book" : "Activa la llibreta d'adreces del sistema",
+    "Enable System Address Book" : "Habilita la llibreta d'adreces del sistema",
     "DAV system address book" : "Llibreta d'adreces del sistema DAV",
     "No outstanding DAV system address book sync." : "No hi ha cap sincronització pendent de la llibreta d'adreces del sistema DAV.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "La sincronització de la llibreta d'adreces del sistema DAV encara no s'ha executat perquè la instància té més de 1000 usuaris o a causa d'un error. Executeu-la manualment amb «occ dav:sync-system-addressbook».",
