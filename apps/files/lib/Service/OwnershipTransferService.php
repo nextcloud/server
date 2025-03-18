@@ -167,6 +167,8 @@ class OwnershipTransferService {
 			$sourcePath
 		);
 
+		$sourceSize = $view->getFileInfo($sourcePath)->getSize();
+
 		// transfer the files
 		$this->transferFiles(
 			$sourceUid,
@@ -175,6 +177,7 @@ class OwnershipTransferService {
 			$view,
 			$output
 		);
+		$sizeDifference = $sourceSize - $view->getFileInfo($finalTarget)->getSize();
 
 		// transfer the incoming shares
 		if ($transferIncomingShares === true) {
@@ -210,6 +213,9 @@ class OwnershipTransferService {
 			$shares,
 			$output
 		);
+		if ($sizeDifference !== 0) {
+			$output->writeln("Transferred folder have a size difference of: $sizeDifference Bytes which means the transfer may be incomplete. Please check the logs if there was any issue during the transfer operation.");
+		}
 	}
 
 	private function walkFiles(View $view, $path, Closure $callBack) {
