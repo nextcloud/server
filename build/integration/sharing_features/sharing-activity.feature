@@ -10,7 +10,7 @@ Feature: sharing
     And Logging in using web as "user0"
     And Sending a "POST" to "/apps/activity/settings" with requesttoken
       | public_links_notification | 1 |
-      | public_links_upload_email | 1 |
+      | public_links_upload_notification | 1 |
       | notify_setting_batchtime | 0 |
       | activity_digest | 0 |
 
