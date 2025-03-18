@@ -33,7 +33,7 @@ OC.L10N.register(
     "Search global and public address book for people" : "Cerca persones a la llibreta d'adreces global i pública",
     "Allow people to publish their data to a global and public address book" : "Permet que les persones publiquin les seves dades en una llibreta d'adreces global i pública",
     "Trusted federation" : "Federació de confiança",
-    "Automatically accept shares from trusted federated accounts and groups by default" : "Accepteu automàticament els recursos compartits de comptes i grups federats de confiança de manera predeterminada",
+    "Automatically accept shares from trusted federated accounts and groups by default" : "Accepteu automàticament els recursos compartits de comptes i grups federats de confiança per defecte",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Comparteix contingut amb mi amb el meu ID del núvol federat del #Nextcloud, consulta {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Comparteix contingut amb mi amb el meu ID del núvol federat del #Nextcloud",
     "Cloud ID copied to the clipboard" : "S'ha copiat l'ID del núvol al porta-retalls",
